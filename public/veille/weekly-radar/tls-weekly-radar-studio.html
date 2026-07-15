@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TLS Weekly Radar — Éditions S23 &amp; S24 · 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #fefaf5;   --ink: #2f1c13;   --ink-2: #4C3B33;   --ink-3: #695A52;   --rule: #E0D5C8;
+    --accent-rule: #ED843A;  --accent-num: #8F5017;  --accent-teal: #3D7786;  --accent-warm: #8F2A0E;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--paper); font-family: 'Nunito', sans-serif; min-height: 100vh; }
+
+  /* ── Page shell ── */
+  .radar-page { max-width: 680px; margin: 0 auto; padding: 48px 20px 80px; }
+
+  /* ── Masthead ── */
+  .radar-masthead {
+    display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap;
+    gap: 8px 16px;
+    padding-bottom: 24px; margin-bottom: 32px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .radar-masthead-brand {
+    font-family: 'League Spartan', sans-serif; font-weight: 700; font-size: 20px;
+    color: var(--ink); letter-spacing: 1px;
+  }
+  .radar-masthead-brand span { color: var(--accent-teal); margin-left: 8px; }
+  .radar-masthead-tag {
+    font-size: 11.5px; color: var(--ink-3); letter-spacing: 1.5px; text-transform: uppercase;
+  }
+
+  /* ── Intro ── */
+  .radar-intro { margin-bottom: 28px; }
+  .radar-intro-text {
+    font-size: 14.5px; color: var(--ink-2); line-height: 1.7; max-width: 520px;
+  }
+
+  /* ── Shared timeline ── */
+  .radar-timeline-card {
+    max-width: 600px; margin: 0 auto 48px;
+  }
+  .radar-timeline-svg { width: 100%; height: auto; display: block; margin-top: 10px; }
+  .radar-timeline-legend {
+    display: flex; gap: 20px; flex-wrap: wrap; margin-top: 6px;
+  }
+  .radar-timeline-legend .legend-item {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11px; color: var(--ink-3);
+  }
+  .radar-timeline-legend .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+  .radar-timeline-legend .dot-warm { background: #ED843A; }
+  .radar-timeline-legend .dot-primary { background: #55A1B4; }
+
+  /* ── Editions stack ── */
+  .radar-editions { display: flex; flex-direction: column; gap: 56px; }
+
+  /* ── Icons (Lucide, inline SVG) ── */
+  .d2-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 18px; height: 18px; flex-shrink: 0;
+  }
+  .d2-icon svg { width: 100%; height: 100%; display: block; }
+  .d2-icon.tone-primary { color: #55A1B4; }
+  .d2-icon.tone-warm { color: #ED843A; }
+  .d2-icon.tone-sun { color: #F8B044; }
+
+  /* ══════════════════════════════════════
+     DARK PREMIUM — édition Weekly Radar
+  ══════════════════════════════════════ */
+  .d2-wrapper {
+    max-width: 600px; margin: 0 auto;
+  }
+  .d2-header {
+    background: var(--paper);
+    padding: 40px 40px 32px;
+    border-bottom: 1px solid var(--rule);
+    position: relative; overflow: hidden;
+  }
+  .d2-header::before {
+    content: '';
+    position: absolute; top: -60px; right: -40px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(61,119,134,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .d2-header::after {
+    content: '';
+    position: absolute; bottom: -40px; left: 40px;
+    width: 120px; height: 120px;
+    background: radial-gradient(circle, rgba(237,132,58,0.1) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .d2-badge-week {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-bottom: 10px;
+  }
+  .d2-badge-week span { font-size: 12px; color: var(--ink-3); font-weight: 600; }
+  .d2-logo { font-family: 'League Spartan', sans-serif; font-size: 42px; font-weight: 700; color: var(--ink); letter-spacing: 3px; line-height: 1; }
+  .d2-logo em { color: var(--accent-teal); font-style: normal; }
+  .d2-subtitle { font-size: 13px; color: var(--ink-3); margin-top: 6px; letter-spacing: 0.5px; }
+  .d2-edition-theme { font-size: 13.5px; color: var(--ink-2); margin-top: 12px; font-weight: 600; line-height: 1.5; max-width: 440px; }
+  .d2-body { padding: 32px 40px; }
+  .d2-section-label {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+  }
+  .d2-section-label .text {
+    font-family: 'League Spartan', sans-serif;
+    font-size: 13px; font-weight: 700; color: var(--ink);
+    letter-spacing: 2px; text-transform: uppercase;
+  }
+  .d2-wrapper .d2-section-label .text { color: var(--ink); }
+  .d2-wrapper .d2-section-label::before {
+    content: ''; display: block; width: 2px; height: 44px; flex-shrink: 0;
+    background: var(--accent-rule);
+  }
+  .d2-card {
+    margin-bottom: 24px;
+  }
+  .d2-card p { font-size: 14px; color: var(--ink-2); line-height: 1.7; }
+  .d2-point {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .d2-point:last-child { border-bottom: none; padding-bottom: 0; }
+  .d2-point-num {
+    min-width: 24px; height: 24px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'League Spartan', sans-serif;
+    font-size: 14px; font-weight: 700; color: var(--accent-num);
+    margin-top: 1px;
+  }
+  .d2-point p { font-size: 13.5px; color: var(--ink-2); line-height: 1.6; margin: 0; }
+  .d2-impl-row {
+    display: flex; gap: 10px; align-items: flex-start;
+    padding: 14px 0;
+  }
+  .d2-impl-row + .d2-impl-row { border-top: 1px solid var(--rule); }
+  .d2-impl-row .impl-icon {
+    width: 16px; height: 16px; margin-top: 2px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .d2-impl-row .impl-icon svg { width: 100%; height: 100%; display: block; }
+  .d2-impl-row .impl-content {}
+  .d2-impl-row .impl-tag { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 3px; }
+  .d2-impl-row.opp .impl-tag { color: #9DBEBA; }
+  .d2-impl-row.threat .impl-tag { color: #ED843A; }
+  .d2-impl-row.action .impl-tag { color: #F8B044; }
+  .d2-impl-row.opp .impl-icon { color: #9DBEBA; }
+  .d2-impl-row.threat .impl-icon { color: #ED843A; }
+  .d2-impl-row.action .impl-icon { color: #F8B044; }
+  .d2-impl-row .impl-text { font-size: 13px; color: var(--ink-2); line-height: 1.5; }
+  .d2-nextstep {
+    margin-top: 8px;
+  }
+  .d2-nextstep .ns-badge {
+    display: inline-block;
+    background: #ED843A; border-radius: 999px;
+    padding: 3px 12px; font-size: 10px; font-weight: 700;
+    color: #fff; letter-spacing: 1.5px; text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .d2-nextstep p { font-size: 14px; color: var(--ink); line-height: 1.6; font-weight: 600; }
+  .d2-footer {
+    background: var(--paper);
+    border-top: 1px solid var(--rule);
+    padding: 24px 40px;
+    text-align: center;
+  }
+  .d2-footer .f-logo { font-family: 'League Spartan', sans-serif; font-size: 15px; font-weight: 700; color: var(--accent-teal); letter-spacing: 3px; }
+  .d2-footer .f-copy { font-size: 11px; color: var(--ink-3); margin-top: 6px; }
+  .d2-footer a { color: var(--accent-teal); text-decoration: underline; font-size: 11px; }
+  .d2-divider { height: 1px; background: linear-gradient(90deg, transparent, var(--rule), transparent); margin: 24px 0; }
+
+  /* ── Responsive ── */
+  @media (max-width: 480px) {
+    .radar-page { padding: 32px 14px 56px; }
+    .d2-header { padding: 32px 24px 28px; }
+    .d2-body { padding: 24px 22px; }
+    .d2-footer { padding: 20px 22px; }
+    .d2-logo { font-size: 34px; }
+    .radar-timeline-card { padding: 22px 18px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="radar-page">
+
+  <!-- ── MASTHEAD ── -->
+  <header class="radar-masthead">
+    <div class="radar-masthead-brand">TLS <span>Weekly Radar</span></div>
+    <div class="radar-masthead-tag">Intelligence marché · EdTech · L&amp;D · IA</div>
+  </header>
+
+  <!-- ── INTRO ── -->
+  <section class="radar-intro">
+    <p class="radar-intro-text">Deux éditions, un même fil : le calendrier réglementaire et les signaux de marché EdTech qui redessinent les prochains mois pour TLS.</p>
+  </section>
+
+  <!-- ── FRISE CHRONOLOGIQUE ── -->
+  <div class="radar-timeline-card">
+    <div class="d2-section-label">
+      <span class="d2-icon tone-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg></span>
+      <span class="text">Calendrier Clé</span>
+    </div>
+    <svg class="radar-timeline-svg" viewBox="0 0 600 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Frise chronologique des dates clés, février à août 2026">
+      <!-- axe -->
+      <line x1="30" y1="95" x2="570" y2="95" stroke="#E0D5C8" stroke-width="1.5"/>
+
+      <!-- 17 fév (au-dessus) -->
+      <line x1="62" y1="70" x2="62" y2="88" stroke="#ED843A" stroke-width="1.5" opacity="0.5"/>
+      <circle cx="62" cy="95" r="5" fill="#ED843A" stroke="#fefaf5" stroke-width="2"/>
+      <text x="62" y="48" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="700" font-size="11" fill="#2f1c13">17 fév</text>
+      <text x="62" y="64" text-anchor="middle" font-family="Nunito, sans-serif" font-size="9" fill="#695A52">Annexe III — OF visés</text>
+
+      <!-- 26 fév (en-dessous) -->
+      <line x1="88" y1="102" x2="88" y2="120" stroke="#ED843A" stroke-width="1.5" opacity="0.5"/>
+      <circle cx="88" cy="95" r="5" fill="#ED843A" stroke="#fefaf5" stroke-width="2"/>
+      <text x="88" y="136" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="700" font-size="11" fill="#2f1c13">26 fév</text>
+      <text x="88" y="151" text-anchor="middle" font-family="Nunito, sans-serif" font-size="9" fill="#695A52">CPF plafonné</text>
+
+      <!-- 2 avril (au-dessus) -->
+      <line x1="186" y1="70" x2="186" y2="88" stroke="#ED843A" stroke-width="1.5" opacity="0.5"/>
+      <circle cx="186" cy="95" r="5" fill="#ED843A" stroke="#fefaf5" stroke-width="2"/>
+      <text x="186" y="48" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="700" font-size="11" fill="#2f1c13">2 avril</text>
+      <text x="186" y="64" text-anchor="middle" font-family="Nunito, sans-serif" font-size="9" fill="#695A52">Ticket 150€</text>
+
+      <!-- 22-25 juin (en-dessous) -->
+      <line x1="418" y1="102" x2="418" y2="120" stroke="#55A1B4" stroke-width="1.5" opacity="0.5"/>
+      <circle cx="418" cy="95" r="5" fill="#55A1B4" stroke="#fefaf5" stroke-width="2"/>
+      <text x="418" y="136" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="700" font-size="11" fill="#2f1c13">22–25 juin</text>
+      <text x="418" y="151" text-anchor="middle" font-family="Nunito, sans-serif" font-size="9" fill="#695A52">Semaine 360Learning</text>
+
+      <!-- 2 août (au-dessus, échéance clé) -->
+      <circle cx="529" cy="95" r="14" fill="#ED843A" opacity="0.15"/>
+      <line x1="529" y1="70" x2="529" y2="86" stroke="#ED843A" stroke-width="1.5" opacity="0.7"/>
+      <circle cx="529" cy="95" r="7" fill="#ED843A" stroke="#fefaf5" stroke-width="2"/>
+      <text x="529" y="48" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="700" font-size="11" fill="#2f1c13">2 août</text>
+      <text x="529" y="64" text-anchor="middle" font-family="Nunito, sans-serif" font-size="9" fill="#ED843A">Sanctions actives</text>
+    </svg>
+    <div class="radar-timeline-legend">
+      <span class="legend-item"><i class="dot dot-warm"></i>Réglementaire — AI Act &amp; CPF</span>
+      <span class="legend-item"><i class="dot dot-primary"></i>Marché &amp; concurrence</span>
+    </div>
+  </div>
+
+  <!-- ── ÉDITIONS ── -->
+  <main class="radar-editions">
+
+    <!-- ═══════════════ ÉDITION S23 · 2 juin 2026 ═══════════════ -->
+    <article class="d2-wrapper">
+      <div class="d2-header">
+        <div class="d2-badge-week"><span>Semaine 23 &nbsp;·&nbsp; 2 juin 2026</span></div>
+        <div class="d2-logo">TLS <em>Radar</em></div>
+        <div class="d2-subtitle">EdTech · L&amp;D · IA · Marché Formation</div>
+        <div class="d2-edition-theme">Cadre réglementaire et financement : la semaine des vigilances</div>
+      </div>
+      <div class="d2-body">
+        <!-- RÉSUMÉ -->
+        <div class="d2-section-label">
+          <span class="d2-icon tone-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg></span>
+          <span class="text">Résumé Exécutif</span>
+        </div>
+        <div class="d2-card">
+          <p>Cette semaine, le marché formation est percuté par deux signaux majeurs : le régime de sanctions de l'<strong style="color:var(--accent-teal);">AI Act devient pleinement applicable le 2 août 2026</strong> (J-61) — l'obligation de littératie IA (Article 4) est en vigueur depuis février 2025, mais c'est l'entrée en vigueur des sanctions qui change la donne pour les entreprises encore non conformes. Le <strong style="color:var(--accent-teal);">CPF est désormais plafonné</strong>, avec un ticket modérateur à 150€ depuis le 2 avril. Pour TLS, c'est une double fenêtre de conversion commerciale à saisir maintenant.</p>
+        </div>
+        <div class="d2-divider"></div>
+
+        <!-- 5 POINTS -->
+        <div class="d2-section-label">
+          <span class="d2-icon tone-warm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></svg></span>
+          <span class="text">5 Points Clés</span>
+        </div>
+        <div class="d2-card">
+          <div class="d2-point"><div class="d2-point-num">01</div><p><strong style="color:var(--ink);">AI Act Article 4 : les sanctions deviennent applicables le 2 août 2026</strong> — L'obligation de littératie IA est en vigueur depuis février 2025 ; à cette date, le régime de sanctions (jusqu'à 15M€) s'active pour les entreprises non conformes utilisant ChatGPT, Copilot ou un autre outil IA.</p></div>
+          <div class="d2-point"><div class="d2-point-num">02</div><p><strong style="color:var(--ink);">CPF plafonné depuis le 26 février</strong> — Plafonds à 1 500€ (RS), 1 600€ (bilan), 900€ (permis B). Ticket modérateur à 150€. Les formations RNCP restent non plafonnées.</p></div>
+          <div class="d2-point"><div class="d2-point-num">03</div><p><strong style="color:var(--ink);">Adaptive learning + IA générative</strong> — L'association clé de 2026. Ajustement en temps réel des contenus. Signal produit fort pour la roadmap TLS.</p></div>
+          <div class="d2-point"><div class="d2-point-num">04</div><p><strong style="color:var(--ink);">Marché e-learning : 365 Mds$ attendus en 2026</strong> — Croissance de 14%/an. Le sous-segment LMS, aux estimations dispersées selon les instituts (15 à 30 Mds$ en 2024), reste en forte croissance structurelle. La France reste en sous-investissement relatif : espace de positionnement pour TLS.</p></div>
+          <div class="d2-point"><div class="d2-point-num">05</div><p><strong style="color:var(--ink);">Mister IA lève 10M€ (mai 2026)</strong> — L'acteur formation IA (15M€ de CA, 120 salariés, clients grands comptes : Vinci, Mercedes, Thales, Groupama) accélère. Signal que le marché de la formation IA attire les investisseurs sur tous les segments — à surveiller comme acteur structurant plutôt que comme pure-player low-cost.</p></div>
+        </div>
+        <div class="d2-divider"></div>
+
+        <!-- IMPLICATIONS -->
+        <div class="d2-section-label">
+          <span class="d2-icon tone-sun"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg></span>
+          <span class="text">Implications TLS</span>
+        </div>
+        <div class="d2-impl-row opp">
+          <div class="impl-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div>
+          <div class="impl-content"><div class="impl-tag">Opportunité · Court terme</div><div class="impl-text">L'entrée en vigueur des sanctions AI Act Article 4 crée une demande inédite avant le 2 août. TLS peut positionner ses ateliers IA literacy comme offre de mise en conformité, avec argumentaire réglementaire fort et urgence calendaire.</div></div>
+        </div>
+        <div class="d2-impl-row threat">
+          <div class="impl-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/></svg></div>
+          <div class="impl-content"><div class="impl-tag">Menace · Moyen terme</div><div class="impl-text">Mister IA (10M€ levés, présence multi-segments jusqu'aux grands comptes) et d'autres acteurs "conformité IA Act" bas coût occupent rapidement le terrain PME. TLS doit se différencier vite sur la valeur pédagogique plutôt que sur le prix. Le plafonnement CPF réduit par ailleurs les tickets sur certaines certifications.</div></div>
+        </div>
+        <div class="d2-impl-row action">
+          <div class="impl-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+          <div class="impl-content"><div class="impl-tag">Action · Long terme</div><div class="impl-text">Intégrer un module "AI Act Compliance" dans la roadmap app. Viser la certification RNCP pour échapper au plafonnement CPF.</div></div>
+        </div>
+        <div class="d2-divider"></div>
+
+        <!-- NEXT STEP -->
+        <div class="d2-section-label">
+          <span class="d2-icon tone-warm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg></span>
+          <span class="text">Next Step</span>
+        </div>
+        <div class="d2-nextstep">
+          <div class="ns-badge">P0 — Priorité immédiate</div>
+          <p>Préparer une landing page "Formation IA Act — Mise en conformité avant le 2 août" ciblant les RH et DG de PME, à tester en priorité sur LinkedIn Ads.</p>
+        </div>
+      </div>
+      <div class="d2-footer">
+        <div class="f-logo">TLS</div>
+        <p class="f-copy">© 2026 The Learning Society · Paris &nbsp;—&nbsp; <a href="#">Se désabonner</a></p>
+      </div>
+    </article>
+
+    <!-- ═══════════════ ÉDITION S24 · 9 juin 2026 ═══════════════ -->
+    <article class="d2-wrapper">
+      <div class="d2-header">
+        <div class="d2-badge-week"><span>Semaine 24 &nbsp;·&nbsp; 9 juin 2026</span></div>
+        <div class="d2-logo">TLS <em>Radar</em></div>
+        <div class="d2-subtitle">EdTech · L&amp;D · IA · Marché Formation</div>
+        <div class="d2-edition-theme">Conformité IA et preuve de résultats : le marché change de standard</div>
+      </div>
+      <div class="d2-body">
+        <div class="d2-section-label">
+          <span class="d2-icon tone-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg></span>
+          <span class="text">Résumé Exécutif</span>
+        </div>
+        <div class="d2-card">
+          <p>Cette semaine marque le <strong style="color:var(--accent-teal);">passage de l'IA expérimentale à l'IA opérationnelle</strong> dans la formation professionnelle. 360Learning organise sa semaine événementielle L&amp;D (22–25 juin). Le compte à rebours vers l'entrée en vigueur des sanctions AI Act se resserre (J-54) — l'obligation de littératie IA, elle, est active depuis février 2025. Le <strong style="color:var(--accent-teal);">segment des copilotes pédagogiques IA</strong> s'affirme comme le battleground EdTech de H2 2026.</p>
+        </div>
+        <div class="d2-divider"></div>
+        <div class="d2-section-label">
+          <span class="d2-icon tone-warm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></svg></span>
+          <span class="text">5 Points Clés</span>
+        </div>
+        <div class="d2-card">
+          <div class="d2-point"><div class="d2-point-num">01</div><p><strong style="color:var(--ink);">360Learning organise sa semaine L&amp;D (22–25 juin)</strong> — "Le futur du L&amp;D se joue ici". Évènement à surveiller pour décrypter leur positionnement IA et leurs nouveaux messages vers les RH/LD.</p></div>
+          <div class="d2-point"><div class="d2-point-num">02</div><p><strong style="color:var(--ink);">AI Act Annexe III : les OF dans le viseur DGCCRF</strong> — Amendement sénatorial du 17/02/26 : les organismes de formation sont explicitement ciblés. Utiliser l'IA pour évaluer un apprenant = risque "haut risque" légal.</p></div>
+          <div class="d2-point"><div class="d2-point-num">03</div><p><strong style="color:var(--ink);">IA jugée sur ses résultats, pas sa nouveauté</strong> — Les acheteurs DRH/OPCO demandent des preuves de ROI pédagogique mesurables. Renforce la nécessité d'un analytics dashboard dans l'app TLS.</p></div>
+          <div class="d2-point"><div class="d2-point-num">04</div><p><strong style="color:var(--ink);">Didask : le LMS standard perd du terrain</strong> — Les plateformes non IA-natives perdent des parts de marché. TLS doit ancrer son positionnement LXP/IA-native dès le lancement.</p></div>
+          <div class="d2-point"><div class="d2-point-num">05</div><p><strong style="color:var(--ink);">Conformité IA des OF : risque réel en 2026</strong> — Les OF sans documentation ni contrôle humain s'exposent aux contrôles. Opportunité de conseil TLS en audit IA pédagogique.</p></div>
+        </div>
+        <div class="d2-divider"></div>
+        <div class="d2-section-label">
+          <span class="d2-icon tone-sun"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg></span>
+          <span class="text">Implications TLS</span>
+        </div>
+        <div class="d2-impl-row opp">
+          <div class="impl-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div>
+          <div class="impl-content"><div class="impl-tag">Opportunité · Court terme</div><div class="impl-text">Créer une offre "Audit IA pédagogique" pour les OF. Conformité DGCCRF + documentation Annexe III. Ticket conseil 3 000–8 000€. Pipeline court avant août.</div></div>
+        </div>
+        <div class="d2-impl-row threat">
+          <div class="impl-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/></svg></div>
+          <div class="impl-content"><div class="impl-tag">Menace · Moyen terme</div><div class="impl-text">360Learning amplifie son discours IA-native lors de sa semaine événementielle. TLS doit contre-positionner sur l'angle "indépendant, premium, ingénierie pédagogique".</div></div>
+        </div>
+        <div class="d2-impl-row action">
+          <div class="impl-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+          <div class="impl-content"><div class="impl-tag">Action · Long terme</div><div class="impl-text">Intégrer un module "Preuve de ROI" nativement dans l'app : learning analytics orientés impact business. Le différenciateur crédible face aux DRH qui achètent sur la preuve.</div></div>
+        </div>
+        <div class="d2-divider"></div>
+        <div class="d2-section-label">
+          <span class="d2-icon tone-warm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg></span>
+          <span class="text">Next Step</span>
+        </div>
+        <div class="d2-nextstep">
+          <div class="ns-badge">P0 — Priorité immédiate</div>
+          <p>Analyser les messages produits et commerciaux de la semaine événementielle 360Learning (L&amp;D) pour affiner la note de contre-positionnement TLS, à partager sur LinkedIn.</p>
+        </div>
+      </div>
+      <div class="d2-footer">
+        <div class="f-logo">TLS</div>
+        <p class="f-copy">© 2026 The Learning Society · Paris &nbsp;—&nbsp; <a href="#">Se désabonner</a></p>
+      </div>
+    </article>
+
+  </main>
+
+</div>
+
+</body>
+</html>

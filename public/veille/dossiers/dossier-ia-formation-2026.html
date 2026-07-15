@@ -1,0 +1,1740 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'IA en Formation — Dossier TLS 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700;800&family=Nunito:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   TLS DESIGN TOKENS — EDITORIAL PREMIUM
+   ============================================ */
+:root {
+  /* Editorial paper palette — source unique de vérité pour fond/texte */
+  --paper: #fefaf5;
+  --ink:   #2f1c13;   /* corps + titres */
+  --ink-2: #4C3B33;   /* chapô / secondaire */
+  --ink-3: #695A52;   /* sources / légendes / méta */
+  --rule:  #E0D5C8;
+
+  /* Accent — réservé aux liens, aux chiffres clés, et au schéma SVG "divergence PNAS" */
+  --tls-teal:        #55A1B4;
+  --tls-teal-dark:   #4A8FA1;
+  --tls-teal-deep:   #1F3E45;
+  --tls-orange:      #ED843A;
+  --tls-gold:        #F8B044;
+
+  /* Ponctuation couleur — filet d'ouverture, numéro de section, liens, alerte */
+  --accent-rule: #ED843A;  /* filet d'ouverture de section */
+  --accent-num:  #8F5017;  /* numéro de section */
+  --accent-teal: #3D7786;  /* liens */
+  --accent-warm: #8F2A0E;  /* chiffre-clé négatif/alerte uniquement */
+
+  /* Alias legacy conservés en filet de sécurité — mêmes valeurs que ci-dessus */
+  --ink-900:  var(--ink);
+  --ink-700:  var(--ink-2);
+  --ink-500:  var(--ink-3);
+  --ink-300:  var(--rule);
+  --ink-100:  var(--paper);
+  --white:    var(--paper);
+
+  --font-display: 'League Spartan', sans-serif;
+  --font-body:    'Nunito', sans-serif;
+
+  --text-xs:   clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+  --text-sm:   clamp(0.875rem, 0.82rem + 0.3vw, 1rem);
+  --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --text-lg:   clamp(1.125rem, 1rem + 0.6vw, 1.375rem);
+  --text-xl:   clamp(1.375rem, 1.1rem + 1vw, 2rem);
+  --text-2xl:  clamp(2rem, 1.3rem + 2.5vw, 3.25rem);
+  --text-3xl:  clamp(2.75rem, 1.5rem + 4vw, 5rem);
+
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-5:  1.25rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  --content-narrow: 680px;
+  --content-default: 900px;
+  --content-wide: 1200px;
+  --transition: 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ============================================
+   BASE RESET
+   ============================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 5rem; -webkit-font-smoothing: antialiased; }
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--ink);
+  background: var(--paper);
+  min-height: 100vh;
+  line-height: 1.72;
+}
+img { display: block; max-width: 100%; height: auto; }
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.18;
+  text-wrap: balance;
+  color: var(--ink);
+}
+p { max-width: 68ch; }
+a { color: var(--accent-teal); text-decoration: none; transition: color var(--transition); }
+a:hover { color: var(--tls-teal-deep); }
+strong { font-weight: 700; color: var(--ink); }
+
+/* ============================================
+   STICKY NAV — solide, zéro glassmorphism
+   ============================================ */
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule);
+  padding: var(--space-3) var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  text-decoration: none;
+}
+.nav-logo-mark {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+.nav-brand {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--ink);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+.nav-brand span {
+  display: block;
+  font-weight: 400;
+  font-size: 0.72rem;
+  color: var(--ink-3);
+  font-family: var(--font-body);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.nav-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.nav-tag {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--ink-3);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.nav-date {
+  font-size: var(--text-xs);
+  color: var(--ink-3);
+  font-family: var(--font-body);
+  border-left: 1px solid var(--rule);
+  padding-left: var(--space-3);
+}
+
+/* ============================================
+   HERO
+   ============================================ */
+.hero {
+  max-width: var(--content-wide);
+  margin: 0 auto;
+  padding: clamp(var(--space-16), 8vw, var(--space-24)) var(--space-6) clamp(var(--space-12), 6vw, var(--space-20));
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-12);
+  align-items: center;
+}
+.hero-eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--ink-3);
+  margin-bottom: var(--space-5);
+}
+.hero h1 {
+  font-size: var(--text-3xl);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  line-height: 1.06;
+  margin-bottom: var(--space-6);
+}
+.hero h1 em {
+  font-style: normal;
+  color: var(--ink);
+}
+.hero-sub {
+  font-size: var(--text-lg);
+  color: var(--ink-2);
+  line-height: 1.6;
+  margin-bottom: var(--space-8);
+  max-width: 54ch;
+}
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  align-items: center;
+}
+.hero-pill {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+.hero-pill:not(:first-child) {
+  border-left: 1px solid var(--rule);
+  padding-left: var(--space-4);
+}
+.hero-pill svg { color: var(--ink-3); flex-shrink: 0; }
+.hero-visual {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero-stat-card {
+  text-align: center;
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+}
+.stat-big {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 6vw, 4.5rem);
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: var(--space-2);
+}
+.stat-big span { color: var(--tls-teal); }
+.stat-label {
+  font-size: var(--text-sm);
+  color: var(--ink-3);
+  line-height: 1.4;
+  max-width: 22ch;
+  margin: 0 auto var(--space-5);
+}
+.stat-mini-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--rule);
+}
+.stat-mini {
+  text-align: center;
+}
+.stat-mini-val {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}
+.stat-mini-lbl {
+  font-size: 0.7rem;
+  color: var(--ink-3);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+.badge-float {
+  position: static;
+  display: block;
+  margin-top: var(--space-4);
+  color: var(--ink-3);
+  font-size: 0.68rem;
+  font-weight: 700;
+  font-family: var(--font-body);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ============================================
+   LAYOUT WRAPPERS
+   ============================================ */
+.section {
+  max-width: var(--content-default);
+  margin: 0 auto;
+  padding: clamp(var(--space-12), 5vw, var(--space-20)) var(--space-6);
+}
+.section-wide {
+  max-width: var(--content-wide);
+  margin: 0 auto;
+  padding: clamp(var(--space-10), 4vw, var(--space-16)) var(--space-6);
+}
+.divider {
+  max-width: var(--content-wide);
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+  border: none;
+  border-top: 1px solid var(--rule);
+}
+
+/* ============================================
+   PART HEADERS — numéro discret, jamais un badge
+   ============================================ */
+.part-header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-5);
+  margin-bottom: var(--space-12);
+  padding-bottom: var(--space-8);
+  border-bottom: 1px solid var(--rule);
+}
+.part-number {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--accent-num);
+  line-height: 1.3;
+  flex-shrink: 0;
+  letter-spacing: -0.02em;
+  min-width: 2.5ch;
+}
+.part-title-block h2 {
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin-bottom: var(--space-2);
+}
+.part-title-block p {
+  font-size: var(--text-base);
+  color: var(--ink-2);
+  max-width: 60ch;
+}
+
+/* Filet d'ouverture — court trait posé au-dessus du titre de chaque section majeure */
+#introduction::before,
+#part1::before,
+#part2::before,
+#part3::before,
+#conclusion::before {
+  content: '';
+  display: block;
+  width: 44px;
+  height: 2px;
+  background: var(--accent-rule);
+  margin-bottom: var(--space-4);
+}
+.section-num {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.8125rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-num);
+  margin-bottom: var(--space-2);
+}
+
+/* ============================================
+   SECTION HEADINGS
+   ============================================ */
+.h2-editorial {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  letter-spacing: -0.018em;
+  color: var(--ink);
+  margin-bottom: var(--space-4);
+  margin-top: var(--space-10);
+}
+.h2-editorial:first-of-type { margin-top: 0; }
+.h3-editorial {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: var(--space-3);
+  margin-top: var(--space-8);
+}
+.lead {
+  font-size: var(--text-lg);
+  color: var(--ink-2);
+  font-weight: 500;
+  line-height: 1.6;
+  margin-bottom: var(--space-6);
+}
+.body-text {
+  margin-bottom: var(--space-5);
+  color: var(--ink);
+}
+
+/* ============================================
+   PULL QUOTE
+   ============================================ */
+.pull-quote {
+  position: relative;
+  padding: var(--space-2) 0 var(--space-2) var(--space-8);
+  margin: var(--space-10) 0;
+}
+.pull-quote::before {
+  content: '\201C';
+  position: absolute;
+  top: -0.5em;
+  left: 0;
+  font-family: var(--font-display);
+  font-size: 4rem;
+  font-weight: 800;
+  color: var(--rule);
+  line-height: 1;
+  pointer-events: none;
+}
+.pull-quote blockquote {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  font-style: italic;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+  margin-bottom: var(--space-3);
+  position: relative;
+}
+.pull-quote cite {
+  font-size: var(--text-sm);
+  color: var(--ink-3);
+  font-style: normal;
+  font-weight: 600;
+}
+
+/* ============================================
+   STAT CARDS INLINE — chiffre en grand, sans boîte
+   ============================================ */
+.stats-band {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-6) var(--space-8);
+  margin: var(--space-10) 0;
+}
+.stat-card {
+  padding: 0;
+}
+.stat-card-val {
+  font-family: var(--font-display);
+  font-size: 2.25rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: var(--space-2);
+}
+.stat-card-val.teal { color: var(--tls-teal-dark); }
+.stat-card-val.orange { color: var(--tls-orange); }
+.stat-card-val.gold { color: var(--tls-gold); }
+.stat-card-val.deep { color: var(--tls-teal-deep); }
+.stat-card-lbl {
+  font-size: var(--text-sm);
+  color: var(--ink-3);
+  line-height: 1.4;
+}
+.stat-card-src {
+  margin-top: var(--space-3);
+  font-size: 0.68rem;
+  color: var(--ink-3);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ============================================
+   CASE STUDY CARDS — filet gauche, sans boîte
+   ============================================ */
+.case-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-8) var(--space-6);
+  margin: var(--space-10) 0;
+}
+.case-card {
+  padding: 0 0 0 var(--space-6);
+  border-left: 1px solid var(--rule);
+}
+.case-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+.case-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--ink-3);
+}
+.case-company {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 2px;
+}
+.case-sector {
+  font-size: var(--text-xs);
+  color: var(--ink-3);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.case-desc {
+  font-size: var(--text-sm);
+  color: var(--ink-2);
+  line-height: 1.6;
+  margin-bottom: var(--space-4);
+}
+.case-result {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--rule);
+}
+.case-result-val {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--tls-teal-dark);
+  letter-spacing: -0.02em;
+}
+.case-result-desc {
+  font-size: var(--text-xs);
+  color: var(--ink-3);
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+/* ============================================
+   PHASES INFOGRAPHIC — progression neutre
+   ============================================ */
+.phases-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  margin: var(--space-10) 0;
+  position: relative;
+}
+.phases-row::before {
+  content: '';
+  position: absolute;
+  top: 42px;
+  left: calc(100% / 6);
+  right: calc(100% / 6);
+  height: 1px;
+  background: var(--rule);
+  z-index: 0;
+}
+.phase-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--space-4);
+  position: relative;
+  z-index: 1;
+}
+.phase-dot {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-4);
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 800;
+  background: var(--paper);
+  position: relative;
+}
+.phase-dot.p1 { border: 1.5px solid var(--rule); color: var(--ink-3); }
+.phase-dot.p2 { border: 1.5px solid var(--ink-3); color: var(--ink-2); }
+.phase-dot.p3 { border: 1.5px solid var(--ink); color: var(--ink); }
+.phase-label {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: var(--space-2);
+}
+.phase-desc {
+  font-size: var(--text-xs);
+  color: var(--ink-3);
+  line-height: 1.5;
+  max-width: 20ch;
+}
+
+/* ============================================
+   TABLE OF CONTENTS — simple liste de liens
+   ============================================ */
+.toc-card {
+  padding: var(--space-6) 0;
+  margin: var(--space-10) 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+.toc-title {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--ink-3);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: var(--space-5);
+}
+.toc-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.toc-list li a {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--ink-2);
+  text-decoration: none;
+  padding: var(--space-2) 0;
+  transition: color var(--transition);
+}
+.toc-list li a:hover {
+  color: var(--accent-teal);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.toc-num {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--accent-num);
+  min-width: 1.8ch;
+}
+
+/* ============================================
+   AI LITERACY CALLOUT — aparté, filet gauche
+   ============================================ */
+.ai-act-box {
+  padding: var(--space-2) 0 var(--space-2) var(--space-7);
+  margin: var(--space-10) 0;
+  border-left: 1px solid var(--rule);
+}
+.ai-act-title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: var(--space-3);
+}
+.ai-act-body {
+  font-size: var(--text-sm);
+  color: var(--ink-2);
+  line-height: 1.7;
+  margin-bottom: var(--space-4);
+}
+.ai-act-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+}
+.ai-act-item {
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--rule);
+}
+.ai-act-item-label {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  margin-bottom: var(--space-2);
+}
+.ai-act-item p {
+  font-size: var(--text-xs);
+  color: var(--ink-2);
+  max-width: none;
+}
+
+/* ============================================
+   ROADMAP — liste verticale, numéros discrets
+   ============================================ */
+.roadmap {
+  margin: var(--space-10) 0;
+  position: relative;
+}
+.roadmap-item {
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  gap: var(--space-5);
+  margin-bottom: var(--space-6);
+  position: relative;
+}
+.roadmap-item::before {
+  content: '';
+  position: absolute;
+  left: 1.5rem;
+  top: 3rem;
+  bottom: -1.5rem;
+  width: 1px;
+  background: linear-gradient(180deg, var(--rule), transparent);
+}
+.roadmap-item:last-child::before { display: none; }
+.roadmap-step {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 1.5px solid var(--ink-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--ink);
+  flex-shrink: 0;
+}
+.roadmap-content h4 {
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: var(--space-1);
+  font-family: var(--font-display);
+}
+.roadmap-content p {
+  font-size: var(--text-sm);
+  color: var(--ink-2);
+  line-height: 1.6;
+  max-width: 56ch;
+}
+
+/* ============================================
+   CHECKLIST
+   ============================================ */
+.checklist {
+  list-style: none;
+  margin: var(--space-6) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.checklist li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--ink);
+}
+.checklist li::before {
+  content: '';
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 1.5px solid var(--ink-3);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ============================================
+   TABLE — bordures fines, jamais de fond ni d'ombre
+   ============================================ */
+.table-wrap {
+  overflow-x: auto;
+  margin: var(--space-8) 0;
+}
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+  border-top: 2px solid var(--ink);
+  border-bottom: 2px solid var(--ink);
+}
+.data-table th {
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: var(--space-3) var(--space-5) var(--space-3) 0;
+  text-align: left;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--ink);
+}
+.data-table td {
+  padding: var(--space-3) var(--space-5) var(--space-3) 0;
+  border-top: 1px solid var(--rule);
+  color: var(--ink);
+  vertical-align: top;
+}
+.data-table tr:hover td { background: rgba(47,28,19,0.03); }
+
+/* ============================================
+   SOURCES SECTION
+   ============================================ */
+.sources-section {
+  background: var(--paper);
+  border-top: 1px solid var(--rule);
+  padding: var(--space-12) var(--space-6);
+}
+.sources-inner {
+  max-width: var(--content-wide);
+  margin: 0 auto;
+}
+.sources-title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: var(--space-6);
+}
+.sources-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+.source-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  background: transparent;
+  border: 1px solid var(--rule);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ink-3);
+  text-decoration: none;
+  transition: border-color var(--transition), color var(--transition);
+  cursor: default;
+}
+.source-chip:hover {
+  border-color: var(--ink-3);
+  color: var(--ink);
+}
+.source-chip .ref-num {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--ink-3);
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.site-footer {
+  background: var(--paper);
+  border-top: 1px solid var(--rule);
+  padding: var(--space-12) var(--space-6);
+  color: var(--ink-3);
+}
+.footer-inner {
+  max-width: var(--content-wide);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-4);
+}
+.footer-logo-mark {
+  width: 40px;
+  height: 40px;
+}
+.footer-copy {
+  font-size: var(--text-xs);
+  line-height: 1.5;
+}
+.footer-copy strong {
+  color: var(--ink);
+  font-family: var(--font-display);
+}
+
+/* ============================================
+   INLINE REF SUPERSCRIPTS — pas des liens : ink-3
+   ============================================ */
+sup.ref {
+  font-size: 0.6em;
+  font-weight: 700;
+  color: var(--ink-3);
+  vertical-align: super;
+  margin-left: 1px;
+}
+
+/* ============================================
+   HIGHLIGHT BOX — aparté, filet gauche
+   ============================================ */
+.highlight-box {
+  padding: var(--space-2) 0 var(--space-2) var(--space-6);
+  margin: var(--space-8) 0;
+  border-left: 1px solid var(--rule);
+}
+.highlight-box-title {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: var(--space-3);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.highlight-box-title svg { color: var(--ink-3); flex-shrink: 0; }
+.highlight-box p {
+  font-size: var(--text-sm);
+  color: var(--ink-2);
+  max-width: 66ch;
+}
+
+/* ============================================
+   CAVEAT BOX — contrepoint / nuance
+   Colonne resserrée + filet gauche neutre + label
+   "Note" en petites capitales — jamais une carte.
+   ============================================ */
+.caveat-box {
+  padding: var(--space-2) 0 var(--space-2) var(--space-7);
+  margin: var(--space-10) 0;
+  border-left: 1px solid var(--rule);
+}
+.caveat-kicker {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--accent-num);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: var(--space-2);
+}
+.caveat-title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: var(--space-3);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  max-width: 56ch;
+}
+.caveat-title svg { color: var(--ink); flex-shrink: 0; }
+.caveat-body {
+  font-size: var(--text-sm);
+  color: var(--ink-2);
+  line-height: 1.7;
+  margin-bottom: var(--space-5);
+  max-width: 56ch;
+}
+.caveat-diagram-wrap {
+  overflow-x: auto;
+  margin: var(--space-2) 0 var(--space-3);
+}
+.caveat-foot {
+  font-size: var(--text-xs);
+  color: var(--ink-3);
+  line-height: 1.6;
+  max-width: 56ch;
+  margin: 0;
+}
+.table-note-sm {
+  font-size: 0.78rem;
+  color: var(--ink-3);
+  margin-top: calc(-1 * var(--space-6));
+  margin-bottom: var(--space-6);
+  max-width: none;
+}
+.stat-negative { color: var(--accent-warm); }
+
+/* ============================================
+   SCROLL REVEAL — fade-in-up on long sections
+   (disabled under prefers-reduced-motion)
+   ============================================ */
+.stat-card,
+.case-card,
+.pull-quote,
+.highlight-box,
+.caveat-box,
+.ai-act-box,
+.roadmap-item,
+.toc-card,
+.part-header {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 380ms cubic-bezier(0.16, 1, 0.3, 1), transform 380ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.stat-card.is-visible,
+.case-card.is-visible,
+.pull-quote.is-visible,
+.highlight-box.is-visible,
+.caveat-box.is-visible,
+.ai-act-box.is-visible,
+.roadmap-item.is-visible,
+.toc-card.is-visible,
+.part-header.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .stat-card, .case-card, .pull-quote, .highlight-box, .caveat-box, .ai-act-box, .roadmap-item, .toc-card, .part-header {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+    text-align: left;
+  }
+  .hero-visual {
+    margin-top: var(--space-2);
+    justify-content: flex-start;
+  }
+  .hero-stat-card {
+    max-width: none;
+    width: 100%;
+    text-align: left;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-2) var(--space-4);
+  }
+  .stat-big { margin-bottom: 0; font-size: 2.1rem; }
+  .stat-label { margin: 0; max-width: none; flex: 1 1 200px; min-width: 0; text-align: left; }
+  .stat-mini-grid {
+    width: 100%;
+    display: flex;
+    gap: var(--space-4);
+    margin-top: var(--space-2);
+    padding-top: var(--space-2);
+    border-top: 1px solid var(--rule);
+  }
+  .stat-mini { text-align: left; }
+  .badge-float { width: 100%; }
+  .phases-row { grid-template-columns: 1fr; gap: var(--space-6); }
+  .phases-row::before { display: none; }
+  .part-header { flex-direction: column; gap: var(--space-3); }
+}
+@media (max-width: 600px) {
+  .stats-band { grid-template-columns: 1fr 1fr; }
+  .case-grid { grid-template-columns: 1fr; }
+  .ai-act-grid { grid-template-columns: 1fr; }
+  .nav-meta { display: none; }
+}
+</style>
+</head>
+<body>
+
+<noscript><style>.stat-card,.case-card,.pull-quote,.highlight-box,.caveat-box,.ai-act-box,.roadmap-item,.toc-card,.part-header{opacity:1!important;transform:none!important;}</style></noscript>
+
+<!-- ============================================
+     NAVIGATION
+     ============================================ -->
+<nav class="site-nav" role="navigation" aria-label="Navigation principale">
+  <a class="nav-logo" href="#">
+    <svg class="nav-logo-mark" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="TLS Logo">
+      <rect width="36" height="36" rx="8" fill="#1F3E45"/>
+      <path d="M10 11h16M18 11v14" stroke="#55A1B4" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M10 20h6" stroke="#ED843A" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="26" cy="25" r="3" fill="#F8B044"/>
+    </svg>
+    <div class="nav-brand">
+      The Learning Society
+      <span>Dossier · Juillet 2026</span>
+    </div>
+  </a>
+  <div class="nav-meta">
+    <span class="nav-tag">IA &amp; Formation</span>
+    <span class="nav-date">Juillet 2026 · 8 000 mots</span>
+  </div>
+</nav>
+
+<!-- ============================================
+     HERO
+     ============================================ -->
+<header class="hero" role="banner">
+  <div class="hero-content">
+    <div class="hero-eyebrow">Dossier long format TLS</div>
+    <h1>L'IA en formation :<br><em>de l'expérimentation</em><br>à l'infrastructure</h1>
+    <p class="hero-sub">En 2026, l'IA n'est plus un gadget de productivité. C'est l'architecture même de l'apprentissage professionnel. Ce dossier examine où en sont vraiment les organisations françaises — et ce qu'il faut faire maintenant.</p>
+    <div class="hero-meta">
+      <div class="hero-pill">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        15–25 min de lecture
+      </div>
+      <div class="hero-pill">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        DRH · L&amp;D · Formateurs
+      </div>
+      <div class="hero-pill">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        Sources vérifiées
+      </div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-stat-card">
+      <div class="stat-big"><span>91</span>%</div>
+      <div class="stat-label">des professionnels RH utilisent déjà l'IA dans leur travail en 2026</div>
+      <div class="stat-mini-grid">
+        <div class="stat-mini">
+          <div class="stat-mini-val">65%</div>
+          <div class="stat-mini-lbl">ont formé leurs RH à l'IA en 12 mois</div>
+        </div>
+        <div class="stat-mini">
+          <div class="stat-mini-val">43%</div>
+          <div class="stat-mini-lbl">des salariés sans formation IA</div>
+        </div>
+      </div>
+      <div class="badge-float">Baromètre 2026</div>
+    </div>
+  </div>
+</header>
+
+<!-- TOC -->
+<div class="section">
+  <div class="toc-card">
+    <div class="toc-title">Au sommaire</div>
+    <ul class="toc-list">
+      <li><a href="#introduction"><span class="toc-num">00</span> Introduction — Le basculement silencieux</a></li>
+      <li><a href="#part1"><span class="toc-num">01</span> État des lieux — Où en sont vraiment les organisations françaises ?</a></li>
+      <li><a href="#part2"><span class="toc-num">02</span> Les 5 cas d'usage IA qui transforment le L&amp;D</a></li>
+      <li><a href="#part3"><span class="toc-num">03</span> Comment passer à l'échelle — Le modèle TLS</a></li>
+      <li><a href="#conclusion"><span class="toc-num">04</span> Conclusion — L'IA révélateur, pas remplaçant</a></li>
+    </ul>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ============================================
+     INTRODUCTION
+     ============================================ -->
+<section id="introduction" class="section">
+  <span class="section-num">00</span>
+  <h2 class="h2-editorial">Le basculement silencieux</h2>
+
+  <p class="lead">Il y a trois ans, l'IA en formation était un sujet de conférence. Aujourd'hui, c'est un sujet de budget.</p>
+
+  <p class="body-text">Le changement s'est produit rapidement, mais pas bruyamment. Pas d'annonce de rupture, pas de transformation spectaculaire du jour au lendemain. Un glissement progressif : des ingénieurs pédagogiques qui commencent à utiliser ChatGPT pour scénariser, des DRH qui demandent des indicateurs d'impact que les plateformes classiques ne fournissent pas, des collaborateurs qui apprennent différemment parce qu'ils ont accès à des outils différents.</p>
+
+  <p class="body-text">En juillet 2026, le tableau statistique est sans ambiguïté. <strong>91 % des professionnels RH déclarent utiliser déjà l'IA dans leur travail</strong><sup class="ref">1</sup>. <strong>65 % des entreprises ont déployé une formation à l'IA au sein de leurs équipes RH au cours des 12 derniers mois</strong> — mais la même étude souligne que <strong>80 % des collaborateurs utilisent déjà l'IA générative au quotidien sans que l'entreprise ait structuré de déploiement stratégique autour</strong><sup class="ref">2</sup>. Et pourtant, paradoxe révélateur, <strong>43 % des salariés n'ont encore reçu aucune formation ou accompagnement sur l'IA</strong><sup class="ref">1</sup>.</p>
+
+  <p class="body-text">Ce paradoxe est le cœur du problème. L'IA est adoptée par les fonctions RH et L&D, mais elle ne redescend pas encore de façon structurée vers les équipes. Les organisations sont dans une phase intermédiaire — entre l'expérimentation et la systématisation — et beaucoup ne savent pas comment en sortir.</p>
+
+  <div class="pull-quote">
+    <blockquote>L'IA ne va pas remplacer les formateurs. Mais les formateurs qui utilisent l'IA vont remplacer ceux qui ne l'utilisent pas.</blockquote>
+    <cite>— Adage du Learning Technologies 2026, repris dans plusieurs études sectorielles</cite>
+  </div>
+
+  <p class="body-text">Ce dossier n'a pas vocation à faire l'inventaire exhaustif des outils IA disponibles. Il propose une analyse de fond : où en sont les organisations françaises dans leur maturité IA en formation, quels cas d'usage concrets génèrent de la valeur, et comment passer à l'échelle de façon structurée. Les données présentées sont sourcées, les cas d'usage sont réels, et les recommandations sont actionnables.</p>
+
+  <p class="body-text">L'audience de ce dossier, c'est vous : DRH qui devez arbitrer des investissements formation sans visibilité claire sur le ROI, L&D managers qui jonglent entre outils, plateformes et injonctions contradictoires, ingénieurs pédagogiques qui voient leur métier se transformer plus vite que leurs formation initiales ne les y ont préparés.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ============================================
+     PARTIE 1 — ÉTAT DES LIEUX
+     ============================================ -->
+<section id="part1" class="section">
+  <div class="part-header">
+    <div class="part-number">01</div>
+    <div class="part-title-block">
+      <h2>État des lieux</h2>
+      <p>Où en sont vraiment les organisations françaises en matière d'IA en formation ?</p>
+    </div>
+  </div>
+
+  <h3 class="h2-editorial">De l'expérimentation à la systématisation</h3>
+
+  <p class="body-text">Le marché français de la formation professionnelle représente 55,3 milliards d'euros de dépenses annuelles<sup class="ref">3</sup> — dont 28,7 milliards de chiffre d'affaires pour les organismes de formation<sup class="ref">4</sup>. C'est un écosystème massif, mais aussi particulièrement lent à se transformer. La pandémie avait forcé une numérisation rapide. L'IA générative impose désormais une transformation plus profonde.</p>
+
+  <p class="body-text">Les entreprises traversent trois phases d'adoption distinctes. La comprendre, c'est savoir où vous vous situez — et quel est le prochain pas.</p>
+
+  <div class="phases-row">
+    <div class="phase-item">
+      <div class="phase-dot p1">I</div>
+      <div class="phase-label">Curiosité</div>
+      <div class="phase-desc">Expérimentations individuelles, sans cadre. ChatGPT utilisé par quelques IPs.</div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-dot p2">II</div>
+      <div class="phase-label">Pilote</div>
+      <div class="phase-desc">Projets structurés sur un périmètre défini. ROI mesuré. Gouvernance naissante.</div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-dot p3">III</div>
+      <div class="phase-label">Infrastructure</div>
+      <div class="phase-desc">L'IA est intégrée dans les processus L&D à grande échelle. Stratégie IA formalisée.</div>
+    </div>
+  </div>
+
+  <p class="body-text">En France, la majorité des grandes entreprises se trouvent en phase II. Elles ont lancé des projets pilotes, souvent sur la production de contenus ou les chatbots d'assistance. Mais la phase III — l'IA comme infrastructure — reste l'apanage d'un petit nombre d'organisations pionnières.</p>
+
+  <div class="stats-band">
+    <div class="stat-card">
+      <div class="stat-card-val teal">72%</div>
+      <div class="stat-card-lbl">des ingénieurs pédagogiques utilisent l'IA sous une forme ou une autre en 2026 (vs 15 % en 2023) — observation interne, non un audit externe indépendant</div>
+      <div class="stat-card-src">Observation interne TLS · Module 8</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-val orange">62%</div>
+      <div class="stat-card-lbl">des DRH français privilégient désormais la montée en compétences interne plutôt que le recrutement externe</div>
+      <div class="stat-card-src">Baromètre Cegos 2026</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-val gold">10%</div>
+      <div class="stat-card-lbl">des entreprises françaises (10+ salariés) utilisent une technologie d'IA — définition large (ML, vision, voix), pas l'IA générative seule</div>
+      <div class="stat-card-src">INSEE 2024</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-val deep">64,5%</div>
+      <div class="stat-card-lbl">des professionnels L&D placent les compétences IA comme domaine de formation prioritaire</div>
+      <div class="stat-card-src">Observatoire L&D 2026</div>
+    </div>
+  </div>
+
+  <h3 class="h2-editorial">Ce que l'IA change concrètement dans le cycle de formation</h3>
+
+  <p class="body-text">L'impact de l'IA sur le cycle de formation est moins visible que ce que les médias décrivent, mais plus profond que ce que beaucoup d'organisations ont anticipé. Ce n'est pas une révolution d'interface. C'est une transformation de la chaîne de valeur pédagogique.</p>
+
+  <h4 class="h3-editorial">1 · La production de contenus : vitesse et cohérence</h4>
+
+  <p class="body-text">C'est le cas d'usage le plus répandu, et de loin. Dans nos propres programmes de formation (observation interne, Module 8 TLS), générer un quiz de 100 questions sur un module de management prenait 25 heures en mode manuel. Avec un workflow IA bien paramétré (prompt engineering + quality gate humain), cela prend 4h25 — soit <strong>une économie de 83 %</strong><sup class="ref">5</sup>. La cohérence est meilleure. Le coût passe de 1 875 € à 318 € pour le même volume.</p>
+
+  <p class="body-text">Les outils comme Synthesia ou HeyGen permettent de transformer un script en vidéo de formation de qualité studio en moins de 30 minutes, contre 2 à 3 jours pour une production traditionnelle. Le risque principal — les hallucinations et les biais — impose un quality gate humain systématique : revue de 20 % des outputs minimum, fact-checking, validation pédagogique.</p>
+
+  <h4 class="h3-editorial">2 · La personnalisation des parcours : de l'uniforme à l'adaptatif</h4>
+
+  <p class="body-text">L'adaptive learning — personnalisation automatique des parcours selon le profil et les performances de chaque apprenant — était une promesse depuis 15 ans. L'IA générative l'a rendu réellement opérationnel. Les algorithmes analysent en temps réel les réponses, les erreurs et le rythme d'apprentissage pour ajuster dynamiquement le contenu, le niveau de difficulté et l'ordre des modules<sup class="ref">6</sup>.</p>
+
+  <p class="body-text">Le résultat : des parcours plus courts (l'apprenant ne passe pas du temps sur ce qu'il maîtrise déjà), un engagement plus élevé (le niveau de difficulté maintient l'apprenant dans sa zone de développement proximal), et une rétention améliorée. Les outils de recommandation intelligents et les chatbots d'apprentissage ajustent les modules en continu aux besoins de l'apprenant<sup class="ref">7</sup>.</p>
+
+  <h4 class="h3-editorial">3 · Les learning analytics : sortir du taux de complétion</h4>
+
+  <p class="body-text">Le taux de complétion d'un module e-learning ne dit rien sur l'apprentissage réel. Cliquer sur "Suivant" jusqu'à la fin n'est pas apprendre. Les équipes L&D le savent depuis longtemps, mais n'avaient pas les outils pour mesurer autrement.</p>
+
+  <p class="body-text">L'IA change cela. Les tableaux de bord analytiques identifient les risques d'abandon avant qu'ils se matérialisent, corrèlent les données de formation avec des indicateurs métier (performance commerciale, erreurs de process, absentéisme), et permettent une mesure d'impact réelle plutôt qu'une illusion de conformité<sup class="ref">8</sup>.</p>
+
+  <h3 class="h2-editorial">Les freins réels à l'adoption</h3>
+
+  <p class="body-text">Le tableau serait incomplet sans examiner pourquoi la majorité des organisations reste en phase I ou II. Les freins sont réels — et différents de ce que l'on suppose souvent.</p>
+
+  <div class="highlight-box">
+    <div class="highlight-box-title">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Le paradoxe de l'adoption
+    </div>
+    <p>Observation interne TLS (Module 8, non un audit externe) : 85 % des ingénieurs pédagogiques qui utilisent l'IA l'utilisent pour remplacer le copywriter — pas pour amplifier leur ingénierie pédagogique. L'IA est utilisée pour générer du contenu brut, sans structure pédagogique imposée. Le résultat : du contenu plus rapide, mais pas nécessairement plus efficace<sup class="ref">5</sup>.</p>
+  </div>
+
+  <ul class="checklist" style="margin-top:var(--space-6)">
+    <li><strong>Résistance culturelle des équipes formation</strong> — l'IA est vécue comme une menace pour l'expertise des IPs, plutôt que comme un amplificateur de leur savoir-faire.</li>
+    <li><strong>Gouvernance des données et RGPD</strong> — envoyer des données apprenant dans des outils IA externes crée des risques réels de conformité. La règle d'or : ne jamais envoyer de données personnelles identifiables (PII) dans des outils non sécurisés<sup class="ref">5</sup>.</li>
+    <li><strong>Manque de compétences IA chez les IPs</strong> — 85 % n'optimisent pas leur usage, et la plupart manquent de formation au prompt engineering pédagogique<sup class="ref">5</sup>.</li>
+    <li><strong>Fossé grands groupes / PME</strong> — les grandes organisations ont les ressources pour expérimenter. Les PME, souvent, n'ont ni le temps ni les budgets pour structurer une transformation IA.</li>
+  </ul>
+</section>
+
+<hr class="divider">
+
+<!-- ============================================
+     PARTIE 2 — CAS D'USAGE
+     ============================================ -->
+<section id="part2" class="section">
+  <div class="part-header">
+    <div class="part-number">02</div>
+    <div class="part-title-block">
+      <h2>Les 5 cas d'usage IA qui transforment le L&amp;D</h2>
+      <p>Des exemples concrets, avec des entreprises françaises et internationales qui les ont déployés.</p>
+    </div>
+  </div>
+
+  <p class="lead">Plutôt que de lister 30 outils IA pour la formation, ce dossier se concentre sur les 5 cas d'usage à plus fort impact — ceux qui génèrent un ROI mesurable et qui sont déjà opérationnels dans des organisations réelles.</p>
+
+  <!-- CAS 1 -->
+  <h3 class="h2-editorial">Cas 1 · Le copilote de l'apprenant (RAG)</h3>
+
+  <p class="body-text">Le copilote de l'apprenant est un assistant IA contextuel qui répond aux questions d'un collaborateur à partir de la documentation interne de l'entreprise — manuels techniques, procédures, référentiels de compétences. Techniquement, il repose sur la RAG (Retrieval-Augmented Generation) : l'IA ne génère pas de réponses ex nihilo, elle les ancre dans vos sources internes.</p>
+
+  <div class="case-grid">
+    <div class="case-card">
+      <div class="case-header">
+        <div class="case-icon teal">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <div>
+          <div class="case-company">Grand groupe industriel</div>
+          <div class="case-sector">Industrie · effectifs multi-sites</div>
+        </div>
+      </div>
+      <p class="case-desc">Un grand groupe industriel français a déployé l'IA dans ses processus de formation pour ses dizaines de milliers de collaborateurs répartis sur de nombreux sites — dont une large part ne peut être accueillie en présentiel, d'où le besoin d'une infrastructure IA. En 2025, les émargements virtuels IA ont permis d'économiser l'équivalent d'un emploi à mi-temps<sup class="ref">9</sup>. Le groupe explore désormais les simulations IA de "confrontation" à l'échelle — des scénarios de management et relation client animés par des agents IA<sup class="ref">10</sup>.</p>
+      <div class="case-result">
+        <div class="case-result-val">0,5 ETP</div>
+        <div class="case-result-desc">économisé sur les émargements virtuels dès la première année (mars 2025)</div>
+      </div>
+    </div>
+    <div class="case-card">
+      <div class="case-header">
+        <div class="case-icon orange">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        </div>
+        <div>
+          <div class="case-company">Banque française</div>
+          <div class="case-sector">Banque · Formation IA salariés</div>
+        </div>
+      </div>
+      <p class="case-desc">Une banque française a lancé un campus dédié à la formation de ses collaborateurs à l'IA et à son impact, en ligne avec sa promesse employeur<sup class="ref">11</sup>. Le secteur bancaire est l'un des plus avancés dans l'usage de simulations IA pour la formation commerciale et la conformité réglementaire. Les agents conversationnels IA permettent de s'entraîner à des entretiens clients difficiles sans les risques d'une situation réelle<sup class="ref">12</sup>.</p>
+      <div class="case-result">
+        <div class="case-result-val">×10</div>
+        <div class="case-result-desc orange">scalabilité des simulations vs jeux de rôle présentiel</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CAS 2 -->
+  <h3 class="h2-editorial">Cas 2 · L'IA générative au service des ingénieurs pédagogiques</h3>
+
+  <p class="body-text">C'est le cas d'usage le plus répandu — et celui où la marge de progression est la plus grande. La grande majorité des ingénieurs pédagogiques qui utilisent l'IA l'utilisent pour générer du contenu brut. Peu l'utilisent pour imposer une structure pédagogique rigoureuse à l'IA.</p>
+
+  <p class="body-text">La différence est fondamentale. Un prompt bien conçu — avec un rôle défini ("Tu es un expert en ingénierie pédagogique"), un contexte précis, un format de sortie structuré (JSON, tableau Bloom) et des contraintes claires — produit du contenu pédagogiquement robuste. Un prompt paresseux produit du contenu générique<sup class="ref">13</sup>.</p>
+
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Tâche</th>
+          <th>Temps manuel</th>
+          <th>Temps avec IA</th>
+          <th>Économie</th>
+          <th>ROI estimé</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>100 questions quiz (module leadership)</td>
+          <td>25 heures</td>
+          <td>4h25</td>
+          <td>−83%</td>
+          <td>8,1×<sup class="ref">5</sup></td>
+        </tr>
+        <tr>
+          <td>Script vidéo 5 min</td>
+          <td>3–4 heures</td>
+          <td>20–30 min</td>
+          <td>−85%</td>
+          <td>Élevé</td>
+        </tr>
+        <tr>
+          <td>Storyboard e-learning 1 heure</td>
+          <td>8–12 heures</td>
+          <td>1–2 heures</td>
+          <td>−80%</td>
+          <td>Élevé</td>
+        </tr>
+        <tr>
+          <td>Notation auto (QCM)</td>
+          <td>8–10 heures / 100 copies</td>
+          <td>1 heure</td>
+          <td>−90%</td>
+          <td>Moyen<sup class="ref">5</sup></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="table-note-sm">Lignes marquées <sup class="ref">5</sup> : données Module 8 TLS, observation interne issue de nos propres programmes — pas un audit externe indépendant.</p>
+
+  <div class="highlight-box">
+    <div class="highlight-box-title">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+      Le "Nudge Structurel" — méthode TLS
+    </div>
+    <p>Pour transformer ChatGPT en véritable assistant d'ingénierie pédagogique, il faut imposer une structure pédagogique dans le prompt — pas seulement demander du contenu. La méthode TLS EDRACT® (Engagement, Découverte, Réflexion, Action, Capitalisation, Transfert) imposée via le prompt produit du contenu structurellement solide, pas seulement rapide<sup class="ref">13</sup>.</p>
+  </div>
+
+  <!-- CAS 3 -->
+  <h3 class="h2-editorial">Cas 3 · Le moteur de recommandation pédagogique</h3>
+
+  <p class="body-text">Les LXP (Learning Experience Platforms) de nouvelle génération utilisent le machine learning pour analyser les patterns d'apprentissage individuels et recommander des contenus adaptés. L'analyse prédictive se sert des données RH pour prévoir les besoins en formation à venir — avant que le collaborateur ne les exprime<sup class="ref">7</sup>.</p>
+
+  <p class="body-text">En 2026, <strong>64 % des professionnels L&D anticipent une montée en puissance des entraînements et simulations avec coach IA d'ici deux ans</strong>, et 54,8 % comptent utiliser l'IA pour créer ces simulations<sup class="ref">14</sup>. Les plateformes comme Cornerstone, Docebo et 360Learning ont intégré ces moteurs dans leur cœur de produit.</p>
+
+  <!-- CAS 4 -->
+  <h3 class="h2-editorial">Cas 4 · Mesurer l'impact réel de la formation</h3>
+
+  <p class="body-text">C'est le cas d'usage le moins spectaculaire visuellement — et probablement le plus stratégique. Les tableaux de bord analytiques IA permettent de passer du taux de complétion (proxy de présence) à la mesure d'impact métier (proxy de performance réelle).</p>
+
+  <p class="body-text">Le ROI médian d'un projet IA en entreprise française sur 24 mois est de 159,8 %, documenté sur plus de 200 déploiements entre 2024 et 2025<sup class="ref">15</sup>. Le Wharton AI Center 2025 confirme : <strong>chaque euro investi dans l'IA génère, sur 18 mois, un retour moyen de 3,7 fois la mise</strong><sup class="ref">16</sup>. Le facteur clé de succès identifié ? La formation et l'accompagnement des équipes est plus déterminant que le choix du modèle IA.</p>
+
+  <div class="caveat-box">
+    <div class="caveat-kicker">Note</div>
+    <div class="caveat-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/></svg>
+      Un contrepoint nécessaire : performance avec l'IA ≠ apprentissage
+    </div>
+    <p class="caveat-body">Les chiffres de ROI et de gain de temps ci-dessus mesurent la performance obtenue <em>avec</em> l'IA disponible — pas ce qu'il en reste une fois l'outil retiré. La distinction n'est pas anecdotique. Un essai randomisé publié dans PNAS, mené auprès de lycéens en mathématiques, a mesuré des gains spectaculaires pendant l'entraînement avec IA disponible : +48 % avec un accès libre à GPT-4, +127 % avec un tuteur IA encadré par des garde-fous pédagogiques. Mais à l'examen final, sans IA, les élèves ayant eu un accès libre ont obtenu <strong class="stat-negative">17 % de moins</strong> que ceux n'y ayant jamais eu accès — l'IA n'a pas seulement échoué à aider, elle a nui à l'acquisition. Le tuteur bridé par des garde-fous, lui, a évité ce recul — mais sans produire de gain mesurable non plus : jeu égal avec l'absence d'IA, pas mieux<sup class="ref">26</sup>.</p>
+
+    <div class="caveat-diagram-wrap">
+      <svg viewBox="0 0 720 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="diagTitleB diagDescB" style="width:100%; height:auto; min-width:520px;">
+        <title id="diagTitleB">Performance avec IA disponible versus après retrait de l'IA</title>
+        <desc id="diagDescB">Deux courbes divergentes : le groupe à accès libre à GPT-4 passe de +48% pendant l'entraînement à -17% une fois l'IA retirée à l'examen ; le groupe avec tuteur IA encadré passe de +127% à une performance statistiquement égale au groupe sans IA (0%).</desc>
+
+        <line x1="100" y1="276" x2="620" y2="276" stroke="#E0D5C8" stroke-width="1.5" stroke-dasharray="4 4"/>
+        <text x="628" y="280" font-family="Nunito, sans-serif" font-size="11" fill="#695A52">Sans IA (référence)</text>
+
+        <text x="90" y="59" text-anchor="end" font-family="Nunito, sans-serif" font-size="11" fill="#695A52">+127%</text>
+        <text x="90" y="197" text-anchor="end" font-family="Nunito, sans-serif" font-size="11" fill="#695A52">+48%</text>
+        <text x="90" y="310" text-anchor="end" font-family="Nunito, sans-serif" font-size="11" fill="#695A52">−17%</text>
+
+        <line x1="180" y1="55" x2="560" y2="276" stroke="#55A1B4" stroke-width="3" stroke-linecap="round"/>
+        <line x1="180" y1="193" x2="560" y2="306" stroke="#ED843A" stroke-width="3" stroke-linecap="round"/>
+
+        <circle cx="180" cy="55" r="5" fill="#55A1B4"/>
+        <circle cx="560" cy="276" r="5" fill="#55A1B4"/>
+        <circle cx="180" cy="193" r="5" fill="#ED843A"/>
+        <circle cx="560" cy="306" r="5" fill="#ED843A"/>
+
+        <text x="192" y="50" font-family="'League Spartan', sans-serif" font-size="13" font-weight="700" fill="#3D7786">+127%</text>
+        <text x="572" y="272" font-family="'League Spartan', sans-serif" font-size="13" font-weight="700" fill="#3D7786">≈ 0%</text>
+        <text x="192" y="188" font-family="'League Spartan', sans-serif" font-size="13" font-weight="700" fill="#8F2A0E">+48%</text>
+        <text x="572" y="322" font-family="'League Spartan', sans-serif" font-size="13" font-weight="700" fill="#8F2A0E">−17%</text>
+
+        <line x1="370" y1="40" x2="370" y2="320" stroke="#E0D5C8" stroke-width="1" stroke-dasharray="2 4"/>
+
+        <text x="180" y="345" text-anchor="middle" font-family="Nunito, sans-serif" font-size="12" font-weight="600" fill="#2f1c13">Avec IA disponible</text>
+        <text x="180" y="360" text-anchor="middle" font-family="Nunito, sans-serif" font-size="11" fill="#695A52">(pendant l'entraînement)</text>
+        <text x="560" y="345" text-anchor="middle" font-family="Nunito, sans-serif" font-size="12" font-weight="600" fill="#2f1c13">IA retirée</text>
+        <text x="560" y="360" text-anchor="middle" font-family="Nunito, sans-serif" font-size="11" fill="#695A52">(examen sans assistance)</text>
+
+        <circle cx="110" cy="18" r="5" fill="#55A1B4"/>
+        <text x="122" y="22" font-family="Nunito, sans-serif" font-size="12" fill="#2f1c13">Tuteur IA encadré (garde-fous pédagogiques)</text>
+        <circle cx="440" cy="18" r="5" fill="#ED843A"/>
+        <text x="452" y="22" font-family="Nunito, sans-serif" font-size="12" fill="#2f1c13">Accès libre à l'IA (GPT-4 brut)</text>
+      </svg>
+    </div>
+    <p class="caveat-foot">Ce constat ne dit pas que l'IA est inutile en formation. Il dit que la conception pédagogique — garde-fous, validation humaine, transfert vers l'autonomie — reste ce qui détermine si l'IA aide réellement à apprendre, ou si elle ne fait que déplacer temporairement la difficulté. Source : essai randomisé, PNAS<sup class="ref">26</sup>.</p>
+  </div>
+
+  <!-- CAS 5 -->
+  <h3 class="h2-editorial">Cas 5 · Simulations immersives et agents conversationnels</h3>
+
+  <p class="body-text">Les simulations IA — agents conversationnels qui jouent le rôle d'un client mécontent, d'un collaborateur difficile, d'un prospect exigeant — représentent le cas d'usage le plus novateur. Elles remplacent avantageusement les jeux de rôle en présentiel pour une raison simple : le droit à l'erreur est total, le feedback est immédiat, et la scalabilité est infinie<sup class="ref">17</sup>.</p>
+
+  <p class="body-text">Dans le secteur bancaire et des assurances, ces simulations permettent de s'entraîner à des situations de gestion de patrimoine, d'entretiens commerciaux sensibles ou de conformité réglementaire, sans les risques d'une mise en situation réelle. Plusieurs acteurs français du secteur bancaire ont déjà des programmes en production<sup class="ref">12</sup>.</p>
+
+  <div class="case-grid">
+    <div class="case-card">
+      <div class="case-header">
+        <div class="case-icon gold">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <div>
+          <div class="case-company">RolePlay IA</div>
+          <div class="case-sector">Formation commerciale · Secteur banque-assurance</div>
+        </div>
+      </div>
+      <p class="case-desc">Des outils auteurs de nouvelle génération permettent de créer des scénarios sur-mesure : importation des processus internes, grilles d'évaluation, catalogues produits. L'IA génère des avatars (client mécontent, nouvelle recrue, prospect) capables de conversations fluides, à l'oral comme à l'écrit, s'adaptant en temps réel aux arguments de l'apprenant<sup class="ref">17</sup>.</p>
+      <div class="case-result">
+        <div class="case-result-val">×10</div>
+        <div class="case-result-desc">scalabilité · 0 risque · feedback immédiat · métriques comportementales</div>
+      </div>
+    </div>
+    <div class="case-card">
+      <div class="case-header">
+        <div class="case-icon teal">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+        </div>
+        <div>
+          <div class="case-company">Établissement bancaire</div>
+          <div class="case-sector">Gestion de patrimoine · Coach IA immersif</div>
+        </div>
+      </div>
+      <p class="case-desc">Un établissement bancaire français a lancé un dispositif de coaching IA immersif dédié à ses professionnels de la gestion de patrimoine. Le dispositif propose des simulations dynamiques sur 4 ou 7 semaines, intégralement digitales, avec suivi personnalisé<sup class="ref">18</sup>. Ce type de dispositif représente l'avenir du coaching professionnel à grande échelle.</p>
+      <div class="case-result">
+        <div class="case-result-val">7 sem.</div>
+        <div class="case-result-desc">parcours immersif complet · coaching IA 24/7 · certification intégrée</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ============================================
+     PARTIE 3 — PASSER À L'ÉCHELLE
+     ============================================ -->
+<section id="part3" class="section">
+  <div class="part-header">
+    <div class="part-number">03</div>
+    <div class="part-title-block">
+      <h2>Comment passer à l'échelle</h2>
+      <p>La feuille de route pour les organisations qui veulent sortir de l'expérimentation.</p>
+    </div>
+  </div>
+
+  <h3 class="h2-editorial">La "Learning Engineering" : nouvelle discipline L&amp;D</h3>
+
+  <p class="body-text">Le métier d'ingénieur pédagogique est en train de se bifurquer. D'un côté, les IPs qui restent dans une logique de production de contenus — et qui seront progressivement automatisés. De l'autre, les "Learning Engineers" qui maîtrisent à la fois la pédagogie, les données d'apprentissage et l'IA — et qui deviennent des actifs rares.</p>
+
+  <p class="body-text">En 2026, les recruteurs attendent une maîtrise des outils d'IA générative (ChatGPT, Synthesia, outils auteurs augmentés) en plus des compétences pédagogiques classiques<sup class="ref">19</sup>. Les spécialisations les plus demandées : IA et data learning (parcours adaptatifs, génération de contenus), ludopédagogie augmentée, et accessibilité numérique.</p>
+
+  <p class="body-text">Le formateur augmenté par l'IA n'est pas un technicien qui utilise des outils. C'est un <strong>accompagnateur augmenté</strong> — passant du modèle du transmetteur de connaissances à celui de guide, d'interprète et de facilitateur d'apprentissage<sup class="ref">20</sup>. Son travail s'inscrit dans une logique de maintenance en continu des dispositifs, pas de production ponctuelle.</p>
+
+  <h3 class="h2-editorial">Feuille de route IA en 6 étapes</h3>
+
+  <p class="body-text">Il n'existe pas de transformation IA réussie qui ne soit pas précédée d'un diagnostic honnête. Voici les 6 étapes que les organisations qui ont passé la phase pilote ont toutes suivies — dans cet ordre.</p>
+
+  <div class="roadmap">
+    <div class="roadmap-item">
+      <div class="roadmap-step">1</div>
+      <div class="roadmap-content">
+        <h4>Audit de maturité IA formation</h4>
+        <p>Cartographier les usages IA existants (souvent informels), les données disponibles, et les compétences des équipes L&D. Sans baseline, impossible de mesurer un gain<sup class="ref">15</sup>.</p>
+      </div>
+    </div>
+    <div class="roadmap-item">
+      <div class="roadmap-step">2</div>
+      <div class="roadmap-content">
+        <h4>Identifier 2–3 quick wins à fort ROI</h4>
+        <p>Cibler des processus répétitifs (&gt;100 occurrences/mois), à logique claire, avec des données disponibles. Génération de quiz, scripts vidéo, FAQ — ces tâches génèrent un ROI visible en 4 à 8 semaines.</p>
+      </div>
+    </div>
+    <div class="roadmap-item">
+      <div class="roadmap-step">3</div>
+      <div class="roadmap-content">
+        <h4>Former les IPs au prompt engineering pédagogique</h4>
+        <p>La différence entre un IP qui utilise l'IA correctement et un IP qui l'utilise de façon sous-optimale se mesure directement en qualité pédagogique. La formation au prompt engineering n'est pas optionnelle — c'est la condition du ROI<sup class="ref">13</sup>.</p>
+      </div>
+    </div>
+    <div class="roadmap-item">
+      <div class="roadmap-step">4</div>
+      <div class="roadmap-content">
+        <h4>Mettre en place les quality gates</h4>
+        <p>Fact-check systématique (20 % minimum des outputs IA), audit biais et représentativité, vérification de conformité RGPD, validation humaine avant publication. L'IA amplifie, l'humain valide.</p>
+      </div>
+    </div>
+    <div class="roadmap-item">
+      <div class="roadmap-step">5</div>
+      <div class="roadmap-content">
+        <h4>Choisir et déployer la plateforme IA adaptée</h4>
+        <p>LMS augmenté, LXP avec adaptive learning, ou suite d'outils IA spécialisés — le choix dépend du contexte, pas des tendances. 10 critères clés : intégration SIRH, conformité RGPD, analytics d'impact, personnalisation, scalabilité, mobile-first, support, pricing, roadmap IA, références sectorielles.</p>
+      </div>
+    </div>
+    <div class="roadmap-item">
+      <div class="roadmap-step">6</div>
+      <div class="roadmap-content">
+        <h4>Industrialiser et mesurer l'impact métier</h4>
+        <p>Passer du taux de complétion aux KPIs métier : impact sur la performance commerciale, réduction des erreurs de process, time-to-competency, NPS apprenant, corrélation formation-performance<sup class="ref">16</sup>.</p>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="h2-editorial">Gouvernance IA responsable : ce que les équipes formation doivent savoir</h3>
+
+  <div class="ai-act-box">
+    <div class="ai-act-title">Un principe simple : personne ne doit utiliser l'IA sans un socle de connaissances minimal</div>
+    <p class="ai-act-body">Au-delà de toute obligation externe, un principe de bon sens s'impose progressivement comme standard professionnel dans les organisations les plus avancées : personne ne devrait opérer ou utiliser un système IA dans son travail sans un socle de connaissances minimal sur ce que l'outil fait, comment il peut se tromper, et où sont ses limites. Cela concerne les recruteurs utilisant des outils d'analyse de CV, les managers exploitant des outils d'évaluation IA, les commerciaux avec des assistants IA — bien au-delà des seules équipes techniques.</p>
+    <div class="ai-act-grid">
+      <div class="ai-act-item">
+        <div class="ai-act-item-label">Le principe</div>
+        <p>Assurer un niveau de connaissance suffisant en IA à tout le personnel qui opère ou utilise des systèmes IA dans son travail quotidien.</p>
+      </div>
+      <div class="ai-act-item">
+        <div class="ai-act-item-label">Le format</div>
+        <p>Il n'existe pas de durée ni de format standard : chaque organisation définit son propre parcours selon son contexte et ses usages IA réels.</p>
+      </div>
+      <div class="ai-act-item">
+        <div class="ai-act-item-label">Les bonnes pratiques</div>
+        <p>Intégrer la formation IA dans la GEPP, l'adapter par métier, former managers et représentants du personnel, documenter les actions engagées<sup class="ref">21</sup>.</p>
+      </div>
+      <div class="ai-act-item">
+        <div class="ai-act-item-label">L'enjeu business</div>
+        <p>Pour les projets IA à enjeu élevé, les coûts de gouvernance et de conformité interne peuvent représenter 10 à 20 % du budget total du projet<sup class="ref">22</sup>.</p>
+      </div>
+    </div>
+  </div>
+
+  <p class="body-text">Concrètement, la montée en compétences IA devient autant une opportunité qu'une nécessité pour les équipes L&D. Cette dynamique crée un nouveau marché légitime — et une justification institutionnelle pour des budgets de formation IA que certains DRH peinaient auparavant à faire voter.</p>
+
+  <h3 class="h2-editorial">Le marché EdTech en toile de fond</h3>
+
+  <p class="body-text">Le contexte marché éclaire les enjeux stratégiques. En France, plus de <strong>800 entreprises EdTech étaient actives en 2023</strong>, majoritairement des TPE/PME<sup class="ref">23</sup>. Le marché mondial du digital learning est estimé entre 200 et 400 milliards de dollars en 2026 selon les instituts — les méthodologies et périmètres varient fortement d'une étude à l'autre, ce qui rend toute projection ponctuelle peu fiable<sup class="ref">24</sup>.</p>
+
+  <p class="body-text">Le marché européen de l'EdTech atteint 54,1 milliards de dollars en 2025, avec un CAGR de 12,85 %<sup class="ref">24</sup>. En France, l'industrie traverse une phase de consolidation post-COVID : les acteurs qui survivront sont ceux qui combinent excellence pédagogique, différenciation IA et conformité réglementaire.</p>
+
+  <p class="body-text">L'OCDE, dans son rapport Digital Education Outlook 2026, confirme que l'IA déplace progressivement la mission de l'éducation : "l'accès au savoir n'est plus le principal enjeu, puisque l'information est désormais disponible instantanément. La priorité devient la capacité à comprendre, vérifier, structurer et utiliser ce savoir de manière critique"<sup class="ref">25</sup>.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ============================================
+     CONCLUSION
+     ============================================ -->
+<section id="conclusion" class="section">
+  <span class="section-num">04</span>
+  <h2 class="h2-editorial">L'IA, révélateur et accélérateur — pas remplaçant</h2>
+
+  <p class="lead">La transformation IA en formation n'est pas une révolution technologique. C'est une révolution organisationnelle que la technologie rend possible.</p>
+
+  <p class="body-text">L'IA révèle les organisations qui avaient déjà une stratégie formation solide — et accélère leur avance. Elle révèle aussi les organisations qui n'en avaient pas — et amplifie leurs lacunes. Un dispositif pédagogique médiocre produit 10 fois plus vite est toujours un dispositif pédagogique médiocre.</p>
+
+  <p class="body-text">Les organisations qui réussiront leur transformation IA en formation partagent quatre caractéristiques communes : elles forment leurs IPs au prompt engineering pédagogique (pas seulement à l'utilisation des outils), elles mettent en place des quality gates humains systématiques, elles mesurent l'impact métier et pas seulement la satisfaction apprenant, et elles traitent la conformité RGPD et la gouvernance IA comme un avantage concurrentiel plutôt que comme une contrainte.</p>
+
+  <div class="pull-quote">
+    <blockquote>La règle d'or de l'ingénieur pédagogique augmenté, c'est d'intégrer dans ses prompts ses documents sources — pour que l'IA remplisse le squelette pédagogique avec ses matières et ses valeurs.</blockquote>
+    <cite>— Pierre-Armand Dennery, The Learning Society, janvier 2026</cite>
+  </div>
+
+  <p class="body-text">Le fossé entre les organisations qui passent à l'échelle et celles qui restent dans l'expérimentation se creuse en 2026. Ce fossé ne se comblera pas avec des outils supplémentaires. Il se comblera avec une stratégie claire, une gouvernance solide, et des équipes formées pour amplifier — et non pas seulement accélérer.</p>
+
+  <p class="body-text"><strong>La question n'est plus "Devons-nous adopter l'IA en formation ?" Elle est "Comment l'adoptons-nous de façon à ce qu'elle renforce réellement les compétences de nos collaborateurs ?"</strong></p>
+
+  <div class="stats-band" style="margin-top:var(--space-10)">
+    <div class="stat-card tint-teal">
+      <div class="stat-card-val teal">−83%</div>
+      <div class="stat-card-lbl">de temps sur la production de quiz avec workflow IA optimal</div>
+      <div class="stat-card-src">Observation interne TLS · Module 8</div>
+    </div>
+    <div class="stat-card tint-orange">
+      <div class="stat-card-val orange">3,7×</div>
+      <div class="stat-card-lbl">retour moyen sur investissement IA sur 18 mois (cas d'usage bien dimensionnés)</div>
+      <div class="stat-card-src">Wharton AI Center 2025</div>
+    </div>
+    <div class="stat-card tint-gold">
+      <div class="stat-card-val gold">20% min.</div>
+      <div class="stat-card-lbl">des outputs IA à systématiquement fact-checker avant diffusion — la validation humaine reste non-négociable</div>
+      <div class="stat-card-src">Bonne pratique TLS</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ============================================
+     SOURCES
+     ============================================ -->
+<section class="sources-section">
+  <div class="sources-inner">
+    <div class="sources-title">Sources consultées</div>
+    <div class="sources-grid">
+      <div class="source-chip"><span class="ref-num">1</span> Baromètre IA &amp; RH 2026 — Unow (mai 2026)</div>
+      <div class="source-chip"><span class="ref-num">2</span> Baromètre IA dans les RH 2026 — Centre Inffo (juillet 2026)</div>
+      <div class="source-chip"><span class="ref-num">3</span> Jaune budgétaire Formation Professionnelle 2025 — Assemblée Nationale</div>
+      <div class="source-chip"><span class="ref-num">4</span> Jaune budgétaire 2025 — Via Compétences / DARES</div>
+      <div class="source-chip"><span class="ref-num">5</span> Module 8 IA dans la Formation 2026 — The Learning Society</div>
+      <div class="source-chip"><span class="ref-num">6</span> Adaptive learning et IA générative — Didask (mars 2026)</div>
+      <div class="source-chip"><span class="ref-num">7</span> IA et compétences : personnalisation à grande échelle — Klara HR (déc. 2025)</div>
+      <div class="source-chip"><span class="ref-num">8</span> IA en formation : transformation des métiers — Management &amp; Data Science (juin 2025)</div>
+      <div class="source-chip"><span class="ref-num">9</span> Formation d'un grand groupe industriel : du e-learning à l'IA — AEF Info (janv. 2026)</div>
+      <div class="source-chip"><span class="ref-num">10</span> Un grand groupe industriel : l'IA de confrontation passe à l'échelle — e-Learning Letter</div>
+      <div class="source-chip"><span class="ref-num">11</span> Une banque française — Campus IA (déc. 2025)</div>
+      <div class="source-chip"><span class="ref-num">12</span> IA en banque-assurance : quels impacts métiers ? — ESA Assurance (fév. 2026)</div>
+      <div class="source-chip"><span class="ref-num">13</span> IA et ingénierie pédagogique — Pierre-Armand Dennery / TLS (janv. 2026)</div>
+      <div class="source-chip"><span class="ref-num">14</span> Observatoire L&amp;D 2026 — Very Up / EdTech Actu (fév. 2026)</div>
+      <div class="source-chip"><span class="ref-num">15</span> Baromètre ROI IA — 200 déploiements 2024–2025 — data.gouv.fr</div>
+      <div class="source-chip"><span class="ref-num">16</span> Wharton AI Center 2025 — ROI IA entreprise</div>
+      <div class="source-chip"><span class="ref-num">17</span> Simulations IA en formation professionnelle — OnlineFormapro (mars 2026)</div>
+      <div class="source-chip"><span class="ref-num">18</span> Coaching IA immersif en gestion de patrimoine — établissement bancaire (juin 2026)</div>
+      <div class="source-chip"><span class="ref-num">19</span> Devenir ingénieur pédagogique en 2026 — Cafel (juin 2026)</div>
+      <div class="source-chip"><span class="ref-num">20</span> IA et ingénierie pédagogique — L'Atelier du Formateur (avr. 2026)</div>
+      <div class="source-chip"><span class="ref-num">21</span> Obligations de formation liées à l'IA — Unow (juin 2026)</div>
+      <div class="source-chip"><span class="ref-num">22</span> ROI IA en entreprise — Guide complet — Stema Partners (juin 2026)</div>
+      <div class="source-chip"><span class="ref-num">23</span> EdTech France — chiffres clés et perspectives — Edbuild (2023)</div>
+      <div class="source-chip"><span class="ref-num">24</span> Marché EdTech 2026 — Tudigo (juil. 2026) · Fortune Business Insights (juin 2026)</div>
+      <div class="source-chip"><span class="ref-num">25</span> OCDE Digital Education Outlook 2026 — aivancity.ai (mai 2026)</div>
+      <div class="source-chip"><span class="ref-num">26</span> Generative AI can harm learning — essai randomisé, PNAS (2025)</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     FOOTER
+     ============================================ -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <svg class="footer-logo-mark" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 13h20M22 13v18" stroke="#55A1B4" stroke-width="3" stroke-linecap="round"/>
+      <path d="M12 24h8" stroke="#ED843A" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="32" cy="31" r="3.5" fill="#F8B044"/>
+    </svg>
+    <div class="footer-copy">
+      <strong>The Learning Society</strong><br>
+      Dossier éditorial · Juillet 2026 · Tous droits réservés<br>
+      Ce document est destiné aux professionnels de la formation professionnelle et du L&amp;D.
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var targets = document.querySelectorAll('.stat-card, .case-card, .pull-quote, .highlight-box, .caveat-box, .ai-act-box, .roadmap-item, .toc-card, .part-header');
+
+  if (prefersReduced || !('IntersectionObserver' in window)) {
+    targets.forEach(function (el) { el.classList.add('is-visible'); });
+    return;
+  }
+
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  targets.forEach(function (el) { observer.observe(el); });
+})();
+</script>
+
+</body>
+</html>

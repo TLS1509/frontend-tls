@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Veille TLS — semaine du 2 juin 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --paper:       #fefaf5;
+      --ink:         #2f1c13;
+      --ink-2:       #4C3B33;
+      --ink-3:       #695A52;
+      --rule:        #E0D5C8;
+
+      --accent-rule: #ED843A;
+      --accent-num:  #8F5017;
+      --accent-teal: #3D7786;
+      --accent-warm: #8F2A0E;
+
+      --font-display: 'League Spartan', sans-serif;
+      --font-body:    'Nunito', sans-serif;
+    }
+
+    html {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background: var(--paper);
+      color: var(--ink-2);
+      font-family: var(--font-body);
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    .sheet {
+      max-width: 70ch;
+      margin: 0 auto;
+      padding: 72px 24px 96px;
+    }
+
+    /* ── Masthead ─────────────────────────────── */
+
+    .masthead {
+      padding-bottom: 56px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .masthead__meta {
+      font-size: 14px;
+      color: var(--ink-3);
+      margin-bottom: 24px;
+    }
+
+    .masthead h1 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(38px, 6.5vw, 56px);
+      line-height: 1.03;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      margin-bottom: 24px;
+    }
+
+    .masthead__intro {
+      font-size: 19px;
+      line-height: 1.6;
+      color: var(--ink-2);
+      max-width: 60ch;
+    }
+
+    /* ── Sections ─────────────────────────────── */
+
+    .section { margin-top: 80px; }
+
+    .section__rule {
+      width: 44px;
+      height: 2px;
+      background: var(--accent-rule);
+      border: 0;
+      margin-bottom: 24px;
+    }
+
+    .section__title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(26px, 4vw, 32px);
+      line-height: 1.12;
+      letter-spacing: -0.025em;
+      color: var(--ink);
+      margin-bottom: 32px;
+    }
+
+    p { margin-bottom: 20px; max-width: 68ch; }
+    p:last-child { margin-bottom: 0; }
+
+    strong { color: var(--ink); font-weight: 700; }
+    em { font-style: italic; }
+
+    .fig-up   { color: var(--accent-teal); font-weight: 700; }
+    .fig-down { color: var(--accent-warm); font-weight: 700; }
+
+    /* ── Actus ────────────────────────────────── */
+
+    .actu + .actu {
+      margin-top: 40px;
+      padding-top: 40px;
+      border-top: 1px solid var(--rule);
+    }
+
+    .actu__num {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      color: var(--accent-num);
+      margin-bottom: 8px;
+    }
+
+    .actu__title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 23px;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 16px;
+      max-width: 60ch;
+    }
+
+    /* ── Sources ──────────────────────────────── */
+
+    .sources {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 24px;
+      margin-top: 4px;
+    }
+
+    .src {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--accent-teal);
+      text-decoration: none;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 2px;
+      transition: border-color 0.15s ease;
+    }
+    .src:hover { border-color: var(--accent-teal); }
+    .src svg { width: 13px; height: 13px; flex: 0 0 13px; }
+
+    /* ── Sub-heading ──────────────────────────── */
+
+    .sub {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 21px;
+      line-height: 1.22;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 16px;
+      max-width: 58ch;
+    }
+
+    /* ── Trajectoire (inline data) ────────────── */
+
+    .traj {
+      margin: 32px 0;
+      padding-top: 24px;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px 48px;
+    }
+
+    .traj__step { min-width: 90px; }
+
+    .traj__value {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 40px;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+    }
+
+    .traj__step--now .traj__value { color: var(--accent-warm); }
+
+    .traj__label {
+      margin-top: 8px;
+      font-size: 14px;
+      color: var(--ink-3);
+      line-height: 1.4;
+    }
+
+    /* ── Note ─────────────────────────────────── */
+
+    .note {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid var(--rule);
+      font-size: 14px;
+      font-style: italic;
+      color: var(--ink-3);
+      max-width: 62ch;
+    }
+
+    /* ── Footer ───────────────────────────────── */
+
+    .footer {
+      margin-top: 80px;
+      padding-top: 32px;
+      border-top: 1px solid var(--rule);
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--ink-3);
+    }
+
+    .footer__name {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: -0.01em;
+      color: var(--ink-2);
+      margin-bottom: 4px;
+    }
+
+    @media (max-width: 640px) {
+      body { font-size: 16px; }
+      .sheet { padding: 48px 20px 72px; }
+      .section { margin-top: 64px; }
+      .actu + .actu { margin-top: 32px; padding-top: 32px; }
+      .traj { gap: 24px 32px; }
+      .traj__value { font-size: 34px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="sheet">
+
+    <!-- ═══ Masthead ═══ -->
+    <header class="masthead">
+      <div class="masthead__meta">The Learning Society · Veille hebdomadaire</div>
+      <h1>Semaine du<br/>2 juin 2026</h1>
+      <p class="masthead__intro">Cinq actualités sur la formation professionnelle et l'IA en entreprise, lues pour ce qu'elles disent — et pour ce qu'elles ne disent pas.</p>
+    </header>
+
+    <!-- ═══ Les cinq actus ═══ -->
+    <section class="section">
+      <hr class="section__rule" />
+      <h2 class="section__title">Les cinq actus</h2>
+
+      <!-- ── 01 ── -->
+      <article class="actu">
+        <div class="actu__num">01</div>
+        <h3 class="actu__title">Le contrat de professionnalisation par blocs devient permanent</h3>
+        <p>La <strong>loi n° 2026-441 du 4 juin 2026</strong> pérennise le contrat de professionnalisation expérimental lancé par la loi du 5 septembre 2018, prolongé jusqu'au 31 décembre 2024, puis rétabli et inscrit au Code du travail. Depuis le <strong>6 juin</strong>, le contrat peut officiellement viser l'acquisition d'<strong>un ou plusieurs blocs de compétences</strong> plutôt qu'une qualification complète.</p>
+        <p>Un bloc n'est pas une formule vague : il doit être rattaché à une certification professionnelle identifiée. Le garde-fou compte autant que l'ouverture.</p>
+        <p>Le bilan de l'expérimentation : entre 2018 et 2023, <strong>35 356 contrats</strong> signés, permettant à <strong>8 387 entreprises</strong> de recruter. Principalement dans l'agriculture, l'agroalimentaire et le transport, et principalement au bénéfice de demandeurs d'emploi et de jeunes de moins de 26 ans. C'est un dispositif de niche qui devient permanent, pas un raz-de-marée — l'ordre de grandeur mérite d'être gardé en tête avant d'en faire une opportunité de marché.</p>
+        <p>Pour les organismes de formation, l'ouverture est néanmoins réelle : des parcours courts, modulaires, adossés à un bloc RNCP et finançables via les OPCO.</p>
+        <div class="sources">
+          <a class="src" href="https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000054199669" target="_blank" rel="noopener noreferrer">Légifrance · Loi n° 2026-441<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+          <a class="src" href="https://www.editions-tissot.fr/actualite/droit-du-travail/emploi-le-contrat-de-professionnalisation-par-blocs-de-competences-est-perennise" target="_blank" rel="noopener noreferrer">Éditions Tissot<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+        </div>
+      </article>
+
+      <!-- ── 02 ── -->
+      <article class="actu">
+        <div class="actu__num">02</div>
+        <h3 class="actu__title">Le fonds de soutien à l'apprentissage amputé deux fois en deux mois</h3>
+        <p>Un <strong>arrêté du 28 mai 2026</strong>, publié le 30 mai, fixe le fonds de soutien à l'apprentissage versé aux Régions et à la collectivité de Corse : <span class="fig-down">11 M€</span> pour le fonctionnement des CFA et <span class="fig-down">22 M€</span> pour l'investissement. Soit 33 M€.</p>
+        <p>Le point à ne pas manquer, c'est la date. Ces 33 M€ ne remplacent pas la dotation de 2025 — ils remplacent celle que l'État avait <strong>lui-même fixée huit semaines plus tôt</strong>, par un arrêté du 1<sup>er</sup> avril 2026, à 134 M€. La dotation 2026 a donc été coupée deux fois dans la même année : divisée par deux en avril, puis encore par quatre en mai.</p>
+
+        <div class="traj">
+          <div class="traj__step">
+            <div class="traj__value">268 M€</div>
+            <div class="traj__label">2025<br/>180 investissement<br/>88 fonctionnement</div>
+          </div>
+          <div class="traj__step">
+            <div class="traj__value">134 M€</div>
+            <div class="traj__label">Arrêté du 1<sup>er</sup> avril 2026<br/>÷ 2</div>
+          </div>
+          <div class="traj__step traj__step--now">
+            <div class="traj__value">33 M€</div>
+            <div class="traj__label">Arrêté du 28 mai 2026<br/>÷ 4 encore · −88 % vs 2025</div>
+          </div>
+        </div>
+
+        <p>La seconde coupe intervient <strong>en cours d'exercice budgétaire</strong> et sans concertation avec les Régions, alors que la baisse de 50 % d'avril était déjà, selon elles, très mal vécue. À l'échelle régionale, les montants deviennent résiduels : 1,2 M€ de fonctionnement et 1,85 M€ d'investissement pour Rhône-Alpes ; 528 796 € et 1,2 M€ pour la Bourgogne-Franche-Comté.</p>
+        <p>Le signal est net, et il ne porte pas seulement sur le montant. Une dotation revue à la baisse deux fois en huit semaines n'est plus une enveloppe sur laquelle on planifie. La tension est structurelle, pas conjoncturelle : les acteurs qui adossent leur développement à ces fonds doivent revoir leurs hypothèses maintenant, et prévoir qu'elles puissent bouger encore.</p>
+        <div class="sources">
+          <a class="src" href="https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000054151684" target="_blank" rel="noopener noreferrer">Légifrance · Arrêté du 28 mai 2026<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+          <a class="src" href="https://www.banquedesterritoires.fr/apprentissage-letat-divise-par-quatre-la-dotation-promise-aux-regions-en-2026" target="_blank" rel="noopener noreferrer">Banque des Territoires<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+          <a class="src" href="https://www.maire-info.com/formation/le-gouvernement-reduit-presque-%C3%A0-neant-le-fonds-de-soutien-%C3%A0-l%27apprentissage-alloue-aux-regions-article-30837" target="_blank" rel="noopener noreferrer">Maire-Info<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+          <a class="src" href="https://www.centre-inffo.fr/site-centre-inffo/actualites-centre-inffo/le-quotidien-de-la-formation-actualite-formation-professionnelle-apprentissage/actualites-2026/2026-annus-horribilis-pour-la-formation-professionnelle" target="_blank" rel="noopener noreferrer">Centre Inffo<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+        </div>
+      </article>
+
+      <!-- ── 03 ── -->
+      <article class="actu">
+        <div class="actu__num">03</div>
+        <h3 class="actu__title">Microsoft Build 2026 : Microsoft IQ arrive, par morceaux</h3>
+        <p>Microsoft a présenté le 2 juin <strong>Microsoft IQ</strong>, sa couche de contexte censée ancrer les agents à la fois dans la connaissance du monde et dans celle de l'entreprise. Elle compte <strong>quatre</strong> briques, pas trois : Work IQ (le travail tel qu'il se fait dans Microsoft 365), Fabric IQ (une sémantique partagée sur les données structurées), Foundry IQ (la planification de la recherche d'information) et Web IQ (l'ancrage sur le web vivant).</p>
+        <p>La disponibilité, elle, est inégale — et c'est ce qu'il faut retenir avant d'en faire une hypothèse de roadmap. Les API Work IQ sont générales depuis le <strong>16 juin</strong>. Foundry IQ est disponible. L'ontologie Fabric IQ est <strong>en préversion</strong>. Parler d'une « disponibilité générale de Microsoft IQ » au singulier serait donc inexact.</p>
+        <p>Même prudence sur <strong>Scout</strong>, présenté comme un agent personnel de travail : il comprend votre façon de travailler, vit dans Teams et Outlook, et prend en charge de lui-même la préparation de réunions, les conflits d'agenda et les tâches de routine. La description est juste ; la disponibilité l'est moins qu'il n'y paraît. Microsoft l'apporte « aux clients Frontier » — un programme restreint, pas le parc général.</p>
+        <p>Pour le L&amp;D, les cas d'usage sur les workflows de formation continue sont crédibles. Ils ne sont pas encore accessibles.</p>
+        <div class="sources">
+          <a class="src" href="https://blogs.microsoft.com/blog/2026/06/02/microsoft-build-2026-be-yourself-at-work/" target="_blank" rel="noopener noreferrer">Microsoft, 2 juin 2026<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+          <a class="src" href="https://news.microsoft.com/build-2026/" target="_blank" rel="noopener noreferrer">Microsoft Build 2026<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+        </div>
+      </article>
+
+      <!-- ── 04 ── -->
+      <article class="actu">
+        <div class="actu__num">04</div>
+        <h3 class="actu__title">OpenAI Codex passe 5 millions d'utilisateurs — dont un cinquième hors développement</h3>
+        <p>Dans son rapport <em>The Next Era of Knowledge Work</em>, publié le 2 juin, OpenAI annonce que Codex dépasse les <span class="fig-up">5 millions d'utilisateurs actifs hebdomadaires</span>, soit une multiplication par plus de six depuis le lancement de l'application de bureau en février.</p>
+        <p>La lecture qui circule — « adoption massive chez les travailleurs du savoir » — force le trait. Les développeurs restent de loin le premier groupe d'utilisateurs. Les travailleurs du savoir en représentent <strong>environ 20 %</strong>. Ce qui est remarquable n'est pas leur poids, c'est leur pente : ils croissent <strong>plus de trois fois plus vite</strong> que le reste. Les tâches qui montent le plus : l'analyse de données (+110 % d'une semaine sur l'autre), la recherche (+37 %), la production de livrables — rapports, tableurs (+36 %).</p>
+        <p>Le mouvement de fond, lui, est solide : ces usages sont des <em>livrables</em> — rapports, tableurs, présentations, contrats — et de l'outillage léger qui demandait hier une équipe d'ingénierie. La compétence différenciante s'y déplace du <em>prompting</em> vers l'orchestration d'agents et de workflows.</p>
+        <p>Une réserve, et elle vaut pour toute la catégorie. Ce rapport mesure de l'<strong>usage</strong>, pas de l'apprentissage. La distinction n'est pas rhétorique : dans un essai randomisé publié dans <em>PNAS</em>, les élèves ayant eu un accès libre à GPT-4 pendant l'entraînement ont obtenu <span class="fig-down">17 % de moins</span> à l'examen sans assistance que ceux qui n'y avaient jamais eu accès. Les gains spectaculaires mesurés dans la même étude — jusqu'à +127 % — n'existaient que <em>pendant</em> que l'outil était disponible. Performance avec l'outil et apprentissage sont deux mesures distinctes, et elles peuvent aller en sens opposé.</p>
+        <p>Cinq millions d'utilisateurs par semaine, c'est un fait sur l'adoption. Ce n'est pas un fait sur la compétence.</p>
+        <div class="sources">
+          <a class="src" href="https://openai.com/index/codex-for-knowledge-work/" target="_blank" rel="noopener noreferrer">OpenAI, 2 juin 2026<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+          <a class="src" href="https://www.axios.com/2026/06/02/openai-codex-knowledge-workers" target="_blank" rel="noopener noreferrer">Axios<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+          <a class="src" href="https://www.pnas.org/doi/10.1073/pnas.2422633122" target="_blank" rel="noopener noreferrer">PNAS · essai randomisé<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+        </div>
+      </article>
+
+      <!-- ── 05 ── -->
+      <article class="actu">
+        <div class="actu__num">05</div>
+        <h3 class="actu__title">Centre Inffo, 23 juin : comment la régulation budgétaire redessine les dispositifs</h3>
+        <p>Le deuxième <strong>Club du droit</strong> de Centre Inffo se tient le <strong>mardi 23 juin</strong>, en ligne, sur deux heures avec replay. Son objet : décrypter les évolutions juridiques, budgétaires et opérationnelles qui redessinent aujourd'hui le financement des dispositifs de formation.</p>
+        <p>Deux volets nous concernent directement. L'<strong>apprentissage</strong> d'abord — révision des niveaux de prise en charge et pression sur le financement des CFA, dans le prolongement direct de l'actu 02. La <strong>reconversion professionnelle</strong> ensuite, avec les repères financiers de la nouvelle période de reconversion, qui remplace Pro-A et Transco depuis le 1<sup>er</sup> janvier 2026.</p>
+        <p>C'est un rendez-vous de veille payant, à l'inscription. Utile pour nourrir les argumentaires conseil sur l'évolution des politiques publiques de formation — à condition d'y aller pour la matière juridique, pas pour la prospective.</p>
+        <div class="sources">
+          <a class="src" href="https://www.centre-inffo.fr/evenements/club-du-droit-n-2-apprentissage-cpf-reconversion-professionnelle-comment-la-regulation-budgetaire-redessine-t-elle-les-dispositifs-de-formation" target="_blank" rel="noopener noreferrer">Centre Inffo · Club du droit n° 2<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+        </div>
+      </article>
+    </section>
+
+    <!-- ═══ Ressource ═══ -->
+    <section class="section">
+      <hr class="section__rule" />
+      <h2 class="section__title">La ressource</h2>
+
+      <h3 class="sub">OpenAI — <em>The Next Era of Knowledge Work</em></h3>
+
+      <p>Une base factuelle utile pour structurer une offre de montée en compétences sur l'IA agentique, côté DRH comme côté ingénierie pédagogique : le rapport décrit ce que les gens font réellement de l'outil, tâche par tâche, avec des taux de croissance datés.</p>
+
+      <p>Un avertissement d'usage, cependant. C'est un rapport <strong>publié par l'éditeur de l'outil qu'il mesure</strong>. Ses données d'usage sont de première main et personne d'autre ne les a ; sa lecture de ces données n'est pas neutre. Il documente l'adoption, pas l'efficacité — et il ne dit rien de ce que les utilisateurs apprennent. À citer pour les volumes et les usages. Pas comme preuve qu'un usage produit un résultat.</p>
+
+      <div class="sources">
+        <a class="src" href="https://openai.com/index/codex-for-knowledge-work/" target="_blank" rel="noopener noreferrer">Accéder au rapport<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+      </div>
+    </section>
+
+    <!-- ═══ Signal faible ═══ -->
+    <section class="section">
+      <hr class="section__rule" />
+      <h2 class="section__title">Signal faible</h2>
+
+      <h3 class="sub">Le bloc de compétences comme unité produit</h3>
+
+      <p>La pérennisation du contrat par blocs installe durablement une logique de formation courte, finançable, et centrée sur une compétence précise rattachée à une certification identifiée. Ce n'est pas un détail juridique : c'est une <strong>unité de découpage</strong> qui se stabilise dans le droit.</p>
+
+      <p>Elle épouse une approche modulaire capable d'aligner contenus, progression et preuves de compétences sur un bloc RNCP — l'unité réglementaire devenant l'unité produit. À surveiller côté roadmap dès le T3–T4 2026.</p>
+
+      <p>La réserve, pour rester honnête avec les chiffres de l'actu 01 : 35 356 contrats en cinq ans, c'est environ 7 000 par an sur toute la France. Le signal est dans la <em>stabilisation du format</em>, pas dans le volume du dispositif. Construire une hypothèse produit sur la première est raisonnable ; sur le second, non.</p>
+
+      <p class="note">Signal faible = hypothèse datée et falsifiable, pas prévision. Celle-ci se vérifiera ou non d'ici douze mois.</p>
+    </section>
+
+    <!-- ═══ Footer ═══ -->
+    <footer class="footer">
+      <div class="footer__name">The Learning Society</div>
+      Veille hebdomadaire · semaine du 2 juin 2026<br/>
+      Chaque affirmation est tracée à sa source primaire quand elle existe. Les reprises secondaires sont signalées comme telles.
+    </footer>
+
+  </main>
+</body>
+</html>

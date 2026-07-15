@@ -193,8 +193,15 @@
 - `CHARTS-SYSTEM.md` · `CHARTS-DS-ENTRY.md` · `CHARTS-QUICK-START.md` · `CHARTS-FUTURE-CANDIDATES.md`
 - `FIGMA-CHARTS-SYNC-PLAN.md` — sync charts ↔ Figma
 
-## 📋 briefs/ — Briefs de travail (3 fichiers)
+## 🔭 veille/ — Livrables de veille approfondie (1 fichier)
 
+- `2026-07-15-IA-GENERATIVE-FORMATION-PREUVES.md` — **premier livrable du process de veille approfondie** (test du 2026-07-15). IA générative en formation : ce qui est démontré vs ce qui circule. 12 claims vérifiés en adversarial 3 voix sur 25 sources, 13 rejetés. Contient 2 pièges de citation à bannir dans les contenus TLS (« cognitive debt » contesté · 10 % Insee ≠ adoption IA générative). Coût du run + limites documentés en §4-5.
+
+---
+
+## 📋 briefs/ — Briefs de travail (4 fichiers)
+
+- `BRIEF-VEILLE-IA-PIPELINE.md` — brief technique pour Pierre-Armand : couche IA de la veille (collecte multi-canal RSS/newsletter/Perplexity, vérification de fiabilité, synthèse). Ancré sur les CDC 12bis/12/01bis/13bis + le contrat `wp-veille`. Statut : proposition à discuter (2026-07-15)
 - `BRIEF-LEARNING-SPACE-VEILLE.md` — brief refonte Learning Space + Veille
 - `SITE-V2-AGENCY-BRIEF.md` — brief site vitrine agency-grade (motion) + prompt Fable 5 prêt à coller + mode d'emploi crédits Fable 5 (2026-07-07)
 - `HERO-CONSTELLATION-ILLUSTRATION-BRIEF.md` — brief + guide de création de l'illustration hero (constellation dessinée main + aube) : refs domaine public, brief custom, pas-à-pas Procreate/Affinity, prompts Higgsfield/IA (2026-07-14)

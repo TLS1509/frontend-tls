@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IA générative et ingénierie pédagogique : état de l'art 2026 — The Learning Society</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700;800&family=Nunito:wght@400;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Editorial paper palette — source unique de vérité pour fond/texte */
+            --paper: #fefaf5;
+            --ink:   #2f1c13;
+            --ink-2: #4C3B33;
+            --ink-3: #695A52;
+            --rule:  #E0D5C8;
+
+            /* Accent — réservé aux liens et au schéma SVG "avant / avec IA" */
+            --tls-primary-500: #55A1B4;
+            --tls-primary-600: #4A8FA1;
+            --tls-primary-700: #3D7786;
+            --tls-primary-900: #1F3E45;
+            --tls-orange-500: #ED843A;
+            --tls-yellow-400: #F8B044;
+
+            /* Ponctuation couleur — filet d'ouverture, numéro de section, liens, alerte */
+            --accent-rule: #ED843A;  /* filet d'ouverture de section */
+            --accent-num:  #8F5017;  /* numéro de section */
+            --accent-teal: #3D7786;  /* liens */
+            --accent-warm: #8F2A0E;  /* chiffre-clé négatif/alerte uniquement */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 400;
+            color: var(--ink);
+            background: var(--paper);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'League Spartan', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            line-height: 1.2;
+            color: var(--ink);
+        }
+
+        .hero {
+            padding: 72px 24px 56px;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .hero-eyebrow {
+            font-family: 'Nunito', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+            color: var(--ink-3);
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(32px, 4.4vw, 52px);
+            color: var(--ink);
+            margin-bottom: 20px;
+        }
+
+        .hero-meta {
+            font-size: 16px;
+            color: var(--ink-2);
+            margin-bottom: 28px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--ink-3);
+            font-size: 13px;
+            font-weight: 600;
+            margin: 0 14px 8px 0;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .section {
+            position: relative;
+        }
+
+        .card {
+            padding: 0;
+            margin: 0;
+        }
+
+        .card + .card {
+            margin-top: 56px;
+            padding-top: 24px;
+            border-top: 1px solid var(--rule);
+        }
+
+        /* Filet d'ouverture — court trait posé au-dessus du titre de chaque section majeure */
+        .card::before,
+        .sources::before {
+            content: '';
+            display: block;
+            width: 44px;
+            height: 2px;
+            background: var(--accent-rule);
+            margin-bottom: 16px;
+        }
+
+        .section-num {
+            color: var(--accent-num);
+        }
+
+        .risk-label {
+            color: var(--accent-warm);
+        }
+
+        .card-title {
+            font-size: 21px;
+            font-weight: 700;
+            color: var(--ink);
+            margin: 0 0 24px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .card-title-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            flex-shrink: 0;
+            color: var(--ink-3);
+        }
+
+        .card-title-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .badge-icon {
+            width: 14px;
+            height: 14px;
+            flex-shrink: 0;
+            color: var(--ink-3);
+        }
+
+        .priority {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+        }
+
+        .priority svg {
+            width: 15px;
+            height: 15px;
+            flex-shrink: 0;
+        }
+
+        .priority-high { color: var(--ink); font-weight: 700; }
+        .priority-medium { color: var(--ink-3); }
+
+        .table-note {
+            font-size: 13px;
+            color: var(--ink-3);
+            margin-top: -16px;
+            margin-bottom: 24px;
+            font-style: italic;
+        }
+
+        .process-diagram-wrap {
+            overflow-x: auto;
+            margin: 24px 0 8px;
+        }
+
+        .process-diagram-caption {
+            font-size: 14px;
+            color: var(--ink-3);
+            font-style: italic;
+            margin-top: 8px;
+            margin-bottom: 0;
+        }
+
+        h2 {
+            font-size: 30px;
+            color: var(--ink);
+            margin: 0 0 24px;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        h3 {
+            font-size: 22px;
+            color: var(--ink-2);
+            margin: 40px 0 16px;
+        }
+
+        p {
+            margin-bottom: 20px;
+            font-size: 17px;
+            max-width: 70ch;
+        }
+
+        ul, ol {
+            margin: 20px 0 20px 24px;
+        }
+
+        li {
+            margin-bottom: 12px;
+            font-size: 17px;
+            line-height: 1.7;
+            max-width: 70ch;
+        }
+
+        strong {
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .executive-summary .card-title {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .executive-summary ul {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .executive-summary li {
+            padding-left: 24px;
+            position: relative;
+            font-size: 19px;
+            line-height: 1.65;
+            color: var(--ink-2);
+        }
+
+        .executive-summary li strong {
+            color: var(--ink);
+        }
+
+        .executive-summary li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 5px;
+            height: 5px;
+            background: var(--ink-3);
+            border-radius: 50%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 32px 0;
+            font-size: 16px;
+        }
+
+        thead {
+            border-bottom: 2px solid var(--ink);
+        }
+
+        th {
+            padding: 12px 16px 12px 0;
+            text-align: left;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--ink);
+        }
+
+        td {
+            padding: 16px 16px 16px 0;
+            border-bottom: 1px solid var(--rule);
+            color: var(--ink-2);
+        }
+
+        tbody tr:hover td {
+            background: rgba(47, 28, 19, 0.03);
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .sources {
+            margin-top: 56px;
+            padding-top: 24px;
+            border-top: 1px solid var(--rule);
+        }
+
+        .sources h2 {
+            margin-top: 0;
+        }
+
+        .source-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 24px;
+        }
+
+        .source-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            background: transparent;
+            border: 1px solid var(--rule);
+            border-radius: 999px;
+            text-decoration: none;
+            color: var(--ink-3);
+            font-size: 13px;
+            font-weight: 600;
+            transition: border-color 150ms ease, color 150ms ease;
+        }
+
+        .source-chip:hover {
+            border-color: var(--tls-primary-600);
+            color: var(--accent-teal);
+        }
+
+        .source-chip-favicon {
+            width: 14px;
+            height: 14px;
+            border-radius: 3px;
+        }
+
+        .source-chip-number {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--ink-3);
+        }
+
+        .ref {
+            color: var(--accent-teal);
+            font-weight: 700;
+            font-size: 0.7em;
+            vertical-align: super;
+            text-decoration: none;
+            margin: 0 1px;
+            transition: color 150ms ease;
+        }
+
+        .ref:hover {
+            color: var(--tls-primary-900);
+            text-decoration: underline;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 56px 24px 40px;
+            color: var(--ink-3);
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 56px 20px 40px;
+            }
+
+            .container {
+                padding: 0 20px;
+            }
+
+            table {
+                font-size: 14px;
+            }
+
+            th, td {
+                padding: 10px 10px 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="hero-content">
+            <div class="hero-eyebrow">DOSSIER TLS — 21 MAI 2026</div>
+            <h1>IA générative et ingénierie pédagogique : état de l'art 2026</h1>
+            <div class="hero-meta">
+                Audience : L&D managers, ingénieurs pédagogiques, DRH francophones (≥ 3 ans d'expérience)
+            </div>
+            <div>
+                <span class="badge"><svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> EdTech</span>
+                <span class="badge"><svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg> L&D</span>
+                <span class="badge"><svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg> IA</span>
+                <span class="badge"><svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg> Formation Pro</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="section">
+            <div class="card executive-summary">
+                <h2 class="card-title">
+                    <span class="card-title-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></svg></span>
+                    Résumé exécutif
+                </h2>
+                <ul>
+                    <li><strong>Adoption massive</strong> : en 2026, la majorité des équipes L&D ont intégré au moins un outil d'IA générative dans leur processus de conception pédagogique — un basculement net par rapport à 2023, où l'usage restait marginal et expérimental <a href="#source-20" class="ref">20</a>.</li>
+                    <li><strong>Gain de productivité documenté</strong> : Les LLM réduisent de 40 à 60 % le temps de production de contenus e-learning (scripts, quiz, études de cas), mais exigent une validation humaine systématique <a href="#source-18" class="ref">18</a>.</li>
+                    <li><strong>Cadre de confiance</strong> : documentation des outils utilisés, validation humaine systématique avant diffusion et transparence vis-à-vis des apprenants s'imposent comme standards de bonne pratique pour tout usage de l'IA en conception pédagogique <a href="#source-24" class="ref">24</a>.</li>
+                    <li><strong>Glissement de rôle</strong> : L'ingénieur pédagogique devient « architecte de prompt et de parcours » plutôt que producteur de contenu brut — la conception de l'expérience apprenant reste non-délégable à l'IA <a href="#source-18" class="ref">18</a>.</li>
+                    <li><strong>Risque transmissif</strong> : Sans cadrage, l'IA reproduit des pédagogies exposées (cours magistraux numérisés) — le biais du tout-transmissif est le principal écueil identifié en 2026 <a href="#source-18" class="ref">18</a>.</li>
+                    <li><strong>Agentic workflows</strong> : Les IA connectées (orchestration LMS + LLM + générateurs de slides + Notion) deviennent le nouveau standard de production L&D <a href="#source-20" class="ref">20</a>.</li>
+                    <li><strong>Évaluation redessinée</strong> : Les outils de détection IA étant peu fiables, l'évaluation se déplace vers la mise en situation, le jugement contextualisé et la performance observable <a href="#source-20" class="ref">20</a>.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2><span class="section-num">1.</span> Contexte et enjeux</h2>
+
+                <h3>1.1 Un marché en accélération</h3>
+                <p>Depuis fin 2023, l'IA générative a quitté le statut d'expérimentation pour devenir une composante opérationnelle des chaînes de production L&D. En France, 2026 s'impose comme l'année de l'industrialisation : les organismes de formation accélèrent leurs investissements dans les outils IA, portés à la fois par la pression sur les coûts de production pédagogique et par une demande croissante des entreprises clientes pour des parcours à jour sur les compétences IA <a href="#source-21" class="ref">21</a>.</p>
+                <p>L'enjeu n'est plus « faut-il utiliser l'IA ? » mais « comment l'intégrer sans dégrader la qualité pédagogique ? »</p>
+
+                <h3>1.2 Tensions structurelles</h3>
+                <p>Trois tensions majeures structurent le débat en 2026 <a href="#source-23" class="ref">23</a><a href="#source-25" class="ref">25</a> :</p>
+                <ul>
+                    <li><strong>Vitesse vs. qualité</strong> : la génération rapide de contenus crée une inflation de modules pauvres sur le plan pédagogique.</li>
+                    <li><strong>Personnalisation vs. cohérence</strong> : les parcours adaptatifs IA peuvent diverger des objectifs institutionnels sans cadrage rigoureux.</li>
+                    <li><strong>Autonomie apprenant vs. dépendance IA</strong> : le risque de substitution cognitive (l'IA pense à la place de l'apprenant) est documenté par l'OCDE <a href="#source-25" class="ref">25</a>.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2><span class="section-num">2.</span> Analyse / Benchmark</h2>
+
+                <h3>2.1 Cartographie des usages IA en ingénierie pédagogique</h3>
+                <p class="table-note">Ordres de grandeur indicatifs et non sourcés individuellement — à valider avec vos propres données avant toute citation externe.</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cas d'usage</th>
+                            <th>Outils représentatifs</th>
+                            <th>Gain estimé (indicatif)</th>
+                            <th>Maturité</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Génération de scripts / storyboards</td>
+                            <td>ChatGPT-4o, Claude 3.5, Mistral Large</td>
+                            <td>−45 % temps rédaction</td>
+                            <td>Mature</td>
+                        </tr>
+                        <tr>
+                            <td>Création de quiz et évaluations</td>
+                            <td>Quizgecko, Coursebox AI, Magic School</td>
+                            <td>−60 % temps production</td>
+                            <td>Mature</td>
+                        </tr>
+                        <tr>
+                            <td>Personnalisation des parcours (adaptive)</td>
+                            <td>360Learning AI, Docebo Shape, Cornerstone</td>
+                            <td>+18 % rétention</td>
+                            <td>En déploiement</td>
+                        </tr>
+                        <tr>
+                            <td>Génération de vidéos pédagogiques</td>
+                            <td>Synthesia, HeyGen, Canva AI</td>
+                            <td>−50 % coût vidéo</td>
+                            <td>Mature</td>
+                        </tr>
+                        <tr>
+                            <td>Copilote formateur (préparation séances)</td>
+                            <td>Perplexity, NotebookLM, ChatGPT Projects</td>
+                            <td>−30 % préparation</td>
+                            <td>Adoption rapide</td>
+                        </tr>
+                        <tr>
+                            <td>Analyse des données d'apprentissage</td>
+                            <td>Watershed (xAPI), Learning Locker, Degreed</td>
+                            <td>Insights temps réel</td>
+                            <td>Émergent</td>
+                        </tr>
+                        <tr>
+                            <td>Workflows agentiques (orchestration multi-outils)</td>
+                            <td>n8n + LLM, Zapier AI, Make + GPT-4</td>
+                            <td>Automatisation fin-à-fin</td>
+                            <td>Pilotes avancés</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>2.2 Positionnement des acteurs</h3>
+                <p><strong>Acteurs internationaux</strong> : 360Learning (France) intègre un moteur IA collaboratif natif ; Coursera et LinkedIn Learning déploient des copilotes d'apprentissage personnalisés ; Degreed positionne l'IA au cœur de l'ingénierie des compétences <a href="#source-29" class="ref">29</a>.</p>
+                <p><strong>Acteurs français</strong> : Rise Up, Beedeez et Teachizy investissent dans la génération automatique de modules. Le marché reste fragmenté avec une forte pression sur les prix unitaires de production <a href="#source-21" class="ref">21</a>.</p>
+                <p>Pour les modèles LLM, GPT-4o (OpenAI) et Claude 3.5/3.7 (Anthropic) dominent en qualité rédactionnelle pédagogique. Mistral Large gagne du terrain pour les usages souverains en France (conformité RGPD, hébergement UE) <a href="#source-27" class="ref">27</a>.</p>
+
+                <h3>2.3 Le nouvel ingénieur pédagogique augmenté</h3>
+                <p>La règle d'or : <strong>injecter ses documents sources dans les prompts</strong> pour que l'IA structure le contenu autour des valeurs et de la matière propres à l'organisme <a href="#source-18" class="ref">18</a>. Les nouvelles compétences clés sont :</p>
+                <ul>
+                    <li><strong>Prompt engineering pédagogique</strong> : formuler des contraintes de niveau, de modalité, de durée et de technique pédagogique dans chaque prompt.</li>
+                    <li><strong>Validation critique</strong> : détecter les biais transmissifs, vérifier la variété des techniques proposées sur les formations longues.</li>
+                    <li><strong>Architecture de parcours</strong> : définir les squelettes pédagogiques que l'IA remplit, plutôt que déléguer la structure elle-même.</li>
+                    <li><strong>Éthique et traçabilité</strong> : documenter les outils IA utilisés à chaque étape (fiche outil interne, pour garder une trace exploitable dans le processus qualité).</li>
+                </ul>
+
+                <h3>2.4 Le processus de conception, avant / avec IA</h3>
+                <p>Le gain de temps documenté (40 à 60 %, cf. résumé exécutif) ne vient pas d'une étape unique mais d'une redistribution complète du travail de conception. L'étape d'analyse des besoins reste pleinement humaine ; c'est la scénarisation, la rédaction et la production qui basculent vers un mode « cadrage IP → génération IA → validation experte », au lieu d'un mode entièrement manuel.</p>
+
+                <div class="process-diagram-wrap">
+                    <svg viewBox="0 0 920 430" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="diagTitleA diagDescA" style="width:100%; height:auto; min-width:640px;">
+                        <title id="diagTitleA">Processus de conception pédagogique, avant et avec IA</title>
+                        <desc id="diagDescA">Comparaison illustrative des étapes de conception d'un module de formation en mode manuel versus avec un workflow IA encadré par un ingénieur pédagogique, avec ordres de grandeur de temps par étape.</desc>
+                        <defs>
+                            <filter id="cardShadowA" x="-20%" y="-20%" width="140%" height="140%">
+                                <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#2f1c13" flood-opacity="0.08"/>
+                            </filter>
+                            <linearGradient id="aiGradA" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="#55A1B4"/>
+                                <stop offset="100%" stop-color="#ED843A"/>
+                            </linearGradient>
+                            <linearGradient id="aiGradSoftA" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#E8F4F7"/>
+                                <stop offset="100%" stop-color="#FFF3EB"/>
+                            </linearGradient>
+                            <marker id="arrowGrayA" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                                <path d="M0,0 L10,5 L0,10 z" fill="#B9D7DF"/>
+                            </marker>
+                            <marker id="arrowGradA" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                                <path d="M0,0 L10,5 L0,10 z" fill="#ED843A"/>
+                            </marker>
+                        </defs>
+
+                        <text x="40" y="24" font-family="Nunito, sans-serif" font-size="13" font-weight="700" letter-spacing="0.06em" fill="#695A52">AVANT — PRODUCTION 100% MANUELLE</text>
+
+                        <line x1="220" y1="100" x2="260" y2="100" stroke="#B9D7DF" stroke-width="2" marker-end="url(#arrowGrayA)"/>
+                        <line x1="440" y1="100" x2="480" y2="100" stroke="#B9D7DF" stroke-width="2" marker-end="url(#arrowGrayA)"/>
+                        <line x1="660" y1="100" x2="700" y2="100" stroke="#B9D7DF" stroke-width="2" marker-end="url(#arrowGrayA)"/>
+
+                        <g filter="url(#cardShadowA)">
+                            <rect x="40" y="48" width="180" height="104" rx="14" fill="#FFFFFF" stroke="#E0D5C8" stroke-width="1"/>
+                            <rect x="260" y="48" width="180" height="104" rx="14" fill="#FFFFFF" stroke="#E0D5C8" stroke-width="1"/>
+                            <rect x="480" y="48" width="180" height="104" rx="14" fill="#FFFFFF" stroke="#E0D5C8" stroke-width="1"/>
+                            <rect x="700" y="48" width="180" height="104" rx="14" fill="#FFFFFF" stroke="#E0D5C8" stroke-width="1"/>
+                        </g>
+
+                        <text x="130" y="88" text-anchor="middle" font-family="'League Spartan', sans-serif" font-size="14" font-weight="700" fill="#2f1c13"><tspan x="130" dy="0">Analyse</tspan><tspan x="130" dy="18">des besoins</tspan></text>
+                        <text x="130" y="134" text-anchor="middle" font-family="Nunito, sans-serif" font-size="12" fill="#695A52">2 jours</text>
+
+                        <text x="350" y="88" text-anchor="middle" font-family="'League Spartan', sans-serif" font-size="14" font-weight="700" fill="#2f1c13"><tspan x="350" dy="0">Scénarisation</tspan><tspan x="350" dy="18">pédagogique</tspan></text>
+                        <text x="350" y="134" text-anchor="middle" font-family="Nunito, sans-serif" font-size="12" fill="#695A52">3 jours</text>
+
+                        <text x="570" y="88" text-anchor="middle" font-family="'League Spartan', sans-serif" font-size="14" font-weight="700" fill="#2f1c13"><tspan x="570" dy="0">Rédaction des</tspan><tspan x="570" dy="18">contenus</tspan></text>
+                        <text x="570" y="134" text-anchor="middle" font-family="Nunito, sans-serif" font-size="12" fill="#695A52">5 jours</text>
+
+                        <text x="790" y="88" text-anchor="middle" font-family="'League Spartan', sans-serif" font-size="14" font-weight="700" fill="#2f1c13"><tspan x="790" dy="0">Production des</tspan><tspan x="790" dy="18">supports</tspan></text>
+                        <text x="790" y="134" text-anchor="middle" font-family="Nunito, sans-serif" font-size="12" fill="#695A52">4 jours</text>
+
+                        <text x="460" y="186" text-anchor="middle" font-family="Nunito, sans-serif" font-size="13" fill="#695A52">≈ 14 jours de production</text>
+
+                        <rect x="390" y="196" width="140" height="26" rx="13" fill="url(#aiGradA)"/>
+                        <text x="460" y="213" text-anchor="middle" font-family="'League Spartan', sans-serif" font-size="12" font-weight="700" fill="#FFFFFF">−57 % de temps</text>
+
+                        <text x="40" y="246" font-family="Nunito, sans-serif" font-size="13" font-weight="700" letter-spacing="0.06em" fill="#3D7786">AVEC IA — INGÉNIEUR PÉDAGOGIQUE AUGMENTÉ</text>
+
+                        <line x1="220" y1="322" x2="260" y2="322" stroke="#ED843A" stroke-width="2" marker-end="url(#arrowGradA)"/>
+                        <line x1="440" y1="322" x2="480" y2="322" stroke="#ED843A" stroke-width="2" marker-end="url(#arrowGradA)"/>
+                        <line x1="660" y1="322" x2="700" y2="322" stroke="#ED843A" stroke-width="2" marker-end="url(#arrowGradA)"/>
+
+                        <g filter="url(#cardShadowA)">
+                            <rect x="40" y="270" width="180" height="104" rx="14" fill="#FFFFFF" stroke="#E0D5C8" stroke-width="1"/>
+                            <rect x="260" y="270" width="180" height="104" rx="14" fill="url(#aiGradSoftA)" stroke="url(#aiGradA)" stroke-width="1.5"/>
+                            <rect x="480" y="270" width="180" height="104" rx="14" fill="url(#aiGradSoftA)" stroke="url(#aiGradA)" stroke-width="1.5"/>
+                            <rect x="700" y="270" width="180" height="104" rx="14" fill="url(#aiGradSoftA)" stroke="url(#aiGradA)" stroke-width="1.5"/>
+                        </g>
+
+                        <text x="130" y="310" text-anchor="middle" font-family="'League Spartan', sans-serif" font-size="14" font-weight="700" fill="#2f1c13"><tspan x="130" dy="0">Analyse</tspan><tspan x="130" dy="18">des besoins</tspan></text>
+                        <text x="130" y="356" text-anchor="middle" font-family="Nunito, sans-serif" font-size="12" fill="#695A52">2 jours</text>
+
+                        <text x="350" y="310" text-anchor="middle" font-family="'League Spartan', sans-serif" font-size="14" font-weight="700" fill="#3D7786"><tspan x="350" dy="0">Cadrage IP +</tspan><tspan x="350" dy="18">prompts</tspan></text>
+                        <text x="350" y="356" text-anchor="middle" font-family="Nunito, sans-serif" font-size="12" fill="#695A52">1 jour</text>
+
+                        <text x="570" y="310" text-anchor="middle" font-family="'League Spartan', sans-serif" font-size="14" font-weight="700" fill="#3D7786"><tspan x="570" dy="0">Génération IA +</tspan><tspan x="570" dy="18">1ʳᵉ validation</tspan></text>
+                        <text x="570" y="356" text-anchor="middle" font-family="Nunito, sans-serif" font-size="12" fill="#695A52">1,5 jour</text>
+
+                        <text x="790" y="310" text-anchor="middle" font-family="'League Spartan', sans-serif" font-size="14" font-weight="700" fill="#3D7786"><tspan x="790" dy="0">Enrichissement</tspan><tspan x="790" dy="18">expert &amp; diffusion</tspan></text>
+                        <text x="790" y="356" text-anchor="middle" font-family="Nunito, sans-serif" font-size="12" fill="#695A52">1,5 jour</text>
+
+                        <text x="460" y="404" text-anchor="middle" font-family="'League Spartan', sans-serif" font-size="14" font-weight="700" fill="#3D7786">≈ 6 jours de production</text>
+                    </svg>
+                </div>
+                <p class="process-diagram-caption">Illustration des ordres de grandeur (à adapter selon la complexité du module et le niveau de cadrage IA) — cohérente avec le gain de 40 à 60 % mesuré sur la production de contenus <a href="#source-18" class="ref">18</a>. Seule l'étape d'analyse des besoins reste inchangée : c'est un temps d'écoute humaine, non-délégable à l'IA.</p>
+            </div>
+
+            <div class="card">
+                <h2><span class="section-num">3.</span> Implications pour la formation professionnelle</h2>
+
+                <h3>3.1 Cadrer l'usage de l'IA : transparence et validation humaine</h3>
+                <p>L'usage de l'IA générative en ingénierie pédagogique n'est pas un sujet à traiter dans l'angle mort. Quatre principes de bonne pratique s'imposent progressivement comme standard professionnel, indépendamment de toute obligation externe :</p>
+                <ul>
+                    <li><strong>Documentation systématique</strong> : consigner, pour chaque module, quels outils IA ont été mobilisés et à quelle étape (scénarisation, quiz, vidéo…) — un simple tableau de suivi suffit à démarrer.</li>
+                    <li><strong>Validation humaine avant diffusion</strong> : aucun contenu généré par IA ne devrait être publié sans relecture experte — la vérification des faits, de la pertinence pédagogique et du ton reste une responsabilité humaine non-délégable.</li>
+                    <li><strong>Transparence vis-à-vis des apprenants</strong> : lorsque l'IA a contribué significativement à un contenu (voix de synthèse, avatar vidéo, quiz généré), le mentionner reste la meilleure pratique pour préserver la confiance.</li>
+                    <li><strong>Traçabilité dans le processus qualité</strong> : intégrer le suivi des usages IA dans les procédures qualité existantes de l'organisme plutôt que de créer un processus parallèle.</li>
+                </ul>
+                <p>Ces principes ne relèvent pas d'une contrainte extérieure : ils protègent la crédibilité pédagogique de l'organisme et facilitent l'adoption en interne, en rassurant à la fois les équipes et les apprenants sur la manière dont l'IA est utilisée <a href="#source-24" class="ref">24</a>.</p>
+
+                <h3>3.2 Impacts concrets sur l'ingénierie de formation</h3>
+                <ul>
+                    <li>Le temps économisé sur la production doit être réinvesti dans la <strong>conception de l'expérience apprenant</strong> (scénarios, mises en situation, social learning) <a href="#source-26" class="ref">26</a>.</li>
+                    <li>L'évaluation doit migrer vers des formats <strong>non duplicables par l'IA</strong> : projets appliqués, démonstrations, évaluations par les pairs, entretiens de compétences <a href="#source-20" class="ref">20</a>.</li>
+                    <li>Les LMS doivent intégrer des <strong>tableaux de bord analytics exploitables en temps réel</strong> pour ajuster les parcours selon la progression <a href="#source-29" class="ref">29</a>.</li>
+                </ul>
+
+                <h3>3.3 Risques à maîtriser</h3>
+                <ul>
+                    <li><strong class="risk-label">Hallucinations</strong> : les LLM produisent des contenus plausibles mais inexacts — une relecture experte reste non-négociable sur tout contenu diffusé <a href="#source-18" class="ref">18</a>.</li>
+                    <li><strong class="risk-label">Homogénéisation des contenus</strong> : à force d'utiliser les mêmes outils, les formations se ressemblent — différencier par la contextualisation métier <a href="#source-23" class="ref">23</a>.</li>
+                    <li><strong class="risk-label">Dépendance fournisseur</strong> : les outils IA SaaS peuvent modifier leurs tarifs ou conditions — anticiper par des clauses contractuelles spécifiques <a href="#source-23" class="ref">23</a>.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2><span class="section-num">4.</span> Recommandations pratiques</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Horizon</th>
+                            <th>Action</th>
+                            <th>Priorité</th>
+                            <th>Ressources</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Court terme<br>(0–3 mois)</strong></td>
+                            <td>Cartographier les usages IA actuels et identifier les quick wins (quiz, résumés, scripts)</td>
+                            <td><span class="priority priority-high"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg> Haute</span></td>
+                            <td>1 atelier IP (2h)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Court terme</strong></td>
+                            <td>Former les IP au prompt engineering pédagogique (2h atelier pratique + guide interne)</td>
+                            <td><span class="priority priority-high"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg> Haute</span></td>
+                            <td>Formateur + guide</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Court terme</strong></td>
+                            <td>Créer une fiche outil IA par application utilisée (traçabilité qualité)</td>
+                            <td><span class="priority priority-high"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg> Haute</span></td>
+                            <td>Template procédure</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Court terme</strong></td>
+                            <td>Définir une politique de validation humaine systématique des contenus IA</td>
+                            <td><span class="priority priority-high"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg> Haute</span></td>
+                            <td>Procédure qualité</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Moyen terme<br>(3–12 mois)</strong></td>
+                            <td>Mettre en place un workflow agentique de production (LMS + LLM + générateur de slides)</td>
+                            <td><span class="priority priority-medium"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M2.7 10.3a2.41 2.41 0 0 0 0 3.4l7.6 7.6a2.41 2.41 0 0 0 3.4 0l7.6-7.6a2.41 2.41 0 0 0 0-3.4l-7.6-7.6a2.41 2.41 0 0 0-3.4 0Z"/></svg> Moyenne</span></td>
+                            <td>DSI + L&D</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Moyen terme</strong></td>
+                            <td>Refondre le dispositif d'évaluation : migrer vers l'évaluation par la performance</td>
+                            <td><span class="priority priority-medium"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M2.7 10.3a2.41 2.41 0 0 0 0 3.4l7.6 7.6a2.41 2.41 0 0 0 3.4 0l7.6-7.6a2.41 2.41 0 0 0 0-3.4l-7.6-7.6a2.41 2.41 0 0 0-3.4 0Z"/></svg> Moyenne</span></td>
+                            <td>Refonte ingénierie</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Moyen terme</strong></td>
+                            <td>Déployer un copilote apprenant (chatbot contextuel dans le LMS)</td>
+                            <td><span class="priority priority-medium"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M2.7 10.3a2.41 2.41 0 0 0 0 3.4l7.6 7.6a2.41 2.41 0 0 0 3.4 0l7.6-7.6a2.41 2.41 0 0 0 0-3.4l-7.6-7.6a2.41 2.41 0 0 0-3.4 0Z"/></svg> Moyenne</span></td>
+                            <td>Budget tech</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Moyen terme</strong></td>
+                            <td>Constituer un comité IA formation (L&D + Juridique + DPO) pour gouvernance</td>
+                            <td><span class="priority priority-medium"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M2.7 10.3a2.41 2.41 0 0 0 0 3.4l7.6 7.6a2.41 2.41 0 0 0 3.4 0l7.6-7.6a2.41 2.41 0 0 0 0-3.4l-7.6-7.6a2.41 2.41 0 0 0-3.4 0Z"/></svg> Moyenne</span></td>
+                            <td>Réunion mensuelle</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card next-steps">
+                <h2 class="card-title">
+                    <span class="card-title-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg></span>
+                    Next steps — pour un L&D manager
+                </h2>
+                <ol>
+                    <li><strong>Semaine 1</strong> : Organiser un atelier « état des lieux IA » avec l'équipe IP (2h) — cartographier les usages existants, identifier les pratiques non documentées, prioriser 3 cas d'usage à formaliser immédiatement <a href="#source-18" class="ref">18</a>.</li>
+                    <li><strong>Mois 1</strong> : Lancer une formation interne au prompt engineering pédagogique — s'appuyer sur un LLM de référence unique pour l'équipe (Claude 3.7 ou Mistral Large pour l'hébergement UE) et produire un guide interne du prompt pédagogique <a href="#source-24" class="ref">24</a>.</li>
+                    <li><strong>Trimestre 1</strong> : Produire un module pilote 100 % IA-assisté sur un sujet à faible enjeu certificatif, mesurer le gain de temps réel, documenter le processus et le faire relire par un pair avant de généraliser <a href="#source-24" class="ref">24</a>.</li>
+                </ol>
+            </div>
+
+            <div class="sources">
+                <h2><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-4px; margin-right:8px;"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>Sources consultées</h2>
+                <div class="source-chips">
+                    <a href="https://www.blog-formation-entreprise.fr/ia-ingenierie-pedagogique-depasser-biais-transmissif/" target="_blank" class="source-chip" id="source-18">
+                        <img src="https://www.google.com/s2/favicons?domain=blog-formation-entreprise.fr&sz=32" alt="" class="source-chip-favicon">
+                        <span>Blog Formation-Entreprise</span>
+                        <span class="source-chip-number">18</span>
+                    </a>
+                    <a href="https://www.digitallearninginstitute.com/blog/ai-for-learning-in-2026-what-s-new-what-s-next-and-what-it-means-for-educators" target="_blank" class="source-chip" id="source-20">
+                        <img src="https://www.google.com/s2/favicons?domain=digitallearninginstitute.com&sz=32" alt="" class="source-chip-favicon">
+                        <span>Digital Learning Institute</span>
+                        <span class="source-chip-number">20</span>
+                    </a>
+                    <a href="https://www.savoiria.fr/formation-ia-entreprise-france-2026/" target="_blank" class="source-chip" id="source-21">
+                        <img src="https://www.google.com/s2/favicons?domain=savoiria.fr&sz=32" alt="" class="source-chip-favicon">
+                        <span>SavoirIA</span>
+                        <span class="source-chip-number">21</span>
+                    </a>
+                    <a href="https://iventiv.com/news/2026-ld-trends-skills-based-organisations-ai-governance-and-learning-culture" target="_blank" class="source-chip" id="source-23">
+                        <img src="https://www.google.com/s2/favicons?domain=iventiv.com&sz=32" alt="" class="source-chip-favicon">
+                        <span>Iventiv</span>
+                        <span class="source-chip-number">23</span>
+                    </a>
+                    <a href="https://www.koudeclat.com/blog/ia-formation-professionnelle-qualiopi-2026" target="_blank" class="source-chip" id="source-24">
+                        <img src="https://www.google.com/s2/favicons?domain=koudeclat.com&sz=32" alt="" class="source-chip-favicon">
+                        <span>Koud Éclat</span>
+                        <span class="source-chip-number">24</span>
+                    </a>
+                    <a href="https://www.oecd.org/fr/blogs/2026/01/how-to-effectively-use-generative-ai-in-education.html" target="_blank" class="source-chip" id="source-25">
+                        <img src="https://www.google.com/s2/favicons?domain=oecd.org&sz=32" alt="" class="source-chip-favicon">
+                        <span>OCDE</span>
+                        <span class="source-chip-number">25</span>
+                    </a>
+                    <a href="https://www.youtube.com/watch?v=8ierObjiY2o" target="_blank" class="source-chip" id="source-26">
+                        <img src="https://www.google.com/s2/favicons?domain=youtube.com&sz=32" alt="" class="source-chip-favicon">
+                        <span>YouTube</span>
+                        <span class="source-chip-number">26</span>
+                    </a>
+                    <a href="https://initial.legal/blog/comparatif-des-llm-pour-les-professionnels-du-droit" target="_blank" class="source-chip" id="source-27">
+                        <img src="https://www.google.com/s2/favicons?domain=initial.legal&sz=32" alt="" class="source-chip-favicon">
+                        <span>Initial Legal</span>
+                        <span class="source-chip-number">27</span>
+                    </a>
+                    <a href="https://www.talentlms.com/blog/ai-in-learning-and-development/" target="_blank" class="source-chip" id="source-29">
+                        <img src="https://www.google.com/s2/favicons?domain=talentlms.com&sz=32" alt="" class="source-chip-favicon">
+                        <span>TalentLMS</span>
+                        <span class="source-chip-number">29</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p><strong>The Learning Society</strong> — Conseil & Formation IA appliquée à la pédagogie</p>
+        <p>Document généré le 21 mai 2026</p>
+    </div>
+</body>
+</html>

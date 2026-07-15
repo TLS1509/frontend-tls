@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Veille hebdo TLS — IA & Formation (23–27 juin 2026)</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --paper: #fefaf5;
+      --ink:   #2f1c13;
+      --ink-2: #4C3B33;
+      --ink-3: #695A52;
+      --rule:  #E0D5C8;
+
+      /* Ponctuation éditoriale — la seule couleur admise dans le contenu.
+         Quatre emplacements, pas un de plus : filet d'ouverture de section,
+         numéro de signal, chiffre-clé, lien. Jamais de fond, jamais de pastille. */
+      --accent-rule: #ED843A;   /* secondary-500 — filet d'ouverture */
+      --accent-num:  #8F5017;   /* secondary-700 — numéro de signal */
+      --accent-teal: #3D7786;   /* primary-700   — liens + chiffre neutre/positif */
+      --accent-warm: #8F2A0E;   /* danger-fg — chiffre négatif/alerte, 8,07:1 AAA sur crème */
+
+      --transition: 180ms ease;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      -webkit-font-smoothing: antialiased;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--paper);
+      font-family: 'Nunito', sans-serif;
+      font-size: 16px;
+      color: var(--ink);
+      line-height: 1.65;
+    }
+
+    /* ─── LAYOUT ─────────────────────────────────────────── */
+    .wrap {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 56px 24px 64px;
+    }
+
+    /* ─── MASTHEAD ───────────────────────────────────────── */
+    .masthead {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .masthead-word {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+
+    .masthead-word em {
+      font-style: normal;
+      font-weight: 700;
+      color: var(--ink-3);
+      margin-left: 6px;
+      font-size: 13px;
+    }
+
+    /* ─── HERO ────────────────────────────────────────────── */
+    .hero {
+      margin-bottom: 32px;
+    }
+
+    .hero h1 {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 800;
+      font-size: clamp(32px, 5.5vw, 50px);
+      line-height: 1.06;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 16px;
+    }
+
+    .hero-week {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink-3);
+      margin-bottom: 24px;
+    }
+
+    .hero-sub {
+      font-size: 16px;
+      color: var(--ink-2);
+      max-width: 62ch;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 0;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink-3);
+      padding-top: 24px;
+      border-top: 1px solid var(--rule);
+    }
+
+    .hero-tag:not(:first-child)::before {
+      content: '·';
+      margin: 0 10px;
+      color: var(--rule);
+    }
+
+    /* ─── SECTION TITLE ──────────────────────────────────── */
+    .section-label {
+      border-top: 1px solid var(--rule);
+      padding-top: 24px;
+      margin-bottom: 16px;
+    }
+
+    .section-label-text {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 700;
+      font-size: 20px;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+
+    /* ─── FILET D'OUVERTURE ──────────────────────────────── */
+    /* Seul geste coloré structurant : un trait court posé au-dessus du numéro
+       ou du titre qui ouvre une section. Les filets de séparation entre blocs,
+       eux, restent neutres (var(--rule)). Pas de filet sur .section-label :
+       le signal 01 juste dessous porte déjà le sien. */
+    .card::before,
+    .implications::before,
+    .next-step::before,
+    .sources::before {
+      content: '';
+      display: block;
+      width: 44px;
+      height: 2px;
+      background: var(--accent-rule);
+      margin-bottom: 16px;
+    }
+
+    /* ─── SIGNAL CARDS ───────────────────────────────────── */
+    .signals {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 32px;
+    }
+
+    .card {
+      background: none;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      padding: 0;
+    }
+
+    .card + .card {
+      margin-top: 40px;
+      padding-top: 40px;
+      border-top: 1px solid var(--rule);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .card-num {
+      flex-shrink: 0;
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: .08em;
+      font-variant-numeric: tabular-nums;
+      color: var(--accent-num);
+    }
+
+    .card-title {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 700;
+      font-size: 20px;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      line-height: 1.25;
+    }
+
+    .card-bref {
+      font-size: 15px;
+      color: var(--ink-2);
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+
+    .card-bref strong { color: var(--ink); }
+
+    .card-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .card-bullets li {
+      font-size: 14.5px;
+      color: var(--ink-2);
+      padding-left: 18px;
+      position: relative;
+      line-height: 1.55;
+    }
+
+    .card-bullets li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--ink-3);
+      font-weight: 700;
+    }
+
+    .card-bullets li strong { color: var(--ink); font-weight: 700; }
+
+    /* Chiffre-clé — seul le chiffre prend la couleur ; la phrase qui l'entoure
+       reste en encre. Neutre/positif → teal · négatif/alerte → warm. Pas de boîte. */
+    .card .stat { color: var(--accent-teal); font-weight: 700; }
+
+    .card .stat--warm { color: var(--accent-warm); }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px 16px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: default;
+    }
+
+    .chip-teal,
+    .chip-orange,
+    .chip-sun {
+      background: none;
+      color: var(--ink-3);
+    }
+
+    .card-source {
+      font-size: 12.5px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      color: var(--ink-3);
+    }
+
+    .card-source a {
+      color: var(--accent-teal);
+      text-decoration: underline;
+      text-decoration-color: var(--rule);
+      text-underline-offset: 2px;
+      font-weight: 600;
+      transition: text-decoration-color var(--transition);
+    }
+
+    .card-source a:hover { text-decoration-color: currentColor; }
+
+    .card-source .ref {
+      text-decoration: none;
+      color: var(--ink-3);
+      font-weight: 600;
+    }
+
+    /* ─── IMPLICATIONS TABLE ─────────────────────────────── */
+    .implications {
+      border-top: 1px solid var(--rule);
+      padding-top: 24px;
+      margin-bottom: 32px;
+    }
+
+    .impl-header {
+      margin-bottom: 16px;
+    }
+
+    .impl-header h2 {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 700;
+      font-size: 19px;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+    }
+
+    thead th {
+      padding: 10px 14px;
+      text-align: left;
+      font-family: 'Nunito', sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      border-bottom: 2px solid var(--rule);
+    }
+
+    tbody td {
+      padding: 12px 14px;
+      color: var(--ink-2);
+      border-bottom: 1px solid var(--rule);
+      vertical-align: top;
+    }
+
+    tbody td strong { color: var(--ink); }
+
+    tbody tr:last-child td { border-bottom: none; }
+
+    .badge-mois,
+    .badge-trim,
+    .badge-urgent {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ink-3);
+    }
+
+    .badge-urgent { color: var(--ink); }
+
+    /* ─── NEXT STEP ──────────────────────────────────────── */
+    .next-step {
+      border-top: 1px solid var(--rule);
+      padding-top: 24px;
+      margin-bottom: 32px;
+    }
+
+    .next-step h3 {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 700;
+      font-size: 19px;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
+
+    .next-step p {
+      font-size: 15.5px;
+      color: var(--ink-2);
+      line-height: 1.65;
+      max-width: 62ch;
+    }
+
+    .next-step p strong { color: var(--ink); }
+
+    /* ─── SOURCES ────────────────────────────────────────── */
+    .sources {
+      border-top: 1px solid var(--rule);
+      padding-top: 24px;
+      margin-bottom: 32px;
+    }
+
+    .sources h2 {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 700;
+      font-size: 17px;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin-bottom: 16px;
+    }
+
+    .source-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 22px;
+    }
+
+    .source-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent-teal);
+      text-decoration: none;
+      transition: text-decoration-color var(--transition);
+    }
+
+    .source-chip:hover { text-decoration: underline; text-decoration-color: currentColor; text-underline-offset: 2px; }
+
+    .source-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 1px solid var(--rule);
+      color: var(--ink-3);
+      font-family: 'Nunito', sans-serif;
+      font-size: 9px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    /* ─── FOOTER ─────────────────────────────────────────── */
+    .footer {
+      text-align: center;
+      border-top: 1px solid var(--rule);
+      padding-top: 24px;
+      color: var(--ink-3);
+      font-size: 12.5px;
+    }
+
+    .footer strong {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 700;
+      color: var(--ink);
+      font-size: 14px;
+    }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .wrap { padding: 40px 20px 48px; }
+      .hero h1 { font-size: 30px; }
+      .card + .card { margin-top: 32px; padding-top: 32px; }
+      table { font-size: 12.5px; }
+      thead th, tbody td { padding: 9px 8px; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ── MASTHEAD ── -->
+  <div class="masthead">
+    <svg width="28" height="25.6" viewBox="0 0 80 73.2574" style="display:block;flex-shrink:0;">
+      <path d="M79.2813 35.4391C79.1153 33.9907 78.5533 32.6163 77.6567 31.4662C76.7599 30.3164 75.5634 29.4354 74.1986 28.9203C72.8333 28.4051 71.3527 28.2757 69.9187 28.5462C68.4853 28.8168 67.1533 29.4766 66.0705 30.4536C64.6919 31.6864 62.9048 32.3652 61.0546 32.3588H60.0374C58.7085 32.3588 57.4037 32.0058 56.2566 31.3363C55.1092 30.6668 54.1607 29.7046 53.5082 28.5483C52.1237 26.0957 50.111 24.0549 47.6767 22.6354C45.2425 21.2159 42.474 20.4685 39.6554 20.47H39.5727C38.2291 20.4926 36.9033 20.1582 35.7316 19.5009C34.5598 18.8437 33.5838 17.8871 32.9037 16.7293L32.3951 15.8466C31.4692 14.2454 31.1721 12.3575 31.5623 10.55C31.9865 8.56855 31.6339 6.50001 30.5769 4.77064C29.483 2.99883 27.7363 1.72708 25.713 1.22932C23.6897 0.731546 21.5517 1.0476 19.7593 2.10939C17.967 3.17119 16.6639 4.89374 16.1306 6.90608C15.5973 8.91838 15.8766 11.0594 16.9083 12.868C17.9083 14.6063 19.5338 15.8985 21.4538 16.4817C23.181 17.0442 24.6318 18.2373 25.5164 19.8221L26.0186 20.6987C26.6828 21.8748 27.0221 23.2062 27.0019 24.5564C26.9819 25.9067 26.603 27.2273 25.9041 28.3832L25.8342 28.5103C25.1803 29.6765 24.2285 30.6489 23.0761 31.3283C21.9236 32.0078 20.6114 32.3699 19.2733 32.378H18.2562C16.4203 32.3882 14.6478 31.7079 13.2909 30.4727C12.1524 29.4393 10.7381 28.7581 9.21974 28.5121C7.70134 28.2659 6.14405 28.4652 4.73686 29.0859C3.32966 29.7068 2.13305 30.722 1.29222 32.0089C0.451395 33.2957 0.00250087 34.7985 1.04193e-05 36.3353C-0.00248004 37.8719 0.44154 39.3764 1.27819 40.6659C2.11484 41.9554 3.30815 42.9746 4.71333 43.5998C6.11851 44.2251 7.67513 44.4295 9.19433 44.1882C10.7135 43.9472 12.13 43.2705 13.2719 42.2409C14.6486 41.009 16.4333 40.3302 18.2815 40.3355H19.2988C20.6374 40.3448 21.9497 40.7082 23.1021 41.3888C24.2546 42.0693 25.206 43.0426 25.8597 44.2096L25.9295 44.3366C26.6294 45.4919 27.0094 46.8124 27.0307 48.1626C27.0518 49.5129 26.7136 50.8445 26.0503 52.0211L25.5417 52.8977C24.6149 54.503 23.124 55.707 21.3585 56.2763C19.889 56.7475 18.5886 57.6361 17.6161 58.8333C16.6437 60.0306 16.0414 61.485 15.8827 63.0185C15.7239 64.5522 16.0157 66.0988 16.7223 67.4695C17.4289 68.8401 18.5199 69.9756 19.8619 70.7373C21.2038 71.4992 22.7388 71.8535 24.2792 71.7584C25.8196 71.6631 27.2989 71.1216 28.5365 70.1999C29.7738 69.2789 30.716 68.0175 31.2477 66.5698C31.7793 65.1224 31.8777 63.5515 31.5304 62.0492C31.159 60.2746 31.4675 58.4253 32.3951 56.8669L32.9037 55.9841C33.5849 54.8259 34.5605 53.8681 35.7318 53.2078C36.903 52.5476 38.228 52.2083 39.5727 52.2245H39.6554C42.4747 52.2254 45.2435 51.477 47.6778 50.0563C50.1123 48.6356 52.1245 46.5935 53.5082 44.1398C54.1613 42.9839 55.1098 42.0221 56.2569 41.3525C57.4043 40.683 58.7087 40.3298 60.0374 40.3293H61.169C63.0065 40.3577 64.7694 41.0608 66.1214 42.3043C67.3259 43.3684 68.8246 44.0426 70.4206 44.2378C72.0166 44.433 73.6341 44.1401 75.06 43.3977C76.4853 42.6553 77.6519 41.4985 78.406 40.0798C79.1601 38.6611 79.4646 37.0473 79.2813 35.4517V35.4391ZM44.4233 44.597C42.79 45.5391 40.9137 45.9763 39.0316 45.8531C37.1495 45.7299 35.3463 45.052 33.8498 43.9051C32.3535 42.7581 31.2313 41.1936 30.6251 39.4094C30.0186 37.6253 29.9555 35.7017 30.4437 33.8816C30.9319 32.0618 31.9493 30.4272 33.3673 29.1849C34.7854 27.9426 36.5403 27.1482 38.4102 26.9024C40.2803 26.6564 42.1811 26.97 43.8728 27.8032C45.5645 28.6365 46.9706 29.9523 47.9136 31.5841C49.1781 33.772 49.5209 36.3723 48.8663 38.8126C48.2117 41.253 46.6136 43.3338 44.4233 44.597Z" fill="#55A1B4"/>
+      <path d="M39.4347 41.1603C42.0682 41.1603 44.2028 39.0276 44.2028 36.3971C44.2028 33.7664 42.0682 31.6339 39.4347 31.6339C36.8015 31.6339 34.6666 33.7664 34.6666 36.3971C34.6666 39.0276 36.8015 41.1603 39.4347 41.1603Z" fill="#73AFBF"/>
+      <path d="M55.9805 16.9435C60.3882 16.9435 63.961 13.3742 63.961 8.97126C63.961 4.56829 60.3882 0.998985 55.9805 0.998985C51.573 0.998985 48 4.56829 48 8.97126C48 13.3742 51.573 16.9435 55.9805 16.9435Z" fill="#ED843A"/>
+      <path d="M55.9468 72.1522C60.3357 72.1522 63.8938 68.5979 63.8938 64.2136C63.8938 59.8292 60.3357 56.275 55.9468 56.275C51.5579 56.275 48 59.8292 48 64.2136C48 68.5979 51.5579 72.1522 55.9468 72.1522Z" fill="#F8B044"/>
+    </svg>
+    <span class="masthead-word">The Learning Society<em>Veille hebdo</em></span>
+  </div>
+
+  <!-- ── HERO ── -->
+  <header class="hero">
+    <h1>IA & Formation<br>5 signaux à suivre</h1>
+    <p class="hero-week">23–27 juin 2026</p>
+    <p class="hero-sub">
+      Une sélection courte, utile et actionnable pour les équipes learning, les OF et les EdTech. Chaque signal est rattaché à un impact concret pour TLS.
+    </p>
+    <div class="hero-meta">
+      <span class="hero-tag">IA</span>
+      <span class="hero-tag">EdTech</span>
+      <span class="hero-tag">Formation Pro</span>
+      <span class="hero-tag">Marché FR</span>
+      <span class="hero-tag">Conformité</span>
+    </div>
+  </header>
+
+  <!-- ── SIGNALS ── -->
+  <div class="section-label">
+    <span class="section-label-text">Les 5 signaux de la semaine</span>
+  </div>
+
+  <div class="signals">
+
+    <!-- Card 1 -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-num">01</div>
+        <div class="card-title">Khanmigo confirme l'efficacité du tuteur IA</div>
+      </div>
+      <div class="card-bref">
+        <strong>En bref —</strong> Khan Academy publie ses derniers apprentissages sur Khanmigo : lorsque l'IA accède au profil d'apprentissage de l'élève, la précision sur les prochaines questions s'améliore de <strong class="stat">+6,1 %</strong>. L'IA tuteur passe du discours à la mesure.
+      </div>
+      <ul class="card-bullets">
+        <li>La personnalisation basée sur le <strong>profil apprenant</strong> produit des effets mesurables sur la pertinence des contenus proposés</li>
+        <li>Le modèle tuteur-IA dépasse le chatbot générique : c'est un système contextuel avec <strong>mémoire de l'apprenant</strong></li>
+        <li>Pour TLS : argument fort pour intégrer un profil apprenant enrichi dans la <strong>learning app dès le MVP</strong></li>
+      </ul>
+      <div class="card-footer">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <span class="chip chip-teal">Outil / produit</span>
+          <span class="chip chip-teal">Copilote pédagogique</span>
+        </div>
+        <span class="card-source">Source : <a href="https://blog.khanacademy.org/how-khan-academy-is-building-a-better-ai-tutor-our-most-recent-learnings/" target="_blank" rel="noopener">Khan Academy Blog</a> <a class="ref" id="ref1">[1]</a></span>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-num">02</div>
+        <div class="card-title">Le e-learning pèse 365 Md$ en 2026</div>
+      </div>
+      <div class="card-bref">
+        <strong>En bref —</strong> Le marché mondial du e-learning dépasse <strong><span class="stat">365</span> milliards de dollars</strong> cette année, avec une croissance annuelle de <strong class="stat">+14 %</strong> depuis 2024. L'IA générative reste le principal moteur de cette dynamique.
+      </div>
+      <ul class="card-bullets">
+        <li>Le marché est en <strong>consolidation rapide</strong> : les acteurs sans différenciation IA vont souffrir</li>
+        <li>Les plateformes combinant contenu + analytics + IA copilote captent la valeur</li>
+        <li>Pour TLS : la <strong>fenêtre de positionnement premium IA est courte</strong> — accélérer la différenciation</li>
+      </ul>
+      <div class="card-footer">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <span class="chip chip-orange">Étude / marché</span>
+          <span class="chip chip-orange">Chiffres clés</span>
+        </div>
+        <span class="card-source">Source : <a href="https://www.didask.com/post/marche-e-learning" target="_blank" rel="noopener">Didask</a> <a class="ref" id="ref2">[2]</a></span>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-num">03</div>
+        <div class="card-title">200 M€ pour accélérer l'IA dans les PME</div>
+      </div>
+      <div class="card-bref">
+        <strong>En bref —</strong> Le plan <strong>"Osez l'IA"</strong> mobilise 200 millions d'euros pour faire monter les PME françaises en compétences IA. Pour la formation professionnelle, les dispositifs d'accompagnement vont se multiplier.
+      </div>
+      <ul class="card-bullets">
+        <li>Les <strong>OPCO et OF</strong> vont recevoir des financements fléchés IA — opportunité directe pour TLS</li>
+        <li>Opportunité : positionner les formations TLS sur mesure comme <strong>éligibles à ces dispositifs</strong></li>
+        <li>Risque : afflux d'offres low-cost non qualifiées sur le même segment</li>
+      </ul>
+      <div class="card-footer">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <span class="chip chip-sun">Politique publique</span>
+          <span class="chip chip-sun">Financement</span>
+        </div>
+        <span class="card-source">Source : <a href="https://www.formagora.fr/plan-osez-ia-changements-formateurs-professionnels/" target="_blank" rel="noopener">Formagora</a> <a class="ref" id="ref3">[3]</a></span>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-num">04</div>
+        <div class="card-title">VR + IA générative testées en formation relation client</div>
+      </div>
+      <div class="card-bref">
+        <strong>En bref —</strong> Le projet DEFFINUM RVRC 4.0 combine réalité virtuelle et IA générative pour entraîner <strong><span class="stat">2 000</span> apprenants</strong> à la relation client. Simulation + feedback IA en temps réel.
+      </div>
+      <ul class="card-bullets">
+        <li>La simulation IA devient un <strong>standard dans les formations comportementales</strong> à fort enjeu</li>
+        <li>Le couple VR + LLM ouvre des cas d'usage en <strong>soft skills, management, vente</strong></li>
+        <li>Pour TLS : signal fort pour envisager des <strong>modules roleplay IA</strong> dans la roadmap produit</li>
+      </ul>
+      <div class="card-footer">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <span class="chip chip-teal">Cas d'usage</span>
+          <span class="chip chip-teal">Simulation IA</span>
+        </div>
+        <span class="card-source">Source : <a href="https://shs.cairn.info/revue-innovations-2025-HS1-page-95?lang=fr" target="_blank" rel="noopener">Revue Innovations</a> <a class="ref" id="ref4">[4]</a></span>
+      </div>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-num">05</div>
+        <div class="card-title">Contrôle renforcé des organismes de formation : ce qui change</div>
+      </div>
+      <div class="card-bref">
+        <strong>En bref —</strong> Publiée au Journal officiel le <strong>25 juin 2026</strong>, la loi de lutte contre les fraudes sociales et fiscales étend les pouvoirs de contrôle sur les organismes de formation : audits élargis pour France Compétences, croisement de données entre administrations, sanctions rendues publiques en cas de manquement grave.
+      </div>
+      <ul class="card-bullets">
+        <li><strong>France Compétences</strong> peut désormais auditer plus largement organismes de formation et certificateurs, avec des vérifications par échantillonnage</li>
+        <li>Les manquements graves peuvent être <strong>rendus publics</strong> — la réputation devient un enjeu de conformité, pas seulement une sanction financière</li>
+        <li>Pour TLS : la <strong>rigueur documentaire</strong> (preuves d'exécution, financement, évaluation) devient un avantage direct face à des contrôles plus fréquents</li>
+      </ul>
+      <div class="card-footer">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <span class="chip chip-orange">Réglementation</span>
+          <span class="chip chip-orange">Contrôle qualité</span>
+        </div>
+        <span class="card-source">Source : <a href="https://www.digiformag.com/loi-du-25-juin-2026-relative-a-la-lutte-contre-les-fraudes-sociales-et-fiscales-ce-qui-change-pour-les-organismes-de-formations/" target="_blank" rel="noopener">Digiformag</a> <a class="ref" id="ref5">[5]</a></span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── IMPLICATIONS TABLE ── -->
+  <div class="implications">
+    <div class="impl-header">
+      <h2>Implications pour TLS</h2>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Signal</th>
+          <th>Opportunité</th>
+          <th>Menace</th>
+          <th>Horizon</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Khanmigo +6,1%</strong></td>
+          <td>Profil apprenant dans le MVP</td>
+          <td>—</td>
+          <td><span class="badge-mois">Court terme</span></td>
+        </tr>
+        <tr>
+          <td><strong>Marché 365 Md$</strong></td>
+          <td>Positionnement premium IA</td>
+          <td>Consolidation rapide</td>
+          <td><span class="badge-trim">Ce trimestre</span></td>
+        </tr>
+        <tr>
+          <td><strong>Plan Osez l'IA</strong></td>
+          <td>Financements OPCO fléchés</td>
+          <td>Concurrence low-cost</td>
+          <td><span class="badge-mois">Ce mois</span></td>
+        </tr>
+        <tr>
+          <td><strong>VR + IA roleplay</strong></td>
+          <td>Module simulation haute valeur</td>
+          <td>Investissement technique</td>
+          <td><span class="badge-trim">Ce trimestre</span></td>
+        </tr>
+        <tr>
+          <td><strong>Contrôle renforcé (loi 25 juin)</strong></td>
+          <td>Rigueur documentaire = avantage concurrentiel</td>
+          <td>Sanctions rendues publiques</td>
+          <td><span class="badge-urgent">Urgent</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── NEXT STEP ── -->
+  <div class="next-step">
+    <h3>Priorité immédiate : fiabiliser la piste d'audit TLS</h3>
+    <p>
+      Avec des pouvoirs de contrôle élargis pour France Compétences et des sanctions désormais rendues publiques, la
+      <strong>traçabilité documentaire</strong> n'est plus un détail administratif. Premier réflexe : vérifier que chaque parcours
+      dispose d'une preuve d'exécution claire — présence, évaluation, financement — avant qu'un contrôle ne le demande.
+    </p>
+  </div>
+
+  <!-- ── SOURCES ── -->
+  <div class="sources">
+    <h2>Sources consultées</h2>
+    <div class="source-chips">
+      <a class="source-chip" href="https://blog.khanacademy.org/how-khan-academy-is-building-a-better-ai-tutor-our-most-recent-learnings/" target="_blank" rel="noopener">
+        <span class="source-num">1</span>Khan Academy Blog
+      </a>
+      <a class="source-chip" href="https://www.didask.com/post/marche-e-learning" target="_blank" rel="noopener">
+        <span class="source-num">2</span>Didask
+      </a>
+      <a class="source-chip" href="https://www.formagora.fr/plan-osez-ia-changements-formateurs-professionnels/" target="_blank" rel="noopener">
+        <span class="source-num">3</span>Formagora
+      </a>
+      <a class="source-chip" href="https://shs.cairn.info/revue-innovations-2025-HS1-page-95?lang=fr" target="_blank" rel="noopener">
+        <span class="source-num">4</span>Revue Innovations
+      </a>
+      <a class="source-chip" href="https://www.digiformag.com/loi-du-25-juin-2026-relative-a-la-lutte-contre-les-fraudes-sociales-et-fiscales-ce-qui-change-pour-les-organismes-de-formations/" target="_blank" rel="noopener">
+        <span class="source-num">5</span>Digiformag
+      </a>
+    </div>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer class="footer">
+    <strong>The Learning Society</strong><br>
+    Veille stratégique IA & Formation — Semaine du 23 juin 2026
+  </footer>
+
+</div>
+</body>
+</html>

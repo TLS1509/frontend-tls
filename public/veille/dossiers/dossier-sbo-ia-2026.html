@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SBO × IA — Le nouveau contrat de compétences | The Learning Society</title>
+<meta name="description" content="Dossier TLS 2026 — Organisation par les compétences et intelligence artificielle : ce que les sources primaires autorisent réellement à affirmer.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700;800&family=Nunito:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper:  #fefaf5;
+  --ink:    #2f1c13;
+  --ink-2:  #4C3B33;
+  --ink-3:  #695A52;
+  --rule:   #E0D5C8;
+
+  --accent-rule: #ED843A;
+  --accent-num:  #8F5017;
+  --accent-teal: #3D7786;
+  --accent-warm: #8F2A0E;
+
+  --font-display: 'League Spartan', Georgia, serif;
+  --font-body: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* 8px base rhythm */
+  --s1: 8px;  --s2: 16px; --s3: 24px; --s4: 32px;
+  --s5: 40px; --s6: 48px; --s8: 64px; --s10: 80px;
+
+  --measure: 68ch;
+  --page: 1120px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--s6);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink-2);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.75;
+  text-rendering: optimizeLegibility;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  color: var(--ink);
+  line-height: 1.15;
+  text-wrap: balance;
+  font-weight: 800;
+}
+
+p, li { text-wrap: pretty; }
+
+a {
+  color: var(--accent-teal);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule);
+  transition: border-color 160ms ease;
+}
+a:hover { border-bottom-color: var(--accent-teal); }
+a:focus-visible {
+  outline: 2px solid var(--accent-teal);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+strong { color: var(--ink); font-weight: 700; }
+em { font-style: italic; }
+
+/* ─────────── LAYOUT ─────────── */
+.wrap { max-width: var(--page); margin: 0 auto; padding: 0 var(--s4); }
+.col  { max-width: var(--measure); }
+
+.skip {
+  position: absolute; left: -9999px; top: 0;
+  background: var(--ink); color: var(--paper);
+  padding: var(--s1) var(--s2); z-index: 10;
+}
+.skip:focus { left: var(--s2); top: var(--s2); }
+
+/* ─────────── MASTHEAD ─────────── */
+.masthead {
+  border-bottom: 1px solid var(--rule);
+  padding: var(--s3) 0;
+}
+.masthead-inner {
+  max-width: var(--page); margin: 0 auto; padding: 0 var(--s4);
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: var(--s3); flex-wrap: wrap;
+}
+.masthead-name {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: 15px; letter-spacing: 0.02em; color: var(--ink);
+  border-bottom: none;
+}
+.masthead-meta {
+  font-size: 13px; color: var(--ink-3); letter-spacing: 0.02em;
+}
+
+/* ─────────── TITLE BLOCK ─────────── */
+.title-block { padding: var(--s10) 0 var(--s8); }
+.title-block h1 {
+  font-size: clamp(2.6rem, 5.4vw, 4rem);
+  letter-spacing: -0.035em;
+  line-height: 1.04;
+  max-width: 20ch;
+  margin-bottom: var(--s3);
+}
+.title-block h1 em {
+  font-style: normal;
+  color: var(--accent-warm);
+}
+.standfirst {
+  font-size: clamp(1.15rem, 1.9vw, 1.32rem);
+  line-height: 1.6;
+  color: var(--ink-2);
+  max-width: 58ch;
+  margin-bottom: var(--s5);
+}
+.byline {
+  display: flex; flex-wrap: wrap; gap: var(--s1) var(--s4);
+  font-size: 13px; color: var(--ink-3);
+  padding-top: var(--s3);
+  border-top: 1px solid var(--rule);
+  max-width: 58ch;
+}
+.byline b { color: var(--ink-2); font-weight: 700; }
+
+/* ─────────── OPENING FIGURES (no boxes) ─────────── */
+.figures {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: var(--s5) var(--s4);
+  padding: var(--s8) 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: var(--s8);
+}
+.fig-num {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(2.1rem, 3.4vw, 2.9rem);
+  letter-spacing: -0.04em; line-height: 1;
+  color: var(--accent-teal);
+  margin-bottom: var(--s1);
+}
+.fig-num.warm { color: var(--accent-warm); }
+.fig-label { font-size: 14px; line-height: 1.5; color: var(--ink-2); max-width: 26ch; }
+.fig-src { font-size: 12px; color: var(--ink-3); margin-top: 6px; }
+
+/* ─────────── SECTIONS ─────────── */
+.section { padding: var(--s10) 0 0; }
+.section-open { margin-bottom: var(--s6); }
+.section-open::before {
+  content: '';
+  display: block;
+  width: 44px; height: 2px;
+  background: var(--accent-rule);
+  margin-bottom: var(--s3);
+}
+.section-num {
+  display: block;
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 13px; letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-num);
+  margin-bottom: var(--s2);
+}
+.section h2 {
+  font-size: clamp(1.9rem, 3.3vw, 2.5rem);
+  letter-spacing: -0.028em;
+  max-width: 22ch;
+  margin-bottom: var(--s3);
+}
+.lead {
+  font-size: 1.15rem; line-height: 1.65;
+  color: var(--ink-2); max-width: 56ch;
+}
+
+.section h3 {
+  font-size: 1.35rem; letter-spacing: -0.02em;
+  margin: var(--s5) 0 var(--s2);
+  max-width: 40ch;
+}
+.section h3:first-of-type { margin-top: 0; }
+
+.section p { margin-bottom: var(--s2); max-width: var(--measure); }
+.section p + h3 { margin-top: var(--s5); }
+
+.divide {
+  border: none; border-top: 1px solid var(--rule);
+  margin: var(--s8) 0 0;
+}
+
+/* ─────────── NOTES (rules, no boxes, no left bars) ─────────── */
+.note {
+  max-width: var(--measure);
+  margin: var(--s5) 0;
+  padding: var(--s3) 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+.note p { margin-bottom: var(--s1); font-size: 16px; }
+.note p:last-child { margin-bottom: 0; }
+.note-lead {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--accent-num);
+  margin-right: 10px;
+}
+.note.alert .note-lead { color: var(--accent-warm); }
+
+/* ─────────── LISTS ─────────── */
+.list { max-width: var(--measure); margin: var(--s3) 0; }
+.list li {
+  list-style: none;
+  padding: var(--s2) 0;
+  border-top: 1px solid var(--rule);
+  font-size: 16px; line-height: 1.65;
+}
+.list li:last-child { border-bottom: 1px solid var(--rule); }
+.list li b { color: var(--ink); }
+
+.runlist { max-width: var(--measure); margin: var(--s2) 0 var(--s3) 1.1em; }
+.runlist li { margin-bottom: var(--s1); padding-left: 4px; }
+.runlist li::marker { color: var(--ink-3); }
+
+/* ─────────── PILLARS (typographic, no cards) ─────────── */
+.pillars {
+  max-width: var(--measure);
+  margin: var(--s3) 0;
+  counter-reset: p;
+}
+.pillars li {
+  list-style: none;
+  counter-increment: p;
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: var(--s2);
+  padding: var(--s2) 0;
+  border-top: 1px solid var(--rule);
+}
+.pillars li:last-child { border-bottom: 1px solid var(--rule); }
+.pillars li::before {
+  content: counter(p, decimal-leading-zero);
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 13px; letter-spacing: 0.08em;
+  color: var(--accent-num);
+  padding-top: 4px;
+}
+.pillars b { display: block; color: var(--ink); font-size: 16px; margin-bottom: 2px; }
+.pillars span { font-size: 15px; color: var(--ink-2); line-height: 1.6; }
+
+/* ─────────── PULLQUOTE (typographic) ─────────── */
+.pull {
+  max-width: 46ch;
+  margin: var(--s6) 0;
+  padding: var(--s3) 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+.pull q {
+  display: block;
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(1.25rem, 2.1vw, 1.55rem);
+  line-height: 1.35; letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: var(--s2);
+}
+.pull cite { font-style: normal; font-size: 13px; color: var(--ink-3); }
+
+/* ─────────── TABLES (hairlines only) ─────────── */
+.table-scroll { overflow-x: auto; margin: var(--s3) 0 var(--s5); }
+table { width: 100%; border-collapse: collapse; font-size: 15px; min-width: 560px; }
+caption {
+  text-align: left; font-size: 13px; color: var(--ink-3);
+  padding-bottom: var(--s2); line-height: 1.5;
+}
+th {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--ink-3); text-align: left;
+  padding: 0 var(--s2) var(--s1) 0;
+  border-bottom: 1px solid var(--ink-3);
+  vertical-align: bottom;
+}
+td {
+  padding: var(--s2) var(--s2) var(--s2) 0;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top; line-height: 1.55;
+  color: var(--ink-2);
+}
+td:first-child { color: var(--ink); font-weight: 600; }
+th:last-child, td:last-child { padding-right: 0; }
+.t-teal { color: var(--accent-teal); font-weight: 700; }
+.t-warm { color: var(--accent-warm); font-weight: 700; }
+
+/* ─────────── FIGURE / SVG ─────────── */
+figure { margin: var(--s6) 0; max-width: 100%; }
+figure svg { width: 100%; height: auto; display: block; }
+figcaption {
+  font-size: 13px; color: var(--ink-3); line-height: 1.6;
+  margin-top: var(--s2); padding-top: var(--s2);
+  border-top: 1px solid var(--rule);
+  max-width: 62ch;
+}
+figcaption b { color: var(--ink-2); }
+
+/* ─────────── SOURCES ─────────── */
+.sources { max-width: var(--measure); margin-top: var(--s3); }
+.sources li {
+  list-style: none;
+  padding: var(--s2) 0;
+  border-top: 1px solid var(--rule);
+  font-size: 15px; line-height: 1.6;
+}
+.sources li:last-child { border-bottom: 1px solid var(--rule); }
+.sources b { display: block; color: var(--ink); font-weight: 700; }
+.sources span { color: var(--ink-3); font-size: 13px; }
+
+/* ─────────── FOOTER ─────────── */
+.footer {
+  margin-top: var(--s10);
+  border-top: 1px solid var(--rule);
+  padding: var(--s6) 0 var(--s8);
+}
+.footer-inner {
+  max-width: var(--page); margin: 0 auto; padding: 0 var(--s4);
+  display: flex; justify-content: space-between; gap: var(--s4); flex-wrap: wrap;
+}
+.footer-name {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: 15px; color: var(--ink); margin-bottom: 6px;
+}
+.footer p { font-size: 13px; color: var(--ink-3); line-height: 1.7; max-width: 46ch; }
+
+@media (max-width: 640px) {
+  body { font-size: 16px; }
+  .wrap, .masthead-inner, .footer-inner { padding: 0 var(--s3); }
+  .title-block { padding: var(--s6) 0 var(--s5); }
+  .section { padding-top: var(--s8); }
+  .figures { padding: var(--s5) 0; gap: var(--s4) var(--s3); }
+}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Aller au contenu</a>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <a class="masthead-name" href="#top">The Learning Society</a>
+    <span class="masthead-meta">Dossier · Série Futurs du Travail · Septembre 2026</span>
+  </div>
+</header>
+
+<main id="main">
+<div class="wrap" id="top">
+
+  <!-- ══════════ TITLE ══════════ -->
+  <div class="title-block">
+    <h1>SBO × IA :<br>le nouveau contrat de <em>compétences</em></h1>
+    <p class="standfirst">
+      L'organisation par les compétences et l'intelligence artificielle sont
+      présentées comme le couple qui va réinventer la formation. Nous sommes
+      remontés aux sources primaires pour voir ce qu'elles autorisent
+      réellement à affirmer. L'écart avec le discours ambiant est considérable.
+    </p>
+    <div class="byline">
+      <span><b>Lecture</b> 20–25 min</span>
+      <span><b>Audience</b> L&amp;D, DRH, dirigeants</span>
+      <span><b>Publié par</b> The Learning Society</span>
+    </div>
+  </div>
+
+  <!-- ══════════ OPENING FIGURES ══════════ -->
+  <div class="figures">
+    <div>
+      <div class="fig-num">39 %</div>
+      <p class="fig-label">des compétences actuelles à transformer d'ici 2030 — en baisse sur trois éditions</p>
+      <p class="fig-src">WEF, Future of Jobs Report 2025</p>
+    </div>
+    <div>
+      <div class="fig-num">1 sur 5</div>
+      <p class="fig-label">moins d'une organisation sur cinq a adopté les pratiques par compétences à un degré significatif</p>
+      <p class="fig-src">Deloitte, The Skills-Based Organization</p>
+    </div>
+    <div>
+      <div class="fig-num warm">−17 %</div>
+      <p class="fig-label">de résultats à l'examen sans assistance après un entraînement en accès libre à GPT-4</p>
+      <p class="fig-src">Essai randomisé, PNAS 2025</p>
+    </div>
+    <div>
+      <div class="fig-num warm">−10 %</div>
+      <p class="fig-label">de budget d'intervention pour France Compétences en 2026, contraction inédite</p>
+      <p class="fig-src">France Compétences, budget 2026</p>
+    </div>
+  </div>
+
+  <!-- ══════════ 01 ══════════ -->
+  <section class="section" id="ch1">
+    <div class="section-open">
+      <span class="section-num">Chapitre 01</span>
+      <h2>Anatomie d'un skills gap</h2>
+      <p class="lead">
+        Le chiffre qui a lancé la conversation SBO est réel. Ce qu'on lui fait
+        dire ne l'est pas toujours.
+      </p>
+    </div>
+
+    <h3>Ce que dit vraiment le rapport WEF</h3>
+    <p>
+      En janvier 2025, le <strong>World Economic Forum</strong> publie son <em>Future of Jobs
+      Report</em>, construit sur un panel de plus de 1 000 employeurs représentant
+      14 millions de travailleurs dans 55 économies. Sa conclusion la plus citée :
+      <strong>39 % des compétences détenues aujourd'hui devront être transformées ou
+      remplacées d'ici 2030</strong>.
+    </p>
+    <p>
+      Le rapport prévoit par ailleurs la création de <strong>170 millions d'emplois</strong>
+      et la disparition de <strong>92 millions</strong>, soit un solde net positif de
+      78 millions. Ramené à une échelle lisible : si la population active mondiale
+      tenait en 100 personnes, 59 auraient besoin d'une formation d'ici 2030 —
+      29 montée en compétences dans leur rôle actuel, 19 redéployées ailleurs,
+      et 11 laissées de côté faute de reconversion.
+    </p>
+
+    <div class="note alert">
+      <p>
+        <span class="note-lead">Le détail qu'on omet</span>
+        Ce 39 % est presque toujours présenté comme la preuve d'une obsolescence
+        <em>qui s'accélère</em>. Le rapport dit l'inverse.
+      </p>
+      <p>
+        La même mesure valait <strong>44 % en 2023</strong> et <strong>57 % au pic de 2020</strong>.
+        La trajectoire est donc <strong>descendante</strong> sur trois éditions. Le chiffre décrit
+        une instabilité forte, pas une accélération. Bâtir un argumentaire d'urgence
+        sur une série en baisse, c'est utiliser une source contre son propre sens.
+      </p>
+    </div>
+
+    <p>
+      L'urgence existe — 39 % reste énorme. Mais elle ne se démontre pas par cette
+      série. Elle se démontre par la composition du besoin : les compétences dont la
+      demande croît le plus vite d'ici 2030 sont, dans l'ordre, <strong>l'IA et le big data</strong>,
+      <strong>les réseaux et la cybersécurité</strong>, <strong>la culture technologique</strong>, la
+      <strong>pensée créative</strong>, puis la <strong>résilience et l'agilité</strong>. La pensée
+      analytique, elle, reste la compétence de base la plus recherchée : sept employeurs
+      sur dix la jugent essentielle.
+    </p>
+
+    <div class="note">
+      <p>
+        <span class="note-lead">Sur les classements</span>
+        Nous publions ce classement en rang, sans les pourcentages qui l'accompagnent
+        habituellement en circulation. Les rangs sont dans le rapport ; les pourcentages
+        qu'on leur attache en reprise (92 %, 80 %, 74 %…) ne s'y trouvent pas sous cette
+        forme. Un rang sourcé vaut mieux qu'un pourcentage décoratif.
+      </p>
+    </div>
+
+    <h3>Les limites structurelles du modèle par poste</h3>
+    <p>
+      Le modèle dominant — celui de la fiche de poste — a fonctionné tant que les
+      environnements étaient stables. On recrutait pour un poste, on formait pour ce
+      poste, on évaluait à ce poste. Ce modèle suppose que le contenu du travail tient
+      dans un intitulé, et que cet intitulé vieillit lentement.
+    </p>
+    <p>
+      Les deux hypothèses se fissurent. Le poste devient une convention administrative
+      qui masque la réalité du travail : ce que les personnes font, les compétences
+      qu'elles mobilisent, les problèmes qu'elles résolvent. Une organisation qui ne
+      voit que des postes ne voit pas son propre capital.
+    </p>
+
+    <div class="note">
+      <p>
+        <span class="note-lead">À manier avec prudence</span>
+        Vous rencontrerez souvent l'idée qu'une compétence aurait désormais une
+        « durée de vie de 2,5 ans ». Le chiffre vient des travaux d'<strong>IBM</strong>, pas
+        du WEF à qui on l'attribue régulièrement — et il désigne les
+        <em>perishable skills</em> : des compétences outils et techniques à
+        rafraîchissement rapide. L'étendre à « une compétence métier » en général
+        déforme la source. La demi-vie d'un savoir-faire relationnel ou d'un
+        jugement professionnel n'a rien à voir avec celle d'une version de logiciel.
+      </p>
+    </div>
+  </section>
+
+  <hr class="divide">
+
+  <!-- ══════════ 02 ══════════ -->
+  <section class="section" id="ch2">
+    <div class="section-open">
+      <span class="section-num">Chapitre 02</span>
+      <h2>La SBO, de l'idée à l'architecture</h2>
+      <p class="lead">
+        Une refonte de l'unité de base de l'organisation. Et un taux d'adoption
+        réelle qui devrait rendre tout le monde plus modeste.
+      </p>
+    </div>
+
+    <h3>Définition et trois ruptures</h3>
+    <p>
+      Une <strong>Skills-Based Organization</strong> est une organisation dans laquelle les
+      décisions de recrutement, de mobilité, de formation et d'allocation reposent sur
+      les compétences réelles des personnes plutôt que sur leur intitulé de poste,
+      leur diplôme ou leur ancienneté. La compétence — et non le poste — devient
+      l'unité de base.
+    </p>
+    <p>
+      Trois ruptures avec le modèle traditionnel. Premièrement, le <strong>référentiel
+      dynamique</strong> : au lieu d'une liste figée de fiches de poste, un graphe vivant,
+      mis à jour par les signaux du marché et les données d'usage internes.
+      Deuxièmement, <strong>l'allocation par les compétences</strong> : les missions sont
+      assignées sur ce qui est démontré, pas sur ce qui est titré. Troisièmement,
+      <strong>l'apprentissage intégré au flux de travail</strong> : la formation cesse d'être
+      un événement pour devenir une pratique.
+    </p>
+
+    <figure>
+      <svg viewBox="0 0 720 300" role="img" aria-labelledby="fig1-t fig1-d" xmlns="http://www.w3.org/2000/svg">
+        <title id="fig1-t">Du modèle par postes au modèle par compétences</title>
+        <desc id="fig1-d">À gauche, neuf postes isolés répartis en trois silos cloisonnés, sans lien entre eux. À droite, les mêmes compétences forment un réseau connecté autour d'un référentiel partagé central.</desc>
+
+        <!-- LEFT : silos -->
+        <text x="0" y="14" font-family="League Spartan, serif" font-size="12" font-weight="700" letter-spacing="1.4" fill="#8F5017">ORGANISATION PAR POSTES</text>
+        <text x="0" y="34" font-family="Nunito, sans-serif" font-size="12" fill="#695A52">Compétences enfermées dans des intitulés</text>
+
+        <g stroke="#E0D5C8" stroke-width="1" fill="none">
+          <line x1="98" y1="58" x2="98" y2="266"/>
+          <line x1="196" y1="58" x2="196" y2="266"/>
+        </g>
+        <g fill="none" stroke="#695A52" stroke-width="1.25">
+          <rect x="8"   y="72"  width="76" height="34" rx="3"/>
+          <rect x="8"   y="130" width="76" height="34" rx="3"/>
+          <rect x="8"   y="188" width="76" height="34" rx="3"/>
+          <rect x="110" y="72"  width="76" height="34" rx="3"/>
+          <rect x="110" y="130" width="76" height="34" rx="3"/>
+          <rect x="110" y="188" width="76" height="34" rx="3"/>
+          <rect x="208" y="72"  width="76" height="34" rx="3"/>
+          <rect x="208" y="130" width="76" height="34" rx="3"/>
+          <rect x="208" y="188" width="76" height="34" rx="3"/>
+        </g>
+        <text x="46"  y="252" text-anchor="middle" font-family="Nunito, sans-serif" font-size="11" fill="#695A52">Silo A</text>
+        <text x="148" y="252" text-anchor="middle" font-family="Nunito, sans-serif" font-size="11" fill="#695A52">Silo B</text>
+        <text x="246" y="252" text-anchor="middle" font-family="Nunito, sans-serif" font-size="11" fill="#695A52">Silo C</text>
+
+        <!-- ARROW -->
+        <g stroke="#ED843A" stroke-width="2" fill="none">
+          <line x1="316" y1="150" x2="392" y2="150"/>
+          <path d="M384 143 L392 150 L384 157" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+
+        <!-- RIGHT : network -->
+        <text x="424" y="14" font-family="League Spartan, serif" font-size="12" font-weight="700" letter-spacing="1.4" fill="#8F5017">ORGANISATION PAR COMPÉTENCES</text>
+        <text x="424" y="34" font-family="Nunito, sans-serif" font-size="12" fill="#695A52">Compétences reliées par un référentiel partagé</text>
+
+        <g stroke="#3D7786" stroke-width="1" opacity="0.5" fill="none">
+          <line x1="586" y1="150" x2="470" y2="86"/>
+          <line x1="586" y1="150" x2="466" y2="164"/>
+          <line x1="586" y1="150" x2="492" y2="234"/>
+          <line x1="586" y1="150" x2="596" y2="72"/>
+          <line x1="586" y1="150" x2="694" y2="106"/>
+          <line x1="586" y1="150" x2="702" y2="196"/>
+          <line x1="586" y1="150" x2="606" y2="242"/>
+          <line x1="470" y1="86"  x2="596" y2="72"/>
+          <line x1="466" y1="164" x2="492" y2="234"/>
+          <line x1="694" y1="106" x2="702" y2="196"/>
+          <line x1="606" y1="242" x2="702" y2="196"/>
+        </g>
+        <g fill="#fefaf5" stroke="#3D7786" stroke-width="1.5">
+          <circle cx="470" cy="86"  r="9"/>
+          <circle cx="466" cy="164" r="9"/>
+          <circle cx="492" cy="234" r="9"/>
+          <circle cx="596" cy="72"  r="9"/>
+          <circle cx="694" cy="106" r="9"/>
+          <circle cx="702" cy="196" r="9"/>
+          <circle cx="606" cy="242" r="9"/>
+        </g>
+        <circle cx="586" cy="150" r="17" fill="#fefaf5" stroke="#ED843A" stroke-width="2"/>
+        <text x="586" y="196" text-anchor="middle" font-family="Nunito, sans-serif" font-size="11" fill="#695A52">Référentiel partagé</text>
+      </svg>
+      <figcaption>
+        <b>Figure 1 — Le déplacement de l'unité de base.</b> Dans le modèle par postes,
+        une compétence n'existe que là où un intitulé la loge : elle est invisible pour
+        le reste de l'organisation. Dans le modèle par compétences, le référentiel
+        partagé (au centre) rend les adjacences lisibles et donc la mobilité possible.
+        Ce schéma décrit une cible d'architecture, pas un état constaté : voir le taux
+        d'adoption réel ci-dessous.
+      </figcaption>
+    </figure>
+
+    <h3>Ce que l'adoption réelle raconte</h3>
+    <p>
+      Le concept est séduisant, largement documenté, et porté depuis plusieurs années
+      par les grands cabinets. Il est donc utile de regarder combien d'organisations
+      y sont réellement parvenues. La réponse, dans le rapport de référence de
+      <strong>Deloitte</strong> sur le sujet : <strong>moins d'une organisation sur cinq</strong> a
+      adopté les approches par compétences à un degré significatif.
+    </p>
+    <p>
+      Ce chiffre mérite d'être lu deux fois, pour une raison précise : il vient d'un
+      acteur qui <em>vend</em> de la transformation SBO. Quand un cabinet dont c'est
+      l'offre annonce que moins de 20 % de ses prospects y sont arrivés, le chiffre
+      est crédible — il va contre l'intérêt commercial de celui qui le publie.
+    </p>
+
+    <p>
+      L'analyste le plus associé au sujet, <strong>Josh Bersin</strong>, tient la position la
+      plus utile pour qui doit décider. Il n'attaque pas le concept : il en documente
+      la difficulté réelle. Trois avertissements ressortent de son analyse.
+    </p>
+
+    <ul class="runlist">
+      <li>
+        <strong>Les taxonomies sont plus complexes que ne l'admettent les éditeurs.</strong>
+        Chaque secteur, chaque entreprise, chaque business unit valorise les compétences
+        différemment. Vouloir cartographier l'ensemble d'emblée mène à ce qu'il appelle
+        le « boil the ocean » — un chantier sans fin.
+      </li>
+      <li>
+        <strong>La valeur est contextuelle, pas portable.</strong> Il s'appuie sur des travaux
+        de Harvard : un professionnel très performant transféré dans une autre firme
+        sous-performe le plus souvent. Sa vraie compétence était de naviguer <em>cette
+        organisation-là</em> — ce qu'aucun référentiel ne capture.
+      </li>
+      <li>
+        <strong>Le mesurable n'est pas le déterminant.</strong> Les organisations
+        s'acharnent sur ce qui rentre dans une base de données et négligent la culture,
+        l'ambition, l'agilité d'apprentissage et l'alignement.
+      </li>
+    </ul>
+
+    <div class="pull">
+      <q>hard skills are soft, it's the soft skills that are hard</q>
+      <cite>Josh Bersin, <em>Building a Skills-Based Organization: The Exciting But Sober Reality</em></cite>
+    </div>
+
+    <p>
+      Sa recommandation est opérationnelle et va à l'encontre de la vente de plateforme :
+      <strong>partir d'un problème métier précis</strong>, construire un modèle de compétences
+      restreint autour de lui, puis étendre — plutôt que de commander une taxonomie
+      d'entreprise avant de savoir à quoi elle servira.
+    </p>
+
+    <h3>Cinq piliers, dans cet ordre</h3>
+    <ul class="pillars">
+      <li><b>Inventaire continu</b><span>Auto-évaluations, évaluations managers, données d'activité et RH pour cartographier l'existant — sans attendre l'exhaustivité.</span></li>
+      <li><b>Référentiel adossé à la stratégie</b><span>Un référentiel aligné sur les priorités de l'entreprise et les évolutions métiers anticipées, pas sur un standard générique acheté sur étagère.</span></li>
+      <li><b>Outillage</b><span>LMS, SIRH, plateformes de skills intelligence. Le pilier le plus visible, et le seul qui ne suffit jamais seul.</span></li>
+      <li><b>Culture managériale</b><span>Former les managers et les équipes RH à raisonner en compétences plutôt qu'en grades. C'est le pilier le plus lent et le plus déterminant.</span></li>
+      <li><b>Itération</b><span>La cartographie doit évoluer au rythme des métiers. Un référentiel figé perd sa valeur en quelques trimestres sur les domaines techniques.</span></li>
+    </ul>
+
+    <div class="note">
+      <p>
+        <span class="note-lead">Pour votre diagnostic</span>
+        Si votre référentiel date de plus de dix-huit mois, il est probablement déjà
+        partiellement périmé sur les domaines techniques et IA — mais probablement
+        encore valide sur les compétences relationnelles et de jugement. La première
+        question n'est pas « comment former ? » mais « sur quoi former, et comment
+        maintenir ce référentiel vivant sans y consacrer un équivalent temps plein ? »
+      </p>
+    </div>
+  </section>
+
+  <hr class="divide">
+
+  <!-- ══════════ 03 ══════════ -->
+  <section class="section" id="ch3">
+    <div class="section-open">
+      <span class="section-num">Chapitre 03</span>
+      <h2>L'IA, moteur — et ce que les preuves autorisent</h2>
+      <p class="lead">
+        Sans IA, la SBO reste une intention. Avec elle, elle devient opérable.
+        Mais l'IA <em>qui outille l'organisation</em> et l'IA <em>qui forme les gens</em>
+        ne reposent pas du tout sur le même niveau de preuve.
+      </p>
+    </div>
+
+    <h3>Skills intelligence : voir ce que vous ne voyez pas</h3>
+    <p>
+      La <strong>skills intelligence</strong> désigne les technologies capables d'inférer et de
+      tracer les compétences à partir de sources multiples : activité de travail,
+      historique de formation, données de projets, évaluations, offres d'emploi.
+      Le traitement du langage naturel permet d'analyser des milliers de sources et
+      d'en extraire les signaux faibles des compétences émergentes, puis d'aligner
+      la taxonomie obtenue sur des standards de marché (ESCO, O*NET, ROME).
+    </p>
+    <p>
+      C'est le déplacement décisif : passer de la déclaration volontaire annuelle à
+      une carte actualisée en continu. Pour les équipes L&amp;D, l'enjeu est de
+      <strong>remplacer un catalogue décidé en comité par un plan de développement
+      arbitré sur des données</strong>. C'est un gain d'allocation — et il est réel,
+      parce qu'il ne dépend d'aucune hypothèse sur la cognition humaine. Il déplace
+      des budgets, pas des apprentissages.
+    </p>
+
+    <h3>La formation par l'IA : là où le sol se dérobe</h3>
+    <p>
+      C'est l'autre moitié de la promesse, et elle est d'une nature entièrement
+      différente. Ici, on n'affirme plus qu'un algorithme range mieux des données —
+      on affirme qu'une machine fait mieux apprendre un humain. Cette affirmation est
+      testable. Elle a été testée. Les résultats ne ressemblent pas au discours du marché.
+    </p>
+
+    <ul class="runlist">
+      <li>
+        Une <strong>méta-analyse préenregistrée</strong> (10 études, 11 tailles d'effet,
+        1 069 participants) sur l'IA générative en enseignement ne trouve
+        <strong>aucun effet statistiquement significatif</strong> sur les résultats
+        d'apprentissage. Hedges' g = 0,14 · IC 95 % [−0,18 · 0,47] · p = 0,389 —
+        l'intervalle de confiance contient zéro.
+      </li>
+      <li>
+        Un <strong>essai de terrain randomisé publié dans PNAS</strong> mesure l'effet d'un accès
+        libre à GPT-4 pendant l'entraînement. À l'examen <em>sans assistance</em>, ce groupe
+        obtient <strong>17 % de moins</strong> que celui qui n'y a jamais eu accès. L'IA n'a
+        pas seulement échoué à aider : elle a nui à l'acquisition.
+      </li>
+      <li>
+        Dans ce même essai, le <strong>tuteur IA bridé</strong> — indices conçus par l'enseignant
+        plutôt que réponses livrées — ne produit <strong>aucun gain mesurable</strong> face au
+        groupe contrôle. Statistiquement indistinguable. Il neutralise le mal causé par
+        la version libre, sans créer de bénéfice.
+      </li>
+      <li>
+        Une <strong>revue systématique</strong> classe la qualité globale de ce corpus en
+        <strong>LOW</strong> selon GRADE : hétérogénéité, randomisation mal rapportée, une seule
+        étude sur onze avec évaluation en aveugle.
+      </li>
+    </ul>
+
+    <figure>
+      <svg viewBox="0 0 720 400" role="img" aria-labelledby="fig2-t fig2-d" xmlns="http://www.w3.org/2000/svg">
+        <title id="fig2-t">Performance avec l'outil et apprentissage évoluent en sens opposé</title>
+        <desc id="fig2-d">Mesuré pendant que l'IA est disponible, l'accès libre à GPT-4 donne plus 48 pour cent et le tuteur bridé plus 127 pour cent par rapport au contrôle. Mesuré à l'examen sans assistance, l'accès libre tombe à moins 17 pour cent et le tuteur bridé revient à la parité avec le contrôle.</desc>
+
+        <!-- Group 1 label -->
+        <text x="0" y="16" font-family="League Spartan, serif" font-size="12" font-weight="700" letter-spacing="1.3" fill="#8F5017">MESURÉ AVEC L'IA DISPONIBLE PENDANT L'ÉPREUVE</text>
+
+        <!-- zero axis -->
+        <line x1="300" y1="30" x2="300" y2="330" stroke="#695A52" stroke-width="1"/>
+        <text x="300" y="352" text-anchor="middle" font-family="Nunito, sans-serif" font-size="11" fill="#695A52">0 — groupe contrôle (aucune IA)</text>
+
+        <!-- row 1 : +48 -->
+        <text x="240" y="62" text-anchor="end" font-family="Nunito, sans-serif" font-size="13" fill="#4C3B33">GPT-4 en accès libre</text>
+        <rect x="300" y="46" width="125" height="24" fill="#3D7786" opacity="0.85"/>
+        <text x="437" y="63" font-family="League Spartan, serif" font-size="14" font-weight="700" fill="#3D7786">+48 %</text>
+
+        <!-- row 2 : +127 -->
+        <text x="240" y="106" text-anchor="end" font-family="Nunito, sans-serif" font-size="13" fill="#4C3B33">Tuteur IA bridé</text>
+        <rect x="300" y="90" width="330" height="24" fill="#3D7786" opacity="0.85"/>
+        <text x="642" y="107" font-family="League Spartan, serif" font-size="14" font-weight="700" fill="#3D7786">+127 %</text>
+
+        <!-- separator -->
+        <line x1="0" y1="152" x2="720" y2="152" stroke="#E0D5C8" stroke-width="1"/>
+
+        <!-- Group 2 label -->
+        <text x="0" y="188" font-family="League Spartan, serif" font-size="12" font-weight="700" letter-spacing="1.3" fill="#8F5017">MESURÉ À L'EXAMEN, SANS ASSISTANCE</text>
+
+        <!-- row 3 : -17 -->
+        <text x="240" y="234" text-anchor="end" font-family="Nunito, sans-serif" font-size="13" fill="#4C3B33">GPT-4 en accès libre</text>
+        <rect x="256" y="218" width="44" height="24" fill="#8F2A0E"/>
+        <text x="316" y="235" font-family="League Spartan, serif" font-size="14" font-weight="700" fill="#8F2A0E">−17 %</text>
+
+        <!-- row 4 : parity -->
+        <text x="240" y="278" text-anchor="end" font-family="Nunito, sans-serif" font-size="13" fill="#4C3B33">Tuteur IA bridé</text>
+        <rect x="297" y="262" width="6" height="24" fill="#695A52"/>
+        <text x="316" y="278" font-family="League Spartan, serif" font-size="14" font-weight="700" fill="#4C3B33">parité</text>
+        <text x="316" y="294" font-family="Nunito, sans-serif" font-size="11" fill="#695A52">statistiquement indistinguable du contrôle</text>
+      </svg>
+      <figcaption>
+        <b>Figure 2 — La dissociation.</b> Les mêmes bras expérimentaux, mesurés deux fois.
+        En haut, l'IA est disponible pendant l'épreuve : les gains sont spectaculaires et
+        ce sont eux qui circulent. En bas, l'IA est retirée et l'on mesure ce qui a été
+        appris : l'accès libre a dégradé l'acquisition, le tuteur bridé fait jeu égal avec
+        l'absence d'IA. <b>« Performance avec l'outil » et « apprentissage » sont deux choses
+        distinctes, et elles peuvent aller en sens opposé.</b> Source : essai de terrain
+        randomisé, PNAS, 2025.
+      </figcaption>
+    </figure>
+
+    <div class="note alert">
+      <p>
+        <span class="note-lead">Comment lire un chiffre d'efficacité</span>
+        La quasi-totalité des chiffres marketing du secteur mesurent la première
+        colonne en la vendant comme la seconde. Devant toute promesse de type
+        « +X % de performance grâce à l'IA », une seule question tranche :
+        <strong>l'IA était-elle disponible au moment de la mesure ?</strong>
+      </p>
+      <p>
+        Si oui, vous mesurez un outil, ce qui est légitime et parfois suffisant —
+        mais ce n'est pas de la formation. Si non, vous mesurez un apprentissage.
+        Les deux se vendent au même prix et ne valent pas la même chose.
+      </p>
+    </div>
+
+    <h3>Ce que cela ne veut pas dire</h3>
+    <p>
+      Ce corpus ne dit pas « l'IA ne sert à rien en formation ». Il impose trois
+      réserves que l'honnêteté commande d'énoncer.
+    </p>
+    <p>
+      D'abord, ces études portent majoritairement sur des <strong>étudiants</strong> — lycée,
+      université — et non sur des professionnels en formation continue. La
+      transposition à un public d'entreprise est une <em>hypothèse</em>, pas un résultat.
+      Ensuite, la qualité de preuve est classée LOW : les auteurs eux-mêmes appellent
+      à la prudence, dans les deux sens. Enfin, l'absence d'effet démontré n'est pas
+      une preuve d'absence d'effet — c'est l'état d'une littérature jeune.
+    </p>
+    <p>
+      Ce que le corpus interdit, en revanche, c'est d'affirmer que l'efficacité
+      pédagogique de l'IA générative est <em>établie</em>. Elle ne l'est pas. Toute
+      promesse chiffrée en la matière est aujourd'hui une hypothèse commerciale,
+      pas un résultat scientifique — y compris quand elle est formulée par nous.
+    </p>
+
+    <h3>Adaptive learning et copilotes : la promesse, sans le chiffre</h3>
+    <p>
+      L'<strong>adaptive learning</strong> ajuste le parcours selon le niveau et le rythme de
+      chacun : sélection des modules à l'échelle du parcours, ajustement de la
+      difficulté et du niveau d'explication à l'intérieur de chaque module. Le
+      <strong>copilote d'apprentissage</strong> pousse la logique plus loin — un agent qui
+      répond aux questions métier, suggère des ressources au bon moment, anticipe
+      les besoins.
+    </p>
+    <p>
+      Ces approches sont pédagogiquement défendables : elles répondent à des principes
+      solides sur l'ajustement de la charge et l'espacement. Nous les mettons en œuvre.
+      Mais nous ne leur attacherons pas de multiplicateur d'efficacité, parce
+      qu'aucune source primaire ne le soutient aujourd'hui — et parce que le seul essai
+      randomisé sérieux disponible sur un tuteur IA bien conçu conclut à la
+      <em>parité</em> avec l'absence d'IA, pas à un gain.
+    </p>
+    <p>
+      C'est une position inconfortable pour un acteur du secteur. Elle est plus solide
+      que l'alternative : promettre un chiffre que le premier acheteur exigeant
+      démontera.
+    </p>
+
+    <div class="table-scroll">
+      <table>
+        <caption>Ce que l'IA déplace réellement dans un dispositif — et sur quel niveau de preuve.</caption>
+        <thead>
+          <tr>
+            <th scope="col">Dimension</th>
+            <th scope="col">Dispositif traditionnel</th>
+            <th scope="col">Dispositif IA-augmenté</th>
+            <th scope="col">Niveau de preuve</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Diagnostic</td>
+            <td>Auto-déclaratif, annuel</td>
+            <td>Continu, multi-source, inféré</td>
+            <td><span class="t-teal">Solide</span> — mesure d'allocation</td>
+          </tr>
+          <tr>
+            <td>Contenu</td>
+            <td>Catalogue fixe, révisé annuellement</td>
+            <td>Généré et contextualisé à la demande</td>
+            <td><span class="t-teal">Solide</span> — gain de production</td>
+          </tr>
+          <tr>
+            <td>Parcours</td>
+            <td>Linéaire, identique pour tous</td>
+            <td>Adaptatif, branché sur les lacunes</td>
+            <td><span class="t-warm">Hypothèse</span> — non démontré</td>
+          </tr>
+          <tr>
+            <td>Feedback</td>
+            <td>Post-formation, à froid</td>
+            <td>Instantané, intégré au parcours</td>
+            <td><span class="t-warm">Hypothèse</span> — non démontré</td>
+          </tr>
+          <tr>
+            <td>Acquisition</td>
+            <td>Mesurée en fin de parcours</td>
+            <td>Promesse d'accélération</td>
+            <td><span class="t-warm">Contredit</span> — voir figure 2</td>
+          </tr>
+          <tr>
+            <td>Pilotage</td>
+            <td>Taux de complétion</td>
+            <td>Couverture, vélocité, impact</td>
+            <td><span class="t-teal">Solide</span> — mesure de gestion</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note">
+      <p>
+        <span class="note-lead">La ligne de partage</span>
+        L'IA est aujourd'hui <strong>démontrée là où elle organise</strong> — cartographier,
+        allouer, produire, mesurer — et <strong>non démontrée là où elle enseigne</strong>.
+        C'est une excellente nouvelle pour la SBO, dont le cœur est précisément
+        l'organisation. C'en est une mauvaise pour qui vend de l'IA comme substitut
+        pédagogique.
+      </p>
+    </div>
+  </section>
+
+  <hr class="divide">
+
+  <!-- ══════════ 04 ══════════ -->
+  <section class="section" id="ch4">
+    <div class="section-open">
+      <span class="section-num">Chapitre 04</span>
+      <h2>Le rôle pivot du L&amp;D</h2>
+      <p class="lead">
+        La transition ne se pilote ni depuis la DSI, ni depuis la direction
+        stratégique. Elle se pilote depuis le Learning &amp; Development —
+        opportunité et responsabilité nouvelles.
+      </p>
+    </div>
+
+    <h3>Les nouvelles missions</h3>
+    <div class="table-scroll">
+      <table>
+        <caption>Le déplacement du mandat L&amp;D dans une organisation par compétences.</caption>
+        <thead>
+          <tr>
+            <th scope="col">Ancienne mission</th>
+            <th scope="col">Mission dans une SBO</th>
+            <th scope="col">Levier</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Planifier un catalogue annuel</td>
+            <td>Piloter un écosystème de développement continu intégré au flux de travail</td>
+            <td>Graphe de compétences</td>
+          </tr>
+          <tr>
+            <td>Produire des modules</td>
+            <td>Orchestrer production assistée, expertise humaine et validation terrain</td>
+            <td>IA générative</td>
+          </tr>
+          <tr>
+            <td>Mesurer le taux de complétion</td>
+            <td>Établir le lien entre montée en compétences et performance opérationnelle</td>
+            <td>Skills analytics</td>
+          </tr>
+          <tr>
+            <td>Gérer un budget formation</td>
+            <td>Allouer l'investissement compétences selon les priorités stratégiques</td>
+            <td>Workforce planning</td>
+          </tr>
+          <tr>
+            <td>Former à la demande du manager</td>
+            <td>Anticiper les écarts et proposer des plans de développement proactifs</td>
+            <td>Inférence</td>
+          </tr>
+          <tr>
+            <td>Évaluer la satisfaction</td>
+            <td>Mesurer l'acquisition réelle et le transfert en situation de travail</td>
+            <td>Évaluation par compétences</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>L'ingénierie pédagogique augmentée</h3>
+    <p>
+      Le concepteur pédagogique ne produit plus seul un module de bout en bout : il
+      devient <strong>chef d'orchestre d'un processus hybride</strong> où l'IA produit la matière
+      première et où l'expert valide, contextualise et enrichit. Le gain de production
+      est réel et immédiatement constatable en interne — c'est d'ailleurs le seul
+      terrain où chaque équipe peut mesurer elle-même, sans croire personne.
+    </p>
+    <p>
+      Mais l'enjeu n'est pas de produire plus vite. Il est de <strong>concentrer l'expertise
+      humaine là où elle est irremplaçable</strong> : la définition des objectifs
+      pédagogiques, la conception de situations d'apprentissage authentiques,
+      l'évaluation par compétences, l'animation des communautés de pratique. Produire
+      trois fois plus de modules médiocres n'est pas un progrès.
+    </p>
+
+    <h3>Skills analytics : mesurer ce qui compte</h3>
+    <p>
+      Le blocage historique du L&amp;D est sa difficulté à démontrer son impact en
+      termes business. Les skills analytics offrent un cadre articulé en trois niveaux :
+      la <strong>couverture</strong> — quelle part des compétences critiques est couverte par
+      les plans ? — la <strong>vélocité</strong> — à quelle vitesse les écarts se réduisent-ils ? —
+      et l'<strong>impact</strong> — quelle corrélation entre montée en compétences et
+      performance des équipes ?
+    </p>
+    <p>
+      Un avertissement s'impose sur le troisième niveau : <strong>corrélation n'est pas
+      causalité</strong>, et les équipes qui montent en compétences sont souvent celles qui
+      allaient déjà bien. Un tableau de bord qui ignore cette réserve produit des
+      certitudes fausses avec plus d'autorité qu'une absence de tableau de bord.
+    </p>
+
+    <div class="note">
+      <p>
+        <span class="note-lead">Le décalage à traiter en premier</span>
+        <strong>83 %</strong> des dirigeants estiment que le leadership est la clé de la
+        transition par les compétences. Seuls <strong>28 %</strong> des collaborateurs estiment
+        que la stratégie compétences leur est clairement communiquée.
+      </p>
+      <p>
+        Cet écart de 55 points est l'obstacle numéro un, et il se traite avant tout
+        déploiement technologique. Aucune plateforme ne le comble.
+        <span style="color:var(--ink-3); font-size:14px;">Source : McKinsey, <em>Development in the Future of Work — 2025 Perspective on Evolving Trends in L&amp;D</em>.</span>
+      </p>
+    </div>
+
+    <h3>Ce que le L&amp;D doit maîtriser</h3>
+    <ul class="list">
+      <li><b>Référentiels dynamiques</b> — savoir les construire, les maintenir, les faire évoluer sans y noyer une équipe.</li>
+      <li><b>Architecture de parcours adaptatifs</b> — concevoir des expériences non linéaires pilotées par la donnée.</li>
+      <li><b>Mesure d'impact</b> — Kirkpatrick niveaux 3 et 4, modèle Phillips, et la lucidité méthodologique qui va avec.</li>
+      <li><b>Écosystème technologique</b> — comprendre les interactions LMS / LXP / skills platform / SIRH pour acheter en connaissance de cause.</li>
+      <li><b>Littératie des preuves</b> — savoir distinguer une étude randomisée d'un cas client, une corrélation d'une causalité, une performance avec l'outil d'un apprentissage. C'est la compétence qui protège le budget.</li>
+    </ul>
+  </section>
+
+  <hr class="divide">
+
+  <!-- ══════════ 05 ══════════ -->
+  <section class="section" id="ch5">
+    <div class="section-open">
+      <span class="section-num">Chapitre 05</span>
+      <h2>Le terrain français</h2>
+      <p class="lead">
+        Le récit dominant décrit un marché en expansion qui investit massivement
+        dans l'IA. Les chiffres publics décrivent une contraction.
+      </p>
+    </div>
+
+    <h3>Un marché qui se contracte</h3>
+    <p>
+      La dépense nationale pour la formation professionnelle continue et
+      l'apprentissage atteint <strong>56,6 milliards d'euros en 2024</strong> selon la
+      <strong>DARES</strong> — en baisse de 0,7 % sur un an. Hors dépenses directes des
+      entreprises et des fonctions publiques pour leurs propres agents, elle
+      s'établit à <strong>33 milliards</strong>, en recul de <strong>2,4 %</strong>.
+    </p>
+    <p>
+      Les entreprises restent le premier financeur avec 16,4 milliards de dépenses
+      directes, soit 29 % de l'ensemble. Suivent les Opco (12,4 milliards), l'État
+      (8,7 milliards), les fonctions publiques (7,2 milliards), les organismes de
+      service public (5,7 milliards) et les régions (3,9 milliards).
+    </p>
+    <p>
+      Du côté de <strong>France Compétences</strong>, la trajectoire 2026 est nette : le budget
+      d'intervention passe à <strong>12,08 milliards d'euros</strong>, soit près de
+      <strong>1,5 milliard de moins qu'en 2025 — une baisse de plus de 10 %</strong>, et de plus
+      de 14 % rapportée au budget initial 2025. L'alternance absorbe 8,2 milliards,
+      environ 73 % de l'enveloppe, elle-même en recul de plus d'un milliard. L'excédent
+      annoncé pour 2026 ne traduit pas une santé retrouvée : il résulte de la
+      compression des engagements.
+    </p>
+
+    <div class="note alert">
+      <p>
+        <span class="note-lead">Deux confusions à éviter</span>
+        Le budget de France Compétences (≈ 12 Md€) n'est <strong>pas</strong> « le budget de la
+        formation professionnelle en France » (≈ 33 à 56 Md€ selon le périmètre). Les
+        confondre divise le marché par trois à cinq.
+      </p>
+      <p>
+        Et un budget qui atteint 12 milliards n'est pas « un niveau sans précédent » :
+        c'est une <strong>contraction sans précédent</strong>. Le même nombre raconte deux
+        histoires opposées selon qu'on regarde son niveau ou sa dérivée.
+      </p>
+    </div>
+
+    <p>
+      La lecture stratégique change du tout au tout. Dans un marché en expansion, la
+      SBO est une opportunité de croissance. Dans un marché qui se contracte de 10 %
+      sur les financements mutualisés, c'est un <strong>impératif d'allocation</strong> : il
+      faut démontrer que chaque euro va là où l'écart de compétences est réel. Ce
+      n'est pas le même projet, ni le même argumentaire devant un comité de direction.
+    </p>
+
+    <h3>L'adoption de l'IA : un chiffre qui dépend de qui le mesure</h3>
+    <p>
+      Sur l'adoption de l'IA générative par les entreprises françaises, deux sources
+      sérieuses donnent deux réponses difficilement conciliables.
+    </p>
+
+    <div class="table-scroll">
+      <table>
+        <caption>Adoption de l'IA générative en France — deux mesures, deux méthodes.</caption>
+        <thead>
+          <tr>
+            <th scope="col">Source</th>
+            <th scope="col">Mesure</th>
+            <th scope="col">Population</th>
+            <th scope="col">Méthode</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Insee, enquête TIC 2024</td>
+            <td><span class="t-teal">8 %</span> IA générative<br><span style="color:var(--ink-3);font-size:13px;">10 % toutes technologies d'IA confondues</span></td>
+            <td>Entreprises de 10 salariés et plus</td>
+            <td>Statistique publique, définitions normalisées</td>
+          </tr>
+          <tr>
+            <td>Bpifrance Le Lab</td>
+            <td><span class="t-warm">55 %</span> fin 2025<br><span style="color:var(--ink-3);font-size:13px;">31 % fin 2024</span></td>
+            <td>TPE et PME</td>
+            <td>Déclaratif, usage au sens large</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      Sept fois d'écart. Les deux sources sont légitimes : elles ne mesurent ni la
+      même population, ni la même chose, ni de la même façon. « Utiliser l'IA
+      générative » peut signifier qu'un dirigeant a testé un assistant une fois, ou
+      qu'un processus métier en dépend.
+    </p>
+
+    <div class="note">
+      <p>
+        <span class="note-lead">Le piège de la définition large</span>
+        Le chiffre Insee de <strong>10 %</strong> circule beaucoup comme taux d'adoption de
+        l'IA générative. C'en est un mésusage : il couvre une définition large — fouille
+        de textes, vision par ordinateur, reconnaissance de la parole, machine learning,
+        apprentissage profond. Le taux d'IA générative dans la même enquête est de
+        <strong>8 %</strong>. Pour référence, la moyenne européenne d'adoption de l'IA se situe
+        à 13 %, loin derrière le Danemark (28 %) ou la Belgique (25 %).
+      </p>
+    </div>
+
+    <p>
+      La conclusion opérationnelle n'est pas de choisir le chiffre qui arrange. C'est
+      de considérer que, dans votre organisation, <strong>le taux réel d'usage productif de
+      l'IA est probablement inconnu</strong> — et qu'il vaut mieux le mesurer chez vous que
+      l'importer d'une étude dont vous ne partagez ni le périmètre ni la méthode.
+    </p>
+  </section>
+
+  <hr class="divide">
+
+  <!-- ══════════ 06 ══════════ -->
+  <section class="section" id="ch6">
+    <div class="section-open">
+      <span class="section-num">Chapitre 06</span>
+      <h2>Feuille de route 90 jours</h2>
+      <p class="lead">
+        Un plan calibré sur ce que les preuves autorisent : commencer par un
+        problème, pas par une plateforme.
+      </p>
+    </div>
+
+    <h3>Jours 1 à 30 — Diagnostic restreint</h3>
+    <p>
+      Choisir <strong>une</strong> question métier qui fait mal — une tension de recrutement,
+      une mobilité bloquée, un projet retardé faute de compétences. Ne pas cartographier
+      l'entreprise : cartographier ce périmètre. Auditer les compétences critiques sur
+      deux ou trois familles de métiers, identifier l'écart entre ce qui est disponible
+      et ce qui sera nécessaire à dix-huit mois. Constituer une équipe restreinte
+      L&amp;D, RH, direction et métier. Ne rien acheter ce mois-ci.
+    </p>
+
+    <h3>Jours 30 à 60 — Expérimentation mesurable</h3>
+    <p>
+      Déployer un premier parcours sur une population cible de 50 à 200 personnes.
+      Tester l'IA générative sur la production de deux ou trois modules courts — et
+      mesurer le temps de production, qui est vérifiable en interne. Définir la mesure
+      d'impact <strong>avant</strong> de lancer, avec un groupe de comparaison si c'est possible.
+      Organiser les ateliers managériaux : c'est le pilier lent, il doit démarrer tôt.
+    </p>
+
+    <div class="note alert">
+      <p>
+        <span class="note-lead">La règle qui protège votre pilote</span>
+        Si votre dispositif intègre une aide IA, <strong>évaluez au moins une fois sans elle</strong>.
+        C'est la seule façon de savoir si vous avez formé quelqu'un ou simplement
+        équipé quelqu'un. Un pilote qui ne mesure que la performance assistée ne peut
+        pas conclure — et il vous exposera devant le premier comité qui posera la question.
+      </p>
+    </div>
+
+    <h3>Jours 60 à 90 — Arbitrage</h3>
+    <p>
+      Analyser les données du pilote en distinguant explicitement ce qui est mesuré
+      avec assistance de ce qui l'est sans. Présenter un dossier de décision honnête —
+      y compris ce qui n'a pas marché, qui est l'information la plus utile à un comité.
+      Planifier l'intégration au SIRH si et seulement si le pilote l'a justifiée.
+      Définir les indicateurs de pilotage : couverture, vélocité, et une hypothèse
+      d'impact assumée comme telle.
+    </p>
+
+    <div class="note">
+      <p>
+        <span class="note-lead">L'ordre compte</span>
+        Un problème, puis un périmètre, puis une mesure, puis un outil. L'ordre inverse —
+        un outil, puis un périmètre à sa taille, puis une mesure qui le flatte, puis un
+        problème trouvé après coup — reste le mode d'échec le plus fréquent, et le mieux
+        documenté.
+      </p>
+    </div>
+  </section>
+
+  <hr class="divide">
+
+  <!-- ══════════ SOURCES ══════════ -->
+  <section class="section" id="sources">
+    <div class="section-open">
+      <span class="section-num">Annexe</span>
+      <h2>Sources</h2>
+      <p class="lead">
+        Chaque chiffre de ce dossier est remonté à sa source primaire, avec sa date
+        et son périmètre. Les affirmations que nous n'avons pas pu tracer ont été
+        retirées plutôt que reformulées.
+      </p>
+    </div>
+
+    <ul class="sources">
+      <li>
+        <b>World Economic Forum — <em>The Future of Jobs Report 2025</em></b>
+        <span>Janvier 2025 · Panel de 1 000+ employeurs, 14 M de travailleurs, 55 économies · weforum.org</span>
+      </li>
+      <li>
+        <b>Deloitte — <em>The Skills-Based Organization: A New Operating Model for Work and the Workforce</em></b>
+        <span>2022–2024 · Enquête auprès de 1 021 salariés et 225 dirigeants et responsables RH · deloitte.com/insights — <em>éditeur également prestataire de transformation SBO</em></span>
+      </li>
+      <li>
+        <b>Josh Bersin — <em>Building a Skills-Based Organization: The Exciting But Sober Reality</em></b>
+        <span>Juillet 2023 · joshbersin.com</span>
+      </li>
+      <li>
+        <b>McKinsey — <em>Development in the Future of Work: 2025 Perspective on Evolving Trends in L&amp;D</em></b>
+        <span>2025 · Source du décalage 83 % / 28 % · mckinsey.com</span>
+      </li>
+      <li>
+        <b>McKinsey — <em>Beyond hiring: How companies are reskilling to address talent gaps</em></b>
+        <span>Enquête fielded du 14 au 24 mai <b>2019</b>, publiée en février 2020 · Source réelle du « 87 % » souvent daté de 2025 · mckinsey.com</span>
+      </li>
+      <li>
+        <b>DARES — <em>Dépense nationale pour la formation professionnelle et l'apprentissage</em></b>
+        <span>Données 2024 · 56,6 Md€ (−0,7 %) / 33 Md€ hors dépenses directes (−2,4 %) · dares.travail-emploi.gouv.fr</span>
+      </li>
+      <li>
+        <b>France Compétences — <em>Budget 2026</em></b>
+        <span>Budget d'intervention 12,08 Md€, −10 % vs 2025 · francecompetences.fr</span>
+      </li>
+      <li>
+        <b>Insee — <em>Enquête TIC entreprises 2024, « Intelligence artificielle dans les entreprises »</em></b>
+        <span>10 % toutes IA confondues (définition large), 8 % IA générative, entreprises de 10 salariés et plus · insee.fr</span>
+      </li>
+      <li>
+        <b>Bpifrance Le Lab — <em>Usage de l'IA générative dans les TPE-PME</em></b>
+        <span>31 % fin 2024, 55 % fin 2025 · Déclaratif · lelab.bpifrance.fr</span>
+      </li>
+      <li>
+        <b>ISTF — <em>Les chiffres clés du digital learning, édition 2026</em></b>
+        <span>Près de 500 répondants · 41 % de dispositifs mixtes (+4 pts vs 2025) · istf-formation.fr</span>
+      </li>
+      <li>
+        <b>OCDE — <em>Skills Outlook 2025: Building the Skills of the 21st Century for All</em></b>
+        <span>9 décembre 2025 · oecd.org</span>
+      </li>
+      <li>
+        <b>Wharton Human-AI Research &amp; GBK Collective — <em>Accountable Acceleration: Gen AI Fast-Tracks Into the Enterprise</em></b>
+        <span>Octobre 2025 · 800 dirigeants d'entreprises américaines &gt; 50 M$ de CA · ROI auto-déclaré, non mesuré · ai.wharton.upenn.edu</span>
+      </li>
+    </ul>
+
+    <h3>Corpus sur l'efficacité pédagogique de l'IA générative</h3>
+    <ul class="sources">
+      <li>
+        <b>Méta-analyse préenregistrée — IA générative en enseignement</b>
+        <span>10 études, 11 tailles d'effet, 1 069 participants · g = 0,14 · IC 95 % [−0,18 · 0,47] · p = 0,389 · arxiv.org/pdf/2605.04779</span>
+      </li>
+      <li>
+        <b>Essai de terrain randomisé — accès à GPT-4 et résultats d'apprentissage</b>
+        <span>PNAS, 2025 · −17 % à l'examen sans assistance pour le bras « accès libre » ; bras « tuteur bridé » statistiquement indistinguable du contrôle · pnas.org/doi/10.1073/pnas.2422633122</span>
+      </li>
+      <li>
+        <b>Revue systématique — qualité de preuve GRADE</b>
+        <span>Corpus classé <b>LOW</b> · 1 étude sur 11 avec évaluation en aveugle · pmc.ncbi.nlm.nih.gov/articles/PMC12362899/</span>
+      </li>
+    </ul>
+
+    <div class="note">
+      <p>
+        <span class="note-lead">Notre standard de citation</span>
+        Nous ne citons pas un chiffre sans sa source primaire, sa date de collecte et
+        son périmètre. Nous ne citons pas d'étude non passée par une revue par les
+        pairs comme s'il s'agissait d'une preuve établie, y compris quand ses
+        conclusions nous arrangeraient. Nous n'attribuons pas de résultats chiffrés à
+        des organisations tierces sans publication vérifiable de leur part.
+      </p>
+      <p>
+        Ce standard a un coût : il fait disparaître une bonne partie des chiffres qui
+        circulent sur ce sujet. Nous le préférons à l'alternative.
+      </p>
+    </div>
+  </section>
+
+</div>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-name">The Learning Society</div>
+      <p>
+        Organisation par les compétences, formation professionnelle et IA appliquée
+        à l'apprentissage. Dossier de la série <em>Futurs du Travail</em>.
+      </p>
+    </div>
+    <div>
+      <p>
+        <em>SBO × IA : le nouveau contrat de compétences</em><br>
+        Septembre 2026<br>
+        © 2026 The Learning Society
+      </p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

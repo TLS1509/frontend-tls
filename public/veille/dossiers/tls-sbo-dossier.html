@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skills-Based Organizations — Dossier stratégique | The Learning Society</title>
+<meta name="description" content="Dossier stratégique TLS sur les Skills-Based Organizations : ce que disent réellement les sources primaires, l'écart entre intention et action, et les implications pour le L&D.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════════════
+   TLS — Dossier SBO
+   Registre : livre blanc. Papier crème, encre brune, filets neutres.
+   Couleur de marque = ponctuation éditoriale uniquement.
+   ══════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Surface & encres — palette exclusive */
+  --paper:  #fefaf5;
+  --ink:    #2f1c13;
+  --ink-2:  #4C3B33;
+  --ink-3:  #695A52;
+  --rule:   #E0D5C8;
+
+  /* Ponctuation éditoriale */
+  --accent-rule: #ED843A;
+  --accent-num:  #8F5017;
+  --accent-teal: #3D7786;
+  --accent-warm: #8F2A0E;
+
+  /* Typographie */
+  --font-display: 'League Spartan', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+
+  /* Rythme — base 8, sauts nets */
+  --s-1: 8px;
+  --s-2: 16px;
+  --s-3: 20px;
+  --s-4: 32px;
+  --s-5: 40px;
+  --s-6: 64px;
+  --s-7: 80px;
+
+  /* Colonne de lecture */
+  --measure: 70ch;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 88px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* ─── Typographie ─────────────────────────────────────────── */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+p { max-width: var(--measure); text-wrap: pretty; }
+
+a {
+  color: var(--accent-teal);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(61, 119, 134, 0.35);
+}
+a:hover { text-decoration-color: var(--accent-teal); }
+a:focus-visible {
+  outline: 2px solid var(--accent-teal);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+strong { font-weight: 700; color: var(--ink); }
+
+/* ─── Structure ───────────────────────────────────────────── */
+.wrap {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 var(--s-4);
+}
+
+.col {
+  max-width: var(--measure);
+}
+
+/* ─── Bandeau ─────────────────────────────────────────────── */
+.masthead {
+  border-bottom: 1px solid var(--rule);
+  background: var(--paper);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.masthead-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: var(--s-2) var(--s-4);
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-3);
+  flex-wrap: wrap;
+}
+.wordmark {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  text-decoration: none;
+}
+.wordmark span {
+  font-family: var(--font-body);
+  font-weight: 400;
+  color: var(--ink-3);
+  letter-spacing: 0;
+  margin-left: 6px;
+}
+.wordmark:hover { text-decoration: none; }
+.masthead-meta {
+  font-size: 12px;
+  color: var(--ink-3);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* ─── Sommaire de tête ────────────────────────────────────── */
+.toc {
+  border-bottom: 1px solid var(--rule);
+  padding: var(--s-3) 0;
+}
+.toc-list {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 var(--s-4);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-1) var(--s-4);
+  list-style: none;
+}
+.toc-list a {
+  font-size: 13px;
+  color: var(--ink-3);
+  text-decoration: none;
+  font-weight: 600;
+}
+.toc-list a:hover { color: var(--ink); }
+.toc-list .toc-num {
+  color: var(--accent-num);
+  font-variant-numeric: tabular-nums;
+  margin-right: 5px;
+}
+
+/* ─── Ouverture ───────────────────────────────────────────── */
+.opening {
+  padding: var(--s-7) 0 var(--s-6);
+  border-bottom: 1px solid var(--rule);
+}
+.opening h1 {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  margin-bottom: var(--s-3);
+  max-width: 20ch;
+}
+.standfirst {
+  font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
+  line-height: 1.6;
+  color: var(--ink-2);
+  max-width: 62ch;
+  margin-bottom: var(--s-5);
+}
+.byline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-1) var(--s-4);
+  font-size: 13px;
+  color: var(--ink-3);
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--rule);
+  max-width: 62ch;
+}
+.byline-item { display: flex; align-items: center; gap: 7px; }
+.byline-item svg { width: 14px; height: 14px; color: var(--ink-3); flex-shrink: 0; }
+
+/* ─── Sections ────────────────────────────────────────────── */
+.section {
+  padding: var(--s-7) 0;
+  border-bottom: 1px solid var(--rule);
+}
+.section:last-of-type { border-bottom: 0; }
+
+.section-open { margin-bottom: var(--s-5); }
+.section-open::before {
+  content: '';
+  display: block;
+  width: 44px;
+  height: 2px;
+  background: var(--accent-rule);
+  margin-bottom: var(--s-3);
+}
+.section-num {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-num);
+  margin-bottom: var(--s-1);
+  font-variant-numeric: tabular-nums;
+}
+.section h2 {
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: var(--s-2);
+  max-width: 24ch;
+}
+.section-intro {
+  font-size: 1.0625rem;
+  color: var(--ink-2);
+  max-width: 64ch;
+  line-height: 1.65;
+}
+
+.section h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: var(--s-2);
+  letter-spacing: -0.015em;
+}
+.section h4 {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  margin-bottom: var(--s-1);
+  letter-spacing: -0.01em;
+}
+
+.block { margin-top: var(--s-5); }
+.block-lg { margin-top: var(--s-6); }
+.section p + p { margin-top: var(--s-3); }
+.section p + h3, .section p + h4 { margin-top: var(--s-4); }
+
+/* ─── Chiffres — sans boîte ───────────────────────────────── */
+.figures {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--s-5) var(--s-4);
+  margin-top: var(--s-5);
+}
+.figure { max-width: 30ch; }
+.figure-num {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 4vw, 3rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--accent-teal);
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 10px;
+}
+.figure-num.warm { color: var(--accent-warm); }
+.figure-label {
+  display: block;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.figure-src {
+  display: block;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--ink-3);
+  margin-top: 6px;
+}
+
+/* ─── Tableaux ────────────────────────────────────────────── */
+.table-scroll {
+  overflow-x: auto;
+  margin-top: var(--s-4);
+  -webkit-overflow-scrolling: touch;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14.5px;
+  min-width: 620px;
+}
+caption {
+  text-align: left;
+  font-size: 13px;
+  color: var(--ink-3);
+  padding-bottom: var(--s-2);
+  line-height: 1.5;
+}
+th {
+  text-align: left;
+  font-family: var(--font-display);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  padding: 0 var(--s-3) var(--s-1) 0;
+  border-bottom: 1px solid var(--ink-3);
+  vertical-align: bottom;
+}
+td {
+  padding: 14px var(--s-3) 14px 0;
+  border-bottom: 1px solid var(--rule);
+  color: var(--ink-2);
+  vertical-align: top;
+  line-height: 1.5;
+}
+td:last-child, th:last-child { padding-right: 0; }
+td.num {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+td.lead { color: var(--ink); font-weight: 600; }
+tbody tr:last-child td { border-bottom: 1px solid var(--ink-3); }
+
+/* ─── Listes ──────────────────────────────────────────────── */
+.list { list-style: none; margin-top: var(--s-2); max-width: var(--measure); }
+.list li {
+  padding: 14px 0 14px 22px;
+  border-bottom: 1px solid var(--rule);
+  position: relative;
+  color: var(--ink-2);
+  font-size: 15.5px;
+  line-height: 1.6;
+}
+.list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 24px;
+  width: 9px;
+  height: 1px;
+  background: var(--ink-3);
+}
+.list li:last-child { border-bottom: 0; }
+.list strong { display: block; margin-bottom: 3px; color: var(--ink); font-weight: 700; }
+
+/* Liste numérotée éditoriale */
+.list-num { list-style: none; counter-reset: item; max-width: var(--measure); margin-top: var(--s-2); }
+.list-num > li {
+  counter-increment: item;
+  padding: var(--s-3) 0 var(--s-3) 40px;
+  border-bottom: 1px solid var(--rule);
+  position: relative;
+}
+.list-num > li::before {
+  content: counter(item, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: var(--s-3);
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent-num);
+  font-variant-numeric: tabular-nums;
+}
+.list-num > li:last-child { border-bottom: 0; }
+.list-num h4 { margin-bottom: 5px; }
+.list-num p { font-size: 15px; color: var(--ink-2); line-height: 1.6; }
+
+/* ─── Deux colonnes ───────────────────────────────────────── */
+.duo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--s-5) var(--s-6);
+  margin-top: var(--s-5);
+}
+.duo p, .duo .list { max-width: 46ch; }
+
+/* ─── Citation ────────────────────────────────────────────── */
+.pull {
+  margin: var(--s-5) 0;
+  padding: var(--s-4) 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  max-width: 60ch;
+}
+.pull p {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 1.1875rem;
+  line-height: 1.55;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+.pull cite {
+  font-style: normal;
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+/* ─── Schémas ─────────────────────────────────────────────── */
+.figure-svg {
+  margin-top: var(--s-5);
+  max-width: 780px;
+}
+.figure-svg svg { display: block; width: 100%; height: auto; }
+.figure-svg figcaption {
+  font-size: 12.5px;
+  color: var(--ink-3);
+  line-height: 1.55;
+  margin-top: var(--s-2);
+  padding-top: var(--s-2);
+  border-top: 1px solid var(--rule);
+  max-width: 62ch;
+}
+
+/* ─── Note / encart typographique ─────────────────────────── */
+.note {
+  margin-top: var(--s-5);
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--rule);
+  max-width: 64ch;
+}
+.note-label {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-num);
+  margin-bottom: var(--s-1);
+}
+.note p { font-size: 14.5px; color: var(--ink-2); line-height: 1.65; }
+.note p + p { margin-top: 12px; }
+
+/* ─── Bibliographie ───────────────────────────────────────── */
+.bib { list-style: none; counter-reset: ref; margin-top: var(--s-4); max-width: 78ch; }
+.bib > li {
+  counter-increment: ref;
+  position: relative;
+  padding: 14px 0 14px 42px;
+  border-bottom: 1px solid var(--rule);
+}
+.bib > li::before {
+  content: counter(ref);
+  position: absolute;
+  left: 0;
+  top: 17px;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent-num);
+  font-variant-numeric: tabular-nums;
+}
+.bib-title {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.4;
+  margin-bottom: 2px;
+}
+.bib-meta {
+  display: block;
+  font-size: 13px;
+  color: var(--ink-3);
+  line-height: 1.5;
+}
+.bib-links { margin-top: 5px; display: flex; flex-wrap: wrap; gap: var(--s-2); }
+.bib-links a { font-size: 12.5px; font-weight: 600; }
+.bib-group {
+  font-family: var(--font-display);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: var(--s-5) 0 0;
+  padding-bottom: var(--s-1);
+  border-bottom: 1px solid var(--ink-3);
+  max-width: 78ch;
+}
+.bib-group:first-of-type { margin-top: var(--s-4); }
+
+/* ─── Pied ────────────────────────────────────────────────── */
+.colophon {
+  border-top: 1px solid var(--ink-3);
+  margin-top: var(--s-7);
+  padding: var(--s-5) 0 var(--s-6);
+}
+.colophon-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 var(--s-4);
+}
+.colophon p {
+  font-size: 13px;
+  color: var(--ink-3);
+  line-height: 1.6;
+  max-width: 60ch;
+}
+.colophon p + p { margin-top: 12px; }
+.colophon .colophon-brand {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: var(--s-1);
+}
+
+/* ─── Responsive ──────────────────────────────────────────── */
+@media (max-width: 720px) {
+  body { font-size: 16px; }
+  .wrap, .masthead-inner, .toc-list, .colophon-inner { padding-left: var(--s-3); padding-right: var(--s-3); }
+  .opening { padding: var(--s-6) 0 var(--s-5); }
+  .section { padding: var(--s-6) 0; }
+  .toc { display: none; }
+  .figures { gap: var(--s-4) var(--s-3); }
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <a href="#top" class="wordmark">The Learning Society<span>— Veille stratégique</span></a>
+    <span class="masthead-meta">Dossier · Juillet 2026</span>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Sommaire">
+  <ul class="toc-list">
+    <li><a href="#modele"><span class="toc-num">01</span>Le modèle</a></li>
+    <li><a href="#donnees"><span class="toc-num">02</span>Ce que disent les sources</a></li>
+    <li><a href="#ecart"><span class="toc-num">03</span>L'écart intention–action</a></li>
+    <li><a href="#terrain"><span class="toc-num">04</span>Sur le terrain</a></li>
+    <li><a href="#france"><span class="toc-num">05</span>Le cadre français</a></li>
+    <li><a href="#ld"><span class="toc-num">06</span>Implications L&amp;D</a></li>
+    <li><a href="#tls"><span class="toc-num">07</span>Ce que TLS peut en faire</a></li>
+    <li><a href="#sources"><span class="toc-num">08</span>Sources</a></li>
+  </ul>
+</nav>
+
+<main id="top">
+
+  <!-- ════════════════════════════════════════ OUVERTURE -->
+  <section class="opening">
+    <div class="wrap">
+      <h1>Skills-Based Organizations</h1>
+      <p class="standfirst">
+        Réorganiser l'entreprise autour des compétences plutôt que des postes. L'idée domine le discours RH
+        depuis trois ans. Ce dossier fait la part entre ce qui est établi, ce qui est vendu, et ce qui reste à démontrer.
+      </p>
+      <div class="byline">
+        <span class="byline-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/></svg>
+          19 sources primaires
+        </span>
+        <span class="byline-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          Mise à jour juillet 2026
+        </span>
+        <span class="byline-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          France &amp; international
+        </span>
+        <span class="byline-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+          Usage interne
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════ RÉSUMÉ -->
+  <section class="section" id="resume">
+    <div class="wrap">
+      <div class="section-open">
+        <h2>L'essentiel en cinq points</h2>
+      </div>
+      <div class="col">
+        <ol class="list-num">
+          <li>
+            <h4>Le constat de départ est solide</h4>
+            <p>Le travail déborde structurellement des fiches de poste. Dans l'enquête Deloitte de référence,
+            63 % du travail réellement effectué tombe hors des descriptions de poste, et 81 % des répondants
+            constatent qu'il traverse de plus en plus les frontières fonctionnelles. Ce point-là n'est pas contesté.</p>
+          </li>
+          <li>
+            <h4>Les chiffres de performance sont plus fragiles qu'il n'y paraît</h4>
+            <p>Le triptyque « +107 % / +98 % / +57 % » qui circule partout provient d'une enquête déclarative
+            menée auprès de <strong>225 dirigeants</strong> au printemps 2022 — et non d'une étude 2025 portant sur
+            14 000 dirigeants, comme on le lit souvent. Ce sont des corrélations auto-déclarées, pas des effets mesurés.</p>
+          </li>
+          <li>
+            <h4>L'écart entre intention et action est le vrai sujet</h4>
+            <p>98 % des organisations déclarent vouloir aller vers un modèle par compétences, 90 % expérimentent —
+            mais moins d'une sur cinq le déploie à l'échelle de façon claire et reproductible. C'est là que se situe
+            la demande réelle, et donc le marché.</p>
+          </li>
+          <li>
+            <h4>Beaucoup de statistiques du marché sont invendables en l'état</h4>
+            <p>Une part significative des chiffres qui circulent sur le sujet émane d'éditeurs qui vendent la solution
+            correspondante, ou remonte à des projections vieilles de plusieurs années recyclées sans date.
+            Neuf chiffres présents dans nos versions antérieures de ce dossier ont été retirés pour cette raison.</p>
+          </li>
+          <li>
+            <h4>Le cadre français se resserre au moment où la demande monte</h4>
+            <p>Les dépenses de France compétences reculent d'environ 1,5 Md€ en 2026 (−10 % sur un an) pendant que
+            la dépense nationale de formation atteint 33 Md€ et que le marché reste très fragmenté.
+            Financements contraints et exigence de preuve accrue : deux tendances qui vont dans le même sens.</p>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════ 01 · MODÈLE -->
+  <section class="section" id="modele">
+    <div class="wrap">
+      <div class="section-open">
+        <span class="section-num">01</span>
+        <h2>Ce qu'une organisation par compétences change réellement</h2>
+        <p class="section-intro">
+          Une Skills-Based Organization (SBO) structure ses processus RH et opérationnels autour des compétences
+          individuelles et collectives plutôt qu'autour de postes figés. La compétence devient l'unité de base :
+          c'est elle qui sert à répartir le travail, composer les équipes et organiser la mobilité.
+        </p>
+      </div>
+
+      <div class="col">
+        <p>
+          La bascule n'est pas cosmétique. Dans une organisation classique, la chaîne va de la fiche de poste
+          à la description de rôle, puis à une trajectoire de carrière prédéfinie. Dans une SBO, cette chaîne est
+          rompue : on part des compétences démontrées, et le poste devient une agrégation temporaire de compétences
+          plutôt qu'un contenant stable.
+        </p>
+        <p>
+          L'argument de départ est empirique, et c'est le plus robuste du dossier : le poste décrit de moins en moins
+          bien le travail réel. C'est le constat que fait l'enquête Deloitte de référence, et c'est ce constat —
+          davantage que les promesses de performance — qui justifie l'intérêt du modèle.
+        </p>
+      </div>
+
+      <div class="pull">
+        <p>« Près de neuf dirigeants sur dix estiment que les compétences comptent de plus en plus dans la façon
+        dont les organisations définissent le travail, déploient les talents, gèrent les carrières et valorisent leurs salariés. »</p>
+        <cite>Deloitte, enquête Skills-Based Organization — 225 dirigeants et 1 021 salariés, 10 pays, 2022</cite>
+      </div>
+
+      <figure class="figure-svg">
+        <svg viewBox="0 0 760 250" role="img" aria-labelledby="schema1-title schema1-desc">
+          <title id="schema1-title">Du poste comme contenant à la compétence comme unité</title>
+          <desc id="schema1-desc">À gauche, un poste unique regroupe cinq compétences figées dans un contour fermé. À droite, les mêmes compétences sont détachées et recomposées librement en trois missions temporaires.</desc>
+
+          <!-- Colonne gauche : le poste comme contenant -->
+          <text x="0" y="14" font-family="League Spartan, sans-serif" font-size="11" font-weight="700" letter-spacing="1.4" fill="#8F5017">MODÈLE PAR POSTE</text>
+          <rect x="0" y="34" width="300" height="176" rx="3" fill="none" stroke="#695A52" stroke-width="1"/>
+          <text x="16" y="58" font-family="League Spartan, sans-serif" font-size="13" font-weight="700" fill="#2f1c13">Poste « Chargé de formation »</text>
+          <line x1="16" y1="70" x2="284" y2="70" stroke="#E0D5C8" stroke-width="1"/>
+          <g font-family="Nunito, sans-serif" font-size="12.5" fill="#4C3B33">
+            <text x="16" y="92">Ingénierie pédagogique</text>
+            <text x="16" y="115">Animation</text>
+            <text x="16" y="138">Pilotage budgétaire</text>
+            <text x="16" y="161">Analyse de données</text>
+            <text x="16" y="184">Relation prestataires</text>
+          </g>
+          <text x="0" y="234" font-family="Nunito, sans-serif" font-size="11.5" fill="#695A52">Contenant fixe · attribution par le titre</text>
+
+          <!-- Flèche -->
+          <g stroke="#695A52" stroke-width="1" fill="none">
+            <line x1="322" y1="122" x2="358" y2="122"/>
+            <path d="M352 117l6 5-6 5"/>
+          </g>
+
+          <!-- Colonne droite : compétences recomposées -->
+          <text x="380" y="14" font-family="League Spartan, sans-serif" font-size="11" font-weight="700" letter-spacing="1.4" fill="#8F5017">MODÈLE PAR COMPÉTENCES</text>
+
+          <g font-family="Nunito, sans-serif" font-size="11.5">
+            <!-- Mission 1 -->
+            <line x1="380" y1="40" x2="760" y2="40" stroke="#E0D5C8" stroke-width="1"/>
+            <text x="380" y="60" font-family="League Spartan, sans-serif" font-size="12" font-weight="700" fill="#2f1c13">Mission A — 4 mois</text>
+            <rect x="380" y="70" width="118" height="21" rx="10.5" fill="none" stroke="#3D7786" stroke-width="1"/>
+            <text x="392" y="84.5" fill="#3D7786">Analyse de données</text>
+            <rect x="506" y="70" width="86" height="21" rx="10.5" fill="none" stroke="#3D7786" stroke-width="1"/>
+            <text x="518" y="84.5" fill="#3D7786">Pilotage</text>
+
+            <!-- Mission 2 -->
+            <line x1="380" y1="110" x2="760" y2="110" stroke="#E0D5C8" stroke-width="1"/>
+            <text x="380" y="130" font-family="League Spartan, sans-serif" font-size="12" font-weight="700" fill="#2f1c13">Mission B — 6 semaines</text>
+            <rect x="380" y="140" width="142" height="21" rx="10.5" fill="none" stroke="#3D7786" stroke-width="1"/>
+            <text x="392" y="154.5" fill="#3D7786">Ingénierie pédagogique</text>
+            <rect x="530" y="140" width="88" height="21" rx="10.5" fill="none" stroke="#3D7786" stroke-width="1"/>
+            <text x="542" y="154.5" fill="#3D7786">Animation</text>
+
+            <!-- Mission 3 -->
+            <line x1="380" y1="180" x2="760" y2="180" stroke="#E0D5C8" stroke-width="1"/>
+            <text x="380" y="200" font-family="League Spartan, sans-serif" font-size="12" font-weight="700" fill="#2f1c13">Mission C — 3 mois</text>
+            <rect x="380" y="210" width="126" height="21" rx="10.5" fill="none" stroke="#3D7786" stroke-width="1"/>
+            <text x="392" y="224.5" fill="#3D7786">Relation prestataires</text>
+          </g>
+          <text x="380" y="248" font-family="Nunito, sans-serif" font-size="11.5" fill="#695A52">Unités mobiles · attribution par la compétence démontrée</text>
+        </svg>
+        <figcaption>
+          Schéma — La bascule ne supprime pas le poste : elle le décompose. Les mêmes compétences, extraites de leur
+          contenant, deviennent réaffectables à des missions courtes. C'est ce qui rend le modèle attractif, et aussi
+          ce qui le rend difficile : il suppose un référentiel de compétences fiable en amont.
+        </figcaption>
+      </figure>
+
+      <div class="block-lg">
+        <h3>Poste contre compétence, dimension par dimension</h3>
+        <div class="table-scroll">
+          <table>
+            <caption>Lecture : la colonne de droite décrit une cible théorique, pas un état constaté. Voir § 03 sur le taux d'adoption réel.</caption>
+            <thead>
+              <tr>
+                <th scope="col">Dimension</th>
+                <th scope="col">Organisation par poste</th>
+                <th scope="col">Organisation par compétences</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="lead">Recrutement</td>
+                <td>Diplôme, expérience linéaire</td>
+                <td>Compétences démontrées, portfolio, mises en situation</td>
+              </tr>
+              <tr>
+                <td class="lead">Mobilité interne</td>
+                <td>Promotion verticale, poste à poste</td>
+                <td>Appariement compétences ↔ besoins de projets</td>
+              </tr>
+              <tr>
+                <td class="lead">Rémunération</td>
+                <td>Titre et ancienneté</td>
+                <td>Compétences acquises et certifiées</td>
+              </tr>
+              <tr>
+                <td class="lead">Composition des équipes</td>
+                <td>Organigramme hiérarchique stable</td>
+                <td>Recomposition selon les besoins, missions courtes</td>
+              </tr>
+              <tr>
+                <td class="lead">Évaluation</td>
+                <td>Tâches attachées au poste</td>
+                <td>Impact produit et compétences démontrées</td>
+              </tr>
+              <tr>
+                <td class="lead">Formation</td>
+                <td>Catalogue annuel, offre poussée</td>
+                <td>Parcours adaptatifs, tirés par les écarts constatés</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════ 02 · DONNÉES -->
+  <section class="section" id="donnees">
+    <div class="wrap">
+      <div class="section-open">
+        <span class="section-num">02</span>
+        <h2>Les chiffres qui tiennent, et ce qu'ils disent exactement</h2>
+        <p class="section-intro">
+          Les chiffres ci-dessous ont été retracés jusqu'à leur source primaire : rapport d'origine, méthodologie,
+          taille d'échantillon, date de collecte. Ceux qui n'ont pas survécu à cet exercice sont listés en fin de section.
+        </p>
+      </div>
+
+      <div class="col">
+        <h3>Le constat structurel</h3>
+        <p>
+          C'est la partie la mieux établie. Elle vient d'une enquête Deloitte menée au printemps et à l'été 2022
+          auprès de 1 021 salariés et 225 dirigeants RH et métiers, dans dix pays.
+        </p>
+      </div>
+
+      <div class="figures">
+        <div class="figure">
+          <span class="figure-num">63 %</span>
+          <span class="figure-label">du travail réellement effectué tombe hors des fiches de poste</span>
+          <span class="figure-src">Deloitte, enquête SBO, 2022</span>
+        </div>
+        <div class="figure">
+          <span class="figure-num">81 %</span>
+          <span class="figure-label">constatent que le travail traverse de plus en plus les frontières fonctionnelles</span>
+          <span class="figure-src">Deloitte, enquête SBO, 2022</span>
+        </div>
+        <div class="figure">
+          <span class="figure-num">89 %</span>
+          <span class="figure-label">des dirigeants jugent les compétences de plus en plus déterminantes pour définir le travail</span>
+          <span class="figure-src">Deloitte, enquête SBO, 2022</span>
+        </div>
+      </div>
+
+      <div class="block-lg col">
+        <h3>La pression sur les compétences</h3>
+        <p>
+          Source la plus solide du dossier sur le plan méthodologique : plus de 1 000 employeurs représentant
+          plus de 14 millions de salariés dans 55 économies.
+        </p>
+      </div>
+
+      <div class="figures">
+        <div class="figure">
+          <span class="figure-num warm">39 %</span>
+          <span class="figure-label">des compétences clés des salariés auront changé d'ici 2030 — en recul par rapport aux 44 % annoncés en 2023</span>
+          <span class="figure-src">WEF, Future of Jobs 2025</span>
+        </div>
+        <div class="figure">
+          <span class="figure-num warm">63 %</span>
+          <span class="figure-label">des employeurs désignent les déficits de compétences comme le premier frein à leur transformation</span>
+          <span class="figure-src">WEF, Future of Jobs 2025</span>
+        </div>
+        <div class="figure">
+          <span class="figure-num">85 %</span>
+          <span class="figure-label">des employeurs prévoient de faire de la montée en compétences une priorité</span>
+          <span class="figure-src">WEF, Future of Jobs 2025</span>
+        </div>
+      </div>
+
+      <div class="note">
+        <span class="note-label">Précision utile</span>
+        <p>
+          Le chiffre de 39 % est souvent cité comme « 39 % des compétences seront obsolètes ». Le WEF écrit que
+          39 % des compétences clés vont <em>changer</em> — ce qui inclut l'évolution d'une compétence existante,
+          pas seulement sa disparition. La nuance compte : elle fait la différence entre un discours de remplacement
+          et un discours d'actualisation. Le second est à la fois plus exact et plus vendable.
+        </p>
+      </div>
+
+      <div class="block-lg col">
+        <h3>Le triptyque de performance, replacé dans son contexte</h3>
+        <p>
+          Ce sont les trois chiffres les plus repris du sujet. Ils sont réels, mais presque systématiquement
+          mal attribués — y compris sur les sites régionaux de Deloitte, qui les republient sans date, ce qui
+          explique leur propagation en tant que données « 2025 ».
+        </p>
+        <p>
+          Ils proviennent de l'article <em>A skills-based model for work</em> (Deloitte Insights, janvier 2023),
+          adossé à l'enquête SBO de 2022 — soit <strong>225 dirigeants</strong>, et non 14 000. Leur formulation
+          d'origine est « <em>more likely to</em> » : plus <em>susceptibles de</em>. Il s'agit d'une corrélation
+          déclarative entre des pratiques auto-rapportées et des résultats auto-rapportés, pas d'une mesure d'effet.
+        </p>
+      </div>
+
+      <div class="table-scroll">
+        <table>
+          <caption>Formulation d'origine restituée. « Base réelle » indique l'échantillon effectivement interrogé.</caption>
+          <thead>
+            <tr>
+              <th scope="col">Indicateur</th>
+              <th scope="col">Chiffre</th>
+              <th scope="col">Formulation d'origine</th>
+              <th scope="col">Base réelle</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="lead">Placement des talents</td>
+              <td class="num">+107 %</td>
+              <td>« 107 % plus susceptibles de placer les talents efficacement »</td>
+              <td>225 dirigeants, 10 pays, 2022</td>
+            </tr>
+            <tr>
+              <td class="lead">Rétention</td>
+              <td class="num">+98 %</td>
+              <td>« 98 % plus susceptibles de retenir les hauts performeurs <em>et</em> d'avoir la réputation d'un lieu où l'on progresse » — énoncé composite</td>
+              <td>225 dirigeants, 10 pays, 2022</td>
+            </tr>
+            <tr>
+              <td class="lead">Agilité</td>
+              <td class="num">+57 %</td>
+              <td>« 57 % plus susceptibles d'être agiles » / d'anticiper le changement</td>
+              <td>225 dirigeants, 10 pays, 2022</td>
+            </tr>
+            <tr>
+              <td class="lead">Atteinte des résultats</td>
+              <td class="num">+63 %</td>
+              <td>« 63 % plus susceptibles d'atteindre leurs résultats »</td>
+              <td>225 dirigeants, 10 pays, 2022</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note">
+        <span class="note-label">Comment les utiliser</span>
+        <p>
+          Ces chiffres restent citables — ce sont des données Deloitte authentiques. Mais ils doivent être présentés
+          pour ce qu'ils sont : « selon une enquête Deloitte menée en 2022 auprès de 225 dirigeants, les organisations
+          se déclarant matures sur les compétences sont deux fois plus susceptibles de… ». Toute formulation du type
+          « +107 % d'efficacité » est une déformation : elle transforme un rapport de vraisemblance en gain de productivité.
+          Face à un DRH averti, l'erreur coûte plus cher que le chiffre ne rapporte.
+        </p>
+      </div>
+
+      <div class="block-lg col">
+        <h3>Neuf chiffres retirés, et pourquoi</h3>
+        <p>
+          Les versions antérieures de ce dossier comportaient les chiffres suivants. Aucun ne résiste à la
+          remontée en source primaire.
+        </p>
+        <ul class="list">
+          <li><strong>« 81 % des entreprises pratiquent le recrutement par compétences »</strong>
+            Attribué à iMocha, qui ne fait que citer TestGorilla — un éditeur de tests de compétences, dont
+            le produit se vend d'autant mieux que ce chiffre est élevé. Partie prenante directe au résultat.</li>
+          <li><strong>« Le déficit de talents pourrait coûter 8 500 Md$ d'ici 2030 »</strong>
+            Projection Korn Ferry publiée en 2018, portant sur 20 économies et 3 secteurs, produite par un cabinet
+            de recrutement. Un modèle vieux de huit ans, jamais réactualisé, cité sans date ni source.</li>
+          <li><strong>« Le marché des LMS passe de 18 à 50 Md$ »</strong>
+            Aucun consensus : les cabinets d'études donnent entre 14,6 et 24,5 Md$ pour 2024, et entre 42 et 72 Md$
+            pour 2030. Le chiffre était repris d'un éditeur de LMS. Fourchette trop large pour signifier quoi que ce soit.</li>
+          <li><strong>« 98 % des salariés français jugent la mise à jour de leurs compétences prioritaire »</strong>
+            Baromètre d'un éditeur de contenus de formation. Question à réponse socialement évidente : un score de 98 %
+            ne discrimine rien et n'informe pas.</li>
+          <li><strong>« 87 % des entreprises françaises font de la formation à l'IA une priorité »</strong>
+            La source dit « 87 % des entreprises sont en phase d'adoption de l'IA ». Adopter l'IA et prioriser
+            la formation à l'IA sont deux affirmations différentes.</li>
+          <li><strong>« 80 % des dirigeants EMEA jugent la transition bénéfique »</strong>
+            Introuvable dans le communiqué Workday. Le chiffre publié est de 81 % au niveau mondial, et porte sur
+            un autre énoncé (l'apport à la croissance économique). Découpage régional non étayé.</li>
+          <li><strong>« Seules 34 % des entreprises ont un référentiel opérationnel »</strong>
+            Aucune source retrouvée, dans aucune des trois versions. Contredit par McKinsey (§ 03).</li>
+          <li><strong>« 3 travailleurs sur 4 estiment que les pratiques SBO amélioreraient leur expérience »</strong>
+            Non retrouvé dans les publications Deloitte consultées.</li>
+          <li><strong>« 130 000 organismes de formation en France »</strong>
+            Chiffre périmé. La liste publique officielle en recense 151 764 (§ 05).</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════ 03 · ÉCART -->
+  <section class="section" id="ecart">
+    <div class="wrap">
+      <div class="section-open">
+        <span class="section-num">03</span>
+        <h2>Tout le monde veut y aller, presque personne n'y est</h2>
+        <p class="section-intro">
+          C'est le résultat le plus intéressant du dossier, et le plus utile commercialement : l'adhésion au modèle
+          est quasi unanime, sa mise en œuvre à l'échelle reste marginale. L'écart entre les deux définit le besoin.
+        </p>
+      </div>
+
+      <figure class="figure-svg">
+        <svg viewBox="0 0 760 300" role="img" aria-labelledby="schema2-title schema2-desc">
+          <title id="schema2-title">L'entonnoir de l'adoption des organisations par compétences</title>
+          <desc id="schema2-desc">Quatre barres horizontales décroissantes : 98 % déclarent vouloir aller vers le modèle, 90 % expérimentent, moins de 20 % déploient à l'échelle, 2 % déclarent une adoption aboutie sur tous leurs processus.</desc>
+
+          <g font-family="League Spartan, sans-serif">
+            <!-- 98% -->
+            <text x="0" y="16" font-size="12" font-weight="700" fill="#2f1c13">Déclarent vouloir aller vers un modèle par compétences</text>
+            <rect x="0" y="26" width="686" height="26" fill="#3D7786" opacity="0.16"/>
+            <rect x="0" y="26" width="686" height="26" fill="none" stroke="#3D7786" stroke-width="1"/>
+            <text x="698" y="44" font-size="17" font-weight="800" fill="#3D7786" font-variant-numeric="tabular-nums">98 %</text>
+
+            <!-- 90% -->
+            <text x="0" y="88" font-size="12" font-weight="700" fill="#2f1c13">Expérimentent activement</text>
+            <rect x="0" y="98" width="630" height="26" fill="#3D7786" opacity="0.16"/>
+            <rect x="0" y="98" width="630" height="26" fill="none" stroke="#3D7786" stroke-width="1"/>
+            <text x="698" y="116" font-size="17" font-weight="800" fill="#3D7786" font-variant-numeric="tabular-nums">90 %</text>
+
+            <!-- <20% -->
+            <text x="0" y="160" font-size="12" font-weight="700" fill="#2f1c13">Déploient à l'échelle, de façon claire et reproductible</text>
+            <rect x="0" y="170" width="140" height="26" fill="#8F2A0E" opacity="0.16"/>
+            <rect x="0" y="170" width="140" height="26" fill="none" stroke="#8F2A0E" stroke-width="1"/>
+            <text x="698" y="188" font-size="17" font-weight="800" fill="#8F2A0E" font-variant-numeric="tabular-nums">&lt; 20 %</text>
+
+            <!-- 2% -->
+            <text x="0" y="232" font-size="12" font-weight="700" fill="#2f1c13">Déclarent une adoption aboutie sur l'ensemble des processus</text>
+            <rect x="0" y="242" width="14" height="26" fill="#8F2A0E" opacity="0.16"/>
+            <rect x="0" y="242" width="14" height="26" fill="none" stroke="#8F2A0E" stroke-width="1"/>
+            <text x="698" y="260" font-size="17" font-weight="800" fill="#8F2A0E" font-variant-numeric="tabular-nums">2 %</text>
+          </g>
+
+          <line x1="0" y1="284" x2="760" y2="284" stroke="#E0D5C8" stroke-width="1"/>
+          <text x="0" y="298" font-family="Nunito, sans-serif" font-size="11" fill="#695A52">Sources : Deloitte (3 premiers niveaux) · Gartner (dernier niveau, 80 responsables RH interrogés)</text>
+        </svg>
+        <figcaption>
+          Schéma — L'effondrement se produit entre l'expérimentation et le passage à l'échelle. Les deux premiers
+          niveaux relèvent du déclaratif d'intention, les deux derniers de la mise en œuvre constatée. Le dernier
+          niveau repose sur un échantillon restreint (80 répondants) et doit être lu comme un ordre de grandeur.
+        </figcaption>
+      </figure>
+
+      <div class="block-lg col">
+        <h3>Ce qui bloque</h3>
+        <p>
+          Cinq obstacles reviennent dans les sources. Les deux premiers sont documentés chiffres à l'appui ;
+          les trois suivants relèvent du constat de terrain rapporté par les praticiens.
+        </p>
+      </div>
+
+      <div class="col">
+        <ol class="list-num">
+          <li>
+            <h4>Le référentiel existe, mais il ne sert à rien</h4>
+            <p>C'est le résultat le plus contre-intuitif. Selon le HR Monitor 2025 de McKinsey, 77 % des professionnels
+            RH déclarent disposer d'un référentiel de compétences à l'échelle de l'entreprise, et 93 % documentent les
+            compétences de leurs salariés dans leurs systèmes. Mais seuls 41 % ont un référentiel réellement ajusté à leur
+            activité — les autres utilisent une version standardisée. Le problème n'est donc pas l'absence de référentiel :
+            c'est qu'il n'est pas exploité pour piloter les effectifs à moyen terme.</p>
+          </li>
+          <li>
+            <h4>La donnée compétences n'inspire pas confiance</h4>
+            <p>Dans l'enquête Workday, 51 % des dirigeants s'inquiètent des pénuries de compétences à venir, mais
+            seuls 32 % se disent confiants dans le fait que leur organisation dispose des compétences nécessaires à
+            sa réussite à long terme. L'écart entre les deux mesure précisément le déficit de visibilité.</p>
+          </li>
+          <li>
+            <h4>La résistance managériale</h4>
+            <p>Ouvrir les compétences de son équipe à un marché interne revient à accepter qu'on lui prenne ses
+            ressources. Aucun chiffre fiable ne circule sur ce point, mais il est cité de façon constante par les
+            praticiens comme le principal frein culturel — particulièrement en France.</p>
+          </li>
+          <li>
+            <h4>Les outils ne se parlent pas</h4>
+            <p>Plateforme de formation, SIRH et outils de recrutement sont rarement interconnectés. Sans circulation
+            de la donnée compétences entre ces trois briques, le modèle reste théorique.</p>
+          </li>
+          <li>
+            <h4>Le chantier est long, le retour lointain</h4>
+            <p>Construire puis maintenir un référentiel exploitable se compte en mois, pas en semaines. Cette durée
+            se heurte frontalement au resserrement budgétaire décrit au § 05.</p>
+          </li>
+        </ol>
+      </div>
+
+      <div class="note">
+        <span class="note-label">Lecture stratégique</span>
+        <p>
+          Si le référentiel existe déjà dans trois entreprises sur quatre mais reste inexploité, alors l'offre à
+          construire n'est pas « nous vous construisons un référentiel ». C'est « nous rendons exploitable celui que
+          vous avez déjà ». C'est un point d'entrée moins coûteux pour le client, plus rapide à démontrer, et bien moins
+          concurrencé que la construction de référentiel — sur laquelle les grands cabinets sont installés.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════ 04 · TERRAIN -->
+  <section class="section" id="terrain">
+    <div class="wrap">
+      <div class="section-open">
+        <span class="section-num">04</span>
+        <h2>Trois déploiements documentés</h2>
+        <p class="section-intro">
+          Les trois cas les plus cités. Leurs chiffres d'usage sont vérifiables ; leurs chiffres d'impact,
+          en revanche, sont presque tous publiés par l'éditeur de la plateforme concernée. La distinction est signalée.
+        </p>
+      </div>
+
+      <div class="col">
+        <h3>Unilever — FLEX Experiences</h3>
+        <p>
+          Marché du travail interne déployé avec l'éditeur Gloat. La plateforme met en relation les salariés avec
+          des missions courtes, en fonction de leurs compétences et de leurs aspirations, indépendamment de leur
+          rattachement hiérarchique. D'après le cas client publié par l'éditeur, elle a été déployée auprès de plus de
+          90 000 salariés dans plus de 90 pays.
+        </p>
+        <p>
+          Les chiffres d'impact avancés — de l'ordre de 700 000 heures de capacité libérées et un gain de productivité
+          annoncé à 41 % — proviennent des supports commerciaux de Gloat et n'ont pas fait l'objet d'une vérification
+          indépendante. Ils sont mentionnés ici à titre indicatif, et ne devraient pas être repris tels quels dans un
+          support TLS.
+        </p>
+
+        <h3>IBM — compétences plutôt que diplômes</h3>
+        <p>
+          En 2021, IBM a retiré l'exigence de diplôme de premier cycle de la moitié de ses offres d'emploi aux
+          États-Unis. En octobre de la même année, l'entreprise s'est engagée à former 30 millions de personnes
+          d'ici 2030 via sa plateforme SkillsBuild. Ce sont les deux éléments solidement établis du dossier IBM.
+        </p>
+        <p>
+          En revanche, l'affirmation d'un « graphe de compétences interne cartographiant 250 000 salariés »,
+          présente dans les versions antérieures, n'a pas pu être documentée et a été retirée.
+        </p>
+
+        <h3>Schneider Electric — Open Talent Market</h3>
+        <p>
+          Marché interne lancé en mars 2020, puis ouvert à l'ensemble des salariés en mai 2020. La plateforme
+          apparie les profils avec des projets et des mentors ; les salariés peuvent importer leur profil LinkedIn
+          pour alimenter leurs compétences. D'après le cas client de l'éditeur, elle comptait 72 339 inscrits,
+          soit 77 % de la population éligible.
+        </p>
+        <p>
+          Nos versions antérieures attribuaient cette plateforme à Eightfold AI. La documentation disponible —
+          dont le cas client que le dossier citait lui-même en bibliographie — désigne Gloat. L'attribution a été corrigée.
+        </p>
+      </div>
+
+      <div class="note">
+        <span class="note-label">Ce que ces trois cas ont en commun</span>
+        <p>
+          Aucun n'a « basculé en SBO ». Tous les trois ont ouvert un marché interne de missions par-dessus une
+          organisation qui reste structurée par postes. C'est cohérent avec l'entonnoir du § 03 : même les cas
+          d'école les plus cités sont des déploiements partiels. Cela vaut d'être dit à un prospect qui craindrait
+          un chantier de refonte totale — l'entrée par la mobilité interne est le chemin réellement emprunté.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════ 05 · FRANCE -->
+  <section class="section" id="france">
+    <div class="wrap">
+      <div class="section-open">
+        <span class="section-num">05</span>
+        <h2>Une demande qui monte, des financements qui reculent</h2>
+        <p class="section-intro">
+          Le marché français de la formation est massif, très fragmenté, et entre dans une phase de contraction
+          des financements mutualisés. Ce double mouvement structure les opportunités décrites au § 07.
+        </p>
+      </div>
+
+      <div class="figures">
+        <div class="figure">
+          <span class="figure-num">33 Md€</span>
+          <span class="figure-label">dépense nationale de formation professionnelle en 2024</span>
+          <span class="figure-src">France compétences, rapport sur l'usage des fonds</span>
+        </div>
+        <div class="figure">
+          <span class="figure-num">29 Md€</span>
+          <span class="figure-label">chiffre d'affaires des prestataires de formation — 28,7 Md€ déclarés en 2023</span>
+          <span class="figure-src">Annexe au projet de loi de finances 2026</span>
+        </div>
+        <div class="figure">
+          <span class="figure-num">151 764</span>
+          <span class="figure-label">prestataires de formation déclarés sur la liste publique officielle, février 2026</span>
+          <span class="figure-src">Liste publique des organismes de formation</span>
+        </div>
+        <div class="figure">
+          <span class="figure-num warm">−1,5 Md€</span>
+          <span class="figure-label">de dépenses en moins pour France compétences en 2026, soit une baisse de plus de 10 % sur un an</span>
+          <span class="figure-src">Budget 2026 de France compétences</span>
+        </div>
+      </div>
+
+      <div class="block-lg col">
+        <h3>Ce que le resserrement budgétaire implique</h3>
+        <p>
+          Les ressources prévisionnelles de France compétences pour 2026 s'établissent autour de 12,7 Md€, à un
+          niveau globalement stable. Ce sont les dépenses qui reculent : environ 12,1 Md€, soit près de 1,5 Md€
+          de moins qu'en 2025. Le budget a été rejeté par les partenaires sociaux.
+        </p>
+        <p>
+          La conséquence pratique est directe. Quand l'argent mutualisé se raréfie, l'arbitrage se déplace vers
+          l'entreprise, qui finance davantage sur ses fonds propres — et exige alors une démonstration d'effet
+          bien plus stricte qu'un financement fléché ne l'imposait. C'est précisément le terrain d'un discours
+          par compétences : il fournit l'unité de mesure qui manquait.
+        </p>
+      </div>
+
+      <div class="block-lg col">
+        <h3>Le Passeport de compétences, et ce qu'il ne dit pas</h3>
+        <p>
+          Le dispositif public, développé et administré par la Caisse des Dépôts pour le compte du ministère du
+          Travail, agrège automatiquement diplômes et certifications à partir des données des ministères et des
+          organismes certificateurs.
+        </p>
+        <p>
+          Plus de 43 millions de passeports sont alimentés automatiquement. Ce chiffre est exact, mais il a été
+          présenté à tort comme un indicateur d'adoption dans nos versions antérieures : il mesure un remplissage
+          de base de données, pas un usage. À la même période, on comptait de l'ordre de <strong>100 000 passeports
+          effectivement activés</strong> par leurs titulaires. Le rapport entre les deux — environ un pour quatre cents —
+          est le véritable enseignement.
+        </p>
+        <p>
+          Pour TLS, cet écart est une opportunité plus qu'un problème : l'infrastructure de traçabilité des
+          compétences existe et elle est publique ; ce qui manque, c'est la raison de s'en servir. Toute offre qui
+          donne une utilité concrète à un passeport rempli mais dormant se branche sur une base déjà constituée.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════ 06 · L&D -->
+  <section class="section" id="ld">
+    <div class="wrap">
+      <div class="section-open">
+        <span class="section-num">06</span>
+        <h2>Ce que le modèle par compétences fait au métier du L&amp;D</h2>
+        <p class="section-intro">
+          La question posée aux responsables formation se déplace : il ne s'agit plus de savoir quelle formation
+          proposer, mais comment construire les bonnes compétences assez vite pour tenir la stratégie.
+        </p>
+      </div>
+
+      <div class="duo">
+        <div>
+          <h4>Copropriétaire du référentiel</h4>
+          <p>Le référentiel de compétences cesse d'être un objet RH pour devenir un objet partagé entre RH,
+          métiers et formation. Le L&amp;D y a un rôle légitime : c'est lui qui sait ce qu'une compétence veut
+          dire une fois qu'il faut la faire acquérir.</p>
+        </div>
+        <div>
+          <h4>Mesurer en continu, pas une fois par an</h4>
+          <p>L'écart de compétences se pilote via les données d'apprentissage plutôt qu'à l'entretien annuel.
+          Le délai d'acquisition d'une compétence — le <em>time-to-skill</em> — s'installe comme indicateur
+          aux côtés des taux de certification.</p>
+        </div>
+        <div>
+          <h4>Personnaliser à l'échelle</h4>
+          <p>Des parcours adaptatifs construits sur le profil de compétences réel, et non sur l'intitulé du poste.
+          C'est là que la promesse du modèle rejoint directement le produit.</p>
+        </div>
+        <div>
+          <h4>Alimenter la mobilité interne</h4>
+          <p>Les marchés internes de missions ont besoin de parcours qui préparent réellement aux missions
+          proposées. Sans cette brique, le marché interne se réduit à un tableau d'affichage.</p>
+        </div>
+      </div>
+
+      <div class="block-lg col">
+        <h3>Pour les organismes de formation, une recomposition commerciale</h3>
+        <p>
+          Le mouvement est défavorable aux formats longs et généralistes, et favorable aux formats courts,
+          modulaires et certifiants. La certification par blocs et les référentiels métiers publics vont dans
+          le même sens : ils rendent la compétence lisible et échangeable indépendamment du diplôme qui la portait.
+        </p>
+        <p>
+          Les micro-certifications et l'Open Badge s'installent dans ce paysage comme unités de preuve.
+          Pour un organisme dont le catalogue est structuré en parcours longs, la conversion en blocs certifiables
+          n'est pas un exercice de mise en forme : c'est une refonte de l'offre.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════ 07 · TLS -->
+  <section class="section" id="tls">
+    <div class="wrap">
+      <div class="section-open">
+        <span class="section-num">07</span>
+        <h2>Cinq pistes, classées par distance à l'exécution</h2>
+        <p class="section-intro">
+          Les pistes ci-dessous découlent des constats précédents, en particulier de l'écart intention–action
+          du § 03 et du référentiel inexploité qu'il révèle.
+        </p>
+      </div>
+
+      <div class="col">
+        <ol class="list-num">
+          <li>
+            <h4>Diagnostic de maturité par compétences</h4>
+            <p>Un diagnostic packagé — deux jours et un rapport — sur cinq dimensions : gouvernance des compétences,
+            qualité de la donnée, outillage, culture d'apprentissage, mobilité interne. Positionnement à retenir :
+            non pas « construisez un référentiel », mais « rendez exploitable celui que vous avez déjà », puisque
+            trois entreprises sur quatre en ont un qui ne sert pas. Le cadre Deloitte peut servir de référence
+            méthodologique, à condition de le citer correctement.</p>
+          </li>
+          <li>
+            <h4>Couche compétences dans la learning app</h4>
+            <p>Graphe de compétences, profil actualisé en continu, visualisation des écarts. C'est la brique qui
+            transforme le discours en produit. Elle rejoint directement le Passeport de compétences déjà présent
+            dans l'application.</p>
+          </li>
+          <li>
+            <h4>Accompagnement des organismes partenaires</h4>
+            <p>Aider les organismes à restructurer leur catalogue en blocs certifiables et à se rendre lisibles sur
+            les référentiels métiers publics. Le marché compte plus de 150 000 prestataires déclarés : l'immense
+            majorité n'a pas les moyens internes de conduire cette conversion.</p>
+          </li>
+          <li>
+            <h4>Interopérabilité</h4>
+            <p>Se brancher aux plateformes de gestion des talents plutôt que les concurrencer, et positionner TLS
+            comme la couche pédagogique d'un écosystème par compétences. À traiter après la piste 2 : sans couche
+            compétences maison, il n'y a rien à connecter.</p>
+          </li>
+          <li>
+            <h4>Baromètre de maturité — France</h4>
+            <p>Une enquête annuelle auprès de responsables RH et formation français, avec un partenaire académique.
+            L'angle différenciant existe et il est fourni par ce dossier : tout le marché publie des chiffres
+            d'intention, personne ne publie de chiffres de mise en œuvre à l'échelle sur le périmètre français.
+            Un baromètre qui mesurerait l'écart réel entre intention et exécution serait le seul de sa catégorie.
+            Piste la plus lourde : à n'engager qu'après validation des pistes 1 et 2.</p>
+          </li>
+        </ol>
+      </div>
+
+      <div class="block-lg col">
+        <h3>Séquence proposée</h3>
+      </div>
+
+      <div class="table-scroll">
+        <table>
+          <caption>Séquence indicative. Les jalons supposent les pistes 1 et 2 engagées en parallèle.</caption>
+          <thead>
+            <tr>
+              <th scope="col">Jalon</th>
+              <th scope="col">Livrable</th>
+              <th scope="col">Contenu</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="num">J+30</td>
+              <td class="lead">Diagnostic</td>
+              <td>Questionnaire de trente items, grille de scoring sur cinq dimensions, modèle de rapport.
+              Test auprès de deux organisations pilotes, dont une de taille intermédiaire.</td>
+            </tr>
+            <tr>
+              <td class="num">J+60</td>
+              <td class="lead">Spécification produit</td>
+              <td>Module « profil de compétences » : marquage des compétences, tableau de bord des écarts,
+              maquettes du parcours utilisateur. Étude d'interopérabilité avec les principales plateformes du marché.</td>
+            </tr>
+            <tr>
+              <td class="num">J+90</td>
+              <td class="lead">Cadrage du baromètre</td>
+              <td>Conception de l'enquête, identification d'un partenaire académique, plan de diffusion.
+              Décision de lancement conditionnée aux résultats des deux premiers jalons.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note">
+        <span class="note-label">Un avertissement qui vaut argumentaire</span>
+        <p>
+          Ce dossier a dû retirer neuf chiffres sur un sujet dont tout le marché parle. Cela signifie que la plupart
+          des supports commerciaux en circulation sur les organisations par compétences reposent, en partie, sur des
+          données fausses, périmées ou vendues par une partie intéressée. Pour TLS, la rigueur sur les sources n'est
+          pas une contrainte de conformité : c'est le différenciateur le moins cher à produire et le plus difficile
+          à imiter sur ce marché.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════ 08 · SOURCES -->
+  <section class="section" id="sources">
+    <div class="wrap">
+      <div class="section-open">
+        <span class="section-num">08</span>
+        <h2>Bibliographie</h2>
+        <p class="section-intro">
+          Dix-neuf sources, remontées à la publication d'origine chaque fois que c'était possible. Les sources
+          publiées par une partie prenante commerciale sont signalées comme telles.
+        </p>
+      </div>
+
+      <h3 class="bib-group">Sources primaires — rapports et enquêtes</h3>
+      <ol class="bib">
+        <li>
+          <span class="bib-title">A skills-based model for work — Global Human Capital Trends</span>
+          <span class="bib-meta">Deloitte Insights · janvier 2023 · source d'origine du triptyque 107 / 98 / 57, adossée à l'enquête SBO de 2022</span>
+          <span class="bib-links"><a href="https://www.deloitte.com/us/en/insights/topics/talent/human-capital-trends/2023/skills-based-model-end-of-jobs.html" target="_blank" rel="noopener">Article</a></span>
+        </li>
+        <li>
+          <span class="bib-title">The skills-based organization: A new operating model for work and the workforce</span>
+          <span class="bib-meta">Deloitte Insights · septembre 2022 · Jones, Cantrell, Griffiths, Hiipakka · enquête auprès de 1 021 salariés et 225 dirigeants, 10 pays</span>
+          <span class="bib-links"><a href="https://www.deloitte.com/us/en/insights/topics/talent/organizational-skill-based-hiring.html" target="_blank" rel="noopener">Rapport</a><a href="https://www.deloitte.com/content/dam/insights/articles/2024/us175310_consulting-the-skills-based-org-report/di-the-skills-based-organization-report.pdf" target="_blank" rel="noopener">PDF</a></span>
+        </li>
+        <li>
+          <span class="bib-title">Skills-based organizations — page de référence</span>
+          <span class="bib-meta">Deloitte Global · novembre 2022 · origine des chiffres 63 % / 81 % / 36 % sur le débordement des fiches de poste</span>
+          <span class="bib-links"><a href="https://www.deloitte.com/global/en/issues/work/skills-based-organizations.html" target="_blank" rel="noopener">Page</a></span>
+        </li>
+        <li>
+          <span class="bib-title">Status of skills-based organizations: Where do they stand today?</span>
+          <span class="bib-meta">Deloitte Pays-Bas · republie le triptyque sans date ni méthodologie — illustration directe du problème de circulation décrit au § 02</span>
+          <span class="bib-links"><a href="https://www.deloitte.com/nl/en/services/consulting/perspectives/status-of-skills-based-organizations.html" target="_blank" rel="noopener">Page</a></span>
+        </li>
+        <li>
+          <span class="bib-title">Future of Jobs Report 2025</span>
+          <span class="bib-meta">World Economic Forum · janvier 2025 · plus de 1 000 employeurs, plus de 14 millions de salariés, 55 économies · source la mieux documentée du dossier</span>
+          <span class="bib-links"><a href="https://www.weforum.org/publications/the-future-of-jobs-report-2025/digest/" target="_blank" rel="noopener">Synthèse</a><a href="https://reports.weforum.org/docs/WEF_Future_of_Jobs_Report_2025.pdf" target="_blank" rel="noopener">PDF intégral</a><a href="https://www.weforum.org/publications/the-future-of-jobs-report-2025/in-full/3-skills-outlook/" target="_blank" rel="noopener">Chapitre compétences</a></span>
+        </li>
+        <li>
+          <span class="bib-title">HR Monitor 2025</span>
+          <span class="bib-meta">McKinsey &amp; Company · juin 2025 · source des 77 % de référentiels existants et des 41 % réellement ajustés</span>
+          <span class="bib-links"><a href="https://www.mckinsey.com/capabilities/people-and-organizational-performance/our-insights/hr-monitor-2025" target="_blank" rel="noopener">Rapport</a><a href="https://www.mckinsey.com/~/media/mckinsey/business%20functions/people%20and%20organizational%20performance/our%20insights/hr%20monitor%202025/hr-monitor-2025.pdf" target="_blank" rel="noopener">PDF</a></span>
+        </li>
+        <li>
+          <span class="bib-title">Closing Europe's workforce skills gap: Strategies for growth</span>
+          <span class="bib-meta">McKinsey &amp; Company · analyse européenne adossée au HR Monitor</span>
+          <span class="bib-links"><a href="https://www.mckinsey.com/capabilities/people-and-organizational-performance/our-insights/how-european-organizations-can-treat-skills-as-a-strategic-priority" target="_blank" rel="noopener">Article</a></span>
+        </li>
+        <li>
+          <span class="bib-title">Talent Shortage Concerns Drive Shift to Skills-Based Strategies</span>
+          <span class="bib-meta">Workday · mars 2025 · 2 300 dirigeants, enquête conduite en novembre 2024 par Hanover Research · <strong>éditeur de logiciels RH, partie prenante au résultat</strong></span>
+          <span class="bib-links"><a href="https://newsroom.workday.com/2025-03-05-Talent-Shortage-Concerns-Drive-Shift-to-Skills-Based-Strategies,-Workday-Research-Finds" target="_blank" rel="noopener">Communiqué</a><a href="https://www.enterprisetimes.co.uk/2025/03/05/organisations-are-solving-the-talent-gap-with-a-skills-based-approach/" target="_blank" rel="noopener">Analyse indépendante</a></span>
+        </li>
+      </ol>
+
+      <h3 class="bib-group">Cadre et données France</h3>
+      <ol class="bib" start="9">
+        <li>
+          <span class="bib-title">Rapport sur l'usage des fonds de la formation professionnelle — données 2024</span>
+          <span class="bib-meta">France compétences · dépense nationale de formation de 33 Md€ en 2024</span>
+          <span class="bib-links"><a href="https://www.francecompetences.fr/fiche/france-competences-publie-son-rapport-2024-sur-lusage-des-fonds-de-la-formation-professionnelle/" target="_blank" rel="noopener">Rapport</a></span>
+        </li>
+        <li>
+          <span class="bib-title">Budget 2026 de France compétences : un excédent qui masque une contraction des financements</span>
+          <span class="bib-meta">CPFormation · dépenses en recul d'environ 1,5 Md€, soit plus de 10 % sur un an</span>
+          <span class="bib-links"><a href="https://cpformation.com/budget-2026-de-france-competences-un-excedent-inedit-qui-masque-une-contraction-historique-des-financements/" target="_blank" rel="noopener">Analyse</a></span>
+        </li>
+        <li>
+          <span class="bib-title">France compétences adopte un budget en forte baisse</span>
+          <span class="bib-meta">Centre Inffo · couverture du vote et des réactions des partenaires sociaux</span>
+          <span class="bib-links"><a href="https://www.centre-inffo.fr/site-centre-inffo/actualites-centre-inffo/le-quotidien-de-la-formation-actualite-formation-professionnelle-apprentissage/articles-2025/france-competences-adopte-un-budget-en-forte-baisse" target="_blank" rel="noopener">Article</a></span>
+        </li>
+        <li>
+          <span class="bib-title">Projet de loi de finances 2026 — travail et emploi</span>
+          <span class="bib-meta">Sénat · rapport budgétaire · source du chiffre d'affaires de 29 Md€ du secteur</span>
+          <span class="bib-links"><a href="https://www.senat.fr/rap/l25-139-331/l25-139-33110.html" target="_blank" rel="noopener">Rapport</a></span>
+        </li>
+        <li>
+          <span class="bib-title">Le marché de la formation professionnelle en France</span>
+          <span class="bib-meta">Training Orchestra · consolidation des données publiques · 151 764 prestataires déclarés au 11 février 2026</span>
+          <span class="bib-links"><a href="https://trainingorchestra.com/fr/le-marche-de-la-formation-professionnelle-en-france/" target="_blank" rel="noopener">Article</a></span>
+        </li>
+        <li>
+          <span class="bib-title">Passeport de compétences — guide officiel</span>
+          <span class="bib-meta">Ministère du Travail · janvier 2025 · document de référence du dispositif</span>
+          <span class="bib-links"><a href="https://travail-emploi.gouv.fr/sites/travail-emploi/files/2025-01/Passeport%20competences-2025.pdf" target="_blank" rel="noopener">PDF</a><a href="https://competences.moncompteformation.gouv.fr/espace-public/" target="_blank" rel="noopener">Plateforme publique</a></span>
+        </li>
+        <li>
+          <span class="bib-title">Près de 100 000 passeports de compétences activés et 44 millions automatiquement alimentés</span>
+          <span class="bib-meta">AEF Info · source de l'écart entre remplissage automatique et activation réelle</span>
+          <span class="bib-links"><a href="https://www.aefinfo.fr/depeche/751920-pres-de-100000-passeports-de-competences-actives-et-44millions-automatiquement-alimentes" target="_blank" rel="noopener">Dépêche</a></span>
+        </li>
+      </ol>
+
+      <h3 class="bib-group">Cas de déploiement</h3>
+      <ol class="bib" start="16">
+        <li>
+          <span class="bib-title">How Unilever used upskilling to prepare for the future</span>
+          <span class="bib-meta">Gloat · cas client · <strong>publié par l'éditeur de la plateforme : chiffres d'impact non vérifiés indépendamment</strong></span>
+          <span class="bib-links"><a href="https://resources.gloat.com/resources/unilever-customer-success-story/" target="_blank" rel="noopener">Cas client</a><a href="https://www.i4cp.com/productivity-blog/putting-skills-on-display-in-unilevers-internal-talent-marketplace" target="_blank" rel="noopener">Analyse tierce</a></span>
+        </li>
+        <li>
+          <span class="bib-title">Why IBM Chooses Skills Over Degrees</span>
+          <span class="bib-meta">Gallup · retrait de l'exigence de diplôme sur la moitié des offres américaines en 2021</span>
+          <span class="bib-links"><a href="https://www.gallup.com/workplace/344621/why-ibm-chooses-skills-degrees.aspx" target="_blank" rel="noopener">Article</a><a href="https://newsroom.ibm.com/2021-10-13-IBM-Commits-to-Skill-30-Million-People-Globally-by-2030" target="_blank" rel="noopener">Communiqué IBM</a></span>
+        </li>
+        <li>
+          <span class="bib-title">Schneider Electric leverages AI to help develop employees' careers</span>
+          <span class="bib-meta">CIO · lancement du marché interne début 2020, import des profils LinkedIn</span>
+          <span class="bib-links"><a href="https://www.cio.com/article/651553/schneider-electric-leverages-ai-to-help-develop-employees-careers.html" target="_blank" rel="noopener">Article</a><a href="https://resources.gloat.com/wp-content/uploads/TM-22_10-Schneider-Electric-Pioneers-the-Talent-Marketplace-Case-Study-3.pdf" target="_blank" rel="noopener">Cas client éditeur</a></span>
+        </li>
+      </ol>
+
+      <h3 class="bib-group">Repère méthodologique</h3>
+      <ol class="bib" start="19">
+        <li>
+          <span class="bib-title">Building A Skills-Based Organization: The Exciting But Sober Reality</span>
+          <span class="bib-meta">Josh Bersin · 2023 · l'une des rares analyses à documenter les échecs de mise en œuvre plutôt que la promesse</span>
+          <span class="bib-links"><a href="https://joshbersin.com/2023/07/building-a-skills-based-organization-the-exciting-but-sober-reality/" target="_blank" rel="noopener">Article</a></span>
+        </li>
+      </ol>
+
+      <div class="note">
+        <span class="note-label">Méthode</span>
+        <p>
+          Chaque affirmation chiffrée de ce dossier a été rapportée à sa publication d'origine, avec vérification de
+          la date de collecte, de la taille de l'échantillon et de la formulation exacte. Un chiffre repris d'un
+          intermédiaire sans que la source primaire ait pu être atteinte a été retiré, quelle que soit sa
+          vraisemblance. Les chiffres publiés par une entreprise vendant la solution correspondante ont été soit
+          retirés, soit conservés avec mention explicite de l'intérêt commercial.
+        </p>
+        <p>
+          Les sources retirées lors de cette révision — iMocha, TestGorilla, Korn Ferry, Edflex, Didask, ainsi que
+          plusieurs agrégateurs de statistiques — restent consultables dans les versions antérieures archivées.
+          Elles sont écartées ici pour défaut de traçabilité ou conflit d'intérêt, non pour défaut de qualité éditoriale.
+        </p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="colophon">
+  <div class="colophon-inner">
+    <p class="colophon-brand">The Learning Society</p>
+    <p>
+      Dossier de veille stratégique — Skills-Based Organizations. Révision de juillet 2026 : fusion de trois
+      versions antérieures, vérification des sources, neuf chiffres retirés, deux attributions corrigées.
+    </p>
+    <p>
+      Document de travail à usage interne. Les chiffres signalés comme publiés par une partie prenante commerciale
+      ne doivent pas être repris dans un support client sans mention de leur origine.
+    </p>
+    <p>© 2026 The Learning Society</p>
+  </div>
+</footer>
+
+</body>
+</html>

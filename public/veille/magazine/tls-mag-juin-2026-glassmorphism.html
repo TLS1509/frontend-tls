@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TLS Mag' · Juin 2026 — Gamification &amp; Learning</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --paper:       #fefaf5;
+      --ink:         #2f1c13;
+      --ink-2:       #4C3B33;
+      --ink-3:       #695A52;
+      --rule:        #E0D5C8;
+
+      --accent-rule: #ED843A;
+      --accent-num:  #8F5017;
+      --accent-teal: #3D7786;
+      --accent-warm: #8F2A0E;
+
+      --font-display: 'League Spartan', sans-serif;
+      --font-body:    'Nunito', sans-serif;
+    }
+
+    html {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background: var(--paper);
+      color: var(--ink-2);
+      font-family: var(--font-body);
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    .sheet {
+      max-width: 70ch;
+      margin: 0 auto;
+      padding: 72px 24px 96px;
+    }
+
+    /* ── Masthead ─────────────────────────────── */
+
+    .masthead {
+      padding-bottom: 56px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .masthead__meta {
+      font-size: 14px;
+      color: var(--ink-3);
+      margin-bottom: 24px;
+    }
+
+    .masthead h1 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(40px, 7vw, 60px);
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      margin-bottom: 24px;
+    }
+
+    .masthead__theme {
+      font-size: 20px;
+      line-height: 1.5;
+      color: var(--ink-2);
+      max-width: 52ch;
+    }
+
+    /* ── Sections ─────────────────────────────── */
+
+    .section { margin-top: 80px; }
+
+    .section__rule {
+      width: 44px;
+      height: 2px;
+      background: var(--accent-rule);
+      border: 0;
+      margin-bottom: 24px;
+    }
+
+    .section__num {
+      display: block;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      color: var(--accent-num);
+      margin-bottom: 8px;
+    }
+
+    .section__title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(26px, 4vw, 32px);
+      line-height: 1.12;
+      letter-spacing: -0.025em;
+      color: var(--ink);
+      margin-bottom: 32px;
+    }
+
+    p { margin-bottom: 20px; max-width: 68ch; }
+    p:last-child { margin-bottom: 0; }
+
+    strong { color: var(--ink); font-weight: 700; }
+    em { font-style: italic; }
+
+    .lede {
+      font-size: 19px;
+      line-height: 1.6;
+      color: var(--ink);
+    }
+
+    a {
+      color: var(--accent-teal);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+      text-decoration-color: var(--rule);
+      transition: text-decoration-color 0.15s ease;
+    }
+    a:hover { text-decoration-color: var(--accent-teal); }
+
+    /* ── Signature ────────────────────────────── */
+
+    .signature {
+      margin-top: 32px;
+      font-size: 16px;
+      color: var(--ink-3);
+    }
+
+    /* ── Stat ─────────────────────────────────── */
+
+    .stat {
+      margin-bottom: 40px;
+    }
+
+    .stat__value {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(72px, 14vw, 108px);
+      line-height: 0.9;
+      letter-spacing: -0.04em;
+      color: var(--accent-teal);
+    }
+
+    .stat__caption {
+      margin-top: 16px;
+      font-size: 15px;
+      line-height: 1.55;
+      color: var(--ink-3);
+      max-width: 56ch;
+    }
+
+    .stat__caption strong { color: var(--ink-2); font-weight: 700; }
+
+    /* ── Forest plot ──────────────────────────── */
+
+    .plot {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin: 40px 0;
+      background: transparent;
+      overflow: visible;
+    }
+
+    .plot__label {
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 600;
+      fill: var(--ink-2);
+    }
+
+    .plot__value {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      fill: var(--ink);
+    }
+
+    .plot__tick {
+      font-family: var(--font-body);
+      font-size: 12px;
+      fill: var(--ink-3);
+    }
+
+    .plot__note {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-style: italic;
+      fill: var(--ink-3);
+    }
+
+    .plot__caption {
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--ink-3);
+      max-width: 62ch;
+      margin-bottom: 40px;
+    }
+
+    /* ── Items (rule-separated) ───────────────── */
+
+    .item + .item {
+      margin-top: 40px;
+      padding-top: 40px;
+      border-top: 1px solid var(--rule);
+    }
+
+    .item__num {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      color: var(--accent-num);
+      margin-bottom: 8px;
+    }
+
+    .item__title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 23px;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 16px;
+      max-width: 60ch;
+    }
+
+    .src {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--accent-teal);
+      text-decoration: none;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 2px;
+      transition: border-color 0.15s ease;
+    }
+    .src:hover { border-color: var(--accent-teal); }
+    .src svg { width: 13px; height: 13px; flex: 0 0 13px; }
+
+    /* ── Sub-headings ─────────────────────────── */
+
+    .sub {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 19px;
+      line-height: 1.25;
+      letter-spacing: -0.015em;
+      color: var(--ink);
+      margin-top: 40px;
+      margin-bottom: 16px;
+    }
+
+    /* ── Projection ───────────────────────────── */
+
+    .projection {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid var(--rule);
+    }
+
+    .projection__label {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      color: var(--accent-num);
+      margin-bottom: 12px;
+    }
+
+    /* ── Quote ────────────────────────────────── */
+
+    .quote {
+      font-size: 21px;
+      line-height: 1.55;
+      color: var(--ink);
+      max-width: 58ch;
+      margin-bottom: 24px;
+    }
+
+    .quote--fr {
+      font-size: 18px;
+      line-height: 1.6;
+      color: var(--ink-2);
+      max-width: 62ch;
+      margin-bottom: 32px;
+    }
+
+    .attribution {
+      font-size: 15px;
+      line-height: 1.55;
+      color: var(--ink-3);
+      max-width: 60ch;
+    }
+
+    .attribution strong { color: var(--ink-2); }
+
+    /* ── Agenda ───────────────────────────────── */
+
+    .entry + .entry {
+      margin-top: 32px;
+      padding-top: 32px;
+      border-top: 1px solid var(--rule);
+    }
+
+    .entry__date {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 0.02em;
+      color: var(--accent-num);
+      margin-bottom: 8px;
+    }
+
+    .entry__title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 19px;
+      line-height: 1.25;
+      letter-spacing: -0.015em;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+
+    .entry__desc {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--ink-2);
+      margin-bottom: 12px;
+      max-width: 62ch;
+    }
+
+    .note {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid var(--rule);
+      font-size: 14px;
+      font-style: italic;
+      color: var(--ink-3);
+      max-width: 62ch;
+    }
+
+    /* ── Footer ───────────────────────────────── */
+
+    .footer {
+      margin-top: 80px;
+      padding-top: 32px;
+      border-top: 1px solid var(--rule);
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--ink-3);
+    }
+
+    .footer__name {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: -0.01em;
+      color: var(--ink-2);
+      margin-bottom: 4px;
+    }
+
+    @media (max-width: 640px) {
+      body { font-size: 16px; }
+      .sheet { padding: 48px 20px 72px; }
+      .section { margin-top: 64px; }
+      .item + .item { margin-top: 32px; padding-top: 32px; }
+      .plot__label { font-size: 17px; }
+      .plot__tick { font-size: 14px; }
+      .plot__value { font-size: 17px; }
+      .plot__note { font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="sheet">
+
+    <!-- ═══ Masthead ═══ -->
+    <header class="masthead">
+      <div class="masthead__meta">TLS Mag' · N° 06 · Juin 2026</div>
+      <h1>Gamification<br/>&amp; Learning</h1>
+      <p class="masthead__theme">Transformer l'engagement en compétences — et pourquoi les deux ne sont pas la même chose.</p>
+    </header>
+
+    <!-- ═══ 01 · Édito ═══ -->
+    <section class="section">
+      <hr class="section__rule" />
+      <span class="section__num">01</span>
+      <h2 class="section__title">Édito</h2>
+
+      <p class="lede">La gamification a une littérature. Elle est moins flatteuse que les plaquettes, et beaucoup plus utile.</p>
+
+      <p>La méta-analyse de référence sur le sujet — Sailer et Homner, 2020 — mesure trois effets distincts, et c'est leur écart qui compte. Sur les acquis cognitifs, l'effet est réel mais modeste. Sur la motivation et sur le comportement, il est plus faible — et surtout, il tient moins bien dès qu'on ne retient que les études rigoureuses. Autrement dit : ce que le marché vend le plus fort, l'engagement, est précisément ce que les preuves soutiennent le moins bien.</p>
+
+      <p>Ce numéro part de là. Pas pour enterrer la gamification : un <em>g</em> de 0,49 sur l'apprentissage, ce n'est pas rien, et les modérateurs identifiés par les auteurs — fiction de jeu, interaction sociale — donnent des indications de conception concrètes. Mais pour cesser de confondre deux objets : concevoir un système qui retient les apprenants, et concevoir un système qui les fait apprendre. Les deux se recouvrent parfois. Pas toujours. Et quand ils divergent, c'est presque toujours le premier qu'on achète en croyant prendre le second.</p>
+
+      <div class="signature">— Chloé &amp; Pierre-Armand</div>
+    </section>
+
+    <!-- ═══ 02 · Le chiffre ═══ -->
+    <section class="section">
+      <hr class="section__rule" />
+      <span class="section__num">02</span>
+      <h2 class="section__title">Le chiffre</h2>
+
+      <div class="stat">
+        <div class="stat__value">0,49</div>
+        <p class="stat__caption">
+          <strong>Hedges' g = 0,49</strong> · IC 95 % [0,30 · 0,69] · k = 19 · N = 1 686.<br/>
+          Effet de la gamification sur les acquis cognitifs, mesuré par la méta-analyse Sailer &amp; Homner (2020).
+        </p>
+      </div>
+
+      <p>0,49, c'est un effet petit à moyen. Ni le gadget que dénoncent les sceptiques, ni la révolution que promettent les vendeurs. Un effet réel, mesuré, borné.</p>
+
+      <p>Le graphique montre pourquoi le chiffre isolé ne suffit pas. Trois familles de résultats, trois effets décroissants, et des intervalles de confiance qui se chevauchent largement. Celui du comportement (<em>g</em> = 0,25) frôle zéro à son extrémité basse : sur ces neuf études, on ne peut pas exclure qu'il soit quasi nul.</p>
+
+      <svg class="plot" viewBox="0 0 640 236" role="img" aria-labelledby="plot-title plot-desc">
+        <title id="plot-title">Effets de la gamification selon le type de résultat</title>
+        <desc id="plot-desc">Trois effets mesurés par la méta-analyse Sailer et Homner 2020. Acquis cognitifs : g égale 0,49, intervalle de confiance de 0,30 à 0,69. Motivation : g égale 0,36, intervalle de 0,18 à 0,54. Comportement : g égale 0,25, intervalle de 0,04 à 0,46, dont l'extrémité basse frôle zéro.</desc>
+
+        <!-- zero reference -->
+        <line x1="196" y1="24" x2="196" y2="192" stroke="var(--rule)" stroke-width="1" stroke-dasharray="3 3" />
+
+        <!-- row 1 · cognitif -->
+        <text x="176" y="48" text-anchor="end" dominant-baseline="middle" class="plot__label">Acquis cognitifs</text>
+        <line x1="353.5" y1="48" x2="558.3" y2="48" stroke="var(--accent-teal)" stroke-width="1.5" opacity="0.4" />
+        <line x1="353.5" y1="42" x2="353.5" y2="54" stroke="var(--accent-teal)" stroke-width="1.5" opacity="0.4" />
+        <line x1="558.3" y1="42" x2="558.3" y2="54" stroke="var(--accent-teal)" stroke-width="1.5" opacity="0.4" />
+        <circle cx="453.3" cy="48" r="5.5" fill="var(--accent-teal)" />
+        <text x="453.3" y="33" text-anchor="middle" class="plot__value">0,49</text>
+
+        <!-- row 2 · motivation -->
+        <text x="176" y="108" text-anchor="end" dominant-baseline="middle" class="plot__label">Motivation</text>
+        <line x1="290.5" y1="108" x2="479.5" y2="108" stroke="var(--accent-teal)" stroke-width="1.5" opacity="0.4" />
+        <line x1="290.5" y1="102" x2="290.5" y2="114" stroke="var(--accent-teal)" stroke-width="1.5" opacity="0.4" />
+        <line x1="479.5" y1="102" x2="479.5" y2="114" stroke="var(--accent-teal)" stroke-width="1.5" opacity="0.4" />
+        <circle cx="385" cy="108" r="5.5" fill="var(--accent-teal)" />
+        <text x="385" y="93" text-anchor="middle" class="plot__value">0,36</text>
+
+        <!-- row 3 · comportement -->
+        <text x="176" y="168" text-anchor="end" dominant-baseline="middle" class="plot__label">Comportement</text>
+        <line x1="217" y1="168" x2="437.5" y2="168" stroke="var(--accent-warm)" stroke-width="1.5" opacity="0.45" />
+        <line x1="217" y1="162" x2="217" y2="174" stroke="var(--accent-warm)" stroke-width="1.5" opacity="0.45" />
+        <line x1="437.5" y1="162" x2="437.5" y2="174" stroke="var(--accent-warm)" stroke-width="1.5" opacity="0.45" />
+        <circle cx="327.3" cy="168" r="5.5" fill="var(--accent-warm)" />
+        <text x="327.3" y="153" text-anchor="middle" class="plot__value">0,25</text>
+        <text x="217" y="188" text-anchor="middle" class="plot__note">0,04</text>
+
+        <!-- axis -->
+        <line x1="196" y1="192" x2="616" y2="192" stroke="var(--rule)" stroke-width="1" />
+        <line x1="196" y1="192" x2="196" y2="197" stroke="var(--rule)" stroke-width="1" />
+        <line x1="301" y1="192" x2="301" y2="197" stroke="var(--rule)" stroke-width="1" />
+        <line x1="406" y1="192" x2="406" y2="197" stroke="var(--rule)" stroke-width="1" />
+        <line x1="511" y1="192" x2="511" y2="197" stroke="var(--rule)" stroke-width="1" />
+        <line x1="616" y1="192" x2="616" y2="197" stroke="var(--rule)" stroke-width="1" />
+        <text x="196" y="214" text-anchor="middle" class="plot__tick">0</text>
+        <text x="301" y="214" text-anchor="middle" class="plot__tick">0,2</text>
+        <text x="406" y="214" text-anchor="middle" class="plot__tick">0,4</text>
+        <text x="511" y="214" text-anchor="middle" class="plot__tick">0,6</text>
+        <text x="616" y="214" text-anchor="middle" class="plot__tick">0,8</text>
+        <text x="406" y="232" text-anchor="middle" class="plot__tick">Taille d'effet (Hedges' g) · barres = IC 95 %</text>
+      </svg>
+
+      <p class="plot__caption">Sailer, M. &amp; Homner, L. (2020). <em>The Gamification of Learning: A Meta-Analysis.</em> Educational Psychology Review, 32(1), 77–112. Cognitif : k = 19, N = 1 686. Motivation : k = 16, N = 2 246. Comportement : k = 9, N = 951.</p>
+
+      <p>Mais la phrase la plus importante de l'article n'est pas un chiffre. Quand les auteurs restreignent l'analyse aux études méthodologiquement rigoureuses, l'effet cognitif tient. Les effets sur la motivation et le comportement, eux, deviennent instables.</p>
+
+      <p><strong>Ce qu'il faut en faire :</strong> si on vous vend de la gamification sur une promesse d'engagement, demandez l'étude. Si on vous la vend sur une promesse d'apprentissage, elle existe — modeste, et avec des conditions de conception précises.</p>
+
+      <a class="src" href="https://doi.org/10.1007/s10648-019-09498-w" target="_blank" rel="noopener noreferrer">Educational Psychology Review · DOI 10.1007/s10648-019-09498-w<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+    </section>
+
+    <!-- ═══ 03 · Trois lectures ═══ -->
+    <section class="section">
+      <hr class="section__rule" />
+      <span class="section__num">03</span>
+      <h2 class="section__title">Trois lectures</h2>
+
+      <article class="item">
+        <div class="item__num">01</div>
+        <h3 class="item__title">Kahoot! s'intègre à Microsoft Learning Zone — et ce que l'annonce ne dit pas</h3>
+        <p>Depuis le 21 janvier 2026, Kahoot! est intégré à Microsoft Learning Zone sur les PC Copilot+. Un formateur génère un kahoot en quelques minutes à partir d'un objectif de cours, d'un référentiel ou de ses propres supports, puis relit et corrige les questions avant publication. Le gain est réel : le temps de production d'un quiz s'effondre.</p>
+        <p>Ce qui compte ici, c'est ce qui n'est pas annoncé. La <em>génération</em> est assistée ; le <em>parcours</em>, lui, ne l'est pas. Tous les participants reçoivent la même séquence linéaire de questions, quelles que soient leurs réponses — pas de routage vers de la remédiation en cas d'erreur, pas de saut pour ceux qui maîtrisent déjà. « Adaptatif » circule vite dans les communiqués ; le mot désigne une architecture précise, et elle n'est pas là.</p>
+        <p>Traduction pour un budget : c'est un gain de charge pour les concepteurs, pas un gain pédagogique pour l'apprenant. Les deux se justifient, mais ils ne se financent pas sur la même ligne.</p>
+        <a class="src" href="https://kahoot.com/blog/2026/01/21/enhance-classroom-engagement-with-kahoots-new-integration-with-microsoft-learning-zone/" target="_blank" rel="noopener noreferrer">Kahoot!, 21 janvier 2026<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+      </article>
+
+      <article class="item">
+        <div class="item__num">02</div>
+        <h3 class="item__title">Josh Bersin chiffre à 400 milliards de dollars la bascule du corporate learning</h3>
+        <p>Publiée le 11 février 2026, la recherche de Josh Bersin part d'un constat solide : <strong>74 %</strong> des entreprises interrogées déclarent ne pas suivre le rythme de leurs propres besoins en compétences. Le diagnostic vaut la lecture.</p>
+        <p>La suite en mérite une plus prudente. Les entreprises classées au niveau 4 du modèle de maturité — « AI-Native Learning » — seraient 10 fois plus susceptibles d'être des leaders de l'innovation, 6 fois de dépasser leurs objectifs financiers, 16 fois de bien s'adapter au changement. Ces ratios décrivent une corrélation entre un niveau de maturité et une performance. Ils ne disent rien du sens de la flèche. Une entreprise qui dépasse ses objectifs financiers a les moyens d'être « AI-Native » ; l'inverse reste à démontrer, et ce n'est pas ce que mesure un modèle de maturité.</p>
+        <p>À lire pour le diagnostic. Pas pour les multiplicateurs.</p>
+        <a class="src" href="https://joshbersin.com/2026/02/new-research-how-ai-transforms-400-billion-of-corporate-learning/" target="_blank" rel="noopener noreferrer">Josh Bersin, 11 février 2026<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+      </article>
+
+      <article class="item">
+        <div class="item__num">03</div>
+        <h3 class="item__title">Quand la gamification abîme l'apprentissage : l'étude de cas Duolingo</h3>
+        <p>Reza Hadi Mogavi et ses coauteurs ont analysé neuf ans de discussions sur le forum Duolingo, puis interrogé 15 utilisateurs internationaux. Ils décrivent un phénomène qu'ils nomment <em>gamification misuse</em> : l'utilisateur se fixe sur les mécaniques — série, classement, ligue — et se détourne de l'apprentissage. Le temps y passe, la performance d'apprentissage en pâtit. Les causes qu'ils identifient : la compétitivité, l'attachement excessif aux éléments ludiques, et les comportements grégaires.</p>
+        <p>Précision qui compte : c'est une étude <strong>qualitative</strong>, adossée à 15 entretiens, publiée à ACM Learning @ Scale 2022. Elle ne mesure pas un effet et ne prétend pas le faire — elle décrit un mécanisme et le documente. C'est exactement ce qu'on attend d'une étude de cas. Et exactement ce qu'il ne faut pas citer comme une preuve d'ampleur.</p>
+        <a class="src" href="https://arxiv.org/abs/2203.16175" target="_blank" rel="noopener noreferrer">Hadi Mogavi et al., ACM L@S 2022<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+      </article>
+    </section>
+
+    <!-- ═══ 04 · Signal faible ═══ -->
+    <section class="section">
+      <hr class="section__rule" />
+      <span class="section__num">04</span>
+      <h2 class="section__title">Signal faible</h2>
+
+      <h3 class="sub">L'échec productif : dix-huit ans de littérature, peu de produits</h3>
+
+      <p>L'idée est simple : faire chercher avant d'enseigner. On confronte l'apprenant à un problème qu'il ne sait pas encore résoudre, on le laisse produire des solutions imparfaites, et l'enseignement vient <em>après</em>.</p>
+
+      <p>La méta-analyse de référence — Sinha &amp; Kapur, 2021, dans <em>Review of Educational Research</em> — agrège 53 études, 166 comparaisons, plus de 12 000 participants. Résultat : <strong>g = 0,36</strong> [0,20 · 0,51] en faveur du « problème d'abord » sur la compréhension conceptuelle et le transfert. Quand le design respecte fidèlement les principes de l'échec productif, l'effet monte entre 0,37 et 0,58.</p>
+
+      <p>Et une nuance que la plupart des reprises oublient : sur la <strong>connaissance procédurale, il n'y a aucune différence</strong> (g = −0,03). L'échec productif ne fait pas mieux apprendre à exécuter. Il fait mieux comprendre et mieux transférer. Ce ne sont pas les mêmes objectifs de formation, et ils ne se conçoivent pas de la même façon.</p>
+
+      <p>Le signal faible n'est donc pas le mécanisme : il a dix-huit ans et il est méta-analysé. C'est l'écart entre cette littérature et ce que les plateformes construisent. Duolingo, par exemple, va dans l'autre sens — les analyses de son design relèvent que les leçons se terminent délibérément sur un item plus facile : finir sur un échec crée une association négative, finir sur un succès donne envie de revenir.</p>
+
+      <p>Le raisonnement est défendable. Mais c'est un arbitrage en faveur de la <em>rétention d'usage</em>, pas de l'apprentissage conceptuel. Il est rarement présenté comme tel.</p>
+
+      <div class="projection">
+        <div class="projection__label">PROJECTION 12 MOIS</div>
+        <p>Le clivage devrait se formaliser : d'un côté des produits optimisés pour la fréquentation, de l'autre des dispositifs assumant une difficulté désirable. Les acheteurs capables de lire un <em>g</em> demanderont lequel des deux on leur vend. Les autres achèteront le premier en croyant prendre le second. C'est une projection, pas un résultat — et elle se vérifiera ou non.</p>
+      </div>
+
+      <p style="margin-top: 32px;">
+        <a class="src" href="https://doi.org/10.3102/00346543211019105" target="_blank" rel="noopener noreferrer">Sinha &amp; Kapur, Review of Educational Research, 91(5)<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+      </p>
+    </section>
+
+    <!-- ═══ 05 · Outil ═══ -->
+    <section class="section">
+      <hr class="section__rule" />
+      <span class="section__num">05</span>
+      <h2 class="section__title">Outil du mois</h2>
+
+      <h3 class="sub">Miro Talktrack</h3>
+
+      <p>Talktrack enregistre une marche commentée : votre écran, votre voix, votre caméra, depuis n'importe quel onglet ou n'importe quelle application. Chaque enregistrement arrive avec sa transcription, son résumé et ses chapitres automatiques — dix minutes de vidéo se rattrapent en moins d'une. L'enregistrement se range à côté du travail dont il parle, s'envoie par lien, s'intègre ailleurs ou se télécharge ; celui qui le regarde n'a pas besoin d'un compte Miro. Le montage — couper, retirer les hésitations — se fait dans Miro, sans exporter ni ré-uploader.</p>
+
+      <p><strong>Ce n'est pas un outil de gamification</strong>, et il ne prétend pas l'être. C'est un outil de transfert de contexte en asynchrone. Sa place dans ce numéro tient à la question qui traverse tout le reste : à quel moment le feedback atteint l'apprenant, et sous quelle forme. Un commentaire de dix minutes enregistré le mardi et regardé le jeudi n'est pas une mécanique de jeu. C'est parfois plus utile qu'un badge.</p>
+
+      <p><strong>Tarifs :</strong> le plan gratuit autorise 5 Talktracks. Starter à 8 $/utilisateur/mois, Business à 16 $/utilisateur/mois, en facturation annuelle. Talktrack est illimité à partir du plan Business.</p>
+
+      <a class="src" href="https://miro.com/capabilities/talktrack/" target="_blank" rel="noopener noreferrer">Miro · Talktrack<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+    </section>
+
+    <!-- ═══ 06 · Citation ═══ -->
+    <section class="section">
+      <hr class="section__rule" />
+      <span class="section__num">06</span>
+      <h2 class="section__title">La citation</h2>
+
+      <blockquote>
+        <p class="quote">« the effect of gamification on cognitive learning outcomes was stable in a subsplit analysis of studies employing high methodological rigor […] effects on motivational and behavioral outcomes were less stable »</p>
+        <p class="quote--fr">« L'effet de la gamification sur les acquis cognitifs est resté stable dans une analyse restreinte aux études méthodologiquement rigoureuses […] les effets sur la motivation et le comportement, eux, étaient moins stables. »</p>
+      </blockquote>
+
+      <p class="attribution">
+        <strong>Michael Sailer &amp; Lisa Homner</strong><br/>
+        <em>The Gamification of Learning: A Meta-Analysis</em> — Educational Psychology Review, 32(1), 77–112, 2020.
+      </p>
+
+      <p style="margin-top: 24px;">
+        <a class="src" href="https://doi.org/10.1007/s10648-019-09498-w" target="_blank" rel="noopener noreferrer">Lire l'article<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+      </p>
+    </section>
+
+    <!-- ═══ 07 · Agenda ═══ -->
+    <section class="section">
+      <hr class="section__rule" />
+      <span class="section__num">07</span>
+      <h2 class="section__title">Agenda</h2>
+
+      <div class="entry">
+        <div class="entry__date">11 septembre 2026</div>
+        <h3 class="entry__title">Prix Jean-François Fiorina pour l'innovation pédagogique — 5<sup>e</sup> édition</h3>
+        <p class="entry__desc">Clôture des candidatures à minuit ; aucun dossier, vidéo ou élément complémentaire accepté après. Organisé par la Conférence des grandes écoles, ouvert depuis le 20 avril. Cette édition décerne un « Prix IA générative &amp; innovation pédagogique ». Le dispositif présenté doit avoir été testé en conditions réelles et avoir moins de cinq ans. Cinq finalistes annoncés mi-octobre, remise des prix entre mi-novembre et début décembre.</p>
+        <a class="src" href="https://www.cge.asso.fr/lancement-5e-edition-prix-jean-francois-fiorina" target="_blank" rel="noopener noreferrer">Conférence des grandes écoles<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+      </div>
+
+      <div class="entry">
+        <div class="entry__date">15 septembre 2026</div>
+        <h3 class="entry__title">Global EdTech Startup Awards 2026 — clôture des candidatures</h3>
+        <p class="entry__desc">Compétition mondiale de startups EdTech créée en 2014 : plus de 6 000 candidates issues de 130 pays depuis l'origine. Les finalistes sont présentés sur scène internationale, historiquement à la Bett Arena de Londres.</p>
+        <a class="src" href="https://www.globaledtechawards.org/" target="_blank" rel="noopener noreferrer">GESAwards<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+      </div>
+
+      <div class="entry">
+        <div class="entry__date">30 septembre – 2 octobre 2026</div>
+        <h3 class="entry__title">ECGBL 2026 — 20<sup>e</sup> European Conference on Games Based Learning</h3>
+        <p class="entry__desc">Technische Universität Darmstadt, Allemagne. La conférence européenne de référence sur le jeu appliqué à l'apprentissage, réunissant chercheurs, praticiens et game designers de plus de 40 pays. Événement en présentiel, participation à distance possible.</p>
+        <a class="src" href="https://www.academic-conferences.org/conferences/ecgbl/" target="_blank" rel="noopener noreferrer">Academic Conferences International<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+      </div>
+
+      <p class="note">Seules les échéances vérifiées à leur source figurent ici. Un événement annoncé sans source vérifiable n'est pas un événement.</p>
+    </section>
+
+    <!-- ═══ Footer ═══ -->
+    <footer class="footer">
+      <div class="footer__name">The Learning Society</div>
+      TLS Mag' · N° 06 · Usage interne — juin 2026<br/>
+      Chaque chiffre de ce numéro est tracé à sa source primaire. Quand la source ne soutenait pas l'affirmation, l'affirmation a été retirée.
+    </footer>
+
+  </main>
+</body>
+</html>
