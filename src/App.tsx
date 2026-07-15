@@ -201,6 +201,8 @@ import AppLanding from './pages/AppLanding';
 import { PagesIndex } from './pages/PagesIndex';
 import DesignShowcase from './pages/DesignShowcase';
 import TestLogo from './pages/_TestLogo';
+import BgLab from './pages/BgLab';
+import CardLab from './pages/CardLab';
 import { FloatingNavButton } from './components/FloatingNavButton';
 import { DevPanel } from './components/DevPanel';
 // Marketing site
@@ -331,6 +333,21 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     setIsMobileOpen(false);
     navigate(path);
   };
+
+  // Full-bleed pages own their whole layout (chat, viewers, editors) → render
+  // edge-to-edge. Every other page flows through the single app-wide content
+  // container (max-width + responsive gutter) so layout is consistent app-wide.
+  const p = location.pathname;
+  const isFullBleed =
+    p.startsWith('/messages') ||
+    p.includes('/messages/') ||
+    p.startsWith('/assistant') ||
+    p.startsWith('/collaboration') ||
+    p.startsWith('/journal/free-entry') ||
+    p.startsWith('/journal/new') ||
+    p.includes('/lessons/') ||
+    p.startsWith('/veille/video') ||   // video viewer, tutorial, reels (all immersive)
+    /^\/lesson\/[^/]+\/(astuces|flashcards|complementary)/.test(p);
 
   return (
     <div className="flex min-h-[100dvh] bg-gradient-page-ambient">
@@ -483,7 +500,11 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         {/* pb-16 reserves space for BottomNav; max-md:pt-14 clears the fixed
             mobile menu button (top-2 left-2, 52px bottom edge) so no page's
             top-of-content renders under it. Both mobile-only (md:hidden chrome). */}
-        <main className="flex-1 min-w-0 [overflow-x:clip] max-md:pt-14 pb-16 md:pb-0">{children}</main>
+        <main className="flex-1 min-w-0 [overflow-x:clip] max-md:pt-14 pb-16 md:pb-0">
+          {isFullBleed ? children : (
+            <div className="w-full max-w-wide mx-auto px-4 sm:px-6 lg:px-10">{children}</div>
+          )}
+        </main>
 
         <footer className="px-6 py-4 text-caption text-ink-500 text-center">
           © {new Date().getFullYear()} The Learning Society. All rights reserved.
@@ -596,6 +617,8 @@ function App() {
 
         {/* ── Pages test temporaires ── */}
         <Route path="/_test-logo" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><TestLogo /></div>} />
+        <Route path="/_bg-lab" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><BgLab /></div>} />
+        <Route path="/_card-lab" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><CardLab /></div>} />
         <Route path="/website/_variants" element={<MarketingVariantLab />} />
 
         {/* ── Landing page inscription — public, plein écran ── */}

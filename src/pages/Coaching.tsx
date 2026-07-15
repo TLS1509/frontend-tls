@@ -214,7 +214,7 @@ export const Coaching: React.FC = () => {
 
   return (
     <>
-      <div className="relative min-h-[100dvh] bg-gradient-page-ambient">
+      <div className="relative min-h-[100dvh]">
         <PageShell width="page" noPadTop className="relative z-[2] pt-6 md:pt-8 lg:pt-10">
 
           {/* Hero: EditorialHero tone="warm" — Coaching = connexion humaine/amber */}
@@ -275,30 +275,7 @@ export const Coaching: React.FC = () => {
                   <Badge variant="success">Confirmée</Badge>
                 </div>
 
-                {/* Coach row : avatar + name + role + Message button: intégré ici
-                    (au lieu d'une section strip dédiée) car c'est dans le contexte de la
-                    session que contacter son coach a du sens. */}
-                <div className="flex flex-wrap items-center gap-stack-xs p-3 rounded-xl bg-white/60 backdrop-blur-glass-light border border-white/60">
-                  <Avatar initials="SM" size="sm" tint="brand" />
-                  <div className="flex flex-col min-w-0 flex-1">
-                    <span className="font-display text-body-sm font-bold text-ink-900 leading-tight truncate">
-                      {coach.name}
-                    </span>
-                    <span className="font-body text-caption text-ink-600 leading-tight truncate">
-                      {coach.role}
-                    </span>
-                  </div>
-                  <Button
-                    variant="glass-warm"
-                    size="md"
-                    leadingIcon={<MessageCircle size={14} />}
-                    onClick={() => navigate('/messages')}
-                    aria-label={`Envoyer un message à ${coach.name}`}
-                  >
-                    Message
-                  </Button>
-                </div>
-
+                {/* Meta : quand / où — pills glass sur le fond teinté (bon usage du glass). */}
                 <MetaPillGroup
                   items={[
                     { icon: <Calendar size={14} />, text: upcoming!.dateLabel },
@@ -309,10 +286,8 @@ export const Coaching: React.FC = () => {
                   gap="sm"
                 />
 
-                {/* Coach row : avatar + name + role + Message button: intégré ici
-                    (au lieu d'une section strip dédiée) car c'est dans le contexte de la
-                    session que contacter son coach a du sens. */}
-                <div className="flex flex-wrap items-center gap-stack-xs p-3 rounded-xl bg-white/60 backdrop-blur-glass-light border border-white/60">
+                {/* Coach row : avatar + name + role + Message en icon-button (charge réduite). */}
+                <div className="flex items-center gap-stack-xs p-3 rounded-xl bg-white/60 backdrop-blur-glass-light border border-white/60">
                   <Avatar initials="SM" size="sm" tint="brand" />
                   <div className="flex flex-col min-w-0 flex-1">
                     <span className="font-display text-body-sm font-bold text-ink-900 leading-tight truncate">
@@ -325,28 +300,32 @@ export const Coaching: React.FC = () => {
                   <Button
                     variant="glass-warm"
                     size="md"
-                    leadingIcon={<MessageCircle size={14} />}
+                    iconOnly
+                    leadingIcon={<MessageCircle size={16} />}
                     onClick={() => navigate('/messages')}
                     aria-label={`Envoyer un message à ${coach.name}`}
-                  >
-                    Message
-                  </Button>
+                  />
                 </div>
 
-                <div className="flex flex-wrap gap-stack-xs">
-                  <Button size="lg" leadingIcon={<Video size={15} />} aria-label="Rejoindre la session de coaching">
+                {/* Actions : 1 action primaire + secondaires compactes (calendrier en icon-button). */}
+                <div className="flex flex-wrap items-center gap-stack-xs">
+                  <Button
+                    size="lg"
+                    leadingIcon={<Video size={15} />}
+                    className="flex-1 min-w-[180px] sm:flex-none"
+                    aria-label="Rejoindre la session de coaching"
+                  >
                     Rejoindre la session
                   </Button>
                   <Button
                     size="lg"
                     variant="glass-warm"
-                    leadingIcon={<Download size={15} />}
+                    iconOnly
+                    leadingIcon={<Download size={16} />}
                     onClick={handleDownloadCalendarInvite}
-                    aria-label="Télécharger l'invitation calendrier (.ics)"
-                  >
-                    Ajouter au calendrier
-                  </Button>
-                  <Button variant="ghost" onClick={() => setShowCancel(true)}>
+                    aria-label="Ajouter au calendrier (.ics)"
+                  />
+                  <Button variant="ghost" size="lg" onClick={() => setShowCancel(true)}>
                     Reprogrammer
                   </Button>
                 </div>

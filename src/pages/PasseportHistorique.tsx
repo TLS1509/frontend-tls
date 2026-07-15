@@ -21,11 +21,11 @@ const TYPE_CONFIG: Record<CompetencyProgression['type'], { icon: React.ElementTy
 
 const RADAR_AXES = [
   { label: 'Communication', current: 4 },
-  { label: 'Stratégie', current: 3 },
   { label: 'Leadership', current: 3 },
-  { label: 'Tech', current: 2 },
-  { label: 'Process', current: 4 },
-  { label: 'Esprit critique', current: 3 },
+  { label: 'Analyse', current: 2 },
+  { label: 'Tech', current: 4 },
+  { label: 'Créativité', current: 1 },
+  { label: 'Coopération', current: 3 },
 ];
 
 const PasseportHistorique: React.FC = () => {

@@ -636,7 +636,8 @@
 */
 @layer utilities {
   /* Gradient vertical propre (registre product : pas de blobs décoratifs sur les surfaces app).
-     Traverse les 50-tints TLS : bleu en haut → jaune → orange en bas. Très léger, se révèle au scroll. */
+     Traverse les 50-tints TLS : bleu en haut → jaune → orange en bas. Très léger, se révèle au scroll.
+     NB : variantes texture (lavis aquarelle / grain papier) en test isolé sur /_bg-lab avant extension. */
   .bg-gradient-page-ambient {
     background: linear-gradient(
       180deg,

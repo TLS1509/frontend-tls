@@ -88,11 +88,11 @@ export default function Passeport() {
 
   // Timeline events (learner journey)
   const TIMELINE_EVENTS = [
-    { id: 'event-1', date: '2026-01-15', type: 'lesson' as const, title: 'Completed: Prompt Engineering 101', description: 'Mastered basic prompt writing techniques' },
-    { id: 'event-2', date: '2026-02-10', type: 'session' as const, title: 'Coaching Session with Sophie', description: 'Discussion on leadership skills and delegation' },
-    { id: 'event-3', date: '2026-03-05', type: 'badge' as const, title: 'Earned: Prompt Master Badge', description: 'Advanced prompt engineering certification' },
-    { id: 'event-4', date: '2026-03-20', type: 'milestone' as const, title: 'Reached Dreyfus Level 4', description: 'Advanced proficiency in Technical Leadership' },
-    { id: 'event-5', date: '2026-04-12', type: 'achievement' as const, title: 'Learning Streak: 30 days', description: 'Consistent daily engagement with learning materials' },
+    { id: 'event-1', date: '2026-01-15', type: 'lesson' as const, title: 'Terminé : Prompt Engineering 101', description: 'Maîtrise des techniques de base de rédaction de prompts' },
+    { id: 'event-2', date: '2026-02-10', type: 'session' as const, title: 'Session de coaching avec Sophie', description: 'Discussion sur les compétences de leadership et la délégation' },
+    { id: 'event-3', date: '2026-03-05', type: 'badge' as const, title: 'Obtenu : Badge Prompt Master', description: 'Certification avancée en prompt engineering' },
+    { id: 'event-4', date: '2026-03-20', type: 'milestone' as const, title: 'Niveau Dreyfus 4 atteint', description: 'Maîtrise avancée en Leadership' },
+    { id: 'event-5', date: '2026-04-12', type: 'achievement' as const, title: "Série d'apprentissage : 30 jours", description: "Engagement quotidien constant avec les contenus d'apprentissage" },
   ];
 
   // Suggested skills to develop (AI-generated alternatives based on current profile)
