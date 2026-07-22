@@ -85,22 +85,27 @@ export const RadarChart: React.FC<RadarChartProps> = ({
               if (index >= 0) handleAxisClick(e, index);
             }}
             style={{ cursor: 'pointer' }}
-            tick={(props) => {
-              const isActive = hoveredAxis === props.value;
+            tick={/* v3: la valeur du tick vit dans payload.value, plus au premier
+                     niveau. On ne spread pas props sur <text> : il porte payload /
+                     tickFormatter / visibleTicksCount, non valides en SVG. */
+              ({ x, y, textAnchor, payload }) => {
+              const label = String(payload?.value ?? '');
+              const isActive = hoveredAxis === label;
               return (
-                <g {...props}>
-                  <text
-                    {...props}
-                    className={`text-body-sm font-semibold transition-all ${
-                      isActive ? 'fill-primary-600' : 'fill-ink-700'
-                    }`}
-                    onMouseEnter={() => setHoveredAxis(props.value)}
-                    onMouseLeave={() => setHoveredAxis(null)}
-                    style={{ cursor: 'pointer' }}
-                  >
-                    {props.value}
-                  </text>
-                </g>
+                <text
+                  x={x}
+                  y={y}
+                  textAnchor={textAnchor}
+                  dominantBaseline="central"
+                  className={`text-body-sm font-semibold transition-all ${
+                    isActive ? 'fill-primary-600' : 'fill-ink-700'
+                  }`}
+                  onMouseEnter={() => setHoveredAxis(label)}
+                  onMouseLeave={() => setHoveredAxis(null)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  {label}
+                </text>
               );
             }}
           />
@@ -129,15 +134,10 @@ export const RadarChart: React.FC<RadarChartProps> = ({
               strokeDasharray="5 5"
             />
           )}
+          {/* contentStyle est une prop de Tooltip, pas de Legend : le style du
+              conteneur de légende passe par wrapperStyle. */}
           {showLegend && (
-            <Legend
-              wrapperStyle={{ paddingTop: '20px' }}
-              contentStyle={{
-                backgroundColor: 'transparent',
-                border: 'none',
-                fontSize: '14px',
-              }}
-            />
+            <Legend wrapperStyle={{ paddingTop: '20px', fontSize: '14px' }} />
           )}
           <Tooltip
             contentStyle={{

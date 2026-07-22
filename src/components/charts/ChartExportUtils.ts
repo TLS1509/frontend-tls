@@ -116,7 +116,7 @@ export async function exportChartPdf(
       pdf.setTextColor(31, 62, 69);
 
       // Draw table header
-      pdf.setFont(undefined, 'bold');
+      pdf.setFont('helvetica', 'bold');
       let xPosition = margin;
       const colWidth = contentWidth / columns.length;
 
@@ -126,7 +126,7 @@ export async function exportChartPdf(
       });
 
       yPosition += 7;
-      pdf.setFont(undefined, 'normal');
+      pdf.setFont('helvetica', 'normal');
 
       // Draw table rows
       rows.forEach((row) => {

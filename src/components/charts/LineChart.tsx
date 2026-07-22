@@ -90,6 +90,18 @@ export const LineChart: React.FC<LineChartProps> = ({
         <RechartsLineChart
           data={data}
           margin={{ top: 20, right: 30, bottom: 20, left: 30 }}
+          /* recharts v3 : le handler de clic vit sur le chart, pas sur <Line>.
+             Il reçoit (nextState, event) et l'index du point actif est dans
+             nextState.activeTooltipIndex. En v2 <Line onClick> recevait
+             (data, index) — signature supprimée depuis. */
+          onClick={
+            onPointClick
+              ? (nextState) => {
+                  const i = nextState?.activeTooltipIndex;
+                  if (typeof i === 'number' && data[i]) onPointClick(data[i], i);
+                }
+              : undefined
+          }
         >
           <CartesianGrid strokeDasharray="3 3" stroke="currentColor" className="text-ink-200" />
           <XAxis
@@ -128,7 +140,6 @@ export const LineChart: React.FC<LineChartProps> = ({
                 strokeDasharray={s.strokeDasharray}
                 dot={showDots}
                 activeDot={{ r: 5 }}
-                onClick={(_, index) => onPointClick?.(data[index], index)}
                 style={{ cursor: onPointClick ? 'pointer' : 'default' }}
               />
             ))
@@ -140,7 +151,6 @@ export const LineChart: React.FC<LineChartProps> = ({
               strokeWidth={2}
               dot={showDots}
               activeDot={{ r: 5 }}
-              onClick={(_, index) => onPointClick?.(data[index], index)}
               style={{ cursor: onPointClick ? 'pointer' : 'default' }}
             />
           )}

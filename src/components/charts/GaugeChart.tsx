@@ -279,7 +279,6 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
             strokeDasharray={`${(targetPercentage / 100) * circumference} ${(100 - targetPercentage) / 100 * circumference}`}
             strokeDashoffset={0}
             opacity={0.6}
-            strokeDashoffset={0}
             style={{
               transform: 'rotate(-90deg)',
               transformOrigin: `${config.center}px ${config.center}px`,

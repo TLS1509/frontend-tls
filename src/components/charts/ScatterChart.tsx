@@ -120,7 +120,9 @@ export const ScatterChart: React.FC<ScatterChartProps> = ({
               fontSize: '13px',
               boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
             }}
-            formatter={(value: number) => value.toFixed(2)}
+            formatter={/* v3: Formatter reçoit ValueType | undefined, pas number */ (value) =>
+              typeof value === 'number' ? value.toFixed(2) : String(value ?? '')
+            }
             labelStyle={{ color: '#1a1a1a' }}
           />
           {showLegend && <Legend wrapperStyle={{ paddingTop: '20px' }} />}

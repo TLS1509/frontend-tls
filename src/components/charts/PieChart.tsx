@@ -123,10 +123,12 @@ export const PieChart: React.FC<PieChartProps> = ({
               fontSize: '13px',
               boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
             }}
-            formatter={(value: number) => {
+            formatter={/* v3: Formatter reçoit ValueType | undefined, pas number */ (value) => {
+              const n = typeof value === 'number' ? value : Number(value);
+              if (!Number.isFinite(n)) return String(value ?? '');
               const total = dataWithColors.reduce((sum, d) => sum + d.value, 0);
-              const percent = ((value / total) * 100).toFixed(1);
-              return `${value} (${percent}%)`;
+              const percent = total > 0 ? ((n / total) * 100).toFixed(1) : '0.0';
+              return `${n} (${percent}%)`;
             }}
             labelStyle={{ color: '#1a1a1a' }}
           />
