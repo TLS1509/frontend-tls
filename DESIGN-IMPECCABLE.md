@@ -17,7 +17,7 @@ colors:
   success-sage-bg: "#E8F2F0"
   danger-coral: "#F28559"
   danger-coral-bg: "#FEF4F0"
-  ink-deepest: "#1a1a1a"
+  ink-deepest: "#252B37"
   ink-body: "#374151"
   ink-muted: "#6b7280"
   ink-subtle: "#9ca3af"
@@ -26,7 +26,7 @@ colors:
   border-subtle: "#f3f4f6"
   surface-cool: "#f9fafb"
   surface-mist: "#f8fbfd"
-  surface-cream: "#fef3e2"
+  surface-cream: "#fefaf5"
   surface-white: "#ffffff"
 typography:
   display:
@@ -301,7 +301,7 @@ The palette is a tonal trio anchored on coastal teal, with two warm accents and 
 - **Golden Sun Mist** (`#FFF9EE`): Reserved for achievement and reflection surfaces.
 
 ### Neutral
-- **Ink Deepest** (`#1a1a1a`): Headings, primary text on light surfaces. Never `#000000`.
+- **Ink Deepest** (`#252B37`): Headings, primary text on light surfaces. Never `#000000`. *(Corrigé le 2026-07-22 : ce doc indiquait `#1a1a1a`, une valeur intermédiaire depuis abandonnée — `--color-ink-900` est revenu au dark teinté teal d'origine.)*
 - **Ink Body** (`#374151`): Default body copy. Reading-comfort color at 16px Nunito 400.
 - **Ink Muted** (`#6b7280`): Metadata, captions, helper text.
 - **Ink Subtle** (`#9ca3af`): Placeholders, disabled states, least-emphasis text.

@@ -34,20 +34,30 @@ Toute modification impactant le design system ou les pages de l'app **doit être
 - **Design System — Claude** : https://www.notion.so/thelearningsociety/fc727adea430439bb45590fd908ba134
 - **Écrans Learning App** : https://www.notion.so/thelearningsociety/c60f30c775c8473fa15a8446f96142d4
 
-### Pages manquantes à créer (audit 2026-05-12)
+### Pages manquantes — état revérifié le 2026-07-22
 
-6 pages identifiées dans les écrans mais absentes du codebase — statut `Disponible: NO` dans Écrans DB.
+Les 6 fichiers existent tous désormais. **Mais trois ne sont pas montés sur la
+route annoncée ici** — ce tableau liste des routes, pas des fichiers, et c'est
+la route qui compte pour l'utilisateur.
 
-| # | Page | Route | Flow | Priorité |
-|---|---|---|---|---|
-| P1 | Recherche | `/search` | Parcours & Apprentissage | Haute |
-| P2 | MagicLink | `/auth/magic-link` | Authentification | Conditionnelle |
-| P3 | VerifyEmail | `/auth/verify-email` | Authentification | Conditionnelle |
-| P4 | SubscriptionPayment | `/subscription/payment` | Abonnement | Haute |
-| P5 | Billing | `/account/billing` | Compte | Moyenne |
-| P6 | Positionnement | `/onboarding/positionnement` | Onboarding | Haute |
+| # | Page | Route prévue | État réel (vérifié dans `src/App.tsx`) |
+|---|---|---|---|
+| P1 | Recherche | `/search` | ⚠️ Fichier + export présents, **aucune route** — page inatteignable |
+| P2 | MagicLink | `/auth/magic-link` | ✅ montée (L634) |
+| P3 | VerifyEmail | `/auth/verify-email` | ✅ montée (L633) |
+| P4 | SubscriptionPayment | `/subscription/payment` | ⚠️ montée sur **`/onboarding/payment`** (L641) |
+| P5 | Billing | `/account/billing` | ✅ montée (L694) |
+| P6 | Positionnement | `/onboarding/positionnement` | ⚠️ montée sur **`/learning-paths/:id/positionnement`** (L662) |
 
-→ Après création dans le codebase, mettre à jour `Disponible sur l app` → YES dans Écrans DB.
+Ceci fait avancer — sans le clore — le finding **X4** de
+`docs/_canon/AUDIT-COHERENCE.md`, ouvert depuis le 2026-06-10.
+
+**Décisions à prendre** (aucune n'est purement documentaire) :
+1. `Recherche` : la router, ou l'assumer comme abandonnée et supprimer le fichier.
+2. `SubscriptionPayment` et `Positionnement` : les routes réelles sont-elles les
+   bonnes ? Si oui, corriger ce tableau ; sinon, corriger le routage.
+3. Puis seulement : passer `Disponible sur l'app` → `YES` dans la base Notion
+   Écrans, pour les pages réellement atteignables.
 → Voir `MIGRATION-PLAN.md` §Phase 10 — Pages à créer pour le détail complet.
 
 ### Process de quality check — 5 points obligatoires
@@ -188,7 +198,7 @@ Voir DESIGN-IMPECCABLE.md §7 pour la matrice complète + voice (tu/vous).
 
 **Tokens couleur additionnels Phase 10** :
 - `--color-primary-950: #164267` (deep navy — extension scale primary)
-- `--color-surface-cyan: #f0f9ff`, `--color-surface-mist: #f8fbfd`, `--color-surface-cream: #fef3e2` (surface pastels)
+- `--color-surface-cyan: #f0f9ff`, `--color-surface-mist: #f8fbfd`, `--color-surface-cream: #fefaf5` (surface pastels — cream adouci, était `#fef3e2` jugé trop orangé)
 
 ### z-index (Tailwind v4 namespace `--z-index-*`)
 | Token | Value | Usage |
@@ -813,6 +823,13 @@ Plusieurs cahiers partagent des entités structurelles. Voici le pattern pour ch
 
 ### Type File Organization (src/types/)
 
+> ℹ️ **Section prescriptive, pas un inventaire** (vérifié le 2026-07-22). Elle
+> décrit la convention visée. À ce jour, `src/types/learning.ts` et
+> `src/types/projects.ts` existent ; `coaching.ts`, `journal.ts`,
+> `compliance.ts` et `enterprise.ts` n'ont pas été créés, et côté données c'est
+> `src/data/learningPaths.ts` (et non `learning.ts`). Ne pas lire cette liste
+> comme l'état du dépôt.
+
 Create one file per cahier module with its primary entities:
 
 - `src/types/learning.ts` — LearningPath, Item, Competency (reused by multiple cahiers)
@@ -836,6 +853,10 @@ Parallel structure, one MOCK_* file per cahier for seeding:
 
 ---
 
-**Dernière mise à jour :** 2026-05-19 (Phase 16 Tone & Data Models ajoutés)
-**Phase actuelle :** 16 (Spec Compliance — Gap Analysis Complete, Documentation Updates in Progress)
-**Prochains focus :** 17-18 (UX Depth Pass & Store Wiring) + 19+ (IA Matching, Analytics)
+**Dernière vérification factuelle :** 2026-07-22 (tokens, chemins et comptes
+revérifiés contre `src/index.css` et l'arborescence réelle).
+
+**Phase en cours : voir [`CLAUDE.md`](./CLAUDE.md)** — c'est là que vit le suivi
+des phases, et lui seul. Ce pied de page annonçait « Phase actuelle : 16 » alors
+que CLAUDE.md documentait déjà les phases 17 à 23 et un audit du 2026-06-30 :
+dupliquer le numéro ici garantit qu'il se périme. Ne pas le réintroduire.

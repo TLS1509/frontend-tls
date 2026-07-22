@@ -1,5 +1,12 @@
 # Design System: The Learning Society — Augmented Mastery
 
+> ⚠️ **Échelle de gris corrigée le 2026-07-22** — ce document portait encore
+> l'ancienne échelle `ink` teintée teal (`#F5F8F8`, `#535B62`, `#12181C`…),
+> abandonnée dans `src/index.css` au profit de gris neutres. Un outil lisant
+> l'ancienne version générait des gris qui ne correspondaient plus à l'app.
+> Source de vérité : le bloc `@theme` de `src/index.css`.
+
+
 > **For Google Stitch.** This document is the single source of truth for generating new screens aligned with the TLS design language. Read it entirely before generating any UI. The anti-patterns section is as important as the rules.
 
 ---
@@ -66,15 +73,15 @@ One neutral scale, no warm/cool mixing.
 |------|-----|------|
 | **Page Canvas** | `#FAFBFC` | App page background |
 | **Pure Surface** | `#FFFFFF` | Card and container fill |
-| **Surface Muted** | `#F5F8F8` | Sunken areas, secondary surfaces |
-| **Surface Sunken** | `#EEF2F4` | Input backgrounds, code blocks |
-| **Border Default** | `rgba(37,43,55,0.08)` | Card borders, dividers |
-| **Border Strong** | `rgba(37,43,55,0.14)` | Active card borders, focused inputs |
-| **Ink Muted** | `#6B7981` | Secondary text, metadata, captions |
-| **Ink Body** | `#535B62` | Supporting body text |
-| **Ink Deep** | `#3A474B` | Primary body text |
+| **Surface Muted** | `#F9FAFB` | Sunken areas, secondary surfaces |
+| **Surface Sunken** | `#F3F4F6` | Input backgrounds, code blocks |
+| **Border Default** | `rgba(26,26,26,0.08)` | Card borders, dividers |
+| **Border Strong** | `rgba(26,26,26,0.14)` | Active card borders, focused inputs |
+| **Ink Muted** | `#6B7280` | Secondary text, metadata, captions |
+| **Ink Body** | `#4B5563` | Supporting body text |
+| **Ink Deep** | `#374151` | Primary body text |
 | **Ink Deepest** | `#252B37` | Headlines on light surfaces |
-| **Ink Black** | `#12181C` | Near-black, never pure black |
+| **Ink Black** | `#0F172A` | Near-black, never pure black |
 
 ### Semantic states — TLS Muted Family
 
@@ -84,7 +91,7 @@ One neutral scale, no warm/cool mixing.
 |-------|-----------|-----------|--------|
 | **Success** | `#E8F2F0` | `#335A56` | `rgba(157,190,186,0.30)` |
 | **Danger** | `#FEF4F0` | `#8F2A0E` | `rgba(242,133,89,0.25)` |
-| **Warning** | `#FFF9EE` | `#7C5822` | `rgba(248,176,68,0.30)` |
+| **Warning** | `#FFF9EE` | `#2f1c13` | `rgba(248,176,68,0.30)` |
 | **Info** | `#E8F4F7` | `#1F3E45` | `rgba(85,161,180,0.25)` |
 
 Success is muted teal-green (`#9DBEBA`) — "calmly validated", not "you crushed it". Danger is soft coral (`#F28559`) — a flag, not a slap.
@@ -150,7 +157,7 @@ The pill is the brand's **signature gesture of commitment**. Every button is alw
 | **Accent** | `#F8B044` | White | Sun glow shadow | Badge claim, JAC ceremony, celebration only |
 | **Ghost** | `#E8F4F7` (teal mist) | `#1F3E45` | Darken to `#DCEBEF` | Secondary action paired with primary |
 | **Glass** | `rgba(255,255,255,0.20)` | White | `rgba(255,255,255,0.35)` | On dark/gradient hero backgrounds only |
-| **Destructive** | `#DC2626` (red-600) | White | Lighten | Only on irreversible destructive actions |
+| **Destructive** | `#C0432A` (terracotta brique) | White | `#9B2F1B` en pression | Only on irreversible destructive actions |
 | **Link** | Transparent | `#3D7786` underlined | Color darkens | Inline navigation only |
 
 **Hover pattern:** `-translate-y-0.5` lift + tonal glow shadow (not neutral grey). Active returns to `translate-y-0`. This is non-negotiable.
@@ -167,7 +174,7 @@ The card is the primary container. **Always `border-radius: 20px`** (xl in Tailw
 
 | Variant | Background | Border | Usage |
 |---------|-----------|--------|-------|
-| **default** | White | 1px `rgba(37,43,55,0.08)` | Standard cards |
+| **default** | White | 1px `rgba(26,26,26,0.08)` | Standard cards |
 | **feature** | White | None | Highlighted, no border — shadow does the work |
 | **interactive** | White | Shifts on hover | Clickable cards, course cards |
 | **glass** | `rgba(255,255,255,0.55)` + blur | `rgba(255,255,255,0.60)` | Overlapping content: modals, sticky headers |
@@ -183,11 +190,11 @@ The card is the primary container. **Always `border-radius: 20px`** (xl in Tailw
 
 - **Shape:** `border-radius: 14px` (lg)
 - **Background:** White, no fill tint
-- **Border:** 1px `#e0e6e9` at rest → shifts to `#55A1B4` (Coastal Teal) on focus. **No glow ring, no inset shadow — just the border swap.**
+- **Border:** 1px `#E5E7EB` at rest → shifts to `#55A1B4` (Coastal Teal) on focus. **No glow ring, no inset shadow — just the border swap.**
 - **Height:** 44px touch target. Padding: 10px vertical, 14px horizontal
-- **Typography:** Nunito 16px, `#252B37` text. Placeholder `#9AA8AE`
+- **Typography:** Nunito 16px, `#252B37` text. Placeholder `#9CA3AF`
 - **Error state:** Border → coral `#F28559`, helper text below in matching color + AlertCircle icon. Color is never the sole error carrier.
-- **Disabled:** Background `#F5F8F8`, text `#9AA8AE`, 50% opacity
+- **Disabled:** Background `#F9FAFB`, text `#9CA3AF`, 50% opacity
 - **Label:** Above the input (never floating). Nunito 13px 600 weight, +0.02em tracking.
 
 ### Badges & Pills
@@ -203,7 +210,7 @@ The card is the primary container. **Always `border-radius: 20px`** (xl in Tailw
 | sun | `#FFF9EE` | `#252B37` |
 | success | `#E8F2F0` | `#335A56` |
 | danger | `#FEF4F0` | `#8F2A0E` |
-| neutral | `#EEF2F4` | `#535B62` |
+| neutral | `#F3F4F6` | `#4B5563` |
 
 **AI Label pill** (mandatory on every AI output): Teal-mist background `#E8F4F7`, teal-pressed text `#3D7786`, JetBrains Mono "IA" eyebrow (11px 700). Never animated. Never decorative. A functional transparency marker.
 
@@ -378,7 +385,7 @@ The learner is the subject of every verb.
 - ❌ 3 equal cards horizontally with icon + heading + 2 lines — repeated section after section
 - ❌ Square buttons or `border-radius: 8–12px` buttons — always pill (999px)
 - ❌ `rounded-full` on buttons — that's circles for icon-only avatars
-- ❌ Pure black `#000000` — use `#12181C` or `#252B37`
+- ❌ Pure black `#000000` — use `#0F172A` or `#252B37`
 - ❌ Bright `#22C55E` green or `#EF4444` red for semantic states — use the TLS muted family
 - ❌ Gradient text on large headers — reserved for marketing `GradientText` primitive only
 - ❌ Serif fonts of any kind in this UI
