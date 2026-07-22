@@ -13,8 +13,10 @@ Chaque dérive ci-dessous a été établie contre un fichier source, pas estimé
 
 > ⚠️ **Correction du 2026-07-22, après vérification contradictoire.** La première
 > version de ce document affirmait que `src/index.css` était la source unique des
-> tokens. **C'est faux.** Voir §1 bis — c'est le point le plus important du
-> document, et il change la nature du problème.
+> tokens. **C'est faux.** Il y a en réalité **quatre référentiels** : trois
+> fichiers CSS tous chargés (§1 bis) et un `spec.json` fossile encore cité comme
+> autorité par 9 composants (§1 ter). Commencer par §1 ter : c'est le seul qui
+> produit *encore activement* de la dérive.
 
 Quatre informations sont écrites **trois fois chacune** dans la doc. Mais la
 cause racine est plus profonde : **le code lui-même a deux systèmes de tokens.**
@@ -25,6 +27,32 @@ cause racine est plus profonde : **le code lui-même a deux systèmes de tokens.
 | Voice, cadence, doctrine IA | **`PRODUCT.md`** | Lier, ne pas recopier |
 | Pièges connus | **`CLAUDE.md`** | Pointer, ne pas compter |
 | Faits business / marque | **`docs/_canon/FACTS-CANON.md`** | Ne rien propager hors canon |
+
+---
+
+## 1 ter. Le fossile : `src/design-system/spec.json`
+
+**C'est la cause racine la plus profonde, et la plus facile à corriger.**
+
+| Fait | Vérification |
+|---|---|
+| **9 fichiers le déclarent « Source of truth »** dans leur en-tête | `Button.tsx:5`, `Card.tsx:10`, `Modal`, `Toast`, `Alert`, `StatCard`, `Medal`, `Skeleton`, `Components.tsx` |
+| Daté du **2026-04-24**, jamais retouché | dernier commit : 2026-04-25 « Initial frontend handoff package » |
+| **Jamais importé** — aucune dépendance runtime | `grep -rn "import.*spec.json" src` → vide |
+| Ses **5 feuilles de style déclarées n'existent plus** | `tokens.css`, `shell.css`, `components.css`, `learning.css`, `patterns.css` — `src/styles/` ne contient que `design-tokens.css`, `globals.css`, `dark-mode-tokens.css` |
+| **15 de ses 51 couleurs n'existent nulle part** dans le code | dont `#12181C`, `#535B62`, `#EEF2F4`, `#F5F8F8`, `#C8D2D6`, `#9AA8AE`, `#7C5822` |
+
+Ces 15 couleurs sont **exactement** l'échelle de gris teintée teal abandonnée que
+`.claude/stitch-design-system.md` portait encore. **Le fossile est la source de la
+dérive** : qui suit le commentaire de `Card.tsx` atterrit sur la palette d'avril.
+
+Parce qu'il n'est jamais importé, **rien ne casse et rien ne signale qu'il ment**.
+C'est le pire des deux mondes : autorité déclarée, zéro contrainte de vérité.
+
+**Décision à prendre :** le supprimer et retirer les 9 commentaires « Source of
+truth », ou le régénérer depuis le code et l'y arrimer. Ne pas le laisser en
+l'état — c'est la seule chose de ce document qui *continue activement* à
+produire de la dérive.
 
 ---
 
