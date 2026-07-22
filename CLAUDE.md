@@ -580,7 +580,7 @@ Pour chaque composant ou page, **toutes ces étapes sont OBLIGATOIRES** dans cet
 ÉTAPE 2 — IMPLÉMENTATION
   2.1 Créer les maps VARIANT_CLASSES, SIZE_CLASSES, TONE_*_CLASSES selon pattern Button
   2.2 Remplacer les références au BEM par les maps
-  2.3 npx tsc --noEmit → 0 erreurs TypeScript
+  2.3 npm run build → 0 erreurs TypeScript
 
 ÉTAPE 3 — AUDIT TAILWIND (à fournir à l'utilisateur)
   3.1 Produire un TABLEAU MARKDOWN qui prouve que le composant est 100% Tailwind :
@@ -820,6 +820,27 @@ const BASE = '... transition-all ...';  // Preflight gère le défaut à 0/solid
 
 **Action générale** : ne jamais ajouter `border-none` ou `border-0` dans la BASE d'un composant qui a des variants avec `border`. Vérifier avec `getComputedStyle(el).borderTopStyle === 'solid'` après migration.
 
+### ⚠️ Piège n°14 : `h-screen` (100vh) sur un conteneur sticky → contenu tronqué sur mobile
+
+`h-screen` = `height: 100vh`. Sur mobile Safari et Chrome Android, `100vh` compte la zone **derrière la barre d'URL rétractable** : le viewport réellement visible est plus court. Un `sticky top-0 h-screen` mesure donc plus haut que ce que l'utilisateur voit — le bas du contenu épinglé est coupé, et la hauteur change pendant le scroll quand la barre se rétracte, ce qui fait vibrer l'élément.
+
+**Fix** : utiliser l'unité **dynamic viewport height** `dvh`, qui suit la barre d'URL.
+
+```tsx
+// ❌ MAUVAIS — tronque sur mobile, jitter au scroll
+<div className="sticky top-0 h-screen overflow-hidden">
+
+// ✅ BON — suit le viewport visible réel
+<div className="sticky top-0 h-[100dvh] overflow-hidden">
+
+// ✅ BON aussi quand le contenu peut dépasser
+<div className="sticky top-0 min-h-[100dvh] flex items-center">
+```
+
+**Découvert** lors de l'audit sticky du 2026-07-22 : 4 surfaces marketing utilisaient `h-screen`, 3 utilisaient déjà `min-h-[100dvh]` — incohérence pure, le bon pattern existait déjà dans le repo. Corrigé sur `VideoScrollStory`, `CinematicHero`, `ScrollRevealCanvas` (production) + `ImmersiveParallaxStory` (prototype).
+
+**Action générale** : sur tout conteneur plein-écran — sticky, hero, overlay, modal fullscreen — préférer `dvh` à `vh`. `h-screen` reste acceptable pour du desktop-only explicitement gardé par un breakpoint `lg:`.
+
 ### ⚠️ Règle : pas de SVG inline custom — utiliser Lucide
 
 `lucide-react` est notre librairie d'icônes par défaut. **Ne jamais hardcoder un `<svg>` inline** dans un composant si Lucide propose l'équivalent.
@@ -941,7 +962,7 @@ body { font-family: var(--font-body); }
    - `ActivityFeed` timeline pour flux chronologiques
 
 4. **Vérification** (10 min)
-   - `npx tsc --noEmit` → 0 erreurs
+   - `npm run build` → 0 erreurs
    - Preview screenshot mobile + desktop
    - DOM verify : pas de classes `tls-*` BEM legacy, pas de `var(--tls-*)` en `style={{}}`
    - Accessibilité : `min-h-touch` sur boutons, contrast ratio sur dark surfaces
@@ -1004,7 +1025,7 @@ Refondre écran-par-écran fragmente la cohérence visuelle entre écrans liés.
 4. VALIDATION FLOW (~15 min)
    - Preview : enchaîner les écrans du début à la fin via preview_*
    - Screenshots mobile (375px) + desktop (1280px)
-   - npx tsc --noEmit → 0 erreurs
+   - npm run build → 0 erreurs
    - Vérifier transitions, glass, cohérence tone (max 2 tones par flow)
 
 5. DOC + NOTION SYNC
@@ -1042,7 +1063,7 @@ Refondre écran-par-écran fragmente la cohérence visuelle entre écrans liés.
 - ❌ Modifier un composant DS sans le mettre à jour dans Components.tsx + Notion DS DB
 - ❌ Marquer un flow ✅ sans screenshots mobile ET desktop
 - ❌ Mélanger plus de 2 tones dans un même flow (1 dominant + 1 accent max)
-- ❌ Commit sans `npx tsc --noEmit` clean
+- ❌ Commit sans `npm run build` clean
 
 ### Ordre des flows
 Voir `MIGRATION-PLAN.md` § PHASE 14 pour le découpage complet 14.1 → 14.17 (Tier 1 daily-use → Tier 5 edge cases).
@@ -1061,7 +1082,7 @@ Voir `MIGRATION-PLAN.md` § PHASE 14 pour le découpage complet 14.1 → 14.17 (
 - [ ] Visual consistency : max 2 tones/flow, semantic spacing appliqué, 0 BEM legacy
 - [ ] Design system complete : tous showcase-only intégrés, usedBy à jour
 - [ ] Doc finalized : CLAUDE.md Phase 14 + DESIGN.md §4/5 à jour, Notion sync ✅
-- [ ] `npx tsc --noEmit` + `npm run build` → 0 erreurs
+- [ ] `npm run build` → 0 erreurs (inclut `tsc -b`)
 
 **Workflow Phase 15** :
 1. Valider new-user journey end-to-end (pas de glitchs visuels)
@@ -1126,7 +1147,7 @@ Voir `MIGRATION-PLAN.md` § PHASE 14 pour le découpage complet 14.1 → 14.17 (
 
 5. WIRING STORE + VALIDATION
    - Ajouter state dans Zustand (src/stores/persistence.ts ou store dédié)
-   - npx tsc --noEmit → 0 erreurs
+   - npm run build → 0 erreurs
    - Smoke test FO via preview_* MCP (mobile 375px + desktop 1280px)
    - Notion sync : Écrans DB (Statut "Validé"), Design System DB (nouveaux composants)
    - Commit : `feat(phase-16.X): align [cahier name] to spec`
@@ -1351,7 +1372,7 @@ Utiliser le skill `figma-use` et le tool `mcp__18afc236-bea0-4964-b6d4-074a26003
    - Type, Layer, Migration status (Tailwind ✅), Has variants, Tone-aware
 
 **Acceptance criteria :**
-- `npx tsc --noEmit` → 0 erreurs
+- `npm run build` → 0 erreurs
 - Components.tsx affiche sans erreur en preview
 - Tous les variants/tones visibles dans la démo
 
@@ -1372,7 +1393,7 @@ Utiliser le skill `figma-use` et le tool `mcp__18afc236-bea0-4964-b6d4-074a26003
    - 100% Tailwind : zéro `style={{}}` layout/color/spacing, zéro classes BEM `.tls-*`, zéro `[var(...)]` arbitraire
 
 3.3 **Vérification par page** :
-   - `npx tsc --noEmit` → 0 erreurs
+   - `npm run build` → 0 erreurs
    - Screenshot 375px (mobile) et 1280px (desktop)
    - Console clean (zéro warnings)
    - Hover/focus/active states fonctionnels
@@ -1393,7 +1414,7 @@ Utiliser le skill `figma-use` et le tool `mcp__18afc236-bea0-4964-b6d4-074a26003
    - Zéro CSS BEM legacy (class `.tls-*` search = 0 results)
 
 4.3 **Technical checks**
-   - `npx tsc --noEmit` → 0 erreurs
+   - `npm run build` → 0 erreurs
    - `npm run build` → 0 warnings
    - Tailwind coverage : zéro classes manquantes (run `npm run dev` pour force compile)
 
@@ -1446,7 +1467,7 @@ Utiliser le skill `figma-use` et le tool `mcp__18afc236-bea0-4964-b6d4-074a26003
 - ❌ Modifier un composant DS sans mettre à jour Components.tsx + Notion DS DB
 - ❌ Marquer un flow ✅ sans screenshots 375px ET 1280px
 - ❌ Utiliser 3+ tones dans un flow (1 dominant + 1 accent max)
-- ❌ Committer sans `npx tsc --noEmit` clean
+- ❌ Committer sans `npm run build` clean
 
 ---
 
@@ -1457,16 +1478,47 @@ Utiliser le skill `figma-use` et le tool `mcp__18afc236-bea0-4964-b6d4-074a26003
 - Jamais de commit sans validation visuelle
 - Message de commit peut inclure : `Closes #[MIGRATION-PLAN task number]` si applicable
 
+### ⚠️ Le gate TypeScript est `npm run build`, PAS `npx tsc --noEmit` (révisé 2026-07-22)
+
+```bash
+npm run build
+```
+
+**Pourquoi ce changement.** Le workflow imposait historiquement `npx tsc --noEmit → 0 erreurs`. Ce garde-fou est **plus faible que le build réel** :
+
+| Commande | Ce qu'elle vérifie |
+|---|---|
+| `npx tsc --noEmit` | le tsconfig racine seul |
+| `npm run build` (= `tsc -b && vite build`) | **tous les projets référencés** (`tsc -b` suit les project references) puis le bundle Vite |
+
+Conséquence constatée le 2026-07-22 : `npx tsc --noEmit` renvoyait **0 erreur** pendant que `npm run build` en trouvait **62**, réparties sur 31 fichiers (pages learning-app + composants charts). La dette s'est accumulée en silence parce que le gate documenté ne la voyait pas.
+
+**Règle** : ne jamais annoncer « 0 erreur TypeScript » sur la foi de `npx tsc --noEmit` seul. Le seul état vert qui compte est `npm run build` qui termine sans erreur. `npx tsc --noEmit` reste utile comme vérification rapide en cours de travail, jamais comme critère de fin.
+
 ---
 
 ## Marketing site v2 — Immersive direction (2026-05-19+) ✅ P1
 
 **Scope** : refonte du site marketing public (`/marketing/*`) au niveau PREMIUM IMMERSIF (Linear / Vercel / Apple / Stripe / Framer). Visuel travaillé : scroll-driven animations, sticky storytelling, mockup app jouable, magnetic CTAs, gradient text animé, marquee, count-up, parallax.
 
-### Dépendance ajoutée
+### Dépendances animation — quelle lib pour quoi (révisé 2026-07-22)
 
-- **`framer-motion`** (35kb gz, tree-shakeable). Seule dépendance animation autorisée pour le site marketing. PAS de GSAP, PAS de Lenis, PAS de Three.js. View Transitions API native pour les transitions de routes.
-- Import : `import { motion, useScroll, useTransform, useReducedMotion, useInView, AnimatePresence } from 'framer-motion';`
+> ⚠️ La règle antérieure (« framer-motion seule dépendance autorisée, PAS de GSAP / Lenis / Three ») était un défaut non justifié, posé le 2026-05-19 sans ADR ni retour d'expérience. Elle était déjà violée par le repo lui-même (gsap installé le 2026-06-26, jamais importé) et contredite par `docs/site/ANIMATION-TECHNIQUES-RESEARCH.md`. Remplacée par un partage de responsabilités explicite.
+
+| Lib | Statut | Domaine |
+|---|---|---|
+| **`framer-motion`** (~35kb gz, tree-shakeable) | ✅ défaut | Motion au niveau composant : enter/exit, layout animations, gestures, springs, stagger, `useInView`, `AnimatePresence`. Reste le choix par défaut. |
+| **`gsap` + ScrollTrigger** (~23kb + ~7kb gz) | ✅ autorisé, **préféré** pour le scroll | Pinning, scrubbing, timelines multi-étapes séquencées. Gratuit tous plugins depuis avril 2025 (Webflow). |
+| **`three`** | 🟡 cas par cas | 3D/WebGL réel uniquement. Bundle lourd — à justifier avant ajout. |
+| **`lenis`** | ❌ non | Le smooth-scroll hijacke le scroll natif et dégrade l'a11y. Va contre le refus documenté du scroll-jack. Seul interdit qui repose sur un vrai principe. |
+
+**Pourquoi ScrollTrigger plutôt que `useScroll` dès qu'il y a du pinning** — `useScroll` fournit une *valeur de progression*, pas du pinning. Épingler avec framer-motion oblige à hand-roller `position: sticky` + parent `N * 100vh`. Ça marche, mais le `position: sticky` a un mode d'échec silencieux : il est neutralisé sans erreur console si un **ancêtre** porte `overflow: hidden/auto/scroll` (l'élément se scope alors à cet ancêtre au lieu du viewport). ScrollTrigger n'utilise pas `position: sticky` mais son propre pin-spacer, insensible à ça, et se rafraîchit au resize.
+
+> **Audit du 2026-07-22** : les 12 surfaces sticky de `marketing/` ont été tracées ancêtre par ancêtre. **Aucune n'est cassée par ce mécanisme** — chaque `overflow-hidden` observé est soit porté par l'élément sticky lui-même (inoffensif : ne clippe que ses propres enfants), soit sur une section sœur hors du sous-arbre. `html`/`body`/`#root`/`MarketingLayout` sont propres. Le vrai défaut trouvé était unitaire (`h-screen` vs `dvh`) — voir Piège #14.
+
+**Nouveau scroll-driven avec pinning → ScrollTrigger.** Scroll-linked simple sans pinning (fade, opacité, progression, zoom hero) → `useScroll` + `useTransform` reste le bon choix et n'a rien à se reprocher.
+
+- Import framer-motion : `import { motion, useScroll, useTransform, useReducedMotion, useInView, AnimatePresence } from 'framer-motion';`
 - **Toutes les animations doivent passer par `useReducedMotion`** — si l'utilisateur a `prefers-reduced-motion: reduce`, l'animation est désactivée ou réduite à un fade simple.
 
 ### Architecture motion primitives
@@ -1521,7 +1573,7 @@ Même rigueur que Phase 14 flow-based, mais sur **chaque page marketing** (pas p
 
 1. **Audit & design** — section par section, identifier les primitives à utiliser
 2. **Build bottom-up** — primitives manquantes d'abord, puis sections, puis page
-3. **TS check + preview** — `npx tsc --noEmit` + screenshots mobile 375 + desktop 1440
+3. **TS check + preview** — `npm run build` + screenshots mobile 375 + desktop 1440
 4. **Performance** — vérifier que les animations restent 60fps (DevTools Performance tab), pas de jank au scroll
 5. **a11y** — `prefers-reduced-motion` testé, ARIA labels sur les contrôles interactifs, focus states visibles
 6. **Commit** — `feat(marketing-v2): [page name] immersive redesign`
@@ -1822,7 +1874,7 @@ After completing each cahier module (16.1, 16.2, etc.):
    - Données du domaine métier = TOUJOURS du store
 
 4. VALIDATION (5 min)
-   - npx tsc --noEmit → 0 erreurs
+   - npm run build → 0 erreurs
    - Preview FO : navigue la page, effectue une action (form submit, toggle, click CTA)
    - Reload page → confirmer que l'état persiste (localStorage check)
    - F12 DevTools → Application → localStorage → vérifier que la clé du store contient les données
@@ -1835,7 +1887,7 @@ After completing each cahier module (16.1, 16.2, etc.):
 6. COMMIT
    - Format : `feat(phase-17.X): wire [page name] to [store name]`
    - Exemple : `feat(phase-17.2): wire CorrectionDetailLearner to useCoachingStore`
-   - Toujours vérifier que le working tree passe `npx tsc --noEmit` avant commit
+   - Toujours vérifier que le working tree passe `npm run build` avant commit
 ```
 
 ### Patterns Phase 17 — Clés de succès
@@ -1948,7 +2000,7 @@ const PrivacyDeleteAccount: React.FC = () => {
 - ❌ Garder un useState pour des données qui devraient vivre dans le store (ex. `const [profile, setProfile] = useState(INITIAL_PROFILE)`)
 - ❌ Faire un `store.get()` dans un event listener sans `useCallback` — risque de stale closure (capture la version du store au moment de la création du listener, pas à l'invocation)
 - ❌ Oublier de vérifier localStorage après un `store.patch()` — si localStorage n'est pas mis à jour, le state ne persist pas au refresh
-- ❌ Committer une page sans vérifier que `npx tsc --noEmit` passe
+- ❌ Committer une page sans vérifier que `npm run build` passe
 
 **Exceptions : pages sans store wiring**
 Quelques pages restent purement UI (18.2-18.4, déferred V1) :

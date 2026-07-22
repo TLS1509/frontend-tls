@@ -1,6 +1,8 @@
 # 📑 Documentation Index — The Learning Society
 
-**Last updated**: 2026-06-30 | **Total docs**: ~85 fichiers organisés
+**Last updated**: 2026-07-22 | **Total docs**: 130 fichiers (hors `_archive/`)
+
+> 🥇 **Avant toute session marketing ou site : lire [`_canon/FACTS-CANON.md`](_canon/FACTS-CANON.md).** C'est la source de vérité unique. Tout doc marketing qui la contredit a tort. `marketing/MARKETING-CONTEXT.md` est **rétrogradé** et ne fait plus foi malgré son nom.
 
 > 🧹 **Nettoyage 2026-06-30** : ~20 docs déversés en vrac (racine repo + `docs/`) par des sessions d'agents ont été re-rangés. Nouveaux sous-dossiers `_phases/`, `charts/`, `briefs/`. 4 audits Figma du 26/06 marqués `⚠️ FIABILITÉ NON VÉRIFIÉE` (claims non vérifiés contre le fichier Figma). `.claude/worktrees/` (40 Mo) + `.agents/skills 2/` + `docs/_old-sessions/` supprimés. Voir règles d'hygiène doc dans `CLAUDE.md`.
 
@@ -14,7 +16,7 @@
 | [PHASE-16-GAP-ANALYSIS.md](PHASE-16-GAP-ANALYSIS.md) | Analysis 16 cahiers vs FO code | 40K | Avancer Phase 16 (spec compliance) |
 | [product/PRODUCT.md](product/PRODUCT.md) | Config projet, version, routes | — | Démarrer une session, setup MCP |
 | [product/DESIGN.md](product/DESIGN.md) | Design system Tailwind, patterns | — | Vérifier tokens, conventions styling |
-| [MARKETING-CONTEXT.md](marketing/MARKETING-CONTEXT.md) | Brand TLS, personas, copy, SEO | — | Sessions marketing |
+| [_canon/FACTS-CANON.md](_canon/FACTS-CANON.md) | **Faits validés TLS** (offres, prix, badge, registre) | — | **Toute session marketing / site : lire EN PREMIER** |
 
 ---
 
@@ -78,17 +80,55 @@
 
 ---
 
-## 🎨 SITE/ — Design & Marketing site (252K)
+## 🎨 SITE/ — Design & site vitrine (25 fichiers)
 
-**Design inspo, motion reference, prompt templates**
+> 🧹 **Indexé le 2026-07-22.** 20 des 25 fichiers étaient absents de l'index (= docs fantômes au sens de la règle d'hygiène #2 de CLAUDE.md). Aucun n'a été supprimé ; l'inventaire ci-dessous les rend visibles. Les statuts marqués « à re-valider » n'ont **pas** été vérifiés doc par doc — ils signalent une antériorité à des décisions plus récentes, pas une fausseté établie.
 
-| Fichier | Size | Purpose |
-|---------|------|---------|
-| [DESIGN-INSPO.md](site/DESIGN-INSPO.md) | 100K+ | **Mobbin saves** (24 mobile + 34 desktop + 33 vitrine apps) + **Until Labs case study** parallax reverse-engineering |
-| [PROMPT-NAVBAR-HOMEPAGE-REDESIGN.md](site/PROMPT-NAVBAR-HOMEPAGE-REDESIGN.md) | 15K | **Prompt complet** navbar Fluid Island + hero parallax Tier 2 + DA sourcing assets |
-| ANIMATION-EFFECTS-INTEGRATION.md | — | Motion primitives integration (MagneticButton, ParallaxLayer, etc.) |
-| COMPONENT-EXTRACTION-CHECKLIST.md | — | Marketing component refactoring checklist |
-| APP-INSPIRATION-RESEARCH.md | — | App research (Calm, Linear, Vercel, Stripe) |
+**Structure & état du site**
+
+| Fichier | Purpose |
+|---|---|
+| `SITE-V1-BLUEPRINT.md` | Blueprint 6 pages du site vitrine |
+| `SITE-V1-GROUNDING.md` | Grounding factuel du site V1 |
+| `SITE-STRUCTURE-DESIGN-C.md` | Sitemap + specs de sections par page (art direction « Illustrated Glass » du 11/06) |
+| `SITE-REACT-AUDIT.md` | Audit du site React + journal de sessions |
+
+⚠️ Le sitemap fait aujourd'hui l'objet de propositions plus récentes non tranchées : voir Notion [Sitemap & Structure Homepage (2026-06-29)](https://app.notion.com/p/38ecdd696db6811eb953e3baa6b5de5d). En cas de divergence, Notion est plus récent.
+
+**Copy & SEO**
+
+| Fichier | Purpose |
+|---|---|
+| `COPY-HOME.md` · `COPY-CONSEIL-SBO.md` | Copy par page. ⚠️ Croiser avec `_canon/FACTS-CANON.md` avant réutilisation |
+| `SEO-CONTENT-PLAN.md` | Plan de contenu SEO |
+
+**Art direction « Illustrated Glass » (verrouillée 2026-06-11)**
+
+| Fichier | Purpose |
+|---|---|
+| `DIRECTION-C-CHECKLIST.md` | Timeline production assets (3 sem. illustration + 2 sem. vidéo). ⚠️ **Plan de production périmé** : les décisions P0 du 26/06 l'ont remplacé par « illustrations = placeholders CSS d'abord » + « vidéo hero = Framer Motion SVG ». L'art direction elle-même reste à re-valider |
+| `ENRICHMENT-TO-DIRECTION-C.md` | Enrichissements de la direction |
+| `SESSION-2026-06-11-RECAP.md` · `NOTION-UPDATE-2026-06-11.md` | Recap de session + sync Notion du 11/06 |
+
+> ⚠️ **Homonymie à connaître** : « Direction C » désigne ici l'art direction *site* (Illustrated Glass, 11/06). Le commit `5b4e861` « remove rejected Direction C » parle d'une **autre** chose : une variante de home V2 (Editorial Motion) rejetée en juillet. Ne pas confondre les deux.
+
+**Motion & animation**
+
+| Fichier | Purpose |
+|---|---|
+| [DESIGN-INSPO.md](site/DESIGN-INSPO.md) | **Mobbin saves** (24 mobile + 34 desktop + 33 vitrine) + case study Until Labs |
+| [PROMPT-NAVBAR-HOMEPAGE-REDESIGN.md](site/PROMPT-NAVBAR-HOMEPAGE-REDESIGN.md) | Prompt navbar Fluid Island + hero |
+| `ANIMATION-EFFECTS-INTEGRATION.md` | Intégration des primitives motion |
+| `ANIMATION-TECHNIQUES-RESEARCH.md` | Techniques d'animation, patterns GSAP vs Framer Motion |
+| `ANIMATION-STYLES-BREAKDOWN.md` · `SCROLL-EFFECTS-IMPLEMENTATION.md` | Styles + implémentation scroll |
+
+**Recherche & inspiration** *(artefacts d'exploration, valeur de référence)*
+
+`APP-INSPIRATION-RESEARCH.md` · `MOODBOARD-INSPIRATION-GUIDE.md` · `INSPIRATION-SEARCH-KEYWORDS.md` · `QUICK-SEARCH-TERMS.md` · `LES-ROMANTIQUES-ARTE-STYLE-ANALYSIS.md` · `PHASE-2B-DUAL-RESEARCH.md` · `PHASE-2B-COMPLETE-MAP.md` · `PHASE-2B-QUICKSTART.md` · `HERO-ASSETS-SOURCING.md`
+
+**Figma & composants**
+
+`FIGMA-ENRICHMENT-GUIDE.md` · `FIGMA-WIREFRAME-STRUCTURE.md` · `COMPONENT-EXTRACTION-CHECKLIST.md`
 
 ---
 
@@ -120,14 +160,17 @@
 
 **Brand voice, personas, copy, SEO, positioning**
 
-| Fichier | Purpose |
-|---------|---------|
-| [MARKETING-CONTEXT.md](marketing/MARKETING-CONTEXT.md) | **🔴 LIRE EN PREMIER** — vision/mission, 3 offres, 4 personas, ton, SEO, concurrents, AI Act constraints |
-| [MARQUE-VOIX.md](marketing/MARQUE-VOIX.md) | Brand voice guidelines + tone examples |
-| [COPY-V2.md](marketing/COPY-V2.md) | Refined homepage + page copy (formation, accompagnement) |
-| [FAITS-OFFRES.md](marketing/FAITS-OFFRES.md) | Product facts, offers structure, pricing tiers |
-| [COMPETITIVE-BRIEF.md](marketing/COMPETITIVE-BRIEF.md) | Competitor analysis (edtech, transformation consulting) |
-| [MARKETING-LINKEDIN.md](marketing/MARKETING-LINKEDIN.md) | LinkedIn strategy + founder-led content |
+> ⚠️ **Hiérarchie canonique — à respecter dans cet ordre.** Les faits priment sur le copy. Un doc marketing qui contredit `_canon/FACTS-CANON.md` a tort, sans exception.
+
+| Fichier | Statut | Purpose |
+|---------|---|---------|
+| [_canon/FACTS-CANON.md](_canon/FACTS-CANON.md) | 🟢 **CANON — lire en premier** | Faits validés ligne par ligne : 7 modules / **7h** (pas 23h), C-Campus certifie (**Qualiopi jamais pour TLS**), Open Badge « L'IA en formation », **OPCO oui / CPF jamais**, **« vous » sur tout le public** (« tu » réservé à l'app), fondateurs = Mimault + Dennery seuls, « L'Académie » n'existe pas |
+| [FAITS-OFFRES.md](marketing/FAITS-OFFRES.md) | 🟢 Canonique | Faits & offres, structure, paliers de prix |
+| [MARQUE-VOIX.md](marketing/MARQUE-VOIX.md) | 🟡 Canonique **positionnement/voix uniquement** | Positionnement SBO, personas, voix. ⚠️ Ses **exemples de copy sont des drafts IA** et contiennent encore des faits périmés (« 21 heures », Qualiopi TLS, tutoiement). Faits → FACTS-CANON |
+| [COPY-V2.md](marketing/COPY-V2.md) | 🟡 Canonique copy | Copy par page + SEO. Croiser les faits avec FACTS-CANON avant réutilisation |
+| [COMPETITIVE-BRIEF.md](marketing/COMPETITIVE-BRIEF.md) | 🟢 Actif | Analyse concurrentielle (edtech, conseil transformation) |
+| [MARKETING-LINKEDIN.md](marketing/MARKETING-LINKEDIN.md) | 🟢 Actif | Stratégie LinkedIn + contenu founder-led |
+| [MARKETING-CONTEXT.md](marketing/MARKETING-CONTEXT.md) | 🔴 **RÉTROGRADÉ — ne fait plus foi** | Conservé en archive seulement. L'audit 2026-06-10 l'a trouvé le plus dérivé (23h, 490 €, Open Badge 2.0, CPF/OPCO, page Académie). **Ne pas s'en servir comme source.** |
 
 ---
 
@@ -219,10 +262,11 @@
 
 ## 🗄️ _CANON/ — Canonical stable docs
 
-**Core project facts, rarely modified**
+**Source de vérité unique. Prime sur TOUS les autres docs, y compris marketing et site.**
 
-- `FACTS-CANON.md` — Core facts about TLS (mission, revenue, team size, tech stack)
-- `AUDIT-COHERENCE.md` — Baseline coherence metrics
+- `FACTS-CANON.md` — **Faits validés ligne par ligne** par Chloé : formation (7 modules / 7h / C-Campus / Open Badge / OPCO), accompagnement (STRIDE), Learning App, chiffres, marque & fondateurs. Statut par ligne : ✅ vrai · ✏️ à corriger · ❌ faux · ❓ à valider. ⏸️ Pricing & business model **gelés** (non validés, base provisoire = CDC)
+- `AUDIT-COHERENCE.md` — Audit 2026-06-10 qui a déclenché la création du canon (docs marketing porteurs de copy + chiffres IA non fiables)
+- `METRICS-A-COLLECTER.md` — Métriques manquantes à collecter avant de pouvoir les publier
 
 ---
 
@@ -236,7 +280,8 @@ Les fichiers motion-effects datés ont été supprimés lors du nettoyage du 30/
 
 | Looking for... | Read this |
 |---|---|
-| **Brand strategy** | marketing/MARKETING-CONTEXT.md |
+| **Faits, offres, prix, registre** | **_canon/FACTS-CANON.md** (prime sur tout) |
+| **Brand strategy / positionnement** | marketing/MARQUE-VOIX.md (faits → FACTS-CANON) |
 | **Design tokens** | product/DESIGN.md |
 | **Spec compliance** | PHASE-16-GAP-ANALYSIS.md + CDC/ |
 | **Component audit** | _audits/AUDIT-PHASE-19.md |
@@ -250,6 +295,17 @@ Les fichiers motion-effects datés ont été supprimés lors du nettoyage du 30/
 ---
 
 ## 📈 Cleanup status
+
+**2026-07-22** (clean marketing + site)
+🗑️ **`website/` SUPPRIMÉ** (21 fichiers suivis, 336K) — site HTML statique périmé. Vérifié orphelin avant suppression : aucune référence dans `vite.config` / `package.json` / `vercel` / `netlify` / `src/`, et absent de `dist/`. **Le site vitrine vit uniquement dans `src/pages/marketing/*`** (routes `/website/*`). Historique récupérable dans git
+✅ `_canon/FACTS-CANON.md` + `_canon/AUDIT-COHERENCE.md` : notes de périmption ajoutées (ils référençaient le dossier supprimé)
+⚠️ **Ne pas confondre `docs/site/` (docs, conservé) et `website/site/` (HTML, supprimé).**
+✅ **Hiérarchie canonique rétablie dans l'index** : `_canon/FACTS-CANON.md` promu « lire en premier » à la place de `MARKETING-CONTEXT.md`, qui était encore pointé « 🔴 LIRE EN PREMIER » alors qu'il est rétrogradé depuis l'audit du 10/06. C'était la cause directe de sessions partant sur des faits périmés (23h, Qualiopi TLS, CPF, tutoiement)
+✅ Section MARKETING/ : statut explicite par doc (🟢 canonique / 🟡 canonique partiel / 🔴 rétrogradé) + avertissement sur les exemples de copy de MARQUE-VOIX (drafts IA)
+✅ Section SITE/ : **20 docs fantômes indexés** (25 fichiers au total, 5 seulement étaient listés)
+✅ Homonymie « Direction C » documentée (art direction site 11/06 ≠ variante home V2 rejetée en juillet)
+✅ Section _CANON/ : description corrigée (elle décrivait un contenu qui n'est pas celui du fichier)
+✅ Compte de docs corrigé (~85 annoncés → 130 réels)
 
 **2026-06-30** (anti-dérive agents)
 ✅ ~20 docs déversés en vrac re-rangés (racine repo + docs/ → sous-dossiers)
