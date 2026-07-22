@@ -137,7 +137,7 @@ export const Profile: React.FC = () => {
         label: def?.name ?? ub.badgeId,
         icon: <Award size={36} strokeWidth={1.5} />,
         earned: true as const,
-        date: new Date(ub.awardedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }),
+        date: new Date(ub.earnedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }),
       };
     });
     // Append locked badges from BADGES for display completeness

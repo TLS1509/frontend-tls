@@ -42,7 +42,10 @@ export default function CoachingSessionDetail() {
   if (!session) return null;
 
   const { day, time } = formatScheduledAt(session.scheduledAt);
-  const isPlanned = session.status === 'confirmed' || session.status === 'pending';
+  // Cycle (types/learning.ts) : booked -> confirmed -> in-progress -> completed.
+  // « à venir » = réservé ou confirmé. Il n'existe pas de statut 'pending' :
+  // l'attente de confirmation coach s'appelle 'booked'.
+  const isPlanned = session.status === 'confirmed' || session.status === 'booked';
   const coachInitials = session.coachName.split(' ').map((w) => w[0]).join('');
   const previousSessions = sessions.filter((s) => s.id !== session.id && s.status === 'completed');
 
@@ -158,7 +161,7 @@ export default function CoachingSessionDetail() {
                   description={`${prev.type} · ${prev.durationMinutes} min`}
                   coachName={session.coachName}
                   dateLabel={new Date(prev.scheduledAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}
-                  status={prev.status === 'completed' ? 'completed' : 'confirmed'}
+                  status={/* SessionCard n'expose que 'planned' | 'completed' */ prev.status === 'completed' ? 'completed' : 'planned'}
                   surface="card"
                   report={true}
                   onViewReport={() => {}}

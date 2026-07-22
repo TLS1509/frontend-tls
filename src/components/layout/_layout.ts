@@ -44,10 +44,18 @@ export const cx = (...parts: Array<string | false | null | undefined>): string =
  *   <Stack as="section" aria-label="…">   // gets <section> attrs
  *   <Container as="main">                  // gets <main> attrs
  */
+/**
+ * `ComponentPropsWithRef` et non `WithoutRef` : depuis React 19, `ref` est une
+ * prop normale des composants fonction. Les 5 composants layout spreadent
+ * `{...rest}` sur leur élément hôte, donc le ref arrive bien à destination —
+ * seul le type l'interdisait (JournalDetail / MagazineArticle passaient un ref
+ * à PageShell pour mesurer la progression de lecture).
+ * Purement additif : aucun consommateur existant n'est affecté.
+ */
 export type PolymorphicProps<
   E extends React.ElementType,
   OwnProps,
 > = OwnProps &
-  Omit<React.ComponentPropsWithoutRef<E>, keyof OwnProps | 'as'> & {
+  Omit<React.ComponentPropsWithRef<E>, keyof OwnProps | 'as'> & {
     as?: E;
   };

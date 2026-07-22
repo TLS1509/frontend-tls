@@ -180,7 +180,7 @@ export default function CoachDashboard() {
                   title={`Radar : ${selected.name}`}
                   description="Niveau actuel Dreyfus par compétence"
                 >
-                  <ChartContainer size="sm">
+                  <ChartContainer>
                     <RadarChart
                       data={radarFor(selected.scores)}
                       size="sm"

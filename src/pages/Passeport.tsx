@@ -88,11 +88,11 @@ export default function Passeport() {
 
   // Timeline events (learner journey)
   const TIMELINE_EVENTS = [
-    { id: 'event-1', date: '2026-01-15', type: 'lesson' as const, title: 'Terminé : Prompt Engineering 101', description: 'Maîtrise des techniques de base de rédaction de prompts' },
-    { id: 'event-2', date: '2026-02-10', type: 'session' as const, title: 'Session de coaching avec Sophie', description: 'Discussion sur les compétences de leadership et la délégation' },
-    { id: 'event-3', date: '2026-03-05', type: 'badge' as const, title: 'Obtenu : Badge Prompt Master', description: 'Certification avancée en prompt engineering' },
-    { id: 'event-4', date: '2026-03-20', type: 'milestone' as const, title: 'Niveau Dreyfus 4 atteint', description: 'Maîtrise avancée en Leadership' },
-    { id: 'event-5', date: '2026-04-12', type: 'achievement' as const, title: "Série d'apprentissage : 30 jours", description: "Engagement quotidien constant avec les contenus d'apprentissage" },
+    { id: 'event-1', date: '2026-01-15', type: 'lesson' as const, label: 'Terminé : Prompt Engineering 101', description: 'Maîtrise des techniques de base de rédaction de prompts' },
+    { id: 'event-2', date: '2026-02-10', type: 'session' as const, label: 'Session de coaching avec Sophie', description: 'Discussion sur les compétences de leadership et la délégation' },
+    { id: 'event-3', date: '2026-03-05', type: 'badge' as const, label: 'Obtenu : Badge Prompt Master', description: 'Certification avancée en prompt engineering' },
+    { id: 'event-4', date: '2026-03-20', type: 'milestone' as const, label: 'Niveau Dreyfus 4 atteint', description: 'Maîtrise avancée en Leadership' },
+    { id: 'event-5', date: '2026-04-12', type: 'achievement' as const, label: "Série d'apprentissage : 30 jours", description: "Engagement quotidien constant avec les contenus d'apprentissage" },
   ];
 
   // Suggested skills to develop (AI-generated alternatives based on current profile)
@@ -232,10 +232,11 @@ export default function Passeport() {
                   filename="passeport-timeline"
                   exportVariant="compact"
                 >
+                  {/* TimelineChart expose data / layout (pas events / orientation),
+                      et n'a pas de prop size. */}
                   <TimelineChart
-                    events={TIMELINE_EVENTS}
-                    orientation="vertical"
-                    size="md"
+                    data={TIMELINE_EVENTS}
+                    layout="vertical"
                   />
                 </ChartWithExport>
               </SectionCard>
@@ -250,8 +251,9 @@ export default function Passeport() {
                   filename="passeport-gauge"
                   exportVariant="compact"
                 >
+                  {/* GaugeChart expose `current`, pas `value`. */}
                   <GaugeChart
-                    value={avgLevel}
+                    current={avgLevel}
                     max={5}
                     variant="arc"
                     size="md"

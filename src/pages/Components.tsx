@@ -286,6 +286,15 @@ interface ComponentEntry {
   keywords: string[];        // extra searchable terms
   /** True when the component is only referenced from the Components showcase (not consumed by any real app page). */
   showcaseOnly?: boolean;
+  /**
+   * Le composant expose-t-il une prop `tone` (primary / warm / sun) ?
+   * Métadonnée descriptive, alignée sur le champ « Tone-aware » de la Notion DS DB.
+   * NB : `FILTER_OPTIONS` déclare un filtre pour ce flag mais n'est pas encore
+   * câblé au rendu — la valeur est donc documentaire pour l'instant.
+   */
+  toneAware?: boolean;
+  /** Le composant expose-t-il des variants ? Même statut que `toneAware`. */
+  hasVariants?: boolean;
   /** Optional list of pages/files that consume this component (for dev specs). */
   usedBy?: string[];
   render: () => React.ReactNode;
@@ -3112,7 +3121,8 @@ const COMPONENTS: ComponentEntry[] = [
     render: () => (
       <div className="flex flex-col gap-stack">
         <AccountFamilyNav active="profile" />
-        <AccountFamilyNav active="settings" />
+        {/* AccountFamilyPage = profile | account | privacy | notifications | billing */}
+        <AccountFamilyNav active="billing" />
       </div>
     ),
   },
@@ -5640,7 +5650,6 @@ const COMPONENTS: ComponentEntry[] = [
         progress={40}
         tone="warm"
         duration="3h restantes"
-        lessons={5}
         level="intermédiaire"
         onClick={() => {}}
       />
@@ -7080,8 +7089,9 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Wrapper component for consistent chart styling. Provides shadow-card, rounded corners, padding (p-stack), mobile-first responsive sizing. USAGE: Wrap any chart (RadarChart, BarChart, etc.). Supports title, description, size variants.',
     keywords: ['chart', 'container', 'wrapper', 'consistent', 'styling', 'analytics'],
     usedBy: ['Passeport', 'Enterprise', 'Analytics', 'Coach'],
+    // ChartContainer n'expose que children + className (pas de title/size)
     render: () => (
-      <ChartContainer title="Competency Overview">
+      <ChartContainer>
         <LineChart
           data={[
             { label: 'Q1', value: 2.5 },

@@ -68,7 +68,9 @@ function matchesDurationBucket(duration: string, bucket: DurationBucket): boolea
   if (lower.includes('jour') || lower.includes('semaine')) return bucket === 'mission';
   if (lower.includes('h')) return bucket === 'long';
   const mins = parseInt(lower, 10);
-  if (isNaN(mins)) return bucket === 'all';
+  // durée non parsable : aucun bucket spécifique ne matche.
+  // ('all' a déjà retourné true plus haut, donc `bucket === 'all'` était mort ici.)
+  if (isNaN(mins)) return false;
   if (mins < 10)  return bucket === 'quick';
   if (mins <= 30) return bucket === 'medium';
   return bucket === 'long';
@@ -307,9 +309,12 @@ export const LearningSpace: React.FC = () => {
                   isAccessible={isAccessible}
                   isCompleted={completedItemIds.has(item.id)}
                   denialReason={
+                    // access-control expose 'prerequisite_items' | 'prerequisite_level' ;
+                    // LearningItemCard les fusionne en un seul 'prerequisite'.
                     accessCheck.reason === 'tier'
                       ? 'tier'
-                      : accessCheck.reason === 'prerequisite'
+                      : accessCheck.reason === 'prerequisite_items' ||
+                        accessCheck.reason === 'prerequisite_level'
                       ? 'prerequisite'
                       : undefined
                   }

@@ -84,14 +84,21 @@ export const CourseDetail: React.FC = () => {
   const steps = parcours
     ? parcours.etapes.map((etape, ei) => ({
         id: ei + 1,
-        title: etape.titre,
-        duration: etape.duree ?? '—',
+        title: etape.title,
+        duration: etape.duration,
         lessons: etape.lecons.map((l) => ({
           id: l.id,
-          title: l.titre,
-          duration: l.duree ?? '—',
+          title: l.title,
+          duration: l.duration,
           locked: false,
-          current: lessonProgressStore.get(l.id)?.currentSection !== undefined && !lessonProgressStore.isLessonCompleted(l.id),
+          // « en cours » = une entrée de progression existe et la leçon n'est pas finie.
+          // (LessonProgressEntry expose lastSection, pas currentSection ; et toute
+          // entrée existante signifie que la leçon a été ouverte au moins une fois.)
+          // ⚠️ get() retourne `LessonProgressEntry | null` — comparer à `undefined`
+          // serait toujours vrai et marquerait TOUTES les leçons « en cours ».
+          current:
+            lessonProgressStore.get(l.id) !== null &&
+            !lessonProgressStore.isLessonCompleted(l.id),
           done: lessonProgressStore.isLessonCompleted(l.id),
         })),
       }))

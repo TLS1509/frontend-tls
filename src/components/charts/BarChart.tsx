@@ -20,8 +20,13 @@ export interface BarChartDataPoint {
 export interface BarChartProps {
   /** Data points for the chart */
   data: BarChartDataPoint[];
-  /** Data key to display (if multiple series, pass series array instead) */
-  dataKey: string;
+  /**
+   * Data key to display. Optionnel : quand `series` est fourni, le rendu passe
+   * par la branche multi-séries et `dataKey` n'est jamais lu (voir le ternaire
+   * `series ? … : <Bar dataKey={dataKey}/>`). Le type le déclarait requis, ce
+   * qui contredisait ce comportement et sa propre documentation.
+   */
+  dataKey?: string;
   /** Multiple data series to compare */
   series?: Array<{
     key: string;
