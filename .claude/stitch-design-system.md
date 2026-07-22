@@ -4,7 +4,18 @@
 > l'ancienne échelle `ink` teintée teal (`#F5F8F8`, `#535B62`, `#12181C`…),
 > abandonnée dans `src/index.css` au profit de gris neutres. Un outil lisant
 > l'ancienne version générait des gris qui ne correspondaient plus à l'app.
-> Source de vérité : le bloc `@theme` de `src/index.css`.
+>
+> ⚠️ **L'app a DEUX fichiers de tokens, tous deux chargés** — ne pas lire
+> `src/index.css` seul :
+> - `src/index.css` (bloc `@theme`, 230 tokens) — palette et échelles `--color-*`
+> - `src/styles/design-tokens.css` (375 tokens, chargé par `globals.css` en
+>   `layer(base)`) — rôles sémantiques `--border`, `--surface-*`, `--tls-*`
+>
+> Les deux couvrent parfois **le même rôle sous des noms différents et avec des
+> valeurs différentes** : bordure opaque `#E5E7EB` (`--color-border-default`)
+> d'un côté, translucide `rgba(26,26,26,0.08)` (`--border`) de l'autre.
+> En cas de divergence, **c'est le composant qui tranche**, pas le fichier de
+> tokens — vérifier ce que rend réellement `src/components/`.
 
 
 > **For Google Stitch.** This document is the single source of truth for generating new screens aligned with the TLS design language. Read it entirely before generating any UI. The anti-patterns section is as important as the rules.
@@ -75,8 +86,9 @@ One neutral scale, no warm/cool mixing.
 | **Pure Surface** | `#FFFFFF` | Card and container fill |
 | **Surface Muted** | `#F9FAFB` | Sunken areas, secondary surfaces |
 | **Surface Sunken** | `#F3F4F6` | Input backgrounds, code blocks |
-| **Border Default** | `rgba(26,26,26,0.08)` | Card borders, dividers |
-| **Border Strong** | `rgba(26,26,26,0.14)` | Active card borders, focused inputs |
+| **Border Default** | `rgba(26,26,26,0.08)` *(`--border`, design-tokens.css)* | Séparateurs, modales, flashcards. **Pas les cartes** — voir §Cards |
+| **Border Strong** | `rgba(26,26,26,0.14)` *(`--border-strong`, design-tokens.css)* | Bordures actives, inputs focus |
+| **Border Card** | `#E5E7EB` *(`--color-border-default`, index.css)* | **Bordure des cartes** — opaque, c'est ce que rend `Card.tsx` |
 | **Ink Muted** | `#6B7280` | Secondary text, metadata, captions |
 | **Ink Body** | `#4B5563` | Supporting body text |
 | **Ink Deep** | `#374151` | Primary body text |
@@ -174,7 +186,7 @@ The card is the primary container. **Always `border-radius: 20px`** (xl in Tailw
 
 | Variant | Background | Border | Usage |
 |---------|-----------|--------|-------|
-| **default** | White | 1px `rgba(26,26,26,0.08)` | Standard cards |
+| **default** | White | 1px `#E5E7EB` (`ink-200`), hover `#D1D5DB` | Standard cards — vérifié dans `core/Card.tsx:95` (`border-ink-200`), bordure **opaque**, pas translucide |
 | **feature** | White | None | Highlighted, no border — shadow does the work |
 | **interactive** | White | Shifts on hover | Clickable cards, course cards |
 | **glass** | `rgba(255,255,255,0.55)` + blur | `rgba(255,255,255,0.60)` | Overlapping content: modals, sticky headers |
@@ -453,4 +465,4 @@ The learner dashboard opens on **the action of the day**. Not a chart. Not a sta
 
 *End of design system reference for Google Stitch.*
 *Source of truth: `src/styles/design-tokens.css`, `src/index.css`, `DESIGN-IMPECCABLE.md`*
-*Last updated: 2026-05-28*
+*Dernière vérification factuelle : 2026-07-22 (échelle de gris, bordures, sources de tokens).*

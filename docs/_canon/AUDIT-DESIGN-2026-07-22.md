@@ -11,18 +11,66 @@ Chaque dérive ci-dessous a été établie contre un fichier source, pas estimé
 
 ## 1. La cause racine
 
-Quatre informations sont écrites **trois fois chacune**. C'est mécaniquement ce
-qui a produit la majorité des dérives.
+> ⚠️ **Correction du 2026-07-22, après vérification contradictoire.** La première
+> version de ce document affirmait que `src/index.css` était la source unique des
+> tokens. **C'est faux.** Voir §1 bis — c'est le point le plus important du
+> document, et il change la nature du problème.
 
-| Information | Source unique à retenir | Ce que les autres docs doivent faire |
+Quatre informations sont écrites **trois fois chacune** dans la doc. Mais la
+cause racine est plus profonde : **le code lui-même a deux systèmes de tokens.**
+
+| Information | Source à retenir | Ce que les autres docs doivent faire |
 |---|---|---|
-| Valeurs de tokens (couleurs, radius, blur, shadows, motion) | **`src/index.css`** (`@theme`) | Ne garder que la **structure** (namespaces, convention de nommage). **Jamais les hex.** |
+| Valeurs de tokens | **voir §1 bis — ce n'est pas un seul fichier** | Ne garder que la **structure**. **Jamais les hex.** |
 | Voice, cadence, doctrine IA | **`PRODUCT.md`** | Lier, ne pas recopier |
 | Pièges connus | **`CLAUDE.md`** | Pointer, ne pas compter |
 | Faits business / marque | **`docs/_canon/FACTS-CANON.md`** | Ne rien propager hors canon |
 
-**La règle à écrire en tête de chaque doc :**
-> Valeurs de tokens : source = `src/index.css` (`@theme`). Ce document décrit la
+---
+
+## 1 bis. Il y a DEUX systèmes de tokens, tous deux chargés
+
+C'est la vraie cause racine. Elle a été trouvée parce que deux vérificateurs se
+sont contredits sur la valeur d'une bordure : chacun lisait un fichier différent,
+**et tous les deux avaient raison**.
+
+| Fichier | Déclarations `--*` | Chargé ? |
+|---|---|---|
+| `src/index.css` (`@theme`) | 230 | oui — racine |
+| **`src/styles/design-tokens.css`** | **375** | oui — `index.css:7` → `globals.css:17`, `layer(base)` |
+| `src/styles/dark-mode-tokens.css` | 104 | oui — `globals.css:19` |
+
+**709 déclarations réparties sur 3 fichiers**, tous actifs. Le plus gros n'est
+pas celui que je désignais comme source unique, et son en-tête l'annonce comme
+*« THE LEARNING SOCIETY — DESIGN SYSTEM TOKENS. Rationalized, curated,
+documented. »* — pas comme un vestige.
+
+Les deux systèmes couvrent **les mêmes rôles sous des noms différents** :
+
+| Rôle | `index.css` | `design-tokens.css` |
+|---|---|---|
+| bordure standard | `--color-border-default: #e5e7eb` | `--border: rgba(26,26,26,0.08)` |
+| bordure appuyée | `--color-border-strong: #d1d5db` | `--border-strong: rgba(26,26,26,0.14)` |
+
+Opaque d'un côté, translucide de l'autre. **Ce ne sont pas deux écritures de la
+même valeur, ce sont deux décisions de design différentes**, toutes deux livrées.
+
+### Ce que ça implique
+
+- **Ne corrigez aucune doc « vers `index.css` » sans vérifier `design-tokens.css`.**
+  Plusieurs valeurs que ce document donnait pour fausses sont en réalité justes —
+  elles viennent de l'autre fichier, que les docs concernées déclarent
+  explicitement comme source (`.claude/stitch-design-system.md:455`).
+- **Les couleurs de marque, elles, concordent** (`#55A1B4`, `#ED843A`, `#252B37`
+  présents dans les deux). La divergence porte sur les **tokens sémantiques**
+  (bordures, surfaces), pas sur la palette. Les corrections du §3 sur les hex de
+  marque restent donc valides.
+- **L'arbitrage à poser est celui-ci, avant tous les autres :** un seul système de
+  tokens, ou deux assumés avec un périmètre écrit pour chacun ? Tant qu'il n'est
+  pas tranché, toute « resynchronisation » de doc rejouera cette contradiction.
+
+**La règle à écrire en tête de chaque doc** (une fois l'arbitrage rendu) :
+> Valeurs de tokens : source = *(le fichier retenu)*. Ce document décrit la
 > structure, pas les valeurs.
 
 Poser cette règle **avant** de corriger permet de *supprimer* des blocs entiers
@@ -76,8 +124,8 @@ valeur fautive**, pas par lecture séquentielle de chaque fichier.
 | `No glow ring` | « pas de ring » | **il y a un focus ring** (`ring-2 ring-primary-500/20`) — à supprimer partout |
 | `13px 600` (badges) | Nunito 13px 600 | **11px / 700 / +0.05em / uppercase / border** |
 | `12/18/28` (blur) | 12/18/28px | **8/16/24px** |
-| `#fef3e2` | surface-cream | **`#fefaf5`** |
-| `#1a1a1a` | ink-deepest | **`#252B37`** |
+| ~~`#fef3e2`~~ | surface-cream | **`#fefaf5`** — ✅ **déjà appliqué** (commit b6e68d0) |
+| ~~`#1a1a1a`~~ | ink-deepest | **`#252B37`** — ✅ **déjà appliqué** (commit b6e68d0) |
 
 Aussi : typo display = weight **800**, tracking **-0.03em** ; containers =
 **1280/1152/1024/768/65ch** ; motion = **80/150/200/300/600/800**,
@@ -112,9 +160,13 @@ Grep transverse : `Topbar`, `LessonHeader`, `StrategicHeader`, `KPICard`,
 
 Plusieurs blocs à supprimer contiennent aussi des lignes justes à récupérer.
 
-1. `DESIGN.md` L553-562 « Deprecated ❌ » — les 6 fichiers sont supprimés
-2. `DESIGN.md` L667-673 « Pages catalog Tier 1/2/3 » — 35 pages listées contre **151 réelles**, compteur figé en Phase 10
-3. `DESIGN.md` L512-578 — doublon de titre §4 avec statuts divergents
+> ⚠️ **Numéros de ligne `DESIGN.md` recalés le 2026-07-22.** Les premiers cités
+> étaient antérieurs au commit b6e68d0, qui a ajouté ~17 lignes et décalé tout ce
+> qui suit. Vérifiez toujours le titre, pas seulement le numéro.
+
+1. `DESIGN.md` **L563-572** « Deprecated ❌ (remove post-Phase 14) » — les 6 fichiers sont supprimés *(L553-562 est le tableau « To Evolve », à ne pas confondre)*
+2. `DESIGN.md` **L677-683** « Pages catalog (Tier 1/2/3 — Phase 10) » — 35 pages listées contre **151 réelles**, compteur figé
+3. `DESIGN.md` **L522** `## 4. Patterns canoniques — Stability Status` — doublon du titre de L266, statuts divergents
 4. **`DESIGN-IMPECCABLE` L881-912 « Roadmap Phase 19 » — deux ✅ certifient des travaux non faits** (gaps #5 et #6). Garder gap #1 (exact).
 5. `DESIGN-IMPECCABLE` L855-863 « Ghost-Typing » — rédigé au présent, zéro implémentation → basculer en roadmap
 6. `stitch` §11 Dashboard + §12 Auth — les deux écrans exemples sont faux de bout en bout
