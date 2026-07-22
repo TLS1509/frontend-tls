@@ -5,7 +5,7 @@
 > Créée 2026-06-10 suite à l'audit (les docs marketing contiennent du copy + des chiffres IA non fiables).
 
 > ⏸️ **PRICING & BUSINESS MODEL = NON FIGÉS (2026-06-10).** Les lignes de prix (F7-F9, A3-A5, L2-L4) et les chiffres business (C4-C6) sont **gelées** : on ne les valide PAS maintenant. **Base de travail provisoire = le CDC** (cahiers), à affiner plus tard via une **analyse pricing / business model / business plan dédiée**. Ne pas propager ces chiffres comme « validés ».
-> 📝 **Les pages HTML du site ne sont PAS validées** (drafts) — leurs valeurs ne font pas foi.
+> 🗑️ **Le site HTML statique (`website/site/`) a été SUPPRIMÉ le 2026-07-22** — il était périmé et orphelin (aucune référence build, absent de `dist/`). Le site vitrine vit désormais **uniquement** dans `src/pages/marketing/*` (routes `/website/*`, React). Toute « action site » ci-dessous se lit comme visant ces pages React. Historique HTML récupérable dans git.
 
 ---
 

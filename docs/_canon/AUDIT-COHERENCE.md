@@ -1,7 +1,8 @@
 # AUDIT-COHERENCE.md — Revue de cohérence documentaire TLS
 > Audit auto (5 agents, lecture seule) sur ~30 docs : marketing, site, doctrine/design, specs produit, CDC ×17.
 > Date : 2026-06-10. Statut : **findings posés, validation utilisateur en cours.**
-> ⚠️ Chemin réel du projet : `~/Documents/Claude/Projects/frontend-tls/` (site = `website/site/`, WP = `website/wordpress-theme/`). Le `~/Projects/frontend-tls` est un stub vide.
+> ⚠️ Chemin réel du projet : `~/Documents/Claude/Projects/frontend-tls/`. Le `~/Projects/frontend-tls` est un stub vide.
+> 🗑️ **Périmé depuis le 2026-07-22** : cet audit visait le site HTML statique `website/site/` (et un thème WordPress), tous deux **supprimés**. Le site vitrine est désormais **uniquement** React, dans `src/pages/marketing/*` (routes `/website/*`). Les findings ci-dessous portant sur des fichiers HTML sont sans objet ; ceux portant sur les **faits et le copy** restent valables et ont alimenté `FACTS-CANON.md`.
 
 ---
 
