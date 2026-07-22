@@ -2,7 +2,9 @@ import React from 'react';
 import { Trophy } from 'lucide-react';
 
 /**
- * Medal — Source of truth: design-system/spec.json → components.Medal
+ * Medal — Valeurs : src/index.css (@theme) et src/styles/design-tokens.css.
+ * Règles d'usage : docs/_canon/REGLES-USAGE-COMPOSANTS.md
+ * (design-system/spec.json supprimé le 2026-07-22 : jamais importé, périmé.)
  *
  * Achievement representation: circle with inset dashed ring.
  * Rule: Warm gradient = unlocked. Brand deep = special/rare. Ink gray = locked.

@@ -2,7 +2,9 @@ import React from 'react';
 import { Info, CheckCircle2, AlertTriangle, XCircle, X } from 'lucide-react';
 
 /**
- * Alert — Source of truth: design-system/spec.json → components.Alert
+ * Alert — Valeurs : src/index.css (@theme) et src/styles/design-tokens.css.
+ * Règles d'usage : docs/_canon/REGLES-USAGE-COMPOSANTS.md
+ * (design-system/spec.json supprimé le 2026-07-22 : jamais importé, périmé.)
  *
  * Persistent contextual message anchored in the page.
  * 4 variants: info / success / warning / danger.

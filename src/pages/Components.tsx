@@ -1,7 +1,9 @@
 /**
  * Components & Design Tokens Showcase
  *
- * Source of truth: /src/design-system/spec.json — The Learning Society Design System v1.0.0
+ * Valeurs : src/index.css (@theme) + src/styles/design-tokens.css — ce dernier
+ * gagne les collisions (couche base > theme). Règles d'usage : docs/_canon/REGLES-USAGE-COMPOSANTS.md.
+ * (spec.json supprimé le 2026-07-22 : jamais importé, valeurs périmées.)
  *
  * This page mirrors the Claude Design export:
  *   - All 21 components grouped by category (Core / Patterns / Learning / Navigation)
@@ -7206,7 +7208,8 @@ const COMPONENTS: ComponentEntry[] = [
 ];
 
 /* ============================================================================
- * TOKEN DEFINITIONS — parsed from /src/design-system/spec.json
+ * TOKEN DEFINITIONS — à tenir à jour depuis src/index.css (@theme).
+ * ⚠ Recopie manuelle : rien ne la vérifie. Voir docs/_canon/AUDIT-DESIGN-2026-07-22.md.
  * ============================================================================ */
 
 const buildColorScale = (group: string, prefix: string, values: Array<[string, string]>): TokenEntry[] =>

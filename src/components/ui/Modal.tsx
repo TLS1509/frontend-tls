@@ -2,7 +2,9 @@ import React, { useEffect } from 'react';
 import { X } from 'lucide-react';
 
 /**
- * Modal — Source of truth: design-system/spec.json → components.Modal
+ * Modal — Valeurs : src/index.css (@theme) et src/styles/design-tokens.css.
+ * Règles d'usage : docs/_canon/REGLES-USAGE-COMPOSANTS.md
+ * (design-system/spec.json supprimé le 2026-07-22 : jamais importé, périmé.)
  *
  * Blocking interruption for critical decisions or important information.
  * Scrim dims + blurs the page behind. Closes via Escape, scrim click, or X button.

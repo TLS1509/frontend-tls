@@ -1,7 +1,9 @@
 import React from 'react';
 
 /**
- * Skeleton — Source of truth: design-system/spec.json → components.Skeleton
+ * Skeleton — Valeurs : src/index.css (@theme) et src/styles/design-tokens.css.
+ * Règles d'usage : docs/_canon/REGLES-USAGE-COMPOSANTS.md
+ * (design-system/spec.json supprimé le 2026-07-22 : jamais importé, périmé.)
  *
  * Placeholder shimmer matching the shape of expected content.
  * Variants: text / title / block / circle / card / button.

@@ -2,7 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 /**
- * Button — Source of truth: design-system/spec.json → components.Button
+ * Button — Valeurs : src/index.css (@theme) et src/styles/design-tokens.css.
+ * Règles d'usage : docs/_canon/REGLES-USAGE-COMPOSANTS.md
+ * (design-system/spec.json supprimé le 2026-07-22 : jamais importé, périmé.)
  *
  * A single action trigger. Pill shape, clear hierarchy:
  *   - primary:           one per screen, main task (teal #4A8FA1)
