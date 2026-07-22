@@ -95,7 +95,15 @@ const VARIANT_CLASSES: Record<CardVariant, string> = {
   default: 'bg-white border border-ink-200 hover:border-ink-300',
   feature: 'bg-white',
   elevated: 'bg-white',
-  interactive: 'bg-white border border-ink-200 cursor-pointer hover:-translate-y-1 hover:shadow-card-lift hover:border-primary-300 hover:bg-primary-50/30 active:-translate-y-0.5',
+  // ⚠️ PAS de `hover:shadow-*` codé en dur ici. Tailwind émet `hover:shadow-card-lift`
+  // APRÈS `hover:shadow-warm-sm` / `-sun-sm` (offsets 465282 vs 405321 dans le CSS
+  // généré) : à spécificité égale, le neutre écrasait donc l'override tone et les
+  // cards tonées avaient bordure colorée + ombre noire. L'ombre est posée plus bas
+  // par `interactiveHoverShadow`, qui retombe sur `hover:shadow-card-lift` quand il
+  // n'y a pas de tone — comportement inchangé pour les cards non tonées.
+  // Idem pour border/bg : conservés ici comme défaut sans tone, surchargés par
+  // TONE_INTERACTIVE_HOVER (émis après, donc gagnant — vérifié).
+  interactive: 'bg-white border border-ink-200 cursor-pointer hover:-translate-y-1 hover:border-primary-300 hover:bg-primary-50/30 active:-translate-y-0.5',
   glass:       'backdrop-blur-glass-medium backdrop-saturate-[180%] bg-gradient-to-br from-white/88 to-white/65 border border-white/75 shadow-[0_2px_12px_rgba(0,0,0,0.06),inset_0_1px_0_rgba(255,255,255,0.9)] hover:shadow-md',
   'glass-brand': 'backdrop-blur-glass-medium backdrop-saturate-[180%] bg-gradient-to-br from-primary-500/[30%] to-primary-500/[12%] border border-primary-500/35 shadow-[0_2px_12px_rgba(45,90,102,0.12),inset_0_1px_0_rgba(255,255,255,0.4)] hover:shadow-brand-sm',
   'glass-warm':  'backdrop-blur-glass-medium backdrop-saturate-[180%] bg-gradient-to-br from-secondary-100/88 to-secondary-50/70 border border-secondary-200/65 shadow-[0_2px_12px_rgba(180,80,20,0.08),inset_0_1px_0_rgba(255,255,255,0.85)] hover:shadow-warm-sm',
