@@ -83,7 +83,7 @@ export const ImmersiveParallaxStory: React.FC = () => {
         className="hidden md:block relative"
         style={{ height: `${CHAPTERS.length * 100}vh` }}
       >
-        <div className="sticky top-0 h-screen overflow-hidden bg-ink-900">
+        <div className="sticky top-0 h-[100dvh] overflow-hidden bg-ink-900">
           {/* Vidéo — dérive parallax légère + Ken Burns continu indépendant du scroll */}
           <motion.div className="absolute inset-0" style={{ y: videoY }}>
             <motion.video

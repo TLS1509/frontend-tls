@@ -62,7 +62,7 @@ export const VideoScrollStory: React.FC = () => {
         className="hidden md:block relative"
         style={{ height: `${CHAPTERS.length * 100}vh` }}
       >
-        <div className="sticky top-0 h-screen overflow-hidden bg-ink-900">
+        <div className="sticky top-0 h-[100dvh] overflow-hidden bg-ink-900">
 
           {/* Vidéo en fond */}
           <video

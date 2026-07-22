@@ -83,7 +83,7 @@ export const ScrollRevealCanvas: React.FC<Props> = ({
       style={{ height }}
     >
       {/* ─── Sticky viewport ─── */}
-      <div className="sticky top-0 h-screen overflow-hidden">
+      <div className="sticky top-0 h-[100dvh] overflow-hidden">
 
         {/* ─── Revealed background layer ─── */}
         <motion.div

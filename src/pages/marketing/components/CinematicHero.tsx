@@ -11,7 +11,8 @@
  *
  * Structure scroll-driven :
  *   - div container (220vh) — fournit la distance de scroll
- *   - section sticky top-0 h-screen — reste dans le viewport
+ *   - section sticky top-0 h-[100dvh] — reste dans le viewport (dvh, pas vh :
+ *     100vh compte la zone derrière la barre d'URL mobile → contenu tronqué)
  *   - VideoBackground : gère canPlay (loading overlay) + transforms scroll
  *   - motion.div contenu : opacity + y liés au scroll
  */
@@ -355,7 +356,7 @@ export const CinematicHero: React.FC = () => {
     <div ref={containerRef} style={{ minHeight: '100vh' }}>
 
       {/* Section sticky — reste dans le viewport pendant le défilement */}
-      <section className="sticky top-0 h-screen overflow-hidden bg-primary-50">
+      <section className="sticky top-0 h-[100dvh] overflow-hidden bg-primary-50">
 
         <VideoBackground reduce={reduce} bgY={bgY} bgScale={bgScale} />
 
