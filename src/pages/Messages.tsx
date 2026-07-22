@@ -251,7 +251,7 @@ export const Messages: React.FC = () => {
           {/* Search bar */}
           <SearchInput
             size="sm"
-            variant="filled"
+            variant="default"
             placeholder="Rechercher une conversation…"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}

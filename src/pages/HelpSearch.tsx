@@ -7,7 +7,7 @@ import { Card } from '../components/core/Card';
 import { Badge } from '../components/ui/Badge';
 import { FilterChip } from '../components/ui/FilterChip';
 import { Input } from '../components/core/Input';
-import { PageShell } from '../components/layout';
+import { Container, PageShell } from '../components/layout';
 import { useHelpcenterStore } from '../stores/persistence';
 
 const CATEGORY_ICONS: Record<string, React.ReactNode> = {

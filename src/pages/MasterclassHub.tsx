@@ -56,8 +56,8 @@ export default function MasterclassHub() {
       <div className="flex flex-col gap-section">
         {/* Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
-          <StatCard label="Prochaines sessions" value={upcomingCount} icon={<Calendar size={18} />} tone="flat" surface="tinted" />
-          <StatCard label="Replays disponibles" value={replayCount} icon={<Play size={18} />} tone="flat" surface="tinted" />
+          <StatCard label="Prochaines sessions" value={upcomingCount} icon={<Calendar size={18} />} tone="neutral" surface="tinted" />
+          <StatCard label="Replays disponibles" value={replayCount} icon={<Play size={18} />} tone="neutral" surface="tinted" />
           <StatCard label="Mes inscriptions" value={enrolledCount} icon={<Users size={18} />} variant="brand" />
         </div>
 

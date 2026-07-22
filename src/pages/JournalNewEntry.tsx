@@ -175,7 +175,7 @@ export const JournalNewEntry: React.FC = () => {
       hasContentRef.current = true;
       setAutoSaveStatus('saving');
 
-      autoSaveTimeoutRef.current = setTimeout(() => {
+      autoSaveTimeoutRef.current = window.setTimeout(() => {
         // Simulate save (in real app, would call an API)
         setAutoSaveStatus('saved');
         // Clear "saved" indicator after 2s

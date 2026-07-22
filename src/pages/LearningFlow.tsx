@@ -144,7 +144,7 @@ export const LearningFlow: React.FC = () => {
           </div>
 
           {/* ── Key Principles ────────────────────────────────────── */}
-          <Card variant="featured" className="p-6 border border-primary-200 bg-primary-50">
+          <Card variant="feature" className="p-6 border border-primary-200 bg-primary-50">
             <SectionHeader
               title="Principes clés du flow"
               size="sm"

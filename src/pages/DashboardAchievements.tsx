@@ -131,7 +131,7 @@ export default function DashboardAchievements() {
             label="Badges obtenus"
             value={String(userBadges.length)}
             sub="badges"
-            tone="flat"
+            tone="neutral"
             surface="tinted"
             icon={<Award size={20} />}
           />

@@ -57,7 +57,6 @@ export default function AtelierPresentiel() {
   return (
     <PageShell width="medium" noPadTop={true} className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
-        tone="flat"
         eyebrow="Atelier · Présentiel"
         title="Atelier Gestion du stress"
         summary="Session en présentiel · Sophie Martin"
@@ -68,7 +67,7 @@ export default function AtelierPresentiel() {
 
       <div className="flex flex-col gap-section">
         {/* Adresse card */}
-        <Card variant="tinted" tone="flat" className="p-stack-lg flex flex-col gap-stack">
+        <Card variant="tinted" className="p-stack-lg flex flex-col gap-stack">
           <div className="flex items-center gap-stack-xs">
             <MapPin size={24} className="text-secondary-600" />
             <h3 className="text-h3 font-semibold text-ink-900">The Learning Hub</h3>

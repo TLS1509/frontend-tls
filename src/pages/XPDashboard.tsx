@@ -43,7 +43,7 @@ export default function XPDashboard() {
             label="Total XP"
             value={totalXP.toLocaleString('fr-FR')}
             sub="XP"
-            tone="flat"
+            tone="neutral"
             surface="tinted"
             icon={<Zap size={20} />}
             delta="+450 ce mois"

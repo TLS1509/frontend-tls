@@ -158,7 +158,7 @@ export default function AnalyticsDashboard() {
           learner.status === 'on-track'
             ? 'success'
             : learner.status === 'at-risk'
-              ? 'warning'
+              ? 'sun'
               : 'danger'
         }
         size="sm"
@@ -168,7 +168,7 @@ export default function AnalyticsDashboard() {
     ),
     progress: (
       <div className="flex items-center gap-2">
-        <ProgressBar value={learner.progressPercent} fill="primary" size="sm" />
+        <ProgressBar value={learner.progressPercent} fill="brand" size="sm" />
         <span className="text-caption text-ink-600 w-10 text-right">{learner.progressPercent}%</span>
       </div>
     ),
@@ -233,8 +233,7 @@ export default function AnalyticsDashboard() {
             value={MOCK_COACH_TEAM_STATS.totalLearners.toString()}
             label="Apprenants"
             delta="Inscrits"
-            deltaDirection="neutral"
-            variant="primary"
+            variant="brand"
             size="md"
           />
           <StatCard
@@ -242,15 +241,14 @@ export default function AnalyticsDashboard() {
             label="Actifs"
             delta={`↑ 2 vs semaine`}
             deltaDirection="up"
-            variant="success"
+            variant="sun"
             size="md"
           />
           <StatCard
             value={`${MOCK_COACH_TEAM_STATS.avgDreyfus}`}
             label="Dreyfus moyen"
             delta="Tendance stable"
-            deltaDirection="neutral"
-            variant="primary"
+            variant="brand"
             size="md"
           />
           <StatCard
@@ -430,7 +428,7 @@ export default function AnalyticsDashboard() {
                         <div className="text-h3 font-bold text-secondary-500">{learner.streak}</div>
                       </div>
                     </div>
-                    <ProgressBar value={learner.progressPercent} fill="primary" size="md" />
+                    <ProgressBar value={learner.progressPercent} fill="brand" size="md" />
                   </Card>
                 ))}
               </div>

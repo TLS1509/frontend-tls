@@ -24,6 +24,7 @@ import { useLessonContext, resolveAfterLessonRoute } from '../lib/lesson-context
 import { useLessonProgressStore } from '../stores/persistence';
 import { TONE_BORDER_500, TONE_HERO_GRADIENT } from '../lib/tone-classes';
 import type { PageTone } from '../lib/tone-classes';
+import { MOCK_PARCOURS_DATA } from '../data/learningPaths';
 
 interface Flashcard {
   id: number;
@@ -227,7 +228,7 @@ export const FlashcardsViewer: React.FC = () => {
             className="inline-flex items-center gap-1 hover:text-primary-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
           >
             <Home size={12} aria-hidden />
-            {lessonCtx.parcours?.title || 'Parcours'}
+            {MOCK_PARCOURS_DATA[lessonCtx.parcoursId]?.title || 'Parcours'}
           </button>
           <ChevronRight size={12} aria-hidden className="opacity-50" />
           <button

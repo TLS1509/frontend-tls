@@ -154,9 +154,9 @@ export const PagesIndex: React.FC = () => {
         />
 
         <section aria-label="Statistiques" className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
-          <StatCard tone="flat" surface="tinted" size="sm" icon={<LayoutGrid size={18} />} label="Pages totales" value={String(total)} />
-          <StatCard tone="flat"   surface="tinted" size="sm" icon={<LayoutGrid size={18} />} label="Complétées" value={String(completed)} />
-          <StatCard tone="flat"  surface="tinted" size="sm" icon={<LayoutGrid size={18} />} label="En cours" value={String(inProgress)} />
+          <StatCard tone="neutral" surface="tinted" size="sm" icon={<LayoutGrid size={18} />} label="Pages totales" value={String(total)} />
+          <StatCard tone="neutral"   surface="tinted" size="sm" icon={<LayoutGrid size={18} />} label="Complétées" value={String(completed)} />
+          <StatCard tone="neutral"  surface="tinted" size="sm" icon={<LayoutGrid size={18} />} label="En cours" value={String(inProgress)} />
         </section>
 
         {FAMILY_SECTIONS.map(({ family, label, emoji, desc }) => {
