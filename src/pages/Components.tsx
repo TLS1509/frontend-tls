@@ -7488,13 +7488,14 @@ const CopyChip: React.FC<{ text: string; label?: React.ReactNode }> = ({ text, l
  * recopie pas. `fallback` sert au premier rendu et si la variable n'existe pas.
  */
 function useLiveTokenValue(cssVar: string | undefined, fallback: string): string {
-  const [live, setLive] = useState(fallback);
-  useEffect(() => {
-    if (!cssVar) return;
+  // Lecture pendant le rendu, pas dans un effet : la variable est deja resolue
+  // sur :root des le premier paint, donc pas besoin d'un state ni d'un second
+  // rendu (et ca evite react-hooks/set-state-in-effect).
+  return useMemo(() => {
+    if (!cssVar || typeof document === 'undefined') return fallback;
     const v = getComputedStyle(document.documentElement).getPropertyValue(cssVar).trim();
-    if (v) setLive(v);
-  }, [cssVar]);
-  return live;
+    return v || fallback;
+  }, [cssVar, fallback]);
 }
 
 const Swatch: React.FC<{ t: TokenEntry }> = ({ t }) => {
