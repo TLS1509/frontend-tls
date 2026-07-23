@@ -161,33 +161,39 @@
   --text-micro--line-height: 1rem;
 
   /* ── Ombres ── */
-  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --shadow-xs: 0 1px 2px rgba(18, 24, 28, 0.04);
+  --shadow-sm: 0 1px 2px rgba(18, 24, 28, 0.05), 0 1px 3px rgba(18, 24, 28, 0.04);
+  --shadow-md: 0 4px 12px -2px rgba(18, 24, 28, 0.08), 0 2px 4px rgba(18, 24, 28, 0.04);
+  --shadow-lg: 0 16px 40px -12px rgba(18, 24, 28, 0.14), 0 4px 8px rgba(18, 24, 28, 0.04);
   --shadow-xl: 0 28px 72px -20px rgba(18, 24, 28, 0.22), 0 8px 16px rgba(18, 24, 28, 0.06);
-  --shadow-brand-xs: 0 2px 8px rgba(85, 161, 180, 0.20);
-  /* Warm-tinted card resting shadows — faint amber wash on top of neutral base
-     Replaces generic black-only shadows to bring warmth at rest (Phase 19.D gap #5) */
+  --shadow-brand-xs: 0 2px 8px rgba(85, 161, 180, 0.08);
+  /* Ombres de card NEUTRES — c'est volontaire, et ce sont des FALLBACKS.
+     Elles ne s'appliquent qu'aux cards SANS prop `tone` ; dès qu'un tone est
+     posé, Card.tsx bascule sur les ombres colorées (--shadow-brand|warm|sun-*)
+     via les maps CARD_SHADOW_*. Une valeur ambrée par défaut entrerait en
+     collision avec le tone `warm`, dont l'ambre est précisément la couleur.
+     ⚠️ Le commentaire précédent annonçait un "amber wash" : périmé. Le Figma
+     (effect styles shadow/card*) et CLAUDE.md décrivent encore l'ambre — c'est
+     eux qui doivent être corrigés, pas ces valeurs. */
   --shadow-card:       0 1px 3px rgba(0, 0, 0, 0.07), 0 1px 2px rgba(0, 0, 0, 0.04);
   --shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.10), 0 2px 6px rgba(0, 0, 0, 0.06);
   --shadow-card-lift:  0 8px 24px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.07);
-  --shadow-brand-sm: 0 4px 12px rgba(85, 161, 180, 0.25);
-  --shadow-brand-md: 0 6px 16px rgba(85, 161, 180, 0.40);
-  --shadow-warm-xs: 0 2px 8px rgba(237, 132, 58, 0.18);
-  --shadow-warm-sm: 0 4px 12px rgba(237, 132, 58, 0.20);
+  --shadow-brand-sm: 0 4px 12px rgba(85, 161, 180, 0.12);
+  --shadow-brand-md: 0 6px 16px rgba(85, 161, 180, 0.18);
+  --shadow-warm-xs: 0 2px 8px rgba(237, 132, 58, 0.08);
+  --shadow-warm-sm: 0 4px 12px rgba(237, 132, 58, 0.12);
   /* md doit PROGRESSER par rapport à sm (0 4px 12px) : la valeur précédente
      0 2px 8px reprenait la géométrie de -xs, donc la card s'enfonçait au survol
      au lieu de se soulever. Géométrie alignée sur brand-md, opacité inchangée. */
-  --shadow-warm-md: 0 6px 16px rgba(237, 132, 58, 0.40);
-  --shadow-sun-xs: 0 2px 8px rgba(248, 176, 68, 0.22);
-  --shadow-sun-sm: 0 4px 12px rgba(248, 176, 68, 0.30);
+  --shadow-warm-md: 0 6px 16px rgba(237, 132, 58, 0.18);
+  --shadow-sun-xs: 0 2px 8px rgba(248, 176, 68, 0.08);
+  --shadow-sun-sm: 0 4px 12px rgba(248, 176, 68, 0.12);
   /* opacité 0.25 était INFÉRIEURE à sun-sm (0.30) : la card pâlissait au survol.
      Alignée sur brand-md / warm-md (0.40). Géométrie conservée (sun rayonne plus large). */
-  --shadow-sun-md: 0 8px 24px rgba(248, 176, 68, 0.40);
-  --shadow-danger-md: 0 6px 16px rgba(192, 67, 42, 0.40);
-  --shadow-success-xs: 0 2px 8px rgba(157, 190, 186, 0.22);
-  --shadow-success-sm: 0 4px 12px rgba(157, 190, 186, 0.30);
+  --shadow-sun-md: 0 8px 24px rgba(248, 176, 68, 0.16);
+  --shadow-danger-md: 0 6px 16px rgba(192, 67, 42, 0.18);
+  --shadow-success-xs: 0 2px 8px rgba(157, 190, 186, 0.08);
+  --shadow-success-sm: 0 4px 12px rgba(157, 190, 186, 0.12);
 
   /* ── Rayons — synced with --r-* in design-tokens.css ── */
   --radius-xs: 4px;
