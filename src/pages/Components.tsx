@@ -7237,11 +7237,15 @@ const COLOR_TOKENS: TokenEntry[] = [
     ['400', '#F8B044'], ['500', '#DF9E3D'], ['600', '#C68D36'], ['700', '#A85F0A'],
     ['800', '#7E4006'], ['900', '#5F2E05'],
   ]),
+  // Repli de premier rendu uniquement — la valeur affichée est relue depuis la
+  // variable CSS (useLiveTokenValue). Ces hex portaient encore l'ancienne échelle
+  // teintée teal (#F5F8F8, #535B62, #12181C…), abandonnée au profit de gris
+  // neutres : resynchronisés sur src/index.css le 2026-07-23.
   ...buildColorScale('Ink (Neutrals)', 'ink', [
-    ['0', '#FFFFFF'], ['25', '#FAFBFC'], ['50', '#F5F8F8'], ['100', '#EEF2F4'],
-    ['200', '#E0E6E9'], ['300', '#C8D2D6'], ['400', '#9AA8AE'], ['500', '#6B7981'],
-    ['600', '#535B62'], ['700', '#3A474B'], ['800', '#2A3538'], ['900', '#252B37'],
-    ['950', '#12181C'],
+    ['0', '#FFFFFF'], ['25', '#FAFBFC'], ['50', '#F9FAFB'], ['100', '#F3F4F6'],
+    ['200', '#E5E7EB'], ['300', '#D1D5DB'], ['400', '#9CA3AF'], ['500', '#6B7280'],
+    ['600', '#4B5563'], ['700', '#374151'], ['800', '#1F2937'], ['900', '#252B37'],
+    ['950', '#0F172A'],
   ]),
 ];
 
@@ -7501,16 +7505,19 @@ const Swatch: React.FC<{ t: TokenEntry }> = ({ t }) => {
         <div
           className="token-card__swatch"
           style={{
+            // liveValue, jamais t.value : les échelles en dur de COLOR_TOKENS
+            // avaient dérivé (l'échelle ink y était encore teintée teal) et la
+            // vitrine montrait des gris que l'app ne rend nulle part.
             background: t.type === 'role' && t.cssVar.startsWith('--border')
-              ? `linear-gradient(45deg, transparent 49%, ${t.value} 49%, ${t.value} 51%, transparent 51%)`
-              : t.value,
-            border: t.cssVar.includes('surface') || t.value === '#FFFFFF' ? '1px solid var(--border)' : undefined,
+              ? `linear-gradient(45deg, transparent 49%, ${liveValue} 49%, ${liveValue} 51%, transparent 51%)`
+              : liveValue,
+            border: t.cssVar.includes('surface') || liveValue.toUpperCase() === '#FFFFFF' ? '1px solid var(--border)' : undefined,
           }}
         />
         <div className="token-card__meta">
           <p className="token-card__name">{t.name}</p>
           <CopyChip text={t.cssVar} />
-          <p className="token-card__value">{t.value}</p>
+          <p className="token-card__value" title={liveValue}>{liveValue}</p>
         </div>
       </div>
     );
