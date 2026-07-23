@@ -257,6 +257,19 @@ className={tone === 'primary' ? 'bg-primary-500' : 'bg-secondary-500'}
 
 ## Référence Tailwind → Design Tokens
 
+> **Valeurs vs usage — deux questions, deux endroits.**
+> - *Quelle valeur ?* → cette section, et surtout `src/index.css` (bloc `@theme`),
+>   qui fait foi. Un hex recopié ici peut avoir dérivé ; en cas de doute, c'est le
+>   code qui tranche.
+> - *Quand l'utiliser ?* → [`docs/_canon/REGLES-USAGE-COMPOSANTS.md`](docs/_canon/REGLES-USAGE-COMPOSANTS.md) :
+>   Modal ou Toast, la sémantique des 4 variantes d'Alert, le choix de pagination
+>   selon le contexte, et les contrats a11y de Button et Input.
+>
+> ⚠️ **Le contraste de `primary-600` (#4A8FA1) sur blanc est de 3.66:1 — il échoue
+> AA** pour du texte normal. `spec.json` annonçait 4.52:1 : c'était faux, recalculé
+> le 2026-07-23. Pour du texte blanc sur fond teal, utiliser `primary-700` (5.02:1)
+> ou `primary-800` (7.08:1).
+
 ### Couleurs
 | Token | Classe Tailwind | Hex |
 |---|---|---|
@@ -1193,7 +1206,7 @@ Voir `MIGRATION-PLAN.md` § PHASE 16 pour le tracking case-à-cocher.
 Suite au nettoyage du 2026-06-30 (sessions d'agents ayant déversé ~20 docs en vrac + écrit des audits fabriqués) :
 
 1. **Aucun nouveau doc à la racine du repo.** Seuls `CLAUDE.md`, `PRODUCT.md`, `DESIGN.md`, `DESIGN-IMPECCABLE.md` vivent à la racine (lus par le skill impeccable). Tout le reste va dans `docs/<sous-dossier>` :
-   - `docs/_audits/` — audits qualité · `docs/_phases/` — rapports de phase (Phase 1 P0, Phase 20…) · `docs/figma/` — audits/sync Figma · `docs/charts/` — data-viz · `docs/briefs/` — briefs · `docs/CDC/` — cahiers (source de vérité, ne pas modifier sans accord métier) · `docs/_archive/` — historique.
+   - `docs/_canon/` — **docs canoniques, priment sur tout le reste** · `docs/_audits/` — audits qualité · `docs/_phases/` — rapports de phase (Phase 1 P0, Phase 20…) · `docs/figma/` — audits/sync Figma · `docs/charts/` — data-viz · `docs/briefs/` — briefs · `docs/CDC/` — cahiers (source de vérité, ne pas modifier sans accord métier) · `docs/_archive/` — historique.
 2. **Mettre à jour `docs/INDEX.md`** à chaque ajout/déplacement/suppression de doc. L'index est la carte ; un doc absent de l'index = doc fantôme.
 3. **Un rapport d'audit Figma DOIT citer les node IDs réellement inspectés** (via `use_figma`). Sans trace d'inspection node-par-node → marquer le doc `⚠️ FIABILITÉ NON VÉRIFIÉE` en tête. Ne jamais écrire « conformance X% » ou « gap corrigé » sans avoir ouvert le fichier Figma.
 4. **Les % de conformance / claims d'état sont interdits sans vérification de première main.** Un agent délégué qui « audite » sans inspecter produit de la fiction — préférer « non vérifié » à un chiffre inventé.

@@ -1,6 +1,6 @@
 # 📑 Documentation Index — The Learning Society
 
-**Last updated**: 2026-07-22 | **Total docs**: 130 fichiers (hors `_archive/`)
+**Last updated**: 2026-07-23 | **Total docs**: 132 fichiers (hors `_archive/`)
 
 > 🥇 **Avant toute session marketing ou site : lire [`_canon/FACTS-CANON.md`](_canon/FACTS-CANON.md).** C'est la source de vérité unique. Tout doc marketing qui la contredit a tort. `marketing/MARKETING-CONTEXT.md` est **rétrogradé** et ne fait plus foi malgré son nom.
 
@@ -267,6 +267,14 @@
 - `FACTS-CANON.md` — **Faits validés ligne par ligne** par Chloé : formation (7 modules / 7h / C-Campus / Open Badge / OPCO), accompagnement (STRIDE), Learning App, chiffres, marque & fondateurs. Statut par ligne : ✅ vrai · ✏️ à corriger · ❌ faux · ❓ à valider. ⏸️ Pricing & business model **gelés** (non validés, base provisoire = CDC)
 - `AUDIT-COHERENCE.md` — Audit 2026-06-10 qui a déclenché la création du canon (docs marketing porteurs de copy + chiffres IA non fiables)
 - `METRICS-A-COLLECTER.md` — Métriques manquantes à collecter avant de pouvoir les publier
+- `REGLES-USAGE-COMPOSANTS.md` — **Règles d'usage des composants** (2026-07-23) : quand utiliser
+  Modal vs Toast, la sémantique des 4 variantes d'Alert, le choix numbered/load-more/infinite
+  pour Pagination, et les contrats a11y de Button et Input. Récupérées de `src/design-system/spec.json`
+  avant sa suppression — elles n'existaient nulle part ailleurs. **Doctrine uniquement, aucune valeur
+  de token** : les valeurs vivent dans `src/index.css` (@theme)
+- `AUDIT-DESIGN-2026-07-22.md` — Confrontation des 5 docs design au code réel. Établit qu'il y a
+  **4 référentiels de tokens** (3 CSS chargés + 1 spec fossile), pas un seul, et pourquoi l'audit
+  de juin concluait « tokens cohérents » : les 2 docs les plus dérivés n'étaient pas dans son périmètre
 
 ---
 
