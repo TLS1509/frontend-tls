@@ -83,29 +83,19 @@
   --font-body: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  /* ── Typographie — Headings (display large) ── */
-  --text-heading-1: 3rem;
-  --text-heading-1--line-height: 3.5rem;
-  --text-heading-1--font-weight: 600;
-  --text-heading-2: 2.25rem;
-  --text-heading-2--line-height: 2.75rem;
-  --text-heading-2--font-weight: 600;
-  --text-heading-3: 1.875rem;
-  --text-heading-3--line-height: 2.25rem;
-  --text-heading-3--font-weight: 600;
-  --text-heading-4: 1.5rem;
-  --text-heading-4--line-height: 2rem;
-  --text-heading-4--font-weight: 600;
-  --text-heading-5: 1.25rem;
-  --text-heading-5--line-height: 1.75rem;
-  --text-heading-5--font-weight: 600;
 
   /* ── Typographie — Display (échelle large hero/marketing) ──
      1:1 avec les text styles Figma Display/xl·lg·md. Police = font-display
-     (League Spartan), weight 800 (ExtraBold), tracking -3%. Échelle volontairement
-     généreuse pour pouvoir varier (96 → 48). ⚠️ Les --text-heading-1…5 ci-dessus
-     sont legacy (utilities text-heading-N non utilisées dans les composants — qui
-     emploient --text-h1…h4 + --text-display-*) ; à nettoyer un jour. */
+     (League Spartan), weight 800 (ExtraBold), tracking -3%.
+     ⚠️ NON UTILISÉE dans le code au 2026-07-23 : `grep -r "text-display-" src/`
+     ne renvoie rien, et les pages marketing emploient text-4xl (36px), soit PLUS
+     PETIT que le plus petit cran ci-dessous (48px). Ces tokens ne génèrent donc
+     aucune utility — coût runtime nul — mais ils décrivent une intention que
+     l'app ne réalise pas. Conservés parce qu'ils sont liés au Figma : les retirer
+     du seul côté code désynchroniserait les text styles. À trancher : adopter
+     l'échelle dans les héros, ou la retirer des DEUX côtés à la fois.
+     (Les --text-heading-1…5 legacy qui vivaient juste au-dessus ont été supprimés
+     le 2026-07-23 : superseded par --text-h1…h5, zéro usage dans src/.) */
   --text-display-xl: 6rem;                      /* 96px */
   --text-display-xl--line-height: 6rem;         /* 96px */
   --text-display-xl--font-weight: 800;

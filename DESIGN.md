@@ -154,7 +154,7 @@ Voir DESIGN-IMPECCABLE.md §7 pour la matrice complète + voice (tu/vous).
 ### Typographie
 | Token | Tailwind | Size | Weight (auto via `--text-{name}--font-weight`) |
 |-------|----------|------|---|
-| `--text-heading-1` → `--text-heading-5` | `text-heading-N` | 48 → 20px | 600 |
+| ~~`--text-heading-1…5`~~ | — | — | — | **Supprimés le 2026-07-23** : superseded par `--text-h1…h5`, zéro usage dans `src/` |
 | `--text-h1` → `--text-h4` | `text-h1` → `text-h4` | 36 → 18px | h1/h2 700 / h3/h4 600 |
 | `--text-body-lg` → `--text-micro` | `text-body-lg` → `text-micro` | 18 → 11px | (héritée, à overrider) |
 
