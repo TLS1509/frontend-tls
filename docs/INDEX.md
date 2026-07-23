@@ -275,6 +275,10 @@
 - `AUDIT-DESIGN-2026-07-22.md` — Confrontation des 5 docs design au code réel. Établit qu'il y a
   **4 référentiels de tokens** (3 CSS chargés + 1 spec fossile), pas un seul, et pourquoi l'audit
   de juin concluait « tokens cohérents » : les 2 docs les plus dérivés n'étaient pas dans son périmètre
+- `CHANTIER-TYPO-A11Y.md` — **État mesuré typo + accessibilité** (2026-07-23) : contrastes
+  calculés cran par cran (ink-400 échoue à 2,54:1 et sert 309 fois à du texte),
+  échelle de tailles, absence totale de tokens de graisse, et ce qui reste à auditer.
+  À lire avant toute intervention sur la typographie ou les couleurs de texte
 
 ---
 
