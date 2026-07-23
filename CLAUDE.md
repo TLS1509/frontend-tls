@@ -1593,7 +1593,11 @@ Même rigueur que Phase 14 flow-based, mais sur **chaque page marketing** (pas p
 **Fichiers & structure**
 - Ne PAS supprimer `tls-components.css` avant que tous ses composants soient migrés et validés
 - Ne PAS créer de nouveaux fichiers CSS pour des composants — tous les tokens doivent venir de index.css @theme
-- Ne PAS modifier `tailwind.config.js` (Tailwind v4 CSS-first ignore le JS config)
+- Ne PAS recréer de `tailwind.config.js` — supprimé le 2026-07-22. Tailwind v4
+  est CSS-first : la source est le bloc `@theme` de `src/index.css`, et aucune
+  directive `@config` n'existe dans le dépôt (vérifié). Un fichier de config JS
+  ne serait jamais lu, mais serait lu par les humains — c'est ainsi qu'il avait
+  accumulé 27 valeurs fantômes.
 
 **Tokens & classes**
 - Ne PAS utiliser `bg-[var(...)]` ou `text-[length:var(...)]` — jamais d'arbitraire avec var()

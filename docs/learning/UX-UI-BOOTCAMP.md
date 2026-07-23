@@ -76,7 +76,7 @@ Pages (compose components into screens)
 2. Audit these sections:
    - Colors (DONE ✅)
    - Typography (DONE ✅, but review in code)
-   - Spacing/Grid (check `tailwind.config.js`)
+   - Spacing/Grid (voir le bloc `@theme` de `src/index.css`)
    - Components (Button, Card, Input, Select, Modal)
 3. For EACH component:
    - Note Figma variants (size, state, disabled, etc.)

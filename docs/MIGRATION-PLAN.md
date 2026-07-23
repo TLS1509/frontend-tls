@@ -20,6 +20,11 @@
 
 ## PHASE 0.5 — ~~Vérification visuelle tailwind.config.js~~ ✅ OBSOLÈTE
 
+> Le fichier a été **supprimé le 2026-07-22** : Tailwind v4 ne l'a jamais lu
+> (aucune directive `@config`, `postcss.config.js` ne passe que `{}`), et 27 de
+> ses valeurs n'existaient nulle part ailleurs. Les lignes ci-dessous sont
+> conservées comme historique.
+
 > **Supersédée** — Le DS est en production depuis 4+ mois avec ~121 composants validés visuellement. La vérification initiale n'a plus de valeur. Tous les tokens sont documentés dans `src/index.css` @theme et consommés par `Components.tsx` (showcase vivant).
 
 ---
