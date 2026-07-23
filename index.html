@@ -6,12 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#3D7786" />
     <title>The Learning Society</title>
-    <!-- Polices auto-hébergées depuis /fonts/ (voir les @font-face de
-         src/styles/design-tokens.css). Les preconnect Google Fonts qui vivaient
-         ici n'ont jamais servi : aucun <link rel="stylesheet"> ne les suivait,
-         donc aucune police n'était téléchargée. Retirés le 2026-07-22. -->
+    <!-- POLICES — deux sources, dans cet ordre.
+         1) Auto-hébergées depuis /fonts/ : c'est la source normale, déclarée par
+            les @font-face de src/styles/design-tokens.css. Preload ci-dessous.
+         2) Google Fonts en filet de sécurité : si public/fonts/ disparaît ou si
+            le bloc @font-face est supprimé, la feuille Google prend le relais et
+            l'app garde sa typo au lieu de retomber sur Arial.
+         Avant le 2026-07-22, il n'y avait QUE des preconnect sans feuille de
+         style derrière : un preconnect ouvre une connexion, il ne télécharge
+         rien. Aucune police n'était donc chargée. -->
     <link rel="preload" href="/fonts/LeagueSpartan-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="/fonts/Nunito-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" />
   </head>
   <body>
     <div id="root"></div>
