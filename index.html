@@ -6,8 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#3D7786" />
     <title>The Learning Society</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Polices auto-hébergées depuis /fonts/ (voir les @font-face de
+         src/styles/design-tokens.css). Les preconnect Google Fonts qui vivaient
+         ici n'ont jamais servi : aucun <link rel="stylesheet"> ne les suivait,
+         donc aucune police n'était téléchargée. Retirés le 2026-07-22. -->
+    <link rel="preload" href="/fonts/LeagueSpartan-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="/fonts/Nunito-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin />
   </head>
   <body>
     <div id="root"></div>

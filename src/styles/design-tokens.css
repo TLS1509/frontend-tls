@@ -5,28 +5,24 @@
 
 @font-face {
   font-family: "League Spartan";
-  src: url("../fonts/LeagueSpartan-VariableFont_wght.ttf") format("truetype-variations"),
-       url("../fonts/LeagueSpartan-VariableFont_wght.ttf") format("truetype");
+  src: url("/fonts/LeagueSpartan-VariableFont_wght.ttf") format("truetype-variations"),
+       url("/fonts/LeagueSpartan-VariableFont_wght.ttf") format("truetype");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Nunito";
-  src: url("../fonts/Nunito-VariableFont_wght.ttf") format("truetype-variations"),
-       url("../fonts/Nunito-VariableFont_wght.ttf") format("truetype");
+  src: url("/fonts/Nunito-VariableFont_wght.ttf") format("truetype-variations"),
+       url("/fonts/Nunito-VariableFont_wght.ttf") format("truetype");
   font-weight: 200 1000;
   font-style: normal;
   font-display: swap;
 }
-@font-face {
-  font-family: "Nunito";
-  src: url("../fonts/Nunito-Italic-VariableFont_wght.ttf") format("truetype-variations"),
-       url("../fonts/Nunito-Italic-VariableFont_wght.ttf") format("truetype");
-  font-weight: 200 1000;
-  font-style: italic;
-  font-display: swap;
-}
+/* Nunito italique : pas de fichier variable italique disponible dans le dépôt.
+   Le @font-face qui pointait vers ../fonts/Nunito-Italic-VariableFont_wght.ttf
+   était mort (404). Le navigateur synthétise l'oblique depuis la variable
+   ci-dessus — retirer ce commentaire le jour où le vrai fichier est ajouté. */
 
 :root {
   /* ---------- BRAND COLORS — alias @theme (source de vérité = index.css) ----------
@@ -268,14 +264,19 @@
   --shadow-lg: 0 16px 40px -12px rgba(18, 24, 28, 0.14), 0 4px 8px rgba(18, 24, 28, 0.04);
   --shadow-xl: 0 28px 72px -20px rgba(18, 24, 28, 0.22), 0 8px 16px rgba(18, 24, 28, 0.06);
   --shadow-brand:    0 10px 30px -10px rgba(85, 161, 180, 0.45);
-  --shadow-brand-xs: 0 4px  12px rgba(85, 161, 180, 0.15);
+  /* xs reprenait la géométrie de sm (0 4px 12px) : aucune progression visible.
+     Corrigé le 2026-07-22. */
+  --shadow-brand-xs: 0 2px   8px rgba(85, 161, 180, 0.20);
   --shadow-brand-sm: 0 4px  12px rgba(85, 161, 180, 0.25);
   --shadow-brand-md: 0 6px  16px rgba(85, 161, 180, 0.40);
   --shadow-brand-lg: 0 20px 50px rgba(85, 161, 180, 0.35);
   --shadow-brand-xl: 0 12px 32px rgba(85, 161, 180, 0.50);
   --shadow-warm:     0 10px 30px -10px rgba(237, 132, 58, 0.35);
   --shadow-warm-sm:  0 4px  12px rgba(237, 132, 58, 0.20);
-  --shadow-warm-md:  0 2px   8px rgba(237, 132, 58, 0.40);
+  /* md DOIT progresser par rapport à sm (0 4px 12px). L'ancienne valeur
+     0 2px 8px reprenait la géométrie de -xs : la card s'enfonçait au survol.
+     Géométrie alignée sur brand-md, opacité inchangée. Corrigé le 2026-07-22. */
+  --shadow-warm-md:  0 6px  16px rgba(237, 132, 58, 0.40);
   --shadow-warm-lg:  0 20px 50px rgba(237, 132, 58, 0.28);
   --shadow-success: 0 6px 20px rgba(34, 197, 94, 0.25);
   --shadow-error: 0 4px 12px rgba(239, 68, 68, 0.15);
@@ -303,7 +304,9 @@
   --shadow-brand-card:   0 12px 32px rgba(85, 161, 180, 0.28);
   --shadow-warm-card:    0 12px 32px rgba(237, 132, 58, 0.28);
   --shadow-sun-card:     0 12px 32px rgba(248, 176, 68, 0.30);
-  --shadow-sun-sm:       0 4px  12px rgba(255, 183, 77,  0.30);
+  /* était rgba(255,183,77) = #FFB74D, un ambre Material absent de la palette
+     TLS. Remis sur le jaune TLS #F8B044 (index.css:57). Corrigé le 2026-07-22. */
+  --shadow-sun-sm:       0 4px  12px rgba(248, 176, 68,  0.30);
   --shadow-warm-glow:    0 8px  16px rgba(237, 132, 58, 0.20);
   --shadow-warm-glow-lg: 0 12px 24px rgba(237, 132, 58, 0.30);
 
