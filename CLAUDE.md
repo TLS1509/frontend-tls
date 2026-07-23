@@ -352,9 +352,9 @@ Tracking **gradué** : plus le titre est gros, plus on serre ; le corps reste ne
 | --shadow-warm-sm / -md 🆕 | `shadow-warm-sm` / `shadow-warm-md` (orange teinté) |
 | --shadow-sun-sm 🆕 | `shadow-sun-sm` (golden teinté) |
 | --shadow-danger-md 🆕 | `shadow-danger-md` (terracotta glow — bouton destructive hover) |
-| --shadow-card | `shadow-card` | `0px 1px 3px rgba(237,132,58,0.07), 0px 1px 2px rgba(0,0,0,0.05)` | ⭐ Resting Card state (warm amber tint 7% + black 5%) — Phase 19.D |
-| --shadow-card-hover | `shadow-card-hover` / `hover:shadow-card-hover` | `0px 4px 14px rgba(237,132,58,0.11), 0px 2px 6px rgba(0,0,0,0.07)` | Card hover lift (warm amber 11%) — interactive signal |
-| --shadow-card-lift | `shadow-card-lift` / `hover:shadow-card-lift` | `0px 8px 24px rgba(237,132,58,0.14), 0px 4px 8px rgba(0,0,0,0.06)` | Strong card lift (warm amber 14%) — interactive card active state |
+| --shadow-card | `shadow-card` | `0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04)` | ⭐ Card au repos — **neutre, et c'est volontaire** : fallback des cards SANS `tone` |
+| --shadow-card-hover | `shadow-card-hover` / `hover:shadow-card-hover` | `0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04)` | Card au survol, sans `tone` |
+| --shadow-card-lift | `shadow-card-lift` / `hover:shadow-card-lift` | `0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04)` | Élévation forte, sans `tone` |
 
 Fichier de référence complet : `src/index.css` (@theme block)
 
@@ -2180,15 +2180,15 @@ Tous les composants Phase 17-18 ont maintenant des mappings corrects vers les pa
 - ✅ `src/index.css` : 2 utilities `.tracking-display { letter-spacing: -0.03em }` + `.tracking-headline { letter-spacing: -0.025em }`.
 - ✅ 0 erreur tsc · smoke test `/components` + `/journal`.
 
-**Où voir les warm shadows** : DevTools → Computed → `box-shadow` sur n'importe quelle Card. Valeur attendue au repos : `rgba(237, 132, 58, 0.07) 0px 1px 3px 0px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px`. Bien visible au hover sur `/journal` ou `/components`.
+⚠️ **Corrigé le 2026-07-23.** Ces trois tokens étaient documentés ambrés (`rgba(237,132,58,…)`) alors que le code les porte en noir depuis le commit `e8ef2b0`. Le neutre est **volontaire** : ce sont les **fallbacks des cards SANS prop `tone`**. Dès qu'un tone est posé, `Card.tsx` bascule sur `--shadow-brand|warm|sun-*` via les maps `CARD_SHADOW_*`. Une valeur ambrée par défaut entrerait en collision avec le tone `warm`, dont l'ambre est la couleur. Les effect styles Figma (`shadow/card`, `-hover`, `-lift`) ont été réalignés le 2026-07-23.
 
 **Nouveaux tokens référence** (ajoutés à la table Ombres ci-dessus) :
 
 | Token CSS | Classe Tailwind | Valeur |
 |---|---|---|
-| `--shadow-card` | `shadow-card` | `0 1px 3px rgba(237,132,58,0.07), 0 1px 2px rgba(0,0,0,0.05)` |
-| `--shadow-card-hover` | `shadow-card-hover` | `0 4px 14px rgba(237,132,58,0.11), 0 2px 6px rgba(0,0,0,0.07)` |
-| `--shadow-card-lift` | `shadow-card-lift` | `0 8px 24px rgba(237,132,58,0.14), 0 4px 8px rgba(0,0,0,0.06)` |
+| `--shadow-card` | `shadow-card` | `0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04)` |
+| `--shadow-card-hover` | `shadow-card-hover` | `0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04)` |
+| `--shadow-card-lift` | `shadow-card-lift` | `0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04)` |
 
 ### Phase 19.E — Inline style cleanup + a11y complète (2026-05-26) ✅
 
