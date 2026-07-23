@@ -184,12 +184,14 @@
   --shadow-warm-sm: 0 4px 12px rgba(237, 132, 58, 0.12);
   /* md doit PROGRESSER par rapport à sm (0 4px 12px) : la valeur précédente
      0 2px 8px reprenait la géométrie de -xs, donc la card s'enfonçait au survol
-     au lieu de se soulever. Géométrie alignée sur brand-md, opacité inchangée. */
+     au lieu de se soulever. Géométrie alignée sur brand-md. Opacité rebasée le 2026-07-23 sur l'échelle
+     allégée (xs .08 / sm .12 / md .18) — elle était à .40. */
   --shadow-warm-md: 0 6px 16px rgba(237, 132, 58, 0.18);
   --shadow-sun-xs: 0 2px 8px rgba(248, 176, 68, 0.08);
   --shadow-sun-sm: 0 4px 12px rgba(248, 176, 68, 0.12);
   /* opacité 0.25 était INFÉRIEURE à sun-sm (0.30) : la card pâlissait au survol.
-     Alignée sur brand-md / warm-md (0.40). Géométrie conservée (sun rayonne plus large). */
+     Alignée sur brand-md / warm-md. Géométrie conservée (sun rayonne plus large).
+     Opacités rebasées le 2026-07-23 : sun-md .16, le reste sur xs .08 / sm .12. */
   --shadow-sun-md: 0 8px 24px rgba(248, 176, 68, 0.16);
   --shadow-danger-md: 0 6px 16px rgba(192, 67, 42, 0.18);
   --shadow-success-xs: 0 2px 8px rgba(157, 190, 186, 0.08);

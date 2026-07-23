@@ -21,8 +21,10 @@
 }
 /* Nunito italique : pas de fichier variable italique disponible dans le dépôt.
    Le @font-face qui pointait vers ../fonts/Nunito-Italic-VariableFont_wght.ttf
-   était mort (404). Le navigateur synthétise l'oblique depuis la variable
-   ci-dessus — retirer ce commentaire le jour où le vrai fichier est ajouté. */
+   était mort (404). L'italique réel vient désormais de la feuille Google Fonts
+   chargée par index.html ; sans elle le navigateur synthétiserait une oblique.
+   Pour l'auto-héberger : déposer le .ttf italique dans public/fonts/ et
+   rétablir un @font-face font-style: italic. */
 
 :root {
   /* ---------- BRAND COLORS — alias @theme (source de vérité = index.css) ----------

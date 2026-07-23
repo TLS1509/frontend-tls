@@ -23,8 +23,11 @@ src/
 │   ├── forms/       FilterBar
 │   └── layout/      Sidebar, NavItem
 ├── pages/           ~140 pages app (route-level) — toutes routées dans App.tsx ✅
-├── styles/          design-tokens.css (source vérité), tls-components.css (CSS BEM actuel)
-└── design-system/   spec.json (spécification officielle)
+├── styles/          design-tokens.css, globals.css, dark-mode-tokens.css
+│                    (tls-components.css supprimé — migration Tailwind)
+└── (src/design-system/ supprimé le 2026-07-23 : spec.json périmé, jamais importé.
+     Règles d'usage → docs/_canon/REGLES-USAGE-COMPOSANTS.md ;
+     valeurs → bloc @theme de src/index.css)
 ```
 
 > ✅ **Sitemap complet** — toutes les pages sont créées et wired (Recherche, MagicLink, VerifyEmail, SubscriptionPayment, Billing, Positionnement incluses). Voir MIGRATION-PLAN.md pour l'historique des phases.
@@ -353,8 +356,8 @@ Tracking **gradué** : plus le titre est gros, plus on serre ; le corps reste ne
 | --shadow-sun-sm 🆕 | `shadow-sun-sm` (golden teinté) |
 | --shadow-danger-md 🆕 | `shadow-danger-md` (terracotta glow — bouton destructive hover) |
 | --shadow-card | `shadow-card` | `0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04)` | ⭐ Card au repos — **neutre, et c'est volontaire** : fallback des cards SANS `tone` |
-| --shadow-card-hover | `shadow-card-hover` / `hover:shadow-card-hover` | `0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04)` | Card au survol, sans `tone` |
-| --shadow-card-lift | `shadow-card-lift` / `hover:shadow-card-lift` | `0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04)` | Élévation forte, sans `tone` |
+| --shadow-card-hover | `shadow-card-hover` / `hover:shadow-card-hover` | `0 4px 12px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.06)` | Card au survol, sans `tone` |
+| --shadow-card-lift | `shadow-card-lift` / `hover:shadow-card-lift` | `0 8px 24px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.07)` | Élévation forte, sans `tone` |
 
 Fichier de référence complet : `src/index.css` (@theme block)
 
@@ -1593,7 +1596,7 @@ Même rigueur que Phase 14 flow-based, mais sur **chaque page marketing** (pas p
 **Fichiers & structure**
 - Ne PAS supprimer `tls-components.css` avant que tous ses composants soient migrés et validés
 - Ne PAS créer de nouveaux fichiers CSS pour des composants — tous les tokens doivent venir de index.css @theme
-- Ne PAS recréer de `tailwind.config.js` — supprimé le 2026-07-22. Tailwind v4
+- Ne PAS recréer de `tailwind.config.js` — supprimé le 2026-07-23. Tailwind v4
   est CSS-first : la source est le bloc `@theme` de `src/index.css`, et aucune
   directive `@config` n'existe dans le dépôt (vérifié). Un fichier de config JS
   ne serait jamais lu, mais serait lu par les humains — c'est ainsi qu'il avait
@@ -2173,7 +2176,7 @@ Tous les composants Phase 17-18 ont maintenant des mappings corrects vers les pa
 ### Phase 19.D — Warm shadows + typography tightening (2026-05-26) ✅
 
 **Livré** :
-- ✅ 3 warm-tinted shadow tokens + 6 Tailwind utilities dans `src/index.css` : `--shadow-card` (amber 7% + black 5%), `--shadow-card-hover`, `--shadow-card-lift`. Utilities `.shadow-card`, `.shadow-card-hover`, `.shadow-card-lift` + variantes hover.
+- ✅ 3 shadow tokens de card + 6 utilities Tailwind dans `src/index.css` : `--shadow-card`, `--shadow-card-hover`, `--shadow-card-lift`. **Neutres (noir), pas ambrés** — l'« amber wash » annoncé à l'origine n'a jamais été implémenté ; arbitré et documenté le 2026-07-23. Utilities `.shadow-card`, `.shadow-card-hover`, `.shadow-card-lift` + variantes hover.
 - ✅ `Card.tsx` : variantes `default/feature/elevated/interactive` → shadow-card family. Interactive card : `-translate-y-1` + `shadow-card-lift` + `border-primary-300` + `bg-primary-50/30` au hover. Title tracking par size : `lg → tracking-display`, `md → tracking-headline`, `xs/sm → tracking-tight`. `CardTitle` standalone → `tracking-headline`.
 - ✅ `SectionHeader.tsx` : `SIZE_TRACKING` map `{ xs: tracking-tight, sm: tracking-headline, md: tracking-headline, lg: tracking-display }`. Appliqué sur les 3 instances `<h2>` (minimal, accent/underline, default/solid).
 - ✅ `EditorialHero.tsx` : `<h1>` `tracking-tight` → `tracking-display`.
@@ -2187,8 +2190,8 @@ Tous les composants Phase 17-18 ont maintenant des mappings corrects vers les pa
 | Token CSS | Classe Tailwind | Valeur |
 |---|---|---|
 | `--shadow-card` | `shadow-card` | `0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04)` |
-| `--shadow-card-hover` | `shadow-card-hover` | `0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04)` |
-| `--shadow-card-lift` | `shadow-card-lift` | `0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04)` |
+| `--shadow-card-hover` | `shadow-card-hover` | `0 4px 12px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.06)` |
+| `--shadow-card-lift` | `shadow-card-lift` | `0 8px 24px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.07)` |
 
 ### Phase 19.E — Inline style cleanup + a11y complète (2026-05-26) ✅
 

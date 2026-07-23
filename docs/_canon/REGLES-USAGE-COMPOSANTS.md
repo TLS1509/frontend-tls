@@ -6,10 +6,15 @@ BEM/HTML supprimée — mais il portait ces règles-là, qui n'existaient nulle 
 ailleurs dans le dépôt. Vérifié par grep sur `src/`, `docs/`, `DESIGN.md`,
 `DESIGN-IMPECCABLE.md`, `CLAUDE.md` : 0 résultat._
 
-**Ce document ne contient QUE de la doctrine d'usage.** Aucune valeur de token,
-aucune couleur, aucun chemin de fichier — c'est précisément ce mélange qui avait
-rendu `spec.json` périmé sans que personne s'en aperçoive. Les valeurs vivent
-dans `src/index.css` (`@theme`) et `src/styles/design-tokens.css`.
+**Ce document porte de la doctrine d'usage, pas des valeurs de design.** Les
+couleurs, tailles et rayons vivent dans `src/index.css` (`@theme`) — c'est le
+mélange des deux qui avait rendu `spec.json` périmé sans que personne s'en
+aperçoive.
+
+Deux exceptions assumées, parce qu'elles font partie du contrat et non du
+thème : les **seuils de contraste** (un ratio est une exigence, pas un token) et
+les **cibles tactiles en pixels** (40 × 40, 44 × 44 — des minimums normatifs).
+Chaque valeur citée porte sa date de vérification.
 
 Le texte original est conservé tel quel (en anglais) : le reformuler risquerait
 d'en déplacer le sens.
@@ -25,7 +30,7 @@ d'en déplacer le sens.
 | Cible minimale | 40 × 40 px (taille MD) |
 | Icône seule | `aria-label` **obligatoire** |
 | État chargement | `aria-busy="true"` + `aria-disabled="true"` |
-| Contraste | Primary `#4A8FA1` sur blanc = **4.52:1** (AA) |
+| Contraste | ⚠️ Primary `#4A8FA1` sur blanc = **3.66:1** — **échoue AA** pour du texte normal (seuil 4.5). `spec.json` annonçait 4.52:1 ; recalculé le 2026-07-23, c'est faux. Conforme uniquement en grand texte (≥18.66px gras / 24px). Pour du texte normal sur blanc : `primary-700` #3D7786 (5.02:1) ou `primary-800` #2F5F6A (7.08:1). |
 | Anneau de focus | *« Never remove »* |
 
 ### Input
@@ -97,5 +102,9 @@ ne signalait qu'il mentait**. Neuf composants ont continué à le déclarer
 « Source of truth ».
 
 La doctrine, elle, n'a pas périmé : elle ne dépend d'aucune implémentation.
-D'où la séparation. **Ne jamais réintroduire de valeurs de tokens ici** — c'est
-ce qui reproduirait exactement la même dérive.
+D'où la séparation. **Ne jamais réintroduire de couleurs ni de tailles ici** —
+c'est ce qui reproduirait exactement la même dérive.
+
+Le ratio de contraste ci-dessus en est l'illustration : `spec.json` annonçait
+4.52:1, la mesure donne 3.66:1. Une valeur recopiée et jamais revérifiée avait
+transformé un échec AA en conformité affichée.

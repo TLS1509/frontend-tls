@@ -192,7 +192,9 @@ Variantes `destructive` : code migré de `bg-red-600` (tailwind brut) vers token
 **Tokens définis (`src/index.css` @theme) :**
 - `--color-danger-strong: #C0432A` — terracotta brique saturé, WCAG AA ~5:1 sur blanc, hue ≈10° (distinct orange secondaire hue 25°)
 - `--color-danger-deep: #9B2F1B` — active/press, plus foncé
-- `--shadow-danger-md: 0 6px 16px rgba(192,67,42,0.40)` — glow hover
+- `--shadow-danger-md` — glow hover. Valeur : voir `src/index.css` (@theme).
+  L'opacité 0.40 citée ici était périmée : l'échelle colorée a été allégée le
+  2026-07-23. Ne pas recopier de valeur ici, elle rederive.
 
 **Button.tsx** : `bg-danger-strong text-white shadow-sm hover:shadow-danger-md active:bg-danger-deep active:shadow-sm`
 

@@ -17,7 +17,7 @@
  *   e.g. <Button> → .btn        <Alert> → .alert        <CompetenceBadge> → .comp-badge
  */
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   PositionnementModal,
@@ -7477,7 +7477,24 @@ const CopyChip: React.FC<{ text: string; label?: React.ReactNode }> = ({ text, l
  * TOKEN SWATCH RENDERERS
  * ============================================================================ */
 
+/**
+ * Valeur réellement calculée par le navigateur pour une variable CSS.
+ * Les chaînes en dur de SHADOW_TOKENS/COLOR_TOKENS avaient dérivé : la vitrine
+ * annonçait des valeurs que l'app ne rendait plus. On lit la source, on ne la
+ * recopie pas. `fallback` sert au premier rendu et si la variable n'existe pas.
+ */
+function useLiveTokenValue(cssVar: string | undefined, fallback: string): string {
+  const [live, setLive] = useState(fallback);
+  useEffect(() => {
+    if (!cssVar) return;
+    const v = getComputedStyle(document.documentElement).getPropertyValue(cssVar).trim();
+    if (v) setLive(v);
+  }, [cssVar]);
+  return live;
+}
+
 const Swatch: React.FC<{ t: TokenEntry }> = ({ t }) => {
+  const liveValue = useLiveTokenValue(t.cssVar, t.value);
   if (t.type === 'color' || t.type === 'role') {
     return (
       <div className="token-card">
@@ -7517,12 +7534,16 @@ const Swatch: React.FC<{ t: TokenEntry }> = ({ t }) => {
       <div className="token-card">
         <div
           className="token-card__swatch token-card__swatch--shadow"
-          style={{ boxShadow: t.value }}
+          /* On dessine depuis la VARIABLE CSS, jamais depuis t.value : les chaînes
+             en dur de SHADOW_TOKENS avaient dérivé et la vitrine montrait des
+             ombres que l'app ne rendait plus. t.value ne sert plus qu'à afficher
+             la valeur en texte, et `?? t.value` couvre un cssVar absent. */
+          style={{ boxShadow: t.cssVar ? `var(${t.cssVar}, ${t.value})` : t.value }}
         />
         <div className="token-card__meta">
           <p className="token-card__name">{t.name}</p>
           <CopyChip text={t.cssVar} />
-          <p className="token-card__value" title={t.value}>{t.value}</p>
+          <p className="token-card__value" title={liveValue}>{liveValue}</p>
         </div>
       </div>
     );
