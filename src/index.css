@@ -329,9 +329,9 @@
      Bénéfice : 1 changement = toutes les cards adaptent (dark mode futur).
   */
   --color-surface:          #ffffff;
-  --color-surface-muted:    #f9fafb;  /* = ink-50 */
-  --color-surface-sunken:   #f3f4f6;  /* = ink-100 */
-  --color-surface-elevated: #ffffff;  /* same as surface, visual lift via shadow */
+  --color-surface-muted: var(--color-ink-50);  /* = ink-50 */
+  --color-surface-sunken: var(--color-ink-100);  /* = ink-100 */
+  --color-surface-elevated: var(--color-ink-0);  /* = ink-0 — l’élévation vient de l’ombre, pas de la couleur */
 
   /* ── Overlay / scrim ── pure black, used ONLY at low opacity for modal
      backdrops & media scrims (bg-overlay-scrim/40, bg-overlay-scrim/55 …).
@@ -349,19 +349,13 @@
        text-inverse  : on saturated bg (heroes, dark cards) — white
   */
   --color-text-strong:  var(--color-ink-900);  /* = ink-900 = #252B37 TLS teal-tinted dark */
-  --color-text-default: #374151;  /* = ink-700 */
-  --color-text-muted:   #6b7280;  /* = ink-500 */
-  --color-text-subtle:  #9ca3af;  /* = ink-400 */
-  --color-text-inverse: #ffffff;
-
-  /* ── Border semantic colors ── (utilities border-{name})
-       border-subtle  : barely-there divider — ink-100
-       border-default : standard cards/inputs — ink-200
-       border-strong  : emphasized, focus, active — ink-300
-  */
-  --color-border-subtle:  #f3f4f6;  /* = ink-100 */
-  --color-border-default: #e5e7eb;  /* = ink-200 */
-  --color-border-strong:  #d1d5db;  /* = ink-300 */
+  --color-text-default: var(--color-ink-700);  /* = ink-700 */
+  --color-text-muted: var(--color-ink-500);  /* = ink-500 */
+  --color-text-subtle: var(--color-ink-400);  /* = ink-400 — ⚠ échoue AA sur du texte : réservé désactivé/décoratif */
+  --color-text-inverse: var(--color-ink-0);  /* = ink-0 */
+  --color-border-subtle: var(--color-ink-100);  /* = ink-100 */
+  --color-border-default: var(--color-ink-200);  /* = ink-200 */
+  --color-border-strong: var(--color-ink-300);  /* = ink-300 */
 
   /* ── Border widths ── (utilities border-{name})
      Promoted from design-tokens.css to enable Tailwind utility generation.

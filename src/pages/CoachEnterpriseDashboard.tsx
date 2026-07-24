@@ -117,7 +117,7 @@ const CoachEnterpriseDashboard: React.FC = () => {
                         <div className="text-caption text-ink-500">{formatDate(c.submittedAt)}</div>
                       </div>
                       {competence && <Badge variant="brand">{competence.label}</Badge>}
-                      <Button variant="warm" size="sm">Reviewer</Button>
+                      <Button variant="secondary" size="sm">Reviewer</Button>
                     </Card>
                   );
                 })}

@@ -206,7 +206,7 @@ export default function ManagerCohort() {
                   </div>
                   <ProgressBar value={p.progress} fill="brand" size="md" showLabel label={`${p.progress}% complété`} />
                   <div className="flex justify-end">
-                    <Button variant="brand-ghost" size="sm" trailingIcon={<ChevronRight size={14} />}>
+                    <Button variant="ghost" size="sm" trailingIcon={<ChevronRight size={14} />}>
                       Voir le projet
                     </Button>
                   </div>

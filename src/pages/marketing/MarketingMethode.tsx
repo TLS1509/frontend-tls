@@ -358,7 +358,7 @@ export const MarketingMethode: React.FC = () => {
               </p>
               <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
                 <MagneticButton strength={12}>
-                  <Button to="/website/contact" variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                  <Button to="/website/contact" variant="secondary" size="lg" trailingIcon={<ArrowRight size={18} />}>
                     Demander un diagnostic
                   </Button>
                 </MagneticButton>

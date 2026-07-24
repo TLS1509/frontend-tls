@@ -19,7 +19,8 @@ export interface CoachRowProps {
  * Extracted from Coaching.tsx line 331 pattern (Phase 19.1).
  * Reusable across: session cards, lesson players, coaching detail pages.
  *
- * Variant: glass-warm surface for warm tint, glass-brand for primary context.
+ * Variant: glass-warm surface for warm tint, ghost for brand context
+ * (ghost remplace glass-brand, retiré — doublon exact).
  */
 export const CoachRow: React.FC<CoachRowProps> = ({
   coachName,
@@ -29,7 +30,7 @@ export const CoachRow: React.FC<CoachRowProps> = ({
   className = '',
   tint = 'brand',
 }) => {
-  const glassVariant = tint === 'warm' ? 'glass-warm' : 'glass-brand';
+  const glassVariant = tint === 'warm' ? 'glass-warm' : 'ghost';
 
   return (
     <div className={`flex flex-wrap items-center gap-stack-xs p-3 rounded-xl bg-white/60 backdrop-blur-glass-light border border-white/60 ${className}`}>

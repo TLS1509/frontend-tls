@@ -155,7 +155,7 @@ export const MarketingMotionLab: React.FC = () => {
           </p>
           <div className="flex flex-wrap items-center gap-stack pt-stack">
             <MagneticButton strength={12}>
-              <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
+              <Button variant="secondary" size="lg" trailingIcon={<ArrowRight size={18} />}>
                 CTA principal
               </Button>
             </MagneticButton>

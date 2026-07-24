@@ -248,7 +248,7 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
 
   const finishButton = (
     <Button
-      variant="warm"
+      variant="secondary"
       size="lg"
       trailingIcon={<ArrowRight size={16} />}
       onClick={() => onComplete(answers, {})}
@@ -325,7 +325,7 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
           className="flex-1 resize-none rounded-xl border border-ink-200 bg-white px-3 py-2.5 text-body-sm text-ink-900 leading-relaxed placeholder:text-ink-400 focus:outline-none focus:ring-2 focus:ring-secondary-300 focus:border-secondary-400 transition-all duration-base disabled:opacity-disabled max-h-24 overflow-y-auto"
         />
         <Button
-          variant="warm"
+          variant="secondary"
           size="md"
           iconOnly
           trailingIcon={<Send size={16} />}

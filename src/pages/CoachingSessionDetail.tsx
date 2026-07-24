@@ -141,7 +141,7 @@ export default function CoachingSessionDetail() {
           </p>
           <div className="mt-stack flex gap-stack-xs">
             <Button
-              variant="warm"
+              variant="secondary"
               size="md"
               leadingIcon={<FileText size={16} />}
             >

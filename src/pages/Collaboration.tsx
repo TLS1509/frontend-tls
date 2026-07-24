@@ -103,7 +103,7 @@ export const Collaboration: React.FC = () => {
           summary="Pilotez vos projets d'équipe, suivez la progression collective et coordonnez les contributions."
           trailing={
             <div className="flex gap-stack-xs">
-              <Button variant="warm" size="sm" leadingIcon={<Plus size={13} />}>
+              <Button variant="secondary" size="sm" leadingIcon={<Plus size={13} />}>
                 Nouveau projet
               </Button>
               <Button variant="secondary" size="sm" leadingIcon={<Users size={13} />}>

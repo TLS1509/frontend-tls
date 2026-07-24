@@ -99,8 +99,9 @@ const COVER_GRADIENT: Record<VeilleCardTone, string> = {
   sun:   'bg-gradient-to-br from-accent-300 via-accent-500 to-secondary-500',
 };
 
-const CTA_VARIANT: Record<VeilleCardTone, 'glass-brand' | 'glass-warm' | 'glass-sun'> = {
-  brand: 'glass-brand',
+// `ghost` remplace `glass-brand` (retiré — doublon exact) : même rendu teinté brand.
+const CTA_VARIANT: Record<VeilleCardTone, 'ghost' | 'glass-warm' | 'glass-sun'> = {
+  brand: 'ghost',
   warm:  'glass-warm',
   sun:   'glass-sun',
 };

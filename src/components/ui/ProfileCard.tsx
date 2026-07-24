@@ -268,7 +268,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
           <div className="shrink-0 md:ml-auto mt-stack-xs md:mt-0">
             {typeof cta === 'object' && 'label' in cta ? (
               <Button
-                variant={cta.variant ?? (tone === 'warm' ? 'warm' : 'primary')}
+                variant={cta.variant ?? (tone === 'warm' ? 'secondary' : 'primary')}
                 size="md"
                 leadingIcon={cta.icon}
                 onClick={cta.onClick}
@@ -364,7 +364,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
       {cta && (
         typeof cta === 'object' && 'label' in cta ? (
           <Button
-            variant={cta.variant ?? (tone === 'warm' ? 'warm' : 'primary')}
+            variant={cta.variant ?? (tone === 'warm' ? 'secondary' : 'primary')}
             size="md"
             leadingIcon={cta.icon}
             onClick={cta.onClick}

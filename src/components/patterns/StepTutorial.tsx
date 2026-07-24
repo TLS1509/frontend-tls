@@ -41,9 +41,9 @@ const TONE_ICON_BG: Record<StepTutorialTone, string> = {
   sun: 'bg-accent-50 text-accent-500',
 };
 
-const TONE_NEXT_VARIANT: Record<StepTutorialTone, 'primary' | 'warm' | 'primary'> = {
+const TONE_NEXT_VARIANT: Record<StepTutorialTone, 'primary' | 'secondary'> = {
   primary: 'primary',
-  warm: 'warm',
+  warm: 'secondary',
   sun: 'primary',
 };
 

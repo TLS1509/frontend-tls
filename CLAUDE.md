@@ -2137,9 +2137,13 @@ Tous les composants Phase 17-18 ont maintenant des mappings corrects vers les pa
 
 **Interactive elements** (boutons, liens cliquables, cards `role="button"`, items navigation) **DOIVENT** respecter :
 
-1. **Touch target ≥ 44px** (WCAG AA, Apple HIG). Tailwind utility : `min-h-touch` (= `min-height: 2.75rem` = 44px) ou Button `size="lg"` (h-12 = 48px).
-   - ⚠️ Button `size="sm"` (h-8 = 32px) et `size="md"` (h-10 = 40px) sont **en-dessous** du seuil. Réserver `sm` aux toolbars denses non-critiques (badges, chips). `md` reste acceptable si bouton entouré de marge ≥ 8px.
-   - Pages mobile-first : préférer `size="lg"` ou ajouter explicitement `min-h-touch` à toutes les CTAs.
+1. **Cible tactile.** ⚠️ **Corrigé le 2026-07-23 — l'affirmation précédente était fausse.** Elle disait « ≥ 44px (WCAG AA, Apple HIG) » : c'est un amalgame. Les seuils réels, vérifiés à la source :
+   - **WCAG 2.2 AA (SC 2.5.8) = 24×24 px** — le seul minimum normatif obligatoire.
+   - **WCAG 2.2 AAA (SC 2.5.5) = 44×44 px** · Apple HIG = 44×44 pt · Material = 48×48 dp — des recommandations plateforme, PAS de l'AA.
+
+   **Règle TLS :** viser **44×44 px sur les actions principales** (choix qualité, = AAA/Apple), minimum **24 px partout** (= AA obligatoire).
+   - Hauteurs Button **mesurées au rendu** (et non « h-10=40px » comme l'affirmait la version périmée) : `sm` **32px** · `md` **44px** (= `h-touch`) · `lg` **48px** · `xl` **56px**.
+   - `sm` (32px) **passe AA** (≥24) mais rate la cible 44px : le réserver aux contextes denses (toolbars, chips), jamais pour une action principale. `md`/`lg`/`xl` atteignent 44px.
 
 2. **Focus visible** (`focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500`). Pattern obligatoire sur tout élément focusable custom (`<button>`, `<div role="button">`, `<a>` stylé en bouton).
 

@@ -192,7 +192,7 @@ export default function CoachDashboard() {
                     />
                   </ChartContainer>
                   <Button
-                    variant="brand-ghost"
+                    variant="ghost"
                     size="sm"
                     fullWidth
                     trailingIcon={<ChevronRight size={14} />}

@@ -193,7 +193,7 @@ export default function Passeport() {
                     <span className="text-h2 font-display font-bold text-ink-900">{activeObjectives.length}</span>
                     <span className="text-body-sm text-ink-400 pb-1">objectifs</span>
                   </div>
-                  <Button variant="brand-ghost" size="sm" trailingIcon={<ChevronRight size={14} />}
+                  <Button variant="ghost" size="sm" trailingIcon={<ChevronRight size={14} />}
                     onClick={() => setActiveTab('objectifs')}>
                     Voir les objectifs
                   </Button>
@@ -463,7 +463,7 @@ export default function Passeport() {
                 )}
 
                 <Button
-                  variant="brand-ghost"
+                  variant="ghost"
                   size="md"
                   leadingIcon={<Plus size={16} />}
                   onClick={() => setShowObjectiveModal(true)}

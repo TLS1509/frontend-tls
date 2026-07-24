@@ -191,7 +191,7 @@ export const MarketingAccompagnement: React.FC = () => {
             </p>
             <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
               <MagneticButton strength={14}>
-                <Button href="#contact-form" variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                <Button href="#contact-form" variant="secondary" size="lg" trailingIcon={<ArrowRight size={18} />}>
                   Demander un diagnostic
                 </Button>
               </MagneticButton>
@@ -525,7 +525,7 @@ export const MarketingAccompagnement: React.FC = () => {
                 <MagneticButton strength={10} className="w-full pt-stack">
                   <Button
                     type="submit"
-                    variant="warm"
+                    variant="secondary"
                     size="lg"
                     fullWidth
                     disabled={submitting}

@@ -249,7 +249,7 @@ export default function WebhooksManagement() {
             {/* API docs link */}
             <div className="flex items-center gap-stack-xs pt-2">
               <Button
-                variant="brand-ghost"
+                variant="ghost"
                 size="sm"
                 trailingIcon={<ExternalLink size={14} />}
               >

@@ -105,7 +105,7 @@ export const Dossier: React.FC = () => {
         trailing={
           <>
             <ReadingProgressRing targetRef={articleRef} tone="warm" size={36} />
-            <Button variant="warm" size="sm" leadingIcon={<Download size={13} />} className="hidden sm:inline-flex">
+            <Button variant="secondary" size="sm" leadingIcon={<Download size={13} />} className="hidden sm:inline-flex">
               Télécharger
             </Button>
             <Button
@@ -314,7 +314,7 @@ export const Dossier: React.FC = () => {
                 PDF de 38 pages · Données exclusives · Mise à jour janvier 2026
               </p>
             </div>
-            <Button variant="warm" size="lg" leadingIcon={<Download size={16} />}>
+            <Button variant="secondary" size="lg" leadingIcon={<Download size={16} />}>
               Télécharger le PDF gratuit
             </Button>
           </div>

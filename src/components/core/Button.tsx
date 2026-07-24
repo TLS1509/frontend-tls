@@ -17,7 +17,6 @@ import { Link } from 'react-router-dom';
  *   - glass:             on DARK tinted/gradient surfaces (text-white, semi-transparent)
  *   - glass-light:       ⭐ on LIGHT tinted surfaces (cards EntryCard/SessionCard tinted) — filled frosted white
  *   - glass-light-ghost: ⭐ on LIGHT tinted surfaces — ghost frosted (secondary action)
- *   - glass-brand:       ⭐ frosted tinted brand (primary-100/70 + blur) — tone-aware glass
  *   - glass-warm:        ⭐ frosted tinted warm (secondary-100/70 + blur)
  *   - glass-sun:         ⭐ frosted tinted sun (accent-100/70 + blur)
  *   - link:              inline text links
@@ -27,9 +26,12 @@ import { Link } from 'react-router-dom';
  *   - Use `glass-light` (filled) + `glass-light-ghost` (secondary) on LIGHT tinted card surfaces
  *     (primary-50, secondary-50, accent-50, etc.) for cohérent frosted DS effect
  *
- * Deprecated aliases (backward compat):
- *   - warm        → use 'secondary'
- *   - brand-ghost → use 'ghost'
+ * PRÉFÉRER l'API `emphasis` × `tone` pour les nouveaux usages (voir plus bas).
+ *
+ * Retirés le 2026-07-23 (tous les usages migrés) :
+ *   - warm        → secondary
+ *   - brand-ghost → ghost
+ *   - glass-brand → ghost  (doublon exact, 4 unités RGB)
  */
 
 export type ButtonVariant =
@@ -43,19 +45,55 @@ export type ButtonVariant =
   | 'glass'
   | 'glass-light'
   | 'glass-light-ghost'
-  | 'glass-brand'
   | 'glass-warm'
   | 'glass-sun'
-  | 'link'
-  // Deprecated — kept as aliases for backward compatibility
-  | 'warm'
-  | 'brand-ghost';
+  | 'link';
+  // 2026-07-23 : retirés après migration de tous les usages.
+  //   'warm'        → 'secondary'   (32 usages migrés)
+  //   'brand-ghost' → 'ghost'       (9 usages migrés)
+  //   'glass-brand' → 'ghost'       (2 usages migrés — doublon exact, 4 unités RGB)
 
 export type ButtonSize = 'sm' | 'md' | 'lg' | 'xl';
 
+/* ─────────────────── Grille emphase × ton (2026-07-23) ──────────────────── */
+
+/**
+ * Les 14 `variant` ci-dessus encodent le TON dans leur nom. D'où la
+ * prolifération : chaque nouveau ton exigeait un nouveau nom, et les doublons
+ * devenaient invisibles. Rangés, ils forment une grille de 5 emphases × 5 tons,
+ * avec un doublon (`glass-brand` ≡ `ghost`, 4 unités RGB d'écart) et des trous
+ * (pas d'outline en sun/danger, pas de link hors brand).
+ *
+ * `emphasis` + `tone` expriment la même chose sans les noms arbitraires, et
+ * attachent le contrat de contraste au NIVEAU plutôt qu'à chaque nom :
+ *   solid   — fond porteur, label inversé
+ *   soft    — fond teinté clair, label foncé du même ton, bordure visible
+ *   outline — fond transparent, bordure et label du ton
+ *   ghost   — ni fond ni bordure, label du ton
+ *   link    — texte souligné, pas de boîte
+ *
+ * Migration : `variant` reste pleinement supporté et INCHANGÉ visuellement.
+ * Les combinaisons déjà nommées réutilisent exactement les mêmes classes ;
+ * seules les cases neuves sont écrites, et elles naissent conformes
+ * (bordure ≥ 600, qui atteint le seuil 3:1 de WCAG 1.4.11 — les cases
+ * héritées seront alignées dessus à l'étape suivante).
+ */
+export type ButtonEmphasis = 'solid' | 'soft' | 'outline' | 'ghost' | 'link';
+export type ButtonTone = 'brand' | 'warm' | 'sun' | 'danger' | 'neutral';
+
 export interface ButtonProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
+  /**
+   * API historique — 14 noms, toujours supportée et inchangée.
+   * Préférer `emphasis` + `tone` pour les nouveaux usages.
+   */
   variant?: ButtonVariant;
+  /** Niveau d'insistance. Prend le pas sur `variant` s'il est fourni. */
+  emphasis?: ButtonEmphasis;
+  /** Ton de la couleur. N'a d'effet qu'avec `emphasis`. Défaut : brand. */
+  tone?: ButtonTone;
+  /** Le bouton est posé sur une surface sombre ou saturée. */
+  onDark?: boolean;
   size?: ButtonSize;
   /** Render just an icon (requires aria-label) */
   iconOnly?: boolean;
@@ -90,7 +128,28 @@ export interface ButtonProps
   download?: string | boolean;
 }
 
-const BASE = 'inline-flex items-center justify-center gap-stack-xs rounded-pill font-body font-semibold tracking-tight cursor-pointer transition-[background-color,box-shadow,transform,opacity] duration-fast ease-emphasis focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] disabled:opacity-disabled disabled:cursor-not-allowed disabled:pointer-events-none disabled:hover:translate-y-0 aria-busy:pointer-events-none whitespace-nowrap select-none';
+/**
+ * BASE — porte deux corrections transverses (2026-07-23), donc valables pour
+ * les 474 boutons de l'app sans toucher à un seul variant.
+ *
+ * 1. ANNEAU DE FOCUS BICOLORE.
+ *    L'ancien `outline-primary-500` mesurait 2,94 sur blanc, 2,84 sur le fond
+ *    de page, 2,62 sur surface teintée, 2,41 sur surface sombre — sous le seuil
+ *    de 3,0 que WCAG 1.4.11 exige d'un indicateur de focus, et ce PARTOUT.
+ *    Aucune couleur unique ne s'en sort : un anneau teal sur du teal foncé est
+ *    perdu d'avance (testé sur 600, 700, 900 et ink-900). D'où deux anneaux
+ *    concentriques — blanc à l'intérieur (`ring-offset-white`), ink-900 à
+ *    l'extérieur : sur fond clair c'est le sombre qui porte (12,6 à 14,2), sur
+ *    fond sombre c'est le blanc (7,08). Au moins un des deux contraste toujours.
+ *
+ * 2. MOUVEMENT VRAIMENT NEUTRALISÉ SOUS `prefers-reduced-motion`.
+ *    La règle globale de `index.css` ramène `transition-duration` à 0,01 ms.
+ *    Elle ne touche NI `translate` NI `scale`, qui sont des propriétés et non
+ *    des transitions : le bouton ne glissait plus, il SAUTAIT — un déplacement
+ *    brusque sous le curseur, pire que l'animation d'origine. Les variantes
+ *    `motion-reduce:` ci-dessous suppriment le déplacement lui-même.
+ */
+const BASE = 'inline-flex items-center justify-center gap-stack-xs rounded-pill font-body font-semibold tracking-tight cursor-pointer transition-[background-color,box-shadow,transform,opacity] duration-fast ease-emphasis focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-900 focus-visible:ring-offset-2 focus-visible:ring-offset-white hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100 motion-reduce:transition-none disabled:opacity-disabled disabled:cursor-not-allowed disabled:pointer-events-none disabled:hover:translate-y-0 aria-busy:pointer-events-none whitespace-nowrap select-none';
 
 // Hover strategy for filled variants: keep the base color (no aggressive
 // darkening) and add a colored glow shadow + subtle lift via translate-y
@@ -113,18 +172,14 @@ const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   /* glass-light-ghost : action secondary sur surface LIGHT tinted — frosted plus translucide */
   'glass-light-ghost':
                'bg-white/40 text-ink-800 border border-white/50 backdrop-blur-glass-light hover:bg-white/60 hover:border-white/70 active:bg-white/70',
-  /* glass-brand / glass-warm / glass-sun : tinted frosted buttons — bg tone-100/X + blur + tone-800 text.
-     Pour usages sur fond blanc OU sur surface tinted MÊME tone (emphasis subtle). */
-  'glass-brand':
-               'bg-primary-100/70 text-primary-800 border border-primary-200/80 backdrop-blur-glass-light shadow-xs hover:bg-primary-100 hover:border-primary-300 active:bg-primary-200',
+  /* glass-warm / glass-sun : tinted frosted buttons — bg tone-100/X + blur + tone-800 text.
+     Pour usages sur fond blanc OU sur surface tinted MÊME tone (emphasis subtle).
+     (glass-brand retiré le 2026-07-23 : doublon exact de `ghost`.) */
   'glass-warm':
                'bg-secondary-100/70 text-secondary-800 border border-secondary-200/80 backdrop-blur-glass-light shadow-xs hover:bg-secondary-100 hover:border-secondary-300 active:bg-secondary-200',
   'glass-sun':
                'bg-accent-100/70 text-accent-800 border border-accent-200/80 backdrop-blur-glass-light shadow-xs hover:bg-accent-100 hover:border-accent-300 active:bg-accent-200',
   link:        'bg-transparent text-primary-700 underline underline-offset-4 hover:text-primary-800 hover:translate-y-0 p-0 h-auto',
-  // Deprecated aliases — point to the new mapping (same hover logic)
-  warm:           'bg-secondary-500 text-white shadow-sm hover:shadow-warm-md hover:bg-secondary-400 active:bg-secondary-700 active:shadow-sm',
-  'brand-ghost':  'bg-primary-50 text-primary-800 border border-primary-100 shadow-xs hover:bg-primary-100 hover:border-primary-200 hover:shadow-sm active:bg-primary-200 active:border-primary-200',
 };
 
 const SIZE_CLASSES: Record<ButtonSize, string> = {
@@ -134,8 +189,75 @@ const SIZE_CLASSES: Record<ButtonSize, string> = {
   xl: 'h-14 px-7 text-body-lg',
 };
 
+/* ────────────────── Résolution emphase × ton → classes ──────────────────── */
+
+/**
+ * Cases DÉJÀ nommées : elles pointent sur la classe existante, à l'identique.
+ * `emphasis="soft" tone="brand"` rend donc exactement `variant="ghost"`.
+ *
+ * Cases NEUVES (marquées ✚) : elles n'existaient sous aucun nom. Écrites
+ * conformes dès l'origine — bordure au cran 600, qui atteint le 3:1 exigé par
+ * WCAG 1.4.11 pour le contour d'un composant. Les cases héritées gardent leur
+ * bordure actuelle (souvent 100 ou 400, sous le seuil) : les aligner ferait
+ * bouger le rendu, ce qui n'est pas le périmètre de cette étape.
+ */
+const EMPHASIS_TONE: Record<ButtonEmphasis, Partial<Record<ButtonTone, string>>> = {
+  solid: {
+    brand:  VARIANT_CLASSES.primary,
+    warm:   VARIANT_CLASSES.secondary,
+    sun:    VARIANT_CLASSES.accent,
+    danger: VARIANT_CLASSES.destructive,
+    // ✚ neutre plein — encre de marque, blanc dessus
+    neutral: 'bg-ink-900 text-white shadow-sm hover:bg-ink-800 active:bg-ink-900 active:shadow-sm',
+  },
+  soft: {
+    brand:   VARIANT_CLASSES.ghost,
+    warm:    VARIANT_CLASSES['glass-warm'],
+    sun:     VARIANT_CLASSES['glass-sun'],
+    neutral: VARIANT_CLASSES['glass-light'],
+    // ✚ danger doux — pour les confirmations non destructives
+    danger:  'bg-danger-bg text-danger-fg border border-danger-strong shadow-xs hover:bg-danger-bg hover:border-danger-deep active:bg-danger-bg',
+  },
+  outline: {
+    brand: VARIANT_CLASSES.outline,
+    warm:  VARIANT_CLASSES['outline-warm'],
+    // ✚ les deux tons qui manquaient
+    sun:    'bg-transparent text-accent-800 border border-accent-600 shadow-xs hover:bg-accent-50 hover:border-accent-700 hover:shadow-sun-sm active:bg-accent-100',
+    danger: 'bg-transparent text-danger-fg border border-danger-strong shadow-xs hover:bg-danger-bg hover:border-danger-deep active:bg-danger-bg',
+  },
+  ghost: {
+    neutral: VARIANT_CLASSES['glass-light-ghost'],
+    // ✚ sans fond ni bordure — l'action la plus discrète
+    brand: 'bg-transparent text-primary-700 hover:bg-primary-50 hover:text-primary-800 active:bg-primary-100',
+    warm:  'bg-transparent text-secondary-700 hover:bg-secondary-50 hover:text-secondary-800 active:bg-secondary-100',
+    sun:   'bg-transparent text-accent-800 hover:bg-accent-50 active:bg-accent-100',
+  },
+  link: {
+    brand: VARIANT_CLASSES.link,
+    // ✚ le lien n'existait qu'en brand
+    warm:   'bg-transparent text-secondary-700 underline underline-offset-4 hover:text-secondary-800 hover:translate-y-0 p-0 h-auto',
+    sun:    'bg-transparent text-accent-800 underline underline-offset-4 hover:text-accent-800 hover:translate-y-0 p-0 h-auto',
+    danger: 'bg-transparent text-danger-fg underline underline-offset-4 hover:text-danger-deep hover:translate-y-0 p-0 h-auto',
+  },
+};
+
+/** Sur surface sombre, `solid` bascule sur le traitement translucide existant. */
+const resolveClasses = (
+  variant: ButtonVariant,
+  emphasis: ButtonEmphasis | undefined,
+  tone: ButtonTone,
+  onDark: boolean,
+): string => {
+  if (!emphasis) return VARIANT_CLASSES[variant];
+  if (onDark && emphasis === 'solid') return VARIANT_CLASSES.glass;
+  return EMPHASIS_TONE[emphasis][tone] ?? EMPHASIS_TONE[emphasis].brand ?? VARIANT_CLASSES.primary;
+};
+
 export const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
+  emphasis,
+  tone = 'brand',
+  onDark = false,
   size = 'md',
   iconOnly = false,
   leadingIcon,
@@ -156,7 +278,7 @@ export const Button: React.FC<ButtonProps> = ({
 }) => {
   const classes = [
     BASE,
-    VARIANT_CLASSES[variant],
+    resolveClasses(variant, emphasis, tone, onDark),
     !iconOnly && SIZE_CLASSES[size],
     iconOnly && `${size === 'sm' ? 'w-8' : size === 'lg' ? 'w-12' : size === 'xl' ? 'w-14' : 'w-touch'} aspect-square`,
     fullWidth && 'w-full',

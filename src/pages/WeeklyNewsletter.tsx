@@ -238,7 +238,7 @@ export const WeeklyNewsletter: React.FC = () => {
                   </div>
 
                   <Button
-                    variant={isSaved ? 'brand-ghost' : 'ghost'}
+                    variant="ghost"
                     size="sm"
                     iconOnly
                     aria-label={isSaved ? 'Retirer le marque-page' : 'Ajouter aux marque-pages'}
@@ -287,7 +287,7 @@ export const WeeklyNewsletter: React.FC = () => {
               placeholder="votre@email.com"
               className="flex-1 h-11 px-stack rounded-pill border-0 bg-white/15 backdrop-blur-glass-light font-body text-body-sm text-white placeholder:text-white/60 focus:outline-2 focus:outline-white/40"
             />
-            <Button variant="warm" size="md" type="submit">
+            <Button variant="secondary" size="md" type="submit">
               S'abonner
             </Button>
           </form>

@@ -35,9 +35,7 @@ export type CardVariant =
   | 'glass-warm'
   | 'glass-dark'
   | 'minimal'
-  | 'bordered'
-  | 'muted'
-  | 'sunken'
+  // Retirés le 2026-07-24 : `bordered`, `muted`, `sunken` — 0 usage dans tout src/.
   /** Tinted gradient — REQUIRES the `tone` prop to render properly.
       Used as the surface for ParcoursCard / learning hubs. */
   | 'tinted';
@@ -89,7 +87,11 @@ export interface CardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 't
 //   `align-items: center` (children no longer stretch to fill cross-axis,
 //     causing inner content to overflow narrow cards horizontally)
 // All three are neutralized below for clickable Cards.
-const BASE = 'flex flex-col rounded-xl text-ink-900 font-body text-body-sm transition-all duration-200 [&[role=button]]:h-auto [&[role=button]]:font-normal [&[role=button]]:items-stretch';
+// `motion-reduce:*` (2026-07-24) : même correction que Button.BASE. La règle
+// globale de index.css ramène transition-duration à 0,01 ms mais ne touche ni
+// `translate` ni `scale` — une card `interactive` SAUTAIT de 4px au survol au
+// lieu de glisser. On supprime le déplacement lui-même sous reduced-motion.
+const BASE = 'flex flex-col rounded-xl text-ink-900 font-body text-body-sm transition-all duration-200 motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:active:translate-y-0 [&[role=button]]:h-auto [&[role=button]]:font-normal [&[role=button]]:items-stretch';
 
 const VARIANT_CLASSES: Record<CardVariant, string> = {
   // Shadows are tone-aware — applied dynamically via TONE_SHADOW_* maps below.
@@ -109,11 +111,14 @@ const VARIANT_CLASSES: Record<CardVariant, string> = {
   glass:       'backdrop-blur-glass-medium backdrop-saturate-[180%] bg-gradient-to-br from-white/88 to-white/65 border border-white/75 shadow-[0_2px_12px_rgba(0,0,0,0.06),inset_0_1px_0_rgba(255,255,255,0.9)] hover:shadow-md',
   'glass-brand': 'backdrop-blur-glass-medium backdrop-saturate-[180%] bg-gradient-to-br from-primary-500/[30%] to-primary-500/[12%] border border-primary-500/35 shadow-[0_2px_12px_rgba(45,90,102,0.12),inset_0_1px_0_rgba(255,255,255,0.4)] hover:shadow-brand-sm',
   'glass-warm':  'backdrop-blur-glass-medium backdrop-saturate-[180%] bg-gradient-to-br from-secondary-100/88 to-secondary-50/70 border border-secondary-200/65 shadow-[0_2px_12px_rgba(180,80,20,0.08),inset_0_1px_0_rgba(255,255,255,0.85)] hover:shadow-warm-sm',
-  'glass-dark':  'backdrop-blur-glass-medium backdrop-saturate-[180%] bg-[radial-gradient(circle_at_0%_0%,#55A1B4_0%,#2F5F6A_60%,#1F3E45_100%)] border border-white/20 shadow-lg hover:shadow-xl text-white/95',
+  // 2026-07-24 : les 4 hex codés en dur remplacés par les tokens primary
+  // (500/800/900 — valeurs identiques vérifiées). Le gradient suit désormais
+  // toute évolution de la palette. Arbitrary property car un radial-gradient
+  // inline n'accepte pas de classe Tailwind.
+  'glass-dark':  'backdrop-blur-glass-medium backdrop-saturate-[180%] [background:radial-gradient(circle_at_0%_0%,var(--color-primary-500)_0%,var(--color-primary-800)_60%,var(--color-primary-900)_100%)] border border-white/20 shadow-lg hover:shadow-xl text-white/95',
   minimal:  'bg-transparent border border-ink-200 hover:bg-ink-50 hover:border-ink-300',
-  bordered: 'bg-white border-2 border-primary-200 shadow-brand-xs hover:border-primary-400 hover:shadow-brand-sm',
-  muted:    'bg-ink-50 border border-ink-200',
-  sunken:   'bg-ink-100 border border-ink-200',
+  // bordered / muted / sunken retirés le 2026-07-24 (0 usage). Si un besoin
+  // resurgit : bordered = border-2 primary-200 ; muted = bg-ink-50 ; sunken = bg-ink-100.
   // `tinted` provides only the border + shadow defaults — the actual gradient
   // bg is supplied by TONE_GRADIENT_BG_CLASSES via the `tone` prop. Falls back
   // to a neutral white surface if no tone is set.
@@ -176,7 +181,13 @@ const TONE_INTERACTIVE_HOVER: Record<CardTone, string> = {
 // CARD_SHADOW_HOVER_MD     → md hover (feature/elevated, interactive)
 
 const INTERACTIVE_EXTRA = 'cursor-pointer hover:-translate-y-1 active:translate-y-0';
-const CLICKABLE = 'cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
+
+// Anneau de focus BICOLORE (2026-07-24) : même correction que Button.BASE.
+// L'ancien `outline-primary-500` mesurait 2,4 à 2,9 sur les surfaces réelles —
+// sous le seuil de 3,0 de WCAG 1.4.11, et aucune couleur unique ne s'en sort
+// (un anneau teal sur du teal foncé est perdu). Deux anneaux concentriques :
+// blanc à l'intérieur, ink-900 à l'extérieur — au moins un contraste toujours.
+const CLICKABLE = 'cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-900 focus-visible:ring-offset-2 focus-visible:ring-offset-white';
 
 const TITLE_SIZE: Record<CardSize, string> = {
   xs: 'text-h5',

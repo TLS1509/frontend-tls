@@ -1535,7 +1535,7 @@ const COMPONENTS: ComponentEntry[] = [
           <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0 mt-stack">Tinted glassy · tone-aware frosted (sur fond blanc OU même tone)</p>
           <div className="rounded-xl bg-white border border-ink-200 p-stack flex flex-wrap gap-stack-xs">
             <span className="font-body text-caption font-bold text-ink-600 self-center mr-2">WHITE bg →</span>
-            <Button variant="glass-brand" leadingIcon={I.plus}>glass-brand</Button>
+            <Button variant="ghost" leadingIcon={I.plus}>glass-brand</Button>
             <Button variant="glass-warm" leadingIcon={I.plus}>glass-warm</Button>
             <Button variant="glass-sun" leadingIcon={I.plus}>glass-sun</Button>
           </div>
@@ -2064,7 +2064,7 @@ const COMPONENTS: ComponentEntry[] = [
           tone="warm"
           title="Commencez votre premier parcours"
           description="Explorez la bibliothèque et sélectionnez un parcours adapté à vos objectifs."
-          actions={<Button variant="warm">Explorer</Button>}
+          actions={<Button variant="secondary">Explorer</Button>}
         />
       </div>
     ),
@@ -2426,7 +2426,7 @@ const COMPONENTS: ComponentEntry[] = [
           icon={I.trophy}
           title="Réserver une session"
           description="Coaching individuel avec Sophie Martin"
-          action={<Button size="sm" variant="warm">Réserver</Button>}
+          action={<Button size="sm" variant="secondary">Réserver</Button>}
         />
         <ActionCard
           tone="sun"

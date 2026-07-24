@@ -165,7 +165,7 @@ export default function ManagerEnterprise() {
                   </div>
                   <div className="text-caption text-ink-400">Coach : {c.coachName ?? '–'} · Dreyfus moy. {c.avgDreyfusLevel}/5</div>
                 </div>
-                <Button variant="brand-ghost" size="sm" trailingIcon={<ChevronRight size={14} />}>
+                <Button variant="ghost" size="sm" trailingIcon={<ChevronRight size={14} />}>
                   Détail
                 </Button>
               </Card>
@@ -193,7 +193,7 @@ export default function ManagerEnterprise() {
                   </Card>
                 </div>
                 <ProgressBar value={stats.budgetUsedPercent} fill="warm" size="lg" showLabel label={`${stats.budgetUsedPercent}% consommé`} />
-                <Button variant="brand-ghost" size="sm" leadingIcon={<Download size={14} />}>
+                <Button variant="ghost" size="sm" leadingIcon={<Download size={14} />}>
                   Exporter rapport budget
                 </Button>
               </div>

@@ -41,7 +41,7 @@ const CoachCalendar: React.FC = () => {
         title="Mes sessions de coaching"
         summary="Synchronisé avec Google Calendar (Outlook V1)"
         tone="flat"
-        trailing={<Button variant="warm" leadingIcon={<Plus className="w-4 h-4" />}>Nouvelle session</Button>}
+        trailing={<Button variant="secondary" leadingIcon={<Plus className="w-4 h-4" />}>Nouvelle session</Button>}
       />
 
       <div className="flex flex-col gap-section">

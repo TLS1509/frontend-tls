@@ -339,7 +339,7 @@ export const MarketingHeader: React.FC = () => {
 
             {/* Contact — glassy outline, secondary action next to Connexion */}
             <div className="shrink-0 pl-1">
-              <Button to="/website/contact" variant="glass-brand" size="md">
+              <Button to="/website/contact" variant="ghost" size="md">
                 Contact
               </Button>
             </div>

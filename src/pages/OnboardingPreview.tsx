@@ -225,7 +225,7 @@ function VariantA({ onDone }: { onDone: () => void }) {
 
   const footer = phase === 'done' ? (
     <div className="flex justify-end">
-      <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={16} />} onClick={onDone}>
+      <Button variant="secondary" size="lg" trailingIcon={<ArrowRight size={16} />} onClick={onDone}>
         Commencer le positionnement
       </Button>
     </div>
@@ -240,7 +240,7 @@ function VariantA({ onDone }: { onDone: () => void }) {
         className="flex-1 rounded-xl border border-ink-200 bg-white px-3 py-2.5 text-body-sm text-ink-900 placeholder:text-ink-400 focus:outline-none focus:ring-2 focus:ring-secondary-300 transition-all"
       />
       <Button
-        variant="warm" size="md" iconOnly
+        variant="secondary" size="md" iconOnly
         trailingIcon={<Send size={16} />}
         aria-label="Envoyer"
         disabled={!textValue.trim()}
@@ -336,7 +336,7 @@ function VariantB({ onDone }: { onDone: () => void }) {
               className="w-full rounded-2xl border-2 border-ink-200 bg-white/80 px-5 py-stack text-body-lg text-ink-900 placeholder:text-ink-400 focus:outline-none focus:border-secondary-400 transition-colors duration-base text-center font-body"
             />
             <Button
-              variant="warm" size="lg"
+              variant="secondary" size="lg"
               trailingIcon={<ArrowRight size={16} />}
               onClick={advance}
               disabled={!firstName.trim()}
@@ -418,7 +418,7 @@ function VariantB({ onDone }: { onDone: () => void }) {
             })}
           </div>
           <Button
-            variant="warm" size="lg"
+            variant="secondary" size="lg"
             trailingIcon={<ArrowRight size={16} />}
             onClick={onDone}
             disabled={selectedGoals.length === 0}
@@ -666,7 +666,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
           </span>
           {substep < 2 ? (
             <Button
-              variant="warm"
+              variant="secondary"
               trailingIcon={<ChevronRight size={14} />}
               onClick={() => setSubstep(s => Math.min(2, s + 1) as CSubstep)}
               disabled={substep === 0 ? !canNext0 : !canNext1}
@@ -676,7 +676,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
             </Button>
           ) : (
             <Button
-              variant="warm"
+              variant="secondary"
               trailingIcon={<ArrowRight size={16} />}
               onClick={onDone}
               className="flex-1 sm:flex-none"

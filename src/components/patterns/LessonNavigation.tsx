@@ -53,10 +53,10 @@ export interface LessonNavigationProps {
   className?: string;
 }
 
-const TONE_BUTTON_VARIANT: Record<PageTone, 'primary' | 'warm'> = {
+const TONE_BUTTON_VARIANT: Record<PageTone, 'primary' | 'secondary'> = {
   primary: 'primary',
-  warm:    'warm',
-  sun:     'primary', // Button has no "sun" variant — fall back to primary
+  warm:    'secondary',
+  sun:     'primary', // Button has no "sun" filled variant — fall back to primary
 };
 
 export const LessonNavigation: React.FC<LessonNavigationProps> = ({

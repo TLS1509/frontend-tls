@@ -386,7 +386,7 @@ export const MarketingLearningApp: React.FC = () => {
 
               <div className="flex flex-wrap items-center gap-stack-xs pt-stack">
                 <MagneticButton strength={14}>
-                  <Button href="#early-access" variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                  <Button href="#early-access" variant="secondary" size="lg" trailingIcon={<ArrowRight size={18} />}>
                     Accès anticipé
                   </Button>
                 </MagneticButton>
@@ -852,7 +852,7 @@ export const MarketingLearningApp: React.FC = () => {
                 <MagneticButton strength={10} className="w-full pt-stack">
                   <Button
                     type="submit"
-                    variant="warm"
+                    variant="secondary"
                     size="lg"
                     fullWidth
                     loading={submitting}

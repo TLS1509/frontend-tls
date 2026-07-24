@@ -259,7 +259,7 @@ const OnboardingQuestionnaire: React.FC = () => {
           </Button>
 
           <Button
-            variant="warm"
+            variant="secondary"
             trailingIcon={<ChevronRight className="w-4 h-4" />}
             onClick={handleNext}
             disabled={!selected}

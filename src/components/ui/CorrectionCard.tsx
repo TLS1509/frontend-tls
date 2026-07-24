@@ -117,7 +117,7 @@ export const CorrectionCard: React.FC<CorrectionCardProps> = ({
           )}
           {onOpen && (
             <Button
-              variant="brand-ghost"
+              variant="ghost"
               size="sm"
               trailingIcon={<ChevronRight size={14} />}
               onClick={onOpen}

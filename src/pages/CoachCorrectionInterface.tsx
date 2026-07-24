@@ -122,7 +122,7 @@ export default function CoachCorrectionInterface() {
                 </div>
 
                 <Button
-                  variant="warm"
+                  variant="secondary"
                   size="md"
                   leadingIcon={<Send size={16} />}
                   onClick={handleSubmit}

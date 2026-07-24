@@ -279,7 +279,7 @@ export default function AlerteStagnation() {
                     {suggestion.advice}
                   </p>
                 </div>
-                <Button variant="warm" size="sm" fullWidth leadingIcon={<Sparkles size={13} />}>
+                <Button variant="secondary" size="sm" fullWidth leadingIcon={<Sparkles size={13} />}>
                   {suggestion.actionLabel}
                 </Button>
               </Card>

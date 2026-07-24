@@ -19,15 +19,15 @@ figma.connect(
         secondary:          'secondary',
         accent:             'accent',
         ghost:              'ghost',
-        'brand-ghost':      'ghost',      // deprecated alias → ghost
+        'brand-ghost':      'ghost',      // retiré 2026-07-23 → mappé ghost
         destructive:        'destructive',
         'glass-light':      'glass-light',
         'glass-light-ghost':'glass-light-ghost',
-        'glass-brand':      'glass-brand',
+        'glass-brand':      'ghost',      // retiré 2026-07-23 (doublon) → mappé ghost
         'glass-warm':       'glass-warm',
         'glass-sun':        'glass-sun',
         link:               'link',
-        warm:               'secondary',  // deprecated alias → secondary
+        warm:               'secondary',  // retiré 2026-07-23 → mappé secondary
       }),
       size: figma.enum('size', {
         sm: 'sm',

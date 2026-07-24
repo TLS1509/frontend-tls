@@ -135,7 +135,7 @@ export const Error500: React.FC = () => {
         >
           <Button
             size="lg"
-            variant="warm"
+            variant="secondary"
             onClick={() => window.location.reload()}
             leadingIcon={<RefreshCw size={18} />}
           >
