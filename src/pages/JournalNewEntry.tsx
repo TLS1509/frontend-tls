@@ -7,7 +7,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { useToastContext } from '../contexts/ToastContext';
-import { useJournalStore, useGamificationStore } from '../stores/persistence';
+import { useJournalStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
 import { EDRA_R_QUESTIONS, GENERIC_STRUCTURED_QUESTIONS } from '../data/journal';
 import {
@@ -129,7 +129,6 @@ export const JournalNewEntry: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const journalStore = useJournalStore();
-  const gamifStore = useGamificationStore();
 
   // Pre-select entry type from URL `?type=...` (used when navigating from Dashboard JournalPromptCards)
   const initialType = useMemo<EntryType>(() => {
@@ -222,20 +221,17 @@ export const JournalNewEntry: React.FC = () => {
       structuredAnswers: Object.keys(structuredAnswers).length > 0 ? structuredAnswers : undefined,
       linkedItemId,
       linkedCompetenceId,
-      xpAwarded: 20,
+      // Firewall gamification (décision Vague 0, 2026-07-23) : la réflexion n'est plus
+      // rémunérée en XP. Récompenser une activité intrinsèquement motivée la dévalue
+      // (effet de sur-justification, Lepper & al.) — la reconnaissance passe désormais par
+      // le relationnel (commentaire coach/pair), pas par des points. Voir
+      // docs/product/RAPPORT-COHERENCE-LEARNING-APP.md (incohérence 2).
+      xpAwarded: 0,
       tags: [] as string[],
       createdAt: now,
       updatedAt: now,
     };
     journalStore.addEntry(entry);
-    gamifStore.addXPEvent({
-      id: `xp-journal-${Date.now()}`,
-      userId: MOCK_USER_ID,
-      trigger: 'journal_entry',
-      xp: 20,
-      description: `Entrée journal réflexif — ${entry.title}`,
-      occurredAt: now,
-    });
     toast.success('Votre entrée a été publiée dans votre journal', 'Entrée enregistrée');
     setTimeout(() => navigate('/journal'), 800);
   };

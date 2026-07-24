@@ -24,7 +24,7 @@ export const MOCK_JOURNAL_ENTRIES: JournalEntry[] = [
     },
     linkedCompetenceId: 'communication',
     tags: ['communication', 'mission', 'feedback'],
-    xpAwarded: 20,
+    xpAwarded: 0, // firewall gamification 2026-07-23 : réflexion non rémunérée
     createdAt: '2026-05-12T09:30:00Z',
     updatedAt: '2026-05-12T09:45:00Z',
   },
@@ -42,7 +42,7 @@ export const MOCK_JOURNAL_ENTRIES: JournalEntry[] = [
     },
     linkedCompetenceId: 'communication',
     tags: ['pitch', 'apprentissage', 'communication'],
-    xpAwarded: 20,
+    xpAwarded: 0, // firewall gamification 2026-07-23 : réflexion non rémunérée
     createdAt: '2026-05-08T14:00:00Z',
     updatedAt: '2026-05-08T14:20:00Z',
   },
@@ -55,7 +55,7 @@ export const MOCK_JOURNAL_ENTRIES: JournalEntry[] = [
     mood: 'neutral',
     linkedCompetenceId: 'leadership',
     tags: ['coaching', 'leadership', 'reformulation'],
-    xpAwarded: 20,
+    xpAwarded: 0, // firewall gamification 2026-07-23 : réflexion non rémunérée
     createdAt: '2026-05-05T11:00:00Z',
     updatedAt: '2026-05-05T11:30:00Z',
   },
@@ -68,7 +68,7 @@ export const MOCK_JOURNAL_ENTRIES: JournalEntry[] = [
     mood: 'very-happy',
     linkedItemId: 'item-strategy-okr',
     tags: ['stratégie', 'OKR', 'victoire'],
-    xpAwarded: 20,
+    xpAwarded: 0, // firewall gamification 2026-07-23 : réflexion non rémunérée
     createdAt: '2026-05-02T16:00:00Z',
     updatedAt: '2026-05-02T16:15:00Z',
   },
@@ -81,7 +81,7 @@ export const MOCK_JOURNAL_ENTRIES: JournalEntry[] = [
     mood: 'happy',
     linkedCompetenceId: 'communication',
     tags: ['écoute', 'management', 'équipe'],
-    xpAwarded: 20,
+    xpAwarded: 0, // firewall gamification 2026-07-23 : réflexion non rémunérée
     createdAt: '2026-04-28T18:30:00Z',
     updatedAt: '2026-04-28T18:45:00Z',
   },

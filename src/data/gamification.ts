@@ -150,7 +150,8 @@ export const MOCK_USER_BADGES: UserBadge[] = [
 export const MOCK_XP_EVENTS: XPEvent[] = [
   { id: 'xp-1', userId: MOCK_USER_ID_GAMIF, trigger: 'lesson_complete',   xp: 80,  description: 'Leçon terminée — Leadership : Donner du feedback', occurredAt: '2026-05-13T10:00:00Z' },
   { id: 'xp-2', userId: MOCK_USER_ID_GAMIF, trigger: 'coaching_session',  xp: 120, description: 'Session coaching validée avec Sophie Martin',        occurredAt: '2026-05-12T14:00:00Z' },
-  { id: 'xp-3', userId: MOCK_USER_ID_GAMIF, trigger: 'journal_entry',     xp: 20,  description: 'Entrée journal réflexif complétée',                  occurredAt: '2026-05-11T09:00:00Z' },
+  // Firewall gamification (2026-07-23) : l'event 'journal_entry' (+20 XP) a été retiré —
+  // on ne rémunère plus la réflexion. Voir RAPPORT-COHERENCE-LEARNING-APP.md (incohérence 2).
   { id: 'xp-4', userId: MOCK_USER_ID_GAMIF, trigger: 'badge_earned',      xp: 200, description: 'Badge débloqué — Communication Expert D4',           occurredAt: '2026-05-10T16:00:00Z' },
   { id: 'xp-5', userId: MOCK_USER_ID_GAMIF, trigger: 'parcours_complete', xp: 300, description: 'Parcours terminé — Communication Fondamentaux',      occurredAt: '2026-05-09T11:00:00Z' },
   { id: 'xp-6', userId: MOCK_USER_ID_GAMIF, trigger: 'quiz_perfect',      xp: 50,  description: 'Quiz réussi à 100% — Prise de décision',             occurredAt: '2026-05-08T14:00:00Z' },
@@ -178,7 +179,7 @@ export const XP_PER_TRIGGER: Record<string, number> = {
   lesson_complete: 80,
   parcours_complete: 300,
   coaching_session: 120,
-  journal_entry: 20,
+  // journal_entry retiré (firewall gamification 2026-07-23) : la réflexion n'est pas rémunérée.
   badge_earned: 200,
   quiz_perfect: 50,
   streak_milestone: 100,

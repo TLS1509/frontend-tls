@@ -111,7 +111,9 @@ export const JournalFreeEntry: React.FC = () => {
       body: content,
       mood: (selectedMood ? MOOD_LEVEL_MAP[selectedMood] : undefined) ?? 'neutral',
       tags,
-      xpAwarded: 10,
+      // Firewall gamification (2026-07-23) : la réflexion n'est plus rémunérée en XP.
+      // Voir docs/product/RAPPORT-COHERENCE-LEARNING-APP.md (incohérence 2).
+      xpAwarded: 0,
       createdAt: now,
       updatedAt: now,
     });
