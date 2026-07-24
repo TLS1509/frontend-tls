@@ -819,6 +819,7 @@ export const LessonPlayer: React.FC = () => {
   const completeSectionInStore = useLessonProgressStore((s) => s.completeSection);
   const setReflectionInStore = useLessonProgressStore((s) => s.setReflection);
   const setActionPlanInStore = useLessonProgressStore((s) => s.setActionPlan);
+  const addQuizAttempt = useLessonProgressStore((s) => s.addQuizAttempt);
 
   const [currentIndex, setCurrentIndex] = useState(persistedEntry?.lastSection ?? 0);
   const [completedSections, setCompletedSections] = useState<Set<number>>(
@@ -1036,7 +1037,23 @@ export const LessonPlayer: React.FC = () => {
     return (
       <QuizComponent
         questions={quizQuestions}
-        onComplete={(results) => console.log('Quiz done', results)}
+        onComplete={(results) =>
+          // Les résultats partaient dans un console.log jusqu'au 2026-07-23 : l'apprenant
+          // était testé, rien n'était conservé. C'est ce qui empêchait le Passeport
+          // (cahier 02) de se remplir depuis les leçons et le cahier 10 d'avoir de la
+          // matière. On persiste le détail par question, pas seulement le score —
+          // c'est le détail qui permet remédiation, répétition espacée et preuve.
+          addQuizAttempt(
+            lessonId,
+            {
+              completedAt: Date.now(),
+              correct: results.correct,
+              total: results.total,
+              answers: results.answers,
+            },
+            SECTIONS.length
+          )
+        }
       />
     );
   };

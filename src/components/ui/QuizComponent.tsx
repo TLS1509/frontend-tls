@@ -1,16 +1,74 @@
+/**
+ * QuizComponent — quiz de leçon avec récupération en mémoire et calibration.
+ *
+ * ## Pourquoi le flux se fait en deux temps
+ *
+ * L'apprenant choisit une option, **déclare sa confiance**, et voit seulement ensuite
+ * si sa réponse était juste. Cet ordre n'est pas cosmétique :
+ *
+ * 1. **Il force l'engagement.** Révéler la réponse au clic transforme le quiz en
+ *    reconnaissance ; différer la révélation en fait une vraie récupération en mémoire.
+ * 2. **Il rend la confiance exploitable.** Une confiance déclarée après avoir vu la
+ *    réponse ne mesure rien. Déclarée avant, croisée avec le résultat, elle donne une
+ *    mesure de **calibration métacognitive** — et c'est elle qui a de la valeur :
+ *
+ *    |                 | Réponse juste          | Réponse fausse                    |
+ *    |-----------------|------------------------|-----------------------------------|
+ *    | **Sûr**         | maîtrise               | **erreur ancrée** — à corriger    |
+ *    | **Pas sûr**     | savoir fragile        | lacune assumée                    |
+ *
+ *    Un apprenant sûr et faux ne demande pas la même remédiation qu'un apprenant
+ *    hésitant et juste. Cette distinction alimente directement le modèle Dreyfus du
+ *    cahier 02 (Passeport).
+ *
+ * ## Ce qui remonte
+ *
+ * `onComplete` reçoit le **détail par question**, pas seulement un score. Le score seul
+ * ne permet ni remédiation, ni répétition espacée, ni preuve de compétence.
+ * Voir `QuizAttempt` dans `stores/persistence.ts`.
+ *
+ * @see docs/product/CRITIQUE-BOUCLE-APPRENANT.md — origine de ces choix
+ */
+
 import React, { useState } from 'react';
 import { ArrowLeft, ArrowRight, RotateCcw, Check, X, PartyPopper, BarChart3 } from 'lucide-react';
+import type { QuizAnswer } from '../../stores/persistence';
 
 export interface QuizQuestion {
   question: string;
   options: string[];
+  /** Index de l'option correcte dans `options`. */
   correct: number;
 }
 
+/** 1 = pas sûr · 2 = plutôt sûr · 3 = certain. */
+export type ConfidenceLevel = 1 | 2 | 3;
+
 export interface QuizComponentProps {
   questions: QuizQuestion[];
-  onComplete?: (results: { correct: number; total: number }) => void;
+  /**
+   * Appelé une fois le quiz terminé, avec le détail par question.
+   * Le consommateur est responsable de la persistance — voir `LessonPlayer`.
+   */
+  onComplete?: (results: { correct: number; total: number; answers: QuizAnswer[] }) => void;
+  /**
+   * Demander la confiance avant de révéler la réponse. `true` par défaut.
+   * Ne passer `false` que pour une démo ou un quiz d'échauffement sans enjeu.
+   */
+  askConfidence?: boolean;
 }
+
+/** Réponse en cours de construction pour une question. */
+interface AnswerRecord {
+  selected: number;
+  confidence?: ConfidenceLevel;
+}
+
+const CONFIDENCE_OPTIONS: { level: ConfidenceLevel; label: string }[] = [
+  { level: 1, label: 'Pas sûr' },
+  { level: 2, label: 'Plutôt sûr' },
+  { level: 3, label: 'Certain' },
+];
 
 const BTN_BASE =
   'inline-flex items-center justify-center gap-stack-xs px-5 py-2.5 rounded-md text-body-sm font-semibold cursor-pointer transition-[background-color,border-color,box-shadow,transform] duration-fast ease-emphasis active:scale-[0.98] ' +
@@ -19,51 +77,77 @@ const BTN_BASE =
 const BTN_PRIMARY = 'bg-primary-600 text-white hover:bg-primary-700';
 const BTN_SECONDARY = 'bg-ink-50 text-ink-900 border border-ink-200 hover:bg-ink-100';
 
-export const QuizComponent: React.FC<QuizComponentProps> = ({ questions, onComplete }) => {
+export const QuizComponent: React.FC<QuizComponentProps> = ({
+  questions,
+  onComplete,
+  askConfidence = true,
+}) => {
   const [current, setCurrent] = useState(0);
-  const [answered, setAnswered] = useState<number | null>(null);
-  const [results, setResults] = useState<number[]>([]);
+  const [records, setRecords] = useState<(AnswerRecord | null)[]>(() => questions.map(() => null));
   const [isComplete, setIsComplete] = useState(false);
 
   const currentQuestion = questions[current];
+  const record = records[current];
   const progress = ((current + 1) / questions.length) * 100;
-  const correctCount = results.filter((idx, i) => idx === questions[i].correct).length;
+
+  /** La réponse n'est montrée qu'une fois la confiance déclarée — voir l'en-tête du fichier. */
+  const isRevealed = record !== null && (!askConfidence || record.confidence !== undefined);
+  const isLast = current === questions.length - 1;
+
+  const correctCount = records.reduce<number>(
+    (acc, r, i) => (r && r.selected === questions[i].correct ? acc + 1 : acc),
+    0
+  );
+
+  const updateRecord = (next: AnswerRecord) =>
+    setRecords((prev) => prev.map((r, i) => (i === current ? next : r)));
+
+  const handleSelect = (idx: number) => {
+    // Re-cliquer une option déjà révélée ne doit pas effacer la confiance déclarée.
+    if (isRevealed) return;
+    updateRecord({ selected: idx });
+  };
+
+  const handleConfidence = (level: ConfidenceLevel) => {
+    if (!record) return;
+    updateRecord({ ...record, confidence: level });
+  };
 
   const handleNext = () => {
-    if (answered !== null) {
-      const newResults = [...results, answered];
-      setResults(newResults);
-
-      if (current < questions.length - 1) {
-        setCurrent(current + 1);
-        setAnswered(null);
-      } else {
-        setIsComplete(true);
-        onComplete?.({
-          correct: newResults.filter((idx, i) => idx === questions[i].correct).length,
-          total: questions.length,
-        });
-      }
+    if (!isRevealed) return;
+    if (!isLast) {
+      setCurrent(current + 1);
+      return;
     }
+    setIsComplete(true);
+    const answers: QuizAnswer[] = records.map((r, i) => ({
+      questionIndex: i,
+      selected: r?.selected ?? -1,
+      correct: questions[i].correct,
+      isCorrect: r?.selected === questions[i].correct,
+      confidence: r?.confidence,
+    }));
+    onComplete?.({ correct: correctCount, total: questions.length, answers });
   };
 
   const handlePrevious = () => {
-    if (current > 0) {
-      setCurrent(current - 1);
-      setAnswered(results[current - 1] ?? null);
-    }
+    if (current > 0) setCurrent(current - 1);
   };
 
   const handleRestart = () => {
     setCurrent(0);
-    setAnswered(null);
-    setResults([]);
+    setRecords(questions.map(() => null));
     setIsComplete(false);
   };
 
   if (isComplete) {
     const percentage = Math.round((correctCount / questions.length) * 100);
     const isSuccess = percentage >= 80;
+    /** Sûr et faux : le cas qui mérite d'être signalé à l'apprenant. */
+    const overconfident = records.filter(
+      (r, i) => r && r.confidence === 3 && r.selected !== questions[i].correct
+    ).length;
+
     return (
       <div className="bg-white rounded-xl border border-ink-200 p-8 text-center max-w-2xl mx-auto">
         <div
@@ -80,7 +164,7 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ questions, onCompl
             isSuccess ? 'text-success-fg' : 'text-ink-900',
           ].join(' ')}
         >
-          Quiz Complete!
+          Quiz terminé
         </h2>
         <div
           className={[
@@ -90,11 +174,19 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ questions, onCompl
         >
           {percentage}%
         </div>
-        <p className="m-0 mb-stack-lg text-body text-ink-500">
-          You got {correctCount} out of {questions.length} questions correct.
+        <p className="m-0 mb-stack text-body text-ink-500">
+          {correctCount} bonne{correctCount > 1 ? 's' : ''} réponse
+          {correctCount > 1 ? 's' : ''} sur {questions.length}.
         </p>
+        {overconfident > 0 && (
+          <p className="m-0 mb-stack-lg text-body-sm text-ink-500 max-w-prose mx-auto">
+            {overconfident === 1
+              ? 'Sur une question, tu étais certain de ta réponse alors qu’elle était fausse. C’est le point à revoir en priorité.'
+              : `Sur ${overconfident} questions, tu étais certain de ta réponse alors qu’elle était fausse. Ce sont les points à revoir en priorité.`}
+          </p>
+        )}
         <button type="button" onClick={handleRestart} className={`${BTN_BASE} ${BTN_PRIMARY}`}>
-          <RotateCcw size={16} /> Retake Quiz
+          <RotateCcw size={16} /> Refaire le quiz
         </button>
       </div>
     );
@@ -105,9 +197,11 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ questions, onCompl
       <div className="mb-5">
         <div className="flex items-center justify-between mb-2">
           <span className="text-caption font-semibold text-ink-500">
-            Question {current + 1} of {questions.length}
+            Question {current + 1} sur {questions.length}
           </span>
-          <span className="text-caption font-semibold text-primary-600">{Math.round(progress)}%</span>
+          <span className="text-caption font-semibold text-primary-600">
+            {Math.round(progress)}%
+          </span>
         </div>
         <div className="h-1.5 bg-ink-100 rounded-pill overflow-hidden">
           <div
@@ -124,25 +218,37 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ questions, onCompl
 
         <div className="flex flex-col gap-stack-xs">
           {currentQuestion.options.map((option, idx) => {
-            const isSelected = answered === idx;
+            const isSelected = record?.selected === idx;
             const isCorrect = idx === currentQuestion.correct;
+            // La bonne réponse est aussi mise en avant quand l'apprenant s'est trompé :
+            // savoir qu'on a faux sans savoir où est le juste n'apprend rien.
+            const showAsCorrect = isRevealed && isCorrect;
+            const showAsWrong = isRevealed && isSelected && !isCorrect;
 
             return (
               <label
                 key={idx}
                 className={[
-                  'relative flex items-center gap-stack-xs p-4 rounded-lg border-2 cursor-pointer transition-[background-color,border-color] duration-fast ease-emphasis',
-                  isSelected
-                    ? 'border-primary-500 bg-primary-50'
-                    : 'border-ink-200 bg-white hover:border-ink-300 hover:bg-ink-50',
+                  'relative flex items-center gap-stack-xs p-4 rounded-lg border-2 transition-[background-color,border-color] duration-fast ease-emphasis',
+                  isRevealed ? 'cursor-default' : 'cursor-pointer',
+                  showAsCorrect
+                    ? 'border-success-base bg-success-bg'
+                    : showAsWrong
+                      ? 'border-danger-base bg-danger-bg'
+                      : isSelected
+                        ? 'border-primary-500 bg-primary-50'
+                        : isRevealed
+                          ? 'border-ink-200 bg-white'
+                          : 'border-ink-200 bg-white hover:border-ink-300 hover:bg-ink-50',
                 ].join(' ')}
               >
                 <input
                   type="radio"
-                  name="answer"
+                  name={`answer-${current}`}
                   className="sr-only"
-                  onChange={() => setAnswered(idx)}
+                  onChange={() => handleSelect(idx)}
                   checked={isSelected}
+                  disabled={isRevealed}
                 />
                 <span
                   className={[
@@ -153,14 +259,18 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ questions, onCompl
                   {isSelected && <span className="block w-2 h-2 rounded-full bg-white" />}
                 </span>
                 <span className="flex-1 text-body-sm text-ink-900">{option}</span>
-                {isSelected && (
+                {(showAsCorrect || showAsWrong) && (
                   <span
                     className={[
                       'inline-flex items-center justify-center w-6 h-6 rounded-full text-white shrink-0',
-                      isCorrect ? 'bg-success-base' : 'bg-danger-base',
+                      showAsCorrect ? 'bg-success-base' : 'bg-danger-base',
                     ].join(' ')}
                   >
-                    {isCorrect ? <Check size={14} strokeWidth={3} /> : <X size={14} strokeWidth={3} />}
+                    {showAsCorrect ? (
+                      <Check size={14} strokeWidth={3} />
+                    ) : (
+                      <X size={14} strokeWidth={3} />
+                    )}
                   </span>
                 )}
               </label>
@@ -169,6 +279,27 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ questions, onCompl
         </div>
       </div>
 
+      {/* Calibration : demandée après le choix, avant la révélation. */}
+      {askConfidence && record !== null && !isRevealed && (
+        <fieldset className="mb-5 border-0 p-0 m-0">
+          <legend className="text-body-sm font-semibold text-ink-900 mb-stack-xs p-0">
+            À quel point es-tu sûr de ta réponse&nbsp;?
+          </legend>
+          <div className="flex flex-wrap gap-stack-xs">
+            {CONFIDENCE_OPTIONS.map(({ level, label }) => (
+              <button
+                key={level}
+                type="button"
+                onClick={() => handleConfidence(level)}
+                className={`${BTN_BASE} ${BTN_SECONDARY} min-h-touch flex-1`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </fieldset>
+      )}
+
       <div className="flex items-center justify-between gap-stack-xs">
         <button
           type="button"
@@ -176,15 +307,15 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ questions, onCompl
           disabled={current === 0}
           className={`${BTN_BASE} ${BTN_SECONDARY}`}
         >
-          <ArrowLeft size={16} /> Previous
+          <ArrowLeft size={16} /> Précédent
         </button>
         <button
           type="button"
           onClick={handleNext}
-          disabled={answered === null}
+          disabled={!isRevealed}
           className={`${BTN_BASE} ${BTN_PRIMARY}`}
         >
-          {current === questions.length - 1 ? 'Submit' : 'Next'} <ArrowRight size={16} />
+          {isLast ? 'Terminer' : 'Suivant'} <ArrowRight size={16} />
         </button>
       </div>
     </div>

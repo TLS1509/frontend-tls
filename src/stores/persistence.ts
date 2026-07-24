@@ -308,6 +308,52 @@ interface LessonProgressEntry {
   reflections?: Record<string, string>;
   /** Appliquer section: action plan fields. */
   actionPlan?: ActionPlan;
+  /**
+   * Quiz runs for this lesson, oldest first.
+   *
+   * Avant le 2026-07-23 les résultats de quiz partaient dans un `console.log` :
+   * l'apprenant était testé mais rien n'était conservé. C'était le chaînon manquant
+   * qui empêchait le Passeport (cahier 02) de se remplir depuis les leçons et le
+   * cahier 10 (Analytics) d'avoir quoi que ce soit à mesurer.
+   *
+   * Conservé en tableau — et non en dernier résultat — parce qu'un second passage
+   * après remédiation est une donnée d'apprentissage, pas un écrasement.
+   */
+  quizAttempts?: QuizAttempt[];
+}
+
+/**
+ * Une réponse à une question de quiz.
+ *
+ * `confidence` est recueillie **avant** la révélation de la bonne réponse : c'est ce
+ * qui la rend exploitable. Croisée avec `isCorrect`, elle donne une mesure de
+ * calibration métacognitive — un apprenant sûr et faux n'est pas au même endroit
+ * qu'un apprenant hésitant et juste, distinction directement utile au modèle Dreyfus
+ * du cahier 02.
+ */
+export interface QuizAnswer {
+  /** Index de la question dans le quiz de la leçon. */
+  questionIndex: number;
+  /** Index de l'option choisie par l'apprenant. */
+  selected: number;
+  /** Index de l'option correcte. */
+  correct: number;
+  /** Vrai quand `selected === correct`. */
+  isCorrect: boolean;
+  /** Confiance déclarée avant révélation : 1 = pas sûr · 2 = plutôt sûr · 3 = certain. */
+  confidence?: 1 | 2 | 3;
+}
+
+/** Un passage complet de quiz sur une leçon. */
+export interface QuizAttempt {
+  /** Horodatage de fin (ms epoch). */
+  completedAt: number;
+  /** Nombre de bonnes réponses. */
+  correct: number;
+  /** Nombre total de questions. */
+  total: number;
+  /** Détail par question — c'est lui qui porte la valeur, pas le score. */
+  answers: QuizAnswer[];
 }
 
 interface LessonProgressState {
@@ -321,6 +367,10 @@ interface LessonProgressState {
   setReflection: (lessonId: string, key: string, value: string) => void;
   /** Persist the full action plan. */
   setActionPlan: (lessonId: string, plan: ActionPlan) => void;
+  /** Append a completed quiz run. Crée l'entrée de leçon si elle n'existe pas encore. */
+  addQuizAttempt: (lessonId: string, attempt: QuizAttempt, totalSections?: number) => void;
+  /** Dernier passage de quiz d'une leçon, ou null. */
+  lastQuizAttempt: (lessonId: string) => QuizAttempt | null;
   /** Get entry for a lesson (or default if not started). */
   get: (lessonId: string) => LessonProgressEntry | null;
   /** Percent complete based on completed sections vs total. */
@@ -392,6 +442,33 @@ export const useLessonProgressStore = create<LessonProgressState>()(
             },
           };
         }),
+      addQuizAttempt: (lessonId, attempt, totalSections) =>
+        set((state) => {
+          // Contrairement aux autres setters, on ne sort pas si l'entrée manque :
+          // un apprenant peut atteindre le quiz sans qu'aucune section n'ait encore
+          // été marquée, et perdre le résultat pour cette raison serait exactement
+          // le défaut qu'on corrige ici.
+          const existing = state.lessons[lessonId] ?? {
+            lastSection: 0,
+            completed: [],
+            totalSections: totalSections ?? 0,
+            lastVisited: Date.now(),
+          };
+          return {
+            lessons: {
+              ...state.lessons,
+              [lessonId]: {
+                ...existing,
+                quizAttempts: [...(existing.quizAttempts ?? []), attempt],
+                lastVisited: Date.now(),
+              },
+            },
+          };
+        }),
+      lastQuizAttempt: (lessonId) => {
+        const attempts = get().lessons[lessonId]?.quizAttempts;
+        return attempts && attempts.length > 0 ? attempts[attempts.length - 1] : null;
+      },
       get: (lessonId) => get().lessons[lessonId] ?? null,
       percent: (lessonId) => {
         const entry = get().lessons[lessonId];
