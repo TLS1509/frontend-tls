@@ -189,7 +189,6 @@ import {
   VideoViewer,
   CoachingCompteRendu,
 } from './pages';
-import MotionSprintShowcase from './pages/MotionSprintShowcase';
 import ChatInterface from './pages/ChatInterface';
 import ChatHistoryPanel from './pages/ChatHistoryPanel';
 import OpenBadgesSection from './pages/OpenBadgesSection';
@@ -199,35 +198,18 @@ import OnboardingPreview from './pages/OnboardingPreview';
 import { OnboardingUnified } from './pages/OnboardingUnified';
 import AppLanding from './pages/AppLanding';
 import { PagesIndex } from './pages/PagesIndex';
-import DesignShowcase from './pages/DesignShowcase';
-import TestLogo from './pages/_TestLogo';
 import BgLab from './pages/BgLab';
 import CardLab from './pages/CardLab';
+import DesignLab from './pages/DesignLab';
 import { FloatingNavButton } from './components/FloatingNavButton';
 import { DevPanel } from './components/DevPanel';
 // Marketing site
 import { MarketingLayout } from './pages/marketing/components/MarketingLayout';
 import { MarketingHome } from './pages/marketing/MarketingHome';
-import { MarketingHomeClarity } from './pages/marketing/MarketingHomeClarity';
-import { MarketingHomeNarrative } from './pages/marketing/MarketingHomeNarrative';
-import { MarketingHomeRefined } from './pages/marketing/MarketingHomeRefined';
-import { MarketingHomeCinematic } from './pages/marketing/MarketingHomeCinematic';
-import { MarketingTaglineLab } from './pages/marketing/MarketingTaglineLab';
-// V2 cinematic direction prototypes (2026-07-06): options for the agency-grade redesign, not yet chosen
-import { HomeCinematicRevealV2 } from './pages/marketing/_prototypes/HomeCinematicRevealV2';
-import { HomeInterfaceChoreographyV2 } from './pages/marketing/_prototypes/HomeInterfaceChoreographyV2';
+// Variantes de home retirées le 2026-07-23 (tri) : Clarity, Narrative (Storyteller),
+// Refined (Elegant), Cinematic, + les prototypes Cinematic-Reveal, Interface-Choreography
+// et Chemin. Jardin-Vivant est conservé. Historique récupérable en git.
 import { HomeJardinVivantV2 } from './pages/marketing/_prototypes/HomeJardinVivantV2';
-import { HomeCheminV2 } from './pages/marketing/_prototypes/HomeCheminV2';
-import { EclipseHeroTrials } from './pages/marketing/_prototypes/EclipseHeroTrials';
-import { StickyVideoCards } from './pages/marketing/_prototypes/StickyVideoCards';
-import { StickyVideoCardsDepth } from './pages/marketing/_prototypes/StickyVideoCardsDepth';
-import { ImmersiveParallaxStory } from './pages/marketing/_prototypes/ImmersiveParallaxStory';
-import { HeroDawnLight } from './pages/marketing/_prototypes/HeroDawnLight';
-import { HeroConstellation } from './pages/marketing/_prototypes/HeroConstellation';
-import { HeroEclipse } from './pages/marketing/_prototypes/HeroEclipse';
-import { HeroTrait } from './pages/marketing/_prototypes/HeroTrait';
-import { HeroLeverDuJour } from './pages/marketing/_prototypes/HeroLeverDuJour';
-import { HeroCelestial } from './pages/marketing/_prototypes/HeroCelestial';
 import { MarketingDiagnostic } from './pages/marketing/MarketingDiagnostic';
 // [archived] devtools — files kept, routes removed from prod
 // import { MarketingMotionLab } from './pages/marketing/MarketingMotionLab';
@@ -239,7 +221,6 @@ import { MarketingTemoignages } from './pages/marketing/MarketingTemoignages';
 import { MarketingAccompagnement } from './pages/marketing/MarketingAccompagnement';
 import { MarketingUpskilling } from './pages/marketing/MarketingUpskilling';
 import { MarketingLearningApp } from './pages/marketing/MarketingLearningApp';
-import { MarketingVariantLab } from './pages/marketing/MarketingVariantLab';
 import { MarketingArticleDetail } from './pages/marketing/MarketingArticleDetail';
 import { MarketingDossierDetail } from './pages/marketing/MarketingDossierDetail';
 import { MarketingVideoDetail } from './pages/marketing/MarketingVideoDetail';
@@ -556,28 +537,8 @@ function App() {
         {/* ── Marketing site (public — no auth required) ── */}
         <Route path="/website" element={<MarketingLayout />}>
           <Route index element={<MarketingHome />} />
-          {/* A/B Testing — 7 variants (underscore prefix = hidden from main nav) */}
-          <Route path="_v1-home" element={<MarketingHome />} />
-          <Route path="_v2-home-clarity" element={<MarketingHomeClarity />} />
-          <Route path="_v4-home-narrative" element={<MarketingHomeNarrative />} />
-          <Route path="_v6-home-elegant" element={<MarketingHomeRefined />} />
-          <Route path="_v7-home-cinematic" element={<MarketingHomeCinematic />} />
-          <Route path="_taglines" element={<MarketingTaglineLab />} />
-          {/* V2 cinematic direction prototypes — 3 options, comparison only, none chosen yet */}
-          <Route path="_v2-cinematic-a" element={<HomeCinematicRevealV2 />} />
-          <Route path="_v2-cinematic-b" element={<HomeInterfaceChoreographyV2 />} />
+          {/* Seule variante de home conservée au tri du 2026-07-23. */}
           <Route path="_v2-jardin" element={<HomeJardinVivantV2 />} />
-          <Route path="_v2-chemin" element={<HomeCheminV2 />} />
-          <Route path="_eclipse-trials" element={<EclipseHeroTrials />} />
-          <Route path="_sticky-video-cards" element={<StickyVideoCards />} />
-          <Route path="_sticky-video-cards-depth" element={<StickyVideoCardsDepth />} />
-          <Route path="_immersive-parallax-story" element={<ImmersiveParallaxStory />} />
-          <Route path="_hero-dawn-light" element={<HeroDawnLight />} />
-          <Route path="_hero-constellation" element={<HeroConstellation />} />
-          <Route path="_hero-eclipse" element={<HeroEclipse />} />
-          <Route path="_hero-trait" element={<HeroTrait />} />
-          <Route path="_hero-lever-du-jour" element={<HeroLeverDuJour />} />
-          <Route path="_hero-celestial" element={<HeroCelestial />} />
           {/* [archived] home variants — files kept, routes removed: home-a/b, _motion-lab, _variants */}
           <Route path="diagnostic" element={<MarketingDiagnostic />} />
           {/* Formation fusionnée dans Learning App le 03/07/2026 — redirect pour les liens existants */}
@@ -616,10 +577,12 @@ function App() {
         <Route path="/error/500" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'hidden' }}><Error500 /></div>} />
 
         {/* ── Pages test temporaires ── */}
-        <Route path="/_test-logo" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><TestLogo /></div>} />
         <Route path="/_bg-lab" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><BgLab /></div>} />
         <Route path="/_card-lab" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><CardLab /></div>} />
-        <Route path="/website/_variants" element={<MarketingVariantLab />} />
+        {/* Pas de wrapper `overflow:auto` ici : il devient conteneur de scroll pour
+            scrollIntoView sans pouvoir scroller (scrollHeight === clientHeight), ce qui
+            neutralise silencieusement les ancres. DesignLab gère son propre plein écran. */}
+        <Route path="/_design-lab" element={<DesignLab />} />
 
         {/* ── Landing page inscription — public, plein écran ── */}
         <Route path="/inscription" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><AppLanding /></div>} />
@@ -655,8 +618,6 @@ function App() {
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/settings" element={<Navigate to="/account" replace />} />
                   <Route path="/components" element={<Components />} />
-                  <Route path="/motion-sprints" element={<MotionSprintShowcase />} />
-                  <Route path="/design-showcase" element={<DesignShowcase />} />
                   <Route path="/learning-paths" element={<LearningPaths />} />
                   <Route path="/learning-paths/:id" element={<LearningPathDetail />} />
                   <Route path="/learning-paths/:id/positionnement" element={<Positionnement />} />
