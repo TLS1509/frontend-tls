@@ -2,6 +2,8 @@
 
 **Note de travail · Chloé → Pierre-Armand · 2026-07-23**
 
+> 📎 **Études détaillées derrière ce rapport** : [`SOLUTIONS-00-SYNTHESE`](SOLUTIONS-00-SYNTHESE.md) (index) → un dossier par incohérence (`SOLUTIONS-01`→`05`). Ce document-ci est la **synthèse exécutive pour décision** ; les SOLUTIONS sont les **études de solutions** (options évaluées sous 6 lentilles). Les deux se complètent, ne se dupliquent pas.
+
 > **Pourquoi ce document.** J'ai relu nos 16 cahiers en entier, croisés avec le code réel de
 > l'app et l'état de l'art (sciences de l'apprentissage, design, droit). Ce rapport n'est **pas**
 > une liste de reproches : nos specs sont sérieuses et souvent en avance sur ce que fait le marché.

@@ -5,6 +5,8 @@
 > chantiers parallèles, mais **un chantier central, deux règles transverses et une doctrine
 > d'exécution**, tenus par un même principe.
 > ⚠️ Propositions à trancher en métier. Rien n'est engagé.
+>
+> 📎 **Synthèse exécutive pour décision (Chloé ↔ Pierre-Armand)** : [`RAPPORT-COHERENCE-LEARNING-APP`](RAPPORT-COHERENCE-LEARNING-APP.md). Ce document-ci = l'**index des 5 études détaillées** (`SOLUTIONS-01`→`05`) ; le RAPPORT = la version exécutive. Complémentaires, pas de doublon.
 
 ---
 
