@@ -87,7 +87,8 @@ Plateforme d'apprentissage Skills-Based. **Statut : bêta ouverte.**
 *Le contenu de l'app, distinct de la formation C-Campus. Statuts internes de production.*
 
 - **Publié** : Ingénieur pédagogique augmenté avec Dinootoo (chez le client entreprise — usage interne, ne pas exposer le nom du client).
-- **En production** : Décoder l'IA (débutant) · Prompt engineering · Concevoir une formation avec EDRACT et l'IA.
+- **En production** : Décoder l'IA (débutant) · Prompt engineering · Concevoir une formation avec **EDRACT®** et l'IA.
+  - ⚠️ **EDRACT® = marque déposée de C-Campus** (Marc Dennery / Henri Occre), lignée Gagné + Kolb — **pas une méthode TLS**. Usage légitime (Marc Dennery = père de Pierre-Armand Dennery), mais **créditer C-Campus** sur toute page/support public de cette offre. Réf. mémoire `reference_edract_ccampus`.
 - **Validés / en pipeline** : IA Responsable (risques & éthique) · Formateur augmenté : la méthode · Concevoir une formation (Préparation · Scénariser · Outiller) · Créer son Assistant IA.
 - **Planifiés (idéation)** : Gestion OF (Qualiopi) · Former à l'IA pour les métiers · Intégrer l'IA dans son workflow · Notion pour les métiers de la formation · Créer / Déployer des agents IA · Responsable formation (déployer l'IA en L&D) · Gérer les compétences de son entreprise · Apprendre à apprendre avec l'IA · Architecte de parcours adaptatif · Ingénieur pédagogique augmenté : la méthode · Le JIT.
 

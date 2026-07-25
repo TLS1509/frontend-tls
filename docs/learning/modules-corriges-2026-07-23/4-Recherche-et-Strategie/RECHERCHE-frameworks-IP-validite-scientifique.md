@@ -104,9 +104,24 @@ listes de verbes » — ont été **rejetées 0-3** et ne doivent pas être écr
 
 **Confiance : moyenne** · vote 3-0 sur la recommandation des auteurs
 
-### EDRACT — « structure maison, à assumer comme telle »
+### EDRACT — ⚠️ CORRECTION : c'est EDRACT® de C-Campus, PAS une « structure maison »
 
-Aucune base probante propre n'a été trouvée.
+> **⚠️ Correction du 2026-07-24 (vérification web de première main).** L'intitulé et la
+> conclusion d'origine de cette section — « structure maison », « signature TLS » —
+> **sont FAUX.** **EDRACT® est un modèle déposé de C-Campus**, co-fondé par **Marc
+> Dennery** (père de Pierre-Armand Dennery, associé TLS) et **Henri Occre**. Il combine
+> les **9 événements d'instruction de Gagné** et le **cycle expérientiel de Kolb** ; le
+> terme « EDRACT » n'apparaît nulle part hors C-Campus (aucun équivalent sous ce nom
+> dans une autre langue). La recherche interne avait seulement constaté « aucune base
+> probante propre » — vrai *au sens de la validation empirique* — et en avait déduit à
+> tort une origine « maison ». **Ne pas présenter EDRACT comme une méthode TLS :
+> l'attribuer à C-Campus.** Détail : `docs/learning/application/cours/00-CADRE-PEDAGOGIQUE.md`
+> · mémoire `reference_edract_ccampus`.
+
+Aucune base probante *propre* (validation empirique du modèle **en tant que tel**) n'a
+été trouvée — comme pour la plupart des séquences pédagogiques. Cela ne dit rien de son
+**origine**, qui est C-Campus (voir correction ci-dessus), ni de ses **composants**
+(Gagné, Kolb), eux établis.
 
 Les vérificateurs ont examiné une **route de secours** : ancrer EDRACT par
 analogie avec le modèle 5E, qui dispose, lui, d'une méta-analyse. **Cette route a
@@ -139,8 +154,11 @@ l'interface. C'est de la config pure — aucun rebuild, cohérent avec la règle
 **2. Corriger le `guidance` de Merrill** pour lever l'ambiguïté de version, ou
 assumer explicitement l'alignement sur l'article de 2002.
 
-**3. Assumer EDRACT comme structure maison** dans son `explain` — c'est la
-structure signature TLS, elle n'a pas à se prétendre autre chose.
+**3. Attribuer EDRACT® à C-Campus** dans son `explain` (⚠️ recommandation **corrigée le
+2026-07-24** — la version d'origine disait « assumer EDRACT comme structure maison /
+signature TLS », ce qui est **faux**). EDRACT® est le modèle déposé de C-Campus
+(Dennery/Occre, lignée Gagné + Kolb). L'usage par TLS est légitime (filiation Dennery),
+mais il **s'attribue**, il ne se revendique pas comme maison.
 
 ---
 

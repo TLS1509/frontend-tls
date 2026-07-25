@@ -266,7 +266,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({ navigate }) => {
           <button
             type="button"
             onClick={() => navigate('/coaching')}
-            className="inline-flex items-center gap-1 text-caption font-medium text-primary-600 hover:text-primary-700 transition-colors duration-fast shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+            className="inline-flex items-center gap-1 text-caption font-medium text-primary-700 hover:text-primary-800 transition-colors duration-fast shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
           >
             3 sessions
             <ArrowRight size={12} aria-hidden="true" />
