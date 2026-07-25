@@ -64,6 +64,7 @@ import type {
   AtelierEnrollment,
   EventRegistration,
   ContentSurvey,
+  EvidenceRef,
 } from '../types/learning';
 import type { Masterclass, AtelierPratique, Evenement } from '../data/events';
 import type {
@@ -662,6 +663,13 @@ interface PasseportState {
   /** Append a progression event. */
   addProgression: (event: CompetencyProgression) => void;
 
+  /** Map userId → EvidenceRef[] — la « colonne de preuve » du Passeport (SOLUTIONS-DETAIL ch.01). */
+  evidence: Record<string, EvidenceRef[]>;
+  /** Preuves d'une compétence pour un user, plus récentes d'abord. */
+  getEvidence: (userId: string, competenceId: string) => EvidenceRef[];
+  /** Ajoute une preuve. N'écrit QUE `state.evidence` — jamais `competencies`/niveau (invariant). */
+  addEvidence: (evidence: Omit<EvidenceRef, 'id' | 'createdAt'>) => void;
+
   /** Reset all Passeport data (useful for testing). */
   clear: () => void;
 }
@@ -672,6 +680,7 @@ export const usePasseportStore = create<PasseportState>()(
       competencies: {},
       objectives: {},
       progressions: {},
+      evidence: {},
 
       getCompetencies: (userId) => {
         const existing = get().competencies[userId];
@@ -741,7 +750,28 @@ export const usePasseportStore = create<PasseportState>()(
           };
         }),
 
-      clear: () => set({ competencies: {}, objectives: {}, progressions: {} }),
+      getEvidence: (userId, competenceId) =>
+        (get().evidence[userId] ?? [])
+          .filter((e) => e.competenceId === competenceId)
+          .sort((a, b) => b.createdAt.localeCompare(a.createdAt)),
+
+      /**
+       * Ajoute une preuve. N'écrit QUE `state.evidence` — jamais `competencies` ni un
+       * niveau Dreyfus (invariant : l'auto-déclaration n'écrit jamais le niveau).
+       * Ne touche aucun store XP/gamification (firewall).
+       */
+      addEvidence: (evidence) =>
+        set((state) => {
+          const ref: EvidenceRef = {
+            ...evidence,
+            id: `evidence-${Date.now()}`,
+            createdAt: new Date().toISOString(),
+          };
+          const userEv = state.evidence[evidence.userId] ?? [];
+          return { evidence: { ...state.evidence, [evidence.userId]: [...userEv, ref] } };
+        }),
+
+      clear: () => set({ competencies: {}, objectives: {}, progressions: {}, evidence: {} }),
     }),
     {
       name: 'tls-passeport',

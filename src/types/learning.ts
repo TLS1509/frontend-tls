@@ -152,8 +152,20 @@ export type ParcoursScope = 'Global' | 'Company';
 export interface LearnerCompetency {
   userId: string;
   competenceId: string;
-  /** Niveau Dreyfus actuel (1–5) */
+  /**
+   * Niveau Dreyfus actuel (1–5).
+   * ⚠️ Aujourd'hui écrit par l'AUTO-ÉVALUATION (onboarding + LearningPathDetail via
+   * `setCompetency`) — ce n'est donc PAS encore un niveau *validé*. Migrer ces writers
+   * vers `selfAssessedLevel` pour que `currentLevel` ne porte plus que du validé est le
+   * prochain pas (hors de ce walking skeleton).
+   */
   currentLevel: DreyfusLevel;
+  /**
+   * Canal de PERCEPTION dédié (calibration) — « ce que tu penses de ton niveau ».
+   * Jamais confondu avec un niveau validé. La preuve légère SRS n'écrit NI ce champ NI
+   * `currentLevel` : un rating de rétention n'est pas une auto-évaluation Dreyfus.
+   */
+  selfAssessedLevel?: DreyfusLevel;
   /** Niveau cible (objectif) */
   targetLevel?: DreyfusLevel;
   /** Points XP accumulés sur cette compétence */
@@ -164,6 +176,50 @@ export interface LearnerCompetency {
   daysSinceActivity: number;
   /** ISO timestamp de la dernière mise à jour */
   lastUpdated: string;
+}
+
+/** Régime de preuve — graduation SOLUTIONS-DETAIL ch.01 (léger → dialogué → certifiant). */
+export type EvidenceRegime = 'light' | 'dialogued' | 'certifying';
+
+/** Source d'une preuve. Vocab aligné sur EnrichmentSource (`jac`, pas `jac_validation`). */
+export type EvidenceSource = 'srs_review' | 'quiz' | 'reflection' | 'coach_validation' | 'jac';
+
+/**
+ * Preuve rattachée à une compétence — la « colonne de preuve » du Passeport
+ * (SOLUTIONS-DETAIL ch.01). Primitive unique pour les 3 régimes.
+ *
+ * ⚠️ INVARIANT (l'auto-déclaration n'écrit jamais un niveau *validé*) :
+ *  - une preuve **légère** (`regime: 'light'`, ex. rating SRS) laisse `assertedLevel`
+ *    VIDE — elle n'affirme aucun niveau, elle trace une récupération active ;
+ *  - seuls les régimes **dialogué / certifiant** (validation coach signée) renseignent
+ *    `assertedLevel` + `verifiedBy` — et c'est ce chemin (hors skeleton) qui pourra
+ *    faire évoluer un niveau *validé*.
+ * Aucune preuve ne rapporte d'XP (firewall gamification) : signal de rétention, pas récompense.
+ */
+export interface EvidenceRef {
+  id: string;
+  userId: string;
+  /** FK vers LearnerCompetency.competenceId. */
+  competenceId: string;
+  /** Libellé dénormalisé (house style : cf. PasseportEnrichment.competencyName). */
+  competenceName: string;
+  regime: EvidenceRegime;
+  sourceType: EvidenceSource;
+  /** FK vers l'enregistrement source (SRS : `${deckKey}:${cardId}`). */
+  sourceId: string;
+  /** Libellé court d'affichage (ex. « Flashcards · PROMPT ENGINEERING »). */
+  sourceLabel: string;
+  /** Quand l'événement a eu lieu (ISO). */
+  occurredAt: string;
+  /** Généré par le store (ISO). */
+  createdAt: string;
+  /** Signal de rétention (récupération active) — preuve légère SRS. PAS une note. */
+  retention?: { rating: 'again' | 'known'; intervalDays: number; reviewCount: number };
+  /** Régimes dialogué/certifiant UNIQUEMENT : niveau affirmé par rubrique signée. VIDE pour le léger. */
+  assertedLevel?: DreyfusLevel;
+  /** Régimes dialogué/certifiant UNIQUEMENT : validateur humain (id + nom dénormalisé). */
+  verifiedBy?: string;
+  verifiedByName?: string;
 }
 
 /**

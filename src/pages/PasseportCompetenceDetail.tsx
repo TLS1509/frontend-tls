@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Target, TrendingUp, BookOpen, Flame, ArrowLeft } from 'lucide-react';
+import { Target, TrendingUp, BookOpen, Flame, ArrowLeft, Brain } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { Button } from '../components/core/Button';
@@ -58,6 +58,9 @@ export default function PasseportCompetenceDetail() {
     .filter((p) => p.competenceId === lc?.competenceId)
     .sort((a, b) => new Date(b.occurredAt).getTime() - new Date(a.occurredAt).getTime())
     .slice(0, 5);
+
+  // Preuves de rétention (SRS → EvidenceRef, régime léger) for this competency
+  const competencyEvidence = store.getEvidence(MOCK_USER_ID, lc?.competenceId ?? '');
 
   // Radar: sibling competencies in same domain for context
   const siblingCompetencies = competencies
@@ -201,23 +204,51 @@ export default function PasseportCompetenceDetail() {
         )}
 
         {activeTab === 'activity' && (
-          <SectionCard title="Progressions récentes" titleIcon={<TrendingUp size={18} />}>
-            {competencyProgressions.length > 0 ? (
-              <div className="flex flex-col gap-stack-xs">
-                {competencyProgressions.map((p) => (
-                  <div key={p.id} className="flex items-center justify-between px-stack py-3 rounded-lg border border-ink-100">
-                    <div className="flex flex-col gap-tight">
-                      <span className="text-body-sm font-medium text-ink-900">{p.title}</span>
-                      <span className="text-caption text-ink-400">{new Date(p.occurredAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+          <div className="flex flex-col gap-section">
+            <SectionCard title="Progressions récentes" titleIcon={<TrendingUp size={18} />}>
+              {competencyProgressions.length > 0 ? (
+                <div className="flex flex-col gap-stack-xs">
+                  {competencyProgressions.map((p) => (
+                    <div key={p.id} className="flex items-center justify-between px-stack py-3 rounded-lg border border-ink-100">
+                      <div className="flex flex-col gap-tight">
+                        <span className="text-body-sm font-medium text-ink-900">{p.title}</span>
+                        <span className="text-caption text-ink-400">{new Date(p.occurredAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                      </div>
+                      {p.newLevel && <Badge variant="success" size="sm">D{p.newLevel}</Badge>}
                     </div>
-                    {p.newLevel && <Badge variant="success" size="sm">D{p.newLevel}</Badge>}
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="text-body-sm text-ink-500 m-0">Aucune activité enregistrée pour cette compétence.</p>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-body-sm text-ink-500 m-0">Aucune activité enregistrée pour cette compétence.</p>
+              )}
+            </SectionCard>
+
+            {competencyEvidence.length > 0 && (
+              <SectionCard title="Preuves de rétention" titleIcon={<Brain size={18} />}>
+                <p className="text-caption text-ink-500 m-0 mb-stack-xs">
+                  Récupération active auto-déclarée (flashcards). Trace de mémorisation — n'affecte pas le niveau validé.
+                </p>
+                <div className="flex flex-col gap-stack-xs">
+                  {competencyEvidence.map((e) => (
+                    <div key={e.id} className="flex items-center justify-between px-stack py-3 rounded-lg border border-ink-100">
+                      <div className="flex flex-col gap-tight">
+                        <span className="text-body-sm font-medium text-ink-900">{e.sourceLabel}</span>
+                        <span className="text-caption text-ink-400">
+                          {new Date(e.occurredAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}
+                          {e.retention ? ` · prochaine révision dans ${e.retention.intervalDays} j` : ''}
+                        </span>
+                      </div>
+                      {e.retention && (
+                        <Badge variant={e.retention.rating === 'known' ? 'success' : 'neutral'} size="sm">
+                          {e.retention.rating === 'known' ? 'Su' : 'À revoir'}
+                        </Badge>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </SectionCard>
             )}
-          </SectionCard>
+          </div>
         )}
 
         {/* CTA */}

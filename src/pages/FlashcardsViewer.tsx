@@ -21,13 +21,17 @@ import { ViewerProgressTrail } from '../components/patterns/ViewerProgressTrail'
 import { FlipCard } from '../components/patterns/FlipCard';
 import { CompletionModal } from '../components/modals';
 import { useLessonContext, resolveAfterLessonRoute } from '../lib/lesson-context';
-import { useLessonProgressStore, useCardReviewStore, type CardRating } from '../stores/persistence';
+import { useLessonProgressStore, useCardReviewStore, usePasseportStore, type CardRating } from '../stores/persistence';
 import { TONE_BORDER_500, TONE_HERO_GRADIENT } from '../lib/tone-classes';
 import type { PageTone } from '../lib/tone-classes';
 import { MOCK_PARCOURS_DATA } from '../data/learningPaths';
+import { MOCK_USER_ID } from '../data/passeport';
+import { getCompetenceById } from '../data/competencies';
 
 interface Flashcard {
   id: number;
+  /** Compétence rattachée (Passeport). Une preuve légère SRS n'est émise QUE si présent. */
+  competenceId?: string;
   front: {
     title: string;
     category: string;
@@ -43,6 +47,7 @@ interface Flashcard {
 const FLASHCARDS: Flashcard[] = [
   {
     id: 1,
+    competenceId: 'tech_tools',
     front: {
       title: 'Raccourcis Clavier Essentiels',
       category: 'PRODUCTIVITÉ',
@@ -57,6 +62,7 @@ const FLASHCARDS: Flashcard[] = [
   },
   {
     id: 2,
+    competenceId: 'ai_tools',
     front: {
       title: 'Les 4 Piliers du Prompt',
       category: 'PROMPT ENGINEERING',
@@ -136,6 +142,7 @@ export const FlashcardsViewer: React.FC = () => {
 
   // ── Répétition espacée (SRS · capstone). Spec : docs/product/SPEC-SRS-repetition-espacee.md
   const cardReview = useCardReviewStore();
+  const passeport = usePasseportStore();
   const deckKey = itemId ?? 'flashcards-default';
   const allCardKeys = FLASHCARDS.map((c) => `${deckKey}:${c.id}`);
   const dueToday = cardReview.dueCount(allCardKeys);
@@ -173,6 +180,22 @@ export const FlashcardsViewer: React.FC = () => {
     (rating: CardRating) => {
       const card = FLASHCARDS[currentCardIndex];
       const review = cardReview.rateCard(`${deckKey}:${card.id}`, rating);
+      // Branche le SRS sur le Passeport : preuve LÉGÈRE (récupération active), émise
+      // seulement si la carte est rattachée à une compétence — pas de fallback, donc pas
+      // de mauvaise attribution. N'écrit AUCUN niveau, ne rapporte AUCUN XP (invariant EvidenceRef).
+      if (card.competenceId) {
+        passeport.addEvidence({
+          userId: MOCK_USER_ID,
+          competenceId: card.competenceId,
+          competenceName: getCompetenceById(card.competenceId)?.label ?? card.competenceId,
+          regime: 'light',
+          sourceType: 'srs_review',
+          sourceId: `${deckKey}:${card.id}`,
+          sourceLabel: `Flashcards · ${card.front.category}`,
+          retention: { rating, intervalDays: review.intervalDays, reviewCount: review.reviewCount },
+          occurredAt: new Date(review.lastReviewedAt).toISOString(),
+        });
+      }
       setLastScheduled(review.intervalDays);
       setCompletedCards((prev) => (prev.includes(currentCardIndex) ? prev : [...prev, currentCardIndex]));
       // Laisser lire « prochaine révision dans X j », puis avancer (flip-back géré par goToCard).
@@ -182,7 +205,7 @@ export const FlashcardsViewer: React.FC = () => {
         else setIsFlipped(false);
       }, 900);
     },
-    [cardReview, deckKey, currentCardIndex, total, goToCard],
+    [cardReview, passeport, deckKey, currentCardIndex, total, goToCard],
   );
 
   const handleClose = useCallback(() => {

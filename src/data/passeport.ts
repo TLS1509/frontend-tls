@@ -61,6 +61,16 @@ export const MOCK_LEARNER_COMPETENCIES: LearnerCompetency[] = [
   },
   {
     userId: MOCK_USER_ID,
+    competenceId: 'ai_tools',
+    currentLevel: 3,
+    targetLevel: 5,
+    points: 280,
+    nextLevelPoints: 500,
+    daysSinceActivity: 5,
+    lastUpdated: '2026-05-10T09:00:00Z',
+  },
+  {
+    userId: MOCK_USER_ID,
     competenceId: 'creativity',
     currentLevel: 1,
     targetLevel: 3,
