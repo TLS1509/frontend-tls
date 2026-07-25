@@ -134,13 +134,16 @@ Retire le contenu *activement faux/trompeur* + les gros doublons **sans toucher 
 
 **Volontairement laissé pour la passe 2** (sections où KEEP + EXTRACT + CUT sont entremêlés — à traiter une seule fois, proprement) : Phase 14 (extraire le workflow → skill, garder la table API→pointeur), Phase 17-18 / 19 / 20 / 21 / 23 / Phase 1 P0, « Ce qu'il NE FAUT PAS faire » (garder la seule règle tailwind.config), et les **liens morts internes** à ces sections (MIGRATION-PLAN.md → `docs/`, 4 CSS legacy inexistants dans les Pièges, note HeroSection « supprimé »). Les traiter maintenant reviendrait à couper ces sections en deux et à y repasser en passe 2.
 
-### Passe 2 — Extraction des skills + finition (session suivante)
-- Créer les 9 skills dans `.claude/skills/` (extraction des workflows depuis Phase 14 / 16 / 17 / 20 / 21 + triple-sync + marketing-motion).
-- Traiter chaque section de phase restante en une passe : workflow → skill, gotchas → CLAUDE.md lean, changelog → suppression.
-- Corriger les liens morts restants + retirer les citations des 4 CSS legacy inexistants + la note HeroSection.
-- Collapser les catalogues de composants POINT vers `docs/_canon/REGLES-USAGE-COMPOSANTS.md` (après vérif que le canon les couvre — sinon les y ajouter).
-- Ajouter l'index des skills dans le CLAUDE.md lean.
+### Passe 2 — Suppression de l'historique (branche, 2026-07-25) ✅ FAIT
 
-Résultat attendu passe 2 : ~2 119 → **~450 lignes**.
+⚠️ **Reframe (Chloé) : les phases 1-16 du Migration Plan sont TOUTES FINIES** — migration one-time (BEM → React/Tailwind + design system) qui ne se reproduira pas. Donc les workflows de phase = **historique à SUPPRIMER**, pas des skills. **Aucun skill créé** (un skill ne vaut que pour un process récurrent — le plan « 9 skills » est caduc). De plus, sur décision de Chloé : le **process de sync Figma ↔ code** est retiré (redondant avec le connecteur Figma + le skill `figma-use`), et la **guidance animations marketing** est retirée (le site = projet séparé, même si son code vit encore dans ce repo).
+
+- 🔴 **Supprimé** : Phase 10, 14, 16, 17-18, 19.x, 20, 21, 23, Phase 1 P0 (workflows + changelogs) · « Ce qu'il NE FAUT PAS faire » (dup) · sync Figma/Notion triple · marketing v2 · stratégie d'ordre bottom-up · points d'attention (dups) · log extractions Figma daté · note sitemap.
+- 🟢 **Gardé inline (compacté)** : Règles absolues Tailwind · Pièges #1-14 + SVG→Lucide + peer/after (gotchas) · pattern variant-map (créer un composant) · conventions UI (headers, a11y 24/44, arbitrary-property, PageShell) · **patterns Zustand** (couche d'état vivante, utile pour les tests locaux) · conventions cards (→ `tone-classes.ts`) · typo League-Spartan · hygiène doc · build gate.
+- 🔧 **Liens morts** : refs `MIGRATION-PLAN.md` parties avec les sections supprimées ; citations des 4 CSS legacy (vérifiés absents de première main) annotées « historiques » dans les Pièges ; note HeroSection « supprimé » retirée.
+
+**Résultat : CLAUDE.md 2 119 → 569 lignes. Total depuis le départ : 2 747 → 569 (−79 %).** 0 doublon, 0 changelog de phase, 0 lien mort actif, 0 valeur de token dérivée. Recentré sur ce que le repo *est* : **Learning App + design system**.
+
+> Skills créés : **aucun** (décision : phases finies). Si un travail redevient récurrent (ex. reprise Figma), on créera le skill à ce moment-là, à la demande.
 
 > Aucune passe n'est commitée sans validation utilisateur. Diff relu sur la branche `docs/claude-md-context-refactor`.
