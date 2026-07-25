@@ -496,6 +496,93 @@ export const useLessonProgressStore = create<LessonProgressState>()(
   )
 );
 
+/* ─── 5bis. Card review — répétition espacée (SRS · capstone 2026-07-24) ──────
+ *
+ * Walking skeleton de la répétition espacée promise par le site vitrine mais absente
+ * de l'app (deck statique). Spec : docs/product/SPEC-SRS-repetition-espacee.md.
+ * Intervalles expansifs simples — PAS un SM-2 complet (scope v1 assumé, PM-C4).
+ * Le rating est auto-déclaré et ne rapporte AUCUN XP (firewall gamification) : on
+ * mesure la rétention (récupération active, Roediger & Karpicke), pas l'activité.
+ */
+
+export type CardRating = 'again' | 'known';
+
+/** Intervalles expansifs, en jours. « known » avance d'un cran ; « again » revient à 1 j. */
+const SRS_STEPS_DAYS = [1, 3, 7, 14, 30] as const;
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+export interface CardReview {
+  cardId: string;
+  intervalDays: number;
+  /** ms epoch : la carte redevient « due » à partir de cette date. */
+  dueAt: number;
+  lastRating: CardRating;
+  reviewCount: number;
+  lastReviewedAt: number;
+}
+
+/**
+ * Prochain intervalle. Fonction **pure** → directement testable (VIBE-C3 : rendre le
+ * cœur logique vérifiable). « again » réinitialise à 1 j ; « known » avance d'un cran
+ * (une carte neuve sue passe à 3 j, puis 7, 14, 30, plafonné).
+ */
+export const nextIntervalDays = (current: number | undefined, rating: CardRating): number => {
+  if (rating === 'again') return SRS_STEPS_DAYS[0];
+  const idx = current === undefined ? -1 : SRS_STEPS_DAYS.indexOf(current as (typeof SRS_STEPS_DAYS)[number]);
+  const nextIdx = Math.min((idx < 0 ? 0 : idx) + 1, SRS_STEPS_DAYS.length - 1);
+  return SRS_STEPS_DAYS[nextIdx];
+};
+
+interface CardReviewState {
+  reviews: Record<string, CardReview>;
+  /** Note une carte et planifie sa prochaine révision. Retourne la révision calculée. */
+  rateCard: (cardId: string, rating: CardRating) => CardReview;
+  /** Révision d'une carte, ou null si jamais notée. */
+  getReview: (cardId: string) => CardReview | null;
+  /** Nombre de cartes DUES (notées et dont dueAt ≤ maintenant) parmi une liste. */
+  dueCount: (cardIds: string[]) => number;
+  /** Reset (tests / RGPD). */
+  clear: () => void;
+}
+
+export const useCardReviewStore = create<CardReviewState>()(
+  persist(
+    (set, get) => ({
+      reviews: {},
+      rateCard: (cardId, rating) => {
+        const prev = get().reviews[cardId];
+        const intervalDays = nextIntervalDays(prev?.intervalDays, rating);
+        const now = Date.now();
+        const review: CardReview = {
+          cardId,
+          intervalDays,
+          dueAt: now + intervalDays * DAY_MS,
+          lastRating: rating,
+          reviewCount: (prev?.reviewCount ?? 0) + 1,
+          lastReviewedAt: now,
+        };
+        set((state) => ({ reviews: { ...state.reviews, [cardId]: review } }));
+        return review;
+      },
+      getReview: (cardId) => get().reviews[cardId] ?? null,
+      dueCount: (cardIds) => {
+        const now = Date.now();
+        const { reviews } = get();
+        return cardIds.filter((id) => {
+          const r = reviews[id];
+          return r != null && r.dueAt <= now;
+        }).length;
+      },
+      clear: () => set({ reviews: {} }),
+    }),
+    {
+      name: 'tls-card-reviews',
+      storage: createJSONStorage(() => localStorage),
+      version: 1,
+    }
+  )
+);
+
 /* ─── 6. User Positioning Results (Cahier #01 — Phase 16.1) ──────────────── */
 
 interface PositioningState {

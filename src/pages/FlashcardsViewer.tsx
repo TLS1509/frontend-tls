@@ -21,7 +21,7 @@ import { ViewerProgressTrail } from '../components/patterns/ViewerProgressTrail'
 import { FlipCard } from '../components/patterns/FlipCard';
 import { CompletionModal } from '../components/modals';
 import { useLessonContext, resolveAfterLessonRoute } from '../lib/lesson-context';
-import { useLessonProgressStore } from '../stores/persistence';
+import { useLessonProgressStore, useCardReviewStore, type CardRating } from '../stores/persistence';
 import { TONE_BORDER_500, TONE_HERO_GRADIENT } from '../lib/tone-classes';
 import type { PageTone } from '../lib/tone-classes';
 import { MOCK_PARCOURS_DATA } from '../data/learningPaths';
@@ -134,6 +134,14 @@ export const FlashcardsViewer: React.FC = () => {
   const total = FLASHCARDS.length;
   const progressPct = (completedCards.length / total) * 100;
 
+  // ── Répétition espacée (SRS · capstone). Spec : docs/product/SPEC-SRS-repetition-espacee.md
+  const cardReview = useCardReviewStore();
+  const deckKey = itemId ?? 'flashcards-default';
+  const allCardKeys = FLASHCARDS.map((c) => `${deckKey}:${c.id}`);
+  const dueToday = cardReview.dueCount(allCardKeys);
+  /** Intervalle planifié à afficher juste après un rating (null = boutons visibles). */
+  const [lastScheduled, setLastScheduled] = useState<number | null>(null);
+
   const handleFlip = useCallback(() => setIsFlipped((f) => !f), []);
 
   const goToCard = useCallback(
@@ -156,12 +164,26 @@ export const FlashcardsViewer: React.FC = () => {
     if (currentCardIndex > 0) goToCard(currentCardIndex - 1);
   }, [currentCardIndex, goToCard]);
 
-  const handleMarkUnderstood = useCallback(() => {
-    if (!completedCards.includes(currentCardIndex)) {
-      setCompletedCards((prev) => [...prev, currentCardIndex]);
-    }
-    if (currentCardIndex < total - 1) handleNext();
-  }, [completedCards, currentCardIndex, total, handleNext]);
+  /**
+   * Note la carte courante (SRS) et planifie sa prochaine révision, puis avance.
+   * `again` → l'intervalle retombe à 1 j ; `known` → il s'allonge (3 → 7 → 14 → 30).
+   * Le rating est auto-déclaré : AUCUN XP (firewall gamification).
+   */
+  const handleRate = useCallback(
+    (rating: CardRating) => {
+      const card = FLASHCARDS[currentCardIndex];
+      const review = cardReview.rateCard(`${deckKey}:${card.id}`, rating);
+      setLastScheduled(review.intervalDays);
+      setCompletedCards((prev) => (prev.includes(currentCardIndex) ? prev : [...prev, currentCardIndex]));
+      // Laisser lire « prochaine révision dans X j », puis avancer (flip-back géré par goToCard).
+      window.setTimeout(() => {
+        setLastScheduled(null);
+        if (currentCardIndex < total - 1) goToCard(currentCardIndex + 1);
+        else setIsFlipped(false);
+      }, 900);
+    },
+    [cardReview, deckKey, currentCardIndex, total, goToCard],
+  );
 
   const handleClose = useCallback(() => {
     if (lessonCtx) {
@@ -292,6 +314,15 @@ export const FlashcardsViewer: React.FC = () => {
             })}
           </div>
 
+          {/* ── Compteur SRS : cartes dues aujourd'hui ── */}
+          {dueToday > 0 && (
+            <div className="flex justify-center">
+              <span className="inline-flex items-center gap-1.5 rounded-pill bg-primary-50 border border-primary-100 px-3 py-1 text-caption font-semibold text-primary-800">
+                <Brain size={13} aria-hidden /> {dueToday} à réviser aujourd'hui
+              </span>
+            </div>
+          )}
+
           {/* ── Main flashcard (3D flip, centered, height-constrained) ── */}
           <div className="flex-1 flex items-center justify-center min-h-[300px] max-h-[400px]">
             <FlipCard
@@ -303,17 +334,37 @@ export const FlashcardsViewer: React.FC = () => {
             />
           </div>
 
-          {/* ── Mark as understood (only when flipped + not done) ── */}
-          {isFlipped && !completedCards.includes(currentCardIndex) && (
-            <div className="flex justify-center pb-stack">
-              <button
-                type="button"
-                onClick={handleMarkUnderstood}
-                className="inline-flex items-center gap-1.5 min-h-touch px-4 py-2.5 rounded-lg bg-success-base text-white font-body text-caption font-semibold shadow-[0_2px_8px_rgba(157,190,186,0.3)] hover:bg-success-fg hover:scale-105 active:scale-95 transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-success-base"
-              >
-                <Check size={14} />
-                Compris
-              </button>
+          {/* ── Rating SRS (répétition espacée) — n'apparaît qu'après le flip ── */}
+          {isFlipped && (
+            <div className="flex flex-col items-center gap-stack-xs pb-stack" aria-live="polite">
+              {lastScheduled != null ? (
+                <p className="inline-flex items-center gap-1.5 text-caption font-semibold text-success-fg" role="status">
+                  <Check size={14} /> Noté — prochaine révision dans {lastScheduled}{' '}
+                  {lastScheduled > 1 ? 'jours' : 'jour'}.
+                </p>
+              ) : (
+                <>
+                  <p className="text-micro text-ink-500">Tu la savais&nbsp;?</p>
+                  <div className="flex items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => handleRate('again')}
+                      className="inline-flex items-center gap-1.5 min-h-touch px-4 py-2.5 rounded-lg bg-white text-ink-700 border border-ink-200 font-body text-caption font-semibold hover:bg-ink-50 hover:border-ink-300 active:scale-95 transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                    >
+                      <RefreshCw size={14} />
+                      À revoir
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleRate('known')}
+                      className="inline-flex items-center gap-1.5 min-h-touch px-4 py-2.5 rounded-lg bg-success-base text-white font-body text-caption font-semibold shadow-[0_2px_8px_rgba(157,190,186,0.3)] hover:bg-success-fg hover:scale-105 active:scale-95 transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-success-base"
+                    >
+                      <Check size={14} />
+                      Je le savais
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           )}
 
