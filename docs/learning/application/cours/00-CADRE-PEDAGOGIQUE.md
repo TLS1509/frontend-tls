@@ -133,15 +133,15 @@ hors-ligne (`_outils/convertisseur-md2docx.py`). Nommage : `{PISTE}-C{n}-titre`.
 1. **UXUI-C1** — Le socle visuel : typographie, couleur & contraste (mesuré), espacement base-4 ✅
 2. **UXUI-C2** — Les 4C (Clarté, Cohérence, Contraste, Confort) comme grille de décision ✅
 3. **UXUI-C3** — Design tokens & design system : la source de vérité unique ✅
-4. UXUI-C4 — Architecture de l'information & piste informationnelle
-5. UXUI-C5 — Interaction, états & micro-interactions (accessibilité du mouvement)
+4. **UXUI-C4** — Architecture de l'information & piste informationnelle ✅
+5. **UXUI-C5** — Interaction, états & micro-interactions (accessibilité du mouvement) ✅
 
 ### Piste B · Vibe coding
 1. **VIBE-C1** — Qu'est-ce que le vibe coding (intention → prompt → revue → itération) ✅
-2. VIBE-C2 — Le document de pilotage (CLAUDE.md) comme system prompt de ton projet
-3. VIBE-C3 — Les garde-fous : types, build gate, design system comme contraintes
-4. VIBE-C4 — Revoir du code qu'on n'a pas écrit : que vérifier, quand refuser
-5. VIBE-C5 — Quand NE PAS vibe-coder (sécurité, archi, décisions irréversibles)
+2. **VIBE-C2** — Le document de pilotage (CLAUDE.md) comme system prompt de ton projet ✅
+3. **VIBE-C3** — Les garde-fous : types, build gate, design system comme contraintes ✅
+4. **VIBE-C4** — Revoir du code qu'on n'a pas écrit : que vérifier, quand refuser ✅
+5. **VIBE-C5** — Quand NE PAS vibe-coder (sécurité, archi, décisions irréversibles) ✅
 
 ---
 
