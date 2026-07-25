@@ -90,7 +90,7 @@ export const FlipCard: React.FC<FlipCardProps> = ({
 
   return (
     <div
-      className={['relative', className].join(' ')}
+      className={['relative w-full max-w-[560px] mx-auto', className].join(' ')}
       style={{ perspective: '1500px', height: `${height}px` }}
     >
       <div
