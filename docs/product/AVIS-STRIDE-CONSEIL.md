@@ -49,6 +49,15 @@ quatrième, stratégique, la met en porte-à-faux avec la littérature du domain
 
 ## 3 · Les trois défauts qui coûtent en rendez-vous
 
+> **✅ MISE À JOUR 2026-07-24 — le CODE (site live) est déjà conforme sur ① et ②.**
+> Vérifié de première main : `MarketingMethode.tsx` porte le bon ordre canonique (Tester ·
+> **Réaliser** · Intégrer…) **et** a retiré les métriques chiffrées (commentaire ligne 110 :
+> *« Pas de métrique chiffrée sur ces cas illustratifs — règle absolue FACTS-CANON.md »* ;
+> les `metric` sont devenus des repères de portée/durée honnêtes : « Refonte livrée en 5
+> semaines », « Validé en JAC à chaque étape », « Rythmé par le flux de travail »). **Le
+> résidu est dans la doc Notion, périmée par rapport au code.** Les défauts ① et ② ci-dessous
+> décrivent donc l'écart **Notion ↔ code** — à résoudre en synchronisant Notion, pas le site.
+
 **① Tes docs ne récitent pas les étapes dans le même ordre.** La page méthode (canon)
 et `FACTS-CANON` A2 disent **R avant I** (…Réaliser · Intégrer…). Mais le **Catalogue
 Notion §2.2** et `MARKETING-CONTEXT.md` **inversent** (Intégrer · Réaliser) — ce qui
@@ -115,8 +124,8 @@ mission ». Plus honnête **et** plus vendable (ticket d'entrée bas → preuve 
 
 | P | Reco | Pourquoi |
 |---|---|---|
-| **P0** | Retirer/qualifier les **métriques inventées** des cas d'usage | Viole `FACTS-CANON` C7 + positionnement « sourcé ». Risque réputationnel. |
-| **P0** | **Un ordre canonique** (page méthode) propagé partout ; corriger Catalogue Notion + `MARKETING-CONTEXT.md` | Crédibilité en pitch |
+| ✅ **fait (code)** | Métriques inventées retirées **et** ordre canonique — déjà dans `MarketingMethode.tsx` (commentaire FACTS-CANON l.110). Rien à faire côté site. | Le code fait foi, il est conforme |
+| **P0 (résidu)** | **Synchroniser Notion sur le code** : page « Notre Méthode » → retirer 40/92/78 % (aligner sur les repères portée/durée du code) · Catalogue §2.2 → ordre **R avant I** | La doc Notion est périmée, risque de recopie |
 | **P1** | Repositionner STRIDE en **entrée cadrée** (Audit Flash + 1 pilote), pas « SBO complet en 6 étapes » | Aligne sur Bersin/Deloitte **et** sur le principe « Tester avant Réaliser » |
 | **P1** | **Ancrer** STRIDE dans la littérature (Kotter, ADDIE, Deloitte/Bersin) sur la page méthode | Transforme un acronyme en cadre étayé |
 | **P2** | Désambiguïser « méthode STRIDE » (conseil) vs « projet type STRIDE IA Deployment » (CDC 11) | Deux choses, un nom |

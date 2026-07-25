@@ -6,7 +6,7 @@
 > d'exécution**, tenus par un même principe.
 > ⚠️ Propositions à trancher en métier. Rien n'est engagé.
 >
-> 📎 **Synthèse exécutive pour décision (Chloé ↔ Pierre-Armand)** : [`RAPPORT-COHERENCE-LEARNING-APP`](RAPPORT-COHERENCE-LEARNING-APP.md). Ce document-ci = l'**index des 5 études détaillées** (`SOLUTIONS-01`→`05`) ; le RAPPORT = la version exécutive. Complémentaires, pas de doublon.
+> 📎 **Synthèse exécutive pour décision (Chloé ↔ Pierre-Armand)** : [`RAPPORT-COHERENCE-LEARNING-APP`](RAPPORT-COHERENCE-LEARNING-APP.md). Ce document-ci = l'**index/synthèse des 5 études** (réunies dans [`SOLUTIONS-DETAIL`](SOLUTIONS-DETAIL.md)) ; le RAPPORT = la version exécutive. Complémentaires, pas de doublon.
 
 ---
 
@@ -214,11 +214,8 @@ Consolidé des cinq documents — aucun ne se devine, tous appellent une décisi
 
 ## Les cinq études détaillées
 
-- [`SOLUTIONS-01-PREUVE`](SOLUTIONS-01-PREUVE.md) — la colonne de preuve
-- [`SOLUTIONS-02-GAMIFICATION`](SOLUTIONS-02-GAMIFICATION.md) — attestation vs jeu
-- [`SOLUTIONS-03-VALIDATION-HUMAINE`](SOLUTIONS-03-VALIDATION-HUMAINE.md) — la validation coach
-- [`SOLUTIONS-04-IA-CONFIANCE`](SOLUTIONS-04-IA-CONFIANCE.md) — signal IA honnête
-- [`SOLUTIONS-05-SCOPE-COHERENCE`](SOLUTIONS-05-SCOPE-COHERENCE.md) — le périmètre soutenable
+Les 5 études détaillées sont désormais réunies en **un seul dossier** (fusion 2026-07-24) :
+- [`SOLUTIONS-DETAIL`](SOLUTIONS-DETAIL.md) — dossier consolidé, un chapitre par incohérence : **01** la colonne de preuve · **02** attestation vs jeu · **03** la validation coach · **04** signal IA honnête · **05** le périmètre soutenable.
 
 Amont : [`REVUE-TRANSVERSALE-CDC`](REVUE-TRANSVERSALE-CDC.md) (les défauts) ·
 [`REGLEMENTAIRE-ET-SBO`](REGLEMENTAIRE-ET-SBO.md) (le cadre juridique).
