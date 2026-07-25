@@ -7,14 +7,15 @@ Bienvenue dans la doc du projet **The Learning Society** — plateforme EdTech S
 | Section | Contenu | Quand l'utiliser |
 |---------|---------|------------------|
 | **[INDEX.md](INDEX.md)** | Table des matières complète | Chercher un fichier spécifique |
-| **[MIGRATION-PLAN.md](MIGRATION-PLAN.md)** | Phases 1-20 + statuts de progression | Comprendre l'état du projet |
+| **[_archive/MIGRATION-PLAN.md](_archive/MIGRATION-PLAN.md)** | 🗄️ Archivé — migration Tailwind + phases 1-16 (finies) | Historique uniquement |
 | **[PHASE-16-GAP-ANALYSIS.md](PHASE-16-GAP-ANALYSIS.md)** | Analyse des gaps spec vs code (16 cahiers) | Avancer sur Phase 16 (spec compliance) |
 
 ## 📁 Dossiers principaux
 
 ### 🎯 Contenu produit
-- **`/site/`** — Design & marketing site (DESIGN-INSPO.md, PROMPT-NAVBAR-HOMEPAGE-REDESIGN.md)
-- **`/marketing/`** — Context marketing, brand strategy, inspo
+- **`/site/`** — Design & site vitrine · 🧭 contexte-maison : `site/CONTEXT-SITE-MARKETING.md`
+- **`/marketing/`** — Brand strategy, copy, faits (voir `_canon/FACTS-CANON.md`)
+- **`/ops/`** — Orga & ops société (projet séparé) · 🧭 contexte-maison : `ops/CONTEXT-ORGA-SOCIETE.md`
 - **`/product/`** — PRODUCT.md (config projet), DESIGN.md (design system)
 - **`/learning/`** — Bootcamp UX/UI, Framer Motion, logo animation
 
@@ -45,8 +46,8 @@ Bienvenue dans la doc du projet **The Learning Society** — plateforme EdTech S
 ## ✨ Fichiers clés au root
 
 **Projets actifs :**
-- `MIGRATION-PLAN.md` — phases 1-20, points de repère
 - `PHASE-16-GAP-ANALYSIS.md` — compliance specs (16 cahiers → code FO)
+- `_audits/AUDIT-CLAUDE-MD-CONTEXT-2026-07-25.md` — refonte du CLAUDE.md (context engineering, 2 passes)
 
 **Design & Assets :**
 - `site/DESIGN-INSPO.md` — Mobbin saves + Until Labs case study
@@ -65,7 +66,7 @@ Bienvenue dans la doc du projet **The Learning Society** — plateforme EdTech S
 | **Navbar Fluid Island + Hero parallax** | `site/DESIGN-INSPO.md` + `site/PROMPT-NAVBAR-HOMEPAGE-REDESIGN.md` | Copier PROMPT-NAVBAR-HOMEPAGE-REDESIGN.md directement |
 | **Phase 16 (Spec compliance)** | `PHASE-16-GAP-ANALYSIS.md` + cahiers `/CDC/01-13bis` | Lancer un Agent Explore sur CDC/ + FO pages |
 | **Design System audit** | `DESIGN.md` (racine) + `/CDC/` | Valider tokens Tailwind vs Figma DS |
-| **Marketing site refonte** | `site/DESIGN-INSPO.md` + `MARKETING-CONTEXT.md` | Copier structure site 6 pages |
+| **Marketing site refonte** | `site/CONTEXT-SITE-MARKETING.md` + `site/DESIGN-INSPO.md` | Voir le contexte-maison du site |
 | **Bootcamp UX/UI** | `/learning/BOOTCAMP-START-HERE.md` | Lancer 12-week learning path |
 
 ## 📊 État du projet

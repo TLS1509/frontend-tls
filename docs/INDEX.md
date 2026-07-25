@@ -1,6 +1,6 @@
 # 📑 Documentation Index — The Learning Society
 
-**Last updated**: 2026-07-23 | **Total docs**: 132 fichiers (hors `_archive/`)
+**Last updated**: 2026-07-25 | **Total docs**: ~134 fichiers (hors `_archive/`)
 
 > 🥇 **Avant toute session marketing ou site : lire [`_canon/FACTS-CANON.md`](_canon/FACTS-CANON.md).** C'est la source de vérité unique. Tout doc marketing qui la contredit a tort. `marketing/MARKETING-CONTEXT.md` est **rétrogradé** et ne fait plus foi malgré son nom.
 
@@ -12,7 +12,7 @@
 
 | Fichier | Description | Taille | Utiliser pour |
 |---------|---|---|---|
-| [MIGRATION-PLAN.md](MIGRATION-PLAN.md) | Phases 1-20, roadmap complet | 116K | Comprendre l'état général du projet |
+| [_archive/MIGRATION-PLAN.md](_archive/MIGRATION-PLAN.md) | 🗄️ **Archivé 2026-07-25** — migration Tailwind + phases 1-16 (toutes finies) | 120K | Historique uniquement |
 | [PHASE-16-GAP-ANALYSIS.md](PHASE-16-GAP-ANALYSIS.md) | Analysis 16 cahiers vs FO code | 40K | Avancer Phase 16 (spec compliance) |
 | [product/PRODUCT.md](product/PRODUCT.md) | Config projet, version, routes | — | Démarrer une session, setup MCP |
 | [product/DESIGN.md](product/DESIGN.md) | Design system Tailwind, patterns | — | Vérifier tokens, conventions styling |
@@ -23,8 +23,8 @@
 ## 📂 ROOT — Docs stratégiques
 
 **Actifs:**
-- `MIGRATION-PLAN.md` — Phase 1-20 roadmap + checklist tracking
 - `PHASE-16-GAP-ANALYSIS.md` — Cahiers 01-13bis vs FO pages audit complet
+- _(`MIGRATION-PLAN.md` déplacé vers `_archive/` le 2026-07-25 — migration + phases 1-16 finies)_
 - `IMPLEMENTATION_ORDER.md` — Ordre exécution recommandé phases
 - `README.md` — Navigation guide (ce fichier vous amène ici)
 - `INDEX.md` ← vous êtes ici
@@ -81,7 +81,9 @@
 
 ---
 
-## 🎨 SITE/ — Design & site vitrine (25 fichiers)
+## 🎨 SITE/ — Design & site vitrine (26 fichiers)
+
+> 🧭 **Contexte-maison du site marketing** (projet séparé de l'app) : [`site/CONTEXT-SITE-MARKETING.md`](site/CONTEXT-SITE-MARKETING.md) — code (`src/pages/marketing/`), règles motion (framer défaut / gsap pinning / lenis banni), primitives, patterns, pièges. **Point d'entrée de toute session site.**
 
 > 🧹 **Indexé le 2026-07-22.** 20 des 25 fichiers étaient absents de l'index (= docs fantômes au sens de la règle d'hygiène #2 de CLAUDE.md). Aucun n'a été supprimé ; l'inventaire ci-dessous les rend visibles. Les statuts marqués « à re-valider » n'ont **pas** été vérifiés doc par doc — ils signalent une antériorité à des décisions plus récentes, pas une fausseté établie.
 
@@ -272,7 +274,9 @@
 
 ---
 
-## 🧭 ops/ — Outillage & workflows de l'entreprise (3 fichiers)
+## 🧭 ops/ — Outillage & workflows de l'entreprise (6 fichiers)
+
+> 🧭 **Contexte-maison orga société** (projet séparé, hors frontend) : [`ops/CONTEXT-ORGA-SOCIETE.md`](ops/CONTEXT-ORGA-SOCIETE.md) — principe « clean / suivable / automatisé », Pennylane = source de vérité argent, index des docs ops. **Point d'entrée.**
 
 - `NOTION-CAPACITES-2026.md` — **ce que Notion sait faire depuis février 2026** (2026-07-23). Étude des versions 3.3 à 3.6 rapportée aux problèmes de TLS. Réponse à « peut-on développer nos propres outils sans quitter Notion » : **oui** — le Developer Platform de mai apporte **Workers** (runtime hébergé), **Database Sync** (brancher Pennylane), **Custom Agent Tools**, CLI et Agent SDK. Vues `chart` et `dashboard` créables par API avec un DSL complet. **Claude est agent externe dans Notion depuis le 1er juillet.** Blocs HTML interactifs — mais limites non documentées, à tester. ⏰ **Deux échéances de coût** : Custom Agents en crédits depuis le 04/05, **Workers à partir du 11/08**. Propose une restructuration Sales · Finance · Ops · Stratégie en tableaux de bord, et 7 actions ordonnées dont 4 gratuites et sans développement.
 
@@ -295,6 +299,7 @@
 
 **Deprecated but preserved**
 
+- `MIGRATION-PLAN.md` — 🗄️ **Archivé 2026-07-25** (déplacé de `docs/`). Migration Tailwind + phases 1-16, toutes finies. Historique uniquement — bannière en tête du fichier.
 - `SITE-INTERNET-V1-ANALYSE.md` — Old site HTML analysis (pre-React marketing)
 - `AUDIT-COHERENCE.md` — Old coherence audit (superseded by Phase 19)
 

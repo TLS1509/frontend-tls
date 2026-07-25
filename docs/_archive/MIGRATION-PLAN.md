@@ -1,5 +1,7 @@
 # MIGRATION-PLAN.md — Migration Tailwind CSS : The Learning Society
 
+> 🗄️ **ARCHIVÉ le 2026-07-25.** La migration Tailwind + les phases 1-16 sont **terminées** (migration one-time BEM → React/Tailwind + design system). Ce document est conservé **pour l'historique uniquement** — il ne décrit plus de travail en cours et ne fait plus foi. Déplacé de `docs/` vers `docs/_archive/`. Contexte : `docs/_audits/AUDIT-CLAUDE-MD-CONTEXT-2026-07-25.md`.
+
 **Objectif :** Remplacer 2 105 inline styles + classes BEM par des classes Tailwind mappées
 **Approche :** 1 composant/page par commit · validation obligatoire après chaque étape
 **Stratégie (depuis Phase 2.6) :** **bottom-up** — migrer les primitives partagées (Badge, ProgressBar, Avatar…) AVANT les composites parents. Évite les regressions visuelles silencieuses dans les composants déjà migrés (ex. ParcoursCard avec InlineProgress encore BEM = progress bar cassée).
