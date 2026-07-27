@@ -65,6 +65,8 @@ import type {
   EventRegistration,
   ContentSurvey,
   EvidenceRef,
+  EvidenceRegime,
+  EvidenceSource,
 } from '../types/learning';
 import type { Masterclass, AtelierPratique, Evenement } from '../data/events';
 import type {
@@ -83,6 +85,7 @@ import {
 } from '../data/passeport';
 import { MOCK_JOURNAL_ENTRIES } from '../data/journal';
 import { MOCK_COACHING_SESSIONS, MOCK_CORRECTIONS, MOCK_COACH_RECOMMENDATIONS } from '../data/coaching';
+import { getCompetenceById, PROJECT_COMPETENCE_TO_PASSEPORT } from '../data/competencies';
 import {
   MOCK_XP_EVENTS,
   MOCK_USER_BADGES,
@@ -670,6 +673,39 @@ interface PasseportState {
   /** Ajoute une preuve. N'écrit QUE `state.evidence` — jamais `competencies`/niveau (invariant). */
   addEvidence: (evidence: Omit<EvidenceRef, 'id' | 'createdAt'>) => void;
 
+  /**
+   * Validation coach / manager — **LE SEUL** chemin qui écrit un niveau *validé*
+   * (`currentLevel`). Écrit ATOMIQUEMENT (un seul `set`) : le niveau validé sur la
+   * `LearnerCompetency` (spread-patch, jamais un remplacement qui écraserait
+   * `selfAssessedLevel`/`points`) + une preuve **certifiante/dialoguée**
+   * (`EvidenceRef` avec `assertedLevel` = niveau validé + `verifiedBy`) + un
+   * événement timeline `dreyfus-up`. Décision **humaine** (AI Act art. 22) :
+   * `verifiedBy`/`verifiedByName` sont **obligatoires** — impossible d'écrire un
+   * niveau validé sans nommer le validateur. N'écrit aucun XP (firewall
+   * gamification). L'auto-évaluation (`selfAssessedLevel`) et la preuve légère SRS
+   * ne passent jamais par ici → elles ne peuvent pas écrire `currentLevel`.
+   */
+  validateCompetency: (input: {
+    /** Apprenant (sujet) — clé de la compétence + de la preuve. */
+    userId: string;
+    competenceId: string;
+    /** Libellé dénormalisé de la compétence (house style EvidenceRef). */
+    competenceName: string;
+    /** Niveau que le validateur humain affirme (1–5). */
+    validatedLevel: DreyfusLevel;
+    /** Validateur (coach / manager) — id + nom, obligatoires. */
+    verifiedBy: string;
+    verifiedByName: string;
+    /** Motif / rubrique — devient `EvidenceRef.sourceLabel`. */
+    rationale?: string;
+    /** Régime de preuve (défaut `certifying`). Jamais `light` ici. */
+    regime?: Extract<EvidenceRegime, 'dialogued' | 'certifying'>;
+    /** Source (défaut `coach_validation` ; le pont JAC passe `jac`). */
+    sourceType?: EvidenceSource;
+    sourceId?: string;
+    occurredAt?: string;
+  }) => void;
+
   /** Reset all Passeport data (useful for testing). */
   clear: () => void;
 }
@@ -685,11 +721,12 @@ export const usePasseportStore = create<PasseportState>()(
       getCompetencies: (userId) => {
         const existing = get().competencies[userId];
         if (existing) return existing;
-        // Seed from mock on first access
+        // Seed from mock on first access — les entrées de CE user uniquement.
+        // ⚠️ Un userId inconnu seed [] (et NON tout le set démo) : un apprenant
+        // sans données Passeport n'hérite pas des compétences d'Alex Mercier.
         const seeded = MOCK_LEARNER_COMPETENCIES.filter((c) => c.userId === userId);
-        const fallback = seeded.length > 0 ? seeded : MOCK_LEARNER_COMPETENCIES;
-        set((state) => ({ competencies: { ...state.competencies, [userId]: fallback } }));
-        return fallback;
+        set((state) => ({ competencies: { ...state.competencies, [userId]: seeded } }));
+        return seeded;
       },
 
       setCompetency: (entry) =>
@@ -704,10 +741,10 @@ export const usePasseportStore = create<PasseportState>()(
       getObjectives: (userId) => {
         const existing = get().objectives[userId];
         if (existing) return existing;
+        // userId inconnu → [] (n'hérite pas des objectifs d'un autre apprenant).
         const seeded = MOCK_COMPETENCY_OBJECTIVES.filter((o) => o.userId === userId);
-        const fallback = seeded.length > 0 ? seeded : MOCK_COMPETENCY_OBJECTIVES;
-        set((state) => ({ objectives: { ...state.objectives, [userId]: fallback } }));
-        return fallback;
+        set((state) => ({ objectives: { ...state.objectives, [userId]: seeded } }));
+        return seeded;
       },
 
       setObjective: (objective) =>
@@ -733,10 +770,10 @@ export const usePasseportStore = create<PasseportState>()(
       getProgressions: (userId) => {
         const existing = get().progressions[userId];
         if (existing) return existing;
+        // userId inconnu → [] (n'hérite pas de la timeline d'un autre apprenant).
         const seeded = MOCK_COMPETENCY_PROGRESSIONS.filter((p) => p.userId === userId);
-        const fallback = seeded.length > 0 ? seeded : MOCK_COMPETENCY_PROGRESSIONS;
-        set((state) => ({ progressions: { ...state.progressions, [userId]: fallback } }));
-        return fallback;
+        set((state) => ({ progressions: { ...state.progressions, [userId]: seeded } }));
+        return seeded;
       },
 
       addProgression: (event) =>
@@ -770,6 +807,79 @@ export const usePasseportStore = create<PasseportState>()(
           const userEv = state.evidence[evidence.userId] ?? [];
           return { evidence: { ...state.evidence, [evidence.userId]: [...userEv, ref] } };
         }),
+
+      validateCompetency: (input) => {
+        // Seed AVANT de patcher (les appelants hors-UI — pont JAC — n'ont pas lu le
+        // Passeport de l'apprenant, donc son set de compétences n'est pas encore en
+        // store). Sans ça, le patch partirait de [] et écraserait tout le set par la
+        // seule compétence validée (perte de selfAssessedLevel/points/autres compétences).
+        get().getCompetencies(input.userId);
+        get().getProgressions(input.userId);
+        set((state) => {
+          const now = new Date().toISOString();
+
+          // 1. Niveau validé — spread-patch (jamais un remplacement complet qui
+          //    écraserait selfAssessedLevel / points / targetLevel), create-if-absent.
+          const list = state.competencies[input.userId] ?? [];
+          const exists = list.some((c) => c.competenceId === input.competenceId);
+          const nextList: LearnerCompetency[] = exists
+            ? list.map((c) =>
+                c.competenceId === input.competenceId
+                  ? { ...c, currentLevel: input.validatedLevel, lastUpdated: now }
+                  : c,
+              )
+            : [
+                ...list,
+                {
+                  userId: input.userId,
+                  competenceId: input.competenceId,
+                  currentLevel: input.validatedLevel,
+                  points: 0,
+                  nextLevelPoints: 100,
+                  daysSinceActivity: 0,
+                  lastUpdated: now,
+                },
+              ];
+
+          // 2. Preuve certifiante/dialoguée — assertedLevel === niveau validé,
+          //    validateur humain nommé (art. 22). Aucune XP (firewall).
+          const ref: EvidenceRef = {
+            id: `evidence-${Date.now()}`,
+            userId: input.userId,
+            competenceId: input.competenceId,
+            competenceName: input.competenceName,
+            regime: input.regime ?? 'certifying',
+            sourceType: input.sourceType ?? 'coach_validation',
+            sourceId: input.sourceId ?? `coach-validation-${Date.now()}`,
+            sourceLabel: input.rationale?.trim() || 'Validation coach',
+            occurredAt: input.occurredAt ?? now,
+            createdAt: now,
+            assertedLevel: input.validatedLevel,
+            verifiedBy: input.verifiedBy,
+            verifiedByName: input.verifiedByName,
+          };
+          const userEv = state.evidence[input.userId] ?? [];
+
+          // 3. Événement timeline `dreyfus-up`.
+          const prog: CompetencyProgression = {
+            id: `prog-${Date.now()}`,
+            userId: input.userId,
+            type: 'dreyfus-up',
+            competenceId: input.competenceId,
+            title: `Niveau ${input.validatedLevel} validé · ${input.competenceName}`,
+            detail: `Validé par ${input.verifiedByName}${input.rationale?.trim() ? ` — ${input.rationale.trim()}` : ''}`,
+            newLevel: input.validatedLevel,
+            occurredAt: now,
+          };
+          const userProg = state.progressions[input.userId] ?? [];
+
+          return {
+            competencies: { ...state.competencies, [input.userId]: nextList },
+            evidence: { ...state.evidence, [input.userId]: [...userEv, ref] },
+            progressions: { ...state.progressions, [input.userId]: [prog, ...userProg] },
+          };
+        });
+      },
 
       clear: () => set({ competencies: {}, objectives: {}, progressions: {}, evidence: {} }),
     }),
@@ -2171,10 +2281,41 @@ export const useProjectsStore = create<ProjectsState & ProjectsActions>()(
             const jac = get().jacs.find((j) => j.id === jacId);
             if (jac) {
               get().updateTaskStatus(jac.taskId, 'approved');
+              // ── Pont JAC → Passeport (unification) ──────────────────────────
+              // La validation JAC est une décision HUMAINE de l'expert : elle écrit
+              // le niveau validé de l'apprenant via la primitive canonique
+              // `validateCompetency` + une preuve certifiante (sourceType 'jac').
+              // Un seul chemin d'écriture, un seul modèle de preuve (EvidenceRef) —
+              // `addEnrichment`/`PasseportEnrichment` (ci-dessous, @deprecated) sont
+              // supersédés. Garde-fous : uniquement sur `approved`, seulement si la
+              // compétence projet a un équivalent Passeport (table explicite, no-op
+              // sinon → aucune compétence fantôme).
+              const passeportCompetenceId = PROJECT_COMPETENCE_TO_PASSEPORT[jac.competencyId];
+              if (passeportCompetenceId) {
+                usePasseportStore.getState().validateCompetency({
+                  userId: jac.collaboratorId,
+                  competenceId: passeportCompetenceId,
+                  competenceName: getCompetenceById(passeportCompetenceId)?.label ?? jac.competencyName,
+                  validatedLevel: dreyfusLevelAchieved,
+                  verifiedBy: jac.expertId,
+                  verifiedByName: jac.expertName,
+                  rationale: feedback?.trim() || `JAC validé · ${jac.competencyName}`,
+                  sourceType: 'jac',
+                  regime: 'certifying',
+                  sourceId: `jac:${jac.id}`,
+                });
+              }
             }
           }
         },
 
+        /**
+         * @deprecated Superseded by `usePasseportStore.validateCompetency` +
+         * `EvidenceRef` (la primitive de preuve canonique). Écrivait un niveau
+         * validé dans le silo projet (`teamMembers.currentDreyfusLevels`) sans
+         * atteindre le Passeport apprenant. Aucun appelant. Conservé le temps de
+         * retirer le type `PasseportEnrichment` ; ne pas rebrancher.
+         */
         addEnrichment: (data) => {
           seed();
           const enrichment: PasseportEnrichment = {

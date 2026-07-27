@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Target, TrendingUp, BookOpen, Flame, ArrowLeft, Brain } from 'lucide-react';
+import { Target, TrendingUp, BookOpen, Flame, ArrowLeft, Brain, Scale, ShieldCheck } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { Button } from '../components/core/Button';
@@ -60,8 +60,12 @@ export default function PasseportCompetenceDetail() {
     .sort((a, b) => new Date(b.occurredAt).getTime() - new Date(a.occurredAt).getTime())
     .slice(0, 5);
 
-  // Preuves de rétention (SRS → EvidenceRef, régime léger) for this competency
+  // Preuves (EvidenceRef) de cette compétence, séparées par régime :
+  //  - validations : régime certifiant/dialogué (coach/manager) → assertedLevel + verifiedBy
+  //  - retentions  : régime léger (SRS) → signal de rétention, n'affecte pas le niveau
   const competencyEvidence = store.getEvidence(MOCK_USER_ID, lc?.competenceId ?? '');
+  const validations = competencyEvidence.filter((e) => e.verifiedBy || e.assertedLevel != null);
+  const retentions = competencyEvidence.filter((e) => e.retention);
 
   // Radar: sibling competencies in same domain for context
   const siblingCompetencies = competencies
@@ -121,6 +125,21 @@ export default function PasseportCompetenceDetail() {
             size="sm"
           />
         </div>
+
+        {/* Calibration : perception (auto-évaluée) vs niveau validé */}
+        {lc?.selfAssessedLevel != null && lc?.currentLevel != null && lc.selfAssessedLevel !== lc.currentLevel && (
+          <div className="flex items-start gap-stack-xs rounded-xl border border-ink-100 bg-ink-50 px-stack py-3">
+            <Scale size={18} className="text-ink-400 shrink-0 mt-0.5" />
+            <p className="text-caption text-ink-600 m-0">
+              <span className="font-semibold text-ink-800">Calibration</span> — tu t'étais auto-évalué·e à{' '}
+              <strong className="text-ink-800">D{lc.selfAssessedLevel}</strong>, le niveau validé est{' '}
+              <strong className="text-ink-800">D{lc.currentLevel}</strong>
+              {lc.currentLevel > lc.selfAssessedLevel
+                ? ' : le regard externe te situe plus haut que ta perception.'
+                : ' : ta perception dépassait le niveau validé — un écart utile à travailler.'}
+            </p>
+          </div>
+        )}
 
         {/* Dreyfus scale */}
         <SectionCard
@@ -224,13 +243,37 @@ export default function PasseportCompetenceDetail() {
               )}
             </SectionCard>
 
-            {competencyEvidence.length > 0 && (
+            {validations.length > 0 && (
+              <SectionCard title="Validations" titleIcon={<ShieldCheck size={18} />}>
+                <p className="text-caption text-ink-500 m-0 mb-stack-xs">
+                  Preuves certifiantes : un coach ou un manager a validé ton niveau (décision humaine, art. 22).
+                </p>
+                <div className="flex flex-col gap-stack-xs">
+                  {validations.map((e) => (
+                    <div key={e.id} className="flex items-center justify-between px-stack py-3 rounded-lg border border-primary-100 bg-primary-50">
+                      <div className="flex flex-col gap-tight">
+                        <span className="text-body-sm font-medium text-ink-900">{e.sourceLabel}</span>
+                        <span className="text-caption text-ink-400">
+                          {new Date(e.occurredAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}
+                          {e.verifiedByName ? ` · validé par ${e.verifiedByName}` : ''}
+                        </span>
+                      </div>
+                      {e.assertedLevel != null && (
+                        <Badge variant="brand" size="sm">D{e.assertedLevel} validé</Badge>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </SectionCard>
+            )}
+
+            {retentions.length > 0 && (
               <SectionCard title="Preuves de rétention" titleIcon={<Brain size={18} />}>
                 <p className="text-caption text-ink-500 m-0 mb-stack-xs">
                   Récupération active auto-déclarée (flashcards). Trace de mémorisation — n'affecte pas le niveau validé.
                 </p>
                 <div className="flex flex-col gap-stack-xs">
-                  {competencyEvidence.map((e) => (
+                  {retentions.map((e) => (
                     <div key={e.id} className="flex items-center justify-between px-stack py-3 rounded-lg border border-ink-100">
                       <div className="flex flex-col gap-tight">
                         <span className="text-body-sm font-medium text-ink-900">{e.sourceLabel}</span>

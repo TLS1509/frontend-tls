@@ -120,6 +120,14 @@ export interface ProjectAssignment {
 
 // ─── PasseportEnrichment ─────────────────────────────────────────────────────
 
+/**
+ * @deprecated Superseded by `EvidenceRef` (src/types/learning.ts) écrit via
+ * `usePasseportStore.validateCompetency`. Ce modèle dupliquait la preuve de
+ * validation (regime/source/assertedLevel/verifiedBy) mais n'écrivait qu'un silo
+ * projet (`teamMembers.currentDreyfusLevels`), jamais le Passeport apprenant.
+ * `EvidenceSource` inclut déjà `'jac'` : le pont JAC passe désormais par
+ * `validateCompetency`. Ne pas réutiliser pour de nouvelles écritures.
+ */
 export interface PasseportEnrichment {
   id: string;
   collaboratorId: string;

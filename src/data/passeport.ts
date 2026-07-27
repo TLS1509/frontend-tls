@@ -12,17 +12,23 @@ import type {
   LearnerCompetency,
   CompetencyObjective,
   CompetencyProgression,
+  DreyfusLevel,
 } from '../types/learning';
+import { APPRENANTS, APPRENANT_AXES } from './apprenants';
 
 export const MOCK_USER_ID = 'user-demo';
 
 // ─── Niveaux courants (LearnerCompetency) ─────────────────────────────────────
 
-export const MOCK_LEARNER_COMPETENCIES: LearnerCompetency[] = [
+// Compte démo (Alex Mercier / user-demo) : historique complet avec des niveaux
+// déjà **validés** (`currentLevel`). C'est le seul apprenant dont la vue apprenant
+// (getCompetencies(MOCK_USER_ID)) est câblée de bout en bout.
+const DEMO_USER_COMPETENCIES: LearnerCompetency[] = [
   {
     userId: MOCK_USER_ID,
     competenceId: 'leadership',
-    currentLevel: 3,
+    currentLevel: 3, // validé
+    selfAssessedLevel: 4, // perception plus haute que le validé → calibration
     targetLevel: 5,
     points: 320,
     nextLevelPoints: 500,
@@ -42,7 +48,8 @@ export const MOCK_LEARNER_COMPETENCIES: LearnerCompetency[] = [
   {
     userId: MOCK_USER_ID,
     competenceId: 'analyse',
-    currentLevel: 2,
+    currentLevel: 2, // validé
+    selfAssessedLevel: 3, // perception plus haute que le validé
     targetLevel: 4,
     points: 190,
     nextLevelPoints: 300,
@@ -89,6 +96,51 @@ export const MOCK_LEARNER_COMPETENCIES: LearnerCompetency[] = [
     daysSinceActivity: 30,
     lastUpdated: '2026-04-15T11:00:00Z',
   },
+];
+
+/**
+ * Correspondance axe heatmap coach (APPRENANT_AXES) → competenceId Passeport.
+ * Les `scores` d'un Apprenant sont des niveaux Dreyfus 0–5 par axe (0 = non évalué).
+ */
+const AXIS_TO_COMPETENCE: Record<string, string> = {
+  Leadership: 'leadership',
+  Communication: 'communication',
+  Analyse: 'analyse',
+  'Tech & Outils': 'tech_tools',
+  Créativité: 'creativity',
+  Coopération: 'cooperation',
+};
+
+/**
+ * Compétences des apprenants du roster (hors user-demo) dérivées de leurs `scores`
+ * heatmap — posées en **auto-évaluation** (`selfAssessedLevel`), PAS validées :
+ * `currentLevel` reste absent tant qu'un coach/manager ne l'a pas validé via
+ * `validateCompetency`. C'est ce qui fait la démo de calibration (auto-évalué →
+ * validé) réelle et par-apprenant côté fiche coach/manager.
+ */
+const ROSTER_SELF_ASSESSED: LearnerCompetency[] = APPRENANTS
+  .filter((a) => a.id !== MOCK_USER_ID)
+  .flatMap((a) =>
+    a.scores.flatMap((score, i): LearnerCompetency[] => {
+      const competenceId = AXIS_TO_COMPETENCE[APPRENANT_AXES[i]];
+      if (!competenceId || score < 1) return []; // 0 = non évalué → pas de compétence
+      return [
+        {
+          userId: a.id,
+          competenceId,
+          selfAssessedLevel: score as DreyfusLevel, // perception, jamais validé
+          points: 0,
+          nextLevelPoints: 100,
+          daysSinceActivity: 0,
+          lastUpdated: '2026-05-01T00:00:00Z',
+        },
+      ];
+    }),
+  );
+
+export const MOCK_LEARNER_COMPETENCIES: LearnerCompetency[] = [
+  ...DEMO_USER_COMPETENCIES,
+  ...ROSTER_SELF_ASSESSED,
 ];
 
 // ─── Objectifs (CompetencyObjective) ─────────────────────────────────────────

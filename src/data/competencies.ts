@@ -164,6 +164,20 @@ export const getCompetenceById = (id: string): Competence | undefined =>
   COMPETENCES.find((c) => c.id === id);
 
 /**
+ * Correspondance compétence **projet** (`comp-*`, data/projects.ts) → `competenceId`
+ * **Passeport**. Sert de pont JAC → Passeport (`validateCompetency`, `sourceType: 'jac'`).
+ * Les compétences projet SANS équivalent Passeport (tests, architecture, gestion de
+ * projet) ne sont volontairement **pas** mappées → une validation JAC sur celles-ci
+ * ne crée AUCUNE compétence Passeport fantôme (no-op). Table explicite (jamais dérivée
+ * d'un nom) pour éviter tout rapprochement hasardeux.
+ */
+export const PROJECT_COMPETENCE_TO_PASSEPORT: Record<string, string> = {
+  'comp-data': 'analyse', // Analyse de données → Analyse & Décision
+  'comp-ai': 'ai_tools', // IA & LLM → IA générative & prompting
+  'comp-python': 'tech_tools', // Développement Python → Tech & Outils numériques
+};
+
+/**
  * Niveau Dreyfus à AFFICHER pour une compétence : le niveau **validé** s'il existe,
  * sinon la **perception** auto-évaluée, sinon 1 (Novice). Structural (pas d'import de
  * LearnerCompetency) pour éviter tout cycle. Utiliser partout où l'on montrait

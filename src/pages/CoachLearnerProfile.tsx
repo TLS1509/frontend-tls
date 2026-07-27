@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { BookOpen, Activity, Calendar, FileText, Plus, ArrowLeft, Sparkles, ShieldOff } from 'lucide-react';
+import { BookOpen, Activity, Calendar, FileText, Plus, ArrowLeft, Sparkles, ShieldOff, ShieldCheck, Check } from 'lucide-react';
 import EditorialHero from '../components/patterns/EditorialHero';
 import SectionCard from '../components/patterns/SectionCard';
-import ProgressBar from '../components/ui/ProgressBar';
 import ActivityFeed from '../components/patterns/ActivityFeed';
 import Avatar from '../components/ui/Avatar';
 import Badge from '../components/ui/Badge';
@@ -13,8 +12,11 @@ import { AIOverrideButton } from '../components/ui/AIOverrideButton';
 import { PageShell } from '../components/layout';
 import type { ActivityFeedItem } from '../components/patterns/ActivityFeed';
 import { getApprenantById, dreyfusLabel } from '../data/apprenants';
-import { usePrivacyStore } from '../stores/persistence';
+import { usePrivacyStore, usePasseportStore } from '../stores/persistence';
 import { MOCK_COACH_ID } from '../data/analytics';
+import { MOCK_COACH_ID as COACH_VALIDATOR_ID, MOCK_COACH } from '../data/coaching';
+import { getCompetenceById, competencyLevel, isValidatedLevel, DREYFUS_LABELS } from '../data/competencies';
+import type { DreyfusLevel } from '../types/learning';
 
 const FALLBACK_LEARNER = {
   name: 'Isabelle Fontaine',
@@ -23,13 +25,7 @@ const FALLBACK_LEARNER = {
   email: 'i.fontaine@example.com',
 };
 
-const COMPETENCES = [
-  { label: 'Gestion de projet', fill: 72, fillColor: 'brand' as const },
-  { label: 'Communication', fill: 85, fillColor: 'success' as const },
-  { label: 'Leadership', fill: 48, fillColor: 'warm' as const },
-  { label: 'Résolution de problèmes', fill: 60, fillColor: 'brand' as const },
-  { label: 'Travail en équipe', fill: 91, fillColor: 'success' as const },
-];
+const DREYFUS_LEVELS: DreyfusLevel[] = [1, 2, 3, 4, 5];
 
 const ACTIVITY_ITEMS: ActivityFeedItem[] = [
   {
@@ -152,6 +148,35 @@ export default function CoachLearnerProfile() {
   const [dismissedRecs, setDismissedRecs] = useState<Set<string>>(new Set());
   const logAIDecision = usePrivacyStore((s) => s.logAIDecision);
   const getAIConsents = usePrivacyStore((s) => s.getAIConsents);
+
+  // ── Passeport : validation coach/manager du niveau Dreyfus ──────────────────
+  // Live binding (pas de snapshot) : getCompetencies(id) dans le render body → le
+  // composant se re-render après validateCompetency et le badge bascule en « Validé ».
+  const passeport = usePasseportStore();
+  const learnerId = id ?? '';
+  const competencies = passeport.getCompetencies(learnerId);
+  const [validating, setValidating] = useState<string | null>(null); // competenceId ouvert
+  const [pickedLevel, setPickedLevel] = useState<DreyfusLevel>(3);
+  const [rationale, setRationale] = useState('');
+
+  const openValidation = (competenceId: string, current: DreyfusLevel) => {
+    setValidating(competenceId);
+    setPickedLevel(current);
+    setRationale('');
+  };
+  const submitValidation = (competenceId: string) => {
+    passeport.validateCompetency({
+      userId: learnerId,
+      competenceId,
+      competenceName: getCompetenceById(competenceId)?.label ?? competenceId,
+      validatedLevel: pickedLevel,
+      verifiedBy: COACH_VALIDATOR_ID,
+      verifiedByName: MOCK_COACH.name,
+      rationale: rationale.trim() || undefined,
+    });
+    setValidating(null);
+    setRationale('');
+  };
   // Le consentement IA appartient au sujet (l'apprenant). Si l'apprenant a désactivé
   // les recommandations IA dans ses préférences, le coach ne voit aucune suggestion
   // automatique générée à son sujet (RGPD / AI Act — consentement honoré, pas juste stocké).
@@ -228,27 +253,112 @@ export default function CoachLearnerProfile() {
           </div>
         </div>
 
-        {/* Progression Dreyfus par compétence */}
+        {/* Validation Dreyfus par compétence — coach / manager */}
         <SectionCard
           title="Progression Dreyfus par compétence"
           titleIcon={<BookOpen size={18} />}
-          description="Niveau d'acquisition évalué selon le modèle Dreyfus pour chaque compétence clé"
+          description="Valide le niveau atteint par l'apprenant. Une validation coach/manager est une décision humaine : elle écrit le niveau validé et signe une preuve certifiante au Passeport (AI Act art. 22)."
         >
-          <div className="flex flex-col gap-stack">
-            {COMPETENCES.map((comp) => (
-              <div key={comp.label} className="flex flex-col gap-tight">
-                <div className="flex items-center justify-between">
-                  <span className="text-body-sm font-semibold text-ink-800">{comp.label}</span>
-                  <span className="text-caption text-ink-400">{comp.fill} %</span>
-                </div>
-                <ProgressBar
-                  value={comp.fill}
-                  fill={comp.fillColor}
-                  size="sm"
-                />
-              </div>
-            ))}
-          </div>
+          {competencies.length === 0 ? (
+            <p className="text-body-sm text-ink-500 m-0">
+              Aucune compétence évaluée dans le Passeport de {learner.name} pour l'instant.
+            </p>
+          ) : (
+            <div className="flex flex-col divide-y divide-ink-100">
+              {competencies.map((lc) => {
+                const level = competencyLevel(lc);
+                const validated = isValidatedLevel(lc);
+                const compLabel = getCompetenceById(lc.competenceId)?.label ?? lc.competenceId;
+                const isOpen = validating === lc.competenceId;
+                return (
+                  <div key={lc.competenceId} className="flex flex-col gap-stack-xs py-stack">
+                    <div className="flex items-center justify-between gap-stack">
+                      <div className="flex flex-col gap-tight min-w-0">
+                        <span className="text-body-sm font-semibold text-ink-800">{compLabel}</span>
+                        <div className="flex items-center gap-stack-xs">
+                          <span className="inline-flex items-center px-2 py-0.5 text-micro font-semibold rounded-pill bg-primary-50 text-primary-800">
+                            D{level} · {DREYFUS_LABELS[level]}
+                          </span>
+                          {validated ? (
+                            <Badge variant="success" size="sm">Validé</Badge>
+                          ) : (
+                            <Badge variant="neutral" size="sm">Auto-évalué</Badge>
+                          )}
+                        </div>
+                      </div>
+                      {!isOpen && (
+                        <Button
+                          variant={validated ? 'ghost' : 'secondary'}
+                          size="sm"
+                          leadingIcon={<ShieldCheck size={14} />}
+                          onClick={() => openValidation(lc.competenceId, level)}
+                        >
+                          {validated ? 'Revalider' : 'Valider le niveau'}
+                        </Button>
+                      )}
+                    </div>
+
+                    {isOpen && (
+                      <div className="flex flex-col gap-stack p-stack rounded-xl border border-primary-100 bg-primary-50">
+                        <div className="flex flex-col gap-tight">
+                          <span className="text-caption font-semibold text-ink-700">Niveau Dreyfus validé</span>
+                          <div className="flex gap-tight">
+                            {DREYFUS_LEVELS.map((lvl) => (
+                              <button
+                                key={lvl}
+                                type="button"
+                                onClick={() => setPickedLevel(lvl)}
+                                aria-pressed={pickedLevel === lvl}
+                                className={[
+                                  'flex-1 h-10 rounded-lg text-body-sm font-semibold border transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+                                  pickedLevel === lvl
+                                    ? 'bg-primary-600 text-white border-primary-600'
+                                    : 'bg-white text-ink-600 border-ink-200 hover:border-primary-300',
+                                ].join(' ')}
+                              >
+                                D{lvl}
+                              </button>
+                            ))}
+                          </div>
+                          <span className="text-micro text-ink-500">{DREYFUS_LABELS[pickedLevel]}</span>
+                        </div>
+                        <div className="flex flex-col gap-tight">
+                          <label className="text-caption font-semibold text-ink-700" htmlFor={`rationale-${lc.competenceId}`}>
+                            Motif / rubrique <span className="text-danger-fg">*</span>
+                          </label>
+                          <textarea
+                            id={`rationale-${lc.competenceId}`}
+                            className="w-full h-auto min-h-[72px] rounded-md border border-ink-200 bg-white px-3 py-2 text-body-sm text-ink-900 font-body placeholder:text-ink-400 focus:outline-none focus:border-primary-500 transition-colors resize-none"
+                            placeholder="Sur quelle preuve observable repose cette validation ? (mise en situation, livrable, JAC…)"
+                            value={rationale}
+                            onChange={(e) => setRationale(e.target.value)}
+                            rows={2}
+                          />
+                        </div>
+                        <div className="flex items-center justify-end gap-stack-xs">
+                          <Button variant="ghost" size="sm" onClick={() => setValidating(null)}>
+                            Annuler
+                          </Button>
+                          <Button
+                            variant="primary"
+                            size="sm"
+                            leadingIcon={<Check size={14} />}
+                            disabled={!rationale.trim()}
+                            onClick={() => submitValidation(lc.competenceId)}
+                          >
+                            Valider D{pickedLevel}
+                          </Button>
+                        </div>
+                        <p className="text-micro text-ink-400 m-0">
+                          Validé par {MOCK_COACH.name} · une preuve certifiante est ajoutée au Passeport de l'apprenant.
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </SectionCard>
 
         {/* Recommandations IA — gated sur le consentement IA de l'apprenant (RGPD / AI Act) */}

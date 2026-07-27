@@ -159,6 +159,22 @@ export const APPRENANTS: Apprenant[] = [
     scores: [2, 2, 2, 3, 1, 2],
   },
   {
+    // Membre de la cohorte manager « Équipe Tech » (ManagerCohort). Présent ici
+    // pour que le manager atteigne une fiche réelle et validable via son roster.
+    id: 'amina-benali',
+    name: 'Amina Benali',
+    initials: 'AB',
+    role: 'Consultante',
+    email: 'a.benali@example.com',
+    tags: ['Communication D3', 'Coopération D4'],
+    status: 'active',
+    lastActivity: '5j',
+    dreyfusAvg: 3.0,
+    nextSession: '27 mai',
+    streak: 5,
+    scores: [3, 3, 3, 3, 2, 4],
+  },
+  {
     // Compte démo (l'utilisateur connecté = MOCK_USER_ID 'user-demo'). Présent ici
     // pour que la boucle de démo soit visible de bout en bout : le coach ouvre
     // /coach/apprenant/user-demo → rejette une reco IA (tracée sous 'user-demo')

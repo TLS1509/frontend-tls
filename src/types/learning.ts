@@ -191,9 +191,9 @@ export type EvidenceSource = 'srs_review' | 'quiz' | 'reflection' | 'coach_valid
  * ⚠️ INVARIANT (l'auto-déclaration n'écrit jamais un niveau *validé*) :
  *  - une preuve **légère** (`regime: 'light'`, ex. rating SRS) laisse `assertedLevel`
  *    VIDE — elle n'affirme aucun niveau, elle trace une récupération active ;
- *  - seuls les régimes **dialogué / certifiant** (validation coach signée) renseignent
- *    `assertedLevel` + `verifiedBy` — et c'est ce chemin (hors skeleton) qui pourra
- *    faire évoluer un niveau *validé*.
+ *  - seuls les régimes **dialogué / certifiant** (validation coach/manager signée)
+ *    renseignent `assertedLevel` + `verifiedBy` — c'est ce chemin
+ *    (`usePasseportStore.validateCompetency`) qui écrit un niveau *validé*.
  * Aucune preuve ne rapporte d'XP (firewall gamification) : signal de rétention, pas récompense.
  */
 export interface EvidenceRef {

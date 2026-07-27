@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Users, BarChart3, CheckCircle2, AlertTriangle, ChevronRight } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
@@ -23,12 +24,14 @@ const TEAM_STATS = [
   { label: 'Couverture compétences', value: '4/6', delta: '', deltaDirection: 'up' as const },
 ];
 
+// `slug` → id apprenant (data/apprenants.ts) : ouvre la fiche réelle & validable
+// via /coach/apprenant/:slug (surface partagée coach + manager).
 const TEAM_MEMBERS = [
-  { id: 1, name: 'Sophie Martin', role: 'Développeuse Senior', initials: 'SM', completion: 82, dreyfus: 3.2, daysSinceActivity: 2, jac: 90 },
-  { id: 2, name: 'Pierre Bernard', role: 'Chef de Projet', initials: 'PB', completion: 45, dreyfus: 2.1, daysSinceActivity: 8, jac: 55 },
-  { id: 3, name: 'Nadia Ferreira', role: 'Lead Designer', initials: 'NF', completion: 95, dreyfus: 4.1, daysSinceActivity: 1, jac: 98 },
-  { id: 4, name: 'Julien Moreau', role: 'Analyste Data', initials: 'JM', completion: 70, dreyfus: 2.8, daysSinceActivity: 95, jac: 72 },
-  { id: 5, name: 'Amina Benali', role: 'Consultante', initials: 'AB', completion: 60, dreyfus: 3.0, daysSinceActivity: 5, jac: 65 },
+  { id: 1, slug: 'sophie-martin', name: 'Sophie Martin', role: 'Développeuse Senior', initials: 'SM', completion: 82, dreyfus: 3.2, daysSinceActivity: 2, jac: 90 },
+  { id: 2, slug: 'pierre-bernard', name: 'Pierre Bernard', role: 'Chef de Projet', initials: 'PB', completion: 45, dreyfus: 2.1, daysSinceActivity: 8, jac: 55 },
+  { id: 3, slug: 'nadia-ferreira', name: 'Nadia Ferreira', role: 'Lead Designer', initials: 'NF', completion: 95, dreyfus: 4.1, daysSinceActivity: 1, jac: 98 },
+  { id: 4, slug: 'julien-moreau', name: 'Julien Moreau', role: 'Analyste Data', initials: 'JM', completion: 70, dreyfus: 2.8, daysSinceActivity: 95, jac: 72 },
+  { id: 5, slug: 'amina-benali', name: 'Amina Benali', role: 'Consultante', initials: 'AB', completion: 60, dreyfus: 3.0, daysSinceActivity: 5, jac: 65 },
 ];
 
 const PROJECTS = [
@@ -62,6 +65,7 @@ const TABS = [
 
 export default function ManagerCohort() {
   const [activeTab, setActiveTab] = useState('overview');
+  const navigate = useNavigate();
 
   return (
     <div className="flex flex-col gap-section">
@@ -181,7 +185,12 @@ export default function ManagerCohort() {
                   </div>
                   <ProgressBar value={m.completion} fill="brand" size="sm" />
                 </div>
-                <Button variant="ghost" size="sm" trailingIcon={<ChevronRight size={14} />}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  trailingIcon={<ChevronRight size={14} />}
+                  onClick={() => navigate(`/coach/apprenant/${m.slug}`)}
+                >
                   Fiche
                 </Button>
               </Card>

@@ -67,6 +67,10 @@ const JacValidationForm: React.FC<{
   const averageLevel = Math.round(
     rubric.reduce((sum, r) => sum + r.score, 0) / rubric.length
   ) as DreyfusLevel;
+  // Le niveau validé est une DÉCISION de l'expert (art. 22), pas une moyenne écrite
+  // en aveugle : la moyenne rubrique pré-remplit, l'expert confirme ou ajuste.
+  const [levelOverride, setLevelOverride] = useState<DreyfusLevel | null>(null);
+  const effectiveLevel: DreyfusLevel = levelOverride ?? averageLevel;
 
   const handleScoreChange = (idx: number, score: DreyfusLevel) => {
     setRubric((prev) => prev.map((r, i) => (i === idx ? { ...r, score } : r)));
@@ -84,7 +88,7 @@ const JacValidationForm: React.FC<{
     }));
     store.submitJacValidation(
       jacId,
-      averageLevel,
+      effectiveLevel,
       decision,
       globalFeedback,
       rubricScores
@@ -133,12 +137,30 @@ const JacValidationForm: React.FC<{
         ))}
       </div>
 
-      {/* Average level display */}
-      <div className="flex items-center gap-stack-xs p-3 bg-primary-50 rounded-lg">
-        <Target size={16} className="text-primary-600 shrink-0" />
-        <p className="text-body-sm text-primary-800 m-0">
-          Niveau Dreyfus calculé : <strong>D{averageLevel} : {DREYFUS_LABELS[averageLevel]}</strong>
-        </p>
+      {/* Niveau validé — pré-rempli depuis la moyenne rubrique, l'expert décide (art. 22) */}
+      <div className="flex flex-col gap-stack-xs p-3 bg-primary-50 rounded-lg">
+        <div className="flex items-center gap-stack-xs">
+          <Target size={16} className="text-primary-600 shrink-0" />
+          <p className="text-caption font-semibold text-primary-800 m-0">
+            Niveau Dreyfus validé{' '}
+            <span className="font-normal text-primary-700">· pré-rempli D{averageLevel} (moyenne rubrique) — ajuste si besoin</span>
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-1.5">
+          {([1, 2, 3, 4, 5] as DreyfusLevel[]).map((level) => (
+            <button
+              key={level}
+              onClick={() => setLevelOverride(level)}
+              className={`px-3 py-1 rounded-pill text-caption font-semibold transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
+                effectiveLevel === level
+                  ? 'bg-primary-600 text-white'
+                  : 'bg-white text-ink-600 hover:bg-primary-100 hover:text-primary-700'
+              }`}
+            >
+              D{level} · {DREYFUS_LABELS[level]}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Global feedback */}
