@@ -10,7 +10,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { useLessonProgressStore } from '../stores/persistence';
+import { useLessonProgressStore, usePasseportStore } from '../stores/persistence';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from '../components/core/Button';
 import { SessionFeedbackModal } from '../components/modals';
@@ -38,7 +38,9 @@ import {
   Globe,
   Link2,
 } from 'lucide-react';
-import { resolveLessonContext, getToneFromLevel } from '../data/learningPaths';
+import { resolveLessonContext, getToneFromLevel, getLessonCompetenceIds } from '../data/learningPaths';
+import { getCompetenceById } from '../data/competencies';
+import { MOCK_USER_ID } from '../data/passeport';
 import { BehavioralTileGrid } from '../components/patterns/BehavioralTileGrid';
 
 /* ─── Section definitions (EDRAC model) ─────────────────────────────────── */
@@ -820,6 +822,7 @@ export const LessonPlayer: React.FC = () => {
   const setReflectionInStore = useLessonProgressStore((s) => s.setReflection);
   const setActionPlanInStore = useLessonProgressStore((s) => s.setActionPlan);
   const addQuizAttempt = useLessonProgressStore((s) => s.addQuizAttempt);
+  const addEvidence = usePasseportStore((s) => s.addEvidence);
 
   const [currentIndex, setCurrentIndex] = useState(persistedEntry?.lastSection ?? 0);
   const [completedSections, setCompletedSections] = useState<Set<number>>(
@@ -1037,7 +1040,7 @@ export const LessonPlayer: React.FC = () => {
     return (
       <QuizComponent
         questions={quizQuestions}
-        onComplete={(results) =>
+        onComplete={(results) => {
           // Les résultats partaient dans un console.log jusqu'au 2026-07-23 : l'apprenant
           // était testé, rien n'était conservé. C'est ce qui empêchait le Passeport
           // (cahier 02) de se remplir depuis les leçons et le cahier 10 d'avoir de la
@@ -1052,8 +1055,31 @@ export const LessonPlayer: React.FC = () => {
               answers: results.answers,
             },
             SECTIONS.length
-          )
-        }
+          );
+          // Branche le quiz sur le Passeport : preuve LÉGÈRE (performance à un instant T).
+          // Un quiz est auto-corrigé → il n'affirme AUCUN niveau (`assertedLevel` vide) et
+          // ne rapporte AUCUN XP. Émise une fois par compétence de l'étape, et seulement
+          // pour celles qui existent vraiment au référentiel — une étape qui référence une
+          // compétence inconnue n'en crée pas une fantôme.
+          const competenceIds = ctx?.step.competenceIds ?? getLessonCompetenceIds(lessonId);
+          const lessonTitle = ctx?.lesson.title ?? lessonId;
+          const now = new Date().toISOString();
+          competenceIds.forEach((competenceId) => {
+            const competence = getCompetenceById(competenceId);
+            if (!competence) return;
+            addEvidence({
+              userId: MOCK_USER_ID,
+              competenceId,
+              competenceName: competence.label,
+              regime: 'light',
+              sourceType: 'quiz',
+              sourceId: `lesson:${lessonId}:quiz`,
+              sourceLabel: `Quiz · ${lessonTitle}`,
+              score: { correct: results.correct, total: results.total },
+              occurredAt: now,
+            });
+          });
+        }}
       />
     );
   };

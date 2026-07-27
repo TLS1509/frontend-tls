@@ -7,8 +7,9 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { useToastContext } from '../contexts/ToastContext';
-import { useJournalStore } from '../stores/persistence';
+import { useJournalStore, usePasseportStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
+import { getCompetenceById } from '../data/competencies';
 import { EDRA_R_QUESTIONS, GENERIC_STRUCTURED_QUESTIONS } from '../data/journal';
 import {
   ArrowLeft,
@@ -129,6 +130,7 @@ export const JournalNewEntry: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const journalStore = useJournalStore();
+  const addEvidence = usePasseportStore((s) => s.addEvidence);
 
   // Pre-select entry type from URL `?type=...` (used when navigating from Dashboard JournalPromptCards)
   const initialType = useMemo<EntryType>(() => {
@@ -232,6 +234,23 @@ export const JournalNewEntry: React.FC = () => {
       updatedAt: now,
     };
     journalStore.addEntry(entry);
+    // Boucle Journal → Passeport : une réflexion rattachée à une compétence y dépose une
+    // preuve LÉGÈRE. Jusqu'ici le lien était à sens unique — l'entrée pointait la
+    // compétence, la compétence ne le savait pas. Aucun niveau affirmé (`assertedLevel`
+    // vide), aucun XP : réfléchir se trace, ne se note pas.
+    const competence = linkedCompetenceId ? getCompetenceById(linkedCompetenceId) : undefined;
+    if (linkedCompetenceId && competence) {
+      addEvidence({
+        userId: MOCK_USER_ID,
+        competenceId: linkedCompetenceId,
+        competenceName: competence.label,
+        regime: 'light',
+        sourceType: 'reflection',
+        sourceId: `journal:${entry.id}`,
+        sourceLabel: `Journal · ${entry.title}`,
+        occurredAt: now,
+      });
+    }
     toast.success('Votre entrée a été publiée dans votre journal', 'Entrée enregistrée');
     setTimeout(() => navigate('/journal'), 800);
   };

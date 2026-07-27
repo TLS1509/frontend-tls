@@ -121,6 +121,7 @@ export const MOCK_PARCOURS_DATA: Record<string, Parcours> = {
         unlocked: true,
         completed: true,
         progression_mode: 'STRICT' as const,
+        competenceIds: ['leadership'],
         lecons: [
           { id: 'lecon-1-1-1', number: 1, title: 'Introduction au Leadership', description: 'Découvrez les fondamentaux et les différents styles de leadership', duration: '45 min', completed: true },
           { id: 'lecon-1-1-2', number: 2, title: 'Présence et Authenticité', description: 'Développez votre présence authentique en tant que leader', duration: '1h', completed: true },
@@ -136,6 +137,7 @@ export const MOCK_PARCOURS_DATA: Record<string, Parcours> = {
         unlocked: true,
         completed: false,
         progression_mode: 'FLEXIBLE' as const,
+        competenceIds: ['leadership', 'communication'],
         lecons: [
           { id: 'lecon-1-2-1', number: 1, title: 'Motivation et Engagement', description: 'Comprenez les mécanismes de motivation et d\'engagement d\'une équipe performante.', duration: '50 min', completed: true },
           { id: 'lecon-1-2-2', number: 2, title: 'Communication Efficace', description: 'Maîtrisez les techniques de communication de leader à fort impact.', duration: '1h', completed: false },
@@ -151,6 +153,7 @@ export const MOCK_PARCOURS_DATA: Record<string, Parcours> = {
         unlocked: false,
         completed: false,
         progression_mode: 'FREE' as const,
+        competenceIds: ['leadership', 'feedback_culture'],
         lecons: [
           { id: 'lecon-1-3-1', number: 1, title: 'Délégation et Autonomisation', description: 'Apprenez à déléguer efficacement et développer vos collaborateurs.', duration: '50 min', completed: false },
           { id: 'lecon-1-3-2', number: 2, title: 'Feedback et Développement', description: 'Donnez un feedback constructif et facilitez la croissance professionnelle.', duration: '1h 10min', completed: false },
@@ -193,6 +196,7 @@ export const MOCK_PARCOURS_DATA: Record<string, Parcours> = {
         unlocked: true,
         completed: true,
         progression_mode: 'STRICT' as const,
+        competenceIds: ['communication', 'active_listening'],
         lecons: [
           { id: 'lecon-2-1-1', number: 1, title: 'Les Fondamentaux de la Communication', description: 'Comprendre le modèle de communication et ses composantes essentielles.', duration: '45 min', completed: true },
           { id: 'lecon-2-1-2', number: 2, title: 'Écoute Active', description: 'Développez l\'écoute active et empathique pour mieux comprendre vos interlocuteurs.', duration: '1h', completed: true },
@@ -207,6 +211,7 @@ export const MOCK_PARCOURS_DATA: Record<string, Parcours> = {
         unlocked: true,
         completed: true,
         progression_mode: 'STRICT' as const,
+        competenceIds: ['communication', 'public_speaking'],
         lecons: [
           { id: 'lecon-2-2-1', number: 1, title: 'Expression Claire', description: 'Exprimez-vous avec clarté et impact dans vos interactions professionnelles.', duration: '1h', completed: true },
           { id: 'lecon-2-2-2', number: 2, title: 'Langage Non-Verbal', description: 'Maîtrisez votre langage corporel pour renforcer vos messages.', duration: '50 min', completed: true },
@@ -222,6 +227,7 @@ export const MOCK_PARCOURS_DATA: Record<string, Parcours> = {
         unlocked: true,
         completed: true,
         progression_mode: 'FREE' as const,
+        competenceIds: ['communication', 'feedback_culture', 'conflict_resolution'],
         lecons: [
           { id: 'lecon-2-3-1', number: 1, title: 'Gestion des Objections', description: 'Répondez aux préoccupations de manière constructive et positive.', duration: '1h', completed: true },
           { id: 'lecon-2-3-2', number: 2, title: 'Feedback Constructif', description: 'Donnez et recevez du feedback efficacement pour progresser ensemble.', duration: '55 min', completed: true },
@@ -743,6 +749,23 @@ export function getParcoursCompetenceIds(parcoursId: string): string[] {
 
   // Fallback sur sidecar
   return PARCOURS_META[parcoursId]?.competenceIds ?? [];
+}
+
+/**
+ * Compétences travaillées par une **leçon** = celles de l'étape qui la contient.
+ *
+ * Sert de pont leçon → Passeport (preuve légère `quiz`). Volontairement PAS de
+ * fallback vers les compétences du parcours : elles sont trop larges (3+ par
+ * parcours) et rattacheraient un quiz à des compétences qu'il ne teste pas.
+ * Une étape sans `competenceIds` renvoie [] → aucune preuve émise (no-op),
+ * même discipline que le pont JAC.
+ */
+export function getLessonCompetenceIds(lessonId: string): string[] {
+  for (const parcours of Object.values(MOCK_PARCOURS_DATA)) {
+    const etape = parcours.etapes.find((e) => e.lecons.some((l) => l.id === lessonId));
+    if (etape) return etape.competenceIds ?? [];
+  }
+  return [];
 }
 
 /* ─── Parcours list (catalog) ─────────────────────────────────────────────── */

@@ -710,6 +710,15 @@ interface PasseportState {
   clear: () => void;
 }
 
+/**
+ * Identifiant de preuve unique. `Date.now()` seul ne suffit PAS : plusieurs preuves
+ * peuvent être émises dans la même milliseconde (un quiz émet une preuve par
+ * compétence de l'étape, en boucle synchrone) → ids dupliqués, clés React en
+ * collision et preuves indistinguables. Le compteur monotone lève l'ambiguïté.
+ */
+let evidenceSeq = 0;
+const nextEvidenceId = (): string => `evidence-${Date.now()}-${(evidenceSeq += 1)}`;
+
 export const usePasseportStore = create<PasseportState>()(
   persist(
     (set, get) => ({
@@ -801,7 +810,7 @@ export const usePasseportStore = create<PasseportState>()(
         set((state) => {
           const ref: EvidenceRef = {
             ...evidence,
-            id: `evidence-${Date.now()}`,
+            id: nextEvidenceId(),
             createdAt: new Date().toISOString(),
           };
           const userEv = state.evidence[evidence.userId] ?? [];
@@ -844,7 +853,7 @@ export const usePasseportStore = create<PasseportState>()(
           // 2. Preuve certifiante/dialoguée — assertedLevel === niveau validé,
           //    validateur humain nommé (art. 22). Aucune XP (firewall).
           const ref: EvidenceRef = {
-            id: `evidence-${Date.now()}`,
+            id: nextEvidenceId(),
             userId: input.userId,
             competenceId: input.competenceId,
             competenceName: input.competenceName,

@@ -215,6 +215,12 @@ export interface EvidenceRef {
   createdAt: string;
   /** Signal de rétention (récupération active) — preuve légère SRS. PAS une note. */
   retention?: { rating: 'again' | 'known'; intervalDays: number; reviewCount: number };
+  /**
+   * Score d'un quiz auto-corrigé — preuve légère (`sourceType: 'quiz'`). Trace de
+   * performance à un instant T, PAS un niveau : un score ne vaut pas validation
+   * (aucun `assertedLevel`, aucun XP).
+   */
+  score?: { correct: number; total: number };
   /** Régimes dialogué/certifiant UNIQUEMENT : niveau affirmé par rubrique signée. VIDE pour le léger. */
   assertedLevel?: DreyfusLevel;
   /** Régimes dialogué/certifiant UNIQUEMENT : validateur humain (id + nom dénormalisé). */
