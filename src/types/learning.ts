@@ -153,17 +153,17 @@ export interface LearnerCompetency {
   userId: string;
   competenceId: string;
   /**
-   * Niveau Dreyfus actuel (1–5).
-   * ⚠️ Aujourd'hui écrit par l'AUTO-ÉVALUATION (onboarding + LearningPathDetail via
-   * `setCompetency`) — ce n'est donc PAS encore un niveau *validé*. Migrer ces writers
-   * vers `selfAssessedLevel` pour que `currentLevel` ne porte plus que du validé est le
-   * prochain pas (hors de ce walking skeleton).
+   * Niveau Dreyfus **validé** (1–5). **Optionnel** : absent tant qu'aucune preuve
+   * validante (coach / certifiant) n'a établi le niveau. L'auto-évaluation n'écrit
+   * PLUS ce champ (elle écrit `selfAssessedLevel`). Pour afficher un niveau, utiliser
+   * `competencyLevel(lc)` — validé sinon perception sinon 1.
    */
-  currentLevel: DreyfusLevel;
+  currentLevel?: DreyfusLevel;
   /**
    * Canal de PERCEPTION dédié (calibration) — « ce que tu penses de ton niveau ».
-   * Jamais confondu avec un niveau validé. La preuve légère SRS n'écrit NI ce champ NI
-   * `currentLevel` : un rating de rétention n'est pas une auto-évaluation Dreyfus.
+   * Écrit par l'auto-évaluation (onboarding, positionnement). Jamais confondu avec un
+   * niveau validé. La preuve légère SRS n'écrit NI ce champ NI `currentLevel` : un
+   * rating de rétention n'est pas une auto-évaluation Dreyfus.
    */
   selfAssessedLevel?: DreyfusLevel;
   /** Niveau cible (objectif) */

@@ -163,6 +163,20 @@ export const COMPETENCES: Competence[] = [
 export const getCompetenceById = (id: string): Competence | undefined =>
   COMPETENCES.find((c) => c.id === id);
 
+/**
+ * Niveau Dreyfus à AFFICHER pour une compétence : le niveau **validé** s'il existe,
+ * sinon la **perception** auto-évaluée, sinon 1 (Novice). Structural (pas d'import de
+ * LearnerCompetency) pour éviter tout cycle. Utiliser partout où l'on montrait
+ * `lc.currentLevel` — celui-ci est désormais optionnel (validé seulement).
+ */
+export const competencyLevel = (
+  lc: { currentLevel?: DreyfusLevel; selfAssessedLevel?: DreyfusLevel } | undefined | null,
+): DreyfusLevel => lc?.currentLevel ?? lc?.selfAssessedLevel ?? 1;
+
+/** Vrai si le niveau affiché est **validé** (preuve), faux s'il n'est qu'auto-évalué. */
+export const isValidatedLevel = (lc: { currentLevel?: DreyfusLevel } | undefined | null): boolean =>
+  lc?.currentLevel != null;
+
 /** Filtrer par domaine H.S.O. */
 export const getCompetencesByDomain = (domain: CompetenceDomain): Competence[] =>
   COMPETENCES.filter((c) => c.domain === domain);

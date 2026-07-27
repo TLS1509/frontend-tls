@@ -94,13 +94,15 @@ const OnboardingQuestionnaire: React.FC = () => {
     }));
     positioningStore.set(MOCK_USER_ID, ONBOARDING_PARCOURS_ID, positioningAnswers);
 
-    // Seed LearnerCompetency baselines in Passeport
+    // Enregistre l'auto-évaluation comme PERCEPTION (selfAssessedLevel), PAS comme niveau
+    // validé (invariant SOLUTIONS-DETAIL). `currentLevel` (validé) reste absent tant
+    // qu'aucune preuve validante n'a établi le niveau.
     QUESTIONS.forEach((question) => {
       const level = (finalAnswers[question.id] ?? 1) as DreyfusLevel;
       passeportStore.setCompetency({
         userId: MOCK_USER_ID,
         competenceId: question.competenceId,
-        currentLevel: level,
+        selfAssessedLevel: level,
         points: 0,
         nextLevelPoints: level < 5 ? 100 : 0,
         daysSinceActivity: 0,

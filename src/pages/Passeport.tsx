@@ -15,7 +15,7 @@ import { Tabs } from '../components/ui/Tabs';
 import { RadarChart, AreaChart, ChartContainer, TimelineChart, GaugeChart, ChartWithExport } from '../components/charts';
 import { AtrophieIndicator } from '../components/ui/AtrophieIndicator';
 import { usePasseportStore } from '../stores/persistence';
-import { getCompetenceById, domainLabel } from '../data/competencies';
+import { getCompetenceById, domainLabel, competencyLevel } from '../data/competencies';
 import { MOCK_USER_ID } from '../data/passeport';
 import type { CompetenceDomain } from '../types/learning';
 import { PageShell } from '../components/layout';
@@ -55,8 +55,8 @@ export default function Passeport() {
       id: lc.competenceId,
       label: ref?.label ?? lc.competenceId,
       domain: (ref?.domain ?? 'Soft') as CompetenceDomain,
-      level: lc.currentLevel,
-      target: lc.targetLevel ?? lc.currentLevel,
+      level: competencyLevel(lc),
+      target: lc.targetLevel ?? competencyLevel(lc),
       daysSinceActivity: lc.daysSinceActivity,
       points: lc.points,
       nextPoints: lc.nextLevelPoints,

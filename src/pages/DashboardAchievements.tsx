@@ -10,6 +10,7 @@ import Avatar from '../components/ui/Avatar';
 import { PageShell } from '../components/layout';
 import { useGamificationStore, usePasseportStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
+import { competencyLevel } from '../data/competencies';
 import { getBadgeDefById } from '../data/gamification';
 import { buildLeaderboard } from '../data/apprenants';
 import type { BadgeDef } from '../types/learning';
@@ -65,7 +66,7 @@ export default function DashboardAchievements() {
   const inProgress = useMemo(() => {
     const topComp = competencies.reduce<typeof competencies[number] | null>((best, c) => {
       if (!best) return c;
-      return c.currentLevel > best.currentLevel ? c : best;
+      return competencyLevel(c) > competencyLevel(best) ? c : best;
     }, null);
     const streakTarget = streak.currentStreak < 7 ? 7 : streak.currentStreak < 14 ? 14 : 30;
     const xpTarget = totalXP < 1000 ? 1000 : totalXP < 3000 ? 3000 : 10000;
@@ -90,10 +91,10 @@ export default function DashboardAchievements() {
         ? [
             {
               id: 'dreyfus',
-              label: `Expert Reconnu : Dreyfus niveau ${Math.min(topComp.currentLevel + 1, 5)}`,
-              current: topComp.currentLevel,
-              target: Math.min(topComp.currentLevel + 1, 5),
-              fill: Math.round((topComp.currentLevel / Math.min(topComp.currentLevel + 1, 5)) * 100),
+              label: `Expert Reconnu : Dreyfus niveau ${Math.min(competencyLevel(topComp) + 1, 5)}`,
+              current: competencyLevel(topComp),
+              target: Math.min(competencyLevel(topComp) + 1, 5),
+              fill: Math.round((competencyLevel(topComp) / Math.min(competencyLevel(topComp) + 1, 5)) * 100),
               fillColor: 'brand' as const,
             },
           ]

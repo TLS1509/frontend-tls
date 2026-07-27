@@ -12,7 +12,7 @@ import { Select } from '../components/core/Select';
 import { Input } from '../components/core/Input';
 import { FormGroup } from '../components/core/FormGroup';
 import { usePasseportStore } from '../stores/persistence';
-import { COMPETENCES, getCompetenceById, domainLabel } from '../data/competencies';
+import { COMPETENCES, getCompetenceById, domainLabel, competencyLevel } from '../data/competencies';
 import { MOCK_USER_ID } from '../data/passeport';
 import type { CompetencyObjective, DreyfusLevel } from '../types/learning';
 import { Container } from '../components/layout';
@@ -70,7 +70,7 @@ export default function PasseportObjectifs() {
 
   const competenceLevelMap = useMemo(() => {
     const map = new Map<string, DreyfusLevel>();
-    competencies.forEach((c) => map.set(c.competenceId, c.currentLevel));
+    competencies.forEach((c) => map.set(c.competenceId, competencyLevel(c)));
     return map;
   }, [competencies]);
 

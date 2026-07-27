@@ -746,7 +746,10 @@ export const LearningPathDetail: React.FC = () => {
             passeportStore.setCompetency({
               userId: MOCK_USER_ID,
               competenceId: a.competenceId,
-              currentLevel: a.level,
+              // Auto-évaluation → PERCEPTION. On PRÉSERVE le niveau validé existant et on
+              // ne l'écrase jamais avec l'auto-déclaration (invariant SOLUTIONS-DETAIL).
+              currentLevel: prev?.currentLevel,
+              selfAssessedLevel: a.level,
               targetLevel: prev?.targetLevel ?? a.level,
               points: prev?.points ?? 0,
               nextLevelPoints: prev?.nextLevelPoints ?? 100,

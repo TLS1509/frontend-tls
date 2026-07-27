@@ -15,7 +15,7 @@ import { PageShell } from '../components/layout';
 import { useGamificationStore, usePasseportStore } from '../stores/persistence';
 import { BADGE_DEFS, getBadgeDefById } from '../data/gamification';
 import { MOCK_USER_ID } from '../data/passeport';
-import { getCompetenceById } from '../data/competencies';
+import { getCompetenceById, competencyLevel } from '../data/competencies';
 import type { BadgeType } from '../types/learning';
 
 // ─── Static mock data (sections without store model yet) ──────────────────────
@@ -79,7 +79,7 @@ export default function Gamification() {
     const comp = getCompetenceById(lc.competenceId);
     return {
       label: comp?.label ?? lc.competenceId,
-      level: lc.currentLevel,
+      level: competencyLevel(lc),
       maxLevel: 5 as const,
       daysSinceActivity: lc.daysSinceActivity,
     };

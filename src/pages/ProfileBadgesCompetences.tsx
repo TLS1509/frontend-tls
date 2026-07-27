@@ -12,7 +12,7 @@ import { EmptyState } from '../components/ui/EmptyState';
 import { useGamificationStore, usePasseportStore } from '../stores/persistence';
 import { BADGE_DEFS } from '../data/gamification';
 import { MOCK_USER_ID } from '../data/passeport';
-import { getCompetenceById } from '../data/competencies';
+import { getCompetenceById, competencyLevel } from '../data/competencies';
 import type { BadgeDef } from '../types/learning';
 import { Container } from '../components/layout';
 
@@ -86,8 +86,8 @@ export default function ProfileBadgesCompetences() {
       const def = getCompetenceById(c.competenceId);
       return {
         label: def?.label ?? c.competenceId,
-        current: c.currentLevel,
-        target: c.targetLevel ?? c.currentLevel,
+        current: competencyLevel(c),
+        target: c.targetLevel ?? competencyLevel(c),
       };
     });
   }, [competencies]);

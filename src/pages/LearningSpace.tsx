@@ -9,7 +9,7 @@ import { EmptyState } from '../components/ui/EmptyState';
 import { LearningItemCard } from '../components/learning/LearningItemCard';
 import { PageShell } from '../components/layout';
 import { MOCK_LEARNING_SPACE_ITEMS } from '../data/items';
-import { DREYFUS_LABELS } from '../data/competencies';
+import { DREYFUS_LABELS, competencyLevel } from '../data/competencies';
 import type { ItemType, DreyfusLevel } from '../types/learning';
 import { canAccessItem, getAccessDenialMessage } from '../lib/access-control';
 import { useUserProfileStore, useLessonProgressStore, usePasseportStore } from '../stores/persistence';
@@ -101,7 +101,7 @@ export const LearningSpace: React.FC = () => {
   const learnerCompetencyLevels = useMemo(() => {
     const map: Record<string, DreyfusLevel> = {};
     passeportStore.getCompetencies(MOCK_USER_ID).forEach((c) => {
-      map[c.competenceId] = c.currentLevel;
+      map[c.competenceId] = competencyLevel(c);
     });
     return map;
   }, [passeportStore]);

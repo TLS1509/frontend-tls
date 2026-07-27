@@ -11,7 +11,7 @@ import { AtrophieIndicator } from '../components/ui/AtrophieIndicator';
 import { CompetencyRadar } from '../components/ui/CompetencyRadar';
 import { StatCard } from '../components/ui/StatCard';
 import { usePasseportStore } from '../stores/persistence';
-import { getCompetenceById, domainLabel } from '../data/competencies';
+import { getCompetenceById, domainLabel, competencyLevel, isValidatedLevel } from '../data/competencies';
 import { MOCK_USER_ID } from '../data/passeport';
 import type { CompetenceDomain } from '../types/learning';
 import { Container } from '../components/layout';
@@ -41,7 +41,8 @@ export default function PasseportCompetenceDetail() {
   const lc = competencies.find((c) => c.competenceId === id) ?? competencies[0];
   const ref = getCompetenceById(lc?.competenceId ?? '');
 
-  const currentLevel = lc?.currentLevel ?? 1;
+  const currentLevel = competencyLevel(lc);
+  const levelValidated = isValidatedLevel(lc);
   const targetLevel = lc?.targetLevel ?? currentLevel;
   const points = lc?.points ?? 0;
   const nextLevelPoints = lc?.nextLevelPoints ?? 100;
@@ -66,7 +67,7 @@ export default function PasseportCompetenceDetail() {
   const siblingCompetencies = competencies
     .map((c) => {
       const r = getCompetenceById(c.competenceId);
-      return r ? { label: r.label, current: c.currentLevel, target: c.targetLevel ?? c.currentLevel } : null;
+      return r ? { label: r.label, current: competencyLevel(c), target: c.targetLevel ?? competencyLevel(c) } : null;
     })
     .filter(Boolean)
     .slice(0, 6) as { label: string; current: number; target: number }[];
@@ -96,7 +97,7 @@ export default function PasseportCompetenceDetail() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
           <StatCard
             value={`D${currentLevel}`}
-            label="Niveau actuel"
+            label={levelValidated ? 'Niveau validé' : 'Niveau auto-évalué'}
             delta={`→ D${targetLevel}`}
             deltaDirection="up"
             variant="brand"
