@@ -91,6 +91,7 @@
 
 | Fichier | Purpose |
 |---|---|
+| [CASE-STUDY-ORANGE-TRAME.md](site/CASE-STUDY-ORANGE-TRAME.md) | **Trame d'interview case study client + demandes d'autorisation** (28/07) — guide d'entretien centré changement de pratique, modèles de mail (interview, citation, logo), tableau de ce qui est publiable aujourd'hui vs ce qui demande un accord écrit |
 | [SITEMAP-V1.md](site/SITEMAP-V1.md) | **Arborescence de référence du site V1** (28/07) — miroir documentaire de `src/App.tsx` : routes, redirections, statut par page, templates de contenu vs stratégie éditoriale, écart des 3 points de conversion, incohérence Notion↔code |
 | `SITE-V1-BLUEPRINT.md` | Blueprint 6 pages du site vitrine |
 | `SITE-V1-GROUNDING.md` | Grounding factuel du site V1 |
