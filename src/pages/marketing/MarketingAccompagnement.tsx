@@ -305,7 +305,7 @@ const Obtenez: React.FC = () => (
               </span>
               <p className="font-body text-body text-ink-800 leading-relaxed m-0">
                 <span className="font-bold">Bonus :</span> un an d'accès offert
-                à la Learning App Pro TLS pour les cohortes pilotes, avec moteur
+                à la Learning App TLS pour les cohortes pilotes, avec moteur
                 d'ancrage, gestion de l'atrophie à 90 jours et Open Badge.
               </p>
             </div>

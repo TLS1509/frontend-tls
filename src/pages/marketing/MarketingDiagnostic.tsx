@@ -102,7 +102,7 @@ const BANKS: Record<TestKey, {
     pitch:
       "Mesurez l'usage réel de l'IA dans vos équipes, l'augmentation de vos processus métiers et le niveau d'ancrage terrain au-delà des effets d'annonce.",
     bullets: [
-      'Adoption réelle vs. Shadow IA',
+      'Adoption réelle vs. Shadow AI',
       'Processus métiers augmentés',
       'Ancrage terrain & mesure du ROI',
     ],
@@ -112,13 +112,13 @@ const BANKS: Record<TestKey, {
       "Quel métier ou processus de votre entreprise bénéficierait le plus d'une augmentation par l'IA dans les prochains mois ?",
     ],
     profiles: [
-      { max: 30, name: 'Niveau 1 : Shadow IA & Passivité', synthesis: "L'IA est utilisée de façon individuelle et non encadrée, sans réécriture des processus. Le risque est une adoption fragmentée sans valeur mesurable pour l'organisation." },
+      { max: 30, name: 'Niveau 1 : Shadow AI & Passivité', synthesis: "L'IA est utilisée de façon individuelle et non encadrée, sans réécriture des processus. Le risque est une adoption fragmentée sans valeur mesurable pour l'organisation." },
       { max: 60, name: 'Niveau 2 : Expérimentation Aérienne', synthesis: "Des usages émergent mais restent superficiels, sans ancrage dans les processus métiers réels. Il est temps de structurer la formation et de mesurer les premiers cas d'usage." },
       { max: 85, name: 'Niveau 3 : Adoption Structurée', synthesis: "L'IA est intégrée à des processus identifiés, avec un accompagnement des équipes. La prochaine étape est de généraliser la mesure de valeur et l'ancrage terrain durable." },
       { max: 100, name: "Niveau 4 : Entreprise Augmentée par l'IA", synthesis: "Votre organisation a transformé ses processus métiers grâce à l'IA, avec une adoption large, mesurée et ancrée dans le travail réel des équipes. Vous êtes en position de référence sur ce sujet." },
     ],
     questions: [
-      { title: "Taux d'Adoption Réelle", options: ['Shadow AI individuel non encadré', 'Quelques paires moteurs', 'Licences distribuées, tests fréquents', '100% des équipes sur tâches identifiées'] },
+      { title: "Taux d'Adoption Réelle", options: ['Shadow AI individuel non encadré', 'Quelques pairs moteurs', 'Licences distribuées, tests fréquents', '100% des équipes sur tâches identifiées'] },
       { title: 'Reconstitution des Processus Métiers', options: ['Aucun process réécrit', 'Recherche / Correction de texte basique', 'Processus clés identifiés avec prompts', "Fiches de process révisées avec l'IA à chaque étape (Out-skills)"] },
       { title: 'Acculturation & Formation IA', options: ['Aucune formation', 'Webinaires de sensibilisation générale', 'Formations ponctuelles au prompt engineering', 'Accompagnement continu : veille + tuteurs IA intégrés'] },
       { title: 'Qualité & Hallucinations', options: ['Confiance aveugle ou méfiance totale', 'Consigne orale de relecture', 'Relecture humaine systématique', 'Validation double : curation IA + experts pédagogiques'] },
@@ -526,9 +526,9 @@ export const MarketingDiagnostic: React.FC = () => {
                       Débloquez votre rapport d'analyse complet.
                     </h3>
                     <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">
-                      Recevez l'analyse détaillée de vos 8 réponses, les
-                      recommandations sur-mesure pour votre organisation et
-                      l'accès à un débriefing offert.
+                      Recevez le détail de vos 8 réponses, votre profil de
+                      maturité commenté et l'accès à un débriefing offert avec
+                      un fondateur.
                     </p>
                   </div>
                 </div>
@@ -651,8 +651,8 @@ export const MarketingDiagnostic: React.FC = () => {
               <div className="flex flex-col gap-stack rounded-2xl bg-primary-50 p-stack-lg">
                 <h3 className="font-display text-h4 font-bold text-ink-900 m-0">Envie d'aller plus loin ?</h3>
                 <p className="font-body text-body text-ink-700 leading-relaxed m-0">
-                  Réservez 15 minutes avec l'un de nos experts pour décrypter
-                  vos résultats et identifier vos priorités d'action.
+                  Réservez 15 minutes avec un fondateur pour décrypter vos
+                  résultats et identifier vos priorités d'action.
                 </p>
                 <div className="flex flex-wrap gap-stack-xs">
                   <MagneticButton strength={12}>

@@ -543,12 +543,24 @@ const DoubleCta: React.FC = () => {
                   contexte et tracer le chemin le plus court vers l'impact.
                   Sans engagement.
                 </p>
-                <div className="flex flex-wrap items-center gap-stack-xs pt-stack-xs">
-                  <MagneticButton strength={16}>
-                    <Button to="/website/contact" variant="secondary" size="lg" trailingIcon={<ArrowRight size={18} />}>
-                      Planifier un échange de 30 min
-                    </Button>
-                  </MagneticButton>
+                <div className="flex flex-col gap-stack-xs pt-stack-xs">
+                  <div className="flex flex-wrap items-center gap-stack-xs">
+                    <MagneticButton strength={16}>
+                      <Button to="/website/contact" variant="secondary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                        Planifier un échange de 30 min
+                      </Button>
+                    </MagneticButton>
+                  </div>
+                  <p className="font-body text-body-sm text-white/80 m-0">
+                    Pas encore prêt ?{' '}
+                    <Link
+                      to="/website/diagnostic"
+                      className="font-bold text-accent-400 underline underline-offset-4 transition-colors duration-fast hover:text-accent-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-400"
+                    >
+                      Évaluez d'abord votre maturité en 3 minutes
+                    </Link>
+                    .
+                  </p>
                 </div>
               </div>
             </div>

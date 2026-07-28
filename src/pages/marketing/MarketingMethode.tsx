@@ -14,6 +14,7 @@
  */
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
 import {
   ArrowRight,
@@ -88,7 +89,7 @@ const PILIERS = [
   },
   {
     icon: <Brain size={22} />,
-    title: "L'augmentation cognitive & les Out-Skills",
+    title: "L'augmentation cognitive & les Out-skills",
     detail:
       "Redéfinir les workflows métiers en identifiant la frontière entre cognition humaine (jugement, empathie, stratégie) et exécution IA (synthèse, génération, automatisation).",
   },
@@ -279,6 +280,19 @@ const AllerPlusLoin: React.FC = () => (
           </div>
         </FadeInWhenVisible>
       </div>
+
+      <FadeInWhenVisible delay={0.12}>
+        <p className="font-body text-body text-ink-600 leading-relaxed m-0 pt-section max-w-[62ch]">
+          Vous préférez en parler de vive voix ?{' '}
+          <Link
+            to="/website/contact"
+            className="font-bold text-primary-700 underline underline-offset-4 transition-colors duration-fast hover:text-primary-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+          >
+            Échangez directement avec les fondateurs
+          </Link>
+          .
+        </p>
+      </FadeInWhenVisible>
     </div>
   </section>
 );

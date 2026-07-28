@@ -306,7 +306,7 @@ const Piliers: React.FC = () => (
     <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
       <FadeInWhenVisible>
         <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)] max-w-3xl">
-          Quatre piliers, une seule plateforme.
+          Cinq piliers, une seule plateforme.
         </h2>
       </FadeInWhenVisible>
 
@@ -576,7 +576,7 @@ const ActifStrategique: React.FC = () => (
               Du Skills-Based au Matching Projets
             </h3>
             <p className="font-body text-body-sm text-white/75 leading-relaxed m-0">
-              La readiness IA de votre organisation commence par une donnée de
+              La maturité IA de votre organisation commence par une donnée de
               compétences propre et vivante. C'est exactement ce que la
               Learning App construit, jour après jour.
             </p>

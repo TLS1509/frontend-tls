@@ -13,6 +13,7 @@ import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import {
   ArrowRight,
+  ArrowUpRight,
   BookOpenCheck,
   Bot,
   Cable,
@@ -210,7 +211,7 @@ const LIVRABLES = [
   {
     icon: <Rocket size={20} />,
     title: 'Parcours et modules sur-mesure',
-    detail: 'Prêts à déployer dans votre environnement, avec Open Badge quand un dispositif certifiant C-Campus est associé.',
+    detail: 'Prêts à déployer dans votre environnement, avec un Open Badge quand un dispositif certifiant C-Campus est associé.',
   },
   {
     icon: <Sparkles size={20} />,
@@ -220,7 +221,7 @@ const LIVRABLES = [
   {
     icon: <LayoutDashboard size={20} />,
     title: 'Tableau de bord de compétences',
-    detail: "La progression de vos équipes lisible en un coup d'œil, branchée sur le Passeport.",
+    detail: "La progression de vos équipes lisible en un coup d'œil, branchée sur le Passeport de la Learning App.",
   },
   {
     icon: <BookOpenCheck size={20} />,
@@ -279,12 +280,15 @@ const CtaFinal: React.FC = () => (
               partons de votre besoin réel, jamais d'un catalogue.
             </p>
           </div>
-          <div className="shrink-0">
+          <div className="flex shrink-0 flex-col items-start gap-stack-xs sm:flex-row sm:items-center">
             <MagneticButton strength={16}>
               <Button to="/website/contact" variant="primary" size="xl" trailingIcon={<ArrowRight size={20} />}>
                 Échanger avec l'équipe du Studio
               </Button>
             </MagneticButton>
+            <Button to="/website/accompagnement" variant="ghost" size="xl" trailingIcon={<ArrowUpRight size={20} />}>
+              Voir l'accompagnement STRIDE
+            </Button>
           </div>
         </div>
       </FadeInWhenVisible>

@@ -184,7 +184,7 @@ const PERIMETRE = [
   },
   {
     icon: <Bot size={22} />,
-    title: "Out-Skills & augmentation par l'IA",
+    title: "Out-skills & augmentation par l'IA",
     desc:
       'Prompt engineering, pilotage de copilotes, sécurité des données : la maîtrise des outils IA appliquée à chaque métier.',
   },
@@ -323,8 +323,8 @@ const Modalites: React.FC = () => (
                 </span>
                 <p className="font-body text-body text-ink-600 leading-relaxed m-0">
                   <span className="font-bold text-ink-900">Formation-Action :</span>{' '}
-                  on travaille sur les cas réels de votre entreprise, jamais sur
-                  des exercices hors-sol.
+                  nous travaillons sur les cas réels de votre entreprise, jamais
+                  sur des exercices hors-sol.
                 </p>
               </div>
               <div className="flex items-start gap-stack">

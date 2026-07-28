@@ -113,7 +113,7 @@ const PILIERS: Pilier[] = [
     domaine: 'La science pédagogique & la vision SBO',
     expertise: 'Ingénierie pédagogique · Modélisation des compétences · Thought leadership',
     detail:
-      "Porte la vision Skills-Based Organization, sérialise les travaux méthodologiques et garantit la rigueur scientifique du dispositif : modèle EDRA, gestion de l'atrophie mémorielle, échelle Dreyfus.",
+      "Porte la vision Skills-Based Organization, formalise les travaux méthodologiques et garantit la rigueur scientifique du dispositif : arc de leçon EDRA, gestion de l'atrophie des acquis, échelle Dreyfus.",
     monoClasses: 'bg-gradient-to-br from-secondary-100 to-secondary-200 text-secondary-800',
     iconClasses: 'bg-secondary-100 text-secondary-700',
   },
