@@ -444,7 +444,7 @@ const BASE = '... transition-all ...';  // Preflight gère le défaut à 0/solid
 
 **Découvert** lors de l'audit sticky du 2026-07-22 : 4 surfaces marketing utilisaient `h-screen`, 3 utilisaient déjà `min-h-[100dvh]` — incohérence pure, le bon pattern existait déjà dans le repo. *(Les composants alors corrigés ont été supprimés depuis, avec le nettoyage motion du 2026-07-28 ; le principe reste.)*
 
-⚠️ **Un cas subsiste** : `marketing/sections/HeroSection.tsx:152` porte encore `sticky h-screen`. Ce fichier n'est importé par aucune page — il n'est atteignable que via `marketing/sections/index.ts`, lui-même jamais importé. À supprimer avec le reste du dossier plutôt qu'à corriger.
+✅ **Plus aucun `h-screen` dans `src/`** (vérifié 2026-07-28). Le dernier vivait dans `marketing/sections/HeroSection.tsx`, un fichier qu'aucune page n'importait — le dossier entier a été supprimé.
 
 **Action générale** : sur tout conteneur plein-écran — sticky, hero, overlay, modal fullscreen — préférer `dvh` à `vh`. `h-screen` reste acceptable pour du desktop-only explicitement gardé par un breakpoint `lg:`.
 

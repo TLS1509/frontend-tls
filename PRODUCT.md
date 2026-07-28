@@ -151,7 +151,11 @@ Règles de copy obligatoires :
 
 **1. L'apprenant est protagoniste — toujours.** Chaque écran apprenant doit pouvoir répondre à « quelle est mon action maintenant ? » en moins de 3 secondes. La hiérarchie visuelle place l'action du jour en hero, l'historique en secondaire, les analytics en tertiaire (ou dans une vue dédiée). Aucun écran ne sert deux rôles à la fois.
 
-**2. L'IA est instrument transparent, jamais spectacle.** Label « IA » visible, source citée, score de confiance affiché, bouton override accessible. Le chatbot n'invente jamais ; sous-threshold de confidence il oriente vers le coach humain. Aucune surface produit n'utilise un purple-gradient « intelligence » ou un sparkle iconography.
+**2. L'IA est instrument transparent, jamais spectacle.** Label « IA » visible, bouton override accessible. Le chatbot n'invente jamais ; sous le seuil de confiance il oriente vers le coach humain. Aucune surface produit n'utilise un purple-gradient « intelligence », ni de sparkle **décoratif** (twinkle ambiant, traînée de glow, confetti d'étoiles).
+
+> ⚠️ **Deux corrections du 2026-07-28, vérifiées dans `src/`.**
+> — Cette ligne interdisait *toute* « sparkle iconography ». L'icône Lucide `Sparkles` est utilisée dans **59 fichiers**, à commencer par `AITransparencyLabel`, le composant que ce même doc rend obligatoire. L'interdit ne porte que sur le sparkle **décoratif** ; en marqueur fonctionnel de feature IA, il est revendiqué comme signature positive (voir la section Anti-références ci-dessus, qui disait déjà l'inverse — le doc se contredisait).
+> — « source citée, score de confiance affiché » décrivait une **cible comme un état** : ni la citation de source ni le score de confiance n'existent dans le code. Retirés d'ici ; ils figurent au tableau de statut de `DESIGN-IMPECCABLE.md` §8.
 
 **3. Une altitude par viewport.** Strategic (CLO/manager) ou Operational (coach/apprenant) — jamais les deux dans la même surface. Mixer les altitudes tue la vitesse de décision et produit le design schizophrène cockpit-en-haut-négligé-en-bas.
 
@@ -163,11 +167,17 @@ Règles de copy obligatoires :
 
 ## Accessibility & Inclusion
 
-WCAG 2.1 AA minimum sur 100 % des surfaces. AAA cibles sur :
+WCAG 2.2 AA visé sur 100 % des surfaces. AAA cibles sur :
 
 - Surfaces apprenantes critiques : lesson player, assessment, journal, Passeport personnel
 - Surfaces CLO critiques : analytics dashboards, validation queues, heatmaps org
 
-Touch target 44 px minimum sur tout interactif (utility Tailwind `min-h-touch` déjà mappée). `prefers-reduced-motion` honoré sur chaque animation, y compris primitives framer-motion du site marketing. Couleur jamais seul vecteur de sens — icône + label sur chaque état sémantique (success/danger/warning/info). Français primary ; i18n-ready pour EN, ES, potentiellement DE (expansion européenne phase 3).
+**Cibles de touche : 44 px sur les actions principales, 24 px minimum partout.**
+Le seul minimum normatif est **24×24 px** (WCAG 2.2 AA, SC 2.5.8) ; les 44×44 px
+viennent de AAA et des Apple HIG. Utility `min-h-touch` (44 px) sur les actions
+principales. *(Corrigé le 2026-07-28 : cette ligne imposait « 44 px minimum sur
+tout interactif », un absolu que 518 usages de `size="sm"` — 32 px, conforme AA —
+contredisent. Un seuil que le code dément se fait ignorer en entier, y compris sa
+partie juste. Détail dans `CLAUDE.md`.)* `prefers-reduced-motion` honoré sur chaque animation, y compris primitives framer-motion du site marketing. Couleur jamais seul vecteur de sens — icône + label sur chaque état sémantique (success/danger/warning/info). Français primary ; i18n-ready pour EN, ES, potentiellement DE (expansion européenne phase 3).
 
 Compliance GDPR + AI Act intégrée au design (cf. cahier 13bis) : consent management, DSAR self-service, RTBF (suppression compte), AI transparency label sur chaque output IA, override mechanism sur recommandations IA destinées aux humains, bias monitoring sur décisions matching.
