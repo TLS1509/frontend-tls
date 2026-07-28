@@ -256,6 +256,8 @@ import {
   type Category as Category_,
   type SubCategory as SubCategory_,
 } from './components/registry';
+import { ShowcaseNav, useCategorySlug } from './components/ShowcaseNav';
+import { categorySlug, componentSlug, categoryFromSlug } from './components/registry';
 
 /* ============================================================================
  * TYPES
@@ -7432,6 +7434,7 @@ class ComponentPreviewErrorBoundary extends React.Component<
 
 const Components: React.FC = () => {
   const navigate = useNavigate();
+  const activeSlug = useCategorySlug();
   const [query, setQuery] = useState('');
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -7524,6 +7527,24 @@ const Components: React.FC = () => {
       })
       .filter((x): x is readonly [NewCategory, (readonly [string, typeof componentsWithMeta])[], number] => x !== null);
   }, [filteredComponents, componentsWithMeta]);
+
+  /* Une catégorie = une destination. Sans slug d'URL, on retombe sur la vue
+     complète (l'ancien comportement), ce qui garde `/components` fonctionnel. */
+  const categoryCounts = useMemo(
+    () => Object.fromEntries(componentsByCategory.map(([cat, , n]) => [cat, n])),
+    [componentsByCategory],
+  );
+  const visibleCategories = useMemo(
+    () =>
+      activeSlug
+        ? componentsByCategory.filter(([cat]) => categorySlug(cat) === activeSlug)
+        : componentsByCategory,
+    [componentsByCategory, activeSlug],
+  );
+  const isFiltered = Boolean(activeSlug);
+  /* Un slug d'URL qui ne correspond à rien doit se dire, pas rendre une page
+     blanche : une URL périmée dans un doc ou un Figma est un cas normal. */
+  const unknownCategory = Boolean(activeSlug) && !categoryFromSlug(activeSlug!);
 
   // Generate search suggestions from all sources
   const searchSuggestions = useMemo<SearchSuggestion[]>(() => {
@@ -7662,6 +7683,20 @@ const Components: React.FC = () => {
         className="w-full"
       />
 
+      <ShowcaseNav counts={categoryCounts} activeSlug={activeSlug} />
+
+      {unknownCategory && (
+        <EmptyState
+          title={`Catégorie « ${activeSlug} » inconnue`}
+          description="Ce lien pointe vers une catégorie qui n'existe pas ou plus. Utilisez la navigation ci-dessus."
+          actions={
+            <Button variant="primary" onClick={() => navigate('/components')}>
+              Voir tout le design system
+            </Button>
+          }
+        />
+      )}
+
       {/* -------------------------------- RESULTS ----------------------------- */}
       {filteredComponents.length === 0 && filteredTokens.length === 0 && filteredPages.length === 0 ? (
         <EmptyState
@@ -7672,8 +7707,8 @@ const Components: React.FC = () => {
       ) : (
         <>
           {/* ---- Components by category → subCategory ---- */}
-          {componentsByCategory.map(([cat, subGroups, total]) => (
-            <section key={cat} className="ds-section" id={`cat-${cat.replace(/[^a-z]/gi, '-').toLowerCase()}`}>
+          {visibleCategories.map(([cat, subGroups, total]) => (
+            <section key={cat} className="ds-section scroll-mt-20" id={`cat-${categorySlug(cat)}`}>
               <div className="ds-section__head">
                 <h2 className="ds-section__title">{cat}</h2>
                 <span className="ds-section__count">{total} composant{total > 1 ? 's' : ''}</span>
@@ -7691,7 +7726,11 @@ const Components: React.FC = () => {
 
                   <div className="ds-component-list">
                     {list.map((c) => (
-                      <article key={c.name} className="ds-component">
+                      <article
+                        key={c.name}
+                        id={componentSlug(c.name)}
+                        className="ds-component scroll-mt-20"
+                      >
                         <header className="ds-component__head">
                           <div>
                             <div className="flex items-center gap-stack-xs flex-wrap">
@@ -7733,7 +7772,7 @@ const Components: React.FC = () => {
           ))}
 
           {/* ---- Pages & Templates ---- */}
-          {pagesByFamily.map(([family, pages]) => (
+          {!isFiltered && pagesByFamily.map(([family, pages]) => (
             <section key={family} className="ds-section">
               <div className="ds-section__head">
                 <h2 className="ds-section__title">Pages · {family}</h2>
@@ -7806,7 +7845,7 @@ const Components: React.FC = () => {
           ))}
 
           {/* ---- Tokens ---- */}
-          {filteredTokens.length > 0 && (
+          {!isFiltered && filteredTokens.length > 0 && (
             <section className="ds-section">
               <div className="ds-section__head">
                 <h2 className="ds-section__title">Design Tokens</h2>

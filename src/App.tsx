@@ -610,6 +610,7 @@ function App() {
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/settings" element={<Navigate to="/account" replace />} />
                   <Route path="/components" element={<Components />} />
+                  <Route path="/components/:categorySlug" element={<Components />} />
                   <Route path="/learning-paths" element={<LearningPaths />} />
                   <Route path="/learning-paths/:id" element={<LearningPathDetail />} />
                   <Route path="/learning-paths/:id/positionnement" element={<Positionnement />} />
