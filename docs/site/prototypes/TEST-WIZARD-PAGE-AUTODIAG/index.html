@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auto-Diagnostic B2B | Maturité Compétences & IA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Barre de progression globale (visible uniquement pendant le wizard) -->
+  <div class="progress-shell" id="progressShell" hidden>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-label" id="progressLabel">Question 1 / 8</div>
+  </div>
+
+  <main class="app-shell" id="appShell">
+
+    <!-- ========================================= -->
+    <!-- ÉCRAN 0 : HUB DE SÉLECTION                -->
+    <!-- ========================================= -->
+    <section class="screen screen--hub is-active" id="screen-hub" data-screen="hub">
+      <div class="hub-header">
+        <span class="eyebrow">Auto-diagnostic gratuit</span>
+        <h1>Évaluez la maturité de votre organisation en 3 minutes</h1>
+        <p class="hub-subtitle">Choisissez le diagnostic adapté à votre enjeu. 8 questions, 2 questions ouvertes, un rapport personnalisé.</p>
+      </div>
+
+      <div class="hub-cards">
+        <!-- Carte SBO -->
+        <button class="hub-card hub-card--sbo" type="button" data-test="sbo">
+          <div class="hub-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+              <path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <span class="hub-card__tag">DRH · Responsables L&amp;D</span>
+          <h2>SBO Readiness</h2>
+          <p>Où en est votre organisation dans la cartographie des compétences réelles, la fin des fiches de poste figées et la gestion de l'atrophie des savoir-faire ?</p>
+          <ul class="hub-card__points">
+            <li>Cartographie Dreyfus des compétences</li>
+            <li>Fraîcheur &amp; obsolescence des acquis</li>
+            <li>Reconnaissance &amp; certification</li>
+          </ul>
+          <span class="hub-card__cta">Démarrer le diagnostic SBO <span aria-hidden="true">→</span></span>
+        </button>
+
+        <!-- Carte IA -->
+        <button class="hub-card hub-card--ia" type="button" data-test="ia">
+          <div class="hub-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="12" r="3.2" stroke="currentColor" stroke-width="1.6"/>
+              <path d="M12 2v3M12 19v3M22 12h-3M5 12H2M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1M18.4 18.4l-2.1-2.1M7.7 7.7 5.6 5.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span class="hub-card__tag">CODIR · Direction des Opérations</span>
+          <h2>IA Readiness</h2>
+          <p>Mesurez l'usage réel de l'IA dans vos équipes, l'augmentation de vos processus métiers et le niveau d'ancrage terrain au-delà des effets d'annonce.</p>
+          <ul class="hub-card__points">
+            <li>Adoption réelle vs. Shadow IA</li>
+            <li>Processus métiers augmentés</li>
+            <li>Ancrage terrain &amp; mesure du ROI</li>
+          </ul>
+          <span class="hub-card__cta">Démarrer le diagnostic IA <span aria-hidden="true">→</span></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ========================================= -->
+    <!-- ÉCRAN WIZARD : QUESTIONS FERMÉES (Q1-Q8)  -->
+    <!-- ========================================= -->
+    <section class="screen screen--wizard" id="screen-wizard" data-screen="wizard">
+      <div class="wizard-card">
+        <span class="wizard-kicker" id="wizardKicker">Diagnostic SBO Readiness</span>
+        <h2 class="wizard-question" id="wizardQuestionTitle">Intitulé de la question</h2>
+
+        <div class="wizard-options" id="wizardOptions">
+          <!-- options injectées en JS -->
+        </div>
+
+        <div class="wizard-nav">
+          <button class="btn btn--ghost" type="button" id="btnBack">← Retour</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================= -->
+    <!-- ÉCRAN QUESTIONS OUVERTES (Step 9)         -->
+    <!-- ========================================= -->
+    <section class="screen screen--open" id="screen-open" data-screen="open">
+      <div class="wizard-card wizard-card--open">
+        <span class="wizard-kicker" id="openKicker">Diagnostic SBO Readiness</span>
+        <h2 class="wizard-question">Deux dernières questions, en toute liberté</h2>
+        <p class="open-subtitle">Facultatif — vos réponses enrichissent votre rapport personnalisé.</p>
+
+        <div class="open-field">
+          <label for="openQ1" id="openQ1Label">Question ouverte 1</label>
+          <textarea id="openQ1" rows="3" placeholder="Votre réponse..."></textarea>
+        </div>
+
+        <div class="open-field">
+          <label for="openQ2" id="openQ2Label">Question ouverte 2</label>
+          <textarea id="openQ2" rows="3" placeholder="Votre réponse..."></textarea>
+        </div>
+
+        <div class="wizard-nav">
+          <button class="btn btn--ghost" type="button" id="btnBackOpen">← Retour</button>
+          <button class="btn btn--primary" type="button" id="btnSeeResult">Voir mon résultat →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================= -->
+    <!-- ÉCRAN RÉSULTAT PARTIEL + FORMULAIRE LEAD  -->
+    <!-- ========================================= -->
+    <section class="screen screen--result" id="screen-result" data-screen="result">
+      <div class="result-layout">
+
+        <div class="result-summary">
+          <span class="wizard-kicker" id="resultKicker">Diagnostic SBO Readiness</span>
+          <div class="score-ring-wrap">
+            <svg class="score-ring" viewBox="0 0 140 140">
+              <circle class="score-ring__bg" cx="70" cy="70" r="60"></circle>
+              <circle class="score-ring__fill" id="scoreRingFill" cx="70" cy="70" r="60"></circle>
+            </svg>
+            <div class="score-ring__value">
+              <span id="scoreValue">0</span><span class="score-ring__pct">%</span>
+            </div>
+          </div>
+          <h2 class="result-profile" id="resultProfile">Nom du profil</h2>
+          <p class="result-synthesis" id="resultSynthesis">Synthèse courte du niveau.</p>
+        </div>
+
+        <div class="result-gate">
+          <div class="gate-card" id="gateCard">
+            <div class="gate-lock" aria-hidden="true">🔒</div>
+            <h3>Débloquez votre rapport d'analyse complet</h3>
+            <p>Recevez l'analyse détaillée de vos 8 réponses, les recommandations sur-mesure pour votre organisation et l'accès à un débriefing offert.</p>
+
+            <form id="leadForm" class="lead-form" novalidate>
+              <div class="lead-form__row">
+                <div class="lead-field">
+                  <label for="leadFirstName">Prénom *</label>
+                  <input type="text" id="leadFirstName" name="firstName" required autocomplete="given-name">
+                </div>
+                <div class="lead-field">
+                  <label for="leadLastName">Nom *</label>
+                  <input type="text" id="leadLastName" name="lastName" required autocomplete="family-name">
+                </div>
+              </div>
+
+              <div class="lead-field">
+                <label for="leadEmail">Email professionnel *</label>
+                <input type="email" id="leadEmail" name="email" required autocomplete="email" placeholder="prenom.nom@entreprise.com">
+              </div>
+
+              <div class="lead-form__row">
+                <div class="lead-field">
+                  <label for="leadRole">Fonction *</label>
+                  <input type="text" id="leadRole" name="role" required placeholder="Ex : DRH, DGA, Head of Ops...">
+                </div>
+                <div class="lead-field">
+                  <label for="leadCompanySize">Taille d'entreprise *</label>
+                  <select id="leadCompanySize" name="companySize" required>
+                    <option value="" disabled selected>Sélectionnez...</option>
+                    <option value="1-49">1 à 49 salariés</option>
+                    <option value="50-249">50 à 249 salariés</option>
+                    <option value="250-999">250 à 999 salariés</option>
+                    <option value="1000+">1000 salariés et plus</option>
+                  </select>
+                </div>
+              </div>
+
+              <button class="btn btn--primary btn--block" type="submit">Débloquer mon rapport complet</button>
+              <p class="lead-form__disclaimer">Vos données servent uniquement à vous adresser votre rapport et à vous recontacter à ce sujet.</p>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================= -->
+    <!-- ÉCRAN RESTITUTION COMPLÈTE & RDV (Step 11)-->
+    <!-- ========================================= -->
+    <section class="screen screen--report" id="screen-report" data-screen="report">
+      <div class="report-layout">
+
+        <div class="report-confirm">
+          <div class="report-confirm__icon" aria-hidden="true">✓</div>
+          <h2>Merci <span id="reportFirstName">!</span>, votre rapport est débloqué</h2>
+          <p id="reportIntro">Voici la restitution complète de votre diagnostic SBO Readiness.</p>
+        </div>
+
+        <div class="report-grid">
+          <div class="report-card report-card--score">
+            <span class="wizard-kicker" id="reportKicker">Diagnostic SBO Readiness</span>
+            <div class="score-ring-wrap score-ring-wrap--small">
+              <svg class="score-ring" viewBox="0 0 140 140">
+                <circle class="score-ring__bg" cx="70" cy="70" r="60"></circle>
+                <circle class="score-ring__fill" id="reportScoreRingFill" cx="70" cy="70" r="60"></circle>
+              </svg>
+              <div class="score-ring__value">
+                <span id="reportScoreValue">0</span><span class="score-ring__pct">%</span>
+              </div>
+            </div>
+            <h3 class="result-profile" id="reportProfile">Nom du profil</h3>
+            <p class="result-synthesis" id="reportSynthesis">Synthèse.</p>
+          </div>
+
+          <div class="report-card report-card--answers">
+            <h3>Récapitulatif de vos réponses</h3>
+            <ol class="report-answers" id="reportAnswersList">
+              <!-- injecté en JS -->
+            </ol>
+          </div>
+
+          <div class="report-card report-card--open">
+            <h3>Vos réponses libres</h3>
+            <div class="report-open-item">
+              <p class="report-open-item__q" id="reportOpenQ1"></p>
+              <p class="report-open-item__a" id="reportOpenA1">—</p>
+            </div>
+            <div class="report-open-item">
+              <p class="report-open-item__q" id="reportOpenQ2"></p>
+              <p class="report-open-item__a" id="reportOpenA2">—</p>
+            </div>
+          </div>
+
+          <div class="report-card report-card--cta">
+            <h3>Envie d'aller plus loin ?</h3>
+            <p>Réservez 15 minutes avec l'un de nos experts pour décrypter vos résultats et identifier vos priorités d'action.</p>
+
+            <div class="calendly-mock" id="calendlyMock">
+              <div class="calendly-mock__header">
+                <span class="calendly-mock__dot"></span>
+                <span class="calendly-mock__dot"></span>
+                <span class="calendly-mock__dot"></span>
+                <span class="calendly-mock__title">Débriefing 15 min — The Learning Society</span>
+              </div>
+              <div class="calendly-mock__body">
+                <p>Sélectionnez un créneau qui vous convient :</p>
+                <div class="calendly-mock__slots">
+                  <button class="calendly-slot" type="button">Demain · 10h00</button>
+                  <button class="calendly-slot" type="button">Demain · 14h30</button>
+                  <button class="calendly-slot" type="button">Après-demain · 09h30</button>
+                  <button class="calendly-slot" type="button">Après-demain · 16h00</button>
+                </div>
+              </div>
+            </div>
+
+            <button class="btn btn--primary btn--block" id="btnRestart" type="button">Refaire un diagnostic</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Toast de confirmation (RDV pris, etc.) -->
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

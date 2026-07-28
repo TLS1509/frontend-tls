@@ -110,6 +110,7 @@
 | `PAD-page-*.md` (9 fichiers) | Copywriting complet des 9 pages du site (Homepage, Learning App, Studio IA, STRIDE, Upskilling, Bibliothèque de compétences, Méthode TLS, Autodiagnostic, Fondateurs) |
 | `PAD-vision-strategique-sitemap.md` · `PAD-strategie-contenu-b2b.md` · `PAD-blog-magazine-strategie.md` · `PAD-copywriting-upskilling.md` | Docs stratégiques source (Vision, contenu B2B, Magazine/Blog, 6 angles Upskilling exploratoires) |
 | `PAD-website-pages.csv` | État de toutes les pages du site (production + propositions) |
+| [prototypes/TEST-WIZARD-PAGE-AUTODIAG/](site/prototypes/TEST-WIZARD-PAGE-AUTODIAG/) | Prototype wizard autodiagnostic de Pierre-Armand (HTML/JS vanille, hors DS) — **intégré** au DS TLS dans `MarketingDiagnostic.tsx` le 28/07, conservé pour référence (structure + contenu source) |
 
 **Copy & SEO**
 
