@@ -239,11 +239,36 @@ components:
 
 # Design System: The Learning Society — Augmented Mastery
 
+> ### 📌 Ce fichier n'est PAS la configuration de la skill « impeccable »
+>
+> Le nom prête à confusion, alors autant l'écrire ici. Ce sont **deux choses
+> distinctes** :
+>
+> | | Quoi | Où | Chargé quand |
+> |---|---|---|---|
+> | **La skill `impeccable`** | outil générique, valable pour n'importe quel projet | `~/.claude/skills/impeccable/` | à chaque invocation — son script injecte **`PRODUCT.md` + `DESIGN.md`** |
+> | **Ce fichier** | doctrine visuelle **propre à TLS** | racine du repo | **jamais automatiquement** — uniquement si on l'ouvre |
+>
+> **Conséquence pratique.** Une règle qui doit s'appliquer à *toute* tâche design
+> doit vivre dans **`DESIGN.md`** (ou `CLAUDE.md`, chargé comme instructions
+> projet). Écrite ici, elle ne sera lue que par quelqu'un qui pense déjà à ouvrir
+> ce document. *(Vérifié le 2026-07-28 en exécutant `context.mjs` : il ne charge
+> que `PRODUCT.md` et `DESIGN.md`.)*
+>
+> Ce document reste le lieu de la doctrine longue : altitudes, grammaire de la
+> pratique, kit de transparence IA, surfaces signatures.
+
 > **Strategic source of truth:** [PRODUCT.md](./PRODUCT.md) — North Star, mechanism (practice as verb), doctrine (AI augments, never substitutes), users by role, cadence reality, voice rules.
 >
-> **Documentation, process & migration log:** [DESIGN.md](./DESIGN.md) — Notion sync rules, page audits, migration history, dev pitfalls.
+> **How to compose an interface:** [DESIGN.md](./DESIGN.md) — component taxonomy, card conventions, surfaces, tone by domain, the five CSS files.
 >
-> **Dev rules:** [CLAUDE.md](./CLAUDE.md) — Tailwind v4 conventions, token references, 12 known pitfalls.
+> **Dev rules:** [CLAUDE.md](./CLAUDE.md) — Tailwind v4 conventions, token references, and the Tailwind/cascade pitfalls.
+>
+> ⚠️ **This document names no token values.** Every hex, px and shadow triplet
+> quoted below is a *label* pointing at `src/index.css` (`@theme`), which is the
+> only place a value is true. *(Cleaned 2026-07-28: the shadow scale, the input
+> radius and the sidebar width had been recopied here and had drifted — the doc
+> was describing a system that no longer existed.)*
 
 ---
 
@@ -358,11 +383,18 @@ Shadows are **warm-tinted, not neutral grey**. The default `shadow-sm` is a near
 
 ### Shadow Vocabulary
 
-- **shadow-xs** (`0 1px 2px 0 rgba(0,0,0,0.05)`): Hairline lift on ghost buttons. Almost invisible.
-- **shadow-sm** (`0 1px 3px 0 rgba(0,0,0,0.10), 0 1px 2px -1px rgba(0,0,0,0.10)`): Default card resting state.
-- **shadow-md** (`0 4px 6px -1px rgba(0,0,0,0.10), 0 2px 4px -2px rgba(0,0,0,0.10)`): Interactive card hover.
-- **shadow-lg** (`0 10px 15px -3px rgba(0,0,0,0.10), 0 4px 6px -4px rgba(0,0,0,0.10)`): Feature cards, elevated dashboards, sticky panels.
-- **shadow-xl** (`0 28px 72px -20px rgba(18,24,28,0.22)`): Modal containers, hero cards over photography.
+Roles only — **values live in `src/index.css`**. The neutral ladder is built on
+`rgba(18,24,28,…)`, deliberately softer than the Tailwind default
+`rgba(0,0,0,0.1)`.
+
+- **shadow-xs**: Hairline lift on ghost buttons. Almost invisible.
+- **shadow-sm**: Default card resting state.
+- **shadow-md**: Interactive card hover.
+- **shadow-lg**: Feature cards, elevated dashboards, sticky panels.
+- **shadow-xl**: Modal containers, hero cards over photography.
+- **shadow-card / -hover / -lift**: the neutral family cards fall back to when
+  they carry **no** `tone`. Neutral on purpose — an amber default would collide
+  with the `warm` tone.
 - **shadow-brand-sm / md**: Teal-tinted hover glow on primary CTAs.
 - **shadow-warm-sm / md**: Amber-tinted hover glow on secondary CTAs and warm-tinted cards.
 - **shadow-sun-sm**: Golden-tinted hover glow on accent CTAs and sun-tinted celebration surfaces.
@@ -396,7 +428,7 @@ The button is the system's signature gesture. **Always pill-shaped** (`{rounded.
 - **Accent / Celebration** (`button-accent`): Background `{colors.golden-sun}` #F8B044, white text. Rare — used on JAC ceremony, badge claim, completion CTAs.
 - **Ghost** (`button-ghost`): Background `{colors.teal-mist}` #E8F4F7, text `{colors.teal-darkest}`. Secondary action when paired with a primary CTA.
 - **Glass / Glass-Light / Glass-Brand:** For specific overlay contexts (saturated dark heroes, light tinted cards).
-- **Destructive:** Red-600 background, white text. Used only on irreversible destructive actions (delete account, cancel subscription).
+- **Destructive:** `bg-danger-strong` background, white text, `active:bg-danger-deep`. Used only on irreversible destructive actions (delete account, cancel subscription). ⚠️ **Never `bg-red-600`** — the raw Tailwind red is off-palette and forbidden. *(Corrected 2026-07-28: this line said "Red-600 background", in direct contradiction with CLAUDE.md and with `Button.tsx`, which has always used `danger-strong`.)*
 - **Link:** Underlined text in `coastal-teal-pressed`. For inline navigation only.
 - **Icon-only:** Square aspect-ratio variant of any of the above. Requires `aria-label`. Width matches height (44px md, 32px sm, 48px lg).
 
@@ -409,12 +441,12 @@ The card is the system's primary container. **Always `{rounded.xl}` 20px corners
 - **Border:** 1px `border-neutral` #e5e7eb at rest. On hover, shifts to `ink-300` or the tonal equivalent.
 - **Shadow Strategy:** `shadow-sm` at rest, `shadow-md` (or tone-tinted) on interactive hover. Never stacked shadows.
 - **Internal Padding:** `{spacing.stack-lg}` 24px (md, default). Small cards use 16px, large cards 32px.
-- **Variants:** `default` · `interactive` · `feature` · `glass` · `glass-brand / warm / dark` · `tinted` · `minimal` · `bordered` · `muted` · `sunken`.
+- **Variants (10):** `default` · `interactive` · `feature` · `elevated` · `glass` · `glass-brand / warm / dark` · `tinted` · `minimal`. *(`bordered`, `muted` and `sunken` were removed on 2026-07-24 — zero usage.)*
 - **Tone-aware:** Cards accept a `tone` prop (`primary` / `warm` / `sun` / `brand`) that recolors title, eyebrow, and hover state. Tone follows the section's narrative role, not the designer's mood.
 
 ### Inputs / Fields
 
-- **Shape:** `{rounded.lg}` 14px.
+- **Shape:** `rounded-md`. *(Corrected 2026-07-28: this said `{rounded.lg}` 14px; `Input.tsx` uses `rounded-md`.)*
 - **Style:** White background, 1px `border-neutral` stroke. No fill.
 - **Height:** 44px (touch target). Padding 10px vertical, 14px horizontal.
 - **Typography:** Nunito 16px body, ink-deepest text. Placeholder in ink-subtle.
@@ -434,7 +466,7 @@ The card is the system's primary container. **Always `{rounded.xl}` 20px corners
 
 ### Navigation
 
-- **Sidebar:** Vertical, 248px wide on desktop, collapsible to icon-only. White background, hairline right border. Items as `NavItem` — 44px height, icon + label, active state in `teal-mist` background with `coastal-teal-cta` icon.
+- **Sidebar:** Vertical, **220px on tablet / 260px on desktop**, collapsible to a 72px icon rail, 280px drawer under 768px. White background, hairline right border. Items as `NavItem` — 44px height, icon + label, active state in `teal-mist` background with `coastal-teal-cta` icon. *(Corrected 2026-07-28: this said a flat 248px, a width the sidebar has never had.)*
 - **Topbar:** 64px height, white background, hairline bottom border. Breadcrumb (left), search (center optional), user menu + notifications (right).
 - **Breadcrumb:** Two variants. `simple` for read-only context; `nav` with interactive buttons, ChevronRight separators, ellipsis collapse on overflow.
 - **Active state:** Always tonal. Primary nav active uses `teal-mist` + `coastal-teal` icon. Never generic grey.
@@ -483,7 +515,7 @@ The 80% surface. Where the human practices.
 - **Practice validation > content completion.** Hierarchy privileges JAC, FAST, EDRA, validated projects. Progress bars of cours are secondary. The Passeport is the source of truth, not the completion percentage.
 - **Pause-resume is first-class.** The system retrieves the learner exactly where they were — draft journal saved, lesson player position, mission step in progress. Zero re-onboarding after a vacation, sprint, or parental leave.
 - **Density: low to medium.** White space for cognitive breathing room.
-- **Motion budget: ≤200ms per interaction.** Tailwind transitions only — no framer-motion in product chrome.
+- **Motion budget: ≤200ms per interaction.** For a hover, a focus, a state swap, reach for a Tailwind transition — pulling in a motion library for that is overkill. That is a proportionality rule, **not a ban on the library**: charts animate their series, celebration modals stage a reveal, error pages settle in, and all of that is legitimate. *(Corrected 2026-07-28: this line read "Tailwind transitions only — no framer-motion in product chrome", which 14 product files already contradicted, including all six charts and both celebration modals. A rule the codebase disproves is a rule that gets ignored wholesale — including the useful half.)*
 
 ### Strategic Altitude (Manager, CLO)
 
@@ -579,13 +611,17 @@ This section operationalizes the 6 IA rules from PRODUCT.md (Doctrine section) a
 
 ### Required Patterns on Every AI Output
 
-| Pattern | Implementation | Surface |
+⚠️ **This is a target spec, not a description of the app.** Status column added
+2026-07-28 after checking each line against `src/` — the table used to read as if
+all five shipped. Two do.
+
+| Pattern | Implementation | État réel |
 |---------|---------------|---------|
-| **AI Label** (`ai-label` token) | Pill: teal-mist bg, teal-pressed text, JetBrains Mono "IA" eyebrow. Visible top-right or inline-leading. | Every output — recommendations, summaries, scores, generated content, suggestions |
-| **Source Citation** | Hoverable link to the TLS curated corpus chunk. Format: « Source : [titre du contenu, position dans le parcours] » | Chatbot responses, content recommendations, summaries |
-| **Confidence Score** | Subtle progress bar (0–100%) or descriptor ("Confiance élevée / moyenne / faible"). Position: below or beside the output. | All inference outputs (matching, scoring, recommendations) |
-| **Rationale Access** | Disclosed reason behind a chevron: « Pourquoi cette recommandation ? » → expands to source + factors weighted | All matching, scoring, recommendation surfaces |
-| **Override Button** | Always visible, never hidden, on recommendations destined for human decision-makers (coach, manager, admin) | Recommendations to humans only — never on learner-facing reco (the learner is not a decision-maker on AI output, they're the subject of it) |
+| **AI Label** | `ui/AITransparencyLabel.tsx`, three variants (`recommended` / `generated` / `assisted`) | ✅ **livré**, consommé par 11 pages. ⚠️ Il n'existe **pas** de token `ai-label` — ce doc en citait un |
+| **Source Citation** | Hoverable link to the TLS curated corpus chunk. Format: « Source : [titre du contenu, position dans le parcours] » | ❌ **non livré** — `AITransparencyLabel` n'expose ni `source` ni prop équivalente |
+| **Confidence Score** | Subtle progress bar (0–100%) or descriptor ("Confiance élevée / moyenne / faible") | ❌ **non livré** — aucun composant, zéro occurrence dans `src/` |
+| **Rationale Access** | Disclosed reason behind a chevron: « Pourquoi cette recommandation ? » | ❌ **non livré** |
+| **Override Button** | `ui/AIOverrideButton.tsx`. Recommendations to humans only — never on learner-facing reco (the learner is not a decision-maker on AI output, they're the subject of it) | ✅ **livré**, 4 fichiers |
 
 ### The Chatbot Rule
 
@@ -620,11 +656,11 @@ Every AI decision (matching, scoring, recommendation) is logged with rationale a
 - ✅ **Instrument framing** — calibrated tool, not assistant
 - ✅ **Humble verbs** in copy: « suggère », « recommande », « propose », « calcule »
 - ✅ **Sparkles icon as functional marker.** Lucide `Sparkles` is the canonical leading icon on AI-feature buttons (« Positionnement IA », « Suggérer », « Recommander »), on the `IA` label pill, and as eyebrow on AI-generated content blocks. The icon has migrated into industry convention by 2026 — learners associate it with "AI feature here" the way they associate a magnifying glass with search. Refusing it on doctrinal purity would isolate TLS in its own visual dialect. Never decorative, never animated continuously, never combined with purple-cyan fills.
-- ✅ **Anthropomorphic logo animation.** The TLS logo mark animates when the system is computing on the learner's behalf (positionnement, matching, generating a recommendation). A subtle 1.2s loop — like a living sign — not a spinner. The brand-as-presence pattern (cf. Claude's pulsing logo) signals « we are working on it » without anthropomorphizing the algorithm itself.
-- ✅ **Ghost-typing on AI chat streaming.** When the chatbot streams a response, characters appear with a soft typewriter cadence (~30 char/sec, easeOutQuad rhythm). This is **rendering transparency** — showing the model produces text linearly — not theater. Honors `prefers-reduced-motion` (drops to instant). The chat **never** has an anthropomorphic avatar profile picture; the voice of the message is the `IA` label + the source citation.
-- ✅ **Confidence bar + source citation** as the default UI for any output
-- ✅ **Visible override** on every recommendation to humans
-- ✅ **Audit trail accessible** to admins via standard table UI (not "trust dashboard" theater)
+- 🟡 **Anthropomorphic logo animation — capacité livrée, jamais branchée.** `TlsLogo` expose une prop `loading` (pulse en cascade orbitale sur les 4 formes, cycle 1,8 s, respecte `prefers-reduced-motion`). **Zéro page ne la passe.** L'intention : le logo s'anime quand le système calcule pour l'apprenant (positionnement, matching, recommandation) — un signe vivant, pas un spinner, qui dit « on y travaille » sans anthropomorphiser l'algorithme.
+- ❌ **Ghost-typing on AI chat streaming — non implémenté.** Aucune occurrence dans `src/`. L'intention, si on le construit un jour : cadence machine à écrire douce (~30 car/s), qui relève de la **transparence de rendu** — montrer que le modèle produit du texte linéairement — et non du théâtre. Devra respecter `prefers-reduced-motion` (bascule en instantané). Ce qui, lui, **est** tenu : le chat n'a aucun avatar anthropomorphe ; la voix du message, c'est le label `IA`.
+- 🎯 **Confidence bar + source citation** as the default UI for any output — **cible, non livrée** (voir le tableau de statut ci-dessus)
+- ✅ **Visible override** on every recommendation to humans — `AIOverrideButton`, livré
+- 🎯 **Audit trail accessible** to admins via standard table UI (not "trust dashboard" theater) — **cible, non livrée** : aucune trace d'audit dans `src/`
 
 ---
 
@@ -648,11 +684,16 @@ This section operationalizes the Cadence Reality from PRODUCT.md.
 
 ### Motion Budget by Altitude
 
-| Altitude | Per-Interaction Budget | Allowed Primitives |
+| Altitude | Per-Interaction Budget | Default reach |
 |----------|----------------------|--------------------|
-| Operational (learner, coach) | ≤ 200ms | Tailwind transitions (opacity, transform, color, shadow) |
-| Strategic (manager, CLO) | ≤ 150ms | Tailwind transitions only (sort, filter, expand/collapse) |
+| Operational (learner, coach) | ≤ 200ms | Tailwind transition for a state change (hover, focus, colour, shadow). A library is for a staged sequence, not a hover |
+| Strategic (manager, CLO) | ≤ 150ms | Same, on sort / filter / expand-collapse |
 | Marketing (public) | Generous, decided per page | framer-motion available; **no default effect list** |
+
+The budgets bound **one interaction**. They are not a ceiling on a chart drawing
+its series, a celebration modal staging a reveal, or an error page settling in —
+those are sequences, and they already use `framer-motion` in fourteen product
+files. What the budget forbids is a 600ms ease on a button hover.
 
 ### Reduced-Motion Rule
 
@@ -729,7 +770,7 @@ When in doubt, check: *what's the verb the protagonist is doing on this screen?*
 - **Do** label every AI output with the `ai-label` pill, source citation, and confidence score. Override button on recommendations to humans.
 - **Do** apply `tu` on learner-personal screens (dashboard, Passeport, journal, lesson player). Apply `vous` everywhere else (coach hub, manager views, admin, marketing, emails, footer).
 - **Do** use `{rounded.pill}` 999px for every button. The pill is the brand's signature gesture.
-- **Do** use `{colors.coastal-teal-cta}` #4A8FA1 as the default primary fill — not `coastal-teal` #55A1B4 itself (which is the hover state).
+- ⚠️ **`coastal-teal-cta` (`primary-600`) is the current primary fill, and it fails AA.** Measured in-browser on 2026-07-28: white on `primary-600` is **3.66:1**, while the button label is 15px weight 600 — normal text, so the AA threshold is **4.5:1**, not the 3:1 large-text one. `primary-700` clears it at 5.02:1. **Open arbitration, not a rule to copy**: changing it repaints every primary button in the app, so it is Chloé's call. Until then, do not cite this fill as a good practice. *(This line used to read "**Do** use #4A8FA1 as the default primary fill" — a recommendation that shipped a failing contrast.)*
 - **Do** apply tone-tinted hover shadows (`shadow-brand-md`, `shadow-warm-md`, `shadow-sun-sm`) instead of neutral grey.
 - **Do** pair League Spartan display with Nunito body — never the reverse.
 - **Do** cap body copy at 65–75ch (`max-w-prose`).
@@ -753,7 +794,7 @@ When in doubt, check: *what's the verb the protagonist is doing on this screen?*
 - **Don't** use bright Tailwind defaults for semantic colors. `text-red-500` / `bg-green-500` are banned — use `text-danger-fg` / `bg-success-bg`.
 - **Don't** stack glass-on-glass, or use glass as decoration on a static card. Glass is signal, not finish.
 - **Don't** use border-left or border-right stripes greater than 1px as colored accents.
-- **Don't** use gradient text (`background-clip: text` on a gradient) outside the marketing `GradientText` primitive.
+- **Don't** use gradient text (`background-clip: text` on a gradient). Full stop, marketing included. *(The `GradientText` primitive that used to be the sanctioned exception was deleted on 2026-07-28 — zero consumers, and the only two mentions left in the code were comments saying not to use it.)*
 - **Don't** use hero-metric SaaS templates (big number + small label + supporting stats + gradient accent). The brand is post-SaaS-cliché.
 - **Don't** use identical 3-up card grids with icon + heading + two lines, repeated section after section. Vary card sizes and rhythm.
 - **Don't** introduce modals as a first thought. Exhaust inline disclosure, drawers, and progressive reveal first.
@@ -769,7 +810,7 @@ When in doubt, check: *what's the verb the protagonist is doing on this screen?*
 
 ## 12. Two Registers, One System
 
-- **Product surface** (`/dashboard`, `/learning-paths/*`, `/coaching/*`, `/journal/*`, `/passeport/*`, ~140 routes): This DESIGN-IMPECCABLE.md applies in full. Glass is signal. Motion is restrained (≤200ms operational, ≤150ms strategic). Hierarchy serves the task.
+- **Product surface** (`/dashboard`, `/learning-paths/*`, `/coaching/*`, `/journal/*`, `/passeport/*` — 177 pages au total): This document applies in full. Glass is signal. Motion is restrained (≤200ms operational, ≤150ms strategic). Hierarchy serves the task.
 - **Brand surface** (`/website/*`): Same palette, same typography, a wider motion range. `src/components/marketing/motion/` holds primitives that carry `useReducedMotion()` fallbacks — a toolbox, **not a checklist**. Which of them a page uses, if any, is a design decision made on that page.
 
 The two registers share PRODUCT.md and the color/typography frontmatter above. They diverge on motion, density, and the role of decoration. A marketing hero can be drenched in gradient; a dashboard hero must serve the learner's task in under three seconds.
@@ -833,7 +874,7 @@ The logo behaves like a **living sign**, not a spinner. The pattern signals « w
 
 #### Roadmap — V0 → V1
 
-**V0.5 (current, ships now)** — Orbital cascade on inner shapes.
+**V0.5 — codée, mais branchée nulle part.** La prop `loading` de `TlsLogo` existe et fonctionne ; aucune page ne la passe (vérifié 2026-07-28). Orbital cascade on inner shapes.
 The TLS mark has 4 SVG paths (`main` halo + `center` dot + `dotTop` + `dotBot`). When `loading={true}`, each shape pulses independently with **staggered delays**, creating a wave that travels through the mark: `main → dotTop → center → dotBot → loop`. Implementation:
 - `main` halo: softer amplitude (`scale 0.98 → 1.02`, `opacity 0.72 → 1.0`), 2.2s cycle — anchors the mark without wobbling
 - Three dots: full amplitude (`scale 0.92 → 1.08`, `opacity 0.55 → 1.0`), 1.8s cycle

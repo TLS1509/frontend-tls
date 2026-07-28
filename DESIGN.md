@@ -10,15 +10,29 @@
 > renvois vers `MIGRATION-PLAN.md` qui n'existe plus. Il racontait l'histoire de
 > sa construction au lieu de décrire un état.
 
-### Où trouver le reste
+### Où trouver le reste — et ce qui est réellement chargé
 
-| Besoin | Doc |
-|---|---|
-| Règles strictes, tokens, pièges Tailwind, gate de build | [`CLAUDE.md`](./CLAUDE.md) |
-| Stratégie produit, North Star, voix, anti-références | [`PRODUCT.md`](./PRODUCT.md) |
-| Doctrine visuelle, altitudes, grammaire de pratique | [`DESIGN-IMPECCABLE.md`](./DESIGN-IMPECCABLE.md) |
-| **Valeurs** des tokens | `src/index.css`, bloc `@theme` — **le code fait foi** |
-| Showcase interactif | `/components` dans l'app |
+⚠️ **Ce doc est lu à chaque tâche design. Les autres, non.** Vérifié le
+2026-07-28 en exécutant `context.mjs`, le script de la skill `impeccable` : il
+injecte **`PRODUCT.md` + `DESIGN.md`**, rien d'autre. `CLAUDE.md` est chargé de
+son côté comme instructions projet.
+
+**Donc une règle qui doit s'appliquer partout vit ici ou dans `CLAUDE.md`.**
+Écrite dans `DESIGN-IMPECCABLE.md`, elle ne sera lue que par quelqu'un qui pense
+à ouvrir ce fichier.
+
+| Besoin | Doc | Chargé ? |
+|---|---|---|
+| Règles strictes, tokens, pièges Tailwind, gate de build | [`CLAUDE.md`](./CLAUDE.md) | ✅ instructions projet |
+| Stratégie produit, North Star, voix, anti-références | [`PRODUCT.md`](./PRODUCT.md) | ✅ par la skill |
+| **Composition d'interface** (ce doc) | — | ✅ par la skill |
+| Doctrine longue : altitudes, grammaire de pratique, transparence IA, surfaces signatures | [`DESIGN-IMPECCABLE.md`](./DESIGN-IMPECCABLE.md) | ❌ **à ouvrir soi-même** |
+| **Valeurs** des tokens | `src/index.css`, bloc `@theme` | **le code fait foi** |
+| Showcase interactif | `/components` dans l'app | ⚠️ à reconstruire |
+
+> **`DESIGN-IMPECCABLE.md` n'est pas la configuration de la skill `impeccable`.**
+> La skill est un outil générique installé dans `~/.claude/skills/impeccable/` ;
+> le fichier est un doc TLS qui porte le même adjectif. Rien ne le charge.
 
 ⚠️ **Ce doc ne redéfinit aucune valeur de token.** Toute valeur recopiée ici
 dériverait ; c'est exactement ce qui est arrivé au design system parallèle de
@@ -358,8 +372,17 @@ imposent 44×44. **Règle TLS : 44 px sur les actions principales, 24 px minimum
 partout.** Focus visible obligatoire sur tout élément focusable custom. Ordre de
 tabulation logique, Échap ferme les overlays, flèches pour les menus.
 
-⚠️ **Contraste** : `primary-600` est à 3,66:1 et **échoue AA** pour du texte
-normal. Texte blanc uniquement sur `primary-700` et au-delà.
+⚠️ **Contraste — un défaut ouvert, mesuré le 2026-07-28.** Le bouton primary de
+l'app est `bg-primary-600 text-white`, label 15px graisse 600. Mesuré au
+navigateur : **3,66:1**. Le seuil des 3:1 ne s'applique qu'au grand texte (≥24px,
+ou ≥18,66px en graisse 700) : un label à 15px/600 est du texte normal, donc le
+seuil est **4,5:1**. **Le bouton primary échoue AA.** `primary-700` passe à
+5,02:1.
+
+Ce n'est pas corrigé : changer le remplissage repeint tous les boutons primaires
+de l'app, c'est un arbitrage à rendre. En attendant, ne pas citer `primary-600`
+comme une bonne pratique, et n'utiliser du texte blanc que sur `primary-700` et
+au-delà.
 
 ---
 
@@ -378,11 +401,16 @@ normal. Texte blanc uniquement sur `primary-700` et au-delà.
 
 ---
 
-## 9. État du showcase `/components` — audit du 2026-07-28
+## 9. Showcase `/components` — à reconstruire
 
-Le showcase a divergé du code. Chiffres mesurés, pas estimés : **320 composants
-exportés** dans `src/components/`, **185 noms déclarés** dans
-`src/pages/Components.tsx`.
+> **Chantier à part entière, pas une liste de correctifs.** La page est
+> massive et on ne s'y retrouve pas : les ancres tombent au milieu du contenu,
+> la navigation ne tient pas la longueur. La reconstruire d'abord, la repeupler
+> ensuite. L'audit ci-dessous est le **matériau d'entrée** de ce chantier.
+
+Chiffres mesurés le 2026-07-28, pas estimés : **320 composants exportés** dans
+`src/components/`, **185 noms déclarés** dans `src/pages/Components.tsx`, pour un
+fichier de plus de 8 000 lignes.
 
 **Ce qui manque et qu'il faut ajouter (19).** Des composants d'app réels, dont
 plusieurs structurants : `PageHero` (le hero le plus consommé de l'app),
