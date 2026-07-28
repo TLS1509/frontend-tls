@@ -26,7 +26,7 @@ import {
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
 import { PageShell } from '../../components/layout';
-import { MeshGradientBg } from '../../components/marketing/motion';
+import { SEOHead } from './components/SEOHead';
 import { DiagnosticInlineCta, VigieSignupBanner, midArticleInsertIndex } from './components/ContentConversion';
 import {
   findDossier,
@@ -344,10 +344,15 @@ export const MarketingDossierDetail: React.FC = () => {
 
   return (
     <div className="bg-white">
+      <SEOHead
+        title={dossier.title}
+        description={dossier.summary}
+        canonical={`/website/dossiers/${dossier.slug}`}
+        ogType="article"
+      />
       <ReadingProgressBar />
       {/* ── Hero (light + warm) ─────────────────────────────────────────────── */}
       <section className={`relative pt-24 sm:pt-28 lg:pt-32 pb-page overflow-hidden bg-gradient-to-br ${dossier.cover}`}>
-        <MeshGradientBg tone="warm" intensity="subtle" />
 
         <div className={`relative ${CONTAINER} flex flex-col gap-stack-lg`}>
           <Reveal>
@@ -419,7 +424,6 @@ export const MarketingDossierDetail: React.FC = () => {
 
       {/* ── CTA final (le seul moment dark) ─────────────────────────────────── */}
       <section className="relative overflow-hidden py-page bg-gradient-to-br from-ink-900 via-primary-900 to-primary-950">
-        <MeshGradientBg tone="ink" intensity="subtle" />
         <div className={`relative ${CONTAINER} text-center flex flex-col items-center gap-stack-lg`}>
           <Reveal>
             <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-white leading-[1.05] tracking-tight m-0">

@@ -1808,15 +1808,13 @@ export const ARTICLES: Article[] = [
       { heading: "4 tâches que l'IA prend en charge" },
       { heading: 'Ce que le formateur garde, irréductiblement' },
       { heading: 'Learn → Do → Match : la boucle qui ancre les compétences' },
-      { heading: 'Certifier le formateur augmenté' },
     ],
     quotes: [
       "Le formateur augmenté confie à l'IA ce qu'elle fait mieux, et reprend la main sur ce que personne d'autre ne peut faire à sa place.",
       "L'IA peut informer. Le formateur peut convaincre. Ce n'est pas la même chose.",
-      "7 modules, 7 heures, un Open Badge C-Campus. La formation qui positionne le formateur là où il crée le plus de valeur.",
     ],
     conclusion:
-      "Le résultat n'est pas un formateur remplacé. C'est un formateur qui passe moins de temps sur des tâches sans valeur ajoutée, et plus de temps sur ce qui justifie son rôle : créer des conditions d'apprentissage que personne n'oublie, dans des contextes que les algorithmes ne comprennent pas. L'IA redistribue le travail. Ce que vous faites avec le temps retrouvé, voilà la vraie question. Si vous voulez structurer cette transition, la formation certifiante « Formateur Augmenté par l'IA » de The Learning Society est ouverte aux inscriptions. Découvrez le programme sur notre page Formation.",
+      "Le résultat n'est pas un formateur remplacé. C'est un formateur qui passe moins de temps sur des tâches sans valeur ajoutée, et plus de temps sur ce qui justifie son rôle : créer des conditions d'apprentissage que personne n'oublie, dans des contextes que les algorithmes ne comprennent pas. L'IA redistribue le travail. Ce que vous faites avec le temps retrouvé, voilà la vraie question.",
     liveUrl: 'https://thelearningsociety.fr/le-formateur-augmente-par-lia/',
     cover: 'from-primary-200 via-primary-100 to-accent-100',
     body: [
@@ -1949,26 +1947,6 @@ export const ARTICLES: Article[] = [
         type: 'p',
         text: "La méthode STRIDE intègre ces trois temps dans une séquence complète : S'orienter, Tester, Réaliser, Intégrer, Déployer, Évoluer. Les phases « Tester » et « Réaliser » correspondent au Do. « Intégrer » et « Déployer » ferment la boucle sur le Match. L'IA renforce le Learn ; le formateur reste central sur le Do et le Match.",
       },
-      {
-        type: 'h2',
-        text: 'Certifier le formateur augmenté',
-      },
-      {
-        type: 'p',
-        text: "Comprendre ces quatre chantiers et trois temps en théorie ne suffit pas. Il faut les pratiquer, les ajuster à son contexte, et construire des automatismes sur les outils IA concrets disponibles aujourd'hui.",
-      },
-      {
-        type: 'p',
-        text: "La formation « Formateur Augmenté par l'IA » de The Learning Society a été construite avec cette logique. 7 modules, 7 heures. Conçue avec C-Campus, organisme de formation certifié, partenaire de référence sur la formation de formateurs. Éligible OPCO. Sanctionnée par un Open Badge C-Campus qui atteste de la montée en compétences sur les usages pédagogiques de l'IA.",
-      },
-      {
-        type: 'p',
-        text: "Le programme entraîne les participants à tenir les deux positions simultanément : déléguer à l'IA ce qu'elle fait mieux, reprendre la main sur ce que le formateur fait seul. À la fin des 7 modules, les participants ont produit des ressources réelles avec l'IA, identifié leurs zones de délégation et leurs zones de valeur ajoutée, et construit les réflexes qui transforment l'utilisation ponctuelle en habitude de travail.",
-      },
-      {
-        type: 'pullquote',
-        text: "7 modules, 7 heures, un Open Badge C-Campus. La formation qui positionne le formateur là où il crée le plus de valeur.",
-      },
     ],
   },
 
@@ -2001,7 +1979,7 @@ export const ARTICLES: Article[] = [
       "L'IA peut vous dire si vos objectifs sont bien rédigés. Elle ne peut pas décider si vous avez cerné les bons.",
     ],
     conclusion:
-      "L'IA ne remplace pas l'expertise pédagogique. Elle amplifie les compétences de ceux qui savent déjà ce qu'ils font, et expose les faiblesses de ceux qui ne le savent pas encore. Les ingénieurs pédagogiques qui intègrent l'IA comme partenaire de réflexion, pas comme rédacteur automatique, gagnent du temps sur les tâches de production et libèrent de l'attention pour ce qui détermine vraiment la qualité d'un dispositif : la pertinence des objectifs, la cohérence du séquençage, la validité des évaluations. Si vous souhaitez structurer cette pratique dans votre travail quotidien, la formation certifiante de The Learning Society est conçue pour exactement ça.",
+      "L'IA ne remplace pas l'expertise pédagogique. Elle amplifie les compétences de ceux qui savent déjà ce qu'ils font, et expose les faiblesses de ceux qui ne le savent pas encore. Les ingénieurs pédagogiques qui intègrent l'IA comme partenaire de réflexion, pas comme rédacteur automatique, gagnent du temps sur les tâches de production et libèrent de l'attention pour ce qui détermine vraiment la qualité d'un dispositif : la pertinence des objectifs, la cohérence du séquençage, la validité des évaluations. Structurer cette pratique dans le travail quotidien demande un cadre, pas seulement des outils.",
     liveUrl: 'https://thelearningsociety.fr/ingenierie-pedagogique-ia/',
     cover: 'from-secondary-200 via-secondary-100 to-primary-100',
     body: [
@@ -2138,7 +2116,7 @@ export const ARTICLES: Article[] = [
       "La cryptographie garantit que personne ne peut falsifier un Open Badge. Ce que C-Campus certifie, c'est la réalité de ce qui a été évalué.",
     ],
     conclusion:
-      "Un passeport de compétences n'est utile que si ce qu'il contient peut être vérifié. Les employeurs qui comprennent la différence entre un badge de complétion et un badge de compétence font des recrutements différents. Les professionnels qui construisent un passeport avec des preuves réelles se positionnent différemment sur le marché. La formation certifiante de The Learning Society, avec C-Campus, débouche sur un Open Badge qui contient les deux : la preuve de la formation, et la preuve des compétences développées. Découvrez le programme sur la page Formation.",
+      "Un passeport de compétences n'est utile que si ce qu'il contient peut être vérifié. Les employeurs qui comprennent la différence entre un badge de complétion et un badge de compétence font des recrutements différents. Les professionnels qui construisent un passeport avec des preuves réelles se positionnent différemment sur le marché. Un Open Badge bien construit contient les deux : la preuve du parcours suivi, et la preuve des compétences réellement développées.",
     liveUrl: 'https://thelearningsociety.fr/passeport-competences-open-badge/',
     cover: 'from-accent-200 via-accent-100 to-primary-100',
     body: [
@@ -2249,7 +2227,7 @@ export const ARTICLES: Article[] = [
       "Une certification sans critères d'évaluation publiés est une certification sans valeur. Demandez à voir les critères avant d'acheter.",
     ],
     conclusion:
-      "Choisir une formation IA en 2026, c'est choisir comment vous voulez évoluer dans votre métier pour les 5 à 10 prochaines années. Les critères ci-dessus ne sont pas une garantie : ils sont un filtre pour éliminer les offres qui ne méritent pas votre temps. Si vous souhaitez voir comment la formation certifiante de The Learning Society répond à chacun de ces critères, consultez le programme détaillé sur notre page Formation.",
+      "Choisir une formation IA en 2026, c'est choisir comment vous voulez évoluer dans votre métier pour les 5 à 10 prochaines années. Les critères ci-dessus ne sont pas une garantie : ils sont un filtre pour éliminer les offres qui ne méritent pas votre temps.",
     liveUrl: 'https://thelearningsociety.fr/choisir-formation-ia-formateurs/',
     cover: 'from-primary-100 via-accent-50 to-secondary-100',
     body: [
@@ -2332,7 +2310,7 @@ export const ARTICLES: Article[] = [
       },
       {
         type: 'p',
-        text: "La formation certifiante de The Learning Society, réalisée en partenariat avec C-Campus, est éligible à une prise en charge OPCO. Contactez-nous pour vérifier votre éligibilité spécifique et obtenir les documents nécessaires au montage de votre dossier.",
+        text: "Selon le dispositif, une prise en charge OPCO peut être mobilisée. Contactez-nous pour vérifier votre éligibilité et obtenir les documents nécessaires au montage de votre dossier.",
       },
     ],
   },

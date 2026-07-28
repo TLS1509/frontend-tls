@@ -18,7 +18,7 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import type { LucideIcon } from 'lucide-react';
 import {
   BookOpen,
@@ -34,7 +34,9 @@ import {
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
 import { Input } from '../../components/core/Input';
-import { FadeInWhenVisible, MagneticButton } from '../../components/marketing/motion';
+import { FadeInWhenVisible, useMarketingToast } from '../../components/marketing/motion';
+import { SEOHead } from './components/SEOHead';
+import { submitForm } from './utils/submitForm';
 import { ARTICLES } from '../../data/marketingArticles';
 import { DOSSIERS } from '../../data/marketingDossiers';
 import { VIDEOS } from '../../data/marketingVideos';
@@ -185,11 +187,13 @@ const badgeTone = (item: ResourceItem) =>
 /**
  * Featured card — Hero card at top of grid
  */
-const FeaturedCard: React.FC<{ item: ResourceItem }> = ({ item }) => (
+const FeaturedCard: React.FC<{ item: ResourceItem }> = ({ item }) => {
+  const reduced = useReducedMotion();
+  return (
   <FadeInWhenVisible>
     <Link to={item.href} className="group block rounded-3xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">
       <motion.div
-        whileHover={{ y: -6 }}
+        whileHover={reduced ? undefined : { y: -6 }}
         transition={{ type: 'spring', stiffness: 280, damping: 22 }}
         className={`relative rounded-3xl bg-gradient-to-br ${item.cover} border h-full overflow-hidden flex flex-col shadow-sm hover:shadow-xl transition-all duration-base`}
       >
@@ -229,18 +233,20 @@ const FeaturedCard: React.FC<{ item: ResourceItem }> = ({ item }) => (
       </motion.div>
     </Link>
   </FadeInWhenVisible>
-);
+  );
+};
 
 /**
  * Resource card — standard grid item
  */
 const ResourceCard: React.FC<{ item: ResourceItem; index: number }> = ({ item, index }) => {
+  const reduced = useReducedMotion();
   const Icon = TYPE_ICON[item.type];
   return (
     <FadeInWhenVisible direction="up" delay={index * 0.05}>
       <Link to={item.href} className="group block h-full rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">
         <motion.article
-          whileHover={{ y: -4 }}
+          whileHover={reduced ? undefined : { y: -4 }}
           transition={{ type: 'spring', stiffness: 280, damping: 22 }}
           className="h-full bg-white border border-ink-100 rounded-2xl overflow-hidden flex flex-col shadow-sm hover:shadow-lg hover:border-primary-200 transition-all duration-base"
         >
@@ -291,6 +297,35 @@ const ResourceCard: React.FC<{ item: ResourceItem; index: number }> = ({ item, i
 export const MarketingResources: React.FC = () => {
   const [selectedType, setSelectedType] = useState<ResourceType>('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const toast = useMarketingToast();
+  const [email, setEmail] = useState('');
+  const [sending, setSending] = useState(false);
+
+  // L'inscription part réellement (Web3Forms). Avant le 28/07 ce formulaire
+  // n'avait ni état ni handler : valider rechargeait la page et perdait la
+  // saisie, sans qu'aucune inscription ne soit enregistrée.
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email.trim() || sending) return;
+    setSending(true);
+    const { ok, error } = await submitForm({
+      name: email.trim(),
+      email: email.trim(),
+      subject: 'Inscription La Vigie IA',
+      _source: 'vigie-resources',
+    });
+    setSending(false);
+    if (ok) {
+      toast.push({ tone: 'success', message: 'Merci, votre inscription à La Vigie IA est enregistrée.' });
+      setEmail('');
+    } else {
+      toast.push({
+        tone: 'danger',
+        message: "L'inscription n'a pas pu être enregistrée.",
+        description: error ?? 'Réessayez ou écrivez-nous à contact@thelearningsociety.fr.',
+      });
+    }
+  };
 
   const filteredItems = ALL_ITEMS.filter((item) => {
     const q = searchQuery.trim().toLowerCase();
@@ -305,6 +340,11 @@ export const MarketingResources: React.FC = () => {
 
   return (
     <div className="bg-white">
+      <SEOHead
+        title="Magazine & Ressources · The Learning Society"
+        description="Articles, dossiers de veille sourcés, guides et webinaires sur l'IA en formation, les compétences et la Skills-Based Organization. En accès libre."
+        canonical="/website/resources"
+      />
       {/* ── Header — flat, pas de card hero éditoriale ─────────────────────── */}
       <div className={`${CONTAINER} pt-24 sm:pt-28 lg:pt-32 pb-section flex flex-col gap-tight`}>
         <h1 className="m-0 font-display text-h2 font-bold text-ink-900 tracking-headline leading-tight">
@@ -407,20 +447,25 @@ export const MarketingResources: React.FC = () => {
               Restez à jour
             </h2>
             <p className="font-body text-body text-ink-700 max-w-2xl">
-              Recevez nos meilleurs articles, dossiers et guides directement dans votre boîte mail chaque semaine.
+              Un mardi sur deux, La Vigie IA : un workflow pédagogique autopsié,
+              une fiche Out-skill, un crash-test terrain.
             </p>
-            <form className="flex flex-col sm:flex-row gap-stack-xs w-full max-w-md mt-stack">
+            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-stack-xs w-full max-w-md mt-stack">
+              <label htmlFor="resources-vigie-email" className="sr-only">
+                Votre adresse email professionnelle
+              </label>
               <Input
+                id="resources-vigie-email"
                 type="email"
-                placeholder="vous@email.com"
+                placeholder="Votre email professionnel"
                 required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="flex-1"
               />
-              <MagneticButton strength={12}>
-                <Button variant="primary" size="lg" className="w-full sm:w-auto">
-                  S'inscrire
-                </Button>
-              </MagneticButton>
+              <Button type="submit" variant="primary" size="lg" disabled={sending} className="w-full sm:w-auto">
+                {sending ? 'Envoi en cours…' : "S'abonner"}
+              </Button>
             </form>
             <p className="font-body text-caption text-ink-500">
               Sans spam. Désinscrivez-vous à tout moment.

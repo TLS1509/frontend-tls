@@ -180,7 +180,7 @@ export const MarketingCharteIA: React.FC = () => (
     sections={[
       {
         heading: 'IA augmentée, jamais substitutive',
-        body: 'Chez The Learning Society, l\'IA est un outil au service du formateur et de l\'apprenant. Elle amplifie l\'expertise humaine: elle ne la remplace pas. Toute production générée par IA est relue, validée et contextualisée par un expert.',
+        body: 'Chez The Learning Society, l\'IA est un outil au service du formateur et de l\'apprenant. Elle amplifie l\'expertise humaine : elle ne la remplace pas. Toute production générée par IA est relue, validée et contextualisée par un expert.',
       },
       {
         heading: 'Transparence algorithmique',
@@ -190,13 +190,19 @@ export const MarketingCharteIA: React.FC = () => (
         heading: 'Protection des données dans l\'IA',
         body: 'Nous n\'utilisons pas les données personnelles des apprenants pour entraîner des modèles d\'IA tiers. Nos prompts sont conçus pour minimiser la transmission de données sensibles.',
       },
+      // Ces deux sections ont été réécrites le 28/07/2026. Les versions
+      // précédentes affirmaient des faits invérifiables : des audits de biais
+      // « réguliers » sur des systèmes de recommandation qui ne sont pas en
+      // production, et une classification AI Act déjà réalisée avec
+      // documentation technique à l'appui. Une charte éthique ne peut pas être
+      // le document le moins vérifiable du site. Constat → engagement.
       {
         heading: 'Équité et non-discrimination',
-        body: 'Nos systèmes de recommandation et de personnalisation sont régulièrement audités pour détecter et corriger les biais discriminatoires. Nous favorisons la diversité des profils dans nos données de référence.',
+        body: 'Nous nous engageons à vérifier nos mécanismes de recommandation et de personnalisation pour détecter et corriger les biais discriminatoires, et à documenter ces vérifications. Nous veillons à la diversité des profils dans nos données de référence.',
       },
       {
-        heading: 'Conformité AI Act (UE)',
-        body: 'Nos usages de l\'IA sont classifiés selon le règlement européen AI Act. Les systèmes à risque élevé font l\'objet d\'une documentation technique et d\'une supervision humaine renforcée.',
+        heading: 'Cadre réglementaire européen',
+        body: 'Le règlement européen sur l\'intelligence artificielle précise progressivement les obligations applicables aux systèmes d\'IA selon leur niveau de risque. Nous en suivons le calendrier d\'application et adaptons nos usages en conséquence. Le principe qui fonde cette charte, la supervision humaine de toute production générée par IA, est quant à lui déjà en place.',
       },
       {
         heading: 'Contact éthique IA',
