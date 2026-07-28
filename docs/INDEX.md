@@ -96,7 +96,20 @@
 | `SITE-STRUCTURE-DESIGN-C.md` | Sitemap + specs de sections par page (art direction « Illustrated Glass » du 11/06) |
 | `SITE-REACT-AUDIT.md` | Audit du site React + journal de sessions |
 
-⚠️ Le sitemap fait aujourd'hui l'objet de propositions plus récentes non tranchées : voir Notion [Sitemap & Structure Homepage (2026-06-29)](https://app.notion.com/p/38ecdd696db6811eb953e3baa6b5de5d). En cas de divergence, Notion est plus récent.
+✅ **Mis à jour 2026-07-28** : le sitemap et le copywriting complet du site V1 sont désormais tranchés — voir `site/propositions-PAD/` ci-dessous. L'ancien renvoi vers la page Notion "Sitemap & Structure Homepage (2026-06-29)" est périmé.
+
+**`propositions-PAD/` — Copywriting & stratégie du site V1 (réunion 28/07/2026)**
+
+| Fichier | Purpose |
+|---|---|
+| [README.md](site/propositions-PAD/README.md) | **Règle d'organisation Notion/Repo/Figma + table de provenance** (fichier ↔ original Notion ↔ mode de récupération) — actée 28/07 |
+| [RECAP-REUNION-2026-07-28.md](site/propositions-PAD/RECAP-REUNION-2026-07-28.md) | **Point d'entrée** — synthèse post-réunion : ce qui est tranché vs. encore ouvert, corrections FACTS-CANON à appliquer, docs historiques à ne pas réutiliser |
+| [PREP-REUNION-VISION-STRATEGIQUE.md](site/propositions-PAD/PREP-REUNION-VISION-STRATEGIQUE.md) | Prep pré-réunion (28/07) : confrontation des docs PAD à nos sources internes |
+| [SSOT-PAD-2807.md](site/propositions-PAD/SSOT-PAD-2807.md) | Roadmap opérationnel : RACI, calendrier Lot1/Lot2 (06/08 → 07/09), backlog par phase |
+| [CATALOGUE-OFFRES-GOUVERNANCE.md](site/propositions-PAD/CATALOGUE-OFFRES-GOUVERNANCE.md) | Catalogue d'offres chiffré (260 700€ CA cible), RACI CMT/PAD par ligne de revenu |
+| `PAD-page-*.md` (9 fichiers) | Copywriting complet des 9 pages du site (Homepage, Learning App, Studio IA, STRIDE, Upskilling, Bibliothèque de compétences, Méthode TLS, Autodiagnostic, Fondateurs) |
+| `PAD-vision-strategique-sitemap.md` · `PAD-strategie-contenu-b2b.md` · `PAD-blog-magazine-strategie.md` · `PAD-copywriting-upskilling.md` | Docs stratégiques source (Vision, contenu B2B, Magazine/Blog, 6 angles Upskilling exploratoires) |
+| `PAD-website-pages.csv` | État de toutes les pages du site (production + propositions) |
 
 **Copy & SEO**
 

@@ -1,6 +1,6 @@
 # Contexte — Site marketing (projet séparé)
 
-> **Ce qu'est ce projet.** Le site vitrine public de TLS, en React, vit dans `src/pages/marketing/*` (routes `/marketing/*`) **au sein de ce dépôt** mais se pilote comme un **projet distinct** de la Learning App. Ce doc est son contexte-maison : les règles qui lui sont propres (motion, structure), à ne PAS mélanger avec le `CLAUDE.md` racine (qui, lui, cadre l'app + le design system).
+> **Ce qu'est ce projet.** Le site vitrine public de TLS, en React, vit dans `src/pages/marketing/*` (routes **`/website/*`** — depuis `e48aa13` du 03/07 ; l'ancien `/marketing/*` est périmé) **au sein de ce dépôt** mais se pilote comme un **projet distinct** de la Learning App. Ce doc est son contexte-maison : les règles qui lui sont propres (motion, structure), à ne PAS mélanger avec le `CLAUDE.md` racine (qui, lui, cadre l'app + le design system).
 
 ## Périmètre & code
 

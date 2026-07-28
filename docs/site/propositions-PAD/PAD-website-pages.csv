@@ -1,0 +1,28 @@
+﻿Name,Composants motion,Contenu mis à jour le,DS Tokens clés,Fichier React,Hero Tone,Last edited time,Revue conception,Statut design,Type,URL
+Accueil (Home),"FadeIn (motion.div whileInView), VariantSwitcher",10 July 2026,"fixed bg aquarelle + bg-ink-900/62, bg-white/8–10 backdrop-blur-md, border-white/10–20, text-accent-400, text-white/60–75, rounded-2xl, clamp() fluid typo",MarketingHome.tsx,🔵 Brand,10 July 2026 13:50,Décisions prises,Validé,🟢 Production,/website
+CGV / CGU,,20 May 2026,,MarketingLegal.tsx,,20 May 2026 13:02,,Validé,⚖️ Légale,/marketing/cgv-cgu
+Politique de Confidentialité,,20 May 2026,,MarketingLegal.tsx,,20 May 2026 13:02,,Validé,⚖️ Légale,/marketing/politique-confidentialite
+Magazine — Le Mag',"FadeInWhenVisible, AnimatePresence popLayout, layoutId chip selection, motion.article spring",27 June 2026,"from-primary-700 to-primary-900, bg-ink-50, border-ink-100, rounded-2xl, text-primary-700, font-body text-caption, backdrop-blur-glass-heavy",MarketingMagazine.tsx,🔵 Brand,28 June 2026 18:22,,Validé,🟢 Production,/marketing/magazine
+Mentions Légales,,20 May 2026,,MarketingLegal.tsx,,20 May 2026 13:02,,Validé,⚖️ Légale,/marketing/mentions-legales
+L'Équipe,"FadeInWhenVisible, TiltCard, motion.article whileHover y:-4, CountUp",27 June 2026,"from-primary-700 to-primary-900, bg-gradient-to-br, border-primary-100, text-accent-400, rounded-3xl, p-stack-lg, shadow-sm",MarketingEquipe.tsx,🔵 Brand,28 June 2026 18:23,,Validé,🟢 Production,/marketing/equipe
+Learning App — Plateforme SBO,"FadeInWhenVisible, InteractiveAppMockup, MagneticButton, motion.div hover lift",27 June 2026,"from-ink-900 to-primary-900, text-accent-400, border-white/25, backdrop-blur-glass-heavy, shadow-card, shadow-card-hover",MarketingLearningApp.tsx,🔵 Brand,29 June 2026 12:22,Appliqué,Validé,🟢 Production,/marketing/learning-app
+📂 Formation — supprimée (26/06/2026),"FadeInWhenVisible, MagneticButton, AnimatePresence (FAQ accordion)",,"secondary-600/700, primary-800, secondary-50, secondary-500/30, white/10·20·25, blur-glass-heavy, rounded-2xl·3xl, snap-x snap-mandatory",MarketingFormation.tsx,🟠 Warm,20 May 2026 17:08,,Validé,📂 Archivée,/marketing/formation
+Contact,"FadeInWhenVisible, MagneticButton, motion.div spring transitions",27 June 2026,"from-white via-primary-50 to-secondary-50, bg-primary-50, backdrop-blur-glass-heavy, border-ink-100, shadow-sm, focus:ring-primary-500",MarketingContact.tsx,⬜ Default,29 June 2026 12:22,Appliqué,Validé,🟢 Production,/marketing/contact
+Charte IA,,20 May 2026,,MarketingLegal.tsx,,20 May 2026 13:02,,Validé,⚖️ Légale,/marketing/charte-ia
+Notre Méthode — STRIDE,"FadeInWhenVisible, motion.span spring scale, CountUp, motion.article whileHover y:-4",27 June 2026,"from-primary-700 to-primary-900, bg-primary-50/30, border-primary-100, text-primary-700, rounded-3xl, p-stack-lg, font-display text-h3",MarketingMethode.tsx,🔵 Brand,25 July 2026 15:40,,Validé,🟢 Production,/marketing/methode
+Cas Clients — Témoignages,"FadeInWhenVisible, MagneticButton, motion.div",27 June 2026,"from-primary-700 to-primary-900, border-primary-100, bg-primary-50, rounded-3xl, text-primary-600, shadow-sm, p-section-lg",MarketingTemoignages.tsx,🔵 Brand,28 June 2026 18:23,,Validé,🟢 Production,/marketing/temoignages
+Accompagnement — Conseil & Stratégie SBO,"FadeInWhenVisible, MagneticButton",27 June 2026,"secondary-gradient, accent-400, shadow-card, glass",MarketingAccompagnement.tsx,🟠 Warm,29 June 2026 12:21,Appliqué,Validé,🟢 Production,/marketing/accompagnement
+Ressources — Hub contenu SBO,"group hover animations (hover:shadow-xl, hover:-translate-y-1, group-hover:translate-x-1)",27 June 2026,"border-ink-100, bg-white, rounded-3xl, rounded-2xl, text-primary-700, text-ink-900, shadow-sm, font-display text-h3, transition-all duration-base",MarketingRessources.tsx,🔵 Brand,28 June 2026 18:24,,Design validé,🟢 Production,/marketing/ressources
+Waitlist — Page d'attente,"KineticHeadline, motion.div stagger variants, AnimatePresence mode wait, motion.ul stagger children",27 June 2026,"from-primary-50 via-white to-white, bg-secondary-50, border-primary-100, rounded-3xl, rounded-pill, bg-white/15, text-accent-400, shadow-brand-md",MarketingWaitlist.tsx,⬜ Default,28 June 2026 18:24,,Validé,🟢 Production,/marketing/waitlist
+Conseil — Accompagnement SBO,"MeshGradientBg warm/ink, Reveal motion.div y:24→0, motion delays staggered",27 June 2026,"from-secondary-50 via-white, border-secondary-200, bg-gradient-to-br, text-secondary-700, rounded-3xl, p-section, shadow-sm",MarketingConseil.tsx,🟠 Warm,28 June 2026 18:24,,En cours,🟢 Production,/marketing/conseil
+Formation — Formateur Augmenté,,29 June 2026,,MarketingFormation.tsx,🟠 Warm,29 June 2026 12:23,Appliqué,Validé,🟢 Production,/marketing/formation
+Upskilling L&D — Programme sur-mesure,"FadeInWhenVisible, Stagger/StaggerItem, MagneticButton",10 July 2026,"accent-50/100/400, Button variant=accent, aquarelle-dore-ambre-*.jpg décoratif",MarketingUpskilling.tsx,🟡 Sun,10 July 2026 13:49,À faire,En cours,🟢 Production,/website/upskilling
+Homepage - Proposition PAD,,,,,,26 July 2026 13:01,,,,
+Le Studio IA & Pédagogie - Proposition PAD,,,,,,27 July 2026 09:23,,,,
+Page Learning APP - Proposition PAD,,,,,,27 July 2026 10:39,,,,
+Page autodiagnostic - Proposition PAD,,,,,,27 July 2026 11:34,,,,
+Page  LA BIBLIOTHÈQUE DE COMPÉTENCES (N-1 learning app) - Proposition PAD,,,,,,27 July 2026 12:09,,,,
+Page Les fondateurs - Proposition PAD,,,,,,27 July 2026 13:20,,,,
+Page Accomapgnent STRIDE - Proposition PAD,,,,,,27 July 2026 13:21,,,,
+"Page Méthode TLS (N-1 STRIDE) - Proposition PAD ",,,,,,27 July 2026 13:22,,,,
+Page upskilling - Proposition PAD,,,,,,27 July 2026 13:22,,,,
