@@ -87,6 +87,15 @@ export interface CatalogMeta {
  * Un composant absent d'ici n'apparaît nulle part dans la navigation.
  */
 export const CATALOG: Record<string, CatalogMeta> = {
+  // ── Classées le 2026-07-29 (phase 2) ──────────────────────────────────
+  // Ces cinq entrées n'étaient dans aucun classement : elles retombaient sur
+  // le repli de l'ancienne taxonomie, qui les rangeait toutes en « Other ».
+  InlineWin:            { category: 'Feedback', subCategory: 'Celebrations' },
+  JacCard:              { category: 'Learning', subCategory: 'Compétences' },
+  NewsletterSignupCard: { category: 'Cards', subCategory: 'Communication' },
+  TrendingBadge:        { category: 'Atoms', subCategory: 'Status badges' },
+  ViewerProgressTrail:  { category: 'Learning', subCategory: 'Viewer content' },
+
   // ── ATOMS ─────────────────────────────────────────────────────────────
   // Form fields
   Button:               { category: 'Atoms', subCategory: 'Form fields' },
