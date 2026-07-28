@@ -111,7 +111,7 @@ const Hero: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.1, delay: 0.35, ease: 'easeOut' }}
-          className="w-full max-w-page mx-auto px-6 py-page text-center flex flex-col items-center gap-stack-lg"
+          className="w-full max-w-page mx-auto px-4 sm:px-6 lg:px-10 py-16 text-center flex flex-col items-center gap-stack-lg"
         >
           <p className="font-body text-body-sm font-bold text-white/85 m-0">
             Le cabinet de conseil & studio expert en Skills-Based Organization.
@@ -156,7 +156,7 @@ const BENEFICES = [
 const Manifeste: React.FC = () => (
   <section className="relative bg-primary-700 text-white">
     <div aria-hidden className="absolute top-0 inset-x-0 h-20 bg-gradient-to-b from-black/25 to-transparent pointer-events-none" />
-    <div className="max-w-wide mx-auto px-6 py-page lg:py-section-lg flex flex-col gap-section-lg">
+    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
       <FadeInWhenVisible>
         <div className="max-w-4xl flex flex-col gap-stack-lg">
           <h2 className="font-display font-extrabold text-white leading-[1.06] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)]">
@@ -215,7 +215,7 @@ const ETAPES = [
 
 const Moteur: React.FC = () => (
   <section className="bg-white">
-    <div className="max-w-wide mx-auto px-6 py-page flex flex-col gap-section-lg">
+    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
       <FadeInWhenVisible>
         <div className="max-w-3xl flex flex-col gap-stack">
           <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)]">
@@ -316,7 +316,7 @@ const OFFRES: Offre[] = [
 
 const Ecosysteme: React.FC = () => (
   <section className="relative bg-gradient-to-b from-white to-primary-50/30">
-    <div className="max-w-wide mx-auto px-6 py-page flex flex-col gap-section-lg">
+    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
       <FadeInWhenVisible>
         <div className="max-w-3xl flex flex-col gap-stack">
           <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)]">
@@ -382,7 +382,7 @@ const Ecosysteme: React.FC = () => (
 
 const Reassurance: React.FC = () => (
   <section className="bg-white border-t border-ink-100">
-    <div className="max-w-wide mx-auto px-6 py-page">
+    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-section items-start">
         <div className="lg:col-span-7 flex flex-col gap-stack-lg">
           <FadeInWhenVisible>
@@ -437,17 +437,17 @@ const DoubleCta: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim()) return;
-    toast('Merci, votre inscription à La Vigie est enregistrée.');
+    toast.push({ tone: 'success', message: 'Merci, votre inscription à La Vigie est enregistrée.' });
     setEmail('');
   };
 
   return (
     <section className="bg-white">
-      <div className="max-w-wide mx-auto px-6 pt-stack pb-page">
+      <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 pt-2 pb-16 sm:pb-20 lg:pb-28">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-stack-lg">
           {/* Bloc chaud — B2B */}
           <FadeInWhenVisible className="lg:col-span-3">
-            <div className="relative h-full overflow-hidden rounded-2xl bg-ink-900 text-white px-6 py-section-lg sm:px-section-lg">
+            <div className="relative h-full overflow-hidden rounded-2xl bg-ink-900 text-white px-4 sm:px-6 lg:px-10 py-12 sm:py-16 sm:px-section-lg">
               <MeshGradientBg tone="ink" intensity="subtle" />
               <div className="relative flex flex-col gap-stack-lg">
                 <h2 className="font-display font-extrabold text-white leading-[1.04] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,3.6vw,3rem)]">
@@ -471,7 +471,7 @@ const DoubleCta: React.FC = () => {
 
           {/* Bloc froid — La Vigie */}
           <FadeInWhenVisible delay={0.08} className="lg:col-span-2">
-            <div className="flex h-full flex-col justify-between gap-stack-lg rounded-2xl bg-primary-50 px-6 py-section-lg sm:px-stack-lg">
+            <div className="flex h-full flex-col justify-between gap-stack-lg rounded-2xl bg-primary-50 px-4 sm:px-6 lg:px-10 py-12 sm:py-16 sm:px-stack-lg">
               <div className="flex flex-col gap-stack">
                 <h2 className="font-display text-h3 font-bold text-ink-900 m-0 leading-tight">
                   Pas encore prêt ? Restez en veille.

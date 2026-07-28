@@ -27,7 +27,7 @@ export const MarketingVigie: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim()) return;
-    toast('Merci, votre inscription à La Vigie est enregistrée.');
+    toast.push({ tone: 'success', message: 'Merci, votre inscription à La Vigie est enregistrée.' });
     setEmail('');
   };
 
@@ -44,7 +44,7 @@ export const MarketingVigie: React.FC = () => {
           aria-hidden
           className="absolute -top-24 left-[-8%] h-[420px] w-[420px] rounded-pill bg-primary-200/40 blur-3xl pointer-events-none"
         />
-        <div className="relative max-w-wide mx-auto px-6 pt-[calc(theme(spacing.24)+theme(spacing.10))] pb-page">
+        <div className="relative max-w-wide mx-auto px-4 sm:px-6 lg:px-10 pt-36 sm:pt-40 lg:pt-44 pb-16 sm:pb-20 lg:pb-24">
           <motion.div
             initial={reduced ? { opacity: 0 } : { opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
@@ -100,7 +100,7 @@ export const MarketingVigie: React.FC = () => {
       </section>
 
       <section className="bg-white border-t border-ink-100">
-        <div className="max-w-wide mx-auto px-6 py-section-lg">
+        <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-12 sm:py-16">
           <FadeInWhenVisible>
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-stack">
               <p className="font-body text-body text-ink-600 m-0 max-w-xl">

@@ -55,7 +55,7 @@ const LEGAL_LINKS = [
 
 export const MarketingFooter: React.FC = () => (
   <footer className="border-t border-primary-100/60 bg-primary-50/40">
-    <div className="max-w-7xl mx-auto px-6 pt-section-lg pb-stack-lg flex flex-col gap-section">
+    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 pt-16 pb-8 flex flex-col gap-section">
 
       {/* Row 1 — Brand block + link columns */}
       <div className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr_1fr_1fr] gap-section md:gap-stack-lg">

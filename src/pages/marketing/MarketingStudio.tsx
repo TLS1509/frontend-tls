@@ -40,7 +40,7 @@ const Hero: React.FC = () => {
         aria-hidden
         className="absolute top-40 left-[-12%] h-[360px] w-[360px] rounded-pill bg-accent-200/30 blur-3xl pointer-events-none"
       />
-      <div className="relative max-w-wide mx-auto px-6 pt-[calc(theme(spacing.24)+theme(spacing.10))] pb-page">
+      <div className="relative max-w-wide mx-auto px-4 sm:px-6 lg:px-10 pt-36 sm:pt-40 lg:pt-44 pb-16 sm:pb-20 lg:pb-24">
         <motion.div
           initial={reduced ? { opacity: 0 } : { opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
@@ -90,7 +90,7 @@ const FAILURES = [
 
 const Probleme: React.FC = () => (
   <section className="relative bg-ink-900 text-white">
-    <div className="max-w-wide mx-auto px-6 py-page">
+    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-section items-start">
         <div className="lg:col-span-5">
           <FadeInWhenVisible>
@@ -166,7 +166,7 @@ const PILIERS: Pilier[] = [
 
 const Approche: React.FC = () => (
   <section className="bg-white">
-    <div className="max-w-wide mx-auto px-6 py-page flex flex-col gap-section-lg">
+    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
       <FadeInWhenVisible>
         <div className="max-w-3xl flex flex-col gap-stack">
           <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)]">
@@ -234,7 +234,7 @@ const LIVRABLES = [
 
 const Livrables: React.FC = () => (
   <section className="bg-secondary-50/60">
-    <div className="max-w-wide mx-auto px-6 py-page flex flex-col gap-section-lg">
+    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
       <FadeInWhenVisible>
         <div className="max-w-2xl flex flex-col gap-stack">
           <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)]">
@@ -270,9 +270,9 @@ const Livrables: React.FC = () => (
 
 const CtaFinal: React.FC = () => (
   <section className="bg-white">
-    <div className="max-w-wide mx-auto px-6 py-page">
+    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28">
       <FadeInWhenVisible>
-        <div className="relative overflow-hidden rounded-2xl bg-ink-900 text-white px-6 py-page sm:px-section-lg">
+        <div className="relative overflow-hidden rounded-2xl bg-ink-900 text-white px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 sm:px-section-lg">
           <MeshGradientBg tone="warm" intensity="subtle" />
           <div className="relative max-w-content flex flex-col gap-stack-lg">
             <h2 className="font-display font-extrabold text-white leading-[1.04] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.5vw,3.5rem)]">

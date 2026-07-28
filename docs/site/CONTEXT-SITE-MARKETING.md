@@ -9,6 +9,15 @@
 - **Primitives motion** : `src/components/marketing/motion/` — **le code est la source de vérité** (la liste ci-dessous est indicative et évolue : `MeshGradientBg`, `FadeInWhenVisible`, `ParallaxLayer`, `MagneticButton`, `GradientText`, `MarqueeRow`, `CountUp`, `StickyScrollStory`, `InteractiveAppMockup`, `KineticHeadline`, `NoiseTexture`…).
 - Le **design system partagé** (tokens, règles Tailwind, gotchas) reste cadré par le `CLAUDE.md` racine — le site le réutilise. Ce doc ne couvre que le **surplus marketing-only**.
 
+## Rythme de section harmonisé (2026-07-28)
+
+Toutes les pages refondues partagent le même squelette — le reprendre à l'identique pour toute nouvelle page/section :
+
+- **Conteneur** : `max-w-wide mx-auto px-4 sm:px-6 lg:px-10` (gouttière standard CLAUDE.md). Lecture longue : `max-w-content`.
+- **Section standard** : `py-16 sm:py-20 lg:py-28` (l'échelle sémantique s'arrête à `--spacing-page` 48px — trop serré pour le rythme marketing, d'où le numérique assumé ici).
+- **Hero de sous-page** : `pt-36 sm:pt-40 lg:pt-44 pb-16 sm:pb-20 lg:pb-24` (dégage le header fixe).
+- **Rythme interne** : `gap-section-lg` entre h2 et contenu de section ; `gap-stack`/`gap-stack-lg` en intra-bloc — tokens sémantiques.
+
 ## Règles motion (marketing uniquement)
 
 Ces primitives et libs sont **réservées au site marketing** — ne pas les importer dans la Learning App (mauvais contexte d'usage).
