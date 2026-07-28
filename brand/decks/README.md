@@ -1,5 +1,19 @@
 # Brand decks TLS — gabarits de présentation
 
+> ### Nettoyé le 2026-07-28
+>
+> Six decks retirés, avec leurs générateurs : les **quatre variantes formation**
+> et le deck **orange-poc-dinootoo**, tous adossés à une offre retirée du
+> discours, plus un échantillon de gabarits.
+>
+> Les générateurs restants ont été corrigés : plus de « parcours certifiants »
+> sans attribution (TLS n'est pas organisme certificateur), plus de « Open
+> Badge 2.0 », plus de numéro Qualiopi sur le devis.
+>
+> ⚠️ **Les `.pptx` restants datent du 16-17 juin, les générateurs du 22-26 juin
+> puis du 28 juillet.** Les scripts ont bougé après les fichiers : régénérer
+> avant tout envoi client.
+
 Système de slides The Learning Society, généré depuis les **design tokens du code** (`src/index.css`) — League Spartan + Nunito **embarquées dans les `.pptx`** (l'équipe les ouvre à la marque sans rien installer). Direction : **Hybride A+B** (couvertures immersives teal, contenu sur gradient pastel TLS).
 
 ## Decks prêts à l'emploi

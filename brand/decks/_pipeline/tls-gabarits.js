@@ -324,7 +324,7 @@ async function bakeBgs() {
     s.addShape(R, { x: 4.7, y: 1.0, w: 0.012, h: 4.3, fill: { color: C.ink200 }, line: { width: 0 } });
 
     const rCol = [
-      { ruleColor: C.primary500, title: "Formation",      body: "Des parcours certifiants co-construits avec des experts métier. Courts, actionnables, mis à jour chaque trimestre." },
+      { ruleColor: C.primary500, title: "Formation",      body: "Des parcours co-construits avec des experts métier. Courts, actionnables, mis à jour chaque trimestre." },
       { ruleColor: C.primary300, title: "Accompagnement", body: "Du coaching 1-1 et des corrections personnalisées à chaque étape. L'humain au centre de l'apprentissage." },
       { ruleColor: C.ink300,     title: "Learning App",   body: "Une application mobile-first gamifiée pour ancrer les acquis au quotidien, en autonomie." },
     ];
@@ -437,7 +437,7 @@ async function bakeBgs() {
     });
 
     const cols = [
-      { num: "01", rc: C.primary500, nc: C.primary600, title: "Formation",      body: "Des parcours courts et certifiants, co-construits avec des experts métier. Mis à jour chaque trimestre pour suivre l'évolution des métiers." },
+      { num: "01", rc: C.primary500, nc: C.primary600, title: "Formation",      body: "Des parcours courts, co-construits avec des experts métier. Mis à jour chaque trimestre pour suivre l'évolution des métiers." },
       { num: "02", rc: C.primary300, nc: C.primary500, title: "Accompagnement", body: "Coaching 1-1, corrections personnalisées, suivi de progression. L'humain au centre de chaque parcours d'apprentissage." },
       { num: "03", rc: C.secondary500, nc: C.secondary600, title: "Learning App", body: "Mobile-first, gamifiée, intégrée aux outils existants. L'apprentissage s'inscrit dans les pratiques quotidiennes." },
     ];
@@ -547,7 +547,7 @@ async function bakeBgs() {
     eyebrow(s, "NOTRE RÉPONSE", 5.22, 1.74, C.primary600, { sz: 9.5 });
 
     const rightItems = [
-      "Parcours courts, certifiants et mis à jour en continu",
+      "Parcours courts, ancrés dans la pratique et mis à jour en continu",
       "Coaching 1-1 et corrections personnalisées par expert",
       "Passeport compétences intégré et exportable",
     ];

@@ -127,7 +127,7 @@ const makeShadow = () => ({ type: "outer", color: C.primary900, blur: 9, offset:
   });
 
   const cards = [
-    { ic: icFormation, t: "Formation", d: "Des parcours certifiants, conçus avec des experts métier." },
+    { ic: icFormation, t: "Formation", d: "Des parcours conçus avec des experts métier, ancrés dans le travail réel." },
     { ic: icAccomp, t: "Accompagnement", d: "Du coaching 1-1 et des corrections personnalisées." },
     { ic: icApp, t: "Learning App", d: "L'apprentissage en autonomie, gamifié et mobile-first." },
   ];

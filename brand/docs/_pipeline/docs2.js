@@ -466,7 +466,7 @@ function buildDoc(file, title, specs) {
       meta: [{ k: "Client", v: "{{Organisation}}" }, { k: "Contact", v: "{{Prénom Nom · fonction}}" }, { k: "Objet", v: "{{Intitulé de la prestation}}" }],
       lignes: [
         { desc: "{{Prestation 1 — ex. Audit Flash SBO (1 jour)}}",       detail: "{{ Détail : livrables, modalités, durée. }}", qte: "{{1 j}}",   pu: "sur devis", total: "sur devis" },
-        { desc: "{{Prestation 2 — ex. Formation Formateur Augmenté}}",    detail: "{{ 7 modules e-learning + 2 classes virtuelles. }}",             qte: "{{1 acc}}", pu: "sur devis", total: "sur devis" },
+        { desc: "{{Prestation 2 — ex. Upskilling sur-mesure}}",    detail: "{{ 7 modules e-learning + 2 classes virtuelles. }}",             qte: "{{1 acc}}", pu: "sur devis", total: "sur devis" },
         { desc: "{{Prestation 3 — ex. Accès Learning App (12 mois)}}",   detail: "{{ X utilisateurs, support inclus. }}",                          qte: "{{X util}}", pu: "sur devis", total: "sur devis" },
         { desc: "{{Prestation 4 — ex. Séances de coaching individuel}}", detail: "{{ X séances de 60 min en visio. }}",                             qte: "{{X séa}}", pu: "sur devis", total: "sur devis" },
       ],
@@ -482,7 +482,7 @@ function buildDoc(file, title, specs) {
         "Validité du devis : 30 jours à compter de la date d'émission.",
         "Acompte de 30 % à la commande, solde à 30 jours date de facture.",
         "Annulation : remboursement intégral jusqu'à J-15 ; 50 % au-delà sauf force majeure.",
-        "Formation : convention de formation disponible sur demande (Qualiopi n° {{XXXXX}}).",
+        "Formation : convention de formation disponible sur demande.",  // Qualiopi retiré le 28/07 — TLS n'est pas organisme certifié, seul un partenaire certificateur peut afficher un numéro
         "Données personnelles : traitement conforme au RGPD — notre DPA est disponible sur demande.",
         "Litige : droit français applicable ; tribunal compétent : Paris (75).",
       ] },

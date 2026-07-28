@@ -222,7 +222,7 @@ function buildDeck(file, title, specs) {
 (async () => {
   await assets();
   const OFFERS = [
-    { ic: ICON.grad, t: "Formation", d: "Des parcours certifiants, conçus avec des experts métier." },
+    { ic: ICON.grad, t: "Formation", d: "Des parcours conçus avec des experts métier, ancrés dans le travail réel." },
     { ic: ICON.users, t: "Accompagnement", d: "Du coaching 1-1 et des corrections personnalisées." },
     { ic: ICON.laptop, t: "Learning App", d: "L'apprentissage en autonomie, gamifié et mobile-first." },
   ];
@@ -247,7 +247,7 @@ function buildDeck(file, title, specs) {
     ] },
     { type: "duo", eyebrow: "CAS CLIENT", title: "Ce que vivent les équipes", left: { h: "Avant", items: ["« On veut monter en compétence sans savoir par où commencer »", "Des formations vite oubliées", "Peu de transfert sur le terrain"] }, right: { h: "Avec TLS", items: ["Un parcours clair et personnalisé", "Une pratique accompagnée au quotidien", "Des compétences visibles et reconnues"] } },
     { type: "pricing", title: "Des formules adaptées", note: "Tarifs sur devis — structure indicative à personnaliser.", tiers: [
-      { name: "Essentiel", price: "sur devis", features: ["Accès Learning App", "Parcours certifiants", "Communauté apprenante"] },
+      { name: "Essentiel", price: "sur devis", features: ["Accès Learning App", "Parcours sur-mesure", "Communauté apprenante"] },
       { name: "Équipe", price: "sur devis", pop: true, features: ["Tout Essentiel", "Coaching 1-1", "Tableau de bord manager"] },
       { name: "Entreprise", price: "sur mesure", features: ["Tout Équipe", "Parcours sur-mesure", "Accompagnement dédié", "SSO & reporting"] },
     ] },
