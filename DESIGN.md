@@ -39,9 +39,25 @@ dériverait ; c'est exactement ce qui est arrivé au design system parallèle de
 `spec.json`. Une valeur de design se lit à un seul endroit : le bloc `@theme` de
 `src/index.css`.
 
-**Les trois miroirs**, qui ne font jamais foi et se resynchronisent depuis le
-code : le frontmatter YAML de `DESIGN-IMPECCABLE.md` (26 couleurs, **conforme au
-2026-07-28**), le fichier Figma, et le miroir Claude Design.
+### Les trois miroirs — ils existent, ils ne font pas foi
+
+« Une seule source de vérité » ne veut pas dire qu'il n'y a pas de ponts vers
+l'extérieur. Il y en a trois. Ils sont **en aval** : quand l'un d'eux contredit
+`src/index.css`, c'est le miroir qu'on régénère.
+
+| Miroir | État au 2026-07-28 |
+|---|---|
+| Frontmatter YAML de `DESIGN-IMPECCABLE.md` | ✅ **26/26 couleurs conformes**, vérifié |
+| **Figma Code Connect** | 🟡 **amorcé, pas déployé** — `@figma/code-connect` est bien en dépendance, mais un seul composant est mappé : `src/components/core/Button.figma.tsx` (fichier `LccBZ1GKWQVwVzPtsSzk5Y`, node `1109:58`), écrit le 2026-07-24. **1 sur 320.** Aucun script npm pour le publier |
+| **Claude Design** (`claude.ai/design`) | 🟠 **riche mais figé au 2026-07-24** — projet « The Learning Society Design System » : ~60 composants `.jsx`, 11 feuilles CSS, les fontes, un audit de variables Figma d'avril |
+
+⚠️ **Le miroir Claude Design a déjà dérivé**, et c'est instructif sur le
+mécanisme : il porte encore l'échelle `--skill-level-*`, les ombres au vert
+Tailwind brut `#22C55E`, l'échelle `--backdrop-blur-*`, le barème de z-index en
+1000, deux copies de `spec.json` et trois feuilles CSS (`utilities.css`,
+`components.css`, `patterns.css`) — **toutes supprimées du dépôt depuis**. Un
+miroir ne signale jamais qu'il est périmé ; il faut le regénérer, ou aller lire
+le code.
 
 ---
 
