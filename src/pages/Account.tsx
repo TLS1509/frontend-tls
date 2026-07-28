@@ -21,7 +21,6 @@ import { SettingsRow } from '../components/patterns/SettingsRow';
 import { useToastContext } from '../contexts/ToastContext';
 import { AccountFamilyNav } from '../components/patterns/AccountFamilyNav';
 import { PageHero } from '../components/patterns/EditorialHero';
-import { useTheme } from '../hooks/useTheme';
 import { PageShell } from '../components/layout';
 import {
   UserRound,
@@ -29,8 +28,6 @@ import {
   Globe,
   Clock,
   Palette,
-  Moon,
-  Sun,
   Lock,
   Fingerprint,
   LogOut,
@@ -83,7 +80,6 @@ const LANG_OPTIONS: SelectOption[] = [
 
 const GeneralTab: React.FC = () => {
   const navigate = useNavigate();
-  const { theme, toggle: toggleTheme } = useTheme();
 
   const [name,  setName]  = useState('Claire Fontaine');
   const [email, setEmail] = useState('claire.fontaine@example.com');
@@ -143,13 +139,6 @@ const GeneralTab: React.FC = () => {
         </SettingsRow>
         <SettingsRow icon={<UserRound size={16} />} label="Navigation compacte" description="Réduit la largeur de la barre latérale">
           <Switch checked={compactNav} onChange={(e) => setCompactNav(e.target.checked)} aria-label="Navigation compacte" />
-        </SettingsRow>
-        <SettingsRow
-          icon={theme === 'dark' ? <Moon size={16} /> : <Sun size={16} />}
-          label="Mode sombre"
-          description={theme === 'dark' ? 'Thème sombre activé' : 'Thème clair activé'}
-        >
-          <Switch checked={theme === 'dark'} onChange={toggleTheme} aria-label="Mode sombre" />
         </SettingsRow>
       </SettingCard>
 

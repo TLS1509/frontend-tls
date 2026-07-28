@@ -15,8 +15,6 @@
 /* Variables CSS : couleurs, espacement, typographie, ombres, glass,
    animations, overlays, gradients (246+ tokens) */
 @import './design-tokens.css' layer(base);
-/* Overrides dark mode — scoped sous [data-theme="dark"] */
-@import './dark-mode-tokens.css' layer(base);
 
 /* ── 2. MODALS ──────────────────────────────────────────────────────────── */
 /* modals.css : keyframes + animations des 9 modals (scFadeUp, fbFadeIn, etc.)

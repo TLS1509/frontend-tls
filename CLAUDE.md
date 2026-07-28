@@ -13,18 +13,23 @@ Stack : React 19 · TypeScript 6 · Vite 8 · **Tailwind CSS 4** · React Router
 src/
 ├── components/
 │   ├── core/        Button, Card, Input, Select, FormGroup
-│   ├── ui/          Badge (incl. StatusBadge+TrendingBadge), Alert, Avatar, Modal, Toast, StatCard, TlsLogo… (51 composants)
+│   ├── ui/          Badge (incl. StatusBadge+TrendingBadge), Alert, Avatar, Modal, Toast, StatCard, TlsLogo… (87 fichiers)
 │   ├── patterns/    ParcoursCard, CardGrid, SectionHeader, PageHeader, HeroSection,
 │   │                EditorialHero, AuthShell, EditorialLayout, SectionCard,
-│   │                RelatedItemList, ResumeLessonCard, ViewerHeader, AmbientBlobs… (40 composants)
+│   │                RelatedItemList, ResumeLessonCard, ViewerHeader, AmbientBlobs… (62 fichiers)
 │   ├── learning/    LessonCard, ArticleCard, SessionCard, VideoCard, PromptCard, AstucesCard, ResourceListItem…
 │   ├── modals/      BookingModal, SuccessModal, VideoPlayerModal…
 │   ├── cards/       NotificationCard, JournalEntryCard, JournalBubbleCard, JournalTypeTile
 │   ├── forms/       FilterBar
 │   └── layout/      Sidebar, NavItem
-├── pages/           ~140 pages app (route-level) — toutes routées dans App.tsx ✅
-├── styles/          design-tokens.css, globals.css, dark-mode-tokens.css
-│                    (tls-components.css supprimé — migration Tailwind)
+├── pages/           149 pages à la racine + 28 en sous-dossiers = 177 (route-level)
+├── styles/          design-tokens.css, globals.css
+│                    (tls-components.css supprimé — migration Tailwind ;
+│                     dark-mode-tokens.css + hooks/useTheme.ts supprimés le
+│                     2026-07-28 : le dark mode n'avait jamais été demandé ni
+│                     configuré, et surchargeait les couleurs sémantiques avec
+│                     du RGB brut — vert #22C55E et rouge #EF4444, interdits.
+│                     À reconstruire proprement sur la palette TLS si besoin)
 └── (src/design-system/ supprimé le 2026-07-23 : spec.json périmé, jamais importé.
      Règles d'usage → docs/_canon/REGLES-USAGE-COMPOSANTS.md ;
      valeurs → bloc @theme de src/index.css)
@@ -69,7 +74,7 @@ Depuis Phase 19.A, les 4 chips consomment **`ui/Chip.tsx`** (primitive interne) 
 | Composant | Usage canonique |
 |-----------|-----------------|
 | `patterns/EditorialHero.tsx` → exports **`PageHero`** (canonical) + `EditorialHero` (alias) | Hero universel page-opening. `tone: default \| brand \| warm \| sun`. **`brand`** (gradient saturé primary-500→700, texte blanc) = Dashboard, Journal. Autre tons = auth/éditoriales/detail. **Consommé par 101+ pages.** Phase 19.B-2026-05-26 : renommé `EditorialHero` → `PageHero` (nom universel). `EditorialHero` reste un alias rétrocompat + nom canonical pour surfaces réellement éditoriales (Magazine, Veille, Articles). Nouveaux usages → `PageHero`. |
-| `patterns/AuthShell` | Layout split-screen pour pages auth. Sous-composants : `AuthDivider`, `AuthSocialButton`, `AuthSuccess`, + champs glass-dark (`AuthField`, `AuthPasswordField`, `AuthCheckbox`) + boutons (`AuthPrimaryButton`, `AuthGhostButton`). Consommé par Login, Signup, ForgotPassword, ResetPassword, MagicLink, VerifyEmail. **`AuthFeature` supprimé Phase 19.C-2026-05-26** (deprecated depuis 2026-05-09, 0 consumer). |
+| `patterns/AuthShell` | Layout split-screen pour pages auth. Sous-composants : `AuthDivider`, `AuthSocialButton`, `AuthSuccess`, + champs glass-dark (`AuthField`, `AuthPasswordField`, `AuthCheckbox`) + boutons (`AuthPrimaryButton`, `AuthGhostButton`). Consommé par Login, Signup, ForgotPassword, ResetPassword, MagicLink, VerifyEmail. ⚠️ **`AuthFeature` est toujours dans `AuthShell.tsx`**, marqué `@deprecated` et sans aucun consommateur (vérifié 2026-07-28 ; CLAUDE.md l'annonçait supprimé à tort). Ne pas l'utiliser — passer des `<div>` dans la prop `aside`. |
 | `patterns/EditorialLayout` | 2-col main + sticky aside, stack mobile-first. Pour pages MagazineArticle, ArticleDetail, Newsletter, WeeklyNewsDetail, Project, etc. (7 pages). |
 | `patterns/SectionCard` | Card sectionnée — title + description + footer actions. Pour blocs autonomes dans pages éditoriales. (8 pages) |
 | `patterns/RelatedItemList` | Liste verticale d'items reliés / cross-links. (5 pages) |
@@ -88,7 +93,7 @@ Depuis Phase 19.A, les 4 chips consomment **`ui/Chip.tsx`** (primitive interne) 
 | `sun` | Surface sun/accent | Golden (accent-400) |
 | `ink` | Impression / monochrome / haute contraste | Dark ink-900 |
 
-**Règle** : toujours passer `variant="light"` sur fond dark/glass (AuthShell = `withBubble={false} variant="light"`). Ne jamais hardcoder `fill="#..."` dans le SVG — étendre `FILLS` dans `TlsLogo.tsx`.
+**Règle** : toujours passer `variant="light"` sur fond dark/glass (AuthShell = `withBubble={false} variant="light"`). Ne jamais hardcoder `fill="#..."` dans le SVG — étendre la map `PALETTES` dans `TlsLogo.tsx`.
 
 ---
 
@@ -244,7 +249,7 @@ const classes = [BASE, VARIANT_CLASSES[variant], SIZE_CLASSES[size], className].
 
 Les pièges non-évidents rencontrés sur ce repo — à relire avant de toucher au styling ou à la cascade CSS.
 
-> ℹ️ Certains pièges ci-dessous citent des fichiers CSS legacy (`animations-polish.css`, `components-modern.css`, `utilities.css`, `layouts.css`) **désormais supprimés** (vérifié 2026-07-25 ; `globals.css` n'importe plus que `design-tokens.css`, `dark-mode-tokens.css`, `modals.css`). Le **principe** de chaque piège reste valable ; la citation `fichier:ligne` est historique.
+> ℹ️ Certains pièges ci-dessous citent des fichiers CSS legacy (`animations-polish.css`, `components-modern.css`, `utilities.css`, `layouts.css`) **désormais supprimés** (vérifié 2026-07-25 ; `globals.css` n'importe plus que `design-tokens.css` et `modals.css`). Le **principe** de chaque piège reste valable ; la citation `fichier:ligne` est historique.
 
 ### ⚠️ Pièges connus à vérifier systématiquement
 
@@ -261,6 +266,20 @@ Les pièges non-évidents rencontrés sur ce repo — à relire avant de toucher
    --r-2xl:       var(--radius-2xl);
    ```
    Impact : ~164 usages `var(--tls-ink-*)` (surtout `components/documentation/*`) passent de teal-tinté à neutre. **Le Figma DS est synchronisé sur `index.css` (neutre)** — donc Figma ↔ Tailwind ↔ BEM rendent enfin les mêmes gris. **Règle générale** : ne JAMAIS redéfinir une valeur de couleur/radius dans `design-tokens.css` ; toujours `var(--color-*)` / `var(--radius-*)` depuis `@theme`. ⚠️ **CORRIGÉ le 2026-07-23 — l'affirmation précédente était FAUSSE.** Elle disait que pour les `--shadow-*` homonymes « `@theme` gagne déjà, pas d'action ». Vérifié au navigateur via `getComputedStyle(document.documentElement)` : c'est **`design-tokens.css` qui gagnait**, donc **11 tokens `--shadow-*` de `@theme` étaient lettre morte** (dont toute l'échelle neutre `xs/sm/md/lg`). Une modification dans `@theme` n'avait aucun effet visible. Résolu : les 11 doublons ont été supprimés de `design-tokens.css`, et les 4 neutres — dont les valeurs y étaient meilleures (`rgba(18,24,28,…)`, plus douces que les défauts Tailwind `rgba(0,0,0,0.1)`) — ont été promus dans `@theme`. **Une seule définition par token, dans `@theme`.** Ne jamais rétablir de définition `--shadow-*` dans `design-tokens.css`.
+
+**⚠️ Le piège est encore actif ailleurs (mesuré au navigateur le 2026-07-28).** Neuf tokens restent définis aux deux endroits, et c'est toujours `design-tokens.css` qui gagne :
+
+| Token | `@theme` (mort) | Valeur réellement servie |
+|---|---|---|
+| `--z-base` · `--z-sticky` · `--z-dropdown` · `--z-modal` · `--z-tooltip` | 1 · 20 · 30 · 50 · 70 | **0 · 1020 · 1000 · 1050 · 1070** |
+| `--ease-standard` | `cubic-bezier(0.4, 0, 0.2, 1)` | **`cubic-bezier(0.2, 0, 0, 1)`** |
+| `--font-display` · `--font-body` · `--font-mono` | — | identiques (guillemets seuls) → inoffensif |
+
+**Ce qui sauve la mise** : les utilities Tailwind `z-*` sont générées depuis `--z-index-*`, un namespace **sans doublon** — `class="z-modal"` rend donc bien `50`. Le danger est le `var(--z-modal)` écrit à la main dans un CSS ou un `style={{}}`, qui renvoie `1050`. **Deux échelles pour un même concept : n'écrire aucun `var(--z-*)` brut, toujours la classe.**
+
+Corollaire sur `--ease-standard` : la valeur `@theme` est lettre morte, l'utility `.ease-standard` lit `var(--ease-standard)` et sert donc la courbe de `design-tokens.css`. Aligner les deux (ou supprimer le doublon) avant de toucher aux courbes.
+
+Même schéma pour le flou : `@theme` porte `--blur-glass-{light|medium|heavy}` + `--blur-ambient`, tandis que `design-tokens.css` déclare une **seconde échelle** `--backdrop-blur-{light|medium|standard|heavy}` (10/18/24/32px) que **personne ne consomme** — noms différents, donc pas de collision, mais deux vérités pour un même concept. À supprimer.
 
 4. **CSS importés SANS `@layer` dans globals.css** : Tout fichier CSS importé sans `layer(...)` se retrouve dans la cascade NON-LAYERED, qui **gagne sur toutes les couches nommées** (utilities, components, base). Pendant la migration de Input.tsx, on a découvert que `animations-polish.css` était importé sans layer et ses `.transition-colors` / `.transition-all` / `.transition-shadow` / `.transition-transform` legacy écrasaient les versions Tailwind. Symptôme : transitions de couleur très lentes (~400 ms au lieu de 200 ms), focus border qui semble ne jamais s'activer en mesure synchrone. **Fix appliqué** : `@import './animations-polish.css' layer(components);` dans `globals.css`. **Action générale** : auditer tous les `@import` de `globals.css` et confirmer qu'ils ont `layer(...)` ou que leurs sélecteurs ne collisionnent pas avec Tailwind.
 
@@ -423,7 +442,9 @@ const BASE = '... transition-all ...';  // Preflight gère le défaut à 0/solid
 <div className="sticky top-0 min-h-[100dvh] flex items-center">
 ```
 
-**Découvert** lors de l'audit sticky du 2026-07-22 : 4 surfaces marketing utilisaient `h-screen`, 3 utilisaient déjà `min-h-[100dvh]` — incohérence pure, le bon pattern existait déjà dans le repo. Corrigé sur `VideoScrollStory`, `CinematicHero`, `ScrollRevealCanvas` (production) + `ImmersiveParallaxStory` (prototype).
+**Découvert** lors de l'audit sticky du 2026-07-22 : 4 surfaces marketing utilisaient `h-screen`, 3 utilisaient déjà `min-h-[100dvh]` — incohérence pure, le bon pattern existait déjà dans le repo. *(Les composants alors corrigés ont été supprimés depuis, avec le nettoyage motion du 2026-07-28 ; le principe reste.)*
+
+⚠️ **Un cas subsiste** : `marketing/sections/HeroSection.tsx:152` porte encore `sticky h-screen`. Ce fichier n'est importé par aucune page — il n'est atteignable que via `marketing/sections/index.ts`, lui-même jamais importé. À supprimer avec le reste du dossier plutôt qu'à corriger.
 
 **Action générale** : sur tout conteneur plein-écran — sticky, hero, overlay, modal fullscreen — préférer `dvh` à `vh`. `h-screen` reste acceptable pour du desktop-only explicitement gardé par un breakpoint `lg:`.
 

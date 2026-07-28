@@ -7250,18 +7250,18 @@ const COLOR_TOKENS: TokenEntry[] = [
 ];
 
 const SEMANTIC_TOKENS: TokenEntry[] = [
-  { name: 'Success base', cssVar: '--tls-success-base', value: '#9DBEBA', group: 'Semantic', type: 'color' },
-  { name: 'Success bg', cssVar: '--tls-success-bg', value: '#E8F2F0', group: 'Semantic', type: 'color' },
-  { name: 'Success fg', cssVar: '--tls-success-fg', value: '#335A56', group: 'Semantic', type: 'color' },
-  { name: 'Warning base', cssVar: '--tls-warning-base', value: '#F8B044', group: 'Semantic', type: 'color' },
-  { name: 'Warning bg', cssVar: '--tls-warning-bg', value: '#FFF9EE', group: 'Semantic', type: 'color' },
-  { name: 'Warning fg', cssVar: '--tls-warning-fg', value: '#2f1c13', group: 'Semantic', type: 'color' },
-  { name: 'Danger base', cssVar: '--tls-danger-base', value: '#F28559', group: 'Semantic', type: 'color' },
-  { name: 'Danger bg', cssVar: '--tls-danger-bg', value: '#FEF4F0', group: 'Semantic', type: 'color' },
-  { name: 'Danger fg', cssVar: '--tls-danger-fg', value: '#8F2A0E', group: 'Semantic', type: 'color' },
-  { name: 'Info base', cssVar: '--tls-info-base', value: '#55A1B4', group: 'Semantic', type: 'color' },
-  { name: 'Info bg', cssVar: '--tls-info-bg', value: '#E8F4F7', group: 'Semantic', type: 'color' },
-  { name: 'Info fg', cssVar: '--tls-info-fg', value: '#1F3E45', group: 'Semantic', type: 'color' },
+  { name: 'Success base', cssVar: '--color-success-base', value: '#9DBEBA', group: 'Semantic', type: 'color' },
+  { name: 'Success bg', cssVar: '--color-success-bg', value: '#E8F2F0', group: 'Semantic', type: 'color' },
+  { name: 'Success fg', cssVar: '--color-success-fg', value: '#335A56', group: 'Semantic', type: 'color' },
+  { name: 'Warning base', cssVar: '--color-warning-base', value: '#F8B044', group: 'Semantic', type: 'color' },
+  { name: 'Warning bg', cssVar: '--color-warning-bg', value: '#FFF9EE', group: 'Semantic', type: 'color' },
+  { name: 'Warning fg', cssVar: '--color-warning-fg', value: '#2f1c13', group: 'Semantic', type: 'color' },
+  { name: 'Danger base', cssVar: '--color-danger-base', value: '#F28559', group: 'Semantic', type: 'color' },
+  { name: 'Danger bg', cssVar: '--color-danger-bg', value: '#FEF4F0', group: 'Semantic', type: 'color' },
+  { name: 'Danger fg', cssVar: '--color-danger-fg', value: '#8F2A0E', group: 'Semantic', type: 'color' },
+  { name: 'Info base', cssVar: '--color-info-base', value: '#55A1B4', group: 'Semantic', type: 'color' },
+  { name: 'Info bg', cssVar: '--color-info-bg', value: '#E8F4F7', group: 'Semantic', type: 'color' },
+  { name: 'Info fg', cssVar: '--color-info-fg', value: '#1F3E45', group: 'Semantic', type: 'color' },
 ];
 
 const ROLE_TOKENS: TokenEntry[] = [

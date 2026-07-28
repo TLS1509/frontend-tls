@@ -20,7 +20,6 @@ import { AppBreadcrumb } from './components/patterns/AppBreadcrumb';
 import { ScrollToTop } from './components/ScrollToTop';
 import { useNotificationsStore } from './stores/persistence';
 import { useAuth } from './hooks/useAuth';
-import { useTheme } from './hooks/useTheme';
 import { Sidebar, NavItem, SidebarUserCard } from './components/layout/Sidebar';
 import { BottomNav } from './components/layout/BottomNav';
 import { DropdownMenu, DropdownItem, DropdownLabel, DropdownSeparator } from './components/ui/DropdownMenu';
@@ -37,8 +36,6 @@ import {
   BarChart3,
   LogOut,
   Menu,
-  Moon,
-  Sun,
   Trophy,
   MessageSquare,
   Users,
@@ -212,8 +209,6 @@ import { MarketingHome } from './pages/marketing/MarketingHome';
 import { HomeJardinVivantV2 } from './pages/marketing/_prototypes/HomeJardinVivantV2';
 import { MarketingDiagnostic } from './pages/marketing/MarketingDiagnostic';
 // [archived] devtools — files kept, routes removed from prod
-// import { MarketingMotionLab } from './pages/marketing/MarketingMotionLab';
-// import { default as StickyScrollShowcase } from './pages/marketing/StickyScrollShowcase';
 import { MarketingEquipe } from './pages/marketing/MarketingEquipe';
 import { MarketingResources } from './pages/marketing/MarketingResources';
 import { MarketingMethode } from './pages/marketing/MarketingMethode';
@@ -242,7 +237,6 @@ import {
  */
 const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user, logout } = useAuth();
-  const { theme, toggle: toggleTheme } = useTheme();
   const location = useLocation();
   const navigate = useNavigate();
   const [isSidebarCollapsed, setIsSidebarCollapsed] = React.useState(false);
@@ -375,13 +369,6 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           <DropdownItem icon={<MessageSquare size={16} />} onClick={goTo('/messages')}>Messages</DropdownItem>
           <DropdownSeparator />
           <DropdownItem icon={<HelpCircle size={16} />} onClick={goTo('/help')}>Centre d'aide</DropdownItem>
-          <DropdownSeparator />
-          <DropdownItem
-            icon={theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
-            onClick={(e) => { e.preventDefault(); toggleTheme(); }}
-          >
-            {theme === 'dark' ? 'Mode clair' : 'Mode sombre'}
-          </DropdownItem>
           <DropdownSeparator />
           <DropdownItem
             icon={<LogOut size={16} />}

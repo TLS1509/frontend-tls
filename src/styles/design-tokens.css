@@ -76,6 +76,11 @@
      which diverged from index.css (#1a1a1a…). See CLAUDE.md "Pièges".
      --tls-ink-25 has no @theme equivalent — kept as a neutral literal. */
   --tls-ink-0:   var(--color-ink-0);
+  /* Les 12 tokens sémantiques --tls-success/warning/danger/info-* ont été
+     SUPPRIMÉS le 2026-07-28 : ils dupliquaient les mêmes valeurs que le bloc
+     @theme de src/index.css. Un token défini à deux endroits finit par diverger
+     (cf. CLAUDE.md piège n°3). Source unique désormais : @theme.
+     Utiliser var(--color-success-base) etc., ou les classes Tailwind. */
   --tls-ink-25:  #FAFBFC;
   --tls-ink-50:  var(--color-ink-50);
   --tls-ink-100: var(--color-ink-100);
@@ -104,24 +109,16 @@
      Cette mise à jour aligne tous les states avec la palette TLS muted. */
 
   /* Success — muted teal-green */
-  --tls-success-bg:       #E8F2F0;
-  --tls-success-fg:       #335A56;
-  --tls-success-base:     #9DBEBA;
   --tls-success-light:    rgba(157, 190, 186, 0.08);  /* idle / lesson overlay */
   --tls-success-light-bg: rgba(157, 190, 186, 0.18);  /* completed element bg */
   --tls-success-border:   rgba(157, 190, 186, 0.30);  /* completion-state border */
 
   /* Warning — TLS Yellow base */
-  --tls-warning-bg:     #FFF9EE;
   --tls-warning-fg:     var(--color-warning-fg);  /* = #2f1c13 dark editorial brown */
-  --tls-warning-base:   #F8B044;
   --tls-warning-light:  rgba(248, 176, 68, 0.08);
   --tls-warning-border: rgba(248, 176, 68, 0.30);
 
   /* Danger — soft coral */
-  --tls-danger-bg:      #FEF4F0;
-  --tls-danger-fg:      #8F2A0E;
-  --tls-danger-base:    #F28559;
   --tls-danger-light:   rgba(242, 133, 89, 0.06);   /* idle error overlay */
   --tls-danger-border:  rgba(242, 133, 89, 0.25);   /* error-state border */
   /* Danger button — saturated fills (source de vérité = index.css @theme) */
@@ -129,9 +126,6 @@
   --tls-danger-deep:    var(--color-danger-deep);
 
   /* Info — TLS Primary teal */
-  --tls-info-bg:        #E8F4F7;
-  --tls-info-fg:        #1F3E45;
-  --tls-info-base:      #55A1B4;
   --tls-info-light:     rgba(85, 161, 180, 0.08);
   --tls-info-border:    rgba(85, 161, 180, 0.25);
 
@@ -547,11 +541,10 @@
   --transition-expand: height var(--dur-3) var(--ease-smooth), opacity var(--dur-2) var(--ease-standard);
 
   /* ---------- LEARNING SKILL LEVELS ---------- */
-  --skill-level-1: #FDD2CF;   /* Novice - light red */
-  --skill-level-2: #FDCEC5;   /* Beginner - light orange */
-  --skill-level-3: #FEE9AE;   /* Intermediate - light yellow */
-  --skill-level-4: #B4E7A0;   /* Advanced - light green */
-  --skill-level-5: #86EFAC;   /* Expert - bright green */
+  /* L'échelle --skill-level-1..5 a été supprimée le 2026-07-28 : rouge clair →
+     vert Tailwind brut (#86EFAC), en violation de la doctrine « jamais de green
+     ni de red bruts ». Elle n'était utilisée nulle part. À refaire dans la
+     palette TLS quand le travail sur les couleurs sera fait. */
 
   /* ---------- ACHIEVEMENT GRADIENTS ---------- */
   --g-achievement: linear-gradient(135deg, #F8B044, #ED843A);
