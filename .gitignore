@@ -29,9 +29,9 @@ dist-ssr
 *.sw?
 .claude/worktrees/
 
-# Local-only Notion spec sources (not for commit — contain proprietary cahiers)
-CDC/
-User_Journeys/
+# Specs Notion propriétaires, local uniquement (cahiers + parcours utilisateurs)
+# CDC/ et User_Journeys/ fusionnés dans reference/ le 2026-07-28
+reference/
 sitemap_fo_learning_app_sbo*.html
 IMPLEMENTATION_ORDER.md
 
