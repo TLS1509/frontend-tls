@@ -33,6 +33,7 @@ import {
   MeshGradientBg,
 } from '../../components/marketing/motion';
 import { ARTICLES, findArticle, getRelatedArticles, type ArticleBodyBlock } from '../../data/marketingArticles';
+import { DiagnosticInlineCta, VigieSignupBanner, midArticleInsertIndex } from './components/ContentConversion';
 import { SEOHead } from './components/SEOHead';
 
 const CATEGORY_TONES: Record<string, string> = {
@@ -253,6 +254,7 @@ const ArticleBody: React.FC<{
   liveUrl: string;
 }> = ({ intro, body, conclusion, liveUrl }) => {
   let pullquoteCount = 0;
+  const ctaIndex = midArticleInsertIndex(body);
 
   return (
     <article className="flex flex-col gap-stack-lg max-w-prose">
@@ -263,17 +265,26 @@ const ArticleBody: React.FC<{
         </p>
       </FadeInWhenVisible>
 
-      {/* Body blocks : no per-block animation for reading flow */}
+      {/* Body blocks : no per-block animation for reading flow.
+          L'encart Auto-Diagnostic s'insère entre deux sections (stratégie
+          éditoriale §4), jamais au milieu d'un raisonnement. */}
       {body.map((block, i) => {
         const pqIdx = block.type === 'pullquote' ? pullquoteCount++ : -1;
-        if (block.type === 'h2') {
-          return (
+        const rendered =
+          block.type === 'h2' ? (
             <FadeInWhenVisible key={i} direction="up">
               <BodyBlock block={block} pullquoteIndex={pqIdx} />
             </FadeInWhenVisible>
+          ) : (
+            <BodyBlock key={i} block={block} pullquoteIndex={pqIdx} />
           );
-        }
-        return <BodyBlock key={i} block={block} pullquoteIndex={pqIdx} />;
+        if (i !== ctaIndex) return rendered;
+        return (
+          <React.Fragment key={`cta-${i}`}>
+            <DiagnosticInlineCta />
+            {rendered}
+          </React.Fragment>
+        );
       })}
 
       {/* Conclusion */}
@@ -307,6 +318,11 @@ const ArticleBody: React.FC<{
             </a>
           </span>
         </div>
+      </FadeInWhenVisible>
+
+      {/* Capture newsletter — 2e point de contact exigé par la stratégie §4 */}
+      <FadeInWhenVisible direction="up">
+        <VigieSignupBanner source="vigie-article" />
       </FadeInWhenVisible>
     </article>
   );

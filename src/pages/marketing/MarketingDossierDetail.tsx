@@ -27,6 +27,7 @@ import {
 import { Button } from '../../components/core/Button';
 import { PageShell } from '../../components/layout';
 import { MeshGradientBg } from '../../components/marketing/motion';
+import { DiagnosticInlineCta, VigieSignupBanner, midArticleInsertIndex } from './components/ContentConversion';
 import {
   findDossier,
   type DossierBodyBlock,
@@ -182,13 +183,35 @@ const SectionTOC: React.FC<{ sections: { heading: string }[]; activeId: string |
 );
 
 // ─── Body renderer ────────────────────────────────────────────────────────────
-const DossierBody: React.FC<{ intro: string; body: DossierBodyBlock[] }> = ({ intro, body }) => (
+const DossierBody: React.FC<{ intro: string; body: DossierBodyBlock[] }> = ({ intro, body }) => {
+  // L'encart Auto-Diagnostic s'insère entre deux sections (stratégie éditoriale §4).
+  const ctaIndex = midArticleInsertIndex(body);
+  return (
   <article className="flex flex-col gap-stack-lg">
     <p className="font-body text-body-lg text-ink-700 leading-relaxed m-0 first-letter:font-display first-letter:text-[3.25rem] first-letter:font-extrabold first-letter:text-primary-700 first-letter:float-left first-letter:mr-3 first-letter:leading-[0.85]">
       {intro}
     </p>
 
     {body.map((block, i) => {
+      const rendered = renderDossierBlock(block, i);
+      if (i !== ctaIndex) return rendered;
+      return (
+        <React.Fragment key={`cta-${i}`}>
+          <DiagnosticInlineCta />
+          {rendered}
+        </React.Fragment>
+      );
+    })}
+
+    {/* Capture newsletter — 2e point de contact exigé par la stratégie §4 */}
+    <VigieSignupBanner source="vigie-dossier" />
+  </article>
+  );
+};
+
+/** Rendu d'un bloc de corps de dossier (extrait pour permettre l'insertion du CTA). */
+function renderDossierBlock(block: DossierBodyBlock, i: number) {
+  {
       switch (block.type) {
         case 'h2':
           return (
@@ -248,9 +271,8 @@ const DossierBody: React.FC<{ intro: string; body: DossierBodyBlock[] }> = ({ in
         default:
           return null;
       }
-    })}
-  </article>
-);
+  }
+}
 
 // ─── Bibliography ─────────────────────────────────────────────────────────────
 const Bibliography: React.FC<{ sources: DossierSource[] }> = ({ sources }) => (
