@@ -546,7 +546,8 @@ L'app est une SPA réactive : les données du domaine vivent dans des stores Zus
 - Seuils réels : **WCAG 2.2 AA (SC 2.5.8) = 24×24 px** (seul minimum normatif) ; AAA / Apple HIG = 44×44. **Règle TLS** : 44 px sur les actions principales, 24 px minimum partout.
 - Hauteurs Button mesurées : `sm` 32px · `md` 44px (`h-touch`) · `lg` 48px · `xl` 56px. `sm` passe AA mais rate 44 → contextes denses seulement.
 - **Focus visible** obligatoire sur tout élément focusable custom : `focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500`.
-- Contraste : `text-ink-900` sur blanc, `text-white` sur `bg-primary-600+`. Éviter `text-ink-500` pour titres/CTA.
+- Contraste : `text-ink-900` sur blanc. Texte blanc uniquement sur `primary-700+` / `secondary-700+` / `accent-700+` — ⚠️ **`primary-600` est à 3,66:1 et échoue AA** pour du texte normal (corrigé le 2026-07-28 : cette ligne disait « `bg-primary-600+` », en contradiction avec l'avertissement de la section Référence Tailwind plus haut). Éviter `text-ink-500` pour titres/CTA.
+- Pour du **texte** sur fond clair, utiliser les tokens `-fg` : `secondary-600` et `accent-600` échouent AA en texte, ils servent au remplissage.
 
 **Layout** : `PageShell width="page"` = conteneur canonique des pages principales ; padding responsive standard `px-4 sm:px-6 lg:px-10`. Les viewers modaux gardent leurs `max-w` étroits (lisibilité).
 

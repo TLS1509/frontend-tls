@@ -41,8 +41,8 @@ const Recit: React.FC = () => {
       />
       <div className="relative max-w-content mx-auto px-4 sm:px-6 lg:px-10 pt-36 sm:pt-40 lg:pt-44 pb-16 sm:pb-20 lg:pb-24">
         <motion.div
-          initial={reduced ? { opacity: 0 } : { opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={reduced ? false : { y: 24 }}
+          animate={{ y: 0 }}
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           className="flex flex-col gap-stack-lg"
         >

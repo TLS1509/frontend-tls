@@ -7,8 +7,8 @@
  * Réassurance → Double CTA (chaud RDV / froid La Vigie IA).
  *
  * Conservé de la version précédente : hero vidéo aquarelle full-bleed (le copy
- * PAD demande explicitement une "animation hero watercolor"), fade au scroll
- * sans scroll-jack, reduced-motion → poster statique.
+ * PAD demande explicitement une "animation hero watercolor"), reduced-motion →
+ * poster statique.
  *
  * Écarts copy documentés :
  *  - "La Vigie IA SBO" → "La Vigie IA" (nom tranché en réunion 28/07, RECAP §1.5) ;
@@ -21,7 +21,7 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import {
   ArrowRight,
   ArrowUpRight,
@@ -38,12 +38,8 @@ import {
 import { Button } from '../../components/core/Button';
 import {
   FadeInWhenVisible,
-  KineticHeadline,
-  MagneticButton,
-  MeshGradientBg,
   useMarketingToast,
 } from '../../components/marketing/motion';
-import { ScrollProgressIndicator } from '../../components/marketing/scroll-effects';
 import { SEOHead } from './components/SEOHead';
 import { submitForm } from './utils/submitForm';
 
@@ -59,8 +55,8 @@ import { submitForm } from './utils/submitForm';
 //    (mesurée à luma 228). Ratios vérifiés en commentaire du scrim.
 //  - CONTRÔLE : bouton pause/lecture 44 px (WCAG 2.2.2, niveau A — obligatoire
 //    dès qu'une animation dure plus de 5 s).
-// Motion : KineticHeadline (mots qui montent derrière un masque) au lieu du
-// fade générique. Pas de parallax : seule la couche vidéo s'estompe au scroll.
+// Motion (revu le 28/07) : plus aucun effet décoratif. Le contenu est visible
+// par défaut, seul le déplacement s.anime. Voir docs/site/CONTEXT-SITE-MARKETING.md.
 
 const Hero: React.FC = () => {
   const reduced = useReducedMotion();
@@ -94,20 +90,12 @@ const Hero: React.FC = () => {
     else v.pause();
   };
 
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start start', 'end start'],
-  });
-  const scale = useTransform(scrollYProgress, [0, 1], reduced ? [1, 1] : [1, 1.12]);
-  const videoOpacity = useTransform(scrollYProgress, [0, 0.75, 1], reduced ? [1, 1, 1] : [1, 0.4, 0]);
-
+  // Le zoom au scroll (échelle 1 → 1,12) a été retiré le 28/07 avec le reste de
+  // la couche décorative : c'était un effet de parallaxe déguisé sur la première
+  // chose que voit un visiteur. La vidéo défile désormais avec sa section.
   return (
     <section ref={sectionRef} className="relative min-h-[100dvh] overflow-hidden bg-ink-900">
-      <motion.div
-        className="absolute inset-0 overflow-hidden pointer-events-none"
-        style={{ scale, opacity: videoOpacity }}
-        aria-hidden
-      >
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden>
         {reduced ? (
           <img
             src="/marketing/assets/hero-watercolor.webp"
@@ -129,7 +117,7 @@ const Hero: React.FC = () => {
             <source src="/videos/aquarelle-hero-loop.mp4" type="video/mp4" />
           </video>
         )}
-      </motion.div>
+      </div>
 
       {/* Plancher de lisibilité : dense sous le texte, plus clair en haut où
           l'aquarelle doit respirer. Calibré (28/07) sur la frame la plus claire
@@ -143,9 +131,14 @@ const Hero: React.FC = () => {
       <div className="relative flex min-h-[100dvh] flex-col justify-end">
         <div className="w-full max-w-wide mx-auto px-4 sm:px-6 lg:px-10 pb-24 pt-36 sm:pb-28 lg:pb-32">
           <div className="flex max-w-5xl flex-col gap-stack-lg">
+            {/* Visible par défaut : seul le déplacement s'anime. Conditionner
+                l'opacité à une animation JS rendait le hero vide dès que le
+                moteur d'animation ne tournait pas (onglet en arrière-plan,
+                rendu headless, économie d'énergie). Même parti pris que le
+                `Reveal` local du template Dossier. */}
             <motion.p
-              initial={reduced ? { opacity: 0 } : { opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={reduced ? false : { y: 12 }}
+              animate={{ y: 0 }}
               transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
               className="flex items-center gap-stack-xs font-body text-body-sm font-bold text-white m-0"
             >
@@ -157,18 +150,16 @@ const Hero: React.FC = () => {
               className="font-display font-extrabold text-white leading-[0.98] tracking-display m-0 text-[clamp(2.25rem,5vw,4.25rem)]"
               aria-label="Ne formez plus pour former. Bâtissez votre moteur de performance."
             >
-              <KineticHeadline text="Ne formez plus pour former." className="block" delay={0.2} />
-              <KineticHeadline
-                text="Bâtissez votre moteur de performance."
-                className="block text-accent-400"
-                delay={0.42}
-              />
+              <span className="block">Ne formez plus pour former.</span>
+              <span className="block text-accent-400">
+                Bâtissez votre moteur de performance.
+              </span>
             </h1>
 
             <motion.div
-              initial={reduced ? { opacity: 0 } : { opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.75, ease: [0.22, 1, 0.36, 1] }}
+              initial={reduced ? false : { y: 16 }}
+              animate={{ y: 0 }}
+              transition={{ duration: 0.8, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
               className="flex flex-col gap-stack-lg"
             >
               <p className="font-body text-body-lg text-white leading-relaxed m-0 max-w-[62ch] [text-wrap:pretty]">
@@ -179,11 +170,9 @@ const Hero: React.FC = () => {
               </p>
 
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs">
-                <MagneticButton strength={14}>
-                  <Button to="/website/contact" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
-                    Échanger sur votre projet SBO
-                  </Button>
-                </MagneticButton>
+                <Button to="/website/contact" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                  Échanger sur votre projet SBO
+                </Button>
                 <Button to="/website/diagnostic" variant="glass" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
                   Évaluer votre maturité
                 </Button>
@@ -533,7 +522,6 @@ const DoubleCta: React.FC = () => {
           {/* Bloc chaud — B2B */}
           <FadeInWhenVisible className="lg:col-span-3">
             <div className="relative h-full overflow-hidden rounded-2xl bg-ink-900 text-white px-6 sm:px-10 py-12 sm:py-16">
-              <MeshGradientBg tone="ink" intensity="subtle" />
               <div className="relative flex flex-col gap-stack-lg">
                 <h2 className="font-display font-extrabold text-white leading-[1.04] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,3.6vw,3rem)]">
                   Prêt à transformer votre organisation ?
@@ -545,11 +533,9 @@ const DoubleCta: React.FC = () => {
                 </p>
                 <div className="flex flex-col gap-stack-xs pt-stack-xs">
                   <div className="flex flex-wrap items-center gap-stack-xs">
-                    <MagneticButton strength={16}>
-                      <Button to="/website/contact" variant="secondary" size="lg" trailingIcon={<ArrowRight size={18} />}>
-                        Planifier un échange de 30 min
-                      </Button>
-                    </MagneticButton>
+                    <Button to="/website/contact" variant="secondary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                      Planifier un échange de 30 min
+                    </Button>
                   </div>
                   <p className="font-body text-body-sm text-white/80 m-0">
                     Pas encore prêt ?{' '}
@@ -626,7 +612,7 @@ export const MarketingHome: React.FC = () => (
         foundingYear: 2022,
         address: {
           '@type': 'PostalAddress',
-          streetAddress: '26 rue Olivier Noyer',
+          streetAddress: '26 bis, rue Olivier Noyer',
           addressLocality: 'Paris',
           postalCode: '75014',
           addressCountry: 'FR',
@@ -641,7 +627,6 @@ export const MarketingHome: React.FC = () => (
       }}
     />
 
-    <ScrollProgressIndicator height={3} />
 
     <Hero />
     <Manifeste />

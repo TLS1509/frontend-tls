@@ -1,103 +1,65 @@
 /**
  * MarketingError404 — Page non trouvée · Site marketing public
- * Direction : Aurora Light (Variant C)
- * Fond blanc, 3 gros blobs mix-blend-multiply en overlay parallax
- * Code gradient saturé primary-700→accent-400, pills suggestions, 2 CTAs
+ *
+ * Direction « Aurora Light » : fond blanc, 3 halos mix-blend-multiply,
+ * chiffre 404 géant, pills de suggestion, 2 CTA.
+ *
+ * Nettoyage motion du 28/07/2026 : la page portait un parallaxe à la souris sur
+ * six couches (halos, chiffre, sur-titre, bloc titre) et une pulsation infinie
+ * sur chaque halo. Les deux sont retirés — le parallaxe est un effet écarté, et
+ * une page d'erreur n'a pas besoin d'animation perpétuelle. Reste l'entrée en
+ * cascade, qui sert la lecture. Les halos deviennent un décor fixe.
  */
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {
-  motion,
-  useMotionValue,
-  useSpring,
-  useTransform,
-  useReducedMotion,
-} from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Compass, Home, BookOpen, Mail, ArrowRight } from 'lucide-react';
 import { Button } from '../../components/core/Button';
-
-/* ── Parallax hook ────────────────────────────────────────────────────────── */
-
-function useMouseParallax(strength = 20) {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const springX = useSpring(x, { stiffness: 70, damping: 20, mass: 0.6 });
-  const springY = useSpring(y, { stiffness: 70, damping: 20, mass: 0.6 });
-  const reduce = useReducedMotion();
-
-  const handleMove = (e: React.MouseEvent<HTMLElement>) => {
-    if (reduce) return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    x.set(((e.clientX - rect.left - rect.width / 2) / (rect.width / 2)) * strength);
-    y.set(((e.clientY - rect.top - rect.height / 2) / (rect.height / 2)) * strength);
-  };
-
-  const reset = () => { x.set(0); y.set(0); };
-  return { x: springX, y: springY, handleMove, reset, reduce };
-}
+import { SEOHead } from './components/SEOHead';
 
 /* ── Navigation suggestions ───────────────────────────────────────────────── */
 
 const SUGGESTIONS = [
   { icon: <Home size={16} />, label: 'Accueil', href: '/website' },
   { icon: <BookOpen size={16} />, label: 'La méthode', href: '/website/methode' },
-  { icon: <BookOpen size={16} />, label: 'Formations', href: '/website/learning-app' },
+  // « Formations » était le nom de la page supprimée du V1 le 03/07 : le libellé
+  // avait survécu à la suppression, seule la destination avait été corrigée.
+  { icon: <BookOpen size={16} />, label: 'Learning App', href: '/website/learning-app' },
   { icon: <Mail size={16} />, label: 'Contact', href: '/website/contact' },
 ];
 
 /* ── Page ─────────────────────────────────────────────────────────────────── */
 
 export const MarketingError404: React.FC = () => {
-  const parallax = useMouseParallax(32);
-  const codeX = useTransform(parallax.x, (v) => v * 1.3);
-  const codeY = useTransform(parallax.y, (v) => v * 1.3);
-  const blob1X = useTransform(parallax.x, (v) => v * 0.35);
-  const blob1Y = useTransform(parallax.y, (v) => v * 0.35);
-  const blob2X = useTransform(parallax.x, (v) => v * 0.6);
-  const blob2Y = useTransform(parallax.y, (v) => v * 0.6);
-  const blob3X = useTransform(parallax.x, (v) => v * -0.25);
-  const blob3Y = useTransform(parallax.y, (v) => v * 0.45);
-  const subX   = useTransform(parallax.x, (v) => v * 0.5);
-  const subY   = useTransform(parallax.y, (v) => v * 0.5);
-
   return (
-    <section
-      onMouseMove={parallax.handleMove}
-      onMouseLeave={parallax.reset}
-      className="relative min-h-[100dvh] w-full overflow-hidden bg-white flex items-center justify-center px-6 py-page"
-    >
-      {/* Blob 1 — primary teal, top-left, grand + étiré */}
-      <motion.div
+    <section className="relative min-h-[100dvh] w-full overflow-hidden bg-white flex items-center justify-center px-6 py-page">
+      <SEOHead
+        title="Page introuvable · The Learning Society"
+        description="Cette page n'existe pas ou a été déplacée."
+        canonical="/website/404"
+        noIndex
+      />
+      {/* Halos décoratifs fixes — primary en haut à gauche, secondary en bas à
+          droite, accent au centre-haut. */}
+      <div
         aria-hidden
-        style={{ x: blob1X, y: blob1Y }}
-        animate={!parallax.reduce ? { scale: [1, 1.08, 1] } : undefined}
-        transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
         className="pointer-events-none absolute -top-56 -left-56 w-[780px] h-[620px] rounded-full bg-primary-100 blur-ambient mix-blend-multiply opacity-80"
       />
-      {/* Blob 2 — warm/secondary, bottom-right */}
-      <motion.div
+      <div
         aria-hidden
-        style={{ x: blob2X, y: blob2Y }}
-        animate={!parallax.reduce ? { scale: [1, 1.1, 1] } : undefined}
-        transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut', delay: 6 }}
         className="pointer-events-none absolute -bottom-40 -right-40 w-[680px] h-[560px] rounded-full bg-secondary-100 blur-ambient mix-blend-multiply opacity-70"
       />
-      {/* Blob 3 — accent yellow, centre-haut flottant */}
-      <motion.div
+      <div
         aria-hidden
-        style={{ x: blob3X, y: blob3Y }}
-        animate={!parallax.reduce ? { scale: [1, 1.06, 1], opacity: [0.45, 0.65, 0.45] } : undefined}
-        transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
-        className="pointer-events-none absolute top-[15%] left-[45%] w-[440px] h-[440px] rounded-full bg-accent-100 blur-ambient mix-blend-multiply"
+        className="pointer-events-none absolute top-[15%] left-[45%] w-[440px] h-[440px] rounded-full bg-accent-100 blur-ambient mix-blend-multiply opacity-50"
       />
 
       <div className="relative z-base text-center max-w-3xl w-full flex flex-col items-center">
         {/* Eyebrow */}
         <motion.p
-          initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
+          initial={{ y: 14 }} animate={{ y: 0 }}
           transition={{ delay: 0.05, duration: 0.5 }}
-          style={{ x: subX, y: subY }}
           className="font-mono text-caption font-bold uppercase tracking-[0.3em] text-primary-400 inline-flex items-center gap-stack-xs mb-stack"
         >
           <Compass size={13} /> Page introuvable
@@ -105,9 +67,8 @@ export const MarketingError404: React.FC = () => {
 
         {/* Giant 404 */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.88 }} animate={{ opacity: 1, scale: 1 }}
+          initial={{ scale: 0.88 }} animate={{ scale: 1 }}
           transition={{ delay: 0.15, duration: 0.9, ease: [0.2, 0, 0, 1.1] }}
-          style={{ x: codeX, y: codeY }}
           aria-hidden
           className="font-display font-black tracking-tighter leading-none mb-stack-lg"
         >
@@ -118,9 +79,8 @@ export const MarketingError404: React.FC = () => {
 
         {/* Title + description */}
         <motion.div
-          initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}
+          initial={{ y: 18 }} animate={{ y: 0 }}
           transition={{ delay: 0.35, duration: 0.5 }}
-          style={{ x: subX, y: subY }}
           className="flex flex-col items-center gap-stack-xs mb-10"
         >
           <h1 className="font-display text-h1 font-bold text-ink-900 leading-tight max-w-2xl">
@@ -145,10 +105,10 @@ export const MarketingError404: React.FC = () => {
             <motion.div
               key={s.href}
               variants={{
-                hidden: { opacity: 0, y: 10 },
-                visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0, 0, 0.2, 1] } },
+                hidden: { y: 10 },
+                visible: { y: 0, transition: { duration: 0.35, ease: [0, 0, 0.2, 1] } },
               }}
-              whileHover={!parallax.reduce ? { y: -2 } : undefined}
+              whileHover={{ y: -2 }}
             >
               <Link
                 to={s.href}
@@ -163,22 +123,16 @@ export const MarketingError404: React.FC = () => {
 
         {/* CTAs */}
         <motion.div
-          initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
+          initial={{ y: 14 }} animate={{ y: 0 }}
           transition={{ delay: 0.85, duration: 0.4 }}
           className="flex flex-wrap gap-stack-xs justify-center"
         >
-          <Button
-            size="lg"
-            onClick={() => window.location.href = '/website'}
-            trailingIcon={<ArrowRight size={18} />}
-          >
+          {/* `to` et non `window.location.href` : ce dernier rechargeait toute
+              l'application au lieu de naviguer côté client. */}
+          <Button size="lg" to="/website" trailingIcon={<ArrowRight size={18} />}>
             Retour à l'accueil
           </Button>
-          <Button
-            size="lg"
-            variant="secondary"
-            onClick={() => window.location.href = '/website/contact'}
-          >
+          <Button size="lg" variant="secondary" to="/website/contact">
             Nous contacter
           </Button>
         </motion.div>

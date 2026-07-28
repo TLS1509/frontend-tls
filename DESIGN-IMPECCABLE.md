@@ -445,7 +445,7 @@ The EditorialHero is **one option among several**. Using it on every page flatte
 
 | Surface | Recommended Pattern | Why |
 |---------|---------------------|-----|
-| Marketing public (`/marketing/*`) | Immersive hero — MeshGradient + parallax + GradientText | Brand surface, motion-rich, attention-grabbing |
+| Marketing public (`/website/*`) | **Decided per page.** No default hero pattern — see §11 Motion | Brand surface: the hero is where a page earns its distinctiveness, so a shared recipe defeats the purpose |
 | Learner dashboard (`/dashboard`) | **No hero** — compact context bar + action card first | Action-first rule (§9), 3-second answer to « quelle est mon action ? » |
 | Detail content (article, masterclass, project detail, parcours detail) | **EditorialHero** | Long-form editorial content earns a hero |
 | Lesson player (`/lesson/:id`) | LessonHeader (progress + breadcrumb + reprise) | Surface serves « practice », not « discover » |
@@ -500,10 +500,13 @@ The 15% surface. Where the L&D pilot conducts the portfolio.
 
 The 5% surface. Where prospects encounter the brand.
 
-- **Immersive.** High polish. Animated. Hero-driven.
-- **framer-motion primitives allowed** (mesh-gradient, magnetic CTAs, scroll-driven storytelling, parallax). All carry `useReducedMotion()` fallbacks.
+- **Immersive.** High polish. Hero-driven.
 - **Density: low.** Editorial pacing.
-- **Motion budget: liberal but reduced-motion-safe.**
+- **Motion: no prescribed vocabulary.** framer-motion is available and the budget
+  is generous, but there is no default effect for a hero or a CTA. Each page
+  decides what it needs and why. See §11 Motion Budget for the invariants that do
+  bind. *(Revised 2026-07-28: this line used to name mesh-gradient, magnetic CTAs
+  and parallax as the marketing kit, and every page duly wore all three.)*
 
 ### Named Rule: The One Altitude Per Viewport Rule
 
@@ -649,11 +652,22 @@ This section operationalizes the Cadence Reality from PRODUCT.md.
 |----------|----------------------|--------------------|
 | Operational (learner, coach) | ≤ 200ms | Tailwind transitions (opacity, transform, color, shadow) |
 | Strategic (manager, CLO) | ≤ 150ms | Tailwind transitions only (sort, filter, expand/collapse) |
-| Marketing (public) | Liberal | framer-motion primitives with `useReducedMotion()` fallback |
+| Marketing (public) | Generous, decided per page | framer-motion available; **no default effect list** |
 
 ### Reduced-Motion Rule
 
 Every animation honors `prefers-reduced-motion: reduce`. No exceptions. Marketing primitives all carry the `useReducedMotion()` hook check; product chrome uses CSS `@media (prefers-reduced-motion: reduce) { animation: none; transition: none; }` blanket overrides.
+
+### Never Gate Content On An Animation
+
+A reveal enhances an already-visible state: animate position, never existence.
+An element that starts at `opacity: 0` and waits for JS is invisible whenever the
+animation does not run — background tab, headless render, throttled engine. The
+HTML is intact and the page looks empty. `FadeInWhenVisible` carries a fail-open
+guard for this; hand-written animations must avoid it by construction.
+
+*Added 2026-07-28 after the site's own home hero shipped with its lede and both
+CTAs gated behind a delayed fade.*
 
 ### Notification Pattern
 
@@ -756,7 +770,7 @@ When in doubt, check: *what's the verb the protagonist is doing on this screen?*
 ## 12. Two Registers, One System
 
 - **Product surface** (`/dashboard`, `/learning-paths/*`, `/coaching/*`, `/journal/*`, `/passeport/*`, ~140 routes): This DESIGN-IMPECCABLE.md applies in full. Glass is signal. Motion is restrained (≤200ms operational, ≤150ms strategic). Hierarchy serves the task.
-- **Brand surface** (`/marketing/*`): Same palette, same typography, expanded motion vocabulary via framer-motion primitives. Mesh-gradient backgrounds, magnetic CTAs, scroll-driven stickies, count-up numbers. See `src/components/marketing/motion/` for the primitives, all of which carry `useReducedMotion()` fallbacks.
+- **Brand surface** (`/website/*`): Same palette, same typography, a wider motion range. `src/components/marketing/motion/` holds primitives that carry `useReducedMotion()` fallbacks — a toolbox, **not a checklist**. Which of them a page uses, if any, is a design decision made on that page.
 
 The two registers share PRODUCT.md and the color/typography frontmatter above. They diverge on motion, density, and the role of decoration. A marketing hero can be drenched in gradient; a dashboard hero must serve the learner's task in under three seconds.
 
@@ -787,7 +801,7 @@ Backgrounds carry **soft tonal gradients** that recede behind content — never 
 
 | Surface | Gradient pattern |
 |---------|------------------|
-| Marketing hero | `MeshGradient` + 2-3 parallax `AmbientBlobs` (medium intensity) |
+| Marketing hero | **Decided per page.** No default recipe, and **no parallax** (an effect Chloé has ruled out). *(Revised 2026-07-28: this cell used to prescribe `MeshGradient` + 2-3 parallax `AmbientBlobs`, which is how twelve pages ended up wearing the same background.)* |
 | Auth pages | `AuthShell` with full-bleed coastal gradient + 1 floating blob |
 | Editorial hero | `surface-mist` base + 1 single low-opacity blob in the dominant tone |
 | Dashboard / Product chrome | Flat `surface-white` or `surface-cool` — gradients reserved for hero context |

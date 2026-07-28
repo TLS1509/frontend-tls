@@ -7,7 +7,7 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { submitForm } from './utils/submitForm';
 import {
   Mail,
@@ -26,10 +26,7 @@ import {
   Compass,
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
-import {
-  FadeInWhenVisible,
-  MagneticButton,
-} from '../../components/marketing/motion';
+import { FadeInWhenVisible } from '../../components/marketing/motion';
 import { SEOHead } from './components/SEOHead';
 
 const QUICK_LINKS = [
@@ -90,6 +87,13 @@ const SUBJECT_CONTEXTS: Record<string, { headline: string; desc: string }> = {
 };
 
 export const MarketingContact: React.FC = () => {
+  // Cette page était la seule du site marketing sans `useReducedMotion`
+  // (corrigé le 28/07). La pastille glissante et le titre qui se remonte à
+  // chaque changement de sujet passent en transition instantanée.
+  const reduced = useReducedMotion();
+  const pillSpring = reduced
+    ? { duration: 0 }
+    : ({ type: 'spring', stiffness: 380, damping: 30 } as const);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -153,7 +157,7 @@ export const MarketingContact: React.FC = () => {
                         <motion.span
                           layoutId="contact-hero-subject-bg"
                           className="absolute inset-0 rounded-pill bg-gradient-to-r from-primary-500 to-primary-600 shadow-sm"
-                          transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                          transition={pillSpring}
                         />
                       )}
                       <span className="relative">{s}</span>
@@ -166,9 +170,9 @@ export const MarketingContact: React.FC = () => {
             {/* Dynamic headline — animates on subject change */}
             <motion.div
               key={form.subject}
-              initial={{ opacity: 0, y: 10 }}
+              initial={reduced ? { opacity: 0 } : { opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.22, ease: [0.21, 0.47, 0.32, 0.98] }}
+              transition={{ duration: reduced ? 0.12 : 0.22, ease: [0.21, 0.47, 0.32, 0.98] }}
               className="flex flex-col items-center gap-stack"
             >
               <h1 className="font-display font-extrabold text-ink-900 leading-[0.98] tracking-tight m-0 text-[clamp(2rem,5vw,3.75rem)]">
@@ -194,9 +198,9 @@ export const MarketingContact: React.FC = () => {
             <div className="rounded-2xl bg-gradient-to-br from-white to-primary-50/30 border border-ink-100 shadow-sm p-section">
               {submitted ? (
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
+                  initial={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+                  transition={reduced ? { duration: 0.15 } : { type: 'spring', stiffness: 260, damping: 20 }}
                   className="flex flex-col items-center text-center gap-stack-lg py-stack-lg"
                 >
                   <div className="w-20 h-20 rounded-pill bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center shadow-xl">
@@ -285,7 +289,7 @@ export const MarketingContact: React.FC = () => {
                               <motion.span
                                 layoutId="contact-subject-bg"
                                 className="absolute inset-0 rounded-pill bg-gradient-to-r from-primary-500 to-primary-600 shadow-sm"
-                                transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                                transition={pillSpring}
                               />
                             )}
                             <span className="relative">{s}</span>
@@ -460,17 +464,15 @@ export const MarketingContact: React.FC = () => {
                       </span>
                     </div>
                     <div className="flex justify-end">
-                      <MagneticButton strength={12}>
-                        <Button
-                          type="submit"
-                          variant="primary"
-                          size="lg"
-                          disabled={submitting}
-                          trailingIcon={submitting ? undefined : <ArrowRight size={18} />}
-                        >
-                          {submitting ? 'Envoi en cours…' : 'Envoyer le message'}
-                        </Button>
-                      </MagneticButton>
+                      <Button
+                        type="submit"
+                        variant="primary"
+                        size="lg"
+                        disabled={submitting}
+                        trailingIcon={submitting ? undefined : <ArrowRight size={18} />}
+                      >
+                        {submitting ? 'Envoi en cours…' : 'Envoyer le message'}
+                      </Button>
                     </div>
                   </div>
                 </form>
@@ -495,23 +497,21 @@ export const MarketingContact: React.FC = () => {
                     Choisissez votre créneau dans notre agenda.
                   </p>
                 </div>
-                <MagneticButton strength={10}>
-                  <a
-                    href="https://calendly.com/thelearningsociety/30min"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block"
+                <a
+                  href="https://calendly.com/thelearningsociety/30min"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block"
+                >
+                  <Button
+                    variant="secondary"
+                    size="md"
+                    fullWidth
+                    trailingIcon={<Calendar size={16} />}
                   >
-                    <Button
-                      variant="secondary"
-                      size="md"
-                      fullWidth
-                      trailingIcon={<Calendar size={16} />}
-                    >
-                      Réserver maintenant
-                    </Button>
-                  </a>
-                </MagneticButton>
+                    Réserver maintenant
+                  </Button>
+                </a>
               </div>
 
             {/* Contact info */}

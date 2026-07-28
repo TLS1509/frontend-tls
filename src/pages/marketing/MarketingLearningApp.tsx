@@ -37,11 +37,8 @@ import {
 import { Button } from '../../components/core/Button';
 import {
   FadeInWhenVisible,
-  MagneticButton,
-  MeshGradientBg,
   InteractiveAppMockup,
-  TiltCard,
-} from '../../components/marketing/motion';
+  } from '../../components/marketing/motion';
 import { SEOHead } from './components/SEOHead';
 
 // ─── 1. Hero ─────────────────────────────────────────────────────────────────
@@ -56,8 +53,8 @@ const Hero: React.FC = () => {
       />
       <div className="relative max-w-wide mx-auto px-4 sm:px-6 lg:px-10 pt-36 sm:pt-40 lg:pt-44 pb-16 sm:pb-20 lg:pb-24">
         <motion.div
-          initial={reduced ? { opacity: 0 } : { opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={reduced ? false : { y: 24 }}
+          animate={{ y: 0 }}
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           className="flex max-w-4xl flex-col gap-stack-lg"
         >
@@ -76,11 +73,9 @@ const Hero: React.FC = () => {
             sur des fiches de poste figées.
           </p>
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs pt-stack-xs">
-            <MagneticButton strength={14}>
-              <Button to="/website/contact" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
-                Réserver une démonstration
-              </Button>
-            </MagneticButton>
+            <Button to="/website/contact" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+              Réserver une démonstration
+            </Button>
             <Button href="#bibliotheque" variant="ghost" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
               Explorer la Bibliothèque de compétences
             </Button>
@@ -184,11 +179,9 @@ const Moteur: React.FC = () => (
       </div>
 
       <FadeInWhenVisible delay={0.1}>
-        <TiltCard maxRotation={5} className="relative w-full">
-          <div className="rounded-2xl overflow-hidden ring-1 ring-ink-200 shadow-card-lift bg-white">
-            <InteractiveAppMockup />
-          </div>
-        </TiltCard>
+        <div className="rounded-2xl overflow-hidden ring-1 ring-ink-200 shadow-card-lift bg-white">
+          <InteractiveAppMockup />
+        </div>
       </FadeInWhenVisible>
     </div>
   </section>
@@ -594,7 +587,6 @@ const CtaFinal: React.FC = () => (
     <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28">
       <FadeInWhenVisible>
         <div className="relative overflow-hidden rounded-2xl bg-ink-900 text-white px-6 sm:px-10 lg:px-16 py-16 sm:py-20">
-          <MeshGradientBg tone="ink" intensity="subtle" />
           <div className="relative max-w-content flex flex-col gap-stack-lg">
             <h2 className="font-display font-extrabold text-white leading-[1.04] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.5vw,3.5rem)]">
               Voyez la Learning App fonctionner sur vos cas d'usage.
@@ -604,11 +596,9 @@ const CtaFinal: React.FC = () => (
               modalités se cadrent ensuite ensemble, selon votre contexte.
             </p>
             <div className="flex flex-wrap items-center gap-stack-xs pt-stack">
-              <MagneticButton strength={16}>
-                <Button to="/website/contact" variant="secondary" size="xl" trailingIcon={<ArrowRight size={20} />}>
-                  Réserver une démonstration
-                </Button>
-              </MagneticButton>
+              <Button to="/website/contact" variant="secondary" size="xl" trailingIcon={<ArrowRight size={20} />}>
+                Réserver une démonstration
+              </Button>
               <Button to="/website/diagnostic" variant="glass" size="xl" trailingIcon={<ArrowUpRight size={20} />}>
                 Évaluer votre maturité SBO
               </Button>

@@ -25,10 +25,8 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import {
-  KineticHeadline,
   FadeInWhenVisible,
-  NoiseTexture,
-} from '../../components/marketing/motion';
+  } from '../../components/marketing/motion';
 import { SEOHead } from './components/SEOHead';
 
 /* ─── Data ──────────────────────────────────────────────────────────────────── */
@@ -160,7 +158,6 @@ export const MarketingWaitlist: React.FC = () => {
 
       {/* ── HERO + FORM ──────────────────────────────────────────────────────── */}
       <section className="relative w-full overflow-hidden bg-gradient-to-b from-primary-50 via-white to-white px-6 md:px-10 py-16 md:py-24 lg:py-28">
-        <NoiseTexture opacity={0.022} />
 
         {/* Ambient blob — non-interactive decoration */}
         <div
@@ -195,13 +192,13 @@ export const MarketingWaitlist: React.FC = () => {
                 style={{ fontSize: 'clamp(2.25rem, 4.5vw, 3.5rem)' }}
               >
                 <span className="block">
-                  <KineticHeadline text="Formez vos" delay={0.08} />
+                  Formez vos
                 </span>
                 <span className="block">
-                  <KineticHeadline text="équipes à l'IA." delay={0.18} />
+                  équipes à l'IA.
                 </span>
                 <span className="block text-accent-400">
-                  <KineticHeadline text="Accès anticipé." delay={0.28} />
+                  Accès anticipé.
                 </span>
               </h1>
 

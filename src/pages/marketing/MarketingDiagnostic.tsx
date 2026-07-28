@@ -35,7 +35,7 @@ import {
   RefreshCw,
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
-import { FadeInWhenVisible, MagneticButton } from '../../components/marketing/motion';
+import { FadeInWhenVisible } from '../../components/marketing/motion';
 import { SEOHead } from './components/SEOHead';
 import { submitForm } from './utils/submitForm';
 
@@ -363,11 +363,9 @@ export const MarketingDiagnostic: React.FC = () => {
                           ))}
                         </ul>
                       </div>
-                      <MagneticButton strength={10}>
-                        <Button onClick={() => startDiagnostic(k)} variant="primary" size="lg" fullWidth trailingIcon={<ArrowRight size={18} />}>
-                          {k === 'sbo' ? 'Démarrer le diagnostic SBO' : 'Démarrer le diagnostic IA'}
-                        </Button>
-                      </MagneticButton>
+                      <Button onClick={() => startDiagnostic(k)} variant="primary" size="lg" fullWidth trailingIcon={<ArrowRight size={18} />}>
+                        {k === 'sbo' ? 'Démarrer le diagnostic SBO' : 'Démarrer le diagnostic IA'}
+                      </Button>
                     </div>
                   );
                 })}
@@ -655,11 +653,9 @@ export const MarketingDiagnostic: React.FC = () => {
                   résultats et identifier vos priorités d'action.
                 </p>
                 <div className="flex flex-wrap gap-stack-xs">
-                  <MagneticButton strength={12}>
-                    <Button to="/website/contact" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
-                      Réserver un débriefing de 15 min
-                    </Button>
-                  </MagneticButton>
+                  <Button to="/website/contact" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                    Réserver un débriefing de 15 min
+                  </Button>
                   <Button onClick={resetAll} variant="ghost" size="lg" trailingIcon={<RefreshCw size={16} />}>
                     Refaire un diagnostic
                   </Button>

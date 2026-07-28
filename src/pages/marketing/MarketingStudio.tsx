@@ -24,7 +24,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
-import { FadeInWhenVisible, MagneticButton } from '../../components/marketing/motion';
+import { FadeInWhenVisible } from '../../components/marketing/motion';
 import { SEOHead } from './components/SEOHead';
 
 // ─── 1. Hero — lumière chaude, typographie éditoriale ────────────────────────
@@ -43,8 +43,8 @@ const Hero: React.FC = () => {
       />
       <div className="relative max-w-wide mx-auto px-4 sm:px-6 lg:px-10 pt-36 sm:pt-40 lg:pt-44 pb-16 sm:pb-20 lg:pb-24">
         <motion.div
-          initial={reduced ? { opacity: 0 } : { opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={reduced ? false : { y: 24 }}
+          animate={{ y: 0 }}
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           className="flex max-w-4xl flex-col gap-stack-lg"
         >
@@ -62,11 +62,9 @@ const Hero: React.FC = () => {
             transition vers le modèle Skills-Based Organization.
           </p>
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs pt-stack-xs">
-            <MagneticButton strength={14}>
-              <Button to="/website/contact" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
-                Lancer un projet avec le Studio
-              </Button>
-            </MagneticButton>
+            <Button to="/website/contact" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+              Lancer un projet avec le Studio
+            </Button>
           </div>
         </motion.div>
       </div>
@@ -281,11 +279,9 @@ const CtaFinal: React.FC = () => (
             </p>
           </div>
           <div className="flex shrink-0 flex-col items-start gap-stack-xs sm:flex-row sm:items-center">
-            <MagneticButton strength={16}>
-              <Button to="/website/contact" variant="primary" size="xl" trailingIcon={<ArrowRight size={20} />}>
-                Échanger avec l'équipe du Studio
-              </Button>
-            </MagneticButton>
+            <Button to="/website/contact" variant="primary" size="xl" trailingIcon={<ArrowRight size={20} />}>
+              Échanger avec l'équipe du Studio
+            </Button>
             <Button to="/website/accompagnement" variant="ghost" size="xl" trailingIcon={<ArrowUpRight size={20} />}>
               Voir l'accompagnement STRIDE
             </Button>

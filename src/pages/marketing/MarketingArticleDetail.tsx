@@ -29,9 +29,7 @@ import { Button } from '../../components/core/Button';
 import { PageShell } from '../../components/layout';
 import {
   FadeInWhenVisible,
-  MagneticButton,
-  MeshGradientBg,
-} from '../../components/marketing/motion';
+  } from '../../components/marketing/motion';
 import { ARTICLES, findArticle, getRelatedArticles, type ArticleBodyBlock } from '../../data/marketingArticles';
 import { DiagnosticInlineCta, VigieSignupBanner, midArticleInsertIndex } from './components/ContentConversion';
 import { SEOHead } from './components/SEOHead';
@@ -550,7 +548,6 @@ export const MarketingArticleDetail: React.FC = () => {
 
       {/* ── CTA final (le seul moment dark) ─────────────────────────────────── */}
       <section className="relative overflow-hidden py-page bg-gradient-to-br from-ink-900 via-primary-900 to-primary-950">
-        <MeshGradientBg tone="ink" intensity="subtle" />
         <div className={`relative ${CONTAINER} text-center flex flex-col items-center gap-stack-lg`}>
           <FadeInWhenVisible direction="up">
             <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-white leading-[1.05] tracking-tight m-0">

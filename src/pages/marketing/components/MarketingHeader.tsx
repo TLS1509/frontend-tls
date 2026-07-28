@@ -3,7 +3,6 @@ import { Link, useLocation } from 'react-router-dom';
 import { ChevronDown, ArrowRight, Compass, LayoutGrid, GraduationCap, PenTool, Gauge, Radar, X } from 'lucide-react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Button } from '../../../components/core/Button';
-import { MagneticButton } from '../../../components/marketing/motion';
 import { TlsLogo } from '../../../components/ui/TlsLogo';
 
 type NavItem = {
@@ -350,11 +349,9 @@ export const MarketingHeader: React.FC = () => {
             {/* Desktop CTA — magnetic, flattened (plain trailing icon, no
                 nested icon-button treatment) */}
             <div className="shrink-0 pl-1">
-              <MagneticButton strength={10}>
-                <Button to="/auth/login" variant="primary" size="md" trailingIcon={<ArrowRight size={16} />}>
-                  Connexion
-                </Button>
-              </MagneticButton>
+              <Button to="/auth/login" variant="primary" size="md" trailingIcon={<ArrowRight size={16} />}>
+                Connexion
+              </Button>
             </div>
             </div>
 
