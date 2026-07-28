@@ -805,6 +805,33 @@ const SURFACES = [
 
 /* ────────────────────────── Atelier — bac à sable ───────────────────────── */
 
+/**
+ * Seuil « grand texte » CONSCIENT DE LA FONTE.
+ * WCAG : ≥ 24px, ou ≥ 18,66px en ≥ 700. Mais la norme prévoit sa réserve pour
+ * les polices « inhabituellement fines » — League Spartan (hauteur d'x à 83 %
+ * de Nunito) en fait partie : ses seuils optiques montent à 28,9 / 22,4px.
+ */
+const isLargeForFont = (px: number, weight: number, font: 'display' | 'body') => {
+  const [plain, bold] = font === 'display' ? [28.9, 22.4] : [24, 18.66];
+  return px >= plain || (px >= bold && weight >= 700);
+};
+
+/** Rôles typo proposés en preset — réutilise le système de la section Fontes. */
+const ATELIER_ROLES: { name: string; font: 'display' | 'body'; px: number; weight: number; tracking: string }[] = [
+  { name: 'Titre page', font: 'display', px: 36, weight: 700, tracking: '-0.03em' },
+  { name: 'Titre section', font: 'display', px: 28, weight: 700, tracking: '-0.025em' },
+  { name: 'Titre bloc', font: 'display', px: 24, weight: 700, tracking: '-0.025em' },
+  { name: 'Titre card', font: 'display', px: 18, weight: 600, tracking: '-0.02em' },
+  { name: 'Corps', font: 'body', px: 16, weight: 400, tracking: '0' },
+  { name: 'Méta', font: 'body', px: 13, weight: 400, tracking: '0' },
+  { name: 'Bouton', font: 'body', px: 15, weight: 600, tracking: '0' },
+];
+
+const ATELIER_FONT: Record<'display' | 'body', string> = {
+  display: "'League Spartan', sans-serif",
+  body: "'Nunito', sans-serif",
+};
+
 /** Familles de tokens proposées à la sélection. Valeurs lues à l'exécution. */
 const SWATCH_FAMILIES: { label: string; steps: string[]; prefix: string }[] = [
   { label: 'ink', prefix: '--color-ink-', steps: ['0', '25', '50', '100', '200', '300', '400', '500', '600', '700', '800', '900'] },
@@ -987,7 +1014,10 @@ const Atelier: React.FC = () => {
   const setCur = (patch: Partial<StateSpec>) =>
     setSpecs((s) => ({ ...s, [state]: { ...s[state], ...patch } }));
 
-  // Contrastes du repos, lus sur les valeurs résolues.
+  // Typo : une seule valeur (ne change pas selon l'état d'interaction).
+  const [typo, setTypo] = useState({ font: 'body' as 'display' | 'body', px: 15, weight: 600, tracking: '0' });
+
+  // Contrastes, lus sur les valeurs résolues.
   const fillHex = resolve(cur.fill === 'transparent' ? surface : cur.fill);
   const textC = contrast(resolve(cur.text), fillHex);
   const pageHex = resolve(surface);
@@ -995,10 +1025,30 @@ const Atelier: React.FC = () => {
     ? null
     : contrast(resolve(cur.border), pageHex);
 
+  // Seuil de texte conscient de la taille, de la graisse ET de la fonte.
+  const large = isLargeForFont(typo.px, typo.weight, typo.font);
+  const textNeed = large ? 3 : 4.5;
+  const textPasses = textC >= textNeed;
+
+  // Taille rendue de l'aperçu — pour le critère cible tactile, mesuré, pas supposé.
+  const previewRef = React.useRef<HTMLElement>(null);
+  const [size, setSize] = useState({ w: 0, h: 0 });
+  useEffect(() => {
+    const el = previewRef.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    setSize({ w: Math.round(r.width), h: Math.round(r.height) });
+  }, [target, typo, cur, surface, state]);
+  const minSide = Math.min(size.w, size.h);
+
   const previewStyle: React.CSSProperties = {
     background: cur.fill === 'transparent' ? 'transparent' : resolve(cur.fill),
     color: resolve(cur.text),
     border: cur.border === 'none' || cur.width === 0 ? 'none' : `${cur.width}px solid ${resolve(cur.border)}`,
+    fontFamily: ATELIER_FONT[typo.font],
+    fontSize: `${typo.px}px`,
+    fontWeight: typo.weight,
+    letterSpacing: typo.tracking,
     opacity: 1,
   };
 
@@ -1064,26 +1114,137 @@ const Atelier: React.FC = () => {
         <div className="flex flex-wrap items-center gap-stack-lg rounded-lg p-6" style={{ background: pageHex }}>
           {target === 'bouton' ? (
             <span
-              className="inline-flex items-center justify-center h-touch px-5 rounded-pill font-body text-body-sm font-semibold"
+              ref={previewRef as React.RefObject<HTMLSpanElement>}
+              className="inline-flex items-center justify-center h-touch px-5 rounded-pill"
               style={previewStyle}
             >
               Reprendre
             </span>
           ) : (
-            <div className="w-52 rounded-xl p-4 flex flex-col gap-stack-xs" style={previewStyle}>
-              <span className="font-display text-h4 font-bold" style={{ color: resolve(cur.text) }}>Titre de card</span>
-              <span className="text-caption" style={{ color: resolve(cur.text), opacity: 0.75 }}>Étape 2 sur 5</span>
+            <div
+              ref={previewRef as React.RefObject<HTMLDivElement>}
+              className="w-56 rounded-xl p-4 flex flex-col gap-stack-xs"
+              style={{ ...previewStyle, fontFamily: undefined, fontSize: undefined, fontWeight: undefined, letterSpacing: undefined }}
+            >
+              <span style={{ color: resolve(cur.text), fontFamily: ATELIER_FONT[typo.font], fontSize: `${typo.px}px`, fontWeight: typo.weight, letterSpacing: typo.tracking, lineHeight: 1.3 }}>
+                Titre de card
+              </span>
+              <span className="text-caption" style={{ color: resolve(cur.text), opacity: 0.75, fontFamily: ATELIER_FONT.body }}>Étape 2 sur 5</span>
             </div>
           )}
-          <div className="flex flex-col gap-1.5">
-            <span className="inline-flex items-center gap-1.5 rounded-pill px-2.5 py-1 text-micro font-bold tabular-nums" style={{ background: 'rgba(255,255,255,0.9)' }}>
-              <span className={textC >= 4.5 ? 'text-success-fg' : 'text-danger-fg'}>{textC >= 4.5 ? '✓' : '✗'} texte {fmt(textC)}</span>
-            </span>
-            {edgeC !== null && (
-              <span className="inline-flex items-center gap-1.5 rounded-pill px-2.5 py-1 text-micro font-bold tabular-nums" style={{ background: 'rgba(255,255,255,0.9)' }}>
-                <span className={edgeC >= 3 ? 'text-success-fg' : 'text-danger-fg'}>{edgeC >= 3 ? '✓' : '✗'} bordure {fmt(edgeC)}</span>
-              </span>
-            )}
+          {/* ── Panneau WCAG en direct ─────────────────────────────────── */}
+          {(() => {
+            const CHECKS: { sc: string; label: string; level: 'AA' | 'AAA'; value: string; pass: boolean | null; detail: string }[] = [
+              {
+                sc: '1.4.3', label: 'Contraste du texte', level: 'AA',
+                value: `${fmt(textC)} / ${textNeed.toFixed(1).replace('.', ',')}`, pass: textPasses,
+                detail: large ? `grand texte${typo.font === 'display' ? ` — Spartan pèse ${((typo.px * 0.41) / 0.493).toFixed(0)}px` : ''}` : 'texte normal',
+              },
+              {
+                sc: '1.4.6', label: 'Contraste renforcé', level: 'AAA',
+                value: `${fmt(textC)} / ${(large ? 4.5 : 7).toFixed(1).replace('.', ',')}`, pass: textC >= (large ? 4.5 : 7),
+                detail: 'seuil AAA',
+              },
+              {
+                sc: '1.4.11', label: 'Contraste de la bordure', level: 'AA',
+                value: edgeC === null ? '—' : `${fmt(edgeC)} / 3,0`, pass: edgeC === null ? null : edgeC >= 3,
+                detail: edgeC === null ? 'pas de bordure' : 'contour vs page',
+              },
+              {
+                sc: '2.5.8', label: 'Cible tactile', level: 'AA',
+                value: minSide ? `${minSide}px / 24px` : '…', pass: minSide ? minSide >= 24 : null,
+                detail: `${size.w}×${size.h}px rendu`,
+              },
+              {
+                sc: '2.5.5', label: 'Cible tactile', level: 'AAA',
+                value: minSide ? `${minSide}px / 44px` : '…', pass: minSide ? minSide >= 44 : null,
+                detail: 'cible TLS',
+              },
+            ];
+            return (
+              <div className="rounded-lg bg-white/95 p-3 min-w-[16rem] flex flex-col gap-1">
+                <span className="text-micro font-extrabold uppercase tracking-[0.07em] text-ink-700">WCAG en direct</span>
+                {CHECKS.map((c) => (
+                  <div key={c.sc + c.level} className="flex items-center gap-stack-xs text-micro">
+                    <span className={[
+                      'w-4 h-4 rounded-full grid place-items-center shrink-0 text-white text-[9px] font-bold',
+                      c.pass === null ? 'bg-ink-300' : c.pass ? 'bg-success-base' : 'bg-danger-base',
+                    ].join(' ')}>
+                      {c.pass === null ? '–' : c.pass ? '✓' : '✗'}
+                    </span>
+                    <span className="font-mono text-ink-500 w-9 shrink-0">{c.sc}</span>
+                    <span className="text-ink-800 flex-1 min-w-0 truncate">{c.label} <span className="text-ink-400">{c.level}</span></span>
+                    <span className="tabular-nums text-ink-700 font-semibold shrink-0">{c.value}</span>
+                  </div>
+                ))}
+                <span className="text-micro text-ink-400 mt-0.5">
+                  {typo.font === 'display' ? 'Spartan' : 'Nunito'} {typo.px}px/{typo.weight} · {large ? 'grand texte 3,0' : 'normal 4,5'}
+                </span>
+              </div>
+            );
+          })()}
+        </div>
+
+        {/* presets de rôle + réglages typo */}
+        <div className="flex flex-col gap-stack-xs border-t border-ink-100 pt-stack">
+          <span className="text-micro font-bold uppercase tracking-[0.06em] text-ink-500">Rôle typo (preset)</span>
+          <div className="flex flex-wrap gap-1">
+            {ATELIER_ROLES.map((r) => {
+              const on = typo.font === r.font && typo.px === r.px && typo.weight === r.weight;
+              return (
+                <button
+                  key={r.name}
+                  type="button"
+                  onClick={() => setTypo({ font: r.font, px: r.px, weight: r.weight, tracking: r.tracking })}
+                  aria-pressed={on}
+                  className={['rounded-md px-2.5 h-7 text-micro font-semibold border', on ? 'border-primary-600 bg-primary-50 text-primary-800' : 'border-ink-200 text-ink-600 hover:border-ink-300'].join(' ')}
+                >
+                  {r.name}
+                </button>
+              );
+            })}
+          </div>
+          <div className="flex flex-wrap items-end gap-stack">
+            <label className="flex flex-col gap-1 text-micro font-bold uppercase tracking-[0.06em] text-ink-500">
+              fonte
+              <div className="inline-flex rounded-pill bg-ink-100 p-1">
+                {(['display', 'body'] as const).map((f) => (
+                  <button
+                    key={f}
+                    type="button"
+                    onClick={() => setTypo((t) => ({ ...t, font: f }))}
+                    aria-pressed={typo.font === f}
+                    className={['rounded-pill px-3 h-7 text-micro font-semibold', typo.font === f ? 'bg-white text-primary-800 shadow-xs' : 'text-ink-600'].join(' ')}
+                  >
+                    {f === 'display' ? 'Spartan' : 'Nunito'}
+                  </button>
+                ))}
+              </div>
+            </label>
+            <label className="flex flex-col gap-1 text-micro font-bold uppercase tracking-[0.06em] text-ink-500">
+              taille {typo.px}px
+              <input
+                type="range" min={11} max={48} step={1} value={typo.px}
+                onChange={(e) => setTypo((t) => ({ ...t, px: Number(e.target.value) }))}
+                className="w-40"
+              />
+            </label>
+            <label className="flex flex-col gap-1 text-micro font-bold uppercase tracking-[0.06em] text-ink-500">
+              graisse
+              <div className="inline-flex gap-0.5">
+                {[400, 500, 600, 700, 800].map((w) => (
+                  <button
+                    key={w}
+                    type="button"
+                    onClick={() => setTypo((t) => ({ ...t, weight: w }))}
+                    aria-pressed={typo.weight === w}
+                    className={['rounded-md px-2 h-7 text-micro font-bold tabular-nums border', typo.weight === w ? 'border-primary-600 bg-primary-50 text-primary-800' : 'border-ink-200 text-ink-600'].join(' ')}
+                  >
+                    {w}
+                  </button>
+                ))}
+              </div>
+            </label>
           </div>
         </div>
 
@@ -1206,21 +1367,22 @@ const DesignLab: React.FC = () => {
     <div className="min-h-[100dvh] w-full bg-ink-25 font-body">
       {/* ── En-tête sticky ──────────────────────────────────────────────── */}
       <header className="sticky top-0 z-sticky border-b border-ink-200 bg-white/90 backdrop-blur-glass-medium">
-        <div className="mx-auto max-w-page px-4 sm:px-6 py-3 flex flex-wrap items-center gap-stack-xs">
-          <div className="flex flex-col gap-0.5 mr-auto min-w-0">
-            <h1 className="text-h4 font-bold tracking-snug text-ink-900 m-0">Design Lab</h1>
-            <p className="text-micro text-ink-500 m-0">
-              Arbitrages en cours · valeurs relues en direct, ratios calculés à l'exécution
-            </p>
-          </div>
+        <div className="mx-auto max-w-page px-4 sm:px-6 py-2 flex items-center gap-stack-xs">
+          <h1 className="text-body-sm font-bold tracking-snug text-ink-900 m-0 shrink-0 mr-1">Design Lab</h1>
 
-          <nav className="flex flex-wrap items-center gap-1" aria-label="Sections du lab">
+          {/* Une seule ligne qui défile — 13 onglets ne doivent pas wrapper en
+              un pavé qui mange le sticky. `-mx-1 px-1` pour que le focus ring ne
+              soit pas clippé par overflow-x. */}
+          <nav
+            className="flex items-center gap-0.5 overflow-x-auto -mx-1 px-1 max-w-full sm:max-w-[60%]"
+            aria-label="Sections du lab"
+          >
             {NAV.map((n) => (
               <button
                 key={n.id}
                 type="button"
                 onClick={() => scrollTo(n.id)}
-                className="min-h-touch inline-flex items-center rounded-pill px-3 text-caption font-semibold text-ink-700 hover:bg-primary-50 hover:text-primary-800 transition-colors duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                className="inline-flex items-center h-8 rounded-pill px-2.5 text-micro font-semibold whitespace-nowrap text-ink-600 hover:bg-primary-50 hover:text-primary-800 transition-colors duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
               >
                 {n.label}
               </button>
@@ -1231,22 +1393,24 @@ const DesignLab: React.FC = () => {
             type="button"
             onClick={() => setApplied((a) => !a)}
             aria-pressed={applied}
+            title={applied ? 'Proposition typo/rayon active — cliquer pour revenir' : 'Appliquer la proposition typo/rayon à toute l\'app'}
             className={[
-              'min-h-touch inline-flex items-center gap-stack-xs rounded-pill px-4 text-caption font-bold transition-colors duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+              'shrink-0 inline-flex items-center gap-1 rounded-pill px-3 h-8 text-micro font-bold whitespace-nowrap transition-colors duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
               applied
                 ? 'bg-primary-700 text-white hover:bg-primary-800'
                 : 'bg-ink-100 text-ink-800 hover:bg-ink-200',
             ].join(' ')}
           >
-            {applied ? <RotateCcw size={14} strokeWidth={2.4} /> : <Check size={14} strokeWidth={2.4} />}
-            {applied ? 'Proposition active — revenir' : 'Appliquer la proposition'}
+            {applied ? <RotateCcw size={13} strokeWidth={2.4} /> : <Check size={13} strokeWidth={2.4} />}
+            {applied ? 'Proposition active' : 'Appliquer'}
           </button>
         </div>
 
-        {/* Essais bouton — s'appliquent à toute l'app pendant la navigation */}
-        <div className="mx-auto max-w-page px-4 sm:px-6 pb-3 flex flex-wrap items-center gap-1.5">
-          <span className="text-micro font-bold uppercase tracking-[0.07em] text-ink-500 mr-1">
-            Essayer sur l'app
+        {/* Essais bouton — chips d'une ligne, détail en tooltip. Appliqués à
+            toute l'app pendant la navigation. */}
+        <div className="mx-auto max-w-page px-4 sm:px-6 pb-2 flex items-center gap-1.5 overflow-x-auto">
+          <span className="text-micro font-bold uppercase tracking-[0.07em] text-ink-500 mr-0.5 shrink-0">
+            Essayer :
           </span>
           {Object.entries(BTN_TRIALS).map(([k, t]) => {
             const on = trials.includes(k);
@@ -1258,14 +1422,14 @@ const DesignLab: React.FC = () => {
                 title={t.hint}
                 onClick={() => toggleTrial(k)}
                 className={[
-                  'inline-flex flex-col items-start rounded-lg border px-2.5 py-1 transition-colors duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+                  'inline-flex items-center h-7 rounded-pill border px-2.5 text-micro font-semibold whitespace-nowrap shrink-0 transition-colors duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                   on
                     ? 'border-primary-600 bg-primary-50 text-primary-900'
                     : 'border-ink-200 bg-white text-ink-600 hover:border-ink-300 hover:text-ink-900',
                 ].join(' ')}
               >
-                <span className="text-micro font-bold">{t.label}</span>
-                <span className="text-micro text-ink-400">{t.hint}</span>
+                {on && <Check size={11} strokeWidth={2.6} className="mr-1" />}
+                {t.label}
               </button>
             );
           })}
@@ -1273,9 +1437,9 @@ const DesignLab: React.FC = () => {
             <button
               type="button"
               onClick={() => setTrials([])}
-              className="inline-flex items-center gap-1 rounded-pill px-2.5 h-8 text-micro font-semibold text-ink-600 hover:bg-ink-100 hover:text-ink-900 transition-colors duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+              className="inline-flex items-center gap-1 rounded-pill px-2 h-7 text-micro font-semibold text-ink-600 hover:bg-ink-100 hover:text-ink-900 transition-colors duration-fast cursor-pointer shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
             >
-              <X size={12} strokeWidth={2.5} /> Tout retirer
+              <X size={11} strokeWidth={2.5} /> Retirer
             </button>
           )}
         </div>

@@ -30,8 +30,8 @@ dist-ssr
 .claude/worktrees/
 
 # Specs Notion propriétaires, local uniquement (cahiers + parcours utilisateurs)
-# CDC/ et User_Journeys/ fusionnés dans reference/ le 2026-07-28
-reference/
+# CDC/ et User_Journeys/ fusionnés dans docs/CDC/ le 2026-07-28
+docs/CDC/
 sitemap_fo_learning_app_sbo*.html
 IMPLEMENTATION_ORDER.md
 

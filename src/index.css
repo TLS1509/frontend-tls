@@ -269,7 +269,10 @@
        accelerate  : slow-in (exiting motion — items leaving, dismissing)
        emphasis    : pronounced overshoot — premium reveals, success states
   */
-  --ease-standard:   cubic-bezier(0.4, 0, 0.2, 1);
+  /* Promu depuis design-tokens.css le 2026-07-28 : cette valeur était celle
+     réellement servie (design-tokens.css gagnait la cascade), donc la déclarer
+     ici ne change rien au rendu — elle supprime juste le doublon. */
+  --ease-standard:   cubic-bezier(0.2, 0, 0, 1);
   --ease-decelerate: cubic-bezier(0, 0, 0.2, 1);
   --ease-accelerate: cubic-bezier(0.4, 0, 1, 1);
   --ease-emphasis:   cubic-bezier(0.22, 1, 0.36, 1);
