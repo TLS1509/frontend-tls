@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ChevronDown, ArrowRight, Users, Compass, Award, LayoutGrid, GraduationCap, X } from 'lucide-react';
+import { ChevronDown, ArrowRight, Compass, LayoutGrid, GraduationCap, PenTool, Gauge, Radar, X } from 'lucide-react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Button } from '../../../components/core/Button';
 import { MagneticButton } from '../../../components/marketing/motion';
@@ -12,6 +12,9 @@ type NavItem = {
   dropdown?: { label: string; href: string; desc: string; icon: React.ReactNode }[];
 };
 
+// Structure actée en réunion du 28/07/2026 (RECAP §2). Le libellé du 3e item
+// du dropdown Accompagnement ("Déploiement IA & SBO", page STRIDE) est la piste
+// évoquée en réunion, pas encore définitivement tranchée par PAD.
 const NAV_ITEMS: NavItem[] = [
   { label: 'Accueil', href: '/website' },
   { label: 'Learning App', href: '/website/learning-app' },
@@ -19,16 +22,22 @@ const NAV_ITEMS: NavItem[] = [
     label: 'Accompagnement',
     dropdown: [
       {
-        label: 'Accompagnement STRIDE',
-        href: '/website/accompagnement',
-        desc: 'Nous transformons votre dispositif avec vous',
-        icon: <Compass size={16} />,
+        label: 'Studio IA & Pédagogie',
+        href: '/website/studio',
+        desc: 'Contenus pédagogiques et agents IA sur-mesure, prêts à opérer',
+        icon: <PenTool size={16} />,
       },
       {
-        label: 'Upskilling L&D',
+        label: 'Upskilling sur-mesure',
         href: '/website/upskilling',
-        desc: 'Votre équipe apprend à le faire elle-même',
+        desc: 'Des projets pilotés par les professionnels de la formation',
         icon: <GraduationCap size={16} />,
+      },
+      {
+        label: 'Déploiement IA & SBO',
+        href: '/website/accompagnement',
+        desc: "La méthode STRIDE, de l'audit au déploiement",
+        icon: <Compass size={16} />,
       },
     ],
   },
@@ -36,28 +45,22 @@ const NAV_ITEMS: NavItem[] = [
     label: 'Ressources',
     dropdown: [
       {
-        label: 'Ressources',
+        label: 'Autodiagnostics',
+        href: '/website/diagnostic',
+        desc: 'Évaluez votre maturité SBO ou IA en 3 minutes',
+        icon: <Gauge size={16} />,
+      },
+      {
+        label: 'La Vigie',
+        href: '/website/vigie',
+        desc: 'Nos analyses sur l’IA, les compétences et le futur du travail',
+        icon: <Radar size={16} />,
+      },
+      {
+        label: 'Magazine & Ressources',
         href: '/website/resources',
-        desc: 'Articles, dossiers, guides, vidéos, webinaires',
+        desc: 'Analyses, dossiers, guides, vidéos, webinaires',
         icon: <LayoutGrid size={16} />,
-      },
-      {
-        label: "L'équipe",
-        href: '/website/equipe',
-        desc: 'Les humains derrière TLS',
-        icon: <Users size={16} />,
-      },
-      {
-        label: 'Notre méthode',
-        href: '/website/methode',
-        desc: 'STRIDE en 6 étapes',
-        icon: <Compass size={16} />,
-      },
-      {
-        label: 'Cas clients',
-        href: '/website/temoignages',
-        desc: 'Six transformations racontées',
-        icon: <Award size={16} />,
       },
     ],
   },

@@ -16,54 +16,104 @@ const LinkedInIcon: React.FC<{ size?: number }> = ({ size = 15 }) => (
   </svg>
 );
 
-const NAV_LINKS = [
-  { label: 'Learning App', href: '/website/learning-app' },
-  { label: 'Accompagnement', href: '/website/accompagnement' },
-  { label: 'Upskilling L&D', href: '/website/upskilling' },
-  { label: 'Méthode', href: '/website/methode' },
-  { label: 'Ressources', href: '/website/resources' },
-  { label: 'Témoignages', href: '/website/temoignages' },
-  { label: "L'équipe", href: '/website/equipe' },
-  { label: 'Contact', href: '/website/contact' },
-  { label: 'Accès anticipé', href: '/website/waitlist' },
+type FooterColumn = { title: string; links: { label: string; href: string }[] };
+
+const COLUMNS: FooterColumn[] = [
+  {
+    title: 'Offres',
+    links: [
+      { label: 'Learning App', href: '/website/learning-app' },
+      { label: 'Studio IA & Pédagogie', href: '/website/studio' },
+      { label: 'Déploiement IA & SBO', href: '/website/accompagnement' },
+      { label: 'Upskilling sur-mesure', href: '/website/upskilling' },
+    ],
+  },
+  {
+    title: 'Ressources',
+    links: [
+      { label: 'Autodiagnostics', href: '/website/diagnostic' },
+      { label: 'La Vigie', href: '/website/vigie' },
+      { label: 'Magazine & Ressources', href: '/website/resources' },
+    ],
+  },
+  {
+    title: 'La société',
+    links: [
+      { label: 'Les Fondateurs', href: '/website/equipe' },
+      { label: 'Contact', href: '/website/contact' },
+      { label: 'Accès anticipé', href: '/website/waitlist' },
+    ],
+  },
 ];
 
 const LEGAL_LINKS = [
   { label: 'Mentions légales', href: '/website/mentions-legales' },
   { label: 'Confidentialité', href: '/website/politique-confidentialite' },
   { label: 'CGV / CGU', href: '/website/cgv-cgu' },
+  { label: 'Charte IA', href: '/website/charte-ia' },
 ];
 
 export const MarketingFooter: React.FC = () => (
   <footer className="border-t border-primary-100/60 bg-primary-50/40">
-    <div className="max-w-7xl mx-auto px-6 py-stack-lg flex flex-col gap-stack">
+    <div className="max-w-7xl mx-auto px-6 pt-section-lg pb-stack-lg flex flex-col gap-section">
 
-      {/* Row 1 — Logo + nav */}
-      <div className="flex flex-col sm:flex-row sm:items-center gap-stack sm:gap-section-lg">
-        <Link to="/website" className="flex items-center gap-2 shrink-0 group w-fit">
-          <TlsLogo size={24} variant="primary" />
-          <span className="font-display font-bold text-body text-ink-800 leading-none whitespace-nowrap">
-            The Learning Society
-          </span>
-        </Link>
-
-        <nav aria-label="Footer navigation" className="flex flex-wrap gap-x-stack gap-y-1">
-          {NAV_LINKS.map(({ label, href }) => (
-            <Link
-              key={href}
-              to={href}
-              className="font-body text-body-sm text-ink-500 hover:text-ink-900 transition-colors duration-fast"
+      {/* Row 1 — Brand block + link columns */}
+      <div className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr_1fr_1fr] gap-section md:gap-stack-lg">
+        <div className="flex flex-col gap-stack max-w-xs">
+          <Link to="/website" className="flex items-center gap-2 shrink-0 group w-fit">
+            <TlsLogo size={28} variant="primary" />
+            <span className="font-display font-bold text-body text-ink-800 leading-none whitespace-nowrap">
+              The Learning Society
+            </span>
+          </Link>
+          <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">
+            Le cabinet de conseil et studio expert en Skills-Based Organization.
+            Conseil, création pédagogique et IA pour aligner vos talents avec
+            vos enjeux business.
+          </p>
+          <div className="flex items-center gap-2 pt-1">
+            <a
+              href="https://linkedin.com/company/thelearningsociety"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex h-9 w-9 items-center justify-center rounded-pill text-ink-500 transition-colors duration-fast hover:bg-primary-100 hover:text-primary-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+              aria-label="LinkedIn The Learning Society"
             >
-              {label}
-            </Link>
-          ))}
-        </nav>
+              <LinkedInIcon size={16} />
+            </a>
+            <a
+              href="mailto:contact@thelearningsociety.fr"
+              className="flex h-9 w-9 items-center justify-center rounded-pill text-ink-500 transition-colors duration-fast hover:bg-primary-100 hover:text-primary-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+              aria-label="Écrire à The Learning Society"
+            >
+              <Mail size={16} />
+            </a>
+          </div>
+        </div>
+
+        {COLUMNS.map(({ title, links }) => (
+          <nav key={title} aria-label={`Footer : ${title}`} className="flex flex-col gap-stack-xs">
+            <span className="font-display text-body-sm font-bold text-ink-800">{title}</span>
+            <ul className="flex flex-col gap-1.5 m-0 p-0 list-none">
+              {links.map(({ label, href }) => (
+                <li key={href}>
+                  <Link
+                    to={href}
+                    className="font-body text-body-sm text-ink-500 hover:text-ink-900 transition-colors duration-fast"
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ))}
       </div>
 
-      {/* Row 2 — Copyright + legal + socials */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-stack-xs text-micro text-ink-400">
+      {/* Row 2 — Copyright + legal */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-stack-xs border-t border-primary-100/60 pt-stack text-micro text-ink-400">
+        <span>© 2026 The Learning Society · Paris</span>
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-          <span>© 2026 The Learning Society</span>
           {LEGAL_LINKS.map(({ label, href }) => (
             <Link
               key={href}
@@ -73,25 +123,6 @@ export const MarketingFooter: React.FC = () => (
               {label}
             </Link>
           ))}
-        </div>
-
-        <div className="flex items-center gap-2">
-          <a
-            href="https://linkedin.com/company/thelearningsociety"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-ink-400 hover:text-primary-600 transition-colors duration-fast"
-            aria-label="LinkedIn The Learning Society"
-          >
-            <LinkedInIcon size={15} />
-          </a>
-          <a
-            href="mailto:contact@thelearningsociety.fr"
-            className="text-ink-400 hover:text-primary-600 transition-colors duration-fast"
-            aria-label="Écrire à The Learning Society"
-          >
-            <Mail size={15} />
-          </a>
         </div>
       </div>
 

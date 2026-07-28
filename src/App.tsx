@@ -217,8 +217,9 @@ import { MarketingDiagnostic } from './pages/marketing/MarketingDiagnostic';
 import { MarketingEquipe } from './pages/marketing/MarketingEquipe';
 import { MarketingResources } from './pages/marketing/MarketingResources';
 import { MarketingMethode } from './pages/marketing/MarketingMethode';
-import { MarketingTemoignages } from './pages/marketing/MarketingTemoignages';
 import { MarketingAccompagnement } from './pages/marketing/MarketingAccompagnement';
+import { MarketingStudio } from './pages/marketing/MarketingStudio';
+import { MarketingVigie } from './pages/marketing/MarketingVigie';
 import { MarketingUpskilling } from './pages/marketing/MarketingUpskilling';
 import { MarketingLearningApp } from './pages/marketing/MarketingLearningApp';
 import { MarketingArticleDetail } from './pages/marketing/MarketingArticleDetail';
@@ -544,6 +545,8 @@ function App() {
           {/* Formation fusionnée dans Learning App le 03/07/2026 — redirect pour les liens existants */}
           <Route path="formation" element={<Navigate to="/website/learning-app" replace />} />
           <Route path="accompagnement" element={<MarketingAccompagnement />} />
+          <Route path="studio" element={<MarketingStudio />} />
+          <Route path="vigie" element={<MarketingVigie />} />
           <Route path="upskilling" element={<MarketingUpskilling />} />
           <Route path="learning-app" element={<MarketingLearningApp />} />
           {/* Magazine et Dossiers n'ont plus de hub dédié — un seul hub
@@ -561,7 +564,9 @@ function App() {
           <Route path="webinaires/:slug" element={<MarketingWebinaireDetail />} />
           <Route path="equipe" element={<MarketingEquipe />} />
           <Route path="methode" element={<MarketingMethode />} />
-          <Route path="temoignages" element={<MarketingTemoignages />} />
+          {/* Témoignages retirés du site V1 (décision Chloé 28/07 — cas fictifs
+              vs FACTS-CANON). Fichier conservé pour une V2 avec de vrais cas. */}
+          <Route path="temoignages" element={<Navigate to="/website" replace />} />
           <Route path="contact" element={<MarketingContact />} />
           <Route path="waitlist" element={<MarketingWaitlist />} />
           <Route path="mentions-legales" element={<MarketingMentionsLegales />} />
