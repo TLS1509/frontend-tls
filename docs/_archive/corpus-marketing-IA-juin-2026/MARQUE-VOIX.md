@@ -2,6 +2,31 @@
 > ⚠️ **Les exemples de copy / wording ci-dessous sont des DRAFTS IA** — pas la voix finale. À valider, ou dériver des vrais contenus (Mag', LinkedIn). Faits/chiffres → [FACTS-CANON.md](../_canon/FACTS-CANON.md).
 
 # MARKETING-BRAND.md — The Learning Society
+
+> ### ⚠️ Doc partiellement périmé — statut revu le 2026-07-28
+>
+> Écrit le 11/06/2026, **avant** le pivot SBO et la refonte du site du 28/07.
+> Il n'a pas été réécrit parce qu'**une de ses onze sections garde toute sa
+> valeur** : le **§5 « La voix de marque »** (personnalité vocale, liste noire de
+> ce qu'on ne dit jamais, ce qu'on dit à la place). Cette section survit à
+> n'importe quel changement de positionnement. **C'est la seule à utiliser telle
+> quelle.**
+>
+> **Ce qui est périmé et ne doit pas être repris :**
+> - **§1 à §4** (thèse, marché, positionnement, audiences) : bâtis sur l'ancien
+>   positionnement. L'« Audience A : Le Formateur Indépendant augmenté » porte sur
+>   une offre **retirée le 28/07**.
+> - **§2 « Taille et structure »** : les chiffres de marché sont **gelés et non
+>   publiables** (`FACTS-CANON` C4/C5).
+> - **§5 « Registre »** : prescrit le tutoiement pour les formateurs. **Faux.**
+>   La règle est « vous » sur tout le public (`FACTS-CANON` R1).
+> - **Toute mention de Qualiopi rattachée à TLS** (11 occurrences) : TLS n'est pas
+>   certifié, C-Campus l'est (`FACTS-CANON` X1).
+> - **L'AI Act comme argument** (9 occurrences, dont un bloc d'architecture de
+>   home) : sujet éditorial, jamais argument de vente (`FACTS-CANON` X4).
+> - **§11** : projections d'ARR présentées comme des faits.
+>
+> Faits → [`docs/_canon/FACTS-CANON.md`](../_canon/FACTS-CANON.md).
 ## Document de référence : positionnement, voix de marque, copy strategy
 
 > Source de vérité pour toute rédaction marketing (site, newsletter, LinkedIn, pitchdeck).

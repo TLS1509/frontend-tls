@@ -1,25 +1,13 @@
 # Métriques à collecter — preuves TLS
 
 > But : remplacer le « qualitatif only » par de **vraies métriques validées**, citables dans le marketing/sales.
-> Process : tu récupères les chiffres → on les valide dans `FACTS-CANON.md` (✅) → ils deviennent citables et on les ajoute au §11.1 des brand guidelines.
+> Process : tu récupères les chiffres → on les valide dans `FACTS-CANON.md` → ils deviennent citables.
+> **Statut au 2026-07-28** : le registre des faits a été remis à zéro et ne conserve que les sources de première main. Ce doc reste la liste de ce qu'il faut aller chercher.
 > ⚠️ Tant qu'un chiffre n'est pas ici **avec sa source**, il reste **interdit** (règle d'honnêteté).
 
 Pour chaque donnée : **valeur · période · source/preuve · périmètre exact**. Une métrique sans source ne passe pas.
 
 ---
-
-## 1. Formateur Augmenté × C-Campus (le plus accessible)
-
-| # | Donnée | Pourquoi c'est utile | Où la trouver |
-|---|--------|----------------------|----------------|
-| 1.1 | **Nombre de personnes formées** (Formateur Augmenté) + période | Preuve de traction formation | C-Campus (bilan pédagogique / Qualiopi) |
-| 1.2 | **Taux de satisfaction** (à chaud / à froid) + n répondants | « X % de satisfaction sur N apprenants » | Questionnaires C-Campus |
-| 1.3 | **NPS de la formation** + n répondants | Recommandation = preuve forte | Enquête NPS C-Campus (à lancer si absente) |
-| 1.4 | **Taux de complétion** des 7 modules | Engagement réel | Plateforme de diffusion C-Campus |
-| 1.5 | **Note moyenne** (si système d'étoiles) + n | Étoiles = social proof | C-Campus |
-| 1.6 | **Verbatims** exploitables (avec accord nominatif écrit) | Témoignages authentiques (jamais illustratifs) | Apprenants C-Campus + autorisation |
-
-> Rappel : le badge est un **Open Badge** délivré par C-Campus (≠ Open Badges 2.0 in-app). OPCO oui, **CPF non**.
 
 ## 2. Dinootoo / déploiement « grand groupe français » (Learning App)
 
@@ -71,4 +59,4 @@ Pour chaque donnée : **valeur · période · source/preuve · périmètre exact
    Citable publiquement : oui/non. Attribution requise : <ex. C-Campus>.
 ```
 
-**Priorité de récolte** (impact × facilité) : **1.1 + 1.2 + 1.3** (Formateur Augmenté/C-Campus) → **2.2 + 2.3 + 2.7** (Dinootoo) → **3.1 + 3.3** (produit) → le reste.
+**Priorité de récolte** (impact × facilité) : les métriques produit et les preuves de déploiement client d'abord.

@@ -1,4 +1,22 @@
 # MARKETING-LINKEDIN.md — Page & stratégie LinkedIn TLS
+
+> ### ⚠️ Axe de positionnement à refaire — statut revu le 2026-07-28
+>
+> Écrit le 11/06/2026. La **mécanique** (cadence de publication, formats de post,
+> stratégie founder-led, refonte de la page) reste utilisable.
+>
+> **L'axe stratégique, lui, est caduc.** Le doc pose comme catégorie à
+> « construire et défendre » le **formateur augmenté** — offre **retirée du
+> discours le 28/07**. Tout le pilier éditorial est donc à repenser sur le
+> positionnement SBO.
+>
+> **Deux corrections factuelles à ne pas laisser passer :**
+> - Qualiopi est rangé dans une colonne intitulée **« Preuve »**. TLS n'est pas
+>   certifié (`FACTS-CANON` X1).
+> - Une citation attribuée à **France Compétences** avec la formule « l'État
+>   valide notre posture » : **sans source vérifiée, à retirer**.
+>
+> Faits → [`docs/_canon/FACTS-CANON.md`](../_canon/FACTS-CANON.md).
 ## Réécriture page + content + acquisition followers
 
 > Source de vérité LinkedIn pour The Learning Society.

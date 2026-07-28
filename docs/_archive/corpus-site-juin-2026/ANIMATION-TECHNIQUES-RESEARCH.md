@@ -1,4 +1,18 @@
 # Animation Techniques Research — TLS Site Marketing
+
+> ### ⚠️ Exploration, pas règle — statut revu le 2026-07-28
+>
+> Ce document appartient au cycle **Direction C « Illustrated Glass » (juin 2026)**.
+> Il a été écrit comme une exploration créative, puis lu par la suite comme une
+> spécification opposable — c'est précisément la dérive qu'on corrige.
+>
+> **Le site V1 n'est pas construit dessus.** Il a été refondu les 28/07 sur le
+> copywriting arbitré de `propositions-PAD/`, et la phase design est ouverte, pas
+> tranchée. Rien ici n'est à appliquer sans re-décision explicite.
+>
+> À lire comme une source d'idées. Références à jour :
+> [`SITEMAP-V1.md`](SITEMAP-V1.md) pour l'arborescence,
+> [`CONTEXT-SITE-MARKETING.md`](CONTEXT-SITE-MARKETING.md) pour les invariants.
 > Synthèse de 5 articles · 2026-06-26 · Applicabilité Direction C "Illustrated Glass"
 
 ---

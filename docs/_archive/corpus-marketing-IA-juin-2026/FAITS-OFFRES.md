@@ -1,62 +1,52 @@
-# FAITS & OFFRES — The Learning Society
+# OFFRES — ce que The Learning Society vend
 
-> **Doc de référence FACTUEL.** Toute valeur ici trace à [`FACTS-CANON.md`](../_canon/FACTS-CANON.md) (source de vérité unique). En cas de doute, le canon prime.
-> Voix, positionnement détaillé, personas, concurrentiel, taglines → [`MARQUE-VOIX.md`](MARQUE-VOIX.md).
-> **Réécrit le 2026-06-10** depuis sources primaires (Notion, CDC, PDF C-Campus, Pappers). Ancienne version IA archivée dans [`_archive/`](_archive/FAITS-OFFRES.IA-2026-06-10.md).
-> ⏸️ **Tous les prix sont PROVISOIRES** (business model non figé, base CDC). Ne pas les propager comme « validés ».
+> ### Ce doc est le **catalogue des offres**, pas un registre de faits.
+> Statut revu le 2026-07-28. La version précédente se présentait comme un
+> « doc de référence FACTUEL », ce qui faisait **trois documents** revendiquant
+> l'autorité sur les faits. C'était la source du désordre.
+>
+> **Pour un fait, un chiffre ou un interdit** → [`docs/_canon/FACTS-CANON.md`](../_canon/FACTS-CANON.md).
+> **Pour la voix de marque** → [`MARQUE-VOIX.md`](MARQUE-VOIX.md) §5 uniquement.
+> **Pour ce qui est en ligne** → le code, `src/pages/marketing/*`.
+>
+> ⏸️ **Tous les prix sont provisoires** (business model non figé). Ne pas les
+> propager comme validés.
 
 ---
 
 ## 0. TLS en bref
 
-**The Learning Society** — SAS immatriculée le **10 janvier 2022**, Paris 75014 (SIREN 909 413 841).
+**The Learning Society** — SAS immatriculée le **10 janvier 2022**, siège
+**26 bis rue Olivier Noyer, 75014 Paris** (SIREN 909 413 841).
 
-**Fondateurs (équipe affichée = ces 2 personnes uniquement, aucun profil fictif) :**
+**Fondateurs** — équipe affichée = ces deux personnes uniquement, aucun profil
+fictif :
 - **Chloé Mimault** — tech, conception pédagogique, produit. Pilote la Learning App.
-- **Pierre-Armand Dennery** — commercial, delivery, animation. Concepteur du « Formateur Augmenté ».
+- **Pierre-Armand Dennery** — commercial, delivery, animation.
 
-**Positionnement** (résumé — détail dans `MARQUE-VOIX.md`) : TLS se positionne comme **« l'OS des organisations Skills-Based »**. Le produit opère la boucle **Learn → Do → Match** : on apprend, on applique sur des projets réels, on enrichit un passeport de compétences qui alimente le matching. Trois mots de marque : **Stratégique · Augmenté · Humain**.
+**Positionnement** : **« Cabinet de conseil & studio expert en Skills-Based
+Organization »** (formulation du site V1, refonte du 28/07). Trois mots de
+marque : **Stratégique · Augmenté · Humain**.
 
-**Trois piliers :**
-1. **Formation IA** — « Le Formateur Augmenté par l'IA », en partenariat C-Campus.
-2. **Learning App** — SaaS d'apprentissage Skills-Based (bêta).
-3. **Accompagnement & Conseil** (méthode STRIDE) + **Prestations expertes** (TJM).
+⚠️ L'ancienne formulation « l'OS des organisations Skills-Based » vivait dans les
+docs mais n'a jamais été celle du site.
 
----
+**La boucle Learn → Do → Match** : on apprend, on applique sur des projets réels,
+on enrichit un passeport de compétences — et **c'est ce passeport qui alimentera
+demain le matching**. ⚠️ Le Match est une brique **spécifiée, non livrée** : le
+formuler au futur partout (`FACTS-CANON` L8b).
 
-## 1. Pilier Formation — « Le Formateur Augmenté par l'IA »
+**Deux piliers d'offre :**
+1. **Learning App** — SaaS d'apprentissage Skills-Based (bêta ouverte).
+2. **Accompagnement & Conseil** (méthode STRIDE) + **Prestations expertes** (TJM),
+   auxquels s'ajoutent le **Studio IA & Pédagogie** et l'**Upskilling sur-mesure**.
 
-Formation commerciale **vendue et hébergée par C-Campus** (organisme Qualiopi, 20+ ans). TLS y est la **« société partenaire »** dont les consultants apportent l'expertise IA ; **Pierre-Armand Dennery** en est le concepteur.
-
-| Fait | Valeur |
-|---|---|
-| Format | **100 % à distance** |
-| Contenu | **7 cours digitaux** (~1h chacun = **7h**) + auto-positionnement 60 min en amont |
-| Coaching | en option : **2 séances de 1h30** (3h au total) |
-| Public | formateur/consultant indépendant · responsable Formation/L&D · concepteur pédagogique. **Prérequis : aucun** |
-| Accès | à réception du règlement, sous 72h |
-| Financement | **éligible OPCO** (Qualiopi). **PAS CPF** — ne jamais afficher « CPF » |
-| Registre | **vous** (le matériel C-Campus s'adresse déjà aux formateurs en « vous ») |
-
-**Les 7 cours (titres officiels C-Campus) :**
-1. Le Formateur Augmenté par l'IA : une révolution pédagogique
-2. Le Prompt Engineering pour le Formateur : maîtriser la communication avec l'IA
-3. Choisir les bons outils d'IA selon son contexte de formation
-4. Découvrir l'IA dans la conception de formation
-5. Utiliser l'IA pour enrichir l'animation et l'accompagnement sans déshumaniser
-6. Automatisation augmentée par l'IA
-7. Éthique, responsabilité et accompagnement critique des apprenants avec l'IA
-
-**Open Badge « L'IA en formation » (émis par C-Campus).** Valide l'usage de l'IA en pilotage de projet de formation / conception / animation. **2 épreuves** : (a) une analyse de pratique (2 pages A4 max), (b) un micro-projet d'application de l'IA en contexte pédagogique. Réalisation ~1h30–2h, à rendre sous 2 mois. *(C'est un « Open Badge » — ne pas écrire « Open Badge 2.0 » dans le contexte formation ; le « 2.0 self-hosted » concerne uniquement les badges de l'app, voir §2.)*
-
-**3 formules** ⏸️ *(prix provisoires)* :
-| Formule | Contenu | Prix indicatif |
-|---|---|---|
-| AUTONOME | 7 cours digitaux | 249 € HT |
-| OPEN BADGE | 7 cours + badge + 2 épreuves | 369 € HT |
-| COACHING | 7 cours + badge + 2 séances 1h30 | 890 € HT |
-
-*Option : animation intra sur-mesure (journée, diagnostic préalable avec un expert TLS — sur devis).*
+> ⛔ **L'offre « Le Formateur Augmenté par l'IA » a été retirée du discours le
+> 2026-07-28** (décision Chloé : on n'en parle plus, ni sur le site, ni dans la
+> doc). Elle n'a plus de page et ne doit plus apparaître dans aucun contenu.
+> Trace : [`_archive/OFFRE-FORMATEUR-AUGMENTE-retiree-2026-07-28.md`](../_archive/OFFRE-FORMATEUR-AUGMENTE-retiree-2026-07-28.md).
+> C'était le point d'entrée de la plupart des claims interdits (Qualiopi pour
+> TLS, CPF, « 23 heures », « Open Badge 2.0 »).
 
 ---
 
@@ -67,14 +57,18 @@ Plateforme d'apprentissage Skills-Based. **Statut : bêta ouverte.**
 **Fonctions cœur :**
 - **Passeport Compétences** — cartographie H.S.O (Hard/Soft/Out skills), niveaux **Dreyfus 1→5** (Novice → Maître), radar personnel.
 - **Parcours adaptatifs** + **coaching 1-1** + **journal réflexif** + **veille** + **matching IA**.
-- **Badges compétences de l'app = Open Badges 2.0 self-hosted** (auto-déclenchés par validation JAC). **≠ le badge de la formation C-Campus** (§1) — deux systèmes distincts, ne pas confondre.
+- **Badges de compétence de l'app = Open Badge auto-hébergé** (déclenché par validation JAC). ⚠️ **Ne jamais écrire « 2.0 »** en public (`FACTS-CANON` X3) : le nom est « Open Badge », sans numéro de version.
 
 **Premier client entreprise.** Un **grand groupe français** — **JAMAIS nommé publiquement**. Programme **« Ingénieur Pédagogique Augmenté »**, déployé avec **Dinootoo**, **opérationnel depuis janvier 2026** (parcours de 40h, niveau Avancé, destiné aux ingénieurs pédagogiques du groupe).
 
-> ⚠️ **Ne pas confondre deux produits homonymes :**
-> - **« Le Formateur Augmenté par l'IA »** = la formation commerciale C-Campus (7h, §1).
-> - **« Ingénieur Pédagogique Augmenté »** = le parcours déployé dans l'app chez le client entreprise (40h).
-> Ce sont **deux offres différentes**.
+> ⚠️ **Dinootoo est l'outil sur lequel portait la formation, pas le client.** La
+> confusion a circulé dans plusieurs docs. Le client est un grand groupe français,
+> jamais nommé.
+>
+> ⚠️ **Ne pas confondre avec l'offre homonyme retirée.** « Ingénieur Pédagogique
+> Augmenté » (40 h, déployé dans l'app chez le client) n'a rien à voir avec
+> « Le Formateur Augmenté par l'IA », l'offre C-Campus retirée du discours le
+> 28/07. Seule la première existe encore.
 
 **Modèle de prix ⏸️ NON FIGÉ (décision D2 en attente) :**
 - Canon CDC = **crédit-based, 4 plans** (Gratuit / Plan 1 / Plan 2 / Plan 3).
@@ -153,10 +147,13 @@ Monétisation de l'expertise au temps. TJM cible **1 000 € HT / jour**. *(Sour
 ## 6. Contraintes d'honnêteté (rappel opérationnel)
 
 - 🚫 **Ne jamais nommer le client** (« grand groupe français » uniquement, jamais le nom réel).
-- 🚫 **Ne jamais écrire « CPF »** pour la formation (OPCO oui, CPF non).
+- 🚫 **Ne jamais écrire « CPF »** (OPCO oui quand c'est vrai et attribué, CPF jamais).
 - 🚫 **Pas d'AI Act sur le site** (légitime côté produit/LinkedIn, pas en argument de vente sur le site).
 - 🚫 **« L'Académie » n'existe pas** — ne jamais la référencer.
 - 🚫 **Équipe = Mimault + Dennery uniquement** — aucun profil inventé.
-- ✍️ **Badge formation = « Open Badge »** (pas « 2.0 »). Le « OB 2.0 self-hosted » = badges de l'app seulement.
+- ✍️ **Toujours « Open Badge »**, jamais « Open Badge 2.0 » — ni pour l'app, ni ailleurs.
+- 🚫 **Ne jamais revendiquer Qualiopi pour TLS.** TLS n'est pas certifié ; C-Campus l'est. Uniquement en attribution explicite.
+- 🚫 **Ne plus parler de l'offre « Le Formateur Augmenté par l'IA »** (retirée le 28/07).
+- 🚫 **Aucune métrique TLS inventée**, et ne jamais transformer un « X % plus susceptibles de » en « +X % de performance ».
 - 💶 **Tous les prix = provisoires** tant que le business model n'est pas figé.
 - 🗣️ **Registre : vous** partout sur le site public ; **tu** uniquement dans l'app connectée.

@@ -1,5 +1,21 @@
 # Plan contenu SEO — The Learning Society
 
+> ### ⚠️ Pilier à remplacer — statut revu le 2026-07-28
+>
+> Écrit le 11/06/2026. **La logique de clusters sémantiques reste bonne** et le
+> plan est réutilisable — mais son **pilier central est le « formateur
+> augmenté »**, offre retirée du discours le 28/07. Le cluster doit être
+> reconstruit autour du positionnement SBO avant d'être exécuté.
+>
+> **À ne pas reprendre tel quel :** les CTA qui pointent vers `/formation`
+> (page supprimée le 03/07) et les 6 mentions de Qualiopi présentées comme un
+> atout TLS (`FACTS-CANON` X1).
+>
+> ⚠️ **Un article publié est concerné** : `choisir-formation-ia-formateurs`
+> (`src/data/marketingArticles.ts`) a été écrit depuis ce brief. À relire.
+>
+> Faits → [`docs/_canon/FACTS-CANON.md`](../_canon/FACTS-CANON.md).
+
 > **Date : juin 2026.** Basé sur l'analyse concurrentielle ([COMPETITIVE-BRIEF.md](../marketing/COMPETITIVE-BRIEF.md)).
 > Statut : **DRAFT à valider par Chloé** — titres, angles et mots-clés à confirmer.
 > Source de vérité des faits : [FACTS-CANON.md](../_canon/FACTS-CANON.md).

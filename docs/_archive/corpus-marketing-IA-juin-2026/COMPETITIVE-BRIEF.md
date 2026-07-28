@@ -1,5 +1,19 @@
 # Competitive Brief — The Learning Society
 
+> ### ⚠️ Doc partiellement périmé — statut revu le 2026-07-28
+>
+> Écrit le 11/06/2026. **Le §3 « Profils concurrents » garde toute sa valeur** :
+> 360Learning, Didask, Degreed, Gloat, Eightfold, Cornerstone. La connaissance du
+> marché survit à un changement de positionnement. C'est ce qu'on vient chercher ici.
+>
+> **Ce qui est périmé :** le §4 (matrice de messaging), le §8 et les
+> recommandations, tous arrimés au positionnement « formateur augmenté »
+> **abandonné le 28/07**. Le cluster concurrentiel « Formation IA Qualiopi » reste
+> une observation juste **sur les concurrents** — mais Qualiopi ne doit jamais
+> être revendiqué pour TLS (`FACTS-CANON` X1). Idem CPF (X2).
+>
+> Faits → [`docs/_canon/FACTS-CANON.md`](../_canon/FACTS-CANON.md).
+
 > **Date de recherche : juin 2026** (sources en ligne, citées en fin de doc). Données fraîches = positionnement/messaging des sites + actus 2025-2026. À rafraîchir trimestriellement.
 > **Méthode** : recherche web + lecture directe des homepages (taglines/VP citées verbatim). Cadrage à partir de notre positionnement (formation IA pour **formateurs** + plateforme skills + boucle **Learn→Do→Match**, marché FR, cibles formateurs indés + DRH/L&D/OF).
 > ⚠️ **Honnêteté** : nos propres chiffres restent **gelés/non validés** — ce doc ne leur attribue aucune métrique. La copy d'angle reste à valider (cf. [COPY-HOME.md](../site/COPY-HOME.md) + MARQUE-VOIX).
