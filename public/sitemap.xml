@@ -1,70 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Sitemap V1 — régénéré le 2026-07-28.
+  Périmètre : pages indexables du site vitrine. Exclus volontairement :
+  les routes de redirection (/formation, /magazine, /dossiers, /ressources,
+  /temoignages), les templates :slug sans contenu réel, et /waitlist
+  (page de conversion, pas de valeur SEO).
+  Référence d'arborescence : docs/site/SITEMAP-V1.md
+-->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Site marketing public — pages indexables -->
+
   <url>
     <loc>https://thelearningsociety.fr/website</loc>
-    <lastmod>2026-06-26</lastmod>
-    <changefreq>monthly</changefreq>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-  <url>
-    <loc>https://thelearningsociety.fr/website/formation</loc>
-    <lastmod>2026-06-26</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
+
   <url>
     <loc>https://thelearningsociety.fr/website/learning-app</loc>
-    <lastmod>2026-06-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://thelearningsociety.fr/website/accompagnement</loc>
-    <lastmod>2026-06-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://thelearningsociety.fr/website/studio</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://thelearningsociety.fr/website/upskilling</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://thelearningsociety.fr/website/methode</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://thelearningsociety.fr/website/diagnostic</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://thelearningsociety.fr/website/resources</loc>
-    <lastmod>2026-07-03</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://thelearningsociety.fr/website/vigie</loc>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://thelearningsociety.fr/website/contact</loc>
-    <lastmod>2026-06-26</lastmod>
-    <changefreq>monthly</changefreq>
+    <loc>https://thelearningsociety.fr/website/resources</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://thelearningsociety.fr/website/equipe</loc>
+    <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://thelearningsociety.fr/website/waitlist</loc>
-    <lastmod>2026-06-26</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://thelearningsociety.fr/website/charte-ia</loc>
-    <lastmod>2026-06-26</lastmod>
+    <loc>https://thelearningsociety.fr/website/contact</loc>
     <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <priority>0.8</priority>
   </url>
+
   <url>
     <loc>https://thelearningsociety.fr/website/mentions-legales</loc>
-    <lastmod>2026-06-26</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
   </url>
   <url>
     <loc>https://thelearningsociety.fr/website/politique-confidentialite</loc>
-    <lastmod>2026-06-26</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
   </url>
   <url>
     <loc>https://thelearningsociety.fr/website/cgv-cgu</loc>
-    <lastmod>2026-06-26</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
   </url>
+  <url>
+    <loc>https://thelearningsociety.fr/website/charte-ia</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+
 </urlset>

@@ -91,6 +91,7 @@
 
 | Fichier | Purpose |
 |---|---|
+| [SITEMAP-V1.md](site/SITEMAP-V1.md) | **Arborescence de référence du site V1** (28/07) — miroir documentaire de `src/App.tsx` : routes, redirections, statut par page, templates de contenu vs stratégie éditoriale, écart des 3 points de conversion, incohérence Notion↔code |
 | `SITE-V1-BLUEPRINT.md` | Blueprint 6 pages du site vitrine |
 | `SITE-V1-GROUNDING.md` | Grounding factuel du site V1 |
 | `SITE-STRUCTURE-DESIGN-C.md` | Sitemap + specs de sections par page (art direction « Illustrated Glass » du 11/06) |
