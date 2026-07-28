@@ -30,43 +30,79 @@ import {
   Gem,
   GraduationCap,
   Handshake,
+  Pause,
   PenTool,
+  Play,
   Rocket,
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
 import {
   FadeInWhenVisible,
+  KineticHeadline,
   MagneticButton,
   MeshGradientBg,
   useMarketingToast,
 } from '../../components/marketing/motion';
 import { ScrollProgressIndicator } from '../../components/marketing/scroll-effects';
 import { SEOHead } from './components/SEOHead';
+import { submitForm } from './utils/submitForm';
 
-// ─── 1. Hero — vidéo aquarelle full-bleed, positionnement SBO ────────────────
+// ─── 1. Hero — vidéo aquarelle full-bleed, composition éditoriale ────────────
+//
+// Repensé le 28/07/2026 (revue design) sur trois axes :
+//  - COMPOSITION : ancrage bas-gauche au lieu du bloc centré générique. La
+//    vidéo respire en haut du cadre, le texte se pose comme une affiche. Le
+//    cadrage n'est plus symétrique, donc plus reconnaissable.
+//  - LISIBILITÉ : la vignette radiale ne bornait pas la luminosité de la vidéo
+//    (texte sous AA sur une frame claire). Remplacée par un dégradé bottom-heavy
+//    ink-900 90→78→30 %, calibré sur la frame la plus claire de la boucle
+//    (mesurée à luma 228). Ratios vérifiés en commentaire du scrim.
+//  - CONTRÔLE : bouton pause/lecture 44 px (WCAG 2.2.2, niveau A — obligatoire
+//    dès qu'une animation dure plus de 5 s).
+// Motion : KineticHeadline (mots qui montent derrière un masque) au lieu du
+// fade générique. Pas de parallax : seule la couche vidéo s'estompe au scroll.
 
 const Hero: React.FC = () => {
   const reduced = useReducedMotion();
   const videoRef = React.useRef<HTMLVideoElement>(null);
   const sectionRef = React.useRef<HTMLElement>(null);
+  const [playing, setPlaying] = useState(!reduced);
 
+  // L'état du bouton suit les événements réels du lecteur (le navigateur peut
+  // mettre la vidéo en pause de lui-même : onglet en arrière-plan, économie
+  // d'énergie). Un état suivi à la main mentirait sur l'icône affichée.
   React.useEffect(() => {
     if (reduced) return;
     const v = videoRef.current;
     if (!v) return;
     v.muted = true;
-    v.play().catch(() => {});
+    const onPlay = () => setPlaying(true);
+    const onPause = () => setPlaying(false);
+    v.addEventListener('play', onPlay);
+    v.addEventListener('pause', onPause);
+    v.play().catch(() => setPlaying(false));
+    return () => {
+      v.removeEventListener('play', onPlay);
+      v.removeEventListener('pause', onPause);
+    };
   }, [reduced]);
+
+  const togglePlayback = () => {
+    const v = videoRef.current;
+    if (!v) return;
+    if (v.paused) v.play().catch(() => {});
+    else v.pause();
+  };
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start start', 'end start'],
   });
-  const scale = useTransform(scrollYProgress, [0, 1], reduced ? [1, 1] : [1, 1.15]);
+  const scale = useTransform(scrollYProgress, [0, 1], reduced ? [1, 1] : [1, 1.12]);
   const videoOpacity = useTransform(scrollYProgress, [0, 0.75, 1], reduced ? [1, 1, 1] : [1, 0.4, 0]);
 
   return (
-    <section ref={sectionRef} className="relative min-h-[100dvh] overflow-hidden bg-black">
+    <section ref={sectionRef} className="relative min-h-[100dvh] overflow-hidden bg-ink-900">
       <motion.div
         className="absolute inset-0 overflow-hidden pointer-events-none"
         style={{ scale, opacity: videoOpacity }}
@@ -95,52 +131,82 @@ const Hero: React.FC = () => {
         )}
       </motion.div>
 
-      {/* Vignette de lisibilité concentrée derrière le texte, transparente aux
-          bords : la vidéo reste riche en périphérie, le texte reste AA. */}
+      {/* Plancher de lisibilité : dense sous le texte, plus clair en haut où
+          l'aquarelle doit respirer. Calibré (28/07) sur la frame la plus claire
+          de la boucle, mesurée à luma 228 : eyebrow blanc 4,83:1 · H1 accent-400
+          3,89:1 (large text) · lede et CTA au-delà de 6:1. */}
       <div
         aria-hidden
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            'radial-gradient(120% 85% at 50% 52%, rgba(15,42,48,0.62) 0%, rgba(15,42,48,0.36) 44%, rgba(15,42,48,0) 78%)',
-        }}
+        className="absolute inset-0 pointer-events-none bg-gradient-to-t from-ink-900/90 via-ink-900/78 to-ink-900/30"
       />
 
-      <div className="relative min-h-[100dvh] flex items-center justify-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.1, delay: 0.35, ease: 'easeOut' }}
-          className="w-full max-w-page mx-auto px-4 sm:px-6 lg:px-10 py-16 text-center flex flex-col items-center gap-stack-lg"
-        >
-          <p className="font-body text-body-sm font-bold text-white/85 m-0">
-            Le cabinet de conseil & studio expert en Skills-Based Organization.
-          </p>
+      <div className="relative flex min-h-[100dvh] flex-col justify-end">
+        <div className="w-full max-w-wide mx-auto px-4 sm:px-6 lg:px-10 pb-24 pt-36 sm:pb-28 lg:pb-32">
+          <div className="flex max-w-5xl flex-col gap-stack-lg">
+            <motion.p
+              initial={reduced ? { opacity: 0 } : { opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+              className="flex items-center gap-stack-xs font-body text-body-sm font-bold text-white m-0"
+            >
+              <span aria-hidden className="h-px w-10 bg-accent-400" />
+              Cabinet de conseil & studio expert en Skills-Based Organization
+            </motion.p>
 
-          <h1 className="font-display font-extrabold text-white leading-[0.98] tracking-display m-0 [text-wrap:balance] max-w-[24ch] text-[clamp(2.75rem,6.5vw,5.25rem)]">
-            Ne formez plus pour former.{' '}
-            <span className="text-accent-400">Bâtissez votre moteur de performance.</span>
-          </h1>
+            <h1
+              className="font-display font-extrabold text-white leading-[0.98] tracking-display m-0 text-[clamp(2.25rem,5vw,4.25rem)]"
+              aria-label="Ne formez plus pour former. Bâtissez votre moteur de performance."
+            >
+              <KineticHeadline text="Ne formez plus pour former." className="block" delay={0.2} />
+              <KineticHeadline
+                text="Bâtissez votre moteur de performance."
+                className="block text-accent-400"
+                delay={0.42}
+              />
+            </h1>
 
-          <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-[62ch]">
-            The Learning Society accompagne les organisations dans leur
-            transition vers un modèle centré sur les compétences. Conseil
-            stratégique, création pédagogique sur-mesure et Intelligence
-            Artificielle pour aligner enfin vos talents avec vos enjeux business.
-          </p>
+            <motion.div
+              initial={reduced ? { opacity: 0 } : { opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.75, ease: [0.22, 1, 0.36, 1] }}
+              className="flex flex-col gap-stack-lg"
+            >
+              <p className="font-body text-body-lg text-white leading-relaxed m-0 max-w-[62ch] [text-wrap:pretty]">
+                Nous accompagnons les organisations dans leur transition vers un
+                modèle centré sur les compétences. Conseil stratégique, création
+                pédagogique sur-mesure et Intelligence Artificielle pour aligner
+                enfin vos talents avec vos enjeux business.
+              </p>
 
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-stack-xs pt-stack">
-            <MagneticButton strength={14}>
-              <Button to="/website/contact" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
-                Échanger sur votre projet SBO
-              </Button>
-            </MagneticButton>
-            <Button to="/website/diagnostic" variant="glass" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
-              Évaluer votre maturité
-            </Button>
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs">
+                <MagneticButton strength={14}>
+                  <Button to="/website/contact" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                    Échanger sur votre projet SBO
+                  </Button>
+                </MagneticButton>
+                <Button to="/website/diagnostic" variant="glass" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
+                  Évaluer votre maturité
+                </Button>
+              </div>
+            </motion.div>
           </div>
-        </motion.div>
+        </div>
       </div>
+
+      {/* Contrôle de lecture — requis dès qu'une animation dépasse 5 s (WCAG 2.2.2) */}
+      {!reduced && (
+        <button
+          type="button"
+          onClick={togglePlayback}
+          aria-pressed={!playing}
+          className="absolute bottom-6 right-4 z-base flex h-11 w-11 items-center justify-center rounded-pill border border-white/30 bg-ink-900/50 text-white backdrop-blur-glass-light transition-colors duration-fast hover:bg-ink-900/75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-400 sm:right-6 lg:right-10"
+        >
+          {playing ? <Pause size={18} /> : <Play size={18} />}
+          <span className="sr-only">
+            {playing ? "Mettre l'animation en pause" : "Reprendre l'animation"}
+          </span>
+        </button>
+      )}
     </section>
   );
 };
@@ -433,12 +499,31 @@ const Reassurance: React.FC = () => (
 const DoubleCta: React.FC = () => {
   const toast = useMarketingToast();
   const [email, setEmail] = useState('');
+  const [sending, setSending] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // L'inscription part réellement (Web3Forms) : le toast de succès est
+  // conditionné au retour du service, jamais affiché à l'aveugle.
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email.trim()) return;
-    toast.push({ tone: 'success', message: 'Merci, votre inscription à La Vigie est enregistrée.' });
-    setEmail('');
+    if (!email.trim() || sending) return;
+    setSending(true);
+    const { ok, error } = await submitForm({
+      name: email.trim(),
+      email: email.trim(),
+      subject: 'Inscription La Vigie',
+      _source: 'vigie-home',
+    });
+    setSending(false);
+    if (ok) {
+      toast.push({ tone: 'success', message: 'Merci, votre inscription à La Vigie est enregistrée.' });
+      setEmail('');
+    } else {
+      toast.push({
+        tone: 'danger',
+        message: "L'inscription n'a pas pu être enregistrée.",
+        description: error ?? 'Réessayez ou écrivez-nous à contact@thelearningsociety.fr.',
+      });
+    }
   };
 
   return (
@@ -447,7 +532,7 @@ const DoubleCta: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-stack-lg">
           {/* Bloc chaud — B2B */}
           <FadeInWhenVisible className="lg:col-span-3">
-            <div className="relative h-full overflow-hidden rounded-2xl bg-ink-900 text-white px-4 sm:px-6 lg:px-10 py-12 sm:py-16 sm:px-section-lg">
+            <div className="relative h-full overflow-hidden rounded-2xl bg-ink-900 text-white px-6 sm:px-10 py-12 sm:py-16">
               <MeshGradientBg tone="ink" intensity="subtle" />
               <div className="relative flex flex-col gap-stack-lg">
                 <h2 className="font-display font-extrabold text-white leading-[1.04] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,3.6vw,3rem)]">
@@ -494,8 +579,8 @@ const DoubleCta: React.FC = () => {
                   placeholder="Votre email professionnel"
                   className="h-12 w-full rounded-pill border border-ink-200 bg-white px-5 font-body text-body text-ink-900 placeholder:text-ink-500 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                 />
-                <Button type="submit" variant="primary" size="lg" fullWidth trailingIcon={<ArrowRight size={18} />}>
-                  S'abonner à La Vigie
+                <Button type="submit" variant="primary" size="lg" fullWidth disabled={sending} trailingIcon={<ArrowRight size={18} />}>
+                  {sending ? 'Envoi en cours…' : "S'abonner à La Vigie"}
                 </Button>
                 <Link
                   to="/website/vigie"

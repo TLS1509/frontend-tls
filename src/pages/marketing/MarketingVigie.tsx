@@ -12,6 +12,7 @@ import { ArrowRight, Radar, CheckCircle2 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
 import { FadeInWhenVisible, useMarketingToast } from '../../components/marketing/motion';
 import { SEOHead } from './components/SEOHead';
+import { submitForm } from './utils/submitForm';
 
 const PROMESSES = [
   "Une analyse de fond sur l'IA, les compétences et le futur du travail",
@@ -23,12 +24,31 @@ export const MarketingVigie: React.FC = () => {
   const reduced = useReducedMotion();
   const toast = useMarketingToast();
   const [email, setEmail] = useState('');
+  const [sending, setSending] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // L'inscription part réellement (Web3Forms) : le toast de succès est
+  // conditionné au retour du service, jamais affiché à l'aveugle.
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email.trim()) return;
-    toast.push({ tone: 'success', message: 'Merci, votre inscription à La Vigie est enregistrée.' });
-    setEmail('');
+    if (!email.trim() || sending) return;
+    setSending(true);
+    const { ok, error } = await submitForm({
+      name: email.trim(),
+      email: email.trim(),
+      subject: 'Inscription La Vigie',
+      _source: 'vigie-landing',
+    });
+    setSending(false);
+    if (ok) {
+      toast.push({ tone: 'success', message: 'Merci, votre inscription à La Vigie est enregistrée.' });
+      setEmail('');
+    } else {
+      toast.push({
+        tone: 'danger',
+        message: "L'inscription n'a pas pu être enregistrée.",
+        description: error ?? 'Réessayez ou écrivez-nous à contact@thelearningsociety.fr.',
+      });
+    }
   };
 
   return (
@@ -88,8 +108,8 @@ export const MarketingVigie: React.FC = () => {
                 placeholder="Votre email professionnel"
                 className="h-12 flex-1 rounded-pill border border-ink-200 bg-white px-5 font-body text-body text-ink-900 placeholder:text-ink-500 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
               />
-              <Button type="submit" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
-                S'abonner à La Vigie
+              <Button type="submit" variant="primary" size="lg" disabled={sending} trailingIcon={<ArrowRight size={18} />}>
+                {sending ? 'Envoi en cours…' : "S'abonner à La Vigie"}
               </Button>
             </form>
             <p className="font-body text-caption text-ink-500 m-0">

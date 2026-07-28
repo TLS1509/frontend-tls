@@ -26,7 +26,7 @@ import {
   Wrench,
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
-import { FadeInWhenVisible, MagneticButton, MeshGradientBg } from '../../components/marketing/motion';
+import { FadeInWhenVisible, MagneticButton } from '../../components/marketing/motion';
 import { SEOHead } from './components/SEOHead';
 
 // ─── 1. Hero ─────────────────────────────────────────────────────────────────
@@ -111,10 +111,7 @@ const Conviction: React.FC = () => (
         <div className="lg:col-span-7 flex flex-col">
           {REGLES.map((r, i) => (
             <FadeInWhenVisible key={r.title} delay={i * 0.08}>
-              <div className="flex items-start gap-stack-lg border-t border-white/15 py-stack-lg first:border-t-0">
-                <span className="font-display text-h3 font-extrabold text-secondary-400 leading-none shrink-0">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
+              <div className="border-t border-white/15 py-stack-lg first:border-t-0">
                 <div className="flex flex-col gap-stack-xs">
                   <h3 className="font-display text-h4 font-bold text-white m-0 leading-tight">{r.title}</h3>
                   <p className="font-body text-body text-white/70 leading-relaxed m-0 max-w-xl">{r.detail}</p>
@@ -364,32 +361,44 @@ const Modalites: React.FC = () => (
 // ─── 7. CTA final ────────────────────────────────────────────────────────────
 
 const CtaFinal: React.FC = () => (
-  <section className="bg-white">
+  <section className="bg-white border-t border-ink-100">
     <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28">
-      <FadeInWhenVisible>
-        <div className="relative overflow-hidden rounded-2xl bg-ink-900 text-white px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 sm:px-section-lg">
-          <MeshGradientBg tone="warm" intensity="subtle" />
-          <div className="relative max-w-content flex flex-col gap-stack-lg">
-            <h2 className="font-display font-extrabold text-white leading-[1.04] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.5vw,3.5rem)]">
-              Prêt à lancer votre prochain projet d'upskilling ?
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-section items-start">
+        <FadeInWhenVisible className="lg:col-span-3">
+          <div className="flex flex-col gap-stack">
+            <h2 className="font-display font-extrabold text-ink-900 leading-[1.04] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.5vw,3.25rem)]">
+              Lançons votre prochain projet d'upskilling.
             </h2>
-            <p className="font-body text-body-lg text-white/80 leading-relaxed m-0 max-w-2xl">
-              Trente minutes de cadrage avec les fondateurs pour dessiner le
+            <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-xl [text-wrap:pretty]">
+              Un temps de cadrage avec les fondateurs suffit à dessiner le
               dispositif qui correspond à vos équipes.
             </p>
-            <div className="flex flex-wrap items-center gap-stack-xs pt-stack">
+            <div className="pt-stack-xs">
               <MagneticButton strength={16}>
-                <Button to="/website/contact" variant="secondary" size="xl" trailingIcon={<ArrowRight size={20} />}>
+                <Button to="/website/contact" variant="primary" size="xl" trailingIcon={<ArrowRight size={20} />}>
                   Planifier un échange de cadrage
                 </Button>
               </MagneticButton>
-              <Button to="/website/methode" variant="glass" size="xl" trailingIcon={<ArrowUpRight size={20} />}>
+            </div>
+          </div>
+        </FadeInWhenVisible>
+        <FadeInWhenVisible delay={0.08} className="lg:col-span-2">
+          <div className="flex flex-col gap-stack rounded-2xl bg-secondary-50 p-stack-lg">
+            <h3 className="font-display text-h4 font-bold text-ink-900 m-0 leading-tight">
+              Avant de vous décider
+            </h3>
+            <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">
+              La Méthode TLS explique ce qui fonde nos dispositifs : échelle
+              Dreyfus, EDRACT de C-Campus, augmentation cognitive.
+            </p>
+            <div>
+              <Button to="/website/methode" variant="ghost" size="md" trailingIcon={<ArrowUpRight size={16} />}>
                 Découvrir la Méthode TLS
               </Button>
             </div>
           </div>
-        </div>
-      </FadeInWhenVisible>
+        </FadeInWhenVisible>
+      </div>
     </div>
   </section>
 );

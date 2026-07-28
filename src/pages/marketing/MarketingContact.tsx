@@ -49,35 +49,43 @@ const QUICK_LINKS = [
   },
   {
     icon: <Smartphone size={20} />,
-    label: 'Learning App : accès anticipé',
+    label: 'Learning App',
     href: '/website/learning-app',
-    desc: 'Inscription bêta gratuite',
-    tone: 'bg-accent-50 text-accent-600 border-accent-200',
+    desc: 'Démonstration sur vos cas d\'usage',
+    tone: 'bg-accent-50 text-accent-700 border-accent-200',
   },
 ];
 
-const SUBJECTS = ['Formation', 'Accompagnement', 'Learning App', 'Partenariat', 'Autre'];
+const SUBJECTS = ['Accompagnement STRIDE', 'Studio IA & Pédagogie', 'Upskilling', 'Learning App', 'Débriefing diagnostic', 'Partenariat', 'Autre'];
 
 const SUBJECT_CONTEXTS: Record<string, { headline: string; desc: string }> = {
-  'Formation': {
-    headline: 'Découvrir la formation Formateur Augmenté.',
-    desc: '7 modules · 7h · Open Badge · Éligible OPCO. Posez vos questions, nous vous répondons avant votre inscription.',
+  'Accompagnement STRIDE': {
+    headline: 'Cadrer votre transition SBO.',
+    desc: 'Chaque mission commence par un Audit Flash pour comprendre votre contexte. Pas de devis standard : tout est sur mesure.',
   },
-  'Accompagnement': {
-    headline: 'Démarrer un accompagnement STRIDE.',
-    desc: 'Chaque mission commence par 30 min d\'échange pour comprendre votre contexte. Pas de devis standard : tout est sur mesure.',
+  'Studio IA & Pédagogie': {
+    headline: 'Lancer un projet avec le Studio.',
+    desc: 'Contenus pédagogiques, agents IA métiers, intégration dans votre écosystème. Chaque projet fait l\'objet d\'un cadrage dédié.',
+  },
+  'Upskilling': {
+    headline: 'Cadrer un projet d\'upskilling.',
+    desc: 'Habilitation de vos concepteurs et formateurs, puis déploiement auprès de vos équipes. Dites-nous où vous en êtes.',
   },
   'Learning App': {
-    headline: 'Rejoindre la bêta Learning App.',
-    desc: 'Bêta ouverte, accès anticipé gratuit pour les premières organisations. Réponse sous 24h.',
+    headline: 'Voir la Learning App en démonstration.',
+    desc: 'Trente minutes sur vos métiers et vos enjeux. Les modalités se cadrent ensemble, selon votre contexte.',
+  },
+  'Débriefing diagnostic': {
+    headline: 'Décrypter vos résultats.',
+    desc: 'Vous avez passé un autodiagnostic SBO ou IA : un fondateur reprend votre score avec vous et identifie vos priorités.',
   },
   'Partenariat': {
     headline: 'Construire quelque chose ensemble.',
-    desc: 'Formateurs indépendants, organismes, entreprises : parlons de ce qu\'on peut co-construire.',
+    desc: 'Organismes de formation, entreprises, experts : parlons de ce que nous pouvons co-construire.',
   },
   'Autre': {
     headline: 'Entrer en contact.',
-    desc: 'Écrivez-nous pour n\'importe quelle raison. On adore les échanges directs.',
+    desc: 'Écrivez-nous pour toute autre demande. Nous répondons directement, sans intermédiaire.',
   },
 };
 
@@ -91,7 +99,7 @@ export const MarketingContact: React.FC = () => {
     email: '',
     org: '',
     phone: '',
-    subject: 'Formation',
+    subject: 'Accompagnement STRIDE',
     message: '',
     newsletter: false,
   });
@@ -208,7 +216,7 @@ export const MarketingContact: React.FC = () => {
                     size="md"
                     onClick={() => {
                       setSubmitted(false);
-                      setForm({ name: '', email: '', org: '', phone: '', subject: 'Formation', message: '', newsletter: false });
+                      setForm({ name: '', email: '', org: '', phone: '', subject: 'Accompagnement STRIDE', message: '', newsletter: false });
                     }}
                   >
                     Envoyer un autre message

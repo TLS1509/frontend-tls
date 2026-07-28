@@ -23,7 +23,7 @@ import {
   Zap,
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
-import { FadeInWhenVisible, MagneticButton, MeshGradientBg } from '../../components/marketing/motion';
+import { FadeInWhenVisible, MagneticButton } from '../../components/marketing/motion';
 import { SEOHead } from './components/SEOHead';
 
 // ─── 1. Hero ─────────────────────────────────────────────────────────────────
@@ -230,25 +230,26 @@ const Pourquoi: React.FC = () => (
 // ─── 5. CTA final ────────────────────────────────────────────────────────────
 
 const CtaFinal: React.FC = () => (
-  <section className="bg-white">
+  <section className="bg-white border-t border-ink-100">
     <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28">
       <FadeInWhenVisible>
-        <div className="relative overflow-hidden rounded-2xl bg-ink-900 text-white px-6 py-16 sm:py-20 sm:px-section-lg">
-          <MeshGradientBg tone="ink" intensity="subtle" />
-          <div className="relative max-w-content flex flex-col gap-stack-lg">
-            <h2 className="font-display font-extrabold text-white leading-[1.04] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.5vw,3.5rem)]">
-              Discutons directement de vos enjeux de compétences.
-            </h2>
-            <div className="flex flex-wrap items-center gap-stack-xs pt-stack">
-              <MagneticButton strength={16}>
-                <Button to="/website/contact" variant="secondary" size="xl" trailingIcon={<ArrowRight size={20} />}>
-                  Planifier un échange stratégique
-                </Button>
-              </MagneticButton>
-              <Button to="/website/diagnostic" variant="glass" size="xl" trailingIcon={<ArrowUpRight size={20} />}>
-                Évaluer ma maturité SBO
+        <div className="mx-auto flex max-w-content flex-col items-center gap-stack-lg text-center">
+          <h2 className="font-display font-extrabold text-ink-900 leading-[1.04] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.5vw,3.25rem)]">
+            Discutons directement de vos enjeux de compétences.
+          </h2>
+          <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-[62ch] [text-wrap:pretty]">
+            Vous échangez avec les personnes qui conçoivent la méthode et la
+            plateforme, pas avec un intermédiaire.
+          </p>
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs pt-stack-xs">
+            <MagneticButton strength={16}>
+              <Button to="/website/contact" variant="primary" size="xl" trailingIcon={<ArrowRight size={20} />}>
+                Planifier un échange stratégique
               </Button>
-            </div>
+            </MagneticButton>
+            <Button to="/website/diagnostic" variant="ghost" size="xl" trailingIcon={<ArrowUpRight size={20} />}>
+              Évaluer votre maturité SBO
+            </Button>
           </div>
         </div>
       </FadeInWhenVisible>

@@ -227,7 +227,7 @@ const Methodologie: React.FC = () => (
       <FadeInWhenVisible>
         <div className="max-w-3xl flex flex-col gap-stack">
           <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)]">
-            Six étapes. Des livrables tangibles à chaque jalon.
+            Six étapes, un livrable tangible à chaque jalon.
           </h2>
         </div>
       </FadeInWhenVisible>
@@ -367,15 +367,15 @@ const CtaFinal: React.FC = () => (
   <section className="bg-white">
     <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28">
       <FadeInWhenVisible>
-        <div className="relative overflow-hidden rounded-2xl bg-ink-900 text-white px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 sm:px-section-lg">
+        <div className="relative overflow-hidden rounded-2xl bg-ink-900 text-white px-6 sm:px-10 lg:px-16 py-16 sm:py-20">
           <MeshGradientBg tone="ink" intensity="subtle" />
           <div className="relative max-w-content flex flex-col gap-stack-lg">
             <h2 className="font-display font-extrabold text-white leading-[1.04] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.5vw,3.5rem)]">
-              Prêt à déployer le duo SBO + IA dans votre organisation ?
+              Déployez le duo SBO + IA dans votre organisation.
             </h2>
             <p className="font-body text-body-lg text-white/80 leading-relaxed m-0 max-w-2xl">
-              Réservez un échange de trente minutes avec les fondateurs de The
-              Learning Society.
+              Un premier échange avec les fondateurs suffit à cadrer la suite :
+              périmètre, jalons, budget.
             </p>
             <div className="flex flex-wrap items-center gap-stack-xs pt-stack">
               <MagneticButton strength={16}>

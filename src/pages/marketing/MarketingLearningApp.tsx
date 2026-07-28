@@ -125,10 +125,7 @@ const Probleme: React.FC = () => (
         <div className="lg:col-span-7 flex flex-col">
           {CONSTATS.map((c, i) => (
             <FadeInWhenVisible key={c.title} delay={i * 0.07}>
-              <div className="flex items-start gap-stack-lg border-t border-white/15 py-stack-lg first:border-t-0">
-                <span className="font-display text-h3 font-extrabold text-primary-300 leading-none shrink-0">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
+              <div className="border-t border-white/15 py-stack-lg first:border-t-0">
                 <div className="flex flex-col gap-stack-xs">
                   <h3 className="font-display text-h4 font-bold text-white m-0 leading-tight">{c.title}</h3>
                   <p className="font-body text-body text-white/70 leading-relaxed m-0 max-w-xl">{c.detail}</p>
@@ -229,7 +226,7 @@ const PILIERS: PilierData[] = [
   {
     icon: <Bot size={22} />,
     kicker: 'Action-Based Learning',
-    title: 'Fini la théorie passive. Vos équipes apprennent en faisant.',
+    title: 'Vos équipes apprennent en faisant, pas en regardant.',
     points: [
       {
         label: 'Leçons structurées en quatre phases',
@@ -596,16 +593,15 @@ const CtaFinal: React.FC = () => (
   <section className="bg-white">
     <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28">
       <FadeInWhenVisible>
-        <div className="relative overflow-hidden rounded-2xl bg-ink-900 text-white px-6 py-16 sm:py-20 sm:px-section-lg">
+        <div className="relative overflow-hidden rounded-2xl bg-ink-900 text-white px-6 sm:px-10 lg:px-16 py-16 sm:py-20">
           <MeshGradientBg tone="ink" intensity="subtle" />
           <div className="relative max-w-content flex flex-col gap-stack-lg">
             <h2 className="font-display font-extrabold text-white leading-[1.04] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.5vw,3.5rem)]">
               Voyez la Learning App fonctionner sur vos cas d'usage.
             </h2>
             <p className="font-body text-body-lg text-white/80 leading-relaxed m-0 max-w-2xl">
-              Une démonstration de trente minutes, sur vos métiers et vos
-              enjeux. Les modalités et conditions se cadrent ensemble, en
-              fonction de votre contexte.
+              Une démonstration sur vos métiers et vos enjeux réels. Les
+              modalités se cadrent ensuite ensemble, selon votre contexte.
             </p>
             <div className="flex flex-wrap items-center gap-stack-xs pt-stack">
               <MagneticButton strength={16}>

@@ -23,7 +23,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
-import { FadeInWhenVisible, MagneticButton, MeshGradientBg } from '../../components/marketing/motion';
+import { FadeInWhenVisible, MagneticButton } from '../../components/marketing/motion';
 import { SEOHead } from './components/SEOHead';
 
 // ─── 1. Hero — lumière chaude, typographie éditoriale ────────────────────────
@@ -102,10 +102,7 @@ const Probleme: React.FC = () => (
         <div className="lg:col-span-7 flex flex-col">
           {FAILURES.map((f, i) => (
             <FadeInWhenVisible key={f.title} delay={i * 0.08}>
-              <div className="flex items-start gap-stack-lg border-t border-white/15 py-stack-lg first:border-t-0">
-                <span className="font-display text-h3 font-extrabold text-secondary-400 leading-none shrink-0">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
+              <div className="border-t border-white/15 py-stack-lg first:border-t-0">
                 <div className="flex flex-col gap-stack-xs">
                   <h3 className="font-display text-h4 font-bold text-white m-0 leading-tight">{f.title}</h3>
                   <p className="font-body text-body text-white/70 leading-relaxed m-0 max-w-xl">{f.detail}</p>
@@ -269,27 +266,25 @@ const Livrables: React.FC = () => (
 // ─── 5. CTA final ────────────────────────────────────────────────────────────
 
 const CtaFinal: React.FC = () => (
-  <section className="bg-white">
+  <section className="bg-secondary-50 border-t border-secondary-100">
     <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28">
       <FadeInWhenVisible>
-        <div className="relative overflow-hidden rounded-2xl bg-ink-900 text-white px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 sm:px-section-lg">
-          <MeshGradientBg tone="warm" intensity="subtle" />
-          <div className="relative max-w-content flex flex-col gap-stack-lg">
-            <h2 className="font-display font-extrabold text-white leading-[1.04] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.5vw,3.5rem)]">
-              Prêt à concevoir vos prochains actifs pédagogiques et IA ?
+        <div className="flex flex-col gap-stack-lg lg:flex-row lg:items-end lg:justify-between">
+          <div className="flex max-w-2xl flex-col gap-stack">
+            <h2 className="font-display font-extrabold text-ink-900 leading-[1.04] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.5vw,3.25rem)]">
+              Concevons vos prochains actifs pédagogiques et IA.
             </h2>
-            <p className="font-body text-body-lg text-white/80 leading-relaxed m-0 max-w-2xl">
-              Chaque projet Studio fait l'objet d'un cadrage sur-mesure : trente
-              minutes pour comprendre votre besoin et vous proposer une
-              trajectoire réaliste.
+            <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 [text-wrap:pretty]">
+              Chaque projet Studio commence par un cadrage sur-mesure : nous
+              partons de votre besoin réel, jamais d'un catalogue.
             </p>
-            <div className="flex flex-wrap items-center gap-stack-xs pt-stack">
-              <MagneticButton strength={16}>
-                <Button to="/website/contact" variant="secondary" size="xl" trailingIcon={<ArrowRight size={20} />}>
-                  Échanger avec l'équipe du Studio
-                </Button>
-              </MagneticButton>
-            </div>
+          </div>
+          <div className="shrink-0">
+            <MagneticButton strength={16}>
+              <Button to="/website/contact" variant="primary" size="xl" trailingIcon={<ArrowRight size={20} />}>
+                Échanger avec l'équipe du Studio
+              </Button>
+            </MagneticButton>
           </div>
         </div>
       </FadeInWhenVisible>
