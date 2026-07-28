@@ -1,21 +1,17 @@
 User-agent: *
 Allow: /
 
-# Pages placeholder (contenu non validé)
-Disallow: /website/equipe
-Disallow: /website/methode
+# Prototypes et laboratoires — non destinés à l'indexation
+Disallow: /website/_v2-jardin
 
-# Variantes de développement (non destinées à la production)
-Disallow: /website/home-a
-Disallow: /website/home-b
-Disallow: /website/home-c
-Disallow: /website/home-preserve
-Disallow: /website/home-editorial
-Disallow: /website/home-bold
-Disallow: /website/_motion-lab
+# Page retirée du V1, conservée en redirection
 Disallow: /website/temoignages
 
-# Pages app (authentification requise)
+# Brouillons HTML servis statiquement, jamais destinés au public
+Disallow: /veille/
+Disallow: /document-template.html
+
+# Application — authentification requise
 Disallow: /app/
 Disallow: /dashboard
 
