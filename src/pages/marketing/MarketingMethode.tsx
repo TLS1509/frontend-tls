@@ -10,7 +10,7 @@
  *    (le chiffre pop attribué à Ebbinghaus n'est pas sourçable tel quel ;
  *    règle des sources réelles, cf. mémoire feedback_cite_academic_sources) ;
  *  - "Pour aller plus loin" : lien Livre & Substack omis (pas d'URL existante,
- *    canal jugé "bonus" en réunion) — restent La Vigie et le Magazine.
+ *    canal jugé "bonus" en réunion) — restent La Vigie IA et le Magazine.
  */
 
 import React from 'react';
@@ -250,14 +250,14 @@ const AllerPlusLoin: React.FC = () => (
             <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary-100 text-primary-700">
               <Radar size={20} />
             </span>
-            <h3 className="font-display text-h3 font-bold text-ink-900 leading-tight m-0">La Vigie</h3>
+            <h3 className="font-display text-h3 font-bold text-ink-900 leading-tight m-0">La Vigie IA</h3>
             <p className="font-body text-body text-ink-700 leading-relaxed m-0 flex-1">
               Nos meilleures analyses sur l'IA, les compétences et le futur du
               travail, dans votre boîte mail.
             </p>
             <div>
               <Button to="/website/vigie" variant="ghost" size="md" trailingIcon={<ArrowRight size={16} />}>
-                S'abonner à La Vigie
+                S'abonner à La Vigie IA
               </Button>
             </div>
           </div>

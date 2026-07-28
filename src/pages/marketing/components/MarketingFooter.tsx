@@ -32,7 +32,7 @@ const COLUMNS: FooterColumn[] = [
     title: 'Ressources',
     links: [
       { label: 'Autodiagnostics', href: '/website/diagnostic' },
-      { label: 'La Vigie', href: '/website/vigie' },
+      { label: 'La Vigie IA', href: '/website/vigie' },
       { label: 'Magazine & Ressources', href: '/website/resources' },
     ],
   },

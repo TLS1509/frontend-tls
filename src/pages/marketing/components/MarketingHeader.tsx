@@ -51,7 +51,7 @@ const NAV_ITEMS: NavItem[] = [
         icon: <Gauge size={16} />,
       },
       {
-        label: 'La Vigie',
+        label: 'La Vigie IA',
         href: '/website/vigie',
         desc: 'Nos analyses sur l’IA, les compétences et le futur du travail',
         icon: <Radar size={16} />,

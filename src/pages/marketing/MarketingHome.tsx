@@ -4,14 +4,14 @@
  * Reconstruite le 28/07/2026 depuis le copy arbitré PAD-page-homepage.md
  * (docs/site/propositions-PAD/) : positionnement cabinet de conseil & studio
  * SBO. Structure PAD : Hero → Manifeste → Learn/Do/Match → Écosystème →
- * Réassurance → Double CTA (chaud RDV / froid La Vigie).
+ * Réassurance → Double CTA (chaud RDV / froid La Vigie IA).
  *
  * Conservé de la version précédente : hero vidéo aquarelle full-bleed (le copy
  * PAD demande explicitement une "animation hero watercolor"), fade au scroll
  * sans scroll-jack, reduced-motion → poster statique.
  *
  * Écarts copy documentés :
- *  - "La Vigie SBO" → "La Vigie" (nom tranché en réunion 28/07, RECAP §1.5) ;
+ *  - "La Vigie IA SBO" → "La Vigie IA" (nom tranché en réunion 28/07, RECAP §1.5) ;
  *  - CTA hero "Évaluer votre maturité (2 min)" → sans durée (la spec
  *    autodiagnostic annonce 3 min ; on évite la contradiction).
  *
@@ -494,7 +494,7 @@ const Reassurance: React.FC = () => (
   </section>
 );
 
-// ─── 6. Double CTA — bloc chaud (RDV B2B) + bloc froid (La Vigie) ────────────
+// ─── 6. Double CTA — bloc chaud (RDV B2B) + bloc froid (La Vigie IA) ────────────
 
 const DoubleCta: React.FC = () => {
   const toast = useMarketingToast();
@@ -510,12 +510,12 @@ const DoubleCta: React.FC = () => {
     const { ok, error } = await submitForm({
       name: email.trim(),
       email: email.trim(),
-      subject: 'Inscription La Vigie',
+      subject: 'Inscription La Vigie IA',
       _source: 'vigie-home',
     });
     setSending(false);
     if (ok) {
-      toast.push({ tone: 'success', message: 'Merci, votre inscription à La Vigie est enregistrée.' });
+      toast.push({ tone: 'success', message: 'Merci, votre inscription à La Vigie IA est enregistrée.' });
       setEmail('');
     } else {
       toast.push({
@@ -566,7 +566,7 @@ const DoubleCta: React.FC = () => {
             </div>
           </FadeInWhenVisible>
 
-          {/* Bloc froid — La Vigie */}
+          {/* Bloc froid — La Vigie IA */}
           <FadeInWhenVisible delay={0.08} className="lg:col-span-2">
             <div className="flex h-full flex-col justify-between gap-stack-lg rounded-2xl bg-primary-50 px-4 sm:px-6 lg:px-10 py-12 sm:py-16 sm:px-stack-lg">
               <div className="flex flex-col gap-stack">
@@ -574,7 +574,7 @@ const DoubleCta: React.FC = () => {
                   Pas encore prêt ? Restez en veille.
                 </h2>
                 <p className="font-body text-body text-ink-600 leading-relaxed m-0">
-                  Abonnez-vous à La Vigie pour recevoir nos meilleures analyses
+                  Abonnez-vous à La Vigie IA pour recevoir nos meilleures analyses
                   sur l'IA, les compétences et le futur du travail.
                 </p>
               </div>
@@ -592,13 +592,13 @@ const DoubleCta: React.FC = () => {
                   className="h-12 w-full rounded-pill border border-ink-200 bg-white px-5 font-body text-body text-ink-900 placeholder:text-ink-500 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                 />
                 <Button type="submit" variant="primary" size="lg" fullWidth disabled={sending} trailingIcon={<ArrowRight size={18} />}>
-                  {sending ? 'Envoi en cours…' : "S'abonner à La Vigie"}
+                  {sending ? 'Envoi en cours…' : "S'abonner à La Vigie IA"}
                 </Button>
                 <Link
                   to="/website/vigie"
                   className="font-body text-caption text-primary-700 hover:text-primary-800 transition-colors duration-fast w-fit"
                 >
-                  Découvrir La Vigie
+                  Découvrir La Vigie IA
                 </Link>
               </form>
             </div>

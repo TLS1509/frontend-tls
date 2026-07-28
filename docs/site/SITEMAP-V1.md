@@ -26,7 +26,7 @@
 │
 ├── Ressources (dropdown, pas de page hub)
 │   ├── /diagnostic                         Autodiagnostics SBO & IA
-│   ├── /vigie                              La Vigie (newsletter)
+│   ├── /vigie                              La Vigie IA (newsletter)
 │   └── /resources                          Magazine & Ressources (hub)
 │       ├── /resources/:slug                Article           (template)
 │       ├── /dossiers/:slug                 Dossier           (template)
@@ -69,7 +69,7 @@
 | Déploiement IA & SBO (STRIDE) | `/accompagnement` | PAD-page-accompagnement-stride | refondu 28/07 | ✅ ⚠️ libellé nav non tranché |
 | Méthode TLS | `/methode` | PAD-page-methode-tls | refondu 28/07 | ✅ |
 | Autodiagnostics | `/diagnostic` | PAD-page-autodiagnostic + prototype PAD | refondu 28/07 | ✅ |
-| La Vigie | `/vigie` | décision réunion 28/07 | créé 28/07 | ✅ |
+| La Vigie IA | `/vigie` | Stratégie Contenu B2B §5 (structure éditoriale réelle) | créé 28/07 | ✅ |
 | Les Fondateurs | `/equipe` | PAD-page-fondateurs | refondu 28/07 | ✅ |
 | Magazine & Ressources | `/resources` | PAD-blog-magazine-strategie | **antérieur (03/07)** | 🟡 contenu à arbitrer |
 | Contact | `/contact` | aucune (réunion : garder l'existante) | **antérieur**, claims purgés 28/07 | 🟡 |
@@ -101,7 +101,7 @@ masqués tant qu'il n'y a pas de contenu réel.
 La stratégie §4 exige que **chaque article** porte trois points de contact :
 
 1. **CTA milieu d'article** → lancer un Autodiagnostic
-2. **Bandeau bas d'article** → s'abonner à La Vigie
+2. **Bandeau bas d'article** → s'abonner à La Vigie IA
 3. **Sticky sidebar** → demander une démo
 
 Vérifié le 28/07 : `MarketingArticleDetail.tsx` et `MarketingDossierDetail.tsx` en contiennent
