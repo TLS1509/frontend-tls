@@ -2,7 +2,9 @@
 
 **Last updated**: 2026-07-25 | **Total docs**: ~134 fichiers (hors `_archive/`)
 
-> 🥇 **Avant toute session marketing ou site : lire [`_canon/FACTS-CANON.md`](_canon/FACTS-CANON.md).** C'est la source de vérité unique. Tout doc marketing qui la contredit a tort. `marketing/MARKETING-CONTEXT.md` est **rétrogradé** et ne fait plus foi malgré son nom.
+> 🥇 **Avant toute session marketing ou site : lire [`_canon/FACTS-CANON.md`](_canon/FACTS-CANON.md)** — le registre des faits, avec ses interdits en §0.
+> **Ordre de préséance (revu le 28/07)** : (1) le code et le site en ligne, (2) une décision datée de Chloé, (3) ce registre, (4) le reste des docs. Le canon n'est plus présenté comme un arbitre absolu : il vieillit comme les autres.
+> ⛔ **Le corpus site & copy de juin 2026 a été archivé le 28/07** → [`_archive/corpus-site-juin-2026/`](_archive/corpus-site-juin-2026/). Neuf docs, même dernier commit du 11/06, décrivant un site qui n'existe plus.
 
 > 🧹 **Nettoyage 2026-06-30** : ~20 docs déversés en vrac (racine repo + `docs/`) par des sessions d'agents ont été re-rangés. Nouveaux sous-dossiers `_phases/`, `charts/`, `briefs/`. 4 audits Figma du 26/06 marqués `⚠️ FIABILITÉ NON VÉRIFIÉE` (claims non vérifiés contre le fichier Figma). `.claude/worktrees/` (40 Mo) + `.agents/skills 2/` + `docs/_old-sessions/` supprimés. Voir règles d'hygiène doc dans `CLAUDE.md`.
 
@@ -12,10 +14,8 @@
 
 | Fichier | Description | Taille | Utiliser pour |
 |---------|---|---|---|
-| [_archive/MIGRATION-PLAN.md](_archive/MIGRATION-PLAN.md) | 🗄️ **Archivé 2026-07-25** — migration Tailwind + phases 1-16 (toutes finies) | 120K | Historique uniquement |
-| [PHASE-16-GAP-ANALYSIS.md](PHASE-16-GAP-ANALYSIS.md) | Analysis 16 cahiers vs FO code | 40K | Avancer Phase 16 (spec compliance) |
-| [product/PRODUCT.md](product/PRODUCT.md) | Config projet, version, routes | — | Démarrer une session, setup MCP |
-| [product/DESIGN.md](product/DESIGN.md) | Design system Tailwind, patterns | — | Vérifier tokens, conventions styling |
+| [product/PRODUCT.md](../PRODUCT.md) | Config projet, version, routes | — | Démarrer une session, setup MCP |
+| [product/DESIGN.md](../DESIGN.md) | Design system Tailwind, patterns | — | Vérifier tokens, conventions styling |
 | [_canon/FACTS-CANON.md](_canon/FACTS-CANON.md) | **Faits validés TLS** (offres, prix, badge, registre) | — | **Toute session marketing / site : lire EN PREMIER** |
 
 ---
@@ -23,8 +23,6 @@
 ## 📂 ROOT — Docs stratégiques
 
 **Actifs:**
-- `PHASE-16-GAP-ANALYSIS.md` — Cahiers 01-13bis vs FO pages audit complet
-- _(`MIGRATION-PLAN.md` déplacé vers `_archive/` le 2026-07-25 — migration + phases 1-16 finies)_
 - `IMPLEMENTATION_ORDER.md` — Ordre exécution recommandé phases
 - `README.md` — Navigation guide (ce fichier vous amène ici)
 - `INDEX.md` ← vous êtes ici
@@ -71,12 +69,12 @@
 |---------|------|-------|
 | [AUDIT-FIGMA-ATOMS-COMPOSITES-2026-07-03.md](_audits/AUDIT-FIGMA-ATOMS-COMPOSITES-2026-07-03.md) | Figma↔code (vérifié 1ère main) | Atoms+Composites : variants vs codebase + binding variables/styles. §08 créé, gaps tone-aware Avatar/StatCard, token "locked" grays |
 | [AUDIT-FIGMA-CODE-GAP-2026-07-03.md](_audits/AUDIT-FIGMA-CODE-GAP-2026-07-03.md) | Gap composants DS↔code | Prérequis Phase 20 : 175 sets Figma vs code. ~158 matchés par nom ; gap bloquant = famille auth glass-dark (à créer/étendre) + ~5 stragglers (CourseCard, SegmentedControl, MessageBubble…) |
-| [AUDIT-PHASE-19.md](_audits/AUDIT-PHASE-19.md) | Quality audit | 142 pages FO scored (Tier 1/2/3), a11y gaps, DS adoption |
-| [AUDIT-PHASE-19-NOTION-DELTA.md](_audits/AUDIT-PHASE-19-NOTION-DELTA.md) | Notion sync | Écrans + Design System DBs consistency check |
-| [REVIEW-PHASE-19.md](_audits/REVIEW-PHASE-19.md) | Refinement | Chips extraction, AuthShell, HeroSection sunset decisions |
-| [FIGMA-AUDIT-REPORT.md](_audits/FIGMA-AUDIT-REPORT.md) | Design-Dev sync | React components vs Figma DS gaps, 3 missing components |
-| [FIGMA-FOUNDATIONS-AUDIT.md](_audits/FIGMA-FOUNDATIONS-AUDIT.md) | Token parity | Figma variables ↔ Tailwind @theme cross-check |
-| [FLOWS-TIER1-SYNTHESIS.md](_audits/FLOWS-TIER1-SYNTHESIS.md) | Daily-use analysis | 33 Tier 1 pages patterns, UX clarity scoring |
+| [AUDIT-PHASE-19-2026-06-12.md](_audits/AUDIT-PHASE-19-2026-06-12.md) | Quality audit | 142 pages FO scored (Tier 1/2/3), a11y gaps, DS adoption |
+| [AUDIT-PHASE-19-NOTION-DELTA.md](_audits/AUDIT-PHASE-19-NOTION-DELTA-2026-06-12.md) | Notion sync | Écrans + Design System DBs consistency check |
+| [REVIEW-PHASE-19-2026-06-12.md](_audits/REVIEW-PHASE-19-2026-06-12.md) | Refinement | Chips extraction, AuthShell, HeroSection sunset decisions |
+| [FIGMA-AUDIT-REPORT-2026-06-12.md](_audits/FIGMA-AUDIT-REPORT-2026-06-12.md) | Design-Dev sync | React components vs Figma DS gaps, 3 missing components |
+| [FIGMA-FOUNDATIONS-AUDIT-2026-07-23.md](_audits/FIGMA-FOUNDATIONS-AUDIT-2026-07-23.md) | Token parity | Figma variables ↔ Tailwind @theme cross-check |
+| [FLOWS-TIER1-SYNTHESIS-2026-06-12.md](_audits/FLOWS-TIER1-SYNTHESIS-2026-06-12.md) | Daily-use analysis | 33 Tier 1 pages patterns, UX clarity scoring |
 | [AUDIT-CLAUDE-MD-CONTEXT-2026-07-25.md](_audits/AUDIT-CLAUDE-MD-CONTEXT-2026-07-25.md) | Context engineering | CLAUDE.md (2747 l) + mémoire vs règles Claude 5 : KEEP 388 / POINT 534 / EXTRACT 872 / CUT 806. Preuve de dérive tokens, doublons Phase 14+/16, liens morts, plan de refonte 2 passes |
 
 ---
@@ -93,10 +91,10 @@
 |---|---|
 | [CASE-STUDY-ORANGE-TRAME.md](site/CASE-STUDY-ORANGE-TRAME.md) | **Trame d'interview case study client + demandes d'autorisation** (28/07) — guide d'entretien centré changement de pratique, modèles de mail (interview, citation, logo), tableau de ce qui est publiable aujourd'hui vs ce qui demande un accord écrit |
 | [SITEMAP-V1.md](site/SITEMAP-V1.md) | **Arborescence de référence du site V1** (28/07) — miroir documentaire de `src/App.tsx` : routes, redirections, statut par page, templates de contenu vs stratégie éditoriale, écart des 3 points de conversion, incohérence Notion↔code |
-| `SITE-V1-BLUEPRINT.md` | Blueprint 6 pages du site vitrine |
-| `SITE-V1-GROUNDING.md` | Grounding factuel du site V1 |
-| `SITE-STRUCTURE-DESIGN-C.md` | Sitemap + specs de sections par page (art direction « Illustrated Glass » du 11/06) |
-| `SITE-REACT-AUDIT.md` | Audit du site React + journal de sessions |
+| ⛔ `SITE-V1-BLUEPRINT.md` | **Archivé le 28/07** → `_archive/corpus-site-juin-2026/`. Décrivait une stack HTML vanille et une page `formation.html` supprimée |
+| ⛔ `SITE-V1-GROUNDING.md` | **Archivé le 28/07**. Se déclarait souverain sur tout le copywriting ; contenait une section « FAITS AUTORISÉS » libérant des chiffres gelés |
+| ⛔ `SITE-STRUCTURE-DESIGN-C.md` | **Archivé le 28/07**. Exploration « Illustrated Glass » de juin, non retenue |
+| ⛔ `SITE-REACT-AUDIT.md` | **Archivé le 28/07**. Audit périmé (4× Qualiopi, 6× CPF, 4× « Open Badge 2.0 ») |
 
 ✅ **Mis à jour 2026-07-28** : le sitemap et le copywriting complet du site V1 sont désormais tranchés — voir `site/propositions-PAD/` ci-dessous. L'ancien renvoi vers la page Notion "Sitemap & Structure Homepage (2026-06-29)" est périmé.
 
@@ -118,16 +116,14 @@
 
 | Fichier | Purpose |
 |---|---|
-| `COPY-HOME.md` · `COPY-CONSEIL-SBO.md` | Copy par page. ⚠️ Croiser avec `_canon/FACTS-CANON.md` avant réutilisation |
-| `SEO-CONTENT-PLAN.md` | Plan de contenu SEO |
+| ⛔ `COPY-HOME.md` · `COPY-CONSEIL-SBO.md` | **Archivés le 28/07**. Copy de pages refondues depuis. `COPY-HOME` transformait un « 107 % plus susceptibles de » en « +107 % d'efficacité », verrouillé par une consigne « ne pas modifier » |
+| ⛔ `SEO-CONTENT-PLAN.md` | **Archivé le 28/07** → `_archive/corpus-marketing-IA-juin-2026/`. Production IA, pilier abandonné |
 
 **Art direction « Illustrated Glass » (verrouillée 2026-06-11)**
 
 | Fichier | Purpose |
 |---|---|
-| `DIRECTION-C-CHECKLIST.md` | Timeline production assets (3 sem. illustration + 2 sem. vidéo). ⚠️ **Plan de production périmé** : les décisions P0 du 26/06 l'ont remplacé par « illustrations = placeholders CSS d'abord » + « vidéo hero = Framer Motion SVG ». L'art direction elle-même reste à re-valider |
-| `ENRICHMENT-TO-DIRECTION-C.md` | Enrichissements de la direction |
-| `SESSION-2026-06-11-RECAP.md` · `NOTION-UPDATE-2026-06-11.md` | Recap de session + sync Notion du 11/06 |
+| ⛔ `DIRECTION-C-CHECKLIST.md` | **Archivé le 28/07**. Portait « Locked 2026-06-11 » et « No reopening Directions » : une exploration créative verrouillée en loi |
 
 > ⚠️ **Homonymie à connaître** : « Direction C » désigne ici l'art direction *site* (Illustrated Glass, 11/06). Le commit `5b4e861` « remove rejected Direction C » parle d'une **autre** chose : une variante de home V2 (Editorial Motion) rejetée en juillet. Ne pas confondre les deux.
 
@@ -136,10 +132,7 @@
 | Fichier | Purpose |
 |---|---|
 | [DESIGN-INSPO.md](site/DESIGN-INSPO.md) | **Mobbin saves** (24 mobile + 34 desktop + 33 vitrine) + case study Until Labs |
-| [PROMPT-NAVBAR-HOMEPAGE-REDESIGN.md](site/PROMPT-NAVBAR-HOMEPAGE-REDESIGN.md) | Prompt navbar Fluid Island + hero |
-| `ANIMATION-EFFECTS-INTEGRATION.md` | Intégration des primitives motion |
-| `ANIMATION-TECHNIQUES-RESEARCH.md` | Techniques d'animation, patterns GSAP vs Framer Motion |
-| `ANIMATION-STYLES-BREAKDOWN.md` · `SCROLL-EFFECTS-IMPLEMENTATION.md` | Styles + implémentation scroll |
+| ⛔ `ANIMATION-TECHNIQUES-RESEARCH.md` | **Archivé le 28/07**. Recherche adossée à Direction C, recommandait le parallax (effet écarté) |
 
 **Recherche & inspiration** *(artefacts d'exploration, valeur de référence)*
 
@@ -157,35 +150,28 @@
 
 | Fichier | Topic | Level |
 |---------|-------|-------|
-| [BOOTCAMP-START-HERE.md](learning/BOOTCAMP-START-HERE.md) | Entry point | Beginner → 12 weeks |
-| [UX-UI-BOOTCAMP.md](learning/UX-UI-BOOTCAMP.md) | Main track | Day-by-day curriculum |
-| [FRAMER-MOTION-LEARNING.md](learning/FRAMER-MOTION-LEARNING.md) | Advanced motion | Scroll-driven, useTransform patterns |
-| [ANIMATED-LOGO-PROJECT.md](learning/ANIMATED-LOGO-PROJECT.md) | Logo design | 3 variants (pulse → rotation → morph) |
-| [PROCREATE-BOOTCAMP.md](learning/PROCREATE-BOOTCAMP.md) | Illustration | iPad Procreate for watercolor textures |
-| LEARNING-APP-DESIGN-PROJECT.md | Product design | Redesign learning app FO |
-| SBO-ACCOMPAGNEMENT-PROJECT.md | Coaching UX | Coaching flow design exercise |
-| SKILLS-TRANSFER-ROADMAP.md | Methodology | Teaching approach (live debugging, demos) |
+| [UX-UI-BOOTCAMP.md](../chloe/UX-UI-BOOTCAMP.md) | Main track | Day-by-day curriculum |
 | _archivés 2026-07-24 →_ [`_archive/factcheck-corpus/`](_archive/factcheck-corpus/) | **Docs de process fact-check du corpus** (CORPUS-FORMATIONS-FACT-CHECK, PARCOURS-CORRECTIONS-DETAIL, FACTCHECK-CERTIFIED ×3) — corrections **déjà appliquées** dans les modules `modules-corriges-2026-07-23/` (journaux inline). Conservés en archive pour traçabilité. | 🗄️ Archivé |
-| [CORRECTIONS-SOURCEES-UXUI.md](learning/CORRECTIONS-SOURCEES-UXUI.md) | **Corrections sourcées** du parcours UX/UI : chaque claim faux → correction + source RÉELLE vérifiée sur le web (auteur/année/lien) + phrase prête à coller. Contrastes WCAG recalculés (mini-tableau), section « À RETIRER », 12 sources clés (W3C, BBC 2017, McKinsey 2018, NN/g, Cowan 2001, Lally 2010, HolonIQ, PayScale, Lindgaard 2006, Intercom, Christensen) | ✅ Corrections sourcées |
-| [CORRECTIONS-SOURCEES-IP.md](learning/CORRECTIONS-SOURCEES-IP.md) | **Corrections sourcées** du parcours Ingénierie Pédagogique : chaque claim faux → correction + source RÉELLE vérifiée sur le web (auteur/année/lien) + phrase prête à coller. Vraie taxonomie Bloom (Anderson & Krathwohl 2001), débunkage VARK (Pashler 2008 / Newton 2020 → multimodal Mayer), origine ADDIE (Branson 1975 FSU/US Army), Alliger 1997, Xunzi ≠ Franklin, mythe 60 000×, méthode ROI Phillips, prix outils T1 2026 (Synthesia/PaLM/Knewton/Smart Sparrow), section « À RETIRER », M6 → Kirkpatrick 2016 | ✅ Corrections sourcées |
-| [application/AUDIT-UXUI-APP-ET-SITE.md](learning/application/AUDIT-UXUI-APP-ET-SITE.md) | **Application du parcours bootcamp (M01-M08) au produit réel** : les 8 lentilles passées sur le code de la learning app + site marketing, mesures WCAG de première main. 2 chantiers systémiques (contraste des tokens de marque en texte ; répétition espacée promise/non câblée + promesse site), 6 lentilles vertes, chantiers priorisés P0-P2 | 🔍 Audit produit |
-| [application/cours/00-CADRE-PEDAGOGIQUE.md](learning/application/cours/00-CADRE-PEDAGOGIQUE.md) | **Cadre d'instructional design** des cours perso de Chloé (learner = elle, in-situ). Structure = **EDRACT®** — modèle **C-Campus** (Marc Dennery), lignée Gagné+Kolb, **à attribuer, PAS une méthode TLS** (corrige l'erreur « structure maison » du doc RECHERCHE interne). Chaque phase adossée à son fondement + un principe robuste + mappée à une surface app. Plan 3 pistes (PM / UX-UI / vibe coding) | 🧭 Cadre péda |
-| [application/cours/PM-C1-Qu-est-ce-que-le-Product-Management.md](learning/application/cours/PM-C1-Qu-est-ce-que-le-Product-Management.md) | **Cours PM-C1** (structure EDRACT, appliqué au vrai produit) : ce qu'est le PM, la triple contrainte EdTech (désirabilité × viabilité × efficacité pédagogique), le piège des vanity metrics, ancré sur le carrefour réel « répétition espacée » de l'audit | 📚 Cours |
-| [application/cours/VIBE-C1-Qu-est-ce-que-le-vibe-coding.md](learning/application/cours/VIBE-C1-Qu-est-ce-que-le-vibe-coding.md) | **Cours VIBE-C1** (structure EDRACT) : qu'est-ce que le vibe coding, la boucle intention→prompt→génération→**revue**→itération, vibe coding pur vs ingénierie assistée (Karpathy/Willison 2025), où ça excelle/échoue, ancré sur le cas réel des 62 erreurs TS silencieuses du dépôt | 📚 Cours |
-| [application/cours/UXUI-C1-Socle-visuel-typo-couleur-contraste-espacement.md](learning/application/cours/UXUI-C1-Socle-visuel-typo-couleur-contraste-espacement.md) | **Cours UXUI-C1** (structure EDRACT) : socle visuel — 2 polices + hiérarchie, tokens couleur 3 couches, **contraste WCAG mesuré** (table des ratios réels : teal/orange/jaune = décor, pas texte), espacement base-4. Réutilise les mesures de l'audit du dépôt | 📚 Cours |
-| [application/cours/PM-C2-Jobs-to-be-Done.md](learning/application/cours/PM-C2-Jobs-to-be-Done.md) | **Cours PM-C2** (structure EDRACT) : Jobs-to-be-Done (Christensen) — un job = progrès dans une situation (pas une feature), 3 dimensions (fonctionnelle/émotionnelle/sociale), concevoir contre les substituts réels (ChatGPT/YouTube/collègue/rien), les 4 forces du basculement (Moesta) | 📚 Cours |
-| [application/cours/PM-C3-Objectifs-et-vanity-metrics.md](learning/application/cours/PM-C3-Objectifs-et-vanity-metrics.md) | **Cours PM-C3** (structure EDRACT) : deux niveaux d'objectifs (apprentissage=Bloom vs produit=SMART, le R=pertinent), vanity vs actionable metrics (Ries), loi de **Goodhart** + garde-fous (la complétion couplée à la rétention J+30), ancré sur le firewall gamification | 📚 Cours |
-| [application/cours/UXUI-C2-Les-4C.md](learning/application/cours/UXUI-C2-Les-4C.md) | **Cours UXUI-C2** (structure EDRACT) : les 4C (Clarté=Krug, Cohérence=Jakob+composants, Contraste=1 primaire/écran, Confort=Sweller/Hick/~4 chunks Cowan) comme grille d'audit d'écran. ✅ statut « 4C » **vérifié** : genre mnémotechnique générique sans owner (≠ EDRACT) ; la combinaison Clarté/Cohérence/Contraste/Confort = sélection maison TLS, aucune attribution mais pas « le » standard | 📚 Cours |
-| [application/cours/PM-C4-Priorisation-RICE.md](learning/application/cours/PM-C4-Priorisation-RICE.md) | **Cours PM-C4** (structure EDRACT) : priorisation **RICE** (Reach×Impact×Confidence÷Effort, Intercom 2016), le score ordonne mais ne décide pas (l'Effort domine à 2 fondateurs), le **filtre EdTech** (RGPD + validité pédagogique) avant le score, exemple travaillé sur le vrai backlog (SRS vs correctif site) | 📚 Cours |
-| [application/cours/UXUI-C3-Design-tokens-et-design-system.md](learning/application/cours/UXUI-C3-Design-tokens-et-design-system.md) | **Cours UXUI-C3** (structure EDRACT) : design system = **source de vérité unique**, tokens 3 couches (primitive→sémantique→composant), Atomic Design (Frost), le piège du **drift** (un concept/deux valeurs, silencieux) illustré par les cas réels du dépôt (deux gris ink-900, shadows lettre-morte), détection via getComputedStyle | 📚 Cours |
-| [application/cours/PM-C5-North-Star.md](learning/application/cours/PM-C5-North-Star.md) | **Cours PM-C5** (structure EDRACT) : North Star metric (Ellis/Amplitude) — capturer la valeur rendue, pas le temps capté ; rejeter une étoile gameable (« heures passées »), test anti-Goodhart, leading vs lagging, framework 1 North Star + 3-5 entrées + contre-indicateur, ancré « compétences validées » (passeport) | 📚 Cours |
-| [application/cours/PM-C6-Ecrire-une-spec-de-feature.md](learning/application/cours/PM-C6-Ecrire-une-spec-de-feature.md) | **Cours PM-C6 — capstone PM** (structure EDRACT) : écrire une spec de feature (8 sections : problème/job, métrique, user stories, parcours, scope in/out, données, **critères d'acceptation testables**, risques), avec la **spec réelle du SRS** comme livrable à me confier pour build | 📚 Cours |
-| [application/cours/UXUI-C4-Architecture-information.md](learning/application/cours/UXUI-C4-Architecture-information.md) | **Cours UXUI-C4** (EDRACT) : architecture de l'information — LATCH (Wurman), étiquetage aux mots de l'utilisateur, **piste informationnelle** (Pirolli & Card, *Information Foraging*), tri de cartes, chemin d'erreur + nav 3 niveaux | 📚 Cours |
-| [application/cours/UXUI-C5-Interaction-etats-micro-interactions.md](learning/application/cours/UXUI-C5-Interaction-etats-micro-interactions.md) | **Cours UXUI-C5** (EDRACT) : interaction & états — TRF (Saffer), les 7 états d'un composant, timing (seuils 0,1/1/10 s, Miller/Nielsen), `prefers-reduced-motion`, gamification maîtrise vs exploitation | 📚 Cours |
-| [application/cours/VIBE-C2-Le-document-de-pilotage.md](learning/application/cours/VIBE-C2-Le-document-de-pilotage.md) | **Cours VIBE-C2** (EDRACT) : le `CLAUDE.md` comme **system prompt** du projet — contexte durable, effet cumulatif (piège écrit = immunité), risque miroir (règle périmée se propage : `npx tsc`, EDRACT) | 📚 Cours |
-| [application/cours/VIBE-C3-Les-garde-fous.md](learning/application/cours/VIBE-C3-Les-garde-fous.md) | **Cours VIBE-C3** (EDRACT) : garde-fous — types, **build gate** (`npm run build` pas `npx tsc`), design system ; défense en profondeur ; un gate faible est pire que pas de gate (62 erreurs) | 📚 Cours |
-| [application/cours/VIBE-C4-Revoir-du-code.md](learning/application/cours/VIBE-C4-Revoir-du-code.md) | **Cours VIBE-C4** (EDRACT) : revoir du code non écrit — grille 4 questions, lire suppressions + contexte, le **« confiant mais faux »**, quand refuser (Bacchelli & Bird 2013, Google) | 📚 Cours |
-| [application/cours/VIBE-C5-Quand-ne-pas-vibe-coder.md](learning/application/cours/VIBE-C5-Quand-ne-pas-vibe-coder.md) | **Cours VIBE-C5 — capstone vibe** (EDRACT) : 4 zones rouges (sécurité/archi/correction subtile/invérifiable), règle des **portes** (Bezos), Dunning-Kruger (l'IA masque l'ignorance), OWASP | 📚 Cours |
+| [CORRECTIONS-SOURCEES-UXUI.md](../chloe/CORRECTIONS-SOURCEES-UXUI.md) | **Corrections sourcées** du parcours UX/UI : chaque claim faux → correction + source RÉELLE vérifiée sur le web (auteur/année/lien) + phrase prête à coller. Contrastes WCAG recalculés (mini-tableau), section « À RETIRER », 12 sources clés (W3C, BBC 2017, McKinsey 2018, NN/g, Cowan 2001, Lally 2010, HolonIQ, PayScale, Lindgaard 2006, Intercom, Christensen) | ✅ Corrections sourcées |
+| [CORRECTIONS-SOURCEES-IP.md](../chloe/CORRECTIONS-SOURCEES-IP.md) | **Corrections sourcées** du parcours Ingénierie Pédagogique : chaque claim faux → correction + source RÉELLE vérifiée sur le web (auteur/année/lien) + phrase prête à coller. Vraie taxonomie Bloom (Anderson & Krathwohl 2001), débunkage VARK (Pashler 2008 / Newton 2020 → multimodal Mayer), origine ADDIE (Branson 1975 FSU/US Army), Alliger 1997, Xunzi ≠ Franklin, mythe 60 000×, méthode ROI Phillips, prix outils T1 2026 (Synthesia/PaLM/Knewton/Smart Sparrow), section « À RETIRER », M6 → Kirkpatrick 2016 | ✅ Corrections sourcées |
+| [application/AUDIT-UXUI-APP-ET-SITE.md](../chloe/application/AUDIT-UXUI-APP-ET-SITE.md) | **Application du parcours bootcamp (M01-M08) au produit réel** : les 8 lentilles passées sur le code de la learning app + site marketing, mesures WCAG de première main. 2 chantiers systémiques (contraste des tokens de marque en texte ; répétition espacée promise/non câblée + promesse site), 6 lentilles vertes, chantiers priorisés P0-P2 | 🔍 Audit produit |
+| [application/cours/00-CADRE-PEDAGOGIQUE.md](../chloe/application/cours/00-CADRE-PEDAGOGIQUE.md) | **Cadre d'instructional design** des cours perso de Chloé (learner = elle, in-situ). Structure = **EDRACT®** — modèle **C-Campus** (Marc Dennery), lignée Gagné+Kolb, **à attribuer, PAS une méthode TLS** (corrige l'erreur « structure maison » du doc RECHERCHE interne). Chaque phase adossée à son fondement + un principe robuste + mappée à une surface app. Plan 3 pistes (PM / UX-UI / vibe coding) | 🧭 Cadre péda |
+| [application/cours/PM-C1-Qu-est-ce-que-le-Product-Management.md](../chloe/application/cours/PM-C1-Qu-est-ce-que-le-Product-Management.md) | **Cours PM-C1** (structure EDRACT, appliqué au vrai produit) : ce qu'est le PM, la triple contrainte EdTech (désirabilité × viabilité × efficacité pédagogique), le piège des vanity metrics, ancré sur le carrefour réel « répétition espacée » de l'audit | 📚 Cours |
+| [application/cours/VIBE-C1-Qu-est-ce-que-le-vibe-coding.md](../chloe/application/cours/VIBE-C1-Qu-est-ce-que-le-vibe-coding.md) | **Cours VIBE-C1** (structure EDRACT) : qu'est-ce que le vibe coding, la boucle intention→prompt→génération→**revue**→itération, vibe coding pur vs ingénierie assistée (Karpathy/Willison 2025), où ça excelle/échoue, ancré sur le cas réel des 62 erreurs TS silencieuses du dépôt | 📚 Cours |
+| [application/cours/UXUI-C1-Socle-visuel-typo-couleur-contraste-espacement.md](../chloe/application/cours/UXUI-C1-Socle-visuel-typo-couleur-contraste-espacement.md) | **Cours UXUI-C1** (structure EDRACT) : socle visuel — 2 polices + hiérarchie, tokens couleur 3 couches, **contraste WCAG mesuré** (table des ratios réels : teal/orange/jaune = décor, pas texte), espacement base-4. Réutilise les mesures de l'audit du dépôt | 📚 Cours |
+| [application/cours/PM-C2-Jobs-to-be-Done.md](../chloe/application/cours/PM-C2-Jobs-to-be-Done.md) | **Cours PM-C2** (structure EDRACT) : Jobs-to-be-Done (Christensen) — un job = progrès dans une situation (pas une feature), 3 dimensions (fonctionnelle/émotionnelle/sociale), concevoir contre les substituts réels (ChatGPT/YouTube/collègue/rien), les 4 forces du basculement (Moesta) | 📚 Cours |
+| [application/cours/PM-C3-Objectifs-et-vanity-metrics.md](../chloe/application/cours/PM-C3-Objectifs-et-vanity-metrics.md) | **Cours PM-C3** (structure EDRACT) : deux niveaux d'objectifs (apprentissage=Bloom vs produit=SMART, le R=pertinent), vanity vs actionable metrics (Ries), loi de **Goodhart** + garde-fous (la complétion couplée à la rétention J+30), ancré sur le firewall gamification | 📚 Cours |
+| [application/cours/UXUI-C2-Les-4C.md](../chloe/application/cours/UXUI-C2-Les-4C.md) | **Cours UXUI-C2** (structure EDRACT) : les 4C (Clarté=Krug, Cohérence=Jakob+composants, Contraste=1 primaire/écran, Confort=Sweller/Hick/~4 chunks Cowan) comme grille d'audit d'écran. ✅ statut « 4C » **vérifié** : genre mnémotechnique générique sans owner (≠ EDRACT) ; la combinaison Clarté/Cohérence/Contraste/Confort = sélection maison TLS, aucune attribution mais pas « le » standard | 📚 Cours |
+| [application/cours/PM-C4-Priorisation-RICE.md](../chloe/application/cours/PM-C4-Priorisation-RICE.md) | **Cours PM-C4** (structure EDRACT) : priorisation **RICE** (Reach×Impact×Confidence÷Effort, Intercom 2016), le score ordonne mais ne décide pas (l'Effort domine à 2 fondateurs), le **filtre EdTech** (RGPD + validité pédagogique) avant le score, exemple travaillé sur le vrai backlog (SRS vs correctif site) | 📚 Cours |
+| [application/cours/UXUI-C3-Design-tokens-et-design-system.md](../chloe/application/cours/UXUI-C3-Design-tokens-et-design-system.md) | **Cours UXUI-C3** (structure EDRACT) : design system = **source de vérité unique**, tokens 3 couches (primitive→sémantique→composant), Atomic Design (Frost), le piège du **drift** (un concept/deux valeurs, silencieux) illustré par les cas réels du dépôt (deux gris ink-900, shadows lettre-morte), détection via getComputedStyle | 📚 Cours |
+| [application/cours/PM-C5-North-Star.md](../chloe/application/cours/PM-C5-North-Star.md) | **Cours PM-C5** (structure EDRACT) : North Star metric (Ellis/Amplitude) — capturer la valeur rendue, pas le temps capté ; rejeter une étoile gameable (« heures passées »), test anti-Goodhart, leading vs lagging, framework 1 North Star + 3-5 entrées + contre-indicateur, ancré « compétences validées » (passeport) | 📚 Cours |
+| [application/cours/PM-C6-Ecrire-une-spec-de-feature.md](../chloe/application/cours/PM-C6-Ecrire-une-spec-de-feature.md) | **Cours PM-C6 — capstone PM** (structure EDRACT) : écrire une spec de feature (8 sections : problème/job, métrique, user stories, parcours, scope in/out, données, **critères d'acceptation testables**, risques), avec la **spec réelle du SRS** comme livrable à me confier pour build | 📚 Cours |
+| [application/cours/UXUI-C4-Architecture-information.md](../chloe/application/cours/UXUI-C4-Architecture-information.md) | **Cours UXUI-C4** (EDRACT) : architecture de l'information — LATCH (Wurman), étiquetage aux mots de l'utilisateur, **piste informationnelle** (Pirolli & Card, *Information Foraging*), tri de cartes, chemin d'erreur + nav 3 niveaux | 📚 Cours |
+| [application/cours/UXUI-C5-Interaction-etats-micro-interactions.md](../chloe/application/cours/UXUI-C5-Interaction-etats-micro-interactions.md) | **Cours UXUI-C5** (EDRACT) : interaction & états — TRF (Saffer), les 7 états d'un composant, timing (seuils 0,1/1/10 s, Miller/Nielsen), `prefers-reduced-motion`, gamification maîtrise vs exploitation | 📚 Cours |
+| [application/cours/VIBE-C2-Le-document-de-pilotage.md](../chloe/application/cours/VIBE-C2-Le-document-de-pilotage.md) | **Cours VIBE-C2** (EDRACT) : le `CLAUDE.md` comme **system prompt** du projet — contexte durable, effet cumulatif (piège écrit = immunité), risque miroir (règle périmée se propage : `npx tsc`, EDRACT) | 📚 Cours |
+| [application/cours/VIBE-C3-Les-garde-fous.md](../chloe/application/cours/VIBE-C3-Les-garde-fous.md) | **Cours VIBE-C3** (EDRACT) : garde-fous — types, **build gate** (`npm run build` pas `npx tsc`), design system ; défense en profondeur ; un gate faible est pire que pas de gate (62 erreurs) | 📚 Cours |
+| [application/cours/VIBE-C4-Revoir-du-code.md](../chloe/application/cours/VIBE-C4-Revoir-du-code.md) | **Cours VIBE-C4** (EDRACT) : revoir du code non écrit — grille 4 questions, lire suppressions + contexte, le **« confiant mais faux »**, quand refuser (Bacchelli & Bird 2013, Google) | 📚 Cours |
+| [application/cours/VIBE-C5-Quand-ne-pas-vibe-coder.md](../chloe/application/cours/VIBE-C5-Quand-ne-pas-vibe-coder.md) | **Cours VIBE-C5 — capstone vibe** (EDRACT) : 4 zones rouges (sécurité/archi/correction subtile/invérifiable), règle des **portes** (Bezos), Dunning-Kruger (l'IA masque l'ignorance), OWASP | 📚 Cours |
 
 ---
 
@@ -193,16 +179,13 @@
 
 **Brand voice, personas, copy, SEO, positioning**
 
-> ⚠️ **Hiérarchie canonique — à respecter dans cet ordre.** Les faits priment sur le copy. Un doc marketing qui contredit `_canon/FACTS-CANON.md` a tort, sans exception.
+> ⚠️ **Ordre de préséance (revu le 2026-07-28).** (1) Le code et le site en ligne. (2) Une décision datée de Chloé. (3) `_canon/FACTS-CANON.md`. (4) Le reste. Si le code contredit le canon, **c'est le canon qu'il faut corriger**.
 
 | Fichier | Statut | Purpose |
 |---------|---|---------|
 | [_canon/FACTS-CANON.md](_canon/FACTS-CANON.md) | 🟢 **CANON — lire en premier** | Faits validés ligne par ligne : 7 modules / **7h** (pas 23h), C-Campus certifie (**Qualiopi jamais pour TLS**), Open Badge « L'IA en formation », **OPCO oui / CPF jamais**, **« vous » sur tout le public** (« tu » réservé à l'app), fondateurs = Mimault + Dennery seuls, « L'Académie » n'existe pas |
-| [FAITS-OFFRES.md](marketing/FAITS-OFFRES.md) | 🟢 Canonique | Faits & offres, structure, paliers de prix |
-| [MARQUE-VOIX.md](marketing/MARQUE-VOIX.md) | 🟡 Canonique **positionnement/voix uniquement** | Positionnement SBO, personas, voix. ⚠️ Ses **exemples de copy sont des drafts IA** et contiennent encore des faits périmés (« 21 heures », Qualiopi TLS, tutoiement). Faits → FACTS-CANON |
-| [COPY-V2.md](marketing/COPY-V2.md) | 🟡 Canonique copy | Copy par page + SEO. Croiser les faits avec FACTS-CANON avant réutilisation |
-| [COMPETITIVE-BRIEF.md](marketing/COMPETITIVE-BRIEF.md) | 🟢 Actif | Analyse concurrentielle (edtech, conseil transformation) |
-| [MARKETING-LINKEDIN.md](marketing/MARKETING-LINKEDIN.md) | 🟢 Actif | Stratégie LinkedIn + contenu founder-led |
+| ⛔ **Tout `docs/marketing/` a été archivé le 28/07** | — | `FAITS-OFFRES` · `MARQUE-VOIX` · `COMPETITIVE-BRIEF` · `MARKETING-LINKEDIN` → [`_archive/corpus-marketing-IA-juin-2026/`](_archive/corpus-marketing-IA-juin-2026/). **Ce corpus a été produit par IA en juin 2026, pas écrit par TLS.** Il a été lu sept semaines durant comme de la doctrine. Tout est à refaire depuis les vraies études de marché |
+| ⛔ [COPY-V2.md](_archive/corpus-site-juin-2026/COPY-V2.md) | **Archivé le 28/07** | 13× Qualiopi, 2× CPF, 6× « Open Badge 2.0 », 5× « 23 heures », intégralement au tutoiement. Copy d'un site qui n'existe plus |
 | [_archive/MARKETING-CONTEXT.md](_archive/MARKETING-CONTEXT.md) | 🗄️ **Archivé 2026-07-24** | Déplacé vers `_archive/`. Rétrogradé depuis l'audit 2026-06-10 (le plus dérivé : 23h, 490 €, Open Badge 2.0, CPF/OPCO, page Académie). Ne pas s'en servir comme source. |
 
 ---
@@ -239,9 +222,6 @@
 
 **Marketing blog articles (3 posts drafted)**
 
-- `2026-06-10-ai-act-article-4-formation.md` — AI Act Article 4 compliance + training implications
-- `2026-06-10-sbo-organisation-competences-guide.md` — Skills Based Organisation explainer
-- `2026-06-10-formateur-augmente-ia.md` — AI-augmented trainer role
 
 ---
 
@@ -250,23 +230,15 @@
 **Structured prompts for Phase 14 flow-based design**
 
 - `README.md` — Index of flows
-- `00-onboarding.md` — Signup → questionnaire → learning path launch
-- `01-parcours-lesson.md` — Browse paths → select course → lesson player
-- `02-journal.md` — New entry → compose → archive
-- `03-coaching.md` — Book session → messaging → feedback
 
 ---
 
 ## 📂 figma/ — Figma-specific docs (5 fichiers)
 
-**Figma design system audit & gap analysis** (Token parity → voir `_audits/FIGMA-FOUNDATIONS-AUDIT.md`, doublon réconcilié 06-30)
+**Figma design system audit & gap analysis** (Token parity → voir `_audits/FIGMA-FOUNDATIONS-AUDIT-2026-07-23.md`, doublon réconcilié 06-30)
 
 | Fichier | Note |
 |---|---|
-| `AUDIT-FIGMA-CODE-DRIFT.md` | ⚠️ **FIABILITÉ NON VÉRIFIÉE** (06-26, claims non vérifiés) |
-| `AUDIT-FIGMA-STRUCTURE-CLARITY.md` | ⚠️ **FIABILITÉ NON VÉRIFIÉE** |
-| `FIGMA-CODE-COMPARISON.md` | ⚠️ **FIABILITÉ NON VÉRIFIÉE** |
-| `FIGMA-CURRENT-STATE.md` | ⚠️ **FIABILITÉ NON VÉRIFIÉE** |
 | `RESOURCES-DESIGN-MAPPING.md` | Mapping ressources ↔ design |
 
 > Pour l'état Figma **vérifié** (2026-06-30, inspection node-par-node), voir `CLAUDE.md` § Phase 1 P0.
@@ -275,9 +247,6 @@
 
 ## 🧩 _phases/ — Rapports de phase (4 fichiers)
 
-- `PHASE-1-P0-REPAIR-CHECKLIST.md` — Atoms conformance (réécrit 06-30, vérifié)
-- `PHASE-20-STATUS.md` · `PHASE-20-INTEGRATION-CHECKLIST.md` — Phase 20 Figma reproduction
-- `PHASE-20.4-ANALYTICS-DASHBOARD.md` — Analytics dashboard spec
 
 ## 📊 charts/ — Data visualization (5 fichiers)
 
@@ -296,7 +265,7 @@
 
 - `NOTION-CAPACITES-2026.md` — **ce que Notion sait faire depuis février 2026** (2026-07-23). Étude des versions 3.3 à 3.6 rapportée aux problèmes de TLS. Réponse à « peut-on développer nos propres outils sans quitter Notion » : **oui** — le Developer Platform de mai apporte **Workers** (runtime hébergé), **Database Sync** (brancher Pennylane), **Custom Agent Tools**, CLI et Agent SDK. Vues `chart` et `dashboard` créables par API avec un DSL complet. **Claude est agent externe dans Notion depuis le 1er juillet.** Blocs HTML interactifs — mais limites non documentées, à tester. ⏰ **Deux échéances de coût** : Custom Agents en crédits depuis le 04/05, **Workers à partir du 11/08**. Propose une restructuration Sales · Finance · Ops · Stratégie en tableaux de bord, et 7 actions ordonnées dont 4 gratuites et sans développement.
 
-- `NOTION-WORKSPACE-AUDIT.md` — **audit du workspace Notion, partage et automatisation** (2026-07-23). Diagnostic : le workspace n'est pas sous-conçu mais **sous-activé**. 40 projets, 257 tâches (147 ouvertes), 7 Company Areas, Master Vault SSOT, 7 bases CRM. ⚠️ **Trois constats chiffrés** : (1) un **AI Agents Index de 32 entrées dont 6 agents P0 jamais testés** et une **base Skills de 11 skills TLS jamais activées** — dont `Note de réunion TLS` qui créerait les tâches depuis les décisions ; (2) le **CRM porte ~40 000 € de pipeline ouvert avec toutes les relances dépassées de 3 à 5 mois**, alors que *Suivi des commandes* est tenu à jour ; (3) l'administratif n'a **aucune routine** — une contrainte URSSAF est en cours. Documente l'écart de partage Chloé ↔ Pierre-Armand (5 projets communs sur 40) et propose une base Échéances + agent mensuel. Plan d'action en 7 points.
+- `NOTION-WORKSPACE-AUDIT-2026-07-24.md` — **audit du workspace Notion, partage et automatisation** (2026-07-23). Diagnostic : le workspace n'est pas sous-conçu mais **sous-activé**. 40 projets, 257 tâches (147 ouvertes), 7 Company Areas, Master Vault SSOT, 7 bases CRM. ⚠️ **Trois constats chiffrés** : (1) un **AI Agents Index de 32 entrées dont 6 agents P0 jamais testés** et une **base Skills de 11 skills TLS jamais activées** — dont `Note de réunion TLS` qui créerait les tâches depuis les décisions ; (2) le **CRM porte ~40 000 € de pipeline ouvert avec toutes les relances dépassées de 3 à 5 mois**, alors que *Suivi des commandes* est tenu à jour ; (3) l'administratif n'a **aucune routine** — une contrainte URSSAF est en cours. Documente l'écart de partage Chloé ↔ Pierre-Armand (5 projets communs sur 40) et propose une base Échéances + agent mensuel. Plan d'action en 7 points.
 
 - `CARTOGRAPHIE-OUTILLAGE.md` — **cartographie besoins → workflows → outillage** (2026-07-23). Méthode en 3 niveaux (objectif chiffré → workflow récurrent → outil), 5 fonctions cartographiées (acquisition, vente, produit, preuve, pilotage), roadmap priorisée de 8 skills TLS sur-mesure. Croise Notion et le dépôt. ⚠️ **Relève 6 divergences entre sources, dont 2 graves** : des métriques inventées (turnover −30 %, 4,2 h/semaine) circulent dans les argumentaires de vente Notion en violation de C7, et **deux modèles de tarification coexistent** (crédit-based canonique vs abonnement plat). Les docs Notion datent du 09/06, `FACTS-CANON` du 10/06 — ils n'ont jamais été repassés depuis. Documente aussi 4 contraintes bloquantes et 5 sources non lues (dont les plus récentes, juillet).
 
@@ -306,8 +275,6 @@
 
 - `BRIEF-VEILLE-IA-PIPELINE.md` — brief technique pour Pierre-Armand : couche IA de la veille (collecte multi-canal RSS/newsletter/Perplexity, vérification de fiabilité, synthèse). Ancré sur les CDC 12bis/12/01bis/13bis + le contrat `wp-veille`. Statut : proposition à discuter (2026-07-15)
 - `BRIEF-LEARNING-SPACE-VEILLE.md` — brief refonte Learning Space + Veille
-- `SITE-V2-AGENCY-BRIEF.md` — brief site vitrine agency-grade (motion) + prompt Fable 5 prêt à coller + mode d'emploi crédits Fable 5 (2026-07-07)
-- `HERO-CONSTELLATION-ILLUSTRATION-BRIEF.md` — brief + guide de création de l'illustration hero (constellation dessinée main + aube) : refs domaine public, brief custom, pas-à-pas Procreate/Affinity, prompts Higgsfield/IA (2026-07-14)
 
 ---
 
@@ -315,9 +282,7 @@
 
 **Deprecated but preserved**
 
-- `MIGRATION-PLAN.md` — 🗄️ **Archivé 2026-07-25** (déplacé de `docs/`). Migration Tailwind + phases 1-16, toutes finies. Historique uniquement — bannière en tête du fichier.
-- `SITE-INTERNET-V1-ANALYSE.md` — Old site HTML analysis (pre-React marketing)
-- `AUDIT-COHERENCE.md` — Old coherence audit (superseded by Phase 19)
+- `AUDIT-COHERENCE-2026-07-22.md` — Old coherence audit (superseded by Phase 19)
 
 ---
 
@@ -326,7 +291,7 @@
 **Source de vérité unique. Prime sur TOUS les autres docs, y compris marketing et site.**
 
 - `FACTS-CANON.md` — **Faits validés ligne par ligne** par Chloé : formation (7 modules / 7h / C-Campus / Open Badge / OPCO), accompagnement (STRIDE), Learning App, chiffres, marque & fondateurs. Statut par ligne : ✅ vrai · ✏️ à corriger · ❌ faux · ❓ à valider. ⏸️ Pricing & business model **gelés** (non validés, base provisoire = CDC)
-- `AUDIT-COHERENCE.md` — Audit 2026-06-10 qui a déclenché la création du canon (docs marketing porteurs de copy + chiffres IA non fiables)
+- `AUDIT-COHERENCE-2026-07-22.md` — Audit 2026-06-10 qui a déclenché la création du canon (docs marketing porteurs de copy + chiffres IA non fiables)
 - `METRICS-A-COLLECTER.md` — Métriques manquantes à collecter avant de pouvoir les publier
 - `REGLES-USAGE-COMPOSANTS.md` — **Règles d'usage des composants** (2026-07-23) : quand utiliser
   Modal vs Toast, la sémantique des 4 variantes d'Alert, le choix numbered/load-more/infinite
@@ -359,16 +324,13 @@ Les fichiers motion-effects datés ont été supprimés lors du nettoyage du 30/
 | Looking for... | Read this |
 |---|---|
 | **Faits, offres, prix, registre** | **_canon/FACTS-CANON.md** (prime sur tout) |
-| **Brand strategy / positionnement** | marketing/MARQUE-VOIX.md (faits → FACTS-CANON) |
+| **Voix de marque** | ⚠️ **à écrire par TLS** — l'ancienne doctrine était une production IA, archivée |
 | **Design tokens** | product/DESIGN.md |
-| **Spec compliance** | PHASE-16-GAP-ANALYSIS.md + CDC/ |
-| **Component audit** | _audits/AUDIT-PHASE-19.md |
-| **Figma sync status** | _audits/FIGMA-AUDIT-REPORT.md |
+| **Component audit** | _audits/AUDIT-PHASE-19-2026-06-12.md |
+| **Figma sync status** | _audits/FIGMA-AUDIT-REPORT-2026-06-12.md |
 | **Motion primitives** | site/DESIGN-INSPO.md (Until Labs section) |
-| **Navbar redesign prompt** | site/PROMPT-NAVBAR-HOMEPAGE-REDESIGN.md |
-| **Learning bootcamp** | learning/BOOTCAMP-START-HERE.md |
 | **Project setup** | product/PRODUCT.md |
-| **Copy & messaging** | marketing/COPY-V2.md |
+| **Copy & messaging** | `docs/site/propositions-PAD/` (copy arbitrée) puis le code, `src/pages/marketing/*` |
 
 ---
 
@@ -376,7 +338,7 @@ Les fichiers motion-effects datés ont été supprimés lors du nettoyage du 30/
 
 **2026-07-22** (clean marketing + site)
 🗑️ **`website/` SUPPRIMÉ** (21 fichiers suivis, 336K) — site HTML statique périmé. Vérifié orphelin avant suppression : aucune référence dans `vite.config` / `package.json` / `vercel` / `netlify` / `src/`, et absent de `dist/`. **Le site vitrine vit uniquement dans `src/pages/marketing/*`** (routes `/website/*`). Historique récupérable dans git
-✅ `_canon/FACTS-CANON.md` + `_canon/AUDIT-COHERENCE.md` : notes de périmption ajoutées (ils référençaient le dossier supprimé)
+✅ `_canon/FACTS-CANON.md` + `_canon/AUDIT-COHERENCE-2026-07-22.md` : notes de périmption ajoutées (ils référençaient le dossier supprimé)
 ⚠️ **Ne pas confondre `docs/site/` (docs, conservé) et `website/site/` (HTML, supprimé).**
 ✅ **Hiérarchie canonique rétablie dans l'index** : `_canon/FACTS-CANON.md` promu « lire en premier » à la place de `MARKETING-CONTEXT.md`, qui était encore pointé « 🔴 LIRE EN PREMIER » alors qu'il est rétrogradé depuis l'audit du 10/06. C'était la cause directe de sessions partant sur des faits périmés (23h, Qualiopi TLS, CPF, tutoiement)
 ✅ Section MARKETING/ : statut explicite par doc (🟢 canonique / 🟡 canonique partiel / 🔴 rétrogradé) + avertissement sur les exemples de copy de MARQUE-VOIX (drafts IA)
@@ -398,9 +360,8 @@ Les fichiers motion-effects datés ont été supprimés lors du nettoyage du 30/
 ✅ Merged CDC doublon · Archived motion files · Consolidated audits → _audits/ · Created README + INDEX
 
 **Reste à faire :**
-- [ ] Réconcilier les 2 versions divergentes de `FIGMA-FOUNDATIONS-AUDIT.md` (figma/ vs _audits/)
+- [ ] Réconcilier les 2 versions divergentes de `FIGMA-FOUNDATIONS-AUDIT-2026-07-23.md` (figma/ vs _audits/)
 - [ ] Re-vérifier (ou archiver) les 4 audits Figma flaggés non-vérifiés
-- [ ] Consolidate flow-prompts/ en un manifeste unique
 
 ---
 
