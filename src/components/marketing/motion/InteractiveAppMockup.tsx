@@ -240,8 +240,15 @@ export const InteractiveAppMockup: React.FC<Props> = ({
               </div>
             </div>
 
-            {/* tabs */}
-            <div className="flex items-center gap-tight p-1 rounded-pill bg-ink-100 w-fit">
+            {/* tabs
+                `max-w-full` + défilement horizontal ajoutés le 29/07. Mesuré au
+                navigateur en 375 px : la barre faisait 412 px pour 341 px
+                disponibles, et le conteneur de la page est en `overflow-hidden`
+                — le quatrième onglet (« Veille ») était donc **coupé et
+                inatteignable** sur mobile, sans même la possibilité de le
+                faire défiler. La barre de défilement est masquée : la pilule
+                garderait mal un ascenseur natif. */}
+            <div className="flex items-center gap-tight p-1 rounded-pill bg-ink-100 w-fit max-w-full overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:[display:none]">
               {TABS.map((t) => {
                 const isActive = active === t.key;
                 return (
@@ -249,7 +256,7 @@ export const InteractiveAppMockup: React.FC<Props> = ({
                     key={t.key}
                     type="button"
                     onClick={() => setActive(t.key)}
-                    className={`relative inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill text-caption font-semibold transition-colors duration-base ${
+                    className={`relative inline-flex shrink-0 items-center gap-1.5 px-3 py-1.5 rounded-pill text-caption font-semibold transition-colors duration-base ${
                       isActive ? 'text-primary-700' : 'text-ink-600 hover:text-ink-900'
                     }`}
                   >

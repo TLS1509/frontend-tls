@@ -94,12 +94,19 @@ export const MarketingFooter: React.FC = () => (
         {COLUMNS.map(({ title, links }) => (
           <nav key={title} aria-label={`Footer : ${title}`} className="flex flex-col gap-stack-xs">
             <span className="font-display text-body-sm font-bold text-ink-800">{title}</span>
+            {/* `inline-flex min-h-[24px] items-center` ajouté le 29/07 : mesurés
+                au navigateur en 375 px, ces liens faisaient **21 px de haut**.
+                C'étaient les 14 seules cibles du site marketing sous le minimum
+                normatif de WCAG 2.2 AA (SC 2.5.8, 24×24) — aucune dans le
+                header, aucune dans le corps des pages. Le `gap-1.5` de la liste
+                garde la densité visuelle : c'est la zone cliquable qui grandit,
+                pas l'interligne. */}
             <ul className="flex flex-col gap-1.5 m-0 p-0 list-none">
               {links.map(({ label, href }) => (
                 <li key={href}>
                   <Link
                     to={href}
-                    className="font-body text-body-sm text-ink-500 hover:text-ink-900 transition-colors duration-fast"
+                    className="inline-flex min-h-[24px] items-center font-body text-body-sm text-ink-500 hover:text-ink-900 transition-colors duration-fast"
                   >
                     {label}
                   </Link>

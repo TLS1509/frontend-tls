@@ -6,7 +6,7 @@
  */
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
 import { submitForm } from './utils/submitForm';
 import {
@@ -55,6 +55,20 @@ const QUICK_LINKS = [
 
 const SUBJECTS = ['Accompagnement STRIDE', 'Studio IA & Pédagogie', 'Upskilling', 'Learning App', 'Débriefing diagnostic', 'Partenariat', 'Autre'];
 
+const DEFAULT_SUBJECT = 'Accompagnement STRIDE';
+
+/**
+ * Sujet d'arrivée, pré-rempli depuis `?sujet=`.
+ *
+ * Ajouté le 29/07 : le sujet « Débriefing diagnostic » suppose qu'on arrive
+ * depuis un autodiagnostic, mais aucun lien ne le pré-sélectionnait — il fallait
+ * le retrouver à la main dans sept pastilles. Le paramètre est validé contre
+ * SUBJECTS : une valeur inconnue retombe sur le défaut plutôt que d'injecter du
+ * texte arbitraire dans le sélecteur et dans l'e-mail envoyé.
+ */
+const resolveSubject = (raw: string | null): string =>
+  raw && SUBJECTS.includes(raw) ? raw : DEFAULT_SUBJECT;
+
 const SUBJECT_CONTEXTS: Record<string, { headline: string; desc: string }> = {
   'Accompagnement STRIDE': {
     headline: 'Cadrer votre transition SBO.',
@@ -94,6 +108,7 @@ export const MarketingContact: React.FC = () => {
   const pillSpring = reduced
     ? { duration: 0 }
     : ({ type: 'spring', stiffness: 380, damping: 30 } as const);
+  const [searchParams] = useSearchParams();
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -103,7 +118,7 @@ export const MarketingContact: React.FC = () => {
     email: '',
     org: '',
     phone: '',
-    subject: 'Accompagnement STRIDE',
+    subject: resolveSubject(searchParams.get('sujet')),
     message: '',
     newsletter: false,
   });
@@ -126,13 +141,17 @@ export const MarketingContact: React.FC = () => {
         canonical="/website/contact"
       />
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
-      <section className="relative pt-24 sm:pt-28 lg:pt-32 pb-section overflow-hidden bg-gradient-to-br from-white via-primary-50/60 to-secondary-50/30">
-<div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
+      {/* Conventions du 28/07 appliquées le 29/07. Cette page était la dernière
+          à porter ses propres échelles : hero `pt-24`, sections `py-page`,
+          conteneur `max-w-7xl`, gouttière `px-6` fixe. Trois écarts qui se
+          voyaient au passage d'une page à l'autre. */}
+      <section className="relative pt-36 sm:pt-40 lg:pt-44 pb-16 sm:pb-20 lg:pb-24 overflow-hidden bg-gradient-to-br from-white via-primary-50/60 to-secondary-50/30">
+        <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-pill bg-primary-200/30 blur-3xl" />
           <div className="absolute bottom-0 right-0 w-[300px] h-[300px] rounded-pill bg-secondary-200/20 blur-3xl" />
         </div>
         <FadeInWhenVisible direction="up">
-          <div className="relative max-w-4xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
+          <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-10 flex flex-col items-center text-center gap-stack-lg">
 
             {/* Interactive subject selector — visible above fold */}
             <div className="flex flex-col items-center gap-stack">
@@ -191,8 +210,8 @@ export const MarketingContact: React.FC = () => {
       </section>
 
       {/* ── Form + Aside ──────────────────────────────────────────────────── */}
-      <section className="py-page bg-white">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1.6fr_1fr] gap-section items-start">
+      <section id="contact-formulaire" className="py-16 sm:py-20 lg:py-28 bg-white scroll-mt-28">
+        <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 grid grid-cols-1 lg:grid-cols-[1.6fr_1fr] gap-section items-start">
           {/* Form column */}
           <FadeInWhenVisible direction="up">
             <div className="rounded-2xl bg-gradient-to-br from-white to-primary-50/30 border border-ink-100 shadow-sm p-section">
@@ -220,7 +239,7 @@ export const MarketingContact: React.FC = () => {
                     size="md"
                     onClick={() => {
                       setSubmitted(false);
-                      setForm({ name: '', email: '', org: '', phone: '', subject: 'Accompagnement STRIDE', message: '', newsletter: false });
+                      setForm({ name: '', email: '', org: '', phone: '', subject: DEFAULT_SUBJECT, message: '', newsletter: false });
                     }}
                   >
                     Envoyer un autre message
@@ -316,7 +335,7 @@ export const MarketingContact: React.FC = () => {
                           if (fieldErrors.name) setFieldErrors({ ...fieldErrors, name: undefined });
                         }}
                         placeholder="Marie Dupont"
-                        className={`px-4 h-12 rounded-xl bg-white border text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 transition-all duration-base ${
+                        className={`px-4 h-12 rounded-pill bg-white border text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 transition-all duration-base ${
                           fieldErrors.name
                             ? 'border-danger-base focus-visible:outline-danger-base'
                             : 'border-ink-200 focus-visible:outline-primary-500'
@@ -344,7 +363,7 @@ export const MarketingContact: React.FC = () => {
                           if (fieldErrors.email) setFieldErrors({ ...fieldErrors, email: undefined });
                         }}
                         placeholder="marie@organisation.fr"
-                        className={`px-4 h-12 rounded-xl bg-white border text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 transition-all duration-base ${
+                        className={`px-4 h-12 rounded-pill bg-white border text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 transition-all duration-base ${
                           fieldErrors.email
                             ? 'border-danger-base focus-visible:outline-danger-base'
                             : 'border-ink-200 focus-visible:outline-primary-500'
@@ -369,7 +388,7 @@ export const MarketingContact: React.FC = () => {
                         value={form.org}
                         onChange={(e) => setForm({ ...form, org: e.target.value })}
                         placeholder="Nom de l'entreprise ou organisation"
-                        className="px-4 h-12 rounded-xl bg-white border border-ink-200 text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 transition-all duration-base"
+                        className="px-4 h-12 rounded-pill bg-white border border-ink-200 text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 transition-all duration-base"
                       />
                     </div>
                     <div className="flex flex-col gap-stack-xs">
@@ -382,7 +401,7 @@ export const MarketingContact: React.FC = () => {
                         value={form.phone}
                         onChange={(e) => setForm({ ...form, phone: e.target.value })}
                         placeholder="+33 6 00 00 00 00"
-                        className="px-4 h-12 rounded-xl bg-white border border-ink-200 text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 transition-all duration-base"
+                        className="px-4 h-12 rounded-pill bg-white border border-ink-200 text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 transition-all duration-base"
                       />
                     </div>
                   </div>
@@ -391,6 +410,12 @@ export const MarketingContact: React.FC = () => {
                     <label htmlFor="ct-message" className="font-body text-body-sm font-semibold text-ink-900">
                       Votre message *
                     </label>
+                    {/* Champs alignés le 29/07 sur le reste du site : les
+                        entrées d'une ligne passent en `rounded-pill` (Home,
+                        Vigie, bas d'article), la zone de texte reste arrondie
+                        en `rounded-2xl` — une zone multiligne en pilule est
+                        illisible. À rejouer si la phase design tranche
+                        autrement sur les champs. */}
                     <textarea
                       id="ct-message"
                       rows={5}
@@ -403,7 +428,7 @@ export const MarketingContact: React.FC = () => {
                         if (fieldErrors.message) setFieldErrors({ ...fieldErrors, message: undefined });
                       }}
                       placeholder="Décrivez brièvement votre contexte, vos objectifs, vos questions…"
-                      className={`px-4 py-3 rounded-xl bg-white border text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 transition-all duration-base resize-y h-auto min-h-[140px] ${
+                      className={`px-4 py-3 rounded-2xl bg-white border text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 transition-all duration-base resize-y h-auto min-h-[140px] ${
                         fieldErrors.message
                           ? 'border-danger-base focus-visible:outline-danger-base'
                           : 'border-ink-200 focus-visible:outline-primary-500'
@@ -490,6 +515,18 @@ export const MarketingContact: React.FC = () => {
           <FadeInWhenVisible direction="up" delay={0.1}>
           <div className="flex flex-col gap-stack-lg lg:sticky lg:top-20">
             {/* Booking card */}
+              {/* ⚠️ PROVISOIRE — 29/07. Cette carte pointait vers
+                  `calendly.com/thelearningsociety/30min`, vérifié ce jour :
+                  **HTTP 404**. C'était le CTA « Plus rapide » de la page de
+                  conversion principale du site, et c'est le seul lien de
+                  réservation du dépôt — il n'existe pas d'URL de repli.
+                  En attendant la vraie URL, la carte renvoie vers le
+                  formulaire au lieu d'envoyer dans le vide, et la promesse est
+                  reformulée pour rester vraie (on ne peut pas promettre un
+                  agenda qu'on n'expose pas).
+                  → Dès que l'URL de réservation existe : rétablir le `<a>`
+                  externe, le libellé « Réservez un échange de 30 min » et
+                  « Choisissez votre créneau dans notre agenda ». */}
               <div className="relative overflow-hidden rounded-2xl bg-primary-50 border border-primary-200 p-stack-lg flex flex-col gap-stack-lg shadow-sm">
                 <div className="flex flex-col gap-stack">
                   <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-white border border-primary-200 text-accent-400 text-caption font-bold w-fit">
@@ -497,25 +534,21 @@ export const MarketingContact: React.FC = () => {
                     Plus rapide
                   </span>
                   <h3 className="font-display text-h3 font-extrabold text-ink-900 m-0 leading-tight">
-                    Réservez un échange de 30 min
+                    Un échange de 30 min
                   </h3>
                   <p className="font-body text-body-sm text-ink-600 m-0 leading-relaxed">
-                    Choisissez votre créneau dans notre agenda.
+                    Dites-nous vos disponibilités, nous vous proposons un créneau
+                    sous 48 h ouvrées.
                   </p>
                 </div>
-                <a
-                  href="https://calendly.com/thelearningsociety/30min"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block"
-                >
+                <a href="#contact-formulaire" className="block">
                   <Button
                     variant="secondary"
                     size="md"
                     fullWidth
                     trailingIcon={<Calendar size={16} />}
                   >
-                    Réserver maintenant
+                    Demander un créneau
                   </Button>
                 </a>
               </div>

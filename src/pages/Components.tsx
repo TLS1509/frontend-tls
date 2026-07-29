@@ -225,6 +225,12 @@ import { EtapeAccordion } from '../components/patterns/EtapeAccordion';
 import { AuthBackLink } from '../components/patterns/AuthShell';
 import { Briefcase, HeartHandshake, FileText } from 'lucide-react';
 import { FloatLabel } from '../components/core/FloatLabel';
+import { Chip } from '../components/ui/Chip';
+import { Tooltip } from '../components/ui/Tooltip';
+import { Kbd } from '../components/ui/Kbd';
+import { SegmentedControl } from '../components/ui/SegmentedControl';
+import { SettingsRow } from '../components/patterns/SettingsRow';
+import { SelectableOptionCard } from '../components/patterns/SelectableOptionCard';
 import { RadioGroup } from '../components/ui/RadioGroup';
 import { CheckboxGroup } from '../components/ui/CheckboxGroup';
 import { FormSection } from '../components/ui/FormSection';
@@ -814,6 +820,61 @@ const VideoPlayerModalDemo: React.FC = () => {
         instructor="Sophie Martin"
         description="Découvrez les fondamentaux du prompt engineering."
       />
+    </div>
+  );
+};
+
+/* ── Démos phase 4 : composants qui ont besoin d'un état local ───────────── */
+
+const SegmentedControlDemo: React.FC = () => {
+  const [vue, setVue] = useState<'liste' | 'grille' | 'calendrier'>('liste');
+  const [periode, setPeriode] = useState<'7j' | '30j' | '90j'>('30j');
+  return (
+    <div className="flex flex-col gap-stack">
+      <SegmentedControl
+        options={[
+          { value: 'liste', label: 'Liste' },
+          { value: 'grille', label: 'Grille' },
+          { value: 'calendrier', label: 'Calendrier' },
+        ]}
+        value={vue}
+        onChange={setVue}
+      />
+      <SegmentedControl
+        size="sm"
+        tone="warm"
+        options={[
+          { value: '7j', label: '7 jours' },
+          { value: '30j', label: '30 jours' },
+          { value: '90j', label: '90 jours' },
+        ]}
+        value={periode}
+        onChange={setPeriode}
+      />
+      <p className="m-0 text-caption text-ink-500">Vue : {vue} · Période : {periode}</p>
+    </div>
+  );
+};
+
+const SelectableOptionCardDemo: React.FC = () => {
+  const [choix, setChoix] = useState('coach');
+  const options = [
+    { id: 'coach', icon: <UserIcon size={20} />, label: 'Coach', description: 'Accompagne une cohorte' },
+    { id: 'manager', icon: <BarChart3 size={20} />, label: 'Manager', description: 'Pilote un portefeuille' },
+    { id: 'apprenant', icon: <BookOpen size={20} />, label: 'Apprenant', description: 'Pratique et valide' },
+  ];
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
+      {options.map((o) => (
+        <SelectableOptionCard
+          key={o.id}
+          icon={o.icon}
+          label={o.label}
+          description={o.description}
+          selected={choix === o.id}
+          onClick={() => setChoix(o.id)}
+        />
+      ))}
     </div>
   );
 };
@@ -6731,6 +6792,128 @@ const COMPONENTS: ComponentEntry[] = [
     ),
   },
 
+  /* ---- PHASE 4 — composants exposés le 2026-07-29 ----------------------- */
+
+  {
+    name: 'Chip',
+    codeName: 'ui/Chip.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    description: "Primitive interne des quatre pills du DS (Pill, MetaPill, Tag, FilterChip). Elle owne les style tokens partagés et le helper `resolveChipClasses`. 3 tailles × 5 tones × surfaces solid / glass. Les quatre wrappers publics gardent leurs API spécialisées — ne pas les fusionner.",
+    keywords: ['chip', 'pill', 'primitive', 'tone', 'glass', 'surface', 'tag', 'filter'],
+    usedBy: ['Pill', 'MetaPill', 'Tag', 'FilterChip'],
+    render: () => (
+      <div className="flex flex-col gap-stack">
+        <div className="flex flex-wrap items-center gap-stack-xs">
+          <Chip tone="neutral">neutral</Chip>
+          <Chip tone="primary">primary</Chip>
+          <Chip tone="warm">warm</Chip>
+          <Chip tone="sun">sun</Chip>
+          <Chip tone="brand">brand</Chip>
+        </div>
+        <div className="flex flex-wrap items-center gap-stack-xs">
+          <Chip size="sm" tone="primary">sm</Chip>
+          <Chip size="md" tone="primary">md</Chip>
+          <Chip size="lg" tone="primary">lg</Chip>
+        </div>
+        <div className="flex flex-wrap items-center gap-stack-xs">
+          <Chip tone="primary" leadingIcon={<Target size={13} />}>avec icone</Chip>
+          <Chip tone="warm" active>actif</Chip>
+          <Chip tone="neutral" asButton onClick={() => {}}>cliquable</Chip>
+        </div>
+      </div>
+    ),
+  },
+  {
+    name: 'Tooltip',
+    codeName: 'ui/Tooltip.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    description: "Infobulle au survol et au focus clavier. 4 cotes, 2 variantes, delai reglable. L'enfant doit etre un unique element capable de recevoir un ref.",
+    keywords: ['tooltip', 'infobulle', 'hover', 'focus', 'aide', 'side'],
+    render: () => (
+      <div className="flex flex-wrap items-center gap-section py-stack-lg">
+        <Tooltip content="Infobulle au-dessus"><Button variant="ghost" size="sm">top</Button></Tooltip>
+        <Tooltip content="A droite" side="right"><Button variant="ghost" size="sm">right</Button></Tooltip>
+        <Tooltip content="En dessous" side="bottom"><Button variant="ghost" size="sm">bottom</Button></Tooltip>
+        <Tooltip content="Variante brand" variant="brand"><Button variant="ghost" size="sm">brand</Button></Tooltip>
+      </div>
+    ),
+  },
+  {
+    name: 'Kbd',
+    codeName: 'ui/Kbd.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    description: 'Touche de clavier. Passer `keys` pour un raccourci compose — le composant intercale les separateurs.',
+    keywords: ['kbd', 'clavier', 'raccourci', 'shortcut', 'touche'],
+    render: () => (
+      <div className="flex flex-col gap-stack">
+        <div className="flex flex-wrap items-center gap-stack-xs">
+          <Kbd keys={['Cmd', 'K']} />
+          <Kbd keys={['Ctrl', 'Maj', 'P']} />
+          <Kbd keys={['Echap']} />
+        </div>
+        <div className="flex flex-wrap items-center gap-stack-xs">
+          <Kbd size="sm" keys={['Cmd', 'S']} />
+          <Kbd size="md" keys={['Cmd', 'S']} />
+        </div>
+      </div>
+    ),
+  },
+  {
+    name: 'SegmentedControl',
+    codeName: 'ui/SegmentedControl.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    description: "Bascule entre 2 a 4 vues exclusives. A preferer aux onglets quand il n'y a pas de contenu a titrer, et aux boutons radio quand le choix est immediat. 3 tailles × 3 tones.",
+    keywords: ['segmented', 'control', 'toggle', 'vue', 'bascule', 'filtre', 'tabs'],
+    render: () => <SegmentedControlDemo />,
+  },
+  {
+    name: 'SettingsRow',
+    codeName: 'patterns/SettingsRow.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    description: "Ligne de reglage : icone, libelle, description, et le controle a droite. `danger` pour les actions irreversibles. Brique des pages Compte, Facturation et Confidentialite.",
+    keywords: ['settings', 'reglage', 'row', 'compte', 'preferences', 'toggle', 'danger'],
+    render: () => (
+      <div className="flex flex-col rounded-xl border border-ink-200 bg-white divide-y divide-ink-100">
+        <SettingsRow icon={<Bell size={18} />} label="Notifications par e-mail" description="Un resume hebdomadaire, jamais le week-end">
+          <Switch defaultChecked />
+        </SettingsRow>
+        <SettingsRow icon={<Target size={18} />} label="Objectif hebdomadaire" description="Nombre de sessions visees">
+          <Badge variant="brand">3 sessions</Badge>
+        </SettingsRow>
+        <SettingsRow icon={<LogOut size={18} />} label="Supprimer le compte" description="Action irreversible" danger>
+          <Button variant="destructive" size="sm">Supprimer</Button>
+        </SettingsRow>
+      </div>
+    ),
+  },
+  {
+    name: 'SelectableOptionCard',
+    codeName: 'patterns/SelectableOptionCard.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    description: "Carte-option d'un choix exclusif : icone, libelle, description, etat selectionne. Utilisee dans l'onboarding et le questionnaire de positionnement.",
+    keywords: ['option', 'card', 'selection', 'choix', 'onboarding', 'radio', 'positionnement'],
+    render: () => <SelectableOptionCardDemo />,
+  },
+  {
+    name: 'FloatLabel',
+    codeName: 'core/FloatLabel.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    description: "Enveloppe un champ pour faire flotter son libelle au focus ou des qu'il est rempli. Gere `required`, `hint` et `error`.",
+    keywords: ['float', 'label', 'input', 'formulaire', 'flottant', 'hint', 'error'],
+    render: () => (
+      <div className="flex flex-col gap-stack max-w-md">
+        <FloatLabel label="Adresse e-mail" required>
+          <Input type="email" defaultValue="chloe@thelearningsociety.fr" />
+        </FloatLabel>
+        <FloatLabel label="Intitule du poste" hint="Tel qu'il apparait dans votre organisation">
+          <Input />
+        </FloatLabel>
+        <FloatLabel label="Code d'acces" error="Ce code n'est plus valide">
+          <Input defaultValue="TLS-2024" />
+        </FloatLabel>
+      </div>
+    ),
+  },
 ];
 
 /* ============================================================================

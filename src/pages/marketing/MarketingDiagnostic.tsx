@@ -653,7 +653,16 @@ export const MarketingDiagnostic: React.FC = () => {
                   résultats et identifier vos priorités d'action.
                 </p>
                 <div className="flex flex-wrap gap-stack-xs">
-                  <Button to="/website/contact" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                  {/* Le sujet arrive pré-sélectionné (29/07). La page Contact
+                      propose « Débriefing diagnostic » parmi sept pastilles,
+                      mais rien ne le désignait : le visiteur qui vient de
+                      finir son diagnostic devait le retrouver à la main. */}
+                  <Button
+                    to="/website/contact?sujet=D%C3%A9briefing%20diagnostic"
+                    variant="primary"
+                    size="lg"
+                    trailingIcon={<ArrowRight size={18} />}
+                  >
                     Réserver un débriefing de 15 min
                   </Button>
                   <Button onClick={resetAll} variant="ghost" size="lg" trailingIcon={<RefreshCw size={16} />}>

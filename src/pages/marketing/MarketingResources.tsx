@@ -347,8 +347,13 @@ export const MarketingResources: React.FC = () => {
       />
       {/* ── Header — flat, pas de card hero éditoriale ─────────────────────── */}
       <div className={`${CONTAINER} pt-24 sm:pt-28 lg:pt-32 pb-section flex flex-col gap-tight`}>
+        {/* Nommage tranché le 29/07. Trois noms coexistaient pour la même
+            surface : « Ressources » ici, « Magazine & Ressources » dans la nav,
+            le footer et la balise title, « Magazine / Blog » dans le doc de
+            cadrage éditorial. Le H1 était l'unique écart — c'est lui qui
+            s'aligne, pas les trois autres. */}
         <h1 className="m-0 font-display text-h2 font-bold text-ink-900 tracking-headline leading-tight">
-          Ressources
+          Magazine &amp; Ressources
         </h1>
         <p className="m-0 font-body text-body-sm text-ink-500 max-w-2xl">
           Articles, dossiers, guides, vidéos et webinaires : tout le contenu TLS au même endroit.

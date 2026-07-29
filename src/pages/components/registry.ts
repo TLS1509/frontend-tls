@@ -143,6 +143,15 @@ export const CATALOG: Record<string, CatalogMeta> = {
   TrendingBadge:        { category: 'Atoms', subCategory: 'Status badges' },
   ViewerProgressTrail:  { category: 'Learning', subCategory: 'Viewer content' },
 
+  // ── Phase 4, lot 1 (2026-07-29) ───────────────────────────────────────
+  Chip:                 { category: 'Atoms', subCategory: 'Chips & Pills' },
+  Tooltip:              { category: 'Feedback', subCategory: 'Status messages' },
+  Kbd:                  { category: 'Atoms', subCategory: 'Indicators' },
+  SegmentedControl:     { category: 'Navigation', subCategory: 'Secondary nav' },
+  SettingsRow:          { category: 'Lists & Feeds', subCategory: 'Lists (vertical)' },
+  SelectableOptionCard: { category: 'Cards', subCategory: 'Generic' },
+  FloatLabel:           { category: 'Atoms', subCategory: 'Form fields' },
+
   // ── ATOMS ─────────────────────────────────────────────────────────────
   // Form fields
   Button:               { category: 'Atoms', subCategory: 'Form fields' },

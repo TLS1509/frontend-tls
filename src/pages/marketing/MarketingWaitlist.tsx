@@ -515,7 +515,10 @@ export const MarketingWaitlist: React.FC = () => {
                 eyebrow: 'Do',
                 eyebrowColor: 'text-secondary-600',
                 title: 'Coaching humain 1:1',
-                desc: 'Sessions avec un coach certifié, corrections de missions réelles, suivi longitudinal.',
+                // « un coach certifié » retiré le 29/07 : aucune certification
+                // de coach n'est documentée côté TLS, et le canon interdit les
+                // claims non sourcés (§0 X5). La promesse tient sans.
+                desc: 'Sessions de coaching individuel, corrections de missions réelles, suivi longitudinal.',
               },
               {
                 tone: 'bg-accent-50 border-accent-200',
