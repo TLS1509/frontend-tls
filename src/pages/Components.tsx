@@ -7511,7 +7511,7 @@ const SPACING_TOKENS: TokenEntry[] = [
 
 const RADIUS_TOKENS: TokenEntry[] = [
   ['--r-xs', '4px'], ['--r-sm', '6px'], ['--r-md', '10px'], ['--r-lg', '14px'],
-  ['--r-xl', '20px'], ['--r-2xl', '28px'], ['--r-pill', '999px'],
+  ['--r-xl', '20px'], ['--r-2xl', '24px'], ['--r-pill', '999px'],
 ].map(([cssVar, value]) => ({
   name: cssVar.replace('--r-', 'radius-'),
   cssVar,
@@ -7546,16 +7546,15 @@ const SHADOW_TOKENS: TokenEntry[] = [
 const MOTION_TOKENS: TokenEntry[] = [
   // Note: Easing tokens are in EASING_TOKENS, not here (avoid duplicate keys)
   { name: 'dur-1', cssVar: '--dur-1', value: '120ms', group: 'Duration', type: 'motion' },
-  { name: 'dur-2', cssVar: '--dur-2', value: '180ms', group: 'Duration', type: 'motion' },
-  { name: 'dur-3', cssVar: '--dur-3', value: '240ms', group: 'Duration', type: 'motion' },
-  { name: 'dur-4', cssVar: '--dur-4', value: '320ms', group: 'Duration', type: 'motion' },
+  { name: 'dur-2', cssVar: '--dur-2', value: '200ms', group: 'Duration', type: 'motion' },
+  { name: 'dur-3', cssVar: '--dur-3', value: '320ms', group: 'Duration', type: 'motion' },
+  { name: 'dur-4', cssVar: '--dur-4', value: '520ms', group: 'Duration', type: 'motion' },
 ];
 
 const GRADIENT_TOKENS: TokenEntry[] = [
   { name: 'Warm', cssVar: '--g-warm', value: 'linear-gradient(135deg, #F8B044, #ED843A)', group: 'Gradients', type: 'gradient' },
   { name: 'Warm soft', cssVar: '--g-warm-soft', value: 'linear-gradient(180deg, #FFF3EB, #FFE6D6)', group: 'Gradients', type: 'gradient' },
-  { name: 'Cool', cssVar: '--g-cool', value: 'linear-gradient(135deg, #55A1B4, #3D7786)', group: 'Gradients', type: 'gradient' },
-  { name: 'Cool deep', cssVar: '--g-cool-deep', value: 'linear-gradient(135deg, #2F5F6A, #1F3E45)', group: 'Gradients', type: 'gradient' },
+  { name: 'Cool deep', cssVar: '--g-cool-deep', value: 'radial-gradient(circle at 0% 0%, #55A1B4 0%, #2F5F6A 60%, #1F3E45 100%)', group: 'Gradients', type: 'gradient' },
   { name: 'Cool soft', cssVar: '--g-cool-soft', value: 'linear-gradient(180deg, #E8F4F7, #DCEBEF)', group: 'Gradients', type: 'gradient' },
 ];
 
@@ -7604,7 +7603,7 @@ const BLUR_TOKENS: TokenEntry[] = [
   { name: 'blur-glass-light', cssVar: '--blur-glass-light', value: '8px', group: 'Blur (frosted glass)', type: 'blur' },
   { name: 'blur-glass-medium', cssVar: '--blur-glass-medium', value: '16px', group: 'Blur (frosted glass)', type: 'blur' },
   { name: 'blur-glass-heavy', cssVar: '--blur-glass-heavy', value: '24px', group: 'Blur (frosted glass)', type: 'blur' },
-  { name: 'blur-glass-ambient', cssVar: '--blur-glass-ambient', value: '60px', group: 'Blur (frosted glass)', type: 'blur' },
+  { name: 'blur-glass-ambient', cssVar: '--blur-ambient', value: '60px', group: 'Blur (frosted glass)', type: 'blur' },
 ];
 
 const SURFACE_TOKENS: TokenEntry[] = [
@@ -7731,11 +7730,11 @@ const Swatch: React.FC<{ t: TokenEntry }> = ({ t }) => {
   if (t.type === 'gradient') {
     return (
       <div className="token-card">
-        <div className="token-card__swatch" style={{ background: t.value }} />
+        <div className="token-card__swatch" style={{ background: t.cssVar ? `var(${t.cssVar}, ${t.value})` : t.value }} />
         <div className="token-card__meta">
           <p className="token-card__name">{t.name}</p>
           <CopyChip text={t.cssVar} />
-          <p className="token-card__value" title={t.value}>{t.value}</p>
+          <p className="token-card__value" title={liveValue}>{liveValue}</p>
         </div>
       </div>
     );
@@ -7762,9 +7761,15 @@ const Swatch: React.FC<{ t: TokenEntry }> = ({ t }) => {
   }
 
   if (t.type === 'spacing') {
-    // Try to extract a px value either from "16px" or "1rem (16px)"
-    const pxMatch = t.value.match(/(\d+)\s*px/);
-    const px = pxMatch ? parseInt(pxMatch[1], 10) : (parseInt(t.value, 10) || 0);
+    /* On mesure la valeur VIVANTE plutot que de parser la chaine en dur : c'est
+       ce qui a fait deriver --dur-* et --r-2xl, qui affichaient des valeurs que
+       l'app ne rendait plus. */
+    const src = liveValue || t.value;
+    const rem = src.match(/([\d.]+)\s*rem/);
+    const pxMatch = src.match(/([\d.]+)\s*px/);
+    const px = rem ? Math.round(parseFloat(rem[1]) * 16)
+             : pxMatch ? Math.round(parseFloat(pxMatch[1]))
+             : (parseInt(src, 10) || 0);
     return (
       <div className="token-card">
         <div className="token-card__swatch token-card__swatch--spacing">
@@ -7784,7 +7789,7 @@ const Swatch: React.FC<{ t: TokenEntry }> = ({ t }) => {
       <div className="token-card">
         <div
           className="token-card__swatch token-card__swatch--radius"
-          style={{ borderRadius: t.value }}
+          style={{ borderRadius: t.cssVar ? `var(${t.cssVar}, ${t.value})` : t.value }}
         />
         <div className="token-card__meta">
           <p className="token-card__name">{t.name}</p>

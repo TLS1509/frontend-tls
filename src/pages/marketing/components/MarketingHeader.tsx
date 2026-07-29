@@ -120,6 +120,24 @@ export const MarketingHeader: React.FC = () => {
   const reduced = useReducedMotion();
   const dropdownTimerRef = useRef<number | null>(null);
 
+  // État « la page a défilé ».
+  //
+  // ⚠️ NE PAS REMPLACER PAR UN IntersectionObserver SANS POUVOIR LE VÉRIFIER.
+  // Tenté le 2026-07-29 au nom de la règle « pas d'écouteur de scroll » portée
+  // par plusieurs skills de design. Annulé le jour même, pour deux raisons.
+  //
+  // 1. La règle ne vise pas ce cas. Elle protège des handlers qui pilotent des
+  //    valeurs continues (position, progression) ou qui lisent la mise en page à
+  //    chaque frame. Ici on écrit un booléen, et React court-circuite le rendu
+  //    quand la valeur ne change pas : le coût réel est une comparaison par
+  //    frame de défilement, pas un re-rendu.
+  // 2. Le remplacement était invérifiable. Mesuré dans le panneau d'aperçu :
+  //    `requestAnimationFrame` ne s'exécute pas, aucun événement `scroll` n'est
+  //    émis, et l'IntersectionObserver ne délivre jamais de callback — pas même
+  //    l'appel initial. Impossible d'y prouver qu'un observateur fonctionne, ni
+  //    que ce listener est cassé. Remplacer du code éprouvé par du code non
+  //    testable, sur la foi d'une règle, c'est troquer un coût mesuré contre un
+  //    risque inconnu.
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();

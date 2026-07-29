@@ -323,9 +323,15 @@ export const MarketingContact: React.FC = () => {
                       <label htmlFor="ct-name" className="font-body text-body-sm font-semibold text-ink-900">
                         Prénom et nom *
                       </label>
+                      {/* `name` + `autoComplete` ajoutés le 2026-07-29. Sans eux,
+                          le remplissage automatique du navigateur ne se déclenche
+                          pas : sur la page de conversion principale du site, c'est
+                          un coût direct, pas un point de conformité théorique. */}
                       <input
                         id="ct-name"
+                        name="name"
                         type="text"
+                        autoComplete="name"
                         required
                         aria-invalid={!!fieldErrors.name}
                         aria-describedby={fieldErrors.name ? 'ct-name-error' : undefined}
@@ -351,9 +357,15 @@ export const MarketingContact: React.FC = () => {
                       <label htmlFor="ct-email" className="font-body text-body-sm font-semibold text-ink-900">
                         Email pro *
                       </label>
+                      {/* `spellCheck={false}` : un correcteur orthographique
+                          souligne systématiquement une adresse e-mail en rouge,
+                          ce qui la fait passer pour invalide. */}
                       <input
                         id="ct-email"
+                        name="email"
                         type="email"
+                        autoComplete="email"
+                        spellCheck={false}
                         required
                         aria-invalid={!!fieldErrors.email}
                         aria-describedby={fieldErrors.email ? 'ct-email-error' : undefined}
@@ -384,7 +396,9 @@ export const MarketingContact: React.FC = () => {
                       </label>
                       <input
                         id="ct-org"
+                        name="organization"
                         type="text"
+                        autoComplete="organization"
                         value={form.org}
                         onChange={(e) => setForm({ ...form, org: e.target.value })}
                         placeholder="Nom de l'entreprise ou organisation"
@@ -397,7 +411,9 @@ export const MarketingContact: React.FC = () => {
                       </label>
                       <input
                         id="ct-phone"
+                        name="tel"
                         type="tel"
+                        autoComplete="tel"
                         value={form.phone}
                         onChange={(e) => setForm({ ...form, phone: e.target.value })}
                         placeholder="+33 6 00 00 00 00"
@@ -416,9 +432,13 @@ export const MarketingContact: React.FC = () => {
                         en `rounded-2xl` — une zone multiligne en pilule est
                         illisible. À rejouer si la phase design tranche
                         autrement sur les champs. */}
+                    {/* `autoComplete="off"` : le contenu est propre à chaque
+                        demande, rien à re-proposer d'une visite à l'autre. */}
                     <textarea
                       id="ct-message"
+                      name="message"
                       rows={5}
+                      autoComplete="off"
                       required
                       aria-invalid={!!fieldErrors.message}
                       aria-describedby={fieldErrors.message ? 'ct-message-error' : undefined}
@@ -445,6 +465,7 @@ export const MarketingContact: React.FC = () => {
                   <label className="relative flex items-start gap-3 cursor-pointer group">
                     <input
                       type="checkbox"
+                      name="newsletter"
                       checked={form.newsletter}
                       onChange={(e) => setForm({ ...form, newsletter: e.target.checked })}
                       className="peer sr-only"

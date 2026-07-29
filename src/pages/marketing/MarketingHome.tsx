@@ -462,9 +462,16 @@ const DoubleCta: React.FC = () => {
                   <label htmlFor="home-vigie-email" className="sr-only">
                     Votre adresse email professionnelle
                   </label>
+                  {/* `name` + `autoComplete` + `spellCheck` : même raison que sur
+                      la page Contact (2026-07-29). Le remplissage automatique ne
+                      se déclenche pas sans eux, et un correcteur orthographique
+                      souligne l'adresse en rouge comme si elle était fautive. */}
                   <input
                     id="home-vigie-email"
+                    name="email"
                     type="email"
+                    autoComplete="email"
+                    spellCheck={false}
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}

@@ -403,7 +403,7 @@ const CtaFinal: React.FC = () => (
             </p>
             <div className="flex flex-wrap items-center gap-stack-xs">
               <Button to="/website/contact" variant="secondary" size="xl" trailingIcon={<ArrowRight size={20} />}>
-                Demander un Audit Flash STRIDE
+                Réserver un Audit Flash STRIDE
               </Button>
               <Button to="/website/learning-app" variant="glass" size="xl" trailingIcon={<ArrowUpRight size={20} />}>
                 Découvrir la Learning App

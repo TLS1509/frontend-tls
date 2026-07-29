@@ -5,6 +5,15 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#3D7786" />
+    <!-- Le site est en mode clair, et le dit. Sans cette déclaration, un
+         visiteur dont le système est en mode sombre voit le navigateur teinter
+         de lui-même les contrôles natifs : ascenseurs, `<select>`, champs de
+         date, saisie automatique. Résultat, des îlots sombres au milieu d'une
+         page claire, sur des éléments qu'aucune feuille de style ne contrôle.
+         Ajouté le 2026-07-29.
+         ⚠️ À repasser à `light dark` le jour où un vrai mode sombre existe
+         (les tokens ont été retirés le 28/07, cf. CLAUDE.md). -->
+    <meta name="color-scheme" content="light" />
     <title>The Learning Society</title>
     <!-- POLICES — deux sources, dans cet ordre.
          1) Auto-hébergées depuis /fonts/ : c'est la source normale, déclarée par

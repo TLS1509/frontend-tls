@@ -36,6 +36,21 @@
     font-size: 16px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+
+    /* Le site est en mode clair, et le déclare aux contrôles natifs :
+       ascenseurs, `<select>`, sélecteurs de date, remplissage automatique.
+       Sans ça, un visiteur dont le système est en sombre les voit teintés par
+       le navigateur — des îlots sombres au milieu d'une page claire, sur des
+       éléments qu'aucune feuille de style ne contrôle.
+
+       La balise `<meta name="color-scheme">` d'`index.html` ne suffit pas à
+       elle seule : mesuré au navigateur le 2026-07-29, la propriété calculée
+       restait à `normal`. Il faut la poser en CSS. Les deux se complètent — la
+       balise agit avant le premier octet de CSS, la règle fait foi ensuite.
+
+       ⚠️ À passer à `light dark` le jour où un vrai mode sombre existe (tokens
+       retirés le 28/07, cf. CLAUDE.md). */
+    color-scheme: light;
   }
 
   body {

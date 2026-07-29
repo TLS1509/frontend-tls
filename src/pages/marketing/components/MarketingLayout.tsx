@@ -39,8 +39,19 @@ import { MarketingToastProvider } from '../../../components/marketing/motion';
 export const MarketingLayout: React.FC = () => (
   <MarketingToastProvider>
     <div className="min-h-[100dvh] flex flex-col bg-gradient-page-ambient">
+      {/* Lien d'évitement — ajouté le 2026-07-29. Le site n'en avait aucun :
+          un utilisateur au clavier devait traverser les 6 entrées de nav et les
+          2 menus déroulants sur chaque page avant d'atteindre le contenu.
+          Invisible jusqu'au focus, puis premier élément atteignable. */}
+      <a
+        href="#contenu"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-toast focus:inline-flex focus:h-11 focus:items-center focus:rounded-pill focus:bg-ink-900 focus:px-5 focus:font-body focus:text-body-sm focus:font-semibold focus:text-white focus:outline-2 focus:outline-offset-2 focus:outline-accent-400"
+      >
+        Aller au contenu
+      </a>
+
       <MarketingHeader />
-      <main className="flex-1">
+      <main id="contenu" className="flex-1 scroll-mt-28">
         <Outlet />
       </main>
       <MarketingFooter />
