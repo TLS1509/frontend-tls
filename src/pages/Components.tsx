@@ -2788,7 +2788,11 @@ const COMPONENTS: ComponentEntry[] = [
         {/* Variant solid — actions context menu */}
         <div className="flex flex-col gap-stack-xs">
           <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Solid · actions context</p>
-          <DropdownMenu variant="solid" style={{ position: 'static' }}>
+          {/* autoFocus={false} : cette démo est rendue OUVERTE en permanence. Avec le
+    défaut du composant (autoFocus), elle prend le focus au montage et le
+    navigateur scrolle pour l'amener à l'écran — la catégorie Navigation
+    s'ouvrait donc à 1477 px au lieu du haut de page. */}
+            <DropdownMenu variant="solid" autoFocus={false} style={{ position: 'static' }}>
             <DropdownLabel>Actions</DropdownLabel>
             <DropdownItem icon={I.edit} shortcut="⌘E">Modifier</DropdownItem>
             <DropdownItem icon={I.arrow}>Partager</DropdownItem>
@@ -2802,7 +2806,7 @@ const COMPONENTS: ComponentEntry[] = [
         <div className="flex flex-col gap-stack-xs">
           <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Glass · user menu (Sidebar)</p>
           <div className="relative bg-gradient-to-br from-primary-50 to-primary-100/40 p-section rounded-2xl">
-            <DropdownMenu variant="glass" style={{ position: 'static', minWidth: 260 }}>
+            <DropdownMenu variant="glass" autoFocus={false} style={{ position: 'static', minWidth: 260 }}>
               <DropdownItem icon={<UserIcon size={16} />}>Mon Profil</DropdownItem>
               <DropdownItem icon={<Settings2 size={16} />}>Paramètres</DropdownItem>
               <DropdownItem icon={<Bell size={16} />}>Notifications</DropdownItem>
@@ -7480,8 +7484,9 @@ const Components: React.FC = () => {
   }, [q, activeSlug, isSearching]);
 
   const filteredPages = useMemo(() => {
-    // Idem : la recherche doit pouvoir remonter un template de page
-    if (activeSlug && !isSearching) return [];
+    // Idem : la recherche doit pouvoir remonter un template de page, et la
+    // catégorie « Pages & Templates » n'affiche QUE ça.
+    if (activeSlug && !isSearching && activeSlug !== categorySlug('Pages & Templates')) return [];
     return PAGE_TEMPLATES.filter((p) => {
       if (!q) return true;
       const haystack = [p.name, p.description, p.family, ...p.tags].join(' ').toLowerCase();
@@ -7535,7 +7540,10 @@ const Components: React.FC = () => {
   /* Une catégorie = une destination. Sans slug d'URL, on retombe sur la vue
      complète (l'ancien comportement), ce qui garde `/components` fonctionnel. */
   const categoryCounts = useMemo(
-    () => Object.fromEntries(componentsByCategory.map(([cat, , n]) => [cat, n])),
+    () => ({
+      ...Object.fromEntries(componentsByCategory.map(([cat, , n]) => [cat, n])),
+      'Pages & Templates': PAGE_TEMPLATES.length,
+    }),
     [componentsByCategory],
   );
   const visibleCategories = useMemo(
@@ -7546,6 +7554,11 @@ const Components: React.FC = () => {
     [componentsByCategory, activeSlug, isSearching],
   );
   const isFiltered = Boolean(activeSlug) && !isSearching;
+  /* « Pages & Templates » est une catégorie de la nav, mais son contenu ne
+     vient pas de COMPONENTS : il vient de PAGE_TEMPLATES. Sans ce cas, la
+     route rendait une page vide. */
+  const showPageTemplates =
+    !isFiltered || activeSlug === categorySlug('Pages & Templates');
 
   /* Chaque composant a une destination : sa catégorie, plus son ancre. C'est ce
      qui rend une suggestion cliquable utile — avant, la sélection se contentait
@@ -7642,39 +7655,6 @@ const Components: React.FC = () => {
             organisés en {CATEGORY_ORDER.length} catégories et {totalSubCategories} sous-catégories.
             Cliquez sur une puce pour copier la référence.
           </>
-        }
-        trailing={
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-stack-xs sm:gap-stack">
-            <StatCard
-              variant="brand"
-              size="sm"
-              icon={<Layers size={18} />}
-              value={COMPONENTS.length}
-              label="Composants"
-            />
-            <StatCard
-              variant="brand"
-              size="sm"
-              icon={<Palette size={18} />}
-              value={ALL_TOKENS.length}
-              label="Tokens"
-            />
-            <StatCard
-              variant="brand"
-              size="sm"
-              icon={<FolderTree size={18} />}
-              value={CATEGORY_ORDER.length}
-              sub={`/${totalSubCategories}`}
-              label="Cats / Sous-cats"
-            />
-            <StatCard
-              variant="brand"
-              size="sm"
-              icon={<LayoutTemplate size={18} />}
-              value={PAGE_TEMPLATES.length}
-              label="Pages templates"
-            />
-          </div>
         }
       />
 
@@ -7803,7 +7783,7 @@ const Components: React.FC = () => {
           ))}
 
           {/* ---- Pages & Templates ---- */}
-          {!isFiltered && pagesByFamily.map(([family, pages]) => (
+          {showPageTemplates && pagesByFamily.map(([family, pages]) => (
             <section key={family} className="ds-section">
               <div className="ds-section__head">
                 <h2 className="ds-section__title">Pages · {family}</h2>
