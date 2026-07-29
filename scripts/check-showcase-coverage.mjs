@@ -63,16 +63,37 @@ for (const file of walk(COMPONENTS_DIR)) {
 }
 
 const registrySrc = readFileSync(REGISTRY, 'utf8');
-const catalogBody = registrySrc.match(/CATALOG: Record<string, CatalogMeta> = \{([\s\S]*?)\n\};/)[1];
-const classified = new Set(
-  [...catalogBody.matchAll(/^\s*'?([A-Za-z]\w*)'?\s*:\s*\{/gm)].map((m) => m[1]),
-);
+const block = (name) => registrySrc.match(new RegExp(`${name}[^=]*= \\{([\\s\\S]*?)\\n\\};`))?.[1] ?? '';
+const keysOf = (body) => new Set([...body.matchAll(/^\s*'?([A-Za-z]\w*)'?\s*:/gm)].map((m) => m[1]));
 
-const missing = [...exported.keys()].filter((n) => !classified.has(n)).sort();
-const ghosts = [...classified].filter((n) => !exported.has(n)).sort();
+const classified = keysOf(block('CATALOG'));
+/* Un composant peut être présenté DANS une autre entrée (EditorialCard montre
+   ArticleCard, MagazineCard, VideoCard). Sans ces deux tables, on le compterait
+   absent alors qu'il est à l'écran. */
+const coveredBy = keysOf(block('COVERED_BY'));
+const notShowcased = keysOf(block('NOT_SHOWCASED'));
+
+const missing = [...exported.keys()]
+  .filter((n) => !classified.has(n) && !coveredBy.has(n) && !notShowcased.has(n))
+  .sort();
+/* Une clé du CATALOG peut être une étiquette de regroupement plutôt qu'un
+   export : soit elle nomme un fichier (JacCard.tsx expose JacCardNextJalon et
+   JacCardPending), soit elle sert de cible dans COVERED_BY (EditorialCard).
+   Un vrai fantôme n'est ni l'un ni l'autre. */
+const fileNames = new Set(
+  walk(COMPONENTS_DIR).map((f) => f.split('/').pop().replace('.tsx', '')),
+);
+const groupingTargets = new Set(
+  [...block('COVERED_BY').matchAll(/:\s*'([^']+)'/g)].map((m) => m[1]),
+);
+const ghosts = [...classified]
+  .filter((n) => !exported.has(n) && !fileNames.has(n) && !groupingTargets.has(n))
+  .sort();
 
 console.log(`Exportés (hors périmètre exclu) : ${exported.size}`);
 console.log(`Classés dans le registre        : ${classified.size}`);
+console.log(`Présentés via une autre entrée  : ${coveredBy.size}`);
+console.log(`Hors vitrine (décidé)           : ${notShowcased.size}`);
 console.log('');
 
 if (missing.length) {

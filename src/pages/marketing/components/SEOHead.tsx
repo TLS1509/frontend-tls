@@ -3,10 +3,25 @@ import { Helmet } from 'react-helmet-async';
 
 const SITE_NAME = 'The Learning Society';
 const BASE_URL = 'https://thelearningsociety.fr';
+
+// Réécrite le 2026-07-29. Elle disait « formation certifiante IA pour
+// formateurs, Learning App adaptative et accompagnement stratégique » — un
+// texte d'avant le pivot SBO qui portait deux claims interdits par
+// FACTS-CANON : la formation « Formateur Augmenté » (X10, sujet clos) et
+// « certifiante » sans source. Elle ne se voyait pas : les 19 pages passent
+// toutes leur propre `description`, donc la balise meta était juste. Mais
+// `orgSchema` ci-dessous la réutilisait, et 18 pages sur 19 ne passent pas de
+// `schema` — le JSON-LD décrivait donc l'organisation en termes pré-pivot sur
+// tout le site sauf l'accueil. Aligné sur le positionnement arbitré
+// (FACTS-CANON C1).
 const DEFAULT_DESCRIPTION =
-  "The Learning Society : formation certifiante IA pour formateurs, Learning App adaptative et accompagnement stratégique.";
+  'The Learning Society : cabinet de conseil et studio expert en Skills-Based Organization. Conseil stratégique, création pédagogique sur-mesure et IA pour aligner les compétences sur les enjeux business.';
 const DEFAULT_OG_IMAGE = `${BASE_URL}/og-image.svg`;
 const TWITTER_HANDLE = '@thelearningsociety';
+// Une seule graphie. Ce fichier portait `the-learning-society`, le schéma de
+// l'accueil `thelearningsociety` : un `sameAs` faux casse la réconciliation
+// d'entité côté moteurs.
+const LINKEDIN_URL = 'https://www.linkedin.com/company/thelearningsociety';
 
 interface SEOHeadProps {
   title: string;
@@ -44,9 +59,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
     url: BASE_URL,
     logo: `${BASE_URL}/favicon.svg`,
     description: DEFAULT_DESCRIPTION,
-    sameAs: [
-      'https://www.linkedin.com/company/the-learning-society',
-    ],
+    sameAs: [LINKEDIN_URL],
   };
 
   const activeSchema = schema ?? orgSchema;

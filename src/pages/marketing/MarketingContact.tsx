@@ -435,10 +435,16 @@ export const MarketingContact: React.FC = () => {
                     />
                     <div className="flex flex-col gap-0.5">
                       <span className="font-body text-body-sm font-semibold text-ink-900 leading-snug">
-                        Recevoir nos ressources et actualités
+                        Recevoir La Vigie IA
                       </span>
+                      {/* Corrigé le 29/07 : la case annonçait « nos ressources et
+                          actualités » et « pas plus d'un email par semaine ». La
+                          Vigie IA est bimensuelle et porte un nom — la Home, la
+                          page Vigie, le hub Ressources et le bas d'article
+                          disent tous « un mardi sur deux ». Deux fréquences pour
+                          la même liste, c'est une promesse d'abonnement fausse. */}
                       <span className="font-body text-caption text-ink-500 leading-relaxed">
-                        Veille EdTech, méthodes de formation, retours terrain. Pas plus d'un email par semaine. Résiliable en un clic.
+                        Un mardi sur deux, à 8h : un workflow pédagogique autopsié, une fiche Out-skill, un crash-test terrain. Cinq minutes. Résiliable en un clic.
                       </span>
                     </div>
                   </label>

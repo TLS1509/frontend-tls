@@ -77,6 +77,53 @@ export const SUBCATEGORY_ORDER: Record<Category, string[]> = {
   'Pages & Templates': [],
 };
 
+/* ── Ce que le showcase groupe, et ce qu'il n'a pas à montrer ───────────────
+ *
+ * Le showcase ne suit pas la règle « un export = une entrée » : certaines
+ * entrées présentent délibérément plusieurs composants d'un coup (EditorialCard
+ * montre ArticleCard + MagazineCard + VideoCard ; AuthShell montre toute sa
+ * famille). Sans cette table, le contrôle de couverture compte ces composants
+ * comme absents alors qu'ils sont bien à l'écran.
+ */
+export const COVERED_BY: Record<string, string> = {
+  ArticleCard: 'EditorialCard',
+  MagazineCard: 'EditorialCard',
+  VideoCard: 'EditorialCard',
+  StatusBadge: 'Badge',
+  Steps: 'Stepper',
+  SearchWithSuggestions: 'Search',
+  ToastContainer: 'Toast',
+  ConfirmModal: 'Modal',
+  SuccessModal: 'Modal',
+  CancelSessionModal: 'Modal',
+  StreakCelebrationModal: 'Modal',
+  AuthCheckbox: 'AuthShell',
+  AuthDivider: 'AuthShell',
+  AuthField: 'AuthShell',
+  AuthGhostButton: 'AuthShell',
+  AuthGoogleIcon: 'AuthShell',
+  AuthInlineLink: 'AuthShell',
+  AuthLinkedinIcon: 'AuthShell',
+  AuthPasswordField: 'AuthShell',
+  AuthPrimaryButton: 'AuthShell',
+  AuthSocialButton: 'AuthShell',
+  EditorialCardSkeleton: 'SkeletonTemplates',
+  NotificationRowSkeleton: 'SkeletonTemplates',
+  ParcoursCardSkeleton: 'SkeletonTemplates',
+};
+
+/**
+ * Composants sans interface, ou explicitement hors vitrine.
+ * Les lister ici est une décision, pas un oubli — le contrôle de couverture
+ * doit pouvoir faire la différence.
+ */
+export const NOT_SHOWCASED: Record<string, string> = {
+  ProtectedRoute: 'garde de route, ne rend rien',
+  ScrollToTop: 'effet de navigation, retourne null',
+  DevPanel: 'outil de développement, pas un composant du DS',
+  AuthFeature: '@deprecated, aucun consommateur — ne pas encourager son usage',
+};
+
 export interface CatalogMeta {
   category: Category;
   subCategory: SubCategory;
@@ -274,7 +321,6 @@ export const CATALOG: Record<string, CatalogMeta> = {
   // ── FORMS ─────────────────────────────────────────────────────────────
   MultiStepForm:        { category: 'Forms', subCategory: 'Composite forms' },
   FormLayout:           { category: 'Forms', subCategory: 'Composite forms' },
-  SearchWithFilters_F:  { category: 'Forms', subCategory: 'Composite forms' }, // collision-safe alias
   FilterBar:            { category: 'Search & Filters', subCategory: 'Filter controls' },
 
   // ── LEARNING (gamification & pedagogy specific to TLS) ────────────────
