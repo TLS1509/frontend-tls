@@ -6,7 +6,9 @@
 export { Dashboard } from './Dashboard';
 export { Profile } from './Profile';
 // Settings retired (Phase 24) — merged into Account.tsx (Interface section)
-export { Components } from './Components';
+// `Components` n'est PAS réexporté ici : la page du showcase est chargée en
+// lazy dans App.tsx. La réexporter depuis ce barrel la ramènerait dans le
+// chunk principal, ce qui annulerait le découpage.
 export { LearningPaths } from './LearningPaths';
 export { LearningPathDetail } from './LearningPathDetail';
 export { Positionnement } from './Positionnement';

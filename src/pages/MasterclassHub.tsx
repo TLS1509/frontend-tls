@@ -5,7 +5,6 @@ import { PageShell } from '../components/layout';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
-import { StatCard } from '../components/ui/StatCard';
 import { FilterChip } from '../components/ui/FilterChip';
 import { Avatar } from '../components/ui/Avatar';
 import { useEventsStore } from '../stores/persistence';
@@ -31,9 +30,6 @@ export default function MasterclassHub() {
   const masterclasses = eventsStore.masterclasses.length > 0
     ? eventsStore.masterclasses
     : (() => { eventsStore.getMasterclassEnrollment(MOCK_USER_ID, '__seed__'); return eventsStore.masterclasses; })();
-
-  const upcomingCount = masterclasses.filter((m) => m.status === 'scheduled').length;
-  const replayCount = masterclasses.filter((m) => m.status === 'completed' && m.vimeoVideoId).length;
   const enrolledCount = masterclasses.filter((m) => eventsStore.getMasterclassEnrollment(MOCK_USER_ID, m.id)).length;
 
   const filtered = masterclasses.filter((m) => {
@@ -54,12 +50,6 @@ export default function MasterclassHub() {
       />
 
       <div className="flex flex-col gap-section">
-        {/* Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
-          <StatCard label="Prochaines sessions" value={upcomingCount} icon={<Calendar size={18} />} tone="neutral" surface="tinted" />
-          <StatCard label="Replays disponibles" value={replayCount} icon={<Play size={18} />} tone="neutral" surface="tinted" />
-          <StatCard label="Mes inscriptions" value={enrolledCount} icon={<Users size={18} />} variant="brand" />
-        </div>
 
         {/* Filters */}
         <div className="flex items-center gap-stack-xs flex-wrap">

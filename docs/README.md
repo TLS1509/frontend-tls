@@ -50,8 +50,8 @@ Bienvenue dans la doc du projet **The Learning Society** — plateforme EdTech S
 - `_audits/AUDIT-CLAUDE-MD-CONTEXT-2026-07-25.md` — refonte du CLAUDE.md (context engineering, 2 passes)
 
 **Design & Assets :**
-- `site/DESIGN-INSPO.md` — Mobbin saves + Until Labs case study
-- `site/PROMPT-NAVBAR-HOMEPAGE-REDESIGN.md` — Prompt navbar fluid island + hero parallax
+- `site/DESIGN-INSPO.md` — Mobbin saves + Until Labs case study. ⚠️ Sa « Direction C » et son catalogue d'effets sont **suspendus** depuis le 29/07 (voir l'en-tête du fichier) : à lire comme matériau de référence, pas comme une décision
+  *(`site/PROMPT-NAVBAR-HOMEPAGE-REDESIGN.md` retiré de cette liste le 29/07 : le fichier n'existe pas dans le dépôt.)*
 
 **Références :**
 - `PRODUCT.md` (racine repo) — Config produit (version, stack, routes)
@@ -63,7 +63,6 @@ Bienvenue dans la doc du projet **The Learning Society** — plateforme EdTech S
 
 | Task | Fichier à lire | Prompt |
 |------|---|---|
-| **Navbar Fluid Island + Hero parallax** | `site/DESIGN-INSPO.md` + `site/PROMPT-NAVBAR-HOMEPAGE-REDESIGN.md` | Copier PROMPT-NAVBAR-HOMEPAGE-REDESIGN.md directement |
 | **Phase 16 (Spec compliance)** | `PHASE-16-GAP-ANALYSIS.md` + cahiers `/CDC/01-13bis` | Lancer un Agent Explore sur CDC/ + FO pages |
 | **Design System audit** | `DESIGN.md` (racine) + `/CDC/` | Valider tokens Tailwind vs Figma DS |
 | **Marketing site refonte** | `site/CONTEXT-SITE-MARKETING.md` + `site/DESIGN-INSPO.md` | Voir le contexte-maison du site |

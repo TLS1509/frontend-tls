@@ -6,9 +6,13 @@
  *
  * Nettoyage motion du 28/07/2026 : la page portait un parallaxe à la souris sur
  * six couches (halos, chiffre, sur-titre, bloc titre) et une pulsation infinie
- * sur chaque halo. Les deux sont retirés — le parallaxe est un effet écarté, et
- * une page d'erreur n'a pas besoin d'animation perpétuelle. Reste l'entrée en
- * cascade, qui sert la lecture. Les halos deviennent un décor fixe.
+ * sur chaque halo. Les deux sont retirés : une page d'erreur n'a pas besoin
+ * d'animation perpétuelle. Reste l'entrée en cascade, qui sert la lecture. Les
+ * halos deviennent un décor fixe.
+ *
+ * (29/07 : le motif « le parallaxe est un effet écarté » est retiré de ce
+ * commentaire — l'interdit n'existe plus. Le retrait tient sur son autre motif,
+ * la sobriété d'une page d'erreur. À rejouer avec la passe motion du site.)
  */
 
 import React from 'react';

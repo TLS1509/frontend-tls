@@ -16,7 +16,11 @@
  *    autodiagnostic annonce 3 min ; on évite la contradiction).
  *
  * Discipline : vous (pas tu), pas de métrique inventée, pas de client nommé,
- * pas d'em dash, CTA verbe+objet, pas de parallax.
+ * pas d'em dash, CTA verbe+objet.
+ *
+ * Motion : aucune contrainte d'effet en vigueur (l'interdit de parallaxe a été
+ * levé le 29/07). Ce qui est en place ici est volontairement minimal en
+ * attendant la passe motion dédiée.
  */
 
 import React, { useState } from 'react';

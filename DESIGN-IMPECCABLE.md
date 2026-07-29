@@ -842,7 +842,7 @@ Backgrounds carry **soft tonal gradients** that recede behind content — never 
 
 | Surface | Gradient pattern |
 |---------|------------------|
-| Marketing hero | **Decided per page.** No default recipe, and **no parallax** (an effect Chloé has ruled out). *(Revised 2026-07-28: this cell used to prescribe `MeshGradient` + 2-3 parallax `AmbientBlobs`, which is how twelve pages ended up wearing the same background.)* |
+| Marketing hero | **Decided per page.** No default recipe, and no effect is ruled in or out ahead of time. *(Revised 2026-07-28: this cell used to prescribe `MeshGradient` + 2-3 parallax `AmbientBlobs`, which is how twelve pages ended up wearing the same background. Revised again 2026-07-29: the standing "no parallax" ban was lifted — the site's motion direction is being replayed from scratch.)* |
 | Auth pages | `AuthShell` with full-bleed coastal gradient + 1 floating blob |
 | Editorial hero | `surface-mist` base + 1 single low-opacity blob in the dominant tone |
 | Dashboard / Product chrome | Flat `surface-white` or `surface-cool` — gradients reserved for hero context |

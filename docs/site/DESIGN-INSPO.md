@@ -1,5 +1,27 @@
 # DESIGN-INSPO.md — Recherche créative TLS (entonnoir, pas filet)
 
+> ## ⚠️ Statut au 2026-07-29 : matériau de référence, pas une décision
+>
+> **Ce qui reste utile :** les saves Mobbin et leur analyse (§ Références
+> directes, Capture brute, Short-list, Mobbin saves), le North Star, les
+> anti-références, et la consigne de ne pas chercher par « education /
+> learning ». C'est du matériau de première main, il sert.
+>
+> **Ce qui est suspendu :** la « DÉCISION FINALE — Direction C *Illustrated
+> Glass* » du 11/06 et **tout le bloc *Directrice créative*** qui la suit
+> (illustration, vidéo, table de micro-interactions, hero cinématique,
+> comportement par page, case study Until Labs et ses trois tiers de parallaxe).
+> Ces sections prescrivent un vocabulaire d'effets page par page et se terminent
+> par « *Once approved: No reopening Directions* » — c'est exactement le genre de
+> verrou qui a produit douze pages portant les mêmes effets.
+>
+> **La direction visuelle et motion du site est à rejouer entièrement**, dans une
+> passe dédiée, à partir des pages telles qu'elles existent aujourd'hui. D'ici
+> là : **aucun effet n'est prescrit, aucun effet n'est banni** — l'interdit de
+> parallaxe qui figurait dans `FACTS-CANON` a été levé le 29/07.
+>
+> Ne pas citer ce fichier comme une contrainte. Le citer comme une bibliothèque.
+
 > But de ce doc : capturer ce que tu aimes **sans partir dans tous les sens**.
 > Règle d'or : on ne sauve **jamais un site entier**, on vole **UN seul élément** à la fois.
 > Si tu ne peux pas dire *pourquoi en 6 mots*, c'est une distraction → tu ne sauves pas.
@@ -185,9 +207,12 @@ TLS a deux surfaces. Tague chaque save :
 
 ---
 
-## ✅ DÉCISION FINALE — Direction C « Illustrated Glass »
+## ⏸️ DIRECTION C « Illustrated Glass » — SUSPENDUE (2026-07-29)
 
-> *Décision 2026-06-11 : C all the way. Smooth, light, premium, elevated.*
+> *Prise le 2026-06-11 (« C all the way. Smooth, light, premium, elevated »),
+> **suspendue le 2026-07-29**. Tout ce qui suit jusqu'à la fin de la section
+> « Directrice créative » se lit comme une exploration datée, pas comme une
+> décision en vigueur : la direction visuelle et motion du site est à rejouer.*
 
 **Direction primaire retenue :** **C** — Illustrated Glass (atmosphérique, depth, tension organique/tech, signature mémorable)
 
@@ -328,7 +353,10 @@ CTA: « Commencer maintenant » (orange, ripple, arrow rotate hover)
 - ⚠️ **Timeline :** Illustration + video = 2-3 weeks for asset pipeline. Motion code = 1 week (using established Framer patterns)
 - 🚀 **Start sequence :** (1) Procreate illustration batches (Home + Formation hero) → (2) Video shoot/edit → (3) Component micro-interactions + scroll reveals
 
-> **Once approved :** No reopening Directions. Implementation = DESIGN-INSPO.md + brief to Dev/Design. Consistency guardrail = all motion follows the easing rules, all illustrations follow the watercolor+organic style, all interactions follow the "smooth light premium" principle.
+> ⏸️ *Cette clause de verrouillage (« Once approved: No reopening Directions »)
+> est **caduque depuis le 2026-07-29**. Une direction créative ne se ferme pas à
+> la relecture — c'est ce verrou qui a transformé une exploration de juin en loi
+> tenue sept semaines. La direction est rouverte.*
 
 ---
 

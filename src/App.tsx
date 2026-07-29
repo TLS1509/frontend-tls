@@ -12,7 +12,7 @@
  * - Uses design system sidebar and components
  */
 
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { MarketingError404 } from './pages/marketing/MarketingError404';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate, useNavigate } from 'react-router-dom';
 import { ToastProvider } from './contexts/ToastContext';
@@ -45,10 +45,20 @@ import {
   KeyRound,
   HelpCircle,
 } from 'lucide-react';
+/* Le showcase pèse 8 000 lignes et 124 imports. Chargé en lazy, il sort du
+   chunk principal : un visiteur du site public ne le télécharge plus. */
+const Components = lazy(() => import('./pages/Components'));
+
+/** Écran d'attente du showcase, le temps que son chunk arrive. */
+const ShowcaseFallback: React.FC = () => (
+  <div className="flex items-center justify-center min-h-[60vh] text-body text-ink-500">
+    Chargement du design system…
+  </div>
+);
+
 import {
   Dashboard,
   Profile,
-  Components,
   LearningPaths,
   LearningPathDetail,
   Positionnement,
@@ -609,8 +619,8 @@ function App() {
                   <Route path="/dashboard" element={<Dashboard />} />
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/settings" element={<Navigate to="/account" replace />} />
-                  <Route path="/components" element={<Components />} />
-                  <Route path="/components/:categorySlug" element={<Components />} />
+                  <Route path="/components" element={<Suspense fallback={<ShowcaseFallback />}><Components /></Suspense>} />
+                  <Route path="/components/:categorySlug" element={<Suspense fallback={<ShowcaseFallback />}><Components /></Suspense>} />
                   <Route path="/learning-paths" element={<LearningPaths />} />
                   <Route path="/learning-paths/:id" element={<LearningPathDetail />} />
                   <Route path="/learning-paths/:id/positionnement" element={<Positionnement />} />

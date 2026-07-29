@@ -8092,3 +8092,5 @@ const PAGE_STYLES = `
 `;
 
 export { Components };
+
+export default Components;

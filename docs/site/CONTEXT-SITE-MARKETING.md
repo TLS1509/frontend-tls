@@ -31,16 +31,21 @@ Le squelette partagé aujourd'hui :
 > type d'élément : hero = `MeshGradientBg` + `ParallaxLayer` + `useScroll`,
 > CTA = `MagneticButton` strength 12-16. Résultat : douze pages ont porté les
 > mêmes effets, non parce que quelqu'un les avait choisis mais parce que le doc
-> les avait décidés d'avance. Elle recommandait aussi `ParallaxLayer` alors que
-> le parallaxe est un effet écarté. Ces usages ont été retirés du code le 28/07 ;
+> les avait décidés d'avance. Ces usages ont été retirés du code le 28/07 ;
 > les composants restent disponibles dans `src/components/marketing/motion/`.
 >
 > **Ce doc ne prescrit plus de vocabulaire.** Il ne pose que ce qui ne se
 > discute pas. Le reste se décide page par page, en phase design.
+>
+> **Mis à jour le 2026-07-29 : plus aucun interdit d'effet.** Les mentions
+> « le parallaxe est un effet écarté » et l'exclusion de `lenis` / du
+> scroll-jack sortent des invariants. La direction motion du site est à
+> rejouer entièrement dans une passe dédiée ; d'ici là, **rien n'est ni
+> prescrit ni banni** côté effets.
 
 ### Les invariants
 
-Quatre règles, et elles ne sont pas négociables parce qu'elles protègent des
+Trois règles, et elles ne sont pas négociables parce qu'elles protègent des
 gens ou des chiffres, pas un goût.
 
 1. **`prefers-reduced-motion` est respecté partout.** Toute animation dégrade
@@ -51,9 +56,13 @@ gens ou des chiffres, pas un goût.
    rendu headless, moteur throttlé) laisse une page blanche avec un HTML intact.
    `FadeInWhenVisible` porte un garde-fou pour ce cas ; les animations écrites à
    la main doivent l'éviter par construction.
-3. **Pas de détournement du scroll.** `lenis` et le scroll-jack sont exclus :
-   ils cassent le défilement natif et l'accessibilité.
-4. **Rien de lourd au-dessus de la ligne de flottaison** qui retarde le LCP.
+3. **Rien de lourd au-dessus de la ligne de flottaison** qui retarde le LCP.
+
+Le détournement du scroll (`lenis`, scroll-jack) **n'est plus un interdit** — il
+était listé ici comme quatrième invariant jusqu'au 29/07. C'est désormais un
+arbitrage de la passe motion à venir, avec sa contrepartie connue : un scroll
+détourné casse le défilement natif et complique l'accessibilité. À décider en
+connaissance de cause, pas d'avance.
 
 Au-delà de cinq secondes, une animation qui démarre seule doit pouvoir être mise
 en pause (WCAG 2.2.2, niveau A). Le hero de l'accueil en est l'exemple.
@@ -99,4 +108,4 @@ Le contenu / positionnement / faits du site ne vivent PAS ici — ils sont dans 
 - [`docs/marketing/`](../marketing/) — `FAITS-OFFRES`, `MARQUE-VOIX`, `COPY-V2`, `COMPETITIVE-BRIEF`, `MARKETING-LINKEDIN`.
 - [`docs/site/`](.) — structure/design/inspo du site (`SITE-V1-*`, `DESIGN-INSPO`, `ANIMATION-TECHNIQUES-RESEARCH`, `SEO-CONTENT-PLAN`…).
 
-> Note : les préférences durables « pas de parallax buggé/daté », « pas d'AI slop » (barres d'accent, eyebrow partout, card-soup), registre éditorial/premium, sont en mémoire (`feedback_no_parallax`, `feedback_no_accent_border_bars`).
+> Note : la préférence durable « pas d'AI slop » (barres d'accent, eyebrow partout, card-soup) et le registre éditorial/premium sont en mémoire (`feedback_no_accent_border_bars`). Côté effets et animations, **il n'y a plus de préférence enregistrée** — la mémoire `feedback_no_parallax` a été supprimée le 29/07, la direction motion est à refaire.

@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { MapPin, Calendar, Clock, Users, Video, CheckCircle, AlertCircle } from 'lucide-react';
+import { MapPin, Calendar, Clock, Video, CheckCircle, AlertCircle } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { PageShell } from '../components/layout';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
-import { StatCard } from '../components/ui/StatCard';
 import { FilterChip } from '../components/ui/FilterChip';
 import { Avatar } from '../components/ui/Avatar';
 import { ProgressBar } from '../components/ui/ProgressBar';
@@ -34,8 +33,6 @@ export default function AtelierHub() {
   const ateliers = eventsStore.ateliers;
 
   const myEnrollments = ateliers.filter((a) => !!eventsStore.getAtelierEnrollment(MOCK_USER_ID, a.id));
-  const upcomingCount = ateliers.filter((a) => a.status === 'published').length;
-  const pastCount = ateliers.filter((a) => a.status === 'completed').length;
 
   const filtered = ateliers.filter((a) => {
     if (activeFilter === 'all') return true;
@@ -56,12 +53,6 @@ export default function AtelierHub() {
       />
 
       <div className="flex flex-col gap-section">
-        {/* KPI strip */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
-          <StatCard label="Prochains ateliers" value={upcomingCount} icon={<Calendar size={18} />} tone="neutral" surface="tinted" />
-          <StatCard label="Mes inscriptions" value={myEnrollments.length} icon={<Users size={18} />} tone="neutral" surface="tinted" />
-          <StatCard label="Ateliers passés" value={pastCount} icon={<Clock size={18} />} variant="warm" />
-        </div>
 
         {/* Filters */}
         <div className="flex items-center gap-stack-xs flex-wrap">

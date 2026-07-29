@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Calendar, Users, MapPin, Video, Clock, CheckCircle, Lock } from 'lucide-react';
+import { Calendar, MapPin, Video, Clock, CheckCircle, Lock } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
-import { StatCard } from '../components/ui/StatCard';
 import { FilterChip } from '../components/ui/FilterChip';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { Container } from '../components/layout';
@@ -36,8 +35,6 @@ export default function EvenementHub() {
   const evenements = eventsStore.evenements;
 
   const myRegistrations = evenements.filter((ev) => !!eventsStore.getEventRegistration(MOCK_USER_ID, ev.id));
-  const upcomingCount = evenements.filter((ev) => ev.status === 'published').length;
-  const pastCount = evenements.filter((ev) => ev.status === 'completed').length;
   const totalRegistered = evenements.reduce((acc, ev) => acc + ev.registeredCount, 0);
 
   const featured = evenements.find((ev) => ev.status === 'published' && ev.visibility === 'public');
@@ -76,12 +73,6 @@ export default function EvenementHub() {
       />
 
       <Container width="wide" padding={false} className="px-stack py-section flex flex-col gap-section">
-        {/* Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
-          <StatCard label="Événements à venir" value={upcomingCount} variant="brand" icon={<Calendar size={20} />} />
-          <StatCard label="Mes inscriptions" value={myRegistrations.length} variant="warm" icon={<Users size={20} />} />
-          <StatCard label="Événements passés" value={pastCount} variant="default" icon={<Clock size={20} />} />
-        </div>
 
         {/* Filters */}
         <div className="flex flex-col gap-tight">

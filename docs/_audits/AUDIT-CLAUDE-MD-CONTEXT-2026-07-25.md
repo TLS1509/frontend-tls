@@ -97,7 +97,8 @@ La mémoire est bien plus saine que le CLAUDE.md. Actions :
 3. **Règles absolues Tailwind** (les 5). 🟢
 4. **Gotchas Tailwind v4 / cascade CSS** — Pièges #1-14, SVG→Lucide, peer+after, arbitrary-property. 🟢 (allégés des notes datées)
 5. **Conventions transverses** — header components (PageHero vs EditorialHero…), a11y (24px AA / 44px cible + focus-visible), spacing sémantique, PageShell `width=page`, tracking gradué, League-Spartan-sans-italic, palette danger, gate = `npm run build`, jamais de `tailwind.config.js`. 🟢
-6. **Animations marketing** — gsap (pinning) / framer (défaut) / lenis **banni** + `useReducedMotion` obligatoire + gotcha sticky/overflow. 🟢
+6. **Animations marketing** — gsap (pinning) / framer (défaut) + `useReducedMotion` obligatoire + gotcha sticky/overflow. 🟢
+   ⚠️ *Corrigé le 29/07 : cette ligne portait « lenis **banni** ». L'interdit a été levé — **aucune contrainte d'effet n'est en vigueur**, la direction motion du site est à rejouer. Ne pas réintroduire de banlist d'effets dans le CLAUDE.md refondu.*
 7. **Hygiène doc + triple-sync** — principe + pointeur skill. 🟢
 8. **Index des skills projet** — 9 skills, 1 ligne chacun (quand les invoquer).
 

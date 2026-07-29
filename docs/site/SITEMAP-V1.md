@@ -5,8 +5,14 @@
 > ([RECAP](propositions-PAD/RECAP-REUNION-2026-07-28.md)) et **les routes réellement déclarées
 > dans `src/App.tsx`**. En cas d'écart, c'est le code qui fait foi — ce fichier le documente.
 >
-> ⚠️ La base Notion « Website pages » est **périmée** et ne doit pas servir de source
-> (elle liste des fichiers React supprimés). Voir §5.
+> ⚠️ **Corrigé le 29/07 — cet avertissement est devenu faux.** La base Notion
+> [« Website pages »](https://app.notion.com/p/1accdd696db680dfb6e7d4ab472d5062) a été
+> **reconstruite le 28/07 en fin de journée**, après l'écriture de ce fichier : 41 fiches,
+> une par page, avec statut, niveau, lot, copy implémentée (miroir du code), copy validée,
+> points à trancher, **composition & « à revoir en phase design »**, et maillage. C'est
+> aujourd'hui le **plan de charge le plus complet du chantier** — s'y référer, pas
+> l'ignorer. Ce qui reste vrai : le repo fait foi pour le build, et les fiches datent du
+> 28/07 (certains défauts qu'elles signalent ont été corrigés depuis — voir §3).
 
 ---
 
@@ -96,17 +102,25 @@ existent et fonctionnent, mais sans contenu réel et sans rôle défini.
 → **Reco V1 : 3 templates actifs** (Article, Dossier, Guide) · **2 en veille** (Vidéo, Webinaire),
 masqués tant qu'il n'y a pas de contenu réel.
 
-### ⚠️ Écart bloquant : les 3 points de conversion manquent
+### Points de conversion — 2 sur 3 branchés (corrigé le 29/07)
 
 La stratégie §4 exige que **chaque article** porte trois points de contact :
 
-1. **CTA milieu d'article** → lancer un Autodiagnostic
-2. **Bandeau bas d'article** → s'abonner à La Vigie IA
-3. **Sticky sidebar** → demander une démo
+| # | Point de contact | État |
+|---|---|---|
+| 1 | **CTA milieu d'article** → lancer un Autodiagnostic | ✅ `DiagnosticInlineCta` |
+| 2 | **Bandeau bas d'article** → s'abonner à La Vigie IA | ✅ `VigieSignupBanner` |
+| 3 | **Sticky sidebar** → demander une démo | ❌ absent |
 
-Vérifié le 28/07 : `MarketingArticleDetail.tsx` et `MarketingDossierDetail.tsx` en contiennent
-**zéro**. Le blog est beau mais ne convertit pas, alors que son objectif déclaré est
-« acquisition SEO brute et génération de MQL ».
+Les deux premiers vivent dans [`components/ContentConversion.tsx`](../../src/pages/marketing/components/ContentConversion.tsx)
+et sont importés par `MarketingArticleDetail.tsx` **et** `MarketingDossierDetail.tsx`.
+
+> ⚠️ **Ce paragraphe annonçait « zéro » jusqu'au 29/07.** Il avait été écrit le 28/07 avant
+> le commit `4893c9f` du même jour, qui a branché les deux CTA. Vérifié au code le 29/07.
+> Même correction pour les métadonnées : la fiche Notion de `/resources` annonce « aucune
+> balise SEO 🔴 » et « formulaire mort 🔴 » — **les deux sont faux aujourd'hui**. Les 19
+> pages marketing portent un `SEOHead`, et le formulaire newsletter de `MarketingResources`
+> est câblé sur `submitForm` avec état contrôlé.
 
 ---
 

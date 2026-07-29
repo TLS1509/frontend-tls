@@ -64,7 +64,7 @@
 
 ## 🎨 SITE/ — Design & site vitrine (26 fichiers)
 
-> 🧭 **Contexte-maison du site marketing** (projet séparé de l'app) : [`site/CONTEXT-SITE-MARKETING.md`](site/CONTEXT-SITE-MARKETING.md) — code (`src/pages/marketing/`), règles motion (framer défaut / gsap pinning / lenis banni), primitives, patterns, pièges. **Point d'entrée de toute session site.**
+> 🧭 **Contexte-maison du site marketing** (projet séparé de l'app) : [`site/CONTEXT-SITE-MARKETING.md`](site/CONTEXT-SITE-MARKETING.md) — code (`src/pages/marketing/`), outillage motion (framer défaut / gsap pour le scroll complexe), primitives, patterns, pièges. **Point d'entrée de toute session site.** ⚠️ Depuis le 29/07, **aucun effet n'est banni** — la direction motion est à rejouer dans une passe dédiée.
 
 > 🧹 **Indexé le 2026-07-22.** 20 des 25 fichiers étaient absents de l'index (= docs fantômes au sens de la règle d'hygiène #2 de CLAUDE.md). Aucun n'a été supprimé ; l'inventaire ci-dessous les rend visibles. Les statuts marqués « à re-valider » n'ont **pas** été vérifiés doc par doc — ils signalent une antériorité à des décisions plus récentes, pas une fausseté établie.
 
@@ -115,7 +115,7 @@
 | Fichier | Purpose |
 |---|---|
 | [DESIGN-INSPO.md](site/DESIGN-INSPO.md) | **Mobbin saves** (24 mobile + 34 desktop + 33 vitrine) + case study Until Labs |
-| ⛔ `ANIMATION-TECHNIQUES-RESEARCH.md` | **Archivé le 28/07**. Recherche adossée à Direction C, recommandait le parallax (effet écarté) |
+| ⛔ `ANIMATION-TECHNIQUES-RESEARCH.md` | **Archivé le 28/07** — adossé à Direction C, elle-même suspendue. Le motif d'archivage d'origine (« recommandait le parallax, effet écarté ») ne tient plus : cet interdit a été levé le 29/07. Doc à re-verser ou refaire dans la passe motion |
 
 **Recherche & inspiration** *(artefacts d'exploration, valeur de référence)*
 

@@ -44,7 +44,12 @@ au moins un doc ou une page du repo.
 | X8 | ⛔ **« L'Académie » n'existe pas** | — |
 | X9 | ⛔ **Aucun membre d'équipe fictif.** L'équipe est Mimault + Dennery | — |
 | X10 | ⛔ **Ne pas parler de la formation « Formateur Augmenté »** — plus d'actualité, sujet clos | — |
-| X11 | ⛔ **Pas d'effet parallax** | Préférence durable de Chloé |
+
+> **Retiré le 2026-07-29 : l'ancien X11 « pas d'effet parallax ».** Le registre
+> des faits n'est pas l'endroit où l'on fige un parti pris visuel. Aucune
+> contrainte d'effet ou d'animation n'a cours pour l'instant : la direction
+> motion du site sera rejouée dans une passe dédiée. Ce qui reste opposable en
+> motion est d'ordre accessibilité et performance, pas esthétique.
 
 ---
 
