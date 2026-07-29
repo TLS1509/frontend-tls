@@ -45,10 +45,11 @@
 
 ## 📊 _AUDITS/ — Rapports consolidés
 
-**10 audit reports** — analyses de qualité, gaps design, spec compliance.
+**11 audit reports** — analyses de qualité, gaps design, spec compliance.
 
 | Fichier | Type | Focus |
 |---------|------|-------|
+| [PARITE-FIGMA-CODE-2026-07-29.md](_audits/PARITE-FIGMA-CODE-2026-07-29.md) | **Vérifié de première main** | Figma ↔ code, relevé sur le fichier via le MCP authentifié : **26/26 couleurs identiques**, 4/4 tailles de typo, rayon pill OK. Un seul écart réel — les **ombres**, restées au noir pur côté Figma alors que le code est passé aux neutres TLS le 22/07. Les interlignes diffèrent mais sont inertes (bouton en flex à hauteur fixe). Code Connect inaccessible : exige Organization/Enterprise, TLS est en pro |
 | [CHANTIER-SHOWCASE-2026-07-28.md](_audits/CHANTIER-SHOWCASE-2026-07-28.md) | **Chantier ouvert** | Reconstruire `/components` : 6 causes mesurées (0 sommaire, 1 ancre sur 8 524 lignes, pas de `scroll-mt`, tout monté d'un coup, chunk de 3,9 Mo, 320 exportés vs 185 déclarés). Plan en 5 phases, 3 décisions à prendre |
 | [AUDIT-FIGMA-ATOMS-COMPOSITES-2026-07-03.md](_audits/AUDIT-FIGMA-ATOMS-COMPOSITES-2026-07-03.md) | Figma↔code (vérifié 1ère main) | Atoms+Composites : variants vs codebase + binding variables/styles. §08 créé, gaps tone-aware Avatar/StatCard, token "locked" grays |
 | [AUDIT-FIGMA-CODE-GAP-2026-07-03.md](_audits/AUDIT-FIGMA-CODE-GAP-2026-07-03.md) | Gap composants DS↔code | Prérequis Phase 20 : 175 sets Figma vs code. ~158 matchés par nom ; gap bloquant = famille auth glass-dark (à créer/étendre) + ~5 stragglers (CourseCard, SegmentedControl, MessageBubble…) |

@@ -7,27 +7,43 @@ import { Button } from './Button';
  *
  * Maps Figma variant properties to React props.
  * State dimension (rest/hover/active/focus) = CSS-driven, not mapped.
- * Deprecated aliases: warm → secondary, brand-ghost → ghost (kept in Figma for compat).
+ *
+ * ⚠️ CE MAPPING N'EST PAS PUBLIÉ, ET NE PEUT PAS L'ÊTRE aujourd'hui.
+ * Code Connect exige un plan Organization ou Enterprise ; TLS est en pro :
+ * « You need a Dev or Full seat on an Organization or Enterprise plan. »
+ * Le fichier compile et documente l'intention, rien de plus. Voir
+ * docs/_audits/PARITE-FIGMA-CODE-2026-07-29.md
+ *
+ * Mise à jour du 2026-07-29 — le component set Figma a été relu node par node
+ * (les 15 variantes réelles) et le mapping corrigé :
+ *   - `outline` et `outline-warm` AJOUTÉS : ils existaient des deux côtés sans
+ *     être liés, donc Figma ne pouvait pas les résoudre vers du code.
+ *   - `brand-ghost` et `warm` RETIRÉS : ils n'existent plus dans le Figma
+ *     actuel, leurs alias ne mappaient donc rien.
+ *   - `glass-brand` existe bien dans Figma ; il pointe désormais vers `glass`
+ *     et non plus vers `ghost`, qui était un repli arbitraire.
  */
 figma.connect(
   Button,
   'https://www.figma.com/design/LccBZ1GKWQVwVzPtsSzk5Y?node-id=1109-58',
   {
     props: {
+      // Les 13 variantes réellement présentes dans le component set Figma,
+      // relevées le 2026-07-29. Chacune a son équivalent exact côté code.
       variant: figma.enum('variant', {
         primary:            'primary',
         secondary:          'secondary',
         accent:             'accent',
         ghost:              'ghost',
-        'brand-ghost':      'ghost',      // retiré 2026-07-23 → mappé ghost
+        outline:            'outline',
+        'outline-warm':     'outline-warm',
         destructive:        'destructive',
         'glass-light':      'glass-light',
         'glass-light-ghost':'glass-light-ghost',
-        'glass-brand':      'ghost',      // retiré 2026-07-23 (doublon) → mappé ghost
+        'glass-brand':      'glass',
         'glass-warm':       'glass-warm',
         'glass-sun':        'glass-sun',
         link:               'link',
-        warm:               'secondary',  // retiré 2026-07-23 → mappé secondary
       }),
       size: figma.enum('size', {
         sm: 'sm',
