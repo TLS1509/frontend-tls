@@ -49,7 +49,6 @@
 
 | Fichier | Type | Focus |
 |---------|------|-------|
-| [DEPLOIEMENT-SHOWCASE.md](ops/DEPLOIEMENT-SHOWCASE.md) | **Préparé, non activé** (29/07) | Déployer `/components` : ce que fait la config posée (`vercel.json`, `.vercelignore`), les 2 variables requises, et les 3 décisions à trancher — public ou protégé, quel hébergeur, auto ou manuel. Rappelle qu'aucune synchro automatique n'existe avec Claude Design |
 | [CHANTIER-SHOWCASE-2026-07-28.md](_audits/CHANTIER-SHOWCASE-2026-07-28.md) | **Chantier ouvert** | Reconstruire `/components` : 6 causes mesurées (0 sommaire, 1 ancre sur 8 524 lignes, pas de `scroll-mt`, tout monté d'un coup, chunk de 3,9 Mo, 320 exportés vs 185 déclarés). Plan en 5 phases, 3 décisions à prendre |
 | [AUDIT-FIGMA-ATOMS-COMPOSITES-2026-07-03.md](_audits/AUDIT-FIGMA-ATOMS-COMPOSITES-2026-07-03.md) | Figma↔code (vérifié 1ère main) | Atoms+Composites : variants vs codebase + binding variables/styles. §08 créé, gaps tone-aware Avatar/StatCard, token "locked" grays |
 | [AUDIT-FIGMA-CODE-GAP-2026-07-03.md](_audits/AUDIT-FIGMA-CODE-GAP-2026-07-03.md) | Gap composants DS↔code | Prérequis Phase 20 : 175 sets Figma vs code. ~158 matchés par nom ; gap bloquant = famille auth glass-dark (à créer/étendre) + ~5 stragglers (CourseCard, SegmentedControl, MessageBubble…) |
@@ -243,9 +242,11 @@
 
 ---
 
-## 🧭 ops/ — Outillage & workflows de l'entreprise (6 fichiers)
+## 🧭 ops/ — Outillage & workflows de l'entreprise (7 fichiers)
 
 > 🧭 **Contexte-maison orga société** (projet séparé, hors frontend) : [`ops/CONTEXT-ORGA-SOCIETE.md`](ops/CONTEXT-ORGA-SOCIETE.md) — principe « clean / suivable / automatisé », Pennylane = source de vérité argent, index des docs ops. **Point d'entrée.**
+
+- [`DEPLOIEMENT-SHOWCASE.md`](ops/DEPLOIEMENT-SHOWCASE.md) — **déployer le showcase : préparé, non activé** (2026-07-29). Ce que règlent `vercel.json` et `.vercelignore` (réécriture SPA, noindex, exclusion des 32 Mo de vidéos), les 2 variables requises, et **3 décisions à trancher** : public ou protégé par mot de passe, quel hébergeur, déploiement auto ou manuel. Rappelle qu'**aucune synchronisation automatique n'existe** avec Claude Design — `DesignSync` est piloté à la main, dans un seul sens.
 
 - `NOTION-CAPACITES-2026.md` — **ce que Notion sait faire depuis février 2026** (2026-07-23). Étude des versions 3.3 à 3.6 rapportée aux problèmes de TLS. Réponse à « peut-on développer nos propres outils sans quitter Notion » : **oui** — le Developer Platform de mai apporte **Workers** (runtime hébergé), **Database Sync** (brancher Pennylane), **Custom Agent Tools**, CLI et Agent SDK. Vues `chart` et `dashboard` créables par API avec un DSL complet. **Claude est agent externe dans Notion depuis le 1er juillet.** Blocs HTML interactifs — mais limites non documentées, à tester. ⏰ **Deux échéances de coût** : Custom Agents en crédits depuis le 04/05, **Workers à partir du 11/08**. Propose une restructuration Sales · Finance · Ops · Stratégie en tableaux de bord, et 7 actions ordonnées dont 4 gratuites et sans développement.
 
