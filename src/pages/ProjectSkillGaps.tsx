@@ -1,11 +1,10 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, AlertTriangle, CheckCircle2, Target, BarChart2 } from 'lucide-react';
+import { ArrowLeft, AlertTriangle, CheckCircle2, BarChart2 } from 'lucide-react';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
-import { StatCard } from '../components/ui/StatCard';
 import { DataTable } from '../components/patterns/DataTable';
 import { useProjectsStore } from '../stores/persistence';
 import type { DreyfusLevel } from '../types/learning';
@@ -78,11 +77,6 @@ export const ProjectSkillGaps: React.FC = () => {
         tone="flat"
       />
 
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-stack-xs">
-        <StatCard label="Compétences requises" value={gapEntries.length} icon={<Target size={20} />} variant="brand" />
-        <StatCard label="Gaps critiques" value={criticalGaps.length} icon={<AlertTriangle size={20} />} variant={criticalGaps.length > 0 ? 'warm' : 'default'} />
-        <StatCard label="Couvertes" value={coveredSkills.length} icon={<CheckCircle2 size={20} />} variant="default" />
-      </div>
 
       {criticalGaps.length > 0 && (
         <div className="flex items-start gap-stack-xs p-stack rounded-xl bg-warning-bg border border-warning-base/30">

@@ -178,11 +178,18 @@ export const MarketingHeader: React.FC = () => {
         menuOpen ? 'z-toast' : 'z-sticky',
       ].join(' ')}
     >
-      {/* ── Outer shell — full-width, aligned to max-w-medium (same container
-          as Article/Dossier reading pages + their hero) so the header's left
-          edge matches the content's left edge below it. Was a hugging,
-          viewport-centered pill whose left edge never matched any page. ── */}
-      <div className="mx-auto max-w-medium px-4 sm:px-6 lg:px-10">
+      {/* ── Coque — alignée sur `max-w-wide`, le conteneur du corps du site.
+          Corrigé le 2026-07-29 : elle était sur `max-w-medium` (1024px) pour
+          s'aligner sur les gabarits de lecture Article/Dossier. Mesuré, ça
+          produisait une pilule **256px plus étroite que le contenu** sur les
+          12 pages qui composent en `max-w-wide` (1280px) — soit la quasi-
+          totalité du site. Le header ne s'alignait donc sur rien là où on le
+          regarde le plus.
+          Les gabarits de lecture restent volontairement plus étroits : une
+          colonne de texte se cale sur la longueur de ligne, pas sur le
+          bandeau de tête. Un cartouche plus large qu'un bloc de texte est la
+          norme éditoriale, pas un défaut. ── */}
+      <div className="mx-auto max-w-wide px-4 sm:px-6 lg:px-10">
         <nav
           aria-label="Navigation principale"
           className={[

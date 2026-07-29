@@ -3,6 +3,7 @@ Allow: /
 
 # Prototypes et laboratoires — non destinés à l'indexation
 Disallow: /website/_v2-jardin
+Disallow: /website/_menu-lab
 
 # Page retirée du V1, conservée en redirection
 Disallow: /website/temoignages

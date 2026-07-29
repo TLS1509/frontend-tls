@@ -4,14 +4,10 @@
 
 import React, { useState } from 'react';
 import { Button } from '../components/core/Button';
-import { StatCard } from '../components/ui/StatCard';
 import { ProjectCard } from '../components/learning/ProjectCard';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { Container } from '../components/layout';
 import {
-  CheckCircle2,
-  Layers,
-  ListChecks,
   Plus,
   Users,
 } from 'lucide-react';
@@ -88,10 +84,6 @@ const PROJECTS: CollaborativeProject[] = [
 export const Collaboration: React.FC = () => {
   const [projects] = useState<CollaborativeProject[]>(PROJECTS);
 
-  const totalTasks     = projects.reduce((a, p) => a + p.totalTasks, 0);
-  const completedTasks = projects.reduce((a, p) => a + p.completedTasks, 0);
-  const uniqueMembers  = new Set(projects.flatMap((p) => p.teamMembers.map((m) => m.id))).size;
-
   return (
     <div className="min-h-[100dvh] bg-surface flex flex-col">
       <Container width="page" className="flex-1 py-section flex flex-col gap-section">
@@ -113,37 +105,6 @@ export const Collaboration: React.FC = () => {
           }
         />
 
-        {/* KPI Row */}
-        <div className="grid grid-cols-2 gap-stack sm:grid-cols-4">
-          <StatCard
-            variant="brand"
-            size="sm"
-            icon={<Layers strokeWidth={1.8} />}
-            value={projects.length}
-            label="Projets actifs"
-          />
-          <StatCard
-            variant="warm"
-            size="sm"
-            icon={<ListChecks strokeWidth={1.8} />}
-            value={totalTasks}
-            label="Tâches au total"
-          />
-          <StatCard
-            variant="elevated"
-            size="sm"
-            icon={<CheckCircle2 strokeWidth={1.8} />}
-            value={completedTasks}
-            label="Tâches complétées"
-          />
-          <StatCard
-            variant="sun"
-            size="sm"
-            icon={<Users strokeWidth={1.8} />}
-            value={uniqueMembers}
-            label="Membres d'équipe"
-          />
-        </div>
 
         {/* Project cards */}
         <div className="flex flex-col gap-stack">

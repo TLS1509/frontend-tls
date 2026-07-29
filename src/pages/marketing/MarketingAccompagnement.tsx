@@ -10,6 +10,29 @@
  *  - "D — Déploiement" → "D — Déployer" (FACTS-CANON A2 : les 6 mots officiels
  *    sont S'orienter · Tester · Réaliser · Intégrer · Déployer · Évoluer) ;
  *  - "Open Badges 2.0" (bonus) → "Open Badge" (FACTS-CANON F6).
+ *
+ * ── Passe rythme & fond du 2026-07-29 ────────────────────────────────────────
+ * Première page portée sur le système éditorial. Trois choses ont changé, et
+ * aucune ne touche au texte.
+ *
+ * 1. LES FONDS SONT PARTIS. La page alternait `primary-50` → `ink-900` → blanc →
+ *    `primary-50/50` → blanc ×3 : sept bandes de couleur qui la découpaient en
+ *    chapitres sans rapport. Tout est transparent désormais, et le dégradé
+ *    ambiant de la coque traverse la page d'un bout à l'autre.
+ *    La bande sombre pleine largeur de la section 2 a disparu : elle occupait la
+ *    même position, avec la même couleur et le même rôle, sur les quatre
+ *    sous-pages du site. C'était l'élément le plus répétitif de l'ensemble.
+ *    Le bloc CTA reste sombre : une carte contenue est une ponctuation, une
+ *    bande pleine largeur était un refrain.
+ *
+ * 2. LE RYTHME PASSE SUR L'ÉCHELLE ÉDITORIALE. `py-band` (64→120px) remplace
+ *    `py-16 sm:py-20 lg:py-28`, et surtout `gap-flow` (32→56px) remplace
+ *    `gap-section-lg`, qui plafonnait à 40px. C'est l'écart entre un titre de
+ *    section et son contenu : il était le même que celui entre deux cartes.
+ *
+ * 3. LA TYPO PASSE SUR L'ÉCHELLE. Cette page portait quatre `clamp()` écrits à
+ *    la main, dont deux qui ne différaient que de 0,6vw. Elles deviennent
+ *    `text-hero` / `text-section` / `text-feature` / `text-lede`.
  */
 
 import React from 'react';
@@ -32,38 +55,40 @@ import { Button } from '../../components/core/Button';
 import { FadeInWhenVisible } from '../../components/marketing/motion';
 import { SEOHead } from './components/SEOHead';
 
+const SHELL = 'max-w-wide mx-auto px-4 sm:px-6 lg:px-10';
+
 // ─── 1. Hero ─────────────────────────────────────────────────────────────────
 
 const Hero: React.FC = () => {
   const reduced = useReducedMotion();
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-primary-50 via-white to-white">
+    <section className="relative overflow-hidden">
       <div
         aria-hidden
         className="absolute -top-32 right-[-10%] h-[480px] w-[480px] rounded-pill bg-primary-200/40 blur-3xl pointer-events-none"
       />
-      <div className="relative max-w-wide mx-auto px-4 sm:px-6 lg:px-10 pt-36 sm:pt-40 lg:pt-44 pb-16 sm:pb-20 lg:pb-24">
+      <div className={`relative ${SHELL} pt-hero pb-band`}>
         <motion.div
           initial={reduced ? false : { y: 24 }}
           animate={{ y: 0 }}
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className="flex max-w-4xl flex-col gap-stack-lg"
+          className="flex max-w-4xl flex-col gap-flow"
         >
           <p className="inline-flex w-fit items-center gap-2 rounded-pill bg-primary-100 px-4 py-1.5 font-body text-caption font-bold text-primary-800 m-0">
             <Compass size={14} />
-            Conseil & transformation SBO
+            Conseil &amp; transformation SBO
           </p>
-          <h1 className="font-display font-extrabold text-ink-900 leading-[1.02] tracking-tight m-0 [text-wrap:balance] text-[clamp(2.5rem,5.5vw,4.25rem)]">
+          <h1 className="font-display text-hero text-ink-900 m-0 [text-wrap:balance]">
             La méthode STRIDE : opérez votre transition SBO et{' '}
             <span className="text-primary-700">déployez vos premières solutions IA.</span>
           </h1>
-          <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
+          <p className="font-body text-lede text-ink-700 m-0 max-w-2xl [text-wrap:pretty]">
             Un accompagnement sur-mesure pour faire sauter les verrous de la
             fiche de poste, cartographier vos compétences réelles selon
             l'échelle Dreyfus et déployer des copilotes IA métiers dans vos
             workflows opérationnels.
           </p>
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs pt-stack-xs">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs">
             <Button to="/website/contact" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
               Réserver un Audit Flash STRIDE
             </Button>
@@ -95,27 +120,27 @@ const PIEGES = [
 ];
 
 const DoublePiege: React.FC = () => (
-  <section className="relative bg-ink-900 text-white">
-    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-section items-start">
+  <section className="relative">
+    <div className={`${SHELL} py-band`}>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-flow items-start">
         <div className="lg:col-span-5">
           <FadeInWhenVisible>
-            <h2 className="font-display font-extrabold leading-[1.08] tracking-tight m-0 [text-wrap:balance] text-[clamp(1.9rem,3.6vw,2.75rem)]">
+            <h2 className="font-display text-section text-ink-900 m-0 [text-wrap:balance]">
               L'IA sans SBO est un gadget.{' '}
-              <span className="text-primary-300">Le SBO sans IA est trop lent.</span>
+              <span className="text-primary-700">Le SBO sans IA est trop lent.</span>
             </h2>
           </FadeInWhenVisible>
         </div>
         <div className="lg:col-span-7 flex flex-col">
           {PIEGES.map((p, i) => (
             <FadeInWhenVisible key={p.title} delay={i * 0.08}>
-              <div className="flex items-start gap-stack-lg border-t border-white/15 py-stack-lg first:border-t-0">
-                <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/10 text-primary-300">
+              <div className="flex items-start gap-stack-lg border-t border-ink-200 py-flow first:border-t-0 first:pt-0">
+                <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-100 text-primary-700">
                   {p.icon}
                 </span>
-                <div className="flex flex-col gap-stack-xs">
-                  <h3 className="font-display text-h4 font-bold text-white m-0 leading-tight">{p.title}</h3>
-                  <p className="font-body text-body text-white/70 leading-relaxed m-0 max-w-xl">{p.detail}</p>
+                <div className="flex flex-col gap-group">
+                  <h3 className="font-display text-feature text-ink-900 m-0">{p.title}</h3>
+                  <p className="font-body text-body text-ink-600 leading-relaxed m-0 max-w-xl">{p.detail}</p>
                 </div>
               </div>
             </FadeInWhenVisible>
@@ -147,29 +172,29 @@ const AUDIT_LIVRABLES = [
 ];
 
 const AuditFlash: React.FC = () => (
-  <section className="bg-white">
-    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
+  <section>
+    <div className={`${SHELL} py-band flex flex-col gap-flow`}>
       <FadeInWhenVisible>
-        <div className="max-w-3xl flex flex-col gap-stack">
-          <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)]">
+        <div className="max-w-3xl flex flex-col gap-group">
+          <h2 className="font-display text-section text-ink-900 m-0 [text-wrap:balance]">
             Un diagnostic express pour cadrer votre feuille de route.
           </h2>
-          <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0">
+          <p className="font-body text-lede text-ink-700 m-0 [text-wrap:pretty]">
             L'Audit Flash SBO tient en une demi-journée à une journée, et livre
             trois documents que vous gardez, quoi qu'il arrive ensuite.
           </p>
         </div>
       </FadeInWhenVisible>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-stack-lg">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-flow">
         {AUDIT_LIVRABLES.map((l, i) => (
           <FadeInWhenVisible key={l.title} delay={i * 0.06} direction="up">
-            <div className="flex h-full flex-col gap-stack border-t-2 border-primary-200 pt-stack-lg">
+            <div className="flex h-full flex-col gap-group border-t-2 border-primary-300 pt-stack-lg">
               <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary-100 text-primary-700">
                 {l.icon}
               </span>
-              <h3 className="font-display text-h4 font-bold text-ink-900 m-0 leading-tight">{l.title}</h3>
-              <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">{l.detail}</p>
+              <h3 className="font-display text-feature text-ink-900 m-0">{l.title}</h3>
+              <p className="font-body text-body text-ink-600 leading-relaxed m-0">{l.detail}</p>
             </div>
           </FadeInWhenVisible>
         ))}
@@ -220,25 +245,23 @@ const ETAPES: { lettre: string; verbe: string; phase: string; livrable: string }
 ];
 
 const Methodologie: React.FC = () => (
-  <section id="stride-etapes" className="bg-primary-50/50 scroll-mt-24">
-    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
+  <section id="stride-etapes" className="scroll-mt-28">
+    <div className={`${SHELL} py-band flex flex-col gap-flow`}>
       <FadeInWhenVisible>
-        <div className="max-w-3xl flex flex-col gap-stack">
-          <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)]">
-            Six étapes, un livrable tangible à chaque jalon.
-          </h2>
-        </div>
+        <h2 className="font-display text-section text-ink-900 m-0 [text-wrap:balance] max-w-3xl">
+          Six étapes, un livrable tangible à chaque jalon.
+        </h2>
       </FadeInWhenVisible>
 
       <ol className="flex flex-col m-0 p-0 list-none">
         {ETAPES.map((e, i) => (
           <FadeInWhenVisible key={e.lettre} delay={i * 0.04}>
-            <li className="grid grid-cols-[auto_minmax(0,1fr)] md:grid-cols-[auto_220px_minmax(0,1fr)] items-center gap-stack md:gap-section border-t border-primary-200/70 py-stack-lg first:border-t-0">
+            <li className="grid grid-cols-[auto_minmax(0,1fr)] md:grid-cols-[auto_220px_minmax(0,1fr)] items-center gap-stack md:gap-flow border-t border-primary-200 py-stack-lg first:border-t-0">
               <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-primary-700 font-display text-h3 font-extrabold text-white">
                 {e.lettre}
               </span>
               <div className="flex flex-col gap-0.5">
-                <h3 className="font-display text-h4 font-extrabold text-ink-900 m-0 leading-tight">{e.verbe}</h3>
+                <h3 className="font-display text-feature text-ink-900 m-0">{e.verbe}</h3>
                 <span className="font-body text-caption font-bold text-primary-700">{e.phase}</span>
               </div>
               <p className="col-span-2 md:col-span-1 font-body text-body text-ink-600 leading-relaxed m-0">
@@ -250,7 +273,7 @@ const Methodologie: React.FC = () => (
       </ol>
 
       <FadeInWhenVisible>
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-stack rounded-2xl bg-white p-stack-lg shadow-card">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-stack rounded-2xl bg-white/70 p-stack-lg ring-1 ring-primary-100">
           <p className="font-body text-body text-ink-600 m-0 max-w-xl">
             Pourquoi ces six étapes ? La science derrière STRIDE : échelle
             Dreyfus, méthode EDRACT de C-Campus et augmentation cognitive.
@@ -274,24 +297,24 @@ const OBTENEZ = [
 ];
 
 const Obtenez: React.FC = () => (
-  <section className="bg-white">
-    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-section items-start">
-        <div className="lg:col-span-5 flex flex-col gap-stack-lg">
+  <section>
+    <div className={`${SHELL} py-band`}>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-flow items-start">
+        <div className="lg:col-span-5">
           <FadeInWhenVisible>
-            <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)]">
+            <h2 className="font-display text-section text-ink-900 m-0 [text-wrap:balance]">
               Un cadre stratégique clair et des briques IA immédiatement
               opérationnelles.
             </h2>
           </FadeInWhenVisible>
         </div>
-        <div className="lg:col-span-7 flex flex-col gap-stack-lg">
+        <div className="lg:col-span-7 flex flex-col gap-flow">
           <ul className="flex flex-col m-0 p-0 list-none">
             {OBTENEZ.map((o, i) => (
               <FadeInWhenVisible key={o} delay={i * 0.05}>
-                <li className="flex items-start gap-stack border-t border-ink-200/70 py-stack first:border-t-0">
-                  <CheckCircle2 size={22} className="text-primary-700 shrink-0 mt-0.5" />
-                  <span className="font-body text-body-lg text-ink-800">{o}</span>
+                <li className="flex items-start gap-stack border-t border-ink-200 py-stack-lg first:border-t-0 first:pt-0">
+                  <CheckCircle2 size={22} className="text-primary-700 shrink-0 mt-1" />
+                  <span className="font-body text-lede text-ink-800">{o}</span>
                 </li>
               </FadeInWhenVisible>
             ))}
@@ -335,26 +358,30 @@ const PROFILS = [
 ];
 
 const PourQui: React.FC = () => (
-  <section className="bg-white border-t border-ink-100">
-    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
+  <section>
+    <div className={`${SHELL} py-band flex flex-col gap-flow`}>
       <FadeInWhenVisible>
-        <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0 [text-wrap:balance] text-[clamp(1.9rem,3.6vw,2.75rem)] max-w-2xl">
+        <h2 className="font-display text-section text-ink-900 m-0 [text-wrap:balance] max-w-2xl">
           Conçu pour celles et ceux qui portent la transformation.
         </h2>
       </FadeInWhenVisible>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-stack-lg">
+      {/* Traitement volontairement différent des cartes de l'Audit Flash
+          (filet supérieur) : trois grilles identiques sur une même page se
+          lisent comme un gabarit, pas comme une composition. Ici la liste
+          respire sans contenant. */}
+      <ul className="grid grid-cols-1 md:grid-cols-3 gap-flow m-0 p-0 list-none">
         {PROFILS.map((p, i) => (
           <FadeInWhenVisible key={p.title} delay={i * 0.06} direction="up">
-            <div className="flex h-full flex-col gap-stack border-t-2 border-primary-200 pt-stack-lg">
-              <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary-100 text-primary-700">
+            <li className="flex h-full flex-col gap-group">
+              <span className="inline-flex h-11 w-11 items-center justify-center rounded-pill bg-primary-100 text-primary-700">
                 {p.icon}
               </span>
-              <h3 className="font-display text-h4 font-bold text-ink-900 m-0 leading-tight">{p.title}</h3>
-              <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">{p.detail}</p>
-            </div>
+              <h3 className="font-display text-feature text-ink-900 m-0">{p.title}</h3>
+              <p className="font-body text-body text-ink-600 leading-relaxed m-0">{p.detail}</p>
+            </li>
           </FadeInWhenVisible>
         ))}
-      </div>
+      </ul>
     </div>
   </section>
 );
@@ -362,19 +389,19 @@ const PourQui: React.FC = () => (
 // ─── 7. CTA final ────────────────────────────────────────────────────────────
 
 const CtaFinal: React.FC = () => (
-  <section className="bg-white">
-    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28">
+  <section>
+    <div className={`${SHELL} py-band`}>
       <FadeInWhenVisible>
-        <div className="relative overflow-hidden rounded-2xl bg-ink-900 text-white px-6 sm:px-10 lg:px-16 py-16 sm:py-20">
-          <div className="relative max-w-content flex flex-col gap-stack-lg">
-            <h2 className="font-display font-extrabold text-white leading-[1.04] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.5vw,3.5rem)]">
+        <div className="relative overflow-hidden rounded-2xl bg-ink-900 text-white px-6 sm:px-10 lg:px-16 py-band">
+          <div className="relative max-w-content flex flex-col gap-flow">
+            <h2 className="font-display text-section text-white m-0 [text-wrap:balance]">
               Déployez le duo SBO + IA dans votre organisation.
             </h2>
-            <p className="font-body text-body-lg text-white/80 leading-relaxed m-0 max-w-2xl">
+            <p className="font-body text-lede text-white/80 m-0 max-w-2xl [text-wrap:pretty]">
               Un premier échange avec les fondateurs suffit à cadrer la suite :
               périmètre, jalons, budget.
             </p>
-            <div className="flex flex-wrap items-center gap-stack-xs pt-stack">
+            <div className="flex flex-wrap items-center gap-stack-xs">
               <Button to="/website/contact" variant="secondary" size="xl" trailingIcon={<ArrowRight size={20} />}>
                 Demander un Audit Flash STRIDE
               </Button>
@@ -390,7 +417,7 @@ const CtaFinal: React.FC = () => (
 );
 
 export const MarketingAccompagnement: React.FC = () => (
-  <div className="bg-white">
+  <>
     <SEOHead
       title="Accompagnement STRIDE · The Learning Society"
       description="La méthode STRIDE en 6 étapes : audit, pilote, ingénierie, intégration, déploiement, amélioration continue. Opérez votre transition Skills-Based Organization et déployez vos premières solutions IA."
@@ -403,7 +430,7 @@ export const MarketingAccompagnement: React.FC = () => (
     <Obtenez />
     <PourQui />
     <CtaFinal />
-  </div>
+  </>
 );
 
 export default MarketingAccompagnement;

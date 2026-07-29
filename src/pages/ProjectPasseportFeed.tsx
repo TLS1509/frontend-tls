@@ -1,11 +1,10 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, TrendingUp, Award, Target, Users } from 'lucide-react';
+import { ArrowLeft, TrendingUp, Users } from 'lucide-react';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
-import { StatCard } from '../components/ui/StatCard';
 import { Avatar } from '../components/ui/Avatar';
 import { useProjectsStore } from '../stores/persistence';
 import { Container } from '../components/layout';
@@ -24,7 +23,6 @@ export const ProjectPasseportFeed: React.FC = () => {
   const store = useProjectsStore();
 
   const enrichments = projectId ? store.getEnrichments(projectId) : [];
-  const teamMembers = projectId ? store.getTeamMembers(projectId) : [];
 
   // Aggregate per collaborator
   const collaboratorMap = new Map<string, { name: string; initials: string; count: number; competencies: string[] }>();
@@ -45,9 +43,6 @@ export const ProjectPasseportFeed: React.FC = () => {
     }
   });
 
-  const uniqueCompetencies = [...new Set(enrichments.map((e) => e.competencyName))];
-  const totalGain = enrichments.reduce((sum, e) => sum + (e.newDreyfusLevel - e.oldDreyfusLevel), 0);
-
   const formatDate = (iso: string) =>
     new Date(iso).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' });
 
@@ -66,12 +61,6 @@ export const ProjectPasseportFeed: React.FC = () => {
         tone="flat"
       />
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-stack-xs">
-        <StatCard label="Enrichissements" value={enrichments.length} icon={<TrendingUp size={20} />} variant="brand" />
-        <StatCard label="Compétences enrichies" value={uniqueCompetencies.length} icon={<Target size={20} />} variant="warm" />
-        <StatCard label="Collaborateurs enrichis" value={collaboratorMap.size} icon={<Users size={20} />} variant="default" />
-        <StatCard label="Niveaux Dreyfus gagnés" value={totalGain} icon={<Award size={20} />} variant="default" />
-      </div>
 
       {enrichments.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-section gap-stack text-center">

@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Users, Calendar, Target, Lock, CheckCircle2 } from 'lucide-react';
+import { Plus, Calendar, Lock } from 'lucide-react';
 import EditorialHero from '../components/patterns/EditorialHero';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { FilterChip } from '../components/ui/FilterChip';
-import { StatCard } from '../components/ui/StatCard';
-import { Avatar, AvatarGroup } from '../components/ui/Avatar';
+import { Avatar } from '../components/ui/Avatar';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { EmptyState } from '../components/ui/EmptyState';
 import { PageShell } from '../components/layout';
@@ -42,8 +41,6 @@ const STATUS_VARIANTS = {
   archived: 'neutral',
 } as const;
 
-const DREYFUS_LABELS = ['', 'Novice', 'Apprenant', 'Compétent', 'Expert', 'Maître'] as const;
-
 const ProjectsList: React.FC = () => {
   const nav = useNavigate();
   const store = useProjectsStore();
@@ -51,11 +48,6 @@ const ProjectsList: React.FC = () => {
   const [filterType, setFilterType] = useState<'all' | ProjectType>('all');
 
   const projects = store.getProjects(MOCK_PROJECT_COMPANY_ID);
-  const active = projects.filter((p) => p.status === 'active').length;
-  const planned = projects.filter((p) => p.status === 'planned').length;
-  const allTasks = projects.flatMap((p) => store.getTasks(p.id));
-  const myTasks = allTasks.filter((t) => t.assignedTo === MOCK_USER_ID);
-  const pendingJacs = projects.flatMap((p) => store.getJacs(p.id)).filter((j) => j.status === 'pending').length;
 
   const filtered = projects.filter((p) => {
     const matchStatus = filterStatus === 'all' || p.status === filterStatus;
@@ -93,12 +85,6 @@ const ProjectsList: React.FC = () => {
       />
 
       <PageShell width="page">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-stack-xs">
-          <StatCard label="Projets actifs" value={active} icon={<Target size={20} />} variant="brand" />
-          <StatCard label="Planifiés" value={planned} icon={<Calendar size={20} />} variant="warm" />
-          <StatCard label="Mes tâches" value={myTasks.length} icon={<Users size={20} />} variant="default" />
-          <StatCard label="JAC en attente" value={pendingJacs} icon={<CheckCircle2 size={20} />} variant="default" />
-        </div>
 
         <div className="flex flex-col gap-tight">
           <div className="flex flex-wrap gap-stack-xs">

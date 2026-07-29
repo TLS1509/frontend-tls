@@ -217,6 +217,7 @@ import { MarketingHome } from './pages/marketing/MarketingHome';
 // Refined (Elegant), Cinematic, + les prototypes Cinematic-Reveal, Interface-Choreography
 // et Chemin. Jardin-Vivant est conservé. Historique récupérable en git.
 import { HomeJardinVivantV2 } from './pages/marketing/_prototypes/HomeJardinVivantV2';
+import { MenuLab } from './pages/marketing/_prototypes/MenuLab';
 import { MarketingDiagnostic } from './pages/marketing/MarketingDiagnostic';
 // [archived] devtools — files kept, routes removed from prod
 import { MarketingEquipe } from './pages/marketing/MarketingEquipe';
@@ -533,6 +534,11 @@ function App() {
       <ScrollToTop />
       <Routes>
         {/* ── Marketing site (public — no auth required) ── */}
+        {/* Banc de comparaison des menus (29/07). Hors <MarketingLayout> à
+            dessein : le header réel se superposerait aux variantes. Prototype,
+            exclu de l'indexation via robots.txt. */}
+        <Route path="/website/_menu-lab" element={<MenuLab />} />
+
         <Route path="/website" element={<MarketingLayout />}>
           <Route index element={<MarketingHome />} />
           {/* Seule variante de home conservée au tri du 2026-07-23. */}

@@ -60,8 +60,19 @@ export const FadeInWhenVisible: React.FC<Props> = ({
 }) => {
   const reduced = useReducedMotion();
   const offset = DIRS[direction];
-  const initial = reduced ? { opacity: 0 } : { opacity: 0, ...offset };
-  const animate = { opacity: 1, x: 0, y: 0 };
+  // ── Le contenu ne part plus d'`opacity: 0` (2026-07-29) ────────────────────
+  // L'invariant du site — et la doctrine du registre brand — dit d'animer la
+  // POSITION, jamais l'EXISTENCE : « a reveal enhances an already-visible
+  // state ». Ce composant faisait l'inverse sur 17 pages, et c'est ce qui
+  // faisait sortir des captures d'écran blanches. Un `initial={{opacity:0}}`
+  // qui attend JS laisse une page vide dès que le moteur d'animation ne tourne
+  // pas : onglet en arrière-plan, rendu headless, économie d'énergie. Le
+  // garde-fou `cannotObserve` ci-dessous ne couvrait que le cas extrême (pas
+  // d'IntersectionObserver du tout), pas ces cas-là.
+  // Le texte est donc lisible au premier octet peint ; seul le déplacement
+  // s'anime. En reduced-motion il ne reste rien à animer : rendu direct.
+  const initial = reduced ? false : { ...offset };
+  const animate = { x: 0, y: 0 };
 
   // Évalué après le montage : `window` n'existe pas au rendu serveur, et la
   // taille du viewport n'est fiable qu'une fois la mise en page faite.

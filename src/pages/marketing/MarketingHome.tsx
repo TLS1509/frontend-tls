@@ -1,44 +1,40 @@
 /**
  * MarketingHome — homepage de production, `/website` (route index).
  *
- * Reconstruite le 28/07/2026 depuis le copy arbitré PAD-page-homepage.md
- * (docs/site/propositions-PAD/) : positionnement cabinet de conseil & studio
- * SBO. Structure PAD : Hero → Manifeste → Learn/Do/Match → Écosystème →
- * Réassurance → Double CTA (chaud RDV / froid La Vigie IA).
+ * Contenu : copy validée de la fiche Notion « Accueil (Home) » (Website pages,
+ * état du 28/07/2026). Le texte n'a pas été retouché ici — seule la composition
+ * change.
  *
- * Conservé de la version précédente : hero vidéo aquarelle full-bleed (le copy
- * PAD demande explicitement une "animation hero watercolor"), reduced-motion →
- * poster statique.
+ * ── Reconstruction du 2026-07-29 ─────────────────────────────────────────────
  *
- * Écarts copy documentés :
- *  - "La Vigie IA SBO" → "La Vigie IA" (nom tranché en réunion 28/07, RECAP §1.5) ;
- *  - CTA hero "Évaluer votre maturité (2 min)" → sans durée (la spec
- *    autodiagnostic annonce 3 min ; on évite la contradiction).
+ * PLUS DE CARTES. C'est le changement principal. La page empilait des grilles de
+ * cartes identiques (trois offres icône + rôle + titre + texte + lien) et des
+ * blocs à filet supérieur repris de page en page. Les sites éditoriaux qui
+ * respirent ne font pas ça : ils séparent par un filet, ou par rien, et laissent
+ * le blanc grouper. Un contenant ne se justifie que s'il est cliquable ou s'il
+ * doit se détacher du fond.
+ *
+ * UN SEUL FOND. La coque porte le dégradé ambiant ; toutes les sections sont
+ * transparentes. La page ne s'interrompt plus tous les 600px.
+ *
+ * UN SEUL MOMENT SOMBRE. Il y en avait trois (hero vidéo, bandeau Learning App,
+ * bloc chaud) : à la troisième occurrence le contraste ne contraste plus. Seul
+ * le CTA final reste sombre, en fin de parcours, là où il conclut.
+ *
+ * PAS DE SUR-TITRE. Les quatre sur-titres en capitales de la proposition PAD
+ * (NOTRE CONVICTION, NOTRE MOTEUR…) restent supprimés : une pastille en capitales
+ * au-dessus de chaque section est le tic le plus reconnaissable des pages
+ * générées. La numérotation de Learn → Do → Match est conservée, c'est la seule
+ * du site : une vraie séquence ordonnée, pas du décor.
  *
  * Discipline : vous (pas tu), pas de métrique inventée, pas de client nommé,
  * pas d'em dash, CTA verbe+objet.
- *
- * Motion : aucune contrainte d'effet en vigueur (l'interdit de parallaxe a été
- * levé le 29/07). Ce qui est en place ici est volontairement minimal en
- * attendant la passe motion dédiée.
  */
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
-import {
-  ArrowRight,
-  ArrowUpRight,
-  Bot,
-  Compass,
-  Gem,
-  GraduationCap,
-  Handshake,
-  Pause,
-  PenTool,
-  Play,
-  Rocket,
-} from 'lucide-react';
+import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { Button } from '../../components/core/Button';
 import {
   FadeInWhenVisible,
@@ -47,181 +43,95 @@ import {
 import { SEOHead } from './components/SEOHead';
 import { submitForm } from './utils/submitForm';
 
-// ─── 1. Hero — vidéo aquarelle full-bleed, composition éditoriale ────────────
+const SHELL = 'max-w-wide mx-auto px-gutter';
+
+// ─── 1. Hero — ouverture typographique ───────────────────────────────────────
 //
-// Repensé le 28/07/2026 (revue design) sur trois axes :
-//  - COMPOSITION : ancrage bas-gauche au lieu du bloc centré générique. La
-//    vidéo respire en haut du cadre, le texte se pose comme une affiche. Le
-//    cadrage n'est plus symétrique, donc plus reconnaissable.
-//  - LISIBILITÉ : la vignette radiale ne bornait pas la luminosité de la vidéo
-//    (texte sous AA sur une frame claire). Remplacée par un dégradé bottom-heavy
-//    ink-900 90→78→30 %, calibré sur la frame la plus claire de la boucle
-//    (mesurée à luma 228). Ratios vérifiés en commentaire du scrim.
-//  - CONTRÔLE : bouton pause/lecture 44 px (WCAG 2.2.2, niveau A — obligatoire
-//    dès qu'une animation dure plus de 5 s).
-// Motion (revu le 28/07) : plus aucun effet décoratif. Le contenu est visible
-// par défaut, seul le déplacement s.anime. Voir docs/site/CONTEXT-SITE-MARKETING.md.
+// La vidéo aquarelle a été retirée le 2026-07-29 (décision de Chloé). Ce qui
+// part avec elle : la boucle MP4 en tête de page (coût LCP sur la première chose
+// que voit un visiteur), le plancher ink-900 à 90 % qui virait l'aquarelle au
+// gris-brun, le bouton pause imposé par WCAG 2.2.2 au-delà de cinq secondes
+// d'animation, et le hero de 100dvh qui repoussait tout le contenu sous la ligne
+// de flottaison.
+//
+// La demande d'une image d'ouverture n'est pas abandonnée : elle est remise à la
+// phase de direction artistique, où sa forme sera choisie plutôt qu'héritée.
 
 const Hero: React.FC = () => {
   const reduced = useReducedMotion();
-  const videoRef = React.useRef<HTMLVideoElement>(null);
-  const sectionRef = React.useRef<HTMLElement>(null);
-  const [playing, setPlaying] = useState(!reduced);
-
-  // L'état du bouton suit les événements réels du lecteur (le navigateur peut
-  // mettre la vidéo en pause de lui-même : onglet en arrière-plan, économie
-  // d'énergie). Un état suivi à la main mentirait sur l'icône affichée.
-  React.useEffect(() => {
-    if (reduced) return;
-    const v = videoRef.current;
-    if (!v) return;
-    v.muted = true;
-    const onPlay = () => setPlaying(true);
-    const onPause = () => setPlaying(false);
-    v.addEventListener('play', onPlay);
-    v.addEventListener('pause', onPause);
-    v.play().catch(() => setPlaying(false));
-    return () => {
-      v.removeEventListener('play', onPlay);
-      v.removeEventListener('pause', onPause);
-    };
-  }, [reduced]);
-
-  const togglePlayback = () => {
-    const v = videoRef.current;
-    if (!v) return;
-    if (v.paused) v.play().catch(() => {});
-    else v.pause();
-  };
-
-  // Le zoom au scroll (échelle 1 → 1,12) a été retiré le 28/07 avec le reste de
-  // la couche décorative : c'était un effet de parallaxe déguisé sur la première
-  // chose que voit un visiteur. La vidéo défile désormais avec sa section.
   return (
-    <section ref={sectionRef} className="relative min-h-[100dvh] overflow-hidden bg-ink-900">
-      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden>
-        {reduced ? (
-          <img
-            src="/marketing/assets/hero-watercolor.webp"
-            alt=""
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-        ) : (
-          <video
-            ref={videoRef}
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
-            poster="/marketing/assets/hero-watercolor.webp"
-            className="absolute inset-0 w-full h-full object-cover"
-            tabIndex={-1}
-          >
-            <source src="/videos/aquarelle-hero-loop.mp4" type="video/mp4" />
-          </video>
-        )}
-      </div>
-
-      {/* Plancher de lisibilité : dense sous le texte, plus clair en haut où
-          l'aquarelle doit respirer. Calibré (28/07) sur la frame la plus claire
-          de la boucle, mesurée à luma 228 : eyebrow blanc 4,83:1 · H1 accent-400
-          3,89:1 (large text) · lede et CTA au-delà de 6:1. */}
+    <section className="relative overflow-hidden">
+      {/* Seul décor du hero : un halo très diffus qui donne un centre de gravité
+          au cadre sans rien recouvrir. */}
       <div
         aria-hidden
-        className="absolute inset-0 pointer-events-none bg-gradient-to-t from-ink-900/90 via-ink-900/78 to-ink-900/30"
+        className="pointer-events-none absolute -top-40 right-[-15%] h-[560px] w-[560px] rounded-pill bg-primary-200/35 blur-3xl"
       />
-
-      <div className="relative flex min-h-[100dvh] flex-col justify-end">
-        <div className="w-full max-w-wide mx-auto px-4 sm:px-6 lg:px-10 pb-24 pt-36 sm:pb-28 lg:pb-32">
-          <div className="flex max-w-5xl flex-col gap-stack-lg">
-            {/* Visible par défaut : seul le déplacement s'anime. Conditionner
-                l'opacité à une animation JS rendait le hero vide dès que le
-                moteur d'animation ne tournait pas (onglet en arrière-plan,
-                rendu headless, économie d'énergie). Même parti pris que le
-                `Reveal` local du template Dossier. */}
-            <motion.p
-              initial={reduced ? false : { y: 12 }}
-              animate={{ y: 0 }}
-              transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-              className="flex items-center gap-stack-xs font-body text-body-sm font-bold text-white m-0"
-            >
-              <span aria-hidden className="h-px w-10 bg-accent-400" />
-              Cabinet de conseil & studio expert en Skills-Based Organization
-            </motion.p>
-
-            <h1
-              className="font-display font-extrabold text-white leading-[0.98] tracking-display m-0 text-[clamp(2.25rem,5vw,4.25rem)]"
-              aria-label="Ne formez plus pour former. Bâtissez votre moteur de performance."
-            >
-              <span className="block">Ne formez plus pour former.</span>
-              <span className="block text-accent-400">
-                Bâtissez votre moteur de performance.
-              </span>
-            </h1>
-
-            <motion.div
-              initial={reduced ? false : { y: 16 }}
-              animate={{ y: 0 }}
-              transition={{ duration: 0.8, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              className="flex flex-col gap-stack-lg"
-            >
-              <p className="font-body text-body-lg text-white leading-relaxed m-0 max-w-[62ch] [text-wrap:pretty]">
-                Nous accompagnons les organisations dans leur transition vers un
-                modèle centré sur les compétences. Conseil stratégique, création
-                pédagogique sur-mesure et Intelligence Artificielle pour aligner
-                enfin vos talents avec vos enjeux business.
-              </p>
-
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs">
-                <Button to="/website/contact" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
-                  Échanger sur votre projet SBO
-                </Button>
-                <Button to="/website/diagnostic" variant="glass" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
-                  Évaluer votre maturité
-                </Button>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </div>
-
-      {/* Contrôle de lecture — requis dès qu'une animation dépasse 5 s (WCAG 2.2.2) */}
-      {!reduced && (
-        <button
-          type="button"
-          onClick={togglePlayback}
-          aria-pressed={!playing}
-          className="absolute bottom-6 right-4 z-base flex h-11 w-11 items-center justify-center rounded-pill border border-white/30 bg-ink-900/50 text-white backdrop-blur-glass-light transition-colors duration-fast hover:bg-ink-900/75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-400 sm:right-6 lg:right-10"
+      <div className={`relative ${SHELL} pt-hero pb-chapter`}>
+        <motion.div
+          initial={reduced ? false : { y: 24 }}
+          animate={{ y: 0 }}
+          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          className="flex max-w-4xl flex-col gap-flow"
         >
-          {playing ? <Pause size={18} /> : <Play size={18} />}
-          <span className="sr-only">
-            {playing ? "Mettre l'animation en pause" : "Reprendre l'animation"}
-          </span>
-        </button>
-      )}
+          <p className="flex items-center gap-stack-xs font-body text-body-sm font-bold text-primary-800 m-0">
+            <span aria-hidden className="h-px w-10 bg-secondary-500" />
+            Cabinet de conseil &amp; studio expert en Skills-Based Organization
+          </p>
+
+          <h1
+            className="font-display text-hero text-ink-900 m-0 [text-wrap:balance]"
+            aria-label="Ne formez plus pour former. Bâtissez votre moteur de performance."
+          >
+            <span className="block">Ne formez plus pour former.</span>
+            {/* primary-700 et non accent-400 : le jaune tenait sur un plancher
+                sombre, il tombe sous AA dès que le fond devient clair. */}
+            <span className="block text-primary-700">
+              Bâtissez votre moteur de performance.
+            </span>
+          </h1>
+
+          <p className="font-body text-lede text-ink-700 m-0 max-w-[58ch] [text-wrap:pretty]">
+            Nous accompagnons les organisations dans leur transition vers un
+            modèle centré sur les compétences. Conseil stratégique, création
+            pédagogique sur-mesure et Intelligence Artificielle pour aligner
+            enfin vos talents avec vos enjeux business.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs">
+            <Button to="/website/contact" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+              Échanger sur votre projet SBO
+            </Button>
+            <Button to="/website/diagnostic" variant="ghost" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
+              Évaluer votre maturité
+            </Button>
+          </div>
+        </motion.div>
+      </div>
     </section>
   );
 };
 
-// ─── 2. Manifeste — bandeau teal, la conviction SBO ──────────────────────────
+// ─── 2. Le manifeste ─────────────────────────────────────────────────────────
+//
+// Était un bandeau teal saturé pleine largeur. Devient une composition
+// asymétrique : l'affirmation à gauche, la démonstration à droite. Le texte ne
+// se lit plus sous le titre mais à côté — c'est ce qui distingue une page
+// éditoriale d'un empilement de blocs.
 
-const BENEFICES = [
-  { icon: <Rocket size={20} />, label: 'Agilité décuplée' },
-  { icon: <Gem size={20} />, label: 'Capital humain révélé' },
-  { icon: <Bot size={20} />, label: 'Symbiose Humain-IA' },
-];
+const BENEFICES = ['Agilité décuplée', 'Capital humain révélé', 'Symbiose Humain-IA'];
 
 const Manifeste: React.FC = () => (
-  <section className="relative bg-primary-700 text-white">
-    <div aria-hidden className="absolute top-0 inset-x-0 h-20 bg-gradient-to-b from-black/25 to-transparent pointer-events-none" />
-    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
-      <FadeInWhenVisible>
-        <div className="max-w-4xl flex flex-col gap-stack-lg">
-          <h2 className="font-display font-extrabold text-white leading-[1.06] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)]">
+  <section>
+    <div className={`${SHELL} py-band flex flex-col gap-flow`}>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-flow items-start">
+        <FadeInWhenVisible className="lg:col-span-6">
+          <h2 className="font-display text-section text-ink-900 m-0 [text-wrap:balance]">
             Le poste est mort. L'avenir appartient aux compétences.
           </h2>
-          <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-3xl">
+        </FadeInWhenVisible>
+        <FadeInWhenVisible delay={0.08} className="lg:col-span-6 lg:pt-2">
+          <p className="font-body text-lede text-ink-700 m-0 [text-wrap:pretty]">
             Face à l'obsolescence rapide des savoirs et à l'accélération de
             l'IA, les fiches de poste traditionnelles ne suffisent plus. Les
             organisations les plus performantes ne gèrent plus des titres :
@@ -229,17 +139,16 @@ const Manifeste: React.FC = () => (
             Skills-Based Organization, c'est arrêter de parier sur les diplômes
             pour se concentrer sur l'impact réel.
           </p>
-        </div>
-      </FadeInWhenVisible>
+        </FadeInWhenVisible>
+      </div>
 
-      <FadeInWhenVisible delay={0.1}>
-        <ul className="flex flex-col sm:flex-row flex-wrap gap-stack sm:gap-section m-0 p-0 list-none">
+      {/* Trois bénéfices sur un filet unique. Ils étaient dans des bulles
+          d'icônes : trois contenants pour trois mots. */}
+      <FadeInWhenVisible delay={0.12}>
+        <ul className="grid grid-cols-1 sm:grid-cols-3 gap-group border-t border-ink-200 pt-flow m-0 p-0 list-none">
           {BENEFICES.map((b) => (
-            <li key={b.label} className="flex items-center gap-stack-xs">
-              <span className="inline-flex h-10 w-10 items-center justify-center rounded-pill bg-white/12 text-accent-300">
-                {b.icon}
-              </span>
-              <span className="font-display text-body-lg font-bold text-white">{b.label}</span>
+            <li key={b} className="font-display text-feature text-primary-800">
+              {b}
             </li>
           ))}
         </ul>
@@ -248,23 +157,28 @@ const Manifeste: React.FC = () => (
   </section>
 );
 
-// ─── 3. Le moteur — Learn → Do → Match (vraie séquence, numérotée) ───────────
+// ─── 3. Le moteur — Learn → Do → Match ───────────────────────────────────────
+//
+// La seule numérotation du site, et elle est méritée : c'est une séquence
+// ordonnée, pas un décor de section. Les trois étapes pendent sous un filet
+// continu au lieu de porter chacune son propre `border-t-2` — ce motif était
+// repris tel quel sur quatre pages.
 
 const ETAPES = [
   {
-    num: '1',
+    num: '01',
     verbe: 'Learn',
     sousTitre: 'Acquérir',
     detail: "L'apprentissage ciblé via notre ingénierie pédagogique spécialisée.",
   },
   {
-    num: '2',
+    num: '02',
     verbe: 'Do',
     sousTitre: 'Prouver',
     detail: "Application immédiate sur les projets réels de l'entreprise.",
   },
   {
-    num: '3',
+    num: '03',
     verbe: 'Match',
     sousTitre: 'Allouer',
     detail:
@@ -273,163 +187,139 @@ const ETAPES = [
 ];
 
 const Moteur: React.FC = () => (
-  <section className="bg-white">
-    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
+  <section>
+    <div className={`${SHELL} py-band flex flex-col gap-flow`}>
       <FadeInWhenVisible>
-        <div className="max-w-3xl flex flex-col gap-stack">
-          <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)]">
-            Le cycle <span className="text-primary-700">Learn → Do → Match</span> :
-            la formation devient un actif stratégique.
-          </h2>
-        </div>
+        <h2 className="font-display text-section text-ink-900 m-0 [text-wrap:balance] max-w-3xl">
+          Le cycle <span className="text-primary-700">Learn → Do → Match</span> :
+          la formation devient un actif stratégique.
+        </h2>
       </FadeInWhenVisible>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-stack-lg lg:gap-section">
+      <ol className="grid grid-cols-1 md:grid-cols-3 gap-flow border-t border-ink-300 pt-flow m-0 p-0 list-none">
         {ETAPES.map((e, i) => (
           <FadeInWhenVisible key={e.verbe} delay={i * 0.08} direction="up">
-            <div className="flex h-full flex-col gap-stack border-t-2 border-primary-200 pt-stack-lg">
-              <div className="flex items-baseline gap-stack-xs">
-                <span className="font-display text-h1 font-extrabold text-primary-300 leading-none">
-                  {e.num}
-                </span>
-                <h3 className="font-display text-h2 font-extrabold text-ink-900 m-0 leading-none">
-                  {e.verbe}
-                </h3>
-                <span className="font-body text-body-sm font-bold text-primary-700">
+            <li className="flex flex-col gap-group">
+              <span className="font-body text-caption font-bold tabular-nums text-primary-500">
+                {e.num}
+              </span>
+              <h3 className="font-display text-title text-ink-900 m-0">
+                {e.verbe}
+                <span className="block font-body text-body-sm font-bold text-secondary-600 mt-1">
                   {e.sousTitre}
                 </span>
-              </div>
+              </h3>
               <p className="font-body text-body text-ink-600 leading-relaxed m-0">{e.detail}</p>
-            </div>
+            </li>
           </FadeInWhenVisible>
         ))}
-      </div>
+      </ol>
     </div>
   </section>
 );
 
-// ─── 4. L'écosystème d'offres — 3 cartes + bandeau Learning App ──────────────
+// ─── 4. L'écosystème d'offres ────────────────────────────────────────────────
+//
+// Trois cartes-liens identiques (icône + rôle + titre + texte + flèche) sont
+// devenues trois rangées séparées par un filet. Chaque offre occupe toute la
+// largeur, respire, et se lit dans l'ordre plutôt qu'en balayage. Le survol
+// n'a plus besoin de soulever une boîte : le titre passe en teal et la flèche
+// avance.
 
-type Offre = {
-  icon: React.ReactNode;
-  title: string;
-  role: string;
-  desc: string;
-  link: string;
-  cta: string;
-  toneClasses: {
-    card: string;
-    iconBubble: string;
-    ctaText: string;
-    outline: string;
-  };
-};
+type Offre = { title: string; role: string; desc: string; link: string; cta: string };
 
 const OFFRES: Offre[] = [
   {
-    icon: <Compass size={22} />,
     title: 'Accompagnement STRIDE',
     role: 'Audit & stratégie',
     desc:
       'La méthode en 6 étapes pour cadrer votre transition SBO et déployer vos premières solutions IA, avec des livrables tangibles à chaque jalon.',
     link: '/website/accompagnement',
     cta: 'Découvrir la méthode STRIDE',
-    toneClasses: {
-      card: 'border-primary-100 bg-gradient-to-br from-primary-50/60 via-white to-primary-100/30 hover:border-primary-300',
-      iconBubble: 'bg-primary-100 text-primary-700',
-      ctaText: 'text-primary-700',
-      outline: 'focus-visible:outline-primary-500',
-    },
   },
   {
-    icon: <PenTool size={22} />,
     title: 'Le Studio IA & Pédagogie',
     role: 'Production & déploiement',
     desc:
       'Contenus pédagogiques sur-mesure, agents IA métiers et intégration dans votre écosystème : une production opérationnelle, clé en main.',
     link: '/website/studio',
     cta: 'Visiter le Studio',
-    toneClasses: {
-      card: 'border-secondary-100 bg-gradient-to-br from-secondary-50/60 via-white to-secondary-100/30 hover:border-secondary-300',
-      iconBubble: 'bg-secondary-100 text-secondary-700',
-      ctaText: 'text-secondary-700',
-      outline: 'focus-visible:outline-secondary-500',
-    },
   },
   {
-    icon: <GraduationCap size={22} />,
     title: 'Upskilling L&D',
     role: 'Formation interne',
     desc:
       "Des projets d'upskilling sur-mesure qui commencent par habiliter vos concepteurs et formateurs, pilotés par la Learning App.",
     link: '/website/upskilling',
     cta: 'Former vos équipes',
-    toneClasses: {
-      card: 'border-accent-200/70 bg-gradient-to-br from-accent-50/60 via-white to-accent-100/30 hover:border-accent-300',
-      iconBubble: 'bg-accent-100 text-accent-800',
-      ctaText: 'text-accent-800',
-      outline: 'focus-visible:outline-accent-500',
-    },
   },
 ];
 
 const Ecosysteme: React.FC = () => (
-  <section className="relative bg-gradient-to-b from-white to-primary-50/30">
-    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
+  <section>
+    <div className={`${SHELL} py-band flex flex-col gap-flow`}>
       <FadeInWhenVisible>
-        <div className="max-w-3xl flex flex-col gap-stack">
-          <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)]">
-            Tout ce dont vous avez besoin pour opérer votre transition SBO.
-          </h2>
-        </div>
+        <h2 className="font-display text-section text-ink-900 m-0 [text-wrap:balance] max-w-3xl">
+          Tout ce dont vous avez besoin pour opérer votre transition SBO.
+        </h2>
       </FadeInWhenVisible>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-stack-lg">
+      <ul className="flex flex-col m-0 p-0 list-none">
         {OFFRES.map((o, i) => (
-          <FadeInWhenVisible key={o.title} delay={i * 0.07} direction="up">
-            <Link
-              to={o.link}
-              className={`group relative flex h-full min-h-[280px] flex-col justify-between gap-stack-lg overflow-hidden rounded-2xl border p-stack-lg transition-all duration-500 hover:-translate-y-1 hover:shadow-card-hover focus-visible:outline-2 focus-visible:outline-offset-2 ${o.toneClasses.card} ${o.toneClasses.outline}`}
-            >
-              <div className="flex flex-col gap-stack">
-                <div className="flex items-center justify-between">
-                  <span className={`inline-flex h-11 w-11 items-center justify-center rounded-xl ${o.toneClasses.iconBubble} group-hover:scale-110 transition-transform duration-base`}>
-                    {o.icon}
+          <FadeInWhenVisible key={o.title} delay={i * 0.06}>
+            <li className="border-t border-ink-200">
+              <Link
+                to={o.link}
+                className="group grid grid-cols-1 md:grid-cols-12 gap-group md:gap-flow py-flow rounded-2xl transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-500"
+              >
+                <div className="md:col-span-5 flex flex-col gap-rule">
+                  <span className="font-body text-caption font-bold text-secondary-600">
+                    {o.role}
                   </span>
-                  <span className="font-body text-caption font-bold text-ink-500">{o.role}</span>
+                  <h3 className="font-display text-title text-ink-900 m-0 transition-colors duration-base group-hover:text-primary-700">
+                    {o.title}
+                  </h3>
                 </div>
-                <h3 className="font-display text-h3 font-bold text-ink-900 m-0 leading-tight">{o.title}</h3>
-                <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">{o.desc}</p>
-              </div>
-              <span className={`flex items-center gap-stack-xs font-semibold text-body-sm ${o.toneClasses.ctaText}`}>
-                {o.cta}
-                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-base" />
-              </span>
-            </Link>
+                <p className="md:col-span-5 font-body text-body text-ink-600 leading-relaxed m-0">
+                  {o.desc}
+                </p>
+                <span className="md:col-span-2 flex items-start md:justify-end font-body text-body-sm font-semibold text-primary-700">
+                  <span className="inline-flex items-center gap-1.5">
+                    {o.cta}
+                    <ArrowRight
+                      size={16}
+                      className="shrink-0 transition-transform duration-base group-hover:translate-x-1"
+                    />
+                  </span>
+                </span>
+              </Link>
+            </li>
           </FadeInWhenVisible>
         ))}
-      </div>
+      </ul>
 
-      {/* Bandeau SaaS — la Learning App comme moteur d'échelle */}
+      {/* Learning App — le seul item qui change de registre, parce qu'il change
+          de nature : les trois au-dessus sont des prestations, celui-ci est un
+          produit. Teinté plutôt que sombre : la page ne garde qu'un seul fond
+          sombre, et c'est le CTA final. */}
       <FadeInWhenVisible delay={0.1}>
         <Link
           to="/website/learning-app"
-          className="group relative flex flex-col sm:flex-row sm:items-center justify-between gap-stack-lg overflow-hidden rounded-2xl bg-gradient-to-br from-primary-800 via-primary-900 to-ink-900 p-stack-lg sm:p-section transition-all duration-500 hover:-translate-y-1 hover:shadow-brand-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-400"
+          className="group flex flex-col sm:flex-row sm:items-end justify-between gap-flow rounded-2xl bg-primary-50 ring-1 ring-primary-100 p-flow transition-colors duration-base hover:bg-primary-100/70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
         >
-          <div aria-hidden className="absolute -top-24 -right-24 w-96 h-96 rounded-pill bg-primary-500/25 blur-3xl pointer-events-none group-hover:bg-primary-400/35 transition-colors duration-700" />
-          <div className="relative flex flex-col gap-stack-xs max-w-2xl">
-            <h3 className="font-display text-[clamp(1.5rem,2.6vw,2.25rem)] font-extrabold text-white leading-[1.1] m-0">
-              Passez à l'échelle avec la <span className="text-accent-400">Learning App TLS</span>.
+          <div className="flex flex-col gap-group max-w-2xl">
+            <h3 className="font-display text-title text-ink-900 m-0 [text-wrap:balance]">
+              Passez à l'échelle avec la Learning App TLS.
             </h3>
-            <p className="font-body text-body text-white/70 leading-relaxed m-0">
+            <p className="font-body text-body text-ink-600 leading-relaxed m-0">
               Veille continue, apprentissage par l'action et Passeport de
               compétences vivant : le logiciel qui opère votre modèle SBO au
               quotidien.
             </p>
           </div>
-          <span className="relative flex shrink-0 items-center gap-stack-xs font-semibold text-accent-400">
+          <span className="inline-flex shrink-0 items-center gap-1.5 font-body text-body-sm font-semibold text-primary-700">
             Découvrir la Learning App
-            <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform duration-base" />
+            <ArrowRight size={16} className="transition-transform duration-base group-hover:translate-x-1" />
           </span>
         </Link>
       </FadeInWhenVisible>
@@ -437,49 +327,48 @@ const Ecosysteme: React.FC = () => (
   </section>
 );
 
-// ─── 5. Réassurance — expertise, fondateurs, partenaire C-Campus ─────────────
+// ─── 5. Réassurance ──────────────────────────────────────────────────────────
+//
+// Le bloc partenaire C-Campus était une carte teintée avec bulle d'icône. Il
+// devient un encart séparé par un filet vertical : même distinction, sans
+// contenant.
 
 const Reassurance: React.FC = () => (
-  <section className="bg-white border-t border-ink-100">
-    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-section items-start">
-        <div className="lg:col-span-7 flex flex-col gap-stack-lg">
+  <section>
+    <div className={`${SHELL} py-band`}>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-flow items-start">
+        <div className="lg:col-span-7 flex flex-col gap-flow">
           <FadeInWhenVisible>
-            <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)]">
+            <h2 className="font-display text-section text-ink-900 m-0 [text-wrap:balance]">
               L'alliance de l'ingénierie pédagogique de pointe et de
               l'Intelligence Artificielle.
             </h2>
           </FadeInWhenVisible>
           <FadeInWhenVisible delay={0.08}>
-            <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
-              Fondée par Chloé Mimault et Pierre-Armand Dennery : la recherche
-              en ingénierie pédagogique, l'architecture IA et la transformation
-              des organisations, réunies dans une même structure experte.
-            </p>
-          </FadeInWhenVisible>
-          <FadeInWhenVisible delay={0.14}>
-            <div>
-              <Button to="/website/equipe" variant="ghost" size="md" trailingIcon={<ArrowRight size={16} />}>
-                Rencontrer les fondateurs
-              </Button>
+            <div className="flex flex-col gap-flow">
+              <p className="font-body text-lede text-ink-700 m-0 max-w-2xl [text-wrap:pretty]">
+                Fondée par Chloé Mimault et Pierre-Armand Dennery : la recherche
+                en ingénierie pédagogique, l'architecture IA et la transformation
+                des organisations, réunies dans une même structure experte.
+              </p>
+              <div>
+                <Button to="/website/equipe" variant="ghost" size="md" trailingIcon={<ArrowRight size={16} />}>
+                  Rencontrer les fondateurs
+                </Button>
+              </div>
             </div>
           </FadeInWhenVisible>
         </div>
 
-        <FadeInWhenVisible delay={0.1} className="lg:col-span-5">
-          <div className="flex items-start gap-stack rounded-2xl bg-primary-50 p-stack-lg">
-            <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-100 text-primary-700">
-              <Handshake size={22} />
-            </span>
-            <div className="flex flex-col gap-stack-xs">
-              <h3 className="font-display text-h4 font-bold text-ink-900 m-0 leading-tight">
-                Partenaire stratégique de C-Campus
-              </h3>
-              <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">
-                Référence française de l'ingénierie de formation et de l'AFEST,
-                C-Campus certifie les dispositifs que nous concevons ensemble.
-              </p>
-            </div>
+        <FadeInWhenVisible delay={0.12} className="lg:col-span-4 lg:col-start-9">
+          <div className="flex flex-col gap-group border-t lg:border-t-0 lg:border-l border-ink-200 pt-flow lg:pt-0 lg:pl-flow">
+            <h3 className="font-display text-feature text-ink-900 m-0">
+              Partenaire stratégique de C-Campus
+            </h3>
+            <p className="font-body text-body text-ink-600 leading-relaxed m-0">
+              Référence française de l'ingénierie de formation et de l'AFEST,
+              C-Campus certifie les dispositifs que nous concevons ensemble.
+            </p>
           </div>
         </FadeInWhenVisible>
       </div>
@@ -487,7 +376,11 @@ const Reassurance: React.FC = () => (
   </section>
 );
 
-// ─── 6. Double CTA — bloc chaud (RDV B2B) + bloc froid (La Vigie IA) ────────────
+// ─── 6. Double CTA — bloc chaud (RDV B2B) + bloc froid (La Vigie IA) ─────────
+//
+// Le seul fond sombre de la page, et il arrive en dernier : c'est le moment où
+// l'on conclut. Le bloc froid, lui, sort de sa carte teintée et se pose
+// simplement à côté, séparé par un filet.
 
 const DoubleCta: React.FC = () => {
   const toast = useMarketingToast();
@@ -520,28 +413,28 @@ const DoubleCta: React.FC = () => {
   };
 
   return (
-    <section className="bg-white">
-      <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 pt-2 pb-16 sm:pb-20 lg:pb-28">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-stack-lg">
-          {/* Bloc chaud — B2B */}
-          <FadeInWhenVisible className="lg:col-span-3">
-            <div className="relative h-full overflow-hidden rounded-2xl bg-ink-900 text-white px-6 sm:px-10 py-12 sm:py-16">
-              <div className="relative flex flex-col gap-stack-lg">
-                <h2 className="font-display font-extrabold text-white leading-[1.04] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,3.6vw,3rem)]">
+    <section>
+      <div className={`${SHELL} pb-chapter`}>
+        <FadeInWhenVisible>
+          <div className="rounded-2xl bg-ink-900 text-white p-flow sm:p-band">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-flow items-start">
+              {/* Bloc chaud */}
+              <div className="lg:col-span-7 flex flex-col gap-flow">
+                <h2 className="font-display text-section text-white m-0 [text-wrap:balance]">
                   Prêt à transformer votre organisation ?
                 </h2>
-                <p className="font-body text-body-lg text-white/80 leading-relaxed m-0 max-w-xl">
+                <p className="font-body text-lede text-white/75 m-0 max-w-xl [text-wrap:pretty]">
                   Trente minutes avec les fondateurs pour comprendre votre
                   contexte et tracer le chemin le plus court vers l'impact.
                   Sans engagement.
                 </p>
-                <div className="flex flex-col gap-stack-xs pt-stack-xs">
-                  <div className="flex flex-wrap items-center gap-stack-xs">
+                <div className="flex flex-col gap-group">
+                  <div>
                     <Button to="/website/contact" variant="secondary" size="lg" trailingIcon={<ArrowRight size={18} />}>
                       Planifier un échange de 30 min
                     </Button>
                   </div>
-                  <p className="font-body text-body-sm text-white/80 m-0">
+                  <p className="font-body text-body-sm text-white/75 m-0">
                     Pas encore prêt ?{' '}
                     <Link
                       to="/website/diagnostic"
@@ -553,56 +446,52 @@ const DoubleCta: React.FC = () => {
                   </p>
                 </div>
               </div>
-            </div>
-          </FadeInWhenVisible>
 
-          {/* Bloc froid — La Vigie IA */}
-          <FadeInWhenVisible delay={0.08} className="lg:col-span-2">
-            <div className="flex h-full flex-col justify-between gap-stack-lg rounded-2xl bg-primary-50 px-4 sm:px-6 lg:px-10 py-12 sm:py-16 sm:px-stack-lg">
-              <div className="flex flex-col gap-stack">
-                <h2 className="font-display text-h3 font-bold text-ink-900 m-0 leading-tight">
-                  Pas encore prêt ? Restez en veille.
-                </h2>
-                <p className="font-body text-body text-ink-600 leading-relaxed m-0">
-                  Abonnez-vous à La Vigie IA pour recevoir nos meilleures analyses
-                  sur l'IA, les compétences et le futur du travail.
-                </p>
+              {/* Bloc froid — séparé par un filet, pas par une carte */}
+              <div className="lg:col-span-4 lg:col-start-9 flex flex-col gap-flow border-t lg:border-t-0 lg:border-l border-white/15 pt-flow lg:pt-0 lg:pl-flow">
+                <div className="flex flex-col gap-group">
+                  <h3 className="font-display text-feature text-white m-0">
+                    Pas encore prêt ? Restez en veille.
+                  </h3>
+                  <p className="font-body text-body text-white/70 leading-relaxed m-0">
+                    Abonnez-vous à La Vigie IA pour recevoir nos meilleures
+                    analyses sur l'IA, les compétences et le futur du travail.
+                  </p>
+                </div>
+                <form onSubmit={handleSubmit} className="flex flex-col gap-stack-xs">
+                  <label htmlFor="home-vigie-email" className="sr-only">
+                    Votre adresse email professionnelle
+                  </label>
+                  <input
+                    id="home-vigie-email"
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Votre email professionnel"
+                    className="h-12 w-full rounded-pill border border-white/25 bg-white/10 px-5 font-body text-body text-white placeholder:text-white/55 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-400"
+                  />
+                  <Button type="submit" variant="secondary" size="lg" fullWidth disabled={sending} trailingIcon={<ArrowRight size={18} />}>
+                    {sending ? 'Envoi en cours…' : "S'abonner à La Vigie IA"}
+                  </Button>
+                  <Link
+                    to="/website/vigie"
+                    className="inline-flex min-h-[24px] items-center font-body text-caption text-white/70 transition-colors duration-fast hover:text-white w-fit"
+                  >
+                    Découvrir La Vigie IA
+                  </Link>
+                </form>
               </div>
-              <form onSubmit={handleSubmit} className="flex flex-col gap-stack-xs">
-                <label htmlFor="home-vigie-email" className="sr-only">
-                  Votre adresse email professionnelle
-                </label>
-                <input
-                  id="home-vigie-email"
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Votre email professionnel"
-                  className="h-12 w-full rounded-pill border border-ink-200 bg-white px-5 font-body text-body text-ink-900 placeholder:text-ink-500 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
-                />
-                <Button type="submit" variant="primary" size="lg" fullWidth disabled={sending} trailingIcon={<ArrowRight size={18} />}>
-                  {sending ? 'Envoi en cours…' : "S'abonner à La Vigie IA"}
-                </Button>
-                {/* `inline-flex min-h-[24px]` : mesuré à 20 px de haut en
-                    375 px, sous le minimum WCAG 2.2 AA (SC 2.5.8). */}
-                <Link
-                  to="/website/vigie"
-                  className="inline-flex min-h-[24px] items-center font-body text-caption text-primary-700 hover:text-primary-800 transition-colors duration-fast w-fit"
-                >
-                  Découvrir La Vigie IA
-                </Link>
-              </form>
             </div>
-          </FadeInWhenVisible>
-        </div>
+          </div>
+        </FadeInWhenVisible>
       </div>
     </section>
   );
 };
 
 export const MarketingHome: React.FC = () => (
-  <div className="bg-white">
+  <>
     <SEOHead
       title="The Learning Society · Cabinet de conseil & studio expert en Skills-Based Organization"
       description="Ne formez plus pour former. Conseil stratégique, création pédagogique sur-mesure et IA pour transformer votre organisation en Skills-Based Organization."
@@ -633,14 +522,13 @@ export const MarketingHome: React.FC = () => (
       }}
     />
 
-
     <Hero />
     <Manifeste />
     <Moteur />
     <Ecosysteme />
     <Reassurance />
     <DoubleCta />
-  </div>
+  </>
 );
 
 export default MarketingHome;

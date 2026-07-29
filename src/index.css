@@ -408,6 +408,85 @@
   --spacing-section-lg: 2.5rem;
   --spacing-page:       3rem;
 
+  /* ── Rythme éditorial — réservé au site vitrine (/website/*) ────────────────
+     Ajouté le 2026-07-29.
+
+     POURQUOI UNE SECONDE ÉCHELLE. Celle du dessus est une échelle d'application :
+     elle plafonne à 48px, et son plus grand écart intra-section est 40px
+     (`section-lg`). Mesuré sur les pages du site : le padding EXTÉRIEUR des
+     sections vaut 112px, mais tout ce qui vit à l'intérieur est empilé dans une
+     fourchette 16–40px. Les sections respirent entre elles et étouffent dedans —
+     c'est la densité d'un dashboard appliquée à une page éditoriale, et c'est la
+     cause mesurable du « ça manque d'air ».
+
+     POURQUOI ON N'ÉLARGIT PAS L'ÉCHELLE EXISTANTE. `gap-stack` est consommé par
+     290 fichiers de la Learning App, `gap-section` par 118. En changer la valeur
+     repeindrait toute l'app pour refaire le site. Cette échelle est donc
+     ADDITIVE et cadrée au site : elle ne modifie aucun token existant.
+
+     FLUIDE, PAS PAR PALIERS. Les tailles se calculent au viewport plutôt que de
+     sauter à chaque breakpoint : une page éditoriale doit respirer davantage sur
+     grand écran, pas simplement afficher les mêmes blocs plus larges. Cela
+     remplace aussi les triplets écrits à la main (`py-16 sm:py-20 lg:py-28`).
+
+     Portée : `src/pages/marketing/*` et `src/components/marketing/*`.
+     Ne pas importer dans la Learning App — ce n'est pas le même registre. */
+  --spacing-rule:    clamp(0.5rem, 0.8vw, 0.75rem);   /*   8 →  12px — étiquette ↔ valeur, micro-groupes */
+  --spacing-group:   clamp(1rem, 1.5vw, 1.5rem);      /*  16 →  24px — blocs d'un même groupe */
+  --spacing-flow:    clamp(2rem, 3.5vw, 3.5rem);      /*  32 →  56px — titre de section ↔ contenu */
+  --spacing-band:    clamp(4rem, 7vw, 7.5rem);        /*  64 → 120px — respiration verticale d'une section */
+  --spacing-hero:    clamp(7rem, 11vw, 10.5rem);      /* 112 → 168px — haut de hero, dégage le header fixe */
+  --spacing-chapter: clamp(6rem, 11vw, 11rem);        /*  96 → 176px — rupture de mouvement, rare et voulue */
+
+  /* Gouttière de page — une seule valeur au lieu du triplet `px-4 sm:px-6 lg:px-10`
+     recopié dans chaque section. Même plage (16 → 40px), une seule source. */
+  --spacing-gutter:  clamp(1rem, 2.5vw, 2.5rem);      /*  16 →  40px */
+
+  /* ── Échelle éditoriale — réservée au site vitrine (/website/*) ─────────────
+     Ajoutée le 2026-07-29.
+
+     LE CONSTAT. Le site n'utilisait pas l'échelle `--text-h*` pour ses titres :
+     il portait **28 valeurs `clamp()` distinctes écrites en dur** dans le JSX,
+     dont trois qui ne diffèrent que de 0,3vw et que personne ne peut distinguer
+     à l'œil. Ce n'est pas une échelle, ce sont 28 tailles uniques — d'où
+     l'absence de hiérarchie perçue, plus encore que l'espacement.
+
+     LES RAPPORTS. Quatre crans, tous ≥ 1,25 entre eux aux deux extrémités de la
+     plage fluide (un rapport plus faible se lit comme une échelle « pas
+     décidée ») :
+        desktop  80 / 52 = 1,54 · 52 / 30 = 1,73 · 30 / 22 = 1,36 · 22 / 16 = 1,38
+        mobile   44 / 32 = 1,38 · 32 / 22 = 1,45 · 22 / 17 = 1,29
+
+     LES DEUX PLAFONDS RESPECTÉS. Le maximum de `hero` est 5rem (80px) : au-delà
+     de 6rem une page crie au lieu de composer. Et le tracking reste à -0.03em
+     (`--tracking-display`), au-dessus du plancher de -0.04em en deçà duquel les
+     lettres se touchent.
+
+     `lede` est le chapô. Il valait `body-lg` (18px fixe), soit 1,125× le corps :
+     un écart invisible. Il devient un vrai cran. */
+  --text-hero:    clamp(2.75rem, 6vw, 5rem);        /* 44 → 80px — titre d'ouverture de page */
+  --text-hero--line-height: 1.04;
+  --text-hero--letter-spacing: -0.03em;
+  --text-hero--font-weight: 800;
+
+  --text-section: clamp(2rem, 4vw, 3.25rem);        /* 32 → 52px — titre de section (h2) */
+  --text-section--line-height: 1.08;
+  --text-section--letter-spacing: -0.025em;
+  --text-section--font-weight: 800;
+
+  --text-title:   clamp(1.625rem, 2.9vw, 2.375rem); /* 26 → 38px — sous-section, carte large (h3) */
+  --text-title--line-height: 1.15;
+  --text-title--letter-spacing: -0.022em;
+  --text-title--font-weight: 700;
+
+  --text-feature: clamp(1.375rem, 2.2vw, 1.875rem); /* 22 → 30px — titre de bloc (h3) */
+  --text-feature--line-height: 1.2;
+  --text-feature--letter-spacing: -0.02em;
+  --text-feature--font-weight: 700;
+
+  --text-lede:    clamp(1.0625rem, 1.4vw, 1.375rem);/* 17 → 22px — chapô sous un titre */
+  --text-lede--line-height: 1.55;
+
   /* ── Typographie spéciale — StatCard ── */
   --text-stat-value: clamp(2rem, 3vw, 2.75rem);
   --text-stat-value-lg: clamp(2.5rem, 4vw, 3.5rem);
