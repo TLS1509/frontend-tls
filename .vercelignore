@@ -1,0 +1,13 @@
+# Ce que l'hébergeur n'a pas besoin de recevoir.
+# Sans cette liste, le déploiement embarque 33 Mo de vidéos dont le design
+# system ne se sert pas (vérifié : 0 référence à /videos/ dans src/components/).
+
+public/videos/
+
+# Documentation et travail interne — rien de tout cela ne sert au runtime.
+docs/
+brand/
+scripts/
+.claude/
+*.md
+!README.md

@@ -49,6 +49,7 @@
 
 | Fichier | Type | Focus |
 |---------|------|-------|
+| [DEPLOIEMENT-SHOWCASE.md](ops/DEPLOIEMENT-SHOWCASE.md) | **Préparé, non activé** (29/07) | Déployer `/components` : ce que fait la config posée (`vercel.json`, `.vercelignore`), les 2 variables requises, et les 3 décisions à trancher — public ou protégé, quel hébergeur, auto ou manuel. Rappelle qu'aucune synchro automatique n'existe avec Claude Design |
 | [CHANTIER-SHOWCASE-2026-07-28.md](_audits/CHANTIER-SHOWCASE-2026-07-28.md) | **Chantier ouvert** | Reconstruire `/components` : 6 causes mesurées (0 sommaire, 1 ancre sur 8 524 lignes, pas de `scroll-mt`, tout monté d'un coup, chunk de 3,9 Mo, 320 exportés vs 185 déclarés). Plan en 5 phases, 3 décisions à prendre |
 | [AUDIT-FIGMA-ATOMS-COMPOSITES-2026-07-03.md](_audits/AUDIT-FIGMA-ATOMS-COMPOSITES-2026-07-03.md) | Figma↔code (vérifié 1ère main) | Atoms+Composites : variants vs codebase + binding variables/styles. §08 créé, gaps tone-aware Avatar/StatCard, token "locked" grays |
 | [AUDIT-FIGMA-CODE-GAP-2026-07-03.md](_audits/AUDIT-FIGMA-CODE-GAP-2026-07-03.md) | Gap composants DS↔code | Prérequis Phase 20 : 175 sets Figma vs code. ~158 matchés par nom ; gap bloquant = famille auth glass-dark (à créer/étendre) + ~5 stragglers (CourseCard, SegmentedControl, MessageBubble…) |
