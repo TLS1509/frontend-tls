@@ -29,16 +29,56 @@ const LINK_ACTIVE = 'bg-primary-600 text-white hover:bg-primary-700';
 const COUNT_IDLE = 'text-ink-400';
 const COUNT_ACTIVE = 'text-white/75';
 
-export const ShowcaseNav: React.FC<ShowcaseNavProps> = ({ counts, activeSlug }) => (
+export const ShowcaseNav: React.FC<ShowcaseNavProps> = ({ counts, activeSlug }) => {
+  /**
+   * Le débordement doit se voir.
+   *
+   * La nav tient 2077 px de chips ; sous 1000 px de large, une bonne dizaine de
+   * catégories sont hors écran et rien ne l'indiquait — on croyait le design
+   * system limité à ce qu'on voyait. On dégrade donc les bords en fondu, mais
+   * uniquement du côté où il reste réellement quelque chose à atteindre.
+   */
+  const listRef = React.useRef<HTMLUListElement>(null);
+  const [edges, setEdges] = React.useState({ start: false, end: false });
+
+  const measure = React.useCallback(() => {
+    const el = listRef.current;
+    if (!el) return;
+    const max = el.scrollWidth - el.clientWidth;
+    setEdges({ start: el.scrollLeft > 4, end: el.scrollLeft < max - 4 });
+  }, []);
+
+  React.useEffect(() => {
+    measure();
+    const el = listRef.current;
+    el?.addEventListener('scroll', measure, { passive: true });
+    window.addEventListener('resize', measure);
+    return () => {
+      el?.removeEventListener('scroll', measure);
+      window.removeEventListener('resize', measure);
+    };
+  }, [measure]);
+
+  return (
   <nav
     aria-label="Catégories du design system"
     className="sticky top-0 z-sticky -mx-4 px-4 py-stack-xs bg-white/85 backdrop-blur-glass-medium border-b border-ink-100"
   >
+    <div className="relative">
+      {/* Fondus de bord — purement décoratifs, la nav reste défilable au clavier */}
+      <div
+        aria-hidden
+        className={`pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-white to-transparent transition-opacity duration-fast ease-standard ${edges.start ? 'opacity-100' : 'opacity-0'}`}
+      />
+      <div
+        aria-hidden
+        className={`pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-white to-transparent transition-opacity duration-fast ease-standard ${edges.end ? 'opacity-100' : 'opacity-0'}`}
+      />
     {/* Une seule ligne, qui défile horizontalement. Sur deux lignes ou plus la
         nav dépassait 140 px de haut : elle masquait alors la cible d'un saut
         d'ancre — exactement le défaut qu'on corrige ici. Hauteur stable, donc
         le `scroll-mt-20` posé sur chaque composant suffit à la dégager. */}
-    <ul className="flex flex-nowrap items-center gap-stack-xs list-none m-0 p-0 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    <ul ref={listRef} className="flex flex-nowrap items-center gap-stack-xs list-none m-0 p-0 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       <li>
         <Link
           to="/components"
@@ -70,8 +110,10 @@ export const ShowcaseNav: React.FC<ShowcaseNavProps> = ({ counts, activeSlug }) 
         );
       })}
     </ul>
+    </div>
   </nav>
-);
+  );
+};
 
 /** Hook : le slug de catégorie de l'URL, s'il est valide. */
 export const useCategorySlug = (): string | undefined => {

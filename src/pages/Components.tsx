@@ -8403,11 +8403,32 @@ const Components: React.FC = () => {
                 <span className="ds-section__count">{total} composant{total > 1 ? 's' : ''}</span>
               </div>
 
+              {/* Index de la categorie. Sans lui, on retrouvait le probleme d'un
+                  cran plus bas : Atoms tient 33 composants sur 20 000 px, et rien
+                  ne permettait d'aller directement a une sous-categorie. */}
+              {subGroups.length > 1 && (
+                <nav aria-label={`Sous-categories de ${cat}`} className="flex flex-wrap gap-stack-xs">
+                  {subGroups.map(([subCat, list]) => (
+                    <a
+                      key={subCat}
+                      href={`#sub-${componentSlug(subCat)}`}
+                      className="inline-flex items-center gap-tight rounded-pill border border-ink-200 bg-white px-3 py-1 text-caption font-semibold text-ink-600 transition-colors duration-fast ease-standard hover:border-primary-300 hover:bg-primary-50 hover:text-primary-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                    >
+                      {subCat}
+                      <span className="text-ink-400 font-normal">{list.length}</span>
+                    </a>
+                  ))}
+                </nav>
+              )}
+
               {subGroups.map(([subCat, list]) => (
                 <div key={subCat} className="flex flex-col gap-stack">
                   {/* Sub-category header (skip if "Other" or single-sub category) */}
                   {subGroups.length > 1 && (
-                    <div className="flex items-baseline gap-stack-xs mt-stack-lg first:mt-0 pb-2 border-b border-ink-100">
+                    <div
+                      id={`sub-${componentSlug(subCat)}`}
+                      className="flex items-baseline gap-stack-xs mt-stack-lg first:mt-0 pb-2 border-b border-ink-100 scroll-mt-20"
+                    >
                       <h3 className="m-0 font-display text-h4 font-semibold text-ink-700">{subCat}</h3>
                       <span className="text-caption text-ink-500">{list.length}</span>
                     </div>
