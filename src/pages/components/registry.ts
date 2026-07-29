@@ -74,7 +74,7 @@ export const SUBCATEGORY_ORDER: Record<Category, string[]> = {
   'Data Visualization': ['Competency charts', 'Distribution charts', 'Trend charts', 'Composition charts', 'Correlation charts', 'Composite charts', 'Matrix charts', 'Timeline & Events', 'Progress & Gauges', 'Chart utilities'],
   Modals: ['Base', 'Booking flow', 'Confirm/Status', 'Celebrations', 'Media', 'Onboarding'],
   'Auth Family': ['Shell & layout'],
-  'Pages & Templates': [],
+  'Pages & Templates': ['États d\'erreur'],
 };
 
 /* ── Ce que le showcase groupe, et ce qu'il n'a pas à montrer ───────────────
@@ -142,6 +142,26 @@ export const CATALOG: Record<string, CatalogMeta> = {
   NewsletterSignupCard: { category: 'Cards', subCategory: 'Communication' },
   TrendingBadge:        { category: 'Atoms', subCategory: 'Status badges' },
   ViewerProgressTrail:  { category: 'Learning', subCategory: 'Viewer content' },
+
+  // ── Phase 4, lot 3 : squelettes, selects, grilles, charts, divers ─────
+  SelectCheckbox:         { category: 'Search & Filters', subCategory: 'Filter controls' },
+  SelectCheckboxCategory: { category: 'Search & Filters', subCategory: 'Filter controls' },
+  SkeletonGroup:          { category: 'Feedback', subCategory: 'Status messages' },
+  StatCardSkeleton:       { category: 'Feedback', subCategory: 'Status messages' },
+  ActivityItemSkeleton:   { category: 'Feedback', subCategory: 'Status messages' },
+  ResumeLessonSkeleton:   { category: 'Feedback', subCategory: 'Status messages' },
+  SelectCheckboxFloating: { category: 'Search & Filters', subCategory: 'Filter controls' },
+  CoachRow:               { category: 'Lists & Feeds', subCategory: 'Lists (vertical)' },
+  CorrectionStatusBar:    { category: 'Learning', subCategory: 'Competence' },
+  ReaderContextStrip:     { category: 'Headers & Sections', subCategory: 'Page headers' },
+  ErrorPage:              { category: 'Pages & Templates', subCategory: 'États d\'erreur' },
+  CoachCardGrid:          { category: 'Lists & Feeds', subCategory: 'Grids' },
+  LearningPathGrid:       { category: 'Lists & Feeds', subCategory: 'Grids' },
+  ResourceCardGrid:       { category: 'Lists & Feeds', subCategory: 'Grids' },
+  ChartWithExport:        { category: 'Data Visualization', subCategory: 'Chart utilities' },
+  ChartDetailModal:       { category: 'Data Visualization', subCategory: 'Chart utilities' },
+  CompletionModal:        { category: 'Modals', subCategory: 'Celebrations' },
+  AuthSuccess:            { category: 'Auth Family', subCategory: 'Shell & layout' },
 
   // ── Phase 4, lot 2 : primitives de layout + PageHero ──────────────────
   PageShell:            { category: 'Foundations', subCategory: 'Layout Primitives' },

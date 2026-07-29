@@ -360,18 +360,45 @@ CTA: « Commencer maintenant » (orange, ripple, arrow rotate hover)
 
 ---
 
-## 🚫 NE CHERCHE PAS PAR « education / learning »
+## 🎯 « education / learning » : chercher oui, importer l'esthétique non
 
-Ça surface Duolingo / Babbel / school apps = **consumer gamifié, mascotte, ludique** — l'exact
-opposé de TLS (B2B premium sobre, expert-to-expert, anti-hype). Cherche par **langage de design +
-catégories adjacentes premium**, jamais par le secteur « learning ».
+> **Règle révisée le 2026-07-29 par Chloé.** Ce paragraphe disait « ne cherche pas
+> par education / learning » et interdisait le secteur en bloc. C'était trop
+> large : ça nous privait de tout ce que ces produits savent faire de mieux.
+>
+> **Ce qu'on va y chercher :** les meilleures pratiques d'**apprenance**,
+> d'**engagement de l'apprenant** et de **maintien dans la durée** (commitment) —
+> comment un produit donne envie de revenir, rend un progrès lisible, tient
+> quelqu'un sur douze semaines sans le harceler. C'est notre cœur de métier ;
+> personne ne le résout mieux que ce secteur.
+>
+> **Ce qu'on n'y prend pas :** l'esthétique. Le piège reste entier — **e-learning
+> B2C** (Duolingo, Babbel : gamification bruyante, mascotte, streak punitif) et
+> **education for children** (couleurs primaires, illustrations naïves, ton
+> scolaire). Un CLO n'achète pas sur un site qui ressemble à ça, et un apprenant
+> de 42 ans en poste ne veut pas être infantilisé.
+>
+> **Le test à passer sur chaque référence du secteur :** est-ce que je vole un
+> *mécanisme* (une façon de rendre le progrès visible, de relancer sans culpabiliser,
+> de matérialiser un engagement) ou une *ambiance* ? Le mécanisme, oui. L'ambiance,
+> non — elle vient des catégories adjacentes ci-dessous.
 
-| ❌ Le piège | ✅ Cherche plutôt |
+Les catégories adjacentes restent la source de l'**ambiance** et du **registre**
+(premium, sobre, expert-to-expert). Elles complètent la recherche secteur, elles
+ne la remplacent plus.
+
+| Pour l'ambiance, plutôt que | ✅ Chercher |
 |---|---|
 | education · learning · e-learning | **HR / People / Skills** : Gloat · Eightfold · Workera · Beamery · Lattice · Personio · Deel |
 | course / language app | **B2B SaaS sobre** : Linear · Vercel · Stripe · Mercury · Attio · Retool |
 | gamified · playful | **Conseil / studio / agency** éditorial (ton offre Accompagnement) |
 | bright colorful EdTech | **Future-of-work pro** : Maven · Reforge · Section · Sana |
+
+**Et pour les mécanismes d'apprenance, chercher franchement dans le secteur** —
+mais côté adulte et pro, pas côté grand public : **Sana · Uxcel · Brilliant ·
+Imprint · Maven · Reforge · NotebookLM · Section**. Le corpus Mobbin déjà
+analysé plus bas (« Mobile Apps », « Desktop Apps ») porte l'essentiel de ce
+travail : y relire les colonnes *L'élément précis* plutôt que de repartir de zéro.
 
 > Sur **Mobbin** : filtre Industry = `Productivity / HR / AI / Finance / B2B` (PAS `Education`), browse par Élément.
 

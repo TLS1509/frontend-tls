@@ -203,10 +203,21 @@ import { CongratulationsCard } from '../components/patterns/CongratulationsCard'
 import { NextStepsGrid } from '../components/patterns/NextStepsGrid';
 import { EmptyDashboardState } from '../components/patterns/EmptyDashboardState';
 import { ProgressDots } from '../components/ui/ProgressDots';
+import { SelectCheckboxFloating } from '../components/ui/SelectCheckboxFloating';
+import { CoachRow } from '../components/patterns/CoachRow';
+import { ReaderContextStrip } from '../components/patterns/ReaderContextStrip';
+import { CorrectionStatusBar } from '../components/learning/CorrectionStatusBar';
+import { ErrorPage } from '../components/patterns/ErrorPage';
+import { CompletionModal } from '../components/modals/CompletionModal';
+import { AuthSuccess } from '../components/patterns/AuthShell';
 import {
   ParcoursCardSkeleton,
   NotificationRowSkeleton,
   EditorialCardSkeleton,
+  StatCardSkeleton,
+  ActivityItemSkeleton,
+  ResumeLessonSkeleton,
+  SkeletonGroup,
 } from '../components/patterns/SkeletonTemplates';
 import { ActivityTimeline } from '../components/patterns/ActivityTimeline';
 import { TabsWithContent } from '../components/patterns/TabsWithContent';
@@ -258,6 +269,8 @@ import {
   ComposedChart,
   HeatmapChart,
   ChartContainer,
+  ChartWithExport,
+  ChartDetailModal,
   TimelineChart,
   GaugeChart,
   ChartExportButton,
@@ -883,6 +896,91 @@ const SelectableOptionCardDemo: React.FC = () => {
         />
       ))}
     </div>
+  );
+};
+
+/* ── Démos phase 4, lot 3 ────────────────────────────────────────────────── */
+
+const SelectCheckboxDemo: React.FC = () => {
+  const [sel, setSel] = useState<string[]>(['coach']);
+  const [cat, setCat] = useState('parcours');
+  return (
+    <div className="flex flex-col gap-stack max-w-md">
+      <SelectCheckbox
+        placeholder="Filtrer par rôle"
+        options={[
+          { id: 'apprenant', label: 'Apprenant' },
+          { id: 'coach', label: 'Coach' },
+          { id: 'manager', label: 'Manager' },
+          { id: 'admin', label: 'Administrateur' },
+        ]}
+        selected={sel}
+        onChange={setSel}
+      />
+      <SelectCheckboxCategory
+        placeholder="Filtrer par domaine"
+        categories={[
+          { id: 'parcours', label: 'Parcours', subcategories: [{ id: 'p-ing', label: 'Ingénierie' }, { id: 'p-eval', label: 'Évaluation' }] },
+          { id: 'veille', label: 'Veille', subcategories: [{ id: 'v-ia', label: 'IA' }, { id: 'v-ld', label: 'L&D' }] },
+        ]}
+        selected={cat}
+        onChange={setCat}
+      />
+    </div>
+  );
+};
+
+const SelectCheckboxFloatingDemo: React.FC = () => {
+  const [sel, setSel] = useState<string[]>(['jac']);
+  return (
+    <SelectCheckboxFloating
+      label="Types de preuve"
+      options={[
+        { id: 'jac', label: 'JAC' },
+        { id: 'fast', label: 'FAST' },
+        { id: 'edra', label: 'EDRA-R' },
+        { id: 'projet', label: 'Projet SBO' },
+      ]}
+      selected={sel}
+      onChange={setSel}
+    />
+  );
+};
+
+const ChartDetailModalDemo: React.FC = () => {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Button variant="ghost" size="sm" onClick={() => setOpen(true)}>Ouvrir le détail</Button>
+      <ChartDetailModal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        title="Progression par compétence"
+        subtitle="Douze dernières semaines"
+      >
+        <div className="flex items-end gap-stack-xs h-40">
+          {[38, 52, 47, 63, 71, 58, 80].map((h, i) => (
+            <div key={i} className="flex-1 rounded-t-md bg-primary-400" style={{ height: `${h}%` }} />
+          ))}
+        </div>
+      </ChartDetailModal>
+    </>
+  );
+};
+
+const CompletionModalDemo2: React.FC = () => {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Button variant="ghost" size="sm" onClick={() => setOpen(true)}>Voir la modale</Button>
+      <CompletionModal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        itemTitle="Concevoir une séquence pédagogique"
+        xpEarned={120}
+        onNext={() => setOpen(false)}
+      />
+    </>
   );
 };
 
@@ -7065,6 +7163,251 @@ const COMPONENTS: ComponentEntry[] = [
         />
       </div>
     ),
+  },
+  /* ---- PHASE 4, lot 3 — squelettes, selects, grilles, charts, divers ----- */
+
+  {
+    name: 'SkeletonGroup',
+    codeName: 'patterns/SkeletonTemplates.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    description: "Repete un gabarit de squelette N fois, en liste ou en grille. A preferer a une boucle manuelle : le layout de chargement reste aligne sur celui du contenu qu'il remplace.",
+    keywords: ['skeleton', 'chargement', 'loading', 'placeholder', 'groupe', 'grille'],
+    render: () => (
+      <div className="flex flex-col gap-stack">
+        <div>
+          <p className="m-0 mb-stack-xs text-caption text-ink-500">layout=&quot;list&quot;</p>
+          <SkeletonGroup count={2} template={ActivityItemSkeleton} layout="list" />
+        </div>
+        <div>
+          <p className="m-0 mb-stack-xs text-caption text-ink-500">layout=&quot;grid-3&quot;</p>
+          <SkeletonGroup count={3} template={StatCardSkeleton} layout="grid-3" />
+        </div>
+      </div>
+    ),
+  },
+  {
+    name: 'StatCardSkeleton',
+    codeName: 'patterns/SkeletonTemplates.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    description: "Squelette de StatCard. Reprend ses proportions exactes pour que le passage au contenu reel ne decale rien.",
+    keywords: ['skeleton', 'statcard', 'kpi', 'chargement', 'shimmer'],
+    render: () => (
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-stack">
+        <StatCardSkeleton />
+        <StatCardSkeleton />
+        <StatCardSkeleton />
+      </div>
+    ),
+  },
+  {
+    name: 'ActivityItemSkeleton',
+    codeName: 'patterns/SkeletonTemplates.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    description: "Squelette d'une ligne de fil d'activite : pastille, titre, meta.",
+    keywords: ['skeleton', 'activite', 'feed', 'timeline', 'chargement'],
+    render: () => (
+      <div className="flex flex-col gap-stack-xs">
+        <ActivityItemSkeleton />
+        <ActivityItemSkeleton />
+        <ActivityItemSkeleton />
+      </div>
+    ),
+  },
+  {
+    name: 'ResumeLessonSkeleton',
+    codeName: 'patterns/SkeletonTemplates.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    description: "Squelette de la carte « Reprendre ta lecon » du Dashboard. C'est la premiere chose que voit l'apprenant : son etat de chargement merite d'epouser la forme finale.",
+    keywords: ['skeleton', 'reprendre', 'lecon', 'dashboard', 'hero', 'chargement'],
+    render: () => <ResumeLessonSkeleton />,
+  },
+  {
+    name: 'SelectCheckboxFloating',
+    codeName: 'ui/SelectCheckboxFloating.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    description: "Selection multiple a libelle flottant. Meme role que SelectCheckbox, dans un formulaire ou les champs portent deja un label flottant.",
+    keywords: ['select', 'checkbox', 'multiple', 'flottant', 'float', 'label', 'filtre'],
+    render: () => <SelectCheckboxFloatingDemo />,
+  },
+  {
+    name: 'CoachRow',
+    codeName: 'patterns/CoachRow.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    description: "Ligne compacte d'identification du coach : initiales, nom, role, et un bouton de contact optionnel. Pour les en-tetes de session et les fils de correction, la ou une ProfileCard prendrait trop de place.",
+    keywords: ['coach', 'row', 'ligne', 'contact', 'session', 'identite', 'message'],
+    render: () => (
+      <div className="flex flex-col gap-stack">
+        <CoachRow coachName="Marie Lecomte" coachRole="Coach pédagogique" coachInitials="ML" onMessage={() => {}} />
+        <CoachRow coachName="Thomas Rivière" coachRole="Coach SBO" coachInitials="TR" tint="warm" />
+      </div>
+    ),
+  },
+  {
+    name: 'CorrectionStatusBar',
+    codeName: 'learning/CorrectionStatusBar.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    description: "Bandeau d'etat d'une correction : en attente, en cours, validee ou refusee. Affiche la competence visee, l'XP accorde et le numero d'iteration. L'etat n'est jamais porte par la seule couleur — icone et libelle l'accompagnent.",
+    keywords: ['correction', 'statut', 'jac', 'validation', 'xp', 'iteration', 'bandeau'],
+    render: () => (
+      <div className="flex flex-col gap-stack-xs">
+        <CorrectionStatusBar status="pending" competenceLabel="Concevoir une séquence" />
+        <CorrectionStatusBar status="in-progress" competenceLabel="Concevoir une séquence" iterationCount={2} />
+        <CorrectionStatusBar status="completed" competenceLabel="Concevoir une séquence" xpAwarded={120} />
+        <CorrectionStatusBar status="failed" competenceLabel="Concevoir une séquence" iterationCount={3} />
+      </div>
+    ),
+  },
+  {
+    name: 'ReaderContextStrip',
+    codeName: 'patterns/ReaderContextStrip.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    description: "Bandeau contextuel des surfaces de lecture : retour, titre de l'article, actions. Il apparait au scroll une fois le titre depasse (`scrollThreshold`), pour garder le contexte sans encombrer l'ouverture.",
+    keywords: ['reader', 'lecture', 'article', 'sticky', 'contexte', 'retour', 'scroll'],
+    render: () => (
+      <div className="rounded-xl border border-ink-200 overflow-hidden">
+        <ReaderContextStrip title="Concevoir une expérience d'apprentissage" onBack={() => {}} backLabel="Magazine" />
+      </div>
+    ),
+  },
+  {
+    name: 'ErrorPage',
+    codeName: 'patterns/ErrorPage.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    description: "Pattern canonique des pages d'erreur : code, titre, description, pistes de sortie et actions. Deux tones, `default` et `danger`. Le principe : ne jamais laisser l'utilisateur sans issue — chaque erreur propose au moins un chemin.",
+    keywords: ['erreur', '404', '500', 'error', 'page', 'fallback', 'suggestions'],
+    usedBy: ['Error404', 'Error500', 'MarketingError404'],
+    render: () => (
+      <div className="rounded-xl border border-ink-200 overflow-hidden">
+        <ErrorPage
+          code="404"
+          title="Cette page a changé d'adresse"
+          description="Le lien que vous avez suivi ne mène plus nulle part."
+          suggestions={[
+            { icon: <LayoutTemplate size={18} />, title: 'Revenir au tableau de bord', description: 'Votre action du jour vous y attend', onClick: () => {} },
+            { icon: <BookOpen size={18} />, title: 'Parcourir la bibliothèque', description: 'Tous les parcours disponibles', onClick: () => {} },
+          ]}
+        />
+      </div>
+    ),
+  },
+  {
+    name: 'CoachCardGrid',
+    codeName: 'patterns/CoachCardGrid.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    description: "Grille de coachs avec filtres integres par specialite et par disponibilite, plus les etats de chargement et vide. Evite de recabler ce trio sur chaque page de coaching.",
+    keywords: ['coach', 'grille', 'grid', 'filtre', 'disponibilite', 'specialite', 'empty'],
+    render: () => (
+      <CoachCardGrid
+        columns={2}
+        coaches={[
+          { id: '1', name: 'Marie Lecomte', role: 'Coach pédagogique', specialties: ['Ingénierie', 'Évaluation'], availability: true },
+          { id: '2', name: 'Thomas Rivière', role: 'Coach SBO', specialties: ['Compétences', 'Référentiels'], availability: false },
+        ]}
+      />
+    ),
+  },
+  {
+    name: 'LearningPathGrid',
+    codeName: 'patterns/LearningPathGrid.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    description: "Grille de parcours, avec filtre par statut, progression et deroule optionnel des lecons. Etats de chargement et vide inclus.",
+    keywords: ['parcours', 'grille', 'grid', 'progression', 'statut', 'lecons', 'filtre'],
+    render: () => (
+      <LearningPathGrid
+        columns={2}
+        paths={[
+          { id: '1', stepNumber: 1, title: 'Concevoir une séquence', description: 'Structurer un parcours qui tient debout.', lessonCount: 6, progress: 60, status: 'in-progress', tone: 'primary' },
+          { id: '2', stepNumber: 2, title: 'Évaluer la pratique', description: 'Distinguer la complétion de la maîtrise.', lessonCount: 4, progress: 0, status: 'not-started', tone: 'warm' },
+        ]}
+      />
+    ),
+  },
+  {
+    name: 'ResourceCardGrid',
+    codeName: 'patterns/ResourceCardGrid.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    description: "Grille de ressources heterogenes (fiche, video, gabarit, article). Trois variantes de rendu, tone-aware, avec etats de chargement et vide.",
+    keywords: ['ressource', 'grille', 'grid', 'bibliotheque', 'document', 'video', 'tone'],
+    render: () => (
+      <ResourceCardGrid
+        columns={3}
+        tone="primary"
+        items={[
+          { id: '1', type: 'Fiche', title: 'Grille EDRA-R', description: 'Le référentiel réflexif, annoté.', duration: '8 min' },
+          { id: '2', type: 'Vidéo', title: 'Poser un JAC', description: 'Ce qui distingue un jalon d’une case à cocher.', duration: '12 min' },
+          { id: '3', type: 'Gabarit', title: 'Trame de séquence', description: 'À dupliquer pour votre prochain module.', duration: '5 min' },
+        ]}
+      />
+    ),
+  },
+  {
+    name: 'ChartWithExport',
+    codeName: 'charts/ChartWithExport.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    description: "Enveloppe un graphique et lui ajoute l'export PNG et CSV. Passer `data` pour que le CSV parte des donnees plutot que d'une capture.",
+    keywords: ['chart', 'export', 'png', 'csv', 'graphique', 'telechargement'],
+    render: () => (
+      <ChartWithExport
+        chartId="demo-export"
+        title="Compétences validées"
+        subtitle="Six derniers mois"
+        data={[{ mois: 'Jan', valeur: 3 }, { mois: 'Fév', valeur: 5 }, { mois: 'Mar', valeur: 4 }]}
+      >
+        <div className="flex items-end gap-stack-xs h-32 px-stack">
+          {[40, 72, 58].map((h, i) => (
+            <div key={i} className="flex-1 rounded-t-md bg-primary-400" style={{ height: `${h}%` }} />
+          ))}
+        </div>
+      </ChartWithExport>
+    ),
+  },
+  {
+    name: 'ChartDetailModal',
+    codeName: 'charts/ChartDetailModal.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    description: "Ouvre un graphique en plein ecran, avec ses actions. Pour les surfaces d'analyse ou la vignette ne suffit pas a lire la donnee.",
+    keywords: ['chart', 'modal', 'detail', 'plein ecran', 'analytics', 'zoom'],
+    render: () => <ChartDetailModalDemo />,
+  },
+  {
+    name: 'CompletionModal',
+    codeName: 'modals/CompletionModal.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    description: "Modale de fin de lecon ou de module : titre, XP gagne, et l'etape suivante. Ton calme par doctrine — pas de confetti par defaut, pas de « ! » dans la copy.",
+    keywords: ['completion', 'modal', 'fin', 'lecon', 'xp', 'suite', 'celebration'],
+    render: () => <CompletionModalDemo2 />,
+  },
+  {
+    name: 'AuthSuccess',
+    codeName: 'patterns/AuthShell.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    description: "Etat de succes des pages d'authentification, sur fond glass-dark : icone, titre, description. Reserve a la famille Auth* — ne pas l'employer ailleurs dans l'app.",
+    keywords: ['auth', 'succes', 'confirmation', 'glass-dark', 'email', 'inscription'],
+    render: () => (
+      <div className="rounded-2xl bg-gradient-to-br from-primary-800 to-primary-950 p-section">
+        <AuthSuccess
+          icon={<Bell size={28} className="text-white" />}
+          title="Vérifiez votre boîte mail"
+          description="Un lien de connexion vient de partir vers chloe@thelearningsociety.fr."
+        />
+      </div>
+    ),
+  },
+  {
+    name: 'SelectCheckbox',
+    codeName: 'ui/SelectCheckbox.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    description: "Selection multiple en menu deroulant, avec un resume des choix dans le declencheur. Brique des barres de filtres.",
+    keywords: ['select', 'checkbox', 'multiple', 'filtre', 'dropdown', 'menu'],
+    render: () => <SelectCheckboxDemo />,
+  },
+  {
+    name: 'SelectCheckboxCategory',
+    codeName: 'ui/SelectCheckboxCategory.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    description: "Variante hierarchique : categories et sous-categories, en selection unique qui retourne la categorie parente. Pour les filtres a deux niveaux.",
+    keywords: ['select', 'categorie', 'hierarchie', 'sous-categorie', 'filtre', 'arbre'],
+    render: () => <SelectCheckboxDemo />,
   },
 ];
 
