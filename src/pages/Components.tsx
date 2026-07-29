@@ -143,6 +143,13 @@ import { ProjectCard } from '../components/learning/ProjectCard';
 import { FloatingNavButton } from '../components/FloatingNavButton';
 import { AmbientBlobs } from '../components/patterns/AmbientBlobs';
 import { EditorialHero } from '../components/patterns/EditorialHero';
+import { PageShell } from '../components/layout/PageShell';
+import { Container } from '../components/layout/Container';
+import { Grid } from '../components/layout/Grid';
+import { Stack } from '../components/layout/Stack';
+import { Cluster } from '../components/layout/Cluster';
+import { BottomNav } from '../components/layout/BottomNav';
+import { PageHero } from '../components/patterns/EditorialHero';
 import { EditorialLayout } from '../components/patterns/EditorialLayout';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { RelatedItemList } from '../components/patterns/RelatedItemList';
@@ -6911,6 +6918,151 @@ const COMPONENTS: ComponentEntry[] = [
         <FloatLabel label="Code d'acces" error="Ce code n'est plus valide">
           <Input defaultValue="TLS-2024" />
         </FloatLabel>
+      </div>
+    ),
+  },
+  /* ---- PHASE 4, lot 2 — primitives de layout + PageHero ----------------- */
+
+  {
+    name: 'PageShell',
+    codeName: 'layout/PageShell.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    description: "Conteneur canonique des pages principales : largeur, padding responsive et rythme vertical en une seule prop. `width=\"page\"` est le defaut de l'app. Evite de recopier `px-4 sm:px-6 lg:px-10` sur chaque page.",
+    keywords: ['shell', 'page', 'layout', 'conteneur', 'largeur', 'padding', 'rythme'],
+    render: () => (
+      <div className="rounded-xl border border-dashed border-primary-300 bg-primary-50/40">
+        <PageShell width="content" gap="stack">
+          <div className="rounded-lg bg-white border border-ink-200 p-stack text-body-sm">Bloc 1</div>
+          <div className="rounded-lg bg-white border border-ink-200 p-stack text-body-sm">Bloc 2</div>
+          <div className="rounded-lg bg-white border border-ink-200 p-stack text-body-sm">Bloc 3</div>
+        </PageShell>
+      </div>
+    ),
+  },
+  {
+    name: 'Container',
+    codeName: 'layout/Container.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    description: "Contrainte de largeur seule, sans rythme vertical. Six paliers : prose (65ch, lecture longue), content, medium, page (defaut app), wide, full.",
+    keywords: ['container', 'largeur', 'prose', 'max-width', 'lecture', 'centrage'],
+    render: () => (
+      <div className="flex flex-col gap-stack-xs">
+        {(['prose', 'content', 'page'] as const).map((w) => (
+          <Container key={w} width={w} padding={false}>
+            <div className="rounded-md bg-primary-100 border border-primary-200 px-stack py-2 text-caption font-mono text-primary-800">
+              width=&quot;{w}&quot;
+            </div>
+          </Container>
+        ))}
+      </div>
+    ),
+  },
+  {
+    name: 'Grid',
+    codeName: 'layout/Grid.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    description: "Grille 2D. Soit un nombre de colonnes fixe (`cols`), soit une grille auto-responsive via `min` — qui rend `repeat(auto-fit, minmax(min, 1fr))` et evite d'ecrire des breakpoints.",
+    keywords: ['grid', 'grille', 'colonnes', 'auto-fit', 'minmax', 'responsive'],
+    render: () => (
+      <div className="flex flex-col gap-stack">
+        <div>
+          <p className="m-0 mb-stack-xs text-caption text-ink-500">cols=&#123;3&#125;</p>
+          <Grid cols={3} gap="stack-xs">
+            {[1, 2, 3, 4, 5, 6].map((n) => (
+              <div key={n} className="rounded-md bg-ink-50 border border-ink-200 py-3 text-center text-caption">{n}</div>
+            ))}
+          </Grid>
+        </div>
+        <div>
+          <p className="m-0 mb-stack-xs text-caption text-ink-500">min=&quot;180px&quot; — s&apos;adapte sans breakpoint</p>
+          <Grid min="180px" gap="stack-xs">
+            {['A', 'B', 'C', 'D'].map((n) => (
+              <div key={n} className="rounded-md bg-primary-50 border border-primary-200 py-3 text-center text-caption">{n}</div>
+            ))}
+          </Grid>
+        </div>
+      </div>
+    ),
+  },
+  {
+    name: 'Stack',
+    codeName: 'layout/Stack.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    description: "Empilement vertical avec un espacement semantique. Le parent possede le rythme — c'est ce qui evite le double-spacing du piege n°12 de CLAUDE.md, ou un enfant ajoute son propre `mb-*` par-dessus le `gap` du parent.",
+    keywords: ['stack', 'vertical', 'gap', 'espacement', 'rythme', 'flex-col'],
+    render: () => (
+      <div className="flex gap-section">
+        {(['stack-xs', 'stack', 'stack-lg'] as const).map((g) => (
+          <div key={g} className="flex-1">
+            <p className="m-0 mb-stack-xs text-caption text-ink-500">gap=&quot;{g}&quot;</p>
+            <Stack gap={g}>
+              <div className="rounded-md bg-ink-50 border border-ink-200 py-2 text-center text-caption">A</div>
+              <div className="rounded-md bg-ink-50 border border-ink-200 py-2 text-center text-caption">B</div>
+              <div className="rounded-md bg-ink-50 border border-ink-200 py-2 text-center text-caption">C</div>
+            </Stack>
+          </div>
+        ))}
+      </div>
+    ),
+  },
+  {
+    name: 'Cluster',
+    codeName: 'layout/Cluster.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    description: "Groupe horizontal qui passe a la ligne. Pour les rangees de chips, de boutons ou de metadonnees. `justify=\"between\"` pour pousser le dernier element a droite.",
+    keywords: ['cluster', 'horizontal', 'wrap', 'chips', 'boutons', 'inline', 'align'],
+    render: () => (
+      <div className="flex flex-col gap-stack">
+        <Cluster gap="stack-xs">
+          {['Compétence', 'Pratique', 'Validation', 'Passeport', 'Coaching'].map((l) => (
+            <Chip key={l} tone="primary">{l}</Chip>
+          ))}
+        </Cluster>
+        <Cluster gap="stack-xs" justify="between" align="center" className="rounded-lg border border-ink-200 bg-white px-stack py-stack-xs">
+          <span className="text-body-sm font-semibold">justify=&quot;between&quot;</span>
+          <Button size="sm" variant="ghost">Action</Button>
+        </Cluster>
+      </div>
+    ),
+  },
+  {
+    name: 'BottomNav',
+    codeName: 'layout/BottomNav.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    description: "Barre de navigation mobile, en position fixe en bas d'ecran. Porte `md:hidden` : elle ne s'affiche QUE sous 768px, et disparait des que la sidebar prend le relais. L'apercu ci-dessous la contient dans un cadre — sans quoi sa position fixe la collerait au bas de la fenetre.",
+    keywords: ['bottom', 'nav', 'mobile', 'tabbar', 'fixed', 'responsive', 'md:hidden'],
+    render: () => (
+      <div className="flex flex-col gap-stack-xs">
+        <p className="m-0 text-caption text-ink-500">
+          Cadre de 380px — la barre n&apos;apparait qu&apos;en dessous de 768px de large.
+        </p>
+        <div className="relative h-40 w-full max-w-[380px] overflow-hidden rounded-2xl border border-ink-200 bg-ink-50 [transform:translate(0)]">
+          <BottomNav />
+        </div>
+      </div>
+    ),
+  },
+  {
+    name: 'PageHero',
+    codeName: 'patterns/EditorialHero.tsx (export canonique)',
+    cssBase: 'Tailwind (no BEM)',
+    description: "Hero universel d'ouverture de page, et le plus consomme de l'app. 5 tones : `flat`, `default`, `brand` (gradient sature, texte blanc — Dashboard et Journal), `warm`, `sun`. `EditorialHero` en est un alias retrocompatible, reserve aux surfaces reellement editoriales (Magazine, Veille, Articles). Tout nouvel usage passe par `PageHero`.",
+    keywords: ['hero', 'page', 'ouverture', 'tone', 'brand', 'eyebrow', 'editorial', 'titre'],
+    usedBy: ['Dashboard', 'Journal', 'Passeport', 'Coaching', '100+ pages'],
+    render: () => (
+      <div className="flex flex-col gap-stack">
+        <PageHero
+          tone="brand"
+          eyebrow={{ icon: <Target size={12} />, label: 'Parcours en cours' }}
+          title="Concevoir une expérience d'apprentissage"
+          summary="Cinq compétences, douze jalons de pratique. Le Passeport valide, pas la complétion."
+        />
+        <PageHero
+          tone="sun"
+          compact
+          title="Compétence validée"
+          summary="tone=&quot;sun&quot; — réflexion et accomplissements."
+        />
       </div>
     ),
   },

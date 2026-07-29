@@ -121,11 +121,15 @@ export const MarketingFooter: React.FC = () => (
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-stack-xs border-t border-primary-100/60 pt-stack text-micro text-ink-400">
         <span>© 2026 The Learning Society · Paris</span>
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+          {/* Même correctif que les colonnes ci-dessus (29/07) : ces quatre
+              liens faisaient 16 px de haut, le plus bas du site. `text-micro`
+              est volontaire ici — c'est la zone de mentions — mais la taille du
+              texte ne dicte pas celle de la cible. */}
           {LEGAL_LINKS.map(({ label, href }) => (
             <Link
               key={href}
               to={href}
-              className="hover:text-ink-700 transition-colors duration-fast"
+              className="inline-flex min-h-[24px] items-center hover:text-ink-700 transition-colors duration-fast"
             >
               {label}
             </Link>

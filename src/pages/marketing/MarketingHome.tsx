@@ -584,9 +584,11 @@ const DoubleCta: React.FC = () => {
                 <Button type="submit" variant="primary" size="lg" fullWidth disabled={sending} trailingIcon={<ArrowRight size={18} />}>
                   {sending ? 'Envoi en cours…' : "S'abonner à La Vigie IA"}
                 </Button>
+                {/* `inline-flex min-h-[24px]` : mesuré à 20 px de haut en
+                    375 px, sous le minimum WCAG 2.2 AA (SC 2.5.8). */}
                 <Link
                   to="/website/vigie"
-                  className="font-body text-caption text-primary-700 hover:text-primary-800 transition-colors duration-fast w-fit"
+                  className="inline-flex min-h-[24px] items-center font-body text-caption text-primary-700 hover:text-primary-800 transition-colors duration-fast w-fit"
                 >
                   Découvrir La Vigie IA
                 </Link>

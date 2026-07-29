@@ -143,6 +143,15 @@ export const CATALOG: Record<string, CatalogMeta> = {
   TrendingBadge:        { category: 'Atoms', subCategory: 'Status badges' },
   ViewerProgressTrail:  { category: 'Learning', subCategory: 'Viewer content' },
 
+  // ── Phase 4, lot 2 : primitives de layout + PageHero ──────────────────
+  PageShell:            { category: 'Foundations', subCategory: 'Layout Primitives' },
+  Container:            { category: 'Foundations', subCategory: 'Layout Primitives' },
+  Grid:                 { category: 'Foundations', subCategory: 'Layout Primitives' },
+  Stack:                { category: 'Foundations', subCategory: 'Layout Primitives' },
+  Cluster:              { category: 'Foundations', subCategory: 'Layout Primitives' },
+  BottomNav:            { category: 'Navigation', subCategory: 'Primary nav (app shell)' },
+  PageHero:             { category: 'Headers & Sections', subCategory: 'Heroes' },
+
   // ── Phase 4, lot 1 (2026-07-29) ───────────────────────────────────────
   Chip:                 { category: 'Atoms', subCategory: 'Chips & Pills' },
   Tooltip:              { category: 'Feedback', subCategory: 'Status messages' },
