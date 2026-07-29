@@ -7437,7 +7437,9 @@ const Components: React.FC = () => {
   const activeSlug = useCategorySlug();
   const [query, setQuery] = useState('');
   const [showBackToTop, setShowBackToTop] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  /* La catégorie active vient de l'URL, plus d'un état local : une seule
+     source, et le lien reste partageable. */
+  const isSearching = query.trim().length > 0;
 
   // Show back-to-top button once scrolled past hero
   React.useEffect(() => {
@@ -7455,35 +7457,37 @@ const Components: React.FC = () => {
   );
 
   const filteredComponents = useMemo(() => {
+    /* Aucun filtre de catégorie ici : le découpage en routes retire le Ctrl+F
+       qui était la seule navigation. La recherche doit donc traverser tout le
+       design system, pas la seule catégorie affichée. */
     return componentsWithMeta.filter((c) => {
-      if (selectedCategory !== 'all' && c._meta.category !== selectedCategory) return false;
       if (!q) return true;
       const haystack = [
         c.name, c.codeName, c.cssBase, c.description, c._meta.category, c._meta.subCategory, ...c.keywords,
       ].join(' ').toLowerCase();
       return haystack.includes(q);
     });
-  }, [q, componentsWithMeta, selectedCategory]);
+  }, [q, componentsWithMeta]);
 
   const filteredTokens = useMemo(() => {
-    // Hide tokens when a component category is active
-    if (selectedCategory !== 'all') return [];
+    // Masqués quand une catégorie est affichée, sauf pendant une recherche
+    if (activeSlug && !isSearching) return [];
     return ALL_TOKENS.filter((t) => {
       if (!q) return true;
       const haystack = [t.name, t.cssVar, t.value, t.group, t.type].join(' ').toLowerCase();
       return haystack.includes(q);
     });
-  }, [q, selectedCategory]);
+  }, [q, activeSlug, isSearching]);
 
   const filteredPages = useMemo(() => {
-    // Hide page templates when a component category is active
-    if (selectedCategory !== 'all') return [];
+    // Idem : la recherche doit pouvoir remonter un template de page
+    if (activeSlug && !isSearching) return [];
     return PAGE_TEMPLATES.filter((p) => {
       if (!q) return true;
       const haystack = [p.name, p.description, p.family, ...p.tags].join(' ').toLowerCase();
       return haystack.includes(q);
     });
-  }, [q, selectedCategory]);
+  }, [q, activeSlug, isSearching]);
 
   const pagesByFamily = useMemo(() => {
     const order = ['Core', 'Journal', 'Veille', 'Coaching'];
@@ -7536,12 +7540,23 @@ const Components: React.FC = () => {
   );
   const visibleCategories = useMemo(
     () =>
-      activeSlug
+      activeSlug && !isSearching
         ? componentsByCategory.filter(([cat]) => categorySlug(cat) === activeSlug)
         : componentsByCategory,
-    [componentsByCategory, activeSlug],
+    [componentsByCategory, activeSlug, isSearching],
   );
-  const isFiltered = Boolean(activeSlug);
+  const isFiltered = Boolean(activeSlug) && !isSearching;
+
+  /* Chaque composant a une destination : sa catégorie, plus son ancre. C'est ce
+     qui rend une suggestion cliquable utile — avant, la sélection se contentait
+     de remplir le champ de recherche. */
+  const componentTargets = useMemo(() => {
+    const m = new Map<string, string>();
+    componentsWithMeta.forEach((c) => {
+      m.set(c.name, `/components/${categorySlug(c._meta.category)}#${componentSlug(c.name)}`);
+    });
+    return m;
+  }, [componentsWithMeta]);
   /* Un slug d'URL qui ne correspond à rien doit se dire, pas rendre une page
      blanche : une URL périmée dans un doc ou un Figma est un cas normal. */
   const unknownCategory = Boolean(activeSlug) && !categoryFromSlug(activeSlug!);
@@ -7672,9 +7687,21 @@ const Components: React.FC = () => {
         }}
         suggestions={searchSuggestions}
         onSuggestionSelect={(suggestion) => {
+          if (suggestion.type === 'component') {
+            const to = componentTargets.get(suggestion.label);
+            if (to) {
+              setQuery('');
+              navigate(to);
+              return;
+            }
+          }
           if (suggestion.type === 'category' && suggestion.id !== 'all') {
-            setSelectedCategory(suggestion.id);
-            setQuery('');
+            const cat = CATEGORY_ORDER.find((c) => c === suggestion.id);
+            if (cat) {
+              setQuery('');
+              navigate(`/components/${categorySlug(cat)}`);
+              return;
+            }
           }
           window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
         }}
@@ -7702,7 +7729,11 @@ const Components: React.FC = () => {
         <EmptyState
           title="Aucun résultat"
           description={`Rien ne correspond à « ${query} ». Essayez un autre terme.`}
-          actions={<Button variant="primary" onClick={() => { setQuery(''); setSelectedCategory('all'); }}>Réinitialiser</Button>}
+          actions={
+            <Button variant="primary" onClick={() => { setQuery(''); navigate('/components'); }}>
+              Réinitialiser
+            </Button>
+          }
         />
       ) : (
         <>

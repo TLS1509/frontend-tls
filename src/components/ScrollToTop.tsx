@@ -24,14 +24,32 @@ export const ScrollToTop: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    // Skip if URL has hash anchor — let browser handle anchor scroll
     if (hash) {
-      const el = document.getElementById(hash.replace('#', ''));
-      if (el) {
-        // Smooth scroll to anchor target after a small delay (let DOM mount)
-        setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
-      }
-      return;
+      /**
+       * On attend que la cible existe, au lieu de parier sur un délai.
+       *
+       * L'ancienne version cherchait l'élément après 50 ms et abandonnait s'il
+       * n'était pas là. C'était suffisant pour une page légère, jamais pour une
+       * page dense : sur `/components/atoms#trendingbadge`, les 30 composants de
+       * la catégorie ne sont pas montés à 50 ms, donc le lien profond ne
+       * scrollait pas — il ouvrait la page en haut, en silence.
+       *
+       * On réessaie à chaque frame pendant ~1 s. `scrollIntoView` respecte le
+       * `scroll-margin-top` de la cible, ce qui dégage le chrome sticky.
+       */
+      const id = hash.slice(1);
+      let frames = 0;
+      let raf = 0;
+      const tryScroll = () => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          return;
+        }
+        if (frames++ < 60) raf = requestAnimationFrame(tryScroll);
+      };
+      raf = requestAnimationFrame(tryScroll);
+      return () => cancelAnimationFrame(raf);
     }
 
     // Scroll window to top on route change (instant, no animation)
