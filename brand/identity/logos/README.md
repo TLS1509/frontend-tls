@@ -18,6 +18,28 @@ vertical un bloc de texte dont la ligne la plus longue s'aligne sur la largeur d
 La palette de 2022 (navy `#1A4568`, corail `#D3523F`) n'est **pas** reprise : c'est
 l'ancienne identité.
 
+## Deux familles de matière
+
+Chaque format existe en **deux versions**, et le choix n'est pas une question de goût.
+
+| | Suffixe | Pour |
+|---|---|---|
+| **Aplat** | *(aucun)* | Favicon, `.ico`, impression, monochrome, **tout ce qui descend sous ~48 px** |
+| **Dégradé** | `-grad` | En-tête de site, app icon, hero, deck, réseaux — **les grands formats** |
+
+La raison est mesurée, pas esthétique : **à 16 px, deux ou trois aplats battent tout
+dégradé**. Le contraste y compte plus que la justesse de la couleur, et un dégradé
+subtil se referme en bouillie. Un `.ico` de 16 px ne dispose que de 256 pixels.
+
+Le dégradé reprend exactement ce que montre le brand kit : trois arrêts, un seul axe
+de lumière traversant tout le mark (`userSpaceOnUse`, donc chaque forme reçoit la
+portion qui lui revient), et **la pastille centrale sur le dégradé du corps** — comme
+si le mark était découpé dans une seule nappe de matière. Le texte prend l'arrêt
+médian du corps.
+
+Les dégradés survivent au PDF en vectoriel (objets `/Shading`, aucune image
+incorporée) : le print garde donc la matière si vous choisissez cette famille.
+
 ## Les cinq formats
 
 | Format | Fichier | Usage |
