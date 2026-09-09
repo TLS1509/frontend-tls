@@ -504,6 +504,29 @@ import { Star } from 'lucide-react';
 
 **Exception** : SVG décoratifs purement custom (logos, illustrations one-off, formes complexes). Toute icône fonctionnelle (close, chevron, check, star, heart, alert, etc.) = Lucide.
 
+### ⚠️ Une taille d'icône se prend dans l'échelle, et le glyphe remplit sa boîte
+
+`--icon-size-{xs,sm,md,lg,xl}` = 16 · 18 · 20 · 24 · 28 px, avec les utilities
+`.icon-*` correspondantes. Chaque cran est apparié à un pas de l'échelle de texte
+dans un rapport d'environ 1,25 : `xs` avec `caption`, `sm` avec `body-sm`, `md`
+avec `body`, `lg` avec `body-lg`.
+
+**État au 2026-09-09** : 2 066 tailles sont posées à la main dans `src/`, dont
+**1 037 hors échelle**, réparties sur 27 valeurs distinctes. La plus fréquente,
+14 px, compte 357 usages — plus que le 20 px du système. Ne pas en ajouter.
+
+**Le piège de la boîte.** Dimensionner le conteneur ne suffit pas : si la boîte
+est plus étroite que le glyphe, `flex-shrink` mord sur la largeur et pas sur la
+hauteur, et un cercle devient un ovale. C'est ce que faisait `Button` — 2,35 px
+d'écrasement sur la taille `sm`. Il faut que le SVG se plie à la boîte :
+
+```tsx
+// ✅ le glyphe suit la boîte, donc carré à toutes les tailles
+<span className="inline-flex items-center justify-center shrink-0 icon-sm [&>svg]:w-full [&>svg]:h-full">
+  {icon}
+</span>
+```
+
 ### Pattern : contrôles custom (checkbox / radio / switch) avec `peer` + `after:`
 
 Pour les composants où l'`<input>` natif est masqué et un span stylé prend sa place (Input.tsx Checkbox/Radio/Switch), utiliser le pattern **`peer` + pseudo-élément `::after`** au lieu de keyframes ou state JS :

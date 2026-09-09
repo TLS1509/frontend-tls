@@ -60,7 +60,7 @@ export const CATEGORY_ORDER: Category[] = [
  * ordre non défini.
  */
 export const SUBCATEGORY_ORDER: Record<Category, string[]> = {
-  Foundations: ['Design Tokens', 'Layout Primitives', 'Backgrounds'],
+  Foundations: ['Rythme & alignement', 'Design Tokens', 'Layout Primitives', 'Backgrounds'],
   Atoms: ['Form fields', 'Surfaces', 'Identity', 'Status badges', 'Chips & Pills', 'Indicators', 'Decoration'],
   Composites: ['Group wrappers', 'Form groups', 'List composites'],
   'Headers & Sections': ['Heroes', 'Page headers', 'Section headers', 'Section wrappers', 'Section patterns'],
@@ -133,6 +133,24 @@ export interface CatalogMeta {
  * Classement de chaque composant. Clé = nom React.
  * Un composant absent d'ici n'apparaît nulle part dans la navigation.
  */
+/**
+ * Les fiches de convention.
+ *
+ * Elles sont classées comme les composants, mais ne décrivent pas un fichier :
+ * elles posent une règle transverse — le rythme des titres, le padding d'une
+ * carte, le centrage — qu'aucun composant ne porte à lui seul. Le contrôle de
+ * couverture doit pouvoir les distinguer, sinon il les signale éternellement
+ * comme des entrées fantômes. Une heuristique sur le nom ne suffit pas :
+ * « Padding » et « Centrage » ressemblent à des identifiants.
+ */
+export const CONVENTIONS = new Set([
+  'Rythme des titres',
+  'Marges et gouttières',
+  'Padding',
+  'Centrage',
+  "Échelle d'icônes",
+]);
+
 export const CATALOG: Record<string, CatalogMeta> = {
   // ── Classées le 2026-07-29 (phase 2) ──────────────────────────────────
   // Ces cinq entrées n'étaient dans aucun classement : elles retombaient sur
@@ -162,6 +180,16 @@ export const CATALOG: Record<string, CatalogMeta> = {
   ChartDetailModal:       { category: 'Data Visualization', subCategory: 'Chart utilities' },
   CompletionModal:        { category: 'Modals', subCategory: 'Celebrations' },
   AuthSuccess:            { category: 'Auth Family', subCategory: 'Shell & layout' },
+
+  /* ── Les fiches d'arbitrage (2026-09-09) ──────────────────────────────
+     Elles ne décrivent pas un composant mais une convention transverse. Elles
+     vivent dans Foundations parce que c'est là qu'on va chercher une règle,
+     et non dans le fichier d'un composant qui ne la porte qu'en partie. */
+  'Rythme des titres':  { category: 'Foundations', subCategory: 'Rythme & alignement' },
+  'Marges et gouttières': { category: 'Foundations', subCategory: 'Rythme & alignement' },
+  'Padding':            { category: 'Foundations', subCategory: 'Rythme & alignement' },
+  'Centrage':           { category: 'Foundations', subCategory: 'Rythme & alignement' },
+  "Échelle d'icônes":   { category: 'Foundations', subCategory: 'Rythme & alignement' },
 
   // ── Phase 4, lot 2 : primitives de layout + PageHero ──────────────────
   PageShell:            { category: 'Foundations', subCategory: 'Layout Primitives' },

@@ -86,8 +86,18 @@ const fileNames = new Set(
 const groupingTargets = new Set(
   [...block('COVERED_BY').matchAll(/:\s*'([^']+)'/g)].map((m) => m[1]),
 );
+/* Les fiches de convention ne sont pas des composants : elles décrivent une règle
+   transverse (rythme des titres, padding, centrage…) qu'aucun fichier ne porte
+   à lui seul. Chercher un export du même nom n'a donc pas de sens. On lit la
+   liste que le registre déclare, plutôt que de la deviner au nom : « Padding »
+   et « Centrage » ressemblent trait pour trait à des identifiants. */
+const conventions = new Set(
+  [...registrySrc.matchAll(/export const CONVENTIONS = new Set\(\[([\s\S]*?)\]\)/g)]
+    .flatMap((m) => [...m[1].matchAll(/['"]([^'"]+)['"]/g)].map((x) => x[1])),
+);
+
 const ghosts = [...classified]
-  .filter((n) => !exported.has(n) && !fileNames.has(n) && !groupingTargets.has(n))
+  .filter((n) => !exported.has(n) && !fileNames.has(n) && !groupingTargets.has(n) && !conventions.has(n))
   .sort();
 
 console.log(`Exportés (hors périmètre exclu) : ${exported.size}`);

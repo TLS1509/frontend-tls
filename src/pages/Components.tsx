@@ -301,7 +301,9 @@ type SubCategory = SubCategory_;
 interface ComponentEntry {
   name: string;              // React name: Button
   codeName: string;          // File: Button.tsx
-  cssBase: string;           // .btn
+  /** Classe CSS de base, ex. `.btn`. Absente pour les fiches de convention :
+      elles décrivent une règle, pas un composant, donc aucune classe ne la porte. */
+  cssBase?: string;
   subCategory?: SubCategory; // optional inline sub-category (used when entry is not in REMAP)
   description: string;
   keywords: string[];        // extra searchable terms
@@ -1407,6 +1409,315 @@ const BoutonEssai: React.FC<{
 );
 
 const COMPONENTS: ComponentEntry[] = [
+  /* ══════════════════════════════════════════════════════════════════════════
+     LES FICHES D'ARBITRAGE
+
+     Elles ne présentent pas un composant : elles posent une convention qu'aucun
+     fichier ne porte à lui seul, mesurée sur la codebase du jour. Chacune montre
+     l'état constaté avant la règle proposée — on ne tranche pas sur une intention,
+     on tranche sur un écart.
+     ═══════════════════════════════════════════════════════════════════════════ */
+
+  {
+    name: 'Rythme des titres',
+    codeName: 'convention — aucun fichier propriétaire',
+    description:
+      "Un titre appartient à ce qui le suit, pas à ce qui le précède. L'espace au-dessus doit donc valoir trois à quatre fois celui d'en dessous. L'app applique aujourd'hui un ratio de 1:1 sur 302 piles verticales.",
+    keywords: ['rythme', 'titre', 'heading', 'proximité', 'gap', 'espacement', 'vertical'],
+    render: () => (
+      <div className="flex flex-col gap-section">
+        <ShowcaseBloc
+          titre="Ce que fait l'app aujourd'hui"
+          note="La règle du repo veut qu'un composant ne porte jamais son propre margin — c'est le parent qui possède le rythme, via gap (piège n°12). Correct, mais un gap est par construction symétrique : il donne exactement autant d'air au-dessus du titre qu'en dessous. Le titre flotte alors entre deux blocs au lieu d'appartenir au sien. Compté dans src/pages : 228 piles en gap-stack (16 px), 43 en gap-section, 26 en gap-stack-lg. Aucune n'applique d'asymétrie."
+        >
+          <div className="grid gap-stack sm:grid-cols-2">
+            <div className="rounded-lg border border-ink-200 p-stack">
+              <p className="m-0 mb-stack-xs text-micro font-bold uppercase tracking-wider text-ink-500">Constaté — gap-stack uniforme</p>
+              <div className="flex flex-col gap-stack rounded-md bg-ink-50 p-stack">
+                <p className="m-0 font-body text-body-sm text-ink-600">Fin du bloc précédent.</p>
+                <h5 className="m-0 font-display text-h4 text-ink-900">Un titre de section</h5>
+                <p className="m-0 font-body text-body-sm text-ink-600">Le texte qui lui appartient.</p>
+              </div>
+              <p className="m-0 mt-stack-xs text-micro text-ink-500 tabular-nums">16 px dessus · 16 px dessous — ratio 1,0</p>
+            </div>
+            <div className="rounded-lg border border-primary-200 bg-primary-50/30 p-stack">
+              <p className="m-0 mb-stack-xs text-micro font-bold uppercase tracking-wider text-primary-700">Proposé — règle de proximité</p>
+              <div className="rounded-md bg-white p-stack">
+                <p className="m-0 font-body text-body-sm text-ink-600">Fin du bloc précédent.</p>
+                <h5 className="mt-section mb-stack-xs font-display text-h4 text-ink-900">Un titre de section</h5>
+                <p className="m-0 font-body text-body-sm text-ink-600">Le texte qui lui appartient.</p>
+              </div>
+              <p className="m-0 mt-stack-xs text-micro text-primary-700 tabular-nums">32 px dessus · 8 px dessous — ratio 4,0</p>
+            </div>
+          </div>
+        </ShowcaseBloc>
+
+        <ShowcaseBloc
+          titre="À trancher — où poser l'asymétrie"
+          ton="warm"
+          note="Le gap ne sait pas être asymétrique, il faut donc choisir qui porte la différence. Trois options, par ordre de coût croissant."
+        >
+          <ol className="m-0 flex list-none flex-col gap-stack p-0">
+            {[
+              ['Un espaceur dans la pile', "Le parent garde son gap et intercale une classe utilitaire avant le titre. Aucun composant ne change, mais il faut le poser à la main à chaque section — donc l'oubli est la norme."],
+              ['Une paire de tokens dédiée', "Deux valeurs nommées, par exemple space-before-heading et space-after-heading, posées sur le titre lui-même. Cela contredit le piège n°12 en apparence seulement : celui-ci interdit qu'un composant décide de son rythme externe, pas qu'un token le décrive."],
+              ['Une règle CSS de flux', "Une règle de type :where(h2, h3, h4) + * dans @layer base : l'asymétrie devient l'état par défaut et personne n'a plus à y penser. Le plus sûr, le plus difficile à annuler ponctuellement."],
+            ].map(([titre, texte], i) => (
+              <li key={titre} className="flex gap-stack">
+                <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-pill bg-secondary-100 font-mono text-micro font-bold text-secondary-700 tabular-nums">{i + 1}</span>
+                <div>
+                  <p className="m-0 font-body text-body-sm font-bold text-ink-900">{titre}</p>
+                  <p className="m-0 font-body text-body-sm text-ink-600 max-w-[65ch]">{texte}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </ShowcaseBloc>
+      </div>
+    ),
+  },
+
+  {
+    name: 'Marges et gouttières',
+    codeName: 'convention — --spacing-* et gap-*',
+    description:
+      "L'échelle sémantique est adoptée à 84 % pour les gouttières : 2 939 gap sémantiques contre 567 numériques. Sur ces 567, 181 sont l'exact doublon d'un token existant — et 222 révèlent un barreau manquant.",
+    keywords: ['marge', 'gouttière', 'gap', 'espacement', 'spacing', 'échelle'],
+    render: () => (
+      <div className="flex flex-col gap-section">
+        <ShowcaseBloc
+          titre="L'échelle sémantique, à l'échelle"
+          note="Chaque barre vaut sa valeur réelle. Un nom se relit — gap-stack dit l'intention ; gap-4 oblige à recompter."
+        >
+          <div className="flex flex-col gap-stack-xs">
+            {([
+              ['tight', 2], ['stack-xs', 8], ['stack', 16], ['stack-lg', 24],
+              ['section', 32], ['section-lg', 40], ['page', 48],
+            ] as const).map(([nom, px]) => (
+              <div key={nom} className="flex items-center gap-stack">
+                <code className="w-28 shrink-0 font-mono text-micro text-ink-600">{nom}</code>
+                <div className="h-3 rounded-xs bg-primary-500" style={{ width: `${px * 3}px` }} />
+                <span className="font-mono text-micro text-ink-500 tabular-nums">{px} px</span>
+              </div>
+            ))}
+          </div>
+        </ShowcaseBloc>
+
+        <ShowcaseBloc
+          titre="Le barreau manquant"
+          ton="warm"
+          note="L'échelle saute de 2 px à 8 px. Entre les deux, 222 usages de gap-1.5 — six pixels — comblent le trou à la main. C'est le deuxième espacement le plus utilisé de toute la codebase, et il n'a pas de nom. Deux réponses possibles : lui en donner un, ou ramener ces 222 usages sur 8 px et accepter que l'écart se voie."
+        >
+          <div className="flex flex-col gap-stack-xs">
+            {([
+              ['tight', 2, false], ['— manquant —', 6, true], ['stack-xs', 8, false],
+            ] as const).map(([nom, px, manque]) => (
+              <div key={nom} className="flex items-center gap-stack">
+                <code className={`w-28 shrink-0 font-mono text-micro ${manque ? 'text-secondary-700' : 'text-ink-600'}`}>{nom}</code>
+                <div className={`h-3 rounded-xs ${manque ? 'bg-secondary-500' : 'bg-primary-500'}`} style={{ width: `${px * 8}px` }} />
+                <span className="font-mono text-micro text-ink-500 tabular-nums">{px} px{manque ? ' · 222 usages' : ''}</span>
+              </div>
+            ))}
+          </div>
+        </ShowcaseBloc>
+
+        <ShowcaseBloc
+          titre="Les doublons, eux, se convertissent sans décision"
+          note="181 gouttières numériques rendent exactement la même valeur qu'un token existant. Les remplacer ne change pas un pixel à l'écran ; c'est une conversion mécanique, pas un arbitrage."
+        >
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[420px] border-collapse font-body text-body-sm">
+              <thead>
+                <tr className="border-b border-ink-200 text-left">
+                  <th className="py-2 pr-stack font-bold text-ink-700">Écrit</th>
+                  <th className="py-2 pr-stack font-bold text-ink-700">Équivaut à</th>
+                  <th className="py-2 text-right font-bold text-ink-700">Usages</th>
+                </tr>
+              </thead>
+              <tbody className="text-ink-600">
+                {([['gap-0.5', 'gap-tight', 53], ['gap-2', 'gap-stack-xs', 94], ['gap-4', 'gap-stack', 17], ['gap-6', 'gap-stack-lg', 15], ['gap-8', 'gap-section', 2]] as const).map(([a, b, n]) => (
+                  <tr key={a} className="border-b border-ink-100">
+                    <td className="py-2 pr-stack"><code className="font-mono text-caption">{a}</code></td>
+                    <td className="py-2 pr-stack"><code className="font-mono text-caption text-primary-700">{b}</code></td>
+                    <td className="py-2 text-right font-mono tabular-nums">{n}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </ShowcaseBloc>
+      </div>
+    ),
+  },
+
+  {
+    name: 'Padding',
+    codeName: 'convention — p-* et les surfaces',
+    description:
+      "L'inverse exact des gouttières : 778 paddings sémantiques contre 2 450 numériques, soit 24 % d'adoption. Et le padding intérieur d'une carte prend cinq valeurs différentes selon la carte.",
+    keywords: ['padding', 'espacement', 'carte', 'surface', 'gouttière de page'],
+    render: () => (
+      <div className="flex flex-col gap-section">
+        <ShowcaseBloc
+          titre="La gouttière de page tient, elle"
+          note="C'est le point solide du dossier : px-4 sm:px-6 lg:px-10 est écrit 67 fois, et un seul écran s'en écarte. Cette valeur-là n'a pas besoin d'être tranchée, seulement protégée."
+        >
+          <div className="rounded-lg border border-ink-200 bg-ink-50 py-stack">
+            <div className="bg-white px-4 py-stack sm:px-6 lg:px-10">
+              <p className="m-0 font-body text-body-sm text-ink-600">
+                La zone blanche est le contenu ; le liseré gris, la gouttière. Elle passe de 16 px sur mobile
+                à 24 px sur tablette et 40 px sur grand écran — redimensionnez pour la voir bouger.
+              </p>
+            </div>
+          </div>
+        </ShowcaseBloc>
+
+        <ShowcaseBloc
+          titre="À trancher — le padding intérieur d'une carte"
+          ton="warm"
+          note="Cinq valeurs coexistent sur les cartes faites main : 16, 20, 24, 28 et 32 px. Aucune n'est fausse prise isolément ; c'est leur coexistence sur une même page qui se voit, parce que deux cartes côte à côte n'ont alors pas la même respiration. Le système doit en désigner une, et une seule dérogation motivée."
+        >
+          <div className="grid gap-stack sm:grid-cols-2 lg:grid-cols-3">
+            {([['p-4', 16, 5], ['p-5', 20, 4], ['p-6', 24, 7], ['p-7', 28, 1], ['p-8', 32, 6]] as const).map(([cls, px, n]) => (
+              <div key={cls} className="rounded-lg border border-ink-200 bg-white" style={{ padding: `${px}px` }}>
+                <p className="m-0 font-display text-body font-bold text-ink-900">Titre de carte</p>
+                <p className="m-0 mt-1 font-body text-caption text-ink-600">Une ligne de contenu.</p>
+                <p className="m-0 mt-stack font-mono text-micro text-ink-500 tabular-nums">{cls} · {px} px · {n} cartes</p>
+              </div>
+            ))}
+          </div>
+        </ShowcaseBloc>
+      </div>
+    ),
+  },
+
+  {
+    name: 'Centrage',
+    codeName: 'vérifié au navigateur, 2026-09-09',
+    description:
+      "Mesuré plutôt que supposé : le centrage géométrique est juste partout où on l'a sondé. Le texte d'un bouton dérive de 0,65 px de son centre optique, et les glyphes en pastille sont à 0,00 px. Ce n'est donc pas là que se joue l'impression de flottement.",
+    keywords: ['centrage', 'alignement', 'optique', 'baseline', 'capitale'],
+    render: () => (
+      <div className="flex flex-col gap-section">
+        <ShowcaseBloc
+          titre="Ce qui a été mesuré"
+          note="Un centrage vertical par items-center centre la boîte de ligne, pas la hauteur de capitale — et les deux ne coïncident que si les métriques de la fonte s'y prêtent. Celles de Nunito s'y prêtent : sur un bouton md de 44 px, la ligne de base tombe à 28 px du haut, la capitale mesure 10,69 px, donc son milieu est à 22,65 px pour un centre géométrique à 22. L'écart de 0,65 px est invisible. Rien à corriger, et c'est utile de le savoir : la prochaine fois qu'un bloc paraîtra mal centré, il faudra chercher ailleurs."
+        >
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[460px] border-collapse font-body text-body-sm">
+              <tbody className="text-ink-600">
+                {([
+                  ['Bouton md, hauteur', '44,00 px'],
+                  ['Ligne de base, depuis le haut', '28,00 px'],
+                  ['Hauteur de capitale', '10,69 px'],
+                  ['Centre géométrique', '22,00 px'],
+                  ['Milieu de la capitale', '22,65 px'],
+                  ['Dérive optique', '0,65 px — sous le seuil du visible'],
+                  ['Glyphe dans une pastille de 40 px', '0,00 px sur les deux axes'],
+                ] as const).map(([k, v]) => (
+                  <tr key={k} className="border-b border-ink-100">
+                    <td className="py-2 pr-stack">{k}</td>
+                    <td className="py-2 text-right font-mono text-caption tabular-nums text-ink-900">{v}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </ShowcaseBloc>
+
+        <ShowcaseBloc
+          titre="Le vrai risque est ailleurs : le centrage horizontal d'un contenu asymétrique"
+          note="Un bouton dont le contenu est symétrique se centre tout seul. Dès qu'une icône n'est que d'un côté, le bloc reste géométriquement centré mais l'œil, lui, voit le mot décalé — parce qu'une icône occupe moins de matière visuelle qu'une même largeur de texte. La compensation se joue sur le padding du côté de l'icône."
+        >
+          <div className="flex flex-wrap items-center gap-stack">
+            <div className="flex flex-col items-start gap-stack-xs">
+              <Button>Texte seul</Button>
+              <span className="font-mono text-micro text-ink-500">20 / 20 — symétrique</span>
+            </div>
+            <div className="flex flex-col items-start gap-stack-xs">
+              <Button leadingIcon={I.plus}>Icône à gauche</Button>
+              <span className="font-mono text-micro text-ink-500">20 / 20 — l’icône pèse moins</span>
+            </div>
+            <div className="flex flex-col items-start gap-stack-xs">
+              <span className="inline-flex [&>button]:pl-4">
+                <Button leadingIcon={I.plus}>Icône à gauche</Button>
+              </span>
+              <span className="font-mono text-micro text-secondary-700">16 / 20 — compensé</span>
+            </div>
+          </div>
+        </ShowcaseBloc>
+      </div>
+    ),
+  },
+
+  {
+    name: "Échelle d'icônes",
+    codeName: '--icon-size-* · index.css',
+    description:
+      "Cinq tailles déclarées, vingt-sept posées dans le code. Sur 2 066 tailles écrites à la main, 1 037 sont hors échelle — exactement la moitié. La plus fréquente d'entre elles, 14 px, compte 357 usages, plus que le 20 px du système.",
+    keywords: ['icône', 'icon', 'taille', 'lucide', 'échelle', 'alignement'],
+    render: () => (
+      <div className="flex flex-col gap-section">
+        <ShowcaseBloc
+          titre="L'échelle, et le mot qu'elle accompagne"
+          note="Une taille d'icône ne se juge pas seule : elle se juge au rapport avec le texte à côté. Chaque cran vaut environ 1,25 fois la police qu'il accompagne — c'est ce rapport qui fait qu'une icône pèse autant que son mot sans l'écraser."
+        >
+          <div className="flex flex-col gap-stack">
+            {([
+              ['xs', 'text-caption', '16 px · caption 13'],
+              ['sm', 'text-body-sm', '18 px · body-sm 15'],
+              ['md', 'text-body', '20 px · body 16'],
+              ['lg', 'text-body-lg', '24 px · body-lg 18'],
+              ['xl', 'text-h4', '28 px · h4 20'],
+            ] as const).map(([cran, texte, meta]) => (
+              <div key={cran} className="flex items-center gap-stack">
+                <code className="w-20 shrink-0 font-mono text-micro text-ink-600">icon-{cran}</code>
+                <span className={`icon-${cran} inline-flex shrink-0 items-center justify-center text-primary-600 [&>svg]:w-full [&>svg]:h-full`}>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                    <circle cx="12" cy="12" r="9" /><path d="M12 8v8M8 12h8" />
+                  </svg>
+                </span>
+                <span className={`${texte} font-body text-ink-800`}>Étiquette</span>
+                <span className="ml-auto font-mono text-micro text-ink-500 tabular-nums">{meta}</span>
+              </div>
+            ))}
+          </div>
+        </ShowcaseBloc>
+
+        <ShowcaseBloc
+          titre="À trancher — les 1 037 tailles hors échelle"
+          ton="warm"
+          note="Sept valeurs concentrent l'essentiel de l'écart. Les convertir change le rendu, contrairement aux gouttières en doublon : il faut donc décider cran par cran vers quoi elles remontent, et 14 px est le cas qui pèse le plus."
+        >
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[440px] border-collapse font-body text-body-sm">
+              <thead>
+                <tr className="border-b border-ink-200 text-left">
+                  <th className="py-2 pr-stack font-bold text-ink-700">Posé</th>
+                  <th className="py-2 text-right font-bold text-ink-700">Usages</th>
+                  <th className="py-2 pl-stack font-bold text-ink-700">Cran le plus proche</th>
+                </tr>
+              </thead>
+              <tbody className="text-ink-600">
+                {([
+                  ['14 px', 357, 'xs — 16 px'], ['12 px', 170, 'xs — 16 px'], ['13 px', 118, 'xs — 16 px'],
+                  ['15 px', 83, 'xs — 16 px'], ['22 px', 81, 'md — 20 px'], ['11 px', 66, 'xs — 16 px'],
+                  ['32 px', 52, 'xl — 28 px'],
+                ] as const).map(([a, n, b]) => (
+                  <tr key={a} className="border-b border-ink-100">
+                    <td className="py-2 pr-stack font-mono tabular-nums">{a}</td>
+                    <td className="py-2 text-right font-mono tabular-nums">{n}</td>
+                    <td className="py-2 pl-stack font-mono text-caption text-primary-700">{b}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </ShowcaseBloc>
+      </div>
+    ),
+  },
+
   /* ---- CORE ------------------------------------------------------------- */
   {
     name: 'Button',
@@ -8478,15 +8789,18 @@ const Components: React.FC = () => {
     return componentsWithMeta.filter((c) => {
       if (!q) return true;
       const haystack = [
-        c.name, c.codeName, c.cssBase, c.description, c._meta.category, c._meta.subCategory, ...c.keywords,
+        c.name, c.codeName, c.cssBase ?? '', c.description, c._meta.category, c._meta.subCategory, ...c.keywords,
       ].join(' ').toLowerCase();
       return haystack.includes(q);
     });
   }, [q, componentsWithMeta]);
 
   const filteredTokens = useMemo(() => {
-    // Masqués quand une catégorie est affichée, sauf pendant une recherche
-    if (activeSlug && !isSearching) return [];
+    // Masqués quand une catégorie est affichée — sauf pendant une recherche, et
+    // sauf dans Foundations : c'est la catégorie qui porte leur nom, et elle ne
+    // les montrait pas. On y venait chercher une couleur ou un pas de texte, on
+    // n'y trouvait que des primitives de mise en page.
+    if (activeSlug && !isSearching && activeSlug !== categorySlug('Foundations')) return [];
     return ALL_TOKENS.filter((t) => {
       if (!q) return true;
       const haystack = [t.name, t.cssVar, t.value, t.group, t.type].join(' ').toLowerCase();
@@ -8797,7 +9111,7 @@ const Components: React.FC = () => {
                           </div>
                           <div className="ds-component__chips">
                             <CopyChip text={c.codeName} label={`‹${c.codeName}›`} />
-                            <CopyChip text={c.cssBase} label={c.cssBase} />
+                            {c.cssBase && <CopyChip text={c.cssBase} label={c.cssBase} />}
                             <span className="ds-component__cat">{c._meta.category}</span>
                           </div>
                         </header>
