@@ -53,7 +53,7 @@ export const RankingCard: React.FC<RankingCardProps> = ({
       </div>
 
       <div className="flex-1 min-w-0">
-        <h3 className="m-0 text-body font-semibold text-ink-900 truncate">{name}</h3>
+        <h3 className="text-body font-semibold text-ink-900 truncate">{name}</h3>
         <div className="flex items-center gap-stack-xs mt-1 flex-wrap">
           <span className="inline-flex items-center gap-tight text-caption font-bold text-primary-700">
             <Trophy size={12} />

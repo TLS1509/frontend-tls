@@ -276,7 +276,7 @@ export const IconFeatureCard: React.FC<IconFeatureCardProps> = ({
       {iconNode}
       <div className="flex flex-col gap-tight">
         {/* Title scale avec iconSize (xs→body-sm · sm→body · md→h4 · lg/xl→h3). */}
-        <h3 className={`m-0 font-display ${TITLE_SIZE[iconSize]} font-bold text-ink-900 leading-tight`}>
+        <h3 className={`font-display ${TITLE_SIZE[iconSize]} font-bold text-ink-900 leading-tight`}>
           {title}
         </h3>
         {description && (

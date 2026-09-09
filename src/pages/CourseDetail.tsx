@@ -124,7 +124,7 @@ export const CourseDetail: React.FC = () => {
             <p className="font-body text-micro font-bold uppercase tracking-[0.06em] text-primary-700 m-0">
               Learning Space • Détail du cours
             </p>
-            <h1 className="font-display text-h1 font-extrabold tracking-display text-ink-900 m-0 leading-[1.1]">
+            <h1 className="font-display text-h1 font-extrabold tracking-display text-ink-900 leading-[1.1]">
               {course.title}
             </h1>
             <p className="font-body text-body-lg leading-[1.65] text-ink-500 m-0">
@@ -173,7 +173,7 @@ export const CourseDetail: React.FC = () => {
             {/* Objectives + thumbnail */}
             <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.2fr)_minmax(260px,0.8fr)] gap-stack-lg">
               <Card className="flex flex-col gap-stack p-stack-lg">
-                <h3 className="font-display text-h4 font-bold tracking-tight text-ink-900 m-0 flex items-center gap-stack-xs">
+                <h3 className="font-display text-h4 font-bold tracking-tight text-ink-900 flex items-center gap-stack-xs">
                   <Target size={16} /> Objectifs
                 </h3>
                 <ul className="m-0 pl-6 text-ink-500 flex flex-col gap-stack-xs font-body text-body-sm">
@@ -189,7 +189,7 @@ export const CourseDetail: React.FC = () => {
 
             {/* Programme accordion */}
             <div>
-              <h2 className="font-display text-h3 font-semibold text-ink-900 m-0 mb-stack">Programme</h2>
+              <h2 className="font-display text-h3 font-semibold text-ink-900 mb-stack">Programme</h2>
               {steps.map((step) => {
                 const open = openStep === step.id;
                 return (
@@ -225,7 +225,7 @@ export const CourseDetail: React.FC = () => {
           {/* ─ Right sidebar ─────────────────────────────────────── */}
           <aside className="sticky top-[44px] flex flex-col gap-stack self-start">
             <Card className="flex flex-col gap-stack-xs p-stack-lg">
-              <h3 className="font-display text-h4 font-bold tracking-tight text-ink-900 m-0 flex items-center gap-stack-xs">
+              <h3 className="font-display text-h4 font-bold tracking-tight text-ink-900 flex items-center gap-stack-xs">
                 <BookOpen size={16} /> Progression
               </h3>
               <p className="font-body text-body-sm text-ink-500 m-0">

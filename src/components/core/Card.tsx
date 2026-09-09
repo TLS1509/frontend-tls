@@ -348,7 +348,7 @@ export const CardTitle: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({
   ...rest
 }) => (
   <h3
-    className={`m-0 p-0 font-display text-h4 font-semibold leading-tight tracking-headline text-ink-900 ${className}`}
+    className={`p-0 font-display text-h4 font-semibold leading-tight tracking-headline text-ink-900 ${className}`}
     {...rest}
   />
 );

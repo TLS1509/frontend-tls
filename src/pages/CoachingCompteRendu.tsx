@@ -187,7 +187,7 @@ export const CoachingCompteRendu: React.FC = () => {
                   Session {report.sessionNumber}/{report.totalSessions}
                 </span>
               </div>
-              <h1 className="font-display text-h1 font-extrabold m-0 mb-stack-xs leading-tight">
+              <h1 className="font-display text-h1 font-extrabold mb-stack-xs leading-tight">
                 {report.theme}
               </h1>
               <div className="flex flex-wrap gap-stack mt-3">
@@ -229,7 +229,7 @@ export const CoachingCompteRendu: React.FC = () => {
 
             {/* ── Key takeaways ── */}
             <section>
-              <h2 className="font-display text-h3 font-bold text-ink-900 m-0 mb-5 flex items-center gap-stack-xs">
+              <h2 className="font-display text-h3 font-bold text-ink-900 mb-5 flex items-center gap-stack-xs">
                 <CheckCircle2 size={20} className="text-primary-600" />
                 Points clés de la session
               </h2>
@@ -244,7 +244,7 @@ export const CoachingCompteRendu: React.FC = () => {
                       <div className={`w-10 h-10 rounded-md flex items-center justify-center shrink-0 ${tk.iconClass}`}>
                         <TkIcon size={20} />
                       </div>
-                      <h3 className="font-display text-body font-bold text-ink-900 m-0">
+                      <h3 className="font-display text-body font-bold text-ink-900">
                         {tk.title}
                       </h3>
                       <p className="font-body text-body-sm text-ink-500 m-0 leading-relaxed">
@@ -258,7 +258,7 @@ export const CoachingCompteRendu: React.FC = () => {
 
             {/* ── Action plan ── */}
             <section>
-              <h2 className="font-display text-h3 font-bold text-ink-900 m-0 mb-5 flex items-center gap-stack-xs">
+              <h2 className="font-display text-h3 font-bold text-ink-900 mb-5 flex items-center gap-stack-xs">
                 <Target size={20} className="text-secondary-600" />
                 Plan d'action
               </h2>
@@ -290,7 +290,7 @@ export const CoachingCompteRendu: React.FC = () => {
 
             {/* ── Coach notes ── */}
             <section>
-              <h2 className="font-display text-h3 font-bold text-ink-900 m-0 mb-5 flex items-center gap-stack-xs">
+              <h2 className="font-display text-h3 font-bold text-ink-900 mb-5 flex items-center gap-stack-xs">
                 <MessageSquareQuote size={20} className="text-primary-600" />
                 Note de votre coach
               </h2>
@@ -318,7 +318,7 @@ export const CoachingCompteRendu: React.FC = () => {
             {/* Coach info card */}
             <Card variant="feature">
               <div className="flex flex-col gap-stack">
-                <h3 className="font-body text-caption font-medium text-ink-500 m-0">
+                <h3 className="font-body text-caption font-medium text-ink-500">
                   Votre coach
                 </h3>
                 <div className="flex gap-stack-xs items-center">
@@ -346,7 +346,7 @@ export const CoachingCompteRendu: React.FC = () => {
             {/* Satisfaction */}
             <Card variant="feature">
               <div className="flex flex-col gap-stack-xs">
-                <h3 className="font-body text-caption font-medium text-ink-500 m-0">
+                <h3 className="font-body text-caption font-medium text-ink-500">
                   Satisfaction de la session
                 </h3>
                 <div className="flex items-center gap-stack-xs">
@@ -364,7 +364,7 @@ export const CoachingCompteRendu: React.FC = () => {
             {/* Next session */}
             <Card variant="feature" className="bg-gradient-to-br from-primary-50 to-white">
               <div className="flex flex-col gap-stack-xs">
-                <h3 className="font-body text-caption font-medium text-ink-500 m-0">
+                <h3 className="font-body text-caption font-medium text-ink-500">
                   Session suivante
                 </h3>
                 <div className="flex items-center gap-stack-xs">

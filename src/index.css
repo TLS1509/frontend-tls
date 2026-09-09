@@ -748,6 +748,63 @@
    Tailwind v4 @theme ne supporte pas natively les gradients comme tokens. On les déclare
    donc en @layer utilities pour les exposer via class name (`bg-gradient-page-ambient`).
 */
+/* ══════════════════════════════════════════════════════════════════════════
+   LE RYTHME DES TITRES — la règle de proximité, 2026-09-09
+
+   Un titre appartient à ce qui le suit, pas à ce qui le précède : l'espace
+   au-dessus doit valoir trois à quatre fois celui d'en dessous. L'app faisait
+   exactement l'inverse — 302 piles verticales donnaient autant d'air des deux
+   côtés, parce qu'un `gap` est symétrique par construction.
+
+   Pourquoi une règle sur l'élément, et pas un token ni un espaceur. 342 des
+   398 titres sont écrits à la main dans les pages ; 56 seulement passent par
+   `SectionHeader`. Toute solution demandant un geste par titre suppose 342
+   gestes dont chacun peut être oublié — c'est précisément ce qui a produit
+   l'état constaté. Seule une règle portée par l'élément les atteint tous.
+
+   Pourquoi `em`. L'air suit la taille du titre : un h2 de 28 px en prend 21,
+   un h4 de 20 px en prend 15. Le rythme épouse l'échelle typographique au lieu
+   d'être posé cran par cran, et aucun token n'est à maintenir.
+
+   Pourquoi seulement au-dessus. La marge s'ajoute au `gap` du parent ; en ne
+   touchant que le dessus, l'asymétrie va toujours dans le bon sens quel que
+   soit ce gap. Ajouter une marge basse diluerait le rapport au lieu de le
+   creuser.
+
+   Pourquoi 0,75 et pas davantage. Valeur calibrée sur mesure, pas au jugé :
+   on a fait varier la marge sur le tableau de bord en relevant le rapport
+   médian réel.
+
+     sans règle  1,0 — le gap seul, symétrique   1,25em  4,9
+     0,75em      3,3   ← retenu                   1,5em   5,7
+     1em         4,1                              1,75em  6,4
+
+   La fourchette visée est 3 à 4. Le premier calcul tablait sur `gap-stack`
+   (16 px), mais la gouttière dominante du repo est `gap-stack-xs` (8 px), de
+   loin la plus employée : à 1,75em le rapport montait à 6,4 pour rien.
+
+   Le coût est modeste : le tableau de bord passe de 1 802 à 1 835 px, soit
+   33 px sur toute la page.
+
+   Pourquoi ça reste annulable partout. La règle vit en `@layer base`, et les
+   utilities Tailwind vivent dans une couche plus forte : n'importe quel `mt-*`
+   la bat, sans `!important`. Elle bat en revanche le reset `* { margin: 0 }`
+   de globals.css, dont la spécificité est nulle.
+
+   ⚠️ Elle ne peut fonctionner que si les titres ne portent pas `m-0`, qui est
+   une utility et gagne donc sur elle. Ils étaient 362 sur 421 à le porter —
+   une précaution devenue inutile, puisque le reset universel met déjà la marge
+   à zéro. Vérifié au navigateur : un h3 nu et un h3 en `m-0` rendaient
+   exactement `0px 0px 0px 0px`. Ces classes ne changeaient rien au rendu et ne
+   faisaient que bloquer le système ; elles ont été retirées dans le même
+   commit. Ne pas les réintroduire sur un titre.
+   ══════════════════════════════════════════════════════════════════════════ */
+@layer base {
+  h2, h3, h4 { margin-block-start: 0.75em; }
+  /* Un titre qui ouvre son conteneur n'a rien à quitter. */
+  h2:first-child, h3:first-child, h4:first-child { margin-block-start: 0; }
+}
+
 @layer utilities {
   /* Gradient vertical propre (registre product : pas de blobs décoratifs sur les surfaces app).
      Traverse les 50-tints TLS : bleu en haut → jaune → orange en bas. Très léger, se révèle au scroll.

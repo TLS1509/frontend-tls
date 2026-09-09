@@ -99,7 +99,7 @@ export const Achievement: React.FC<AchievementProps> = ({
       </div>
 
       <div className="flex-1 min-w-0">
-        <h3 className="m-0 text-body font-bold text-ink-900 truncate leading-snug">{title}</h3>
+        <h3 className="text-body font-bold text-ink-900 truncate leading-snug">{title}</h3>
         <p className="m-0 mt-0.5 text-body-sm text-ink-500 leading-relaxed line-clamp-2">{description}</p>
 
         {variant === 'in-progress' && progress !== undefined && (

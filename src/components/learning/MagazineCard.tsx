@@ -115,7 +115,7 @@ export const MagazineCard: React.FC<MagazineCardProps> = ({
 
         {/* Title */}
         <h3 className={[
-          'relative z-10 m-0 font-display text-h3 font-bold leading-tight',
+          'relative z-10 font-display text-h3 font-bold leading-tight',
           TONE_TEXT[tone],
         ].join(' ')}>
           {title}

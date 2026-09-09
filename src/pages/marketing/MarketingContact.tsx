@@ -194,7 +194,7 @@ export const MarketingContact: React.FC = () => {
               transition={{ duration: reduced ? 0.12 : 0.22, ease: [0.21, 0.47, 0.32, 0.98] }}
               className="flex flex-col items-center gap-stack"
             >
-              <h1 className="font-display font-extrabold text-ink-900 leading-[0.98] tracking-tight m-0 text-[clamp(2rem,5vw,3.75rem)]">
+              <h1 className="font-display font-extrabold text-ink-900 leading-[0.98] tracking-tight text-[clamp(2rem,5vw,3.75rem)]">
                 {SUBJECT_CONTEXTS[form.subject].headline}
               </h1>
               <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
@@ -226,7 +226,7 @@ export const MarketingContact: React.FC = () => {
                     <CheckCircle2 size={40} className="text-white" />
                   </div>
                   <div className="flex flex-col gap-stack">
-                    <h2 className="font-display text-h2 font-extrabold text-ink-900 m-0">
+                    <h2 className="font-display text-h2 font-extrabold text-ink-900">
                       Message envoyé !
                     </h2>
                     <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-prose">
@@ -276,7 +276,7 @@ export const MarketingContact: React.FC = () => {
                   className="flex flex-col gap-stack-lg"
                 >
                   <div className="flex flex-col gap-stack">
-                    <h2 className="font-display text-h3 font-extrabold text-ink-900 m-0 leading-tight">
+                    <h2 className="font-display text-h3 font-extrabold text-ink-900 leading-tight">
                       Écrivez-nous
                     </h2>
                     <p className="font-body text-body text-ink-600 m-0">
@@ -554,7 +554,7 @@ export const MarketingContact: React.FC = () => {
                     <Sparkles size={12} />
                     Plus rapide
                   </span>
-                  <h3 className="font-display text-h3 font-extrabold text-ink-900 m-0 leading-tight">
+                  <h3 className="font-display text-h3 font-extrabold text-ink-900 leading-tight">
                     Un échange de 30 min
                   </h3>
                   <p className="font-body text-body-sm text-ink-600 m-0 leading-relaxed">
@@ -576,7 +576,7 @@ export const MarketingContact: React.FC = () => {
 
             {/* Contact info */}
               <div className="rounded-2xl bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack shadow-sm">
-                <h3 className="font-display text-body font-semibold font-bold text-ink-900 m-0">Autres canaux</h3>
+                <h3 className="font-display text-body font-semibold font-bold text-ink-900">Autres canaux</h3>
                 <div className="flex flex-col gap-stack">
                   <a
                     href="mailto:contact@thelearningsociety.fr"
@@ -636,7 +636,7 @@ export const MarketingContact: React.FC = () => {
 
             {/* Quick links */}
               <div className="rounded-2xl bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack shadow-sm">
-                <h3 className="font-display text-body font-semibold font-bold text-ink-900 m-0">Accès rapide</h3>
+                <h3 className="font-display text-body font-semibold font-bold text-ink-900">Accès rapide</h3>
                 <div className="flex flex-col gap-stack-xs">
                   {QUICK_LINKS.map((q) => (
                     <Link

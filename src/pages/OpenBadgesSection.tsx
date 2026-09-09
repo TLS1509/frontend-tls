@@ -104,7 +104,7 @@ export default function OpenBadgesSection() {
         {/* Badge grid */}
         <section className="flex flex-col gap-stack">
           <div className="flex items-baseline justify-between gap-stack-xs flex-wrap">
-            <h2 className="font-display text-h3 font-bold text-ink-900 m-0">Mes certifications</h2>
+            <h2 className="font-display text-h3 font-bold text-ink-900">Mes certifications</h2>
             <p className="m-0 font-body text-body-sm text-ink-500 shrink-0">8 obtenus · 3 partagés · 2 en cours</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-stack">

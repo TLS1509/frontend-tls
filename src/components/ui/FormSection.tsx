@@ -36,7 +36,7 @@ export const FormSection: React.FC<FormSectionProps> = ({
                 {titleIcon}
               </span>
             )}
-            <h3 className="text-h4 font-display font-semibold text-ink-900 m-0">
+            <h3 className="text-h4 font-display font-semibold text-ink-900">
               {title}
             </h3>
           </div>

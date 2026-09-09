@@ -47,7 +47,7 @@ export const SectionCard: React.FC<SectionCardProps> = ({
         <header className="flex items-start justify-between gap-stack-xs flex-wrap">
           <div className="flex flex-col gap-tight min-w-0">
             {title && (
-              <h3 className="font-display text-h4 font-bold tracking-tight text-ink-900 m-0 inline-flex items-center gap-stack-xs">
+              <h3 className="font-display text-h4 font-bold tracking-tight text-ink-900 inline-flex items-center gap-stack-xs">
                 {titleIcon}
                 {title}
               </h3>

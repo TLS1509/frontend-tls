@@ -120,7 +120,7 @@ export const MagazineArticle: React.FC = () => {
             <BookOpen size={11} /> {ARTICLE.category} · {ARTICLE.pages}
           </span>
 
-          <h1 className="m-0 font-display text-h1 sm:text-[3rem] font-extrabold leading-[1.05] tracking-display text-primary-700">
+          <h1 className="font-display text-h1 sm:text-[3rem] font-extrabold leading-[1.05] tracking-display text-primary-700">
             {ARTICLE.title}
           </h1>
 
@@ -178,7 +178,7 @@ export const MagazineArticle: React.FC = () => {
                   </figcaption>
                 </figure>
 
-                <h2 className="m-0 mt-stack-lg font-display text-h3 font-bold text-ink-900 leading-tight tracking-tight">
+                <h2 className="mt-stack-lg font-display text-h3 font-bold text-ink-900 leading-tight tracking-tight">
                   Une chaîne de valeur reconfigurée
                 </h2>
                 <p className="m-0 font-body text-body text-ink-700 leading-relaxed">

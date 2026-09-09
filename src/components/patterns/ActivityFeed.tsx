@@ -226,7 +226,7 @@ const ActivityRow: React.FC<{
 
       <div className="flex-1 min-w-0 pt-1 pb-1">
         <header className="flex items-start justify-between gap-stack-xs flex-wrap">
-          <h3 className="m-0 text-body-sm font-semibold text-ink-900 leading-snug">{item.title}</h3>
+          <h3 className="text-body-sm font-semibold text-ink-900 leading-snug">{item.title}</h3>
           <time className="text-micro text-ink-600 font-medium whitespace-nowrap shrink-0 mt-0.5 tabular-nums">
             {formatTimestamp(item.timestamp, timeFormat)}
           </time>

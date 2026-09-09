@@ -160,7 +160,7 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({
         </div>
         <h2
           className={[
-            'm-0 mb-2 text-h2 font-display font-bold',
+            'mb-2 text-h2 font-display font-bold',
             isSuccess ? 'text-success-fg' : 'text-ink-900',
           ].join(' ')}
         >
@@ -212,7 +212,7 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({
       </div>
 
       <div className="mb-5">
-        <h3 className="m-0 mb-stack text-h4 font-display font-semibold text-ink-900">
+        <h3 className="mb-stack text-h4 font-display font-semibold text-ink-900">
           {currentQuestion.question}
         </h3>
 

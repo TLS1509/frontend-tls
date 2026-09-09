@@ -140,7 +140,7 @@ const Hero: React.FC = () => {
             Un univers d'apprentissage vivant
           </span>
 
-          <h1 className="font-display font-extrabold text-white leading-[0.98] tracking-display m-0 [text-wrap:balance] max-w-[20ch] text-[clamp(3rem,7vw,5.75rem)]">
+          <h1 className="font-display font-extrabold text-white leading-[0.98] tracking-display [text-wrap:balance] max-w-[20ch] text-[clamp(3rem,7vw,5.75rem)]">
             <KineticHeadline text="Vos formateurs," delay={0.5} />
             <br />
             <span className="text-accent-400">
@@ -255,7 +255,7 @@ const LivingWorld: React.FC = () => {
       <div className="relative max-w-wide mx-auto px-6 sm:px-10 py-page lg:py-section-lg">
         <FadeInWhenVisible>
           <div className="flex flex-col gap-stack max-w-3xl">
-            <h2 className="font-display font-bold text-white leading-[1.1] tracking-tight m-0 [text-wrap:balance] text-[clamp(1.75rem,3.8vw,3rem)]">
+            <h2 className="font-display font-bold text-white leading-[1.1] tracking-tight [text-wrap:balance] text-[clamp(1.75rem,3.8vw,3rem)]">
               Un jardin où l'apprentissage prend vraiment racine.
             </h2>
             <p className="font-body text-body-lg text-white/80 leading-relaxed m-0 max-w-[60ch]">
@@ -273,7 +273,7 @@ const LivingWorld: React.FC = () => {
                 <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-accent-400/15 text-accent-400">
                   {bloom.icon}
                 </span>
-                <h3 className="font-display font-bold text-white text-h4 leading-tight m-0">
+                <h3 className="font-display font-bold text-white text-h4 leading-tight">
                   {bloom.title}
                 </h3>
                 <p className="font-body text-body text-white/75 leading-relaxed m-0">

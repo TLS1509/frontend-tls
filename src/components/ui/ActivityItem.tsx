@@ -76,7 +76,7 @@ export const ActivityItem: React.FC<ActivityItemProps> = ({
 
       <div className="flex-1 min-w-0 pt-1 pb-1">
         <header className="flex items-start justify-between gap-stack-xs flex-wrap">
-          <h4 className="m-0 text-body-sm font-semibold text-ink-900 leading-snug">{title}</h4>
+          <h4 className="text-body-sm font-semibold text-ink-900 leading-snug">{title}</h4>
           {timestamp && (
             <time className="text-micro text-ink-600 font-medium whitespace-nowrap shrink-0 mt-0.5 tabular-nums">
               {timestamp}

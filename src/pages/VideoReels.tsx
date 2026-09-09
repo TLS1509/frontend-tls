@@ -353,7 +353,7 @@ export const VideoReels: React.FC = () => {
                 {video.duration}
               </span>
             </div>
-            <h2 className="font-display text-h3 font-bold text-white/95 m-0 leading-tight">
+            <h2 className="font-display text-h3 font-bold text-white/95 leading-tight">
               {video.title}
             </h2>
           </div>

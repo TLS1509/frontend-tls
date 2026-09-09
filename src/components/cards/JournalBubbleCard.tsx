@@ -154,7 +154,7 @@ export const JournalBubbleCard: React.FC<JournalBubbleCardProps> = ({
       {/* Header — title + date/readingTime + type badge */}
       <div className="flex items-start justify-between gap-stack-xs">
         <div className="flex-1 min-w-0">
-          <h3 className="font-display text-h4 font-bold text-ink-900 m-0 leading-snug">
+          <h3 className="font-display text-h4 font-bold text-ink-900 leading-snug">
             {title}
           </h3>
           <span className="font-body text-caption text-ink-500 leading-tight">

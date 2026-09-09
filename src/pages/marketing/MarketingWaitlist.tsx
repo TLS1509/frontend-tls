@@ -188,7 +188,7 @@ export const MarketingWaitlist: React.FC = () => {
 
               {/* H1 */}
               <h1
-                className="font-display font-extrabold text-ink-900 leading-[0.92] tracking-display m-0"
+                className="font-display font-extrabold text-ink-900 leading-[0.92] tracking-display"
                 style={{ fontSize: 'clamp(2.25rem, 4.5vw, 3.5rem)' }}
               >
                 <span className="block">
@@ -275,7 +275,7 @@ export const MarketingWaitlist: React.FC = () => {
                       >
                         {/* Card heading */}
                         <div className="flex flex-col gap-1">
-                          <h2 className="font-display font-bold text-ink-900 text-h4 m-0">
+                          <h2 className="font-display font-bold text-ink-900 text-h4">
                             Rejoindre la liste
                           </h2>
                           <p className="font-body text-body-sm text-ink-500 m-0">
@@ -450,7 +450,7 @@ export const MarketingWaitlist: React.FC = () => {
                         </div>
 
                         <div className="flex flex-col gap-2">
-                          <h2 className="font-display font-bold text-ink-900 text-h4 m-0">
+                          <h2 className="font-display font-bold text-ink-900 text-h4">
                             {firstName ? `Parfait, ${firstName} !` : 'C’est noté !'}
                           </h2>
                           <p className="font-body text-body-sm text-ink-600 m-0 max-w-xs mx-auto leading-relaxed">
@@ -492,7 +492,7 @@ export const MarketingWaitlist: React.FC = () => {
             <p className="font-body text-caption font-semibold text-primary-500 uppercase tracking-widest mb-2">
               La plateforme
             </p>
-            <h2 className="font-display font-bold text-ink-900 m-0 text-h2 tracking-headline">
+            <h2 className="font-display font-bold text-ink-900 text-h2 tracking-headline">
               Learn. Do. Match.
             </h2>
             <p className="font-body text-body text-ink-500 mt-3 max-w-[55ch] mx-auto m-0">
@@ -535,7 +535,7 @@ export const MarketingWaitlist: React.FC = () => {
                 <span className={`font-display font-bold text-body-sm uppercase tracking-widest ${card.eyebrowColor}`}>
                   {card.eyebrow}
                 </span>
-                <h3 className="font-display font-bold text-ink-900 text-h4 m-0 tracking-snug">
+                <h3 className="font-display font-bold text-ink-900 text-h4 tracking-snug">
                   {card.title}
                 </h3>
                 <p className="font-body text-body-sm text-ink-600 m-0 leading-relaxed">
@@ -553,7 +553,7 @@ export const MarketingWaitlist: React.FC = () => {
           <p className="font-body text-caption text-white/55 m-0">
             Accès anticipé · Bêta · Sans engagement
           </p>
-          <h2 className="font-display font-extrabold text-white m-0 tracking-display leading-tight"
+          <h2 className="font-display font-extrabold text-white tracking-display leading-tight"
             style={{ fontSize: 'clamp(1.75rem, 3.5vw, 2.5rem)' }}
           >
             Rejoignez les premiers.

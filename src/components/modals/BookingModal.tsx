@@ -269,7 +269,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
           </div>
 
           <div className="flex-1 min-w-[180px]">
-            <h2 className="m-0 text-body font-bold text-ink-900 leading-tight">
+            <h2 className="text-body font-bold text-ink-900 leading-tight">
               Réserver une session
             </h2>
             <p className="m-0 text-caption text-ink-600 leading-tight">

@@ -110,7 +110,7 @@ export const NextStepsGrid: React.FC<NextStepsGridProps> = ({
             </span>
 
             <div className="flex flex-col gap-tight flex-1">
-              <h3 className="text-body font-semibold text-ink-900 leading-snug m-0">
+              <h3 className="text-body font-semibold text-ink-900 leading-snug">
                 {step.title}
               </h3>
               <p className="text-body-sm text-ink-500 leading-relaxed m-0">

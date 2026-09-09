@@ -234,7 +234,7 @@ export const Messages: React.FC = () => {
         <div className="px-5 pt-5 pb-stack border-b border-ink-200 bg-white">
           <div className="flex items-center justify-between mb-stack">
             <div className="flex items-center gap-stack-xs">
-              <h2 className="font-display text-h3 font-extrabold text-ink-900 m-0 tracking-tight">
+              <h2 className="font-display text-h3 font-extrabold text-ink-900 tracking-tight">
                 Messages
               </h2>
               {totalUnread > 0 && (
@@ -360,7 +360,7 @@ export const Messages: React.FC = () => {
             </div>
 
             <div className="flex-1 min-w-0">
-              <h3 className="m-0 font-body text-body-sm font-bold text-ink-900">
+              <h3 className="font-body text-body-sm font-bold text-ink-900">
                 {currentConversation.participantName}
               </h3>
               <p className="m-0 font-body text-micro text-ink-500">
@@ -473,7 +473,7 @@ export const Messages: React.FC = () => {
             <div className="w-[72px] h-[72px] rounded-full bg-primary-50 border border-primary-100 flex items-center justify-center mx-auto mb-stack text-primary-400">
               <MessageSquarePlus size={30} />
             </div>
-            <h3 className="m-0 mb-stack-xs font-display text-h4 font-bold text-ink-900">
+            <h3 className="mb-stack-xs font-display text-h4 font-bold text-ink-900">
               Sélectionnez une conversation
             </h3>
             <p className="m-0 mb-stack font-body text-caption text-ink-500 leading-relaxed">

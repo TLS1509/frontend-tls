@@ -257,7 +257,7 @@ const AppLanding: React.FC = () => {
             {/* H1 — KineticHeadline par ligne (masque qui se lève). Plain <h1> : coupe
                 la propagation de variants du container parent, KineticHeadline gère sa propre révélation. */}
             <h1
-              className="font-display font-extrabold text-ink-900 leading-[0.92] tracking-display m-0"
+              className="font-display font-extrabold text-ink-900 leading-[0.92] tracking-display"
               style={{ fontSize: 'clamp(2.25rem, 5vw, 3.75rem)' }}
             >
               <span className="block"><KineticHeadline text="Formez-vous." delay={0.1} /></span>
@@ -347,7 +347,7 @@ const AppLanding: React.FC = () => {
                 <MousePointerClick size={14} />
                 Essayez, c'est interactif
               </span>
-              <h2 className="font-display font-bold text-ink-900 text-h2 m-0 tracking-headline">
+              <h2 className="font-display font-bold text-ink-900 text-h2 tracking-headline">
                 <KineticHeadline text="Voyez la plateforme en action" />
               </h2>
               <p className="font-body text-body text-ink-600 m-0">
@@ -371,7 +371,7 @@ const AppLanding: React.FC = () => {
               <span className="font-body text-caption font-semibold text-primary-600">
                 Une plateforme, trois espaces
               </span>
-              <h2 className="font-display font-bold text-ink-900 text-h2 m-0 tracking-headline text-balance">
+              <h2 className="font-display font-bold text-ink-900 text-h2 tracking-headline text-balance">
                 Tout ce dont vos équipes ont besoin
               </h2>
               <p className="font-body text-body text-ink-600 m-0">
@@ -395,7 +395,7 @@ const AppLanding: React.FC = () => {
                       <span className={`font-body text-caption font-semibold uppercase tracking-wider ${tones.eyebrow}`}>
                         {feat.eyebrow}
                       </span>
-                      <h3 className="font-display font-bold text-ink-900 text-h4 m-0 leading-snug">
+                      <h3 className="font-display font-bold text-ink-900 text-h4 leading-snug">
                         {feat.title}
                       </h3>
                     </div>
@@ -427,7 +427,7 @@ const AppLanding: React.FC = () => {
               <span className="font-body text-caption font-semibold text-primary-600">
                 Simple à démarrer
               </span>
-              <h2 className="font-display font-bold text-ink-900 text-h2 m-0 tracking-headline text-balance">
+              <h2 className="font-display font-bold text-ink-900 text-h2 tracking-headline text-balance">
                 De l'inscription aux premiers résultats
               </h2>
             </div>
@@ -448,7 +448,7 @@ const AppLanding: React.FC = () => {
                     </span>
                   </div>
                   <div className="flex flex-col gap-1">
-                    <h3 className="font-display font-bold text-ink-900 text-h4 m-0">{step.title}</h3>
+                    <h3 className="font-display font-bold text-ink-900 text-h4">{step.title}</h3>
                     <p className="font-body text-body-sm text-ink-600 m-0 leading-relaxed max-w-xs mx-auto">
                       {step.description}
                     </p>
@@ -471,7 +471,7 @@ const AppLanding: React.FC = () => {
                   Skills-Based Organisation
                 </span>
               </div>
-              <h2 className="font-display font-bold text-ink-900 text-h3 m-0 tracking-headline text-balance">
+              <h2 className="font-display font-bold text-ink-900 text-h3 tracking-headline text-balance">
                 Apprendre, appliquer, prouver : la boucle Learn → Do → Match
               </h2>
               <p className="font-body text-body text-ink-600 m-0 leading-relaxed">
@@ -508,7 +508,7 @@ const AppLanding: React.FC = () => {
           <span className="font-body text-caption font-semibold text-white/55">
             Prêt à commencer ?
           </span>
-          <h2 className="font-display font-extrabold text-white text-h2 m-0 tracking-headline leading-tight text-balance">
+          <h2 className="font-display font-extrabold text-white text-h2 tracking-headline leading-tight text-balance">
             Formez-vous sur vos projets réels, pas sur des vidéos
           </h2>
           <p className="font-body text-body text-white/75 m-0 leading-relaxed">

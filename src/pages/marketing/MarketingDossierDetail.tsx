@@ -218,14 +218,14 @@ function renderDossierBlock(block: DossierBodyBlock, i: number) {
             <h2
               key={i}
               id={headingToId(block.text)}
-              className="font-display text-[clamp(1.6rem,3vw,2.25rem)] font-extrabold text-ink-900 leading-tight tracking-tight m-0 mt-stack scroll-mt-28"
+              className="font-display text-[clamp(1.6rem,3vw,2.25rem)] font-extrabold text-ink-900 leading-tight tracking-tight mt-stack scroll-mt-28"
             >
               {block.text}
             </h2>
           );
         case 'h3':
           return (
-            <h3 key={i} className="font-display text-h4 font-bold text-ink-800 leading-snug m-0 mt-stack">
+            <h3 key={i} className="font-display text-h4 font-bold text-ink-800 leading-snug mt-stack">
               {block.text}
             </h3>
           );
@@ -284,7 +284,7 @@ const Bibliography: React.FC<{ sources: DossierSource[] }> = ({ sources }) => (
             <Library size={15} />
             Bibliographie
           </span>
-          <h2 className="font-display text-[clamp(1.75rem,3.5vw,2.75rem)] font-extrabold text-ink-900 leading-[1.08] tracking-tight m-0">
+          <h2 className="font-display text-[clamp(1.75rem,3.5vw,2.75rem)] font-extrabold text-ink-900 leading-[1.08] tracking-tight">
             {sources.length} sources, toutes vérifiables.
           </h2>
           <p className="font-body text-body text-ink-600 m-0">
@@ -386,7 +386,7 @@ export const MarketingDossierDetail: React.FC = () => {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <h1 className="font-display font-extrabold text-ink-900 leading-[1.02] tracking-tight m-0 text-[clamp(2.25rem,5vw,4rem)]">
+            <h1 className="font-display font-extrabold text-ink-900 leading-[1.02] tracking-tight text-[clamp(2.25rem,5vw,4rem)]">
               {dossier.title}
             </h1>
           </Reveal>
@@ -426,7 +426,7 @@ export const MarketingDossierDetail: React.FC = () => {
       <section className="relative overflow-hidden py-page bg-gradient-to-br from-ink-900 via-primary-900 to-brand-navy">
         <div className={`relative ${CONTAINER} text-center flex flex-col items-center gap-stack-lg`}>
           <Reveal>
-            <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-white leading-[1.05] tracking-tight m-0">
+            <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-white leading-[1.05] tracking-tight">
               Passer de la théorie à la pratique ?
             </h2>
           </Reveal>

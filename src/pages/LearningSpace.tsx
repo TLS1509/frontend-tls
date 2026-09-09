@@ -177,7 +177,7 @@ export const LearningSpace: React.FC = () => {
 
       {/* ── Page header ─────────────────────────────────────────────────── */}
       <div className="flex flex-col gap-tight">
-        <h1 className="m-0 font-display text-h2 font-bold text-ink-900 tracking-headline leading-tight">
+        <h1 className="font-display text-h2 font-bold text-ink-900 tracking-headline leading-tight">
           Explorez nos ressources
         </h1>
         <p className="m-0 font-body text-body-sm text-ink-500 max-w-2xl">

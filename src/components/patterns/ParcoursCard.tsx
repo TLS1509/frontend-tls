@@ -138,7 +138,7 @@ export const ParcoursCard: React.FC<ParcoursCardProps> = ({
             hyphens-none désactive la césure automatique (évite "Communica-tion"), text-wrap:balance
             pour wrap équilibré. */}
         <h3
-          className={`font-display text-h3 font-bold leading-[1.15] m-0 [overflow-wrap:anywhere] hyphens-none max-md:text-h4 [text-wrap:balance] ${TITLE_TONE_CLASSES[tone]}`}
+          className={`font-display text-h3 font-bold leading-[1.15] [overflow-wrap:anywhere] hyphens-none max-md:text-h4 [text-wrap:balance] ${TITLE_TONE_CLASSES[tone]}`}
           title={title}
         >
           {title}

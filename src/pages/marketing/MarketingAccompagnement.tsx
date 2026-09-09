@@ -78,7 +78,7 @@ const Hero: React.FC = () => {
             <Compass size={14} />
             Conseil &amp; transformation SBO
           </p>
-          <h1 className="font-display text-hero text-ink-900 m-0 [text-wrap:balance]">
+          <h1 className="font-display text-hero text-ink-900 [text-wrap:balance]">
             La méthode STRIDE : opérez votre transition SBO et{' '}
             <span className="text-primary-700">déployez vos premières solutions IA.</span>
           </h1>
@@ -125,7 +125,7 @@ const DoublePiege: React.FC = () => (
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-flow items-start">
         <div className="lg:col-span-5">
           <FadeInWhenVisible>
-            <h2 className="font-display text-section text-ink-900 m-0 [text-wrap:balance]">
+            <h2 className="font-display text-section text-ink-900 [text-wrap:balance]">
               L'IA sans SBO est un gadget.{' '}
               <span className="text-primary-700">Le SBO sans IA est trop lent.</span>
             </h2>
@@ -139,7 +139,7 @@ const DoublePiege: React.FC = () => (
                   {p.icon}
                 </span>
                 <div className="flex flex-col gap-group">
-                  <h3 className="font-display text-feature text-ink-900 m-0">{p.title}</h3>
+                  <h3 className="font-display text-feature text-ink-900">{p.title}</h3>
                   <p className="font-body text-body text-ink-600 leading-relaxed m-0 max-w-xl">{p.detail}</p>
                 </div>
               </div>
@@ -176,7 +176,7 @@ const AuditFlash: React.FC = () => (
     <div className={`${SHELL} py-band flex flex-col gap-flow`}>
       <FadeInWhenVisible>
         <div className="max-w-3xl flex flex-col gap-group">
-          <h2 className="font-display text-section text-ink-900 m-0 [text-wrap:balance]">
+          <h2 className="font-display text-section text-ink-900 [text-wrap:balance]">
             Un diagnostic express pour cadrer votre feuille de route.
           </h2>
           <p className="font-body text-lede text-ink-700 m-0 [text-wrap:pretty]">
@@ -193,7 +193,7 @@ const AuditFlash: React.FC = () => (
               <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary-100 text-primary-700">
                 {l.icon}
               </span>
-              <h3 className="font-display text-feature text-ink-900 m-0">{l.title}</h3>
+              <h3 className="font-display text-feature text-ink-900">{l.title}</h3>
               <p className="font-body text-body text-ink-600 leading-relaxed m-0">{l.detail}</p>
             </div>
           </FadeInWhenVisible>
@@ -248,7 +248,7 @@ const Methodologie: React.FC = () => (
   <section id="stride-etapes" className="scroll-mt-28">
     <div className={`${SHELL} py-band flex flex-col gap-flow`}>
       <FadeInWhenVisible>
-        <h2 className="font-display text-section text-ink-900 m-0 [text-wrap:balance] max-w-3xl">
+        <h2 className="font-display text-section text-ink-900 [text-wrap:balance] max-w-3xl">
           Six étapes, un livrable tangible à chaque jalon.
         </h2>
       </FadeInWhenVisible>
@@ -261,7 +261,7 @@ const Methodologie: React.FC = () => (
                 {e.lettre}
               </span>
               <div className="flex flex-col gap-0.5">
-                <h3 className="font-display text-feature text-ink-900 m-0">{e.verbe}</h3>
+                <h3 className="font-display text-feature text-ink-900">{e.verbe}</h3>
                 <span className="font-body text-caption font-bold text-primary-700">{e.phase}</span>
               </div>
               <p className="col-span-2 md:col-span-1 font-body text-body text-ink-600 leading-relaxed m-0">
@@ -302,7 +302,7 @@ const Obtenez: React.FC = () => (
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-flow items-start">
         <div className="lg:col-span-5">
           <FadeInWhenVisible>
-            <h2 className="font-display text-section text-ink-900 m-0 [text-wrap:balance]">
+            <h2 className="font-display text-section text-ink-900 [text-wrap:balance]">
               Un cadre stratégique clair et des briques IA immédiatement
               opérationnelles.
             </h2>
@@ -361,7 +361,7 @@ const PourQui: React.FC = () => (
   <section>
     <div className={`${SHELL} py-band flex flex-col gap-flow`}>
       <FadeInWhenVisible>
-        <h2 className="font-display text-section text-ink-900 m-0 [text-wrap:balance] max-w-2xl">
+        <h2 className="font-display text-section text-ink-900 [text-wrap:balance] max-w-2xl">
           Conçu pour celles et ceux qui portent la transformation.
         </h2>
       </FadeInWhenVisible>
@@ -376,7 +376,7 @@ const PourQui: React.FC = () => (
               <span className="inline-flex h-11 w-11 items-center justify-center rounded-pill bg-primary-100 text-primary-700">
                 {p.icon}
               </span>
-              <h3 className="font-display text-feature text-ink-900 m-0">{p.title}</h3>
+              <h3 className="font-display text-feature text-ink-900">{p.title}</h3>
               <p className="font-body text-body text-ink-600 leading-relaxed m-0">{p.detail}</p>
             </li>
           </FadeInWhenVisible>
@@ -394,7 +394,7 @@ const CtaFinal: React.FC = () => (
       <FadeInWhenVisible>
         <div className="relative overflow-hidden rounded-2xl bg-ink-900 text-white px-6 sm:px-10 lg:px-16 py-band">
           <div className="relative max-w-content flex flex-col gap-flow">
-            <h2 className="font-display text-section text-white m-0 [text-wrap:balance]">
+            <h2 className="font-display text-section text-white [text-wrap:balance]">
               Déployez le duo SBO + IA dans votre organisation.
             </h2>
             <p className="font-body text-lede text-white/80 m-0 max-w-2xl [text-wrap:pretty]">

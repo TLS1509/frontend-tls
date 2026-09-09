@@ -50,7 +50,7 @@ const Recit: React.FC = () => {
             <FlaskConical size={14} />
             La Méthode TLS
           </p>
-          <h1 className="font-display font-extrabold text-ink-900 leading-[1.04] tracking-tight m-0 [text-wrap:balance] text-[clamp(2.25rem,5vw,3.75rem)]">
+          <h1 className="font-display font-extrabold text-ink-900 leading-[1.04] tracking-tight [text-wrap:balance] text-[clamp(2.25rem,5vw,3.75rem)]">
             Pourquoi nous avons arrêté de croire aux catalogues de formation.
           </h1>
           <div className="flex flex-col gap-stack font-body text-body-lg text-ink-700 leading-relaxed [&>p]:m-0">
@@ -99,7 +99,7 @@ const Fondations: React.FC = () => (
   <section className="bg-white border-t border-ink-100">
     <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
       <FadeInWhenVisible>
-        <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)] max-w-3xl">
+        <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)] max-w-3xl">
           Trois fondations scientifiques, aucune boîte noire.
         </h2>
       </FadeInWhenVisible>
@@ -112,7 +112,7 @@ const Fondations: React.FC = () => (
                 <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent-100 text-accent-900">
                   {p.icon}
                 </span>
-                <h3 className="font-display text-h3 font-bold text-ink-900 m-0 leading-tight [text-wrap:balance]">
+                <h3 className="font-display text-h3 font-bold text-ink-900 leading-tight [text-wrap:balance]">
                   {p.title}
                 </h3>
               </div>
@@ -143,7 +143,7 @@ const Framework: React.FC = () => (
     <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
       <FadeInWhenVisible>
         <div className="max-w-3xl flex flex-col gap-stack">
-          <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)]">
+          <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)]">
             Du modèle théorique à la réalité terrain : pourquoi nous avons créé
             STRIDE.
           </h2>
@@ -162,7 +162,7 @@ const Framework: React.FC = () => (
                 {s.lettre}
               </span>
               <div className="flex flex-col gap-0.5">
-                <h3 className="font-display text-h4 font-extrabold text-ink-900 m-0 leading-tight">{s.verbe}</h3>
+                <h3 className="font-display text-h4 font-extrabold text-ink-900 leading-tight">{s.verbe}</h3>
                 <span className="font-body text-caption text-ink-500 italic">{s.experience}</span>
               </div>
             </li>
@@ -214,7 +214,7 @@ const Manifeste: React.FC = () => (
   <section className="relative bg-ink-900 text-white">
     <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
       <FadeInWhenVisible>
-        <h2 className="font-display font-extrabold leading-[1.06] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)] max-w-3xl">
+        <h2 className="font-display font-extrabold leading-[1.06] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)] max-w-3xl">
           Quatre règles d'or : ce que The Learning Society{' '}
           <span className="text-accent-400">refuse</span>.
         </h2>
@@ -228,7 +228,7 @@ const Manifeste: React.FC = () => (
                 <Ban size={20} />
               </span>
               <div className="flex flex-col gap-1">
-                <h3 className="font-display text-h4 font-bold text-white m-0 leading-tight">{r.title}</h3>
+                <h3 className="font-display text-h4 font-bold text-white leading-tight">{r.title}</h3>
                 <p className="font-body text-body-sm text-white/70 leading-relaxed m-0">{r.detail}</p>
               </div>
             </div>
@@ -250,7 +250,7 @@ const AllerPlusLoin: React.FC = () => (
             <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary-100 text-primary-700">
               <Radar size={20} />
             </span>
-            <h3 className="font-display text-h3 font-bold text-ink-900 leading-tight m-0">La Vigie IA</h3>
+            <h3 className="font-display text-h3 font-bold text-ink-900 leading-tight">La Vigie IA</h3>
             <p className="font-body text-body text-ink-700 leading-relaxed m-0 flex-1">
               Nos meilleures analyses sur l'IA, les compétences et le futur du
               travail, dans votre boîte mail.
@@ -268,7 +268,7 @@ const AllerPlusLoin: React.FC = () => (
             <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-secondary-100 text-secondary-700">
               <BookOpenCheck size={20} />
             </span>
-            <h3 className="font-display text-h3 font-bold text-ink-900 leading-tight m-0">Le Magazine</h3>
+            <h3 className="font-display text-h3 font-bold text-ink-900 leading-tight">Le Magazine</h3>
             <p className="font-body text-body text-ink-700 leading-relaxed m-0 flex-1">
               Analyses de fond, dossiers et retours de terrain, en accès libre.
             </p>

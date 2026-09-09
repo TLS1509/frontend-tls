@@ -89,7 +89,7 @@ export const AstucesCard: React.FC<AstucesCardProps> = ({
     {/* Title */}
     <h2
       className={[
-        'm-0 mb-2 font-display text-h4 sm:text-h3 font-bold tracking-headline',
+        'mb-2 font-display text-h4 sm:text-h3 font-bold tracking-headline',
         TONE_TEXT_700[tone],
       ].join(' ')}
     >

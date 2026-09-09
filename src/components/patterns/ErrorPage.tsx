@@ -191,7 +191,7 @@ const SuggestionCard: React.FC<SuggestionCardProps> = ({
         {icon}
       </div>
       <div className="flex flex-col gap-tight">
-        <h3 className="font-body text-body-sm font-bold text-ink-900 m-0">{title}</h3>
+        <h3 className="font-body text-body-sm font-bold text-ink-900">{title}</h3>
         {description && (
           <p className="font-body text-caption text-ink-500 m-0 leading-relaxed">{description}</p>
         )}
@@ -295,7 +295,7 @@ export const ErrorPage: React.FC<ErrorPageProps> = ({
         )}
 
         <motion.div variants={itemVariants} className="flex flex-col gap-tight max-w-[560px]">
-          <h1 className="font-display text-h1 font-bold text-ink-900 m-0 leading-tight">{title}</h1>
+          <h1 className="font-display text-h1 font-bold text-ink-900 leading-tight">{title}</h1>
           {description && (
             <p className="font-body text-body-lg text-ink-500 leading-relaxed m-0">{description}</p>
           )}

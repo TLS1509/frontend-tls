@@ -190,7 +190,7 @@ export const Enterprise: React.FC = () => {
 
           <ChartContainer>
             <div className="w-full">
-              <h3 className="m-0 mb-stack-xs font-display text-body font-bold text-ink-900">
+              <h3 className="mb-stack-xs font-display text-body font-bold text-ink-900">
                 Matrice de compétences par équipe
               </h3>
               <HeatmapChart
@@ -211,7 +211,7 @@ export const Enterprise: React.FC = () => {
 
           <ChartContainer>
             <div className="w-full">
-              <h3 className="m-0 mb-4 font-display text-body font-bold text-ink-900">
+              <h3 className="mb-4 font-display text-body font-bold text-ink-900">
                 Score moyen par équipe (compétences clés)
               </h3>
               <BarChart
@@ -313,7 +313,7 @@ export const Enterprise: React.FC = () => {
               }}
               className="rounded-xl bg-primary-50/50 border border-primary-100 p-stack sm:p-5 flex flex-col gap-stack mb-stack-lg"
             >
-              <h3 className="m-0 font-display text-body font-bold text-ink-900">
+              <h3 className="font-display text-body font-bold text-ink-900">
                 Inviter un nouveau collaborateur
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-[2fr_1fr_auto] gap-stack-xs sm:items-end">
@@ -383,7 +383,7 @@ export const Enterprise: React.FC = () => {
         {/* ── Rapports ──────────────────────────────────────────── */}
         <section className="flex flex-col gap-stack">
           <div className="flex items-baseline justify-between gap-stack-xs">
-            <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight">
+            <h2 className="font-display text-h3 font-bold text-ink-900 tracking-tight">
               Rapports
             </h2>
             <Button variant="ghost" size="sm" trailingIcon={<ChevronRight size={13} />}>
@@ -404,7 +404,7 @@ export const Enterprise: React.FC = () => {
                       <Icon size={22} />
                     </span>
                     <div className="flex-1 min-w-0 flex flex-col gap-tight">
-                      <h3 className="m-0 font-display text-body-lg font-bold text-ink-900 leading-tight">
+                      <h3 className="font-display text-body-lg font-bold text-ink-900 leading-tight">
                         {r.title}
                       </h3>
                       <Badge variant="neutral">{r.period}</Badge>

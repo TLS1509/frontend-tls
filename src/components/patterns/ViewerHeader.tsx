@@ -172,7 +172,7 @@ export const ViewerHeader: React.FC<ViewerHeaderProps> = ({
             )}
             {title && (
               <h1
-                className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight truncate w-full text-left sm:text-center"
+                className="font-display text-h4 font-bold text-ink-900 leading-tight truncate w-full text-left sm:text-center"
                 title={typeof title === 'string' ? title : undefined}
               >
                 {title}

@@ -194,14 +194,14 @@ const BodyBlock: React.FC<{ block: ArticleBodyBlock; pullquoteIndex: number }> =
       return (
         <h2
           id={headingToId(block.text)}
-          className="font-display text-[clamp(1.5rem,2.5vw,2rem)] font-extrabold text-ink-900 leading-tight m-0 scroll-mt-32 pt-stack"
+          className="font-display text-[clamp(1.5rem,2.5vw,2rem)] font-extrabold text-ink-900 leading-tight scroll-mt-32 pt-stack"
         >
           {block.text}
         </h2>
       );
     case 'h3':
       return (
-        <h3 className="font-display text-[clamp(1.1rem,1.8vw,1.35rem)] font-bold text-ink-800 leading-snug m-0 pt-1">
+        <h3 className="font-display text-[clamp(1.1rem,1.8vw,1.35rem)] font-bold text-ink-800 leading-snug pt-1">
           {block.text}
         </h3>
       );
@@ -395,7 +395,7 @@ export const MarketingArticleDetail: React.FC = () => {
 
           {/* Title */}
           <FadeInWhenVisible direction="up" delay={0.1}>
-            <h1 className="font-display font-extrabold text-ink-900 leading-[1.02] tracking-tight m-0 text-[clamp(2.25rem,5vw,4rem)]">
+            <h1 className="font-display font-extrabold text-ink-900 leading-[1.02] tracking-tight text-[clamp(2.25rem,5vw,4rem)]">
               {article.title}
             </h1>
           </FadeInWhenVisible>
@@ -458,7 +458,7 @@ export const MarketingArticleDetail: React.FC = () => {
                 <ArrowLeft size={14} className="transition-transform duration-base group-hover:-translate-x-1" />
                 Article précédent
               </span>
-              <h3 className="font-display text-h4 font-bold text-ink-900 leading-tight m-0 group-hover:text-primary-700 transition-colors duration-fast">
+              <h3 className="font-display text-h4 font-bold text-ink-900 leading-tight group-hover:text-primary-700 transition-colors duration-fast">
                 {prev.title}
               </h3>
               <p className="font-body text-caption text-ink-500 m-0">{prev.date} · {prev.readTime}</p>
@@ -473,7 +473,7 @@ export const MarketingArticleDetail: React.FC = () => {
                 Article suivant
                 <ArrowRight size={14} className="transition-transform duration-base group-hover:translate-x-1" />
               </span>
-              <h3 className="font-display text-h4 font-bold text-ink-900 leading-tight m-0 group-hover:text-primary-700 transition-colors duration-fast">
+              <h3 className="font-display text-h4 font-bold text-ink-900 leading-tight group-hover:text-primary-700 transition-colors duration-fast">
                 {next.title}
               </h3>
               <p className="font-body text-caption text-ink-500 m-0">{next.date} · {next.readTime}</p>
@@ -490,7 +490,7 @@ export const MarketingArticleDetail: React.FC = () => {
               <span className="font-body text-caption font-bold text-primary-700 uppercase tracking-widest">
                 À lire aussi
               </span>
-              <h2 className="font-display text-[clamp(2rem,4vw,3.25rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
+              <h2 className="font-display text-[clamp(2rem,4vw,3.25rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight">
                 Trois autres{' '}
                 <span className="text-accent-400">analyses</span> sur le même thème.
               </h2>
@@ -524,7 +524,7 @@ export const MarketingArticleDetail: React.FC = () => {
                           {r.readTime}
                         </span>
                       </div>
-                      <h3 className="font-display text-body font-semibold font-bold text-ink-900 leading-tight m-0 group-hover:text-primary-700 transition-colors duration-base">
+                      <h3 className="font-display text-body font-semibold font-bold text-ink-900 leading-tight group-hover:text-primary-700 transition-colors duration-base">
                         {r.title}
                       </h3>
                       <p className="font-body text-caption text-ink-500 m-0 line-clamp-3 flex-1">
@@ -550,7 +550,7 @@ export const MarketingArticleDetail: React.FC = () => {
       <section className="relative overflow-hidden py-page bg-gradient-to-br from-ink-900 via-primary-900 to-brand-navy">
         <div className={`relative ${CONTAINER} text-center flex flex-col items-center gap-stack-lg`}>
           <FadeInWhenVisible direction="up">
-            <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-white leading-[1.05] tracking-tight m-0">
+            <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-white leading-[1.05] tracking-tight">
               Passer de la théorie à la pratique ?
             </h2>
           </FadeInWhenVisible>

@@ -82,7 +82,7 @@ export const ActivityTimeline: React.FC<ActivityTimelineProps> = ({
                 <div className="flex items-baseline justify-between gap-stack-xs flex-wrap">
                   <h3
                     className={[
-                      'm-0 text-body-sm font-semibold leading-snug',
+                      'text-body-sm font-semibold leading-snug',
                       isPending ? 'text-ink-500' : 'text-ink-900',
                     ].join(' ')}
                   >

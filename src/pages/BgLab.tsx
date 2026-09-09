@@ -49,14 +49,14 @@ const Sample: React.FC<{ v: Variant }> = ({ v }) => (
         {v.id}
       </span>
       <div className="flex flex-col">
-        <h2 className="m-0 font-display text-h4 font-bold text-ink-900 tracking-headline">{v.name}</h2>
+        <h2 className="font-display text-h4 font-bold text-ink-900 tracking-headline">{v.name}</h2>
         <p className="m-0 text-caption text-ink-500">{v.desc}</p>
       </div>
     </div>
 
     {/* Titre + corps témoin (test lisibilité sur le fond) */}
     <div className="flex flex-col gap-2 max-w-[46ch]">
-      <h3 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-headline leading-tight">
+      <h3 className="font-display text-h3 font-bold text-ink-900 tracking-headline leading-tight">
         Mes objectifs de progression
       </h3>
       <p className="m-0 text-body-sm text-ink-600 leading-relaxed">
@@ -99,7 +99,7 @@ const Sample: React.FC<{ v: Variant }> = ({ v }) => (
 export const BgLab: React.FC = () => (
   <div className="min-h-[100dvh] w-full bg-white">
     <header className="px-6 sm:px-8 py-5 border-b border-ink-100 bg-white sticky top-0 z-10">
-      <h1 className="m-0 font-display text-h4 font-bold text-ink-900 tracking-headline">
+      <h1 className="font-display text-h4 font-bold text-ink-900 tracking-headline">
         Fond d'app — test de texture
       </h1>
       <p className="m-0 text-caption text-ink-500 mt-0.5">

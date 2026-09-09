@@ -162,7 +162,7 @@ export const ViewerOverlay: React.FC<ViewerOverlayProps> = ({
         <div className="flex-1 min-w-0">
           <h1
             className={[
-              'm-0 font-display text-body-sm sm:text-body font-bold leading-tight truncate',
+              'font-display text-body-sm sm:text-body font-bold leading-tight truncate',
               isDark ? 'text-white' : 'text-ink-900',
             ].join(' ')}
           >

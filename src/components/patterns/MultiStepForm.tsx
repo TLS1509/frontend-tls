@@ -115,7 +115,7 @@ export const MultiStepForm: React.FC<MultiStepFormProps> = ({
             <span className="inline-block text-caption font-medium text-primary-600 mb-2">
               Étape {step.id} / {steps.length}
             </span>
-            <h2 className="m-0 mb-2 font-display text-h2 font-bold text-ink-900 leading-tight">
+            <h2 className="mb-2 font-display text-h2 font-bold text-ink-900 leading-tight">
               {step.title}
             </h2>
             {step.description && (

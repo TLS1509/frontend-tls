@@ -106,7 +106,7 @@ export const VideoTutorial: React.FC = () => {
 
           {/* Header info */}
           <div className="px-section py-stack-lg pb-5">
-            <h1 className="font-display text-h1 font-black text-ink-900 m-0 mb-3 leading-[1.15] tracking-tight">
+            <h1 className="font-display text-h1 font-black text-ink-900 mb-3 leading-[1.15] tracking-tight">
               {tuto.title}
             </h1>
             <p className="font-body text-body text-ink-500 leading-relaxed m-0 mb-stack max-w-[640px]">

@@ -83,7 +83,7 @@ export default function HelpSearch() {
         )}
 
         <div className="flex flex-col gap-stack">
-          <h2 className="font-display font-semibold text-h4 text-ink-900 m-0">
+          <h2 className="font-display font-semibold text-h4 text-ink-900">
             {query ? `Résultats pour "${query}" (${results.length})` : `Articles populaires (${allArticles.length})`}
           </h2>
           {results.length === 0 ? (
@@ -97,7 +97,7 @@ export default function HelpSearch() {
               >
                 <div className="flex flex-col gap-stack-xs">
                   <div className="flex items-start justify-between gap-stack">
-                    <h3 className="font-display font-semibold text-body text-ink-900 m-0">{article.title}</h3>
+                    <h3 className="font-display font-semibold text-body text-ink-900">{article.title}</h3>
                     <Badge variant="neutral">{getCategoryName(article.categoryId)}</Badge>
                   </div>
                   <p className="text-body-sm text-ink-600 leading-relaxed m-0">{article.summary}</p>

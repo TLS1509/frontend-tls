@@ -121,7 +121,7 @@ const ContentBlockRenderer: React.FC<{ block: ContentBlock }> = ({ block }) => {
   switch (block.type) {
     case 'heading':
       return (
-        <h2 className="m-0 mt-stack font-display text-h3 font-bold text-ink-900 leading-tight tracking-tight">
+        <h2 className="mt-stack font-display text-h3 font-bold text-ink-900 leading-tight tracking-tight">
           {block.text}
         </h2>
       );
@@ -226,7 +226,7 @@ export const ArticleDetail: React.FC = () => {
             <Newspaper size={11} /> {sourceLabel}
           </span>
 
-          <h1 className="m-0 font-display text-h1 font-bold text-ink-900 leading-tight tracking-tight">
+          <h1 className="font-display text-h1 font-bold text-ink-900 leading-tight tracking-tight">
             {ARTICLE.title}
           </h1>
 

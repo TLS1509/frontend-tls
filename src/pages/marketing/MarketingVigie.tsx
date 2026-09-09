@@ -99,7 +99,7 @@ export const MarketingVigie: React.FC = () => {
               <Radar size={14} />
               La newsletter TLS
             </p>
-            <h1 className="font-display font-extrabold text-ink-900 leading-[1.02] tracking-tight m-0 [text-wrap:balance] text-[clamp(2.5rem,5.5vw,4rem)]">
+            <h1 className="font-display font-extrabold text-ink-900 leading-[1.02] tracking-tight [text-wrap:balance] text-[clamp(2.5rem,5.5vw,4rem)]">
               La Vigie IA. <span className="text-primary-700">Le signal, sans le bruit.</span>
             </h1>
             <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl [text-wrap:pretty]">
@@ -145,7 +145,7 @@ export const MarketingVigie: React.FC = () => {
         <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
           <FadeInWhenVisible>
             <div className="max-w-3xl flex flex-col gap-stack">
-              <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)]">
+              <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)]">
                 Trois rubriques, à chaque numéro.
               </h2>
               <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 [text-wrap:pretty]">
@@ -163,7 +163,7 @@ export const MarketingVigie: React.FC = () => {
                     <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-100 text-primary-700">
                       {r.icon}
                     </span>
-                    <h3 className="font-display text-h3 font-bold text-ink-900 m-0 leading-tight [text-wrap:balance]">
+                    <h3 className="font-display text-h3 font-bold text-ink-900 leading-tight [text-wrap:balance]">
                       {r.titre}
                     </h3>
                   </div>

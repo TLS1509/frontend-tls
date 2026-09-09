@@ -151,7 +151,7 @@ export const ComplementaryContentViewer: React.FC = () => {
             >
               <Library size={20} className="text-white" />
             </div>
-            <h1 className="m-0 font-display text-h3 font-bold text-ink-900 leading-tight">
+            <h1 className="font-display text-h3 font-bold text-ink-900 leading-tight">
               Ressources complémentaires
             </h1>
           </header>
@@ -180,7 +180,7 @@ export const ComplementaryContentViewer: React.FC = () => {
                     {/* Content */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start gap-stack-xs mb-stack-xs">
-                        <h3 className="font-display text-body font-semibold text-ink-900 m-0 flex-1 leading-snug">
+                        <h3 className="font-display text-body font-semibold text-ink-900 flex-1 leading-snug">
                           {resource.title}
                         </h3>
                         <Badge variant={TYPE_BADGE_VARIANT[resource.type] ?? 'neutral'}>
@@ -224,7 +224,7 @@ export const ComplementaryContentViewer: React.FC = () => {
 
               {/* Quick Stats */}
               <Card>
-                <h4 className="font-display text-body font-semibold text-ink-900 m-0 mb-3">
+                <h4 className="font-display text-body font-semibold text-ink-900 mb-3">
                   Ressources disponibles
                 </h4>
                 <div className="flex flex-col gap-stack-xs">
@@ -244,7 +244,7 @@ export const ComplementaryContentViewer: React.FC = () => {
 
               {/* Related Topics */}
               <Card>
-                <h4 className="font-display text-body font-semibold text-ink-900 m-0 mb-3">
+                <h4 className="font-display text-body font-semibold text-ink-900 mb-3">
                   Sujets connexes
                 </h4>
                 <div className="flex flex-col gap-stack-xs">

@@ -106,7 +106,7 @@ export const CongratulationsCard: React.FC<CongratulationsCardProps> = ({
       )}
 
       <div className="flex flex-col gap-stack max-w-lg">
-        <h1 className="text-h1 font-display font-bold text-ink-900 leading-tight m-0">
+        <h1 className="text-h1 font-display font-bold text-ink-900 leading-tight">
           {title}
         </h1>
         {summary && (

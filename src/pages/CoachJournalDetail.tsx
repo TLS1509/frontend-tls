@@ -42,7 +42,7 @@ export default function CoachJournalDetail() {
       <div className="flex flex-col gap-section">
         <Card>
           <div className="flex flex-col gap-stack">
-            <h2 className="font-display font-semibold text-h3 text-ink-900 m-0">
+            <h2 className="font-display font-semibold text-h3 text-ink-900">
               Réflexion sur la progression de Marie
             </h2>
             <div className="flex items-center gap-stack text-caption text-ink-500">

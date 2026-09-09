@@ -90,7 +90,7 @@ export default function EvenementDetail() {
         <Card variant="tinted" tone="sun" className="flex items-center gap-section p-stack-lg">
           <Avatar name={EVENT.organizer.name} initials={EVENT.organizer.initials} size="lg" />
           <div className="flex flex-col gap-tight">
-            <h3 className="text-h3 font-bold text-ink-900 m-0">{EVENT.organizer.name}</h3>
+            <h3 className="text-h3 font-bold text-ink-900">{EVENT.organizer.name}</h3>
             <p className="text-body-sm text-ink-500 m-0">{EVENT.organizer.role}</p>
             <p className="text-caption text-ink-600 m-0">{EVENT.organizer.description}</p>
           </div>

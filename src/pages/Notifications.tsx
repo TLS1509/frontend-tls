@@ -189,7 +189,7 @@ export const Notifications: React.FC = () => {
               <Bell size={18} />
             </div>
             <div>
-              <h1 className="m-0 font-display text-h3 font-bold text-ink-900 leading-tight">
+              <h1 className="font-display text-h3 font-bold text-ink-900 leading-tight">
                 Notifications
               </h1>
               <p className="m-0 font-body text-caption text-ink-500">

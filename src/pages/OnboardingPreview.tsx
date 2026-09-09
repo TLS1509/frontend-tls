@@ -321,7 +321,7 @@ function VariantB({ onDone }: { onDone: () => void }) {
             <p className="font-body text-caption font-semibold uppercase tracking-wider text-secondary-600 m-0">
               Bienvenue sur TLS
             </p>
-            <h2 className="font-display text-h1 font-extrabold tracking-display text-ink-900 leading-tight m-0">
+            <h2 className="font-display text-h1 font-extrabold tracking-display text-ink-900 leading-tight">
               Ton prénom ?
             </h2>
           </div>
@@ -355,7 +355,7 @@ function VariantB({ onDone }: { onDone: () => void }) {
             <p className="font-body text-caption font-semibold uppercase tracking-wider text-secondary-600 m-0">
               1 / 2
             </p>
-            <h2 className="font-display text-h1 font-extrabold tracking-display text-ink-900 leading-tight m-0">
+            <h2 className="font-display text-h1 font-extrabold tracking-display text-ink-900 leading-tight">
               {firstName ? `${firstName}, quel est ton rôle ?` : 'Quel est ton rôle ?'}
             </h2>
             <p className="font-body text-body-sm text-ink-500 m-0">Appuie pour continuer →</p>
@@ -387,7 +387,7 @@ function VariantB({ onDone }: { onDone: () => void }) {
             <p className="font-body text-caption font-semibold uppercase tracking-wider text-secondary-600 m-0">
               2 / 2
             </p>
-            <h2 className="font-display text-h1 font-extrabold tracking-display text-ink-900 leading-tight m-0">
+            <h2 className="font-display text-h1 font-extrabold tracking-display text-ink-900 leading-tight">
               Tes priorités ?
             </h2>
             <p className="font-body text-body-sm text-ink-500 m-0">{goalHint}</p>
@@ -512,7 +512,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
         {substep === 0 && (
           <>
             <div className="flex flex-col gap-tight">
-              <h2 className="font-display text-h2 font-extrabold text-ink-900 m-0 leading-tight">
+              <h2 className="font-display text-h2 font-extrabold text-ink-900 leading-tight">
                 Dis-nous qui tu es
               </h2>
               <p className="font-body text-body text-ink-500 m-0">
@@ -572,7 +572,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
         {substep === 1 && (
           <>
             <div className="flex flex-col gap-tight">
-              <h2 className="font-display text-h2 font-extrabold text-ink-900 m-0 leading-tight">
+              <h2 className="font-display text-h2 font-extrabold text-ink-900 leading-tight">
                 Tes objectifs d'apprentissage
               </h2>
               <p className="font-body text-body text-ink-500 m-0">
@@ -614,7 +614,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
         {substep === 2 && (
           <>
             <div className="flex flex-col gap-tight">
-              <h2 className="font-display text-h2 font-extrabold text-ink-900 m-0 leading-tight">
+              <h2 className="font-display text-h2 font-extrabold text-ink-900 leading-tight">
                 {firstName ? `Parfait, ${firstName} !` : 'Ton profil est prêt !'}
               </h2>
               <p className="font-body text-body text-ink-500 m-0">
@@ -763,7 +763,7 @@ export default function OnboardingPreview() {
             <Sparkles size={14} aria-hidden />
             Comparatif — Variante {variant.toUpperCase()}
           </p>
-          <h1 className="m-0 font-display text-h2 font-extrabold tracking-display text-ink-900 leading-tight">
+          <h1 className="font-display text-h2 font-extrabold tracking-display text-ink-900 leading-tight">
             {VARIANT_META[variant].label}
           </h1>
           <p className="m-0 font-body text-body text-ink-500 leading-relaxed">

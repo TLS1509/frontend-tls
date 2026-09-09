@@ -100,7 +100,7 @@ export const WeeklyNewsletter: React.FC = () => {
             <TrendingUp size={11} /> Semaine #08
           </span>
 
-          <h1 className="m-0 font-display text-h1 sm:text-[3rem] font-extrabold leading-[1.05] tracking-tight text-primary-700">
+          <h1 className="font-display text-h1 sm:text-[3rem] font-extrabold leading-[1.05] tracking-tight text-primary-700">
             Actus de la semaine
           </h1>
 
@@ -129,7 +129,7 @@ export const WeeklyNewsletter: React.FC = () => {
         {/* Vidéo de la semaine */}
         <section className="flex flex-col gap-stack">
           <div className="flex items-baseline justify-between gap-stack-xs">
-            <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight">
+            <h2 className="font-display text-h3 font-bold text-ink-900 tracking-tight">
               Vidéo de la semaine
             </h2>
             <Button variant="ghost" size="sm" trailingIcon={<ArrowRight size={12} />} onClick={() => navigate('/veille')}>
@@ -155,7 +155,7 @@ export const WeeklyNewsletter: React.FC = () => {
             <div className="bg-white p-stack-lg flex flex-col gap-stack justify-between">
               <div className="flex flex-col gap-stack-xs">
                 <Badge variant="warm">Tutoriel vidéo</Badge>
-                <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight tracking-tight">
+                <h3 className="font-display text-h4 font-bold text-ink-900 leading-tight tracking-tight">
                   Construire un prompt structuré en 5 étapes
                 </h3>
                 <p className="m-0 font-body text-body-sm text-ink-600 leading-relaxed">
@@ -172,7 +172,7 @@ export const WeeklyNewsletter: React.FC = () => {
 
         {/* À la une */}
         <section className="flex flex-col gap-stack">
-          <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight">
+          <h2 className="font-display text-h3 font-bold text-ink-900 tracking-tight">
             À la une
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-stack sm:gap-stack">
@@ -190,7 +190,7 @@ export const WeeklyNewsletter: React.FC = () => {
                     </span>
                   </div>
                   <div className="p-stack bg-white flex flex-col gap-stack-xs">
-                    <h3 className="m-0 font-body text-body-sm font-bold text-ink-900 leading-snug">
+                    <h3 className="font-body text-body-sm font-bold text-ink-900 leading-snug">
                       {article.title}
                     </h3>
                     <span className="inline-flex items-center gap-tight font-body text-micro font-semibold text-primary-700">
@@ -205,7 +205,7 @@ export const WeeklyNewsletter: React.FC = () => {
 
         {/* Toutes les actus */}
         <section className="flex flex-col gap-stack">
-          <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight">
+          <h2 className="font-display text-h3 font-bold text-ink-900 tracking-tight">
             Toutes les actus
           </h2>
           <div className="flex flex-col rounded-2xl border border-ink-100 overflow-hidden">
@@ -264,7 +264,7 @@ export const WeeklyNewsletter: React.FC = () => {
           <span aria-hidden className="inline-flex items-center justify-center w-14 h-14 rounded-pill bg-white/15 backdrop-blur-glass-light">
             <Mail size={22} />
           </span>
-          <h3 className="m-0 font-display text-h3 font-bold tracking-tight">
+          <h3 className="font-display text-h3 font-bold tracking-tight">
             Recevez les actus chaque lundi
           </h3>
           <p className="m-0 font-body text-body text-white/85 max-w-prose">

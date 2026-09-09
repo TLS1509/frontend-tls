@@ -135,7 +135,7 @@ export const Dossier: React.FC = () => {
                 <span className="inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-pill bg-secondary-100 border border-secondary-200 text-micro font-bold uppercase tracking-wider text-secondary-800">
                   Dossier thématique
                 </span>
-                <h1 className="m-0 font-display text-h1 font-bold text-ink-900 leading-tight tracking-tight max-w-content">
+                <h1 className="font-display text-h1 font-bold text-ink-900 leading-tight tracking-tight max-w-content">
                   Transformation IA des parcours de formation professionnelle
                 </h1>
                 <div className="flex items-center gap-stack flex-wrap font-body text-caption text-ink-600">
@@ -182,7 +182,7 @@ export const Dossier: React.FC = () => {
 
                 {/* Section 1 */}
                 <section id="sec-contexte" className="flex flex-col gap-stack scroll-mt-24">
-                  <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight pb-3 border-b border-secondary-200">
+                  <h2 className="font-display text-h3 font-bold text-ink-900 tracking-tight pb-3 border-b border-secondary-200">
                     01 : Contexte & enjeux 2026
                   </h2>
                   <p className="m-0 font-body text-body text-ink-700 leading-relaxed">
@@ -201,7 +201,7 @@ export const Dossier: React.FC = () => {
 
                 {/* Section 2 */}
                 <section id="sec-transfo" className="flex flex-col gap-stack scroll-mt-24">
-                  <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight pb-3 border-b border-secondary-200">
+                  <h2 className="font-display text-h3 font-bold text-ink-900 tracking-tight pb-3 border-b border-secondary-200">
                     02 : Transformation par l'IA
                   </h2>
                   <p className="m-0 font-body text-body text-ink-700 leading-relaxed">
@@ -219,7 +219,7 @@ export const Dossier: React.FC = () => {
 
                 {/* Section 3 : KeyFinding grid */}
                 <section id="sec-points" className="flex flex-col gap-stack scroll-mt-24">
-                  <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight pb-3 border-b border-secondary-200">
+                  <h2 className="font-display text-h3 font-bold text-ink-900 tracking-tight pb-3 border-b border-secondary-200">
                     03 : Points clés & enseignements
                   </h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack">
@@ -238,7 +238,7 @@ export const Dossier: React.FC = () => {
 
                 {/* Section 4 : Big stats */}
                 <section id="sec-data" className="flex flex-col gap-stack scroll-mt-24">
-                  <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight pb-3 border-b border-secondary-200">
+                  <h2 className="font-display text-h3 font-bold text-ink-900 tracking-tight pb-3 border-b border-secondary-200">
                     04 : Données & Analyses
                   </h2>
 
@@ -268,7 +268,7 @@ export const Dossier: React.FC = () => {
 
                 {/* Section 5 : Conclusion brand card */}
                 <section id="sec-conclusion" className="flex flex-col gap-stack scroll-mt-24">
-                  <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight pb-3 border-b border-secondary-200">
+                  <h2 className="font-display text-h3 font-bold text-ink-900 tracking-tight pb-3 border-b border-secondary-200">
                     05 : Conclusions & recommandations
                   </h2>
 
@@ -307,7 +307,7 @@ export const Dossier: React.FC = () => {
               <Download size={22} />
             </span>
             <div className="flex flex-col gap-tight">
-              <h3 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight">
+              <h3 className="font-display text-h3 font-bold text-ink-900 tracking-tight">
                 Télécharger le dossier complet
               </h3>
               <p className="m-0 font-body text-body-sm text-ink-600">

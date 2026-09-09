@@ -91,7 +91,7 @@ export const MarketingGuideDetail: React.FC = () => {
           </FadeInWhenVisible>
 
           <FadeInWhenVisible direction="up" delay={0.1}>
-            <h1 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0 text-[clamp(2rem,4.5vw,3.25rem)]">
+            <h1 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight text-[clamp(2rem,4.5vw,3.25rem)]">
               {guide.title}
             </h1>
           </FadeInWhenVisible>
@@ -216,7 +216,7 @@ export const MarketingGuideDetail: React.FC = () => {
                       <span className="inline-flex items-center gap-tight font-body text-caption text-ink-500">
                         <FileText size={12} /> {g.pageCount} pages
                       </span>
-                      <h3 className="font-display text-body font-semibold font-bold text-ink-900 leading-tight m-0 group-hover:text-secondary-700 transition-colors duration-base">
+                      <h3 className="font-display text-body font-semibold font-bold text-ink-900 leading-tight group-hover:text-secondary-700 transition-colors duration-base">
                         {g.title}
                       </h3>
                       <div className="inline-flex items-center gap-tight font-body text-caption font-bold text-secondary-700 mt-auto pt-stack border-t border-ink-100">

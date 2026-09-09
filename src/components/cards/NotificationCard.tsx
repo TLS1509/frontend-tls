@@ -162,7 +162,7 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
         <div className="flex items-center gap-stack-xs min-w-0">
           <h4
             className={[
-              'm-0 font-body text-body-sm truncate',
+              'font-body text-body-sm truncate',
               unread ? 'font-bold text-ink-900' : 'font-semibold text-ink-800',
             ].join(' ')}
           >

@@ -1358,7 +1358,7 @@ const ShowcaseBloc: React.FC<{
     }
   >
     <div className="flex flex-col gap-tight">
-      <h4 className="m-0 font-display text-h4 text-ink-900">{titre}</h4>
+      <h4 className="font-display text-h4 text-ink-900">{titre}</h4>
       {note && <p className="m-0 font-body text-body-sm text-ink-600 max-w-[65ch]">{note}</p>}
     </div>
     {children}
@@ -4834,7 +4834,7 @@ const COMPONENTS: ComponentEntry[] = [
               </div>
               <div className="flex flex-col gap-stack-xs p-5">
                 <span className="font-body text-micro font-semibold uppercase tracking-wider text-ink-500">{item.category} · {item.publishedAt}</span>
-                <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight">{item.title}</h3>
+                <h3 className="font-display text-h4 font-bold text-ink-900 leading-tight">{item.title}</h3>
                 <span className="font-body text-caption text-ink-500"><User size={12} className="inline mr-0.5" /> {item.author} · ⏱ {item.readTime}</span>
                 <p className="m-0 font-body text-body-sm text-ink-600 leading-relaxed">{item.summary}</p>
                 <footer className="flex justify-between items-center pt-stack-xs border-t border-ink-100"><span className="text-caption font-bold text-accent-700">Lire →</span></footer>
@@ -4851,7 +4851,7 @@ const COMPONENTS: ComponentEntry[] = [
                 <button className="w-8 h-8 rounded-pill bg-white/70 text-ink-500 hover:text-ink-900 flex items-center justify-center"><Bookmark size={14} /></button>
               </div>
               <span className="font-body text-micro font-semibold uppercase tracking-wider text-accent-700">{item.category} · {item.publishedAt}</span>
-              <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight">{item.title}</h3>
+              <h3 className="font-display text-h4 font-bold text-ink-900 leading-tight">{item.title}</h3>
               <span className="font-body text-caption text-ink-500"><User size={12} className="inline mr-0.5" /> {item.author} · ⏱ {item.readTime}</span>
               <p className="m-0 font-body text-body-sm text-ink-700 leading-relaxed">{item.summary}</p>
               <footer className="flex justify-between items-center pt-stack-xs border-t border-white/60"><span className="text-caption font-bold text-accent-700">Lire →</span></footer>
@@ -4868,7 +4868,7 @@ const COMPONENTS: ComponentEntry[] = [
               <span className="absolute top-3 left-3 inline-flex items-center gap-tight px-2.5 py-1 rounded-pill bg-white/95 backdrop-blur-glass-light text-micro font-bold uppercase text-ink-900 shadow-sm"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
               <div className="absolute inset-x-0 bottom-0 p-5 text-white flex flex-col gap-tight">
                 <span className="font-body text-micro font-semibold uppercase tracking-wider text-white/80">{item.category} · {item.publishedAt}</span>
-                <h3 className="m-0 font-display text-h4 font-bold leading-tight text-white">{item.title}</h3>
+                <h3 className="font-display text-h4 font-bold leading-tight text-white">{item.title}</h3>
                 <div className="flex justify-between items-center text-caption text-white/90 mt-tight">
                   <span><User size={12} className="inline" /> {item.author} · ⏱ {item.readTime}</span>
                   <span className="font-bold">Lire →</span>
@@ -4892,7 +4892,7 @@ const COMPONENTS: ComponentEntry[] = [
               </button>
               <div className="absolute inset-x-3 bottom-3 rounded-xl bg-white/85 backdrop-blur-glass-heavy border border-white/60 p-stack flex flex-col gap-tight shadow-lg">
                 <span className="font-body text-micro font-bold uppercase tracking-wider text-primary-700">{item.category} · {item.publishedAt}</span>
-                <h3 className="m-0 font-display text-body-lg font-bold text-ink-900 leading-tight">{item.title}</h3>
+                <h3 className="font-display text-body-lg font-bold text-ink-900 leading-tight">{item.title}</h3>
                 <div className="flex items-center gap-stack-xs mt-1 font-body text-micro text-ink-600">
                   <User size={11} className="inline shrink-0" /><span>{item.author}</span>
                   <span aria-hidden>·</span>
@@ -4935,7 +4935,7 @@ const COMPONENTS: ComponentEntry[] = [
                   </div>
                   {/* Content : titre → meta → summary */}
                   <div className="flex flex-col justify-center gap-tight p-stack">
-                    <h3 className="m-0 font-display text-body-sm font-bold text-ink-900 leading-tight line-clamp-2">{it.title}</h3>
+                    <h3 className="font-display text-body-sm font-bold text-ink-900 leading-tight line-clamp-2">{it.title}</h3>
                     <div className="flex items-center gap-1.5 font-body text-micro text-ink-400 flex-wrap">
                       <User size={10} className="shrink-0" />
                       <span>{it.author}</span>
@@ -4968,7 +4968,7 @@ const COMPONENTS: ComponentEntry[] = [
                   </div>
                   {/* Content */}
                   <div className="flex-1 min-w-0 flex flex-col gap-tight px-stack py-3">
-                    <h3 className="m-0 font-display text-body-sm font-bold text-ink-900 leading-tight line-clamp-1">{it.title}</h3>
+                    <h3 className="font-display text-body-sm font-bold text-ink-900 leading-tight line-clamp-1">{it.title}</h3>
                     <div className="flex items-center gap-1.5 font-body text-micro text-ink-500 flex-wrap">
                       <User size={10} className="shrink-0" />
                       <span>{it.author}</span>
@@ -4999,7 +4999,7 @@ const COMPONENTS: ComponentEntry[] = [
                   </div>
                   {/* Title + meta */}
                   <div className="flex-1 min-w-0 flex flex-col gap-tight">
-                    <h4 className="m-0 font-display text-body-sm font-bold text-ink-900 truncate group-hover:text-primary-700 transition-colors">{it.title}</h4>
+                    <h4 className="font-display text-body-sm font-bold text-ink-900 truncate group-hover:text-primary-700 transition-colors">{it.title}</h4>
                     <p className="m-0 font-body text-micro text-ink-400 truncate">
                       <User size={9} className="inline mr-0.5" />{it.author} · {it.publishedAt} · ⏱ {it.readTime}
                     </p>
@@ -9082,7 +9082,7 @@ const Components: React.FC = () => {
                       id={`sub-${componentSlug(subCat)}`}
                       className="flex items-baseline gap-stack-xs mt-stack-lg first:mt-0 pb-2 border-b border-ink-100 scroll-mt-20"
                     >
-                      <h3 className="m-0 font-display text-h4 font-semibold text-ink-700">{subCat}</h3>
+                      <h3 className="font-display text-h4 font-semibold text-ink-700">{subCat}</h3>
                       <span className="text-caption text-ink-500">{list.length}</span>
                     </div>
                   )}

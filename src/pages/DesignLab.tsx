@@ -163,7 +163,7 @@ const Section: React.FC<{
   // passe sous l'en-tête sticky au saut d'ancre.
   <section id={id} className="scroll-mt-24 flex flex-col gap-stack">
     <header className="flex flex-col gap-tight">
-      <h2 className="flex items-center gap-stack-xs text-h3 font-bold tracking-headline text-ink-900 m-0">
+      <h2 className="flex items-center gap-stack-xs text-h3 font-bold tracking-headline text-ink-900">
         <span className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-primary-50 text-primary-700 shrink-0">
           {icon}
         </span>
@@ -1922,7 +1922,7 @@ const DecisionPanel: React.FC<{ onJump: (id: string) => void }> = ({ onJump }) =
   return (
     <section id="decisions" className="scroll-mt-24 flex flex-col gap-stack">
       <header className="flex flex-col gap-tight">
-        <h2 className="flex items-center gap-stack-xs text-h3 font-bold tracking-headline text-ink-900 m-0">
+        <h2 className="flex items-center gap-stack-xs text-h3 font-bold tracking-headline text-ink-900">
           <span className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-primary-50 text-primary-700 shrink-0">
             <ListChecks size={18} strokeWidth={2} />
           </span>
@@ -2108,7 +2108,7 @@ const Atelier: React.FC = () => {
   return (
     <section id="atelier" className="scroll-mt-24 flex flex-col gap-stack">
       <header className="flex flex-col gap-tight">
-        <h2 className="flex items-center gap-stack-xs text-h3 font-bold tracking-headline text-ink-900 m-0">
+        <h2 className="flex items-center gap-stack-xs text-h3 font-bold tracking-headline text-ink-900">
           <span className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-primary-50 text-primary-700 shrink-0">
             <FlaskConical size={18} strokeWidth={2} />
           </span>
@@ -2421,7 +2421,7 @@ const DesignLab: React.FC = () => {
       {/* ── En-tête sticky ──────────────────────────────────────────────── */}
       <header className="sticky top-0 z-sticky border-b border-ink-200 bg-white/90 backdrop-blur-glass-medium">
         <div className="mx-auto max-w-page px-4 sm:px-6 py-2 flex items-center gap-stack-xs">
-          <h1 className="text-body-sm font-bold tracking-snug text-ink-900 m-0 shrink-0 mr-1">Design Lab</h1>
+          <h1 className="text-body-sm font-bold tracking-snug text-ink-900 shrink-0 mr-1">Design Lab</h1>
 
           {/* Une seule ligne qui défile — 13 onglets ne doivent pas wrapper en
               un pavé qui mange le sticky. `-mx-1 px-1` pour que le focus ring ne
@@ -2669,7 +2669,7 @@ const DesignLab: React.FC = () => {
                   h3 à {px} px {px === 24 && <span className="text-success-fg font-bold">— proposé</span>}
                 </p>
                 <h4
-                  className="text-ink-900 m-0"
+                  className="text-ink-900"
                   style={{ fontFamily: "'League Spartan', sans-serif", fontSize: `${px}px`, fontWeight: 700, letterSpacing: '-0.025em', lineHeight: 1.35 }}
                 >
                   Prochaine session
@@ -3086,7 +3086,7 @@ const DesignLab: React.FC = () => {
           </p>
 
           {/* ── Encre minimale par rôle typo × fond ──────────────────────── */}
-          <h3 className="text-h4 font-bold tracking-snug text-ink-900 m-0 mt-stack">
+          <h3 className="text-h4 font-bold tracking-snug text-ink-900 mt-stack">
             Encre minimale par rôle typographique
           </h3>
           <p className="text-body-sm text-ink-600 m-0 max-w-prose">
@@ -3174,7 +3174,7 @@ const DesignLab: React.FC = () => {
         >
           <EncreArbitrage tick={tick} />
 
-          <h3 className="font-display text-h4 font-bold tracking-snug text-ink-900 m-0 pt-stack">
+          <h3 className="font-display text-h4 font-bold tracking-snug text-ink-900 pt-stack">
             Et la rampe elle-même ? — vos deux questions du 30/07
           </h3>
           <div className="rounded-xl border border-primary-200 bg-primary-50 p-4 flex flex-col gap-stack-xs">
@@ -3362,7 +3362,7 @@ const DesignLab: React.FC = () => {
 
         {/* ── Rappel Button réel ───────────────────────────────────────── */}
         <section className="flex flex-col gap-stack">
-          <h2 className="text-h4 font-bold tracking-snug text-ink-900 m-0">Composant Button réel, pour repère</h2>
+          <h2 className="text-h4 font-bold tracking-snug text-ink-900">Composant Button réel, pour repère</h2>
           <div className="flex flex-wrap items-center gap-stack rounded-xl border border-ink-200 bg-white p-4">
             <Button variant="primary">Primary</Button>
             <Button variant="secondary">Secondary</Button>

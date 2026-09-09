@@ -285,7 +285,7 @@ export const MenuLab: React.FC = () => (
   <div className="min-h-[100dvh] bg-ink-50/40">
     <div className="max-w-wide mx-auto px-gutter py-band flex flex-col gap-chapter">
       <header className="flex flex-col gap-group max-w-3xl">
-        <h1 className="font-display text-section text-ink-900 m-0">
+        <h1 className="font-display text-section text-ink-900">
           Menu marketing : quatre patrons à comparer
         </h1>
         <p className="font-body text-lede text-ink-700 m-0 [text-wrap:pretty]">
@@ -303,7 +303,7 @@ export const MenuLab: React.FC = () => (
               <span className="font-body text-caption font-bold text-secondary-600">
                 Variante {v.key} · {v.source}
               </span>
-              <h2 className="font-display text-title text-ink-900 m-0">{v.titre}</h2>
+              <h2 className="font-display text-title text-ink-900">{v.titre}</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-group max-w-4xl pt-group">
                 <p className="font-body text-body text-ink-700 m-0">
                   <span className="font-bold text-primary-800">Pour. </span>

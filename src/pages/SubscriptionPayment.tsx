@@ -196,7 +196,7 @@ export const SubscriptionPayment: React.FC = () => {
           <p className="m-0 font-body text-caption font-semibold uppercase tracking-wider text-primary-600">
             Étape paiement · Abonnement
           </p>
-          <h1 className="m-0 font-display text-h2 font-extrabold tracking-display text-ink-900 leading-tight">
+          <h1 className="font-display text-h2 font-extrabold tracking-display text-ink-900 leading-tight">
             Choisis ta formule
           </h1>
           <p className="m-0 font-body text-body text-ink-500 leading-relaxed max-w-prose mx-auto">
@@ -258,7 +258,7 @@ export const SubscriptionPayment: React.FC = () => {
                     {plan.icon}
                   </span>
                   <div className="flex flex-col">
-                    <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight">
+                    <h3 className="font-display text-h4 font-bold text-ink-900 leading-tight">
                       {plan.name}
                     </h3>
                     <p className="m-0 font-body text-caption text-ink-500">

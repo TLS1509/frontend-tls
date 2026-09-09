@@ -189,7 +189,7 @@ export const Recherche: React.FC = () => {
         <div className="flex items-start gap-stack-xs">
           <Avatar name={item.title} tint={item.tone === 'warm' ? 'warm' : item.tone === 'sun' ? 'sun' : 'brand'} size="lg" />
           <div className="flex-1 min-w-0">
-            <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight">
+            <h3 className="font-display text-h4 font-bold text-ink-900 leading-tight">
               {item.title}
             </h3>
             <p className="m-0 mt-1 font-body text-caption text-ink-500">

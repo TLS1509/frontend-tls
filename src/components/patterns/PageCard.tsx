@@ -173,7 +173,7 @@ export const PageCard: React.FC<{ item: PageCardItem; showThumbnail?: boolean }>
 
       {/* Content */}
       <div className="flex-1 flex flex-col gap-stack-xs px-5 py-stack">
-        <h3 className="font-display text-h4 font-semibold text-ink-900 m-0 leading-tight">
+        <h3 className="font-display text-h4 font-semibold text-ink-900 leading-tight">
           {item.title}
         </h3>
         {item.description && (

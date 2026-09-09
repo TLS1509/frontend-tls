@@ -93,7 +93,7 @@ export default function OnboardingTutorial() {
             <Compass size={14} aria-hidden="true" />
             Tutoriel plateforme
           </p>
-          <h1 className="m-0 font-display text-h2 font-extrabold tracking-display text-ink-900 leading-tight">
+          <h1 className="font-display text-h2 font-extrabold tracking-display text-ink-900 leading-tight">
             Découvre la plateforme
           </h1>
           <p className="m-0 font-body text-body text-ink-500 leading-relaxed">

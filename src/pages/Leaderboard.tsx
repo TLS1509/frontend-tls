@@ -127,7 +127,7 @@ export const Leaderboard: React.FC = () => {
 
         {/* Section heading + period filter */}
         <div className="flex items-baseline justify-between gap-stack-xs flex-wrap">
-          <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight text-balance">
+          <h2 className="font-display text-h3 font-bold text-ink-900 tracking-tight text-balance">
             Classement
           </h2>
           <div className="flex gap-tight p-1 rounded-pill bg-ink-100">
@@ -267,7 +267,7 @@ export const Leaderboard: React.FC = () => {
               <Zap size={20} strokeWidth={1.8} />
             </div>
             <div>
-              <h3 className="m-0 font-display text-h4 font-bold text-ink-900 flex items-center gap-stack-xs">
+              <h3 className="font-display text-h4 font-bold text-ink-900 flex items-center gap-stack-xs">
                 <Sparkles size={16} className="text-primary-500" />
                 Objectif de la semaine
               </h3>

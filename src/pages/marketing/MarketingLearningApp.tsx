@@ -62,7 +62,7 @@ const Hero: React.FC = () => {
             <Layers size={14} />
             Work-Integrated Learning & SBO Operating System
           </p>
-          <h1 className="font-display font-extrabold text-ink-900 leading-[1.02] tracking-tight m-0 [text-wrap:balance] text-[clamp(2.5rem,5.5vw,4.25rem)]">
+          <h1 className="font-display font-extrabold text-ink-900 leading-[1.02] tracking-tight [text-wrap:balance] text-[clamp(2.5rem,5.5vw,4.25rem)]">
             Formez vos équipes. Déployez l'IA.{' '}
             <span className="text-primary-700">Transformez votre entreprise en SBO.</span>
           </h1>
@@ -112,7 +112,7 @@ const Probleme: React.FC = () => (
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-section items-start">
         <div className="lg:col-span-5">
           <FadeInWhenVisible>
-            <h2 className="font-display font-extrabold leading-[1.08] tracking-tight m-0 [text-wrap:balance] text-[clamp(1.9rem,3.6vw,2.75rem)]">
+            <h2 className="font-display font-extrabold leading-[1.08] tracking-tight [text-wrap:balance] text-[clamp(1.9rem,3.6vw,2.75rem)]">
               Trois constats qui coûtent cher aux organisations.
             </h2>
           </FadeInWhenVisible>
@@ -122,7 +122,7 @@ const Probleme: React.FC = () => (
             <FadeInWhenVisible key={c.title} delay={i * 0.07}>
               <div className="border-t border-white/15 py-stack-lg first:border-t-0">
                 <div className="flex flex-col gap-stack-xs">
-                  <h3 className="font-display text-h4 font-bold text-white m-0 leading-tight">{c.title}</h3>
+                  <h3 className="font-display text-h4 font-bold text-white leading-tight">{c.title}</h3>
                   <p className="font-body text-body text-white/70 leading-relaxed m-0 max-w-xl">{c.detail}</p>
                 </div>
               </div>
@@ -158,7 +158,7 @@ const Moteur: React.FC = () => (
   <section className="bg-white">
     <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
       <FadeInWhenVisible>
-        <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)] max-w-3xl">
+        <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)] max-w-3xl">
           Le moteur de performance :{' '}
           <span className="text-primary-700">Learn → Do → Match</span>.
         </h2>
@@ -170,7 +170,7 @@ const Moteur: React.FC = () => (
             <div className="flex h-full flex-col gap-stack border-t-2 border-primary-200 pt-stack-lg">
               <div className="flex items-baseline gap-stack-xs">
                 <span className="font-display text-h1 font-extrabold text-primary-300 leading-none">{e.num}</span>
-                <h3 className="font-display text-h2 font-extrabold text-ink-900 m-0 leading-none">{e.verbe}</h3>
+                <h3 className="font-display text-h2 font-extrabold text-ink-900 leading-none">{e.verbe}</h3>
               </div>
               <p className="font-body text-body text-ink-600 leading-relaxed m-0">{e.detail}</p>
             </div>
@@ -298,7 +298,7 @@ const Piliers: React.FC = () => (
   <section className="bg-primary-50/40">
     <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
       <FadeInWhenVisible>
-        <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)] max-w-3xl">
+        <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)] max-w-3xl">
           Cinq piliers, une seule plateforme.
         </h2>
       </FadeInWhenVisible>
@@ -312,7 +312,7 @@ const Piliers: React.FC = () => (
                   {p.icon}
                   {p.kicker}
                 </span>
-                <h3 className="font-display text-h3 font-bold text-ink-900 m-0 leading-tight [text-wrap:balance]">
+                <h3 className="font-display text-h3 font-bold text-ink-900 leading-tight [text-wrap:balance]">
                   {p.title}
                 </h3>
               </div>
@@ -405,7 +405,7 @@ const Bibliotheque: React.FC = () => {
               <LibraryBig size={14} />
               La Bibliothèque de compétences
             </p>
-            <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)]">
+            <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)]">
               Oubliez les catalogues de cours.{' '}
               <span className="text-primary-700">Pilotez des compétences vivantes et mesurables.</span>
             </h2>
@@ -449,7 +449,7 @@ const Bibliotheque: React.FC = () => {
         <FadeInWhenVisible>
           <div className="rounded-2xl bg-primary-50/60 p-stack-lg sm:p-section flex flex-col gap-stack-lg">
             <div className="flex flex-col gap-stack-xs">
-              <h3 className="font-display text-h3 font-bold text-ink-900 m-0 leading-tight">
+              <h3 className="font-display text-h3 font-bold text-ink-900 leading-tight">
                 Explorez une brique de compétence.
               </h3>
               <p className="font-body text-body-sm text-ink-600 m-0">
@@ -484,7 +484,7 @@ const Bibliotheque: React.FC = () => {
                   </span>
                   <span className="font-body text-caption text-ink-500">{fiche.domaine}</span>
                 </div>
-                <h4 className="font-display text-h4 font-extrabold text-ink-900 m-0 leading-tight">
+                <h4 className="font-display text-h4 font-extrabold text-ink-900 leading-tight">
                   {fiche.competence}
                 </h4>
                 <div className="flex flex-wrap gap-stack-xs" role="group" aria-label="Choisir un niveau Dreyfus">
@@ -547,7 +547,7 @@ const ActifStrategique: React.FC = () => (
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-section items-start">
         <div className="lg:col-span-7 flex flex-col gap-stack-lg">
           <FadeInWhenVisible>
-            <h2 className="font-display font-extrabold text-white leading-[1.05] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)]">
+            <h2 className="font-display font-extrabold text-white leading-[1.05] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)]">
               Un actif de compétences qui prend de la valeur{' '}
               <span className="text-accent-400">à mesure que vous l'utilisez</span>.
             </h2>
@@ -565,7 +565,7 @@ const ActifStrategique: React.FC = () => (
         </div>
         <FadeInWhenVisible delay={0.1} className="lg:col-span-5">
           <div className="flex flex-col gap-stack rounded-2xl bg-white/10 p-stack-lg">
-            <h3 className="font-display text-h4 font-bold text-white m-0 leading-tight">
+            <h3 className="font-display text-h4 font-bold text-white leading-tight">
               Du Skills-Based au Matching Projets
             </h3>
             <p className="font-body text-body-sm text-white/75 leading-relaxed m-0">
@@ -588,7 +588,7 @@ const CtaFinal: React.FC = () => (
       <FadeInWhenVisible>
         <div className="relative overflow-hidden rounded-2xl bg-ink-900 text-white px-6 sm:px-10 lg:px-16 py-16 sm:py-20">
           <div className="relative max-w-content flex flex-col gap-stack-lg">
-            <h2 className="font-display font-extrabold text-white leading-[1.04] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.5vw,3.5rem)]">
+            <h2 className="font-display font-extrabold text-white leading-[1.04] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.5vw,3.5rem)]">
               Voyez la Learning App fonctionner sur vos cas d'usage.
             </h2>
             <p className="font-body text-body-lg text-white/80 leading-relaxed m-0 max-w-2xl">

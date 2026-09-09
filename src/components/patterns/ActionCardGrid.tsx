@@ -59,7 +59,7 @@ export const ActionCardGrid: React.FC<ActionCardGridProps> = ({
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-50 to-primary-100 text-primary-600 transition-transform group-hover:scale-110 shrink-0">
             {item.icon}
           </div>
-          <h3 className="m-0 text-h4 font-display font-semibold text-ink-900 leading-snug">
+          <h3 className="text-h4 font-display font-semibold text-ink-900 leading-snug">
             {item.title}
           </h3>
           <p className="m-0 text-body-sm text-ink-500 leading-relaxed">{item.description}</p>

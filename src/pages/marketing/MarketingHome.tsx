@@ -80,7 +80,7 @@ const Hero: React.FC = () => {
           </p>
 
           <h1
-            className="font-display text-hero text-ink-900 m-0 [text-wrap:balance]"
+            className="font-display text-hero text-ink-900 [text-wrap:balance]"
             aria-label="Ne formez plus pour former. Bâtissez votre moteur de performance."
           >
             <span className="block">Ne formez plus pour former.</span>
@@ -126,7 +126,7 @@ const Manifeste: React.FC = () => (
     <div className={`${SHELL} py-band flex flex-col gap-flow`}>
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-flow items-start">
         <FadeInWhenVisible className="lg:col-span-6">
-          <h2 className="font-display text-section text-ink-900 m-0 [text-wrap:balance]">
+          <h2 className="font-display text-section text-ink-900 [text-wrap:balance]">
             Le poste est mort. L'avenir appartient aux compétences.
           </h2>
         </FadeInWhenVisible>
@@ -190,7 +190,7 @@ const Moteur: React.FC = () => (
   <section>
     <div className={`${SHELL} py-band flex flex-col gap-flow`}>
       <FadeInWhenVisible>
-        <h2 className="font-display text-section text-ink-900 m-0 [text-wrap:balance] max-w-3xl">
+        <h2 className="font-display text-section text-ink-900 [text-wrap:balance] max-w-3xl">
           Le cycle <span className="text-primary-700">Learn → Do → Match</span> :
           la formation devient un actif stratégique.
         </h2>
@@ -203,7 +203,7 @@ const Moteur: React.FC = () => (
               <span className="font-body text-caption font-bold tabular-nums text-primary-500">
                 {e.num}
               </span>
-              <h3 className="font-display text-title text-ink-900 m-0">
+              <h3 className="font-display text-title text-ink-900">
                 {e.verbe}
                 <span className="block font-body text-body-sm font-bold text-secondary-600 mt-1">
                   {e.sousTitre}
@@ -259,7 +259,7 @@ const Ecosysteme: React.FC = () => (
   <section>
     <div className={`${SHELL} py-band flex flex-col gap-flow`}>
       <FadeInWhenVisible>
-        <h2 className="font-display text-section text-ink-900 m-0 [text-wrap:balance] max-w-3xl">
+        <h2 className="font-display text-section text-ink-900 [text-wrap:balance] max-w-3xl">
           Tout ce dont vous avez besoin pour opérer votre transition SBO.
         </h2>
       </FadeInWhenVisible>
@@ -276,7 +276,7 @@ const Ecosysteme: React.FC = () => (
                   <span className="font-body text-caption font-bold text-secondary-600">
                     {o.role}
                   </span>
-                  <h3 className="font-display text-title text-ink-900 m-0 transition-colors duration-base group-hover:text-primary-700">
+                  <h3 className="font-display text-title text-ink-900 transition-colors duration-base group-hover:text-primary-700">
                     {o.title}
                   </h3>
                 </div>
@@ -308,7 +308,7 @@ const Ecosysteme: React.FC = () => (
           className="group flex flex-col sm:flex-row sm:items-end justify-between gap-flow rounded-2xl bg-primary-50 ring-1 ring-primary-100 p-flow transition-colors duration-base hover:bg-primary-100/70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
         >
           <div className="flex flex-col gap-group max-w-2xl">
-            <h3 className="font-display text-title text-ink-900 m-0 [text-wrap:balance]">
+            <h3 className="font-display text-title text-ink-900 [text-wrap:balance]">
               Passez à l'échelle avec la Learning App TLS.
             </h3>
             <p className="font-body text-body text-ink-600 leading-relaxed m-0">
@@ -339,7 +339,7 @@ const Reassurance: React.FC = () => (
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-flow items-start">
         <div className="lg:col-span-7 flex flex-col gap-flow">
           <FadeInWhenVisible>
-            <h2 className="font-display text-section text-ink-900 m-0 [text-wrap:balance]">
+            <h2 className="font-display text-section text-ink-900 [text-wrap:balance]">
               L'alliance de l'ingénierie pédagogique de pointe et de
               l'Intelligence Artificielle.
             </h2>
@@ -362,7 +362,7 @@ const Reassurance: React.FC = () => (
 
         <FadeInWhenVisible delay={0.12} className="lg:col-span-4 lg:col-start-9">
           <div className="flex flex-col gap-group border-t lg:border-t-0 lg:border-l border-ink-200 pt-flow lg:pt-0 lg:pl-flow">
-            <h3 className="font-display text-feature text-ink-900 m-0">
+            <h3 className="font-display text-feature text-ink-900">
               Partenaire stratégique de C-Campus
             </h3>
             <p className="font-body text-body text-ink-600 leading-relaxed m-0">
@@ -420,7 +420,7 @@ const DoubleCta: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-flow items-start">
               {/* Bloc chaud */}
               <div className="lg:col-span-7 flex flex-col gap-flow">
-                <h2 className="font-display text-section text-white m-0 [text-wrap:balance]">
+                <h2 className="font-display text-section text-white [text-wrap:balance]">
                   Prêt à transformer votre organisation ?
                 </h2>
                 <p className="font-body text-lede text-white/75 m-0 max-w-xl [text-wrap:pretty]">
@@ -450,7 +450,7 @@ const DoubleCta: React.FC = () => {
               {/* Bloc froid — séparé par un filet, pas par une carte */}
               <div className="lg:col-span-4 lg:col-start-9 flex flex-col gap-flow border-t lg:border-t-0 lg:border-l border-white/15 pt-flow lg:pt-0 lg:pl-flow">
                 <div className="flex flex-col gap-group">
-                  <h3 className="font-display text-feature text-white m-0">
+                  <h3 className="font-display text-feature text-white">
                     Pas encore prêt ? Restez en veille.
                   </h3>
                   <p className="font-body text-body text-white/70 leading-relaxed m-0">

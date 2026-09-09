@@ -105,7 +105,7 @@ export default function EvenementHub() {
                   </Badge>
                 )}
               </div>
-              <h2 className="text-h3 font-display font-bold text-ink-900 m-0">{featured.title}</h2>
+              <h2 className="text-h3 font-display font-bold text-ink-900">{featured.title}</h2>
               <p className="text-body-sm text-ink-500 m-0">{featured.description}</p>
               {featured.maxParticipants && (
                 <ProgressBar
@@ -179,7 +179,7 @@ export default function EvenementHub() {
                     )}
                   </div>
 
-                  <h3 className="text-body font-semibold text-ink-900 m-0">{ev.title}</h3>
+                  <h3 className="text-body font-semibold text-ink-900">{ev.title}</h3>
 
                   <p className="text-caption text-ink-500 m-0 inline-flex items-center gap-1.5 flex-wrap">
                     <Calendar size={12} />

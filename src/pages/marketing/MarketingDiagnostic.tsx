@@ -327,7 +327,7 @@ export const MarketingDiagnostic: React.FC = () => {
                   <Gauge size={14} />
                   Auto-diagnostic gratuit
                 </p>
-                <h1 className="font-display font-extrabold text-ink-900 leading-[1.02] tracking-tight m-0 [text-wrap:balance] text-[clamp(2.25rem,5vw,3.75rem)]">
+                <h1 className="font-display font-extrabold text-ink-900 leading-[1.02] tracking-tight [text-wrap:balance] text-[clamp(2.25rem,5vw,3.75rem)]">
                   Évaluez la maturité de votre organisation{' '}
                   <span className="text-primary-700">en 3 minutes.</span>
                 </h1>
@@ -352,7 +352,7 @@ export const MarketingDiagnostic: React.FC = () => {
                           </span>
                           <span className="font-body text-caption font-bold text-ink-500">{b.cible}</span>
                         </div>
-                        <h2 className="font-display text-h3 font-bold text-ink-900 m-0 leading-tight">{b.label}</h2>
+                        <h2 className="font-display text-h3 font-bold text-ink-900 leading-tight">{b.label}</h2>
                         <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">{b.pitch}</p>
                         <ul className="flex flex-col gap-stack-xs m-0 p-0 list-none">
                           {b.bullets.map((bullet) => (
@@ -399,7 +399,7 @@ export const MarketingDiagnostic: React.FC = () => {
                 />
               </div>
 
-              <h2 className="font-display text-h3 font-extrabold text-ink-900 m-0 leading-tight [text-wrap:balance]">
+              <h2 className="font-display text-h3 font-extrabold text-ink-900 leading-tight [text-wrap:balance]">
                 {qIndex + 1}. {bank.questions[qIndex].title}
               </h2>
 
@@ -452,7 +452,7 @@ export const MarketingDiagnostic: React.FC = () => {
                 {bank.icon}
                 Diagnostic {bank.label}
               </span>
-              <h2 className="font-display text-h2 font-extrabold text-ink-900 m-0 leading-tight [text-wrap:balance]">
+              <h2 className="font-display text-h2 font-extrabold text-ink-900 leading-tight [text-wrap:balance]">
                 Deux dernières questions, en toute liberté.
               </h2>
               <p className="font-body text-body text-ink-600 m-0">
@@ -505,7 +505,7 @@ export const MarketingDiagnostic: React.FC = () => {
                     {bank.icon}
                     Diagnostic {bank.label}
                   </span>
-                  <h2 className={`font-display text-h2 font-extrabold m-0 leading-tight ${bank.accent.text}`}>
+                  <h2 className={`font-display text-h2 font-extrabold leading-tight ${bank.accent.text}`}>
                     {profile.name}
                   </h2>
                   <p className="font-body text-body-lg text-ink-700 leading-relaxed m-0 max-w-xl">
@@ -520,7 +520,7 @@ export const MarketingDiagnostic: React.FC = () => {
                     <Lock size={20} />
                   </span>
                   <div className="flex flex-col gap-stack-xs">
-                    <h3 className="font-display text-h4 font-extrabold text-ink-900 m-0 leading-tight">
+                    <h3 className="font-display text-h4 font-extrabold text-ink-900 leading-tight">
                       Débloquez votre rapport d'analyse complet.
                     </h3>
                     <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">
@@ -595,7 +595,7 @@ export const MarketingDiagnostic: React.FC = () => {
           {phase === 'report' && (
             <motion.div {...reveal} className="mx-auto flex w-full max-w-medium flex-col gap-section-lg">
               <div className="flex flex-col gap-stack-xs">
-                <h2 className="font-display text-h2 font-extrabold text-ink-900 m-0 leading-tight [text-wrap:balance]">
+                <h2 className="font-display text-h2 font-extrabold text-ink-900 leading-tight [text-wrap:balance]">
                   Merci {lead.firstName}, votre rapport est débloqué.
                 </h2>
                 <p className="font-body text-body-lg text-ink-600 m-0">
@@ -606,7 +606,7 @@ export const MarketingDiagnostic: React.FC = () => {
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-stack-lg rounded-2xl bg-white p-stack-lg ring-1 ring-ink-200">
                 <ScoreRing score={score} ringClass={bank.accent.ring} />
                 <div className="flex flex-col gap-stack-xs">
-                  <h3 className={`font-display text-h3 font-extrabold m-0 leading-tight ${bank.accent.text}`}>
+                  <h3 className={`font-display text-h3 font-extrabold leading-tight ${bank.accent.text}`}>
                     {profile.name}
                   </h3>
                   <p className="font-body text-body text-ink-700 leading-relaxed m-0 max-w-xl">{profile.synthesis}</p>
@@ -614,7 +614,7 @@ export const MarketingDiagnostic: React.FC = () => {
               </div>
 
               <div className="flex flex-col gap-stack">
-                <h3 className="font-display text-h4 font-bold text-ink-900 m-0">Récapitulatif de vos réponses</h3>
+                <h3 className="font-display text-h4 font-bold text-ink-900">Récapitulatif de vos réponses</h3>
                 <ol className="flex flex-col m-0 p-0 list-none">
                   {bank.questions.map((q, i) => {
                     const a = answers[i];
@@ -637,7 +637,7 @@ export const MarketingDiagnostic: React.FC = () => {
               </div>
 
               <div className="flex flex-col gap-stack">
-                <h3 className="font-display text-h4 font-bold text-ink-900 m-0">Vos réponses libres</h3>
+                <h3 className="font-display text-h4 font-bold text-ink-900">Vos réponses libres</h3>
                 {bank.openQuestions.map((q, i) => (
                   <div key={q} className="flex flex-col gap-1 border-t border-ink-200/70 py-stack first:border-t-0">
                     <span className="font-body text-body-sm font-bold text-ink-900">{q}</span>
@@ -647,7 +647,7 @@ export const MarketingDiagnostic: React.FC = () => {
               </div>
 
               <div className="flex flex-col gap-stack rounded-2xl bg-primary-50 p-stack-lg">
-                <h3 className="font-display text-h4 font-bold text-ink-900 m-0">Envie d'aller plus loin ?</h3>
+                <h3 className="font-display text-h4 font-bold text-ink-900">Envie d'aller plus loin ?</h3>
                 <p className="font-body text-body text-ink-700 leading-relaxed m-0">
                   Réservez 15 minutes avec un fondateur pour décrypter vos
                   résultats et identifier vos priorités d'action.

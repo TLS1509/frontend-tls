@@ -52,7 +52,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
         {icon ?? <Search size={36} strokeWidth={1.75} />}
       </span>
       <div className="flex flex-col gap-stack-xs max-w-[440px]">
-        <h3 className="font-display text-h3 font-bold text-ink-900 m-0 leading-tight text-balance">
+        <h3 className="font-display text-h3 font-bold text-ink-900 leading-tight text-balance">
           {title}
         </h3>
         {description && (

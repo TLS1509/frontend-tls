@@ -70,7 +70,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
 
         <h1
           className={[
-            'm-0 font-display font-extrabold text-ink-900 leading-[1.1] tracking-tight',
+            'font-display font-extrabold text-ink-900 leading-[1.1] tracking-tight',
             tight ? 'text-h2' : 'text-[clamp(1.875rem,3.5vw,2.75rem)]',
           ].join(' ')}
         >

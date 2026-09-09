@@ -122,7 +122,7 @@ export const StepCard: React.FC<StepCardProps> = ({
               {label.text}
             </span>
           </div>
-          <h3 className="m-0 text-h4 font-display font-bold text-ink-900 leading-snug">{title}</h3>
+          <h3 className="text-h4 font-display font-bold text-ink-900 leading-snug">{title}</h3>
           {lessonCount !== undefined && (
             <span className="inline-flex items-center gap-tight text-caption text-ink-500 mt-1">
               <Clock size={12} className="text-ink-600" />

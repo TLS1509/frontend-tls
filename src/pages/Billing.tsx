@@ -114,7 +114,7 @@ const SubscriptionTab: React.FC<{
           </div>
           <div className="flex flex-col gap-tight">
             <div className="flex items-center gap-stack-xs flex-wrap">
-              <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight">
+              <h3 className="font-display text-h4 font-bold text-ink-900 leading-tight">
                 {tierConfig.name}
               </h3>
               <Badge variant="brand">Actif</Badge>

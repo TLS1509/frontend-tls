@@ -302,7 +302,7 @@ export const PageHero: React.FC<PageHeroProps> = ({
       )}
 
       <h1 className={[
-        'font-display m-0 leading-[1.1] text-balance',
+        'font-display leading-[1.1] text-balance',
         isFlat && !compact
           ? 'text-h1 font-extrabold tracking-display'
           : isFlat && compact

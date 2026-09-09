@@ -84,7 +84,7 @@ export const LearningFlow: React.FC = () => {
               <BookOpen size={11} aria-hidden />
               Documentation
             </span>
-            <h1 className="m-0 font-display text-h2 font-bold text-ink-900 tracking-headline">
+            <h1 className="font-display text-h2 font-bold text-ink-900 tracking-headline">
               Learning App Flow
             </h1>
             <p className="m-0 font-body text-body-sm text-ink-500 max-w-2xl">
@@ -119,7 +119,7 @@ export const LearningFlow: React.FC = () => {
                 <div className="flex-1 flex flex-col gap-2 pt-1">
                   <div className="flex items-start justify-between gap-stack">
                     <div className="flex flex-col gap-tight flex-1">
-                      <h2 className="m-0 font-display text-h4 font-bold text-ink-900">
+                      <h2 className="font-display text-h4 font-bold text-ink-900">
                         {idx + 1}. {step.title}
                       </h2>
                       <p className="m-0 font-body text-body-sm text-ink-500">

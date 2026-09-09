@@ -154,7 +154,7 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
           </div>
 
           {/* Rôle 2 — titre héros */}
-          <h2 className="font-display font-bold leading-[1.1] tracking-headline m-0 text-ink-900 text-[1.3rem] sm:text-[1.55rem] text-balance">
+          <h2 className="font-display font-bold leading-[1.1] tracking-headline text-ink-900 text-[1.3rem] sm:text-[1.55rem] text-balance">
             {parcoursTitle}
           </h2>
 

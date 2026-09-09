@@ -119,7 +119,7 @@ export const CelebrationModal: React.FC<CelebrationModalProps> = ({
         {/* Title — solid color + weight emphasis (anti-pattern: avoid bg-clip-text gradients) */}
         <h2
           id="celebration-modal-title"
-          className="relative m-0 mb-3 font-display text-h1 font-extrabold tracking-display leading-tight text-secondary-700"
+          className="relative mb-3 font-display text-h1 font-extrabold tracking-display leading-tight text-secondary-700"
         >
           {title}
         </h2>

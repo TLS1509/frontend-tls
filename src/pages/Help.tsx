@@ -146,7 +146,7 @@ export const Help: React.FC = () => {
 
         {/* FAQ */}
         <section>
-          <h2 className="m-0 mb-stack font-display text-h3 font-bold text-ink-900 tracking-headline">
+          <h2 className="mb-stack font-display text-h3 font-bold text-ink-900 tracking-headline">
             Questions fréquentes
           </h2>
           <div className="flex flex-col gap-stack-xs">
@@ -192,7 +192,7 @@ export const Help: React.FC = () => {
         {/* Assistant IA */}
         <section>
           <div className="flex items-center gap-stack-xs mb-stack">
-            <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight">
+            <h2 className="font-display text-h3 font-bold text-ink-900 tracking-tight">
               Assistant IA
             </h2>
             <Badge variant="brand">
@@ -255,7 +255,7 @@ export const Help: React.FC = () => {
 
         {/* Contacter le support */}
         <section>
-          <h2 className="m-0 mb-stack font-display text-h3 font-bold text-ink-900 tracking-tight">
+          <h2 className="mb-stack font-display text-h3 font-bold text-ink-900 tracking-tight">
             Contacter le support
           </h2>
           <div className="grid grid-cols-1 gap-stack-lg sm:grid-cols-3">

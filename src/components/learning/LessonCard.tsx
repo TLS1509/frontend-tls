@@ -133,7 +133,7 @@ export const LessonCard: React.FC<LessonCardProps> = ({
       <div className={['flex flex-col gap-stack-xs', locked ? 'opacity-40' : ''].filter(Boolean).join(' ')}>
         {/* Title + Badge */}
         <div className="flex items-start justify-between gap-stack-xs">
-          <h3 className="m-0 text-h4 font-display font-semibold text-ink-900 leading-snug line-clamp-2 flex-1">
+          <h3 className="text-h4 font-display font-semibold text-ink-900 leading-snug line-clamp-2 flex-1">
             {title}
           </h3>
           <Badge variant={DIFFICULTY_VARIANTS[difficulty]}>{DIFFICULTY_LABELS[difficulty]}</Badge>

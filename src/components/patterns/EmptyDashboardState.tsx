@@ -62,7 +62,7 @@ export const EmptyDashboardState: React.FC<EmptyDashboardStateProps> = ({
     <section className={wrapperClasses} aria-label="Premiers pas">
       {/* Orienting header — oriente, ne ré-accueille pas (le hero a déjà salué). */}
       <div className="flex flex-col gap-tight max-w-2xl">
-        <h2 className="text-h3 font-display font-bold text-ink-900 tracking-headline leading-tight m-0 text-balance">
+        <h2 className="text-h3 font-display font-bold text-ink-900 tracking-headline leading-tight text-balance">
           Par où commencer&nbsp;?
         </h2>
         <p className="text-body text-ink-600 leading-relaxed m-0">
@@ -81,7 +81,7 @@ export const EmptyDashboardState: React.FC<EmptyDashboardStateProps> = ({
           <Play size={8} fill="currentColor" aria-hidden="true" /> Premier pas
         </span>
 
-        <h3 className="font-display font-bold leading-[1.05] tracking-display m-0 text-balance text-[1.7rem] md:text-[2.1rem] text-secondary-800">
+        <h3 className="font-display font-bold leading-[1.05] tracking-display text-balance text-[1.7rem] md:text-[2.1rem] text-secondary-800">
           Démarre ton premier parcours
         </h3>
 

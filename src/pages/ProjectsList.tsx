@@ -122,7 +122,7 @@ const ProjectsList: React.FC = () => {
                         <Badge variant={TYPE_VARIANTS[p.type]}>{TYPE_LABELS[p.type]}</Badge>
                         <Badge variant={STATUS_VARIANTS[p.status]}>{STATUS_LABELS[p.status]}</Badge>
                       </div>
-                      <h3 className="text-h4 font-semibold text-ink-900 m-0">{p.title}</h3>
+                      <h3 className="text-h4 font-semibold text-ink-900">{p.title}</h3>
                     </div>
                   </div>
 

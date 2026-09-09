@@ -224,7 +224,7 @@ export const VideoViewer: React.FC = () => {
 
             {/* Title and metadata */}
             <div>
-              <h1 className="font-display text-h3 font-semibold text-ink-900 m-0 mb-stack-xs">
+              <h1 className="font-display text-h3 font-semibold text-ink-900 mb-stack-xs">
                 {VIDEO_DATA.title}
               </h1>
               <div className="flex gap-stack-xs items-center flex-wrap mt-3">
@@ -263,7 +263,7 @@ export const VideoViewer: React.FC = () => {
           {/* Sidebar : related videos */}
           <div className="flex flex-col gap-stack">
             <Card>
-              <h4 className="font-display text-body font-semibold text-ink-900 m-0 mb-3">
+              <h4 className="font-display text-body font-semibold text-ink-900 mb-3">
                 Vidéos connexes
               </h4>
               <div className="flex flex-col gap-stack-xs">

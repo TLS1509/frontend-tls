@@ -103,7 +103,7 @@ const CardA: React.FC<{ item: Item }> = ({ item }) => {
         <span className="text-caption text-ink-400">· {item.duration}</span>
         {done && <span className="ml-auto inline-flex items-center gap-1 text-micro font-semibold text-success-fg"><Check size={13} /> Fait</span>}
       </div>
-      <h3 className="m-0 font-display text-body-lg font-bold leading-snug text-ink-900 line-clamp-2 tracking-tight">{item.title}</h3>
+      <h3 className="font-display text-body-lg font-bold leading-snug text-ink-900 line-clamp-2 tracking-tight">{item.title}</h3>
       <p className="m-0 text-caption text-ink-500 leading-snug line-clamp-2">{item.desc}</p>
       {locked ? (
         <span className="mt-1 inline-flex items-center gap-1.5 text-caption text-ink-500"><Lock size={12} /> Upgrade requis</span>
@@ -136,7 +136,7 @@ const CardB: React.FC<{ item: Item }> = ({ item }) => {
       </div>
       <div className="flex flex-col gap-1.5 p-4">
         <span className={`text-micro font-bold uppercase tracking-[0.05em] ${ACCENT_TEXT[m.tone]}`}>{m.label}</span>
-        <h3 className="m-0 font-display text-body-lg font-bold leading-snug text-ink-900 line-clamp-2 tracking-tight">{item.title}</h3>
+        <h3 className="font-display text-body-lg font-bold leading-snug text-ink-900 line-clamp-2 tracking-tight">{item.title}</h3>
         <p className="m-0 text-caption text-ink-500 leading-snug line-clamp-2">{item.desc}</p>
         {locked ? (
           <span className="mt-1 inline-flex items-center gap-1.5 text-caption text-ink-500"><Lock size={12} /> Upgrade requis</span>
@@ -168,7 +168,7 @@ const CardC: React.FC<{ item: Item }> = ({ item }) => {
             <span className="text-caption text-ink-400">· {item.duration}</span>
             {done && <span className="ml-auto inline-flex items-center gap-1 text-micro font-semibold text-success-fg"><Check size={13} /> Fait</span>}
           </div>
-          <h3 className="m-0 mt-0.5 font-display text-body-lg font-bold leading-snug text-ink-900 line-clamp-2 tracking-tight">{item.title}</h3>
+          <h3 className="mt-0.5 font-display text-body-lg font-bold leading-snug text-ink-900 line-clamp-2 tracking-tight">{item.title}</h3>
         </div>
       </div>
       <p className="m-0 text-caption text-ink-500 leading-snug line-clamp-2">{item.desc}</p>
@@ -207,7 +207,7 @@ const CardD: React.FC<{ item: Item }> = ({ item }) => {
         <span className="text-caption text-ink-400">· {item.duration}</span>
         {done && <span className="ml-auto inline-flex items-center gap-1 text-micro font-semibold text-success-fg"><Check size={13} /> Fait</span>}
       </div>
-      <h3 className="m-0 font-display text-body-lg font-bold leading-snug text-ink-900 line-clamp-2 tracking-tight">{item.title}</h3>
+      <h3 className="font-display text-body-lg font-bold leading-snug text-ink-900 line-clamp-2 tracking-tight">{item.title}</h3>
       <p className="m-0 text-caption text-ink-500 leading-snug line-clamp-2">{item.desc}</p>
       {locked ? (
         <span className="mt-1 inline-flex items-center gap-1.5 text-caption text-ink-500"><Lock size={12} /> Upgrade requis</span>
@@ -232,7 +232,7 @@ const DIRECTIONS = [
 export const CardLab: React.FC = () => (
   <div className="min-h-[100dvh] w-full bg-gradient-page-ambient">
     <header className="px-6 sm:px-8 py-5 border-b border-ink-100 bg-white/80 backdrop-blur-glass-light sticky top-0 z-10">
-      <h1 className="m-0 font-display text-h4 font-bold text-ink-900 tracking-headline">Card ressource unifiée — 3 directions</h1>
+      <h1 className="font-display text-h4 font-bold text-ink-900 tracking-headline">Card ressource unifiée — 3 directions</h1>
       <p className="m-0 text-caption text-ink-500 mt-0.5">
         Remplace LearningItemCard + ResourceCard · grammaire meta unifiée · niveau en mots · tappable · contenu + états réels.
       </p>
@@ -244,7 +244,7 @@ export const CardLab: React.FC = () => (
           <div className="flex items-baseline gap-2">
             <span className="inline-flex items-center justify-center w-7 h-7 rounded-pill bg-ink-900 text-white text-caption font-bold">{id}</span>
             <div>
-              <h2 className="m-0 font-display text-h4 font-bold text-ink-900 tracking-headline">{name}</h2>
+              <h2 className="font-display text-h4 font-bold text-ink-900 tracking-headline">{name}</h2>
               <p className="m-0 text-caption text-ink-500">{desc}</p>
             </div>
           </div>

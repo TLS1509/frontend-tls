@@ -47,7 +47,7 @@ const Hero: React.FC = () => {
             <Users size={14} />
             Deux fondateurs, une vision commune
           </p>
-          <h1 className="font-display font-extrabold text-ink-900 leading-[1.02] tracking-tight m-0 [text-wrap:balance] text-[clamp(2.5rem,5.5vw,4.25rem)]">
+          <h1 className="font-display font-extrabold text-ink-900 leading-[1.02] tracking-tight [text-wrap:balance] text-[clamp(2.5rem,5.5vw,4.25rem)]">
             L'alliance de la pédagogie, de l'IA{' '}
             <span className="text-primary-700">et de la stratégie RH.</span>
           </h1>
@@ -75,7 +75,7 @@ const Adn: React.FC = () => (
     <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28">
       <FadeInWhenVisible>
         <div className="max-w-4xl flex flex-col gap-stack-lg">
-          <h2 className="font-display font-extrabold text-white leading-[1.06] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)]">
+          <h2 className="font-display font-extrabold text-white leading-[1.06] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)]">
             L'agilité d'une structure experte au service de votre
             transformation.
           </h2>
@@ -143,7 +143,7 @@ const Fondateurs: React.FC = () => (
   <section className="bg-white">
     <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
       <FadeInWhenVisible>
-        <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)] max-w-3xl">
+        <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)] max-w-3xl">
           Deux fondateurs, trois piliers d'excellence.
         </h2>
       </FadeInWhenVisible>
@@ -160,7 +160,7 @@ const Fondateurs: React.FC = () => (
                   {p.monogram ?? <HeartHandshake size={28} />}
                 </span>
                 <div className="flex flex-col gap-0.5">
-                  <h3 className="font-display text-h4 font-extrabold text-ink-900 m-0 leading-tight">{p.nom}</h3>
+                  <h3 className="font-display text-h4 font-extrabold text-ink-900 leading-tight">{p.nom}</h3>
                   <span className="font-body text-caption font-bold text-ink-500">{p.expertise}</span>
                 </div>
               </div>
@@ -204,7 +204,7 @@ const Pourquoi: React.FC = () => (
   <section className="bg-primary-50/50">
     <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
       <FadeInWhenVisible>
-        <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0 [text-wrap:balance] text-[clamp(1.9rem,3.6vw,2.75rem)] max-w-2xl">
+        <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight [text-wrap:balance] text-[clamp(1.9rem,3.6vw,2.75rem)] max-w-2xl">
           Pourquoi travailler directement avec les fondateurs.
         </h2>
       </FadeInWhenVisible>
@@ -215,7 +215,7 @@ const Pourquoi: React.FC = () => (
               <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary-100 text-primary-700">
                 {r.icon}
               </span>
-              <h3 className="font-display text-h4 font-bold text-ink-900 m-0 leading-tight">{r.title}</h3>
+              <h3 className="font-display text-h4 font-bold text-ink-900 leading-tight">{r.title}</h3>
               <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">{r.detail}</p>
             </div>
           </FadeInWhenVisible>
@@ -232,7 +232,7 @@ const CtaFinal: React.FC = () => (
     <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28">
       <FadeInWhenVisible>
         <div className="mx-auto flex max-w-content flex-col items-center gap-stack-lg text-center">
-          <h2 className="font-display font-extrabold text-ink-900 leading-[1.04] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.5vw,3.25rem)]">
+          <h2 className="font-display font-extrabold text-ink-900 leading-[1.04] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.5vw,3.25rem)]">
             Discutons directement de vos enjeux de compétences.
           </h2>
           <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-[62ch] [text-wrap:pretty]">

@@ -72,7 +72,7 @@ export const UserInfo: React.FC<UserInfoProps> = ({
       </div>
       <div className="flex flex-col min-w-0">
         <div className="flex items-center gap-stack-xs min-w-0">
-          <h4 className={`m-0 font-semibold text-ink-900 truncate ${NAME_SIZE[size]}`}>{name}</h4>
+          <h4 className={`font-semibold text-ink-900 truncate ${NAME_SIZE[size]}`}>{name}</h4>
           {badge && <span className="shrink-0 inline-flex items-center">{badge}</span>}
         </div>
         {role && <p className={`m-0 text-ink-500 truncate ${ROLE_SIZE[size]}`}>{role}</p>}

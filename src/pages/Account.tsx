@@ -60,7 +60,7 @@ const SESSIONS: Session[] = [
 const SettingCard: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
   <div className="rounded-2xl border border-ink-100 bg-white overflow-hidden">
     <div className="px-stack-lg py-stack border-b border-ink-100">
-      <h3 className="m-0 font-display text-body font-bold text-ink-900 tracking-snug">
+      <h3 className="font-display text-body font-bold text-ink-900 tracking-snug">
         {title}
       </h3>
     </div>

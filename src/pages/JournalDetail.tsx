@@ -168,7 +168,7 @@ export const JournalDetail: React.FC = () => {
             </span>
           </div>
 
-          <h1 className="m-0 font-display text-h1 font-bold text-ink-900 leading-tight tracking-tight">
+          <h1 className="font-display text-h1 font-bold text-ink-900 leading-tight tracking-tight">
             {displayEntry.title}
           </h1>
 
@@ -200,7 +200,7 @@ export const JournalDetail: React.FC = () => {
 
         {/* Engagements (todos) */}
         <section className="rounded-2xl border border-ink-100 bg-white p-5 sm:p-stack-lg flex flex-col gap-stack">
-          <h2 className="m-0 font-display text-body font-bold text-ink-900 flex items-center gap-stack-xs tracking-tight">
+          <h2 className="font-display text-body font-bold text-ink-900 flex items-center gap-stack-xs tracking-tight">
             <CheckCircle2 size={16} className="text-primary-600" />
             Engagements pour la semaine prochaine
           </h2>
@@ -295,7 +295,7 @@ export const JournalDetail: React.FC = () => {
         {/* New entry CTA */}
         <section className="rounded-3xl bg-gradient-to-br from-primary-600 to-primary-700 p-stack-lg sm:p-section flex flex-col sm:flex-row sm:items-center gap-stack-lg text-white">
           <div className="flex-1">
-            <h3 className="m-0 font-display text-h4 font-bold mb-1">
+            <h3 className="font-display text-h4 font-bold mb-1">
               Qu'avez-vous appris cette semaine ?
             </h3>
             <p className="m-0 font-body text-body-sm text-white/85">

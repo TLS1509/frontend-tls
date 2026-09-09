@@ -341,7 +341,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
         <h1
           className={[
-            'm-0 font-display font-extrabold leading-[1.1] tracking-tight',
+            'font-display font-extrabold leading-[1.1] tracking-tight',
             // Use clamp() at md/lg sizes for fluid scaling (LearningPathHeader DNA)
             size === 'lg'
               ? 'text-[clamp(2.25rem,4.5vw,3.25rem)]'

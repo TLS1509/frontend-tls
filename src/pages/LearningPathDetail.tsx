@@ -289,7 +289,7 @@ export const LearningPathDetail: React.FC = () => {
                     <Icon size={20} className={iconColor} />
                   </div>
                   <div className="flex flex-col gap-tight">
-                    <h3 className="m-0 font-display text-body font-bold text-ink-900">
+                    <h3 className="font-display text-body font-bold text-ink-900">
                       {label}
                     </h3>
                     <p className="m-0 text-body-sm text-ink-500 leading-relaxed">{desc}</p>
@@ -427,7 +427,7 @@ export const LearningPathDetail: React.FC = () => {
 
                         <h3
                           className={[
-                            'font-display text-h3 font-bold m-0 mb-stack-xs leading-tight',
+                            'font-display text-h3 font-bold mb-stack-xs leading-tight',
                             etape.unlocked ? 'text-ink-900' : 'text-ink-500',
                           ].join(' ')}
                         >
@@ -568,7 +568,7 @@ export const LearningPathDetail: React.FC = () => {
                 <div className="w-20 h-20 rounded-xl bg-white/15 backdrop-blur-sm mx-auto mb-stack-lg flex items-center justify-center">
                   <Award size={36} />
                 </div>
-                <h2 className="font-display text-h2 font-bold m-0 mb-3">
+                <h2 className="font-display text-h2 font-bold mb-3">
                   {parcours.finalProject.title}
                 </h2>
                 <p className="text-body-lg m-0 mb-section opacity-90 max-w-[720px] mx-auto leading-relaxed">
@@ -664,7 +664,7 @@ export const LearningPathDetail: React.FC = () => {
               <div
                 className={`p-8 rounded-xl bg-white border-2 text-center ${TONE_BORDER_500[tone]}`}
               >
-                <h3 className="text-h4 font-bold text-ink-900 m-0 mb-2">
+                <h3 className="text-h4 font-bold text-ink-900 mb-2">
                   Prêt à passer à l'action ?
                 </h3>
                 <p className="text-body text-ink-500 m-0 mb-stack-lg">

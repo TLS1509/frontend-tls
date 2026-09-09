@@ -83,7 +83,7 @@ export const KeyFindingCard: React.FC<KeyFindingCardProps> = ({
       </span>
 
       <div className="flex-1 min-w-0 flex flex-col gap-tight">
-        <h3 className="m-0 font-display text-body font-bold text-ink-900 leading-tight">
+        <h3 className="font-display text-body font-bold text-ink-900 leading-tight">
           {title}
         </h3>
 

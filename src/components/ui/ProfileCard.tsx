@@ -227,7 +227,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
         {/* Center block — name, role, specialties, rating */}
         <div className="flex-1 min-w-0 flex flex-col gap-stack-xs">
           <div className="flex items-baseline flex-wrap gap-x-3 gap-y-tight">
-            <h3 className={`m-0 font-display ${VARIANT_NAME_SIZE[variant]} font-bold text-ink-900 leading-tight`}>
+            <h3 className={`font-display ${VARIANT_NAME_SIZE[variant]} font-bold text-ink-900 leading-tight`}>
               {name}
             </h3>
             {role && (
@@ -311,7 +311,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 
       {/* Name + role */}
       <div className={`flex flex-col gap-tight ${isCentered ? 'items-center' : 'items-start'}`}>
-        <h3 className={`m-0 font-display ${VARIANT_NAME_SIZE[variant]} font-bold text-ink-900 leading-tight`}>
+        <h3 className={`font-display ${VARIANT_NAME_SIZE[variant]} font-bold text-ink-900 leading-tight`}>
           {name}
         </h3>
         {role && (

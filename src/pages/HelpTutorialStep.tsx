@@ -53,7 +53,7 @@ export default function HelpTutorialStep() {
                 <span className="inline-flex items-center justify-center w-8 h-8 rounded-pill bg-primary-600 text-white font-display font-bold text-body-sm shrink-0">
                   {CURRENT_STEP}
                 </span>
-                <h2 className="font-display font-semibold text-h3 text-ink-900 m-0">
+                <h2 className="font-display font-semibold text-h3 text-ink-900">
                   Renseigner vos informations personnelles
                 </h2>
               </div>
