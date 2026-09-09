@@ -126,11 +126,15 @@ const PB = 'M307.008 395.935C331.092 395.935 350.617 376.431 350.617 352.372C350
 
 /**
  * Part de la plaque occupée par le mark, et rayon de la plaque.
- * 76 % est mesuré, pas repris d'un gabarit système : le mark TLS est ajouré,
- * à surface de boîte égale il pèse moins qu'un glyphe plein. À 62 % il flottait,
- * à 82 % les bras serrent l'arrondi. Aligné sur brand/identity/logos/app-icon/.
+ *
+ * 90 % est mesuré. Le mark TLS ne peint que 35,5 % de sa propre boîte — il est
+ * ajouré. À 62 % la plaque ne portait que 12,5 % d'encre, là où une icône Apple
+ * ou macOS en porte 26 à 34 % : le problème n'était pas le padding, c'était que
+ * la boîte du mark est presque vide. À 90 % on atteint 26,3 %, et le point le
+ * plus exposé (le nœud gauche, à mi-hauteur) garde 5 % de marge.
+ * Aligné sur brand/identity/logos/app-icon/.
  */
-const MARK_RATIO = 0.76;
+const MARK_RATIO = 0.90;
 const PLATE_RADIUS_RATIO = 230 / 1024; // le squircle des icônes système
 
 // ─────────────────────────────────────────────────────────────────────────────

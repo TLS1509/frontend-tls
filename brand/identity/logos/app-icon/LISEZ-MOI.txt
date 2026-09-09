@@ -10,10 +10,17 @@ DEUX DÉCOUPES
                                     Une plaque déjà arrondie donnerait un double arrondi.
   -arrondi          coins arrondis → favicon, vignette, aperçu, présentation
 
-Le mark occupe 76 % de la largeur.
-  Ce chiffre est mesuré, pas repris d'un gabarit système. Le mark TLS est ajouré :
-  à surface de boîte égale il pèse moins qu'un glyphe plein. À 62 % il flottait dans
-  la plaque, à 82 % les bras serrent l'arrondi. 76 % est le point d'équilibre.
+Le mark occupe 90 % de la largeur — et ce chiffre est mesuré, pas repris d'un gabarit.
+
+  Le mark TLS ne peint que 35,5 % de sa propre boîte : il est ajouré. À 62 % il ne
+  couvrait que 12,5 % de la tuile, là où une icône Apple ou macOS en couvre 26 à 34 %.
+  Autrement dit le problème n'était pas le padding, c'était que la boîte du mark est
+  presque vide — il faut donc une boîte plus grande pour la même présence.
+
+  À 90 % la tuile porte 26,3 % d'encre : on entre dans la bande système. Et le point
+  le plus exposé (le nœud gauche, à mi-hauteur) garde 51 px de marge sur 1024, soit
+  5 % — de quoi absorber la courbe continue d'iOS, plus creusante qu'un rx=230.
+  Au-delà de 93 % la marge tombe sous 4 % et le masque commence à mordre.
 
 TAILLES
   1024  App Store, macOS

@@ -33,7 +33,7 @@ LES FICHIERS
   …-1024.png / …-512.png                          les mêmes en bitmap
   tls-bandeau-horizontal-light-sur-800.svg        bandeau 2400×800 → couverture, en-tête
 
-  Le mark occupe 76 % de la largeur (voir app-icon/LISEZ-MOI.txt pour la mesure).
+  Le mark occupe 90 % de la largeur (voir app-icon/LISEZ-MOI.txt pour la mesure).
 
 À NE PAS FAIRE
   Poser une plaque déjà arrondie dans un manifeste PWA ou un apple-touch-icon :

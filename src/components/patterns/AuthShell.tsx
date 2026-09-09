@@ -69,7 +69,7 @@ export const AuthShell: React.FC<AuthShellProps> = ({
     brand === null
       ? null
       : {
-          icon: brand?.icon ?? <TlsLogo size={40} withBubble={false} />,
+          icon: brand?.icon ?? <TlsLogo size={40} withBubble={false} variant="light" />,
           title: brand?.title ?? 'The Learning Society',
           subtitle: brand?.subtitle ?? 'Connectez-vous pour accéder à vos formations',
         };

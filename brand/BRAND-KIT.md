@@ -128,6 +128,36 @@ centre teal clair. Wordmark « The Learning Society » en League Spartan.
 étendre la map `PALETTES` dans `TlsLogo.tsx`. Zone de protection = 1 × le diamètre
 du cercle central. Taille minimale : 24 px en écran, 12 mm en impression.
 
+### La matière — trois règles, mesurées (2026-09-09)
+
+**1. Un seul axe de lumière.** Dégradé `userSpaceOnUse` sur `(46,8) → (398,394)`,
+trois arrêts, appliqué à toutes les formes. Chaque forme reçoit la portion de nappe
+qui lui revient selon sa position : le mark est découpé dans une seule feuille de
+matière. La pastille centrale suit le dégradé du **corps**, pas une couleur à part.
+Aucun sheen, aucune sphère radiale, aucun drop-shadow — le bombé glassy de l'ancienne
+version de `TlsLogo.tsx` faisait daté et virait à la bouillie sous 32 px.
+
+**2. Aplat sous 28 px, dégradé au-dessus.** À petite taille le contraste compte plus
+que la justesse de la couleur, et un dégradé subtil se referme. `TlsLogo` bascule
+tout seul (`material="auto"`), les masters existent dans les deux familles
+(`tls-mark-*.svg` et `tls-mark-*-grad.svg`).
+
+**3. Le mark occupe 90 % de sa plaque.** Il ne peint que **35,5 % de sa propre boîte** :
+il est ajouré. À 62 % la tuile ne portait que 12,5 % d'encre, là où une icône Apple ou
+macOS en porte 26 à 34 % — le problème n'était pas le padding, c'était que la boîte du
+mark est presque vide. À 90 % on atteint 26,3 % d'encre et le point le plus exposé
+(le nœud gauche, à mi-hauteur) garde 5 % de marge, de quoi absorber la courbe continue
+d'iOS. Au-delà de 93 % le masque système commence à mordre.
+Le **favicon** fait exception à 94 % : transparent, sans plaque et sans masque, il n'a
+aucune marge à préserver.
+
+**L'amplitude du variant `light` est volontairement plus faible.** 12 points de L\*
+contre ~20 pour les variantes couleur : sur fond sombre, griser du blanc ne se lit pas
+comme de la profondeur, ça se lit comme de la saleté. À 20 le nœud bas vire au gris terne.
+Et le mark clair ne tient que sur `primary-700` et plus foncé — sous ce seuil son point
+le plus sombre (`#E0E2E3`) tombe à 2,8:1 et le mark se dissout. Détail dans
+`brand/identity/logos/_export-light-bleu/LISEZ-MOI.txt`.
+
 ### Couleurs propres au mark
 
 `#55A1B4` (branches) · `#8DBAC6` (centre) · `#EB7724` (nœud haut) · `#F8B044` (nœud bas).
