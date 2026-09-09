@@ -417,6 +417,29 @@ const SectionHeader = (...) => (
 
 **Action générale** : auditer tout composant exporté qui applique `mb-*` / `mt-*` sur son root → retirer et confier au parent. Exception : composants standalone qui assument leur propre layout (ex. `PageHeader` peut avoir un `mb-section` car il définit le top-of-page rhythm).
 
+**⚠️ Corollaire (2026-09-09) — un `gap` seul ne sait pas donner le rythme d'un titre.**
+Le piège ci-dessus est juste, mais il a une conséquence qu'on n'avait pas vue : un
+`gap` est **symétrique**, donc il donne autant d'air au-dessus d'un titre qu'en
+dessous. Or un titre appartient à ce qui le suit — la proximité demande 3 à 4 fois
+plus d'espace au-dessus. Rapport mesuré avant correction : **1,0** sur 302 piles.
+
+La règle vit désormais dans `@layer base` de `src/index.css` :
+```css
+h2, h3, h4 { margin-block-start: 0.75em; }
+h2:first-child, h3:first-child, h4:first-child { margin-block-start: 0; }
+```
+Elle est battue par n'importe quel `mt-*` (couche utilities > couche base), donc
+elle n'enferme rien ; elle bat le reset `* { margin: 0 }`, dont la spécificité est
+nulle. `0.75em` est calibré sur mesure, pas au jugé : le rapport médian réel passe
+à **3,3**, et la page gagne 33 px. À 1,75em il montait à 6,4, parce que la
+gouttière dominante du repo est `gap-stack-xs` (8 px) et non `gap-stack`.
+
+**❌ Ne jamais remettre `m-0` sur un titre.** C'est une utility, elle gagne donc
+sur la règle et la neutralise. Ils étaient 362 sur 421 à le porter, et ils étaient
+**déjà sans effet** — le reset universel met la marge à zéro de toute façon
+(vérifié : un `h3` nu et un `h3` en `m-0` rendent le même `0px 0px 0px 0px`). Ils
+ne faisaient que bloquer le système ; tous retirés le 2026-09-09.
+
 ### ⚠️ Piège n°13 : `border-none` dans BASE bloque les `border` des variants
 
 Tailwind v4 `border-none` set **`border-style: none`** (pas seulement `border-width: 0`). Si BASE contient `border-none`, tous les variants qui ajoutent `border border-X-Y` se retrouvent avec `border-style: none` — la bordure existe dans le DOM (width=1px, color=X) mais n'est **pas rendue** car le style est `none`.
@@ -624,6 +647,17 @@ L'app est une SPA réactive : les données du domaine vivent dans des stores Zus
 - **Focus visible** obligatoire sur tout élément focusable custom : `focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500`.
 - Contraste : `text-ink-900` sur blanc. Texte blanc uniquement sur `primary-700+` / `secondary-700+` / `accent-700+` — ⚠️ **`primary-600` est à 3,66:1 et échoue AA** pour du texte normal (corrigé le 2026-07-28 : cette ligne disait « `bg-primary-600+` », en contradiction avec l'avertissement de la section Référence Tailwind plus haut). Éviter `text-ink-500` pour titres/CTA.
 - Pour du **texte** sur fond clair, utiliser les tokens `-fg` : `secondary-600` et `accent-600` échouent AA en texte, ils servent au remplissage.
+- **Contour d'un composant (SC 1.4.11) = 3:1, et la règle ne dit rien de
+  l'épaisseur.** Un filet de 1 px au bon cran passe comme un filet de 2 px : ne
+  jamais épaissir pour « faire passer », changer la teinte. Crans conformes sur
+  blanc : **teal 600** (3,66) · **orange 600** (3,98) · **or 700** (4,88 — l'or
+  est la seule famille dont le 600 rate, à 2,89). ⚠️ `primary-500`, le teal de la
+  signature, mesure **2,94** : il rate de six centièmes, il n'y a pas d'entre-deux.
+- **Les variantes douces battent tous les remplissages saturés en contraste de
+  texte** (mesuré 2026-09-09, fonds translucides recomposés sur blanc) :
+  `ghost` 6,31 · `glass-warm` 8,69 · `glass-sun` 7,23 — contre 3,66 au mieux pour
+  un fond plein. Leur filet a été fermé au cran conforme le même jour ; il était
+  au cran 100, à 1,05, donc invisible.
 
 **Layout** : `PageShell width="page"` = conteneur canonique des pages principales ; padding responsive standard `px-4 sm:px-6 lg:px-10`. Les viewers modaux gardent leurs `max-w` étroits (lisibilité).
 
@@ -640,6 +674,17 @@ Tous les composants card sont tone-aware (`tone: primary/warm/sun`). **Source de
 - **Métadonnées** : préférer `<MetaPillGroup>` au texte inline.
 - **Surfaces** : `card` / `tinted` / `glass` / `frosted` — divider adapté via `SURFACE_DIVIDER[surface]`.
 - `AstucesCard` : `border-2` volontaire (distinction visuelle tips), ne pas unifier sans revue design.
+
+**Padding intérieur — doctrine du 2026-09-09 : `p-stack-lg` (24 px) au canon,
+`p-stack` (16 px) en unique dérogation dense. Pas de troisième valeur.**
+L'industrie pose sa carte à 16 px (Material, Bootstrap, Polaris, Carbon, Primer)
+— mais avec des rayons de 6 à 12 px. Le nôtre est à **14 px**, et c'est le rapport
+du padding au rayon qui décide : sous ~1,4× le contenu serre la courbe et le coin
+se lit comme une coupe. 16 px ne donne que 1,14× ; 24 px donne 1,71×.
+`Card` tient déjà la décision (`size="md"` par défaut = 24 px, pris par 170 des
+171 usages). Les 90 cartes faites main ont été ramenées sur ces deux valeurs.
+⚠️ **16 px reste majoritaire** (56 contre 31) : à revoir surface par surface —
+soit ces cartes sont vraiment denses, soit le canon devrait être 16.
 
 ## Typo — League Spartan sans italique
 
