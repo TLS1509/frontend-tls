@@ -1,0 +1,25 @@
+TLS — icône color, avec et sans wordmark
+Généré le 2026-09-09. Tous les fichiers ont un FOND TRANSPARENT.
+
+SANS WORDMARK (l'icône seule)
+  tls-icone-color.svg              vectoriel, à privilégier
+  tls-icone-color-256/512/1024/2048.png
+
+AVEC WORDMARK HORIZONTAL
+  tls-logo-horizontal-color.svg    vectoriel, à privilégier
+  tls-logo-horizontal-color-500/1000/2000/4000.png
+
+Le traitement est celui du brand kit : un seul dégradé linéaire traverse tout le
+mark, la pastille centrale suit le dégradé du corps. Le wordmark est en tracés,
+donc aucune dépendance à League Spartan.
+
+VARIANTES EN APLAT
+  tls-icone-color-aplat.svg
+  tls-logo-horizontal-color-aplat.svg
+À utiliser sous ~48 px et à l'impression : à petite taille, deux ou trois aplats
+battent tout dégradé.
+
+QUEL FICHIER ENVOYER
+  Web, print, partenaire, presse ......... le SVG
+  Bureautique, outil qui refuse le SVG ... le PNG le plus grand
+  Réseaux sociaux, avatar ................ tls-icone-color-512.png
