@@ -940,6 +940,9 @@ plus distinctif des explorations et **n'existe nulle part dans le code**.
 | Docs | ✅ `DESIGN-IMPECCABLE.md` **archivé le 09/09**. Couper ~90 lignes de `CLAUDE.md`, pas plus. |
 | Volet D | Le fact-check est **déjà incorporé** aux modules. Le verrou est le modèle de données (`Lecon` ne porte pas de contenu), pas la matière. |
 
+> ✅ **13 décisions ont été rendues au banc le 09/09** — reportées dans [`DESIGN.md`](../../DESIGN.md) §12
+> avec leur état d'exécution. Le tableau ci-dessous garde les recommandations pour les onze restantes.
+
 ### Les fondations, décision par décision (§4)
 
 | # | Recommandation | Coût |

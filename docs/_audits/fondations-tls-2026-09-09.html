@@ -152,6 +152,10 @@ tbody tr:hover td{background:var(--surface-2)}
 /* ── décisions ── */
 .dec{border:1px solid var(--line);border-radius:13px;background:var(--surface);padding:16px 18px;margin-bottom:11px}
 .dec.done{border-color:var(--accent)}
+.dec.settled{border-color:var(--ok);background:var(--ok-bg)}
+.dec.settled .id{background:var(--ok)}
+.dec.settled h4{color:var(--ok)}
+.dec.settled .opts{display:none}
 .dec .top{display:flex;gap:11px;align-items:baseline;flex-wrap:wrap;margin-bottom:5px}
 .dec .id{font-family:var(--mono);font-size:11.5px;font-weight:600;color:#fff;background:var(--accent);
   padding:2px 8px;border-radius:5px}
@@ -295,15 +299,11 @@ tbody tr:hover td{background:var(--surface-2)}
   <!-- ══════════════ ENCRE ══════════════ -->
   <section id="encre">
     <h2>L'encre <em>pourquoi ink-400 est « partout en défaut »</em></h2>
-    <div class="note bad" style="margin-top:0"><b>⚠️ Cette section mesure la rampe d'avant le
-      9 septembre.</b> Ses constantes portent encore <code>ink-400 = #9ca3af</code>,
-      <code>ink-500 = #6b7280</code>, <code>ink-600 = #4b5563</code>, <code>ink-700 = #374151</code>
-      — les gris Tailwind. Or la variante A a été appliquée depuis : <code>src/index.css</code> sert
-      aujourd'hui <code>#8d95a6</code>, <code>#667082</code>, <code>#4c5466</code>,
-      <code>#394050</code> (vérifié cran par cran le 09/09). Les <b>comptes d'usages restent
-      valides</b> ; les <b>ratios et les verdicts ci-dessous sont ceux de l'ancienne rampe</b> — en
-      particulier « <code>ink-500</code> échoue sur les surfaces teintées », que la nouvelle rampe
-      corrige justement. À re-dériver depuis <code>index.css</code>.</div>
+    <div class="note good" style="margin-top:0"><b>Mesures à jour : cette section porte la rampe
+      appliquée le 9 septembre</b> — <code>ink-400 #8d95a6</code>, <code>ink-500 #667082</code>,
+      <code>ink-600 #4c5466</code>, <code>ink-700 #394050</code>, relevés de <code>src/index.css</code>.
+      Les comptes d'usages, eux, datent d'avant la correction et restent valides : ce sont des
+      occurrences de classe, la valeur du token ne les change pas.</div>
 
     <p class="intro">355 usages de <code>text-ink-400</code>. Mais ils ne sont pas tous fautifs :
       WCAG exempte les composants inactifs et les éléments purement décoratifs. Voici le classement
@@ -331,11 +331,14 @@ tbody tr:hover td{background:var(--surface-2)}
       </table>
     </div>
 
-    <div class="note good"><b>La règle qui en sort : <code>ink-600</code> est le bon défaut.</b>
-      <code>ink-500</code> passe sur blanc et crème, mais échoue sur <code>ink-100</code>,
-      <code>primary-50</code> et <code>secondary-50</code> — les surfaces teintées, qui sont partout
-      dans l'app. <code>ink-600</code> passe sur les sept fonds testés, avec au minimum 6,73 de marge.
-      Un seul niveau à retenir, aucune décision à prendre au cas par cas.</div>
+    <div class="note"><b>La règle a changé le 9 septembre.</b> Avec l'ancienne rampe,
+      <code>ink-500</code> échouait sur <code>ink-100</code>, <code>primary-50</code> et
+      <code>secondary-50</code> — d'où la consigne « <code>ink-600</code> partout ». Depuis la
+      reconstruction, <b><code>ink-500</code> passe sur les sept fonds</b>… mais avec
+      <b>+0,04 de marge seulement</b> au pire (4,54 sur <code>ink-100</code>). Il tient au centième.
+      <b><code>ink-600</code> reste donc le défaut recommandé</b> — +2,40 de marge, aucun cas à
+      juger — et <code>ink-500</code> devient légitime là où le fond est maîtrisé. C'est l'objet
+      de la décision A1, reformulée.</div>
 
     <h3 class="sub">Voir la différence</h3>
     <div class="panel" id="inkDemo"></div>
@@ -360,14 +363,13 @@ tbody tr:hover td{background:var(--surface-2)}
       emploi honnête est l'état désactivé — ce que WCAG exempte, et ce que 27 usages font déjà
       correctement.</div>
 
-    <div class="note bad"><b>Une anomalie que personne n'avait relevée : la rampe n'est pas
-      monotone.</b> <code>ink-900</code> mesure <b>14,20</b> sur blanc quand <code>ink-800</code>
-      mesure <b>14,68</b>. Le cran censé être le plus foncé est donc <b>plus clair</b> que celui
-      d'avant. La cause : <code>ink-900</code> (<code>#252B37</code>) est la seule valeur maison de
-      la série — tous les autres crans sont les gris Tailwind par défaut — et elle a été insérée sans
-      être recalée sur la progression. Conséquence concrète : le cran le plus utilisé de tout le
-      système (916 textes) est légèrement moins contrasté que son voisin, contre ce que son nom
-      promet.</div>
+    <div class="note good"><b>L'anomalie de monotonie est corrigée.</b> Avant le 9 septembre,
+      <code>ink-900</code> mesurait <b>14,20</b> sur blanc quand <code>ink-800</code> mesurait
+      <b>14,68</b> : le cran censé être le plus foncé était le plus clair — et c'était le cran le
+      plus utilisé du système, 916 textes. La cause était structurelle : <code>ink-900</code> était
+      la seule valeur maison d'une série de gris Tailwind, insérée sans être recalée. La rampe
+      reconstruite est monotone ; <code>ink-800</code> vaut désormais 12,46 et passe sous
+      <code>ink-900</code>.</div>
   </section>
 
 
@@ -502,6 +504,13 @@ tbody tr:hover td{background:var(--surface-2)}
       récapitulatif à coller dans <code>DESIGN.md</code>. C'est ce qui manquait aux deux bancs
       précédents : ils mesuraient très bien, et n'enregistraient rien.</p>
 
+    <div class="note good"><b>État au 9 septembre, après l'adoption de la rampe.</b>
+      Quatre décisions sont <b>réglées et appliquées dans le code</b> (C4, C5, C6, C7) : elles
+      restent affichées en vert, pour mémoire, et sortent du décompte. Deux ont <b>changé de
+      nature</b> — <b>C2</b> ne porte plus que sur le site, puisque l'app est tranchée, et <b>A1</b>
+      perd son option « en trois lots », devenue sans objet maintenant qu'<code>ink-500</code> passe
+      sur les sept fonds. Si tu avais déjà tranché l'une des deux, elle est à reprendre.</div>
+
     <div class="bar-actions">
       <button class="btn" id="exportBtn" type="button">Exporter les décisions</button>
       <button class="btn ghost" id="resetBtn" type="button">Tout effacer</button>
@@ -560,7 +569,7 @@ const BRAND = {
  secondary:{400:"#F18A4C",500:"#ED843A",600:"#C06920",700:"#8F5017",800:"#5E3710",900:"#3B2109"},
  accent:   {400:"#F8B044",500:"#DF9E3D",600:"#C68D36",700:"#A85F0A",800:"#7E4006",900:"#5F2E05"}
 };
-const INKS = {"ink-400":"#9ca3af","ink-500":"#6b7280","ink-600":"#4b5563","ink-700":"#374151"};
+const INKS = {"ink-400":"#8d95a6","ink-500":"#667082","ink-600":"#4c5466","ink-700":"#394050"};
 const FONDS = [["blanc","#ffffff"],["ink-50","#f9fafb"],["ink-100","#f3f4f6"],
                ["surface-cream","#FDFBF7"],["primary-50","#F0F7F9"],["secondary-50","#FEF4EC"],["accent-50","#FEF7EC"]];
 
@@ -594,13 +603,13 @@ const INK_RAMP = [
  ["ink-100","#f3f4f6",3,160,265,"surface tertiaire et bordure douce"],
  ["ink-200","#e5e7eb",11,55,444,"la bordure par défaut — 444 usages"],
  ["ink-300","#d1d5db",41,12,65,"bordure marquée, séparateur"],
- ["ink-400","#9ca3af",355,6,8,"la charnière — état désactivé uniquement"],
- ["ink-500","#6b7280",834,2,0,"texte secondaire — sur blanc et crème seulement"],
- ["ink-600","#4b5563",444,0,0,"texte secondaire sûr — passe sur tous les fonds"],
- ["ink-700","#374151",332,1,0,"texte appuyé"],
- ["ink-800","#1f2937",97,3,1,"texte fort"],
- ["ink-900","#252B37",916,48,1,"le texte principal — 916 usages"],
- ["ink-950","#0f172a",0,8,0,"fond sombre, jamais du texte"]
+ ["ink-400","#8d95a6",355,6,8,"la charnière — désactivé et bordure d'interface"],
+ ["ink-500","#667082",834,2,0,"texte secondaire — passe désormais sur les 7 fonds"],
+ ["ink-600","#4c5466",444,0,0,"texte secondaire sûr"],
+ ["ink-700","#394050",332,1,0,"texte appuyé"],
+ ["ink-800","#2e3442",97,3,1,"texte fort"],
+ ["ink-900","#252B37",916,48,1,"⚓ le texte principal — l'ancre, 916 usages"],
+ ["ink-950","#131820",0,8,0,"fond sombre, jamais du texte"]
 ];
 
 const INK_CLASS = [
@@ -664,30 +673,30 @@ const DECISIONS = [
  {id:"C1",t:"Le site et l'app partagent-ils l'encre ?",cost:"638 ou 4 346 usages",
   q:"La rampe ink est définie une fois et compte 4 346 usages, dont 638 seulement sur le site. Changer sa teinte repeint donc l'app entière.",
   o:[["Rampe éditoriale séparée","--color-paper-* pour le site, ink-* pour l'app",1],["Rampe partagée","cohérence totale, l'app change aussi",0]]},
- {id:"C2",t:"La teinte de la rampe",cost:"selon C1",
-  q:"Les quatre rampes conservent la clarté cran par cran : aucun ratio de contraste ne bouge, quelle que soit celle retenue.",
-  o:[["D — marron (46°)","la rampe chaude, cohérente avec la direction papier",1],["C — teal TLS (216°)","un vrai gris de marque",0],["A — l'actuel","les gris Tailwind par défaut",0]]},
+ {id:"C2",t:"La teinte de la rampe éditoriale du site",cost:"dépend de C1",
+  q:"⚠️ Reformulée le 09/09. L'app est tranchée : sa rampe est reconstruite en 264° et appliquée. Cette question ne porte plus que sur le site, et seulement parce que C1 a retenu une rampe séparée. La direction papier et riso penche vers le marron.",
+  o:[["D · marron (46°)","cohérent avec la direction papier et riso",1],["C · teal (216°)","un gris de marque, plus froid",0],["La même que l'app","le site hérite du 264°",0]]},
  {id:"C3",t:"Rempli ou outline pour les boutons de marque",cost:"485 boutons dans l'app",
   q:"En rempli, le label blanc force un cran 700+ et le teal paraît terni. En outline, le label est sur blanc et les trois couleurs passent AA à leur cran 700.",
   o:[["Outline sur le site, rempli dans l'app","chaque surface son registre",1],["Outline partout","cohérent, mais repeint l'app",0],["Rempli partout","il faut alors accepter 700+",0]]},
- {id:"C4",t:"Le commentaire faux sur ink-900",cost:"1 ligne",
-  q:"index.css:78 décrit ink-900 comme « teal-tinted ». Mesuré en OKLCH il est à 264°, quand le teal de marque est à 216° : c'est un gris bleu-violet.",
-  o:[["Corriger le commentaire","dire ce que la valeur est",1],["Le laisser","",0]]},
+ {id:"C4",t:"✅ Le commentaire faux sur ink-900",cost:"1 ligne",
+  q:"Corrigé le 09/09 dans index.css et design-tokens.css. ink-900 est à 264° en OKLCH, le teal de marque à 216° : ce n'est pas un gris teinté teal.",
+  o:[["Réglé","aucune action restante",1]],done:true},
 
- {id:"C5",t:"Nommer les rôles de la rampe ink",cost:"documentation",
-  q:"Douze crans, aucun rôle écrit. C'est la cause profonde des 241 fautes : rien ne dit qu'un cran est fait pour une surface plutôt que pour du texte.",
-  o:[["Trois zones documentées","0-300 surfaces · 400 désactivé · 500-950 texte",1],["Un rôle par cran","plus précis, plus rigide",0],["Ne rien écrire","on continue au jugé",0]]},
- {id:"C6",t:"L'inversion ink-800 / ink-900",cost:"1 valeur",
-  q:"ink-900 mesure 14,20 quand ink-800 mesure 14,68 : le cran censé être le plus foncé est le plus clair. ink-900 est la seule valeur maison, insérée sans être recalée.",
-  o:[["Recaler ink-900 sous ink-800","la rampe redevient monotone — 916 textes concernés",1],["Échanger les deux noms","aucun repaint, mais 97 usages à inverser",0],["Laisser","l'anomalie reste, documentée",0]]},
+ {id:"C5",t:"✅ Nommer les rôles de la rampe ink",cost:"documentation",
+  q:"Fait le 09/09 : les trois zones — surfaces 0-300, charnière 400, texte 500-950 — sont écrites dans DESIGN.md, et rappelées en commentaire dans index.css.",
+  o:[["Réglé","aucune action restante",1]],done:true},
+ {id:"C6",t:"✅ L'inversion ink-800 / ink-900",cost:"1 valeur",
+  q:"Résolue par la reconstruction. La rampe est monotone : ink-800 vaut 12,46 et passe sous ink-900 à 14,20.",
+  o:[["Réglé","aucune action restante",1]],done:true},
 
- {id:"C7",t:"✅ Rampe reconstruite — variante A, appliquée le 09/09",cost:"6 crans · fait",
+ {id:"C7",done:true,t:"✅ Rampe reconstruite — variante A, appliquée le 09/09",cost:"6 crans · fait",
   q:"Tranché : variante A. Les six crans sont dans src/index.css, ink-900 est resté intact, le build passe. La variante teal a été écartée — elle repeignait 916 textes pour un gain esthétique, à contraste inchangé. Les colonnes B et C restent affichées plus haut pour mémoire.",
   o:[["A · 264° — appliquée","6 crans dans index.css, l'ancre intacte",1],["B · 216° — teinte teal","11 crans, le gris devient de marque, ink-900 repeint",0],["C · 216° saturé","gris franchement teinté, fatigant sur de longues pages",0],["Corriger la seule inversion","ink-800 uniquement",0],["Ne rien changer","la rampe reste un emprunt",0]]},
 
- {id:"A1",t:"ink-400 sur 241 textes fautifs",cost:"241 usages",
-  q:"Le remplacement n'est pas mécanique : ink-500 passe sur blanc mais échoue sur les surfaces teintées. ink-600 passe partout.",
-  o:[["Tout en ink-600","une seule règle, aucune exception à juger",1],["En trois lots vérifiés","gris d'abord, puis clairs, puis les indéterminés",0],["Tout en ink-500","laisse les surfaces teintées sous le seuil",0]]},
+ {id:"A1",t:"Les 241 ink-400 fautifs — par quoi les remplacer ?",cost:"241 usages",
+  q:"⚠️ Reformulée le 09/09. Depuis la reconstruction de la rampe, ink-500 passe sur les sept fonds : l'option « en trois lots vérifiés » n'a plus d'objet, la correction tient en une passe. Mais la marge d'ink-500 sur ink-100 n'est que de +0,04 — elle tient au centième.",
+  o:[["Tout en ink-600","+2,40 de marge partout, une seule règle, aucun cas à juger",1],["ink-500 sur blanc, ink-600 sur teinté","préserve mieux la hiérarchie, deux règles à tenir",0],["Tout en ink-500","+0,04 au pire — tient, mais sans filet",0]]},
  {id:"A2",t:"Le bouton primaire de l'app mesure 3,66",cost:"485 boutons",
   q:"Label 15px graisse 600 : c'est du texte normal, donc le seuil est 4,5 et non 3,0. Il échoue.",
   o:[["Rempli profond (primary-900)","11,46 — pétrole, pas un 700 terni",1],["primary-700","5,02 — passe, mais c'est le teal terni",0],["Teinté clair + bordure","reste dans les tons clairs",0]]},
@@ -1084,9 +1093,10 @@ const el = (t,c,h) => { const e=document.createElement(t); if(c) e.className=c; 
   const prog = document.getElementById('progress');
 
   function save(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){} }
+  const OPEN = DECISIONS.filter(d => !d.done);
   function refresh(){
-    const n = Object.keys(state).length;
-    prog.textContent = `${n} / ${DECISIONS.length} tranchées`;
+    const n = OPEN.filter(d => state[d.id]).length;
+    prog.textContent = `${n} / ${OPEN.length} tranchées · ${DECISIONS.length - OPEN.length} réglées`;
     DECISIONS.forEach(d => {
       const card = document.getElementById('dec-' + d.id);
       if (card) card.classList.toggle('done', !!state[d.id]);
@@ -1094,7 +1104,7 @@ const el = (t,c,h) => { const e=document.createElement(t); if(c) e.className=c; 
   }
 
   DECISIONS.forEach(d => {
-    const card = el('div','dec');
+    const card = el('div','dec' + (d.done ? ' settled' : ''));
     card.id = 'dec-' + d.id;
     card.appendChild(el('div','top',
       `<span class="id">${d.id}</span><h4>${d.t}</h4><span class="cost">${d.cost}</span>`));
@@ -1124,15 +1134,18 @@ const el = (t,c,h) => { const e=document.createElement(t); if(c) e.className=c; 
     let md = `## Fondations du design system — décisions rendues\n\n> Tranchées au banc le ${date}.\n> Report attendu dans \`DESIGN.md\`, puis dans \`src/index.css\` pour ce qui touche aux tokens.\n\n`;
     md += `| # | Décision | Choix retenu | Coût |\n|---|---|---|---|\n`;
     let n = 0;
-    DECISIONS.forEach(d => {
+    DECISIONS.filter(d => !d.done).forEach(d => {
       const c = state[d.id];
       if (c) { n++; md += `| ${d.id} | ${d.t} | **${c}** | ${d.cost} |\n`; }
     });
-    const open = DECISIONS.filter(d => !state[d.id]);
+    const settled = DECISIONS.filter(d => d.done);
+    if (settled.length) md += `\n**Réglées et appliquées dans le code (${settled.length})** : `
+      + settled.map(d => d.id).join(' · ') + `\n`;
+    const open = DECISIONS.filter(d => !d.done && !state[d.id]);
     if (open.length) {
       md += `\n**Encore ouvertes (${open.length})** : ` + open.map(d => `${d.id} — ${d.t}`).join(' · ') + `\n`;
     }
-    md += `\n_${n} décision${n>1?'s':''} sur ${DECISIONS.length}. Les valeurs de référence sont relevées du code le 2026-09-09 ; en cas de doute, \`src/index.css\` tranche._\n`;
+    md += `\n_${n} décision${n>1?'s':''} sur ${OPEN.length} encore ouvertes. Les valeurs de référence sont relevées du code le 2026-09-09 ; en cas de doute, \`src/index.css\` tranche._\n`;
     const out = document.getElementById('out');
     out.value = md;
     out.select();
@@ -1148,8 +1161,8 @@ const el = (t,c,h) => { const e=document.createElement(t); if(c) e.className=c; 
 
   /* Le compte est calculé, jamais écrit : une version précédente annonçait
      « 17 décisions » et en affichait 20. */
-  document.getElementById('decCountNav').textContent = DECISIONS.length;
-  document.getElementById('decCountTitle').textContent = DECISIONS.length;
+  document.getElementById('decCountNav').textContent = OPEN.length;
+  document.getElementById('decCountTitle').textContent = OPEN.length + ' ouvertes, ' + (DECISIONS.length - OPEN.length) + ' réglées';
 
   refresh();
 })();

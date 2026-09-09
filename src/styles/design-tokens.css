@@ -72,8 +72,10 @@
      Phase-16 token-unification: legacy --tls-ink-* now ALIAS the Tailwind
      @theme --color-ink-* tokens (neutral grays) so the BEM cascade and the
      Tailwind utilities render identical greys, and the Figma DS (synced on
-     index.css) matches both. Previously these were teal-tinted (#252B37…),
-     which diverged from index.css (#1a1a1a…). See CLAUDE.md "Pièges".
+     index.css) matches both. Previously these carried their own literals (#252B37…), which diverged
+     from what the BEM cascade served. NB : #252B37 n'a jamais été « teal-tinted »
+     — il est à 264° en OKLCH, le teal de marque à 216°. Et index.css ne vaut pas
+     #1a1a1a : c'est #252B37. Voir CLAUDE.md « Pièges ».
      --tls-ink-25 has no @theme equivalent — kept as a neutral literal. */
   --tls-ink-0:   var(--color-ink-0);
   /* Les 12 tokens sémantiques --tls-success/warning/danger/info-* ont été

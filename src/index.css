@@ -360,7 +360,8 @@
 
   /* ── Overlay / scrim ── pure black, used ONLY at low opacity for modal
      backdrops & media scrims (bg-overlay-scrim/40, bg-overlay-scrim/55 …).
-     ⚠️ NEVER for text / borders / icons — those use ink-900 (teal-tinted dark).
+     ⚠️ NEVER for text / borders / icons — those use ink-900 (dark blue-violet
+     grey, 264° in OKLCH — not teal; see the ramp comment above).
      Pure black is intentional here so scrims don't cast a color tint on photos.
      Mirrors Figma variable `overlay/scrim`. (Existing bg-black/X scrims are
      equivalent; migrate to bg-overlay-scrim/X opportunistically.) */
@@ -373,7 +374,7 @@
        text-subtle   : least emphasis, placeholders, disabled — ink-400
        text-inverse  : on saturated bg (heroes, dark cards) — white
   */
-  --color-text-strong:  var(--color-ink-900);  /* = ink-900 = #252B37 TLS teal-tinted dark */
+  --color-text-strong:  var(--color-ink-900);  /* = ink-900 = #252B37 — gris bleu-violet (264°), PAS teal */
   --color-text-default: var(--color-ink-700);  /* = ink-700 */
   --color-text-muted: var(--color-ink-500);  /* = ink-500 */
   --color-text-subtle: var(--color-ink-400);  /* = ink-400 — ⚠ échoue AA sur du texte : réservé désactivé/décoratif */
