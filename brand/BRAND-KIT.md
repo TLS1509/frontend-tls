@@ -21,7 +21,7 @@ Une seule règle, et elle tranche tous les conflits de valeurs :
 |---|---|---|
 | `src/index.css` (`@theme`) | **Source de vérité** des valeurs | 🟢 vivant |
 | `brand/BRAND-KIT.md` (ce fichier) | Copie de référence lisible hors code | 🟢 vivant |
-| Figma `LccBZ1GKWQVwVzPtsSzk5Y` | Bibliothèque DS | 🟠 à vérifier (§7) |
+| Figma `LccBZ1GKWQVwVzPtsSzk5Y` | Bibliothèque DS **et** identité de marque | 🟢 vivant — 33 pages (§7) |
 | Canva Brand Kit `kAGD5yGggy0` | Production de supports | 🟠 incomplet (§7) |
 | Notion *Brand Hub* | Vitrine / onboarding équipe | 🔴 périmé (§7) |
 | Drive `TLS — Brand` | Dépôt de fichiers livrables | 🟠 partiel (§7) |
@@ -190,16 +190,47 @@ Constaté de première main, à corriger sur les plateformes :
 
 | Où | Ce qui est faux | Ce qui est vrai |
 |---|---|---|
-| **`public/favicon.svg`** | Favicon violet `#863bff` / `#7e14ff` — gabarit d'outil no-code jamais remplacé | Doit être le mark TLS |
+| **`public/favicon.svg`** | Favicon violet `#863bff` / `#7e14ff` — gabarit d'outil no-code jamais remplacé | Corrigé le 09/09 : c'est le mark. ⚠️ Mais Figma spécifie aussi `favicon.ico` 16-32-48, `apple-touch-icon` 180 et un manifeste PWA 192-512 — **aucun n'existe dans `public/`** |
 | **Notion — Brand Hub** | « Error `#EF4444` », « Success `#14b8a6` » | Palette muted/coral (§1) |
 | **Notion — Brand Hub** | « CTA `#EB7724`, hover `#F49609` » | `#EB7724` est une couleur de **logo**, pas un CTA. CTA = `secondary-500` |
 | **Notion — Brand Hub** | Rayons « 6/8/10/16 px » | 6/8/12/16/24 + pill 999 |
 | **Notion — Assets & Templates** | « 63 templates à créer », « 18 templates social » | Aucun n'existe. Roadmap de février jamais exécutée |
 | **Canva `kAGD5yGggy0`** | Kit non complété (couleurs/polices/logos à charger à la main) | §1–3 de ce fichier |
-| **Figma `LccBZ1GKWQVwVzPtsSzk5Y`** | La couverture annonce 7 sections (01 Foundations → 07 Flows) ; l'API ne liste **qu'une** page. Le board Foundations (`1093:2`) répond encore | À ouvrir dans l'UI Figma pour trancher : pages supprimées, ou listing API incomplet |
+| **Figma — couverture** | L'index de la couverture liste 7 sections dont une « 03 · Motion & Effects » qui n'existe pas, et numérote Atoms 04 / Composites 05 | Le fichier a 33 pages : Atoms est **03**, Composites **04**, Motion vit dans Foundations §07, les flows sont 10 pages (05→14). **2 lignes sur 7 sont justes** |
+| **Figma — page Logo** | Section `🗄 Anciens tests logo (superseded · supprimable)`, 4200×8000 px, que le fichier lui-même déclare supprimable | À supprimer après accord |
 | **Drive `03_Logos/`** | Fichiers nommés `Frame 30.svg`, `Frame 31.svg`, `Untitled design.png` | Convention `TLS_Logo_<variante>_<fond>.svg` |
 | **SVG `logos-modernises/`** | Wordmark en `#1a1a1a` | `ink-900` = `#252B37` |
 | **`public/og-image.svg`** | Police `Helvetica Neue, Arial` | League Spartan |
+
+---
+
+## 7 bis. Ce que Figma porte déjà — et que rien d'autre ne référence
+
+Vérifié via l'API plugin le 2026-09-09. Le fichier DS n'est pas qu'une bibliothèque de
+composants : il contient **l'identité de marque**, et c'est la surface la mieux tenue des cinq.
+Ni ce dépôt, ni Notion, ni Canva ne pointaient vers ces pages.
+
+| Page Figma | Contenu | Pourquoi ça compte |
+|---|---|---|
+| `💠 Brand Identity` (`2717:2`) | Palette · Typographie · Voix de marque · Méthodologie STRIDE · **Direction photo** (2400×1800) · **Brand Kit 2×3** (3200×1800) | Le moodboard demandé existe déjà. Ne pas en refaire un — le faire évoluer |
+| `🔷 Logo — modernisation` (`3853:26`) | `TlsLogoLockup` (component set) · explorations v1 et v3 · **`🌐 Logo — Tailles web`** | Porte la spec favicon / app-icon / header que le code n'applique qu'à moitié |
+| `📣 LinkedIn Covers` (`3834:26`) | Repère safe-zone · 16 finales (F1–F4 × Founder/Company × subtil/marqué) · **4 propositions de fond A–D en attente de validation** | Décision en suspens, pas un chantier mort |
+| `📊 DS Status & Roadmap` (`3903:26`) | 14 composants, 14 faits en Figma, 10 migrés en code, 79 % de variables | L'état du DS se déclare ici, pas dans un doc |
+| `🎨 Moodboard — Reference` (`3636:26`) · `🎨 Modern 2026 — Design Explorations` (`4429:40`) · `🌐 Site — Archétypes & Wireframes` (`4874:2`) | Recherche visuelle et archétypes de site | Point de départ pour la direction créative du site |
+
+### ⚠️ Une contradiction à arbitrer
+
+Le **Brand Kit 2×3** et la **Direction photo** sont composés en **teal foncé / presque noir dominant**.
+La consigne enregistrée pour les supports de marque (OG, email, documents) dit l'inverse :
+**fond clair, teal en accent, CTA orange, pas de teal foncé dominant**.
+
+Deux lectures possibles, et c'est à trancher : soit le moodboard donne l'**atmosphère** (et les
+supports restent clairs), soit il date d'avant l'arbitrage et il faut le reprendre. En attendant,
+la règle « fond clair » continue de s'appliquer aux supports livrés.
+
+La direction photo de Figma est par ailleurs plus nette que celle du guide de sourcing —
+« Candid · Natural light / Warm editorial grain / Human-first · No poses ». À reprendre dans
+[`assets/ASSETS-SOURCING-GUIDE.md`](assets/ASSETS-SOURCING-GUIDE.md).
 
 ---
 
@@ -213,6 +244,10 @@ Constaté de première main, à corriger sur les plateformes :
 | Voix de marque | [`../.claude/brand-voice-guidelines.md`](../.claude/brand-voice-guidelines.md) |
 | Faits autorisés (interdits marketing) | [`../docs/_canon/FACTS-CANON.md`](../docs/_canon/FACTS-CANON.md) |
 | Canva Brand Kit | https://www.canva.com/brand/kAGD5yGggy0 |
-| Figma DS | https://www.figma.com/design/LccBZ1GKWQVwVzPtsSzk5Y |
+| Figma DS (33 pages) | https://www.figma.com/design/LccBZ1GKWQVwVzPtsSzk5Y |
+| Figma — Brand Identity | https://www.figma.com/design/LccBZ1GKWQVwVzPtsSzk5Y?node-id=2717-2 |
+| Figma — Brand Kit 2×3 (moodboard) | https://www.figma.com/design/LccBZ1GKWQVwVzPtsSzk5Y?node-id=3825-26 |
+| Figma — Logo, tailles web | https://www.figma.com/design/LccBZ1GKWQVwVzPtsSzk5Y?node-id=4521-5876 |
+| Figma — LinkedIn Covers | https://www.figma.com/design/LccBZ1GKWQVwVzPtsSzk5Y?node-id=3834-26 |
 | Drive `TLS — Brand` | https://drive.google.com/drive/folders/18pQPVR2zJLa004pErmtHzuFbOrhJuOZY |
 | Notion Brand Hub | https://app.notion.com/p/6500738d039749509296e8bb1010a5cd |
