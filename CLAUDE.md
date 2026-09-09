@@ -218,7 +218,16 @@ className={tone === 'primary' ? 'bg-primary-500' : 'bg-secondary-500'}
 
 - **Typo** : classes Tailwind auto-générées depuis les tokens (`--text-h1` → `text-h1`, `--font-display` → `font-display`, etc.).
 - **Tracking gradué** (h1 -0.03em · h2/h3 -0.025em · h4 -0.02em · body 0). ⚠️ Ne **jamais** aplatir le tracking sur tous les headings (anti-pattern). Le marketing BEM (`display-*`, `pole__title`) garde son propre tracking, hors `@theme`.
-- **Rayons** : `rounded-pill` (999px) pour Button/Card — **jamais `rounded-full`** (= 50 %, cercle).
+- **Rayons** : `rounded-pill` (999px, token TLS) pour Button/Card.
+  ⚠️ **Corrigé le 2026-09-09 : l'affirmation « `rounded-full` = 50 %, cercle » était fausse.**
+  Mesuré dans le CSS livré, Tailwind v4 génère `rounded-full: 3.40282e38px` — l'infini d'un float,
+  pas un pourcentage. Sur un rectangle, le navigateur plafonne tout rayon à la moitié de la plus
+  petite dimension : **`rounded-full` et `rounded-pill` rendent donc exactement pareil**. La
+  préférence pour `rounded-pill` reste, mais pour une raison de vocabulaire — c'est le token TLS,
+  donc la valeur se change en un seul endroit — et non parce que le rendu diffère.
+  ⚠️ Même famille de piège pour **`rounded-3xl`** : il n'est pas défini dans `index.css`, mais
+  Tailwind en fournit un défaut à `1.5rem` = **24 px**, soit exactement `--radius-2xl`. Ses
+  22 usages ne produisent donc aucun défaut visible : c'est un doublon de vocabulaire, pas de rendu.
 - **Ombres** : `shadow-card` / `-hover` / `-lift` sont **neutres (noir), volontairement** — ce sont les fallbacks des cards **SANS `tone`**. Dès qu'un `tone` est posé, `Card.tsx` bascule sur `--shadow-brand|warm|sun-*` (maps `CARD_SHADOW_*`). Une valeur ambrée par défaut collisionnerait avec le tone `warm`.
 
 ---

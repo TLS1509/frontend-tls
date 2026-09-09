@@ -536,10 +536,13 @@ signature codée et débranchée.
   messages). L'icône Sparkles fonctionnelle et le logo animé restent autorisés — §10.
 - **Pas de gamification agressive** : anxiété de perte de série, notifications
   rouges urgentes, popups d'XP pavloviens.
-- **Pas de `rounded-full` sur un bouton.** C'est le territoire du cercle :
-  avatars carrés-ronds et pastilles uniquement. Les boutons prennent la pilule.
-  ⚠️ **Mesuré le 2026-09-09 : 204 usages de `rounded-full` dans `src/`** — à
-  auditer, l'interdit n'est pas tenu.
+- **Préférer `rounded-pill` à `rounded-full` sur un bouton.**
+  ⚠️ **Nuance mesurée le 2026-09-09** : contrairement à ce que disait la doctrine,
+  `rounded-full` ne vaut pas 50 %. Tailwind v4 le génère à `3.40282e38px`, et sur
+  un rectangle le navigateur plafonne le rayon à la moitié de la plus petite
+  dimension — **les deux rendent donc identiquement**. Les 204 usages ne
+  produisent aucun défaut visuel. La règle reste, mais c'est une règle de
+  vocabulaire : `rounded-pill` est le token TLS, sa valeur se change en un endroit.
 - **Pas de couleur saturée hors des trois tons de marque** : ni le bleu Material
   `#2196F3`, ni le vert Duolingo `#58CC02`, ni les défauts Tailwind vifs pour les
   couleurs sémantiques (`text-red-500`, `bg-green-500` sont bannis — utiliser
