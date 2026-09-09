@@ -1,0 +1,1177 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found]){display:none!important}</style></head><body>
+<title>Fondations TLS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400..900&family=Nunito:ital,wght@0,300..900;1,300..900&family=JetBrains+Mono:wght@400;600&display=swap">
+
+<style>
+/* ─────────────────────────────────────────────────────────────────
+   Banc des fondations TLS — typographie · couleur · encre · rayons · espacement
+   Les valeurs sont relevées de src/index.css le 2026-09-09 et recopiées ici :
+   ce fichier est un instantané daté, pas une source de vérité.
+   ───────────────────────────────────────────────────────────────── */
+:root{
+  --bg:#f6f9fa; --surface:#ffffff; --surface-2:#eef3f5;
+  --ink:#252B37; --muted:#5a6b72; --faint:#8b9aa1;
+  --line:#dde6e9; --line-strong:#c3d2d7;
+  --accent:#3D7786; --accent-soft:#e7f0f3;
+  --ok:#3f7a52; --ok-bg:#e8f2eb;
+  --no:#a8432c; --no-bg:#faeae6;
+  --warn:#8F5017; --warn-bg:#fbeee0;
+  --shadow:0 1px 2px rgba(37,43,55,.05), 0 4px 16px rgba(37,43,55,.05);
+  --display:'League Spartan','Helvetica Neue',Arial,sans-serif;
+  --body:'Nunito',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#11171a; --surface:#182024; --surface-2:#1f292e;
+  --ink:#e9eff1; --muted:#a3b3b9; --faint:#748489;
+  --line:#2a373d; --line-strong:#3b4c53;
+  --accent:#8CC0CE; --accent-soft:#1d2c31;
+  --ok:#8fc7a2; --ok-bg:#18261d;
+  --no:#e9a894; --no-bg:#2a1a15;
+  --warn:#e0b483; --warn-bg:#282014;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 4px 16px rgba(0,0,0,.25);
+}}
+:root[data-theme="dark"]{
+  --bg:#11171a; --surface:#182024; --surface-2:#1f292e;
+  --ink:#e9eff1; --muted:#a3b3b9; --faint:#748489;
+  --line:#2a373d; --line-strong:#3b4c53;
+  --accent:#8CC0CE; --accent-soft:#1d2c31;
+  --ok:#8fc7a2; --ok-bg:#18261d;
+  --no:#e9a894; --no-bg:#2a1a15;
+  --warn:#e0b483; --warn-bg:#282014;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 4px 16px rgba(0,0,0,.25);
+}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--display);margin:0;text-wrap:balance;letter-spacing:-.025em}
+p{margin:0}
+code,.mono{font-family:var(--mono);font-size:.86em}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+
+/* ── coque ── */
+.wrap{display:grid;grid-template-columns:210px minmax(0,1fr);gap:0;max-width:1320px;margin:0 auto;align-items:start}
+@media (max-width:900px){.wrap{grid-template-columns:1fr}}
+
+nav{position:sticky;top:0;max-height:100dvh;overflow-y:auto;padding:28px 18px 40px;border-right:1px solid var(--line)}
+@media (max-width:900px){nav{position:static;max-height:none;border-right:0;border-bottom:1px solid var(--line)}}
+nav .brand{font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:-.03em;margin-bottom:2px}
+nav .brand span{color:var(--accent)}
+nav .sub{font-size:11.5px;color:var(--faint);margin-bottom:22px;line-height:1.4}
+nav a{display:block;padding:6px 9px;margin:1px -9px;border-radius:7px;color:var(--muted);text-decoration:none;font-size:13.5px;transition:background .12s,color .12s}
+nav a:hover{background:var(--surface-2);color:var(--ink)}
+nav a.on{background:var(--accent-soft);color:var(--accent);font-weight:700}
+nav .grp{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);margin:18px 0 5px;font-weight:700}
+
+main{padding:28px 34px 100px;min-width:0}
+@media (max-width:900px){main{padding:24px 18px 70px}}
+
+/* ── en-tête ── */
+.head{margin-bottom:34px}
+.head h1{font-size:clamp(28px,4vw,40px);font-weight:800;letter-spacing:-.035em;line-height:1.05}
+.head .lede{font-size:16px;color:var(--muted);max-width:64ch;margin-top:10px}
+.stamp{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11.5px;color:var(--faint);
+  background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px 11px;margin-top:16px}
+.stamp b{color:var(--accent);font-weight:600}
+
+section{margin:0 0 62px;scroll-margin-top:20px}
+section>h2{font-size:22px;font-weight:700;letter-spacing:-.028em;display:flex;align-items:baseline;gap:11px;flex-wrap:wrap}
+section>h2 em{font-style:normal;font-family:var(--body);font-size:13px;font-weight:400;color:var(--faint);letter-spacing:0}
+section>.intro{color:var(--muted);max-width:70ch;margin:9px 0 22px;font-size:14.5px}
+
+h3.sub{font-size:15px;font-weight:700;letter-spacing:-.015em;margin:30px 0 11px}
+
+/* ── panneaux ── */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.note{background:var(--surface-2);border-radius:11px;padding:14px 16px;font-size:13.5px;color:var(--muted);margin:16px 0}
+.note b,.note strong{color:var(--ink)}
+.note.bad{background:var(--no-bg);color:var(--no)} .note.bad b{color:var(--no)}
+.note.good{background:var(--ok-bg);color:var(--ok)} .note.good b{color:var(--ok)}
+
+/* ── tableaux ── */
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th{text-align:left;font-weight:700;font-size:11px;letter-spacing:.055em;text-transform:uppercase;color:var(--faint);
+   padding:11px 13px;border-bottom:1px solid var(--line);white-space:nowrap;background:var(--surface)}
+td{padding:10px 13px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:0}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+tbody tr:hover td{background:var(--surface-2)}
+
+/* ── pastilles ── */
+.pill{display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:11px;font-weight:600;
+  padding:2px 7px;border-radius:5px;white-space:nowrap}
+.p-ok{background:var(--ok-bg);color:var(--ok)}
+.p-no{background:var(--no-bg);color:var(--no)}
+.p-wa{background:var(--warn-bg);color:var(--warn)}
+.p-nt{background:var(--surface-2);color:var(--muted)}
+
+/* ── typo : les rangées d'échantillon ── */
+.trow{display:grid;grid-template-columns:132px minmax(0,1fr) 200px;gap:18px;align-items:center;
+  padding:13px 16px;border-bottom:1px solid var(--line)}
+.trow:last-child{border-bottom:0}
+.trow:hover{background:var(--surface-2)}
+@media (max-width:820px){.trow{grid-template-columns:1fr;gap:7px}}
+.tkey{font-family:var(--mono);font-size:12px;color:var(--accent);font-weight:600}
+.tkey small{display:block;color:var(--faint);font-weight:400;font-size:10.5px;margin-top:2px}
+.tsample{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink)}
+.tmeta{font-family:var(--mono);font-size:11px;color:var(--faint);font-variant-numeric:tabular-nums;
+  display:flex;gap:9px;justify-content:flex-end;flex-wrap:wrap}
+@media (max-width:820px){.tmeta{justify-content:flex-start}}
+.tcollide{background:var(--no-bg)}
+.tcollide .tkey{color:var(--no)}
+
+/* ── nuancier ── */
+.swatches{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:9px}
+.sw{border-radius:11px;overflow:hidden;border:1px solid var(--line);background:var(--surface)}
+.sw .chip{height:66px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);
+  font-size:11.5px;font-weight:600;color:#fff}
+.sw .lab{padding:7px 9px;font-family:var(--mono);font-size:10.5px;line-height:1.5}
+.sw .lab b{display:block;color:var(--ink);font-size:11px}
+.sw .lab span{color:var(--faint)}
+
+/* ── rayons ── */
+.radii{display:grid;grid-template-columns:repeat(auto-fit,minmax(122px,1fr));gap:12px}
+.rad{text-align:center}
+.rad .box{height:80px;background:var(--accent-soft);border:1.5px solid var(--accent);margin-bottom:8px}
+.rad .cap{font-family:var(--mono);font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums;line-height:1.5}
+.rad .cap b{display:block;color:var(--ink)}
+
+/* ── espacement ── */
+.spaces{display:flex;flex-direction:column;gap:3px}
+.sp{display:grid;grid-template-columns:118px minmax(0,1fr) 92px;gap:14px;align-items:center;padding:7px 16px}
+.sp:hover{background:var(--surface-2)}
+@media (max-width:820px){.sp{grid-template-columns:96px minmax(0,1fr);}.sp .spn{grid-column:1/-1;text-align:left}}
+.sp .spk{font-family:var(--mono);font-size:12px;color:var(--accent);font-weight:600}
+.sp .bar{height:13px;border-radius:3px;background:var(--accent);opacity:.75;min-width:2px}
+.sp .spn{font-family:var(--mono);font-size:11px;color:var(--faint);text-align:right;font-variant-numeric:tabular-nums}
+
+/* ── décisions ── */
+.dec{border:1px solid var(--line);border-radius:13px;background:var(--surface);padding:16px 18px;margin-bottom:11px}
+.dec.done{border-color:var(--accent)}
+.dec .top{display:flex;gap:11px;align-items:baseline;flex-wrap:wrap;margin-bottom:5px}
+.dec .id{font-family:var(--mono);font-size:11.5px;font-weight:600;color:#fff;background:var(--accent);
+  padding:2px 8px;border-radius:5px}
+.dec h4{font-size:15px;font-weight:700;letter-spacing:-.015em;flex:1;min-width:200px}
+.dec .cost{font-family:var(--mono);font-size:11px;color:var(--faint);font-variant-numeric:tabular-nums}
+.dec .q{color:var(--muted);font-size:13.5px;margin:7px 0 12px;max-width:74ch}
+.opts{display:flex;gap:8px;flex-wrap:wrap}
+.opt{font-family:var(--body);font-size:13px;padding:7px 13px;border-radius:9px;border:1px solid var(--line-strong);
+  background:var(--surface);color:var(--ink);cursor:pointer;transition:all .13s;text-align:left}
+.opt:hover{border-color:var(--accent);background:var(--accent-soft)}
+.opt[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:700}
+.opt small{display:block;font-size:11px;opacity:.72;margin-top:1px}
+.reco{font-family:var(--mono);font-size:10.5px;color:var(--accent);margin-left:6px}
+
+.bar-actions{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin:20px 0 8px}
+.btn{font-family:var(--body);font-size:13.5px;font-weight:700;padding:9px 16px;border-radius:10px;cursor:pointer;
+  border:1px solid var(--accent);background:var(--accent);color:#fff;transition:opacity .13s}
+.btn:hover{opacity:.87}
+.btn.ghost{background:transparent;color:var(--accent)}
+.count{font-family:var(--mono);font-size:12px;color:var(--faint);font-variant-numeric:tabular-nums}
+#out{width:100%;min-height:190px;margin-top:14px;padding:14px;border-radius:11px;border:1px solid var(--line);
+  background:var(--surface-2);color:var(--ink);font-family:var(--mono);font-size:11.5px;line-height:1.6;resize:vertical}
+
+.theme{position:fixed;top:14px;right:16px;z-index:10;font-family:var(--mono);font-size:11px;padding:6px 11px;
+  border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer;box-shadow:var(--shadow)}
+@media print{.theme,nav{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<button class="theme" id="themeBtn" type="button">thème</button>
+
+<div class="wrap">
+<nav>
+  <div class="brand">Fondations <span>TLS</span></div>
+  <div class="sub">Instantané du 9 septembre 2026</div>
+
+  <div class="grp">Les quatre bases</div>
+  <a href="#typo">Typographie</a>
+  <a href="#couleur">Couleur</a>
+  <a href="#encre">L'encre — ink-400</a>
+  <a href="#rampe">Une rampe TLS</a>
+  <a href="#rayons">Rayons</a>
+
+  <div class="grp">Autour</div>
+  <a href="#espace">Espacement</a>
+  <a href="#source">Où corriger</a>
+
+  <div class="grp">Trancher</div>
+  <a href="#decisions">Les <span id="decCountNav">…</span> décisions</a>
+</nav>
+
+<main>
+  <div class="head">
+    <h1>Les fondations du design system</h1>
+    <p class="lede">Typographie, couleur, encre et rayons : les quatre bases dont dépendent tous les
+      composants. Chaque valeur ci-dessous est relevée de <code>src/index.css</code>, chaque compte
+      d'usages mesuré sur <code>src/</code>. Rien n'est estimé.</p>
+    <div class="stamp">relevé le <b>2026-09-09</b> · 13 crans typo fixes + 7 fluides · 66 couleurs · 7 rayons · 16 espacements</div>
+  </div>
+
+  <!-- ══════════════ TYPOGRAPHIE ══════════════ -->
+  <section id="typo">
+    <h2>Typographie <em>deux familles, pas une échelle de vingt crans</em></h2>
+    <p class="intro">Les vingt crans ne forment pas une échelle confuse : ce sont
+      <b>deux familles séparées par leur modèle</b>, pas par leur nom. L'une a des tailles fixes en
+      <code>rem</code> et des interlignes absolus — elle peut donc tenir la grille de 4. L'autre a
+      des tailles fluides en <code>clamp()</code> et des interlignes en ratio — elle ne le peut pas,
+      et n'a pas à le faire. Mesuré : la famille fluide compte <b>43 usages, dont 41 sur le
+      site</b> — les deux autres sont <code>stat-value</code> et <code>stat-value-lg</code>. La frontière est déjà nette dans le code ; elle n'est écrite nulle part.</p>
+
+    <div class="note"><b>Ce que la deuxième passe a corrigé.</b> Les comptes d'usages de la
+      première version étaient relevés par sous-chaîne : <code>text-body</code> y ramassait
+      <code>text-body-sm</code> et <code>text-body-lg</code>, d'où <b>1 138 au lieu de 237</b>. Les
+      quatorze comptes ont été refaits avec frontière de mot, hors <code>index.css</code> (qui ne
+      porte que les déclarations) et hors <code>DesignLab.tsx</code>. Trois conséquences :
+      <code>display-*</code> tombe à <b>0 usage réel</b>, <code>body-sm</code> se révèle
+      <b>3,4 fois plus utilisé</b> que <code>body</code>, et les sept crans fluides — rendus ici à
+      leur minimum dans la première version — reprennent leur plage entière.</div>
+
+    <h3 class="sub">La famille fixe — treize crans, ceux de l'app</h3>
+    <p class="intro">Chaque ligne est composée avec sa vraie fonte, sa vraie graisse et son vrai
+      tracking. La colonne de droite donne le rapport à la taille du cran précédent : sous
+      <b>×1,125</b>, deux crans voisins ne se distinguent plus à l'usage.</p>
+    <div class="panel" id="typoFixe"></div>
+    <div class="note bad" id="typoVerdict"></div>
+
+    <h3 class="sub">La famille fluide — sept crans, ceux du site</h3>
+    <p class="intro">Ces tailles varient avec la largeur de la fenêtre. Le rectangle donne la
+      plage réelle ; l'échantillon est composé à la taille maximale.</p>
+    <div class="panel" id="typoFluide"></div>
+    <div class="note" id="fluidVerdict"></div>
+
+    <h3 class="sub">L'interligne</h3>
+    <p class="intro">Le sujet le moins regardé des quatre, et le mieux portant. Deux mesures
+      comptent : l'interligne tombe-t-il sur la grille de 4, et le <b>ratio croît-il quand la taille
+      baisse</b> — la règle du métier, puisqu'une ligne courte de petit texte a besoin de plus
+      d'air proportionnel.</p>
+    <div class="panel scroll">
+      <table>
+        <thead><tr><th>Cran</th><th class="num">taille</th><th class="num">interligne</th><th class="num">ratio</th><th class="num">grille&nbsp;4</th><th>Progression du ratio</th></tr></thead>
+        <tbody id="lhRows"></tbody>
+      </table>
+    </div>
+    <div class="note" id="lhVerdict"></div>
+
+    <h3 class="sub">Trois façons de dire la même chose</h3>
+    <p class="intro">Le recouvrement est réel, mais il est <b>inter-familles</b> : pour une même
+      intention, l'app et le site proposent chacun leur mot. Les colonnes « app » et « éditorial »
+      ne se rencontrent sur aucune surface — d'où l'arbitrage T1, qui porte sur les noms et non
+      sur les valeurs.</p>
+    <div class="panel scroll">
+      <table>
+        <thead><tr><th>Pour composer…</th><th>L'app propose</th><th>L'éditorial propose</th><th>Et aussi</th></tr></thead>
+        <tbody id="overlapRows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══════════════ COULEUR ══════════════ -->
+  <section id="couleur">
+    <h2>Couleur <em>le texte blanc sur les remplissages de marque</em></h2>
+    <p class="intro">Contraste calculé en direct par le navigateur (WCAG 2.x). Le seuil du texte
+      normal est <b>4,5</b> ; celui du grand texte (≥ 24px, ou ≥ 18,66px en graisse 700) est 3,0.</p>
+
+    <div class="panel scroll">
+      <table>
+        <thead><tr><th>Famille</th><th class="num">400</th><th class="num">500</th><th class="num">600</th><th class="num">700</th><th class="num">800</th><th class="num">900</th></tr></thead>
+        <tbody id="brandRows"></tbody>
+      </table>
+    </div>
+
+    <div class="note bad"><b>Aucune couleur de marque ne porte du texte blanc en AA avant le cran 700.</b>
+      Et <code>accent-400</code>, l'or de la charte, mesure la pire valeur de toute la palette.
+      C'est précisément ce que l'arbitrage « rempli ou outline » dénoue : en outline, le label passe
+      sur blanc et les trois couleurs redeviennent utilisables à leur cran 700.</p></div>
+
+    <h3 class="sub">Les trois familles, en pleine surface</h3>
+    <div class="swatches" id="swatches"></div>
+  </section>
+
+  <!-- ══════════════ ENCRE ══════════════ -->
+  <section id="encre">
+    <h2>L'encre <em>pourquoi ink-400 est « partout en défaut »</em></h2>
+    <div class="note bad" style="margin-top:0"><b>⚠️ Cette section mesure la rampe d'avant le
+      9 septembre.</b> Ses constantes portent encore <code>ink-400 = #9ca3af</code>,
+      <code>ink-500 = #6b7280</code>, <code>ink-600 = #4b5563</code>, <code>ink-700 = #374151</code>
+      — les gris Tailwind. Or la variante A a été appliquée depuis : <code>src/index.css</code> sert
+      aujourd'hui <code>#8d95a6</code>, <code>#667082</code>, <code>#4c5466</code>,
+      <code>#394050</code> (vérifié cran par cran le 09/09). Les <b>comptes d'usages restent
+      valides</b> ; les <b>ratios et les verdicts ci-dessous sont ceux de l'ancienne rampe</b> — en
+      particulier « <code>ink-500</code> échoue sur les surfaces teintées », que la nouvelle rampe
+      corrige justement. À re-dériver depuis <code>index.css</code>.</div>
+
+    <p class="intro">355 usages de <code>text-ink-400</code>. Mais ils ne sont pas tous fautifs :
+      WCAG exempte les composants inactifs et les éléments purement décoratifs. Voici le classement
+      réel, obtenu en lisant le contexte de chaque occurrence.</p>
+
+    <div class="panel scroll">
+      <table>
+        <thead><tr><th>Catégorie</th><th class="num">Occurrences</th><th class="num">Part</th><th>Verdict</th></tr></thead>
+        <tbody id="inkClass"></tbody>
+      </table>
+    </div>
+
+    <div class="note"><b>Le chantier réel porte sur 241 usages, pas 355.</b> Les 61 légitimes
+      (états verrouillés, glyphes décoratifs) doivent être <em>laissés tels quels</em> : les corriger
+      supprimerait le signal « cet élément est inactif ». Les 53 restants vivent dans le panneau de
+      dev et le showcase, hors produit.</div>
+
+    <h3 class="sub">Quelle encre sur quel fond</h3>
+    <p class="intro">C'est ici que se joue le remplacement, et c'est pour ça qu'il n'est pas
+      mécanique : la même encre passe sur un fond et échoue sur le suivant.</p>
+    <div class="panel scroll">
+      <table>
+        <thead><tr><th>Fond</th><th class="num">ink-400</th><th class="num">ink-500</th><th class="num">ink-600</th><th class="num">ink-700</th></tr></thead>
+        <tbody id="inkMatrix"></tbody>
+      </table>
+    </div>
+
+    <div class="note good"><b>La règle qui en sort : <code>ink-600</code> est le bon défaut.</b>
+      <code>ink-500</code> passe sur blanc et crème, mais échoue sur <code>ink-100</code>,
+      <code>primary-50</code> et <code>secondary-50</code> — les surfaces teintées, qui sont partout
+      dans l'app. <code>ink-600</code> passe sur les sept fonds testés, avec au minimum 6,73 de marge.
+      Un seul niveau à retenir, aucune décision à prendre au cas par cas.</div>
+
+    <h3 class="sub">Voir la différence</h3>
+    <div class="panel" id="inkDemo"></div>
+
+    <h3 class="sub">Les rôles de la rampe — ce qui n'est écrit nulle part</h3>
+    <p class="intro">La rampe compte douze crans et <b>aucun n'a de rôle documenté</b>. C'est la
+      cause profonde des 241 fautes : rien ne dit qu'un cran est fait pour une surface plutôt que
+      pour du texte. En lisant l'usage réel, trois zones se dessinent d'elles-mêmes.</p>
+
+    <div class="panel scroll">
+      <table>
+        <thead><tr><th>Cran</th><th class="num">sur blanc</th><th class="num">texte</th><th class="num">fond</th><th class="num">bordure</th><th>Rôle que l'usage révèle</th></tr></thead>
+        <tbody id="inkRoles"></tbody>
+      </table>
+    </div>
+
+    <div class="note good"><b>La lecture est nette, et elle confirme l'intuition :</b> les crans
+      clairs (<code>0</code> → <code>300</code>) sont des <b>surfaces et des bordures</b> — 508 fonds
+      et 774 bordures, presque aucun texte. Les crans foncés (<code>500</code> → <code>950</code>)
+      sont le <b>texte</b>, du secondaire au principal. Et <code>ink-400</code> est exactement
+      <b>la charnière</b> : trop clair pour lire, trop foncé pour une bordure discrète. Son seul
+      emploi honnête est l'état désactivé — ce que WCAG exempte, et ce que 27 usages font déjà
+      correctement.</div>
+
+    <div class="note bad"><b>Une anomalie que personne n'avait relevée : la rampe n'est pas
+      monotone.</b> <code>ink-900</code> mesure <b>14,20</b> sur blanc quand <code>ink-800</code>
+      mesure <b>14,68</b>. Le cran censé être le plus foncé est donc <b>plus clair</b> que celui
+      d'avant. La cause : <code>ink-900</code> (<code>#252B37</code>) est la seule valeur maison de
+      la série — tous les autres crans sont les gris Tailwind par défaut — et elle a été insérée sans
+      être recalée sur la progression. Conséquence concrète : le cran le plus utilisé de tout le
+      système (916 textes) est légèrement moins contrasté que son voisin, contre ce que son nom
+      promet.</div>
+  </section>
+
+
+  <!-- ══════════════ RAMPE PROPOSÉE ══════════════ -->
+  <section id="rampe">
+    <h2>Une rampe dérivée de <code style="font-size:.8em">ink-900</code> <em>proposition du 9 septembre</em></h2>
+    <p class="intro">La rampe actuelle est un emprunt : onze crans Tailwind et une seule valeur
+      maison, <code>ink-900</code>, insérée au milieu sans être recalée. D'où l'inversion, et d'où
+      des écarts de clarté qui vont de +1,8 à +20,3 points. Les trois propositions partent de
+      l'inverse : <b>une progression construite, à teinte constante</b>. Elles ne diffèrent que par
+      la teinte, et les clartés sont identiques d'une colonne à l'autre —
+      <b>le contraste ne bouge donc jamais de plus de 0,16 point</b>, quelle que soit celle qu'on retient.</p>
+
+    <div class="note good" style="margin-top:0"><b>Tranché le 9 septembre : c'est la variante A.</b>
+      Les six crans sont appliqués dans <code>src/index.css</code>, <code>ink-900</code> est resté
+      intact, le build passe et le dashboard a été vérifié. Les colonnes B et C restent affichées
+      ci-dessous pour mémoire — elles disent ce qui a été écarté, et pourquoi.</div>
+
+    <div class="panel" id="rampCompare"></div>
+
+    <h3 class="sub">Ce que ça change, cran par cran</h3>
+    <div class="panel scroll">
+      <table>
+        <thead><tr><th>Cran</th><th>Actuel</th><th>A · 264°</th><th>B · 216°</th><th class="num">avant</th><th class="num">après A</th><th class="num">usages</th><th>Rôle</th></tr></thead>
+        <tbody id="rampTable"></tbody>
+      </table>
+    </div>
+
+    <div class="note"><b>La question n'est pas le contraste, c'est ce que le gris doit dire.</b><br><br>
+      <b>A · 264°</b> garde la teinte de <code>ink-900</code>, donc <b>l'ancre ne bouge pas</b> : les
+      916 usages du texte principal ne sont pas repeints, et le changement se limite à six crans.
+      Le gris reste ce qu'il est aujourd'hui — bleu-violet, discret, neutre à l'œil.<br><br>
+      <b>B · 216°</b> rejoue toute la rampe sur la teinte du teal de marque. Le gris devient
+      <em>de TLS</em> plutôt qu'emprunté. Mais <b><code>ink-900</code> change aussi</b>
+      (<code>#252B37</code> → <code>#1d2e33</code>) : les 916 usages du texte principal sont
+      repeints, et c'est un choix d'identité, pas une correction.<br><br>
+      <b>C · 216° saturé</b> pousse le chroma de 60 %. Le gris se lit franchement teinté — un
+      bleu-vert sourd plutôt qu'un gris. À réserver à une direction qui assume la couleur jusque
+      dans son encre ; sur de longues pages de texte, c'est fatigant.<br><br>
+      <b>Mon avis :</b> <b>A</b> si l'app garde son encre et que seul le site part en marron —
+      c'est la recommandation C1. <b>B</b> seulement si vous décidez que le gris doit porter la
+      marque partout, et en sachant que ça repeint le texte principal de 183 pages.</div>
+
+    <div class="note good"><b>Ce que les trois rampes corrigent, quelle que soit la teinte retenue.</b><br>
+      <b>1. La rampe redevient monotone</b> — chaque cran est plus foncé que le précédent, ce qui
+      n'était pas le cas.<br>
+      <b>2. <code>ink-900</code> ne bouge pas d'un pixel — en variante A seulement.</b> C'est
+      l'ancre, et ses 916 usages ne sont pas repeints. En B et C, il est repeint.<br>
+      <b>3. <code>ink-500</code> passe désormais sur les sept fonds</b> (4,54 au pire, contre 4,39
+      aujourd'hui sur <code>ink-100</code>). Le piège « ink-500 marche sur blanc mais échoue sur une
+      surface teintée » disparaît.<br>
+      <b>4. <code>ink-400</code> monte à 3,01</b> — juste au-dessus du seuil que WCAG 1.4.11 impose
+      au contour d'un élément d'interface. Il devient légitime comme bordure ou icône, tout en
+      restant trop clair pour du texte : son rôle d'état désactivé est préservé, et enfin clair.</div>
+
+    <div class="note"><b>Le coût, unique et assumé : <code>ink-800</code> passe de 14,68 à 12,46.</b>
+      C'est mécanique — pour que la rampe soit monotone, le cran 800 doit passer sous le 900, qui
+      vaut 14,20. Les 97 textes concernés restent très au-dessus du seuil de 4,5 : aucun ne devient
+      non conforme. C'est le prix de la cohérence, et il est faible.<br><br>
+      <b>Six crans changent sur douze.</b> Les cinq surfaces claires ne bougent pas du tout : elles
+      fonctionnent, et les figer réduit d'autant la surface du changement.</div>
+
+    <h3 class="sub">Sur les sept fonds réels</h3>
+    <div class="panel scroll">
+      <table>
+        <thead><tr><th>Fond</th><th class="num">ink-400</th><th class="num">ink-500</th><th class="num">ink-600</th><th class="num">ink-700</th></tr></thead>
+        <tbody id="rampMatrix"></tbody>
+      </table>
+    </div>
+
+    <h3 class="sub">À coller dans <code>src/index.css</code></h3>
+    <div class="panel" style="padding:16px 18px"><pre id="rampCss" style="margin:0;font-family:var(--mono);font-size:12px;line-height:1.75;overflow-x:auto"></pre></div>
+  </section>
+
+  <!-- ══════════════ RAYONS ══════════════ -->
+  <section id="rayons">
+    <h2>Rayons <em>sept valeurs, plus deux qui n'ont pas de token</em></h2>
+    <p class="intro">Chaque carré est rendu à son rayon réel. Le compte d'usages dit ce que le code
+      utilise vraiment, indépendamment de ce que la doctrine prescrit.</p>
+    <div class="radii" id="radii"></div>
+
+    <div class="note bad" id="radVerdict"></div>
+  </section>
+
+  <!-- ══════════════ ESPACEMENT ══════════════ -->
+  <section id="espace">
+    <h2>Espacement <em>l'échelle produit et l'échelle éditoriale</em></h2>
+    <p class="intro">Les barres sont à l'échelle : leur longueur est la valeur réelle du token à la
+      largeur de cette fenêtre. Les sept tokens fluides du bas ont été ajoutés le 29/07 pour le site,
+      parce que l'échelle produit plafonnait à 48&nbsp;px.</p>
+    <div class="panel"><div class="spaces" id="spaces"></div></div>
+  </section>
+
+  <!-- ══════════════ OÙ CORRIGER ══════════════ -->
+  <section id="source">
+    <h2>Où corriger, vraiment</h2>
+    <p class="intro">Une valeur de token est écrite à un seul endroit. Tout le reste doit pointer
+      vers lui, jamais le recopier — c'est la règle qui a été violée par le passé, et qui a produit
+      des documents affirmant des valeurs que le code contredisait.</p>
+
+    <div class="panel scroll">
+      <table>
+        <thead><tr><th>Ce que tu veux changer</th><th>Le seul endroit où le faire</th><th>Ce qui suit tout seul</th></tr></thead>
+        <tbody>
+          <tr><td>Une <b>taille</b> de texte</td><td><code>src/index.css</code> → <code>--text-h3</code></td><td>l'utility <code>text-h3</code> partout dans l'app</td></tr>
+          <tr><td>Une <b>graisse</b> par défaut</td><td><code>src/index.css</code> → <code>--text-h3--font-weight</code></td><td>idem, sauf là où un <code>font-*</code> local l'écrase</td></tr>
+          <tr><td>L'<b>interligne</b> ou le <b>tracking</b></td><td><code>--text-h3--line-height</code> · <code>--letter-spacing</code></td><td>idem</td></tr>
+          <tr><td>Une <b>couleur</b></td><td><code>src/index.css</code> → <code>--color-ink-600</code></td><td><code>text-</code>, <code>bg-</code>, <code>border-ink-600</code></td></tr>
+          <tr><td>Un <b>rayon</b></td><td><code>src/index.css</code> → <code>--radius-lg</code></td><td><code>rounded-lg</code></td></tr>
+          <tr><td>Les <b>fontes</b></td><td><code>--font-display</code> · <code>--font-body</code> + le <code>&lt;link&gt;</code> de <code>index.html</code></td><td><code>font-display</code>, <code>font-body</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note"><b>Ce qui ne suit pas tout seul, et qu'il faut changer à la main :</b>
+      les tailles écrites en dur dans le JSX (<code>text-[15px]</code>, <code>clamp()</code> inline),
+      les <code>font-bold</code> locaux qui écrasent la graisse du token, et le fichier Figma — dont
+      les variables sont alignées sur le code mais ne se mettent pas à jour toutes seules.</div>
+
+    <div class="note bad"><b>Le piège qui a déjà coûté cher.</b> Trois documents recopiaient les
+      valeurs des tokens. Ils ont dérivé sans que personne s'en aperçoive : <code>ink-900</code> y
+      était écrit <code>#1a1a1a</code> quand le code disait <code>#252B37</code>. Les tables ont été
+      remplacées par un pointeur vers <code>index.css</code>. <b>Ce banc-ci recopie aussi</b> — c'est
+      inévitable pour une page autonome — d'où la date en tête : au moindre doute, c'est le code qui
+      tranche.</div>
+  </section>
+
+  <!-- ══════════════ DÉCISIONS ══════════════ -->
+  <section id="decisions">
+    <h2>Les décisions à rendre <em><span id="decCountTitle">…</span> sur les quatre fondations</em></h2>
+    <p class="intro">Chaque choix est gardé dans ce navigateur, et le bouton d'export produit un
+      récapitulatif à coller dans <code>DESIGN.md</code>. C'est ce qui manquait aux deux bancs
+      précédents : ils mesuraient très bien, et n'enregistraient rien.</p>
+
+    <div class="bar-actions">
+      <button class="btn" id="exportBtn" type="button">Exporter les décisions</button>
+      <button class="btn ghost" id="resetBtn" type="button">Tout effacer</button>
+      <span class="count" id="progress"></span>
+    </div>
+
+    <div id="decList"></div>
+    <textarea id="out" readonly placeholder="Le récapitulatif Markdown apparaîtra ici."></textarea>
+  </section>
+</main>
+</div>
+
+<script>
+/* ═══════════ données relevées du code le 2026-09-09 ═══════════ */
+/* Comptes refaits le 2026-09-09 (2ᵉ passe). Méthode : occurrences de la classe
+   utilitaire dans src/ **.tsx|.ts, avec frontière de mot, hors index.css (qui ne
+   contient que les déclarations) et hors DesignLab.tsx (banc, pas produit).
+   La 1ʳᵉ passe comptait par sous-chaîne : `text-body` y ramassait `text-body-sm`
+   et `text-body-lg`, d'où 1 138 au lieu de 237. */
+
+/* famille FIXE — taille en rem, interligne en rem : alignable sur la grille de 4
+   [clé, px, graisse, interligne px, tracking, usages app, usages site, fonte] */
+const TYPO_FIXE = [
+ ["display-xl",96,800,96,"-0.03em",  0,  0,"display"],
+ ["display-lg",64,800,68,"-0.03em",  0,  0,"display"],
+ ["display-md",48,800,52,"-0.03em",  0,  0,"display"],
+ ["h1",        36,700,44,"-0.03em", 26,  4,"display"],
+ ["h2",        28,700,36,"-0.025em",71,  8,"display"],
+ ["h3",        22,600,30,"-0.025em",102,17,"display"],
+ ["h4",        18,600,26,"-0.02em",107, 33,"display"],
+ ["h5",        16,600,24,"-0.01em",  6, 13,"display"],
+ ["body-lg",   18,null,28,"—",       31, 33,"body"],
+ ["body",      16,null,24,"—",      165, 72,"body"],
+ ["body-sm",   15,null,24,"—",      691,113,"body"],
+ ["caption",   13,null,20,"—",     1035,152,"body"],
+ ["micro",     11,null,16,"—",      274, 12,"body"]
+];
+
+/* famille FLUIDE — taille en clamp(), interligne en ratio sans unité :
+   par construction jamais sur une grille fixe, et c'est correct
+   [clé, px min, px max, graisse, ratio, tracking, usages app, usages site, fonte] */
+const TYPO_FLUIDE = [
+ ["hero",         44,80,800,1.04, "-0.03em", 0, 4,"display"],
+ ["stat-value-lg",40,56,null,null,"—",       1, 0,"display"],
+ ["section",      32,52,800,1.08, "-0.025em",0,13,"display"],
+ ["stat-value",   32,44,null,null,"—",       1, 0,"display"],
+ ["title",        26,38,700,1.15, "-0.022em",0, 5,"display"],
+ ["feature",      22,30,700,1.2,  "-0.02em", 0, 9,"display"],
+ ["lede",         17,22,null,1.55,"—",       0,10,"body"]
+];
+
+const SPEC = "Reprends ta pratique là où tu l'as laissée";
+
+const BRAND = {
+ primary:  {400:"#73AFBF",500:"#55A1B4",600:"#4A8FA1",700:"#3D7786",800:"#2F5F6A",900:"#1F3E45"},
+ secondary:{400:"#F18A4C",500:"#ED843A",600:"#C06920",700:"#8F5017",800:"#5E3710",900:"#3B2109"},
+ accent:   {400:"#F8B044",500:"#DF9E3D",600:"#C68D36",700:"#A85F0A",800:"#7E4006",900:"#5F2E05"}
+};
+const INKS = {"ink-400":"#9ca3af","ink-500":"#6b7280","ink-600":"#4b5563","ink-700":"#374151"};
+const FONDS = [["blanc","#ffffff"],["ink-50","#f9fafb"],["ink-100","#f3f4f6"],
+               ["surface-cream","#FDFBF7"],["primary-50","#F0F7F9"],["secondary-50","#FEF4EC"],["accent-50","#FEF7EC"]];
+
+
+/* ═══════════ rampe proposée (dérivée de ink-900, 2026-09-09) ═══════════ */
+const RAMP = [
+ /* cran,      actuel,     A · 264°,   B · 216°,   C · 216° saturé, usages, rôle */
+ ["ink-0",   "#ffffff","#ffffff","#ffffff","#ffffff",   0,"surface de base"],
+ ["ink-50",  "#f9fafb","#f9fafb","#f9fafb","#f8fafb",   0,"surface secondaire"],
+ ["ink-100", "#f3f4f6","#f3f4f6","#f2f5f5","#f1f5f6",   3,"surface tertiaire, bordure douce"],
+ ["ink-200", "#e5e7eb","#e5e7eb","#e3e8e9","#e1e9eb",  11,"la bordure par défaut"],
+ ["ink-300", "#d1d5db","#d1d5db","#ced6d9","#cad7db",  41,"bordure marquée"],
+ ["ink-400", "#9ca3af","#8d95a6","#8399a0","#779ca6", 355,"désactivé · bordure d'interface"],
+ ["ink-500", "#6b7280","#667082","#5c747b","#4e7782", 834,"texte secondaire"],
+ ["ink-600", "#4b5563","#4c5466","#40595f","#315b66", 444,"texte secondaire sûr"],
+ ["ink-700", "#374151","#394050","#2e444a","#204650", 332,"texte appuyé"],
+ ["ink-800", "#1f2937","#2e3442","#24383d","#173a42",  97,"texte fort"],
+ ["ink-900", "#252B37","#252B37","#1d2e33","#123037", 916,"⚓ texte principal"],
+ ["ink-950", "#0f172a","#131820","#0e1a1d","#061b20",   0,"fond sombre"]
+];
+const VARIANTS = [
+ [1,"Aujourd'hui","onze gris Tailwind, une valeur maison insérée au milieu","emprunt"],
+ [2,"A · 264°","ancrée sur ink-900, sa teinte conservée","ink-900 intact"],
+ [3,"B · 216°","rejouée sur la teinte du teal de marque","ink-900 repeint"],
+ [4,"C · 216° saturé","même teinte, chroma ×1,6","franchement teinté"]
+];
+
+const INK_RAMP = [
+ ["ink-0","#ffffff",0,0,0,"le blanc — surface de base"],
+ ["ink-50","#f9fafb",0,293,0,"surface secondaire, zébrure de tableau"],
+ ["ink-100","#f3f4f6",3,160,265,"surface tertiaire et bordure douce"],
+ ["ink-200","#e5e7eb",11,55,444,"la bordure par défaut — 444 usages"],
+ ["ink-300","#d1d5db",41,12,65,"bordure marquée, séparateur"],
+ ["ink-400","#9ca3af",355,6,8,"la charnière — état désactivé uniquement"],
+ ["ink-500","#6b7280",834,2,0,"texte secondaire — sur blanc et crème seulement"],
+ ["ink-600","#4b5563",444,0,0,"texte secondaire sûr — passe sur tous les fonds"],
+ ["ink-700","#374151",332,1,0,"texte appuyé"],
+ ["ink-800","#1f2937",97,3,1,"texte fort"],
+ ["ink-900","#252B37",916,48,1,"le texte principal — 916 usages"],
+ ["ink-950","#0f172a",0,8,0,"fond sombre, jamais du texte"]
+];
+
+const INK_CLASS = [
+ ["État désactivé ou verrouillé",27,"légitime","WCAG 1.4.3 exempte les composants inactifs"],
+ ["Icône ou glyphe décoratif",34,"légitime","aucun texte à lire — chevrons, ellipses, loupes"],
+ ["Placeholder de champ",28,"défaut","un placeholder est du texte : le seuil reste 4,5"],
+ ["Texte réel",213,"défaut","métadonnées, états vides, libellés secondaires"],
+ ["Panneau de dev et showcase",53,"hors produit","ne sort jamais en production"]
+];
+
+const RADII = [["xs",4,11],["sm",6,73],["md",10,113],["lg",14,204],["xl",20,348],["2xl",24,240],["pill",999,418]];
+const RAD_EXTRA = [["full","50 %",204,"interdit par CLAUDE.md sur Button et Card"],
+                   ["3xl","24 px (défaut Tailwind)",22,"aucun token TLS — c'est une fuite"]];
+
+const SPACES = [
+ ["tight","0.125rem",2,412,"produit"],["stack-xs","0.5rem",8,1341,"produit"],
+ ["stack","1rem",16,2794,"produit"],["stack-lg","1.5rem",24,318,"produit"],
+ ["section","2rem",32,453,"produit"],["section-lg","2.5rem",40,47,"produit"],
+ ["page","3rem",48,40,"produit"],
+ ["rule","clamp(0.5rem, 0.8vw, 0.75rem)",12,2,"éditorial"],
+ ["group","clamp(1rem, 1.5vw, 1.5rem)",24,16,"éditorial"],
+ ["flow","clamp(2rem, 3.5vw, 3.5rem)",56,44,"éditorial"],
+ ["band","clamp(4rem, 7vw, 7.5rem)",120,16,"éditorial"],
+ ["gutter","clamp(1rem, 2.5vw, 2.5rem)",40,7,"éditorial"],
+ ["chapter","clamp(6rem, 11vw, 11rem)",176,3,"éditorial"],
+ ["hero","clamp(7rem, 11vw, 10.5rem)",168,2,"éditorial"]
+];
+
+const DECISIONS = [
+ {id:"T1",t:"Nommer la frontière entre les deux familles",cost:"43 usages à renommer",
+  q:"Le code a déjà deux échelles, séparées par leur modèle et non par leur nom : 13 crans fixes (rem, alignables sur la grille) pour l'app, 7 crans fluides (clamp + ratio) pour le site. Mesuré : 43 usages fluides, dont 41 sur le site — les 2 seules exceptions sont stat-value et stat-value-lg, employés dans l'app. La frontière existe déjà ; rien ne la dit.",
+  o:[["Renommer en text-editorial-*","la séparation devient lisible dans le code",1],["Garder les noms actuels","la frontière reste tacite, et se refranchira",0],["Fusionner les deux familles","il faudrait rendre l'app fluide ou le site fixe",0]]},
+ {id:"T2",t:"Graisse de h3 et h4 : le token dit 600, le code écrit 700",cost:"0 fichier à toucher",
+  q:"Remesuré en scopant au même littéral de classe : 72 % des h3 et 62 % des h4 portent déjà un font-bold local. Aligner le token sur l'usage ne touche aucun fichier et rend 89 font-bold supprimables ; l'inverse demande ~185 corrections.",
+  o:[["Le token passe à 700","on suit l'usage réel — 89 font-bold deviennent inutiles",1],["Le code revient à 600","~185 sites à corriger",0]]},
+ {id:"T3",t:"Les collisions de taille : deux, pas quatre",cost:"19 usages",
+  q:"Dans la famille fixe : h4/body-lg à 18 px et h5/body à 16 px — h5 et body sont même identiques sur les trois axes, seule la graisse les distingue. Les deux autres collisions annoncées comparaient un cran fixe à un cran fluide pris à sa largeur d'écran minimale : elles ne coexistent sur aucune surface.",
+  o:[["Retirer h5, garder h4 et body-lg","h5 = 19 usages ; h4 et body-lg ont deux rôles réels",1],["Retirer h5 et écarter h4 (voir T7)","règle les deux collisions d'un coup",0],["Ne rien changer","la taille cesse de hiérarchiser à deux endroits",0]]},
+ {id:"T4",t:"body-sm ou body : laquelle des deux tailles survit ?",cost:"804 ou 237 usages",
+  q:"Le pas est d'1 px (×1,067), sous le plancher de 1,125 : les deux crans ne se distinguent pas. Mais body-sm est utilisé 3,4 fois plus que body — 804 contre 237. Fusionner n'est donc pas replier une exception dans la norme : c'est choisir laquelle des deux devient le corps de texte du système.",
+  o:[["Garder 15 px","237 usages repeints vers le bas — c'est déjà le corps réel de l'app",1],["Garder 16 px","804 usages repeints vers le haut : plus confortable à lire, mais tout le texte grossit d'1 px et les cards calées sur 15 bougent",0],["Garder les deux","l'échelle reste plate à cet endroit",0]]},
+ {id:"T5",t:"h3 : 22 → 24 px",cost:"119 usages",
+  q:"Deux mesures indépendantes le demandent : le seuil WCAG « grand texte » vaut 22,4 px en League Spartan (x-height 0,41), et le pas h4→h3 passerait de ×1,22 à ×1,33. L'interligne suit à 32 px, sur la grille.",
+  o:[["Passer à 24 px","interligne 32 px — ratio 1,333, sur la grille",1],["Rester à 22 px","le seuil de 4,5 continue de s'appliquer à h3",0]]},
+ {id:"T6",t:"Les usages sous 11 px",cost:"36 usages",
+  q:"Recompté aujourd'hui : 25 × 10 px, 7 × 9 px, 2 × 8 px, 1 × 10,5 px et 1 en rem — trente-six, pas cinquante-quatre. À ces tailles, même Nunito décroche.",
+  o:[["Tout ramener à micro (11 px)","plancher unique, aucun cas à juger",1],["Regarder au cas par cas","36 arbitrages",0]]},
+ {id:"T7",t:"Écarter h4 : 18 → 20 px",cost:"140 usages",
+  q:"Un seul mouvement règle trois choses : h4 sort de la collision avec body-lg (18 px), son interligne retombe sur la grille (28 au lieu de 26), et le ratio 1,400 se place proprement entre h3 (1,333) et body-lg (1,556). Forcer l'interligne de h4 à 24 sans bouger la taille ferait l'inverse : ratio 1,333, égal à celui de h3, et trop serré pour du 18 px.",
+  o:[["Passer h4 à 20 px","interligne 28 px, ratio 1,400 — collision et grille réglées ensemble",1],["Garder 18 px","la collision avec body-lg et l'interligne 26 restent",0]]},
+ {id:"T8",t:"Les deux interlignes hors grille",cost:"0 si T5 et T7 sont pris",
+  q:"Sur 13 crans fixes, 11 ont un interligne multiple de 4. Seuls h3 (30 px) et h4 (26 px) en sortent — et les deux disparaissent d'eux-mêmes si les tailles bougent : h3 24 → 32, h4 20 → 28. Sinon il faut trancher entre la grille et le ratio juste.",
+  o:[["Suivre T5 et T7","les deux interlignes retombent sur la grille sans arbitrage propre",1],["Forcer 28 et 24 sans toucher aux tailles","sur la grille, mais h4 tombe à 1,333 — trop serré",0],["Accepter 30 et 26","le ratio prime sur la grille de 4",0]]},
+ {id:"T9",t:"display-xl / -lg / -md : zéro usage",cost:"12 lignes de token",
+  q:"Consommation réelle mesurée, et réfutée trois fois : aucun usage de classe, aucun usage dynamique, aucun var(--text-display-*), rien dans public/. Le compte de 5/4/4 qui circulait comptait les lignes de déclaration d'index.css. Leur seul argument de survie est le lien 1:1 avec les text styles Figma.",
+  o:[["Les retirer","la famille fixe passe de 13 à 10 crans",1],["Les garder pour la parité Figma","trois tokens morts, mais documentés comme tels",0]]},
+ {id:"T10",t:"La rampe d'interlignes du corps s'inverse",cost:"1 à 2 valeurs",
+  q:"Règle du métier : plus le texte est petit, plus son interligne doit être proportionnellement grand. La rampe des titres la suit sans faute (1,000 → 1,500). Celle du corps s'inverse, et c'est micro — le plus petit texte du système — qui porte le ratio le plus serré de toute l'échelle (11/16 = 1,455).",
+  o:[["Recaler micro à 11/18","1,636, sur la grille : le plus petit texte cesse d'être le plus serré",1],["Recaler caption et micro","caption 13/24 (1,846) et micro 11/18 — monotone, mais caption devient très aéré",0],["Laisser","la règle vaut pour du texte courant ; caption et micro sont surtout des étiquettes d'une ligne",0]]},
+
+ {id:"C1",t:"Le site et l'app partagent-ils l'encre ?",cost:"638 ou 4 346 usages",
+  q:"La rampe ink est définie une fois et compte 4 346 usages, dont 638 seulement sur le site. Changer sa teinte repeint donc l'app entière.",
+  o:[["Rampe éditoriale séparée","--color-paper-* pour le site, ink-* pour l'app",1],["Rampe partagée","cohérence totale, l'app change aussi",0]]},
+ {id:"C2",t:"La teinte de la rampe",cost:"selon C1",
+  q:"Les quatre rampes conservent la clarté cran par cran : aucun ratio de contraste ne bouge, quelle que soit celle retenue.",
+  o:[["D — marron (46°)","la rampe chaude, cohérente avec la direction papier",1],["C — teal TLS (216°)","un vrai gris de marque",0],["A — l'actuel","les gris Tailwind par défaut",0]]},
+ {id:"C3",t:"Rempli ou outline pour les boutons de marque",cost:"485 boutons dans l'app",
+  q:"En rempli, le label blanc force un cran 700+ et le teal paraît terni. En outline, le label est sur blanc et les trois couleurs passent AA à leur cran 700.",
+  o:[["Outline sur le site, rempli dans l'app","chaque surface son registre",1],["Outline partout","cohérent, mais repeint l'app",0],["Rempli partout","il faut alors accepter 700+",0]]},
+ {id:"C4",t:"Le commentaire faux sur ink-900",cost:"1 ligne",
+  q:"index.css:78 décrit ink-900 comme « teal-tinted ». Mesuré en OKLCH il est à 264°, quand le teal de marque est à 216° : c'est un gris bleu-violet.",
+  o:[["Corriger le commentaire","dire ce que la valeur est",1],["Le laisser","",0]]},
+
+ {id:"C5",t:"Nommer les rôles de la rampe ink",cost:"documentation",
+  q:"Douze crans, aucun rôle écrit. C'est la cause profonde des 241 fautes : rien ne dit qu'un cran est fait pour une surface plutôt que pour du texte.",
+  o:[["Trois zones documentées","0-300 surfaces · 400 désactivé · 500-950 texte",1],["Un rôle par cran","plus précis, plus rigide",0],["Ne rien écrire","on continue au jugé",0]]},
+ {id:"C6",t:"L'inversion ink-800 / ink-900",cost:"1 valeur",
+  q:"ink-900 mesure 14,20 quand ink-800 mesure 14,68 : le cran censé être le plus foncé est le plus clair. ink-900 est la seule valeur maison, insérée sans être recalée.",
+  o:[["Recaler ink-900 sous ink-800","la rampe redevient monotone — 916 textes concernés",1],["Échanger les deux noms","aucun repaint, mais 97 usages à inverser",0],["Laisser","l'anomalie reste, documentée",0]]},
+
+ {id:"C7",t:"✅ Rampe reconstruite — variante A, appliquée le 09/09",cost:"6 crans · fait",
+  q:"Tranché : variante A. Les six crans sont dans src/index.css, ink-900 est resté intact, le build passe. La variante teal a été écartée — elle repeignait 916 textes pour un gain esthétique, à contraste inchangé. Les colonnes B et C restent affichées plus haut pour mémoire.",
+  o:[["A · 264° — appliquée","6 crans dans index.css, l'ancre intacte",1],["B · 216° — teinte teal","11 crans, le gris devient de marque, ink-900 repeint",0],["C · 216° saturé","gris franchement teinté, fatigant sur de longues pages",0],["Corriger la seule inversion","ink-800 uniquement",0],["Ne rien changer","la rampe reste un emprunt",0]]},
+
+ {id:"A1",t:"ink-400 sur 241 textes fautifs",cost:"241 usages",
+  q:"Le remplacement n'est pas mécanique : ink-500 passe sur blanc mais échoue sur les surfaces teintées. ink-600 passe partout.",
+  o:[["Tout en ink-600","une seule règle, aucune exception à juger",1],["En trois lots vérifiés","gris d'abord, puis clairs, puis les indéterminés",0],["Tout en ink-500","laisse les surfaces teintées sous le seuil",0]]},
+ {id:"A2",t:"Le bouton primaire de l'app mesure 3,66",cost:"485 boutons",
+  q:"Label 15px graisse 600 : c'est du texte normal, donc le seuil est 4,5 et non 3,0. Il échoue.",
+  o:[["Rempli profond (primary-900)","11,46 — pétrole, pas un 700 terni",1],["primary-700","5,02 — passe, mais c'est le teal terni",0],["Teinté clair + bordure","reste dans les tons clairs",0]]},
+ {id:"A3",t:"Écrire la doctrine light-only",cost:"1 ligne",
+  q:"Le dark mode a été retiré le 28/07 pour de bonnes raisons, mais rien ne dit que c'est une décision plutôt qu'un oubli.",
+  o:[["L'écrire dans DESIGN.md","le sujet est clos",1],["Rouvrir un vrai dark mode","chantier à part entière",0]]},
+
+ {id:"R1",t:"Réconcilier le rayon : 14, 20 ou 24 px ?",cost:"prérequis aux autres",
+  q:"L'arbitrage du 31/07 a tranché 14 px ; la décision D12 du même banc propose 20 ou 24. Les deux coexistent, il faut en retirer une.",
+  o:[["14 px","l'angle franc, cohérent avec une direction papier",1],["20 px","suit Card.BASE, plus sobre",0],["24 px","suit la hero du dashboard, plus doux",0]]},
+ {id:"R2",t:"Les 22 rounded-3xl sans token",cost:"22 usages",
+  q:"Aucun --radius-3xl n'existe : ces usages tombent sur le défaut Tailwind. Ce n'est pas un choix, c'est une fuite.",
+  o:[["Les ramener dans l'échelle","aucun arbitrage",1],["Créer le token","officialiser la valeur",0]]},
+ {id:"R3",t:"Les 204 rounded-full",cost:"204 usages",
+  q:"La règle dit « jamais sur bouton ni card ». Une partie est pourtant légitime : avatars, pastilles de statut.",
+  o:[["Auditer et corriger les fautifs","garder avatars et pastilles",1],["Tout basculer en pill","risque de casser les cercles",0]]},
+ {id:"R4",t:"radius-3xl est un doublon exact de radius-2xl",cost:"1 ligne",
+  q:"Même valeur, deux noms. Un token mort qui invite à la divergence.",
+  o:[["Retirer le doublon","",1],["Le garder","",0]]}
+];
+
+/* ═══════════ contraste ═══════════ */
+const lin = c => (c/=255) <= .04045 ? c/12.92 : Math.pow((c+.055)/1.055, 2.4);
+const lum = h => .2126*lin(parseInt(h.slice(1,3),16)) + .7152*lin(parseInt(h.slice(3,5),16)) + .0722*lin(parseInt(h.slice(5,7),16));
+const ratio = (a,b) => { const x=lum(a), y=lum(b); return (Math.max(x,y)+.05)/(Math.min(x,y)+.05); };
+const fmt = n => n.toFixed(2).replace('.', ',');
+const el = (t,c,h) => { const e=document.createElement(t); if(c) e.className=c; if(h!=null) e.innerHTML=h; return e; };
+
+/* ═══════════ typographie ═══════════ */
+(function(){
+  const SPEC_COURT = "Maîtrise";
+
+  /* ── famille fixe ── */
+  const fixe = [...TYPO_FIXE].sort((a,b) => b[1]-a[1]);
+  const hostF = document.getElementById('typoFixe');
+  let collisions = 0, sous = 0;
+
+  fixe.forEach(([k,px,w,lh,tr,app,site,fam], i) => {
+    const prev = i ? fixe[i-1][1] : null;
+    const r = prev ? prev/px : null;
+    const collide = r !== null && Math.abs(r-1) < .001;
+    if (collide) collisions++;
+    if (r !== null && r < 1.1249) sous++;
+
+    const d = el('div','trow' + (collide ? ' tcollide' : ''));
+    const tot = app + site;
+    d.appendChild(el('div','tkey',
+      `text-${k}<small>${tot ? tot.toLocaleString('fr') + ' usage' + (tot>1?'s':'') : 'aucun usage'}</small>`));
+
+    const sp = el('div','tsample', SPEC);
+    sp.style.fontFamily = fam === 'display' ? 'var(--display)' : 'var(--body)';
+    sp.style.fontSize = px + 'px';
+    sp.style.fontWeight = w || 400;
+    sp.style.letterSpacing = tr === '—' ? 'normal' : tr;
+    sp.style.lineHeight = '1.15';
+    d.appendChild(sp);
+
+    d.appendChild(el('div','tmeta',
+      `<span>${px}px</span><span>${w || '—'}</span>` +
+      (r ? `<span${r<1.1249?' style="color:var(--no);font-weight:600"':''}>×${r.toFixed(3).replace('.',',')}</span>`
+         : '<span>—</span>')));
+    hostF.appendChild(d);
+  });
+
+  document.getElementById('typoVerdict').innerHTML =
+    `<b>${collisions} collisions exactes</b> — <code>h4</code>/<code>body-lg</code> à 18&nbsp;px et
+     <code>h5</code>/<code>body</code> à 16&nbsp;px — et <b>${sous} intervalles sur ${fixe.length-1}
+     sous le plancher de ×1,125</b>, les deux collisions comprises. C'est trois fois moins que ce
+     qu'annonçait la première version : elle comparait des crans fixes à des crans fluides pris à
+     leur largeur d'écran minimale. <b>Le milieu de l'échelle reste encombré</b> — six crans entre
+     15 et 22&nbsp;px. Le tracking, lui, est gradué correctement de −0,03em à −0,01em :
+     <b>ne pas y toucher</b>.`;
+
+  /* ── famille fluide ── */
+  const hostL = document.getElementById('typoFluide');
+  TYPO_FLUIDE.forEach(([k,mn,mx,w,lhr,tr,app,site,fam]) => {
+    const d = el('div','trow');
+    const tot = app + site;
+    d.appendChild(el('div','tkey',
+      `text-${k}<small>${tot} usage${tot>1?'s':''}${site && !app ? ' · site seul' : (app && !site ? ' · app seule' : '')}</small>`));
+
+    const sp = el('div','tsample', SPEC_COURT);
+    sp.style.fontFamily = fam === 'display' ? 'var(--display)' : 'var(--body)';
+    sp.style.fontSize = Math.min(mx, 56) + 'px';
+    sp.style.fontWeight = w || 400;
+    sp.style.letterSpacing = tr === '—' ? 'normal' : tr;
+    sp.style.lineHeight = '1.1';
+    d.appendChild(sp);
+
+    d.appendChild(el('div','tmeta',
+      `<span>${mn} → ${mx}px</span><span>${w || '—'}</span>` +
+      `<span${lhr === null ? ' style="color:var(--no);font-weight:600"' : ''}>${lhr === null ? 'aucun' : '×'+String(lhr).replace('.',',')}</span>`));
+    hostL.appendChild(d);
+  });
+
+  const fluidApp = TYPO_FLUIDE.reduce((a,r)=>a+r[6],0);
+  const fluidSite = TYPO_FLUIDE.reduce((a,r)=>a+r[7],0);
+  document.getElementById('fluidVerdict').innerHTML =
+    `<b>${fluidApp+fluidSite} usages, dont ${fluidSite} sur le site.</b> Les ${fluidApp} restants sont
+     <code>stat-value</code> et <code>stat-value-lg</code>, seuls crans fluides employés dans l'app.
+     La séparation est donc <b>déjà propre</b> : ce n'est pas une échelle à fusionner, c'est une
+     frontière à nommer.<br><br>
+     <b>Deux de ces sept crans ne portent qu'une taille.</b> <code>stat-value</code> et
+     <code>stat-value-lg</code> n'ont ni interligne, ni graisse, ni tracking déclarés — ils héritent
+     de ce qui traîne. Les cinq autres sont complets.`;
+
+  /* ── interligne ── */
+  const lhHost = document.getElementById('lhRows');
+  ['display','body'].forEach(famille => {
+    const grp = fixe.filter(r => r[7] === famille);
+    const th = el('tr');
+    th.innerHTML = `<td colspan="6" style="background:var(--surface-2);font-weight:700;font-size:12px;padding:8px 13px">
+      ${famille === 'display' ? 'League Spartan — les titres' : 'Nunito — le corps'}</td>`;
+    lhHost.appendChild(th);
+
+    let prevRatio = null, inversions = 0;
+    grp.forEach(([k,px,w,lh]) => {
+      const ratio = lh/px;
+      const grille = lh % 4 === 0;
+      const monte = prevRatio === null ? null : ratio >= prevRatio - 0.0001;
+      if (monte === false) inversions++;
+      const tr = el('tr');
+      tr.appendChild(el('td',null,`<code>${k}</code>`));
+      tr.appendChild(el('td','num',px+'px'));
+      tr.appendChild(el('td','num',lh+'px'));
+      tr.appendChild(el('td','num',ratio.toFixed(3).replace('.',',')));
+      tr.appendChild(el('td','num',
+        `<span class="pill ${grille?'p-ok':'p-no'}">${grille?'✓':lh+' px'}</span>`));
+      tr.appendChild(el('td',null, monte === null
+        ? '<span style="color:var(--faint);font-size:12px">départ</span>'
+        : (monte ? '<span style="color:var(--ok);font-size:12px">↑ le ratio croît — correct</span>'
+                 : '<span style="color:var(--no);font-size:12px;font-weight:600">↓ le ratio baisse alors que le texte rapetisse</span>')));
+      if (!grille) tr.style.background = 'var(--warn-bg)';
+      lhHost.appendChild(tr);
+      prevRatio = ratio;
+    });
+  });
+
+  const horsGrille = fixe.filter(r => r[3] % 4 !== 0);
+  const bodyGrp = fixe.filter(r => r[7] === 'body');
+  let inv = 0, pr = null;
+  bodyGrp.forEach(([,px,,lh]) => { const rt = lh/px; if (pr !== null && rt < pr - 0.0001) inv++; pr = rt; });
+
+  document.getElementById('lhVerdict').innerHTML =
+    `<b>${fixe.length - horsGrille.length} interlignes sur ${fixe.length} tombent sur la grille de 4.</b>
+     Deux en sortent : ${horsGrille.map(r=>`<code>${r[0]}</code> (${r[3]}&nbsp;px)`).join(' et ')} — et
+     <b>les deux se résolvent d'eux-mêmes</b> si les tailles bougent (T5, T7). Voir T8.<br><br>
+     <b>La rampe des titres est exemplaire</b> : le ratio croît sans faute de 1,000 à 1,500 à mesure
+     que la taille baisse. <b>Celle du corps s'inverse ${inv} fois</b> — et c'est
+     <code>micro</code>, le plus petit texte de tout le système, qui porte le ratio le plus serré de
+     l'échelle (1,455). Voir T10.`;
+
+  /* ── recouvrement inter-familles ── */
+  const OVERLAP = [
+    ["Un titre de page",     "h1 · 30 usages",      "hero · 4 usages",     "display-xl · 0 usage"],
+    ["Un titre de section",  "h2 · 79 usages",      "section · 13 usages", "title · 5 usages"],
+    ["Un titre de card",     "h4 · 140 usages",     "feature · 9 usages",  "h3 · 119 usages"],
+    ["Un chapô",             "body-lg · 64 usages", "lede · 10 usages",    "—"]
+  ];
+  const ob = document.getElementById('overlapRows');
+  OVERLAP.forEach(r => {
+    const tr = el('tr');
+    r.forEach((c,i) => tr.appendChild(el('td',null, i ? `<code>${c}</code>` : `<b>${c}</b>`)));
+    ob.appendChild(tr);
+  });
+})();
+
+/* ═══════════ couleur ═══════════ */
+(function(){
+  const tb = document.getElementById('brandRows');
+  Object.entries(BRAND).forEach(([fam,levels]) => {
+    const tr = el('tr');
+    tr.appendChild(el('td',null,`<b>${fam}</b>`));
+    Object.entries(levels).forEach(([lv,hex]) => {
+      const r = ratio('#ffffff', hex);
+      tr.appendChild(el('td','num',
+        `<span class="pill ${r>=4.5?'p-ok':(r>=3?'p-wa':'p-no')}">${fmt(r)}</span>`));
+    });
+    tb.appendChild(tr);
+  });
+
+  const sw = document.getElementById('swatches');
+  [['primary',500],['primary',700],['secondary',500],['secondary',700],['accent',400],['accent',700]].forEach(([f,l]) => {
+    const hex = BRAND[f][l], r = ratio('#ffffff', hex);
+    const c = el('div','sw');
+    const chip = el('div','chip','Aa');
+    chip.style.background = hex;
+    chip.style.color = r >= 4.5 ? '#fff' : 'rgba(255,255,255,.55)';
+    c.appendChild(chip);
+    c.appendChild(el('div','lab',
+      `<b>${f}-${l}</b><span>${hex}<br>blanc : ${fmt(r)} ${r>=4.5?'✓':'✗'}</span>`));
+    sw.appendChild(c);
+  });
+})();
+
+/* ═══════════ encre ═══════════ */
+(function(){
+  const tot = INK_CLASS.reduce((a,r) => a + r[1], 0);
+  const tb = document.getElementById('inkClass');
+  INK_CLASS.forEach(([lab,n,verdict,why]) => {
+    const tr = el('tr');
+    tr.appendChild(el('td',null,`<b>${lab}</b><br><span style="color:var(--faint);font-size:12px">${why}</span>`));
+    tr.appendChild(el('td','num',n));
+    tr.appendChild(el('td','num',(100*n/tot).toFixed(1).replace('.',',') + ' %'));
+    const cls = verdict === 'légitime' ? 'p-ok' : (verdict === 'défaut' ? 'p-no' : 'p-nt');
+    tr.appendChild(el('td',null,`<span class="pill ${cls}">${verdict}</span>`));
+    tb.appendChild(tr);
+  });
+
+  const mx = document.getElementById('inkMatrix');
+  FONDS.forEach(([fn,fh]) => {
+    const tr = el('tr');
+    tr.appendChild(el('td',null,`<code>${fn}</code>`));
+    Object.entries(INKS).forEach(([, ih]) => {
+      const r = ratio(ih, fh);
+      tr.appendChild(el('td','num',`<span class="pill ${r>=4.5?'p-ok':'p-no'}">${fmt(r)}</span>`));
+    });
+    mx.appendChild(tr);
+  });
+
+  const rolesBody = document.getElementById('inkRoles');
+  let prevR = null;
+  INK_RAMP.forEach(([k,hex,t,b,bo,role]) => {
+    const r = ratio(hex, '#ffffff');
+    const inverted = prevR !== null && r < prevR;
+    const tr = el('tr');
+    const zone = t + b + bo === 0 ? '' : (b + bo > t ? 'surface' : 'texte');
+    tr.appendChild(el('td', null,
+      `<span style="display:inline-block;width:13px;height:13px;border-radius:3px;background:${hex};border:1px solid var(--line-strong);vertical-align:-2px;margin-right:7px"></span><code>${k}</code>`));
+    tr.appendChild(el('td','num', fmt(r) + (inverted ? ' ⚠️' : '')));
+    tr.appendChild(el('td','num', t ? t.toLocaleString('fr') : '—'));
+    tr.appendChild(el('td','num', b ? b.toLocaleString('fr') : '—'));
+    tr.appendChild(el('td','num', bo ? bo.toLocaleString('fr') : '—'));
+    tr.appendChild(el('td', null, role));
+    if (k === 'ink-400') tr.style.background = 'var(--no-bg)';
+    if (inverted) tr.style.background = 'var(--warn-bg)';
+    rolesBody.appendChild(tr);
+    prevR = r;
+  });
+
+  const demo = document.getElementById('inkDemo');
+  FONDS.slice(0,5).forEach(([fn,fh]) => {
+    const row = el('div');
+    row.style.cssText = `background:${fh};padding:13px 16px;border-bottom:1px solid var(--line);display:flex;gap:20px;flex-wrap:wrap;align-items:baseline`;
+    row.appendChild(el('span', null,
+      `<code style="color:#252B37;font-size:11px;opacity:.6">${fn}</code>`));
+    Object.entries(INKS).forEach(([k,ih]) => {
+      const r = ratio(ih,fh);
+      const s = el('span', null, `${k} — ${r >= 4.5 ? 'lisible' : 'trop clair'}`);
+      s.style.cssText = `color:${ih};font-size:14px;font-weight:${r>=4.5?600:400}`;
+      row.appendChild(s);
+    });
+    demo.appendChild(row);
+  });
+})();
+
+
+/* ═══════════ rampe proposée ═══════════ */
+(function(){
+  const cmp = document.getElementById('rampCompare');
+
+  VARIANTS.forEach(([idx,label,desc,tag])=>{
+    const wrap = el('div');
+    wrap.style.cssText='padding:14px 17px;border-bottom:1px solid var(--line)';
+    wrap.appendChild(el('div',null,
+      `<span style="font-size:13px;font-weight:700;color:var(--ink)">${label}</span>` +
+      `<span style="font-size:12px;color:var(--faint);margin-left:9px">${desc}</span>` +
+      `<span class="pill ${idx===2?'p-ok':'p-nt'}" style="margin-left:9px">${tag}</span>`));
+    const strip = el('div');
+    strip.style.cssText='display:flex;margin-top:8px;border-radius:9px;overflow:hidden;border:1px solid var(--line)';
+    RAMP.forEach(r=>{
+      const hex = r[idx];
+      const c = el('div');
+      c.style.cssText=`flex:1;height:52px;background:${hex};display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px`;
+      c.innerHTML=`<span style="font-family:var(--mono);font-size:8.5px;color:${ratio(hex,'#ffffff')>3?'#fff':'#252B37'};opacity:.8">${r[0].replace('ink-','')}</span>`;
+      strip.appendChild(c);
+    });
+    wrap.appendChild(strip);
+    cmp.appendChild(wrap);
+  });
+
+  const sample = el('div');
+  sample.style.cssText='padding:16px 17px';
+  sample.appendChild(el('div',null,'<span style="font-size:13px;font-weight:700">Le même texte dans les quatre rampes</span>'));
+  const head = el('div');
+  head.style.cssText='display:grid;grid-template-columns:104px repeat(4,1fr);gap:12px;margin:11px 0 7px;font-family:var(--mono);font-size:10px;color:var(--faint)';
+  head.innerHTML = '<span></span><span>aujourd\'hui</span><span>A · 264°</span><span>B · 216°</span><span>C · saturé</span>';
+  sample.appendChild(head);
+  [["ink-900","Texte principal"],["ink-700","Texte appuyé"],["ink-600","Texte secondaire"],
+   ["ink-500","Métadonnée"],["ink-400","État désactivé"]].forEach(([k,role])=>{
+    const r = RAMP.find(x=>x[0]===k);
+    const line = el('div');
+    line.style.cssText='display:grid;grid-template-columns:104px repeat(4,1fr);gap:12px;align-items:baseline;font-size:13.5px;padding:4px 0';
+    line.innerHTML = `<code style="font-size:10.5px;color:var(--faint)">${k}</code>`
+      + [1,2,3,4].map(i=>`<span style="color:${r[i]}">${role}</span>`).join('');
+    sample.appendChild(line);
+  });
+  cmp.appendChild(sample);
+
+  const tb = document.getElementById('rampTable');
+  RAMP.forEach(row=>{
+    const [k,o,a2,b2,c2,use,role]=row;
+    const tr = el('tr');
+    const dot = h => `<span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:${h};border:1px solid var(--line-strong);vertical-align:-2px;margin-right:5px"></span>`;
+    tr.appendChild(el('td',null,`<code>${k}</code>`));
+    tr.appendChild(el('td',null,`${dot(o)}<code style="font-size:10.5px">${o}</code>`));
+    tr.appendChild(el('td',null, o.toLowerCase()===a2.toLowerCase()
+      ? '<span style="color:var(--faint);font-size:12px">inchangé</span>'
+      : `${dot(a2)}<code style="font-size:10.5px">${a2}</code>`));
+    tr.appendChild(el('td',null,`${dot(b2)}<code style="font-size:10.5px">${b2}</code>`));
+    tr.appendChild(el('td','num',fmt(ratio(o,'#ffffff'))));
+    tr.appendChild(el('td','num',`<span class="pill p-nt">${fmt(ratio(a2,'#ffffff'))}</span>`));
+    tr.appendChild(el('td','num',use?use.toLocaleString('fr'):'—'));
+    tr.appendChild(el('td',null,`<span style="font-size:12.5px">${role}</span>`));
+    if(k==='ink-900') tr.style.background='var(--accent-soft)';
+    tb.appendChild(tr);
+  });
+
+  const mx = document.getElementById('rampMatrix');
+  FONDS.forEach(([fn,fh])=>{
+    const tr = el('tr');
+    tr.appendChild(el('td',null,`<code>${fn}</code>`));
+    ['ink-400','ink-500','ink-600','ink-700'].forEach(k=>{
+      const hex = RAMP.find(x=>x[0]===k)[2];
+      const r = ratio(hex,fh);
+      tr.appendChild(el('td','num',`<span class="pill ${r>=4.5?'p-ok':'p-no'}">${fmt(r)}</span>`));
+    });
+    mx.appendChild(tr);
+  });
+
+  document.getElementById('rampCss').textContent =
+    "/* A · 264° — ancrée sur ink-900, l'ancre ne bouge pas */\n" +
+    RAMP.map(r=>`--color-${r[0]}: ${r[2]};` + (r[1].toLowerCase()===r[2].toLowerCase()?'':'   /* modifié */')).join('\n') +
+    "\n\n/* B · 216° — teinte du teal de marque, ink-900 repeint */\n" +
+    RAMP.map(r=>`--color-${r[0]}: ${r[3]};`).join('\n');
+})();
+
+/* ═══════════ rayons ═══════════ */
+(function(){
+  const host = document.getElementById('radii');
+  RADII.forEach(([k,px,use]) => {
+    const d = el('div','rad');
+    const b = el('div','box');
+    b.style.borderRadius = px + 'px';
+    d.appendChild(b);
+    d.appendChild(el('div','cap',`<b>rounded-${k}</b>${px===999?'999px':px+'px'} · ${use.toLocaleString('fr')}`));
+    host.appendChild(d);
+  });
+  RAD_EXTRA.forEach(([k,val,use,why]) => {
+    const d = el('div','rad');
+    const b = el('div','box');
+    b.style.borderRadius = k === 'full' ? '50%' : '24px';
+    b.style.borderStyle = 'dashed';
+    b.style.borderColor = 'var(--no)';
+    b.style.background = 'var(--no-bg)';
+    d.appendChild(b);
+    d.appendChild(el('div','cap',
+      `<b style="color:var(--no)">rounded-${k}</b>${val} · ${use.toLocaleString('fr')}<br><span style="color:var(--no)">${why}</span>`));
+    host.appendChild(d);
+  });
+
+  document.getElementById('radVerdict').innerHTML =
+    `<b>La décision du 31 juillet n'a jamais atteint le code.</b> <code>rounded-lg</code> (14 px), la
+     valeur retenue, arrive quatrième en usage derrière trois valeurs plus rondes. Et elle
+     <b>contredit la décision D12 du même banc</b>, qui proposait 20 ou 24 px : il faut en retirer une
+     avant de migrer quoi que ce soit, sinon on migrera deux fois.`;
+})();
+
+/* ═══════════ espacement ═══════════ */
+(function(){
+  const host = document.getElementById('spaces');
+  const max = Math.max(...SPACES.map(s => s[2]));
+  SPACES.forEach(([k,val,px,use,fam]) => {
+    const d = el('div','sp');
+    d.appendChild(el('div','spk', `${k}<br><span style="color:var(--faint);font-size:10px;font-weight:400">${fam}</span>`));
+    const wrap = el('div');
+    const bar = el('div','bar');
+    bar.style.width = (100*px/max) + '%';
+    if (fam === 'éditorial') bar.style.opacity = '.45';
+    wrap.appendChild(bar);
+    d.appendChild(wrap);
+    d.appendChild(el('div','spn', `${px}px · ${use.toLocaleString('fr')}`));
+    host.appendChild(d);
+  });
+})();
+
+/* ═══════════ décisions ═══════════ */
+(function(){
+  const KEY = 'tls-fondations-2026-09';
+  let state = {};
+  try { state = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e) { state = {}; }
+
+  const host = document.getElementById('decList');
+  const prog = document.getElementById('progress');
+
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){} }
+  function refresh(){
+    const n = Object.keys(state).length;
+    prog.textContent = `${n} / ${DECISIONS.length} tranchées`;
+    DECISIONS.forEach(d => {
+      const card = document.getElementById('dec-' + d.id);
+      if (card) card.classList.toggle('done', !!state[d.id]);
+    });
+  }
+
+  DECISIONS.forEach(d => {
+    const card = el('div','dec');
+    card.id = 'dec-' + d.id;
+    card.appendChild(el('div','top',
+      `<span class="id">${d.id}</span><h4>${d.t}</h4><span class="cost">${d.cost}</span>`));
+    card.appendChild(el('p','q', d.q));
+
+    const opts = el('div','opts');
+    d.o.forEach(([label, hint, reco]) => {
+      const b = el('button','opt',
+        `${label}${reco ? '<span class="reco">recommandé</span>' : ''}${hint ? `<small>${hint}</small>` : ''}`);
+      b.type = 'button';
+      b.setAttribute('aria-pressed', state[d.id] === label ? 'true' : 'false');
+      b.addEventListener('click', () => {
+        state[d.id] = state[d.id] === label ? undefined : label;
+        if (!state[d.id]) delete state[d.id];
+        opts.querySelectorAll('.opt').forEach(o =>
+          o.setAttribute('aria-pressed', o === b && state[d.id] ? 'true' : 'false'));
+        save(); refresh();
+      });
+      opts.appendChild(b);
+    });
+    card.appendChild(opts);
+    host.appendChild(card);
+  });
+
+  document.getElementById('exportBtn').addEventListener('click', () => {
+    const date = new Date().toISOString().slice(0,10);
+    let md = `## Fondations du design system — décisions rendues\n\n> Tranchées au banc le ${date}.\n> Report attendu dans \`DESIGN.md\`, puis dans \`src/index.css\` pour ce qui touche aux tokens.\n\n`;
+    md += `| # | Décision | Choix retenu | Coût |\n|---|---|---|---|\n`;
+    let n = 0;
+    DECISIONS.forEach(d => {
+      const c = state[d.id];
+      if (c) { n++; md += `| ${d.id} | ${d.t} | **${c}** | ${d.cost} |\n`; }
+    });
+    const open = DECISIONS.filter(d => !state[d.id]);
+    if (open.length) {
+      md += `\n**Encore ouvertes (${open.length})** : ` + open.map(d => `${d.id} — ${d.t}`).join(' · ') + `\n`;
+    }
+    md += `\n_${n} décision${n>1?'s':''} sur ${DECISIONS.length}. Les valeurs de référence sont relevées du code le 2026-09-09 ; en cas de doute, \`src/index.css\` tranche._\n`;
+    const out = document.getElementById('out');
+    out.value = md;
+    out.select();
+    try { document.execCommand('copy'); } catch(e){}
+  });
+
+  document.getElementById('resetBtn').addEventListener('click', () => {
+    state = {}; save();
+    host.querySelectorAll('.opt').forEach(o => o.setAttribute('aria-pressed','false'));
+    document.getElementById('out').value = '';
+    refresh();
+  });
+
+  /* Le compte est calculé, jamais écrit : une version précédente annonçait
+     « 17 décisions » et en affichait 20. */
+  document.getElementById('decCountNav').textContent = DECISIONS.length;
+  document.getElementById('decCountTitle').textContent = DECISIONS.length;
+
+  refresh();
+})();
+
+/* ═══════════ thème + nav ═══════════ */
+(function(){
+  const btn = document.getElementById('themeBtn');
+  btn.addEventListener('click', () => {
+    const cur = document.documentElement.getAttribute('data-theme');
+    const dark = cur ? cur === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  const links = [...document.querySelectorAll('nav a')];
+  const obs = new IntersectionObserver(es => {
+    es.forEach(e => {
+      if (!e.isIntersecting) return;
+      links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id));
+    });
+  }, { rootMargin: '-15% 0px -70% 0px' });
+  document.querySelectorAll('section[id]').forEach(s => obs.observe(s));
+})();
+</script>
+
+</body></html>
