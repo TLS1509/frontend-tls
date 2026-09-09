@@ -58,6 +58,12 @@ neutre ou tinté clair.
 `ink-900` = **`#252B37`**, le gris de texte TLS. ⚠️ Ce n'est **pas** `#1a1a1a` :
 cette valeur traîne dans d'anciens SVG de logo et dans de vieux docs, c'est une dérive.
 
+> 🕓 **Décision en cours sur cette rampe.** `ink-50 → 800` et `ink-950` sont aujourd'hui les
+> gris Tailwind bruts, avec `#252B37` inséré au milieu — d'où une rampe non monotone
+> (`ink-900` est plus clair que `ink-800`). [`docs/_audits/PLAN-REPRISE-DESIGN-2026-09-09.md`](../docs/_audits/PLAN-REPRISE-DESIGN-2026-09-09.md)
+> propose de la redériver autour de `#252B37`, qui ne bouge pas. **Tant que le code n'a pas
+> changé, les valeurs ci-dessus font foi** — mais ne pas les graver dans Canva avant l'arbitrage.
+
 ### Couleurs sémantiques
 
 Palette **muted / coral**, jamais les couleurs Tailwind brutes.

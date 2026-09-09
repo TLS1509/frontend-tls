@@ -170,6 +170,7 @@
 
 | Fichier | Statut | Purpose |
 |---------|---|---------|
+| [../brand/BRAND-KIT.md](../brand/BRAND-KIT.md) | 🟢 **Fiche de marque — 2026-09-09** | Couleurs, typo, logo, pacte anti-générique, et l'inventaire daté de ce qui a divergé sur Canva / Notion / Figma / Drive. Carte du dossier : [../brand/README.md](../brand/README.md) |
 | [_canon/FACTS-CANON.md](_canon/FACTS-CANON.md) | 🟢 **CANON — lire en premier** | Faits validés ligne par ligne : 7 modules / **7h** (pas 23h), C-Campus certifie (**Qualiopi jamais pour TLS**), Open Badge « L'IA en formation », **OPCO oui / CPF jamais**, **« vous » sur tout le public** (« tu » réservé à l'app), fondateurs = Mimault + Dennery seuls, « L'Académie » n'existe pas |
 | ⛔ **Tout `docs/marketing/` a été archivé le 28/07** | — | `FAITS-OFFRES` · `MARQUE-VOIX` · `COMPETITIVE-BRIEF` · `MARKETING-LINKEDIN` → [`_archive/corpus-marketing-IA-juin-2026/`](_archive/corpus-marketing-IA-juin-2026/). **Ce corpus a été produit par IA en juin 2026, pas écrit par TLS.** Il a été lu sept semaines durant comme de la doctrine. Tout est à refaire depuis les vraies études de marché |
 | ⛔ [COPY-V2.md](_archive/corpus-site-juin-2026/COPY-V2.md) | **Archivé le 28/07** | 13× Qualiopi, 2× CPF, 6× « Open Badge 2.0 », 5× « 23 heures », intégralement au tutoiement. Copy d'un site qui n'existe plus |

@@ -93,6 +93,11 @@ Depuis Phase 19.A, les 4 chips consomment **`ui/Chip.tsx`** (primitive interne) 
 | `sun` | Surface sun/accent | Golden (accent-400) |
 | `ink` | Impression / monochrome / haute contraste | Dark ink-900 |
 
+**Supports de marque hors app** (decks, docs, emails, logos sources, doctrine visuelle) :
+[`brand/README.md`](brand/README.md) → [`brand/BRAND-KIT.md`](brand/BRAND-KIT.md), la fiche
+unique. Elle recopie les valeurs de `src/index.css` (qui reste la vérité) et liste, section 7,
+les endroits où Canva / Notion / Figma / Drive ont divergé.
+
 **Règle** : toujours passer `variant="light"` sur fond dark/glass (AuthShell = `withBubble={false} variant="light"`). Ne jamais hardcoder `fill="#..."` dans le SVG — étendre la map `PALETTES` dans `TlsLogo.tsx`.
 
 ---
