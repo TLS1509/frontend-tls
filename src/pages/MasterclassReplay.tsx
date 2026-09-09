@@ -85,7 +85,7 @@ export default function MasterclassReplay() {
             <Card variant="tinted" tone="primary" className="text-center p-stack flex flex-col items-center gap-tight">
               <Award size={28} className="text-primary-600" />
               <p className="text-h2 font-display font-bold text-primary-700">+150 XP</p>
-              <p className="text-caption text-ink-400">Masterclass complétée</p>
+              <p className="text-caption text-ink-600">Masterclass complétée</p>
             </Card>
 
             {/* Ressources */}

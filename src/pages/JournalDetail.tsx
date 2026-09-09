@@ -226,7 +226,7 @@ export const JournalDetail: React.FC = () => {
                   <span
                     className={[
                       'font-body text-body-sm',
-                      item.done ? 'text-ink-400 line-through' : 'text-ink-800',
+                      item.done ? 'text-ink-600 line-through' : 'text-ink-800',
                     ].join(' ')}
                   >
                     {item.text}
@@ -262,7 +262,7 @@ export const JournalDetail: React.FC = () => {
               onClick={() => navigate(`/journal/entry/${prevEntry.id}`)}
               className="flex items-center gap-stack-xs p-stack rounded-2xl border border-ink-100 bg-white hover:border-ink-200 hover:shadow-sm transition-all duration-base cursor-pointer text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
             >
-              <ArrowLeft size={16} className="text-ink-400 shrink-0" />
+              <ArrowLeft size={16} className="text-ink-600 shrink-0" />
               <div className="flex-1 min-w-0">
                 <div className="font-body text-micro font-bold text-ink-500 uppercase tracking-wider mb-1">
                   Entrée précédente
@@ -287,7 +287,7 @@ export const JournalDetail: React.FC = () => {
                   {nextEntry.title}
                 </div>
               </div>
-              <ArrowRight size={16} className="text-ink-400 shrink-0" />
+              <ArrowRight size={16} className="text-ink-600 shrink-0" />
             </button>
           ) : <div />}
         </div>

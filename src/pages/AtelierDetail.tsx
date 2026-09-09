@@ -67,7 +67,7 @@ export default function AtelierDetail() {
           <div className="flex flex-col gap-tight">
             <h3 className="text-h3 font-display font-bold text-ink-900">Sophie Martin</h3>
             <p className="text-body-sm text-ink-500">Coach certifiée ICF · Spécialité Communication</p>
-            <p className="text-caption text-ink-400">Animation de +120 ateliers. Approche pratique et bienveillante.</p>
+            <p className="text-caption text-ink-600">Animation de +120 ateliers. Approche pratique et bienveillante.</p>
           </div>
         </Card>
 
@@ -81,7 +81,7 @@ export default function AtelierDetail() {
               <div key={idx} className="flex items-center gap-stack flex-wrap">
                 <Badge variant="info" size="sm">{item.time}</Badge>
                 <span className="text-body-sm text-ink-700 flex-1">{item.label}</span>
-                <span className="text-caption text-ink-400">{item.duration}</span>
+                <span className="text-caption text-ink-600">{item.duration}</span>
               </div>
             ))}
           </div>
@@ -107,25 +107,25 @@ export default function AtelierDetail() {
           <div className="flex flex-col gap-tight w-full sm:flex-1">
             <span className="text-body font-semibold text-ink-900">7 / 12 places disponibles</span>
             <ProgressBar value={58} fill="warm" size="md" valueLabel={false} />
-            <span className="text-caption text-ink-400">Clôture des inscriptions : 17 juin à 18h00</span>
+            <span className="text-caption text-ink-600">Clôture des inscriptions : 17 juin à 18h00</span>
           </div>
           <div className="flex flex-col gap-tight items-stretch sm:items-end shrink-0">
             <Button variant="primary" size="lg">Réserver ma place</Button>
-            <span className="text-micro text-ink-400 text-center">Annulation gratuite jusqu'à J-2</span>
+            <span className="text-micro text-ink-600 text-center">Annulation gratuite jusqu'à J-2</span>
           </div>
         </Card>
 
         {/* Infos mode */}
         <div className="flex items-center gap-stack text-caption text-ink-500">
-          <Video size={14} className="text-ink-400" />
+          <Video size={14} className="text-ink-600" />
           <span>Session sur Google Meet : lien envoyé 24h avant la session</span>
-          <Users size={14} className="text-ink-400 ml-stack-xs" />
+          <Users size={14} className="text-ink-600 ml-stack-xs" />
           <span>Max 12 participants</span>
-          <MapPin size={14} className="text-ink-400 ml-stack-xs" />
+          <MapPin size={14} className="text-ink-600 ml-stack-xs" />
           <span>Distanciel</span>
-          <Calendar size={14} className="text-ink-400 ml-stack-xs" />
+          <Calendar size={14} className="text-ink-600 ml-stack-xs" />
           <span>18 juin 2026</span>
-          <Clock size={14} className="text-ink-400 ml-stack-xs" />
+          <Clock size={14} className="text-ink-600 ml-stack-xs" />
           <span>10h00 – 13h00</span>
         </div>
       </div>

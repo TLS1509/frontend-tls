@@ -319,7 +319,7 @@ export const Messages: React.FC = () => {
                         />
                       </button>
                       {conv.unreadCount > 0 && (
-                        <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] rounded-pill bg-primary-500 text-white font-body text-[10px] font-bold px-1 shrink-0">
+                        <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] rounded-pill bg-primary-500 text-white font-body text-micro font-bold px-1 shrink-0">
                           {conv.unreadCount}
                         </span>
                       )}
@@ -334,7 +334,7 @@ export const Messages: React.FC = () => {
                     <p className={`m-0 mb-0.5 font-body text-caption overflow-hidden text-ellipsis whitespace-nowrap ${conv.unreadCount > 0 ? 'text-ink-900 font-semibold' : 'text-ink-500 font-normal'}`}>
                       {conv.lastMessage}
                     </p>
-                    <span className="font-body text-micro text-ink-400 flex items-center gap-tight">
+                    <span className="font-body text-micro text-ink-600 flex items-center gap-tight">
                       <Clock3 size={10} /> {conv.lastMessageTime}
                     </span>
                   </div>
@@ -417,7 +417,7 @@ export const Messages: React.FC = () => {
                               {att.name}
                             </p>
                             {att.size && (
-                              <p className={`m-0 font-body text-micro ${isUser ? 'text-white/70' : 'text-ink-400'}`}>
+                              <p className={`m-0 font-body text-micro ${isUser ? 'text-white/70' : 'text-ink-600'}`}>
                                 {att.size}
                               </p>
                             )}
@@ -445,7 +445,7 @@ export const Messages: React.FC = () => {
                 onKeyDown={handleKeyDown}
                 placeholder="Écrivez votre message… (Entrée pour envoyer)"
                 rows={1}
-                className="flex-1 px-3 py-stack-xs rounded-lg border border-ink-200 bg-ink-50 text-ink-900 font-body text-body-sm leading-relaxed resize-none outline-none h-auto min-h-[38px] max-h-[120px] transition-colors focus:border-primary-400 focus:bg-white placeholder:text-ink-400"
+                className="flex-1 px-3 py-stack-xs rounded-lg border border-ink-200 bg-ink-50 text-ink-900 font-body text-body-sm leading-relaxed resize-none outline-none h-auto min-h-[38px] max-h-[120px] transition-colors focus:border-primary-400 focus:bg-white placeholder:text-ink-500"
               />
 
               <Button
@@ -460,9 +460,9 @@ export const Messages: React.FC = () => {
               </Button>
             </div>
 
-            <p className="m-0 mt-stack-xs font-body text-[11px] text-ink-400 text-center">
-              <kbd className="px-1.5 py-px rounded-xs bg-ink-50 border border-ink-200 text-[10px]">Entrée</kbd> pour envoyer &nbsp;·&nbsp;
-              <kbd className="px-1.5 py-px rounded-xs bg-ink-50 border border-ink-200 text-[10px]">Shift+Entrée</kbd> pour un saut de ligne
+            <p className="m-0 mt-stack-xs font-body text-[11px] text-ink-600 text-center">
+              <kbd className="px-1.5 py-px rounded-xs bg-ink-50 border border-ink-200 text-micro">Entrée</kbd> pour envoyer &nbsp;·&nbsp;
+              <kbd className="px-1.5 py-px rounded-xs bg-ink-50 border border-ink-200 text-micro">Shift+Entrée</kbd> pour un saut de ligne
             </p>
           </div>
         </div>

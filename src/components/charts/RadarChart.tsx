@@ -113,7 +113,7 @@ export const RadarChart: React.FC<RadarChartProps> = ({
             angle={90}
             domain={[0, 5]}
             stroke="currentColor"
-            className="text-caption text-ink-400"
+            className="text-caption text-ink-600"
           />
           <Radar
             name="Niveau actuel"

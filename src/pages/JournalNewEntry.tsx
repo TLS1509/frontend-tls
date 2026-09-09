@@ -288,7 +288,7 @@ export const JournalNewEntry: React.FC = () => {
 
         <div className="flex items-center gap-stack-xs shrink-0">
           {autoSaveStatus === 'saving' && (
-            <span className="text-caption text-ink-400 font-medium">Sauvegarde...</span>
+            <span className="text-caption text-ink-600 font-medium">Sauvegarde...</span>
           )}
           {autoSaveStatus === 'saved' && (
             <div className="flex items-center gap-tight text-caption text-success-base font-medium">
@@ -334,7 +334,7 @@ export const JournalNewEntry: React.FC = () => {
                     </div>
                   )}
 
-                  <span className={isSelected ? tc.iconSelected : 'text-ink-400'}>
+                  <span className={isSelected ? tc.iconSelected : 'text-ink-600'}>
                     {tc.icon}
                   </span>
 
@@ -395,7 +395,7 @@ export const JournalNewEntry: React.FC = () => {
                     </div>
                     <ChevronDown
                       size={18}
-                      className={`text-ink-400 shrink-0 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
+                      className={`text-ink-600 shrink-0 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
                     />
                   </button>
 
@@ -407,7 +407,7 @@ export const JournalNewEntry: React.FC = () => {
                         onChange={(e) => setStructuredAnswers({ ...structuredAnswers, [q.id]: e.target.value })}
                         placeholder={q.placeholder}
                         rows={4}
-                        className="w-full border border-ink-200 rounded-lg p-3 font-body text-body text-ink-900 placeholder:text-ink-400 resize-none focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:border-transparent"
+                        className="w-full border border-ink-200 rounded-lg p-3 font-body text-body text-ink-900 placeholder:text-ink-500 resize-none focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:border-transparent"
                       />
                     </div>
                   )}

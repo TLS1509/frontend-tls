@@ -75,7 +75,7 @@ export default function HelpTutorialStep() {
             </div>
 
             <div className="w-full aspect-video bg-ink-100 rounded-lg flex items-center justify-center">
-              <span className="text-body-sm text-ink-400">Illustration de l'étape 3</span>
+              <span className="text-body-sm text-ink-600">Illustration de l'étape 3</span>
             </div>
           </div>
         </Card>
@@ -106,7 +106,7 @@ export default function HelpTutorialStep() {
                       : 'hover:bg-ink-50',
                   ].join(' ')}
                 >
-                  <span className="shrink-0 text-ink-400">
+                  <span className="shrink-0 text-ink-600">
                     {step.status === 'completed'
                       ? <CheckCircle size={18} className="text-success-base" />
                       : step.status === 'current'

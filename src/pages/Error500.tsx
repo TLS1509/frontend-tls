@@ -119,12 +119,12 @@ export const Error500: React.FC = () => {
           style={{ x: subX, y: subY }}
           className="w-full max-w-md mb-10 rounded-xl bg-white border border-secondary-100 px-stack-lg py-stack text-left flex flex-col gap-tight shadow-xs"
         >
-          <p className="font-mono text-caption font-bold uppercase tracking-wider text-ink-400 mb-1">
+          <p className="font-mono text-caption font-bold uppercase tracking-wider text-ink-600 mb-1">
             Diagnostic
           </p>
           <p className="font-mono text-caption text-ink-700">Code: <span className="text-secondary-600 font-bold">500</span> · Erreur interne</p>
           <p className="font-mono text-caption text-ink-600">Équipe technique notifiée</p>
-          <p className="font-mono text-caption text-ink-400">Action recommandée : réessayer dans quelques instants</p>
+          <p className="font-mono text-caption text-ink-600">Action recommandée : réessayer dans quelques instants</p>
         </motion.div>
 
         {/* CTAs */}

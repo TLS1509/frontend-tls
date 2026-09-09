@@ -26,7 +26,7 @@ const LINK_BASE =
 const LINK_IDLE = 'text-ink-600 hover:bg-primary-50 hover:text-primary-700';
 const LINK_ACTIVE = 'bg-primary-600 text-white hover:bg-primary-700';
 
-const COUNT_IDLE = 'text-ink-400';
+const COUNT_IDLE = 'text-ink-600';
 const COUNT_ACTIVE = 'text-white/75';
 
 export const ShowcaseNav: React.FC<ShowcaseNavProps> = ({ counts, activeSlug }) => {

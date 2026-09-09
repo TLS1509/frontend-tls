@@ -161,7 +161,7 @@ export default function CoachProfileView() {
                       </div>
                       <div className="flex items-center gap-stack-xs">
                         <StarRating value={t.rating} />
-                        <span className="text-caption text-ink-400">{t.date}</span>
+                        <span className="text-caption text-ink-600">{t.date}</span>
                       </div>
                     </div>
                     <p className="text-body-sm text-ink-700 leading-relaxed italic">"{t.quote}"</p>
@@ -203,7 +203,7 @@ export default function CoachProfileView() {
                 <span className="font-semibold text-ink-900">Prochain créneau disponible</span>
               </div>
               <div className="flex items-center gap-stack-xs">
-                <Calendar size={14} className="text-ink-400 shrink-0" />
+                <Calendar size={14} className="text-ink-600 shrink-0" />
                 <span className="text-body-sm text-ink-700">Jeudi 15 mai 2026 · 14h00 – 15h00</span>
               </div>
               <Badge variant="success" className="self-start">Disponible</Badge>

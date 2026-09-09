@@ -243,7 +243,7 @@ export const MarketingWaitlist: React.FC = () => {
                 {TRUST_SIGNALS.map(({ icon, label }) => (
                   <div
                     key={label}
-                    className="flex items-center gap-1.5 font-body text-caption text-ink-400"
+                    className="flex items-center gap-1.5 font-body text-caption text-ink-600"
                   >
                     <span className="text-primary-400">{icon}</span>
                     {label}
@@ -296,7 +296,7 @@ export const MarketingWaitlist: React.FC = () => {
                               className="font-body text-caption font-semibold text-ink-700"
                             >
                               Prénom{' '}
-                              <span className="font-normal text-ink-400">(optionnel)</span>
+                              <span className="font-normal text-ink-600">(optionnel)</span>
                             </label>
                             <input
                               id="wl-firstname"
@@ -305,7 +305,7 @@ export const MarketingWaitlist: React.FC = () => {
                               value={firstName}
                               onChange={(e) => setFirstName(e.target.value)}
                               placeholder="Votre prénom"
-                              className="h-11 px-4 rounded-xl bg-white border border-ink-200 text-ink-900 placeholder:text-ink-400 font-body text-body-sm focus:outline-none focus:border-primary-400 focus:shadow-sm transition-all shadow-xs"
+                              className="h-11 px-4 rounded-xl bg-white border border-ink-200 text-ink-900 placeholder:text-ink-500 font-body text-body-sm focus:outline-none focus:border-primary-400 focus:shadow-sm transition-all shadow-xs"
                             />
                           </div>
 
@@ -333,7 +333,7 @@ export const MarketingWaitlist: React.FC = () => {
                               aria-invalid={emailError}
                               className={[
                                 'h-11 px-4 rounded-xl bg-white border font-body text-body-sm text-ink-900',
-                                'placeholder:text-ink-400 focus:outline-none transition-all shadow-xs',
+                                'placeholder:text-ink-500 focus:outline-none transition-all shadow-xs',
                                 emailError
                                   ? 'border-danger-base focus:border-danger-base'
                                   : 'border-ink-200 focus:border-primary-400 focus:shadow-sm',
@@ -354,7 +354,7 @@ export const MarketingWaitlist: React.FC = () => {
                           {/* Separator */}
                           <div className="flex items-center gap-3 py-1">
                             <div className="flex-1 h-px bg-ink-100" />
-                            <span className="font-body text-caption text-ink-400 font-medium shrink-0">
+                            <span className="font-body text-caption text-ink-600 font-medium shrink-0">
                               Je souhaite...
                             </span>
                             <div className="flex-1 h-px bg-ink-100" />
@@ -417,7 +417,7 @@ export const MarketingWaitlist: React.FC = () => {
                           )}
 
                           {/* RGPD micro-note */}
-                          <p className="font-body text-micro text-ink-400 text-center m-0 leading-relaxed">
+                          <p className="font-body text-micro text-ink-600 text-center m-0 leading-relaxed">
                             En envoyant ce formulaire, vous acceptez notre{' '}
                             <Link
                               to="/website/politique-confidentialite"
@@ -468,7 +468,7 @@ export const MarketingWaitlist: React.FC = () => {
                           </Link>
                           <Link
                             to="/website/resources"
-                            className="font-body text-caption text-ink-400 hover:text-ink-700 transition-colors"
+                            className="font-body text-caption text-ink-600 hover:text-ink-700 transition-colors"
                           >
                             Lire notre magazine EdTech
                           </Link>

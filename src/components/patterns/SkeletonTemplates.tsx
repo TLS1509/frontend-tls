@@ -58,7 +58,7 @@ export const EditorialCardSkeleton: React.FC = () => (
 /* ─── ResumeLessonCard skeleton (Dashboard hero) ────────────────────────── */
 
 export const ResumeLessonSkeleton: React.FC = () => (
-  <div className="flex flex-col sm:flex-row gap-stack-lg p-6 sm:p-8 rounded-3xl border border-ink-100 bg-white">
+  <div className="flex flex-col sm:flex-row gap-stack-lg p-6 sm:p-8 rounded-lg border border-ink-100 bg-white">
     <div className="flex-1 flex flex-col gap-stack">
       <Skeleton variant="text" width={120} height={14} />
       <Skeleton variant="title" width="80%" height={32} />

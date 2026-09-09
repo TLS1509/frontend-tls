@@ -144,7 +144,7 @@ export const WeeklyNewsDetail: React.FC = () => {
               </IntroCallout>
 
               {/* Featured image placeholder */}
-              <div className="rounded-xl border border-ink-100 bg-gradient-to-br from-primary-50 via-white to-secondary-50/30 aspect-video flex items-center justify-center font-body text-caption text-ink-400 shadow-xs">
+              <div className="rounded-xl border border-ink-100 bg-gradient-to-br from-primary-50 via-white to-secondary-50/30 aspect-video flex items-center justify-center font-body text-caption text-ink-600 shadow-xs">
                 Visuel / illustration principale
               </div>
 

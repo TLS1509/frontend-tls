@@ -131,7 +131,7 @@ export default function PasseportCompetenceDetail() {
         {/* Calibration : perception (auto-évaluée) vs niveau validé */}
         {lc?.selfAssessedLevel != null && lc?.currentLevel != null && lc.selfAssessedLevel !== lc.currentLevel && (
           <div className="flex items-start gap-stack-xs rounded-xl border border-ink-100 bg-ink-50 px-stack py-3">
-            <Scale size={18} className="text-ink-400 shrink-0 mt-0.5" />
+            <Scale size={18} className="text-ink-600 shrink-0 mt-0.5" />
             <p className="text-caption text-ink-600 m-0">
               <span className="font-semibold text-ink-800">Calibration</span> — tu t'étais auto-évalué·e à{' '}
               <strong className="text-ink-800">D{lc.selfAssessedLevel}</strong>, le niveau validé est{' '}
@@ -162,7 +162,7 @@ export default function PasseportCompetenceDetail() {
               >
                 <span className={[
                   'inline-flex items-center justify-center w-8 h-8 rounded-lg text-caption font-bold shrink-0',
-                  d.level === currentLevel ? 'bg-primary-600 text-white' : d.level < currentLevel ? 'bg-success-bg text-success-fg' : 'bg-ink-100 text-ink-400',
+                  d.level === currentLevel ? 'bg-primary-600 text-white' : d.level < currentLevel ? 'bg-success-bg text-success-fg' : 'bg-ink-100 text-ink-600',
                 ].join(' ')}>
                   D{d.level}
                 </span>
@@ -234,7 +234,7 @@ export default function PasseportCompetenceDetail() {
                     <div key={p.id} className="flex items-center justify-between px-stack py-3 rounded-lg border border-ink-100">
                       <div className="flex flex-col gap-tight">
                         <span className="text-body-sm font-medium text-ink-900">{p.title}</span>
-                        <span className="text-caption text-ink-400">{new Date(p.occurredAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                        <span className="text-caption text-ink-600">{new Date(p.occurredAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
                       </div>
                       {p.newLevel && <Badge variant="success" size="sm">D{p.newLevel}</Badge>}
                     </div>
@@ -255,7 +255,7 @@ export default function PasseportCompetenceDetail() {
                     <div key={e.id} className="flex items-center justify-between px-stack py-3 rounded-lg border border-primary-100 bg-primary-50">
                       <div className="flex flex-col gap-tight">
                         <span className="text-body-sm font-medium text-ink-900">{e.sourceLabel}</span>
-                        <span className="text-caption text-ink-400">
+                        <span className="text-caption text-ink-600">
                           {new Date(e.occurredAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}
                           {e.verifiedByName ? ` · validé par ${e.verifiedByName}` : ''}
                         </span>
@@ -280,7 +280,7 @@ export default function PasseportCompetenceDetail() {
                     <div key={e.id} className="flex items-center justify-between gap-stack px-stack py-3 rounded-lg border border-ink-100">
                       <div className="flex flex-col gap-tight min-w-0">
                         <span className="text-body-sm font-medium text-ink-900">{e.sourceLabel}</span>
-                        <span className="text-caption text-ink-400">
+                        <span className="text-caption text-ink-600">
                           {new Date(e.occurredAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}
                           {e.retention ? ` · prochaine révision dans ${e.retention.intervalDays} j` : ''}
                         </span>

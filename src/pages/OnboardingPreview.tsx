@@ -237,7 +237,7 @@ function VariantA({ onDone }: { onDone: () => void }) {
         onChange={e => setTextValue(e.target.value)}
         onKeyDown={e => { if (e.key === 'Enter') sendName(); }}
         placeholder="Ton prénom…"
-        className="flex-1 rounded-xl border border-ink-200 bg-white px-3 py-2.5 text-body-sm text-ink-900 placeholder:text-ink-400 focus:outline-none focus:ring-2 focus:ring-secondary-300 transition-all"
+        className="flex-1 rounded-xl border border-ink-200 bg-white px-3 py-2.5 text-body-sm text-ink-900 placeholder:text-ink-500 focus:outline-none focus:ring-2 focus:ring-secondary-300 transition-all"
       />
       <Button
         variant="secondary" size="md" iconOnly
@@ -333,7 +333,7 @@ function VariantB({ onDone }: { onDone: () => void }) {
               value={firstName}
               onChange={e => setFirstName(e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter' && firstName.trim()) advance(); }}
-              className="w-full rounded-2xl border-2 border-ink-200 bg-white/80 px-5 py-stack text-body-lg text-ink-900 placeholder:text-ink-400 focus:outline-none focus:border-secondary-400 transition-colors duration-base text-center font-body"
+              className="w-full rounded-2xl border-2 border-ink-200 bg-white/80 px-5 py-stack text-body-lg text-ink-900 placeholder:text-ink-500 focus:outline-none focus:border-secondary-400 transition-colors duration-base text-center font-body"
             />
             <Button
               variant="secondary" size="lg"
@@ -527,7 +527,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
                 placeholder="Sophie…"
                 value={firstName}
                 onChange={e => setFirstName(e.target.value)}
-                className="rounded-xl border border-ink-200 bg-white px-4 py-3 text-body-sm text-ink-900 placeholder:text-ink-400 focus:outline-none focus:border-secondary-400 transition-colors duration-base"
+                className="rounded-xl border border-ink-200 bg-white px-4 py-3 text-body-sm text-ink-900 placeholder:text-ink-500 focus:outline-none focus:border-secondary-400 transition-colors duration-base"
               />
             </div>
 
@@ -535,7 +535,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
               <label className="font-body text-body-sm font-semibold text-ink-900">
                 Ton rôle
                 {!firstName.trim() && (
-                  <span className="ml-2 font-normal text-caption text-ink-400">(remplis ton prénom d'abord)</span>
+                  <span className="ml-2 font-normal text-caption text-ink-600">(remplis ton prénom d'abord)</span>
                 )}
               </label>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-stack-xs">
@@ -797,7 +797,7 @@ export default function OnboardingPreview() {
 
         {/* Progress bar — shows where we are in overall onboarding */}
         <div className="flex flex-col gap-tight">
-          <div className="flex justify-between text-caption text-ink-400">
+          <div className="flex justify-between text-caption text-ink-600">
             <span>Étape 1 / 4 — Profil</span>
             <span>Positionnement, Paiement, Tutoriel →</span>
           </div>

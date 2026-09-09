@@ -201,7 +201,7 @@ export const Veille: React.FC = () => {
                 'inline-flex items-center justify-center p-1.5 rounded-md transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                 displayMode === 'grid'
                   ? 'bg-primary-100 text-primary-600 shadow-xs'
-                  : 'bg-white text-ink-400 hover:text-ink-600 hover:bg-ink-50 border border-ink-200',
+                  : 'bg-white text-ink-600 hover:text-ink-600 hover:bg-ink-50 border border-ink-200',
               ].join(' ')}
             >
               <Grid3x3 size={14} strokeWidth={2} />
@@ -215,7 +215,7 @@ export const Veille: React.FC = () => {
                 'inline-flex items-center justify-center p-1.5 rounded-md transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                 displayMode === 'list'
                   ? 'bg-primary-100 text-primary-600 shadow-xs'
-                  : 'bg-white text-ink-400 hover:text-ink-600 hover:bg-ink-50 border border-ink-200',
+                  : 'bg-white text-ink-600 hover:text-ink-600 hover:bg-ink-50 border border-ink-200',
               ].join(' ')}
             >
               <List size={14} strokeWidth={2} />
@@ -240,7 +240,7 @@ export const Veille: React.FC = () => {
           className="flex flex-col sm:flex-row items-start sm:items-center gap-stack-xs"
         >
           <div className="flex items-center gap-stack-xs text-ink-600 shrink-0">
-            <Mail size={14} className="text-ink-400" />
+            <Mail size={14} className="text-ink-600" />
             <span className="font-body text-body-sm">
               Recevoir les actus veille dans ta boîte mail
             </span>
@@ -263,7 +263,7 @@ export const Veille: React.FC = () => {
             <button
               type="button"
               onClick={() => navigate('/veille/newsletter')}
-              className="font-body text-caption text-ink-400 hover:text-primary-600 underline underline-offset-2 transition-colors whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+              className="font-body text-caption text-ink-600 hover:text-primary-600 underline underline-offset-2 transition-colors whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
             >
               Gérer mes préférences
             </button>

@@ -90,7 +90,7 @@ const PerplexityContentDetail: React.FC = () => {
         }
         aside={
           <div className="flex flex-col gap-stack">
-            <h3 className="font-display text-h5 font-semibold text-ink-900">Sur le même sujet</h3>
+            <h3 className="font-display text-body font-semibold font-semibold text-ink-900">Sur le même sujet</h3>
             <RelatedItemList
               items={RELATED.map((r) => ({ id: r.id, title: r.title, meta: r.meta, href: `/veille/perplexity/${r.id}` }))}
             />

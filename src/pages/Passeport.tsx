@@ -182,16 +182,16 @@ export default function Passeport() {
                   <p className="text-caption text-ink-500 font-medium uppercase tracking-wide">Progression globale</p>
                   <div className="flex items-end gap-stack-xs">
                     <span className="text-h2 font-display font-bold text-ink-900">{avgLevel.toFixed(1)}</span>
-                    <span className="text-body-sm text-ink-400 pb-1">/ 5 Dreyfus</span>
+                    <span className="text-body-sm text-ink-600 pb-1">/ 5 Dreyfus</span>
                   </div>
                   <ProgressBar value={(avgLevel / 5) * 100} fill="brand" size="md" showLabel />
-                  <p className="text-caption text-ink-400">Moyenne pondérée · {COMPETENCES.length} compétences</p>
+                  <p className="text-caption text-ink-600">Moyenne pondérée · {COMPETENCES.length} compétences</p>
                 </Card>
                 <Card className="p-stack flex flex-col gap-stack-xs">
                   <p className="text-caption text-ink-500 font-medium uppercase tracking-wide">Objectifs actifs</p>
                   <div className="flex items-end gap-stack-xs">
                     <span className="text-h2 font-display font-bold text-ink-900">{activeObjectives.length}</span>
-                    <span className="text-body-sm text-ink-400 pb-1">objectifs</span>
+                    <span className="text-body-sm text-ink-600 pb-1">objectifs</span>
                   </div>
                   <Button variant="ghost" size="sm" trailingIcon={<ChevronRight size={14} />}
                     onClick={() => setActiveTab('objectifs')}>
@@ -397,7 +397,7 @@ export default function Passeport() {
                       label={`${c.points} / ${c.nextPoints} pts`}
                       showLabel
                     />
-                    <div className="text-caption text-ink-400 group-hover:text-primary-600 transition-colors">
+                    <div className="text-caption text-ink-600 group-hover:text-primary-600 transition-colors">
                       Voir le détail →
                     </div>
                   </Card>

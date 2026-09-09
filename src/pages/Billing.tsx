@@ -263,7 +263,7 @@ const CreditsTab: React.FC<{ credits: { classic: number; special: number } }> = 
                 <span className="font-display text-h2 font-extrabold leading-none text-secondary-600">{credits.classic}</span>
                 <span className="mb-0.5 font-body text-body-sm font-semibold text-secondary-500">crédits Classic</span>
               </div>
-              <p className="m-0 text-caption text-ink-400">Sessions coaching standard (1h)</p>
+              <p className="m-0 text-caption text-ink-600">Sessions coaching standard (1h)</p>
             </div>
           </div>
           <div className="flex items-center gap-stack-xs justify-center md:justify-start">
@@ -275,7 +275,7 @@ const CreditsTab: React.FC<{ credits: { classic: number; special: number } }> = 
                 <span className="font-display text-h2 font-extrabold leading-none text-accent-500">{credits.special}</span>
                 <span className="mb-0.5 font-body text-body-sm font-semibold text-accent-500">crédits Spécial</span>
               </div>
-              <p className="m-0 text-caption text-ink-400">Sessions expert / masterclasses premium</p>
+              <p className="m-0 text-caption text-ink-600">Sessions expert / masterclasses premium</p>
             </div>
           </div>
         </div>
@@ -284,7 +284,7 @@ const CreditsTab: React.FC<{ credits: { classic: number; special: number } }> = 
           <Button variant="secondary" leadingIcon={<ShoppingBag size={16} />} onClick={() => navigate('/account/billing/credits/buy')}>
             Acheter des crédits
           </Button>
-          <p className="m-0 text-caption text-ink-400">Packs à partir de 9,90 €</p>
+          <p className="m-0 text-caption text-ink-600">Packs à partir de 9,90 €</p>
         </div>
       </div>
 
@@ -305,7 +305,7 @@ const CreditsTab: React.FC<{ credits: { classic: number; special: number } }> = 
               <div key={tx.id} className="flex items-center justify-between gap-stack-xs py-3 border-b border-ink-100 last:border-b-0">
                 <div className="flex flex-col gap-tight min-w-0">
                   <p className="m-0 text-body-sm font-medium text-ink-900 truncate">{tx.description}</p>
-                  <p className="m-0 text-caption text-ink-400">{tx.date}</p>
+                  <p className="m-0 text-caption text-ink-600">{tx.date}</p>
                 </div>
                 <span className={['shrink-0 font-mono font-bold text-body-sm', tx.type === 'credit' ? 'text-success-fg' : 'text-danger-fg'].join(' ')}>
                   {tx.amount > 0 ? '+' : ''}{tx.amount}

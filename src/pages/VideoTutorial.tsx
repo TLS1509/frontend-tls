@@ -91,7 +91,7 @@ export const VideoTutorial: React.FC = () => {
             'inline-flex items-center justify-center w-9 h-9 rounded-pill border cursor-pointer transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
             saved
               ? 'border-primary-300 text-primary-500 bg-primary-50'
-              : 'border-ink-200 text-ink-400 bg-transparent hover:bg-ink-50',
+              : 'border-ink-200 text-ink-600 bg-transparent hover:bg-ink-50',
           ].join(' ')}
         >
           {saved ? <BookmarkCheck size={16} /> : <Bookmark size={16} />}
@@ -202,7 +202,7 @@ export const VideoTutorial: React.FC = () => {
                 >
                   <span className={[
                     'font-body text-caption font-bold min-w-[36px] mt-px shrink-0 tabular-nums',
-                    isActive ? 'text-primary-600' : 'text-ink-400',
+                    isActive ? 'text-primary-600' : 'text-ink-600',
                   ].join(' ')}>
                     {ch.time}
                   </span>

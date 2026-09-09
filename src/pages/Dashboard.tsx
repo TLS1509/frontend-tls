@@ -97,7 +97,7 @@ const JournalBubbleNudge: React.FC<JournalBubbleNudgeProps> = ({ navigate, hasUp
 
           {/* Bubble — vraie forme chat (bottom-left flat) */}
           <div className="flex-1 bg-primary-50/80 rounded-tl-2xl rounded-tr-2xl rounded-br-2xl rounded-bl border border-primary-100/70 px-4 py-3">
-            <span className="block text-[10.5px] font-semibold text-primary-500 uppercase tracking-[0.07em] mb-2">
+            <span className="block text-micro font-semibold text-primary-500 uppercase tracking-[0.07em] mb-2">
               {meta}
             </span>
             <p className="font-body text-body text-ink-800 leading-relaxed m-0">
@@ -111,7 +111,7 @@ const JournalBubbleNudge: React.FC<JournalBubbleNudgeProps> = ({ navigate, hasUp
           <button
             type="button"
             onClick={() => navigate(href)}
-            className="flex-1 h-9 rounded-full bg-ink-50/80 border border-ink-100 px-4 text-body-sm text-ink-400 text-left hover:bg-ink-100 hover:border-ink-200 transition-[background-color,border-color] duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+            className="flex-1 h-9 rounded-full bg-ink-50/80 border border-ink-100 px-4 text-body-sm text-ink-600 text-left hover:bg-ink-100 hover:border-ink-200 transition-[background-color,border-color] duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           >
             Répondre…
           </button>

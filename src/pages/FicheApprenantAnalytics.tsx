@@ -182,9 +182,9 @@ export default function FicheApprenantAnalytics() {
                     </div>
                     <div className="flex items-center gap-stack-xs flex-wrap">
                       {a.npsGiven !== undefined && (
-                        <span className="text-caption text-ink-400">NPS {a.npsGiven}/10</span>
+                        <span className="text-caption text-ink-600">NPS {a.npsGiven}/10</span>
                       )}
-                      <span className="text-caption text-ink-400">{formatRelativeDate(a.completedAt)}</span>
+                      <span className="text-caption text-ink-600">{formatRelativeDate(a.completedAt)}</span>
                       <Badge variant="success" size="sm">+{a.xpEarned} XP</Badge>
                     </div>
                   </Card>

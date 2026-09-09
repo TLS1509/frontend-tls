@@ -983,7 +983,7 @@ export const LessonPlayer: React.FC = () => {
               </div>
               {/* Step header: count + dots */}
               <div className="flex items-center justify-between px-stack pt-3 pb-2">
-                <span className="font-body text-caption text-ink-400">
+                <span className="font-body text-caption text-ink-600">
                   Étape {decouvrirStep + 1} / {total}
                 </span>
                 <div className="flex items-center gap-1.5">
@@ -1647,11 +1647,11 @@ export const LessonPlayer: React.FC = () => {
             ) : (
               <div className="rounded-xl border-2 border-dashed border-ink-300 bg-ink-50 p-stack-lg">
                 <div className="flex items-center gap-stack-xs mb-stack">
-                  <Globe size={18} className="text-ink-400 shrink-0" />
+                  <Globe size={18} className="text-ink-600 shrink-0" />
                   <span className="font-body text-body-sm font-semibold text-ink-700">
                     {block.provider ? PROVIDER_LABELS[block.provider] : 'Embed externe'}
                   </span>
-                  <span className="ml-auto font-body text-caption text-ink-400">YouTube · Vimeo · Loom · Canva · Slides · Figma</span>
+                  <span className="ml-auto font-body text-caption text-ink-600">YouTube · Vimeo · Loom · Canva · Slides · Figma</span>
                 </div>
                 <div className="flex gap-stack-xs">
                   <input
@@ -1692,7 +1692,7 @@ export const LessonPlayer: React.FC = () => {
                     setEmbeddedUrls((prev) => { const n = { ...prev }; delete n[index]; return n; });
                     setEmbedInputs((prev) => ({ ...prev, [index]: '' }));
                   }}
-                  className="font-body text-caption text-ink-400 hover:text-ink-600 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+                  className="font-body text-caption text-ink-600 hover:text-ink-600 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
                 >
                   Changer l'URL
                 </button>
@@ -1865,7 +1865,7 @@ export const LessonPlayer: React.FC = () => {
             </button>
             <div className="flex-1 min-w-0 flex flex-col items-center">
               {ctx?.step && (
-                <span className="font-body text-micro text-ink-400 uppercase tracking-wider leading-none mb-0.5 truncate max-w-full">
+                <span className="font-body text-micro text-ink-600 uppercase tracking-wider leading-none mb-0.5 truncate max-w-full">
                   {ctx.step.title}
                 </span>
               )}
@@ -1874,7 +1874,7 @@ export const LessonPlayer: React.FC = () => {
               </span>
             </div>
             <div className="flex items-center gap-stack-xs shrink-0">
-              <span className="font-body text-caption text-ink-400 hidden sm:inline">
+              <span className="font-body text-caption text-ink-600 hidden sm:inline">
                 <Clock3 size={11} className="inline mr-1 -mt-0.5" />{displayDuration}
               </span>
               <span className="font-body text-caption font-semibold text-ink-500">
@@ -1882,7 +1882,7 @@ export const LessonPlayer: React.FC = () => {
               </span>
               <button
                 onClick={handleClose}
-                className="w-7 h-7 rounded-full flex items-center justify-center text-ink-400 hover:text-ink-900 hover:bg-ink-100 transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                className="w-7 h-7 rounded-full flex items-center justify-center text-ink-600 hover:text-ink-900 hover:bg-ink-100 transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                 aria-label="Fermer"
               >
                 <XCircle size={16} />

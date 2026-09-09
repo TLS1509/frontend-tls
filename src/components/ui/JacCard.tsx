@@ -37,7 +37,7 @@ export const JacCardPending: React.FC<JacCardPendingProps> = ({
     <div className="flex items-start justify-between gap-stack flex-wrap">
       <div className="flex flex-col gap-tight">
         <span className="font-display font-semibold text-body-sm text-ink-900">{title}</span>
-        <div className="flex items-center gap-stack-xs text-caption text-ink-400">
+        <div className="flex items-center gap-stack-xs text-caption text-ink-600">
           <AlertCircle size={12} aria-hidden />
           <span>
             Soumis il y a {submittedDaysAgo} j · en attente {waitingFor}

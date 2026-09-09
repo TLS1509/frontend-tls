@@ -227,7 +227,7 @@ const ActivityRow: React.FC<{
       <div className="flex-1 min-w-0 pt-1 pb-1">
         <header className="flex items-start justify-between gap-stack-xs flex-wrap">
           <h3 className="m-0 text-body-sm font-semibold text-ink-900 leading-snug">{item.title}</h3>
-          <time className="text-micro text-ink-400 font-medium whitespace-nowrap shrink-0 mt-0.5 tabular-nums">
+          <time className="text-micro text-ink-600 font-medium whitespace-nowrap shrink-0 mt-0.5 tabular-nums">
             {formatTimestamp(item.timestamp, timeFormat)}
           </time>
         </header>
@@ -315,11 +315,11 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
           .join(' ')}
       >
         <div className="flex flex-col items-center gap-stack-xs text-ink-500 text-center">
-          <span className="inline-flex items-center justify-center w-14 h-14 rounded-lg bg-white border border-ink-200 text-ink-400">
+          <span className="inline-flex items-center justify-center w-14 h-14 rounded-lg bg-white border border-ink-200 text-ink-600">
             <Inbox size={26} strokeWidth={2} />
           </span>
           <p className="m-0 text-body-sm font-medium text-ink-700">{emptyMessage}</p>
-          <p className="m-0 text-caption text-ink-400 max-w-[280px]">Vos prochaines activités apparaîtront ici dès que vous commencerez à apprendre.</p>
+          <p className="m-0 text-caption text-ink-600 max-w-[280px]">Vos prochaines activités apparaîtront ici dès que vous commencerez à apprendre.</p>
         </div>
       </div>
     );

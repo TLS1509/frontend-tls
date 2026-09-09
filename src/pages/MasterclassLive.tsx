@@ -67,7 +67,7 @@ export default function MasterclassLive() {
           <div className="md:col-span-1 flex flex-col gap-stack">
             {/* Timer card */}
             <Card variant="tinted" tone="primary" className="text-center p-stack">
-              <p className="text-micro text-ink-400 uppercase tracking-wider mb-tight">Temps écoulé</p>
+              <p className="text-micro text-ink-600 uppercase tracking-wider mb-tight">Temps écoulé</p>
               <p className="text-h2 font-display font-bold text-primary-700">47:23</p>
               <div className="flex items-center justify-center gap-stack-xs mt-tight text-caption text-ink-500">
                 <Clock size={13} />
@@ -103,7 +103,7 @@ export default function MasterclassLive() {
                 {RESOURCES.map((r) => (
                   <div key={r.id} className="flex items-center justify-between gap-stack-xs p-3 rounded-xl bg-ink-50">
                     <div className="flex items-center gap-stack-xs min-w-0">
-                      <FileText size={14} className="text-ink-400 shrink-0" />
+                      <FileText size={14} className="text-ink-600 shrink-0" />
                       <span className="text-caption text-ink-700 truncate">{r.label}</span>
                     </div>
                     <Button variant="ghost" size="sm">Télécharger</Button>

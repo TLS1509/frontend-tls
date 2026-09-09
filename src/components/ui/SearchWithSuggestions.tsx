@@ -229,7 +229,7 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
 
                     {/* Keyboard hint */}
                     {highlightedIdx === idx && (
-                      <span className="text-micro text-ink-400 ml-2 flex-shrink-0">⏎</span>
+                      <span className="text-micro text-ink-600 ml-2 flex-shrink-0">⏎</span>
                     )}
                   </button>
                 ))}
@@ -265,7 +265,7 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
                 <p className="text-body-sm text-ink-500">
                   Aucun résultat pour « <strong>{value}</strong> »
                 </p>
-                <p className="text-micro text-ink-400 mt-1">
+                <p className="text-micro text-ink-600 mt-1">
                   Essayez un autre terme
                 </p>
               </div>

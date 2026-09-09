@@ -31,7 +31,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
   const inner = (
     <>
       <div className="flex items-center gap-stack-xs min-w-0">
-        {icon && <span className="text-ink-400 shrink-0 inline-flex">{icon}</span>}
+        {icon && <span className="text-ink-600 shrink-0 inline-flex">{icon}</span>}
         <span className="text-caption text-ink-700 truncate">{label}</span>
         {badge}
       </div>

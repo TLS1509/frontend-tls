@@ -128,7 +128,7 @@ export default function DashboardCompetenceDetail() {
                 <Card key={item.id} variant="default" className="flex items-center justify-between px-stack py-3">
                   <div className="flex flex-col gap-tight">
                     <span className="text-body-sm font-medium text-ink-900">{item.title}</span>
-                    <span className="text-caption text-ink-400">{item.date}</span>
+                    <span className="text-caption text-ink-600">{item.date}</span>
                   </div>
                   <div className="flex items-center gap-stack-xs">
                     <Badge variant="success" size="sm">+{item.xp} XP</Badge>

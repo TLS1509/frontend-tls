@@ -166,7 +166,7 @@ const ManagerViewsBuilder: React.FC = () => {
             <Badge variant="info">{selectedMetrics.length} métriques</Badge>
           </div>
 
-          <div className="mb-stack-xs text-caption text-ink-400">
+          <div className="mb-stack-xs text-caption text-ink-600">
             groupé par {groupBy} · {dateRange}
           </div>
 

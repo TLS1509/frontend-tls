@@ -159,7 +159,7 @@ export const CourseDetail: React.FC = () => {
             <Card key={kpi.label} className="flex flex-col gap-tight p-stack">
               <p className="font-body text-caption text-ink-500 m-0">{kpi.label}</p>
               <p className="font-display text-h2 font-bold text-ink-900 m-0">{kpi.value}</p>
-              <p className="font-body text-caption text-ink-400 m-0">{kpi.meta}</p>
+              <p className="font-body text-caption text-ink-600 m-0">{kpi.meta}</p>
             </Card>
           ))}
         </div>
@@ -182,7 +182,7 @@ export const CourseDetail: React.FC = () => {
                   <li>Adapter le ton et le format de sortie</li>
                 </ul>
               </Card>
-              <div className="rounded-xl min-h-[220px] bg-ink-50 border border-ink-200 flex items-center justify-center text-ink-400 font-body text-caption">
+              <div className="rounded-xl min-h-[220px] bg-ink-50 border border-ink-200 flex items-center justify-center text-ink-600 font-body text-caption">
                 Visuel / miniature du cours
               </div>
             </div>

@@ -56,7 +56,7 @@ const NavItem: React.FC<{
   const currentClasses = 'bg-primary-50 text-ink-900 font-semibold';
   const defaultClasses = 'text-ink-500';
   const clickableClasses = 'cursor-pointer hover:bg-primary-50 hover:text-primary-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
-  const ellipsisClasses = 'w-7 h-7 justify-center text-ink-400 hover:bg-ink-50 cursor-default';
+  const ellipsisClasses = 'w-7 h-7 justify-center text-ink-600 hover:bg-ink-50 cursor-default';
 
   if (isEllipsis) {
     return (

@@ -270,7 +270,7 @@ const ResourceCard: React.FC<{ item: ResourceItem; index: number }> = ({ item, i
             </div>
 
             {/* Title */}
-            <h3 className="font-display text-h5 font-bold text-ink-900 leading-tight m-0 group-hover:text-primary-700 transition-colors duration-base line-clamp-2">
+            <h3 className="font-display text-body font-semibold font-bold text-ink-900 leading-tight m-0 group-hover:text-primary-700 transition-colors duration-base line-clamp-2">
               {item.title}
             </h3>
 
@@ -498,7 +498,7 @@ export const MarketingResources: React.FC = () => {
                   key={topic.label}
                   className="flex flex-col gap-tight p-stack rounded-2xl bg-ink-50 border border-ink-100"
                 >
-                  <h3 className="font-display text-h5 font-bold text-ink-900 m-0">
+                  <h3 className="font-display text-body font-semibold font-bold text-ink-900 m-0">
                     {topic.label}
                   </h3>
                   <span className="font-body text-caption text-ink-500">

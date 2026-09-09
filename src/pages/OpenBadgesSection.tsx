@@ -126,7 +126,7 @@ export default function OpenBadgesSection() {
                 <div className="flex flex-col gap-tight text-center">
                   <p className="m-0 font-semibold text-body-sm text-ink-900 leading-tight">{badge.name}</p>
                   <p className="m-0 text-caption text-ink-500">{badge.issuer}</p>
-                  <p className="m-0 text-caption text-ink-400">{badge.date}</p>
+                  <p className="m-0 text-caption text-ink-600">{badge.date}</p>
                 </div>
 
                 {/* Level badge */}

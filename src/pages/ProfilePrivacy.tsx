@@ -324,7 +324,7 @@ export default function ProfilePrivacy() {
             >
               Supprimer mon compte
             </Button>
-            <span className="text-caption text-ink-400">Toutes tes données seront effacées sous 30 jours.</span>
+            <span className="text-caption text-ink-600">Toutes tes données seront effacées sous 30 jours.</span>
           </div>
         </SectionCard>
 
@@ -339,7 +339,7 @@ export default function ProfilePrivacy() {
               <div key={h.id} className="flex items-center justify-between py-2.5 gap-section">
                 <div className="flex flex-col gap-tight flex-1">
                   <span className="text-body-sm font-medium text-ink-900">{h.type}</span>
-                  <span className="text-caption text-ink-400">{h.date} · {h.version}</span>
+                  <span className="text-caption text-ink-600">{h.date} · {h.version}</span>
                 </div>
                 <Badge
                   variant={h.action === 'Accepté' ? 'success' : 'neutral'}

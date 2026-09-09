@@ -113,7 +113,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
           )}
           <div className="flex flex-col gap-0.5">
             <CardEyebrow>{typeLabel}</CardEyebrow>
-            <span className="inline-flex items-center gap-tight text-micro text-ink-400 font-medium">
+            <span className="inline-flex items-center gap-tight text-micro text-ink-600 font-medium">
               <Calendar size={11} aria-hidden="true" />
               {publishedAt}
             </span>
@@ -129,7 +129,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
               'active:scale-95',
               isSaved
                 ? TONE_SAVE_ACTIVE[tone]
-                : `text-ink-400 border-ink-200 bg-white ${TONE_SAVE_HOVER[tone]}`,
+                : `text-ink-600 border-ink-200 bg-white ${TONE_SAVE_HOVER[tone]}`,
             ].join(' ')}
             onClick={(e) => {
               e.stopPropagation();

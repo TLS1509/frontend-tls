@@ -210,7 +210,7 @@ export const ReadingProgressRing: React.FC<ReadingProgressRingProps> = ({
         <span
           className={[
             'absolute inset-0 inline-flex items-center justify-center',
-            'font-body font-bold text-[10px]',
+            'font-body font-bold text-micro',
             RING_TEXT[tone],
           ].join(' ')}
         >

@@ -601,6 +601,23 @@ commentaire du code qui disait « teal-tinted » était faux depuis l'origine, i
 09/09 : elle repeignait les 916 usages du texte principal pour un gain purement
 esthétique, le contraste ne bougeant pas de plus de 0,16 point.
 
+
+### Le dark mode — reporté, pas exclu
+
+> **Précisé par Chloé le 2026-09-09.** La formulation « doctrine light-only » qui
+> circulait était fausse : **aucune doctrine n'a jamais été posée contre le dark
+> mode.**
+
+Ce qui s'est réellement passé : les premiers prototypes de la Learning App ont
+reçu **une version dark générée automatiquement**, dont les couleurs n'ont pas été
+choisies. Elle ne tenait pas — c'est elle qui a été retirée le 2026-07-28, avec
+ses tokens.
+
+**Un dark theme reste envisagé à terme.** Il devra être **refait entièrement**, en
+choisissant ses couleurs sur la palette TLS plutôt qu'en les laissant dériver d'une
+inversion automatique. Ne pas réactiver l'ancienne configuration : c'est elle le
+problème, pas le principe.
+
 ### Le tracking suit une courbe inverse de la taille
 
 > **Règle posée le 2026-09-09**, après le correctif de `Button.tsx`.
@@ -719,7 +736,7 @@ Ils sont ici parce qu'ils sont **mesurés**, pas supposés :
 | **B1** | La typographie du bouton *(posée le 09/09)* | Le `tracking-tight` de la BASE abîme les 522 boutons `sm` |
 | C3 | Rempli ou outline pour les boutons de marque | commande le registre du site |
 | A2 | Le bouton primaire de l'app mesure 3,66 | seul défaut a11y restant après A1 |
-| A3 | Écrire la doctrine light-only | 1 ligne, ferme un sujet |
+| A3 | ~~Doctrine light-only~~ → **le dark mode est reporté, pas exclu** | à refaire proprement |
 
 ---
 

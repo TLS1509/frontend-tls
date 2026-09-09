@@ -17,7 +17,7 @@ const VARIANT_CLASSES: Record<KbdVariant, string> = {
 };
 
 const SIZE_CLASSES: Record<KbdSize, string> = {
-  sm: 'text-[10px] px-1.5 py-0.5',
+  sm: 'text-micro px-1.5 py-0.5',
   md: 'text-[11px] px-2 py-1',
 };
 
@@ -39,7 +39,7 @@ export const Kbd: React.FC<KbdProps> = ({
         {keys.map((key, i) => (
           <React.Fragment key={key}>
             {i > 0 && (
-              <span className="text-ink-400 text-[10px] mx-0.5" aria-hidden>+</span>
+              <span className="text-ink-400 text-micro mx-0.5" aria-hidden>+</span>
             )}
             <kbd className={classes} {...rest}>{key}</kbd>
           </React.Fragment>

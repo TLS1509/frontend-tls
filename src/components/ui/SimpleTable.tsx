@@ -82,7 +82,7 @@ export function SimpleTable<T>({
             <tr>
               <td
                 colSpan={columns.length}
-                className="px-4 py-10 text-center text-body-sm text-ink-400 italic"
+                className="px-4 py-10 text-center text-body-sm text-ink-600 italic"
               >
                 {emptyLabel}
               </td>

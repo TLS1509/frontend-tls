@@ -152,10 +152,9 @@
   --text-h4--line-height: 1.75rem;/* 28px */
   --text-h4--font-weight: 700;    /* T2 */
   --text-h4--letter-spacing: -0.02em;
-  --text-h5: 1rem;                      /* 16px */
-  --text-h5--line-height: 1.5rem;       /* 24px */
-  --text-h5--font-weight: 600;
-  --text-h5--letter-spacing: -0.01em;
+  /* h5 retiré le 2026-09-09 (T3) — il faisait exactement la taille de body
+     (16 px) et seule la graisse les distinguait. Ses 19 usages sont passés à
+     `text-body font-semibold`, qui dit la même chose sans un cran d'échelle. */
 
   /* ── Typographie — Body ── */
   --text-body-lg: 1.125rem;

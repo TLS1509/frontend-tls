@@ -88,7 +88,7 @@ const CorrectionDetailLearner: React.FC = () => {
           </Badge>
           {competence && <Badge variant="brand">{competence.label}</Badge>}
           {correction.xpAwarded && <Badge variant="success">+{correction.xpAwarded} XP</Badge>}
-          <span className="text-caption text-ink-400">Itération {correction.iterationCount + 1}</span>
+          <span className="text-caption text-ink-600">Itération {correction.iterationCount + 1}</span>
         </div>
 
         {/* Learner submission */}

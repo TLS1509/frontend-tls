@@ -55,7 +55,7 @@ export const ActivityTimeline: React.FC<ActivityTimelineProps> = ({
                     className={[
                       'inline-flex items-center justify-center w-10 h-10 rounded-full ring-4 transition-transform group-hover:scale-110',
                       isPending
-                        ? 'bg-white text-ink-400 ring-ink-100 border-2 border-dashed border-ink-300'
+                        ? 'bg-white text-ink-600 ring-ink-100 border-2 border-dashed border-ink-300'
                         : TONE_DOT[tone],
                       isInProgress ? 'animate-pulse' : '',
                     ]
@@ -88,7 +88,7 @@ export const ActivityTimeline: React.FC<ActivityTimelineProps> = ({
                   >
                     {item.title}
                   </h3>
-                  <time className="text-micro text-ink-400 font-medium whitespace-nowrap">
+                  <time className="text-micro text-ink-600 font-medium whitespace-nowrap">
                     {item.timestamp}
                   </time>
                 </div>

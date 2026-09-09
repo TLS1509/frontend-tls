@@ -89,7 +89,7 @@ const TONE_UNDERLINE: Record<SectionHeaderTone, string> = {
 // ── Size maps ────────────────────────────────────────────────────────────────
 
 const SIZE_TITLE: Record<SectionHeaderSize, string> = {
-  xs: 'text-h5',
+  xs: 'text-body font-semibold',
   sm: 'text-h4',
   md: 'text-h3',
   lg: 'text-h2',

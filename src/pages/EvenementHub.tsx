@@ -137,7 +137,7 @@ export default function EvenementHub() {
 
         {/* Event grid */}
         {filteredEvents.length === 0 ? (
-          <p className="text-body-sm text-ink-400 py-section text-center">Aucun événement dans cette catégorie.</p>
+          <p className="text-body-sm text-ink-600 py-section text-center">Aucun événement dans cette catégorie.</p>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-stack">
             {filteredEvents.map((ev) => {
@@ -224,7 +224,7 @@ export default function EvenementHub() {
         )}
 
         {/* Totals info */}
-        <p className="text-caption text-ink-400 text-center">
+        <p className="text-caption text-ink-600 text-center">
           {totalRegistered} participants au total · {evenements.length} événements
         </p>
       </Container>

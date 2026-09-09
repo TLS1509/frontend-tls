@@ -163,7 +163,7 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
             <p className="flex items-start gap-1.5 font-body text-body-sm text-ink-500 m-0 leading-snug">
               <Target size={14} strokeWidth={2} className="shrink-0 mt-0.5 text-ink-400" aria-hidden />
               <span className="min-w-0">
-                <span className="text-ink-400">Prochaine leçon · </span>
+                <span className="text-ink-600">Prochaine leçon · </span>
                 <span className="font-medium text-ink-700">{nextLessonTitle}</span>
               </span>
             </p>
@@ -180,7 +180,7 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
       <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5">
         <div className="flex-1 flex flex-col gap-1.5">
           <div className="flex items-center justify-between gap-2">
-            <span className="text-micro font-semibold uppercase tracking-[0.06em] text-ink-400">
+            <span className="text-micro font-semibold uppercase tracking-[0.06em] text-ink-600">
               Progression
             </span>
             <span className="text-caption font-bold text-ink-600 tabular-nums">{clamped}%</span>

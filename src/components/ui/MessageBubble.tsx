@@ -126,7 +126,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
           {children}
         </div>
         <div className="flex items-center gap-tight px-1">
-          <span className="text-micro text-ink-400">{timestamp}</span>
+          <span className="text-micro text-ink-600">{timestamp}</span>
           {showReadReceipt && (
             <CheckCheck size={11} className="text-primary-400" />
           )}
@@ -194,7 +194,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
 
         {/* Timestamp + source citation pills */}
         <div className="flex items-start gap-stack-xs pl-1 flex-wrap">
-          <span className="text-micro text-ink-400 shrink-0">{timestamp}</span>
+          <span className="text-micro text-ink-600 shrink-0">{timestamp}</span>
 
           {isChatbot && sourcesCited && sourcesCited.length > 0 && (
             <div className="flex flex-wrap gap-tight">
@@ -230,7 +230,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
               </span>
             ) : (
               <>
-                <span className="text-micro text-ink-400">Utile ?</span>
+                <span className="text-micro text-ink-600">Utile ?</span>
                 <button
                   onClick={() => messageId && onFeedback?.(messageId, 'yes')}
                   className="inline-flex items-center gap-tight text-micro text-success-fg hover:text-success-base transition-colors duration-fast px-1.5 py-0.5 rounded-sm hover:bg-success-bg"

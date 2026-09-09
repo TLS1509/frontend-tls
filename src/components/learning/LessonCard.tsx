@@ -170,7 +170,7 @@ export const LessonCard: React.FC<LessonCardProps> = ({
             <ArrowRight
               size={16}
               className={[
-                'transition-all duration-fast ease-standard text-ink-400',
+                'transition-all duration-fast ease-standard text-ink-600',
                 `group-hover:${TONE_CTA_TEXT[tone]}`,
                 'group-hover:translate-x-1',
               ].join(' ')}

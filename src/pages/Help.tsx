@@ -239,7 +239,7 @@ export const Help: React.FC = () => {
                 onChange={(e) => setChatInput(e.target.value)}
                 placeholder="Posez votre question…"
                 aria-label="Message pour l'assistant"
-                className="flex-1 border border-ink-200 rounded-lg px-stack py-3 bg-white text-ink-900 font-body text-body-sm outline-none transition-colors focus:border-primary-400 h-auto placeholder:text-ink-400"
+                className="flex-1 border border-ink-200 rounded-lg px-stack py-3 bg-white text-ink-900 font-body text-body-sm outline-none transition-colors focus:border-primary-400 h-auto placeholder:text-ink-500"
               />
               <Button
                 variant="primary"

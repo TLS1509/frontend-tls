@@ -87,7 +87,7 @@ export const MultiStepForm: React.FC<MultiStepFormProps> = ({
                       ? 'bg-gradient-to-br from-success-base to-success-fg text-white shadow-md ring-4 ring-success-bg'
                       : isActive
                       ? 'bg-gradient-to-br from-primary-500 to-primary-700 text-white shadow-brand-sm ring-4 ring-primary-100 scale-110'
-                      : 'bg-white text-ink-400 ring-2 ring-ink-200',
+                      : 'bg-white text-ink-600 ring-2 ring-ink-200',
                   ].join(' ')}
                 >
                   {isCompleted ? <CheckCircle2 size={20} strokeWidth={2.5} /> : s.id}

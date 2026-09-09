@@ -124,7 +124,7 @@ export default function AtelierLive() {
                 {PARTICIPANTS.map((p) => (
                   <Avatar key={p.name} name={p.name} initials={p.initials} size="sm" />
                 ))}
-                <span className="text-caption text-ink-400 self-center">+7 autres</span>
+                <span className="text-caption text-ink-600 self-center">+7 autres</span>
               </div>
             </SectionCard>
 
@@ -137,7 +137,7 @@ export default function AtelierLive() {
                 {RESOURCES.map((res) => (
                   <Card key={res.id} variant="default" className="flex items-center justify-between p-3">
                     <div className="flex items-center gap-stack-xs">
-                      <FileText size={14} className="text-ink-400 shrink-0" />
+                      <FileText size={14} className="text-ink-600 shrink-0" />
                       <span className="text-caption text-ink-700">{res.label}</span>
                       <Badge variant="neutral" size="sm">{res.type.toUpperCase()}</Badge>
                     </div>

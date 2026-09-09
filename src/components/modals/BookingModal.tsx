@@ -324,7 +324,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
                   <div className="grid grid-cols-7 gap-0.5 mb-1">
                     {DAYS_FR.map((d) => (
-                      <div key={d} className="text-center text-[10px] font-bold text-ink-600 uppercase tracking-wide py-1">
+                      <div key={d} className="text-center text-micro font-bold text-ink-600 uppercase tracking-wide py-1">
                         {d}
                       </div>
                     ))}

@@ -78,7 +78,7 @@ export default function AtelierPresentiel() {
           {/* Carte placeholder */}
           <div className="bg-ink-100 rounded-xl h-48 flex flex-col items-center justify-center gap-stack-xs">
             <MapPin size={32} className="text-ink-300" />
-            <p className="text-caption text-ink-400">Carte interactive</p>
+            <p className="text-caption text-ink-600">Carte interactive</p>
           </div>
 
           <div className="flex gap-stack-xs flex-wrap">
@@ -99,7 +99,7 @@ export default function AtelierPresentiel() {
           <div className="flex flex-col gap-stack">
             {INFOS_PRATIQUES.map((item, idx) => (
               <div key={idx} className="flex items-start gap-stack-xs">
-                <span className="text-ink-400 shrink-0 mt-0.5">{item.icon}</span>
+                <span className="text-ink-600 shrink-0 mt-0.5">{item.icon}</span>
                 <div className="flex flex-col gap-tight">
                   <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">{item.label}</span>
                   <span className="text-body-sm text-ink-800">{item.value}</span>
@@ -119,7 +119,7 @@ export default function AtelierPresentiel() {
               <div key={idx} className="flex items-center gap-stack flex-wrap">
                 <Badge variant="info" size="sm">{item.time}</Badge>
                 <span className="text-body-sm text-ink-700 flex-1">{item.label}</span>
-                <span className="text-caption text-ink-400">{item.duration}</span>
+                <span className="text-caption text-ink-600">{item.duration}</span>
               </div>
             ))}
           </div>

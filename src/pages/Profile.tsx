@@ -387,10 +387,10 @@ export const Profile: React.FC = () => {
                       {badge.label}
                     </p>
                     {badge.earned ? (
-                      <p className="m-0 mt-0.5 font-body text-micro text-ink-400">{badge.date}</p>
+                      <p className="m-0 mt-0.5 font-body text-micro text-ink-600">{badge.date}</p>
                     ) : (
                       <>
-                        <p className="m-0 mt-0.5 font-body text-micro text-ink-400">{badge.progress}%</p>
+                        <p className="m-0 mt-0.5 font-body text-micro text-ink-600">{badge.progress}%</p>
                         <span
                           aria-label="Verrouillé"
                           className="absolute top-2 right-2 inline-flex items-center justify-center w-5 h-5 rounded-pill bg-white text-ink-400 border border-ink-200"

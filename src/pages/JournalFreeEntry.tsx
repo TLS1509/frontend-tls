@@ -236,7 +236,7 @@ export const JournalFreeEntry: React.FC = () => {
               rows={18}
               className="w-full border-0 outline-none resize-none font-body text-body text-ink-900 leading-relaxed bg-transparent h-auto block placeholder:text-ink-300"
             />
-            <div className="text-right font-body text-caption text-ink-400 mt-stack-xs">
+            <div className="text-right font-body text-caption text-ink-600 mt-stack-xs">
               {wordCount} mot{wordCount > 1 ? 's' : ''}
             </div>
           </div>

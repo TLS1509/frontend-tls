@@ -52,7 +52,7 @@ export const AIOverrideButton: React.FC<AIOverrideButtonProps> = ({
     return (
       <div className={`flex flex-col gap-stack-xs ${className}`}>
         <label className="text-caption text-ink-600 font-medium">
-          Raison du rejet <span className="text-ink-400 font-normal">(optionnel)</span>
+          Raison du rejet <span className="text-ink-600 font-normal">(optionnel)</span>
         </label>
         <textarea
           value={reason}
@@ -61,7 +61,7 @@ export const AIOverrideButton: React.FC<AIOverrideButtonProps> = ({
           rows={3}
           className={[
             'w-full h-auto min-h-[80px] rounded-md border border-ink-200 bg-white',
-            'px-3 py-2 text-body-sm text-ink-900 placeholder:text-ink-400',
+            'px-3 py-2 text-body-sm text-ink-900 placeholder:text-ink-500',
             'focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500',
             'resize-none transition-colors duration-base',
           ].join(' ')}

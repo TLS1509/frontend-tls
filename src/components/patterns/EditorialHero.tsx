@@ -165,7 +165,7 @@ const TONE_SUMMARY: Record<PageHeroTone, string> = {
 };
 
 const TONE_META: Record<PageHeroTone, string> = {
-  flat:    'text-ink-400',
+  flat:    'text-ink-600',
   default: 'text-ink-500',
   brand:   'text-white/75',
   warm:    'text-white/75',

@@ -144,7 +144,7 @@ export const MarketingGuideDetail: React.FC = () => {
                       <Download size={22} />
                     </div>
                     <div className="flex flex-col gap-tight">
-                      <span className="font-display text-h5 font-bold text-ink-900">
+                      <span className="font-display text-body font-semibold font-bold text-ink-900">
                         Recevoir le guide
                       </span>
                       <span className="font-body text-caption text-ink-600">
@@ -181,7 +181,7 @@ export const MarketingGuideDetail: React.FC = () => {
                       <MailCheck size={26} />
                     </div>
                     <div className="flex flex-col gap-tight">
-                      <span className="font-display text-h5 font-bold text-ink-900">
+                      <span className="font-display text-body font-semibold font-bold text-ink-900">
                         C'est prêt !
                       </span>
                       <span className="font-body text-caption text-ink-600 max-w-xs">
@@ -216,7 +216,7 @@ export const MarketingGuideDetail: React.FC = () => {
                       <span className="inline-flex items-center gap-tight font-body text-caption text-ink-500">
                         <FileText size={12} /> {g.pageCount} pages
                       </span>
-                      <h3 className="font-display text-h5 font-bold text-ink-900 leading-tight m-0 group-hover:text-secondary-700 transition-colors duration-base">
+                      <h3 className="font-display text-body font-semibold font-bold text-ink-900 leading-tight m-0 group-hover:text-secondary-700 transition-colors duration-base">
                         {g.title}
                       </h3>
                       <div className="inline-flex items-center gap-tight font-body text-caption font-bold text-secondary-700 mt-auto pt-stack border-t border-ink-100">

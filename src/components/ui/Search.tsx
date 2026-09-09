@@ -89,7 +89,7 @@ const VARIANT_ICON: Record<SearchVariant, string> = {
 };
 
 const VARIANT_INPUT: Record<SearchVariant, string> = {
-  default: 'text-ink-900 placeholder:text-ink-400',
+  default: 'text-ink-900 placeholder:text-ink-500',
   glass:   'text-white placeholder:text-white/60',
 };
 

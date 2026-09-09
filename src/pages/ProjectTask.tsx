@@ -135,7 +135,7 @@ export const ProjectTask: React.FC = () => {
                   {sc.checked ? (
                     <CheckCircle2 size={16} className="text-success-base mt-0.5 shrink-0" />
                   ) : (
-                    <Square size={16} className="text-ink-400 mt-0.5 shrink-0" />
+                    <Square size={16} className="text-ink-600 mt-0.5 shrink-0" />
                   )}
                   <span className={`text-body-sm ${sc.checked ? 'text-ink-500 line-through' : 'text-ink-800'}`}>
                     {sc.criterion}

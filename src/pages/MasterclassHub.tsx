@@ -61,7 +61,7 @@ export default function MasterclassHub() {
 
         {/* Grid */}
         {filtered.length === 0 ? (
-          <p className="text-body-sm text-ink-400 py-section text-center">Aucune masterclass dans cette catégorie.</p>
+          <p className="text-body-sm text-ink-600 py-section text-center">Aucune masterclass dans cette catégorie.</p>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-stack">
             {filtered.map((mc) => {
@@ -109,9 +109,9 @@ export default function MasterclassHub() {
                     </div>
 
                     <div className="flex items-center gap-stack-xs mt-tight">
-                      <Calendar size={13} className="text-ink-400 shrink-0" />
+                      <Calendar size={13} className="text-ink-600 shrink-0" />
                       <span className="text-caption text-ink-500">{formatDate(mc.scheduledAt)}</span>
-                      <Clock size={13} className="text-ink-400 shrink-0 ml-stack-xs" />
+                      <Clock size={13} className="text-ink-600 shrink-0 ml-stack-xs" />
                       <span className="text-caption text-ink-500">{mc.durationMinutes} min</span>
                     </div>
 

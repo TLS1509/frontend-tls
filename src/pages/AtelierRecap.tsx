@@ -60,7 +60,7 @@ export default function AtelierRecap() {
           <Card variant="tinted" tone="sun" className="p-stack flex flex-col sm:flex-row items-start sm:items-center justify-between gap-stack">
             <div className="flex flex-col gap-tight">
               <p className="text-body-sm font-semibold text-ink-900">Tu n'as pas encore donné ton avis</p>
-              <p className="text-caption text-ink-400">Aide-nous à améliorer les prochains ateliers</p>
+              <p className="text-caption text-ink-600">Aide-nous à améliorer les prochains ateliers</p>
             </div>
             <Button variant="primary" size="sm">Donner mon avis</Button>
           </Card>
@@ -75,7 +75,7 @@ export default function AtelierRecap() {
             {RESSOURCES.map((res, idx) => (
               <Card key={idx} variant="default" className="flex items-center justify-between p-3">
                 <div className="flex items-center gap-stack-xs">
-                  <FileText size={14} className="text-ink-400 shrink-0" />
+                  <FileText size={14} className="text-ink-600 shrink-0" />
                   <span className="text-caption text-ink-700">{res.label}</span>
                   <Badge variant="neutral" size="sm">{res.type}</Badge>
                 </div>

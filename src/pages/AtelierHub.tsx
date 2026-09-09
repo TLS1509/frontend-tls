@@ -64,7 +64,7 @@ export default function AtelierHub() {
 
         {/* Grid */}
         {filtered.length === 0 ? (
-          <p className="text-body-sm text-ink-400 py-section text-center">Aucun atelier dans cette catégorie.</p>
+          <p className="text-body-sm text-ink-600 py-section text-center">Aucun atelier dans cette catégorie.</p>
         ) : (
           <div className="grid md:grid-cols-2 gap-stack">
             {filtered.map((atelier) => {
@@ -107,16 +107,16 @@ export default function AtelierHub() {
                   </div>
 
                   <div className="flex items-center gap-stack-xs flex-wrap">
-                    <Calendar size={13} className="text-ink-400 shrink-0" />
+                    <Calendar size={13} className="text-ink-600 shrink-0" />
                     <span className="text-caption text-ink-500">{formatDate(atelier.scheduledAt)}</span>
                     {atelier.mode === 'presentiel' && atelier.location ? (
                       <>
-                        <MapPin size={13} className="text-ink-400 shrink-0 ml-stack-xs" />
+                        <MapPin size={13} className="text-ink-600 shrink-0 ml-stack-xs" />
                         <span className="text-caption text-ink-500 truncate">{atelier.location}</span>
                       </>
                     ) : (
                       <>
-                        <Video size={13} className="text-ink-400 shrink-0 ml-stack-xs" />
+                        <Video size={13} className="text-ink-600 shrink-0 ml-stack-xs" />
                         <span className="text-caption text-ink-500">Distanciel</span>
                       </>
                     )}

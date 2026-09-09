@@ -253,7 +253,7 @@ export const SidebarUserCard: React.FC<SidebarUserCardProps> = ({
     notificationCount > 0 ? (
       <span
         aria-label={`${notificationCount} notification${notificationCount > 1 ? 's' : ''} non lue${notificationCount > 1 ? 's' : ''}`}
-        className="absolute -top-1 -right-1 inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-pill bg-danger-fg text-white font-body text-[10px] font-bold border-2 border-white shadow-sm"
+        className="absolute -top-1 -right-1 inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-pill bg-danger-fg text-white font-body text-micro font-bold border-2 border-white shadow-sm"
       >
         {notificationCount > 9 ? '9+' : notificationCount}
       </span>
@@ -304,7 +304,7 @@ export const SidebarUserCard: React.FC<SidebarUserCardProps> = ({
         <span className="block text-body-sm font-bold text-ink-900 truncate">{name}</span>
         {subtitle && <span className="block text-caption text-ink-500 truncate">{subtitle}</span>}
       </span>
-      <span className="shrink-0 text-ink-400">
+      <span className="shrink-0 text-ink-600">
         {menuOpen ? <ChevronDown size={16} strokeWidth={2.5} /> : <ChevronUp size={16} strokeWidth={2.5} />}
       </span>
     </button>

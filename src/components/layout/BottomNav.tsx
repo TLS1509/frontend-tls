@@ -87,7 +87,7 @@ export const BottomNav: React.FC = () => {
                 'flex-1 flex flex-col items-center justify-center gap-tight',
                 'min-h-touch cursor-pointer transition-colors duration-fast',
                 'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
-                active ? 'text-primary-600' : 'text-ink-400 hover:text-ink-600',
+                active ? 'text-primary-600' : 'text-ink-600 hover:text-ink-600',
               ].join(' ')}
             >
               <span

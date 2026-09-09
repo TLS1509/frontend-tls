@@ -212,7 +212,7 @@ export const CoachingCompteRendu: React.FC = () => {
               >
                 <div className="w-[60px] h-[60px] rounded-full bg-primary-700 flex flex-col items-center justify-center">
                   <span className="font-display text-h4 font-extrabold leading-none">{progressPercent}%</span>
-                  <span className="font-body opacity-80 mt-0.5 text-[9px]">parcours</span>
+                  <span className="font-body opacity-80 mt-0.5 text-micro">parcours</span>
                 </div>
               </div>
             </div>

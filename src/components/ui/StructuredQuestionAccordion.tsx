@@ -82,7 +82,7 @@ export const StructuredQuestionAccordion: React.FC<StructuredQuestionAccordionPr
                 <ChevronDown
                   size={18}
                   className={[
-                    'text-ink-400 shrink-0 transition-transform duration-200',
+                    'text-ink-600 shrink-0 transition-transform duration-200',
                     isOpen ? 'rotate-180' : '',
                   ].join(' ')}
                 />
@@ -98,7 +98,7 @@ export const StructuredQuestionAccordion: React.FC<StructuredQuestionAccordionPr
                     onChange={(e) => onChange({ ...answers, [q.id]: e.target.value })}
                     placeholder={q.placeholder}
                     rows={4}
-                    className="w-full border border-ink-200 rounded-lg p-3 font-body text-body text-ink-900 placeholder:text-ink-400 resize-none h-auto min-h-[96px] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                    className="w-full border border-ink-200 rounded-lg p-3 font-body text-body text-ink-900 placeholder:text-ink-500 resize-none h-auto min-h-[96px] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                   />
                 </div>
               )}

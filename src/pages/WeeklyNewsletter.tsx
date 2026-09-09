@@ -249,7 +249,7 @@ export const WeeklyNewsletter: React.FC = () => {
                   >
                     {isSaved ? <BookmarkCheck size={14} /> : <Bookmark size={14} />}
                   </Button>
-                  <ArrowRight size={15} className="shrink-0 text-ink-400" />
+                  <ArrowRight size={15} className="shrink-0 text-ink-600" />
                 </div>
               );
             })}

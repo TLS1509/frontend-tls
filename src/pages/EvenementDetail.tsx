@@ -92,7 +92,7 @@ export default function EvenementDetail() {
           <div className="flex flex-col gap-tight">
             <h3 className="text-h3 font-bold text-ink-900 m-0">{EVENT.organizer.name}</h3>
             <p className="text-body-sm text-ink-500 m-0">{EVENT.organizer.role}</p>
-            <p className="text-caption text-ink-400 m-0">{EVENT.organizer.description}</p>
+            <p className="text-caption text-ink-600 m-0">{EVENT.organizer.description}</p>
           </div>
         </Card>
 
@@ -124,7 +124,7 @@ export default function EvenementDetail() {
               <div key={idx} className="flex items-center gap-stack-xs">
                 <span className="text-primary-500 shrink-0">{item.icon}</span>
                 <div className="flex flex-col gap-tight min-w-0">
-                  <span className="text-micro font-bold uppercase tracking-wider text-ink-400">{item.label}</span>
+                  <span className="text-micro font-bold uppercase tracking-wider text-ink-600">{item.label}</span>
                   <span className="text-body-sm text-ink-900">{item.value}</span>
                 </div>
               </div>
@@ -159,7 +159,7 @@ export default function EvenementDetail() {
               valueLabel={false}
               className="max-w-xs"
             />
-            <p className="text-caption text-ink-400 m-0">
+            <p className="text-caption text-ink-600 m-0">
               Inscription gratuite · Lien de connexion envoyé 24h avant
             </p>
           </div>
@@ -167,7 +167,7 @@ export default function EvenementDetail() {
             <Button variant="primary" size="lg">
               S'inscrire gratuitement
             </Button>
-            <p className="text-micro text-ink-400 m-0">Annulation possible jusqu'à J-1</p>
+            <p className="text-micro text-ink-600 m-0">Annulation possible jusqu'à J-1</p>
           </div>
         </Card>
       </div>

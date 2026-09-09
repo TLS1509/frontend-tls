@@ -211,7 +211,7 @@ export const Magazine: React.FC = () => {
                           {item.pages}
                         </span>
                       </div>
-                      <ArrowRight size={15} className="text-ink-400 shrink-0 mt-1.5" />
+                      <ArrowRight size={15} className="text-ink-600 shrink-0 mt-1.5" />
                     </button>
                   );
                 })}

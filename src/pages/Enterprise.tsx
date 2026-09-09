@@ -355,7 +355,7 @@ export const Enterprise: React.FC = () => {
                   {u.status === 'active' ? (
                     <CheckCircle2 size={18} className="text-success-fg" />
                   ) : (
-                    <Circle size={18} className="text-ink-400" />
+                    <Circle size={18} className="text-ink-600" />
                   )}
                 </span>
                 <div className="flex-1 min-w-40">

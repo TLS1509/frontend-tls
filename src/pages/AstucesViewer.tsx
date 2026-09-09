@@ -197,7 +197,7 @@ export const AstucesViewer: React.FC = () => {
 
       {/* ── Breadcrumb navigation (clickable) ──────────────────────────── */}
       {lessonCtx && (
-        <div className="shrink-0 px-4 sm:px-6 lg:px-10 py-1 flex items-center gap-1 text-micro text-ink-400 font-medium">
+        <div className="shrink-0 px-4 sm:px-6 lg:px-10 py-1 flex items-center gap-1 text-micro text-ink-600 font-medium">
           <button
             type="button"
             onClick={() => navigate(`/learning-paths/${lessonCtx.parcoursId}`)}

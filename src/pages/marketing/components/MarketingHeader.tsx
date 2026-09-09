@@ -423,7 +423,7 @@ export const MarketingHeader: React.FC = () => {
                   header is ever obscured again. */}
               <div className="sticky top-0 z-base flex items-center justify-between border-b border-ink-100 bg-white/95 px-6 pb-2 pt-3 backdrop-blur-glass-light">
                 <span aria-hidden className="absolute left-1/2 top-1.5 h-1 w-10 -translate-x-1/2 rounded-pill bg-ink-200" />
-                <span className="font-body text-caption font-semibold uppercase tracking-widest text-ink-400">
+                <span className="font-body text-caption font-semibold uppercase tracking-widest text-ink-600">
                   Menu
                 </span>
                 <button

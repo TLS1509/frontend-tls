@@ -171,7 +171,7 @@ export const MarketingVideoDetail: React.FC = () => {
                         <span className="inline-flex items-center gap-tight font-body text-caption text-ink-500">
                           <Clock size={11} /> {r.duration}
                         </span>
-                        <h3 className="font-display text-h5 font-bold text-ink-900 leading-tight m-0 group-hover:text-primary-700 transition-colors duration-base">
+                        <h3 className="font-display text-body font-semibold font-bold text-ink-900 leading-tight m-0 group-hover:text-primary-700 transition-colors duration-base">
                           {r.title}
                         </h3>
                         <div className="inline-flex items-center gap-tight font-body text-caption font-bold text-primary-700 mt-auto pt-stack border-t border-ink-100">

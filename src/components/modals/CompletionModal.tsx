@@ -143,7 +143,7 @@ export const CompletionModal: React.FC<CompletionModalProps> = ({
               onClick={onNext}
               className="group w-full text-left px-4 py-3 rounded-xl bg-ink-50 border border-ink-100 hover:bg-primary-50 hover:border-primary-200 transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
             >
-              <span className="block text-micro font-bold text-ink-400 uppercase tracking-[0.07em] mb-0.5">
+              <span className="block text-micro font-bold text-ink-600 uppercase tracking-[0.07em] mb-0.5">
                 Continuer avec
               </span>
               <span className="flex items-center justify-between gap-2">
@@ -153,7 +153,7 @@ export const CompletionModal: React.FC<CompletionModalProps> = ({
                 <ArrowRight size={14} className="text-ink-400 group-hover:text-primary-600 shrink-0 transition-colors" aria-hidden />
               </span>
               {nextItem.duration && (
-                <span className="block text-micro text-ink-400 mt-0.5">
+                <span className="block text-micro text-ink-600 mt-0.5">
                   {nextItem.type} · {nextItem.duration}
                 </span>
               )}

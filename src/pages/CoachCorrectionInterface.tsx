@@ -78,7 +78,7 @@ export default function CoachCorrectionInterface() {
               <div className="flex items-center gap-stack-xs">
                 <Badge variant="info" size="sm">{SUBMISSION.competence}</Badge>
                 <Badge variant="neutral" size="sm">D{SUBMISSION.dreyfusLevel} Compétent</Badge>
-                <span className="text-caption text-ink-400">Soumis le {SUBMISSION.submittedAt}</span>
+                <span className="text-caption text-ink-600">Soumis le {SUBMISSION.submittedAt}</span>
               </div>
             </div>
           </Card>

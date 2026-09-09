@@ -78,7 +78,7 @@ export default function CoachingSessionDetail() {
           <Card variant="default" className="flex items-center gap-stack p-5">
             <Avatar name={session.coachName} initials={coachInitials} size="lg" />
             <div className="flex flex-col gap-tight">
-              <span className="text-caption text-ink-400 uppercase tracking-wide">Coach</span>
+              <span className="text-caption text-ink-600 uppercase tracking-wide">Coach</span>
               <span className="text-body-sm font-semibold text-ink-900">{session.coachName}</span>
               <span className="text-caption text-ink-500">{session.coachSpeciality ?? 'Leadership · Communication'}</span>
             </div>
@@ -90,7 +90,7 @@ export default function CoachingSessionDetail() {
               <Calendar size={20} className="text-secondary-500" />
             </div>
             <div className="flex flex-col gap-tight">
-              <span className="text-caption text-ink-400 uppercase tracking-wide">Date & heure</span>
+              <span className="text-caption text-ink-600 uppercase tracking-wide">Date & heure</span>
               <span className="text-body-sm font-semibold text-ink-900">{day}</span>
               <span className="text-caption text-ink-500">{time}</span>
             </div>
@@ -102,7 +102,7 @@ export default function CoachingSessionDetail() {
               <Video size={20} className="text-secondary-500" />
             </div>
             <div className="flex flex-col gap-tight">
-              <span className="text-caption text-ink-400 uppercase tracking-wide">Format</span>
+              <span className="text-caption text-ink-600 uppercase tracking-wide">Format</span>
               <span className="text-body-sm font-semibold text-ink-900">Visioconférence</span>
               <Badge variant="info" size="sm">
                 {isPlanned ? 'Confirmée' : 'Terminée'}

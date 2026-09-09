@@ -32,7 +32,7 @@ const BASE =
   'inline-flex items-center gap-tight rounded-pill font-body font-bold uppercase leading-tight whitespace-nowrap border';
 
 const SIZE_CLASSES: Record<BadgeSize, string> = {
-  sm: 'text-[10px] px-2 py-0.5 tracking-[0.06em]',
+  sm: 'text-micro px-2 py-0.5 tracking-[0.06em]',
   md: 'text-micro px-2.5 py-0.5 tracking-[0.05em]',
   lg: 'text-caption px-3 py-1 tracking-[0.04em]',
 };
@@ -207,7 +207,7 @@ const PROMO_SIZE_CLASSES: Record<'sm' | 'md', string> = {
 const PROMO_ICON_SIZES: Record<'sm' | 'md', number> = { sm: 12, md: 14 };
 
 const PROMO_COUNT_CLASSES: Record<'sm' | 'md', string> = {
-  sm: 'text-[10px] px-1 ml-0.5',
+  sm: 'text-micro px-1 ml-0.5',
   md: 'text-micro px-1.5 ml-1',
 };
 

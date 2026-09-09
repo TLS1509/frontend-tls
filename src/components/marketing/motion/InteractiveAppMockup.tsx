@@ -126,7 +126,7 @@ const JournalPanel: React.FC = () => (
   <motion.div {...panelMotion} className="flex flex-col gap-stack-xs">
     <div className="rounded-xl bg-gradient-to-br from-accent-50 to-secondary-50 p-4 border border-accent-200">
       <span className="text-caption font-bold text-warning-fg uppercase tracking-wider">Aujourd'hui</span>
-      <p className="font-display text-h5 font-bold text-ink-900 m-0 mt-1">3 insights après ma session</p>
+      <p className="font-display text-body font-semibold font-bold text-ink-900 m-0 mt-1">3 insights après ma session</p>
       <p className="font-body text-body-sm text-ink-700 m-0 mt-2 line-clamp-2">
         J'ai compris que mes apprenants ont besoin de respiration entre les modules denses. La prochaine cohorte sera plus rythmée.
       </p>

@@ -132,7 +132,7 @@ export default function MasterclassSurvey() {
           <button
             type="button"
             onClick={() => navigate('/masterclass')}
-            className="text-caption text-ink-400 underline underline-offset-2 hover:text-ink-600 w-full text-center mt-tight focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+            className="text-caption text-ink-600 underline underline-offset-2 hover:text-ink-600 w-full text-center mt-tight focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
           >
             Passer
           </button>

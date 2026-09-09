@@ -113,7 +113,7 @@ export const RatingModal: React.FC<RatingModalProps> = ({
 
       <div className="flex flex-col gap-stack-xs">
         <label htmlFor="rating-feedback" className="text-body-sm font-semibold text-ink-900">
-          Commentaire <span className="text-ink-400 font-normal">(optionnel)</span>
+          Commentaire <span className="text-ink-600 font-normal">(optionnel)</span>
         </label>
         <textarea
           id="rating-feedback"

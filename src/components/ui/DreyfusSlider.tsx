@@ -176,7 +176,7 @@ export const DreyfusSlider: React.FC<DreyfusSliderProps> = ({
                 ].join(' ')}
               >
                 {!isPast && !isActive && (
-                  <span className="text-[10px] font-bold text-ink-500 leading-none">{lv.v}</span>
+                  <span className="text-micro font-bold text-ink-500 leading-none">{lv.v}</span>
                 )}
               </button>
             );
@@ -199,7 +199,7 @@ export const DreyfusSlider: React.FC<DreyfusSliderProps> = ({
                 ].join(' ')}
               >
                 {lv.icon && <span aria-hidden="true" className="inline-flex items-center justify-center">{lv.icon}</span>}
-                <span className="text-[10px] sm:text-caption font-semibold leading-tight">{lv.label}</span>
+                <span className="text-micro sm:text-caption font-semibold leading-tight">{lv.label}</span>
               </div>
             );
           })}

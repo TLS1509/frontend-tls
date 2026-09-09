@@ -143,7 +143,7 @@ export const MarketingWebinaireDetail: React.FC = () => {
             </div>
 
             <div className="flex items-center gap-stack-xs pt-stack border-t border-ink-100">
-              <Users size={16} className="text-ink-400" />
+              <Users size={16} className="text-ink-600" />
               <span className="font-body text-caption text-ink-600">
                 Intervenant{webinaire.speakers.length > 1 ? 's' : ''} :{' '}
                 {webinaire.speakers.map((s) => `${s.name} (${s.role})`).join(', ')}
@@ -169,7 +169,7 @@ export const MarketingWebinaireDetail: React.FC = () => {
                         <CalendarCheck size={22} />
                       </div>
                       <div className="flex flex-col gap-tight">
-                        <span className="font-display text-h5 font-bold text-ink-900">
+                        <span className="font-display text-body font-semibold font-bold text-ink-900">
                           Je m'inscris
                         </span>
                         <span className="font-body text-caption text-ink-600">
@@ -206,7 +206,7 @@ export const MarketingWebinaireDetail: React.FC = () => {
                         <MailCheck size={26} />
                       </div>
                       <div className="flex flex-col gap-tight">
-                        <span className="font-display text-h5 font-bold text-ink-900">
+                        <span className="font-display text-body font-semibold font-bold text-ink-900">
                           C'est noté !
                         </span>
                         <span className="font-body text-caption text-ink-600 max-w-xs">
@@ -265,7 +265,7 @@ export const MarketingWebinaireDetail: React.FC = () => {
                       <span className="inline-flex items-center gap-tight font-body text-caption text-ink-500">
                         <Calendar size={12} /> {w.date}
                       </span>
-                      <h3 className="font-display text-h5 font-bold text-ink-900 leading-tight m-0 group-hover:text-primary-700 transition-colors duration-base">
+                      <h3 className="font-display text-body font-semibold font-bold text-ink-900 leading-tight m-0 group-hover:text-primary-700 transition-colors duration-base">
                         {w.title}
                       </h3>
                       <div className="inline-flex items-center gap-tight font-body text-caption font-bold text-primary-700 mt-auto pt-stack border-t border-ink-100">

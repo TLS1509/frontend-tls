@@ -207,7 +207,7 @@ export default function ChatInterface() {
                   Envoyer
                 </Button>
               </div>
-              <p className="text-micro text-ink-400 pl-1">
+              <p className="text-micro text-ink-600 pl-1">
                 Ctrl+Entrée pour envoyer · Les réponses sont basées sur le contenu indexé de la plateforme.
               </p>
             </Card>

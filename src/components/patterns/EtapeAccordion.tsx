@@ -96,7 +96,7 @@ export const EtapeAccordion: React.FC<EtapeAccordionProps> = ({
         <span>
           {title && <strong className="font-semibold">{title}</strong>}
           {duration && (
-            <span className="block mt-1 font-body text-caption text-ink-400">{duration}</span>
+            <span className="block mt-1 font-body text-caption text-ink-600">{duration}</span>
           )}
         </span>
       )}

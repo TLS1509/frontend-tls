@@ -341,7 +341,7 @@ export const MarketingContact: React.FC = () => {
                           if (fieldErrors.name) setFieldErrors({ ...fieldErrors, name: undefined });
                         }}
                         placeholder="Marie Dupont"
-                        className={`px-4 h-12 rounded-pill bg-white border text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 transition-all duration-base ${
+                        className={`px-4 h-12 rounded-pill bg-white border text-ink-900 placeholder:text-ink-500 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 transition-all duration-base ${
                           fieldErrors.name
                             ? 'border-danger-base focus-visible:outline-danger-base'
                             : 'border-ink-200 focus-visible:outline-primary-500'
@@ -375,7 +375,7 @@ export const MarketingContact: React.FC = () => {
                           if (fieldErrors.email) setFieldErrors({ ...fieldErrors, email: undefined });
                         }}
                         placeholder="marie@organisation.fr"
-                        className={`px-4 h-12 rounded-pill bg-white border text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 transition-all duration-base ${
+                        className={`px-4 h-12 rounded-pill bg-white border text-ink-900 placeholder:text-ink-500 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 transition-all duration-base ${
                           fieldErrors.email
                             ? 'border-danger-base focus-visible:outline-danger-base'
                             : 'border-ink-200 focus-visible:outline-primary-500'
@@ -402,12 +402,12 @@ export const MarketingContact: React.FC = () => {
                         value={form.org}
                         onChange={(e) => setForm({ ...form, org: e.target.value })}
                         placeholder="Nom de l'entreprise ou organisation"
-                        className="px-4 h-12 rounded-pill bg-white border border-ink-200 text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 transition-all duration-base"
+                        className="px-4 h-12 rounded-pill bg-white border border-ink-200 text-ink-900 placeholder:text-ink-500 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 transition-all duration-base"
                       />
                     </div>
                     <div className="flex flex-col gap-stack-xs">
                       <label htmlFor="ct-phone" className="font-body text-body-sm font-semibold text-ink-900">
-                        Téléphone <span className="text-ink-400 font-normal">(optionnel)</span>
+                        Téléphone <span className="text-ink-600 font-normal">(optionnel)</span>
                       </label>
                       <input
                         id="ct-phone"
@@ -417,7 +417,7 @@ export const MarketingContact: React.FC = () => {
                         value={form.phone}
                         onChange={(e) => setForm({ ...form, phone: e.target.value })}
                         placeholder="+33 6 00 00 00 00"
-                        className="px-4 h-12 rounded-pill bg-white border border-ink-200 text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 transition-all duration-base"
+                        className="px-4 h-12 rounded-pill bg-white border border-ink-200 text-ink-900 placeholder:text-ink-500 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 transition-all duration-base"
                       />
                     </div>
                   </div>
@@ -448,7 +448,7 @@ export const MarketingContact: React.FC = () => {
                         if (fieldErrors.message) setFieldErrors({ ...fieldErrors, message: undefined });
                       }}
                       placeholder="Décrivez brièvement votre contexte, vos objectifs, vos questions…"
-                      className={`px-4 py-3 rounded-2xl bg-white border text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 transition-all duration-base resize-y h-auto min-h-[140px] ${
+                      className={`px-4 py-3 rounded-2xl bg-white border text-ink-900 placeholder:text-ink-500 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 transition-all duration-base resize-y h-auto min-h-[140px] ${
                         fieldErrors.message
                           ? 'border-danger-base focus-visible:outline-danger-base'
                           : 'border-ink-200 focus-visible:outline-primary-500'
@@ -506,12 +506,12 @@ export const MarketingContact: React.FC = () => {
                   <div className="flex flex-col gap-stack-xs pt-stack border-t border-ink-100">
                     <div className="flex flex-wrap items-center gap-x-stack gap-y-1">
                       <span className="inline-flex items-center gap-1 font-body text-caption text-ink-500">
-                        <Lock size={11} className="text-ink-400 shrink-0" />
+                        <Lock size={11} className="text-ink-600 shrink-0" />
                         Données confidentielles · RGPD
                       </span>
                       <span className="text-ink-300 text-caption">·</span>
                       <span className="inline-flex items-center gap-1 font-body text-caption text-ink-500">
-                        <MapPin size={11} className="text-ink-400 shrink-0" />
+                        <MapPin size={11} className="text-ink-600 shrink-0" />
                         Équipe basée à Paris
                       </span>
                     </div>
@@ -576,7 +576,7 @@ export const MarketingContact: React.FC = () => {
 
             {/* Contact info */}
               <div className="rounded-2xl bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack shadow-sm">
-                <h3 className="font-display text-h5 font-bold text-ink-900 m-0">Autres canaux</h3>
+                <h3 className="font-display text-body font-semibold font-bold text-ink-900 m-0">Autres canaux</h3>
                 <div className="flex flex-col gap-stack">
                   <a
                     href="mailto:contact@thelearningsociety.fr"
@@ -636,7 +636,7 @@ export const MarketingContact: React.FC = () => {
 
             {/* Quick links */}
               <div className="rounded-2xl bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack shadow-sm">
-                <h3 className="font-display text-h5 font-bold text-ink-900 m-0">Accès rapide</h3>
+                <h3 className="font-display text-body font-semibold font-bold text-ink-900 m-0">Accès rapide</h3>
                 <div className="flex flex-col gap-stack-xs">
                   {QUICK_LINKS.map((q) => (
                     <Link

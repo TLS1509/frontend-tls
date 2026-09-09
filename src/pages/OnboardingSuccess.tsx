@@ -98,7 +98,7 @@ export default function OnboardingSuccess() {
           <button
             type="button"
             onClick={() => navigate('/onboarding/tutorial')}
-            className="text-caption text-ink-400 hover:text-primary-700 underline underline-offset-2 transition-colors duration-fast bg-transparent border-0 cursor-pointer p-0"
+            className="text-caption text-ink-600 hover:text-primary-700 underline underline-offset-2 transition-colors duration-fast bg-transparent border-0 cursor-pointer p-0"
           >
             Revoir le tutoriel de la plateforme
           </button>

@@ -193,7 +193,7 @@ export const ViewerHeader: React.FC<ViewerHeaderProps> = ({
         {current !== undefined && total !== undefined && (
           <span className="shrink-0 font-body text-caption font-semibold text-ink-600 tabular-nums">
             <span className={TONE_COUNTER_ACCENT[tone]}>{current}</span>
-            <span className="text-ink-400"> / {total}</span>
+            <span className="text-ink-600"> / {total}</span>
           </span>
         )}
 

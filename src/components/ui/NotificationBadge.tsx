@@ -37,10 +37,10 @@ export const NotificationBadge: React.FC<NotificationBadgeProps> = ({
   const dotClasses = [
     'absolute -top-1 -right-1 inline-flex items-center justify-center h-[16px] min-w-[16px] rounded-pill ring-2 ring-white font-bold leading-none tabular-nums shadow-xs',
     isVeryWide
-      ? 'px-1 text-[9px]'
+      ? 'px-1 text-micro'
       : isWide
-        ? 'px-1 text-[10px]'
-        : 'aspect-square px-0 text-[10px]',
+        ? 'px-1 text-micro'
+        : 'aspect-square px-0 text-micro',
     TONE_CLASSES[tone],
   ]
     .filter(Boolean)

@@ -39,7 +39,7 @@ const BASE =
   'relative inline-flex items-center justify-center font-body font-bold overflow-visible shrink-0 select-none';
 
 const SIZE_CLASSES: Record<AvatarSize, string> = {
-  xs: 'w-6 h-6 text-[10px]',
+  xs: 'w-6 h-6 text-micro',
   sm: 'w-8 h-8 text-xs',
   md: 'w-10 h-10 text-sm',
   lg: 'w-14 h-14 text-lg',
@@ -71,9 +71,9 @@ const DOT_STATUS_CLASSES: Record<AvatarStatus, string> = {
 };
 
 const LEVEL_BASE_SIZE_CLASSES: Record<AvatarSize, string> = {
-  xs: 'min-w-4 h-4 -bottom-0.5 -right-0.5 text-[9px]',
-  sm: 'min-w-4 h-4 -bottom-0.5 -right-0.5 text-[9px]',
-  md: 'min-w-[18px] h-[18px] -bottom-0.5 -right-0.5 text-[10px]',
+  xs: 'min-w-4 h-4 -bottom-0.5 -right-0.5 text-micro',
+  sm: 'min-w-4 h-4 -bottom-0.5 -right-0.5 text-micro',
+  md: 'min-w-[18px] h-[18px] -bottom-0.5 -right-0.5 text-micro',
   lg: 'min-w-5 h-5 -bottom-1 -right-1 text-micro',
   xl: 'min-w-6 h-6 -bottom-1 -right-1 text-caption',
 };

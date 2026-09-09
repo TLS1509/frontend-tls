@@ -172,7 +172,7 @@ export default function DashboardAchievements() {
         >
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-stack">
             {recentAchievements.length === 0 ? (
-              <p className="text-caption text-ink-400 col-span-full">Aucun badge obtenu pour l'instant.</p>
+              <p className="text-caption text-ink-600 col-span-full">Aucun badge obtenu pour l'instant.</p>
             ) : (
               recentAchievements.map((a) => (
                 <button
@@ -248,7 +248,7 @@ export default function DashboardAchievements() {
                       ? 'text-warning-fg'
                       : entry.rank <= 3
                         ? 'text-ink-600'
-                        : 'text-ink-400'
+                        : 'text-ink-600'
                   }`}
                 >
                   #{entry.rank}

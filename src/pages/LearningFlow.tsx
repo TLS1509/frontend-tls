@@ -80,7 +80,7 @@ export const LearningFlow: React.FC = () => {
 
           {/* ── Header ────────────────────────────────────────────── */}
           <div className="flex flex-col gap-2">
-            <span className="inline-flex items-center gap-1.5 text-micro font-bold text-ink-400 uppercase tracking-[0.08em] w-max">
+            <span className="inline-flex items-center gap-1.5 text-micro font-bold text-ink-600 uppercase tracking-[0.08em] w-max">
               <BookOpen size={11} aria-hidden />
               Documentation
             </span>

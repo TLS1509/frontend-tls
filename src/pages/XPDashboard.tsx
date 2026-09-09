@@ -93,7 +93,7 @@ export default function XPDashboard() {
                 <span className="text-body-sm text-ink-800">{item.description}</span>
                 <div className="flex items-center gap-stack-xs shrink-0">
                   <span className="text-body-sm font-bold text-warning-fg">+{item.xp} XP</span>
-                  <span className="text-caption text-ink-400">
+                  <span className="text-caption text-ink-600">
                     {new Date(item.occurredAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}
                   </span>
                 </div>

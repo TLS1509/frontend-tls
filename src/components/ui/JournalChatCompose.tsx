@@ -75,7 +75,7 @@ export const JournalChatCompose: React.FC<JournalChatComposeProps> = ({
             onChange={(e) => onChange(e.target.value)}
             placeholder={placeholder}
             onKeyDown={handleKeyDown}
-            className="w-full resize-none border-0 outline-none bg-transparent font-body text-body text-ink-900 placeholder:text-ink-400 leading-relaxed h-auto min-h-[44px] focus:outline-none"
+            className="w-full resize-none border-0 outline-none bg-transparent font-body text-body text-ink-900 placeholder:text-ink-500 leading-relaxed h-auto min-h-[44px] focus:outline-none"
           />
         </div>
         <Button
@@ -95,8 +95,8 @@ export const JournalChatCompose: React.FC<JournalChatComposeProps> = ({
         {hint && (
           <span className="font-body text-caption text-ink-500">{hint}</span>
         )}
-        <span className="font-body text-micro text-ink-400 hidden sm:inline ml-auto">
-          <kbd className="px-1.5 py-0.5 rounded bg-ink-50 border border-ink-200 text-ink-600 font-mono text-[10px]">
+        <span className="font-body text-micro text-ink-600 hidden sm:inline ml-auto">
+          <kbd className="px-1.5 py-0.5 rounded bg-ink-50 border border-ink-200 text-ink-600 font-mono text-micro">
             ⌘ + Entrée
           </kbd>{' '}
           pour envoyer

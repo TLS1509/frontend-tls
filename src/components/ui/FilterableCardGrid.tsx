@@ -65,10 +65,10 @@ export function FilterableCardGrid<T>({
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder={searchPlaceholder}
-                className="w-full h-10 pl-9 pr-9 rounded-xl border border-ink-200 bg-white text-body-sm font-body text-ink-900 placeholder:text-ink-400 transition-all duration-base focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100"
+                className="w-full h-10 pl-9 pr-9 rounded-xl border border-ink-200 bg-white text-body-sm font-body text-ink-900 placeholder:text-ink-500 transition-all duration-base focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100"
               />
               {query && (
-                <button type="button" onClick={() => setQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-400 hover:text-ink-700 transition-colors" aria-label="Effacer">
+                <button type="button" onClick={() => setQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-600 hover:text-ink-700 transition-colors" aria-label="Effacer">
                   <X size={14} />
                 </button>
               )}
@@ -105,7 +105,7 @@ export function FilterableCardGrid<T>({
       )}
 
       {filtered.length === 0 ? (
-        <p className="text-body-sm text-ink-400 italic py-section text-center">{emptyLabel}</p>
+        <p className="text-body-sm text-ink-600 italic py-section text-center">{emptyLabel}</p>
       ) : layout === 'grid' ? (
         <div className={['grid gap-stack', GRID_COLS[columns]].join(' ')}>
           {filtered.map((item, i) => renderCard(item, i, 'grid'))}

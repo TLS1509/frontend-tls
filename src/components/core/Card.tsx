@@ -199,8 +199,8 @@ const INTERACTIVE_EXTRA = 'cursor-pointer';
 const CLICKABLE = 'cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-900 focus-visible:ring-offset-2 focus-visible:ring-offset-white';
 
 const TITLE_SIZE: Record<CardSize, string> = {
-  xs: 'text-h5',
-  sm: 'text-h5',
+  xs: 'text-body font-semibold',
+  sm: 'text-body font-semibold',
   md: 'text-h4',
   lg: 'text-h3',
 };

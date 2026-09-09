@@ -66,7 +66,7 @@ export const ProjectPasseportFeed: React.FC = () => {
         <div className="flex flex-col items-center justify-center py-section gap-stack text-center">
           <TrendingUp size={40} className="text-ink-300" />
           <p className="text-body-sm text-ink-500 m-0">Aucun enrichissement Passeport pour ce projet.</p>
-          <p className="text-caption text-ink-400 m-0">Les enrichissements apparaîtront quand des JAC seront validés.</p>
+          <p className="text-caption text-ink-600 m-0">Les enrichissements apparaîtront quand des JAC seront validés.</p>
         </div>
       ) : (
         <>

@@ -328,7 +328,7 @@ export default function CoachLearnerProfile() {
                           </label>
                           <textarea
                             id={`rationale-${lc.competenceId}`}
-                            className="w-full h-auto min-h-[72px] rounded-md border border-ink-200 bg-white px-3 py-2 text-body-sm text-ink-900 font-body placeholder:text-ink-400 focus:outline-none focus:border-primary-500 transition-colors resize-none"
+                            className="w-full h-auto min-h-[72px] rounded-md border border-ink-200 bg-white px-3 py-2 text-body-sm text-ink-900 font-body placeholder:text-ink-500 focus:outline-none focus:border-primary-500 transition-colors resize-none"
                             placeholder="Sur quelle preuve observable repose cette validation ? (mise en situation, livrable, JAC…)"
                             value={rationale}
                             onChange={(e) => setRationale(e.target.value)}
@@ -349,7 +349,7 @@ export default function CoachLearnerProfile() {
                             Valider D{pickedLevel}
                           </Button>
                         </div>
-                        <p className="text-micro text-ink-400 m-0">
+                        <p className="text-micro text-ink-600 m-0">
                           Validé par {MOCK_COACH.name} · une preuve certifiante est ajoutée au Passeport de l'apprenant.
                         </p>
                       </div>
@@ -369,7 +369,7 @@ export default function CoachLearnerProfile() {
             description="Suggestions générées par l'analyse comportementale."
           >
             <div className="flex items-start gap-stack-xs p-stack rounded-xl border border-ink-100 bg-ink-50">
-              <ShieldOff size={18} className="text-ink-400 mt-0.5 shrink-0" />
+              <ShieldOff size={18} className="text-ink-600 mt-0.5 shrink-0" />
               <p className="text-body-sm text-ink-600">
                 {learner.name} a désactivé les recommandations IA dans ses préférences de
                 confidentialité. Aucune suggestion automatique n'est générée pour cet apprenant.
@@ -476,7 +476,7 @@ export default function CoachLearnerProfile() {
           }
         >
           <textarea
-            className="w-full h-auto min-h-[120px] rounded-md border border-ink-200 bg-ink-50 px-3.5 py-3 text-body-sm text-ink-900 font-body placeholder:text-ink-400 focus:outline-none focus:border-primary-500 focus:bg-white transition-colors resize-none"
+            className="w-full h-auto min-h-[120px] rounded-md border border-ink-200 bg-ink-50 px-3.5 py-3 text-body-sm text-ink-900 font-body placeholder:text-ink-500 focus:outline-none focus:border-primary-500 focus:bg-white transition-colors resize-none"
             placeholder="Écris ici tes observations sur l'apprenant, les points à travailler, les avancées notables…"
             value={note}
             onChange={(e) => setNote(e.target.value)}

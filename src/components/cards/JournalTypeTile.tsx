@@ -117,7 +117,7 @@ export const JournalTypeTile: React.FC<JournalTypeTileProps> = ({
         </div>
       )}
 
-      <span className={selected ? cfg.iconSelected : 'text-ink-400'}>
+      <span className={selected ? cfg.iconSelected : 'text-ink-600'}>
         <Icon size={28} strokeWidth={1.5} />
       </span>
 

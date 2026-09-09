@@ -228,7 +228,7 @@ export const DropdownItem: React.FC<DropdownItemProps> = ({
       {badge != null && isBuiltinBadge && (
         <span
           className={[
-            'inline-flex items-center justify-center px-2 py-0.5 rounded-pill text-[10px] font-extrabold tracking-wider shadow-sm shrink-0',
+            'inline-flex items-center justify-center px-2 py-0.5 rounded-pill text-micro font-extrabold tracking-wider shadow-sm shrink-0',
             BADGE_CLASSES[badge as DropdownItemBadge],
           ].join(' ')}
         >

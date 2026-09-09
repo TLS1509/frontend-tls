@@ -114,7 +114,7 @@ export default function ManagerCohort() {
                         </div>
                         <ProgressBar value={m.completion} fill="brand" size="sm" showLabel label={`${m.completion}%`} />
                       </div>
-                      <span className="text-caption text-ink-400 shrink-0">D{m.dreyfus.toFixed(1)}</span>
+                      <span className="text-caption text-ink-600 shrink-0">D{m.dreyfus.toFixed(1)}</span>
                     </div>
                   ))}
                   <Button variant="ghost" size="sm" trailingIcon={<ChevronRight size={14} />} onClick={() => setActiveTab('members')}>
@@ -138,7 +138,7 @@ export default function ManagerCohort() {
                           <span className="text-body-sm font-semibold text-ink-900">{p.title}</span>
                           <Badge variant={s.variant} size="sm">{s.label}</Badge>
                         </div>
-                        <div className="flex gap-stack-xs text-caption text-ink-400">
+                        <div className="flex gap-stack-xs text-caption text-ink-600">
                           <span>{p.type}</span>
                           <span>·</span>
                           <span>{p.members} membres</span>
@@ -175,7 +175,7 @@ export default function ManagerCohort() {
                 <div className="flex-1 min-w-0 flex flex-col gap-stack-xs">
                   <div className="flex items-center gap-stack-xs flex-wrap">
                     <span className="text-body-sm font-semibold text-ink-900">{m.name}</span>
-                    <span className="text-caption text-ink-400">{m.role}</span>
+                    <span className="text-caption text-ink-600">{m.role}</span>
                     <AtrophieIndicator daysSinceActivity={m.daysSinceActivity} size="sm" showLabel />
                   </div>
                   <div className="grid grid-cols-3 gap-stack-xs text-caption text-ink-500">
@@ -209,7 +209,7 @@ export default function ManagerCohort() {
                   <div className="flex items-center justify-between gap-stack-xs">
                     <div>
                       <p className="text-body-sm font-semibold text-ink-900">{p.title}</p>
-                      <p className="text-caption text-ink-400">{p.type} · {p.members} membres · Échéance {p.dueDate}</p>
+                      <p className="text-caption text-ink-600">{p.type} · {p.members} membres · Échéance {p.dueDate}</p>
                     </div>
                     <Badge variant={s.variant} size="sm">{s.label}</Badge>
                   </div>

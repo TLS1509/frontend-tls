@@ -98,7 +98,7 @@ export const ModalForm: React.FC<ModalFormProps> = ({
             type="button"
             onClick={onClose}
             aria-label="Fermer"
-            className="inline-flex items-center justify-center w-8 h-8 rounded-lg text-ink-400 hover:text-ink-700 hover:bg-ink-100 transition-colors duration-fast shrink-0 mt-0.5"
+            className="inline-flex items-center justify-center w-8 h-8 rounded-lg text-ink-600 hover:text-ink-700 hover:bg-ink-100 transition-colors duration-fast shrink-0 mt-0.5"
           >
             <X size={16} />
           </button>

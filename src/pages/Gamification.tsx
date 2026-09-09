@@ -161,7 +161,7 @@ export default function Gamification() {
                   <Card key={i} className="p-stack flex flex-col gap-stack-xs">
                     <div className="flex items-center justify-between gap-stack-xs">
                       <span className="text-body-sm font-semibold text-ink-900">{b.title}</span>
-                      <span className="text-caption text-ink-400">{b.description}</span>
+                      <span className="text-caption text-ink-600">{b.description}</span>
                     </div>
                     <ProgressBar value={b.progress} fill="warm" size="sm" showLabel label={`${b.progress}%`} />
                   </Card>
@@ -251,7 +251,7 @@ export default function Gamification() {
               <div className="flex flex-col gap-stack">
                 <div className="flex items-end gap-stack-xs">
                   <span className="text-h1 font-display font-bold text-secondary-600">18</span>
-                  <span className="text-body text-ink-400 pb-2">jours</span>
+                  <span className="text-body text-ink-600 pb-2">jours</span>
                 </div>
                 <ProgressBar value={(18 / 30) * 100} fill="warm" size="lg" label="Prochain milestone : 30 jours" showLabel />
                 {/* Calendar heatmap (simplified) */}
@@ -266,7 +266,7 @@ export default function Gamification() {
                     </div>
                   ))}
                 </div>
-                <p className="text-caption text-ink-400">21 derniers jours</p>
+                <p className="text-caption text-ink-600">21 derniers jours</p>
               </div>
             </SectionCard>
 

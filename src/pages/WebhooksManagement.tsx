@@ -95,7 +95,7 @@ const WEBHOOK_ROWS: DataTableRow[] = [
       </div>
     ),
     status: <Badge variant="neutral">Inactif</Badge>,
-    last_triggered: <span className="text-body-sm text-ink-400">Il y a 14 j</span>,
+    last_triggered: <span className="text-body-sm text-ink-600">Il y a 14 j</span>,
     actions: (
       <div className="flex items-center gap-tight">
         <Button variant="ghost" size="sm">Tester</Button>

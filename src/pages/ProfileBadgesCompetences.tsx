@@ -140,7 +140,7 @@ export default function ProfileBadgesCompetences() {
           <SectionCard title="Progression badges" titleIcon={<Award size={18} />}>
             <div className="flex flex-col gap-stack-xs">
               {progressByCategory.length === 0 ? (
-                <p className="text-caption text-ink-400">Aucun badge compétence pour l'instant.</p>
+                <p className="text-caption text-ink-600">Aucun badge compétence pour l'instant.</p>
               ) : (
                 progressByCategory.map(({ cat, earned, total, pct }) => (
                   <div key={cat} className="flex items-center gap-stack">

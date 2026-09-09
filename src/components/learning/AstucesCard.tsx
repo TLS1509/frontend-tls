@@ -65,7 +65,7 @@ export const AstucesCard: React.FC<AstucesCardProps> = ({
         TONE_BG_500[tone],
       ].join(' ')}
     >
-      <span className="font-display text-h5 font-bold text-white">{number}</span>
+      <span className="font-display text-body font-semibold font-bold text-white">{number}</span>
     </div>
 
     {/* Category badge — top-right */}

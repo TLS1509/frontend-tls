@@ -303,7 +303,7 @@ const ArticleBody: React.FC<{
       {/* Source link */}
       <FadeInWhenVisible direction="up">
         <div className="flex items-center gap-stack-xs pt-stack border-t border-ink-100">
-          <ExternalLink size={14} className="text-ink-400 shrink-0" />
+          <ExternalLink size={14} className="text-ink-600 shrink-0" />
           <span className="font-body text-caption text-ink-500">
             Article publié sur{' '}
             <a
@@ -524,7 +524,7 @@ export const MarketingArticleDetail: React.FC = () => {
                           {r.readTime}
                         </span>
                       </div>
-                      <h3 className="font-display text-h5 font-bold text-ink-900 leading-tight m-0 group-hover:text-primary-700 transition-colors duration-base">
+                      <h3 className="font-display text-body font-semibold font-bold text-ink-900 leading-tight m-0 group-hover:text-primary-700 transition-colors duration-base">
                         {r.title}
                       </h3>
                       <p className="font-body text-caption text-ink-500 m-0 line-clamp-3 flex-1">

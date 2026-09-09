@@ -98,7 +98,7 @@ export default function MasterclassDetail() {
                 <div className="grid sm:grid-cols-2 gap-stack-xs">
                   {INFOS.map((info) => (
                     <div key={info.key} className="flex items-center gap-stack-xs p-3 rounded-xl bg-ink-50">
-                      <span className="text-ink-400 shrink-0">{info.icon}</span>
+                      <span className="text-ink-600 shrink-0">{info.icon}</span>
                       <span className="text-caption font-semibold text-ink-500 shrink-0">{info.key}</span>
                       <span className="text-caption text-ink-700">{info.value}</span>
                     </div>
@@ -112,7 +112,7 @@ export default function MasterclassDetail() {
                   <p className="text-body-sm font-semibold text-ink-900 m-0">
                     Inscription ouverte jusqu'au 15 juin à 15h00
                   </p>
-                  <p className="text-caption text-ink-400 m-0">47 / 100 places restantes</p>
+                  <p className="text-caption text-ink-600 m-0">47 / 100 places restantes</p>
                   <ProgressBar value={53} fill="brand" size="sm" valueLabel={false} />
                 </div>
                 <Button variant="primary" size="lg" className="shrink-0">
@@ -130,7 +130,7 @@ export default function MasterclassDetail() {
                   <div className="flex flex-col gap-tight min-w-0">
                     <p className="text-body-sm font-semibold text-ink-900 m-0">Marie Fontaine</p>
                     <p className="text-caption text-ink-500 m-0">DRH · Groupe Vinci</p>
-                    <p className="text-caption text-ink-400 m-0 leading-snug">
+                    <p className="text-caption text-ink-600 m-0 leading-snug">
                       15 ans d'expérience en leadership et gestion de crise.
                     </p>
                   </div>

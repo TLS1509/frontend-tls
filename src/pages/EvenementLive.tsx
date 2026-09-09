@@ -148,7 +148,7 @@ export default function EvenementLive() {
                 )}
                 <span className="text-caption text-ink-700 flex-1 min-w-0 truncate">{res.title}</span>
                 {res.type === 'download' && res.size && (
-                  <span className="text-micro text-ink-400 shrink-0">{res.size}</span>
+                  <span className="text-micro text-ink-600 shrink-0">{res.size}</span>
                 )}
               </div>
             ))}

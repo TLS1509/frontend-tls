@@ -221,7 +221,7 @@ export default function PasseportObjectifs() {
                         </div>
                         <div className="flex items-center gap-stack-xs shrink-0">
                           <Badge variant="neutral" size="sm">D{g.startLevel}→D{g.targetLevel}</Badge>
-                          <span className="text-caption text-ink-400 flex items-center gap-tight">
+                          <span className="text-caption text-ink-600 flex items-center gap-tight">
                             <Clock size={11} />
                             {new Date(g.deadline).toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' })}
                           </span>
@@ -277,7 +277,7 @@ export default function PasseportObjectifs() {
                 >
                   <span className={[
                     'inline-flex items-center justify-center w-6 h-6 rounded-full text-micro font-bold shrink-0',
-                    m.done ? 'bg-success-base text-white' : 'bg-ink-100 text-ink-400',
+                    m.done ? 'bg-success-base text-white' : 'bg-ink-100 text-ink-600',
                   ].join(' ')}>
                     {m.done ? '✓' : idx + 1}
                   </span>
@@ -305,7 +305,7 @@ export default function PasseportObjectifs() {
                   <Card key={g.id} variant="default" className="flex items-center justify-between px-stack py-3">
                     <div className="flex flex-col gap-tight">
                       <span className="text-body-sm font-medium text-ink-900">{comp?.label ?? g.competenceId}</span>
-                      <span className="text-caption text-ink-400">{comp?.subdomain ?? (comp ? domainLabel(comp.domain) : '')} · D{g.startLevel}→D{g.targetLevel}</span>
+                      <span className="text-caption text-ink-600">{comp?.subdomain ?? (comp ? domainLabel(comp.domain) : '')} · D{g.startLevel}→D{g.targetLevel}</span>
                     </div>
                     <div className="flex items-center gap-stack-xs">
                       <Button

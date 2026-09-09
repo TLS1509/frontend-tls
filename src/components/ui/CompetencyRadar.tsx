@@ -217,7 +217,7 @@ export const CompetencyRadar: React.FC<CompetencyRadarProps> = ({
             </div>
           )}
           <div className="flex items-center gap-stack-xs">
-            <span className="text-micro text-ink-400">Échelle Dreyfus 1–5</span>
+            <span className="text-micro text-ink-600">Échelle Dreyfus 1–5</span>
           </div>
         </div>
       )}

@@ -116,7 +116,7 @@ export default function ManagerEnterprise() {
                       <div className="flex items-center justify-between gap-stack-xs">
                         <div className="flex flex-col gap-0.5">
                           <span className="text-body-sm font-semibold text-ink-900">{p.title}</span>
-                          <span className="text-caption text-ink-400">{p.team}</span>
+                          <span className="text-caption text-ink-600">{p.team}</span>
                         </div>
                         <Badge variant={s.variant} size="sm">{s.label}</Badge>
                       </div>
@@ -137,7 +137,7 @@ export default function ManagerEnterprise() {
                   <Card key={c.id} className="p-stack flex flex-col gap-stack-xs">
                     <div className="flex items-center justify-between gap-stack-xs">
                       <span className="text-body-sm font-semibold text-ink-900">{c.name}</span>
-                      <span className="text-caption text-ink-400">{c.memberCount} membres</span>
+                      <span className="text-caption text-ink-600">{c.memberCount} membres</span>
                     </div>
                     <div className="flex items-center gap-stack-xs text-caption text-ink-500">
                       <span>Dreyfus moy. : <strong className="text-ink-800">{c.avgDreyfusLevel}</strong></span>
@@ -163,7 +163,7 @@ export default function ManagerEnterprise() {
                     <span className="text-body-sm font-semibold text-ink-900">{c.name}</span>
                     <Badge variant="neutral" size="sm">{c.memberCount} membres</Badge>
                   </div>
-                  <div className="text-caption text-ink-400">Coach : {c.coachName ?? '–'} · Dreyfus moy. {c.avgDreyfusLevel}/5</div>
+                  <div className="text-caption text-ink-600">Coach : {c.coachName ?? '–'} · Dreyfus moy. {c.avgDreyfusLevel}/5</div>
                 </div>
                 <Button variant="ghost" size="sm" trailingIcon={<ChevronRight size={14} />}>
                   Détail

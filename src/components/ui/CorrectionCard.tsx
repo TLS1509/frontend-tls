@@ -68,7 +68,7 @@ export const CorrectionCard: React.FC<CorrectionCardProps> = ({
           />
           <div className="min-w-0">
             <p className="text-body-sm font-semibold text-ink-900 truncate">{apprenantName}</p>
-            <p className="text-caption text-ink-400 flex items-center gap-tight">
+            <p className="text-caption text-ink-600 flex items-center gap-tight">
               <Clock size={11} aria-hidden />
               {submittedAt}
             </p>
@@ -96,7 +96,7 @@ export const CorrectionCard: React.FC<CorrectionCardProps> = ({
 
       {/* Footer */}
       <div className="flex items-center justify-between pt-stack-xs border-t border-ink-100 mt-auto">
-        <div className="flex items-center gap-tight text-caption text-ink-400">
+        <div className="flex items-center gap-tight text-caption text-ink-600">
           {feedbackCount !== undefined && (
             <>
               <MessageSquare size={13} aria-hidden />

@@ -147,7 +147,7 @@ export const Project: React.FC = () => {
                       <div className="flex items-center gap-stack min-w-0 flex-1">
                         <div className="flex-1 min-w-0">
                           <p className="text-body-sm font-semibold text-ink-900 m-0 truncate">{task.title}</p>
-                          <p className="text-caption text-ink-400 m-0 mt-0.5">
+                          <p className="text-caption text-ink-600 m-0 mt-0.5">
                             D{task.dreyfusLevelRequired}+ · {task.estimatedHours}h
                           </p>
                         </div>

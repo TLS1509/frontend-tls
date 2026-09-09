@@ -19,7 +19,7 @@ export interface HeatmapGridProps {
 // ─── Score → color mapping (Dreyfus 0–5) ─────────────────────────────────────
 
 const SCORE_CLASSES: Record<number, string> = {
-  0: 'bg-ink-100 text-ink-400',
+  0: 'bg-ink-100 text-ink-600',
   1: 'bg-danger-bg text-danger-fg',
   2: 'bg-warning-bg text-warning-fg',
   3: 'bg-info-bg text-info-fg',
@@ -63,7 +63,7 @@ export const HeatmapGrid: React.FC<HeatmapGridProps> = ({
             <tr>
               {/* Empty corner cell */}
               <th className="sticky left-0 z-base bg-white px-4 py-3 text-left min-w-[160px] border-b border-r border-ink-100">
-                <span className="text-caption font-semibold text-ink-400 uppercase tracking-wide">
+                <span className="text-caption font-semibold text-ink-600 uppercase tracking-wide">
                   Apprenant
                 </span>
               </th>

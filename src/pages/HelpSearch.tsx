@@ -87,7 +87,7 @@ export default function HelpSearch() {
             {query ? `Résultats pour "${query}" (${results.length})` : `Articles populaires (${allArticles.length})`}
           </h2>
           {results.length === 0 ? (
-            <p className="text-body-sm text-ink-400 py-stack">Aucun article trouvé pour cette recherche.</p>
+            <p className="text-body-sm text-ink-600 py-stack">Aucun article trouvé pour cette recherche.</p>
           ) : (
             results.map((article) => (
               <Card

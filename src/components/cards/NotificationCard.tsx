@@ -184,7 +184,7 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
         )}
 
         {/* Meta + time */}
-        <div className="mt-1 flex items-center gap-stack-xs flex-wrap font-body text-micro text-ink-400">
+        <div className="mt-1 flex items-center gap-stack-xs flex-wrap font-body text-micro text-ink-600">
           {meta}
           {meta && <span aria-hidden>·</span>}
           <span>{time}</span>
@@ -222,7 +222,7 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
               e.stopPropagation();
               onDelete();
             }}
-            className="w-7 h-7 inline-flex items-center justify-center rounded-md text-ink-400 hover:bg-danger-bg hover:text-danger-fg transition-colors duration-fast"
+            className="w-7 h-7 inline-flex items-center justify-center rounded-md text-ink-600 hover:bg-danger-bg hover:text-danger-fg transition-colors duration-fast"
           >
             <X size={14} />
           </button>

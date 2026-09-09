@@ -217,18 +217,18 @@ export default function CoachTeamDashboard() {
                             {STATUS_LABEL[learner.status]}
                           </Badge>
                         </div>
-                        <p className="text-caption text-ink-400 truncate">{learner.role}</p>
+                        <p className="text-caption text-ink-600 truncate">{learner.role}</p>
                       </div>
 
                       {/* Progress */}
                       <div className="hidden md:flex flex-col items-end gap-tight w-32 shrink-0">
                         <span className="text-caption text-ink-500">Dreyfus {learner.dreyfusAvg.toFixed(1)}</span>
                         <ProgressBar value={learner.progressPercent} fill="brand" size="sm" />
-                        <span className="text-micro text-ink-400">{learner.progressPercent}% objectif</span>
+                        <span className="text-micro text-ink-600">{learner.progressPercent}% objectif</span>
                       </div>
 
                       {/* Last activity */}
-                      <span className="hidden lg:block text-caption text-ink-400 w-28 text-right shrink-0">
+                      <span className="hidden lg:block text-caption text-ink-600 w-28 text-right shrink-0">
                         {formatLastActive(learner.daysSinceActivity)}
                       </span>
 

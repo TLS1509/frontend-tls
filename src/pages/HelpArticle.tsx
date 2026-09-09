@@ -128,7 +128,7 @@ export default function HelpArticle() {
                       <span className="text-body-sm text-ink-700 group-hover:text-primary-700 transition-all duration-base">
                         {related.title}
                       </span>
-                      <ExternalLink size={14} className="text-ink-400 shrink-0" />
+                      <ExternalLink size={14} className="text-ink-600 shrink-0" />
                     </button>
                   ))}
                 </div>

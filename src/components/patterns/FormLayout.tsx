@@ -41,7 +41,7 @@ export const FormLayout: React.FC<FormLayoutProps> = ({
   return (
     <form
       className={[
-        'flex flex-col gap-section bg-white border border-ink-200 rounded-3xl p-8 shadow-sm',
+        'flex flex-col gap-section bg-white border border-ink-200 rounded-lg p-8 shadow-sm',
         className,
       ]
         .filter(Boolean)

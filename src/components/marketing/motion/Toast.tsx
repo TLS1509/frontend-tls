@@ -124,7 +124,7 @@ const ToastCard: React.FC<{ item: ToastItem; onDismiss: () => void }> = ({ item,
           type="button"
           onClick={onDismiss}
           aria-label="Fermer la notification"
-          className="shrink-0 -mr-1 -mt-1 p-1 rounded-lg text-ink-400 hover:text-ink-700 hover:bg-ink-50 transition-colors duration-fast"
+          className="shrink-0 -mr-1 -mt-1 p-1 rounded-lg text-ink-600 hover:text-ink-700 hover:bg-ink-50 transition-colors duration-fast"
         >
           <X size={14} />
         </button>

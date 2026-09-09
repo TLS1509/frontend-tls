@@ -175,7 +175,7 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
         <span
           className={[
             'w-8 h-8 shrink-0 flex items-center justify-center rounded-lg',
-            isAccessible ? iconBubbleClasses : 'bg-ink-100 text-ink-400',
+            isAccessible ? iconBubbleClasses : 'bg-ink-100 text-ink-600',
           ].join(' ')}
           aria-hidden
         >
@@ -188,13 +188,13 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
         {/* 1. Type badge + duration ── */}
         <div className="flex items-center gap-1 flex-wrap text-micro">
           <Badge variant={tone} size="sm">{ITEM_TYPE_LABELS[type]}</Badge>
-          <span className="text-ink-400">•</span>
+          <span className="text-ink-600">•</span>
           <span className="text-ink-500 font-medium text-micro">{duration}</span>
         </div>
 
         {/* 2. Title + description ── */}
         <div className="flex flex-col gap-1">
-          <h3 className="m-0 font-display text-h5 font-semibold leading-tight text-ink-900 line-clamp-2">
+          <h3 className="m-0 font-display text-body font-semibold font-semibold leading-tight text-ink-900 line-clamp-2">
             {title}
           </h3>
           <p className="m-0 text-caption text-ink-500 leading-snug line-clamp-2">
@@ -207,7 +207,7 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
           <span className={`px-2 py-1 rounded text-micro font-medium border ${levelPillClasses}`}>
             D{dreyfusLevel}
           </span>
-          <span className="text-ink-400 text-micro">•</span>
+          <span className="text-ink-600 text-micro">•</span>
           <span className="text-ink-500 text-micro truncate">{theme}</span>
         </div>
       </div>
@@ -221,7 +221,7 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
               {denialReason === 'tier' ? 'Upgrade requis' : 'Pré-requis manquant'}
             </span>
             {denialMessage && (
-              <span className="text-micro text-ink-400 leading-tight">{denialMessage}</span>
+              <span className="text-micro text-ink-600 leading-tight">{denialMessage}</span>
             )}
           </div>
         </div>
