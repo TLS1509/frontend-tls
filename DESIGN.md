@@ -613,63 +613,62 @@ Ils sont ici parce qu'ils sont **mesurés**, pas supposés :
 
 > **Tranchées au banc [Fondations TLS](https://claude.ai/code/artifact/c94a764a-86e4-4413-a3f9-679824b947b7).**
 > Reportées ici parce qu'une décision qui vit dans un navigateur n'est pas une décision.
-> **13 rendues, 11 encore ouvertes.** Celles qui sont appliquées dans le code sont marquées ✅ ;
-> les autres attendent leur exécution.
+> **16 rendues · 4 déjà dans le code · 5 encore ouvertes.**
+> ✅ = appliqué · 🔨 = tranché, reste à exécuter.
 
 ### Typographie
 
 | # | Décision | Choix | État |
 |---|---|---|---|
-| T1 | Nommer la frontière entre les deux familles | **Deux échelles nommées** — `text-*` pour l'app, `text-editorial-*` pour le site | ⏳ 43 usages à renommer |
-| T2 | Graisse de `h3`/`h4` : token 600 vs code 700 | **Le token passe à 700** | ⏳ 0 fichier à toucher, 89 `font-bold` deviennent supprimables |
-| T3 | Les collisions de taille | **Garder `h4` et `body-lg`, retirer `h5`** | ⏳ 19 usages |
-| T4 | `body-sm` ou `body` | ⚠️ **à reconfirmer** — voir la note ci-dessous | ⏳ 804 ou 237 usages |
-| T5 | `h3` : 22 → 24 px | **Passer à 24 px**, interligne 32 | ⏳ 119 usages |
-| T6 | Les usages sous 11 px | **Tout ramener à `micro`** | ⏳ 36 usages |
-| T7 | Écarter `h4` : 18 → 20 px | **Passer à 20 px**, interligne 28 | ⏳ 140 usages |
+| T1 | La frontière entre les deux familles | **Renommer en `text-editorial-*`** | 🔨 43 usages |
+| T2 | Graisse `h3`/`h4` : token 600 vs code 700 | **Le token passe à 700** | 🔨 **0 fichier** — 89 `font-bold` deviennent supprimables |
+| T3 | Les deux collisions de taille | **Retirer `h5`**, garder `h4` et `body-lg` | 🔨 19 usages |
+| T4 | `body-sm` ou `body` | **Garder 15 px** — c'est déjà le corps réel | 🔨 237 usages repeints vers le bas |
+| T5 | `h3` : 22 → 24 px | **Passer à 24**, interligne 32 | 🔨 119 usages |
+| T6 | Les usages sous 11 px | **Tout ramener à `micro`** | 🔨 36 usages |
+| T7 | `h4` : 18 → 20 px | **Passer à 20**, interligne 28 | 🔨 140 usages |
+| T8 | Les deux interlignes hors grille | **Suivre T5 et T7** | 🔨 0 coût propre |
+| T9 | `display-xl`/`-lg`/`-md` | **Les retirer** — zéro usage, vérifié trois fois | 🔨 12 lignes |
+| T10 | La rampe d'interlignes du corps s'inverse | **Recaler `micro` à 11/18** | 🔨 1 valeur |
 
-> ⚠️ **T4 est à reprendre.** Le choix enregistré est « fusionner dans `body` », formulé avant que
-> les comptes d'usages ne soient refaits. La deuxième passe a montré que **`body-sm` est utilisé
-> 3,4 fois plus que `body`** — 804 contre 237. La question n'est donc plus « replier une exception
-> dans la norme » mais **« laquelle des deux tailles devient le corps de texte du système »** :
-> garder 15 px repeint 237 usages vers le bas ; garder 16 px en repeint 804 vers le haut, tout le
-> texte grossit d'un pixel et les cards calées sur 15 bougent.
-
-> **T5, T7 et T8 se tiennent.** Passer `h3` à 24 et `h4` à 20 fait retomber les deux seuls
-> interlignes hors grille (30 → 32 et 26 → 28) sans arbitrage supplémentaire. Les prendre ensemble
-> coûte moins cher que séparément.
+> **T5, T7 et T8 forment une grappe.** Bouger les deux tailles fait retomber les deux interlignes
+> hors grille sans arbitrage supplémentaire. Les exécuter séparément coûte plus cher.
 
 ### Couleur et encre
 
 | # | Décision | Choix | État |
 |---|---|---|---|
-| C1 | Le site et l'app partagent-ils l'encre ? | **Rampe éditoriale séparée** — `--color-paper-*` pour le site, `ink-*` pour l'app | ⏳ à créer |
-| C4 | Le commentaire faux sur `ink-900` | **Corrigé** | ✅ fait |
-| C5 | Nommer les rôles de la rampe | **Trois zones documentées** | ✅ fait — §11 ci-dessus |
-| C6 | L'inversion `ink-800`/`ink-900` | **Résolue par la reconstruction** | ✅ fait |
-| C7 | Reconstruire la rampe, sur quelle teinte | **Variante A — 264°, ancrée sur `ink-900`** | ✅ appliquée dans `index.css` |
+| C1 | Le site et l'app partagent-ils l'encre ? | **Rampe éditoriale séparée** | 🔨 à créer |
+| C2 | La teinte de la rampe du site | **La même que l'app** (264°) | 🔨 suit C1 |
+| C4 | Le commentaire faux sur `ink-900` | Corrigé | ✅ |
+| C5 | Nommer les rôles de la rampe | Trois zones documentées | ✅ §11 |
+| C6 | L'inversion `ink-800`/`ink-900` | Résolue par la reconstruction | ✅ |
+| C7 | Reconstruire la rampe | **Variante A — 264°, ancrée sur `ink-900`** | ✅ `index.css` |
+| A1 | Les 241 `ink-400` fautifs | **Tout en `ink-600`** — +2,40 de marge partout | 🔨 241 usages |
+
+> **C1 + C2 se lisent ensemble, et c'est une combinaison économique.** Le site reçoit son propre
+> vocabulaire (`--color-paper-*`) mais **avec les mêmes valeurs que l'app au départ**. Autrement dit :
+> on pose la frontière sans payer la divergence. Le site pourra diverger plus tard — teinte marron
+> ou autre — sans toucher à `ink-*` ni repeindre l'app. **À l'exécution, ce sont des alias, pas de
+> nouvelles couleurs.**
 
 ### Rayons
 
 | # | Décision | Choix | État |
 |---|---|---|---|
-| R2 | Les 22 `rounded-3xl` sans token | **Les ramener dans l'échelle** | ⏳ 22 usages |
-| R3 | Les 204 `rounded-full` | **Auditer et corriger les fautifs** — avatars et pastilles restent | ⏳ à mesurer |
-| R4 | `radius-3xl`, doublon exact de `radius-2xl` | **Retirer le doublon** | ⏳ 1 ligne |
+| R2 | Les 22 `rounded-3xl` sans token | **Les ramener dans l'échelle** | 🔨 ⚠️ **attend R1** |
+| R3 | Les 204 `rounded-full` | **Auditer et corriger les fautifs** | 🔨 ⚠️ **attend R1** |
+| R4 | `radius-3xl`, doublon de `radius-2xl` | **Retirer le doublon** | 🔨 1 ligne |
 
-> ⚠️ **R1 reste ouverte, et elle commande R2.** Tant que le rayon de référence n'est pas arbitré
-> entre 14, 20 et 24 px, « ramener les `rounded-3xl` dans l'échelle » n'a pas de cible. À trancher
-> avant d'exécuter R2.
+### Les cinq encore ouvertes
 
-### Les onze encore ouvertes
-
-`T8` interlignes hors grille · `T9` `display-*` à zéro usage · `T10` la rampe d'interlignes du corps
-s'inverse · `C2` la teinte de la rampe éditoriale du site · `C3` rempli ou outline · `A1` les 241
-`ink-400` fautifs · `A2` le bouton primaire à 3,66 · `A3` la doctrine light-only · `R1` le rayon de
-référence.
-
-*(`C5` et `C6` figuraient dans la liste des ouvertes de l'export : elles sont en réalité réglées,
-le banc a été corrigé depuis.)*
+| # | Question | Pourquoi elle compte |
+|---|---|---|
+| **R1** | Le rayon de référence : 14, 20 ou 24 px | **La plus rentable** — R2 et R3 sont tranchées mais l'attendent |
+| **B1** | La typographie du bouton *(posée le 09/09)* | Le `tracking-tight` de la BASE abîme les 522 boutons `sm` |
+| C3 | Rempli ou outline pour les boutons de marque | commande le registre du site |
+| A2 | Le bouton primaire de l'app mesure 3,66 | seul défaut a11y restant après A1 |
+| A3 | Écrire la doctrine light-only | 1 ligne, ferme un sujet |
 
 ---
 
