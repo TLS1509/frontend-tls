@@ -140,9 +140,12 @@ sont portées sur le système éditorial (Accueil, Accompagnement) ; 17 portent 
 **Ouvert côté design** : les 13 décisions typo/couleur s'appliquent majoritairement ici. En
 particulier le seul défaut d'accessibilité de masse :
 
-> **`text-ink-400` : 355 usages dans `src/`.** Mesuré à 2,54:1 sur blanc — échoue AA (4,5) **et**
-> la tolérance grand texte (3,0). À toutes les tailles, sur tous les fonds. C'est le plus gros
-> défaut mesurable du produit, et il ne demande **aucun arbitrage esthétique**.
+> **`text-ink-400` : 355 usages dans `src/`**, mesuré à 2,54:1 sur blanc. Mais ils ne sont pas
+> tous fautifs. Classés en lisant le contexte de chaque occurrence : **241 vrais défauts** (213
+> textes réels + 28 placeholders), **61 légitimes** (27 états désactivés, que WCAG exempte, et 34
+> glyphes décoratifs), **53 hors produit** (DevPanel, showcase).
+> **Le chantier porte donc sur 241 usages, pas 355** — et les 61 légitimes doivent être laissés
+> tels quels : les corriger supprimerait le signal « cet élément est inactif ».
 
 **Ouvert côté contenu** : les parcours seedés sont des placeholders génériques
 (« Fondamentaux du Leadership »). Le corpus TLS réel n'est pas dans l'app — voir volet D.
@@ -439,11 +442,62 @@ En outline, le label passe sur blanc et les trois couleurs deviennent utilisable
 | `ink-600` | `#4b5563` | 7,56 ✅ | gris Tailwind |
 | `ink-900` | `#252B37` | 14,20 ✅ | **seule valeur maison** — mais à 264° en OKLCH, bleu-violet, pas teal |
 
+#### Une rampe dérivée de `ink-900` — construite le 09/09
+
+La rampe actuelle est un **emprunt** : onze crans Tailwind et une seule valeur maison,
+`ink-900`, insérée au milieu sans être recalée. D'où deux défauts mesurés en OKLCH :
+
+- **elle n'est pas monotone** — `ink-900` (L 28,9 %) est **plus clair** que `ink-800` (L 27,8 %) ;
+- **ses écarts de clarté vont de +1,8 à +20,3 points**, sans aucune régularité.
+
+La proposition part de l'inverse : **on garde la couleur de police telle quelle et on construit tout
+autour d'elle**, à teinte constante (264,1°, celle de `ink-900`), avec un chroma en courbe et des
+contrastes cibles étagés sur les crans de texte.
+
+| Cran | Actuel | Proposé | avant | après | usages | Rôle |
+|---|---|---|---:|---:|---:|---|
+| `ink-0` → `ink-300` | — | **inchangés** | — | — | — | surfaces et bordures |
+| `ink-400` | `#9ca3af` | `#8d95a6` | 2,54 | **3,01** | 355 | désactivé · bordure d'interface |
+| `ink-500` | `#6b7280` | `#667082` | 4,83 | **4,99** | 834 | texte secondaire |
+| `ink-600` | `#4b5563` | `#4c5466` | 7,56 | 7,59 | 444 | texte secondaire sûr |
+| `ink-700` | `#374151` | `#394050` | 10,31 | 10,38 | 332 | texte appuyé |
+| `ink-800` | `#1f2937` | `#2e3442` | 14,68 | **12,46** | 97 | texte fort |
+| **`ink-900`** | `#252B37` | **inchangé** | 14,20 | 14,20 | **916** | **⚓ l'ancre** |
+| `ink-950` | `#0f172a` | `#131820` | 17,85 | 17,81 | 0 | fond sombre |
+
+**Quatre gains, un seul coût.**
+
+1. **La rampe redevient monotone** — l'inversion disparaît.
+2. **`ink-900` ne bouge pas d'un pixel.** Ses 916 usages ne sont pas repeints : c'est l'ancre, pas
+   une variable.
+3. **`ink-500` passe désormais sur les sept fonds** (4,54 au pire contre 4,39 aujourd'hui sur
+   `ink-100`). Le piège « marche sur blanc, échoue sur une surface teintée » disparaît — c'était
+   exactement ce qui rendait le remplacement de `ink-400` non mécanique.
+4. **`ink-400` monte à 3,01**, juste au-dessus du seuil que WCAG 1.4.11 impose au contour d'un
+   élément d'interface. Il devient légitime comme bordure ou icône, tout en restant trop clair pour
+   du texte : **son rôle d'état désactivé est préservé, et enfin lisible comme tel.**
+
+> **Le coût : `ink-800` passe de 14,68 à 12,46.** C'est mécanique — pour que la rampe soit monotone,
+> le cran 800 doit passer sous le 900. Les 97 textes concernés restent très au-dessus de 4,5 : aucun
+> ne devient non conforme.
+
+**Six crans changent sur douze**, et les cinq surfaces claires ne bougent pas du tout.
+
+```css
+--color-ink-400: #8d95a6;   /* modifié */
+--color-ink-500: #667082;   /* modifié */
+--color-ink-600: #4c5466;   /* modifié */
+--color-ink-700: #394050;   /* modifié */
+--color-ink-800: #2e3442;   /* modifié */
+--color-ink-950: #131820;   /* modifié */
+```
+
 **Les décisions à rendre**
 
 | # | Question | Ma recommandation | Coût |
 |---|---|---|---|
 | C1 | **La frontière** : site et app partagent-ils l'encre ? | **Rampe éditoriale séparée** — `--color-paper-*` pour le site, `ink-*` pour l'app (voir §3.1 ①) | découple les deux |
+| **C7** | **Adopter la rampe dérivée de `ink-900` ?** | **Oui** — elle corrige l'inversion, laisse l'ancre intacte et débloque `ink-500` sur fond teinté | **6 crans sur 12** |
 | C2 | Teinte de la rampe (A/B/C/D) | **D (marron 46°) pour le site.** Si la rampe reste partagée : **C (teal 216°)** | 638 ou 4 346 usages |
 | C3 | Le remplissage des boutons de marque | **outline sur le site** (label `700` sur blanc), **rempli conservé dans l'app** | 485 boutons dans l'app |
 | C4 | `ink-900` commenté « teal-tinted » dans `index.css:78` | **corriger le commentaire** — il est faux depuis le début | 1 ligne |
@@ -453,6 +507,20 @@ En outline, le label passe sur blanc et les trois couleurs deviennent utilisable
 ### 4.3 — Accessibilité : un seul vrai défaut, mais il est massif
 
 Trois constats séparés, et ils n'ont pas le même poids.
+
+**Une cause qu'on n'avait pas nommée : la rampe n'a aucun rôle documenté.** Douze crans, zéro
+emploi écrit. Rien ne dit qu'un cran est fait pour une surface plutôt que pour du texte — alors les
+deux se mélangent. En lisant l'usage réel, trois zones se dessinent pourtant d'elles-mêmes :
+
+| Zone | Crans | Ce que le code en fait |
+|---|---|---|
+| **Surfaces et bordures** | `ink-0` → `ink-300` | 508 fonds, 774 bordures, **quasi aucun texte** |
+| **La charnière** | `ink-400` | 355 textes — trop clair pour lire, trop foncé pour une bordure discrète |
+| **Le texte** | `ink-500` → `ink-950` | 2 623 textes, du secondaire au principal |
+
+`ink-400` n'a donc qu'un emploi honnête : **l'état désactivé ou grisé**, que WCAG exempte — ce que
+27 usages font déjà correctement. **Écrire ces trois zones dans `DESIGN.md` coûte dix lignes et
+empêche la faute de revenir.**
 
 **🔴 Le défaut de masse — `text-ink-400`, 355 usages.** À 2,54:1 sur blanc, il échoue AA (4,5) **et**
 la tolérance grand texte (3,0). À toutes les tailles, sur tous les fonds. **C'est le plus gros défaut

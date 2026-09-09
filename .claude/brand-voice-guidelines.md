@@ -3,7 +3,7 @@
 > **Version** : 2.0 · **Date** : 2026-06-17 · **Langue** : Français (primaire)
 > **Status** : Consolidée (fusion v1.0 + MARQUE-VOIX.md + Notion TON DE VOIX + arbitrages Chloé). Les 4 open questions de la v1.0 sont tranchées.
 > **Usage** : Document LLM-ready + équipe. À fournir comme contexte pour toute génération de contenu (marketing, sales, produit, social, support).
-> **Visuel** : pour l'identité visuelle (couleurs, typo, logo), la source de vérité est `src/index.css` @theme + le Figma DS `LccBZ1GKWQVwVzPtsSzk5Y`, synthétisés dans [`brand-assets/CANVA-BRAND-KIT.md`](../brand-assets/CANVA-BRAND-KIT.md). Le §10 ci-dessous en donne l'essentiel.
+> **Visuel** : pour l'identité visuelle (couleurs, typo, logo), la source de vérité est `src/index.css` @theme + le Figma DS `LccBZ1GKWQVwVzPtsSzk5Y`, synthétisés dans [`brand/BRAND-KIT.md`](../brand/BRAND-KIT.md). Le §10 ci-dessous en donne l'essentiel.
 
 ---
 
@@ -238,7 +238,7 @@ Usage : decks conseil, propositions STRIDE, supports B2B transformation. **Ne pa
 
 ## 10. Visuel — l'essentiel (SSOT = `src/index.css` + Figma DS)
 
-> Détail complet + playbook Canva : [`brand-assets/CANVA-BRAND-KIT.md`](../brand-assets/CANVA-BRAND-KIT.md).
+> Détail complet + playbook Canva : [`brand/BRAND-KIT.md`](../brand/BRAND-KIT.md).
 
 **Couleurs clés** : Primary teal **`#4A8FA1`** (600) / `#55A1B4` (500) · teal foncé `#2F5F6A` / `#1F3E45` · Secondary orange (CTA) **`#ED843A`** · Accent jaune **`#F8B044`** · Encre **`#1A1A1A`** (neutre) · gris `#6B7280`.
 Sémantiques **muted/coral** : succès `#9DBEBA` · danger `#F28559` · warning `#F8B044` · info `#55A1B4`. ⚠️ **Jamais** le vert/rouge Tailwind brut.
@@ -250,7 +250,7 @@ Sémantiques **muted/coral** : succès `#9DBEBA` · danger `#F28559` · warning 
 
 **Iconographie** : **Lucide** (défaut), Tabler en complément. Jamais de SVG custom pour une icône fonctionnelle.
 
-**Esthétique** : glassmorphisme (app + marketing) ; « elevated flat » allégé pour le social. Photo/illustration : voir le North Star de [`ASSETS-SOURCING-GUIDE.md`](../brand-assets/ASSETS-SOURCING-GUIDE.md) (humains réels, lumière chaude, diversité ; jamais stock corporate ou clichés IA cyber).
+**Esthétique** : glassmorphisme (app + marketing) ; « elevated flat » allégé pour le social. Photo/illustration : voir le North Star de [`ASSETS-SOURCING-GUIDE.md`](../brand/assets/ASSETS-SOURCING-GUIDE.md) (humains réels, lumière chaude, diversité ; jamais stock corporate ou clichés IA cyber).
 
 ---
 
@@ -299,7 +299,7 @@ Tant que les métriques réelles ne sont pas validées, on reste **qualitatif**.
 | `.claude/brand-voice-guidelines.md` v1.0 | Repo | Voix v1.0 | Base fusionnée (archivée) |
 | Notion « TON DE VOIX » (379cdd69) | Notion | Voix | Authoritative (⚠️ exemples avec métriques interdites — ignorés) |
 | Notion « Positionnement UVP » (349cdd69) | Notion | Positionnement | Authoritative |
-| `brand-assets/CANVA-BRAND-KIT.md` | Repo | Kit Canva | Opérationnel |
+| `brand/BRAND-KIT.md` | Repo | Kit Canva | Opérationnel |
 | Notion Brand Hub (6500738d) · Drive « V3/Canva draft » (fév. 2026) | Notion/Drive | Anciennes chartes | **Obsolètes** (couleurs périmées) |
 
 **Conflits résolus en faveur du code (SSOT)** : CTA `#ED843A` (≠ `#EB7724`), sémantiques muted/coral (≠ vifs), ink `#1A1A1A` (≠ `#252b37`), Figma DS (≠ vieux Figma Make).

@@ -81,5 +81,5 @@ Règle : **toujours `light` sur fond sombre**. Ne jamais recolorer le mark à la
 > Une fois les brand templates créés (ids commençant par `BTM…`), je peux les piloter via l'API (créer un design depuis un template, autofill, export). Donne-moi un id et je prends le relais.
 
 ### C. Signatures & assets
-- Signatures email : `brand-assets/email-signatures/` (HTML, hors Canva).
-- Sourcing d'illustrations/photos : `brand-assets/ASSETS-SOURCING-GUIDE.md` (recolore unDraw/Storyset en `#4A8FA1`).
+- Signatures email : `email-templates/signatures/` (HTML, hors Canva).
+- Sourcing d'illustrations/photos : [`ASSETS-SOURCING-GUIDE.md`](ASSETS-SOURCING-GUIDE.md) (recolore unDraw/Storyset en `#4A8FA1`).

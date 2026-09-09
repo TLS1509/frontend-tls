@@ -189,8 +189,11 @@ Utiliser ce tableau pour valider rapidement qu'un asset est compatible TLS :
 
 ### Structure recommandée dans ce repo
 
+> `photos/`, `illustrations/`, `icons/` n'existent pas encore — ils se
+> créent au premier asset rangé. `patterns/backgrounds/` et `video/` existent.
+
 ```
-brand-assets/
+brand/assets/
 ├── photos/
 │   ├── hero/           # Images larges 16:9 pour heroes/slides
 │   ├── cards/          # Vignettes carrées ou 4:3 pour cards/articles
@@ -259,14 +262,14 @@ Nommer chaque asset avec le même schéma que ci-dessus pour les retrouver rapid
 1. Aller sur **Pexels** → rechercher `mentorship warm light`, `team learning workshop`, `coaching session hands`
 2. Télécharger 15–20 candidates (résolution max)
 3. Filtrer selon la cheat sheet ci-dessus → garder 6–8
-4. Ranger dans `brand-assets/photos/` selon le bon dossier
+4. Ranger dans ``brand/assets/photos/`` selon le bon dossier
 5. Ajouter dans Canva Brand Kit → section **Photos**
 
 ### Sprint #2 — Illustrations (30 min)
 1. Aller sur **unDraw** → coller `#4A8FA1` dans le color picker
 2. Rechercher : `learning`, `mentoring`, `progress`, `collaboration`, `goals`
 3. Télécharger 8–10 SVG (format SVG, pas PNG)
-4. Ranger dans `brand-assets/illustrations/undraw/`
+4. Ranger dans ``brand/assets/illustrations/undraw/``
 5. Ajouter dans Canva Brand Kit → section **Graphics**
 
 ### Sprint #3 — Fonds & patterns (30 min)
@@ -275,7 +278,7 @@ Nommer chaque asset avec le même schéma que ci-dessus pour les retrouver rapid
 3. Générer 3–4 variations (opacité différente)
 4. Exporter en SVG
 5. Idem avec "Layered Waves" et "Mesh Gradient"
-6. Ranger dans `brand-assets/patterns/backgrounds/`
+6. Ranger dans ``brand/assets/patterns/backgrounds/``
 
 ### Sprint #4 — Curation finale (15 min)
 - Vérifier la cohérence ensemble (tout dans un même dossier Finder)

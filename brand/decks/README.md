@@ -25,21 +25,21 @@ Système de slides The Learning Society, généré depuis les **design tokens du
 | `TLS-deck-conseil-stride.pptx` | Proposition de conseil — **méthode STRIDE** (confidentiel) | 10 |
 | `TLS-deck-learning-app.pptx` | Présentation produit — **la Learning App** | 10 |
 
-**Formation professionnelle — 3 variantes par contexte de diffusion :**
+**Formation professionnelle — ⚠️ retiré.**
 
-| Fichier | Contexte | Slides |
-|---|---|---|
-| `TLS-deck-formation-module.pptx` | **① E-learning** (auto-rythmé, sur la Learning App) | 13 |
-| `TLS-deck-formation-presentiel.pptx` | **② Présentiel — mode présentation** (animateur en salle) | 11 |
-| `TLS-deck-formation-atelier-conseil.pptx` | **③ Atelier** (cadre conseil / mission STRIDE) | 10 |
+Les trois variantes (`formation-module`, `formation-presentiel`,
+`formation-atelier-conseil`) et leurs pipelines ont été supprimés le 2026-07-28
+avec l'offre qu'elles portaient. Le paragraphe qui suit décrit ce qu'elles
+contenaient — **gardé comme spécification**, à ressortir si l'offre revient.
+Aucun fichier ne correspond aujourd'hui.
 
-Base commune : flux pédagogique (9 événements de Gagné + engagement), **signposts couleur** 🟦 contenu · 🟧 pratique · 🟨 évaluation, tout en `{{ placeholders }}`.
+*(spécification historique)* Base commune : flux pédagogique (9 événements de Gagné + engagement), **signposts couleur** 🟦 contenu · 🟧 pratique · 🟨 évaluation, tout en `{{ placeholders }}`.
 
 - **①** : `Accroche → Objectifs → Parcours → Concept (+ À retenir) → Exemple → Activité (zone réponse) → Quiz (révélé) → Mise en situation → À retenir → Réflexion (→ Journal) → Ressources → Clôture gamifiée (badge + XP)`.
 - **②** : ajoute **badges de timing** (⏱), **notes orateur** (cues d'animation par slide), **activité en sous-groupes** (carte restitution), **plan d'action** (Quoi/Qui/Quand). Flux : `Brise-glace → Objectifs → Programme → Apport → Sous-groupes → Débrief → Quiz flash → À retenir → Plan d'action → Merci`.
 - **③** : framing **co-construction client**, relié à STRIDE. Ajoute **diagnostic partagé**, **matrice de priorisation 2×2** (Impact/Effort), **plan d'action priorisé**, **engagements**. Flux : `Objectif → Cadre STRIDE → Diagnostic → Co-construction → Priorisation → Plan d'action → Engagements → Suite`.
 
-Pipelines : `_pipeline/formation.js` (①) · `_pipeline/formation-variants.js` (② + ③).
+Pipelines de l'époque : `_pipeline/formation.js` · `_pipeline/formation-variants.js` — **supprimés**.
 
 **Gabarits génériques (1ʳᵉ passe, structure réutilisable) :**
 
@@ -48,7 +48,7 @@ Pipelines : `_pipeline/formation.js` (①) · `_pipeline/formation-variants.js` 
 | `TLS-deck-suivi-projet.pptx` | Point d'étape / comité de pilotage | 8 |
 | `TLS-deck-commercial.pptx` | Trame commerciale générique | 11 |
 | `TLS-deck-pitch.pptx` | Trame pitch générique | 9 |
-| `TLS-gabarits-echantillon-hybride-AB.pptx` | Échantillon initial | 3 |
+| `TLS-gabarits-bibliotheque.pptx` | Bibliothèque des 12 layouts (référence) | 17 |
 
 ### ⚠️ Deck STRIDE — garde-fous (FACTS-CANON)
 
@@ -60,7 +60,7 @@ Pipelines : `_pipeline/formation.js` (①) · `_pipeline/formation-variants.js` 
 
 ### Learning App — captures d'écran ✅
 
-Les slides `PARCOURS`, `PASSEPORT`, `HUMAIN + IA` portent désormais de **vraies captures** de l'app (parcours / passeport radar / coaching), dans des cadres navigateur. Captures sources dans [`brand-assets/app-screenshots/`](../brand-assets/app-screenshots/) (dashboard, learning-paths, passeport, coaching, journal — 2732×2048).
+Les slides `PARCOURS`, `PASSEPORT`, `HUMAIN + IA` portent désormais de **vraies captures** de l'app (parcours / passeport radar / coaching), dans des cadres navigateur. Captures sources dans [`../assets/app-screenshots/`](../assets/app-screenshots/) (dashboard, learning-paths, passeport, coaching, journal — 2732×2048).
 
 Pour les régénérer : `npm run dev`, puis Chrome headless `--screenshot` sur `/dashboard`, `/learning-paths`, `/passeport`, `/coaching`, `/journal` (voir `_pipeline/offers.js`, prop `shot:` du layout `screen`). Note : la capture coaching montre une barre dev en haut — recapturer hors mode dev pour un rendu 100% propre.
 
