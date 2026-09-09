@@ -164,12 +164,14 @@ export interface ButtonProps
    le label en « grand texte » (seuil 3,0 au lieu de 4,5) — seul `xl` en profite.
    Ne pas remettre `tracking-tight` ici : s'il devait revenir pour les grandes
    tailles, sa place est dans SIZE_CLASSES, jamais dans BASE. */
-const BASE = 'inline-flex items-center justify-center gap-stack-xs rounded-pill font-body font-bold cursor-pointer transition-[background-color,box-shadow,transform,opacity] duration-fast ease-emphasis focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-900 focus-visible:ring-offset-2 focus-visible:ring-offset-white hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100 motion-reduce:transition-none disabled:opacity-disabled disabled:cursor-not-allowed disabled:pointer-events-none disabled:hover:translate-y-0 aria-busy:pointer-events-none whitespace-nowrap select-none';
+const BASE = 'inline-flex items-center justify-center gap-stack-xs rounded-pill font-body font-bold cursor-pointer transition-[background-color,box-shadow,transform,opacity] duration-fast ease-emphasis focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-900 focus-visible:ring-offset-2 focus-visible:ring-offset-white active:scale-[0.98] motion-reduce:active:scale-100 motion-reduce:transition-none disabled:opacity-disabled disabled:cursor-not-allowed disabled:pointer-events-none aria-busy:pointer-events-none whitespace-nowrap select-none';
 
 // Hover strategy for filled variants: keep the base color (no aggressive
-// darkening) and add a colored glow shadow + subtle lift via translate-y
-// in BASE. The active state still darkens for tactile feedback. Less
-// "saturated to death" than hover:bg-X-700.
+// darkening) and add a colored glow shadow. Le soulèvement au survol a été
+// retiré le 2026-09-09 (S1) : il datait l'interface, déplaçait le contenu sous
+// le curseur, et n'existait pas sur mobile — où vivent 84 % des boutons. Le
+// retour tactile passe désormais par le seul `active:scale-[0.98]`, visible lui
+// au doigt comme à la souris.
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary:     'bg-primary-600 text-white shadow-sm hover:shadow-brand-md hover:bg-primary-500 active:bg-primary-800 active:shadow-sm',
   secondary:   'bg-secondary-500 text-white shadow-sm hover:shadow-warm-md hover:bg-secondary-400 active:bg-secondary-700 active:shadow-sm',
@@ -201,7 +203,7 @@ const VARIANT_CLASSES: Record<ButtonVariant, string> = {
                'bg-secondary-100/70 text-secondary-800 border border-secondary-200/80 backdrop-blur-glass-light shadow-xs hover:bg-secondary-100 hover:border-secondary-300 active:bg-secondary-200',
   'glass-sun':
                'bg-accent-100/70 text-accent-800 border border-accent-200/80 backdrop-blur-glass-light shadow-xs hover:bg-accent-100 hover:border-accent-300 active:bg-accent-200',
-  link:        'bg-transparent text-primary-700 underline underline-offset-4 hover:text-primary-800 hover:translate-y-0 p-0 h-auto',
+  link:        'bg-transparent text-primary-700 underline underline-offset-4 hover:text-primary-800 p-0 h-auto',
 };
 
 const SIZE_CLASSES: Record<ButtonSize, string> = {
@@ -257,9 +259,9 @@ const EMPHASIS_TONE: Record<ButtonEmphasis, Partial<Record<ButtonTone, string>>>
   link: {
     brand: VARIANT_CLASSES.link,
     // ✚ le lien n'existait qu'en brand
-    warm:   'bg-transparent text-secondary-700 underline underline-offset-4 hover:text-secondary-800 hover:translate-y-0 p-0 h-auto',
-    sun:    'bg-transparent text-accent-800 underline underline-offset-4 hover:text-accent-800 hover:translate-y-0 p-0 h-auto',
-    danger: 'bg-transparent text-danger-fg underline underline-offset-4 hover:text-danger-deep hover:translate-y-0 p-0 h-auto',
+    warm:   'bg-transparent text-secondary-700 underline underline-offset-4 hover:text-secondary-800 p-0 h-auto',
+    sun:    'bg-transparent text-accent-800 underline underline-offset-4 hover:text-accent-800 p-0 h-auto',
+    danger: 'bg-transparent text-danger-fg underline underline-offset-4 hover:text-danger-deep p-0 h-auto',
   },
 };
 

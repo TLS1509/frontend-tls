@@ -105,7 +105,7 @@ export interface CardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 't
    Cette valeur commande aussi la migration des 93 cards écrites à la main, et
    les décisions R2 (les 22 `rounded-3xl`) et R3 (les 204 `rounded-full`) : elles
    l'attendaient toutes. */
-const BASE = 'flex flex-col rounded-lg text-ink-900 font-body text-body-sm transition-all duration-200 motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:active:translate-y-0 [&[role=button]]:h-auto [&[role=button]]:font-normal [&[role=button]]:items-stretch';
+const BASE = 'flex flex-col rounded-lg text-ink-900 font-body text-body-sm transition-all duration-200 motion-reduce:transition-none [&[role=button]]:h-auto [&[role=button]]:font-normal [&[role=button]]:items-stretch';
 
 const VARIANT_CLASSES: Record<CardVariant, string> = {
   // Shadows are tone-aware — applied dynamically via TONE_SHADOW_* maps below.
@@ -113,15 +113,10 @@ const VARIANT_CLASSES: Record<CardVariant, string> = {
   default: 'bg-white border border-ink-200 hover:border-ink-300',
   feature: 'bg-white',
   elevated: 'bg-white',
-  // ⚠️ PAS de `hover:shadow-*` codé en dur ici. Tailwind émet `hover:shadow-card-lift`
-  // APRÈS `hover:shadow-warm-sm` / `-sun-sm` (offsets 465282 vs 405321 dans le CSS
-  // généré) : à spécificité égale, le neutre écrasait donc l'override tone et les
-  // cards tonées avaient bordure colorée + ombre noire. L'ombre est posée plus bas
-  // par `interactiveHoverShadow`, qui retombe sur `hover:shadow-card-lift` quand il
-  // n'y a pas de tone — comportement inchangé pour les cards non tonées.
+  /* Aucune ombre ici : les cards n'en portent plus depuis le 2026-09-09 (S2). */
   // Idem pour border/bg : conservés ici comme défaut sans tone, surchargés par
   // TONE_INTERACTIVE_HOVER (émis après, donc gagnant — vérifié).
-  interactive: 'bg-white border border-ink-200 cursor-pointer hover:-translate-y-1 hover:border-primary-300 hover:bg-primary-50/30 active:-translate-y-0.5',
+  interactive: 'bg-white border border-ink-200 cursor-pointer hover:border-primary-300 hover:bg-primary-50/30',
   glass:       'backdrop-blur-glass-medium backdrop-saturate-[180%] bg-gradient-to-br from-white/88 to-white/65 border border-white/75 shadow-[0_2px_12px_rgba(0,0,0,0.06),inset_0_1px_0_rgba(255,255,255,0.9)] hover:shadow-md',
   'glass-brand': 'backdrop-blur-glass-medium backdrop-saturate-[180%] bg-gradient-to-br from-primary-500/[30%] to-primary-500/[12%] border border-primary-500/35 shadow-[0_2px_12px_rgba(45,90,102,0.12),inset_0_1px_0_rgba(255,255,255,0.4)] hover:shadow-brand-sm',
   'glass-warm':  'backdrop-blur-glass-medium backdrop-saturate-[180%] bg-gradient-to-br from-secondary-100/88 to-secondary-50/70 border border-secondary-200/65 shadow-[0_2px_12px_rgba(180,80,20,0.08),inset_0_1px_0_rgba(255,255,255,0.85)] hover:shadow-warm-sm',
@@ -136,7 +131,7 @@ const VARIANT_CLASSES: Record<CardVariant, string> = {
   // `tinted` provides only the border + shadow defaults — the actual gradient
   // bg is supplied by TONE_GRADIENT_BG_CLASSES via the `tone` prop. Falls back
   // to a neutral white surface if no tone is set.
-  tinted:   'bg-white border shadow-sm backdrop-blur-sm',
+  tinted:   'bg-white border backdrop-blur-sm',
 };
 
 /**
@@ -182,10 +177,10 @@ const TONE_EYEBROW_CLASSES: Record<CardTone, string> = {
 // When variant="interactive" (or interactive=true) is combined with a tone,
 // override the hardcoded primary hover colors with tone-specific ones.
 const TONE_INTERACTIVE_HOVER: Record<CardTone, string> = {
-  primary: 'hover:border-primary-300 hover:shadow-brand-sm hover:bg-primary-50/50',
-  warm:    'hover:border-secondary-300 hover:shadow-warm-sm hover:bg-secondary-50/50',
-  sun:     'hover:border-accent-300 hover:shadow-sun-sm hover:bg-accent-50/50',
-  brand:   'hover:border-primary-300 hover:shadow-brand-sm hover:bg-primary-50/50',
+  primary: 'hover:border-primary-300 hover:bg-primary-50/50',
+  warm:    'hover:border-secondary-300 hover:bg-secondary-50/50',
+  sun:     'hover:border-accent-300 hover:bg-accent-50/50',
+  brand:   'hover:border-primary-300 hover:bg-primary-50/50',
 };
 
 // Shadow maps imported from tone-classes.ts — single source of truth.
@@ -194,7 +189,7 @@ const TONE_INTERACTIVE_HOVER: Record<CardTone, string> = {
 // CARD_SHADOW_HOVER_SM     → sm hover (default/tinted)
 // CARD_SHADOW_HOVER_MD     → md hover (feature/elevated, interactive)
 
-const INTERACTIVE_EXTRA = 'cursor-pointer hover:-translate-y-1 active:translate-y-0';
+const INTERACTIVE_EXTRA = 'cursor-pointer';
 
 // Anneau de focus BICOLORE (2026-07-24) : même correction que Button.BASE.
 // L'ancien `outline-primary-500` mesurait 2,4 à 2,9 sur les surfaces réelles —
@@ -254,25 +249,19 @@ export const Card: React.FC<CardProps> = ({
   const usesToneShadow = isDefaultVariant || variant === 'interactive' || interactive;
 
   // feature/elevated: stronger resting + hover shadows (sm/md), tone-aware.
-  const featureShadowResting = isFeatureVariant
-    ? tone ? CARD_SHADOW_RESTING_SM[tone] : 'shadow-card-hover'
-    : '';
-  const featureShadowHover = isFeatureVariant
-    ? tone ? CARD_SHADOW_HOVER_MD[tone] : 'hover:shadow-card-lift'
-    : '';
+  /* Aucune ombre sur les cards — décidé le 2026-09-09 (S1, S2).
+     La bordure de 1 px pose l'objet ; cumuler bordure et ombre est le « ghost
+     card », le tell le plus reconnaissable des interfaces générées. Le verre
+     garde la sienne, lui en a besoin pour se détacher de ce qu'il recouvre. */
+  const featureShadowResting = '';
+  const featureShadowHover = '';
 
   // default/tinted/interactive: subtle resting + hover, tone-aware.
-  const toneShadowResting = usesToneShadow
-    ? tone ? CARD_SHADOW_RESTING[tone] : 'shadow-card'
-    : '';
-  const toneShadowHover = usesToneShadow && isDefaultVariant
-    ? tone ? CARD_SHADOW_HOVER_SM[tone] : 'hover:shadow-card-hover'
-    : '';
+  const toneShadowResting = '';
+  const toneShadowHover = '';
 
   // Interactive hover shadow — only when not already covered by toneShadowHover.
-  const interactiveHoverShadow = (variant === 'interactive' || interactive) && variant !== 'default' && variant !== 'tinted'
-    ? tone ? CARD_SHADOW_HOVER_SM[tone] : 'hover:shadow-card-lift'
-    : '';
+  const interactiveHoverShadow = '';
 
   // When interactive + tone, override the hardcoded primary hover with tone colors.
   const isInteractive = variant === 'interactive' || interactive;
