@@ -73,6 +73,25 @@ tous deux sur `ErrorPage`.
    depuis `0b538ff`. Réalignées sur `brand/identity/logos/svg/tls-mark-*.svg`.
    Détail dans le commit `6989e04`.
 
+## Suite — le lockup devient un component set
+
+La page `🔷 Logo — lockups` (`4934:2`) portait **30 frames statiques et zéro composant** :
+rien n'y était instanciable. `TlsLogoLockup` (`4952:236`) a été créé à partir de ces
+planches — 24 variantes, propriétés `format` (horizontal · vertical-1l · vertical-2l ·
+vertical-3l) × `variant` (les 6).
+
+Deux vérifications valaient le détour :
+
+- **Les frames n'étaient pas périmées**, contrairement à ce qu'on pouvait craindre après
+  les corrections du jour. Raison : chaque lockup **instancie** `TlsLogo` (`1119:38`), donc
+  les corrections de pastille, de nœuds et de `primary/600` s'y étaient propagées seules.
+- **`BRAND-KIT.md` §7bis annonçait déjà un `TlsLogoLockup`** sur `🔷 Logo — modernisation`
+  (`3853:26`). Ce nœud **n'existe plus** dans le fichier, et aucun component set de lockup
+  n'a été trouvé sur les six pages plausibles (`1093:2`, `1095:2`, `1122:2`, `1281:2`,
+  `2717:2`, `4903:2`, `4934:2`). La ligne décrivait donc quelque chose qui n'existait pas ;
+  elle est corrigée. Le commentaire de `TlsLogo.tsx` qui annonçait un « miroir 1-pour-1 »
+  l'est aussi.
+
 ## Ce qui reste ouvert
 
 - **Deux vocabulaires pour un même motif.** `Steps` parle en tokens sémantiques
@@ -81,3 +100,7 @@ tous deux sur `ErrorPage`.
   « corrects » — mais il faudra trancher lequel fait foi.
 - Les pages **écrans** (05 à 14) n'ont pas été auditées : seules les deux pages de
   composants l'ont été.
+- **Deux taxonomies de format pour le lockup.** Figma et les masters disent
+  `horizontal · vertical-1l · vertical-2l · vertical-3l` ; le composant React dit
+  `horizontal · vertical · vertical-3 · horizontal-3`. Aligner le code toucherait une API
+  publique — décision à prendre.

@@ -158,6 +158,24 @@ Et le mark clair ne tient que sur `primary-700` et plus foncé — sous ce seuil
 le plus sombre (`#E0E2E3`) tombe à 2,8:1 et le mark se dissout. Détail dans
 `brand/identity/logos/_export-light-bleu/LISEZ-MOI.txt`.
 
+### Où le logo est instanciable
+
+| Surface | Quoi |
+|---|---|
+| Figma | `TlsLogo` (`1119:38`, 6 variantes) — le mark seul, page 🔵 03 · Atoms |
+| Figma | `TlsLogoLockup` (`4952:236`, 24 variantes `format` × `variant`) — page 🔷 Logo — lockups |
+| Code | `TlsLogo` et `TlsLogoLockup` dans `src/components/ui/TlsLogo.tsx` |
+| Fichiers | `brand/identity/logos/svg/` — 30 masters aplat + 30 `-grad` |
+
+Dans Figma, le lockup **instancie** `TlsLogo` : une correction de couleur faite sur le mark
+se propage dans les 24 lockups. Ne jamais recolorer un lockup à la main.
+
+> ⚠️ **Deux taxonomies pour les formats, à réconcilier.** Les masters et le component set
+> Figma disent `horizontal · vertical-1l · vertical-2l · vertical-3l`. Le composant React
+> dit `horizontal · vertical · vertical-3 · horizontal-3` : il lui manque `vertical-2l`,
+> et il ajoute `horizontal-3`, qui n'existe dans aucun master. Aligner le code sur les
+> masters toucherait une API publique — décision à prendre, pas à trancher en passant.
+
 ### Couleurs propres au mark
 
 `#55A1B4` (branches **et** centre) · `#EB7724` (nœud haut) · `#F8B044` (nœud bas).
@@ -247,7 +265,7 @@ Ni ce dépôt, ni Notion, ni Canva ne pointaient vers ces pages.
 | Page Figma | Contenu | Pourquoi ça compte |
 |---|---|---|
 | `💠 Brand Identity` (`2717:2`) | Palette · Typographie · Voix de marque · Méthodologie STRIDE · **Direction photo** (2400×1800) · **Brand Kit 2×3** (3200×1800) | Le moodboard demandé existe déjà. Ne pas en refaire un — le faire évoluer |
-| `🔷 Logo — modernisation` (`3853:26`) | `TlsLogoLockup` (component set) · explorations v1 et v3 · **`🌐 Logo — Tailles web`** | Porte la spec favicon / app-icon / header que le code n'applique qu'à moitié |
+| `🔷 Logo — lockups` (`4934:2`) | **`TlsLogoLockup`** (component set, `4952:236`, 24 variantes `format` × `variant`) · les 4 formats × 6 variantes en planches · la section « LE MARK — traitement brand kit » | Le seul endroit du fichier où le lockup est instanciable. ⚠️ La ligne précédente citait `🔷 Logo — modernisation` (`3853:26`) : ce nœud **n'existe plus** (vérifié via l'API le 2026-09-09), et le component set qu'elle annonçait n'a jamais existé — il a été créé ce jour-là. |
 | `📣 LinkedIn Covers` (`3834:26`) | Repère safe-zone · 16 finales (F1–F4 × Founder/Company × subtil/marqué) · **4 propositions de fond A–D en attente de validation** | Décision en suspens, pas un chantier mort |
 | `📊 DS Status & Roadmap` (`3903:26`) | 14 composants, 14 faits en Figma, 10 migrés en code, 79 % de variables | L'état du DS se déclare ici, pas dans un doc |
 | `🎨 Moodboard — Reference` (`3636:26`) · `🎨 Modern 2026 — Design Explorations` (`4429:40`) · `🌐 Site — Archétypes & Wireframes` (`4874:2`) | Recherche visuelle et archétypes de site | Point de départ pour la direction créative du site |

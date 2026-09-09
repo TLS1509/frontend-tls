@@ -269,7 +269,11 @@ export const TlsLogo: React.FC<TlsLogoProps> = ({
 
 // ─────────────────────────────────────────────────────────────────────────────
 // TlsLogoLockup — icône + wordmark « The Learning Society » (League Spartan)
-// Miroir 1-pour-1 du component set Figma `TlsLogoLockup` (property `layout`).
+// Pendant du component set Figma `TlsLogoLockup` (4952:236), créé le 2026-09-09.
+// ⚠️ Ce n'est PAS un miroir 1-pour-1, contrairement à ce que disait ce commentaire :
+// Figma et les masters SVG parlent en `horizontal · vertical-1l · vertical-2l · vertical-3l`,
+// ce composant parle en `horizontal · vertical · vertical-3 · horizontal-3`. Il manque
+// vertical-2l ici, et horizontal-3 n'existe dans aucun master. À réconcilier.
 // L'icône est un <TlsLogo> (= instance de l'icône), le wordmark est en
 // font-display (League Spartan) ExtraBold, teal par défaut.
 // ─────────────────────────────────────────────────────────────────────────────
