@@ -228,6 +228,40 @@ const SIZE_CLASSES: Record<ButtonSize, string> = {
   xl: 'h-13 px-7 text-[1.1875rem]',
 };
 
+/* L'icône suit la taille du bouton, et c'est le SVG qui se plie à la boîte.
+
+   Avant : la boîte valait `1em` d'un `font-size: 1.05em`, et le SVG gardait sa
+   taille propre — presque toujours 16 px, quelle que soit la taille du bouton.
+   Deux défauts en découlaient, mesurés au navigateur :
+
+     taille   boîte      SVG rendu     écart
+     sm       13,65 px   13,65 × 16    écrasé de 2,35 px → icône non carrée
+     md       15,75 px   15,75 × 16    écrasé de 0,25 px
+     lg       16,80 px   16   × 16     boîte plus large que le glyphe
+     xl       19,95 px   16   × 16     glyphe de 16 px contre un label de 19 px
+
+   Sous `lg`, la boîte est plus étroite que le glyphe : `flex-shrink` mord sur la
+   largeur et pas sur la hauteur, donc le cercle devient un ovale et les traits
+   perdent la grille du pixel. Au-dessus, l'inverse : la boîte grandit, le glyphe
+   non — l'icône paraît rétrécir à mesure que le bouton grossit.
+
+   La correction tient en deux gestes. La boîte prend une taille fixe issue de
+   l'échelle `--icon-size-*`, appariée à la police du label comme les commentaires
+   de ces tokens le prévoyaient depuis le début (caption→xs, body-sm→sm, body→md).
+   Et `[&>svg]` force le glyphe à remplir cette boîte, donc il est carré par
+   construction, à toutes les tailles.
+
+   Cette échelle existait dans `index.css` depuis le sprint 2 — cinq tokens, cinq
+   utilities, **zéro consommateur**. C'est son premier usage. */
+const ICON_BOX = 'inline-flex items-center justify-center shrink-0 [&>svg]:w-full [&>svg]:h-full';
+
+const ICON_SIZE_CLASSES: Record<ButtonSize, string> = {
+  sm: 'icon-xs', // 16 px pour un label de 13 px — rapport 1,23
+  md: 'icon-sm', // 18 px pour 15 px — 1,20
+  lg: 'icon-md', // 20 px pour 16 px — 1,25
+  xl: 'icon-lg', // 24 px pour 19 px — 1,26
+};
+
 /* ────────────────── Résolution emphase × ton → classes ──────────────────── */
 
 /**
@@ -327,13 +361,14 @@ export const Button: React.FC<ButtonProps> = ({
     .join(' ');
 
   // Spinner icon (replaces leadingIcon when loading)
+  const iconBox = `${ICON_BOX} ${ICON_SIZE_CLASSES[size]}`;
+
   const spinner = (
     <span
-      className="inline-flex items-center justify-center shrink-0 animate-spin animate-glow-pulse"
-      style={{ width: '1em', height: '1em', fontSize: '1.05em', lineHeight: 0 }}
+      className={`${iconBox} animate-spin animate-glow-pulse`}
       aria-hidden="true"
     >
-      <svg viewBox="0 0 24 24" fill="none" width="1em" height="1em">
+      <svg viewBox="0 0 24 24" fill="none">
         <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" opacity="0.25" />
         <path d="M22 12a10 10 0 0 1-10 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
       </svg>
@@ -344,10 +379,13 @@ export const Button: React.FC<ButtonProps> = ({
     <>
       {loading
         ? spinner
-        : leadingIcon && <span className="inline-flex items-center justify-center shrink-0" style={{ width: '1em', height: '1em', fontSize: '1.05em', lineHeight: 0 }}>{leadingIcon}</span>}
+        : leadingIcon && <span className={iconBox}>{leadingIcon}</span>}
       {!iconOnly && children}
-      {iconOnly && !loading && children}
-      {trailingIcon && <span className="inline-flex items-center justify-center shrink-0" style={{ width: '1em', height: '1em', fontSize: '1.05em', lineHeight: 0 }}>{trailingIcon}</span>}
+      {/* En `iconOnly`, le glyphe arrive par `children` : il passe donc par la
+          même boîte, sinon lui seul garderait une taille fixe pendant que le
+          bouton change de taille autour de lui. */}
+      {iconOnly && !loading && <span className={iconBox}>{children}</span>}
+      {trailingIcon && <span className={iconBox}>{trailingIcon}</span>}
     </>
   );
 

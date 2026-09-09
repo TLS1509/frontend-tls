@@ -242,6 +242,7 @@ import { ResourceListItem } from '../components/learning/ResourceListItem';
 import { EtapeAccordion } from '../components/patterns/EtapeAccordion';
 import { AuthBackLink } from '../components/patterns/AuthShell';
 import { Briefcase, HeartHandshake, FileText } from 'lucide-react';
+import { Plus, Heart, Home, Trophy as TrophyIcon, Settings, Trash2, Pencil } from 'lucide-react';
 import { FloatLabel } from '../components/core/FloatLabel';
 import { Chip } from '../components/ui/Chip';
 import { Tooltip } from '../components/ui/Tooltip';
@@ -364,24 +365,35 @@ interface TokenEntry {
     | 'blur'
     | 'zindex'
     | 'surface'
-    | 'touch';
+    | 'touch'
+    | 'icon';
 }
 
 /* ============================================================================
  * SHARED ICONS (demo content)
  * ============================================================================ */
 
+/* Les icônes de démonstration.
+
+   Elles étaient dix SVG écrits à la main, avec des épaisseurs de trait de 2, 2,2
+   et 3 et des tailles de 16 et 18 mêlées — dans un fichier dont la vocation est
+   précisément de montrer ce qui est cohérent. Le repo interdit par ailleurs le
+   SVG inline custom pour toute icône fonctionnelle : c'est Lucide, et la vitrine
+   ne peut pas être l'exception à sa propre règle.
+
+   `icon-sm` (18 px) est la taille hors bouton ; à l'intérieur d'un Button, la
+   boîte force le glyphe à sa propre taille, donc ce réglage n'y intervient pas. */
 const I = {
-  arrow: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" /></svg>,
-  check: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>,
-  plus: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>,
-  heart: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg>,
-  home: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>,
-  book: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" /></svg>,
-  trophy: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" /><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" /><path d="M4 22h16" /><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" /><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" /><path d="M18 2H6v7a6 6 0 0 0 12 0V2z" /></svg>,
-  settings: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.26.6.86 1 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" /></svg>,
-  trash: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6" /><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" /><path d="M10 11v6M14 11v6" /></svg>,
-  edit: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg>,
+  arrow: <ArrowRight className="icon-sm" strokeWidth={2} aria-hidden />,
+  check: <Check className="icon-sm" strokeWidth={2} aria-hidden />,
+  plus: <Plus className="icon-sm" strokeWidth={2} aria-hidden />,
+  heart: <Heart className="icon-sm" strokeWidth={2} aria-hidden />,
+  home: <Home className="icon-sm" strokeWidth={2} aria-hidden />,
+  book: <BookOpen className="icon-sm" strokeWidth={2} aria-hidden />,
+  trophy: <TrophyIcon className="icon-sm" strokeWidth={2} aria-hidden />,
+  settings: <Settings className="icon-sm" strokeWidth={2} aria-hidden />,
+  trash: <Trash2 className="icon-sm" strokeWidth={2} aria-hidden />,
+  edit: <Pencil className="icon-sm" strokeWidth={2} aria-hidden />,
 };
 
 /* ============================================================================
@@ -1320,78 +1332,263 @@ const AuthShellDemo: React.FC = () => {
  * COMPONENT SHOWCASE ENTRIES — 21 components
  * ============================================================================ */
 
+/* ── Deux briques de présentation, communes aux fiches d'arbitrage ────────── */
+
+/**
+ * Un bloc à l'intérieur d'une fiche : un titre, une explication, la démonstration.
+ *
+ * L'explication est au-dessus de ce qu'elle décrit et non en légende dessous :
+ * on lit la raison avant de regarder, sinon on regarde sans savoir quoi voir.
+ * Largeur bridée à 65 caractères — la même contrainte que le reste du système.
+ */
+const ShowcaseBloc: React.FC<{
+  titre: string;
+  note?: string;
+  /** `warm` marque les blocs qui appellent une décision, pas une simple lecture. */
+  ton?: 'neutre' | 'warm';
+  children: React.ReactNode;
+}> = ({ titre, note, ton = 'neutre', children }) => (
+  <section
+    className={
+      ton === 'warm'
+        ? 'flex flex-col gap-stack rounded-lg border border-secondary-200 bg-secondary-50/40 p-stack-lg'
+        : 'flex flex-col gap-stack'
+    }
+  >
+    <div className="flex flex-col gap-tight">
+      <h4 className="m-0 font-display text-h4 text-ink-900">{titre}</h4>
+      {note && <p className="m-0 font-body text-body-sm text-ink-600 max-w-[65ch]">{note}</p>}
+    </div>
+    {children}
+  </section>
+);
+
+/** Le rapport de contraste mesuré, et s'il franchit le seuil. */
+const ContrasteChip: React.FC<{ valeur: string; seuil: number }> = ({ valeur, seuil }) => {
+  const ok = parseFloat(valeur.replace(',', '.')) >= seuil;
+  return (
+    <span
+      className={`inline-flex items-center gap-1 rounded-pill px-2 py-0.5 font-mono text-micro tabular-nums ${
+        ok ? 'bg-success-bg text-success-fg' : 'bg-danger-bg text-danger-fg'
+      }`}
+      title={`Seuil AA : ${seuil}:1`}
+    >
+      {ok ? '\u2713' : '\u2717'} {valeur}:1
+    </span>
+  );
+};
+
+/**
+ * Un remplissage à l'essai — une proposition, pas une variante du système.
+ *
+ * On ne peut pas surcharger un `variant` avec un `className` : `bg-primary-600`
+ * et `bg-primary-500` ont la même spécificité, et c'est l'ordre d'émission de
+ * Tailwind qui tranche, pas l'ordre dans l'attribut. Le premier jet de cette
+ * fiche montrait donc onze boutons teal-600 à label blanc au lieu des six
+ * propositions distinctes — la démonstration disait le contraire de son propos.
+ *
+ * Le parent porte donc les classes en `[&>button]:…` : le sélecteur descend d'un
+ * cran (0,1,1 contre 0,1,0), et gagne quel que soit l'ordre du CSS généré.
+ */
+const BoutonEssai: React.FC<{
+  /** Classes `[&>button]:…`, littérales pour que Tailwind les compile. */
+  essai: string;
+  contraste: string;
+  children: React.ReactNode;
+  leadingIcon?: React.ReactNode;
+  trailingIcon?: React.ReactNode;
+}> = ({ essai, contraste, children, leadingIcon, trailingIcon }) => (
+  <span className="inline-flex items-center gap-stack-xs">
+    <span className={`inline-flex ${essai}`}>
+      <Button leadingIcon={leadingIcon} trailingIcon={trailingIcon}>{children}</Button>
+    </span>
+    <ContrasteChip valeur={contraste} seuil={4.5} />
+  </span>
+);
+
 const COMPONENTS: ComponentEntry[] = [
   /* ---- CORE ------------------------------------------------------------- */
   {
-    // Phase 1 P0 (2026-06-30, vérifié): Figma Button set 1109:58 = 105 variantes,
-    // les 14 variants code présents (glass-light-ghost + loading inclus). Fix réel:
-    // 25 labels primary/secondary/accent étaient bindés à la couleur de fond → rebindés ink/0.
     name: 'Button',
-    codeName: 'Button.tsx',
+    codeName: 'core/Button.tsx',
     cssBase: '.btn',
-    description: 'Single action trigger. Pill shape, clear hierarchy. One primary per screen. 14 variants : primary, secondary (orange), accent (yellow), ghost (light teal fill), outline (transparent + teal border), outline-warm (transparent + orange border), destructive, **glass** (DARK bg), **glass-light** + **glass-light-ghost** (LIGHT tinted bg), **glass-brand** + **glass-warm** + **glass-sun** (tone-aware frosted), link.',
-    keywords: ['cta', 'action', 'primary', 'secondary', 'accent', 'ghost', 'outline', 'outline-warm', 'destructive', 'link', 'glass', 'frosted'],
+    description:
+      "Le déclencheur d'une action. Forme pilule, graisse 700, un seul bouton principal par écran. Treize variantes, quatre tailles. Cette fiche est aussi la surface d'arbitrage du remplissage de marque — la seule décision de bouton encore ouverte.",
+    keywords: ['cta', 'action', 'primary', 'secondary', 'accent', 'ghost', 'outline', 'destructive', 'link', 'glass', 'taille', 'contraste', 'wcag', 'icône', 'tracking'],
     render: () => (
-      <div className="flex flex-col gap-stack">
-        <div className="hstack">
-          <Button variant="primary">Primary</Button>
-          <Button variant="secondary">Secondary</Button>
-          <Button variant="accent">Accent</Button>
-          <Button variant="ghost">Ghost</Button>
-          <Button variant="destructive">Destructive</Button>
-          <Button variant="link">Link</Button>
-        </div>
-        {/* Outline variants — transparent bg + colored border */}
-        <div className="hstack">
-          <Button variant="outline">Outline primary</Button>
-          <Button variant="outline-warm">Outline warm</Button>
-        </div>
-        <div className="hstack">
-          <Button size="sm">Small</Button>
-          <Button size="md">Medium</Button>
-          <Button size="lg">Large</Button>
-          <Button size="xl">Extra large</Button>
-        </div>
-        <div className="hstack">
-          <Button leadingIcon={I.plus}>With leading icon</Button>
-          <Button trailingIcon={I.arrow} variant="secondary">Continue</Button>
-          <Button iconOnly aria-label="Add" variant="accent">{I.plus}</Button>
-          <Button loading>Loading</Button>
-          <Button disabled>Disabled</Button>
-        </div>
+      <div className="flex flex-col gap-section">
 
-        {/* Glass variants — context-dependent */}
-        <div className="flex flex-col gap-stack mt-stack">
-          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">Glass variants — surface matters</p>
-
-          {/* glass = pour fond DARK */}
-          <div className="rounded-xl bg-gradient-to-br from-primary-500 via-primary-600 to-secondary-500 p-stack flex flex-wrap gap-stack-xs">
-            <span className="font-body text-caption font-bold text-white/80 self-center mr-2">DARK bg →</span>
-            <Button variant="glass" leadingIcon={I.plus}>variant="glass"</Button>
+        {/* ─── 1 · LES QUATRE TAILLES ─────────────────────────────────────── */}
+        <ShowcaseBloc
+          titre="Les quatre tailles"
+          note="Le défaut est md, à 44 px : la cible tactile recommandée par Apple et Material. sm reste à 32 px parce qu'il vit dans les tableaux de bord denses — 227 des 522 boutons de l'app — mais un pseudo-élément déborde de 6 px en haut et en bas, ce qui porte sa zone tactile à 44 px sans toucher au rendu. La cible dépasse le visuel : c'est ainsi que font les deux systèmes."
+        >
+          <div className="flex flex-wrap items-end gap-stack">
+            {([
+              ['sm', 'Small', '32 px · texte 13 · cible 44'],
+              ['md', 'Medium', '44 px · texte 15 · le défaut'],
+              ['lg', 'Large', '48 px · texte 16'],
+              ['xl', 'Extra large', '52 px · texte 19'],
+            ] as const).map(([size, label, meta]) => (
+              <div key={size} className="flex flex-col items-start gap-stack-xs">
+                <Button size={size} leadingIcon={I.plus}>{label}</Button>
+                <span className="text-micro text-ink-500 font-body tabular-nums">{meta}</span>
+              </div>
+            ))}
           </div>
+        </ShowcaseBloc>
 
-          {/* glass-light + glass-light-ghost = pour LIGHT tinted bg (cards EntryCard/SessionCard tinted) */}
-          <div className="rounded-xl bg-primary-50/60 border border-primary-100 p-stack flex flex-wrap gap-stack-xs">
-            <span className="font-body text-caption font-bold text-primary-700 self-center mr-2">LIGHT tinted bg →</span>
-            <Button variant="glass-light" leadingIcon={I.plus}>glass-light (filled)</Button>
-            <Button variant="glass-light-ghost" trailingIcon={I.arrow}>glass-light-ghost</Button>
+        {/* ─── 2 · LES TREIZE VARIANTES ───────────────────────────────────── */}
+        <ShowcaseBloc titre="Les treize variantes" note="Six pour le fond clair, deux contours, une destructive, quatre pour les fonds teintés ou sombres, un lien.">
+          <div className="flex flex-col gap-stack">
+            <div className="hstack">
+              <Button variant="primary">Primary</Button>
+              <Button variant="secondary">Secondary</Button>
+              <Button variant="accent">Accent</Button>
+              <Button variant="ghost">Ghost</Button>
+              <Button variant="destructive">Destructive</Button>
+              <Button variant="link">Link</Button>
+            </div>
+            <div className="hstack">
+              <Button variant="outline">Outline primary</Button>
+              <Button variant="outline-warm">Outline warm</Button>
+            </div>
           </div>
+        </ShowcaseBloc>
 
-          <div className="rounded-xl bg-accent-50/60 border border-accent-100 p-stack flex flex-wrap gap-stack-xs">
-            <span className="font-body text-caption font-bold text-accent-700 self-center mr-2">Sur sun-50 →</span>
-            <Button variant="glass-light" leadingIcon={I.plus}>Lire</Button>
-            <Button variant="glass-light-ghost" trailingIcon={I.arrow}>Continuer</Button>
-          </div>
+        {/* ─── 3 · L'ARBITRAGE : LE REMPLISSAGE DE MARQUE ─────────────────── */}
+        <ShowcaseBloc
+          titre="À trancher — le remplissage de marque"
+          ton="warm"
+          note="Les trois remplissages actuels échouent au contraste. Un label blanc demande 4,5:1 ; on mesure 3,66 sur primary-600, 2,64 sur secondary-500 et 2,31 sur accent-500. Le seuil tombe à 3,0 au-delà de 18,66 px en graisse 700, ce qui ne sauve que la taille xl. Trois sorties possibles, montrées côte à côte."
+        >
+          <div className="flex flex-col gap-stack-lg">
 
-          {/* Tinted glassy buttons (tone-aware frosted) */}
-          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0 mt-stack">Tinted glassy · tone-aware frosted (sur fond blanc OU même tone)</p>
-          <div className="rounded-xl bg-white border border-ink-200 p-stack flex flex-wrap gap-stack-xs">
-            <span className="font-body text-caption font-bold text-ink-600 self-center mr-2">WHITE bg →</span>
-            <Button variant="ghost" leadingIcon={I.plus}>glass-brand</Button>
-            <Button variant="glass-warm" leadingIcon={I.plus}>glass-warm</Button>
-            <Button variant="glass-sun" leadingIcon={I.plus}>glass-sun</Button>
+            <div className="flex flex-col gap-stack-xs">
+              <p className="m-0 text-caption font-bold text-ink-700">Ce qui est en place aujourd'hui</p>
+              <div className="flex flex-wrap items-center gap-stack">
+                <BoutonEssai essai="[&>button]:bg-primary-600 [&>button]:text-white" contraste="3,66">Commencer</BoutonEssai>
+                <BoutonEssai essai="[&>button]:bg-secondary-500 [&>button]:text-white" contraste="2,64">Commencer</BoutonEssai>
+                <BoutonEssai essai="[&>button]:bg-accent-500 [&>button]:text-white" contraste="2,31">Commencer</BoutonEssai>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-stack-xs">
+              <p className="m-0 text-caption font-bold text-ink-700">Piste A — descendre d'un cran, garder le label blanc</p>
+              <p className="m-0 text-caption text-ink-600 max-w-[65ch]">
+                Le teal et l'orange passent au cran 700. Tout texte est conforme, à toutes les tailles.
+                Le prix : ce ne sont plus tout à fait les couleurs de la signature, elles foncent visiblement.
+              </p>
+              <div className="flex flex-wrap items-center gap-stack">
+                <BoutonEssai essai="[&>button]:bg-primary-700 [&>button]:text-white" contraste="5,02">Commencer</BoutonEssai>
+                <BoutonEssai essai="[&>button]:bg-secondary-700 [&>button]:text-white" contraste="6,31">Commencer</BoutonEssai>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-stack-xs">
+              <p className="m-0 text-caption font-bold text-ink-700">Piste B — garder la couleur de signature, foncer le label</p>
+              <p className="m-0 text-caption text-ink-600 max-w-[65ch]">
+                Le fond reste le teal 500 et l'orange 500 de la marque. Sur l'orange, le label n'est pas gris :
+                c'est <code className="font-mono text-micro">brown-editorial</code>, l'orange TLS porté à la
+                densité d'une encre — 6,14. Sur le teal en revanche, aucun dérivé de la teinte n'atteint 4,5 ;
+                seul l'ink-900 y arrive, à 4,83. C'est la limite de cette piste.
+              </p>
+              <div className="flex flex-wrap items-center gap-stack">
+                <BoutonEssai essai="[&>button]:bg-secondary-500 [&>button]:text-brown-editorial" contraste="6,14">Commencer</BoutonEssai>
+                <BoutonEssai essai="[&>button]:bg-primary-500 [&>button]:text-ink-900" contraste="4,83">Commencer</BoutonEssai>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-stack-xs">
+              <p className="m-0 text-caption font-bold text-ink-700">Piste C — mixte : orange en signature, teal au cran 700</p>
+              <p className="m-0 text-caption text-ink-600 max-w-[65ch]">
+                Chaque couleur prend la sortie qui lui va. L'orange garde sa teinte exacte avec un label brun,
+                le teal descend d'un cran et garde le blanc. Les deux passent, et on ne voit jamais deux
+                traitements de label sur une même couleur.
+              </p>
+              <div className="flex flex-wrap items-center gap-stack">
+                <BoutonEssai essai="[&>button]:bg-primary-700 [&>button]:text-white" contraste="5,02" leadingIcon={I.plus}>Commencer</BoutonEssai>
+                <BoutonEssai essai="[&>button]:bg-secondary-500 [&>button]:text-brown-editorial" contraste="6,14" trailingIcon={I.arrow}>Continuer</BoutonEssai>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-stack-xs">
+              <p className="m-0 text-caption font-bold text-ink-700">Le jaune, pour mémoire</p>
+              <p className="m-0 text-caption text-ink-600 max-w-[65ch]">
+                Décision prise : pas de remplissage jaune. À noter tout de même — l'or 400 avec un label brun
+                donne 8,70, le meilleur contraste de toute la palette. C'est le blanc qui ne tient pas dessus,
+                pas la couleur.
+              </p>
+              <div className="flex flex-wrap items-center gap-stack">
+                <BoutonEssai essai="[&>button]:bg-accent-400 [&>button]:text-brown-editorial" contraste="8,70">Commencer</BoutonEssai>
+                <BoutonEssai essai="[&>button]:bg-accent-400 [&>button]:text-white" contraste="1,86">Commencer</BoutonEssai>
+              </div>
+            </div>
           </div>
-        </div>
+        </ShowcaseBloc>
+
+        {/* ─── 4 · LES ICÔNES ─────────────────────────────────────────────── */}
+        <ShowcaseBloc
+          titre="Les icônes suivent la taille du bouton"
+          note="Corrigé le 2026-09-09. La boîte de l'icône valait 1em d'un font-size de 1,05em, et le glyphe gardait sa taille propre — presque toujours 16 px. En dessous de lg la boîte était plus étroite que le glyphe : flex-shrink mordait sur la largeur et pas sur la hauteur, donc un cercle devenait un ovale. Sur sm, l'écrasement mesurait 2,35 px. Désormais la boîte vient de l'échelle --icon-size-*, appariée à la police du label, et le SVG remplit la boîte : carré par construction."
+        >
+          <div className="flex flex-wrap items-end gap-stack">
+            {([
+              ['sm', '16 px'], ['md', '18 px'], ['lg', '20 px'], ['xl', '24 px'],
+            ] as const).map(([size, px]) => (
+              <div key={size} className="flex flex-col items-start gap-stack-xs">
+                <Button size={size} leadingIcon={I.plus} trailingIcon={I.arrow}>Étiquette</Button>
+                <span className="text-micro text-ink-500 font-body tabular-nums">icône {px}</span>
+              </div>
+            ))}
+            <div className="flex flex-col items-start gap-stack-xs">
+              <div className="hstack">
+                <Button iconOnly aria-label="Ajouter" size="sm">{I.plus}</Button>
+                <Button iconOnly aria-label="Ajouter" size="md" variant="secondary">{I.plus}</Button>
+                <Button iconOnly aria-label="Ajouter" size="lg" variant="ghost">{I.plus}</Button>
+              </div>
+              <span className="text-micro text-ink-500 font-body">iconOnly, même boîte</span>
+            </div>
+          </div>
+        </ShowcaseBloc>
+
+        {/* ─── 5 · ÉTATS ET RETOUR AU CLIC ────────────────────────────────── */}
+        <ShowcaseBloc
+          titre="Les états, et le retour au clic"
+          note="À l'enfoncement, le bouton descend à 97 % en 80 ms. Le survol n'existe pas au doigt : sur mobile, cet enfoncement est le seul retour que reçoit l'utilisateur, et une transition qui traîne ne se lit plus comme un appui. Sous prefers-reduced-motion, l'échelle ne bouge pas."
+        >
+          <div className="hstack">
+            <Button>Au repos</Button>
+            <Button loading>Chargement</Button>
+            <Button disabled>Désactivé</Button>
+            <Button variant="outline" disabled>Désactivé, contour</Button>
+            <Button fullWidth={false} variant="link">Lien</Button>
+          </div>
+        </ShowcaseBloc>
+
+        {/* ─── 6 · LES VARIANTES DE VERRE ─────────────────────────────────── */}
+        <ShowcaseBloc
+          titre="Le verre — la surface décide"
+          note="Quatre variantes dont le choix ne dépend pas du ton mais du fond sur lequel le bouton se pose. Se tromper de surface rend le bouton illisible, pas seulement discutable."
+        >
+          <div className="flex flex-col gap-stack">
+            <div className="rounded-lg bg-gradient-to-br from-primary-500 via-primary-600 to-secondary-500 p-stack flex flex-wrap items-center gap-stack-xs">
+              <span className="font-body text-caption font-bold text-white/85 mr-2">Fond sombre</span>
+              <Button variant="glass" leadingIcon={I.plus}>glass</Button>
+            </div>
+            <div className="rounded-lg bg-primary-50/60 border border-primary-100 p-stack flex flex-wrap items-center gap-stack-xs">
+              <span className="font-body text-caption font-bold text-primary-700 mr-2">Fond clair teinté</span>
+              <Button variant="glass-light" leadingIcon={I.plus}>glass-light</Button>
+              <Button variant="glass-light-ghost" trailingIcon={I.arrow}>glass-light-ghost</Button>
+            </div>
+            <div className="rounded-lg bg-white border border-ink-200 p-stack flex flex-wrap items-center gap-stack-xs">
+              <span className="font-body text-caption font-bold text-ink-600 mr-2">Fond blanc</span>
+              <Button variant="ghost" leadingIcon={I.plus}>ghost</Button>
+              <Button variant="glass-warm" leadingIcon={I.plus}>glass-warm</Button>
+              <Button variant="glass-sun" leadingIcon={I.plus}>glass-sun</Button>
+            </div>
+          </div>
+        </ShowcaseBloc>
       </div>
     ),
   },
@@ -7416,236 +7613,338 @@ const COMPONENTS: ComponentEntry[] = [
  * ⚠ Recopie manuelle : rien ne la vérifie. Voir docs/_canon/AUDIT-DESIGN-2026-07-22.md.
  * ============================================================================ */
 
-const buildColorScale = (group: string, prefix: string, values: Array<[string, string]>): TokenEntry[] =>
-  values.map(([step, hex]) => ({
-    name: `${prefix} ${step}`,
-    cssVar: `--tls-${prefix.toLowerCase()}-${step}`,
-    value: hex,
+/* ══════════════════════════════════════════════════════════════════════════
+   LES TOKENS
+
+   Source unique : le bloc `@theme` de `src/index.css`. Chaque `cssVar` ci-dessous
+   doit y exister — `scripts/check-token-coverage.mjs` échoue sinon, dans les deux
+   sens : un token du thème absent de la vitrine, ou une entrée de vitrine qui ne
+   correspond à rien.
+
+   Pourquoi ce garde-fou. La vitrine relisait déjà les valeurs en direct
+   (`useLiveTokenValue`), et on en concluait « plus aucune dérive ». C'était faux,
+   parce qu'elle relisait la **mauvaise variable** : elle interrogeait l'échelle
+   `--t-*` de `design-tokens.css`, jumelle et périmée, pendant que l'app rend
+   l'échelle `--text-*` de `@theme`. Mesuré au navigateur le 2026-09-09 :
+
+     h3   vitrine 22 px   ·   app 24 px
+     h4   vitrine 18 px   ·   app 20 px
+
+   Deux noms pour un même concept ne se télescopent pas dans la cascade : ils
+   coexistent, chacun avec sa valeur, et rien ne signale l'écart. Lire en direct
+   ne protège de rien si l'on lit à côté. D'où la règle : on ne déclare ici que
+   des variables de `@theme`, et un script le vérifie.
+
+   Les `value` ne servent plus qu'au repli et à la recherche plein texte ; c'est
+   toujours la variable qui est affichée et dessinée.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+const scale = (
+  group: string,
+  prefix: string,
+  values: Array<[string, string]>,
+  type: TokenEntry['type'] = 'color',
+): TokenEntry[] =>
+  values.map(([step, v]) => ({
+    name: `${prefix}-${step}`,
+    cssVar: `--color-${prefix}-${step}`,
+    value: v,
     group,
-    type: 'color',
+    type,
   }));
 
 const COLOR_TOKENS: TokenEntry[] = [
-  ...buildColorScale('Primary (Teal)', 'primary', [
+  ...scale('Marque — Teal (primary)', 'primary', [
     ['50', '#E8F4F7'], ['100', '#DCEBEF'], ['200', '#B9D7DF'], ['300', '#96C3CF'],
     ['400', '#73AFBF'], ['500', '#55A1B4'], ['600', '#4A8FA1'], ['700', '#3D7786'],
-    ['800', '#2F5F6A'], ['900', '#1F3E45'],
+    ['800', '#2F5F6A'], ['900', '#1F3E45'], ['950', '#164267'],
   ]),
-  ...buildColorScale('Orange (Warm)', 'orange', [
+  ...scale('Marque — Orange (secondary)', 'secondary', [
     ['50', '#FFF3EB'], ['100', '#FDDCC7'], ['200', '#FCBB93'], ['300', '#F59A5F'],
-    ['400', '#F18A4C'], ['500', '#ED843A'], ['600', '#C06920'], ['700', '#8F5017'],
-    ['800', '#5E3710'], ['900', '#3B2109'],
+    ['400', '#F18A4C'], ['500', '#ED843A'], ['600', '#C06920'], ['650', '#BF693B'],
+    ['700', '#8F5017'], ['800', '#5E3710'], ['900', '#3B2109'],
   ]),
-  ...buildColorScale('Yellow (Sun)', 'yellow', [
+  ...scale('Marque — Or (accent)', 'accent', [
     ['50', '#FFF9EE'], ['100', '#FFECC8'], ['200', '#FFD791'], ['300', '#FFC15A'],
     ['400', '#F8B044'], ['500', '#DF9E3D'], ['600', '#C68D36'], ['700', '#A85F0A'],
     ['800', '#7E4006'], ['900', '#5F2E05'],
   ]),
-  // Repli de premier rendu uniquement — la valeur affichée est relue depuis la
-  // variable CSS (useLiveTokenValue). Ces hex portaient encore l'ancienne échelle
-  // teintée teal (#F5F8F8, #535B62, #12181C…), abandonnée au profit de gris
-  // neutres : resynchronisés sur src/index.css le 2026-07-23.
-  ...buildColorScale('Ink (Neutrals)', 'ink', [
-    ['0', '#FFFFFF'], ['25', '#FAFBFC'], ['50', '#F9FAFB'], ['100', '#F3F4F6'],
-    ['200', '#E5E7EB'], ['300', '#D1D5DB'], ['400', '#9CA3AF'], ['500', '#6B7280'],
-    ['600', '#4B5563'], ['700', '#374151'], ['800', '#1F2937'], ['900', '#252B37'],
-    ['950', '#0F172A'],
+  /* Rampe reconstruite le 2026-09-09, ancrée sur ink-900 (#252B37, 264°) et
+     remontée en OKLCH : la clarté perceptuelle laisse tourner la teinte sans
+     déplacer le contraste. Les crans 0→300 restent les gris Tailwind bruts —
+     ce sont des surfaces, personne n'y lit de texte. À partir de 400 la teinte
+     rejoint l'ancre. Contrastes sur blanc en commentaire. */
+  ...scale('Encre — la rampe ink', 'ink', [
+    ['0', '#ffffff'], ['50', '#f9fafb'], ['100', '#f3f4f6'], ['200', '#e5e7eb'],
+    ['300', '#d1d5db'],
+    ['400', '#8d95a6'], // 3,01 — bordure et désactivé, jamais du texte
+    ['500', '#667082'], // 4,99 — passe sur les sept fonds clairs
+    ['600', '#4c5466'], // 7,59 — texte secondaire sûr
+    ['700', '#394050'], // 10,38
+    ['800', '#2e3442'], // 12,46
+    ['900', '#252B37'], // 14,20 — l'ancre, ne pas toucher
+    ['950', '#131820'], // 17,81
   ]),
 ];
 
 const SEMANTIC_TOKENS: TokenEntry[] = [
-  { name: 'Success base', cssVar: '--color-success-base', value: '#9DBEBA', group: 'Semantic', type: 'color' },
-  { name: 'Success bg', cssVar: '--color-success-bg', value: '#E8F2F0', group: 'Semantic', type: 'color' },
-  { name: 'Success fg', cssVar: '--color-success-fg', value: '#335A56', group: 'Semantic', type: 'color' },
-  { name: 'Warning base', cssVar: '--color-warning-base', value: '#F8B044', group: 'Semantic', type: 'color' },
-  { name: 'Warning bg', cssVar: '--color-warning-bg', value: '#FFF9EE', group: 'Semantic', type: 'color' },
-  { name: 'Warning fg', cssVar: '--color-warning-fg', value: '#2f1c13', group: 'Semantic', type: 'color' },
-  { name: 'Danger base', cssVar: '--color-danger-base', value: '#F28559', group: 'Semantic', type: 'color' },
-  { name: 'Danger bg', cssVar: '--color-danger-bg', value: '#FEF4F0', group: 'Semantic', type: 'color' },
-  { name: 'Danger fg', cssVar: '--color-danger-fg', value: '#8F2A0E', group: 'Semantic', type: 'color' },
-  { name: 'Info base', cssVar: '--color-info-base', value: '#55A1B4', group: 'Semantic', type: 'color' },
-  { name: 'Info bg', cssVar: '--color-info-bg', value: '#E8F4F7', group: 'Semantic', type: 'color' },
-  { name: 'Info fg', cssVar: '--color-info-fg', value: '#1F3E45', group: 'Semantic', type: 'color' },
+  { name: 'success-base', cssVar: '--color-success-base', value: '#9DBEBA', group: 'Sémantique', type: 'color' },
+  { name: 'success-bg', cssVar: '--color-success-bg', value: '#E8F2F0', group: 'Sémantique', type: 'color' },
+  { name: 'success-fg', cssVar: '--color-success-fg', value: '#335A56', group: 'Sémantique', type: 'color' },
+  { name: 'success-vivid', cssVar: '--color-success-vivid', value: '#347572', group: 'Sémantique', type: 'color' },
+  { name: 'success-bright', cssVar: '--color-success-bright', value: '#228B55', group: 'Sémantique', type: 'color' },
+  { name: 'warning-base', cssVar: '--color-warning-base', value: '#F8B044', group: 'Sémantique', type: 'color' },
+  { name: 'warning-bg', cssVar: '--color-warning-bg', value: '#FFF9EE', group: 'Sémantique', type: 'color' },
+  { name: 'warning-fg', cssVar: '--color-warning-fg', value: '#2f1c13', group: 'Sémantique', type: 'color' },
+  { name: 'danger-base', cssVar: '--color-danger-base', value: '#F28559', group: 'Sémantique', type: 'color' },
+  { name: 'danger-bg', cssVar: '--color-danger-bg', value: '#FEF4F0', group: 'Sémantique', type: 'color' },
+  { name: 'danger-fg', cssVar: '--color-danger-fg', value: '#8F2A0E', group: 'Sémantique', type: 'color' },
+  { name: 'danger-strong', cssVar: '--color-danger-strong', value: '#C0432A', group: 'Sémantique', type: 'color' },
+  { name: 'danger-deep', cssVar: '--color-danger-deep', value: '#9B2F1B', group: 'Sémantique', type: 'color' },
+  { name: 'info-base', cssVar: '--color-info-base', value: '#55A1B4', group: 'Sémantique', type: 'color' },
+  { name: 'info-bg', cssVar: '--color-info-bg', value: '#E8F4F7', group: 'Sémantique', type: 'color' },
+  { name: 'info-fg', cssVar: '--color-info-fg', value: '#1F3E45', group: 'Sémantique', type: 'color' },
+  { name: 'brown-editorial', cssVar: '--color-brown-editorial', value: '#2f1c13', group: 'Sémantique', type: 'color' },
 ];
 
+/* Les rôles disent *à quoi sert* une couleur ; les rampes disent *laquelle*.
+   Écrire `text-text-muted` plutôt que `text-ink-500` survit à un changement de
+   rampe — c'est tout l'intérêt de la couche. */
 const ROLE_TOKENS: TokenEntry[] = [
-  { name: 'bg', cssVar: '--bg', value: '#FAFBFC', group: 'Roles', type: 'role' },
-  { name: 'surface', cssVar: '--surface', value: '#FFFFFF', group: 'Roles', type: 'role' },
-  { name: 'surface-muted', cssVar: '--surface-muted', value: '#F5F8F8', group: 'Roles', type: 'role' },
-  { name: 'surface-sunken', cssVar: '--surface-sunken', value: '#EEF2F4', group: 'Roles', type: 'role' },
-  { name: 'border', cssVar: '--border', value: 'rgba(37,43,55,0.08)', group: 'Roles', type: 'role' },
-  { name: 'border-strong', cssVar: '--border-strong', value: 'rgba(37,43,55,0.14)', group: 'Roles', type: 'role' },
-  { name: 'text', cssVar: '--text', value: '#252B37', group: 'Roles', type: 'role' },
-  { name: 'text-muted', cssVar: '--text-muted', value: '#535B62', group: 'Roles', type: 'role' },
-  { name: 'text-soft', cssVar: '--text-soft', value: '#6B7981', group: 'Roles', type: 'role' },
-  { name: 'text-inverse', cssVar: '--text-inverse', value: '#FFFFFF', group: 'Roles', type: 'role' },
-];
-
-const TYPOGRAPHY_TOKENS: TokenEntry[] = [
-  { name: 'display 2xl', cssVar: '--t-display-2xl', value: 'clamp(3.5rem, 6vw + 1rem, 6.5rem)', group: 'Display', type: 'typography' },
-  { name: 'display xl', cssVar: '--t-display-xl', value: 'clamp(2.75rem, 4vw + 1rem, 4.5rem)', group: 'Display', type: 'typography' },
-  { name: 'display lg', cssVar: '--t-display-lg', value: 'clamp(2.25rem, 2.5vw + 1rem, 3.25rem)', group: 'Display', type: 'typography' },
-  { name: 'h1', cssVar: '--t-h1', value: '2.25rem · 36px', group: 'Headings', type: 'typography' },
-  { name: 'h2', cssVar: '--t-h2', value: '1.75rem · 28px', group: 'Headings', type: 'typography' },
-  { name: 'h3', cssVar: '--t-h3', value: '1.375rem · 22px', group: 'Headings', type: 'typography' },
-  { name: 'h4', cssVar: '--t-h4', value: '1.125rem · 18px', group: 'Headings', type: 'typography' },
-  { name: 'body-lg', cssVar: '--t-body-lg', value: '1.125rem · 18px', group: 'Body', type: 'typography' },
-  { name: 'body', cssVar: '--t-body', value: '1rem · 16px', group: 'Body', type: 'typography' },
-  { name: 'body-sm', cssVar: '--t-body-sm', value: '0.9375rem · 15px', group: 'Body', type: 'typography' },
-  { name: 'caption', cssVar: '--t-caption', value: '0.8125rem · 13px', group: 'Body', type: 'typography' },
-  { name: 'micro', cssVar: '--t-micro', value: '0.6875rem · 11px', group: 'Body', type: 'typography' },
-];
-
-const SPACING_TOKENS: TokenEntry[] = [
-  ['--s-0', '0'], ['--s-1', '4px'], ['--s-2', '8px'], ['--s-3', '12px'],
-  ['--s-4', '16px'], ['--s-5', '20px'], ['--s-6', '24px'], ['--s-8', '32px'],
-  ['--s-10', '40px'], ['--s-12', '48px'], ['--s-16', '64px'], ['--s-20', '80px'],
-  ['--s-24', '96px'], ['--s-32', '128px'],
-].map(([cssVar, value]) => ({
-  name: cssVar.replace('--s-', 'space-'),
-  cssVar,
-  value,
-  group: 'Spacing (4pt base)',
-  type: 'spacing',
-}));
-
-const RADIUS_TOKENS: TokenEntry[] = [
-  ['--r-xs', '4px'], ['--r-sm', '6px'], ['--r-md', '10px'], ['--r-lg', '14px'],
-  ['--r-xl', '20px'], ['--r-2xl', '24px'], ['--r-pill', '999px'],
-].map(([cssVar, value]) => ({
-  name: cssVar.replace('--r-', 'radius-'),
-  cssVar,
-  value,
-  group: 'Border radius',
-  type: 'radius',
-}));
-
-const SHADOW_TOKENS: TokenEntry[] = [
-  { name: 'shadow-xs', cssVar: '--shadow-xs', value: '0 1px 2px rgba(18,24,28,.04)', group: 'Elevation', type: 'shadow' },
-  { name: 'shadow-sm', cssVar: '--shadow-sm', value: '0 1px 2px rgba(0,0,0,.05), 0 1px 3px rgba(0,0,0,.04)', group: 'Elevation', type: 'shadow' },
-  { name: 'shadow-md', cssVar: '--shadow-md', value: '0 4px 12px -2px rgba(0,0,0,.08)', group: 'Elevation', type: 'shadow' },
-  { name: 'shadow-lg', cssVar: '--shadow-lg', value: '0 16px 40px -12px rgba(0,0,0,.14)', group: 'Elevation', type: 'shadow' },
-  { name: 'shadow-xl', cssVar: '--shadow-xl', value: '0 28px 72px -20px rgba(0,0,0,.22)', group: 'Elevation', type: 'shadow' },
-  { name: 'shadow-brand', cssVar: '--shadow-brand', value: '0 10px 30px -10px rgba(85,161,180,.45)', group: 'Elevation', type: 'shadow' },
-  { name: 'shadow-warm', cssVar: '--shadow-warm', value: '0 10px 30px -10px rgba(237,132,58,.35)', group: 'Elevation', type: 'shadow' },
-  // Brand shadow scale
-  { name: 'shadow-brand-xs', cssVar: '--shadow-brand-xs', value: '0 4px 12px rgba(85,161,180,.15)', group: 'Brand Shadows', type: 'shadow' },
-  { name: 'shadow-brand-md', cssVar: '--shadow-brand-md', value: '0 6px 16px rgba(85,161,180,.40)', group: 'Brand Shadows', type: 'shadow' },
-  { name: 'shadow-brand-xl', cssVar: '--shadow-brand-xl', value: '0 12px 32px rgba(85,161,180,.50)', group: 'Brand Shadows', type: 'shadow' },
-  { name: 'shadow-brand-card', cssVar: '--shadow-brand-card', value: '0 12px 32px rgba(85,161,180,.28)', group: 'Brand Shadows', type: 'shadow' },
-  { name: 'shadow-warm-card', cssVar: '--shadow-warm-card', value: '0 12px 32px rgba(237,132,58,.28)', group: 'Brand Shadows', type: 'shadow' },
-  // Focus rings
-  { name: 'shadow-focus-brand', cssVar: '--shadow-focus-brand', value: '0 0 0 4px rgba(85,161,180,.18)', group: 'Focus Rings', type: 'shadow' },
-  { name: 'shadow-focus-warm', cssVar: '--shadow-focus-warm', value: '0 0 0 4px rgba(242,133,89,.18)', group: 'Focus Rings', type: 'shadow' },
-  // Inset highlights
-  { name: 'shadow-inset-top-sm', cssVar: '--shadow-inset-top-sm', value: 'inset 0 1px 0 rgba(255,255,255,.80)', group: 'Inset Highlights', type: 'shadow' },
-  { name: 'shadow-inset-top-md', cssVar: '--shadow-inset-top-md', value: 'inset 0 1px 0 rgba(255,255,255,.90)', group: 'Inset Highlights', type: 'shadow' },
-  { name: 'shadow-inset-top-lg', cssVar: '--shadow-inset-top-lg', value: 'inset 0 1px 0 rgba(255,255,255,.95)', group: 'Inset Highlights', type: 'shadow' },
-];
-
-const MOTION_TOKENS: TokenEntry[] = [
-  // Note: Easing tokens are in EASING_TOKENS, not here (avoid duplicate keys)
-  { name: 'dur-1', cssVar: '--dur-1', value: '120ms', group: 'Duration', type: 'motion' },
-  { name: 'dur-2', cssVar: '--dur-2', value: '200ms', group: 'Duration', type: 'motion' },
-  { name: 'dur-3', cssVar: '--dur-3', value: '320ms', group: 'Duration', type: 'motion' },
-  { name: 'dur-4', cssVar: '--dur-4', value: '520ms', group: 'Duration', type: 'motion' },
-];
-
-const GRADIENT_TOKENS: TokenEntry[] = [
-  { name: 'Warm', cssVar: '--g-warm', value: 'linear-gradient(135deg, #F8B044, #ED843A)', group: 'Gradients', type: 'gradient' },
-  { name: 'Warm soft', cssVar: '--g-warm-soft', value: 'linear-gradient(180deg, #FFF3EB, #FFE6D6)', group: 'Gradients', type: 'gradient' },
-  { name: 'Cool deep', cssVar: '--g-cool-deep', value: 'radial-gradient(circle at 0% 0%, #55A1B4 0%, #2F5F6A 60%, #1F3E45 100%)', group: 'Gradients', type: 'gradient' },
-  { name: 'Cool soft', cssVar: '--g-cool-soft', value: 'linear-gradient(180deg, #E8F4F7, #DCEBEF)', group: 'Gradients', type: 'gradient' },
-];
-
-/* ----------- New semantic spacing tokens (introduced 2026-05-10) ----------- */
-const SEMANTIC_SPACING_TOKENS: TokenEntry[] = [
-  { name: 'spacing-tight', cssVar: '--spacing-tight', value: '0.125rem (2px)', group: 'Spacing — Semantic', type: 'spacing' },
-  { name: 'spacing-stack-xs', cssVar: '--spacing-stack-xs', value: '0.5rem (8px)', group: 'Spacing — Semantic', type: 'spacing' },
-  { name: 'spacing-stack', cssVar: '--spacing-stack', value: '1rem (16px)', group: 'Spacing — Semantic', type: 'spacing' },
-  { name: 'spacing-stack-lg', cssVar: '--spacing-stack-lg', value: '1.5rem (24px)', group: 'Spacing — Semantic', type: 'spacing' },
-  { name: 'spacing-section', cssVar: '--spacing-section', value: '2rem (32px)', group: 'Spacing — Semantic', type: 'spacing' },
-  { name: 'spacing-section-lg', cssVar: '--spacing-section-lg', value: '2.5rem (40px)', group: 'Spacing — Semantic', type: 'spacing' },
-  { name: 'spacing-page', cssVar: '--spacing-page', value: '3rem (48px)', group: 'Spacing — Semantic', type: 'spacing' },
-];
-
-const OPACITY_TOKENS: TokenEntry[] = [
-  { name: 'opacity-faint', cssVar: '--opacity-faint', value: '0.05', group: 'Opacity', type: 'opacity' },
-  { name: 'opacity-soft', cssVar: '--opacity-soft', value: '0.10', group: 'Opacity', type: 'opacity' },
-  { name: 'opacity-tinted', cssVar: '--opacity-tinted', value: '0.15', group: 'Opacity', type: 'opacity' },
-  { name: 'opacity-medium', cssVar: '--opacity-medium', value: '0.30', group: 'Opacity', type: 'opacity' },
-  { name: 'opacity-disabled', cssVar: '--opacity-disabled', value: '0.50', group: 'Opacity', type: 'opacity' },
-  { name: 'opacity-overlay', cssVar: '--opacity-overlay', value: '0.70', group: 'Opacity', type: 'opacity' },
-];
-
-const DURATION_TOKENS: TokenEntry[] = [
-  { name: 'duration-fast', cssVar: '--duration-fast', value: '150ms', group: 'Duration', type: 'duration' },
-  { name: 'duration-base', cssVar: '--duration-base', value: '200ms', group: 'Duration', type: 'duration' },
-  { name: 'duration-slow', cssVar: '--duration-slow', value: '300ms', group: 'Duration', type: 'duration' },
-  { name: 'duration-glacial', cssVar: '--duration-glacial', value: '600ms', group: 'Duration', type: 'duration' },
-];
-
-const EASING_TOKENS: TokenEntry[] = [
-  { name: 'ease-standard', cssVar: '--ease-standard', value: 'cubic-bezier(0.4, 0, 0.2, 1)', group: 'Easing', type: 'easing' },
-  { name: 'ease-decelerate', cssVar: '--ease-decelerate', value: 'cubic-bezier(0, 0, 0.2, 1)', group: 'Easing', type: 'easing' },
-  { name: 'ease-accelerate', cssVar: '--ease-accelerate', value: 'cubic-bezier(0.4, 0, 1, 1)', group: 'Easing', type: 'easing' },
-  { name: 'ease-emphasis', cssVar: '--ease-emphasis', value: 'cubic-bezier(0.2, 0, 0, 1.15)', group: 'Easing', type: 'easing' },
-];
-
-const CONTAINER_TOKENS: TokenEntry[] = [
-  { name: 'container-prose', cssVar: '--container-prose', value: '65ch', group: 'Container max-widths', type: 'container' },
-  { name: 'container-content', cssVar: '--container-content', value: '48rem (768px)', group: 'Container max-widths', type: 'container' },
-  { name: 'container-page', cssVar: '--container-page', value: '72rem (1152px)', group: 'Container max-widths', type: 'container' },
-  { name: 'container-wide', cssVar: '--container-wide', value: '80rem (1280px)', group: 'Container max-widths', type: 'container' },
-];
-
-const BLUR_TOKENS: TokenEntry[] = [
-  { name: 'blur-glass-light', cssVar: '--blur-glass-light', value: '8px', group: 'Blur (frosted glass)', type: 'blur' },
-  { name: 'blur-glass-medium', cssVar: '--blur-glass-medium', value: '16px', group: 'Blur (frosted glass)', type: 'blur' },
-  { name: 'blur-glass-heavy', cssVar: '--blur-glass-heavy', value: '24px', group: 'Blur (frosted glass)', type: 'blur' },
-  { name: 'blur-glass-ambient', cssVar: '--blur-ambient', value: '60px', group: 'Blur (frosted glass)', type: 'blur' },
+  { name: 'text-strong', cssVar: '--color-text-strong', value: 'ink-900', group: 'Rôles — texte, bordure, surface', type: 'role' },
+  { name: 'text-default', cssVar: '--color-text-default', value: 'ink-700', group: 'Rôles — texte, bordure, surface', type: 'role' },
+  { name: 'text-muted', cssVar: '--color-text-muted', value: 'ink-500', group: 'Rôles — texte, bordure, surface', type: 'role' },
+  { name: 'text-subtle', cssVar: '--color-text-subtle', value: 'ink-400', group: 'Rôles — texte, bordure, surface', type: 'role' },
+  { name: 'text-inverse', cssVar: '--color-text-inverse', value: 'ink-0', group: 'Rôles — texte, bordure, surface', type: 'role' },
+  { name: 'border-subtle', cssVar: '--color-border-subtle', value: 'ink-100', group: 'Rôles — texte, bordure, surface', type: 'role' },
+  { name: 'border-default', cssVar: '--color-border-default', value: 'ink-200 — la bordure de carte', group: 'Rôles — texte, bordure, surface', type: 'role' },
+  { name: 'border-strong', cssVar: '--color-border-strong', value: 'ink-300', group: 'Rôles — texte, bordure, surface', type: 'role' },
+  { name: 'overlay-scrim', cssVar: '--color-overlay-scrim', value: '#000000', group: 'Rôles — texte, bordure, surface', type: 'role' },
 ];
 
 const SURFACE_TOKENS: TokenEntry[] = [
-  { name: 'surface', cssVar: '--color-surface', value: '#ffffff', group: 'Surface', type: 'surface' },
-  { name: 'surface-muted', cssVar: '--color-surface-muted', value: '#f9fafb (= ink-50)', group: 'Surface', type: 'surface' },
-  { name: 'surface-sunken', cssVar: '--color-surface-sunken', value: '#f3f4f6 (= ink-100)', group: 'Surface', type: 'surface' },
-  { name: 'surface-elevated', cssVar: '--color-surface-elevated', value: '#ffffff', group: 'Surface', type: 'surface' },
+  { name: 'surface', cssVar: '--color-surface', value: '#ffffff', group: 'Surfaces', type: 'surface' },
+  { name: 'surface-muted', cssVar: '--color-surface-muted', value: 'ink-50', group: 'Surfaces', type: 'surface' },
+  { name: 'surface-sunken', cssVar: '--color-surface-sunken', value: 'ink-100', group: 'Surfaces', type: 'surface' },
+  { name: 'surface-elevated', cssVar: '--color-surface-elevated', value: 'ink-0', group: 'Surfaces', type: 'surface' },
+  { name: 'surface-cyan', cssVar: '--color-surface-cyan', value: '#f0f9ff', group: 'Surfaces', type: 'surface' },
+  { name: 'surface-mist', cssVar: '--color-surface-mist', value: '#f8fbfd', group: 'Surfaces', type: 'surface' },
+  { name: 'surface-cream', cssVar: '--color-surface-cream', value: '#fefaf5', group: 'Surfaces', type: 'surface' },
+];
+
+/* Deux échelles typographiques, et c'est volontaire.
+
+   `h1…micro` sert l'application : des pas fixes, parce qu'un tableau de bord ne
+   doit pas respirer différemment selon la largeur de la fenêtre. `hero…lede`
+   sert les surfaces éditoriales : des `clamp()`, parce qu'un titre d'ouverture
+   doit tenir de 375 px à 1440 px.
+
+   Trois pas ont bougé le 2026-09-09 : h3 22→24 px (à 22 px en graisse 700 il
+   ratait le seuil des 18,66 px du « grand texte » WCAG, donc exigeait 4,5:1 au
+   lieu de 3:1), h4 18→20 px (il collisionnait avec body-lg, deux noms pour la
+   même taille), et l'interligne de micro 16→18 px. `display-xl`, `display-lg` et
+   `h5` ont été retirés : zéro usage. */
+const TYPOGRAPHY_TOKENS: TokenEntry[] = [
+  { name: 'h1', cssVar: '--text-h1', value: '36 px · 44 · 700 · -0.03em', group: 'Typographie — échelle produit', type: 'typography' },
+  { name: 'h2', cssVar: '--text-h2', value: '28 px · 36 · 700 · -0.025em', group: 'Typographie — échelle produit', type: 'typography' },
+  { name: 'h3', cssVar: '--text-h3', value: '24 px · 32 · 700 · -0.025em', group: 'Typographie — échelle produit', type: 'typography' },
+  { name: 'h4', cssVar: '--text-h4', value: '20 px · 28 · 700 · -0.02em', group: 'Typographie — échelle produit', type: 'typography' },
+  { name: 'body-lg', cssVar: '--text-body-lg', value: '18 px · 28', group: 'Typographie — échelle produit', type: 'typography' },
+  { name: 'body', cssVar: '--text-body', value: '16 px · 24', group: 'Typographie — échelle produit', type: 'typography' },
+  { name: 'body-sm', cssVar: '--text-body-sm', value: '15 px · 24 — le corps de l’app', group: 'Typographie — échelle produit', type: 'typography' },
+  { name: 'caption', cssVar: '--text-caption', value: '13 px · 20', group: 'Typographie — échelle produit', type: 'typography' },
+  { name: 'micro', cssVar: '--text-micro', value: '11 px · 18', group: 'Typographie — échelle produit', type: 'typography' },
+];
+
+const EDITORIAL_TYPE_TOKENS: TokenEntry[] = [
+  { name: 'hero', cssVar: '--text-hero', value: '44 → 80 px · 800', group: 'Typographie — échelle éditoriale (site)', type: 'typography' },
+  { name: 'section', cssVar: '--text-section', value: '32 → 52 px · 800', group: 'Typographie — échelle éditoriale (site)', type: 'typography' },
+  { name: 'title', cssVar: '--text-title', value: '26 → 38 px · 700', group: 'Typographie — échelle éditoriale (site)', type: 'typography' },
+  { name: 'feature', cssVar: '--text-feature', value: '22 → 30 px · 700', group: 'Typographie — échelle éditoriale (site)', type: 'typography' },
+  { name: 'lede', cssVar: '--text-lede', value: '17 → 22 px — le chapô', group: 'Typographie — échelle éditoriale (site)', type: 'typography' },
+  { name: 'stat-value', cssVar: '--text-stat-value', value: '32 → 44 px', group: 'Typographie — échelle éditoriale (site)', type: 'typography' },
+  { name: 'stat-value-lg', cssVar: '--text-stat-value-lg', value: '40 → 56 px', group: 'Typographie — échelle éditoriale (site)', type: 'typography' },
+];
+
+/* Le serrage suit une courbe inverse de la taille : plus le texte est gros, plus
+   les lettres doivent se rapprocher pour que le mot fasse bloc. Un serrage
+   uniforme sur toute l'échelle est l'anti-patron classique — il rend les grands
+   titres lâches et le petit texte illisible. */
+const TRACKING_TOKENS: TokenEntry[] = [
+  { name: 'tracking-display', cssVar: '--tracking-display', value: '-0.03em — h1, hero', group: 'Serrage (tracking)', type: 'typography' },
+  { name: 'tracking-headline', cssVar: '--tracking-headline', value: '-0.025em — h2, h3', group: 'Serrage (tracking)', type: 'typography' },
+  { name: 'tracking-snug', cssVar: '--tracking-snug', value: '-0.02em — h4', group: 'Serrage (tracking)', type: 'typography' },
+];
+
+const FONT_TOKENS: TokenEntry[] = [
+  { name: 'font-display', cssVar: '--font-display', value: 'League Spartan — titres. Aucune fonte italique.', group: 'Familles', type: 'typography' },
+  { name: 'font-body', cssVar: '--font-body', value: 'Nunito — texte courant, et le vrai italique', group: 'Familles', type: 'typography' },
+  { name: 'font-mono', cssVar: '--font-mono', value: 'JetBrains Mono — code, valeurs', group: 'Familles', type: 'typography' },
+];
+
+/* `--spacing: 0.25rem` est la base multipliée par Tailwind : `p-4` = 16 px. Les
+   noms sémantiques disent l'intention plutôt que le nombre — `gap-stack` se
+   relit, `gap-4` se recompte. */
+const SPACING_TOKENS: TokenEntry[] = [
+  { name: 'spacing (base 4pt)', cssVar: '--spacing', value: '0.25rem · 4 px — l’unité que Tailwind multiplie', group: 'Espacement — base', type: 'spacing' },
+  { name: 'tight', cssVar: '--spacing-tight', value: '2 px', group: 'Espacement — sémantique', type: 'spacing' },
+  { name: 'stack-xs', cssVar: '--spacing-stack-xs', value: '8 px', group: 'Espacement — sémantique', type: 'spacing' },
+  { name: 'stack', cssVar: '--spacing-stack', value: '16 px', group: 'Espacement — sémantique', type: 'spacing' },
+  { name: 'stack-lg', cssVar: '--spacing-stack-lg', value: '24 px', group: 'Espacement — sémantique', type: 'spacing' },
+  { name: 'section', cssVar: '--spacing-section', value: '32 px', group: 'Espacement — sémantique', type: 'spacing' },
+  { name: 'section-lg', cssVar: '--spacing-section-lg', value: '40 px', group: 'Espacement — sémantique', type: 'spacing' },
+  { name: 'page', cssVar: '--spacing-page', value: '48 px', group: 'Espacement — sémantique', type: 'spacing' },
+];
+
+/* Le rythme éditorial est fluide là où l'espacement produit est fixe : sur une
+   page de site, l'air entre deux bandes doit grandir avec la fenêtre. */
+const RHYTHM_TOKENS: TokenEntry[] = [
+  { name: 'rule', cssVar: '--spacing-rule', value: '8 → 12 px', group: 'Rythme éditorial (fluide)', type: 'spacing' },
+  { name: 'group', cssVar: '--spacing-group', value: '16 → 24 px', group: 'Rythme éditorial (fluide)', type: 'spacing' },
+  { name: 'flow', cssVar: '--spacing-flow', value: '32 → 56 px', group: 'Rythme éditorial (fluide)', type: 'spacing' },
+  { name: 'band', cssVar: '--spacing-band', value: '64 → 120 px', group: 'Rythme éditorial (fluide)', type: 'spacing' },
+  { name: 'chapter', cssVar: '--spacing-chapter', value: '96 → 176 px', group: 'Rythme éditorial (fluide)', type: 'spacing' },
+  { name: 'hero', cssVar: '--spacing-hero', value: '112 → 168 px', group: 'Rythme éditorial (fluide)', type: 'spacing' },
+  { name: 'gutter', cssVar: '--spacing-gutter', value: '16 → 40 px — la gouttière de page', group: 'Rythme éditorial (fluide)', type: 'spacing' },
+];
+
+const RADIUS_TOKENS: TokenEntry[] = [
+  { name: 'xs', cssVar: '--radius-xs', value: '4 px', group: 'Rayons', type: 'radius' },
+  { name: 'sm', cssVar: '--radius-sm', value: '6 px', group: 'Rayons', type: 'radius' },
+  { name: 'md', cssVar: '--radius-md', value: '10 px', group: 'Rayons', type: 'radius' },
+  { name: 'lg', cssVar: '--radius-lg', value: '14 px — le rayon des cartes', group: 'Rayons', type: 'radius' },
+  { name: 'xl', cssVar: '--radius-xl', value: '20 px', group: 'Rayons', type: 'radius' },
+  { name: '2xl', cssVar: '--radius-2xl', value: '24 px', group: 'Rayons', type: 'radius' },
+  { name: 'pill', cssVar: '--radius-pill', value: '999 px — boutons, badges', group: 'Rayons', type: 'radius' },
+];
+
+/* Depuis la passe de sobriété du 2026-09-09, les cartes n'ont plus d'ombre : la
+   bordure `ink-200` suffit, et l'ombre est réservée à ce qui flotte réellement
+   au-dessus de la page — menus, modales, toasts. Les ombres ci-dessous restent
+   donc au catalogue, mais leur terrain d'emploi s'est resserré. */
+const SHADOW_TOKENS: TokenEntry[] = [
+  { name: 'xs', cssVar: '--shadow-xs', value: '0 1px 2px rgba(18,24,28,.04)', group: 'Ombres — élévation neutre', type: 'shadow' },
+  { name: 'sm', cssVar: '--shadow-sm', value: 'double couche, 1–3 px', group: 'Ombres — élévation neutre', type: 'shadow' },
+  { name: 'md', cssVar: '--shadow-md', value: '4–12 px', group: 'Ombres — élévation neutre', type: 'shadow' },
+  { name: 'lg', cssVar: '--shadow-lg', value: '16–40 px', group: 'Ombres — élévation neutre', type: 'shadow' },
+  { name: 'xl', cssVar: '--shadow-xl', value: '28–72 px — modales', group: 'Ombres — élévation neutre', type: 'shadow' },
+  { name: 'card', cssVar: '--shadow-card', value: 'repli des cartes sans ton', group: 'Ombres — cartes', type: 'shadow' },
+  { name: 'card-hover', cssVar: '--shadow-card-hover', value: 'survol', group: 'Ombres — cartes', type: 'shadow' },
+  { name: 'card-lift', cssVar: '--shadow-card-lift', value: 'décollement', group: 'Ombres — cartes', type: 'shadow' },
+  { name: 'brand-xs', cssVar: '--shadow-brand-xs', value: 'teal 8 %', group: 'Ombres — teintées par ton', type: 'shadow' },
+  { name: 'brand-sm', cssVar: '--shadow-brand-sm', value: 'teal 12 %', group: 'Ombres — teintées par ton', type: 'shadow' },
+  { name: 'brand-md', cssVar: '--shadow-brand-md', value: 'teal 18 % — survol du bouton primary', group: 'Ombres — teintées par ton', type: 'shadow' },
+  { name: 'warm-xs', cssVar: '--shadow-warm-xs', value: 'orange 8 %', group: 'Ombres — teintées par ton', type: 'shadow' },
+  { name: 'warm-sm', cssVar: '--shadow-warm-sm', value: 'orange 12 %', group: 'Ombres — teintées par ton', type: 'shadow' },
+  { name: 'warm-md', cssVar: '--shadow-warm-md', value: 'orange 18 %', group: 'Ombres — teintées par ton', type: 'shadow' },
+  { name: 'sun-xs', cssVar: '--shadow-sun-xs', value: 'or 8 %', group: 'Ombres — teintées par ton', type: 'shadow' },
+  { name: 'sun-sm', cssVar: '--shadow-sun-sm', value: 'or 12 %', group: 'Ombres — teintées par ton', type: 'shadow' },
+  { name: 'sun-md', cssVar: '--shadow-sun-md', value: 'or 16 %', group: 'Ombres — teintées par ton', type: 'shadow' },
+  { name: 'danger-md', cssVar: '--shadow-danger-md', value: 'rouge brique 18 %', group: 'Ombres — teintées par ton', type: 'shadow' },
+  { name: 'success-xs', cssVar: '--shadow-success-xs', value: 'vert-de-gris 8 %', group: 'Ombres — teintées par ton', type: 'shadow' },
+  { name: 'success-sm', cssVar: '--shadow-success-sm', value: 'vert-de-gris 12 %', group: 'Ombres — teintées par ton', type: 'shadow' },
+];
+
+/* Échelle déclarée au sprint 2, restée sans aucun consommateur jusqu'au
+   2026-09-09 : Button la câble enfin. Chaque cran est apparié à un pas de
+   l'échelle de texte, dans un rapport constant d'environ 1,25 — c'est ce
+   rapport qui fait qu'une icône « pèse » autant que le mot à côté d'elle. */
+const ICON_TOKENS: TokenEntry[] = [
+  { name: 'xs', cssVar: '--icon-size-xs', value: '16 px — avec caption (13 px) · bouton sm', group: 'Icônes', type: 'icon' },
+  { name: 'sm', cssVar: '--icon-size-sm', value: '18 px — avec body-sm (15 px) · bouton md', group: 'Icônes', type: 'icon' },
+  { name: 'md', cssVar: '--icon-size-md', value: '20 px — avec body (16 px) · bouton lg', group: 'Icônes', type: 'icon' },
+  { name: 'lg', cssVar: '--icon-size-lg', value: '24 px — avec body-lg (18 px) · bouton xl', group: 'Icônes', type: 'icon' },
+  { name: 'xl', cssVar: '--icon-size-xl', value: '28 px — titres, vignettes', group: 'Icônes', type: 'icon' },
+];
+
+const BORDER_TOKENS: TokenEntry[] = [
+  { name: 'hairline', cssVar: '--border-hairline', value: '1 px — cartes, champs', group: 'Épaisseurs de trait', type: 'spacing' },
+  { name: 'base', cssVar: '--border-base', value: '2 px', group: 'Épaisseurs de trait', type: 'spacing' },
+  { name: 'thick', cssVar: '--border-thick', value: '3 px', group: 'Épaisseurs de trait', type: 'spacing' },
+  { name: 'heavy', cssVar: '--border-heavy', value: '4 px', group: 'Épaisseurs de trait', type: 'spacing' },
+];
+
+const OPACITY_TOKENS: TokenEntry[] = [
+  { name: 'faint', cssVar: '--opacity-faint', value: '0.05', group: 'Opacité', type: 'opacity' },
+  { name: 'soft', cssVar: '--opacity-soft', value: '0.10', group: 'Opacité', type: 'opacity' },
+  { name: 'tinted', cssVar: '--opacity-tinted', value: '0.15', group: 'Opacité', type: 'opacity' },
+  { name: 'medium', cssVar: '--opacity-medium', value: '0.30', group: 'Opacité', type: 'opacity' },
+  { name: 'disabled', cssVar: '--opacity-disabled', value: '0.50', group: 'Opacité', type: 'opacity' },
+  { name: 'overlay', cssVar: '--opacity-overlay', value: '0.70', group: 'Opacité', type: 'opacity' },
+];
+
+const DURATION_TOKENS: TokenEntry[] = [
+  { name: 'instant', cssVar: '--duration-instant', value: '80 ms — l’enfoncement d’un bouton', group: 'Durées', type: 'duration' },
+  { name: 'fast', cssVar: '--duration-fast', value: '150 ms', group: 'Durées', type: 'duration' },
+  { name: 'base', cssVar: '--duration-base', value: '200 ms', group: 'Durées', type: 'duration' },
+  { name: 'slow', cssVar: '--duration-slow', value: '300 ms', group: 'Durées', type: 'duration' },
+  { name: 'glacial', cssVar: '--duration-glacial', value: '600 ms', group: 'Durées', type: 'duration' },
+  { name: 'expressive', cssVar: '--duration-expressive', value: '800 ms', group: 'Durées', type: 'duration' },
+];
+
+const EASING_TOKENS: TokenEntry[] = [
+  { name: 'standard', cssVar: '--ease-standard', value: 'cubic-bezier(0.2, 0, 0, 1)', group: 'Courbes', type: 'easing' },
+  { name: 'decelerate', cssVar: '--ease-decelerate', value: 'cubic-bezier(0, 0, 0.2, 1) — entrée', group: 'Courbes', type: 'easing' },
+  { name: 'accelerate', cssVar: '--ease-accelerate', value: 'cubic-bezier(0.4, 0, 1, 1) — sortie', group: 'Courbes', type: 'easing' },
+  { name: 'emphasis', cssVar: '--ease-emphasis', value: 'cubic-bezier(0.22, 1, 0.36, 1)', group: 'Courbes', type: 'easing' },
+];
+
+const CONTAINER_TOKENS: TokenEntry[] = [
+  { name: 'prose', cssVar: '--container-prose', value: '65ch — la longueur de ligne lisible', group: 'Largeurs de conteneur', type: 'container' },
+  { name: 'content', cssVar: '--container-content', value: '768 px', group: 'Largeurs de conteneur', type: 'container' },
+  { name: 'medium', cssVar: '--container-medium', value: '1024 px', group: 'Largeurs de conteneur', type: 'container' },
+  { name: 'page', cssVar: '--container-page', value: '1152 px — le conteneur canonique', group: 'Largeurs de conteneur', type: 'container' },
+  { name: 'wide', cssVar: '--container-wide', value: '1280 px', group: 'Largeurs de conteneur', type: 'container' },
+];
+
+const BLUR_TOKENS: TokenEntry[] = [
+  { name: 'glass-light', cssVar: '--blur-glass-light', value: '8 px', group: 'Flou (verre dépoli)', type: 'blur' },
+  { name: 'glass-medium', cssVar: '--blur-glass-medium', value: '16 px', group: 'Flou (verre dépoli)', type: 'blur' },
+  { name: 'glass-heavy', cssVar: '--blur-glass-heavy', value: '24 px', group: 'Flou (verre dépoli)', type: 'blur' },
+  { name: 'ambient', cssVar: '--blur-ambient', value: '60 px — les halos de fond', group: 'Flou (verre dépoli)', type: 'blur' },
 ];
 
 const TOUCH_TARGET_TOKENS: TokenEntry[] = [
-  { name: 'touch', cssVar: '--spacing-touch', value: '2.75rem (44px) — Apple HIG / WCAG AA min', group: 'Touch targets', type: 'touch' },
-  { name: 'touch-lg', cssVar: '--spacing-touch-lg', value: '3rem (48px) — Material comfortable', group: 'Touch targets', type: 'touch' },
+  { name: 'touch', cssVar: '--spacing-touch', value: '44 px — la taille du bouton par défaut', group: 'Cibles tactiles', type: 'touch' },
+  { name: 'touch-lg', cssVar: '--spacing-touch-lg', value: '48 px — Material confortable', group: 'Cibles tactiles', type: 'touch' },
 ];
 
+/* Deux noms pour la même échelle, et c'est délibéré : Tailwind génère les
+   utilities `z-*` depuis `--z-index-*`, tandis que `--z-*` reste lisible dans un
+   `var()` écrit à la main. Les valeurs sont identiques — le piège serait qu'elles
+   divergent, d'où leur présence côte à côte ici. */
 const ZINDEX_TOKENS: TokenEntry[] = [
-  { name: 'z-base', cssVar: '--z-base', value: '1', group: 'z-index', type: 'zindex' },
-  { name: 'z-sticky', cssVar: '--z-sticky', value: '20', group: 'z-index', type: 'zindex' },
-  { name: 'z-dropdown', cssVar: '--z-dropdown', value: '30', group: 'z-index', type: 'zindex' },
-  { name: 'z-overlay', cssVar: '--z-overlay', value: '40', group: 'z-index', type: 'zindex' },
-  { name: 'z-modal', cssVar: '--z-modal', value: '50', group: 'z-index', type: 'zindex' },
-  { name: 'z-toast', cssVar: '--z-toast', value: '60', group: 'z-index', type: 'zindex' },
-  { name: 'z-tooltip', cssVar: '--z-tooltip', value: '70', group: 'z-index', type: 'zindex' },
+  { name: 'base', cssVar: '--z-index-base', value: '1', group: 'z-index', type: 'zindex' },
+  { name: 'sticky', cssVar: '--z-index-sticky', value: '20', group: 'z-index', type: 'zindex' },
+  { name: 'dropdown', cssVar: '--z-index-dropdown', value: '30', group: 'z-index', type: 'zindex' },
+  { name: 'overlay', cssVar: '--z-index-overlay', value: '40', group: 'z-index', type: 'zindex' },
+  { name: 'modal', cssVar: '--z-index-modal', value: '50', group: 'z-index', type: 'zindex' },
+  { name: 'toast', cssVar: '--z-index-toast', value: '60', group: 'z-index', type: 'zindex' },
+  { name: 'tooltip', cssVar: '--z-index-tooltip', value: '70', group: 'z-index', type: 'zindex' },
 ];
 
+/** Ordre de lecture : la couleur, puis le texte, puis l'espace, puis la matière. */
 const ALL_TOKENS: TokenEntry[] = [
   ...COLOR_TOKENS,
   ...SEMANTIC_TOKENS,
   ...ROLE_TOKENS,
+  ...SURFACE_TOKENS,
+  ...FONT_TOKENS,
   ...TYPOGRAPHY_TOKENS,
+  ...EDITORIAL_TYPE_TOKENS,
+  ...TRACKING_TOKENS,
   ...SPACING_TOKENS,
-  ...SEMANTIC_SPACING_TOKENS,
+  ...RHYTHM_TOKENS,
   ...RADIUS_TOKENS,
   ...SHADOW_TOKENS,
-  ...MOTION_TOKENS,
-  ...GRADIENT_TOKENS,
+  ...ICON_TOKENS,
+  ...BORDER_TOKENS,
+  ...TOUCH_TARGET_TOKENS,
   ...OPACITY_TOKENS,
   ...DURATION_TOKENS,
   ...EASING_TOKENS,
-  ...CONTAINER_TOKENS,
   ...BLUR_TOKENS,
-  ...SURFACE_TOKENS,
-  ...TOUCH_TARGET_TOKENS,
+  ...CONTAINER_TOKENS,
   ...ZINDEX_TOKENS,
 ];
 
@@ -7963,6 +8262,35 @@ const Swatch: React.FC<{ t: TokenEntry }> = ({ t }) => {
         <div className="token-card__meta">
           <p className="token-card__name">{t.name}</p>
           <CopyChip text={utility} />
+          <p className="token-card__value">{t.value}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (t.type === 'icon') {
+    /* On montre l'icône **à côté du mot** avec lequel le token l'apparie : une
+       taille d'icône ne se juge pas dans le vide, elle se juge au rapport avec
+       le texte qu'elle accompagne. Le carré teinté derrière donne la boîte réelle,
+       pour qu'on voie que le glyphe la remplit — c'était précisément le défaut
+       corrigé dans Button le 2026-09-09. */
+    const box = `icon-${t.name}`;
+    const paired: Record<string, string> = {
+      xs: 'text-caption', sm: 'text-body-sm', md: 'text-body', lg: 'text-body-lg', xl: 'text-h4',
+    };
+    return (
+      <div className="token-card">
+        <div className="h-[88px] rounded-md bg-ink-50 flex items-center justify-center gap-stack-xs">
+          <span className={`${box} inline-flex items-center justify-center bg-primary-100 rounded-xs text-primary-700 [&>svg]:w-full [&>svg]:h-full`}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <circle cx="12" cy="12" r="9" /><path d="M12 8v8M8 12h8" />
+            </svg>
+          </span>
+          <span className={`${paired[t.name] ?? 'text-body'} font-body text-ink-700`}>Étiquette</span>
+        </div>
+        <div className="token-card__meta">
+          <p className="token-card__name">icon-{t.name}</p>
+          <CopyChip text={box} />
           <p className="token-card__value">{t.value}</p>
         </div>
       </div>
@@ -8559,11 +8887,15 @@ const Components: React.FC = () => {
             </section>
           ))}
 
-          {/* ---- Tokens ---- */}
-          {!isFiltered && filteredTokens.length > 0 && (
+          {/* ---- Tokens ----
+               Ils s'affichaient uniquement dans la vue « Tout ». Or c'est dans
+               Foundations qu'on va les chercher : une couleur, un pas de texte
+               ou un rayon sont plus fondamentaux qu'une primitive de mise en
+               page, et la catégorie qui porte leur nom ne les montrait pas. */}
+          {(!isFiltered || activeSlug === categorySlug('Foundations')) && filteredTokens.length > 0 && (
             <section className="ds-section">
               <div className="ds-section__head">
-                <h2 className="ds-section__title">Design Tokens</h2>
+                <h2 className="ds-section__title">Les tokens</h2>
                 <span className="ds-section__count">{filteredTokens.length} token{filteredTokens.length > 1 ? 's' : ''}</span>
               </div>
               {tokensByGroup.map(([group, list]) => (
