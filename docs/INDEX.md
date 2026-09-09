@@ -229,6 +229,7 @@
 | Fichier | Note |
 |---|---|
 | `RESOURCES-DESIGN-MAPPING.md` | Mapping ressources ↔ design |
+| `AUDIT-VARIABLES-COMPONENT-SETS-2026-09-09.md` | Liaison aux variables des 155 component sets (Atoms + Composites). Inspection node-par-node. 41 hex bruts traités, 7 exceptions assumées et justifiées. |
 
 > Pour l'état Figma **vérifié** (2026-06-30, inspection node-par-node), voir `CLAUDE.md` § Phase 1 P0.
 
