@@ -483,6 +483,32 @@ contrastes cibles étagés sur les crans de texte.
 
 **Six crans changent sur douze**, et les cinq surfaces claires ne bougent pas du tout.
 
+#### La même rampe en teal — pour comparer
+
+Le teal de marque est à **216°**, `ink-900` à **264,1°** : quarante-huit degrés d'écart. On peut donc
+rejouer toute la rampe sur la teinte de la marque, à clartés identiques.
+
+> **Le contraste ne bouge jamais de plus de 0,16 point** entre les deux teintes. C'est la propriété
+> d'OKLCH : la clarté est perceptuelle, on tourne la teinte sans toucher aux ratios. **Aucun dossier
+> d'accessibilité ne se rouvre, quelle que soit la variante retenue.** La question est donc
+> uniquement esthétique.
+
+| | Teinte | `ink-900` | Crans modifiés | Ce que le gris raconte |
+|---|---|---|---:|---|
+| **A** | 264° — celle de `ink-900` | **intact** `#252B37` | **6** | discret, neutre à l'œil |
+| **B** | 216° — celle du teal | repeint `#1d2e33` | 11 | un gris **de TLS**, plus emprunté |
+| **C** | 216°, chroma ×1,6 | repeint `#123037` | 11 | franchement teinté, bleu-vert sourd |
+
+**Le vrai arbitrage n'est pas le contraste, c'est l'ancre.** En **A**, `ink-900` ne bouge pas : les
+916 usages du texte principal sont intacts et le changement se limite à six crans. En **B** et
+**C**, le texte principal de 183 pages est repeint — c'est un choix d'identité, pas une correction.
+
+**Ma recommandation : A**, en cohérence avec C1. Si le site part sur une rampe éditoriale marron,
+l'app n'a pas besoin de devenir teal : elle a besoin d'être cohérente et monotone, ce que A lui
+donne pour six valeurs. **B** ne se justifie que si vous décidez que le gris doit porter la marque
+partout — et alors il faut l'assumer sur 916 textes. **C** est à réserver à une direction qui va
+jusqu'au bout de la couleur ; sur de longues pages de texte, un gris à ce chroma fatigue.
+
 ```css
 --color-ink-400: #8d95a6;   /* modifié */
 --color-ink-500: #667082;   /* modifié */
@@ -497,7 +523,7 @@ contrastes cibles étagés sur les crans de texte.
 | # | Question | Ma recommandation | Coût |
 |---|---|---|---|
 | C1 | **La frontière** : site et app partagent-ils l'encre ? | **Rampe éditoriale séparée** — `--color-paper-*` pour le site, `ink-*` pour l'app (voir §3.1 ①) | découple les deux |
-| **C7** | **Adopter la rampe dérivée de `ink-900` ?** | **Oui** — elle corrige l'inversion, laisse l'ancre intacte et débloque `ink-500` sur fond teinté | **6 crans sur 12** |
+| **C7** | **Reconstruire la rampe, et sur quelle teinte ?** | **Variante A (264°)** — corrige l'inversion, laisse l'ancre intacte, débloque `ink-500` sur fond teinté | **6 crans sur 12** |
 | C2 | Teinte de la rampe (A/B/C/D) | **D (marron 46°) pour le site.** Si la rampe reste partagée : **C (teal 216°)** | 638 ou 4 346 usages |
 | C3 | Le remplissage des boutons de marque | **outline sur le site** (label `700` sur blanc), **rempli conservé dans l'app** | 485 boutons dans l'app |
 | C4 | `ink-900` commenté « teal-tinted » dans `index.css:78` | **corriger le commentaire** — il est faux depuis le début | 1 ligne |
