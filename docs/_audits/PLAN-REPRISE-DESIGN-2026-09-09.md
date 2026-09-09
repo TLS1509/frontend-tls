@@ -69,16 +69,20 @@ Le projet est **en bon état technique** et **bloqué sur une seule décision**.
 |---|---|
 | `npm run build` | ✅ **passe** (exit 0, 1,84 s, 3 391 modules) |
 | Volume | 183 pages · 215 composants · 19 pages de site · 240 tokens |
-| Travail non sauvegardé | ⚠️ **30 commits non poussés** + 3 fichiers non commités + 1 stash |
+| Travail non sauvegardé | ✅ **résolu le 09/09** — 33 commits poussés sur `origin/main` |
 | Site en ligne | ⚠️ **toujours le WordPress pré-pivot** — cible du 06/08 manquée de 5 semaines |
-| Arbitrages design ouverts | **17** (4 majeurs + 13 typographie/couleur) |
-| Ce qui bloque la suite | **un seul** : la rampe d'encre (①) |
+| Arbitrages design ouverts | **17 au banc** + **17 décisions de fondation** (§4) + **6 d'identité** (§5) |
+| Ce qui bloque la suite | **une seule question** : site et app partagent-ils leur système ? (§4.5) |
 
 **Les trois choses à faire cette semaine**, dans l'ordre :
 
-1. **Sauvegarder** (30 min, aucun arbitrage) — pousser les 30 commits, commiter les 3 fichiers.
+1. ~~Sauvegarder~~ — ✅ **fait le 09/09**, 33 commits poussés.
 2. **Retirer deux claims interdits du site en ligne** (1 h, aucun arbitrage) — publics depuis au moins le 29/07.
-3. **Trancher ①** (2 h devant le banc) — c'est le seul verrou. Tout le reste en découle.
+3. **Trancher la frontière des systèmes** (§4.5) — c'est le verrou des quatre fondations.
+
+**Et si tu ne peux consacrer qu'une heure au design pendant le projet Agents** : les trois décisions
+d'accessibilité (§4.3) ne dépendent d'aucun arbitrage esthétique, et les trois sujets d'identité
+I2/I3/I4 (§5.7) ne sont bloqués par rien.
 
 ---
 
@@ -121,7 +125,7 @@ Le Lot 1 visait six pages pour le 06/08. Nous sommes le **09/09**. Aujourd'hui *
 sont portées sur le système éditorial (Accueil, Accompagnement) ; 17 portent encore **64 `clamp()`
 écrits en dur**.
 
-> **Action.** Reposer une date sur ce qui est réellement fait (§7). Décision de plan de charge,
+> **Action.** Reposer une date sur ce qui est réellement fait (§9). Décision de plan de charge,
 > pas de design : elle t'appartient.
 
 ---
@@ -158,20 +162,57 @@ couverture complète. Ce chantier est clos.
 principales**. 2 pages sur 19 portées. C'est le volet que ① bloque, et le seul avec une échéance
 commerciale.
 
-### D. Le corpus formations / bootcamp — le plus silencieux
+### D. Le corpus formations / bootcamp — la matière est prête, le modèle de données ne l'est pas
 
-Trois parcours EdTech conçus par toi pour toi (Neuro-Édu, Ingénierie Pédagogique, UX-UI PM,
-32 modules) : te former, appliquer sur TLS, **dogfooder l'app**.
+Trois parcours EdTech conçus par toi pour toi : te former, appliquer sur TLS, **dogfooder l'app**.
 
-**Mesuré aujourd'hui : ce corpus n'est pas dans l'app.** `src/data/learningPaths.ts` ne contient que
-les parcours génériques de démo.
+**Correction importante par rapport à ce que je disais ce matin : les versions corrigées sont dans
+le repo**, dans [`chloe/modules-corriges-2026-07-23/`](../../chloe/modules-corriges-2026-07-23/),
+suivies par git.
 
-Et le fact-check du corpus a été **archivé** → `docs/_archive/factcheck-corpus/CORPUS-FORMATIONS-FACT-CHECK.md`.
-Il porte la liste des mythes à purger (8 s d'attention, VARK, triune brain) et des stats fabriquées :
-**à relire avant tout seed**, sinon on injecte les erreurs dans la vraie data.
+| Parcours | Modules | |
+|---|---:|---|
+| 1 · Ingénierie Pédagogique | 10 | ADDIE/SAM, objectifs, Kirkpatrick, IA générative, chiffrage |
+| 2 · Neuro-Éducation | 10 | mémoire, attention, feedback, charge cognitive, transfert |
+| 3 · UX-UI & Product Management | 12 | dont **M04 Design Systems**, directement applicable ici |
+| 4 · Recherche & Stratégie | 2 | dont la validité scientifique des frameworks IP |
 
-> Ce volet n'a **aucun arbitrage design ouvert**. Il est en attente, et c'est le seul moyen de
-> tester l'app avec du contenu réel.
+**Et le fact-check est déjà passé** : « mythes retirés, sources vérifiées avec DOI, chiffres
+fabriqués supprimés », chaque module portant en fin un **journal des corrections**. Le doc de
+référence est archivé (`docs/_archive/factcheck-corpus/`), mais son travail est **incorporé dans les
+modules eux-mêmes**. Il n'y a donc plus de risque d'injecter les erreurs — c'était ma réserve de ce
+matin, elle tombe.
+
+**Le mapping vers l'app est direct, et c'est la bonne surprise.** Les modules sont écrits en
+**EDRACT** — six sections numérotées : `01 Engagement · 02 Découvrir · 03 Réfléchir · 04 Appliquer ·
+05 Consolider · 06 Transférer`. L'app attend `Parcours › Étape › Leçon`. Donc :
+
+> **1 parcours = Neuro-Éducation · 10 étapes = les 10 modules · 6 leçons par étape = les 6 temps
+> EDRACT.** Soit 60 leçons, sans rien réécrire.
+
+**⚠️ Le verrou n'est pas le contenu, c'est le modèle de données.** Mesuré aujourd'hui :
+
+```
+interface Lecon { id · number · title · description · duration · completed · prerequisites? }
+                                    ↑ aucun champ de contenu
+```
+
+Le contenu réel des leçons vit **en dur dans `LessonPlayer.tsx`** — 1 998 lignes, 19 blocs de
+paragraphes littéraux. Tant que `Lecon` ne porte pas de contenu, **le corpus n'a nulle part où
+aller**.
+
+> **Ce que ça coûte réellement** : ajouter un champ de contenu à `Lecon` et rendre `LessonPlayer`
+> data-driven. C'est un chantier de développement, pas de design, et **c'est le seul prérequis** au
+> seed. La matière, elle, est prête depuis le 24 juillet.
+
+**Pourquoi ce volet sert le design, et pas seulement ta formation** : aujourd'hui on juge les écrans
+sur « Fondamentaux du Leadership » et « Communication Efficace ». Du vrai contenu change ce qu'on
+voit — les longueurs réelles de titre, la densité réelle d'une leçon, ce que devient une card quand
+son texte n'est pas calibré pour elle. **C'est le meilleur test des quatre fondations du §4.**
+
+Et Notion le confirme sans le savoir : **Q60** — « écart de production pédagogique confirmé, plus
+élevé que supposé » — parle du contenu produit **pour la plateforme**, pas de ce corpus-ci, qui
+existe et est corrigé.
 
 ---
 
@@ -305,112 +346,312 @@ Les choix faits au banc React sont persistés en **`localStorage`** (`tls-design
 
 ---
 
-## 4. Reprendre les fondations en « agency grade »
+## 4. Les quatre fondations du design system
 
-C'est le sujet où on s'était arrêté (fonts, couleurs, rayons). Voici ce que la mesure dit,
-échelle par échelle. Le diagnostic tient en une phrase : **les échelles n'ont pas été décidées,
-elles ont poussé.**
-
-`src/index.css` déclare **240 tokens**. Ce n'est pas un problème en soi ; le problème est que
-certaines échelles portent **plusieurs vocabulaires concurrents pour la même intention**.
-
-### 4.1 — Typographie : trois façons de dire « un grand titre »
-
-L'échelle compte **20 crans réels**. Usages mesurés aujourd'hui :
-
-| Cran | Usages | | Cran | Usages |
-|---|---:|---|---|---:|
-| `text-caption` | 1 257 | | `text-h5` | 23 |
-| `text-body` | 1 138 | | `text-section` | 17 |
-| `text-body-sm` | 828 | | `text-feature` | 13 |
-| `text-micro` | 387 | | `text-lede` | 12 |
-| `text-h4` | 153 | | `text-title` | 9 |
-| `text-h3` | 132 | | `text-hero` | 8 |
-| `text-h2` | 86 | | `text-display-xl` | 5 |
-| `text-body-lg` | 66 | | `text-display-lg` | 4 |
-| `text-h1` | 36 | | `text-display-md` | 4 |
-| | | | `text-stat-value` | 4 |
-| | | | `text-stat-value-lg` | 2 |
-
-**Deux échelles se superposent** : celle de l'app (`h1`→`h5`, `body*`, `caption`, `micro`) et
-l'échelle éditoriale ajoutée le 29/07 (`hero`, `section`, `title`, `feature`, `lede`). Elles se
-recouvrent :
-
-> Pour un titre de page, le système propose **`h1` (36) · `hero` (8) · `display-xl` (5)**.
-> Pour un titre de section : **`h2` (86) · `section` (17) · `title` (9)**.
-> Trois entrées pour une intention : c'est la définition d'une échelle qui n'a pas été arbitrée.
-
-**⚠️ Correction à la décision D5.** Le banc affirmait `display-*` = **0 usage** et recommandait de
-les retirer. Mesuré aujourd'hui : **5 / 4 / 4**. Ils ont été adoptés depuis (probablement par le
-système éditorial). **D5 est caduque et doit être reposée** — non plus « retirer des tokens morts »
-mais « choisir lequel des trois vocabulaires survit ».
-
-**Ce qu'« agency grade » veut dire ici** : une échelle typographique tient en **8 à 10 crans**, avec
-un ratio ≥ 1,125 entre voisins. TLS en a 20, dont **9 sous les 20 usages** (queue longue) et deux
-paires à ratio quasi nul (`body-sm`/`body` à ×1,07 ; `h5` = `body` = 16 px).
-
-> **La décision structurante** : le site et l'app partagent-ils l'échelle typo, ou l'éditorial
-> a-t-il la sienne ? **C'est exactement la même question que ① pose pour la couleur.** Les deux se
-> tranchent ensemble, ou pas du tout.
-
-### 4.2 — Rayons : la décision ② n'a pas atteint le code
-
-| Token | Valeur | Usages |
-|---|---|---:|
-| `rounded-pill` | 999px | **418** |
-| `rounded-xl` | 20px | **348** |
-| `rounded-2xl` | 24px | **240** |
-| `rounded-lg` | **14px** ← la valeur tranchée | 204 |
-| `rounded-md` | 10px | 113 |
-| `rounded-sm` | 6px | 73 |
-| `rounded-xs` | 4px | 11 |
-| `rounded-3xl` | ⚠️ **aucun token** → défaut Tailwind | 22 |
-| `rounded-full` | ⚠️ **interdit par `CLAUDE.md`** | **204** |
-
-Deux écarts nets avec la doctrine écrite :
-
-1. **`rounded-full` compte 204 usages** alors que `CLAUDE.md` dit « **jamais `rounded-full`** (= 50 %,
-   cercle) » pour Button/Card. À vérifier au cas par cas : sur un avatar ou un point de statut c'est
-   légitime ; sur une card, non.
-2. **`rounded-3xl` : 22 usages sans token.** Ils tombent sur le défaut Tailwind.
-
-Et **la décision ② (14 px) contredit la décision D12** (qui propose 20 ou 24). Les deux vivent dans
-le même banc. **À réconcilier avant d'appliquer quoi que ce soit.**
-
-### 4.3 — Couleur : la palette de marque ne tient pas AA sur ses propres couleurs
-
-**78 tokens de couleur**, répartis en 13 familles : `ink` (12 crans) · `primary` (11) ·
-`secondary` (11) · `accent` (10) · `surface` (6) · `text` (5) · `success` (5) · `danger` (5) ·
-`warning` (3) · `info` (3) · `border` (3) · `overlay` (1) · `brown` (1).
-
-Le nombre n'est pas le problème. Les trois faits qui le sont :
-
-1. **`ink-400` échoue partout** — 355 usages (§2.A).
-2. **Aucune couleur de marque ne porte du texte blanc en AA** — c'est ④.
-3. **La rampe `ink` n'est pas de TLS** — `ink-50`→`ink-800` sont les gris Tailwind par défaut,
-   `ink-950` est son `slate-900`. Seul `ink-900` est une valeur maison, et elle est bleu-violet.
-
-### 4.4 — Ce que je propose comme méthode
-
-Le réflexe naturel serait de retrancher token par token. Ça ne marchera pas : les échelles se
-recouvrent parce qu'**une question de fond n'a pas été posée**, et elle est la même pour les trois
-échelles.
-
-> **Une seule décision commande les trois : le site et l'app partagent-ils leur système, ou le site
-> a-t-il un système éditorial distinct ?**
+> **C'est le cœur du sujet, et la raison pour laquelle il vaut la peine de le traiter maintenant** :
+> typographie, couleur, accessibilité et rayons ne sont pas quatre chantiers parmi d'autres. Ce sont
+> les **quatre bases dont dépendent tous les composants**. Chaque semaine où elles restent ouvertes,
+> on écrit des composants sur un socle qu'on sait devoir bouger.
 >
-> - **Système partagé** → il faut *fusionner* les vocabulaires (choisir `h1` ou `hero`, pas les deux)
->   et assumer que l'app change d'apparence.
-> - **Systèmes distincts** → il faut *nommer la frontière* (`--color-paper-*`, `text-editorial-*`)
->   et écrire la règle qui empêche l'un de fuir dans l'autre.
->
-> **Tant que cette question n'est pas tranchée, tout retranchement de token sera repris.** C'est
-> pour ça que ① bloque réellement la suite : ce n'est pas une question de couleur, c'est la
-> frontière entre deux systèmes.
+> Tout ce qui suit est **mesuré sur `src/index.css` et sur `src/` le 2026-09-09**, jamais estimé.
+> Le diagnostic commun aux quatre : **les échelles n'ont pas été décidées, elles ont poussé.**
 
 ---
 
-## 5. Les artefacts et les bancs — deux outils, aucun registre de décisions
+### 4.1 — Typographie : trois vocabulaires pour la même intention
+
+L'échelle compte **20 crans**. Les voici tous, avec leur ratio au cran précédent :
+
+| Token | px | ratio | graisse | | Token | px | ratio | graisse |
+|---|---:|---:|---:|---|---|---:|---:|---:|
+| `display-xl` | 96 | — | 800 | | `title` | 26 | ×1,077 | 700 |
+| `display-lg` | 64 | ×1,500 | 800 | | `h3` | 22 | ×1,182 | 600 |
+| `display-md` | 48 | ×1,333 | 800 | | `feature` | 22 | **×1,000** | 700 |
+| `hero` | 44 | ×1,091 | 800 | | `h4` | 18 | ×1,222 | 600 |
+| `stat-value-lg` | 40 | ×1,100 | — | | `body-lg` | 18 | **×1,000** | — |
+| `h1` | 36 | ×1,111 | 700 | | `lede` | 17 | ×1,059 | — |
+| `stat-value` | 32 | ×1,125 | — | | `h5` | 16 | ×1,062 | 600 |
+| `section` | 32 | **×1,000** | 800 | | `body` | 16 | **×1,000** | — |
+| `h2` | 28 | ×1,143 | 700 | | `body-sm` | 15 | ×1,067 | — |
+| | | | | | `caption` | 13 | ×1,154 | — |
+| | | | | | `micro` | 11 | ×1,182 | — |
+
+**Ce que ces chiffres disent, et qu'on ne voit pas à l'œil nu :**
+
+- **Quatre collisions exactes** — `section`/`stat-value` (32), `h3`/`feature` (22), `h4`/`body-lg` (18),
+  `h5`/`body` (16). Deux tokens, une taille : la taille ne hiérarchise plus rien.
+- **Sur les 19 intervalles, 10 sont sous le plancher de 1,125** qu'une échelle produit demande.
+- **Le haut et le bas sont propres.** 96 → 64 → 48 donne ×1,5 puis ×1,333 ; 16 → 13 → 11 donne
+  ×1,154 puis ×1,182. **C'est le milieu qui est encombré : treize crans entre 16 et 48 px.**
+- **Le tracking, lui, est bon** : gradué de −0,03em à −0,01em, cohérent avec la taille. Ne pas y toucher.
+
+**La cause : deux échelles superposées.** Celle de l'app (`h1`→`h5`, `body*`, `caption`, `micro`) et
+celle ajoutée le 29/07 pour l'éditorial (`hero`, `section`, `title`, `feature`, `lede`). Elles se
+recouvrent au lieu de se compléter :
+
+> Pour un titre de page, le système propose **`h1` (36 usages) · `hero` (8) · `display-xl` (5)**.
+> Pour un titre de section : **`h2` (86) · `section` (17) · `title` (9)**.
+> **Trois entrées pour une intention.** C'est la définition d'une échelle qui n'a pas été arbitrée.
+
+**⚠️ Une décision du banc est caduque.** D5 affirmait `display-*` = *0 usage* et recommandait de les
+retirer. Mesuré aujourd'hui : **5 / 4 / 4**. Ils ont été adoptés depuis. La question n'est plus
+« retirer des tokens morts » mais **« lequel des trois vocabulaires survit »**.
+
+**Les décisions à rendre**
+
+| # | Question | Ma recommandation | Coût |
+|---|---|---|---|
+| T1 | **Une échelle ou deux ?** app et éditorial | **Deux, nommées** — `text-*` pour l'app, `text-editorial-*` pour le site, avec une règle écrite | aucun immédiat |
+| T2 | Graisse `h3`/`h4` : token 600 vs code 700 | **le token passe à 700** — on suit l'usage (70 % et 67 %) | **0 fichier** |
+| T3 | Les 4 collisions exactes | Écarter les tailles, ou fusionner. `h4`/`body-lg` : **garder les deux** (rôles réels) ; `h5`/`body` : **retirer `h5`** (23 usages) | 23 usages |
+| T4 | `body-sm` (15 px) à ×1,067 de `body` | **fusionner dans `body`** | **828 usages** |
+| T5 | `h3` : 22 → 24 px | **oui** — 22 px rate le seuil WCAG grand texte (22,4 px en Spartan) et le pas `h4`→`h3` passe de ×1,22 à ×1,33 | 132 usages |
+| T6 | Les 54 usages sous 11 px | **tout ramener à `micro`** — mécanique, aucun arbitrage | 54 usages |
+
+**Impact composants** : T2 ne touche aucun fichier (c'est le token qui s'aligne). T4 est le plus lourd
+(828 usages) mais purement mécanique. T5 touche les titres de card dans toute l'app.
+
+---
+
+### 4.2 — Couleur : la palette de marque ne tient pas AA sur ses propres couleurs
+
+Mesuré cran par cran, texte blanc sur le remplissage :
+
+| | 400 | 500 | 600 | **700** | 800 | 900 |
+|---|---:|---:|---:|---:|---:|---:|
+| **primary** (teal) | 2,44 | 2,94 | 3,66 | **5,02 ✅** | 7,08 | 11,46 |
+| **secondary** (orange) | 2,48 | 2,64 | 3,98 | **6,31 ✅** | 10,35 | 14,92 |
+| **accent** (or) | **1,86** | 2,31 | 2,89 | **4,88 ✅** | 8,01 | 11,17 |
+
+> **Aucune couleur de marque ne porte du texte blanc en AA avant le cran 700.** Et `accent-400`,
+> l'or canonique de la charte, mesure **1,86** — la pire valeur de toute la palette.
+
+C'est le nœud de l'arbitrage ④ : en rempli, il fallait choisir entre la conformité et la marque.
+En outline, le label passe sur blanc et les trois couleurs deviennent utilisables à 700.
+
+**La rampe `ink`, elle, n'est pas de TLS :**
+
+| Token | hex | sur blanc | |
+|---|---|---:|---|
+| `ink-300` | `#d1d5db` | 1,47 | gris Tailwind |
+| **`ink-400`** | `#9ca3af` | **2,54 ❌** | gris Tailwind — **355 usages de texte** |
+| `ink-500` | `#6b7280` | 4,83 ✅ | gris Tailwind — passe de justesse, **échoue sur fond gris** |
+| `ink-600` | `#4b5563` | 7,56 ✅ | gris Tailwind |
+| `ink-900` | `#252B37` | 14,20 ✅ | **seule valeur maison** — mais à 264° en OKLCH, bleu-violet, pas teal |
+
+**Les décisions à rendre**
+
+| # | Question | Ma recommandation | Coût |
+|---|---|---|---|
+| C1 | **La frontière** : site et app partagent-ils l'encre ? | **Rampe éditoriale séparée** — `--color-paper-*` pour le site, `ink-*` pour l'app (voir §3.1 ①) | découple les deux |
+| C2 | Teinte de la rampe (A/B/C/D) | **D (marron 46°) pour le site.** Si la rampe reste partagée : **C (teal 216°)** | 638 ou 4 346 usages |
+| C3 | Le remplissage des boutons de marque | **outline sur le site** (label `700` sur blanc), **rempli conservé dans l'app** | 485 boutons dans l'app |
+| C4 | `ink-900` commenté « teal-tinted » dans `index.css:78` | **corriger le commentaire** — il est faux depuis le début | 1 ligne |
+
+---
+
+### 4.3 — Accessibilité : un seul vrai défaut, mais il est massif
+
+Trois constats séparés, et ils n'ont pas le même poids.
+
+**🔴 Le défaut de masse — `text-ink-400`, 355 usages.** À 2,54:1 sur blanc, il échoue AA (4,5) **et**
+la tolérance grand texte (3,0). À toutes les tailles, sur tous les fonds. **C'est le plus gros défaut
+mesurable du produit, et il ne demande aucun arbitrage esthétique** — seulement du travail vérifié.
+
+Le remplacement n'est pas mécanique pour autant : `ink-500` (4,83) passe sur fond clair mais **échoue
+sur fond gris** (4,39), où `ink-600` est requis. Et une bonne part des sites ne sont pas classables
+statiquement — la surface vient d'un ancêtre. D'où la méthode en trois lots : **les fonds gris
+d'abord (`ink-600`), puis les fonds clairs (`ink-500`), puis les indéterminés au rendu.**
+`ink-400` garde un emploi légitime : **l'état désactivé, que WCAG exempte.**
+
+**🟠 Le bouton primaire de l'app** — `bg-primary-600 text-white`, label 15px/600. Mesuré **3,66:1**.
+Le seuil de 3,0 ne vaut que pour le grand texte (≥24px, ou ≥18,66px en 700) : un label à 15px/600 est
+du **texte normal**, donc le seuil est **4,5**. Il échoue. Corriger repeint 485 boutons — c'est ta
+décision, pas une évidence technique.
+
+**✅ Ce qui est tenu** — la bordure des variants outline est corrigée (`400` → `600`, WCAG 1.4.11) ;
+`focus-visible` est la convention documentée ; la règle des 44 px sur les actions principales tient.
+
+**Le seuil à ne pas confondre** — WCAG 2.2 AA impose **24×24 px** (SC 2.5.8), c'est le seul minimum
+normatif. Les 44×44 viennent de AAA et d'Apple. La règle TLS reste : **44 px sur les actions
+principales, 24 px minimum partout.**
+
+**Les décisions à rendre**
+
+| # | Question | Ma recommandation | Coût |
+|---|---|---|---|
+| A1 | `ink-400` sur 355 textes | **en 3 lots vérifiés**, dans l'ordre gris → clair → indéterminé | 355 usages |
+| A2 | Le bouton primaire de l'app à 3,66 | **rempli profond `primary-900`** (11,46) plutôt qu'un `700` terni | 485 boutons |
+| A3 | Écrire la doctrine « light-only » | **une ligne dans `DESIGN.md`** — le dark mode a été retiré le 28/07 pour de bonnes raisons, mais rien ne le dit | 1 ligne |
+
+---
+
+### 4.4 — Rayons : une décision rendue, jamais appliquée
+
+| Token | valeur | usages | |
+|---|---|---:|---|
+| `rounded-pill` | 999px | **418** | la signature de marque |
+| `rounded-xl` | 20px | **348** | |
+| `rounded-2xl` | 24px | **240** | |
+| `rounded-lg` | **14px** | 204 | ← **la valeur tranchée le 31/07** |
+| `rounded-md` | 10px | 113 | |
+| `rounded-sm` | 6px | 73 | |
+| `rounded-xs` | 4px | 11 | |
+| `rounded-full` | 50 % | **204** | ⚠️ **interdit par `CLAUDE.md`** sur Button/Card |
+| `rounded-3xl` | — | 22 | ⚠️ **aucun token TLS** — tombe sur le défaut Tailwind (24px) |
+
+**Trois problèmes distincts, à ne pas confondre :**
+
+1. **La décision ② (14 px partout, pilule en exception) n'a pas atteint le code.** `rounded-lg` est
+   quatrième en usage, derrière trois valeurs plus rondes.
+2. **② contredit D12**, qui propose 20 ou 24 px. Les deux vivent dans le même banc. **À réconcilier
+   avant d'appliquer quoi que ce soit** — sinon on migrera deux fois.
+3. **204 `rounded-full`** alors que la règle dit « jamais » sur bouton et card. Une partie est
+   légitime (avatars, pastilles de statut) ; il faut trancher au cas par cas, pas en masse.
+
+**Les décisions à rendre**
+
+| # | Question | Ma recommandation | Coût |
+|---|---|---|---|
+| R1 | **Réconcilier ② et D12** | **14 px** — cohérent avec une direction papier/encre, où l'angle franc dit l'objet imprimé | prérequis |
+| R2 | Les 22 `rounded-3xl` sans token | **les supprimer** — aucun arbitrage, c'est une fuite | 22 usages |
+| R3 | Les 204 `rounded-full` | **auditer** : légitime sur avatar et pastille, interdit sur bouton et card | à mesurer |
+| R4 | `radius-3xl` doublon exact de `radius-2xl` | **retirer le token mort** | 1 ligne |
+
+---
+
+### 4.5 — Ce qui commande les quatre
+
+Le réflexe serait de traiter les quatre axes en parallèle. Ça ne marchera pas : **trois d'entre eux
+butent sur la même question non posée.**
+
+> **Le site et l'app partagent-ils leur système, ou le site a-t-il le sien ?**
+>
+> - **Partagé** → il faut *fusionner* les vocabulaires (choisir `h1` **ou** `hero`, pas les deux) et
+>   assumer que l'app change d'apparence en même temps que le site.
+> - **Distincts** → il faut *nommer la frontière* (`--color-paper-*`, `text-editorial-*`) et écrire
+>   la règle qui empêche l'un de fuir dans l'autre.
+
+**Ma recommandation : distincts.** La direction papier/encre/riso est une direction **de marque**.
+L'app est un outil de travail consulté tous les jours ; elle gagne à rester neutre. Et ça permet de
+trancher la couleur et la typo du site sans ouvrir une migration de 3 708 usages dans l'app.
+
+**Une seule des quatre fondations ne dépend pas de cette question : l'accessibilité.** A1, A2 et A3
+peuvent être traités dès maintenant, quel que soit l'arbitrage. **C'est donc par là qu'il faut
+commencer si tu veux avancer avant que la frontière soit tranchée.**
+
+---
+
+## 5. L'identité visuelle — ce qui est ouvert
+
+> Le design system dit *comment on compose*. L'identité dit *à quoi ça ressemble et ce que ça
+> raconte*. Six sujets sont ouverts, et ils ne sont pas au même stade : deux sont des **décisions à
+> rendre**, deux des **chantiers à mener**, deux des **dettes à refermer**.
+
+### 5.1 — Ce qui est acquis, et qu'on ne rediscute pas
+
+Posé dans le brief du 29/07 comme non négociable, et toujours vrai :
+
+**League Spartan** (display, **aucune italique** — la fonte n'a pas de face italic, `font-display
+italic` produit un faux-italique synthétique ; pour de l'italique, `font-body italic`) + **Nunito**
+(texte). **Teal `#55A1B4` · orange `#ED843A` · or `#F8B044`.** **Lucide** pour les icônes (295
+fichiers) — jamais de SVG inline pour une icône fonctionnelle.
+
+### 5.2 — La matière : le chantier bloqué
+
+**Quatre directions proposées le 29/07, aucune tranchée** : le lavis humide (auréoles franches) · le
+papier lui-même (bord frangé, fibres, teinté d'une seule couleur) · la risographie (deux encres
+décalées, trame visible) · l'encre et le pli.
+
+**Recommandation du brief, toujours valable** : **riso pour l'identité, papier teinté pour les
+fonds** — la riso encaisse mieux le verre qu'un lavis flou.
+
+Les règles, quelle que soit la direction retenue : deux encres jamais trois · la matière perd contre
+le texte (jamais plus de 30 % de densité sous un titre) · recadrage serré sur un fragment · zéro
+figuratif · une seule main pour toutes les déclinaisons.
+
+> ⚠️ **La matière est bloquée par la couleur, pas par le temps.** L'encre commande la température du
+> lavis : tant que C1/C2 (§4.2) ne sont pas rendus, générer de la matière, c'est la générer deux fois.
+
+### 5.3 — La thèse de direction artistique, et pourquoi elle tient
+
+**Le soin doit être dans la matière, pas dans le mouvement.** C'est la seule direction qui ne
+contredit pas ce que TLS vend : un site couvert d'effets dirait l'inverse du discours, de la surface
+à la place de la preuve. Et **on met le travail dans ce qu'on ne peut pas installer** — un dégradé
+animé s'installe en une commande, un lavis peint non.
+
+| Matière | Porte | Dans le triptyque |
+|---|---|---|
+| **Papier texturé, peint** | la main, l'irrégulier | **Humain** |
+| **Verre** | la précision, l'optique | **Augmenté** |
+| **Typographie et grille** | la structure, la décision | **Stratégique** |
+
+Ce n'est pas une esthétique, c'est **le positionnement rendu visible** — et ça donne une règle de
+décision : face à un élément, demander s'il relève de la main ou de l'instrument.
+
+**Trois règles** : une seule surface peinte, une seule fois (le lavis occupe l'ouverture de
+l'accueil, ailleurs un souffle) · le verre est l'exception (un seul panneau sur tout le site) · le
+mouvement se mérite (une entrée orchestrée sur l'accueil, rien d'autre — la révélation au scroll sur
+chaque section est le tic le plus reconnaissable des pages générées).
+
+**Ce qui est écarté et pourquoi** : le métal liquide (froid, contredit la chaleur de la marque), le
+gradient animé (le fond de startup de 2026, partout), la 3D (aucun objet à montrer). **Le verre est
+gardé** parce qu'il incarne l'« Augmenté ».
+
+⚠️ **Aucune contrainte d'effet ou d'animation n'a cours** depuis le 29/07 — l'ancien « pas de
+parallax » est levé. Ce qui reste opposable est d'ordre a11y et performance, pas esthétique.
+
+### 5.4 — Les quatre signatures visuelles — dont une débranchée
+
+Remontées dans [`DESIGN.md`](../../DESIGN.md) §10 le 09/09 : le **verre comme signal** (jamais une
+finition, teinté du tone de la surface, jamais gris neutre) · les **dégradés ambiants diffus**
+(flou ≥ 60px, opacité ≤ 30 %, décentrés — « lumière côtière en fin d'après-midi ») · l'**icône
+Sparkles comme marqueur fonctionnel d'IA** (jamais décorative) · l'**animation anthropomorphique du
+logo** pendant l'inférence.
+
+> ⚠️ **La quatrième signature est codée et branchée nulle part.** La prop `loading` de `TlsLogo`
+> existe et fonctionne ; **aucune page ne la passe** (vérifié le 28/07, toujours vrai le 09/09).
+> C'est la signature la plus distinctive du système, et elle ne s'est jamais vue. **La brancher est
+> un chantier d'une heure**, pas une décision.
+
+### 5.5 — La signature verbale et le nom de La Vigie
+
+**La signature** (3 à 6 mots sous le logo, qui ne change pas pendant deux ans) — trois pistes
+proposées, **aucune tranchée** : *Les compétences, prouvées.* · *La compétence avant le diplôme.* ·
+*Former, prouver, allouer.*
+
+⚠️ **Ne pas la confondre avec l'accroche d'accueil** (le H1), qui est « Ne formez plus pour former.
+Bâtissez votre moteur de performance. » et qui vient de la fiche Notion.
+
+**Le nom de la lettre** — « **Vigie** » est excellent et concret. « **IA** » l'abîme : ça enferme
+dans un sujet qui sera banal dans dix-huit mois, et ça ne décrit pas le contenu réel (un workflow
+pédagogique autopsié, une fiche Out-skill, un crash-test terrain). Nom **provisoire** selon
+`FACTS-CANON` D7.
+
+### 5.6 — Les deux dettes d'identité dans le code
+
+| Dette | État mesuré | Action |
+|---|---|---|
+| **19 explorations de logo** dans `src/components/` (`LogoANode`… `V6LogoElectrique`, `TlsLogoHeritage`, `TlsLogoModernized`) | Ce sont des **propositions, pas le DS**. Elles polluent l'inventaire des composants | Les sortir dans `src/pages/_labs/logo/`, ou trancher et supprimer les 18 perdantes |
+| **`TlsLogo` à 6 variants** (`color`/`light`/`primary`/`warm`/`sun`/`ink`) | Système sain et documenté. La règle « jamais de `fill="#…"` en dur, étendre la map `PALETTES` » tient | Rien — c'est un acquis |
+
+### 5.7 — Les décisions d'identité à rendre
+
+| # | Sujet | Nature | Bloqué par |
+|---|---|---|---|
+| **I1** | La matière (riso / papier / lavis / encre) | **décision** | C1-C2 (la couleur commande la température) |
+| **I2** | La signature verbale — 3 pistes | **décision** | rien |
+| **I3** | Le nom définitif de La Vigie | **décision** | rien |
+| **I4** | Brancher l'animation du logo | **chantier ~1 h** | rien |
+| **I5** | Sortir les 19 explorations de logo du DS | **chantier** | rien |
+| **I6** | Un langage d'illustration ? | **à enterrer** | — le sujet est remplacé de fait par la matière (§5.2). À acter, pas à instruire |
+
+> **Trois de ces six ne sont bloqués par rien** (I2, I3, I4) et ne coûtent presque rien. Ce sont les
+> seuls sujets d'identité qu'on peut fermer pendant que le projet Agents tourne.
+
+---
+
+## 6. Les artefacts et les bancs — deux outils, aucun registre de décisions
 
 Sur les 17 artefacts publiés, **un seul concerne ce projet** :
 
@@ -441,7 +682,7 @@ publiée a divergé de la copie du repo. Republier depuis le repo, ou l'inverse 
 
 ---
 
-## 6. Figma — état vérifié aujourd'hui
+## 7. Figma — état vérifié aujourd'hui
 
 **Le pont de lecture fonctionne.** Interrogé ce matin sur le fichier `Design System - TLS`
 (`LccBZ1GKWQVwVzPtsSzk5Y`) : réponse obtenue, métadonnées lues.
@@ -468,7 +709,7 @@ tout travail Figma se fait **dans le fichier DS lui-même**.
 
 ---
 
-## 7. Les docs de référence — mon avis sur le « cut down »
+## 8. Les docs de référence — mon avis sur le « cut down »
 
 ### Ce qui est réellement chargé
 
@@ -550,7 +791,7 @@ partage est nette et tes docs la respectent déjà en grande partie :
 
 ---
 
-## 8. La séquence que je recommande
+## 9. La séquence que je recommande
 
 La chaîne de dépendance est courte et n'a qu'un maillon bloquant :
 
@@ -586,12 +827,12 @@ plus distinctif des explorations et **n'existe nulle part dans le code**.
 
 1. **`ink-400` en 3 lots** (D10) — le seul vrai défaut d'accessibilité, 355 usages.
 2. **Les 12 autres décisions de typo**, tranchées d'un bloc.
-3. **Scinder `DESIGN-IMPECCABLE.md`** (§7) — 1 h, referme la dérive documentaire.
+3. ~~Scinder `DESIGN-IMPECCABLE.md`~~ — ✅ **fait le 09/09** : archivé, §10 et §11 de `DESIGN.md` reprennent ses décisions vivantes.
 4. **Seeder Neuro-Édu** — après relecture du fact-check archivé.
 
 ---
 
-## 9. Ce que je recommande de trancher, en une phrase chacun
+## 10. Ce que je recommande de trancher, en une phrase chacun
 
 | # | Recommandation |
 |---|---|
@@ -607,7 +848,7 @@ plus distinctif des explorations et **n'existe nulle part dans le code**.
 
 ---
 
-## 10. Annexe — les faits mesurés le 2026-09-09
+## 11. Annexe — les faits mesurés le 2026-09-09
 
 | Mesure | Valeur | Comment |
 |---|---|---|
