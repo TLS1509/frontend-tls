@@ -1231,10 +1231,44 @@
   }
 }
 
-/* BottomNav safe area — iOS notch/home indicator padding */
+/* Les zones sûres — encoche et barre d'accueil iOS.
+
+   `pb-safe-bottom` sert la BottomNav elle-même : elle remonte ses onglets
+   au-dessus de la barre d'accueil.
+
+   Mais la barre déborde aussi sur le contenu, et c'est là que ça n'allait pas.
+   La nav mesure 56 px (`h-14`) plus l'encoche basse, soit environ 90 px sur un
+   iPhone récent, quand le `<main>` n'en réservait que 64 (`pb-16`) : **26 px de
+   contenu passaient derrière la barre**. Sur un écran sans encoche l'écart ne se
+   voyait pas — d'où le fait que ça ait tenu si longtemps.
+
+   L'enjeu a grandi le 2026-09-09 : le manifest ajouté ce jour-là déclare
+   `"display": "standalone"`. Une fois l'app installée, elle perd la chrome du
+   navigateur et les DEUX encoches deviennent réelles, en haut comme en bas.
+
+   D'où deux utilities qui additionnent la réserve fixe et l'encoche, plutôt que
+   de parier sur l'une ou sur l'autre. */
 @layer utilities {
   .pb-safe-bottom {
     padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  /* ⚠️ Les deux suivantes portent leur media query EN DUR, et c'est délibéré.
+
+     Une utility écrite à la main ne reçoit aucune variante Tailwind : ni
+     `md:pb-nav-safe`, ni `max-md:pt-chrome-safe` ne génèrent quoi que ce soit —
+     même piège que les `duration-*` et les `shadow-*` custom. Pire, à
+     spécificité égale c'est l'ordre d'émission qui tranche : écrites après le
+     bundle Tailwind, elles battaient `md:pb-0` et laissaient 64 px de vide en
+     bas de chaque page de bureau.
+
+     La chrome qu'elles dégagent étant `md:hidden`, la borne appartient de toute
+     façon à la règle elle-même. On l'y met, et on n'écrit aucun préfixe à
+     l'usage. */
+  @media (width < 48rem) {
+    /* Réserve du contenu sous la BottomNav : sa hauteur + la barre d'accueil. */
+    .pb-nav-safe { padding-bottom: calc(4rem + env(safe-area-inset-bottom, 0px)); }
+    /* Réserve du contenu sous la chrome mobile : le bouton de menu + l'encoche. */
+    .pt-chrome-safe { padding-top: calc(3.5rem + env(safe-area-inset-top, 0px)); }
   }
 }
 

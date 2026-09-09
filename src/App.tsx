@@ -477,10 +477,19 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
       {/* Main content area */}
       <div className="flex-1 flex flex-col min-w-0">
-        {/* pb-16 reserves space for BottomNav; max-md:pt-14 clears the fixed
-            mobile menu button (top-2 left-2, 52px bottom edge) so no page's
-            top-of-content renders under it. Both mobile-only (md:hidden chrome). */}
-        <main className="flex-1 min-w-0 [overflow-x:clip] max-md:pt-14 pb-16 md:pb-0">
+        {/* Les deux réserves mobiles, encoche comprise.
+
+            En bas : la BottomNav mesure 56 px plus la barre d'accueil. `pb-16`
+            n'en réservait que 64, donc 26 px de contenu passaient derrière elle
+            sur un iPhone à encoche. `pb-nav-safe` additionne les deux.
+
+            En haut : le bouton de menu flottant descend à 52 px, et en mode
+            autonome — que le manifest déclare — l'encoche haute s'y ajoute.
+
+            Les deux portent leur borne mobile dans leur propre règle : une utility
+            écrite à la main ne reçoit pas les variantes Tailwind, donc aucun préfixe
+            `max-md:` ni `md:` ne fonctionnerait ici. */}
+        <main className="flex-1 min-w-0 [overflow-x:clip] pt-chrome-safe pb-nav-safe">
           {isFullBleed ? children : (
             <div className="w-full max-w-wide mx-auto px-4 sm:px-6 lg:px-10">{children}</div>
           )}

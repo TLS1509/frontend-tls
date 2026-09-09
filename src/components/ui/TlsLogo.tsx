@@ -3,22 +3,24 @@ import React, { useId } from 'react';
 export interface TlsLogoProps {
   /** Size of the logo bubble (px). Default: 36 */
   size?: number;
-  /** Add a glass background bubble + shadow around the logo. Default: true */
+  /** Add a light plate + soft shadow around the logo. Default: true */
   withBubble?: boolean;
   /**
    * Color variant — matches the app tone system.
-   * - `"color"` (default): branded multicolor (primary-500 / secondary / accent) — seul variant intentionnellement multi-couleurs
+   * - `"color"` (default): branded multicolor (teal / orange / doré) — seul variant intentionnellement multi-couleurs
    * - `"light"`: monochrome blanc — surfaces dark/glass (AuthShell, dark heroes)
    * - `"primary"`: monochrome teal TLS — surfaces primary teintées
    * - `"warm"`: monochrome amber — surfaces warm/secondary
    * - `"sun"`: monochrome gold — surfaces sun/accent
    * - `"ink"`: monochrome dark — impression, haute-contraste
-   *
-   * Tous les variants (sauf "color") utilisent UNE seule famille de couleur.
-   * La profondeur est rendue via glassmorphism SVG : gradient NW speculaire
-   * + gradient sphérique 3D sur les dots + feDropShadow sur le corps.
    */
   variant?: 'color' | 'light' | 'primary' | 'warm' | 'sun' | 'ink';
+  /**
+   * Matière du mark. Voir MATERIAL_THRESHOLD ci-dessous.
+   * - `"auto"` (défaut) : aplat sous le seuil, dégradé au-dessus
+   * - `"flat"` / `"gradient"` : forcer
+   */
+  material?: 'auto' | 'flat' | 'gradient';
   /**
    * V0.5 — orbital cascade pulse sur les 4 formes internes.
    * Chaque forme pulse (scale 0.92→1.08 + opacity) avec délais staggered.
@@ -28,79 +30,91 @@ export interface TlsLogoProps {
   className?: string;
 }
 
-// ── Palettes monochromes TLS + glassmorphism ──────────────────────────────────
-// Chaque variant = une famille de couleur unique.
-// Les dots reçoivent un gradient sphérique (highlight NW → base → shadow).
-// Le corps reçoit un sheen glass linéaire NW + feDropShadow.
+// ── Le traitement du brand kit ───────────────────────────────────────────────
+//
+// Source de vérité : brand/identity/logos/svg/tls-mark-*-grad.svg et *.svg.
+// Toute modification de couleur se fait LÀ-BAS d'abord, puis se recopie ici.
+//
+// Trois règles, et elles ne sont pas décoratives :
+//
+//   1. UN SEUL AXE DE LUMIÈRE pour tout le mark — `userSpaceOnUse` sur
+//      (46,8) → (398,394), donc chaque forme reçoit la portion de nappe qui lui
+//      revient selon sa position. Le mark est découpé dans une seule feuille de
+//      matière, il n'a pas quatre sources de lumière.
+//   2. LA PASTILLE CENTRALE SUIT LE CORPS — même dégradé, pas une couleur à part.
+//   3. AUCUN EFFET AJOUTÉ — pas de sheen, pas de sphère radiale, pas de
+//      drop-shadow. Le bombé glassy de l'ancienne version faisait daté et se
+//      transformait en bouillie sous 32 px.
+//
+const LIGHT_AXIS = { x1: 46, y1: 8, x2: 398, y2: 394 } as const;
 
+/** Sous ce seuil (largeur du mark rendu, en px), l'aplat bat le dégradé. */
+const MATERIAL_THRESHOLD = 28;
+
+type Stops = readonly [string, string, string];
 type P = {
-  body:    string;  // couleur de base du corps
-  center:  string;  // cercle central (teinte plus claire)
-  // dot top (amber pour "color", même teinte que corps pour autres)
-  topHi:   string; topMid: string; topDark: string;
-  // dot bot (gold pour "color", même teinte que corps pour autres)
-  botHi:   string; botMid: string; botDark: string;
-  shadow:  string;  // couleur du drop shadow
+  /** dégradé du corps — porte aussi la pastille centrale */
+  body: Stops;
+  /** dégradé du nœud haut (orange en `color`) */
+  nodeTop: Stops;
+  /** dégradé du nœud bas (doré en `color`) */
+  nodeBot: Stops;
+  /** aplats — corps+centre, nœud haut, nœud bas */
+  flat: { body: string; center: string; top: string; bot: string };
 };
 
 const PALETTES: Record<NonNullable<TlsLogoProps['variant']>, P> = {
-
-  // ── Branded multicolor (seul variant intentionnellement multi-couleurs) ──────
-  // Corps teal, centre teal clair, dot haut amber, dot bas gold — tous TLS.
+  // Branded multicolor — seul variant intentionnellement multi-couleurs.
   color: {
-    body:    '#55A1B4',          // primary-500
-    center:  '#96C3CF',          // primary-300
-    topHi:   '#FEF0DE', topMid:  '#EB7724', topDark: '#9B4A0A',  // amber
-    botHi:   '#FFF4D0', botMid:  '#F8B044', botDark: '#9B6808',  // gold
-    shadow:  '#1F3E45',
+    body:    ['#5FAABB', '#4A8FA1', '#3D7786'],
+    nodeTop: ['#F6A268', '#EB7724', '#C25A10'],
+    nodeBot: ['#FDD08A', '#F8B044', '#DE9424'],
+    flat: { body: '#55A1B4', center: '#8DBAC6', top: '#EB7724', bot: '#F8B044' },
   },
 
-  // ── Monochrome blanc — surfaces dark/glass ──────────────────────────────────
+  // Monochrome blanc — surfaces dark/glass.
+  // Amplitude 12 points de L*, pas 20 comme les couleurs : sur fond sombre,
+  // griser du blanc ne se lit pas comme de la profondeur, ça se lit comme de la
+  // saleté. Mesuré, pas supposé.
   light: {
-    body:    'rgba(255,255,255,0.88)',
-    center:  'rgba(255,255,255,0.38)',
-    topHi:  'rgba(255,255,255,1)',   topMid:  'rgba(255,255,255,0.75)', topDark:  'rgba(200,220,228,0.50)',
-    botHi:  'rgba(255,255,255,1)',   botMid:  'rgba(255,255,255,0.75)', botDark:  'rgba(200,220,228,0.50)',
-    shadow:  'rgba(0,0,0,0.08)',
+    body:    ['#FFFFFF', '#F1F4F5', '#E0E2E3'],
+    nodeTop: ['#FFFFFF', '#F1F4F5', '#E0E2E3'],
+    nodeBot: ['#FFFFFF', '#F1F4F5', '#E0E2E3'],
+    flat: { body: '#FFFFFF', center: '#B9D7DF', top: '#FFFFFF', bot: '#FFFFFF' },
   },
 
-  // ── Monochrome teal TLS ─────────────────────────────────────────────────────
-  // primary-50 (highlight) → primary-500 (base) → primary-900 (shadow)
+  // Monochrome teal TLS.
   primary: {
-    body:    '#4A8FA1',          // primary-600
-    center:  '#B9D7DF',          // primary-200
-    topHi:   '#E8F4F7', topMid:  '#55A1B4', topDark: '#1F3E45',
-    botHi:   '#E8F4F7', botMid:  '#55A1B4', botDark: '#1F3E45',
-    shadow:  '#1F3E45',
+    body:    ['#5CA9BB', '#4A8FA1', '#3A7484'],
+    nodeTop: ['#7FBDCD', '#55A1B4', '#3D7786'],
+    nodeBot: ['#7FBDCD', '#55A1B4', '#3D7786'],
+    flat: { body: '#4A8FA1', center: '#B9D7DF', top: '#55A1B4', bot: '#55A1B4' },
   },
 
-  // ── Monochrome amber TLS ────────────────────────────────────────────────────
-  // secondary-50 (highlight) → secondary-500 (base) → secondary-800 (shadow)
+  // Monochrome amber TLS.
   warm: {
-    body:    '#ED843A',          // secondary-500
-    center:  '#FDDAB5',          // amber très clair
-    topHi:   '#FFF3EB', topMid:  '#ED843A', topDark: '#A34A10',
-    botHi:   '#FFF3EB', botMid:  '#ED843A', botDark: '#A34A10',
-    shadow:  '#5C240A',
+    body:    ['#F5A06A', '#ED843A', '#D06B22'],
+    nodeTop: ['#F7AE7E', '#F18A4C', '#D16E2A'],
+    nodeBot: ['#F7AE7E', '#F18A4C', '#D16E2A'],
+    flat: { body: '#ED843A', center: '#FDDAB5', top: '#F18A4C', bot: '#F18A4C' },
   },
 
-  // ── Monochrome gold TLS ─────────────────────────────────────────────────────
-  // accent-50 (highlight) → accent-400 (base) → accent-dark (shadow)
+  // Monochrome gold TLS.
   sun: {
-    body:    '#F8B044',          // accent-400
-    center:  '#FCE8A0',          // gold très clair
-    topHi:   '#FFF9EE', topMid:  '#F8B044', topDark: '#B07010',
-    botHi:   '#FFF9EE', botMid:  '#F8B044', botDark: '#B07010',
-    shadow:  '#7A5010',
+    body:    ['#FCC97A', '#F8B044', '#E09A2E'],
+    nodeTop: ['#FFD996', '#FFC15A', '#E5A038'],
+    nodeBot: ['#FFD996', '#FFC15A', '#E5A038'],
+    flat: { body: '#F8B044', center: '#FFECC8', top: '#FFC15A', bot: '#FFC15A' },
   },
 
-  // ── Monochrome dark/ink ─────────────────────────────────────────────────────
+  // Monochrome dark — impression, haute-contraste.
+  // Le corps est sur ink-900 #252B37, l'ancre de la rampe. L'ancienne version
+  // utilisait #1a1a1a, un gris neutre qui n'appartient pas au système.
   ink: {
-    body:    'rgba(26,26,26,0.90)',
-    center:  'rgba(26,26,26,0.26)',
-    topHi:  'rgba(100,100,100,0.55)', topMid:  'rgba(26,26,26,0.82)', topDark:  'rgba(8,8,8,0.97)',
-    botHi:  'rgba(100,100,100,0.55)', botMid:  'rgba(26,26,26,0.82)', botDark:  'rgba(8,8,8,0.97)',
-    shadow:  'rgba(0,0,0,0.18)',
+    body:    ['#3A4356', '#252B37', '#171C25'],
+    nodeTop: ['#4E5768', '#374151', '#232A34'],
+    nodeBot: ['#4E5768', '#374151', '#232A34'],
+    flat: { body: '#252B37', center: '#9CA3AF', top: '#374151', bot: '#374151' },
   },
 };
 
@@ -110,12 +124,22 @@ const PC = 'M216.398 225.867C230.849 225.867 242.563 214.164 242.563 199.729C242
 const PT = 'M307.193 92.9776C331.38 92.9776 350.986 73.3911 350.986 49.2298C350.986 25.0685 331.38 5.48193 307.193 5.48193C283.007 5.48193 263.4 25.0685 263.4 49.2298C263.4 73.3911 283.007 92.9776 307.193 92.9776Z';
 const PB = 'M307.008 395.935C331.092 395.935 350.617 376.431 350.617 352.372C350.617 328.313 331.092 308.809 307.008 308.809C282.924 308.809 263.4 328.313 263.4 352.372C263.4 376.431 282.924 395.935 307.008 395.935Z';
 
+/**
+ * Part de la plaque occupée par le mark, et rayon de la plaque.
+ * 76 % est mesuré, pas repris d'un gabarit système : le mark TLS est ajouré,
+ * à surface de boîte égale il pèse moins qu'un glyphe plein. À 62 % il flottait,
+ * à 82 % les bras serrent l'arrondi. Aligné sur brand/identity/logos/app-icon/.
+ */
+const MARK_RATIO = 0.76;
+const PLATE_RADIUS_RATIO = 230 / 1024; // le squircle des icônes système
+
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const TlsLogo: React.FC<TlsLogoProps> = ({
   size = 36,
   withBubble = true,
   variant = 'color',
+  material = 'auto',
   loading = false,
   className = '',
 }) => {
@@ -125,8 +149,24 @@ export const TlsLogo: React.FC<TlsLogoProps> = ({
   const shapeClass = (key: 'main' | 'top' | 'center' | 'bot') =>
     loading ? `tls-shape tls-shape--${key}` : '';
 
-  const svgW = withBubble ? size * 0.62 : size;
+  const svgW = withBubble ? size * MARK_RATIO : size;
   const svgH = svgW * (402 / 439);
+
+  const useGradient =
+    material === 'gradient' || (material === 'auto' && svgW >= MATERIAL_THRESHOLD);
+
+  const grad = (id: string, stops: Stops) => (
+    <linearGradient id={id} gradientUnits="userSpaceOnUse" {...LIGHT_AXIS}>
+      <stop offset="0" stopColor={stops[0]} />
+      <stop offset="0.52" stopColor={stops[1]} />
+      <stop offset="1" stopColor={stops[2]} />
+    </linearGradient>
+  );
+
+  const fBody = useGradient ? `url(#${uid}b)` : p.flat.body;
+  const fCenter = useGradient ? `url(#${uid}b)` : p.flat.center;
+  const fTop = useGradient ? `url(#${uid}t)` : p.flat.top;
+  const fBot = useGradient ? `url(#${uid}o)` : p.flat.bot;
 
   const inner = (
     <svg
@@ -137,62 +177,20 @@ export const TlsLogo: React.FC<TlsLogoProps> = ({
       height={svgH}
       aria-label="The Learning Society"
       role="img"
-      overflow="visible"
     >
-      <defs>
-        {/* Drop shadow corps */}
-        <filter id={`${uid}sf`} x="-25%" y="-25%" width="150%" height="150%">
-          <feDropShadow dx="0" dy="2" stdDeviation="5"
-            floodColor={p.shadow} floodOpacity="0.28" />
-        </filter>
+      {useGradient && (
+        <defs>
+          {grad(`${uid}b`, p.body)}
+          {grad(`${uid}t`, p.nodeTop)}
+          {grad(`${uid}o`, p.nodeBot)}
+        </defs>
+      )}
 
-        {/* Glass sheen NW — couche specular sur le corps */}
-        <linearGradient id={`${uid}sh`} x1="0" y1="0" x2="0.65" y2="0.85">
-          <stop offset="0%"   stopColor="white" stopOpacity="0.52" />
-          <stop offset="32%"  stopColor="white" stopOpacity="0.16" />
-          <stop offset="65%"  stopColor="white" stopOpacity="0.03" />
-          <stop offset="100%" stopColor="white" stopOpacity="0" />
-        </linearGradient>
-
-        {/* Gradient sphérique — dot haut */}
-        <radialGradient id={`${uid}gt`} cx="30%" cy="26%" r="72%" gradientUnits="objectBoundingBox">
-          <stop offset="0%"   stopColor="white"    stopOpacity="0.88" />
-          <stop offset="20%"  stopColor={p.topHi} />
-          <stop offset="55%"  stopColor={p.topMid} />
-          <stop offset="100%" stopColor={p.topDark} />
-        </radialGradient>
-
-        {/* Gradient sphérique — dot bas */}
-        <radialGradient id={`${uid}gb`} cx="30%" cy="26%" r="72%" gradientUnits="objectBoundingBox">
-          <stop offset="0%"   stopColor="white"    stopOpacity="0.88" />
-          <stop offset="20%"  stopColor={p.botHi} />
-          <stop offset="55%"  stopColor={p.botMid} />
-          <stop offset="100%" stopColor={p.botDark} />
-        </radialGradient>
-
-        {/* Centre — léger glass fill */}
-        <radialGradient id={`${uid}gc`} cx="35%" cy="30%" r="70%" gradientUnits="objectBoundingBox">
-          <stop offset="0%"   stopColor="white"   stopOpacity="0.60" />
-          <stop offset="40%"  stopColor={p.center} stopOpacity="0.90" />
-          <stop offset="100%" stopColor={p.center} />
-        </radialGradient>
-      </defs>
-
-      {/* Corps — couche 1 : fill base + shadow */}
-      <g className={shapeClass('main')}>
-        <path d={PM} fill={p.body} filter={`url(#${uid}sf)`} />
-        {/* Corps — couche 2 : sheen glass NW */}
-        <path d={PM} fill={`url(#${uid}sh)`} />
-      </g>
-
-      {/* Cercle central glass */}
-      <path className={shapeClass('center')} d={PC} fill={`url(#${uid}gc)`} />
-
-      {/* Dot haut — sphère 3D */}
-      <path className={shapeClass('top')} d={PT} fill={`url(#${uid}gt)`} />
-
-      {/* Dot bas — sphère 3D */}
-      <path className={shapeClass('bot')} d={PB} fill={`url(#${uid}gb)`} />
+      <path className={shapeClass('main')} d={PM} fill={fBody} />
+      {/* La pastille centrale est sur la nappe du corps — même feuille de matière. */}
+      <path className={shapeClass('center')} d={PC} fill={fCenter} />
+      <path className={shapeClass('top')} d={PT} fill={fTop} />
+      <path className={shapeClass('bot')} d={PB} fill={fBot} />
 
       {loading && (
         <style>{`
@@ -242,25 +240,20 @@ export const TlsLogo: React.FC<TlsLogoProps> = ({
     );
   }
 
+  // La plaque reproduit `app-icon-clair-arrondi` : fond blanc franc, coin
+  // squircle, ombre neutre. Rien de galbé — Apple pose le verre sur le
+  // CONTENEUR, jamais sur le glyphe, et ici même le conteneur reste sobre.
   return (
     <span
       className={[
         'relative inline-flex items-center justify-center shrink-0',
-        'rounded-xl',
-        'bg-gradient-to-br from-white via-primary-50/90 to-primary-100',
-        'ring-1 ring-primary-200/60',
-        'shadow-[0_8px_20px_-6px_rgba(85,161,180,0.45),0_3px_8px_-2px_rgba(85,161,180,0.25),inset_0_1px_0_rgba(255,255,255,1),inset_0_-1px_2px_rgba(85,161,180,0.08)]',
-        'backdrop-blur-glass-light',
+        'bg-white ring-1 ring-primary-100 shadow-card',
         className,
       ].filter(Boolean).join(' ')}
-      style={{ width: size, height: size }}
+      style={{ width: size, height: size, borderRadius: size * PLATE_RADIUS_RATIO }}
       aria-hidden="true"
     >
-      <span
-        className="absolute inset-x-1 top-1 h-1/2 rounded-lg bg-gradient-to-b from-white/80 via-white/20 to-transparent pointer-events-none"
-        aria-hidden="true"
-      />
-      <span className="relative inline-flex">{inner}</span>
+      {inner}
     </span>
   );
 };

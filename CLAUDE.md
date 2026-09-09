@@ -661,6 +661,18 @@ L'app est une SPA réactive : les données du domaine vivent dans des stores Zus
 
 **Layout** : `PageShell width="page"` = conteneur canonique des pages principales ; padding responsive standard `px-4 sm:px-6 lg:px-10`. Les viewers modaux gardent leurs `max-w` étroits (lisibilité).
 
+**Zones sûres (mobile, mode autonome)** — le manifest déclare `display: standalone`,
+donc une fois l'app installée elle perd la chrome du navigateur et **les deux
+encoches deviennent réelles**. Le `<main>` porte `pt-chrome-safe` et
+`pb-nav-safe`, qui additionnent la réserve fixe et l'`env(safe-area-inset-*)`.
+Sans elles, la BottomNav (56 px + barre d'accueil ≈ 90 px) débordait de 26 px sur
+un contenu qui n'en réservait que 64.
+⚠️ **Ces deux utilities portent leur media query en dur.** Une utility écrite à la
+main ne reçoit aucune variante Tailwind — ni `md:`, ni `max-md:` — et, à
+spécificité égale, elle est émise APRÈS le bundle Tailwind, donc elle bat un
+`md:pb-0` et fuit sur le bureau. Même famille de piège que les `duration-*` et
+`shadow-*` custom. Ne jamais leur écrire de préfixe à l'usage.
+
 **Piège Tailwind v4 — arbitrary property** : `className="[grid-template-columns:repeat(auto-fit,minmax(240px,1fr))]"` plutôt qu'un `style={{}}`. ⚠️ Pas d'espace autour du `:` ni dans `minmax()` — sinon le parser splitte.
 
 **ErrorPage** (`patterns/ErrorPage.tsx`) : pattern canonique des pages d'erreur (props `code/title/description/suggestions/primaryAction/tone`), tone `default` | `danger`. API dans le fichier.

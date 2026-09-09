@@ -10,7 +10,10 @@ DEUX DÉCOUPES
                                     Une plaque déjà arrondie donnerait un double arrondi.
   -arrondi          coins arrondis → favicon, vignette, aperçu, présentation
 
-Le mark occupe 62 % de la largeur — le retrait standard des icônes système.
+Le mark occupe 76 % de la largeur.
+  Ce chiffre est mesuré, pas repris d'un gabarit système. Le mark TLS est ajouré :
+  à surface de boîte égale il pèse moins qu'un glyphe plein. À 62 % il flottait dans
+  la plaque, à 82 % les bras serrent l'arrondi. 76 % est le point d'équilibre.
 
 TAILLES
   1024  App Store, macOS
