@@ -59,7 +59,12 @@ type P = {
   nodeTop: Stops;
   /** dégradé du nœud bas (doré en `color`) */
   nodeBot: Stops;
-  /** aplats — corps+centre, nœud haut, nœud bas */
+  /**
+   * Aplats. `center` vaut toujours `body` : la pastille centrale est sur la même
+   * matière que le corps, exactement comme le dégradé. Sans ça le logo changerait
+   * d'identité en franchissant MATERIAL_THRESHOLD — point pâle sous le seuil,
+   * centre continu au-dessus.
+   */
   flat: { body: string; center: string; top: string; bot: string };
 };
 
@@ -69,7 +74,7 @@ const PALETTES: Record<NonNullable<TlsLogoProps['variant']>, P> = {
     body:    ['#5FAABB', '#4A8FA1', '#3D7786'],
     nodeTop: ['#F6A268', '#EB7724', '#C25A10'],
     nodeBot: ['#FDD08A', '#F8B044', '#DE9424'],
-    flat: { body: '#55A1B4', center: '#8DBAC6', top: '#EB7724', bot: '#F8B044' },
+    flat: { body: '#55A1B4', center: '#55A1B4', top: '#EB7724', bot: '#F8B044' },
   },
 
   // Monochrome blanc — surfaces dark/glass.
@@ -80,7 +85,7 @@ const PALETTES: Record<NonNullable<TlsLogoProps['variant']>, P> = {
     body:    ['#FFFFFF', '#F1F4F5', '#E0E2E3'],
     nodeTop: ['#FFFFFF', '#F1F4F5', '#E0E2E3'],
     nodeBot: ['#FFFFFF', '#F1F4F5', '#E0E2E3'],
-    flat: { body: '#FFFFFF', center: '#B9D7DF', top: '#FFFFFF', bot: '#FFFFFF' },
+    flat: { body: '#FFFFFF', center: '#FFFFFF', top: '#FFFFFF', bot: '#FFFFFF' },
   },
 
   // Monochrome teal TLS.
@@ -88,7 +93,7 @@ const PALETTES: Record<NonNullable<TlsLogoProps['variant']>, P> = {
     body:    ['#5CA9BB', '#4A8FA1', '#3A7484'],
     nodeTop: ['#7FBDCD', '#55A1B4', '#3D7786'],
     nodeBot: ['#7FBDCD', '#55A1B4', '#3D7786'],
-    flat: { body: '#4A8FA1', center: '#B9D7DF', top: '#55A1B4', bot: '#55A1B4' },
+    flat: { body: '#4A8FA1', center: '#4A8FA1', top: '#55A1B4', bot: '#55A1B4' },
   },
 
   // Monochrome amber TLS.
@@ -96,7 +101,7 @@ const PALETTES: Record<NonNullable<TlsLogoProps['variant']>, P> = {
     body:    ['#F5A06A', '#ED843A', '#D06B22'],
     nodeTop: ['#F7AE7E', '#F18A4C', '#D16E2A'],
     nodeBot: ['#F7AE7E', '#F18A4C', '#D16E2A'],
-    flat: { body: '#ED843A', center: '#FDDAB5', top: '#F18A4C', bot: '#F18A4C' },
+    flat: { body: '#ED843A', center: '#ED843A', top: '#F18A4C', bot: '#F18A4C' },
   },
 
   // Monochrome gold TLS.
@@ -104,7 +109,7 @@ const PALETTES: Record<NonNullable<TlsLogoProps['variant']>, P> = {
     body:    ['#FCC97A', '#F8B044', '#E09A2E'],
     nodeTop: ['#FFD996', '#FFC15A', '#E5A038'],
     nodeBot: ['#FFD996', '#FFC15A', '#E5A038'],
-    flat: { body: '#F8B044', center: '#FFECC8', top: '#FFC15A', bot: '#FFC15A' },
+    flat: { body: '#F8B044', center: '#F8B044', top: '#FFC15A', bot: '#FFC15A' },
   },
 
   // Monochrome dark — impression, haute-contraste.
@@ -114,7 +119,7 @@ const PALETTES: Record<NonNullable<TlsLogoProps['variant']>, P> = {
     body:    ['#3A4356', '#252B37', '#171C25'],
     nodeTop: ['#4E5768', '#374151', '#232A34'],
     nodeBot: ['#4E5768', '#374151', '#232A34'],
-    flat: { body: '#252B37', center: '#9CA3AF', top: '#374151', bot: '#374151' },
+    flat: { body: '#252B37', center: '#252B37', top: '#374151', bot: '#374151' },
   },
 };
 

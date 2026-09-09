@@ -160,12 +160,16 @@ le plus sombre (`#E0E2E3`) tombe à 2,8:1 et le mark se dissout. Détail dans
 
 ### Couleurs propres au mark
 
-`#55A1B4` (branches) · `#8DBAC6` (centre) · `#EB7724` (nœud haut) · `#F8B044` (nœud bas).
+`#55A1B4` (branches **et** centre) · `#EB7724` (nœud haut) · `#F8B044` (nœud bas).
 
-> ⚠️ `#8DBAC6` et `#EB7724` **ne sont pas des tokens** — ils n'existent que dans le
-> logo. C'est acceptable pour une marque figurative, mais il faut le savoir :
-> ne pas les réutiliser comme couleurs d'interface, et ne pas les « corriger »
-> vers `primary-300` / `secondary-500` sans revue.
+> ⚠️ `#EB7724` **n'est pas un token** — il n'existe que dans le logo. C'est acceptable
+> pour une marque figurative, mais il faut le savoir : ne pas le réutiliser comme
+> couleur d'interface, et ne pas le « corriger » vers `secondary-500` sans revue.
+> C'est la seule couleur du mark sans variable ; les cinq autres variantes sont
+> entièrement liées dans Figma.
+>
+> `#8DBAC6` a disparu le 2026-09-09 : c'était la pastille centrale, qui suit
+> maintenant la couleur du corps.
 
 ---
 

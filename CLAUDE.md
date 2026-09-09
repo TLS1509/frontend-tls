@@ -88,7 +88,7 @@ Depuis Phase 19.A, les 4 chips consomment **`ui/Chip.tsx`** (primitive interne) 
 |---------|--------------|-------|
 | `color` (défaut) | Blanc / clair | Multicolor branded (primary-500 / secondary-600 / accent-400) |
 | `light` | Dark / glass teal (AuthShell, dark heroes) | All-white rgba |
-| `primary` | Surface teal tintée (primary-50/100) | Monochrome teal (primary-500) |
+| `primary` | Surface teal tintée (primary-50/100) | Monochrome teal (**primary-600**) |
 | `warm` | Surface warm/secondary | Amber-white (secondary-500) |
 | `sun` | Surface sun/accent | Golden (accent-400) |
 | `ink` | Impression / monochrome / haute contraste | Dark ink-900 |
@@ -99,6 +99,10 @@ unique. Elle recopie les valeurs de `src/index.css` (qui reste la vérité) et l
 les endroits où Canva / Notion / Figma / Drive ont divergé.
 
 **Règle** : toujours passer `variant="light"` sur fond dark/glass (AuthShell = `withBubble={false} variant="light"`). Ne jamais hardcoder `fill="#..."` dans le SVG — étendre la map `PALETTES` dans `TlsLogo.tsx`.
+
+⚠️ **`primary` est sur primary-600, pas primary-500** (corrigé le 2026-09-09 ; cette table disait 500). L'app est sur `#4A8FA1` depuis `0b538ff`, et la mesure lui donne raison : sur `primary-50`, la surface même de ce variant, 600 donne 3,26:1 contre 2,62:1 pour 500. C'était Figma **et** cette table qui avaient dérivé — Figma a été réaligné.
+
+**La pastille centrale est toujours à la couleur du corps**, en aplat comme en dégradé. Sinon le logo change d'identité en franchissant le seuil `material` (28 px) : point pâle en dessous, centre continu au-dessus.
 
 ---
 
