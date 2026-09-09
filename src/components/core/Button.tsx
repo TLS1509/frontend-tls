@@ -160,9 +160,16 @@ const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   secondary:   'bg-secondary-500 text-white shadow-sm hover:shadow-warm-md hover:bg-secondary-400 active:bg-secondary-700 active:shadow-sm',
   accent:      'bg-accent-500 text-white shadow-sm hover:shadow-sun-md hover:bg-accent-400 active:bg-accent-600 active:shadow-sm',
   ghost:       'bg-primary-50 text-primary-800 border border-primary-100 shadow-xs hover:bg-primary-100 hover:border-primary-200 hover:shadow-sm active:bg-primary-200 active:border-primary-200',
-  /* outline : transparent bg + visible colored border — mid-weight between ghost and primary */
-  outline:     'bg-transparent text-primary-700 border border-primary-400 shadow-xs hover:bg-primary-50 hover:border-primary-500 hover:shadow-sm active:bg-primary-100 active:border-primary-500',
-  'outline-warm': 'bg-transparent text-secondary-700 border border-secondary-400 shadow-xs hover:bg-secondary-50 hover:border-secondary-500 hover:shadow-warm-sm active:bg-secondary-100 active:border-secondary-500',
+  /* outline : transparent bg + visible colored border — mid-weight between ghost and primary
+     ⚠️ La bordure est à 600, PAS à 400/500. Mesuré le 2026-07-31 : sur blanc,
+     `primary-400` = 2,44 et `primary-500` = 2,94, tous deux sous le seuil de
+     3,0 que WCAG 1.4.11 impose au contour d'un élément d'interface — la
+     bordure était donc décorative, pas perceptible. `primary-600` = 3,66 et
+     `secondary-600` = 3,98 passent. Le label, lui, était déjà conforme
+     (`primary-700` = 5,02 sur blanc). Ne pas « adoucir » ces bordures en
+     revenant à 400 : c'est le contour qui porte l'affordance du bouton. */
+  outline:     'bg-transparent text-primary-700 border border-primary-600 shadow-xs hover:bg-primary-50 hover:border-primary-700 hover:shadow-sm active:bg-primary-100 active:border-primary-700',
+  'outline-warm': 'bg-transparent text-secondary-700 border border-secondary-600 shadow-xs hover:bg-secondary-50 hover:border-secondary-700 hover:shadow-warm-sm active:bg-secondary-100 active:border-secondary-700',
   destructive: 'bg-danger-strong text-white shadow-sm hover:shadow-danger-md active:bg-danger-deep active:shadow-sm',
   /* glass : pour surfaces DARK (hero brand, auth glass-dark) — semi-transparent + text-white */
   glass:       'bg-white/20 text-white border border-white/30 backdrop-blur-sm hover:bg-white/35 hover:border-white/50',
