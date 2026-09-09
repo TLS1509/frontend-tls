@@ -1504,18 +1504,18 @@ const COMPONENTS: ComponentEntry[] = [
         </ShowcaseBloc>
 
         <ShowcaseBloc
-          titre="Le barreau manquant"
+          titre="Le barreau, désormais nommé"
           ton="warm"
-          note="L'échelle saute de 2 px à 8 px. Entre les deux, 223 usages de gap-1.5 — six pixels — comblent le trou à la main. C'est de loin le premier des espacements numériques (le suivant, gap-2, en compte 95) et le cinquième toutes écritures confondues, devant gap-stack-lg. Une valeur à ce niveau d'usage n'a pas de nom : c'est le signe d'un barreau manquant, pas d'un écart de discipline. Deux réponses possibles : lui en donner un, ou ramener ces 222 usages sur 8 px et accepter que l'écart se voie."
+          note="Tranché le 2026-09-09 : le barreau existe. L'échelle sautait de 2 px à 8 px et 223 endroits comblaient le trou à la main en gap-1.5 — de loin le premier des espacements numériques du repo, le suivant en compte 95. Il s'appelle désormais gap-stack-2xs. Reste à ramener les 223 usages dessus, ce qui ne bouge aucun pixel. Deux réponses possibles : lui en donner un, ou ramener ces 222 usages sur 8 px et accepter que l'écart se voie."
         >
           <div className="flex flex-col gap-stack-xs">
             {([
-              ['tight', 2, false], ['— manquant —', 6, true], ['stack-xs', 8, false],
+              ['tight', 2, false], ['stack-2xs', 6, true], ['stack-xs', 8, false],
             ] as const).map(([nom, px, manque]) => (
               <div key={nom} className="flex items-center gap-stack">
                 <code className={`w-28 shrink-0 font-mono text-micro ${manque ? 'text-secondary-700' : 'text-ink-600'}`}>{nom}</code>
                 <div className={`h-3 rounded-xs ${manque ? 'bg-secondary-500' : 'bg-primary-500'}`} style={{ width: `${px * 8}px` }} />
-                <span className="font-mono text-micro text-ink-500 tabular-nums">{px} px{manque ? ' · 223 usages' : ''}</span>
+                <span className="font-mono text-micro text-ink-500 tabular-nums">{px} px{manque ? ' · nouveau · 223 usages à convertir' : ''}</span>
               </div>
             ))}
           </div>
@@ -8104,6 +8104,7 @@ const FONT_TOKENS: TokenEntry[] = [
 const SPACING_TOKENS: TokenEntry[] = [
   { name: 'spacing (base 4pt)', cssVar: '--spacing', value: '0.25rem · 4 px — l’unité que Tailwind multiplie', group: 'Espacement — base', type: 'spacing' },
   { name: 'tight', cssVar: '--spacing-tight', value: '2 px', group: 'Espacement — sémantique', type: 'spacing' },
+  { name: 'stack-2xs', cssVar: '--spacing-stack-2xs', value: '6 px — le barreau ajouté le 2026-09-09, ex-gap-1.5', group: 'Espacement — sémantique', type: 'spacing' },
   { name: 'stack-xs', cssVar: '--spacing-stack-xs', value: '8 px', group: 'Espacement — sémantique', type: 'spacing' },
   { name: 'stack', cssVar: '--spacing-stack', value: '16 px', group: 'Espacement — sémantique', type: 'spacing' },
   { name: 'stack-lg', cssVar: '--spacing-stack-lg', value: '24 px', group: 'Espacement — sémantique', type: 'spacing' },

@@ -417,6 +417,7 @@
 
      Hierarchy (tightest → loosest) :
        tight       2px   → between heading and its immediate subtitle/description
+       stack-2xs   6px   → groupes serrés (icône ↔ étiquette, chiffre ↔ unité)
        stack-xs    8px   → inline groups (chip rows, button groups)
        stack      16px   → DEFAULT — section header ↔ first card, card stacks
        stack-lg   24px   → looser stacks (between content blocks within a section)
@@ -425,6 +426,16 @@
        page       48px   → page-level groupings (e.g. hero ↔ first stage)
   */
   --spacing-tight:      0.125rem;
+  /* stack-2xs — le barreau qui manquait, ajouté le 2026-09-09.
+
+     L'échelle sautait de 2 px à 8 px, et 223 endroits comblaient le trou à la
+     main en `gap-1.5`. C'est de loin le premier des espacements numériques du
+     repo — le suivant, `gap-2`, en compte 95 — et le cinquième toutes écritures
+     confondues, devant `gap-stack-lg`. Une valeur employée à ce niveau sans
+     avoir de nom ne signale pas un écart de discipline : elle signale un barreau
+     absent. C'est l'écart des groupes serrés — une icône et son étiquette, deux
+     méta-données, un chiffre et son unité — où 8 px sépare déjà trop. */
+  --spacing-stack-2xs:  0.375rem;
   --spacing-stack-xs:   0.5rem;
   --spacing-stack:      1rem;
   --spacing-stack-lg:   1.5rem;
