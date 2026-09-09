@@ -164,7 +164,7 @@ export interface ButtonProps
    le label en « grand texte » (seuil 3,0 au lieu de 4,5) — seul `xl` en profite.
    Ne pas remettre `tracking-tight` ici : s'il devait revenir pour les grandes
    tailles, sa place est dans SIZE_CLASSES, jamais dans BASE. */
-const BASE = 'inline-flex items-center justify-center gap-stack-xs rounded-pill font-body font-bold cursor-pointer transition-[background-color,box-shadow,transform,opacity] duration-fast ease-emphasis focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-900 focus-visible:ring-offset-2 focus-visible:ring-offset-white active:scale-[0.98] motion-reduce:active:scale-100 motion-reduce:transition-none disabled:opacity-disabled disabled:cursor-not-allowed disabled:pointer-events-none aria-busy:pointer-events-none whitespace-nowrap select-none';
+const BASE = 'inline-flex items-center justify-center gap-stack-xs rounded-pill font-body font-bold cursor-pointer transition-[background-color,box-shadow,transform,opacity] duration-fast ease-emphasis focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-900 focus-visible:ring-offset-2 focus-visible:ring-offset-white active:scale-[0.97] active:duration-instant motion-reduce:active:scale-100 motion-reduce:transition-none disabled:opacity-disabled disabled:cursor-not-allowed disabled:pointer-events-none aria-busy:pointer-events-none whitespace-nowrap select-none';
 
 // Hover strategy for filled variants: keep the base color (no aggressive
 // darkening) and add a colored glow shadow. Le soulèvement au survol a été
@@ -206,11 +206,26 @@ const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   link:        'bg-transparent text-primary-700 underline underline-offset-4 hover:text-primary-800 p-0 h-auto',
 };
 
+/* Cibles tactiles — revues le 2026-09-09.
+   `sm` mesure 32 px de haut et compte 227 des 522 boutons : il vit dans les
+   tableaux de bord denses (ManagerCohort, CoachDashboard, Webhooks…), où le
+   passer à 44 px visuels casserait les mises en page.
+
+   La réponse n'est pas d'agrandir le bouton mais **d'étendre sa cible** : le
+   pseudo-élément porte la zone tactile à 44 px sans toucher au rendu. C'est ce
+   que font iOS et Material — la cible déborde le visuel. Le bouton reste dense,
+   le doigt ne rate plus.
+
+   (44 − 32) ÷ 2 = 6 px de débord vertical, soit `-inset-y-1.5`.
+   `xl` passe de 56 à 52 px : à 19 px de police en graisse 700, le label franchit
+   le seuil des 18,66 px et bascule en « grand texte » au sens WCAG — son
+   exigence de contraste tombe de 4,5 à 3,0, ce qui rouvre le cran 600 des
+   couleurs de marque en label blanc. */
 const SIZE_CLASSES: Record<ButtonSize, string> = {
-  sm: 'h-8 px-3.5 text-caption',
+  sm: 'h-8 px-3.5 text-caption relative after:absolute after:content-[""] after:inset-x-0 after:-inset-y-1.5',
   md: 'h-touch px-5 text-body-sm',
   lg: 'h-12 px-6 text-body',
-  xl: 'h-14 px-7 text-body-lg',
+  xl: 'h-13 px-7 text-[1.1875rem]',
 };
 
 /* ────────────────── Résolution emphase × ton → classes ──────────────────── */

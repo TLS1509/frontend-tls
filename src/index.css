@@ -1109,6 +1109,14 @@
   .duration-glacial    { transition-duration: var(--duration-glacial); }
   .duration-expressive { transition-duration: var(--duration-expressive); }
 
+  /* Variante `active:` — ajoutée le 2026-09-09.
+     Tailwind v4 ne génère pas les utilities `duration-*` depuis @theme (piège
+     n°2 de CLAUDE.md), et il ne génère pas davantage leurs variantes d'état.
+     Il faut donc écrire `active:duration-instant` à la main, comme la classe
+     de base. Sert au retour tactile du bouton : l'enfoncement doit répondre en
+     80 ms, pas en 150 — un press qui traîne ne se lit pas comme un press. */
+  .active\:duration-instant:active { transition-duration: var(--duration-instant); }
+
   /* A11y baseline — focus visibility for keyboard navigation (Phase 19.1)
      Ensures all interactive elements have visible focus indicators per WCAG 2.4.7.
      Use on button, input, link, [role="button"], [role="tab"] elements. */
