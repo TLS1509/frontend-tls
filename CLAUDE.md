@@ -508,7 +508,7 @@ Tone cohérent par nature d'écran : **primary** (focus / leadership) · **warm*
 
 Suite au nettoyage du 2026-06-30 (sessions d'agents ayant déversé ~20 docs en vrac + écrit des audits fabriqués) :
 
-1. **Aucun nouveau doc à la racine du repo.** Seuls `CLAUDE.md`, `PRODUCT.md`, `DESIGN.md`, `DESIGN-IMPECCABLE.md` vivent à la racine (lus par le skill impeccable). Tout le reste va dans `docs/<sous-dossier>` :
+1. **Aucun nouveau doc à la racine du repo.** Seuls `CLAUDE.md`, `PRODUCT.md` et `DESIGN.md` y vivent. *(`DESIGN-IMPECCABLE.md` a été archivé le 2026-09-09 : 934 lignes que rien ne chargeait — ses décisions vivantes sont dans `DESIGN.md` §10 et §11.)* En tâche design, seuls `PRODUCT.md` et `DESIGN.md` sont injectés ; `CLAUDE.md` est chargé comme instructions projet. Tout le reste va dans `docs/<sous-dossier>` :
    - `docs/_canon/` — **docs canoniques, priment sur tout le reste** · `docs/_audits/` — audits qualité · `docs/_phases/` — rapports de phase (Phase 1 P0, Phase 20…) · `docs/figma/` — audits/sync Figma · `docs/charts/` — data-viz · `docs/briefs/` — briefs · `docs/CDC/` — cahiers (source de vérité, ne pas modifier sans accord métier) · `docs/_archive/` — historique.
 2. **Mettre à jour `docs/INDEX.md`** à chaque ajout/déplacement/suppression de doc. L'index est la carte ; un doc absent de l'index = doc fantôme.
 3. **Un rapport d'audit Figma DOIT citer les node IDs réellement inspectés** (via `use_figma`). Sans trace d'inspection node-par-node → marquer le doc `⚠️ FIABILITÉ NON VÉRIFIÉE` en tête. Ne jamais écrire « conformance X% » ou « gap corrigé » sans avoir ouvert le fichier Figma.

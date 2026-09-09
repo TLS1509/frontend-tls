@@ -178,13 +178,13 @@
 
 ## 📦 Racine repo + product/ — Config & Design system
 
-**⚠️ `PRODUCT.md`, `DESIGN.md`, `DESIGN-IMPECCABLE.md` vivent à la RACINE du repo** (pas dans `docs/product/`) — lus par le skill impeccable.
+**⚠️ `PRODUCT.md` et `DESIGN.md` vivent à la RACINE du repo** (pas dans `docs/product/`) — injectés en tâche design. `DESIGN-IMPECCABLE.md` a été **archivé le 2026-09-09** → [`_archive/`](_archive/DESIGN-IMPECCABLE.md).
 
 | Fichier | Emplacement | Purpose |
 |---------|---|---------|
 | `PRODUCT.md` | racine repo | Version, stack, routes, first steps |
 | `DESIGN.md` | racine repo | Design system specification (colors, tokens, patterns) |
-| `DESIGN-IMPECCABLE.md` | racine repo | Design excellence gaps + signatures |
+| ⛔ `DESIGN-IMPECCABLE.md` | `_archive/` | **Archivé le 2026-09-09** — 934 l. que rien ne chargeait. Signatures visuelles et interdits remontés dans `DESIGN.md` §10-§11 ; le reste ne fait plus autorité |
 | `USER-FLOWS.md` | `docs/product/` | User journey diagrams (signup, lesson, journal) |
 | [SPEC-SRS-repetition-espacee.md](product/SPEC-SRS-repetition-espacee.md) | **SPEC — répétition espacée (SRS) v1** (2026-07-24, **capstone des 3 pistes**). Walking skeleton : rating su/à-revoir → intervalles expansifs [1,3,7,14,30] j, compteur « à réviser », persistance, rating **sans XP** (firewall). Applique PM-C6 (spec 8 sections), UX/UI C4-C5 (parcours+états), vibe C1/C3/C4 (build+gate+revue). Implémenté : `useCardReviewStore` (`persistence.ts`) + `FlashcardsViewer.tsx` | 🛠️ Spec + build |
 | [AVIS-STRIDE-CONSEIL.md](product/AVIS-STRIDE-CONSEIL.md) | **Avis critique — méthode STRIDE (pilier Conseil)** (2026-07-24). Revue franche + sourcée (Deloitte/Bersin/Kotter) de la méthode conseil SBO de Pierre-Armand. Solide (6 étapes + 4 principes anti-lock-in), mais : ordre incohérent entre docs, métriques cas d'usage inventées (⚠️ **déjà corrigées côté code + Notion synchronisé**), positionnement qui sur-promet le SBO (vs « sober reality » de Bersin) → repositionner en entrée cadrée. Nom STRIDE = TLS ; structure = cycle générique (à ancrer Kotter/ADDIE) | ⚖️ Avis conseil |

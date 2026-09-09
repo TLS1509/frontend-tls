@@ -18,21 +18,28 @@ injecte **`PRODUCT.md` + `DESIGN.md`**, rien d'autre. `CLAUDE.md` est chargé de
 son côté comme instructions projet.
 
 **Donc une règle qui doit s'appliquer partout vit ici ou dans `CLAUDE.md`.**
-Écrite dans `DESIGN-IMPECCABLE.md`, elle ne sera lue que par quelqu'un qui pense
-à ouvrir ce fichier.
+Un doc que rien ne charge ne porte pas de règle : il porte au mieux un
+souvenir. C'est le motif de l'archivage de `DESIGN-IMPECCABLE.md` (voir plus bas).
 
 | Besoin | Doc | Chargé ? |
 |---|---|---|
 | Règles strictes, tokens, pièges Tailwind, gate de build | [`CLAUDE.md`](./CLAUDE.md) | ✅ instructions projet |
 | Stratégie produit, North Star, voix, anti-références | [`PRODUCT.md`](./PRODUCT.md) | ✅ par la skill |
 | **Composition d'interface** (ce doc) | — | ✅ par la skill |
-| Doctrine longue : altitudes, grammaire de pratique, transparence IA, surfaces signatures | [`DESIGN-IMPECCABLE.md`](./DESIGN-IMPECCABLE.md) | ❌ **à ouvrir soi-même** |
+| Doctrine longue : altitudes, transparence IA, grammaire de pratique | [`docs/_archive/DESIGN-IMPECCABLE.md`](./docs/_archive/DESIGN-IMPECCABLE.md) | ⛔ **archivé le 2026-09-09** — ses décisions vivantes sont §10 et §11 ci-dessous |
 | **Valeurs** des tokens | `src/index.css`, bloc `@theme` | **le code fait foi** |
-| Showcase interactif | `/components` dans l'app | ⚠️ à reconstruire |
+| Showcase interactif | `/components` dans l'app | ✅ reconstruit (registre + route par catégorie) |
 
-> **`DESIGN-IMPECCABLE.md` n'est pas la configuration de la skill `impeccable`.**
-> La skill est un outil générique installé dans `~/.claude/skills/impeccable/` ;
-> le fichier est un doc TLS qui porte le même adjectif. Rien ne le charge.
+> **Pourquoi `DESIGN-IMPECCABLE.md` a été archivé le 2026-09-09.** Il faisait
+> **934 lignes** — le plus gros des quatre docs racine — et **rien ne le
+> chargeait** : ni la skill `impeccable` (qui est un outil générique installé
+> dans `~/.claude/skills/impeccable/`, sans rapport malgré l'adjectif commun),
+> ni les instructions projet. Il redoublait la doctrine de ce fichier sur les
+> couleurs, la typographie et l'élévation, et c'est de ce redoublement que
+> naissaient les contradictions. **Ses deux sections réellement vivantes — les
+> signatures visuelles et les interdits — sont remontées ici, en §10 et §11.**
+> Le reste (altitudes, grammaire de pratique, transparence IA, cadence,
+> mapping par flux) vit en archive et ne fait plus autorité.
 
 ⚠️ **Ce doc ne redéfinit aucune valeur de token.** Toute valeur recopiée ici
 dériverait ; c'est exactement ce qui est arrivé au design system parallèle de
@@ -61,7 +68,7 @@ l'extérieur. Il y en a trois. Ils sont **en aval** : quand l'un d'eux contredit
 
 | Miroir | État au 2026-07-28 |
 |---|---|
-| Frontmatter YAML de `DESIGN-IMPECCABLE.md` | ✅ **26/26 couleurs conformes**, vérifié |
+| Frontmatter YAML de `DESIGN-IMPECCABLE.md` *(archivé le 09/09)* | ✅ **26/26 couleurs conformes**, vérifié le 28/07 |
 | **Figma Code Connect** | 🟡 **amorcé, pas déployé** — `@figma/code-connect` est bien en dépendance, mais un seul composant est mappé : `src/components/core/Button.figma.tsx` (fichier `LccBZ1GKWQVwVzPtsSzk5Y`, node `1109:58`), écrit le 2026-07-24. **1 sur 320.** Aucun script npm pour le publier |
 | **Claude Design** (`claude.ai/design`) | 🟠 **riche mais figé au 2026-07-24** — projet « The Learning Society Design System » : ~60 composants `.jsx`, 11 feuilles CSS, les fontes, un audit de variables Figma d'avril |
 
@@ -401,47 +408,169 @@ au-delà.
 
 ---
 
-## 9. Showcase `/components` — à reconstruire
+## 9. Showcase `/components` — reconstruit
 
-> **Chantier à part entière, pas une liste de correctifs.** La page est
-> massive et on ne s'y retrouve pas : les ancres tombent au milieu du contenu,
-> la navigation ne tient pas la longueur. La reconstruire d'abord, la repeupler
-> ensuite. L'audit ci-dessous est le **matériau d'entrée** de ce chantier.
+> **Chantier clos.** Ouvert le 2026-07-28 sur six causes mesurées (aucun
+> sommaire, une seule ancre sur 8 524 lignes, pas de `scroll-mt`, tout monté
+> d'un coup, un chunk de 3,9 Mo servi à chaque visiteur, 320 composants
+> exportés pour 185 déclarés), il a été mené à son terme.
 
-Chiffres mesurés le 2026-07-28, pas estimés : **320 composants exportés** dans
-`src/components/`, **185 noms déclarés** dans `src/pages/Components.tsx`, pour un
-fichier de plus de 8 000 lignes.
+Ce qui a changé, et pourquoi ça tient : le catalogue n'est plus écrit **en JSX**
+mais dans un **registre de données** (`src/pages/components/registry.ts`). C'était
+la cause racine — tant que la taxonomie vivait dans le rendu, la navigation ne
+pouvait pas se générer, les ancres non plus, et la couverture ne pouvait pas se
+vérifier.
 
-**Ce qui manque et qu'il faut ajouter (19).** Des composants d'app réels, dont
-plusieurs structurants : `PageHero` (le hero le plus consommé de l'app),
-`Chip` (la primitive des quatre pills), `ErrorPage`, `Tooltip`, `SegmentedControl`,
-`SettingsRow`, `SelectableOptionCard`, `ReaderContextStrip`, `CoachRow`,
-`CorrectionStatusBar`, `Kbd`, `AuthSuccess`, `SelectCheckboxFloating`,
-`ChartDetailModal`, `ChartWithExport`, `CompletionModal`.
+De là découlent : une **route par catégorie**, une **ancre par composant** avec
+`scroll-mt` calé sur le chrome, une **recherche globale** qui navigue, et un
+**chargement lazy** qui sort le showcase du chunk principal.
 
-**Ce qui manque mais se discute (10).** Les six primitives de `layout/`
-(`PageShell`, `Container`, `Grid`, `Stack`, `Cluster`, `BottomNav`) et les quatre
-squelettes de `SkeletonTemplates`. À trancher : un showcase de composants doit-il
-exposer ses primitives de mise en page ?
+**Ce qui reste ouvert** — un test qui compare les exports de `src/components/**`
+au registre et échoue sur un composant non classé. Sans ce garde-fou, la dérive
+reviendra : c'est elle qui avait produit l'écart de 320 contre 185.
 
-**Ce qui ne doit pas y entrer (57).** Les 19 explorations de logo
-(`LogoANode`… `V6LogoElectrique`, `TlsLogoHeritage`, `TlsLogoModernized`) — ce
-sont des propositions, pas le DS ; et les 38 composants marketing et motion, qui
-relèvent du site, pas de la Learning App.
+## 10. Les signatures visuelles
 
-**Ce qui est déclaré mais n'existe pas (2).** `EditorialCard` et
-`SearchWithFilters_F` — entrées mortes à retirer.
+> **Remontées de `DESIGN-IMPECCABLE.md` §13 le 2026-09-09**, à l'archivage de ce
+> fichier. Ce sont les signatures **positives** du système : ce qui rend une
+> interface reconnaissable comme TLS, et pas comme un SaaS clair générique de
+> plus. Les interdits, eux, sont en §11.
 
-**Code mort à supprimer, découvert au passage.** 18 composants de
-`marketing/motion/` et `marketing/scroll-effects.tsx` n'ont plus aucun
-consommateur après le nettoyage motion : `CountUp`, `MarqueeRow`, `ParallaxLayer`,
-`ScrollRevealCanvas`, `ScrollVelocity`, `TiltCard`, `badge-earn-animation`,
-`chat-message-stagger`, `counter-animation`, `floating-particles`,
-`hover-lift-card`, `lesson-progress-arc`, `morphing-svg-visualizer`,
-`parallax-text-layers`, `score-counter`, `shimmer-loading`, `spotlight-border`,
-et tout `scroll-effects.tsx` — qui porte encore `ParallaxSection`, un effet
-explicitement écarté. Plus le dossier `marketing/sections/` en entier (cinq
-fichiers, jamais importés, dont un `HeroSection` en `h-screen`).
+### 1 — Le verre est un signal, jamais une finition
+
+Le verre marque **une surface qui en recouvre une autre** : modale sur un scrim,
+aside collant sur un fil qui défile, card de hero sur un fond teinté, tiroir sur
+le canevas.
+
+| Niveau | Usage |
+|---|---|
+| `glass-light` (flou 8px) | survol de card teintée, recouvrement discret |
+| `glass-medium` (flou 16px) | **le défaut** — modales, en-têtes collants, cards de hero |
+| `glass-heavy` (flou 24px) | tiroirs, panneaux latéraux au-dessus du contenu |
+| `blur-ambient` (flou 60px) | halos de fond marketing uniquement |
+
+**Verre côtier** : quand il est teinté, le verre prend le **tone dominant de la
+surface** — teal sur primary, ambré sur le coaching, doré sur la célébration.
+Jamais de verre gris neutre : le système refuse le verre sombre froid des SaaS IA.
+Le nôtre est chaud, diurne, côtier.
+
+**Anti-patterns** : verre sur verre · verre sur une card plate et statique
+(décoratif, donc faux signal) · verre sur un fond très saturé (illisible).
+
+### 2 — Des dégradés ambiants diffus
+
+Les fonds portent des dégradés doux qui **reculent derrière le contenu**. Le
+pattern `AmbientBlobs` (deux ou trois grands dégradés radiaux flous en tons de
+brume) est le fond signature des heros, des surfaces d'auth et des pages
+éditoriales.
+
+**Règles de diffusion** : flou ≥ 60px · opacité ≤ 30 % · position **décentrée**
+(haut-droite, bas-gauche) pour que le dégradé soit asymétrique. Pas d'arrêt de
+couleur franc, pas de cible radiale, pas de palette holographique. L'ambiance est
+« lumière côtière en fin d'après-midi », pas synthwave.
+
+⚠️ **Le hero marketing n'a pas de recette par défaut, et c'est délibéré.** Une
+recette prescrite est exactement ce qui a produit douze pages portant le même
+fond. Chaque page décide.
+
+### 3 — L'icône Sparkles comme marqueur fonctionnel d'IA
+
+`Sparkles` (Lucide) est **autorisée et utilisée** pour marquer une fonction IA :
+icône de tête sur les boutons IA, sur la pastille « IA », en eyebrow des blocs
+générés.
+
+Elle n'est **jamais** décorative (scintillement d'ambiance, traînées, halos
+« magiques »), jamais combinée à un dégradé violet-cyan, jamais animée en continu,
+jamais multipliée en confetti.
+
+La convention a migré : en 2026, les apprenants associent l'étincelle à « fonction
+IA ici » comme la loupe à la recherche. La refuser par pureté doctrinale
+isolerait TLS dans son propre dialecte.
+
+### 4 — L'animation anthropomorphique du logo
+
+Le logo s'anime **quand le système calcule pour l'apprenant** — positionnement,
+matching, génération d'une recommandation, réponse en streaming. Il se comporte
+comme un **signe vivant**, pas comme un spinner : ça dit « on y travaille » sans
+anthropomorphiser l'algorithme.
+
+⚠️ **État réel : la prop `loading` de `TlsLogo` existe et fonctionne, aucune page
+ne la passe** (vérifié le 2026-07-28, toujours vrai au 09/09). C'est une
+signature codée et débranchée.
+
+---
+
+## 11. Les interdits
+
+> **Remontés de `DESIGN-IMPECCABLE.md` §11 le 2026-09-09.** Ce sont des règles
+> opposables, pas des préférences. Chacune a une raison, et plusieurs ont été
+> écrites après avoir vu le défaut en production.
+
+### Ce qu'on fait
+
+- **Un seul niveau d'altitude par écran.** Opérationnel *ou* stratégique, jamais
+  les deux. L'écran de correction d'un coach n'est pas son écran d'analytics.
+- **La grammaire de la pratique** : *reprends*, *valide*, *soumets*, *maîtrise*.
+  Jamais les verbes de consommation passive : *visionne*, *termine*, *complète*.
+- **Un tone dominant par écran**, un accent au plus.
+- **`tu`** sur les écrans personnels de l'apprenant (dashboard, Passeport,
+  journal, lecteur) · **`vous`** partout ailleurs (coach, manager, admin,
+  marketing, e-mails).
+- **Toute sortie d'IA est étiquetée**, avec sa source et son degré de confiance,
+  et un humain peut la contredire.
+- **Ombres de survol teintées par le tone** (`shadow-brand-md`, `shadow-warm-md`),
+  jamais un gris neutre.
+- **League Spartan en display, Nunito en texte** — jamais l'inverse.
+- **65–75 caractères** par ligne de texte courant (`max-w-prose`).
+- **44 px** (`min-h-touch`) sur toute cible interactive principale.
+- **La cadence respecte l'adulte** : pas de streak quotidien, week-end silencieux
+  par défaut, pause-reprise de première classe, atrophie calme. Un badge se
+  débloque **sans point d'exclamation et sans confetti**.
+
+### Ce qu'on ne fait pas
+
+- **Pas de mélange d'altitudes** dans un écran, ni de trois tons saturés à poids
+  égal (l'effet sapin de Noël).
+- **Pas de dégradé violet-cyan, pas de mascotte** de chatbot anthropomorphe (pas
+  de personnage souriant, pas de persona nommée, pas d'avatar à côté des
+  messages). L'icône Sparkles fonctionnelle et le logo animé restent autorisés — §10.
+- **Pas de gamification agressive** : anxiété de perte de série, notifications
+  rouges urgentes, popups d'XP pavloviens.
+- **Pas de `rounded-full` sur un bouton.** C'est le territoire du cercle :
+  avatars carrés-ronds et pastilles uniquement. Les boutons prennent la pilule.
+  ⚠️ **Mesuré le 2026-09-09 : 204 usages de `rounded-full` dans `src/`** — à
+  auditer, l'interdit n'est pas tenu.
+- **Pas de couleur saturée hors des trois tons de marque** : ni le bleu Material
+  `#2196F3`, ni le vert Duolingo `#58CC02`, ni les défauts Tailwind vifs pour les
+  couleurs sémantiques (`text-red-500`, `bg-green-500` sont bannis — utiliser
+  `text-danger-fg`, `bg-success-bg`).
+- **Pas de serif.** Le système est sans-serif de bout en bout.
+- **Pas de verre sur verre**, ni de verre décoratif sur une card statique.
+- **Pas de barre d'accent** `border-left` / `border-right` de plus de 1px.
+  *(Mesuré le 09/09 : 0 usage décoratif. L'interdit est tenu.)*
+- **Pas de texte en dégradé** (`background-clip: text`). Marketing compris, sans
+  exception. *(Mesuré le 09/09 : 0 usage. Tenu.)*
+- **Pas de bandeau de KPI SaaS** (grand chiffre + petit label + stats + accent
+  dégradé), pas de **grilles de trois cards identiques** répétées section après
+  section. Varier les tailles et le rythme.
+- **Pas de modale en première intention.** Épuiser d'abord le dévoilement en
+  place, les tiroirs, la révélation progressive.
+- **Pas de `style={{}}`** pour la mise en page, la couleur ou l'espacement.
+- **Pas de tiret cadratin ni de point d'exclamation** dans la copy produit
+  (sauf confirmation destructive).
+- **Pas de notification le week-end** par défaut, pas de compte à rebours ni de
+  « offre expire » pour forcer l'urgence.
+- **Ne pas modifier les tokens de `src/index.css` sans validation** — un token
+  cascade sur 180+ pages.
+
+### Deux interdits que le code ne respecte pas encore
+
+Ils sont ici parce qu'ils sont **mesurés**, pas supposés :
+
+| Règle | État au 2026-09-09 |
+|---|---|
+| `ink-400` ne porte pas de texte | ⚠️ **355 usages.** Mesuré à 2,54:1 sur blanc : échoue AA **et** la tolérance grand texte. `ink-400` reste légitime pour l'état désactivé, que WCAG exempte |
+| Texte blanc sur `primary-600` | ⚠️ **3,66:1 — échoue AA.** Le label des boutons est en 15px/600, donc du texte normal : le seuil est 4,5, pas 3,0. `primary-700` passe à 5,02. **Arbitrage ouvert, pas une règle à recopier** : changer le remplissage repeint tous les boutons de l'app |
 
 ---
 

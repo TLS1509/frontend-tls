@@ -1,3 +1,25 @@
+> # ⛔ ARCHIVÉ le 2026-09-09 — ne fait plus autorité
+>
+> **Ce fichier vivait à la racine du repo et n'était chargé par rien.** Ni la
+> skill `impeccable` (un outil générique installé dans `~/.claude/skills/`, sans
+> rapport malgré l'adjectif commun), ni les instructions projet, ni la tâche
+> design — qui n'injecte que `PRODUCT.md` et `DESIGN.md`. 934 lignes que
+> personne ne lisait mais que tout le monde pouvait citer : c'est exactement ce
+> qui fabrique des contradictions.
+>
+> **Ses deux sections vivantes ont été remontées dans [`DESIGN.md`](../../DESIGN.md)** :
+> les signatures visuelles (§13 → `DESIGN.md` §10) et les interdits
+> (§11 → `DESIGN.md` §11), traduits et confrontés au code.
+>
+> **Ce qui reste ici** — altitudes, grammaire de pratique, kit de transparence IA,
+> patterns de cadence, mapping par flux — n'a pas été vérifié contre le code et
+> ne doit **pas** être cité comme une règle. À lire comme un document d'époque.
+>
+> ⚠️ Plusieurs valeurs y sont périmées par construction : ce fichier recopie des
+> tokens, or **`src/index.css` (bloc `@theme`) est la seule source de vérité**.
+
+---
+
 ---
 name: The Learning Society
 description: The operating system for Augmented Mastery — a B2B Skills-Based Organization platform where the learner-practitioner is protagonist of every screen, the AI and the coach augment practice without substituting for it, and the L&D pilot conducts a portfolio of practitioners. Coastal teal carries focus and progress, warm amber carries human coaching contact, golden sun marks practice validated. Editorial League Spartan over rounded Nunito. Anti-Moodle bureaucracy, anti-Duolingo infantilization, anti-AI-purple-gradient mood.

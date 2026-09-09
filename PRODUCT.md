@@ -135,7 +135,7 @@ Règles de copy obligatoires :
 
 **AI SaaS froid** (Notion AI dark, ChatGPT Enterprise dark) — purple-cyan gradients en dark mode, framing « neural » / « copilot » / « magic », **mascotte chatbot avec persona souriante**. TLS rejette ces tropes.
 
-À l'inverse, TLS revendique comme signatures positives : **glassmorphisme intentionnel** (jamais décoratif — sur surfaces qui overlap du contenu), **icône Sparkles fonctionnelle** (marqueur de feature IA, jamais twinkle décoratif), **animation anthropomorphique du logo TLS** (logo comme signe vivant pendant l'inférence, à la Claude — pas mascotte), **dégradés ambient diffus** (lumière côtière en fin d'après-midi). Voir DESIGN-IMPECCABLE.md §13 Visual Vocabulary.
+À l'inverse, TLS revendique comme signatures positives : **glassmorphisme intentionnel** (jamais décoratif — sur surfaces qui overlap du contenu), **icône Sparkles fonctionnelle** (marqueur de feature IA, jamais twinkle décoratif), **animation anthropomorphique du logo TLS** (logo comme signe vivant pendant l'inférence, à la Claude — pas mascotte), **dégradés ambient diffus** (lumière côtière en fin d'après-midi). Voir [`DESIGN.md`](./DESIGN.md) §10 « Les signatures visuelles ».
 
 **« Skill intelligence » corporate** (Microsoft Viva Learning, Cornerstone Skills Graph, SAP SF Talent Hub) — beige corporate, marketing integration-first. TLS est experience-first ; les intégrations sont le moat, pas la vitrine.
 
@@ -155,7 +155,7 @@ Règles de copy obligatoires :
 
 > ⚠️ **Deux corrections du 2026-07-28, vérifiées dans `src/`.**
 > — Cette ligne interdisait *toute* « sparkle iconography ». L'icône Lucide `Sparkles` est utilisée dans **59 fichiers**, à commencer par `AITransparencyLabel`, le composant que ce même doc rend obligatoire. L'interdit ne porte que sur le sparkle **décoratif** ; en marqueur fonctionnel de feature IA, il est revendiqué comme signature positive (voir la section Anti-références ci-dessus, qui disait déjà l'inverse — le doc se contredisait).
-> — « source citée, score de confiance affiché » décrivait une **cible comme un état** : ni la citation de source ni le score de confiance n'existent dans le code. Retirés d'ici ; ils figurent au tableau de statut de `DESIGN-IMPECCABLE.md` §8.
+> — « source citée, score de confiance affiché » décrivait une **cible comme un état** : ni la citation de source ni le score de confiance n'existent dans le code. Retirés d'ici ; ils figuraient au tableau de statut de `DESIGN-IMPECCABLE.md` §8, archivé le 2026-09-09 → [`docs/_archive/`](./docs/_archive/DESIGN-IMPECCABLE.md).
 
 **3. Une altitude par viewport.** Strategic (CLO/manager) ou Operational (coach/apprenant) — jamais les deux dans la même surface. Mixer les altitudes tue la vitesse de décision et produit le design schizophrène cockpit-en-haut-négligé-en-bas.
 

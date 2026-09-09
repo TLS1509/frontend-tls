@@ -464,5 +464,5 @@ The learner dashboard opens on **the action of the day**. Not a chart. Not a sta
 ---
 
 *End of design system reference for Google Stitch.*
-*Source of truth: `src/styles/design-tokens.css`, `src/index.css`, `DESIGN-IMPECCABLE.md`*
+*Source of truth: `src/index.css` (bloc `@theme`) — seul fichier qui fasse foi pour les valeurs. Doctrine de composition : `DESIGN.md`. (`DESIGN-IMPECCABLE.md` archivé le 2026-09-09.)*
 *Dernière vérification factuelle : 2026-07-22 (échelle de gris, bordures, sources de tokens).*
