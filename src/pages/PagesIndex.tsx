@@ -352,7 +352,7 @@ export const PagesIndex: React.FC = () => {
           </div>
         ) : view === 'tree' ? (
           /* ── ARBORESCENCE ──────────────────────────────────────────── */
-          <div className="rounded-xl border border-ink-200 bg-white p-4">
+          <div className="rounded-xl border border-ink-200 bg-white p-stack">
             <ul className="list-none m-0 p-0">
               {[...tree.children.values()]
                 .sort((a, b) => a.segment.localeCompare(b.segment))

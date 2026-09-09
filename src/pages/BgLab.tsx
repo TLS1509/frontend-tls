@@ -66,7 +66,7 @@ const Sample: React.FC<{ v: Variant }> = ({ v }) => (
     </div>
 
     {/* Card blanche solide (surface app validée) */}
-    <div className="rounded-2xl bg-white border border-ink-100 shadow-card p-4 flex flex-col gap-2">
+    <div className="rounded-2xl bg-white border border-ink-100 shadow-card p-stack flex flex-col gap-2">
       <div className="flex items-center gap-2">
         <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-primary-100 text-primary-600">
           <Sparkles size={16} />
@@ -87,7 +87,7 @@ const Sample: React.FC<{ v: Variant }> = ({ v }) => (
     </div>
 
     {/* Card teintée (surface active) */}
-    <div className="rounded-2xl bg-gradient-to-br from-primary-50 to-white border border-primary-200/70 shadow-brand-sm p-4 flex flex-col gap-1">
+    <div className="rounded-2xl bg-gradient-to-br from-primary-50 to-white border border-primary-200/70 shadow-brand-sm p-stack flex flex-col gap-1">
       <span className="font-display text-body-sm font-bold text-ink-900">Card teintée (surface active)</span>
       <p className="m-0 text-caption text-ink-600 leading-snug">
         Une surface teintée sur le fond texturé — cohérence des deux lavis.

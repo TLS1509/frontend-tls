@@ -160,7 +160,7 @@ export default function OpenBadgesSection() {
           }
         >
           <div className="flex flex-col gap-stack-xs">
-            <div className="flex items-center gap-stack-xs p-3 rounded-lg bg-ink-50 border border-ink-100">
+            <div className="flex items-center gap-stack-xs p-stack rounded-lg bg-ink-50 border border-ink-100">
               <div className="w-8 h-8 rounded-md bg-primary-100 flex items-center justify-center shrink-0">
                 <Award size={16} className="text-primary-600" />
               </div>
@@ -169,7 +169,7 @@ export default function OpenBadgesSection() {
                 <p className="m-0 text-caption text-ink-500">Plateforme leader pour les badges professionnels et certifications IT</p>
               </div>
             </div>
-            <div className="flex items-center gap-stack-xs p-3 rounded-lg bg-ink-50 border border-ink-100">
+            <div className="flex items-center gap-stack-xs p-stack rounded-lg bg-ink-50 border border-ink-100">
               <div className="w-8 h-8 rounded-md bg-secondary-50 flex items-center justify-center shrink-0">
                 <Award size={16} className="text-secondary-600" />
               </div>
@@ -178,7 +178,7 @@ export default function OpenBadgesSection() {
                 <p className="m-0 text-caption text-ink-500">Solution open-source pour la gestion de badges numériques</p>
               </div>
             </div>
-            <div className="flex items-center gap-stack-xs p-3 rounded-lg bg-ink-50 border border-ink-100">
+            <div className="flex items-center gap-stack-xs p-stack rounded-lg bg-ink-50 border border-ink-100">
               <div className="w-8 h-8 rounded-md bg-accent-50 flex items-center justify-center shrink-0">
                 <Award size={16} className="text-accent-500" />
               </div>

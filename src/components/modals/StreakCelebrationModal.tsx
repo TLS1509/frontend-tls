@@ -121,12 +121,12 @@ export const StreakCelebrationModal: React.FC<StreakCelebrationModalProps> = ({
 
           {/* Stats grid */}
           <div className="grid grid-cols-2 gap-stack-xs mb-stack-lg relative z-10 animate-[scFadeUp_0.4s_ease_0.6s_both]">
-            <div className="p-4 rounded-lg bg-primary-50 border border-primary-500/15 text-center">
+            <div className="p-stack rounded-lg bg-primary-50 border border-primary-500/15 text-center">
               <Calendar size={20} className="mx-auto mb-2 text-primary-500" />
               <div className="text-h4 font-extrabold text-ink-900">{Math.floor(streakCount / 7)}</div>
               <div className="text-micro text-ink-600">Semaines</div>
             </div>
-            <div className="p-4 rounded-lg bg-accent-400/8 border border-accent-400/15 text-center">
+            <div className="p-stack rounded-lg bg-accent-400/8 border border-accent-400/15 text-center">
               <TrendingUp size={20} className="mx-auto mb-2 text-accent-600" />
               <div className="text-h4 font-extrabold text-ink-900">+{streakCount * 10}</div>
               <div className="text-micro text-ink-600">XP Total</div>

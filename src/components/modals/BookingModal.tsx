@@ -205,7 +205,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   const renderSourceBanner = () => {
     if (isEnterprise) {
       return (
-        <div className="mb-stack p-3 rounded-xl bg-success-bg/30 border border-success-base/30 flex items-start gap-stack-xs">
+        <div className="mb-stack p-stack rounded-xl bg-success-bg/30 border border-success-base/30 flex items-start gap-stack-xs">
           <Building2 size={16} className="text-success-fg shrink-0 mt-0.5" />
           <div className="flex-1 min-w-0">
             <p className="m-0 font-body text-caption font-bold text-ink-900">
@@ -220,7 +220,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     }
     if (hasCredits) {
       return (
-        <div className="mb-stack p-3 rounded-xl bg-primary-50 border border-primary-100 flex items-start gap-stack-xs">
+        <div className="mb-stack p-stack rounded-xl bg-primary-50 border border-primary-100 flex items-start gap-stack-xs">
           <Wallet size={16} className="text-primary-600 shrink-0 mt-0.5" />
           <div className="flex-1 min-w-0">
             <p className="m-0 font-body text-caption font-bold text-ink-900">
@@ -235,7 +235,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     }
     // free OU pro à 0 crédit → upsell banner
     return (
-      <div className="mb-stack p-3 rounded-xl bg-accent-50 border border-accent-200 flex items-start gap-stack-xs">
+      <div className="mb-stack p-stack rounded-xl bg-accent-50 border border-accent-200 flex items-start gap-stack-xs">
         <Sparkles size={16} className="text-accent-700 shrink-0 mt-0.5" />
         <div className="flex-1 min-w-0">
           <p className="m-0 font-body text-caption font-bold text-ink-900">
@@ -386,7 +386,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
           {step === 'payment' && (
             <div className="flex flex-col gap-stack">
               {/* Order summary compact */}
-              <div className="p-3 rounded-xl bg-primary-50 border border-primary-100 flex items-center justify-between gap-stack-xs">
+              <div className="p-stack rounded-xl bg-primary-50 border border-primary-100 flex items-center justify-between gap-stack-xs">
                 <div className="flex flex-col gap-tight min-w-0">
                   <span className="font-display text-body-sm font-bold text-ink-900 truncate">
                     Session 1:1 avec {coachName}
@@ -471,7 +471,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
           {step === 'confirmation' && (
             <div className="flex flex-col gap-stack">
               {/* Recap card compact */}
-              <div className="p-4 rounded-xl bg-primary-50 border border-primary-500/20">
+              <div className="p-stack rounded-xl bg-primary-50 border border-primary-500/20">
                 <div className="flex items-center gap-stack-xs flex-wrap">
                   <div className="w-10 h-10 rounded-md bg-primary-500 flex items-center justify-center shrink-0">
                     <Calendar size={18} className="text-white" />
@@ -517,7 +517,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   { icon: <Video size={14} />,    title: 'Lien visio',    body: 'Envoyé par email.' },
                   { icon: <AlertCircle size={14} />, title: 'Annulation', body: "Gratuite jusqu'à 24h avant." },
                 ].map((info) => (
-                  <div key={info.title} className="p-3 rounded-lg bg-ink-50 border border-ink-200">
+                  <div key={info.title} className="p-stack rounded-lg bg-ink-50 border border-ink-200">
                     <div className="text-primary-500 mb-1">{info.icon}</div>
                     <p className="m-0 mb-0.5 text-caption font-bold text-ink-900 leading-tight">{info.title}</p>
                     <p className="m-0 text-micro text-ink-600 leading-snug">{info.body}</p>

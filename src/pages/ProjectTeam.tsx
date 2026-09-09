@@ -111,7 +111,7 @@ export const ProjectTeam: React.FC = () => {
         <SectionCard title="Experts & Managers" titleIcon={<UserCheck size={18} />}>
           <div className="flex flex-col gap-stack-xs">
             {[...experts, ...managers].map((m) => (
-              <div key={m.userId} className="flex items-center gap-stack p-3 rounded-lg border border-ink-100">
+              <div key={m.userId} className="flex items-center gap-stack p-stack rounded-lg border border-ink-100">
                 <Avatar initials={m.initials} size="md" tint="warm" />
                 <div className="flex-1 min-w-0">
                   <p className="text-body-sm font-semibold text-ink-900 m-0">{m.name}</p>

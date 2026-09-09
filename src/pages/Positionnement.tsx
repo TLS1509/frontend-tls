@@ -139,7 +139,7 @@ export const Positionnement: React.FC = () => {
                 </p>
               </div>
 
-              <div className="flex flex-col gap-stack-xs p-4 bg-primary-50 rounded-lg border border-primary-200">
+              <div className="flex flex-col gap-stack-xs p-stack bg-primary-50 rounded-lg border border-primary-200">
                 <p className="text-caption font-semibold text-primary-700">Compétences positionnées :</p>
                 <div className="flex flex-wrap gap-stack-xs">
                   {Object.entries(answers).map(([compId, level]) => {

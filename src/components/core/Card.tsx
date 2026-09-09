@@ -146,11 +146,35 @@ const TONE_GRADIENT_BG_CLASSES: Record<CardTone, string> = {
   brand:   'bg-gradient-to-br from-primary-100/92 to-primary-50/78 border-primary-200/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.85)]',
 };
 
+/* Le padding intérieur — doctrine arrêtée le 2026-09-09.
+
+   **24 px est le canon** (`md`, le défaut : 170 des 171 Cards du produit le
+   prennent sans rien dire). **16 px est la seule dérogation**, pour les surfaces
+   denses. Pas de troisième valeur.
+
+   Pourquoi 24 et non les 16 px de l'industrie. Material, Bootstrap, Polaris,
+   Carbon et Primer posent tous leur carte à 16 px — mais avec des rayons de 6 à
+   12 px. Le nôtre est à 14 px depuis ce matin, et c'est le rapport du padding au
+   rayon qui décide : en dessous d'environ 1,4× le contenu vient serrer la courbe
+   et le coin se lit comme une coupe plutôt que comme un arrondi.
+
+     16 px → 1,14×   trop serré pour un rayon de 14
+     20 px → 1,43×   limite
+     24 px → 1,71×   le bon rapport
+     32 px → 2,29×   registre éditorial
+
+   Les noms sont sémantiques parce que la doctrine porte sur des intentions —
+   « dense » et « canonique » — et non sur des nombres. `xs` garde `p-3` : 12 px
+   n'a pas de nom dans l'échelle, et cette taille n'a aucun consommateur.
+
+   Les 90 cartes faites main ont été ramenées sur ces deux valeurs le même jour :
+   17 conversions de vocabulaire à pixel constant, 32 convergences depuis 12, 20
+   et 32 px. */
 const SIZE_CLASSES: Record<CardSize, string> = {
   xs: 'p-3 gap-stack-xs',
-  sm: 'p-4 gap-stack-xs',
-  md: 'p-6 gap-stack-xs',
-  lg: 'p-8 gap-stack',
+  sm: 'p-stack gap-stack-xs',      // 16 px — dense
+  md: 'p-stack-lg gap-stack-xs',   // 24 px — le canon
+  lg: 'p-section gap-stack',       // 32 px — éditorial
 };
 
 const TONE_BG_CLASSES: Record<CardTone, string> = {

@@ -149,7 +149,7 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({
     ).length;
 
     return (
-      <div className="bg-white rounded-lg border border-ink-200 p-8 text-center max-w-2xl mx-auto">
+      <div className="bg-white rounded-lg border border-ink-200 p-stack-lg text-center max-w-2xl mx-auto">
         <div
           className={[
             'inline-flex items-center justify-center w-20 h-20 rounded-full mb-stack',
@@ -193,7 +193,7 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({
   }
 
   return (
-    <div className="bg-white rounded-lg border border-ink-200 p-6 max-w-2xl mx-auto">
+    <div className="bg-white rounded-lg border border-ink-200 p-stack-lg max-w-2xl mx-auto">
       <div className="mb-5">
         <div className="flex items-center justify-between mb-2">
           <span className="text-caption font-semibold text-ink-500">

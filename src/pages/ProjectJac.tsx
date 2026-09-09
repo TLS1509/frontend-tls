@@ -109,7 +109,7 @@ const JacValidationForm: React.FC<{
       <div className="flex flex-col gap-stack">
         <p className="text-caption font-semibold text-ink-600 uppercase tracking-wide m-0">Grille d'évaluation Dreyfus</p>
         {rubric.map((row, idx) => (
-          <div key={idx} className="flex flex-col gap-stack-xs p-3 bg-white rounded-lg border border-ink-100">
+          <div key={idx} className="flex flex-col gap-stack-xs p-stack bg-white rounded-lg border border-ink-100">
             <p className="text-body-sm font-semibold text-ink-900 m-0">{row.criterion}</p>
             <div className="flex flex-wrap gap-1.5">
               {([1, 2, 3, 4, 5] as DreyfusLevel[]).map((level) => (

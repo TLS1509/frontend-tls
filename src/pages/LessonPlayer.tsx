@@ -1109,7 +1109,7 @@ export const LessonPlayer: React.FC = () => {
   const renderAppliquer = () => (
     <div>
       <h2 className={SECTION_TITLE}>{lessonData.appliquer.heading}</h2>
-      <div className="bg-primary-50 rounded-xl p-5 mb-stack-lg border border-primary-200">
+      <div className="bg-primary-50 rounded-xl p-stack-lg mb-stack-lg border border-primary-200">
         <p className="m-0 font-body text-body text-ink-900 leading-relaxed">
           {lessonData.appliquer.instruction}
         </p>
@@ -1177,12 +1177,12 @@ export const LessonPlayer: React.FC = () => {
     return (
       <div>
         <h2 className={SECTION_TITLE}>{t.heading}</h2>
-        <div className="bg-primary-50 border border-primary-200 rounded-xl p-5 mb-stack-lg">
+        <div className="bg-primary-50 border border-primary-200 rounded-xl p-stack-lg mb-stack-lg">
           <p className="m-0 font-body text-body text-ink-700 leading-relaxed">{t.intro}</p>
         </div>
         <div className="flex flex-col gap-stack mb-section">
           {t.scenarios.map((scenario, i) => (
-            <div key={i} className="flex gap-stack p-5 bg-white border border-ink-200 rounded-xl hover:border-primary-300 transition-colors duration-200">
+            <div key={i} className="flex gap-stack p-stack-lg bg-white border border-ink-200 rounded-xl hover:border-primary-300 transition-colors duration-200">
               <div className="w-8 h-8 rounded-full bg-primary-500 text-white font-display text-caption font-bold flex items-center justify-center shrink-0 mt-0.5">
                 {i + 1}
               </div>
@@ -1934,7 +1934,7 @@ export const LessonPlayer: React.FC = () => {
         {/* CONTENT — scrollable, padded bottom for progress dots */}
         <div className="flex-1 overflow-y-auto flex flex-col items-center px-stack sm:px-stack-lg lg:px-section pt-stack-lg pb-16">
           <div
-            className="lp-card-anim bg-white rounded-2xl p-section sm:p-section-lg shadow-md w-full max-w-[900px]"
+            className="lp-card-anim bg-white rounded-2xl p-stack-lg sm:p-section-lg shadow-md w-full max-w-[900px]"
             key={currentSection.id}
           >
             {SECTION_RENDERERS[currentSection.id]()}

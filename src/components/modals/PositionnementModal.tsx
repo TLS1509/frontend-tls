@@ -175,7 +175,7 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
               </div>
 
               {/* Question card */}
-              <div className="bg-white rounded-xl p-6 shadow-md mb-stack-lg border border-ink-200">
+              <div className="bg-white rounded-xl p-stack-lg shadow-md mb-stack-lg border border-ink-200">
                 <h2 className="text-h3 font-extrabold text-ink-900 leading-snug mb-2">
                   {currentQuestion.title}
                 </h2>
@@ -249,7 +249,7 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
           ) : (
             /* Success screen */
             <div className="flex flex-col gap-stack animate-modal-in">
-              <div className="bg-white rounded-xl p-8 border border-primary-500/20 shadow-lg text-center">
+              <div className="bg-white rounded-xl p-stack-lg border border-primary-500/20 shadow-lg text-center">
                 <div className="inline-flex gap-stack-xs mb-5 p-3 rounded-xl bg-ink-50">
                   {([<Target size={22} strokeWidth={1.75} />, <Star size={22} strokeWidth={1.75} />, <Rocket size={22} strokeWidth={1.75} />] as React.ReactNode[]).map((icon, i) => (
                     <div
@@ -274,7 +274,7 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
                   ))}
                 </div>
 
-                <div className="flex gap-stack-xs p-4 rounded-lg bg-primary-50 border border-primary-500/20 text-left">
+                <div className="flex gap-stack-xs p-stack rounded-lg bg-primary-50 border border-primary-500/20 text-left">
                   <div className="shrink-0 w-9 h-9 rounded-md bg-primary-500 flex items-center justify-center">
                     <Sparkles size={18} className="text-white" />
                   </div>

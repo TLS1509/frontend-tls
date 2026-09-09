@@ -251,7 +251,7 @@ const CreditsTab: React.FC<{ credits: { classic: number; special: number } }> = 
   const navigate = useNavigate();
   return (
     <div className="flex flex-col gap-stack-lg">
-      <div className="p-section flex flex-col md:flex-row items-center md:items-start justify-between gap-section rounded-2xl bg-secondary-50/60 border border-secondary-200">
+      <div className="p-stack-lg flex flex-col md:flex-row items-center md:items-start justify-between gap-section rounded-2xl bg-secondary-50/60 border border-secondary-200">
         <div className="flex flex-col gap-stack text-center md:text-left">
           <p className="m-0 text-caption font-medium text-secondary-600">Solde actuel</p>
           <div className="flex items-center gap-stack-xs justify-center md:justify-start">
@@ -322,7 +322,7 @@ const CreditsTab: React.FC<{ credits: { classic: number; special: number } }> = 
         >
           <div className="flex flex-col gap-stack-xs">
             {EARN_WAYS.map((way, i) => (
-              <div key={i} className="flex items-center gap-stack-xs p-3 rounded-lg bg-ink-50 border border-ink-100">
+              <div key={i} className="flex items-center gap-stack-xs p-stack rounded-lg bg-ink-50 border border-ink-100">
                 <div className={`w-9 h-9 rounded-md ${way.iconBg} flex items-center justify-center shrink-0`}>
                   {way.icon}
                 </div>

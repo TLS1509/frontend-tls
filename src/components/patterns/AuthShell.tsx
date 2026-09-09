@@ -320,7 +320,7 @@ export const AuthFeature: React.FC<AuthFeatureProps> = ({
   title,
   description,
 }) => (
-  <div className="rounded-lg bg-white/10 border border-white/20 p-4 backdrop-blur-glass-light">
+  <div className="rounded-lg bg-white/10 border border-white/20 p-stack backdrop-blur-glass-light">
     <h4 className="font-display text-body font-semibold text-white mb-1.5 inline-flex items-center gap-stack-xs">
       {icon}
       {title}

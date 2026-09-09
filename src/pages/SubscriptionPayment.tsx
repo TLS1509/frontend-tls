@@ -360,7 +360,7 @@ export const SubscriptionPayment: React.FC = () => {
         </SectionCard>
 
         {/* Summary + CTA */}
-        <div className="flex flex-col gap-stack p-5 rounded-2xl bg-primary-50/60 border border-primary-200">
+        <div className="flex flex-col gap-stack p-stack-lg rounded-2xl bg-primary-50/60 border border-primary-200">
           <div className="flex items-center justify-between">
             <div className="flex flex-col">
               <p className="m-0 font-body text-caption text-ink-500 uppercase tracking-wider font-semibold">

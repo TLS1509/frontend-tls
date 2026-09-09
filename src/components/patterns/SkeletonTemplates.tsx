@@ -28,7 +28,7 @@ export const NotificationRowSkeleton: React.FC = () => (
 /* ─── ParcoursCard / LessonCard skeleton ────────────────────────────────── */
 
 export const ParcoursCardSkeleton: React.FC = () => (
-  <div className="flex flex-col gap-stack-xs p-5 rounded-lg border border-ink-100 bg-white">
+  <div className="flex flex-col gap-stack-xs p-stack-lg rounded-lg border border-ink-100 bg-white">
     <Skeleton variant="text" width={60} height={16} />
     <Skeleton variant="title" />
     <Skeleton variant="text" width="100%" />
@@ -58,7 +58,7 @@ export const EditorialCardSkeleton: React.FC = () => (
 /* ─── ResumeLessonCard skeleton (Dashboard hero) ────────────────────────── */
 
 export const ResumeLessonSkeleton: React.FC = () => (
-  <div className="flex flex-col sm:flex-row gap-stack-lg p-6 sm:p-8 rounded-lg border border-ink-100 bg-white">
+  <div className="flex flex-col sm:flex-row gap-stack-lg p-stack-lg sm:p-stack-lg rounded-lg border border-ink-100 bg-white">
     <div className="flex-1 flex flex-col gap-stack">
       <Skeleton variant="text" width={120} height={14} />
       <Skeleton variant="title" width="80%" height={32} />
@@ -89,7 +89,7 @@ export const ActivityItemSkeleton: React.FC = () => (
 /* ─── StatCard skeleton ─────────────────────────────────────────────────── */
 
 export const StatCardSkeleton: React.FC = () => (
-  <div className="flex flex-col gap-stack-xs p-5 rounded-lg border border-ink-100 bg-white">
+  <div className="flex flex-col gap-stack-xs p-stack-lg rounded-lg border border-ink-100 bg-white">
     <Skeleton variant="circle" width={44} height={44} />
     <Skeleton variant="title" width={80} height={32} />
     <Skeleton variant="text" width="60%" height={12} />

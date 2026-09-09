@@ -128,7 +128,7 @@ export const ProjectSkillGaps: React.FC = () => {
         >
           <div className="flex flex-col gap-stack-xs">
             {coveredSkills.map((entry) => (
-              <div key={entry.competencyId} className="p-3 rounded-lg border border-success-base/30 bg-success-bg flex items-center justify-between gap-stack flex-wrap">
+              <div key={entry.competencyId} className="p-stack rounded-lg border border-success-base/30 bg-success-bg flex items-center justify-between gap-stack flex-wrap">
                 <p className="text-body-sm font-semibold text-ink-900 m-0">{entry.competencyName}</p>
                 <div className="flex items-center gap-stack-xs">
                   <Badge variant="brand">D{entry.required}+ ({DREYFUS_LABELS[entry.required]})</Badge>

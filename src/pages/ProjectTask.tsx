@@ -220,7 +220,7 @@ export const ProjectTask: React.FC = () => {
             <SectionCard title="JAC liés à cette tâche" titleIcon={<CheckCircle2 size={18} />}>
               <div className="flex flex-col gap-stack-xs">
                 {taskJacs.map((jac) => (
-                  <div key={jac.id} className="flex items-center gap-stack p-3 rounded-lg border border-ink-100">
+                  <div key={jac.id} className="flex items-center gap-stack p-stack rounded-lg border border-ink-100">
                     <Avatar initials={jac.collaboratorInitials} size="sm" tint="brand" />
                     <div className="flex-1 min-w-0">
                       <p className="text-body-sm font-semibold text-ink-900 m-0">{jac.collaboratorName}</p>

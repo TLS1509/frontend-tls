@@ -127,7 +127,7 @@ const ProjectsList: React.FC = () => {
                   </div>
 
                   {gatingFails && gatingFails.length > 0 && (
-                    <div className="flex items-start gap-stack-xs p-3 rounded-lg bg-warning-bg border border-warning-base/30 mb-stack text-caption text-warning-fg">
+                    <div className="flex items-start gap-stack-xs p-stack rounded-lg bg-warning-bg border border-warning-base/30 mb-stack text-caption text-warning-fg">
                       <Lock size={12} className="mt-0.5 shrink-0" />
                       <span>
                         Pré-requis non atteints :{' '}
