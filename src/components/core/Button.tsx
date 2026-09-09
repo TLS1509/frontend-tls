@@ -176,7 +176,22 @@ const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary:     'bg-primary-600 text-white shadow-sm hover:shadow-brand-md hover:bg-primary-500 active:bg-primary-800 active:shadow-sm',
   secondary:   'bg-secondary-500 text-white shadow-sm hover:shadow-warm-md hover:bg-secondary-400 active:bg-secondary-700 active:shadow-sm',
   accent:      'bg-accent-500 text-white shadow-sm hover:shadow-sun-md hover:bg-accent-400 active:bg-accent-600 active:shadow-sm',
-  ghost:       'bg-primary-50 text-primary-800 border border-primary-100 shadow-xs hover:bg-primary-100 hover:border-primary-200 hover:shadow-sm active:bg-primary-200 active:border-primary-200',
+  /* ghost — le fond doux, filet fermé.
+
+     C'est la variante la plus employée de l'app : 191 des 495 boutons du produit,
+     devant `primary`. Son filet vivait au cran 100, à 1,05 de contraste avec le
+     blanc — invisible. Le bouton se lisait, mais rien n'annonçait que c'en était
+     un, ce que WCAG 1.4.11 réclame à 3,0 pour le contour d'un composant.
+
+     Tranché le 2026-09-09 : le filet passe au cran 600 (3,66) et reste à 1 px.
+     La règle ne dit rien de l'épaisseur, seulement de la couleur — un trait fin
+     au bon cran passe comme un trait épais, et le bouton ne s'alourdit pas.
+     Il n'y avait d'ailleurs pas d'entre-deux : `primary-500`, le teal de la
+     signature, mesure 2,94 et rate le seuil de six centièmes.
+
+     Le label reste au cran 800, à 6,31 sur ce fond — le meilleur contraste de
+     texte de toutes les pistes examinées, remplissages saturés compris. */
+  ghost:       'bg-primary-50 text-primary-800 border border-primary-600 shadow-xs hover:bg-primary-100 hover:border-primary-700 hover:shadow-sm active:bg-primary-200 active:border-primary-800',
   /* outline : transparent bg + visible colored border — mid-weight between ghost and primary
      ⚠️ La bordure est à 600, PAS à 400/500. Mesuré le 2026-07-31 : sur blanc,
      `primary-400` = 2,44 et `primary-500` = 2,94, tous deux sous le seuil de
@@ -200,9 +215,11 @@ const VARIANT_CLASSES: Record<ButtonVariant, string> = {
      Pour usages sur fond blanc OU sur surface tinted MÊME tone (emphasis subtle).
      (glass-brand retiré le 2026-07-23 : doublon exact de `ghost`.) */
   'glass-warm':
-               'bg-secondary-100/70 text-secondary-800 border border-secondary-200/80 backdrop-blur-glass-light shadow-xs hover:bg-secondary-100 hover:border-secondary-300 active:bg-secondary-200',
+               'bg-secondary-100/70 text-secondary-800 border border-secondary-600 backdrop-blur-glass-light shadow-xs hover:bg-secondary-100 hover:border-secondary-700 active:bg-secondary-200 active:border-secondary-700',
+  /* glass-sun monte au cran 700, pas 600 : l'or est la seule famille dont le
+     cran 600 (#C68D36) rate le seuil, à 2,89. Le 700 donne 4,88. */
   'glass-sun':
-               'bg-accent-100/70 text-accent-800 border border-accent-200/80 backdrop-blur-glass-light shadow-xs hover:bg-accent-100 hover:border-accent-300 active:bg-accent-200',
+               'bg-accent-100/70 text-accent-800 border border-accent-700 backdrop-blur-glass-light shadow-xs hover:bg-accent-100 hover:border-accent-800 active:bg-accent-200 active:border-accent-800',
   link:        'bg-transparent text-primary-700 underline underline-offset-4 hover:text-primary-800 p-0 h-auto',
 };
 
