@@ -1,0 +1,26 @@
+TLS — icônes d'application
+Généré le 2026-09-09.
+
+DEUX PISTES, à trancher
+  app-icon-clair    plaque blanche, mark en couleur    — suit la doctrine « fond clair »
+  app-icon-teal     plaque teal en dégradé, mark blanc — plus visible sur un écran d'accueil
+
+DEUX DÉCOUPES
+  (sans suffixe)    carré plein   → iOS, Android, PWA : le système pose SON masque.
+                                    Une plaque déjà arrondie donnerait un double arrondi.
+  -arrondi          coins arrondis → favicon, vignette, aperçu, présentation
+
+Le mark occupe 62 % de la largeur — le retrait standard des icônes système.
+
+TAILLES
+  1024  App Store, macOS
+   512  manifeste PWA, Play Store
+   256  vignette bureau
+   192  manifeste PWA
+   180  apple-touch-icon
+   128 · 96 · 64  vignettes
+    32 · 16  favicon
+
+CE QUI EST DÉJÀ INSTALLÉ DANS L'APP
+  public/apple-touch-icon.png, icon-192, icon-512 utilisent la plaque BLANCHE
+  carrée. Basculer sur la piste teal se fait en régénérant ces trois fichiers.
