@@ -15,7 +15,7 @@
  */
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Check, X, Type, Square, MousePointerClick, Baseline, RotateCcw, Bold, LayoutGrid, Ruler, LayoutList, Wrench, FlaskConical } from 'lucide-react';
+import { Check, X, Type, Square, MousePointerClick, Baseline, RotateCcw, Bold, LayoutGrid, Ruler, LayoutList, Wrench, FlaskConical, ListChecks, ChevronRight, ArrowUpRight } from 'lucide-react';
 import { Button } from '../components/core/Button';
 import { Card } from '../components/core/Card';
 
@@ -55,6 +55,66 @@ const contrast = (fg: string, bg: string): number => {
 };
 
 const fmt = (n: number) => n.toFixed(2).replace('.', ',');
+
+/* ──────────────────── OKLCH — pour dériver une rampe ─────────────────────
+   Ajouté le 2026-07-30 pour répondre à une question de Chloé : « on peut pas
+   faire dériver notre grayscale de notre ink-900 TLS ? »
+
+   Pourquoi OKLCH et pas HSL. En HSL, deux couleurs de même `L` n'ont pas la
+   même clarté perçue — un jaune à L 50 % éclate, un bleu à L 50 % est sombre.
+   Impossible d'y changer une teinte sans bouger le contraste. La clarté d'OKLCH
+   est perceptuelle : on tient `L`, on tourne `h`, et **les ratios WCAG ne
+   bougent pas**. C'est ce qui permet de proposer une autre rampe sans rouvrir
+   un seul dossier d'accessibilité.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+const linToSrgb = (v: number) => {
+  const c = v <= 0.0031308 ? v * 12.92 : 1.055 * Math.pow(v, 1 / 2.4) - 0.055;
+  return Math.round(Math.min(1, Math.max(0, c)) * 255);
+};
+
+/** sRGB → OKLCH, angles en degrés. */
+const toOklch = (input: string): [number, number, number] | null => {
+  const rgb = parseColor(input);
+  if (!rgb) return null;
+  const [r, g, b] = rgb.map(srgbToLin);
+  const l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b);
+  const m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b);
+  const s = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b);
+  const L = 0.2104542553 * l + 0.793617785 * m - 0.0040720468 * s;
+  const A = 1.9779984951 * l - 2.428592205 * m + 0.4505937099 * s;
+  const B = 0.0259040371 * l + 0.7827717662 * m - 0.808675766 * s;
+  let h = (Math.atan2(B, A) * 180) / Math.PI;
+  if (h < 0) h += 360;
+  return [L, Math.hypot(A, B), h];
+};
+
+/** OKLCH → hex, écrêté au gamut sRGB. */
+const fromOklch = (L: number, C: number, h: number): string => {
+  const rad = (h * Math.PI) / 180;
+  const A = C * Math.cos(rad);
+  const B = C * Math.sin(rad);
+  const l = (L + 0.3963377774 * A + 0.2158037573 * B) ** 3;
+  const m = (L - 0.1055613458 * A - 0.0638541728 * B) ** 3;
+  const s = (L - 0.0894841775 * A - 1.291485548 * B) ** 3;
+  const rgb = [
+    linToSrgb(4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s),
+    linToSrgb(-1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s),
+    linToSrgb(-0.0041960863 * l - 0.7034186147 * m + 1.707614701 * s),
+  ];
+  return `#${rgb.map((v) => v.toString(16).padStart(2, '0')).join('')}`;
+};
+
+/**
+ * Rejoue une couleur sur la teinte de `hueSource`, en conservant **exactement**
+ * sa clarté et sa chroma. Le contraste est donc préservé au centième près.
+ */
+const rehue = (couleur: string, hueSource: string): string => {
+  const a = toOklch(couleur);
+  const b = toOklch(hueSource);
+  if (!a || !b) return couleur;
+  return fromOklch(a[0], a[1], b[2]);
+};
 
 /* ─────────────────────── Lecture live des tokens ────────────────────────── */
 
@@ -966,9 +1026,575 @@ const BTN_TRIALS: Record<string, { label: string; hint: string; css: string }> =
 };
 const TRIAL_STYLE_ID = '__design-lab-btn-trial';
 
+/* ══════════════════════════════════════════════════════════════════════════
+   TROIS ARBITRAGES OUVERTS — ajoutés le 2026-07-29
+   Ces trois sections existent parce que trois affirmations circulaient dans la
+   doc comme des décisions alors qu'aucune n'avait été tranchée :
+     1. la couleur du texte courant       (gris teinté teal vs marron éditorial)
+     2. le rayon des boutons et des cards (pilule 999 vs 14 vs 10)
+     3. la signification des tonalités    (teal=focus, orange=action, or=validé)
+   `DESIGN.md` porte lui-même 🚧 « table à rejouer » et « à l'arbitrage au banc ».
+   ══════════════════════════════════════════════════════════════════════════ */
+
+const PARAGRAPHE =
+  "Nous accompagnons les organisations dans leur transition vers un modèle centré sur les compétences. Conseil stratégique, création pédagogique sur-mesure et Intelligence Artificielle pour aligner enfin vos talents avec vos enjeux business.";
+
+const FONDS_TEXTE = [
+  { nom: 'Blanc', token: '--color-ink-0' },
+  { nom: 'Crème', token: '--color-surface-cream' },
+  { nom: 'Papier teinté', token: '--color-accent-50' },
+  { nom: 'Teal mist', token: '--color-primary-50' },
+] as const;
+
+/** Mélange linéaire en sRGB. `t = 0` rend `a`, `t = 1` rend `b`. */
+const mix = (a: string, b: string, t: number): string => {
+  const x = parseColor(a);
+  const y = parseColor(b);
+  if (!x || !y) return a;
+  const c = x.map((v, i) => Math.round(v + (y[i] - v) * t));
+  return `rgb(${c[0]}, ${c[1]}, ${c[2]})`;
+};
+
+/**
+ * Éclaircit `encre` vers `bg` jusqu'à retrouver le contraste que `ref` obtient
+ * sur ce même `bg`. Sert à dériver le ton de paragraphe d'une encre : la teinte
+ * de l'encre choisie, la lisibilité exacte de la rampe actuelle. Dichotomie sur
+ * 24 passes — la fonction est monotone en `t`, donc elle converge.
+ *
+ * Rien de ce que ça produit n'est un token : c'est une proposition à regarder.
+ */
+const rampMatch = (encre: string, bg: string, ref: string): string => {
+  const cible = contrast(ref, bg);
+  let lo = 0;
+  let hi = 1;
+  for (let i = 0; i < 24; i += 1) {
+    const t = (lo + hi) / 2;
+    if (contrast(mix(encre, bg, t), bg) > cible) lo = t;
+    else hi = t;
+  }
+  return mix(encre, bg, (lo + hi) / 2);
+};
+
+/**
+ * Trois traitements, pas deux.
+ *
+ * Le site ne pose jamais une encre unique : il pose un titre en `ink-900` et un
+ * paragraphe en `ink-600` / `ink-700` (86 et 72 usages, mesurés le 30/07).
+ * Comparer deux encres sur le seul titre masquait la vraie question, qui est
+ * celle de la **rampe** : `ink-50` → `ink-800` sont les gris froids par défaut
+ * de Tailwind, et `ink-900` (#252B37) est la seule valeur TLS de la série.
+ * Passer le titre au marron sans toucher au reste met donc un titre chaud sur un
+ * paragraphe froid — c'est la colonne du milieu, et elle est là pour être vue.
+ */
+const ENCRE_COLONNES = [
+  {
+    nom: 'Actuel',
+    detail: 'titre ink-900 · paragraphe ink-600',
+    titre: '--color-ink-900',
+    derive: false,
+  },
+  {
+    nom: 'Marron sur les titres seuls',
+    detail: 'titre marron · paragraphe ink-600 inchangé',
+    titre: '--color-brown-editorial',
+    derive: false,
+  },
+  {
+    nom: 'Rampe chaude',
+    detail: 'titre marron · paragraphe dérivé, à créer',
+    titre: '--color-brown-editorial',
+    derive: true,
+  },
+] as const;
+
+/* ── La rampe elle-même — ajouté le 2026-07-30 ─────────────────────────────
+   Question de Chloé : « on peut pas faire dériver notre ink / grayscale de
+   notre ink-900 TLS et remplacer les tailwind de base ? »
+
+   La réponse est oui, et elle est décevante : mesuré en OKLCH, `ink-900` est à
+   la teinte **264°**, quand le teal de marque `primary-500` est à **216°**.
+   Quarante-huit degrés d'écart. `ink-900` n'est donc PAS un « gris teinté
+   teal » — c'est un gris bleu-violet, de la même famille que les gris Tailwind
+   qu'il est censé remplacer (`ink-500` est à 264,4°, `ink-600` à 256,8°).
+   Dériver la rampe d'`ink-900` ne changerait presque rien : c'est la colonne B,
+   et elle est là pour être écartée les yeux ouverts.
+
+   Les deux colonnes qui changent quelque chose sont C (la teinte du vrai teal
+   de marque) et D (celle du marron). Les quatre rampes tiennent la clarté
+   d'origine cran par cran, donc **aucun ratio de contraste ne bouge**.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+const CRANS_INK = [
+  'ink-50', 'ink-100', 'ink-200', 'ink-300', 'ink-400',
+  'ink-500', 'ink-600', 'ink-700', 'ink-800', 'ink-900',
+] as const;
+
+const RAMPES = [
+  { cle: 'A', nom: 'Actuel', detail: 'gris Tailwind par défaut', hue: null },
+  { cle: 'B', nom: 'Depuis ink-900', detail: 'teinte 264° — quasi identique à A', hue: '--color-ink-900' },
+  { cle: 'C', nom: 'Depuis le teal TLS', detail: 'teinte 216° — enfin un gris de marque', hue: '--color-primary-500' },
+  { cle: 'D', nom: 'Depuis le marron', detail: 'teinte 46° — la rampe chaude', hue: '--color-brown-editorial' },
+] as const;
+
+const RampeArbitrage: React.FC<{ tick: number }> = ({ tick }) => {
+  const tokens = useLiveTokens([
+    ...CRANS_INK.map((c) => `--color-${c}`),
+    '--color-primary-500',
+    '--color-brown-editorial',
+    '--color-ink-0',
+  ]);
+  void tick;
+  const blanc = tokens['--color-ink-0'] || '#ffffff';
+
+  /** Une colonne = les 10 crans rejoués sur une teinte. */
+  const colonne = (hue: string | null) =>
+    CRANS_INK.map((cran) => {
+      const base = tokens[`--color-${cran}`] || '#000';
+      return { cran, valeur: hue ? rehue(base, tokens[hue] || base) : base };
+    });
+
+  return (
+    <div className="flex flex-col gap-stack">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {RAMPES.map((r) => {
+          const crans = colonne(r.hue);
+          return (
+            <div key={r.cle} className="flex flex-col gap-stack-xs min-w-0">
+              <div className="flex flex-col gap-0.5">
+                <span className="text-micro font-extrabold uppercase tracking-[0.07em] text-ink-700">
+                  {r.cle} · {r.nom}
+                </span>
+                <span className="text-micro text-ink-500">{r.detail}</span>
+              </div>
+              <div className="flex flex-col rounded-lg overflow-hidden border border-ink-200">
+                {crans.map((c) => {
+                  const ratio = contrast(c.valeur, blanc);
+                  const clair = ratio < 2.2;
+                  return (
+                    <div
+                      key={c.cran}
+                      className="flex items-center justify-between gap-2 px-2.5 py-1.5"
+                      style={{ backgroundColor: c.valeur }}
+                    >
+                      <span
+                        className="text-micro font-semibold tabular-nums"
+                        style={{ color: clair ? tokens['--color-ink-700'] : blanc }}
+                      >
+                        {c.cran.replace('ink-', '')}
+                      </span>
+                      <span
+                        className="text-micro tabular-nums"
+                        style={{ color: clair ? tokens['--color-ink-500'] : blanc, opacity: 0.85 }}
+                      >
+                        {c.valeur}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Spécimens : les deux rampes qui changent quelque chose, en situation. */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {RAMPES.filter((r) => r.cle === 'C' || r.cle === 'D').map((r) => {
+          const crans = colonne(r.hue);
+          const titre = crans.find((c) => c.cran === 'ink-900')!.valeur;
+          const corps = crans.find((c) => c.cran === 'ink-600')!.valeur;
+          const discret = crans.find((c) => c.cran === 'ink-500')!.valeur;
+          return (
+            <div
+              key={r.cle}
+              className="rounded-xl border border-ink-200 p-5 flex flex-col gap-stack-xs"
+              style={{ backgroundColor: blanc }}
+            >
+              <span className="text-micro font-bold" style={{ color: discret }}>
+                {r.cle} · {r.nom} — titre 900, corps 600, mention 500
+              </span>
+              <p
+                className="font-display text-h3 font-extrabold tracking-headline m-0"
+                style={{ color: titre }}
+              >
+                Ne formez plus pour former.
+              </p>
+              <p className="font-body text-body leading-relaxed m-0" style={{ color: corps }}>
+                {PARAGRAPHE}
+              </p>
+              <div className="flex flex-wrap items-center gap-2 pt-1">
+                <span className="text-micro font-semibold" style={{ color: discret }}>titre</span>
+                <Verdict ratio={contrast(titre, blanc)} />
+                <span className="text-micro font-semibold" style={{ color: discret }}>corps</span>
+                <Verdict ratio={contrast(corps, blanc)} />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+/** 1 · Couleur du texte courant. Paires titre/paragraphe réelles, quatre fonds. */
+const EncreArbitrage: React.FC<{ tick: number }> = ({ tick }) => {
+  const tokens = useLiveTokens([
+    '--color-ink-900',
+    '--color-ink-600',
+    '--color-brown-editorial',
+    ...FONDS_TEXTE.map((f) => f.token),
+    '--color-ink-0',
+  ]);
+  void tick;
+  const blanc = tokens['--color-ink-0'] || '#ffffff';
+  const refCorps = tokens['--color-ink-600'] || '#4b5563';
+
+  return (
+    <div className="flex flex-col gap-stack-lg">
+      {FONDS_TEXTE.map((fond) => {
+        const bg = tokens[fond.token] || blanc;
+        return (
+          <div key={fond.nom} className="flex flex-col gap-stack-xs">
+            <p className="text-micro font-extrabold uppercase tracking-[0.07em] text-ink-500 m-0">
+              {fond.nom} <span className="font-normal normal-case tracking-normal">{bg}</span>
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {ENCRE_COLONNES.map((col) => {
+                const titre = tokens[col.titre] || '#000';
+                const corps = col.derive ? rampMatch(titre, bg, refCorps) : refCorps;
+                return (
+                  <div
+                    key={col.nom}
+                    className="rounded-xl border border-ink-200 p-5 flex flex-col gap-stack-xs min-w-0"
+                    style={{ backgroundColor: bg }}
+                  >
+                    <div className="flex flex-col gap-0.5">
+                      <span className="text-micro font-bold" style={{ color: titre, opacity: 0.75 }}>
+                        {col.nom}
+                      </span>
+                      <span className="text-micro" style={{ color: corps, opacity: 0.8 }}>
+                        {col.detail}
+                      </span>
+                    </div>
+                    <p
+                      className="font-display text-h3 font-extrabold tracking-headline m-0"
+                      style={{ color: titre }}
+                    >
+                      Ne formez plus pour former.
+                    </p>
+                    <p className="font-body text-body leading-relaxed m-0" style={{ color: corps }}>
+                      {PARAGRAPHE}
+                    </p>
+                    <div className="flex flex-wrap items-center gap-2 pt-1">
+                      <span className="text-micro font-semibold" style={{ color: corps }}>
+                        titre
+                      </span>
+                      <Verdict ratio={contrast(titre, bg)} />
+                      <span className="text-micro font-semibold" style={{ color: corps }}>
+                        corps
+                      </span>
+                      <Verdict ratio={contrast(corps, bg)} />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+/** 2 · Rayons. Le même bouton et la même card à trois valeurs de l’échelle. */
+const RAYONS_CANDIDATS = [
+  { nom: 'Pilule · 999 px', token: '--radius-pill', note: 'état actuel des boutons' },
+  { nom: 'lg · 14 px', token: '--radius-lg', note: 'compromis' },
+  { nom: 'md · 10 px', token: '--radius-md', note: 'registre imprimé' },
+] as const;
+
+const RayonArbitrage: React.FC<{ tick: number }> = ({ tick }) => {
+  const tokens = useLiveTokens([
+    ...RAYONS_CANDIDATS.map((r) => r.token),
+    '--color-primary-700',
+    '--color-ink-0',
+    '--color-ink-200',
+    '--color-ink-900',
+    '--color-ink-600',
+  ]);
+  void tick;
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {RAYONS_CANDIDATS.map((r) => {
+        const rad = tokens[r.token] || '0px';
+        return (
+          <div key={r.nom} className="flex flex-col gap-stack-xs min-w-0">
+            <p className="text-micro font-extrabold uppercase tracking-[0.07em] text-ink-500 m-0">
+              {r.nom}
+            </p>
+            <p className="text-caption text-ink-500 m-0 -mt-1">{r.note}</p>
+
+            <div className="flex flex-col gap-4 pt-2">
+              {/* bouton plein */}
+              <span
+                className="inline-flex items-center justify-center px-6 py-3 font-body text-body-sm font-bold w-fit"
+                style={{
+                  borderRadius: rad,
+                  backgroundColor: tokens['--color-primary-700'],
+                  color: tokens['--color-ink-0'],
+                }}
+              >
+                Échanger sur votre projet
+              </span>
+
+              {/* card */}
+              <div
+                className="p-5 flex flex-col gap-stack-xs"
+                style={{
+                  borderRadius: rad,
+                  backgroundColor: tokens['--color-ink-0'],
+                  border: `1px solid ${tokens['--color-ink-200']}`,
+                }}
+              >
+                <p
+                  className="font-display text-h4 font-bold m-0"
+                  style={{ color: tokens['--color-ink-900'] }}
+                >
+                  Accompagnement STRIDE
+                </p>
+                <p
+                  className="font-body text-body-sm leading-relaxed m-0"
+                  style={{ color: tokens['--color-ink-600'] }}
+                >
+                  La méthode en six étapes pour cadrer votre transition, avec un livrable à chaque
+                  jalon.
+                </p>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+/** 3 · Les tonalités disent-elles quelque chose, ou est-ce une fiction de doc ? */
+const ROLES_ANNONCES = [
+  { role: 'Focus, progression', token: '--color-primary-700', tint: '--color-primary-50', tonalite: 'primary' },
+  { role: 'Action, contact humain', token: '--color-secondary-600', tint: '--color-secondary-50', tonalite: 'warm' },
+  { role: 'Validé, accompli', token: '--color-accent-700', tint: '--color-accent-50', tonalite: 'sun' },
+] as const;
+
+/** Mêmes rôles, couleurs permutées d’un cran. Si l’œil ne proteste pas, l’association est arbitraire. */
+const ROLES_PERMUTES = [
+  { role: 'Focus, progression', token: '--color-secondary-600', tint: '--color-secondary-50', tonalite: 'warm' },
+  { role: 'Action, contact humain', token: '--color-accent-700', tint: '--color-accent-50', tonalite: 'sun' },
+  { role: 'Validé, accompli', token: '--color-primary-700', tint: '--color-primary-50', tonalite: 'primary' },
+] as const;
+
+const TonaliteBloc: React.FC<{
+  jeu: readonly { role: string; token: string; tint: string; tonalite: string }[];
+  tokens: Record<string, string>;
+}> = ({ jeu, tokens }) => (
+  <div className="flex flex-col gap-3">
+    {jeu.map((r) => (
+      <div
+        key={r.role}
+        className="flex items-center gap-4 rounded-xl p-4"
+        style={{ backgroundColor: tokens[r.tint] }}
+      >
+        <span
+          className="w-10 h-10 rounded-lg shrink-0"
+          style={{ backgroundColor: tokens[r.token] }}
+        />
+        <div className="flex flex-col min-w-0">
+          <span
+            className="font-display text-body font-bold"
+            style={{ color: tokens[r.token] }}
+          >
+            {r.role}
+          </span>
+          <span className="font-body text-caption text-ink-600">tonalité {r.tonalite}</span>
+        </div>
+      </div>
+    ))}
+  </div>
+);
+
+const TonaliteArbitrage: React.FC<{ tick: number }> = ({ tick }) => {
+  const tokens = useLiveTokens([
+    '--color-primary-700', '--color-primary-50',
+    '--color-secondary-600', '--color-secondary-50',
+    '--color-accent-700', '--color-accent-50',
+  ]);
+  void tick;
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <Panel label="Association annoncée par la doc" tone="proposed">
+        <TonaliteBloc jeu={ROLES_ANNONCES} tokens={tokens} />
+      </Panel>
+      <Panel label="Mêmes rôles, couleurs permutées" tone="current">
+        <TonaliteBloc jeu={ROLES_PERMUTES} tokens={tokens} />
+      </Panel>
+    </div>
+  );
+};
+
+/* ══════════════════════════════════════════════════════════════════════════
+   ④ REMPLI OU OUTLINE ? — ajouté le 2026-07-31
+   Chloé, en marge de ③ : « je pense passer plutôt à des boutons outline border
+   coloured et coloured texte que filled en primary ».
+
+   L'intuition est bonne et la mesure la confirme, mais pas pour la raison
+   qu'on croit. Ce n'est pas un choix de style : c'est le seul traitement qui
+   garde les couleurs de marque RECONNAISSABLES tout en passant AA.
+
+   En rempli, le label est blanc et doit contraster avec le fond de marque —
+   ce qui force `primary-700` ou plus foncé, donc le « teal terni » écarté.
+   En outline, le label est posé sur du blanc : `primary-700` y est à 5,02,
+   et il se lit comme le teal de la marque et non comme un teal assombri.
+   Même token, lecture opposée, selon ce qu'il y a derrière.
+
+   Le piège : le variant `outline` existant a un label conforme et une
+   **bordure qui ne l'est pas** (`border-primary-400` = 2,44, seuil 3,0 de
+   SC 1.4.11). Voir la troisième rangée.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+const BTN_REMPLIS = [
+  { nom: 'primary', fond: '--color-primary-600', label: '--color-ink-0' },
+  { nom: 'secondary', fond: '--color-secondary-500', label: '--color-ink-0' },
+  { nom: 'accent', fond: '--color-accent-500', label: '--color-ink-0' },
+] as const;
+
+const BTN_OUTLINES = [
+  { nom: 'outline', label: '--color-primary-700', bordure: '--color-primary-400' },
+  { nom: 'outline-warm', label: '--color-secondary-700', bordure: '--color-secondary-400' },
+] as const;
+
+const BTN_OUTLINES_FIX = [
+  { nom: 'outline', label: '--color-primary-700', bordure: '--color-primary-600' },
+  { nom: 'outline-warm', label: '--color-secondary-700', bordure: '--color-secondary-600' },
+  { nom: 'outline-sun', label: '--color-accent-700', bordure: '--color-accent-700' },
+] as const;
+
+/** Une pastille de bouton dessinée à plat, pour comparer sans le bruit du vrai composant. */
+const BtnSpecimen: React.FC<{
+  texte: string;
+  fond?: string;
+  label: string;
+  bordure?: string;
+  rayon: string;
+}> = ({ texte, fond, label, bordure, rayon }) => (
+  <span
+    className="inline-flex items-center justify-center px-5 h-11 font-body text-body-sm font-semibold whitespace-nowrap"
+    style={{
+      borderRadius: rayon,
+      backgroundColor: fond ?? 'transparent',
+      color: label,
+      border: bordure ? `1px solid ${bordure}` : '1px solid transparent',
+    }}
+  >
+    {texte}
+  </span>
+);
+
+const BoutonsOutline: React.FC<{ tick: number }> = ({ tick }) => {
+  const tokens = useLiveTokens([
+    '--color-ink-0', '--color-radius', '--radius-lg',
+    ...BTN_REMPLIS.flatMap((b) => [b.fond, b.label]),
+    ...BTN_OUTLINES.flatMap((b) => [b.label, b.bordure]),
+    ...BTN_OUTLINES_FIX.flatMap((b) => [b.label, b.bordure]),
+  ]);
+  void tick;
+  const blanc = tokens['--color-ink-0'] || '#ffffff';
+  // ② est tranché : 14 px. Le banc montre donc déjà le rayon retenu.
+  const rayon = tokens['--radius-lg'] || '14px';
+
+  const Rangee: React.FC<{ titre: string; note: string; children: React.ReactNode }> = ({
+    titre, note, children,
+  }) => (
+    <div className="flex flex-col gap-stack-xs">
+      <div className="flex flex-col gap-0.5">
+        <span className="text-micro font-extrabold uppercase tracking-[0.07em] text-ink-700">{titre}</span>
+        <span className="text-micro text-ink-500">{note}</span>
+      </div>
+      <div className="rounded-xl border border-ink-200 p-5 flex flex-wrap items-start gap-6" style={{ backgroundColor: blanc }}>
+        {children}
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="flex flex-col gap-stack">
+      <Rangee
+        titre="A · Rempli — l'état actuel"
+        note="label blanc sur fond de marque · seuil texte 4,5"
+      >
+        {BTN_REMPLIS.map((b) => {
+          const fond = tokens[b.fond];
+          const label = tokens[b.label];
+          return (
+            <div key={b.nom} className="flex flex-col gap-2 items-start">
+              <BtnSpecimen texte="Échanger sur votre projet" fond={fond} label={label} rayon={rayon} />
+              <div className="flex items-center gap-2">
+                <span className="text-micro font-semibold text-ink-600">{b.nom}</span>
+                <Verdict ratio={contrast(label, fond)} />
+              </div>
+            </div>
+          );
+        })}
+      </Rangee>
+
+      <Rangee
+        titre="B · Outline tel qu'il est aujourd'hui dans Button.tsx"
+        note="label conforme, bordure non conforme · texte 4,5 · bordure 3,0"
+      >
+        {BTN_OUTLINES.map((b) => {
+          const label = tokens[b.label];
+          const bordure = tokens[b.bordure];
+          return (
+            <div key={b.nom} className="flex flex-col gap-2 items-start">
+              <BtnSpecimen texte="Échanger sur votre projet" label={label} bordure={bordure} rayon={rayon} />
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-micro font-semibold text-ink-600">label</span>
+                <Verdict ratio={contrast(label, blanc)} />
+                <span className="text-micro font-semibold text-ink-600">bordure</span>
+                <Verdict ratio={contrast(bordure, blanc)} large />
+              </div>
+            </div>
+          );
+        })}
+      </Rangee>
+
+      <Rangee
+        titre="C · Outline corrigé — bordure remontée d'un cran"
+        note="la seule modification : 400 → 600 sur la bordure"
+      >
+        {BTN_OUTLINES_FIX.map((b) => {
+          const label = tokens[b.label];
+          const bordure = tokens[b.bordure];
+          return (
+            <div key={b.nom} className="flex flex-col gap-2 items-start">
+              <BtnSpecimen texte="Échanger sur votre projet" label={label} bordure={bordure} rayon={rayon} />
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-micro font-semibold text-ink-600">label</span>
+                <Verdict ratio={contrast(label, blanc)} />
+                <span className="text-micro font-semibold text-ink-600">bordure</span>
+                <Verdict ratio={contrast(bordure, blanc)} large />
+              </div>
+            </div>
+          );
+        })}
+      </Rangee>
+    </div>
+  );
+};
+
 /* ─────────────────────────────── La page ────────────────────────────────── */
 
 const NAV = [
+  { id: 'decisions', label: 'Décisions' },
   { id: 'atelier', label: 'Atelier' },
   { id: 'fonts', label: 'Fontes' },
   { id: 'optical', label: 'Taille optique' },
@@ -981,10 +1607,437 @@ const NAV = [
   { id: 'inventory', label: 'Variants Button' },
   { id: 'buttons', label: 'Boutons' },
   { id: 'greys', label: 'Gris de texte' },
+  // Les trois arbitrages ouverts, en tête de liste dans l'usage même si en
+  // queue dans l'ordre : ce sont eux qui bloquent la direction artistique.
+  { id: 'encre', label: '① Couleur du texte' },
+  { id: 'rayon-arbitrage', label: '② Rayons' },
+  { id: 'tonalites', label: '③ Sens des couleurs' },
+  { id: 'boutons-outline', label: '④ Rempli ou outline' },
 ];
 
 /** Doit rester aligné sur le `scroll-mt-24` des sections (6rem = 96px). */
 const HEADER_OFFSET = 96;
+
+/* ══════════════════════ Panneau de décisions ═══════════════════════════════ */
+
+/**
+ * Les arbitrages ouverts, en ordre de DÉPENDANCE — pas d'importance.
+ * D1 bloque tout ce qui concerne la graisse : aucun rôle sémantique ne peut être
+ * nommé tant qu'on n'a pas dit qui gagne entre le token (600) et l'usage (700).
+ * Les choix sont persistés en localStorage pour survivre au rechargement.
+ */
+interface Decision {
+  id: string;
+  n: number;
+  title: string;
+  blocks?: string;
+  dependsOn?: number;
+  question: string;
+  /** Ce que la mesure établit — jamais une opinion. */
+  evidence: string[];
+  options: { key: string; label: string; hint: string; recommended?: boolean }[];
+  /** Aperçu inline du choix, quand il y a quelque chose à voir. */
+  preview?: (choice: string | null) => React.ReactNode;
+  /** Section du lab où se trouve la preuve complète. */
+  section?: string;
+}
+
+const SPARTAN = "'League Spartan', sans-serif";
+
+const DECISIONS: Decision[] = [
+  {
+    id: 'weight-h34', n: 1, title: 'Graisse des titres h3 / h4',
+    blocks: 'bloque les rôles de graisse',
+    question: 'Le token déclare 600. Le code écrit 700. Qui gagne ?',
+    evidence: [
+      'text-h3 : 700 sur 87 sites (70 %) · 600 sur 13 (10 %)',
+      'text-h4 : 700 sur 98 sites (67 %) · 600 sur 28 (19 %)',
+      'Aligner le token sur l’usage = 0 fichier à toucher. L’inverse = ~185 sites.',
+    ],
+    options: [
+      { key: 'token-700', label: 'Le token passe à 700', hint: 'on suit l’usage — 0 site à modifier', recommended: true },
+      { key: 'code-600', label: 'Le code revient à 600', hint: '~185 sites à corriger, titres plus légers' },
+    ],
+    preview: () => (
+      <div className="flex flex-wrap gap-stack-lg">
+        {[600, 700].map((w) => (
+          <div key={w} className="flex flex-col gap-1">
+            <span className="text-ink-900" style={{ fontFamily: SPARTAN, fontSize: 22, fontWeight: w, letterSpacing: '-0.025em' }}>
+              Prochaine session
+            </span>
+            <span className="text-ink-900" style={{ fontFamily: SPARTAN, fontSize: 18, fontWeight: w, letterSpacing: '-0.02em' }}>
+              Titre de card
+            </span>
+            <span className="text-micro text-ink-500 tabular-nums">h3 22 · h4 18 en {w}</span>
+          </div>
+        ))}
+      </div>
+    ),
+    section: 'weights',
+  },
+  {
+    id: 'weight-roles', n: 2, title: 'Nommer les rôles de graisse',
+    dependsOn: 1,
+    question: 'Une fois h3/h4 tranché, quels tokens sémantiques pose-t-on ?',
+    evidence: [
+      'Aucun --font-weight-* propre à TLS n’existe : seules les graisses portées par --text-h*.',
+      '2 111 déclarations, 6 graisses. 700 (43 %) et 600 (37 %) font 80 % à eux deux.',
+      'font-black (900) : 13 usages dispersés, jamais sur un héros — c’est du bruit.',
+      'Sans rôles nommés, rien ne dit quand écrire 600 plutôt que 700.',
+    ],
+    options: [
+      { key: 'five', label: '5 rôles nommés', hint: 'display 800 · title 700 · emphasis 600 · meta 500 · body 400', recommended: true },
+      { key: 'four', label: '4 rôles (sans display)', hint: 'le 800 reste une exception marketing, non tokenisée' },
+      { key: 'none', label: 'Pas de rôles', hint: 'on garde les graisses portées par les tokens de taille' },
+    ],
+    preview: () => (
+      <div className="flex flex-col gap-0.5">
+        {[
+          ['display', 800, 'héros marketing'],
+          ['title', 700, 'titres de page et de section'],
+          ['emphasis', 600, 'sous-titres, libellés, boutons'],
+          ['meta', 500, 'métadonnées appuyées'],
+          ['body', 400, 'texte courant'],
+        ].map(([n, w, use]) => (
+          <div key={n as string} className="flex items-baseline gap-stack-xs">
+            <code className="text-micro text-primary-800 w-32 shrink-0">--weight-{n}</code>
+            <span className="text-body-sm text-ink-900 w-28 shrink-0" style={{ fontWeight: w as number }}>
+              Reprends
+            </span>
+            <span className="text-micro text-ink-500">{use}</span>
+          </div>
+        ))}
+      </div>
+    ),
+    section: 'weights',
+  },
+  {
+    id: 'h4-bodylg', n: 3, title: 'h4 et body-lg font tous deux 18px',
+    question: 'Deux tokens, une taille. On les distingue autrement ou on fusionne ?',
+    evidence: [
+      'h4 : 18px/600, interligne 26px, tracking -0,02em — 166 usages.',
+      'body-lg : 18px/—, interligne 28px, pas de tracking — 137 usages.',
+      'La taille ne hiérarchise rien entre les deux : seuls la graisse et l’interligne les séparent.',
+      'Le CHANTIER recommande de NE PAS fusionner — deux rôles réels, pas un doublon.',
+    ],
+    options: [
+      { key: 'keep', label: 'Garder les deux', hint: 'rôles distincts : titre de card vs texte introductif', recommended: true },
+      { key: 'split', label: 'Écarter les tailles', hint: 'h4 → 20px, la taille redevient un signal' },
+      { key: 'merge', label: 'Fusionner', hint: '303 usages basculent sur un seul token' },
+    ],
+  },
+  {
+    id: 'btn-weight', n: 4, title: 'Graisse et tracking des boutons',
+    question: 'Les libellés paraissent fins. On monte la graisse et on relâche le serrage ?',
+    evidence: [
+      'Tous les boutons sont en 600. md (défaut) = 15px, sm = 13px — 485 boutons sur les deux.',
+      'BASE applique tracking-tight (-0,025em) : à 13px le libellé est petit ET serré ET en 600.',
+      'Gain purement visuel : aucune taille de bouton n’atteint 18,66px, donc 700 ne débloque pas la tolérance WCAG à 3,0.',
+    ],
+    options: [
+      { key: 'both', label: '700 + tracking 0 sous 16px', hint: 'corrige les deux causes de la finesse', recommended: true },
+      { key: 'weight', label: '700 seulement', hint: 'le serrage reste sur les petits libellés' },
+      { key: 'keep', label: 'Ne rien changer', hint: '600 reste la graisse des libellés' },
+    ],
+    preview: () => (
+      <div className="flex flex-wrap gap-stack">
+        {[[600, '-0.025em', '600 · serré — actuel'], [700, '0', '700 · tracking 0 — proposé']].map(([w, tr, lbl]) => (
+          <div key={lbl as string} className="flex flex-col gap-1 items-start">
+            <span
+              className="inline-flex items-center h-8 px-3.5 rounded-pill bg-primary-900 text-white"
+              style={{ fontFamily: "'Nunito', sans-serif", fontSize: 13, fontWeight: w as number, letterSpacing: tr as string }}
+            >
+              Voir le parcours
+            </span>
+            <span className="text-micro text-ink-500">{lbl} · size sm 13px</span>
+          </div>
+        ))}
+      </div>
+    ),
+  },
+  {
+    id: 'display-scale', n: 5, title: 'L’échelle display (96 / 64 / 48px)',
+    question: 'Trois tokens déclarés, zéro usage. On les adopte ou on les retire ?',
+    evidence: [
+      '--text-display-xl / -lg / -md sont déclarés dans index.css et liés 1:1 aux text styles Figma.',
+      'Usages dans src/ : 0. Les pages marketing utilisent text-4xl (36px), plus petit que le plus petit cran.',
+      'Le plafond recommandé pour un héros est 6rem (96px) — display-xl y est pile.',
+    ],
+    options: [
+      { key: 'adopt', label: 'Les adopter dans les héros', hint: 'remplace text-4xl sur les pages marketing' },
+      { key: 'drop', label: 'Les retirer des deux côtés', hint: 'code ET Figma, sinon la dérive revient', recommended: true },
+      { key: 'keep', label: 'Les laisser dormir', hint: '3 tokens morts de plus dans le système' },
+    ],
+  },
+  {
+    id: 'scale-bodysm', n: 6, title: 'Retirer body-sm (15px)',
+    question: 'body-sm et body sont séparés de 1 px. On fusionne ?',
+    evidence: [
+      'Le pas body-sm→body vaut ×1,07 — le plancher du registre produit est 1,125.',
+      '864 usages passeraient de 15 à 16 px.',
+      'Vérifié au dashboard : le texte se recompose, rien ne déborde.',
+    ],
+    options: [
+      { key: 'merge', label: 'Fusionner dans body', hint: '8 tokens au lieu de 10, pas à ×1,23', recommended: true },
+      { key: 'keep', label: 'Garder les deux', hint: 'l’échelle reste plate à cet endroit' },
+    ],
+    section: 'typo',
+  },
+  {
+    id: 'scale-h5', n: 7, title: 'Retirer h5 (16px)',
+    question: 'h5 fait exactement la taille de body. On le garde ?',
+    evidence: ['27 usages seulement.', 'Même taille que body (16 px) — seule la graisse les distingue.'],
+    options: [
+      { key: 'drop', label: 'Retirer h5', hint: 'les 27 usages passent en body + graisse', recommended: true },
+      { key: 'keep', label: 'Garder h5', hint: 'un rôle de titre à part, même si la taille est identique' },
+    ],
+    section: 'typo',
+  },
+  {
+    id: 'h3-size', n: 8, title: 'h3 : 22 → 24 px',
+    dependsOn: 1,
+    question: 'Deux mesures indépendantes demandent 24. On y va ?',
+    evidence: [
+      'Seuil WCAG grand texte en Spartan : 22,4 px. À 22 px, h3 n’y a pas droit.',
+      'Compensation optique face à Nunito (+8 %) : 23,8 px.',
+      'Bénéfice : le pas h4→h3 passe de ×1,22 à ×1,33.',
+    ],
+    options: [
+      { key: '24', label: 'Passer à 24 px', hint: '145 usages · interligne 32 px (×8)', recommended: true },
+      { key: '22', label: 'Rester à 22 px', hint: 'seuil de contraste 4,5 à appliquer sur h3' },
+    ],
+    preview: () => (
+      <div className="flex flex-wrap gap-stack-lg items-baseline">
+        {[22, 24].map((px) => (
+          <div key={px} className="flex flex-col gap-1">
+            <span className="text-ink-900" style={{ fontFamily: SPARTAN, fontSize: px, fontWeight: 700, letterSpacing: '-0.025em' }}>
+              Prochaine session
+            </span>
+            <span className="text-micro text-ink-500 tabular-nums">
+              {px} px → optique {((px * 0.41) / 0.493).toFixed(1)} px {px >= 22.4 ? '· seuil 3,0 mérité' : '· seuil 4,5'}
+            </span>
+          </div>
+        ))}
+      </div>
+    ),
+    section: 'optical',
+  },
+  {
+    id: 'line-heights', n: 9, title: 'Les 2 interlignes hors grille',
+    dependsOn: 8,
+    question: 'h4 est à 26 px et h3 à 30 px — hors multiple de 4. On aligne ?',
+    evidence: [
+      '8 interlignes sur 10 sont déjà des multiples de 4. Ces deux-là sont les exceptions.',
+      'h4 18 px : 24 px donne ×1,33 (×8) · 28 px donne ×1,56 (×4).',
+      'h3 : si 24 px est retenu, 32 px suit naturellement (×1,33, ×8).',
+    ],
+    options: [
+      { key: 'tight', label: 'h4 → 24 px, h3 → 32 px', hint: 'les deux sur la grille de 8, ratios 1,33', recommended: true },
+      { key: 'loose', label: 'h4 → 28 px, h3 → 32 px', hint: 'h4 plus aéré (×1,56)' },
+      { key: 'keep', label: 'Ne rien changer', hint: 'deux valeurs restent hors grille' },
+    ],
+  },
+  {
+    id: 'ink400', n: 10, title: 'ink-400 sur 309 textes',
+    question: 'Il échoue partout, à toutes les tailles. Comment on le remplace ?',
+    evidence: [
+      '2,54 sur blanc — échoue AA (4,5) ET la tolérance grand texte (3,0).',
+      'ink-500 le remplace sur fond clair (4,83) mais échoue sur fond gris (4,39) → ink-600 y est requis.',
+      '219 des 364 sites ne sont pas classables statiquement : la surface vient d’un ancêtre.',
+      'ink-400 garde un emploi légitime : l’état désactivé, que WCAG exempte.',
+    ],
+    options: [
+      { key: 'lots', label: 'En 3 lots vérifiés', hint: 'gris d’abord (ink-600), puis clairs, puis les 219 au rendu', recommended: true },
+      { key: 'bulk', label: 'Tout en ink-500 d’un coup', hint: 'laisse ~18 sites sous le seuil sur fond gris' },
+    ],
+    section: 'greys',
+  },
+  {
+    id: 'buttons', n: 11, title: 'Les 3 boutons pleins',
+    question: 'primary, secondary, accent échouent tous. Quel traitement ?',
+    evidence: [
+      'primary 3,66 · secondary 2,64 · accent 2,31 — et le survol aggrave (le fill s’éclaircit).',
+      'Vos contraintes : pas de teal terni, pas de label sombre sur couleur.',
+      'Le teal est le seul cran piégé : trop foncé pour ink-900, trop clair pour du blanc.',
+      'ghost (177 usages) se corrige d’une propriété : bordure 100 → 600.',
+    ],
+    options: [
+      { key: 'deep', label: 'Rempli profond (900)', hint: 'primary 11,46 · pétrole, pas un 700 terni', recommended: true },
+      { key: 'tinted', label: 'Teinté clair + bordure', hint: '5,79 / 3,66 · reste dans les tons clairs' },
+      { key: 'mixed', label: 'Hybride par famille', hint: 'teal en profond, chaudes en teinté' },
+    ],
+    section: 'fix3',
+  },
+  {
+    id: 'card-radius', n: 12, title: 'Rayon de racine des cards',
+    question: '14, 20 et 24 px coexistent sur des cards de même rôle. Lequel ?',
+    evidence: [
+      'Card.BASE pose rounded-xl (20 px), mais le rendu réel donne 14 / 20 / 24 selon le composant.',
+      'Côté code c’est un quasi ex æquo : 106 rounded-2xl contre 100 rounded-xl.',
+      'radius-3xl est un doublon exact de radius-2xl (24 px) — token mort.',
+    ],
+    options: [
+      { key: '20', label: '20 px partout', hint: 'suit Card.BASE, plus sobre' },
+      { key: '24', label: '24 px partout', hint: 'suit la hero du dashboard, plus doux' },
+    ],
+    section: 'radius',
+  },
+  {
+    id: 'sub11', n: 13, title: 'Les 54 usages sous 11 px',
+    question: 'text-[9px] ×12, text-[8px] ×2… on les rapatrie sur micro (11 px) ?',
+    evidence: [
+      '54 usages hors de l’échelle, dont 14 sous 10 px.',
+      'À ces tailles, même Nunito (grande hauteur d’x) décroche.',
+      'Aucun arbitrage réel : c’est mécanique.',
+    ],
+    options: [
+      { key: 'clamp', label: 'Tout ramener à micro (11 px)', hint: 'plancher unique, échelle refermée', recommended: true },
+      { key: 'audit', label: 'Regarder au cas par cas', hint: 'plus lent, peut garder des exceptions justifiées' },
+    ],
+  },
+];
+
+const DECISION_STORE = 'tls-design-lab-decisions';
+
+const DecisionPanel: React.FC<{ onJump: (id: string) => void }> = ({ onJump }) => {
+  const [choices, setChoices] = useState<Record<string, string>>(() => {
+    if (typeof localStorage === 'undefined') return {};
+    try { return JSON.parse(localStorage.getItem(DECISION_STORE) ?? '{}'); } catch { return {}; }
+  });
+  const [open, setOpen] = useState<string | null>(DECISIONS[0].id);
+
+  const pick = (id: string, key: string) => {
+    setChoices((c) => {
+      const next = c[id] === key ? (() => { const { [id]: _, ...rest } = c; return rest; })() : { ...c, [id]: key };
+      try { localStorage.setItem(DECISION_STORE, JSON.stringify(next)); } catch { /* quota, tant pis */ }
+      return next;
+    });
+  };
+
+  const done = DECISIONS.filter((d) => choices[d.id]).length;
+  const recap = DECISIONS.filter((d) => choices[d.id])
+    .map((d) => `${d.n}. ${d.title} → ${d.options.find((o) => o.key === choices[d.id])?.label}`)
+    .join('\n');
+
+  return (
+    <section id="decisions" className="scroll-mt-24 flex flex-col gap-stack">
+      <header className="flex flex-col gap-tight">
+        <h2 className="flex items-center gap-stack-xs text-h3 font-bold tracking-headline text-ink-900 m-0">
+          <span className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-primary-50 text-primary-700 shrink-0">
+            <ListChecks size={18} strokeWidth={2} />
+          </span>
+          Décisions à trancher
+          <span className="text-body-sm font-normal text-ink-500 tabular-nums">{done} / {DECISIONS.length}</span>
+        </h2>
+        <p className="text-body-sm text-ink-600 m-0 max-w-prose">
+          Rangées par dépendance, pas par importance. Chaque option porte ce que la mesure établit —
+          jamais une opinion. Les choix sont mémorisés localement.
+        </p>
+      </header>
+
+      <div className="rounded-xl border border-ink-200 bg-white overflow-hidden">
+        {DECISIONS.map((d) => {
+          const chosen = choices[d.id];
+          const isOpen = open === d.id;
+          const blockedBy = d.dependsOn && !choices[DECISIONS.find((x) => x.n === d.dependsOn)!.id]
+            ? d.dependsOn : null;
+          return (
+            <div key={d.id} className="border-b border-ink-100 last:border-b-0">
+              <button
+                type="button"
+                onClick={() => setOpen(isOpen ? null : d.id)}
+                aria-expanded={isOpen}
+                className="w-full flex items-center gap-stack-xs px-4 py-2.5 text-left hover:bg-ink-25 transition-colors duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+              >
+                <span className={[
+                  'w-5 h-5 rounded-full grid place-items-center shrink-0 text-micro font-bold',
+                  chosen ? 'bg-success-base text-white' : 'bg-ink-100 text-ink-600',
+                ].join(' ')}>
+                  {chosen ? '✓' : d.n}
+                </span>
+                <span className="flex-1 min-w-0">
+                  <span className="text-body-sm font-semibold text-ink-900">{d.title}</span>
+                  {d.blocks && !chosen && (
+                    <span className="ml-1.5 text-micro font-bold text-danger-fg">{d.blocks}</span>
+                  )}
+                  {blockedBy && (
+                    <span className="ml-1.5 text-micro text-ink-400">après la {blockedBy}</span>
+                  )}
+                  {chosen && (
+                    <span className="block text-micro text-success-fg font-semibold">
+                      {d.options.find((o) => o.key === chosen)?.label}
+                    </span>
+                  )}
+                </span>
+                <ChevronRight size={14} className={isOpen ? 'rotate-90 shrink-0 text-ink-400' : 'shrink-0 text-ink-400'} />
+              </button>
+
+              {isOpen && (
+                <div className="px-4 pb-4 pl-11 flex flex-col gap-stack-xs">
+                  <p className="text-body-sm font-semibold text-ink-800 m-0">{d.question}</p>
+                  <ul className="flex flex-col gap-0.5 m-0 pl-4 list-disc">
+                    {d.evidence.map((e, i) => (
+                      <li key={i} className="text-caption text-ink-600">{e}</li>
+                    ))}
+                  </ul>
+
+                  {d.preview && (
+                    <div className="rounded-lg border border-ink-200 bg-ink-25 p-3 my-1">
+                      {d.preview(chosen ?? null)}
+                    </div>
+                  )}
+
+                  <div className="flex flex-wrap gap-stack-xs">
+                    {d.options.map((o) => {
+                      const on = chosen === o.key;
+                      return (
+                        <button
+                          key={o.key}
+                          type="button"
+                          onClick={() => pick(d.id, o.key)}
+                          aria-pressed={on}
+                          className={[
+                            'flex flex-col items-start rounded-lg border px-3 py-1.5 text-left transition-colors duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+                            on ? 'border-primary-600 bg-primary-50' : 'border-ink-200 hover:border-ink-300',
+                          ].join(' ')}
+                        >
+                          <span className={['text-caption font-bold', on ? 'text-primary-900' : 'text-ink-800'].join(' ')}>
+                            {o.label}
+                            {o.recommended && !on && <span className="ml-1 text-micro font-semibold text-ink-400">recommandé</span>}
+                          </span>
+                          <span className="text-micro text-ink-500">{o.hint}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {d.section && (
+                    <button
+                      type="button"
+                      onClick={() => onJump(d.section!)}
+                      className="self-start inline-flex items-center gap-1 text-micro font-semibold text-primary-800 hover:underline cursor-pointer"
+                    >
+                      Voir la preuve complète <ArrowUpRight size={11} />
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {done > 0 && (
+        <div className="rounded-xl border border-success-base/40 bg-success-bg p-4 flex flex-col gap-stack-xs">
+          <p className="text-caption font-bold text-success-fg m-0">
+            {done} décision{done > 1 ? 's' : ''} prise{done > 1 ? 's' : ''} — à me transmettre pour application
+          </p>
+          <pre className="text-micro text-ink-800 m-0 whitespace-pre-wrap font-mono">{recap}</pre>
+        </div>
+      )}
+    </section>
+  );
+};
 
 /**
  * Atelier — compose un bouton ou une card à la main : fond, texte, bordure,
@@ -1456,7 +2509,10 @@ const DesignLab: React.FC = () => {
       </header>
 
       <main className="mx-auto max-w-page px-4 sm:px-6 py-section flex flex-col gap-section-lg">
-        {/* ── 0. Atelier — bac à sable ─────────────────────────────────── */}
+        {/* ── 0. Décisions à trancher ──────────────────────────────────── */}
+        <DecisionPanel onJump={scrollTo} />
+
+        {/* ── 0 bis. Atelier — bac à sable ─────────────────────────────── */}
         <Atelier />
 
         {/* ── 1 ter. Les deux fontes ───────────────────────────────────── */}
@@ -2105,6 +3161,201 @@ const DesignLab: React.FC = () => {
               <strong className="font-bold">mal affectée</strong>. Sa place légitime est l'état{' '}
               <strong className="font-bold">désactivé</strong> (que WCAG exempte explicitement) et le décoratif
               non-textuel. Les 309 usages sur du texte sont une réaffectation de rôle, pas un changement de teinte.
+            </p>
+          </div>
+        </Section>
+
+        {/* ══ ① Couleur du texte courant ═══════════════════════════════════ */}
+        <Section
+          id="encre"
+          icon={<Baseline size={18} />}
+          title="① La couleur du texte courant"
+          intro="Le marron éditorial #2f1c13 existe déjà dans les tokens mais ne sert que de warning-fg. La question posée au départ était « ink-900 ou marron », sur le seul titre. En mesurant les usages le 30/07, elle s'est révélée mal posée : le site n'écrit jamais d'une seule encre. Les trois colonnes ci-dessous montrent la vraie alternative."
+        >
+          <EncreArbitrage tick={tick} />
+
+          <h3 className="font-display text-h4 font-bold tracking-snug text-ink-900 m-0 pt-stack">
+            Et la rampe elle-même ? — vos deux questions du 30/07
+          </h3>
+          <div className="rounded-xl border border-primary-200 bg-primary-50 p-4 flex flex-col gap-stack-xs">
+            <p className="text-caption text-ink-800 m-0">
+              <strong className="font-bold">
+                « On peut pas faire dériver notre grayscale de notre ink-900 TLS ? »
+              </strong>{' '}
+              Si, et la mesure rend la réponse décevante. En OKLCH, <code>ink-900</code> est à la teinte{' '}
+              <strong className="font-bold">264°</strong> ; le teal de marque <code>primary-500</code>{' '}
+              est à <strong className="font-bold">216°</strong>. Quarante-huit degrés d'écart.{' '}
+              <code>ink-900</code> n'est donc pas un « gris teinté teal » : c'est un gris bleu-violet, de
+              la même famille que les gris Tailwind qu'il est censé remplacer (<code>ink-500</code> est à
+              264,4°, <code>ink-600</code> à 256,8°). D'où la colonne <strong className="font-bold">B</strong>{' '}
+              ci-dessous, qui ne bouge quasiment rien — <code>#4b5563</code> devient{' '}
+              <code>#4d5463</code>. Elle est là pour être écartée les yeux ouverts.
+            </p>
+            <p className="text-caption text-ink-800 m-0">
+              <strong className="font-bold">
+                « Le dark brown editorial, d'où est-il dérivé ? Du jaune ou de l'orange TLS ? »
+              </strong>{' '}
+              De l'orange, sans ambiguïté : le marron est à la teinte{' '}
+              <strong className="font-bold">46°</strong>, l'orange <code>secondary-500</code> à 52,3°,
+              l'or <code>accent-400</code> à 73,5°. Soit <strong className="font-bold">6,3°</strong> de
+              l'orange contre 27,5° de l'or. Nuance utile : ce n'est pas un simple assombrissement de
+              l'orange. Assombrir l'orange à la clarté du marron donne <code>#351906</code> ; le marron
+              réel est <code>#2f1c13</code>, soit <strong className="font-bold">plus rouge de 6°</strong>{' '}
+              et nettement moins saturé (chroma 0,034 contre 0,054). C'est donc bien la famille de
+              l'orange, mais choisie à la main, pas calculée.
+            </p>
+            <p className="text-caption text-ink-800 m-0">
+              <strong className="font-bold">Ce que ça coûte en accessibilité : rien.</strong> Les quatre
+              rampes tiennent la clarté d'origine cran par cran — seule la teinte tourne. Sur{' '}
+              <code>ink-600</code>, le contraste sur blanc passe de{' '}
+              <strong className="font-bold">7,56 à 7,64</strong> ; sur <code>ink-900</code>, de 14,20 à
+              14,35. Aucun dossier d'accessibilité ne se rouvre, quelle que soit la colonne retenue.
+            </p>
+          </div>
+          <RampeArbitrage tick={tick} />
+
+          <div className="rounded-xl border border-ink-200 bg-ink-50 p-4 flex flex-col gap-stack-xs">
+            <p className="text-caption text-ink-700 m-0">
+              <strong className="font-bold">Ce que la mesure a changé dans la question.</strong> Sur le
+              site, <code>text-ink-900</code> compte <strong className="font-bold">202 usages</strong>{' '}
+              (et non 169, chiffre qui avait dérivé), mais le texte de paragraphe vit ailleurs :{' '}
+              <code>ink-600</code> 86 fois, <code>ink-700</code> 72, <code>ink-500</code> 67. Soit{' '}
+              <strong className="font-bold">six niveaux de gris et 466 déclarations</strong> — pas une
+              encre, une rampe.
+            </p>
+            <p className="text-caption text-ink-700 m-0">
+              <strong className="font-bold">Et cette rampe n'est pas de vous.</strong>{' '}
+              <code>ink-50</code> → <code>ink-800</code> sont exactement les gris{' '}
+              <em>par défaut de Tailwind</em> (froids, bleutés) ; <code>ink-950</code> est le{' '}
+              <code>slate-900</code> de Tailwind ; <code>ink-900</code> (#252B37) est la{' '}
+              <strong className="font-bold">seule valeur TLS</strong> de la série. Vos paragraphes
+              n'ont donc aucun teal aujourd'hui — l'étiquette « gris teinté teal » ne vaut que pour le
+              cran le plus foncé.
+            </p>
+            <p className="text-caption text-ink-700 m-0">
+              <strong className="font-bold">Conséquence pour la décision.</strong> La colonne du milieu
+              est le piège : un titre chaud sur un paragraphe froid, ce qui arriverait si l'on ne
+              changeait que <code>ink-900</code>. Une direction papier-et-encre demande la colonne de
+              droite, dont le ton de paragraphe{' '}
+              <strong className="font-bold">n'existe pas encore en token</strong> — il est calculé ici
+              pour retrouver le contraste exact d'<code>ink-600</code> sur chaque fond. Choisir le
+              marron, c'est donc accepter de créer une rampe chaude, pas de changer une valeur.
+            </p>
+            <p className="text-caption text-ink-700 m-0">
+              Le contraste, lui, n'arbitre pas : il autorise. Les trois colonnes passent AAA sur les
+              quatre fonds. La décision reste esthétique.
+            </p>
+          </div>
+        </Section>
+
+        {/* ══ ② Rayons ════════════════════════════════════════════════════ */}
+        <Section
+          id="rayon-arbitrage"
+          icon={<Square size={18} />}
+          title="② Le rayon des boutons et des cards"
+          intro="La question annonçait deux valeurs en présence, pilule et 24. Le comptage du 30/07 en trouve sept sur le site. Les trois candidates ci-dessous existent déjà dans l'échelle, aucune n'est inventée — et la même valeur est appliquée au bouton et à la card, volontairement, pour voir ce que ça coûte."
+        >
+          <RayonArbitrage tick={tick} />
+          <div className="rounded-xl border border-ink-200 bg-ink-50 p-4 flex flex-col gap-stack-xs">
+            <p className="text-caption text-ink-700 m-0">
+              <strong className="font-bold">Sept valeurs, pas deux.</strong> Mesuré sur{' '}
+              <code>pages/marketing</code> + <code>components/marketing</code> :{' '}
+              <code>rounded-pill</code> 111 · <code>rounded-2xl</code> 66 · <code>rounded-xl</code> 44 ·{' '}
+              <code>rounded-lg</code> 10 · <code>rounded-sm</code> 8 · <code>rounded-3xl</code> 7 ·{' '}
+              <code>rounded-md</code> 2. À noter : <code>rounded-3xl</code>{' '}
+              <strong className="font-bold">ne correspond à aucun token TLS</strong> — il n'y a pas de{' '}
+              <code>--radius-3xl</code> dans <code>index.css</code>, ces 7 usages tombent sur le défaut
+              Tailwind. Le gain réel de l'arbitrage n'est donc pas « choisir entre deux registres », c'est
+              refermer une échelle partie en éventail.
+            </p>
+            <p className="text-caption text-ink-700 m-0">
+              <strong className="font-bold">Ce que la colonne de gauche démontre malgré elle.</strong> À
+              999 px, la card devient un stade : la pilule n'est pas généralisable, elle ne vaut que pour
+              des objets plus larges que hauts. L'arbitrage se joue donc réellement entre{' '}
+              <strong className="font-bold">14 et 10</strong>, avec la pilule éventuellement conservée
+              comme exception documentée sur les boutons seuls.
+            </p>
+            <p className="text-caption text-ink-700 m-0">
+              <strong className="font-bold">Ce que chaque valeur raconte.</strong> La pilule se lit
+              douce, accessible, grand public : c'est le registre d'une application. Le 10 px se lit
+              comme un objet imprimé, plus adulte, plus sobre. Le 14 px est le compromis. Si la direction
+              retenue est celle du papier et de l'encre, l'angle franc est plus cohérent que le bord rond.
+            </p>
+          </div>
+        </Section>
+
+        {/* ══ ③ Sens des couleurs ═════════════════════════════════════════ */}
+        <Section
+          id="tonalites"
+          icon={<FlaskConical size={18} />}
+          title="③ Les tonalités disent-elles vraiment quelque chose ?"
+          intro="La doc affirme : teal = focus et progression, orange = action et contact humain, or = validé. À gauche cette association. À droite, les mêmes rôles avec les couleurs permutées d'un cran. Si le décalage ne vous saute pas aux yeux, l'association est une convention d'écriture et non une contrainte de design."
+        >
+          <TonaliteArbitrage tick={tick} />
+          <div className="rounded-xl border border-ink-200 bg-ink-50 p-4 flex flex-col gap-stack-xs">
+            <p className="text-caption text-ink-700 m-0">
+              <strong className="font-bold">Cet arbitrage ne bloque aucun code.</strong> Vérifié le
+              30/07 : la prop <code>tone=</code> a{' '}
+              <strong className="font-bold">zéro usage</strong> dans{' '}
+              <code>pages/marketing</code> et <code>components/marketing</code>. Les maps de{' '}
+              <code>lib/tone-classes.ts</code> servent l'app, pas le site. Contrairement à ① et ②, il n'y
+              a donc rien à migrer ici — la réponse n'engage que les compositions à venir.
+            </p>
+            <p className="text-caption text-ink-700 m-0">
+              <strong className="font-bold">Ce que la permutation montre déjà.</strong> Entre les deux
+              panneaux, seul le teal change visiblement de rôle. Permuter <em>warm</em> et <em>sun</em>{' '}
+              se remarque à peine : l'orange #ED843A et l'or #F8B044 sont voisins en teinte. C'est
+              exactement l'avertissement que <code>DESIGN.md</code> porte lui-même — « deux tonalités
+              dominantes voisines ne distinguent rien à l'usage ». La triade annoncée se comporte donc
+              en pratique comme une <strong className="font-bold">binaire</strong> : teal, et le chaud.
+            </p>
+            <p className="text-caption text-ink-700 m-0">
+              Si l'association tient, on la verrouille et elle devient une vraie règle. Si elle ne tient
+              pas, on libère les couleurs et on choisit par composition plutôt que par doctrine.
+            </p>
+          </div>
+        </Section>
+
+        {/* ══ ④ Rempli ou outline ═════════════════════════════════════════ */}
+        <Section
+          id="boutons-outline"
+          icon={<MousePointerClick size={18} />}
+          title="④ Rempli ou outline ?"
+          intro="Votre remarque en marge de ③ — « je pense passer plutôt à des boutons outline border coloured et coloured texte que filled en primary ». La mesure vous donne raison, mais pour une raison plus forte que le style : c'est le seul traitement qui garde les couleurs de marque reconnaissables tout en passant AA. Les rayons sont ici à 14 px, votre arbitrage ② étant tranché."
+        >
+          <BoutonsOutline tick={tick} />
+          <div className="rounded-xl border border-ink-200 bg-ink-50 p-4 flex flex-col gap-stack-xs">
+            <p className="text-caption text-ink-700 m-0">
+              <strong className="font-bold">Pourquoi le rempli vous coinçait.</strong> En rempli, le
+              label est blanc et doit contraster avec le fond de marque. Or aucune des trois couleurs
+              signatures ne le permet : blanc sur <code>primary-600</code> donne{' '}
+              <strong className="font-bold">3,66</strong>, sur <code>secondary-500</code>{' '}
+              <strong className="font-bold">2,64</strong>, sur <code>accent-500</code>{' '}
+              <strong className="font-bold">2,31</strong> — et sur l'or canonique{' '}
+              <code>accent-400</code>, <strong className="font-bold">1,86</strong>, le pire de la
+              palette. Pour passer AA il faut descendre à{' '}
+              <code>primary-700</code> (5,02) ou <code>secondary-700</code> (6,31) — c'est-à-dire
+              exactement le « teal terni » que vous refusiez. Le rempli vous obligeait à choisir entre la
+              conformité et la marque.
+            </p>
+            <p className="text-caption text-ink-700 m-0">
+              <strong className="font-bold">Pourquoi l'outline dénoue ça.</strong> Le label n'est plus
+              sur la couleur, il est sur du blanc. <code>primary-700</code> y mesure{' '}
+              <strong className="font-bold">5,02</strong>, <code>secondary-700</code>{' '}
+              <strong className="font-bold">6,31</strong>, <code>accent-700</code>{' '}
+              <strong className="font-bold">4,88</strong> — tous conformes. Même token qu'en rempli,
+              lecture inverse : posé sur blanc il se lit comme le teal de la marque, pas comme un teal
+              assombri. Et l'or redevient utilisable, ce qu'il n'était pas du tout en rempli.
+            </p>
+            <p className="text-caption text-danger-fg m-0">
+              <strong className="font-bold">Le défaut à corriger avant de généraliser.</strong> Le
+              variant <code>outline</code> de <code>Button.tsx</code> a un label conforme et une{' '}
+              <strong className="font-bold">bordure qui ne l'est pas</strong> :{' '}
+              <code>border-primary-400</code> mesure <strong className="font-bold">2,44</strong> sur
+              blanc, sous le seuil de 3,0 que WCAG 1.4.11 impose à un contour d'élément d'interface.
+              Idem <code>outline-warm</code> avec <code>border-secondary-400</code> à 2,48. Le survol
+              n'arrange rien (<code>primary-500</code> = 2,94). Rangée C : la bordure remontée à{' '}
+              <code>600</code> passe à 3,66 et 3,98 — une seule valeur à changer par variant.
             </p>
           </div>
         </Section>
