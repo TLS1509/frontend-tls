@@ -45,10 +45,11 @@
 
 ## 📊 _AUDITS/ — Rapports consolidés
 
-**11 audit reports** — analyses de qualité, gaps design, spec compliance.
+**12 audit reports** — analyses de qualité, gaps design, spec compliance.
 
 | Fichier | Type | Focus |
 |---------|------|-------|
+| [**PLAN-REPRISE-DESIGN-2026-09-09.md**](_audits/PLAN-REPRISE-DESIGN-2026-09-09.md) | 🎯 **Point d'entrée après la pause** | Reprise du 09/09 après 6 semaines sans commit, tout remesuré de première main. Ce qui recadre : **30 commits non poussés**, le site en ligne **toujours WordPress pré-pivot** (cible du 06/08 manquée, 2 claims interdits toujours publics), build vert. Porte l'état des **4 volets** (app / DS / site / corpus formations), les **17 arbitrages design** et leur ordre de dépendance, l'audit **« agency grade » des 3 échelles** (20 crans typo dont 3 vocabulaires pour « grand titre » · rayons : 204 `rounded-full` interdits + 22 `rounded-3xl` sans token · `ink-400` sur 355 textes), l'état des **bancs et artefacts** (aucun n'enregistre ses décisions), l'état **Figma** vérifié, et un avis chiffré sur le **cut down des docs de référence**. Thèse : **une seule décision commande tout** — le site et l'app partagent-ils leur système, ou non |
 | [PARITE-FIGMA-CODE-2026-07-29.md](_audits/PARITE-FIGMA-CODE-2026-07-29.md) | **Vérifié de première main** | Figma ↔ code, relevé sur le fichier via le MCP authentifié : **26/26 couleurs identiques**, 4/4 tailles de typo, rayon pill OK. Un seul écart réel — les **ombres**, restées au noir pur côté Figma alors que le code est passé aux neutres TLS le 22/07. Les interlignes diffèrent mais sont inertes (bouton en flex à hauteur fixe). Code Connect inaccessible : exige Organization/Enterprise, TLS est en pro |
 | [CHANTIER-SHOWCASE-2026-07-28.md](_audits/CHANTIER-SHOWCASE-2026-07-28.md) | **Chantier ouvert** | Reconstruire `/components` : 6 causes mesurées (0 sommaire, 1 ancre sur 8 524 lignes, pas de `scroll-mt`, tout monté d'un coup, chunk de 3,9 Mo, 320 exportés vs 185 déclarés). Plan en 5 phases, 3 décisions à prendre |
 | [AUDIT-FIGMA-ATOMS-COMPOSITES-2026-07-03.md](_audits/AUDIT-FIGMA-ATOMS-COMPOSITES-2026-07-03.md) | Figma↔code (vérifié 1ère main) | Atoms+Composites : variants vs codebase + binding variables/styles. §08 créé, gaps tone-aware Avatar/StatCard, token "locked" grays |
@@ -73,6 +74,7 @@
 
 | Fichier | Purpose |
 |---|---|
+| [**BRIEF-REDESIGN-SITE-V1.md**](site/BRIEF-REDESIGN-SITE-V1.md) | 🎯 **Point d'entrée du chantier redesign** (29/07) — document de passation, tous faits vérifiés de première main. Le fait qui recadre tout : **le site React n'a jamais été mis en ligne**, `thelearningsociety.fr` sert un WordPress pré-pivot, donc le 06/08 est un **remplacement** et non une refonte. Contient : l'état du code (58 sections locales dont 6 réutilisées, 0 image sur les 5 pages principales), l'état de Figma (**0 écart** tokens ↔ code sur 42 couleurs / 7 espacements / 7 rayons — la doc qui dit « le DS a dérivé » parle des composants, pas des tokens), les 14 explorations de mise en page analysées, la direction artistique (papier = humain, verre = augmenté), ce qui est tranché, et **les 3 arbitrages qui bloquent** (couleur du texte, rayons, sens des couleurs — montés au banc `/_design-lab`) |
 | [CASE-STUDY-ORANGE-TRAME.md](site/CASE-STUDY-ORANGE-TRAME.md) | **Trame d'interview case study client + demandes d'autorisation** (28/07) — guide d'entretien centré changement de pratique, modèles de mail (interview, citation, logo), tableau de ce qui est publiable aujourd'hui vs ce qui demande un accord écrit |
 | [SITEMAP-V1.md](site/SITEMAP-V1.md) | **Arborescence de référence du site V1** (28/07) — miroir documentaire de `src/App.tsx` : routes, redirections, statut par page, templates de contenu vs stratégie éditoriale, écart des 3 points de conversion, incohérence Notion↔code |
 | ⛔ `SITE-V1-BLUEPRINT.md` | **Archivé le 28/07** → `_archive/corpus-site-juin-2026/`. Décrivait une stack HTML vanille et une page `formation.html` supprimée |
