@@ -140,12 +140,12 @@ export const SessionCard: React.FC<SessionCardProps> = ({
         <div className="flex items-center gap-1.5 flex-wrap">
           <span className={`inline-flex items-center gap-1 rounded-pill pl-1.5 pr-2 py-0.5 text-micro font-bold uppercase tracking-[0.05em] ${st.chip}`}>
             {isCompleted
-              ? <Check size={11} strokeWidth={2.5} aria-hidden />
+              ? <Check size={14} strokeWidth={2.5} aria-hidden />
               : <span className="w-1.5 h-1.5 rounded-pill bg-current" aria-hidden />}
             {st.label}
           </span>
           <span className="inline-flex items-center gap-1 text-caption text-ink-500 font-medium">
-            <CalendarClock size={13} className="text-ink-400 shrink-0" aria-hidden />
+            <CalendarClock size={14} className="text-ink-400 shrink-0" aria-hidden />
             {dateLabel}{durationLabel ? ` · ${durationLabel}` : ''}
           </span>
         </div>

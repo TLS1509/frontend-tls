@@ -63,7 +63,7 @@ export const CoachingBookingFlow: React.FC = () => {
   return (
     <Container width="medium" className="py-section flex flex-col gap-section">
       <EditorialHero
-        eyebrow={{ icon: <Sparkles size={12} />, label: 'Coaching personnalisé' }}
+        eyebrow={{ icon: <Sparkles size={14} />, label: 'Coaching personnalisé' }}
         title="Coaching Booking Flow"
         summary="Réservation de session coaching : créneau, contexte, validation et questionnaire pré-session."
       />
@@ -79,7 +79,7 @@ export const CoachingBookingFlow: React.FC = () => {
                 <Button
                   onClick={handleConfirm}
                   loading={isConfirming}
-                  leadingIcon={<Coins size={15} />}
+                  leadingIcon={<Coins size={14} />}
                 >
                   Confirmer (1 crédit Classic)
                 </Button>
@@ -108,12 +108,12 @@ export const CoachingBookingFlow: React.FC = () => {
         aside={
           <SectionCard title="Session choisie">
             <ul className="m-0 p-0 list-none flex flex-col gap-stack-xs text-caption text-ink-500">
-              <li className="inline-flex items-center gap-1.5"><CalendarDays size={12} /> {slot.label}</li>
-              <li className="inline-flex items-center gap-1.5"><Clock3 size={12} /> 60 minutes</li>
-              <li className="inline-flex items-center gap-1.5"><MapPin size={12} /> Visioconférence</li>
-              <li className="inline-flex items-center gap-1.5"><UserRound size={12} /> Coach : {slot.coach}</li>
+              <li className="inline-flex items-center gap-1.5"><CalendarDays size={14} /> {slot.label}</li>
+              <li className="inline-flex items-center gap-1.5"><Clock3 size={14} /> 60 minutes</li>
+              <li className="inline-flex items-center gap-1.5"><MapPin size={14} /> Visioconférence</li>
+              <li className="inline-flex items-center gap-1.5"><UserRound size={14} /> Coach : {slot.coach}</li>
               <li className="inline-flex items-center gap-1.5 mt-stack-xs text-secondary-600 font-medium">
-                <Coins size={12} /> 1 crédit Classic requis
+                <Coins size={14} /> 1 crédit Classic requis
               </li>
             </ul>
           </SectionCard>

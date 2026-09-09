@@ -135,11 +135,11 @@ export const CourseDetail: React.FC = () => {
             <Badge variant="info">{course.level}</Badge>
             <Badge variant="neutral">
               <span className="inline-flex items-center gap-tight">
-                <Clock size={12} /> {course.duration}
+                <Clock size={14} /> {course.duration}
               </span>
             </Badge>
             <span className="font-body text-caption text-ink-500 inline-flex items-center gap-tight">
-              <GraduationCap size={12} />
+              <GraduationCap size={14} />
               Formateur : {course.instructor}
             </span>
           </div>
@@ -235,7 +235,7 @@ export const CourseDetail: React.FC = () => {
                 {course.progress}%
               </p>
               <span className="font-body text-caption text-ink-500 inline-flex items-center gap-tight">
-                <CheckCircle2 size={12} /> Prochaine étape : première leçon
+                <CheckCircle2 size={14} /> Prochaine étape : première leçon
               </span>
             </Card>
 

@@ -33,10 +33,10 @@ const PROGRAMME = [
 ];
 
 const INFOS = [
-  { icon: <Calendar size={15} />, key: 'Date', value: '15 juin 2026' },
-  { icon: <Clock size={15} />, key: 'Heure', value: '14h00 – 15h30' },
-  { icon: <MapPin size={15} />, key: 'Format', value: 'Distanciel · Google Meet' },
-  { icon: <Users size={15} />, key: 'Prérequis', value: 'Dreyfus D2+' },
+  { icon: <Calendar size={14} />, key: 'Date', value: '15 juin 2026' },
+  { icon: <Clock size={14} />, key: 'Heure', value: '14h00 – 15h30' },
+  { icon: <MapPin size={14} />, key: 'Format', value: 'Distanciel · Google Meet' },
+  { icon: <Users size={14} />, key: 'Prérequis', value: 'Dreyfus D2+' },
 ];
 
 const RELATED = [
@@ -124,7 +124,7 @@ export default function MasterclassDetail() {
           aside={
             <div className="flex flex-col gap-section">
               {/* Expert card */}
-              <SectionCard title="Experte" titleIcon={<Users size={15} />}>
+              <SectionCard title="Experte" titleIcon={<Users size={14} />}>
                 <div className="flex items-center gap-stack">
                   <Avatar name="Marie Fontaine" initials="MF" size="lg" tint="brand" />
                   <div className="flex flex-col gap-tight min-w-0">
@@ -138,7 +138,7 @@ export default function MasterclassDetail() {
               </SectionCard>
 
               {/* Masterclasses similaires */}
-              <SectionCard title="Tu pourrais aussi aimer" titleIcon={<Sparkles size={15} />}>
+              <SectionCard title="Tu pourrais aussi aimer" titleIcon={<Sparkles size={14} />}>
                 <div className="flex flex-col gap-stack-xs">
                   {RELATED.map((m) => (
                     <button

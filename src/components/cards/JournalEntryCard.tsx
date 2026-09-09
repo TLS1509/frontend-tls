@@ -129,7 +129,7 @@ export const JournalEntryCard: React.FC<JournalEntryCardProps> = ({
           config.badge,
         ].join(' ')}
       >
-        <Icon size={12} />
+        <Icon size={14} />
         {config.label}
       </span>
 
@@ -160,14 +160,14 @@ export const JournalEntryCard: React.FC<JournalEntryCardProps> = ({
       {/* Metadata */}
       <div className="flex items-center gap-x-3 gap-y-1 flex-wrap pt-stack-xs mt-auto font-body text-micro text-ink-500">
         <span className="inline-flex items-center gap-tight">
-          <Calendar size={12} />
+          <Calendar size={14} />
           {date}
         </span>
         {time && (
           <>
             <span aria-hidden className="text-ink-300">·</span>
             <span className="inline-flex items-center gap-tight">
-              <Clock size={12} />
+              <Clock size={14} />
               {time}
             </span>
           </>

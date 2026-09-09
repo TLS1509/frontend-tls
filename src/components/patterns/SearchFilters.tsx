@@ -189,7 +189,7 @@ export const SearchFilters: React.FC<SearchFiltersProps> = ({
     <Button
       variant="glass-warm"
       size="sm"
-      leadingIcon={<RotateCcw size={11} />}
+      leadingIcon={<RotateCcw size={14} />}
       onClick={reset}
     >
       Réinitialiser

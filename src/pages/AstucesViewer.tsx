@@ -203,10 +203,10 @@ export const AstucesViewer: React.FC = () => {
             onClick={() => navigate(`/learning-paths/${lessonCtx.parcoursId}`)}
             className="inline-flex items-center gap-1 hover:text-primary-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
           >
-            <Home size={12} aria-hidden />
+            <Home size={14} aria-hidden />
             {MOCK_PARCOURS_DATA[lessonCtx.parcoursId]?.title || 'Parcours'}
           </button>
-          <ChevronRight size={12} aria-hidden className="opacity-50" />
+          <ChevronRight size={14} aria-hidden className="opacity-50" />
           <button
             type="button"
             onClick={() => navigate(`/learning-paths/${lessonCtx.parcoursId}/lessons/${lessonCtx.lesson.id}`)}
@@ -214,7 +214,7 @@ export const AstucesViewer: React.FC = () => {
           >
             {lessonCtx.lesson.title}
           </button>
-          <ChevronRight size={12} aria-hidden className="opacity-50" />
+          <ChevronRight size={14} aria-hidden className="opacity-50" />
           <span className="text-ink-500">Astuce {currentIndex + 1}/{total}</span>
         </div>
       )}

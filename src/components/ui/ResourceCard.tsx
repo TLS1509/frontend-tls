@@ -156,7 +156,7 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
             )}
             {duration && (
               <span className="inline-flex items-center gap-tight text-caption text-ink-500">
-                <Clock size={12} strokeWidth={2} className="opacity-70" />
+                <Clock size={14} strokeWidth={2} className="opacity-70" />
                 {duration}
               </span>
             )}

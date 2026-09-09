@@ -84,8 +84,8 @@ export default function EvenementHub() {
           </div>
           <div className="flex flex-wrap gap-stack-xs">
             <FilterChip label="Tous modes" active={filterMode === 'all'} onClick={() => setFilterMode('all')} />
-            <FilterChip label="Distanciel" active={filterMode === 'distanciel'} onClick={() => setFilterMode('distanciel')} icon={<Video size={12} />} />
-            <FilterChip label="Présentiel" active={filterMode === 'presentiel'} onClick={() => setFilterMode('presentiel')} icon={<MapPin size={12} />} />
+            <FilterChip label="Distanciel" active={filterMode === 'distanciel'} onClick={() => setFilterMode('distanciel')} icon={<Video size={14} />} />
+            <FilterChip label="Présentiel" active={filterMode === 'presentiel'} onClick={() => setFilterMode('presentiel')} icon={<MapPin size={14} />} />
           </div>
         </div>
 
@@ -161,19 +161,19 @@ export default function EvenementHub() {
                     )}
                     <Badge variant={ev.mode === 'presentiel' ? 'warm' : 'info'}>
                       <span className="inline-flex items-center gap-tight">
-                        {ev.mode === 'presentiel' ? <MapPin size={11} /> : <Video size={11} />}
+                        {ev.mode === 'presentiel' ? <MapPin size={14} /> : <Video size={14} />}
                         {ev.mode === 'distanciel' ? 'Distanciel' : 'Présentiel'}
                       </span>
                     </Badge>
                     {ev.visibility === 'private' && (
                       <Badge variant="neutral">
-                        <Lock size={10} className="inline mr-0.5" />
+                        <Lock size={14} className="inline mr-0.5" />
                         Privé
                       </Badge>
                     )}
                     {registration && (
                       <Badge variant="success">
-                        <CheckCircle size={10} className="inline mr-0.5" />
+                        <CheckCircle size={14} className="inline mr-0.5" />
                         Inscrit(e)
                       </Badge>
                     )}
@@ -182,10 +182,10 @@ export default function EvenementHub() {
                   <h3 className="text-body font-semibold text-ink-900">{ev.title}</h3>
 
                   <p className="text-caption text-ink-500 m-0 inline-flex items-center gap-1.5 flex-wrap">
-                    <Calendar size={12} />
+                    <Calendar size={14} />
                     {formatDate(ev.scheduledAt)}
                     <span>·</span>
-                    <Clock size={12} />
+                    <Clock size={14} />
                     {ev.durationMinutes} min
                     <span>·</span>
                     {ev.organizerName}
@@ -201,7 +201,7 @@ export default function EvenementHub() {
                   <div className="mt-auto pt-2">
                     {!isPrivateAccessible ? (
                       <Button variant="ghost" size="sm" disabled>
-                        <Lock size={12} className="mr-1.5" /> Réservé aux membres
+                        <Lock size={14} className="mr-1.5" /> Réservé aux membres
                       </Button>
                     ) : isPast ? (
                       <Button variant="ghost" size="sm">Voir le récap</Button>

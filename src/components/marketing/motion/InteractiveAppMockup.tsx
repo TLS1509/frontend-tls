@@ -290,7 +290,7 @@ export const InteractiveAppMockup: React.FC<Props> = ({
         {/* hint — full variant only, since compact has no tab-switcher to hint at */}
         {!compact && (
           <div className="pt-2 border-t border-ink-100 flex items-center justify-center gap-1.5">
-            <Sparkles size={12} className="text-warning-fg" />
+            <Sparkles size={14} className="text-warning-fg" />
             <span className="font-body text-caption text-ink-500">Clique sur les onglets pour explorer</span>
           </div>
         )}

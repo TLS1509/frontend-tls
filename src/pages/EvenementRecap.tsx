@@ -169,12 +169,12 @@ export default function EvenementRecap() {
                 <span className="text-caption text-ink-700 flex-1 min-w-0 truncate">{res.title}</span>
                 {res.type === 'download' && res.size && (
                   <Button variant="ghost" size="sm" aria-label={`Télécharger ${res.title}`}>
-                    <Download size={12} />
+                    <Download size={14} />
                   </Button>
                 )}
                 {res.type === 'link' && (
                   <Button variant="ghost" size="sm" aria-label={`Ouvrir ${res.title}`}>
-                    <ExternalLink size={12} />
+                    <ExternalLink size={14} />
                   </Button>
                 )}
               </div>

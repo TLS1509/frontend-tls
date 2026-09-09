@@ -1,0 +1,40 @@
+TLS — monochromes clairs sur fond bleu TLS
+Généré le 2026-09-09.
+
+CE QUE C'EST
+  Le mark clair (blanc dégradé) posé sur un aplat de la rampe primary.
+  Pour : avatar réseaux, vignette, couverture de deck, en-tête d'e-mail,
+  tout support où le fond est déjà bleu de marque.
+
+LA NAPPE
+  #FFFFFF → #F1F4F5 → #E0E2E3, axe 46,8 → 398,394 (le même que le brand kit),
+  une seule nappe pour les quatre formes. Amplitude 12 points de L*.
+
+  Pourquoi 12 et pas 20 comme les versions couleur : sur fond sombre, griser du
+  blanc ne se lit pas comme de la profondeur, ça se lit comme de la saleté.
+  À 20 le nœud bas vire au gris terne. 12 donne la lumière sans salir.
+
+LA PLAGE UTILISABLE — mesurée, pas choisie
+  Le contraste se mesure au point le PLUS SOMBRE du dégradé (#E0E2E3),
+  pas au blanc pur : c'est lui qui décroche en premier.
+
+    primary-500  #55A1B4   2,26:1   ✗ à éviter — le mark se dissout
+    primary-600  #4A8FA1   2,82:1   ⚠ limite — passable en grand format seulement
+    primary-700  #3D7786   3,86:1   ✓
+    primary-800  #2F5F6A   5,45:1   ✓
+    primary-900  #1F3E45   8,81:1   ✓  le plus sûr
+
+  Sous primary-700, ne pas utiliser le mark clair : prendre le mark `ink`
+  ou le mark `primary` (monochrome teal foncé) sur ces fonds clairs.
+
+LES FICHIERS
+  tls-icone-light-sur-{700,800,900}.svg           carré plein  → iOS/Android posent leur masque
+  tls-icone-light-sur-{700,800,900}-arrondi.svg   coins arrondis → avatar, vignette, aperçu
+  …-1024.png / …-512.png                          les mêmes en bitmap
+  tls-bandeau-horizontal-light-sur-800.svg        bandeau 2400×800 → couverture, en-tête
+
+  Le mark occupe 62 % de la largeur (retrait standard des icônes système).
+
+À NE PAS FAIRE
+  Poser une plaque déjà arrondie dans un manifeste PWA ou un apple-touch-icon :
+  le système ajoute SON masque, on obtient un double arrondi. Prendre le carré plein.

@@ -58,13 +58,13 @@ const SPEC_TO_DISPLAY: Record<JournalEntryType, JournalBubbleType> = {
 
 const TYPE_FILTERS: { key: TypeFilter; label: string; icon?: React.ReactNode }[] = [
   { key: 'all',           label: 'Toutes' },
-  { key: 'guided',        label: 'Guidé',         icon: <Compass size={13} /> },
-  { key: 'free',          label: 'Libre',          icon: <PenLine size={13} /> },
-  { key: 'learning',      label: 'Apprentissage',  icon: <BookOpen size={13} /> },
-  { key: 'coaching',      label: 'Coaching',       icon: <Target size={13} /> },
-  { key: 'insight',       label: 'Insight',        icon: <Lightbulb size={13} /> },
-  { key: 'questionnaire', label: 'Questionnaire',  icon: <ClipboardList size={13} /> },
-  { key: 'compte-rendu',  label: 'Compte rendu',   icon: <BarChart2 size={13} /> },
+  { key: 'guided',        label: 'Guidé',         icon: <Compass size={14} /> },
+  { key: 'free',          label: 'Libre',          icon: <PenLine size={14} /> },
+  { key: 'learning',      label: 'Apprentissage',  icon: <BookOpen size={14} /> },
+  { key: 'coaching',      label: 'Coaching',       icon: <Target size={14} /> },
+  { key: 'insight',       label: 'Insight',        icon: <Lightbulb size={14} /> },
+  { key: 'questionnaire', label: 'Questionnaire',  icon: <ClipboardList size={14} /> },
+  { key: 'compte-rendu',  label: 'Compte rendu',   icon: <BarChart2 size={14} /> },
 ];
 
 const PERIOD_FILTERS: { key: PeriodFilter; label: string }[] = [
@@ -242,7 +242,7 @@ export const Journal: React.FC = () => {
               onClick={() => { setTypeFilter('all'); setPeriodFilter('all'); setSearchQuery(''); }}
               className="inline-flex items-center gap-tight font-body text-caption text-primary-600 hover:text-primary-700 font-semibold bg-transparent border-0 cursor-pointer transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
             >
-              <X size={12} /> Réinitialiser
+              <X size={14} /> Réinitialiser
             </button>
           </div>
         )}

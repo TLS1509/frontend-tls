@@ -49,7 +49,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   return (
     <div className={containerClasses}>
       <span className={iconWrapperClasses} aria-hidden="true">
-        {icon ?? <Search size={36} strokeWidth={1.75} />}
+        {icon ?? <Search size={32} strokeWidth={1.75} />}
       </span>
       <div className="flex flex-col gap-stack-xs max-w-[440px]">
         <h3 className="font-display text-h3 font-bold text-ink-900 leading-tight text-balance">

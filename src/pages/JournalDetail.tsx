@@ -135,11 +135,11 @@ export const JournalDetail: React.FC = () => {
             Retour au journal
           </Button>
           <div className="flex items-center gap-stack-xs">
-            <ReadingProgressRing targetRef={articleRef} tone="brand" size={36} />
+            <ReadingProgressRing targetRef={articleRef} tone="brand" size={32} />
             <Button
               variant="primary"
               size="sm"
-              leadingIcon={<PenLine size={13} />}
+              leadingIcon={<PenLine size={14} />}
               onClick={() => navigate('/journal/new-entry')}
             >
               Nouvelle entrée
@@ -160,7 +160,7 @@ export const JournalDetail: React.FC = () => {
           {/* Eyebrow chips */}
           <div className="flex items-center gap-stack-xs flex-wrap">
             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-primary-100 text-primary-700 text-micro font-bold uppercase tracking-wider">
-              <Sparkles size={11} /> Journal de bord
+              <Sparkles size={14} /> Journal de bord
             </span>
             <Badge variant="brand">{displayEntry.category}</Badge>
             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-ink-100 text-ink-700 text-micro font-semibold">
@@ -178,8 +178,8 @@ export const JournalDetail: React.FC = () => {
               name={displayEntry.author.name}
               role={displayEntry.author.role}
               meta={[
-                { icon: <CalendarDays size={12} />, text: displayEntry.date },
-                { icon: <Clock3 size={12} />,       text: displayEntry.readTime },
+                { icon: <CalendarDays size={14} />, text: displayEntry.date },
+                { icon: <Clock3 size={14} />,       text: displayEntry.readTime },
               ]}
             />
           </div>
@@ -221,7 +221,7 @@ export const JournalDetail: React.FC = () => {
                         : 'bg-white border-ink-300',
                     ].join(' ')}
                   >
-                    {item.done && <CheckCircle2 size={12} strokeWidth={3} />}
+                    {item.done && <CheckCircle2 size={14} strokeWidth={3} />}
                   </span>
                   <span
                     className={[
@@ -240,7 +240,7 @@ export const JournalDetail: React.FC = () => {
         {/* Tags */}
         <div className="flex flex-col gap-stack-xs pt-stack border-t border-ink-100">
           <span className="inline-flex items-center gap-1.5 font-body text-caption font-medium text-ink-500">
-            <TagIcon size={11} /> Tags
+            <TagIcon size={14} /> Tags
           </span>
           <div className="flex flex-wrap gap-stack-xs">
             {displayEntry.tags.map((tag) => (

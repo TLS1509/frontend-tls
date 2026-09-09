@@ -78,7 +78,7 @@ const ReadingProgressBar: React.FC = () => {
 // ─── Intro callout (résumé exécutif) ──────────────────────────────────────────
 const IntroCallout: React.FC<{ text: string }> = ({ text }) => (
   <div className="rounded-2xl border border-secondary-100 bg-secondary-50/60 p-stack-lg flex gap-stack">
-    <Quote size={22} className="text-secondary-400 shrink-0 mt-0.5" />
+    <Quote size={20} className="text-secondary-400 shrink-0 mt-0.5" />
     <div className="flex flex-col gap-tight">
       <span className="font-body text-caption font-bold text-secondary-700 uppercase tracking-widest">
         En résumé
@@ -94,7 +94,7 @@ const KeyFindings: React.FC<{ findings: { text: string; source?: string }[] }> =
     <div className={`${CONTAINER} flex flex-col gap-section`}>
       <Reveal>
         <span className="inline-flex items-center gap-stack-xs font-body text-caption font-bold text-primary-700 uppercase tracking-widest">
-          <ListChecks size={15} />
+          <ListChecks size={14} />
           Points clés
         </span>
       </Reveal>
@@ -249,7 +249,7 @@ function renderDossierBlock(block: DossierBodyBlock, i: number) {
         case 'pullquote':
           return (
             <figure key={i} className="my-stack px-stack-lg py-stack bg-accent-50 rounded-xl">
-              <Quote size={22} className="text-accent-400 mb-2" />
+              <Quote size={20} className="text-accent-400 mb-2" />
               <blockquote className="font-display text-[clamp(1.35rem,2.4vw,1.85rem)] font-bold text-accent-900 leading-snug m-0">
                 {block.text}
               </blockquote>
@@ -281,7 +281,7 @@ const Bibliography: React.FC<{ sources: DossierSource[] }> = ({ sources }) => (
       <Reveal>
         <div className="flex flex-col gap-stack max-w-content">
           <span className="inline-flex items-center gap-stack-xs font-body text-caption font-bold text-primary-700 uppercase tracking-widest">
-            <Library size={15} />
+            <Library size={14} />
             Bibliographie
           </span>
           <h2 className="font-display text-[clamp(1.75rem,3.5vw,2.75rem)] font-extrabold text-ink-900 leading-[1.08] tracking-tight">

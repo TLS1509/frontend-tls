@@ -110,7 +110,7 @@ const REELS: Reel[] = [
     likes: 84,
     instructor: 'Marie Dubois',
     instructorInitials: 'MD',
-    icon: <Zap size={22} strokeWidth={1.75} />,
+    icon: <Zap size={20} strokeWidth={1.75} />,
     tone: 'brand',
   },
   {
@@ -123,7 +123,7 @@ const REELS: Reel[] = [
     likes: 61,
     instructor: 'Pierre Martin',
     instructorInitials: 'PM',
-    icon: <Newspaper size={22} strokeWidth={1.75} />,
+    icon: <Newspaper size={20} strokeWidth={1.75} />,
     tone: 'warm',
   },
   {
@@ -136,7 +136,7 @@ const REELS: Reel[] = [
     likes: 152,
     instructor: 'Sophie Renard',
     instructorInitials: 'SR',
-    icon: <Target size={22} strokeWidth={1.75} />,
+    icon: <Target size={20} strokeWidth={1.75} />,
     tone: 'cool',
   },
   {
@@ -149,7 +149,7 @@ const REELS: Reel[] = [
     likes: 49,
     instructor: 'Lucas Petit',
     instructorInitials: 'LP',
-    icon: <Puzzle size={22} strokeWidth={1.75} />,
+    icon: <Puzzle size={20} strokeWidth={1.75} />,
     tone: 'amber',
   },
   {
@@ -162,7 +162,7 @@ const REELS: Reel[] = [
     likes: 77,
     instructor: 'Emma Laurent',
     instructorInitials: 'EL',
-    icon: <Monitor size={22} strokeWidth={1.75} />,
+    icon: <Monitor size={20} strokeWidth={1.75} />,
     tone: 'teal',
   },
   {
@@ -175,7 +175,7 @@ const REELS: Reel[] = [
     likes: 120,
     instructor: 'Alex Moreau',
     instructorInitials: 'AM',
-    icon: <Rocket size={22} strokeWidth={1.75} />,
+    icon: <Rocket size={20} strokeWidth={1.75} />,
     tone: 'rose',
   },
 ];
@@ -349,7 +349,7 @@ export const VideoReels: React.FC = () => {
                 {video.category}
               </span>
               <span className="ml-auto flex items-center gap-tight font-body text-caption text-white/70">
-                <Clock size={11} />
+                <Clock size={14} />
                 {video.duration}
               </span>
             </div>
@@ -375,7 +375,7 @@ export const VideoReels: React.FC = () => {
                   {video.instructor}
                 </div>
                 <div className="flex items-center gap-tight font-body text-caption text-white/70 mt-0.5">
-                  <Eye size={10} />
+                  <Eye size={14} />
                   {video.views} vues
                 </div>
               </div>

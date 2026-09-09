@@ -62,7 +62,7 @@ interface Trust {
 
 const FEATURES: FeatureCard[] = [
   {
-    icon: <BookOpen size={22} />,
+    icon: <BookOpen size={20} />,
     tone: 'brand',
     eyebrow: 'Espace Parcours',
     title: 'Formez-vous sur vos cas réels',
@@ -70,7 +70,7 @@ const FEATURES: FeatureCard[] = [
     items: ['Parcours sur-mesure par compétence', 'Leçons courtes + exercices pratiques', 'Progression vérifiable et traçable'],
   },
   {
-    icon: <CalendarCheck size={22} />,
+    icon: <CalendarCheck size={20} />,
     tone: 'warm',
     eyebrow: 'Espace Coaching',
     title: 'Un coach dédié, pas un chatbot',
@@ -78,7 +78,7 @@ const FEATURES: FeatureCard[] = [
     items: ['Réservation en 2 clics', 'Corrections personnalisées', 'Feedback actionnable post-session'],
   },
   {
-    icon: <Lightbulb size={22} />,
+    icon: <Lightbulb size={20} />,
     tone: 'sun',
     eyebrow: 'Espace Réflexion',
     title: 'Capitalisez ce que vous apprenez',
@@ -249,7 +249,7 @@ const AppLanding: React.FC = () => {
           >
             <motion.div variants={heroItem}>
               <Pill className="bg-primary-50 text-primary-700 border border-primary-200 self-start">
-                <Sparkles size={12} />
+                <Sparkles size={14} />
                 Skills-Based Organisation
               </Pill>
             </motion.div>
@@ -489,7 +489,7 @@ const AppLanding: React.FC = () => {
               ].map((item) => (
                 <div key={item} className="flex items-center gap-2">
                   <div className="w-5 h-5 rounded-full bg-primary-100 flex items-center justify-center shrink-0">
-                    <Check size={12} className="text-primary-600" />
+                    <Check size={14} className="text-primary-600" />
                   </div>
                   <span className="font-body text-body-sm text-ink-700">{item}</span>
                 </div>

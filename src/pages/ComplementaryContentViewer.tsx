@@ -194,7 +194,7 @@ export const ComplementaryContentViewer: React.FC = () => {
 
                       <div className="flex gap-stack-xs items-center flex-wrap">
                         {resource.duration && (
-                          <MetaPill icon={<Clock size={12} />} text={resource.duration} tone="brand" size="sm" />
+                          <MetaPill icon={<Clock size={14} />} text={resource.duration} tone="brand" size="sm" />
                         )}
                         <div className="flex gap-stack-xs flex-wrap">
                           {resource.tags.map((tag) => (

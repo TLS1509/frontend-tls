@@ -94,7 +94,7 @@ export const MarketingWebinaireDetail: React.FC = () => {
                     : 'bg-ink-50 text-ink-700 border-ink-100'
                 }`}
               >
-                <Radio size={11} className="mr-1.5" /> {isUpcoming ? 'À venir' : 'Replay'}
+                <Radio size={14} className="mr-1.5" /> {isUpcoming ? 'À venir' : 'Replay'}
               </span>
               <span className="inline-flex items-center gap-1.5 font-body text-caption text-ink-600">
                 <Calendar size={14} /> {webinaire.date}
@@ -166,7 +166,7 @@ export const MarketingWebinaireDetail: React.FC = () => {
                       className="flex flex-col gap-stack"
                     >
                       <div className="inline-flex w-12 h-12 items-center justify-center rounded-xl bg-primary-50 text-primary-700">
-                        <CalendarCheck size={22} />
+                        <CalendarCheck size={20} />
                       </div>
                       <div className="flex flex-col gap-tight">
                         <span className="font-display text-body font-semibold font-bold text-ink-900">
@@ -192,7 +192,7 @@ export const MarketingWebinaireDetail: React.FC = () => {
                         Réserver ma place
                       </Button>
                       <span className="inline-flex items-center gap-1.5 font-body text-micro text-ink-500">
-                        <ShieldCheck size={12} /> RGPD conforme · zéro spam
+                        <ShieldCheck size={14} /> RGPD conforme · zéro spam
                       </span>
                     </motion.form>
                   ) : (
@@ -203,7 +203,7 @@ export const MarketingWebinaireDetail: React.FC = () => {
                       className="flex flex-col items-center text-center gap-stack py-stack"
                     >
                       <div className="inline-flex w-14 h-14 items-center justify-center rounded-full bg-primary-50 text-primary-600">
-                        <MailCheck size={26} />
+                        <MailCheck size={24} />
                       </div>
                       <div className="flex flex-col gap-tight">
                         <span className="font-display text-body font-semibold font-bold text-ink-900">
@@ -263,14 +263,14 @@ export const MarketingWebinaireDetail: React.FC = () => {
                   <Link to={`/website/webinaires/${w.slug}`} className="group block h-full rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">
                     <div className="h-full bg-white border border-ink-100 rounded-2xl p-stack-lg flex flex-col gap-stack shadow-card hover:shadow-card-hover hover:border-primary-200 transition-all duration-base">
                       <span className="inline-flex items-center gap-tight font-body text-caption text-ink-500">
-                        <Calendar size={12} /> {w.date}
+                        <Calendar size={14} /> {w.date}
                       </span>
                       <h3 className="font-display text-body font-semibold font-bold text-ink-900 leading-tight group-hover:text-primary-700 transition-colors duration-base">
                         {w.title}
                       </h3>
                       <div className="inline-flex items-center gap-tight font-body text-caption font-bold text-primary-700 mt-auto pt-stack border-t border-ink-100">
                         Voir le webinaire
-                        <ArrowRight size={12} className="transition-transform duration-base group-hover:translate-x-0.5" />
+                        <ArrowRight size={14} className="transition-transform duration-base group-hover:translate-x-0.5" />
                       </div>
                     </div>
                   </Link>

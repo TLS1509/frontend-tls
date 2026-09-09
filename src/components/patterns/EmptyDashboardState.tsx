@@ -38,7 +38,7 @@ export const EmptyDashboardState: React.FC<EmptyDashboardStateProps> = ({
   const secondaryItems: NextStepItem[] = [
     {
       id: 'coach',
-      icon: <GraduationCap size={22} />,
+      icon: <GraduationCap size={20} />,
       title: 'Rencontre ton coach',
       description: 'Planifie une première session pour cadrer tes objectifs.',
       cta: 'Réserver une session',
@@ -47,7 +47,7 @@ export const EmptyDashboardState: React.FC<EmptyDashboardStateProps> = ({
     },
     {
       id: 'passeport',
-      icon: <Target size={22} />,
+      icon: <Target size={20} />,
       title: 'Ouvre ton Passeport',
       description: 'Ton radar de compétences initial t’attend. Pose tes premiers objectifs.',
       cta: 'Voir mon passeport',
@@ -78,7 +78,7 @@ export const EmptyDashboardState: React.FC<EmptyDashboardStateProps> = ({
         className="group relative overflow-hidden w-full text-left rounded-2xl border border-secondary-200/70 bg-gradient-to-br from-secondary-100/92 to-secondary-50/78 shadow-[inset_0_1px_0_rgba(255,255,255,0.85)] p-6 md:p-8 cursor-pointer transition-[transform,box-shadow] duration-base ease-emphasis hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-400 flex flex-col gap-3.5"
       >
         <span className="inline-flex self-start items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide px-2.5 py-1 rounded-pill bg-secondary-200/60 text-secondary-700">
-          <Play size={8} fill="currentColor" aria-hidden="true" /> Premier pas
+          <Play size={14} fill="currentColor" aria-hidden="true" /> Premier pas
         </span>
 
         <h3 className="font-display font-bold leading-[1.05] tracking-display text-balance text-[1.7rem] md:text-[2.1rem] text-secondary-800">
@@ -90,7 +90,7 @@ export const EmptyDashboardState: React.FC<EmptyDashboardStateProps> = ({
         </p>
 
         <span className="mt-1 inline-flex self-start items-center gap-2 h-11 px-4 rounded-pill bg-white/80 text-secondary-800 border border-white/70 backdrop-blur-sm shadow-sm text-body-sm font-semibold transition-[background-color,box-shadow,transform] duration-fast ease-emphasis group-hover:bg-white group-hover:shadow-warm-sm group-hover:-translate-y-px">
-          Explorer les parcours <ArrowRight size={15} aria-hidden="true" />
+          Explorer les parcours <ArrowRight size={14} aria-hidden="true" />
         </span>
       </button>
 

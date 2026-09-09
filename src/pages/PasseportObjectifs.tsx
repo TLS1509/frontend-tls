@@ -222,7 +222,7 @@ export default function PasseportObjectifs() {
                         <div className="flex items-center gap-stack-xs shrink-0">
                           <Badge variant="neutral" size="sm">D{g.startLevel}→D{g.targetLevel}</Badge>
                           <span className="text-caption text-ink-600 flex items-center gap-tight">
-                            <Clock size={11} />
+                            <Clock size={14} />
                             {new Date(g.deadline).toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' })}
                           </span>
                         </div>

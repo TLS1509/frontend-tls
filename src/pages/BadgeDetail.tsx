@@ -133,7 +133,7 @@ export default function BadgeDetail() {
               <Badge variant="success" size="lg">Obtenu le {formatDate(userBadge!.earnedAt)}</Badge>
             ) : (
               <Badge variant="neutral" size="lg" className="inline-flex items-center gap-tight">
-                <Lock size={12} /> Pas encore obtenu
+                <Lock size={14} /> Pas encore obtenu
               </Badge>
             )}
           </div>
@@ -142,14 +142,14 @@ export default function BadgeDetail() {
           <div className="flex flex-col gap-stack flex-1 w-full">
             <div className="grid grid-cols-2 gap-stack">
               <Card variant="tinted" tone="primary" className="flex flex-col items-center justify-center py-5 gap-tight">
-                <Trophy size={22} className="text-primary-600" />
+                <Trophy size={20} className="text-primary-600" />
                 <span className="text-h3 font-display font-bold text-primary-700">+{badge.xpValue} XP</span>
                 <span className="text-caption text-ink-500">
                   {earned ? 'Points gagnés' : 'Points à gagner'}
                 </span>
               </Card>
               <Card variant="tinted" tone="sun" className="flex flex-col items-center justify-center py-5 gap-tight">
-                <Award size={22} className="text-accent-500" />
+                <Award size={20} className="text-accent-500" />
                 <Badge variant="sun" size="md">{RARITY_LABEL(badge.xpValue)}</Badge>
                 <span className="text-caption text-ink-500">Rareté du badge</span>
               </Card>

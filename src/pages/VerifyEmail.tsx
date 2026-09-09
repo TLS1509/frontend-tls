@@ -66,7 +66,7 @@ export const VerifyEmail: React.FC = () => {
             {/* Inbox visual */}
             <div className="flex flex-col items-center gap-stack-xs p-stack-lg rounded-2xl bg-white/10 border border-white/20 backdrop-blur-glass-light">
               <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white/15 border border-white/25 text-white">
-                <Inbox size={26} strokeWidth={1.75} />
+                <Inbox size={24} strokeWidth={1.75} />
               </div>
               <div className="flex flex-col items-center text-center gap-tight">
                 <p className="m-0 font-body text-body-sm text-white/70">

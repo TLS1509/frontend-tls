@@ -117,11 +117,11 @@ export const VideoTutorial: React.FC = () => {
                 {tuto.category}
               </span>
               <span className="inline-flex items-center gap-tight font-body text-caption text-ink-500">
-                <Clock size={13} />
+                <Clock size={14} />
                 {tuto.duration}
               </span>
               <span className="inline-flex items-center gap-tight font-body text-caption text-ink-500">
-                <User size={13} />
+                <User size={14} />
                 {tuto.author}
               </span>
             </div>
@@ -214,7 +214,7 @@ export const VideoTutorial: React.FC = () => {
                   </span>
                   {isActive && (
                     <Play
-                      size={12}
+                      size={14}
                       className="shrink-0 mt-[2px] ml-auto fill-primary-500 text-primary-500"
                     />
                   )}
@@ -230,7 +230,7 @@ export const VideoTutorial: React.FC = () => {
               onClick={() => navigate("/veille")}
               className="inline-flex items-center gap-1.5 bg-transparent border-0 text-ink-500 font-body text-caption font-semibold cursor-pointer p-0 hover:text-primary-600 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
             >
-              <ArrowLeft size={13} /> Retour veille
+              <ArrowLeft size={14} /> Retour veille
             </button>
           </div>
         </div>

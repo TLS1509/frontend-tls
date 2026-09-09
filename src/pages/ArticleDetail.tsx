@@ -202,17 +202,17 @@ export const ArticleDetail: React.FC = () => {
           </button>
 
           <div className="flex items-center gap-stack-xs">
-            <ReadingProgressRing targetRef={articleRef} tone="brand" size={36} />
+            <ReadingProgressRing targetRef={articleRef} tone="brand" size={32} />
             <Button
               variant={bookmarked ? 'primary' : 'ghost'}
               iconOnly
               aria-label={bookmarked ? 'Retirer le marque-page' : 'Ajouter aux marque-pages'}
               onClick={() => toggleBookmark(bookmarkKey)}
             >
-              <Bookmark size={15} fill={bookmarked ? 'currentColor' : 'none'} />
+              <Bookmark size={14} fill={bookmarked ? 'currentColor' : 'none'} />
             </Button>
             <Button variant="ghost" iconOnly aria-label="Partager">
-              <Share2 size={15} />
+              <Share2 size={14} />
             </Button>
           </div>
         </PageShell>
@@ -223,7 +223,7 @@ export const ArticleDetail: React.FC = () => {
         {/* Breadcrumb + eyebrow + h1 + excerpt */}
         <header className="flex flex-col gap-stack max-w-prose">
           <span className="inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-pill bg-primary-100 border border-primary-200 text-micro font-bold uppercase tracking-wider text-primary-700">
-            <Newspaper size={11} /> {sourceLabel}
+            <Newspaper size={14} /> {sourceLabel}
           </span>
 
           <h1 className="font-display text-h1 font-bold text-ink-900 leading-tight tracking-tight">
@@ -242,8 +242,8 @@ export const ArticleDetail: React.FC = () => {
             name={ARTICLE.author.name}
             role={ARTICLE.author.role}
             meta={[
-              { icon: <CalendarDays size={12} />, text: ARTICLE.publishedAt },
-              { icon: <Clock3 size={12} />,       text: ARTICLE.readTime },
+              { icon: <CalendarDays size={14} />, text: ARTICLE.publishedAt },
+              { icon: <Clock3 size={14} />,       text: ARTICLE.readTime },
             ]}
           />
         </div>
@@ -274,7 +274,7 @@ export const ArticleDetail: React.FC = () => {
               {/* Tags */}
               <div className="flex flex-col gap-stack-xs pt-section border-t border-ink-100">
                 <span className="inline-flex items-center gap-1.5 font-body text-micro font-bold uppercase tracking-wider text-ink-500">
-                  <TagIcon size={11} /> Tags
+                  <TagIcon size={14} /> Tags
                 </span>
                 <div className="flex flex-wrap gap-stack-xs">
                   {ARTICLE.tags.map((tag) => (
@@ -296,7 +296,7 @@ export const ArticleDetail: React.FC = () => {
                   rel="noopener noreferrer"
                   className="self-start inline-flex items-center gap-stack-xs px-stack py-stack-xs rounded-pill bg-primary-50 border border-primary-200 font-body text-caption font-bold text-primary-700 hover:bg-primary-100 transition-colors"
                 >
-                  <ExternalLink size={13} /> Voir la source originale
+                  <ExternalLink size={14} /> Voir la source originale
                 </a>
               )}
             </article>

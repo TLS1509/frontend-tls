@@ -251,7 +251,7 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
             <div className="flex flex-col gap-stack animate-modal-in">
               <div className="bg-white rounded-xl p-stack-lg border border-primary-500/20 shadow-lg text-center">
                 <div className="inline-flex gap-stack-xs mb-5 p-3 rounded-xl bg-ink-50">
-                  {([<Target size={22} strokeWidth={1.75} />, <Star size={22} strokeWidth={1.75} />, <Rocket size={22} strokeWidth={1.75} />] as React.ReactNode[]).map((icon, i) => (
+                  {([<Target size={20} strokeWidth={1.75} />, <Star size={20} strokeWidth={1.75} />, <Rocket size={20} strokeWidth={1.75} />] as React.ReactNode[]).map((icon, i) => (
                     <div
                       key={i}
                       className="w-11 h-11 rounded-lg bg-primary-100 flex items-center justify-center text-primary-600"

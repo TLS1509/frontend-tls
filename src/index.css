@@ -527,11 +527,34 @@
   --text-stat-value-lg: clamp(2.5rem, 4vw, 3.5rem);
 
   /* ── Icon sizing tokens (replace inline 1em) ── */
+  /* L'échelle d'icônes — étendue le 2026-09-09 aux deux bouts.
+
+     Elle ne comptait que cinq crans, de 16 à 28. Le code en posait vingt-sept, et
+     851 des 1 904 tailles écrites à la main tombaient hors échelle. Deux causes
+     distinctes, deux réponses distinctes.
+
+     En bas, un barreau manquait. 14 px comptait à lui seul 338 usages — plus que
+     le 20 px du système — et 351 autres se logeaient entre 8 et 13 px, dans les
+     lignes de méta-données et les pastilles où 16 px est déjà trop gros. Comme
+     pour les 6 px de l'espacement, une valeur employée à ce niveau sans avoir de
+     nom signale un barreau absent, pas de l'indiscipline. D'où `2xs`.
+
+     En haut, ce n'était pas un barreau mais un REGISTRE. Les 101 tailles au-delà
+     de 28 px ne sont pas des icônes d'interface : ce sont les glyphes des états
+     vides, des pages d'erreur, des vignettes. Les écraser à 28 px aurait cassé
+     ces écrans. Elles reçoivent leur propre échelle, `2xl` à `4xl`.
+
+     Au-delà de 48 px, on quitte l'icône pour l'illustration : trois usages
+     (72, 96, 160 px) restent hors échelle, délibérément. */
+  --icon-size-2xs: 14px; /* micro/caption 11–13px — méta-données, pastilles, chevrons */
   --icon-size-xs: 16px;  /* caption: 13px — icon 16px fits snug */
   --icon-size-sm: 18px;  /* body-sm: 15px — icon 18px balanced */
   --icon-size-md: 20px;  /* body: 16px — DEFAULT for most UI */
   --icon-size-lg: 24px;  /* body-lg: 18px — buttons, cards */
-  --icon-size-xl: 28px;  /* h4: 18px — hero/large displays */
+  --icon-size-xl: 28px;  /* h4: 20px — le plus grand des crans d'interface */
+  --icon-size-2xl: 32px; /* registre affichage — vignettes, en-têtes de carte */
+  --icon-size-3xl: 40px; /* états vides */
+  --icon-size-4xl: 48px; /* pages d'erreur, ouvertures */
 
   /* ── Animations ── */
   --animate-alert-slide: alert-slide-down 200ms cubic-bezier(0.05, 0.7, 0.1, 1) both;
@@ -999,11 +1022,15 @@
   /* ── SPRINT 2: Icon Sizing + Placeholder Animation ─────────────────────── */
 
   /* Icon sizing utilities — replace inline 1em */
+  .icon-2xs { width: var(--icon-size-2xs); height: var(--icon-size-2xs); }
   .icon-xs { width: var(--icon-size-xs); height: var(--icon-size-xs); }
   .icon-sm { width: var(--icon-size-sm); height: var(--icon-size-sm); }
   .icon-md { width: var(--icon-size-md); height: var(--icon-size-md); }
   .icon-lg { width: var(--icon-size-lg); height: var(--icon-size-lg); }
   .icon-xl { width: var(--icon-size-xl); height: var(--icon-size-xl); }
+  .icon-2xl { width: var(--icon-size-2xl); height: var(--icon-size-2xl); }
+  .icon-3xl { width: var(--icon-size-3xl); height: var(--icon-size-3xl); }
+  .icon-4xl { width: var(--icon-size-4xl); height: var(--icon-size-4xl); }
 
   /* Placeholder fade animation on focus */
   .placeholder-fade-on-focus::placeholder {

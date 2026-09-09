@@ -117,7 +117,7 @@ export default function CoachJournal() {
                     <div className="flex flex-col gap-tight">
                       <span className="font-display font-semibold text-h4 text-ink-900">{entry.title}</span>
                       <span className="flex items-center gap-stack-xs text-caption text-ink-500">
-                        <Calendar size={12} />
+                        <Calendar size={14} />
                         {entry.date}
                       </span>
                     </div>
@@ -144,10 +144,10 @@ export default function CoachJournal() {
                     <div className="flex flex-col gap-tight flex-1 min-w-0">
                       <span className="font-display font-semibold text-body text-ink-900 truncate">{entry.title}</span>
                       <span className="flex items-center gap-stack-xs text-caption text-ink-500">
-                        <User size={12} />
+                        <User size={14} />
                         {entry.learner.name}
                         <span className="text-ink-300">·</span>
-                        <Calendar size={12} />
+                        <Calendar size={14} />
                         {entry.date}
                       </span>
                     </div>

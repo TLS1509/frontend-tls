@@ -241,8 +241,8 @@ export const ProjectJac: React.FC = () => {
         summary="Évaluations Dreyfus par compétence. Validez les JAC soumis par les collaborateurs."
         tone="flat"
         meta={[
-          { icon: <Clock size={12} />, label: `${pendingJacs.length} en attente` },
-          { icon: <CheckCircle2 size={12} />, label: `${doneJacs.length} traités` },
+          { icon: <Clock size={14} />, label: `${pendingJacs.length} en attente` },
+          { icon: <CheckCircle2 size={14} />, label: `${doneJacs.length} traités` },
         ]}
       />
 

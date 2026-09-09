@@ -136,7 +136,7 @@ const Hero: React.FC = () => {
         >
           {/* Eyebrow unique, honnête : le concept du jardin */}
           <span className="inline-flex items-center gap-stack-xs rounded-pill border border-accent-400/40 bg-primary-900/40 px-4 py-2 font-body text-body-sm text-accent-400 backdrop-blur-sm">
-            <Leaf size={15} strokeWidth={2} />
+            <Leaf size={14} strokeWidth={2} />
             Un univers d'apprentissage vivant
           </span>
 
@@ -193,17 +193,17 @@ type Bloom = {
 
 const BLOOMS: Bloom[] = [
   {
-    icon: <Sparkles size={22} strokeWidth={1.75} />,
+    icon: <Sparkles size={20} strokeWidth={1.75} />,
     title: 'Une formation certifiante',
     body: "Comprendre l'IA en formation, sans jargon : des repères concrets pour vos formateurs et vos équipes pédagogiques.",
   },
   {
-    icon: <Leaf size={22} strokeWidth={1.75} />,
+    icon: <Leaf size={20} strokeWidth={1.75} />,
     title: 'Une Learning App adaptative',
     body: "Un espace qui s'ajuste à chacun : parcours, ressources, veille et coaching, réunis dans un même monde vivant.",
   },
   {
-    icon: <ArrowUpRight size={22} strokeWidth={1.75} />,
+    icon: <ArrowUpRight size={20} strokeWidth={1.75} />,
     title: 'Un accompagnement sur mesure',
     body: 'Nous avançons à vos côtés pour ancrer les usages dans la durée, au rythme de votre organisation.',
   },

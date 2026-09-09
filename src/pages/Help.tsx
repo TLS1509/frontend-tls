@@ -122,7 +122,7 @@ export const Help: React.FC = () => {
         {/* ── Hero ─────────────────────────────────────────────── */}
         <EditorialHero
           tone="flat"
-          eyebrow={{ icon: <HelpCircle size={12} />, label: 'Support & aide' }}
+          eyebrow={{ icon: <HelpCircle size={14} />, label: 'Support & aide' }}
           title="Centre d'aide"
           summary="Trouvez rapidement des réponses, discutez avec l'assistant IA ou contactez notre équipe."
         />
@@ -196,7 +196,7 @@ export const Help: React.FC = () => {
               Assistant IA
             </h2>
             <Badge variant="brand">
-              <Bot size={12} className="mr-1 align-middle" />
+              <Bot size={14} className="mr-1 align-middle" />
               Démo interactive
             </Badge>
           </div>
@@ -210,7 +210,7 @@ export const Help: React.FC = () => {
               <div>
                 <p className="m-0 font-body text-body-sm font-bold text-ink-900">Assistant TLS</p>
                 <p className="m-0 font-body text-caption text-primary-600 flex items-center gap-tight">
-                  <Sparkles size={11} /> En ligne · répond instantanément
+                  <Sparkles size={14} /> En ligne · répond instantanément
                 </p>
               </div>
             </div>
@@ -244,7 +244,7 @@ export const Help: React.FC = () => {
               <Button
                 variant="primary"
                 size="sm"
-                leadingIcon={<Send size={15} />}
+                leadingIcon={<Send size={14} />}
                 onClick={() => setChatInput('')}
               >
                 Envoyer
@@ -265,7 +265,7 @@ export const Help: React.FC = () => {
                 <Card key={opt.title} className="p-stack-lg flex flex-col gap-stack border border-ink-200 bg-white shadow-sm">
                   <div className="flex items-start justify-between">
                     <div className="w-12 h-12 rounded-lg bg-primary-50 text-primary-600 flex items-center justify-center">
-                      <Icon size={22} />
+                      <Icon size={20} />
                     </div>
                     <Badge variant={opt.badgeVariant}>{opt.badge}</Badge>
                   </div>

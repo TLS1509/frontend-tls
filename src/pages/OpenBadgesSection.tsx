@@ -136,10 +136,10 @@ export default function OpenBadgesSection() {
 
                 {/* Action buttons */}
                 <div className="flex gap-stack-xs justify-center pt-1">
-                  <Button variant="ghost" size="sm" leadingIcon={<Eye size={13} />}>
+                  <Button variant="ghost" size="sm" leadingIcon={<Eye size={14} />}>
                     Voir
                   </Button>
-                  <Button variant="ghost" size="sm" leadingIcon={<Share2 size={13} />}>
+                  <Button variant="ghost" size="sm" leadingIcon={<Share2 size={14} />}>
                     Partager
                   </Button>
                 </div>

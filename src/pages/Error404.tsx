@@ -90,7 +90,7 @@ export const Error404: React.FC = () => {
           style={{ x: subX, y: subY }}
           className="font-mono text-caption font-bold uppercase tracking-[0.28em] text-primary-400 inline-flex items-center gap-stack-xs mb-stack"
         >
-          <Compass size={13} /> Navigation perdue
+          <Compass size={14} /> Navigation perdue
         </motion.p>
 
         {/* Giant 404 */}

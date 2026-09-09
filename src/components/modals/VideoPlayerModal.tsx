@@ -160,19 +160,19 @@ export const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
               {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
             </button>
             <span className="text-[12px] text-white/50 flex items-center gap-tight">
-              <Clock size={11} /> {currentTime} / {duration}
+              <Clock size={14} /> {currentTime} / {duration}
             </span>
             <div className="flex-1" />
             {onDownload && (
               <button onClick={onDownload} className={CONTROL_BTN_CLASS}>
-                <Download size={15} />
+                <Download size={14} />
               </button>
             )}
             <button className={CONTROL_BTN_CLASS}>
-              <Share2 size={15} />
+              <Share2 size={14} />
             </button>
             <button className={CONTROL_BTN_CLASS}>
-              <Maximize size={15} />
+              <Maximize size={14} />
             </button>
           </div>
         </div>

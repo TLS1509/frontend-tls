@@ -105,10 +105,10 @@ export const QuizQuestionCard: React.FC<QuizQuestionCardProps> = ({
               <span className="flex-1 text-body font-medium text-ink-900">{option.label}</span>
 
               {answered && showCorrect && (
-                <CheckCircle size={22} className="text-success-base shrink-0" aria-label="Correct" />
+                <CheckCircle size={20} className="text-success-base shrink-0" aria-label="Correct" />
               )}
               {answered && showIncorrect && (
-                <XCircle size={22} className="text-danger-base shrink-0" aria-label="Incorrect" />
+                <XCircle size={20} className="text-danger-base shrink-0" aria-label="Incorrect" />
               )}
             </button>
           );

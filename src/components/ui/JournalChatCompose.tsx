@@ -83,7 +83,7 @@ export const JournalChatCompose: React.FC<JournalChatComposeProps> = ({
           size="md"
           onClick={onSubmit}
           aria-label="Continuer l'entrée"
-          leadingIcon={<Send size={15} />}
+          leadingIcon={<Send size={14} />}
           className="shrink-0"
         >
           Continuer

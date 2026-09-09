@@ -128,7 +128,7 @@ const ProjectsList: React.FC = () => {
 
                   {gatingFails && gatingFails.length > 0 && (
                     <div className="flex items-start gap-stack-xs p-stack rounded-lg bg-warning-bg border border-warning-base/30 mb-stack text-caption text-warning-fg">
-                      <Lock size={12} className="mt-0.5 shrink-0" />
+                      <Lock size={14} className="mt-0.5 shrink-0" />
                       <span>
                         Pré-requis non atteints :{' '}
                         {gatingFails.map((f) => `${f.competencyName} (D${f.current} → D${f.required} requis)`).join(', ')}
@@ -150,7 +150,7 @@ const ProjectsList: React.FC = () => {
                       <span>{p.expertName}</span>
                     </div>
                     <div className="flex items-center gap-tight">
-                      <Calendar size={12} />
+                      <Calendar size={14} />
                       {new Date(p.endDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}
                     </div>
                   </div>

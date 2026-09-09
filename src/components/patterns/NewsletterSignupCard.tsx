@@ -41,7 +41,7 @@ export const NewsletterSignupCard: React.FC<NewsletterSignupCardProps> = ({
                 type="button"
                 variant="glass"
                 size="sm"
-                trailingIcon={<ArrowRight size={13} />}
+                trailingIcon={<ArrowRight size={14} />}
                 onClick={onSeeLastIssue}
                 className="self-start"
               >
@@ -72,7 +72,7 @@ export const NewsletterSignupCard: React.FC<NewsletterSignupCardProps> = ({
                 placeholder="votre@email.com"
                 autoComplete="email"
                 size="md"
-                leadingIcon={<Mail size={15} />}
+                leadingIcon={<Mail size={14} />}
                 className="flex-1 min-w-0"
               />
               <Button type="submit" variant="primary" size="md">

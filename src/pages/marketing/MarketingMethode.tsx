@@ -76,19 +76,19 @@ const Recit: React.FC = () => {
 
 const PILIERS = [
   {
-    icon: <Landmark size={22} />,
+    icon: <Landmark size={20} />,
     title: "L'échelle Dreyfus",
     detail:
       "Les travaux de Stuart et Hubert Dreyfus (UC Berkeley) sur l'acquisition des compétences chez l'adulte. Un QCM ne mesure que la mémoire à court terme : la compétence s'évalue par observation et preuves d'exécution, du novice au maître.",
   },
   {
-    icon: <BookOpenCheck size={22} />,
+    icon: <BookOpenCheck size={20} />,
     title: "La méthode EDRACT de C-Campus & l'AFEST",
     detail:
       "Conçue par notre partenaire C-Campus, référence française de l'ingénierie de formation et de l'AFEST : Évaluation, Découverte, Réalisation, Ancrage, Consolidation, Transfert. The Learning Society digitalise et augmente EDRACT par l'IA.",
   },
   {
-    icon: <Brain size={22} />,
+    icon: <Brain size={20} />,
     title: "L'augmentation cognitive & les Out-skills",
     detail:
       "Redéfinir les workflows métiers en identifiant la frontière entre cognition humaine (jugement, empathie, stratégie) et exécution IA (synthèse, génération, automatisation).",

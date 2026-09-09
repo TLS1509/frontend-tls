@@ -126,7 +126,7 @@ type Pilier = {
 
 const PILIERS: Pilier[] = [
   {
-    icon: <BookOpenCheck size={22} />,
+    icon: <BookOpenCheck size={20} />,
     title: 'Ingénierie & contenus pédagogiques sur-mesure',
     desc:
       "Des parcours construits sur vos projets réels, pas sur des cas d'école. Chaque module prépare une mise en pratique observable.",
@@ -137,7 +137,7 @@ const PILIERS: Pilier[] = [
     ],
   },
   {
-    icon: <Bot size={22} />,
+    icon: <Bot size={20} />,
     title: 'Agents IA & assistants métiers',
     desc:
       "Des agents conçus pour vos workflows : tuteurs qui accompagnent l'apprentissage, copilotes qui augmentent l'exécution.",
@@ -148,7 +148,7 @@ const PILIERS: Pilier[] = [
     ],
   },
   {
-    icon: <Cable size={22} />,
+    icon: <Cable size={20} />,
     title: 'Intégration tech & écosystème',
     desc:
       "Le Studio livre dans votre environnement, pas à côté : vos outils existants deviennent le terrain de déploiement.",

@@ -98,12 +98,12 @@ const ACTIVITY = [
 ];
 
 const BADGES = [
-  { id: 'b1', label: 'Pionnier IA',    icon: <Bot size={36} strokeWidth={1.5} />,       earned: true,  date: '15 Jan 2024' },
-  { id: 'b2', label: 'Streak Master',  icon: <Flame size={36} strokeWidth={1.5} />,     earned: true,  date: '20 Jan 2024' },
-  { id: 'b3', label: 'Expert GPT',     icon: <Zap size={36} strokeWidth={1.5} />,       earned: true,  date: '25 Jan 2024' },
-  { id: 'b4', label: 'Contributeur',   icon: <Star size={36} strokeWidth={1.5} />,      earned: true,  date: '1 Fév 2024' },
-  { id: 'b5', label: 'Mentor',         icon: <Compass size={36} strokeWidth={1.5} />,   earned: false, progress: 60 },
-  { id: 'b6', label: 'Innovateur',     icon: <Lightbulb size={36} strokeWidth={1.5} />, earned: false, progress: 40 },
+  { id: 'b1', label: 'Pionnier IA',    icon: <Bot size={32} strokeWidth={1.5} />,       earned: true,  date: '15 Jan 2024' },
+  { id: 'b2', label: 'Streak Master',  icon: <Flame size={32} strokeWidth={1.5} />,     earned: true,  date: '20 Jan 2024' },
+  { id: 'b3', label: 'Expert GPT',     icon: <Zap size={32} strokeWidth={1.5} />,       earned: true,  date: '25 Jan 2024' },
+  { id: 'b4', label: 'Contributeur',   icon: <Star size={32} strokeWidth={1.5} />,      earned: true,  date: '1 Fév 2024' },
+  { id: 'b5', label: 'Mentor',         icon: <Compass size={32} strokeWidth={1.5} />,   earned: false, progress: 60 },
+  { id: 'b6', label: 'Innovateur',     icon: <Lightbulb size={32} strokeWidth={1.5} />, earned: false, progress: 40 },
 ];
 
 const ACTIVITY_TONE: Record<'brand' | 'warm' | 'sun' | 'success', string> = {
@@ -135,7 +135,7 @@ export const Profile: React.FC = () => {
       return {
         id: ub.badgeId,
         label: def?.name ?? ub.badgeId,
-        icon: <Award size={36} strokeWidth={1.5} />,
+        icon: <Award size={32} strokeWidth={1.5} />,
         earned: true as const,
         date: new Date(ub.earnedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }),
       };
@@ -200,17 +200,17 @@ export const Profile: React.FC = () => {
               {USER.role} · {USER.username}
             </p>
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-stack-xs font-body text-caption text-ink-700">
-              <span className="inline-flex items-center gap-1.5"><Mail size={12} /> {displayEmail}</span>
+              <span className="inline-flex items-center gap-1.5"><Mail size={14} /> {displayEmail}</span>
               <span aria-hidden className="text-ink-300">·</span>
-              <span className="inline-flex items-center gap-1.5"><MapPin size={12} /> {USER.location}</span>
+              <span className="inline-flex items-center gap-1.5"><MapPin size={14} /> {USER.location}</span>
               <span aria-hidden className="text-ink-300">·</span>
-              <span className="inline-flex items-center gap-1.5"><Calendar size={12} /> Membre depuis {USER.joinDate}</span>
+              <span className="inline-flex items-center gap-1.5"><Calendar size={14} /> Membre depuis {USER.joinDate}</span>
             </div>
           </div>
 
           {/* Actions */}
           <div className="flex gap-stack-xs shrink-0 sm:self-start">
-            <Button variant="secondary" size="sm" leadingIcon={<Edit3 size={13} />} onClick={() => navigate('/account')}>
+            <Button variant="secondary" size="sm" leadingIcon={<Edit3 size={14} />} onClick={() => navigate('/account')}>
               Modifier
             </Button>
             <Button variant="ghost" iconOnly aria-label="Partager">
@@ -296,7 +296,7 @@ export const Profile: React.FC = () => {
                   <h2 className="font-display text-h4 font-bold text-ink-900 tracking-snug">
                     Top compétences
                   </h2>
-                  <Button variant="ghost" size="sm" trailingIcon={<ArrowRight size={12} />} onClick={() => setActiveTab('skills')}>
+                  <Button variant="ghost" size="sm" trailingIcon={<ArrowRight size={14} />} onClick={() => setActiveTab('skills')}>
                     Voir la matrice complète
                   </Button>
                 </div>
@@ -347,7 +347,7 @@ export const Profile: React.FC = () => {
                   </div>
                 ))}
               </div>
-              <Button variant="ghost" size="sm" trailingIcon={<ArrowRight size={12} />} className="self-center mt-stack">
+              <Button variant="ghost" size="sm" trailingIcon={<ArrowRight size={14} />} className="self-center mt-stack">
                 Voir toute l'historique
               </Button>
             </section>
@@ -395,7 +395,7 @@ export const Profile: React.FC = () => {
                           aria-label="Verrouillé"
                           className="absolute top-2 right-2 inline-flex items-center justify-center w-5 h-5 rounded-pill bg-white text-ink-400 border border-ink-200"
                         >
-                          <Lock size={9} />
+                          <Lock size={14} />
                         </span>
                       </>
                     )}

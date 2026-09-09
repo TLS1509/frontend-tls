@@ -90,15 +90,15 @@ export const Collaboration: React.FC = () => {
 
         <EditorialHero
           tone="flat"
-          eyebrow={{ icon: <Users size={12} />, label: "Travail d'équipe" }}
+          eyebrow={{ icon: <Users size={14} />, label: "Travail d'équipe" }}
           title="Collaboration"
           summary="Pilotez vos projets d'équipe, suivez la progression collective et coordonnez les contributions."
           trailing={
             <div className="flex gap-stack-xs">
-              <Button variant="secondary" size="sm" leadingIcon={<Plus size={13} />}>
+              <Button variant="secondary" size="sm" leadingIcon={<Plus size={14} />}>
                 Nouveau projet
               </Button>
-              <Button variant="secondary" size="sm" leadingIcon={<Users size={13} />}>
+              <Button variant="secondary" size="sm" leadingIcon={<Users size={14} />}>
                 Inviter
               </Button>
             </div>

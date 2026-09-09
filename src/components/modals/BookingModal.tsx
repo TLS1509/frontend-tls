@@ -353,7 +353,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 {/* Time slots — compact */}
                 <div>
                   <div className="flex items-center gap-1.5 mb-2">
-                    <Clock size={12} className="text-primary-500 shrink-0" />
+                    <Clock size={14} className="text-primary-500 shrink-0" />
                     <span className="text-caption font-bold text-ink-900 leading-tight">
                       {selectedDate ? formatDateLabel(selectedDate) : 'Choisis une date'}
                     </span>
@@ -406,7 +406,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 <CreditCard size={16} className="text-primary-600" />
                 <span className="font-display text-caption font-bold text-ink-900">Paiement par carte</span>
                 <span className="ml-auto inline-flex items-center gap-tight text-micro text-ink-500">
-                  <Lock size={11} /> Sécurisé
+                  <Lock size={14} /> Sécurisé
                 </span>
               </div>
 
@@ -483,24 +483,24 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     </p>
                   </div>
                   <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-success-bg text-success-fg text-caption font-bold shrink-0">
-                    <CheckCircle2 size={12} /> 45 min
+                    <CheckCircle2 size={14} /> 45 min
                   </div>
                 </div>
                 {/* Ligne facturation : crédit déduit / sponsorisé / payé */}
                 <div className="mt-stack-xs pt-stack-xs border-t border-primary-200 flex items-center justify-between flex-wrap gap-stack-xs">
                   {isEnterprise ? (
                     <span className="inline-flex items-center gap-1.5 font-body text-caption text-ink-700">
-                      <Building2 size={12} className="text-success-fg" />
+                      <Building2 size={14} className="text-success-fg" />
                       Sponsorisée par {companyName}
                     </span>
                   ) : hasCredits ? (
                     <span className="inline-flex items-center gap-1.5 font-body text-caption text-ink-700">
-                      <Wallet size={12} className="text-primary-600" />
+                      <Wallet size={14} className="text-primary-600" />
                       1 crédit déduit · reste {Math.max(0, credits.remaining - 1)} / {credits.total} ce mois
                     </span>
                   ) : (
                     <span className="inline-flex items-center gap-1.5 font-body text-caption text-ink-700">
-                      <CreditCard size={12} className="text-primary-600" />
+                      <CreditCard size={14} className="text-primary-600" />
                       Carte ****{cardNumber.slice(-4) || '••••'}
                     </span>
                   )}

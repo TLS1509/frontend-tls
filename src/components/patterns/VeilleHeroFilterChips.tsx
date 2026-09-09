@@ -105,7 +105,7 @@ export const VeilleHeroFilterChips: React.FC<VeilleHeroFilterChipsProps> = ({
         variant="glass"
         label="Sauvegardés"
         active={isSavedActive}
-        icon={<Bookmark size={12} strokeWidth={2.5} aria-hidden />}
+        icon={<Bookmark size={14} strokeWidth={2.5} aria-hidden />}
         count={savedCount && savedCount > 0 ? savedCount : undefined}
         onClick={onSavedToggle}
         aria-label={`Voir les contenus sauvegardés${savedCount ? ` (${savedCount})` : ''}`}

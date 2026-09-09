@@ -508,7 +508,7 @@ export const MarketingArticleDetail: React.FC = () => {
                   >
                     <div className={`relative h-32 bg-gradient-to-br ${r.cover} flex items-center justify-center overflow-hidden`}>
                       <div aria-hidden className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/10 to-white/20" />
-                      <BookOpen size={36} strokeWidth={1.25} className="text-ink-900/25 relative" />
+                      <BookOpen size={32} strokeWidth={1.25} className="text-ink-900/25 relative" />
                     </div>
                     <div className="p-stack-lg flex flex-col gap-stack flex-1">
                       <div className="flex items-center gap-stack-xs flex-wrap">
@@ -520,7 +520,7 @@ export const MarketingArticleDetail: React.FC = () => {
                           {r.category}
                         </span>
                         <span className="inline-flex items-center gap-tight font-body text-caption text-ink-500">
-                          <Clock size={11} />
+                          <Clock size={14} />
                           {r.readTime}
                         </span>
                       </div>
@@ -533,7 +533,7 @@ export const MarketingArticleDetail: React.FC = () => {
                       <div className="inline-flex items-center gap-tight font-body text-caption font-bold text-primary-700 pt-stack border-t border-ink-100">
                         Lire
                         <ArrowRight
-                          size={12}
+                          size={14}
                           className="transition-transform duration-base group-hover:translate-x-0.5"
                         />
                       </div>

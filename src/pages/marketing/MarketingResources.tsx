@@ -205,7 +205,7 @@ const FeaturedCard: React.FC<{ item: ResourceItem }> = ({ item }) => {
           <div className="flex flex-col gap-stack">
             <div className="flex items-center gap-stack flex-wrap">
               <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-pill border font-body text-caption font-bold uppercase tracking-wider ${badgeTone(item)}`}>
-                <Sparkles size={12} /> À la une
+                <Sparkles size={14} /> À la une
               </span>
               <span className="inline-flex items-center gap-1.5 font-body text-caption text-ink-600">
                 <Calendar size={14} />
@@ -264,7 +264,7 @@ const ResourceCard: React.FC<{ item: ResourceItem; index: number }> = ({ item, i
                 {item.badgeLabel}
               </span>
               <span className="inline-flex items-center gap-tight font-body text-caption text-ink-500">
-                <Clock size={11} />
+                <Clock size={14} />
                 {item.meta}
               </span>
             </div>
@@ -282,7 +282,7 @@ const ResourceCard: React.FC<{ item: ResourceItem; index: number }> = ({ item, i
             {/* Footer */}
             <div className="inline-flex items-center gap-tight font-body text-caption font-bold text-primary-700 pt-stack border-t border-ink-100">
               {TYPE_CTA_LABEL[item.type]}
-              <ArrowRight size={12} className="transition-transform duration-base group-hover:translate-x-0.5" />
+              <ArrowRight size={14} className="transition-transform duration-base group-hover:translate-x-0.5" />
             </div>
           </div>
         </motion.article>

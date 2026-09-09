@@ -60,7 +60,7 @@ export const MarketingVideoDetail: React.FC = () => {
           <FadeInWhenVisible direction="up" delay={0.05}>
             <div className="flex items-center gap-stack flex-wrap">
               <span className="inline-flex items-center px-3 py-1 rounded-pill border bg-primary-50 text-primary-700 border-primary-100 font-body text-caption font-bold uppercase tracking-wider">
-                <Play size={11} className="mr-1.5" /> Vidéo
+                <Play size={14} className="mr-1.5" /> Vidéo
               </span>
               <span className="inline-flex items-center gap-1.5 font-body text-caption text-ink-600">
                 <Calendar size={14} /> {video.date}
@@ -108,7 +108,7 @@ export const MarketingVideoDetail: React.FC = () => {
                 aria-label="Lire la vidéo (nouvel onglet)"
                 className="relative z-[1] w-20 h-20 rounded-full bg-primary-500 shadow-[0_0_0_14px_rgba(85,161,180,0.20)] flex items-center justify-center transition-transform duration-base hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/70"
               >
-                <Play size={30} className="ml-1 fill-white text-white" />
+                <Play size={28} className="ml-1 fill-white text-white" />
               </a>
             ) : (
               <div
@@ -116,7 +116,7 @@ export const MarketingVideoDetail: React.FC = () => {
                 className="relative z-[1] flex flex-col items-center gap-stack-xs text-white/70"
               >
                 <div className="w-20 h-20 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
-                  <Play size={30} className="ml-1 text-white/50" />
+                  <Play size={28} className="ml-1 text-white/50" />
                 </div>
                 <span className="font-body text-caption font-semibold">Vidéo à venir</span>
               </div>
@@ -169,14 +169,14 @@ export const MarketingVideoDetail: React.FC = () => {
                       </div>
                       <div className="p-stack-lg flex flex-col gap-stack flex-1">
                         <span className="inline-flex items-center gap-tight font-body text-caption text-ink-500">
-                          <Clock size={11} /> {r.duration}
+                          <Clock size={14} /> {r.duration}
                         </span>
                         <h3 className="font-display text-body font-semibold font-bold text-ink-900 leading-tight group-hover:text-primary-700 transition-colors duration-base">
                           {r.title}
                         </h3>
                         <div className="inline-flex items-center gap-tight font-body text-caption font-bold text-primary-700 mt-auto pt-stack border-t border-ink-100">
                           Regarder
-                          <ArrowRight size={12} className="transition-transform duration-base group-hover:translate-x-0.5" />
+                          <ArrowRight size={14} className="transition-transform duration-base group-hover:translate-x-0.5" />
                         </div>
                       </div>
                     </motion.article>

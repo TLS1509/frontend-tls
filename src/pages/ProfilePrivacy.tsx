@@ -365,7 +365,7 @@ export default function ProfilePrivacy() {
             {DATA_RETENTION.map((r) => (
               <div key={r.type} className="flex items-center justify-between gap-section px-stack py-2.5 rounded-lg bg-ink-50 border border-ink-100">
                 <span className="flex items-center gap-stack-xs text-body-sm text-ink-800 font-medium">
-                  <r.Icon size={15} className="text-ink-500 shrink-0" />
+                  <r.Icon size={14} className="text-ink-500 shrink-0" />
                   {r.type}
                 </span>
                 <span className="text-caption text-ink-700 text-right shrink-0">{r.retention}</span>

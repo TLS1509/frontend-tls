@@ -66,7 +66,7 @@ const BANKS: Record<TestKey, {
       'Fraîcheur & obsolescence des acquis',
       'Reconnaissance & certification',
     ],
-    icon: <Layers size={22} />,
+    icon: <Layers size={20} />,
     openQuestions: [
       "Quelle est aujourd'hui votre principale frustration concernant la gestion des compétences et le développement de vos talents ?",
       'Si vous deviez résoudre un seul enjeu prioritaire RH/Compétences dans les 12 prochains mois, quel serait-il ?',
@@ -106,7 +106,7 @@ const BANKS: Record<TestKey, {
       'Processus métiers augmentés',
       'Ancrage terrain & mesure du ROI',
     ],
-    icon: <Bot size={22} />,
+    icon: <Bot size={20} />,
     openQuestions: [
       "Quel est actuellement le principal frein qui empêche vos équipes d'intégrer pleinement l'IA dans leur travail quotidien ?",
       "Quel métier ou processus de votre entreprise bénéficierait le plus d'une augmentation par l'IA dans les prochains mois ?",
@@ -357,7 +357,7 @@ export const MarketingDiagnostic: React.FC = () => {
                         <ul className="flex flex-col gap-stack-xs m-0 p-0 list-none">
                           {b.bullets.map((bullet) => (
                             <li key={bullet} className="flex items-center gap-stack-xs">
-                              <CheckCircle2 size={15} className={`${b.accent.text} shrink-0`} />
+                              <CheckCircle2 size={14} className={`${b.accent.text} shrink-0`} />
                               <span className="font-body text-body-sm text-ink-700">{bullet}</span>
                             </li>
                           ))}

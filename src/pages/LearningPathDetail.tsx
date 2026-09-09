@@ -401,9 +401,9 @@ export const LearningPathDetail: React.FC = () => {
                         ].join(' ')}
                       >
                         {!etape.unlocked ? (
-                          <Lock size={22} />
+                          <Lock size={20} />
                         ) : etape.completed ? (
-                          <CheckCircle2 size={26} />
+                          <CheckCircle2 size={24} />
                         ) : (
                           <span className="font-display font-bold text-h2 leading-none">
                             {idx + 1}
@@ -436,12 +436,12 @@ export const LearningPathDetail: React.FC = () => {
 
                         <MetaPillGroup
                           items={[
-                            { icon: <BookOpen size={12} />, text: `${etape.lecons.length} leçons` },
-                            { icon: <Clock3 size={12} />, text: etape.duration },
+                            { icon: <BookOpen size={14} />, text: `${etape.lecons.length} leçons` },
+                            { icon: <Clock3 size={14} />, text: etape.duration },
                             ...(etape.unlocked && !etape.completed
                               ? [
                                   {
-                                    icon: <Target size={12} />,
+                                    icon: <Target size={14} />,
                                     text: `${etape.progress.completed}/${etape.progress.total} complétées`,
                                   },
                                 ]
@@ -497,7 +497,7 @@ export const LearningPathDetail: React.FC = () => {
                                 <div
                                   className={`w-9 h-9 rounded-lg shrink-0 flex items-center justify-center ${iconBg}`}
                                 >
-                                  {lecon.completed ? <CheckCircle2 size={16} /> : <Play size={13} />}
+                                  {lecon.completed ? <CheckCircle2 size={16} /> : <Play size={14} />}
                                 </div>
 
                                 <div className="flex-1 min-w-0">
@@ -509,7 +509,7 @@ export const LearningPathDetail: React.FC = () => {
                                     {lecon.number}. {lecon.title}
                                   </div>
                                   <div className="flex items-center gap-tight text-caption text-ink-500 mt-0.5">
-                                    <Clock3 size={11} /> {lecon.duration}
+                                    <Clock3 size={14} /> {lecon.duration}
                                   </div>
                                 </div>
 
@@ -566,7 +566,7 @@ export const LearningPathDetail: React.FC = () => {
                 className={`text-center text-white p-stack-lg rounded-2xl ${TONE_HERO_GRADIENT[tone]}`}
               >
                 <div className="w-20 h-20 rounded-xl bg-white/15 backdrop-blur-sm mx-auto mb-stack-lg flex items-center justify-center">
-                  <Award size={36} />
+                  <Award size={32} />
                 </div>
                 <h2 className="font-display text-h2 font-bold mb-3">
                   {parcours.finalProject.title}

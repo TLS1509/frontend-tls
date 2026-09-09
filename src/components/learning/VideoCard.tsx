@@ -73,7 +73,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({
           <Play size={28} fill="currentColor" className="ml-1" />
         </div>
         <div className="absolute bottom-3 right-3 inline-flex items-center gap-tight px-2 py-1 rounded-pill bg-black/60 backdrop-blur-sm text-white text-micro font-bold">
-          <Clock size={10} />
+          <Clock size={14} />
           {duration}
         </div>
       </div>

@@ -1266,7 +1266,7 @@ export const LessonPlayer: React.FC = () => {
                     }}
                   />
                   <span className="inline-flex items-center gap-1.5 bg-white border border-ink-300 text-ink-700 hover:bg-ink-50 transition-colors duration-150 px-3 py-1.5 rounded-lg font-body text-caption font-semibold">
-                    <ImageIcon size={13} /> Choisir un fichier
+                    <ImageIcon size={14} /> Choisir un fichier
                   </span>
                 </label>
               </div>
@@ -1304,7 +1304,7 @@ export const LessonPlayer: React.FC = () => {
                     }}
                   />
                   <span className="inline-flex items-center gap-1.5 bg-white border border-ink-300 text-ink-700 hover:bg-ink-50 transition-colors duration-150 px-3 py-1.5 rounded-lg font-body text-caption font-semibold">
-                    <Play size={13} /> Choisir une vidéo
+                    <Play size={14} /> Choisir une vidéo
                   </span>
                 </label>
               </div>
@@ -1337,7 +1337,7 @@ export const LessonPlayer: React.FC = () => {
                     }}
                   />
                   <span className="inline-flex items-center gap-1.5 bg-white border border-ink-300 text-ink-700 hover:bg-ink-50 transition-colors duration-150 px-3 py-1.5 rounded-lg font-body text-caption font-semibold">
-                    <ImageIcon size={13} /> Choisir un GIF
+                    <ImageIcon size={14} /> Choisir un GIF
                   </span>
                 </label>
               </div>
@@ -1547,7 +1547,7 @@ export const LessonPlayer: React.FC = () => {
                 <p className="m-0 mb-3 font-body text-body-sm text-ink-600">{block.description}</p>
               )}
               <span className="inline-flex items-center gap-1.5 bg-primary-100 text-primary-700 px-3 py-1 rounded-pill font-body text-caption font-semibold">
-                <Cpu size={12} /> Module interactif · Bientôt disponible
+                <Cpu size={14} /> Module interactif · Bientôt disponible
               </span>
             </div>
           </div>
@@ -1674,7 +1674,7 @@ export const LessonPlayer: React.FC = () => {
                     }}
                     className="inline-flex items-center gap-1.5 px-stack h-10 bg-primary-600 text-white rounded-lg font-body text-caption font-semibold hover:bg-primary-700 transition-colors duration-150 shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                   >
-                    <Link2 size={13} /> Charger
+                    <Link2 size={14} /> Charger
                   </button>
                 </div>
                 {resolvedUrl === undefined && embeddedUrls[index] && (
@@ -1860,7 +1860,7 @@ export const LessonPlayer: React.FC = () => {
               className="inline-flex items-center gap-tight text-ink-500 hover:text-ink-900 transition-colors duration-150 font-body text-caption shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
               aria-label="Retour"
             >
-              <ChevronLeft size={15} />
+              <ChevronLeft size={14} />
               <span className="hidden sm:inline">Retour</span>
             </button>
             <div className="flex-1 min-w-0 flex flex-col items-center">
@@ -1875,7 +1875,7 @@ export const LessonPlayer: React.FC = () => {
             </div>
             <div className="flex items-center gap-stack-xs shrink-0">
               <span className="font-body text-caption text-ink-600 hidden sm:inline">
-                <Clock3 size={11} className="inline mr-1 -mt-0.5" />{displayDuration}
+                <Clock3 size={14} className="inline mr-1 -mt-0.5" />{displayDuration}
               </span>
               <span className="font-body text-caption font-semibold text-ink-500">
                 {currentIndex + 1}<span className="text-ink-300"> / </span>{SECTIONS.length}
@@ -1920,7 +1920,7 @@ export const LessonPlayer: React.FC = () => {
                   onClick={() => goTo(index)}
                   aria-current={isActive ? 'step' : undefined}
                 >
-                  <Icon size={12} />
+                  <Icon size={14} />
                   <span>{section.title}</span>
                   {isDone && (
                     <span className="absolute top-0.5 right-0.5 w-1.5 h-1.5 rounded-full bg-success-base" aria-hidden="true" />

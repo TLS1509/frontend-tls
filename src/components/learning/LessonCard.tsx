@@ -122,7 +122,7 @@ export const LessonCard: React.FC<LessonCardProps> = ({
             {/* Double-bezel lock icon */}
             <div className="p-1.5 rounded-2xl bg-ink-100/60 ring-1 ring-ink-200/40">
               <div className="w-12 h-12 rounded-xl bg-white text-ink-500 flex items-center justify-center shadow-inner">
-                <Lock size={22} strokeWidth={1.75} />
+                <Lock size={20} strokeWidth={1.75} />
               </div>
             </div>
             <span className="text-caption font-semibold text-ink-500">Verrouillée</span>

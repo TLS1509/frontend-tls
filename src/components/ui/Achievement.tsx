@@ -86,7 +86,7 @@ export const Achievement: React.FC<AchievementProps> = ({
         </div>
         {variant === 'locked' && (
           <div className="absolute -bottom-1 -right-1 w-7 h-7 inline-flex items-center justify-center rounded-full bg-ink-500 text-white ring-2 ring-white">
-            <Lock size={13} strokeWidth={2.5} />
+            <Lock size={14} strokeWidth={2.5} />
           </div>
         )}
         {variant === 'unlocked' && (
@@ -118,7 +118,7 @@ export const Achievement: React.FC<AchievementProps> = ({
 
         {variant === 'unlocked' && unlockedAt && (
           <p className="m-0 mt-1.5 text-caption text-accent-700 font-semibold inline-flex items-center gap-tight">
-            <Sparkles size={11} fill="currentColor" />
+            <Sparkles size={14} fill="currentColor" />
             Débloqué {unlockedAt}
           </p>
         )}

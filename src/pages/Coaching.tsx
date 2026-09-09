@@ -311,7 +311,7 @@ export const Coaching: React.FC = () => {
                 <div className="flex flex-wrap items-center gap-stack-xs">
                   <Button
                     size="lg"
-                    leadingIcon={<Video size={15} />}
+                    leadingIcon={<Video size={14} />}
                     className="flex-1 min-w-[180px] sm:flex-none"
                     aria-label="Rejoindre la session de coaching"
                   >

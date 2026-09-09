@@ -146,7 +146,7 @@ const Verdict: React.FC<{ ratio: number; large?: boolean }> = ({ ratio, large = 
         pass ? 'bg-success-bg text-success-fg' : 'bg-danger-bg text-danger-fg',
       ].join(' ')}
     >
-      {pass ? <Check size={11} strokeWidth={3} /> : <X size={11} strokeWidth={3} />}
+      {pass ? <Check size={14} strokeWidth={3} /> : <X size={14} strokeWidth={3} />}
       {fmt(ratio)}:1
     </span>
   );
@@ -2017,7 +2017,7 @@ const DecisionPanel: React.FC<{ onJump: (id: string) => void }> = ({ onJump }) =
                       onClick={() => onJump(d.section!)}
                       className="self-start inline-flex items-center gap-1 text-micro font-semibold text-primary-800 hover:underline cursor-pointer"
                     >
-                      Voir la preuve complète <ArrowUpRight size={11} />
+                      Voir la preuve complète <ArrowUpRight size={14} />
                     </button>
                   )}
                 </div>
@@ -2454,7 +2454,7 @@ const DesignLab: React.FC = () => {
                 : 'bg-ink-100 text-ink-800 hover:bg-ink-200',
             ].join(' ')}
           >
-            {applied ? <RotateCcw size={13} strokeWidth={2.4} /> : <Check size={13} strokeWidth={2.4} />}
+            {applied ? <RotateCcw size={14} strokeWidth={2.4} /> : <Check size={14} strokeWidth={2.4} />}
             {applied ? 'Proposition active' : 'Appliquer'}
           </button>
         </div>
@@ -2481,7 +2481,7 @@ const DesignLab: React.FC = () => {
                     : 'border-ink-200 bg-white text-ink-600 hover:border-ink-300 hover:text-ink-900',
                 ].join(' ')}
               >
-                {on && <Check size={11} strokeWidth={2.6} className="mr-1" />}
+                {on && <Check size={14} strokeWidth={2.6} className="mr-1" />}
                 {t.label}
               </button>
             );
@@ -2492,7 +2492,7 @@ const DesignLab: React.FC = () => {
               onClick={() => setTrials([])}
               className="inline-flex items-center gap-1 rounded-pill px-2 h-7 text-micro font-semibold text-ink-600 hover:bg-ink-100 hover:text-ink-900 transition-colors duration-fast cursor-pointer shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
             >
-              <X size={11} strokeWidth={2.5} /> Retirer
+              <X size={14} strokeWidth={2.5} /> Retirer
             </button>
           )}
         </div>

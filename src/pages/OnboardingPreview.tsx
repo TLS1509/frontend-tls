@@ -191,7 +191,7 @@ function VariantA({ onDone }: { onDone: () => void }) {
                     : 'bg-white/90 border-ink-200 text-ink-800 hover:border-secondary-400 hover:bg-secondary-50',
                 ].join(' ')}
               >
-                {on && <Check size={11} className="inline mr-1 -mt-0.5" />}
+                {on && <Check size={14} className="inline mr-1 -mt-0.5" />}
                 {g.emoji} {g.label}
               </button>
             );
@@ -408,7 +408,7 @@ function VariantB({ onDone }: { onDone: () => void }) {
                 >
                   {on && (
                     <span className="absolute top-2 right-2 w-4 h-4 rounded-full bg-white/30 inline-flex items-center justify-center">
-                      <Check size={10} className="text-white" />
+                      <Check size={14} className="text-white" />
                     </span>
                   )}
                   <span className="text-xl">{g.emoji}</span>
@@ -596,7 +596,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
                   >
                     <span className="text-lg shrink-0">{g.emoji}</span>
                     <span className="font-body text-body-sm font-medium leading-snug">{g.label}</span>
-                    {on && <Check size={12} className="absolute top-2 right-2 opacity-80" />}
+                    {on && <Check size={14} className="absolute top-2 right-2 opacity-80" />}
                   </button>
                 );
               })}

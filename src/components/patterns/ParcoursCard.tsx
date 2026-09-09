@@ -148,8 +148,8 @@ export const ParcoursCard: React.FC<ParcoursCardProps> = ({
         {hasMeta && (
           <MetaPillGroup
             items={[
-              ...(duration ? [{ icon: <Clock3 size={13} />, text: duration }] : []),
-              ...(lessons ? [{ icon: <BookOpen size={13} />, text: `${lessons} leçons` }] : []),
+              ...(duration ? [{ icon: <Clock3 size={14} />, text: duration }] : []),
+              ...(lessons ? [{ icon: <BookOpen size={14} />, text: `${lessons} leçons` }] : []),
             ]}
             size="sm"
             layout="horizontal"
@@ -178,7 +178,7 @@ export const ParcoursCard: React.FC<ParcoursCardProps> = ({
           aria-label={CTA_LABELS[status]}
         >
           <span>{CTA_LABELS[status]}</span>
-          <ArrowRight size={15} aria-hidden="true" />
+          <ArrowRight size={14} aria-hidden="true" />
         </button>
       </div>
     </Card>

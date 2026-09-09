@@ -169,7 +169,7 @@ export const JournalBubbleCard: React.FC<JournalBubbleCardProps> = ({
             meta.badge,
           ].join(' ')}
         >
-          <TypeIcon size={12} />
+          <TypeIcon size={14} />
           {meta.label}
         </span>
       </div>
@@ -182,7 +182,7 @@ export const JournalBubbleCard: React.FC<JournalBubbleCardProps> = ({
         <Button
           variant="ghost"
           size="sm"
-          trailingIcon={<ArrowRight size={13} />}
+          trailingIcon={<ArrowRight size={14} />}
           onClick={onCoachingAction}
         >
           {type === 'questionnaire' ? 'Voir les réponses' : 'Voir le rapport complet'}

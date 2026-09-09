@@ -81,7 +81,7 @@ export const Error500: React.FC = () => {
           style={{ x: subX, y: subY }}
           className="font-mono text-caption font-bold uppercase tracking-[0.28em] text-secondary-500/80 inline-flex items-center gap-stack-xs mb-stack"
         >
-          <AlertTriangle size={13} /> Système · Incident
+          <AlertTriangle size={14} /> Système · Incident
         </motion.p>
 
         {/* Giant 500 */}

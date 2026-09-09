@@ -149,7 +149,7 @@ const RatingDisplay: React.FC<{ rating: ProfileRating; tone: ProfileCardTone }> 
         {Array.from({ length: max }, (_, i) => (
           <Star
             key={i}
-            size={15}
+            size={14}
             className={i < rounded ? 'text-accent-400 fill-accent-400' : 'text-ink-200 fill-transparent'}
             strokeWidth={1.5}
           />

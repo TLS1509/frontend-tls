@@ -89,11 +89,11 @@ export default function AtelierHub() {
                     {enrollment && (
                       <Badge variant={enrollment.status === 'waitlist' ? 'warm' : 'success'}>
                         {enrollment.status === 'waitlist' ? (
-                          <><AlertCircle size={11} className="inline mr-0.5" />Liste d'attente #{enrollment.waitlistPosition}</>
+                          <><AlertCircle size={14} className="inline mr-0.5" />Liste d'attente #{enrollment.waitlistPosition}</>
                         ) : enrollment.status === 'validated' ? (
-                          <><CheckCircle size={11} className="inline mr-0.5" />Validé</>
+                          <><CheckCircle size={14} className="inline mr-0.5" />Validé</>
                         ) : (
-                          <><Clock size={11} className="inline mr-0.5" />En attente</>
+                          <><Clock size={14} className="inline mr-0.5" />En attente</>
                         )}
                       </Badge>
                     )}
@@ -107,16 +107,16 @@ export default function AtelierHub() {
                   </div>
 
                   <div className="flex items-center gap-stack-xs flex-wrap">
-                    <Calendar size={13} className="text-ink-600 shrink-0" />
+                    <Calendar size={14} className="text-ink-600 shrink-0" />
                     <span className="text-caption text-ink-500">{formatDate(atelier.scheduledAt)}</span>
                     {atelier.mode === 'presentiel' && atelier.location ? (
                       <>
-                        <MapPin size={13} className="text-ink-600 shrink-0 ml-stack-xs" />
+                        <MapPin size={14} className="text-ink-600 shrink-0 ml-stack-xs" />
                         <span className="text-caption text-ink-500 truncate">{atelier.location}</span>
                       </>
                     ) : (
                       <>
-                        <Video size={13} className="text-ink-600 shrink-0 ml-stack-xs" />
+                        <Video size={14} className="text-ink-600 shrink-0 ml-stack-xs" />
                         <span className="text-caption text-ink-500">Distanciel</span>
                       </>
                     )}

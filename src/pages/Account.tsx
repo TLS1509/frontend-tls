@@ -144,7 +144,7 @@ const GeneralTab: React.FC = () => {
 
       <SettingCard title="Zone de danger">
         <SettingsRow icon={<Download size={16} />} label="Exporter mes données" description="Demande d'accès RGPD (DSAR) — délai légal 30 jours">
-          <Button variant="secondary" size="sm" leadingIcon={<Download size={13} />} onClick={() => navigate('/profile/privacy/dsar')}>
+          <Button variant="secondary" size="sm" leadingIcon={<Download size={14} />} onClick={() => navigate('/profile/privacy/dsar')}>
             Exporter
           </Button>
         </SettingsRow>
@@ -153,7 +153,7 @@ const GeneralTab: React.FC = () => {
             variant="secondary"
             size="sm"
             className="border-danger-base text-danger-fg hover:bg-danger-bg"
-            leadingIcon={<Trash2 size={13} />}
+            leadingIcon={<Trash2 size={14} />}
             onClick={() => navigate('/profile/privacy/delete-account')}
           >
             Supprimer
@@ -181,7 +181,7 @@ const SecurityTab: React.FC = () => {
           <div className="flex items-center gap-stack-xs">
             {twoFA && (
               <span className="flex items-center gap-tight font-body text-caption text-success-fg font-semibold">
-                <CheckCircle2 size={13} /> Activée
+                <CheckCircle2 size={14} /> Activée
               </span>
             )}
             <Switch
@@ -215,19 +215,19 @@ const SecurityTab: React.FC = () => {
                   {session.current && <Badge variant="success">session actuelle</Badge>}
                 </div>
                 <p className="m-0 mt-0.5 font-body text-caption text-ink-700 flex items-center gap-stack-xs">
-                  <MapPin size={11} /> {session.location} · {session.lastSeen}
+                  <MapPin size={14} /> {session.location} · {session.lastSeen}
                 </p>
               </div>
             </div>
             {!session.current && (
-              <Button variant="secondary" size="sm" className="shrink-0" leadingIcon={<LogOut size={13} />}>
+              <Button variant="secondary" size="sm" className="shrink-0" leadingIcon={<LogOut size={14} />}>
                 Révoquer
               </Button>
             )}
           </div>
         ))}
         <div className="pb-5 pt-3">
-          <Button variant="ghost" size="sm" className="text-danger-fg hover:bg-danger-bg" leadingIcon={<LogOut size={13} />}>
+          <Button variant="ghost" size="sm" className="text-danger-fg hover:bg-danger-bg" leadingIcon={<LogOut size={14} />}>
             Déconnecter toutes les autres sessions
           </Button>
         </div>

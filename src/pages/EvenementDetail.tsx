@@ -56,12 +56,12 @@ const SPEAKERS = [
 ];
 
 const INFO_GRID = [
-  { icon: <Calendar size={15} />, label: 'Date', value: '20 juin 2026' },
-  { icon: <Clock size={15} />, label: 'Heure', value: '14h00 – 17h00' },
-  { icon: <Clock size={15} />, label: 'Durée', value: '3 heures' },
-  { icon: <Video size={15} />, label: 'Format', value: 'Distanciel (Zoom)' },
-  { icon: <Globe size={15} />, label: 'Accès', value: 'Lien envoyé 24h avant' },
-  { icon: <MapPin size={15} />, label: 'Langue', value: 'Français' },
+  { icon: <Calendar size={14} />, label: 'Date', value: '20 juin 2026' },
+  { icon: <Clock size={14} />, label: 'Heure', value: '14h00 – 17h00' },
+  { icon: <Clock size={14} />, label: 'Durée', value: '3 heures' },
+  { icon: <Video size={14} />, label: 'Format', value: 'Distanciel (Zoom)' },
+  { icon: <Globe size={14} />, label: 'Accès', value: 'Lien envoyé 24h avant' },
+  { icon: <MapPin size={14} />, label: 'Langue', value: 'Français' },
 ];
 
 export default function EvenementDetail() {

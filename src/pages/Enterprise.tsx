@@ -145,7 +145,7 @@ export const Enterprise: React.FC = () => {
         {/* ── Hero ─────────────────────────────────────────────── */}
         <EditorialHero
           tone="flat"
-          eyebrow={{ icon: <Building2 size={12} />, label: 'Tableau de bord entreprise' }}
+          eyebrow={{ icon: <Building2 size={14} />, label: 'Tableau de bord entreprise' }}
           title="Espace Entreprise"
           summary="Pilotez la formation de votre équipe, gérez les accès et suivez les indicateurs clés en temps réel."
           trailing={<Badge variant="brand" className="bg-white/20 text-white border-white/30">Premium Enterprise</Badge>}
@@ -232,7 +232,7 @@ export const Enterprise: React.FC = () => {
           titleIcon={<Users size={18} className="text-primary-600" />}
           description={`${activeMembers.length} collaborateurs actifs`}
           headerAction={
-            <Button variant="ghost" size="sm" trailingIcon={<ChevronRight size={13} />}>
+            <Button variant="ghost" size="sm" trailingIcon={<ChevronRight size={14} />}>
               Voir tous
             </Button>
           }
@@ -285,7 +285,7 @@ export const Enterprise: React.FC = () => {
             <Button
               variant="primary"
               size="sm"
-              leadingIcon={<UserPlus size={13} />}
+              leadingIcon={<UserPlus size={14} />}
               onClick={() => setInviteOpen((v) => !v)}
             >
               {inviteOpen ? 'Annuler' : 'Inviter'}
@@ -372,7 +372,7 @@ export const Enterprise: React.FC = () => {
                 <Badge variant={u.status === 'active' ? 'success' : 'warm'}>
                   {u.status === 'active' ? 'Actif' : 'En attente'}
                 </Badge>
-                <Button variant="ghost" size="sm" leadingIcon={<Mail size={13} />}>
+                <Button variant="ghost" size="sm" leadingIcon={<Mail size={14} />}>
                   {u.status === 'pending' ? 'Renvoyer' : 'Contacter'}
                 </Button>
               </div>
@@ -386,7 +386,7 @@ export const Enterprise: React.FC = () => {
             <h2 className="font-display text-h3 font-bold text-ink-900 tracking-tight">
               Rapports
             </h2>
-            <Button variant="ghost" size="sm" trailingIcon={<ChevronRight size={13} />}>
+            <Button variant="ghost" size="sm" trailingIcon={<ChevronRight size={14} />}>
               Voir tous les rapports
             </Button>
           </div>
@@ -401,7 +401,7 @@ export const Enterprise: React.FC = () => {
                 >
                   <div className="flex items-start gap-stack">
                     <span className="shrink-0 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary-50 text-primary-700">
-                      <Icon size={22} />
+                      <Icon size={20} />
                     </span>
                     <div className="flex-1 min-w-0 flex flex-col gap-tight">
                       <h3 className="font-display text-body-lg font-bold text-ink-900 leading-tight">
@@ -414,10 +414,10 @@ export const Enterprise: React.FC = () => {
                     {r.desc}
                   </p>
                   <div className="flex gap-stack-xs mt-auto">
-                    <Button variant="secondary" size="sm" leadingIcon={<Download size={13} />}>
+                    <Button variant="secondary" size="sm" leadingIcon={<Download size={14} />}>
                       Télécharger
                     </Button>
-                    <Button variant="ghost" size="sm" trailingIcon={<ChevronRight size={13} />}>
+                    <Button variant="ghost" size="sm" trailingIcon={<ChevronRight size={14} />}>
                       Aperçu
                     </Button>
                   </div>

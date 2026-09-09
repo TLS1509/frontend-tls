@@ -132,7 +132,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
                     isChecked ? TONE_CHECKBOX[tone] : 'border-ink-300 bg-white',
                   ].join(' ')}
                 >
-                  {isChecked && <Check size={12} className="text-white" strokeWidth={3} />}
+                  {isChecked && <Check size={14} className="text-white" strokeWidth={3} />}
                 </span>
 
                 <div className="flex flex-col gap-0.5 min-w-0">
@@ -179,7 +179,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
                   isChecked ? TONE_CHECKBOX[tone] : 'border-ink-300 bg-white',
                 ].join(' ')}
               >
-                {isChecked && <Check size={12} className="text-white" strokeWidth={3} />}
+                {isChecked && <Check size={14} className="text-white" strokeWidth={3} />}
               </span>
 
               {(option.label || option.description) && (

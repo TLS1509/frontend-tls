@@ -65,7 +65,7 @@ export default function HelpTutorials() {
                   <div className="flex items-center justify-between gap-stack-xs pt-stack-xs border-t border-ink-100">
                     {duration && (
                       <span className="flex items-center gap-tight text-caption text-ink-500">
-                        <Clock size={12} />
+                        <Clock size={14} />
                         {duration}
                       </span>
                     )}

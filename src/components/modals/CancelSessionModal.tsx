@@ -76,14 +76,14 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
           className="absolute top-4 right-4 w-8 h-8 rounded-full bg-ink-50 border-0 flex items-center justify-center cursor-pointer text-ink-600 hover:bg-ink-200 transition-all z-10 p-0"
           aria-label="Fermer"
         >
-          <X size={13} />
+          <X size={14} />
         </button>
 
         {step === 'confirm' ? (
           <>
             {/* Warning icon */}
             <div className="relative w-14 h-14 rounded-xl bg-gradient-to-br from-secondary-500/15 to-secondary-500/6 border border-secondary-500/25 flex items-center justify-center mx-auto mb-stack">
-              <AlertTriangle size={26} className="text-secondary-600" />
+              <AlertTriangle size={24} className="text-secondary-600" />
             </div>
 
             <h2 className="text-h3 font-extrabold text-ink-900 text-center mb-2">
@@ -130,7 +130,7 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
                 variant="primary"
                 size="lg"
                 fullWidth
-                leadingIcon={<RefreshCcw size={15} />}
+                leadingIcon={<RefreshCcw size={14} />}
                 onClick={() => { onReschedule(); handleClose(); }}
               >
                 Reprogrammer plutôt
@@ -142,7 +142,7 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
                 disabled={!reason}
                 className={`${CONFIRM_BTN_BASE} ${reason ? CONFIRM_BTN_ENABLED : CONFIRM_BTN_DISABLED}`}
               >
-                <CalendarX size={15} /> Confirmer l'annulation
+                <CalendarX size={14} /> Confirmer l'annulation
               </button>
             </div>
           </>

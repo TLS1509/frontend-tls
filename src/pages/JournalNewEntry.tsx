@@ -277,7 +277,7 @@ export const JournalNewEntry: React.FC = () => {
             {isDraft && <Badge variant="sun" size="sm">Brouillon</Badge>}
           </div>
           <div className="flex items-center gap-tight text-ink-500 font-body text-caption">
-            <Clock size={12} />
+            <Clock size={14} />
             {TODAY}
           </div>
         </div>
@@ -296,7 +296,7 @@ export const JournalNewEntry: React.FC = () => {
               Enregistré
             </div>
           )}
-          <Button leadingIcon={<Save size={15} />} size="sm" onClick={handlePublish}>
+          <Button leadingIcon={<Save size={14} />} size="sm" onClick={handlePublish}>
             Publier
           </Button>
         </div>
@@ -363,7 +363,7 @@ export const JournalNewEntry: React.FC = () => {
             onClick={handleInspirationClick}
             className="inline-flex items-center gap-stack-xs px-4 py-2 rounded-pill bg-secondary-50 border border-secondary-200 text-secondary-600 font-body text-body-sm font-bold cursor-pointer hover:bg-secondary-100 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-500"
           >
-            <Sparkles size={15} />
+            <Sparkles size={14} />
             Besoin d'inspiration ?
           </button>
         </div>

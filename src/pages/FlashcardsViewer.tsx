@@ -272,10 +272,10 @@ export const FlashcardsViewer: React.FC = () => {
             onClick={() => navigate(`/learning-paths/${lessonCtx.parcoursId}`)}
             className="inline-flex items-center gap-1 hover:text-primary-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
           >
-            <Home size={12} aria-hidden />
+            <Home size={14} aria-hidden />
             {MOCK_PARCOURS_DATA[lessonCtx.parcoursId]?.title || 'Parcours'}
           </button>
-          <ChevronRight size={12} aria-hidden className="opacity-50" />
+          <ChevronRight size={14} aria-hidden className="opacity-50" />
           <button
             type="button"
             onClick={() => navigate(`/learning-paths/${lessonCtx.parcoursId}/lessons/${lessonCtx.lesson.id}`)}
@@ -283,7 +283,7 @@ export const FlashcardsViewer: React.FC = () => {
           >
             {lessonCtx.lesson.title}
           </button>
-          <ChevronRight size={12} aria-hidden className="opacity-50" />
+          <ChevronRight size={14} aria-hidden className="opacity-50" />
           <span className="text-ink-500">Flashcard {currentCardIndex + 1}/{total}</span>
         </div>
       )}
@@ -341,7 +341,7 @@ export const FlashcardsViewer: React.FC = () => {
           {dueToday > 0 && (
             <div className="flex justify-center">
               <span className="inline-flex items-center gap-1.5 rounded-pill bg-primary-50 border border-primary-100 px-3 py-1 text-caption font-semibold text-primary-800">
-                <Brain size={13} aria-hidden /> {dueToday} à réviser aujourd'hui
+                <Brain size={14} aria-hidden /> {dueToday} à réviser aujourd'hui
               </span>
             </div>
           )}

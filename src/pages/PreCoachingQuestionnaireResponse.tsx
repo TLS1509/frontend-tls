@@ -14,12 +14,12 @@ export const PreCoachingQuestionnaireResponse: React.FC = () => {
   return (
     <Container width="medium" className="py-section flex flex-col gap-section">
       <EditorialHero
-        eyebrow={{ icon: <Sparkles size={12} />, label: 'Coaching prep' }}
+        eyebrow={{ icon: <Sparkles size={14} />, label: 'Coaching prep' }}
         title="Questionnaire Response"
         summary="Vue de restitution des réponses envoyées au coach, utilisées pour personnaliser votre prochaine session."
         meta={[
-          { icon: <CalendarDays size={12} />, label: 'Session prévue mardi 14:30' },
-          { icon: <Clock3 size={12} />, label: 'Soumis il y a 2h' },
+          { icon: <CalendarDays size={14} />, label: 'Session prévue mardi 14:30' },
+          { icon: <Clock3 size={14} />, label: 'Soumis il y a 2h' },
         ]}
       />
 
@@ -49,8 +49,8 @@ export const PreCoachingQuestionnaireResponse: React.FC = () => {
         aside={
           <SectionCard title="Statut">
             <ul className="m-0 p-0 list-none flex flex-col gap-stack-xs text-caption text-success-fg">
-              <li className="inline-flex items-center gap-1.5"><CheckCircle2 size={12} /> Transmis au coach</li>
-              <li className="inline-flex items-center gap-1.5"><CheckCircle2 size={12} /> Pris en compte pour la session</li>
+              <li className="inline-flex items-center gap-1.5"><CheckCircle2 size={14} /> Transmis au coach</li>
+              <li className="inline-flex items-center gap-1.5"><CheckCircle2 size={14} /> Pris en compte pour la session</li>
             </ul>
           </SectionCard>
         }

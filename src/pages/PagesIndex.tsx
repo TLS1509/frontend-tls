@@ -105,9 +105,9 @@ const TreeBranch: React.FC<{ node: TreeNode; depth: number; onGo: (p: string) =>
               <span className="text-micro text-ink-400 truncate hidden sm:inline">{node.route.component}</span>
             )}
             {node.route.inbound === 0 && (
-              <Unlink size={10} strokeWidth={2.4} className="shrink-0 text-danger-fg" aria-label="aucun lien entrant" />
+              <Unlink size={14} strokeWidth={2.4} className="shrink-0 text-danger-fg" aria-label="aucun lien entrant" />
             )}
-            <ArrowUpRight size={11} className="shrink-0 text-ink-300 group-hover:text-primary-700" aria-hidden />
+            <ArrowUpRight size={14} className="shrink-0 text-ink-300 group-hover:text-primary-700" aria-hidden />
           </button>
         ) : (
           <span className="font-mono text-caption font-semibold text-ink-700 truncate">/{node.segment}</span>
@@ -134,9 +134,9 @@ const TreeBranch: React.FC<{ node: TreeNode; depth: number; onGo: (p: string) =>
 type View = 'schema' | 'tree' | 'list';
 
 const VIEWS: { key: View; label: string; icon: React.ReactNode; hint: string }[] = [
-  { key: 'schema', label: 'Schéma',       icon: <Network size={15} strokeWidth={2} />,  hint: 'où est la surface' },
-  { key: 'tree',   label: 'Arborescence', icon: <ListTree size={15} strokeWidth={2} />, hint: 'explorer la hiérarchie' },
-  { key: 'list',   label: 'Liste',        icon: <Rows3 size={15} strokeWidth={2} />,    hint: 'trouver une route' },
+  { key: 'schema', label: 'Schéma',       icon: <Network size={14} strokeWidth={2} />,  hint: 'où est la surface' },
+  { key: 'tree',   label: 'Arborescence', icon: <ListTree size={14} strokeWidth={2} />, hint: 'explorer la hiérarchie' },
+  { key: 'list',   label: 'Liste',        icon: <Rows3 size={14} strokeWidth={2} />,    hint: 'trouver une route' },
 ];
 
 export const PagesIndex: React.FC = () => {
@@ -257,7 +257,7 @@ export const PagesIndex: React.FC = () => {
                   : 'border-ink-200 bg-white text-ink-600 hover:border-ink-300 hover:text-ink-900',
               ].join(' ')}
             >
-              <Unlink size={11} strokeWidth={2.4} />
+              <Unlink size={14} strokeWidth={2.4} />
               Sans lien entrant
               <span className="tabular-nums text-ink-400">{orphanTotal}</span>
             </button>
@@ -268,7 +268,7 @@ export const PagesIndex: React.FC = () => {
                 onClick={() => { setAudFilter(null); setQuery(''); setOrphansOnly(false); }}
                 className="inline-flex items-center gap-1 rounded-pill px-2.5 h-8 text-micro font-semibold text-ink-600 hover:bg-ink-100 hover:text-ink-900 transition-colors duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
               >
-                <X size={12} strokeWidth={2.5} /> Tout afficher
+                <X size={14} strokeWidth={2.5} /> Tout afficher
               </button>
             )}
           </div>
@@ -338,7 +338,7 @@ export const PagesIndex: React.FC = () => {
                                 : 'border-ink-200 bg-ink-25 text-ink-800 hover:border-primary-300 hover:bg-primary-50',
                             ].join(' ')}
                           >
-                            {allOrphan && <Unlink size={10} strokeWidth={2.4} aria-hidden />}
+                            {allOrphan && <Unlink size={14} strokeWidth={2.4} aria-hidden />}
                             /{sec}
                             <span className="tabular-nums font-body font-bold text-ink-500">{n}</span>
                           </button>
@@ -386,7 +386,7 @@ export const PagesIndex: React.FC = () => {
                     <td className="px-4 py-2">
                       {r.inbound === 0 ? (
                         <span className="inline-flex items-center gap-1 rounded-pill bg-danger-bg px-2 py-0.5 text-micro font-bold text-danger-fg">
-                          <Unlink size={10} strokeWidth={2.4} /> aucun
+                          <Unlink size={14} strokeWidth={2.4} /> aucun
                         </span>
                       ) : (
                         <span className="inline-flex items-baseline gap-1.5">
@@ -403,7 +403,7 @@ export const PagesIndex: React.FC = () => {
                         onClick={() => go(r.path)}
                         className="inline-flex items-center gap-1 rounded-pill px-2.5 h-8 text-micro font-semibold text-primary-800 hover:bg-primary-100 transition-colors duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                       >
-                        Ouvrir <ArrowUpRight size={12} />
+                        Ouvrir <ArrowUpRight size={14} />
                       </button>
                     </td>
                   </tr>

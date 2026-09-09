@@ -80,11 +80,11 @@ const ITEMS: ResultItem[] = [
 ];
 
 const FILTERS: { id: Filter; label: string; icon: React.ReactNode }[] = [
-  { id: 'all',      label: 'Tout',      icon: <Sparkles size={12} /> },
-  { id: 'parcours', label: 'Parcours',  icon: <BookOpen size={12} /> },
-  { id: 'article',  label: 'Articles',  icon: <Newspaper size={12} /> },
-  { id: 'video',    label: 'Vidéos',    icon: <VideoIcon size={12} /> },
-  { id: 'coach',    label: 'Coachs',    icon: <Users size={12} /> },
+  { id: 'all',      label: 'Tout',      icon: <Sparkles size={14} /> },
+  { id: 'parcours', label: 'Parcours',  icon: <BookOpen size={14} /> },
+  { id: 'article',  label: 'Articles',  icon: <Newspaper size={14} /> },
+  { id: 'video',    label: 'Vidéos',    icon: <VideoIcon size={14} /> },
+  { id: 'coach',    label: 'Coachs',    icon: <Users size={14} /> },
 ];
 
 /* ─── Component ──────────────────────────────────────────────────────────── */

@@ -284,7 +284,7 @@ export const AppBreadcrumb: React.FC<AppBreadcrumbProps> = ({
             {/* Sur mobile : on n'affiche pas le chevron avant le 1er crumb (pas de home) */}
             {(!isFirst || true) && (
               <ChevronRight
-                size={12}
+                size={14}
                 className={[
                   'text-ink-300 shrink-0',
                   isFirst ? 'max-sm:hidden' : '',

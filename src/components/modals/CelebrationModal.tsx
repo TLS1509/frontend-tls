@@ -38,7 +38,7 @@ export interface CelebrationModalProps {
 const CornerSparkles: React.FC = () => (
   <>
     <span aria-hidden="true" className="pointer-events-none absolute top-5 left-6 text-secondary-500/70 [animation:cel-twinkle_2.4s_ease-in-out_infinite]">
-      <Sparkles size={22} fill="currentColor" />
+      <Sparkles size={20} fill="currentColor" />
     </span>
     <span aria-hidden="true" className="pointer-events-none absolute top-10 right-8 text-accent-500/70 [animation:cel-twinkle_2.4s_ease-in-out_infinite_0.6s]">
       <Star size={16} fill="currentColor" />
@@ -113,7 +113,7 @@ export const CelebrationModal: React.FC<CelebrationModalProps> = ({
 
         {/* Icon bubble */}
         <div className="relative inline-flex items-center justify-center w-20 h-20 rounded-2xl mb-5 bg-gradient-to-br from-secondary-400 via-secondary-500 to-accent-500 text-white shadow-warm-md ring-4 ring-white/60">
-          {icon ?? <Trophy size={36} strokeWidth={2} fill="currentColor" />}
+          {icon ?? <Trophy size={32} strokeWidth={2} fill="currentColor" />}
         </div>
 
         {/* Title — solid color + weight emphasis (anti-pattern: avoid bg-clip-text gradients) */}

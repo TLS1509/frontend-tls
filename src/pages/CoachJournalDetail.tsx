@@ -46,8 +46,8 @@ export default function CoachJournalDetail() {
               Réflexion sur la progression de Marie
             </h2>
             <div className="flex items-center gap-stack text-caption text-ink-500">
-              <span className="flex items-center gap-tight"><Calendar size={12} /> 12 mai 2026</span>
-              <span className="flex items-center gap-tight"><User size={12} /> Marie Dupont</span>
+              <span className="flex items-center gap-tight"><Calendar size={14} /> 12 mai 2026</span>
+              <span className="flex items-center gap-tight"><User size={14} /> Marie Dupont</span>
               <Badge variant="warm">Observation</Badge>
             </div>
             <div className="flex flex-col gap-stack-lg">

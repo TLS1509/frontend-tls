@@ -163,17 +163,17 @@ export default function EnterpriseAnalyticsDashboard() {
             {/* Other KPIs */}
             <div className="grid md:grid-cols-3 gap-stack">
               <Card variant="tinted" tone="primary" className="flex flex-col items-center justify-center py-stack-lg gap-tight">
-                <Award size={22} className="text-primary-600" />
+                <Award size={20} className="text-primary-600" />
                 <span className="text-h2 font-display font-bold text-primary-700">351</span>
                 <span className="text-caption text-ink-500 text-center">Badges Dreyfus obtenus</span>
               </Card>
               <Card variant="tinted" tone="primary" className="flex flex-col items-center justify-center py-stack-lg gap-tight">
-                <Calendar size={22} className="text-primary-600" />
+                <Calendar size={20} className="text-primary-600" />
                 <span className="text-h2 font-display font-bold text-primary-700">89</span>
                 <span className="text-caption text-ink-500 text-center">Sessions coaching réalisées</span>
               </Card>
               <Card variant="tinted" tone="primary" className="flex flex-col items-center justify-center py-stack-lg gap-tight">
-                <Users size={22} className="text-primary-600" />
+                <Users size={20} className="text-primary-600" />
                 <span className="text-h2 font-display font-bold text-primary-700">94%</span>
                 <span className="text-caption text-ink-500 text-center">Satisfaction coaching</span>
               </Card>

@@ -30,20 +30,20 @@ import {
 } from 'lucide-react';
 
 const CATEGORIES: { id: string; label: string; icon: React.ReactNode }[] = [
-  { id: 'leadership',    label: 'Leadership',    icon: <Target size={13} strokeWidth={1.75} /> },
-  { id: 'apprentissage', label: 'Apprentissage',  icon: <BookOpen size={13} strokeWidth={1.75} /> },
-  { id: 'collaboration', label: 'Collaboration',  icon: <Users size={13} strokeWidth={1.75} /> },
-  { id: 'reflexion',     label: 'Réflexion',      icon: <MessageCircle size={13} strokeWidth={1.75} /> },
-  { id: 'action',        label: 'Action',         icon: <Zap size={13} strokeWidth={1.75} /> },
+  { id: 'leadership',    label: 'Leadership',    icon: <Target size={14} strokeWidth={1.75} /> },
+  { id: 'apprentissage', label: 'Apprentissage',  icon: <BookOpen size={14} strokeWidth={1.75} /> },
+  { id: 'collaboration', label: 'Collaboration',  icon: <Users size={14} strokeWidth={1.75} /> },
+  { id: 'reflexion',     label: 'Réflexion',      icon: <MessageCircle size={14} strokeWidth={1.75} /> },
+  { id: 'action',        label: 'Action',         icon: <Zap size={14} strokeWidth={1.75} /> },
 ];
 
 const MOODS: { icon: React.ReactNode; label: string }[] = [
-  { icon: <Lightbulb size={13} strokeWidth={1.75} />, label: 'Inspiré' },
-  { icon: <Zap size={13} strokeWidth={1.75} />,       label: 'Motivé' },
-  { icon: <HelpCircle size={13} strokeWidth={1.75} />,label: 'En réflexion' },
-  { icon: <Smile size={13} strokeWidth={1.75} />,     label: 'Satisfait' },
-  { icon: <Frown size={13} strokeWidth={1.75} />,     label: 'Frustré' },
-  { icon: <TrendingUp size={13} strokeWidth={1.75} />,label: 'En croissance' },
+  { icon: <Lightbulb size={14} strokeWidth={1.75} />, label: 'Inspiré' },
+  { icon: <Zap size={14} strokeWidth={1.75} />,       label: 'Motivé' },
+  { icon: <HelpCircle size={14} strokeWidth={1.75} />,label: 'En réflexion' },
+  { icon: <Smile size={14} strokeWidth={1.75} />,     label: 'Satisfait' },
+  { icon: <Frown size={14} strokeWidth={1.75} />,     label: 'Frustré' },
+  { icon: <TrendingUp size={14} strokeWidth={1.75} />,label: 'En croissance' },
 ];
 
 const PROMPTS = [
@@ -277,7 +277,7 @@ export const JournalFreeEntry: React.FC = () => {
 
           {/* Bottom actions */}
           <div className="flex gap-stack-xs mt-stack-lg">
-            <Button leadingIcon={<Send size={15} />} onClick={buildAndSaveEntry}>Publier l'entrée</Button>
+            <Button leadingIcon={<Send size={14} />} onClick={buildAndSaveEntry}>Publier l'entrée</Button>
             <Button variant="secondary" leadingIcon={<Save size={14} />} onClick={buildAndSaveEntry}>
               Sauvegarder en brouillon
             </Button>
@@ -290,7 +290,7 @@ export const JournalFreeEntry: React.FC = () => {
           {/* Writing prompts */}
           <div className="bg-primary-50 border border-primary-200 rounded-xl p-stack px-5">
             <div className="flex items-center gap-stack-xs mb-3">
-              <PenLine size={15} className="text-primary-600" />
+              <PenLine size={14} className="text-primary-600" />
               <span className="font-body text-caption font-extrabold text-primary-700 uppercase tracking-widest">
                 Aide à l'écriture
               </span>
@@ -320,7 +320,7 @@ export const JournalFreeEntry: React.FC = () => {
           {/* Tips */}
           <div className="bg-secondary-50 border border-secondary-200 rounded-xl p-stack px-5">
             <div className="flex items-center gap-stack-xs mb-3">
-              <Lightbulb size={15} className="text-secondary-500" />
+              <Lightbulb size={14} className="text-secondary-500" />
               <span className="font-body text-caption font-extrabold text-secondary-700 uppercase tracking-widest">
                 Aide-mémoire
               </span>

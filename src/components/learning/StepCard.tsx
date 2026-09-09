@@ -104,9 +104,9 @@ export const StepCard: React.FC<StepCardProps> = ({
           ].join(' ')}
         >
           {status === 'completed' ? (
-            <Check size={26} strokeWidth={3} />
+            <Check size={24} strokeWidth={3} />
           ) : isLocked ? (
-            <Lock size={22} />
+            <Lock size={20} />
           ) : (
             stepNumber
           )}
@@ -125,7 +125,7 @@ export const StepCard: React.FC<StepCardProps> = ({
           <h3 className="text-h4 font-display font-bold text-ink-900 leading-snug">{title}</h3>
           {lessonCount !== undefined && (
             <span className="inline-flex items-center gap-tight text-caption text-ink-500 mt-1">
-              <Clock size={12} className="text-ink-600" />
+              <Clock size={14} className="text-ink-600" />
               {lessonCount} leçons
             </span>
           )}
@@ -190,7 +190,7 @@ export const StepCard: React.FC<StepCardProps> = ({
                   </div>
                   {lesson.duration && (
                     <span className="text-caption text-ink-500 shrink-0 inline-flex items-center gap-tight">
-                      <Clock size={11} />
+                      <Clock size={14} />
                       {lesson.duration}
                     </span>
                   )}

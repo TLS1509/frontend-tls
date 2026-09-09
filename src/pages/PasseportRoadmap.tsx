@@ -248,7 +248,7 @@ export default function PasseportRoadmap() {
                     </div>
                     <p className="m-0 text-body-sm text-ink-500">{jalon.description}</p>
                     <div className="flex items-center gap-stack-xs text-caption text-ink-600">
-                      <Clock size={12} aria-hidden />
+                      <Clock size={14} aria-hidden />
                       <span>Cible : {jalon.targetDate}</span>
                     </div>
                   </div>

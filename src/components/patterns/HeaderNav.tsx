@@ -65,7 +65,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
 
         {onSave && (
           <Button onClick={onSave} disabled={isSaving} size="sm">
-            <Save size={15} />
+            <Save size={14} />
             {isSaving ? 'Enregistrement…' : 'Enregistrer'}
           </Button>
         )}

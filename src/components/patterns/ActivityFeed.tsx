@@ -256,7 +256,7 @@ const ActivityRow: React.FC<{
                 className="inline-flex items-center gap-1 text-caption font-semibold text-primary-600 hover:text-primary-700 cursor-pointer transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
               >
                 {item.actionLabel}
-                <ArrowRight size={11} strokeWidth={2.5} aria-hidden="true" />
+                <ArrowRight size={14} strokeWidth={2.5} aria-hidden="true" />
               </button>
             )}
           </div>
@@ -316,7 +316,7 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
       >
         <div className="flex flex-col items-center gap-stack-xs text-ink-500 text-center">
           <span className="inline-flex items-center justify-center w-14 h-14 rounded-lg bg-white border border-ink-200 text-ink-600">
-            <Inbox size={26} strokeWidth={2} />
+            <Inbox size={24} strokeWidth={2} />
           </span>
           <p className="m-0 text-body-sm font-medium text-ink-700">{emptyMessage}</p>
           <p className="m-0 text-caption text-ink-600 max-w-[280px]">Vos prochaines activités apparaîtront ici dès que vous commencerez à apprendre.</p>
@@ -368,7 +368,7 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
             className="inline-flex items-center gap-stack-xs px-5 py-2.5 rounded-pill border border-ink-200 bg-white text-body-sm font-bold text-ink-700 cursor-pointer hover:bg-ink-50 hover:border-primary-300 hover:-translate-y-0.5 hover:shadow-sm transition-[background-color,border-color,transform,box-shadow] duration-base ease-emphasis focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           >
             Voir plus d’activités
-            <ArrowRight size={15} strokeWidth={2.25} />
+            <ArrowRight size={14} strokeWidth={2.25} />
           </button>
         </div>
       )}

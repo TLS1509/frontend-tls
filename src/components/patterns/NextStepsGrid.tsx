@@ -125,7 +125,7 @@ export const NextStepsGrid: React.FC<NextStepsGridProps> = ({
                 TONE_CTA[tone],
               ].join(' ')}
             >
-              {step.cta} <ArrowRight size={13} />
+              {step.cta} <ArrowRight size={14} />
             </span>
           </button>
         );

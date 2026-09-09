@@ -138,14 +138,14 @@ export const GoalProgress: React.FC<GoalProgressProps> = ({
 
       {!isOnTrack && (
         <p className={`mt-2.5 pt-2.5 border-t ${effectiveTone === 'danger' ? 'border-danger-base/20' : 'border-ink-200'} text-caption font-medium text-danger-fg flex items-center gap-1.5 m-0`}>
-          <AlertCircle size={13} />
+          <AlertCircle size={14} />
           Retard sur le calendrier — augmentez le rythme
         </p>
       )}
 
       {isComplete && (
         <p className="mt-2.5 pt-2.5 border-t border-success-base/20 text-caption font-medium text-success-fg flex items-center gap-1.5 m-0">
-          <Sparkles size={13} />
+          <Sparkles size={14} />
           Objectif atteint ! Quel est le prochain ?
         </p>
       )}

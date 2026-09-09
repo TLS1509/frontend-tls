@@ -114,7 +114,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
           <div className="flex flex-col gap-0.5">
             <CardEyebrow>{typeLabel}</CardEyebrow>
             <span className="inline-flex items-center gap-tight text-micro text-ink-600 font-medium">
-              <Calendar size={11} aria-hidden="true" />
+              <Calendar size={14} aria-hidden="true" />
               {publishedAt}
             </span>
           </div>
@@ -155,8 +155,8 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
       <CardFooter className="flex items-center justify-between flex-wrap gap-stack-xs pt-3 border-t border-ink-100">
         <MetaPillGroup
           items={[
-            { icon: <User size={12} />, text: author },
-            { icon: <Clock size={12} />, text: readTime },
+            { icon: <User size={14} />, text: author },
+            { icon: <Clock size={14} />, text: readTime },
           ]}
           size="sm"
         />

@@ -97,16 +97,16 @@ const CardA: React.FC<{ item: Item }> = ({ item }) => {
     <button type="button" className={`${CARD_BASE} p-4 gap-2.5 ${HOVER_BORDER[m.tone]} ${locked ? 'opacity-70' : ''}`}>
       <div className="flex items-center gap-2.5">
         <span className={`shrink-0 grid place-items-center w-9 h-9 rounded-xl ${locked ? 'bg-ink-100 text-ink-400' : ICON_BUBBLE[m.tone]}`}>
-          {locked ? <Lock size={15} /> : m.icon}
+          {locked ? <Lock size={14} /> : m.icon}
         </span>
         <span className={`text-micro font-bold uppercase tracking-[0.05em] ${ACCENT_TEXT[m.tone]}`}>{m.label}</span>
         <span className="text-caption text-ink-400">· {item.duration}</span>
-        {done && <span className="ml-auto inline-flex items-center gap-1 text-micro font-semibold text-success-fg"><Check size={13} /> Fait</span>}
+        {done && <span className="ml-auto inline-flex items-center gap-1 text-micro font-semibold text-success-fg"><Check size={14} /> Fait</span>}
       </div>
       <h3 className="font-display text-body-lg font-bold leading-snug text-ink-900 line-clamp-2 tracking-tight">{item.title}</h3>
       <p className="m-0 text-caption text-ink-500 leading-snug line-clamp-2">{item.desc}</p>
       {locked ? (
-        <span className="mt-1 inline-flex items-center gap-1.5 text-caption text-ink-500"><Lock size={12} /> Upgrade requis</span>
+        <span className="mt-1 inline-flex items-center gap-1.5 text-caption text-ink-500"><Lock size={14} /> Upgrade requis</span>
       ) : (
         <div className="mt-1 flex items-center gap-1.5">
           <MetaPill>{item.level}</MetaPill>
@@ -130,7 +130,7 @@ const CardB: React.FC<{ item: Item }> = ({ item }) => {
         <span className="scale-[1.6]">{locked ? <Lock size={16} /> : m.icon}</span>
         {/* pill glass durée (bon usage du glass : sur fond coloré) */}
         <span className="absolute top-2 right-2 inline-flex items-center gap-1 rounded-pill px-2 py-0.5 text-micro font-semibold bg-white/60 backdrop-blur-glass-light text-ink-700 border border-white/60">
-          <Clock size={11} /> {item.duration}
+          <Clock size={14} /> {item.duration}
         </span>
         {done && <span className="absolute top-2 left-2 inline-flex items-center justify-center w-6 h-6 rounded-pill bg-white/80 text-success-fg"><Check size={14} /></span>}
       </div>
@@ -139,7 +139,7 @@ const CardB: React.FC<{ item: Item }> = ({ item }) => {
         <h3 className="font-display text-body-lg font-bold leading-snug text-ink-900 line-clamp-2 tracking-tight">{item.title}</h3>
         <p className="m-0 text-caption text-ink-500 leading-snug line-clamp-2">{item.desc}</p>
         {locked ? (
-          <span className="mt-1 inline-flex items-center gap-1.5 text-caption text-ink-500"><Lock size={12} /> Upgrade requis</span>
+          <span className="mt-1 inline-flex items-center gap-1.5 text-caption text-ink-500"><Lock size={14} /> Upgrade requis</span>
         ) : (
           <div className="mt-1 flex items-center gap-1.5">
             <MetaPill>{item.level}</MetaPill>
@@ -166,7 +166,7 @@ const CardC: React.FC<{ item: Item }> = ({ item }) => {
           <div className="flex items-center gap-1.5">
             <span className={`text-micro font-bold uppercase tracking-[0.05em] ${ACCENT_TEXT[m.tone]}`}>{m.label}</span>
             <span className="text-caption text-ink-400">· {item.duration}</span>
-            {done && <span className="ml-auto inline-flex items-center gap-1 text-micro font-semibold text-success-fg"><Check size={13} /> Fait</span>}
+            {done && <span className="ml-auto inline-flex items-center gap-1 text-micro font-semibold text-success-fg"><Check size={14} /> Fait</span>}
           </div>
           <h3 className="mt-0.5 font-display text-body-lg font-bold leading-snug text-ink-900 line-clamp-2 tracking-tight">{item.title}</h3>
         </div>
@@ -174,7 +174,7 @@ const CardC: React.FC<{ item: Item }> = ({ item }) => {
       <p className="m-0 text-caption text-ink-500 leading-snug line-clamp-2">{item.desc}</p>
       <div className="mt-1 flex items-center gap-1.5 pt-2.5 border-t border-ink-100">
         {locked ? (
-          <span className="inline-flex items-center gap-1.5 text-caption text-ink-500"><Lock size={12} /> Upgrade requis</span>
+          <span className="inline-flex items-center gap-1.5 text-caption text-ink-500"><Lock size={14} /> Upgrade requis</span>
         ) : (
           <>
             <MetaPill>{item.level}</MetaPill>
@@ -201,16 +201,16 @@ const CardD: React.FC<{ item: Item }> = ({ item }) => {
     >
       <div className="flex items-center gap-2.5">
         <span className={`shrink-0 grid place-items-center w-9 h-9 rounded-xl ${locked ? 'bg-ink-100 text-ink-400' : ICON_BUBBLE[m.tone]}`}>
-          {locked ? <Lock size={15} /> : m.icon}
+          {locked ? <Lock size={14} /> : m.icon}
         </span>
         <span className={`text-micro font-bold uppercase tracking-[0.05em] ${ACCENT_TEXT[m.tone]}`}>{m.label}</span>
         <span className="text-caption text-ink-400">· {item.duration}</span>
-        {done && <span className="ml-auto inline-flex items-center gap-1 text-micro font-semibold text-success-fg"><Check size={13} /> Fait</span>}
+        {done && <span className="ml-auto inline-flex items-center gap-1 text-micro font-semibold text-success-fg"><Check size={14} /> Fait</span>}
       </div>
       <h3 className="font-display text-body-lg font-bold leading-snug text-ink-900 line-clamp-2 tracking-tight">{item.title}</h3>
       <p className="m-0 text-caption text-ink-500 leading-snug line-clamp-2">{item.desc}</p>
       {locked ? (
-        <span className="mt-1 inline-flex items-center gap-1.5 text-caption text-ink-500"><Lock size={12} /> Upgrade requis</span>
+        <span className="mt-1 inline-flex items-center gap-1.5 text-caption text-ink-500"><Lock size={14} /> Upgrade requis</span>
       ) : (
         <div className="mt-1 flex items-center gap-1.5">
           <MetaPill>{item.level}</MetaPill>

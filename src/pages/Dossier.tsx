@@ -104,8 +104,8 @@ export const Dossier: React.FC = () => {
         backLabel="Retour à la veille"
         trailing={
           <>
-            <ReadingProgressRing targetRef={articleRef} tone="warm" size={36} />
-            <Button variant="secondary" size="sm" leadingIcon={<Download size={13} />} className="hidden sm:inline-flex">
+            <ReadingProgressRing targetRef={articleRef} tone="warm" size={32} />
+            <Button variant="secondary" size="sm" leadingIcon={<Download size={14} />} className="hidden sm:inline-flex">
               Télécharger
             </Button>
             <Button
@@ -114,10 +114,10 @@ export const Dossier: React.FC = () => {
               aria-label={saved ? 'Retirer le marque-page' : 'Ajouter aux marque-pages'}
               onClick={() => toggleBookmark(bookmarkKey)}
             >
-              <Bookmark size={15} fill={saved ? 'currentColor' : 'none'} />
+              <Bookmark size={14} fill={saved ? 'currentColor' : 'none'} />
             </Button>
             <Button variant="ghost" iconOnly aria-label="Partager">
-              <Share2 size={15} />
+              <Share2 size={14} />
             </Button>
           </>
         }
@@ -139,13 +139,13 @@ export const Dossier: React.FC = () => {
                   Transformation IA des parcours de formation professionnelle
                 </h1>
                 <div className="flex items-center gap-stack flex-wrap font-body text-caption text-ink-600">
-                  <span className="inline-flex items-center gap-1.5"><UserRound size={13} /> The Learning Society</span>
+                  <span className="inline-flex items-center gap-1.5"><UserRound size={14} /> The Learning Society</span>
                   <span aria-hidden className="text-ink-300">·</span>
-                  <span className="inline-flex items-center gap-1.5"><CalendarDays size={13} /> 15 janvier 2026</span>
+                  <span className="inline-flex items-center gap-1.5"><CalendarDays size={14} /> 15 janvier 2026</span>
                   <span aria-hidden className="text-ink-300">·</span>
-                  <span className="inline-flex items-center gap-1.5"><FileText size={13} /> 38 pages</span>
+                  <span className="inline-flex items-center gap-1.5"><FileText size={14} /> 38 pages</span>
                   <span aria-hidden className="text-ink-300">·</span>
-                  <span className="inline-flex items-center gap-1.5"><Download size={13} /> 2 847 téléchargements</span>
+                  <span className="inline-flex items-center gap-1.5"><Download size={14} /> 2 847 téléchargements</span>
                 </div>
               </div>
             </div>
@@ -304,7 +304,7 @@ export const Dossier: React.FC = () => {
         <div className="max-w-2xl mx-auto px-stack sm:px-stack-lg lg:px-section-lg pb-section">
           <div className="rounded-3xl border border-secondary-200 bg-gradient-to-br from-secondary-50 to-accent-50/40 p-section text-center flex flex-col items-center gap-stack">
             <span aria-hidden className="inline-flex items-center justify-center w-14 h-14 rounded-pill bg-secondary-500 text-white shadow-md">
-              <Download size={22} />
+              <Download size={20} />
             </span>
             <div className="flex flex-col gap-tight">
               <h3 className="font-display text-h3 font-bold text-ink-900 tracking-tight">

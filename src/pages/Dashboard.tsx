@@ -78,7 +78,7 @@ const JournalBubbleNudge: React.FC<JournalBubbleNudgeProps> = ({ navigate, hasUp
         <Button
           variant="ghost"
           size="sm"
-          leadingIcon={<PenLine size={12} />}
+          leadingIcon={<PenLine size={14} />}
           onClick={() => navigate('/journal')}
         >
           Mon journal
@@ -92,7 +92,7 @@ const JournalBubbleNudge: React.FC<JournalBubbleNudgeProps> = ({ navigate, hasUp
         <div className="flex items-end gap-3">
           {/* Avatar */}
           <div className="shrink-0 w-9 h-9 rounded-full bg-primary-100 border border-primary-200/60 flex items-center justify-center text-primary-600">
-            <Sparkles size={15} strokeWidth={2} aria-hidden="true" />
+            <Sparkles size={14} strokeWidth={2} aria-hidden="true" />
           </div>
 
           {/* Bubble — vraie forme chat (bottom-left flat) */}
@@ -148,7 +148,7 @@ const ActivitySection: React.FC<ActivitySectionProps> = ({ navigate }) => {
         <Button
           variant="ghost"
           size="sm"
-          trailingIcon={<ArrowRight size={12} />}
+          trailingIcon={<ArrowRight size={14} />}
           onClick={() => navigate('/veille')}
         >
           Explorer la veille
@@ -269,7 +269,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({ navigate }) => {
             className="inline-flex items-center gap-1 text-caption font-medium text-primary-700 hover:text-primary-800 transition-colors duration-fast shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
           >
             3 sessions
-            <ArrowRight size={12} aria-hidden="true" />
+            <ArrowRight size={14} aria-hidden="true" />
           </button>
         </div>
         <SessionCard

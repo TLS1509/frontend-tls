@@ -84,7 +84,7 @@ export default function HelpTicketDetail() {
         <SectionCard title="Votre message" titleIcon={<HelpCircle size={18} />}>
           <div className="flex flex-col gap-stack-xs">
             <div className="flex items-center gap-stack-xs text-caption text-ink-500">
-              <Calendar size={12} />
+              <Calendar size={14} />
               {formatDate(ticket.createdAt)}
             </div>
             <p className="text-body text-ink-700 leading-relaxed m-0 whitespace-pre-line">

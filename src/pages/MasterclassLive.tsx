@@ -38,7 +38,7 @@ export default function MasterclassLive() {
           <div className="flex items-center gap-stack-xs flex-wrap">
             <Badge variant="danger" size="md" className="animate-pulse">🔴 EN DIRECT</Badge>
             <span className="text-caption text-white/70 flex items-center gap-tight">
-              <Users size={13} />
+              <Users size={14} />
               127 participants
             </span>
           </div>
@@ -70,7 +70,7 @@ export default function MasterclassLive() {
               <p className="text-micro text-ink-600 uppercase tracking-wider mb-tight">Temps écoulé</p>
               <p className="text-h2 font-display font-bold text-primary-700">47:23</p>
               <div className="flex items-center justify-center gap-stack-xs mt-tight text-caption text-ink-500">
-                <Clock size={13} />
+                <Clock size={14} />
                 <span>90 min de session</span>
               </div>
             </Card>

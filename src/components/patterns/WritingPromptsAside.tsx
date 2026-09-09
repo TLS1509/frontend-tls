@@ -32,21 +32,21 @@ export interface WritingPrompt {
 const DEFAULT_PROMPTS: WritingPrompt[] = [
   {
     label: 'Apprentissage',
-    icon: <BookOpen size={36} strokeWidth={1.7} className="text-primary-600" />,
+    icon: <BookOpen size={32} strokeWidth={1.7} className="text-primary-600" />,
     text: 'Quelle idée vas-tu retenir de ta dernière leçon — et pourquoi ?',
     variant: 'info',
     href: '/journal/new-entry?type=apprentissage',
   },
   {
     label: 'Pratique pro',
-    icon: <Briefcase size={36} strokeWidth={1.7} className="text-secondary-600" />,
+    icon: <Briefcase size={32} strokeWidth={1.7} className="text-secondary-600" />,
     text: 'Comment vas-tu activer cet apprentissage dans ton travail cette semaine ?',
     variant: 'warm',
     href: '/journal/new-entry?type=pratique-pro',
   },
   {
     label: 'Coaching',
-    icon: <Target size={36} strokeWidth={1.7} className="text-accent-700" />,
+    icon: <Target size={32} strokeWidth={1.7} className="text-accent-700" />,
     text: 'Quelle question veux-tu apporter à ta prochaine session ?',
     variant: 'sun',
     href: '/journal/new-entry?type=session-coaching',

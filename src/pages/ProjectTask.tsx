@@ -103,9 +103,9 @@ export const ProjectTask: React.FC = () => {
           </Badge>
         }
         meta={[
-          { icon: <CalendarDays size={12} />, label: `Échéance : ${formatDate(task.dueDate)}` },
-          { icon: <Shield size={12} />, label: `Dreyfus ${task.dreyfusLevelRequired}+ requis (${DREYFUS_LABELS[task.dreyfusLevelRequired]})` },
-          { icon: <Clock size={12} />, label: `${task.estimatedHours}h estimées` },
+          { icon: <CalendarDays size={14} />, label: `Échéance : ${formatDate(task.dueDate)}` },
+          { icon: <Shield size={14} />, label: `Dreyfus ${task.dreyfusLevelRequired}+ requis (${DREYFUS_LABELS[task.dreyfusLevelRequired]})` },
+          { icon: <Clock size={14} />, label: `${task.estimatedHours}h estimées` },
         ]}
       />
 

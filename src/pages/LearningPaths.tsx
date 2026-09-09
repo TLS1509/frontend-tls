@@ -149,7 +149,7 @@ export const LearningPaths: React.FC = () => {
             title="Aucun parcours trouvé"
             description="Aucun parcours ne correspond à tes filtres pour le moment."
             actions={
-              <Button variant="secondary" size="sm" leadingIcon={<RotateCcw size={12} />} onClick={resetFilters}>
+              <Button variant="secondary" size="sm" leadingIcon={<RotateCcw size={14} />} onClick={resetFilters}>
                 Réinitialiser les filtres
               </Button>
             }

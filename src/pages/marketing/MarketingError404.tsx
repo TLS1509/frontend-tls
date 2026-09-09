@@ -66,7 +66,7 @@ export const MarketingError404: React.FC = () => {
           transition={{ delay: 0.05, duration: 0.5 }}
           className="font-mono text-caption font-bold uppercase tracking-[0.3em] text-primary-400 inline-flex items-center gap-stack-xs mb-stack"
         >
-          <Compass size={13} /> Page introuvable
+          <Compass size={14} /> Page introuvable
         </motion.p>
 
         {/* Giant 404 */}

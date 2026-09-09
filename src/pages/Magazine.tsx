@@ -83,7 +83,7 @@ export const Magazine: React.FC = () => {
           </Button>
 
           <div className="flex items-center gap-stack-xs">
-            <Button variant="primary" size="sm" leadingIcon={<Download size={13} />} className="hidden sm:inline-flex">
+            <Button variant="primary" size="sm" leadingIcon={<Download size={14} />} className="hidden sm:inline-flex">
               Télécharger le PDF
             </Button>
             <Button
@@ -92,10 +92,10 @@ export const Magazine: React.FC = () => {
               aria-label={saved ? 'Retirer le marque-page' : 'Ajouter aux marque-pages'}
               onClick={() => toggleBookmark(bookmarkKey)}
             >
-              <Bookmark size={15} fill={saved ? 'currentColor' : 'none'} />
+              <Bookmark size={14} fill={saved ? 'currentColor' : 'none'} />
             </Button>
             <Button variant="ghost" iconOnly aria-label="Partager">
-              <Share2 size={15} />
+              <Share2 size={14} />
             </Button>
           </div>
         </PageShell>
@@ -118,7 +118,7 @@ export const Magazine: React.FC = () => {
         <PageShell width="page" className="relative py-section sm:py-page flex flex-col gap-stack-lg">
           {/* Eyebrow */}
           <span className="inline-flex items-center gap-stack-xs self-start px-3 py-1.5 rounded-pill bg-white/10 border border-white/20 text-white font-body text-micro font-bold uppercase tracking-widest backdrop-blur-glass-light">
-            <BookOpen size={12} />
+            <BookOpen size={14} />
             Magazine TLS · Édition Printemps 2026
           </span>
 
@@ -133,15 +133,15 @@ export const Magazine: React.FC = () => {
 
           <div className="flex items-center gap-stack flex-wrap font-body text-caption text-white/70">
             <span className="inline-flex items-center gap-1.5">
-              <CalendarDays size={13} /> Avril 2026
+              <CalendarDays size={14} /> Avril 2026
             </span>
             <span aria-hidden className="text-white/30">·</span>
             <span className="inline-flex items-center gap-1.5">
-              <FileText size={13} /> 56 pages
+              <FileText size={14} /> 56 pages
             </span>
             <span aria-hidden className="text-white/30">·</span>
             <span className="inline-flex items-center gap-1.5">
-              <Download size={13} /> 1 240 téléchargements
+              <Download size={14} /> 1 240 téléchargements
             </span>
           </div>
         </PageShell>
@@ -157,7 +157,7 @@ export const Magazine: React.FC = () => {
               title="Synthèse exécutive"
               description="Lecture rapide"
               actions={
-                <Button variant="primary" size="sm" leadingIcon={<Download size={13} />}>
+                <Button variant="primary" size="sm" leadingIcon={<Download size={14} />}>
                   Télécharger le PDF
                 </Button>
               }
@@ -211,7 +211,7 @@ export const Magazine: React.FC = () => {
                           {item.pages}
                         </span>
                       </div>
-                      <ArrowRight size={15} className="text-ink-600 shrink-0 mt-1.5" />
+                      <ArrowRight size={14} className="text-ink-600 shrink-0 mt-1.5" />
                     </button>
                   );
                 })}

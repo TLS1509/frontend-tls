@@ -177,7 +177,7 @@ export const TableOfContents: React.FC<TableOfContentsProps> = ({
                       : 'bg-ink-100 text-ink-600',
                   ].join(' ')}
                 >
-                  {item.completed ? <Check size={11} strokeWidth={3} /> : numberLabel}
+                  {item.completed ? <Check size={14} strokeWidth={3} /> : numberLabel}
                 </span>
 
                 <span className="font-body text-body-sm leading-snug min-w-0 flex-1 truncate">

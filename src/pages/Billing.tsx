@@ -123,7 +123,7 @@ const SubscriptionTab: React.FC<{
               {tierConfig.tagline}
             </p>
             <p className="m-0 font-body text-caption text-ink-500 mt-1 inline-flex items-center gap-tight">
-              <Calendar size={12} />
+              <Calendar size={14} />
               Prochaine échéance : <strong className="text-ink-800">1er juin 2026</strong>
             </p>
           </div>
@@ -190,7 +190,7 @@ const SubscriptionTab: React.FC<{
           >
             <div className="flex items-center gap-stack-xs">
               <span className="md:hidden inline-flex items-center gap-tight text-success-fg">
-                <CheckCircle2 size={12} />
+                <CheckCircle2 size={14} />
               </span>
               <span className="font-body text-body-sm font-semibold text-ink-800">
                 {inv.date}

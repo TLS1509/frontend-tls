@@ -82,11 +82,11 @@ export const WeeklyNewsletter: React.FC = () => {
             Retour à la veille
           </Button>
           <div className="flex items-center gap-stack-xs">
-            <Button variant="primary" size="sm" leadingIcon={<Mail size={13} />} className="hidden sm:inline-flex">
+            <Button variant="primary" size="sm" leadingIcon={<Mail size={14} />} className="hidden sm:inline-flex">
               S'abonner
             </Button>
             <Button variant="ghost" iconOnly aria-label="Partager">
-              <Share2 size={15} />
+              <Share2 size={14} />
             </Button>
           </div>
         </PageShell>
@@ -97,7 +97,7 @@ export const WeeklyNewsletter: React.FC = () => {
         {/* Hero éditorial */}
         <header className="flex flex-col gap-stack">
           <span className="inline-flex items-center gap-1.5 self-start px-3 py-1.5 rounded-pill bg-primary-500 text-white font-body text-micro font-bold uppercase tracking-widest">
-            <TrendingUp size={11} /> Semaine #08
+            <TrendingUp size={14} /> Semaine #08
           </span>
 
           <h1 className="font-display text-h1 sm:text-[3rem] font-extrabold leading-[1.05] tracking-tight text-primary-700">
@@ -132,7 +132,7 @@ export const WeeklyNewsletter: React.FC = () => {
             <h2 className="font-display text-h3 font-bold text-ink-900 tracking-tight">
               Vidéo de la semaine
             </h2>
-            <Button variant="ghost" size="sm" trailingIcon={<ArrowRight size={12} />} onClick={() => navigate('/veille')}>
+            <Button variant="ghost" size="sm" trailingIcon={<ArrowRight size={14} />} onClick={() => navigate('/veille')}>
               Toute la veille
             </Button>
           </div>
@@ -163,7 +163,7 @@ export const WeeklyNewsletter: React.FC = () => {
                   sur des cas réels de formation.
                 </p>
               </div>
-              <Button variant="primary" size="sm" leadingIcon={<Play size={13} fill="currentColor" />} className="self-start">
+              <Button variant="primary" size="sm" leadingIcon={<Play size={14} fill="currentColor" />} className="self-start">
                 Regarder maintenant
               </Button>
             </div>
@@ -194,7 +194,7 @@ export const WeeklyNewsletter: React.FC = () => {
                       {article.title}
                     </h3>
                     <span className="inline-flex items-center gap-tight font-body text-micro font-semibold text-primary-700">
-                      Lire l'article <ArrowRight size={11} />
+                      Lire l'article <ArrowRight size={14} />
                     </span>
                   </div>
                 </article>
@@ -227,7 +227,7 @@ export const WeeklyNewsletter: React.FC = () => {
                       </span>
                       <span aria-hidden>·</span>
                       <span className="inline-flex items-center gap-tight">
-                        <Clock size={10} /> {article.readTime}
+                        <Clock size={14} /> {article.readTime}
                       </span>
                       <span aria-hidden>·</span>
                       <span>{article.date}</span>
@@ -249,7 +249,7 @@ export const WeeklyNewsletter: React.FC = () => {
                   >
                     {isSaved ? <BookmarkCheck size={14} /> : <Bookmark size={14} />}
                   </Button>
-                  <ArrowRight size={15} className="shrink-0 text-ink-600" />
+                  <ArrowRight size={14} className="shrink-0 text-ink-600" />
                 </div>
               );
             })}
@@ -262,7 +262,7 @@ export const WeeklyNewsletter: React.FC = () => {
           className="rounded-3xl bg-gradient-to-br from-primary-600 to-primary-700 p-section sm:p-section-lg text-white flex flex-col items-center text-center gap-stack"
         >
           <span aria-hidden className="inline-flex items-center justify-center w-14 h-14 rounded-pill bg-white/15 backdrop-blur-glass-light">
-            <Mail size={22} />
+            <Mail size={20} />
           </span>
           <h3 className="font-display text-h3 font-bold tracking-tight">
             Recevez les actus chaque lundi

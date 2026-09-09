@@ -171,14 +171,14 @@ export const VeilleCard: React.FC<VeilleCardProps> = ({ item, surface, isSaved, 
         {isVideo && (
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <span className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-white/95 text-secondary-700 shadow-lg transition-transform duration-base group-hover:scale-110">
-              <Play size={22} fill="currentColor" />
+              <Play size={20} fill="currentColor" />
             </span>
           </div>
         )}
 
         {/* Type badge top-left (glass on tone bg) */}
         <span className="absolute top-3 left-3 inline-flex items-center gap-tight px-2.5 py-1 rounded-pill bg-white/95 backdrop-blur-glass-light text-micro font-bold uppercase tracking-wider text-ink-900 shadow-sm">
-          <TypeIcon size={11} strokeWidth={2.5} /> {item.typeLabel}
+          <TypeIcon size={14} strokeWidth={2.5} /> {item.typeLabel}
         </span>
 
         {/* Bookmark top-right glass */}
@@ -202,13 +202,13 @@ export const VeilleCard: React.FC<VeilleCardProps> = ({ item, surface, isSaved, 
       {/* Body content */}
       <div className="flex flex-col gap-stack-xs p-5 flex-1">
         <div className="inline-flex items-center gap-1.5 flex-wrap font-body text-micro font-semibold uppercase tracking-wider text-ink-500">
-          <span className="inline-flex items-center gap-tight"><User size={10} strokeWidth={2} />{item.author}</span>
+          <span className="inline-flex items-center gap-tight"><User size={14} strokeWidth={2} />{item.author}</span>
           <span aria-hidden>·</span>
           <span>{item.category}</span>
           <span aria-hidden>·</span>
           <span>{item.publishedAt}</span>
           <span aria-hidden>·</span>
-          <span className="inline-flex items-center gap-tight"><Clock size={10} strokeWidth={2} />{item.readTime}</span>
+          <span className="inline-flex items-center gap-tight"><Clock size={14} strokeWidth={2} />{item.readTime}</span>
         </div>
 
         <h3 className="font-display text-h4 font-bold text-ink-900 leading-tight line-clamp-2">
@@ -221,7 +221,7 @@ export const VeilleCard: React.FC<VeilleCardProps> = ({ item, surface, isSaved, 
 
         <footer className="flex items-center justify-end pt-stack-xs border-t border-ink-100 mt-stack-xs">
           <span className={['inline-flex items-center gap-tight font-body text-caption font-bold transition-transform group-hover:translate-x-0.5', TONE_LINK[tone]].join(' ')}>
-            {isVideo ? <><Play size={11} fill="currentColor" /> Voir</> : <>Lire <ArrowRight size={13} /></>}
+            {isVideo ? <><Play size={14} fill="currentColor" /> Voir</> : <>Lire <ArrowRight size={14} /></>}
           </span>
         </footer>
       </div>
@@ -253,7 +253,7 @@ export const VeilleCardListItem: React.FC<VeilleCardProps> = ({ item, surface, i
       <div className={['relative w-28 sm:w-36 shrink-0 overflow-hidden rounded-l-2xl', COVER_GRADIENT[tone]].join(' ')}>
         <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'radial-gradient(circle at 30% 40%, rgba(255,255,255,0.6) 0%, transparent 60%)' }} aria-hidden />
         <div className="absolute inset-0 flex items-center justify-center">
-          <TypeIcon size={44} strokeWidth={1.5} className="text-white/95 transition-transform duration-base group-hover:scale-110" />
+          <TypeIcon size={40} strokeWidth={1.5} className="text-white/95 transition-transform duration-base group-hover:scale-110" />
         </div>
         {isVideo && (
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -265,7 +265,7 @@ export const VeilleCardListItem: React.FC<VeilleCardProps> = ({ item, surface, i
         {/* Badge catégorie — overlaid en haut de l'image, glassy */}
         <span className="absolute top-2 left-0 right-0 flex justify-center pointer-events-none">
           <span className="inline-flex items-center gap-tight px-2.5 py-1 rounded-pill bg-white/25 backdrop-blur-glass-medium border border-white/40 text-micro font-bold uppercase tracking-wide text-white shadow-sm">
-            <TypeIcon size={9} strokeWidth={2.5} /> {item.typeLabel}
+            <TypeIcon size={14} strokeWidth={2.5} /> {item.typeLabel}
           </span>
         </span>
       </div>
@@ -283,13 +283,13 @@ export const VeilleCardListItem: React.FC<VeilleCardProps> = ({ item, surface, i
           </h3>
         </div>
         <div className="flex items-center gap-1.5 font-body text-micro text-ink-500 flex-wrap">
-          <span className="inline-flex items-center gap-tight"><User size={10} strokeWidth={2} />{item.author}</span>
+          <span className="inline-flex items-center gap-tight"><User size={14} strokeWidth={2} />{item.author}</span>
           <span aria-hidden>·</span>
           <span>{item.category}</span>
           <span aria-hidden>·</span>
           <span>{item.publishedAt}</span>
           <span aria-hidden>·</span>
-          <span className="inline-flex items-center gap-tight"><Clock size={10} strokeWidth={2} />{item.readTime}</span>
+          <span className="inline-flex items-center gap-tight"><Clock size={14} strokeWidth={2} />{item.readTime}</span>
         </div>
         <p className="m-0 font-body text-caption sm:text-body-sm text-ink-600 leading-relaxed line-clamp-2">
           {item.summary}
@@ -314,7 +314,7 @@ export const VeilleCardListItem: React.FC<VeilleCardProps> = ({ item, surface, i
           </button>
         ) : <span aria-hidden />}
         <span className={['inline-flex items-center gap-tight font-body text-caption font-bold transition-transform group-hover:translate-x-0.5 whitespace-nowrap', TONE_LINK[tone]].join(' ')}>
-          {isVideo ? <><Play size={11} fill="currentColor" /> Voir</> : <>Lire <ArrowRight size={13} /></>}
+          {isVideo ? <><Play size={14} fill="currentColor" /> Voir</> : <>Lire <ArrowRight size={14} /></>}
         </span>
       </div>
     </article>
@@ -376,7 +376,7 @@ export const FeaturedSpotlight: React.FC<FeaturedSpotlightProps> = ({ item, isSa
       {/* Content (right) */}
       <div className="flex flex-col gap-stack p-6 lg:p-8 justify-center">
         <span className={['inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-pill border text-micro font-bold uppercase tracking-wider', BADGE_STYLE[tone]].join(' ')}>
-          <TypeIcon size={11} strokeWidth={2.5} /> {item.typeLabel} · {item.category}
+          <TypeIcon size={14} strokeWidth={2.5} /> {item.typeLabel} · {item.category}
         </span>
         <h2 className="font-display text-h2 font-bold text-ink-900 leading-tight">
           {item.title}
@@ -385,9 +385,9 @@ export const FeaturedSpotlight: React.FC<FeaturedSpotlightProps> = ({ item, isSa
           {item.summary}
         </p>
         <div className="flex flex-wrap gap-stack-xs items-center text-caption text-ink-600">
-          <span className="inline-flex items-center gap-tight"><User size={13} />{item.author}</span>
+          <span className="inline-flex items-center gap-tight"><User size={14} />{item.author}</span>
           <span aria-hidden>•</span>
-          <span className="inline-flex items-center gap-tight"><Clock size={13} />{item.readTime}</span>
+          <span className="inline-flex items-center gap-tight"><Clock size={14} />{item.readTime}</span>
           <span aria-hidden>•</span>
           <span>{item.publishedAt}</span>
         </div>
@@ -503,7 +503,7 @@ export const FeaturedSpotlightCarousel: React.FC<FeaturedSpotlightCarouselProps>
                   onClick={prev}
                   className="inline-flex items-center justify-center w-8 h-8 rounded-pill bg-white/20 text-white border border-white/30 hover:bg-white/40 backdrop-blur-glass-light transition-all"
                 >
-                  <ChevronLeft size={15} strokeWidth={2.5} />
+                  <ChevronLeft size={14} strokeWidth={2.5} />
                 </button>
                 <button
                   type="button"
@@ -511,7 +511,7 @@ export const FeaturedSpotlightCarousel: React.FC<FeaturedSpotlightCarouselProps>
                   onClick={next}
                   className="inline-flex items-center justify-center w-8 h-8 rounded-pill bg-white/20 text-white border border-white/30 hover:bg-white/40 backdrop-blur-glass-light transition-all"
                 >
-                  <ChevronRight size={15} strokeWidth={2.5} />
+                  <ChevronRight size={14} strokeWidth={2.5} />
                 </button>
               </div>
             </div>
@@ -527,7 +527,7 @@ export const FeaturedSpotlightCarousel: React.FC<FeaturedSpotlightCarouselProps>
           onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onClick?.(item); }}
         >
           <span className={['inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-pill border text-micro font-bold uppercase tracking-wider', BADGE_STYLE[tone]].join(' ')}>
-            <TypeIcon size={11} strokeWidth={2.5} /> {item.typeLabel} · {item.category}
+            <TypeIcon size={14} strokeWidth={2.5} /> {item.typeLabel} · {item.category}
           </span>
           <h2 className="font-display text-h2 font-bold text-ink-900 leading-tight group-hover:text-primary-700 transition-colors">
             {item.title}
@@ -536,9 +536,9 @@ export const FeaturedSpotlightCarousel: React.FC<FeaturedSpotlightCarouselProps>
             {item.summary}
           </p>
           <div className="flex flex-wrap gap-stack-xs items-center text-caption text-ink-600">
-            <span className="inline-flex items-center gap-tight"><User size={13} />{item.author}</span>
+            <span className="inline-flex items-center gap-tight"><User size={14} />{item.author}</span>
             <span aria-hidden>•</span>
-            <span className="inline-flex items-center gap-tight"><Clock size={13} />{item.readTime}</span>
+            <span className="inline-flex items-center gap-tight"><Clock size={14} />{item.readTime}</span>
             <span aria-hidden>•</span>
             <span>{item.publishedAt}</span>
           </div>

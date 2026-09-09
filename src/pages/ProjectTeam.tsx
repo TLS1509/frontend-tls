@@ -96,7 +96,7 @@ export const ProjectTeam: React.FC = () => {
                     </div>
                   )}
                   <div className="flex items-center gap-stack-xs text-caption text-ink-500">
-                    <CheckCircle2 size={12} />
+                    <CheckCircle2 size={14} />
                     <span>{m.jacValidated}/{m.jacCount} JAC validés</span>
                   </div>
                 </div>

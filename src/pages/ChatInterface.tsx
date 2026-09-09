@@ -38,7 +38,7 @@ function SourceChip({ source }: { source: ChatSourceCitation }) {
   const inner = (
     <span className="inline-flex items-center gap-0.5 text-micro text-primary-700 bg-primary-50 border border-primary-100 px-1.5 py-0.5 rounded-xs font-medium hover:bg-primary-100 transition-colors duration-fast">
       {source.title}
-      {source.url && <ExternalLink size={9} aria-hidden />}
+      {source.url && <ExternalLink size={14} aria-hidden />}
     </span>
   );
   return source.url
@@ -53,7 +53,7 @@ function buildAiContent(m: ChatMessage): React.ReactNode {
         <p className="text-body-sm text-ink-900 leading-relaxed">{m.content}</p>
         <div className="flex items-center gap-tight pt-tight border-t border-ink-100 mt-1">
           <span className="inline-flex items-center gap-tight text-micro font-medium text-ink-500 bg-ink-50 border border-ink-200 px-1.5 py-0.5 rounded-xs">
-            <Shield size={10} aria-hidden />
+            <Shield size={14} aria-hidden />
             Filtré — confidentialité
           </span>
         </div>
@@ -222,16 +222,16 @@ export default function ChatInterface() {
               <div className="flex flex-col gap-stack-xs">
                 {CHAT_SUGGESTIONS.map((s) => {
                   const icons: Record<string, React.ReactNode> = {
-                    formation: <BookOpen size={15} />,
-                    projects: <FileText size={15} />,
-                    passeport: <Target size={15} />,
+                    formation: <BookOpen size={14} />,
+                    projects: <FileText size={14} />,
+                    passeport: <Target size={14} />,
                   };
                   return (
                     <Button
                       key={s.id}
                       variant="ghost"
                       size="sm"
-                      leadingIcon={icons[s.intent] ?? <Sparkles size={15} />}
+                      leadingIcon={icons[s.intent] ?? <Sparkles size={14} />}
                       fullWidth
                       className="justify-start text-left"
                       onClick={() => setInputValue(s.label)}

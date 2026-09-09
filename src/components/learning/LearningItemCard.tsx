@@ -215,7 +215,7 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
       {/* ── Lock row (if inaccessible) ── */}
       {!isAccessible && (
         <div className="mt-stack rounded-lg bg-ink-50 px-3 py-2 flex items-start gap-2">
-          <Lock size={12} className="text-ink-400 shrink-0 mt-px" aria-hidden />
+          <Lock size={14} className="text-ink-400 shrink-0 mt-px" aria-hidden />
           <div className="flex flex-col gap-tight">
             <span className="text-caption text-ink-600 font-medium">
               {denialReason === 'tier' ? 'Upgrade requis' : 'Pré-requis manquant'}

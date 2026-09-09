@@ -314,7 +314,7 @@ export const Messages: React.FC = () => {
                         className="bg-transparent border-0 cursor-pointer p-0.5 shrink-0 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-500 rounded-sm"
                       >
                         <Star
-                          size={13}
+                          size={14}
                           className={conv.isStarred ? 'text-accent-400 fill-accent-400' : 'text-ink-300 fill-transparent'}
                         />
                       </button>
@@ -335,7 +335,7 @@ export const Messages: React.FC = () => {
                       {conv.lastMessage}
                     </p>
                     <span className="font-body text-micro text-ink-600 flex items-center gap-tight">
-                      <Clock3 size={10} /> {conv.lastMessageTime}
+                      <Clock3 size={14} /> {conv.lastMessageTime}
                     </span>
                   </div>
                 </button>
@@ -352,7 +352,7 @@ export const Messages: React.FC = () => {
           {/* Thread header */}
           <div className="px-5 py-stack border-b border-ink-200 bg-white flex items-center gap-stack-xs">
             <Button variant="secondary" iconOnly aria-label="Retour" className="shrink-0" onClick={() => setSelectedId(null)}>
-              <ArrowLeft size={15} />
+              <ArrowLeft size={14} />
             </Button>
 
             <div className={`w-10 h-10 rounded-full flex items-center justify-center text-[13px] font-extrabold shrink-0 ${AVATAR_CLASSES[currentConversation.participantRole]}`}>
@@ -436,7 +436,7 @@ export const Messages: React.FC = () => {
           <div className="px-5 py-stack border-t border-ink-200 bg-white">
             <div className="flex items-end gap-stack-xs">
               <Button variant="secondary" iconOnly aria-label="Pièce jointe" className="shrink-0">
-                <Paperclip size={15} />
+                <Paperclip size={14} />
               </Button>
 
               <textarea
@@ -456,7 +456,7 @@ export const Messages: React.FC = () => {
                 disabled={!messageInput.trim()}
                 onClick={handleSend}
               >
-                <Send size={15} />
+                <Send size={14} />
               </Button>
             </div>
 
@@ -471,7 +471,7 @@ export const Messages: React.FC = () => {
         <div className="flex-1 flex items-center justify-center bg-ink-50">
           <div className="text-center max-w-xs px-stack-lg">
             <div className="w-[72px] h-[72px] rounded-full bg-primary-50 border border-primary-100 flex items-center justify-center mx-auto mb-stack text-primary-400">
-              <MessageSquarePlus size={30} />
+              <MessageSquarePlus size={28} />
             </div>
             <h3 className="mb-stack-xs font-display text-h4 font-bold text-ink-900">
               Sélectionnez une conversation

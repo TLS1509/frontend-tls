@@ -93,7 +93,7 @@ export const CompletionModal: React.FC<CompletionModalProps> = ({
             aria-label="Fermer"
             className="absolute top-3 right-3 z-10 inline-flex items-center justify-center w-8 h-8 rounded-full bg-white/20 text-white hover:bg-white/30 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70"
           >
-            <X size={15} strokeWidth={2.5} />
+            <X size={14} strokeWidth={2.5} />
           </button>
 
           {/* Icon */}
@@ -167,7 +167,7 @@ export const CompletionModal: React.FC<CompletionModalProps> = ({
                 <Button variant="secondary" size="md" onClick={onClose} className="flex-1">
                   Retour
                 </Button>
-                <Button variant="primary" size="md" trailingIcon={<ArrowRight size={15} />} onClick={onNext} className="flex-1">
+                <Button variant="primary" size="md" trailingIcon={<ArrowRight size={14} />} onClick={onNext} className="flex-1">
                   Suivant
                 </Button>
               </>

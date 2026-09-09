@@ -1654,7 +1654,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: "Échelle d'icônes",
     codeName: '--icon-size-* · index.css',
     description:
-      "Cinq tailles déclarées, vingt-sept posées dans le code. Sur 2 066 tailles écrites à la main, 1 037 sont hors échelle — exactement la moitié. La plus fréquente d'entre elles, 14 px, compte 357 usages, plus que le 20 px du système.",
+      "Tranché le 2026-09-09 : tout est ramené sur l'échelle, et l'échelle a été étendue aux deux bouts. Elle comptait cinq crans quand le code en posait vingt-sept ; 851 des 1 904 tailles écrites à la main tombaient hors échelle. Il reste zéro écart.",
     keywords: ['icône', 'icon', 'taille', 'lucide', 'échelle', 'alignement'],
     render: () => (
       <div className="flex flex-col gap-section">
@@ -8167,11 +8167,15 @@ const SHADOW_TOKENS: TokenEntry[] = [
    l'échelle de texte, dans un rapport constant d'environ 1,25 — c'est ce
    rapport qui fait qu'une icône « pèse » autant que le mot à côté d'elle. */
 const ICON_TOKENS: TokenEntry[] = [
-  { name: 'xs', cssVar: '--icon-size-xs', value: '16 px — avec caption (13 px) · bouton sm', group: 'Icônes', type: 'icon' },
-  { name: 'sm', cssVar: '--icon-size-sm', value: '18 px — avec body-sm (15 px) · bouton md', group: 'Icônes', type: 'icon' },
-  { name: 'md', cssVar: '--icon-size-md', value: '20 px — avec body (16 px) · bouton lg', group: 'Icônes', type: 'icon' },
-  { name: 'lg', cssVar: '--icon-size-lg', value: '24 px — avec body-lg (18 px) · bouton xl', group: 'Icônes', type: 'icon' },
-  { name: 'xl', cssVar: '--icon-size-xl', value: '28 px — titres, vignettes', group: 'Icônes', type: 'icon' },
+  { name: '2xs', cssVar: '--icon-size-2xs', value: '14 px — méta-données, pastilles, chevrons · 770 usages', group: 'Icônes — interface', type: 'icon' },
+  { name: 'xs', cssVar: '--icon-size-xs', value: '16 px — avec caption (13 px) · bouton sm', group: 'Icônes — interface', type: 'icon' },
+  { name: 'sm', cssVar: '--icon-size-sm', value: '18 px — avec body-sm (15 px) · bouton md', group: 'Icônes — interface', type: 'icon' },
+  { name: 'md', cssVar: '--icon-size-md', value: '20 px — avec body (16 px) · bouton lg', group: 'Icônes — interface', type: 'icon' },
+  { name: 'lg', cssVar: '--icon-size-lg', value: '24 px — avec body-lg (18 px) · bouton xl', group: 'Icônes — interface', type: 'icon' },
+  { name: 'xl', cssVar: '--icon-size-xl', value: '28 px — le plus grand cran d’interface', group: 'Icônes — interface', type: 'icon' },
+  { name: '2xl', cssVar: '--icon-size-2xl', value: '32 px — vignettes, en-têtes de carte', group: 'Icônes — affichage', type: 'icon' },
+  { name: '3xl', cssVar: '--icon-size-3xl', value: '40 px — états vides', group: 'Icônes — affichage', type: 'icon' },
+  { name: '4xl', cssVar: '--icon-size-4xl', value: '48 px — pages d’erreur, ouvertures. Au-delà, c’est de l’illustration.', group: 'Icônes — affichage', type: 'icon' },
 ];
 
 const BORDER_TOKENS: TokenEntry[] = [
@@ -8593,7 +8597,8 @@ const Swatch: React.FC<{ t: TokenEntry }> = ({ t }) => {
        corrigé dans Button le 2026-09-09. */
     const box = `icon-${t.name}`;
     const paired: Record<string, string> = {
-      xs: 'text-caption', sm: 'text-body-sm', md: 'text-body', lg: 'text-body-lg', xl: 'text-h4',
+      '2xs': 'text-micro', xs: 'text-caption', sm: 'text-body-sm', md: 'text-body',
+      lg: 'text-body-lg', xl: 'text-h4', '2xl': 'text-h4', '3xl': 'text-h3', '4xl': 'text-h3',
     };
     return (
       <div className="token-card">

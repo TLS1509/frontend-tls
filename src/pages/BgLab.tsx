@@ -78,7 +78,7 @@ const Sample: React.FC<{ v: Variant }> = ({ v }) => (
       </p>
       <div className="flex items-center gap-1.5 pt-1">
         <span className="inline-flex items-center gap-1 rounded-pill px-2 py-0.5 text-micro font-medium bg-ink-50 text-ink-700 border border-ink-200">
-          <Clock size={11} /> 14 min
+          <Clock size={14} /> 14 min
         </span>
         <span className="inline-flex items-center rounded-pill px-2 py-0.5 text-micro font-medium bg-ink-50 text-ink-700 border border-ink-200">
           Intermédiaire

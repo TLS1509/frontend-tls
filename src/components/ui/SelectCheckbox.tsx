@@ -79,7 +79,7 @@ export const SelectCheckbox: React.FC<SelectCheckboxProps> = ({
       >
         <span className="truncate max-w-[10rem]">{triggerText}</span>
         <ChevronDown
-          size={15}
+          size={14}
           strokeWidth={2.25}
           className={`shrink-0 transition-transform duration-base ${isOpen ? 'rotate-180' : 'rotate-0'}`}
         />

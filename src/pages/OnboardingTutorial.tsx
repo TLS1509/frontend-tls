@@ -16,37 +16,37 @@ const TUTORIAL_STEPS = [
     id: 'parcours',
     title: "Tes parcours d'apprentissage",
     description: "La Learning Society propose des parcours structurés autour de 6 compétences clés (H.S.O.). Chaque parcours contient des leçons, des exercices pratiques corrigés par ton coach, et des ressources complémentaires. Commence par le parcours recommandé sur ton profil.",
-    icon: <BookOpen size={22} />,
+    icon: <BookOpen size={20} />,
   },
   {
     id: 'coaching',
     title: 'Ton coach personnel',
     description: "Ton coach expert t'accompagne tout au long de ton parcours. Réserve des sessions individuelles, soumets tes exercices pour correction, et échange via la messagerie privée. Ton coach analyse ta progression et adapte ses recommandations.",
-    icon: <GraduationCap size={22} />,
+    icon: <GraduationCap size={20} />,
   },
   {
     id: 'passeport',
     title: 'Le Passeport Compétences',
     description: "Ton Passeport visualise ta progression sur l'échelle Dreyfus (D1 Novice → D5 Expert) pour chaque compétence. Il évolue automatiquement au fil de tes activités. Tu peux définir des objectifs et suivre leur avancement.",
-    icon: <Target size={22} />,
+    icon: <Target size={20} />,
   },
   {
     id: 'analytics',
     title: 'Ton tableau de bord',
     description: "Le Dashboard centralise toutes tes données : XP accumulés, streak d'activité, progression Dreyfus, prochaines sessions coaching, et contenu de veille personnalisé. Consulte-le chaque matin pour savoir par où commencer.",
-    icon: <BarChart3 size={22} />,
+    icon: <BarChart3 size={20} />,
   },
   {
     id: 'notifications',
     title: 'Notifications & rappels',
     description: "Active les notifications pour ne manquer aucune session coaching, aucune correction reçue, et rester informé de tes objectifs. Tu peux gérer tes préférences dans ton profil à tout moment.",
-    icon: <Bell size={22} />,
+    icon: <Bell size={20} />,
   },
   {
     id: 'communaute',
     title: 'La communauté SBO',
     description: "Échange avec d'autres apprenants dans les espaces de collaboration, partage tes insights via le journal de bord, et consultez ensemble la veille professionnelle hebdomadaire. L'apprentissage social accélère la progression.",
-    icon: <MessageSquare size={22} />,
+    icon: <MessageSquare size={20} />,
   },
 ];
 

@@ -96,7 +96,7 @@ function ConversationCard({ item }: { item: ConversationItem }) {
       </p>
       <div className="flex items-center justify-between gap-stack mt-1">
         <span className="flex items-center gap-tight text-micro text-ink-600">
-          <Clock size={12} />
+          <Clock size={14} />
           {item.date}
         </span>
         <Button

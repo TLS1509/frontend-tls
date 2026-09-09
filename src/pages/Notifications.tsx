@@ -70,14 +70,14 @@ const TYPE_CONFIG: Record<
   NotifType,
   { tone: NotificationTone; icon: React.ReactNode; label: string }
 > = {
-  correction:  { tone: 'success', icon: <FileText size={15} />,     label: 'Correction' },
-  achievement: { tone: 'sun',     icon: <Award size={15} />,        label: 'Badge' },
-  lesson:      { tone: 'brand',   icon: <BookOpen size={15} />,     label: 'Leçon' },
-  completion:  { tone: 'success', icon: <CheckCircle2 size={15} />, label: 'Terminé' },
-  report:      { tone: 'warm',    icon: <FileText size={15} />,     label: 'Rapport' },
-  coaching:    { tone: 'warm',    icon: <CalendarDays size={15} />, label: 'Coaching' },
-  message:     { tone: 'brand',   icon: <MessageSquare size={15} />,label: 'Message' },
-  system:      { tone: 'neutral', icon: <Bell size={15} />,         label: 'Système' },
+  correction:  { tone: 'success', icon: <FileText size={14} />,     label: 'Correction' },
+  achievement: { tone: 'sun',     icon: <Award size={14} />,        label: 'Badge' },
+  lesson:      { tone: 'brand',   icon: <BookOpen size={14} />,     label: 'Leçon' },
+  completion:  { tone: 'success', icon: <CheckCircle2 size={14} />, label: 'Terminé' },
+  report:      { tone: 'warm',    icon: <FileText size={14} />,     label: 'Rapport' },
+  coaching:    { tone: 'warm',    icon: <CalendarDays size={14} />, label: 'Coaching' },
+  message:     { tone: 'brand',   icon: <MessageSquare size={14} />,label: 'Message' },
+  system:      { tone: 'neutral', icon: <Bell size={14} />,         label: 'Système' },
 };
 
 /* ── Event type → display type mapping (Cahier #09) ────────────────────── */
@@ -110,11 +110,11 @@ function formatRelativeTime(iso: string): string {
 }
 
 const FILTERS: { id: Filter; label: string; icon: React.ReactNode }[] = [
-  { id: 'all',      label: 'Toutes',     icon: <Bell size={13} /> },
-  { id: 'unread',   label: 'Non lues',   icon: <BellDot size={13} /> },
-  { id: 'messages', label: 'Messages',   icon: <MessageSquare size={13} /> },
-  { id: 'lessons',  label: 'Formations', icon: <BookOpen size={13} /> },
-  { id: 'coaching', label: 'Coaching',   icon: <CalendarDays size={13} /> },
+  { id: 'all',      label: 'Toutes',     icon: <Bell size={14} /> },
+  { id: 'unread',   label: 'Non lues',   icon: <BellDot size={14} /> },
+  { id: 'messages', label: 'Messages',   icon: <MessageSquare size={14} /> },
+  { id: 'lessons',  label: 'Formations', icon: <BookOpen size={14} /> },
+  { id: 'coaching', label: 'Coaching',   icon: <CalendarDays size={14} /> },
 ];
 
 /* ── Component ──────────────────────────────────────────────────────────── */
@@ -264,12 +264,12 @@ export const Notifications: React.FC = () => {
                 const meta =
                   item.grade ? (
                     <span className="inline-flex items-center gap-tight px-2 py-0.5 rounded-pill bg-ink-100 text-ink-700 font-semibold">
-                      <Trophy size={10} />
+                      <Trophy size={14} />
                       {item.grade}
                     </span>
                   ) : item.badgeName ? (
                     <span className="inline-flex items-center gap-tight px-2 py-0.5 rounded-pill bg-accent-100 text-accent-700 font-semibold">
-                      <Award size={10} />
+                      <Award size={14} />
                       {item.badgeName}
                     </span>
                   ) : (

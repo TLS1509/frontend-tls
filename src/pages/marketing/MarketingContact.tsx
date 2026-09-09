@@ -506,12 +506,12 @@ export const MarketingContact: React.FC = () => {
                   <div className="flex flex-col gap-stack-xs pt-stack border-t border-ink-100">
                     <div className="flex flex-wrap items-center gap-x-stack gap-y-1">
                       <span className="inline-flex items-center gap-1 font-body text-caption text-ink-500">
-                        <Lock size={11} className="text-ink-600 shrink-0" />
+                        <Lock size={14} className="text-ink-600 shrink-0" />
                         Données confidentielles · RGPD
                       </span>
                       <span className="text-ink-300 text-caption">·</span>
                       <span className="inline-flex items-center gap-1 font-body text-caption text-ink-500">
-                        <MapPin size={11} className="text-ink-600 shrink-0" />
+                        <MapPin size={14} className="text-ink-600 shrink-0" />
                         Équipe basée à Paris
                       </span>
                     </div>
@@ -551,7 +551,7 @@ export const MarketingContact: React.FC = () => {
               <div className="relative overflow-hidden rounded-2xl bg-primary-50 border border-primary-200 p-stack-lg flex flex-col gap-stack-lg shadow-sm">
                 <div className="flex flex-col gap-stack">
                   <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-white border border-primary-200 text-accent-400 text-caption font-bold w-fit">
-                    <Sparkles size={12} />
+                    <Sparkles size={14} />
                     Plus rapide
                   </span>
                   <h3 className="font-display text-h3 font-extrabold text-ink-900 leading-tight">

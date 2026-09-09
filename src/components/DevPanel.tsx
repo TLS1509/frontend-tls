@@ -109,7 +109,7 @@ export const DevPanel: React.FC = () => {
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-2.5 border-b border-white/[0.07]">
             <div className="flex items-center gap-2">
-              <Terminal size={13} className="text-accent-400" />
+              <Terminal size={14} className="text-accent-400" />
               <span className="font-mono text-caption font-bold text-accent-400 tracking-wide">
                 DEV
               </span>
@@ -121,7 +121,7 @@ export const DevPanel: React.FC = () => {
               aria-label="Fermer le panel"
               className="w-6 h-6 flex items-center justify-center rounded-md text-ink-500 hover:text-white hover:bg-white/10 transition-colors duration-fast cursor-pointer"
             >
-              <X size={13} />
+              <X size={14} />
             </button>
           </div>
 
@@ -144,7 +144,7 @@ export const DevPanel: React.FC = () => {
                   onClick={() => window.location.reload()}
                   className="w-7 h-7 flex items-center justify-center rounded-lg bg-white/[0.07] text-ink-500 hover:text-white hover:bg-white/[0.12] transition-colors duration-fast cursor-pointer"
                 >
-                  <RotateCcw size={12} />
+                  <RotateCcw size={14} />
                 </button>
               </div>
             </div>

@@ -26,7 +26,7 @@ export default function OnboardingSuccess() {
   const nextSteps: NextStepItem[] = [
     {
       id: 'parcours',
-      icon: <BookOpen size={22} />,
+      icon: <BookOpen size={20} />,
       title: 'Explore tes parcours',
       description: "Découvre les parcours adaptés à ton profil Dreyfus et commence ta première leçon.",
       cta: 'Voir les parcours',
@@ -35,7 +35,7 @@ export default function OnboardingSuccess() {
     },
     {
       id: 'coach',
-      icon: <GraduationCap size={22} />,
+      icon: <GraduationCap size={20} />,
       title: 'Réserve ton coach',
       description: 'Planifie une première session de coaching pour accélérer ta progression.',
       cta: 'Réserver une session',
@@ -44,7 +44,7 @@ export default function OnboardingSuccess() {
     },
     {
       id: 'passeport',
-      icon: <Target size={22} />,
+      icon: <Target size={20} />,
       title: 'Consulte ton Passeport',
       description: 'Ton radar de compétences initial est prêt. Définis tes premiers objectifs.',
       cta: 'Voir mon passeport',

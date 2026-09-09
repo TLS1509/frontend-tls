@@ -128,7 +128,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
         <div className="flex items-center gap-tight px-1">
           <span className="text-micro text-ink-600">{timestamp}</span>
           {showReadReceipt && (
-            <CheckCheck size={11} className="text-primary-400" />
+            <CheckCheck size={14} className="text-primary-400" />
           )}
         </div>
       </div>
@@ -209,7 +209,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
                       className="hover:underline flex items-center gap-tight"
                     >
                       {src.title}
-                      <ExternalLink size={10} />
+                      <ExternalLink size={14} />
                     </a>
                   ) : (
                     src.title
@@ -236,14 +236,14 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
                   className="inline-flex items-center gap-tight text-micro text-success-fg hover:text-success-base transition-colors duration-fast px-1.5 py-0.5 rounded-sm hover:bg-success-bg"
                   aria-label="Marquer comme utile"
                 >
-                  <ThumbsUp size={12} /> Oui
+                  <ThumbsUp size={14} /> Oui
                 </button>
                 <button
                   onClick={() => messageId && onFeedback?.(messageId, 'no')}
                   className="inline-flex items-center gap-tight text-micro text-danger-fg hover:text-danger-base transition-colors duration-fast px-1.5 py-0.5 rounded-sm hover:bg-danger-bg"
                   aria-label="Marquer comme pas utile"
                 >
-                  <ThumbsDown size={12} /> Non
+                  <ThumbsDown size={14} /> Non
                 </button>
               </>
             )}

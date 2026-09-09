@@ -88,7 +88,7 @@ export const Leaderboard: React.FC = () => {
         {/* ── Hero ─────────────────────────────────────────────── */}
         <EditorialHero
           tone="flat"
-          eyebrow={{ icon: <Trophy size={12} />, label: 'Progression communauté' }}
+          eyebrow={{ icon: <Trophy size={14} />, label: 'Progression communauté' }}
           title="Leaderboard"
           summary="Classement communautaire : les apprenants les plus engagés mis à l'honneur."
         />
@@ -182,15 +182,15 @@ export const Leaderboard: React.FC = () => {
                 {/* Stats pills */}
                 <div className="flex items-center gap-stack-xs flex-wrap">
                   <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill text-caption font-semibold ${pod.pillClasses}`}>
-                    <Flame size={13} className={pod.iconClasses} />
+                    <Flame size={14} className={pod.iconClasses} />
                     {entry.streak}j streak
                   </span>
                   <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill text-caption font-semibold ${pod.pillClasses}`}>
-                    <Star size={12} className={pod.iconClasses} />
+                    <Star size={14} className={pod.iconClasses} />
                     Niv.&nbsp;{entry.level}
                   </span>
                   <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill text-caption font-semibold ${pod.pillClasses}`}>
-                    <Zap size={12} className={pod.iconClasses} />
+                    <Zap size={14} className={pod.iconClasses} />
                     {entry.xp.toLocaleString('fr-FR')} XP
                   </span>
                 </div>
@@ -202,7 +202,7 @@ export const Leaderboard: React.FC = () => {
                   onClick={() => !entry.isCurrentUser && navigate(`/coach/apprenant/${entry.id}`)}
                   disabled={entry.isCurrentUser}
                 >
-                  <Medal size={13} /> Voir le profil
+                  <Medal size={14} /> Voir le profil
                 </Button>
               </Card>
             );

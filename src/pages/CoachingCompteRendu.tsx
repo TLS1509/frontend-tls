@@ -277,7 +277,7 @@ export const CoachingCompteRendu: React.FC = () => {
                           {ap.action}
                         </p>
                         <span className="inline-flex items-center gap-tight font-body text-caption text-primary-700 bg-primary-50 px-2 py-0.5 rounded-pill font-semibold">
-                          <CalendarDays size={10} />
+                          <CalendarDays size={14} />
                           {ap.deadline}
                         </span>
                       </div>

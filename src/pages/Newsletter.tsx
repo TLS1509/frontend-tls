@@ -46,7 +46,7 @@ export const Newsletter: React.FC = () => {
           >
             <ArrowLeft size={14} /> Retour à la veille
           </button>
-          <Button variant="primary" size="sm" trailingIcon={<ArrowRight size={13} />} onClick={() => navigate('/veille/weekly-newsletter')}>
+          <Button variant="primary" size="sm" trailingIcon={<ArrowRight size={14} />} onClick={() => navigate('/veille/weekly-newsletter')}>
             Voir la dernière édition
           </Button>
         </PageShell>
@@ -54,7 +54,7 @@ export const Newsletter: React.FC = () => {
 
       <div className="flex flex-col gap-section">
         <EditorialHero
-          eyebrow={{ icon: <Newspaper size={12} />, label: 'Abonnement Veille' }}
+          eyebrow={{ icon: <Newspaper size={14} />, label: 'Abonnement Veille' }}
           title="Newsletter TLS"
           summary="Préférences d'abonnement, archives des éditions et accès rapide à la dernière sélection hebdo."
         />

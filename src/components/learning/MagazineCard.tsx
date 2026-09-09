@@ -145,7 +145,7 @@ export const MagazineCard: React.FC<MagazineCardProps> = ({
       {/* ── Footer strip ── */}
       <div className="relative flex items-center gap-stack-xs px-5 py-3 bg-white border-t border-ink-100 rounded-b-2xl">
         <MetaPill
-          icon={<FileText size={13} />}
+          icon={<FileText size={14} />}
           text={`${articleCount} article${articleCount > 1 ? 's' : ''}`}
           size="sm"
           tone="brand"
@@ -153,7 +153,7 @@ export const MagazineCard: React.FC<MagazineCardProps> = ({
         <Button
           variant="primary"
           size="sm"
-          trailingIcon={<ArrowRight size={13} className="group-hover:translate-x-0.5 transition-transform" />}
+          trailingIcon={<ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />}
           className="ml-auto"
           onClick={(e) => { e.stopPropagation(); onClick?.(); }}
         >

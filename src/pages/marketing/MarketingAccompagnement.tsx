@@ -106,13 +106,13 @@ const Hero: React.FC = () => {
 
 const PIEGES = [
   {
-    icon: <Bot size={22} />,
+    icon: <Bot size={20} />,
     title: "Déployer des outils IA à l'aveugle",
     detail:
       'Sans cadre ni référentiel de compétences, les licences dorment, le Shadow AI prolifère et le ROI reste introuvable.',
   },
   {
-    icon: <FileText size={22} />,
+    icon: <FileText size={20} />,
     title: 'Passer au SBO avec des méthodes manuelles',
     detail:
       'Cartographier des compétences au tableur prend dix-huit mois : épuisement des équipes RH, rejet des managers, données mortes à la livraison.',
@@ -313,7 +313,7 @@ const Obtenez: React.FC = () => (
             {OBTENEZ.map((o, i) => (
               <FadeInWhenVisible key={o} delay={i * 0.05}>
                 <li className="flex items-start gap-stack border-t border-ink-200 py-stack-lg first:border-t-0 first:pt-0">
-                  <CheckCircle2 size={22} className="text-primary-700 shrink-0 mt-1" />
+                  <CheckCircle2 size={20} className="text-primary-700 shrink-0 mt-1" />
                   <span className="font-body text-lede text-ink-800">{o}</span>
                 </li>
               </FadeInWhenVisible>

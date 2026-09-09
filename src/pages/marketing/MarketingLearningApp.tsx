@@ -198,7 +198,7 @@ type PilierData = {
 
 const PILIERS: PilierData[] = [
   {
-    icon: <Radar size={22} />,
+    icon: <Radar size={20} />,
     kicker: 'Continuous Intelligence',
     title: 'Transformez cinq minutes de lecture quotidienne en montée en compétences.',
     points: [
@@ -217,7 +217,7 @@ const PILIERS: PilierData[] = [
     ],
   },
   {
-    icon: <Bot size={22} />,
+    icon: <Bot size={20} />,
     kicker: 'Action-Based Learning',
     title: 'Vos équipes apprennent en faisant, pas en regardant.',
     points: [
@@ -236,7 +236,7 @@ const PILIERS: PilierData[] = [
     ],
   },
   {
-    icon: <LibraryBig size={22} />,
+    icon: <LibraryBig size={20} />,
     kicker: 'Le Learning Space',
     title: 'Une structure claire, une autonomie totale.',
     points: [
@@ -255,7 +255,7 @@ const PILIERS: PilierData[] = [
     ],
   },
   {
-    icon: <TrendingUp size={22} />,
+    icon: <TrendingUp size={20} />,
     kicker: 'Le Passeport de compétences vivant',
     title: "Mesurez la maîtrise réelle. Éliminez l'obsolescence.",
     points: [
@@ -274,7 +274,7 @@ const PILIERS: PilierData[] = [
     ],
   },
   {
-    icon: <Users size={22} />,
+    icon: <Users size={20} />,
     kicker: 'Coaching, ateliers & preuve',
     title: 'La puissance de la tech, la valeur du coaching humain.',
     points: [

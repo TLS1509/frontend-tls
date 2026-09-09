@@ -8,7 +8,7 @@
  * Usage :
  *   <FilterBar
  *     options={[
- *       { id: 'all',    label: 'Tout', icon: <Sparkles size={12} />, count: 24 },
+ *       { id: 'all',    label: 'Tout', icon: <Sparkles size={14} />, count: 24 },
  *       { id: 'unread', label: 'Non lus', count: 3 },
  *     ]}
  *     selected={['all']}
@@ -159,7 +159,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             }`}
             title="Effacer tous les filtres"
           >
-            <X size={12} strokeWidth={2.5} />
+            <X size={14} strokeWidth={2.5} />
             Effacer
           </button>
         </>

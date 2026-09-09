@@ -175,19 +175,19 @@ const Cibles: React.FC = () => (
 
 const PERIMETRE = [
   {
-    icon: <Wrench size={22} />,
+    icon: <Wrench size={20} />,
     title: 'Hard & Soft Skills métiers',
     desc:
       'Vente, gestion de projet agile, posture managériale, conformité : les compétences cœur de vos équipes, travaillées sur leurs situations réelles.',
   },
   {
-    icon: <Bot size={22} />,
+    icon: <Bot size={20} />,
     title: "Out-skills & augmentation par l'IA",
     desc:
       'Prompt engineering, pilotage de copilotes, sécurité des données : la maîtrise des outils IA appliquée à chaque métier.',
   },
   {
-    icon: <Ruler size={22} />,
+    icon: <Ruler size={20} />,
     title: 'Acculturation au modèle SBO',
     desc:
       "Transition Skills-Based, déconstruction des fiches de poste, posture d'évaluateur pour les managers.",
@@ -344,7 +344,7 @@ const Modalites: React.FC = () => (
             {LIVRABLES.map((l, i) => (
               <FadeInWhenVisible key={l} delay={i * 0.05}>
                 <li className="flex items-start gap-stack border-t border-ink-200/70 py-stack first:border-t-0 last:border-b last:border-ink-200/70">
-                  <CheckCircle2 size={22} className="text-secondary-700 shrink-0 mt-0.5" />
+                  <CheckCircle2 size={20} className="text-secondary-700 shrink-0 mt-0.5" />
                   <span className="font-body text-body-lg text-ink-800">{l}</span>
                 </li>
               </FadeInWhenVisible>

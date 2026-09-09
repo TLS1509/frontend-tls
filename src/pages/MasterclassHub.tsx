@@ -76,7 +76,7 @@ export default function MasterclassHub() {
                     <Video size={40} className="text-primary-400" />
                     {hasReplay && (
                       <div className="absolute top-2 right-2 flex items-center gap-tight bg-ink-900/80 text-white text-micro px-2 py-0.5 rounded-pill">
-                        <Play size={10} /> Replay
+                        <Play size={14} /> Replay
                       </div>
                     )}
                   </div>
@@ -92,7 +92,7 @@ export default function MasterclassHub() {
                       )}
                       {enrollment && (
                         <Badge variant="success">
-                          <CheckCircle size={11} className="inline mr-0.5" />
+                          <CheckCircle size={14} className="inline mr-0.5" />
                           {enrollment.status === 'completed' ? 'Complétée' : 'Inscrit(e)'}
                         </Badge>
                       )}
@@ -109,15 +109,15 @@ export default function MasterclassHub() {
                     </div>
 
                     <div className="flex items-center gap-stack-xs mt-tight">
-                      <Calendar size={13} className="text-ink-600 shrink-0" />
+                      <Calendar size={14} className="text-ink-600 shrink-0" />
                       <span className="text-caption text-ink-500">{formatDate(mc.scheduledAt)}</span>
-                      <Clock size={13} className="text-ink-600 shrink-0 ml-stack-xs" />
+                      <Clock size={14} className="text-ink-600 shrink-0 ml-stack-xs" />
                       <span className="text-caption text-ink-500">{mc.durationMinutes} min</span>
                     </div>
 
                     {mc.maxParticipants && (
                       <div className="flex items-center gap-1.5 text-caption text-ink-500">
-                        <Users size={12} className="shrink-0" />
+                        <Users size={14} className="shrink-0" />
                         <span>{mc.enrolledCount} / {mc.maxParticipants} inscrits</span>
                       </div>
                     )}

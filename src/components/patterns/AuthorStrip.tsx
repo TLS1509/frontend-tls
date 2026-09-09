@@ -10,8 +10,8 @@
  *     name="Marie Dubois"
  *     role="Senior Editor TLS"
  *     meta={[
- *       { icon: <Calendar size={12} />, text: '12 mai 2026' },
- *       { icon: <Clock size={12} />,    text: '6 min de lecture' }
+ *       { icon: <Calendar size={14} />, text: '12 mai 2026' },
+ *       { icon: <Clock size={14} />,    text: '6 min de lecture' }
  *     ]}
  *   />
  *

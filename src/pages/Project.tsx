@@ -90,7 +90,7 @@ export const Project: React.FC = () => {
       </div>
 
       <EditorialHero
-        eyebrow={{ icon: <Award size={12} />, label: `Projet ${TYPE_LABELS[project.type]}` }}
+        eyebrow={{ icon: <Award size={14} />, label: `Projet ${TYPE_LABELS[project.type]}` }}
         title={project.title}
         summary={project.description}
         tone="flat"
@@ -100,8 +100,8 @@ export const Project: React.FC = () => {
           </Badge>
         }
         meta={[
-          { icon: <Calendar size={12} />, label: `${formatDate(project.startDate)} → ${formatDate(project.endDate)}` },
-          { icon: <Sparkles size={12} />, label: `${project.passeportEnrichmentCount} enrichissements attendus` },
+          { icon: <Calendar size={14} />, label: `${formatDate(project.startDate)} → ${formatDate(project.endDate)}` },
+          { icon: <Sparkles size={14} />, label: `${project.passeportEnrichmentCount} enrichissements attendus` },
         ]}
       />
 
@@ -174,7 +174,7 @@ export const Project: React.FC = () => {
                           <Button
                             variant="primary"
                             size="sm"
-                            trailingIcon={<ChevronRight size={13} />}
+                            trailingIcon={<ChevronRight size={14} />}
                             onClick={() => navigate(`/project/${project.id}/task/${task.id}/submit`)}
                           >
                             {task.status === 'submitted' ? 'Voir la soumission' : 'Soumettre ma réalisation'}
@@ -182,7 +182,7 @@ export const Project: React.FC = () => {
                         )}
                         {task.status === 'approved' && (
                           <span className="inline-flex items-center gap-1 text-caption text-success-fg font-semibold">
-                            <CheckCircle2 size={13} /> Tâche validée
+                            <CheckCircle2 size={14} /> Tâche validée
                           </span>
                         )}
                       </div>
@@ -216,7 +216,7 @@ export const Project: React.FC = () => {
         }
         aside={
           <div className="flex flex-col gap-section">
-            <SectionCard title="Expert mentor" titleIcon={<Users size={15} />}>
+            <SectionCard title="Expert mentor" titleIcon={<Users size={14} />}>
               <div className="flex items-center gap-stack">
                 <Avatar initials={project.expertInitials} size="md" tint="brand" />
                 <div>
@@ -226,7 +226,7 @@ export const Project: React.FC = () => {
               </div>
             </SectionCard>
 
-            <SectionCard title="Compétences requises" titleIcon={<Target size={15} />}>
+            <SectionCard title="Compétences requises" titleIcon={<Target size={14} />}>
               <div className="flex flex-col gap-stack-xs">
                 {project.skillProfile.map((req) => (
                   <div key={req.competencyId} className="flex items-center justify-between gap-stack-xs">
@@ -237,7 +237,7 @@ export const Project: React.FC = () => {
               </div>
             </SectionCard>
 
-            <SectionCard title="Pages du projet" titleIcon={<FolderKanban size={15} />}>
+            <SectionCard title="Pages du projet" titleIcon={<FolderKanban size={14} />}>
               <div className="flex flex-col gap-tight">
                 <Button variant="secondary" size="sm" fullWidth onClick={() => navigate(`/project/${project.id}/team`)}>
                   Équipe

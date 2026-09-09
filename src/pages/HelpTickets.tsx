@@ -76,7 +76,7 @@ export default function HelpTickets() {
                     <div className="flex flex-col gap-tight flex-1 min-w-0">
                       <span className="font-display font-semibold text-body text-ink-900">{ticket.subject}</span>
                       <span className="flex items-center gap-tight text-caption text-ink-500">
-                        <Calendar size={12} />
+                        <Calendar size={14} />
                         {formatDate(ticket.createdAt)}
                       </span>
                     </div>

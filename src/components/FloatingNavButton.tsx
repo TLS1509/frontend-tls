@@ -72,8 +72,8 @@ export const FloatingNavButton: React.FC<FloatingNavButtonProps> = ({
   actions = [],
   tone = 'primary',
   position = 'bottom-right',
-  icon = <Plus size={22} strokeWidth={2.25} />,
-  closeIcon = <X size={22} strokeWidth={2.25} />,
+  icon = <Plus size={20} strokeWidth={2.25} />,
+  closeIcon = <X size={20} strokeWidth={2.25} />,
   ariaLabel,
   className = '',
 }) => {

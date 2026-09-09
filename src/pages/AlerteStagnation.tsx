@@ -164,14 +164,14 @@ export default function AlerteStagnation() {
             active={activeFilter === 'critical'}
             count={STAGNANT_LEARNERS.filter((l) => l.severity === 'critical').length}
             onClick={() => setActiveFilter('critical')}
-            icon={<AlertTriangle size={12} />}
+            icon={<AlertTriangle size={14} />}
           />
           <FilterChip
             label="Moyen 30–60j"
             active={activeFilter === 'medium'}
             count={STAGNANT_LEARNERS.filter((l) => l.severity === 'medium').length}
             onClick={() => setActiveFilter('medium')}
-            icon={<Clock size={12} />}
+            icon={<Clock size={14} />}
           />
           <FilterChip
             label="Résolu"
@@ -225,7 +225,7 @@ export default function AlerteStagnation() {
                       {learner.stagnationDays}j de stagnation
                     </Badge>
                     <Badge variant="brand" size="sm">
-                      <TrendingUp size={10} className="inline mr-0.5" />
+                      <TrendingUp size={14} className="inline mr-0.5" />
                       {learner.blockedSkill}
                     </Badge>
                     <Badge variant="info" size="sm">
@@ -279,7 +279,7 @@ export default function AlerteStagnation() {
                     {suggestion.advice}
                   </p>
                 </div>
-                <Button variant="secondary" size="sm" fullWidth leadingIcon={<Sparkles size={13} />}>
+                <Button variant="secondary" size="sm" fullWidth leadingIcon={<Sparkles size={14} />}>
                   {suggestion.actionLabel}
                 </Button>
               </Card>

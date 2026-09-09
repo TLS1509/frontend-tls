@@ -97,7 +97,7 @@ export default function MasterclassReplay() {
                     icon={m.icon}
                     label={m.label}
                     action={
-                      <Button variant="ghost" size="sm" leadingIcon={<Download size={13} />}>
+                      <Button variant="ghost" size="sm" leadingIcon={<Download size={14} />}>
                         Télécharger
                       </Button>
                     }

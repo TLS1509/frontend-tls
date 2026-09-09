@@ -49,19 +49,19 @@ export const RankingCard: React.FC<RankingCardProps> = ({
           RANK_BG[rank] ?? DEFAULT_RANK_BG,
         ].join(' ')}
       >
-        {isPodium ? <MedalIcon size={22} /> : `#${rank}`}
+        {isPodium ? <MedalIcon size={20} /> : `#${rank}`}
       </div>
 
       <div className="flex-1 min-w-0">
         <h3 className="text-body font-semibold text-ink-900 truncate">{name}</h3>
         <div className="flex items-center gap-stack-xs mt-1 flex-wrap">
           <span className="inline-flex items-center gap-tight text-caption font-bold text-primary-700">
-            <Trophy size={12} />
+            <Trophy size={14} />
             {points} pts
           </span>
           {streak !== undefined && (
             <span className="inline-flex items-center gap-tight text-caption text-secondary-600 font-medium">
-              <Flame size={12} />
+              <Flame size={14} />
               {streak}j
             </span>
           )}

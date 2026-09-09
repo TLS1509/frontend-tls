@@ -84,7 +84,7 @@ export const FooterMinimal: React.FC<FooterMinimalProps> = ({
                         className="inline-flex items-center gap-1.5 text-body-sm text-primary-600 hover:text-primary-700 underline underline-offset-4 transition-colors duration-200"
                       >
                         {link.label}
-                        <ExternalLink size={12} className="opacity-60" />
+                        <ExternalLink size={14} className="opacity-60" />
                       </a>
                     ) : (
                       <Link

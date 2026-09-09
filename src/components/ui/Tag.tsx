@@ -81,7 +81,7 @@ export const Tag: React.FC<TagProps> = ({
             isGlass ? GLASS_REMOVE_HOVER : REMOVE_HOVER[tone],
           ].join(' ')}
         >
-          <X size={11} strokeWidth={2.5} />
+          <X size={14} strokeWidth={2.5} />
         </button>
       )}
     </span>

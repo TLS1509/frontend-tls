@@ -88,17 +88,17 @@ export const WeeklyNewsDetail: React.FC = () => {
         onBack={() => navigate(-1)}
         trailing={
           <>
-            <ReadingProgressRing targetRef={articleRef} tone="brand" size={36} />
+            <ReadingProgressRing targetRef={articleRef} tone="brand" size={32} />
             <Button
               variant={saved ? 'primary' : 'ghost'}
               iconOnly
               aria-label={saved ? 'Retirer le marque-page' : 'Ajouter aux marque-pages'}
               onClick={() => toggleBookmark(bookmarkKey)}
             >
-              <Bookmark size={15} fill={saved ? 'currentColor' : 'none'} />
+              <Bookmark size={14} fill={saved ? 'currentColor' : 'none'} />
             </Button>
             <Button variant="ghost" iconOnly aria-label="Partager">
-              <Share2 size={15} />
+              <Share2 size={14} />
             </Button>
           </>
         }
@@ -114,7 +114,7 @@ export const WeeklyNewsDetail: React.FC = () => {
                 {/* Eyebrow */}
                 <div className="flex items-center gap-stack-xs flex-wrap">
                   <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill bg-primary-500 text-white font-body text-micro font-bold uppercase tracking-widest">
-                    <TrendingUp size={11} /> {ACTU.week}
+                    <TrendingUp size={14} /> {ACTU.week}
                   </span>
                   <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-ink-100 text-ink-600 font-body text-micro font-semibold">
                     {ACTU.category}
@@ -130,10 +130,10 @@ export const WeeklyNewsDetail: React.FC = () => {
 
                 <div className="flex items-center gap-stack font-body text-caption text-ink-500 flex-wrap border-b border-ink-100 pb-stack">
                   <span className="inline-flex items-center gap-1.5">
-                    <CalendarDays size={13} /> {ACTU.date}
+                    <CalendarDays size={14} /> {ACTU.date}
                   </span>
                   <span className="inline-flex items-center gap-1.5">
-                    <Clock3 size={13} /> {ACTU.readTime}
+                    <Clock3 size={14} /> {ACTU.readTime}
                   </span>
                 </div>
               </header>
@@ -165,7 +165,7 @@ export const WeeklyNewsDetail: React.FC = () => {
               {/* Tags + source */}
               <footer className="flex flex-col gap-stack-xs pt-stack border-t border-ink-100">
                 <div className="flex items-center gap-1.5 flex-wrap">
-                  <TagIcon size={13} className="text-ink-400 shrink-0" />
+                  <TagIcon size={14} className="text-ink-400 shrink-0" />
                   {ACTU.tags.map((tag) => (
                     <span key={tag} className="px-2.5 py-1 rounded-pill bg-ink-100 font-body text-micro text-ink-600 font-semibold">
                       {tag}
@@ -175,7 +175,7 @@ export const WeeklyNewsDetail: React.FC = () => {
                 <Button
                   variant="secondary"
                   size="sm"
-                  trailingIcon={<ExternalLink size={13} />}
+                  trailingIcon={<ExternalLink size={14} />}
                   onClick={() => window.open(ACTU.sourceUrl, '_blank', 'noopener')}
                   className="self-start"
                 >

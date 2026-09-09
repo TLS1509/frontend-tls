@@ -79,10 +79,10 @@ const CorrectionDetailLearner: React.FC = () => {
         <div className="flex flex-wrap items-center gap-stack-xs">
           <Badge variant={STATUS_VARIANTS[correction.status]}>
             <span className="inline-flex items-center gap-tight">
-              {correction.status === 'pending' && <Clock size={12} />}
-              {correction.status === 'coach-feedback' && <CheckCircle2 size={12} />}
-              {correction.status === 'learner-response' && <RefreshCw size={12} />}
-              {correction.status === 'completed' && <CheckCircle2 size={12} />}
+              {correction.status === 'pending' && <Clock size={14} />}
+              {correction.status === 'coach-feedback' && <CheckCircle2 size={14} />}
+              {correction.status === 'learner-response' && <RefreshCw size={14} />}
+              {correction.status === 'completed' && <CheckCircle2 size={14} />}
               {STATUS_LABELS[correction.status]}
             </span>
           </Badge>

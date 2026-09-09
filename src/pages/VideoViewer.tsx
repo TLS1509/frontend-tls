@@ -228,8 +228,8 @@ export const VideoViewer: React.FC = () => {
                 {VIDEO_DATA.title}
               </h1>
               <div className="flex gap-stack-xs items-center flex-wrap mt-3">
-                <MetaPill icon={<User size={12} />} text={VIDEO_DATA.instructor} tone="brand" size="sm" />
-                <MetaPill icon={<Clock size={12} />} text={VIDEO_DATA.duration} tone="brand" size="sm" />
+                <MetaPill icon={<User size={14} />} text={VIDEO_DATA.instructor} tone="brand" size="sm" />
+                <MetaPill icon={<Clock size={14} />} text={VIDEO_DATA.duration} tone="brand" size="sm" />
               </div>
             </div>
 
@@ -278,7 +278,7 @@ export const VideoViewer: React.FC = () => {
                       {video.title}
                     </div>
                     <div className="font-body text-caption text-ink-500 flex items-center gap-tight">
-                      <Clock size={12} /> {video.duration}
+                      <Clock size={14} /> {video.duration}
                     </div>
                   </button>
                 ))}

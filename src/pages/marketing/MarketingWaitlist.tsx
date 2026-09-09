@@ -50,9 +50,9 @@ const BENEFITS = [
 ];
 
 const TRUST_SIGNALS = [
-  { icon: <ShieldCheck size={13} />, label: 'RGPD conforme' },
-  { icon: <MailX size={13} />, label: 'Zéro spam' },
-  { icon: <Unlink size={13} />, label: 'Désinscription en 1 clic' },
+  { icon: <ShieldCheck size={14} />, label: 'RGPD conforme' },
+  { icon: <MailX size={14} />, label: 'Zéro spam' },
+  { icon: <Unlink size={14} />, label: 'Désinscription en 1 clic' },
 ];
 
 /* ─── CheckboxField ──────────────────────────────────────────────────────────── */
@@ -84,7 +84,7 @@ const CheckboxField: React.FC<{
           : 'bg-white border-ink-300 group-hover:border-primary-400',
       ].join(' ')}
     >
-      {checked && <Check size={11} className="text-white" strokeWidth={2.5} />}
+      {checked && <Check size={14} className="text-white" strokeWidth={2.5} />}
     </span>
     <div className="flex flex-col gap-0.5">
       <span className="font-body text-body-sm font-semibold text-ink-900 leading-snug">{label}</span>
@@ -345,7 +345,7 @@ export const MarketingWaitlist: React.FC = () => {
                                 role="alert"
                                 className="flex items-center gap-1.5 font-body text-caption text-danger-fg"
                               >
-                                <AlertCircle size={13} className="shrink-0" aria-hidden />
+                                <AlertCircle size={14} className="shrink-0" aria-hidden />
                                 Email requis.
                               </span>
                             )}
@@ -391,7 +391,7 @@ export const MarketingWaitlist: React.FC = () => {
                               role="alert"
                               className="flex items-center gap-1.5 font-body text-caption text-danger-fg"
                             >
-                              <AlertCircle size={13} className="shrink-0" aria-hidden />
+                              <AlertCircle size={14} className="shrink-0" aria-hidden />
                               Sélectionnez au moins une option.
                             </div>
                           )}
@@ -442,7 +442,7 @@ export const MarketingWaitlist: React.FC = () => {
                       >
                         <div className="w-16 h-16 rounded-full bg-success-bg flex items-center justify-center">
                           <CheckCircle2
-                            size={30}
+                            size={28}
                             className="text-success-base"
                             strokeWidth={1.75}
                             aria-hidden
