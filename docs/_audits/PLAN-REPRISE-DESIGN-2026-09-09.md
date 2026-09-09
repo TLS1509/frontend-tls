@@ -843,8 +843,44 @@ plus distinctif des explorations et **n'existe nulle part dans le code**.
 | ④ | **Outline sur le site**, rempli conservé dans l'app. |
 | D5 | **Caduque** — `display-*` n'est plus mort (13 usages). Reposer la question comme un choix de vocabulaire. |
 | D10 | Chantier à part entière, prioritaire, sans arbitrage esthétique. |
-| Docs | Scinder `DESIGN-IMPECCABLE.md`. Couper ~90 lignes de `CLAUDE.md`, pas plus. |
-| Volet D | Relire le fact-check **avant** de seeder. |
+| Docs | ✅ `DESIGN-IMPECCABLE.md` **archivé le 09/09**. Couper ~90 lignes de `CLAUDE.md`, pas plus. |
+| Volet D | Le fact-check est **déjà incorporé** aux modules. Le verrou est le modèle de données (`Lecon` ne porte pas de contenu), pas la matière. |
+
+### Les fondations, décision par décision (§4)
+
+| # | Recommandation | Coût |
+|---|---|---|
+| T1 | **Deux échelles typo nommées**, pas une fusionnée | aucun immédiat |
+| T2 | Le token `h3`/`h4` passe à **700** — on suit l'usage (70 % / 67 %) | **0 fichier** |
+| T3 | Écarter les 4 collisions. `h4`/`body-lg` : garder les deux · `h5` : retirer | 23 usages |
+| T4 | Fusionner `body-sm` dans `body` (×1,067, sous le plancher) | 828 usages |
+| T5 | `h3` : 22 → **24 px** — seuil WCAG grand texte + ratio ×1,33 | 132 usages |
+| T6 | Les 54 usages sous 11 px → `micro`. Mécanique | 54 usages |
+| C1 | **La frontière** (ci-dessus) | — |
+| C2 | Rampe de site en **D**. Partagée → **C** | 638 / 4 346 |
+| C3 | **Outline sur le site**, rempli dans l'app | 485 boutons |
+| C4 | Corriger le commentaire « teal-tinted » de `index.css:78` | 1 ligne |
+| **A1** | **`ink-400` en 3 lots** : fonds gris (`ink-600`) → clairs (`ink-500`) → indéterminés au rendu | **355 usages** |
+| A2 | Bouton primaire de l'app → `primary-900` (11,46) plutôt qu'un `700` terni | 485 boutons |
+| A3 | Écrire la doctrine **light-only** | 1 ligne |
+| R1 | Réconcilier ② et D12 → **14 px** | prérequis |
+| R2 | Supprimer les 22 `rounded-3xl` (aucun token) | 22 usages |
+| R3 | Auditer les 204 `rounded-full` : légitime sur avatar, interdit sur bouton et card | à mesurer |
+| R4 | Retirer `radius-3xl`, doublon exact de `radius-2xl` | 1 ligne |
+
+### L'identité, décision par décision (§5)
+
+| # | Recommandation | Bloqué par |
+|---|---|---|
+| I1 | **Riso pour l'identité, papier teinté pour les fonds** | C1-C2 |
+| I2 | Trancher la signature verbale (3 pistes) | **rien** |
+| I3 | Trancher le nom de La Vigie — garder « Vigie », retirer « IA » | **rien** |
+| I4 | **Brancher l'animation du logo** — la signature la plus distinctive, jamais vue | **rien** |
+| I5 | Sortir les 19 explorations de logo du DS | rien |
+| I6 | **Enterrer** le « langage d'illustration » : la matière le remplace | — |
+
+> **Si tu ne prends qu'une heure** : A1 à A3 ne dépendent d'aucun arbitrage esthétique, et I2, I3, I4
+> ne sont bloqués par rien. Ce sont les seuls sujets qu'on peut fermer pendant le projet Agents.
 
 ---
 
