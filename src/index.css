@@ -65,18 +65,40 @@
   --color-accent: var(--color-accent-400);
 
   /* ── Couleurs Ink (gris-noir) ── */
+  /* ── Rampe ink — dérivée de ink-900, adoptée le 2026-09-09 ────────────────
+     Elle n'est plus un emprunt. Avant, c'étaient onze gris Tailwind avec une
+     seule valeur maison (--color-ink-900) insérée au milieu sans être recalée.
+     Deux défauts en découlaient : la rampe n'était pas monotone (ink-900 était
+     PLUS CLAIR que ink-800 — 14,20 contre 14,68 sur blanc, sur le cran le plus
+     utilisé du système), et ses écarts de clarté allaient de +1,8 à +20,3 points.
+
+     Reconstruite à teinte constante 264,1° — celle de ink-900, qui reste
+     l'ancre et ne bouge pas : c'est la couleur de police, 916 usages. Les cinq
+     surfaces claires ne bougent pas non plus. Six crans ont changé.
+
+     ⚠️ ink-900 N'EST PAS teal. Mesuré en OKLCH il est à 264°, quand le teal de
+     marque (primary-500) est à 216°. C'est un gris bleu-violet. Le commentaire
+     qui disait « teal-tinted » ici était faux depuis l'origine.
+
+     LES TROIS ZONES — les respecter évite de rouvrir le chantier :
+       0 → 300   surfaces et bordures. Jamais de texte.
+       400       la charnière : état désactivé, bordure d'interface (3,01 = le
+                 seuil de WCAG 1.4.11). Jamais de texte non plus.
+       500 → 950 le texte. 500 passe désormais sur les sept fonds de l'app
+                 (4,54 au pire), ce qui n'était pas le cas avant.
+     ───────────────────────────────────────────────────────────────────────── */
   --color-ink-0: #ffffff;
   --color-ink-50: #f9fafb;
   --color-ink-100: #f3f4f6;
   --color-ink-200: #e5e7eb;
   --color-ink-300: #d1d5db;
-  --color-ink-400: #9ca3af;
-  --color-ink-500: #6b7280;
-  --color-ink-600: #4b5563;
-  --color-ink-700: #374151;
-  --color-ink-800: #1f2937;
-  --color-ink-900: #252B37;  /* TLS body text — original teal-tinted dark (restored) */
-  --color-ink-950: #0f172a;
+  --color-ink-400: #8d95a6;  /* 3,01 sur blanc — désactivé et bordures, jamais du texte */
+  --color-ink-500: #667082;  /* 4,99 — texte secondaire, passe sur tous les fonds */
+  --color-ink-600: #4c5466;  /* 7,59 — texte secondaire sûr */
+  --color-ink-700: #394050;  /* 10,38 — texte appuyé */
+  --color-ink-800: #2e3442;  /* 12,46 — texte fort. Passe sous ink-900, c'est voulu */
+  --color-ink-900: #252B37;  /* 14,20 — ⚓ l'ancre : texte principal TLS. Ne pas toucher */
+  --color-ink-950: #131820;  /* 17,81 — fond sombre */
 
   /* ── Polices ── */
   --font-display: 'League Spartan', 'Helvetica Neue', Arial, sans-serif;

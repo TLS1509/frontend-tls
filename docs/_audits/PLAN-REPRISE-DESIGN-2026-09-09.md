@@ -523,7 +523,7 @@ jusqu'au bout de la couleur ; sur de longues pages de texte, un gris à ce chrom
 | # | Question | Ma recommandation | Coût |
 |---|---|---|---|
 | C1 | **La frontière** : site et app partagent-ils l'encre ? | **Rampe éditoriale séparée** — `--color-paper-*` pour le site, `ink-*` pour l'app (voir §3.1 ①) | découple les deux |
-| **C7** | **Reconstruire la rampe, et sur quelle teinte ?** | **Variante A (264°)** — corrige l'inversion, laisse l'ancre intacte, débloque `ink-500` sur fond teinté | **6 crans sur 12** |
+| **C7** | ~~Reconstruire la rampe, et sur quelle teinte ?~~ | ✅ **TRANCHÉ le 09/09 — variante A (264°), appliquée dans `src/index.css`.** La variante teal a été écartée : elle repeignait 916 textes pour un gain esthétique, à contraste inchangé | 6 crans, fait |
 | C2 | Teinte de la rampe (A/B/C/D) | **D (marron 46°) pour le site.** Si la rampe reste partagée : **C (teal 216°)** | 638 ou 4 346 usages |
 | C3 | Le remplissage des boutons de marque | **outline sur le site** (label `700` sur blanc), **rempli conservé dans l'app** | 485 boutons dans l'app |
 | C4 | `ink-900` commenté « teal-tinted » dans `index.css:78` | **corriger le commentaire** — il est faux depuis le début | 1 ligne |
@@ -953,7 +953,7 @@ plus distinctif des explorations et **n'existe nulle part dans le code**.
 | C1 | **La frontière** (ci-dessus) | — |
 | C2 | Rampe de site en **D**. Partagée → **C** | 638 / 4 346 |
 | C3 | **Outline sur le site**, rempli dans l'app | 485 boutons |
-| C4 | Corriger le commentaire « teal-tinted » de `index.css:78` | 1 ligne |
+| C4 | ✅ **fait le 09/09** — le commentaire « teal-tinted » est corrigé dans `index.css` et `design-tokens.css` | 2 lignes |
 | **A1** | **`ink-400` en 3 lots** : fonds gris (`ink-600`) → clairs (`ink-500`) → indéterminés au rendu | **355 usages** |
 | A2 | Bouton primaire de l'app → `primary-900` (11,46) plutôt qu'un `700` terni | 485 boutons |
 | A3 | Écrire la doctrine **light-only** | 1 ligne |

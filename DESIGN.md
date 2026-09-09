@@ -563,13 +563,48 @@ signature codée et débranchée.
 - **Ne pas modifier les tokens de `src/index.css` sans validation** — un token
   cascade sur 180+ pages.
 
+### La rampe `ink` — trois zones, et une ancre
+
+> **Reconstruite le 2026-09-09.** Avant, c'étaient onze gris Tailwind avec une
+> seule valeur maison (`ink-900`) insérée au milieu sans être recalée. La rampe
+> n'était pas monotone — `ink-900` était **plus clair** que `ink-800` (14,20
+> contre 14,68 sur blanc), sur le cran le plus utilisé du système. Elle est
+> désormais dérivée de `ink-900`, à teinte constante 264,1°.
+
+| Zone | Crans | Emploi |
+|---|---|---|
+| **Surfaces et bordures** | `ink-0` → `ink-300` | fonds, séparateurs. **Jamais de texte.** |
+| **La charnière** | `ink-400` | état désactivé, bordure d'interface. **Jamais de texte non plus.** |
+| **Le texte** | `ink-500` → `ink-950` | du secondaire au principal |
+
+**Pourquoi ces zones sont écrites ici** : elles ne l'étaient nulle part, et c'est
+ce qui a produit 241 usages fautifs de `ink-400` en texte. Rien ne disait qu'un
+cran était fait pour une surface plutôt que pour une lettre.
+
+| Cran | Sur blanc | Rôle |
+|---|---:|---|
+| `ink-400` | 3,01 | désactivé · bordure d'UI — c'est le seuil de WCAG 1.4.11, pas celui du texte |
+| `ink-500` | 4,99 | texte secondaire — **passe désormais sur les sept fonds de l'app** |
+| `ink-600` | 7,59 | texte secondaire sûr |
+| `ink-700` | 10,38 | texte appuyé |
+| `ink-800` | 12,46 | texte fort |
+| **`ink-900`** | **14,20** | **⚓ le texte principal. C'est l'ancre : ne pas la toucher.** |
+| `ink-950` | 17,81 | fond sombre |
+
+⚠️ **`ink-900` n'est pas teal.** Mesuré en OKLCH il est à **264°**, quand le teal
+de marque (`primary-500`) est à **216°** : c'est un gris bleu-violet. Le
+commentaire du code qui disait « teal-tinted » était faux depuis l'origine, il a
+été corrigé. Une variante teal de la rampe a été construite et **écartée** le
+09/09 : elle repeignait les 916 usages du texte principal pour un gain purement
+esthétique, le contraste ne bougeant pas de plus de 0,16 point.
+
 ### Deux interdits que le code ne respecte pas encore
 
 Ils sont ici parce qu'ils sont **mesurés**, pas supposés :
 
 | Règle | État au 2026-09-09 |
 |---|---|
-| `ink-400` ne porte pas de texte | ⚠️ **355 usages.** Mesuré à 2,54:1 sur blanc : échoue AA **et** la tolérance grand texte. `ink-400` reste légitime pour l'état désactivé, que WCAG exempte |
+| `ink-400` ne porte pas de texte | ⚠️ **355 usages**, dont **241 fautifs** — les 114 autres sont légitimes (états désactivés, glyphes décoratifs) ou hors produit. Depuis la reconstruction de la rampe, `ink-400` vaut 3,01 : utilisable en bordure, toujours pas en texte |
 | Texte blanc sur `primary-600` | ⚠️ **3,66:1 — échoue AA.** Le label des boutons est en 15px/600, donc du texte normal : le seuil est 4,5, pas 3,0. `primary-700` passe à 5,02. **Arbitrage ouvert, pas une règle à recopier** : changer le remplissage repeint tous les boutons de l'app |
 
 ---
