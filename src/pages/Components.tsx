@@ -1506,7 +1506,7 @@ const COMPONENTS: ComponentEntry[] = [
         <ShowcaseBloc
           titre="Le barreau, désormais nommé"
           ton="warm"
-          note="Tranché le 2026-09-09 : le barreau existe. L'échelle sautait de 2 px à 8 px et 223 endroits comblaient le trou à la main en gap-1.5 — de loin le premier des espacements numériques du repo, le suivant en compte 95. Il s'appelle désormais gap-stack-2xs. Reste à ramener les 223 usages dessus, ce qui ne bouge aucun pixel. Deux réponses possibles : lui en donner un, ou ramener ces 222 usages sur 8 px et accepter que l'écart se voie."
+          note="Tranché le 2026-09-09 : le barreau existe. L'échelle sautait de 2 px à 8 px et 223 endroits comblaient le trou à la main en gap-1.5 — de loin le premier des espacements numériques du repo, le suivant en compte 95. Il s'appelle désormais gap-stack-2xs. Reste à ramener les 223 usages dessus, ce qui ne déplace aucun pixel : gap-1.5 et gap-stack-2xs rendent la même valeur."
         >
           <div className="flex flex-col gap-stack-xs">
             {([
