@@ -1506,7 +1506,7 @@ const COMPONENTS: ComponentEntry[] = [
         <ShowcaseBloc
           titre="Le barreau manquant"
           ton="warm"
-          note="L'échelle saute de 2 px à 8 px. Entre les deux, 222 usages de gap-1.5 — six pixels — comblent le trou à la main. C'est le deuxième espacement le plus utilisé de toute la codebase, et il n'a pas de nom. Deux réponses possibles : lui en donner un, ou ramener ces 222 usages sur 8 px et accepter que l'écart se voie."
+          note="L'échelle saute de 2 px à 8 px. Entre les deux, 223 usages de gap-1.5 — six pixels — comblent le trou à la main. C'est de loin le premier des espacements numériques (le suivant, gap-2, en compte 95) et le cinquième toutes écritures confondues, devant gap-stack-lg. Une valeur à ce niveau d'usage n'a pas de nom : c'est le signe d'un barreau manquant, pas d'un écart de discipline. Deux réponses possibles : lui en donner un, ou ramener ces 222 usages sur 8 px et accepter que l'écart se voie."
         >
           <div className="flex flex-col gap-stack-xs">
             {([
@@ -1515,7 +1515,7 @@ const COMPONENTS: ComponentEntry[] = [
               <div key={nom} className="flex items-center gap-stack">
                 <code className={`w-28 shrink-0 font-mono text-micro ${manque ? 'text-secondary-700' : 'text-ink-600'}`}>{nom}</code>
                 <div className={`h-3 rounded-xs ${manque ? 'bg-secondary-500' : 'bg-primary-500'}`} style={{ width: `${px * 8}px` }} />
-                <span className="font-mono text-micro text-ink-500 tabular-nums">{px} px{manque ? ' · 222 usages' : ''}</span>
+                <span className="font-mono text-micro text-ink-500 tabular-nums">{px} px{manque ? ' · 223 usages' : ''}</span>
               </div>
             ))}
           </div>
