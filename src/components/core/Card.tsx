@@ -91,7 +91,21 @@ export interface CardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 't
 // globale de index.css ramène transition-duration à 0,01 ms mais ne touche ni
 // `translate` ni `scale` — une card `interactive` SAUTAIT de 4px au survol au
 // lieu de glisser. On supprime le déplacement lui-même sous reduced-motion.
-const BASE = 'flex flex-col rounded-xl text-ink-900 font-body text-body-sm transition-all duration-200 motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:active:translate-y-0 [&[role=button]]:h-auto [&[role=button]]:font-normal [&[role=button]]:items-stretch';
+/* Rayon de référence : 14 px (`rounded-lg`) — décidé le 2026-09-09 (R1).
+   Avant : `rounded-xl`, soit 20 px.
+
+   Pourquoi 14 et pas 20 ou 24. La Card porte une bordure de 1 px, et bordure et
+   rayon se contredisent au-delà d'une certaine courbe : à 24 px, la courbe est
+   longue et un trait fin ne la tient pas — le coin paraît mou, l'objet gonflé. À
+   14 px le trait suit un angle plus franc et l'objet se lit comme posé. Un grand
+   rayon fonctionne, mais sans bordure et avec une ombre : ce n'est pas le
+   registre TLS, qui est diurne et pose ses objets plutôt qu'il ne les fait
+   flotter.
+
+   Cette valeur commande aussi la migration des 93 cards écrites à la main, et
+   les décisions R2 (les 22 `rounded-3xl`) et R3 (les 204 `rounded-full`) : elles
+   l'attendaient toutes. */
+const BASE = 'flex flex-col rounded-lg text-ink-900 font-body text-body-sm transition-all duration-200 motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:active:translate-y-0 [&[role=button]]:h-auto [&[role=button]]:font-normal [&[role=button]]:items-stretch';
 
 const VARIANT_CLASSES: Record<CardVariant, string> = {
   // Shadows are tone-aware — applied dynamically via TONE_SHADOW_* maps below.
