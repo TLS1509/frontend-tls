@@ -598,6 +598,54 @@ commentaire du code qui disait « teal-tinted » était faux depuis l'origine, i
 09/09 : elle repeignait les 916 usages du texte principal pour un gain purement
 esthétique, le contraste ne bougeant pas de plus de 0,16 point.
 
+### Le tracking suit une courbe inverse de la taille
+
+> **Règle posée le 2026-09-09**, après le correctif de `Button.tsx`.
+
+Le tracking (`letter-spacing`) est une **compensation optique**, pas une préférence.
+À grande taille, l'espace entre les lettres paraît proportionnellement plus grand
+et l'œil voit des trous : on resserre pour rendre au mot sa densité. **Sous 16 px,
+l'effet s'inverse** — les lettres ont besoin d'air pour rester distinctes, et les
+resserrer les colle.
+
+**Donc : plus le texte est grand, plus on serre. Plus il est petit, moins on serre.**
+
+Les tokens de l'échelle respectent déjà cette courbe, de `-0,03em` sur `display-xl`
+à `-0,01em` sur `h5`, et **le corps n'a aucun tracking** — c'est voulu, ne pas en
+ajouter.
+
+⚠️ **Ne jamais poser un tracking dans la `BASE` d'un composant à tailles multiples.**
+C'est le défaut qui a été corrigé dans `Button.tsx` : `tracking-tight` y était
+appliqué aux quatre tailles, dont `sm` à 13 px et ses 227 usages. Si un serrage est
+nécessaire pour les grandes tailles, **sa place est dans `SIZE_CLASSES`**, jamais
+dans la base.
+
+⚠️ **`tracking-tight` est le défaut Tailwind, pas un token TLS.** Il vaut `-0,025em`,
+exactement comme `tracking-headline`. Préférer le token nommé : lui seul dit à quoi
+il sert.
+
+### Le bouton — graisse, tailles, seuils
+
+| Taille | Police | Hauteur | Usages |
+|---|---|---|---:|
+| `sm` | 13 px | 32 px | **227** |
+| `md` *(défaut)* | 15 px | 44 px | 214 |
+| `lg` | 16 px | 48 px | 71 |
+| `xl` | 18 px | 56 px | 10 |
+
+**Graisse : 700 sur toutes les tailles** (décidé le 09/09). Aucun tracking.
+
+⚠️ **Deux points ouverts sur cette table :**
+
+- **`sm` fait 32 px de haut et compte 227 usages.** C'est au-dessus du minimum
+  normatif de WCAG 2.2 (24 px) mais en dessous des 44 px que la règle TLS impose
+  aux **actions principales**. À auditer : combien de ces 227 portent une action
+  principale plutôt qu'une action secondaire dans une zone dense ?
+- **`xl` fait 18 px, et il manque 0,66 px** pour que la graisse 700 le fasse
+  basculer en « grand texte » au sens WCAG (seuil 18,66 px). À **19 px**, son seuil
+  de contraste tomberait de 4,5 à 3,0 — ce qui rendrait le cran 600 des couleurs de
+  marque utilisable avec un label blanc. Un pixel qui change la palette disponible.
+
 ### Deux interdits que le code ne respecte pas encore
 
 Ils sont ici parce qu'ils sont **mesurés**, pas supposés :

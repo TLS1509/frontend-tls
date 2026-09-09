@@ -149,7 +149,22 @@ export interface ButtonProps
  *    brusque sous le curseur, pire que l'animation d'origine. Les variantes
  *    `motion-reduce:` ci-dessous suppriment le déplacement lui-même.
  */
-const BASE = 'inline-flex items-center justify-center gap-stack-xs rounded-pill font-body font-semibold tracking-tight cursor-pointer transition-[background-color,box-shadow,transform,opacity] duration-fast ease-emphasis focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-900 focus-visible:ring-offset-2 focus-visible:ring-offset-white hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100 motion-reduce:transition-none disabled:opacity-disabled disabled:cursor-not-allowed disabled:pointer-events-none disabled:hover:translate-y-0 aria-busy:pointer-events-none whitespace-nowrap select-none';
+/* Graisse 700 et aucun serrage — décidé le 2026-09-09.
+   Avant : `font-semibold` (600) et `tracking-tight` (−0,025em), tous deux dans
+   BASE, donc appliqués aux quatre tailles indistinctement.
+
+   Le serrage est une compensation optique : à grande taille, l'espace entre les
+   lettres paraît proportionnellement plus grand et l'œil voit des trous, alors
+   on resserre. Sous 16 px l'effet s'inverse — les lettres ont besoin d'air pour
+   rester distinctes, et les resserrer les colle. Or `sm` fait 13 px et compte
+   522 usages : c'était la taille la plus employée qui encaissait le plus le
+   défaut. Et la graisse 700 aggrave le cumul, puisqu'elle élargit les lettres.
+
+   La graisse ne change aucun seuil de contraste avant 18,66 px, où WCAG classe
+   le label en « grand texte » (seuil 3,0 au lieu de 4,5) — seul `xl` en profite.
+   Ne pas remettre `tracking-tight` ici : s'il devait revenir pour les grandes
+   tailles, sa place est dans SIZE_CLASSES, jamais dans BASE. */
+const BASE = 'inline-flex items-center justify-center gap-stack-xs rounded-pill font-body font-bold cursor-pointer transition-[background-color,box-shadow,transform,opacity] duration-fast ease-emphasis focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-900 focus-visible:ring-offset-2 focus-visible:ring-offset-white hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100 motion-reduce:transition-none disabled:opacity-disabled disabled:cursor-not-allowed disabled:pointer-events-none disabled:hover:translate-y-0 aria-busy:pointer-events-none whitespace-nowrap select-none';
 
 // Hover strategy for filled variants: keep the base color (no aggressive
 // darkening) and add a colored glow shadow + subtle lift via translate-y

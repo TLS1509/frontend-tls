@@ -453,6 +453,24 @@ const BASE = '... transition-all ...';  // Preflight gère le défaut à 0/solid
 
 **Action générale** : sur tout conteneur plein-écran — sticky, hero, overlay, modal fullscreen — préférer `dvh` à `vh`. `h-screen` reste acceptable pour du desktop-only explicitement gardé par un breakpoint `lg:`.
 
+### ⚠️ Piège n°15 : un `tracking-*` dans la `BASE` d'un composant à tailles multiples
+
+Le tracking est **proportionnel à la taille** (`em`), mais son effet ne l'est pas :
+serrer aide un grand titre et abîme un petit label. Posé dans une constante `BASE`,
+il s'applique donc à toutes les tailles avec le même signe, alors qu'il devrait
+suivre une courbe inverse.
+
+**Constaté sur `Button.tsx` (corrigé le 2026-09-09)** : `tracking-tight` vivait dans
+`BASE` et touchait les quatre tailles, dont `sm` à 13 px — la plus employée, 227 des
+522 boutons. Cumulé à la graisse, le label devenait dense et pénible à lire sans
+qu'on sache pourquoi.
+
+**Règle** : si un serrage est nécessaire, le porter dans `SIZE_CLASSES` sur les
+grandes tailles seulement. **Jamais dans `BASE`.**
+
+⚠️ Et préférer `tracking-headline` à `tracking-tight` : même valeur (`-0,025em`),
+mais le premier est un token TLS qui dit son emploi, le second est le défaut Tailwind.
+
 ### ⚠️ Règle : pas de SVG inline custom — utiliser Lucide
 
 `lucide-react` est notre librairie d'icônes par défaut. **Ne jamais hardcoder un `<svg>` inline** dans un composant si Lucide propose l'équivalent.
