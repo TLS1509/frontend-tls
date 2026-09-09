@@ -125,7 +125,7 @@ export const FlipCard: React.FC<FlipCardProps> = ({
           {/* Front content */}
           <div className="relative z-base flex flex-col items-center justify-center h-full p-section gap-stack text-center">
             {/* Icon bubble */}
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-glass-light border-2 border-white/30">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-lg bg-white/20 backdrop-blur-glass-light border-2 border-white/30">
               <span className="inline-flex items-center justify-center" aria-hidden>{front.icon}</span>
             </div>
 
@@ -163,7 +163,7 @@ export const FlipCard: React.FC<FlipCardProps> = ({
         >
           <div className="flex flex-col justify-center items-center h-full text-white text-center gap-stack-lg">
             {/* Icon bubble (smaller on back) */}
-            <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-white/20 backdrop-blur-glass-light border-2 border-white/30">
+            <div className="inline-flex items-center justify-center w-14 h-14 rounded-lg bg-white/20 backdrop-blur-glass-light border-2 border-white/30">
               <span className="inline-flex items-center justify-center" aria-hidden>{front.icon}</span>
             </div>
 

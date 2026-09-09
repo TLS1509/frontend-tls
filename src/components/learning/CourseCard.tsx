@@ -38,7 +38,7 @@ const categoryToneMap: Record<string, CourseCardTone> = {
 // Shadow/border maps imported from tone-classes.ts — single source of truth.
 
 const CARD_BASE =
-  'flex flex-col h-full rounded-xl border bg-white transition-[box-shadow,transform] duration-slow ease-emphasis cursor-pointer hover:-translate-y-1 active:translate-y-0 active:scale-[0.99]';
+  'flex flex-col h-full rounded-lg border bg-white transition-[box-shadow,transform] duration-slow ease-emphasis cursor-pointer hover:-translate-y-1 active:translate-y-0 active:scale-[0.99]';
 
 const HERO_BASE = 'aspect-video relative rounded-t-xl overflow-hidden flex items-center justify-center';
 

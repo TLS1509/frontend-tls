@@ -42,7 +42,7 @@ export const ActionCardGrid: React.FC<ActionCardGridProps> = ({
       {items.map((item, idx) => (
         <div
           key={item.id || idx}
-          className="group relative flex flex-col items-center gap-stack-xs text-center bg-white border border-ink-200 rounded-2xl p-6 cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md hover:border-primary-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+          className="group relative flex flex-col items-center gap-stack-xs text-center bg-white border border-ink-200 rounded-lg p-6 cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md hover:border-primary-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           onClick={() => {
             item.onClick?.();
             onItemClick?.(item);

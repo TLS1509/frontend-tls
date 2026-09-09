@@ -112,7 +112,7 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
         }
       }}
       className={[
-        'group relative flex flex-col gap-5 rounded-2xl border bg-white p-5 sm:p-6 cursor-pointer',
+        'group relative flex flex-col gap-5 rounded-lg border bg-white p-5 sm:p-6 cursor-pointer',
         'shadow-card transition-[transform,box-shadow,border-color] duration-base ease-emphasis',
         'hover:-translate-y-0.5 hover:shadow-card-lift',
         'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',

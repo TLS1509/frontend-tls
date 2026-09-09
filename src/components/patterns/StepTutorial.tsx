@@ -86,7 +86,7 @@ export const StepTutorial: React.FC<StepTutorialProps> = ({
   return (
     <div className={['flex flex-col gap-section', className].filter(Boolean).join(' ')}>
       {/* Card — glass surface matching the onboarding shell */}
-      <div className="rounded-2xl bg-white/75 backdrop-blur-glass-medium border border-white/60 shadow-card overflow-hidden">
+      <div className="rounded-lg bg-white/75 backdrop-blur-glass-medium border border-white/60 shadow-card overflow-hidden">
 
         {/* Warm progress bar — thin top stripe showing step N/total */}
         <div className="flex h-1 gap-px bg-ink-100/60" aria-hidden="true">

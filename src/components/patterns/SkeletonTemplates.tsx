@@ -28,7 +28,7 @@ export const NotificationRowSkeleton: React.FC = () => (
 /* ─── ParcoursCard / LessonCard skeleton ────────────────────────────────── */
 
 export const ParcoursCardSkeleton: React.FC = () => (
-  <div className="flex flex-col gap-stack-xs p-5 rounded-2xl border border-ink-100 bg-white">
+  <div className="flex flex-col gap-stack-xs p-5 rounded-lg border border-ink-100 bg-white">
     <Skeleton variant="text" width={60} height={16} />
     <Skeleton variant="title" />
     <Skeleton variant="text" width="100%" />
@@ -44,7 +44,7 @@ export const ParcoursCardSkeleton: React.FC = () => (
 /* ─── VeilleCard / Editorial card skeleton ──────────────────────────────── */
 
 export const EditorialCardSkeleton: React.FC = () => (
-  <div className="flex flex-col rounded-2xl border border-ink-100 bg-white overflow-hidden">
+  <div className="flex flex-col rounded-lg border border-ink-100 bg-white overflow-hidden">
     <Skeleton variant="block" height={140} className="rounded-none" />
     <div className="p-4 flex flex-col gap-stack-xs">
       <Skeleton variant="text" width={80} height={14} />
@@ -89,7 +89,7 @@ export const ActivityItemSkeleton: React.FC = () => (
 /* ─── StatCard skeleton ─────────────────────────────────────────────────── */
 
 export const StatCardSkeleton: React.FC = () => (
-  <div className="flex flex-col gap-stack-xs p-5 rounded-xl border border-ink-100 bg-white">
+  <div className="flex flex-col gap-stack-xs p-5 rounded-lg border border-ink-100 bg-white">
     <Skeleton variant="circle" width={44} height={44} />
     <Skeleton variant="title" width={80} height={32} />
     <Skeleton variant="text" width="60%" height={12} />

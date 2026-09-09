@@ -176,7 +176,7 @@ const SuggestionCard: React.FC<SuggestionCardProps> = ({
       whileHover={magnetic ? undefined : { y: -4 }}
       style={magnetic ? { x: springX, y: springY } : undefined}
       className={[
-        'flex flex-col items-start gap-stack-xs p-stack-lg rounded-xl border border-ink-200 bg-white text-left shadow-sm',
+        'flex flex-col items-start gap-stack-xs p-stack-lg rounded-lg border border-ink-200 bg-white text-left shadow-sm',
         SUGGESTION_HOVER_BORDER[tone],
         SUGGESTION_HOVER_SHADOW[tone],
         'transition-[border-color,box-shadow] duration-base ease-standard cursor-pointer min-h-touch focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',

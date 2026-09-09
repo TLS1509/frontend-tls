@@ -111,7 +111,7 @@ export const PageCard: React.FC<{ item: PageCardItem; showThumbnail?: boolean }>
   const card = (
     <div
       className={[
-        'group relative flex flex-col overflow-hidden bg-white border border-ink-200 rounded-2xl shadow-card transition-all duration-base',
+        'group relative flex flex-col overflow-hidden bg-white border border-ink-200 rounded-lg shadow-card transition-all duration-base',
         'hover:-translate-y-1',
         TONE_HOVER_SHADOW[tone],
         TONE_RING[tone],
@@ -248,7 +248,7 @@ export const PageCardGrid: React.FC<PageCardGridProps> = ({
           .join(' ')}
       >
         <div className="flex flex-col items-center gap-stack-xs text-ink-500 text-center">
-          <span className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white border border-ink-200 text-ink-400">
+          <span className="inline-flex items-center justify-center w-14 h-14 rounded-lg bg-white border border-ink-200 text-ink-400">
             <FileText size={26} strokeWidth={2} />
           </span>
           <p className="m-0 text-body-sm font-medium text-ink-700">{emptyMessage}</p>

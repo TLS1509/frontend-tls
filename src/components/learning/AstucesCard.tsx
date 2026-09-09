@@ -52,7 +52,7 @@ export const AstucesCard: React.FC<AstucesCardProps> = ({
 }) => (
   <article
     className={[
-      'relative p-3 sm:p-4 rounded-2xl bg-white border-2',
+      'relative p-3 sm:p-4 rounded-lg bg-white border-2',
       TONE_CARD_SHADOW[tone],
       TONE_CARD_BORDER[tone],
     ].join(' ')}

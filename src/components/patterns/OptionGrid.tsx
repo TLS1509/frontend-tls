@@ -107,7 +107,7 @@ export const OptionGrid: React.FC<OptionGridProps> = (props) => {
         const selected = isSelected(id);
 
         const buttonClasses = [
-          'min-h-touch w-full cursor-pointer transition-all duration-base border-[1.5px] rounded-xl bg-white',
+          'min-h-touch w-full cursor-pointer transition-all duration-base border-[1.5px] rounded-lg bg-white',
           layout === 'icon-left'
             ? 'flex items-center gap-stack-xs px-4 py-3 text-left'
             : layout === 'text-only'

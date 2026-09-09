@@ -85,7 +85,7 @@ export const StepCard: React.FC<StepCardProps> = ({
   const label = STATUS_LABEL[status];
 
   const classes = [
-    'relative bg-white border-2 rounded-2xl p-6 flex flex-col gap-stack transition-[transform,box-shadow,border-color] duration-base ease-standard',
+    'relative bg-white border-2 rounded-lg p-6 flex flex-col gap-stack transition-[transform,box-shadow,border-color] duration-base ease-standard',
     !isLocked && 'hover:-translate-y-0.5',
     !isLocked && STATUS_HOVER_SHADOW[status],
     STATUS_BORDER[status],

@@ -315,7 +315,7 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
           .join(' ')}
       >
         <div className="flex flex-col items-center gap-stack-xs text-ink-500 text-center">
-          <span className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white border border-ink-200 text-ink-400">
+          <span className="inline-flex items-center justify-center w-14 h-14 rounded-lg bg-white border border-ink-200 text-ink-400">
             <Inbox size={26} strokeWidth={2} />
           </span>
           <p className="m-0 text-body-sm font-medium text-ink-700">{emptyMessage}</p>

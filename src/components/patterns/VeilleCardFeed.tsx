@@ -341,7 +341,7 @@ export const FeaturedSpotlight: React.FC<FeaturedSpotlightProps> = ({ item, isSa
       onClick={() => onClick?.(item)}
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onClick?.(item); }}
       className={[
-        'group relative grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] rounded-2xl border border-ink-200 bg-white overflow-hidden cursor-pointer',
+        'group relative grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] rounded-lg border border-ink-200 bg-white overflow-hidden cursor-pointer',
         'transition-all duration-base hover:-translate-y-1 hover:shadow-xl',
         'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
         ROLE_BUTTON_RESET,
@@ -444,7 +444,7 @@ export const FeaturedSpotlightCarousel: React.FC<FeaturedSpotlightCarouselProps>
 
   return (
     <div
-      className="relative rounded-2xl overflow-hidden border border-ink-200 bg-white"
+      className="relative rounded-lg overflow-hidden border border-ink-200 bg-white"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
