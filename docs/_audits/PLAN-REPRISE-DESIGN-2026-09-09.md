@@ -14,6 +14,53 @@
 
 ---
 
+## ⚠️ Recadrage — ce que Notion établit, et que ce plan ignorait
+
+> **Ajouté le 2026-09-09 après lecture des docs de rentrée** (base `Docs`, documents 5, 8, 12 et 13).
+> Le repo ne le sait pas : **aucun de ses fichiers n'a bougé depuis le 29/07**. Tout ce qui a été
+> décidé entre le 31/08 et le 07/09 vit dans Notion.
+
+**La décision Q1, ferme, prise le 31/08 :**
+
+> « **Learning App : arrêt réel (option A).** Les jalons Alpha du 7/09 et Bêta du 15/09 tombent. Le
+> planning de lancement de la Learning App et du nouveau site vitrine sera **révisé après validation
+> du planning du projet Agents**. » — *Ce que ça débloque : libère septembre et octobre.*
+
+La réunion de rentrée a arbitré entre deux options et **a écarté celle qui portait ce plan** :
+« Option 1, learning app, full, site vitrine, on est focus que là-dessus […] Option 2, on fait l'IA
+agentique. » → « **C'est l'IA agentique. […] Décision prise. Acté.** »
+
+**Conséquences directes sur ce document :**
+
+| Ce que le plan dit | Ce que Notion établit |
+|---|---|
+| « la cible du 06/08 est passée, reposer une date » | Il n'y a **pas de date à reposer** avant validation du planning Agents (fin : **31 octobre**) |
+| « semaine 1 : trancher ①, générer la matière » | Le budget est de **3 demi-journées/semaine/associé**, entièrement absorbé par le projet Agents |
+| « le site est le volet le plus en retard » | Le site vitrine **n'est plus un volet en retard : il est arrêté**, et c'est délibéré |
+| Le projet « remise en cohérence du design system » | **Créé, validé, puis mis en pause** (Q65) |
+
+**Ce que ce plan reste, et c'est ce qui compte :** la décision **Q61 est toujours ouverte** et
+marquée *manque bloquant* — « un document Cursor d'état d'avancement sera fourni », attendu de
+Chloé, jamais transmis. C'est le **manque n°1** de la liste des douze trous du document 13.
+**Ce plan est ce document.** Il répond aussi au livrable du 02/09 (« document listant tous les
+problèmes du design system et des pages bloquant le lancement »), en retard d'une semaine.
+
+**Donc la bonne façon de lire ce qui suit** : non pas « le programme des six prochaines semaines »,
+mais **l'état des lieux figé** de ce qui attend au dégel — avec ses arbitrages déjà instruits, pour
+que la reprise ne recommence pas l'instruction. Les deux urgences du §1 (sauvegarder, retirer les
+claims du site en ligne) restent, elles, entièrement valides : elles ne consomment pas le budget
+Agents et le second point est un risque d'intégrité qui court.
+
+⚠️ **Deux nuances à ne pas perdre**, tirées des mêmes documents :
+
+- **Q30** — « la session 4 parlait du **design system du code**, pas de Notion ». Le sujet DS est
+  sorti du chantier Notion, **il n'est pas annulé** : il reste un projet à part entière, en pause.
+- **Q60** — « **écart de production pédagogique confirmé**, plus élevé que supposé. Le contenu
+  n'est pas ailleurs qu'en Notion. » Cela **invalide** le « c'est quasiment produit, 70 % » et
+  recoupe exactement le §2.D de ce plan : le corpus n'est pas dans l'app.
+
+---
+
 ## 0. En un écran
 
 Le projet est **en bon état technique** et **bloqué sur une seule décision**.
