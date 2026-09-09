@@ -423,7 +423,7 @@ export const MarketingDossierDetail: React.FC = () => {
       <Bibliography sources={dossier.sources} />
 
       {/* ── CTA final (le seul moment dark) ─────────────────────────────────── */}
-      <section className="relative overflow-hidden py-page bg-gradient-to-br from-ink-900 via-primary-900 to-primary-950">
+      <section className="relative overflow-hidden py-page bg-gradient-to-br from-ink-900 via-primary-900 to-brand-navy">
         <div className={`relative ${CONTAINER} text-center flex flex-col items-center gap-stack-lg`}>
           <Reveal>
             <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-white leading-[1.05] tracking-tight m-0">

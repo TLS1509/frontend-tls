@@ -5724,7 +5724,7 @@ const COMPONENTS: ComponentEntry[] = [
         <div className="relative h-[140px] overflow-hidden rounded-xl bg-gradient-brand-deep border border-ink-200">
           <div className="relative z-base p-stack flex flex-col items-center justify-center h-full text-center">
             <p className="m-0 font-display text-body font-bold text-white">bg-gradient-brand-deep</p>
-            <p className="m-0 mt-tight font-body text-caption text-white/80 font-mono">90deg · primary-950 #164267 → primary-500 #55a1b4</p>
+            <p className="m-0 mt-tight font-body text-caption text-white/80 font-mono">90deg · brand-navy #164267 → primary-500 #55a1b4</p>
           </div>
         </div>
 
@@ -7892,7 +7892,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: "Etat de succes des pages d'authentification, sur fond glass-dark : icone, titre, description. Reserve a la famille Auth* — ne pas l'employer ailleurs dans l'app.",
     keywords: ['auth', 'succes', 'confirmation', 'glass-dark', 'email', 'inscription'],
     render: () => (
-      <div className="rounded-2xl bg-gradient-to-br from-primary-800 to-primary-950 p-section">
+      <div className="rounded-2xl bg-gradient-to-br from-primary-800 to-brand-navy p-section">
         <AuthSuccess
           icon={<Bell size={28} className="text-white" />}
           title="Vérifiez votre boîte mail"
@@ -7968,8 +7968,13 @@ const COLOR_TOKENS: TokenEntry[] = [
   ...scale('Marque — Teal (primary)', 'primary', [
     ['50', '#E8F4F7'], ['100', '#DCEBEF'], ['200', '#B9D7DF'], ['300', '#96C3CF'],
     ['400', '#73AFBF'], ['500', '#55A1B4'], ['600', '#4A8FA1'], ['700', '#3D7786'],
-    ['800', '#2F5F6A'], ['900', '#1F3E45'], ['950', '#164267'],
+    ['800', '#2F5F6A'], ['900', '#1F3E45'],
   ]),
+  /* brand-navy sort de la rampe teal exprès : à #164267 il est plus CLAIR que
+     primary-900, donc il n'en est pas le cran suivant. C'est un bleu de marque
+     autonome, employé en bout de gradient profond. Il s'appelait primary-950
+     jusqu'au 2026-09-09, où le nom mentait sur sa place dans l'échelle. */
+  { name: 'brand-navy', cssVar: '--color-brand-navy', value: '#164267', group: 'Marque — Teal (primary)', type: 'color' },
   ...scale('Marque — Orange (secondary)', 'secondary', [
     ['50', '#FFF3EB'], ['100', '#FDDCC7'], ['200', '#FCBB93'], ['300', '#F59A5F'],
     ['400', '#F18A4C'], ['500', '#ED843A'], ['600', '#C06920'], ['650', '#BF693B'],

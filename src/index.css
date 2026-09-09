@@ -25,7 +25,10 @@
   --color-primary-700: #3D7786;
   --color-primary-800: #2F5F6A;
   --color-primary-900: #1F3E45;
-  --color-primary-950: #164267; /* deep navy for saturated hero gradients */
+  /* Navy de marque — PAS un cran de la rampe primary : plus clair que le 900
+     (24,5 % contre 19,6 % de clarté) et 16° plus bleu. Renommé le 2026-09-09,
+     il s'appelait primary-950 et se faisait prendre pour le teal le plus foncé. */
+  --color-brand-navy: #164267;
 
   /* ── Surface pastels (ultra-light backgrounds, used in gradients) ── */
   --color-surface-cyan:  #f0f9ff; /* very light cyan-tinted white */
@@ -769,24 +772,24 @@
 
   /* ── Hero / saturated brand gradients ──────────────────────────────── */
 
-  /* Brand deep — primary-950 → primary-500 (horizontal navy → teal).
+  /* Brand deep — brand-navy → primary-500 (horizontal navy → teal).
      Pour hero saturé, banners marketing, dark feature sections. */
   .bg-gradient-brand-deep {
     background: linear-gradient(
       90deg,
-      var(--color-primary-950) 0%,
+      var(--color-brand-navy) 0%,
       var(--color-primary-500) 100%
     );
   }
 
-  /* Brand teal deep — primary-500 → primary-950 (horizontal teal → navy).
+  /* Brand teal deep — primary-500 → brand-navy (horizontal teal → navy).
      Inverse de brand-deep. Pour CTA immersifs, cards feature saturées, sections
      "fading to dark". Correspond au gradient 3 du Brand Kit Canva TLS. */
   .bg-gradient-brand-teal-deep {
     background: linear-gradient(
       90deg,
       var(--color-primary-500) 0%,
-      var(--color-primary-950) 100%
+      var(--color-brand-navy) 100%
     );
   }
 
@@ -879,11 +882,11 @@
        -radial radial center — spot lumineux, illustration background
      Stops identiques à la famille CTA de base (même palette, direction différente). */
 
-  /* BRAND teal (primary-950 navy → primary-500 teal) */
-  .bg-gradient-brand-deep-v      { background: linear-gradient(180deg, var(--color-primary-950) 0%, var(--color-primary-500) 100%); }
-  .bg-gradient-brand-deep-d      { background: linear-gradient(135deg, var(--color-primary-950) 0%, var(--color-primary-500) 100%); }
-  .bg-gradient-brand-deep-rev    { background: linear-gradient(315deg, var(--color-primary-950) 0%, var(--color-primary-500) 100%); }
-  .bg-gradient-brand-deep-radial { background: radial-gradient(ellipse at center, var(--color-primary-950) 0%, var(--color-primary-500) 100%); }
+  /* BRAND teal (brand-navy → primary-500 teal) */
+  .bg-gradient-brand-deep-v      { background: linear-gradient(180deg, var(--color-brand-navy) 0%, var(--color-primary-500) 100%); }
+  .bg-gradient-brand-deep-d      { background: linear-gradient(135deg, var(--color-brand-navy) 0%, var(--color-primary-500) 100%); }
+  .bg-gradient-brand-deep-rev    { background: linear-gradient(315deg, var(--color-brand-navy) 0%, var(--color-primary-500) 100%); }
+  .bg-gradient-brand-deep-radial { background: radial-gradient(ellipse at center, var(--color-brand-navy) 0%, var(--color-primary-500) 100%); }
 
   /* WARM orange (secondary-600 dark → secondary-500 bright) */
   .bg-gradient-cta-warm-rev      { background: linear-gradient(315deg, var(--color-secondary-500) 0%, var(--color-secondary-600) 100%); }
