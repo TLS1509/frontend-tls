@@ -465,7 +465,7 @@ const Bibliotheque: React.FC = () => {
                   type="button"
                   onClick={() => setFicheIdx(i)}
                   aria-pressed={i === ficheIdx}
-                  className={`min-h-touch rounded-pill px-4 py-2 font-body text-body-sm font-semibold transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
+                  className={`min-h-touch rounded-pill px-4 py-2 font-body text-body-sm font-bold transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                     i === ficheIdx
                       ? 'bg-primary-700 text-white'
                       : 'bg-white text-ink-700 hover:bg-primary-100 ring-1 ring-ink-200'

@@ -268,7 +268,7 @@ export const PageHero: React.FC<PageHeroProps> = ({
               type="button"
               onClick={backLink.onClick}
               className={[
-                'inline-flex items-center gap-1.5 text-caption font-semibold rounded-pill border px-3 py-1.5 transition-colors',
+                'inline-flex items-center gap-1.5 text-caption font-bold rounded-pill border px-3 py-1.5 transition-colors',
                 'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                 TONE_BACKLINK[tone],
               ].join(' ')}

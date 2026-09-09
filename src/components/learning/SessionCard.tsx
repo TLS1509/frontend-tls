@@ -191,7 +191,7 @@ export const SessionCard: React.FC<SessionCardProps> = ({
               onClick={onOpen}
               className={[
                 'ml-auto inline-flex items-center gap-1.5 h-9 px-4 rounded-pill shrink-0',
-                'text-caption font-body font-semibold whitespace-nowrap cursor-pointer',
+                'text-caption font-body font-bold whitespace-nowrap cursor-pointer',
                 'transition-[background-color,transform,box-shadow] duration-fast ease-emphasis hover:-translate-y-px',
                 'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                 isCompleted

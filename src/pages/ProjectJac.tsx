@@ -116,7 +116,7 @@ const JacValidationForm: React.FC<{
                 <button
                   key={level}
                   onClick={() => handleScoreChange(idx, level)}
-                  className={`px-3 py-1 rounded-pill text-caption font-semibold transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
+                  className={`px-3 py-1 rounded-pill text-caption font-bold transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                     row.score === level
                       ? 'bg-primary-600 text-white'
                       : 'bg-ink-100 text-ink-600 hover:bg-primary-50 hover:text-primary-700'
@@ -151,7 +151,7 @@ const JacValidationForm: React.FC<{
             <button
               key={level}
               onClick={() => setLevelOverride(level)}
-              className={`px-3 py-1 rounded-pill text-caption font-semibold transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
+              className={`px-3 py-1 rounded-pill text-caption font-bold transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                 effectiveLevel === level
                   ? 'bg-primary-600 text-white'
                   : 'bg-white text-ink-600 hover:bg-primary-100 hover:text-primary-700'
@@ -182,7 +182,7 @@ const JacValidationForm: React.FC<{
             <button
               key={d}
               onClick={() => setDecision(d)}
-              className={`px-stack py-stack-xs rounded-pill text-body-sm font-semibold transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
+              className={`px-stack py-stack-xs rounded-pill text-body-sm font-bold transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                 decision === d
                   ? d === 'approved'
                     ? 'bg-success-base text-white'

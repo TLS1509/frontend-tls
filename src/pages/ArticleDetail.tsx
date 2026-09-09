@@ -294,7 +294,7 @@ export const ArticleDetail: React.FC = () => {
                   href={ARTICLE.externalLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="self-start inline-flex items-center gap-stack-xs px-stack py-stack-xs rounded-pill bg-primary-50 border border-primary-200 font-body text-caption font-semibold text-primary-700 hover:bg-primary-100 transition-colors"
+                  className="self-start inline-flex items-center gap-stack-xs px-stack py-stack-xs rounded-pill bg-primary-50 border border-primary-200 font-body text-caption font-bold text-primary-700 hover:bg-primary-100 transition-colors"
                 >
                   <ExternalLink size={13} /> Voir la source originale
                 </a>

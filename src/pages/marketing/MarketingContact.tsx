@@ -166,7 +166,7 @@ export const MarketingContact: React.FC = () => {
                       key={s}
                       type="button"
                       onClick={() => setForm({ ...form, subject: s })}
-                      className={`relative inline-flex items-center px-4 py-2 rounded-pill font-body text-body-sm font-semibold transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 min-h-touch ${
+                      className={`relative inline-flex items-center px-4 py-2 rounded-pill font-body text-body-sm font-bold transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 min-h-touch ${
                         isActive
                           ? 'text-white'
                           : 'text-ink-700 hover:text-ink-900 bg-ink-50 hover:bg-ink-100 border border-ink-200'
@@ -300,7 +300,7 @@ export const MarketingContact: React.FC = () => {
                             key={s}
                             type="button"
                             onClick={() => setForm({ ...form, subject: s })}
-                            className={`relative inline-flex items-center px-3 py-1.5 rounded-pill text-caption font-semibold transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 min-h-touch ${
+                            className={`relative inline-flex items-center px-3 py-1.5 rounded-pill text-caption font-bold transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 min-h-touch ${
                               isActive ? 'text-white' : 'text-ink-700 hover:text-ink-900 bg-ink-50 hover:bg-ink-100'
                             }`}
                           >

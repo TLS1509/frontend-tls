@@ -116,7 +116,7 @@ export const MarketingError404: React.FC = () => {
             >
               <Link
                 to={s.href}
-                className="inline-flex items-center gap-stack-xs px-4 py-2.5 rounded-pill bg-white border border-ink-200 text-ink-700 font-body text-body-sm font-semibold hover:border-primary-300 hover:text-primary-700 hover:shadow-sm transition-all min-h-touch focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 shadow-xs"
+                className="inline-flex items-center gap-stack-xs px-4 py-2.5 rounded-pill bg-white border border-ink-200 text-ink-700 font-body text-body-sm font-bold hover:border-primary-300 hover:text-primary-700 hover:shadow-sm transition-all min-h-touch focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 shadow-xs"
               >
                 <span className="text-primary-400">{s.icon}</span>
                 {s.label}

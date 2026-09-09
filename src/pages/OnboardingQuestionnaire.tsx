@@ -45,7 +45,7 @@ const VariantSwitcher: React.FC<{
         onClick={() => onChange(v)}
         aria-pressed={current === v}
         className={[
-          'rounded-pill px-3 py-1 text-caption font-semibold transition-all duration-200 min-h-[32px]',
+          'rounded-pill px-3 py-1 text-caption font-bold transition-all duration-200 min-h-[32px]',
           'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
           current === v
             ? 'bg-secondary-500 text-white shadow-sm'

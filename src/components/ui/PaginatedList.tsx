@@ -65,7 +65,7 @@ export function PaginatedList<T>({
                     onClick={() => setPage(i)}
                     aria-current={i === page ? 'page' : undefined}
                     className={[
-                      'inline-flex items-center justify-center w-9 h-9 rounded-pill text-caption font-semibold transition-all duration-fast',
+                      'inline-flex items-center justify-center w-9 h-9 rounded-pill text-caption font-bold transition-all duration-fast',
                       i === page
                         ? 'bg-primary-600 text-white shadow-sm'
                         : 'border border-ink-200 text-ink-600 hover:bg-primary-50 hover:border-primary-300 hover:text-primary-700',

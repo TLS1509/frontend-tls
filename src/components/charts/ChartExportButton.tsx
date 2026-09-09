@@ -78,7 +78,7 @@ export const ChartExportButton: React.FC<ChartExportButtonProps> = ({
           <button
             onClick={handleExportPng}
             disabled={loading !== null}
-            className="inline-flex items-center justify-center gap-1.5 h-9 px-3 text-body-sm font-semibold rounded-pill bg-primary-50 text-primary-700 hover:bg-primary-100 active:bg-primary-200 disabled:opacity-disabled disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 transition-colors duration-200"
+            className="inline-flex items-center justify-center gap-1.5 h-9 px-3 text-body-sm font-bold rounded-pill bg-primary-50 text-primary-700 hover:bg-primary-100 active:bg-primary-200 disabled:opacity-disabled disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 transition-colors duration-200"
             title="Export as PNG"
             aria-label="Export chart as PNG"
           >
@@ -91,7 +91,7 @@ export const ChartExportButton: React.FC<ChartExportButtonProps> = ({
           <button
             onClick={handleExportPdf}
             disabled={loading !== null}
-            className="inline-flex items-center justify-center gap-1.5 h-9 px-3 text-body-sm font-semibold rounded-pill bg-secondary-50 text-secondary-700 hover:bg-secondary-100 active:bg-secondary-200 disabled:opacity-disabled disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-500 transition-colors duration-200"
+            className="inline-flex items-center justify-center gap-1.5 h-9 px-3 text-body-sm font-bold rounded-pill bg-secondary-50 text-secondary-700 hover:bg-secondary-100 active:bg-secondary-200 disabled:opacity-disabled disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-500 transition-colors duration-200"
             title="Export as PDF"
             aria-label="Export chart as PDF"
           >
@@ -104,7 +104,7 @@ export const ChartExportButton: React.FC<ChartExportButtonProps> = ({
           <button
             onClick={handleExportCsv}
             disabled={loading !== null}
-            className="inline-flex items-center justify-center gap-1.5 h-9 px-3 text-body-sm font-semibold rounded-pill bg-accent-50 text-accent-600 hover:bg-accent-100 active:bg-accent-200 disabled:opacity-disabled disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-400 transition-colors duration-200"
+            className="inline-flex items-center justify-center gap-1.5 h-9 px-3 text-body-sm font-bold rounded-pill bg-accent-50 text-accent-600 hover:bg-accent-100 active:bg-accent-200 disabled:opacity-disabled disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-400 transition-colors duration-200"
             title="Export as CSV"
             aria-label="Export data as CSV"
           >
@@ -126,7 +126,7 @@ export const ChartExportButton: React.FC<ChartExportButtonProps> = ({
           <button
             onClick={handleExportPng}
             disabled={loading !== null}
-            className="inline-flex items-center justify-center gap-1.5 h-10 px-4 text-body-sm font-semibold rounded-pill bg-primary-600 text-white shadow-sm hover:bg-primary-700 active:bg-primary-800 disabled:opacity-disabled disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 transition-all duration-200"
+            className="inline-flex items-center justify-center gap-1.5 h-10 px-4 text-body-sm font-bold rounded-pill bg-primary-600 text-white shadow-sm hover:bg-primary-700 active:bg-primary-800 disabled:opacity-disabled disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 transition-all duration-200"
             title="Export as PNG"
             aria-label="Export chart as PNG"
           >
@@ -139,7 +139,7 @@ export const ChartExportButton: React.FC<ChartExportButtonProps> = ({
           <button
             onClick={handleExportPdf}
             disabled={loading !== null}
-            className="inline-flex items-center justify-center gap-1.5 h-10 px-4 text-body-sm font-semibold rounded-pill bg-secondary-600 text-white shadow-sm hover:bg-secondary-700 active:bg-secondary-800 disabled:opacity-disabled disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-500 transition-all duration-200"
+            className="inline-flex items-center justify-center gap-1.5 h-10 px-4 text-body-sm font-bold rounded-pill bg-secondary-600 text-white shadow-sm hover:bg-secondary-700 active:bg-secondary-800 disabled:opacity-disabled disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-500 transition-all duration-200"
             title="Export as PDF"
             aria-label="Export chart as PDF"
           >
@@ -152,7 +152,7 @@ export const ChartExportButton: React.FC<ChartExportButtonProps> = ({
           <button
             onClick={handleExportCsv}
             disabled={loading !== null}
-            className="inline-flex items-center justify-center gap-1.5 h-10 px-4 text-body-sm font-semibold rounded-pill bg-accent-400 text-ink-900 shadow-sm hover:bg-accent-500 active:bg-accent-600 disabled:opacity-disabled disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-400 transition-all duration-200"
+            className="inline-flex items-center justify-center gap-1.5 h-10 px-4 text-body-sm font-bold rounded-pill bg-accent-400 text-ink-900 shadow-sm hover:bg-accent-500 active:bg-accent-600 disabled:opacity-disabled disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-400 transition-all duration-200"
             title="Export as CSV"
             aria-label="Export data as CSV"
           >

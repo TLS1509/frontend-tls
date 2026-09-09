@@ -206,7 +206,7 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
           aria-label={ctaLabel}
           className={[
             'inline-flex items-center justify-center gap-1.5 shrink-0',
-            'h-11 px-5 rounded-pill text-body-sm font-body font-semibold whitespace-nowrap',
+            'h-11 px-5 rounded-pill text-body-sm font-body font-bold whitespace-nowrap',
             'w-full sm:w-auto',
             'transition-[background-color,transform,box-shadow] duration-fast ease-emphasis',
             'hover:-translate-y-px active:translate-y-0',

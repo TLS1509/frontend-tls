@@ -147,7 +147,7 @@ export const ViewerHeader: React.FC<ViewerHeaderProps> = ({
             onClick={onBack}
             aria-label={typeof backLabel === 'string' ? backLabel : 'Retour'}
             className={[
-              'shrink-0 inline-flex items-center gap-stack-xs min-h-touch px-3 py-1.5 rounded-pill bg-ink-50 hover:bg-ink-100 text-ink-700 hover:text-ink-900 transition-colors text-caption font-semibold',
+              'shrink-0 inline-flex items-center gap-stack-xs min-h-touch px-3 py-1.5 rounded-pill bg-ink-50 hover:bg-ink-100 text-ink-700 hover:text-ink-900 transition-colors text-caption font-bold',
               'focus-visible:outline-2 focus-visible:outline-offset-2',
               focusOutline,
             ].join(' ')}

@@ -313,7 +313,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           onClick={onBack}
           aria-label={typeof backLabel === 'string' ? backLabel : 'Retour'}
           className={[
-            'relative z-10 inline-flex items-center gap-stack-xs mb-stack-lg px-4 py-2 rounded-pill cursor-pointer transition-all duration-200 hover:-translate-x-0.5 text-caption font-semibold border focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current',
+            'relative z-10 inline-flex items-center gap-stack-xs mb-stack-lg px-4 py-2 rounded-pill cursor-pointer transition-all duration-200 hover:-translate-x-0.5 text-caption font-bold border focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current',
             isLight
               ? 'bg-white/15 hover:bg-white/25 backdrop-blur-sm text-white border-white/20'
               : `bg-white border-ink-200 hover:bg-ink-50 ${TITLE_DARK_COLOR[tone]}`,

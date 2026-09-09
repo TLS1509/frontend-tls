@@ -345,7 +345,7 @@ export const MarketingHeader: React.FC = () => {
                   key={item.href}
                   to={item.href!}
                   className={[
-                    'relative flex items-center rounded-pill px-3 py-2 text-body-sm font-semibold whitespace-nowrap',
+                    'relative flex items-center rounded-pill px-3 py-2 text-body-sm font-bold whitespace-nowrap',
                     'transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                     active ? 'text-primary-800' : 'text-ink-700 hover:text-ink-900',
                   ].join(' ')}

@@ -379,7 +379,7 @@ export const MarketingResources: React.FC = () => {
                   key={type.id}
                   type="button"
                   onClick={() => setSelectedType(type.id)}
-                  className={`inline-flex items-center gap-1.5 px-4 h-10 rounded-pill font-body text-body-sm font-semibold transition-all duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
+                  className={`inline-flex items-center gap-1.5 px-4 h-10 rounded-pill font-body text-body-sm font-bold transition-all duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                     selectedType === type.id
                       ? 'bg-primary-500 text-white shadow-sm'
                       : 'bg-ink-50 text-ink-700 hover:bg-ink-100 border border-ink-200'

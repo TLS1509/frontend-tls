@@ -165,7 +165,7 @@ const LandingCta: React.FC<{
     <button
       type={type}
       onClick={onClick}
-      className={`group inline-flex items-center justify-between gap-3 h-12 pl-6 pr-2 rounded-pill font-body font-semibold text-body active:scale-[0.98] transition-[background-color,transform] duration-base ease-emphasis focus-visible:outline-2 focus-visible:outline-offset-2 ${t.btn} ${t.focus} ${fullWidth ? 'w-full' : ''}`}
+      className={`group inline-flex items-center justify-between gap-3 h-12 pl-6 pr-2 rounded-pill font-body font-bold text-body active:scale-[0.98] transition-[background-color,transform] duration-base ease-emphasis focus-visible:outline-2 focus-visible:outline-offset-2 ${t.btn} ${t.focus} ${fullWidth ? 'w-full' : ''}`}
     >
       <span>{children}</span>
       <span className={`w-8 h-8 rounded-full ${t.icon} flex items-center justify-center shrink-0 transition-transform duration-base ease-emphasis group-hover:translate-x-0.5`}>

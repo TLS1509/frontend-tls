@@ -177,7 +177,7 @@ export default function ProfileBadgesCompetences() {
                 key={v}
                 onClick={() => setShowEarned(v)}
                 className={[
-                  'px-3 py-1.5 text-caption font-semibold rounded-pill transition-colors duration-fast',
+                  'px-3 py-1.5 text-caption font-bold rounded-pill transition-colors duration-fast',
                   showEarned === v ? 'bg-accent-400 text-white' : 'bg-ink-100 text-ink-600 hover:bg-ink-200',
                   'focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-500',
                 ].join(' ')}

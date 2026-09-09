@@ -210,14 +210,14 @@ export const SubscriptionPayment: React.FC = () => {
             <button
               type="button"
               onClick={() => setBilling('monthly')}
-              className={`px-4 py-1.5 rounded-pill font-body text-body-sm font-semibold transition-colors duration-base ${billing === 'monthly' ? 'bg-white text-ink-900 shadow-xs' : 'text-ink-500 hover:text-ink-800'}`}
+              className={`px-4 py-1.5 rounded-pill font-body text-body-sm font-bold transition-colors duration-base ${billing === 'monthly' ? 'bg-white text-ink-900 shadow-xs' : 'text-ink-500 hover:text-ink-800'}`}
             >
               Mensuel
             </button>
             <button
               type="button"
               onClick={() => setBilling('yearly')}
-              className={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-pill font-body text-body-sm font-semibold transition-colors duration-base ${billing === 'yearly' ? 'bg-white text-ink-900 shadow-xs' : 'text-ink-500 hover:text-ink-800'}`}
+              className={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-pill font-body text-body-sm font-bold transition-colors duration-base ${billing === 'yearly' ? 'bg-white text-ink-900 shadow-xs' : 'text-ink-500 hover:text-ink-800'}`}
             >
               Annuel
               <span className="inline-flex items-center px-1.5 py-0.5 rounded-pill bg-accent-100 text-accent-700 text-micro font-bold">

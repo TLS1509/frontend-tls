@@ -45,7 +45,7 @@ export const MarketingLayout: React.FC = () => (
           Invisible jusqu'au focus, puis premier élément atteignable. */}
       <a
         href="#contenu"
-        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-toast focus:inline-flex focus:h-11 focus:items-center focus:rounded-pill focus:bg-ink-900 focus:px-5 focus:font-body focus:text-body-sm focus:font-semibold focus:text-white focus:outline-2 focus:outline-offset-2 focus:outline-accent-400"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-toast focus:inline-flex focus:h-11 focus:items-center focus:rounded-pill focus:bg-ink-900 focus:px-5 focus:font-body focus:text-body-sm focus:font-bold focus:text-white focus:outline-2 focus:outline-offset-2 focus:outline-accent-400"
       >
         Aller au contenu
       </a>
