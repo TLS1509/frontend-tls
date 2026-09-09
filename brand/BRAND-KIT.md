@@ -218,15 +218,23 @@ Ni ce dépôt, ni Notion, ni Canva ne pointaient vers ces pages.
 | `📊 DS Status & Roadmap` (`3903:26`) | 14 composants, 14 faits en Figma, 10 migrés en code, 79 % de variables | L'état du DS se déclare ici, pas dans un doc |
 | `🎨 Moodboard — Reference` (`3636:26`) · `🎨 Modern 2026 — Design Explorations` (`4429:40`) · `🌐 Site — Archétypes & Wireframes` (`4874:2`) | Recherche visuelle et archétypes de site | Point de départ pour la direction créative du site |
 
-### ⚠️ Une contradiction à arbitrer
+### ✅ Contradiction tranchée le 2026-09-09
 
-Le **Brand Kit 2×3** et la **Direction photo** sont composés en **teal foncé / presque noir dominant**.
-La consigne enregistrée pour les supports de marque (OG, email, documents) dit l'inverse :
-**fond clair, teal en accent, CTA orange, pas de teal foncé dominant**.
+Le Brand Kit 2×3 et la Direction photo étaient sur fond `#0a1518`, panneaux `#0f2228` : les trois
+couleurs n'y servaient que de pastilles pendant que le noir portait le contenu. **Décision de
+Chloé : ces planches sont un héritage à refaire, pas une référence.** La règle « fond clair,
+trois couleurs saturées » vaut aussi pour les planches d'identité, pas seulement pour les
+supports livrés.
 
-Deux lectures possibles, et c'est à trancher : soit le moodboard donne l'**atmosphère** (et les
-supports restent clairs), soit il date d'avant l'arbitrage et il faut le reprendre. En attendant,
-la règle « fond clair » continue de s'appliquer aux supports livrés.
+- v1 renommées `🗄 … (v1 · dark · superseded)` — conservées, pas supprimées.
+- v2 : `06 — Brand Kit 2×3 (v2 · light · 2026)`, fond crème `#FBF7F2`, six panneaux dont trois
+  pleins (teal / ambre / doré) et trois clairs. Le mark est une **instance du composant
+  `TlsLogo`** du DS, pas un redessin.
+
+⚠️ **La planche « Direction photo » v1 ne contient aucune photo** — neuf aplats de couleur avec
+des légendes (« Mentoring · 1-on-1 », « Deep Focus »…). La refaire suppose de sourcer les images
+d'abord ([`assets/ASSETS-SOURCING-GUIDE.md`](assets/ASSETS-SOURCING-GUIDE.md)) ; ses principes
+sont repris en attendant dans le panneau orange de la v2.
 
 La direction photo de Figma est par ailleurs plus nette que celle du guide de sourcing —
 « Candid · Natural light / Warm editorial grain / Human-first · No poses ». À reprendre dans
