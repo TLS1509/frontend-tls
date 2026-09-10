@@ -193,13 +193,31 @@ se propage dans les 24 lockups. Ne jamais recolorer un lockup à la main.
 
 ## 4. Formes et matière
 
-- **Rayons** : `rounded-pill` (999 px) sur les boutons et les cards. Jamais
-  `rounded-full` (= 50 %, donc un cercle). Échelle : 6 / 8 / 12 / 16 / 24 px.
-- **Ombres** : neutres par défaut ; dès qu'un ton est posé, l'ombre prend le ton
-  (`shadow-brand` / `warm` / `sun`). Une ombre ambrée par défaut entrerait en
-  collision avec le ton `warm`.
+- **Rayons** : `rounded-pill` (999 px) sur les boutons, **14 px sur les cards**
+  (décidé le 09/09 : un trait de 1 px ne tient pas une courbe longue). Échelle
+  réelle : 4 / 6 / 10 / 14 / 20 / 24 / 999 px.
+  ⚠️ *Corrigé le 10/09 : ce paragraphe disait « jamais `rounded-full` (= 50 %,
+  donc un cercle) ». C'est faux — Tailwind v4 émet `3.40282e38px`, l'infini d'un
+  float, et le navigateur plafonne tout rayon à la moitié de la plus petite
+  dimension. `rounded-full` et `rounded-pill` rendent identiquement. Les 205
+  usages ont été renommés vers le token TLS, pour le vocabulaire, pas pour le
+  rendu.*
+- **Ombres** : ⚠️ **une card n'a plus d'ombre** depuis la passe de sobriété du
+  09/09 — sa bordure `ink-200` suffit. L'ombre est réservée à ce qui flotte
+  vraiment au-dessus de la page : menus, modales, toasts. Là, elle reste neutre
+  par défaut et prend le ton dès qu'un ton est posé.
 - **Icônes** : **Lucide uniquement**. Aucun SVG inline custom pour une icône
   fonctionnelle. Exception : logos et illustrations one-off.
+  **Échelle** : 14 / 16 / 18 / 20 / 24 / 28 px en interface, 32 / 40 / 48 en
+  affichage ; au-delà, c'est de l'illustration.
+  **Appariement au texte** : le cran vaut à peu près le CORPS du texte
+  accompagné, pas 1,25 fois — ce que l'œil compare, c'est l'encre du glyphe
+  (20/24 de sa boîte) contre la capitale de la fonte (0,712 de son corps). Table
+  et calcul : `src/lib/icon-pairing.ts`.
+  **Alignement** : dans une pastille à côté d'un titre, le centre de la pastille
+  se pose sur le centre de la **première ligne** du titre — jamais sur le centre
+  du bloc, sinon l'icône flotte entre le titre et le chapô (11,3 px de dérive
+  mesurés avant correction).
 
 ---
 
