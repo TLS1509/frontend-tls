@@ -130,7 +130,7 @@ export default function PasseportCompetenceDetail() {
 
         {/* Calibration : perception (auto-évaluée) vs niveau validé */}
         {lc?.selfAssessedLevel != null && lc?.currentLevel != null && lc.selfAssessedLevel !== lc.currentLevel && (
-          <div className="flex items-start gap-stack-xs rounded-xl border border-ink-100 bg-ink-50 px-stack py-3">
+          <div className="flex items-start gap-stack-xs rounded-lg border border-ink-100 bg-ink-50 px-stack py-3">
             <Scale size={18} className="text-ink-600 shrink-0 mt-0.5" />
             <p className="text-caption text-ink-600 m-0">
               <span className="font-semibold text-ink-800">Calibration</span> — tu t'étais auto-évalué·e à{' '}

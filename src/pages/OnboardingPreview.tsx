@@ -201,7 +201,7 @@ function VariantA({ onDone }: { onDone: () => void }) {
           <button
             onClick={confirmGoals}
             disabled={transitioning}
-            className="self-start mt-1 px-4 py-2 rounded-xl bg-secondary-500 text-white text-body-sm font-semibold hover:bg-secondary-600 transition-all duration-150 disabled:opacity-50"
+            className="self-start mt-1 px-4 py-2 rounded-lg bg-secondary-500 text-white text-body-sm font-semibold hover:bg-secondary-600 transition-all duration-150 disabled:opacity-50"
           >
             Valider mes objectifs →
           </button>
@@ -634,7 +634,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
               ))}
             </div>
 
-            <div className="rounded-xl border border-secondary-200 bg-gradient-to-br from-secondary-50 to-white p-stack flex items-start gap-stack-xs">
+            <div className="rounded-lg border border-secondary-200 bg-gradient-to-br from-secondary-50 to-white p-stack flex items-start gap-stack-xs">
               <Sparkles size={18} className="text-secondary-500 shrink-0 mt-0.5" />
               <div className="flex flex-col gap-0.5">
                 <span className="font-body text-body-sm font-bold text-ink-900">Parcours recommandé</span>
@@ -772,7 +772,7 @@ export default function OnboardingPreview() {
         </header>
 
         {done ? (
-          <div className="rounded-2xl bg-white/75 border border-white/60 p-stack-lg text-center flex flex-col items-center gap-stack">
+          <div className="rounded-lg bg-white/75 border border-white/60 p-stack-lg text-center flex flex-col items-center gap-stack">
             <div className="w-14 h-14 rounded-xl bg-success-bg flex items-center justify-center">
               <Check size={28} className="text-success-fg" />
             </div>

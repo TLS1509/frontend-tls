@@ -287,7 +287,7 @@ export const Coaching: React.FC = () => {
                 />
 
                 {/* Coach row : avatar + name + role + Message en icon-button (charge réduite). */}
-                <div className="flex items-center gap-stack-xs p-stack rounded-xl bg-white/60 backdrop-blur-glass-light border border-white/60">
+                <div className="flex items-center gap-stack-xs p-stack rounded-lg bg-white/60 backdrop-blur-glass-light border border-white/60">
                   <Avatar initials="SM" size="sm" tint="brand" />
                   <div className="flex flex-col min-w-0 flex-1">
                     <span className="font-display text-body-sm font-bold text-ink-900 leading-tight truncate">

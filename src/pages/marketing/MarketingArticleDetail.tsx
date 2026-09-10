@@ -287,7 +287,7 @@ const ArticleBody: React.FC<{
 
       {/* Conclusion */}
       <FadeInWhenVisible direction="up">
-        <div className="rounded-2xl bg-ink-50/40 border border-ink-100 p-section mt-stack">
+        <div className="rounded-lg bg-ink-50/40 border border-ink-100 p-section mt-stack">
           <div className="flex items-center gap-stack-xs mb-stack">
             <Sparkles size={18} className="text-warning-fg" />
             <span className="font-body text-caption font-bold text-warning-fg uppercase tracking-widest">

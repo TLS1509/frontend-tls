@@ -77,7 +77,7 @@ const ReadingProgressBar: React.FC = () => {
 
 // ─── Intro callout (résumé exécutif) ──────────────────────────────────────────
 const IntroCallout: React.FC<{ text: string }> = ({ text }) => (
-  <div className="rounded-2xl border border-secondary-100 bg-secondary-50/60 p-stack-lg flex gap-stack">
+  <div className="rounded-lg border border-secondary-100 bg-secondary-50/60 p-stack-lg flex gap-stack">
     <Quote size={20} className="text-secondary-400 shrink-0 mt-0.5" />
     <div className="flex flex-col gap-tight">
       <span className="font-body text-caption font-bold text-secondary-700 uppercase tracking-widest">
@@ -101,7 +101,7 @@ const KeyFindings: React.FC<{ findings: { text: string; source?: string }[] }> =
       <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
         {findings.map((f, i) => (
           <Reveal key={i} delay={i * 0.06}>
-            <div className="h-full rounded-2xl border border-ink-100 bg-ink-50/40 p-stack-lg flex flex-col gap-stack">
+            <div className="h-full rounded-lg border border-ink-100 bg-ink-50/40 p-stack-lg flex flex-col gap-stack">
               <span className="font-display text-h4 font-bold text-primary-700 leading-none">
                 {String(i + 1).padStart(2, '0')}
               </span>
@@ -259,7 +259,7 @@ function renderDossierBlock(block: DossierBodyBlock, i: number) {
           return (
             <div
               key={i}
-              className="my-stack rounded-2xl border border-secondary-100 bg-gradient-to-br from-secondary-50 to-accent-50/50 p-stack-lg flex flex-col gap-tight"
+              className="my-stack rounded-lg border border-secondary-100 bg-gradient-to-br from-secondary-50 to-accent-50/50 p-stack-lg flex flex-col gap-tight"
             >
               <span className="font-display text-[clamp(2.5rem,6vw,3.5rem)] font-extrabold text-secondary-700 leading-none tracking-tight">
                 {block.value}
@@ -301,7 +301,7 @@ const Bibliography: React.FC<{ sources: DossierSource[] }> = ({ sources }) => (
               href={s.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex gap-stack-xs p-stack rounded-xl bg-white border border-ink-100 hover:border-primary-200 hover:shadow-card transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+              className="group flex gap-stack-xs p-stack rounded-lg bg-white border border-ink-100 hover:border-primary-200 hover:shadow-card transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
             >
               <span className="font-mono text-caption font-bold text-primary-600 shrink-0 mt-0.5">
                 {s.ref}

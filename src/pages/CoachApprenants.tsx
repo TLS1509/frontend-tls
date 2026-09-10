@@ -75,7 +75,7 @@ export default function CoachApprenants() {
 
         {/* Alert */}
         {stuckCount > 0 && (
-          <div className="flex items-start gap-stack p-stack bg-warning-bg border border-warning-border rounded-xl">
+          <div className="flex items-start gap-stack p-stack bg-warning-bg border border-warning-border rounded-lg">
             <AlertTriangle size={18} className="text-warning-fg shrink-0 mt-0.5" />
             <p className="text-body-sm text-ink-700">
               <strong>{stuckCount} apprenants</strong> n'ont pas eu d'activité depuis plus de 7 jours. Une prise de contact est recommandée.

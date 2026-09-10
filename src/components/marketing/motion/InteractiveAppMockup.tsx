@@ -81,7 +81,7 @@ const CoachingPanel: React.FC = () => (
       transition={{ delay: 0.1 }}
       className="flex justify-start"
     >
-      <div className="rounded-2xl rounded-bl-md bg-ink-100 px-3 py-2 max-w-[85%]">
+      <div className="rounded-lg rounded-bl-md bg-ink-100 px-3 py-2 max-w-[85%]">
         <p className="font-body text-body-sm text-ink-900 m-0">
           Bravo pour ta soumission Marie ! J'ai trois retours détaillés à partager.
         </p>
@@ -93,7 +93,7 @@ const CoachingPanel: React.FC = () => (
       transition={{ delay: 0.4 }}
       className="flex justify-end"
     >
-      <div className="rounded-2xl rounded-br-md bg-primary-500 text-white px-3 py-2 max-w-[85%]">
+      <div className="rounded-lg rounded-br-md bg-primary-500 text-white px-3 py-2 max-w-[85%]">
         <p className="font-body text-body-sm m-0">Merci Sarah, je relis ce soir 🙏</p>
       </div>
     </motion.div>
@@ -124,7 +124,7 @@ const CoachingPanel: React.FC = () => (
 
 const JournalPanel: React.FC = () => (
   <motion.div {...panelMotion} className="flex flex-col gap-stack-xs">
-    <div className="rounded-xl bg-gradient-to-br from-accent-50 to-secondary-50 p-4 border border-accent-200">
+    <div className="rounded-lg bg-gradient-to-br from-accent-50 to-secondary-50 p-4 border border-accent-200">
       <span className="text-caption font-bold text-warning-fg uppercase tracking-wider">Aujourd'hui</span>
       <p className="font-display text-body font-semibold font-bold text-ink-900 m-0 mt-1">3 insights après ma session</p>
       <p className="font-body text-body-sm text-ink-700 m-0 mt-2 line-clamp-2">

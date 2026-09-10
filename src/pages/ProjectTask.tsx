@@ -110,7 +110,7 @@ export const ProjectTask: React.FC = () => {
       />
 
       {myGatingFails.length > 0 && (
-        <div className="flex items-start gap-stack-xs p-stack rounded-xl bg-warning-bg border border-warning-base/30">
+        <div className="flex items-start gap-stack-xs p-stack rounded-lg bg-warning-bg border border-warning-base/30">
           <AlertCircle size={16} className="text-warning-fg mt-0.5 shrink-0" />
           <div>
             <p className="text-body-sm font-semibold text-warning-fg m-0 mb-1">Pré-requis Dreyfus non atteints</p>
@@ -189,7 +189,7 @@ export const ProjectTask: React.FC = () => {
           )}
 
           {(submitted || task.status === 'submitted') && (
-            <div className="flex items-start gap-stack-xs p-stack rounded-xl bg-info-bg border border-info-base/30">
+            <div className="flex items-start gap-stack-xs p-stack rounded-lg bg-info-bg border border-info-base/30">
               <Send size={16} className="text-info-fg mt-0.5 shrink-0" />
               <div>
                 <p className="text-body-sm font-semibold text-info-fg m-0">Livrable soumis : en attente de validation</p>
@@ -203,7 +203,7 @@ export const ProjectTask: React.FC = () => {
           )}
 
           {isApproved && (
-            <div className="flex items-start gap-stack-xs p-stack rounded-xl bg-success-bg border border-success-base/30">
+            <div className="flex items-start gap-stack-xs p-stack rounded-lg bg-success-bg border border-success-base/30">
               <CheckCircle2 size={16} className="text-success-fg mt-0.5 shrink-0" />
               <p className="text-body-sm font-semibold text-success-fg m-0">Tâche validée par l'expert</p>
             </div>

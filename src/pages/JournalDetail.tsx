@@ -199,7 +199,7 @@ export const JournalDetail: React.FC = () => {
         </section>
 
         {/* Engagements (todos) */}
-        <section className="rounded-2xl border border-ink-100 bg-white p-5 sm:p-stack-lg flex flex-col gap-stack">
+        <section className="rounded-lg border border-ink-100 bg-white p-5 sm:p-stack-lg flex flex-col gap-stack">
           <h2 className="font-display text-body font-bold text-ink-900 flex items-center gap-stack-xs tracking-tight">
             <CheckCircle2 size={16} className="text-primary-600" />
             Engagements pour la semaine prochaine

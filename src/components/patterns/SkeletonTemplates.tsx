@@ -15,7 +15,7 @@ import { Skeleton } from '../ui/Skeleton';
 /* ─── Notification row skeleton ─────────────────────────────────────────── */
 
 export const NotificationRowSkeleton: React.FC = () => (
-  <div className="flex items-start gap-stack-xs px-3 py-3 sm:px-4 sm:py-3.5 rounded-xl border border-ink-100">
+  <div className="flex items-start gap-stack-xs px-3 py-3 sm:px-4 sm:py-3.5 rounded-lg border border-ink-100">
     <Skeleton variant="circle" width={36} height={36} />
     <div className="flex-1 flex flex-col gap-1.5 min-w-0">
       <Skeleton variant="text" width="65%" />

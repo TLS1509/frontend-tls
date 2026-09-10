@@ -154,7 +154,7 @@ export const MarketingWebinaireDetail: React.FC = () => {
           {/* Registration card OR replay player */}
           <FadeInWhenVisible direction="up" delay={0.05}>
             {isUpcoming ? (
-              <div className="relative rounded-2xl border border-ink-100 bg-white p-section-lg flex flex-col gap-stack shadow-sm">
+              <div className="relative rounded-lg border border-ink-100 bg-white p-section-lg flex flex-col gap-stack shadow-sm">
                 <AnimatePresence mode="wait">
                   {!registered ? (
                     <motion.form
@@ -261,7 +261,7 @@ export const MarketingWebinaireDetail: React.FC = () => {
               {related.map((w, i) => (
                 <FadeInWhenVisible key={w.slug} direction="up" delay={i * 0.06}>
                   <Link to={`/website/webinaires/${w.slug}`} className="group block h-full rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">
-                    <div className="h-full bg-white border border-ink-100 rounded-2xl p-stack-lg flex flex-col gap-stack shadow-card hover:shadow-card-hover hover:border-primary-200 transition-all duration-base">
+                    <div className="h-full bg-white border border-ink-100 rounded-lg p-stack-lg flex flex-col gap-stack shadow-card hover:shadow-card-hover hover:border-primary-200 transition-all duration-base">
                       <span className="inline-flex items-center gap-tight font-body text-caption text-ink-500">
                         <Calendar size={14} /> {w.date}
                       </span>

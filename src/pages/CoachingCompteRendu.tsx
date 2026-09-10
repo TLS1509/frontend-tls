@@ -239,7 +239,7 @@ export const CoachingCompteRendu: React.FC = () => {
                   return (
                     <div
                       key={tk.id}
-                      className="bg-white border border-ink-100 rounded-xl p-stack-lg shadow-xs flex flex-col gap-stack-xs"
+                      className="bg-white border border-ink-100 rounded-lg p-stack-lg shadow-xs flex flex-col gap-stack-xs"
                     >
                       <div className={`w-10 h-10 rounded-md flex items-center justify-center shrink-0 ${tk.iconClass}`}>
                         <TkIcon size={20} />
@@ -294,7 +294,7 @@ export const CoachingCompteRendu: React.FC = () => {
                 <MessageSquareQuote size={20} className="text-primary-600" />
                 Note de votre coach
               </h2>
-              <div className="bg-primary-50/40 border border-primary-100 rounded-xl p-stack-lg shadow-xs">
+              <div className="bg-primary-50/40 border border-primary-100 rounded-lg p-stack-lg shadow-xs">
                 <div className="flex gap-stack items-start">
                   <div className="shrink-0 w-11 h-11 rounded-pill bg-primary-600 text-white flex items-center justify-center font-body text-body-sm font-extrabold shadow-sm">
                     {report.coach.initials}

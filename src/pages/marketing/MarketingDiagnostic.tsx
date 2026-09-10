@@ -514,7 +514,7 @@ export const MarketingDiagnostic: React.FC = () => {
                 </div>
               </div>
 
-              <div className="flex flex-col gap-stack-lg rounded-2xl bg-primary-50 p-stack-lg sm:p-section">
+              <div className="flex flex-col gap-stack-lg rounded-lg bg-primary-50 p-stack-lg sm:p-section">
                 <div className="flex items-start gap-stack">
                   <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-100 text-primary-700">
                     <Lock size={20} />
@@ -603,7 +603,7 @@ export const MarketingDiagnostic: React.FC = () => {
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-stack-lg rounded-2xl bg-white p-stack-lg ring-1 ring-ink-200">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-stack-lg rounded-lg bg-white p-stack-lg ring-1 ring-ink-200">
                 <ScoreRing score={score} ringClass={bank.accent.ring} />
                 <div className="flex flex-col gap-stack-xs">
                   <h3 className={`font-display text-h3 font-extrabold leading-tight ${bank.accent.text}`}>
@@ -646,7 +646,7 @@ export const MarketingDiagnostic: React.FC = () => {
                 ))}
               </div>
 
-              <div className="flex flex-col gap-stack rounded-2xl bg-primary-50 p-stack-lg">
+              <div className="flex flex-col gap-stack rounded-lg bg-primary-50 p-stack-lg">
                 <h3 className="font-display text-h4 font-bold text-ink-900">Envie d'aller plus loin ?</h3>
                 <p className="font-body text-body text-ink-700 leading-relaxed m-0">
                   Réservez 15 minutes avec un fondateur pour décrypter vos

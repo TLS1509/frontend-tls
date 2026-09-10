@@ -147,7 +147,7 @@ const ContentBlockRenderer: React.FC<{ block: ContentBlock }> = ({ block }) => {
     case 'image':
       return (
         <figure className="m-0 my-stack flex flex-col gap-stack-xs">
-          <div className="aspect-video w-full rounded-xl bg-gradient-to-br from-primary-50 via-white to-secondary-50 border border-ink-100 flex items-center justify-center font-body text-caption text-ink-600 text-center px-stack">
+          <div className="aspect-video w-full rounded-lg bg-gradient-to-br from-primary-50 via-white to-secondary-50 border border-ink-100 flex items-center justify-center font-body text-caption text-ink-600 text-center px-stack">
             {block.placeholder}
           </div>
           {block.caption && (

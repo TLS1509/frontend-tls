@@ -936,7 +936,7 @@ export const LessonPlayer: React.FC = () => {
     return (
       <div>
         <h2 className={SECTION_TITLE}>{d.heading}</h2>
-        <div className="rounded-xl p-stack-lg mb-5 bg-danger-base/[0.06] border-2 border-danger-base/25">
+        <div className="rounded-lg p-stack-lg mb-5 bg-danger-base/[0.06] border-2 border-danger-base/25">
           <div className="mb-3">
             <span className="inline-flex items-center gap-tight bg-danger-base text-white px-3 py-1 rounded-lg text-caption font-bold">
               <XCircle size={14} /> {d.bad.label}
@@ -951,7 +951,7 @@ export const LessonPlayer: React.FC = () => {
             </div>
           ))}
         </div>
-        <div className="rounded-xl p-stack-lg bg-success-base/[0.08] border-2 border-success-base/30">
+        <div className="rounded-lg p-stack-lg bg-success-base/[0.08] border-2 border-success-base/30">
           <div className="mb-3">
             <span className="inline-flex items-center gap-tight bg-success-base text-white px-3 py-1 rounded-lg text-caption font-bold">
               <CheckCircle2 size={14} /> {d.good.label}
@@ -1088,7 +1088,7 @@ export const LessonPlayer: React.FC = () => {
     <div>
       <h2 className={SECTION_TITLE}>{lessonData.reflechir.heading}</h2>
       {lessonData.reflechir.questions.map((question, i) => (
-        <div key={i} className="bg-ink-50 rounded-xl p-5 mb-5">
+        <div key={i} className="bg-ink-50 rounded-lg p-5 mb-5">
           <h3 className="font-body text-body font-semibold text-ink-900">{question}</h3>
           <textarea
             className="w-full h-auto min-h-[96px] p-stack mt-3 font-body text-body-sm text-ink-900 bg-white border border-ink-200 rounded-lg resize-y transition-colors duration-150 focus:outline-none focus:border-primary-400 focus:ring-3 focus:ring-primary-100 focus:shadow-none"
@@ -1109,7 +1109,7 @@ export const LessonPlayer: React.FC = () => {
   const renderAppliquer = () => (
     <div>
       <h2 className={SECTION_TITLE}>{lessonData.appliquer.heading}</h2>
-      <div className="bg-primary-50 rounded-xl p-stack-lg mb-stack-lg border border-primary-200">
+      <div className="bg-primary-50 rounded-lg p-stack-lg mb-stack-lg border border-primary-200">
         <p className="m-0 font-body text-body text-ink-900 leading-relaxed">
           {lessonData.appliquer.instruction}
         </p>
@@ -1177,12 +1177,12 @@ export const LessonPlayer: React.FC = () => {
     return (
       <div>
         <h2 className={SECTION_TITLE}>{t.heading}</h2>
-        <div className="bg-primary-50 border border-primary-200 rounded-xl p-stack-lg mb-stack-lg">
+        <div className="bg-primary-50 border border-primary-200 rounded-lg p-stack-lg mb-stack-lg">
           <p className="m-0 font-body text-body text-ink-700 leading-relaxed">{t.intro}</p>
         </div>
         <div className="flex flex-col gap-stack mb-section">
           {t.scenarios.map((scenario, i) => (
-            <div key={i} className="flex gap-stack p-stack-lg bg-white border border-ink-200 rounded-xl hover:border-primary-300 transition-colors duration-200">
+            <div key={i} className="flex gap-stack p-stack-lg bg-white border border-ink-200 rounded-lg hover:border-primary-300 transition-colors duration-200">
               <div className="w-8 h-8 rounded-pill bg-primary-500 text-white font-display text-caption font-bold flex items-center justify-center shrink-0 mt-0.5">
                 {i + 1}
               </div>
@@ -1645,7 +1645,7 @@ export const LessonPlayer: React.FC = () => {
                 />
               </div>
             ) : (
-              <div className="rounded-xl border-2 border-dashed border-ink-300 bg-ink-50 p-stack-lg">
+              <div className="rounded-lg border-2 border-dashed border-ink-300 bg-ink-50 p-stack-lg">
                 <div className="flex items-center gap-stack-xs mb-stack">
                   <Globe size={18} className="text-ink-600 shrink-0" />
                   <span className="font-body text-body-sm font-semibold text-ink-700">
@@ -1934,7 +1934,7 @@ export const LessonPlayer: React.FC = () => {
         {/* CONTENT — scrollable, padded bottom for progress dots */}
         <div className="flex-1 overflow-y-auto flex flex-col items-center px-stack sm:px-stack-lg lg:px-section pt-stack-lg pb-16">
           <div
-            className="lp-card-anim bg-white rounded-2xl p-stack-lg sm:p-section-lg shadow-md w-full max-w-[900px]"
+            className="lp-card-anim bg-white rounded-lg p-stack-lg sm:p-section-lg shadow-md w-full max-w-[900px]"
             key={currentSection.id}
           >
             {SECTION_RENDERERS[currentSection.id]()}

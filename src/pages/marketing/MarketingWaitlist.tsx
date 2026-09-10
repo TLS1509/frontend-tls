@@ -410,7 +410,7 @@ export const MarketingWaitlist: React.FC = () => {
                             )}
                           </button>
                           {submitError && (
-                            <div className="flex items-start gap-2 px-4 py-3 rounded-xl bg-danger-bg border border-danger-base/30 text-danger-fg font-body text-caption" role="alert">
+                            <div className="flex items-start gap-2 px-4 py-3 rounded-lg bg-danger-bg border border-danger-base/30 text-danger-fg font-body text-caption" role="alert">
                               <AlertCircle size={14} className="shrink-0 mt-0.5" />
                               {submitError}
                             </div>

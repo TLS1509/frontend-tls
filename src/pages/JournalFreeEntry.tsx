@@ -288,7 +288,7 @@ export const JournalFreeEntry: React.FC = () => {
         <aside className="sticky top-[72px] flex flex-col gap-stack">
 
           {/* Writing prompts */}
-          <div className="bg-primary-50 border border-primary-200 rounded-xl p-stack px-5">
+          <div className="bg-primary-50 border border-primary-200 rounded-lg p-stack px-5">
             <div className="flex items-center gap-stack-xs mb-3">
               <PenLine size={14} className="text-primary-600" />
               <span className="font-body text-caption font-extrabold text-primary-700 uppercase tracking-widest">
@@ -318,7 +318,7 @@ export const JournalFreeEntry: React.FC = () => {
           </div>
 
           {/* Tips */}
-          <div className="bg-secondary-50 border border-secondary-200 rounded-xl p-stack px-5">
+          <div className="bg-secondary-50 border border-secondary-200 rounded-lg p-stack px-5">
             <div className="flex items-center gap-stack-xs mb-3">
               <Lightbulb size={14} className="text-secondary-500" />
               <span className="font-body text-caption font-extrabold text-secondary-700 uppercase tracking-widest">

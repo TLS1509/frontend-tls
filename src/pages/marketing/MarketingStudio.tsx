@@ -246,7 +246,7 @@ const Livrables: React.FC = () => (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
         {LIVRABLES.map((l, i) => (
           <FadeInWhenVisible key={l.title} delay={i * 0.05} direction="up">
-            <div className="flex h-full items-start gap-stack rounded-2xl bg-white p-stack-lg shadow-card">
+            <div className="flex h-full items-start gap-stack rounded-lg bg-white p-stack-lg shadow-card">
               <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-secondary-100 text-secondary-700">
                 {l.icon}
               </span>

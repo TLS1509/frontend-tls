@@ -496,7 +496,7 @@ export const MarketingResources: React.FC = () => {
               {FEATURED_TOPICS.map((topic) => (
                 <div
                   key={topic.label}
-                  className="flex flex-col gap-tight p-stack rounded-2xl bg-ink-50 border border-ink-100"
+                  className="flex flex-col gap-tight p-stack rounded-lg bg-ink-50 border border-ink-100"
                 >
                   <h3 className="font-display text-body font-semibold font-bold text-ink-900">
                     {topic.label}

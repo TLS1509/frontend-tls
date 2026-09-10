@@ -214,7 +214,7 @@ export const MarketingContact: React.FC = () => {
         <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 grid grid-cols-1 lg:grid-cols-[1.6fr_1fr] gap-section items-start">
           {/* Form column */}
           <FadeInWhenVisible direction="up">
-            <div className="rounded-2xl bg-gradient-to-br from-white to-primary-50/30 border border-ink-100 shadow-sm p-section">
+            <div className="rounded-lg bg-gradient-to-br from-white to-primary-50/30 border border-ink-100 shadow-sm p-section">
               {submitted ? (
                 <motion.div
                   initial={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.95 }}
@@ -496,7 +496,7 @@ export const MarketingContact: React.FC = () => {
                   </label>
 
                   {submitError && (
-                    <div className="flex items-start gap-2 px-4 py-3 rounded-xl bg-danger-bg border border-danger-base/30 text-danger-fg font-body text-body-sm" role="alert">
+                    <div className="flex items-start gap-2 px-4 py-3 rounded-lg bg-danger-bg border border-danger-base/30 text-danger-fg font-body text-body-sm" role="alert">
                       <AlertCircle size={16} className="shrink-0 mt-0.5" />
                       {submitError}
                     </div>
@@ -548,7 +548,7 @@ export const MarketingContact: React.FC = () => {
                   → Dès que l'URL de réservation existe : rétablir le `<a>`
                   externe, le libellé « Réservez un échange de 30 min » et
                   « Choisissez votre créneau dans notre agenda ». */}
-              <div className="relative overflow-hidden rounded-2xl bg-primary-50 border border-primary-200 p-stack-lg flex flex-col gap-stack-lg shadow-sm">
+              <div className="relative overflow-hidden rounded-lg bg-primary-50 border border-primary-200 p-stack-lg flex flex-col gap-stack-lg shadow-sm">
                 <div className="flex flex-col gap-stack">
                   <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-white border border-primary-200 text-accent-400 text-caption font-bold w-fit">
                     <Sparkles size={14} />
@@ -575,12 +575,12 @@ export const MarketingContact: React.FC = () => {
               </div>
 
             {/* Contact info */}
-              <div className="rounded-2xl bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack shadow-sm">
+              <div className="rounded-lg bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack shadow-sm">
                 <h3 className="font-display text-body font-semibold font-bold text-ink-900">Autres canaux</h3>
                 <div className="flex flex-col gap-stack">
                   <a
                     href="mailto:contact@thelearningsociety.fr"
-                    className="flex items-start gap-stack p-stack rounded-xl hover:bg-primary-50/50 transition-colors duration-fast group"
+                    className="flex items-start gap-stack p-stack rounded-lg hover:bg-primary-50/50 transition-colors duration-fast group"
                   >
                     <span className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-primary-50 text-primary-700 border border-primary-100 shrink-0">
                       <Mail size={18} />
@@ -598,7 +598,7 @@ export const MarketingContact: React.FC = () => {
                     href="https://linkedin.com/company/thelearningsociety"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-start gap-stack p-stack rounded-xl hover:bg-primary-50/50 transition-colors duration-fast group"
+                    className="flex items-start gap-stack p-stack rounded-lg hover:bg-primary-50/50 transition-colors duration-fast group"
                   >
                     <span className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-primary-50 text-primary-700 border border-primary-100 shrink-0">
                       <ExternalLink size={18} />
@@ -612,7 +612,7 @@ export const MarketingContact: React.FC = () => {
                       </span>
                     </div>
                   </a>
-                  <div className="flex items-start gap-stack p-stack rounded-xl bg-ink-50/40">
+                  <div className="flex items-start gap-stack p-stack rounded-lg bg-ink-50/40">
                     <span className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-white text-ink-700 border border-ink-200 shrink-0">
                       <MapPin size={18} />
                     </span>
@@ -635,7 +635,7 @@ export const MarketingContact: React.FC = () => {
               </div>
 
             {/* Quick links */}
-              <div className="rounded-2xl bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack shadow-sm">
+              <div className="rounded-lg bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack shadow-sm">
                 <h3 className="font-display text-body font-semibold font-bold text-ink-900">Accès rapide</h3>
                 <div className="flex flex-col gap-stack-xs">
                   {QUICK_LINKS.map((q) => (

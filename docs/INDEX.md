@@ -165,6 +165,11 @@
 
 ## 📢 MARKETING/ — Brand & content strategy (40K)
 
+> ⚠️ **[LECTURE-NOTION-STRATEGIE-2026-09-10.md](marketing/LECTURE-NOTION-STRATEGIE-2026-09-10.md)** —
+> lecture de première main des 7 documents stratégiques Notion + du journal de décisions.
+> **9 contradictions relevées** entre les documents de juillet et les arbitrages fermes du
+> 31/08. À lire avant tout tri ou refonte de la partie marketing du Notion.
+
 **Brand voice, personas, copy, SEO, positioning**
 
 > ⚠️ **Ordre de préséance (revu le 2026-07-28).** (1) Le code et le site en ligne. (2) Une décision datée de Chloé. (3) `_canon/FACTS-CANON.md`. (4) Le reste. Si le code contredit le canon, **c'est le canon qu'il faut corriger**.

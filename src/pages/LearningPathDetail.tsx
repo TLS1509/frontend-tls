@@ -624,7 +624,7 @@ export const LearningPathDetail: React.FC = () => {
                   ].map((step) => (
                     <div
                       key={step.num}
-                      className="flex gap-stack items-start p-stack rounded-xl bg-ink-50 border border-ink-200"
+                      className="flex gap-stack items-start p-stack rounded-lg bg-ink-50 border border-ink-200"
                     >
                       <div
                         className={`w-11 h-11 rounded-lg text-white flex items-center justify-center font-bold text-h4 shrink-0 ${TONE_BG_500[tone]}`}
@@ -643,7 +643,7 @@ export const LearningPathDetail: React.FC = () => {
               </section>
 
               {/* Prerequisites */}
-              <div className="p-stack-lg rounded-xl bg-primary-50 border border-primary-200">
+              <div className="p-stack-lg rounded-lg bg-primary-50 border border-primary-200">
                 <div className="flex gap-stack-xs items-start">
                   <div className="w-8 h-8 rounded-lg bg-primary-100 text-primary-600 flex items-center justify-center font-bold shrink-0">
                     ℹ️

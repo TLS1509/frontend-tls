@@ -154,7 +154,7 @@ export const StepCard: React.FC<StepCardProps> = ({
         <>
           <button
             type="button"
-            className="inline-flex items-center justify-between w-full px-4 py-2.5 text-body-sm font-semibold text-ink-700 bg-ink-50 hover:bg-ink-100 rounded-xl cursor-pointer transition-colors border border-ink-100"
+            className="inline-flex items-center justify-between w-full px-4 py-2.5 text-body-sm font-semibold text-ink-700 bg-ink-50 hover:bg-ink-100 rounded-lg cursor-pointer transition-colors border border-ink-100"
             onClick={handleToggleExpand}
             aria-expanded={isExpanded}
           >

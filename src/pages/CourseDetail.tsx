@@ -240,7 +240,7 @@ export const CourseDetail: React.FC = () => {
             </Card>
 
             <div
-              className="rounded-xl border border-accent-200 p-stack flex flex-col gap-stack-xs"
+              className="rounded-lg border border-accent-200 p-stack flex flex-col gap-stack-xs"
               style={{ background: 'linear-gradient(135deg, rgba(248, 176, 68, 0.14), rgba(248, 176, 68, 0.04))' }}
             >
               <p className="font-body text-body-sm font-semibold text-ink-900 m-0 inline-flex items-center gap-1.5">

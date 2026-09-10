@@ -97,7 +97,7 @@ export default function MasterclassDetail() {
               <SectionCard title="Infos pratiques" titleIcon={<Info size={18} />}>
                 <div className="grid sm:grid-cols-2 gap-stack-xs">
                   {INFOS.map((info) => (
-                    <div key={info.key} className="flex items-center gap-stack-xs p-3 rounded-xl bg-ink-50">
+                    <div key={info.key} className="flex items-center gap-stack-xs p-3 rounded-lg bg-ink-50">
                       <span className="text-ink-600 shrink-0">{info.icon}</span>
                       <span className="text-caption font-semibold text-ink-500 shrink-0">{info.key}</span>
                       <span className="text-caption text-ink-700">{info.value}</span>

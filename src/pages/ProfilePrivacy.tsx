@@ -276,7 +276,7 @@ export default function ProfilePrivacy() {
               size="md"
             />
 
-            <div className="p-stack rounded-xl border border-ink-100 bg-ink-50 flex flex-col gap-tight">
+            <div className="p-stack rounded-lg border border-ink-100 bg-ink-50 flex flex-col gap-tight">
               <p className="text-body-sm font-semibold text-ink-900">Tes droits (Article 22 RGPD)</p>
               <ul className="flex flex-col gap-tight text-caption text-ink-600 list-disc list-inside">
                 <li>Droit de ne pas faire l'objet d'une décision fondée exclusivement sur un traitement automatisé</li>

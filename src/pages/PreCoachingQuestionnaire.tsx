@@ -107,7 +107,7 @@ export const PreCoachingQuestionnaire: React.FC = () => {
               </div>
 
               {/* Card */}
-              <div className="flex-1 bg-white border border-ink-200 rounded-2xl p-stack-lg shadow-sm">
+              <div className="flex-1 bg-white border border-ink-200 rounded-lg p-stack-lg shadow-sm">
                 <p className="font-body text-caption font-medium text-primary-600 m-0 mb-1">
                   {step.step} • {step.label}
                 </p>

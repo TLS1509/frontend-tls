@@ -297,7 +297,7 @@ export const PagesIndex: React.FC = () => {
                 const pct = total ? Math.round((linked / total) * 100) : 0;
                 const ordered = [...sections.entries()].sort((x, y) => y[1] - x[1]);
                 return (
-                  <section key={a.key} className="rounded-xl border border-ink-200 bg-white p-4 flex flex-col gap-stack-xs">
+                  <section key={a.key} className="rounded-lg border border-ink-200 bg-white p-4 flex flex-col gap-stack-xs">
                     <div className="flex items-baseline gap-stack-xs">
                       <span className={`w-2 h-2 rounded-pill shrink-0 ${a.dot}`} aria-hidden />
                       <h2 className="text-body-sm font-bold text-ink-900">{a.label}</h2>
@@ -352,7 +352,7 @@ export const PagesIndex: React.FC = () => {
           </div>
         ) : view === 'tree' ? (
           /* ── ARBORESCENCE ──────────────────────────────────────────── */
-          <div className="rounded-xl border border-ink-200 bg-white p-stack">
+          <div className="rounded-lg border border-ink-200 bg-white p-stack">
             <ul className="list-none m-0 p-0">
               {[...tree.children.values()]
                 .sort((a, b) => a.segment.localeCompare(b.segment))

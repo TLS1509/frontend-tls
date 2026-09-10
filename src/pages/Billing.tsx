@@ -107,7 +107,7 @@ const SubscriptionTab: React.FC<{
       description="Votre plan, son prix et la prochaine échéance."
       tone="primary"
     >
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-stack p-stack rounded-2xl bg-primary-50/60 border border-primary-200">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-stack p-stack rounded-lg bg-primary-50/60 border border-primary-200">
         <div className="flex items-start gap-stack-xs">
           <div className="shrink-0 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary-100 text-primary-700">
             <Sparkles size={20} />
@@ -150,7 +150,7 @@ const SubscriptionTab: React.FC<{
       title="Méthode de paiement"
       description="La carte utilisée pour vos prélèvements mensuels."
     >
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-stack p-stack rounded-2xl bg-ink-50 border border-ink-100">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-stack p-stack rounded-lg bg-ink-50 border border-ink-100">
         <div className="flex items-center gap-stack-xs">
           <div className="shrink-0 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-ink-900 text-white">
             <CreditCard size={20} />
@@ -225,7 +225,7 @@ const SubscriptionTab: React.FC<{
       title="Annuler l'abonnement"
       description={`Vous conserverez l'accès ${tierConfig.name} jusqu'à la fin de la période en cours.`}
     >
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-stack p-stack rounded-2xl bg-danger-bg/30 border border-danger-border">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-stack p-stack rounded-lg bg-danger-bg/30 border border-danger-border">
         <div className="flex items-start gap-stack-xs">
           <div className="shrink-0 inline-flex items-center justify-center w-10 h-10 rounded-xl bg-danger-bg text-danger-fg">
             <AlertTriangle size={18} />
@@ -251,7 +251,7 @@ const CreditsTab: React.FC<{ credits: { classic: number; special: number } }> = 
   const navigate = useNavigate();
   return (
     <div className="flex flex-col gap-stack-lg">
-      <div className="p-stack-lg flex flex-col md:flex-row items-center md:items-start justify-between gap-section rounded-2xl bg-secondary-50/60 border border-secondary-200">
+      <div className="p-stack-lg flex flex-col md:flex-row items-center md:items-start justify-between gap-section rounded-lg bg-secondary-50/60 border border-secondary-200">
         <div className="flex flex-col gap-stack text-center md:text-left">
           <p className="m-0 text-caption font-medium text-secondary-600">Solde actuel</p>
           <div className="flex items-center gap-stack-xs justify-center md:justify-start">

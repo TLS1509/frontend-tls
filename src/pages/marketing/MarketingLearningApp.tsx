@@ -447,7 +447,7 @@ const Bibliotheque: React.FC = () => {
 
         {/* Explorateur interactif */}
         <FadeInWhenVisible>
-          <div className="rounded-2xl bg-primary-50/60 p-stack-lg sm:p-section flex flex-col gap-stack-lg">
+          <div className="rounded-lg bg-primary-50/60 p-stack-lg sm:p-section flex flex-col gap-stack-lg">
             <div className="flex flex-col gap-stack-xs">
               <h3 className="font-display text-h3 font-bold text-ink-900 leading-tight">
                 Explorez une brique de compétence.
@@ -477,7 +477,7 @@ const Bibliotheque: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-stack-lg items-start">
-              <div className="lg:col-span-7 flex flex-col gap-stack rounded-2xl bg-white p-stack-lg shadow-card">
+              <div className="lg:col-span-7 flex flex-col gap-stack rounded-lg bg-white p-stack-lg shadow-card">
                 <div className="flex flex-wrap items-center gap-stack-xs">
                   <span className="rounded-pill bg-primary-100 px-3 py-1 font-body text-caption font-bold text-primary-800">
                     {fiche.type}
@@ -514,14 +514,14 @@ const Bibliotheque: React.FC = () => {
               </div>
 
               <div className="lg:col-span-5 flex flex-col gap-stack">
-                <div className="flex items-start gap-stack rounded-2xl bg-white p-stack-lg shadow-card">
+                <div className="flex items-start gap-stack rounded-lg bg-white p-stack-lg shadow-card">
                   <CalendarClock size={20} className="text-primary-700 shrink-0 mt-0.5" />
                   <p className="font-body text-body-sm text-ink-700 leading-relaxed m-0">
                     <span className="font-bold text-ink-900">Parcours lié : </span>
                     {fiche.parcours}
                   </p>
                 </div>
-                <div className="flex items-start gap-stack rounded-2xl bg-white p-stack-lg shadow-card">
+                <div className="flex items-start gap-stack rounded-lg bg-white p-stack-lg shadow-card">
                   <BadgeCheck size={20} className="text-primary-700 shrink-0 mt-0.5" />
                   <p className="font-body text-body-sm text-ink-700 leading-relaxed m-0">
                     <span className="font-bold text-ink-900">Reconnaissance : </span>
@@ -564,7 +564,7 @@ const ActifStrategique: React.FC = () => (
           </FadeInWhenVisible>
         </div>
         <FadeInWhenVisible delay={0.1} className="lg:col-span-5">
-          <div className="flex flex-col gap-stack rounded-2xl bg-white/10 p-stack-lg">
+          <div className="flex flex-col gap-stack rounded-lg bg-white/10 p-stack-lg">
             <h3 className="font-display text-h4 font-bold text-white leading-tight">
               Du Skills-Based au Matching Projets
             </h3>
@@ -586,7 +586,7 @@ const CtaFinal: React.FC = () => (
   <section className="bg-white">
     <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28">
       <FadeInWhenVisible>
-        <div className="relative overflow-hidden rounded-2xl bg-ink-900 text-white px-6 sm:px-10 lg:px-16 py-16 sm:py-20">
+        <div className="relative overflow-hidden rounded-lg bg-ink-900 text-white px-6 sm:px-10 lg:px-16 py-16 sm:py-20">
           <div className="relative max-w-content flex flex-col gap-stack-lg">
             <h2 className="font-display font-extrabold text-white leading-[1.04] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.5vw,3.5rem)]">
               Voyez la Learning App fonctionner sur vos cas d'usage.

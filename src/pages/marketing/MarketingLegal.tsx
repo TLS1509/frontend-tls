@@ -49,7 +49,7 @@ const LegalPage: React.FC<LegalPageProps> = ({ icon, title, subtitle, lastUpdate
         ))}
 
         {/* Placeholder notice */}
-        <div className="rounded-xl border border-warning-bg bg-warning-bg/50 p-stack mt-stack-lg">
+        <div className="rounded-lg border border-warning-bg bg-warning-bg/50 p-stack mt-stack-lg">
           <p className="text-body-sm text-warning-fg font-body">
             <strong>Document en cours de rédaction.</strong> Ce contenu sera complété avant le lancement du site. Pour toute question, contactez-nous à{' '}
             <a href="mailto:contact@thelearningsociety.fr" className="underline hover:no-underline">

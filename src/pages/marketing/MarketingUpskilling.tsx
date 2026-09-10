@@ -279,7 +279,7 @@ const Pilotage: React.FC = () => (
       </div>
 
       <FadeInWhenVisible delay={0.1}>
-        <div className="flex items-start gap-stack rounded-2xl bg-white/10 p-stack-lg">
+        <div className="flex items-start gap-stack rounded-lg bg-white/10 p-stack-lg">
           <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent-400/20 text-accent-300">
             <Gift size={20} />
           </span>
@@ -379,7 +379,7 @@ const CtaFinal: React.FC = () => (
           </div>
         </FadeInWhenVisible>
         <FadeInWhenVisible delay={0.08} className="lg:col-span-2">
-          <div className="flex flex-col gap-stack rounded-2xl bg-secondary-50 p-stack-lg">
+          <div className="flex flex-col gap-stack rounded-lg bg-secondary-50 p-stack-lg">
             <h3 className="font-display text-h4 font-bold text-ink-900 leading-tight">
               Avant de vous décider
             </h3>

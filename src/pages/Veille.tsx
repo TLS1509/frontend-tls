@@ -234,7 +234,7 @@ export const Veille: React.FC = () => {
       </div>
 
       {/* ── Bande mailing — glassy minimale ──────────────────────────────── */}
-      <div className="rounded-2xl border border-ink-200/60 bg-white/70 backdrop-blur-glass-medium px-stack-lg py-stack">
+      <div className="rounded-lg border border-ink-200/60 bg-white/70 backdrop-blur-glass-medium px-stack-lg py-stack">
         <form
           onSubmit={handleSubscribe}
           className="flex flex-col sm:flex-row items-start sm:items-center gap-stack-xs"

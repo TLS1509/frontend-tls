@@ -79,7 +79,7 @@ export default function CoachHeatmap() {
 
         {/* Alert for stuck learners */}
         {stuckCount > 0 && (
-          <div className="flex items-start gap-stack p-stack bg-warning-bg border border-warning-border rounded-xl">
+          <div className="flex items-start gap-stack p-stack bg-warning-bg border border-warning-border rounded-lg">
             <AlertTriangle size={18} className="text-warning-fg shrink-0 mt-0.5" />
             <div className="flex flex-col gap-tight">
               <p className="text-body-sm font-semibold text-warning-fg">
@@ -150,7 +150,7 @@ export default function CoachHeatmap() {
               return (
                 <div
                   key={a.id}
-                  className="flex items-center justify-between px-stack py-3 rounded-xl border border-ink-100 bg-white hover:bg-ink-50 transition-colors duration-fast"
+                  className="flex items-center justify-between px-stack py-3 rounded-lg border border-ink-100 bg-white hover:bg-ink-50 transition-colors duration-fast"
                 >
                   <div className="flex items-center gap-stack">
                     <Avatar initials={a.initials} name={a.name} size="sm" tint="brand" />

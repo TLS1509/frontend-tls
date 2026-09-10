@@ -64,7 +64,7 @@ export const VerifyEmail: React.FC = () => {
         !verified ? (
           <div className="flex flex-col gap-stack">
             {/* Inbox visual */}
-            <div className="flex flex-col items-center gap-stack-xs p-stack-lg rounded-2xl bg-white/10 border border-white/20 backdrop-blur-glass-light">
+            <div className="flex flex-col items-center gap-stack-xs p-stack-lg rounded-lg bg-white/10 border border-white/20 backdrop-blur-glass-light">
               <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white/15 border border-white/25 text-white">
                 <Inbox size={24} strokeWidth={1.75} />
               </div>

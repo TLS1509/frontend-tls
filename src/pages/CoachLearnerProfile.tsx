@@ -236,7 +236,7 @@ export default function CoachLearnerProfile() {
 
       <div className="flex flex-col gap-section">
         {/* Header apprenant */}
-        <div className="flex items-center gap-stack-lg bg-white border border-ink-100 rounded-xl p-stack-lg shadow-xs">
+        <div className="flex items-center gap-stack-lg bg-white border border-ink-100 rounded-lg p-stack-lg shadow-xs">
           <Avatar
             initials={learner.initials}
             name={learner.name}
@@ -299,7 +299,7 @@ export default function CoachLearnerProfile() {
                     </div>
 
                     {isOpen && (
-                      <div className="flex flex-col gap-stack p-stack rounded-xl border border-primary-100 bg-primary-50">
+                      <div className="flex flex-col gap-stack p-stack rounded-lg border border-primary-100 bg-primary-50">
                         <div className="flex flex-col gap-tight">
                           <span className="text-caption font-semibold text-ink-700">Niveau Dreyfus validé</span>
                           <div className="flex gap-tight">
@@ -368,7 +368,7 @@ export default function CoachLearnerProfile() {
             titleIcon={<Sparkles size={18} />}
             description="Suggestions générées par l'analyse comportementale."
           >
-            <div className="flex items-start gap-stack-xs p-stack rounded-xl border border-ink-100 bg-ink-50">
+            <div className="flex items-start gap-stack-xs p-stack rounded-lg border border-ink-100 bg-ink-50">
               <ShieldOff size={18} className="text-ink-600 mt-0.5 shrink-0" />
               <p className="text-body-sm text-ink-600">
                 {learner.name} a désactivé les recommandations IA dans ses préférences de
@@ -396,7 +396,7 @@ export default function CoachLearnerProfile() {
                 return (
                   <div
                     key={rec.id}
-                    className="flex flex-col gap-tight p-stack rounded-xl border border-ink-100 bg-white"
+                    className="flex flex-col gap-tight p-stack rounded-lg border border-ink-100 bg-white"
                   >
                     <div className="flex items-start justify-between gap-stack">
                       <div className="flex flex-col gap-tight flex-1 min-w-0">

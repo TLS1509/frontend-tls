@@ -362,7 +362,7 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
         {/* Question card — key forces fade-in animation on question change */}
         <div
           key={`q-${currentIdx}-${isClosed}`}
-          className="rounded-2xl bg-white/80 backdrop-blur-glass-medium border border-white/60 shadow-card px-6 py-stack-lg animate-in fade-in slide-in-from-bottom-2 duration-300 flex flex-col gap-stack-xs"
+          className="rounded-lg bg-white/80 backdrop-blur-glass-medium border border-white/60 shadow-card px-6 py-stack-lg animate-in fade-in slide-in-from-bottom-2 duration-300 flex flex-col gap-stack-xs"
         >
           {/* AI identity */}
           <div className="flex items-center gap-stack-xs">

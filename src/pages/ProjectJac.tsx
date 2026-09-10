@@ -97,7 +97,7 @@ const JacValidationForm: React.FC<{
   };
 
   return (
-    <div className="flex flex-col gap-section p-stack bg-ink-50 rounded-xl border border-ink-200">
+    <div className="flex flex-col gap-section p-stack bg-ink-50 rounded-lg border border-ink-200">
       <div>
         <p className="text-body-sm font-semibold text-ink-900 m-0">
           Validation JAC : {collaboratorName}

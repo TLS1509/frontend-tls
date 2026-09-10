@@ -234,7 +234,7 @@ export const Profile: React.FC = () => {
           {activeTab === 'overview' && (
             <div className="flex flex-col gap-section">
               {/* Stats compact strip */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-stack-xs p-stack-lg rounded-2xl bg-ink-50 border border-ink-100">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-stack-xs p-stack-lg rounded-lg bg-ink-50 border border-ink-100">
                 {heroStats.map((s) => (
                   <div key={s.label} className="flex flex-col gap-tight">
                     <span className="font-display text-h3 font-bold text-ink-900 leading-none tracking-headline tabular-nums">
@@ -247,7 +247,7 @@ export const Profile: React.FC = () => {
 
               {/* Bio + interests */}
               <section className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr] gap-stack-lg">
-                <div className="rounded-2xl border border-ink-100 bg-white p-stack-lg flex flex-col gap-stack">
+                <div className="rounded-lg border border-ink-100 bg-white p-stack-lg flex flex-col gap-stack">
                   <h2 className="font-display text-h4 font-bold text-ink-900 tracking-snug">
                     À propos
                   </h2>
@@ -266,7 +266,7 @@ export const Profile: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="rounded-2xl border border-ink-100 bg-white p-stack-lg flex flex-col gap-stack">
+                <div className="rounded-lg border border-ink-100 bg-white p-stack-lg flex flex-col gap-stack">
                   <h2 className="font-display text-h4 font-bold text-ink-900 tracking-snug">
                     Cette semaine
                   </h2>
@@ -300,7 +300,7 @@ export const Profile: React.FC = () => {
                     Voir la matrice complète
                   </Button>
                 </div>
-                <div className="rounded-2xl border border-ink-100 bg-white p-stack-lg flex flex-col gap-stack-lg">
+                <div className="rounded-lg border border-ink-100 bg-white p-stack-lg flex flex-col gap-stack-lg">
                   {SKILLS.slice(0, 3).map((skill) => (
                     <SkillBar key={skill.id} label={skill.label} value={skill.value} tone={skill.tone} showValue />
                   ))}
@@ -419,12 +419,12 @@ export const Profile: React.FC = () => {
               </p>
 
               {/* Matrice */}
-              <div className="rounded-2xl border border-ink-100 bg-white px-stack-lg pt-stack pb-stack-lg overflow-x-auto">
+              <div className="rounded-lg border border-ink-100 bg-white px-stack-lg pt-stack pb-stack-lg overflow-x-auto">
                 <CompetencyMatrix skills={skillsForMatrix} />
               </div>
 
               {/* Détail SkillBar pour mobile / vue alternative */}
-              <div className="rounded-2xl border border-ink-100 bg-white p-stack-lg flex flex-col gap-stack-lg">
+              <div className="rounded-lg border border-ink-100 bg-white p-stack-lg flex flex-col gap-stack-lg">
                 <div className="flex items-center gap-stack-xs">
                   <CheckCircle2 size={14} className="text-primary-600" />
                   <h3 className="font-body text-caption font-medium text-ink-700">

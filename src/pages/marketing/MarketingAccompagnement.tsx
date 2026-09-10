@@ -273,7 +273,7 @@ const Methodologie: React.FC = () => (
       </ol>
 
       <FadeInWhenVisible>
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-stack rounded-2xl bg-white/70 p-stack-lg ring-1 ring-primary-100">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-stack rounded-lg bg-white/70 p-stack-lg ring-1 ring-primary-100">
           <p className="font-body text-body text-ink-600 m-0 max-w-xl">
             Pourquoi ces six étapes ? La science derrière STRIDE : échelle
             Dreyfus, méthode EDRACT de C-Campus et augmentation cognitive.
@@ -320,7 +320,7 @@ const Obtenez: React.FC = () => (
             ))}
           </ul>
           <FadeInWhenVisible delay={0.1}>
-            <div className="flex items-start gap-stack rounded-2xl bg-accent-50 p-stack-lg">
+            <div className="flex items-start gap-stack rounded-lg bg-accent-50 p-stack-lg">
               <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent-100 text-accent-800">
                 <Gift size={20} />
               </span>
@@ -392,7 +392,7 @@ const CtaFinal: React.FC = () => (
   <section>
     <div className={`${SHELL} py-band`}>
       <FadeInWhenVisible>
-        <div className="relative overflow-hidden rounded-2xl bg-ink-900 text-white px-6 sm:px-10 lg:px-16 py-band">
+        <div className="relative overflow-hidden rounded-lg bg-ink-900 text-white px-6 sm:px-10 lg:px-16 py-band">
           <div className="relative max-w-content flex flex-col gap-flow">
             <h2 className="font-display text-section text-white [text-wrap:balance]">
               Déployez le duo SBO + IA dans votre organisation.

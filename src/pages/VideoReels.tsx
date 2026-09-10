@@ -414,7 +414,7 @@ export const VideoReels: React.FC = () => {
 
       {/* ── Compteur bas de page ─────────────────────────────────── */}
       <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-sticky flex items-center gap-stack-xs">
-        <div className="px-5 py-stack-xs rounded-xl bg-black/65 backdrop-blur-glass-light border border-white/10 font-body text-caption font-semibold flex gap-stack-xs">
+        <div className="px-5 py-stack-xs rounded-lg bg-black/65 backdrop-blur-glass-light border border-white/10 font-body text-caption font-semibold flex gap-stack-xs">
           <strong className="text-white">{currentIndex + 1}</strong>
           <span className="text-white/70">/</span>
           <span className="text-white/70">{filtered.length}</span>

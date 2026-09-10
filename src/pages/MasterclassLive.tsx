@@ -79,7 +79,7 @@ export default function MasterclassLive() {
             <SectionCard title="Questions & Réponses" titleIcon={<MessageSquare size={18} />}>
               <div className="flex flex-col gap-stack-xs">
                 {QA_QUESTIONS.map((q) => (
-                  <div key={q.id} className="flex items-start gap-stack-xs p-3 rounded-xl bg-ink-50">
+                  <div key={q.id} className="flex items-start gap-stack-xs p-3 rounded-lg bg-ink-50">
                     <Avatar name={q.author} initials={q.initials} size="sm" />
                     <div className="flex flex-col gap-tight min-w-0">
                       <span className="text-caption font-semibold text-ink-700">{q.author}</span>
@@ -101,7 +101,7 @@ export default function MasterclassLive() {
             <SectionCard title="Ressources" titleIcon={<FileText size={18} />}>
               <div className="flex flex-col gap-stack-xs">
                 {RESOURCES.map((r) => (
-                  <div key={r.id} className="flex items-center justify-between gap-stack-xs p-3 rounded-xl bg-ink-50">
+                  <div key={r.id} className="flex items-center justify-between gap-stack-xs p-3 rounded-lg bg-ink-50">
                     <div className="flex items-center gap-stack-xs min-w-0">
                       <FileText size={14} className="text-ink-600 shrink-0" />
                       <span className="text-caption text-ink-700 truncate">{r.label}</span>

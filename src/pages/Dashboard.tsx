@@ -86,7 +86,7 @@ const JournalBubbleNudge: React.FC<JournalBubbleNudgeProps> = ({ navigate, hasUp
       </div>
 
       {/* Chat card */}
-      <div className="bg-white rounded-2xl border border-ink-100 shadow-card p-stack flex flex-col gap-3">
+      <div className="bg-white rounded-lg border border-ink-100 shadow-card p-stack flex flex-col gap-3">
 
         {/* Avatar + bubble */}
         <div className="flex items-end gap-3">

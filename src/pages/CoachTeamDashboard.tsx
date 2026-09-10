@@ -122,7 +122,7 @@ export default function CoachTeamDashboard() {
 
         {/* Alert */}
         {alertCount > 0 && (
-          <div className="flex items-start gap-stack p-stack bg-warning-bg border border-warning-border rounded-xl">
+          <div className="flex items-start gap-stack p-stack bg-warning-bg border border-warning-border rounded-lg">
             <AlertTriangle size={18} className="text-warning-fg shrink-0 mt-0.5" />
             <p className="text-body-sm text-ink-700">
               <strong>{stats.stuckCount} bloqué{stats.stuckCount !== 1 ? 's' : ''}</strong> et{' '}

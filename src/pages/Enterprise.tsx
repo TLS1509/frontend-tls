@@ -397,7 +397,7 @@ export const Enterprise: React.FC = () => {
               return (
                 <div
                   key={r.title}
-                  className="flex flex-col gap-stack p-stack-lg sm:p-stack-lg rounded-2xl border border-ink-100 bg-white hover:border-ink-200 hover:shadow-sm hover:-translate-y-0.5 transition-all duration-base"
+                  className="flex flex-col gap-stack p-stack-lg sm:p-stack-lg rounded-lg border border-ink-100 bg-white hover:border-ink-200 hover:shadow-sm hover:-translate-y-0.5 transition-all duration-base"
                 >
                   <div className="flex items-start gap-stack">
                     <span className="shrink-0 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary-50 text-primary-700">

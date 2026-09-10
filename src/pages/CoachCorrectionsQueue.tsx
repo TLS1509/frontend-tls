@@ -79,7 +79,7 @@ export default function CoachCorrectionsQueue() {
         tone="flat"
         trailing={
           urgentCount > 0 ? (
-            <div className="flex items-center gap-stack-xs bg-white/20 backdrop-blur-sm px-3 py-stack-xs rounded-xl border border-white/30">
+            <div className="flex items-center gap-stack-xs bg-white/20 backdrop-blur-sm px-3 py-stack-xs rounded-lg border border-white/30">
               <AlertTriangle size={16} className="text-white" />
               <span className="text-body-sm text-white font-semibold">{urgentCount} en attente</span>
             </div>
