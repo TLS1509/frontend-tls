@@ -145,3 +145,73 @@ l'affirme pas** :
 
 **Ce qui ne peut pas se faire maintenant** : créer `Contenus marketing`, trancher une base ou
 cinq, fixer les statuts. Cela dépend de **D1–D10**, tous ⬜ non décidés.
+
+---
+
+## 7. Ce qui a réellement été exécuté — 10/09/2026
+
+⚠️ **La section 6 ci-dessus est un état antérieur.** Elle recommandait de *ne pas* supprimer
+`Dashboard Editorial` et de ne créer `Contenus marketing` qu'une fois D1–D10 tranchés. La
+consigne du 10/09 a levé les deux : purge complète, calendrier éditorial et suivi des
+campagnes inclus, et une surface de capture tout de suite pour pouvoir déposer une idée
+d'article d'ici octobre. Ce qui suit fait foi.
+
+### Mis en scène pour suppression
+
+Page **`🗑 À purger — 10/09/2026`** ([`3d7cdd69…`](https://app.notion.com/p/3d7cdd696db681de95d7e81025b922de)),
+sous Marketing. Sept objets y ont été déplacés :
+
+`Dashboard Editorial` · `Suivi Campagnes` · `Emailing` · `Attribution` · `Content Calendar`
+· `Campaigns` · `Mots-clés SEO`
+
+`Social` et `ContentOS 2.0` étaient déjà à la corbeille — déplacés à la main avant la session.
+
+Rien n'est détruit : supprimer la page emporte les sept, et la corbeille Notion les garde
+30 jours. **Ne jamais y faire entrer `Tasks`, `Projects`, `Meetings` ni `Docs`** — ce sont les
+bases maîtresses que lisent `MEET-01`, `PROJ-01` et `TASK-01`.
+
+Sauvegardé avant : les 11 publications et 9 URL vivantes dans
+[`PUBLICATIONS-2025-ARCHIVE.md`](PUBLICATIONS-2025-ARCHIVE.md), plus les 5 personas,
+8 canaux et 7 types de livrable relevés dans le schéma du Content Calendar.
+
+### Créé
+
+**`Contenus marketing`** ([`5a568825…`](https://app.notion.com/p/5a568825e3bf4aa487557a3d8799033f))
+— la seule base de contenu. **Huit propriétés**, contre 45 dans celles qu'elle remplace :
+
+`Titre` · `Statut` (6 valeurs, humaines) · `État technique` (4 valeurs, n8n seul) ·
+`Pilier éditorial` (les 4 de Q10) · `Canal` · `Date de publication` · `Lien` · `Idée / notes`
+
+`Statut` et `État technique` sont séparés à dessein : un workflow n8n ne doit jamais filtrer
+sur un champ qu'un humain modifie à la main.
+
+### Nettoyé
+
+**`Brand Assets`** — 9 propriétés → 6 : `Nom · Type · Format · Usage · Fichier · Source`.
+Supprimées : `Status` (0/13 remplie, une seule option morte) et `Canva URL` (0/13).
+`URL ` portait une espace en fin de nom. Options mortes retirées : `Image`, `Illustration`,
+`Photo`, `Gradient`, `JPG`. Les 13 lignes ont été revérifiées après coup — aucune perte.
+
+**Brand Hub** — reconstruite. Elle interdisait en encadré de saisir une valeur à la main,
+puis en recopiait environ vingt-cinq plus bas. Les sections Palette, Typographie et Design
+Tokens sont supprimées : le widget les rend déjà, généré depuis `src/index.css`. Restent la
+doctrine du logo (ce que le code ne dit pas) et les deux décisions ouvertes.
+
+**Assets & Templates** — reconstruite. Deux liens pointaient vers `code_file:371` et `:372`,
+qui ne sont pas des adresses. Le dossier Drive qu'elle donnait
+(`1tx1TiRVUKLTLmLmSilvWm0UILTWbfKXD`) **n'existe pas** — vérifié à l'API ; le bon est
+`1Qq810LO9mhnsL83S52RnOidR3dAgfhNq`. Elle annonçait 63 gabarits « à créer » en ignorant les
+**12 PPTX déjà dans `brand/decks/` et `brand/docs/`**.
+
+**Page Marketing** — l'encadré de navigation pointait encore vers `Dashboard Editorial`,
+désormais dans la corbeille.
+
+### Reste à faire à la main — l'API ne sait pas le faire
+
+| Quoi | Pourquoi l'API bloque |
+|---|---|
+| Supprimer la page `🗑 À purger` | Pas d'outil de suppression Notion |
+| Supprimer les 6 vues marquées `🗑 à supprimer` sur Brand Assets | Pas de suppression de vue |
+| Retirer les 3 filtres vides de la vue `Tout` | Ce sont des *filtres rapides*, que `CLEAR FILTER` ne touche pas. Ils n'excluent aucune ligne — vérifié, la vue rend bien 13 lignes |
+| Supprimer la relation `Google Drive File` + sa base satellite de 5 lignes | `DROP COLUMN` refuse les relations |
+| Renommer les options `Colour` → `Couleur` et `Font` → `Police` | Un renommage par l'API détruit les valeurs ; par l'interface, il les conserve |
