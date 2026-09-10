@@ -141,6 +141,63 @@
   --tracking-label:     0.05em;   /* étiquettes en capitales : Badge, eyebrow */
 
   /* ── Typographie — Content headings ── */
+  /* ══ La courbe des interlignes — recalibrée le 2026-09-10 ══
+
+     Le détecteur a trouvé 494 endroits où un `leading-*` écrasait l'interligne
+     déclaré ici. Ce n'était pas de l'indiscipline : les écrasements penchaient
+     tous du même côté par pas — 254 demandaient PLUS d'air sur du texte courant,
+     117 en demandaient MOINS sur des titres. Une valeur massivement contournée
+     accuse le système, pas ceux qui la contournent.
+
+     Deux mesures ont tranché ce que le vote seul ne pouvait pas.
+
+     La première est métrique : League Spartan a une hauteur d'x de 0,41 — très
+     petite, là où Helvetica est à 0,52. Ses lignes sont objectivement moins
+     denses à interligne égal, donc les resserrer rapproche le titre de lui-même.
+     Les 117 voix sur les titres sont une correction, pas un goût.
+
+     La seconde est un choix assumé : Nunito, à 0,493, est dans la moyenne. Les
+     254 voix sur le texte courant poussent au-delà du 1,50 que posent Material,
+     Tailwind et Carbon — vers le registre éditorial que TLS revendique. C'est une
+     position, prise en connaissance de cause.
+
+     Elle corrige aussi une rupture : `body` (1,50) était plus SERRÉ que `body-sm`
+     (1,60), alors qu'un texte plus grand demande moins d'air relatif, pas plus.
+     La courbe redevient monotone.
+
+       pas        avant   après   ratio
+       h1         44      44      1,22   inchangé, aucun vote
+       h2         36      36      1,29   inchangé
+       h3         32      30      1,25   ← vote suivi
+       h4         28      26      1,30   ← vote suivi
+       body-lg    28      28      1,56   vote NON suivi
+       body       24      26      1,63   ← vote suivi
+       body-sm    24      24      1,60   vote NON suivi
+       caption    20      20      1,54   inchangé
+       micro      18      18      1,64   inchangé
+
+     ⚠️ DEUX VOTES N'ONT PAS ÉTÉ SUIVIS, et c'est la mesure qui l'a imposé.
+
+     Le vote est per-pas : il ne voit pas la courbe. Suivi à la lettre, il donnait
+     body-lg à 1,67 — le PLUS aéré alors que c'est le plus GROS, exactement à
+     l'envers de la règle — et body-sm à 1,47, soit 0,16 sous body pour 1 px
+     d'écart de taille. Deux tailles voisines à des interlignes si éloignés ne
+     forment plus une échelle.
+
+     Ce que ces deux votes disent vraiment, c'est autre chose : `body` sert la
+     prose et réclame de l'air, `body-sm` sert l'interface dense et réclame de la
+     compacité — pour 1 px d'écart. C'est le sujet T4 du plan de reprise
+     (fusionner body-sm dans body, ×1,067, sous le plancher où l'œil distingue
+     deux pas), pas un sujet d'interligne. Les 254 écrasements sur ces deux pas
+     restent donc en place jusqu'à ce que T4 soit tranché.
+
+     ⚠️ Trois pas quittent la grille de 4 px (30, 26). Elle vaut pour
+     l'espacement, où elle aligne des blocs ; sur un interligne elle n'aligne
+     rien qu'on voie.
+
+     ⚠️ Les 494 écrasements deviennent redondants mais ne sont PAS retirés ici :
+     corriger les tokens d'abord, nettoyer ensuite. L'inverse aurait cassé quatre
+     cents rendus d'un coup. */
   --text-h1: 2.25rem;
   --text-h1--line-height: 2.75rem;
   --text-h1--font-weight: 700;
@@ -151,14 +208,14 @@
   --text-h2--letter-spacing: -0.025em;
   --text-h3: 1.5rem;              /* 24px — T5. À 22 px, h3 ratait le seuil WCAG
                                      « grand texte » de League Spartan (22,4 px). */
-  --text-h3--line-height: 2rem;   /* 32px — ratio 1,333, sur la grille de 4 */
+  --text-h3--line-height: 1.875rem;/* 30px — ratio 1,25 */
   --text-h3--font-weight: 700;    /* T2 — le token suit l'usage : 72 % des h3
                                      portaient déjà un font-bold local */
   --text-h3--letter-spacing: -0.025em;
   --text-h4: 1.25rem;             /* 20px — T7. Sort de la collision avec
                                      body-lg (18 px) et remet l'interligne sur
                                      la grille. Ratio 1,400, entre h3 et body-lg. */
-  --text-h4--line-height: 1.75rem;/* 28px */
+  --text-h4--line-height: 1.625rem;/* 26px — ratio 1,30 */
   --text-h4--font-weight: 700;    /* T2 */
   --text-h4--letter-spacing: -0.02em;
   /* h5 retiré le 2026-09-09 (T3) — il faisait exactement la taille de body
@@ -167,11 +224,11 @@
 
   /* ── Typographie — Body ── */
   --text-body-lg: 1.125rem;
-  --text-body-lg--line-height: 1.75rem;
+  --text-body-lg--line-height: 1.75rem; /* 28px — ratio 1,56 · vote NON suivi, voir plus haut */
   --text-body: 1rem;
-  --text-body--line-height: 1.5rem;
+  --text-body--line-height: 1.625rem;   /* 26px — ratio 1,62 */
   --text-body-sm: 0.9375rem;
-  --text-body-sm--line-height: 1.5rem;
+  --text-body-sm--line-height: 1.5rem;  /* 24px — ratio 1,60 · vote NON suivi, voir plus haut */
   --text-caption: 0.8125rem;
   --text-caption--line-height: 1.25rem;
   --text-micro: 0.6875rem;
