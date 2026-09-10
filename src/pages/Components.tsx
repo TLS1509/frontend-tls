@@ -1588,6 +1588,131 @@ const COMPONENTS: ComponentEntry[] = [
   },
 
 {
+    name: 'Les rayons, et ce qui va ensemble',
+    codeName: 'décision ouverte',
+    description:
+      "Un bouton en pilule rend 22 px de rayon dans une carte qui en fait 14. Mais sous 28 px de haut, pilule et rayon 14 sont indiscernables — le navigateur plafonne à la moitié de la hauteur. La question ne concerne donc que ce qui dépasse.",
+    keywords: ['rayon', 'radius', 'pilule', 'bouton', 'badge', 'carte', 'cohérence'],
+    render: () => {
+      const coque = 'flex flex-col rounded-lg border border-ink-200 bg-white p-stack-lg min-w-0';
+      const metas = [{ icon: <Clock3 />, text: '45 min' }, { icon: <Calendar />, text: 'Jeudi 18' }];
+      return (
+        <div className="flex flex-col gap-section">
+
+          <ShowcaseBloc
+            titre="Sous 28 px, la question ne se pose pas"
+            note="Le navigateur plafonne tout rayon à la moitié de la plus petite dimension. Sur une pastille de 24 px, ce plafond est à 12 : la pilule (999) et rounded-lg (14) y sont donc écrasés à la même valeur et rendent EXACTEMENT la même forme. Donner « le rayon du design system » à un Badge ne changerait rien à l'écran. Mais l'équivalence s'arrête là où le rayon demandé passe SOUS le plafond : rounded-md (10) est en dessous de 12, et lui se voit — c'est la troisième pastille ci-dessous."
+          >
+            <div className="flex flex-wrap items-center gap-stack">
+              {([
+                ['rounded-pill', 'pilule'],
+                ['rounded-lg', 'rayon 14'],
+                ['rounded-md', 'rayon 10'],
+              ] as const).map(([cls, nom]) => (
+                <div key={cls} className="flex flex-col items-start gap-stack-2xs">
+                  <span className={`inline-flex items-center ${cls} border border-secondary-200 bg-secondary-50 px-2.5 py-0.5 font-body text-micro font-bold uppercase tracking-label text-secondary-700`}>
+                    À venir
+                  </span>
+                  <span className="font-mono text-micro text-ink-500">{nom}</span>
+                </div>
+              ))}
+              <span className="font-mono text-micro text-ink-500 self-center">24 px de haut · plafond à 12 : les deux premières sont identiques, la troisième passe dessous</span>
+            </div>
+          </ShowcaseBloc>
+
+          <ShowcaseBloc
+            titre="À 44 px, l’écart se voit — et c’est un choix"
+            note="Un bouton md mesure 44 px : en pilule il rend 22 px de rayon, contre 14 pour la carte qui le contient. C’est le seul endroit où la question mord vraiment. Material 3 est allé vers la pilule totale ; Linear, Vercel et Stripe tiennent des rayons modérés. Aucune des deux n’est la norme."
+          >
+            <div className="flex flex-wrap items-end gap-stack-lg">
+              {([
+                ['', 'pilule — 22 px rendus'],
+                ['[&>button]:rounded-lg', 'rayon 14 — celui de la carte'],
+                ['[&>button]:rounded-md', 'rayon 10'],
+              ] as const).map(([surcharge, nom]) => (
+                <div key={nom} className="flex flex-col items-start gap-stack-2xs">
+                  <span className={`inline-flex ${surcharge}`}>
+                    <Button leadingIcon={<Plus />}>Rejoindre</Button>
+                  </span>
+                  <span className="font-mono text-micro text-ink-500">{nom}</span>
+                </div>
+              ))}
+            </div>
+          </ShowcaseBloc>
+
+          <ShowcaseBloc
+            titre="Le même bouton, dans sa carte"
+            note="C’est là que ça se juge : l’accord entre le coin de la carte et celui du bouton, à taille réelle. Le badge et les métas ne changent pas d’une carte à l’autre — ils sont sous le seuil."
+          >
+            <div className="grid gap-stack-lg [grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr))]">
+              {([
+                ['', 'CTA en pilule'],
+                ['[&_button]:rounded-lg', 'CTA au rayon de la carte'],
+                ['[&_button]:rounded-md', 'CTA à 10 px'],
+              ] as const).map(([surcharge, nom]) => (
+                <div key={nom} className="flex flex-col gap-stack-xs">
+                  <div className={`${coque} ${surcharge}`}>
+                    <div className="flex items-center justify-between gap-stack-xs">
+                      <MetaPillGroup items={metas} />
+                      <Badge variant="warm" className="shrink-0">À venir</Badge>
+                    </div>
+                    <div className="mt-stack flex items-center justify-between gap-stack">
+                      <div className="min-w-0">
+                        <h4 className="font-display text-h4 text-ink-900">Session de coaching</h4>
+                        <p className="m-0 mt-1 font-body text-body-sm text-ink-600">
+                          Préparer le lancement du parcours Neuro-éducation.
+                        </p>
+                      </div>
+                      <Button size="sm" className="shrink-0">Rejoindre</Button>
+                    </div>
+                  </div>
+                  <span className="font-mono text-micro text-ink-500">{nom}</span>
+                </div>
+              ))}
+            </div>
+          </ShowcaseBloc>
+
+          <ShowcaseBloc
+            titre="Le seuil, en chiffres"
+            note="Mesuré au navigateur. Au-dessus de 28 px seulement, la classe choisie change quelque chose."
+          >
+            <div className="defiler">
+              <table className="w-full min-w-[400px] border-collapse font-body text-body-sm">
+                <thead>
+                  <tr className="border-b border-ink-200 text-left">
+                    <th className="py-2 pr-stack font-bold text-ink-700">hauteur</th>
+                    <th className="py-2 pr-stack text-right font-bold text-ink-700">rayon 14 rendu</th>
+                    <th className="py-2 pr-stack text-right font-bold text-ink-700">pilule rendue</th>
+                    <th className="py-2 font-bold text-ink-700">ce qu’on voit</th>
+                  </tr>
+                </thead>
+                <tbody className="text-ink-600">
+                  {([
+                    ['18 px · Badge compact', '9', '9', 'rien'],
+                    ['20 px · Badge normal', '10', '10', 'rien'],
+                    ['26 px · Badge large', '13', '13', 'rien'],
+                    ['28 px · le seuil', '14', '14', 'rien'],
+                    ['30 px · MetaPill md', '14', '15', '1 px'],
+                    ['32 px · Button sm', '14', '16', '2 px'],
+                    ['44 px · Button md', '14', '22', '8 px'],
+                  ] as const).map(([h, a, b, v]) => (
+                    <tr key={h} className={`border-b border-ink-100 ${v === 'rien' ? '' : 'text-ink-900'}`}>
+                      <td className="py-2 pr-stack">{h}</td>
+                      <td className="py-2 pr-stack text-right font-mono tabular-nums">{a}</td>
+                      <td className="py-2 pr-stack text-right font-mono tabular-nums">{b}</td>
+                      <td className="py-2">{v}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </ShowcaseBloc>
+        </div>
+      );
+    },
+  },
+
+  {
     name: 'Disposition des cartes',
     codeName: 'décision ouverte — arbitrage n°8',
     description:
