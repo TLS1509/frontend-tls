@@ -58,12 +58,20 @@ const FAMILLES = [
     nom: 'bouton',
     primitive: '<Button>',
     fichiers: ['core/Button.tsx'],
-    // Une pilule cliquable de hauteur fixe portant un libellé en gras.
+    /* Une pilule cliquable de hauteur fixe portant un libellé en gras.
+       ⚠️ Signature resserrée le 2026-09-10 : la première version comptait 35
+       éléments dont la majorité étaient des CHIPS (filtres, bascules) et une
+       pastille d'état. Deux critères les écartent — le libellé d'un bouton
+       n'est jamais en `text-micro` (le plus petit Button est en `caption`), et
+       il n'est jamais en majuscules, ce qui est la marque d'un Badge. */
     signature: (cl) => /\brounded-pill\b/.test(cl)
-      && /\b(h-\d+|min-h-touch|py-[\d.]+)\b/.test(cl)
+      && /\b(h-\d+|min-h-touch)\b/.test(cl)
       && /\bfont-(bold|semibold)\b/.test(cl)
+      && /\btext-(caption|body-sm|body)\b/.test(cl)
       && /\bcursor-pointer\b|\bhover:/.test(cl),
-    sauf: (cl) => /\bw-\d+ h-\d+\b/.test(cl),   // carré = pastille d'icône
+    sauf: (cl) => /\bw-\d+ h-\d+\b/.test(cl)     // carré = pastille d'icône
+      || /\buppercase\b/.test(cl)                  // majuscules = Badge
+      || /\btext-micro\b/.test(cl),                // trop petit pour un bouton
   },
   {
     nom: 'carte',

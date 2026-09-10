@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#ED843A"/>
+  <text x="72" y="300" font-family="Helvetica,Arial" font-size="76" font-weight="700" fill="#FFFFFF">Orange TLS</text>
+  <text x="72" y="378" font-family="Helvetica,Arial" font-size="52" fill="#FFFFFF" opacity="0.86">#ED843A</text>
+  <text x="72" y="560" font-family="Helvetica,Arial" font-size="30" fill="#FFFFFF" opacity="0.62">--color-secondary-500  ·  src/index.css</text>
+</svg>

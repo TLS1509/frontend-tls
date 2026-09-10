@@ -1,4 +1,5 @@
 import React from 'react';
+import { buttonClasses } from '../core/Button';
 import { Badge } from '../ui/Badge';
 import { ArrowRight } from 'lucide-react';
 import type { BadgeVariant } from '../ui/Badge';
@@ -155,7 +156,11 @@ export const PromptCard: React.FC<PromptCardProps> = ({
         </div>
 
         <div className="shrink-0 self-start @xl:self-center">
-          <span className="inline-flex items-center gap-stack-xs px-5 h-11 rounded-pill bg-primary-600 text-white text-body-sm font-semibold transition-all group-hover:bg-primary-700 group-hover:-translate-y-px">
+          {/* Une affordance, pas un contrôle : la carte entière est déjà cliquable,
+              y imbriquer un <Button> annoncerait deux boutons pour un seul objet.
+              `buttonClasses` donne l'apparence à la source — cette pilule recopiait
+              jusqu'ici les classes à la main, et manquait donc chaque décision. */}
+          <span className={buttonClasses({ emphasis: 'solid', tone: 'brand' })}>
             {ctaLabel ?? 'Écrire ma réflexion'}
             <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
           </span>

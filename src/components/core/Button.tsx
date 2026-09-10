@@ -343,6 +343,51 @@ const resolveClasses = (
   return EMPHASIS_TONE[emphasis][tone] ?? EMPHASIS_TONE[emphasis].brand ?? VARIANT_CLASSES.primary;
 };
 
+/**
+ * Les classes d'un bouton, sans le bouton.
+ *
+ * Certaines cartes sont elles-mêmes la cible du clic — la carte entière porte
+ * `role="button"` — et affichent à l'intérieur une pilule qui RESSEMBLE à un
+ * bouton sans en être un. Y mettre un vrai `<Button>` imbriquerait un contrôle
+ * dans un contrôle : la navigation au clavier s'y perd, et les lecteurs d'écran
+ * annoncent deux boutons là où l'utilisateur n'en voit qu'un.
+ *
+ * Ces affordances ont donc besoin de l'APPARENCE seule. Sans cette fonction,
+ * elles la recopiaient à la main — et manquaient chaque décision : la graisse
+ * 700 du 09/09, le filet au cran 600 du 10/09, la cible tactile. Elles la
+ * prennent maintenant à la source.
+ *
+ * ⚠️ À n'employer que sur un élément NON interactif, à l'intérieur d'un parent
+ * qui porte déjà l'interaction. Pour tout le reste, c'est `<Button>`.
+ */
+export function buttonClasses({
+  variant = 'primary',
+  size = 'md',
+  emphasis,
+  tone = 'brand',
+  onDark = false,
+  fullWidth = false,
+  className = '',
+}: {
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  emphasis?: ButtonEmphasis;
+  tone?: ButtonTone;
+  onDark?: boolean;
+  fullWidth?: boolean;
+  className?: string;
+} = {}): string {
+  return [
+    BASE,
+    resolveClasses(variant, emphasis, tone, onDark),
+    SIZE_CLASSES[size],
+    fullWidth && 'w-full',
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
+}
+
 export const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
   emphasis,

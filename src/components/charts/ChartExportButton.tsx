@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Button } from '../core/Button';
 import { Download, DownloadCloud, FileJson } from 'lucide-react';
 import { exportChartPng, exportChartPdf, exportChartCsv, generateFilename } from './ChartExportUtils';
 
@@ -71,99 +72,67 @@ export const ChartExportButton: React.FC<ChartExportButtonProps> = ({
     }
   };
 
-  if (variant === 'compact') {
+  /* Les six boutons d'export passent par <Button> depuis le 2026-09-10.
+
+     Ils réimplémentaient à la main ce que le composant expose déjà : un
+     remplissage doux en variante `compact` (fond teinté, label foncé), un
+     remplissage plein en variante complète, et trois tons. C'est exactement
+     l'API `emphasis` × `tone`.
+
+     Ce que la migration leur apporte, et qu'ils n'avaient pas : la graisse 700
+     et le filet des variantes douces décidés le 09 et le 10, la cible tactile
+     de 44 px sur la variante complète — ils étaient à 40 — et l'état de
+     chargement, qui était bricolé en changeant le libellé.
+
+     Les trois tons portent un sens : PNG est l'image, PDF le document, CSV la
+     donnée. On les garde. */
+  const boutons = [
+    { actif: showPng, cle: 'png' as const, tone: 'brand' as const,
+      Icone: Download,     court: 'PNG', long: 'Export PNG', action: handleExportPng,
+      titre: 'Export as PNG', aria: 'Export chart as PNG' },
+    { actif: showPdf, cle: 'pdf' as const, tone: 'warm' as const,
+      Icone: DownloadCloud, court: 'PDF', long: 'Export PDF', action: handleExportPdf,
+      titre: 'Export as PDF', aria: 'Export chart as PDF' },
+    { actif: showCsv && Boolean(data), cle: 'csv' as const, tone: 'sun' as const,
+      Icone: FileJson,     court: 'CSV', long: 'Export CSV', action: handleExportCsv,
+      titre: 'Export as CSV', aria: 'Export data as CSV' },
+  ];
+
+  const compact = variant === 'compact';
+
+  const rendu = boutons
+    .filter((b) => b.actif)
+    .map((b) => (
+      <Button
+        key={b.cle}
+        size={compact ? 'sm' : 'md'}
+        emphasis={compact ? 'soft' : 'solid'}
+        tone={b.tone}
+        onClick={b.action}
+        disabled={loading !== null}
+        loading={loading === b.cle}
+        leadingIcon={<b.Icone />}
+        title={b.titre}
+        aria-label={b.aria}
+      >
+        {compact ? b.court : b.long}
+      </Button>
+    ));
+
+  if (compact) {
     return (
-      <div className="flex items-center gap-2">
-        {showPng && (
-          <button
-            onClick={handleExportPng}
-            disabled={loading !== null}
-            className="inline-flex items-center justify-center gap-1.5 h-9 px-3 text-body-sm font-bold rounded-pill bg-primary-50 text-primary-700 hover:bg-primary-100 active:bg-primary-200 disabled:opacity-disabled disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 transition-colors duration-200"
-            title="Export as PNG"
-            aria-label="Export chart as PNG"
-          >
-            <Download size={16} />
-            {loading === 'png' ? 'Exporting...' : 'PNG'}
-          </button>
-        )}
-
-        {showPdf && (
-          <button
-            onClick={handleExportPdf}
-            disabled={loading !== null}
-            className="inline-flex items-center justify-center gap-1.5 h-9 px-3 text-body-sm font-bold rounded-pill bg-secondary-50 text-secondary-700 hover:bg-secondary-100 active:bg-secondary-200 disabled:opacity-disabled disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-500 transition-colors duration-200"
-            title="Export as PDF"
-            aria-label="Export chart as PDF"
-          >
-            <DownloadCloud size={16} />
-            {loading === 'pdf' ? 'Exporting...' : 'PDF'}
-          </button>
-        )}
-
-        {showCsv && data && (
-          <button
-            onClick={handleExportCsv}
-            disabled={loading !== null}
-            className="inline-flex items-center justify-center gap-1.5 h-9 px-3 text-body-sm font-bold rounded-pill bg-accent-50 text-accent-600 hover:bg-accent-100 active:bg-accent-200 disabled:opacity-disabled disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-400 transition-colors duration-200"
-            title="Export as CSV"
-            aria-label="Export data as CSV"
-          >
-            <FileJson size={16} />
-            {loading === 'csv' ? 'Exporting...' : 'CSV'}
-          </button>
-        )}
-
-        {error && <span className="text-danger-base text-caption ml-2">{error}</span>}
+      <div className="flex items-center gap-stack-xs">
+        {rendu}
+        {error && <span className="text-danger-fg text-caption ml-2">{error}</span>}
       </div>
     );
   }
 
-  // Full variant with labels
   return (
-    <div className="flex flex-col gap-3">
-      <div className="flex items-center gap-2 flex-wrap">
-        {showPng && (
-          <button
-            onClick={handleExportPng}
-            disabled={loading !== null}
-            className="inline-flex items-center justify-center gap-1.5 h-10 px-4 text-body-sm font-bold rounded-pill bg-primary-600 text-white shadow-sm hover:bg-primary-700 active:bg-primary-800 disabled:opacity-disabled disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 transition-all duration-200"
-            title="Export as PNG"
-            aria-label="Export chart as PNG"
-          >
-            <Download size={18} />
-            {loading === 'png' ? 'Exporting...' : 'Export PNG'}
-          </button>
-        )}
-
-        {showPdf && (
-          <button
-            onClick={handleExportPdf}
-            disabled={loading !== null}
-            className="inline-flex items-center justify-center gap-1.5 h-10 px-4 text-body-sm font-bold rounded-pill bg-secondary-600 text-white shadow-sm hover:bg-secondary-700 active:bg-secondary-800 disabled:opacity-disabled disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-500 transition-all duration-200"
-            title="Export as PDF"
-            aria-label="Export chart as PDF"
-          >
-            <DownloadCloud size={18} />
-            {loading === 'pdf' ? 'Exporting...' : 'Export PDF'}
-          </button>
-        )}
-
-        {showCsv && data && (
-          <button
-            onClick={handleExportCsv}
-            disabled={loading !== null}
-            className="inline-flex items-center justify-center gap-1.5 h-10 px-4 text-body-sm font-bold rounded-pill bg-accent-400 text-ink-900 shadow-sm hover:bg-accent-500 active:bg-accent-600 disabled:opacity-disabled disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-400 transition-all duration-200"
-            title="Export as CSV"
-            aria-label="Export data as CSV"
-          >
-            <FileJson size={18} />
-            {loading === 'csv' ? 'Exporting...' : 'Export CSV'}
-          </button>
-        )}
-      </div>
-
+    <div className="flex flex-col gap-stack-xs">
+      <div className="flex items-center gap-stack-xs flex-wrap">{rendu}</div>
       {error && (
-        <div className="text-danger-base text-caption p-2 bg-danger-bg rounded-md" role="alert">
+        <div className="text-danger-fg text-caption p-2 bg-danger-bg rounded-md" role="alert">
           {error}
         </div>
       )}
