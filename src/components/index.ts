@@ -30,8 +30,6 @@ export type { SelectProps, SelectOption, SelectSize, SelectStatus } from './core
 export { Badge } from './ui/Badge';
 export type { BadgeProps, BadgeVariant } from './ui/Badge';
 
-export { Tag } from './ui/Tag';
-export type { TagProps } from './ui/Tag';
 
 export { Avatar, AvatarGroup } from './ui/Avatar';
 export type {
@@ -197,8 +195,6 @@ export { MetaItem } from './ui/MetaItem';
 export { ActivityItem } from './ui/ActivityItem';
 export { IconFeatureCard } from './ui/IconFeatureCard';
 export { UserInfo } from './ui/UserInfo';
-export { TrendingBadge } from './ui/TrendingBadge';
-export type { TrendingBadgeProps } from './ui/TrendingBadge';
 export { MasteryBadge } from './ui/MasteryBadge';
 export type { MasteryBadgeProps } from './ui/MasteryBadge';
 // BackgroundBlobs supprimé (Phase 10) — utiliser AmbientBlobs (patterns/AmbientBlobs)

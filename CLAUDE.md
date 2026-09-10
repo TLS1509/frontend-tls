@@ -67,7 +67,32 @@ Depuis Phase 19.A, les 4 chips consomment **`ui/Chip.tsx`** (primitive interne) 
 | `Tag` | removable filter chip avec X button. |
 | `FilterChip` | toggle interactif avec active state gradient. |
 
-**Ne pas fusionner** — APIs fondamentalement différentes (ReactNode vs string, glass vs tones).
+⚠️ **Révisé le 2026-09-10 — la famille est passée de 9 à 6.** L'ancien « ne pas
+fusionner, APIs fondamentalement différentes » avait été écrit en supposant que
+les neuf enveloppes servaient. Mesuré hors vitrine : `TrendingBadge` **0 usage
+produit** (ses 11 occurrences vivaient dans la page qui l'exposait), `Pill` **0**,
+`Tag` **0** — les `<Tag>` qu'on croyait siens étaient l'icône Lucide du même nom.
+Les trois sont supprimés.
+
+`StatusBadge` reste malgré son unique consommateur : il n'est pas un doublon de
+`Badge` mais encode les cinq états d'une leçon avec leur icône. C'est du
+vocabulaire de domaine, dont l'app aura besoin quand le corpus arrivera —
+le retirer échangerait un concept contre des lignes.
+
+**La famille aujourd'hui** : `Badge` (l'état, 285) · `FilterChip` (le filtre, 76)
+· `MetaPill` + `MetaPillGroup` (la donnée) · `Chip` (primitive interne) ·
+`StatusBadge` (les états de leçon).
+
+**Deux registres, et il faut les distinguer d'un coup d'œil** : `Badge` crie —
+capitales, graisse 700, `tracking-label`, bordure — pour dire un **état** ;
+`MetaPill` chuchote — casse normale, graisse 500 — pour dire une **donnée**.
+Les confondre, c'est ce qui rend une carte illisible : on ne sait plus ce qui est
+un fait et ce qui est un statut.
+
+⚠️ Les tailles de `Badge` s'appellent `compact` / `normal` / `large`, pas
+`sm`/`md`/`lg` : `Chip` porte ces derniers pour des hauteurs différentes (Badge
+normal = 20 px, Chip md = 30), et l'écart se lisait comme un défaut alors qu'il
+est voulu.
 
 ### Patterns éditoriaux & layout (introduits 2026-05-09 → 2026-05-10)
 

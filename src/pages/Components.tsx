@@ -65,7 +65,6 @@ import {
   CompetenceBadge,
   MasteryBadge,
   Achievement,
-  TrendingBadge,
   FilterChip,
   Steps,
   InlineWin,
@@ -83,7 +82,6 @@ import {
   // Content & Display
   ActionCard,
   ActivityItem,
-  Tag,
   MetaPill,
   MetaPillGroup,
   MetaItem,
@@ -226,7 +224,6 @@ import { ViewerOverlay } from '../components/patterns/ViewerOverlay';
 import { HeaderNav } from '../components/patterns/HeaderNav';
 import { AppBreadcrumb } from '../components/patterns/AppBreadcrumb';
 import { AccountFamilyNav } from '../components/patterns/AccountFamilyNav';
-import { Pill } from '../components/ui/Pill';
 import { AchievementBadge } from '../components/ui/AchievementBadge';
 import { JacCardPending, JacCardNextJalon } from '../components/ui/JacCard';
 import { LessonNavigation } from '../components/patterns/LessonNavigation';
@@ -2397,22 +2394,6 @@ const COMPONENTS: ComponentEntry[] = [
             <StatusBadge status="failed" showLabel />
           </div>
         </div>
-        {/* TrendingBadge — social proof */}
-        <div className="flex flex-col gap-stack-xs">
-          <span className="font-body text-micro font-bold uppercase tracking-widest text-ink-400">TrendingBadge — social proof</span>
-          <div className="flex flex-wrap gap-stack-xs">
-            <TrendingBadge type="trending" />
-            <TrendingBadge type="popular" />
-            <TrendingBadge type="recommended" />
-            <TrendingBadge type="featured" />
-            <TrendingBadge type="new" />
-          </div>
-          <div className="flex flex-wrap gap-stack-xs">
-            <TrendingBadge type="trending" count={42} />
-            <TrendingBadge type="popular" count={128} animated={false} />
-            <TrendingBadge type="new" size="sm" />
-          </div>
-        </div>
       </div>
     ),
   },
@@ -2988,44 +2969,6 @@ const COMPONENTS: ComponentEntry[] = [
   },
 
   {
-    // Phase 1 P0 (2026-06-30, vérifié): Pill set 1113:11 conforme code (3 variants).
-    name: 'Pill',
-    codeName: 'ui/Pill.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    usedBy: ['AuthShell', 'HeroSection', 'EditorialHero', 'ResumeLessonCard', 'Marketing'],
-    description: 'Chip générique icône + texte. 3 variants : **surface** (bg-white border — banners clairs), **glass-light** (translucide blanc + backdrop-blur — héros colorés), **glass-dark** (translucide noir — overlays media/vidéo). 3 sizes : sm/md/lg. Différent de MetaPill (metadata card, tone-tinted) et FilterChip (toggle interactif).',
-    keywords: ['pill', 'chip', 'glass', 'surface', 'tag', 'icon', 'overlay', 'hero', 'frosted', 'banner'],
-    render: () => (
-      <div className="flex flex-col gap-stack-lg">
-        <div className="flex flex-col gap-stack-xs p-stack rounded-xl bg-white border border-ink-200">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">surface — fond clair</p>
-          <div className="flex gap-stack-xs flex-wrap">
-            <Pill icon={<BookOpen size={14} />} size="sm">Parcours</Pill>
-            <Pill icon={<Clock3 size={14} />} size="md">6 semaines</Pill>
-            <Pill icon={<Users size={14} />} size="lg">1 242 apprenants</Pill>
-          </div>
-        </div>
-        <div className="flex flex-col gap-stack-xs p-stack rounded-xl bg-gradient-to-br from-primary-500 to-primary-700">
-          <p className="text-caption font-bold uppercase tracking-wider text-white/80 m-0">glass-light — fond coloré (hero gradient)</p>
-          <div className="flex gap-stack-xs flex-wrap">
-            <Pill variant="glass-light" icon={<Flame size={14} />} size="sm">Trending</Pill>
-            <Pill variant="glass-light" icon={<Trophy size={14} />} size="md">Certifié</Pill>
-            <Pill variant="glass-light" size="lg">14 jours de streak</Pill>
-          </div>
-        </div>
-        <div className="flex flex-col gap-stack-xs p-stack rounded-xl bg-ink-900">
-          <p className="text-caption font-bold uppercase tracking-wider text-white/70 m-0">glass-dark — fond sombre / vidéo overlay</p>
-          <div className="flex gap-stack-xs flex-wrap">
-            <Pill variant="glass-dark" icon={<Video size={14} />} size="sm">12 min</Pill>
-            <Pill variant="glass-dark" size="md">4K · HD</Pill>
-          </div>
-        </div>
-      </div>
-    ),
-  },
-
-  /* ---- NAVIGATION ------------------------------------------------------- */
-  {
     name: 'Sidebar',
     codeName: 'layout/Sidebar.tsx',
     cssBase: 'Tailwind (no BEM)',
@@ -3172,20 +3115,6 @@ const COMPONENTS: ComponentEntry[] = [
         <Achievement icon="🏆" title="Pionnier IA" description="Premier parcours terminé" unlockedAt="15 janv. 2024" variant="unlocked" size="md" />
         <Achievement icon="⚡" title="Streak Master" description="7 jours consécutifs" progress={7} maxProgress={10} variant="in-progress" size="md" />
         <Achievement icon="🌟" title="Mentor" description="Aidez 5 collègues" variant="locked" size="md" />
-      </div>
-    ),
-  },
-  {
-    name: 'TrendingBadge',
-    codeName: 'ui/Badge.tsx (export)',
-    cssBase: 'Tailwind',
-    description: 'Social proof badge animé avec gradient + icon. **Properties** : type (5 : trending/popular/recommended/featured/new) · size (2 : sm/md) · hasCount (2 : false/true — affiche count bubble avec nombre). Animated pulse par défaut.',
-    keywords: ['trending', 'badge', 'popular', 'featured', 'new', 'count', 'social proof'],
-    render: () => (
-      <div className="flex gap-stack-xs flex-wrap items-center">
-        <TrendingBadge type="trending" count={42} />
-        <TrendingBadge type="popular" size="sm" />
-        <TrendingBadge type="recommended" animated={false} />
       </div>
     ),
   },
@@ -3564,44 +3493,6 @@ const COMPONENTS: ComponentEntry[] = [
   },
 
   /* ---- CONTENT (additional) --------------------------------------------- */
-  {
-    name: 'Tag',
-    codeName: 'Tag.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    usedBy: ['Journal', 'Passeport', 'Recherche', 'Veille'],
-    description: 'Étiquette statique ou filtre actif supprimable. 4 tones (neutral/primary/warm/sun) + surface glass pour fonds colorés. Bouton × intégré pour la suppression. Icon optionnel.',
-    keywords: ['tag', 'label', 'category', 'filter', 'removable', 'chip', 'glass', 'tone'],
-    render: () => (
-      <div className="flex flex-col gap-stack-lg">
-        {/* Tones solid */}
-        <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Tones · solid surface</p>
-          <div className="flex flex-wrap gap-stack-xs">
-            <Tag tone="neutral">Neutre</Tag>
-            <Tag tone="primary">Leadership</Tag>
-            <Tag tone="warm">Formation</Tag>
-            <Tag tone="sun">IA Générative</Tag>
-          </div>
-          <div className="flex flex-wrap gap-stack-xs">
-            <Tag tone="neutral" leadingIcon={I.book}>Avec icon</Tag>
-            <Tag tone="primary" onRemove={() => {}}>Supprimable</Tag>
-            <Tag tone="warm" leadingIcon={I.trophy} onRemove={() => {}}>Badge actif</Tag>
-          </div>
-        </div>
-        {/* Glass surface */}
-        <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Glass surface · sur fond coloré</p>
-          <div className="bg-gradient-to-r from-primary-500 to-primary-700 rounded-xl px-stack py-5 flex flex-wrap gap-stack-xs">
-            <Tag surface="glass">Leadership</Tag>
-            <Tag surface="glass">IA Générative</Tag>
-            <Tag surface="glass" leadingIcon={I.book}>Formation</Tag>
-            <Tag surface="glass" onRemove={() => {}}>Supprimable ×</Tag>
-            <Tag surface="glass" leadingIcon={I.trophy} onRemove={() => {}}>Badge actif</Tag>
-          </div>
-        </div>
-      </div>
-    ),
-  },
   {
     name: 'MetaPill',
     codeName: 'MetaPill.tsx',

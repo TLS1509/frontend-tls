@@ -160,7 +160,6 @@ export const CATALOG: Record<string, CatalogMeta> = {
   InlineWin:            { category: 'Feedback', subCategory: 'Celebrations' },
   JacCard:              { category: 'Learning', subCategory: 'Compétences' },
   NewsletterSignupCard: { category: 'Cards', subCategory: 'Communication' },
-  TrendingBadge:        { category: 'Atoms', subCategory: 'Status badges' },
   ViewerProgressTrail:  { category: 'Learning', subCategory: 'Viewer content' },
 
   // ── Phase 4, lot 3 : squelettes, selects, grilles, charts, divers ─────
@@ -241,10 +240,8 @@ export const CATALOG: Record<string, CatalogMeta> = {
   NotificationBadge:    { category: 'Atoms', subCategory: 'Status badges' },
 
   // Chips / Pills
-  Pill:                 { category: 'Atoms', subCategory: 'Chips & Pills' },
   MetaPill:             { category: 'Atoms', subCategory: 'Chips & Pills' },
   MetaItem:             { category: 'Atoms', subCategory: 'Chips & Pills' },
-  Tag:                  { category: 'Atoms', subCategory: 'Chips & Pills' },
   FilterChip:           { category: 'Search & Filters', subCategory: 'Filter controls' },
   // 'Filter Pills' supprimé — redondant avec FilterChip
 

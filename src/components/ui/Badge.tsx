@@ -177,82 +177,14 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
   );
 };
 
-// ─── TrendingBadge (promotional gradient badge with pulse) ─────────────────
+/* TrendingBadge a été retiré le 2026-09-10 : zéro usage dans le produit.
 
-export type PromoType = 'trending' | 'popular' | 'recommended' | 'featured' | 'new';
+   Ses onze occurrences vivaient toutes dans la vitrine, qui le montrait —
+   c'est-à-dire qu'il n'existait que pour être exposé. Le CLAUDE.md annonçait
+   trois exports publics ici ; il en reste deux, Badge et StatusBadge.
 
-export interface TrendingBadgeProps {
-  type: PromoType;
-  size?: 'sm' | 'md';
-  animated?: boolean;
-  count?: number;
-}
-
-const PROMO_ICONS: Record<PromoType, React.ElementType> = {
-  trending:    TrendingUp,
-  popular:     Star,
-  recommended: Sparkles,
-  featured:    Award,
-  new:         Zap,
-};
-
-const PROMO_LABELS: Record<PromoType, string> = {
-  trending:    'Trending',
-  popular:     'Popular',
-  recommended: 'For You',
-  featured:    'Featured',
-  new:         'New',
-};
-
-const PROMO_CLASSES: Record<PromoType, string> = {
-  trending:    'bg-gradient-to-br from-secondary-500 to-secondary-600 text-white',
-  popular:     'bg-gradient-to-br from-accent-500 to-accent-600 text-white',
-  recommended: 'bg-gradient-to-br from-primary-500 to-primary-600 text-white',
-  featured:    'bg-gradient-to-br from-primary-700 to-primary-900 text-white',
-  new:         'bg-gradient-to-br from-success-base to-success-fg text-white',
-};
-
-const PROMO_SIZE_CLASSES: Record<'sm' | 'md', string> = {
-  sm: 'text-micro px-2 py-0.5 gap-tight',
-  md: 'text-caption px-2.5 py-1 gap-stack-2xs',
-};
-
-const PROMO_ICON_SIZES: Record<'sm' | 'md', number> = { sm: 12, md: 14 };
-
-const PROMO_COUNT_CLASSES: Record<'sm' | 'md', string> = {
-  sm: 'text-micro px-1 ml-0.5',
-  md: 'text-micro px-1.5 ml-1',
-};
-
-export const TrendingBadge: React.FC<TrendingBadgeProps> = ({
-  type,
-  size = 'md',
-  animated = true,
-  count,
-}) => {
-  const Icon = PROMO_ICONS[type];
-  const iconSize = PROMO_ICON_SIZES[size];
-
-  const classes = [
-    'inline-flex items-center font-bold rounded-pill shadow-sm whitespace-nowrap',
-    PROMO_SIZE_CLASSES[size],
-    PROMO_CLASSES[type],
-    animated && 'animate-pulse-slow',
-  ]
-    .filter(Boolean)
-    .join(' ');
-
-  return (
-    <div className={classes}>
-      <Icon size={iconSize} aria-hidden="true" />
-      <span>{PROMO_LABELS[type]}</span>
-      {count != null && (
-        <span
-          className={`inline-flex items-center justify-center bg-white/25 rounded-pill font-bold ${PROMO_COUNT_CLASSES[size]}`}
-        >
-          {count}
-        </span>
-      )}
-    </div>
-  );
-};
+   StatusBadge reste malgré son unique consommateur : il n'est pas un doublon de
+   Badge mais encode les cinq états d'une leçon — verrouillée, disponible, en
+   cours, terminée, échouée — avec leur icône. C'est du vocabulaire de domaine,
+   dont l'app aura besoin quand le corpus de formation arrivera. Le retirer pour
+   économiser un usage échangerait un concept contre des lignes. */
