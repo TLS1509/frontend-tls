@@ -136,6 +136,17 @@ const DERIVES = [
   { nom: 'gouttière numérique (token existant)',  rx: /(?<![\w-])gap-(0\.5|2|4|6|8)(?![\w.-])/g },
   { nom: 'taille d’icône hors échelle',           rx: /size=\{(?!14\b|16\b|18\b|20\b|24\b|28\b|32\b|40\b|48\b)\d{1,3}\}/g },
   { nom: 'rayon hors token (rounded-full / 3xl)', rx: /(?<![\w-])rounded-(full|3xl)(?![\w-])/g },
+  /* Un pas typographique déclare DÉJÀ son interligne et sa graisse :
+       --text-h4: 1.25rem
+       --text-h4--line-height: 1.75rem
+       --text-h4--font-weight: 700
+     Écrire `leading-*` ou `font-*` à côté de `text-h4` annule ce que le token
+     dit. C'est de là que viennent les dix combinaisons de titre de carte et les
+     six interlignes relevés le 2026-09-10 sur quatre tailles de paragraphe. */
+  { nom: 'interligne écrasant un pas typographique',
+    rx: /className=(["'`])(?:(?!\1)[\s\S])*?(?:\btext-(?:h[1-4]|body-lg|body-sm|body|caption|micro|hero|section|title|feature|lede)\b(?:(?!\1)[\s\S])*?\bleading-|\bleading-(?:(?!\1)[\s\S])*?\btext-(?:h[1-4]|body-lg|body-sm|body|caption|micro|hero|section|title|feature|lede)\b)/g },
+  { nom: 'graisse écrasant un pas de titre',
+    rx: /className=(["'`])(?:(?!\1)[\s\S])*?(?:\btext-h[1-4]\b(?:(?!\1)[\s\S])*?\bfont-(?:semibold|extrabold|black|medium|normal)\b|\bfont-(?:semibold|extrabold|black|medium|normal)\b(?:(?!\1)[\s\S])*?\btext-h[1-4]\b)/g },
 ];
 
 function fichiers(dir, acc = []) {
