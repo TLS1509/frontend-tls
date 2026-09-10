@@ -159,8 +159,8 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
           className={[
             'px-4 py-3 text-body-sm',
             isChatbot
-              ? 'max-w-[82%] rounded-2xl rounded-bl-sm'
-              : 'max-w-[68%] rounded-xl rounded-bl-xs shadow-xs',
+              ? 'max-w-[82%] rounded-lg rounded-bl-sm'
+              : 'max-w-[68%] rounded-lg rounded-bl-xs shadow-xs',
             isPrivacyBlocked
               ? 'bg-danger-bg border border-danger-border text-danger-fg'
               : isLowConfidence

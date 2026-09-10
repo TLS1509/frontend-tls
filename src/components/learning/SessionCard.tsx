@@ -51,7 +51,7 @@ const GHOST_ACTION =
   'focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-500';
 
 /* ─── Planned surfaces (registre actif tone-aware) ──────────────────────────── */
-const SURFACE_CARD_BASE = 'bg-white border border-ink-100 shadow-card';
+const SURFACE_CARD_BASE = 'bg-white border border-ink-200';
 
 const SURFACE_CARD_HOVER_BORDER: Record<SessionCardTone, string> = {
   primary: 'hover:border-primary-200',
@@ -83,8 +83,10 @@ const STATUS: Record<'planned' | 'completed', { label: string; chip: string }> =
 };
 
 const BASE =
-  'group flex flex-col gap-stack p-5 sm:p-6 rounded-2xl transition-[transform,box-shadow,border-color] ' +
-  'duration-base ease-emphasis hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2';
+  /* Aligné sur les décisions du 09/09 : rayon 14 px (R1), padding 24 px au canon,
+   ni ombre ni soulèvement au survol — la bordure suffit à poser la carte. */
+  'group flex flex-col gap-stack p-stack-lg rounded-lg transition-[box-shadow,border-color] ' +
+  'duration-base ease-emphasis focus-visible:outline-2 focus-visible:outline-offset-2';
 
 function plannedSurface(surface: SessionCardSurface, tone: SessionCardTone): string {
   switch (surface) {
@@ -121,7 +123,7 @@ export const SessionCard: React.FC<SessionCardProps> = ({
 
   /* completed → registre quiet neutre (jamais de saturation sur inactif). */
   const surfaceClasses = isCompleted
-    ? 'bg-white border border-ink-100 shadow-card hover:border-ink-200 hover:shadow-card-hover'
+    ? 'bg-white border border-ink-200 hover:border-ink-300'
     : plannedSurface(surface, tone);
 
   const classes = [

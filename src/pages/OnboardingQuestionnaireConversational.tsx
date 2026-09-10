@@ -322,7 +322,7 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
           placeholder="Réponds librement… (Entrée pour envoyer)"
           rows={1}
           disabled={transitioning}
-          className="flex-1 resize-none rounded-xl border border-ink-200 bg-white px-3 py-2.5 text-body-sm text-ink-900 leading-relaxed placeholder:text-ink-500 focus:outline-none focus:ring-2 focus:ring-secondary-300 focus:border-secondary-400 transition-all duration-base disabled:opacity-disabled max-h-24 overflow-y-auto"
+          className="flex-1 resize-none rounded-lg border border-ink-200 bg-white px-3 py-2.5 text-body-sm text-ink-900 leading-relaxed placeholder:text-ink-500 focus:outline-none focus:ring-2 focus:ring-secondary-300 focus:border-secondary-400 transition-all duration-base disabled:opacity-disabled max-h-24 overflow-y-auto"
         />
         <Button
           variant="secondary"
@@ -362,7 +362,7 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
         {/* Question card — key forces fade-in animation on question change */}
         <div
           key={`q-${currentIdx}-${isClosed}`}
-          className="rounded-lg bg-white/80 backdrop-blur-glass-medium border border-white/60 shadow-card px-6 py-stack-lg animate-in fade-in slide-in-from-bottom-2 duration-300 flex flex-col gap-stack-xs"
+          className="rounded-lg bg-white/80 backdrop-blur-glass-medium border border-white/60 px-6 py-stack-lg animate-in fade-in slide-in-from-bottom-2 duration-300 flex flex-col gap-stack-xs"
         >
           {/* AI identity */}
           <div className="flex items-center gap-stack-xs">

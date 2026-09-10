@@ -154,7 +154,7 @@ export default function PasseportCompetenceDetail() {
               <div
                 key={d.level}
                 className={[
-                  'flex items-start gap-stack p-stack rounded-xl border transition-all duration-base',
+                  'flex items-start gap-stack p-stack rounded-lg border transition-all duration-base',
                   d.level === currentLevel
                     ? 'bg-primary-50 border-primary-200 shadow-sm'
                     : 'bg-white border-ink-100',

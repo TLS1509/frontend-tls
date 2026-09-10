@@ -71,7 +71,7 @@ export default function MasterclassReplay() {
             <SectionCard title="Mes notes" titleIcon={<Edit3 size={18} />}>
               <textarea
                 placeholder="Ajoute tes notes sur la session..."
-                className="w-full min-h-[120px] h-auto p-3 border border-ink-200 rounded-xl text-body-sm resize-none focus:outline-none focus:border-primary-400"
+                className="w-full min-h-[120px] h-auto p-3 border border-ink-200 rounded-lg text-body-sm resize-none focus:outline-none focus:border-primary-400"
               />
               <div className="flex justify-end mt-tight">
                 <Button variant="ghost" size="sm">Sauvegarder</Button>

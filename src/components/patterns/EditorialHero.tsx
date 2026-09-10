@@ -232,7 +232,7 @@ export const PageHero: React.FC<PageHeroProps> = ({
         'flex flex-col',
         isFlat
           ? 'gap-2'
-          : 'relative overflow-hidden rounded-2xl border backdrop-blur-glass-light gap-stack-xs',
+          : 'relative overflow-hidden rounded-lg border backdrop-blur-glass-light gap-stack-xs',
         !isFlat && TONE_BG[tone],
         !isFlat && TONE_BORDER[tone],
         !isFlat && TONE_SHADOW[tone],

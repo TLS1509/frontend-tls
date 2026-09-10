@@ -75,7 +75,7 @@ export const EmptyDashboardState: React.FC<EmptyDashboardStateProps> = ({
         type="button"
         onClick={() => navigate('/learning-paths')}
         aria-label="Démarre ton premier parcours"
-        className="group relative overflow-hidden w-full text-left rounded-2xl border border-secondary-200/70 bg-gradient-to-br from-secondary-100/92 to-secondary-50/78 shadow-[inset_0_1px_0_rgba(255,255,255,0.85)] p-6 md:p-8 cursor-pointer transition-[transform,box-shadow] duration-base ease-emphasis hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-400 flex flex-col gap-3.5"
+        className="group relative overflow-hidden w-full text-left rounded-lg border border-secondary-200/70 bg-gradient-to-br from-secondary-100/92 to-secondary-50/78 shadow-[inset_0_1px_0_rgba(255,255,255,0.85)] p-6 md:p-8 cursor-pointer transition-[transform,box-shadow] duration-base ease-emphasis hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-400 flex flex-col gap-3.5"
       >
         <span className="inline-flex self-start items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide px-2.5 py-1 rounded-pill bg-secondary-200/60 text-secondary-700">
           <Play size={14} fill="currentColor" aria-hidden="true" /> Premier pas

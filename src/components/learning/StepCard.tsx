@@ -171,7 +171,7 @@ export const StepCard: React.FC<StepCardProps> = ({
                 <div
                   key={lesson.id}
                   className={[
-                    'flex items-center justify-between gap-stack-xs px-4 py-3 rounded-xl border transition-colors',
+                    'flex items-center justify-between gap-stack-xs px-4 py-3 rounded-lg border transition-colors',
                     lesson.completed
                       ? 'bg-success-bg/60 border-success-base/20 text-success-fg hover:bg-success-bg'
                       : 'bg-white border-ink-200 text-ink-900 hover:bg-ink-50 hover:border-ink-300',

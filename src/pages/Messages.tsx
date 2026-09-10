@@ -287,7 +287,7 @@ export const Messages: React.FC = () => {
                   onClick={() => handleSelectConversation(conv.id)}
                   data-selected={isSelected}
                   className={[
-                    'flex items-start gap-stack-xs w-full p-3 rounded-xl text-left cursor-pointer mb-0.5 transition-all duration-100 font-body',
+                    'flex items-start gap-stack-xs w-full p-3 rounded-lg text-left cursor-pointer mb-0.5 transition-all duration-100 font-body',
                     'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                     isSelected
                       ? 'bg-primary-50 shadow-xs border border-primary-200'

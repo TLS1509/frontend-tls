@@ -92,7 +92,7 @@ export const LessonCard: React.FC<LessonCardProps> = ({
   return (
     <div
       className={[
-        'group relative rounded-2xl p-5',
+        'group relative rounded-lg p-5',
         'transition-all duration-slow ease-emphasis',
         SURFACE_TONE[surface][tone],
         !locked && CARD_SHADOW_HOVER_MD[tone],
@@ -117,11 +117,11 @@ export const LessonCard: React.FC<LessonCardProps> = ({
     >
       {/* Locked overlay — glass blur with icon */}
       {locked && (
-        <div className="absolute inset-0 z-10 flex items-center justify-center rounded-2xl bg-white/80 backdrop-blur-sm">
+        <div className="absolute inset-0 z-10 flex items-center justify-center rounded-lg bg-white/80 backdrop-blur-sm">
           <div className="flex flex-col items-center gap-stack-xs">
             {/* Double-bezel lock icon */}
-            <div className="p-1.5 rounded-2xl bg-ink-100/60 ring-1 ring-ink-200/40">
-              <div className="w-12 h-12 rounded-xl bg-white text-ink-500 flex items-center justify-center shadow-inner">
+            <div className="p-1.5 rounded-lg bg-ink-100/60 ring-1 ring-ink-200/40">
+              <div className="w-12 h-12 rounded-lg bg-white text-ink-500 flex items-center justify-center shadow-inner">
                 <Lock size={20} strokeWidth={1.75} />
               </div>
             </div>

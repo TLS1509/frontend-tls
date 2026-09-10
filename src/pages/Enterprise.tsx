@@ -311,7 +311,7 @@ export const Enterprise: React.FC = () => {
                 setInviteOpen(false);
                 setInviteEmail('');
               }}
-              className="rounded-xl bg-primary-50/50 border border-primary-100 p-stack sm:p-5 flex flex-col gap-stack mb-stack-lg"
+              className="rounded-lg bg-primary-50/50 border border-primary-100 p-stack sm:p-5 flex flex-col gap-stack mb-stack-lg"
             >
               <h3 className="font-display text-body font-bold text-ink-900">
                 Inviter un nouveau collaborateur

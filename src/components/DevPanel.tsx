@@ -104,7 +104,7 @@ export const DevPanel: React.FC = () => {
 
       {/* Panel */}
       {isOpen && (
-        <div className="w-72 rounded-2xl bg-ink-900 border border-white/[0.08] shadow-xl overflow-hidden animate-[filterIn_0.15s_ease_both]">
+        <div className="w-72 rounded-lg bg-ink-900 border border-white/[0.08] shadow-xl overflow-hidden animate-[filterIn_0.15s_ease_both]">
 
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-2.5 border-b border-white/[0.07]">
@@ -201,7 +201,7 @@ export const DevPanel: React.FC = () => {
         aria-label={isOpen ? 'Fermer le Dev Panel' : 'Ouvrir le Dev Panel'}
         aria-expanded={isOpen}
         className={[
-          'w-10 h-10 rounded-xl flex items-center justify-center shadow-lg cursor-pointer',
+          'w-10 h-10 rounded-lg flex items-center justify-center shadow-lg cursor-pointer',
           'transition-[background-color,color,box-shadow] duration-fast',
           'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-400',
           isOpen

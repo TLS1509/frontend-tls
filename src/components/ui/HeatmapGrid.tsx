@@ -56,7 +56,7 @@ export const HeatmapGrid: React.FC<HeatmapGridProps> = ({
 }) => {
   return (
     <div className={['flex flex-col gap-stack', className].filter(Boolean).join(' ')}>
-      <div className="overflow-x-auto rounded-xl border border-ink-100">
+      <div className="overflow-x-auto rounded-lg border border-ink-100">
         <table className="min-w-full border-collapse">
           {/* Header row — competence axes */}
           <thead>

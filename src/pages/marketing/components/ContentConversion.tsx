@@ -93,7 +93,7 @@ export const VigieSignupBanner: React.FC<{ source?: string }> = ({ source = 'vig
   return (
     <aside
       aria-label="S'abonner à la newsletter La Vigie IA"
-      className="mt-section flex flex-col gap-stack rounded-2xl border border-ink-100 bg-ink-50/50 p-stack-lg sm:p-section"
+      className="mt-section flex flex-col gap-stack rounded-lg border border-ink-100 bg-ink-50/50 p-stack-lg sm:p-section"
     >
       <div className="flex items-start gap-stack">
         <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-primary-700 shadow-card">

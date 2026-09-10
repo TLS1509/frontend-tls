@@ -322,7 +322,7 @@ export const JournalNewEntry: React.FC = () => {
                   aria-pressed={isSelected}
                   onClick={() => setSelectedType(type)}
                   className={[
-                    'flex flex-col items-start gap-stack-xs p-4 rounded-xl bg-white border cursor-pointer relative transition-all duration-200 text-left font-body focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+                    'flex flex-col items-start gap-stack-xs p-4 rounded-lg bg-white border cursor-pointer relative transition-all duration-200 text-left font-body focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                     isSelected
                       ? `${tc.borderSelected} shadow-sm`
                       : 'border-ink-200 shadow-xs hover:border-ink-400',

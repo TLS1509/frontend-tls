@@ -91,7 +91,7 @@ export default function MasterclassSurvey() {
                 type="button"
                 onClick={() => setRating(score)}
                 className={[
-                  'flex-1 flex flex-col items-center gap-tight py-3 rounded-xl border-2 transition-all duration-fast',
+                  'flex-1 flex flex-col items-center gap-tight py-3 rounded-lg border-2 transition-all duration-fast',
                   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                   rating === score
                     ? 'border-primary-400 bg-primary-50 text-primary-700'
@@ -113,7 +113,7 @@ export default function MasterclassSurvey() {
           <textarea
             value={feedback}
             onChange={(e) => setFeedback(e.target.value)}
-            className="w-full min-h-[100px] h-auto p-3 border border-ink-200 rounded-xl text-body-sm resize-none focus:outline-none focus:border-primary-400"
+            className="w-full min-h-[100px] h-auto p-3 border border-ink-200 rounded-lg text-body-sm resize-none focus:outline-none focus:border-primary-400"
             placeholder="Ce que tu as aimé, ce qui pourrait être amélioré..."
           />
         </Card>

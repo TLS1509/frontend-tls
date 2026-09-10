@@ -184,7 +184,7 @@ export const Recherche: React.FC = () => {
       <article
         key={item.id}
         onClick={() => navigate('/coaching')}
-        className="group flex flex-col gap-stack p-5 rounded-2xl border border-ink-100 bg-white hover:border-primary-300 hover:shadow-sm hover:-translate-y-0.5 transition-all duration-base cursor-pointer"
+        className="group flex flex-col gap-stack p-5 rounded-lg border border-ink-100 bg-white hover:border-primary-300 hover:shadow-sm hover:-translate-y-0.5 transition-all duration-base cursor-pointer"
       >
         <div className="flex items-start gap-stack-xs">
           <Avatar name={item.title} tint={item.tone === 'warm' ? 'warm' : item.tone === 'sun' ? 'sun' : 'brand'} size="lg" />

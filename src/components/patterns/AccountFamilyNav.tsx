@@ -97,7 +97,7 @@ export const AccountFamilyNav: React.FC<AccountFamilyNavProps> = ({
             to={item.href}
             aria-current={isActive ? 'page' : undefined}
             className={[
-              'group flex items-start gap-stack-xs p-3 rounded-xl transition-all duration-base',
+              'group flex items-start gap-stack-xs p-3 rounded-lg transition-all duration-base',
               isActive
                 ? 'bg-white shadow-sm cursor-default'
                 : 'hover:bg-white/70 hover:shadow-xs',

@@ -471,7 +471,7 @@ export const MarketingDiagnostic: React.FC = () => {
                     onChange={(e) =>
                       setOpenAnswers((prev) => (i === 0 ? [e.target.value, prev[1]] : [prev[0], e.target.value]))
                     }
-                    className="h-auto min-h-[96px] w-full rounded-2xl border border-ink-200 bg-white p-stack font-body text-body text-ink-900 placeholder:text-ink-500 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                    className="h-auto min-h-[96px] w-full rounded-lg border border-ink-200 bg-white p-stack font-body text-body text-ink-900 placeholder:text-ink-500 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                     placeholder="Votre réponse (facultatif)…"
                   />
                 </div>

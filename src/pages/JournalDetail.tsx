@@ -260,7 +260,7 @@ export const JournalDetail: React.FC = () => {
             <button
               type="button"
               onClick={() => navigate(`/journal/entry/${prevEntry.id}`)}
-              className="flex items-center gap-stack-xs p-stack rounded-2xl border border-ink-100 bg-white hover:border-ink-200 hover:shadow-sm transition-all duration-base cursor-pointer text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+              className="flex items-center gap-stack-xs p-stack rounded-lg border border-ink-100 bg-white hover:border-ink-200 hover:shadow-sm transition-all duration-base cursor-pointer text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
             >
               <ArrowLeft size={16} className="text-ink-600 shrink-0" />
               <div className="flex-1 min-w-0">
@@ -277,7 +277,7 @@ export const JournalDetail: React.FC = () => {
             <button
               type="button"
               onClick={() => navigate(`/journal/entry/${nextEntry.id}`)}
-              className="flex items-center justify-end gap-stack-xs p-stack rounded-2xl border border-ink-100 bg-white hover:border-ink-200 hover:shadow-sm transition-all duration-base cursor-pointer text-right focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+              className="flex items-center justify-end gap-stack-xs p-stack rounded-lg border border-ink-100 bg-white hover:border-ink-200 hover:shadow-sm transition-all duration-base cursor-pointer text-right focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
             >
               <div className="flex-1 min-w-0">
                 <div className="font-body text-micro font-bold text-ink-500 uppercase tracking-wider mb-1">

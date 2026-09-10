@@ -304,7 +304,7 @@ export const ErrorPage: React.FC<ErrorPageProps> = ({
         {callout && (
           <motion.div
             variants={itemVariants}
-            className="rounded-xl border border-accent-200 bg-gradient-to-br from-accent-50 to-accent-50/40 p-stack-lg text-left max-w-[560px] w-full flex flex-col gap-tight"
+            className="rounded-lg border border-accent-200 bg-gradient-to-br from-accent-50 to-accent-50/40 p-stack-lg text-left max-w-[560px] w-full flex flex-col gap-tight"
           >
             {callout}
           </motion.div>

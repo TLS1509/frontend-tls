@@ -368,7 +368,7 @@ export const Profile: React.FC = () => {
                   <div
                     key={badge.id}
                     className={[
-                      'relative flex flex-col items-center text-center px-2 py-5 rounded-xl border',
+                      'relative flex flex-col items-center text-center px-2 py-5 rounded-lg border',
                       badge.earned
                         ? 'bg-white border-ink-100 hover:border-ink-200 transition-colors'
                         : 'bg-ink-50 border-ink-100',

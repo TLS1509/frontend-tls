@@ -115,7 +115,7 @@ export const AuthShell: React.FC<AuthShellProps> = ({
           {/* Glass dark Card */}
           <section
             className={[
-              'relative rounded-2xl px-8 py-10 sm:px-10 sm:py-12',
+              'relative rounded-lg px-8 py-10 sm:px-10 sm:py-12',
               'bg-white/10 backdrop-blur-glass-medium',
               'border border-white/20',
               'shadow-[0_20px_60px_-15px_rgba(0,0,0,0.30)]',
@@ -151,7 +151,7 @@ export const AuthShell: React.FC<AuthShellProps> = ({
 
           {/* Optional aside content (e.g. recommendations on ResetPassword) */}
           {aside && (
-            <aside className="rounded-2xl px-6 py-5 bg-white/8 backdrop-blur-glass-light border border-white/15 text-white/85">
+            <aside className="rounded-lg px-6 py-5 bg-white/8 backdrop-blur-glass-light border border-white/15 text-white/85">
               {aside}
             </aside>
           )}

@@ -68,7 +68,7 @@ export const IntroCallout: React.FC<IntroCalloutProps> = ({
   return (
     <div
       className={[
-        'relative rounded-2xl border p-5 sm:p-6 pl-6 sm:pl-7',
+        'relative rounded-lg border p-5 sm:p-6 pl-6 sm:pl-7',
         'overflow-hidden',
         SURFACE[tone],
         className,

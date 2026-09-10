@@ -110,7 +110,7 @@ export const JournalEntryCard: React.FC<JournalEntryCardProps> = ({
       role={clickable ? 'button' : undefined}
       tabIndex={clickable ? 0 : undefined}
       className={[
-        'group flex flex-col gap-stack-xs p-5 sm:p-6 rounded-2xl',
+        'group flex flex-col gap-stack-xs p-5 sm:p-6 rounded-lg',
         'bg-white border border-ink-100',
         clickable
           ? `cursor-pointer transition-all duration-base ${config.border} ${config.hoverShadow} hover:-translate-y-1`

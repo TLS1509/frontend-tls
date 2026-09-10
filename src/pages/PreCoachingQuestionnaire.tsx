@@ -119,7 +119,7 @@ export const PreCoachingQuestionnaire: React.FC = () => {
                   value={answers[step.id]}
                   onChange={(e) => setAnswer(step.id, e.target.value)}
                   placeholder={step.placeholder}
-                  className="w-full h-auto py-stack px-stack rounded-xl border border-ink-200 bg-ink-50 text-ink-900 font-body text-body-sm leading-[1.65] resize-y outline-none transition-colors duration-200 focus:border-primary-400 focus:bg-white placeholder:text-ink-500"
+                  className="w-full h-auto py-stack px-stack rounded-lg border border-ink-200 bg-ink-50 text-ink-900 font-body text-body-sm leading-[1.65] resize-y outline-none transition-colors duration-200 focus:border-primary-400 focus:bg-white placeholder:text-ink-500"
                 />
               </div>
             </div>

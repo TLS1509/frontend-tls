@@ -452,7 +452,7 @@ export const MarketingArticleDetail: React.FC = () => {
           {prev && (
             <Link
               to={`/website/magazine/${prev.slug}`}
-              className="group flex flex-col gap-stack p-stack-lg rounded-2xl bg-white border border-ink-100 hover:border-primary-200 hover:shadow-card-hover transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+              className="group flex flex-col gap-stack p-stack-lg rounded-lg bg-white border border-ink-100 hover:border-primary-200 transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
             >
               <span className="inline-flex items-center gap-1.5 font-body text-caption font-bold text-ink-500 uppercase tracking-widest">
                 <ArrowLeft size={14} className="transition-transform duration-base group-hover:-translate-x-1" />

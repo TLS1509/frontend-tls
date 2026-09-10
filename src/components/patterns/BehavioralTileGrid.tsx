@@ -100,7 +100,7 @@ export const BehavioralTileGrid: React.FC<BehavioralTileGridProps> = ({
         return (
           <div
             key={tile.title}
-            className={['rounded-xl p-6 border', p.card].join(' ')}
+            className={['rounded-lg p-6 border', p.card].join(' ')}
           >
             {/* Accent indicator */}
             <div

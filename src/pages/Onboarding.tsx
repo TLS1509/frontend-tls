@@ -310,7 +310,7 @@ export const Onboarding: React.FC = () => {
           placeholder="Entre ton prénom…"
           rows={1}
           disabled={transitioning}
-          className="flex-1 resize-none rounded-xl border border-ink-200 bg-white px-3 py-2.5 text-body-sm text-ink-900 leading-relaxed placeholder:text-ink-500 focus:outline-none focus:ring-2 focus:ring-secondary-300 focus:border-secondary-400 transition-all duration-base disabled:opacity-disabled max-h-24 overflow-y-auto"
+          className="flex-1 resize-none rounded-lg border border-ink-200 bg-white px-3 py-2.5 text-body-sm text-ink-900 leading-relaxed placeholder:text-ink-500 focus:outline-none focus:ring-2 focus:ring-secondary-300 focus:border-secondary-400 transition-all duration-base disabled:opacity-disabled max-h-24 overflow-y-auto"
           autoFocus
         />
         <Button

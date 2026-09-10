@@ -168,7 +168,7 @@ const NAV_INACTIVE =
   'rounded-pill text-ink-700 hover:bg-primary-100/60 hover:text-primary-800';
 
 const NAV_ACTIVE =
-  'rounded-xl bg-gradient-to-r from-primary-500 to-primary-700 text-white shadow-brand-sm';
+  'rounded-lg bg-gradient-to-r from-primary-500 to-primary-700 text-white shadow-brand-sm';
 
 export const NavItem: React.FC<NavItemProps> = ({
   icon,

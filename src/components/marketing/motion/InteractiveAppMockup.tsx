@@ -101,7 +101,7 @@ const CoachingPanel: React.FC = () => (
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.7 }}
-      className="rounded-xl bg-white border border-ink-200 p-3 flex items-center gap-stack-xs mt-2 shadow-xs"
+      className="rounded-lg bg-white border border-ink-200 p-3 flex items-center gap-stack-xs mt-2 shadow-xs"
     >
       <div className="w-10 h-10 rounded-pill bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white font-bold">
         S

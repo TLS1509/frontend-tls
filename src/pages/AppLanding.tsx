@@ -307,7 +307,7 @@ const AppLanding: React.FC = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="votre@email.com"
                     aria-label="Adresse email"
-                    className="h-12 px-4 rounded-xl bg-white border border-ink-200 text-ink-900 placeholder:text-ink-500 font-body text-body-sm focus:outline-none focus:border-primary-400 transition-all shadow-xs"
+                    className="h-12 px-4 rounded-lg bg-white border border-ink-200 text-ink-900 placeholder:text-ink-500 font-body text-body-sm focus:outline-none focus:border-primary-400 transition-all shadow-xs"
                   />
                   <LandingCta fullWidth>Créer mon compte</LandingCta>
                 </form>
@@ -523,7 +523,7 @@ const AppLanding: React.FC = () => {
               onChange={(e) => setEmailBottom(e.target.value)}
               placeholder="votre@email.com"
               aria-label="Adresse email"
-              className="flex-1 w-full h-12 px-4 rounded-xl bg-white/8 border border-white/20 text-white placeholder:text-white/40 font-body text-body-sm focus:outline-none focus:bg-white/12 focus:border-white/40 transition-all"
+              className="flex-1 w-full h-12 px-4 rounded-lg bg-white/8 border border-white/20 text-white placeholder:text-white/40 font-body text-body-sm focus:outline-none focus:bg-white/12 focus:border-white/40 transition-all"
             />
             <MagneticButton strength={12}>
               <LandingCta tone="gold">Créer mon compte</LandingCta>

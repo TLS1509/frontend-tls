@@ -101,7 +101,7 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
               <label
                 key={option.value}
                 className={[
-                  'relative flex items-start gap-stack-xs p-4 rounded-xl border-2 cursor-pointer',
+                  'relative flex items-start gap-stack-xs p-4 rounded-lg border-2 cursor-pointer',
                   'transition-[border-color,background-color,transform,box-shadow] duration-base ease-standard select-none',
                   isChecked
                     ? TONE_CHECKED_CARD[tone]

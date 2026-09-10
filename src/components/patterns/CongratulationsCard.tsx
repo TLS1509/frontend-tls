@@ -119,7 +119,7 @@ export const CongratulationsCard: React.FC<CongratulationsCardProps> = ({
       {xp && (
         <div
           className={[
-            'w-full max-w-sm rounded-2xl border p-5 flex flex-col gap-stack items-center',
+            'w-full max-w-sm rounded-lg border p-5 flex flex-col gap-stack items-center',
             XP_SURFACE[tone],
           ].join(' ')}
         >

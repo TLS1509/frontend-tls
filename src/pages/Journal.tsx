@@ -188,7 +188,7 @@ export const Journal: React.FC = () => {
                   type="button"
                   onClick={() => navigate(`/journal/new-entry?type=${t.type}`)}
                   className={[
-                    'group flex flex-col items-center justify-center gap-tight p-stack rounded-2xl border-2 text-center cursor-pointer',
+                    'group flex flex-col items-center justify-center gap-tight p-stack rounded-lg border-2 text-center cursor-pointer',
                     'transition-all duration-base hover:-translate-y-0.5 hover:shadow-md',
                     'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                     TONE_BG[t.tone],

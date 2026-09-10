@@ -66,7 +66,7 @@ const Sample: React.FC<{ v: Variant }> = ({ v }) => (
     </div>
 
     {/* Card blanche solide (surface app validée) */}
-    <div className="rounded-lg bg-white border border-ink-100 shadow-card p-stack flex flex-col gap-2">
+    <div className="rounded-lg bg-white border border-ink-100 p-stack flex flex-col gap-2">
       <div className="flex items-center gap-2">
         <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-primary-100 text-primary-600">
           <Sparkles size={16} />

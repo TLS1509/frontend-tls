@@ -239,11 +239,11 @@ export const SubscriptionPayment: React.FC = () => {
                 onClick={() => setSelectedPlan(plan.id)}
                 aria-pressed={isSelected}
                 className={[
-                  'group relative text-left flex flex-col gap-stack p-5 rounded-2xl border-2 transition-all duration-base cursor-pointer',
+                  'group relative text-left flex flex-col gap-stack p-5 rounded-lg border-2 transition-all duration-base cursor-pointer',
                   isSelected
                     ? 'bg-white border-primary-500 shadow-card-hover ring-2 ring-primary-200 -translate-y-1'
                     : plan.highlight
-                    ? 'bg-gradient-to-br from-primary-50 to-white border-primary-300 shadow-card hover:shadow-card-hover hover:-translate-y-0.5'
+                    ? 'bg-gradient-to-br from-primary-50 to-white border-primary-300 hover:-translate-y-0.5'
                     : 'bg-white border-ink-100 hover:border-primary-200 hover:shadow-sm',
                 ].join(' ')}
               >

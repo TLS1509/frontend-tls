@@ -133,7 +133,7 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
       tabIndex={clickable ? 0 : undefined}
       className={[
         'group relative flex items-start gap-stack-xs px-3 py-3 sm:px-4 sm:py-3.5',
-        'rounded-xl border border-transparent transition-all duration-base',
+        'rounded-lg border border-transparent transition-all duration-base',
         unread
           ? `${UNREAD_BG[tone]} ${UNREAD_BORDER[tone]}`
           : READ_HOVER_BG[tone],

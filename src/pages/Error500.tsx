@@ -117,7 +117,7 @@ export const Error500: React.FC = () => {
           initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.55, duration: 0.45 }}
           style={{ x: subX, y: subY }}
-          className="w-full max-w-md mb-10 rounded-xl bg-white border border-secondary-100 px-stack-lg py-stack text-left flex flex-col gap-tight shadow-xs"
+          className="w-full max-w-md mb-10 rounded-lg bg-white border border-secondary-100 px-stack-lg py-stack text-left flex flex-col gap-tight shadow-xs"
         >
           <p className="font-mono text-caption font-bold uppercase tracking-wider text-ink-600 mb-1">
             Diagnostic

@@ -105,7 +105,7 @@ export default function CoachCorrectionInterface() {
                     onChange={(e) => setFeedback(e.target.value)}
                     rows={6}
                     placeholder="Points forts, axes d'amélioration, conseils pratiques..."
-                    className="w-full rounded-xl border border-ink-200 px-stack py-3 text-body-sm text-ink-900 focus:outline-none focus:border-primary-400 transition-colors duration-fast resize-none"
+                    className="w-full rounded-lg border border-ink-200 px-stack py-3 text-body-sm text-ink-900 focus:outline-none focus:border-primary-400 transition-colors duration-fast resize-none"
                   />
                 </FormGroup>
 

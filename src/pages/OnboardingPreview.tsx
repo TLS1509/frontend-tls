@@ -162,7 +162,7 @@ function VariantA({ onDone }: { onDone: () => void }) {
             key={r.id}
             onClick={() => selectRole(r.id)}
             disabled={transitioning}
-            className="px-3 py-2 rounded-xl border border-ink-200 bg-white/90 text-body-sm text-ink-800 font-medium hover:border-secondary-400 hover:bg-secondary-50 active:scale-95 transition-all duration-150 disabled:opacity-50"
+            className="px-3 py-2 rounded-lg border border-ink-200 bg-white/90 text-body-sm text-ink-800 font-medium hover:border-secondary-400 hover:bg-secondary-50 active:scale-95 transition-all duration-150 disabled:opacity-50"
           >
             {r.emoji} {r.label}
           </button>
@@ -185,7 +185,7 @@ function VariantA({ onDone }: { onDone: () => void }) {
                 onClick={() => toggleGoal(g.id)}
                 disabled={transitioning}
                 className={[
-                  'px-3 py-2 rounded-xl border text-body-sm font-medium transition-all duration-150 active:scale-95',
+                  'px-3 py-2 rounded-lg border text-body-sm font-medium transition-all duration-150 active:scale-95',
                   on
                     ? 'bg-secondary-500 border-secondary-500 text-white'
                     : 'bg-white/90 border-ink-200 text-ink-800 hover:border-secondary-400 hover:bg-secondary-50',
@@ -237,7 +237,7 @@ function VariantA({ onDone }: { onDone: () => void }) {
         onChange={e => setTextValue(e.target.value)}
         onKeyDown={e => { if (e.key === 'Enter') sendName(); }}
         placeholder="Ton prénom…"
-        className="flex-1 rounded-xl border border-ink-200 bg-white px-3 py-2.5 text-body-sm text-ink-900 placeholder:text-ink-500 focus:outline-none focus:ring-2 focus:ring-secondary-300 transition-all"
+        className="flex-1 rounded-lg border border-ink-200 bg-white px-3 py-2.5 text-body-sm text-ink-900 placeholder:text-ink-500 focus:outline-none focus:ring-2 focus:ring-secondary-300 transition-all"
       />
       <Button
         variant="secondary" size="md" iconOnly
@@ -333,7 +333,7 @@ function VariantB({ onDone }: { onDone: () => void }) {
               value={firstName}
               onChange={e => setFirstName(e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter' && firstName.trim()) advance(); }}
-              className="w-full rounded-2xl border-2 border-ink-200 bg-white/80 px-5 py-stack text-body-lg text-ink-900 placeholder:text-ink-500 focus:outline-none focus:border-secondary-400 transition-colors duration-base text-center font-body"
+              className="w-full rounded-lg border-2 border-ink-200 bg-white/80 px-5 py-stack text-body-lg text-ink-900 placeholder:text-ink-500 focus:outline-none focus:border-secondary-400 transition-colors duration-base text-center font-body"
             />
             <Button
               variant="secondary" size="lg"
@@ -527,7 +527,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
                 placeholder="Sophie…"
                 value={firstName}
                 onChange={e => setFirstName(e.target.value)}
-                className="rounded-xl border border-ink-200 bg-white px-4 py-3 text-body-sm text-ink-900 placeholder:text-ink-500 focus:outline-none focus:border-secondary-400 transition-colors duration-base"
+                className="rounded-lg border border-ink-200 bg-white px-4 py-3 text-body-sm text-ink-900 placeholder:text-ink-500 focus:outline-none focus:border-secondary-400 transition-colors duration-base"
               />
             </div>
 

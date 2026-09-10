@@ -66,7 +66,7 @@ export const CoachCardGrid: React.FC<CoachCardGridProps> = ({
 
   if (!filteredCoaches || filteredCoaches.length === 0) {
     return (
-      <div className={['flex items-center justify-center p-12 rounded-2xl bg-ink-50/50 border border-dashed border-ink-200', className].filter(Boolean).join(' ')}>
+      <div className={['flex items-center justify-center p-12 rounded-lg bg-ink-50/50 border border-dashed border-ink-200', className].filter(Boolean).join(' ')}>
         <div className="flex flex-col items-center gap-stack-xs text-ink-500 text-center">
           <span className="inline-flex items-center justify-center w-14 h-14 rounded-lg bg-white border border-ink-200 text-ink-600">
             <Users size={24} strokeWidth={2} />
@@ -98,7 +98,7 @@ export const CoachCardGrid: React.FC<CoachCardGridProps> = ({
                 }
               },
             })}
-            className="block w-full h-auto p-0 overflow-visible cursor-pointer rounded-2xl transition-transform group-hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+            className="block w-full h-auto p-0 overflow-visible cursor-pointer rounded-lg transition-transform group-hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           >
             <ProfileCard
               name={coach.name}

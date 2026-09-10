@@ -128,10 +128,10 @@ export const VeilleFormatShortcutCards: React.FC<VeilleFormatShortcutCardsProps>
           type="button"
           onClick={() => navigate(href)}
           className={[
-            'group flex items-center gap-stack-xs p-4 rounded-2xl border transition-all duration-base text-left focus-visible:outline-2 focus-visible:outline-offset-2',
+            'group flex items-center gap-stack-xs p-4 rounded-lg border transition-all duration-base text-left focus-visible:outline-2 focus-visible:outline-offset-2',
             isDark
               ? 'bg-white/10 backdrop-blur-glass-medium border-white/20 hover:bg-white/15 focus-visible:outline-white/50'
-              : `bg-white border-ink-100 shadow-card hover:shadow-card-hover ${hoverBorder ?? 'hover:border-ink-200'} focus-visible:outline-primary-500`,
+              : `bg-white border-ink-100 ${hoverBorder ?? 'hover:border-ink-200'} focus-visible:outline-primary-500`,
           ].join(' ')}
         >
           {/* Icon bubble — tone-aware background per format */}

@@ -305,7 +305,7 @@ export const MarketingWaitlist: React.FC = () => {
                               value={firstName}
                               onChange={(e) => setFirstName(e.target.value)}
                               placeholder="Votre prénom"
-                              className="h-11 px-4 rounded-xl bg-white border border-ink-200 text-ink-900 placeholder:text-ink-500 font-body text-body-sm focus:outline-none focus:border-primary-400 focus:shadow-sm transition-all shadow-xs"
+                              className="h-11 px-4 rounded-lg bg-white border border-ink-200 text-ink-900 placeholder:text-ink-500 font-body text-body-sm focus:outline-none focus:border-primary-400 focus:shadow-sm transition-all shadow-xs"
                             />
                           </div>
 
@@ -332,7 +332,7 @@ export const MarketingWaitlist: React.FC = () => {
                               aria-describedby={emailError ? 'wl-email-error' : undefined}
                               aria-invalid={emailError}
                               className={[
-                                'h-11 px-4 rounded-xl bg-white border font-body text-body-sm text-ink-900',
+                                'h-11 px-4 rounded-lg bg-white border font-body text-body-sm text-ink-900',
                                 'placeholder:text-ink-500 focus:outline-none transition-all shadow-xs',
                                 emailError
                                   ? 'border-danger-base focus:border-danger-base'

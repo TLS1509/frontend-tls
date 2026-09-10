@@ -84,7 +84,7 @@ export const QuizQuestionCard: React.FC<QuizQuestionCardProps> = ({
             <button
               key={option.id}
               className={[
-                'group flex items-center gap-stack px-5 py-stack rounded-xl border-2 cursor-pointer transition-all text-left',
+                'group flex items-center gap-stack px-5 py-stack rounded-lg border-2 cursor-pointer transition-all text-left',
                 'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                 'disabled:cursor-not-allowed disabled:opacity-60',
                 optionClasses,
@@ -118,7 +118,7 @@ export const QuizQuestionCard: React.FC<QuizQuestionCardProps> = ({
       {answered && (
         <div
           className={[
-            'flex items-start gap-stack-xs p-4 rounded-xl text-body-sm leading-relaxed',
+            'flex items-start gap-stack-xs p-4 rounded-lg text-body-sm leading-relaxed',
             isCorrectAnswer
               ? 'bg-gradient-to-br from-success-bg to-white border border-success-base/30 text-success-fg'
               : 'bg-gradient-to-br from-danger-bg to-white border border-danger-base/30 text-danger-fg',

@@ -199,7 +199,7 @@ export default function PasseportObjectifs() {
                   <div
                     key={g.id}
                     className={[
-                      'w-full p-stack rounded-xl border transition-all duration-base',
+                      'w-full p-stack rounded-lg border transition-all duration-base',
                       isSelected
                         ? 'bg-primary-50 border-primary-200 shadow-sm'
                         : 'bg-white border-ink-100 hover:border-ink-200',

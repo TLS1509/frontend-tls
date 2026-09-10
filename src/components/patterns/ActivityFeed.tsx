@@ -207,10 +207,10 @@ const ActivityRow: React.FC<{
   return (
     <article
       className={[
-        'group/item relative flex items-start gap-stack-xs rounded-xl transition-[background-color,border-color,box-shadow] duration-fast ease-standard',
+        'group/item relative flex items-start gap-stack-xs rounded-lg transition-[background-color,border-color,box-shadow] duration-fast ease-standard',
         layout === 'cards'
-          ? 'p-4 bg-white border border-ink-100 shadow-card hover:border-ink-200 hover:shadow-card-hover'
-          : 'p-3 bg-white border border-ink-100 shadow-card hover:border-ink-200 hover:shadow-card-hover',
+          ? 'p-4 bg-white border border-ink-100 hover:border-ink-200'
+          : 'p-3 bg-white border border-ink-100 hover:border-ink-200',
       ].join(' ')}
     >
       {/* Icon + optional rail */}

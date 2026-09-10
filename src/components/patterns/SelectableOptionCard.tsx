@@ -41,7 +41,7 @@ export const SelectableOptionCard: React.FC<SelectableOptionCardProps> = ({
       onClick={onClick}
       aria-pressed={selected}
       className={[
-        'flex rounded-xl border text-left transition-all duration-base',
+        'flex rounded-lg border text-left transition-all duration-base',
         'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
         isCompact ? 'flex-col items-center gap-tight p-3' : 'flex-col gap-stack-xs p-5',
         selected
