@@ -943,6 +943,42 @@ plus distinctif des explorations et **n'existe nulle part dans le code**.
 > ✅ **13 décisions ont été rendues au banc le 09/09** — reportées dans [`DESIGN.md`](../../DESIGN.md) §12
 > avec leur état d'exécution. Le tableau ci-dessous garde les recommandations pour les onze restantes.
 
+---
+
+### ⚠️ État au 10/09 — ce que les 9 et 10 septembre ont refermé, et ce que ça change
+
+**Six décisions de plus sont tranchées et appliquées**, consignées dans
+[la page d'arbitrages](https://claude.ai/code/artifact/b3e02a03-8af1-41dc-86ce-35d92ce56cce) :
+
+| Sujet | Décision | État |
+|---|---|---|
+| Remplissage de marque (C3 · A2) | **Fond doux, filet fermé au cran 600, 1 px** — pas l'outline ni le `primary-900` que ce plan recommandait | `ghost` · `glass-warm` · `glass-sun` |
+| Rythme des titres | Règle de flux en `@layer base`, calibrée à `0,75em` | + 362 `m-0` retirés |
+| Espacement | Barreau manquant nommé : `stack-2xs` (6 px) | 223 usages à convertir |
+| Padding de carte | **24 px au canon, 16 px en dérogation dense** | 90 cartes ramenées |
+| Icônes | Échelle étendue aux deux bouts, **zéro écart** | 537 conversions |
+| **Un système ou deux ?** | **Un seul**, la différence passe par les échelles | ⤵ voir ci-dessous |
+
+**La sixième invalide trois lignes du tableau qui suit.** Puisque site et app
+partagent leur système, **C1 et C2 tombent** : il n'y aura pas de rampe
+`--color-paper-*` séparée pour le site, ni de teinte marron distincte. La
+différenciation passera par des **échelles ajoutées au système commun** — comme
+les deux échelles typographiques qui coexistent déjà, une fixe pour l'app, une
+fluide pour l'éditorial. **T1 survit** sous cette forme : deux échelles nommées,
+un seul système.
+
+**Et les coûts annoncés ci-dessous ont dérivé.** Recomptés le 10/09 :
+
+| # | Plan | Réel | Écart |
+|---|---:|---:|---|
+| A1 · `text-ink-400` | 355 | **116** | le plan comptait aussi les bordures et les fonds |
+| T4 · `text-body-sm` | 828 | **840** | stable |
+| T6 · sous 11 px | 54 | **8** | largement résorbé depuis |
+| R2 · `rounded-3xl` | 22 | **21** | stable |
+| R4 · `radius-3xl` mort | 1 ligne | **0** | ✅ déjà retiré |
+
+---
+
 ### Les fondations, décision par décision (§4)
 
 | # | Recommandation | Coût |
