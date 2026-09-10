@@ -48,7 +48,7 @@ export const CompetenceBadge: React.FC<CompetenceBadgeProps> = ({
     <span className={classes} {...rest}>
       <span
         className={[
-          'w-6 h-6 rounded-full inline-flex items-center justify-center text-caption font-extrabold shrink-0 leading-none',
+          'w-6 h-6 rounded-pill inline-flex items-center justify-center text-caption font-extrabold shrink-0 leading-none',
           LEVEL_DOT_CLASSES[level],
         ].join(' ')}
         aria-hidden="true"

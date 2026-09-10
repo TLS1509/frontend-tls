@@ -78,16 +78,16 @@ export const StreakCelebrationModal: React.FC<StreakCelebrationModalProps> = ({
           {/* Close */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 w-8 h-8 rounded-full bg-ink-50 border-0 flex items-center justify-center cursor-pointer text-ink-600 hover:bg-ink-200 transition-all z-20 p-0"
+            className="absolute top-4 right-4 w-8 h-8 rounded-pill bg-ink-50 border-0 flex items-center justify-center cursor-pointer text-ink-600 hover:bg-ink-200 transition-all z-20 p-0"
             aria-label="Fermer"
           >
             <X size={14} />
           </button>
 
           {/* Flame icon */}
-          <div className="relative w-28 h-28 rounded-full modal-flame-bg flex items-center justify-center mx-auto mb-stack-lg shadow-[0_20px_40px_rgba(255,107,53,0.4)] z-10 animate-flame-in">
+          <div className="relative w-28 h-28 rounded-pill modal-flame-bg flex items-center justify-center mx-auto mb-stack-lg shadow-[0_20px_40px_rgba(255,107,53,0.4)] z-10 animate-flame-in">
             <Flame size={56} className="text-white" />
-            <div className="absolute -inset-1.5 rounded-full border-[3px] border-[rgba(255,107,53,0.4)] animate-ring" />
+            <div className="absolute -inset-1.5 rounded-pill border-[3px] border-[rgba(255,107,53,0.4)] animate-ring" />
           </div>
 
           {/* Streak count */}

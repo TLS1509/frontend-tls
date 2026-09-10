@@ -53,7 +53,7 @@ export const LearningPathGrid: React.FC<LearningPathGridProps> = ({
     return (
       <div className={['flex items-center justify-center p-12', className].filter(Boolean).join(' ')}>
         <div className="flex flex-col items-center gap-stack-xs text-ink-500">
-          <div className="w-10 h-10 rounded-full border-[3px] border-ink-200 border-t-primary-500 animate-spin" />
+          <div className="w-10 h-10 rounded-pill border-[3px] border-ink-200 border-t-primary-500 animate-spin" />
           <p className="m-0 text-body-sm font-medium">Chargement des parcours…</p>
         </div>
       </div>

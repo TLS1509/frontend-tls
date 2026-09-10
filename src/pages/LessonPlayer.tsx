@@ -1151,7 +1151,7 @@ export const LessonPlayer: React.FC = () => {
       <div className="mb-section">
         {lessonData.conclusion.keyPoints.map((point, i) => (
           <div key={i} className="flex items-center gap-stack-xs p-stack bg-ink-50 rounded-lg mb-3">
-            <div className="w-7 h-7 rounded-full bg-success-base text-white font-display text-caption font-bold flex items-center justify-center shrink-0">
+            <div className="w-7 h-7 rounded-pill bg-success-base text-white font-display text-caption font-bold flex items-center justify-center shrink-0">
               {i + 1}
             </div>
             <span className="font-body text-body-sm">{point}</span>
@@ -1183,7 +1183,7 @@ export const LessonPlayer: React.FC = () => {
         <div className="flex flex-col gap-stack mb-section">
           {t.scenarios.map((scenario, i) => (
             <div key={i} className="flex gap-stack p-stack-lg bg-white border border-ink-200 rounded-xl hover:border-primary-300 transition-colors duration-200">
-              <div className="w-8 h-8 rounded-full bg-primary-500 text-white font-display text-caption font-bold flex items-center justify-center shrink-0 mt-0.5">
+              <div className="w-8 h-8 rounded-pill bg-primary-500 text-white font-display text-caption font-bold flex items-center justify-center shrink-0 mt-0.5">
                 {i + 1}
               </div>
               <div>
@@ -1289,7 +1289,7 @@ export const LessonPlayer: React.FC = () => {
               </div>
             ) : (
               <div className={`w-full ${arClass} rounded-xl border-2 border-dashed border-ink-300 bg-ink-900/5 flex flex-col items-center justify-center gap-stack`}>
-                <div className="w-14 h-14 rounded-full bg-ink-200 flex items-center justify-center">
+                <div className="w-14 h-14 rounded-pill bg-ink-200 flex items-center justify-center">
                   <Play size={24} className="text-ink-600 ml-1" />
                 </div>
                 <span className="font-body text-body-sm text-ink-500">Vidéo à brancher</span>
@@ -1404,7 +1404,7 @@ export const LessonPlayer: React.FC = () => {
                 <div className="flex flex-col gap-stack-xs flex-1">
                   {block.data.map((item, i) => (
                     <div key={i} className="flex items-center gap-stack-xs">
-                      <span className="w-3 h-3 rounded-full shrink-0"
+                      <span className="w-3 h-3 rounded-pill shrink-0"
                         style={{ background: item.color ?? CHART_PALETTE[i % CHART_PALETTE.length] }} />
                       <span className="font-body text-body-sm text-ink-700 flex-1">{item.label}</span>
                       <span className="font-body text-caption font-semibold text-ink-900">{item.value}</span>
@@ -1467,7 +1467,7 @@ export const LessonPlayer: React.FC = () => {
                     <React.Fragment key={i}>
                       <div className={`flex flex-col gap-tight ${itemPad} rounded-lg border flex-1 min-w-[72px] ${card}`}>
                         {item.num !== undefined && (
-                          <span className={`w-5 h-5 rounded-full flex items-center justify-center font-display text-micro font-bold shrink-0 ${num}`}>
+                          <span className={`w-5 h-5 rounded-pill flex items-center justify-center font-display text-micro font-bold shrink-0 ${num}`}>
                             {item.num}
                           </span>
                         )}
@@ -1497,7 +1497,7 @@ export const LessonPlayer: React.FC = () => {
                   return (
                     <div key={i} className={`flex flex-col gap-tight ${itemPad} rounded-lg border ${card}`}>
                       {item.num !== undefined && (
-                        <span className={`w-5 h-5 rounded-full flex items-center justify-center font-display text-micro font-bold mb-0.5 ${num}`}>
+                        <span className={`w-5 h-5 rounded-pill flex items-center justify-center font-display text-micro font-bold mb-0.5 ${num}`}>
                           {item.num}
                         </span>
                       )}
@@ -1520,7 +1520,7 @@ export const LessonPlayer: React.FC = () => {
               return (
                 <div key={i} className={`flex items-start gap-stack-xs ${itemPad} rounded-lg border ${card}`}>
                   {item.num !== undefined && (
-                    <span className={`w-6 h-6 rounded-full flex items-center justify-center font-display text-caption font-bold shrink-0 mt-0.5 ${num}`}>
+                    <span className={`w-6 h-6 rounded-pill flex items-center justify-center font-display text-caption font-bold shrink-0 mt-0.5 ${num}`}>
                       {item.num}
                     </span>
                   )}
@@ -1882,7 +1882,7 @@ export const LessonPlayer: React.FC = () => {
               </span>
               <button
                 onClick={handleClose}
-                className="w-7 h-7 rounded-full flex items-center justify-center text-ink-600 hover:text-ink-900 hover:bg-ink-100 transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                className="w-7 h-7 rounded-pill flex items-center justify-center text-ink-600 hover:text-ink-900 hover:bg-ink-100 transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                 aria-label="Fermer"
               >
                 <XCircle size={16} />
@@ -1923,7 +1923,7 @@ export const LessonPlayer: React.FC = () => {
                   <Icon size={14} />
                   <span>{section.title}</span>
                   {isDone && (
-                    <span className="absolute top-0.5 right-0.5 w-1.5 h-1.5 rounded-full bg-success-base" aria-hidden="true" />
+                    <span className="absolute top-0.5 right-0.5 w-1.5 h-1.5 rounded-pill bg-success-base" aria-hidden="true" />
                   )}
                 </button>
               );
@@ -1945,7 +1945,7 @@ export const LessonPlayer: React.FC = () => {
         <button
           onClick={handlePrev}
           disabled={isFirst}
-          className="fixed left-3 top-1/2 -translate-y-1/2 z-[51] w-11 h-11 rounded-full bg-white border border-ink-200 shadow-md flex items-center justify-center text-ink-600 hover:bg-ink-50 hover:border-ink-300 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+          className="fixed left-3 top-1/2 -translate-y-1/2 z-[51] w-11 h-11 rounded-pill bg-white border border-ink-200 shadow-md flex items-center justify-center text-ink-600 hover:bg-ink-50 hover:border-ink-300 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           aria-label="Section précédente"
         >
           <ChevronLeft size={18} />
@@ -1953,7 +1953,7 @@ export const LessonPlayer: React.FC = () => {
         <button
           onClick={handleNext}
           disabled={false}
-          className="fixed right-3 top-1/2 -translate-y-1/2 z-[51] w-11 h-11 rounded-full bg-white border border-ink-200 shadow-md flex items-center justify-center text-ink-600 hover:bg-ink-50 hover:border-ink-300 transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+          className="fixed right-3 top-1/2 -translate-y-1/2 z-[51] w-11 h-11 rounded-pill bg-white border border-ink-200 shadow-md flex items-center justify-center text-ink-600 hover:bg-ink-50 hover:border-ink-300 transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           aria-label={isLast ? 'Terminer la leçon' : 'Section suivante'}
         >
           <ChevronRight size={18} />

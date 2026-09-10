@@ -264,7 +264,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
       >
         {/* Header — compact */}
         <div className="px-5 py-stack border-b border-ink-200 flex items-center gap-stack-xs flex-wrap shrink-0">
-          <div className="w-10 h-10 rounded-full bg-primary-100 text-primary-700 flex items-center justify-center font-display font-black text-caption shrink-0">
+          <div className="w-10 h-10 rounded-pill bg-primary-100 text-primary-700 flex items-center justify-center font-display font-black text-caption shrink-0">
             {coachInitials}
           </div>
 
@@ -288,7 +288,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
           <button
             onClick={handleClose}
-            className="w-8 h-8 rounded-full bg-ink-50 border border-ink-200 flex items-center justify-center cursor-pointer text-ink-600 hover:bg-ink-200 transition-all shrink-0"
+            className="w-8 h-8 rounded-pill bg-ink-50 border border-ink-200 flex items-center justify-center cursor-pointer text-ink-600 hover:bg-ink-200 transition-all shrink-0"
             aria-label="Fermer"
           >
             <X size={14} />

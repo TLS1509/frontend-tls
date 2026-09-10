@@ -407,7 +407,7 @@ function VariantB({ onDone }: { onDone: () => void }) {
                   ].join(' ')}
                 >
                   {on && (
-                    <span className="absolute top-2 right-2 w-4 h-4 rounded-full bg-white/30 inline-flex items-center justify-center">
+                    <span className="absolute top-2 right-2 w-4 h-4 rounded-pill bg-white/30 inline-flex items-center justify-center">
                       <Check size={14} className="text-white" />
                     </span>
                   )}

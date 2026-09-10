@@ -45,9 +45,9 @@ function renderInlineMarkdown(text: string): React.ReactNode {
 
 const TypingDots: React.FC = () => (
   <span className="inline-flex items-center gap-tight" aria-label="L'assistant écrit">
-    <span className="w-1.5 h-1.5 rounded-full bg-primary-400 animate-[pulse_1.2s_ease-in-out_infinite]" style={{ animationDelay: '0ms' }} />
-    <span className="w-1.5 h-1.5 rounded-full bg-primary-400 animate-[pulse_1.2s_ease-in-out_infinite]" style={{ animationDelay: '200ms' }} />
-    <span className="w-1.5 h-1.5 rounded-full bg-primary-400 animate-[pulse_1.2s_ease-in-out_infinite]" style={{ animationDelay: '400ms' }} />
+    <span className="w-1.5 h-1.5 rounded-pill bg-primary-400 animate-[pulse_1.2s_ease-in-out_infinite]" style={{ animationDelay: '0ms' }} />
+    <span className="w-1.5 h-1.5 rounded-pill bg-primary-400 animate-[pulse_1.2s_ease-in-out_infinite]" style={{ animationDelay: '200ms' }} />
+    <span className="w-1.5 h-1.5 rounded-pill bg-primary-400 animate-[pulse_1.2s_ease-in-out_infinite]" style={{ animationDelay: '400ms' }} />
   </span>
 );
 

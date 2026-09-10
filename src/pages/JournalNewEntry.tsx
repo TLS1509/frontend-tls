@@ -329,7 +329,7 @@ export const JournalNewEntry: React.FC = () => {
                   ].join(' ')}
                 >
                   {isSelected && (
-                    <div className={`absolute top-2.5 right-2.5 w-[22px] h-[22px] rounded-full ${tc.checkBg} flex items-center justify-center`}>
+                    <div className={`absolute top-2.5 right-2.5 w-[22px] h-[22px] rounded-pill ${tc.checkBg} flex items-center justify-center`}>
                       <CheckCircle2 size={14} className="text-white" strokeWidth={2.5} />
                     </div>
                   )}

@@ -82,7 +82,7 @@ export const CompetencyMatrix: React.FC<CompetencyMatrixProps> = ({
                     <div
                       title={isAchieved ? labels[lvl] : 'Not yet achieved'}
                       className={[
-                        'w-10 h-10 mx-auto rounded-full inline-flex items-center justify-center border-2 cursor-pointer transition-transform',
+                        'w-10 h-10 mx-auto rounded-pill inline-flex items-center justify-center border-2 cursor-pointer transition-transform',
                         'hover:scale-110',
                         isAchieved ? SKILL_BG_ACTIVE[color] : CELL_INACTIVE,
                       ].join(' ')}

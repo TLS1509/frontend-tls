@@ -74,7 +74,7 @@ export const AmbientBlobs: React.FC<AmbientBlobsProps> = ({
       {/* Blob 1 — primary teal, top-left (cool, dominant en haut) */}
       <span
         className={[
-          'absolute -top-64 -left-64 w-[500px] h-[500px] rounded-full bg-primary-500 blur-[80px]',
+          'absolute -top-64 -left-64 w-[500px] h-[500px] rounded-pill bg-primary-500 blur-[80px]',
           'animate-[float_20s_ease-in-out_infinite]',
           opacityCool,
         ].join(' ')}
@@ -82,7 +82,7 @@ export const AmbientBlobs: React.FC<AmbientBlobsProps> = ({
       {/* Blob 2 — sun yellow, middle-right (transition cool→warm) */}
       <span
         className={[
-          'absolute top-1/3 -right-56 w-[400px] h-[400px] rounded-full bg-accent-400 blur-[80px]',
+          'absolute top-1/3 -right-56 w-[400px] h-[400px] rounded-pill bg-accent-400 blur-[80px]',
           'animate-[float_20s_ease-in-out_infinite] [animation-delay:-7s]',
           opacityCool,
         ].join(' ')}
@@ -91,7 +91,7 @@ export const AmbientBlobs: React.FC<AmbientBlobsProps> = ({
           plus dominant — évite d'écraser teal/yellow et le bandeau newsletter en bas). */}
       <span
         className={[
-          'absolute -bottom-64 -right-32 w-[380px] h-[380px] rounded-full bg-secondary-400 blur-[80px]',
+          'absolute -bottom-64 -right-32 w-[380px] h-[380px] rounded-pill bg-secondary-400 blur-[80px]',
           'animate-[float_20s_ease-in-out_infinite] [animation-delay:-14s]',
           opacityWarm,
         ].join(' ')}

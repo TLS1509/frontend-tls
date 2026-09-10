@@ -84,7 +84,7 @@ const StreakDetail: React.FC = () => {
             {MILESTONES.map((m) => (
               <Card key={m.days} className="p-stack flex items-center gap-stack">
                 {/* Icon bubble : replaces AchievementBadge (full card component, not suitable inline) */}
-                <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${MILESTONE_BUBBLE[m.tone]}`}>
+                <div className={`w-12 h-12 rounded-pill flex items-center justify-center shrink-0 ${MILESTONE_BUBBLE[m.tone]}`}>
                   {m.unlocked
                     ? <CheckCircle2 className="w-6 h-6" />
                     : <Lock className="w-5 h-5 opacity-60" />}

@@ -348,7 +348,7 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         onMouseEnter={scheduleHoverOpen}
         onMouseLeave={scheduleHoverClose}
         aria-label="Ouvrir la navigation"
-        className="md:hidden fixed top-2 left-2 z-dropdown inline-flex items-center justify-center w-touch h-touch rounded-full bg-white border border-ink-200 shadow-md text-ink-700 hover:bg-primary-50 transition-colors"
+        className="md:hidden fixed top-2 left-2 z-dropdown inline-flex items-center justify-center w-touch h-touch rounded-pill bg-white border border-ink-200 shadow-md text-ink-700 hover:bg-primary-50 transition-colors"
       >
         <Menu size={18} />
       </button>
@@ -530,7 +530,7 @@ function App() {
       <div className="flex items-center justify-center min-h-[100dvh] bg-surface">
         <div className="text-center">
           <p className="text-body-lg mb-4">Loading...</p>
-          <div className="w-10 h-10 border-2 border-ink-200 border-t-primary-500 rounded-full animate-spin mx-auto" />
+          <div className="w-10 h-10 border-2 border-ink-200 border-t-primary-500 rounded-pill animate-spin mx-auto" />
         </div>
       </div>
     );

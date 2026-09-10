@@ -2551,7 +2551,7 @@ const COMPONENTS: ComponentEntry[] = [
                   aria-label="Filtres"
                 >
                   <SlidersHorizontal size={16} />
-                  <span className="absolute -top-1 -right-1 inline-flex items-center justify-center w-4 h-4 rounded-full bg-accent-400 text-white text-[10px] font-bold border border-white">2</span>
+                  <span className="absolute -top-1 -right-1 inline-flex items-center justify-center w-4 h-4 rounded-pill bg-accent-400 text-white text-[10px] font-bold border border-white">2</span>
                 </button>
               }
             />
@@ -4671,8 +4671,8 @@ const COMPONENTS: ComponentEntry[] = [
               <p className="m-0 text-body-sm font-bold text-ink-900 truncate">Boucle de feedback OKR</p>
             </div>
             <div className="flex items-center gap-tight">
-              <button className="w-8 h-8 rounded-full flex items-center justify-center text-ink-400 hover:bg-ink-100 border-0 cursor-pointer"><ArrowLeft size={16} /></button>
-              <button className="w-8 h-8 rounded-full flex items-center justify-center text-ink-400 hover:bg-ink-100 border-0 cursor-pointer"><ArrowRight size={16} /></button>
+              <button className="w-8 h-8 rounded-pill flex items-center justify-center text-ink-400 hover:bg-ink-100 border-0 cursor-pointer"><ArrowLeft size={16} /></button>
+              <button className="w-8 h-8 rounded-pill flex items-center justify-center text-ink-400 hover:bg-ink-100 border-0 cursor-pointer"><ArrowRight size={16} /></button>
             </div>
           </div>
           <div className="h-1 bg-ink-100"><div className="h-full bg-gradient-to-r from-primary-500 to-primary-700" style={{ width: '25%' }} /></div>

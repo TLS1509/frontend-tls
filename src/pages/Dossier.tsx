@@ -302,7 +302,7 @@ export const Dossier: React.FC = () => {
 
         {/* Download CTA centered */}
         <div className="max-w-2xl mx-auto px-stack sm:px-stack-lg lg:px-section-lg pb-section">
-          <div className="rounded-3xl border border-secondary-200 bg-gradient-to-br from-secondary-50 to-accent-50/40 p-section text-center flex flex-col items-center gap-stack">
+          <div className="rounded-2xl border border-secondary-200 bg-gradient-to-br from-secondary-50 to-accent-50/40 p-section text-center flex flex-col items-center gap-stack">
             <span aria-hidden className="inline-flex items-center justify-center w-14 h-14 rounded-pill bg-secondary-500 text-white shadow-md">
               <Download size={20} />
             </span>

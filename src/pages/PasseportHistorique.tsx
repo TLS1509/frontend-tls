@@ -77,7 +77,7 @@ const PasseportHistorique: React.FC = () => {
                 });
                 return (
                   <div key={ev.id} className="relative pl-16">
-                    <div className={`absolute left-2 w-9 h-9 rounded-full ${cfg.bg} flex items-center justify-center`}>
+                    <div className={`absolute left-2 w-9 h-9 rounded-pill ${cfg.bg} flex items-center justify-center`}>
                       <Icon className={`w-5 h-5 ${cfg.color}`} />
                     </div>
                     <Card className="p-stack">

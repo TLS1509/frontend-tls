@@ -35,7 +35,7 @@ export default function AtelierWaitlist() {
     <div className="min-h-[100dvh] flex items-center justify-center bg-secondary-50 px-stack py-page">
       <div className="w-full max-w-md flex flex-col items-center gap-section text-center">
         {/* Icon */}
-        <div className="w-16 h-16 rounded-full bg-secondary-100 flex items-center justify-center">
+        <div className="w-16 h-16 rounded-pill bg-secondary-100 flex items-center justify-center">
           <Clock size={32} className="text-secondary-600" />
         </div>
 

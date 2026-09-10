@@ -286,11 +286,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         <>
           <div
             aria-hidden="true"
-            className="absolute -top-1/3 -right-[10%] w-[60%] aspect-square rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.22)_0%,transparent_60%)] pointer-events-none"
+            className="absolute -top-1/3 -right-[10%] w-[60%] aspect-square rounded-pill bg-[radial-gradient(circle,rgba(255,255,255,0.22)_0%,transparent_60%)] pointer-events-none"
           />
           <div
             aria-hidden="true"
-            className="absolute bottom-[-30%] left-[8%] w-[45%] aspect-square rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.12)_0%,transparent_65%)] pointer-events-none"
+            className="absolute bottom-[-30%] left-[8%] w-[45%] aspect-square rounded-pill bg-[radial-gradient(circle,rgba(255,255,255,0.12)_0%,transparent_65%)] pointer-events-none"
           />
         </>
       )}

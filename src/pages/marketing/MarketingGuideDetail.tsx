@@ -129,7 +129,7 @@ export const MarketingGuideDetail: React.FC = () => {
 
           {/* Form card */}
           <FadeInWhenVisible direction="up" delay={0.05}>
-            <div className={`relative rounded-3xl border p-section-lg flex flex-col gap-stack bg-gradient-to-br ${guide.cover} border-ink-100 shadow-sm`}>
+            <div className={`relative rounded-2xl border p-section-lg flex flex-col gap-stack bg-gradient-to-br ${guide.cover} border-ink-100 shadow-sm`}>
               <AnimatePresence mode="wait">
                 {!unlocked ? (
                   <motion.form
@@ -177,7 +177,7 @@ export const MarketingGuideDetail: React.FC = () => {
                     animate={{ opacity: 1, scale: 1 }}
                     className="flex flex-col items-center text-center gap-stack py-stack"
                   >
-                    <div className="inline-flex w-14 h-14 items-center justify-center rounded-full bg-white text-secondary-600 shadow-sm">
+                    <div className="inline-flex w-14 h-14 items-center justify-center rounded-pill bg-white text-secondary-600 shadow-sm">
                       <MailCheck size={24} />
                     </div>
                     <div className="flex flex-col gap-tight">

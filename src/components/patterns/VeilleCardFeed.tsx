@@ -171,7 +171,7 @@ export const VeilleCard: React.FC<VeilleCardProps> = ({ item, surface, isSaved, 
         {/* Play overlay for videos */}
         {isVideo && (
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <span className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-white/95 text-secondary-700 shadow-lg transition-transform duration-base group-hover:scale-110">
+            <span className="inline-flex items-center justify-center w-14 h-14 rounded-pill bg-white/95 text-secondary-700 shadow-lg transition-transform duration-base group-hover:scale-110">
               <Play size={20} fill="currentColor" />
             </span>
           </div>
@@ -258,7 +258,7 @@ export const VeilleCardListItem: React.FC<VeilleCardProps> = ({ item, surface, i
         </div>
         {isVideo && (
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/95 text-secondary-700 shadow">
+            <span className="inline-flex items-center justify-center w-10 h-10 rounded-pill bg-white/95 text-secondary-700 shadow">
               <Play size={16} fill="currentColor" />
             </span>
           </div>
@@ -578,7 +578,7 @@ export const VeilleCardFeed: React.FC<VeilleCardFeedProps> = ({
     return (
       <div className={['flex items-center justify-center p-12', className].filter(Boolean).join(' ')}>
         <div className="flex flex-col items-center gap-stack-xs text-ink-500">
-          <div className="w-10 h-10 rounded-full border-[3px] border-ink-200 border-t-primary-500 animate-spin" />
+          <div className="w-10 h-10 rounded-pill border-[3px] border-ink-200 border-t-primary-500 animate-spin" />
           <p className="m-0 text-body-sm font-medium">Chargement…</p>
         </div>
       </div>

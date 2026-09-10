@@ -169,7 +169,7 @@ export default function Passeport() {
                 />
                 {selectedAxis && (
                   <div className="flex items-start gap-stack-xs p-stack rounded-lg bg-primary-50 border border-primary-200">
-                    <div className="w-1.5 h-1.5 rounded-full bg-primary-500 mt-1.5 shrink-0" />
+                    <div className="w-1.5 h-1.5 rounded-pill bg-primary-500 mt-1.5 shrink-0" />
                     <p className="text-body-sm text-primary-900">
                       <strong>{selectedAxis}</strong> · Vois l'onglet "Compétences" ci-dessous pour explorer cette compétence.
                     </p>

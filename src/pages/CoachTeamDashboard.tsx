@@ -247,7 +247,7 @@ export default function CoachTeamDashboard() {
               {topProgressors.map((p, i) => (
                 <div key={p.userId} className="relative">
                   {i === 0 && (
-                    <span className="absolute -top-2 -right-2 z-base inline-flex items-center justify-center w-6 h-6 rounded-full bg-accent-400 text-white text-micro font-bold">1</span>
+                    <span className="absolute -top-2 -right-2 z-base inline-flex items-center justify-center w-6 h-6 rounded-pill bg-accent-400 text-white text-micro font-bold">1</span>
                   )}
                   <ProfileCard
                     name={p.name}

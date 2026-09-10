@@ -180,7 +180,7 @@ export const StepCard: React.FC<StepCardProps> = ({
                   <div className="flex items-center gap-2 flex-1 min-w-0">
                     <span
                       className={[
-                        'inline-flex items-center justify-center w-6 h-6 rounded-full shrink-0',
+                        'inline-flex items-center justify-center w-6 h-6 rounded-pill shrink-0',
                         lesson.completed ? 'bg-success-base text-white' : 'bg-ink-100 text-ink-500',
                       ].join(' ')}
                     >

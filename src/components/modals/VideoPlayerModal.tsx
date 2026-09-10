@@ -94,7 +94,7 @@ export const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
         {/* Close button */}
         <button
           onClick={handleClose}
-          className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/12 border border-white/15 flex items-center justify-center cursor-pointer text-white z-10 transition-all hover:bg-white/22 p-0"
+          className="absolute top-3 right-3 w-8 h-8 rounded-pill bg-white/12 border border-white/15 flex items-center justify-center cursor-pointer text-white z-10 transition-all hover:bg-white/22 p-0"
           aria-label="Fermer"
         >
           <X size={14} />
@@ -116,7 +116,7 @@ export const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
             <div className="w-full h-full bg-gradient-to-br from-[#0f1117] to-[#1a1f2e] flex items-center justify-center flex-col gap-stack">
               {/* Decorative glow */}
               <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_50%_50%,rgba(85,161,180,0.12)_0%,transparent_70%)]" />
-              <div className="w-20 h-20 rounded-full bg-white/8 border border-white/12 flex items-center justify-center relative z-10 text-white/80">
+              <div className="w-20 h-20 rounded-pill bg-white/8 border border-white/12 flex items-center justify-center relative z-10 text-white/80">
                 {isPlaying
                   ? <Pause size={32} />
                   : <Play size={32} className="ml-1" />
@@ -147,7 +147,7 @@ export const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
               className="h-full bg-primary-400 rounded-pill transition-[width] duration-100 relative"
               style={{ width: `${progress}%` }}
             >
-              <div className="absolute -right-[5px] top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-white shadow-[0_0_6px_rgba(85,161,180,0.6)]" />
+              <div className="absolute -right-[5px] top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-pill bg-white shadow-[0_0_6px_rgba(85,161,180,0.6)]" />
             </div>
           </div>
 

@@ -83,7 +83,7 @@ export const JacCardNextJalon: React.FC<JacCardNextJalonProps> = ({
         <ul className="m-0 pl-0 list-none flex flex-col gap-tight">
           {requirements.map((req) => (
             <li key={req} className="flex items-center gap-stack-xs text-caption text-ink-500">
-              <span className="w-1 h-1 rounded-full bg-ink-300 shrink-0" />
+              <span className="w-1 h-1 rounded-pill bg-ink-300 shrink-0" />
               {req}
             </li>
           ))}

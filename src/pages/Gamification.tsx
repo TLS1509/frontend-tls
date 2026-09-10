@@ -211,7 +211,7 @@ export default function Gamification() {
                       {Array.from({ length: c.maxLevel }, (_, idx) => (
                         <div
                           key={idx}
-                          className={`flex-1 h-1.5 rounded-full ${idx < c.level ? 'bg-secondary-500' : 'bg-ink-100'}`}
+                          className={`flex-1 h-1.5 rounded-pill ${idx < c.level ? 'bg-secondary-500' : 'bg-ink-100'}`}
                         />
                       ))}
                     </div>

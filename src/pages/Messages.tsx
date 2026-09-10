@@ -355,7 +355,7 @@ export const Messages: React.FC = () => {
               <ArrowLeft size={14} />
             </Button>
 
-            <div className={`w-10 h-10 rounded-full flex items-center justify-center text-[13px] font-extrabold shrink-0 ${AVATAR_CLASSES[currentConversation.participantRole]}`}>
+            <div className={`w-10 h-10 rounded-pill flex items-center justify-center text-[13px] font-extrabold shrink-0 ${AVATAR_CLASSES[currentConversation.participantRole]}`}>
               {currentConversation.participantInitials}
             </div>
 
@@ -470,7 +470,7 @@ export const Messages: React.FC = () => {
         /* Empty state */
         <div className="flex-1 flex items-center justify-center bg-ink-50">
           <div className="text-center max-w-xs px-stack-lg">
-            <div className="w-[72px] h-[72px] rounded-full bg-primary-50 border border-primary-100 flex items-center justify-center mx-auto mb-stack text-primary-400">
+            <div className="w-[72px] h-[72px] rounded-pill bg-primary-50 border border-primary-100 flex items-center justify-center mx-auto mb-stack text-primary-400">
               <MessageSquarePlus size={28} />
             </div>
             <h3 className="mb-stack-xs font-display text-h4 font-bold text-ink-900">

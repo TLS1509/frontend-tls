@@ -227,7 +227,7 @@ export const SearchFilters: React.FC<SearchFiltersProps> = ({
               >
                 <SlidersHorizontal size={16} strokeWidth={2.25} />
                 {activeCount > 0 && !panelOpen && (
-                  <span className="absolute -top-1 -right-1 inline-flex items-center justify-center w-4 h-4 rounded-full bg-accent-500 text-white text-micro font-bold border border-white">
+                  <span className="absolute -top-1 -right-1 inline-flex items-center justify-center w-4 h-4 rounded-pill bg-accent-500 text-white text-micro font-bold border border-white">
                     {activeCount}
                   </span>
                 )}

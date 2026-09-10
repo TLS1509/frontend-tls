@@ -85,7 +85,7 @@ export const Achievement: React.FC<AchievementProps> = ({
           {icon}
         </div>
         {variant === 'locked' && (
-          <div className="absolute -bottom-1 -right-1 w-7 h-7 inline-flex items-center justify-center rounded-full bg-ink-500 text-white ring-2 ring-white">
+          <div className="absolute -bottom-1 -right-1 w-7 h-7 inline-flex items-center justify-center rounded-pill bg-ink-500 text-white ring-2 ring-white">
             <Lock size={14} strokeWidth={2.5} />
           </div>
         )}

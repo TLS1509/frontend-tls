@@ -91,7 +91,7 @@ export const HeatmapGrid: React.FC<HeatmapGridProps> = ({
                 <td className="sticky left-0 z-base bg-white px-4 py-3 border-b border-r border-ink-100">
                   <div className="flex items-center gap-stack-xs">
                     {row.initials && (
-                      <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-primary-100 text-primary-700 text-micro font-bold shrink-0">
+                      <span className="inline-flex items-center justify-center w-7 h-7 rounded-pill bg-primary-100 text-primary-700 text-micro font-bold shrink-0">
                         {row.initials}
                       </span>
                     )}

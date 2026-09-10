@@ -35,7 +35,7 @@ export const Spinner: React.FC<SpinnerProps> = ({
     .join(' ');
 
   const ringClasses = [
-    'rounded-full border-solid shrink-0 animate-spin',
+    'rounded-pill border-solid shrink-0 animate-spin',
     SIZE_CLASSES[size],
     TONE_CLASSES[tone],
   ].join(' ');

@@ -67,19 +67,19 @@ export const Error404: React.FC = () => {
         aria-hidden
         animate={!parallax.reduce ? { x: [0, 28, 0], y: [0, -18, 0], scale: [1, 1.06, 1] } : undefined}
         transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
-        className="pointer-events-none absolute -top-40 -left-32 w-[600px] h-[600px] rounded-full bg-primary-100/70 blur-ambient"
+        className="pointer-events-none absolute -top-40 -left-32 w-[600px] h-[600px] rounded-pill bg-primary-100/70 blur-ambient"
       />
       <motion.div
         aria-hidden
         animate={!parallax.reduce ? { x: [0, -22, 0], y: [0, 18, 0], scale: [1, 1.08, 1] } : undefined}
         transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut' }}
-        className="pointer-events-none absolute bottom-0 -right-24 w-[520px] h-[520px] rounded-full bg-accent-100/50 blur-ambient"
+        className="pointer-events-none absolute bottom-0 -right-24 w-[520px] h-[520px] rounded-pill bg-accent-100/50 blur-ambient"
       />
       <motion.div
         aria-hidden
         animate={!parallax.reduce ? { opacity: [0.4, 0.7, 0.4] } : undefined}
         transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-        className="pointer-events-none absolute top-1/3 left-1/4 w-[260px] h-[260px] rounded-full bg-primary-100/50 blur-ambient"
+        className="pointer-events-none absolute top-1/3 left-1/4 w-[260px] h-[260px] rounded-pill bg-primary-100/50 blur-ambient"
       />
 
       <div className="relative z-base text-center max-w-4xl w-full flex flex-col items-center">

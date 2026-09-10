@@ -1950,7 +1950,7 @@ const DecisionPanel: React.FC<{ onJump: (id: string) => void }> = ({ onJump }) =
                 className="w-full flex items-center gap-stack-xs px-4 py-2.5 text-left hover:bg-ink-25 transition-colors duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
               >
                 <span className={[
-                  'w-5 h-5 rounded-full grid place-items-center shrink-0 text-micro font-bold',
+                  'w-5 h-5 rounded-pill grid place-items-center shrink-0 text-micro font-bold',
                   chosen ? 'bg-success-base text-white' : 'bg-ink-100 text-ink-600',
                 ].join(' ')}>
                   {chosen ? '✓' : d.n}
@@ -2220,7 +2220,7 @@ const Atelier: React.FC = () => {
                 {CHECKS.map((c) => (
                   <div key={c.sc + c.level} className="flex items-center gap-stack-xs text-micro">
                     <span className={[
-                      'w-4 h-4 rounded-full grid place-items-center shrink-0 text-white text-[9px] font-bold',
+                      'w-4 h-4 rounded-pill grid place-items-center shrink-0 text-white text-[9px] font-bold',
                       c.pass === null ? 'bg-ink-300' : c.pass ? 'bg-success-base' : 'bg-danger-base',
                     ].join(' ')}>
                       {c.pass === null ? '–' : c.pass ? '✓' : '✗'}
@@ -2859,9 +2859,9 @@ const DesignLab: React.FC = () => {
             })}
           </div>
           <p className="text-caption text-ink-600 m-0">
-            <strong className="font-bold text-ink-900">rounded-full vs rounded-pill :</strong> les deux rendent{' '}
+            <strong className="font-bold text-ink-900">rounded-pill vs rounded-pill :</strong> les deux rendent{' '}
             <em>exactement</em> la même chose ({readToken('--radius-pill') || '999px'} contre un pill infini). Une
-            migration des 122 <code>rounded-full</code> ne changerait aucun pixel — ce qui vaut le coup, c'est de
+            migration des 122 <code>rounded-pill</code> ne changerait aucun pixel — ce qui vaut le coup, c'est de
             corriger la règle, pas le code.
           </p>
         </Section>
@@ -3261,8 +3261,8 @@ const DesignLab: React.FC = () => {
               <strong className="font-bold">Sept valeurs, pas deux.</strong> Mesuré sur{' '}
               <code>pages/marketing</code> + <code>components/marketing</code> :{' '}
               <code>rounded-pill</code> 111 · <code>rounded-2xl</code> 66 · <code>rounded-xl</code> 44 ·{' '}
-              <code>rounded-lg</code> 10 · <code>rounded-sm</code> 8 · <code>rounded-3xl</code> 7 ·{' '}
-              <code>rounded-md</code> 2. À noter : <code>rounded-3xl</code>{' '}
+              <code>rounded-lg</code> 10 · <code>rounded-sm</code> 8 · <code>rounded-2xl</code> 7 ·{' '}
+              <code>rounded-md</code> 2. À noter : <code>rounded-2xl</code>{' '}
               <strong className="font-bold">ne correspond à aucun token TLS</strong> — il n'y a pas de{' '}
               <code>--radius-3xl</code> dans <code>index.css</code>, ces 7 usages tombent sur le défaut
               Tailwind. Le gain réel de l'arbitrage n'est donc pas « choisir entre deux registres », c'est

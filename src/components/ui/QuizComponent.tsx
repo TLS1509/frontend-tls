@@ -152,7 +152,7 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({
       <div className="bg-white rounded-lg border border-ink-200 p-stack-lg text-center max-w-2xl mx-auto">
         <div
           className={[
-            'inline-flex items-center justify-center w-20 h-20 rounded-full mb-stack',
+            'inline-flex items-center justify-center w-20 h-20 rounded-pill mb-stack',
             isSuccess ? 'bg-success-bg text-success-fg' : 'bg-primary-50 text-primary-600',
           ].join(' ')}
         >
@@ -252,17 +252,17 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({
                 />
                 <span
                   className={[
-                    'inline-flex items-center justify-center w-5 h-5 rounded-full border-2 shrink-0',
+                    'inline-flex items-center justify-center w-5 h-5 rounded-pill border-2 shrink-0',
                     isSelected ? 'border-primary-500 bg-primary-500' : 'border-ink-300 bg-white',
                   ].join(' ')}
                 >
-                  {isSelected && <span className="block w-2 h-2 rounded-full bg-white" />}
+                  {isSelected && <span className="block w-2 h-2 rounded-pill bg-white" />}
                 </span>
                 <span className="flex-1 text-body-sm text-ink-900">{option}</span>
                 {(showAsCorrect || showAsWrong) && (
                   <span
                     className={[
-                      'inline-flex items-center justify-center w-6 h-6 rounded-full text-white shrink-0',
+                      'inline-flex items-center justify-center w-6 h-6 rounded-pill text-white shrink-0',
                       showAsCorrect ? 'bg-success-base' : 'bg-danger-base',
                     ].join(' ')}
                   >

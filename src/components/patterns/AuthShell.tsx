@@ -92,15 +92,15 @@ export const AuthShell: React.FC<AuthShellProps> = ({
       {/* Diffuse ambient blobs — large + heavily blurred for depth */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute top-[10%] -left-40 w-[640px] h-[640px] rounded-full bg-primary-400/25 blur-ambient"
+        className="pointer-events-none absolute top-[10%] -left-40 w-[640px] h-[640px] rounded-pill bg-primary-400/25 blur-ambient"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute bottom-[5%] -right-32 w-[560px] h-[560px] rounded-full bg-primary-300/20 blur-ambient"
+        className="pointer-events-none absolute bottom-[5%] -right-32 w-[560px] h-[560px] rounded-pill bg-primary-300/20 blur-ambient"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute top-1/2 left-1/3 w-[400px] h-[400px] rounded-full bg-primary-500/15 blur-ambient -translate-x-1/2 -translate-y-1/2"
+        className="pointer-events-none absolute top-1/2 left-1/3 w-[400px] h-[400px] rounded-pill bg-primary-500/15 blur-ambient -translate-x-1/2 -translate-y-1/2"
       />
 
       {/* Centered content */}
@@ -115,7 +115,7 @@ export const AuthShell: React.FC<AuthShellProps> = ({
           {/* Glass dark Card */}
           <section
             className={[
-              'relative rounded-3xl px-8 py-10 sm:px-10 sm:py-12',
+              'relative rounded-2xl px-8 py-10 sm:px-10 sm:py-12',
               'bg-white/10 backdrop-blur-glass-medium',
               'border border-white/20',
               'shadow-[0_20px_60px_-15px_rgba(0,0,0,0.30)]',
@@ -131,7 +131,7 @@ export const AuthShell: React.FC<AuthShellProps> = ({
             {/* Branding */}
             {brandContent && (
               <header className="flex flex-col items-center text-center gap-stack-xs">
-                <span className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/15 backdrop-blur-glass-light border border-white/25 shadow-sm">
+                <span className="inline-flex items-center justify-center w-16 h-16 rounded-pill bg-white/15 backdrop-blur-glass-light border border-white/25 shadow-sm">
                   {brandContent.icon}
                 </span>
                 <h1 className="font-display text-h2 font-bold text-white leading-tight tracking-tight text-balance">
@@ -255,7 +255,7 @@ export interface AuthSuccessProps {
 
 export const AuthSuccess: React.FC<AuthSuccessProps> = ({ icon, title, description, children }) => (
   <div className="flex flex-col items-center text-center gap-stack py-stack">
-    <span className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-white/15 backdrop-blur-glass-light border border-white/25 text-white">
+    <span className="inline-flex items-center justify-center w-14 h-14 rounded-pill bg-white/15 backdrop-blur-glass-light border border-white/25 text-white">
       {icon}
     </span>
     <div className="flex flex-col gap-stack-xs">

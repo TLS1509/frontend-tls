@@ -84,7 +84,7 @@ const SpeechTail: React.FC<{ variant: BadgeVariant }> = ({ variant }) => (
 );
 
 const BASE_INTERACTIVE =
-  'group relative cursor-pointer rounded-3xl bg-white/90 backdrop-blur-sm transition-all duration-slow ease-emphasis ' +
+  'group relative cursor-pointer rounded-2xl bg-white/90 backdrop-blur-sm transition-all duration-slow ease-emphasis ' +
   // Override global [role="button"] rule from components-modern.css that forces height:40px + overflow:hidden
   '!h-auto !overflow-visible ' +
   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ' +

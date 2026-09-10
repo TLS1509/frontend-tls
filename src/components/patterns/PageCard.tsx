@@ -138,7 +138,7 @@ export const PageCard: React.FC<{ item: PageCardItem; showThumbnail?: boolean }>
               <span
                 aria-hidden="true"
                 className={[
-                  'inline-block w-2 h-2 rounded-full',
+                  'inline-block w-2 h-2 rounded-pill',
                   STATUS_DOT[item.status],
                   item.status === 'active' ? 'animate-pulse' : '',
                 ].join(' ')}

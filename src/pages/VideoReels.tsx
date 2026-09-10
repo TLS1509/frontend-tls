@@ -201,7 +201,7 @@ const ActionBtn: React.FC<ActionBtnProps> = ({ onClick, liked, saved, label, chi
     <div className="flex flex-col items-center gap-tight">
       <button
         onClick={onClick}
-        className={`w-[52px] h-[52px] rounded-full border flex items-center justify-center cursor-pointer transition-all duration-200 backdrop-blur-glass-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70 ${btnClass}`}
+        className={`w-[52px] h-[52px] rounded-pill border flex items-center justify-center cursor-pointer transition-all duration-200 backdrop-blur-glass-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70 ${btnClass}`}
       >
         {children}
       </button>
@@ -307,7 +307,7 @@ export const VideoReels: React.FC = () => {
 
         <button
           onClick={() => setIsMuted((m) => !m)}
-          className="w-10 h-10 rounded-full border border-white/15 bg-black/55 backdrop-blur-glass-light flex items-center justify-center text-white/85 cursor-pointer transition-all duration-200 hover:bg-black/75 shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70"
+          className="w-10 h-10 rounded-pill border border-white/15 bg-black/55 backdrop-blur-glass-light flex items-center justify-center text-white/85 cursor-pointer transition-all duration-200 hover:bg-black/75 shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70"
         >
           {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
         </button>
@@ -328,7 +328,7 @@ export const VideoReels: React.FC = () => {
             <button
               onClick={() => setIsPlaying((p) => !p)}
               className={[
-                'w-20 h-20 rounded-full border-2 border-white/22 bg-black/55 backdrop-blur-glass-medium flex items-center justify-center cursor-pointer text-white transition-all duration-200 hover:scale-[1.08] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70',
+                'w-20 h-20 rounded-pill border-2 border-white/22 bg-black/55 backdrop-blur-glass-medium flex items-center justify-center cursor-pointer text-white transition-all duration-200 hover:scale-[1.08] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70',
                 isPlaying ? 'opacity-0' : 'opacity-100',
               ].join(' ')}
             >
@@ -364,7 +364,7 @@ export const VideoReels: React.FC = () => {
               {/* Avatar : gradient tone-aware via tokens */}
               <div
                 className={[
-                  'w-[38px] h-[38px] rounded-full shrink-0 border-2 border-white/22 flex items-center justify-center font-body text-caption font-bold text-white/95',
+                  'w-[38px] h-[38px] rounded-pill shrink-0 border-2 border-white/22 flex items-center justify-center font-body text-caption font-bold text-white/95',
                   TONE_AVATAR[video.tone],
                 ].join(' ')}
               >
@@ -427,7 +427,7 @@ export const VideoReels: React.FC = () => {
               onClick={() => { setCurrentIndex(i); setIsPlaying(false); }}
               aria-label={`Vidéo ${i + 1}`}
               className={[
-                'h-1.5 rounded-full border-0 cursor-pointer transition-all duration-300 p-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70',
+                'h-1.5 rounded-pill border-0 cursor-pointer transition-all duration-300 p-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70',
                 i === currentIndex ? 'w-5 bg-primary-400' : 'w-1.5 bg-white/25',
               ].join(' ')}
             />

@@ -144,7 +144,7 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
         {/* Close */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 w-9 h-9 rounded-full bg-white border border-ink-200 flex items-center justify-center cursor-pointer text-ink-600 hover:bg-danger-bg hover:text-danger-fg transition-all z-10 p-0"
+          className="absolute top-5 right-5 w-9 h-9 rounded-pill bg-white border border-ink-200 flex items-center justify-center cursor-pointer text-ink-600 hover:bg-danger-bg hover:text-danger-fg transition-all z-10 p-0"
           aria-label="Fermer"
         >
           <X size={16} />

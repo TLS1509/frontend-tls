@@ -293,7 +293,7 @@ export const JournalDetail: React.FC = () => {
         </div>
 
         {/* New entry CTA */}
-        <section className="rounded-3xl bg-gradient-to-br from-primary-600 to-primary-700 p-stack-lg sm:p-section flex flex-col sm:flex-row sm:items-center gap-stack-lg text-white">
+        <section className="rounded-2xl bg-gradient-to-br from-primary-600 to-primary-700 p-stack-lg sm:p-section flex flex-col sm:flex-row sm:items-center gap-stack-lg text-white">
           <div className="flex-1">
             <h3 className="font-display text-h4 font-bold mb-1">
               Qu'avez-vous appris cette semaine ?

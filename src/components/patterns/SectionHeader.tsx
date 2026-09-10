@@ -281,7 +281,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
     return (
       <div className={wrapperBase}>
         <div className="flex items-stretch gap-stack-xs flex-1 min-w-0">
-          <span aria-hidden="true" className={['shrink-0 rounded-full', SIZE_BAR_WIDTH[size], TONE_BAR[tone]].join(' ')} />
+          <span aria-hidden="true" className={['shrink-0 rounded-pill', SIZE_BAR_WIDTH[size], TONE_BAR[tone]].join(' ')} />
           <div className="flex flex-col flex-1 min-w-0 justify-center gap-tight">
             <div className="flex items-center gap-stack-xs">
               {renderInlineIcon()}
@@ -306,7 +306,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
             <h2 className={['relative inline-flex items-baseline font-display font-semibold text-ink-900 leading-tight text-balance', titleTracking, titleSize].join(' ')}>
               <span className="relative">
                 {title}
-                <span aria-hidden="true" className={['absolute left-0 -bottom-0.5 rounded-full', SIZE_UNDERLINE_HEIGHT[size], SIZE_UNDERLINE_WIDTH[size], TONE_UNDERLINE[tone]].join(' ')} />
+                <span aria-hidden="true" className={['absolute left-0 -bottom-0.5 rounded-pill', SIZE_UNDERLINE_HEIGHT[size], SIZE_UNDERLINE_WIDTH[size], TONE_UNDERLINE[tone]].join(' ')} />
               </span>
             </h2>
             {subtitle && <p className="font-body text-body-sm text-ink-500 leading-snug m-0 mt-tight">{subtitle}</p>}

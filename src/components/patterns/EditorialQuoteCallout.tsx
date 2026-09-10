@@ -65,7 +65,7 @@ export const EditorialQuoteCallout: React.FC<EditorialQuoteCalloutProps> = ({
   return (
     <figure
       className={[
-        'relative rounded-3xl backdrop-blur-glass-light border',
+        'relative rounded-2xl backdrop-blur-glass-light border',
         'p-6 sm:p-8 lg:p-10',
         'flex flex-col gap-stack',
         SURFACE[tone],

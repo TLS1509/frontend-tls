@@ -69,7 +69,7 @@ const Toggle: React.FC<{
       className={[
         'w-9 h-5 rounded-pill transition-colors duration-base',
         'after:content-[\'\'] after:absolute after:top-[2px] after:left-[2px]',
-        'after:w-4 after:h-4 after:rounded-full after:bg-white after:shadow-sm',
+        'after:w-4 after:h-4 after:rounded-pill after:bg-white after:shadow-sm',
         'after:transition-transform after:duration-base',
         'peer-checked:after:translate-x-4',
         disabled

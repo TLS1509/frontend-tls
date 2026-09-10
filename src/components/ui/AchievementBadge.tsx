@@ -75,7 +75,7 @@ export const AchievementBadge: React.FC<AchievementBadgeProps> = ({
   ].join(' ');
 
   const circleClasses = [
-    'relative inline-flex items-center justify-center mx-auto rounded-full overflow-hidden',
+    'relative inline-flex items-center justify-center mx-auto rounded-pill overflow-hidden',
     ICON_CIRCLE[size],
     isLocked ? 'bg-ink-100' : `${COLOR_GRADIENT[color]} shadow-brand-sm`,
   ].join(' ');
@@ -92,7 +92,7 @@ export const AchievementBadge: React.FC<AchievementBadgeProps> = ({
           </span>
         )}
         {isLocked && (
-          <span className="absolute -bottom-2 -right-2 inline-flex items-center justify-center w-7 h-7 rounded-full bg-white text-ink-500 border border-ink-200">
+          <span className="absolute -bottom-2 -right-2 inline-flex items-center justify-center w-7 h-7 rounded-pill bg-white text-ink-500 border border-ink-200">
             <Lock size={Math.round(innerIconSize * 0.4)} />
           </span>
         )}

@@ -159,7 +159,7 @@ export const VideoViewer: React.FC = () => {
               aria-label="Lire la vidéo"
               className="absolute inset-0 flex items-center justify-center bg-black/20 group"
             >
-              <span className="min-w-touch min-h-touch w-20 h-20 rounded-full bg-primary-500 text-white flex items-center justify-center transition-transform duration-base group-hover:scale-110 focus-visible:outline-none">
+              <span className="min-w-touch min-h-touch w-20 h-20 rounded-pill bg-primary-500 text-white flex items-center justify-center transition-transform duration-base group-hover:scale-110 focus-visible:outline-none">
                 <Play size={32} className="ml-1" />
               </span>
             </button>

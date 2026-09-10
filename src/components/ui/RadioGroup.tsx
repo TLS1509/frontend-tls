@@ -126,7 +126,7 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
                 <span
                   aria-hidden="true"
                   className={[
-                    'mt-0.5 w-5 h-5 shrink-0 rounded-full border-2 flex items-center justify-center',
+                    'mt-0.5 w-5 h-5 shrink-0 rounded-pill border-2 flex items-center justify-center',
                     'transition-[border-color,background-color] duration-base ease-standard',
                     isChecked
                       ? TONE_INDICATOR[tone]
@@ -134,7 +134,7 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
                   ].join(' ')}
                 >
                   {isChecked && (
-                    <span className="w-2 h-2 rounded-full bg-white" />
+                    <span className="w-2 h-2 rounded-pill bg-white" />
                   )}
                 </span>
 
@@ -151,7 +151,7 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
 
                 {isChecked && (
                   <span
-                    className={['absolute top-3 right-3 w-5 h-5 rounded-full flex items-center justify-center shrink-0', TONE_CHECK_ICON[tone]].join(' ')}
+                    className={['absolute top-3 right-3 w-5 h-5 rounded-pill flex items-center justify-center shrink-0', TONE_CHECK_ICON[tone]].join(' ')}
                     aria-hidden="true"
                   >
                     <Check size={14} strokeWidth={2.5} />
@@ -185,13 +185,13 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
               <span
                 aria-hidden="true"
                 className={[
-                  'mt-0.5 w-5 h-5 shrink-0 rounded-full border-2 bg-white flex items-center justify-center',
+                  'mt-0.5 w-5 h-5 shrink-0 rounded-pill border-2 bg-white flex items-center justify-center',
                   'transition-[border-color,background-color] duration-base ease-standard',
                   'peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-primary-500',
                   isChecked ? TONE_INDICATOR[tone] : 'border-ink-300',
                 ].join(' ')}
               >
-                {isChecked && <span className="w-2 h-2 rounded-full bg-white" />}
+                {isChecked && <span className="w-2 h-2 rounded-pill bg-white" />}
               </span>
 
               {(option.label || option.description) && (

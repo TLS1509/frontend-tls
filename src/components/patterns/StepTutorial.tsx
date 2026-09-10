@@ -161,7 +161,7 @@ export const StepTutorial: React.FC<StepTutorialProps> = ({
               aria-selected={idx === activeStep}
               aria-label={`Étape ${idx + 1}`}
               className={[
-                'rounded-full transition-all duration-base',
+                'rounded-pill transition-all duration-base',
                 idx === activeStep
                   ? `w-6 h-2 ${TONE_DOT[tone]}`
                   : idx < activeStep

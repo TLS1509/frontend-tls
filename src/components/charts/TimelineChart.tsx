@@ -89,7 +89,7 @@ export const TimelineChart: React.FC<TimelineChartProps> = ({
             </span>
 
             {/* Dot */}
-            <div className={`w-4 h-4 rounded-full ${DOT_COLORS[event.type]}`} />
+            <div className={`w-4 h-4 rounded-pill ${DOT_COLORS[event.type]}`} />
 
             {/* Event card */}
             <div
@@ -134,7 +134,7 @@ export const TimelineChart: React.FC<TimelineChartProps> = ({
             </span>
 
             {/* Dot (clickable indicator) */}
-            <div className={`w-4 h-4 rounded-full ${DOT_COLORS[event.type]} ring-4 ring-white group-hover:ring-2 transition-all`} />
+            <div className={`w-4 h-4 rounded-pill ${DOT_COLORS[event.type]} ring-4 ring-white group-hover:ring-2 transition-all`} />
 
             {/* Vertical line (except on last item) */}
             {idx < displayEvents.length - 1 && (

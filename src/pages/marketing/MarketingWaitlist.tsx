@@ -162,7 +162,7 @@ export const MarketingWaitlist: React.FC = () => {
         {/* Ambient blob — non-interactive decoration */}
         <div
           aria-hidden
-          className="pointer-events-none absolute -top-24 -right-24 w-[480px] h-[480px] rounded-full bg-primary-100/40 [filter:blur(80px)]"
+          className="pointer-events-none absolute -top-24 -right-24 w-[480px] h-[480px] rounded-pill bg-primary-100/40 [filter:blur(80px)]"
         />
 
         <div className="relative z-10 max-w-page mx-auto">
@@ -180,7 +180,7 @@ export const MarketingWaitlist: React.FC = () => {
                 <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-pill bg-secondary-50 border border-secondary-200 font-body text-caption font-semibold text-secondary-600">
                   <span
                     aria-hidden
-                    className="w-2 h-2 rounded-full bg-secondary-500 animate-pulse"
+                    className="w-2 h-2 rounded-pill bg-secondary-500 animate-pulse"
                   />
                   Bêta · Accès anticipé · Places limitées
                 </span>
@@ -260,7 +260,7 @@ export const MarketingWaitlist: React.FC = () => {
               className="w-full lg:max-w-md lg:ml-auto"
             >
               {/* Double-bezel card (consistent with /inscription) */}
-              <div className="bg-white border border-primary-100 rounded-3xl p-2 shadow-brand-md">
+              <div className="bg-white border border-primary-100 rounded-2xl p-2 shadow-brand-md">
                 <div className="bg-primary-50/60 border border-primary-100 rounded-[18px] p-6 md:p-8">
 
                   <AnimatePresence mode="wait">
@@ -404,7 +404,7 @@ export const MarketingWaitlist: React.FC = () => {
                           >
                             <span>{submitting ? 'Inscription en cours…' : 'Rejoindre la liste'}</span>
                             {!submitting && (
-                              <span className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center shrink-0 transition-transform duration-base ease-emphasis group-hover:translate-x-0.5">
+                              <span className="w-8 h-8 rounded-pill bg-white/20 flex items-center justify-center shrink-0 transition-transform duration-base ease-emphasis group-hover:translate-x-0.5">
                                 <ArrowRight size={16} />
                               </span>
                             )}
@@ -440,7 +440,7 @@ export const MarketingWaitlist: React.FC = () => {
                         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                         className="flex flex-col items-center gap-5 py-6 text-center"
                       >
-                        <div className="w-16 h-16 rounded-full bg-success-bg flex items-center justify-center">
+                        <div className="w-16 h-16 rounded-pill bg-success-bg flex items-center justify-center">
                           <CheckCircle2
                             size={28}
                             className="text-success-base"
@@ -571,7 +571,7 @@ export const MarketingWaitlist: React.FC = () => {
             className="group inline-flex items-center justify-between gap-3 h-12 pl-6 pr-2 rounded-pill bg-accent-400 hover:bg-accent-500 text-ink-900 font-body font-bold text-body shadow-sun-sm active:scale-[0.98] transition-[background-color,transform] duration-base ease-emphasis focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-400"
           >
             <span>Obtenir un accès anticipé</span>
-            <span className="w-8 h-8 rounded-full bg-ink-900/10 flex items-center justify-center shrink-0 transition-transform duration-base ease-emphasis group-hover:translate-x-0.5">
+            <span className="w-8 h-8 rounded-pill bg-ink-900/10 flex items-center justify-center shrink-0 transition-transform duration-base ease-emphasis group-hover:translate-x-0.5">
               <ArrowRight size={16} />
             </span>
           </a>

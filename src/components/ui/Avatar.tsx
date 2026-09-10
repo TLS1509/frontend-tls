@@ -62,7 +62,7 @@ const SHAPE_SIZE_CLASSES: Record<AvatarSize, string> = {
 };
 
 const DOT_BASE =
-  'absolute bottom-0 right-0 w-[28%] h-[28%] min-w-2.5 min-h-2.5 rounded-full ring-2 ring-white';
+  'absolute bottom-0 right-0 w-[28%] h-[28%] min-w-2.5 min-h-2.5 rounded-pill ring-2 ring-white';
 
 const DOT_STATUS_CLASSES: Record<AvatarStatus, string> = {
   online: 'bg-success-base shadow-[0_0_8px_rgba(51,90,86,0.6)]',
@@ -95,7 +95,7 @@ export const Avatar: React.FC<AvatarProps> = ({
   const resolvedTint: AvatarTint = tint ?? (name ? hashTint(name) : 'brand');
   const resolvedInitials = getInitials(name, initials);
 
-  const shapeClass = shape === 'circle' ? 'rounded-full' : SHAPE_SIZE_CLASSES[size];
+  const shapeClass = shape === 'circle' ? 'rounded-pill' : SHAPE_SIZE_CLASSES[size];
 
   const classes = [
     BASE,
@@ -176,7 +176,7 @@ export const AvatarGroup: React.FC<AvatarGroupProps> = ({
       {overflow > 0 && (
         <span
           className={[
-            'relative inline-flex items-center justify-center font-body font-bold overflow-visible shrink-0 select-none rounded-full ring-2 ring-white bg-ink-100 text-ink-700',
+            'relative inline-flex items-center justify-center font-body font-bold overflow-visible shrink-0 select-none rounded-pill ring-2 ring-white bg-ink-100 text-ink-700',
             SIZE_CLASSES[size ?? 'md'],
           ].join(' ')}
           aria-label={`${overflow} autres`}

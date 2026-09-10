@@ -135,7 +135,7 @@ export const MarketingWebinaireDetail: React.FC = () => {
               <ul className="flex flex-col gap-stack m-0 pl-0 list-none">
                 {webinaire.agenda.map((item, i) => (
                   <li key={i} className="flex items-start gap-stack-xs">
-                    <span aria-hidden className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary-500" />
+                    <span aria-hidden className="mt-2 h-1.5 w-1.5 shrink-0 rounded-pill bg-primary-500" />
                     <span className="font-body text-body-sm text-ink-700 leading-relaxed">{item}</span>
                   </li>
                 ))}
@@ -154,7 +154,7 @@ export const MarketingWebinaireDetail: React.FC = () => {
           {/* Registration card OR replay player */}
           <FadeInWhenVisible direction="up" delay={0.05}>
             {isUpcoming ? (
-              <div className="relative rounded-3xl border border-ink-100 bg-white p-section-lg flex flex-col gap-stack shadow-sm">
+              <div className="relative rounded-2xl border border-ink-100 bg-white p-section-lg flex flex-col gap-stack shadow-sm">
                 <AnimatePresence mode="wait">
                   {!registered ? (
                     <motion.form
@@ -202,7 +202,7 @@ export const MarketingWebinaireDetail: React.FC = () => {
                       animate={{ opacity: 1, scale: 1 }}
                       className="flex flex-col items-center text-center gap-stack py-stack"
                     >
-                      <div className="inline-flex w-14 h-14 items-center justify-center rounded-full bg-primary-50 text-primary-600">
+                      <div className="inline-flex w-14 h-14 items-center justify-center rounded-pill bg-primary-50 text-primary-600">
                         <MailCheck size={24} />
                       </div>
                       <div className="flex flex-col gap-tight">
@@ -226,13 +226,13 @@ export const MarketingWebinaireDetail: React.FC = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="Lire le replay (nouvel onglet)"
-                      className="w-16 h-16 rounded-full bg-primary-500 shadow-[0_0_0_12px_rgba(85,161,180,0.20)] flex items-center justify-center transition-transform duration-base hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/70"
+                      className="w-16 h-16 rounded-pill bg-primary-500 shadow-[0_0_0_12px_rgba(85,161,180,0.20)] flex items-center justify-center transition-transform duration-base hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/70"
                     >
                       <Play size={24} className="ml-1 fill-white text-white" />
                     </a>
                   ) : (
                     <div aria-label="Replay à venir" className="flex flex-col items-center gap-stack-xs text-white/70">
-                      <div className="w-16 h-16 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
+                      <div className="w-16 h-16 rounded-pill bg-white/10 border border-white/20 flex items-center justify-center">
                         <Play size={24} className="ml-1 text-white/50" />
                       </div>
                       <span className="font-body text-caption font-semibold">Replay à venir</span>

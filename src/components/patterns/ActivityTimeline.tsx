@@ -53,7 +53,7 @@ export const ActivityTimeline: React.FC<ActivityTimelineProps> = ({
                 {item.icon ? (
                   <div
                     className={[
-                      'inline-flex items-center justify-center w-10 h-10 rounded-full ring-4 transition-transform group-hover:scale-110',
+                      'inline-flex items-center justify-center w-10 h-10 rounded-pill ring-4 transition-transform group-hover:scale-110',
                       isPending
                         ? 'bg-white text-ink-600 ring-ink-100 border-2 border-dashed border-ink-300'
                         : TONE_DOT[tone],
@@ -68,7 +68,7 @@ export const ActivityTimeline: React.FC<ActivityTimelineProps> = ({
                   <div
                     aria-hidden="true"
                     className={[
-                      'w-3 h-3 rounded-full ring-4 mt-3.5 ml-3.5',
+                      'w-3 h-3 rounded-pill ring-4 mt-3.5 ml-3.5',
                       isPending ? 'bg-white border-2 border-ink-300 ring-ink-100' : TONE_DOT[tone],
                       isInProgress ? 'animate-pulse' : '',
                     ]

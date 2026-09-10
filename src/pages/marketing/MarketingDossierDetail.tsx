@@ -240,7 +240,7 @@ function renderDossierBlock(block: DossierBodyBlock, i: number) {
             <ul key={i} className="flex flex-col gap-stack m-0 pl-0 list-none">
               {block.items.map((item, j) => (
                 <li key={j} className="flex gap-stack-xs font-body text-body text-ink-700 leading-relaxed">
-                  <span aria-hidden className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary-500" />
+                  <span aria-hidden className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-pill bg-primary-500" />
                   <span>{item}</span>
                 </li>
               ))}

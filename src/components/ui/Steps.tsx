@@ -14,7 +14,7 @@ export interface StepsProps extends React.HTMLAttributes<HTMLOListElement> {
 }
 
 const MARKER_BASE =
-  'absolute left-0 top-0 w-9 h-9 rounded-full flex items-center justify-center text-caption font-bold border-2 transition-[background-color,border-color,box-shadow,transform] duration-base ease-emphasis';
+  'absolute left-0 top-0 w-9 h-9 rounded-pill flex items-center justify-center text-caption font-bold border-2 transition-[background-color,border-color,box-shadow,transform] duration-base ease-emphasis';
 
 const MARKER_STATE: Record<StepState, string> = {
   done:     'bg-gradient-to-br from-primary-500 to-primary-700 border-transparent text-white shadow-brand-sm',
@@ -73,7 +73,7 @@ export const Steps: React.FC<StepsProps> = ({ items, className = '', ...rest }) 
             {!isLast && (
               <span
                 aria-hidden="true"
-                className={`absolute left-[17px] top-10 bottom-1 w-0.5 rounded-full ${LINE_STATE[item.state]}`}
+                className={`absolute left-[17px] top-10 bottom-1 w-0.5 rounded-pill ${LINE_STATE[item.state]}`}
               />
             )}
 

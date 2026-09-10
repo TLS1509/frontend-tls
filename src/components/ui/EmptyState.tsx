@@ -41,7 +41,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
     .join(' ');
 
   const iconWrapperClasses = [
-    'inline-flex items-center justify-center w-20 h-20 rounded-3xl ring-8 transition-transform',
+    'inline-flex items-center justify-center w-20 h-20 rounded-2xl ring-8 transition-transform',
     TONE_ICON_BG[tone],
     TONE_RING[tone],
   ].join(' ');

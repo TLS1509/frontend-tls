@@ -106,12 +106,12 @@ export const Magazine: React.FC = () => {
         {/* Decorative radial blobs : colored ambient */}
         <div
           aria-hidden
-          className="absolute -top-20 -right-20 w-[400px] h-[400px] rounded-full opacity-25 pointer-events-none"
+          className="absolute -top-20 -right-20 w-[400px] h-[400px] rounded-pill opacity-25 pointer-events-none"
           style={{ background: 'radial-gradient(circle, rgba(150,195,207,0.5) 0%, transparent 70%)' }}
         />
         <div
           aria-hidden
-          className="absolute -bottom-16 -left-16 w-[350px] h-[350px] rounded-full opacity-20 pointer-events-none"
+          className="absolute -bottom-16 -left-16 w-[350px] h-[350px] rounded-pill opacity-20 pointer-events-none"
           style={{ background: 'radial-gradient(circle, rgba(245,154,95,0.6) 0%, transparent 70%)' }}
         />
 

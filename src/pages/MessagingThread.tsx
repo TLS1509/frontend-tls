@@ -63,7 +63,7 @@ const MessagingThread: React.FC = () => {
           <div className="flex-1">
             <div className="font-semibold">{coachName}</div>
             <div className="text-caption text-success-fg flex items-center gap-tight">
-              <span className="w-2 h-2 rounded-full bg-success-base" /> En ligne
+              <span className="w-2 h-2 rounded-pill bg-success-base" /> En ligne
             </div>
           </div>
           <Badge variant="info">Coach assigné</Badge>

@@ -170,7 +170,7 @@ export const Leaderboard: React.FC = () => {
 
                 {/* Avatar + name */}
                 <div className="flex items-center gap-stack-xs">
-                  <div className={`w-12 h-12 rounded-full flex items-center justify-center text-body-sm font-extrabold shrink-0 ${pod.avatarClasses}`}>
+                  <div className={`w-12 h-12 rounded-pill flex items-center justify-center text-body-sm font-extrabold shrink-0 ${pod.avatarClasses}`}>
                     {entry.initials}
                   </div>
                   <div>
@@ -214,7 +214,7 @@ export const Leaderboard: React.FC = () => {
           {/* Current user banner : only show if they're not on the podium */}
           {currentUserRow && currentUserRow.rank > 3 && (
             <Card variant="tinted" tone="primary" className="flex items-center gap-stack p-stack">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-400 to-secondary-500 flex items-center justify-center text-white font-extrabold text-body-sm shrink-0">
+              <div className="w-10 h-10 rounded-pill bg-gradient-to-br from-primary-400 to-secondary-500 flex items-center justify-center text-white font-extrabold text-body-sm shrink-0">
                 {currentUserRow.initials}
               </div>
               <div className="flex-1">

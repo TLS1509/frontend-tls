@@ -51,7 +51,7 @@ export const Medal: React.FC<MedalProps> = ({
   ...rest
 }) => {
   const classes = [
-    'relative rounded-full inline-flex items-center justify-center shrink-0',
+    'relative rounded-pill inline-flex items-center justify-center shrink-0',
     '[&>svg]:relative [&>svg]:w-[44%] [&>svg]:h-[44%]',
     SIZE_CLASSES[size],
     VARIANT_CLASSES[variant],

@@ -107,7 +107,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
               key={member.id}
               className="inline-flex items-center gap-1 px-2.5 py-1 rounded-pill bg-ink-50 border border-ink-200 text-caption text-ink-700 font-medium"
             >
-              <span className={`inline-flex items-center justify-center w-5 h-5 rounded-full text-micro font-bold ${STATUS_AVATAR[status]}`}>
+              <span className={`inline-flex items-center justify-center w-5 h-5 rounded-pill text-micro font-bold ${STATUS_AVATAR[status]}`}>
                 {member.name.charAt(0)}
               </span>
               {member.name}

@@ -680,7 +680,7 @@ export const LearningPathDetail: React.FC = () => {
                         <div
                           key={i}
                           className={[
-                            'w-6 h-6 rounded-full flex items-center justify-center text-caption font-semibold',
+                            'w-6 h-6 rounded-pill flex items-center justify-center text-caption font-semibold',
                             reached ? `${TONE_BG_500[tone]} text-white` : 'bg-ink-200 text-ink-500',
                           ].join(' ')}
                         >

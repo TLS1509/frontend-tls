@@ -259,7 +259,7 @@ export const WeeklyNewsletter: React.FC = () => {
         {/* Newsletter signup */}
         <section
           aria-label="Inscription newsletter"
-          className="rounded-3xl bg-gradient-to-br from-primary-600 to-primary-700 p-section sm:p-section-lg text-white flex flex-col items-center text-center gap-stack"
+          className="rounded-2xl bg-gradient-to-br from-primary-600 to-primary-700 p-section sm:p-section-lg text-white flex flex-col items-center text-center gap-stack"
         >
           <span aria-hidden className="inline-flex items-center justify-center w-14 h-14 rounded-pill bg-white/15 backdrop-blur-glass-light">
             <Mail size={20} />

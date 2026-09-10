@@ -328,7 +328,7 @@ export const JournalFreeEntry: React.FC = () => {
             <div className="flex flex-col gap-stack-xs">
               {TIPS.map((tip, i) => (
                 <div key={i} className="flex items-start gap-stack-xs">
-                  <div className="w-1.5 h-1.5 rounded-full bg-secondary-400 shrink-0 mt-[7px]" />
+                  <div className="w-1.5 h-1.5 rounded-pill bg-secondary-400 shrink-0 mt-[7px]" />
                   <span className="font-body text-caption text-ink-500 leading-relaxed">{tip}</span>
                 </div>
               ))}

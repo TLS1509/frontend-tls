@@ -75,7 +75,7 @@ export const ViewerProgressTrail: React.FC<ViewerProgressTrailProps> = ({
   if (style === 'bar') {
     return (
       <div
-        className={`h-1.5 w-full rounded-full overflow-hidden ${BAR_TRACK[tone]} ${className}`.trim()}
+        className={`h-1.5 w-full rounded-pill overflow-hidden ${BAR_TRACK[tone]} ${className}`.trim()}
         role="progressbar"
         aria-valuenow={Math.round(progressPct)}
         aria-valuemin={0}
@@ -112,7 +112,7 @@ export const ViewerProgressTrail: React.FC<ViewerProgressTrailProps> = ({
           aria-label={`Aller à l'étape ${i + 1}`}
           aria-current={i === current ? 'step' : undefined}
           className={`
-            w-2 h-2 rounded-full transition-all duration-300 ease-out
+            w-2 h-2 rounded-pill transition-all duration-300 ease-out
             ${i <= current ? DOT_ACTIVE[tone] : DOT_INACTIVE[tone]}
             ${i === current ? 'w-3 h-3' : ''}
             hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500

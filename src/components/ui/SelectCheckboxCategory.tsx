@@ -133,7 +133,7 @@ export const SelectCheckboxCategory: React.FC<SelectCheckboxCategoryProps> = ({
                           {/* Radio dot */}
                           <div
                             className={`
-                              w-5 h-5 rounded-full border-2 flex items-center justify-center
+                              w-5 h-5 rounded-pill border-2 flex items-center justify-center
                               transition-all duration-200 ease-[cubic-bezier(0.32,0.72,0,1)]
                               ${
                                 isSelected
@@ -143,7 +143,7 @@ export const SelectCheckboxCategory: React.FC<SelectCheckboxCategoryProps> = ({
                             `}
                           >
                             {isSelected && (
-                              <span className="w-2 h-2 bg-white rounded-full" />
+                              <span className="w-2 h-2 bg-white rounded-pill" />
                             )}
                           </div>
                           <span

@@ -58,7 +58,7 @@ export const ActivityItem: React.FC<ActivityItemProps> = ({
       <div className="relative flex flex-col items-center shrink-0">
         <span
           className={[
-            'inline-flex items-center justify-center w-9 h-9 rounded-full ring-4 ring-white transition-transform duration-200 group-hover/item:scale-105 shrink-0',
+            'inline-flex items-center justify-center w-9 h-9 rounded-pill ring-4 ring-white transition-transform duration-200 group-hover/item:scale-105 shrink-0',
             TYPE_GRADIENT[type],
             TYPE_SHADOW[type],
           ].join(' ')}

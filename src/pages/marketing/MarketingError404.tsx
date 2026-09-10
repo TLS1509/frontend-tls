@@ -48,15 +48,15 @@ export const MarketingError404: React.FC = () => {
           droite, accent au centre-haut. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-56 -left-56 w-[780px] h-[620px] rounded-full bg-primary-100 blur-ambient mix-blend-multiply opacity-80"
+        className="pointer-events-none absolute -top-56 -left-56 w-[780px] h-[620px] rounded-pill bg-primary-100 blur-ambient mix-blend-multiply opacity-80"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute -bottom-40 -right-40 w-[680px] h-[560px] rounded-full bg-secondary-100 blur-ambient mix-blend-multiply opacity-70"
+        className="pointer-events-none absolute -bottom-40 -right-40 w-[680px] h-[560px] rounded-pill bg-secondary-100 blur-ambient mix-blend-multiply opacity-70"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute top-[15%] left-[45%] w-[440px] h-[440px] rounded-full bg-accent-100 blur-ambient mix-blend-multiply opacity-50"
+        className="pointer-events-none absolute top-[15%] left-[45%] w-[440px] h-[440px] rounded-pill bg-accent-100 blur-ambient mix-blend-multiply opacity-50"
       />
 
       <div className="relative z-base text-center max-w-3xl w-full flex flex-col items-center">

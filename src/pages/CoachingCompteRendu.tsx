@@ -205,12 +205,12 @@ export const CoachingCompteRendu: React.FC = () => {
             {/* Progress ring: conic-gradient is a runtime computed value → style={} allowed */}
             <div className="text-center">
               <div
-                className="w-20 h-20 rounded-full flex items-center justify-center"
+                className="w-20 h-20 rounded-pill flex items-center justify-center"
                 style={{
                   background: `conic-gradient(rgba(255,255,255,0.90) ${progressPercent * 3.6}deg, rgba(255,255,255,0.20) 0deg)`,
                 }}
               >
-                <div className="w-[60px] h-[60px] rounded-full bg-primary-700 flex flex-col items-center justify-center">
+                <div className="w-[60px] h-[60px] rounded-pill bg-primary-700 flex flex-col items-center justify-center">
                   <span className="font-display text-h4 font-extrabold leading-none">{progressPercent}%</span>
                   <span className="font-body opacity-80 mt-0.5 text-micro">parcours</span>
                 </div>
@@ -269,7 +269,7 @@ export const CoachingCompteRendu: React.FC = () => {
                       key={ap.id}
                       className={`flex gap-stack items-start py-stack ${index < report.actionPlan.length - 1 ? 'border-b border-ink-200' : ''}`}
                     >
-                      <div className="shrink-0 w-8 h-8 rounded-full bg-primary-50 text-primary-700 flex items-center justify-center font-body text-body-sm font-extrabold border-2 border-primary-200">
+                      <div className="shrink-0 w-8 h-8 rounded-pill bg-primary-50 text-primary-700 flex items-center justify-center font-body text-body-sm font-extrabold border-2 border-primary-200">
                         {ap.step}
                       </div>
                       <div className="flex-1 min-w-0">
@@ -296,7 +296,7 @@ export const CoachingCompteRendu: React.FC = () => {
               </h2>
               <div className="bg-primary-50/40 border border-primary-100 rounded-xl p-stack-lg shadow-xs">
                 <div className="flex gap-stack items-start">
-                  <div className="shrink-0 w-11 h-11 rounded-full bg-primary-600 text-white flex items-center justify-center font-body text-body-sm font-extrabold shadow-sm">
+                  <div className="shrink-0 w-11 h-11 rounded-pill bg-primary-600 text-white flex items-center justify-center font-body text-body-sm font-extrabold shadow-sm">
                     {report.coach.initials}
                   </div>
                   <div className="flex-1">
@@ -322,7 +322,7 @@ export const CoachingCompteRendu: React.FC = () => {
                   Votre coach
                 </h3>
                 <div className="flex gap-stack-xs items-center">
-                  <div className="w-[52px] h-[52px] rounded-full shrink-0 bg-gradient-to-br from-primary-500 to-primary-700 text-white flex items-center justify-center font-body text-body font-extrabold shadow-card">
+                  <div className="w-[52px] h-[52px] rounded-pill shrink-0 bg-gradient-to-br from-primary-500 to-primary-700 text-white flex items-center justify-center font-body text-body font-extrabold shadow-card">
                     {report.coach.initials}
                   </div>
                   <div>

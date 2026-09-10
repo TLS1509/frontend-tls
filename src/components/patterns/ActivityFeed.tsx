@@ -181,7 +181,7 @@ const groupKey = (date: Date): string => {
 
 const ActivityIcon: React.FC<{ item: ActivityItem; tone: ActivityTone; layout: ActivityLayout }> = ({ item, tone, layout }) => {
   const IconComponent = ICON_FOR_TYPE[item.type];
-  const shape = layout === 'timeline' ? 'rounded-full w-9 h-9' : 'rounded-xl w-10 h-10';
+  const shape = layout === 'timeline' ? 'rounded-pill w-9 h-9' : 'rounded-xl w-10 h-10';
   return (
     <span
       className={[

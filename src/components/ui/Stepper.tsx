@@ -16,7 +16,7 @@ export interface StepperProps extends React.HTMLAttributes<HTMLOListElement> {
 }
 
 const CIRCLE_BASE =
-  'relative z-10 inline-flex items-center justify-center w-10 h-10 rounded-full border-2 font-body font-bold text-caption shrink-0 transition-[background-color,border-color,box-shadow,transform] duration-base ease-emphasis';
+  'relative z-10 inline-flex items-center justify-center w-10 h-10 rounded-pill border-2 font-body font-bold text-caption shrink-0 transition-[background-color,border-color,box-shadow,transform] duration-base ease-emphasis';
 
 const CIRCLE_STATE: Record<StepperState, string> = {
   done:     'bg-success-base border-success-base text-white shadow-sm',
@@ -62,8 +62,8 @@ export const Stepper: React.FC<StepperProps> = ({
         const isLast = idx === items.length - 1;
 
         const lineClasses = isVertical
-          ? `absolute left-[19px] top-10 bottom-[-0.25rem] w-0.5 rounded-full ${LINE_STATE[item.state]}`
-          : `absolute top-5 left-[calc(50%+1.5rem)] right-[calc(-50%+1.5rem)] h-0.5 rounded-full ${LINE_STATE[item.state]}`;
+          ? `absolute left-[19px] top-10 bottom-[-0.25rem] w-0.5 rounded-pill ${LINE_STATE[item.state]}`
+          : `absolute top-5 left-[calc(50%+1.5rem)] right-[calc(-50%+1.5rem)] h-0.5 rounded-pill ${LINE_STATE[item.state]}`;
 
         return (
           <li

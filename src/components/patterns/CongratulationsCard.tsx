@@ -91,7 +91,7 @@ export const CongratulationsCard: React.FC<CongratulationsCardProps> = ({
     <div className={wrapperClasses}>
       <div
         className={[
-          'w-20 h-20 rounded-full border-2 flex items-center justify-center shadow-lg',
+          'w-20 h-20 rounded-pill border-2 flex items-center justify-center shadow-lg',
           ICON_RING[tone],
         ].join(' ')}
         aria-hidden

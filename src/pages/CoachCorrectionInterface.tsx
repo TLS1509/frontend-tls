@@ -134,7 +134,7 @@ export default function CoachCorrectionInterface() {
             </SectionCard>
           ) : (
             <Card variant="tinted" tone="warm" className="flex flex-col items-center gap-stack py-section text-center">
-              <div className="w-12 h-12 rounded-full bg-success-bg border border-success-border flex items-center justify-center">
+              <div className="w-12 h-12 rounded-pill bg-success-bg border border-success-border flex items-center justify-center">
                 <Send size={20} className="text-success-fg" />
               </div>
               <div className="flex flex-col gap-tight">
@@ -154,7 +154,7 @@ export default function CoachCorrectionInterface() {
             <div className="flex flex-col gap-stack-xs">
               {['Analyse du contexte', 'Démarche structurée', 'Réflexivité', 'Plan d\'action concret'].map((c) => (
                 <div key={c} className="flex items-center gap-stack-xs text-caption text-ink-600">
-                  <span className="w-1.5 h-1.5 rounded-full bg-secondary-500 shrink-0" />
+                  <span className="w-1.5 h-1.5 rounded-pill bg-secondary-500 shrink-0" />
                   {c}
                 </div>
               ))}

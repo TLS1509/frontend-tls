@@ -80,7 +80,7 @@ export const StepIndicator: React.FC<StepIndicatorProps> = ({
                 {!isLast && (
                   <div
                     className={[
-                      'w-0.5 flex-1 mt-1 mb-1 min-h-[24px] rounded-full transition-all duration-base',
+                      'w-0.5 flex-1 mt-1 mb-1 min-h-[24px] rounded-pill transition-all duration-base',
                       i < currentStep ? TONE_CONNECTOR_DONE[tone] : 'bg-ink-200',
                     ].join(' ')}
                   />

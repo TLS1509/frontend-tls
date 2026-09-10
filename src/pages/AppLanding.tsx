@@ -168,7 +168,7 @@ const LandingCta: React.FC<{
       className={`group inline-flex items-center justify-between gap-3 h-12 pl-6 pr-2 rounded-pill font-body font-bold text-body active:scale-[0.98] transition-[background-color,transform] duration-base ease-emphasis focus-visible:outline-2 focus-visible:outline-offset-2 ${t.btn} ${t.focus} ${fullWidth ? 'w-full' : ''}`}
     >
       <span>{children}</span>
-      <span className={`w-8 h-8 rounded-full ${t.icon} flex items-center justify-center shrink-0 transition-transform duration-base ease-emphasis group-hover:translate-x-0.5`}>
+      <span className={`w-8 h-8 rounded-pill ${t.icon} flex items-center justify-center shrink-0 transition-transform duration-base ease-emphasis group-hover:translate-x-0.5`}>
         <ArrowRight size={16} />
       </span>
     </button>
@@ -291,7 +291,7 @@ const AppLanding: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
           >
             {/* Outer tray */}
-            <div className="bg-white border border-primary-100 rounded-3xl p-2 shadow-brand-md">
+            <div className="bg-white border border-primary-100 rounded-2xl p-2 shadow-brand-md">
               {/* Inner core */}
               <div className="bg-primary-50/60 border border-primary-100 rounded-[18px] p-6 md:p-7 flex flex-col gap-5">
                 <div className="flex flex-col gap-1">
@@ -442,7 +442,7 @@ const AppLanding: React.FC = () => {
             {STEPS.map((step, i) => (
               <FadeInWhenVisible key={step.number} direction="up" delay={i * 0.12} className="relative z-[1]">
                 <div className="flex flex-col items-center text-center gap-4">
-                  <div className="w-16 h-16 rounded-full bg-white border-2 border-primary-200 flex items-center justify-center shadow-sm">
+                  <div className="w-16 h-16 rounded-pill bg-white border-2 border-primary-200 flex items-center justify-center shadow-sm">
                     <span className="font-display font-bold text-primary-600 text-h4 m-0 leading-none tabular-nums">
                       {step.number}
                     </span>
@@ -488,7 +488,7 @@ const AppLanding: React.FC = () => {
                 'Coaching humain + IA éthique',
               ].map((item) => (
                 <div key={item} className="flex items-center gap-2">
-                  <div className="w-5 h-5 rounded-full bg-primary-100 flex items-center justify-center shrink-0">
+                  <div className="w-5 h-5 rounded-pill bg-primary-100 flex items-center justify-center shrink-0">
                     <Check size={14} className="text-primary-600" />
                   </div>
                   <span className="font-body text-body-sm text-ink-700">{item}</span>

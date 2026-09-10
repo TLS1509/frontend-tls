@@ -250,12 +250,12 @@ export const PageHero: React.FC<PageHeroProps> = ({
         <>
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -top-[55%] -right-[15%] w-[520px] h-[520px] rounded-full"
+            className="pointer-events-none absolute -top-[55%] -right-[15%] w-[520px] h-[520px] rounded-pill"
             style={{ background: TONE_HALO[tone] }}
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -bottom-[45%] -left-[10%] w-[320px] h-[320px] rounded-full"
+            className="pointer-events-none absolute -bottom-[45%] -left-[10%] w-[320px] h-[320px] rounded-pill"
             style={{ background: TONE_HALO_2[tone] }}
           />
         </>

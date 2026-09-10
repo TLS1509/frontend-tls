@@ -68,12 +68,12 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
         className="relative w-full max-w-[460px] bg-white rounded-2xl border border-ink-200 shadow-xl overflow-hidden p-8 animate-cso-in"
       >
         {/* Warning glow blob */}
-        <div className="absolute -top-[60px] left-1/2 -translate-x-1/2 w-[200px] h-[200px] rounded-full bg-[radial-gradient(circle,rgba(237,132,58,0.18)_0%,transparent_70%)] blur-[30px] pointer-events-none" />
+        <div className="absolute -top-[60px] left-1/2 -translate-x-1/2 w-[200px] h-[200px] rounded-pill bg-[radial-gradient(circle,rgba(237,132,58,0.18)_0%,transparent_70%)] blur-[30px] pointer-events-none" />
 
         {/* Close */}
         <button
           onClick={handleClose}
-          className="absolute top-4 right-4 w-8 h-8 rounded-full bg-ink-50 border-0 flex items-center justify-center cursor-pointer text-ink-600 hover:bg-ink-200 transition-all z-10 p-0"
+          className="absolute top-4 right-4 w-8 h-8 rounded-pill bg-ink-50 border-0 flex items-center justify-center cursor-pointer text-ink-600 hover:bg-ink-200 transition-all z-10 p-0"
           aria-label="Fermer"
         >
           <X size={14} />

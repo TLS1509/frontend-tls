@@ -119,7 +119,7 @@ export default function CoachingSessionDetail() {
           <ul className="flex flex-col gap-stack-xs">
             {DEFAULT_OBJECTIVES.map((obj, i) => (
               <li key={i} className="flex items-start gap-stack">
-                <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-secondary-50 text-secondary-600 text-caption font-bold shrink-0">
+                <span className="inline-flex items-center justify-center w-6 h-6 rounded-pill bg-secondary-50 text-secondary-600 text-caption font-bold shrink-0">
                   {i + 1}
                 </span>
                 <span className="text-body-sm text-ink-700">{obj}</span>

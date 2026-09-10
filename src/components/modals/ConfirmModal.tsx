@@ -84,14 +84,14 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
         {/* Close */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 w-8 h-8 rounded-full bg-ink-50 border-0 flex items-center justify-center cursor-pointer text-ink-600 hover:bg-ink-200 transition-all z-10 p-0"
+          className="absolute top-4 right-4 w-8 h-8 rounded-pill bg-ink-50 border-0 flex items-center justify-center cursor-pointer text-ink-600 hover:bg-ink-200 transition-all z-10 p-0"
           aria-label="Fermer"
         >
           <X size={14} />
         </button>
 
         {/* Variant icon */}
-        <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5 animate-cm-icon-in ${VARIANT_ICON_BG[variant]} ${VARIANT_ICON_COLOR[variant]}`}>
+        <div className={`w-16 h-16 rounded-pill flex items-center justify-center mx-auto mb-5 animate-cm-icon-in ${VARIANT_ICON_BG[variant]} ${VARIANT_ICON_COLOR[variant]}`}>
           {displayIcon}
         </div>
 

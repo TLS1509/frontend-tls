@@ -58,19 +58,19 @@ export const Error500: React.FC = () => {
         aria-hidden
         animate={!parallax.reduce ? { x: [0, 22, 0], y: [0, -16, 0], scale: [1, 1.06, 1] } : undefined}
         transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
-        className="pointer-events-none absolute -top-32 -left-24 w-[560px] h-[560px] rounded-full bg-secondary-100/80 blur-ambient"
+        className="pointer-events-none absolute -top-32 -left-24 w-[560px] h-[560px] rounded-pill bg-secondary-100/80 blur-ambient"
       />
       <motion.div
         aria-hidden
         animate={!parallax.reduce ? { x: [0, -18, 0], y: [0, 16, 0], scale: [1, 1.09, 1] } : undefined}
         transition={{ duration: 24, repeat: Infinity, ease: 'easeInOut' }}
-        className="pointer-events-none absolute bottom-[10%] -right-20 w-[440px] h-[440px] rounded-full bg-accent-100/50 blur-ambient"
+        className="pointer-events-none absolute bottom-[10%] -right-20 w-[440px] h-[440px] rounded-pill bg-accent-100/50 blur-ambient"
       />
       <motion.div
         aria-hidden
         animate={!parallax.reduce ? { opacity: [0.3, 0.55, 0.3] } : undefined}
         transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
-        className="pointer-events-none absolute top-[38%] left-[28%] w-[280px] h-[280px] rounded-full bg-secondary-100/40 blur-ambient"
+        className="pointer-events-none absolute top-[38%] left-[28%] w-[280px] h-[280px] rounded-pill bg-secondary-100/40 blur-ambient"
       />
 
       <div className="relative z-base text-center max-w-3xl w-full flex flex-col items-center">

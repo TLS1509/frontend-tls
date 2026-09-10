@@ -74,7 +74,7 @@ export const MultiStepForm: React.FC<MultiStepFormProps> = ({
                   <div
                     aria-hidden="true"
                     className={[
-                      'absolute top-5 left-[calc(50%+1.25rem)] right-[calc(-50%+1.25rem)] h-0.5 rounded-full transition-colors',
+                      'absolute top-5 left-[calc(50%+1.25rem)] right-[calc(-50%+1.25rem)] h-0.5 rounded-pill transition-colors',
                       isCompleted ? 'bg-success-base' : 'bg-ink-200',
                     ].join(' ')}
                   />
@@ -82,7 +82,7 @@ export const MultiStepForm: React.FC<MultiStepFormProps> = ({
 
                 <div
                   className={[
-                    'relative inline-flex items-center justify-center w-10 h-10 rounded-full font-bold text-body-sm transition-all duration-200',
+                    'relative inline-flex items-center justify-center w-10 h-10 rounded-pill font-bold text-body-sm transition-all duration-200',
                     isCompleted
                       ? 'bg-gradient-to-br from-success-base to-success-fg text-white shadow-md ring-4 ring-success-bg'
                       : isActive

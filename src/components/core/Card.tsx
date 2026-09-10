@@ -103,7 +103,7 @@ export interface CardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 't
    flotter.
 
    Cette valeur commande aussi la migration des 93 cards écrites à la main, et
-   les décisions R2 (les 22 `rounded-3xl`) et R3 (les 204 `rounded-full`) : elles
+   les décisions R2 (les 22 `rounded-2xl`) et R3 (les 204 `rounded-pill`) : elles
    l'attendaient toutes. */
 const BASE = 'flex flex-col rounded-lg text-ink-900 font-body text-body-sm transition-all duration-200 motion-reduce:transition-none [&[role=button]]:h-auto [&[role=button]]:font-normal [&[role=button]]:items-stretch';
 

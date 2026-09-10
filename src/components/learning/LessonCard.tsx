@@ -150,7 +150,7 @@ export const LessonCard: React.FC<LessonCardProps> = ({
           </div>
           {instructor && (
             <>
-              <span className="w-1 h-1 rounded-full bg-ink-300" aria-hidden="true" />
+              <span className="w-1 h-1 rounded-pill bg-ink-300" aria-hidden="true" />
               <span>{instructor}</span>
             </>
           )}

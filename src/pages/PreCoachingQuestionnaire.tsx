@@ -102,7 +102,7 @@ export const PreCoachingQuestionnaire: React.FC = () => {
             <div key={step.id} className="flex gap-stack items-start">
 
               {/* Circle icon */}
-              <div className="w-12 h-12 rounded-full bg-ink-50 border border-ink-200 text-ink-600 flex items-center justify-center shrink-0 mt-stack">
+              <div className="w-12 h-12 rounded-pill bg-ink-50 border border-ink-200 text-ink-600 flex items-center justify-center shrink-0 mt-stack">
                 {step.icon}
               </div>
 

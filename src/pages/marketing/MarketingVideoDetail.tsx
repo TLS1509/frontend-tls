@@ -106,7 +106,7 @@ export const MarketingVideoDetail: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Lire la vidéo (nouvel onglet)"
-                className="relative z-[1] w-20 h-20 rounded-full bg-primary-500 shadow-[0_0_0_14px_rgba(85,161,180,0.20)] flex items-center justify-center transition-transform duration-base hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/70"
+                className="relative z-[1] w-20 h-20 rounded-pill bg-primary-500 shadow-[0_0_0_14px_rgba(85,161,180,0.20)] flex items-center justify-center transition-transform duration-base hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/70"
               >
                 <Play size={28} className="ml-1 fill-white text-white" />
               </a>
@@ -115,7 +115,7 @@ export const MarketingVideoDetail: React.FC = () => {
                 aria-label="Vidéo à venir"
                 className="relative z-[1] flex flex-col items-center gap-stack-xs text-white/70"
               >
-                <div className="w-20 h-20 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
+                <div className="w-20 h-20 rounded-pill bg-white/10 border border-white/20 flex items-center justify-center">
                   <Play size={28} className="ml-1 text-white/50" />
                 </div>
                 <span className="font-body text-caption font-semibold">Vidéo à venir</span>

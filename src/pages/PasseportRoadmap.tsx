@@ -224,7 +224,7 @@ export default function PasseportRoadmap() {
                   <div className="flex flex-col items-center shrink-0 w-7">
                     <div
                       className={[
-                        'w-5 h-5 rounded-full border-2 shrink-0 z-base',
+                        'w-5 h-5 rounded-pill border-2 shrink-0 z-base',
                         cfg.dotClass,
                       ].join(' ')}
                     />

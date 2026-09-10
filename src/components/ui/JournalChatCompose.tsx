@@ -43,7 +43,7 @@ export const JournalChatCompose: React.FC<JournalChatComposeProps> = ({
   return (
     <Card
       className={[
-        '!p-0 !rounded-3xl !gap-0 !overflow-visible relative',
+        '!p-0 !rounded-2xl !gap-0 !overflow-visible relative',
         'bg-white border border-primary-100 shadow-sm hover:shadow-md transition-shadow',
         className,
       ]

@@ -276,7 +276,7 @@ export default function PasseportObjectifs() {
                   ].join(' ')}
                 >
                   <span className={[
-                    'inline-flex items-center justify-center w-6 h-6 rounded-full text-micro font-bold shrink-0',
+                    'inline-flex items-center justify-center w-6 h-6 rounded-pill text-micro font-bold shrink-0',
                     m.done ? 'bg-success-base text-white' : 'bg-ink-100 text-ink-600',
                   ].join(' ')}>
                     {m.done ? '✓' : idx + 1}

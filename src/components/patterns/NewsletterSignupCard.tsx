@@ -19,8 +19,8 @@ export const NewsletterSignupCard: React.FC<NewsletterSignupCardProps> = ({
   return (
     <div className={['relative w-full overflow-hidden bg-primary-900', className].filter(Boolean).join(' ')}>
       {/* Ambient glows */}
-      <div aria-hidden className="absolute -top-16 -left-16 w-64 h-64 rounded-full bg-primary-600/20 blur-[80px] pointer-events-none" />
-      <div aria-hidden className="absolute -bottom-10 right-1/4 w-48 h-48 rounded-full bg-accent-400/10 blur-[60px] pointer-events-none" />
+      <div aria-hidden className="absolute -top-16 -left-16 w-64 h-64 rounded-pill bg-primary-600/20 blur-[80px] pointer-events-none" />
+      <div aria-hidden className="absolute -bottom-10 right-1/4 w-48 h-48 rounded-pill bg-accent-400/10 blur-[60px] pointer-events-none" />
 
       <div className="@container relative z-10 max-w-page mx-auto px-4 sm:px-6 lg:px-10 py-10 sm:py-12">
         <div className="flex flex-col @2xl:flex-row @2xl:items-center gap-section">

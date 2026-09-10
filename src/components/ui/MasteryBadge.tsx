@@ -94,7 +94,7 @@ export const MasteryBadge: React.FC<MasteryBadgeProps> = ({
         </svg>
         <div
           className={[
-            'absolute inset-2 rounded-full inline-flex items-center justify-center text-3xl',
+            'absolute inset-2 rounded-pill inline-flex items-center justify-center text-3xl',
             LEVEL_BG[level],
           ].join(' ')}
         >

@@ -38,7 +38,7 @@ export const InlineWin: React.FC<InlineWinProps> = ({
   >
     <span
       aria-hidden="true"
-      className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-secondary-500 to-accent-500 text-white shrink-0 shadow-md"
+      className="inline-flex items-center justify-center w-10 h-10 rounded-pill bg-gradient-to-br from-secondary-500 to-accent-500 text-white shrink-0 shadow-md"
     >
       {icon ?? <Star size={18} strokeWidth={2} fill="currentColor" />}
     </span>

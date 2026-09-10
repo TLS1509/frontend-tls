@@ -188,7 +188,7 @@ export default function BadgeDetail() {
           <ul className="flex flex-col gap-stack-xs">
             {badge.criteria.map((c, i) => (
               <li key={i} className="flex items-start gap-stack">
-                <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-caption font-bold shrink-0 ${earned ? 'bg-success-bg text-success-fg' : 'bg-ink-100 text-ink-600'}`}>
+                <span className={`inline-flex items-center justify-center w-6 h-6 rounded-pill text-caption font-bold shrink-0 ${earned ? 'bg-success-bg text-success-fg' : 'bg-ink-100 text-ink-600'}`}>
                   {earned ? '✓' : i + 1}
                 </span>
                 <span className="text-body-sm text-ink-700">{c}</span>

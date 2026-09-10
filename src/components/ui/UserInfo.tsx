@@ -62,7 +62,7 @@ export const UserInfo: React.FC<UserInfoProps> = ({
         {status && (
           <span
             className={[
-              'absolute bottom-0 right-0 rounded-full border-2 border-white',
+              'absolute bottom-0 right-0 rounded-pill border-2 border-white',
               STATUS_DOT_SIZE[size],
               STATUS_DOT_COLOR[status],
             ].join(' ')}

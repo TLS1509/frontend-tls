@@ -105,7 +105,7 @@ export const CelebrationModal: React.FC<CelebrationModalProps> = ({
             type="button"
             onClick={onClose}
             aria-label="Fermer"
-            className="absolute top-4 right-4 z-10 inline-flex items-center justify-center w-8 h-8 rounded-full bg-white/70 border border-ink-200 text-ink-500 hover:bg-white hover:text-ink-700 transition-colors cursor-pointer"
+            className="absolute top-4 right-4 z-10 inline-flex items-center justify-center w-8 h-8 rounded-pill bg-white/70 border border-ink-200 text-ink-500 hover:bg-white hover:text-ink-700 transition-colors cursor-pointer"
           >
             <X size={16} strokeWidth={2.5} />
           </button>

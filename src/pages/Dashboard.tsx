@@ -91,7 +91,7 @@ const JournalBubbleNudge: React.FC<JournalBubbleNudgeProps> = ({ navigate, hasUp
         {/* Avatar + bubble */}
         <div className="flex items-end gap-3">
           {/* Avatar */}
-          <div className="shrink-0 w-9 h-9 rounded-full bg-primary-100 border border-primary-200/60 flex items-center justify-center text-primary-600">
+          <div className="shrink-0 w-9 h-9 rounded-pill bg-primary-100 border border-primary-200/60 flex items-center justify-center text-primary-600">
             <Sparkles size={14} strokeWidth={2} aria-hidden="true" />
           </div>
 
@@ -111,7 +111,7 @@ const JournalBubbleNudge: React.FC<JournalBubbleNudgeProps> = ({ navigate, hasUp
           <button
             type="button"
             onClick={() => navigate(href)}
-            className="flex-1 h-9 rounded-full bg-ink-50/80 border border-ink-100 px-4 text-body-sm text-ink-600 text-left hover:bg-ink-100 hover:border-ink-200 transition-[background-color,border-color] duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+            className="flex-1 h-9 rounded-pill bg-ink-50/80 border border-ink-100 px-4 text-body-sm text-ink-600 text-left hover:bg-ink-100 hover:border-ink-200 transition-[background-color,border-color] duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           >
             Répondre…
           </button>
@@ -119,7 +119,7 @@ const JournalBubbleNudge: React.FC<JournalBubbleNudgeProps> = ({ navigate, hasUp
             type="button"
             onClick={() => navigate(href)}
             aria-label="Ouvrir le journal"
-            className="w-9 h-9 rounded-full bg-primary-500 hover:bg-primary-600 flex items-center justify-center text-white shadow-brand-sm hover:shadow-brand-md transition-[background-color,box-shadow] duration-fast shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+            className="w-9 h-9 rounded-pill bg-primary-500 hover:bg-primary-600 flex items-center justify-center text-white shadow-brand-sm hover:shadow-brand-md transition-[background-color,box-shadow] duration-fast shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           >
             <ArrowRight size={14} strokeWidth={2.5} aria-hidden="true" />
           </button>

@@ -25,7 +25,7 @@ const VARIANT_CLASSES: Record<SkeletonVariant, string> = {
   text:   'h-3.5 rounded-pill',
   title:  'h-6 w-3/5 rounded-sm',
   block:  'h-30 rounded-lg',
-  circle: 'rounded-full aspect-square',
+  circle: 'rounded-pill aspect-square',
   card:   'h-40 rounded-lg',
   button: 'h-10 w-24 rounded-pill',
 };

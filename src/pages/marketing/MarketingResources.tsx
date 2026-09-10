@@ -191,11 +191,11 @@ const FeaturedCard: React.FC<{ item: ResourceItem }> = ({ item }) => {
   const reduced = useReducedMotion();
   return (
   <FadeInWhenVisible>
-    <Link to={item.href} className="group block rounded-3xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">
+    <Link to={item.href} className="group block rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">
       <motion.div
         whileHover={reduced ? undefined : { y: -6 }}
         transition={{ type: 'spring', stiffness: 280, damping: 22 }}
-        className={`relative rounded-3xl bg-gradient-to-br ${item.cover} border h-full overflow-hidden flex flex-col shadow-sm hover:shadow-xl transition-all duration-base`}
+        className={`relative rounded-2xl bg-gradient-to-br ${item.cover} border h-full overflow-hidden flex flex-col shadow-sm hover:shadow-xl transition-all duration-base`}
       >
         {/* Image background */}
         <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-transparent pointer-events-none" />
@@ -387,7 +387,7 @@ export const MarketingResources: React.FC = () => {
                 >
                   {type.Icon && <type.Icon size={14} />}
                   <span>{type.label}</span>
-                  <span className={`inline-flex items-center justify-center w-5 h-5 rounded-full text-caption font-bold ${
+                  <span className={`inline-flex items-center justify-center w-5 h-5 rounded-pill text-caption font-bold ${
                     selectedType === type.id ? 'bg-white/20' : 'bg-ink-200 text-ink-700'
                   }`}>
                     {type.count}

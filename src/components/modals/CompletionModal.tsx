@@ -79,11 +79,11 @@ export const CompletionModal: React.FC<CompletionModalProps> = ({
           {/* Decorative ambient blobs */}
           <div
             aria-hidden
-            className="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-white/10 pointer-events-none"
+            className="absolute -top-6 -right-6 w-24 h-24 rounded-pill bg-white/10 pointer-events-none"
           />
           <div
             aria-hidden
-            className="absolute -bottom-4 -left-4 w-16 h-16 rounded-full bg-accent-400/20 pointer-events-none"
+            className="absolute -bottom-4 -left-4 w-16 h-16 rounded-pill bg-accent-400/20 pointer-events-none"
           />
 
           {/* Close button */}
@@ -91,7 +91,7 @@ export const CompletionModal: React.FC<CompletionModalProps> = ({
             type="button"
             onClick={onClose}
             aria-label="Fermer"
-            className="absolute top-3 right-3 z-10 inline-flex items-center justify-center w-8 h-8 rounded-full bg-white/20 text-white hover:bg-white/30 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70"
+            className="absolute top-3 right-3 z-10 inline-flex items-center justify-center w-8 h-8 rounded-pill bg-white/20 text-white hover:bg-white/30 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70"
           >
             <X size={14} strokeWidth={2.5} />
           </button>

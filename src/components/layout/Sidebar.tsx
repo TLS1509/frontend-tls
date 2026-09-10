@@ -89,7 +89,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               type="button"
               onClick={onMobileClose}
               aria-label="Fermer la navigation"
-              className="md:hidden shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-full bg-ink-50 hover:bg-ink-100 text-ink-700 hover:text-ink-900 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+              className="md:hidden shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-pill bg-ink-50 hover:bg-ink-100 text-ink-700 hover:text-ink-900 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
             >
               <X size={18} strokeWidth={2.25} />
             </button>
@@ -103,7 +103,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             type="button"
             onClick={onToggleCollapse}
             className={[
-              'absolute top-7 z-10 max-md:hidden inline-flex items-center justify-center w-7 h-7 rounded-full bg-white/85 backdrop-blur-glass-light text-primary-700 ring-1 ring-primary-200/70 shadow-[0_4px_12px_-2px_rgba(85,161,180,0.3),0_2px_4px_-1px_rgba(85,161,180,0.15),inset_0_1px_0_rgba(255,255,255,0.9)] hover:bg-white hover:text-primary-800 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+              'absolute top-7 z-10 max-md:hidden inline-flex items-center justify-center w-7 h-7 rounded-pill bg-white/85 backdrop-blur-glass-light text-primary-700 ring-1 ring-primary-200/70 shadow-[0_4px_12px_-2px_rgba(85,161,180,0.3),0_2px_4px_-1px_rgba(85,161,180,0.15),inset_0_1px_0_rgba(255,255,255,0.9)] hover:bg-white hover:text-primary-800 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
               collapsed ? '-right-5' : '-right-3',
             ].join(' ')}
             aria-label={collapsed ? 'Étendre la sidebar' : 'Réduire la sidebar'}

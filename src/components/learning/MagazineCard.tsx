@@ -86,7 +86,7 @@ export const MagazineCard: React.FC<MagazineCardProps> = ({
       ].join(' ')}>
 
         {/* Ambient glow top-right */}
-        <div aria-hidden className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-white/10 blur-[50px] pointer-events-none" />
+        <div aria-hidden className="absolute -top-10 -right-10 w-40 h-40 rounded-pill bg-white/10 blur-[50px] pointer-events-none" />
 
         {/* Decorative large issue number — watermark */}
         <span
@@ -134,7 +134,7 @@ export const MagazineCard: React.FC<MagazineCardProps> = ({
         {/* Date — pinned to bottom of cover */}
         {publishedAt && (
           <div className="relative z-10 mt-auto flex flex-col gap-tight pt-stack-xs">
-            <div className={['w-6 h-0.5 rounded-full', TONE_RULE[tone]].join(' ')} />
+            <div className={['w-6 h-0.5 rounded-pill', TONE_RULE[tone]].join(' ')} />
             <span className={['font-body text-caption font-semibold', TONE_MUTED[tone]].join(' ')}>
               {publishedAt}
             </span>

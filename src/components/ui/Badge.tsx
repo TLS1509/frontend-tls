@@ -77,7 +77,7 @@ export const Badge: React.FC<BadgeProps> = ({
       {dot && (
         <span
           aria-hidden
-          className={`w-1.5 h-1.5 rounded-full shrink-0 ${DOT_CLASSES[resolvedVariant]}`}
+          className={`w-1.5 h-1.5 rounded-pill shrink-0 ${DOT_CLASSES[resolvedVariant]}`}
         />
       )}
       {children ?? text}

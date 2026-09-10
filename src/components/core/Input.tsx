@@ -236,11 +236,11 @@ export interface RadioProps
 }
 
 const RADIO_BOX =
-  "inline-flex items-center justify-center w-5 h-5 shrink-0 bg-white border-2 border-ink-300 rounded-full transition-colors " +
+  "inline-flex items-center justify-center w-5 h-5 shrink-0 bg-white border-2 border-ink-300 rounded-pill transition-colors " +
   "peer-checked:border-primary-500 " +
   "peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-primary-500 " +
   "peer-disabled:bg-ink-50 peer-disabled:border-ink-200 peer-disabled:cursor-not-allowed " +
-  "after:content-[''] after:w-2 after:h-2 after:rounded-full after:bg-primary-500 after:opacity-0 " +
+  "after:content-[''] after:w-2 after:h-2 after:rounded-pill after:bg-primary-500 after:opacity-0 " +
   "peer-checked:after:opacity-100";
 
 export const Radio: React.FC<RadioProps> = ({
@@ -274,7 +274,7 @@ const SWITCH_TRACK =
   "peer-checked:bg-primary-500 " +
   "peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-primary-500 " +
   "peer-disabled:bg-ink-50 peer-disabled:cursor-not-allowed " +
-  "after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:w-5 after:h-5 after:rounded-full after:bg-white after:transition-transform " +
+  "after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:w-5 after:h-5 after:rounded-pill after:bg-white after:transition-transform " +
   "peer-checked:after:translate-x-5";
 
 export const Switch: React.FC<SwitchProps> = ({

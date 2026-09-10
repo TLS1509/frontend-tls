@@ -229,9 +229,9 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
 
       {/* ── Progress bar (if in-progress) ── */}
       {typeof progress === 'number' && progress > 0 && !isCompleted && (
-        <div className="mt-stack h-1 rounded-full bg-ink-100 overflow-hidden">
+        <div className="mt-stack h-1 rounded-pill bg-ink-100 overflow-hidden">
           <div
-            className={`h-full rounded-full transition-all duration-slow ${
+            className={`h-full rounded-pill transition-all duration-slow ${
               tone === 'brand' ? 'bg-primary-500' : tone === 'warm' ? 'bg-secondary-500' : 'bg-accent-500'
             }`}
             style={{ width: `${Math.min(100, progress)}%` }}
