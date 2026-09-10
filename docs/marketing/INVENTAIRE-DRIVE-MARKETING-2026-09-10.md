@@ -138,3 +138,27 @@ La page Notion `Brand Hub` renvoie deux fois vers un « Dossier Logos Drive »
 Le Drive ne contient **aucun** des 458 fichiers du jeu actuel. Une fois vidé, il faudra y
 déposer le noyau — ou décider que le Drive ne sert plus qu'aux documents, les fichiers de
 marque vivant dans le repo et le noyau usuel dans Notion. **C'est la vraie décision.**
+
+---
+
+# Ce qui a été supprimé le 2026-09-10
+
+Mis à la **corbeille** Drive — réversible 30 jours, rien n'est effacé définitivement.
+
+| Objet | Ce que c'était |
+|---|---|
+| **`04_Icons`** *(dossier entier)* | 17 sous-dossiers d'un pack générique du 04/08/2023. Le projet utilise Lucide, exclusivement. |
+| `Frame 30.svg` · `Frame 31.svg` · `Frame 32.svg` | exports Figma sous leur nom par défaut |
+| `Untitled design.png` | export Canva sous son nom par défaut |
+| `logo-normal-bleu.png` | l'ancien logo — celui que le Brand Hub référençait encore |
+| `logo-haute-résolution (1).png` | doublon, marqué par son `(1)` |
+| `logo-document-a4.png` | l'ancien logo, format A4 |
+| `favicon-48x48.svg` | remplacé par `public/favicon.svg` + `.ico` à 3 résolutions |
+| `Icon profile picture 800 x 800.svg` · `.png` | ancien avatar, doublon SVG/PNG |
+
+**Contrôle après suppression** : `03_Logos` ne contient plus que ses cinq sous-dossiers —
+`01_Principal`, `02_Monochrome`, `03_Formats `, `04_Zones‑de‑Protection`, `05_Historique `.
+Plus aucun fichier en vrac à la racine.
+
+**Reste à trancher** *(voir la proposition ci-dessus)* : l'échafaudage de onze dossiers vides,
+la superposition des deux vagues de rangement, et les onze documents Canva pré-pivot.
