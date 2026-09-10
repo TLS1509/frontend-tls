@@ -117,7 +117,7 @@ export const RatingModal: React.FC<RatingModalProps> = ({
         </label>
         <textarea
           id="rating-feedback"
-          className="w-full px-4 py-3 h-auto min-h-[100px] rounded-xl border border-ink-300 bg-white text-body-sm text-ink-900 leading-relaxed placeholder:text-ink-400 focus:border-primary-400 focus:outline-none focus:shadow-brand-sm transition-all resize-y disabled:bg-ink-50 disabled:cursor-not-allowed"
+          className="w-full px-4 py-3 h-auto min-h-[100px] rounded-xl border border-ink-300 bg-white text-body-sm text-ink-900 leading-relaxed placeholder:text-ink-500 focus:border-primary-400 focus:outline-none focus:shadow-brand-sm transition-all resize-y disabled:bg-ink-50 disabled:cursor-not-allowed"
           placeholder="Partagez vos impressions, suggestions ou retours…"
           value={feedback}
           onChange={(e) => setFeedback(e.target.value)}

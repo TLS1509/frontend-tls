@@ -210,7 +210,7 @@ export const CourseDetail: React.FC = () => {
                         <span className="flex items-center gap-stack-xs">
                           {lesson.locked && <Lock size={14} className="text-ink-400 shrink-0" />}
                           {lesson.title}{' '}
-                          <span className="text-caption text-ink-400">({lesson.duration})</span>
+                          <span className="text-caption text-ink-500">({lesson.duration})</span>
                         </span>
                         {lesson.current && <Badge variant="brand">En cours</Badge>}
                         {lesson.done && <Badge variant="success">Fait</Badge>}

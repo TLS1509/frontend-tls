@@ -39,7 +39,7 @@ export const Kbd: React.FC<KbdProps> = ({
         {keys.map((key, i) => (
           <React.Fragment key={key}>
             {i > 0 && (
-              <span className="text-ink-400 text-micro mx-0.5" aria-hidden>+</span>
+              <span className="text-ink-500 text-micro mx-0.5" aria-hidden>+</span>
             )}
             <kbd className={classes} {...rest}>{key}</kbd>
           </React.Fragment>

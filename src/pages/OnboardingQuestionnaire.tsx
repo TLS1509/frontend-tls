@@ -37,7 +37,7 @@ const VariantSwitcher: React.FC<{
     role="group"
     aria-label="Changer de variante"
   >
-    <span className="text-micro text-ink-400 px-2 shrink-0 select-none">Variante</span>
+    <span className="text-micro text-ink-500 px-2 shrink-0 select-none">Variante</span>
     {(['a', 'b', 'c'] as QuestionnaireVariant[]).map((v) => (
       <button
         key={v}

@@ -76,7 +76,7 @@ const INPUT_BASE =
   'flex-1 bg-transparent outline-none border-0 p-0 min-w-0 font-body text-inherit ' +
   'appearance-none cursor-text ' +
   'focus:outline-none focus:shadow-none focus:bg-transparent ' +
-  'disabled:cursor-not-allowed placeholder:text-ink-400';
+  'disabled:cursor-not-allowed placeholder:text-ink-500';
 
 /* ─── Component ─────────────────────────────────────────────────────────────── */
 
@@ -298,7 +298,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
             {filtered.length === 0 ? (
               <li
                 role="presentation"
-                className="px-3.5 py-2.5 text-body-sm text-ink-400 select-none"
+                className="px-3.5 py-2.5 text-body-sm text-ink-500 select-none"
               >
                 {noResultsLabel}
               </li>

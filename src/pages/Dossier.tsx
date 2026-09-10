@@ -258,7 +258,7 @@ export const Dossier: React.FC = () => {
                     ))}
                   </div>
 
-                  <div className="bg-ink-50 border border-dashed border-ink-200 rounded-2xl h-[200px] flex flex-col items-center justify-center gap-stack-xs text-ink-400">
+                  <div className="bg-ink-50 border border-dashed border-ink-200 rounded-2xl h-[200px] flex flex-col items-center justify-center gap-stack-xs text-ink-500">
                     <BarChart2 size={32} className="opacity-50" />
                     <span className="font-body text-body-sm">
                       Graphique : Évolution de l'adoption IA en formation (2023–2026)

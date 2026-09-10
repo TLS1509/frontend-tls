@@ -224,7 +224,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
         {isChatbot && !isPrivacyBlocked && (
           <div className="flex items-center gap-stack-xs pl-1">
             {hasFeedback ? (
-              <span className="text-micro text-ink-400">
+              <span className="text-micro text-ink-500">
                 {feedback?.rating === 'yes' ? '✓ Utile' : '✗ Pas utile'} —
                 merci pour ton retour
               </span>

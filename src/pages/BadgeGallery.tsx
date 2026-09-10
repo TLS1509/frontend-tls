@@ -157,7 +157,7 @@ export default function BadgeGallery() {
                     color={badge.color}
                     size="sm"
                   />
-                  <p className="text-caption text-ink-400 text-center">{badge.condition}</p>
+                  <p className="text-caption text-ink-500 text-center">{badge.condition}</p>
                 </div>
               ))}
             </div>

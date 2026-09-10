@@ -102,7 +102,7 @@ const TreeBranch: React.FC<{ node: TreeNode; depth: number; onGo: (p: string) =>
           >
             <span className="font-mono text-caption text-ink-900 group-hover:text-primary-800 truncate">/{node.segment}</span>
             {node.route.component && (
-              <span className="text-micro text-ink-400 truncate hidden sm:inline">{node.route.component}</span>
+              <span className="text-micro text-ink-500 truncate hidden sm:inline">{node.route.component}</span>
             )}
             {node.route.inbound === 0 && (
               <Unlink size={14} strokeWidth={2.4} className="shrink-0 text-danger-fg" aria-label="aucun lien entrant" />
@@ -114,7 +114,7 @@ const TreeBranch: React.FC<{ node: TreeNode; depth: number; onGo: (p: string) =>
         )}
 
         {kids.length > 0 && (
-          <span className="text-micro text-ink-400 tabular-nums shrink-0">{total}</span>
+          <span className="text-micro text-ink-500 tabular-nums shrink-0">{total}</span>
         )}
       </div>
 
@@ -239,7 +239,7 @@ export const PagesIndex: React.FC = () => {
                 >
                   <span className={`w-1.5 h-1.5 rounded-pill ${a.dot}`} aria-hidden />
                   {a.label}
-                  <span className="tabular-nums text-ink-400">{n}</span>
+                  <span className="tabular-nums text-ink-500">{n}</span>
                 </button>
               );
             })}
@@ -259,7 +259,7 @@ export const PagesIndex: React.FC = () => {
             >
               <Unlink size={14} strokeWidth={2.4} />
               Sans lien entrant
-              <span className="tabular-nums text-ink-400">{orphanTotal}</span>
+              <span className="tabular-nums text-ink-500">{orphanTotal}</span>
             </button>
 
             {(audFilter || query || orphansOnly) && (
@@ -316,7 +316,7 @@ export const PagesIndex: React.FC = () => {
                       </div>
                       <span className="text-micro tabular-nums shrink-0">
                         <span className="font-bold text-ink-800">{linked}</span>
-                        <span className="text-ink-400"> liées</span>
+                        <span className="text-ink-500"> liées</span>
                         {orphans > 0 && <span className="text-danger-fg font-bold"> · {orphans} sans lien</span>}
                       </span>
                     </div>
@@ -391,7 +391,7 @@ export const PagesIndex: React.FC = () => {
                       ) : (
                         <span className="inline-flex items-baseline gap-1.5">
                           <span className="text-caption font-bold text-ink-800 tabular-nums">{r.inbound}</span>
-                          <span className="text-micro text-ink-400 truncate max-w-[14rem] hidden lg:inline">
+                          <span className="text-micro text-ink-500 truncate max-w-[14rem] hidden lg:inline">
                             {r.linkedFrom.join(', ')}
                           </span>
                         </span>
