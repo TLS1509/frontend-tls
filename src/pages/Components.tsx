@@ -1668,6 +1668,26 @@ const COMPONENTS: ComponentEntry[] = [
                 <span className="text-micro font-mono text-ink-500"><b>D</b> · métas et CTA sur une ligne, sous un filet</span>
               </div>
 
+              {/* F — le CTA sur la MÊME LIGNE que le bloc de texte */}
+              <div className="flex flex-col gap-stack-xs">
+                <div className={`${coque} ring-2 ring-secondary-200`}>
+                  {/* Tête : métas à gauche, statut à droite */}
+                  <div className="flex items-center justify-between gap-stack-xs">
+                    <MetaPillGroup items={metas} />
+                    <Badge variant="warm" className="shrink-0">À venir</Badge>
+                  </div>
+                  {/* Corps : le texte à gauche, l'action à droite, centrée sur lui */}
+                  <div className="mt-stack flex items-center justify-between gap-stack">
+                    <div className="min-w-0">
+                      <h4 className="font-display text-h4 text-ink-900">{titre}</h4>
+                      <p className="m-0 mt-1 font-body text-body-sm text-ink-600">{texte}</p>
+                    </div>
+                    <Button size="sm" className="shrink-0">Rejoindre</Button>
+                  </div>
+                </div>
+                <span className="text-micro font-mono text-secondary-700"><b>F</b> · métas à gauche, statut à droite, CTA centré sur le bloc de texte</span>
+              </div>
+
               {/* E — celle décrite le 10/09 */}
               <div className="flex flex-col gap-stack-xs">
                 <div className={`${coque} ring-2 ring-primary-200`}>
