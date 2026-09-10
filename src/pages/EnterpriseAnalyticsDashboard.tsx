@@ -60,7 +60,7 @@ export default function EnterpriseAnalyticsDashboard() {
   const tableRows = DEPARTMENTS.map((d) => ({
     ...d,
     avgDreyfus: (
-      <Badge variant={d.avgDreyfus >= 3.5 ? 'success' : d.avgDreyfus >= 3 ? 'info' : 'danger'} size="sm">
+      <Badge variant={d.avgDreyfus >= 3.5 ? 'success' : d.avgDreyfus >= 3 ? 'info' : 'danger'} size="compact">
         D{d.avgDreyfus.toFixed(1)}
       </Badge>
     ),
@@ -202,7 +202,7 @@ export default function EnterpriseAnalyticsDashboard() {
                     </div>
                     <Badge
                       variant={avg >= 3.5 ? 'success' : avg >= 3 ? 'info' : 'danger'}
-                      size="sm"
+                      size="compact"
                     >
                       D{avg.toFixed(1)}
                     </Badge>

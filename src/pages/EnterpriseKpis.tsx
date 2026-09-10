@@ -130,7 +130,7 @@ export default function EnterpriseKpis() {
     avgDreyfus: (
       <Badge
         variant={d.avgDreyfusRaw >= 3.5 ? 'success' : d.avgDreyfusRaw >= 3.0 ? 'info' : 'danger'}
-        size="sm"
+        size="compact"
       >
         D{d.avgDreyfusRaw.toFixed(1)}
       </Badge>

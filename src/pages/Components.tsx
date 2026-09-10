@@ -1590,6 +1590,114 @@ const COMPONENTS: ComponentEntry[] = [
     ),
   },
 
+{
+    name: 'La famille des pastilles',
+    codeName: 'ui/Badge.tsx · ui/Chip.tsx',
+    description:
+      "Deux registres, et il faut les distinguer d'un coup d'œil : Badge dit un ÉTAT, MetaPill dit une DONNÉE. Le système déclare neuf enveloppes sur une seule primitive ; deux portent 327 des 351 usages.",
+    keywords: ['badge', 'pastille', 'chip', 'pill', 'meta', 'statut', 'tag', 'filtre'],
+    render: () => (
+      <div className="flex flex-col gap-section">
+
+        <ShowcaseBloc
+          titre="Deux registres, deux traitements"
+          note="La différence n'est pas décorative : elle dit au lecteur ce qu'il regarde avant qu'il ait lu. Un état crie — capitales, graisse 700, serrage positif, bordure. Une donnée chuchote — casse normale, graisse 500. Confondre les deux, c'est ce qui rend une carte illisible : on ne sait plus ce qui est un fait et ce qui est un statut."
+        >
+          <div className="flex flex-wrap items-start gap-section">
+            <div className="flex flex-col items-start gap-stack-xs">
+              <div className="hstack">
+                <Badge variant="warm">À venir</Badge>
+                <Badge variant="success">Terminé</Badge>
+                <Badge variant="danger">En retard</Badge>
+              </div>
+              <span className="text-micro text-ink-500 font-mono">Badge — l’état · 264 usages</span>
+            </div>
+            <div className="flex flex-col items-start gap-stack-xs">
+              <MetaPillGroup
+                items={[
+                  { icon: <Clock3 />, text: '45 min' },
+                  { icon: <Calendar />, text: 'Jeudi 18 sept.' },
+                  { text: 'Intermédiaire' },
+                ]}
+              />
+              <span className="text-micro text-ink-500 font-mono">MetaPill — la donnée · 16 usages</span>
+            </div>
+          </div>
+        </ShowcaseBloc>
+
+        <ShowcaseBloc
+          titre="Les tailles de Badge ne s’appellent plus sm / md / lg"
+          note="Chip — donc MetaPill, Tag, FilterChip — portait les MÊMES noms pour des hauteurs différentes : un Badge « md » mesurait 20 px quand un Chip « md » en fait 30. On comparait deux échelles qui ne parlent pas de la même chose, et l’écart se lisait comme un défaut d’alignement alors qu’il est voulu. Des noms propres à la famille lèvent la confusion sans toucher aux hauteurs."
+        >
+          <div className="flex flex-wrap items-end gap-stack">
+            {(['compact', 'normal', 'large'] as const).map((t) => (
+              <div key={t} className="flex flex-col items-start gap-stack-2xs">
+                <Badge variant="brand" size={t}>Nouveau</Badge>
+                <span className="text-micro text-ink-500 font-mono">{t}</span>
+              </div>
+            ))}
+          </div>
+        </ShowcaseBloc>
+
+        <ShowcaseBloc
+          titre="Ce que la famille compte vraiment"
+          note="Neuf enveloppes déclarées, deux réellement employées. Le CLAUDE.md disait « ne pas fusionner, APIs fondamentalement différentes » — écrit en supposant qu’elles servaient toutes. Quatre composants pour neuf usages cumulés, c’est du vocabulaire, pas des API."
+        >
+          <div className="defiler">
+            <table className="w-full min-w-[420px] border-collapse font-body text-body-sm">
+              <thead>
+                <tr className="border-b border-ink-200 text-left">
+                  <th className="py-2 pr-stack font-bold text-ink-700">composant</th>
+                  <th className="py-2 pr-stack text-right font-bold text-ink-700">usages</th>
+                  <th className="py-2 font-bold text-ink-700">verdict</th>
+                </tr>
+              </thead>
+              <tbody className="text-ink-600">
+                {([
+                  ['Badge', 264, 'à garder — le registre de l’état'],
+                  ['FilterChip', 63, 'à garder — le filtre interactif'],
+                  ['MetaPillGroup', 10, 'à garder — le registre de la donnée'],
+                  ['MetaPill', 6, 'idem, employé par le groupe'],
+                  ['Tag', 7, 'à fondre dans FilterChip'],
+                  ['Chip', 5, 'primitive interne — les 5 usages publics sont dans le DevPanel'],
+                  ['StatusBadge', 1, 'à fondre dans Badge'],
+                  ['Pill', 1, 'à fondre dans Badge'],
+                  ['TrendingBadge', 0, 'à retirer'],
+                ] as const).map(([n, u, v]) => (
+                  <tr key={n} className="border-b border-ink-100">
+                    <td className="py-2 pr-stack"><code className="font-mono text-caption">{n}</code></td>
+                    <td className="py-2 pr-stack text-right font-mono tabular-nums">{u}</td>
+                    <td className="py-2">{v}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </ShowcaseBloc>
+
+        <ShowcaseBloc
+          titre="Ce qui a été rattaché aux tokens le 2026-09-10"
+          note="Le serrage de Badge était écrit en valeur arbitraire, à trois valeurs dont deux sur le même corps de 11 px. L’échelle n’avait aucun serrage positif : ses trois tokens resserrent des titres. --tracking-label (+0,05em) comble ce manque. Quatre gap-1.5 passent à gap-stack-2xs. Vérifié au navigateur : rayon 999 px sur les 69 pastilles rendues, et aucune dérive d’alignement au-delà de 1,2 px sur 36 pastilles à texte."
+        >
+          <div className="flex flex-col gap-stack-2xs">
+            {([
+              ['serrage', 'tracking-[0.06em] · [0.05em] · [0.04em]', 'tracking-label'],
+              ['gouttière', 'gap-1.5', 'gap-stack-2xs'],
+              ['rayon', '—', 'rounded-pill · 999 px partout'],
+            ] as const).map(([quoi, avant, apres]) => (
+              <div key={quoi} className="flex flex-wrap items-baseline gap-stack-xs text-caption">
+                <span className="w-24 shrink-0 font-bold text-ink-700">{quoi}</span>
+                <code className="font-mono text-micro text-ink-500 line-through">{avant}</code>
+                <span className="text-ink-400">→</span>
+                <code className="font-mono text-micro text-primary-700">{apres}</code>
+              </div>
+            ))}
+          </div>
+        </ShowcaseBloc>
+      </div>
+    ),
+  },
+
   {
     name: "Échelle d'icônes",
     codeName: '--icon-size-* · index.css',

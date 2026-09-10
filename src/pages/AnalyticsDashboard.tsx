@@ -140,7 +140,7 @@ export default function AnalyticsDashboard() {
     level: (
       <Badge
         variant={learner.dreyfusAvg >= 4 ? 'success' : learner.dreyfusAvg >= 3 ? 'info' : 'danger'}
-        size="sm"
+        size="compact"
       >
         D{learner.dreyfusAvg.toFixed(1)}
       </Badge>

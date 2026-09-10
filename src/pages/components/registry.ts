@@ -145,6 +145,7 @@ export interface CatalogMeta {
  */
 export const CONVENTIONS = new Set([
   'Rythme des titres',
+  'La famille des pastilles',
   'Marges et gouttières',
   'Padding',
   'Centrage',
@@ -186,6 +187,7 @@ export const CATALOG: Record<string, CatalogMeta> = {
      vivent dans Foundations parce que c'est là qu'on va chercher une règle,
      et non dans le fichier d'un composant qui ne la porte qu'en partie. */
   'Rythme des titres':  { category: 'Foundations', subCategory: 'Rythme & alignement' },
+  'La famille des pastilles': { category: 'Foundations', subCategory: 'Rythme & alignement' },
   'Marges et gouttières': { category: 'Foundations', subCategory: 'Rythme & alignement' },
   'Padding':            { category: 'Foundations', subCategory: 'Rythme & alignement' },
   'Centrage':           { category: 'Foundations', subCategory: 'Rythme & alignement' },
