@@ -399,7 +399,7 @@ export const MarketingDiagnostic: React.FC = () => {
                 />
               </div>
 
-              <h2 className="font-display text-h3 font-extrabold text-ink-900 leading-tight [text-wrap:balance]">
+              <h2 className="font-display text-h3 text-ink-900 leading-tight [text-wrap:balance]">
                 {qIndex + 1}. {bank.questions[qIndex].title}
               </h2>
 
@@ -452,7 +452,7 @@ export const MarketingDiagnostic: React.FC = () => {
                 {bank.icon}
                 Diagnostic {bank.label}
               </span>
-              <h2 className="font-display text-h2 font-extrabold text-ink-900 leading-tight [text-wrap:balance]">
+              <h2 className="font-display text-h2 text-ink-900 leading-tight [text-wrap:balance]">
                 Deux dernières questions, en toute liberté.
               </h2>
               <p className="font-body text-body text-ink-600 m-0">
@@ -520,7 +520,7 @@ export const MarketingDiagnostic: React.FC = () => {
                     <Lock size={20} />
                   </span>
                   <div className="flex flex-col gap-stack-xs">
-                    <h3 className="font-display text-h4 font-extrabold text-ink-900 leading-tight">
+                    <h3 className="font-display text-h4 text-ink-900 leading-tight">
                       Débloquez votre rapport d'analyse complet.
                     </h3>
                     <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">
@@ -595,7 +595,7 @@ export const MarketingDiagnostic: React.FC = () => {
           {phase === 'report' && (
             <motion.div {...reveal} className="mx-auto flex w-full max-w-medium flex-col gap-section-lg">
               <div className="flex flex-col gap-stack-xs">
-                <h2 className="font-display text-h2 font-extrabold text-ink-900 leading-tight [text-wrap:balance]">
+                <h2 className="font-display text-h2 text-ink-900 leading-tight [text-wrap:balance]">
                   Merci {lead.firstName}, votre rapport est débloqué.
                 </h2>
                 <p className="font-body text-body-lg text-ink-600 m-0">

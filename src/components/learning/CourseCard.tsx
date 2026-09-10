@@ -97,7 +97,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
       <div className="flex flex-col flex-1 p-4 sm:p-6">
         <span className={`${BADGE_BASE} ${BADGE_TONE_CLASSES[resolvedTone]} self-start`}>{category}</span>
 
-        <h3 className="font-display text-h4 font-semibold text-ink-900 mb-stack-xs line-clamp-2 min-h-[3.5rem]">
+        <h3 className="font-display text-h4 text-ink-900 mb-stack-xs line-clamp-2 min-h-[3.5rem]">
           {title}
         </h3>
 

@@ -70,7 +70,7 @@ export default function AtelierPresentiel() {
         <Card variant="tinted" className="p-stack-lg flex flex-col gap-stack">
           <div className="flex items-center gap-stack-xs">
             <MapPin size={24} className="text-secondary-600" />
-            <h3 className="text-h3 font-semibold text-ink-900">The Learning Hub</h3>
+            <h3 className="text-h3 text-ink-900">The Learning Hub</h3>
           </div>
           <p className="text-body-sm text-ink-600">45 avenue Montaigne, 75008 Paris</p>
           <p className="text-body-sm text-ink-600">Salle Liberté · 3e étage</p>

@@ -170,7 +170,7 @@ const Moteur: React.FC = () => (
             <div className="flex h-full flex-col gap-stack border-t-2 border-primary-200 pt-stack-lg">
               <div className="flex items-baseline gap-stack-xs">
                 <span className="font-display text-h1 font-extrabold text-primary-300 leading-none">{e.num}</span>
-                <h3 className="font-display text-h2 font-extrabold text-ink-900 leading-none">{e.verbe}</h3>
+                <h3 className="font-display text-h2 text-ink-900 leading-none">{e.verbe}</h3>
               </div>
               <p className="font-body text-body text-ink-600 leading-relaxed m-0">{e.detail}</p>
             </div>
@@ -484,7 +484,7 @@ const Bibliotheque: React.FC = () => {
                   </span>
                   <span className="font-body text-caption text-ink-500">{fiche.domaine}</span>
                 </div>
-                <h4 className="font-display text-h4 font-extrabold text-ink-900 leading-tight">
+                <h4 className="font-display text-h4 text-ink-900 leading-tight">
                   {fiche.competence}
                 </h4>
                 <div className="flex flex-wrap gap-stack-xs" role="group" aria-label="Choisir un niveau Dreyfus">

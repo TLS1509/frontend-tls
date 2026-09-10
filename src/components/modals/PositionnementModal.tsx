@@ -176,7 +176,7 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
 
               {/* Question card */}
               <div className="bg-white rounded-xl p-stack-lg shadow-md mb-stack-lg border border-ink-200">
-                <h2 className="text-h3 font-extrabold text-ink-900 leading-snug mb-2">
+                <h2 className="text-h3 text-ink-900 leading-snug mb-2">
                   {currentQuestion.title}
                 </h2>
                 <p className="text-body text-ink-600">
@@ -260,7 +260,7 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
                     </div>
                   ))}
                 </div>
-                <h3 className="text-h3 font-extrabold text-ink-900 mb-2">Votre profil est prêt !</h3>
+                <h3 className="text-h3 text-ink-900 mb-2">Votre profil est prêt !</h3>
                 <p className="text-body text-ink-600 mb-stack-lg">
                   Le parcours va maintenant s'adapter à votre niveau.
                 </p>

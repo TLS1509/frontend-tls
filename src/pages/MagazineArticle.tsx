@@ -120,7 +120,7 @@ export const MagazineArticle: React.FC = () => {
             <BookOpen size={14} /> {ARTICLE.category} · {ARTICLE.pages}
           </span>
 
-          <h1 className="font-display text-h1 sm:text-[3rem] font-extrabold leading-[1.05] tracking-display text-primary-700">
+          <h1 className="font-display text-h1 sm:text-[3rem] leading-[1.05] tracking-display text-primary-700">
             {ARTICLE.title}
           </h1>
 

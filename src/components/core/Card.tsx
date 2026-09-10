@@ -372,7 +372,10 @@ export const CardTitle: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({
   ...rest
 }) => (
   <h3
-    className={`p-0 font-display text-h4 font-semibold leading-tight tracking-headline text-ink-900 ${className}`}
+    /* Pas de graisse écrite ici : le token `text-h4` déclare déjà 700, et la poser
+       à côté ne peut que le contredire — c'était le cas, à 600, sur la primitive
+       même qui sert de référence aux cartes. Corrigé le 2026-09-10. */
+    className={`p-0 font-display text-h4 leading-tight tracking-headline text-ink-900 ${className}`}
     {...rest}
   />
 );

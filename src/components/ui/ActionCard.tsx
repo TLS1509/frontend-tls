@@ -103,7 +103,7 @@ export const ActionCard: React.FC<ActionCardProps> = ({
         </div>
       )}
       <div className="flex-1 min-w-0">
-        <h3 className="mb-stack-xs text-h4 font-display font-semibold text-ink-900">{title}</h3>
+        <h3 className="mb-stack-xs text-h4 font-display text-ink-900">{title}</h3>
         {description && <p className="m-0 text-body-sm text-ink-500 leading-relaxed">{description}</p>}
       </div>
       {action && <div className="shrink-0">{action}</div>}

@@ -139,7 +139,7 @@ const PrivacyDsar: React.FC = () => {
             <div className="flex items-start gap-stack-xs">
               <Shield className="w-6 h-6 text-primary-600 mt-1" />
               <div>
-                <h3 className="text-h4 font-semibold mb-1">Lancer ma demande</h3>
+                <h3 className="text-h4 mb-1">Lancer ma demande</h3>
                 <p className="text-body-sm text-ink-600">
                   En cliquant ci-dessous, tu déclenches le workflow officiel. Un email avec le lien de téléchargement (valide 7 jours) te sera envoyé dans un délai maximum de 30 jours (généralement sous 48h).
                 </p>

@@ -58,7 +58,7 @@ export const FormLayout: React.FC<FormLayoutProps> = ({
         {sections.map((section, sectionIdx) => (
           <div key={sectionIdx} className="flex flex-col gap-stack">
             {section.title && (
-              <h3 className="text-h4 font-display font-semibold text-ink-900 pb-2 border-b border-ink-100">
+              <h3 className="text-h4 font-display text-ink-900 pb-2 border-b border-ink-100">
                 {section.title}
               </h3>
             )}

@@ -84,7 +84,7 @@ const PrivacyDeleteAccount: React.FC = () => {
 
         {step === 1 && (
           <Card className="p-stack-lg flex flex-col gap-stack">
-            <h3 className="text-h4 font-semibold">Étape 1/2 : Raison du départ (optionnel)</h3>
+            <h3 className="text-h4">Étape 1/2 : Raison du départ (optionnel)</h3>
             <FormGroup label="Pour nous aider à nous améliorer, peux-tu nous dire pourquoi tu pars ?">
               <Input
                 multiline
@@ -108,7 +108,7 @@ const PrivacyDeleteAccount: React.FC = () => {
             <div className="flex items-start gap-stack-xs">
               <ShieldOff className="w-8 h-8 text-danger-fg" />
               <div>
-                <h3 className="text-h4 font-semibold mb-1">Étape 2/2 : Confirmation finale</h3>
+                <h3 className="text-h4 mb-1">Étape 2/2 : Confirmation finale</h3>
                 <p className="text-body-sm text-ink-600">Pour confirmer, tape exactement la phrase ci-dessous.</p>
               </div>
             </div>

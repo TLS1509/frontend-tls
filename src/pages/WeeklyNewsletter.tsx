@@ -100,7 +100,7 @@ export const WeeklyNewsletter: React.FC = () => {
             <TrendingUp size={14} /> Semaine #08
           </span>
 
-          <h1 className="font-display text-h1 sm:text-[3rem] font-extrabold leading-[1.05] tracking-tight text-primary-700">
+          <h1 className="font-display text-h1 sm:text-[3rem] leading-[1.05] tracking-tight text-primary-700">
             Actus de la semaine
           </h1>
 

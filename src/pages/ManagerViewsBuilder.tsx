@@ -161,7 +161,7 @@ const ManagerViewsBuilder: React.FC = () => {
           <div className="flex items-center justify-between mb-stack">
             <div>
               <div className="text-caption text-ink-500">Aperçu en direct</div>
-              <h3 className="text-h3 font-semibold">{name}</h3>
+              <h3 className="text-h3">{name}</h3>
             </div>
             <Badge variant="info">{selectedMetrics.length} métriques</Badge>
           </div>

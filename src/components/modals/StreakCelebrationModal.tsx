@@ -111,7 +111,7 @@ export const StreakCelebrationModal: React.FC<StreakCelebrationModalProps> = ({
 
           {/* Title + message */}
           <div className="text-center mb-stack-lg relative z-10 animate-[scFadeUp_0.4s_ease_0.5s_both]">
-            <h2 className="text-h3 font-extrabold text-ink-900 mb-2">
+            <h2 className="text-h3 text-ink-900 mb-2">
               🔥 Série Enflammée !
             </h2>
             <p className="text-body text-ink-600 leading-relaxed">

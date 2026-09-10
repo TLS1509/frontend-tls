@@ -87,7 +87,7 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
             </div>
 
             {/* Title */}
-            <h2 className="text-h3 font-extrabold text-ink-900 text-center mb-2">
+            <h2 className="text-h3 text-ink-900 text-center mb-2">
               {title}
             </h2>
             <p className="text-body text-ink-600 text-center leading-relaxed mb-stack-lg">

@@ -88,7 +88,7 @@ export const PreCoachingQuestionnaire: React.FC = () => {
 
         {/* ─ Header ──────────────────────────────────────────────────── */}
         <div className="text-center mb-section-lg">
-          <h1 className="font-display text-h1 font-extrabold text-ink-900 mb-stack-xs tracking-tight">
+          <h1 className="font-display text-h1 text-ink-900 mb-stack-xs tracking-tight">
             Préparez votre session
           </h1>
           <p className="font-body text-body text-ink-500 m-0">

@@ -83,7 +83,7 @@ export default function HelpSearch() {
         )}
 
         <div className="flex flex-col gap-stack">
-          <h2 className="font-display font-semibold text-h4 text-ink-900">
+          <h2 className="font-display text-h4 text-ink-900">
             {query ? `Résultats pour "${query}" (${results.length})` : `Articles populaires (${allArticles.length})`}
           </h2>
           {results.length === 0 ? (

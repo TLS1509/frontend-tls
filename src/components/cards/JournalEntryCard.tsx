@@ -134,7 +134,7 @@ export const JournalEntryCard: React.FC<JournalEntryCardProps> = ({
       </span>
 
       {/* Title */}
-      <h3 className="font-display text-h4 font-semibold text-ink-900 leading-tight tracking-headline">
+      <h3 className="font-display text-h4 text-ink-900 leading-tight tracking-headline">
         {title}
       </h3>
 

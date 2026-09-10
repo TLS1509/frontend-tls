@@ -224,7 +224,7 @@ export const VideoViewer: React.FC = () => {
 
             {/* Title and metadata */}
             <div>
-              <h1 className="font-display text-h3 font-semibold text-ink-900 mb-stack-xs">
+              <h1 className="font-display text-h3 text-ink-900 mb-stack-xs">
                 {VIDEO_DATA.title}
               </h1>
               <div className="flex gap-stack-xs items-center flex-wrap mt-3">

@@ -212,7 +212,7 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({
       </div>
 
       <div className="mb-5">
-        <h3 className="mb-stack text-h4 font-display font-semibold text-ink-900">
+        <h3 className="mb-stack text-h4 font-display text-ink-900">
           {currentQuestion.question}
         </h3>
 

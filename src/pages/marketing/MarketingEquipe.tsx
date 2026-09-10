@@ -160,7 +160,7 @@ const Fondateurs: React.FC = () => (
                   {p.monogram ?? <HeartHandshake size={28} />}
                 </span>
                 <div className="flex flex-col gap-0.5">
-                  <h3 className="font-display text-h4 font-extrabold text-ink-900 leading-tight">{p.nom}</h3>
+                  <h3 className="font-display text-h4 text-ink-900 leading-tight">{p.nom}</h3>
                   <span className="font-body text-caption font-bold text-ink-500">{p.expertise}</span>
                 </div>
               </div>

@@ -358,7 +358,7 @@ export const Onboarding: React.FC = () => {
               <Sparkles size={14} aria-hidden="true" />
               Démarrage personnalisé
             </p>
-            <h1 className="font-display text-h2 font-extrabold tracking-display text-ink-900 leading-tight">
+            <h1 className="font-display text-h2 tracking-display text-ink-900 leading-tight">
               Bienvenue !
             </h1>
           </header>

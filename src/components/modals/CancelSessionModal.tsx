@@ -86,7 +86,7 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
               <AlertTriangle size={24} className="text-secondary-600" />
             </div>
 
-            <h2 className="text-h3 font-extrabold text-ink-900 text-center mb-2">
+            <h2 className="text-h3 text-ink-900 text-center mb-2">
               Annuler la session ?
             </h2>
             <p className="text-body-sm text-ink-600 text-center leading-relaxed mb-5">

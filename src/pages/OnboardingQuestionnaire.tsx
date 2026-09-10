@@ -149,7 +149,7 @@ const OnboardingQuestionnaire: React.FC = () => {
               <Target size={14} aria-hidden="true" />
               Positionnement
             </p>
-            <h1 className="font-display text-h2 font-extrabold tracking-display text-ink-900 leading-tight">
+            <h1 className="font-display text-h2 tracking-display text-ink-900 leading-tight">
               Évaluons ton niveau de départ
             </h1>
             <p className="m-0 font-body text-body text-ink-500 leading-relaxed">
@@ -221,7 +221,7 @@ const OnboardingQuestionnaire: React.FC = () => {
             <Target size={14} aria-hidden="true" />
             Positionnement Dreyfus
           </p>
-          <h1 className="font-display text-h2 font-extrabold tracking-display text-ink-900 leading-tight">
+          <h1 className="font-display text-h2 tracking-display text-ink-900 leading-tight">
             Évaluons ton niveau de départ
           </h1>
           <p className="m-0 font-body text-body text-ink-500 leading-relaxed">

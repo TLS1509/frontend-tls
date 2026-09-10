@@ -234,7 +234,7 @@ export const Messages: React.FC = () => {
         <div className="px-5 pt-5 pb-stack border-b border-ink-200 bg-white">
           <div className="flex items-center justify-between mb-stack">
             <div className="flex items-center gap-stack-xs">
-              <h2 className="font-display text-h3 font-extrabold text-ink-900 tracking-tight">
+              <h2 className="font-display text-h3 text-ink-900 tracking-tight">
                 Messages
               </h2>
               {totalUnread > 0 && (

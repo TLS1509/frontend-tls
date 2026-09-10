@@ -124,7 +124,7 @@ export const CourseDetail: React.FC = () => {
             <p className="font-body text-micro font-bold uppercase tracking-[0.06em] text-primary-700 m-0">
               Learning Space • Détail du cours
             </p>
-            <h1 className="font-display text-h1 font-extrabold tracking-display text-ink-900 leading-[1.1]">
+            <h1 className="font-display text-h1 tracking-display text-ink-900 leading-[1.1]">
               {course.title}
             </h1>
             <p className="font-body text-body-lg leading-[1.65] text-ink-500 m-0">
@@ -189,7 +189,7 @@ export const CourseDetail: React.FC = () => {
 
             {/* Programme accordion */}
             <div>
-              <h2 className="font-display text-h3 font-semibold text-ink-900 mb-stack">Programme</h2>
+              <h2 className="font-display text-h3 text-ink-900 mb-stack">Programme</h2>
               {steps.map((step) => {
                 const open = openStep === step.id;
                 return (

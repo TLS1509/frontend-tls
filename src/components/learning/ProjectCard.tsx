@@ -70,7 +70,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         .join(' ')}
     >
       <div className="flex items-start justify-between gap-stack-xs">
-        <h3 className="text-h4 font-display font-semibold text-ink-900 leading-snug flex-1">
+        <h3 className="text-h4 font-display text-ink-900 leading-snug flex-1">
           {title}
         </h3>
         <Badge variant={STATUS_VARIANT[status]}>{STATUS_LABEL[status]}</Badge>

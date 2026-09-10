@@ -79,7 +79,7 @@ export default function OnboardingSuccess() {
         />
 
         <section className="w-full flex flex-col gap-stack">
-          <h2 className="text-h3 font-display font-semibold text-ink-900 text-center">
+          <h2 className="text-h3 font-display text-ink-900 text-center">
             Par où commencer ?
           </h2>
           <NextStepsGrid items={nextSteps} columns={3} />

@@ -43,7 +43,7 @@ const LegalPage: React.FC<LegalPageProps> = ({ icon, title, subtitle, lastUpdate
       <div className="flex flex-col gap-section">
         {sections.map((s) => (
           <section key={s.heading} className="flex flex-col gap-stack">
-            <h2 className="font-display text-h3 font-semibold text-ink-900">{s.heading}</h2>
+            <h2 className="font-display text-h3 text-ink-900">{s.heading}</h2>
             <p className="font-body text-body text-ink-600 leading-[1.8]">{s.body}</p>
           </section>
         ))}

@@ -226,7 +226,7 @@ export const MarketingContact: React.FC = () => {
                     <CheckCircle2 size={40} className="text-white" />
                   </div>
                   <div className="flex flex-col gap-stack">
-                    <h2 className="font-display text-h2 font-extrabold text-ink-900">
+                    <h2 className="font-display text-h2 text-ink-900">
                       Message envoyé !
                     </h2>
                     <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-prose">
@@ -276,7 +276,7 @@ export const MarketingContact: React.FC = () => {
                   className="flex flex-col gap-stack-lg"
                 >
                   <div className="flex flex-col gap-stack">
-                    <h2 className="font-display text-h3 font-extrabold text-ink-900 leading-tight">
+                    <h2 className="font-display text-h3 text-ink-900 leading-tight">
                       Écrivez-nous
                     </h2>
                     <p className="font-body text-body text-ink-600 m-0">
@@ -554,7 +554,7 @@ export const MarketingContact: React.FC = () => {
                     <Sparkles size={14} />
                     Plus rapide
                   </span>
-                  <h3 className="font-display text-h3 font-extrabold text-ink-900 leading-tight">
+                  <h3 className="font-display text-h3 text-ink-900 leading-tight">
                     Un échange de 30 min
                   </h3>
                   <p className="font-body text-body-sm text-ink-600 m-0 leading-relaxed">

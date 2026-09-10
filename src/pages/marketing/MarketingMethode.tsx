@@ -162,7 +162,7 @@ const Framework: React.FC = () => (
                 {s.lettre}
               </span>
               <div className="flex flex-col gap-0.5">
-                <h3 className="font-display text-h4 font-extrabold text-ink-900 leading-tight">{s.verbe}</h3>
+                <h3 className="font-display text-h4 text-ink-900 leading-tight">{s.verbe}</h3>
                 <span className="font-body text-caption text-ink-500 italic">{s.experience}</span>
               </div>
             </li>

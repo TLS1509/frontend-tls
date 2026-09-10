@@ -187,7 +187,7 @@ export const CoachingCompteRendu: React.FC = () => {
                   Session {report.sessionNumber}/{report.totalSessions}
                 </span>
               </div>
-              <h1 className="font-display text-h1 font-extrabold mb-stack-xs leading-tight">
+              <h1 className="font-display text-h1 mb-stack-xs leading-tight">
                 {report.theme}
               </h1>
               <div className="flex flex-wrap gap-stack mt-3">

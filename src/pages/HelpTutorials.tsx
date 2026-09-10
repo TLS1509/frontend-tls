@@ -54,7 +54,7 @@ export default function HelpTutorials() {
               <Card key={tutorial.id} className="flex flex-col h-full">
                 <div className="flex flex-col gap-stack flex-1">
                   <div className="flex items-start justify-between gap-stack-xs">
-                    <h3 className="font-display font-semibold text-h4 text-ink-900 leading-snug">
+                    <h3 className="font-display text-h4 text-ink-900 leading-snug">
                       {tutorial.title}
                     </h3>
                     <Badge variant="brand">{stepCount} étapes</Badge>

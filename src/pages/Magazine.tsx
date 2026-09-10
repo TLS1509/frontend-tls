@@ -122,7 +122,7 @@ export const Magazine: React.FC = () => {
             Magazine TLS · Édition Printemps 2026
           </span>
 
-          <h1 className="font-display text-h1 sm:text-[3.25rem] lg:text-[4rem] font-extrabold text-white leading-[1.05] tracking-tight max-w-content">
+          <h1 className="font-display text-h1 sm:text-[3.25rem] lg:text-[4rem] text-white leading-[1.05] tracking-tight max-w-content">
             L'IA au cœur de la formation
           </h1>
 

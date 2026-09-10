@@ -82,7 +82,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({
         <div className="flex items-center gap-stack-xs flex-wrap">
           <Badge variant="neutral">{category}</Badge>
         </div>
-        <h3 className="text-h4 font-semibold text-ink-900 leading-snug line-clamp-2">{title}</h3>
+        <h3 className="text-h4 text-ink-900 leading-snug line-clamp-2">{title}</h3>
         {author && <p className="m-0 text-caption text-ink-500">Par {author}</p>}
       </div>
 

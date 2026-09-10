@@ -60,7 +60,7 @@ export default function HelpTicketNew() {
 
       <Card>
         <div className="flex flex-col gap-stack-lg">
-          <h2 className="font-display font-semibold text-h3 text-ink-900">
+          <h2 className="font-display text-h3 text-ink-900">
             Nouvelle demande de support
           </h2>
 

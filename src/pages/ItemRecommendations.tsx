@@ -64,7 +64,7 @@ const ItemRecommendations: React.FC = () => {
                         <Badge variant="neutral">{r.duration}</Badge>
                         <span className="text-caption text-ink-500">{r.date}</span>
                       </div>
-                      <h3 className="text-h4 font-semibold mb-stack-xs">{r.title}</h3>
+                      <h3 className="text-h4 mb-stack-xs">{r.title}</h3>
 
                       <div className="flex items-start gap-stack-xs p-3 rounded-lg bg-secondary-50/70 mb-stack">
                         <Avatar initials={r.coachInitials} size="sm" />
