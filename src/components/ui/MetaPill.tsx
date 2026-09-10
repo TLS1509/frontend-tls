@@ -73,6 +73,27 @@ function resolveSurface(tone: MetaPillTone): string {
   }
 }
 
+/* La pastille impose la taille de son icône.
+
+   Elle recevait un ReactNode et le rendait tel quel : chaque appelant devait
+   penser à la taille, et une icône Lucide sans `size` vaut 24 px par défaut —
+   dix de trop à côté d'un texte de 13. Mesuré dans la vitrine le 2026-09-10.
+
+   `icon-2xs` (14 px) est le cran apparié à `caption`, selon la table de
+   src/lib/icon-pairing.ts. `[&>svg]` force le glyphe à remplir la boîte, donc
+   la taille passée par l'appelant n'a plus d'effet — et n'a plus à être juste. */
+const ICONE_PASTILLE_BASE =
+  'inline-flex items-center justify-center shrink-0 [&>svg]:w-full [&>svg]:h-full';
+
+/* Le cran suit la TAILLE de la pastille, pas une valeur unique : Chip rend
+   `text-micro` en sm, `text-caption` en md, `text-body-sm` en lg — et
+   l'appariement de src/lib/icon-pairing.ts leur donne 14, 14 et 16. */
+const ICONE_PASTILLE_CRAN: Record<MetaPillSize, string> = {
+  sm: 'icon-2xs',  // avec micro (11)
+  md: 'icon-2xs',  // avec caption (13)
+  lg: 'icon-xs',   // avec body-sm (15)
+};
+
 export const MetaPill: React.FC<MetaPillProps> = ({
   text,
   icon,
@@ -98,7 +119,7 @@ export const MetaPill: React.FC<MetaPillProps> = ({
     return (
       <button type="button" className={classes} onClick={onClick}>
         {icon && (
-          <span className="inline-flex items-center justify-center shrink-0">{icon}</span>
+          <span className={`${ICONE_PASTILLE_BASE} ${ICONE_PASTILLE_CRAN[size]}`}>{icon}</span>
         )}
         {text}
       </button>
@@ -108,7 +129,7 @@ export const MetaPill: React.FC<MetaPillProps> = ({
   return (
     <span className={classes}>
       {icon && (
-        <span className="inline-flex items-center justify-center shrink-0">{icon}</span>
+        <span className={`${ICONE_PASTILLE_BASE} ${ICONE_PASTILLE_CRAN[size]}`}>{icon}</span>
       )}
       {text}
     </span>

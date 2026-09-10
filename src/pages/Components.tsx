@@ -1627,7 +1627,10 @@ const COMPONENTS: ComponentEntry[] = [
               {/* B — barre de tête */}
               <div className="flex flex-col gap-stack-xs">
                 <div className={coque}>
-                  <div className="flex items-start justify-between gap-stack-xs">
+                  {/* items-center, pas items-start : un badge fait 19,75 px et une
+                      pastille 30 — alignés par le haut, leurs centres décrochent
+                      de 5,12 px et la tête de carte paraît bancale. */}
+                  <div className="flex items-center justify-between gap-stack-xs">
                     <MetaPillGroup items={metas} />
                     <Badge variant="warm" className="shrink-0">À venir</Badge>
                   </div>
