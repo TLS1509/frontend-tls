@@ -1346,17 +1346,13 @@ const AuthShellDemo: React.FC = () => {
 const ShowcaseBloc: React.FC<{
   titre: string;
   note?: string;
-  /** `warm` marque les blocs qui appellent une décision, pas une simple lecture. */
-  ton?: 'neutre' | 'warm';
   children: React.ReactNode;
-}> = ({ titre, note, ton = 'neutre', children }) => (
-  <section
-    className={
-      ton === 'warm'
-        ? 'flex flex-col gap-stack rounded-lg border border-secondary-200 bg-secondary-50/40 p-stack-lg'
-        : 'flex flex-col gap-stack'
-    }
-  >
+}> = ({ titre, note, children }) => (
+  /* La variante `ton="warm"` a été retirée le 2026-09-10 avec les cinq encadrés
+     « à trancher » qu'elle habillait. Une vitrine montre ce que le système FAIT ;
+     elle ne demande pas ce qu'il devrait faire. Ce qui reste ouvert vit sur la
+     page d'arbitrages, qui sait enregistrer une réponse — la vitrine, non. */
+  <section className="flex flex-col gap-stack">
     <div className="flex flex-col gap-tight">
       <h4 className="font-display text-h4 text-ink-900">{titre}</h4>
       {note && <p className="m-0 font-body text-body-sm text-ink-600 max-w-[65ch]">{note}</p>}
@@ -1451,28 +1447,6 @@ const COMPONENTS: ComponentEntry[] = [
             </div>
           </div>
         </ShowcaseBloc>
-
-        <ShowcaseBloc
-          titre="À trancher — où poser l'asymétrie"
-          ton="warm"
-          note="Le gap ne sait pas être asymétrique, il faut donc choisir qui porte la différence. Trois options, par ordre de coût croissant."
-        >
-          <ol className="m-0 flex list-none flex-col gap-stack p-0">
-            {[
-              ['Un espaceur dans la pile', "Le parent garde son gap et intercale une classe utilitaire avant le titre. Aucun composant ne change, mais il faut le poser à la main à chaque section — donc l'oubli est la norme."],
-              ['Une paire de tokens dédiée', "Deux valeurs nommées, par exemple space-before-heading et space-after-heading, posées sur le titre lui-même. Cela contredit le piège n°12 en apparence seulement : celui-ci interdit qu'un composant décide de son rythme externe, pas qu'un token le décrive."],
-              ['Une règle CSS de flux', "Une règle de type :where(h2, h3, h4) + * dans @layer base : l'asymétrie devient l'état par défaut et personne n'a plus à y penser. Le plus sûr, le plus difficile à annuler ponctuellement."],
-            ].map(([titre, texte], i) => (
-              <li key={titre} className="flex gap-stack">
-                <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-pill bg-secondary-100 font-mono text-micro font-bold text-secondary-700 tabular-nums">{i + 1}</span>
-                <div>
-                  <p className="m-0 font-body text-body-sm font-bold text-ink-900">{titre}</p>
-                  <p className="m-0 font-body text-body-sm text-ink-600 max-w-[65ch]">{texte}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </ShowcaseBloc>
       </div>
     ),
   },
@@ -1498,24 +1472,6 @@ const COMPONENTS: ComponentEntry[] = [
                 <code className="w-28 shrink-0 font-mono text-micro text-ink-600">{nom}</code>
                 <div className="h-3 rounded-xs bg-primary-500" style={{ width: `${px * 3}px` }} />
                 <span className="font-mono text-micro text-ink-500 tabular-nums">{px} px</span>
-              </div>
-            ))}
-          </div>
-        </ShowcaseBloc>
-
-        <ShowcaseBloc
-          titre="Le barreau, désormais nommé"
-          ton="warm"
-          note="Tranché le 2026-09-09 : le barreau existe. L'échelle sautait de 2 px à 8 px et 223 endroits comblaient le trou à la main en gap-1.5 — de loin le premier des espacements numériques du repo, le suivant en compte 95. Il s'appelle désormais gap-stack-2xs. Reste à ramener les 223 usages dessus, ce qui ne déplace aucun pixel : gap-1.5 et gap-stack-2xs rendent la même valeur."
-        >
-          <div className="flex flex-col gap-stack-xs">
-            {([
-              ['tight', 2, false], ['stack-2xs', 6, true], ['stack-xs', 8, false],
-            ] as const).map(([nom, px, manque]) => (
-              <div key={nom} className="flex items-center gap-stack">
-                <code className={`w-28 shrink-0 font-mono text-micro ${manque ? 'text-secondary-700' : 'text-ink-600'}`}>{nom}</code>
-                <div className={`h-3 rounded-xs ${manque ? 'bg-secondary-500' : 'bg-primary-500'}`} style={{ width: `${px * 8}px` }} />
-                <span className="font-mono text-micro text-ink-500 tabular-nums">{px} px{manque ? ' · nouveau · 223 usages à convertir' : ''}</span>
               </div>
             ))}
           </div>
@@ -1569,22 +1525,6 @@ const COMPONENTS: ComponentEntry[] = [
                 à 24 px sur tablette et 40 px sur grand écran — redimensionnez pour la voir bouger.
               </p>
             </div>
-          </div>
-        </ShowcaseBloc>
-
-        <ShowcaseBloc
-          titre="À trancher — le padding intérieur d'une carte"
-          ton="warm"
-          note="Cinq valeurs coexistent sur les cartes faites main : 16, 20, 24, 28 et 32 px. Aucune n'est fausse prise isolément ; c'est leur coexistence sur une même page qui se voit, parce que deux cartes côte à côte n'ont alors pas la même respiration. Le système doit en désigner une, et une seule dérogation motivée."
-        >
-          <div className="grid gap-stack sm:grid-cols-2 lg:grid-cols-3">
-            {([['p-4', 16, 5], ['p-5', 20, 4], ['p-6', 24, 7], ['p-7', 28, 1], ['p-8', 32, 6]] as const).map(([cls, px, n]) => (
-              <div key={cls} className="rounded-lg border border-ink-200 bg-white" style={{ padding: `${px}px` }}>
-                <p className="m-0 font-display text-body font-bold text-ink-900">Titre de carte</p>
-                <p className="m-0 mt-1 font-body text-caption text-ink-600">Une ligne de contenu.</p>
-                <p className="m-0 mt-stack font-mono text-micro text-ink-500 tabular-nums">{cls} · {px} px · {n} cartes</p>
-              </div>
-            ))}
           </div>
         </ShowcaseBloc>
       </div>
@@ -1683,37 +1623,6 @@ const COMPONENTS: ComponentEntry[] = [
             ))}
           </div>
         </ShowcaseBloc>
-
-        <ShowcaseBloc
-          titre="À trancher — les 1 037 tailles hors échelle"
-          ton="warm"
-          note="Sept valeurs concentrent l'essentiel de l'écart. Les convertir change le rendu, contrairement aux gouttières en doublon : il faut donc décider cran par cran vers quoi elles remontent, et 14 px est le cas qui pèse le plus."
-        >
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[440px] border-collapse font-body text-body-sm">
-              <thead>
-                <tr className="border-b border-ink-200 text-left">
-                  <th className="py-2 pr-stack font-bold text-ink-700">Posé</th>
-                  <th className="py-2 text-right font-bold text-ink-700">Usages</th>
-                  <th className="py-2 pl-stack font-bold text-ink-700">Cran le plus proche</th>
-                </tr>
-              </thead>
-              <tbody className="text-ink-600">
-                {([
-                  ['14 px', 357, 'xs — 16 px'], ['12 px', 170, 'xs — 16 px'], ['13 px', 118, 'xs — 16 px'],
-                  ['15 px', 83, 'xs — 16 px'], ['22 px', 81, 'md — 20 px'], ['11 px', 66, 'xs — 16 px'],
-                  ['32 px', 52, 'xl — 28 px'],
-                ] as const).map(([a, n, b]) => (
-                  <tr key={a} className="border-b border-ink-100">
-                    <td className="py-2 pr-stack font-mono tabular-nums">{a}</td>
-                    <td className="py-2 text-right font-mono tabular-nums">{n}</td>
-                    <td className="py-2 pl-stack font-mono text-caption text-primary-700">{b}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </ShowcaseBloc>
       </div>
     ),
   },
@@ -1768,75 +1677,6 @@ const COMPONENTS: ComponentEntry[] = [
         </ShowcaseBloc>
 
         {/* ─── 3 · L'ARBITRAGE : LE REMPLISSAGE DE MARQUE ─────────────────── */}
-        <ShowcaseBloc
-          titre="À trancher — le remplissage de marque"
-          ton="warm"
-          note="Les trois remplissages actuels échouent au contraste. Un label blanc demande 4,5:1 ; on mesure 3,66 sur primary-600, 2,64 sur secondary-500 et 2,31 sur accent-500. Le seuil tombe à 3,0 au-delà de 18,66 px en graisse 700, ce qui ne sauve que la taille xl. Trois sorties possibles, montrées côte à côte."
-        >
-          <div className="flex flex-col gap-stack-lg">
-
-            <div className="flex flex-col gap-stack-xs">
-              <p className="m-0 text-caption font-bold text-ink-700">Ce qui est en place aujourd'hui</p>
-              <div className="flex flex-wrap items-center gap-stack">
-                <BoutonEssai essai="[&>button]:bg-primary-600 [&>button]:text-white" contraste="3,66">Commencer</BoutonEssai>
-                <BoutonEssai essai="[&>button]:bg-secondary-500 [&>button]:text-white" contraste="2,64">Commencer</BoutonEssai>
-                <BoutonEssai essai="[&>button]:bg-accent-500 [&>button]:text-white" contraste="2,31">Commencer</BoutonEssai>
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-stack-xs">
-              <p className="m-0 text-caption font-bold text-ink-700">Piste A — descendre d'un cran, garder le label blanc</p>
-              <p className="m-0 text-caption text-ink-600 max-w-[65ch]">
-                Le teal et l'orange passent au cran 700. Tout texte est conforme, à toutes les tailles.
-                Le prix : ce ne sont plus tout à fait les couleurs de la signature, elles foncent visiblement.
-              </p>
-              <div className="flex flex-wrap items-center gap-stack">
-                <BoutonEssai essai="[&>button]:bg-primary-700 [&>button]:text-white" contraste="5,02">Commencer</BoutonEssai>
-                <BoutonEssai essai="[&>button]:bg-secondary-700 [&>button]:text-white" contraste="6,31">Commencer</BoutonEssai>
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-stack-xs">
-              <p className="m-0 text-caption font-bold text-ink-700">Piste B — garder la couleur de signature, foncer le label</p>
-              <p className="m-0 text-caption text-ink-600 max-w-[65ch]">
-                Le fond reste le teal 500 et l'orange 500 de la marque. Sur l'orange, le label n'est pas gris :
-                c'est <code className="font-mono text-micro">brown-editorial</code>, l'orange TLS porté à la
-                densité d'une encre — 6,14. Sur le teal en revanche, aucun dérivé de la teinte n'atteint 4,5 ;
-                seul l'ink-900 y arrive, à 4,83. C'est la limite de cette piste.
-              </p>
-              <div className="flex flex-wrap items-center gap-stack">
-                <BoutonEssai essai="[&>button]:bg-secondary-500 [&>button]:text-brown-editorial" contraste="6,14">Commencer</BoutonEssai>
-                <BoutonEssai essai="[&>button]:bg-primary-500 [&>button]:text-ink-900" contraste="4,83">Commencer</BoutonEssai>
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-stack-xs">
-              <p className="m-0 text-caption font-bold text-ink-700">Piste C — mixte : orange en signature, teal au cran 700</p>
-              <p className="m-0 text-caption text-ink-600 max-w-[65ch]">
-                Chaque couleur prend la sortie qui lui va. L'orange garde sa teinte exacte avec un label brun,
-                le teal descend d'un cran et garde le blanc. Les deux passent, et on ne voit jamais deux
-                traitements de label sur une même couleur.
-              </p>
-              <div className="flex flex-wrap items-center gap-stack">
-                <BoutonEssai essai="[&>button]:bg-primary-700 [&>button]:text-white" contraste="5,02" leadingIcon={I.plus}>Commencer</BoutonEssai>
-                <BoutonEssai essai="[&>button]:bg-secondary-500 [&>button]:text-brown-editorial" contraste="6,14" trailingIcon={I.arrow}>Continuer</BoutonEssai>
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-stack-xs">
-              <p className="m-0 text-caption font-bold text-ink-700">Le jaune, pour mémoire</p>
-              <p className="m-0 text-caption text-ink-600 max-w-[65ch]">
-                Décision prise : pas de remplissage jaune. À noter tout de même — l'or 400 avec un label brun
-                donne 8,70, le meilleur contraste de toute la palette. C'est le blanc qui ne tient pas dessus,
-                pas la couleur.
-              </p>
-              <div className="flex flex-wrap items-center gap-stack">
-                <BoutonEssai essai="[&>button]:bg-accent-400 [&>button]:text-brown-editorial" contraste="8,70">Commencer</BoutonEssai>
-                <BoutonEssai essai="[&>button]:bg-accent-400 [&>button]:text-white" contraste="1,86">Commencer</BoutonEssai>
-              </div>
-            </div>
-          </div>
-        </ShowcaseBloc>
 
         {/* ─── 4 · LES ICÔNES ─────────────────────────────────────────────── */}
         <ShowcaseBloc
