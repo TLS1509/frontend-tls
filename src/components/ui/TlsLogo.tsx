@@ -130,7 +130,7 @@ const PT = 'M307.193 92.9776C331.38 92.9776 350.986 73.3911 350.986 49.2298C350.
 const PB = 'M307.008 395.935C331.092 395.935 350.617 376.431 350.617 352.372C350.617 328.313 331.092 308.809 307.008 308.809C282.924 308.809 263.4 328.313 263.4 352.372C263.4 376.431 282.924 395.935 307.008 395.935Z';
 
 /**
- * Part de la plaque occupée par le mark, et rayon de la plaque.
+ * Part du carré réservé qu'occupe le mark.
  *
  * 90 % est mesuré. Le mark TLS ne peint que 35,5 % de sa propre boîte — il est
  * ajouré. À 62 % la plaque ne portait que 12,5 % d'encre, là où une icône Apple
@@ -140,7 +140,6 @@ const PB = 'M307.008 395.935C331.092 395.935 350.617 376.431 350.617 352.372C350
  * Aligné sur brand/identity/logos/app-icon/.
  */
 const MARK_RATIO = 0.90;
-const PLATE_RADIUS_RATIO = 230 / 1024; // le squircle des icônes système
 
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -249,17 +248,30 @@ export const TlsLogo: React.FC<TlsLogoProps> = ({
     );
   }
 
-  // La plaque reproduit `app-icon-clair-arrondi` : fond blanc franc, coin
-  // squircle, ombre neutre. Rien de galbé — Apple pose le verre sur le
-  // CONTENEUR, jamais sur le glyphe, et ici même le conteneur reste sobre.
+  // Pas de plaque dans l'app : le fond reste TRANSPARENT et l'ombre se pose sur
+  // la SILHOUETTE du mark, pas sur un carré derrière lui.
+  //
+  // Mesuré le 2026-09-10 : la plaque blanche se détachait à ΔE 8,6 du fond de
+  // sidebar (#E0EDF1 = primary-100 à 85 % sur l'ambiance de page). Elle lisait
+  // comme un autocollant blanc collé sur du bleu. Sur une page blanche, à
+  // l'inverse, elle disparaissait complètement — donc elle ne servait jamais :
+  // soit trop visible, soit invisible.
+  //
+  // `drop-shadow` plutôt que `box-shadow` : la première épouse le contour réel
+  // du glyphe, la seconde dessinerait l'ombre d'un rectangle que rien ne projette.
+  // Même motif que le pattern borderless des speech bubbles (CLAUDE.md, piège n°8).
+  //
+  // ⚠️ La plaque OPAQUE reste obligatoire ailleurs, et ce n'est pas un oubli :
+  // apple-touch-icon et les icônes PWA ne peuvent pas être transparentes, iOS
+  // peint la transparence en noir. Voir brand/identity/logos/app-icon/.
   return (
     <span
       className={[
         'relative inline-flex items-center justify-center shrink-0',
-        'bg-white ring-1 ring-primary-100 shadow-card',
+        '[filter:drop-shadow(0_1px_2px_rgba(37,43,55,0.10))_drop-shadow(0_4px_10px_rgba(37,43,55,0.07))]',
         className,
       ].filter(Boolean).join(' ')}
-      style={{ width: size, height: size, borderRadius: size * PLATE_RADIUS_RATIO }}
+      style={{ width: size, height: size }}
       aria-hidden="true"
     >
       {inner}

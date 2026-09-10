@@ -305,6 +305,47 @@ Même schéma pour le flou : `@theme` porte `--blur-glass-{light|medium|heavy}` 
 
 6. **Border color split entre BASE et STATUS** : Si un composant a une `border-X-Y` dans la BASE (couleur par défaut) ET un override dans `STATUS_CLASSES` (couleur erreur/succès), Tailwind v4 émet les deux dans le même `@layer utilities` et la spécificité est identique (0,1,0). L'ordre dans la classe **n'importe pas** ; c'est l'ordre d'émission de Tailwind qui décide → souvent la couleur de base gagne. **Solution** : retirer la couleur de la BASE et la mettre dans `STATUS_CLASSES.default`, comme dans `Input.tsx`. Garder seulement `border` (largeur) dans BASE.
 
+### ⚠️ Piège n°6 bis : nos `shadow-*` maison tuent silencieusement les `ring-*`
+
+Mesuré au navigateur le 2026-09-10, sur `TlsLogo` puis reproduit en sonde isolée :
+
+```
+ring-1 ring-primary-100                →  rgb(220,235,239) 0 0 0 1px    ✓ l'anneau est là
+ring-1 ring-primary-100 shadow-card    →  l'anneau a disparu            ✗
+```
+
+**Pourquoi.** Tailwind v4 compose le ring dans une chaîne de variables :
+```css
+.ring-1      { box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow),
+                           var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow); }
+```
+Nos utilities maison (`index.css`, `@layer utilities`) posent un `box-shadow` **plat** :
+```css
+.shadow-card { box-shadow: var(--shadow-card); }
+```
+Elles remplacent donc la chaîne entière. Les deux vivent dans `@layer utilities`, à
+spécificité égale — et les nôtres sont émises **après** celles de Tailwind, donc elles
+gagnent toujours. Aucune erreur, aucun avertissement : la bordure existe dans le
+`className` et ne se peint jamais.
+
+**Portée** : les ~20 utilities `.shadow-{xs,sm,md,lg,xl}`, `.shadow-card*`,
+`.shadow-{brand,warm,sun}-*`. **13 fichiers** de `src/` combinent aujourd'hui un `ring-*`
+avec l'une d'elles.
+
+**Le correctif systémique** (une ligne par utility) est de nourrir la chaîne au lieu de
+l'écraser :
+```css
+.shadow-card {
+  box-shadow: var(--tw-inset-shadow, 0 0 #0000), var(--tw-inset-ring-shadow, 0 0 #0000),
+              var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000),
+              var(--shadow-card);
+}
+```
+
+**En attendant** : ne pas combiner un `ring-*` et une `shadow-*` maison sur le même
+élément. Utiliser `border` pour le filet, ou vérifier au navigateur avec
+`getComputedStyle(el).boxShadow` — c'est le seul moyen de voir le problème.
+
 ### ⚠️ Piège n°7 : `sr-only` sur un `<input>` ancré dans un label sans `position: relative`
 
 `sr-only` applique `position: absolute`. Sans ancêtre positionné explicite, l'input absolute remonte jusqu'au premier parent `position: relative/absolute/fixed` — souvent `<body>` ou `#root`. Quand l'input reçoit le focus (par exemple via un clic sur le `<label>` qui le contient), le navigateur scrolle pour le rendre visible — et donc scrolle vers le coin haut-gauche de l'ancêtre lointain, **arrachant le viewport de plusieurs milliers de pixels** (~2000 px observé). L'utilisateur perçoit une "page blanche" alors que c'est juste un scroll involontaire vers une zone vide.
