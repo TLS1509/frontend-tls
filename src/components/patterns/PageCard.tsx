@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import { GRID_CONTAINER, GRID_COLS_CONTENT } from '../../lib/grid-columns';
 import { ArrowRight, FileText, Loader2 } from 'lucide-react';
 import type { CardTone } from '../core/Card';
 
@@ -67,12 +68,8 @@ const BADGE_CLASSES: Record<PageCardBadgeVariant, string> = {
   danger:  'bg-danger-bg text-danger-fg border-danger-base/30',
 };
 
-const COLUMNS_CLASSES: Record<1 | 2 | 3 | 4, string> = {
-  1: 'grid-cols-1',
-  2: 'grid-cols-1 sm:grid-cols-2',
-  3: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
-  4: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4',
-};
+/* Colonnage : src/lib/grid-columns.ts — source unique, en largeur de conteneur. */
+const COLUMNS_CLASSES = GRID_COLS_CONTENT;
 
 const TONE_RING: Record<NonNullable<PageCardItem['tone']>, string> = {
   primary:   'hover:border-primary-300',
@@ -258,15 +255,17 @@ export const PageCardGrid: React.FC<PageCardGridProps> = ({
   }
 
   return (
-    <div
-      role="grid"
-      className={['grid gap-stack', COLUMNS_CLASSES[columns], className].filter(Boolean).join(' ')}
-    >
-      {pages.map((page) => (
-        <div key={page.id} role="gridcell">
-          <PageCard item={page} showThumbnail={showThumbnails} />
-        </div>
-      ))}
+    <div className={GRID_CONTAINER}>
+      <div
+        role="grid"
+        className={['grid gap-stack', COLUMNS_CLASSES[columns], className].filter(Boolean).join(' ')}
+      >
+        {pages.map((page) => (
+          <div key={page.id} role="gridcell">
+            <PageCard item={page} showThumbnail={showThumbnails} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

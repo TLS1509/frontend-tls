@@ -112,7 +112,18 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
         }
       }}
       className={[
-        'group relative flex flex-col gap-5 rounded-lg border bg-white p-5 sm:p-6 cursor-pointer',
+        /* `@container` fait de la carte le conteneur mesuré pour ses DESCENDANTS.
+
+        Son propre padding ne peut pas en dépendre — une requête de conteneur
+        remonte à l'ancêtre, jamais à l'élément qui la porte — donc il reste fixe
+        à 24 px, la valeur canonique des cartes.
+
+        ⚠️ Et ce padding décale les seuils : `container-type: inline-size` mesure
+        la boîte de CONTENU, pas la boîte externe. Avec 24 px de chaque côté, le
+        cran `@lg` (512 px) se déclenche à 560 px de carte. Mesuré : la carte du
+        tableau de bord fait 596 px, soit 548 de contenu — elle garde donc sa
+        mise en ligne, ce qu'un seuil à `@xl` (576) lui aurait retiré. */
+        '@container group relative flex flex-col gap-5 rounded-lg border bg-white p-stack-lg cursor-pointer',
         'shadow-card transition-[transform,box-shadow,border-color] duration-base ease-emphasis',
         'hover:-translate-y-0.5 hover:shadow-card-lift',
         'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
@@ -125,7 +136,7 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
         <span
           className={[
             'shrink-0 grid place-items-center rounded-2xl',
-            'w-12 h-12 sm:w-14 sm:h-14',
+            'w-12 h-12 @lg:w-14 @lg:h-14',
             ICON_BUBBLE[tone],
           ].join(' ')}
           aria-hidden
@@ -154,7 +165,7 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
           </div>
 
           {/* Rôle 2 — titre héros */}
-          <h2 className="font-display font-bold leading-[1.1] tracking-headline text-ink-900 text-[1.3rem] sm:text-[1.55rem] text-balance">
+          <h2 className="font-display font-bold leading-[1.1] tracking-headline text-ink-900 text-[1.3rem] @lg:text-[1.55rem] text-balance">
             {parcoursTitle}
           </h2>
 
@@ -177,7 +188,7 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
       </div>
 
       {/* ── Footer : progression + CTA (mobile stack → desktop row) ──────── */}
-      <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5">
+      <div className="flex flex-col @lg:flex-row @lg:items-center gap-3 @lg:gap-5">
         <div className="flex-1 flex flex-col gap-1.5">
           <div className="flex items-center justify-between gap-2">
             <span className="text-micro font-semibold uppercase tracking-[0.06em] text-ink-600">
@@ -207,7 +218,7 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
           className={[
             'inline-flex items-center justify-center gap-1.5 shrink-0',
             'h-11 px-5 rounded-pill text-body-sm font-body font-bold whitespace-nowrap',
-            'w-full sm:w-auto',
+            'w-full @lg:w-auto',
             'transition-[background-color,transform,box-shadow] duration-fast ease-emphasis',
             'hover:-translate-y-px active:translate-y-0',
             'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-400',

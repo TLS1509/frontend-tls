@@ -751,6 +751,18 @@ en ajoutent : `@content` 48rem · `@medium` 64rem · `@page` 72rem · `@wide` 80
 Ne jamais transposer un seuil de fenêtre tel quel — le choisir sur la largeur de
 contenu visée.
 
+⚠️ **`container-type: inline-size` mesure la boîte de CONTENU, pas la boîte
+externe.** Le padding du conteneur décale donc tous ses seuils. Constaté sur
+`ResumeLessonCard` : avec 24 px de padding de chaque côté, un cran posé à `@xl`
+(576 px) ne se déclenchait qu'à 624 px de carte — et la carte du tableau de bord
+en fait 596, donc elle avait silencieusement perdu sa mise en ligne. Toujours
+retrancher le padding avant de choisir le cran, et **mesurer après**.
+
+**Colonnage des grilles** : ne pas écrire de seuils à la main, consommer
+[`src/lib/grid-columns.ts`](src/lib/grid-columns.ts) — `GRID_COLS_CONTENT` pour
+des cartes (260–400 px), `GRID_COLS_TILES` pour des tuiles (150–200 px), et
+`GRID_CONTAINER` pour le wrapper.
+
 **ErrorPage** (`patterns/ErrorPage.tsx`) : pattern canonique des pages d'erreur (props `code/title/description/suggestions/primaryAction/tone`), tone `default` | `danger`. API dans le fichier.
 
 ## Cards — conventions tone-aware
