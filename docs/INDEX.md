@@ -165,6 +165,12 @@
 
 ## 📢 MARKETING/ — Brand & content strategy (40K)
 
+> 🧾 **[INVENTAIRE-NOTION-MARKETING-2026-09-10.md](marketing/INVENTAIRE-NOTION-MARKETING-2026-09-10.md)** —
+> relevé de première main du Marketing dans Notion, comptage SQL réel. **Corrige Q39** : les
+> « fausses bases » hébergent les vues des tableaux de bord, les supprimer casserait le
+> Dashboard Editorial. Découvre **ContentOS 2.0** (~30 pages de template importé). Checklist
+> de suppression avec identifiants, pour exécution manuelle.
+
 > ⚠️ **[LECTURE-NOTION-STRATEGIE-2026-09-10.md](marketing/LECTURE-NOTION-STRATEGIE-2026-09-10.md)** —
 > lecture de première main des 7 documents stratégiques Notion + du journal de décisions.
 > **9 contradictions relevées** entre les documents de juillet et les arbitrages fermes du
