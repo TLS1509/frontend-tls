@@ -52,3 +52,50 @@ l'entonnoir des documents stratégiques n'a jamais eu de second étage.
    mais TLS n'étant pas certifié, la formulation mérite une relecture.
 3. Une fois ce fichier en place, **la base Notion `Content Calendar` peut être supprimée
    sans perte**.
+
+---
+
+# Les taxonomies, sauvées du schéma avant suppression
+
+Ce ne sont pas des données mais **des décisions prises**, enfouies dans le schéma de
+`Content Calendar`. Elles disparaîtraient avec la base, et elles alimentent directement
+**D2 (« à qui on parle »)** et **D4 (« quels canaux »)** du document 10.
+
+## Les 5 personas
+
+Ils étaient normalisés, et la page Dashboard Editorial en faisait une règle de qualité
+(*« pas de passage à Publié si Persona vide »* — jamais appliquée, les 11 lignes sont vides).
+
+1. Responsables Formation (entreprises)
+2. DRH / L&D Managers
+3. Responsables Digital Learning
+4. Direction Pédagogique d'organismes de formation
+5. Dirigeant·e PME/ETI orienté·e innovation
+
+⚠️ Établis **avant le pivot SBO**. À confronter à D2, pas à reprendre tels quels.
+
+## Les 8 canaux déclarés
+
+`LinkedIn - TLS` · `LinkedIn Pierre` · `Blog` · `Newsletter` ·
+`App TLS – Actu du jour (gratuit)` · `App TLS – Tuto` · `App TLS – Mag'` · `App TLS – Dossier`
+
+⚠️ Les **quatre canaux « App TLS »** sont sans objet depuis Q1 (arrêt de la Learning App) —
+le document 10 le dit explicitement en D4.
+
+## Les 7 types de livrable
+
+`Actu du jour` · `Tuto vidéo` · `Article Mag` · `Dossier (Rapport/Livre blanc)` ·
+`Résumé semaine` · `Post standard` · `Article blog standard`
+
+## Ce que le schéma révèle en creux
+
+**La base était câblée sur Mailchimp.** Huit propriétés : `MC Campaign ID`, `MC Delivered`,
+`MC Open rate (%)`, `MC Click rate (%)`, `MC Bounced`, `MC Unsubscribes`,
+`MC Spam complaints`, `MC URL`.
+
+Or **tout le dispositif agents vise Brevo** — `CRM-02` mappe les identifiants de listes
+Brevo, et les statuts demandés par les fiches prévoient « Programmé dans Brevo »,
+« À configurer Brevo/CRM », « ⚠️ Erreur Brevo ».
+
+**C'est l'argument décisif contre la conservation de la base** : son schéma décrit un
+dispositif d'emailing qui n'est pas celui qu'on construit.
