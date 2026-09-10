@@ -165,6 +165,11 @@
 
 ## 📢 MARKETING/ — Brand & content strategy (40K)
 
+> 🗂 **[INVENTAIRE-DRIVE-MARKETING-2026-09-10.md](marketing/INVENTAIRE-DRIVE-MARKETING-2026-09-10.md)** —
+> relevé dossier par dossier du Drive Marketing. Deux systèmes de rangement superposés, un
+> échafaudage de 11 dossiers vides, un pack d'icônes de 2023, et **un audit du même dossier
+> déjà écrit en février 2026** — ce nettoyage a déjà été instruit une fois.
+
 > 📌 **[PUBLICATIONS-2025-ARCHIVE.md](marketing/PUBLICATIONS-2025-ARCHIVE.md)** — les 11
 > publications de 2025 extraites de Notion avant suppression. **9 articles encore en ligne
 > (HTTP 200 le 10/09/2026)**, tous sur l'ancien positionnement « IA + formation ». Sert
