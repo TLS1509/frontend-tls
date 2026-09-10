@@ -679,6 +679,37 @@ spécificité égale, elle est émise APRÈS le bundle Tailwind, donc elle bat u
 
 **Piège Tailwind v4 — arbitrary property** : `className="[grid-template-columns:repeat(auto-fit,minmax(240px,1fr))]"` plutôt qu'un `style={{}}`. ⚠️ Pas d'espace autour du `:` ni dans `minmax()` — sinon le parser splitte.
 
+### Requêtes de conteneur — un composant mesure sa boîte, pas la fenêtre
+
+Un composant de contenu ne sait pas où il est posé : pleine page, colonne étroite
+d'une mise en page à deux volets, corps d'une modale. Réglé sur la fenêtre, il se
+trompe partout sauf dans le cas pour lequel on l'a réglé. Constaté sur `CardGrid`
+le 2026-09-09 : à 652 px de fenêtre elle faisait 596 px de large et n'affichait
+**qu'une colonne** — une carte de 596 px seule sur sa ligne — parce que le seuil
+`md:` est à 768 px de fenêtre. La place tenait deux colonnes de 282.
+
+**Qui garde les variantes de fenêtre** : la chrome de l'application — `Sidebar`,
+`PageShell`, `BottomNav`, `ViewerOverlay`. Elles connaissent légitimement la
+fenêtre, c'est leur rôle. **Qui passe au conteneur** : tout composant de contenu
+posable ailleurs — grilles, cartes, en-têtes de section.
+
+⚠️ **Deux boîtes, toujours.** Une requête de conteneur remonte à l'ancêtre le plus
+proche qui en est un — **jamais à l'élément qui la porte**. `@container` et
+`@xl:grid-cols-2` sur la même div ne produisent rien (mesuré : la grille restait
+à une colonne à 596 px pour un seuil à 576).
+```tsx
+<div className="@container w-full">        {/* le conteneur mesuré */}
+  <div className="grid @xl:grid-cols-2" /> {/* répond à SA largeur */}
+</div>
+```
+
+⚠️ **Les crans `@` ne sont pas ceux des variantes de fenêtre.** Ils viennent de
+l'échelle `--container-*` : `@sm` 24rem · `@md` 28rem · `@lg` 32rem · `@xl` 36rem ·
+`@2xl` 42rem · `@3xl` 48rem · `@4xl` 56rem · `@5xl` 64rem. Nos tokens sémantiques
+en ajoutent : `@content` 48rem · `@medium` 64rem · `@page` 72rem · `@wide` 80rem.
+Ne jamais transposer un seuil de fenêtre tel quel — le choisir sur la largeur de
+contenu visée.
+
 **ErrorPage** (`patterns/ErrorPage.tsx`) : pattern canonique des pages d'erreur (props `code/title/description/suggestions/primaryAction/tone`), tone `default` | `danger`. API dans le fichier.
 
 ## Cards — conventions tone-aware
