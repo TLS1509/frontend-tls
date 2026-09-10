@@ -175,6 +175,14 @@
 > (HTTP 200 le 10/09/2026)**, tous sur l'ancien positionnement « IA + formation ». Sert
 > l'urgence « retirer les claims du site en ligne ».
 
+> 🔴 **[AUDIT-BRAND-GUIDELINES-2026-09-10.md](marketing/AUDIT-BRAND-GUIDELINES-2026-09-10.md)** —
+> la page Notion *Brand Guidelines* porte un **système de design parallèle et faux** : rayons
+> `8/16 px` inexistants, ombres = défauts Tailwind rejetés, `#14b8a6` et `#EF4444` bannis par
+> le dépôt, et un workflow qui prescrit trois fichiers CSS **introuvables**. ⚠️ **Aucune
+> correction n'a pu être appliquée** : une icône (`eye_orange`) bloque toute écriture API sur
+> la page — le déblocage est décrit au §4. Contient aussi la **rectification sur le ton** :
+> il est écrit, et richement ; c'est un arbitrage qui manque, pas de la matière.
+
 > 🧾 **[INVENTAIRE-NOTION-MARKETING-2026-09-10.md](marketing/INVENTAIRE-NOTION-MARKETING-2026-09-10.md)** —
 > relevé de première main du Marketing dans Notion, comptage SQL réel. **Corrige Q39** : les
 > « fausses bases » hébergent les vues des tableaux de bord, les supprimer casserait le
