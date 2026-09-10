@@ -165,6 +165,11 @@
 
 ## 📢 MARKETING/ — Brand & content strategy (40K)
 
+> 📌 **[PUBLICATIONS-2025-ARCHIVE.md](marketing/PUBLICATIONS-2025-ARCHIVE.md)** — les 11
+> publications de 2025 extraites de Notion avant suppression. **9 articles encore en ligne
+> (HTTP 200 le 10/09/2026)**, tous sur l'ancien positionnement « IA + formation ». Sert
+> l'urgence « retirer les claims du site en ligne ».
+
 > 🧾 **[INVENTAIRE-NOTION-MARKETING-2026-09-10.md](marketing/INVENTAIRE-NOTION-MARKETING-2026-09-10.md)** —
 > relevé de première main du Marketing dans Notion, comptage SQL réel. **Corrige Q39** : les
 > « fausses bases » hébergent les vues des tableaux de bord, les supprimer casserait le
