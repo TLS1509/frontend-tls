@@ -219,7 +219,7 @@ export default function ProfileBadgesCompetences() {
                     <span className="text-caption font-semibold text-ink-800 line-clamp-2 leading-tight">{b.def.name}</span>
                     {b.earnedDate && <span className="text-micro text-ink-500">{b.earnedDate}</span>}
                     {!b.earned && b.def.dreyfusLevel && (
-                      <Badge variant="info" size="sm">D{b.def.dreyfusLevel} requis</Badge>
+                      <Badge variant="info" size="compact">D{b.def.dreyfusLevel} requis</Badge>
                     )}
                   </div>
                 </button>

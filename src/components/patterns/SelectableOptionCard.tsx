@@ -69,7 +69,7 @@ export const SelectableOptionCard: React.FC<SelectableOptionCardProps> = ({
         )}
       </div>
 
-      {!isCompact && selected && <Badge variant="info" size="sm">Sélectionné</Badge>}
+      {!isCompact && selected && <Badge variant="info" size="compact">Sélectionné</Badge>}
     </button>
   );
 };

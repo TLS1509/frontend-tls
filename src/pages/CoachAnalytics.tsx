@@ -258,7 +258,7 @@ export default function CoachAnalytics() {
                     <div className="flex-1">
                       <ProgressBar value={c.pct} fill="brand" size="sm" valueLabel={false} />
                     </div>
-                    <Badge variant={c.badge} size="sm">
+                    <Badge variant={c.badge} size="compact">
                       D{c.value.toFixed(1)}
                     </Badge>
                   </div>
@@ -318,7 +318,7 @@ export default function CoachAnalytics() {
                         {c.apprenant}
                       </span>
                       <span className="flex-1 text-body-sm text-ink-700">{c.exercice}</span>
-                      <Badge variant="info" size="sm">
+                      <Badge variant="info" size="compact">
                         {c.competence}
                       </Badge>
                       <span className="text-caption text-ink-500 shrink-0">{c.delai}</span>

@@ -421,7 +421,7 @@ export const LearningPathDetail: React.FC = () => {
                             <Badge variant="brand">EN COURS</Badge>
                           )}
                           {etape.progression_mode === 'FLEXIBLE' && !etape.completed && idx > 0 && !parcours.etapes[idx - 1]?.completed && (
-                            <Badge variant="info" size="sm">⚠️ Accès souple</Badge>
+                            <Badge variant="info" size="compact">⚠️ Accès souple</Badge>
                           )}
                         </div>
 

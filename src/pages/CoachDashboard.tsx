@@ -157,7 +157,7 @@ export default function CoachDashboard() {
                     <div className="flex-1 min-w-0 flex flex-col gap-stack-xs">
                       <div className="flex items-center gap-stack-xs flex-wrap">
                         <span className="text-body-sm font-semibold text-ink-900">{a.name}</span>
-                        <Badge variant={status.variant} size="sm">{status.label}</Badge>
+                        <Badge variant={status.variant} size="compact">{status.label}</Badge>
                         <AtrophieIndicator daysSinceActivity={days} currentLevel={Math.round(a.dreyfusAvg)} size="sm" showLabel={false} />
                       </div>
                       <div className="flex gap-stack text-caption text-ink-500 flex-wrap">
@@ -279,7 +279,7 @@ export default function CoachDashboard() {
                     <div className="flex-1 min-w-0 flex flex-col gap-tight">
                       <div className="flex items-center gap-stack-xs flex-wrap">
                         <span className="text-body-sm font-semibold text-ink-900">{c.exerciseTitle}</span>
-                        {c.iterationCount === 0 && <Badge variant="sun" size="sm">Nouveau</Badge>}
+                        {c.iterationCount === 0 && <Badge variant="sun" size="compact">Nouveau</Badge>}
                       </div>
                       <div className="flex gap-stack-xs text-caption text-ink-500 flex-wrap">
                         <span>{learner?.name ?? c.learnerId}</span>

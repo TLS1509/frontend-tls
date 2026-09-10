@@ -60,8 +60,8 @@ export default function MasterclassDetail() {
         summary="Découvre comment maintenir l'engagement et la performance de tes équipes dans les périodes de turbulences."
         trailing={
           <div className="flex gap-stack-xs flex-wrap">
-            <Badge variant="info" size="md">15 juin 2026 · 14h00</Badge>
-            <Badge variant="neutral" size="md">90 min · Distanciel</Badge>
+            <Badge variant="info" size="normal">15 juin 2026 · 14h00</Badge>
+            <Badge variant="neutral" size="normal">90 min · Distanciel</Badge>
           </div>
         }
       />
@@ -80,7 +80,7 @@ export default function MasterclassDetail() {
                       onToggle={() => setOpenProg(openProg === i ? null : i)}
                       header={
                         <div className="flex items-center gap-stack-xs flex-1 min-w-0">
-                          <Badge variant="neutral" size="sm">{item.duration}</Badge>
+                          <Badge variant="neutral" size="compact">{item.duration}</Badge>
                           <span className="text-body-sm text-ink-800 font-medium truncate">{item.label}</span>
                         </div>
                       }
@@ -154,7 +154,7 @@ export default function MasterclassDetail() {
                           <span className="text-caption text-ink-500">{m.expert}</span>
                         </div>
                       </div>
-                      <Badge variant={m.status === 'REPLAY' ? 'success' : 'info'} size="sm">
+                      <Badge variant={m.status === 'REPLAY' ? 'success' : 'info'} size="compact">
                         {m.status}
                       </Badge>
                     </button>

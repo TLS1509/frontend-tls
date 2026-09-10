@@ -145,7 +145,7 @@ export const Positionnement: React.FC = () => {
                   {Object.entries(answers).map(([compId, level]) => {
                     const comp = getCompetenceById(compId);
                     return (
-                      <Badge key={compId} variant="brand" size="sm">
+                      <Badge key={compId} variant="brand" size="compact">
                         {comp?.label ?? compId} : D{level}
                       </Badge>
                     );

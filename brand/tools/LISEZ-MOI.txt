@@ -1,0 +1,37 @@
+TLS — page de référence des design tokens
+Générée, jamais écrite à la main.
+
+À QUOI ÇA SERT
+  Une page HTML autonome, à embarquer en iframe dans Notion (/embed), qui montre
+  les tokens réels : couleurs cliquables-copiables, échelle typographique rendue
+  dans les vraies polices aux vraies tailles, contrastes calculés en direct,
+  rayons et ombres.
+
+POURQUOI GÉNÉRÉE
+  Le Brand Hub Notion avait accumulé HUIT écarts avec le code, dont deux couleurs
+  Tailwind brutes interdites par le projet (#EF4444 en erreur, #14b8a6 en succès).
+  La cause n'est pas la négligence : c'est qu'une valeur recopiée à la main dans un
+  outil qui ne compile pas n'a rien pour signaler qu'elle a dérivé.
+  Cette page lit src/index.css. Elle ne peut pas se tromper.
+
+RÉGÉNÉRER
+    python3 brand/tools/generer-reference-tokens.py /chemin/sortie.html
+
+  Puis republier l'artifact au même chemin de fichier pour garder l'URL.
+
+LES FICHIERS
+  generer-reference-tokens.py   le générateur — lit src/index.css
+  _gabarit.html                 la mise en forme ; le script y injecte window.TLS
+
+  Le gabarit est du HTML de fragment : ni <!DOCTYPE>, ni <html>, ni <head>, ni
+  <body>. C'est ce qu'attend le format Artifact, qui pose lui-même l'enveloppe.
+
+CE QU'ELLE PORTE, AU DERNIER RELEVÉ
+  43 crans de rampe (primary, secondary, accent, ink)
+  16 couleurs sémantiques (succès, danger, alerte, info)
+  10 pas typographiques, avec tracking et graisse
+  7 rayons, 6 ombres
+
+  Plus une section « pièges connus » qui rappelle, chiffres à l'appui, que
+  primary-500 mesure 2,94:1 sur blanc — il échoue AA en texte, et rate même le
+  seuil de contour de six centièmes.

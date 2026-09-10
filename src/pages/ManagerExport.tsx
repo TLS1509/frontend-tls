@@ -49,7 +49,7 @@ export default function ManagerExport() {
         summary="Génère des rapports personnalisés sur la progression de ta cohorte, les KPIs d'engagement et les niveaux Dreyfus."
         tone="flat"
         trailing={
-          <Badge variant="info" size="md">RGPD conforme : données anonymisables</Badge>
+          <Badge variant="info" size="normal">RGPD conforme : données anonymisables</Badge>
         }
       />
 

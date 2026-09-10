@@ -59,7 +59,7 @@ export default function AtelierLive() {
         title="Atelier Feedback 360°"
         summary="Session en cours · Sophie Martin · 11 participants"
         trailing={
-          <Badge variant="danger" size="md" className="animate-pulse">🔴 EN DIRECT</Badge>
+          <Badge variant="danger" size="normal" className="animate-pulse">🔴 EN DIRECT</Badge>
         }
       />
 
@@ -139,7 +139,7 @@ export default function AtelierLive() {
                     <div className="flex items-center gap-stack-xs">
                       <FileText size={14} className="text-ink-600 shrink-0" />
                       <span className="text-caption text-ink-700">{res.label}</span>
-                      <Badge variant="neutral" size="sm">{res.type.toUpperCase()}</Badge>
+                      <Badge variant="neutral" size="compact">{res.type.toUpperCase()}</Badge>
                     </div>
                     <Button
                       variant="ghost"

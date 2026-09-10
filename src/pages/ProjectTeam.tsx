@@ -87,7 +87,7 @@ export const ProjectTeam: React.FC = () => {
                           const label = skillReq?.competencyName ?? compId;
                           const met = level >= (skillReq?.dreyfusLevelRequired ?? 1);
                           return (
-                            <Badge key={compId} variant={met ? 'success' : 'warm'} size="sm">
+                            <Badge key={compId} variant={met ? 'success' : 'warm'} size="compact">
                               {label} · D{level} · {DREYFUS_LABELS[level as 1 | 2 | 3 | 4 | 5]}
                             </Badge>
                           );

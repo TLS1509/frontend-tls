@@ -131,7 +131,7 @@ export default function DashboardCompetenceDetail() {
                     <span className="text-caption text-ink-600">{item.date}</span>
                   </div>
                   <div className="flex items-center gap-stack-xs">
-                    <Badge variant="success" size="sm">+{item.xp} XP</Badge>
+                    <Badge variant="success" size="compact">+{item.xp} XP</Badge>
                     <ChevronRight size={16} className="text-ink-300" />
                   </div>
                 </Card>

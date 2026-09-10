@@ -280,9 +280,9 @@ export default function CoachLearnerProfile() {
                             D{level} · {DREYFUS_LABELS[level]}
                           </span>
                           {validated ? (
-                            <Badge variant="success" size="sm">Validé</Badge>
+                            <Badge variant="success" size="compact">Validé</Badge>
                           ) : (
-                            <Badge variant="neutral" size="sm">Auto-évalué</Badge>
+                            <Badge variant="neutral" size="compact">Auto-évalué</Badge>
                           )}
                         </div>
                       </div>

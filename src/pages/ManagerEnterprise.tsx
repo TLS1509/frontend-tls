@@ -118,7 +118,7 @@ export default function ManagerEnterprise() {
                           <span className="text-body-sm font-semibold text-ink-900">{p.title}</span>
                           <span className="text-caption text-ink-600">{p.team}</span>
                         </div>
-                        <Badge variant={s.variant} size="sm">{s.label}</Badge>
+                        <Badge variant={s.variant} size="compact">{s.label}</Badge>
                       </div>
                       <ProgressBar value={p.progressPercent} fill="brand" size="sm" showLabel label={`${p.progressPercent}%`} />
                     </Card>
@@ -161,7 +161,7 @@ export default function ManagerEnterprise() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-stack-xs mb-1">
                     <span className="text-body-sm font-semibold text-ink-900">{c.name}</span>
-                    <Badge variant="neutral" size="sm">{c.memberCount} membres</Badge>
+                    <Badge variant="neutral" size="compact">{c.memberCount} membres</Badge>
                   </div>
                   <div className="text-caption text-ink-600">Coach : {c.coachName ?? '–'} · Dreyfus moy. {c.avgDreyfusLevel}/5</div>
                 </div>

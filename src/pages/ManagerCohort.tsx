@@ -136,7 +136,7 @@ export default function ManagerCohort() {
                       <Card key={p.id} className="p-3 flex flex-col gap-stack-xs">
                         <div className="flex items-center justify-between gap-stack-xs">
                           <span className="text-body-sm font-semibold text-ink-900">{p.title}</span>
-                          <Badge variant={s.variant} size="sm">{s.label}</Badge>
+                          <Badge variant={s.variant} size="compact">{s.label}</Badge>
                         </div>
                         <div className="flex gap-stack-xs text-caption text-ink-600">
                           <span>{p.type}</span>
@@ -211,7 +211,7 @@ export default function ManagerCohort() {
                       <p className="text-body-sm font-semibold text-ink-900">{p.title}</p>
                       <p className="text-caption text-ink-600">{p.type} · {p.members} membres · Échéance {p.dueDate}</p>
                     </div>
-                    <Badge variant={s.variant} size="sm">{s.label}</Badge>
+                    <Badge variant={s.variant} size="compact">{s.label}</Badge>
                   </div>
                   <ProgressBar value={p.progress} fill="brand" size="md" showLabel label={`${p.progress}% complété`} />
                   <div className="flex justify-end">

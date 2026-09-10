@@ -100,7 +100,7 @@ export const CongratulationsCard: React.FC<CongratulationsCardProps> = ({
       </div>
 
       {badgeLabel && (
-        <Badge variant={BADGE_VARIANT[tone]} size="lg">
+        <Badge variant={BADGE_VARIANT[tone]} size="large">
           {badgeLabel}
         </Badge>
       )}

@@ -49,7 +49,7 @@ export default function AtelierHub() {
         eyebrow="Ateliers Pratiques"
         title="Ateliers de ta Cohorte"
         summary="Sessions pratiques en petit groupe animées par ton coach. Maximum 12 participants. Distanciel ou présentiel."
-        trailing={<Badge variant="info" size="md">Accès entreprise</Badge>}
+        trailing={<Badge variant="info" size="normal">Accès entreprise</Badge>}
       />
 
       <div className="flex flex-col gap-section">

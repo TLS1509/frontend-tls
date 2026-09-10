@@ -12,7 +12,17 @@ export type BadgeVariant =
   | 'danger'
   | 'info';
 
-export type BadgeSize = 'sm' | 'md' | 'lg';
+/* Les tailles ne s'appellent plus sm/md/lg, et c'est délibéré.
+
+   `Chip` — donc `MetaPill`, `Tag`, `FilterChip` — porte les MÊMES noms pour des
+   hauteurs différentes : un Badge `md` mesurait 20 px quand un Chip `md` en fait
+   30. On comparait deux échelles qui ne parlent pas de la même chose, et l'écart
+   se lisait comme un défaut d'alignement alors qu'il est voulu : un badge annote
+   et doit rester compact, une pastille de méta porte une donnée et peut respirer.
+
+   Des noms propres à la famille lèvent la confusion sans toucher aux hauteurs.
+   Renommé le 2026-09-10. */
+export type BadgeSize = 'compact' | 'normal' | 'large';
 
 export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
   variant?: BadgeVariant;
@@ -35,9 +45,9 @@ const BASE =
    arbitraires précédentes — 0,06 · 0,05 · 0,04 — n'étaient pas une courbe :
    les deux premières s'appliquaient au MÊME corps de 11 px. */
 const SIZE_CLASSES: Record<BadgeSize, string> = {
-  sm: 'text-micro px-2 py-0.5 tracking-label',
-  md: 'text-micro px-2.5 py-0.5 tracking-label',
-  lg: 'text-caption px-3 py-1 tracking-label',
+  compact: 'text-micro px-2 py-0.5 tracking-label',   // ~18 px
+  normal:  'text-micro px-2.5 py-0.5 tracking-label', // ~20 px — le défaut
+  large:   'text-caption px-3 py-1 tracking-label',   // ~28 px
 };
 
 const VARIANT_CLASSES: Record<BadgeVariant, string> = {
@@ -63,7 +73,7 @@ const DOT_CLASSES: Record<BadgeVariant, string> = {
 export const Badge: React.FC<BadgeProps> = ({
   variant,
   color,
-  size = 'md',
+  size = 'normal',
   dot = false,
   text,
   className = '',

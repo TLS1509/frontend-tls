@@ -75,7 +75,7 @@ export const SettingsToggleRow: React.FC<SettingsToggleRowProps> = ({
     <div className="flex flex-col gap-tight flex-1 min-w-0">
       <div className="flex items-center gap-stack-xs">
         <span className="text-body-sm font-semibold text-ink-900">{label}</span>
-        {required && <Badge variant="info" size="sm">Requis</Badge>}
+        {required && <Badge variant="info" size="compact">Requis</Badge>}
       </div>
       {description && <span className="text-caption text-ink-500">{description}</span>}
     </div>

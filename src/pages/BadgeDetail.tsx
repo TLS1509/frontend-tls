@@ -130,9 +130,9 @@ export default function BadgeDetail() {
               unlockedDate={userBadge ? formatDate(userBadge.earnedAt) : undefined}
             />
             {earned ? (
-              <Badge variant="success" size="lg">Obtenu le {formatDate(userBadge!.earnedAt)}</Badge>
+              <Badge variant="success" size="large">Obtenu le {formatDate(userBadge!.earnedAt)}</Badge>
             ) : (
-              <Badge variant="neutral" size="lg" className="inline-flex items-center gap-tight">
+              <Badge variant="neutral" size="large" className="inline-flex items-center gap-tight">
                 <Lock size={14} /> Pas encore obtenu
               </Badge>
             )}
@@ -150,7 +150,7 @@ export default function BadgeDetail() {
               </Card>
               <Card variant="tinted" tone="sun" className="flex flex-col items-center justify-center py-5 gap-tight">
                 <Award size={20} className="text-accent-500" />
-                <Badge variant="sun" size="md">{RARITY_LABEL(badge.xpValue)}</Badge>
+                <Badge variant="sun" size="normal">{RARITY_LABEL(badge.xpValue)}</Badge>
                 <span className="text-caption text-ink-500">Rareté du badge</span>
               </Card>
             </div>
@@ -161,7 +161,7 @@ export default function BadgeDetail() {
                 <div className="flex items-center justify-between">
                   <span className="text-body-sm text-ink-700">{competenceLabel}</span>
                   {badge.dreyfusLevel && (
-                    <Badge variant="info" size="sm">Niveau D{badge.dreyfusLevel} requis</Badge>
+                    <Badge variant="info" size="compact">Niveau D{badge.dreyfusLevel} requis</Badge>
                   )}
                 </div>
               </SectionCard>

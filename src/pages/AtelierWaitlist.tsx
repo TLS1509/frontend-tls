@@ -39,7 +39,7 @@ export default function AtelierWaitlist() {
           <Clock size={32} className="text-secondary-600" />
         </div>
 
-        <Badge variant="sun" size="md">Liste d'attente</Badge>
+        <Badge variant="sun" size="normal">Liste d'attente</Badge>
 
         <h1 className="text-h2 font-display font-bold text-ink-900">
           Tu es sur la liste d'attente
@@ -54,14 +54,14 @@ export default function AtelierWaitlist() {
         <Card variant="tinted" tone="warm" className="w-full p-stack-lg flex flex-col gap-stack">
           <div className="flex items-center justify-between">
             <span className="text-body-sm text-ink-600">Ta position</span>
-            <Badge variant="sun" size="md">
+            <Badge variant="sun" size="normal">
               <span className="text-h3 font-bold">#{waitlistPosition}</span>
             </Badge>
           </div>
 
           <div className="flex items-center justify-between">
             <span className="text-body-sm text-ink-600">Notification manager</span>
-            <Badge variant="success" size="sm">Envoyée ✓</Badge>
+            <Badge variant="success" size="compact">Envoyée ✓</Badge>
           </div>
 
           {atelier && (

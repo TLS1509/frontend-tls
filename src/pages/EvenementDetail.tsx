@@ -78,9 +78,9 @@ export default function EvenementDetail() {
         summary={EVENT.subtitle}
         trailing={
           <div className="flex flex-wrap gap-stack-xs items-center">
-            <Badge variant="sun" size="lg">{EVENT.date} · {EVENT.time}</Badge>
-            <Badge variant="info" size="lg">{EVENT.mode} · {EVENT.duration}</Badge>
-            <Badge variant="neutral" size="lg">{EVENT.price}</Badge>
+            <Badge variant="sun" size="large">{EVENT.date} · {EVENT.time}</Badge>
+            <Badge variant="info" size="large">{EVENT.mode} · {EVENT.duration}</Badge>
+            <Badge variant="neutral" size="large">{EVENT.price}</Badge>
           </div>
         }
       />

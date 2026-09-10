@@ -130,7 +130,7 @@ export default function CoachApprenants() {
                       align="left"
                       cta={
                         <div className="flex items-center gap-stack-xs">
-                          <Badge variant={variant} size="sm">{label}</Badge>
+                          <Badge variant={variant} size="compact">{label}</Badge>
                           <Button
                             variant="ghost"
                             size="sm"

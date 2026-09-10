@@ -6386,7 +6386,7 @@ const COMPONENTS: ComponentEntry[] = [
         <ResourceListItem
           icon={<FileText size={14} />}
           label="Support de l'atelier"
-          badge={<Badge variant="neutral" size="sm">PDF</Badge>}
+          badge={<Badge variant="neutral" size="compact">PDF</Badge>}
           action={<Button variant="ghost" size="sm">Télécharger</Button>}
         />
         <ResourceListItem

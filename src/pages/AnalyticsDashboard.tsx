@@ -161,7 +161,7 @@ export default function AnalyticsDashboard() {
               ? 'sun'
               : 'danger'
         }
-        size="sm"
+        size="compact"
       >
         {learner.status === 'on-track' ? 'On track' : learner.status === 'at-risk' ? 'At risk' : 'Stuck'}
       </Badge>
@@ -416,7 +416,7 @@ export default function AnalyticsDashboard() {
                         <div className="text-body-lg font-bold text-ink-900">{learner.name}</div>
                         <div className="text-body-sm text-ink-600">{learner.role}</div>
                       </div>
-                      <Badge variant="success" size="sm">D{learner.dreyfusAvg.toFixed(1)}</Badge>
+                      <Badge variant="success" size="compact">D{learner.dreyfusAvg.toFixed(1)}</Badge>
                     </div>
                     <div className="flex gap-stack">
                       <div>
@@ -454,7 +454,7 @@ export default function AnalyticsDashboard() {
                     </div>
                     <div className="flex items-center gap-2 w-48">
                       <span className="text-caption text-ink-600">{comp.adoption} apprenants</span>
-                      <Badge variant="info" size="sm">D{comp.avgLevel.toFixed(1)}</Badge>
+                      <Badge variant="info" size="compact">D{comp.avgLevel.toFixed(1)}</Badge>
                     </div>
                   </div>
                 ))}

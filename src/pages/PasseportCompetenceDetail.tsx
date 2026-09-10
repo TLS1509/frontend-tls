@@ -169,8 +169,8 @@ export default function PasseportCompetenceDetail() {
                 <div className="flex flex-col gap-tight min-w-0">
                   <div className="flex items-center gap-stack-xs">
                     <span className="text-body-sm font-semibold text-ink-900">{d.label}</span>
-                    {d.level === currentLevel && <Badge variant="info" size="sm">Ton niveau</Badge>}
-                    {d.level === targetLevel && d.level !== currentLevel && <Badge variant="brand" size="sm">Objectif</Badge>}
+                    {d.level === currentLevel && <Badge variant="info" size="compact">Ton niveau</Badge>}
+                    {d.level === targetLevel && d.level !== currentLevel && <Badge variant="brand" size="compact">Objectif</Badge>}
                   </div>
                   <p className="text-caption text-ink-500">{d.desc}</p>
                 </div>
@@ -236,7 +236,7 @@ export default function PasseportCompetenceDetail() {
                         <span className="text-body-sm font-medium text-ink-900">{p.title}</span>
                         <span className="text-caption text-ink-600">{new Date(p.occurredAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
                       </div>
-                      {p.newLevel && <Badge variant="success" size="sm">D{p.newLevel}</Badge>}
+                      {p.newLevel && <Badge variant="success" size="compact">D{p.newLevel}</Badge>}
                     </div>
                   ))}
                 </div>
@@ -261,7 +261,7 @@ export default function PasseportCompetenceDetail() {
                         </span>
                       </div>
                       {e.assertedLevel != null && (
-                        <Badge variant="brand" size="sm">D{e.assertedLevel} validé</Badge>
+                        <Badge variant="brand" size="compact">D{e.assertedLevel} validé</Badge>
                       )}
                     </div>
                   ))}
@@ -286,15 +286,15 @@ export default function PasseportCompetenceDetail() {
                         </span>
                       </div>
                       {e.retention ? (
-                        <Badge variant={e.retention.rating === 'known' ? 'success' : 'neutral'} size="sm">
+                        <Badge variant={e.retention.rating === 'known' ? 'success' : 'neutral'} size="compact">
                           {e.retention.rating === 'known' ? 'Su' : 'À revoir'}
                         </Badge>
                       ) : e.score ? (
-                        <Badge variant={e.score.correct === e.score.total ? 'success' : 'info'} size="sm">
+                        <Badge variant={e.score.correct === e.score.total ? 'success' : 'info'} size="compact">
                           {e.score.correct}/{e.score.total}
                         </Badge>
                       ) : (
-                        <Badge variant="neutral" size="sm">
+                        <Badge variant="neutral" size="compact">
                           {e.sourceType === 'reflection' ? 'Réflexion' : 'Activité'}
                         </Badge>
                       )}

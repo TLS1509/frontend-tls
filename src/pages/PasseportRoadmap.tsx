@@ -239,10 +239,10 @@ export default function PasseportRoadmap() {
                       <span className="font-display font-semibold text-body-sm text-ink-900">
                         {jalon.title}
                       </span>
-                      <Badge variant={cfg.badgeVariant} size="sm">
+                      <Badge variant={cfg.badgeVariant} size="compact">
                         {JALON_BADGE_LABEL[jalon.status]}
                       </Badge>
-                      <Badge variant="neutral" size="sm">
+                      <Badge variant="neutral" size="compact">
                         {jalon.dreyfusLevel}
                       </Badge>
                     </div>
@@ -269,7 +269,7 @@ export default function PasseportRoadmap() {
               <Card key={s.id} variant="tinted" tone="primary" className="p-stack flex flex-col gap-tight">
                 <div className="flex items-start justify-between gap-stack-xs flex-wrap">
                   <p className="m-0 font-semibold text-body-sm text-ink-900 flex-1">{s.conseil}</p>
-                  <Badge variant="brand" size="sm">{s.competence}</Badge>
+                  <Badge variant="brand" size="compact">{s.competence}</Badge>
                 </div>
                 <p className="m-0 text-body-sm text-ink-500 leading-relaxed">{s.detail}</p>
                 <div className="flex justify-end">

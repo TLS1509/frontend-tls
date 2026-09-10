@@ -159,7 +159,7 @@ export const ProjectSkillGaps: React.FC = () => {
               const current = (m.currentDreyfusLevels[req.competencyId] ?? 1) as DreyfusLevel;
               const ok = current >= req.dreyfusLevelRequired;
               row[req.competencyId] = (
-                <Badge variant={ok ? 'success' : 'warm'} size="sm">
+                <Badge variant={ok ? 'success' : 'warm'} size="compact">
                   D{current} · {DREYFUS_LABELS[current]}
                 </Badge>
               );

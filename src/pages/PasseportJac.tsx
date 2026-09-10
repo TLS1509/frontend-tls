@@ -138,7 +138,7 @@ export default function PasseportJac() {
         title="Jalons & Certifications"
         summary="Valide officiellement tes niveaux Dreyfus auprès de ton entreprise et obtiens tes certifications."
         trailing={
-          <Badge variant="success" size="lg">
+          <Badge variant="success" size="large">
             3 certifications obtenues
           </Badge>
         }
@@ -184,9 +184,9 @@ export default function PasseportJac() {
                     {cert.title}
                   </p>
                   <div className="flex items-center justify-center gap-stack-xs">
-                    <Badge variant="success" size="sm">Certifié</Badge>
+                    <Badge variant="success" size="compact">Certifié</Badge>
                     {cert.validatedBy.map((v) => (
-                      <Badge key={v} variant="neutral" size="sm">{v}</Badge>
+                      <Badge key={v} variant="neutral" size="compact">{v}</Badge>
                     ))}
                   </div>
                 </div>

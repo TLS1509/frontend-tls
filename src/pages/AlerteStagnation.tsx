@@ -121,7 +121,7 @@ export default function AlerteStagnation() {
         summary="Apprenants dont la progression Dreyfus est bloquée depuis plus de 30 jours. Interviens avant qu'ils décrochent."
         tone="flat"
         trailing={
-          <Badge variant="sun" size="md">3 stagnations critiques</Badge>
+          <Badge variant="sun" size="normal">3 stagnations critiques</Badge>
         }
       />
 
@@ -220,15 +220,15 @@ export default function AlerteStagnation() {
                   <div className="flex flex-wrap items-center gap-stack-xs shrink-0">
                     <Badge
                       variant={learner.severity === 'critical' ? 'danger' : 'info'}
-                      size="sm"
+                      size="compact"
                     >
                       {learner.stagnationDays}j de stagnation
                     </Badge>
-                    <Badge variant="brand" size="sm">
+                    <Badge variant="brand" size="compact">
                       <TrendingUp size={14} className="inline mr-0.5" />
                       {learner.blockedSkill}
                     </Badge>
-                    <Badge variant="info" size="sm">
+                    <Badge variant="info" size="compact">
                       Dreyfus niv. {learner.dreyfusLevel}
                     </Badge>
                   </div>

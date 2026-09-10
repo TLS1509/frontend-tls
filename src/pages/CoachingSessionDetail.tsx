@@ -104,7 +104,7 @@ export default function CoachingSessionDetail() {
             <div className="flex flex-col gap-tight">
               <span className="text-caption text-ink-600 uppercase tracking-wide">Format</span>
               <span className="text-body-sm font-semibold text-ink-900">Visioconférence</span>
-              <Badge variant="info" size="sm">
+              <Badge variant="info" size="compact">
                 {isPlanned ? 'Confirmée' : 'Terminée'}
               </Badge>
             </div>
@@ -133,7 +133,7 @@ export default function CoachingSessionDetail() {
           title="Préparation recommandée"
           titleIcon={<ChevronRight size={18} />}
           actions={
-            <Badge variant="sun" size="sm">À faire avant la session</Badge>
+            <Badge variant="sun" size="compact">À faire avant la session</Badge>
           }
         >
           <p className="text-body-sm text-ink-600 leading-relaxed">

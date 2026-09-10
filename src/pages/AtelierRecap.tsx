@@ -37,8 +37,8 @@ export default function AtelierRecap() {
         summary="Session du 18 juin 2026 · Sophie Martin"
         trailing={
           <div className="flex gap-stack-xs flex-wrap">
-            <Badge variant="success" size="md">✓ Complété</Badge>
-            <Badge variant="success" size="md">+120 XP</Badge>
+            <Badge variant="success" size="normal">✓ Complété</Badge>
+            <Badge variant="success" size="normal">+120 XP</Badge>
           </div>
         }
       />
@@ -49,7 +49,7 @@ export default function AtelierRecap() {
           <Award size={40} className="text-primary-600" />
           <h2 className="text-h2 font-display font-bold text-primary-700">+120 XP gagnés</h2>
           <p className="text-body-sm text-ink-500">Atelier complété · Compétence Communication +0.2 Dreyfus</p>
-          <Badge variant="info" size="md">Communication D3.2 → D3.4</Badge>
+          <Badge variant="info" size="normal">Communication D3.2 → D3.4</Badge>
         </Card>
 
         {/* Mon retour */}
@@ -77,7 +77,7 @@ export default function AtelierRecap() {
                 <div className="flex items-center gap-stack-xs">
                   <FileText size={14} className="text-ink-600 shrink-0" />
                   <span className="text-caption text-ink-700">{res.label}</span>
-                  <Badge variant="neutral" size="sm">{res.type}</Badge>
+                  <Badge variant="neutral" size="compact">{res.type}</Badge>
                 </div>
                 <Button
                   variant="ghost"
@@ -100,7 +100,7 @@ export default function AtelierRecap() {
             <AITransparencyLabel variant="recommended" size="md" />
             <Card variant="default" className="flex flex-col sm:flex-row items-start sm:items-center gap-section p-stack">
               <div className="flex flex-col gap-tight flex-1">
-                <Badge variant="info" size="sm">À venir · 2 juil.</Badge>
+                <Badge variant="info" size="compact">À venir · 2 juil.</Badge>
                 <h4 className="text-body font-semibold text-ink-900">Atelier Communication assertive</h4>
                 <p className="text-caption text-ink-500">Développe une communication directe et respectueuse. Avec Pierre Bernard.</p>
               </div>

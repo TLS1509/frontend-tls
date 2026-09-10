@@ -187,7 +187,7 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
       <div className="flex flex-col gap-2 pr-10">
         {/* 1. Type badge + duration ── */}
         <div className="flex items-center gap-1 flex-wrap text-micro">
-          <Badge variant={tone} size="sm">{ITEM_TYPE_LABELS[type]}</Badge>
+          <Badge variant={tone} size="compact">{ITEM_TYPE_LABELS[type]}</Badge>
           <span className="text-ink-600">•</span>
           <span className="text-ink-500 font-medium text-micro">{duration}</span>
         </div>

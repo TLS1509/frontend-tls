@@ -74,7 +74,7 @@ export default function ManagerAlerts() {
   const tableRows = ALERTS.map((a) => ({
     ...a,
     status: (
-      <Badge variant={a.status === 'active' ? 'success' : 'neutral'} size="sm">
+      <Badge variant={a.status === 'active' ? 'success' : 'neutral'} size="compact">
         {a.status === 'active' ? 'Active' : 'En pause'}
       </Badge>
     ),

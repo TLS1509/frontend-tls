@@ -54,8 +54,8 @@ export default function AtelierDetail() {
         summary="Pratique le feedback constructif en situation réelle. Jeux de rôle + débriefing collectif."
         trailing={
           <div className="flex gap-stack-xs flex-wrap">
-            <Badge variant="info" size="md">18 juin 2026 · 10h00</Badge>
-            <Badge variant="neutral" size="md">Distanciel · 3h</Badge>
+            <Badge variant="info" size="normal">18 juin 2026 · 10h00</Badge>
+            <Badge variant="neutral" size="normal">Distanciel · 3h</Badge>
           </div>
         }
       />
@@ -79,7 +79,7 @@ export default function AtelierDetail() {
           <div className="flex flex-col gap-stack-xs">
             {PROGRAMME.map((item, idx) => (
               <div key={idx} className="flex items-center gap-stack flex-wrap">
-                <Badge variant="info" size="sm">{item.time}</Badge>
+                <Badge variant="info" size="compact">{item.time}</Badge>
                 <span className="text-body-sm text-ink-700 flex-1">{item.label}</span>
                 <span className="text-caption text-ink-600">{item.duration}</span>
               </div>

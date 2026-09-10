@@ -107,7 +107,7 @@ export default function NotificationPreferences() {
               <div className="flex flex-col gap-tight flex-1 min-w-0">
                 <div className="flex items-center gap-stack-xs">
                   <span className="text-body-sm font-semibold text-ink-900">Suivi des emails</span>
-                  <Badge variant="neutral" size="sm">Confidentialité</Badge>
+                  <Badge variant="neutral" size="compact">Confidentialité</Badge>
                 </div>
                 <span className="text-caption text-ink-500">
                   {prefs.emailTrackingDisabled
@@ -130,7 +130,7 @@ export default function NotificationPreferences() {
           title="WhatsApp"
           titleIcon={<MessageCircle size={18} />}
           description="Messages via WhatsApp Business (V1 : disponible bientôt)"
-          headerAction={<Badge variant="warm" size="sm">Bientôt disponible</Badge>}
+          headerAction={<Badge variant="warm" size="compact">Bientôt disponible</Badge>}
         >
           <div className="flex flex-col divide-y divide-ink-100 opacity-60 pointer-events-none select-none">
             <SwitchRow id="wa-coaching" label="Rappels coaching" description="Rappel 2h avant ta session de coaching" checked={prefs.coaching.whatsapp} onChange={(v) => setChannel('coaching', 'whatsapp', v)} />

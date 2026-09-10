@@ -256,7 +256,7 @@ export default function EnterpriseKpis() {
                     <div className="flex-1">
                       <ProgressBar value={c.pct} fill="brand" size="sm" valueLabel={false} />
                     </div>
-                    <Badge variant={c.badge} size="sm">
+                    <Badge variant={c.badge} size="compact">
                       D{c.dreyfus.toFixed(1)}
                     </Badge>
                   </div>

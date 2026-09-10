@@ -45,7 +45,7 @@ export const JacCardPending: React.FC<JacCardPendingProps> = ({
         </div>
       </div>
       <div className="flex items-center gap-stack-xs shrink-0">
-        <Badge variant="sun" size="sm">En revue</Badge>
+        <Badge variant="sun" size="compact">En revue</Badge>
         <Button variant="ghost" size="sm" trailingIcon={<ChevronRight size={14} />} onClick={onRelancer}>
           Relancer
         </Button>
@@ -78,7 +78,7 @@ export const JacCardNextJalon: React.FC<JacCardNextJalonProps> = ({
       <div className="flex flex-col gap-tight flex-1 min-w-0">
         <div className="flex items-center gap-stack-xs flex-wrap">
           <span className="font-display font-semibold text-body-sm text-ink-900">{title}</span>
-          <Badge variant="brand" size="sm">{dreyfusLevel}</Badge>
+          <Badge variant="brand" size="compact">{dreyfusLevel}</Badge>
         </div>
         <ul className="m-0 pl-0 list-none flex flex-col gap-tight">
           {requirements.map((req) => (

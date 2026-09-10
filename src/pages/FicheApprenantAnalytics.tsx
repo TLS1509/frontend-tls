@@ -112,10 +112,10 @@ export default function FicheApprenantAnalytics() {
           <div className="flex flex-col gap-tight flex-1">
             <div className="flex items-center gap-stack-xs flex-wrap">
               <h2 className="text-h3 font-display font-bold text-ink-900">{learner.name}</h2>
-              <Badge variant={STATUS_VARIANT[learner.status]} size="md">
+              <Badge variant={STATUS_VARIANT[learner.status]} size="normal">
                 {STATUS_LABEL[learner.status]}
               </Badge>
-              <Badge variant="info" size="md">D{dreyfusLevelRound} {dreyfusLabel(dreyfusLevelRound)}</Badge>
+              <Badge variant="info" size="normal">D{dreyfusLevelRound} {dreyfusLabel(dreyfusLevelRound)}</Badge>
               <AtrophieIndicator daysSinceActivity={learner.daysSinceActivity} />
             </div>
             <p className="text-body-sm text-ink-500">{learner.role}</p>
@@ -177,7 +177,7 @@ export default function FicheApprenantAnalytics() {
                 {learner.recentCompletions.map((a) => (
                   <Card key={a.id} variant="default" className="flex items-center justify-between px-stack py-3 flex-wrap gap-stack-xs">
                     <div className="flex items-center gap-stack-xs">
-                      <Badge variant="neutral" size="sm">{a.itemType}</Badge>
+                      <Badge variant="neutral" size="compact">{a.itemType}</Badge>
                       <span className="text-body-sm text-ink-800">{a.itemLabel}</span>
                     </div>
                     <div className="flex items-center gap-stack-xs flex-wrap">
@@ -185,7 +185,7 @@ export default function FicheApprenantAnalytics() {
                         <span className="text-caption text-ink-600">NPS {a.npsGiven}/10</span>
                       )}
                       <span className="text-caption text-ink-600">{formatRelativeDate(a.completedAt)}</span>
-                      <Badge variant="success" size="sm">+{a.xpEarned} XP</Badge>
+                      <Badge variant="success" size="compact">+{a.xpEarned} XP</Badge>
                     </div>
                   </Card>
                 ))}

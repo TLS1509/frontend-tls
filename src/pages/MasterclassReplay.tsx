@@ -34,8 +34,8 @@ export default function MasterclassReplay() {
         summary="Session du 15 juin 2026 · Marie Fontaine"
         trailing={
           <div className="flex gap-stack-xs flex-wrap">
-            <Badge variant="success" size="md">✓ Participé</Badge>
-            <Badge variant="success" size="md">+150 XP</Badge>
+            <Badge variant="success" size="normal">✓ Participé</Badge>
+            <Badge variant="success" size="normal">+150 XP</Badge>
           </div>
         }
       />
@@ -62,7 +62,7 @@ export default function MasterclassReplay() {
               </p>
               <div className="flex flex-wrap gap-stack-xs mt-tight">
                 {KEY_THEMES.map((theme) => (
-                  <Badge key={theme} variant="info" size="sm">{theme}</Badge>
+                  <Badge key={theme} variant="info" size="compact">{theme}</Badge>
                 ))}
               </div>
             </SectionCard>

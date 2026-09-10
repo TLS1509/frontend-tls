@@ -326,7 +326,7 @@ export default function Passeport() {
                             <p className="text-caption text-ink-600">{skill.reason}</p>
                           </div>
                         </div>
-                        <Badge variant="sun" size="sm">{skill.synergy}</Badge>
+                        <Badge variant="sun" size="compact">{skill.synergy}</Badge>
                         <p className="text-caption text-ink-500">~{skill.estimatedWeeks} semaines d'apprentissage</p>
                         <div className="text-caption text-accent-600 group-hover:text-accent-700 transition-colors font-medium">
                           Créer objectif →
@@ -373,7 +373,7 @@ export default function Passeport() {
                     <div className="flex items-start justify-between gap-stack-xs">
                       <div className="flex flex-col gap-tight flex-1 min-w-0">
                         <span className="text-body-sm font-semibold text-ink-900">{c.label}</span>
-                        <Badge variant={DOMAIN_COLORS[c.domain]} size="sm">
+                        <Badge variant={DOMAIN_COLORS[c.domain]} size="compact">
                           {domainLabel(c.domain)}
                         </Badge>
                       </div>
@@ -387,7 +387,7 @@ export default function Passeport() {
                         <span className="text-caption text-ink-500">→ D{c.target}</span>
                       )}
                       {c.target === c.level && (
-                        <Badge variant="success" size="sm">Atteint</Badge>
+                        <Badge variant="success" size="compact">Atteint</Badge>
                       )}
                     </div>
                     <ProgressBar

@@ -61,7 +61,7 @@ export default function AtelierPresentiel() {
         title="Atelier Gestion du stress"
         summary="Session en présentiel · Sophie Martin"
         trailing={
-          <Badge variant="danger" size="md" className="animate-pulse">🔴 AUJOURD'HUI</Badge>
+          <Badge variant="danger" size="normal" className="animate-pulse">🔴 AUJOURD'HUI</Badge>
         }
       />
 
@@ -117,7 +117,7 @@ export default function AtelierPresentiel() {
           <div className="flex flex-col gap-stack-xs">
             {PROGRAMME.map((item, idx) => (
               <div key={idx} className="flex items-center gap-stack flex-wrap">
-                <Badge variant="info" size="sm">{item.time}</Badge>
+                <Badge variant="info" size="compact">{item.time}</Badge>
                 <span className="text-body-sm text-ink-700 flex-1">{item.label}</span>
                 <span className="text-caption text-ink-600">{item.duration}</span>
               </div>
@@ -136,7 +136,7 @@ export default function AtelierPresentiel() {
                 key={idx}
                 icon={<FileText size={14} />}
                 label={res.label}
-                badge={<Badge variant="neutral" size="sm">{res.type}</Badge>}
+                badge={<Badge variant="neutral" size="compact">{res.type}</Badge>}
                 action={
                   <Button variant="ghost" size="sm" leadingIcon={<Download size={14} />}>
                     Télécharger

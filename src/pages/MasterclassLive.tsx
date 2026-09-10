@@ -36,7 +36,7 @@ export default function MasterclassLive() {
         summary="Session en cours avec Marie Fontaine · DRH · Groupe Vinci"
         trailing={
           <div className="flex items-center gap-stack-xs flex-wrap">
-            <Badge variant="danger" size="md" className="animate-pulse">🔴 EN DIRECT</Badge>
+            <Badge variant="danger" size="normal" className="animate-pulse">🔴 EN DIRECT</Badge>
             <span className="text-caption text-white/70 flex items-center gap-tight">
               <Users size={14} />
               127 participants

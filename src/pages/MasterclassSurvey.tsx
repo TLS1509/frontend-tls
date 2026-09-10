@@ -70,7 +70,7 @@ export default function MasterclassSurvey() {
         <div className="text-center flex flex-col gap-tight">
           {masterclass && (
             <div className="flex justify-center">
-              <Badge variant="info" size="md">{masterclass.title}</Badge>
+              <Badge variant="info" size="normal">{masterclass.title}</Badge>
             </div>
           )}
           <h1 className="text-h2 font-display font-bold text-ink-900 text-balance">

@@ -153,7 +153,7 @@ export const Project: React.FC = () => {
                         </div>
                         <div className="flex items-center gap-1.5 shrink-0">
                           <Avatar initials={task.assignedToInitials} size="sm" />
-                          <Badge variant={TASK_STATUS_VARIANTS[task.status]} size="sm">
+                          <Badge variant={TASK_STATUS_VARIANTS[task.status]} size="compact">
                             {TASK_STATUS_LABELS[task.status]}
                           </Badge>
                         </div>

@@ -142,8 +142,8 @@ export default function ProfilePrivacy() {
         tone="flat"
         trailing={
           <div className="flex items-center gap-stack-xs flex-wrap">
-            <Badge variant="success" size="md">RGPD conforme</Badge>
-            <Badge variant="info" size="md">IA Act conforme</Badge>
+            <Badge variant="success" size="normal">RGPD conforme</Badge>
+            <Badge variant="info" size="normal">IA Act conforme</Badge>
           </div>
         }
       />
@@ -229,9 +229,9 @@ export default function ProfilePrivacy() {
             Tu peux modifier tes préférences à tout moment : les changements prennent effet immédiatement.
           </p>
           <div className="flex items-center gap-stack-xs flex-wrap">
-            <Badge variant="info" size="sm">Hébergement EU</Badge>
-            <Badge variant="success" size="sm">Chiffrement AES-256</Badge>
-            <Badge variant="neutral" size="sm">Rétention 3 ans max</Badge>
+            <Badge variant="info" size="compact">Hébergement EU</Badge>
+            <Badge variant="success" size="compact">Chiffrement AES-256</Badge>
+            <Badge variant="neutral" size="compact">Rétention 3 ans max</Badge>
           </div>
         </Card>
 
@@ -343,7 +343,7 @@ export default function ProfilePrivacy() {
                 </div>
                 <Badge
                   variant={h.action === 'Accepté' ? 'success' : 'neutral'}
-                  size="sm"
+                  size="compact"
                 >
                   {h.action}
                 </Badge>

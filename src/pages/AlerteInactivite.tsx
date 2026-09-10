@@ -23,7 +23,7 @@ const ALERT_HISTORY_ROWS = [
       </div>
     ),
     jours: <span className="font-bold text-danger-fg">21 jours</span>,
-    statut: <Badge variant="danger" size="sm">En cours</Badge>,
+    statut: <Badge variant="danger" size="compact">En cours</Badge>,
     date: <span className="text-caption text-ink-600">08 mai 2026</span>,
     action: (
       <Button variant="link" size="sm">
@@ -39,7 +39,7 @@ const ALERT_HISTORY_ROWS = [
       </div>
     ),
     jours: <span className="font-bold text-success-fg">18 jours</span>,
-    statut: <Badge variant="success" size="sm">Résolue</Badge>,
+    statut: <Badge variant="success" size="compact">Résolue</Badge>,
     date: <span className="text-caption text-ink-600">05 mai 2026</span>,
     action: (
       <Button variant="link" size="sm">
@@ -55,7 +55,7 @@ const ALERT_HISTORY_ROWS = [
       </div>
     ),
     jours: <span className="font-bold text-warning-fg">16 jours</span>,
-    statut: <Badge variant="sun" size="sm">En cours</Badge>,
+    statut: <Badge variant="sun" size="compact">En cours</Badge>,
     date: <span className="text-caption text-ink-600">03 mai 2026</span>,
     action: (
       <Button variant="link" size="sm">
@@ -71,7 +71,7 @@ const ALERT_HISTORY_ROWS = [
       </div>
     ),
     jours: <span className="font-bold text-ink-500">14 jours</span>,
-    statut: <Badge variant="neutral" size="sm">Ignorée</Badge>,
+    statut: <Badge variant="neutral" size="compact">Ignorée</Badge>,
     date: <span className="text-caption text-ink-600">28 avr. 2026</span>,
     action: (
       <Button variant="link" size="sm">
@@ -87,7 +87,7 @@ const ALERT_HISTORY_ROWS = [
       </div>
     ),
     jours: <span className="font-bold text-success-fg">19 jours</span>,
-    statut: <Badge variant="success" size="sm">Résolue</Badge>,
+    statut: <Badge variant="success" size="compact">Résolue</Badge>,
     date: <span className="text-caption text-ink-600">25 avr. 2026</span>,
     action: (
       <Button variant="link" size="sm">
@@ -225,7 +225,7 @@ export default function AlerteInactivite() {
           titleIcon={<Clock size={18} />}
           description="Les 30 derniers jours · Mis à jour en temps réel."
           headerAction={
-            <Badge variant="neutral" size="sm">5 alertes affichées</Badge>
+            <Badge variant="neutral" size="compact">5 alertes affichées</Badge>
           }
         >
           <DataTable

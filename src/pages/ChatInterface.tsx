@@ -159,7 +159,7 @@ export default function ChatInterface() {
         summary="Posez vos questions sur vos formations, demandez de l'aide sur un concept ou explorez vos compétences."
         tone="flat"
         trailing={
-          <Badge variant="info" size="md">RAG · Mistral</Badge>
+          <Badge variant="info" size="normal">RAG · Mistral</Badge>
         }
       />
 
@@ -250,9 +250,9 @@ export default function ChatInterface() {
                 Les réponses sont générées uniquement depuis le contenu indexé de la plateforme (formations, Passeport, Coaching, Missions). Aucune donnée externe.
               </p>
               <div className="flex flex-wrap gap-tight mt-1">
-                <Badge variant="info" size="sm">Contenu Formation</Badge>
-                <Badge variant="info" size="sm">Passeport</Badge>
-                <Badge variant="info" size="sm">Missions</Badge>
+                <Badge variant="info" size="compact">Contenu Formation</Badge>
+                <Badge variant="info" size="compact">Passeport</Badge>
+                <Badge variant="info" size="compact">Missions</Badge>
               </div>
             </Card>
           </aside>

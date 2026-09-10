@@ -213,7 +213,7 @@ export default function CoachTeamDashboard() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-stack-xs flex-wrap">
                           <span className="text-body-sm font-semibold text-ink-900">{learner.name}</span>
-                          <Badge variant={STATUS_VARIANT[learner.status]} size="sm">
+                          <Badge variant={STATUS_VARIANT[learner.status]} size="compact">
                             {STATUS_LABEL[learner.status]}
                           </Badge>
                         </div>
@@ -256,7 +256,7 @@ export default function CoachTeamDashboard() {
                     specialties={p.competencyScores.slice(0, 2).map((c) => c.label)}
                     variant="default"
                     align="center"
-                    cta={<Badge variant="success" size="sm">D{p.dreyfusAvg.toFixed(1)}</Badge>}
+                    cta={<Badge variant="success" size="compact">D{p.dreyfusAvg.toFixed(1)}</Badge>}
                   />
                 </div>
               ))}
