@@ -14,6 +14,7 @@
  */
 
 import React from 'react';
+import { Button } from '../core/Button';
 import { CardTitle, CardDesc } from '../core/Card';
 import { Avatar } from '../ui/Avatar';
 import { CalendarClock, FileText, ClipboardList, Notebook, Check, ArrowRight } from 'lucide-react';
@@ -187,24 +188,21 @@ export const SessionCard: React.FC<SessionCardProps> = ({
               {journal ? 'Ma note' : 'Note'}
             </button>
           )}
+          {/* Le CTA passait par un <button> habillé à la main : 36 px de haut,
+              donc sous la cible de 44, et hors de portée des décisions boutons.
+              Migré le 2026-09-10. Le ton `neutral` en état terminé remplace
+              l'ancien `bg-ink-900`, qui disait la même chose sans le dire. */}
           {onOpen && (
-            <button
-              type="button"
+            <Button
+              size="sm"
+              emphasis="solid"
+              tone={isCompleted ? 'neutral' : 'brand'}
               onClick={onOpen}
-              className={[
-                'ml-auto inline-flex items-center gap-1.5 h-9 px-4 rounded-pill shrink-0',
-                'text-caption font-body font-bold whitespace-nowrap cursor-pointer',
-                'transition-[background-color,transform,box-shadow] duration-fast ease-emphasis hover:-translate-y-px',
-                'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
-                isCompleted
-                  ? 'bg-ink-900 text-white hover:bg-ink-800'
-                  : 'bg-primary-600 text-white hover:bg-primary-700 shadow-brand-sm hover:shadow-brand-md',
-                '[&>svg]:transition-transform group-hover:[&>svg]:translate-x-0.5',
-              ].join(' ')}
+              trailingIcon={<ArrowRight />}
+              className="ml-auto shrink-0"
             >
               Voir la session
-              <ArrowRight size={14} aria-hidden />
-            </button>
+            </Button>
           )}
         </div>
       )}

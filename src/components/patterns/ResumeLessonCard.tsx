@@ -13,6 +13,7 @@
  */
 
 import React from 'react';
+import { Button } from '../core/Button';
 import { ArrowRight, Play, Target } from 'lucide-react';
 import { MetaPillGroup, type MetaPillItem } from '../ui/MetaPillGroup';
 
@@ -58,12 +59,6 @@ const STATUS_CHIP: Record<ResumeLessonTone, string> = {
   primary: 'bg-primary-100 text-primary-700',
   warm:    'bg-secondary-100 text-secondary-700',
   sun:     'bg-accent-100 text-accent-800',
-};
-
-const CTA_CLASSES: Record<ResumeLessonTone, string> = {
-  primary: 'bg-primary-600 text-white hover:bg-primary-700 active:bg-primary-800 shadow-brand-sm hover:shadow-brand-md',
-  warm:    'bg-secondary-500 text-white hover:bg-secondary-600 active:bg-secondary-700 shadow-warm-sm hover:shadow-warm-md',
-  sun:     'bg-accent-400 text-accent-900 hover:bg-accent-500 active:bg-accent-600 shadow-sun-sm',
 };
 
 const PROGRESS_FILL: Record<ResumeLessonTone, string> = {
@@ -211,24 +206,21 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
           </div>
         </div>
 
-        <button
-          type="button"
+        {/* Le CTA refaisait à la main ce que <Button emphasis="solid"> rend déjà,
+            à 44 px près — il était à 44 par chance, pas par token. La map
+            CTA_CLASSES est remplacée par le ton : les trois entrées reproduisaient
+            primary / secondary / accent, c'est-à-dire brand / warm / sun. */}
+        <Button
+          size="md"
+          emphasis="solid"
+          tone={tone === 'primary' ? 'brand' : tone}
           onClick={(e) => { e.stopPropagation(); onClick?.(id); }}
           aria-label={ctaLabel}
-          className={[
-            'inline-flex items-center justify-center gap-1.5 shrink-0',
-            'h-11 px-5 rounded-pill text-body-sm font-body font-bold whitespace-nowrap',
-            'w-full @lg:w-auto',
-            'transition-[background-color,transform,box-shadow] duration-fast ease-emphasis',
-            'hover:-translate-y-px active:translate-y-0',
-            'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-400',
-            CTA_CLASSES[tone],
-            '[&>svg]:transition-transform group-hover:[&>svg]:translate-x-0.5',
-          ].join(' ')}
+          trailingIcon={<ArrowRight />}
+          className="shrink-0 w-full @lg:w-auto"
         >
           {ctaLabel}
-          <ArrowRight size={16} aria-hidden />
-        </button>
+        </Button>
       </div>
     </article>
   );
