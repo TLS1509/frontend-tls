@@ -55,7 +55,7 @@
 
   body {
     font-family: var(--font-body);
-    font-size: var(--t-body);
+    font-size: var(--text-body);
     line-height: 1.55;
     color: var(--text);
     background-color: var(--bg);
@@ -76,7 +76,7 @@
 
   /* Typography */
   h1 {
-    font-size: var(--t-h1);
+    font-size: var(--text-h1);
     font-family: var(--font-display);
     font-weight: 600;
     letter-spacing: var(--tracking-display);
@@ -85,7 +85,7 @@
   }
 
   h2 {
-    font-size: var(--t-h2);
+    font-size: var(--text-h2);
     font-family: var(--font-display);
     font-weight: 600;
     letter-spacing: var(--tracking-headline);
@@ -94,7 +94,7 @@
   }
 
   h3 {
-    font-size: var(--t-h3);
+    font-size: var(--text-h3);
     font-family: var(--font-display);
     font-weight: 600;
     letter-spacing: var(--tracking-headline);
@@ -103,7 +103,7 @@
   }
 
   h4 {
-    font-size: var(--t-h4);
+    font-size: var(--text-h4);
     font-family: var(--font-display);
     font-weight: 600;
     letter-spacing: var(--tracking-snug);
@@ -112,7 +112,7 @@
   }
 
   p {
-    font-size: var(--t-body);
+    font-size: var(--text-body);
     line-height: 1.55;
     color: var(--text);
     margin: 0;

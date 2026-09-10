@@ -9228,15 +9228,16 @@ const PAGE_STYLES = `
     display: flex; flex-direction: column; gap: var(--s-3);
   }
   .ds-hero__eyebrow {
-    font-size: var(--t-micro); font-weight: 700; letter-spacing: .06em;
+    font-size: var(--text-micro); font-weight: 700; letter-spacing: .06em;
     text-transform: uppercase; color: var(--tls-primary-800); margin: 0;
   }
   .ds-hero__title {
     font-family: 'League Spartan', sans-serif;
-    font-size: var(--t-display-lg); line-height: 1.05; margin: 0;
+    font-size: var(--text-section); line-height: 1.05; margin: 0;
+    font-weight: 800;
     color: var(--tls-primary-900);
   }
-  .ds-hero__desc { margin: 0; color: var(--tls-primary-800); font-size: var(--t-body-lg); max-width: 70ch; }
+  .ds-hero__desc { margin: 0; color: var(--tls-primary-800); font-size: var(--text-body-lg); max-width: 70ch; }
   .ds-hero__desc code {
     font-family: 'JetBrains Mono', monospace; font-size: .95em;
     background: rgba(255,255,255,0.55); padding: 1px 6px; border-radius: var(--r-sm);
@@ -9248,7 +9249,7 @@ const PAGE_STYLES = `
     color: var(--tls-primary-800);
   }
   .ds-hero__stats span {
-    font-size: var(--t-micro); text-transform: uppercase; letter-spacing: .06em;
+    font-size: var(--text-micro); text-transform: uppercase; letter-spacing: .06em;
     color: var(--tls-primary-700); margin-top: 4px;
   }
 
@@ -9267,7 +9268,7 @@ const PAGE_STYLES = `
     background: var(--surface);
     padding: var(--s-1-5) var(--s-3);
     border-radius: var(--r-pill);
-    font-size: var(--t-caption);
+    font-size: var(--text-caption);
     font-weight: 600;
     color: var(--text-muted);
     cursor: pointer;
@@ -9284,11 +9285,11 @@ const PAGE_STYLES = `
     padding-bottom: var(--s-3); border-bottom: 1px solid var(--border);
   }
   .ds-section__title {
-    font-family: 'League Spartan', sans-serif; font-size: var(--t-h1);
+    font-family: 'League Spartan', sans-serif; font-size: var(--text-h1);
     margin: 0; color: var(--text);
   }
   .ds-section__count {
-    font-size: var(--t-caption); color: var(--text-muted); font-weight: 500;
+    font-size: var(--text-caption); color: var(--text-muted); font-weight: 500;
   }
 
   .ds-component-list { display: flex; flex-direction: column; gap: var(--s-6); }
@@ -9304,16 +9305,20 @@ const PAGE_STYLES = `
     flex-wrap: wrap; align-items: flex-start;
   }
   .ds-component__name {
-    font-family: 'League Spartan', sans-serif; font-size: var(--t-h3);
-    margin: 0; color: var(--text);
+    /* Lisait var(--t-h3) — l'échelle jumelle périmée, à 22 px — et n'écrivait
+       aucune graisse, donc héritait 400. Un titre de fiche rendu plus petit et
+       plus léger que ce que le système déclare, dans la page qui EXPOSE ce
+       système. Rebranché sur @theme le 2026-09-10. */
+    font-family: 'League Spartan', sans-serif; font-size: var(--text-h3);
+    font-weight: 700; margin: 0; color: var(--text);
   }
   .ds-component__desc {
-    margin: 4px 0 0; color: var(--text-muted); font-size: var(--t-body-sm);
+    margin: 4px 0 0; color: var(--text-muted); font-size: var(--text-body-sm);
     max-width: 70ch;
   }
   .ds-component__chips { display: flex; gap: var(--s-1-5); align-items: center; flex-wrap: wrap; }
   .ds-component__cat {
-    font-size: var(--t-micro); font-weight: 700; letter-spacing: .06em;
+    font-size: var(--text-micro); font-weight: 700; letter-spacing: .06em;
     text-transform: uppercase; color: var(--tls-primary-700);
     background: var(--tls-primary-50); padding: var(--s-1) var(--s-2); border-radius: var(--r-sm);
   }
@@ -9340,7 +9345,7 @@ const PAGE_STYLES = `
     border: 1px solid var(--border);
     border-radius: var(--r-md);
     padding: var(--s-1) var(--s-2);
-    font-family: 'JetBrains Mono', monospace; font-size: var(--t-caption);
+    font-family: 'JetBrains Mono', monospace; font-size: var(--text-caption);
     color: var(--text); cursor: pointer;
     transition: all var(--dur-2) var(--ease-standard);
   }
@@ -9352,7 +9357,7 @@ const PAGE_STYLES = `
   .ds-token-group { display: flex; flex-direction: column; gap: var(--s-3); margin-top: var(--s-5); }
   .ds-token-group__title {
     font-family: 'League Spartan', sans-serif;
-    font-size: var(--t-h4); margin: 0; color: var(--text);
+    font-size: var(--text-h4); margin: 0; color: var(--text);
   }
   .ds-token-grid {
     display: grid; gap: var(--s-3);
@@ -9392,7 +9397,7 @@ const PAGE_STYLES = `
   }
   .token-card__meta { display: flex; flex-direction: column; gap: var(--s-1); }
   .token-card__name {
-    margin: 0; font-size: var(--t-caption); font-weight: 600; color: var(--text);
+    margin: 0; font-size: var(--text-caption); font-weight: 600; color: var(--text);
   }
   .token-card__value {
     margin: 0; font-family: 'JetBrains Mono', monospace;

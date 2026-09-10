@@ -289,7 +289,7 @@ const LAYOUT_STYLES = `
     background: transparent;
     outline: none;
     flex: 1;
-    font-size: var(--t-body-sm);
+    font-size: var(--text-body-sm);
     padding: var(--s-2) 0;
     color: var(--text);
   }
@@ -314,7 +314,7 @@ const LAYOUT_STYLES = `
     display: flex;
     align-items: center;
     gap: var(--s-1);
-    font-size: var(--t-body-sm);
+    font-size: var(--text-body-sm);
     font-weight: 600;
     color: var(--text-muted);
     white-space: nowrap;
@@ -333,7 +333,7 @@ const LAYOUT_STYLES = `
     background: var(--surface);
     color: var(--text);
     border-radius: var(--r-pill);
-    font-size: var(--t-body-xs);
+    font-size: var(--text-caption);
     font-weight: 500;
     cursor: pointer;
     transition: all 150ms ease;
@@ -371,7 +371,7 @@ const LAYOUT_STYLES = `
     background: var(--surface);
     color: var(--text);
     border-radius: var(--r-md);
-    font-size: var(--t-body-xs);
+    font-size: var(--text-caption);
     font-weight: 500;
     cursor: pointer;
     transition: all 150ms ease;
@@ -394,7 +394,7 @@ const LAYOUT_STYLES = `
     background: var(--surface);
     color: var(--text);
     border-radius: var(--r-md);
-    font-size: var(--t-body-xs);
+    font-size: var(--text-caption);
     font-weight: 500;
     cursor: pointer;
     transition: all 150ms ease;
@@ -452,7 +452,7 @@ const LAYOUT_STYLES = `
     }
 
     .ds-search-input {
-      font-size: var(--t-body-xs);
+      font-size: var(--text-caption);
     }
 
     .ds-filter-section {
@@ -460,7 +460,7 @@ const LAYOUT_STYLES = `
     }
 
     .ds-filter-label {
-      font-size: var(--t-body-xs);
+      font-size: var(--text-caption);
       display: none;
     }
 
@@ -470,7 +470,7 @@ const LAYOUT_STYLES = `
 
     .ds-filter-pill {
       padding: var(--s-1) var(--s-2-5);
-      font-size: var(--t-micro);
+      font-size: var(--text-micro);
     }
 
     .ds-controls-row {
@@ -480,7 +480,7 @@ const LAYOUT_STYLES = `
     .ds-select,
     .ds-toggle-button {
       padding: var(--chip-padding-xs);
-      font-size: var(--t-micro);
+      font-size: var(--text-micro);
     }
 
     .ds-content {
