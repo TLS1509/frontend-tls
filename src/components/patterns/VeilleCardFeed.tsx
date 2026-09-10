@@ -16,6 +16,7 @@
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
+import { GRID_CONTAINER, GRID_COLS_CONTENT } from '../../lib/grid-columns';
 import {
   Bookmark,
   BookmarkCheck,
@@ -242,7 +243,7 @@ export const VeilleCardListItem: React.FC<VeilleCardProps> = ({ item, surface, i
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onClick?.(item); }}
       aria-label={`${isVideo ? 'Visionner' : 'Lire'} : ${item.title}`}
       className={[
-        'group relative flex items-stretch gap-0 rounded-2xl border overflow-hidden cursor-pointer',
+        '@container group relative flex items-stretch gap-0 rounded-2xl border overflow-hidden cursor-pointer',
         'transition-all duration-base hover:-translate-y-0.5 hover:shadow-lg',
         'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
         surface === 'glass' ? SURFACE_GLASS : 'bg-white border-ink-200 hover:border-ink-300',
@@ -250,7 +251,7 @@ export const VeilleCardListItem: React.FC<VeilleCardProps> = ({ item, surface, i
       ].join(' ')}
     >
       {/* Cover gradient left — badge catégorie overlaid en bas */}
-      <div className={['relative w-28 sm:w-36 shrink-0 overflow-hidden rounded-l-2xl', COVER_GRADIENT[tone]].join(' ')}>
+      <div className={['relative w-28 @lg:w-36 shrink-0 overflow-hidden rounded-l-2xl', COVER_GRADIENT[tone]].join(' ')}>
         <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'radial-gradient(circle at 30% 40%, rgba(255,255,255,0.6) 0%, transparent 60%)' }} aria-hidden />
         <div className="absolute inset-0 flex items-center justify-center">
           <TypeIcon size={40} strokeWidth={1.5} className="text-white/95 transition-transform duration-base group-hover:scale-110" />
@@ -271,14 +272,14 @@ export const VeilleCardListItem: React.FC<VeilleCardProps> = ({ item, surface, i
       </div>
 
       {/* Body content — titre → meta → summary */}
-      <div className="flex-1 min-w-0 flex flex-col gap-tight p-4 sm:p-5 justify-center">
+      <div className="flex-1 min-w-0 flex flex-col gap-tight p-4 @lg:p-5 justify-center">
         <div className="flex items-start gap-2 min-w-0">
           {item.isNew && (
             <span className="shrink-0 inline-flex px-2 py-0.5 rounded-pill bg-success-bg text-success-fg text-micro font-bold uppercase tracking-wide leading-none mt-px">
               Nouveau
             </span>
           )}
-          <h3 className="font-display text-body sm:text-h4 font-bold text-ink-900 leading-tight line-clamp-2">
+          <h3 className="font-display text-body @lg:text-h4 font-bold text-ink-900 leading-tight line-clamp-2">
             {item.title}
           </h3>
         </div>
@@ -291,7 +292,7 @@ export const VeilleCardListItem: React.FC<VeilleCardProps> = ({ item, surface, i
           <span aria-hidden>·</span>
           <span className="inline-flex items-center gap-tight"><Clock size={14} strokeWidth={2} />{item.readTime}</span>
         </div>
-        <p className="m-0 font-body text-caption sm:text-body-sm text-ink-600 leading-relaxed line-clamp-2">
+        <p className="m-0 font-body text-caption @lg:text-body-sm text-ink-600 leading-relaxed line-clamp-2">
           {item.summary}
         </p>
       </div>
@@ -335,20 +336,21 @@ export const FeaturedSpotlight: React.FC<FeaturedSpotlightProps> = ({ item, isSa
   const { TypeIcon, tone } = item;
 
   return (
+    <div className="@container">
     <article
       role="button"
       tabIndex={0}
       onClick={() => onClick?.(item)}
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onClick?.(item); }}
       className={[
-        'group relative grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] rounded-lg border border-ink-200 bg-white overflow-hidden cursor-pointer',
+        'group relative grid grid-cols-1 @2xl:grid-cols-[1.1fr_1fr] rounded-lg border border-ink-200 bg-white overflow-hidden cursor-pointer',
         'transition-all duration-base hover:-translate-y-1 hover:shadow-xl',
         'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
         ROLE_BUTTON_RESET,
       ].join(' ')}
     >
       {/* Cover (left) — gradient + icon */}
-      <div className={['relative min-h-[240px] lg:min-h-[300px] overflow-hidden rounded-t-2xl lg:rounded-l-2xl lg:rounded-tr-none', COVER_GRADIENT[tone]].join(' ')}>
+      <div className={['relative min-h-[240px] @2xl:min-h-[300px] overflow-hidden rounded-t-2xl @2xl:rounded-l-2xl @2xl:rounded-tr-none', COVER_GRADIENT[tone]].join(' ')}>
         <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.6) 0%, transparent 60%)' }} aria-hidden />
         <div className="absolute inset-0 flex items-center justify-center">
           <TypeIcon size={96} strokeWidth={1.25} className="text-white/90 transition-transform duration-base group-hover:scale-110" />
@@ -374,7 +376,7 @@ export const FeaturedSpotlight: React.FC<FeaturedSpotlightProps> = ({ item, isSa
       </div>
 
       {/* Content (right) */}
-      <div className="flex flex-col gap-stack p-6 lg:p-8 justify-center">
+      <div className="flex flex-col gap-stack p-stack-lg justify-center">
         <span className={['inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-pill border text-micro font-bold uppercase tracking-wider', BADGE_STYLE[tone]].join(' ')}>
           <TypeIcon size={14} strokeWidth={2.5} /> {item.typeLabel} · {item.category}
         </span>
@@ -402,6 +404,7 @@ export const FeaturedSpotlight: React.FC<FeaturedSpotlightProps> = ({ item, isSa
         </Button>
       </div>
     </article>
+    </div>
   );
 };
 
@@ -444,13 +447,13 @@ export const FeaturedSpotlightCarousel: React.FC<FeaturedSpotlightCarouselProps>
 
   return (
     <div
-      className="relative rounded-lg overflow-hidden border border-ink-200 bg-white"
+      className="@container relative rounded-lg overflow-hidden border border-ink-200 bg-white"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr]">
+      <div className="grid grid-cols-1 @2xl:grid-cols-[1.1fr_1fr]">
         {/* Cover (left) */}
-        <div className={['relative min-h-[240px] lg:min-h-[320px] overflow-hidden rounded-t-2xl lg:rounded-l-2xl lg:rounded-tr-none', COVER_GRADIENT[tone]].join(' ')}>
+        <div className={['relative min-h-[240px] @2xl:min-h-[320px] overflow-hidden rounded-t-2xl @2xl:rounded-l-2xl @2xl:rounded-tr-none', COVER_GRADIENT[tone]].join(' ')}>
           <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.6) 0%, transparent 60%)' }} aria-hidden />
           <div className="absolute inset-0 flex items-center justify-center">
             <TypeIcon size={96} strokeWidth={1.25} className="text-white/90 transition-transform duration-slow" />
@@ -520,7 +523,7 @@ export const FeaturedSpotlightCarousel: React.FC<FeaturedSpotlightCarouselProps>
 
         {/* Content (right) */}
         <div
-          className="flex flex-col gap-stack p-6 lg:p-8 justify-center cursor-pointer group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+          className="flex flex-col gap-stack p-stack-lg justify-center cursor-pointer group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           onClick={() => onClick?.(item)}
           tabIndex={0}
           role="button"
@@ -633,7 +636,8 @@ export const VeilleCardFeed: React.FC<VeilleCardFeedProps> = ({
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-stack-lg">
+          <div className={GRID_CONTAINER}>
+          <div className={`grid ${GRID_COLS_CONTENT[3]} gap-stack-lg`}>
             {others.map((item) => (
               <VeilleCard
                 key={item.id}
@@ -645,6 +649,7 @@ export const VeilleCardFeed: React.FC<VeilleCardFeedProps> = ({
                 onClick={onItemClick}
               />
             ))}
+          </div>
           </div>
         )
       )}

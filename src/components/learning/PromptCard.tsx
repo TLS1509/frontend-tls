@@ -122,8 +122,14 @@ export const PromptCard: React.FC<PromptCardProps> = ({
       <div
         className={[
           BASE_INTERACTIVE,
-          'flex flex-col md:flex-row items-stretch md:items-center gap-stack md:gap-7',
-          'p-6 md:p-8',
+          /* `@container` : la bulle bascule en ligne selon SA largeur, pas celle
+             de l'écran. Son padding reste fixe au canon des cartes (24 px) —
+             une requête de conteneur ne peut pas mesurer l'élément qui la porte,
+             et ce padding décale de toute façon les seuils des descendants :
+             `@xl` (576 px de contenu) se déclenche ici à 624 px de bulle. */
+          '@container',
+          'flex flex-col @xl:flex-row items-stretch @xl:items-center gap-stack @xl:gap-7',
+          'p-stack-lg',
           hoverBg,
           hoverShadow,
           className,
@@ -135,7 +141,7 @@ export const PromptCard: React.FC<PromptCardProps> = ({
         tabIndex={0}
         role="button"
       >
-        <div className="shrink-0 self-start md:self-center inline-flex items-center justify-center w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-gradient-to-br from-white via-primary-50/40 to-secondary-50/40 shadow-sm transition-transform duration-300 group-hover:scale-105">
+        <div className="shrink-0 self-start @xl:self-center inline-flex items-center justify-center w-16 h-16 @xl:w-20 @xl:h-20 rounded-2xl bg-gradient-to-br from-white via-primary-50/40 to-secondary-50/40 shadow-sm transition-transform duration-300 group-hover:scale-105">
           {icon}
         </div>
 
@@ -143,12 +149,12 @@ export const PromptCard: React.FC<PromptCardProps> = ({
           <Badge variant={variant} className="self-start">
             {label}
           </Badge>
-          <p className="m-0 font-display text-h3 md:text-h2 font-semibold text-ink-900 leading-snug text-balance">
+          <p className="m-0 font-display text-h3 @xl:text-h2 font-semibold text-ink-900 leading-snug text-balance">
             {text}
           </p>
         </div>
 
-        <div className="shrink-0 self-start md:self-center">
+        <div className="shrink-0 self-start @xl:self-center">
           <span className="inline-flex items-center gap-stack-xs px-5 h-11 rounded-pill bg-primary-600 text-white text-body-sm font-semibold transition-all group-hover:bg-primary-700 group-hover:-translate-y-px">
             {ctaLabel ?? 'Écrire ma réflexion'}
             <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
