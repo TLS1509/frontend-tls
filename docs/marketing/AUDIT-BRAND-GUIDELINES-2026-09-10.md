@@ -6,8 +6,9 @@
 confrontation de chaque valeur à `src/index.css` et aux règles du dépôt. Aucun chiffre ci-dessous
 n'est estimé.
 
-> ⚠️ **Rien n'a pu être corrigé dans Notion.** Voir §4 : un défaut de l'API rend la page
-> inscriptible. Ce document est donc, pour l'instant, le seul endroit où ces constats existent.
+> ✅ **Corrigé le 10/09/2026.** La page a été **entièrement reconstruite** : 1 552 lignes → 130.
+> Ce document reste le relevé de ce qui s'y trouvait, et la justification de chaque retrait.
+> Voir §6.
 
 ---
 
@@ -57,22 +58,21 @@ du sens retenu : la source est `src/index.css`, et les autres surfaces en descen
 - **Titres en anglais** au milieu d'une page française : *Logos and Logo Variation*, *Typography*,
   *Image Style and Photography*, *All Brand Assets*.
 
-## 4. Pourquoi rien n'a été corrigé — et le déblocage, qui prend cinq secondes
+## 4. Ce qui bloquait l'écriture — résolu
 
-Toute écriture de contenu sur cette page échoue, quelle qu'elle soit :
+Toute écriture de contenu échouait, quelle qu'elle soit :
 
 ```
 validation_error — /icons/eye_orange.svg is not a supported Notion icon.
 ```
 
-L'API re-sérialise la page entière avant d'écrire, et **une seule icône** ne survit pas à
-l'aller-retour : celle de l'encadré `**Our Brand Vision**`, dans le dépliant *Brand Vision*
-(ligne 60). Les 24 autres icônes de la page passent sans problème. `update_content` comme
-`insert_content` sont donc bloqués tant qu'elle est là.
+L'API re-sérialise la page entière avant d'écrire, et **une seule icône** ne survivait pas à
+l'aller-retour : celle de l'encadré `**Our Brand Vision**`. Les 24 autres icônes passaient.
+`update_content` comme `insert_content` étaient bloqués.
 
-**Déblocage** : ouvrir le dépliant *Brand Vision*, cliquer l'icône œil de l'encadré, la remplacer
-par n'importe quelle autre (un emoji fait l'affaire). La page redevient inscriptible et les
-corrections du §1 peuvent être appliquées.
+**Résolu** : l'icône a été changée à la main, et la page est redevenue inscriptible.
+**À retenir** : si une écriture Notion échoue sur un nom d'icône, ce n'est pas le contenu qu'on
+envoie qui est en cause — c'est un bloc préexistant ailleurs dans la page.
 
 ## 5. Le ton — rectification
 
@@ -91,3 +91,47 @@ Le problème est double, et plus précis que « rien ne tranche » :
 
 Ce n'est donc pas un ton à écrire, c'est un **arbitrage entre deux tons déjà écrits**. La matière
 existe des deux côtés ; il manque la décision.
+
+---
+
+## 6. La reconstruction — 10/09/2026
+
+**1 552 lignes → 130.** La page ne porte plus que ce qu'un fichier CSS ne peut pas dire.
+
+### Ce qui a été gardé
+
+- **Le positionnement validé**, et lui seul : la ligne affichée (vérifiable dans
+  `MarketingHome.tsx`), SBO, les six verbes de STRIDE, la bêta ouverte, le Match au futur,
+  l'équipe de deux.
+- **Les interdits d'écriture** : Qualiopi jamais, pas de CPF ni d'AI Act, aucun client nommé,
+  Open Badge sans « 2.0 », pas de prix public, attribution C-Campus.
+- **La doctrine du logo**, corrigée : six variantes et non trois, seuil aplat/dégradé à 28 px,
+  zone de protection au diamètre du cercle central, 24 px / 12 mm, plancher `primary-700`
+  pour le variant `light`.
+- **La correspondance typographique Canva** — les corps en points pour slides et vidéo, que
+  l'échelle web ne couvre pas. Sa colonne « token » a été corrigée : elle citait `font-h1`,
+  `font-lead` et `font-quote`, **qui n'existent nulle part** ; les vrais noms sont `text-*`.
+- **La base `Brand Color Palette`** — c'est le seul îlot sain de la page. Les trois conversions
+  CMJN ont été recalculées : `#55A1B4` → 53/11/0/29, `#ED843A` → 0/44/76/7, `#F8B044` →
+  0/29/73/3. **Exactes au point près.** Le CMJN est la seule donnée couleur que le code ne
+  peut pas porter, d'où sa valeur.
+- **La base `Brand Personality`** et la page enfant `Logo Guidelines`, conservées en l'état.
+
+### Une correction de fond sur le logo
+
+L'ancienne page interdisait « **d'appliquer des effets — ombres, dégradés, contours** ».
+Prise au mot, cette règle **interdisait l'identité actuelle** : la famille `-grad` et l'ombre
+portée de l'icône d'application en sont constitutives. La règle a été reformulée — le dégradé
+et l'ombre *font partie* du logo ; ce qui est interdit, c'est d'en **ajouter**.
+
+### Ce qui est parti à la corbeille
+
+La base **`Social Proof`** : deux lignes, toutes deux des gabarits du modèle acheté
+(« Person's Name », « Short testimonial from client or community member », datées de 2022).
+Récupérable 30 jours. La base **`Image Style Samples`** était un bloc cassé, sans pointeur de
+collection — l'API refusait même de la référencer.
+
+### La propriété `Summary`
+
+Elle portait encore le positionnement d'avant le pivot, et elle est **visible depuis la base
+Docs** sans ouvrir la page. Réécrite.
