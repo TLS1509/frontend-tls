@@ -546,12 +546,22 @@
 
      Au-delà de 48 px, on quitte l'icône pour l'illustration : trois usages
      (72, 96, 160 px) restent hors échelle, délibérément. */
-  --icon-size-2xs: 14px; /* micro/caption 11–13px — méta-données, pastilles, chevrons */
-  --icon-size-xs: 16px;  /* caption: 13px — icon 16px fits snug */
-  --icon-size-sm: 18px;  /* body-sm: 15px — icon 18px balanced */
-  --icon-size-md: 20px;  /* body: 16px — DEFAULT for most UI */
-  --icon-size-lg: 24px;  /* body-lg: 18px — buttons, cards */
-  --icon-size-xl: 28px;  /* h4: 20px — le plus grand des crans d'interface */
+  /* ⚠️ L'appariement au texte a été RECALCULÉ le 2026-09-10, et il ne dit plus la
+     même chose. Les commentaires précédents annonçaient « caption 13 → icône
+     16 », un rapport de 1,25 tiré des tailles nominales. Or ce n'est pas ce que
+     l'œil compare : l'encre d'une icône Lucide ne remplit que 20/24 de sa boîte,
+     et la capitale de Nunito ne vaut que 0,712 de son corps. Une icône de 16 px
+     à côté d'un caption de 13 donne donc 13,33 d'encre contre 9,26 de capitale,
+     soit 1,44 — elle domine le mot.
+
+     La règle mesurée : **le cran d'icône vaut à peu près le CORPS du texte**.
+     Table complète et raisonnement : src/lib/icon-pairing.ts. */
+  --icon-size-2xs: 14px; /* va avec caption (13) et micro (11) */
+  --icon-size-xs: 16px;  /* va avec body-sm (15) et body (16) */
+  --icon-size-sm: 18px;  /* va avec body-lg (18) */
+  --icon-size-md: 20px;  /* va avec h4 (20) */
+  --icon-size-lg: 24px;  /* va avec h3 (24) */
+  --icon-size-xl: 28px;  /* va avec h2 (28) — le plus grand cran d'interface */
   --icon-size-2xl: 32px; /* registre affichage — vignettes, en-têtes de carte */
   --icon-size-3xl: 40px; /* états vides */
   --icon-size-4xl: 48px; /* pages d'erreur, ouvertures */

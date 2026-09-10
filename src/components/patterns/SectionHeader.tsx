@@ -118,6 +118,28 @@ const SIZE_BUBBLE_RADIUS: Record<SectionHeaderSize, string> = {
   lg: 'rounded-2xl',
 };
 
+/* Le décalage qui aligne la PREMIÈRE LIGNE du titre sur le centre de la pastille.
+
+   La pastille est toujours plus haute que la ligne du titre — 44 px contre 30 en
+   taille `md`. Les centrer l'un sur l'autre demande donc de descendre le TEXTE de
+   la moitié de l'écart, et non de remonter la pastille : une marge négative sur
+   la pastille la ferait déborder au-dessus de l'en-tête.
+
+     taille   ligne   pastille   décalage
+     xs        20        32         6
+     sm        25        36         5.5 → 6
+     md        30        44         7
+     lg        35        56        10.5 → 10
+
+   Quand le titre passe sur deux lignes, le bloc entier descend d'autant, mais sa
+   première ligne reste centrée sur la pastille : c'est tout l'objet. */
+const SIZE_TITLE_OFFSET: Record<SectionHeaderSize, string> = {
+  xs: 'mt-1.5',   //  6 px
+  sm: 'mt-1.5',   //  6 px
+  md: 'mt-[7px]',
+  lg: 'mt-2.5',   // 10 px
+};
+
 const SIZE_GLYPH: Record<SectionHeaderSize, number> = {
   xs: 16,
   sm: 18,
@@ -318,9 +340,9 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
   }
 
   // ── default | solid (icon bubble) ──────────────────────────────────────────
-  // Layout uses CSS grid so the bubble icon's middle aligns with the title's
-  // first line center, and the subtitle naturally sits below the title (not
-  // under the icon) — same column offset as the title text.
+  // La grille aligne le centre de la pastille sur le centre de la PREMIÈRE LIGNE
+  // du titre, et pose le chapô sous le titre — jamais sous l'icône. Rétabli le
+  // 2026-09-10 : ce commentaire décrivait l'intention, le code faisait autre chose.
   const bubbleStyle: 'tinted' | 'solid' = variant === 'solid' ? 'solid' : 'tinted';
 
   if (!icon) {
@@ -342,34 +364,45 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
 
   return (
     <div className={wrapperBase}>
-      {/* Flex layout : icon | (title + subtitle stack centré).
-         items-center sur le flex → icône alignée verticalement au CENTRE du bloc texte.
-         Sub-stack flex-col + gap-tight → title et subtitle TIGHTLY packés (2px),
-         indépendamment de la hauteur de la bubble icône.
+      {/* Grille à deux colonnes : pastille | (titre puis chapô).
 
-         ⚠️ Trade-off design accepté : l'icône est alignée avec le CENTRE du bloc
-         (title + subtitle) plutôt qu'avec la 1ère ligne du titre, MAIS le gap
-         title↔subtitle reste tight. Priorité spacing >> alignement absolu. */}
-      <div className={['flex items-center flex-1 min-w-0', gap].join(' ')}>
-        {/* Icon — vertical center par items-center */}
+         Le compromis qui vivait ici — « l'icône s'aligne sur le centre du BLOC
+         plutôt que sur la première ligne, priorité au spacing » — n'en était pas
+         un : on peut tenir les deux. Il coûtait 11,3 px de décalage dès qu'un
+         chapô était présent, à toutes les tailles. La pastille ne désignait plus
+         le titre, elle flottait entre le titre et le chapô.
+
+         La grille place la pastille et le titre sur la MÊME rangée, et le chapô
+         sur la suivante, dans la colonne du titre — donc jamais sous l'icône.
+         `items-start` fige la pastille en haut ; le titre descend du décalage qui
+         recentre sa première ligne sur elle. Le chapô reste collé au titre par
+         `gap-tight`, ce que l'ancien commentaire craignait de perdre. */}
+      <div
+        className={[
+          'grid grid-cols-[auto_minmax(0,1fr)] items-start flex-1 min-w-0',
+          gap,
+        ].join(' ')}
+      >
+        {/* Pastille — rangée 1, colonne 1 */}
         {renderBubbleIcon(bubbleStyle)}
 
-        {/* Title + subtitle stack — tight gap entre les deux lignes */}
-        <div className="flex flex-col flex-1 min-w-0 gap-tight">
-          <h2
-            className={[
-              'font-display font-bold text-ink-900 leading-tight text-balance',
-              titleSize,
-            ].join(' ')}
-          >
-            {title}
-          </h2>
-          {subtitle && (
-            <p className="font-body text-body-sm text-ink-500 leading-snug m-0">
-              {subtitle}
-            </p>
-          )}
-        </div>
+        {/* Titre — rangée 1, colonne 2 */}
+        <h2
+          className={[
+            'font-display font-bold text-ink-900 leading-tight text-balance',
+            titleSize,
+            SIZE_TITLE_OFFSET[size],
+          ].join(' ')}
+        >
+          {title}
+        </h2>
+
+        {/* Chapô — rangée 2, colonne 2 : sous le titre, jamais sous l'icône */}
+        {subtitle && (
+          <p className="col-start-2 mt-tight font-body text-body-sm text-ink-500 leading-snug m-0">
+            {subtitle}
+          </p>
+        )}
       </div>
       {action && <div className="shrink-0 flex items-center gap-stack-xs">{action}</div>}
     </div>
