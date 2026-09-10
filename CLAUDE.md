@@ -627,6 +627,36 @@ Tone cohérent par nature d'écran : **primary** (focus / leadership) · **warm*
 
 ---
 
+## Les trois garde-fous — à lancer avant et après une décision de design
+
+```bash
+node scripts/check-handmade.mjs        # ce qui se comporte comme un composant sans en être un
+node scripts/check-token-coverage.mjs  # parité @theme ↔ vitrine, dans les deux sens
+node scripts/check-showcase-coverage.mjs  # tout composant exporté est-il classé ?
+```
+
+**Pourquoi le premier existe.** Une décision de design ne descend que dans les
+composants. Le 09/09, le rayon des cartes est passé à 14 px dans `Card.tsx` et
+**82 cartes faites main sont restées à 20 ou 24** — deux rayons de carte ont
+coexisté sans que personne le voie. Le 10/09, le filet des boutons doux a été
+fermé au cran 600 et les CTA faits main ne l'ont jamais su. Chaque élément fait
+main est une décision future qui n'arrivera pas.
+
+Il détecte **par signature, pas par nom** : non pas « ce qui s'appelle carte »
+mais « ce qui a un rayon, une surface et un padding ». Six familles — bouton,
+carte, badge d'état, ligne de méta, pastille d'icône, champ — plus les valeurs
+écrites en dur là où un token existe.
+
+⚠️ **Un chiffre n'est pas un défaut.** Beaucoup de ces éléments sont légitimes :
+sur 110 cartes faites main mesurées le 10/09, **deux seulement** étaient
+l'équivalent exact d'une `<Card>` — les autres portaient un dégradé, du verre ou
+un ratio que le composant ne couvre pas. Le détecteur dit *où regarder* ; c'est
+un humain qui décide entre migrer l'élément et étendre le composant.
+
+`--fichiers` détaille par fichier, `--famille <nom>` isole une famille.
+
+---
+
 ## Hygiène documentaire — règles anti-dérive (OBLIGATOIRE)
 
 Suite au nettoyage du 2026-06-30 (sessions d'agents ayant déversé ~20 docs en vrac + écrit des audits fabriqués) :
