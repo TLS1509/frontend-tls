@@ -1591,6 +1591,121 @@ const COMPONENTS: ComponentEntry[] = [
   },
 
 {
+    name: 'Disposition des cartes',
+    codeName: 'décision ouverte — arbitrage n°8',
+    description:
+      "Les cinq dispositions candidates, montées avec les VRAIS composants : Badge pour l'état, MetaPillGroup pour les données, Button pour le CTA. Même contenu partout — seule la place change.",
+    keywords: ['carte', 'disposition', 'statut', 'méta', 'cta', 'anatomie', 'layout'],
+    render: () => {
+      const metas = [
+        { icon: <Calendar />, text: 'Jeudi 18 sept.' },
+        { icon: <Clock3 />, text: '14 h' },
+      ];
+      const titre = 'Session de coaching';
+      const texte = 'Préparer le lancement du parcours Neuro-éducation avec Pierre-Armand.';
+      /* Une carte de démonstration : le canon du 09/09 — rayon 14, padding 24,
+         bordure ink-200, aucune ombre. */
+      const coque = 'flex flex-col rounded-lg border border-ink-200 bg-white p-stack-lg min-w-0';
+
+      return (
+        <div className="flex flex-col gap-section">
+          <ShowcaseBloc
+            titre="Cinq dispositions, mêmes composants"
+            note="L'ordre vertical et les espaces viennent de l'arbitrage n°7 : 8 px sous le badge, 4 sous le titre, 16 avant les métas, 16 avant le CTA. Ce qui change d'une carte à l'autre, c'est uniquement OÙ se posent l'état, les données et l'action."
+          >
+            <div className="grid gap-stack-lg [grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr))]">
+
+              {/* A — empilé */}
+              <div className="flex flex-col gap-stack-xs">
+                <div className={coque}>
+                  <Badge variant="warm" className="self-start">À venir</Badge>
+                  <h4 className="mt-stack-xs font-display text-h4 text-ink-900">{titre}</h4>
+                  <p className="m-0 mt-1 font-body text-body-sm text-ink-600">{texte}</p>
+                  <MetaPillGroup items={metas} className="mt-stack" />
+                  <Button size="sm" className="mt-stack self-start">Rejoindre</Button>
+                </div>
+                <span className="text-micro font-mono text-ink-500"><b>A</b> · empilé, le statut ouvre</span>
+              </div>
+
+              {/* B — barre de tête */}
+              <div className="flex flex-col gap-stack-xs">
+                <div className={coque}>
+                  <div className="flex items-start justify-between gap-stack-xs">
+                    <MetaPillGroup items={metas} />
+                    <Badge variant="warm" className="shrink-0">À venir</Badge>
+                  </div>
+                  <h4 className="mt-stack font-display text-h4 text-ink-900">{titre}</h4>
+                  <p className="m-0 mt-1 font-body text-body-sm text-ink-600">{texte}</p>
+                  <Button size="sm" className="mt-stack self-start">Rejoindre</Button>
+                </div>
+                <span className="text-micro font-mono text-ink-500"><b>B</b> · métas à gauche, statut à droite</span>
+              </div>
+
+              {/* C — statut en coin */}
+              <div className="flex flex-col gap-stack-xs">
+                <div className={coque}>
+                  <div className="flex items-start justify-between gap-stack-xs">
+                    <h4 className="font-display text-h4 text-ink-900">{titre}</h4>
+                    <Badge variant="warm" className="shrink-0 mt-0.5">À venir</Badge>
+                  </div>
+                  <p className="m-0 mt-1 font-body text-body-sm text-ink-600">{texte}</p>
+                  <MetaPillGroup items={metas} className="mt-stack" />
+                  <Button size="sm" className="mt-stack self-start">Rejoindre</Button>
+                </div>
+                <span className="text-micro font-mono text-ink-500"><b>C</b> · le statut annote le titre</span>
+              </div>
+
+              {/* D — pied de carte */}
+              <div className="flex flex-col gap-stack-xs">
+                <div className={coque}>
+                  <div className="flex items-start justify-between gap-stack-xs">
+                    <h4 className="font-display text-h4 text-ink-900">{titre}</h4>
+                    <Badge variant="warm" className="shrink-0 mt-0.5">À venir</Badge>
+                  </div>
+                  <p className="m-0 mt-1 font-body text-body-sm text-ink-600">{texte}</p>
+                  <div className="mt-stack pt-stack border-t border-ink-200 flex items-center justify-between gap-stack-xs">
+                    <MetaPillGroup items={metas} />
+                    <Button size="sm" className="shrink-0">Rejoindre</Button>
+                  </div>
+                </div>
+                <span className="text-micro font-mono text-ink-500"><b>D</b> · métas et CTA sur une ligne, sous un filet</span>
+              </div>
+
+              {/* E — celle décrite le 10/09 */}
+              <div className="flex flex-col gap-stack-xs">
+                <div className={`${coque} ring-2 ring-primary-200`}>
+                  <div className="flex items-center justify-between gap-stack-xs">
+                    <Badge variant="warm">À venir</Badge>
+                    <MetaPillGroup items={metas} className="justify-end" />
+                  </div>
+                  <h4 className="mt-stack font-display text-h3 text-ink-900">{titre}</h4>
+                  <p className="m-0 mt-1 font-body text-body-sm text-ink-600">{texte}</p>
+                  <div className="mt-stack flex justify-end">
+                    <Button size="sm">Rejoindre</Button>
+                  </div>
+                </div>
+                <span className="text-micro font-mono text-primary-700"><b>E</b> · statut à gauche, métas à droite, titre en h3, CTA aligné au texte</span>
+              </div>
+            </div>
+          </ShowcaseBloc>
+
+          <ShowcaseBloc
+            titre="Ce que ces cartes prouvent, et qu'aucune maquette ne prouve"
+            note="Elles emploient les composants du produit, pas leur imitation. Donc si le badge change de graisse, si le bouton change de filet, si la MetaPill change de hauteur, ces cinq cartes changent avec eux. Une maquette en HTML recopié, elle, continuerait d'afficher l'ancien état — c'est exactement ce qui s'est passé pour l'échelle typographique de cette page, qui lisait encore --t-h3 ce matin."
+          >
+            <div className="flex flex-wrap items-center gap-stack">
+              <Badge variant="warm">état</Badge>
+              <MetaPillGroup items={[{ icon: <Clock3 />, text: 'donnée' }]} />
+              <Button size="sm">action</Button>
+              <span className="font-mono text-micro text-ink-500">les trois primitives, telles que le produit les rend</span>
+            </div>
+          </ShowcaseBloc>
+        </div>
+      );
+    },
+  },
+
+  {
     name: 'La famille des pastilles',
     codeName: 'ui/Badge.tsx · ui/Chip.tsx',
     description:

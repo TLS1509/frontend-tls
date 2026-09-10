@@ -146,6 +146,7 @@ export interface CatalogMeta {
 export const CONVENTIONS = new Set([
   'Rythme des titres',
   'La famille des pastilles',
+  'Disposition des cartes',
   'Marges et gouttières',
   'Padding',
   'Centrage',
@@ -188,6 +189,7 @@ export const CATALOG: Record<string, CatalogMeta> = {
      et non dans le fichier d'un composant qui ne la porte qu'en partie. */
   'Rythme des titres':  { category: 'Foundations', subCategory: 'Rythme & alignement' },
   'La famille des pastilles': { category: 'Foundations', subCategory: 'Rythme & alignement' },
+  'Disposition des cartes': { category: 'Foundations', subCategory: 'Rythme & alignement' },
   'Marges et gouttières': { category: 'Foundations', subCategory: 'Rythme & alignement' },
   'Padding':            { category: 'Foundations', subCategory: 'Rythme & alignement' },
   'Centrage':           { category: 'Foundations', subCategory: 'Rythme & alignement' },
