@@ -1,4 +1,5 @@
 import React, { useState, useDeferredValue } from 'react';
+import { GRID_COLS_CONTENT } from '../../lib/grid-columns';
 import { Search, X, LayoutGrid, List } from 'lucide-react';
 
 export type FilterableCardGridLayout = 'grid' | 'list';
@@ -18,10 +19,11 @@ export interface FilterableCardGridProps<T> {
   className?: string;
 }
 
+/* Colonnage : src/lib/grid-columns.ts — source unique, en largeur de conteneur. */
 const GRID_COLS: Record<FilterableCardGridColumns, string> = {
-  2: 'grid-cols-1 sm:grid-cols-2',
-  3: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
-  4: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4',
+  2: GRID_COLS_CONTENT[2],
+  3: GRID_COLS_CONTENT[3],
+  4: GRID_COLS_CONTENT[4],
 };
 
 export function FilterableCardGrid<T>({
@@ -54,9 +56,9 @@ export function FilterableCardGrid<T>({
   const hasFilters = Boolean(filterFn) || (categories && categories.length > 0);
 
   return (
-    <div className={['flex flex-col gap-stack', className].filter(Boolean).join(' ')}>
+    <div className={['@container flex flex-col gap-stack', className].filter(Boolean).join(' ')}>
       {(hasFilters || allowLayoutToggle) && (
-        <div className="flex flex-col gap-stack-xs sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-stack-xs @xl:flex-row @xl:items-center @xl:justify-between">
           {filterFn && (
             <div className="relative flex items-center flex-1 max-w-sm">
               <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-400 pointer-events-none" aria-hidden="true" />
@@ -75,7 +77,7 @@ export function FilterableCardGrid<T>({
             </div>
           )}
           {allowLayoutToggle && (
-            <div className="inline-flex items-center gap-tight bg-ink-100 rounded-lg p-1 self-start sm:self-auto">
+            <div className="inline-flex items-center gap-tight bg-ink-100 rounded-lg p-1 self-start @xl:self-auto">
               <button type="button" onClick={() => setLayout('grid')} aria-pressed={layout === 'grid'} aria-label="Vue grille" className={['inline-flex items-center justify-center w-8 h-8 rounded-md transition-all duration-fast', layout === 'grid' ? 'bg-white text-primary-700 shadow-xs' : 'text-ink-500 hover:text-ink-700'].join(' ')}>
                 <LayoutGrid size={16} />
               </button>

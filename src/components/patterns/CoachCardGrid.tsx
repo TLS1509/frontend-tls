@@ -1,4 +1,5 @@
 import React from 'react';
+import { GRID_CONTAINER, GRID_COLS_CONTENT } from '../../lib/grid-columns';
 import { Users } from 'lucide-react';
 import { ProfileCard } from '../ui/ProfileCard';
 import type { ProfileCardVariant } from '../ui/ProfileCard';
@@ -27,12 +28,8 @@ export interface CoachCardGridProps {
   className?: string;
 }
 
-const COLS: Record<1 | 2 | 3 | 4, string> = {
-  1: 'grid-cols-1',
-  2: 'grid-cols-1 md:grid-cols-2',
-  3: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
-  4: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4',
-};
+/* Colonnage : src/lib/grid-columns.ts — source unique, en largeur de conteneur. */
+const COLS = GRID_COLS_CONTENT;
 
 export const CoachCardGrid: React.FC<CoachCardGridProps> = ({
   coaches,
@@ -81,6 +78,7 @@ export const CoachCardGrid: React.FC<CoachCardGridProps> = ({
   }
 
   return (
+    <div className={GRID_CONTAINER}>
     <div className={['grid gap-stack', COLS[columns], className].filter(Boolean).join(' ')} role="grid">
       {filteredCoaches.map((coach) => (
         <div key={coach.id} role="gridcell" className="flex flex-col gap-stack-xs group">
@@ -153,6 +151,7 @@ export const CoachCardGrid: React.FC<CoachCardGridProps> = ({
           )}
         </div>
       ))}
+    </div>
     </div>
   );
 };

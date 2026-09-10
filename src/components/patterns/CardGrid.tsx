@@ -28,6 +28,7 @@
  */
 
 import React from 'react';
+import { GRID_CONTAINER, GRID_COLS_CONTENT, GRID_COLS_TILES } from '../../lib/grid-columns';
 
 export type CardGridLayout = 'compact' | 'default' | 'feature' | 'square-tiles' | 'tiles';
 export type CardGridGapSize = 'sm' | 'stack' | 'md' | 'lg';
@@ -41,35 +42,15 @@ export interface CardGridProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 /* Le colonnage suit la largeur de la GRILLE, pas celle de la fenêtre.
-
-   Une grille ne sait pas où elle est posée. Elle peut occuper toute la page, ou
-   la colonne étroite d'une mise en page à deux volets, ou le corps d'une modale.
-   Réglée sur la fenêtre, elle se trompe dès qu'elle n'est pas pleine largeur —
-   et elle se trompait déjà à pleine largeur. Mesuré le 2026-09-09 sur
-   /learning-paths à 652 px de fenêtre : la grille faisait 596 px et n'affichait
-   **qu'une colonne**, donc une carte de 596 px seule sur sa ligne, alors que la
-   place tenait deux colonnes de 282. Le seuil `md:` est à 768 px de fenêtre ;
-   la grille, elle, était prête bien avant.
-
-   Les seuils ci-dessous sont donc des largeurs de CONTENEUR, choisies sur la
-   largeur de carte visée et non transposées des anciens seuils de fenêtre :
-
-     default        2 col dès 576 px (2 × 272)   ·  3 col dès 896 px (3 × 280)
-     feature        2 col dès 576 px             ·  4 col dès 1024 px (4 × 244)
-     square-tiles   3 col dès 512 px (3 × 160)   ·  4 col dès 768 px (4 × 180)
-     tiles          3 col dès 512 px
-
-   ⚠️ Les crans `@xl`, `@4xl`… ne sont PAS ceux des variantes de fenêtre : ils
-   viennent de l'échelle `--container-*` de Tailwind (xl = 36rem, 4xl = 56rem,
-   5xl = 64rem), et se lisent en largeur de conteneur. */
+   Seuils, raisons et pièges : src/lib/grid-columns.ts (source unique). */
 const LAYOUT_CLASSES: Record<CardGridLayout, string> = {
-  compact: 'grid-cols-2',
-  default: 'grid-cols-1 @xl:grid-cols-2 @4xl:grid-cols-3',
-  feature: 'grid-cols-1 @xl:grid-cols-2 @5xl:grid-cols-4',
+  compact: GRID_COLS_TILES[2],
+  default: GRID_COLS_CONTENT[3],
+  feature: GRID_COLS_CONTENT[4],
   /* ⭐ square-tiles : pattern canonique Phase 10 pour cards SQUARE (jamais 1-col) */
-  'square-tiles': 'grid-cols-2 @lg:grid-cols-3 @3xl:grid-cols-4',
+  'square-tiles': GRID_COLS_TILES[4],
   /* tiles : pour mini-cards non-square (QuickActionButton, etc.) */
-  tiles: 'grid-cols-2 @lg:grid-cols-3',
+  tiles: GRID_COLS_TILES[3],
 };
 
 const GAP_CLASSES: Record<CardGridGapSize, string> = {
@@ -107,7 +88,7 @@ export const CardGrid: React.FC<CardGridProps> = ({
      largeur. Il ne porte rien d'autre que `@container w-full`, pour rester
      transparent dans une pile flex ou une grille parente. */
   return (
-    <div className="@container w-full">
+    <div className={GRID_CONTAINER}>
       <div className={classes} {...rest}>
         {children}
       </div>

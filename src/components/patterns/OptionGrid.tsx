@@ -16,6 +16,7 @@
  */
 
 import React from 'react';
+import { GRID_CONTAINER, GRID_COLS_TILES } from '../../lib/grid-columns';
 
 export type OptionGridTone = 'brand' | 'warm' | 'sun';
 
@@ -76,11 +77,14 @@ const TONE_HOVER: Record<OptionGridTone, string> = {
   sun:   'hover:border-accent-300 hover:bg-accent-50/40',
 };
 
+/* Les options sont des boutons compacts, pas des cartes : elles tiennent à
+   partir de ~160 px, d'où l'échelle « tuiles » plutôt que « contenu ».
+   Seuils et raisons : src/lib/grid-columns.ts. */
 const COLS_DESKTOP: Record<1 | 2 | 3 | 4, string> = {
-  1: 'sm:grid-cols-1',
-  2: 'sm:grid-cols-2',
-  3: 'sm:grid-cols-3',
-  4: 'sm:grid-cols-2 lg:grid-cols-4',
+  1: '',
+  2: GRID_COLS_TILES[2],
+  3: GRID_COLS_TILES[3],
+  4: GRID_COLS_TILES[4],
 };
 
 export const OptionGrid: React.FC<OptionGridProps> = (props) => {
@@ -102,6 +106,7 @@ export const OptionGrid: React.FC<OptionGridProps> = (props) => {
     .join(' ');
 
   return (
+    <div className={GRID_CONTAINER}>
     <div className={baseGrid} role={props.multi ? 'group' : 'radiogroup'}>
       {options.map(({ id, label, description, icon: Icon, emoji }) => {
         const selected = isSelected(id);
@@ -169,6 +174,7 @@ export const OptionGrid: React.FC<OptionGridProps> = (props) => {
           </button>
         );
       })}
+    </div>
     </div>
   );
 };

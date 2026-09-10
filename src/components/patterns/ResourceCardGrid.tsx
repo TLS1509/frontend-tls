@@ -1,4 +1,5 @@
 import React from 'react';
+import { GRID_CONTAINER, GRID_COLS_CONTENT } from '../../lib/grid-columns';
 import { ResourceCard } from '../ui/ResourceCard';
 import type { CardTone, CardBadgeConfig } from '../core/Card';
 
@@ -25,12 +26,8 @@ export interface ResourceCardGridProps {
   className?: string;
 }
 
-const COLS: Record<1 | 2 | 3 | 4, string> = {
-  1: 'grid-cols-1',
-  2: 'grid-cols-1 md:grid-cols-2',
-  3: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
-  4: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4',
-};
+/* Colonnage : src/lib/grid-columns.ts — source unique, en largeur de conteneur. */
+const COLS = GRID_COLS_CONTENT;
 
 const TYPE_ICON: Record<string, string> = {
   GUIDE: '📖',
@@ -80,6 +77,7 @@ export const ResourceCardGrid: React.FC<ResourceCardGridProps> = ({
   }
 
   return (
+    <div className={GRID_CONTAINER}>
     <div className={['grid gap-stack', COLS[columns], className].filter(Boolean).join(' ')} role="grid">
       {items.map((item) => (
         <div key={item.id} role="gridcell">
@@ -101,6 +99,7 @@ export const ResourceCardGrid: React.FC<ResourceCardGridProps> = ({
           />
         </div>
       ))}
+    </div>
     </div>
   );
 };
