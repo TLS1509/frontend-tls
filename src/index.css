@@ -133,6 +133,12 @@
   --tracking-display:  -0.03em;   /* Display xl/lg/md + h1 (Figma -3%) */
   --tracking-headline: -0.025em;  /* h2, h3 (Figma -2.5%) */
   --tracking-snug:     -0.02em;   /* h4 (Figma -2%) */
+  /* Le seul serrage POSITIF de l'échelle, et il manquait. Les trois précédents
+     resserrent des titres ; celui-ci écarte les capitales d'une étiquette, où
+     l'absence de jambages et de hampes colle les lettres. Badge l'écrivait en
+     valeur arbitraire — et à trois valeurs différentes (0,06 · 0,05 · 0,04),
+     dont deux sur le MÊME corps de 11 px. */
+  --tracking-label:     0.05em;   /* étiquettes en capitales : Badge, eyebrow */
 
   /* ── Typographie — Content headings ── */
   --text-h1: 2.25rem;

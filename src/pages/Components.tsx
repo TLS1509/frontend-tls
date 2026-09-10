@@ -7930,6 +7930,7 @@ const TRACKING_TOKENS: TokenEntry[] = [
   { name: 'tracking-display', cssVar: '--tracking-display', value: '-0.03em — h1, hero', group: 'Serrage (tracking)', type: 'typography' },
   { name: 'tracking-headline', cssVar: '--tracking-headline', value: '-0.025em — h2, h3', group: 'Serrage (tracking)', type: 'typography' },
   { name: 'tracking-snug', cssVar: '--tracking-snug', value: '-0.02em — h4', group: 'Serrage (tracking)', type: 'typography' },
+  { name: 'tracking-label', cssVar: '--tracking-label', value: '+0.05em — le seul positif : étiquettes en capitales', group: 'Serrage (tracking)', type: 'typography' },
 ];
 
 const FONT_TOKENS: TokenEntry[] = [

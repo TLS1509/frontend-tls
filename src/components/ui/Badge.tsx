@@ -31,10 +31,13 @@ const mapLegacyColor = (color?: BadgeVariant | 'primary'): BadgeVariant => {
 const BASE =
   'inline-flex items-center gap-tight rounded-pill font-body font-bold uppercase leading-tight whitespace-nowrap border';
 
+/* Un seul serrage, pris au token `--tracking-label`. Les trois valeurs
+   arbitraires précédentes — 0,06 · 0,05 · 0,04 — n'étaient pas une courbe :
+   les deux premières s'appliquaient au MÊME corps de 11 px. */
 const SIZE_CLASSES: Record<BadgeSize, string> = {
-  sm: 'text-micro px-2 py-0.5 tracking-[0.06em]',
-  md: 'text-micro px-2.5 py-0.5 tracking-[0.05em]',
-  lg: 'text-caption px-3 py-1 tracking-[0.04em]',
+  sm: 'text-micro px-2 py-0.5 tracking-label',
+  md: 'text-micro px-2.5 py-0.5 tracking-label',
+  lg: 'text-caption px-3 py-1 tracking-label',
 };
 
 const VARIANT_CLASSES: Record<BadgeVariant, string> = {
@@ -121,7 +124,7 @@ const STATUS_CLASSES: Record<StatusBadgeStatus, string> = {
 
 const STATUS_SIZE_CLASSES: Record<'sm' | 'md', string> = {
   sm: 'text-micro px-1.5 py-0.5 gap-tight',
-  md: 'text-caption px-2 py-1 gap-1.5',
+  md: 'text-caption px-2 py-1 gap-stack-2xs',
 };
 
 const STATUS_ICON_SIZE: Record<'sm' | 'md', number> = { sm: 10, md: 12 };
@@ -201,7 +204,7 @@ const PROMO_CLASSES: Record<PromoType, string> = {
 
 const PROMO_SIZE_CLASSES: Record<'sm' | 'md', string> = {
   sm: 'text-micro px-2 py-0.5 gap-tight',
-  md: 'text-caption px-2.5 py-1 gap-1.5',
+  md: 'text-caption px-2.5 py-1 gap-stack-2xs',
 };
 
 const PROMO_ICON_SIZES: Record<'sm' | 'md', number> = { sm: 12, md: 14 };

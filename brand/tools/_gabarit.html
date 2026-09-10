@@ -1,0 +1,333 @@
+<title>Tokens TLS</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@600;700;800&family=Nunito:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --sol:#FAFCFC; --sol-2:#FFFFFF; --bord:#E5EBEC; --bord-fort:#CBD8DA;
+  --encre:#252B37; --encre-2:#4c5466; --encre-3:#8d95a6;
+  --teal:#55A1B4; --teal-fonce:#3D7786; --orange:#ED843A; --dore:#F8B044;
+  --plaque:#FFFFFF;            /* fond fixe des pastilles, identique dans les deux thèmes */
+  --plaque-bord:#E5EBEC;
+  --ombre:0 1px 3px rgba(37,43,55,.07), 0 1px 2px rgba(37,43,55,.04);
+  --r:14px; --r-s:10px; --r-xs:6px;
+  --display:'League Spartan','Helvetica Neue',Arial,sans-serif;
+  --corps:'Nunito',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --sol:#131820; --sol-2:#1B222C; --bord:#2e3442; --bord-fort:#394050;
+    --encre:#f3f4f6; --encre-2:#d1d5db; --encre-3:#8d95a6;
+    --ombre:0 1px 3px rgba(0,0,0,.4), 0 1px 2px rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"]{
+  --sol:#131820; --sol-2:#1B222C; --bord:#2e3442; --bord-fort:#394050;
+  --encre:#f3f4f6; --encre-2:#d1d5db; --encre-3:#8d95a6;
+  --ombre:0 1px 3px rgba(0,0,0,.4), 0 1px 2px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+body{background:var(--sol);color:var(--encre);font-family:var(--corps);font-size:15px;line-height:1.55;
+     -webkit-font-smoothing:antialiased;padding:0;margin:0}
+.enveloppe{max-width:1080px;margin:0 auto;padding:20px 22px 56px}
+
+/* ─── en-tête ─── */
+header{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 16px;margin-bottom:4px}
+h1{font-family:var(--display);font-weight:800;font-size:26px;letter-spacing:-.025em;margin:0;
+   text-wrap:balance;color:var(--encre)}
+.source{font-family:var(--mono);font-size:11.5px;color:var(--encre-3)}
+.source b{color:var(--teal-fonce);font-weight:600}
+.avert{margin:14px 0 20px;padding:11px 14px;border-radius:var(--r-s);
+  background:color-mix(in srgb,var(--teal) 9%,var(--sol-2));border:1px solid color-mix(in srgb,var(--teal) 26%,var(--bord));
+  font-size:13px;color:var(--encre-2)}
+.avert b{color:var(--encre)}
+
+/* ─── onglets ─── */
+nav{display:flex;gap:4px;flex-wrap:wrap;position:sticky;top:0;z-index:5;
+    background:var(--sol);padding:8px 0 12px;margin-bottom:2px;border-bottom:1px solid var(--bord)}
+nav button{font-family:var(--corps);font-weight:700;font-size:13.5px;cursor:pointer;
+  padding:7px 15px;border-radius:999px;border:1px solid transparent;background:transparent;color:var(--encre-2);
+  transition:background-color .15s,color .15s}
+nav button:hover{background:var(--sol-2);color:var(--encre)}
+nav button[aria-selected="true"]{background:var(--teal);color:#fff;border-color:var(--teal)}
+nav button:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+
+section[hidden]{display:none}
+section{padding-top:22px}
+h2{font-family:var(--display);font-weight:700;font-size:15px;letter-spacing:.06em;text-transform:uppercase;
+   color:var(--encre-3);margin:30px 0 4px}
+h2:first-of-type{margin-top:0}
+.sous{font-size:13px;color:var(--encre-2);margin:0 0 14px;max-width:64ch}
+
+/* ─── rampes ─── */
+.rampe{background:var(--plaque);border:1px solid var(--plaque-bord);border-radius:var(--r);
+  padding:14px;margin-bottom:14px;box-shadow:var(--ombre)}
+.rampe-tete{display:flex;align-items:baseline;gap:10px;margin-bottom:11px}
+.rampe-nom{font-family:var(--display);font-weight:700;font-size:16px;color:#252B37}
+.rampe-desc{font-size:12.5px;color:#667082}
+.crans{display:grid;grid-template-columns:repeat(auto-fit,minmax(76px,1fr));gap:6px}
+.cran{border:none;padding:0;background:none;cursor:pointer;text-align:left;font:inherit;border-radius:var(--r-xs)}
+.cran:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.pastille{height:56px;border-radius:var(--r-xs);border:1px solid rgba(37,43,55,.10);transition:transform .12s}
+.cran:hover .pastille{transform:translateY(-2px)}
+.cran-meta{display:flex;justify-content:space-between;gap:4px;padding:5px 2px 0}
+.cran-num{font-family:var(--mono);font-size:11px;font-weight:600;color:#252B37}
+.cran-hex{font-family:var(--mono);font-size:10px;color:#8d95a6}
+.jeton{display:block;width:100%;margin-top:3px;padding:2px 4px;border:none;background:none;cursor:pointer;
+  font-family:var(--mono);font-size:9.5px;color:#8d95a6;text-align:left;border-radius:3px}
+.jeton:hover{background:#f3f4f6;color:#4c5466}
+.jeton:focus-visible{outline:2px solid var(--teal);outline-offset:1px}
+
+/* ─── typographie ─── */
+.pas{display:grid;grid-template-columns:150px 1fr;gap:16px;align-items:baseline;
+  padding:13px 0;border-bottom:1px solid var(--bord)}
+.pas:last-child{border-bottom:none}
+.pas-meta{font-family:var(--mono);font-size:11px;color:var(--encre-3);line-height:1.7}
+.pas-meta b{display:block;font-family:var(--corps);font-size:12.5px;font-weight:700;color:var(--encre);letter-spacing:0}
+.pas-demo{font-family:var(--display);color:var(--encre);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pas-demo.corps{font-family:var(--corps)}
+
+/* ─── contraste ─── */
+.controles{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;margin-bottom:16px}
+label{display:block;font-size:11.5px;font-weight:700;color:var(--encre-3);margin-bottom:4px;
+  text-transform:uppercase;letter-spacing:.05em}
+select{font-family:var(--mono);font-size:12.5px;padding:8px 10px;border-radius:var(--r-xs);
+  border:1px solid var(--bord-fort);background:var(--sol-2);color:var(--encre);min-width:190px}
+select:focus-visible{outline:2px solid var(--teal);outline-offset:1px}
+.apercu{border-radius:var(--r);padding:22px;border:1px solid var(--plaque-bord);margin-bottom:14px}
+.apercu-grand{font-family:var(--display);font-weight:700;font-size:26px;letter-spacing:-.025em;margin:0 0 6px}
+.apercu-petit{font-family:var(--corps);font-size:14px;margin:0}
+.verdicts{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:8px}
+.verdict{background:var(--sol-2);border:1px solid var(--bord);border-radius:var(--r-s);padding:10px 12px}
+.verdict-t{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--encre-3)}
+.verdict-v{font-family:var(--display);font-weight:800;font-size:19px;margin-top:2px}
+.ok{color:#228B55} .ko{color:#C0432A}
+.ratio{font-family:var(--mono);font-size:30px;font-weight:600;color:var(--encre);line-height:1}
+.ratio small{font-size:14px;color:var(--encre-3);font-weight:400}
+
+/* ─── formes ─── */
+.grille-formes{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.forme{background:var(--sol-2);border:1px solid var(--bord);padding:14px;border-radius:var(--r-s);text-align:center}
+.forme-boite{height:62px;background:linear-gradient(135deg,#55A1B4,#3D7786);margin-bottom:9px}
+.forme-nom{font-family:var(--mono);font-size:11.5px;font-weight:600;color:var(--encre)}
+.forme-val{font-family:var(--mono);font-size:10.5px;color:var(--encre-3)}
+.ombre-boite{height:62px;background:var(--plaque);border-radius:var(--r-s);margin:6px 8px 12px}
+
+/* ─── toast ─── */
+#toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,14px);opacity:0;pointer-events:none;
+  background:#252B37;color:#fff;padding:9px 17px;border-radius:999px;font-family:var(--mono);font-size:12.5px;
+  transition:opacity .18s,transform .18s;z-index:50;box-shadow:0 8px 24px rgba(0,0,0,.22)}
+#toast.vu{opacity:1;transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media (max-width:560px){.pas{grid-template-columns:1fr;gap:4px}.enveloppe{padding:16px 14px 40px}}
+</style>
+
+<div class="enveloppe">
+  <header>
+    <h1>Tokens TLS</h1>
+    <span class="source">généré depuis <b>src/index.css</b> · __DATE__</span>
+  </header>
+
+  <div class="avert">
+    <b>Cette page ne se modifie pas à la main.</b> Elle est régénérée depuis le code par
+    <span style="font-family:var(--mono);font-size:12px">brand/tools/generer-reference-tokens.py</span>.
+    C'est ce qui l'empêche de dériver — le Brand Hub, lui, avait accumulé huit écarts en recopiant les valeurs.
+    <b>Cliquez une pastille pour copier son hex</b>, son nom pour copier le token.
+  </div>
+
+  <nav role="tablist">
+    <button role="tab" aria-selected="true"  data-p="couleurs">Couleurs</button>
+    <button role="tab" aria-selected="false" data-p="typo">Typographie</button>
+    <button role="tab" aria-selected="false" data-p="contraste">Contraste</button>
+    <button role="tab" aria-selected="false" data-p="formes">Formes</button>
+  </nav>
+
+  <section id="couleurs" role="tabpanel"></section>
+  <section id="typo" role="tabpanel" hidden></section>
+  <section id="contraste" role="tabpanel" hidden>
+    <h2>Vérificateur</h2>
+    <p class="sous">Le seuil AA est de 4,5 pour du texte courant, 3,0 pour du grand texte (18,66 px gras ou 24 px), 3,0 pour un contour de composant. AAA demande 7,0.</p>
+    <div class="controles">
+      <div><label for="fg">Texte</label><select id="fg"></select></div>
+      <div><label for="bg">Fond</label><select id="bg"></select></div>
+      <div style="margin-left:auto"><span class="ratio" id="ratio">—</span></div>
+    </div>
+    <div class="apercu" id="apercu">
+      <p class="apercu-grand" id="ap-g">Organisation par compétences</p>
+      <p class="apercu-petit" id="ap-p">Le modèle traditionnel par postes est dépassé face à l'obsolescence rapide des compétences.</p>
+    </div>
+    <div class="verdicts" id="verdicts"></div>
+    <h2>Les pièges connus</h2>
+    <div id="pieges"></div>
+  </section>
+  <section id="formes" role="tabpanel" hidden></section>
+</div>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/*__DONNEES__*/
+
+const $ = s => document.querySelector(s);
+const el = (t, c, h) => { const n = document.createElement(t); if (c) n.className = c; if (h != null) n.innerHTML = h; return n; };
+
+/* ── copie ── */
+let minuteur;
+function toast(msg){ const t = $('#toast'); t.textContent = msg; t.classList.add('vu');
+  clearTimeout(minuteur); minuteur = setTimeout(() => t.classList.remove('vu'), 1500); }
+async function copier(txt, libelle){
+  try { await navigator.clipboard.writeText(txt); }
+  catch { const z = el('textarea'); z.value = txt; document.body.appendChild(z); z.select();
+          try { document.execCommand('copy'); } catch {} z.remove(); }
+  toast(libelle + '  copié');
+}
+
+/* ── contraste WCAG ── */
+const lin = c => { c /= 255; return c <= .04045 ? c/12.92 : Math.pow((c+.055)/1.055, 2.4); };
+function lum(hex){ const h = hex.replace('#',''); const n = h.length === 3 ? h.split('').map(x=>x+x).join('') : h;
+  const [r,g,b] = [0,2,4].map(i => parseInt(n.slice(i,i+2),16));
+  return .2126*lin(r) + .7152*lin(g) + .0722*lin(b); }
+function ratio(a,b){ const [x,y] = [lum(a), lum(b)].sort((p,q)=>q-p); return (x+.05)/(y+.05); }
+
+/* ── panneau couleurs ── */
+function pastille(num, hex, jeton){
+  const b = el('button','cran'); b.type = 'button';
+  b.title = `Copier ${hex}`;
+  b.append(Object.assign(el('div','pastille'), { style: `background:${hex}` }));
+  const m = el('div','cran-meta');
+  m.append(el('span','cran-num', num), el('span','cran-hex', hex.toUpperCase()));
+  b.append(m);
+  b.onclick = () => copier(hex.toUpperCase(), hex.toUpperCase());
+  const j = el('button','jeton', jeton); j.type = 'button'; j.title = `Copier ${jeton}`;
+  j.onclick = e => { e.stopPropagation(); copier(`var(${jeton})`, jeton); };
+  const box = el('div'); box.append(b, j); return box;
+}
+function bloc(nom, desc, entrees){
+  const w = el('div','rampe');
+  const t = el('div','rampe-tete');
+  t.append(el('span','rampe-nom', nom), el('span','rampe-desc', desc));
+  const g = el('div','crans');
+  entrees.forEach(([num, hex, jeton]) => g.append(pastille(num, hex, jeton)));
+  w.append(t, g); return w;
+}
+{
+  const s = $('#couleurs');
+  s.append(el('h2', null, 'Les quatre rampes'),
+           el('p','sous','Dix crans par famille. Le chiffre est la clarté : 50 est le plus clair, 900 le plus dense.'));
+  for (const fam of ['primary','secondary','accent','ink']){
+    const [nom, desc] = TLS.legendes[fam];
+    s.append(bloc(nom + '  ·  ' + fam, desc, TLS.rampes[fam]));
+  }
+  s.append(el('h2', null, 'Les couleurs sémantiques'),
+           el('p','sous','Quatre familles, alignées sur la palette TLS. Aucune couleur Tailwind brute — ni le vert #22C55E, ni le rouge #EF4444, tous deux proscrits.'));
+  for (const f of Object.keys(TLS.semantiques)){
+    const [lib, entrees] = TLS.semantiques[f];
+    if (entrees.length) s.append(bloc(lib, '', entrees.map(([k,h,j]) => [k.split('-').slice(1).join('-'), h, j])));
+  }
+}
+
+/* ── panneau typographie ── */
+{
+  const s = $('#typo');
+  s.append(el('h2', null, 'L’échelle'),
+           el('p','sous','Rendue dans les vraies polices, aux vraies tailles, avec le tracking gradué du système. League Spartan pour les titres, Nunito pour le texte.'));
+  TLS.echelle.forEach(p => {
+    const rang = el('div','pas');
+    const estTitre = /^(hero|h[1-4])$/.test(p.cle);
+    const meta = el('div','pas-meta');
+    meta.innerHTML = `<b>${p.libelle}</b>--text-${p.cle}<br>${p.taille}` +
+      (p.ls ? `<br>tracking ${p.ls}` : '') + (p.fw ? `<br>graisse ${p.fw}` : '') +
+      (p.note ? `<br>${p.note}` : '');
+    const demo = el('div', 'pas-demo' + (estTitre ? '' : ' corps'), 'The Learning Society');
+    demo.style.fontSize = p.taille;
+    if (p.ls) demo.style.letterSpacing = p.ls;
+    demo.style.fontWeight = p.fw || (estTitre ? 700 : 400);
+    rang.append(meta, demo); s.append(rang);
+  });
+  s.append(el('h2', null, 'Le piège de l’italique'),
+    el('p','sous','League Spartan n’a aucune face italique : un « italic » sur la police de titre produit un faux-italique synthétique, penché par calcul. Pour de l’italique, passer en Nunito, qui en a une vraie.'));
+  const cmp = el('div','pas');
+  cmp.innerHTML = `<div class="pas-meta"><b>À éviter</b>display italic</div>
+    <div class="pas-demo" style="font-size:24px;font-style:italic">Faux-italique synthétique</div>`;
+  const cmp2 = el('div','pas');
+  cmp2.innerHTML = `<div class="pas-meta"><b>Correct</b>corps italic</div>
+    <div class="pas-demo corps" style="font-size:24px;font-style:italic">Vrai italique dessiné</div>`;
+  s.append(cmp, cmp2);
+}
+
+/* ── panneau contraste ── */
+{
+  const toutes = [];
+  for (const fam of ['primary','secondary','accent','ink'])
+    TLS.rampes[fam].forEach(([n,h,j]) => toutes.push([`${fam}-${n}`, h]));
+  for (const f of Object.keys(TLS.semantiques))
+    TLS.semantiques[f][1].forEach(([k,h]) => toutes.push([k, h]));
+  const fg = $('#fg'), bg = $('#bg');
+  toutes.forEach(([nom,hex]) => {
+    [fg,bg].forEach(sel => { const o = el('option', null, `${nom}  ${hex.toUpperCase()}`); o.value = hex; sel.append(o); });
+  });
+  fg.value = '#252B37'; bg.value = '#ffffff';
+  const SEUILS = [['Texte AA', 4.5], ['Grand texte AA', 3], ['Contour AA', 3], ['Texte AAA', 7]];
+  function maj(){
+    const f = fg.value, b = bg.value, r = ratio(f, b);
+    $('#ratio').innerHTML = r.toFixed(2).replace('.', ',') + '<small> : 1</small>';
+    const ap = $('#apercu'); ap.style.background = b; ap.style.color = f;
+    $('#ap-g').style.color = f; $('#ap-p').style.color = f;
+    const v = $('#verdicts'); v.textContent = '';
+    SEUILS.forEach(([nom, seuil]) => {
+      const d = el('div','verdict');
+      const ok = r >= seuil;
+      d.append(el('div','verdict-t', nom),
+               el('div','verdict-v ' + (ok ? 'ok' : 'ko'), (ok ? '✓ passe' : '✗ échoue') + ` <span style="font-family:var(--mono);font-size:11px;font-weight:400;color:var(--encre-3)">${seuil}</span>`));
+      v.append(d);
+    });
+  }
+  fg.onchange = bg.onchange = maj; maj();
+
+  const PIEGES = [
+    ['primary-500', '#55A1B4', 'La couleur de signature mesure 2,94 sur blanc. Elle échoue AA en texte, et rate même le seuil de contour de six centièmes.'],
+    ['primary-600', '#4A8FA1', 'À 3,66 sur blanc : passe un contour, échoue le texte courant. Pour du texte teal, descendre à primary-700 (5,02).'],
+    ['accent-600',  '#C68D36', 'L’or est la seule famille dont le cran 600 rate le contour, à 2,89. Il faut aller au 700.'],
+    ['secondary-600','#C06920','Pour du texte orange sur clair, c’est le premier cran sûr.'],
+  ];
+  const p = $('#pieges');
+  PIEGES.forEach(([nom, hex, texte]) => {
+    const r = ratio(hex, '#ffffff');
+    const d = el('div','pas');
+    d.innerHTML = `<div class="pas-meta"><b>${nom}</b>${hex}<br><span style="font-size:15px;color:var(--encre);font-weight:600">${r.toFixed(2).replace('.',',')}:1</span><br>sur blanc</div>
+      <div style="font-size:13.5px;color:var(--encre-2);align-self:center">${texte}</div>`;
+    p.append(d);
+  });
+}
+
+/* ── panneau formes ── */
+{
+  const s = $('#formes');
+  s.append(el('h2', null, 'Rayons'),
+           el('p','sous','Le rayon des cartes est à 14 px. C’est lui qui impose un padding intérieur de 24 px : sous un rapport de 1,4 entre le padding et le rayon, le contenu serre la courbe et le coin se lit comme une coupe.'));
+  const g = el('div','grille-formes');
+  TLS.radius.forEach(([nom, val]) => {
+    const d = el('div','forme');
+    const b = el('div','forme-boite'); b.style.borderRadius = val;
+    d.append(b, el('div','forme-nom', '--radius-' + nom), el('div','forme-val', val));
+    g.append(d);
+  });
+  s.append(g);
+  s.append(el('h2', null, 'Ombres'),
+           el('p','sous','shadow-card est neutre, volontairement : c’est le repli des cartes sans tone. Dès qu’un tone est posé, la carte bascule sur l’ombre colorée de sa famille. Une valeur ambrée par défaut entrerait en collision avec le tone warm.'));
+  const g2 = el('div','grille-formes');
+  TLS.ombres.forEach(([nom, val]) => {
+    const d = el('div','forme');
+    const b = el('div','ombre-boite'); b.style.boxShadow = val;
+    d.append(b, el('div','forme-nom', '--shadow-' + nom));
+    g2.append(d);
+  });
+  s.append(g2);
+}
+
+/* ── onglets ── */
+document.querySelectorAll('nav button').forEach(b => {
+  b.onclick = () => {
+    document.querySelectorAll('nav button').forEach(x => x.setAttribute('aria-selected', String(x === b)));
+    document.querySelectorAll('section[role=tabpanel]').forEach(s => { s.hidden = (s.id !== b.dataset.p); });
+  };
+});
+</script>
