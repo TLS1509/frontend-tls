@@ -416,7 +416,7 @@ export const MarketingHeader: React.FC = () => {
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
-              className="fixed inset-x-0 bottom-0 z-modal max-h-[85dvh] overflow-y-auto rounded-t-3xl bg-white shadow-card-lift lg:hidden"
+              className="fixed inset-x-0 bottom-0 z-modal max-h-[85dvh] overflow-y-auto rounded-t-2xl bg-white shadow-card-lift lg:hidden"
             >
               {/* Handle + explicit close — redundant with the header's X on
                   purpose: this sheet should be closable on its own even if the

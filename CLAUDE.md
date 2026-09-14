@@ -281,7 +281,15 @@ className={tone === 'primary' ? 'bg-primary-500' : 'bg-secondary-500'}
   `Input`, `Select`, `Combobox` et `Search` ont été mis sur le même motif par R4.
 
   ⏳ **R2 reste ouverte** : les `rounded-2xl` (24 px) sur des conteneurs.
-  `rounded-3xl` n'existe plus dans `src/` (0 occurrence, vérifié le 2026-09-14).
+
+  ⚠️ **`rounded-3xl` : le « 0 occurrence » de la ligne précédente était faux** —
+  corrigé le même jour. Le grep, comme la règle du détecteur, ne cherchait que
+  `rounded-3xl` **nu** ; il en restait deux en variante de coin, `rounded-t-3xl`
+  — le filet de la coque Auth et la feuille modale mobile du site. Les deux ont
+  été ramenés au vocabulaire du repo (`rounded-t-lg` et `rounded-t-2xl`, rendu
+  identique dans les deux cas), et la règle du détecteur accepte désormais le
+  segment de direction. **Une recherche de token hors échelle doit accepter ses
+  variantes de coin**, sinon elle certifie une propreté qu'elle n'a pas vérifiée.
 
 - **R4 — la famille champ prend l'échelle, à 14 px (tranchée le 2026-09-14).**
   R3 dit quel régime s'applique, pas quel cran. Un champ fait 36 · 44 · 52 px de
@@ -343,10 +351,20 @@ className={tone === 'primary' ? 'bg-primary-500' : 'bg-secondary-500'}
   à `rounded-lg` — exactement le piège que R3 avait rencontré avec le bouton.
   Le discriminant ajouté est le `placeholder:`, que seul un champ porte.
 
-  📌 **Reste ouvert, hors périmètre R4** : sur `/auth/login`, les champs sont
-  désormais à 14 px mais `AuthPrimaryButton` / `AuthSocialButton` / `AuthGhostButton`
-  sont à `rounded-xl` (20 px) — ce sont des boutons faits main, que R3 n'a pas
-  atteints. Même discordance qu'avant sur `/website/contact`, côté bouton.
+  ✅ **La famille Auth a suivi, le même jour.** `AuthPrimaryButton`,
+  `AuthSocialButton` et `AuthGhostButton` sont faits main : R3 est passée par
+  `Button.tsx` et ne les avait pas atteints. Mesuré sur `/auth/login` avant
+  correction, le champ rendait **14 px pour 52 px de haut** et le bouton juste
+  en dessous **20 px pour 48 px** — l'objet le plus petit portait le rayon le
+  plus grand, dans une colonne où les deux se touchent presque. Les trois sont
+  passés à `rounded-lg` via une constante `RAYON_BOUTON` dans `AuthShell.tsx`.
+  Coque, champs et boutons rendent aujourd'hui une seule courbe sur `/auth/login`,
+  `/auth/signup` et `/auth/forgot-password` (vérifié au navigateur).
+
+  📌 **Reste ouvert sur ces boutons, hors sujet du rayon** : ils portent encore
+  `hover:-translate-y-px`, le soulèvement au survol que S1 a retiré de
+  `Button.tsx` le 2026-09-09 — il datait l'interface, déplaçait le contenu sous
+  le curseur et n'existait pas sur mobile. À traiter dans une passe motion.
   ⚠️ **Corrigé le 2026-09-09 : l'affirmation « `rounded-full` = 50 %, cercle » était fausse.**
   Mesuré dans le CSS livré, Tailwind v4 génère `rounded-full: 3.40282e38px` — l'infini d'un float,
   pas un pourcentage. Sur un rectangle, le navigateur plafonne tout rayon à la moitié de la plus
@@ -785,6 +803,25 @@ un ratio que le composant ne couvre pas. Le détecteur dit *où regarder* ; c'es
 un humain qui décide entre migrer l'élément et étendre le composant.
 
 `--fichiers` détaille par fichier, `--famille <nom>` isole une famille.
+
+⚠️ **Le détecteur résout les constantes de classes du fichier** (depuis le
+2026-09-14) — et il faut savoir pourquoi, parce que c'est le piège qui se
+reproduira. Le piège n°6 impose de sortir le rayon d'une liste de classes dans
+une constante ; six composants le font. Or le détecteur lisait le **nom** de la
+constante, pas sa valeur : **appliquer la bonne pratique rendait l'élément
+invisible**. Constaté en direct — les trois boutons de la famille Auth ont
+disparu de la famille « bouton » à l'instant où leur rayon est sorti dans
+`RAYON_BOUTON`, et le total n'a pas bougé, ce qui rendait l'angle mort
+indétectable à la lecture des chiffres. Après correctif : bouton 11 → **14**,
+pastille d'icône 179 → **181**. Seuls les littéraux de chaîne simples sont
+résolus ; une concaténation reste opaque, mieux vaut ne pas résoudre que
+résoudre faux.
+
+📌 Les 3 boutons Auth désormais comptés **ne sont pas un défaut** : ce sont des
+composants exportés, et CLAUDE.md pose la famille `Auth*` comme la primitive de
+la surface glass-dark. Mais ils posent une vraie question, laissée ouverte :
+`Button` porte une prop `onDark` depuis longtemps — que fait `AuthPrimaryButton`
+que `<Button onDark>` ne ferait pas ?
 
 ---
 
