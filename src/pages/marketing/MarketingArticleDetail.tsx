@@ -124,7 +124,7 @@ const ShareBar: React.FC<{ url: string; title: string }> = ({ url, title }) => {
       <button
         type="button"
         onClick={handleShare}
-        className="inline-flex items-center gap-stack-xs px-3 h-9 rounded-pill bg-white border border-ink-200 text-ink-700 hover:bg-ink-50 hover:border-primary-300 transition-colors duration-fast min-h-touch focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+        className="inline-flex items-center gap-stack-xs px-3 h-9 rounded-lg bg-white border border-ink-200 text-ink-700 hover:bg-ink-50 hover:border-primary-300 transition-colors duration-fast min-h-touch focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
         aria-label="Partager l'article"
       >
         <Share2 size={14} />
@@ -133,7 +133,7 @@ const ShareBar: React.FC<{ url: string; title: string }> = ({ url, title }) => {
       <button
         type="button"
         onClick={handleCopy}
-        className={`inline-flex items-center gap-stack-xs px-3 h-9 rounded-pill border transition-colors duration-fast min-h-touch focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
+        className={`inline-flex items-center gap-stack-xs px-3 h-9 rounded-lg border transition-colors duration-fast min-h-touch focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
           copied
             ? 'bg-success-bg text-success-fg border-success-base/40'
             : 'bg-white text-ink-700 border-ink-200 hover:bg-ink-50 hover:border-primary-300'

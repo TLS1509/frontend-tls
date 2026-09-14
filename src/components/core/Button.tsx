@@ -164,7 +164,40 @@ export interface ButtonProps
    le label en « grand texte » (seuil 3,0 au lieu de 4,5) — seul `xl` en profite.
    Ne pas remettre `tracking-tight` ici : s'il devait revenir pour les grandes
    tailles, sa place est dans SIZE_CLASSES, jamais dans BASE. */
-const BASE = 'inline-flex items-center justify-center gap-stack-xs rounded-pill font-body font-bold cursor-pointer transition-[background-color,box-shadow,transform,opacity] duration-fast ease-emphasis focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-900 focus-visible:ring-offset-2 focus-visible:ring-offset-white active:scale-[0.97] active:duration-instant motion-reduce:active:scale-100 motion-reduce:transition-none disabled:opacity-disabled disabled:cursor-not-allowed disabled:pointer-events-none aria-busy:pointer-events-none whitespace-nowrap select-none';
+/* Rayon : 14 px (`rounded-lg`) — décidé le 2026-09-14 (R3).
+   Avant : `rounded-pill`, qui rendait 22 px sur la taille `md`.
+
+   La règle est celle du seuil, et elle vaut pour les quatre familles. Le
+   navigateur plafonne tout rayon à la moitié de la plus petite dimension : sous
+   28 px de haut, la pilule et `rounded-lg` rendent donc EXACTEMENT la même
+   forme. Badge (20 px), MetaPill (24) et Chip restent en pilule — c'est la
+   convention du petit label, et elle ne coûte rien puisqu'elle ne se voit pas.
+   Au-dessus du seuil, le rayon cesse d'être un accident de plafonnement et
+   devient une déclaration : il prend alors l'échelle, comme la Card (R1).
+
+   Mesuré avant de trancher, sur quatre pages de l'app : sur les ~613
+   `rounded-pill` du repo, la moitié est sous le seuil (aucun effet), les
+   cercles sont légitimes, et les rangées de nav n'ont ni fond ni filet au repos
+   — leur rayon ne se voit qu'au survol. Il ne restait donc que le bouton plein.
+
+   L'argument d'en face, qu'on écarte en connaissance de cause : le rayon d'une
+   pilule vaut la moitié de sa hauteur, donc sa silhouette ne dépend pas de la
+   longueur du label. C'est vrai, mais ce que ça achète — une constance que
+   personne ne perçoit — coûte l'accord entre le CTA et la carte qui le porte.
+
+   ⚠️ EXCEPTION `iconOnly` : le bouton-icône est carré (`aspect-square`), donc
+   la pilule y donnait un cercle parfait. Le cercle est conservé, explicitement,
+   dans la branche `iconOnly` du composant. Ne pas le retirer en croyant
+   uniformiser : c'est 44 usages et une convention forte. */
+const BASE = 'inline-flex items-center justify-center gap-stack-xs font-body font-bold cursor-pointer transition-[background-color,box-shadow,transform,opacity] duration-fast ease-emphasis focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-900 focus-visible:ring-offset-2 focus-visible:ring-offset-white active:scale-[0.97] active:duration-instant motion-reduce:active:scale-100 motion-reduce:transition-none disabled:opacity-disabled disabled:cursor-not-allowed disabled:pointer-events-none aria-busy:pointer-events-none whitespace-nowrap select-none';
+
+/* Le rayon vit HORS de BASE, et c'est délibéré : deux classes de rayon dans la
+   même liste ont la même spécificité (0,1,0), donc c'est l'ordre d'émission de
+   Tailwind qui trancherait, pas l'ordre du `className` — le piège n°6 de
+   CLAUDE.md, déjà rencontré sur la couleur de bordure d'`Input`. Une seule
+   classe de rayon est posée par appel, jamais deux. */
+const RAYON = 'rounded-lg';
+const RAYON_CERCLE = 'rounded-pill';
 
 // Hover strategy for filled variants: keep the base color (no aggressive
 // darkening) and add a colored glow shadow. Le soulèvement au survol a été
@@ -379,6 +412,7 @@ export function buttonClasses({
 } = {}): string {
   return [
     BASE,
+    RAYON,
     resolveClasses(variant, emphasis, tone, onDark),
     SIZE_CLASSES[size],
     fullWidth && 'w-full',
@@ -413,6 +447,8 @@ export const Button: React.FC<ButtonProps> = ({
 }) => {
   const classes = [
     BASE,
+    // Le bouton-icône est carré : la pilule y rend un cercle parfait.
+    iconOnly ? RAYON_CERCLE : RAYON,
     resolveClasses(variant, emphasis, tone, onDark),
     !iconOnly && SIZE_CLASSES[size],
     iconOnly && `${size === 'sm' ? 'w-8' : size === 'lg' ? 'w-12' : size === 'xl' ? 'w-14' : 'w-touch'} aspect-square`,

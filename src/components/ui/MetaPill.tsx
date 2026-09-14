@@ -94,11 +94,28 @@ const ICONE_PASTILLE_CRAN: Record<MetaPillSize, string> = {
   lg: 'icon-xs',   // avec body-sm (15)
 };
 
+/* Taille par défaut : `sm` — décidé le 2026-09-14.
+   Avant : `md`, soit 13 px de police pour une pastille de 30 px.
+
+   La doctrine de CLAUDE.md dit que `Badge` CRIE pour annoncer un état et que
+   `MetaPill` CHUCHOTE pour livrer une donnée. Or, mesuré au navigateur, la
+   pastille qui chuchote faisait 30 px de haut contre 19,75 au badge qui crie,
+   et 13 px de police contre 11 : elle chuchotait plus fort. Sur une carte,
+   c'est la donnée qui gagnait le regard avant le statut — hiérarchie inversée.
+
+   Et ce n'était pas marginal : 47 des 55 appels ne passent aucun `size`. Relevé
+   sur la vitrine, les 27 MetaPills rendues étaient TOUTES à 13 px / 30 px, pas
+   une seule au petit cran.
+
+   `sm` donne 11 px de police pour 24 px de haut : même corps que `Badge`, et
+   24 px reste au-dessus du minimum normatif de WCAG 2.2 AA (SC 2.5.8, 24×24).
+   Effet de bord voulu : à 24 px la pastille repasse SOUS le seuil des 28 px où
+   pilule et `rounded-lg` rendent la même forme — elle sort donc du débat R3. */
 export const MetaPill: React.FC<MetaPillProps> = ({
   text,
   icon,
   tone = 'default',
-  size = 'md',
+  size = 'sm',
   onClick,
   className = '',
 }) => {

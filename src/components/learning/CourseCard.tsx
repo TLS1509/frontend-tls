@@ -66,7 +66,7 @@ const PROGRESS_FILL_TONE_CLASSES: Record<CourseCardTone, string> = {
 };
 
 const BUTTON_BASE =
-  'w-full py-2.5 px-6 rounded-pill text-body-sm font-semibold cursor-pointer flex items-center justify-center gap-stack-xs transition-[background-color,box-shadow,transform] duration-fast ease-emphasis hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]';
+  'w-full py-2.5 px-6 rounded-lg text-body-sm font-semibold cursor-pointer flex items-center justify-center gap-stack-xs transition-[background-color,box-shadow,transform] duration-fast ease-emphasis hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]';
 
 const BUTTON_ENROLL_TONE_CLASSES: Record<CourseCardTone, string> = {
   brand: 'text-white bg-gradient-to-br from-primary-600 to-primary-700 shadow-brand-sm hover:shadow-brand-md',

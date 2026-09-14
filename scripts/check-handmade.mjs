@@ -58,14 +58,24 @@ const FAMILLES = [
     nom: 'bouton',
     primitive: '<Button>',
     fichiers: ['core/Button.tsx'],
-    /* Une pilule cliquable de hauteur fixe portant un libellé en gras.
+    /* Un objet cliquable de hauteur fixe portant un libellé en gras.
        ⚠️ Signature resserrée le 2026-09-10 : la première version comptait 35
        éléments dont la majorité étaient des CHIPS (filtres, bascules) et une
        pastille d'état. Deux critères les écartent — le libellé d'un bouton
        n'est jamais en `text-micro` (le plus petit Button est en `caption`), et
-       il n'est jamais en majuscules, ce qui est la marque d'un Badge. */
-    signature: (cl) => /\brounded-pill\b/.test(cl)
-      && /\b(h-\d+|min-h-touch)\b/.test(cl)
+       il n'est jamais en majuscules, ce qui est la marque d'un Badge.
+
+       ⚠️ RAYON ÉLARGI le 2026-09-14 (R3). La signature exigeait `rounded-pill`,
+       et R3 vient de faire passer `<Button>` à `rounded-lg` : le détecteur
+       censé rattraper les retardataires d'une décision était aveuglé par cette
+       décision même. Il acceptait 5 boutons avant, 2 après — pas parce qu'ils
+       avaient été migrés, mais parce qu'il ne les voyait plus. Les deux rayons
+       sont désormais admis : `rounded-lg` est le nominal, `rounded-pill` reste
+       celui du bouton-icône (carré, donc cercle) et des faits-main non migrés.
+       Ne jamais réduire ce test à une seule valeur de rayon : c'est ce qui
+       rend le détecteur fragile à la prochaine décision. */
+    signature: (cl) => /\brounded-(pill|lg)\b/.test(cl)
+      && /\b(h-\d+|h-touch|min-h-touch)\b/.test(cl)
       && /\bfont-(bold|semibold)\b/.test(cl)
       && /\btext-(caption|body-sm|body)\b/.test(cl)
       && /\bcursor-pointer\b|\bhover:/.test(cl),
@@ -81,7 +91,17 @@ const FAMILLES = [
     signature: (cl) => /\brounded-(md|lg|xl|2xl)\b/.test(cl)
       && /\bborder\b|\bbg-white\b/.test(cl)
       && /\bp[xy]?-(stack|stack-lg|section|[3-9]|1[0-2])\b/.test(cl),
-    sauf: (cl) => /\b(absolute|fixed|sticky)\b/.test(cl),
+    /* ⚠️ La famille exclut les BOUTONS depuis le 2026-09-14 (R3). Tant que le
+       bouton portait la pilule, les deux silhouettes ne se confondaient pas.
+       Depuis qu'il est à `rounded-lg`, un bouton bordé avec du padding coche la
+       signature de la carte : le compte est passé de 269 à 281 le jour du
+       changement, sans qu'une seule carte soit née. Le discriminant est la
+       signature du bouton moins son rayon — hauteur fixe ET libellé gras ET
+       corps de texte de label. Une carte n'a aucun des trois. */
+    sauf: (cl) => /\b(absolute|fixed|sticky)\b/.test(cl)
+      || (/\bfont-(bold|semibold)\b/.test(cl)
+          && /\btext-(caption|body-sm|body)\b/.test(cl)
+          && /\b(h-\d+|h-touch|min-h-touch|cursor-pointer)\b/.test(cl)),
   },
   {
     nom: 'badge d’état',

@@ -127,7 +127,7 @@ export const MarketingVigie: React.FC = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Votre email professionnel"
-                className="h-12 flex-1 rounded-pill border border-ink-200 bg-white px-5 font-body text-body text-ink-900 placeholder:text-ink-500 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                className="h-12 flex-1 rounded-md border border-ink-200 bg-white px-5 font-body text-body text-ink-900 placeholder:text-ink-500 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
               />
               <Button type="submit" variant="primary" size="lg" disabled={sending} trailingIcon={<ArrowRight size={18} />}>
                 {sending ? 'Envoi en cours…' : "S'abonner à La Vigie IA"}

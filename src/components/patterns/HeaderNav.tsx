@@ -27,7 +27,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
     <div className="sticky top-0 z-sticky px-5 py-3 bg-white/85 backdrop-blur-glass-light border-b border-ink-200 flex items-center justify-between gap-stack">
       <button
         onClick={onBack}
-        className="inline-flex items-center gap-stack-xs bg-ink-50 hover:bg-white border border-ink-200 hover:border-ink-300 rounded-pill pl-2 pr-3.5 py-1.5 cursor-pointer text-ink-700 hover:text-ink-900 font-medium text-caption transition-all hover:-translate-x-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+        className="inline-flex items-center gap-stack-xs bg-ink-50 hover:bg-white border border-ink-200 hover:border-ink-300 rounded-lg pl-2 pr-3.5 py-1.5 cursor-pointer text-ink-700 hover:text-ink-900 font-medium text-caption transition-all hover:-translate-x-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
       >
         <ChevronLeft size={16} />
         {backLabel}

@@ -1589,15 +1589,45 @@ const COMPONENTS: ComponentEntry[] = [
 
 {
     name: 'Les rayons, et ce qui va ensemble',
-    codeName: 'décision ouverte',
+    codeName: 'R3 — tranchée le 14/09/2026',
     description:
-      "Un bouton en pilule rend 22 px de rayon dans une carte qui en fait 14. Mais sous 28 px de haut, pilule et rayon 14 sont indiscernables — le navigateur plafonne à la moitié de la hauteur. La question ne concerne donc que ce qui dépasse.",
+      "La règle est celle du seuil. Sous 28 px de haut, pilule et rayon 14 sont indiscernables — le navigateur plafonne à la moitié de la hauteur : la pilule reste, elle ne coûte rien. Au-dessus, le rayon devient une déclaration et prend l'échelle : le bouton est passé à 14, le bouton-icône garde son cercle.",
     keywords: ['rayon', 'radius', 'pilule', 'bouton', 'badge', 'carte', 'cohérence'],
     render: () => {
       const coque = 'flex flex-col rounded-lg border border-ink-200 bg-white p-stack-lg min-w-0';
       const metas = [{ icon: <Clock3 />, text: '45 min' }, { icon: <Calendar />, text: 'Jeudi 18' }];
       return (
         <div className="flex flex-col gap-section">
+
+          <ShowcaseBloc
+            titre="La règle, en une phrase"
+            note="Tranchée le 2026-09-14 après mesure au navigateur sur quatre pages de l'app. Sur les ~613 `rounded-pill` du repo, la moitié est sous le seuil (aucun effet à l'écran), 103 sont des cercles assumés, et les rangées de nav n'ont ni fond ni filet au repos — leur rayon ne se voit qu'au survol. Il ne restait, à l'écran, que le bouton plein. 13 instances faites main ont été migrées côté app, 5 côté site."
+          >
+            <div className="flex flex-col gap-stack">
+              <p className="m-0 font-body text-body text-ink-900">
+                Sous 28&nbsp;px, la <strong>pilule</strong>. Au-dessus, <strong>l'échelle</strong>.
+              </p>
+              <div className="grid gap-stack [grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr))]">
+                {([
+                  ['Badge · MetaPill · Chip', 'pilule', "Sous le seuil par construction. La pilule y rend la même forme que 14 — la garder ne coûte rien et c'est la convention du petit label."],
+                  ['Button', 'rounded-lg (14)', "Au-dessus du seuil sur ses quatre tailles. Prend le rayon de la Card qui le contient."],
+                  ['Button iconOnly', 'pilule → cercle', "Carré, donc la pilule y donne un cercle parfait. Exception écrite dans le composant."],
+                ] as const).map(([fam, val, pourquoi]) => (
+                  <div key={fam} className="flex flex-col gap-stack-2xs rounded-lg border border-ink-200 bg-white p-stack">
+                    <span className="font-display text-h5 text-ink-900">{fam}</span>
+                    <span className="font-mono text-caption text-primary-700">{val}</span>
+                    <span className="font-body text-caption text-ink-600">{pourquoi}</span>
+                  </div>
+                ))}
+              </div>
+              <p className="m-0 font-body text-body-sm text-ink-600">
+                L'argument écarté en connaissance de cause : le rayon d'une pilule vaut la moitié de sa
+                hauteur, donc sa silhouette ne dépend pas de la longueur du label. C'est vrai — mais ce
+                que ça achète, une constance que personne ne perçoit, coûte l'accord entre le CTA et la
+                carte qui le porte.
+              </p>
+            </div>
+          </ShowcaseBloc>
 
           <ShowcaseBloc
             titre="Sous 28 px, la question ne se pose pas"
@@ -1622,12 +1652,12 @@ const COMPONENTS: ComponentEntry[] = [
 
           <ShowcaseBloc
             titre="À 44 px, l’écart se voit — et c’est un choix"
-            note="Un bouton md mesure 44 px : en pilule il rend 22 px de rayon, contre 14 pour la carte qui le contient. C’est le seul endroit où la question mord vraiment. Material 3 est allé vers la pilule totale ; Linear, Vercel et Stripe tiennent des rayons modérés. Aucune des deux n’est la norme."
+            note="Un bouton md mesure 44 px : en pilule il rendait 22 px de rayon, contre 14 pour la carte qui le contient. C’était le seul endroit où la question mordait vraiment. Material 3 est allé vers la pilule totale ; Linear, Vercel et Stripe tiennent des rayons modérés — aucune des deux n’est la norme, donc c’est un choix, et R3 l’a fait au milieu."
           >
             <div className="flex flex-wrap items-end gap-stack-lg">
               {([
-                ['', 'pilule — 22 px rendus'],
-                ['[&>button]:rounded-lg', 'rayon 14 — celui de la carte'],
+                ['[&>button]:rounded-pill', 'pilule — 22 px rendus (avant R3)'],
+                ['', 'rayon 14 — le défaut depuis R3'],
                 ['[&>button]:rounded-md', 'rayon 10'],
               ] as const).map(([surcharge, nom]) => (
                 <div key={nom} className="flex flex-col items-start gap-stack-2xs">
@@ -1642,12 +1672,12 @@ const COMPONENTS: ComponentEntry[] = [
 
           <ShowcaseBloc
             titre="Le même bouton, dans sa carte"
-            note="C’est là que ça se juge : l’accord entre le coin de la carte et celui du bouton, à taille réelle. Le badge et les métas ne changent pas d’une carte à l’autre — ils sont sous le seuil."
+            note="C’est là que ça s’est jugé : l’accord entre le coin de la carte et celui du bouton, à taille réelle. Le badge et les métas ne changent pas d’une carte à l’autre — ils sont sous le seuil, et c’est exactement pourquoi ils gardent la pilule."
           >
             <div className="grid gap-stack-lg [grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr))]">
               {([
-                ['', 'CTA en pilule'],
-                ['[&_button]:rounded-lg', 'CTA au rayon de la carte'],
+                ['[&_button]:rounded-pill', 'CTA en pilule (avant R3)'],
+                ['', 'CTA au rayon de la carte — retenu'],
                 ['[&_button]:rounded-md', 'CTA à 10 px'],
               ] as const).map(([surcharge, nom]) => (
                 <div key={nom} className="flex flex-col gap-stack-xs">
@@ -9226,7 +9256,11 @@ const Components: React.FC = () => {
                           <div className="ds-component__chips">
                             <CopyChip text={c.codeName} label={`‹${c.codeName}›`} />
                             {c.cssBase && <CopyChip text={c.cssBase} label={c.cssBase} />}
-                            <span className="ds-component__cat">{c._meta.category}</span>
+                            {/* La catégorie EST un badge : elle passe par le composant, pas par un
+     CSS maison. Avant, `.ds-component__cat` la dessinait à la main avec
+     un rayon de 6 px et 25 px de haut, à côté d'un CopyChip à 10 px et
+     30 px — deux rayons et deux hauteurs sur la même ligne. */}
+                            <Badge variant="brand" size="compact">{c._meta.category}</Badge>
                           </div>
                         </header>
                         <div className="ds-component__preview">
@@ -9471,11 +9505,6 @@ const PAGE_STYLES = `
     max-width: 70ch;
   }
   .ds-component__chips { display: flex; gap: var(--s-1-5); align-items: center; flex-wrap: wrap; }
-  .ds-component__cat {
-    font-size: var(--text-micro); font-weight: 700; letter-spacing: .06em;
-    text-transform: uppercase; color: var(--tls-primary-700);
-    background: var(--tls-primary-50); padding: var(--s-1) var(--s-2); border-radius: var(--r-sm);
-  }
 
   .ds-component__preview {
     padding: var(--s-6);

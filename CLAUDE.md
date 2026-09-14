@@ -79,6 +79,18 @@ Les trois sont supprimés.
 vocabulaire de domaine, dont l'app aura besoin quand le corpus arrivera —
 le retirer échangerait un concept contre des lignes.
 
+⚠️ **Taille par défaut de `MetaPill` et `MetaPillGroup` : `sm`, pas `md`** (décidé
+le 2026-09-14). Mesuré au navigateur : au cran `md`, la pastille faisait 30 px de
+haut et 13 px de police, contre 19,75 px et 11 px pour un `Badge` — **la donnée
+qui chuchote était une fois et demie plus haute que l'état qui crie**, hiérarchie
+inversée sur toutes les cartes. Et 47 des 55 appels prenaient ce défaut ; sur la
+vitrine, les 27 pastilles rendues étaient toutes à 13/30, pas une au petit cran.
+`sm` donne 11 px pour 24 px de haut : même corps que `Badge`, au-dessus du
+minimum WCAG 2.2 AA (24×24), et **sous le seuil des 28 px** où le rayon commence
+à compter. ⚠️ `MetaPillGroup` porte SON propre défaut et le passe à chaque
+pastille : changer celui de `MetaPill` seul ne descend pas — les cartes passent
+par le groupe.
+
 **La famille aujourd'hui** : `Badge` (l'état, 285) · `FilterChip` (le filtre, 76)
 · `MetaPill` + `MetaPillGroup` (la donnée) · `Chip` (primitive interne) ·
 `StatusBadge` (les états de leçon).
@@ -247,7 +259,28 @@ className={tone === 'primary' ? 'bg-primary-500' : 'bg-secondary-500'}
 
 - **Typo** : classes Tailwind auto-générées depuis les tokens (`--text-h1` → `text-h1`, `--font-display` → `font-display`, etc.).
 - **Tracking gradué** (h1 -0.03em · h2/h3 -0.025em · h4 -0.02em · body 0). ⚠️ Ne **jamais** aplatir le tracking sur tous les headings (anti-pattern). Le marketing BEM (`display-*`, `pole__title`) garde son propre tracking, hors `@theme`.
-- **Rayons** : `rounded-pill` (999px, token TLS) pour Button/Card.
+- **Rayons — la règle est celle du SEUIL (R3, tranchée le 2026-09-14).**
+  **Sous 28 px de haut, la pilule. Au-dessus, l'échelle (`rounded-lg`, 14 px).**
+  Le navigateur plafonne tout rayon à la moitié de la plus petite dimension, donc
+  sous 28 px `rounded-pill` et `rounded-lg` rendent **exactement la même forme** :
+  la pilule y reste parce qu'elle est la convention du petit label et qu'elle ne
+  coûte rien. Au-dessus, le rayon cesse d'être un accident de plafonnement et
+  devient une déclaration — il prend alors l'échelle, comme la Card (R1, 14 px).
+
+  | Famille | Rayon | Pourquoi |
+  |---|---|---|
+  | `Badge` · `MetaPill` · `Chip` | `rounded-pill` | sous le seuil par construction (20 · 24 · 28 px) |
+  | `Button` (4 tailles) | **`rounded-lg`** | au-dessus du seuil ; s'accorde à la Card qui le porte |
+  | `Button iconOnly` | `rounded-pill` | carré, donc cercle parfait — **exception écrite**, ne pas « uniformiser » |
+  | `Input` | `rounded-md` (10) | inchangé |
+
+  ⚠️ **Ne jamais poser deux classes de rayon sur le même élément** : elles ont la
+  même spécificité (0,1,0), donc c'est l'ordre d'émission de Tailwind qui tranche,
+  pas l'ordre du `className` — piège n°6. `Button.tsx` sort pour cette raison son
+  rayon de `BASE` (constantes `RAYON` / `RAYON_CERCLE`, une seule posée par appel).
+
+  ⏳ **R2 reste ouverte** : les `rounded-2xl` (24 px) sur des conteneurs.
+  `rounded-3xl` n'existe plus dans `src/` (0 occurrence, vérifié le 2026-09-14).
   ⚠️ **Corrigé le 2026-09-09 : l'affirmation « `rounded-full` = 50 %, cercle » était fausse.**
   Mesuré dans le CSS livré, Tailwind v4 génère `rounded-full: 3.40282e38px` — l'infini d'un float,
   pas un pourcentage. Sur un rectangle, le navigateur plafonne tout rayon à la moitié de la plus
@@ -255,8 +288,8 @@ className={tone === 'primary' ? 'bg-primary-500' : 'bg-secondary-500'}
   préférence pour `rounded-pill` reste, mais pour une raison de vocabulaire — c'est le token TLS,
   donc la valeur se change en un seul endroit — et non parce que le rendu diffère.
   ⚠️ Même famille de piège pour **`rounded-3xl`** : il n'est pas défini dans `index.css`, mais
-  Tailwind en fournit un défaut à `1.5rem` = **24 px**, soit exactement `--radius-2xl`. Ses
-  22 usages ne produisent donc aucun défaut visible : c'est un doublon de vocabulaire, pas de rendu.
+  Tailwind en fournit un défaut à `1.5rem` = **24 px**, soit exactement `--radius-2xl` — doublon de
+  vocabulaire, pas de rendu. *(Ses 22 usages ont disparu depuis : 0 occurrence au 2026-09-14.)*
 - **Ombres** : `shadow-card` / `-hover` / `-lift` sont **neutres (noir), volontairement** — ce sont les fallbacks des cards **SANS `tone`**. Dès qu'un `tone` est posé, `Card.tsx` bascule sur `--shadow-brand|warm|sun-*` (maps `CARD_SHADOW_*`). Une valeur ambrée par défaut collisionnerait avec le tone `warm`.
 
 ---
@@ -599,8 +632,15 @@ import { Star } from 'lucide-react';
 
 ### ⚠️ Une taille d'icône se prend dans l'échelle, et le glyphe remplit sa boîte
 
-`--icon-size-{xs,sm,md,lg,xl}` = 16 · 18 · 20 · 24 · 28 px, avec les utilities
-`.icon-*` correspondantes. Chaque cran est apparié à un pas de l'échelle de texte
+`--icon-size-{2xs,xs,sm,md,lg,xl,2xl,3xl,4xl}` = **14 · 16 · 18 · 20 · 24 · 28 ·
+32 · 40 · 48** px — ⚠️ **neuf crans, pas cinq** : cette ligne n'en listait que cinq
+(16·18·20·24·28) et laissait croire que le plancher était à 16. Corrigé le
+2026-09-14 sur `src/index.css:622`. Utilities `.icon-*` correspondantes.
+⚠️ **Le plancher de l'échelle est 14, et `StatusBadge` passe en dessous** — ses
+icônes sont à 10 et 12 px, en `size={n}` brut. Ce n'est pas de la triche : une
+icône de 14 dans une pastille de 18 px n'a que 2 px d'air. C'est l'échelle qui ne
+descend pas assez bas. À trancher si le motif se répète, pas à corriger au cas
+par cas. Chaque cran est apparié à un pas de l'échelle de texte
 dans un rapport d'environ 1,25 : `xs` avec `caption`, `sm` avec `body-sm`, `md`
 avec `body`, `lg` avec `body-lg`.
 

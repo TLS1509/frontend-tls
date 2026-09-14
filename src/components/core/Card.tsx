@@ -103,8 +103,23 @@ export interface CardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 't
    flotter.
 
    Cette valeur commande aussi la migration des 93 cards écrites à la main, et
-   les décisions R2 (les 22 `rounded-2xl`) et R3 (les 204 `rounded-pill`) : elles
-   l'attendaient toutes. */
+   les décisions R2 (les `rounded-2xl`) et R3 (les `rounded-pill`) : elles
+   l'attendaient toutes.
+
+   ✅ R3 TRANCHÉE le 2026-09-14 — la règle est celle du SEUIL, et elle vaut pour
+   les quatre familles. Le navigateur plafonne tout rayon à la moitié de la plus
+   petite dimension : sous 28 px de haut, la pilule et `rounded-lg` rendent la
+   MÊME forme. Donc, sous le seuil, la pilule reste (Badge, Chip, MetaPill) —
+   c'est la convention du petit label et elle ne coûte rien. Au-dessus, le rayon
+   devient une déclaration et prend l'échelle : `<Button>` est passé à
+   `rounded-lg`, avec le bouton-icône conservé en cercle par exception écrite.
+   Détail et mesures dans le commentaire de `BASE` de `core/Button.tsx`.
+
+   ⏳ R2 reste ouverte : les `rounded-2xl` (24 px) sur des conteneurs. Le cran
+   au-dessus, celui que Tailwind fournit par défaut à 24 px sans qu'il soit dans
+   `index.css`, a disparu de `src/` (0 occurrence au 2026-09-14) — R2 ne porte
+   donc plus que sur une valeur, pas deux. On évite ici de l'écrire en toutes
+   lettres : `check-handmade` le compterait comme un usage. */
 const BASE = 'flex flex-col rounded-lg text-ink-900 font-body text-body-sm transition-all duration-200 motion-reduce:transition-none [&[role=button]]:h-auto [&[role=button]]:font-normal [&[role=button]]:items-stretch';
 
 const VARIANT_CLASSES: Record<CardVariant, string> = {

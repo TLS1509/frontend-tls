@@ -341,7 +341,7 @@ export const MarketingContact: React.FC = () => {
                           if (fieldErrors.name) setFieldErrors({ ...fieldErrors, name: undefined });
                         }}
                         placeholder="Marie Dupont"
-                        className={`px-4 h-12 rounded-pill bg-white border text-ink-900 placeholder:text-ink-500 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 transition-all duration-base ${
+                        className={`px-4 h-12 rounded-md bg-white border text-ink-900 placeholder:text-ink-500 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 transition-all duration-base ${
                           fieldErrors.name
                             ? 'border-danger-base focus-visible:outline-danger-base'
                             : 'border-ink-200 focus-visible:outline-primary-500'
@@ -375,7 +375,7 @@ export const MarketingContact: React.FC = () => {
                           if (fieldErrors.email) setFieldErrors({ ...fieldErrors, email: undefined });
                         }}
                         placeholder="marie@organisation.fr"
-                        className={`px-4 h-12 rounded-pill bg-white border text-ink-900 placeholder:text-ink-500 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 transition-all duration-base ${
+                        className={`px-4 h-12 rounded-md bg-white border text-ink-900 placeholder:text-ink-500 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 transition-all duration-base ${
                           fieldErrors.email
                             ? 'border-danger-base focus-visible:outline-danger-base'
                             : 'border-ink-200 focus-visible:outline-primary-500'
@@ -402,7 +402,7 @@ export const MarketingContact: React.FC = () => {
                         value={form.org}
                         onChange={(e) => setForm({ ...form, org: e.target.value })}
                         placeholder="Nom de l'entreprise ou organisation"
-                        className="px-4 h-12 rounded-pill bg-white border border-ink-200 text-ink-900 placeholder:text-ink-500 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 transition-all duration-base"
+                        className="px-4 h-12 rounded-md bg-white border border-ink-200 text-ink-900 placeholder:text-ink-500 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 transition-all duration-base"
                       />
                     </div>
                     <div className="flex flex-col gap-stack-xs">
@@ -417,7 +417,7 @@ export const MarketingContact: React.FC = () => {
                         value={form.phone}
                         onChange={(e) => setForm({ ...form, phone: e.target.value })}
                         placeholder="+33 6 00 00 00 00"
-                        className="px-4 h-12 rounded-pill bg-white border border-ink-200 text-ink-900 placeholder:text-ink-500 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 transition-all duration-base"
+                        className="px-4 h-12 rounded-md bg-white border border-ink-200 text-ink-900 placeholder:text-ink-500 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 transition-all duration-base"
                       />
                     </div>
                   </div>
@@ -426,12 +426,14 @@ export const MarketingContact: React.FC = () => {
                     <label htmlFor="ct-message" className="font-body text-body-sm font-semibold text-ink-900">
                       Votre message *
                     </label>
-                    {/* Champs alignés le 29/07 sur le reste du site : les
-                        entrées d'une ligne passent en `rounded-pill` (Home,
-                        Vigie, bas d'article), la zone de texte reste arrondie
-                        en `rounded-2xl` — une zone multiligne en pilule est
-                        illisible. À rejouer si la phase design tranche
-                        autrement sur les champs. */}
+                    {/* Rejoué le 2026-09-14, comme ce commentaire le prévoyait.
+                        L'alignement du 29/07 mettait les entrées d'une ligne en
+                        `rounded-pill` et gardait la zone de texte en
+                        `rounded-2xl`, plus douce que ses voisines. R3 a fait
+                        passer les champs au rayon d'`Input` (`rounded-md`, 10) :
+                        la prémisse a disparu, et la mesure au navigateur montrait
+                        4 entrées à 10 px à côté d'un textarea à 24 dans le MÊME
+                        formulaire. La zone de texte prend donc le même rayon. */}
                     {/* `autoComplete="off"` : le contenu est propre à chaque
                         demande, rien à re-proposer d'une visite à l'autre. */}
                     <textarea
@@ -448,7 +450,7 @@ export const MarketingContact: React.FC = () => {
                         if (fieldErrors.message) setFieldErrors({ ...fieldErrors, message: undefined });
                       }}
                       placeholder="Décrivez brièvement votre contexte, vos objectifs, vos questions…"
-                      className={`px-4 py-3 rounded-2xl bg-white border text-ink-900 placeholder:text-ink-500 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 transition-all duration-base resize-y h-auto min-h-[140px] ${
+                      className={`px-4 py-3 rounded-md bg-white border text-ink-900 placeholder:text-ink-500 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 transition-all duration-base resize-y h-auto min-h-[140px] ${
                         fieldErrors.message
                           ? 'border-danger-base focus-visible:outline-danger-base'
                           : 'border-ink-200 focus-visible:outline-primary-500'

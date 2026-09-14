@@ -302,7 +302,7 @@ export const MarketingDiagnostic: React.FC = () => {
       };
 
   const inputCls =
-    'h-12 w-full rounded-pill border border-ink-200 bg-white px-5 font-body text-body text-ink-900 placeholder:text-ink-500 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
+    'h-12 w-full rounded-md border border-ink-200 bg-white px-5 font-body text-body text-ink-900 placeholder:text-ink-500 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
 
   return (
     <div className="bg-white">

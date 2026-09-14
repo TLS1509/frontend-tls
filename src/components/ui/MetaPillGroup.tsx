@@ -28,9 +28,13 @@ const GAP_CLASSES = {
   lg: 'gap-stack',
 };
 
+/* `sm`, aligné sur le défaut de MetaPill (2026-09-14). Le groupe porte SON
+   propre défaut et le passe à chaque pastille : tant qu'il restait à `md`, il
+   court-circuitait celui de MetaPill et la décision ne descendait pas. C'est
+   lui le vrai canal de distribution — les cartes passent par le groupe. */
 export const MetaPillGroup: React.FC<MetaPillGroupProps> = ({
   items,
-  size = 'md',
+  size = 'sm',
   layout = 'horizontal',
   gap = 'md',
   className = '',
