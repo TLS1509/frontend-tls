@@ -97,8 +97,16 @@ const FAMILLES = [
        signature de la carte : le compte est passé de 269 à 281 le jour du
        changement, sans qu'une seule carte soit née. Le discriminant est la
        signature du bouton moins son rayon — hauteur fixe ET libellé gras ET
-       corps de texte de label. Une carte n'a aucun des trois. */
+       corps de texte de label. Une carte n'a aucun des trois.
+
+       ⚠️ Et elle exclut les CHAMPS depuis le 2026-09-14 (R4), pour exactement
+       la même raison qu'elle exclut les boutons : la famille champ vient de
+       passer à `rounded-lg`, et un champ bordé avec du padding coche la
+       signature de la carte. Deux champs de plus sont apparus le jour du
+       changement sans qu'une carte soit née. Le discriminant est le
+       `placeholder:` — seul un champ en porte un ; aucune carte n'en a. */
     sauf: (cl) => /\b(absolute|fixed|sticky)\b/.test(cl)
+      || /\bplaceholder:/.test(cl)
       || (/\bfont-(bold|semibold)\b/.test(cl)
           && /\btext-(caption|body-sm|body)\b/.test(cl)
           && /\b(h-\d+|h-touch|min-h-touch|cursor-pointer)\b/.test(cl)),

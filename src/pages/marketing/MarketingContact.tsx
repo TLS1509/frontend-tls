@@ -341,7 +341,7 @@ export const MarketingContact: React.FC = () => {
                           if (fieldErrors.name) setFieldErrors({ ...fieldErrors, name: undefined });
                         }}
                         placeholder="Marie Dupont"
-                        className={`px-4 h-12 rounded-md bg-white border text-ink-900 placeholder:text-ink-500 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 transition-all duration-base ${
+                        className={`px-4 h-12 rounded-lg bg-white border text-ink-900 placeholder:text-ink-500 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 transition-all duration-base ${
                           fieldErrors.name
                             ? 'border-danger-base focus-visible:outline-danger-base'
                             : 'border-ink-200 focus-visible:outline-primary-500'
@@ -375,7 +375,7 @@ export const MarketingContact: React.FC = () => {
                           if (fieldErrors.email) setFieldErrors({ ...fieldErrors, email: undefined });
                         }}
                         placeholder="marie@organisation.fr"
-                        className={`px-4 h-12 rounded-md bg-white border text-ink-900 placeholder:text-ink-500 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 transition-all duration-base ${
+                        className={`px-4 h-12 rounded-lg bg-white border text-ink-900 placeholder:text-ink-500 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 transition-all duration-base ${
                           fieldErrors.email
                             ? 'border-danger-base focus-visible:outline-danger-base'
                             : 'border-ink-200 focus-visible:outline-primary-500'
@@ -402,7 +402,7 @@ export const MarketingContact: React.FC = () => {
                         value={form.org}
                         onChange={(e) => setForm({ ...form, org: e.target.value })}
                         placeholder="Nom de l'entreprise ou organisation"
-                        className="px-4 h-12 rounded-md bg-white border border-ink-200 text-ink-900 placeholder:text-ink-500 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 transition-all duration-base"
+                        className="px-4 h-12 rounded-lg bg-white border border-ink-200 text-ink-900 placeholder:text-ink-500 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 transition-all duration-base"
                       />
                     </div>
                     <div className="flex flex-col gap-stack-xs">
@@ -417,7 +417,7 @@ export const MarketingContact: React.FC = () => {
                         value={form.phone}
                         onChange={(e) => setForm({ ...form, phone: e.target.value })}
                         placeholder="+33 6 00 00 00 00"
-                        className="px-4 h-12 rounded-md bg-white border border-ink-200 text-ink-900 placeholder:text-ink-500 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 transition-all duration-base"
+                        className="px-4 h-12 rounded-lg bg-white border border-ink-200 text-ink-900 placeholder:text-ink-500 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 transition-all duration-base"
                       />
                     </div>
                   </div>
@@ -450,7 +450,7 @@ export const MarketingContact: React.FC = () => {
                         if (fieldErrors.message) setFieldErrors({ ...fieldErrors, message: undefined });
                       }}
                       placeholder="Décrivez brièvement votre contexte, vos objectifs, vos questions…"
-                      className={`px-4 py-3 rounded-md bg-white border text-ink-900 placeholder:text-ink-500 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 transition-all duration-base resize-y h-auto min-h-[140px] ${
+                      className={`px-4 py-3 rounded-lg bg-white border text-ink-900 placeholder:text-ink-500 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 transition-all duration-base resize-y h-auto min-h-[140px] ${
                         fieldErrors.message
                           ? 'border-danger-base focus-visible:outline-danger-base'
                           : 'border-ink-200 focus-visible:outline-primary-500'

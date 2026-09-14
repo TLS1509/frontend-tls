@@ -131,7 +131,7 @@ const JacValidationForm: React.FC<{
               placeholder="Commentaire (optionnel)"
               value={row.comment}
               onChange={(e) => handleCommentChange(idx, e.target.value)}
-              className="w-full p-stack-xs rounded-md border border-ink-200 font-body text-caption focus:outline-none focus:ring-1 focus:ring-primary-500 h-auto min-h-[52px]"
+              className="w-full p-stack-xs rounded-lg border border-ink-200 font-body text-caption focus:outline-none focus:ring-1 focus:ring-primary-500 h-auto min-h-[52px]"
             />
           </div>
         ))}
@@ -170,7 +170,7 @@ const JacValidationForm: React.FC<{
           placeholder="Synthèse de l'évaluation, axes d'amélioration..."
           value={globalFeedback}
           onChange={(e) => setGlobalFeedback(e.target.value)}
-          className="w-full p-3 rounded-md border border-ink-200 font-body text-body-sm focus:outline-none focus:ring-2 focus:ring-primary-500 h-auto min-h-[88px]"
+          className="w-full p-3 rounded-lg border border-ink-200 font-body text-body-sm focus:outline-none focus:ring-2 focus:ring-primary-500 h-auto min-h-[88px]"
         />
       </FormGroup>
 

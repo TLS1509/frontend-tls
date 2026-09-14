@@ -54,10 +54,19 @@ export interface SearchProps
   renderSuggestion?: (suggestion: SearchSuggestion) => React.ReactNode;
 }
 
+/* R4 — le rayon de la famille champ, hors de la map de taille et posé une seule
+   fois (deux classes de rayon auraient la même spécificité, cf. piège n°6).
+   Ce composant portait SA propre échelle — 14 · 20 · 24 selon la taille — alors
+   que sa fiche de vitrine le décrit comme « blanc + bordure, comme Input ». La
+   mesure donnait raison à la fiche et tort au code : sur /components/search-
+   filters, trois barres de recherche rendaient 10, 14 et 20 px côte à côte. Le
+   rayon ne dépend plus de la taille. Raisonnement complet dans `core/Input.tsx`. */
+const RAYON = 'rounded-lg';
+
 const SIZE_WRAPPER: Record<SearchSize, string> = {
-  sm: 'py-1.5 px-3 rounded-lg',
-  md: 'py-2.5 px-4 rounded-xl',
-  lg: 'py-3.5 px-5 rounded-2xl',
+  sm: 'py-1.5 px-3',
+  md: 'py-2.5 px-4',
+  lg: 'py-3.5 px-5',
 };
 
 const SIZE_GAP: Record<SearchSize, string> = {
@@ -162,6 +171,7 @@ export const Search: React.FC<SearchProps> = ({
 
   const wrapperClasses = [
     'flex flex-col transition-all duration-150',
+    RAYON,
     SIZE_WRAPPER[size],
     VARIANT_WRAPPER[variant],
     wrapperClassName,
