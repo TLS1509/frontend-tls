@@ -140,6 +140,26 @@ quarante et un font exactement ça :
 | **Contra Labs** | Un portable sur de la soie crème | — |
 | **Until** | Vue aérienne d'un pique-nique dans l'herbe | Typo |
 
+> ⚠️ **Correction du 2026-09-16, après les avoir regardés un par un.** La table
+> ci-dessus laisse croire que le décor occupe **le fond de la page**. C'est faux
+> pour presque tous : il occupe **la bande d'ouverture**, et la page repasse en
+> crème ou en blanc juste en dessous.
+>
+> | | Ce qui a été vu |
+> |---|---|
+> | **Structured** | Une **montagne peinte, des nuages, un monolithe noir** — puis du contenu net |
+> | **Legend** | Un paysage en tête, puis « The old financial system worked for itself » sur crème |
+> | **Craft** | Ciel, nuages, champ jaune dans le hero ; en dessous, sections crème et témoignage en serif |
+> | **Duna** | Un couchant pastel dans le hero, puis « Trusted by leaders » sur blanc |
+> | **Adaline** | Le lac n'est **même pas un fond** : il est dans une carte |
+> | **Until** | Ce n'est **pas une image, c'est une vidéo sous-titrée** — la scène bouge, une ligne de texte est incrustée |
+>
+> **Ce que ça change.** Le fil n'est pas « une page au fond peint », c'est **une
+> seule surface peinte à l'ouverture, puis la sobriété**. Ce qui est, mot pour
+> mot, la règle n°1 du brief §4 — *« une seule surface peinte, une seule fois ;
+> ailleurs, un souffle »*. Les trois sources concordent désormais sur le
+> **dosage**, et plus seulement sur la matière.
+
 **Pourquoi Daydream t'a paru daté.** Daydream, c'est du vectoriel plat avec des
 personnages — l'exact opposé de ce fil : pas de matière, pas de sol, des
 pictogrammes. Tes deux seules saves de ce genre, **Daydream** et **MANA**, sont
@@ -152,12 +172,76 @@ palette est déjà chaude et désaturée (teal `#55A1B4`, pêche, crème), donc 
 tombe dans la lane — le risque n'est pas l'écart au North Star, c'est le coût de
 production et le poids des images.
 
-### Le second fil, plus faible : l'éditorial et la craft d'agence
+### Les six familles de la bibliothèque (relevé visuel du 2026-09-16)
+
+> Relevé en regardant les vignettes une par une dans le compte, une trentaine de
+> saves sur quarante et un. ⚠️ **Les aperçus Mobbin ne se chargent que sur la
+> liste des saves**, jamais sur les pages de site, et le DOM sert des images
+> leurres — ce relevé vient de l'œil, pas d'une extraction.
+
+**1 · Le trait continu** — *Claude · Wispr Flow*
+Une **seule ligne d'encre ininterrompue** qui traverse le hero et forme un
+dessin. Chez Claude, un gribouillis à droite de « Meet your thinking partner » ;
+chez Wispr Flow, un fil qui serpente sur un vert sombre. C'est la version
+premium et actuelle du trait dessiné — à distinguer du cercle autour d'un mot,
+devenu un tic. **Codable, aucun asset.**
+
+**2 · Le décor peint en bande** — *Structured · Legend · Craft · Duna · Origin ·
+Giga · General Intelligence · Cofounder · Adaline*
+Neuf sites. Voir la correction ci-dessus : c'est une bande, pas un fond.
+
+**3 · L'objet réel posé** — *Contra Labs · Parker AI · Feather*
+**Famille repérée le 16/09, absente de tout ce qui précède.** Contra Labs pose
+une **statue antique photographiée à côté d'un portable**, sur un crème uni ;
+Parker AI un **écran cathodique vintage** plus un dessin à l'encre ; Feather fait
+flotter de petits objets dans du blanc.
+
+Ni décor ni texture : **un objet réel, détouré, posé sur un fond nu**. Le
+fait-main vient de l'objet, pas de la surface. C'est le poste le moins cher de la
+liste — un appareil photo ou un scanner, un objet, un fond blanc — et le seul qui
+échappe au risque « banque d'images », puisque l'objet est le nôtre.
+
+**4 · La forme liquide 3D** — *Slush · Phantom* · rendu organique et brillant. Hors registre.
+**5 · L'illustration vectorielle plate** — *MANA · Ada · Daydream* · la famille écartée.
+**6 · La typo seule** — *CTRL · OFF+BRAND · The New Yorker* · aucune image, la typo porte tout.
+
+### Ce que la bibliothèque dit du mouvement
+
+Les tags de style de Mobbin sur ces saves tournent autour de quatre choses :
+**Scroll Effects**, **Motion**, **Glass**, **Illustration**. Un seul emploie la
+vidéo comme décor — **Until** — et ça tient parce que la scène est calme et que
+le sous-titre porte le sens. Aucun ne fait de la vidéo un fond d'ambiance.
+
+### Le fil secondaire : l'éditorial et la craft d'agence
 
 Huit des vingt-trois nouveaux saves n'ont rien à vendre en SaaS : **The New
 Yorker**, **OFF+BRAND**, **Phantom Studios**, **Analogue Agency**, **Koto**,
 **MANA**, **Savor**, **Contra Labs**. C'est un virage depuis juin, où la
-bibliothèque était surtout du produit. À surveiller, pas encore à nommer.
+bibliothèque était surtout du produit.
+
+---
+
+## 🧪 LES 17 FONDS DE `brand/assets/patterns/backgrounds/` — aucun ne sert
+
+> Lus dans leur code source le 2026-09-16, après l'audit de
+> [`_canon/DECISION-FONDS-ET-TEXTURES.md`](../_canon/DECISION-FONDS-ET-TEXTURES.md).
+
+Les dix-sept portent la signature `id="visual"` : ce sont des **sorties de
+générateur** (haikei.app). Leur contenu, lu ligne à ligne :
+
+| Famille | Ce qu'il y a dedans | Verdict |
+|---|---|---|
+| **8 blobs** | Un aplat de couleur + **une** forme organique en aplat | `AmbientBlobs.tsx` fait mieux : trois blobs animés, tone-aware |
+| **4 gradients** | Un aplat + **six cercles floutés** à `stdDeviation:161` | C'est **le dégradé peint, écarté le 16/09** — en version générique |
+| **5 vagues** | Des vagues empilées | Seule famille sans équivalent en code, mais elle interpole des couleurs hors palette |
+
+**Ils sont l'exemple parfait de ce que le brief §4 appelle « ce qui s'installe en
+une commande »** : on remplit un formulaire, on télécharge. Aucune facture, aucune
+décision lisible. Que seize sur dix-sept ne soient référencés nulle part n'est pas
+un oubli — c'est le bon résultat.
+
+**Ne pas y puiser pour la direction fait-main.** Ils restent ce qu'ils sont : des
+fonds de communication, là où ils sont.
 
 ---
 
