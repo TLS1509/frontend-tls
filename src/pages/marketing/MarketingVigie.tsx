@@ -76,19 +76,19 @@ export const MarketingVigie: React.FC = () => {
   };
 
   return (
-    <div className="bg-white">
+    <>
       <SEOHead
         title="La Vigie IA · The Learning Society"
         description="La Vigie IA, la newsletter bimensuelle de The Learning Society pour les équipes L&D : un workflow pédagogique autopsié, une fiche Out-skill, un crash-test terrain. Cinq minutes, le mardi à 8h."
         canonical="/website/vigie"
       />
 
-      <section className="relative overflow-hidden bg-gradient-to-b from-primary-50 via-white to-white">
+      <section className="relative overflow-hidden">
         <div
           aria-hidden
           className="absolute -top-24 left-[-8%] h-[420px] w-[420px] rounded-pill bg-primary-200/40 blur-3xl pointer-events-none"
         />
-        <div className="relative max-w-wide mx-auto px-4 sm:px-6 lg:px-10 pt-36 sm:pt-40 lg:pt-44 pb-16 sm:pb-20 lg:pb-24">
+        <div className="relative max-w-wide mx-auto px-4 sm:px-6 lg:px-10 pt-hero pb-band">
           <motion.div
             initial={reduced ? false : { y: 24 }}
             animate={{ y: 0 }}
@@ -99,7 +99,7 @@ export const MarketingVigie: React.FC = () => {
               <Radar size={14} />
               La newsletter TLS
             </p>
-            <h1 className="font-display font-extrabold text-ink-900 leading-[1.02] tracking-tight [text-wrap:balance] text-[clamp(2.5rem,5.5vw,4rem)]">
+            <h1 className="font-display text-hero text-ink-900 [text-wrap:balance]">
               La Vigie IA. <span className="text-primary-700">Le signal, sans le bruit.</span>
             </h1>
             <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl [text-wrap:pretty]">
@@ -141,11 +141,11 @@ export const MarketingVigie: React.FC = () => {
       </section>
 
       {/* Ce que contient chaque numéro — la structure fixe, pas une promesse vague */}
-      <section className="bg-white border-t border-ink-100">
-        <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
+      <section>
+        <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-band flex flex-col gap-flow">
           <FadeInWhenVisible>
             <div className="max-w-3xl flex flex-col gap-stack">
-              <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)]">
+              <h2 className="font-display text-section text-ink-900 [text-wrap:balance]">
                 Trois rubriques, à chaque numéro.
               </h2>
               <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 [text-wrap:pretty]">
@@ -158,7 +158,7 @@ export const MarketingVigie: React.FC = () => {
           <div className="flex flex-col">
             {RUBRIQUES.map((r, i) => (
               <FadeInWhenVisible key={r.titre} delay={i * 0.06}>
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-stack lg:gap-section items-start border-t border-ink-200/70 py-section first:border-t-0">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-stack lg:gap-flow items-start border-t border-ink-200/70 py-section first:border-t-0">
                   <div className="lg:col-span-5 flex items-start gap-stack">
                     <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-100 text-primary-700">
                       {r.icon}
@@ -177,7 +177,7 @@ export const MarketingVigie: React.FC = () => {
         </div>
       </section>
 
-      <section className="bg-primary-50/50 border-t border-primary-100">
+      <section>
         <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-12 sm:py-16">
           <FadeInWhenVisible>
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-stack">
@@ -192,7 +192,7 @@ export const MarketingVigie: React.FC = () => {
           </FadeInWhenVisible>
         </div>
       </section>
-    </div>
+    </>
   );
 };
 

@@ -136,7 +136,7 @@ export const MarketingContact: React.FC = () => {
   };
 
   return (
-    <div className="bg-white">
+    <>
       <SEOHead
         title="Contactez The Learning Society · Échange & Rendez-vous"
         description="Échangez avec l'équipe The Learning Society. Prenez rendez-vous, posez vos questions ou démarrez votre projet de formation IA."
@@ -196,7 +196,7 @@ export const MarketingContact: React.FC = () => {
               transition={{ duration: reduced ? 0.12 : 0.22, ease: [0.21, 0.47, 0.32, 0.98] }}
               className="flex flex-col items-center gap-stack"
             >
-              <h1 className="font-display font-extrabold text-ink-900 leading-[0.98] tracking-tight text-[clamp(2rem,5vw,3.75rem)]">
+              <h1 className="font-display text-hero text-ink-900">
                 {SUBJECT_CONTEXTS[form.subject].headline}
               </h1>
               <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
@@ -671,7 +671,7 @@ export const MarketingContact: React.FC = () => {
       </section>
 
       {/* Footer */}
-    </div>
+    </>
   );
 };
 

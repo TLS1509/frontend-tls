@@ -422,3 +422,30 @@ la **méta description par défaut de toutes les pages** (`SEOHead`) et la page 
 Remplacer le descripteur de l'entreprise — « Cabinet de conseil & studio expert en Skills-Based
 Organization » — est une décision de marque. Elle part en proposition, pas en `sed`.
 *(La mention dans les CGV/CGU reste : c'est un terme de contrat, pas du positionnement.)*
+
+### Pages 5 à 11 — le site entier passe sur le système
+
+Vigie, Équipe, Diagnostic et Ressources ont reçu la passe, puis les résidus de Contact et
+Waitlist ont été traités dans la foulée. **Les onze pages marketing sont désormais sur le même
+système éditorial : zéro `clamp()` écrit à la main, zéro racine blanche.**
+
+🔴 **La racine blanche touchait sept pages, pas trois.** Learning App, Studio, Upskilling,
+puis Vigie, Équipe, Diagnostic, Ressources et Contact portaient toutes un
+`<div className="bg-white">` en racine, qui annulait le dégradé ambiant de la coque. Seule
+STRIDE ne le faisait pas. C'est le genre de défaut qui survit parce qu'il ne casse rien : la page
+s'affiche, simplement elle s'affiche sur du blanc au lieu du fond de la marque.
+
+**Deux violations de règles écrites, corrigées au passage :**
+
+- **`MarketingWaitlist` posait sa taille de police en `style={{ fontSize: 'clamp(…)' }}`**, deux
+  fois. La règle 2 de CLAUDE.md l'interdit explicitement pour la typo. Les deux passent sur
+  `text-hero` et `text-section` — et les `tracking-display` / `leading-[0.92]` qui les
+  accompagnaient partent avec, puisque le token les porte déjà.
+- **`MarketingDiagnostic` avait un champ fait main à `rounded-md`** (10 px) pour 48 px de haut.
+  C'est exactement le cas que R4 tranche : au-dessus du seuil des 28 px, le rayon prend l'échelle.
+  Passé à `rounded-lg`.
+
+⏳ **Ce qui reste en dette de composition, et qui demande une direction, pas une passe :** le hero
+est un gabarit cloné sur sept sous-pages (pill sur-titre + H1 + sous-titre + CTA), et
+`MagneticButton`, `MeshGradientBg`, `TiltCard` et les blobs flous n'ont **jamais été validés** —
+les fiches le signalent page après page.

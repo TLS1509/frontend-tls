@@ -31,12 +31,12 @@ import { SEOHead } from './components/SEOHead';
 const Hero: React.FC = () => {
   const reduced = useReducedMotion();
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-primary-50 via-white to-white">
+    <section className="relative overflow-hidden">
       <div
         aria-hidden
         className="absolute -top-28 right-[-8%] h-[420px] w-[420px] rounded-pill bg-primary-200/40 blur-3xl pointer-events-none"
       />
-      <div className="relative max-w-wide mx-auto px-4 sm:px-6 lg:px-10 pt-36 sm:pt-40 lg:pt-44 pb-16 sm:pb-20 lg:pb-24">
+      <div className="relative max-w-wide mx-auto px-4 sm:px-6 lg:px-10 pt-hero pb-band">
         <motion.div
           initial={reduced ? false : { y: 24 }}
           animate={{ y: 0 }}
@@ -47,7 +47,7 @@ const Hero: React.FC = () => {
             <Users size={14} />
             Deux fondateurs, une vision commune
           </p>
-          <h1 className="font-display font-extrabold text-ink-900 leading-[1.02] tracking-tight [text-wrap:balance] text-[clamp(2.5rem,5.5vw,4.25rem)]">
+          <h1 className="font-display text-hero text-ink-900 [text-wrap:balance]">
             L'alliance de la pédagogie, de l'IA{' '}
             <span className="text-primary-700">et de la stratégie RH.</span>
           </h1>
@@ -72,10 +72,10 @@ const Hero: React.FC = () => {
 
 const Adn: React.FC = () => (
   <section className="relative bg-primary-700 text-white">
-    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28">
+    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-band">
       <FadeInWhenVisible>
         <div className="max-w-4xl flex flex-col gap-stack-lg">
-          <h2 className="font-display font-extrabold text-white leading-[1.06] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)]">
+          <h2 className="font-display text-section text-white [text-wrap:balance]">
             L'agilité d'une structure experte au service de votre
             transformation.
           </h2>
@@ -140,10 +140,10 @@ const PILIERS: Pilier[] = [
 ];
 
 const Fondateurs: React.FC = () => (
-  <section className="bg-white">
-    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
+  <section>
+    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-band flex flex-col gap-flow">
       <FadeInWhenVisible>
-        <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)] max-w-3xl">
+        <h2 className="font-display text-section text-ink-900 [text-wrap:balance] max-w-3xl">
           Deux fondateurs, trois piliers d'excellence.
         </h2>
       </FadeInWhenVisible>
@@ -151,7 +151,7 @@ const Fondateurs: React.FC = () => (
       <div className="flex flex-col">
         {PILIERS.map((p, i) => (
           <FadeInWhenVisible key={p.domaine} delay={i * 0.06}>
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-stack-lg lg:gap-section items-start border-t border-ink-200/70 py-section first:border-t-0">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-stack-lg lg:gap-flow items-start border-t border-ink-200/70 py-section first:border-t-0">
               <div className="lg:col-span-4 flex items-center gap-stack">
                 <span
                   aria-hidden
@@ -201,10 +201,10 @@ const RAISONS = [
 ];
 
 const Pourquoi: React.FC = () => (
-  <section className="bg-primary-50/50">
-    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
+  <section>
+    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-band flex flex-col gap-flow">
       <FadeInWhenVisible>
-        <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight [text-wrap:balance] text-[clamp(1.9rem,3.6vw,2.75rem)] max-w-2xl">
+        <h2 className="font-display text-section text-ink-900 [text-wrap:balance] max-w-2xl">
           Pourquoi travailler directement avec les fondateurs.
         </h2>
       </FadeInWhenVisible>
@@ -228,11 +228,11 @@ const Pourquoi: React.FC = () => (
 // ─── 5. CTA final ────────────────────────────────────────────────────────────
 
 const CtaFinal: React.FC = () => (
-  <section className="bg-white border-t border-ink-100">
-    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28">
+  <section>
+    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-band">
       <FadeInWhenVisible>
         <div className="mx-auto flex max-w-content flex-col items-center gap-stack-lg text-center">
-          <h2 className="font-display font-extrabold text-ink-900 leading-[1.04] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.5vw,3.25rem)]">
+          <h2 className="font-display text-section text-ink-900 [text-wrap:balance]">
             Discutons directement de vos enjeux de compétences.
           </h2>
           <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-[62ch] [text-wrap:pretty]">
@@ -254,7 +254,7 @@ const CtaFinal: React.FC = () => (
 );
 
 export const MarketingEquipe: React.FC = () => (
-  <div className="bg-white">
+  <>
     <SEOHead
       title="Les Fondateurs · The Learning Society"
       description="The Learning Society a été créée par un duo complémentaire : Pierre-Armand Dennery (ingénierie pédagogique, vision SBO) et Chloé Mimault (ingénierie IA, produit, data). Échangez directement avec les fondateurs."
@@ -265,7 +265,7 @@ export const MarketingEquipe: React.FC = () => (
     <Fondateurs />
     <Pourquoi />
     <CtaFinal />
-  </div>
+  </>
 );
 
 export default MarketingEquipe;
