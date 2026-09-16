@@ -39,8 +39,8 @@ const QUICK_LINKS = [
   },
   {
     icon: <Briefcase size={20} />,
-    label: 'Accompagnement sur mesure',
-    href: '/website/accompagnement',
+    label: 'Upskilling sur-mesure',
+    href: '/website/upskilling',
     desc: 'Devis personnalisé',
     tone: 'bg-secondary-50 text-secondary-700 border-secondary-100',
   },
@@ -53,9 +53,15 @@ const QUICK_LINKS = [
   },
 ];
 
-const SUBJECTS = ['Accompagnement STRIDE', 'Studio IA & Pédagogie', 'Upskilling', 'Learning App', 'Débriefing diagnostic', 'Partenariat', 'Autre'];
+// ⚠️ 16/09/2026 — « Accompagnement STRIDE » a quitté cette liste, et le défaut
+// du formulaire avec lui. STRIDE est gelée jusqu'en 2028 (catalogue du 31/08) :
+// en faire le sujet pré-sélectionné de tout visiteur qui ouvre la page Contact
+// orientait chaque demande entrante vers l'offre qu'on ne prend plus.
+// `resolveSubject` valide contre SUBJECTS, donc un vieux lien `?sujet=Accompagnement%20STRIDE`
+// retombe proprement sur le défaut au lieu de casser.
+const SUBJECTS = ['Studio IA & Pédagogie', 'Upskilling', 'Learning App', 'Débriefing diagnostic', 'Partenariat', 'Autre'];
 
-const DEFAULT_SUBJECT = 'Accompagnement STRIDE';
+const DEFAULT_SUBJECT = 'Studio IA & Pédagogie';
 
 /**
  * Sujet d'arrivée, pré-rempli depuis `?sujet=`.
@@ -70,10 +76,6 @@ const resolveSubject = (raw: string | null): string =>
   raw && SUBJECTS.includes(raw) ? raw : DEFAULT_SUBJECT;
 
 const SUBJECT_CONTEXTS: Record<string, { headline: string; desc: string }> = {
-  'Accompagnement STRIDE': {
-    headline: 'Cadrer votre transition SBO.',
-    desc: 'Chaque mission commence par un Audit Flash pour comprendre votre contexte. Pas de devis standard : tout est sur mesure.',
-  },
   'Studio IA & Pédagogie': {
     headline: 'Lancer un projet avec le Studio.',
     desc: 'Contenus pédagogiques, agents IA métiers, intégration dans votre écosystème. Chaque projet fait l\'objet d\'un cadrage dédié.',

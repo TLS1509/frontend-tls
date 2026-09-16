@@ -14,7 +14,7 @@
 
 import React, { lazy, Suspense } from 'react';
 import { MarketingError404 } from './pages/marketing/MarketingError404';
-import { BrowserRouter as Router, Routes, Route, useLocation, Navigate, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { ToastProvider } from './contexts/ToastContext';
 import { AppBreadcrumb } from './components/patterns/AppBreadcrumb';
 import { ScrollToTop } from './components/ScrollToTop';
@@ -55,6 +55,19 @@ const ShowcaseFallback: React.FC = () => (
     Chargement du design system…
   </div>
 );
+
+/**
+ * Redirection qui conserve le `:slug` de l'URL d'origine.
+ *
+ * `<Navigate to="…">` prend un chemin statique : il n'interpole aucun paramètre.
+ * Une route historique en `/x/:slug` qui doit pointer vers `/y/:slug` a donc
+ * besoin de lire le paramètre elle-même — sinon on retombe sur le hub et le
+ * visiteur perd l'article qu'il venait lire.
+ */
+const SlugRedirect: React.FC<{ to: string }> = ({ to }) => {
+  const { slug } = useParams();
+  return <Navigate to={slug ? `${to}/${slug}` : to} replace />;
+};
 
 import {
   Dashboard,
@@ -564,11 +577,16 @@ function App() {
           {/* Magazine et Dossiers n'ont plus de hub dédié — un seul hub
               "Ressources" agrège tous les formats (Phase consolidation). */}
           <Route path="magazine" element={<Navigate to="/website/resources" replace />} />
-          <Route path="magazine/:slug" element={<MarketingArticleDetail />} />
+          {/* Redirections, pas alias (16/09). Ces deux routes rendaient le MÊME
+              composant que leur équivalent canonique : deux URLs servaient la
+              même page — sur le hub, et sur chaque article. Le sitemap les
+              documentait à tort comme des redirections ; elles en sont
+              devenues. Voir docs/site/SITEMAP-V1.md §1. */}
+          <Route path="magazine/:slug" element={<SlugRedirect to="/website/resources" />} />
           <Route path="resources" element={<MarketingResources />} />
           {/* Merged into the single canonical article template (Phase Ressources fusion) */}
           <Route path="resources/:slug" element={<MarketingArticleDetail />} />
-          <Route path="ressources" element={<MarketingResources />} />
+          <Route path="ressources" element={<Navigate to="/website/resources" replace />} />
           <Route path="dossiers" element={<Navigate to="/website/resources" replace />} />
           <Route path="dossiers/:slug" element={<MarketingDossierDetail />} />
           <Route path="videos/:slug" element={<MarketingVideoDetail />} />

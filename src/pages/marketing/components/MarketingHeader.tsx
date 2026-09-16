@@ -11,9 +11,15 @@ type NavItem = {
   dropdown?: { label: string; href: string; desc: string; icon: React.ReactNode }[];
 };
 
-// Structure actée en réunion du 28/07/2026 (RECAP §2). Le libellé du 3e item
-// du dropdown Accompagnement ("Déploiement IA & SBO", page STRIDE) est la piste
-// évoquée en réunion, pas encore définitivement tranchée par PAD.
+// Structure actée en réunion du 28/07/2026 (RECAP §2).
+//
+// ⚠️ 16/09/2026 — le 3e item du dropdown s'appelait "Déploiement IA & SBO" et
+// vendait la méthode STRIDE. STRIDE est gelée jusqu'en 2028 (catalogue du
+// 31/08) : la page est rétrogradée en page de méthode, et son libellé le dit.
+// Le dropdown mélange donc désormais deux offres et une méthode — ce n'est pas
+// satisfaisant, mais la restructuration de la nav est un arbitrage ouvert
+// (fiche "Page hub Accompagnement", base Notion Website pages). Ne pas la
+// trancher ici. Voir docs/site/SITEMAP-V1.md §1 bis.
 const NAV_ITEMS: NavItem[] = [
   { label: 'Accueil', href: '/website' },
   { label: 'Learning App', href: '/website/learning-app' },
@@ -33,9 +39,9 @@ const NAV_ITEMS: NavItem[] = [
         icon: <GraduationCap size={16} />,
       },
       {
-        label: 'Déploiement IA & SBO',
+        label: 'La méthode STRIDE',
         href: '/website/accompagnement',
-        desc: "La méthode STRIDE, de l'audit au déploiement",
+        desc: 'Les six étapes qui structurent nos déploiements',
         icon: <Compass size={16} />,
       },
     ],

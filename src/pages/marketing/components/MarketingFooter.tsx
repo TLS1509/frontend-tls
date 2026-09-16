@@ -24,15 +24,21 @@ const COLUMNS: FooterColumn[] = [
     links: [
       { label: 'Learning App', href: '/website/learning-app' },
       { label: 'Studio IA & Pédagogie', href: '/website/studio' },
-      { label: 'Déploiement IA & SBO', href: '/website/accompagnement' },
       { label: 'Upskilling sur-mesure', href: '/website/upskilling' },
     ],
   },
   {
+    // "La méthode STRIDE" a quitté la colonne Offres le 16/09/2026 : STRIDE est
+    // gelée jusqu'en 2028 (catalogue du 31/08) et sa page a été rétrogradée en
+    // page de méthode. La laisser sous un titre "Offres" affichait comme
+    // achetable ce qui ne l'est plus. Elle rejoint les contenus, à côté des
+    // diagnostics et de la Vigie. Emplacement définitif à confirmer avec
+    // l'arbitrage de nav — voir docs/site/SITEMAP-V1.md §1 bis.
     title: 'Ressources',
     links: [
       { label: 'Autodiagnostics', href: '/website/diagnostic' },
       { label: 'La Vigie IA', href: '/website/vigie' },
+      { label: 'La méthode STRIDE', href: '/website/accompagnement' },
       { label: 'Magazine & Ressources', href: '/website/resources' },
     ],
   },

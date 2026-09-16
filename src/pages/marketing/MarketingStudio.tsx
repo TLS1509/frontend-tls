@@ -283,7 +283,7 @@ const CtaFinal: React.FC = () => (
               Échanger avec l'équipe du Studio
             </Button>
             <Button to="/website/accompagnement" variant="ghost" size="xl" trailingIcon={<ArrowUpRight size={20} />}>
-              Voir l'accompagnement STRIDE
+              Voir la méthode STRIDE
             </Button>
           </div>
         </div>

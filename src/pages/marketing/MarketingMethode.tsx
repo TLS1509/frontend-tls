@@ -174,10 +174,10 @@ const Framework: React.FC = () => (
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-stack rounded-lg bg-white p-stack-lg shadow-card">
           <p className="font-body text-body text-ink-600 m-0 max-w-xl">
             La version opérationnelle, avec les livrables de chaque jalon, est
-            sur la page Accompagnement STRIDE.
+            sur la page consacrée à la méthode STRIDE.
           </p>
           <Button to="/website/accompagnement" variant="ghost" size="md" trailingIcon={<ArrowRight size={16} />}>
-            Voir l'accompagnement STRIDE
+            Voir les six étapes
           </Button>
         </div>
       </FadeInWhenVisible>

@@ -229,13 +229,18 @@ const Moteur: React.FC = () => (
 type Offre = { title: string; role: string; desc: string; link: string; cta: string };
 
 const OFFRES: Offre[] = [
+  // ⚠️ 16/09/2026 — cette carte vendait STRIDE comme une offre (« Audit &
+  // stratégie », « livrables tangibles à chaque jalon »). STRIDE est gelée
+  // jusqu'en 2028 : elle est reformulée en méthode. La refonte des trois
+  // piliers de l'accueil (Tech & SaaS · Upskilling · Studio, arrêtés le 31/08)
+  // reste à faire et dépend de l'arbitrage de nav — voir SITEMAP-V1.md §1 bis.
   {
-    title: 'Accompagnement STRIDE',
-    role: 'Audit & stratégie',
+    title: 'La méthode STRIDE',
+    role: 'Notre méthode',
     desc:
-      'La méthode en 6 étapes pour cadrer votre transition SBO et déployer vos premières solutions IA, avec des livrables tangibles à chaque jalon.',
+      "Six étapes pour relier compétences réelles et déploiement IA, de l'orientation à l'amélioration continue. C'est le cadre que suivent nos projets.",
     link: '/website/accompagnement',
-    cta: 'Découvrir la méthode STRIDE',
+    cta: 'Découvrir les six étapes',
   },
   {
     title: 'Le Studio IA & Pédagogie',

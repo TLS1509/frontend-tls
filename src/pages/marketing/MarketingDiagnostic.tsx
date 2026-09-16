@@ -681,12 +681,16 @@ export const MarketingDiagnostic: React.FC = () => {
           <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-12 sm:py-16">
             <FadeInWhenVisible>
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-stack">
+                {/* 16/09/2026 — cette phrase promettait « l'Audit Flash », une
+                    prestation retirée de la page STRIDE le même jour (offre
+                    gelée jusqu'en 2028). Le pont vers la méthode reste juste ;
+                    c'est la vente qui partait. */}
                 <p className="font-body text-body text-ink-600 m-0 max-w-xl">
                   Le diagnostic est la première étape de la méthode STRIDE :
-                  l'Audit Flash approfondit ce que le score révèle.
+                  les six suivantes disent ce qu'on fait du score.
                 </p>
                 <Button to="/website/accompagnement" variant="ghost" size="md" trailingIcon={<ArrowRight size={16} />}>
-                  Découvrir l'accompagnement STRIDE
+                  Découvrir la méthode STRIDE
                 </Button>
               </div>
             </FadeInWhenVisible>
