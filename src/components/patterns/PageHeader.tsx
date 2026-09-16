@@ -93,11 +93,11 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
       </div>
 
       {actions && !isCenter && (
-        <div className="flex flex-wrap gap-stack-xs.5 items-center shrink-0 pt-1">{actions}</div>
+        <div className="flex flex-wrap gap-2.5 items-center shrink-0 pt-1">{actions}</div>
       )}
 
       {actions && isCenter && (
-        <div className="flex flex-wrap gap-stack-xs.5 items-center justify-center mt-2">{actions}</div>
+        <div className="flex flex-wrap gap-2.5 items-center justify-center mt-2">{actions}</div>
       )}
     </div>
   );

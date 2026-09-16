@@ -35,7 +35,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
 
       <div className="flex items-center gap-stack flex-1 justify-end">
         {showProgressBar && progress !== undefined && (
-          <div className="flex items-center gap-stack-xs.5 max-w-[280px] flex-1">
+          <div className="flex items-center gap-2.5 max-w-[280px] flex-1">
             <span className="text-caption text-ink-500 font-medium whitespace-nowrap hidden sm:inline">
               Progression
             </span>

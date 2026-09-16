@@ -545,7 +545,7 @@ const AppLanding: React.FC = () => {
 
       {/* ── FOOTER MINIMAL ── */}
       <footer className="py-6 px-6 md:px-10 bg-ink-950 flex flex-col sm:flex-row items-center justify-between gap-stack">
-        <div className="flex items-center gap-stack-xs.5">
+        <div className="flex items-center gap-2.5">
           <TlsLogo variant="light" className="h-5 w-5" />
           <span className="font-body text-caption text-white/50">
             © {new Date().getFullYear()} The Learning Society

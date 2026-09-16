@@ -30,7 +30,7 @@ export const FormSection: React.FC<FormSectionProps> = ({
       {/* Header */}
       <div className="flex flex-col gap-tight pb-stack border-b border-ink-100">
         <div className="flex items-center justify-between gap-stack-xs">
-          <div className="flex items-center gap-stack-xs.5">
+          <div className="flex items-center gap-2.5">
             {titleIcon && (
               <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-primary-50 text-primary-600 shrink-0">
                 {titleIcon}

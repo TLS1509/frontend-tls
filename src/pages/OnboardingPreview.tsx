@@ -475,7 +475,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
   const LABELS = ['Profil', 'Objectifs', 'Confirmation'];
 
   const tileBase = [
-    'flex items-center gap-stack-xs.5 rounded-xl border px-3 py-2.5 text-left transition-all duration-150 active:scale-[0.98] cursor-pointer min-h-[44px]',
+    'flex items-center gap-2.5 rounded-xl border px-3 py-2.5 text-left transition-all duration-150 active:scale-[0.98] cursor-pointer min-h-[44px]',
     'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-500',
   ].join(' ');
 

@@ -172,7 +172,7 @@ export interface DropdownItemProps extends React.ButtonHTMLAttributes<HTMLButton
 }
 
 const ITEM_BASE =
-  'group relative flex items-center gap-stack-xs.5 w-full px-3 py-2.5 min-h-touch bg-transparent border-0 rounded-md text-body-sm font-medium cursor-pointer text-left transition-all ' +
+  'group relative flex items-center gap-2.5 w-full px-3 py-2.5 min-h-touch bg-transparent border-0 rounded-md text-body-sm font-medium cursor-pointer text-left transition-all ' +
   'focus-visible:outline-2 focus-visible:outline-offset-[-2px]';
 
 const ITEM_DEFAULT =

@@ -158,7 +158,7 @@ export const SessionCard: React.FC<SessionCardProps> = ({
         <CardTitle className={isCompleted ? 'text-ink-800' : ''}>{title}</CardTitle>
 
         {/* Coach — avatar + nom (+ rôle) */}
-        <div className="flex items-center gap-stack-xs.5 pt-0.5">
+        <div className="flex items-center gap-2.5 pt-0.5">
           <Avatar size="sm" name={coachName} shape="circle" />
           <div className="min-w-0">
             <p className="m-0 text-body-sm font-semibold text-ink-900 truncate">{coachName}</p>

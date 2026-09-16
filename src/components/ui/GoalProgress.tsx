@@ -92,7 +92,7 @@ export const GoalProgress: React.FC<GoalProgressProps> = ({
   return (
     <div className={containerClass}>
       <div className="flex items-center justify-between mb-3 gap-stack-xs">
-        <div className="flex items-center gap-stack-xs.5 flex-1 min-w-0">
+        <div className="flex items-center gap-2.5 flex-1 min-w-0">
           {icon && <div className={`shrink-0 ${STATUS_TONE_CLASSES[effectiveTone]}`}>{icon}</div>}
           <h3 className={`font-semibold text-ink-900 leading-snug truncate ${TITLE_SIZE_CLASSES[size]}`}>
             {goal}
