@@ -16,5 +16,37 @@
     "auteur": "Joseph Anton Koch, 1824",
     "source": "The Met · Open Access (domaine public)",
     "url": "https://images.metmuseum.org/CRDImages/ep/original/DP224123.jpg"
+  },
+  "learn": {
+    "titre": "Study of Capers, Gorse, and a Beetle",
+    "auteur": "Maria Sibylla Merian, 1693",
+    "medium": "Watercolor, white gouache, on vellum",
+    "pilier": "LEARN — étudier, observer",
+    "source": "The Met · Open Access (domaine public)",
+    "objectID": 399922
+  },
+  "match": {
+    "titre": "The Celestial Map- Northern Hemisphere",
+    "auteur": "Albrecht Dürer, 1515",
+    "medium": "Woodcut",
+    "pilier": "MATCH — relier des points en figure",
+    "source": "The Met · Open Access (domaine public)",
+    "objectID": 358366
+  },
+  "do": {
+    "titre": "Portable equatorial sundial",
+    "auteur": "Andreas Vogler, ca. 1766–90",
+    "medium": "Gilded brass",
+    "pilier": "DO — l'instrument, l'outil en main",
+    "source": "The Met · Open Access (domaine public)",
+    "objectID": 188850
+  },
+  "grandir": {
+    "titre": "Gloriosa Superba (Climbing Lily)",
+    "auteur": "Pierre Joseph Redouté, ca. 1810",
+    "medium": "Watercolor and gilt on vellum",
+    "pilier": "bonus — la plante qui grimpe",
+    "source": "The Met · Open Access (domaine public)",
+    "objectID": 697703
   }
 }

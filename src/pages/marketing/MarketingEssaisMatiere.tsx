@@ -161,20 +161,14 @@ const ObjetPose: React.FC = () => (
         <Titre />
         <Cta />
       </div>
-      <div className="relative mx-auto w-[240px] max-w-full">
-        <svg viewBox="0 0 240 300" className="h-auto w-full" role="img"
-             aria-label="Substitut d'objet : une silhouette posée, en attente d'une vraie photo">
-          <ellipse cx="120" cy="286" rx="78" ry="11" fill="#D8CDBC" />
-          <path d="M120 34 C 152 34, 168 60, 164 92 C 160 122, 146 136, 148 158
-                   L 160 262 L 80 262 L 92 158 C 94 136, 80 122, 76 92 C 72 60, 88 34, 120 34 Z"
-                fill="#DCD2C2" />
-          <path d="M120 34 C 152 34, 168 60, 164 92 C 160 122, 146 136, 148 158 L 152 200
-                   C 130 186, 122 140, 124 96 C 126 62, 122 44, 120 34 Z" fill="#CBBFAC" />
-        </svg>
-        <p className="mt-stack text-center font-body text-caption text-ink-500">
-          substitut — à remplacer par une vraie photo d'objet
-        </p>
-      </div>
+      <figure className="relative m-0 mx-auto w-[250px] max-w-full">
+        <img src="/marketing/archives/do-instrument.webp"
+             alt="Cadran solaire équatorial portatif en laiton doré, Andreas Vogler, vers 1766-90"
+             className="h-auto w-full mix-blend-multiply" />
+        <figcaption className="mt-stack text-center font-body text-caption text-ink-500">
+          Cadran solaire portatif, A. Vogler, v. 1766 — The Met, domaine public
+        </figcaption>
+      </figure>
     </div>
   </div>
 );
@@ -420,6 +414,86 @@ const MatiereArchive: React.FC = () => (
   </div>
 );
 
+// ─── 9 · Learn · Match · Do, en archives ─────────────────────────────────────
+//
+// Les trois piliers cherchés dans le domaine public, chacun avec l'image qui
+// dit ce qu'il fait — pas une illustration du mot, une chose qui l'incarne.
+//
+//   LEARN  Maria Sibylla Merian, 1693 — une planche d'étude. Des spécimens
+//          posés sur un vélin crème, observés. Merian étudiait la
+//          métamorphose : l'image dit littéralement « regarder pour
+//          comprendre comment ça se transforme ».
+//   MATCH  Albrecht Dürer, 1515 — une carte céleste. Des points reliés en
+//          figures : c'est la définition du match, quatre siècles avant nous.
+//   DO     Andreas Vogler, v. 1766 — un cadran solaire portatif. L'instrument
+//          qu'on tient, qu'on règle, avec lequel on mesure.
+//
+// ⚠️ Ceci n'est PAS le brief hero « constellation » archivé du 14/07. Celui-là
+// mourait d'un H1 disparu et d'un ciel navy ; ici on prend une gravure de 1515
+// pour sa TRAME, pas pour son thème.
+
+const PILIERS_ARCHIVE = [
+  { k: 'Learn', img: 'learn-specimen.webp', fond: '#F4EFE3',
+    oeuvre: 'Study of Capers, Gorse, and a Beetle',
+    qui: 'Maria Sibylla Merian, 1693 — aquarelle et gouache sur vélin',
+    dit: 'Une planche d’étude : des spécimens observés, posés sur le vélin nu. Le fond crème est celui de l’œuvre — rien n’a été ajouté.' },
+  { k: 'Match', img: 'match-trame.webp', fond: '#EEF4F4',
+    oeuvre: 'The Celestial Map — Northern Hemisphere',
+    qui: 'Albrecht Dürer, 1515 — gravure sur bois',
+    dit: 'Des points reliés en figures. Bichromie primary-800 : la trame du bois devient notre matière.' },
+  { k: 'Do', img: 'do-instrument.webp', fond: '#F2EDE4',
+    oeuvre: 'Portable equatorial sundial',
+    qui: 'Andreas Vogler, v. 1766-90 — laiton doré',
+    dit: 'L’instrument qu’on tient et qu’on règle. Le seul des trois qui arrive en objet et non en matière.' },
+];
+
+const PiliersArchive: React.FC = () => (
+  <div className="flex flex-col gap-flow">
+    {/* la trame de Dürer employée en fond, très basse, derrière le vrai fragment */}
+    <figure className="m-0">
+      <div className="relative isolate overflow-hidden rounded-lg bg-[#F6F2E9]">
+        <img src={`${ARCHIVES}/match-trame.webp`} alt="" aria-hidden
+             className="absolute inset-0 -z-10 h-full w-full object-cover opacity-[0.14]" />
+        <div className="px-6 py-band sm:px-10">
+          <Titre />
+          <Cta />
+        </div>
+      </div>
+      <figcaption className="mt-stack font-body text-caption text-ink-500">
+        La carte de Dürer à <strong>14 % derrière le texte</strong> — elle donne un fond qui a une
+        provenance, et elle ne se bat pas avec le titre. C’est l’emploi que je recommande pour elle.
+      </figcaption>
+    </figure>
+
+    <div className="grid gap-stack-lg @3xl:grid-cols-3">
+      {PILIERS_ARCHIVE.map((p) => (
+        <figure key={p.k} className="m-0 overflow-hidden rounded-lg border border-ink-200">
+          <div className="flex h-[260px] items-center justify-center p-stack-lg"
+               style={{ backgroundColor: p.fond }}>
+            <img src={`${ARCHIVES}/${p.img}`} alt={p.oeuvre}
+                 className="max-h-full w-auto max-w-full object-contain" />
+          </div>
+          <figcaption className="border-t border-ink-200 bg-white p-stack-lg">
+            <span className="font-body text-caption font-bold tracking-label uppercase text-secondary-700">
+              {p.k}
+            </span>
+            <h4 className="mt-stack-xs font-display text-h4 text-ink-900 leading-tight">{p.oeuvre}</h4>
+            <p className="mt-stack-xs font-body text-caption text-ink-500 m-0">{p.qui}</p>
+            <p className="mt-stack font-body text-body-sm text-ink-600 leading-relaxed m-0">{p.dit}</p>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+
+    <p className="font-body text-body-sm text-ink-600 m-0 max-w-3xl">
+      <strong className="text-ink-900">Ce que ça ouvre.</strong> Trois images, une seule main —
+      celle du domaine public, du XVI<sup>e</sup> au XVIII<sup>e</sup>. Elles ne se ressemblent pas
+      mais elles viennent du même monde : l’observation, le relevé, l’instrument. C’est le registre
+      de l’apprenance sans un seul cliché d’EdTech.
+    </p>
+  </div>
+);
+
 // ─── Le banc ─────────────────────────────────────────────────────────────────
 
 type Essai = { id: string; n: string; src: string; note: string; el: React.ReactNode };
@@ -449,6 +523,9 @@ const ESSAIS: Essai[] = [
   { id: 'archive', n: 'La matière d’archive', src: 'Millet, 1872 · The Met, domaine public',
     note: 'Un vrai fragment de peinture, recadré serré et passé dans nos deux encres. C’est le recadrage qui évite le piège Bosch.',
     el: <MatiereArchive /> },
+  { id: 'piliers', n: 'Learn · Match · Do, en archives', src: 'Merian 1693 · Dürer 1515 · Vogler 1766',
+    note: 'Les trois piliers cherchés dans le domaine public — une image qui incarne chacun, pas qui l’illustre.',
+    el: <PiliersArchive /> },
 ];
 
 export const MarketingEssaisMatiere: React.FC = () => (
