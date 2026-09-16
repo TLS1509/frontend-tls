@@ -116,7 +116,15 @@ export const ParcoursCard: React.FC<ParcoursCardProps> = ({
       className={[
         'group relative overflow-hidden cursor-pointer transition-[transform,box-shadow,opacity] duration-base ease-emphasis hover:-translate-y-1',
         isTinted ? CTA_SHADOW_HOVER_MD[tone] : '',
-        `!p-0 !rounded-2xl !gap-0`,
+        /* Les trois `!important` qui vivaient ici — `!p-0 !rounded-2xl !gap-0` —
+           annulaient la primitive que la carte venait d'appeler. Retirés le
+           2026-09-16 : `<Card size="md">` donne déjà `rounded-lg` (14 px, R1) et
+           `p-stack-lg` (24 px, le canon). Mesuré avant/après sur la carte réelle :
+           le padding de 32 coûtait 16 px de largeur de texte, donc une TROISIÈME
+           ligne de titre, donc 43 px de hauteur — sur huit cartes, une ligne de
+           défilement par rangée.
+           ⚠️ Ne jamais rétablir un `!` de rayon ou de padding ici : il bat la
+           primitive, et une décision de design ne descend que par elle. */
         bgClasses,
         borderClasses,
         hoverClasses,
@@ -133,7 +141,7 @@ export const ParcoursCard: React.FC<ParcoursCardProps> = ({
         />
       )}
 
-      <div className="relative p-8 flex flex-col gap-stack h-full min-w-0">
+      <div className="relative flex flex-col gap-stack h-full min-w-0">
         {/* Titre — pas de truncate, overflow-wrap:anywhere évite le dépassement sur longs mots,
             hyphens-none désactive la césure automatique (évite "Communica-tion"), text-wrap:balance
             pour wrap équilibré. */}
@@ -171,15 +179,20 @@ export const ParcoursCard: React.FC<ParcoursCardProps> = ({
 
         <InlineProgress value={progress} tone={tone} showLabel={true} size="md" />
 
-        <button
-          type="button"
+        {/* Une affordance, pas un contrôle — même motif que PromptCard.
+            C'était un <button> qui rappelait le `onClick` de la carte après un
+            `stopPropagation` : même cible, même effet, mais DEUX arrêts de
+            tabulation par carte et un contenu interactif imbriqué dans un
+            `role="button"`, ce qui est invalide. Un lecteur d'écran annonçait
+            « bouton, <titre> » puis « bouton, Commencer le parcours ».
+            L'apparence ne change pas ; seul le rôle disparaît. */}
+        <span
+          aria-hidden="true"
           className={`${CTA_BASE} ${CTA_TONE_CLASSES[tone]}`}
-          onClick={(e) => { e.stopPropagation(); onClick?.(id); }}
-          aria-label={CTA_LABELS[status]}
         >
           <span>{CTA_LABELS[status]}</span>
           <ArrowRight size={14} aria-hidden="true" />
-        </button>
+        </span>
       </div>
     </Card>
   );
