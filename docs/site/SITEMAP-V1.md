@@ -452,13 +452,19 @@ les fiches le signalent page après page.
 
 ---
 
-## 7. La règle d'ouverture et de layout (arrêtée le 16/09/2026)
+## 7. Les sept ouvertures — relevé du 16/09/2026
 
-### Le principe
+> ⚠️ **Ce n'est pas une règle, et il ne faut pas la lire comme telle.** Une première version de
+> cette section prescrivait « un registre par nature de page, jamais deux sur la même page ».
+> Écarté le jour même : **le site est en phase d'itération, pas de codification.** Une règle posée
+> maintenant empêcherait d'essayer, et c'est justement l'essai qui manque. Ce qui suit est un
+> relevé de ce qui a été fait et pourquoi — à reprendre, à contredire, à jeter.
 
-**Chaque page ouvre sur l'objet qui n'appartient qu'à elle.** Les sept sous-pages partageaient un
-gabarit unique — blob flou, pastille de sur-titre, H1 bicolore, sous-titre de trois lignes, rangée
-de boutons. Sept pages qui s'ouvrent pareil n'ont pas d'ouverture, elles ont un en-tête.
+### Ce qui a changé
+
+Les sept sous-pages partageaient un gabarit unique : blob flou, pastille de sur-titre, H1
+bicolore, sous-titre de trois lignes, rangée de boutons. Chacune ouvre désormais sur un objet qui
+lui est propre.
 
 | Page | Sa matière | Ce que le hero montre |
 |---|---|---|
@@ -470,39 +476,30 @@ de boutons. Sept pages qui s'ouvrent pareil n'ont pas d'ouverture, elles ont un 
 | **Upskilling** | Trois niveaux d'engagement | L'échelle des trois formats |
 | **Vigie** | Une cadence | « Mardi 8h / 5 min » + le sommaire du numéro |
 
-**La pastille de sur-titre a disparu des sept.** Quand l'ouverture est faite de la matière de la
-page, elle dit déjà où l'on est. Les blobs flous décoratifs sont partis avec.
+La pastille de sur-titre a disparu des sept, et les blobs décoratifs avec — quand l'ouverture est
+faite de la matière de la page, elle dit déjà où l'on est.
 
-### Le layout des sections : trois registres, un par nature de page
+### Les registres essayés, et d'où ils viennent
 
-Direction retenue le 16/09 : **mélanger selon la page**, et voici la règle qui l'empêche de
-redériver. Un registre par nature de page, jamais deux sur la même page.
+Trois manières de composer une section ont été utilisées. **Aucune n'est assignée à une page ;
+elles sont là pour être mélangées et jugées à l'usage.**
 
-| Registre | Pour quelles pages | Ce que c'est | Référence |
+| Registre | Ce que c'est | Où il a été essayé | Référence Mobbin |
 |---|---|---|---|
-| **Éditorial** | Les pages d'offre — Studio, Upskilling, STRIDE | Type-led. Titre surdimensionné, texte courant en colonnes étroites, filets plutôt que contenants, beaucoup de blanc | [Retool](https://mobbin.com/sites/sections/4e8c7583-5be1-4673-89c5-417432ec6784) · [OpenTable](https://mobbin.com/sites/sections/d22681bf-5c90-48f4-ba23-d23283702fc8) |
-| **Split** | Learning App, et toute page ayant un visuel réel à montrer | Moitié texte, moitié visuel bord à bord | [Maze](https://mobbin.com/sites/sections/efd123f4-8694-4da2-ad1e-7382fef9d90d) · [Dropbox](https://mobbin.com/sites/sections/6229cc47-702b-4a2f-981a-3b25c7aabeb2) |
-| **Panneau** | Les pages utilitaires — Vigie, Diagnostic, Contact, Ressources | Panneaux contenus, filets fins, teintes très claires, aucune ombre | [Shopify](https://mobbin.com/sites/sections/030f6359-2059-4c49-8640-f4dda24dce68) · [Tailscale](https://mobbin.com/sites/sections/b9d1dbbc-a212-45cc-bc88-9e64fe90d847) |
+| **Éditorial** | Type-led. Titre surdimensionné, texte en colonnes étroites, filets plutôt que contenants | Studio, Upskilling, STRIDE | [Retool](https://mobbin.com/sites/sections/4e8c7583-5be1-4673-89c5-417432ec6784) · [OpenTable](https://mobbin.com/sites/sections/d22681bf-5c90-48f4-ba23-d23283702fc8) |
+| **Panneau** | Panneaux contenus, filets fins, teintes très claires, aucune ombre | Vigie | [Shopify](https://mobbin.com/sites/sections/030f6359-2059-4c49-8640-f4dda24dce68) · [Tailscale](https://mobbin.com/sites/sections/b9d1dbbc-a212-45cc-bc88-9e64fe90d847) |
+| **Split** | Moitié texte, moitié visuel bord à bord | Nulle part encore — il attend de vrais visuels | [Maze](https://mobbin.com/sites/sections/efd123f4-8694-4da2-ad1e-7382fef9d90d) · [Dropbox](https://mobbin.com/sites/sections/6229cc47-702b-4a2f-981a-3b25c7aabeb2) |
 
-⚠️ **Le registre Split est conditionné à un visuel réel.** Il est en attente : la direction
-illustration du site est suspendue et les brand assets sont à créer. Une moitié droite vide n'est
-pas un split, c'est un trou. En attendant, Learning App ouvre en éditorial — **décision du 16/09 :
-hero typographique, le produit se montre plus bas**, où la maquette interactive existe déjà.
+Et trois patterns de section, également ouverts : **le registre** (énumération sur filets, sans
+contenant — livrables du Studio), **la séquence** (épine dorsale + ordinaux, pour ce qui est
+réellement ordonné — les six étapes de STRIDE), **le contrepoint** (une surface sombre contenue —
+les CTA de STRIDE et de Learning App).
 
-### Les trois patterns de section
+### Ce qui reste devant
 
-| Pattern | Pour quoi | Où il est déjà |
-|---|---|---|
-| **Le registre** | Une énumération, pas une collection : livrables, profils, arguments. Filets, aucun contenant | Livrables du Studio |
-| **La séquence** | Ce qui est *vraiment* ordonné. Épine dorsale + ordinaux. Sinon le numéro ment | Les six étapes de STRIDE |
-| **Le contrepoint** | La seule surface sombre de la page, contenue, jamais pleine largeur | CTA de STRIDE et de Learning App |
-
-**Une seule section « forte » par page.** La grille de cartes servait à tout, donc elle ne
-hiérarchisait rien.
-
-### Ce qui n'est pas tranché
-
-Les **effets et animations premium** viendront après : la direction motion du site est à rejouer
-(`DESIGN-INSPO.md` la déclare suspendue le 29/07, et aucun effet n'est prescrit ni banni d'ici
-là). Les heroes posés ici animent une translation à l'arrivée, rien de plus — c'est le socle sur
-lequel une passe motion pourra s'appuyer.
+- Les **brand assets** sont à créer et à identifier. Le registre split en dépend.
+- Les **effets et animations premium** viennent après. `DESIGN-INSPO.md` déclare la direction
+  motion suspendue depuis le 29/07 ; ces sept ouvertures n'animent qu'une translation à l'arrivée,
+  et servent de socle à la passe motion.
+- Le mot **« conseil »** décrit encore l'entreprise dans le H1 de l'accueil, le footer et la méta
+  par défaut de toutes les pages. C'est une décision de marque, elle n'est pas prise.
