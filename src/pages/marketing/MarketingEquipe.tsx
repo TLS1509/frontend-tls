@@ -58,37 +58,52 @@ const Hero: React.FC = () => {
   );
 };
 
-// ─── 2. Être deux ────────────────────────────────────────────────────────────
+// ─── 2. Ce qui relie tout ────────────────────────────────────────────────────
 //
-// Cette section s'appelait « Notre ADN » et disait « l'agilité d'une structure
-// experte au service de votre transformation » — trois tics de cabinet dans une
-// phrase, et aucune information. Elle dit maintenant la seule chose que la
-// taille de l'équipe implique vraiment, contrainte comprise : dire la limite
-// rend le reste croyable.
+// Deux réécritures successives le 16/09, et la seconde corrige la première.
 //
-// Le bandeau `bg-primary-700` pleine largeur est retiré au passage : la coque
-// porte un dégradé ambiant, et la page n'a pas besoin d'un second fond.
+// Au départ : « Notre ADN — l'agilité d'une structure experte au service de
+// votre transformation ». Trois tics de cabinet dans une phrase, zéro
+// information.
+//
+// Puis, trop loin dans l'autre sens : une section qui assumait l'effectif
+// (« nous faisons le travail nous-mêmes, donc nous ne prenons pas tous les
+// projets »). C'était honnête et c'était une erreur commerciale — décision de
+// Chloé : **l'effectif ne se met pas en avant**. Devant un CODIR qui engage
+// cinq chiffres, « nous sommes deux » se lit « ils ne tiendront pas la
+// charge », quelle que soit la qualité du travail.
+//
+// La section dit donc ce qui relie les métiers, pas combien de personnes les
+// portent. C'est générique au bon sens du terme : une position, pas un vide.
+//
+// ⚠️ Le hero porte encore la même information plus fort — deux noms en H1 et
+// « Voilà toute l'équipe ». Si l'effectif ne doit pas se lire, c'est là qu'il
+// se lit d'abord. Laissé tel quel faute d'arbitrage.
+//
+// Le bandeau `bg-primary-700` pleine largeur est retiré : la coque porte un
+// dégradé ambiant, la page n'a pas besoin d'un second fond.
 
-const EtreDeux: React.FC = () => (
+const Approche: React.FC = () => (
   <section>
     <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-band">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-flow items-start">
         <FadeInWhenVisible className="lg:col-span-5">
           <h2 className="font-display text-section text-ink-900 [text-wrap:balance]">
-            Être deux, c'est une contrainte autant qu'un argument.
+            La compétence se prouve. Elle ne se déclare pas.
           </h2>
         </FadeInWhenVisible>
         <FadeInWhenVisible delay={0.08} className="lg:col-span-7 lg:pt-2">
           <div className="flex flex-col gap-flow">
             <p className="font-body text-lede text-ink-700 leading-relaxed m-0 [text-wrap:pretty]">
-              Nous faisons le travail nous-mêmes, donc nous ne prenons pas tous
-              les projets.
+              C'est ce qui relie tout ce que nous faisons, de la conception d'un
+              parcours à la ligne de code.
             </p>
             <p className="font-body text-body text-ink-600 leading-relaxed m-0">
-              Ce que vous y gagnez : personne ne vous repasse à quelqu'un
-              d'autre entre le devis et la livraison. Ce que ça implique : quand
-              ce que vous cherchez n'est pas ce que nous savons faire, nous le
-              disons au premier échange, pas au troisième comité.
+              Des leçons qui se terminent par une mise en pratique plutôt que
+              par un quiz. Un logiciel qui garde la trace de ce qui a été
+              démontré en situation réelle. Et un accompagnement qui part du
+              travail tel qu'il se fait, pas de la fiche de poste telle qu'elle
+              est écrite.
             </p>
           </div>
         </FadeInWhenVisible>
@@ -197,7 +212,7 @@ const RAISONS = [
   {
     icon: <ArrowUpRight size={20} />,
     title: 'Une décision se prend en séance.',
-    detail: "Il n'y a personne à qui la remonter.",
+    detail: "Les arbitrages se font avec vous, pas en comité entre deux réunions.",
   },
   {
     icon: <Target size={20} />,
@@ -263,11 +278,11 @@ export const MarketingEquipe: React.FC = () => (
   <>
     <SEOHead
       title="Les Fondateurs · The Learning Society"
-      description="The Learning Society, c'est deux personnes : Pierre-Armand Dennery pour la méthode, Chloé Mimault pour le logiciel. Vous parlez à celle ou celui qui fera le travail."
+      description="Pierre-Armand Dennery pour la méthode, Chloé Mimault pour le logiciel. Chez The Learning Society, vous parlez à celle ou celui qui fera le travail."
       canonical="/website/equipe"
     />
     <Hero />
-    <EtreDeux />
+    <Approche />
     <Fondateurs />
     <Pourquoi />
     <CtaFinal />
