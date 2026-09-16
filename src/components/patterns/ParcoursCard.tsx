@@ -22,7 +22,9 @@ import { ArrowRight, Clock3, BookOpen } from 'lucide-react';
 import { InlineProgress } from './InlineProgress';
 import { Card } from '../core/Card';
 import { MetaPillGroup } from '../ui/MetaPillGroup';
-import { CTA_SHADOW_HOVER_MD } from '../../lib/tone-classes';
+import { CTA_SHADOW_HOVER_MD,
+  CARD_HOVER,
+} from '../../lib/tone-classes';
 
 export type ParcoursTone = 'primary' | 'warm' | 'sun';
 export type ParcoursStatus = 'en cours' | 'complété' | 'non commencé';
@@ -71,13 +73,13 @@ const HOVER_BG_OUTLINE: Record<ParcoursTone, string> = {
 };
 
 const CTA_BASE =
-  'flex items-center justify-center gap-stack-xs w-full h-11 rounded-lg px-4 cursor-pointer font-body text-body-sm font-semibold whitespace-nowrap transition-[background-color,color,transform,box-shadow] duration-fast ease-emphasis hover:-translate-y-px active:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-2';
+  'flex items-center justify-center gap-stack-xs w-full h-11 rounded-lg px-4 cursor-pointer font-body text-body-sm font-semibold whitespace-nowrap transition-[background-color,color,transform,box-shadow] duration-fast ease-emphasis active:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-2';
 
 // Tone-aware CTA classes — includes tone-matched focus outline.
 const CTA_TONE_CLASSES: Record<ParcoursTone, string> = {
-  primary: 'bg-primary-500 hover:bg-primary-600 text-white shadow-brand-sm hover:shadow-brand-md focus-visible:outline-primary-400',
-  warm:    'bg-secondary-500 hover:bg-secondary-600 text-white shadow-xs hover:shadow-sm focus-visible:outline-secondary-400',
-  sun:     'bg-accent-400 hover:bg-accent-500 text-accent-900 shadow-xs hover:shadow-sun-sm focus-visible:outline-accent-500',
+  primary: 'bg-primary-500 hover:bg-primary-600 text-white shadow-brand-sm focus-visible:outline-primary-400',
+  warm:    'bg-secondary-500 hover:bg-secondary-600 text-white shadow-xs focus-visible:outline-secondary-400',
+  sun:     'bg-accent-400 hover:bg-accent-500 text-accent-900 shadow-xs focus-visible:outline-accent-500',
 };
 
 // CARD_HOVER_SHADOW moved to tone-classes.ts as CTA_SHADOW_HOVER_MD (single source of truth)
@@ -114,8 +116,8 @@ export const ParcoursCard: React.FC<ParcoursCardProps> = ({
       onClick={() => onClick?.(id)}
       aria-label={`${title} — ${status}`}
       className={[
-        'group relative overflow-hidden cursor-pointer transition-[transform,box-shadow,opacity] duration-base ease-emphasis hover:-translate-y-1',
-        isTinted ? CTA_SHADOW_HOVER_MD[tone] : '',
+        'group relative overflow-hidden cursor-pointer transition-[transform,box-shadow,opacity] duration-base ease-emphasis',
+        isTinted ? CARD_HOVER[tone] : '',
         /* Les trois `!important` qui vivaient ici — `!p-0 !rounded-2xl !gap-0` —
            annulaient la primitive que la carte venait d'appeler. Retirés le
            2026-09-16 : `<Card size="md">` donne déjà `rounded-lg` (14 px, R1) et

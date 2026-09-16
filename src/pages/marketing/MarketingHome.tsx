@@ -236,9 +236,10 @@ type Offre = { title: string; role: string; desc: string; link: string; cta: str
 // bas comme ce qu'elle est devenue — la méthode, pas l'offre.
 //
 // ⏳ Le Sprint OS & Agents IA — l'offre Studio vendable qui remplace STRIDE —
-// a sa page depuis le 16/09 (`/website/sprint`), mais elle n'entre pas encore
-// dans cette liste : son nom public et sa date de publication ne sont pas
-// validés. À ajouter dès qu'ils le sont.
+// a sa page depuis le 16/09 (`/website/sprint`). Elle n'entre dans cette liste
+// qu'en **janvier 2027**, au lancement de l'offre : décidé le 16/09. L'ajouter
+// avant ferait vendre ce qui n'est pas encore vendable. Tâche Notion
+// « Publier la page Sprint », échéance 04/01/2027.
 //
 // La Marketplace Notion, elle, n'aura pas de page — tranché le 16/09. Session 3
 // pose que les templates sont publiés au nom propre et « non mis en avant sur

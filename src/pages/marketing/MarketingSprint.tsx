@@ -25,21 +25,27 @@
  *    trois livrables, pas un déroulé semaine par semaine. Inventer les phases
  *    aurait fait joli et aurait été faux.
  *
- * ── Ce qui reste à trancher (repris de la fiche Notion) ─────────────────────
+ * ── Tranché par Chloé le 2026-09-16 ────────────────────────────────────────
  *
- *  1. **Le nom public.** « Pack Sprint OS & Agents IA » est un nom de
- *     catalogue interne. La page retient « Sprint OS & Agents IA » et la route
- *     `/website/sprint` — le mot « Pack » est du vocabulaire de vendeur.
- *     À valider.
- *  2. **La date de publication.** L'offre démarre en janvier 2027. La page le
- *     dit franchement plutôt que de laisser croire à une disponibilité
- *     immédiate. Reste à décider si on la publie maintenant ou au lancement.
- *  3. **Le rapport à STRIDE.** Traité en section 4 : le Sprint installe, la
- *     méthode cadre. C'est la lecture la plus défendable sans citer le prix
- *     de l'une ni le gel de l'autre.
+ *  - **Le nom public : « Sprint OS & Agents IA ».** Le mot « Pack », du
+ *    vocabulaire de vendeur, est retiré. ⚠️ C'est un accord de travail — le
+ *    verbatim est « pour l'instant on peut garder ce nom » — pas un verrou.
+ *    Dernière occasion de le changer avant qu'il devienne une URL publique.
+ *  - **La publication : janvier 2027**, au lancement de l'offre. Pas de
+ *    teasing anticipé.
  *
- * ⚠️ La page n'est PAS ajoutée à la navigation ni au pied de page tant que le
- * nom et la date ne sont pas validés. Elle est routée, donc consultable.
+ * ⚠️ **La page reste donc hors navigation, hors pied de page et hors liste
+ * d'offres de l'accueil jusqu'en janvier.** Elle est routée, donc consultable
+ * par lien direct. Trois gestes à faire ce jour-là, pas un — la tâche Notion
+ * « Publier la page Sprint » (échéance 04/01/2027) les liste.
+ *
+ * ── Ce qui reste ouvert ─────────────────────────────────────────────────────
+ *
+ *  - **La preuve.** Voir plus haut : la page ne remplace le client innommable
+ *    par rien. À trancher avant janvier, avec une preuve réellement autorisée.
+ *  - **Le rapport à STRIDE.** Traité en section 4 faute d'arbitrage officiel :
+ *    le Sprint outille, la méthode transforme. À relire si la décision
+ *    formelle diverge.
  */
 
 import React from 'react';

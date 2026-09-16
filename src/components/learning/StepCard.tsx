@@ -30,9 +30,9 @@ const STATUS_BADGE: Record<StepStatus, string> = {
 };
 
 const STATUS_HOVER_SHADOW: Record<StepStatus, string> = {
-  'not-started': 'hover:shadow-card-hover',
-  'in-progress': 'hover:shadow-brand-md',
-  completed:     'hover:shadow-success-sm',
+  'not-started': '',
+  'in-progress': '',
+  completed:     '',
   locked:        '',
 };
 
@@ -86,7 +86,7 @@ export const StepCard: React.FC<StepCardProps> = ({
 
   const classes = [
     'relative bg-white border-2 rounded-xl p-6 flex flex-col gap-stack transition-[transform,box-shadow,border-color] duration-base ease-standard',
-    !isLocked && 'hover:-translate-y-0.5',
+    !isLocked && '',
     !isLocked && STATUS_HOVER_SHADOW[status],
     STATUS_BORDER[status],
     className,

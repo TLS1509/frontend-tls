@@ -18,7 +18,9 @@ import { Button } from '../core/Button';
 import { CardTitle, CardDesc } from '../core/Card';
 import { Avatar } from '../ui/Avatar';
 import { CalendarClock, FileText, ClipboardList, Notebook, Check, ArrowRight } from 'lucide-react';
-import { CARD_SHADOW_HOVER_MD } from '../../lib/tone-classes';
+import { CARD_SHADOW_HOVER_MD,
+  CARD_HOVER,
+} from '../../lib/tone-classes';
 
 export type SessionCardSurface = 'card' | 'tinted' | 'glass' | 'frosted' | 'outline';
 export type SessionCardTone = 'primary' | 'warm' | 'sun';
@@ -69,7 +71,7 @@ const SURFACE_TINTED: Record<SessionCardTone, string> = {
 const SURFACE_GLASS =
   'bg-white/75 backdrop-blur-glass-light border border-white/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] hover:bg-white/85';
 const SURFACE_FROSTED =
-  'bg-white/68 backdrop-blur-glass-medium border border-white/55 shadow-sm hover:bg-white/80 hover:shadow-card-hover';
+  'bg-white/68 backdrop-blur-glass-medium border border-white/55 shadow-sm hover:bg-white/80';
 
 const FOCUS_TONE: Record<SessionCardTone, string> = {
   primary: 'focus-visible:outline-primary-500',
@@ -131,7 +133,7 @@ export const SessionCard: React.FC<SessionCardProps> = ({
     BASE,
     surfaceClasses,
     isCompleted ? 'focus-visible:outline-ink-400' : FOCUS_TONE[tone],
-    isCompleted ? 'hover:shadow-card-hover' : CARD_SHADOW_HOVER_MD[tone],
+    isCompleted ? '' : CARD_HOVER[tone],
     className,
   ].filter(Boolean).join(' ');
 

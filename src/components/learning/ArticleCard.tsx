@@ -87,7 +87,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
       className={[
         'group flex flex-col gap-stack-xs',
         'transition-all duration-slow ease-emphasis',
-        'hover:-translate-y-1 hover:shadow-md',
+        '',
         TONE_HOVER_GLOW[tone],
         className,
       ]

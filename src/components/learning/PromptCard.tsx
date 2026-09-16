@@ -90,7 +90,7 @@ const BASE_INTERACTIVE =
   '!h-auto !overflow-visible ' +
   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ' +
   '[filter:drop-shadow(0_2px_12px_rgba(0,0,0,0.08))] ' +
-  'hover:-translate-y-1';
+  '';
 
 export const PromptCard: React.FC<PromptCardProps> = ({
   label,

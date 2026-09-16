@@ -39,7 +39,7 @@ export const RankingCard: React.FC<RankingCardProps> = ({
 
   return (
     <Card
-      className={['group flex items-center gap-stack transition-all duration-slow ease-emphasis hover:-translate-y-1 hover:shadow-md hover-glow-primary', className]
+      className={['group flex items-center gap-stack transition-all duration-slow ease-emphasis hover-glow-primary', className]
         .filter(Boolean)
         .join(' ')}
     >

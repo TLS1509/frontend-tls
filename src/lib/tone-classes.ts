@@ -103,6 +103,38 @@ export const CARD_BORDER_HOVER: Record<CardTone, string> = {
   sun:     'hover:border-accent-300',
 };
 
+/**
+ * LE SURVOL D'UNE CARTE — la règle unique, décidée le 2026-09-16.
+ *
+ * Le filet se ferme d'un cran, le fond prend une teinte très légère. **Pas de
+ * soulèvement, pas d'ombre.**
+ *
+ * Pourquoi cette règle existe. Mesuré sur les 14 cartes de la famille :
+ * **douze comportements de survol différents**, dont quatre distances de
+ * soulèvement qui coexistaient — 4 px, 2 px, 1 px, aucune — combinées
+ * diversement à l'ombre, au filet, au fond et à l'échelle. Presque chaque carte
+ * était un cas particulier.
+ *
+ * Pourquoi SANS ombre. La primitive `Card` a retiré les siennes (décision S2) :
+ * vérifié au navigateur, les cartes rendent `box-shadow: none` sur un filet de
+ * 1 px. Or onze des quatorze en rajoutaient une au survol — elles
+ * contredisaient leur propre primitive. C'est aussi la direction du métier en
+ * 2026 : Linear publie trois tokens de bordure et zéro token d'ombre, et les
+ * cartes à ombre lourde se lisent désormais comme du legacy.
+ *
+ * Le survol dit UNE chose — « cet objet est cliquable ». Il n'a pas besoin de
+ * la dire quatre fois.
+ */
+export const CARD_HOVER: Record<CardTone, string> = {
+  primary: 'hover:border-primary-300 hover:bg-primary-50/40',
+  brand:   'hover:border-primary-300 hover:bg-primary-50/40',
+  warm:    'hover:border-secondary-300 hover:bg-secondary-50/40',
+  sun:     'hover:border-accent-300 hover:bg-accent-50/40',
+};
+
+/** La même règle, pour une carte sans `tone`. */
+export const CARD_HOVER_NEUTRE = 'hover:border-ink-300 hover:bg-ink-50/50';
+
 /** Resting shadow xs — barely lifts off the page. */
 export const CARD_SHADOW_RESTING: Record<CardTone, string> = {
   primary: 'shadow-brand-xs',
@@ -120,6 +152,7 @@ export const CARD_SHADOW_RESTING_SM: Record<CardTone, string> = {
 };
 
 /** Hover shadow sm — for Card default/tinted variants. */
+/** @deprecated — le survol d'une carte ne porte plus d'ombre. Voir CARD_HOVER. */
 export const CARD_SHADOW_HOVER_SM: Record<CardTone, string> = {
   primary: 'hover:shadow-brand-sm',
   brand:   'hover:shadow-brand-sm',
@@ -131,6 +164,7 @@ export const CARD_SHADOW_HOVER_SM: Record<CardTone, string> = {
  * Hover shadow md — for content cards (CourseCard, LessonCard, SessionCard…).
  * More dramatic lift since these cards are larger / primary-action cards.
  */
+/** @deprecated — le survol d'une carte ne porte plus d'ombre. Voir CARD_HOVER. */
 export const CARD_SHADOW_HOVER_MD: Record<CardTone, string> = {
   primary: 'hover:shadow-brand-md',
   brand:   'hover:shadow-brand-md',
@@ -150,6 +184,7 @@ export const CARD_PROGRESS_FILL: Record<CardTone, 'brand' | 'warm' | 'sun'> = {
 };
 
 /** Hover shadow md for action CTA buttons — tone-aware lift */
+/** @deprecated — le survol d'une carte ne porte plus d'ombre. Voir CARD_HOVER. */
 export const CTA_SHADOW_HOVER_MD: Record<PageTone, string> = {
   primary: 'hover:shadow-brand-md',
   warm:    'hover:shadow-card-hover',
