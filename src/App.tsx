@@ -542,9 +542,11 @@ function App() {
           <Route path="formation" element={<Navigate to="/website/learning-app" replace />} />
           <Route path="accompagnement" element={<MarketingAccompagnement />} />
           <Route path="studio" element={<MarketingStudio />} />
-          {/* Sprint OS & Agents IA — créée le 16/09/2026. Routée mais
-              volontairement absente de la nav et du pied de page : son nom
-              public et sa date de publication ne sont pas validés. */}
+          {/* Sprint OS & Agents IA — écrite le 16/09/2026, publication
+              décidée pour janvier 2027 (lancement de l'offre). Routée mais
+              volontairement absente de la nav, du pied de page et de la liste
+              d'offres de l'accueil jusque-là. Ne pas l'y ajouter avant :
+              l'offre n'existe pas encore. */}
           <Route path="sprint" element={<MarketingSprint />} />
           <Route path="vigie" element={<MarketingVigie />} />
           <Route path="upskilling" element={<MarketingUpskilling />} />
