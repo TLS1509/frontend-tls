@@ -231,7 +231,8 @@ const PILIERS: PilierData[] = [
     points: [
       {
         label: 'Leçons structurées en quatre phases',
-        detail: 'Le modèle EDRA : Engagement, Découverte, Réflexion, Activité. Chaque leçon se termine par une mise en pratique.',
+        detail:
+          "Le modèle EDRA, de la méthode EDRACT de C-Campus : Engagement, Découverte, Réflexion, Activité. Chaque leçon se termine par une mise en pratique.",
       },
       {
         label: 'Positionnement initial auto-généré',

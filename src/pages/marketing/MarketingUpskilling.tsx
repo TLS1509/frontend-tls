@@ -297,13 +297,21 @@ const Pilotage: React.FC = () => (
 
       <FadeInWhenVisible delay={0.1}>
         <div className="flex items-start gap-stack rounded-lg bg-primary-50 p-stack-lg">
-          <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent-400/20 text-accent-300">
+          <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent-100 text-accent-700">
             <Gift size={20} />
           </span>
+          {/* Disait « un an d'accès offert ». Corrigé le 16/09/2026 : la durée
+              venait du catalogue, où elle était attachée à un contrat STRIDE
+              (« pour tout contrat S.T.R.I.D.E, l'abonnement est offert pendant
+              1 an ») — elle avait été recopiée ici sans son porteur. D10 gèle
+              STRIDE, et D11 retire la Learning App du modèle d'abonnement :
+              « offert pendant un an » n'a plus de sens s'il n'existe aucun état
+              payant dont on dispenserait. La phrase dit maintenant ce que D11
+              rend vrai, sans durée — celle-ci reste à trancher. */}
           <p className="font-body text-body text-ink-700 leading-relaxed m-0">
-            <span className="font-bold text-ink-900">Bonus :</span> un an d'accès
-            à la Learning App TLS offert pour vos apprenants, concepteurs et
-            formateurs.
+            <span className="font-bold text-ink-900">Inclus :</span> l'accès à la
+            Learning App pour vos apprenants, concepteurs et formateurs — c'est
+            elle qui ancre ce qui a été appris, une fois le programme terminé.
           </p>
         </div>
       </FadeInWhenVisible>

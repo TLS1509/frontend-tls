@@ -268,7 +268,7 @@ const OFFRES: Offre[] = [
     cta: 'Visiter le Studio',
   },
   {
-    title: 'Upskilling L&D',
+    title: 'Upskilling sur-mesure',
     role: 'Formation interne',
     desc:
       "Des projets d'upskilling sur-mesure qui commencent par habiliter vos concepteurs et formateurs, pilotés par la Learning App.",
