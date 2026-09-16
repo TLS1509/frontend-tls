@@ -1454,11 +1454,12 @@ const COMPONENTS: ComponentEntry[] = [
       <div className="flex flex-col gap-section">
         <ShowcaseBloc
           titre="L'échelle sémantique, à l'échelle"
-          note="Chaque barre vaut sa valeur réelle. Un nom se relit — gap-stack dit l'intention ; gap-stack oblige à recompter."
+          note="Chaque barre vaut sa valeur réelle. Un nom se relit — gap-stack dit l'intention ; gap-4 oblige à recompter. ⚠️ `stack-3xs` (4 px) et `stack-sm` (12 px) ont été ajoutés le 2026-09-16 : l'échelle sautait de 2 à 6 et de 8 à 16, et 74 usages numériques comblaient ces trous à la main. Attention au piège : `tight` vaut 2 px, pas 4 — renommer un `gap-1` en `gap-tight` le divise par deux."
         >
           <div className="flex flex-col gap-stack-xs">
             {([
-              ['tight', 2], ['stack-xs', 8], ['stack', 16], ['stack-lg', 24],
+              ['tight', 2], ['stack-3xs', 4], ['stack-2xs', 6], ['stack-xs', 8],
+              ['stack-sm', 12], ['stack', 16], ['stack-lg', 24],
               ['section', 32], ['section-lg', 40], ['page', 48],
             ] as const).map(([nom, px]) => (
               <div key={nom} className="flex items-center gap-stack">
@@ -8096,8 +8097,10 @@ const FONT_TOKENS: TokenEntry[] = [
 const SPACING_TOKENS: TokenEntry[] = [
   { name: 'spacing (base 4pt)', cssVar: '--spacing', value: '0.25rem · 4 px — l’unité que Tailwind multiplie', group: 'Espacement — base', type: 'spacing' },
   { name: 'tight', cssVar: '--spacing-tight', value: '2 px', group: 'Espacement — sémantique', type: 'spacing' },
+  { name: 'stack-3xs', cssVar: '--spacing-stack-3xs', value: "4 px — ajouté le 2026-09-16, 51 usages l'attendaient (ex-gap-1). ⚠️ `tight` vaut 2, pas 4 : renommer un gap-1 en gap-tight le divise par deux", group: 'Espacement — sémantique', type: 'spacing' },
   { name: 'stack-2xs', cssVar: '--spacing-stack-2xs', value: '6 px — le barreau ajouté le 2026-09-09, ex-gap-stack-2xs', group: 'Espacement — sémantique', type: 'spacing' },
   { name: 'stack-xs', cssVar: '--spacing-stack-xs', value: '8 px', group: 'Espacement — sémantique', type: 'spacing' },
+  { name: 'stack-sm', cssVar: '--spacing-stack-sm', value: '12 px — ajouté le 2026-09-16, 23 usages l\'attendaient (ex-gap-3)', group: 'Espacement — sémantique', type: 'spacing' },
   { name: 'stack', cssVar: '--spacing-stack', value: '16 px', group: 'Espacement — sémantique', type: 'spacing' },
   { name: 'stack-lg', cssVar: '--spacing-stack-lg', value: '24 px', group: 'Espacement — sémantique', type: 'spacing' },
   { name: 'section', cssVar: '--spacing-section', value: '32 px', group: 'Espacement — sémantique', type: 'spacing' },
