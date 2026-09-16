@@ -22,6 +22,7 @@ import { useNotificationsStore } from './stores/persistence';
 import { useAuth } from './hooks/useAuth';
 import { Sidebar, NavItem, SidebarUserCard } from './components/layout/Sidebar';
 import { BottomNav } from './components/layout/BottomNav';
+import { NAVIGATION_PRINCIPALE, entreeActive } from './config/navigation';
 import { DropdownMenu, DropdownItem, DropdownLabel, DropdownSeparator } from './components/ui/DropdownMenu';
 import { Avatar } from './components/ui/Avatar';
 import {
@@ -436,55 +437,24 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           )
         }
       >
-        <NavItem
-          href="/"
-          onClick={goTo('/')}
-          icon={<LayoutDashboard size={18} />}
-          label="Tableau de bord"
-          active={isActive('/') || isActive('/dashboard')}
-          collapsed={collapsed}
-        />
-        <NavItem
-          href="/learning-paths"
-          onClick={goTo('/learning-paths')}
-          icon={<MapIcon size={18} />}
-          label="Parcours"
-          count="3"
-          active={isActive('/learning-paths')}
-          collapsed={collapsed}
-        />
-        <NavItem
-          href="/journal"
-          onClick={goTo('/journal')}
-          icon={<PenLine size={18} />}
-          label="Journal de bord"
-          active={isActive('/journal')}
-          collapsed={collapsed}
-        />
-        <NavItem
-          href="/coaching"
-          onClick={goTo('/coaching')}
-          icon={<Video size={18} />}
-          label="Coaching"
-          active={isActive('/coaching')}
-          collapsed={collapsed}
-        />
-        <NavItem
-          href="/veille"
-          onClick={goTo('/veille')}
-          icon={<SparklesIcon size={18} />}
-          label="Veille"
-          active={isActive('/veille')}
-          collapsed={collapsed}
-        />
-        <NavItem
-          href="/learning-space"
-          onClick={goTo('/learning-space')}
-          icon={<Layers size={18} />}
-          label="Espace Apprentissage"
-          active={isActive('/learning-space')}
-          collapsed={collapsed}
-        />
+        {/* Les entrées viennent de `src/config/navigation.ts` — la même liste que
+            la BottomNav. Elles étaient écrites à la main ici, et avaient dérivé
+            de celles du mobile (libellés ET icônes). Ne pas les réécrire ici. */}
+        {NAVIGATION_PRINCIPALE.map((entree) => {
+          const Icone = entree.icon;
+          return (
+            <NavItem
+              key={entree.id}
+              href={entree.href}
+              onClick={goTo(entree.href)}
+              icon={<Icone size={18} />}
+              label={entree.label}
+              count={entree.id === 'parcours' ? '3' : undefined}
+              active={entreeActive(entree, location.pathname)}
+              collapsed={collapsed}
+            />
+          );
+        })}
       </Sidebar>
       </div>
 

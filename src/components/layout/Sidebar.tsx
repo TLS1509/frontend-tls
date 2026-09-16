@@ -160,7 +160,7 @@ const formatCount = (count: React.ReactNode): React.ReactNode => {
 };
 
 const NAV_BASE =
-  'group/nav relative isolate flex items-center gap-stack-xs font-body font-semibold text-body-sm no-underline transition-[background-color,color] duration-fast ease-standard cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
+  'group/nav relative isolate flex items-center font-body font-semibold text-body-sm no-underline transition-[background-color,color,padding] duration-fast ease-standard cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
 
 /* Un seul rayon pour les deux états — resserré le 2026-09-14.
 
@@ -222,9 +222,20 @@ export const NavItem: React.FC<NavItemProps> = ({
   href = '#',
   ...rest
 }) => {
-  const sizeClasses = collapsed
-    ? 'w-12 h-12 mx-auto justify-center px-0'
-    : 'h-12 px-3.5 gap-2.5';
+  /* La rangée occupe TOUJOURS la largeur du rail — c'est lui qui s'anime
+     (`transition-[width] duration-slow`), elle n'a qu'à suivre.
+
+     Avant le 2026-09-16 elle passait de `w-12 … px-0` à `h-12 px-3.5`, deux
+     boîtes sans rapport, et rien ne les transitionnait : la racine glissait
+     pendant 300 ms pendant que TOUT son contenu se téléportait à la première
+     image. C'était ça, le saut — mesuré au navigateur, la rangée passait de
+     235 à 48 px d'un coup, son padding de 14 à 0, et le libellé se démontait.
+
+     Ne reste que le padding, et il bouge à peine : replié, le rail fait 72 px
+     et le conteneur en retire 2 × 8, donc la rangée fait 56 ; 16 px de chaque
+     côté y centrent l'icône de 24. Déployé, c'est 14. L'icône parcourt donc
+     2 px au lieu de traverser la rangée. */
+  const sizeClasses = collapsed ? 'w-full h-12 px-4' : 'w-full h-12 px-3.5';
 
   const classes = [
     NAV_BASE,
@@ -249,8 +260,25 @@ export const NavItem: React.FC<NavItemProps> = ({
           {icon}
         </span>
       )}
-      {!collapsed && <span className="flex-1 truncate">{label}</span>}
-      {!collapsed && count != null && count !== '' && (
+      {/* Monté en permanence : un démontage conditionnel fait disparaître le mot
+          d'un coup, alors que le rail met 300 ms à se fermer. On replie sa boîte
+          à la même vitesse que lui. */}
+      <span
+        className={[
+          'flex-1 truncate transition-[max-width,opacity,margin-inline-start] duration-slow ease-decelerate motion-reduce:transition-none',
+          collapsed ? 'max-w-0 opacity-0 ms-0' : 'max-w-full opacity-100 ms-2.5',
+        ].join(' ')}
+        aria-hidden={collapsed || undefined}
+      >
+        {label}
+      </span>
+      {count != null && count !== '' && (
+        <span
+          className={[
+            'overflow-hidden shrink-0 transition-[max-width,opacity] duration-slow ease-decelerate motion-reduce:transition-none',
+            collapsed ? 'max-w-0 opacity-0' : 'max-w-[44px] opacity-100',
+          ].join(' ')}
+        >
         <span
           className={[
             'inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-pill text-micro font-bold tabular-nums',
@@ -268,6 +296,7 @@ export const NavItem: React.FC<NavItemProps> = ({
           ].join(' ')}
         >
           {formatCount(count)}
+        </span>
         </span>
       )}
     </a>
