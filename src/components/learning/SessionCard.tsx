@@ -141,7 +141,7 @@ export const SessionCard: React.FC<SessionCardProps> = ({
       <div className="flex flex-col gap-stack-xs">
         {/* Rôle status + date — une ligne, meta neutre */}
         <div className="flex items-center gap-1.5 flex-wrap">
-          <span className={`inline-flex items-center gap-1 rounded-pill pl-1.5 pr-2 py-0.5 text-micro font-bold uppercase tracking-[0.05em] ${st.chip}`}>
+          <span className={`inline-flex items-center gap-1 rounded-pill pl-1.5 pr-2 py-0.5 text-micro font-bold uppercase tracking-label leading-tight ${st.chip}`}>
             {isCompleted
               ? <Check size={14} strokeWidth={2.5} aria-hidden />
               : <span className="w-1.5 h-1.5 rounded-pill bg-current" aria-hidden />}

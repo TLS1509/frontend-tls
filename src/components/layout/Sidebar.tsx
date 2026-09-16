@@ -162,10 +162,25 @@ const formatCount = (count: React.ReactNode): React.ReactNode => {
 const NAV_BASE =
   'group/nav relative flex items-center gap-stack-xs font-body font-semibold text-body-sm no-underline transition-[background-color,color,box-shadow] duration-fast ease-standard cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
 
-// Inactive items keep the soft pill shape; active items snap to a rounded
-// square ("anchored" feel) with brand gradient + shadow.
+/* Un seul rayon pour les deux états — resserré le 2026-09-14.
+
+   Avant : l'inactive en `rounded-pill`, l'active en `rounded-lg`. La rangée fait
+   255 × 48, donc le plafond du navigateur est à 24 : l'inactive rendait 24 et
+   l'active 14, et la forme se resserrait de 10 px au moment du clic. Mesuré au
+   navigateur — ce n'était pas un plafonnement invisible comme on l'a d'abord cru.
+
+   Ce que voyait l'utilisateur : rien au repos (l'inactive n'a ni fond ni filet),
+   une pilule très ronde au survol, puis un rectangle à la sélection. C'était le
+   seul endroit de l'app où un composant changeait de SILHOUETTE en changeant
+   d'état ; partout ailleurs l'état se dit par la couleur, la graisse ou l'ombre.
+   Le dégradé teal et l'ombre portent la sélection à eux seuls, ils n'ont pas
+   besoin d'un second signal.
+
+   Effet de bord voulu : en mode replié la rangée est carrée (48 × 48), donc la
+   pilule y donnait un cercle pour l'inactive et un carré arrondi pour l'active —
+   la même incohérence, en plus visible. Les deux sont maintenant à 14. */
 const NAV_INACTIVE =
-  'rounded-pill text-ink-700 hover:bg-primary-100/60 hover:text-primary-800';
+  'rounded-lg text-ink-700 hover:bg-primary-100/60 hover:text-primary-800';
 
 const NAV_ACTIVE =
   'rounded-lg bg-gradient-to-r from-primary-500 to-primary-700 text-white shadow-brand-sm';

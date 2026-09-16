@@ -145,7 +145,11 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
             <span
               className={[
                 'inline-flex items-center gap-1 rounded-pill px-2 py-[3px] shrink-0',
-                'text-micro font-bold uppercase tracking-[0.05em]',
+                // `tracking-label` vaut exactement 0,05em : la valeur était recopiée
+                // en dur, donc détachée. `leading-tight` aligne la boîte de ligne sur
+                // celle de <Badge> — sans elle, `--text-micro--line-height` (18 px)
+                // donnait une pastille de 24 px là où le composant en fait 19,75.
+                'text-micro font-bold uppercase tracking-label leading-tight',
                 STATUS_CHIP[tone],
               ].join(' ')}
             >

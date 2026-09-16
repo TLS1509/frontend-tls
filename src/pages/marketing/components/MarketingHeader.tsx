@@ -266,7 +266,7 @@ export const MarketingHeader: React.FC = () => {
                       aria-expanded={isOpen}
                       aria-haspopup="menu"
                       className={[
-                        'relative flex items-center gap-tight rounded-pill px-3 py-2 text-body-sm font-semibold whitespace-nowrap',
+                        'relative flex items-center gap-tight rounded-lg px-3 py-2 text-body-sm font-semibold whitespace-nowrap',
                         'transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                         hasActiveChild ? 'text-primary-800' : 'text-ink-700 hover:text-ink-900',
                       ].join(' ')}
@@ -275,7 +275,7 @@ export const MarketingHeader: React.FC = () => {
                         <motion.span
                           layoutId="marketing-nav-active"
                           aria-hidden
-                          className="absolute inset-0 rounded-pill bg-primary-500/10"
+                          className="absolute inset-0 rounded-lg bg-primary-500/10"
                           transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                         />
                       )}
@@ -345,7 +345,7 @@ export const MarketingHeader: React.FC = () => {
                   key={item.href}
                   to={item.href!}
                   className={[
-                    'relative flex items-center rounded-pill px-3 py-2 text-body-sm font-bold whitespace-nowrap',
+                    'relative flex items-center rounded-lg px-3 py-2 text-body-sm font-bold whitespace-nowrap',
                     'transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                     active ? 'text-primary-800' : 'text-ink-700 hover:text-ink-900',
                   ].join(' ')}
@@ -354,7 +354,7 @@ export const MarketingHeader: React.FC = () => {
                     <motion.span
                       layoutId="marketing-nav-active"
                       aria-hidden
-                      className="absolute inset-0 rounded-pill bg-primary-500/10"
+                      className="absolute inset-0 rounded-lg bg-primary-500/10"
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
