@@ -28,7 +28,6 @@ import {
   Bot,
   CalendarClock,
   CheckCircle2,
-  Layers,
   LibraryBig,
   Radar,
   TrendingUp,
@@ -47,32 +46,41 @@ const Hero: React.FC = () => {
   const reduced = useReducedMotion();
   return (
     <section className="relative overflow-hidden">
-      <div
-        aria-hidden
-        className="absolute -top-32 left-[-10%] h-[480px] w-[480px] rounded-pill bg-primary-200/40 blur-3xl pointer-events-none"
-      />
       <div className="relative max-w-wide mx-auto px-4 sm:px-6 lg:px-10 pt-hero pb-band">
         <motion.div
           initial={reduced ? false : { y: 24 }}
           animate={{ y: 0 }}
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className="flex max-w-4xl flex-col gap-stack-lg"
+          className="flex max-w-4xl flex-col gap-flow"
         >
-          <p className="inline-flex w-fit items-center gap-2 rounded-pill bg-primary-100 px-4 py-1.5 font-body text-caption font-bold text-primary-800 m-0">
-            <Layers size={14} />
-            Work-Integrated Learning & SBO Operating System
-          </p>
           <h1 className="font-display text-hero text-ink-900 [text-wrap:balance]">
-            Formez vos équipes. Déployez l'IA.{' '}
-            <span className="text-primary-700">Transformez votre entreprise en SBO.</span>
+            Une formation qui ne s'évapore pas{' '}
+            <span className="text-primary-700">trois semaines après la session.</span>
           </h1>
-          <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
-            Connectez l'apprentissage au travail quotidien. Acculturez vos
-            équipes aux processus IA, alimentez-les d'une veille ciblée et
-            pilotez vos talents sur une échelle de maîtrise vivante plutôt que
-            sur des fiches de poste figées.
+          {/* Le rythme d'ancrage, en toutes lettres. C'est le mécanisme du
+              produit — reprise espacée jusqu'à la bascule des 90 jours — et
+              c'est ce qui distingue cette page sans rien avoir à montrer.
+              Décision du 16/09 : hero typographique, le produit se montre plus
+              bas, où la maquette interactive existe déjà.
+              Différent du bloc de chiffres du Diagnostic à dessein : celui-ci
+              est une ligne de temps, pas un relevé. */}
+          <ol className="flex flex-wrap items-center gap-stack-xs m-0 p-0 list-none font-display text-feature text-ink-500">
+            {['J+1', 'J+7', 'J+30', 'J+90'].map((j, i) => (
+              <li key={j} className="flex items-center gap-stack-xs">
+                {i > 0 && <span aria-hidden className="h-px w-8 bg-primary-200" />}
+                <span className={i === 3 ? 'text-primary-700' : undefined}>{j}</span>
+              </li>
+            ))}
+            <li className="font-body text-body-sm text-ink-500 ps-stack-xs">
+              la reprise espacée, jusqu'à la bascule des 90 jours
+            </li>
+          </ol>
+          <p className="font-body text-lede text-ink-700 leading-relaxed m-0 max-w-2xl [text-wrap:pretty]">
+            La Learning App prolonge nos programmes dans le quotidien de vos
+            équipes : ancrage espacé, veille rattachée à vos compétences, et une
+            trace vivante de ce qui est réellement maîtrisé.
           </p>
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs pt-stack-xs">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs">
             <Button to="/website/contact" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
               Réserver une démonstration
             </Button>

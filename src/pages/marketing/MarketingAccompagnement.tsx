@@ -66,7 +66,6 @@ import {
   ArrowUpRight,
   Bot,
   Building2,
-  Compass,
   FileText,
   School,
   UserRound,
@@ -80,43 +79,69 @@ const SHELL = 'max-w-wide mx-auto px-4 sm:px-6 lg:px-10';
 
 // ─── 1. Hero ─────────────────────────────────────────────────────────────────
 
+/**
+ * Hero — l'acronyme EST le hero.
+ *
+ * Les sept sous-pages partageaient le même gabarit : blob flou, pastille de
+ * sur-titre, H1, sous-titre, rangée de boutons. Sept pages qui s'ouvrent de la
+ * même manière n'ont pas d'ouverture — elles ont un en-tête.
+ *
+ * Ici la matière est donnée : six lettres qui épellent le nom de la méthode, et
+ * qui sont déjà la meilleure ressource visuelle du site. Elles montent en tête
+ * de page et deviennent l'objet qu'on regarde en premier. Le sous-titre n'est
+ * plus un paragraphe de plus sous le titre : il légende la séquence.
+ *
+ * La pastille de sur-titre disparaît — l'acronyme dit à lui seul où l'on est.
+ */
 const Hero: React.FC = () => {
   const reduced = useReducedMotion();
   return (
     <section className="relative overflow-hidden">
-      <div
-        aria-hidden
-        className="absolute -top-32 right-[-10%] h-[480px] w-[480px] rounded-pill bg-primary-200/40 blur-3xl pointer-events-none"
-      />
       <div className={`relative ${SHELL} pt-hero pb-band`}>
-        <motion.div
-          initial={reduced ? false : { y: 24 }}
-          animate={{ y: 0 }}
-          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className="flex max-w-4xl flex-col gap-flow"
-        >
-          <p className="inline-flex w-fit items-center gap-2 rounded-pill bg-primary-100 px-4 py-1.5 font-body text-caption font-bold text-primary-800 m-0">
-            <Compass size={14} />
-            Notre méthode de déploiement
-          </p>
-          <h1 className="font-display text-hero text-ink-900 [text-wrap:balance]">
-            STRIDE : la méthode que nous suivons pour relier{' '}
-            <span className="text-primary-700">compétences réelles et déploiement IA.</span>
-          </h1>
-          <p className="font-body text-lede text-ink-700 m-0 max-w-2xl [text-wrap:pretty]">
-            Six étapes pour faire sauter les verrous de la fiche de poste,
-            cartographier les compétences réelles selon l'échelle Dreyfus et
-            installer des copilotes IA dans les workflows opérationnels.
-          </p>
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs">
-            <Button href="#stride-etapes" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
-              Découvrir les six étapes
-            </Button>
-            <Button to="/website/methode" variant="ghost" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
-              La science derrière la méthode
-            </Button>
-          </div>
-        </motion.div>
+        <div className="flex max-w-4xl flex-col gap-flow">
+          {/* La séquence, en ouverture. `aria-hidden` : les six verbes sont
+              annoncés en toutes lettres par la section Méthodologie — les
+              répéter ici en lettres isolées ferait épeler « S T R I D E » à un
+              lecteur d'écran sans rien lui apprendre. */}
+          <ol aria-hidden className="flex flex-wrap items-center gap-stack-xs m-0 p-0 list-none">
+            {ETAPES.map((e, i) => (
+              <motion.li
+                key={e.lettre}
+                initial={reduced ? false : { y: 16 }}
+                animate={{ y: 0 }}
+                transition={{ duration: 0.55, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
+                className="inline-flex h-16 w-16 items-center justify-center rounded-lg bg-primary-700 font-display text-h2 font-extrabold text-white sm:h-20 sm:w-20"
+              >
+                {e.lettre}
+              </motion.li>
+            ))}
+          </ol>
+
+          <motion.div
+            initial={reduced ? false : { y: 24 }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="flex flex-col gap-flow"
+          >
+            <h1 className="font-display text-hero text-ink-900 [text-wrap:balance]">
+              Six étapes pour relier{' '}
+              <span className="text-primary-700">compétences réelles et déploiement IA.</span>
+            </h1>
+            <p className="font-body text-lede text-ink-700 m-0 max-w-2xl [text-wrap:pretty]">
+              S'orienter, tester, réaliser, intégrer, déployer, évoluer. C'est la
+              méthode que nous suivons pour faire sauter les verrous de la fiche
+              de poste et installer des copilotes IA là où le travail se fait.
+            </p>
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs">
+              <Button href="#stride-etapes" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                Découvrir les six étapes
+              </Button>
+              <Button to="/website/methode" variant="ghost" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
+                La science derrière la méthode
+              </Button>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

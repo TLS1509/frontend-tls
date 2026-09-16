@@ -19,7 +19,6 @@ import {
   Cable,
   CheckCircle2,
   LayoutDashboard,
-  PenTool,
   Rocket,
   Sparkles,
 } from 'lucide-react';
@@ -34,35 +33,40 @@ const Hero: React.FC = () => {
   const reduced = useReducedMotion();
   return (
     <section className="relative overflow-hidden">
-      <div
-        aria-hidden
-        className="absolute -top-32 right-[-10%] h-[480px] w-[480px] rounded-pill bg-secondary-200/40 blur-3xl pointer-events-none"
-      />
-      <div
-        aria-hidden
-        className="absolute top-40 left-[-12%] h-[360px] w-[360px] rounded-pill bg-accent-200/30 blur-3xl pointer-events-none"
-      />
       <div className="relative max-w-wide mx-auto px-4 sm:px-6 lg:px-10 pt-hero pb-band">
         <motion.div
           initial={reduced ? false : { y: 24 }}
           animate={{ y: 0 }}
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className="flex max-w-4xl flex-col gap-stack-lg"
+          className="flex flex-col gap-flow"
         >
-          <p className="inline-flex w-fit items-center gap-2 rounded-pill bg-secondary-100 px-4 py-1.5 font-body text-caption font-bold text-secondary-800 m-0">
-            <PenTool size={14} />
-            Le Studio TLS
-          </p>
-          <h1 className="font-display text-hero text-ink-900 [text-wrap:balance]">
-            Vos contenus et vos outils IA sur-mesure.{' '}
-            <span className="text-secondary-700">Pensés pour l'impact, prêts à opérer.</span>
+          {/* Hero éditorial — motif emprunté à Retool : un titre surdimensionné
+              qui occupe toute la largeur, puis le texte courant en deux colonnes
+              étroites dessous. La page qui vend un atelier ouvre sur de la
+              typographie, pas sur une pastille de sur-titre.
+              Le titre sort du `max-w-4xl` commun aux autres pages : c'est
+              l'écart de mesure qui fait la différence, pas un ornement. */}
+          <h1 className="font-display text-hero text-ink-900 [text-wrap:balance] max-w-5xl">
+            Vos contenus et vos outils IA,{' '}
+            <span className="text-secondary-700">prêts à opérer.</span>
           </h1>
-          <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
-            De l'ingénierie pédagogique au développement d'Agents IA métiers,
-            nous concevons et déployons les briques opérationnelles de votre
-            transition vers le modèle Skills-Based Organization.
-          </p>
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs pt-stack-xs">
+
+          <div className={GRID_CONTAINER}>
+            <div className="grid grid-cols-1 @3xl:grid-cols-2 gap-flow max-w-4xl">
+              <p className="font-body text-body text-ink-600 leading-relaxed m-0 border-t-2 border-secondary-500 pt-stack">
+                De l'ingénierie pédagogique aux agents IA métiers, nous
+                concevons, déployons et vous transmettons les briques qui font
+                tourner votre organisation.
+              </p>
+              <p className="font-body text-body text-ink-600 leading-relaxed m-0 border-t border-ink-200 pt-stack">
+                Vos équipes les opèrent sans nous : parcours, agents configurés,
+                tableau de bord et kit de déploiement restent chez vous après
+                notre départ.
+              </p>
+            </div>
+          </div>
+
+          <div>
             <Button to="/website/contact" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
               Lancer un projet avec le Studio
             </Button>

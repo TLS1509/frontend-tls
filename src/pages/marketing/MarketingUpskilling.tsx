@@ -18,7 +18,6 @@ import {
   CheckCircle2,
   Building2,
   Gift,
-  GraduationCap,
   HeartHandshake,
   Landmark,
   Ruler,
@@ -35,37 +34,55 @@ const Hero: React.FC = () => {
   const reduced = useReducedMotion();
   return (
     <section className="relative overflow-hidden">
-      <div
-        aria-hidden
-        className="absolute -top-28 left-[-8%] h-[440px] w-[440px] rounded-pill bg-secondary-200/40 blur-3xl pointer-events-none"
-      />
-      <div
-        aria-hidden
-        className="absolute top-52 right-[-10%] h-[360px] w-[360px] rounded-pill bg-accent-200/30 blur-3xl pointer-events-none"
-      />
       <div className="relative max-w-wide mx-auto px-4 sm:px-6 lg:px-10 pt-hero pb-band">
         <motion.div
           initial={reduced ? false : { y: 24 }}
           animate={{ y: 0 }}
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className="flex max-w-4xl flex-col gap-stack-lg"
+          className="flex max-w-4xl flex-col gap-flow"
         >
-          <p className="inline-flex w-fit items-center gap-2 rounded-pill bg-secondary-100 px-4 py-1.5 font-body text-caption font-bold text-secondary-800 m-0">
-            <GraduationCap size={14} />
-            Développement des compétences & upskilling
-          </p>
           <h1 className="font-display text-hero text-ink-900 [text-wrap:balance]">
-            Concevez des projets d'upskilling sur-mesure.{' '}
-            <span className="text-secondary-700">Pilotés par les professionnels de la formation.</span>
+            Trois manières de commencer,{' '}
+            <span className="text-secondary-700">selon ce que vous pouvez engager.</span>
           </h1>
-          <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
-            Parce que la formation est un métier, tout projet d'upskilling
-            commence chez The Learning Society par l'habilitation de vos
-            concepteurs et formateurs. Une ingénierie orchestrée par notre
-            Learning App, incluant un an d'accès offert à la plateforme pour
-            l'ensemble de vos équipes.
+
+          {/* L'échelle d'engagement en ouverture — motif emprunté à OpenTable :
+              des lignes de texte nu, aucun contenant, le format en légende.
+              Ce hero règle un trou commercial autant qu'un problème de design :
+              la page ne montrait que le projet sur-mesure, le plus cher des
+              trois, et un visiteur qui n'a pas ce budget repartait sans savoir
+              que les deux autres existent.
+              ⚠️ Les prix ne figurent pas : leur affichage public n'est pas
+              tranché (fiche Tarifs, base Website pages). Le format suffit à
+              ranger les trois offres par niveau d'engagement. */}
+          <ol className="flex flex-col m-0 p-0 list-none">
+            {[
+              { nom: 'Pack Flash Leçons', format: 'Quatre webinaires de 1h30, à distance' },
+              { nom: 'Bootcamp IP Augmenté', format: 'Quatre demi-journées de 3h30, en présentiel' },
+              { nom: 'Projet d’upskilling sur-mesure', format: 'Plusieurs mois, de l’habilitation au déploiement' },
+            ].map((o, i) => (
+              <li
+                key={o.nom}
+                className="grid grid-cols-[auto_minmax(0,1fr)] items-baseline gap-stack border-t border-ink-200 py-stack first:border-t-0 first:pt-0"
+              >
+                <span className="font-display text-caption font-bold text-secondary-700">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <span className="flex flex-col gap-0.5">
+                  <span className="font-display text-feature text-ink-900">{o.nom}</span>
+                  <span className="font-body text-body-sm text-ink-500">{o.format}</span>
+                </span>
+              </li>
+            ))}
+          </ol>
+
+          <p className="font-body text-lede text-ink-700 leading-relaxed m-0 max-w-2xl [text-wrap:pretty]">
+            Parce que la formation est un métier, tout projet commence par
+            l’habilitation de vos concepteurs et formateurs. Un accès à la
+            Learning App est inclus ; sa durée se fixe au cadrage.
           </p>
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs pt-stack-xs">
+
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs">
             <Button to="/website/contact" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
               Cadrer un projet d'upskilling
             </Button>

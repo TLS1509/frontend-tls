@@ -19,7 +19,6 @@ import {
   Cpu,
   HeartHandshake,
   Target,
-  Users,
   Zap,
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
@@ -41,23 +40,23 @@ const Hero: React.FC = () => {
           initial={reduced ? false : { y: 24 }}
           animate={{ y: 0 }}
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className="flex max-w-4xl flex-col gap-stack-lg"
+          className="flex max-w-4xl flex-col gap-flow"
         >
-          <p className="inline-flex w-fit items-center gap-2 rounded-pill bg-primary-100 px-4 py-1.5 font-body text-caption font-bold text-primary-800 m-0">
-            <Users size={14} />
-            Deux fondateurs, une vision commune
-          </p>
+          {/* Les deux noms SONT le titre. C'est la seule page du site dont
+              l'objet est une personne — et la promesse tient justement dans le
+              fait qu'il n'y en a que deux, qu'on peut les nommer, et qu'on
+              parlera à elles. Un H1 abstrait sur « l'alliance de la pédagogie
+              et de l'IA » dit l'inverse : une entité sans visage. */}
           <h1 className="font-display text-hero text-ink-900 [text-wrap:balance]">
-            L'alliance de la pédagogie, de l'IA{' '}
-            <span className="text-primary-700">et de la stratégie RH.</span>
+            <span className="block">Pierre-Armand Dennery</span>
+            <span className="block text-primary-700">Chloé Mimault</span>
           </h1>
-          <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
-            Pas de chaîne hiérarchique lourde, pas de consultants juniors. The
-            Learning Society a été créée par un duo complémentaire qui associe
-            la recherche en ingénierie pédagogique, l'architecture IA et la
-            transformation des organisations.
+          <p className="font-body text-lede text-ink-700 leading-relaxed m-0 max-w-2xl [text-wrap:pretty]">
+            Voilà toute l'équipe. Pas de chaîne hiérarchique, pas de consultants
+            juniors : l'ingénierie pédagogique et l'architecture IA, portées par
+            les deux personnes qui feront le travail.
           </p>
-          <div className="pt-stack-xs">
+          <div>
             <Button to="/website/contact" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
               Réserver un échange direct avec les fondateurs
             </Button>

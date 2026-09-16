@@ -29,7 +29,6 @@ import {
   Bot,
   CheckCircle2,
   ChevronDown,
-  Gauge,
   Layers,
   Lock,
   RefreshCw,
@@ -313,27 +312,37 @@ export const MarketingDiagnostic: React.FC = () => {
       />
 
       <section className="relative overflow-hidden min-h-[70dvh]">
-        <div
-          aria-hidden
-          className="absolute -top-28 right-[-8%] h-[420px] w-[420px] rounded-pill bg-primary-200/40 blur-3xl pointer-events-none"
-        />
         <div className="relative max-w-wide mx-auto px-4 sm:px-6 lg:px-10 pt-hero pb-band">
 
           {/* ── Écran 0 : hub ─────────────────────────────────────────────── */}
           {phase === 'hub' && (
             <motion.div {...reveal} className="flex flex-col gap-flow">
               <div className="flex max-w-3xl flex-col gap-stack-lg">
-                <p className="inline-flex w-fit items-center gap-2 rounded-pill bg-primary-100 px-4 py-1.5 font-body text-caption font-bold text-primary-800 m-0">
-                  <Gauge size={14} />
-                  Auto-diagnostic gratuit
-                </p>
                 <h1 className="font-display text-hero text-ink-900 [text-wrap:balance]">
                   Évaluez la maturité de votre organisation{' '}
                   <span className="text-primary-700">en 3 minutes.</span>
                 </h1>
+                {/* Le coût d'entrée, en chiffres, avant le premier mot d'argumentaire.
+                    Une page-outil ne se vend pas : elle annonce ce qu'elle demande.
+                    C'est la matière propre de celle-ci — sa brièveté — et c'est ce
+                    qui la distingue des six autres heroes du site. */}
+                <ul className="flex flex-wrap items-baseline gap-flow m-0 p-0 list-none">
+                  {[
+                    { n: '3', u: 'minutes', d: 'chrono, montre en main' },
+                    { n: '10', u: 'questions', d: 'dont 2 ouvertes' },
+                    { n: '1', u: 'rapport', d: 'personnalisé, à garder' },
+                  ].map((s) => (
+                    <li key={s.u} className="flex flex-col">
+                      <span className="flex items-baseline gap-1.5">
+                        <span className="font-display text-section text-primary-700">{s.n}</span>
+                        <span className="font-display text-feature text-ink-900">{s.u}</span>
+                      </span>
+                      <span className="font-body text-caption text-ink-500">{s.d}</span>
+                    </li>
+                  ))}
+                </ul>
                 <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
-                  Choisissez le diagnostic adapté à votre enjeu. 8 questions,
-                  2 questions ouvertes, un rapport personnalisé.
+                  Choisissez le diagnostic adapté à votre enjeu.
                 </p>
               </div>
 

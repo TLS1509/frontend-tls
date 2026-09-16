@@ -449,3 +449,60 @@ s'affiche, simplement elle s'affiche sur du blanc au lieu du fond de la marque.
 est un gabarit cloné sur sept sous-pages (pill sur-titre + H1 + sous-titre + CTA), et
 `MagneticButton`, `MeshGradientBg`, `TiltCard` et les blobs flous n'ont **jamais été validés** —
 les fiches le signalent page après page.
+
+---
+
+## 7. La règle d'ouverture et de layout (arrêtée le 16/09/2026)
+
+### Le principe
+
+**Chaque page ouvre sur l'objet qui n'appartient qu'à elle.** Les sept sous-pages partageaient un
+gabarit unique — blob flou, pastille de sur-titre, H1 bicolore, sous-titre de trois lignes, rangée
+de boutons. Sept pages qui s'ouvrent pareil n'ont pas d'ouverture, elles ont un en-tête.
+
+| Page | Sa matière | Ce que le hero montre |
+|---|---|---|
+| **STRIDE** | Six lettres qui épellent la méthode | Les six pastilles, en ouverture |
+| **Diagnostic** | Sa brièveté | 3 min · 10 questions · 1 rapport, en chiffres |
+| **Fondateurs** | Deux personnes | Les deux noms, en guise de H1 |
+| **Learning App** | Le rythme d'ancrage | `J+1 — J+7 — J+30 — J+90`, la reprise espacée |
+| **Studio** | Un atelier et ce qui en sort | Titre surdimensionné, texte en deux colonnes étroites |
+| **Upskilling** | Trois niveaux d'engagement | L'échelle des trois formats |
+| **Vigie** | Une cadence | « Mardi 8h / 5 min » + le sommaire du numéro |
+
+**La pastille de sur-titre a disparu des sept.** Quand l'ouverture est faite de la matière de la
+page, elle dit déjà où l'on est. Les blobs flous décoratifs sont partis avec.
+
+### Le layout des sections : trois registres, un par nature de page
+
+Direction retenue le 16/09 : **mélanger selon la page**, et voici la règle qui l'empêche de
+redériver. Un registre par nature de page, jamais deux sur la même page.
+
+| Registre | Pour quelles pages | Ce que c'est | Référence |
+|---|---|---|---|
+| **Éditorial** | Les pages d'offre — Studio, Upskilling, STRIDE | Type-led. Titre surdimensionné, texte courant en colonnes étroites, filets plutôt que contenants, beaucoup de blanc | [Retool](https://mobbin.com/sites/sections/4e8c7583-5be1-4673-89c5-417432ec6784) · [OpenTable](https://mobbin.com/sites/sections/d22681bf-5c90-48f4-ba23-d23283702fc8) |
+| **Split** | Learning App, et toute page ayant un visuel réel à montrer | Moitié texte, moitié visuel bord à bord | [Maze](https://mobbin.com/sites/sections/efd123f4-8694-4da2-ad1e-7382fef9d90d) · [Dropbox](https://mobbin.com/sites/sections/6229cc47-702b-4a2f-981a-3b25c7aabeb2) |
+| **Panneau** | Les pages utilitaires — Vigie, Diagnostic, Contact, Ressources | Panneaux contenus, filets fins, teintes très claires, aucune ombre | [Shopify](https://mobbin.com/sites/sections/030f6359-2059-4c49-8640-f4dda24dce68) · [Tailscale](https://mobbin.com/sites/sections/b9d1dbbc-a212-45cc-bc88-9e64fe90d847) |
+
+⚠️ **Le registre Split est conditionné à un visuel réel.** Il est en attente : la direction
+illustration du site est suspendue et les brand assets sont à créer. Une moitié droite vide n'est
+pas un split, c'est un trou. En attendant, Learning App ouvre en éditorial — **décision du 16/09 :
+hero typographique, le produit se montre plus bas**, où la maquette interactive existe déjà.
+
+### Les trois patterns de section
+
+| Pattern | Pour quoi | Où il est déjà |
+|---|---|---|
+| **Le registre** | Une énumération, pas une collection : livrables, profils, arguments. Filets, aucun contenant | Livrables du Studio |
+| **La séquence** | Ce qui est *vraiment* ordonné. Épine dorsale + ordinaux. Sinon le numéro ment | Les six étapes de STRIDE |
+| **Le contrepoint** | La seule surface sombre de la page, contenue, jamais pleine largeur | CTA de STRIDE et de Learning App |
+
+**Une seule section « forte » par page.** La grille de cartes servait à tout, donc elle ne
+hiérarchisait rien.
+
+### Ce qui n'est pas tranché
+
+Les **effets et animations premium** viendront après : la direction motion du site est à rejouer
+(`DESIGN-INSPO.md` la déclare suspendue le 29/07, et aucun effet n'est prescrit ni banni d'ici
+là). Les heroes posés ici animent une translation à l'arrivée, rien de plus — c'est le socle sur
+lequel une passe motion pourra s'appuyer.
