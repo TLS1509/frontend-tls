@@ -14,7 +14,7 @@
  */
 
 import React, { useState } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '../../components/core/Button';
 import { SEOHead } from './components/SEOHead';
@@ -24,6 +24,48 @@ const SHELL = 'max-w-wide mx-auto px-4 sm:px-6 lg:px-10';
 /** Le grain de papier, en tuile SVG — le même pour tous les essais qui en ont. */
 const GRAIN =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='150' height='150' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E\")";
+
+// ─── Le mouvement — l'invariant d'abord ──────────────────────────────────────
+//
+// RÈGLE : le contenu n'est JAMAIS conditionné à une animation. On anime la
+// position, jamais l'existence — pas d'`opacity: 0` en attente de JS. Si le
+// moteur ne part pas (onglet en arrière-plan, rendu headless), tout est lu.
+// C'est l'invariant n°2 de CONTEXT-SITE-MARKETING, et il vaut ici aussi.
+//
+// Chaque mouvement est tiré d'un save Mobbin — la colonne « d'où ça vient »
+// dans le banc dit lequel.
+
+/** Se pose en arrivant. La position bouge, le contenu est là dès le premier rendu. */
+const Pose: React.FC<{ children: React.ReactNode; delai?: number; depuis?: number }> = ({
+  children, delai = 0, depuis = 14,
+}) => {
+  const reduced = useReducedMotion();
+  return (
+    <motion.div
+      initial={reduced ? false : { y: depuis }}
+      whileInView={{ y: 0 }}
+      viewport={{ once: true, amount: 0.25 }}
+      transition={{ duration: 0.72, delay: delai, ease: [0.22, 1, 0.36, 1] }}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+/** La poussée caméra de Structured et Craft : une seule couche, liée au scroll. */
+const Poussee: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const reduced = useReducedMotion();
+  const ref = React.useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
+  const scale = useTransform(scrollYProgress, [0, 1], [1.06, 1.14]);
+  return (
+    <div ref={ref} className="absolute inset-0 -z-10 overflow-hidden">
+      <motion.div className="h-full w-full" style={reduced ? undefined : { scale }}>
+        {children}
+      </motion.div>
+    </div>
+  );
+};
 
 // ─── Le fragment commun ──────────────────────────────────────────────────────
 
@@ -114,11 +156,12 @@ const TraitContinu: React.FC = () => {
 
 const DecorBande: React.FC = () => (
   <div className="relative isolate overflow-hidden rounded-lg">
+    <Poussee>
     <svg
       aria-hidden
       viewBox="0 0 1200 420"
       preserveAspectRatio="xMidYMid slice"
-      className="absolute inset-0 -z-10 h-full w-full"
+      className="h-full w-full object-cover"
     >
       <defs>
         <linearGradient id="essai-ciel" x1="0" y1="0" x2="0" y2="1">
@@ -138,11 +181,11 @@ const DecorBande: React.FC = () => (
         <path d="M0 366 C 236 342, 452 380, 686 360 C 884 343, 1030 370, 1200 354 L1200 420 L0 420Z" fill="#7E9380" opacity=".95" />
       </g>
     </svg>
+    </Poussee>
     <div aria-hidden className="absolute inset-0 -z-10 opacity-[0.28] mix-blend-multiply"
          style={{ backgroundImage: GRAIN, backgroundSize: '150px' }} />
     <div className="px-6 py-band sm:px-10">
-      <Titre />
-      <Cta />
+      <Pose><Titre /><Cta /></Pose>
     </div>
   </div>
 );
@@ -161,14 +204,14 @@ const ObjetPose: React.FC = () => (
         <Titre />
         <Cta />
       </div>
-      <figure className="relative m-0 mx-auto w-[250px] max-w-full">
+      <Pose delai={0.12} depuis={22}><figure className="relative m-0 mx-auto w-[250px] max-w-full">
         <img src="/marketing/archives/do-instrument.webp"
              alt="Cadran solaire équatorial portatif en laiton doré, Andreas Vogler, vers 1766-90"
              className="h-auto w-full mix-blend-multiply" />
         <figcaption className="mt-stack text-center font-body text-caption text-ink-500">
           Cadran solaire portatif, A. Vogler, v. 1766 — The Met, domaine public
         </figcaption>
-      </figure>
+      </figure></Pose>
     </div>
   </div>
 );
@@ -181,15 +224,15 @@ const ObjetPose: React.FC = () => (
 const Annotation: React.FC = () => (
   <div>
     <Titre />
-    <p className="font-body text-body-lg text-ink-700 leading-relaxed m-0 mt-flow max-w-2xl">
-      Le poste décrit ce qu'on{' '}
-      <span className="bg-[linear-gradient(transparent_62%,rgba(237,132,58,.42)_62%)]">attend</span>{' '}
-      de quelqu'un. La compétence décrit ce qu'il{' '}
-      <span className="bg-[linear-gradient(transparent_62%,rgba(237,132,58,.42)_62%)]">sait faire</span>.
+    <p className="font-body text-body-lg text-ink-700 m-0 mt-flow max-w-2xl">
+      Le poste décrit ce qu'on <span className="tls-surl">attend</span> de quelqu'un.
+      La compétence décrit ce qu'il <span className="tls-surl tls-surl-2">sait faire</span>.
     </p>
-    <p className="mt-stack font-body text-body text-secondary-700 italic -rotate-1 origin-left">
-      ↳ c'est là que tout se joue
-    </p>
+    <Pose delai={1.15} depuis={8}>
+      <p className="mt-stack font-body text-body text-secondary-700 italic -rotate-1 origin-left">
+        ↳ c'est là que tout se joue
+      </p>
+    </Pose>
     <Cta />
   </div>
 );
@@ -204,17 +247,18 @@ const AlignementImparfait: React.FC = () => (
     <Titre />
     <div className="mt-flow grid gap-stack-lg sm:grid-cols-3">
       {ETAPES.map((e, i) => (
-        <div
+        <motion.div
           key={e.n}
-          className={[
-            'rounded-lg border border-ink-200 bg-white p-stack-lg',
-            ['-rotate-[0.5deg]', 'rotate-[0.35deg] -translate-y-0.5', '-rotate-[0.25deg] translate-y-0.5'][i],
-          ].join(' ')}
+          initial={{ rotate: 0, y: 10 }}
+          whileInView={{ rotate: [-0.5, 0.35, -0.25][i], y: [0, -2, 2][i] }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.8, delay: 0.1 * i, ease: [0.22, 1, 0.36, 1] }}
+          className="rounded-lg border border-ink-200 bg-white p-stack-lg"
         >
           <span className="font-body text-caption font-bold tracking-label text-ink-500 uppercase">{e.k}</span>
           <h3 className="mt-stack-xs font-display text-h4 text-ink-900">{e.n}</h3>
-          <p className="mt-stack-xs font-body text-body-sm text-ink-600 leading-relaxed m-0">{e.d}</p>
-        </div>
+          <p className="mt-stack-xs font-body text-body-sm text-ink-600 m-0">{e.d}</p>
+        </motion.div>
       ))}
     </div>
     <Cta />
@@ -245,14 +289,14 @@ const LiquidGlass: React.FC = () => (
         {ETAPES.map((e) => (
           <div
             key={e.n}
-            className="relative overflow-hidden rounded-lg border border-white/55 p-stack-lg
+            className="tls-verre relative overflow-hidden rounded-lg border border-white/55 p-stack-lg
                        backdrop-blur-md backdrop-saturate-[1.85] backdrop-brightness-[1.07]
                        bg-gradient-to-br from-white/40 to-white/15
                        shadow-[inset_0_1px_0_rgba(255,255,255,.95),0_16px_38px_rgba(48,34,20,.2)]"
           >
             <span className="font-body text-caption font-bold tracking-label uppercase text-ink-600">{e.k}</span>
             <h3 className="mt-stack-xs font-display text-h4 text-ink-900">{e.n}</h3>
-            <p className="mt-stack-xs font-body text-body-sm text-ink-700 leading-relaxed m-0">{e.d}</p>
+            <p className="mt-stack-xs font-body text-body-sm text-ink-700 m-0">{e.d}</p>
           </div>
         ))}
       </div>
@@ -479,7 +523,7 @@ const PiliersArchive: React.FC = () => (
             </span>
             <h4 className="mt-stack-xs font-display text-h4 text-ink-900 leading-tight">{p.oeuvre}</h4>
             <p className="mt-stack-xs font-body text-caption text-ink-500 m-0">{p.qui}</p>
-            <p className="mt-stack font-body text-body-sm text-ink-600 leading-relaxed m-0">{p.dit}</p>
+            <p className="mt-stack font-body text-body-sm text-ink-600 m-0">{p.dit}</p>
           </figcaption>
         </figure>
       ))}
@@ -496,42 +540,68 @@ const PiliersArchive: React.FC = () => (
 
 // ─── Le banc ─────────────────────────────────────────────────────────────────
 
-type Essai = { id: string; n: string; src: string; note: string; el: React.ReactNode };
+type Essai = { id: string; n: string; src: string; note: string; motion: string; el: React.ReactNode };
 
 const ESSAIS: Essai[] = [
   { id: 'trait', n: 'Le trait continu', src: 'Claude · Wispr Flow',
     note: 'Une seule ligne, tracée une fois au chargement. Aucun asset.',
+    motion: "Le tracé se déroule une fois au chargement — **Claude**, dont la ligne du hero se dessine au lieu d'apparaître.",
     el: <TraitContinu /> },
   { id: 'decor', n: 'Le décor peint en bande', src: 'Structured · Craft · Duna',
     note: 'Une bande peinte à l’ouverture, la sobriété en dessous. Décor de substitution.',
+    motion: 'Poussée caméra liée au scroll, sur **une seule couche** — **Structured** et **Craft**, tous deux tagués *Scroll Effects* chez Mobbin.',
     el: <DecorBande /> },
   { id: 'objet', n: 'L’objet réel posé', src: 'Contra Labs · Parker AI',
     note: 'Le fait-main vient de l’objet, pas de la surface. Demande une vraie photo.',
+    motion: "L'objet se pose avec un léger dépassement — **Contra Labs**, dont la statue arrive comme un objet réel et non comme une image.",
     el: <ObjetPose /> },
   { id: 'annot', n: 'La couche d’annotation', src: 'repéré le 16/09',
     note: 'Un document relu, pas une brochure. Aucun asset.',
+    motion: "Le surligneur passe de gauche à droite, la note en marge arrive après — le geste d'annoter, dans l'ordre où une main le fait.",
     el: <Annotation /> },
   { id: 'align', n: 'L’alignement imparfait', src: 'le système',
     note: 'Rotations de −0,5° / +0,35° / −0,25°. Invisible, et pourtant.',
+    motion: "Les cartes se posent **dans** leur rotation au lieu de l'avoir déjà — **Anchor**, dont les pastilles arrivent en quinconce.",
     el: <AlignementImparfait /> },
   { id: 'glass', n: 'Le liquid glass', src: 'Apple 2025 · ton choix',
     note: 'Posé sur une matière, parce que seul sur du blanc il ne réfracte rien.',
+    motion: 'Le reflet balaie, et la carte se soulève sous le pointeur — **Air** et **Phantom**, les deux saves tagués *Glass*.',
     el: <LiquidGlass /> },
   { id: 'mark', n: 'Le mark v4 — trois cercles qui se réunissent', src: 'brief logo du 09/09',
     note: 'Le regroupement dit-il quelque chose ? Et tient-il à 16 px ? Géométrie de test, pas un dessin de logo.',
+    motion: 'Les trois cercles arrivent séparés et se recouvrent. Une fois, au chargement.',
     el: <MarkV4 /> },
   { id: 'archive', n: 'La matière d’archive', src: 'Millet, 1872 · The Met, domaine public',
     note: 'Un vrai fragment de peinture, recadré serré et passé dans nos deux encres. C’est le recadrage qui évite le piège Bosch.',
+    motion: "Aucun — la matière est fixe, c'est le texte qui bouge. À juger tel quel.",
     el: <MatiereArchive /> },
   { id: 'piliers', n: 'Learn · Match · Do, en archives', src: 'Merian 1693 · Dürer 1515 · Vogler 1766',
     note: 'Les trois piliers cherchés dans le domaine public — une image qui incarne chacun, pas qui l’illustre.',
+    motion: "Aucun pour l'instant : trois images à comparer se regardent, elles ne se jouent pas.",
     el: <PiliersArchive /> },
 ];
 
 export const MarketingEssaisMatiere: React.FC = () => (
   <>
     <SEOHead title="Essais matière · interne" description="Banc d’essai interne." canonical="/website/_essais-matiere" />
-    <style>{`@keyframes tls-tracer { to { stroke-dashoffset: 0 } }`}</style>
+    <style>{`
+      @keyframes tls-tracer { to { stroke-dashoffset: 0 } }
+      /* le surligneur passe — le texte est lisible avant, pendant et après */
+      @keyframes tls-surligne { from { background-size: 0% 100% } to { background-size: 100% 100% } }
+      .tls-surl {
+        background-image: linear-gradient(transparent 62%, rgba(237,132,58,.42) 62%);
+        background-repeat: no-repeat; background-size: 100% 100%;
+        animation: tls-surligne 1.1s cubic-bezier(.65,0,.35,1) both;
+      }
+      .tls-surl-2 { animation-delay: .55s }
+      /* le verre se soulève sous le pointeur — un état, pas une peau */
+      .tls-verre { transition: transform .45s cubic-bezier(.22,1,.36,1), box-shadow .45s }
+      .tls-verre:hover { transform: translateY(-4px) }
+      @media (prefers-reduced-motion: reduce) {
+        .tls-surl, .tls-surl-2 { animation: none }
+        .tls-verre { transition: none } .tls-verre:hover { transform: none }
+      }
+    `}</style>
 
     <section className={`${SHELL} pt-hero pb-flow`}>
       <p className="font-body text-caption font-bold tracking-label uppercase text-secondary-700">
@@ -568,6 +638,10 @@ export const MarketingEssaisMatiere: React.FC = () => (
             <span className="font-body text-caption text-ink-500">{e.src}</span>
           </div>
           <p className="mt-stack-xs font-body text-body-sm text-ink-600 m-0 max-w-2xl">{e.note}</p>
+          <p className="mt-stack-xs font-body text-caption text-ink-500 m-0 max-w-2xl">
+            <span className="font-bold tracking-label uppercase text-primary-700">Mouvement</span>
+            {' · '}{e.motion}
+          </p>
         </header>
         {e.el}
       </section>
