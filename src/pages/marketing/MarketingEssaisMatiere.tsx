@@ -13,8 +13,8 @@
  * Route de travail, hors sitemap et hors nav. À supprimer une fois tranché.
  */
 
-import React from 'react';
-import { useReducedMotion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '../../components/core/Button';
 import { SEOHead } from './components/SEOHead';
@@ -267,6 +267,94 @@ const LiquidGlass: React.FC = () => (
   </div>
 );
 
+// ─── 7 · Le mark v4 : trois cercles qui se réunissent ────────────────────────
+//
+// Le brief du 09/09 remplace la molécule par TROIS CERCLES — Learn · Match · Do.
+// Cet essai teste une chose : est-ce que le regroupement DIT quelque chose ?
+//
+// Ce qu'il dit, s'il dit quelque chose : les trois piliers arrivent séparés et
+// se recouvrent. La zone commune est l'endroit où la compétence se prouve.
+// C'est une information vraie — pas une décoration.
+//
+// ⚠️ Deux contraintes que l'essai vérifie en même temps :
+//   · le brief est FAVICON-FIRST → l'état final doit tenir à 16 px, en statique.
+//     D'où les trois tailles côte à côte : si ça ne marche pas à 16, ça ne
+//     marche pas.
+//   · l'animation n'est jamais porteuse — elle est l'arrivée, pas le contenu.
+//
+// ⚠️ Ce n'est PAS une proposition de logo : c'est la géométrie minimale qui
+// permet de juger le mouvement. Le dessin du mark v4 reste à faire.
+
+type Cercle = { cx: number; cy: number; c: string; depart: { cx: number; cy: number } };
+const CERCLES: Cercle[] = [
+  { cx: 40, cy: 34, c: '#55A1B4', depart: { cx: 8, cy: 10 } },   // Learn  — teal
+  { cx: 60, cy: 34, c: '#ED843A', depart: { cx: 92, cy: 10 } },  // Match  — orange
+  { cx: 50, cy: 54, c: '#F8B044', depart: { cx: 50, cy: 94 } },  // Do     — or
+];
+
+const MarqueV4: React.FC<{ taille: number; verre?: boolean; rejoue: number }> = ({
+  taille, verre, rejoue,
+}) => {
+  const reduced = useReducedMotion();
+  return (
+    <svg width={taille} height={taille} viewBox="0 0 100 100" aria-hidden
+         style={{ display: 'block' }}>
+      {CERCLES.map((c, i) => (
+        <motion.circle
+          key={`${rejoue}-${i}`}
+          r={22}
+          fill={c.c}
+          fillOpacity={verre ? 0.42 : 0.82}
+          stroke={verre ? 'rgba(255,255,255,.9)' : 'none'}
+          strokeWidth={verre ? 1.6 : 0}
+          initial={reduced ? false : { cx: c.depart.cx, cy: c.depart.cy, opacity: 0 }}
+          animate={{ cx: c.cx, cy: c.cy, opacity: 1 }}
+          transition={{ duration: 1.05, delay: 0.12 * i, ease: [0.22, 1, 0.36, 1] }}
+        />
+      ))}
+    </svg>
+  );
+};
+
+const MarkV4: React.FC = () => {
+  const [rejoue, setRejoue] = useState(0);
+  const blocs: Array<{ t: string; verre?: boolean; fond: string }> = [
+    { t: 'Aplat de marque', fond: 'bg-white' },
+    { t: 'Clear glass — la piste du brief v4', verre: true, fond: 'bg-[#E9DFCD]' },
+  ];
+  return (
+    <div>
+      <Titre />
+      <div className="mt-flow grid gap-stack-lg sm:grid-cols-2">
+        {blocs.map((b) => (
+          <div key={b.t} className={`rounded-lg border border-ink-200 p-stack-lg ${b.fond}`}>
+            <p className="font-body text-caption font-bold tracking-label uppercase text-ink-500 m-0">
+              {b.t}
+            </p>
+            <div className="mt-stack-lg flex items-end gap-stack-lg">
+              {[96, 32, 16].map((s) => (
+                <div key={s} className="flex flex-col items-center gap-stack-xs">
+                  <MarqueV4 taille={s} verre={b.verre} rejoue={rejoue} />
+                  <span className="font-body text-caption text-ink-500">{s} px</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="mt-stack-lg flex flex-wrap items-center gap-stack">
+        <Button variant="ghost" size="sm" onClick={() => setRejoue((n) => n + 1)}>
+          Rejouer l’arrivée
+        </Button>
+        <p className="font-body text-body-sm text-ink-600 m-0 max-w-xl">
+          Les trois arrivent séparés et se recouvrent. <strong className="text-ink-900">Regarde
+          le 16 px</strong> : c’est lui qui décide, pas le grand.
+        </p>
+      </div>
+    </div>
+  );
+};
+
 // ─── Le banc ─────────────────────────────────────────────────────────────────
 
 type Essai = { id: string; n: string; src: string; note: string; el: React.ReactNode };
@@ -290,6 +378,9 @@ const ESSAIS: Essai[] = [
   { id: 'glass', n: 'Le liquid glass', src: 'Apple 2025 · ton choix',
     note: 'Posé sur une matière, parce que seul sur du blanc il ne réfracte rien.',
     el: <LiquidGlass /> },
+  { id: 'mark', n: 'Le mark v4 — trois cercles qui se réunissent', src: 'brief logo du 09/09',
+    note: 'Le regroupement dit-il quelque chose ? Et tient-il à 16 px ? Géométrie de test, pas un dessin de logo.',
+    el: <MarkV4 /> },
 ];
 
 export const MarketingEssaisMatiere: React.FC = () => (
