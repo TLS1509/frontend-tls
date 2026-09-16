@@ -1,6 +1,6 @@
 # 📑 Documentation Index — The Learning Society
 
-**Last updated**: 2026-09-14 | **Total docs**: ~135 fichiers (hors `_archive/`)
+**Last updated**: 2026-09-16 | **Total docs**: ~135 fichiers (hors `_archive/`)
 
 > 🥇 **Avant toute session marketing ou site : lire [`_canon/FACTS-CANON.md`](_canon/FACTS-CANON.md)** — le registre des faits, avec ses interdits en §0.
 > **Ordre de préséance (revu le 28/07)** : (1) le code et le site en ligne, (2) une décision datée de Chloé, (3) ce registre, (4) le reste des docs. Le canon n'est plus présenté comme un arbitre absolu : il vieillit comme les autres.
@@ -120,7 +120,8 @@
 
 | Fichier | Purpose |
 |---|---|
-| [DESIGN-INSPO.md](site/DESIGN-INSPO.md) | **Mobbin saves** (24 mobile + 34 desktop + 33 vitrine) + case study Until Labs |
+| [DESIGN-INSPO.md](site/DESIGN-INSPO.md) | **La bibliothèque Mobbin** — les 41 saves vitrine et le fil « décor peint » (relevés le 16/09), plus l'analyse des 24 saves **app** du 12/06. **Ne prescrit rien** : les Directions A/B/C/D, le bloc *Directrice créative* et le case study Until en sont sortis le 2026-09-16 → [`_archive/DESIGN-INSPO-directions-suspendues-2026-06.md`](_archive/DESIGN-INSPO-directions-suspendues-2026-06.md) |
+| 🗄️ [`_archive/DESIGN-INSPO-directions-suspendues-2026-06.md`](_archive/DESIGN-INSPO-directions-suspendues-2026-06.md) | **Archivé le 2026-09-16** — 365 l. suspendues depuis le 29/07 qui pesaient 44 % de `DESIGN-INSPO`. Quatre directions, un vocabulaire d'effets page par page, la parallaxe d'Until en trois tiers. Conservé pour ne pas réexplorer sans le savoir ; ne fait pas foi |
 | ⛔ `ANIMATION-TECHNIQUES-RESEARCH.md` | **Archivé le 28/07** — adossé à Direction C, elle-même suspendue. Le motif d'archivage d'origine (« recommandait le parallax, effet écarté ») ne tient plus : cet interdit a été levé le 29/07. Doc à re-verser ou refaire dans la passe motion |
 
 **Recherche & inspiration** *(artefacts d'exploration, valeur de référence)*
@@ -355,7 +356,7 @@ Les fichiers motion-effects datés ont été supprimés lors du nettoyage du 30/
 | **Design tokens** | product/DESIGN.md |
 | **Component audit** | _audits/AUDIT-PHASE-19-2026-06-12.md |
 | **Figma sync status** | _audits/FIGMA-AUDIT-REPORT-2026-06-12.md |
-| **Motion primitives** | site/DESIGN-INSPO.md (Until Labs section) |
+| **Motion primitives** | ⚠️ **aucune source en vigueur** — la direction motion du site est à rejouer (29/07). Le vocabulaire d'effets d'Until est archivé → `_archive/DESIGN-INSPO-directions-suspendues-2026-06.md` |
 | **Project setup** | product/PRODUCT.md |
 | **Copy & messaging** | `docs/site/propositions-PAD/` (copy arbitrée) puis le code, `src/pages/marketing/*` |
 
