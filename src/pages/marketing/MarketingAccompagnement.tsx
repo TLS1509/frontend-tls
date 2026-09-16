@@ -33,6 +33,30 @@
  * 3. LA TYPO PASSE SUR L'ÉCHELLE. Cette page portait quatre `clamp()` écrits à
  *    la main, dont deux qui ne différaient que de 0,6vw. Elles deviennent
  *    `text-hero` / `text-section` / `text-feature` / `text-lede`.
+ *
+ * ── Rétrogradation du 2026-09-16 : la page cesse de vendre ───────────────────
+ * Le catalogue arrêté le 31/08/2026 classe **STRIDE / SBO Global (30 000 € HT)
+ * « gelée pour 2027, cible 2028 »**, et abandonne le mot « conseil » au profit
+ * de « studio ». Cette page vendait donc une offre que l'entreprise ne prend
+ * plus : Audit Flash chiffré, livrables, CTA d'achat, accès Learning App inclus.
+ *
+ * Elle devient une **page de méthode**. Ce qui reste : la thèse (le double
+ * piège), la séquence STRIDE en six étapes, et à qui elle s'adresse. Ce qui
+ * part :
+ *  - la section « Audit Flash » — un produit daté et chiffré (0,5 à 1 jour) ;
+ *  - la section « Ce que vous obtenez » — une liste de livrables contractuels,
+ *    plus le bonus « un an d'accès offert à la Learning App », qui portait en
+ *    prime une incohérence connue (6 mois ailleurs, 6 à 12 mois dans la Prez) ;
+ *  - les deux CTA « Réserver un Audit Flash STRIDE ».
+ *
+ * ⚠️ Ce qui N'EST PAS tranché, et qu'il ne faut donc pas faire ici : une fois
+ * dépouillée, cette page raconte à peu près ce que raconte `/website/methode`.
+ * Fusionner les deux est une décision de design qui n'a pas été prise. En
+ * attendant, les deux coexistent et se lient l'une à l'autre.
+ *
+ * L'offre Studio réellement vendable est le **Pack Sprint OS & Agents IA**
+ * (7 500 € HT minimum, lancement janvier 2027) — elle n'a pas encore de page.
+ * Voir docs/site/SITEMAP-V1.md §1 bis.
  */
 
 import React from 'react';
@@ -42,61 +66,82 @@ import {
   ArrowUpRight,
   Bot,
   Building2,
-  CheckCircle2,
-  ClipboardList,
-  Compass,
   FileText,
-  Gift,
-  Map,
   School,
   UserRound,
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
 import { FadeInWhenVisible } from '../../components/marketing/motion';
+import { GRID_CONTAINER } from '../../lib/grid-columns';
 import { SEOHead } from './components/SEOHead';
 
 const SHELL = 'max-w-wide mx-auto px-4 sm:px-6 lg:px-10';
 
 // ─── 1. Hero ─────────────────────────────────────────────────────────────────
 
+/**
+ * Hero — l'acronyme EST le hero.
+ *
+ * Les sept sous-pages partageaient le même gabarit : blob flou, pastille de
+ * sur-titre, H1, sous-titre, rangée de boutons. Sept pages qui s'ouvrent de la
+ * même manière n'ont pas d'ouverture — elles ont un en-tête.
+ *
+ * Ici la matière est donnée : six lettres qui épellent le nom de la méthode, et
+ * qui sont déjà la meilleure ressource visuelle du site. Elles montent en tête
+ * de page et deviennent l'objet qu'on regarde en premier. Le sous-titre n'est
+ * plus un paragraphe de plus sous le titre : il légende la séquence.
+ *
+ * La pastille de sur-titre disparaît — l'acronyme dit à lui seul où l'on est.
+ */
 const Hero: React.FC = () => {
   const reduced = useReducedMotion();
   return (
     <section className="relative overflow-hidden">
-      <div
-        aria-hidden
-        className="absolute -top-32 right-[-10%] h-[480px] w-[480px] rounded-pill bg-primary-200/40 blur-3xl pointer-events-none"
-      />
       <div className={`relative ${SHELL} pt-hero pb-band`}>
-        <motion.div
-          initial={reduced ? false : { y: 24 }}
-          animate={{ y: 0 }}
-          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className="flex max-w-4xl flex-col gap-flow"
-        >
-          <p className="inline-flex w-fit items-center gap-stack-xs rounded-pill bg-primary-100 px-4 py-1.5 font-body text-caption font-bold text-primary-800 m-0">
-            <Compass size={14} />
-            Méthode &amp; transformation SBO
-          </p>
-          <h1 className="font-display text-hero text-ink-900 [text-wrap:balance]">
-            La méthode STRIDE : opérez votre transition SBO et{' '}
-            <span className="text-primary-700">déployez vos premières solutions IA.</span>
-          </h1>
-          <p className="font-body text-lede text-ink-700 m-0 max-w-2xl [text-wrap:pretty]">
-            Un accompagnement sur-mesure pour faire sauter les verrous de la
-            fiche de poste, cartographier vos compétences réelles selon
-            l'échelle Dreyfus et déployer des copilotes IA métiers dans vos
-            workflows opérationnels.
-          </p>
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs">
-            <Button to="/website/contact" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
-              Réserver un Audit Flash STRIDE
-            </Button>
-            <Button href="#stride-etapes" variant="ghost" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
-              Découvrir la méthode en 6 étapes
-            </Button>
-          </div>
-        </motion.div>
+        <div className="flex max-w-4xl flex-col gap-flow">
+          {/* La séquence, en ouverture. `aria-hidden` : les six verbes sont
+              annoncés en toutes lettres par la section Méthodologie — les
+              répéter ici en lettres isolées ferait épeler « S T R I D E » à un
+              lecteur d'écran sans rien lui apprendre. */}
+          <ol aria-hidden className="flex flex-wrap items-center gap-stack-xs m-0 p-0 list-none">
+            {ETAPES.map((e, i) => (
+              <motion.li
+                key={e.lettre}
+                initial={reduced ? false : { y: 16 }}
+                animate={{ y: 0 }}
+                transition={{ duration: 0.55, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
+                className="inline-flex h-16 w-16 items-center justify-center rounded-lg bg-primary-700 font-display text-h2 font-extrabold text-white sm:h-20 sm:w-20"
+              >
+                {e.lettre}
+              </motion.li>
+            ))}
+          </ol>
+
+          <motion.div
+            initial={reduced ? false : { y: 24 }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="flex flex-col gap-flow"
+          >
+            <h1 className="font-display text-hero text-ink-900 [text-wrap:balance]">
+              Six étapes pour relier{' '}
+              <span className="text-primary-700">compétences réelles et déploiement IA.</span>
+            </h1>
+            <p className="font-body text-lede text-ink-700 m-0 max-w-2xl [text-wrap:pretty]">
+              S'orienter, tester, réaliser, intégrer, déployer, évoluer. C'est la
+              méthode que nous suivons pour faire sauter les verrous de la fiche
+              de poste et installer des copilotes IA là où le travail se fait.
+            </p>
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs">
+              <Button href="#stride-etapes" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                Découvrir les six étapes
+              </Button>
+              <Button to="/website/methode" variant="ghost" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
+                La science derrière la méthode
+              </Button>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
@@ -151,59 +196,11 @@ const DoublePiege: React.FC = () => (
   </section>
 );
 
-// ─── 3. L'Audit Flash ────────────────────────────────────────────────────────
+/* La section « L'Audit Flash » vivait ici. Retirée le 16/09/2026 : elle vendait
+   un produit daté (« une demi-journée à une journée ») et chiffré, sur une offre
+   gelée jusqu'en 2028. Voir l'en-tête du fichier. */
 
-const AUDIT_LIVRABLES = [
-  {
-    icon: <ClipboardList size={20} />,
-    title: 'État des lieux',
-    detail: 'Vos pratiques de formation, vos référentiels et vos usages IA, photographiés sans complaisance.',
-  },
-  {
-    icon: <Map size={20} />,
-    title: 'Heatmap des Skill Gaps',
-    detail: "Vos écarts de compétences critiques, positionnés sur l'échelle Dreyfus.",
-  },
-  {
-    icon: <FileText size={20} />,
-    title: 'Feuille de route STRIDE chiffrée',
-    detail: 'Les étapes, les jalons et le budget de votre transition, noir sur blanc.',
-  },
-];
-
-const AuditFlash: React.FC = () => (
-  <section>
-    <div className={`${SHELL} py-band flex flex-col gap-flow`}>
-      <FadeInWhenVisible>
-        <div className="max-w-3xl flex flex-col gap-group">
-          <h2 className="font-display text-section text-ink-900 [text-wrap:balance]">
-            Un diagnostic express pour cadrer votre feuille de route.
-          </h2>
-          <p className="font-body text-lede text-ink-700 m-0 [text-wrap:pretty]">
-            L'Audit Flash SBO tient en une demi-journée à une journée, et livre
-            trois documents que vous gardez, quoi qu'il arrive ensuite.
-          </p>
-        </div>
-      </FadeInWhenVisible>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-flow">
-        {AUDIT_LIVRABLES.map((l, i) => (
-          <FadeInWhenVisible key={l.title} delay={i * 0.06} direction="up">
-            <div className="flex h-full flex-col gap-group border-t-2 border-primary-300 pt-stack-lg">
-              <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary-100 text-primary-700">
-                {l.icon}
-              </span>
-              <h3 className="font-display text-feature text-ink-900">{l.title}</h3>
-              <p className="font-body text-body text-ink-600 m-0">{l.detail}</p>
-            </div>
-          </FadeInWhenVisible>
-        ))}
-      </div>
-    </div>
-  </section>
-);
-
-// ─── 4. La méthodologie STRIDE — 6 étapes, vraie séquence ────────────────────
+// ─── 3. La méthodologie STRIDE — 6 étapes, vraie séquence ────────────────────
 
 const ETAPES: { lettre: string; verbe: string; phase: string; livrable: string }[] = [
   {
@@ -253,24 +250,61 @@ const Methodologie: React.FC = () => (
         </h2>
       </FadeInWhenVisible>
 
-      <ol className="flex flex-col m-0 p-0 list-none">
-        {ETAPES.map((e, i) => (
-          <FadeInWhenVisible key={e.lettre} delay={i * 0.04}>
-            <li className="grid grid-cols-[auto_minmax(0,1fr)] md:grid-cols-[auto_220px_minmax(0,1fr)] items-center gap-stack md:gap-flow border-t border-primary-200 py-stack-lg first:border-t-0">
-              <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-primary-700 font-display text-h3 font-extrabold text-white">
-                {e.lettre}
-              </span>
-              <div className="flex flex-col gap-0.5">
-                <h3 className="font-display text-feature text-ink-900">{e.verbe}</h3>
-                <span className="font-body text-caption font-bold text-primary-700">{e.phase}</span>
-              </div>
-              <p className="col-span-2 md:col-span-1 font-body text-body text-ink-600 leading-relaxed m-0">
-                {e.livrable}
-              </p>
-            </li>
-          </FadeInWhenVisible>
-        ))}
-      </ol>
+      {/* Conteneur mesuré : la séquence répond à SA largeur, pas à celle de la
+          fenêtre. Deux boîtes obligatoires — une requête de conteneur remonte à
+          l'ancêtre le plus proche, jamais à l'élément qui la porte. */}
+      <div className={GRID_CONTAINER}>
+        <ol className="relative flex flex-col m-0 p-0 list-none">
+          {ETAPES.map((e, i) => {
+            const premier = i === 0;
+            const dernier = i === ETAPES.length - 1;
+            return (
+              // Le `<li>` porte la liste, la motion vit à l'intérieur.
+              // `FadeInWhenVisible` rend une `<div>` : l'envelopper autour du
+              // `<li>` produisait `<ol><div><li>`, invalide, et neutralisait
+              // les sélecteurs de position sur l'item.
+              <li key={e.lettre} className="relative">
+                {/* L'épine dorsale — c'est elle qui fait la différence entre une
+                    liste et une séquence. Elle passe au centre des pastilles
+                    (left-7 = la moitié de w-14) et s'arrête au centre de la
+                    première et de la dernière plutôt que de déborder. */}
+                <span
+                  aria-hidden
+                  className={[
+                    // `-translate-x-1/2` recentre le filet sur l'axe : `left-7`
+                    // pose son BORD à 28 px, pas son axe — l'épine passait 1 px
+                    // à droite du centre des pastilles.
+                    'absolute left-7 -translate-x-1/2 w-px bg-primary-200',
+                    premier ? 'top-1/2' : 'top-0',
+                    dernier ? 'bottom-1/2' : 'bottom-0',
+                  ].join(' ')}
+                />
+                <FadeInWhenVisible
+                  delay={i * 0.04}
+                  className="relative grid grid-cols-[auto_minmax(0,1fr)] @3xl:grid-cols-[auto_240px_minmax(0,1fr)] items-center gap-stack @3xl:gap-flow py-stack-lg"
+                >
+                  {/* `rounded-lg` et non `rounded-2xl` : 56 px de côté, donc
+                      au-dessus du seuil des 28 px où le rayon cesse d'être un
+                      accident de plafonnement. Au-dessus, il prend l'échelle —
+                      la même que la Card et le Button (14 px). */}
+                  <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-primary-700 font-display text-h3 font-extrabold text-white">
+                    {e.lettre}
+                  </span>
+                  <div className="flex flex-col gap-tight">
+                    <h3 className="font-display text-feature text-ink-900">{e.verbe}</h3>
+                    <span className="font-body text-caption font-bold text-primary-700">
+                      {String(i + 1).padStart(2, '0')} · {e.phase}
+                    </span>
+                  </div>
+                  <p className="col-span-2 @3xl:col-span-1 font-body text-body text-ink-600 leading-relaxed m-0">
+                    {e.livrable}
+                  </p>
+                </FadeInWhenVisible>
+              </li>
+            );
+          })}
+        </ol>
+      </div>
 
       <FadeInWhenVisible>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-stack rounded-lg bg-white/70 p-stack-lg ring-1 ring-primary-100">
@@ -287,57 +321,12 @@ const Methodologie: React.FC = () => (
   </section>
 );
 
-// ─── 5. Ce que vous obtenez ──────────────────────────────────────────────────
+/* La section « Ce que vous obtenez » vivait ici. Retirée le 16/09/2026 : quatre
+   livrables contractuels et un bonus « un an d'accès offert à la Learning App »
+   — un engagement commercial sur une offre gelée, et un chiffre qui contredisait
+   les 6 mois annoncés ailleurs. Voir l'en-tête du fichier. */
 
-const OBTENEZ = [
-  'Une feuille de route SBO & IA arbitrée et chiffrée',
-  'Un Passeport de compétences dynamique pour vos équipes',
-  'Des copilotes et assistants IA opérationnels dans vos workflows',
-  'Un tableau de pilotage pour votre direction',
-];
-
-const Obtenez: React.FC = () => (
-  <section>
-    <div className={`${SHELL} py-band`}>
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-flow items-start">
-        <div className="lg:col-span-5">
-          <FadeInWhenVisible>
-            <h2 className="font-display text-section text-ink-900 [text-wrap:balance]">
-              Un cadre stratégique clair et des briques IA immédiatement
-              opérationnelles.
-            </h2>
-          </FadeInWhenVisible>
-        </div>
-        <div className="lg:col-span-7 flex flex-col gap-flow">
-          <ul className="flex flex-col m-0 p-0 list-none">
-            {OBTENEZ.map((o, i) => (
-              <FadeInWhenVisible key={o} delay={i * 0.05}>
-                <li className="flex items-start gap-stack border-t border-ink-200 py-stack-lg first:border-t-0 first:pt-0">
-                  <CheckCircle2 size={20} className="text-primary-700 shrink-0 mt-1" />
-                  <span className="font-body text-lede text-ink-800">{o}</span>
-                </li>
-              </FadeInWhenVisible>
-            ))}
-          </ul>
-          <FadeInWhenVisible delay={0.1}>
-            <div className="flex items-start gap-stack rounded-lg bg-accent-50 p-stack-lg">
-              <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent-100 text-accent-800">
-                <Gift size={20} />
-              </span>
-              <p className="font-body text-body text-ink-800 leading-relaxed m-0">
-                <span className="font-bold">Bonus :</span> un an d'accès offert
-                à la Learning App TLS pour les cohortes pilotes, avec moteur
-                d'ancrage, gestion de l'atrophie à 90 jours et Open Badge.
-              </p>
-            </div>
-          </FadeInWhenVisible>
-        </div>
-      </div>
-    </div>
-  </section>
-);
-
-// ─── 6. Pour qui ─────────────────────────────────────────────────────────────
+// ─── 4. Pour qui ─────────────────────────────────────────────────────────────
 
 const PROFILS = [
   {
@@ -362,7 +351,7 @@ const PourQui: React.FC = () => (
     <div className={`${SHELL} py-band flex flex-col gap-flow`}>
       <FadeInWhenVisible>
         <h2 className="font-display text-section text-ink-900 [text-wrap:balance] max-w-2xl">
-          Conçu pour celles et ceux qui portent la transformation.
+          À qui cette méthode s'adresse.
         </h2>
       </FadeInWhenVisible>
       {/* Traitement volontairement différent des cartes de l'Audit Flash
@@ -386,8 +375,11 @@ const PourQui: React.FC = () => (
   </section>
 );
 
-// ─── 7. CTA final ────────────────────────────────────────────────────────────
+// ─── 5. CTA final ────────────────────────────────────────────────────────────
 
+/* Le CTA vendait l'Audit Flash. Il pointe désormais vers ce qui existe
+   réellement au catalogue — un projet d'upskilling — et vers une conversation.
+   Une méthode se raconte ; elle ne se commande pas. */
 const CtaFinal: React.FC = () => (
   <section>
     <div className={`${SHELL} py-band`}>
@@ -395,18 +387,18 @@ const CtaFinal: React.FC = () => (
         <div className="relative overflow-hidden rounded-lg bg-ink-900 text-white px-6 sm:px-10 lg:px-16 py-band">
           <div className="relative max-w-content flex flex-col gap-flow">
             <h2 className="font-display text-section text-white [text-wrap:balance]">
-              Déployez le duo SBO + IA dans votre organisation.
+              Cette méthode structure tout ce que nous livrons.
             </h2>
             <p className="font-body text-lede text-white/80 m-0 max-w-2xl [text-wrap:pretty]">
-              Un premier échange avec les fondateurs suffit à cadrer la suite :
-              périmètre, jalons, budget.
+              Elle cadre nos projets d'upskilling comme nos productions Studio.
+              Un premier échange suffit à voir ce qu'elle donnerait chez vous.
             </p>
             <div className="flex flex-wrap items-center gap-stack-xs">
               <Button to="/website/contact" variant="secondary" size="xl" trailingIcon={<ArrowRight size={20} />}>
-                Réserver un Audit Flash STRIDE
+                Parler de votre contexte
               </Button>
-              <Button to="/website/learning-app" variant="glass" size="xl" trailingIcon={<ArrowUpRight size={20} />}>
-                Découvrir la Learning App
+              <Button to="/website/upskilling" variant="glass" size="xl" trailingIcon={<ArrowUpRight size={20} />}>
+                Voir les projets d'upskilling
               </Button>
             </div>
           </div>
@@ -419,15 +411,13 @@ const CtaFinal: React.FC = () => (
 export const MarketingAccompagnement: React.FC = () => (
   <>
     <SEOHead
-      title="Accompagnement STRIDE · The Learning Society"
-      description="La méthode STRIDE en 6 étapes : audit, pilote, ingénierie, intégration, déploiement, amélioration continue. Opérez votre transition Skills-Based Organization et déployez vos premières solutions IA."
+      title="La méthode STRIDE · The Learning Society"
+      description="STRIDE en six étapes : s'orienter, tester, réaliser, intégrer, déployer, évoluer. La méthode que nous suivons pour relier compétences réelles et déploiement IA dans une organisation."
       canonical="/website/accompagnement"
     />
     <Hero />
     <DoublePiege />
-    <AuditFlash />
     <Methodologie />
-    <Obtenez />
     <PourQui />
     <CtaFinal />
   </>

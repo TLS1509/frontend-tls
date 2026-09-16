@@ -201,7 +201,7 @@ const FeaturedCard: React.FC<{ item: ResourceItem }> = ({ item }) => {
         <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-transparent pointer-events-none" />
 
         {/* Content */}
-        <div className="relative p-section-lg sm:p-section-xl flex flex-col gap-section h-full justify-between">
+        <div className="relative p-section-lg sm:p-section-xl flex flex-col gap-flow h-full justify-between">
           <div className="flex flex-col gap-stack">
             <div className="flex items-center gap-stack flex-wrap">
               <span className={`inline-flex items-center gap-stack-2xs px-3 py-1 rounded-pill border font-body text-caption font-bold uppercase tracking-wider ${badgeTone(item)}`}>
@@ -213,7 +213,7 @@ const FeaturedCard: React.FC<{ item: ResourceItem }> = ({ item }) => {
               </span>
             </div>
 
-            <h3 className="font-display text-[clamp(1.5rem,3vw,2.25rem)] font-extrabold text-ink-900">
+            <h3 className="font-display text-title text-ink-900">
               {item.title}
             </h3>
 
@@ -339,7 +339,7 @@ export const MarketingResources: React.FC = () => {
   const remaining = filteredItems.slice(1);
 
   return (
-    <div className="bg-white">
+    <>
       <SEOHead
         title="Magazine & Ressources · The Learning Society"
         description="Articles, dossiers de veille sourcés, guides et webinaires sur l'IA en formation, les compétences et la Skills-Based Organization. En accès libre."
@@ -361,7 +361,7 @@ export const MarketingResources: React.FC = () => {
       </div>
 
       {/* ── Filter & search ───────────────────────────────────────────────────── */}
-      <section className="bg-white border-b border-ink-100">
+      <section className="border-b border-ink-100">
         <div className={`${CONTAINER} py-section`}>
           <div className="flex flex-col gap-stack">
             {/* Search */}
@@ -400,7 +400,7 @@ export const MarketingResources: React.FC = () => {
       </section>
 
       {/* ── Content grid ──────────────────────────────────────────────────────── */}
-      <section className="py-page bg-white">
+      <section className="py-page">
         <div className={CONTAINER}>
           {filteredItems.length === 0 ? (
             <FadeInWhenVisible className="text-center py-section">
@@ -448,7 +448,7 @@ export const MarketingResources: React.FC = () => {
       <section className="py-section-lg bg-gradient-to-br from-primary-50 to-primary-100/50 border-y border-primary-100">
         <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-10 text-center">
           <FadeInWhenVisible className="flex flex-col gap-stack items-center">
-            <h2 className="font-display text-[clamp(1.75rem,3vw,2.5rem)] font-extrabold text-ink-900">
+            <h2 className="font-display text-section text-ink-900">
               Restez à jour
             </h2>
             <p className="font-body text-body text-ink-700 max-w-2xl">
@@ -480,14 +480,14 @@ export const MarketingResources: React.FC = () => {
       </section>
 
       {/* ── Topics section ────────────────────────────────────────────────────── */}
-      <section className="py-page bg-white">
+      <section className="py-page">
         <div className={CONTAINER}>
           <FadeInWhenVisible className="flex flex-col gap-section">
             <div>
               <p className="font-body text-caption font-bold text-primary-700 uppercase tracking-widest m-0">
                 Ce qu'on couvre
               </p>
-              <h2 className="font-display text-[clamp(1.75rem,3vw,2.25rem)] font-extrabold text-ink-900 leading-tight mt-stack">
+              <h2 className="font-display text-title text-ink-900 mt-stack">
                 Thématiques clés
               </h2>
             </div>
@@ -510,7 +510,7 @@ export const MarketingResources: React.FC = () => {
           </FadeInWhenVisible>
         </div>
       </section>
-    </div>
+    </>
   );
 };
 

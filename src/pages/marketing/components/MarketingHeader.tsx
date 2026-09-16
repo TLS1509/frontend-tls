@@ -11,9 +11,15 @@ type NavItem = {
   dropdown?: { label: string; href: string; desc: string; icon: React.ReactNode }[];
 };
 
-// Structure actée en réunion du 28/07/2026 (RECAP §2). Le libellé du 3e item
-// du dropdown Accompagnement ("Déploiement IA & SBO", page STRIDE) est la piste
-// évoquée en réunion, pas encore définitivement tranchée par PAD.
+// Structure actée en réunion du 28/07/2026 (RECAP §2).
+//
+// ⚠️ 16/09/2026 — le 3e item du dropdown s'appelait "Déploiement IA & SBO" et
+// vendait la méthode STRIDE. STRIDE est gelée jusqu'en 2028 (catalogue du
+// 31/08) : la page est rétrogradée en page de méthode, et son libellé le dit.
+// Le dropdown mélange donc désormais deux offres et une méthode — ce n'est pas
+// satisfaisant, mais la restructuration de la nav est un arbitrage ouvert
+// (fiche "Page hub Accompagnement", base Notion Website pages). Ne pas la
+// trancher ici. Voir docs/site/SITEMAP-V1.md §1 bis.
 const NAV_ITEMS: NavItem[] = [
   { label: 'Accueil', href: '/website' },
   { label: 'Learning App', href: '/website/learning-app' },
@@ -33,9 +39,9 @@ const NAV_ITEMS: NavItem[] = [
         icon: <GraduationCap size={16} />,
       },
       {
-        label: 'Déploiement IA & SBO',
+        label: 'La méthode STRIDE',
         href: '/website/accompagnement',
-        desc: "La méthode STRIDE, de l'audit au déploiement",
+        desc: 'Les six étapes qui structurent nos déploiements',
         icon: <Compass size={16} />,
       },
     ],
@@ -243,7 +249,7 @@ export const MarketingHeader: React.FC = () => {
 
             {/* Desktop nav links + CTA — grouped on the right, opposite the logo */}
             <div className="hidden items-center gap-stack-3xs lg:flex">
-            <div className="flex items-center gap-0.5">
+            <div className="flex items-center gap-tight">
             {DESKTOP_NAV_ITEMS.map((item) => {
               if (item.dropdown) {
                 const isOpen = openDropdown === item.label;
@@ -295,7 +301,7 @@ export const MarketingHeader: React.FC = () => {
                           className="absolute left-1/2 top-full mt-3 w-80 -translate-x-1/2 overflow-hidden rounded-2xl border border-white/60 bg-white/85 shadow-card-lift backdrop-blur-glass-heavy z-dropdown"
                           role="menu"
                         >
-                          <div className="flex flex-col gap-0.5 p-2">
+                          <div className="flex flex-col gap-tight p-2">
                             {item.dropdown.map((d) => {
                               const active = isPathActive(pathname, d.href);
                               return (
@@ -316,7 +322,7 @@ export const MarketingHeader: React.FC = () => {
                                   >
                                     {d.icon}
                                   </span>
-                                  <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+                                  <div className="flex min-w-0 flex-1 flex-col gap-tight">
                                     <span
                                       className={`font-display text-body-sm font-bold ${
                                         active ? 'text-primary-700' : 'text-ink-900'
@@ -486,7 +492,7 @@ export const MarketingHeader: React.FC = () => {
                                     }`}
                                   >
                                     <span className="mt-0.5 shrink-0 text-primary-600">{d.icon}</span>
-                                    <div className="flex min-w-0 flex-col gap-0.5">
+                                    <div className="flex min-w-0 flex-col gap-tight">
                                       <span className="font-body text-body-sm font-bold">
                                         {d.label}
                                       </span>

@@ -39,8 +39,8 @@ const QUICK_LINKS = [
   },
   {
     icon: <Briefcase size={20} />,
-    label: 'Accompagnement sur mesure',
-    href: '/website/accompagnement',
+    label: 'Upskilling sur-mesure',
+    href: '/website/upskilling',
     desc: 'Devis personnalisé',
     tone: 'bg-secondary-50 text-secondary-700 border-secondary-100',
   },
@@ -53,9 +53,15 @@ const QUICK_LINKS = [
   },
 ];
 
-const SUBJECTS = ['Accompagnement STRIDE', 'Studio IA & Pédagogie', 'Upskilling', 'Learning App', 'Débriefing diagnostic', 'Partenariat', 'Autre'];
+// ⚠️ 16/09/2026 — « Accompagnement STRIDE » a quitté cette liste, et le défaut
+// du formulaire avec lui. STRIDE est gelée jusqu'en 2028 (catalogue du 31/08) :
+// en faire le sujet pré-sélectionné de tout visiteur qui ouvre la page Contact
+// orientait chaque demande entrante vers l'offre qu'on ne prend plus.
+// `resolveSubject` valide contre SUBJECTS, donc un vieux lien `?sujet=Accompagnement%20STRIDE`
+// retombe proprement sur le défaut au lieu de casser.
+const SUBJECTS = ['Studio IA & Pédagogie', 'Upskilling', 'Learning App', 'Débriefing diagnostic', 'Partenariat', 'Autre'];
 
-const DEFAULT_SUBJECT = 'Accompagnement STRIDE';
+const DEFAULT_SUBJECT = 'Studio IA & Pédagogie';
 
 /**
  * Sujet d'arrivée, pré-rempli depuis `?sujet=`.
@@ -70,10 +76,6 @@ const resolveSubject = (raw: string | null): string =>
   raw && SUBJECTS.includes(raw) ? raw : DEFAULT_SUBJECT;
 
 const SUBJECT_CONTEXTS: Record<string, { headline: string; desc: string }> = {
-  'Accompagnement STRIDE': {
-    headline: 'Cadrer votre transition SBO.',
-    desc: 'Chaque mission commence par un Audit Flash pour comprendre votre contexte. Pas de devis standard : tout est sur mesure.',
-  },
   'Studio IA & Pédagogie': {
     headline: 'Lancer un projet avec le Studio.',
     desc: 'Contenus pédagogiques, agents IA métiers, intégration dans votre écosystème. Chaque projet fait l\'objet d\'un cadrage dédié.',
@@ -134,7 +136,7 @@ export const MarketingContact: React.FC = () => {
   };
 
   return (
-    <div className="bg-white">
+    <>
       <SEOHead
         title="Contactez The Learning Society · Échange & Rendez-vous"
         description="Échangez avec l'équipe The Learning Society. Prenez rendez-vous, posez vos questions ou démarrez votre projet de formation IA."
@@ -194,7 +196,7 @@ export const MarketingContact: React.FC = () => {
               transition={{ duration: reduced ? 0.12 : 0.22, ease: [0.21, 0.47, 0.32, 0.98] }}
               className="flex flex-col items-center gap-stack"
             >
-              <h1 className="font-display font-extrabold text-ink-900 leading-[0.98] tracking-tight text-[clamp(2rem,5vw,3.75rem)]">
+              <h1 className="font-display text-hero text-ink-900">
                 {SUBJECT_CONTEXTS[form.subject].headline}
               </h1>
               <p className="font-body text-body-lg text-ink-600 m-0 max-w-2xl">
@@ -481,7 +483,7 @@ export const MarketingContact: React.FC = () => {
                         after:content-['✓'] after:text-white after:font-bold after:text-[12px] after:opacity-0 after:leading-none after:flex after:items-center after:justify-center
                         peer-checked:after:opacity-100 flex items-center justify-center"
                     />
-                    <div className="flex flex-col gap-0.5">
+                    <div className="flex flex-col gap-tight">
                       <span className="font-body text-body-sm font-semibold text-ink-900 leading-snug">
                         Recevoir La Vigie IA
                       </span>
@@ -587,7 +589,7 @@ export const MarketingContact: React.FC = () => {
                     <span className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-primary-50 text-primary-700 border border-primary-100 shrink-0">
                       <Mail size={18} />
                     </span>
-                    <div className="flex flex-col gap-0.5 min-w-0">
+                    <div className="flex flex-col gap-tight min-w-0">
                       <span className="font-body text-caption font-bold text-ink-500">
                         Email
                       </span>
@@ -605,7 +607,7 @@ export const MarketingContact: React.FC = () => {
                     <span className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-primary-50 text-primary-700 border border-primary-100 shrink-0">
                       <ExternalLink size={18} />
                     </span>
-                    <div className="flex flex-col gap-0.5 min-w-0">
+                    <div className="flex flex-col gap-tight min-w-0">
                       <span className="font-body text-caption font-bold text-ink-500">
                         LinkedIn
                       </span>
@@ -618,7 +620,7 @@ export const MarketingContact: React.FC = () => {
                     <span className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-white text-ink-700 border border-ink-200 shrink-0">
                       <MapPin size={18} />
                     </span>
-                    <div className="flex flex-col gap-0.5 min-w-0">
+                    <div className="flex flex-col gap-tight min-w-0">
                       <span className="font-body text-caption font-bold text-ink-500">
                         Bureau
                       </span>
@@ -649,8 +651,8 @@ export const MarketingContact: React.FC = () => {
                       <span className={`inline-flex items-center justify-center w-10 h-10 rounded-xl border shrink-0 ${q.tone}`}>
                         {q.icon}
                       </span>
-                      <div className="flex flex-col gap-0.5 min-w-0 flex-1">
-                        <span className="font-body text-body-sm font-bold text-ink-900 group-hover:text-primary-700 transition-colors leading-tight">
+                      <div className="flex flex-col gap-tight min-w-0 flex-1">
+                        <span className="font-body text-body-sm font-bold text-ink-900 group-hover:text-primary-700 transition-colors">
                           {q.label}
                         </span>
                         <span className="font-body text-caption text-ink-500">{q.desc}</span>
@@ -669,7 +671,7 @@ export const MarketingContact: React.FC = () => {
       </section>
 
       {/* Footer */}
-    </div>
+    </>
   );
 };
 

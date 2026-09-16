@@ -9,21 +9,38 @@
 - **Primitives motion** : `src/components/marketing/motion/` — **le code est la source de vérité** (la liste ci-dessous est indicative et évolue : `MeshGradientBg`, `FadeInWhenVisible`, `ParallaxLayer`, `MagneticButton`, `GradientText`, `MarqueeRow`, `CountUp`, `StickyScrollStory`, `InteractiveAppMockup`, `KineticHeadline`, `NoiseTexture`…).
 - Le **design system partagé** (tokens, règles Tailwind, gotchas) reste cadré par le `CLAUDE.md` racine — le site le réutilise. Ce doc ne couvre que le **surplus marketing-only**.
 
-## Rythme de section — état au 2026-07-28
+## Rythme de section — relevé du 2026-09-16
 
-> **C'est un constat, pas une consigne.** La version précédente disait « le
-> reprendre **à l'identique** pour toute nouvelle page/section ». C'est
-> exactement l'instruction qui a produit sept heros jumeaux. Ces valeurs sont le
-> point de départ commun des pages refondues le 28/07 : une page a le droit de
-> s'en écarter si sa composition le demande, et la phase design en fera
-> certainement varier une partie.
+> **C'est un constat, pas une consigne.** Une version de ce doc disait de
+> reprendre ces valeurs **à l'identique** pour toute nouvelle page : c'est
+> l'instruction qui a produit sept heros jumeaux. Une page a le droit de s'en
+> écarter si sa composition le demande.
+>
+> 🔄 **Remesuré le 16/09**, parce que la version du 28/07 décrivait un état que
+> la migration éditoriale a rendu minoritaire. Les chiffres ci-dessous sont
+> comptés dans `src/pages/marketing/*.tsx`.
 
-Le squelette partagé aujourd'hui :
+| Rôle | Ce que le repo utilise | Ancienne forme, encore présente |
+|---|---|---|
+| **Section** | `py-band` — **7 fichiers** | `py-16 sm:py-20 lg:py-28` — 3 |
+| **Hero de sous-page** | `pt-hero` — **8 fichiers** | `pt-36 sm:pt-40 lg:pt-44` — 2 |
+| **Titre ↔ contenu** | `gap-flow` — **9 fichiers** | `gap-section-lg` — 2 |
+| **Gouttière** | `px-gutter` — **1 fichier** | `px-4 sm:px-6 lg:px-10` — **15** |
 
-- **Conteneur** : `max-w-wide mx-auto px-4 sm:px-6 lg:px-10` (gouttière standard CLAUDE.md). Lecture longue : `max-w-content`.
-- **Section standard** : `py-16 sm:py-20 lg:py-28` (l'échelle sémantique s'arrête à `--spacing-page` 48px — trop serré pour le rythme marketing, d'où le numérique assumé ici).
-- **Hero de sous-page** : `pt-36 sm:pt-40 lg:pt-44 pb-16 sm:pb-20 lg:pb-24` (dégage le header fixe).
-- **Rythme interne** : `gap-section-lg` entre h2 et contenu de section ; `gap-stack`/`gap-stack-lg` en intra-bloc — tokens sémantiques.
+**Trois migrations sur quatre ont pris.** Les tokens éditoriaux du 29/07
+(`band`, `hero`, `flow`) sont majoritaires, et ce qui reste de l'ancienne forme
+vit dans les pages de contenu — Article, Dossier, Méthode, Guide — restées hors
+de la passe.
+
+⚠️ **La quatrième n'a pas pris du tout.** `--spacing-gutter` (16 → 40 px) a été
+créé le 29/07 avec les six autres, et **un seul fichier le consomme**. Les quinze
+autres gardent `px-4 sm:px-6 lg:px-10`, qui reste d'ailleurs la gouttière
+standard de `CLAUDE.md`. Deux vocabulaires pour la même marge, donc, et le token
+n'a pas gagné : soit on le déploie, soit on le retire — le laisser à un usage,
+c'est garder une troisième valeur latente qui ressortira au mauvais moment.
+
+- **Conteneur** : `max-w-wide mx-auto`. Lecture longue : `max-w-content`.
+- **Intra-bloc** : `gap-stack` / `gap-stack-lg`, tokens sémantiques.
 
 ## Motion
 
@@ -42,6 +59,12 @@ Le squelette partagé aujourd'hui :
 > scroll-jack sortent des invariants. La direction motion du site est à
 > rejouer entièrement dans une passe dédiée ; d'ici là, **rien n'est ni
 > prescrit ni banni** côté effets.
+>
+> 📌 **Précision du 2026-09-16 : « à rejouer » vaut pour le motion, pas pour
+> toute la direction.** La direction artistique existe — [`BRIEF-REDESIGN-SITE-V1.md`](BRIEF-REDESIGN-SITE-V1.md)
+> §4, « le soin doit être dans la matière, pas dans le mouvement ». Elle tranche
+> même en partie le sujet d'ici : elle met le travail dans la matière
+> *précisément pour* ne pas le mettre dans les effets.
 
 ### Les invariants
 
@@ -104,8 +127,16 @@ Ce sont des connaissances, pas des contraintes.
 ## Marque, copy, faits (autres docs)
 
 Le contenu / positionnement / faits du site ne vivent PAS ici — ils sont dans :
-- [`docs/_canon/FACTS-CANON.md`](../_canon/FACTS-CANON.md) — **faits validés, prime sur tout** (7 modules/7h, Qualiopi jamais, Open Badge sans « 2.0 », « vous » sur le public…).
-- [`docs/marketing/`](../marketing/) — `FAITS-OFFRES`, `MARQUE-VOIX`, `COPY-V2`, `COMPETITIVE-BRIEF`, `MARKETING-LINKEDIN`.
-- [`docs/site/`](.) — structure/design/inspo du site (`SITE-V1-*`, `DESIGN-INSPO`, `ANIMATION-TECHNIQUES-RESEARCH`, `SEO-CONTENT-PLAN`…).
+- [`docs/_canon/FACTS-CANON.md`](../_canon/FACTS-CANON.md) — **faits validés, prime sur tout**. Révisé le 16/09 : il connaît les six décisions du 31/08.
+- [`docs/site/BRIEF-REDESIGN-SITE-V1.md`](BRIEF-REDESIGN-SITE-V1.md) — **le chantier et sa direction artistique** (§4). C'est là que vit la matière ; ce doc-ci ne couvre que le motion et la technique.
+- [`docs/site/propositions-PAD/`](propositions-PAD/) — la copy arbitrée des neuf pages.
+- [`docs/site/DESIGN-INSPO.md`](DESIGN-INSPO.md) — la bibliothèque Mobbin et le fil « décor peint ».
+
+> ⚠️ **Corrigé le 2026-09-16 — cette liste envoyait vers des archives.**
+> `docs/marketing/` a été archivé **en entier** le 28/07 : `FAITS-OFFRES`,
+> `MARQUE-VOIX`, `COPY-V2`, `COMPETITIVE-BRIEF` sont une **production IA de juin
+> 2026**, lue sept semaines comme de la doctrine. Ne pas s'en servir comme source.
+> Idem pour `SITE-V1-*`, `ANIMATION-TECHNIQUES-RESEARCH` et `SEO-CONTENT-PLAN`,
+> archivés le 28/07 — le dernier parce que son pilier a été abandonné.
 
 > Note : la préférence durable « pas d'AI slop » (barres d'accent, eyebrow partout, card-soup) et le registre éditorial/premium sont en mémoire (`feedback_no_accent_border_bars`). Côté effets et animations, **il n'y a plus de préférence enregistrée** — la mémoire `feedback_no_parallax` a été supprimée le 29/07, la direction motion est à refaire.

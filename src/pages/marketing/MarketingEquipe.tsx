@@ -12,16 +12,7 @@
 
 import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import {
-  ArrowRight,
-  ArrowUpRight,
-  Brain,
-  Cpu,
-  HeartHandshake,
-  Target,
-  Users,
-  Zap,
-} from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Brain, Cpu, Target, Zap } from 'lucide-react';
 import { Button } from '../../components/core/Button';
 import { FadeInWhenVisible } from '../../components/marketing/motion';
 import { SEOHead } from './components/SEOHead';
@@ -31,35 +22,40 @@ import { SEOHead } from './components/SEOHead';
 const Hero: React.FC = () => {
   const reduced = useReducedMotion();
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-primary-50 via-white to-white">
+    <section className="relative overflow-hidden">
       <div
         aria-hidden
         className="absolute -top-28 right-[-8%] h-[420px] w-[420px] rounded-pill bg-primary-200/40 blur-3xl pointer-events-none"
       />
-      <div className="relative max-w-wide mx-auto px-4 sm:px-6 lg:px-10 pt-36 sm:pt-40 lg:pt-44 pb-16 sm:pb-20 lg:pb-24">
+      <div className="relative max-w-wide mx-auto px-4 sm:px-6 lg:px-10 pt-hero pb-band">
         <motion.div
           initial={reduced ? false : { y: 24 }}
           animate={{ y: 0 }}
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className="flex max-w-4xl flex-col gap-stack-lg"
+          className="flex max-w-4xl flex-col gap-flow"
         >
-          <p className="inline-flex w-fit items-center gap-stack-xs rounded-pill bg-primary-100 px-4 py-1.5 font-body text-caption font-bold text-primary-800 m-0">
-            <Users size={14} />
-            Deux fondateurs, une vision commune
-          </p>
-          <h1 className="font-display font-extrabold text-ink-900 leading-[1.02] tracking-tight [text-wrap:balance] text-[clamp(2.5rem,5.5vw,4.25rem)]">
-            L'alliance de la pédagogie, de l'IA{' '}
-            <span className="text-primary-700">et de la stratégie RH.</span>
+          {/* Les noms SONT le titre. C'est la seule page du site dont l'objet
+              est une personne, et la promesse tient dans le fait qu'on peut les
+              nommer et qu'on leur parlera. Un H1 abstrait sur « l'alliance de
+              la pédagogie et de l'IA » dit l'inverse : une entité sans visage.
+
+              ⚠️ Décidé le 16/09/2026 : **le décompte ne s'écrit nulle part.**
+              La page nommait l'effectif sept fois — « voilà toute l'équipe »,
+              « les deux mêmes », « l'un de nous deux », « deux personnes, deux
+              métiers ». Devant un acheteur qui engage cinq chiffres, un nombre
+              se lit comme une capacité, pas comme une promesse de proximité.
+              Les noms restent, le compte part. Ne pas le réintroduire. */}
+          <h1 className="font-display text-hero text-ink-900 [text-wrap:balance]">
+            <span className="block">Pierre-Armand Dennery</span>
+            <span className="block text-primary-700">Chloé Mimault</span>
           </h1>
-          <p className="font-body text-body-lg text-ink-600 m-0 max-w-2xl">
-            Pas de chaîne hiérarchique lourde, pas de consultants juniors. The
-            Learning Society a été créée par un duo complémentaire qui associe
-            la recherche en ingénierie pédagogique, l'architecture IA et la
-            transformation des organisations.
+          <p className="font-body text-lede text-ink-700 leading-relaxed m-0 max-w-2xl [text-wrap:pretty]">
+            L'ingénierie pédagogique d'un côté, le logiciel de l'autre — et les
+            mêmes personnes du premier cadrage à la livraison.
           </p>
-          <div className="pt-stack-xs">
+          <div>
             <Button to="/website/contact" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
-              Réserver un échange direct avec les fondateurs
+              Échanger avec les fondateurs
             </Button>
           </div>
         </motion.div>
@@ -68,32 +64,70 @@ const Hero: React.FC = () => {
   );
 };
 
-// ─── 2. Notre ADN ────────────────────────────────────────────────────────────
+// ─── 2. Ce qui relie tout ────────────────────────────────────────────────────
+//
+// Deux réécritures successives le 16/09, et la seconde corrige la première.
+//
+// Au départ : « Notre ADN — l'agilité d'une structure experte au service de
+// votre transformation ». Trois tics de cabinet dans une phrase, zéro
+// information.
+//
+// Puis, trop loin dans l'autre sens : une section qui assumait l'effectif
+// (« nous faisons le travail nous-mêmes, donc nous ne prenons pas tous les
+// projets »). C'était honnête et c'était une erreur commerciale — décision de
+// Chloé : **l'effectif ne se met pas en avant**. Devant un CODIR qui engage
+// cinq chiffres, « nous sommes deux » se lit « ils ne tiendront pas la
+// charge », quelle que soit la qualité du travail.
+//
+// La section dit donc ce qui relie les métiers, pas combien de personnes les
+// portent. C'est générique au bon sens du terme : une position, pas un vide.
+//
+// ⚠️ Le hero porte encore la même information plus fort — deux noms en H1 et
+// « Voilà toute l'équipe ». Si l'effectif ne doit pas se lire, c'est là qu'il
+// se lit d'abord. Laissé tel quel faute d'arbitrage.
+//
+// Le bandeau `bg-primary-700` pleine largeur est retiré : la coque porte un
+// dégradé ambiant, la page n'a pas besoin d'un second fond.
 
-const Adn: React.FC = () => (
-  <section className="relative bg-primary-700 text-white">
-    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28">
-      <FadeInWhenVisible>
-        <div className="max-w-4xl flex flex-col gap-stack-lg">
-          <h2 className="font-display font-extrabold text-white leading-[1.06] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)]">
-            L'agilité d'une structure experte au service de votre
-            transformation.
+const Approche: React.FC = () => (
+  <section>
+    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-band">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-flow items-start">
+        <FadeInWhenVisible className="lg:col-span-5">
+          <h2 className="font-display text-section text-ink-900 [text-wrap:balance]">
+            La compétence se prouve. Elle ne se déclare pas.
           </h2>
-          <p className="font-body text-body-lg text-white/85 m-0 max-w-3xl">
-            Ni cabinet traditionnel, ni éditeur de logiciel
-            impersonnel : vous échangez directement avec les concepteurs de la
-            méthode et de la plateforme.
-          </p>
-        </div>
-      </FadeInWhenVisible>
+        </FadeInWhenVisible>
+        <FadeInWhenVisible delay={0.08} className="lg:col-span-7 lg:pt-2">
+          <div className="flex flex-col gap-flow">
+            <p className="font-body text-lede text-ink-700 leading-relaxed m-0 [text-wrap:pretty]">
+              C'est ce qui relie tout ce que nous faisons, de la conception d'un
+              parcours à la ligne de code.
+            </p>
+            <p className="font-body text-body text-ink-600 leading-relaxed m-0">
+              Des leçons qui se terminent par une mise en pratique plutôt que
+              par un quiz. Un logiciel qui garde la trace de ce qui a été
+              démontré en situation réelle. Et un accompagnement qui part du
+              travail tel qu'il se fait, pas de la fiche de poste telle qu'elle
+              est écrite.
+            </p>
+          </div>
+        </FadeInWhenVisible>
+      </div>
     </div>
   </section>
 );
 
-// ─── 3. Deux fondateurs, trois piliers ───────────────────────────────────────
+// ─── 3. Deux personnes, deux métiers ─────────────────────────────────────────
+//
+// Il y avait ici « trois piliers d'excellence » pour deux personnes : le
+// troisième, « Ensemble », était une catégorie déguisée en associé. Et depuis
+// D9 (31/08) le mot « pilier » désigne autre chose — les trois piliers de
+// l'offre. Deux fiches, deux métiers, pas de troisième colonne pour faire
+// nombre.
 
-type Pilier = {
-  monogram: string | null;
+type Fondateur = {
+  monogram: string;
   icon: React.ReactNode;
   nom: string;
   domaine: string;
@@ -103,15 +137,15 @@ type Pilier = {
   iconClasses: string;
 };
 
-const PILIERS: Pilier[] = [
+const FONDATEURS: Fondateur[] = [
   {
     monogram: 'PA',
     icon: <Brain size={20} />,
     nom: 'Pierre-Armand Dennery',
-    domaine: 'La science pédagogique & la vision SBO',
-    expertise: 'Ingénierie pédagogique · Modélisation des compétences · Thought leadership',
+    domaine: 'La méthode',
+    expertise: 'Ingénierie pédagogique · Modélisation des compétences',
     detail:
-      "Porte la vision Skills-Based Organization, formalise les travaux méthodologiques et garantit la rigueur scientifique du dispositif : arc de leçon EDRA, gestion de l'atrophie des acquis, échelle Dreyfus.",
+      "Il formalise ce que nous appliquons : l'arc de leçon, la gestion de l'atrophie des acquis, l'échelle Dreyfus. Quand un choix pédagogique se pose sur votre projet, c'est lui qui l'argumente.",
     monoClasses: 'bg-gradient-to-br from-secondary-100 to-secondary-200 text-secondary-800',
     iconClasses: 'bg-secondary-100 text-secondary-700',
   },
@@ -119,57 +153,46 @@ const PILIERS: Pilier[] = [
     monogram: 'CM',
     icon: <Cpu size={20} />,
     nom: 'Chloé Mimault',
-    domaine: "L'ingénierie IA, le produit & la data",
-    expertise: 'Architecture logicielle · IA générative · Product design',
+    domaine: 'Le logiciel',
+    expertise: 'Architecture · IA générative · Product design',
     detail:
-      'Conçoit et développe la Learning App TLS, traduit la pédagogie en fonctionnalités logicielles, configure les tuteurs IA et garantit la sécurité et la souveraineté des données.',
+      "Elle conçoit et développe la Learning App : les tuteurs IA, le Passeport de compétences, et les arbitrages de souveraineté — où tourne le modèle, quelles données sortent de chez vous.",
     monoClasses: 'bg-gradient-to-br from-primary-100 to-primary-200 text-primary-800',
     iconClasses: 'bg-primary-100 text-primary-700',
-  },
-  {
-    monogram: null,
-    icon: <HeartHandshake size={20} />,
-    nom: 'Ensemble',
-    domaine: "La transformation & l'ancrage terrain",
-    expertise: 'Accompagnement DRH · Directions L&D · CODIR',
-    detail:
-      "Un accompagnement personnel, du dépoussiérage des fiches de poste à l'embarquement des managers : la transformation ne se délègue pas à un slide.",
-    monoClasses: 'bg-gradient-to-br from-accent-100 to-accent-200 text-accent-900',
-    iconClasses: 'bg-accent-100 text-accent-800',
   },
 ];
 
 const Fondateurs: React.FC = () => (
-  <section className="bg-white">
-    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
+  <section>
+    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-band flex flex-col gap-flow">
       <FadeInWhenVisible>
-        <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)] max-w-3xl">
-          Deux fondateurs, trois piliers d'excellence.
+        <h2 className="font-display text-section text-ink-900 [text-wrap:balance] max-w-3xl">
+          Les fondateurs, et ce dont chacun répond.
         </h2>
       </FadeInWhenVisible>
 
       <div className="flex flex-col">
-        {PILIERS.map((p, i) => (
+        {FONDATEURS.map((p, i) => (
           <FadeInWhenVisible key={p.domaine} delay={i * 0.06}>
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-stack-lg lg:gap-section items-start border-t border-ink-200/70 py-section first:border-t-0">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-stack-lg lg:gap-flow items-start border-t border-ink-200/70 py-section first:border-t-0">
               <div className="lg:col-span-4 flex items-center gap-stack">
                 <span
                   aria-hidden
-                  className={`inline-flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl font-display text-h3 font-extrabold ${p.monoClasses}`}
+                  className={`inline-flex h-16 w-16 shrink-0 items-center justify-center rounded-lg font-display text-h3 font-extrabold ${p.monoClasses}`}
                 >
-                  {p.monogram ?? <HeartHandshake size={28} />}
+                  {p.monogram}
                 </span>
-                <div className="flex flex-col gap-0.5">
+                <div className="flex flex-col gap-tight">
                   <h3 className="font-display text-h4 text-ink-900 leading-tight">{p.nom}</h3>
                   <span className="font-body text-caption font-bold text-ink-500">{p.expertise}</span>
                 </div>
               </div>
-              <div className="lg:col-span-3">
+              <div className="lg:col-span-2">
                 <p className="font-display text-body-lg font-bold text-ink-900 m-0 leading-snug [text-wrap:balance]">
                   {p.domaine}
                 </p>
               </div>
-              <p className="lg:col-span-5 font-body text-body text-ink-600 m-0 max-w-xl">
+              <p className="lg:col-span-6 font-body text-body text-ink-600 leading-relaxed m-0 max-w-xl">
                 {p.detail}
               </p>
             </div>
@@ -182,37 +205,41 @@ const Fondateurs: React.FC = () => (
 
 // ─── 4. Pourquoi travailler directement avec les fondateurs ──────────────────
 
+// Ces trois entrées s'appelaient « Garantie de seniorité », « Réactivité et
+// sur-mesure » et « Pragmatisme opérationnel » — trois noms abstraits, dont le
+// dernier promettait « sans jargon ni slideware » en jargon. Un titre de
+// rubrique peut être une phrase qui affirme quelque chose.
 const RAISONS = [
   {
     icon: <Zap size={20} />,
-    title: 'Garantie de seniorité',
-    detail: 'Les personnes qui cadrent votre projet sont celles qui le livrent.',
+    title: 'La personne au devis est celle à la livraison.',
+    detail: "Aucun transfert de dossier, aucune montée en compétence à vos frais.",
   },
   {
     icon: <ArrowUpRight size={20} />,
-    title: 'Réactivité et sur-mesure',
-    detail: 'Pas de circuit de validation : les décisions se prennent avec vous, en séance.',
+    title: 'Une décision se prend en séance.',
+    detail: "Les arbitrages se font avec vous, en direct, pas en comité.",
   },
   {
     icon: <Target size={20} />,
-    title: 'Pragmatisme opérationnel',
-    detail: 'Des livrables actionnables, sans jargon ni slideware.',
+    title: 'Nous savons dire non.',
+    detail: "Si ce que vous cherchez n'est pas ce que nous faisons, vous le saurez avant de signer.",
   },
 ];
 
 const Pourquoi: React.FC = () => (
-  <section className="bg-primary-50/50">
-    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
+  <section>
+    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-band flex flex-col gap-flow">
       <FadeInWhenVisible>
-        <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight [text-wrap:balance] text-[clamp(1.9rem,3.6vw,2.75rem)] max-w-2xl">
-          Pourquoi travailler directement avec les fondateurs.
+        <h2 className="font-display text-section text-ink-900 [text-wrap:balance] max-w-2xl">
+          Ce que ça change, concrètement.
         </h2>
       </FadeInWhenVisible>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-stack-lg">
         {RAISONS.map((r, i) => (
           <FadeInWhenVisible key={r.title} delay={i * 0.06} direction="up">
             <div className="flex h-full flex-col gap-stack border-t-2 border-primary-200 pt-stack-lg">
-              <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary-100 text-primary-700">
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-primary-100 text-primary-700">
                 {r.icon}
               </span>
               <h3 className="font-display text-h4 font-bold text-ink-900 leading-tight">{r.title}</h3>
@@ -228,23 +255,23 @@ const Pourquoi: React.FC = () => (
 // ─── 5. CTA final ────────────────────────────────────────────────────────────
 
 const CtaFinal: React.FC = () => (
-  <section className="bg-white border-t border-ink-100">
-    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28">
+  <section>
+    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-band">
       <FadeInWhenVisible>
         <div className="mx-auto flex max-w-content flex-col items-center gap-stack-lg text-center">
-          <h2 className="font-display font-extrabold text-ink-900 leading-[1.04] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.5vw,3.25rem)]">
-            Discutons directement de vos enjeux de compétences.
+          <h2 className="font-display text-section text-ink-900 [text-wrap:balance]">
+            Vous saurez en trente minutes si nous sommes les bons.
           </h2>
-          <p className="font-body text-body-lg text-ink-600 m-0 max-w-[62ch] [text-wrap:pretty]">
-            Vous échangez avec les personnes qui conçoivent la méthode et la
-            plateforme, pas avec un intermédiaire.
+          <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-[62ch] [text-wrap:pretty]">
+            C'est un fondateur au bout du fil. Si le format ne convient pas à
+            ce que vous cherchez, nous vous le dirons pendant l'appel.
           </p>
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs pt-stack-xs">
             <Button to="/website/contact" variant="primary" size="xl" trailingIcon={<ArrowRight size={20} />}>
-              Planifier un échange stratégique
+              Réserver trente minutes
             </Button>
             <Button to="/website/diagnostic" variant="ghost" size="xl" trailingIcon={<ArrowUpRight size={20} />}>
-              Évaluer votre maturité SBO
+              Évaluer votre maturité
             </Button>
           </div>
         </div>
@@ -254,18 +281,18 @@ const CtaFinal: React.FC = () => (
 );
 
 export const MarketingEquipe: React.FC = () => (
-  <div className="bg-white">
+  <>
     <SEOHead
       title="Les Fondateurs · The Learning Society"
-      description="The Learning Society a été créée par un duo complémentaire : Pierre-Armand Dennery (ingénierie pédagogique, vision SBO) et Chloé Mimault (ingénierie IA, produit, data). Échangez directement avec les fondateurs."
+      description="Pierre-Armand Dennery pour la méthode, Chloé Mimault pour le logiciel. Chez The Learning Society, vous parlez à celle ou celui qui fera le travail."
       canonical="/website/equipe"
     />
     <Hero />
-    <Adn />
+    <Approche />
     <Fondateurs />
     <Pourquoi />
     <CtaFinal />
-  </div>
+  </>
 );
 
 export default MarketingEquipe;

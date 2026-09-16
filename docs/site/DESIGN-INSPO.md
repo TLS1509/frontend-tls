@@ -1,26 +1,36 @@
 # DESIGN-INSPO.md — Recherche créative TLS (entonnoir, pas filet)
 
-> ## ⚠️ Statut au 2026-07-29 : matériau de référence, pas une décision
+> ## ⚠️ Statut au 2026-09-16 : une bibliothèque, pas une décision
 >
-> **Ce qui reste utile :** les saves Mobbin et leur analyse (§ Références
-> directes, Capture brute, Short-list, Mobbin saves), le North Star, les
-> anti-références, et la consigne de ne pas chercher par « education /
-> learning ». C'est du matériau de première main, il sert.
+> **Ce fichier ne prescrit rien** — mais il ne faut pas en conclure que rien
+> n'est décidé. Il rassemble du matériau de première main : ce que Chloé a sauvé,
+> et ce qu'on y lit.
 >
-> **Ce qui est suspendu :** la « DÉCISION FINALE — Direction C *Illustrated
-> Glass* » du 11/06 et **tout le bloc *Directrice créative*** qui la suit
-> (illustration, vidéo, table de micro-interactions, hero cinématique,
-> comportement par page, case study Until Labs et ses trois tiers de parallaxe).
-> Ces sections prescrivent un vocabulaire d'effets page par page et se terminent
-> par « *Once approved: No reopening Directions* » — c'est exactement le genre de
-> verrou qui a produit douze pages portant les mêmes effets.
+> **La direction artistique, elle, existe et vit ailleurs** :
+> [`BRIEF-REDESIGN-SITE-V1.md`](BRIEF-REDESIGN-SITE-V1.md) §4 — *« le soin doit
+> être dans la matière, pas dans le mouvement »*. Elle est située plus bas, en
+> regard de la bibliothèque, sans être recopiée.
 >
-> **La direction visuelle et motion du site est à rejouer entièrement**, dans une
-> passe dédiée, à partir des pages telles qu'elles existent aujourd'hui. D'ici
-> là : **aucun effet n'est prescrit, aucun effet n'est banni** — l'interdit de
-> parallaxe qui figurait dans `FACTS-CANON` a été levé le 29/07.
+> **Ce qui est vraiment ouvert** : laquelle des quatre matières · figuratif ou
+> abstrait · le motion. Côté effets, **rien n'est prescrit ni banni** —
+> l'interdit de parallaxe de `FACTS-CANON` a été levé le 29/07.
 >
-> Ne pas citer ce fichier comme une contrainte. Le citer comme une bibliothèque.
+> **Ce qui vit ici :** la bibliothèque Mobbin des 41 saves et le fil « décor
+> peint » (relevés le 16/09), le renvoi vers la direction en cours et l'arbitrage
+> qu'elle laisse ouvert, le North Star, la question-filtre, les
+> anti-références, la règle « education / learning », et l'analyse des saves
+> **app** du 12/06 qui sert la Learning App.
+>
+> **Ce qui en est sorti le 2026-09-16 :** les Directions A/B/C/D, le bloc
+> *Directrice créative* et le case study Until — 365 lignes suspendues depuis le
+> 29/07 qui occupaient 44 % du fichier. Elles sont dans
+> [`docs/_archive/DESIGN-INSPO-directions-suspendues-2026-06.md`](../_archive/DESIGN-INSPO-directions-suspendues-2026-06.md).
+> Une prescription suspendue qu'on laisse en place continue de se faire lire
+> comme une règle ; annoncer sa suspension en tête n'y change rien.
+>
+> **Ce qui reste daté sans être faux :** la capture brute, la short-list et le
+> process en 4 temps décrivent la session du 11/06. On les garde comme journal
+> de travail. L'inventaire qui fait foi est celui du 16/09, plus haut.
 
 > But de ce doc : capturer ce que tu aimes **sans partir dans tous les sens**.
 > Règle d'or : on ne sauve **jamais un site entier**, on vole **UN seul élément** à la fois.
@@ -36,28 +46,294 @@
 
 ---
 
-## 🔗 RÉFÉRENCES DIRECTES — Saves Mobbin (accès rapide)
+## 📚 TA BIBLIOTHÈQUE MOBBIN — les 41 saves (relevé du 2026-09-16)
 
-> Ouvre toujours en **`/sections`** (colonne Mobbin ci-dessous) : thumbnails immédiats, pas d'attente iframe.
-> Pour le site live : clique **Site** ou depuis Mobbin → bouton « Visit site ».
+> Relevé dans ton compte, sites sauvés dans l'ordre d'affichage.
+> **Le doc listait 15 références ; tu en as 41.** Dix-huit sont nommées quelque
+> part dans ce fichier, **vingt-trois n'y avaient jamais été écrites** — le
+> relevé précédent datait du 11/06 et la bibliothèque a beaucoup bougé depuis.
+> Cette section est un **inventaire**, pas une short-list : le tri se fait plus bas.
 
-| Réf | ♥ | Mobbin sections | Site live | Tags Mobbin | Direction | L'élément clé |
-|---|---|---|---|---|---|---|
-| **Ditto** | ♥♥ | [→ Mobbin](https://mobbin.com/sites/ditto-469571cd-95b6-4824-9f7a-c571d0cd5d8d/851496e5-eb30-474e-a695-bac5668d9bf5/sections) | [dittowords.com](https://www.dittowords.com/) | Colorful · Motion | **A** primaire | Animated word-swap inline sur fond crème |
-| **Daydream** | ♥♥ | [→ Mobbin](https://mobbin.com/sites/daydream-ab2e5ca4-2852-4d96-9251-c88d288a6826/e0f3aa3f-a8ec-47cc-97f4-373a513a0a12/sections) | [withdaydream.com](https://www.withdaydream.com/) | Colorful · Motion | **A + C** | Diagramme flux STRIDE fond pêche · lignes hand-drawn |
-| **Craft** | ♥ | [→ Mobbin](https://mobbin.com/sites/craft-cf6ca7ed-a68b-4bdd-b117-2a4a385f849d/9ab2349e-eb3a-43de-9d44-0f8a7f44f8c6/sections) | [craft.do](https://www.craft.do/) | Glass · Colorful | **A + C** | Hero produit flottant sur gradient · dropdown icon+desc |
-| **Jitter** | ♥ | [→ Mobbin](https://mobbin.com/sites/jitter-dc1c4519-a08e-4e11-a5c7-1ef979110f69/fc91a902-4136-4064-b11d-bd81e852a029/sections) | [jitter.video](https://jitter.video/) | Motion · Colorful | **B** accent | Pill badge « New: » inline · logo marquee |
-| **Opennote** | ♥ | [→ Mobbin](https://mobbin.com/sites/opennote-5fc105ce-032f-4c16-8ed6-57d84760f478/d32fb246-6518-488c-9cc4-72567e9f4bc9/sections) | [opennote.com](https://www.opennote.com/) | Minimal · Light | **B** accent | Tabs features + product UI + logos institutions |
-| **Anchor** | ♥ | [→ Mobbin](https://mobbin.com/sites/anchor-bcc558b0-5c08-47c1-b777-4cc8a63a1a39/44d9a5f2-561e-40db-8a65-8a9af4bddaee/sections) | [getanchor.co](https://getanchor.co/) | Light · Scroll Effects | **B + C** | Staggered pills couleur-codées · scroll-story 30 sections |
-| **Duna** | ~ | [→ Mobbin](https://mobbin.com/sites/duna-8ac1ec9c-d056-4fb3-83df-24ffb7b89a21/e86a8ce3-d7af-47db-bca5-7446e3ddae54/sections) | [duna.com](https://duna.com/) | Minimal · Illustration | **C** | Palette pêche/sauge + fond paysage illustré ambiant |
-| **Air** | ♥ | [→ Mobbin](https://mobbin.com/sites/air-1a6f153a-7ac9-4a21-bd16-33b983acf7f3/015e9d58-6974-4674-bb7d-3464846ee255/sections) | [air.inc](https://air.inc/) | Scroll Effects · Glass | **C** | Scroll parallax gradient ciel + composants glass flottants |
-| **Structured** | ♥ | [→ Mobbin](https://mobbin.com/sites/structured-6464953d-ba54-4da6-bab1-dbf933bf5991/5e8a98a9-017b-4c81-90f9-43c8d21bc835/sections) | [structured.money](https://structured.money/) | Motion · Illustration | **C** | Tableau baroque full-bleed bg · contenu stark minimal dessus |
-| **Phantom** | ♥ | [→ Mobbin](https://mobbin.com/sites/phantom-f763f79e-51d2-4fcb-9be2-7f61e980d36a/39b107f0-5935-4575-b1a8-faa1279fd592/sections) | [phantom.com](https://phantom.com/) | Scroll Effects · Motion | **C** | Blobs organiques atmosphériques + staggered gradient feature cards |
-| **Legend** | ♥ | [→ Mobbin](https://mobbin.com/sites/legend-76861449-1e11-4eb7-b1df-97bef54f7b7c/6225489d-e56a-46f3-9bbc-430fd99f7ed2/sections) | [legend.xyz](https://legend.xyz/) | Motion · Dark | **D** layout/motion | Feature tabs système · composants dark premium · motion staggeré |
-| **Origin** | ♥ | [→ Mobbin](https://mobbin.com/sites/origin-2cd21568-f0f6-4f3c-b4d5-89df6c53ba41/63ab11d0-fb5a-4aaa-98a5-4883c89ba2ae/sections) | [useorigin.com](https://www.useorigin.com/) | Dark · Glass | **D** composant/typo | Typo italic serif + sans mixée · glass panels sur gradient violet · input centré hero |
-| **GSAP** | ~ | [→ Mobbin](https://mobbin.com/sites/gsap-9b43ae4b-f87d-4233-a761-a16838714794/d9e9b6e7-4e22-4baf-9330-24619f660e67/sections) | [gsap.com](https://gsap.com/) | Dark · Motion | technique seule | Lettre remplacée par objet 3D dans headline |
-| **General Intelligence** | ~ | [→ Mobbin](https://mobbin.com/sites/general-intelligence-company-00f56d3b-c030-429b-ba95-5857fb91dc4d/41205fc8-e887-4e82-852a-1efd66dae301/sections) | [generalintelligencecompany.com](https://www.generalintelligencecompany.com/) | Dark · 3D | technique seule | Hero texte bas-gauche photo dramatique |
-| **CTRL** | ✗ | [→ Mobbin](https://mobbin.com/sites/ctrl-a398a697-66d1-40f8-ab67-e5d4d37a46d3/20505aa6-909e-446e-b11d-be1faecec061/sections) | [ctrl.xyz](https://ctrl.xyz/) | Dark · Colorful | ✗ hors-lane | Crypto wallet · rien à voler |
+### ★ Ta collection « Hero » (5) — ta propre sous-sélection
+
+**Air · Cohere · Daydream · Ada · Superpower Health Gap**
+
+Deux remarques, parce qu'elles nous concernent directement.
+**Daydream est dans ta sélection *hero*** alors que tu l'as jugé daté le 16/09
+(« ce style c'est un peu passé ») — la collection date d'avant. Et **Cohere** et
+**Superpower Health Gap** ne sont pas dans les 41 sites sauvés : la collection
+Hero est une liste à part, pas un sous-ensemble.
+
+### Les 41, par ce qu'ils sont
+
+| Réf | Ce que vend le site | Déjà dans ce doc ? |
+|---|---|---|
+| **Structured** | Rendement Bitcoin | oui |
+| **Legend** | Superapp monétaire onchain | oui |
+| **Craft** | Docs + édition IA | oui |
+| **Adaline** | Plateforme d'itération LLM | **non** |
+| **Duna** | Conformité | oui |
+| **General Intelligence Company** | IA autonome pour entreprises | oui |
+| **Popcorn** | Télécoms nouvelle génération | **non** |
+| **Savor** | Matières grasses fabriquées | **non** |
+| **Contra Labs** | Labo d'évaluation humaine | **non** |
+| **Until** | Cryopréservation réversible | **non** |
+| **Air** | Creative operations | oui |
+| **Daydream** | SEO & recherche IA | oui |
+| **Phantom** | App monétaire crypto | oui |
+| **Phantom Studios** | Agence créative tech | **non** |
+| **Origin** | Plateforme financière | oui |
+| **Anchor** | Produits financiers | oui |
+| **Opennote** | Carnet de notes IA | oui |
+| **Ditto** | Source de vérité du copy produit | oui |
+| **Jitter** | Motion design | oui |
+| **GSAP** | Bibliothèque d'animation | oui |
+| **CTRL** | Wallet crypto | oui |
+| **Koto** | Agence créative internationale | oui |
+| **Analogue Agency** | Branding & design digital | oui |
+| **OFF+BRAND** | Agence design / dev / WebGL | **non** |
+| **Shopify Editions** | Sorties produit Shopify | oui |
+| **The New Yorker** | Presse, culture, audio | **non** |
+| **MANA Yerba Maté** | Infusion énergisante | **non** |
+| **Claude** | Assistant IA | **non** |
+| **Notion** | Projets, organisation | **non** |
+| **Wispr Flow** | Dictée vocale IA | **non** |
+| **Ada** | Service client IA | **non** |
+| **Giga** | Agents de support IA | **non** |
+| **Amplemarket** | Copilote commercial IA | **non** |
+| **Parker AI** | Briefs pub à partir de données | **non** |
+| **Cofounder** | Piloter une entreprise en agents | **non** |
+| **Reducto** | Parsing de documents | **non** |
+| **Bevel** | Coach santé IA | **non** |
+| **Feather** | Messagerie | **non** |
+| **Perplexity Personal Computer** | Mac personnel piloté | **non** |
+| **Base** | Blockchain finance globale | **non** |
+| **Slush** | Wallet Sui | **non** |
+
+> ⚠️ **Evernote n'est pas un save.** Il figure en capture brute (#4) et en
+> short-list comme « vu » : il venait d'une recherche, pas de ta bibliothèque.
+> Même chose pour **Shopify Editions** et **Koto/Analogue** en short-list, marqués
+> « connu » — Koto et Analogue Agency, eux, sont bien deux saves distincts.
+
+---
+
+## 🖼️ LE FIL QUI TRAVERSE LA BIBLIOTHÈQUE — « le décor peint »
+
+> Lu le 2026-09-16 en parcourant les 41, un par un.
+> Ce n'est pas une direction décidée. C'est **ce qui revient**, et ça mérite d'être
+> nommé parce que c'est plus précis que « style illustration ».
+
+**Un sol naturel peint ou rendu — chaud, désaturé, avec de la matière — et
+par-dessus, l'interface ou la typo, nettes, sans transition.** Dix saves sur
+quarante et un font exactement ça :
+
+| Réf | Le décor | Ce qui est posé dessus |
+|---|---|---|
+| **Structured** | Paysage peint : temples, montagnes | Contenu stark, minimal |
+| **Legend** | Affleurement rocheux photoréaliste, fleurs sauvages, détouré | L'UI qui flotte |
+| **Craft** | Collines bleues, nuages, champ jaune | L'UI produit posée dessus |
+| **Adaline** | Un lac, de la brume | Typo nette |
+| **Duna** | Paysage illustré ambiant, pêche et sauge | Contenu clair |
+| **General Intelligence** | Un parc peint | Texte bas-gauche |
+| **Popcorn** | Tache aquarelle verte et rose | Des téléphones |
+| **Savor** | Champ d'ambre abstrait | Typo |
+| **Contra Labs** | Un portable sur de la soie crème | — |
+| **Until** | Vue aérienne d'un pique-nique dans l'herbe | Typo |
+
+> ⚠️ **Correction du 2026-09-16, après les avoir regardés un par un.** La table
+> ci-dessus laisse croire que le décor occupe **le fond de la page**. C'est faux
+> pour presque tous : il occupe **la bande d'ouverture**, et la page repasse en
+> crème ou en blanc juste en dessous.
+>
+> | | Ce qui a été vu |
+> |---|---|
+> | **Structured** | Une **montagne peinte, des nuages, un monolithe noir** — puis du contenu net |
+> | **Legend** | Un paysage en tête, puis « The old financial system worked for itself » sur crème |
+> | **Craft** | Ciel, nuages, champ jaune dans le hero ; en dessous, sections crème et témoignage en serif |
+> | **Duna** | Un couchant pastel dans le hero, puis « Trusted by leaders » sur blanc |
+> | **Adaline** | Le lac n'est **même pas un fond** : il est dans une carte |
+> | **Until** | Ce n'est **pas une image, c'est une vidéo sous-titrée** — la scène bouge, une ligne de texte est incrustée |
+>
+> **Ce que ça change.** Le fil n'est pas « une page au fond peint », c'est **une
+> seule surface peinte à l'ouverture, puis la sobriété**. Ce qui est, mot pour
+> mot, la règle n°1 du brief §4 — *« une seule surface peinte, une seule fois ;
+> ailleurs, un souffle »*. Les trois sources concordent désormais sur le
+> **dosage**, et plus seulement sur la matière.
+
+**Pourquoi Daydream t'a paru daté.** Daydream, c'est du vectoriel plat avec des
+personnages — l'exact opposé de ce fil : pas de matière, pas de sol, des
+pictogrammes. Tes deux seules saves de ce genre, **Daydream** et **MANA**, sont
+aussi les deux que tu as écartées ou qui détonnent. Le fil n'est donc pas
+« illustration » ; c'est **la texture**.
+
+**Ce que ça coûterait à TLS.** Un décor peint est un asset à produire, pas une
+classe Tailwind : c'est la question des brand assets, encore ouverte. Et notre
+palette est déjà chaude et désaturée (teal `#55A1B4`, pêche, crème), donc le fil
+tombe dans la lane — le risque n'est pas l'écart au North Star, c'est le coût de
+production et le poids des images.
+
+### Les six familles de la bibliothèque (relevé visuel du 2026-09-16)
+
+> Relevé en regardant les vignettes une par une dans le compte, une trentaine de
+> saves sur quarante et un. ⚠️ **Les aperçus Mobbin ne se chargent que sur la
+> liste des saves**, jamais sur les pages de site, et le DOM sert des images
+> leurres — ce relevé vient de l'œil, pas d'une extraction.
+
+**1 · Le trait continu** — *Claude · Wispr Flow*
+Une **seule ligne d'encre ininterrompue** qui traverse le hero et forme un
+dessin. Chez Claude, un gribouillis à droite de « Meet your thinking partner » ;
+chez Wispr Flow, un fil qui serpente sur un vert sombre. C'est la version
+premium et actuelle du trait dessiné — à distinguer du cercle autour d'un mot,
+devenu un tic. **Codable, aucun asset.**
+
+**2 · Le décor peint en bande** — *Structured · Legend · Craft · Duna · Origin ·
+Giga · General Intelligence · Cofounder · Adaline*
+Neuf sites. Voir la correction ci-dessus : c'est une bande, pas un fond.
+
+**3 · L'objet réel posé** — *Contra Labs · Parker AI · Feather*
+**Famille repérée le 16/09, absente de tout ce qui précède.** Contra Labs pose
+une **statue antique photographiée à côté d'un portable**, sur un crème uni ;
+Parker AI un **écran cathodique vintage** plus un dessin à l'encre ; Feather fait
+flotter de petits objets dans du blanc.
+
+Ni décor ni texture : **un objet réel, détouré, posé sur un fond nu**. Le
+fait-main vient de l'objet, pas de la surface. C'est le poste le moins cher de la
+liste — un appareil photo ou un scanner, un objet, un fond blanc — et le seul qui
+échappe au risque « banque d'images », puisque l'objet est le nôtre.
+
+**4 · La forme liquide 3D** — *Slush · Phantom* · rendu organique et brillant. Hors registre.
+**5 · L'illustration vectorielle plate** — *MANA · Ada · Daydream* · la famille écartée.
+**6 · La typo seule** — *CTRL · OFF+BRAND · The New Yorker* · aucune image, la typo porte tout.
+
+### Ce que la bibliothèque dit du mouvement
+
+Les tags de style de Mobbin sur ces saves tournent autour de quatre choses :
+**Scroll Effects**, **Motion**, **Glass**, **Illustration**. Un seul emploie la
+vidéo comme décor — **Until** — et ça tient parce que la scène est calme et que
+le sous-titre porte le sens. Aucun ne fait de la vidéo un fond d'ambiance.
+
+### Le fil secondaire : l'éditorial et la craft d'agence
+
+Huit des vingt-trois nouveaux saves n'ont rien à vendre en SaaS : **The New
+Yorker**, **OFF+BRAND**, **Phantom Studios**, **Analogue Agency**, **Koto**,
+**MANA**, **Savor**, **Contra Labs**. C'est un virage depuis juin, où la
+bibliothèque était surtout du produit.
+
+---
+
+## 🧪 LES 17 FONDS DE `brand/assets/patterns/backgrounds/` — aucun ne sert
+
+> Lus dans leur code source le 2026-09-16, après l'audit de
+> [`_canon/DECISION-FONDS-ET-TEXTURES.md`](../_canon/DECISION-FONDS-ET-TEXTURES.md).
+
+Les dix-sept portent la signature `id="visual"` : ce sont des **sorties de
+générateur** (haikei.app). Leur contenu, lu ligne à ligne :
+
+| Famille | Ce qu'il y a dedans | Verdict |
+|---|---|---|
+| **8 blobs** | Un aplat de couleur + **une** forme organique en aplat | `AmbientBlobs.tsx` fait mieux : trois blobs animés, tone-aware |
+| **4 gradients** | Un aplat + **six cercles floutés** à `stdDeviation:161` | C'est **le dégradé peint, écarté le 16/09** — en version générique |
+| **5 vagues** | Des vagues empilées | Seule famille sans équivalent en code, mais elle interpole des couleurs hors palette |
+
+**Ils sont l'exemple parfait de ce que le brief §4 appelle « ce qui s'installe en
+une commande »** : on remplit un formulaire, on télécharge. Aucune facture, aucune
+décision lisible. Que seize sur dix-sept ne soient référencés nulle part n'est pas
+un oubli — c'est le bon résultat.
+
+**Ne pas y puiser pour la direction fait-main.** Ils restent ce qu'ils sont : des
+fonds de communication, là où ils sont.
+
+---
+
+## 🎨 LA DIRECTION EN COURS — elle existe, et elle est ailleurs
+
+> **La direction artistique du site vit dans
+> [`BRIEF-REDESIGN-SITE-V1.md`](BRIEF-REDESIGN-SITE-V1.md) §4**, écrite le
+> 2026-07-29. Ce fichier ne la recopie pas — il la **situe**, parce que la
+> bibliothèque ci-dessus a été lue sans elle et qu'il faut savoir où les deux se
+> rejoignent. Pour la direction elle-même, ouvrir le brief.
+>
+> ⚠️ **Ce doc disait « la direction visuelle du site est à rejouer
+> entièrement ».** C'était vrai des Directions A/B/C/D archivées plus bas, et
+> faux du site : le brief a été écrit **le jour même de leur suspension, pour les
+> remplacer**. Personne ne l'a rejoué depuis. Corrigé le 2026-09-16.
+
+**Sa thèse, en une ligne :** « Le soin doit être dans la matière, pas dans le
+mouvement. » Avec l'argument qui la tient — *on met le travail dans ce qu'on ne
+peut pas installer : un dégradé animé s'installe en une commande, un lavis peint
+non.*
+
+**Son système de matières** fait du positionnement une règle de décision. Face à
+un élément, demander s'il relève de la main ou de l'instrument :
+
+| Matière | Porte | Pilier TLS |
+|---|---|---|
+| Papier texturé, **peint** | la main, l'irrégulier | **Humain** |
+| Verre | la précision, l'optique | **Augmenté** |
+| Typo et grille | la structure, la décision | **Stratégique** |
+
+### Ce que la bibliothèque confirme
+
+Le fil « décor peint » et la matière du brief disent la même chose par deux
+chemins indépendants : le brief l'a **déduite du positionnement** en juillet, les
+saves la **montrent** en septembre. Deux méthodes, trois mois d'écart, même
+réponse. C'est le seul point de ce fichier corroboré deux fois — et le brief hero
+archivé du 14/07 fait un troisième passage sur la même idée (« facture peinte à
+la main, encre et lavis »).
+
+### Ce sur quoi elles divergent — et c'est la vraie question
+
+**Le brief dit « zéro figuratif ». Les dix saves sont tous figuratifs.**
+
+La matière du brief est abstraite : un lavis, un grain de papier, une trame riso,
+un pli. Les décors de la bibliothèque sont des **scènes** — un lac et de la brume
+(Adaline), un affleurement rocheux et des fleurs sauvages (Legend), des collines
+et un champ jaune (Craft), un pique-nique vu d'en haut (Until). Ce n'est pas une
+nuance d'exécution, ce sont deux partis pris :
+
+| | La matière (brief §4) | Le décor (les saves) |
+|---|---|---|
+| Ce qu'on voit | de la texture, pas de sujet | un lieu |
+| Ce que ça coûte | une main, des variantes déclinables à l'infini | un décor par page, ou un seul très bon |
+| Le risque | fond d'écran, si mal calibré | illustration de banque d'images |
+| Ce que ça dit | « c'est fait main » | « c'est un monde » |
+
+Les deux tiennent le North Star *chaleureux · clair · augmenté*. **Il faut en
+choisir un** — c'est un arbitrage, pas une synthèse. Un décor figuratif traité en
+lavis reste un décor : c'est le sujet qui tranche, pas la facture.
+
+### L'avertissement qui vaut pour les deux
+
+Le brief hero archivé l'a écrit une fois, et ça répond d'avance à « on achète un
+lavis ou on en génère un » :
+
+> « c'est la main de quelqu'un d'autre […] Change juste *de qui* c'est le
+> fait-main, ça ne règle pas le "pas assez toi". »
+
+Corollaire déjà posé au §6 du brief de refonte : **une seule main pour toutes les
+déclinaisons**. Et la preuve est sur le disque —
+`public/marketing/assets/hero-watercolor.webp`, un lavis pêche et bleu sur crème,
+exactement dans la palette, que **rien n'appelle depuis le 28/07**. Il n'a rien
+de raté ; il pourrait être sur n'importe quel site. C'est tout le problème.
+
+### Ce qui reste ouvert dans le brief lui-même
+
+**Quatre matières proposées le 29/07, aucune tranchée** : le lavis humide · le
+papier lui-même · la risographie · l'encre et le pli. Sa recommandation : riso
+pour l'identité, papier teinté pour les fonds, parce que la riso encaisse mieux
+le verre qu'un lavis flou.
+
+**Et un verrou explicite** : l'encre commande la température de la matière, donc
+tant que la rampe `ink` n'est pas choisie (arbitrage ① du banc `/_design-lab`),
+**ne pas générer de matière**. Une image produite sur la mauvaise température est
+à refaire entièrement.
+
+> ⚠️ **L'anti-référence « fond cream/beige » plus bas ne bannit pas cette
+> direction.** Elle vise le remplissage crème **plat** du SaaS générique — une
+> couleur posée, rien d'autre. Un papier teinté porte du grain, un bord, une
+> irrégularité. C'est exactement la distinction que fait la thèse du brief : ce
+> qui s'installe en une commande contre ce qui demande une main. Ne pas lire
+> l'une contre l'autre.
 
 ---
 
@@ -120,7 +396,12 @@ TLS a deux surfaces. Tague chaque save :
 
 > Format : `Réf/URL` · `LE seul élément` · `Cat` (Layout/Motion/Type/Couleur/Composant) · `Cible` (Site/App/Site+App) · `Pourquoi (≤6 mots)` · `Verdict ♥/~/✗`
 
-*Rempli le 2026-06-11 — analyse visuelle directe des 14 saves Mobbin (sections tab).*
+*Rempli le 2026-06-11 — analyse visuelle directe des 14 saves Mobbin d'alors.*
+
+> 📌 **Journal, pas inventaire.** La bibliothèque compte 41 saves depuis le
+> 16/09 ; l'inventaire à jour est en tête de fichier. Cette table garde sa
+> valeur pour une seule raison : la colonne *L'élément précis* nomme ce qui a
+> été volé à chaque référence, et ce travail-là n'est pas à refaire.
 
 | # | Réf | L'élément précis | Cat | Cible | Pourquoi (≤6 mots) | ♥/~/✗ |
 |---|---|---|---|---|---|---|
@@ -147,7 +428,14 @@ TLS a deux surfaces. Tague chaque save :
 
 ## ✂️ SHORT-LIST (≤ 9 — après le cull, garde QUE les ♥)
 
-> Source : **analyse visuelle directe des 14 saves Mobbin** (2026-06-11, sections confirmées en vrai). Verdict live : 6 on-lane ♥, 8 hors-lane (crypto/DeFi/dark). Savor et Phantom retirés (non confirmés ou hors-lane).
+> Source : **analyse visuelle directe des 14 saves Mobbin d'alors** (2026-06-11,
+> sections confirmées en vrai). Verdict live : 6 on-lane ♥, 8 hors-lane
+> (crypto/DeFi/dark).
+>
+> 📌 **Cette short-list a été faite sur 14 références ; il y en a 41.** Elle dit
+> ce qui a été retenu en juin, pas ce qui serait retenu aujourd'hui — **Savor**
+> y est écarté « non confirmé » alors que c'est un save, et qu'il porte l'un des
+> dix décors peints. À rejouer quand une direction sera prise, pas avant.
 
 | Réf | L'élément volé | Cat | Note |
 |---|---|---|---|
@@ -167,196 +455,25 @@ TLS a deux surfaces. Tague chaque save :
 
 ---
 
-## 🎯 DIRECTIONS (2-3 max — nomme-les)
+## ⏸️ Directions A/B/C/D et « Directrice créative » — archivées
 
-### Direction A — « Éditorial chaud » *(primaire)*
-- **Ambiance (1 phrase) :** crème/pêche + teal + orange, gros titres League Spartan, confiance éditoriale, l'humain dans le cadre — chaleureux et lisible, jamais corporate-froid.
-- **Refs (de la short-list) :** Ditto · Daydream · Evernote « 2nd brain » · Craft.
-- **Ce qu'on vole concrètement :** hero crème/pêche chaud · animated word-swap dans headline · diagramme flux comme visuel hero (STRIDE/Learn→Do→Match) · UI produit qui flotte · CTA orange chaud.
-
-### Direction B — « Le système qui se montre » *(accent)*
-- **Ambiance :** clair et démonstratif — on **montre un mécanisme** (Learn→Do→Match, Passeport Dreyfus) par le scroll ; le motion est une **preuve**, pas de la déco.
-- **Refs :** Shopify Editions · Jitter · Opennote · Daydream (Operating Model steps) · Anchor (staggered pills).
-- **Ce qu'on vole :** scroll-story qui montre un vrai système (déjà = `StickyScrollStory`) · pill badge inline pour annoncer features · tabs features avec UI produit · staggered pills pour visualiser les modules.
-
-> **Gate :** A = direction primaire (notre lane validée, déjà amorcée Home/Conseil). B = accent à doser sur 1-2 moments-clés par page (pas partout). On NE bascule PAS en dark skin même si les patterns impressionnent (Legend/Origin).
-> Toutes les refs sont désormais **confirmées visuellement**. Plus d'entrées *inféré*.
-
-### Direction D — « Technique Bank » *(vol de patterns uniquement — ne devient PAS une direction)*
-- **Refs :** Legend · Origin.
-- **Ambiance (à ne pas reproduire) :** dark premium, backgrounds sombres — hors notre lane.
-- **Ce qu'on vole concrètement :**
-  - **Layout** : feature tabs système, grilles modulaires avec état actif fort
-  - **Composants** : glass premium poussé, états hover/focus riches — retraduire en teal/cream
-  - **Motion** : entrées staggerées, transitions entre états fluides, scroll-reveal sections
-- **Règle :** on prend le **pattern**, on laisse le fond sombre. Appliquer en version claire.
-
-### Direction C — « Illustrated Glass » *(candidate forte — à décider)*
-- **Ambiance (1 phrase) :** fond atmosphérique illustré/peint (organique, chaud) sur lequel flottent des composants glass — tension délibérée entre la main et la machine. Profondeur Z, jamais plat.
-- **Refs :** Duna (paysage peint chaud) · Craft (landscape illustré + glass nav + produit flottant) · Daydream (lignes hand-drawn + motion) · Anchor (scroll effects) · **Air** (Scroll Effects + Glass) · **Structured** (baroque painting bg + contenu stark) · **Phantom** (blobs organiques atmosphériques + staggered feature cards).
-- **Tags Mobbin confirmés :** Craft = Glass/Colorful · Duna = Illustration · Daydream = Colorful/Motion · Anchor = Light/Scroll Effects · Air = Scroll Effects/Glass · Structured = Motion/Illustration · Phantom = Scroll Effects/Motion.
-- **Ce qu'on vole concrètement :**
-  - Fond : mesh gradient teal/pêche/gold + `NoiseTexture` légère (déjà dans DS) — ou illustration SVG organique en bg fixe
-  - Components : double-bezel glass (`backdrop-blur-glass-medium`, `bg-white/55`, inner shadow hairline) posés *sur* le fond — pas sur blanc plat
-  - Connexions : lignes flow hand-drawn SVG reliant Learn→Do→Match ou étapes STRIDE (Daydream style)
-  - Scroll : sections qui révèlent progressivement (Anchor 30-section scroll-story)
-- **Risque :** plus coûteux à implémenter, nécessite des SVG illus soignés. Si bâclé → kitsch. Si maîtrisé → le site le plus mémorable du secteur.
-- **Compatibilité DS TLS :** ✅ Header glass déjà fait · `MeshGradientBg` · `NoiseTexture` · `backdrop-blur-glass-*` tokens · `TiltCard` · `MagneticButton` — les primitives sont là.
-
-> **Différence A vs C en 1 image :** A = page de magazine posée sur table blanche (plat, éditorial). C = fenêtre en verre dépoli devant un paysage peint (depth, atmosphérique, tension organique/tech).
-
----
-
-## ⏸️ DIRECTION C « Illustrated Glass » — SUSPENDUE (2026-07-29)
-
-> *Prise le 2026-06-11 (« C all the way. Smooth, light, premium, elevated »),
-> **suspendue le 2026-07-29**. Tout ce qui suit jusqu'à la fin de la section
-> « Directrice créative » se lit comme une exploration datée, pas comme une
-> décision en vigueur : la direction visuelle et motion du site est à rejouer.*
-
-**Direction primaire retenue :** **C** — Illustrated Glass (atmosphérique, depth, tension organique/tech, signature mémorable)
-
-**Accent emprunté :** B — « Le système qui se montre » (scroll-story + tabs features + staggered pills) sur 1-2 moments-clés par page
-
----
-
-## 🎨 DIRECTRICE CRÉATIVE — C (Illustration + Vidéo + Motion)
-
-### 1. ILLUSTRATION — Style & Exécution
-
-**Vision :** Atmosphères peintes/organiques, **jamais cartoon**. Technique : aquarelle numérique + textures organiques, pas vectoriel plat.
-
-| Dimension | Détail |
-|---|---|
-| **Palette** | Teal `#55A1B4` · orange `#ED843A` · gold `#F8B044` + nuances chaudes pêche/sauge. Gradients ambient (lavande-teal-crème). |
-| **Style** | Watercolor abstraite (Daydream/Structured refs) + mesh organiques (Phantom ref). Zéro ligne nette, zéro illustration naïve/cartoon. |
-| **Légèreté** | Pas de full-bleed dense. Blanc/crème ambient, illustrations flottantes — 40-60% opacité pour depth sans surcharge. |
-| **Technique** | Procreate/Clip Studio → export PNG + integration React avec `opacity`, `mask`, `mix-blend-mode: screen/overlay`. |
-| **Sujets** | Abstractions organiques : flux lignes fluides (Learn→Do→Match), blobs atmosphériques, paysages stylisés (montagne-arbre-écoulement d'eau = métaphore parcours). |
-| **Refs visuelles** | Daydream (lignes hand-drawn STRIDE), Structured (baroque softening), Phantom (blobs), Air (subtilité) |
-
-**À éviter :** humains, mascottes, cartoon, détails hyperréalistes, saturation, chaos.
-
----
-
-### 2. VIDÉO — Cinéma + Motion Design
-
-**Tone :** Cinéma contemplatif, pas tech-hype. Poétique, intelligent, sobre.
-
-| Dimension | Détail |
-|---|---|
-| **Durée & placement** | 6-15 sec max. Hero Home (1), Formation Hero (1), Learning App section (1). Pas de auto-play bruyant. |
-| **Style** | Slow reveal (camera pan/zoom), gradient mesh moving, particules organiques flottantes. Zéro transition hard-cut. |
-| **Couleurs** | Teal + orange naturel. Éclairage "sunrise through frost" (warm side-light, cool shadows). |
-| **Sujet** | Abstrait : flux d'eau, gradient organiques qui bougent, lignes qui se dessinent en direct, blobs qui respirent. Jamais : personnes, produits, texte lourd. |
-| **Format** | MP4 H.264, optimisé mobile. Lazy-load `<video>` + poster frame statique. |
-| **Motion math** | Lent = premium. Durée 4-6s pour 3-4 keyframes. Easing : cubic-bezier(0.25, 0.46, 0.45, 0.94) (smooth, naturel). |
-| **Refs visuelles** | Air (subtlety), Phantom (organic motion), Daydream (flow) |
-
----
-
-### 3. MICRO-INTERACTIONS — Motion & Smooth
-
-**Principe :** Smooth > flashy. Light > heavy. Elevé = chaque détail compte.
-
-| Interaction | Exécution | Tone |
-|---|---|---|
-| **Hover composants** | Scale 102%, blur bg -2px, text color teal lift, duration 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94) | Subtle airiness |
-| **Scroll reveal** | Elements fade in + y-translate(-32px) as viewport enters, 800ms duration. Stagger children 100ms apart. | Cascade, floating |
-| **CTA buttons** | Bg fill from left on hover (orange → teal gradient 200ms). Icon rotates 12deg. On click: scale 0.96 (press feedback), ripple from center (white 15% opacity, 600ms). | Magnetic, responsive |
-| **Glass panels** | Backdrop blur + inner shadow enter on scroll. Border glow (white/10 to white/20) fade. | Ethereal emergence |
-| **Magnetic scroll** | Sections stick for 2.5s while content reveals inside via opacity + parallax (slow, -4vh per 100vh). Momentum smooth on release. | Cinematic, controlled |
-| **Input focus** | Border color cream → teal, bg white/5 → white/12, ring-glow 2px teal/40 (no sharp), 250ms. Cursor golden. | Warm welcome |
-| **Loading states** | Skeleton loaders with pulse gradient (teal → gold → transparent), no spinning spinner. 1.5s loop. | Premium placeholder |
-
-**Global easing :** NEVER linear. Standardize on **cubic-bezier(0.22, 1, 0.36, 1)** (overshoot calm) for bouncy moments, **cubic-bezier(0.25, 0.46, 0.45, 0.94)** for smooth slides.
-
-**GPU safety :** Only animate `transform`, `opacity`. No `top`, `left`, `width`, `height`.
-
----
-
-### 3b. HERO HOME — Cinématique (le moment signature)
-
-**Concept :** Fullscreen hero (min-h-[100dvh]) = cinéma d'ouverture. Pas de scroll au-dessus, tout rentre d'un coup.
-
-**Composition (left-right split 50/50) :**
-
-| Côté | Contenu | Animation |
-|---|---|---|
-| **Gauche (texte + CTA)** | Headline League Spartan **«** *[skill]* **en pratique»** avec animated word-swap (Ditto ref — dernier mot swaps in 1.2s cubic-bezier). Subheading clair. **CTA orange** (press ripple, magnetic). | Fade-in + blur-clear (400ms delay, 600ms duration). Entrée gauche momentum. |
-| **Droite (vidéo + illustration + glass)** | **Fullscreen video** (10sec loop, slow reveal): abstract mesh gradient teal-pêche → particles organiques → lignes dessinant Learn→Do→Match. **Glass panel flottant** (Craft double-bezel), contient **illustration watercolor** (teal/orange wash, 50% opacity, zéro détail). **Foreground:** Mist glow corner (right-top) = particules dorées flottantes. | Video plays on load (silent). Glass panel entre bottom-right (translate +300px +200px → 0, 1200ms cubic-bezier). Illustration fade-in sur vidéo (400ms delay). Particles loop infini (8s spring). |
-
-**Motion story :**
-1. **0ms :** Load. BG = cream gradient.
-2. **200ms :** Left text fade-in (blur-clear), word-swap animates headline verb.
-3. **400ms :** Video démarre (silent loop). Glass panel entre off-screen.
-4. **600ms :** Illustration + particles visibles, float slow (parallax scroll -4vh/100vh).
-5. **1200ms :** Hero "landed". Animations idle (subtle float on scroll).
-6. **Scroll trigger :** Sections stack sticky dessous, hero stick 80% viewport puis release smooth.
-
-**Copy (template) :**
-```
-Headline: « [Skill] en pratique »
-(« [Skill] » swaps : design / leadership / code / TLS-skill, 3s interval)
-
-Subheading: « La formation qui valide vos compétences sur des projets réels. Grâce à l'IA, sans perdre l'humain. »
-
-CTA: « Commencer maintenant » (orange, ripple, arrow rotate hover)
-```
-
-**Tech specs :**
-- Hero = `relative min-h-[100dvh] overflow-hidden`
-- Left = `absolute left-0 top-1/2 -translate-y-1/2 z-10 max-w-md`
-- Right = `absolute right-0 top-0 w-1/2 h-full`
-- Video = `<video autoplay muted loop playsinline>` (poster = static mesh gradient)
-- Glass panel = `backdrop-blur-glass-heavy + bg-white/55 + rounded-[2.5rem] + shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)]`
-- Word-swap = Framer Motion `AnimatePresence` + `layoutId` (Ditto pattern)
-- Parallax scroll = `useTransform(scrollY, [0, 400], [0, -160])`
-
-**Mobile (< md) :**
-- Stack vertical (texte full-width top, vidéo h-[70dvh] below).
-- Pas de parallax (touch-jank).
-- Durée × 1.5 slower (mobile generosity).
-
----
-
-### 4. COLOUR STORY — C Palette (Cohésive)
-
-| Role | Color | Usage |
-|---|---|---|
-| **Primary glass** | Teal `#55A1B4` 60% opacity | Component borders, glow accents, hover states |
-| **Warm accent** | Orange `#ED843A` | CTAs, highlight text, underline reveals |
-| **Depth gold** | Gold `#F8B044` | Rare accent, gradient stop, premium detail |
-| **Ambient** | Cream `#F8F6F3`, Lavender `#E8E5F0`, Mist `#D4E9F0` | Gradients, illustration overlays |
-| **Dark glass** | Charcoal `#2A2A2A` with white/15 inner border | Dark sections (max 1 per page, accent only) |
-
----
-
-### 5. COMPORTEMENT PAR PAGE
-
-| Page | Illustration | Video | Micro-interaction focus |
-|---|---|---|---|
-| **Home / Hero** | Mesh gradient teal-pêche-or, blobs flottants (Phantom style) | 10sec slow reveal (particles forming Learn→Do→Match) | Magnetic scroll Home sections, hero CTA press |
-| **Formation** | Watercolor STRIDE diagramme (Daydream style) + étapes numérotées floaty | Formation narrative 6sec (lines drawing themselves) | Sticky tab activation, section scroll-stack |
-| **Learning App showcase** | Glass panels stacked 3D (Craft/Air style) + landscape soft blur | Product interaction loop 8sec (UI elements appearing) | Parallax card tilt, glass hover glow, CTA scale |
-| **About (founders)** | Organic abstract (no faces) portrait suggestions via brush strokes | — | Reveal on scroll, smooth fade-in |
-| **Contact** | Minimal mesh gradient corner accent | — | Input focus warmth, form validation glow |
-
----
-
-### 6. DECISION GATE — Implementation Readiness
-
-- ✅ **Illustration :** Procreate assets → PNG, blended in React via CSS (mix-blend-mode, mask-image)
-- ✅ **Video :** Loom screen record (organics motion) + After Effects (color grade teal/orange) → MP4 H.264
-- ✅ **Micro-interactions :** Framer Motion (spring physics) + Tailwind (custom easing curves)
-- ✅ **DS fit :** Existing glass tokens + MeshGradientBg component, NoiseTexture overlay
-- ⚠️ **Timeline :** Illustration + video = 2-3 weeks for asset pipeline. Motion code = 1 week (using established Framer patterns)
-- 🚀 **Start sequence :** (1) Procreate illustration batches (Home + Formation hero) → (2) Video shoot/edit → (3) Component micro-interactions + scroll reveals
-
-> ⏸️ *Cette clause de verrouillage (« Once approved: No reopening Directions »)
-> est **caduque depuis le 2026-07-29**. Une direction créative ne se ferme pas à
-> la relecture — c'est ce verrou qui a transformé une exploration de juin en loi
-> tenue sept semaines. La direction est rouverte.*
+> **Sorties du fichier le 2026-09-16** vers
+> [`docs/_archive/DESIGN-INSPO-directions-suspendues-2026-06.md`](../_archive/DESIGN-INSPO-directions-suspendues-2026-06.md).
+>
+> Quatre directions nommées le 2026-06-11 (« Éditorial chaud », « Le système qui
+> se montre », « Illustrated Glass », une quatrième layout/typo), la décision
+> finale en faveur de C, et le bloc *Directrice créative* qui en dérivait un
+> vocabulaire d'illustration, de vidéo, de micro-interactions et de comportement
+> page par page. Le tout suspendu le 2026-07-29, et resté en place sept semaines
+> de plus.
+>
+> **Elles ne servent plus de grille.** Tes saves de septembre ne s'y rangent pas :
+> le fil qui traverse la bibliothèque aujourd'hui est le décor peint, qui
+> recoupe l'ancienne direction C sans s'y réduire — C parlait de verre et de
+> profondeur atmosphérique, le décor peint parle de sol naturel et de contraste
+> avec une typo nette.
+>
+> Elles restent lisibles pour une raison : ne pas réexplorer en croyant défricher.
 
 ---
 
@@ -585,230 +702,16 @@ travail : y relire les colonnes *L'élément précis* plutôt que de repartir de
 | Kanban boards | Current/Asana | Team collab ≠ learner journey personnel |
 | All-caps gamification | Duolingo-like | Trop bruyant, audience adulte formée |
 
-## 🔍 CASE STUDY: Until Labs — Parallax Architecture Reverse-Engineered
+## 🔍 Case study Until Labs — archivé
 
-> **Référence live** : https://www.untillabs.com/  
-> **Analyse** : Hero scrolling avec parallax multi-layer + animated molecules  
-> **Verdict** : ✅ Réplicable en TLS avec Framer Motion (budget okay)
-
-### **Comment Until le fait (stack technique)**
-
-**Framework & Libraries:**
-- **Next.js 15+** (React 19) — evidenced by Tailwind class density + fixed positioning patterns
-- **Framer Motion** — inferred from `willChange: transform, opacity` and scroll-tracking patterns
-- **Tailwind CSS v4** — class names like `hero-fade-in`, `will-change-*`, `fixed`, `top-[12%]`
-- **SVG + Canvas** — molecules/particles likely rendered as SVG with `<motion.svg>` wrapper
-
-**Parallax Mechanism (3-layer pattern):**
-
-```
-Hero section = 100vh full-bleed
-├─ Layer 1 (Photo background)
-│  └─ useTransform(scrollY, [0, 1000], [0, -300])  // 30% of scroll
-├─ Layer 2 (3D Illustrations + couple)
-│  └─ useTransform(scrollY, [0, 1000], [0, -700])  // 70% of scroll
-└─ Layer 3 (Floating molecules)
-   └─ y: useTransform() + animate={{ rotate: 360 }}  // parallax + infinite rotation
-```
-
-**Framer Motion Pattern:**
-```jsx
-const scrollY = useScroll(); // browser scroll tracked
-const photoY = useTransform(scrollY, [0, 1000], [0, -300]);
-const illustY = useTransform(scrollY, [0, 1000], [0, -700]);
-
-<motion.div style={{ y: photoY }} className="photo" />
-<motion.div style={{ y: illustY }} className="illustrations" />
-<motion.svg
-  animate={{ rotate: 360 }}
-  transition={{ duration: 8, repeat: Infinity }}
-/>
-```
-
-**CSS optimizations:**
-- `will-change: transform, opacity` — GPU acceleration
-- `fixed` positioning pour navbar glassmorphe qui devient opaque au scroll
-- Tailwind utilities pour spacing + layout (zéro inline styles)
-
----
-
-### **Adaptations proposées pour TLS (3 tiers: Budget-Conscious → Premium)**
-
-#### **Tier 1 — MVP Parallax (5-7 jours, Haiku complexity)**
-
-**Setup:**
-```jsx
-// src/components/marketing/motion/HeroParallax.tsx
-import { useScroll, useTransform, motion } from 'framer-motion';
-
-export function HeroParallax() {
-  const scrollY = useScroll();
-  
-  // 2 layers au lieu de 3 (plus simple)
-  const bgY = useTransform(scrollY, [0, 800], [0, -200]);      // slow
-  const contentY = useTransform(scrollY, [0, 800], [0, -400]); // medium
-  
-  return (
-    <section className="relative min-h-[100dvh] overflow-hidden">
-      {/* Layer 1: Mesh gradient background */}
-      <motion.div
-        style={{ y: bgY }}
-        className="absolute inset-0 bg-gradient-to-br from-primary-50 via-accent-50 to-secondary-50"
-      />
-      
-      {/* Layer 2: Content (text + CTA) */}
-      <motion.div style={{ y: contentY }} className="relative z-10 flex items-center justify-center h-full">
-        <h1>Titre avec parallax</h1>
-        <Button>CTA</Button>
-      </motion.div>
-    </section>
-  );
-}
-```
-
-**Assets TLS:**
-- ❌ Pas d'illustration hyperréaliste
-- ✅ Mesh gradient Tailwind (déjà dans DS)
-- ✅ Texte blanc centré + CTA orange
-- ✅ Navbar glassmorphe (déjà implémentée)
-
-**Cost:** Framer Motion déjà installed, zéro assets externes.
-
----
-
-#### **Tier 2 — Illustrated Parallax (12-15 jours, Sonnet complexity)**
-
-**Ajout vs Tier 1:**
-- 1 illustration watercolor (Procreate) posée en parallax
-- Blobs SVG petits qui flottent + tournent
-
-**Setup:**
-```jsx
-export function HeroParallax() {
-  const scrollY = useScroll();
-  const bgY = useTransform(scrollY, [0, 800], [0, -150]);
-  const illustY = useTransform(scrollY, [0, 800], [0, -350]);
-  
-  return (
-    <section className="relative min-h-[100dvh] overflow-hidden">
-      {/* Mesh gradient */}
-      <motion.div style={{ y: bgY }} className="absolute inset-0 bg-mesh-gradient" />
-      
-      {/* Watercolor illustration (Procreate export PNG) */}
-      <motion.img
-        src="/illustrations/hero-watercolor.png"
-        style={{ y: illustY, opacity: 0.85 }}
-        className="absolute inset-0 object-cover mix-blend-overlay"
-      />
-      
-      {/* Floating SVG blobs */}
-      <motion.svg
-        className="absolute top-1/4 right-1/4 w-48 h-48"
-        animate={{ rotate: 360 }}
-        transition={{ duration: 12, repeat: Infinity }}
-      >
-        <circle cx="100" cy="100" r="60" fill="rgba(85, 161, 180, 0.3)" />
-      </motion.svg>
-      
-      {/* Content */}
-      <motion.div style={{ y: illustY }} className="relative z-10">
-        <h1>Titre</h1>
-      </motion.div>
-    </section>
-  );
-}
-```
-
-**Assets TLS:**
-- ✅ 1 watercolor hero (Procreate, ~4h)
-- ✅ 2-3 small SVG blobs (code, ~1h)
-- ✅ Mesh gradient (Tailwind, déjà fait)
-
-**Cost:** ~15h design/code. Budget Procreate subscription (monthly).
-
----
-
-#### **Tier 3 — Premium (Until-level, 3-4 semaines, Full Team)**
-
-**Ajout vs Tier 2:**
-- 3 illustrations watercolor (Home + Formation + App showcase)
-- 5-8 animated SVG molecules (avec variantes)
-- Advanced: 3D perspective tilt on cards
-- Video background subtle (6-10sec loop)
-
-**Setup (formation hero example):**
-```jsx
-export function FormationHeroParallax() {
-  const scrollY = useScroll();
-  const strideY = useTransform(scrollY, [0, 1200], [0, -500]);
-  
-  return (
-    <section className="relative min-h-[100dvh]">
-      {/* STRIDE diagram watercolor */}
-      <motion.svg
-        style={{ y: strideY }}
-        className="absolute inset-0"
-        viewBox="0 0 1000 600"
-      >
-        {/* Hand-drawn lines connecting Learn → Do → Match */}
-        <path className="stroke-primary-400" d="M100,300 Q250,150 400,300 T700,300" />
-        <circle cx="100" cy="300" r="40" fill="rgba(85,161,180,0.2)" />
-        <circle cx="400" cy="300" r="40" fill="rgba(237,132,58,0.2)" />
-        <circle cx="700" cy="300" r="40" fill="rgba(248,176,68,0.2)" />
-        
-        {/* Étapes labels */}
-        <text x="100" y="320">Apprendre</text>
-        <text x="400" y="320">Pratiquer</text>
-        <text x="700" y="320">Valider</text>
-      </motion.svg>
-      
-      {/* Floating molecules */}
-      <AnimatedMolecules count={7} />
-      
-      {/* Copy + CTA */}
-      <motion.div style={{ y: strideY }} className="relative z-10">
-        <h1>La formation qui valide</h1>
-      </motion.div>
-    </section>
-  );
-}
-```
-
-**Assets TLS:**
-- ✅ 3 watercolor illustrations (Procreate, ~12h)
-- ✅ 8 SVG molecules variant system (code, ~4h)
-- ✅ Hero video subtitle (After Effects, ~3h)
-- ✅ Tilt card 3D (Framer Motion rotateX/Y, ~2h)
-
-**Cost:** ~21h production + video editing. Premium but magazine-grade.
-
----
-
-### **Decision Matrix — Quelle Tier?**
-
-| Critère | Tier 1 | Tier 2 | Tier 3 |
-|---------|--------|--------|--------|
-| **Timeline** | 1 week | 2 weeks | 4 weeks |
-| **Design assets** | 0 | 1 Procreate file | 3 Procreate + video |
-| **Code complexity** | useScroll + 2 layers | + illustration + SVG blobs | + 3D tilt + video |
-| **Budget** | Free (Framer Motion) | +Procreate (monthly) | +Procreate +AE (one-time) |
-| **Visual impact** | Subtle, clean | Strong, memorable | Premium, signature |
-| **TLS fit** | ✅ Safe | ✅✅ Recommended | ✅✅✅ Ambitious |
-| **Risk** | Low | Medium | High (video sync issues) |
-
-**Recommendation:** **Start Tier 2** (Illustrated Parallax). Balance impact vs timeline. Tier 1 = too minimal (lose the wow). Tier 3 = over-scope for V1.
-
----
-
-### **Implementation Checklist (Tier 2)**
-
-- [ ] **Framer Motion setup** : `useScroll()` hook in main layout
-- [ ] **Procreate illustration** : watercolor hero (teal + orange palette, 50% opacity, 1920×1080px)
-- [ ] **SVG blobs** : 3 blob shapes, `animate={{ rotate: 360 }}`, duration 8-12s
-- [ ] **Test parallax** : mobile (375px) + desktop (1440px), no jank at 60fps
-- [ ] **Navbar transition** : backdrop-blur + opacity change at scroll trigger (threshold: 200px)
-- [ ] **Dark mode** : adjust opacity of illustration for contrast
-- [ ] **Performance audit** : Lighthouse > 85, CLS < 0.1
+> Les 224 lignes de rétro-ingénierie de la parallaxe d'[untillabs.com](https://www.untillabs.com/)
+> — trois tiers d'implémentation, matrice de décision, checklist Framer Motion —
+> vivent dans [`docs/_archive/DESIGN-INSPO-directions-suspendues-2026-06.md`](../_archive/DESIGN-INSPO-directions-suspendues-2026-06.md).
+> Elles prescrivaient une technique avant qu'on sache quelle page en avait besoin.
+>
+> **Until reste dans la bibliothèque**, mais pour autre chose que sa parallaxe :
+> sa vue aérienne d'un pique-nique dans l'herbe est l'un des dix décors peints
+> relevés plus haut.
 
 ---
 

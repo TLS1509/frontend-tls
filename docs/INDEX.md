@@ -1,6 +1,6 @@
 # 📑 Documentation Index — The Learning Society
 
-**Last updated**: 2026-09-14 | **Total docs**: ~135 fichiers (hors `_archive/`)
+**Last updated**: 2026-09-16 | **Total docs**: ~135 fichiers (hors `_archive/`)
 
 > 🥇 **Avant toute session marketing ou site : lire [`_canon/FACTS-CANON.md`](_canon/FACTS-CANON.md)** — le registre des faits, avec ses interdits en §0.
 > **Ordre de préséance (revu le 28/07)** : (1) le code et le site en ligne, (2) une décision datée de Chloé, (3) ce registre, (4) le reste des docs. Le canon n'est plus présenté comme un arbitre absolu : il vieillit comme les autres.
@@ -16,7 +16,7 @@
 |---------|---|---|---|
 | [product/PRODUCT.md](../PRODUCT.md) | Config projet, version, routes | — | Démarrer une session, setup MCP |
 | [product/DESIGN.md](../DESIGN.md) | Design system Tailwind, patterns | — | Vérifier tokens, conventions styling |
-| [_canon/FACTS-CANON.md](_canon/FACTS-CANON.md) | **Faits validés TLS** (offres, prix, badge, registre) | — | **Toute session marketing / site : lire EN PREMIER** |
+| [_canon/FACTS-CANON.md](_canon/FACTS-CANON.md) | **Faits validés TLS** — 10 interdits, décisions datées de Chloé, ce que dit le code. **Révisé le 16/09 : le pivot du 31/08 y entre** (D8→D13), et une violation vivante de X10 y est notée | 16/09/2026 | **Toute session marketing / site : lire EN PREMIER** |
 | [_canon/DECISION-FONDS-ET-TEXTURES.md](_canon/DECISION-FONDS-ET-TEXTURES.md) | Les 17 fonds SVG n'entrent pas dans le DS — et pourquoi les vagues non plus | — | Avant d'ajouter un motif décoratif au design system |
 
 ---
@@ -77,9 +77,9 @@
 
 | Fichier | Purpose |
 |---|---|
-| [**BRIEF-REDESIGN-SITE-V1.md**](site/BRIEF-REDESIGN-SITE-V1.md) | 🎯 **Point d'entrée du chantier redesign** (29/07) — document de passation, tous faits vérifiés de première main. Le fait qui recadre tout : **le site React n'a jamais été mis en ligne**, `thelearningsociety.fr` sert un WordPress pré-pivot, donc le 06/08 est un **remplacement** et non une refonte. Contient : l'état du code (58 sections locales dont 6 réutilisées, 0 image sur les 5 pages principales), l'état de Figma (**0 écart** tokens ↔ code sur 42 couleurs / 7 espacements / 7 rayons — la doc qui dit « le DS a dérivé » parle des composants, pas des tokens), les 14 explorations de mise en page analysées, la direction artistique (papier = humain, verre = augmenté), ce qui est tranché, et **les 3 arbitrages qui bloquent** (couleur du texte, rayons, sens des couleurs — montés au banc `/_design-lab`) |
+| [**BRIEF-REDESIGN-SITE-V1.md**](site/BRIEF-REDESIGN-SITE-V1.md) | 🎯 **Point d'entrée du chantier redesign** (29/07, **révisé le 16/09** : bloc de tête qui liste ce que le pivot du 31/08 a périmé — le jalon du 06/08 et le « Lot 1 » tombent avec D12 — plus les corrections en place, section par section) — document de passation, tous faits vérifiés de première main. Le fait qui recadre tout : **le site React n'a jamais été mis en ligne**, `thelearningsociety.fr` sert un WordPress pré-pivot, donc le 06/08 est un **remplacement** et non une refonte. Contient : l'état du code (58 sections locales dont 6 réutilisées, 0 image sur les 5 pages principales), l'état de Figma (**0 écart** tokens ↔ code sur 42 couleurs / 7 espacements / 7 rayons — la doc qui dit « le DS a dérivé » parle des composants, pas des tokens), les 14 explorations de mise en page analysées, la direction artistique (papier = humain, verre = augmenté), ce qui est tranché, et **les 3 arbitrages qui bloquent** (couleur du texte, rayons, sens des couleurs — montés au banc `/_design-lab`) |
 | [CASE-STUDY-ORANGE-TRAME.md](site/CASE-STUDY-ORANGE-TRAME.md) | **Trame d'interview case study client + demandes d'autorisation** (28/07) — guide d'entretien centré changement de pratique, modèles de mail (interview, citation, logo), tableau de ce qui est publiable aujourd'hui vs ce qui demande un accord écrit |
-| [SITEMAP-V1.md](site/SITEMAP-V1.md) | **Arborescence de référence du site V1** (28/07) — miroir documentaire de `src/App.tsx` : routes, redirections, statut par page, templates de contenu vs stratégie éditoriale, écart des 3 points de conversion, incohérence Notion↔code |
+| [SITEMAP-V1.md](site/SITEMAP-V1.md) | **Arborescence de référence du site V1** (28/07, **mis à jour 16/09**) — miroir documentaire de `src/App.tsx` : routes, redirections **et alias** (2 URLs servent la même page), statut par page, templates vs stratégie éditoriale, points de conversion. **§1 bis : ce que le pivot du 31/08 change** — chantier en pause, STRIDE gelée jusqu'en 2028, « conseil » → « studio », 5 offres sans page, 3 incohérences de prix |
 | ⛔ `SITE-V1-BLUEPRINT.md` | **Archivé le 28/07** → `_archive/corpus-site-juin-2026/`. Décrivait une stack HTML vanille et une page `formation.html` supprimée |
 | ⛔ `SITE-V1-GROUNDING.md` | **Archivé le 28/07**. Se déclarait souverain sur tout le copywriting ; contenait une section « FAITS AUTORISÉS » libérant des chiffres gelés |
 | ⛔ `SITE-STRUCTURE-DESIGN-C.md` | **Archivé le 28/07**. Exploration « Illustrated Glass » de juin, non retenue |
@@ -120,7 +120,10 @@
 
 | Fichier | Purpose |
 |---|---|
-| [DESIGN-INSPO.md](site/DESIGN-INSPO.md) | **Mobbin saves** (24 mobile + 34 desktop + 33 vitrine) + case study Until Labs |
+| [DESIGN-INSPO.md](site/DESIGN-INSPO.md) | **La bibliothèque Mobbin** — les 41 saves vitrine et le fil « décor peint » (relevés le 16/09), les **six familles** relevées visuellement le 16/09 (dont « l'objet réel posé », repérée ce jour-là), le verdict sur les **17 fonds de `brand/`** — tous sorties de générateur, aucun retenu — plus l'analyse des 24 saves **app** du 12/06. **Ne prescrit rien lui-même**, mais **situe la direction en cours** (§ « La direction en cours ») : le brief §4 et le fil « décor peint » convergent, et divergent sur un point à trancher — la matière du brief est abstraite (« zéro figuratif »), les dix décors sont des scènes. Les Directions A/B/C/D, le bloc *Directrice créative* et le case study Until en sont sortis le 2026-09-16 → [`_archive/DESIGN-INSPO-directions-suspendues-2026-06.md`](_archive/DESIGN-INSPO-directions-suspendues-2026-06.md) |
+| 🗄️ [`_archive/BROUILLON-article-sbo-guide-2026-06-10.md`](_archive/BROUILLON-article-sbo-guide-2026-06-10.md) | **Archivé le 2026-09-16** — jamais publié. Se déclare lui-même « DRAFT IA à valider », CTA vers `/conseil` (route morte + mot abandonné par D8), aucun article publié ne porte son slug. Même génération que le corpus marketing IA archivé le 28/07. Sa structure d'article pilier et sa bibliographie restent utilisables, **sources à re-vérifier de première main** |
+| ⛔ `site/README-assets-marketing.md` | **Supprimé le 2026-09-16** — faux sur chacune de ses lignes : décrivait la couche overlay d'un hero retiré le 29/07, listait trois fichiers dont un seul existait, et pointait vers `HERO-ASSETS-SOURCING.md` qui n'a jamais existé |
+| 🗄️ [`_archive/DESIGN-INSPO-directions-suspendues-2026-06.md`](_archive/DESIGN-INSPO-directions-suspendues-2026-06.md) | **Archivé le 2026-09-16** — 365 l. suspendues depuis le 29/07 qui pesaient 44 % de `DESIGN-INSPO`. Quatre directions, un vocabulaire d'effets page par page, la parallaxe d'Until en trois tiers. Conservé pour ne pas réexplorer sans le savoir ; ne fait pas foi |
 | ⛔ `ANIMATION-TECHNIQUES-RESEARCH.md` | **Archivé le 28/07** — adossé à Direction C, elle-même suspendue. Le motif d'archivage d'origine (« recommandait le parallax, effet écarté ») ne tient plus : cet interdit a été levé le 29/07. Doc à re-verser ou refaire dans la passe motion |
 
 **Recherche & inspiration** *(artefacts d'exploration, valeur de référence)*
@@ -352,10 +355,11 @@ Les fichiers motion-effects datés ont été supprimés lors du nettoyage du 30/
 |---|---|
 | **Faits, offres, prix, registre** | **_canon/FACTS-CANON.md** (prime sur tout) |
 | **Voix de marque** | ⚠️ **à écrire par TLS** — l'ancienne doctrine était une production IA, archivée |
+| **Direction artistique du site** | [site/BRIEF-REDESIGN-SITE-V1.md](site/BRIEF-REDESIGN-SITE-V1.md) **§4** — « le soin dans la matière, pas dans le mouvement ». Située et mise en regard des saves Mobbin dans [site/DESIGN-INSPO.md](site/DESIGN-INSPO.md) § « La direction en cours ». ⚠️ **Ne pas conclure de « DESIGN-INSPO ne prescrit rien » qu'aucune direction n'existe** |
 | **Design tokens** | product/DESIGN.md |
 | **Component audit** | _audits/AUDIT-PHASE-19-2026-06-12.md |
 | **Figma sync status** | _audits/FIGMA-AUDIT-REPORT-2026-06-12.md |
-| **Motion primitives** | site/DESIGN-INSPO.md (Until Labs section) |
+| **Motion primitives** | ⚠️ **aucune source en vigueur** — le *motion* est le volet de la direction qui reste à rejouer (29/07) ; la matière, elle, est cadrée par le brief §4. Le vocabulaire d'effets d'Until est archivé → `_archive/DESIGN-INSPO-directions-suspendues-2026-06.md` |
 | **Project setup** | product/PRODUCT.md |
 | **Copy & messaging** | `docs/site/propositions-PAD/` (copy arbitrée) puis le code, `src/pages/marketing/*` |
 

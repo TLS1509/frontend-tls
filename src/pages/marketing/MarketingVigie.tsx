@@ -16,9 +16,10 @@
 
 import React, { useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { ArrowRight, Radar, Stethoscope, Wrench, FlaskConical, Clock } from 'lucide-react';
+import { ArrowRight, Stethoscope, Wrench, FlaskConical, Clock } from 'lucide-react';
 import { Button } from '../../components/core/Button';
 import { FadeInWhenVisible, useMarketingToast } from '../../components/marketing/motion';
+import { GRID_CONTAINER } from '../../lib/grid-columns';
 import { SEOHead } from './components/SEOHead';
 import { submitForm } from './utils/submitForm';
 
@@ -76,76 +77,103 @@ export const MarketingVigie: React.FC = () => {
   };
 
   return (
-    <div className="bg-white">
+    <>
       <SEOHead
         title="La Vigie IA · The Learning Society"
         description="La Vigie IA, la newsletter bimensuelle de The Learning Society pour les équipes L&D : un workflow pédagogique autopsié, une fiche Out-skill, un crash-test terrain. Cinq minutes, le mardi à 8h."
         canonical="/website/vigie"
       />
 
-      <section className="relative overflow-hidden bg-gradient-to-b from-primary-50 via-white to-white">
-        <div
-          aria-hidden
-          className="absolute -top-24 left-[-8%] h-[420px] w-[420px] rounded-pill bg-primary-200/40 blur-3xl pointer-events-none"
-        />
-        <div className="relative max-w-wide mx-auto px-4 sm:px-6 lg:px-10 pt-36 sm:pt-40 lg:pt-44 pb-16 sm:pb-20 lg:pb-24">
+      <section className="relative overflow-hidden">
+        <div className="relative max-w-wide mx-auto px-4 sm:px-6 lg:px-10 pt-hero pb-band">
           <motion.div
             initial={reduced ? false : { y: 24 }}
             animate={{ y: 0 }}
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-            className="flex max-w-3xl flex-col gap-stack-lg"
+            className="flex flex-col gap-flow"
           >
-            <p className="inline-flex w-fit items-center gap-stack-xs rounded-pill bg-primary-100 px-4 py-1.5 font-body text-caption font-bold text-primary-800 m-0">
-              <Radar size={14} />
-              La newsletter TLS
+            {/* La cadence ouvre la page. C'est la matière propre d'une
+                newsletter — un rendez-vous, pas un argumentaire — et ce qui
+                décide de l'abonnement avant tout le reste. La pastille de
+                sur-titre disparaît : « mardi, 8h » dit ce qu'elle disait. */}
+            <p className="flex flex-wrap items-baseline gap-stack-xs m-0 font-display text-title text-ink-900">
+              <Clock size={20} className="text-primary-700 self-center" aria-hidden />
+              <span>Mardi</span>
+              <span className="text-primary-700">8h</span>
+              <span aria-hidden className="text-ink-200">/</span>
+              <span className="text-primary-700">5 min</span>
+              <span className="font-body text-body-sm font-normal text-ink-500">un mardi sur deux</span>
             </p>
-            <h1 className="font-display font-extrabold text-ink-900 leading-[1.02] tracking-tight [text-wrap:balance] text-[clamp(2.5rem,5.5vw,4rem)]">
-              La Vigie IA. <span className="text-primary-700">Le signal, sans le bruit.</span>
+
+            <h1 className="font-display text-hero text-ink-900 [text-wrap:balance] max-w-3xl">
+              Le signal, <span className="text-primary-700">sans le bruit.</span>
             </h1>
-            <p className="font-body text-body-lg text-ink-600 m-0 max-w-2xl [text-wrap:pretty]">
-              Un mardi sur deux, à 8h : de la matière opérationnelle pour les
-              équipes L&amp;D, les concepteurs pédagogiques et les directions de
-              formation. Pas de discours commercial, pas de veille recopiée.
-            </p>
 
-            <p className="inline-flex w-fit items-center gap-stack-xs font-body text-body-sm font-bold text-ink-700 m-0">
-              <Clock size={16} className="text-primary-700" />
-              Bimensuelle · 5 minutes de lecture · mardi 8h
-            </p>
+            {/* Deux boîtes : la requête de conteneur remonte à l'ancêtre le plus
+                proche, jamais à l'élément qui la porte. */}
+            <div className={GRID_CONTAINER}>
+              <div className="grid grid-cols-1 @3xl:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] gap-flow items-start">
+                <div className="flex flex-col gap-stack">
+                  <p className="font-body text-lede text-ink-700 leading-relaxed m-0 [text-wrap:pretty]">
+                    De la matière opérationnelle pour les équipes L&amp;D, les
+                    concepteurs pédagogiques et les directions de formation. Pas
+                    de discours commercial, pas de veille recopiée.
+                  </p>
+                  <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row items-stretch gap-stack-xs">
+                    <label htmlFor="vigie-email" className="sr-only">
+                      Votre adresse email professionnelle
+                    </label>
+                    <input
+                      id="vigie-email"
+                      type="email"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Votre email professionnel"
+                      className="h-12 flex-1 rounded-lg border border-ink-200 bg-white px-5 font-body text-body text-ink-900 placeholder:text-ink-500 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                    />
+                    <Button type="submit" variant="primary" size="lg" disabled={sending} trailingIcon={<ArrowRight size={18} />}>
+                      {sending ? 'Envoi en cours…' : "S'abonner"}
+                    </Button>
+                  </form>
+                  <p className="font-body text-caption text-ink-500 m-0">
+                    Un email tous les quinze jours, pas de spam. Désinscription en un clic.
+                  </p>
+                </div>
 
-            <form
-              onSubmit={handleSubmit}
-              className="flex flex-col sm:flex-row items-stretch gap-stack-xs pt-stack-xs max-w-lg"
-            >
-              <label htmlFor="vigie-email" className="sr-only">
-                Votre adresse email professionnelle
-              </label>
-              <input
-                id="vigie-email"
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Votre email professionnel"
-                className="h-12 flex-1 rounded-lg border border-ink-200 bg-white px-5 font-body text-body text-ink-900 placeholder:text-ink-500 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
-              />
-              <Button type="submit" variant="primary" size="lg" disabled={sending} trailingIcon={<ArrowRight size={18} />}>
-                {sending ? 'Envoi en cours…' : "S'abonner à La Vigie IA"}
-              </Button>
-            </form>
-            <p className="font-body text-caption text-ink-500 m-0">
-              Un email tous les quinze jours, pas de spam. Désinscription en un clic.
-            </p>
+                {/* Le sommaire fait la preuve avant l'argument : le lecteur voit
+                    ce qu'il recevra avant de donner son adresse. */}
+                <div className="flex flex-col gap-stack rounded-lg border border-ink-200 bg-white/70 p-stack-lg">
+                  <p className="font-body text-caption font-bold uppercase tracking-label text-ink-500 m-0">
+                    Au sommaire de chaque numéro
+                  </p>
+                  <ul className="flex flex-col m-0 p-0 list-none">
+                    {[
+                      'Un workflow pédagogique autopsié',
+                      'Une fiche Out-skill',
+                      'Un crash-test terrain',
+                    ].map((r) => (
+                      <li
+                        key={r}
+                        className="border-t border-ink-100 py-stack-xs first:border-t-0 first:pt-0 font-display text-body text-ink-800"
+                      >
+                        {r}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
           </motion.div>
         </div>
       </section>
 
       {/* Ce que contient chaque numéro — la structure fixe, pas une promesse vague */}
-      <section className="bg-white border-t border-ink-100">
-        <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
+      <section>
+        <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-band flex flex-col gap-flow">
           <FadeInWhenVisible>
             <div className="max-w-3xl flex flex-col gap-stack">
-              <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)]">
+              <h2 className="font-display text-section text-ink-900 [text-wrap:balance]">
                 Trois rubriques, à chaque numéro.
               </h2>
               <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 [text-wrap:pretty]">
@@ -158,7 +186,7 @@ export const MarketingVigie: React.FC = () => {
           <div className="flex flex-col">
             {RUBRIQUES.map((r, i) => (
               <FadeInWhenVisible key={r.titre} delay={i * 0.06}>
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-stack lg:gap-section items-start border-t border-ink-200/70 py-section first:border-t-0">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-stack lg:gap-flow items-start border-t border-ink-200/70 py-section first:border-t-0">
                   <div className="lg:col-span-5 flex items-start gap-stack">
                     <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-100 text-primary-700">
                       {r.icon}
@@ -177,7 +205,7 @@ export const MarketingVigie: React.FC = () => {
         </div>
       </section>
 
-      <section className="bg-primary-50/50 border-t border-primary-100">
+      <section>
         <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-12 sm:py-16">
           <FadeInWhenVisible>
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-stack">
@@ -192,7 +220,7 @@ export const MarketingVigie: React.FC = () => {
           </FadeInWhenVisible>
         </div>
       </section>
-    </div>
+    </>
   );
 };
 

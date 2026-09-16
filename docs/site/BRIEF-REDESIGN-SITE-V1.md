@@ -10,6 +10,40 @@
 
 ---
 
+## 🔄 Révision du 2026-09-16 — ce que le pivot du 31/08 a périmé
+
+> **Le corps de ce brief date du 29/07 et reste la meilleure source du chantier.**
+> Sa direction artistique (§4), son diagnostic structurel (§2), son diff Figma
+> (§3) et ses arbitrages (§6) n'ont d'équivalent nulle part ailleurs. Ce bloc dit
+> seulement **ce qui a bougé depuis**, pour qu'on ne lise pas le reste comme un
+> état des lieux d'aujourd'hui. Les corrections de détail sont posées en place,
+> section par section, encadrées comme celle-ci.
+
+**Le calendrier est mort.** `FACTS-CANON` **D12** (décision du 31/08) : le
+lancement du site vitrine est **arrêté** avec celui de la Learning App, et leur
+planning sera révisé après validation de celui du projet Agents. Toute mention du
+**06/08** et du **« Lot 1 »** est donc caduque — §1, §5 et §9.
+
+⚠️ **Mais l'argument du §1 survit à sa date.** Le jour de la bascule, quel qu'il
+soit, reste un **remplacement d'un coup** : il n'y a toujours aucune version
+intermédiaire à laquelle se raccrocher. C'est la date qui tombe, pas le
+raisonnement.
+
+**Le périmètre a changé** (toutes du 31/08) :
+
+| | |
+|---|---|
+| **D8** | Le mot **« conseil » est abandonné** au profit de **« studio »** |
+| **D9** | Trois piliers réécrits : Tech/SaaS & Marketplace · Upskilling & Formation · Studio & Intégration |
+| **D10** | **STRIDE / SBO Global (30 000 € HT) est gelée** — « pour 2027, cible 2028 ». La page Accompagnement ne la vend plus depuis le 16/09 |
+| **D11** | La **Learning App est un outil d'ancrage offert**, pas un pilier de revenus |
+| **D13** | **Ticket minimum 3 000 € HT** sur toute prestation sur mesure |
+
+**Ce qui n'a pas bougé, et c'est le plus gênant** : le site en ligne. Revérifié le
+16/09 en l'ouvrant — toujours le WordPress pré-pivot, sept semaines de plus.
+
+---
+
 ## 1. Le fait qui recadre tout
 
 **Le site React sur lequel on travaille n'a jamais été mis en ligne.**
@@ -25,18 +59,28 @@ SBO**. Vérifié le 29/07 en ouvrant le site :
 | Contact | pointe vers **une page Notion**, pas vers le site |
 | Images | **3**, toutes des vignettes `Gemini_Generated_Image_*.png` |
 
-**Conséquence** : le 06/08 n'est pas une refonte, c'est un **remplacement**. Le jour
-de la bascule, tout doit tenir d'un coup. Il n'y a pas de version intermédiaire à
-laquelle se raccrocher.
+**Conséquence** : la bascule n'est pas une refonte, c'est un **remplacement**. Le
+jour venu, tout doit tenir d'un coup. Il n'y a pas de version intermédiaire à
+laquelle se raccrocher. *(Le texte disait « le 06/08 » — la date est caduque
+depuis D12, le raisonnement non.)*
 
-### Deux passifs à retirer à la bascule
+### Trois passifs à retirer à la bascule
+
+> 🔄 **Revérifié le 2026-09-16 en ouvrant le site.** Les deux premiers sont
+> toujours là, mot pour mot. Le troisième n'avait pas été relevé.
 
 `thelearningsociety.fr` affiche en ce moment :
 
 - « Formation **Formateur Augmenté** […] notre **programme certifiant** » →
   double infraction au registre : X10 (sujet clos) et « certifiant » non sourcé.
 - « La formation augmentée par l'IA » → `PRODUCT.md` dit explicitement que cette
-  tagline **n'est pas un actif à préserver**.
+  tagline **n'est pas un actif à préserver**. C'est toujours le H1 en ligne.
+- 🆕 « Bénéficiez du soutien de **nos formateurs et consultants** » → **deux
+  infractions d'un coup**. Le mot *consultants* est le registre « conseil »
+  abandonné par **D8**, et le pluriel affiche une équipe qui n'existe pas : **D4**
+  dit que l'équipe visible est Chloé Mimault et Pierre-Armand Dennery, personne
+  d'autre. La page « Accompagnement sur Mesure » vend d'ailleurs encore
+  « Stratégie & Conception » avec « des experts ».
 
 ---
 
@@ -86,6 +130,27 @@ dans le JSX, dont trois qui ne différaient que de 0,3 vw. Ce n'était pas une
 256 px plus étroit que le contenu), route `pathname === '/website'` en dur retirée.
 
 **Deux pages portées sur le système** : Accueil et Accompagnement. **16 restantes.**
+
+> 🔄 **Remesuré le 2026-09-16 : elles sont huit.** Accueil · Accompagnement ·
+> Learning App · Studio · Upskilling · Vigie · Diagnostic · Fondateurs portent à
+> la fois le rythme (`py-band`, `pt-hero`) **et** l'échelle (`text-hero`,
+> `text-section`).
+>
+> **Ce qui est entré depuis le 29/07.** Sept ouvertures de page distinctes, tirées
+> chacune de sa propre matière — les six lettres de STRIDE, les chiffres du
+> diagnostic, les deux noms des fondateurs, la ligne J+1 → J+90, le titre
+> surdimensionné du Studio, l'échelle d'engagement de l'Upskilling, la cadence de
+> la Vigie. Les bandes sombres pleine largeur retirées. **Sept racines
+> `<div className="bg-white">` converties en fragments** — elles perçaient un trou
+> blanc dans le dégradé ambiant porté par la coque, donc le fond de marque ne se
+> voyait sur aucune de ces pages. Et deux alias qui se faisaient passer pour des
+> redirections, cause de contenu dupliqué sur chaque article.
+>
+> **Ce qui reste**, et c'est net : **29 occurrences de `clamp()` écrites à la
+> main, pour 19 valeurs distinctes**, toutes dans les pages de contenu — Article
+> (11), Dossier (7), Méthode (4), Guide (2), Webinaire (2), Vidéo (1), 404 (1),
+> Accompagnement (1). Le §2 en comptait 28 distinctes sur tout le site : **la
+> vitrine est faite, les pages de détail ne le sont pas.**
 
 **Correctifs de conformité** : `SEOHead` émettait sur 18 pages sur 19 une
 description d'organisation pré-pivot en JSON-LD (« formation certifiante IA pour
@@ -221,6 +286,13 @@ montrer). **Le verre est gardé** parce qu'il incarne l'« Augmenté ».
   anti-références servent.
 - **Périmètre v1 = 3 archétypes** : **A** ouverture de page · **B** liste d'items ·
   **C** clôture double CTA. Ils couvrent les 6 pages du Lot 1.
+  > 🔄 **16/09 — le « Lot 1 » n'existe plus** (D12 a arrêté le lancement), mais les
+  > trois archétypes tiennent : ils décrivent des formes, pas un calendrier. ⚠️ En
+  > revanche **l'archétype A a été démenti par la pratique** : les sept ouvertures
+  > écrites depuis sont toutes différentes, chacune tirée du contenu de sa page.
+  > Un gabarit d'ouverture unique est précisément ce qui avait produit sept heros
+  > jumeaux. A est à relire comme une **grille de contraintes** (où va le H1, où
+  > va le CTA, quelle réserve pour la matière), pas comme un moule.
 - **A2 (hero centré sans visuel) est écarté** — incompatible avec une direction qui
   repose sur la matière.
 - **Notion garde la copy, le code garde la mise en page.** Les archétypes accueillent
@@ -242,9 +314,26 @@ montrer). **Le verre est gardé** parce qu'il incarne l'« Augmenté ».
 | # | Question | État |
 |---|---|---|
 | ① | **La couleur du texte courant** | 🔄 **Rouverte sur une meilleure question** — voir ci-dessous |
-| ② | **Le rayon des boutons et des cards** | ✅ **Tranché : 14 px partout, pilule en exception** (objets réellement oblongs : tags, badges, chips) |
+| ② | **Le rayon des boutons et des cards** | ✅ **Tranché**, et affiné le 14/09 — voir ci-dessous |
 | ③ | **Le sens des couleurs** | ⏳ Ouverte. N'engage **aucune migration** : `tone=` a zéro usage sur le site |
 | ④ | **Rempli ou outline ?** | ⏳ Nouvelle, soulevée par Chloé le 30/07. Le banc penche nettement pour l'outline |
+
+> 🔄 **② — la règle finale n'est pas « 14 px partout ».** Tranchée le 14/09 sous
+> le nom **R3 (« la règle du seuil »)**, elle dit : **sous 28 px de haut, la
+> pilule ; au-dessus, l'échelle, soit `rounded-lg` = 14 px.** La nuance compte,
+> parce qu'elle explique *pourquoi* : sous 28 px le navigateur plafonne tout rayon
+> à la moitié de la plus petite dimension, donc pilule et 14 px **rendent la même
+> forme** — la pilule y reste par convention, pas par effet. Au-dessus, le rayon
+> devient une déclaration, et il prend l'échelle.
+>
+> **R4**, le même jour, a ajouté la famille champ (`Input`, `Select`, `Combobox`,
+> `Search` et les champs faits main) : **14 px aussi**, parce qu'un champ fait 36
+> à 52 px de haut, donc toujours au-dessus du seuil. Sur `/website/contact`, les
+> quatre champs à 10 px et le bouton « Envoyer le message » à 14 px faisaient
+> exactement la même hauteur — deux courbes pour des objets jumeaux.
+>
+> Le détail vit dans `CLAUDE.md`, section « Rayons ». **Cet arbitrage ne bloque
+> plus rien.**
 
 **① a changé de nature.** La question « `ink-900` ou marron » supposait une encre
 unique. Le site en a **six** (466 déclarations : `ink-900` ×202, `ink-600` ×86,
@@ -336,7 +425,8 @@ au-dessus de la ligne de flottaison · pause possible au-delà de 5 s.
 | **Plan de charge page par page** | Notion, base [Website pages](https://app.notion.com/p/1accdd696db680dfb6e7d4ab472d5062) — 41 fiches, reconstruites le 28/07, avec pour chacune la copy implémentée, la copy validée, les points à trancher et un bloc « à revoir en phase design » |
 | Arborescence | [`site/SITEMAP-V1.md`](SITEMAP-V1.md) |
 | Contexte-maison du site | [`site/CONTEXT-SITE-MARKETING.md`](CONTEXT-SITE-MARKETING.md) |
-| Références visuelles | [`site/DESIGN-INSPO.md`](DESIGN-INSPO.md) — **en recherche, pas une décision** |
+| Références visuelles | [`site/DESIGN-INSPO.md`](DESIGN-INSPO.md) — **la bibliothèque**, refaite le 16/09 : les 41 saves Mobbin réels (contre 14 avant), le fil « **décor peint** » nommé, et un § qui met le §4 de ce brief en regard. ⚠️ Il y pose **l'arbitrage figuratif / abstrait** : le §4 dit « zéro figuratif », les dix décors relevés sont des scènes |
+| Matière déjà produite | `public/videos/` — **33,9 Mo de vidéos peintes** de juin-juillet, dont **16,7 Mo que rien n'appelle**. Inventaire dans [`_archive/SITE-V2-AGENCY-BRIEF.md`](../_archive/SITE-V2-AGENCY-BRIEF.md) §2.6. ⚠️ Le Bosch teal (13,8 Mo) n'est servi que par la route de prototype `/website/_v2-jardin` |
 | Valeurs des tokens | `src/index.css`, bloc `@theme` — le code fait foi |
 | Explorations dessinées | Figma, page `🌐 Marketing — Site Internet` |
 | Arbitrages en cours | `/_design-lab` en local |
@@ -357,5 +447,13 @@ les points de conversion « à zéro »). Vérifier au code avant de chasser un 
    explorations Figma.
 5. **Dérouler les 16 pages restantes** par assemblage.
 
-Le 06/08 est la cible du Lot 1 : Accueil, Learning App, Studio, Accompagnement,
-Upskilling, Contact. Deux de ces six sont portées sur le système au 29/07.
+> 🔄 **Révisé le 2026-09-16.** Le jalon du 06/08 et le « Lot 1 » tombent avec
+> **D12**. L'ordre en cinq temps, lui, tient — mais son point 1 a rétréci :
+> **l'arbitrage ② est tranché** (R3/R4, le 14/09), il ne reste que **①, la rampe
+> d'encre**, qui bloque toujours la génération de matière, et ③.
+>
+> Et un point s'ajoute **avant** le 2 : **choisir entre la matière abstraite du §4
+> et le décor figuratif** relevé dans la bibliothèque Mobbin. Générer avant
+> d'avoir tranché, c'est produire deux fois. Les cinq pages de contenu restées
+> hors du système éditorial (Article, Dossier, Méthode, Guide, Webinaire) sont un
+> chantier séparé, qui ne dépend d'aucun de ces arbitrages.

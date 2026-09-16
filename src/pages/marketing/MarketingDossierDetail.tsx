@@ -306,7 +306,7 @@ const Bibliography: React.FC<{ sources: DossierSource[] }> = ({ sources }) => (
               <span className="font-mono text-caption font-bold text-primary-600 shrink-0 mt-0.5">
                 {s.ref}
               </span>
-              <span className="flex flex-col gap-0.5 min-w-0">
+              <span className="flex flex-col gap-tight min-w-0">
                 <span className="font-body text-body-sm font-semibold text-ink-900 leading-snug group-hover:text-primary-700 transition-colors duration-fast">
                   {s.title}
                 </span>
@@ -439,7 +439,7 @@ export const MarketingDossierDetail: React.FC = () => {
           <Reveal delay={0.16}>
             <div className="flex flex-wrap items-center justify-center gap-stack">
               <Button to="/website/accompagnement" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
-                Découvrir l'accompagnement
+                Découvrir notre méthode
               </Button>
               <Button to="/website/learning-app" variant="glass" size="lg" trailingIcon={<ArrowRight size={18} />}>
                 Voir la Learning App

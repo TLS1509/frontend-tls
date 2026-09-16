@@ -1,65 +1,23 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Map, PenLine, GraduationCap, BookOpenText } from 'lucide-react';
+import { NAVIGATION_BARRE_DU_BAS, entreeActive } from '../../config/navigation';
 
 /**
- * BottomNav — primary mobile navigation (< md breakpoint).
+ * BottomNav — navigation principale du mobile (< md).
  *
- * 5 tabs: Accueil · Parcours · Journal · Coaching · Veille
- * Fixed bottom, safe-area aware, glass surface.
- * Hidden on md+ (desktop uses Sidebar instead).
+ * Fixée en bas, consciente des zones sûres, surface en verre.
+ * Masquée en md+, où la Sidebar prend le relais.
+ *
+ * ⚠️ Les entrées viennent de `src/config/navigation.ts`, PAS d'une liste locale.
+ * Elle était codée ici jusqu'au 2026-09-16, et avait dérivé de celle du rail :
+ * deux icônes différentes et deux libellés différents pour les mêmes écrans.
+ * Ne jamais réintroduire de tableau d'onglets dans ce fichier.
  */
-
-interface Tab {
-  label: string;
-  icon: React.ElementType;
-  href: string;
-  match: string[];
-}
-
-const TABS: Tab[] = [
-  {
-    label: 'Accueil',
-    icon: LayoutDashboard,
-    href: '/',
-    match: ['/', '/dashboard'],
-  },
-  {
-    label: 'Parcours',
-    icon: Map,
-    href: '/learning-paths',
-    match: ['/learning-paths', '/course', '/lesson'],
-  },
-  {
-    label: 'Journal',
-    icon: PenLine,
-    href: '/journal',
-    match: ['/journal'],
-  },
-  {
-    label: 'Coaching',
-    icon: GraduationCap,
-    href: '/coaching',
-    match: ['/coaching', '/coach'],
-  },
-  {
-    label: 'Veille',
-    icon: BookOpenText,
-    href: '/veille',
-    match: ['/veille', '/magazine', '/newsletter'],
-  },
-];
 
 export const BottomNav: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const isActive = (match: string[]) =>
-    match.some((p) =>
-      p === '/'
-        ? location.pathname === '/'
-        : location.pathname.startsWith(p)
-    );
 
   return (
     <nav
@@ -74,8 +32,11 @@ export const BottomNav: React.FC = () => {
       ].join(' ')}
     >
       <div className="flex items-stretch h-14">
-        {TABS.map(({ label, icon: Icon, href, match }) => {
-          const active = isActive(match);
+        {NAVIGATION_BARRE_DU_BAS.map((entree) => {
+          const { href, icon: Icon } = entree;
+          // La barre du bas n'a qu'environ 75 px par onglet : forme courte si elle existe.
+          const label = entree.labelCourt ?? entree.label;
+          const active = entreeActive(entree, location.pathname);
           return (
             <button
               key={href}

@@ -161,7 +161,7 @@ const Framework: React.FC = () => (
               <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary-700 font-display text-h4 font-extrabold text-white">
                 {s.lettre}
               </span>
-              <div className="flex flex-col gap-0.5">
+              <div className="flex flex-col gap-tight">
                 <h3 className="font-display text-h4 text-ink-900 leading-tight">{s.verbe}</h3>
                 <span className="font-body text-caption text-ink-500 italic">{s.experience}</span>
               </div>
@@ -174,10 +174,10 @@ const Framework: React.FC = () => (
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-stack rounded-lg bg-white p-stack-lg shadow-card">
           <p className="font-body text-body text-ink-600 m-0 max-w-xl">
             La version opérationnelle, avec les livrables de chaque jalon, est
-            sur la page Accompagnement STRIDE.
+            sur la page consacrée à la méthode STRIDE.
           </p>
           <Button to="/website/accompagnement" variant="ghost" size="md" trailingIcon={<ArrowRight size={16} />}>
-            Voir l'accompagnement STRIDE
+            Voir les six étapes
           </Button>
         </div>
       </FadeInWhenVisible>

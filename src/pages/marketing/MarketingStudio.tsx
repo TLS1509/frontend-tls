@@ -19,12 +19,12 @@ import {
   Cable,
   CheckCircle2,
   LayoutDashboard,
-  PenTool,
   Rocket,
   Sparkles,
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
 import { FadeInWhenVisible } from '../../components/marketing/motion';
+import { GRID_CONTAINER } from '../../lib/grid-columns';
 import { SEOHead } from './components/SEOHead';
 
 // ─── 1. Hero — lumière chaude, typographie éditoriale ────────────────────────
@@ -32,36 +32,41 @@ import { SEOHead } from './components/SEOHead';
 const Hero: React.FC = () => {
   const reduced = useReducedMotion();
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-secondary-50 via-white to-white">
-      <div
-        aria-hidden
-        className="absolute -top-32 right-[-10%] h-[480px] w-[480px] rounded-pill bg-secondary-200/40 blur-3xl pointer-events-none"
-      />
-      <div
-        aria-hidden
-        className="absolute top-40 left-[-12%] h-[360px] w-[360px] rounded-pill bg-accent-200/30 blur-3xl pointer-events-none"
-      />
-      <div className="relative max-w-wide mx-auto px-4 sm:px-6 lg:px-10 pt-36 sm:pt-40 lg:pt-44 pb-16 sm:pb-20 lg:pb-24">
+    <section className="relative overflow-hidden">
+      <div className="relative max-w-wide mx-auto px-4 sm:px-6 lg:px-10 pt-hero pb-band">
         <motion.div
           initial={reduced ? false : { y: 24 }}
           animate={{ y: 0 }}
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className="flex max-w-4xl flex-col gap-stack-lg"
+          className="flex flex-col gap-flow"
         >
-          <p className="inline-flex w-fit items-center gap-stack-xs rounded-pill bg-secondary-100 px-4 py-1.5 font-body text-caption font-bold text-secondary-800 m-0">
-            <PenTool size={14} />
-            Le Studio TLS
-          </p>
-          <h1 className="font-display font-extrabold text-ink-900 leading-[1.02] tracking-tight [text-wrap:balance] text-[clamp(2.5rem,5.5vw,4.25rem)]">
-            Vos contenus et vos outils IA sur-mesure.{' '}
-            <span className="text-secondary-700">Pensés pour l'impact, prêts à opérer.</span>
+          {/* Hero éditorial — motif emprunté à Retool : un titre surdimensionné
+              qui occupe toute la largeur, puis le texte courant en deux colonnes
+              étroites dessous. La page qui vend un atelier ouvre sur de la
+              typographie, pas sur une pastille de sur-titre.
+              Le titre sort du `max-w-4xl` commun aux autres pages : c'est
+              l'écart de mesure qui fait la différence, pas un ornement. */}
+          <h1 className="font-display text-hero text-ink-900 [text-wrap:balance] max-w-5xl">
+            Vos contenus et vos outils IA,{' '}
+            <span className="text-secondary-700">prêts à opérer.</span>
           </h1>
-          <p className="font-body text-body-lg text-ink-600 m-0 max-w-2xl">
-            De l'ingénierie pédagogique au développement d'Agents IA métiers,
-            nous concevons et déployons les briques opérationnelles de votre
-            transition vers le modèle Skills-Based Organization.
-          </p>
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs pt-stack-xs">
+
+          <div className={GRID_CONTAINER}>
+            <div className="grid grid-cols-1 @3xl:grid-cols-2 gap-flow max-w-4xl">
+              <p className="font-body text-body text-ink-600 leading-relaxed m-0 border-t-2 border-secondary-500 pt-stack">
+                De l'ingénierie pédagogique aux agents IA métiers, nous
+                concevons, déployons et vous transmettons les briques qui font
+                tourner votre organisation.
+              </p>
+              <p className="font-body text-body text-ink-600 leading-relaxed m-0 border-t border-ink-200 pt-stack">
+                Vos équipes les opèrent sans nous : parcours, agents configurés,
+                tableau de bord et kit de déploiement restent chez vous après
+                notre départ.
+              </p>
+            </div>
+          </div>
+
+          <div>
             <Button to="/website/contact" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
               Lancer un projet avec le Studio
             </Button>
@@ -88,12 +93,12 @@ const FAILURES = [
 ];
 
 const Probleme: React.FC = () => (
-  <section className="relative bg-ink-900 text-white">
-    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-section items-start">
+  <section className="relative">
+    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-band">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-flow items-start">
         <div className="lg:col-span-5">
           <FadeInWhenVisible>
-            <h2 className="font-display font-extrabold leading-[1.08] tracking-tight [text-wrap:balance] text-[clamp(1.9rem,3.6vw,2.75rem)]">
+            <h2 className="font-display text-section text-ink-900 [text-wrap:balance]">
               Des formations hors-sol et des outils IA que personne n'utilise.
             </h2>
           </FadeInWhenVisible>
@@ -101,10 +106,10 @@ const Probleme: React.FC = () => (
         <div className="lg:col-span-7 flex flex-col">
           {FAILURES.map((f, i) => (
             <FadeInWhenVisible key={f.title} delay={i * 0.08}>
-              <div className="border-t border-white/15 py-stack-lg first:border-t-0">
+              <div className="border-t border-ink-200 py-stack-lg first:border-t-0">
                 <div className="flex flex-col gap-stack-xs">
-                  <h3 className="font-display text-h4 font-bold text-white">{f.title}</h3>
-                  <p className="font-body text-body text-white/70 m-0 max-w-xl">{f.detail}</p>
+                  <h3 className="font-display text-feature text-ink-900">{f.title}</h3>
+                  <p className="font-body text-body text-ink-600 leading-relaxed m-0 max-w-xl">{f.detail}</p>
                 </div>
               </div>
             </FadeInWhenVisible>
@@ -161,11 +166,11 @@ const PILIERS: Pilier[] = [
 ];
 
 const Approche: React.FC = () => (
-  <section className="bg-white">
-    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
+  <section>
+    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-band flex flex-col gap-flow">
       <FadeInWhenVisible>
         <div className="max-w-3xl flex flex-col gap-stack">
-          <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)]">
+          <h2 className="font-display text-section text-ink-900 [text-wrap:balance]">
             L'alliance de la pédagogie de pointe et de la{' '}
             <span className="text-secondary-700">technologie sur-mesure</span>.
           </h2>
@@ -175,7 +180,7 @@ const Approche: React.FC = () => (
       <div className="flex flex-col">
         {PILIERS.map((p, i) => (
           <FadeInWhenVisible key={p.title} delay={i * 0.06}>
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-stack lg:gap-section items-start border-t border-ink-200/70 py-section first:border-t-0">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-stack lg:gap-flow items-start border-t border-ink-200/70 py-section first:border-t-0">
               <div className="lg:col-span-5 flex items-start gap-stack">
                 <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-secondary-100 text-secondary-700">
                   {p.icon}
@@ -229,11 +234,11 @@ const LIVRABLES = [
 ];
 
 const Livrables: React.FC = () => (
-  <section className="bg-secondary-50/60">
-    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
+  <section>
+    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-band flex flex-col gap-flow">
       <FadeInWhenVisible>
         <div className="max-w-2xl flex flex-col gap-stack">
-          <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)]">
+          <h2 className="font-display text-section text-ink-900 [text-wrap:balance]">
             Une production opérationnelle, clé en main.
           </h2>
           <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0">
@@ -243,20 +248,33 @@ const Livrables: React.FC = () => (
         </div>
       </FadeInWhenVisible>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
+      {/* Le motif dissous (16/09). C'était une grille de quatre cartes
+          rigoureusement identiques — même fond blanc, même ombre, même bulle
+          d'icône, même longueur : de la « card soup », et le défaut que la
+          fiche Notion demandait de traiter. Quatre contenants identiques ne
+          hiérarchisent rien ; ils ajoutent seulement du mobilier autour d'un
+          texte qui se suffit.
+          Ce qui reste : une énumération, des filets, et l'icône ramenée au rang
+          de repère inline. La liste dit ce que le chapô promet — des actifs
+          qu'on emporte, pas des produits qu'on expose. */}
+      {/* Deux boîtes : la requête de conteneur remonte à l'ancêtre le plus
+          proche, jamais à l'élément qui la porte. */}
+      <div className={GRID_CONTAINER}>
+        <ul className="grid grid-cols-1 @2xl:grid-cols-2 gap-x-flow m-0 p-0 list-none">
         {LIVRABLES.map((l, i) => (
-          <FadeInWhenVisible key={l.title} delay={i * 0.05} direction="up">
-            <div className="flex h-full items-start gap-stack rounded-lg bg-white p-stack-lg shadow-card">
-              <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-secondary-100 text-secondary-700">
-                {l.icon}
-              </span>
-              <div className="flex flex-col gap-stack-xs">
-                <h3 className="font-display text-h4 font-bold text-ink-900 leading-tight">{l.title}</h3>
-                <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">{l.detail}</p>
+          <li key={l.title} className="border-t border-ink-200 py-stack-lg">
+            <FadeInWhenVisible delay={i * 0.05} className="flex flex-col gap-stack-xs">
+              <div className="flex items-center gap-stack-xs">
+                <span className="inline-flex shrink-0 items-center justify-center icon-sm text-secondary-700 [&>svg]:w-full [&>svg]:h-full">
+                  {l.icon}
+                </span>
+                <h3 className="font-display text-feature text-ink-900">{l.title}</h3>
               </div>
-            </div>
-          </FadeInWhenVisible>
-        ))}
+              <p className="font-body text-body text-ink-600 leading-relaxed m-0 max-w-lg">{l.detail}</p>
+            </FadeInWhenVisible>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   </section>
@@ -265,12 +283,18 @@ const Livrables: React.FC = () => (
 // ─── 5. CTA final ────────────────────────────────────────────────────────────
 
 const CtaFinal: React.FC = () => (
-  <section className="bg-secondary-50 border-t border-secondary-100">
-    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28">
-      <FadeInWhenVisible>
-        <div className="flex flex-col gap-stack-lg lg:flex-row lg:items-end lg:justify-between">
+  <section>
+    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-band">
+      {/* Le seuil passe en requête de conteneur (16/09). En `lg:` — un seuil de
+          FENÊTRE à 1024 px — la ligne basculait alors que les deux boutons XL
+          réclament ~690 px : le titre était écrasé à 245 px, un mot par ligne.
+          Mesuré au navigateur. `@5xl` (1024 px de CONTENEUR) ne bascule que
+          quand la place existe vraiment, et les boutons perdent `shrink-0`
+          pour pouvoir passer à la ligne au lieu d'écraser le voisin. */}
+      <FadeInWhenVisible className={GRID_CONTAINER}>
+        <div className="flex flex-col gap-stack-lg @5xl:flex-row @5xl:items-end @5xl:justify-between">
           <div className="flex max-w-2xl flex-col gap-stack">
-            <h2 className="font-display font-extrabold text-ink-900 leading-[1.04] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.5vw,3.25rem)]">
+            <h2 className="font-display text-section text-ink-900 [text-wrap:balance]">
               Concevons vos prochains actifs pédagogiques et IA.
             </h2>
             <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 [text-wrap:pretty]">
@@ -278,12 +302,12 @@ const CtaFinal: React.FC = () => (
               partons de votre besoin réel, jamais d'un catalogue.
             </p>
           </div>
-          <div className="flex shrink-0 flex-col items-start gap-stack-xs sm:flex-row sm:items-center">
+          <div className="flex flex-wrap flex-col items-start gap-stack-xs @md:flex-row @md:items-center">
             <Button to="/website/contact" variant="primary" size="xl" trailingIcon={<ArrowRight size={20} />}>
               Échanger avec l'équipe du Studio
             </Button>
             <Button to="/website/accompagnement" variant="ghost" size="xl" trailingIcon={<ArrowUpRight size={20} />}>
-              Voir l'accompagnement STRIDE
+              Voir la méthode STRIDE
             </Button>
           </div>
         </div>
@@ -293,7 +317,7 @@ const CtaFinal: React.FC = () => (
 );
 
 export const MarketingStudio: React.FC = () => (
-  <div className="bg-white">
+  <>
     <SEOHead
       title="Studio IA & Pédagogie · The Learning Society"
       description="Contenus pédagogiques sur-mesure, agents IA métiers et intégration dans votre écosystème : le Studio TLS conçoit et déploie les briques opérationnelles de votre transition SBO."
@@ -304,7 +328,7 @@ export const MarketingStudio: React.FC = () => (
     <Approche />
     <Livrables />
     <CtaFinal />
-  </div>
+  </>
 );
 
 export default MarketingStudio;

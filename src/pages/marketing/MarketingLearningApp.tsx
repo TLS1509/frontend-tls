@@ -28,7 +28,6 @@ import {
   Bot,
   CalendarClock,
   CheckCircle2,
-  Layers,
   LibraryBig,
   Radar,
   TrendingUp,
@@ -46,33 +45,42 @@ import { SEOHead } from './components/SEOHead';
 const Hero: React.FC = () => {
   const reduced = useReducedMotion();
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-primary-50 via-white to-white">
-      <div
-        aria-hidden
-        className="absolute -top-32 left-[-10%] h-[480px] w-[480px] rounded-pill bg-primary-200/40 blur-3xl pointer-events-none"
-      />
-      <div className="relative max-w-wide mx-auto px-4 sm:px-6 lg:px-10 pt-36 sm:pt-40 lg:pt-44 pb-16 sm:pb-20 lg:pb-24">
+    <section className="relative overflow-hidden">
+      <div className="relative max-w-wide mx-auto px-4 sm:px-6 lg:px-10 pt-hero pb-band">
         <motion.div
           initial={reduced ? false : { y: 24 }}
           animate={{ y: 0 }}
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className="flex max-w-4xl flex-col gap-stack-lg"
+          className="flex max-w-4xl flex-col gap-flow"
         >
-          <p className="inline-flex w-fit items-center gap-stack-xs rounded-pill bg-primary-100 px-4 py-1.5 font-body text-caption font-bold text-primary-800 m-0">
-            <Layers size={14} />
-            Work-Integrated Learning & SBO Operating System
-          </p>
-          <h1 className="font-display font-extrabold text-ink-900 leading-[1.02] tracking-tight [text-wrap:balance] text-[clamp(2.5rem,5.5vw,4.25rem)]">
-            Formez vos équipes. Déployez l'IA.{' '}
-            <span className="text-primary-700">Transformez votre entreprise en SBO.</span>
+          <h1 className="font-display text-hero text-ink-900 [text-wrap:balance]">
+            Une formation qui ne s'évapore pas{' '}
+            <span className="text-primary-700">trois semaines après la session.</span>
           </h1>
-          <p className="font-body text-body-lg text-ink-600 m-0 max-w-2xl">
-            Connectez l'apprentissage au travail quotidien. Acculturez vos
-            équipes aux processus IA, alimentez-les d'une veille ciblée et
-            pilotez vos talents sur une échelle de maîtrise vivante plutôt que
-            sur des fiches de poste figées.
+          {/* Le rythme d'ancrage, en toutes lettres. C'est le mécanisme du
+              produit — reprise espacée jusqu'à la bascule des 90 jours — et
+              c'est ce qui distingue cette page sans rien avoir à montrer.
+              Décision du 16/09 : hero typographique, le produit se montre plus
+              bas, où la maquette interactive existe déjà.
+              Différent du bloc de chiffres du Diagnostic à dessein : celui-ci
+              est une ligne de temps, pas un relevé. */}
+          <ol className="flex flex-wrap items-center gap-stack-xs m-0 p-0 list-none font-display text-feature text-ink-500">
+            {['J+1', 'J+7', 'J+30', 'J+90'].map((j, i) => (
+              <li key={j} className="flex items-center gap-stack-xs">
+                {i > 0 && <span aria-hidden className="h-px w-8 bg-primary-200" />}
+                <span className={i === 3 ? 'text-primary-700' : undefined}>{j}</span>
+              </li>
+            ))}
+            <li className="font-body text-body-sm text-ink-500 ps-stack-xs">
+              la reprise espacée, jusqu'à la bascule des 90 jours
+            </li>
+          </ol>
+          <p className="font-body text-lede text-ink-700 leading-relaxed m-0 max-w-2xl [text-wrap:pretty]">
+            La Learning App prolonge nos programmes dans le quotidien de vos
+            équipes : ancrage espacé, veille rattachée à vos compétences, et une
+            trace vivante de ce qui est réellement maîtrisé.
           </p>
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs pt-stack-xs">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs">
             <Button to="/website/contact" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
               Réserver une démonstration
             </Button>
@@ -107,12 +115,12 @@ const CONSTATS = [
 ];
 
 const Probleme: React.FC = () => (
-  <section className="relative bg-ink-900 text-white">
-    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-section items-start">
+  <section className="relative">
+    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-band">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-flow items-start">
         <div className="lg:col-span-5">
           <FadeInWhenVisible>
-            <h2 className="font-display font-extrabold leading-[1.08] tracking-tight [text-wrap:balance] text-[clamp(1.9rem,3.6vw,2.75rem)]">
+            <h2 className="font-display text-section [text-wrap:balance]">
               Trois constats qui coûtent cher aux organisations.
             </h2>
           </FadeInWhenVisible>
@@ -120,10 +128,10 @@ const Probleme: React.FC = () => (
         <div className="lg:col-span-7 flex flex-col">
           {CONSTATS.map((c, i) => (
             <FadeInWhenVisible key={c.title} delay={i * 0.07}>
-              <div className="border-t border-white/15 py-stack-lg first:border-t-0">
+              <div className="border-t border-ink-200 py-stack-lg first:border-t-0">
                 <div className="flex flex-col gap-stack-xs">
-                  <h3 className="font-display text-h4 font-bold text-white leading-tight">{c.title}</h3>
-                  <p className="font-body text-body text-white/70 m-0 max-w-xl">{c.detail}</p>
+                  <h3 className="font-display text-feature text-ink-900">{c.title}</h3>
+                  <p className="font-body text-body text-ink-600 leading-relaxed m-0 max-w-xl">{c.detail}</p>
                 </div>
               </div>
             </FadeInWhenVisible>
@@ -155,16 +163,16 @@ const MOTEUR = [
 ];
 
 const Moteur: React.FC = () => (
-  <section className="bg-white">
-    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
+  <section>
+    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-band flex flex-col gap-flow">
       <FadeInWhenVisible>
-        <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)] max-w-3xl">
+        <h2 className="font-display text-section text-ink-900 [text-wrap:balance] max-w-3xl">
           Le moteur de performance :{' '}
           <span className="text-primary-700">Learn → Do → Match</span>.
         </h2>
       </FadeInWhenVisible>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-stack-lg lg:gap-section">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-stack-lg lg:gap-flow">
         {MOTEUR.map((e, i) => (
           <FadeInWhenVisible key={e.verbe} delay={i * 0.07} direction="up">
             <div className="flex h-full flex-col gap-stack border-t-2 border-primary-200 pt-stack-lg">
@@ -223,7 +231,8 @@ const PILIERS: PilierData[] = [
     points: [
       {
         label: 'Leçons structurées en quatre phases',
-        detail: 'Le modèle EDRA : Engagement, Découverte, Réflexion, Activité. Chaque leçon se termine par une mise en pratique.',
+        detail:
+          "Le modèle EDRA, de la méthode EDRACT de C-Campus : Engagement, Découverte, Réflexion, Activité. Chaque leçon se termine par une mise en pratique.",
       },
       {
         label: 'Positionnement initial auto-généré',
@@ -295,10 +304,10 @@ const PILIERS: PilierData[] = [
 ];
 
 const Piliers: React.FC = () => (
-  <section className="bg-primary-50/40">
-    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
+  <section>
+    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-band flex flex-col gap-flow">
       <FadeInWhenVisible>
-        <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)] max-w-3xl">
+        <h2 className="font-display text-section text-ink-900 [text-wrap:balance] max-w-3xl">
           Cinq piliers, une seule plateforme.
         </h2>
       </FadeInWhenVisible>
@@ -306,7 +315,7 @@ const Piliers: React.FC = () => (
       <div className="flex flex-col">
         {PILIERS.map((p, i) => (
           <FadeInWhenVisible key={p.kicker} delay={Math.min(i * 0.04, 0.12)}>
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-stack-lg lg:gap-section items-start border-t border-primary-200/70 py-section first:border-t-0">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-stack-lg lg:gap-flow items-start border-t border-primary-200/70 py-section first:border-t-0">
               <div className="lg:col-span-5 flex flex-col gap-stack">
                 <span className="inline-flex w-fit items-center gap-stack-xs rounded-pill bg-white px-3.5 py-1.5 font-body text-caption font-bold text-primary-800 shadow-card">
                   {p.icon}
@@ -397,15 +406,15 @@ const Bibliotheque: React.FC = () => {
   const fiche = useMemo(() => FICHES[ficheIdx], [ficheIdx]);
 
   return (
-    <section id="bibliotheque" className="bg-white scroll-mt-24">
-      <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
+    <section id="bibliotheque" className="scroll-mt-24">
+      <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-band flex flex-col gap-flow">
         <FadeInWhenVisible>
           <div className="max-w-3xl flex flex-col gap-stack">
             <p className="inline-flex w-fit items-center gap-stack-xs rounded-pill bg-primary-100 px-4 py-1.5 font-body text-caption font-bold text-primary-800 m-0">
               <LibraryBig size={14} />
               La Bibliothèque de compétences
             </p>
-            <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)]">
+            <h2 className="font-display text-section text-ink-900 [text-wrap:balance]">
               Oubliez les catalogues de cours.{' '}
               <span className="text-primary-700">Pilotez des compétences vivantes et mesurables.</span>
             </h2>
@@ -541,19 +550,19 @@ const Bibliotheque: React.FC = () => {
 // ─── 10. L'actif stratégique (Match au futur) ────────────────────────────────
 
 const ActifStrategique: React.FC = () => (
-  <section className="relative overflow-hidden bg-gradient-to-br from-primary-800 via-primary-900 to-ink-900 text-white">
-    <div aria-hidden className="absolute -top-24 -right-24 w-96 h-96 rounded-pill bg-primary-500/25 blur-3xl pointer-events-none" />
-    <div className="relative max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-section items-start">
+  <section className="relative overflow-hidden">
+    <div aria-hidden className="absolute -top-24 -right-24 w-96 h-96 rounded-pill bg-primary-200/40 blur-3xl pointer-events-none" />
+    <div className="relative max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-band">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-flow items-start">
         <div className="lg:col-span-7 flex flex-col gap-stack-lg">
           <FadeInWhenVisible>
-            <h2 className="font-display font-extrabold text-white leading-[1.05] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)]">
+            <h2 className="font-display text-section text-white [text-wrap:balance]">
               Un actif de compétences qui prend de la valeur{' '}
-              <span className="text-accent-400">à mesure que vous l'utilisez</span>.
+              <span className="text-primary-700">à mesure que vous l'utilisez</span>.
             </h2>
           </FadeInWhenVisible>
           <FadeInWhenVisible delay={0.08}>
-            <p className="font-body text-body-lg text-white/80 m-0 max-w-2xl">
+            <p className="font-body text-lede text-ink-700 leading-relaxed m-0 max-w-2xl">
               Chaque preuve d'exécution enrichit un référentiel qui devient le
               socle de vos décisions : qui former, sur quoi, et bientôt qui
               positionner sur quel projet. Le Passeport prépare dès aujourd'hui
@@ -564,11 +573,11 @@ const ActifStrategique: React.FC = () => (
           </FadeInWhenVisible>
         </div>
         <FadeInWhenVisible delay={0.1} className="lg:col-span-5">
-          <div className="flex flex-col gap-stack rounded-lg bg-white/10 p-stack-lg">
-            <h3 className="font-display text-h4 font-bold text-white">
+          <div className="flex flex-col gap-stack rounded-lg bg-primary-50 p-stack-lg">
+            <h3 className="font-display text-feature text-ink-900">
               Du Skills-Based au Matching Projets
             </h3>
-            <p className="font-body text-body-sm text-white/75 m-0">
+            <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">
               La maturité IA de votre organisation commence par une donnée de
               compétences propre et vivante. C'est exactement ce que la
               Learning App construit, jour après jour.
@@ -583,12 +592,12 @@ const ActifStrategique: React.FC = () => (
 // ─── 11. CTA final (pas de pricing public en V1) ─────────────────────────────
 
 const CtaFinal: React.FC = () => (
-  <section className="bg-white">
-    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28">
+  <section>
+    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-band">
       <FadeInWhenVisible>
-        <div className="relative overflow-hidden rounded-lg bg-ink-900 text-white px-6 sm:px-10 lg:px-16 py-16 sm:py-20">
+        <div className="relative overflow-hidden rounded-lg bg-ink-900 text-white px-6 sm:px-10 lg:px-16 py-band">
           <div className="relative max-w-content flex flex-col gap-stack-lg">
-            <h2 className="font-display font-extrabold text-white leading-[1.04] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.5vw,3.5rem)]">
+            <h2 className="font-display text-section text-white [text-wrap:balance]">
               Voyez la Learning App fonctionner sur vos cas d'usage.
             </h2>
             <p className="font-body text-body-lg text-white/80 m-0 max-w-2xl">
@@ -611,7 +620,7 @@ const CtaFinal: React.FC = () => (
 );
 
 export const MarketingLearningApp: React.FC = () => (
-  <div className="bg-white">
+  <>
     <SEOHead
       title="Learning App · The Learning Society"
       description="Work-Integrated Learning & SBO Operating System : veille continue, apprentissage par l'action (EDRA), Passeport de compétences vivant sur l'échelle Dreyfus et coaching humain intégré."
@@ -624,7 +633,7 @@ export const MarketingLearningApp: React.FC = () => (
     <Bibliotheque />
     <ActifStrategique />
     <CtaFinal />
-  </div>
+  </>
 );
 
 export default MarketingLearningApp;

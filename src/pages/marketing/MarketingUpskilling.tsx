@@ -18,7 +18,6 @@ import {
   CheckCircle2,
   Building2,
   Gift,
-  GraduationCap,
   HeartHandshake,
   Landmark,
   Ruler,
@@ -34,38 +33,56 @@ import { SEOHead } from './components/SEOHead';
 const Hero: React.FC = () => {
   const reduced = useReducedMotion();
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-secondary-50 via-white to-white">
-      <div
-        aria-hidden
-        className="absolute -top-28 left-[-8%] h-[440px] w-[440px] rounded-pill bg-secondary-200/40 blur-3xl pointer-events-none"
-      />
-      <div
-        aria-hidden
-        className="absolute top-52 right-[-10%] h-[360px] w-[360px] rounded-pill bg-accent-200/30 blur-3xl pointer-events-none"
-      />
-      <div className="relative max-w-wide mx-auto px-4 sm:px-6 lg:px-10 pt-36 sm:pt-40 lg:pt-44 pb-16 sm:pb-20 lg:pb-24">
+    <section className="relative overflow-hidden">
+      <div className="relative max-w-wide mx-auto px-4 sm:px-6 lg:px-10 pt-hero pb-band">
         <motion.div
           initial={reduced ? false : { y: 24 }}
           animate={{ y: 0 }}
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className="flex max-w-4xl flex-col gap-stack-lg"
+          className="flex max-w-4xl flex-col gap-flow"
         >
-          <p className="inline-flex w-fit items-center gap-stack-xs rounded-pill bg-secondary-100 px-4 py-1.5 font-body text-caption font-bold text-secondary-800 m-0">
-            <GraduationCap size={14} />
-            Développement des compétences & upskilling
-          </p>
-          <h1 className="font-display font-extrabold text-ink-900 leading-[1.02] tracking-tight [text-wrap:balance] text-[clamp(2.5rem,5.5vw,4.25rem)]">
-            Concevez des projets d'upskilling sur-mesure.{' '}
-            <span className="text-secondary-700">Pilotés par les professionnels de la formation.</span>
+          <h1 className="font-display text-hero text-ink-900 [text-wrap:balance]">
+            Trois manières de commencer,{' '}
+            <span className="text-secondary-700">selon ce que vous pouvez engager.</span>
           </h1>
-          <p className="font-body text-body-lg text-ink-600 m-0 max-w-2xl">
-            Parce que la formation est un métier, tout projet d'upskilling
-            commence chez The Learning Society par l'habilitation de vos
-            concepteurs et formateurs. Une ingénierie orchestrée par notre
-            Learning App, incluant un an d'accès offert à la plateforme pour
-            l'ensemble de vos équipes.
+
+          {/* L'échelle d'engagement en ouverture — motif emprunté à OpenTable :
+              des lignes de texte nu, aucun contenant, le format en légende.
+              Ce hero règle un trou commercial autant qu'un problème de design :
+              la page ne montrait que le projet sur-mesure, le plus cher des
+              trois, et un visiteur qui n'a pas ce budget repartait sans savoir
+              que les deux autres existent.
+              ⚠️ Les prix ne figurent pas : leur affichage public n'est pas
+              tranché (fiche Tarifs, base Website pages). Le format suffit à
+              ranger les trois offres par niveau d'engagement. */}
+          <ol className="flex flex-col m-0 p-0 list-none">
+            {[
+              { nom: 'Pack Flash Leçons', format: 'Quatre webinaires de 1h30, à distance' },
+              { nom: 'Bootcamp IP Augmenté', format: 'Quatre demi-journées de 3h30, en présentiel' },
+              { nom: 'Projet d’upskilling sur-mesure', format: 'Plusieurs mois, de l’habilitation au déploiement' },
+            ].map((o, i) => (
+              <li
+                key={o.nom}
+                className="grid grid-cols-[auto_minmax(0,1fr)] items-baseline gap-stack border-t border-ink-200 py-stack first:border-t-0 first:pt-0"
+              >
+                <span className="font-display text-caption font-bold text-secondary-700">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <span className="flex flex-col gap-tight">
+                  <span className="font-display text-feature text-ink-900">{o.nom}</span>
+                  <span className="font-body text-body-sm text-ink-500">{o.format}</span>
+                </span>
+              </li>
+            ))}
+          </ol>
+
+          <p className="font-body text-lede text-ink-700 leading-relaxed m-0 max-w-2xl [text-wrap:pretty]">
+            Parce que la formation est un métier, tout projet commence par
+            l’habilitation de vos concepteurs et formateurs. Un accès à la
+            Learning App est inclus ; sa durée se fixe au cadrage.
           </p>
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs pt-stack-xs">
+
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs">
             <Button to="/website/contact" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
               Cadrer un projet d'upskilling
             </Button>
@@ -95,12 +112,12 @@ const REGLES = [
 ];
 
 const Conviction: React.FC = () => (
-  <section className="relative bg-ink-900 text-white">
-    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-section items-start">
+  <section className="relative">
+    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-band">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-flow items-start">
         <div className="lg:col-span-5">
           <FadeInWhenVisible>
-            <h2 className="font-display font-extrabold leading-[1.08] tracking-tight [text-wrap:balance] text-[clamp(1.9rem,3.6vw,2.75rem)]">
+            <h2 className="font-display text-section text-ink-900 [text-wrap:balance]">
               Tout projet commence par outiller et former ceux qui{' '}
               <span className="text-secondary-400">façonnent l'apprentissage.</span>
             </h2>
@@ -109,10 +126,10 @@ const Conviction: React.FC = () => (
         <div className="lg:col-span-7 flex flex-col">
           {REGLES.map((r, i) => (
             <FadeInWhenVisible key={r.title} delay={i * 0.08}>
-              <div className="border-t border-white/15 py-stack-lg first:border-t-0">
+              <div className="border-t border-ink-200 py-stack-lg first:border-t-0">
                 <div className="flex flex-col gap-stack-xs">
-                  <h3 className="font-display text-h4 font-bold text-white">{r.title}</h3>
-                  <p className="font-body text-body text-white/70 m-0 max-w-xl">{r.detail}</p>
+                  <h3 className="font-display text-feature text-ink-900">{r.title}</h3>
+                  <p className="font-body text-body text-ink-600 leading-relaxed m-0 max-w-xl">{r.detail}</p>
                 </div>
               </div>
             </FadeInWhenVisible>
@@ -147,10 +164,10 @@ const CIBLES = [
 ];
 
 const Cibles: React.FC = () => (
-  <section className="bg-white">
-    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
+  <section>
+    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-band flex flex-col gap-flow">
       <FadeInWhenVisible>
-        <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)] max-w-2xl">
+        <h2 className="font-display text-section text-ink-900 [text-wrap:balance] max-w-2xl">
           Trois profils, un même besoin : des compétences qui tiennent.
         </h2>
       </FadeInWhenVisible>
@@ -195,10 +212,10 @@ const PERIMETRE = [
 ];
 
 const Perimetre: React.FC = () => (
-  <section className="bg-secondary-50/60">
-    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
+  <section>
+    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-band flex flex-col gap-flow">
       <FadeInWhenVisible>
-        <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)] max-w-3xl">
+        <h2 className="font-display text-section text-ink-900 [text-wrap:balance] max-w-3xl">
           Trois périmètres d'upskilling, un seul standard :{' '}
           <span className="text-secondary-700">la preuve d'exécution</span>.
         </h2>
@@ -207,7 +224,7 @@ const Perimetre: React.FC = () => (
       <div className="flex flex-col">
         {PERIMETRE.map((p, i) => (
           <FadeInWhenVisible key={p.title} delay={i * 0.05}>
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-stack lg:gap-section items-start border-t border-secondary-200/70 py-section first:border-t-0">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-stack lg:gap-flow items-start border-t border-secondary-200/70 py-section first:border-t-0">
               <div className="lg:col-span-5 flex items-start gap-stack">
                 <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-secondary-700 shadow-card">
                   {p.icon}
@@ -249,15 +266,15 @@ const PILOTAGE = [
 ];
 
 const Pilotage: React.FC = () => (
-  <section className="relative overflow-hidden bg-gradient-to-br from-primary-800 via-primary-900 to-ink-900 text-white">
-    <div aria-hidden className="absolute -top-24 -right-24 w-96 h-96 rounded-pill bg-primary-500/25 blur-3xl pointer-events-none" />
-    <div className="relative max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
+  <section className="relative overflow-hidden">
+    <div aria-hidden className="absolute -top-24 -right-24 w-96 h-96 rounded-pill bg-primary-200/40 blur-3xl pointer-events-none" />
+    <div className="relative max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-band flex flex-col gap-flow">
       <FadeInWhenVisible>
         <div className="max-w-3xl flex flex-col gap-stack">
-          <h2 className="font-display font-extrabold text-white leading-[1.06] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)]">
+          <h2 className="font-display text-section text-ink-900 [text-wrap:balance]">
             Une ingénierie orchestrée par la <span className="text-accent-400">Learning App TLS</span>.
           </h2>
-          <p className="font-body text-body-lg text-white/75 leading-relaxed m-0">
+          <p className="font-body text-lede text-ink-700 leading-relaxed m-0">
             Le projet ne vit pas dans un slide : il s'opère dans la plateforme,
             du positionnement initial à la preuve finale.
           </p>
@@ -267,11 +284,11 @@ const Pilotage: React.FC = () => (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-section gap-y-stack-lg">
         {PILOTAGE.map((p, i) => (
           <FadeInWhenVisible key={p.title} delay={i * 0.05}>
-            <div className="flex items-start gap-stack border-t border-white/15 pt-stack">
+            <div className="flex items-start gap-stack border-t border-ink-200 pt-stack">
               <CheckCircle2 size={20} className="text-accent-400 shrink-0 mt-1" />
               <div className="flex flex-col gap-stack-3xs">
-                <h3 className="font-display text-h4 font-bold text-white leading-tight">{p.title}</h3>
-                <p className="font-body text-body-sm text-white/70 leading-relaxed m-0">{p.detail}</p>
+                <h3 className="font-display text-feature text-ink-900">{p.title}</h3>
+                <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">{p.detail}</p>
               </div>
             </div>
           </FadeInWhenVisible>
@@ -279,14 +296,22 @@ const Pilotage: React.FC = () => (
       </div>
 
       <FadeInWhenVisible delay={0.1}>
-        <div className="flex items-start gap-stack rounded-lg bg-white/10 p-stack-lg">
-          <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent-400/20 text-accent-300">
+        <div className="flex items-start gap-stack rounded-lg bg-primary-50 p-stack-lg">
+          <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent-100 text-accent-700">
             <Gift size={20} />
           </span>
-          <p className="font-body text-body text-white/85 leading-relaxed m-0">
-            <span className="font-bold text-white">Bonus :</span> un an d'accès
-            à la Learning App TLS offert pour vos apprenants, concepteurs et
-            formateurs.
+          {/* Disait « un an d'accès offert ». Corrigé le 16/09/2026 : la durée
+              venait du catalogue, où elle était attachée à un contrat STRIDE
+              (« pour tout contrat S.T.R.I.D.E, l'abonnement est offert pendant
+              1 an ») — elle avait été recopiée ici sans son porteur. D10 gèle
+              STRIDE, et D11 retire la Learning App du modèle d'abonnement :
+              « offert pendant un an » n'a plus de sens s'il n'existe aucun état
+              payant dont on dispenserait. La phrase dit maintenant ce que D11
+              rend vrai, sans durée — celle-ci reste à trancher. */}
+          <p className="font-body text-body text-ink-700 leading-relaxed m-0">
+            <span className="font-bold text-ink-900">Inclus :</span> l'accès à la
+            Learning App pour vos apprenants, concepteurs et formateurs — c'est
+            elle qui ancre ce qui a été appris, une fois le programme terminé.
           </p>
         </div>
       </FadeInWhenVisible>
@@ -304,12 +329,12 @@ const LIVRABLES = [
 ];
 
 const Modalites: React.FC = () => (
-  <section className="bg-white">
-    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-section items-start">
+  <section>
+    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-band">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-flow items-start">
         <div className="lg:col-span-5 flex flex-col gap-stack-lg">
           <FadeInWhenVisible>
-            <h2 className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)]">
+            <h2 className="font-display text-section text-ink-900 [text-wrap:balance]">
               Formation-Action, accompagnement hybride.
             </h2>
           </FadeInWhenVisible>
@@ -359,12 +384,12 @@ const Modalites: React.FC = () => (
 // ─── 7. CTA final ────────────────────────────────────────────────────────────
 
 const CtaFinal: React.FC = () => (
-  <section className="bg-white border-t border-ink-100">
-    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28">
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-section items-start">
+  <section>
+    <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-band">
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-flow items-start">
         <FadeInWhenVisible className="lg:col-span-3">
           <div className="flex flex-col gap-stack">
-            <h2 className="font-display font-extrabold text-ink-900 leading-[1.04] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.5vw,3.25rem)]">
+            <h2 className="font-display text-section text-ink-900 [text-wrap:balance]">
               Lançons votre prochain projet d'upskilling.
             </h2>
             <p className="font-body text-body-lg text-ink-600 m-0 max-w-xl [text-wrap:pretty]">
@@ -400,7 +425,7 @@ const CtaFinal: React.FC = () => (
 );
 
 export const MarketingUpskilling: React.FC = () => (
-  <div className="bg-white">
+  <>
     <SEOHead
       title="Upskilling sur-mesure · The Learning Society"
       description="Des projets d'upskilling pilotés par les professionnels de la formation : habilitation de vos concepteurs et formateurs, méthode EDRACT de C-Campus, échelle Dreyfus et Learning App incluse un an."
@@ -413,7 +438,7 @@ export const MarketingUpskilling: React.FC = () => (
     <Pilotage />
     <Modalites />
     <CtaFinal />
-  </div>
+  </>
 );
 
 export default MarketingUpskilling;

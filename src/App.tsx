@@ -14,7 +14,7 @@
 
 import React, { lazy, Suspense } from 'react';
 import { MarketingError404 } from './pages/marketing/MarketingError404';
-import { BrowserRouter as Router, Routes, Route, useLocation, Navigate, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { ToastProvider } from './contexts/ToastContext';
 import { AppBreadcrumb } from './components/patterns/AppBreadcrumb';
 import { ScrollToTop } from './components/ScrollToTop';
@@ -22,6 +22,7 @@ import { useNotificationsStore } from './stores/persistence';
 import { useAuth } from './hooks/useAuth';
 import { Sidebar, NavItem, SidebarUserCard } from './components/layout/Sidebar';
 import { BottomNav } from './components/layout/BottomNav';
+import { NAVIGATION_PRINCIPALE, entreeActive } from './config/navigation';
 import { DropdownMenu, DropdownItem, DropdownLabel, DropdownSeparator } from './components/ui/DropdownMenu';
 import { Avatar } from './components/ui/Avatar';
 import {
@@ -55,6 +56,19 @@ const ShowcaseFallback: React.FC = () => (
     Chargement du design system…
   </div>
 );
+
+/**
+ * Redirection qui conserve le `:slug` de l'URL d'origine.
+ *
+ * `<Navigate to="…">` prend un chemin statique : il n'interpole aucun paramètre.
+ * Une route historique en `/x/:slug` qui doit pointer vers `/y/:slug` a donc
+ * besoin de lire le paramètre elle-même — sinon on retombe sur le hub et le
+ * visiteur perd l'article qu'il venait lire.
+ */
+const SlugRedirect: React.FC<{ to: string }> = ({ to }) => {
+  const { slug } = useParams();
+  return <Navigate to={slug ? `${to}/${slug}` : to} replace />;
+};
 
 import {
   Dashboard,
@@ -425,55 +439,24 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           )
         }
       >
-        <NavItem
-          href="/"
-          onClick={goTo('/')}
-          icon={<LayoutDashboard size={18} />}
-          label="Tableau de bord"
-          active={isActive('/') || isActive('/dashboard')}
-          collapsed={collapsed}
-        />
-        <NavItem
-          href="/learning-paths"
-          onClick={goTo('/learning-paths')}
-          icon={<MapIcon size={18} />}
-          label="Parcours"
-          count="3"
-          active={isActive('/learning-paths')}
-          collapsed={collapsed}
-        />
-        <NavItem
-          href="/journal"
-          onClick={goTo('/journal')}
-          icon={<PenLine size={18} />}
-          label="Journal de bord"
-          active={isActive('/journal')}
-          collapsed={collapsed}
-        />
-        <NavItem
-          href="/coaching"
-          onClick={goTo('/coaching')}
-          icon={<Video size={18} />}
-          label="Coaching"
-          active={isActive('/coaching')}
-          collapsed={collapsed}
-        />
-        <NavItem
-          href="/veille"
-          onClick={goTo('/veille')}
-          icon={<SparklesIcon size={18} />}
-          label="Veille"
-          active={isActive('/veille')}
-          collapsed={collapsed}
-        />
-        <NavItem
-          href="/learning-space"
-          onClick={goTo('/learning-space')}
-          icon={<Layers size={18} />}
-          label="Espace Apprentissage"
-          active={isActive('/learning-space')}
-          collapsed={collapsed}
-        />
+        {/* Les entrées viennent de `src/config/navigation.ts` — la même liste que
+            la BottomNav. Elles étaient écrites à la main ici, et avaient dérivé
+            de celles du mobile (libellés ET icônes). Ne pas les réécrire ici. */}
+        {NAVIGATION_PRINCIPALE.map((entree) => {
+          const Icone = entree.icon;
+          return (
+            <NavItem
+              key={entree.id}
+              href={entree.href}
+              onClick={goTo(entree.href)}
+              icon={<Icone size={18} />}
+              label={entree.label}
+              count={entree.id === 'parcours' ? '3' : undefined}
+              active={entreeActive(entree, location.pathname)}
+              collapsed={collapsed}
+            />
+          );
+        })}
       </Sidebar>
       </div>
 
@@ -567,18 +550,23 @@ function App() {
               l'offre n'existe pas encore. */}
           <Route path="sprint" element={<MarketingSprint />} />
           <Route path="vigie" element={<MarketingVigie />} />
-          {/* Banc d'essai du 16/09 — hors sitemap, hors nav. À retirer une fois tranché. */}
+          {/* Banc d'essai interne du 16/09 — hors sitemap, hors nav. À retirer une fois tranché. */}
           <Route path="_essais-matiere" element={<MarketingEssaisMatiere />} />
           <Route path="upskilling" element={<MarketingUpskilling />} />
           <Route path="learning-app" element={<MarketingLearningApp />} />
           {/* Magazine et Dossiers n'ont plus de hub dédié — un seul hub
               "Ressources" agrège tous les formats (Phase consolidation). */}
           <Route path="magazine" element={<Navigate to="/website/resources" replace />} />
-          <Route path="magazine/:slug" element={<MarketingArticleDetail />} />
+          {/* Redirections, pas alias (16/09). Ces deux routes rendaient le MÊME
+              composant que leur équivalent canonique : deux URLs servaient la
+              même page — sur le hub, et sur chaque article. Le sitemap les
+              documentait à tort comme des redirections ; elles en sont
+              devenues. Voir docs/site/SITEMAP-V1.md §1. */}
+          <Route path="magazine/:slug" element={<SlugRedirect to="/website/resources" />} />
           <Route path="resources" element={<MarketingResources />} />
           {/* Merged into the single canonical article template (Phase Ressources fusion) */}
           <Route path="resources/:slug" element={<MarketingArticleDetail />} />
-          <Route path="ressources" element={<MarketingResources />} />
+          <Route path="ressources" element={<Navigate to="/website/resources" replace />} />
           <Route path="dossiers" element={<Navigate to="/website/resources" replace />} />
           <Route path="dossiers/:slug" element={<MarketingDossierDetail />} />
           <Route path="videos/:slug" element={<MarketingVideoDetail />} />

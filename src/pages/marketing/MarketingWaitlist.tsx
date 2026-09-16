@@ -86,7 +86,7 @@ const CheckboxField: React.FC<{
     >
       {checked && <Check size={14} className="text-white" strokeWidth={2.5} />}
     </span>
-    <div className="flex flex-col gap-0.5">
+    <div className="flex flex-col gap-tight">
       <span className="font-body text-body-sm font-semibold text-ink-900 leading-snug">{label}</span>
       <span className="font-body text-caption text-ink-500 leading-relaxed">{description}</span>
     </div>
@@ -187,10 +187,7 @@ export const MarketingWaitlist: React.FC = () => {
               </motion.div>
 
               {/* H1 */}
-              <h1
-                className="font-display font-extrabold text-ink-900 leading-[0.92] tracking-display"
-                style={{ fontSize: 'clamp(2.25rem, 4.5vw, 3.5rem)' }}
-              >
+              <h1 className="font-display text-hero text-ink-900">
                 <span className="block">
                   Formez vos
                 </span>
@@ -553,9 +550,7 @@ export const MarketingWaitlist: React.FC = () => {
           <p className="font-body text-caption text-white/55 m-0">
             Accès anticipé · Bêta · Sans engagement
           </p>
-          <h2 className="font-display font-extrabold text-white tracking-display leading-tight"
-            style={{ fontSize: 'clamp(1.75rem, 3.5vw, 2.5rem)' }}
-          >
+          <h2 className="font-display text-section text-white">
             Rejoignez les premiers.
           </h2>
           <p className="font-body text-body text-white/70 m-0 max-w-[48ch]">

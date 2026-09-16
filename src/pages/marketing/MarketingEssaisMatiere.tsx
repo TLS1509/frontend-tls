@@ -521,7 +521,7 @@ const PiliersArchive: React.FC = () => (
             <span className="font-body text-caption font-bold tracking-label uppercase text-secondary-700">
               {p.k}
             </span>
-            <h4 className="mt-stack-xs font-display text-h4 text-ink-900">{p.oeuvre}</h4>
+            <h4 className="mt-stack-xs font-display text-h4 text-ink-900 leading-tight">{p.oeuvre}</h4>
             <p className="mt-stack-xs font-body text-caption text-ink-500 m-0">{p.qui}</p>
             <p className="mt-stack font-body text-body-sm text-ink-600 m-0">{p.dit}</p>
           </figcaption>

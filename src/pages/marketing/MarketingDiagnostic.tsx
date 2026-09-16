@@ -29,7 +29,6 @@ import {
   Bot,
   CheckCircle2,
   ChevronDown,
-  Gauge,
   Layers,
   Lock,
   RefreshCw,
@@ -302,38 +301,48 @@ export const MarketingDiagnostic: React.FC = () => {
       };
 
   const inputCls =
-    'h-12 w-full rounded-md border border-ink-200 bg-white px-5 font-body text-body text-ink-900 placeholder:text-ink-500 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
+    'h-12 w-full rounded-lg border border-ink-200 bg-white px-5 font-body text-body text-ink-900 placeholder:text-ink-500 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
 
   return (
-    <div className="bg-white">
+    <>
       <SEOHead
         title="Autodiagnostics SBO & IA · The Learning Society"
         description="Évaluez la maturité de votre organisation en 3 minutes : diagnostic SBO Readiness ou IA Readiness, 8 questions, 2 questions ouvertes, un rapport personnalisé."
         canonical="/website/diagnostic"
       />
 
-      <section className="relative overflow-hidden bg-gradient-to-b from-primary-50 via-white to-white min-h-[70dvh]">
-        <div
-          aria-hidden
-          className="absolute -top-28 right-[-8%] h-[420px] w-[420px] rounded-pill bg-primary-200/40 blur-3xl pointer-events-none"
-        />
-        <div className="relative max-w-wide mx-auto px-4 sm:px-6 lg:px-10 pt-36 sm:pt-40 lg:pt-44 pb-16 sm:pb-20 lg:pb-24">
+      <section className="relative overflow-hidden min-h-[70dvh]">
+        <div className="relative max-w-wide mx-auto px-4 sm:px-6 lg:px-10 pt-hero pb-band">
 
           {/* ── Écran 0 : hub ─────────────────────────────────────────────── */}
           {phase === 'hub' && (
-            <motion.div {...reveal} className="flex flex-col gap-section-lg">
+            <motion.div {...reveal} className="flex flex-col gap-flow">
               <div className="flex max-w-3xl flex-col gap-stack-lg">
-                <p className="inline-flex w-fit items-center gap-stack-xs rounded-pill bg-primary-100 px-4 py-1.5 font-body text-caption font-bold text-primary-800 m-0">
-                  <Gauge size={14} />
-                  Auto-diagnostic gratuit
-                </p>
-                <h1 className="font-display font-extrabold text-ink-900 leading-[1.02] tracking-tight [text-wrap:balance] text-[clamp(2.25rem,5vw,3.75rem)]">
+                <h1 className="font-display text-hero text-ink-900 [text-wrap:balance]">
                   Évaluez la maturité de votre organisation{' '}
                   <span className="text-primary-700">en 3 minutes.</span>
                 </h1>
-                <p className="font-body text-body-lg text-ink-600 m-0 max-w-2xl">
-                  Choisissez le diagnostic adapté à votre enjeu. 8 questions,
-                  2 questions ouvertes, un rapport personnalisé.
+                {/* Le coût d'entrée, en chiffres, avant le premier mot d'argumentaire.
+                    Une page-outil ne se vend pas : elle annonce ce qu'elle demande.
+                    C'est la matière propre de celle-ci — sa brièveté — et c'est ce
+                    qui la distingue des six autres heroes du site. */}
+                <ul className="flex flex-wrap items-baseline gap-flow m-0 p-0 list-none">
+                  {[
+                    { n: '3', u: 'minutes', d: 'chrono, montre en main' },
+                    { n: '10', u: 'questions', d: 'dont 2 ouvertes' },
+                    { n: '1', u: 'rapport', d: 'personnalisé, à garder' },
+                  ].map((s) => (
+                    <li key={s.u} className="flex flex-col">
+                      <span className="flex items-baseline gap-stack-2xs">
+                        <span className="font-display text-section text-primary-700">{s.n}</span>
+                        <span className="font-display text-feature text-ink-900">{s.u}</span>
+                      </span>
+                      <span className="font-body text-caption text-ink-500">{s.d}</span>
+                    </li>
+                  ))}
+                </ul>
+                <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
+                  Choisissez le diagnostic adapté à votre enjeu.
                 </p>
               </div>
 
@@ -497,7 +506,7 @@ export const MarketingDiagnostic: React.FC = () => {
 
           {/* ── Résultat partiel + formulaire lead ────────────────────────── */}
           {phase === 'result' && (
-            <motion.div {...reveal} className="mx-auto flex w-full max-w-medium flex-col gap-section-lg">
+            <motion.div {...reveal} className="mx-auto flex w-full max-w-medium flex-col gap-flow">
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-stack-lg">
                 <ScoreRing score={score} ringClass={bank.accent.ring} />
                 <div className="flex flex-col gap-stack-xs">
@@ -593,7 +602,7 @@ export const MarketingDiagnostic: React.FC = () => {
 
           {/* ── Rapport complet ───────────────────────────────────────────── */}
           {phase === 'report' && (
-            <motion.div {...reveal} className="mx-auto flex w-full max-w-medium flex-col gap-section-lg">
+            <motion.div {...reveal} className="mx-auto flex w-full max-w-medium flex-col gap-flow">
               <div className="flex flex-col gap-stack-xs">
                 <h2 className="font-display text-h2 text-ink-900 [text-wrap:balance]">
                   Merci {lead.firstName}, votre rapport est débloqué.
@@ -677,23 +686,27 @@ export const MarketingDiagnostic: React.FC = () => {
 
       {/* Pont vers l'écosystème (hub uniquement) */}
       {phase === 'hub' && (
-        <section className="bg-white border-t border-ink-100">
+        <section>
           <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-12 sm:py-16">
             <FadeInWhenVisible>
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-stack">
+                {/* 16/09/2026 — cette phrase promettait « l'Audit Flash », une
+                    prestation retirée de la page STRIDE le même jour (offre
+                    gelée jusqu'en 2028). Le pont vers la méthode reste juste ;
+                    c'est la vente qui partait. */}
                 <p className="font-body text-body text-ink-600 m-0 max-w-xl">
                   Le diagnostic est la première étape de la méthode STRIDE :
-                  l'Audit Flash approfondit ce que le score révèle.
+                  les six suivantes disent ce qu'on fait du score.
                 </p>
                 <Button to="/website/accompagnement" variant="ghost" size="md" trailingIcon={<ArrowRight size={16} />}>
-                  Découvrir l'accompagnement STRIDE
+                  Découvrir la méthode STRIDE
                 </Button>
               </div>
             </FadeInWhenVisible>
           </div>
         </section>
       )}
-    </div>
+    </>
   );
 };
 

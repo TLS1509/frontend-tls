@@ -229,22 +229,36 @@ const Moteur: React.FC = () => (
 
 type Offre = { title: string; role: string; desc: string; link: string; cta: string };
 
-// ⚠️ STRIDE a quitté cette liste le 16/09/2026. `FACTS-CANON` D10 la gèle
-// « pour 2027, cible 2028 » : une page d'accueil ne peut pas ouvrir son
-// écosystème d'offres sur une prestation qui ne se vend plus, et dont la page
-// d'arrivée ne prend plus de commande depuis le même jour. Elle reparaît plus
-// bas comme ce qu'elle est devenue — la méthode, pas l'offre.
+// ⚠️ STRIDE reste dans cette liste mais **n'y est plus une offre** : D10 la
+// gèle « pour 2027, cible 2028 », donc la carte a été reformulée en méthode
+// (rôle « Notre méthode », CTA vers les six étapes). Deux résolutions de ce
+// problème ont coexisté sur deux branches le 16/09 ; celle-ci est retenue —
+// trois cartes tiennent mieux le rythme qu'une liste de deux suivie d'une
+// ligne isolée.
 //
-// ⏳ Le Sprint OS & Agents IA — l'offre Studio vendable qui remplace STRIDE —
-// a sa page depuis le 16/09 (`/website/sprint`). Elle n'entre dans cette liste
-// qu'en **janvier 2027**, au lancement de l'offre : décidé le 16/09. L'ajouter
-// avant ferait vendre ce qui n'est pas encore vendable. Tâche Notion
-// « Publier la page Sprint », échéance 04/01/2027.
+// ⏳ Le Sprint OS & Agents IA — l'offre Studio vendable — a sa page depuis le
+// 16/09 (`/website/sprint`). Elle n'entre dans cette liste qu'en **janvier
+// 2027**, au lancement de l'offre : décidé le 16/09. L'ajouter avant ferait
+// vendre ce qui n'est pas encore vendable. Tâche Notion « Publier la page
+// Sprint », échéance 04/01/2027.
 //
 // La Marketplace Notion, elle, n'aura pas de page — tranché le 16/09. Session 3
 // pose que les templates sont publiés au nom propre et « non mis en avant sur
 // le site vitrine ». Ne pas la rajouter ici en croyant combler un trou.
 const OFFRES: Offre[] = [
+  // ⚠️ 16/09/2026 — cette carte vendait STRIDE comme une offre (« Audit &
+  // stratégie », « livrables tangibles à chaque jalon »). STRIDE est gelée
+  // jusqu'en 2028 : elle est reformulée en méthode. La refonte des trois
+  // piliers de l'accueil (Tech & SaaS · Upskilling · Studio, arrêtés le 31/08)
+  // reste à faire et dépend de l'arbitrage de nav — voir SITEMAP-V1.md §1 bis.
+  {
+    title: 'La méthode STRIDE',
+    role: 'Notre méthode',
+    desc:
+      "Six étapes pour relier compétences réelles et déploiement IA, de l'orientation à l'amélioration continue. C'est le cadre que suivent nos projets.",
+    link: '/website/accompagnement',
+    cta: 'Découvrir les six étapes',
+  },
   {
     title: 'Le Studio IA & Pédagogie',
     role: 'Production & déploiement',
@@ -254,7 +268,7 @@ const OFFRES: Offre[] = [
     cta: 'Visiter le Studio',
   },
   {
-    title: 'Upskilling L&D',
+    title: 'Upskilling sur-mesure',
     role: 'Formation interne',
     desc:
       "Des projets d'upskilling sur-mesure qui commencent par habiliter vos concepteurs et formateurs, pilotés par la Learning App.",
@@ -305,22 +319,6 @@ const Ecosysteme: React.FC = () => (
           </FadeInWhenVisible>
         ))}
       </ul>
-
-      {/* La méthode, séparée des offres. STRIDE vivait au-dessus comme une
-          prestation ; depuis D10 elle est gelée, et ce qu'il en reste est ce
-          qui a toujours fait sa valeur : la séquence. */}
-      <FadeInWhenVisible delay={0.06}>
-        <p className="font-body text-body text-ink-600 leading-relaxed m-0 border-t border-ink-200 pt-flow">
-          Ces deux chantiers s'appuient sur la même séquence en six étapes —{' '}
-          <Link
-            to="/website/accompagnement"
-            className="font-semibold text-primary-700 underline underline-offset-4 decoration-primary-200 hover:decoration-primary-700 transition-colors duration-base"
-          >
-            la méthode STRIDE
-          </Link>
-          .
-        </p>
-      </FadeInWhenVisible>
 
       {/* Learning App — change de registre parce qu'elle change de nature : les
           deux au-dessus sont des prestations, celle-ci est l'outil qui les
