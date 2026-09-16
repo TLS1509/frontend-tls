@@ -353,3 +353,30 @@ Ce qui a été fait :
 ⚠️ **Le même `<ol>`/`<ul>` enveloppé de `FadeInWhenVisible` existe ailleurs** — au moins la
 section « Pour qui » de cette page et la liste des offres de l'accueil. À traiter page par page,
 au fil de la refonte.
+
+### Deuxième page traitée — Learning App
+
+**Cette page avait une passe de retard sur les autres.** La passe éditoriale du 29/07 — fonds de
+section retirés, rythme sur `py-band`/`gap-flow`, typo sur l'échelle — était passée par STRIDE,
+Studio et Upskilling, jamais par celle-ci. Elle portait encore **sept `clamp()` écrits à la main**
+et sept fonds de section.
+
+- **Typo sur l'échelle** : les sept `clamp()` deviennent `text-hero` / `text-section`. Les classes
+  qui les accompagnaient (`font-extrabold`, `leading-[…]`, **`tracking-tight`**) sont retirées :
+  les tokens portent déjà graisse, interlignage et tracking, et un `tracking-tight` posé à la main
+  **écrasait le tracking gradué du token**. Vérifié au navigateur : le h2 rend 40,96 px pour
+  −1,024 px d'approche, soit exactement les −0,025em du token.
+- **Fonds de section retirés** : le dégradé ambiant de la coque traverse désormais la page.
+- **Trois surfaces sombres → une.** C'était le défaut n°2 de la fiche. La règle appliquée est
+  celle retenue le 29/07 : une carte sombre **contenue** est une ponctuation, une bande sombre
+  **pleine largeur** est un refrain — et ce refrain occupait la même position, avec la même
+  couleur, sur toutes les sous-pages. Le bandeau « problème » et le dégradé « actif stratégique »
+  passent en clair ; seule la carte du CTA final reste sombre.
+- **Un contraste corrigé au passage** : le `accent-400` du titre de l'actif stratégique passait
+  sur fond sombre ; sur fond clair il mesure **3,85:1** et échoue AA. Il devient `primary-700`
+  (5,02:1), qui reprend le titre bicolore des autres pages.
+
+⏳ **Reste ouvert sur cette page**, parce que ça dépend d'un arbitrage de copy : remonter
+l'explorateur de la Bibliothèque (le seul vrai moment interactif du site, enterré en 5ᵉ position),
+décider si le bloc Learn → Do → Match doit rester visuellement identique à celui de l'accueil, et
+la table Dreyfus qui scrolle horizontalement sous 560 px.
