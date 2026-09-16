@@ -357,8 +357,6 @@ export type {
   SortDirection,
 } from './patterns/DataTable';
 
-export { LessonCard } from './learning/LessonCard';
-export type { LessonCardProps, LessonDifficulty, LessonTone } from './learning/LessonCard';
 
 export { QuizQuestionCard } from './patterns/QuizQuestionCard';
 export type { QuizQuestionCardProps, QuizOption } from './patterns/QuizQuestionCard';
@@ -429,6 +427,5 @@ export type { StructuredQuestion, StructuredQuestionAccordionProps } from './ui/
 export { WritingPromptsAside } from './patterns/WritingPromptsAside';
 export type { WritingPrompt, WritingPromptsAsideProps } from './patterns/WritingPromptsAside';
 
-export { JournalTypeTile, JOURNAL_TYPE_ORDER } from './cards/JournalTypeTile';
 export { JournalBubbleCard } from './cards/JournalBubbleCard';
 export type { JournalBubbleType, JournalBubbleCardProps } from './cards/JournalBubbleCard';

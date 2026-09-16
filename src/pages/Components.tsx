@@ -95,7 +95,6 @@ import { ToastContainer } from '../components';
 import { useToast } from '../hooks/useToast';
 // Components not yet in main index — direct imports
 import { ProfileCard } from '../components/ui/ProfileCard';
-import { CourseCard } from '../components/learning/CourseCard';
 import { LearningItemCard } from '../components/learning/LearningItemCard';
 // SurfaceCard deprecated → use <Card variant="default|elevated|glass|bordered|muted|sunken">
 import { ResourceCard } from '../components/ui/ResourceCard';
@@ -112,11 +111,9 @@ import { LearningPathGrid } from '../components/patterns/LearningPathGrid';
 // (LearningPathHeader deprecated → use HeroSection variant="gradient" with size="lg" showBackButton progress)
 import { MultiStepForm } from '../components/patterns/MultiStepForm';
 import { PageCard } from '../components/patterns/PageCard';
-import { LessonCard } from '../components/learning/LessonCard';
 import { ResumeLessonCard } from '../components/patterns/ResumeLessonCard';
 import { SessionCard } from '../components/learning/SessionCard';
 import { ArticleCard } from '../components/learning/ArticleCard';
-import { MagazineCard } from '../components/learning/MagazineCard';
 import { PromptCard } from '../components/learning/PromptCard';
 import { VideoCard } from '../components/learning/VideoCard';
 import { MoodSelector } from '../components/ui/MoodSelector';
@@ -124,7 +121,6 @@ import type { MoodLevel } from '../components/ui/MoodSelector';
 import { JournalChatCompose } from '../components/ui/JournalChatCompose';
 import { StructuredQuestionAccordion } from '../components/ui/StructuredQuestionAccordion';
 import { WritingPromptsAside } from '../components/patterns/WritingPromptsAside';
-import { JournalTypeTile, JOURNAL_TYPE_ORDER } from '../components/cards/JournalTypeTile';
 import { JournalBubbleCard } from '../components/cards/JournalBubbleCard';
 import type { JournalBubbleType } from '../components/cards/JournalBubbleCard';
 import { RankingCard } from '../components/learning/RankingCard';
@@ -3903,35 +3899,6 @@ const COMPONENTS: ComponentEntry[] = [
       </div>
     ),
   },
-
-  /* ---- CORE CARDS (additional) ----------------------------------------- */
-  {
-    name: 'CourseCard',
-    codeName: 'learning/CourseCard.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    usedBy: ['LearningPaths', 'CourseDetail'],
-    description: 'Carte de cours EDTECH — gradient hero + badge catégorie + progression (si inscrit) + CTA Enroll/Continue. **Tone-aware border + shadow au repos** (Phase 19 fix) : `brand-xs` teal / `warm-xs` orange / `sun-xs` golden au lieu du shadow neutre. Hover `brand/warm/sun-md` selon tone. 3 tones : brand/warm/sun auto-assignés par catégorie. CTA button : gradient tone-aware shadow-sm → shadow-md hover.',
-    keywords: ['course', 'card', 'enroll', 'progress', 'learning', 'edtech', 'category', 'tone'],
-    render: () => (
-      <div className="grid-2">
-        <CourseCard
-          title="Prompt Engineering Avancé"
-          category="Design"
-          tone="warm"
-          enrolled={false}
-          onEnroll={() => {}}
-        />
-        <CourseCard
-          title="React & Design Systems"
-          category="React"
-          tone="brand"
-          enrolled={true}
-          progress={67}
-          onContinue={() => {}}
-        />
-      </div>
-    ),
-  },
   {
     name: 'ParcoursCard',
     codeName: 'patterns/ParcoursCard.tsx',
@@ -5275,75 +5242,6 @@ const COMPONENTS: ComponentEntry[] = [
   },
 
   {
-    name: 'LessonCard',
-    codeName: 'learning/LessonCard.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: 'Card de leçon tone-aware avec barre de progression, badge de difficulté, états locked/unlocked. **Tone-aware progress fill** (Phase 19 fix) : `brand` fill pour primary, `warm` pour warm, `sun` pour sun. Double-bezel overlay sur lock. CTA arrow translateX au hover. Surfaces : card / tinted / glass / frosted. Tones : primary / warm / sun. Hover shadow teinté (brand/warm/sun-md).',
-    keywords: ['lesson', 'leçon', 'progress', 'difficulty', 'locked', 'tone', 'glow', 'hover', 'card', 'learning'],
-    render: () => (
-      <div className="flex flex-col gap-section">
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Unlocked — 3 tones</p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-stack">
-          <LessonCard
-            title="Introduction au microlearning"
-            description="Comprendre les fondements cognitifs de l'apprentissage court et son impact sur la mémorisation durable."
-            progress={0}
-            duration="15 min"
-            difficulty="beginner"
-            instructor="M. Dupont"
-            tone="primary"
-            surface="card"
-            onClick={() => {}}
-          />
-          <LessonCard
-            title="Feedback et ancrage mémoriel"
-            description="Comment le feedback immédiat renforce les connexions neuronales et accélère la consolidation."
-            progress={62}
-            duration="20 min"
-            difficulty="intermediate"
-            tone="warm"
-            surface="tinted"
-            onClick={() => {}}
-          />
-          <LessonCard
-            title="Biais cognitifs & décisions"
-            description="Cartographie des biais les plus impactants en contexte professionnel. Exercices de détection."
-            progress={100}
-            duration="25 min"
-            difficulty="advanced"
-            instructor="Dr. Martin"
-            tone="sun"
-            surface="card"
-            onClick={() => {}}
-          />
-        </div>
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mt-stack">Locked — double-bezel overlay</p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-stack max-w-2xl">
-          <LessonCard
-            title="Neurosciences de l'apprentissage"
-            description="Module avancé — nécessite de compléter les modules précédents."
-            progress={0}
-            duration="30 min"
-            difficulty="advanced"
-            tone="primary"
-            locked
-          />
-          <LessonCard
-            title="Pédagogie inversée (Flipped Classroom)"
-            description="Techniques de mise en pratique du modèle inversé en contexte corporate."
-            progress={0}
-            duration="40 min"
-            difficulty="intermediate"
-            tone="warm"
-            surface="tinted"
-            locked
-          />
-        </div>
-      </div>
-    ),
-  },
-
-  {
     name: 'LearningItemCard',
     codeName: 'learning/LearningItemCard.tsx',
     cssBase: 'Tailwind (no BEM)',
@@ -5377,9 +5275,9 @@ const COMPONENTS: ComponentEntry[] = [
 
   {
     name: 'EditorialCard',
-    codeName: 'learning/ArticleCard.tsx · learning/MagazineCard.tsx · learning/VideoCard.tsx',
+    codeName: 'learning/ArticleCard.tsx · learning/VideoCard.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: 'Card éditoriale multi-format. **ArticleCard** : actu / tutoriel / dossier — icon bubble tone-aware + eyebrow + title + summary + footer. **MagazineCard** : numéros Magazine TLS — gradient cover + n° filigrane + CTA. **VideoCard** : vidéo thumbnail tone-aware + play overlay + duration badge. 3–4 tones (primary/warm/sun/brand). Wrapper sur `<Card variant="feature">`.',
+    description: 'Card éditoriale multi-format. **ArticleCard** : actu / tutoriel / dossier — icon bubble tone-aware + eyebrow + title + summary + footer. **VideoCard** : vidéo thumbnail tone-aware + play overlay + duration badge. 3–4 tones (primary/warm/sun/brand). Wrapper sur `<Card variant="feature">`.',
     keywords: ['article', 'editorial', 'actu', 'tutoriel', 'dossier', 'magazine', 'bookmark', 'tone', 'video', 'thumbnail', 'play'],
     render: () => (
       <div className="flex flex-col gap-section">
@@ -5418,47 +5316,6 @@ const COMPONENTS: ComponentEntry[] = [
             onSave={() => {}}
             onClick={() => {}}
             onRead={() => {}}
-          />
-        </div>
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mt-stack">MagazineCard — numéros magazine</p>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-stack max-w-medium">
-          <MagazineCard
-            title="Tendances EdTech 2026"
-            issueNumber={14}
-            articleCount={12}
-            publishedAt="Mai 2026"
-            tone="primary"
-            onClick={() => {}}
-            onSave={() => {}}
-          />
-          <MagazineCard
-            title="L'IA au cœur de la formation"
-            description="56 pages de recherches et analyses."
-            issueNumber={13}
-            articleCount={8}
-            publishedAt="Avril 2026"
-            tone="warm"
-            isSaved={true}
-            onClick={() => {}}
-            onSave={() => {}}
-          />
-          <MagazineCard
-            title="Leadership & Soft Skills"
-            issueNumber={12}
-            articleCount={10}
-            publishedAt="Mars 2026"
-            tone="sun"
-            onClick={() => {}}
-            onSave={() => {}}
-          />
-          <MagazineCard
-            title="Futur du travail"
-            issueNumber={11}
-            articleCount={9}
-            publishedAt="Fév. 2026"
-            tone="brand"
-            onClick={() => {}}
-            onSave={() => {}}
           />
         </div>
         <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mt-stack">VideoCard — vidéos standalone</p>
@@ -5506,7 +5363,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'learning/PromptCard.tsx',
     cssBase: 'Tailwind (chat bubble pattern)',
     usedBy: ['Dashboard'],
-    description: '⭐ Card chat-bubble (Apple Messages style) pour les prompts d\'invitation à l\'action sur le Dashboard. Icon + label eyebrow + text body + speech bubble tail + hover tinted bg. 7 variants BadgeVariant (brand/warm/sun/info/neutral/success/danger). 2 sizes : `default` (compact grid) ou `featured` (hero dashboard). ⚠️ **Similaire à `JournalEntryCard`** — chat-bubble sibling (l\'un pour CTA prompts, l\'autre pour entries journal). Garder séparés (use cases distincts).',
+    description: '⭐ Card chat-bubble (Apple Messages style) pour les prompts d\'invitation à l\'action sur le Dashboard. Icon + label eyebrow + text body + speech bubble tail + hover tinted bg. 7 variants BadgeVariant (brand/warm/sun/info/neutral/success/danger). 2 sizes : `default` (compact grid) ou `featured` (hero dashboard).',
     keywords: ['prompt', 'chat-bubble', 'speech', 'invitation', 'cta', 'dashboard'],
     render: () => (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-stack max-w-content">
@@ -5532,7 +5389,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'ui/MessageBubble.tsx',
     cssBase: 'Tailwind',
     usedBy: ['ChatInterface', 'Messages'],
-    description: '⭐ Bulle de message réutilisable pour chats et messagerie. 2 variants : `user` (aligné droite) et `assistant` (aligné gauche + avatar). 2 contextes : `chatbot` (fond soft primary-100/ink-50, radius 2xl) et `messaging` (filled primary-500/white, radius xl + shadow). Fonctionnalités AI chatbot : score de confiance (< 0.6 → banner warning), privacy block, citations de sources pills, feedback thumbs-up/down. Messagerie : read receipt `showReadReceipt`, nom expéditeur, slot `children` pour pièces jointes. Markdown léger (**bold**, newlines). ⚠️ Similaire à `PromptCard`/`JournalEntryCard` — eux sont standalone cards cliquables, MessageBubble est un élément de thread.',
+    description: '⭐ Bulle de message réutilisable pour chats et messagerie. 2 variants : `user` (aligné droite) et `assistant` (aligné gauche + avatar). 2 contextes : `chatbot` (fond soft primary-100/ink-50, radius 2xl) et `messaging` (filled primary-500/white, radius xl + shadow). Fonctionnalités AI chatbot : score de confiance (< 0.6 → banner warning), privacy block, citations de sources pills, feedback thumbs-up/down. Messagerie : read receipt `showReadReceipt`, nom expéditeur, slot `children` pour pièces jointes. Markdown léger (**bold**, newlines). ⚠️ Similaire à `PromptCard` — lui est une card standalone cliquable, MessageBubble est un élément de thread.',
     keywords: ['message', 'bubble', 'chat', 'chatbot', 'messaging', 'assistant', 'user', 'conversation', 'coaching'],
     render: () => (
       <div className="flex flex-col gap-section max-w-2xl">
@@ -7152,34 +7009,10 @@ const COMPONENTS: ComponentEntry[] = [
   },
 
   {
-    name: 'JournalTypeTile',
-    codeName: 'cards/JournalTypeTile.tsx',
-    cssBase: 'JournalTypeTile',
-    description: 'Tuile de sélection du type d\'entrée journal (5 types : réflexion libre, apprentissage, pratique pro, coaching, eurêka). Icône Lucide + label + check badge coloré quand sélectionné. `selected` = bordure colorée + bg teinté + rounded-pill check badge. Utiliser avec `JOURNAL_TYPE_ORDER` pour l\'ordre canonique.',
-    keywords: ['journal', 'entry', 'type', 'tile', 'select', 'reflexion', 'apprentissage', 'coaching', 'eureka'],
-    usedBy: ['JournalNewEntry'],
-    render: () => {
-      const [selected, setSelected] = React.useState<string>('apprentissage');
-      return (
-        <div className="grid grid-cols-3 gap-stack-xs max-w-lg">
-          {JOURNAL_TYPE_ORDER.map((type) => (
-            <JournalTypeTile
-              key={type}
-              type={type}
-              selected={selected === type}
-              onClick={() => setSelected(type)}
-            />
-          ))}
-        </div>
-      );
-    },
-  },
-
-  {
     name: 'JournalBubbleCard',
     codeName: 'cards/JournalBubbleCard.tsx',
     cssBase: 'JournalBubbleCard',
-    description: 'Bulle Apple Messages pour afficher les entrées journal dans la liste. Surface tintée par type, queue speech-bubble bas-droite, badge type pill, actions glass-light. 7 types : guided / free / learning / coaching / insight / questionnaire / compte-rendu. Distinct de JournalEntryCard (layout traditionnel card).',
+    description: 'Bulle Apple Messages pour afficher les entrées journal dans la liste. Surface tintée par type, queue speech-bubble bas-droite, badge type pill, actions glass-light. 7 types : guided / free / learning / coaching / insight / questionnaire / compte-rendu.',
     keywords: ['journal', 'bubble', 'chat', 'entry', 'apple-messages', 'speech-bubble', 'glass-light', 'JournalBubbleType'],
     usedBy: ['Journal'],
     render: () => (

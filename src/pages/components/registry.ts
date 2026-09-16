@@ -81,13 +81,11 @@ export const SUBCATEGORY_ORDER: Record<Category, string[]> = {
  *
  * Le showcase ne suit pas la règle « un export = une entrée » : certaines
  * entrées présentent délibérément plusieurs composants d'un coup (EditorialCard
- * montre ArticleCard + MagazineCard + VideoCard ; AuthShell montre toute sa
  * famille). Sans cette table, le contrôle de couverture compte ces composants
  * comme absents alors qu'ils sont bien à l'écran.
  */
 export const COVERED_BY: Record<string, string> = {
   ArticleCard: 'EditorialCard',
-  MagazineCard: 'EditorialCard',
   VideoCard: 'EditorialCard',
   StatusBadge: 'Badge',
   Steps: 'Stepper',
@@ -302,7 +300,6 @@ export const CATALOG: Record<string, CatalogMeta> = {
   AppBreadcrumb:        { category: 'Navigation', subCategory: 'Secondary nav' },
   ViewerOverlay:        { category: 'Headers & Sections', subCategory: 'Section wrappers' },
   StepCard:             { category: 'Cards', subCategory: 'Learning content' },
-  LessonCard:           { category: 'Cards', subCategory: 'Learning content' },
   LearningItemCard:     { category: 'Cards', subCategory: 'Learning content' },
 
   // ── FEEDBACK ──────────────────────────────────────────────────────────
@@ -334,7 +331,6 @@ export const CATALOG: Record<string, CatalogMeta> = {
   IconFeatureCard:      { category: 'Cards', subCategory: 'Generic' },
   ProfileCard:          { category: 'Cards', subCategory: 'Generic' },
   ResourceCard:         { category: 'Cards', subCategory: 'Generic' },
-  CourseCard:           { category: 'Cards', subCategory: 'Generic' },
   PageCard:             { category: 'Cards', subCategory: 'Generic' },
   StatCard:             { category: 'Cards', subCategory: 'KPI & Stats' },
   // 'TLS KPI Pattern' supprimé — redondant avec StatCard
@@ -343,9 +339,7 @@ export const CATALOG: Record<string, CatalogMeta> = {
   MessageBubble:        { category: 'Cards', subCategory: 'Communication' },
   ConversationalChat:   { category: 'Lists & Feeds', subCategory: 'Feeds (chronological)' },
   PromptCard:           { category: 'Cards', subCategory: 'Communication' },
-  JournalEntryCard:     { category: 'Cards', subCategory: 'Communication' },
   JournalBubbleCard:    { category: 'Cards', subCategory: 'Communication' },
-  JournalTypeTile:      { category: 'Cards', subCategory: 'Communication' },
   NotificationCard:     { category: 'Cards', subCategory: 'Communication' },
   // Journal Form components
   MoodSelector:             { category: 'Forms', subCategory: 'Inputs' },
@@ -361,8 +355,6 @@ export const CATALOG: Record<string, CatalogMeta> = {
 
   // Editorial content
   EditorialCard:        { category: 'Cards', subCategory: 'Editorial content' },
-  // ArticleCard → renommé EditorialCard (absorbe MagazineCard + VideoCard)
-  // MagazineCard supprimé — fusionné dans EditorialCard
   // VideoCard supprimé — fusionné dans EditorialCard
 
   // Domain

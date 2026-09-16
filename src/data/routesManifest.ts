@@ -779,7 +779,6 @@ export const ROUTES: RouteEntry[] = [
     "linkedFrom": [
       "App.tsx",
       "components/cards/JournalBubbleCard.tsx",
-      "components/cards/JournalEntryCard.tsx"
     ]
   },
   {

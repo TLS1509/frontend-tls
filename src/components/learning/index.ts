@@ -18,8 +18,6 @@ export type { ProjectCardProps } from './ProjectCard';
 
 // MessageThreadCard supprimé Phase 10 — utiliser le rendering chat-like custom de Messages.tsx
 
-export { MagazineCard } from './MagazineCard';
-export type { MagazineCardProps } from './MagazineCard';
 
 export { VideoCard } from './VideoCard';
 export type { VideoCardProps } from './VideoCard';
@@ -30,5 +28,3 @@ export type { AstucesCardProps } from './AstucesCard';
 export { ResourceListItem } from './ResourceListItem';
 export type { ResourceListItemProps } from './ResourceListItem';
 
-export { CourseCard } from './CourseCard';
-export type { CourseCardProps, CourseCardTone } from './CourseCard';
