@@ -123,7 +123,7 @@ Storyset et unDraw livrent des SVG recolorisables en Tailwind (`text-primary-500
 
 | Outil | Ce qu'il génère | Comment l'utiliser TLS |
 |---|---|---|
-| **[Haikei](https://haikei.app)** | Blobs, vagues, mesh-gradients, low-poly, stacked waves — en SVG. | Entrer `#4A8FA1` (teal) + `#ED843A` (orange) + `#FFF3EB` (crème). Idéal hero sections, fonds de slides. |
+| **[Haikei](https://haikei.app)** | Blobs, vagues, mesh-gradients, low-poly, stacked waves — en SVG. | **Une famille = une couleur sur SA propre teinte 50.** teal `#55A1B4` sur `#E8F4F7` · orange `#ED843A` sur `#FFF3EB` · doré **`#C68D36`** sur `#FFF9EE`. ⚠️ Pour le doré, partir d'`accent-600`, PAS d'`accent-400` (`#F8B044`) : trop clair, il disparaît sur toute teinte 50 (1,78 contre 2,76). Corrigé le 16.09.2026. |
 | **[SVG Backgrounds](https://www.svgbackgrounds.com)** | 250+ patterns SVG (topographie, pointillés, grilles...). | Choisir des motifs minimalistes (dots, subtle lines). Couleur → teal 10% opacity sur fond crème. |
 | **[Paaatterns](https://products.ls.graphics/paaatterns/)** | Patterns géométriques modulaires, téléchargeables SVG/PNG. | Pour des fonds de cards ou sections "Education". |
 | **[Visiwig](https://www.visiwig.com/patterns/)** | Patterns vectoriels simples. Gratuit + usage commercial. | Textures discrètes pour fond de slide ou email. |
