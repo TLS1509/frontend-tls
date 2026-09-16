@@ -1,5 +1,24 @@
 # Organisation par les compétences (SBO) : guide pour les OF et les ETI françaises
 
+> ## 🗄️ Archivé le 2026-09-16 — jamais publié
+>
+> Écrit le 10/06/2026. **Trois raisons, dont son propre en-tête :**
+>
+> - il se déclare lui-même **« DRAFT IA — à valider par Chloé avant publication »**,
+>   et cette validation n'a jamais eu lieu ;
+> - son CTA pointe vers **`/conseil`** — une route qui n'existe pas, et un mot
+>   abandonné le 31/08 (`FACTS-CANON` **D8** : « conseil » → « studio ») ;
+> - aucun article publié ne porte ce slug (vérifié dans `src/data/marketingArticles.ts`).
+>
+> Il appartient au corpus marketing de juin produit par IA, dont le reste a été
+> archivé le 28/07 — même génération, même statut.
+>
+> **Ce qu'il garde de valeur** : sa structure d'article pilier SEO et sa liste de
+> sources (Deloitte, WEF, Workday, iMocha, France Compétences). ⚠️ Ces sources
+> sont annoncées « toutes vérifiées » **par le brouillon lui-même** : à
+> re-vérifier de première main avant tout réemploi.
+
+
 > **Mot-clé cible :** `organisation par les compétences` / `skills-based organization france`
 > **Mots-clés secondaires :** SBO RH, gestion par compétences ETI, passeport de compétences, mobilité interne compétences
 > **Intention :** informationnel, audience DRH / L&D ETI + OF en transformation
