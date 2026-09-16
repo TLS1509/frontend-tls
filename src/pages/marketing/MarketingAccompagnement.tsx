@@ -76,7 +76,7 @@ const Hero: React.FC = () => {
         >
           <p className="inline-flex w-fit items-center gap-2 rounded-pill bg-primary-100 px-4 py-1.5 font-body text-caption font-bold text-primary-800 m-0">
             <Compass size={14} />
-            Conseil &amp; transformation SBO
+            Méthode &amp; transformation SBO
           </p>
           <h1 className="font-display text-hero text-ink-900 [text-wrap:balance]">
             La méthode STRIDE : opérez votre transition SBO et{' '}

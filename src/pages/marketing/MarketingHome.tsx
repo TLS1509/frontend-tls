@@ -76,7 +76,7 @@ const Hero: React.FC = () => {
         >
           <p className="flex items-center gap-stack-xs font-body text-body-sm font-bold text-primary-800 m-0">
             <span aria-hidden className="h-px w-10 bg-secondary-500" />
-            Cabinet de conseil &amp; studio expert en Skills-Based Organization
+            Studio expert en Skills-Based Organization
           </p>
 
           <h1
@@ -93,9 +93,9 @@ const Hero: React.FC = () => {
 
           <p className="font-body text-lede text-ink-700 m-0 max-w-[58ch] [text-wrap:pretty]">
             Nous accompagnons les organisations dans leur transition vers un
-            modèle centré sur les compétences. Conseil stratégique, création
-            pédagogique sur-mesure et Intelligence Artificielle pour aligner
-            enfin vos talents avec vos enjeux business.
+            modèle centré sur les compétences. Ingénierie pédagogique, agents
+            IA et transformation des organisations pour aligner enfin vos
+            talents avec vos enjeux business.
           </p>
 
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs">
@@ -119,7 +119,7 @@ const Hero: React.FC = () => {
 // se lit plus sous le titre mais à côté — c'est ce qui distingue une page
 // éditoriale d'un empilement de blocs.
 
-const BENEFICES = ['Agilité décuplée', 'Capital humain révélé', 'Symbiose Humain-IA'];
+const BENEFICES = ['Agilité retrouvée', 'Capital humain révélé', 'Symbiose Humain-IA'];
 
 const Manifeste: React.FC = () => (
   <section>
@@ -127,7 +127,8 @@ const Manifeste: React.FC = () => (
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-flow items-start">
         <FadeInWhenVisible className="lg:col-span-6">
           <h2 className="font-display text-section text-ink-900 [text-wrap:balance]">
-            Le poste est mort. L'avenir appartient aux compétences.
+            La fiche de poste ne suffit plus. L'avenir appartient aux
+            compétences.
           </h2>
         </FadeInWhenVisible>
         <FadeInWhenVisible delay={0.08} className="lg:col-span-6 lg:pt-2">
@@ -182,7 +183,7 @@ const ETAPES = [
     verbe: 'Match',
     sousTitre: 'Allouer',
     detail:
-      'Passeport de compétences dynamique et agents IA pour recommander la meilleure allocation de talents sur les futurs projets.',
+      "Passeport de compétences dynamique aujourd'hui ; demain, des agents IA qui recommanderont la meilleure allocation de talents sur vos projets.",
   },
 ];
 
@@ -228,15 +229,16 @@ const Moteur: React.FC = () => (
 
 type Offre = { title: string; role: string; desc: string; link: string; cta: string };
 
+// ⚠️ STRIDE a quitté cette liste le 16/09/2026. `FACTS-CANON` D10 la gèle
+// « pour 2027, cible 2028 » : une page d'accueil ne peut pas ouvrir son
+// écosystème d'offres sur une prestation qui ne se vend plus, et dont la page
+// d'arrivée ne prend plus de commande depuis le même jour. Elle reparaît plus
+// bas comme ce qu'elle est devenue — la méthode, pas l'offre.
+//
+// Ce qui manque encore ici et attend une page : le Pack Sprint OS & Agents IA
+// (l'offre Studio vendable qui remplace STRIDE) et la Marketplace Notion. Les
+// deux ont une fiche dans la base Website pages, aucune n'a de route.
 const OFFRES: Offre[] = [
-  {
-    title: 'Accompagnement STRIDE',
-    role: 'Audit & stratégie',
-    desc:
-      'La méthode en 6 étapes pour cadrer votre transition SBO et déployer vos premières solutions IA, avec des livrables tangibles à chaque jalon.',
-    link: '/website/accompagnement',
-    cta: 'Découvrir la méthode STRIDE',
-  },
   {
     title: 'Le Studio IA & Pédagogie',
     role: 'Production & déploiement',
@@ -298,10 +300,26 @@ const Ecosysteme: React.FC = () => (
         ))}
       </ul>
 
-      {/* Learning App — le seul item qui change de registre, parce qu'il change
-          de nature : les trois au-dessus sont des prestations, celui-ci est un
-          produit. Teinté plutôt que sombre : la page ne garde qu'un seul fond
-          sombre, et c'est le CTA final. */}
+      {/* La méthode, séparée des offres. STRIDE vivait au-dessus comme une
+          prestation ; depuis D10 elle est gelée, et ce qu'il en reste est ce
+          qui a toujours fait sa valeur : la séquence. */}
+      <FadeInWhenVisible delay={0.06}>
+        <p className="font-body text-body text-ink-600 leading-relaxed m-0 border-t border-ink-200 pt-flow">
+          Ces deux chantiers s'appuient sur la même séquence en six étapes —{' '}
+          <Link
+            to="/website/accompagnement"
+            className="font-semibold text-primary-700 underline underline-offset-4 decoration-primary-200 hover:decoration-primary-700 transition-colors duration-base"
+          >
+            la méthode STRIDE
+          </Link>
+          .
+        </p>
+      </FadeInWhenVisible>
+
+      {/* Learning App — change de registre parce qu'elle change de nature : les
+          deux au-dessus sont des prestations, celle-ci est l'outil qui les
+          ancre. D11 (31/08) la retire du modèle d'abonnement — le texte ne
+          promet donc plus de « passer à l'échelle », il dit ce qu'elle fait. */}
       <FadeInWhenVisible delay={0.1}>
         <Link
           to="/website/learning-app"
@@ -309,12 +327,12 @@ const Ecosysteme: React.FC = () => (
         >
           <div className="flex flex-col gap-group max-w-2xl">
             <h3 className="font-display text-title text-ink-900 [text-wrap:balance]">
-              Passez à l'échelle avec la Learning App TLS.
+              Ce qui a été appris ne se perd pas.
             </h3>
             <p className="font-body text-body text-ink-600 leading-relaxed m-0">
               Veille continue, apprentissage par l'action et Passeport de
-              compétences vivant : le logiciel qui opère votre modèle SBO au
-              quotidien.
+              compétences vivant : la Learning App ancre les compétences
+              acquises et les rend mesurables dans la durée.
             </p>
           </div>
           <span className="inline-flex shrink-0 items-center gap-1.5 font-body text-body-sm font-semibold text-primary-700">
@@ -451,7 +469,7 @@ const DoubleCta: React.FC = () => {
               <div className="lg:col-span-4 lg:col-start-9 flex flex-col gap-flow border-t lg:border-t-0 lg:border-l border-white/15 pt-flow lg:pt-0 lg:pl-flow">
                 <div className="flex flex-col gap-group">
                   <h3 className="font-display text-feature text-white">
-                    Pas encore prêt ? Restez en veille.
+                    Restez en veille.
                   </h3>
                   <p className="font-body text-body text-white/70 leading-relaxed m-0">
                     Abonnez-vous à La Vigie IA pour recevoir nos meilleures
@@ -500,8 +518,8 @@ const DoubleCta: React.FC = () => {
 export const MarketingHome: React.FC = () => (
   <>
     <SEOHead
-      title="The Learning Society · Cabinet de conseil & studio expert en Skills-Based Organization"
-      description="Ne formez plus pour former. Conseil stratégique, création pédagogique sur-mesure et IA pour transformer votre organisation en Skills-Based Organization."
+      title="The Learning Society · Studio expert en Skills-Based Organization"
+      description="Ne formez plus pour former. Ingénierie pédagogique, agents IA et transformation des organisations pour bâtir votre Skills-Based Organization."
       canonical="/website"
       schema={{
         '@context': 'https://schema.org',
@@ -510,7 +528,7 @@ export const MarketingHome: React.FC = () => (
         url: 'https://thelearningsociety.fr',
         logo: 'https://thelearningsociety.fr/favicon.svg',
         description:
-          'Cabinet de conseil et studio expert en Skills-Based Organization : conseil stratégique STRIDE, studio IA & pédagogie, upskilling et Learning App.',
+          'Studio expert en Skills-Based Organization : studio IA & pédagogie, upskilling sur-mesure, et la Learning App qui ancre les compétences acquises.',
         foundingYear: 2022,
         address: {
           '@type': 'PostalAddress',

@@ -80,7 +80,7 @@ const Adn: React.FC = () => (
             transformation.
           </h2>
           <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-3xl">
-            Ni cabinet de conseil traditionnel, ni éditeur de logiciel
+            Ni cabinet traditionnel, ni éditeur de logiciel
             impersonnel : vous échangez directement avec les concepteurs de la
             méthode et de la plateforme.
           </p>

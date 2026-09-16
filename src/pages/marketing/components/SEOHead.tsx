@@ -15,7 +15,7 @@ const BASE_URL = 'https://thelearningsociety.fr';
 // tout le site sauf l'accueil. Aligné sur le positionnement arbitré
 // (FACTS-CANON C1).
 const DEFAULT_DESCRIPTION =
-  'The Learning Society : cabinet de conseil et studio expert en Skills-Based Organization. Conseil stratégique, création pédagogique sur-mesure et IA pour aligner les compétences sur les enjeux business.';
+  'The Learning Society : studio expert en Skills-Based Organization. Ingénierie pédagogique, agents IA et transformation des organisations pour aligner les compétences sur les enjeux business.';
 const DEFAULT_OG_IMAGE = `${BASE_URL}/og-image.svg`;
 const TWITTER_HANDLE = '@thelearningsociety';
 // Une seule graphie. Ce fichier portait `the-learning-society`, le schéma de
