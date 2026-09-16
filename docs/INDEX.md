@@ -16,7 +16,8 @@
 |---------|---|---|---|
 | [product/PRODUCT.md](../PRODUCT.md) | Config projet, version, routes | — | Démarrer une session, setup MCP |
 | [product/DESIGN.md](../DESIGN.md) | Design system Tailwind, patterns | — | Vérifier tokens, conventions styling |
-| [_canon/FACTS-CANON.md](_canon/FACTS-CANON.md) | **Faits validés TLS** (offres, prix, badge, registre) | — | **Toute session marketing / site : lire EN PREMIER** |
+| [_canon/FACTS-CANON.md](_canon/FACTS-CANON.md) | **Faits validés TLS** — 10 interdits, décisions datées de Chloé, ce que dit le code. **Révisé le 16/09 : le pivot du 31/08 y entre** (D8→D13), et une violation vivante de X10 y est notée | 16/09/2026 | **Toute session marketing / site : lire EN PREMIER** |
+| [_canon/DECISION-FONDS-ET-TEXTURES.md](_canon/DECISION-FONDS-ET-TEXTURES.md) | Les 17 fonds SVG n'entrent pas dans le DS — et pourquoi les vagues non plus | — | Avant d'ajouter un motif décoratif au design system |
 
 ---
 
