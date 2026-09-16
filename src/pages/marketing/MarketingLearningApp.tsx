@@ -565,7 +565,7 @@ const ActifStrategique: React.FC = () => (
         </div>
         <FadeInWhenVisible delay={0.1} className="lg:col-span-5">
           <div className="flex flex-col gap-stack rounded-lg bg-white/10 p-stack-lg">
-            <h3 className="font-display text-h4 font-bold text-white leading-tight">
+            <h3 className="font-display text-h4 font-bold text-white">
               Du Skills-Based au Matching Projets
             </h3>
             <p className="font-body text-body-sm text-white/75 m-0">

@@ -216,7 +216,7 @@ export const MarketingGuideDetail: React.FC = () => {
                       <span className="inline-flex items-center gap-tight font-body text-caption text-ink-500">
                         <FileText size={14} /> {g.pageCount} pages
                       </span>
-                      <h3 className="font-display text-body font-semibold font-bold text-ink-900 leading-tight group-hover:text-secondary-700 transition-colors duration-base">
+                      <h3 className="font-display text-body font-semibold font-bold text-ink-900 group-hover:text-secondary-700 transition-colors duration-base">
                         {g.title}
                       </h3>
                       <div className="inline-flex items-center gap-tight font-body text-caption font-bold text-secondary-700 mt-auto pt-stack border-t border-ink-100">

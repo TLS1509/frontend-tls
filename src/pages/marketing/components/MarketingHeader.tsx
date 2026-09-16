@@ -236,7 +236,7 @@ export const MarketingHeader: React.FC = () => {
               aria-label="The Learning Society: Accueil"
             >
               <TlsLogo variant="primary" size={30} className="transition-transform duration-base ease-emphasis group-hover:scale-105" />
-              <span className="hidden font-display text-body-sm font-extrabold leading-none tracking-tight text-primary-700 whitespace-nowrap xl:block">
+              <span className="hidden font-display text-body-sm font-extrabold tracking-tight text-primary-700 whitespace-nowrap xl:block">
                 The Learning Society
               </span>
             </Link>
@@ -318,7 +318,7 @@ export const MarketingHeader: React.FC = () => {
                                   </span>
                                   <div className="flex min-w-0 flex-1 flex-col gap-0.5">
                                     <span
-                                      className={`font-display text-body-sm font-bold leading-tight ${
+                                      className={`font-display text-body-sm font-bold ${
                                         active ? 'text-primary-700' : 'text-ink-900'
                                       }`}
                                     >
@@ -487,7 +487,7 @@ export const MarketingHeader: React.FC = () => {
                                   >
                                     <span className="mt-0.5 shrink-0 text-primary-600">{d.icon}</span>
                                     <div className="flex min-w-0 flex-col gap-0.5">
-                                      <span className="font-body text-body-sm font-bold leading-tight">
+                                      <span className="font-body text-body-sm font-bold">
                                         {d.label}
                                       </span>
                                       <span className="font-body text-caption leading-snug text-ink-500">

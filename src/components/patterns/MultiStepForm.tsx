@@ -96,7 +96,7 @@ export const MultiStepForm: React.FC<MultiStepFormProps> = ({
                 <div className="text-center">
                   <span
                     className={[
-                      'block text-caption font-semibold leading-tight',
+                      'block text-caption font-semibold',
                       isActive ? 'text-ink-900' : isCompleted ? 'text-success-fg' : 'text-ink-500',
                     ].join(' ')}
                   >

@@ -404,7 +404,7 @@ export const Enterprise: React.FC = () => {
                       <Icon size={20} />
                     </span>
                     <div className="flex-1 min-w-0 flex flex-col gap-tight">
-                      <h3 className="font-display text-body-lg font-bold text-ink-900 leading-tight">
+                      <h3 className="font-display text-body-lg font-bold text-ink-900">
                         {r.title}
                       </h3>
                       <Badge variant="neutral">{r.period}</Badge>

@@ -288,11 +288,11 @@ export const VeilleCardListItem: React.FC<VeilleCardProps> = ({ item, surface, i
       <div className="flex-1 min-w-0 flex flex-col gap-tight p-4 @lg:p-5 justify-center">
         <div className="flex items-start gap-stack-xs min-w-0">
           {item.isNew && (
-            <span className="shrink-0 inline-flex px-2 py-0.5 rounded-pill bg-success-bg text-success-fg text-micro font-bold uppercase tracking-wide leading-none mt-px">
+            <span className="shrink-0 inline-flex px-2 py-0.5 rounded-pill bg-success-bg text-success-fg text-micro font-bold uppercase tracking-wide mt-px">
               Nouveau
             </span>
           )}
-          <h3 className="font-display text-body @lg:text-h4 font-bold text-ink-900 leading-tight line-clamp-2">
+          <h3 className="font-display text-body @lg:text-h4 font-bold text-ink-900 line-clamp-2">
             {item.title}
           </h3>
         </div>
@@ -393,7 +393,7 @@ export const FeaturedSpotlight: React.FC<FeaturedSpotlightProps> = ({ item, isSa
         <span className={['inline-flex items-center gap-stack-2xs self-start px-2.5 py-1 rounded-pill border text-micro font-bold uppercase tracking-wider', BADGE_STYLE[tone]].join(' ')}>
           <TypeIcon size={14} strokeWidth={2.5} /> {item.typeLabel} · {item.category}
         </span>
-        <h2 className="font-display text-h2 font-bold text-ink-900 leading-tight">
+        <h2 className="font-display text-h2 font-bold text-ink-900">
           {item.title}
         </h2>
         <p className="m-0 font-body text-body text-ink-700 line-clamp-3">

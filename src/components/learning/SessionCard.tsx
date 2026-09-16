@@ -143,7 +143,7 @@ export const SessionCard: React.FC<SessionCardProps> = ({
       <div className="flex flex-col gap-stack-xs">
         {/* Rôle status + date — une ligne, meta neutre */}
         <div className="flex items-center gap-stack-2xs flex-wrap">
-          <span className={`inline-flex items-center gap-stack-3xs rounded-pill pl-1.5 pr-2 py-0.5 text-micro font-bold uppercase tracking-label leading-tight ${st.chip}`}>
+          <span className={`inline-flex items-center gap-stack-3xs rounded-pill pl-1.5 pr-2 py-0.5 text-micro font-bold uppercase tracking-label ${st.chip}`}>
             {isCompleted
               ? <Check size={14} strokeWidth={2.5} aria-hidden />
               : <span className="w-1.5 h-1.5 rounded-pill bg-current" aria-hidden />}
@@ -161,8 +161,8 @@ export const SessionCard: React.FC<SessionCardProps> = ({
         <div className="flex items-center gap-stack-xs.5 pt-0.5">
           <Avatar size="sm" name={coachName} shape="circle" />
           <div className="min-w-0">
-            <p className="m-0 text-body-sm font-semibold text-ink-900 leading-tight truncate">{coachName}</p>
-            {coachRole && <p className="m-0 text-caption text-ink-500 leading-tight truncate">{coachRole}</p>}
+            <p className="m-0 text-body-sm font-semibold text-ink-900 truncate">{coachName}</p>
+            {coachRole && <p className="m-0 text-caption text-ink-500 truncate">{coachRole}</p>}
           </div>
         </div>
       </div>

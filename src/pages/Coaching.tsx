@@ -290,10 +290,10 @@ export const Coaching: React.FC = () => {
                 <div className="flex items-center gap-stack-xs p-stack rounded-xl bg-white/60 backdrop-blur-glass-light border border-white/60">
                   <Avatar initials="SM" size="sm" tint="brand" />
                   <div className="flex flex-col min-w-0 flex-1">
-                    <span className="font-display text-body-sm font-bold text-ink-900 leading-tight truncate">
+                    <span className="font-display text-body-sm font-bold text-ink-900 truncate">
                       {coach.name}
                     </span>
-                    <span className="font-body text-caption text-ink-600 leading-tight truncate">
+                    <span className="font-body text-caption text-ink-600 truncate">
                       {coach.role}
                     </span>
                   </div>
@@ -346,7 +346,7 @@ export const Coaching: React.FC = () => {
                   <p className="m-0 font-body text-caption font-medium text-primary-700">
                     Aucune session programmée
                   </p>
-                  <h2 className="font-display text-h2 font-bold text-ink-900 leading-tight tracking-headline">
+                  <h2 className="font-display text-h2 font-bold text-ink-900 tracking-headline">
                     Prêt(e) pour une nouvelle session ?
                   </h2>
                   <p className="m-0 font-body text-body text-ink-600 mt-stack-xs">

@@ -36,10 +36,10 @@ export const CoachRow: React.FC<CoachRowProps> = ({
     <div className={`flex flex-wrap items-center gap-stack-xs p-3 rounded-lg bg-white/60 backdrop-blur-glass-light border border-white/60 ${className}`}>
       <Avatar initials={coachInitials} size="sm" tint={tint} />
       <div className="flex flex-col min-w-0 flex-1">
-        <span className="font-display text-body-sm font-bold text-ink-900 leading-tight truncate">
+        <span className="font-display text-body-sm font-bold text-ink-900 truncate">
           {coachName}
         </span>
-        <span className="font-body text-caption text-ink-600 leading-tight truncate">
+        <span className="font-body text-caption text-ink-600 truncate">
           {coachRole}
         </span>
       </div>

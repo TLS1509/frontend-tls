@@ -145,13 +145,13 @@ export const VeilleFormatShortcutCards: React.FC<VeilleFormatShortcutCardsProps>
           {/* Text */}
           <span className="flex-1 min-w-0 flex flex-col gap-0">
             <span className={[
-              'font-body text-body-sm font-bold leading-tight',
+              'font-body text-body-sm font-bold',
               isDark ? 'text-white' : 'text-ink-900',
             ].join(' ')}>
               {title}
             </span>
             <span className={[
-              'font-body text-micro leading-tight',
+              'font-body text-micro',
               isDark ? 'text-white/60' : 'text-ink-600',
             ].join(' ')}>
               {subtitle}

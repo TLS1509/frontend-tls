@@ -572,7 +572,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
         {substep === 1 && (
           <>
             <div className="flex flex-col gap-tight">
-              <h2 className="font-display text-h2 text-ink-900 leading-tight">
+              <h2 className="font-display text-h2 text-ink-900">
                 Tes objectifs d'apprentissage
               </h2>
               <p className="font-body text-body text-ink-500 m-0">

@@ -220,7 +220,7 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
                     >
                       <span className="inline-flex items-center justify-center">{level.icon}</span>
                       <span
-                        className="text-caption font-bold text-center leading-tight text-ink-900"
+                        className="text-caption font-bold text-center text-ink-900"
                         style={{ color: isSelected ? level.color : undefined }}
                       >
                         {level.label}

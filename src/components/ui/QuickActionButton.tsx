@@ -128,7 +128,7 @@ export const QuickActionButton: React.FC<QuickActionButtonProps> = ({
 
       {/* Label + optional subtitle */}
       <span className="flex-1 min-w-0 flex flex-col gap-tight">
-        <span className="font-display text-body-sm font-bold text-ink-900 leading-tight truncate">
+        <span className="font-display text-body-sm font-bold text-ink-900 truncate">
           {label}
         </span>
         {subtitle && (

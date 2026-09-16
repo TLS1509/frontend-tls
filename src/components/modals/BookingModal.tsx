@@ -269,10 +269,10 @@ export const BookingModal: React.FC<BookingModalProps> = ({
           </div>
 
           <div className="flex-1 min-w-[180px]">
-            <h2 className="text-body font-bold text-ink-900 leading-tight">
+            <h2 className="text-body font-bold text-ink-900">
               Réserver une session
             </h2>
-            <p className="m-0 text-caption text-ink-600 leading-tight">
+            <p className="m-0 text-caption text-ink-600">
               {coachName} · 45 min
             </p>
           </div>
@@ -354,7 +354,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 <div>
                   <div className="flex items-center gap-stack-2xs mb-2">
                     <Clock size={14} className="text-primary-500 shrink-0" />
-                    <span className="text-caption font-bold text-ink-900 leading-tight">
+                    <span className="text-caption font-bold text-ink-900">
                       {selectedDate ? formatDateLabel(selectedDate) : 'Choisis une date'}
                     </span>
                   </div>
@@ -478,7 +478,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   </div>
                   <div className="flex-1 min-w-[180px]">
                     <p className="m-0 text-caption font-bold text-ink-900">Session</p>
-                    <p className="m-0 text-body-sm font-extrabold text-primary-600 leading-tight">
+                    <p className="m-0 text-body-sm font-extrabold text-primary-600">
                       {selectedDate && formatDateLabel(selectedDate)} · {selectedTime}
                     </p>
                   </div>
@@ -519,7 +519,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 ].map((info) => (
                   <div key={info.title} className="p-stack rounded-lg bg-ink-50 border border-ink-200">
                     <div className="text-primary-500 mb-1">{info.icon}</div>
-                    <p className="m-0 mb-0.5 text-caption font-bold text-ink-900 leading-tight">{info.title}</p>
+                    <p className="m-0 mb-0.5 text-caption font-bold text-ink-900">{info.title}</p>
                     <p className="m-0 text-micro text-ink-600 leading-snug">{info.body}</p>
                   </div>
                 ))}

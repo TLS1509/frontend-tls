@@ -106,7 +106,7 @@ export const BottomNav: React.FC = () => {
               </span>
               <span
                 className={[
-                  'font-body text-micro leading-none',
+                  'font-body text-micro',
                   active ? 'font-semibold' : 'font-normal',
                 ].join(' ')}
               >

@@ -72,7 +72,7 @@ export const HeatmapGrid: React.FC<HeatmapGridProps> = ({
                   key={axis}
                   className="px-3 py-3 text-center border-b border-ink-100 min-w-[80px]"
                 >
-                  <span className="text-caption font-semibold text-ink-600 block whitespace-normal leading-tight max-w-[80px]">
+                  <span className="text-caption font-semibold text-ink-600 block whitespace-normal max-w-[80px]">
                     {axis}
                   </span>
                 </th>

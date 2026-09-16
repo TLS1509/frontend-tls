@@ -99,7 +99,7 @@ export const Error404: React.FC = () => {
           transition={{ delay: 0.15, duration: 0.8, ease: [0.2, 0, 0, 1.1] }}
           style={{ x: codeX, y: codeY }}
           aria-hidden
-          className="font-display font-black tracking-tighter leading-none mb-stack-lg"
+          className="font-display font-black tracking-tighter mb-stack-lg"
         >
           <span className="block text-[clamp(7rem,20vw,14rem)] text-primary-500 drop-shadow-[0_2px_20px_rgba(85,161,180,0.18)]">
             404
@@ -144,7 +144,7 @@ export const Error404: React.FC = () => {
               className="flex flex-col items-center gap-stack-xs px-4 py-stack rounded-lg bg-white/80 border border-primary-100 hover:border-primary-300 hover:bg-white hover:shadow-sm transition-all min-h-touch cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 shadow-xs"
             >
               <span className="text-primary-500">{s.icon}</span>
-              <span className="font-body text-caption font-semibold text-ink-700 leading-tight text-center">{s.label}</span>
+              <span className="font-body text-caption font-semibold text-ink-700 text-center">{s.label}</span>
             </motion.button>
           ))}
         </motion.div>

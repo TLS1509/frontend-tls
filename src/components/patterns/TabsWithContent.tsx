@@ -90,7 +90,7 @@ export const TabsWithContent: React.FC<TabsWithContentProps> = ({
               {tab.badge !== undefined && (
                 <span
                   className={[
-                    'inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-pill text-micro font-bold leading-none',
+                    'inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-pill text-micro font-bold',
                     isActive
                       ? variant === 'boxed'
                         ? 'bg-white/30 text-white'

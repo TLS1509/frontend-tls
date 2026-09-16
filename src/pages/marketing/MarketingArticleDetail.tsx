@@ -524,7 +524,7 @@ export const MarketingArticleDetail: React.FC = () => {
                           {r.readTime}
                         </span>
                       </div>
-                      <h3 className="font-display text-body font-semibold font-bold text-ink-900 leading-tight group-hover:text-primary-700 transition-colors duration-base">
+                      <h3 className="font-display text-body font-semibold font-bold text-ink-900 group-hover:text-primary-700 transition-colors duration-base">
                         {r.title}
                       </h3>
                       <p className="font-body text-caption text-ink-500 m-0 line-clamp-3 flex-1">

@@ -175,7 +175,7 @@ export const ConsentBanner: React.FC<ConsentBannerProps> = ({
                     label={cat.label}
                   />
                   <div className="flex flex-col gap-tight flex-1">
-                    <span className="text-body-sm font-semibold text-ink-900 leading-tight">
+                    <span className="text-body-sm font-semibold text-ink-900">
                       {cat.label}
                       {cat.required && (
                         <span className="ml-1 text-micro text-ink-600 font-normal">(obligatoire)</span>

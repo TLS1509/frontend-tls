@@ -103,7 +103,7 @@ const Probleme: React.FC = () => (
             <FadeInWhenVisible key={f.title} delay={i * 0.08}>
               <div className="border-t border-white/15 py-stack-lg first:border-t-0">
                 <div className="flex flex-col gap-stack-xs">
-                  <h3 className="font-display text-h4 font-bold text-white leading-tight">{f.title}</h3>
+                  <h3 className="font-display text-h4 font-bold text-white">{f.title}</h3>
                   <p className="font-body text-body text-white/70 m-0 max-w-xl">{f.detail}</p>
                 </div>
               </div>

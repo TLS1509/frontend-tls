@@ -99,7 +99,7 @@ export const MarketingFooter: React.FC = () => (
           className="flex w-fit shrink-0 items-center gap-stack-xs focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-500 rounded-lg"
         >
           <TlsLogo size={24} variant="primary" />
-          <span className="font-display font-bold text-body-sm text-ink-900 leading-none whitespace-nowrap">
+          <span className="font-display font-bold text-body-sm text-ink-900 whitespace-nowrap">
             The Learning Society
           </span>
         </Link>

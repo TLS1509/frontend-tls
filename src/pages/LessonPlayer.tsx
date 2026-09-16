@@ -1994,8 +1994,8 @@ export const LessonPlayer: React.FC = () => {
         const layout = block.layout ?? 'vertical';
         const getColors = (c?: string) => SCHEMA_COLOR_MAP[c ?? 'primary'] ?? SCHEMA_COLOR_MAP['primary'];
         const itemPad = compact ? 'p-stack-xs' : 'p-3';
-        const labelCls = compact ? 'font-body text-caption font-semibold text-ink-900 leading-tight' : 'font-body text-body-sm font-semibold text-ink-900 leading-tight';
-        const descCls = compact ? 'font-body text-micro text-ink-500 leading-tight' : 'font-body text-caption text-ink-500 leading-tight';
+        const labelCls = compact ? 'font-body text-caption font-semibold text-ink-900' : 'font-body text-body-sm font-semibold text-ink-900';
+        const descCls = compact ? 'font-body text-micro text-ink-500' : 'font-body text-caption text-ink-500';
 
         if (layout === 'horizontal') {
           return (
@@ -2406,11 +2406,11 @@ export const LessonPlayer: React.FC = () => {
             </button>
             <div className="flex-1 min-w-0 flex flex-col items-center">
               {ctx?.step && (
-                <span className="font-body text-micro text-ink-600 uppercase tracking-wider leading-none mb-0.5 truncate max-w-full">
+                <span className="font-body text-micro text-ink-600 uppercase tracking-wider mb-0.5 truncate max-w-full">
                   {ctx.step.title}
                 </span>
               )}
-              <span className="font-display text-body-sm font-bold text-ink-900 truncate max-w-full leading-tight">
+              <span className="font-display text-body-sm font-bold text-ink-900 truncate max-w-full">
                 {displayTitle}
               </span>
             </div>

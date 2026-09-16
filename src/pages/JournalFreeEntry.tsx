@@ -258,7 +258,7 @@ export const JournalFreeEntry: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => removeTag(tag)}
-                    className="bg-transparent border-0 cursor-pointer text-primary-400 hover:text-primary-600 p-0 leading-none text-body-sm focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-400 rounded-sm"
+                    className="bg-transparent border-0 cursor-pointer text-primary-400 hover:text-primary-600 p-0 text-body-sm focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-400 rounded-sm"
                   >
                     ×
                   </button>

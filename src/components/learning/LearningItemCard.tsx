@@ -197,7 +197,7 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
 
         {/* 2. Title + description ── */}
         <div className="flex flex-col gap-stack-3xs">
-          <h3 className="font-display text-body font-semibold font-semibold leading-tight text-ink-900 line-clamp-2">
+          <h3 className="font-display text-body font-semibold font-semibold text-ink-900 line-clamp-2">
             {title}
           </h3>
           <p className="m-0 text-caption text-ink-500 leading-snug line-clamp-2">
@@ -227,7 +227,7 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
               {denialReason === 'tier' ? 'Upgrade requis' : 'Pré-requis manquant'}
             </span>
             {denialMessage && (
-              <span className="text-micro text-ink-600 leading-tight">{denialMessage}</span>
+              <span className="text-micro text-ink-600">{denialMessage}</span>
             )}
           </div>
         </div>

@@ -196,8 +196,8 @@ export const Journal: React.FC = () => {
                   ].join(' ')}
                 >
                   <span className={['transition-transform group-hover:scale-110', TONE_ICON[t.tone]].join(' ')} aria-hidden="true">{t.icon}</span>
-                  <span className="font-display text-body-sm font-bold text-ink-900 leading-tight">{t.label}</span>
-                  <span className="font-body text-caption text-ink-600 leading-tight">{t.subtitle}</span>
+                  <span className="font-display text-body-sm font-bold text-ink-900">{t.label}</span>
+                  <span className="font-body text-caption text-ink-600">{t.subtitle}</span>
                 </button>
               ))}
             </div>

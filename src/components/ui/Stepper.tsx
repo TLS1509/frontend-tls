@@ -87,7 +87,7 @@ export const Stepper: React.FC<StepperProps> = ({
                 )}
               </div>
             ) : (
-              <p className={`m-0 text-[11px] sm:text-caption leading-tight break-words ${LABEL_STATE[item.state]}`}>
+              <p className={`m-0 text-[11px] sm:text-caption break-words ${LABEL_STATE[item.state]}`}>
                 {item.label}
               </p>
             )}

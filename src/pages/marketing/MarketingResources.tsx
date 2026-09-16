@@ -213,7 +213,7 @@ const FeaturedCard: React.FC<{ item: ResourceItem }> = ({ item }) => {
               </span>
             </div>
 
-            <h3 className="font-display text-[clamp(1.5rem,3vw,2.25rem)] font-extrabold text-ink-900 leading-tight">
+            <h3 className="font-display text-[clamp(1.5rem,3vw,2.25rem)] font-extrabold text-ink-900">
               {item.title}
             </h3>
 
@@ -270,7 +270,7 @@ const ResourceCard: React.FC<{ item: ResourceItem; index: number }> = ({ item, i
             </div>
 
             {/* Title */}
-            <h3 className="font-display text-body font-semibold font-bold text-ink-900 leading-tight group-hover:text-primary-700 transition-colors duration-base line-clamp-2">
+            <h3 className="font-display text-body font-semibold font-bold text-ink-900 group-hover:text-primary-700 transition-colors duration-base line-clamp-2">
               {item.title}
             </h3>
 
@@ -352,7 +352,7 @@ export const MarketingResources: React.FC = () => {
             le footer et la balise title, « Magazine / Blog » dans le doc de
             cadrage éditorial. Le H1 était l'unique écart — c'est lui qui
             s'aligne, pas les trois autres. */}
-        <h1 className="font-display text-h2 font-bold text-ink-900 tracking-headline leading-tight">
+        <h1 className="font-display text-h2 font-bold text-ink-900 tracking-headline">
           Magazine &amp; Ressources
         </h1>
         <p className="m-0 font-body text-body-sm text-ink-500 max-w-2xl">
@@ -448,7 +448,7 @@ export const MarketingResources: React.FC = () => {
       <section className="py-section-lg bg-gradient-to-br from-primary-50 to-primary-100/50 border-y border-primary-100">
         <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-10 text-center">
           <FadeInWhenVisible className="flex flex-col gap-stack items-center">
-            <h2 className="font-display text-[clamp(1.75rem,3vw,2.5rem)] font-extrabold text-ink-900 leading-tight">
+            <h2 className="font-display text-[clamp(1.75rem,3vw,2.5rem)] font-extrabold text-ink-900">
               Restez à jour
             </h2>
             <p className="font-body text-body text-ink-700 max-w-2xl">

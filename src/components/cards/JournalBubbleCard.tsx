@@ -86,7 +86,7 @@ export const JournalBubbleCard: React.FC<JournalBubbleCardProps> = ({
           <h3 className="font-display text-h4 font-bold text-ink-900 leading-snug">
             {title}
           </h3>
-          <span className="font-body text-caption text-ink-500 leading-tight">
+          <span className="font-body text-caption text-ink-500">
             {date}
             {readingTime ? ` · ${readingTime}` : ''}
           </span>

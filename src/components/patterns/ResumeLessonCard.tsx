@@ -152,7 +152,7 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
                 // en dur, donc détachée. `leading-tight` aligne la boîte de ligne sur
                 // celle de <Badge> — sans elle, `--text-micro--line-height` (18 px)
                 // donnait une pastille de 24 px là où le composant en fait 19,75.
-                'text-micro font-bold uppercase tracking-label leading-tight',
+                'text-micro font-bold uppercase tracking-label',
                 STATUS_CHIP[tone],
               ].join(' ')}
             >
@@ -160,7 +160,7 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
               En cours
             </span>
             {stepText && (
-              <span className="font-body text-caption text-ink-500 font-medium leading-none">
+              <span className="font-body text-caption text-ink-500 font-medium">
                 {stepText}
               </span>
             )}

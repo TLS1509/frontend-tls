@@ -224,7 +224,7 @@ export const Leaderboard: React.FC = () => {
                 </div>
               </div>
               <div className="text-right">
-                <div className="font-display text-h3 font-extrabold text-primary-600 leading-none">
+                <div className="font-display text-h3 font-extrabold text-primary-600">
                   #{currentUserRow.rank}
                 </div>
                 <div className="font-body text-caption text-ink-500">classement</div>

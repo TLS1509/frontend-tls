@@ -113,7 +113,7 @@ const ToastCard: React.FC<{ item: ToastItem; onDismiss: () => void }> = ({ item,
       <div className="flex items-start gap-stack">
         <span className={`shrink-0 ${tone.icon} mt-0.5`}>{TONE_ICONS[item.tone]}</span>
         <div className={`flex-1 min-w-0 ${tone.text}`}>
-          <p className="font-display font-bold text-body-sm m-0 leading-tight">{item.message}</p>
+          <p className="font-display font-bold text-body-sm m-0">{item.message}</p>
           {item.description && (
             <p className="font-body text-caption text-ink-600 m-0 mt-0.5 leading-snug">
               {item.description}
