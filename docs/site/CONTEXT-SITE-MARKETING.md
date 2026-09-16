@@ -9,21 +9,38 @@
 - **Primitives motion** : `src/components/marketing/motion/` — **le code est la source de vérité** (la liste ci-dessous est indicative et évolue : `MeshGradientBg`, `FadeInWhenVisible`, `ParallaxLayer`, `MagneticButton`, `GradientText`, `MarqueeRow`, `CountUp`, `StickyScrollStory`, `InteractiveAppMockup`, `KineticHeadline`, `NoiseTexture`…).
 - Le **design system partagé** (tokens, règles Tailwind, gotchas) reste cadré par le `CLAUDE.md` racine — le site le réutilise. Ce doc ne couvre que le **surplus marketing-only**.
 
-## Rythme de section — état au 2026-07-28
+## Rythme de section — relevé du 2026-09-16
 
-> **C'est un constat, pas une consigne.** La version précédente disait « le
-> reprendre **à l'identique** pour toute nouvelle page/section ». C'est
-> exactement l'instruction qui a produit sept heros jumeaux. Ces valeurs sont le
-> point de départ commun des pages refondues le 28/07 : une page a le droit de
-> s'en écarter si sa composition le demande, et la phase design en fera
-> certainement varier une partie.
+> **C'est un constat, pas une consigne.** Une version de ce doc disait de
+> reprendre ces valeurs **à l'identique** pour toute nouvelle page : c'est
+> l'instruction qui a produit sept heros jumeaux. Une page a le droit de s'en
+> écarter si sa composition le demande.
+>
+> 🔄 **Remesuré le 16/09**, parce que la version du 28/07 décrivait un état que
+> la migration éditoriale a rendu minoritaire. Les chiffres ci-dessous sont
+> comptés dans `src/pages/marketing/*.tsx`.
 
-Le squelette partagé aujourd'hui :
+| Rôle | Ce que le repo utilise | Ancienne forme, encore présente |
+|---|---|---|
+| **Section** | `py-band` — **7 fichiers** | `py-16 sm:py-20 lg:py-28` — 3 |
+| **Hero de sous-page** | `pt-hero` — **8 fichiers** | `pt-36 sm:pt-40 lg:pt-44` — 2 |
+| **Titre ↔ contenu** | `gap-flow` — **9 fichiers** | `gap-section-lg` — 2 |
+| **Gouttière** | `px-gutter` — **1 fichier** | `px-4 sm:px-6 lg:px-10` — **15** |
 
-- **Conteneur** : `max-w-wide mx-auto px-4 sm:px-6 lg:px-10` (gouttière standard CLAUDE.md). Lecture longue : `max-w-content`.
-- **Section standard** : `py-16 sm:py-20 lg:py-28` (l'échelle sémantique s'arrête à `--spacing-page` 48px — trop serré pour le rythme marketing, d'où le numérique assumé ici).
-- **Hero de sous-page** : `pt-36 sm:pt-40 lg:pt-44 pb-16 sm:pb-20 lg:pb-24` (dégage le header fixe).
-- **Rythme interne** : `gap-section-lg` entre h2 et contenu de section ; `gap-stack`/`gap-stack-lg` en intra-bloc — tokens sémantiques.
+**Trois migrations sur quatre ont pris.** Les tokens éditoriaux du 29/07
+(`band`, `hero`, `flow`) sont majoritaires, et ce qui reste de l'ancienne forme
+vit dans les pages de contenu — Article, Dossier, Méthode, Guide — restées hors
+de la passe.
+
+⚠️ **La quatrième n'a pas pris du tout.** `--spacing-gutter` (16 → 40 px) a été
+créé le 29/07 avec les six autres, et **un seul fichier le consomme**. Les quinze
+autres gardent `px-4 sm:px-6 lg:px-10`, qui reste d'ailleurs la gouttière
+standard de `CLAUDE.md`. Deux vocabulaires pour la même marge, donc, et le token
+n'a pas gagné : soit on le déploie, soit on le retire — le laisser à un usage,
+c'est garder une troisième valeur latente qui ressortira au mauvais moment.
+
+- **Conteneur** : `max-w-wide mx-auto`. Lecture longue : `max-w-content`.
+- **Intra-bloc** : `gap-stack` / `gap-stack-lg`, tokens sémantiques.
 
 ## Motion
 
