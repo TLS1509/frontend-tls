@@ -225,6 +225,7 @@ import { MarketingResources } from './pages/marketing/MarketingResources';
 import { MarketingMethode } from './pages/marketing/MarketingMethode';
 import { MarketingAccompagnement } from './pages/marketing/MarketingAccompagnement';
 import { MarketingStudio } from './pages/marketing/MarketingStudio';
+import { MarketingSprint } from './pages/marketing/MarketingSprint';
 import { MarketingVigie } from './pages/marketing/MarketingVigie';
 import { MarketingUpskilling } from './pages/marketing/MarketingUpskilling';
 import { MarketingLearningApp } from './pages/marketing/MarketingLearningApp';
@@ -558,6 +559,10 @@ function App() {
           <Route path="formation" element={<Navigate to="/website/learning-app" replace />} />
           <Route path="accompagnement" element={<MarketingAccompagnement />} />
           <Route path="studio" element={<MarketingStudio />} />
+          {/* Sprint OS & Agents IA — créée le 16/09/2026. Routée mais
+              volontairement absente de la nav et du pied de page : son nom
+              public et sa date de publication ne sont pas validés. */}
+          <Route path="sprint" element={<MarketingSprint />} />
           <Route path="vigie" element={<MarketingVigie />} />
           <Route path="upskilling" element={<MarketingUpskilling />} />
           <Route path="learning-app" element={<MarketingLearningApp />} />
