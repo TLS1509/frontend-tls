@@ -159,7 +159,7 @@ export const AuthShell: React.FC<AuthShellProps> = ({
                   {brandContent.title}
                 </h1>
                 {brandContent.subtitle && (
-                  <p className="font-body text-body-sm text-white/75 m-0 leading-relaxed">
+                  <p className="font-body text-body-sm text-white/75 m-0">
                     {brandContent.subtitle}
                   </p>
                 )}
@@ -206,7 +206,7 @@ export const AuthBackLink: React.FC<AuthBackLinkProps> = ({ label, onClick, clas
     type="button"
     onClick={onClick}
     className={[
-      'inline-flex items-center gap-1.5 self-start',
+      'inline-flex items-center gap-stack-2xs self-start',
       'bg-transparent border-0 p-0 cursor-pointer',
       'text-body-sm font-medium text-white/75 hover:text-white transition-colors',
       className,
@@ -283,7 +283,7 @@ export const AuthSuccess: React.FC<AuthSuccessProps> = ({ icon, title, descripti
     <div className="flex flex-col gap-stack-xs">
       <h3 className="font-display text-h3 font-bold text-white">{title}</h3>
       {description && (
-        <p className="m-0 text-body-sm text-white/75 leading-relaxed max-w-[44ch]">{description}</p>
+        <p className="m-0 text-body-sm text-white/75 max-w-[44ch]">{description}</p>
       )}
     </div>
     {children && <div className="mt-2 w-full">{children}</div>}
@@ -347,7 +347,7 @@ export const AuthFeature: React.FC<AuthFeatureProps> = ({
       {icon}
       {title}
     </h4>
-    {description && <p className="m-0 text-body-sm text-white/75 leading-relaxed">{description}</p>}
+    {description && <p className="m-0 text-body-sm text-white/75">{description}</p>}
   </div>
 );
 

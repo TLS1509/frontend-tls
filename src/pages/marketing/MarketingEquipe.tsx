@@ -43,7 +43,7 @@ const Hero: React.FC = () => {
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           className="flex max-w-4xl flex-col gap-stack-lg"
         >
-          <p className="inline-flex w-fit items-center gap-2 rounded-pill bg-primary-100 px-4 py-1.5 font-body text-caption font-bold text-primary-800 m-0">
+          <p className="inline-flex w-fit items-center gap-stack-xs rounded-pill bg-primary-100 px-4 py-1.5 font-body text-caption font-bold text-primary-800 m-0">
             <Users size={14} />
             Deux fondateurs, une vision commune
           </p>
@@ -51,7 +51,7 @@ const Hero: React.FC = () => {
             L'alliance de la pédagogie, de l'IA{' '}
             <span className="text-primary-700">et de la stratégie RH.</span>
           </h1>
-          <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
+          <p className="font-body text-body-lg text-ink-600 m-0 max-w-2xl">
             Pas de chaîne hiérarchique lourde, pas de consultants juniors. The
             Learning Society a été créée par un duo complémentaire qui associe
             la recherche en ingénierie pédagogique, l'architecture IA et la
@@ -79,7 +79,7 @@ const Adn: React.FC = () => (
             L'agilité d'une structure experte au service de votre
             transformation.
           </h2>
-          <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-3xl">
+          <p className="font-body text-body-lg text-white/85 m-0 max-w-3xl">
             Ni cabinet traditionnel, ni éditeur de logiciel
             impersonnel : vous échangez directement avec les concepteurs de la
             méthode et de la plateforme.
@@ -169,7 +169,7 @@ const Fondateurs: React.FC = () => (
                   {p.domaine}
                 </p>
               </div>
-              <p className="lg:col-span-5 font-body text-body text-ink-600 leading-relaxed m-0 max-w-xl">
+              <p className="lg:col-span-5 font-body text-body text-ink-600 m-0 max-w-xl">
                 {p.detail}
               </p>
             </div>
@@ -216,7 +216,7 @@ const Pourquoi: React.FC = () => (
                 {r.icon}
               </span>
               <h3 className="font-display text-h4 font-bold text-ink-900 leading-tight">{r.title}</h3>
-              <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">{r.detail}</p>
+              <p className="font-body text-body-sm text-ink-600 m-0">{r.detail}</p>
             </div>
           </FadeInWhenVisible>
         ))}
@@ -235,7 +235,7 @@ const CtaFinal: React.FC = () => (
           <h2 className="font-display font-extrabold text-ink-900 leading-[1.04] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.5vw,3.25rem)]">
             Discutons directement de vos enjeux de compétences.
           </h2>
-          <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-[62ch] [text-wrap:pretty]">
+          <p className="font-body text-body-lg text-ink-600 m-0 max-w-[62ch] [text-wrap:pretty]">
             Vous échangez avec les personnes qui conçoivent la méthode et la
             plateforme, pas avec un intermédiaire.
           </p>

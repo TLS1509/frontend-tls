@@ -210,7 +210,7 @@ const Moteur: React.FC = () => (
                   {e.sousTitre}
                 </span>
               </h3>
-              <p className="font-body text-body text-ink-600 leading-relaxed m-0">{e.detail}</p>
+              <p className="font-body text-body text-ink-600 m-0">{e.detail}</p>
             </li>
           </FadeInWhenVisible>
         ))}
@@ -292,7 +292,7 @@ const Ecosysteme: React.FC = () => (
                   {o.desc}
                 </p>
                 <span className="md:col-span-2 flex items-start md:justify-end font-body text-body-sm font-semibold text-primary-700">
-                  <span className="inline-flex items-center gap-1.5">
+                  <span className="inline-flex items-center gap-stack-2xs">
                     {o.cta}
                     <ArrowRight
                       size={16}
@@ -341,7 +341,7 @@ const Ecosysteme: React.FC = () => (
               acquises et les rend mesurables dans la durée.
             </p>
           </div>
-          <span className="inline-flex shrink-0 items-center gap-1.5 font-body text-body-sm font-semibold text-primary-700">
+          <span className="inline-flex shrink-0 items-center gap-stack-2xs font-body text-body-sm font-semibold text-primary-700">
             Découvrir la Learning App
             <ArrowRight size={16} className="transition-transform duration-base group-hover:translate-x-1" />
           </span>

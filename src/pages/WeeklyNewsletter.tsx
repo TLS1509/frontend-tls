@@ -96,7 +96,7 @@ export const WeeklyNewsletter: React.FC = () => {
 
         {/* Hero éditorial */}
         <header className="flex flex-col gap-stack">
-          <span className="inline-flex items-center gap-1.5 self-start px-3 py-1.5 rounded-pill bg-primary-500 text-white font-body text-micro font-bold uppercase tracking-widest">
+          <span className="inline-flex items-center gap-stack-2xs self-start px-3 py-1.5 rounded-pill bg-primary-500 text-white font-body text-micro font-bold uppercase tracking-widest">
             <TrendingUp size={14} /> Semaine #08
           </span>
 
@@ -155,10 +155,10 @@ export const WeeklyNewsletter: React.FC = () => {
             <div className="bg-white p-stack-lg flex flex-col gap-stack justify-between">
               <div className="flex flex-col gap-stack-xs">
                 <Badge variant="warm">Tutoriel vidéo</Badge>
-                <h3 className="font-display text-h4 font-bold text-ink-900 leading-tight tracking-tight">
+                <h3 className="font-display text-h4 font-bold text-ink-900 tracking-tight">
                   Construire un prompt structuré en 5 étapes
                 </h3>
-                <p className="m-0 font-body text-body-sm text-ink-600 leading-relaxed">
+                <p className="m-0 font-body text-body-sm text-ink-600">
                   Séquence pratique orientée exécution : cadrage, exemples, validation et itération
                   sur des cas réels de formation.
                 </p>

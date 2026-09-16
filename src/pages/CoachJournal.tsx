@@ -123,7 +123,7 @@ export default function CoachJournal() {
                     </div>
                     <Badge variant={CATEGORY_VARIANT[entry.category] ?? 'neutral'}>{entry.category}</Badge>
                   </div>
-                  <p className="text-body-sm text-ink-600 leading-relaxed">{entry.excerpt}</p>
+                  <p className="text-body-sm text-ink-600">{entry.excerpt}</p>
                   <div className="flex justify-end">
                     <Button variant="ghost" size="sm">Lire</Button>
                   </div>

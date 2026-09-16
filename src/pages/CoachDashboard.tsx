@@ -235,15 +235,15 @@ export default function CoachDashboard() {
               />
             </ChartContainer>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-stack-xs text-caption text-ink-600 mt-stack">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-stack-xs">
                 <div className="w-3 h-3 rounded-pill" style={{ backgroundColor: '#55A1B4' }} />
                 <span>Apprenant actif</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-stack-xs">
                 <div className="w-3 h-3 rounded-pill" style={{ backgroundColor: '#F28559' }} />
                 <span>En difficulté</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-stack-xs">
                 <div className="w-3 h-3 rounded-pill" style={{ backgroundColor: '#9DBEBA' }} />
                 <span>En avance</span>
               </div>

@@ -275,7 +275,7 @@ export default function AlerteStagnation() {
                   <span className="text-caption font-bold text-secondary-700 uppercase tracking-wide">
                     {suggestion.learnerName}
                   </span>
-                  <p className="text-body-sm text-ink-700 leading-relaxed">
+                  <p className="text-body-sm text-ink-700">
                     {suggestion.advice}
                   </p>
                 </div>

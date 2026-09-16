@@ -93,7 +93,7 @@ export const JournalBubbleCard: React.FC<JournalBubbleCardProps> = ({
         </div>
         <span
           className={[
-            'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill',
+            'inline-flex items-center gap-stack-2xs px-2.5 py-1 rounded-pill',
             'font-body text-caption font-semibold shrink-0 whitespace-nowrap',
             meta.badge,
           ].join(' ')}
@@ -104,7 +104,7 @@ export const JournalBubbleCard: React.FC<JournalBubbleCardProps> = ({
       </div>
 
       {/* Excerpt */}
-      <p className="font-body text-body text-ink-700 leading-relaxed m-0">{excerpt}</p>
+      <p className="font-body text-body text-ink-700 m-0">{excerpt}</p>
 
       {/* Coaching quick action (questionnaire / compte-rendu only) */}
       {(type === 'questionnaire' || type === 'compte-rendu') && onCoachingAction && (

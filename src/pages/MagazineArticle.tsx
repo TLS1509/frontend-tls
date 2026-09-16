@@ -116,7 +116,7 @@ export const MagazineArticle: React.FC = () => {
       >
         {/* Hero */}
         <header className="flex flex-col gap-stack max-w-prose">
-          <span className="inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-pill border-2 border-primary-300 bg-primary-50/30 text-micro font-bold uppercase tracking-wider text-primary-700">
+          <span className="inline-flex items-center gap-stack-2xs self-start px-2.5 py-1 rounded-pill border-2 border-primary-300 bg-primary-50/30 text-micro font-bold uppercase tracking-wider text-primary-700">
             <BookOpen size={14} /> {ARTICLE.category} · {ARTICLE.pages}
           </span>
 
@@ -191,7 +191,7 @@ export const MagazineArticle: React.FC = () => {
 
               {/* Tags */}
               <div className="flex flex-col gap-stack-xs pt-section border-t border-ink-100">
-                <span className="inline-flex items-center gap-1.5 font-body text-micro font-bold uppercase tracking-wider text-ink-500">
+                <span className="inline-flex items-center gap-stack-2xs font-body text-micro font-bold uppercase tracking-wider text-ink-500">
                   <TagIcon size={14} /> Tags
                 </span>
                 <div className="flex flex-wrap gap-stack-xs">

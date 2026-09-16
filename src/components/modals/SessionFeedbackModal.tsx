@@ -90,7 +90,7 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
             <h2 className="text-h3 text-ink-900 text-center mb-2">
               {title}
             </h2>
-            <p className="text-body text-ink-600 text-center leading-relaxed mb-stack-lg">
+            <p className="text-body text-ink-600 text-center mb-stack-lg">
               {subtitle}
             </p>
 
@@ -144,7 +144,7 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
                 onChange={(e) => setComment(e.target.value)}
                 placeholder="Partagez votre expérience…"
                 rows={4}
-                className="w-full box-border p-3 rounded-lg border-[1.5px] border-ink-200 bg-ink-50 text-ink-900 text-body-sm leading-relaxed resize-y transition-colors font-body h-auto min-h-[120px] focus:outline-none focus:border-accent-400 focus:bg-white"
+                className="w-full box-border p-3 rounded-lg border-[1.5px] border-ink-200 bg-ink-50 text-ink-900 text-body-sm resize-y transition-colors font-body h-auto min-h-[120px] focus:outline-none focus:border-accent-400 focus:bg-white"
               />
             </div>
 

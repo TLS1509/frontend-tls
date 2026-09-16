@@ -113,10 +113,10 @@ export const Error404: React.FC = () => {
           style={{ x: subX, y: subY }}
           className="flex flex-col items-center gap-stack-xs mb-10"
         >
-          <h1 className="font-display text-h1 font-bold text-ink-900 leading-tight max-w-2xl">
+          <h1 className="font-display text-h1 font-bold text-ink-900 max-w-2xl">
             On vous remet sur la bonne route
           </h1>
-          <p className="font-body text-body-lg text-ink-500 leading-relaxed max-w-xl">
+          <p className="font-body text-body-lg text-ink-500 max-w-xl">
             Cette page n'existe pas ou a été déplacée. Voici par où repartir.
           </p>
         </motion.div>

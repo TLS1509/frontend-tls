@@ -100,7 +100,7 @@ export default function HelpSearch() {
                     <h3 className="font-display font-semibold text-body text-ink-900">{article.title}</h3>
                     <Badge variant="neutral">{getCategoryName(article.categoryId)}</Badge>
                   </div>
-                  <p className="text-body-sm text-ink-600 leading-relaxed m-0">{article.summary}</p>
+                  <p className="text-body-sm text-ink-600 m-0">{article.summary}</p>
                 </div>
               </Card>
             ))

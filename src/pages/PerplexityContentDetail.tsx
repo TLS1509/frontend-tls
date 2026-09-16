@@ -61,7 +61,7 @@ const PerplexityContentDetail: React.FC = () => {
 
             <article className="prose prose-ink max-w-prose">
               {MOCK_ARTICLE.body.split('\n\n').map((p, i) => (
-                <p key={i} className="text-body text-ink-700 leading-relaxed mb-stack">{p}</p>
+                <p key={i} className="text-body text-ink-700 mb-stack">{p}</p>
               ))}
             </article>
 

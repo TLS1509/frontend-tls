@@ -498,8 +498,20 @@
      avoir de nom ne signale pas un écart de discipline : elle signale un barreau
      absent. C'est l'écart des groupes serrés — une icône et son étiquette, deux
      méta-données, un chiffre et son unité — où 8 px sépare déjà trop. */
+  /* Deux crans ajoutés le 2026-09-16 — l'échelle avait des trous que 76 usages
+     numériques comblaient à la main.
+
+     `gap-1` (4 px) comptait 50 usages et n'avait AUCUN équivalent : `tight` vaut
+     2 px, pas 4, et un renommage naïf les aurait tous divisés par deux.
+     `gap-3` (12 px) en comptait 26, entre `stack-xs` (8) et `stack` (16).
+
+     L'échelle est donc : 2 · 4 · 6 · 8 · 12 · 16 · 24 · 32 · 40 · 48.
+     Le 20 px (8 usages) n'a PAS de cran : trop peu nombreux pour justifier un
+     token, ils se calent sur 16 ou 24 selon le cas. */
+  --spacing-stack-3xs:  0.25rem;
   --spacing-stack-2xs:  0.375rem;
   --spacing-stack-xs:   0.5rem;
+  --spacing-stack-sm:   0.75rem;
   --spacing-stack:      1rem;
   --spacing-stack-lg:   1.5rem;
   --spacing-section:    2rem;

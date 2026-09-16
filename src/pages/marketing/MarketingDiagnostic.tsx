@@ -323,7 +323,7 @@ export const MarketingDiagnostic: React.FC = () => {
           {phase === 'hub' && (
             <motion.div {...reveal} className="flex flex-col gap-section-lg">
               <div className="flex max-w-3xl flex-col gap-stack-lg">
-                <p className="inline-flex w-fit items-center gap-2 rounded-pill bg-primary-100 px-4 py-1.5 font-body text-caption font-bold text-primary-800 m-0">
+                <p className="inline-flex w-fit items-center gap-stack-xs rounded-pill bg-primary-100 px-4 py-1.5 font-body text-caption font-bold text-primary-800 m-0">
                   <Gauge size={14} />
                   Auto-diagnostic gratuit
                 </p>
@@ -331,7 +331,7 @@ export const MarketingDiagnostic: React.FC = () => {
                   Évaluez la maturité de votre organisation{' '}
                   <span className="text-primary-700">en 3 minutes.</span>
                 </h1>
-                <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
+                <p className="font-body text-body-lg text-ink-600 m-0 max-w-2xl">
                   Choisissez le diagnostic adapté à votre enjeu. 8 questions,
                   2 questions ouvertes, un rapport personnalisé.
                 </p>
@@ -352,8 +352,8 @@ export const MarketingDiagnostic: React.FC = () => {
                           </span>
                           <span className="font-body text-caption font-bold text-ink-500">{b.cible}</span>
                         </div>
-                        <h2 className="font-display text-h3 font-bold text-ink-900 leading-tight">{b.label}</h2>
-                        <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">{b.pitch}</p>
+                        <h2 className="font-display text-h3 font-bold text-ink-900">{b.label}</h2>
+                        <p className="font-body text-body-sm text-ink-600 m-0">{b.pitch}</p>
                         <ul className="flex flex-col gap-stack-xs m-0 p-0 list-none">
                           {b.bullets.map((bullet) => (
                             <li key={bullet} className="flex items-center gap-stack-xs">
@@ -377,7 +377,7 @@ export const MarketingDiagnostic: React.FC = () => {
           {phase === 'wizard' && (
             <motion.div {...reveal} key={`q-${qIndex}`} className="mx-auto flex w-full max-w-content flex-col gap-stack-lg">
               <div className="flex items-center justify-between gap-stack">
-                <span className={`inline-flex items-center gap-2 rounded-pill px-3.5 py-1.5 font-body text-caption font-bold ${bank.accent.badge}`}>
+                <span className={`inline-flex items-center gap-stack-xs rounded-pill px-3.5 py-1.5 font-body text-caption font-bold ${bank.accent.badge}`}>
                   {bank.icon}
                   Diagnostic {bank.label}
                 </span>
@@ -399,7 +399,7 @@ export const MarketingDiagnostic: React.FC = () => {
                 />
               </div>
 
-              <h2 className="font-display text-h3 text-ink-900 leading-tight [text-wrap:balance]">
+              <h2 className="font-display text-h3 text-ink-900 [text-wrap:balance]">
                 {qIndex + 1}. {bank.questions[qIndex].title}
               </h2>
 
@@ -448,7 +448,7 @@ export const MarketingDiagnostic: React.FC = () => {
           {/* ── Questions ouvertes ────────────────────────────────────────── */}
           {phase === 'open' && (
             <motion.div {...reveal} className="mx-auto flex w-full max-w-content flex-col gap-stack-lg">
-              <span className={`inline-flex w-fit items-center gap-2 rounded-pill px-3.5 py-1.5 font-body text-caption font-bold ${bank.accent.badge}`}>
+              <span className={`inline-flex w-fit items-center gap-stack-xs rounded-pill px-3.5 py-1.5 font-body text-caption font-bold ${bank.accent.badge}`}>
                 {bank.icon}
                 Diagnostic {bank.label}
               </span>
@@ -501,14 +501,14 @@ export const MarketingDiagnostic: React.FC = () => {
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-stack-lg">
                 <ScoreRing score={score} ringClass={bank.accent.ring} />
                 <div className="flex flex-col gap-stack-xs">
-                  <span className={`inline-flex w-fit items-center gap-2 rounded-pill px-3.5 py-1.5 font-body text-caption font-bold ${bank.accent.badge}`}>
+                  <span className={`inline-flex w-fit items-center gap-stack-xs rounded-pill px-3.5 py-1.5 font-body text-caption font-bold ${bank.accent.badge}`}>
                     {bank.icon}
                     Diagnostic {bank.label}
                   </span>
                   <h2 className={`font-display text-h2 font-extrabold leading-tight ${bank.accent.text}`}>
                     {profile.name}
                   </h2>
-                  <p className="font-body text-body-lg text-ink-700 leading-relaxed m-0 max-w-xl">
+                  <p className="font-body text-body-lg text-ink-700 m-0 max-w-xl">
                     {profile.synthesis}
                   </p>
                 </div>
@@ -523,7 +523,7 @@ export const MarketingDiagnostic: React.FC = () => {
                     <h3 className="font-display text-h4 text-ink-900 leading-tight">
                       Débloquez votre rapport d'analyse complet.
                     </h3>
-                    <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">
+                    <p className="font-body text-body-sm text-ink-600 m-0">
                       Recevez le détail de vos 8 réponses, votre profil de
                       maturité commenté et l'accès à un débriefing offert avec
                       un fondateur.
@@ -533,29 +533,29 @@ export const MarketingDiagnostic: React.FC = () => {
 
                 <form onSubmit={submitLead} className="flex flex-col gap-stack" noValidate>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack">
-                    <div className="flex flex-col gap-1.5">
+                    <div className="flex flex-col gap-stack-2xs">
                       <label htmlFor="lead-firstname" className="font-body text-body-sm font-bold text-ink-900">Prénom *</label>
                       <input id="lead-firstname" type="text" required value={lead.firstName}
                         onChange={(e) => setLead((l) => ({ ...l, firstName: e.target.value }))} className={inputCls} />
                     </div>
-                    <div className="flex flex-col gap-1.5">
+                    <div className="flex flex-col gap-stack-2xs">
                       <label htmlFor="lead-lastname" className="font-body text-body-sm font-bold text-ink-900">Nom *</label>
                       <input id="lead-lastname" type="text" required value={lead.lastName}
                         onChange={(e) => setLead((l) => ({ ...l, lastName: e.target.value }))} className={inputCls} />
                     </div>
                   </div>
-                  <div className="flex flex-col gap-1.5">
+                  <div className="flex flex-col gap-stack-2xs">
                     <label htmlFor="lead-email" className="font-body text-body-sm font-bold text-ink-900">Email professionnel *</label>
                     <input id="lead-email" type="email" required value={lead.email}
                       onChange={(e) => setLead((l) => ({ ...l, email: e.target.value }))} className={inputCls} />
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack">
-                    <div className="flex flex-col gap-1.5">
+                    <div className="flex flex-col gap-stack-2xs">
                       <label htmlFor="lead-role" className="font-body text-body-sm font-bold text-ink-900">Fonction *</label>
                       <input id="lead-role" type="text" required value={lead.role}
                         onChange={(e) => setLead((l) => ({ ...l, role: e.target.value }))} className={inputCls} />
                     </div>
-                    <div className="flex flex-col gap-1.5">
+                    <div className="flex flex-col gap-stack-2xs">
                       <label htmlFor="lead-size" className="font-body text-body-sm font-bold text-ink-900">Taille d'entreprise *</label>
                       <div className="relative">
                         <select
@@ -595,7 +595,7 @@ export const MarketingDiagnostic: React.FC = () => {
           {phase === 'report' && (
             <motion.div {...reveal} className="mx-auto flex w-full max-w-medium flex-col gap-section-lg">
               <div className="flex flex-col gap-stack-xs">
-                <h2 className="font-display text-h2 text-ink-900 leading-tight [text-wrap:balance]">
+                <h2 className="font-display text-h2 text-ink-900 [text-wrap:balance]">
                   Merci {lead.firstName}, votre rapport est débloqué.
                 </h2>
                 <p className="font-body text-body-lg text-ink-600 m-0">
@@ -606,10 +606,10 @@ export const MarketingDiagnostic: React.FC = () => {
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-stack-lg rounded-lg bg-white p-stack-lg ring-1 ring-ink-200">
                 <ScoreRing score={score} ringClass={bank.accent.ring} />
                 <div className="flex flex-col gap-stack-xs">
-                  <h3 className={`font-display text-h3 font-extrabold leading-tight ${bank.accent.text}`}>
+                  <h3 className={`font-display text-h3 font-extrabold ${bank.accent.text}`}>
                     {profile.name}
                   </h3>
-                  <p className="font-body text-body text-ink-700 leading-relaxed m-0 max-w-xl">{profile.synthesis}</p>
+                  <p className="font-body text-body text-ink-700 m-0 max-w-xl">{profile.synthesis}</p>
                 </div>
               </div>
 
@@ -620,7 +620,7 @@ export const MarketingDiagnostic: React.FC = () => {
                     const a = answers[i];
                     if (a === null || a === undefined) return null;
                     return (
-                      <li key={q.title} className="flex flex-col gap-1 border-t border-ink-200/70 py-stack first:border-t-0">
+                      <li key={q.title} className="flex flex-col gap-stack-3xs border-t border-ink-200/70 py-stack first:border-t-0">
                         <span className="font-body text-body-sm font-bold text-ink-900">
                           {i + 1}. {q.title}
                         </span>
@@ -639,7 +639,7 @@ export const MarketingDiagnostic: React.FC = () => {
               <div className="flex flex-col gap-stack">
                 <h3 className="font-display text-h4 font-bold text-ink-900">Vos réponses libres</h3>
                 {bank.openQuestions.map((q, i) => (
-                  <div key={q} className="flex flex-col gap-1 border-t border-ink-200/70 py-stack first:border-t-0">
+                  <div key={q} className="flex flex-col gap-stack-3xs border-t border-ink-200/70 py-stack first:border-t-0">
                     <span className="font-body text-body-sm font-bold text-ink-900">{q}</span>
                     <span className="font-body text-body-sm text-ink-600">{openAnswers[i] || 'Non renseigné.'}</span>
                   </div>
@@ -648,7 +648,7 @@ export const MarketingDiagnostic: React.FC = () => {
 
               <div className="flex flex-col gap-stack rounded-lg bg-primary-50 p-stack-lg">
                 <h3 className="font-display text-h4 font-bold text-ink-900">Envie d'aller plus loin ?</h3>
-                <p className="font-body text-body text-ink-700 leading-relaxed m-0">
+                <p className="font-body text-body text-ink-700 m-0">
                   Réservez 15 minutes avec un fondateur pour décrypter vos
                   résultats et identifier vos priorités d'action.
                 </p>

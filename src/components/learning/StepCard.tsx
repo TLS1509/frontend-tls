@@ -133,7 +133,7 @@ export const StepCard: React.FC<StepCardProps> = ({
       </header>
 
       {description && (
-        <p className="m-0 text-body-sm text-ink-500 leading-relaxed">{description}</p>
+        <p className="m-0 text-body-sm text-ink-500">{description}</p>
       )}
 
       {progress !== undefined && (
@@ -177,7 +177,7 @@ export const StepCard: React.FC<StepCardProps> = ({
                       : 'bg-white border-ink-200 text-ink-900 hover:bg-ink-50 hover:border-ink-300',
                   ].join(' ')}
                 >
-                  <div className="flex items-center gap-2 flex-1 min-w-0">
+                  <div className="flex items-center gap-stack-xs flex-1 min-w-0">
                     <span
                       className={[
                         'inline-flex items-center justify-center w-6 h-6 rounded-pill shrink-0',

@@ -33,7 +33,7 @@ export const NewsletterSignupCard: React.FC<NewsletterSignupCardProps> = ({
             <h2 className="font-display text-h2 font-bold text-white leading-tight text-balance">
               La sélection TLS,<br />chaque vendredi.
             </h2>
-            <p className="m-0 font-body text-body text-white/60 leading-relaxed max-w-md">
+            <p className="m-0 font-body text-body text-white/60 max-w-md">
               Les meilleurs articles, vidéos et dossiers de la semaine — curés par notre équipe éditoriale.
             </p>
             {onSeeLastIssue && (

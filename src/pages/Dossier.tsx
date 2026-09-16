@@ -132,20 +132,20 @@ export const Dossier: React.FC = () => {
                 🧠
               </span>
               <div className="flex-1 min-w-0 flex flex-col gap-stack">
-                <span className="inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-pill bg-secondary-100 border border-secondary-200 text-micro font-bold uppercase tracking-wider text-secondary-800">
+                <span className="inline-flex items-center gap-stack-2xs self-start px-2.5 py-1 rounded-pill bg-secondary-100 border border-secondary-200 text-micro font-bold uppercase tracking-wider text-secondary-800">
                   Dossier thématique
                 </span>
-                <h1 className="font-display text-h1 font-bold text-ink-900 leading-tight tracking-tight max-w-content">
+                <h1 className="font-display text-h1 font-bold text-ink-900 tracking-tight max-w-content">
                   Transformation IA des parcours de formation professionnelle
                 </h1>
                 <div className="flex items-center gap-stack flex-wrap font-body text-caption text-ink-600">
-                  <span className="inline-flex items-center gap-1.5"><UserRound size={14} /> The Learning Society</span>
+                  <span className="inline-flex items-center gap-stack-2xs"><UserRound size={14} /> The Learning Society</span>
                   <span aria-hidden className="text-ink-300">·</span>
-                  <span className="inline-flex items-center gap-1.5"><CalendarDays size={14} /> 15 janvier 2026</span>
+                  <span className="inline-flex items-center gap-stack-2xs"><CalendarDays size={14} /> 15 janvier 2026</span>
                   <span aria-hidden className="text-ink-300">·</span>
-                  <span className="inline-flex items-center gap-1.5"><FileText size={14} /> 38 pages</span>
+                  <span className="inline-flex items-center gap-stack-2xs"><FileText size={14} /> 38 pages</span>
                   <span aria-hidden className="text-ink-300">·</span>
-                  <span className="inline-flex items-center gap-1.5"><Download size={14} /> 2 847 téléchargements</span>
+                  <span className="inline-flex items-center gap-stack-2xs"><Download size={14} /> 2 847 téléchargements</span>
                 </div>
               </div>
             </div>
@@ -185,14 +185,14 @@ export const Dossier: React.FC = () => {
                   <h2 className="font-display text-h3 font-bold text-ink-900 tracking-tight pb-3 border-b border-secondary-200">
                     01 : Contexte & enjeux 2026
                   </h2>
-                  <p className="m-0 font-body text-body text-ink-700 leading-relaxed">
+                  <p className="m-0 font-body text-body text-ink-700">
                     La transformation des organisations par l'IA générative est désormais un fait structurel,
                     pas une tendance conjoncturelle. En 2026, 72 % des DRH interrogés placent la montée en
                     compétences IA dans leur top 3 des priorités stratégiques. Cette pression crée un besoin
                     massif de refonte des dispositifs de formation : les parcours longs et standardisés
                     cèdent la place à des modules courts, personnalisés et disponibles en flux continu.
                   </p>
-                  <p className="m-0 font-body text-body text-ink-700 leading-relaxed">
+                  <p className="m-0 font-body text-body text-ink-700">
                     Les équipes Formation & Talent doivent non seulement former aux nouveaux outils, mais
                     repenser fondamentalement leur rôle et leur valeur ajoutée. Le formateur de demain est
                     avant tout un architecte de parcours et un curateur d'expériences.
@@ -204,13 +204,13 @@ export const Dossier: React.FC = () => {
                   <h2 className="font-display text-h3 font-bold text-ink-900 tracking-tight pb-3 border-b border-secondary-200">
                     02 : Transformation par l'IA
                   </h2>
-                  <p className="m-0 font-body text-body text-ink-700 leading-relaxed">
+                  <p className="m-0 font-body text-body text-ink-700">
                     Notre enquête terrain révèle une polarisation nette entre les organisations qui ont engagé
                     une transformation structurée et celles qui expérimentent encore de façon isolée. Les
                     premières : 34 % de notre panel : ont mis en place des cellules dédiées, des indicateurs
                     de maturité IA et des budgets sanctuarisés.
                   </p>
-                  <p className="m-0 font-body text-body text-ink-700 leading-relaxed">
+                  <p className="m-0 font-body text-body text-ink-700">
                     Le facteur différenciant n'est pas technologique : c'est la gouvernance. Les organisations
                     performantes ont systématiquement nommé un pilote formation IA avec un mandat clair et un
                     accès direct au CODIR.

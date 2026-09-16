@@ -159,16 +159,16 @@ export const JournalDetail: React.FC = () => {
         <header className="flex flex-col gap-stack">
           {/* Eyebrow chips */}
           <div className="flex items-center gap-stack-xs flex-wrap">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-primary-100 text-primary-700 text-micro font-bold uppercase tracking-wider">
+            <span className="inline-flex items-center gap-stack-2xs px-2.5 py-1 rounded-pill bg-primary-100 text-primary-700 text-micro font-bold uppercase tracking-wider">
               <Sparkles size={14} /> Journal de bord
             </span>
             <Badge variant="brand">{displayEntry.category}</Badge>
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-ink-100 text-ink-700 text-micro font-semibold">
+            <span className="inline-flex items-center gap-stack-2xs px-2.5 py-1 rounded-pill bg-ink-100 text-ink-700 text-micro font-semibold">
               {displayEntry.mood} {displayEntry.moodLabel}
             </span>
           </div>
 
-          <h1 className="font-display text-h1 font-bold text-ink-900 leading-tight tracking-tight">
+          <h1 className="font-display text-h1 font-bold text-ink-900 tracking-tight">
             {displayEntry.title}
           </h1>
 
@@ -239,7 +239,7 @@ export const JournalDetail: React.FC = () => {
 
         {/* Tags */}
         <div className="flex flex-col gap-stack-xs pt-stack border-t border-ink-100">
-          <span className="inline-flex items-center gap-1.5 font-body text-caption font-medium text-ink-500">
+          <span className="inline-flex items-center gap-stack-2xs font-body text-caption font-medium text-ink-500">
             <TagIcon size={14} /> Tags
           </span>
           <div className="flex flex-wrap gap-stack-xs">

@@ -287,7 +287,7 @@ export const SearchFilters: React.FC<SearchFiltersProps> = ({
         }
         filtersSlot={
           inlineOpen && filters.length > 0 ? (
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="flex flex-wrap items-center gap-stack-xs">
               {filters.map((axis) => (
                 <div
                   key={axis.id}

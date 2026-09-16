@@ -125,7 +125,7 @@ export const CompletionModal: React.FC<CompletionModalProps> = ({
         <div className="px-8 py-6 flex flex-col gap-stack">
           {/* XP badge */}
           {xpEarned > 0 && (
-            <div className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-accent-50 border border-accent-200">
+            <div className="flex items-center justify-center gap-stack-xs py-3 px-4 rounded-xl bg-accent-50 border border-accent-200">
               <span className="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-accent-400 text-white shrink-0">
                 <Zap size={14} strokeWidth={2.5} />
               </span>
@@ -146,7 +146,7 @@ export const CompletionModal: React.FC<CompletionModalProps> = ({
               <span className="block text-micro font-bold text-ink-600 uppercase tracking-[0.07em] mb-0.5">
                 Continuer avec
               </span>
-              <span className="flex items-center justify-between gap-2">
+              <span className="flex items-center justify-between gap-stack-xs">
                 <span className="font-body text-body-sm font-semibold text-ink-800 group-hover:text-primary-700 transition-colors line-clamp-1">
                   {nextItem.title}
                 </span>

@@ -197,11 +197,11 @@ export const AstucesViewer: React.FC = () => {
 
       {/* ── Breadcrumb navigation (clickable) ──────────────────────────── */}
       {lessonCtx && (
-        <div className="shrink-0 px-4 sm:px-6 lg:px-10 py-1 flex items-center gap-1 text-micro text-ink-600 font-medium">
+        <div className="shrink-0 px-4 sm:px-6 lg:px-10 py-1 flex items-center gap-stack-3xs text-micro text-ink-600 font-medium">
           <button
             type="button"
             onClick={() => navigate(`/learning-paths/${lessonCtx.parcoursId}`)}
-            className="inline-flex items-center gap-1 hover:text-primary-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+            className="inline-flex items-center gap-stack-3xs hover:text-primary-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
           >
             <Home size={14} aria-hidden />
             {MOCK_PARCOURS_DATA[lessonCtx.parcoursId]?.title || 'Parcours'}
@@ -220,8 +220,8 @@ export const AstucesViewer: React.FC = () => {
       )}
 
       {/* ── Content container (grows, no scroll) ──────────────────────── */}
-      <div className="flex-1 flex flex-col min-h-0 px-4 sm:px-6 lg:px-10 py-2 gap-2 overflow-hidden">
-        <div className="max-w-4xl mx-auto flex flex-col gap-2 w-full">
+      <div className="flex-1 flex flex-col min-h-0 px-4 sm:px-6 lg:px-10 py-2 gap-stack-xs overflow-hidden">
+        <div className="max-w-4xl mx-auto flex flex-col gap-stack-xs w-full">
 
           {/* ── Progress trail dots ──────────────────────────────────────── */}
           <div className="flex justify-center">

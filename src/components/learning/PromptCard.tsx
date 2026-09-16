@@ -146,7 +146,7 @@ export const PromptCard: React.FC<PromptCardProps> = ({
           {icon}
         </div>
 
-        <div className="flex-1 flex flex-col gap-2.5 min-w-0">
+        <div className="flex-1 flex flex-col gap-stack-xs.5 min-w-0">
           <Badge variant={variant} className="self-start">
             {label}
           </Badge>
@@ -194,7 +194,7 @@ export const PromptCard: React.FC<PromptCardProps> = ({
         {icon}
       </div>
 
-      <p className="m-0 text-body-sm leading-relaxed text-ink-600 text-balance">{text}</p>
+      <p className="m-0 text-body-sm text-ink-600 text-balance">{text}</p>
 
       <div className={['inline-flex items-center gap-tight text-caption font-semibold text-ink-500 transition-colors', ctaHover].join(' ')}>
         {ctaLabel ?? 'Réfléchir'}

@@ -95,7 +95,7 @@ export const ViewerProgressTrail: React.FC<ViewerProgressTrailProps> = ({
   // Dots style (default)
   return (
     <div
-      className={`flex items-center justify-center gap-1.5 ${className}`.trim()}
+      className={`flex items-center justify-center gap-stack-2xs ${className}`.trim()}
       role="progressbar"
       aria-valuenow={current}
       aria-valuemin={0}

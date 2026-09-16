@@ -109,7 +109,7 @@ export const VideoTutorial: React.FC = () => {
             <h1 className="font-display text-h1 text-ink-900 mb-3 leading-[1.15] tracking-tight">
               {tuto.title}
             </h1>
-            <p className="font-body text-body text-ink-500 leading-relaxed m-0 mb-stack max-w-[640px]">
+            <p className="font-body text-body text-ink-500 m-0 mb-stack max-w-[640px]">
               {tuto.description}
             </p>
             <div className="flex items-center gap-stack-xs flex-wrap">
@@ -228,7 +228,7 @@ export const VideoTutorial: React.FC = () => {
             <button
               type="button"
               onClick={() => navigate("/veille")}
-              className="inline-flex items-center gap-1.5 bg-transparent border-0 text-ink-500 font-body text-caption font-semibold cursor-pointer p-0 hover:text-primary-600 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+              className="inline-flex items-center gap-stack-2xs bg-transparent border-0 text-ink-500 font-body text-caption font-semibold cursor-pointer p-0 hover:text-primary-600 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
             >
               <ArrowLeft size={14} /> Retour veille
             </button>

@@ -239,7 +239,7 @@ const ActivityRow: React.FC<{
         {(item.actor || (item.actionLabel && item.onActionClick)) && (
           <div className="flex items-center gap-stack-xs mt-2 flex-wrap">
             {item.actor && (
-              <span className="inline-flex items-center gap-1.5">
+              <span className="inline-flex items-center gap-stack-2xs">
                 <Avatar
                   size="xs"
                   name={item.actor.name}
@@ -253,7 +253,7 @@ const ActivityRow: React.FC<{
               <button
                 type="button"
                 onClick={item.onActionClick}
-                className="inline-flex items-center gap-1 text-caption font-semibold text-primary-600 hover:text-primary-700 cursor-pointer transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                className="inline-flex items-center gap-stack-3xs text-caption font-semibold text-primary-600 hover:text-primary-700 cursor-pointer transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
               >
                 {item.actionLabel}
                 <ArrowRight size={14} strokeWidth={2.5} aria-hidden="true" />

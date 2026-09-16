@@ -83,7 +83,7 @@ const IntroCallout: React.FC<{ text: string }> = ({ text }) => (
       <span className="font-body text-caption font-bold text-secondary-700 uppercase tracking-widest">
         En résumé
       </span>
-      <p className="font-body text-body text-ink-700 leading-relaxed m-0">{text}</p>
+      <p className="font-body text-body text-ink-700 m-0">{text}</p>
     </div>
   </div>
 );
@@ -155,7 +155,7 @@ const SectionTOC: React.FC<{ sections: { heading: string }[]; activeId: string |
   activeId,
 }) => (
   <nav aria-label="Sommaire du dossier" className="flex flex-col gap-stack">
-    <span className="inline-flex items-center gap-1.5 font-body text-caption font-bold text-ink-500 uppercase tracking-widest">
+    <span className="inline-flex items-center gap-stack-2xs font-body text-caption font-bold text-ink-500 uppercase tracking-widest">
       <Hash size={14} />
       Sommaire
     </span>
@@ -188,7 +188,7 @@ const DossierBody: React.FC<{ intro: string; body: DossierBodyBlock[] }> = ({ in
   const ctaIndex = midArticleInsertIndex(body);
   return (
   <article className="flex flex-col gap-stack-lg">
-    <p className="font-body text-body-lg text-ink-700 leading-relaxed m-0 first-letter:font-display first-letter:text-[3.25rem] first-letter:font-extrabold first-letter:text-primary-700 first-letter:float-left first-letter:mr-3 first-letter:leading-[0.85]">
+    <p className="font-body text-body-lg text-ink-700 m-0 first-letter:font-display first-letter:text-[3.25rem] first-letter:font-extrabold first-letter:text-primary-700 first-letter:float-left first-letter:mr-3 first-letter:leading-[0.85]">
       {intro}
     </p>
 
@@ -231,7 +231,7 @@ function renderDossierBlock(block: DossierBodyBlock, i: number) {
           );
         case 'p':
           return (
-            <p key={i} className="font-body text-body text-ink-700 leading-relaxed m-0">
+            <p key={i} className="font-body text-body text-ink-700 m-0">
               {block.text}
             </p>
           );
@@ -239,7 +239,7 @@ function renderDossierBlock(block: DossierBodyBlock, i: number) {
           return (
             <ul key={i} className="flex flex-col gap-stack m-0 pl-0 list-none">
               {block.items.map((item, j) => (
-                <li key={j} className="flex gap-stack-xs font-body text-body text-ink-700 leading-relaxed">
+                <li key={j} className="flex gap-stack-xs font-body text-body text-ink-700">
                   <span aria-hidden className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-pill bg-primary-500" />
                   <span>{item}</span>
                 </li>
@@ -358,7 +358,7 @@ export const MarketingDossierDetail: React.FC = () => {
           <Reveal>
             <Link
               to="/website/resources"
-              className="inline-flex items-center gap-1.5 self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+              className="inline-flex items-center gap-stack-2xs self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
             >
               <ArrowLeft size={16} className="transition-transform duration-base group-hover:-translate-x-1" />
               Tous les dossiers
@@ -370,15 +370,15 @@ export const MarketingDossierDetail: React.FC = () => {
               <span className="inline-flex items-center px-3 py-1 rounded-pill border bg-secondary-50 text-secondary-700 border-secondary-100 font-body text-caption font-bold uppercase tracking-wider">
                 Dossier
               </span>
-              <span className="inline-flex items-center gap-1.5 font-body text-caption text-ink-600">
+              <span className="inline-flex items-center gap-stack-2xs font-body text-caption text-ink-600">
                 <Calendar size={14} />
                 {dossier.date}
               </span>
-              <span className="inline-flex items-center gap-1.5 font-body text-caption text-ink-600">
+              <span className="inline-flex items-center gap-stack-2xs font-body text-caption text-ink-600">
                 <Clock size={14} />
                 {dossier.readTime} de lecture
               </span>
-              <span className="inline-flex items-center gap-1.5 font-body text-caption text-ink-600">
+              <span className="inline-flex items-center gap-stack-2xs font-body text-caption text-ink-600">
                 <Library size={14} />
                 {dossier.sourceCount} sources
               </span>

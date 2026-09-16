@@ -292,7 +292,7 @@ export const LearningPathDetail: React.FC = () => {
                     <h3 className="font-display text-body font-bold text-ink-900">
                       {label}
                     </h3>
-                    <p className="m-0 text-body-sm text-ink-500 leading-relaxed">{desc}</p>
+                    <p className="m-0 text-body-sm text-ink-500">{desc}</p>
                   </div>
                 </div>
               ))}
@@ -571,7 +571,7 @@ export const LearningPathDetail: React.FC = () => {
                 <h2 className="font-display text-h2 font-bold mb-3">
                   {parcours.finalProject.title}
                 </h2>
-                <p className="text-body-lg m-0 mb-section opacity-90 max-w-[720px] mx-auto leading-relaxed">
+                <p className="text-body-lg m-0 mb-section opacity-90 max-w-[720px] mx-auto">
                   {parcours.finalProject.description}
                 </p>
 

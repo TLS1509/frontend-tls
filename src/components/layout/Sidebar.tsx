@@ -132,7 +132,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 // ─── Default brand (logo + title) ──────────────────────────────────────────
 
 const DefaultBrand: React.FC<{ collapsed: boolean }> = ({ collapsed }) => (
-  <div className={['flex items-center gap-2.5', collapsed && 'justify-center'].filter(Boolean).join(' ')}>
+  <div className={['flex items-center gap-stack-xs.5', collapsed && 'justify-center'].filter(Boolean).join(' ')}>
     <TlsLogo size={collapsed ? 48 : 42} className="shrink-0" />
     {!collapsed && (
       <span className="font-display font-bold text-body-lg leading-[1.12] text-primary-800">
@@ -224,7 +224,7 @@ export const NavItem: React.FC<NavItemProps> = ({
 }) => {
   const sizeClasses = collapsed
     ? 'w-12 h-12 mx-auto justify-center px-0'
-    : 'h-12 px-3.5 gap-2.5';
+    : 'h-12 px-3.5 gap-stack-xs.5';
 
   const classes = [
     NAV_BASE,

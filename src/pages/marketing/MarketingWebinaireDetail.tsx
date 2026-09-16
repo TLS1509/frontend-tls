@@ -78,7 +78,7 @@ export const MarketingWebinaireDetail: React.FC = () => {
           <FadeInWhenVisible direction="up">
             <Link
               to="/website/resources"
-              className="inline-flex items-center gap-1.5 self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+              className="inline-flex items-center gap-stack-2xs self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
             >
               <ArrowLeft size={16} className="transition-transform duration-base group-hover:-translate-x-1" />
               Retour aux ressources
@@ -96,10 +96,10 @@ export const MarketingWebinaireDetail: React.FC = () => {
               >
                 <Radio size={14} className="mr-1.5" /> {isUpcoming ? 'À venir' : 'Replay'}
               </span>
-              <span className="inline-flex items-center gap-1.5 font-body text-caption text-ink-600">
+              <span className="inline-flex items-center gap-stack-2xs font-body text-caption text-ink-600">
                 <Calendar size={14} /> {webinaire.date}
               </span>
-              <span className="inline-flex items-center gap-1.5 font-body text-caption text-ink-600">
+              <span className="inline-flex items-center gap-stack-2xs font-body text-caption text-ink-600">
                 <Clock size={14} /> {webinaire.time}
               </span>
             </div>
@@ -124,19 +124,19 @@ export const MarketingWebinaireDetail: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-section items-start">
           {/* Description + agenda + speakers */}
           <FadeInWhenVisible direction="up" className="flex flex-col gap-stack-lg">
-            <p className="font-body text-body text-ink-700 leading-relaxed m-0">
+            <p className="font-body text-body text-ink-700 m-0">
               {webinaire.description}
             </p>
 
             <div className="flex flex-col gap-stack">
-              <span className="inline-flex items-center gap-1.5 font-body text-caption font-bold text-ink-500 uppercase tracking-widest">
+              <span className="inline-flex items-center gap-stack-2xs font-body text-caption font-bold text-ink-500 uppercase tracking-widest">
                 <ListChecks size={14} /> Au programme
               </span>
               <ul className="flex flex-col gap-stack m-0 pl-0 list-none">
                 {webinaire.agenda.map((item, i) => (
                   <li key={i} className="flex items-start gap-stack-xs">
                     <span aria-hidden className="mt-2 h-1.5 w-1.5 shrink-0 rounded-pill bg-primary-500" />
-                    <span className="font-body text-body-sm text-ink-700 leading-relaxed">{item}</span>
+                    <span className="font-body text-body-sm text-ink-700">{item}</span>
                   </li>
                 ))}
               </ul>
@@ -191,7 +191,7 @@ export const MarketingWebinaireDetail: React.FC = () => {
                       <Button type="submit" variant="primary" size="lg" loading={loading} trailingIcon={<ArrowRight size={16} />}>
                         Réserver ma place
                       </Button>
-                      <span className="inline-flex items-center gap-1.5 font-body text-micro text-ink-500">
+                      <span className="inline-flex items-center gap-stack-2xs font-body text-micro text-ink-500">
                         <ShieldCheck size={14} /> RGPD conforme · zéro spam
                       </span>
                     </motion.form>

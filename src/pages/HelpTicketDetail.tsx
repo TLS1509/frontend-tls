@@ -87,7 +87,7 @@ export default function HelpTicketDetail() {
               <Calendar size={14} />
               {formatDate(ticket.createdAt)}
             </div>
-            <p className="text-body text-ink-700 leading-relaxed m-0 whitespace-pre-line">
+            <p className="text-body text-ink-700 m-0 whitespace-pre-line">
               {ticket.description}
             </p>
           </div>
@@ -109,7 +109,7 @@ export default function HelpTicketDetail() {
                         </span>
                         <span className="text-caption text-ink-500">{formatDate(reply.createdAt)}</span>
                       </div>
-                      <p className="text-body-sm text-ink-700 leading-relaxed m-0 whitespace-pre-line">
+                      <p className="text-body-sm text-ink-700 m-0 whitespace-pre-line">
                         {reply.replyText}
                       </p>
                     </div>

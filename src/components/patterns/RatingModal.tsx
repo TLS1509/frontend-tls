@@ -61,12 +61,12 @@ export const RatingModal: React.FC<RatingModalProps> = ({
           </h2>
         )}
         {description && (
-          <p className="m-0 text-body-sm text-ink-500 leading-relaxed">{description}</p>
+          <p className="m-0 text-body-sm text-ink-500">{description}</p>
         )}
       </div>
 
       <div className="flex flex-col items-center gap-stack-xs">
-        <div className="flex justify-center gap-1.5">
+        <div className="flex justify-center gap-stack-2xs">
           {[1, 2, 3, 4, 5].map((star) => {
             const isActive = star <= displayRating;
             return (
@@ -117,7 +117,7 @@ export const RatingModal: React.FC<RatingModalProps> = ({
         </label>
         <textarea
           id="rating-feedback"
-          className="w-full px-4 py-3 h-auto min-h-[100px] rounded-lg border border-ink-300 bg-white text-body-sm text-ink-900 leading-relaxed placeholder:text-ink-500 focus:border-primary-400 focus:outline-none focus:shadow-brand-sm transition-all resize-y disabled:bg-ink-50 disabled:cursor-not-allowed"
+          className="w-full px-4 py-3 h-auto min-h-[100px] rounded-lg border border-ink-300 bg-white text-body-sm text-ink-900 placeholder:text-ink-500 focus:border-primary-400 focus:outline-none focus:shadow-brand-sm transition-all resize-y disabled:bg-ink-50 disabled:cursor-not-allowed"
           placeholder="Partagez vos impressions, suggestions ou retours…"
           value={feedback}
           onChange={(e) => setFeedback(e.target.value)}

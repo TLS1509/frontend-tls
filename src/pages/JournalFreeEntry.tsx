@@ -155,7 +155,7 @@ export const JournalFreeEntry: React.FC = () => {
         {/* Main editor */}
         <div>
           {/* Date chip */}
-          <div className="flex items-center gap-1.5 mb-stack text-ink-500 font-body text-body-sm">
+          <div className="flex items-center gap-stack-2xs mb-stack text-ink-500 font-body text-body-sm">
             <CalendarDays size={14} />
             <span>{new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
           </div>
@@ -183,7 +183,7 @@ export const JournalFreeEntry: React.FC = () => {
                     type="button"
                     onClick={() => setSelectedCategory(active ? null : cat.id)}
                     className={[
-                      'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill border cursor-pointer font-body text-caption font-bold transition-all duration-150',
+                      'inline-flex items-center gap-stack-2xs px-3 py-1.5 rounded-pill border cursor-pointer font-body text-caption font-bold transition-all duration-150',
                       'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                       active
                         ? 'border-primary-400 bg-primary-50 text-primary-700'
@@ -234,7 +234,7 @@ export const JournalFreeEntry: React.FC = () => {
               onChange={(e) => setContent(e.target.value)}
               placeholder="Commencez à écrire... Qu'avez-vous observé ? Qu'avez-vous appris ? Que voulez-vous faire différemment ?"
               rows={18}
-              className="w-full border-0 outline-none resize-none font-body text-body text-ink-900 leading-relaxed bg-transparent h-auto block placeholder:text-ink-300"
+              className="w-full border-0 outline-none resize-none font-body text-body text-ink-900 bg-transparent h-auto block placeholder:text-ink-300"
             />
             <div className="text-right font-body text-caption text-ink-600 mt-stack-xs">
               {wordCount} mot{wordCount > 1 ? 's' : ''}

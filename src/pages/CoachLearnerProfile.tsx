@@ -401,7 +401,7 @@ export default function CoachLearnerProfile() {
                     <div className="flex items-start justify-between gap-stack">
                       <div className="flex flex-col gap-tight flex-1 min-w-0">
                         <span className="text-body-sm font-semibold text-ink-900">{rec.title}</span>
-                        <p className="text-caption text-ink-500 leading-relaxed">{rec.rationale}</p>
+                        <p className="text-caption text-ink-500">{rec.rationale}</p>
                       </div>
                       <span className={`inline-flex items-center text-micro font-medium px-1.5 py-0.5 rounded-xs border shrink-0 ${confCls}`}>
                         {pct}%

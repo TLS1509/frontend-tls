@@ -96,7 +96,7 @@ export default function OnboardingTutorial() {
           <h1 className="font-display text-h2 tracking-display text-ink-900 leading-tight">
             Découvre la plateforme
           </h1>
-          <p className="m-0 font-body text-body text-ink-500 leading-relaxed">
+          <p className="m-0 font-body text-body text-ink-500">
             Un tour rapide des fonctionnalités clés pour démarrer efficacement.
           </p>
         </header>

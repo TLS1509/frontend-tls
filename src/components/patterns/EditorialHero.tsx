@@ -231,7 +231,7 @@ export const PageHero: React.FC<PageHeroProps> = ({
       className={[
         'flex flex-col',
         isFlat
-          ? 'gap-2'
+          ? 'gap-stack-xs'
           : 'relative overflow-hidden rounded-lg border backdrop-blur-glass-light gap-stack-xs',
         !isFlat && TONE_BG[tone],
         !isFlat && TONE_BORDER[tone],
@@ -268,7 +268,7 @@ export const PageHero: React.FC<PageHeroProps> = ({
               type="button"
               onClick={backLink.onClick}
               className={[
-                'inline-flex items-center gap-1.5 text-caption font-bold rounded-pill border px-3 py-1.5 transition-colors',
+                'inline-flex items-center gap-stack-2xs text-caption font-bold rounded-pill border px-3 py-1.5 transition-colors',
                 'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                 TONE_BACKLINK[tone],
               ].join(' ')}
@@ -286,7 +286,7 @@ export const PageHero: React.FC<PageHeroProps> = ({
         <div className={isFlat ? '' : 'relative'}>
           {isEyebrowObject(eyebrow) ? (
             <span className={[
-              'inline-flex items-center gap-1.5 font-medium',
+              'inline-flex items-center gap-stack-2xs font-medium',
               isFlat
                 ? 'text-caption font-semibold uppercase tracking-[0.06em]'
                 : 'text-caption',
@@ -340,7 +340,7 @@ export const PageHero: React.FC<PageHeroProps> = ({
 
       {/* Progress bar (above trailing) */}
       {clampedProgress !== null && (
-        <div className="relative flex flex-col gap-1.5 mt-2">
+        <div className="relative flex flex-col gap-stack-2xs mt-2">
           <div
             className={['h-1.5 rounded-pill overflow-hidden', TONE_PROGRESS_TRACK[tone]].join(' ')}
             role="progressbar"

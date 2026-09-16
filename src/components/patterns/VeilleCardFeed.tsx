@@ -215,7 +215,7 @@ export const VeilleCard: React.FC<VeilleCardProps> = ({ item, surface, isSaved, 
 
       {/* Body content */}
       <div className="flex flex-col gap-stack-xs p-5 flex-1">
-        <div className="inline-flex items-center gap-1.5 flex-wrap font-body text-micro font-semibold uppercase tracking-wider text-ink-500">
+        <div className="inline-flex items-center gap-stack-2xs flex-wrap font-body text-micro font-semibold uppercase tracking-wider text-ink-500">
           <span className="inline-flex items-center gap-tight"><User size={14} strokeWidth={2} />{item.author}</span>
           <span aria-hidden>·</span>
           <span>{item.category}</span>
@@ -229,7 +229,7 @@ export const VeilleCard: React.FC<VeilleCardProps> = ({ item, surface, isSaved, 
           {item.title}
         </h3>
 
-        <p className="m-0 font-body text-body-sm text-ink-600 leading-relaxed line-clamp-2 flex-1">
+        <p className="m-0 font-body text-body-sm text-ink-600 line-clamp-2 flex-1">
           {item.summary}
         </p>
 
@@ -286,7 +286,7 @@ export const VeilleCardListItem: React.FC<VeilleCardProps> = ({ item, surface, i
 
       {/* Body content — titre → meta → summary */}
       <div className="flex-1 min-w-0 flex flex-col gap-tight p-4 @lg:p-5 justify-center">
-        <div className="flex items-start gap-2 min-w-0">
+        <div className="flex items-start gap-stack-xs min-w-0">
           {item.isNew && (
             <span className="shrink-0 inline-flex px-2 py-0.5 rounded-pill bg-success-bg text-success-fg text-micro font-bold uppercase tracking-wide leading-none mt-px">
               Nouveau
@@ -296,7 +296,7 @@ export const VeilleCardListItem: React.FC<VeilleCardProps> = ({ item, surface, i
             {item.title}
           </h3>
         </div>
-        <div className="flex items-center gap-1.5 font-body text-micro text-ink-500 flex-wrap">
+        <div className="flex items-center gap-stack-2xs font-body text-micro text-ink-500 flex-wrap">
           <span className="inline-flex items-center gap-tight"><User size={14} strokeWidth={2} />{item.author}</span>
           <span aria-hidden>·</span>
           <span>{item.category}</span>
@@ -305,7 +305,7 @@ export const VeilleCardListItem: React.FC<VeilleCardProps> = ({ item, surface, i
           <span aria-hidden>·</span>
           <span className="inline-flex items-center gap-tight"><Clock size={14} strokeWidth={2} />{item.readTime}</span>
         </div>
-        <p className="m-0 font-body text-caption @lg:text-body-sm text-ink-600 leading-relaxed line-clamp-2">
+        <p className="m-0 font-body text-caption @lg:text-body-sm text-ink-600 line-clamp-2">
           {item.summary}
         </p>
       </div>
@@ -368,7 +368,7 @@ export const FeaturedSpotlight: React.FC<FeaturedSpotlightProps> = ({ item, isSa
         <div className="absolute inset-0 flex items-center justify-center">
           <TypeIcon size={96} strokeWidth={1.25} className="text-white/90 transition-transform duration-base group-hover:scale-110" />
         </div>
-        <span className="absolute top-4 left-4 inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-pill bg-white/95 backdrop-blur-glass-light text-micro font-bold text-ink-900 shadow-sm uppercase tracking-label">
+        <span className="absolute top-4 left-4 inline-flex items-center gap-stack-2xs px-2.5 py-0.5 rounded-pill bg-white/95 backdrop-blur-glass-light text-micro font-bold text-ink-900 shadow-sm uppercase tracking-label">
           ✨ À la une
         </span>
         {showSaveButton && onToggleSave && (
@@ -390,13 +390,13 @@ export const FeaturedSpotlight: React.FC<FeaturedSpotlightProps> = ({ item, isSa
 
       {/* Content (right) */}
       <div className="flex flex-col gap-stack p-stack-lg justify-center">
-        <span className={['inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-pill border text-micro font-bold uppercase tracking-wider', BADGE_STYLE[tone]].join(' ')}>
+        <span className={['inline-flex items-center gap-stack-2xs self-start px-2.5 py-1 rounded-pill border text-micro font-bold uppercase tracking-wider', BADGE_STYLE[tone]].join(' ')}>
           <TypeIcon size={14} strokeWidth={2.5} /> {item.typeLabel} · {item.category}
         </span>
         <h2 className="font-display text-h2 font-bold text-ink-900 leading-tight">
           {item.title}
         </h2>
-        <p className="m-0 font-body text-body text-ink-700 leading-relaxed line-clamp-3">
+        <p className="m-0 font-body text-body text-ink-700 line-clamp-3">
           {item.summary}
         </p>
         <div className="flex flex-wrap gap-stack-xs items-center text-caption text-ink-600">
@@ -471,7 +471,7 @@ export const FeaturedSpotlightCarousel: React.FC<FeaturedSpotlightCarouselProps>
           <div className="absolute inset-0 flex items-center justify-center">
             <TypeIcon size={96} strokeWidth={1.25} className="text-white/90 transition-transform duration-slow" />
           </div>
-          <span className="absolute top-4 left-4 inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-pill bg-white/95 backdrop-blur-glass-light text-micro font-bold text-ink-900 shadow-sm uppercase tracking-label">
+          <span className="absolute top-4 left-4 inline-flex items-center gap-stack-2xs px-2.5 py-0.5 rounded-pill bg-white/95 backdrop-blur-glass-light text-micro font-bold text-ink-900 shadow-sm uppercase tracking-label">
             ✨ À la une
           </span>
           {showSaveButton && onToggleSave && (
@@ -494,7 +494,7 @@ export const FeaturedSpotlightCarousel: React.FC<FeaturedSpotlightCarouselProps>
           {items.length > 1 && (
             <div className="absolute bottom-4 inset-x-4 flex items-center justify-between">
               {/* Dots */}
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-stack-2xs">
                 {items.map((_, i) => (
                   <button
                     key={i}
@@ -542,7 +542,7 @@ export const FeaturedSpotlightCarousel: React.FC<FeaturedSpotlightCarouselProps>
           role="button"
           onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onClick?.(item); }}
         >
-          <span className={['inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-pill border text-micro font-bold uppercase tracking-wider', BADGE_STYLE[tone]].join(' ')}>
+          <span className={['inline-flex items-center gap-stack-2xs self-start px-2.5 py-1 rounded-pill border text-micro font-bold uppercase tracking-wider', BADGE_STYLE[tone]].join(' ')}>
             <TypeIcon size={14} strokeWidth={2.5} /> {item.typeLabel} · {item.category}
           </span>
           <h2 className="font-display text-h2 font-bold text-ink-900 leading-tight group-hover:text-primary-700 transition-colors">

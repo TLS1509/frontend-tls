@@ -50,7 +50,7 @@ function buildAiContent(m: ChatMessage): React.ReactNode {
   if (m.privacyBlocked) {
     return (
       <div className="flex flex-col gap-tight">
-        <p className="text-body-sm text-ink-900 leading-relaxed">{m.content}</p>
+        <p className="text-body-sm text-ink-900">{m.content}</p>
         <div className="flex items-center gap-tight pt-tight border-t border-ink-100 mt-1">
           <span className="inline-flex items-center gap-tight text-micro font-medium text-ink-500 bg-ink-50 border border-ink-200 px-1.5 py-0.5 rounded-xs">
             <Shield size={14} aria-hidden />
@@ -65,7 +65,7 @@ function buildAiContent(m: ChatMessage): React.ReactNode {
 
   return (
     <div className="flex flex-col gap-tight">
-      <p className="text-body-sm text-ink-900 leading-relaxed">{m.content}</p>
+      <p className="text-body-sm text-ink-900">{m.content}</p>
       <div className="flex flex-wrap items-center gap-tight pt-tight border-t border-primary-100 mt-1">
         <AITransparencyLabel variant="generated" size="sm" />
         {m.confidenceScore !== undefined && (

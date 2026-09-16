@@ -234,7 +234,7 @@ export const VideoViewer: React.FC = () => {
             </div>
 
             {/* Description */}
-            <p className="font-body text-body-sm text-ink-500 m-0 leading-relaxed">
+            <p className="font-body text-body-sm text-ink-500 m-0">
               {VIDEO_DATA.description}
             </p>
 

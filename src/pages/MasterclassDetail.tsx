@@ -86,7 +86,7 @@ export default function MasterclassDetail() {
                       }
                     >
                       <div className="px-4 py-stack border-t border-ink-100">
-                        <p className="text-body-sm text-ink-600 m-0 leading-relaxed">{item.detail}</p>
+                        <p className="text-body-sm text-ink-600 m-0">{item.detail}</p>
                       </div>
                     </EtapeAccordion>
                   ))}

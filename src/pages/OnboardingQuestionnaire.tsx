@@ -152,7 +152,7 @@ const OnboardingQuestionnaire: React.FC = () => {
             <h1 className="font-display text-h2 tracking-display text-ink-900 leading-tight">
               Évaluons ton niveau de départ
             </h1>
-            <p className="m-0 font-body text-body text-ink-500 leading-relaxed">
+            <p className="m-0 font-body text-body text-ink-500">
               {total} compétences à évaluer — réponds en tapant sur une proposition.
             </p>
           </header>
@@ -224,7 +224,7 @@ const OnboardingQuestionnaire: React.FC = () => {
           <h1 className="font-display text-h2 tracking-display text-ink-900 leading-tight">
             Évaluons ton niveau de départ
           </h1>
-          <p className="m-0 font-body text-body text-ink-500 leading-relaxed">
+          <p className="m-0 font-body text-body text-ink-500">
             {total} questions pour adapter ton parcours. Tu pourras ajuster ces niveaux à tout moment depuis ton Passeport.
           </p>
         </header>

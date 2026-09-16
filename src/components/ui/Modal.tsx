@@ -91,7 +91,7 @@ export const Modal: React.FC<ModalProps> = ({
         )}
 
         {children && (
-          <div className="text-body text-ink-900 leading-relaxed">{children}</div>
+          <div className="text-body text-ink-900">{children}</div>
         )}
 
         {actions && (

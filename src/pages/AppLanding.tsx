@@ -138,7 +138,7 @@ const FEATURE_TONE: Record<FeatureCard['tone'], { card: string; icon: string; ey
 /* ─── Sub-components ──────────────────────────────────────────────────────── */
 
 const Pill: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => (
-  <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-pill font-body text-caption font-semibold ${className}`}>
+  <span className={`inline-flex items-center gap-stack-2xs px-3 py-1 rounded-pill font-body text-caption font-semibold ${className}`}>
     {children}
   </span>
 );
@@ -165,7 +165,7 @@ const LandingCta: React.FC<{
     <button
       type={type}
       onClick={onClick}
-      className={`group inline-flex items-center justify-between gap-3 h-12 pl-6 pr-2 rounded-pill font-body font-bold text-body active:scale-[0.98] transition-[background-color,transform] duration-base ease-emphasis focus-visible:outline-2 focus-visible:outline-offset-2 ${t.btn} ${t.focus} ${fullWidth ? 'w-full' : ''}`}
+      className={`group inline-flex items-center justify-between gap-stack-sm h-12 pl-6 pr-2 rounded-pill font-body font-bold text-body active:scale-[0.98] transition-[background-color,transform] duration-base ease-emphasis focus-visible:outline-2 focus-visible:outline-offset-2 ${t.btn} ${t.focus} ${fullWidth ? 'w-full' : ''}`}
     >
       <span>{children}</span>
       <span className={`w-8 h-8 rounded-pill ${t.icon} flex items-center justify-center shrink-0 transition-transform duration-base ease-emphasis group-hover:translate-x-0.5`}>
@@ -214,13 +214,13 @@ const AppLanding: React.FC = () => {
 
       {/* ── NAV ── */}
       <nav className="fixed top-0 left-0 right-0 z-sticky h-14 flex items-center justify-between px-6 md:px-10 bg-white/80 backdrop-blur-glass-light border-b border-ink-100">
-        <Link to="/website" className="flex items-center gap-2">
+        <Link to="/website" className="flex items-center gap-stack-xs">
           <TlsLogo variant="primary" className="h-7 w-7" />
           <span className="font-display font-bold text-body-sm text-ink-900 tracking-snug hidden sm:inline">
             The Learning Society
           </span>
         </Link>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-stack-sm">
           <Link
             to="/auth/login"
             className="font-body text-body-sm text-ink-600 hover:text-ink-900 transition-colors hidden sm:inline"
@@ -238,11 +238,11 @@ const AppLanding: React.FC = () => {
         {/* Atmosphère : grain film léger sur fond clair */}
         <NoiseTexture opacity={0.025} />
 
-        <motion.div style={heroStyle} className="relative z-10 max-w-page mx-auto flex flex-col lg:flex-row items-start lg:items-center gap-12 lg:gap-20">
+        <motion.div style={heroStyle} className="relative z-10 max-w-page mx-auto flex flex-col lg:flex-row items-start lg:items-center gap-page lg:gap-20">
 
           {/* Left: copy (staggered reveal) */}
           <motion.div
-            className="flex flex-col gap-6 flex-1 max-w-xl"
+            className="flex flex-col gap-stack-lg flex-1 max-w-xl"
             variants={heroContainer}
             initial={reduce ? false : 'hidden'}
             animate={reduce ? false : 'show'}
@@ -267,15 +267,15 @@ const AppLanding: React.FC = () => {
 
             <motion.p
               variants={heroItem}
-              className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-md"
+              className="font-body text-body-lg text-ink-600 m-0 max-w-md"
             >
               Alignez vos compétences réelles et vos projets. L'IA amplifie, l'humain accompagne.
             </motion.p>
 
             {/* Preuves qualitatives (zéro métrique inventée) */}
-            <motion.div variants={heroItem} className="flex flex-wrap gap-x-5 gap-y-2 pt-2">
+            <motion.div variants={heroItem} className="flex flex-wrap gap-x-5 gap-y-stack-xs pt-2">
               {TRUST.map(({ icon, label }) => (
-                <div key={label} className="flex items-center gap-1.5 text-ink-500 font-body text-body-sm">
+                <div key={label} className="flex items-center gap-stack-2xs text-ink-500 font-body text-body-sm">
                   <span className="text-primary-500">{icon}</span>
                   {label}
                 </div>
@@ -294,12 +294,12 @@ const AppLanding: React.FC = () => {
             <div className="bg-white border border-primary-100 rounded-2xl p-2 shadow-brand-md">
               {/* Inner core */}
               <div className="bg-primary-50/60 border border-primary-100 rounded-[18px] p-6 md:p-7 flex flex-col gap-5">
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-stack-3xs">
                   <span className="font-display font-bold text-ink-900 text-h4 m-0">Commencer gratuitement</span>
                   <span className="font-body text-body-sm text-ink-500">Accès complet · Aucune carte requise</span>
                 </div>
 
-                <form onSubmit={(e) => handleSignup(e, email)} className="flex flex-col gap-3">
+                <form onSubmit={(e) => handleSignup(e, email)} className="flex flex-col gap-stack-sm">
                   <input
                     type="email"
                     required
@@ -320,13 +320,13 @@ const AppLanding: React.FC = () => {
                 </p>
 
                 {/* Trust signals — postures défendables uniquement */}
-                <div className="flex items-center gap-3 pt-3 border-t border-ink-100">
+                <div className="flex items-center gap-stack-sm pt-3 border-t border-ink-100">
                   {[
                     { icon: <BadgeCheck size={14} />, label: 'RGPD conforme' },
                     { icon: <Brain size={14} />, label: 'IA éthique' },
                     { icon: <Users size={14} />, label: 'Coaching humain' },
                   ].map(({ icon, label }) => (
-                    <div key={label} className="flex items-center gap-1 text-ink-500 font-body text-micro">
+                    <div key={label} className="flex items-center gap-stack-3xs text-ink-500 font-body text-micro">
                       {icon}
                       <span>{label}</span>
                     </div>
@@ -343,7 +343,7 @@ const AppLanding: React.FC = () => {
         <div className="relative z-10 max-w-page mx-auto flex flex-col gap-stack-lg">
           <FadeInWhenVisible direction="up">
             <div className="flex flex-col gap-tight text-center max-w-xl mx-auto">
-              <span className="inline-flex items-center justify-center gap-1.5 font-body text-caption font-semibold text-primary-600">
+              <span className="inline-flex items-center justify-center gap-stack-2xs font-body text-caption font-semibold text-primary-600">
                 <MousePointerClick size={14} />
                 Essayez, c'est interactif
               </span>
@@ -380,18 +380,18 @@ const AppLanding: React.FC = () => {
             </div>
           </FadeInWhenVisible>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-stack-lg">
             {FEATURES.map((feat, i) => {
               const tones = FEATURE_TONE[feat.tone];
               return (
                 <FadeInWhenVisible key={feat.eyebrow} direction="up" delay={i * 0.1}>
                   <div
-                    className={`group h-full flex flex-col gap-4 p-6 rounded-2xl shadow-card hover:shadow-card-lift hover:-translate-y-1 transition-[transform,box-shadow] duration-base ease-emphasis ${tones.card}`}
+                    className={`group h-full flex flex-col gap-stack p-6 rounded-2xl shadow-card hover:shadow-card-lift hover:-translate-y-1 transition-[transform,box-shadow] duration-base ease-emphasis ${tones.card}`}
                   >
                     <div className={`w-11 h-11 rounded-xl flex items-center justify-center transition-transform duration-base ease-emphasis group-hover:scale-105 ${tones.icon}`}>
                       {feat.icon}
                     </div>
-                    <div className="flex flex-col gap-1">
+                    <div className="flex flex-col gap-stack-3xs">
                       <span className={`font-body text-caption font-semibold uppercase tracking-wider ${tones.eyebrow}`}>
                         {feat.eyebrow}
                       </span>
@@ -399,12 +399,12 @@ const AppLanding: React.FC = () => {
                         {feat.title}
                       </h3>
                     </div>
-                    <p className="font-body text-body-sm text-ink-600 m-0 leading-relaxed flex-1">
+                    <p className="font-body text-body-sm text-ink-600 m-0 flex-1">
                       {feat.description}
                     </p>
-                    <ul className="flex flex-col gap-2 m-0 p-0 list-none">
+                    <ul className="flex flex-col gap-stack-xs m-0 p-0 list-none">
                       {feat.items.map((item) => (
-                        <li key={item} className="flex items-start gap-2 font-body text-caption text-ink-700">
+                        <li key={item} className="flex items-start gap-stack-xs font-body text-caption text-ink-700">
                           <Check size={14} className={`mt-0.5 shrink-0 ${tones.bullet}`} />
                           {item}
                         </li>
@@ -441,15 +441,15 @@ const AppLanding: React.FC = () => {
             />
             {STEPS.map((step, i) => (
               <FadeInWhenVisible key={step.number} direction="up" delay={i * 0.12} className="relative z-[1]">
-                <div className="flex flex-col items-center text-center gap-4">
+                <div className="flex flex-col items-center text-center gap-stack">
                   <div className="w-16 h-16 rounded-pill bg-white border-2 border-primary-200 flex items-center justify-center shadow-sm">
                     <span className="font-display font-bold text-primary-600 text-h4 m-0 leading-none tabular-nums">
                       {step.number}
                     </span>
                   </div>
-                  <div className="flex flex-col gap-1">
+                  <div className="flex flex-col gap-stack-3xs">
                     <h3 className="font-display font-bold text-ink-900 text-h4">{step.title}</h3>
-                    <p className="font-body text-body-sm text-ink-600 m-0 leading-relaxed max-w-xs mx-auto">
+                    <p className="font-body text-body-sm text-ink-600 m-0 max-w-xs mx-auto">
                       {step.description}
                     </p>
                   </div>
@@ -464,8 +464,8 @@ const AppLanding: React.FC = () => {
       <section className="py-section px-6 md:px-10 bg-white border-y border-ink-100">
         <div className="max-w-page mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
           <FadeInWhenVisible direction="left" className="max-w-lg">
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-2">
+            <div className="flex flex-col gap-stack-xs">
+              <div className="flex items-center gap-stack-xs">
                 <Brain size={20} className="text-primary-500 shrink-0" />
                 <span className="font-body text-caption font-semibold text-primary-600 uppercase tracking-wider">
                   Skills-Based Organisation
@@ -474,20 +474,20 @@ const AppLanding: React.FC = () => {
               <h2 className="font-display font-bold text-ink-900 text-h3 tracking-headline text-balance">
                 Apprendre, appliquer, prouver : la boucle Learn → Do → Match
               </h2>
-              <p className="font-body text-body text-ink-600 m-0 leading-relaxed">
+              <p className="font-body text-body text-ink-600 m-0">
                 Vos équipes progressent sur des projets réels, vos RH obtiennent des données compétences fiables, votre organisation alloue mieux les talents.
               </p>
             </div>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="right" className="shrink-0">
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-stack-sm">
               {[
                 'Compétences validées sur projets réels',
                 'Passeport de Compétences exportable',
                 'Intégration SIRH & données compétences',
                 'Coaching humain + IA éthique',
               ].map((item) => (
-                <div key={item} className="flex items-center gap-2">
+                <div key={item} className="flex items-center gap-stack-xs">
                   <div className="w-5 h-5 rounded-pill bg-primary-100 flex items-center justify-center shrink-0">
                     <Check size={14} className="text-primary-600" />
                   </div>
@@ -504,18 +504,18 @@ const AppLanding: React.FC = () => {
         <MeshGradientBg tone="brand" intensity="subtle" />
         <NoiseTexture opacity={0.04} />
 
-        <div className="relative z-10 max-w-lg mx-auto flex flex-col items-center gap-6 text-center">
+        <div className="relative z-10 max-w-lg mx-auto flex flex-col items-center gap-stack-lg text-center">
           <span className="font-body text-caption font-semibold text-white/55">
             Prêt à commencer ?
           </span>
           <h2 className="font-display text-white text-h2 tracking-headline leading-tight text-balance">
             Formez-vous sur vos projets réels, pas sur des vidéos
           </h2>
-          <p className="font-body text-body text-white/75 m-0 leading-relaxed">
+          <p className="font-body text-body text-white/75 m-0">
             Accès complet pour démarrer. Aucune carte de crédit.
           </p>
 
-          <form onSubmit={(e) => handleSignup(e, emailBottom)} className="w-full flex flex-col sm:flex-row items-center gap-3 max-w-md">
+          <form onSubmit={(e) => handleSignup(e, emailBottom)} className="w-full flex flex-col sm:flex-row items-center gap-stack-sm max-w-md">
             <input
               type="email"
               required
@@ -544,8 +544,8 @@ const AppLanding: React.FC = () => {
       </section>
 
       {/* ── FOOTER MINIMAL ── */}
-      <footer className="py-6 px-6 md:px-10 bg-ink-950 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-2.5">
+      <footer className="py-6 px-6 md:px-10 bg-ink-950 flex flex-col sm:flex-row items-center justify-between gap-stack">
+        <div className="flex items-center gap-stack-xs.5">
           <TlsLogo variant="light" className="h-5 w-5" />
           <span className="font-body text-caption text-white/50">
             © {new Date().getFullYear()} The Learning Society

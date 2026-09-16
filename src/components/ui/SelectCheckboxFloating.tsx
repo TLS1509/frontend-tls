@@ -54,14 +54,14 @@ export const SelectCheckboxFloating: React.FC<SelectCheckboxFloatingProps> = ({
       {label && <span className="text-body-sm font-semibold text-ink-700">{label}</span>}
 
       {/* Floating pills container */}
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-stack-xs">
         {options.map((option) => {
           const isSelected = selected.includes(option.id);
           return (
             <label
               key={option.id}
               className={[
-                'flex items-center gap-2 px-4 py-2 rounded-pill border transition-all cursor-pointer',
+                'flex items-center gap-stack-xs px-4 py-2 rounded-pill border transition-all cursor-pointer',
                 'focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-primary-500',
                 isSelected
                   ? 'bg-primary-50 border-primary-200 text-primary-700 font-medium shadow-xs'

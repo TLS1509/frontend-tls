@@ -449,7 +449,7 @@ export const JournalNewEntry: React.FC = () => {
             onChange={(e) => setBody(e.target.value)}
             placeholder={cfg.bodyPlaceholder}
             rows={12}
-            className="w-full border-0 outline-none bg-transparent font-body text-body text-ink-900 leading-relaxed resize-none h-auto block placeholder:text-ink-300"
+            className="w-full border-0 outline-none bg-transparent font-body text-body text-ink-900 resize-none h-auto block placeholder:text-ink-300"
           />
         </div>
       </PageShell>

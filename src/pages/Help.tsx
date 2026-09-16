@@ -220,7 +220,7 @@ export const Help: React.FC = () => {
               {CHAT_DEMO.map((msg, i) => (
                 <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                   <div className={[
-                    'max-w-[72%] px-stack py-3 font-body text-body-sm leading-relaxed shadow-xs',
+                    'max-w-[72%] px-stack py-3 font-body text-body-sm shadow-xs',
                     msg.role === 'user'
                       ? 'rounded-xl rounded-br-sm bg-primary-500 text-white'
                       : 'rounded-xl rounded-bl-sm bg-primary-50 text-ink-900',

@@ -188,7 +188,7 @@ export const PagesIndex: React.FC = () => {
 
           <div className="flex flex-wrap items-center gap-stack-xs">
             {/* Bascule de vue */}
-            <div role="tablist" aria-label="Mode d'affichage" className="inline-flex items-center gap-1 rounded-pill bg-ink-100 p-1">
+            <div role="tablist" aria-label="Mode d'affichage" className="inline-flex items-center gap-stack-3xs rounded-pill bg-ink-100 p-1">
               {VIEWS.map((v) => (
                 <button
                   key={v.key}
@@ -197,7 +197,7 @@ export const PagesIndex: React.FC = () => {
                   title={v.hint}
                   onClick={() => setView(v.key)}
                   className={[
-                    'inline-flex items-center gap-1.5 rounded-pill px-3 h-9 text-caption font-semibold transition-colors duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+                    'inline-flex items-center gap-stack-2xs rounded-pill px-3 h-9 text-caption font-semibold transition-colors duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                     view === v.key ? 'bg-white text-primary-800 shadow-xs' : 'text-ink-600 hover:text-ink-900',
                   ].join(' ')}
                 >
@@ -222,7 +222,7 @@ export const PagesIndex: React.FC = () => {
           </div>
 
           {/* Filtres par public */}
-          <div className="flex flex-wrap items-center gap-1.5">
+          <div className="flex flex-wrap items-center gap-stack-2xs">
             {AUDIENCES.map((a) => {
               const n = ROUTES.filter((r) => r.audience === a.key).length;
               const active = audFilter === a.key;
@@ -233,7 +233,7 @@ export const PagesIndex: React.FC = () => {
                   aria-pressed={active}
                   onClick={() => setAudFilter(active ? null : a.key)}
                   className={[
-                    'inline-flex items-center gap-1.5 rounded-pill border px-2.5 h-8 text-micro font-semibold transition-colors duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+                    'inline-flex items-center gap-stack-2xs rounded-pill border px-2.5 h-8 text-micro font-semibold transition-colors duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                     active ? a.chip : 'border-ink-200 bg-white text-ink-600 hover:border-ink-300 hover:text-ink-900',
                   ].join(' ')}
                 >
@@ -251,7 +251,7 @@ export const PagesIndex: React.FC = () => {
               onClick={() => setOrphansOnly((o) => !o)}
               title="Routes vers lesquelles aucun lien ne pointe dans le code"
               className={[
-                'inline-flex items-center gap-1.5 rounded-pill border px-2.5 h-8 text-micro font-semibold transition-colors duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+                'inline-flex items-center gap-stack-2xs rounded-pill border px-2.5 h-8 text-micro font-semibold transition-colors duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                 orphansOnly
                   ? 'border-danger-base bg-danger-bg text-danger-fg'
                   : 'border-ink-200 bg-white text-ink-600 hover:border-ink-300 hover:text-ink-900',
@@ -266,7 +266,7 @@ export const PagesIndex: React.FC = () => {
               <button
                 type="button"
                 onClick={() => { setAudFilter(null); setQuery(''); setOrphansOnly(false); }}
-                className="inline-flex items-center gap-1 rounded-pill px-2.5 h-8 text-micro font-semibold text-ink-600 hover:bg-ink-100 hover:text-ink-900 transition-colors duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                className="inline-flex items-center gap-stack-3xs rounded-pill px-2.5 h-8 text-micro font-semibold text-ink-600 hover:bg-ink-100 hover:text-ink-900 transition-colors duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
               >
                 <X size={14} strokeWidth={2.5} /> Tout afficher
               </button>
@@ -321,7 +321,7 @@ export const PagesIndex: React.FC = () => {
                       </span>
                     </div>
 
-                    <div className="flex flex-wrap gap-1.5">
+                    <div className="flex flex-wrap gap-stack-2xs">
                       {ordered.map(([sec, n]) => {
                         const secOrphans = rows.filter((r) => r.section === sec && r.inbound === 0).length;
                         const allOrphan = secOrphans === n;
@@ -332,7 +332,7 @@ export const PagesIndex: React.FC = () => {
                             onClick={() => { setQuery(`/${sec}`); setView('list'); }}
                             title={secOrphans ? `${secOrphans} route(s) sans lien entrant` : 'toutes liées'}
                             className={[
-                              'inline-flex items-center gap-1.5 rounded-pill border px-2.5 h-8 font-mono text-micro transition-colors duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+                              'inline-flex items-center gap-stack-2xs rounded-pill border px-2.5 h-8 font-mono text-micro transition-colors duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                               allOrphan
                                 ? 'border-danger-base/40 bg-danger-bg text-danger-fg'
                                 : 'border-ink-200 bg-ink-25 text-ink-800 hover:border-primary-300 hover:bg-primary-50',
@@ -378,18 +378,18 @@ export const PagesIndex: React.FC = () => {
                     <th scope="row" className="text-left px-4 py-2 font-mono font-normal text-ink-900 whitespace-nowrap">{r.path}</th>
                     <td className="px-4 py-2 text-ink-600 hidden sm:table-cell">{r.component ?? '—'}</td>
                     <td className="px-4 py-2 hidden md:table-cell">
-                      <span className="inline-flex items-center gap-1.5 text-ink-600">
+                      <span className="inline-flex items-center gap-stack-2xs text-ink-600">
                         <span className={`w-1.5 h-1.5 rounded-pill ${AUD[r.audience].dot}`} aria-hidden />
                         {AUD[r.audience].label}
                       </span>
                     </td>
                     <td className="px-4 py-2">
                       {r.inbound === 0 ? (
-                        <span className="inline-flex items-center gap-1 rounded-pill bg-danger-bg px-2 py-0.5 text-micro font-bold text-danger-fg">
+                        <span className="inline-flex items-center gap-stack-3xs rounded-pill bg-danger-bg px-2 py-0.5 text-micro font-bold text-danger-fg">
                           <Unlink size={14} strokeWidth={2.4} /> aucun
                         </span>
                       ) : (
-                        <span className="inline-flex items-baseline gap-1.5">
+                        <span className="inline-flex items-baseline gap-stack-2xs">
                           <span className="text-caption font-bold text-ink-800 tabular-nums">{r.inbound}</span>
                           <span className="text-micro text-ink-500 truncate max-w-[14rem] hidden lg:inline">
                             {r.linkedFrom.join(', ')}
@@ -401,7 +401,7 @@ export const PagesIndex: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => go(r.path)}
-                        className="inline-flex items-center gap-1 rounded-pill px-2.5 h-8 text-micro font-semibold text-primary-800 hover:bg-primary-100 transition-colors duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                        className="inline-flex items-center gap-stack-3xs rounded-pill px-2.5 h-8 text-micro font-semibold text-primary-800 hover:bg-primary-100 transition-colors duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                       >
                         Ouvrir <ArrowUpRight size={14} />
                       </button>

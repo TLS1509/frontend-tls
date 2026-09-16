@@ -271,7 +271,7 @@ export default function PasseportRoadmap() {
                   <p className="m-0 font-semibold text-body-sm text-ink-900 flex-1">{s.conseil}</p>
                   <Badge variant="brand" size="compact">{s.competence}</Badge>
                 </div>
-                <p className="m-0 text-body-sm text-ink-500 leading-relaxed">{s.detail}</p>
+                <p className="m-0 text-body-sm text-ink-500">{s.detail}</p>
                 <div className="flex justify-end">
                   <Button variant="ghost" size="sm" trailingIcon={<ChevronRight size={14} />}>
                     Explorer

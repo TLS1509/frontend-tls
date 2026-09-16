@@ -193,7 +193,7 @@ const SuggestionCard: React.FC<SuggestionCardProps> = ({
       <div className="flex flex-col gap-tight">
         <h3 className="font-body text-body-sm font-bold text-ink-900">{title}</h3>
         {description && (
-          <p className="font-body text-caption text-ink-500 m-0 leading-relaxed">{description}</p>
+          <p className="font-body text-caption text-ink-500 m-0">{description}</p>
         )}
       </div>
     </motion.button>
@@ -247,7 +247,7 @@ export const ErrorPage: React.FC<ErrorPageProps> = ({
           <motion.p
             variants={itemVariants}
             className={[
-              'font-body text-caption font-bold uppercase tracking-[0.06em] inline-flex items-center gap-1.5 m-0',
+              'font-body text-caption font-bold uppercase tracking-[0.06em] inline-flex items-center gap-stack-2xs m-0',
               TONE_EYEBROW[tone],
             ].join(' ')}
           >
@@ -295,9 +295,9 @@ export const ErrorPage: React.FC<ErrorPageProps> = ({
         )}
 
         <motion.div variants={itemVariants} className="flex flex-col gap-tight max-w-[560px]">
-          <h1 className="font-display text-h1 font-bold text-ink-900 leading-tight">{title}</h1>
+          <h1 className="font-display text-h1 font-bold text-ink-900">{title}</h1>
           {description && (
-            <p className="font-body text-body-lg text-ink-500 leading-relaxed m-0">{description}</p>
+            <p className="font-body text-body-lg text-ink-500 m-0">{description}</p>
           )}
         </motion.div>
 

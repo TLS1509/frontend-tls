@@ -101,7 +101,7 @@ export const KeyFindingCard: React.FC<KeyFindingCardProps> = ({
         ) : null}
 
         {description && (
-          <p className="m-0 font-body text-body-sm text-ink-600 leading-relaxed">
+          <p className="m-0 font-body text-body-sm text-ink-600">
             {description}
           </p>
         )}

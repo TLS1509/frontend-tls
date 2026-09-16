@@ -223,7 +223,7 @@ export default function ProfilePrivacy() {
             <AITransparencyLabel variant="assisted" size="md" />
             <span className="text-body-sm font-semibold text-primary-900">Comment l'IA utilise tes données</span>
           </div>
-          <p className="text-body-sm text-primary-800 leading-relaxed">
+          <p className="text-body-sm text-primary-800">
             Nos modèles IA traitent tes données d'apprentissage uniquement sur les bases légales que tu as acceptées.
             Chaque traitement est documenté, auditable et conforme à l'IA Act européen (2024/1689).
             Tu peux modifier tes préférences à tout moment : les changements prennent effet immédiatement.

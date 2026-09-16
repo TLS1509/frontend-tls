@@ -58,7 +58,7 @@ const Hero: React.FC = () => {
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           className="flex max-w-4xl flex-col gap-stack-lg"
         >
-          <p className="inline-flex w-fit items-center gap-2 rounded-pill bg-primary-100 px-4 py-1.5 font-body text-caption font-bold text-primary-800 m-0">
+          <p className="inline-flex w-fit items-center gap-stack-xs rounded-pill bg-primary-100 px-4 py-1.5 font-body text-caption font-bold text-primary-800 m-0">
             <Layers size={14} />
             Work-Integrated Learning & SBO Operating System
           </p>
@@ -66,7 +66,7 @@ const Hero: React.FC = () => {
             Formez vos équipes. Déployez l'IA.{' '}
             <span className="text-primary-700">Transformez votre entreprise en SBO.</span>
           </h1>
-          <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
+          <p className="font-body text-body-lg text-ink-600 m-0 max-w-2xl">
             Connectez l'apprentissage au travail quotidien. Acculturez vos
             équipes aux processus IA, alimentez-les d'une veille ciblée et
             pilotez vos talents sur une échelle de maîtrise vivante plutôt que
@@ -123,7 +123,7 @@ const Probleme: React.FC = () => (
               <div className="border-t border-white/15 py-stack-lg first:border-t-0">
                 <div className="flex flex-col gap-stack-xs">
                   <h3 className="font-display text-h4 font-bold text-white leading-tight">{c.title}</h3>
-                  <p className="font-body text-body text-white/70 leading-relaxed m-0 max-w-xl">{c.detail}</p>
+                  <p className="font-body text-body text-white/70 m-0 max-w-xl">{c.detail}</p>
                 </div>
               </div>
             </FadeInWhenVisible>
@@ -172,7 +172,7 @@ const Moteur: React.FC = () => (
                 <span className="font-display text-h1 font-extrabold text-primary-300 leading-none">{e.num}</span>
                 <h3 className="font-display text-h2 text-ink-900 leading-none">{e.verbe}</h3>
               </div>
-              <p className="font-body text-body text-ink-600 leading-relaxed m-0">{e.detail}</p>
+              <p className="font-body text-body text-ink-600 m-0">{e.detail}</p>
             </div>
           </FadeInWhenVisible>
         ))}
@@ -308,11 +308,11 @@ const Piliers: React.FC = () => (
           <FadeInWhenVisible key={p.kicker} delay={Math.min(i * 0.04, 0.12)}>
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-stack-lg lg:gap-section items-start border-t border-primary-200/70 py-section first:border-t-0">
               <div className="lg:col-span-5 flex flex-col gap-stack">
-                <span className="inline-flex w-fit items-center gap-2 rounded-pill bg-white px-3.5 py-1.5 font-body text-caption font-bold text-primary-800 shadow-card">
+                <span className="inline-flex w-fit items-center gap-stack-xs rounded-pill bg-white px-3.5 py-1.5 font-body text-caption font-bold text-primary-800 shadow-card">
                   {p.icon}
                   {p.kicker}
                 </span>
-                <h3 className="font-display text-h3 font-bold text-ink-900 leading-tight [text-wrap:balance]">
+                <h3 className="font-display text-h3 font-bold text-ink-900 [text-wrap:balance]">
                   {p.title}
                 </h3>
               </div>
@@ -320,7 +320,7 @@ const Piliers: React.FC = () => (
                 {p.points.map((pt) => (
                   <div key={pt.label} className="flex items-start gap-stack">
                     <CheckCircle2 size={20} className="text-primary-700 shrink-0 mt-1" />
-                    <p className="font-body text-body text-ink-700 leading-relaxed m-0">
+                    <p className="font-body text-body text-ink-700 m-0">
                       <span className="font-bold text-ink-900">{pt.label} : </span>
                       {pt.detail}
                     </p>
@@ -401,7 +401,7 @@ const Bibliotheque: React.FC = () => {
       <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
         <FadeInWhenVisible>
           <div className="max-w-3xl flex flex-col gap-stack">
-            <p className="inline-flex w-fit items-center gap-2 rounded-pill bg-primary-100 px-4 py-1.5 font-body text-caption font-bold text-primary-800 m-0">
+            <p className="inline-flex w-fit items-center gap-stack-xs rounded-pill bg-primary-100 px-4 py-1.5 font-body text-caption font-bold text-primary-800 m-0">
               <LibraryBig size={14} />
               La Bibliothèque de compétences
             </p>
@@ -409,7 +409,7 @@ const Bibliotheque: React.FC = () => {
               Oubliez les catalogues de cours.{' '}
               <span className="text-primary-700">Pilotez des compétences vivantes et mesurables.</span>
             </h2>
-            <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0">
+            <p className="font-body text-body-lg text-ink-600 m-0">
               Un catalogue e-learning mesure la consommation. Notre bibliothèque
               mesure la maîtrise : chaque compétence est une brique autonome,
               rattachée à des missions réelles, évaluée par preuves d'exécution
@@ -449,7 +449,7 @@ const Bibliotheque: React.FC = () => {
         <FadeInWhenVisible>
           <div className="rounded-lg bg-primary-50/60 p-stack-lg sm:p-section flex flex-col gap-stack-lg">
             <div className="flex flex-col gap-stack-xs">
-              <h3 className="font-display text-h3 font-bold text-ink-900 leading-tight">
+              <h3 className="font-display text-h3 font-bold text-ink-900">
                 Explorez une brique de compétence.
               </h3>
               <p className="font-body text-body-sm text-ink-600 m-0">
@@ -506,7 +506,7 @@ const Bibliotheque: React.FC = () => {
                 </div>
                 <div className="flex items-start gap-stack border-t border-ink-100 pt-stack">
                   <BadgeCheck size={20} className="text-primary-700 shrink-0 mt-0.5" />
-                  <p className="font-body text-body text-ink-700 leading-relaxed m-0">
+                  <p className="font-body text-body text-ink-700 m-0">
                     <span className="font-bold text-ink-900">Preuve requise au niveau {niveau} : </span>
                     {fiche.preuves[niveau]}
                   </p>
@@ -516,14 +516,14 @@ const Bibliotheque: React.FC = () => {
               <div className="lg:col-span-5 flex flex-col gap-stack">
                 <div className="flex items-start gap-stack rounded-lg bg-white p-stack-lg shadow-card">
                   <CalendarClock size={20} className="text-primary-700 shrink-0 mt-0.5" />
-                  <p className="font-body text-body-sm text-ink-700 leading-relaxed m-0">
+                  <p className="font-body text-body-sm text-ink-700 m-0">
                     <span className="font-bold text-ink-900">Parcours lié : </span>
                     {fiche.parcours}
                   </p>
                 </div>
                 <div className="flex items-start gap-stack rounded-lg bg-white p-stack-lg shadow-card">
                   <BadgeCheck size={20} className="text-primary-700 shrink-0 mt-0.5" />
-                  <p className="font-body text-body-sm text-ink-700 leading-relaxed m-0">
+                  <p className="font-body text-body-sm text-ink-700 m-0">
                     <span className="font-bold text-ink-900">Reconnaissance : </span>
                     chaque niveau validé génère un Open Badge et incrémente le
                     Passeport ainsi que la heatmap d'équipe.
@@ -553,7 +553,7 @@ const ActifStrategique: React.FC = () => (
             </h2>
           </FadeInWhenVisible>
           <FadeInWhenVisible delay={0.08}>
-            <p className="font-body text-body-lg text-white/80 leading-relaxed m-0 max-w-2xl">
+            <p className="font-body text-body-lg text-white/80 m-0 max-w-2xl">
               Chaque preuve d'exécution enrichit un référentiel qui devient le
               socle de vos décisions : qui former, sur quoi, et bientôt qui
               positionner sur quel projet. Le Passeport prépare dès aujourd'hui
@@ -568,7 +568,7 @@ const ActifStrategique: React.FC = () => (
             <h3 className="font-display text-h4 font-bold text-white leading-tight">
               Du Skills-Based au Matching Projets
             </h3>
-            <p className="font-body text-body-sm text-white/75 leading-relaxed m-0">
+            <p className="font-body text-body-sm text-white/75 m-0">
               La maturité IA de votre organisation commence par une donnée de
               compétences propre et vivante. C'est exactement ce que la
               Learning App construit, jour après jour.
@@ -591,7 +591,7 @@ const CtaFinal: React.FC = () => (
             <h2 className="font-display font-extrabold text-white leading-[1.04] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.5vw,3.5rem)]">
               Voyez la Learning App fonctionner sur vos cas d'usage.
             </h2>
-            <p className="font-body text-body-lg text-white/80 leading-relaxed m-0 max-w-2xl">
+            <p className="font-body text-body-lg text-white/80 m-0 max-w-2xl">
               Une démonstration sur vos métiers et vos enjeux réels. Les
               modalités se cadrent ensuite ensemble, selon votre contexte.
             </p>

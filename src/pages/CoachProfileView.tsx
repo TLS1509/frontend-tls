@@ -110,13 +110,13 @@ export default function CoachProfileView() {
             {/* À propos */}
             <SectionCard title="À propos">
               <div className="flex flex-col gap-stack">
-                <p className="text-body text-ink-700 leading-relaxed">
+                <p className="text-body text-ink-700">
                   Sophie Martin est coach certifiée (ICF PCC) spécialisée dans l'intégration pédagogique de l'intelligence artificielle. Avec plus de 10 ans d'expérience en formation professionnelle et en accompagnement d'équipes apprenantes, elle intervient auprès de managers, formateurs et chefs de projet souhaitant développer leurs compétences dans un environnement en transformation rapide.
                 </p>
-                <p className="text-body text-ink-700 leading-relaxed">
+                <p className="text-body text-ink-700">
                   Diplômée d'un Master en Sciences de l'Éducation (Université Paris-Cité) et certifiée IA & Design pédagogique (MIT OpenLearning), Sophie allie rigueur académique et pragmatisme terrain. Elle croit profondément que l'apprentissage transforme durablement quand il est ancré dans des situations réelles de travail.
                 </p>
-                <p className="text-body text-ink-700 leading-relaxed">
+                <p className="text-body text-ink-700">
                   En dehors du coaching, Sophie anime des ateliers en ligne sur la créativité pédagogique et contribue régulièrement à la revue <em>L'Apprenant</em> sur les enjeux de l'IA dans la formation.
                 </p>
                 <MetaPillGroup items={SPECIALTIES} />
@@ -126,7 +126,7 @@ export default function CoachProfileView() {
             {/* Approche pédagogique */}
             <SectionCard title="Approche pédagogique">
               <div className="flex flex-col gap-stack">
-                <p className="text-body text-ink-700 leading-relaxed">
+                <p className="text-body text-ink-700">
                   Sophie adopte une approche co-constructive : chaque session part de votre réalité, de vos blocages concrets et de vos ambitions. Elle ne prescrit pas, elle explore avec vous. L'objectif : que vous repartiez avec des outils actionnables dès le lendemain matin.
                 </p>
                 <ul className="flex flex-col gap-stack-xs">
@@ -138,7 +138,7 @@ export default function CoachProfileView() {
                   ))}
                 </ul>
                 <div className="rounded-lg bg-primary-50 border border-primary-100 p-stack">
-                  <p className="text-body-sm text-primary-800 italic leading-relaxed">
+                  <p className="text-body-sm text-primary-800 italic">
                     "Je travaille avec les apprenants pour qu'ils développent leur propre système de pensée : pas pour qu'ils adoptent le mien. Mon rôle est de créer les conditions de la clarté."
                   </p>
                   <p className="mt-stack-xs text-caption text-primary-600 font-semibold">: Sophie Martin</p>
@@ -164,7 +164,7 @@ export default function CoachProfileView() {
                         <span className="text-caption text-ink-600">{t.date}</span>
                       </div>
                     </div>
-                    <p className="text-body-sm text-ink-700 leading-relaxed italic">"{t.quote}"</p>
+                    <p className="text-body-sm text-ink-700 italic">"{t.quote}"</p>
                   </Card>
                 ))}
               </div>

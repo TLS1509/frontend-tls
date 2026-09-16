@@ -50,7 +50,7 @@ export const MarketingVideoDetail: React.FC = () => {
           <FadeInWhenVisible direction="up">
             <Link
               to="/website/resources"
-              className="inline-flex items-center gap-1.5 self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+              className="inline-flex items-center gap-stack-2xs self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
             >
               <ArrowLeft size={16} className="transition-transform duration-base group-hover:-translate-x-1" />
               Retour aux ressources
@@ -62,13 +62,13 @@ export const MarketingVideoDetail: React.FC = () => {
               <span className="inline-flex items-center px-3 py-1 rounded-pill border bg-primary-50 text-primary-700 border-primary-100 font-body text-caption font-bold uppercase tracking-wider">
                 <Play size={14} className="mr-1.5" /> Vidéo
               </span>
-              <span className="inline-flex items-center gap-1.5 font-body text-caption text-ink-600">
+              <span className="inline-flex items-center gap-stack-2xs font-body text-caption text-ink-600">
                 <Calendar size={14} /> {video.date}
               </span>
-              <span className="inline-flex items-center gap-1.5 font-body text-caption text-ink-600">
+              <span className="inline-flex items-center gap-stack-2xs font-body text-caption text-ink-600">
                 <Clock size={14} /> {video.duration}
               </span>
-              <span className="inline-flex items-center gap-1.5 font-body text-caption text-ink-600">
+              <span className="inline-flex items-center gap-stack-2xs font-body text-caption text-ink-600">
                 <User size={14} /> {video.author}
               </span>
             </div>
@@ -81,7 +81,7 @@ export const MarketingVideoDetail: React.FC = () => {
           </FadeInWhenVisible>
 
           <FadeInWhenVisible direction="up" delay={0.15}>
-            <p className="font-body text-body-lg text-ink-700 leading-relaxed m-0 max-w-prose">
+            <p className="font-body text-body-lg text-ink-700 m-0 max-w-prose">
               {video.description}
             </p>
           </FadeInWhenVisible>
@@ -129,7 +129,7 @@ export const MarketingVideoDetail: React.FC = () => {
 
         {video.chapters.length > 0 && (
           <FadeInWhenVisible direction="up" delay={0.05} className="flex flex-col gap-stack">
-            <span className="inline-flex items-center gap-1.5 font-body text-caption font-bold text-ink-500 uppercase tracking-widest">
+            <span className="inline-flex items-center gap-stack-2xs font-body text-caption font-bold text-ink-500 uppercase tracking-widest">
               <ListVideo size={14} /> Chapitres
             </span>
             <ul className="flex flex-col gap-tight m-0 p-0 list-none">

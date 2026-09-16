@@ -280,7 +280,7 @@ export const IconFeatureCard: React.FC<IconFeatureCardProps> = ({
           {title}
         </h3>
         {description && (
-          <p className="m-0 font-body text-body-sm leading-relaxed text-ink-500">{description}</p>
+          <p className="m-0 font-body text-body-sm text-ink-500">{description}</p>
         )}
       </div>
     </>

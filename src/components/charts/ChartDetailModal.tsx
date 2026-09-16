@@ -123,7 +123,7 @@ export const ChartDetailModal: React.FC<ChartDetailModalProps> = ({
 
               {/* Footer (if actions provided) */}
               {actions && actions.length > 0 && (
-                <div className="sticky bottom-0 bg-white border-t border-ink-200 p-6 flex items-center justify-end gap-3">
+                <div className="sticky bottom-0 bg-white border-t border-ink-200 p-6 flex items-center justify-end gap-stack-sm">
                   {actions.map((action, idx) => (
                     <Button
                       key={idx}

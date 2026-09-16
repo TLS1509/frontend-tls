@@ -445,7 +445,7 @@ export const Messages: React.FC = () => {
                 onKeyDown={handleKeyDown}
                 placeholder="Écrivez votre message… (Entrée pour envoyer)"
                 rows={1}
-                className="flex-1 px-3 py-stack-xs rounded-lg border border-ink-200 bg-ink-50 text-ink-900 font-body text-body-sm leading-relaxed resize-none outline-none h-auto min-h-[38px] max-h-[120px] transition-colors focus:border-primary-400 focus:bg-white placeholder:text-ink-500"
+                className="flex-1 px-3 py-stack-xs rounded-lg border border-ink-200 bg-ink-50 text-ink-900 font-body text-body-sm resize-none outline-none h-auto min-h-[38px] max-h-[120px] transition-colors focus:border-primary-400 focus:bg-white placeholder:text-ink-500"
               />
 
               <Button

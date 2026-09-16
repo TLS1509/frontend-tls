@@ -119,7 +119,7 @@ export const CoachCardGrid: React.FC<CoachCardGridProps> = ({
           </div>
 
           {coach.specialties && coach.specialties.length > 0 && (
-            <div className="flex flex-wrap gap-1.5 justify-center px-2">
+            <div className="flex flex-wrap gap-stack-2xs justify-center px-2">
               {coach.specialties.map((specialty) => (
                 <span
                   key={specialty}

@@ -223,7 +223,7 @@ export const MarketingHeader: React.FC = () => {
           {/* ── Inner core (glass plate with edge highlight) ─────────────────── */}
           <div
             className={[
-              'flex items-center justify-between gap-1 rounded-pill pl-2 pr-1.5 py-1',
+              'flex items-center justify-between gap-stack-3xs rounded-pill pl-2 pr-1.5 py-1',
               'transition-colors duration-[450ms] ease-[cubic-bezier(0.32,0.72,0,1)]',
               scrolled ? 'bg-white/70' : 'bg-white/45',
               'shadow-[inset_0_1px_1px_rgba(255,255,255,0.65)]',
@@ -232,7 +232,7 @@ export const MarketingHeader: React.FC = () => {
             {/* Logo */}
             <Link
               to="/website"
-              className="group flex shrink-0 items-center gap-2 rounded-pill pl-1.5 pr-2 py-1.5 transition-colors duration-fast hover:bg-ink-900/[0.04] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+              className="group flex shrink-0 items-center gap-stack-xs rounded-pill pl-1.5 pr-2 py-1.5 transition-colors duration-fast hover:bg-ink-900/[0.04] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
               aria-label="The Learning Society: Accueil"
             >
               <TlsLogo variant="primary" size={30} className="transition-transform duration-base ease-emphasis group-hover:scale-105" />
@@ -242,7 +242,7 @@ export const MarketingHeader: React.FC = () => {
             </Link>
 
             {/* Desktop nav links + CTA — grouped on the right, opposite the logo */}
-            <div className="hidden items-center gap-1 lg:flex">
+            <div className="hidden items-center gap-stack-3xs lg:flex">
             <div className="flex items-center gap-0.5">
             {DESKTOP_NAV_ITEMS.map((item) => {
               if (item.dropdown) {

@@ -87,10 +87,10 @@ export const MarketingError404: React.FC = () => {
           transition={{ delay: 0.35, duration: 0.5 }}
           className="flex flex-col items-center gap-stack-xs mb-10"
         >
-          <h1 className="font-display text-h1 font-bold text-ink-900 leading-tight max-w-2xl">
+          <h1 className="font-display text-h1 font-bold text-ink-900 max-w-2xl">
             Cette page n'existe pas
           </h1>
-          <p className="font-body text-body-lg text-ink-500 leading-relaxed max-w-xl">
+          <p className="font-body text-body-lg text-ink-500 max-w-xl">
             Le lien est peut-être obsolète ou l'adresse incorrecte. Voici par où reprendre.
           </p>
         </motion.div>

@@ -48,7 +48,7 @@ const Hero: React.FC = () => {
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           className="flex max-w-4xl flex-col gap-stack-lg"
         >
-          <p className="inline-flex w-fit items-center gap-2 rounded-pill bg-secondary-100 px-4 py-1.5 font-body text-caption font-bold text-secondary-800 m-0">
+          <p className="inline-flex w-fit items-center gap-stack-xs rounded-pill bg-secondary-100 px-4 py-1.5 font-body text-caption font-bold text-secondary-800 m-0">
             <PenTool size={14} />
             Le Studio TLS
           </p>
@@ -56,7 +56,7 @@ const Hero: React.FC = () => {
             Vos contenus et vos outils IA sur-mesure.{' '}
             <span className="text-secondary-700">Pensés pour l'impact, prêts à opérer.</span>
           </h1>
-          <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
+          <p className="font-body text-body-lg text-ink-600 m-0 max-w-2xl">
             De l'ingénierie pédagogique au développement d'Agents IA métiers,
             nous concevons et déployons les briques opérationnelles de votre
             transition vers le modèle Skills-Based Organization.
@@ -104,7 +104,7 @@ const Probleme: React.FC = () => (
               <div className="border-t border-white/15 py-stack-lg first:border-t-0">
                 <div className="flex flex-col gap-stack-xs">
                   <h3 className="font-display text-h4 font-bold text-white leading-tight">{f.title}</h3>
-                  <p className="font-body text-body text-white/70 leading-relaxed m-0 max-w-xl">{f.detail}</p>
+                  <p className="font-body text-body text-white/70 m-0 max-w-xl">{f.detail}</p>
                 </div>
               </div>
             </FadeInWhenVisible>
@@ -180,12 +180,12 @@ const Approche: React.FC = () => (
                 <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-secondary-100 text-secondary-700">
                   {p.icon}
                 </span>
-                <h3 className="font-display text-h3 font-bold text-ink-900 leading-tight [text-wrap:balance]">
+                <h3 className="font-display text-h3 font-bold text-ink-900 [text-wrap:balance]">
                   {p.title}
                 </h3>
               </div>
               <div className="lg:col-span-4">
-                <p className="font-body text-body text-ink-600 leading-relaxed m-0">{p.desc}</p>
+                <p className="font-body text-body text-ink-600 m-0">{p.desc}</p>
               </div>
               <ul className="lg:col-span-3 flex flex-col gap-stack-xs m-0 p-0 list-none">
                 {p.exemples.map((e) => (

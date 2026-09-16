@@ -79,7 +79,7 @@ export const AuthorStrip: React.FC<AuthorStripProps> = ({
         </div>
 
         {(role && variant === 'expanded') || (meta && meta.length > 0) ? (
-          <div className="flex items-center gap-x-2 gap-y-0.5 flex-wrap font-body text-micro text-ink-500">
+          <div className="flex items-center gap-x-stack-xs gap-y-0.5 flex-wrap font-body text-micro text-ink-500">
             {role && variant === 'expanded' && <span>{role}</span>}
             {role && variant === 'expanded' && meta && meta.length > 0 && <span aria-hidden>·</span>}
             {meta?.map((m, i) => (

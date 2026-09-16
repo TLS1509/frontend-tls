@@ -90,7 +90,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
               ? 'grid grid-cols-2 gap-stack-xs'
               : 'flex flex-col gap-stack-xs'
             : orientation === 'horizontal'
-              ? 'flex flex-wrap gap-x-6 gap-y-3'
+              ? 'flex flex-wrap gap-x-stack-lg gap-y-stack-sm'
               : 'flex flex-col gap-stack-xs',
         ].join(' ')}
       >

@@ -156,12 +156,12 @@ export const RadarChart: React.FC<RadarChartProps> = ({
 
       {/* Legend textuelle pour petits écrans */}
       <div className="flex flex-wrap gap-stack-xs justify-center mt-stack-xs text-caption">
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-stack-3xs">
           <div className="w-3 h-3 rounded-xs" style={{ backgroundColor: COLORS.current }} />
           <span className="text-ink-600">Niveau actuel</span>
         </div>
         {data.some((d) => d.target) && (
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-stack-3xs">
             <div
               className="w-3 h-0.5"
               style={{ backgroundColor: COLORS.target }}

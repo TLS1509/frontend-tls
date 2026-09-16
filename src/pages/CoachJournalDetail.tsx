@@ -52,7 +52,7 @@ export default function CoachJournalDetail() {
             </div>
             <div className="flex flex-col gap-stack-lg">
               {ENTRY_CONTENT.map((paragraph, i) => (
-                <p key={i} className="text-body text-ink-700 leading-relaxed m-0">{paragraph}</p>
+                <p key={i} className="text-body text-ink-700 m-0">{paragraph}</p>
               ))}
             </div>
           </div>

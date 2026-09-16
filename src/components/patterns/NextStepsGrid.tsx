@@ -113,7 +113,7 @@ export const NextStepsGrid: React.FC<NextStepsGridProps> = ({
               <h3 className="text-body font-semibold text-ink-900 leading-snug">
                 {step.title}
               </h3>
-              <p className="text-body-sm text-ink-500 leading-relaxed m-0">
+              <p className="text-body-sm text-ink-500 m-0">
                 {step.description}
               </p>
             </div>

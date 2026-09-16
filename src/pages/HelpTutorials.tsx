@@ -59,7 +59,7 @@ export default function HelpTutorials() {
                     </h3>
                     <Badge variant="brand">{stepCount} étapes</Badge>
                   </div>
-                  <p className="text-body-sm text-ink-600 leading-relaxed m-0 flex-1">
+                  <p className="text-body-sm text-ink-600 m-0 flex-1">
                     {tutorial.description}
                   </p>
                   <div className="flex items-center justify-between gap-stack-xs pt-stack-xs border-t border-ink-100">

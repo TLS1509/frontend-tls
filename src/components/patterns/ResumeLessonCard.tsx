@@ -130,7 +130,7 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
       ].join(' ')}
     >
       {/* ── Corps : bulle icône + contenu ───────────────────────────────── */}
-      <div className="flex items-start gap-4">
+      <div className="flex items-start gap-stack">
         <span
           className={[
             'shrink-0 grid place-items-center rounded-2xl',
@@ -142,12 +142,12 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
           <Play size={20} fill="currentColor" strokeWidth={0} className="translate-x-px" />
         </span>
 
-        <div className="flex-1 min-w-0 flex flex-col gap-2">
+        <div className="flex-1 min-w-0 flex flex-col gap-stack-xs">
           {/* Rôle 1 — status badge (coloré) + step context (texte discret) */}
-          <div className="flex items-center gap-2 flex-wrap">
+          <div className="flex items-center gap-stack-xs flex-wrap">
             <span
               className={[
-                'inline-flex items-center gap-1 rounded-pill px-2 py-[3px] shrink-0',
+                'inline-flex items-center gap-stack-3xs rounded-pill px-2 py-[3px] shrink-0',
                 // `tracking-label` vaut exactement 0,05em : la valeur était recopiée
                 // en dur, donc détachée. `leading-tight` aligne la boîte de ligne sur
                 // celle de <Badge> — sans elle, `--text-micro--line-height` (18 px)
@@ -173,7 +173,7 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
 
           {/* Prochaine leçon */}
           {nextLessonTitle && (
-            <p className="flex items-start gap-1.5 font-body text-body-sm text-ink-500 m-0 leading-snug">
+            <p className="flex items-start gap-stack-2xs font-body text-body-sm text-ink-500 m-0 leading-snug">
               <Target size={14} strokeWidth={2} className="shrink-0 mt-0.5 text-ink-400" aria-hidden />
               <span className="min-w-0">
                 <span className="text-ink-600">Prochaine leçon · </span>
@@ -190,9 +190,9 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
       </div>
 
       {/* ── Footer : progression + CTA (mobile stack → desktop row) ──────── */}
-      <div className="flex flex-col @lg:flex-row @lg:items-center gap-3 @lg:gap-5">
-        <div className="flex-1 flex flex-col gap-1.5">
-          <div className="flex items-center justify-between gap-2">
+      <div className="flex flex-col @lg:flex-row @lg:items-center gap-stack-sm @lg:gap-5">
+        <div className="flex-1 flex flex-col gap-stack-2xs">
+          <div className="flex items-center justify-between gap-stack-xs">
             <span className="text-micro font-semibold uppercase tracking-[0.06em] text-ink-600">
               Progression
             </span>

@@ -321,7 +321,7 @@ function VariantB({ onDone }: { onDone: () => void }) {
             <p className="font-body text-caption font-semibold uppercase tracking-wider text-secondary-600 m-0">
               Bienvenue sur TLS
             </p>
-            <h2 className="font-display text-h1 tracking-display text-ink-900 leading-tight">
+            <h2 className="font-display text-h1 tracking-display text-ink-900">
               Ton prénom ?
             </h2>
           </div>
@@ -355,7 +355,7 @@ function VariantB({ onDone }: { onDone: () => void }) {
             <p className="font-body text-caption font-semibold uppercase tracking-wider text-secondary-600 m-0">
               1 / 2
             </p>
-            <h2 className="font-display text-h1 tracking-display text-ink-900 leading-tight">
+            <h2 className="font-display text-h1 tracking-display text-ink-900">
               {firstName ? `${firstName}, quel est ton rôle ?` : 'Quel est ton rôle ?'}
             </h2>
             <p className="font-body text-body-sm text-ink-500 m-0">Appuie pour continuer →</p>
@@ -387,7 +387,7 @@ function VariantB({ onDone }: { onDone: () => void }) {
             <p className="font-body text-caption font-semibold uppercase tracking-wider text-secondary-600 m-0">
               2 / 2
             </p>
-            <h2 className="font-display text-h1 tracking-display text-ink-900 leading-tight">
+            <h2 className="font-display text-h1 tracking-display text-ink-900">
               Tes priorités ?
             </h2>
             <p className="font-body text-body-sm text-ink-500 m-0">{goalHint}</p>
@@ -475,7 +475,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
   const LABELS = ['Profil', 'Objectifs', 'Confirmation'];
 
   const tileBase = [
-    'flex items-center gap-2.5 rounded-xl border px-3 py-2.5 text-left transition-all duration-150 active:scale-[0.98] cursor-pointer min-h-[44px]',
+    'flex items-center gap-stack-xs.5 rounded-xl border px-3 py-2.5 text-left transition-all duration-150 active:scale-[0.98] cursor-pointer min-h-[44px]',
     'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-500',
   ].join(' ');
 
@@ -638,7 +638,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
               <Sparkles size={18} className="text-secondary-500 shrink-0 mt-0.5" />
               <div className="flex flex-col gap-0.5">
                 <span className="font-body text-body-sm font-bold text-ink-900">Parcours recommandé</span>
-                <p className="font-body text-body-sm text-ink-500 m-0 leading-relaxed">{aiSuggestion}</p>
+                <p className="font-body text-body-sm text-ink-500 m-0">{aiSuggestion}</p>
               </div>
             </div>
           </>
@@ -766,7 +766,7 @@ export default function OnboardingPreview() {
           <h1 className="font-display text-h2 tracking-display text-ink-900 leading-tight">
             {VARIANT_META[variant].label}
           </h1>
-          <p className="m-0 font-body text-body text-ink-500 leading-relaxed">
+          <p className="m-0 font-body text-body text-ink-500">
             {VARIANT_META[variant].desc}
           </p>
         </header>

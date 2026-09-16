@@ -111,7 +111,7 @@ const JacValidationForm: React.FC<{
         {rubric.map((row, idx) => (
           <div key={idx} className="flex flex-col gap-stack-xs p-stack bg-white rounded-lg border border-ink-100">
             <p className="text-body-sm font-semibold text-ink-900 m-0">{row.criterion}</p>
-            <div className="flex flex-wrap gap-1.5">
+            <div className="flex flex-wrap gap-stack-2xs">
               {([1, 2, 3, 4, 5] as DreyfusLevel[]).map((level) => (
                 <button
                   key={level}
@@ -146,7 +146,7 @@ const JacValidationForm: React.FC<{
             <span className="font-normal text-primary-700">· pré-rempli D{averageLevel} (moyenne rubrique) — ajuste si besoin</span>
           </p>
         </div>
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex flex-wrap gap-stack-2xs">
           {([1, 2, 3, 4, 5] as DreyfusLevel[]).map((level) => (
             <button
               key={level}

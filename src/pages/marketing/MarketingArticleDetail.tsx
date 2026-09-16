@@ -66,7 +66,7 @@ const SectionTOC: React.FC<{ sections: { heading: string }[]; activeId: string |
   activeId,
 }) => (
   <nav aria-label="Sommaire de l'article" className="flex flex-col gap-stack">
-    <span className="inline-flex items-center gap-1.5 font-body text-caption font-bold text-ink-500 uppercase tracking-widest">
+    <span className="inline-flex items-center gap-stack-2xs font-body text-caption font-bold text-ink-500 uppercase tracking-widest">
       <Hash size={14} />
       Sommaire
     </span>
@@ -365,7 +365,7 @@ export const MarketingArticleDetail: React.FC = () => {
           <FadeInWhenVisible direction="up">
             <Link
               to="/website/resources"
-              className="inline-flex items-center gap-1.5 self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+              className="inline-flex items-center gap-stack-2xs self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
             >
               <ArrowLeft size={16} className="transition-transform duration-base group-hover:-translate-x-1" />
               Retour au Mag'
@@ -382,11 +382,11 @@ export const MarketingArticleDetail: React.FC = () => {
               >
                 {article.category}
               </span>
-              <span className="inline-flex items-center gap-1.5 font-body text-caption text-ink-600">
+              <span className="inline-flex items-center gap-stack-2xs font-body text-caption text-ink-600">
                 <Calendar size={14} />
                 {article.date}
               </span>
-              <span className="inline-flex items-center gap-1.5 font-body text-caption text-ink-600">
+              <span className="inline-flex items-center gap-stack-2xs font-body text-caption text-ink-600">
                 <Clock size={14} />
                 {article.readTime} de lecture
               </span>
@@ -454,7 +454,7 @@ export const MarketingArticleDetail: React.FC = () => {
               to={`/website/magazine/${prev.slug}`}
               className="group flex flex-col gap-stack p-stack-lg rounded-xl bg-white border border-ink-100 hover:border-primary-200 transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
             >
-              <span className="inline-flex items-center gap-1.5 font-body text-caption font-bold text-ink-500 uppercase tracking-widest">
+              <span className="inline-flex items-center gap-stack-2xs font-body text-caption font-bold text-ink-500 uppercase tracking-widest">
                 <ArrowLeft size={14} className="transition-transform duration-base group-hover:-translate-x-1" />
                 Article précédent
               </span>
@@ -469,7 +469,7 @@ export const MarketingArticleDetail: React.FC = () => {
               to={`/website/magazine/${next.slug}`}
               className={`group flex flex-col gap-stack p-stack-lg rounded-2xl bg-white border border-ink-100 hover:border-primary-200 hover:shadow-card-hover transition-all duration-base text-right focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${!prev ? 'md:col-start-2' : ''}`}
             >
-              <span className="inline-flex items-center gap-1.5 self-end font-body text-caption font-bold text-ink-500 uppercase tracking-widest">
+              <span className="inline-flex items-center gap-stack-2xs self-end font-body text-caption font-bold text-ink-500 uppercase tracking-widest">
                 Article suivant
                 <ArrowRight size={14} className="transition-transform duration-base group-hover:translate-x-1" />
               </span>

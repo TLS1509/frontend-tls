@@ -112,7 +112,7 @@ export const ProjectPasseportFeed: React.FC = () => {
                         <p className="text-caption text-ink-500 m-0">{c.count} enrichissement(s)</p>
                       </div>
                     </div>
-                    <div className="flex flex-wrap gap-1.5">
+                    <div className="flex flex-wrap gap-stack-2xs">
                       {c.competencies.map((comp) => (
                         <Badge key={comp} variant="brand">{comp}</Badge>
                       ))}

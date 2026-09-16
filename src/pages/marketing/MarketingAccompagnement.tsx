@@ -74,7 +74,7 @@ const Hero: React.FC = () => {
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           className="flex max-w-4xl flex-col gap-flow"
         >
-          <p className="inline-flex w-fit items-center gap-2 rounded-pill bg-primary-100 px-4 py-1.5 font-body text-caption font-bold text-primary-800 m-0">
+          <p className="inline-flex w-fit items-center gap-stack-xs rounded-pill bg-primary-100 px-4 py-1.5 font-body text-caption font-bold text-primary-800 m-0">
             <Compass size={14} />
             Méthode &amp; transformation SBO
           </p>
@@ -194,7 +194,7 @@ const AuditFlash: React.FC = () => (
                 {l.icon}
               </span>
               <h3 className="font-display text-feature text-ink-900">{l.title}</h3>
-              <p className="font-body text-body text-ink-600 leading-relaxed m-0">{l.detail}</p>
+              <p className="font-body text-body text-ink-600 m-0">{l.detail}</p>
             </div>
           </FadeInWhenVisible>
         ))}

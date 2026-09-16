@@ -197,7 +197,7 @@ export const MarketingContact: React.FC = () => {
               <h1 className="font-display font-extrabold text-ink-900 leading-[0.98] tracking-tight text-[clamp(2rem,5vw,3.75rem)]">
                 {SUBJECT_CONTEXTS[form.subject].headline}
               </h1>
-              <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
+              <p className="font-body text-body-lg text-ink-600 m-0 max-w-2xl">
                 {SUBJECT_CONTEXTS[form.subject].desc}
               </p>
             </motion.div>
@@ -229,7 +229,7 @@ export const MarketingContact: React.FC = () => {
                     <h2 className="font-display text-h2 text-ink-900">
                       Message envoyé !
                     </h2>
-                    <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-prose">
+                    <p className="font-body text-body-lg text-ink-600 m-0 max-w-prose">
                       Merci {form.name || 'pour votre message'} ! Nous vous répondons sous 48h ouvrées
                       à l'adresse <strong>{form.email}</strong>.
                     </p>
@@ -276,7 +276,7 @@ export const MarketingContact: React.FC = () => {
                   className="flex flex-col gap-stack-lg"
                 >
                   <div className="flex flex-col gap-stack">
-                    <h2 className="font-display text-h3 text-ink-900 leading-tight">
+                    <h2 className="font-display text-h3 text-ink-900">
                       Écrivez-nous
                     </h2>
                     <p className="font-body text-body text-ink-600 m-0">
@@ -464,7 +464,7 @@ export const MarketingContact: React.FC = () => {
                   </div>
 
                   {/* Newsletter opt-in */}
-                  <label className="relative flex items-start gap-3 cursor-pointer group">
+                  <label className="relative flex items-start gap-stack-sm cursor-pointer group">
                     <input
                       type="checkbox"
                       name="newsletter"
@@ -498,7 +498,7 @@ export const MarketingContact: React.FC = () => {
                   </label>
 
                   {submitError && (
-                    <div className="flex items-start gap-2 px-4 py-3 rounded-lg bg-danger-bg border border-danger-base/30 text-danger-fg font-body text-body-sm" role="alert">
+                    <div className="flex items-start gap-stack-xs px-4 py-3 rounded-lg bg-danger-bg border border-danger-base/30 text-danger-fg font-body text-body-sm" role="alert">
                       <AlertCircle size={16} className="shrink-0 mt-0.5" />
                       {submitError}
                     </div>
@@ -506,13 +506,13 @@ export const MarketingContact: React.FC = () => {
 
                   {/* Reassurance + submit */}
                   <div className="flex flex-col gap-stack-xs pt-stack border-t border-ink-100">
-                    <div className="flex flex-wrap items-center gap-x-stack gap-y-1">
-                      <span className="inline-flex items-center gap-1 font-body text-caption text-ink-500">
+                    <div className="flex flex-wrap items-center gap-x-stack gap-y-stack-3xs">
+                      <span className="inline-flex items-center gap-stack-3xs font-body text-caption text-ink-500">
                         <Lock size={14} className="text-ink-600 shrink-0" />
                         Données confidentielles · RGPD
                       </span>
                       <span className="text-ink-300 text-caption">·</span>
-                      <span className="inline-flex items-center gap-1 font-body text-caption text-ink-500">
+                      <span className="inline-flex items-center gap-stack-3xs font-body text-caption text-ink-500">
                         <MapPin size={14} className="text-ink-600 shrink-0" />
                         Équipe basée à Paris
                       </span>
@@ -552,7 +552,7 @@ export const MarketingContact: React.FC = () => {
                   « Choisissez votre créneau dans notre agenda ». */}
               <div className="relative overflow-hidden rounded-lg bg-primary-50 border border-primary-200 p-stack-lg flex flex-col gap-stack-lg shadow-sm">
                 <div className="flex flex-col gap-stack">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-white border border-primary-200 text-accent-400 text-caption font-bold w-fit">
+                  <span className="inline-flex items-center gap-stack-2xs px-2.5 py-1 rounded-pill bg-white border border-primary-200 text-accent-400 text-caption font-bold w-fit">
                     <Sparkles size={14} />
                     Plus rapide
                   </span>

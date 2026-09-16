@@ -187,16 +187,16 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
       </div>
 
       {/* ── Main content (flex column, better spacing) ── */}
-      <div className="flex flex-col gap-2 pr-10">
+      <div className="flex flex-col gap-stack-xs pr-10">
         {/* 1. Type badge + duration ── */}
-        <div className="flex items-center gap-1 flex-wrap text-micro">
+        <div className="flex items-center gap-stack-3xs flex-wrap text-micro">
           <Badge variant={tone} size="compact">{ITEM_TYPE_LABELS[type]}</Badge>
           <span className="text-ink-600">•</span>
           <span className="text-ink-500 font-medium text-micro">{duration}</span>
         </div>
 
         {/* 2. Title + description ── */}
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-stack-3xs">
           <h3 className="font-display text-body font-semibold font-semibold leading-tight text-ink-900 line-clamp-2">
             {title}
           </h3>
@@ -206,7 +206,7 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
         </div>
 
         {/* 3. Footer: level + theme ── */}
-        <div className="flex items-center gap-1 text-micro">
+        <div className="flex items-center gap-stack-3xs text-micro">
           {/* Le niveau Dreyfus est une DONNÉE, pas un état : vocabulaire MetaPill
               (pilule, 11 px, graisse 500). Il portait `rounded` nu — 4 px — et
               `py-1`, ce qui lui donnait 28 px de haut contre les 24 du système. */}
@@ -220,7 +220,7 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
 
       {/* ── Lock row (if inaccessible) ── */}
       {!isAccessible && (
-        <div className="mt-stack rounded-lg bg-ink-50 px-3 py-2 flex items-start gap-2">
+        <div className="mt-stack rounded-lg bg-ink-50 px-3 py-2 flex items-start gap-stack-xs">
           <Lock size={14} className="text-ink-400 shrink-0 mt-px" aria-hidden />
           <div className="flex flex-col gap-tight">
             <span className="text-caption text-ink-600 font-medium">

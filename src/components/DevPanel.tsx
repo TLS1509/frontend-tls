@@ -29,9 +29,9 @@ const SectionLabel: React.FC<{ children: React.ReactNode }> = ({ children }) => 
 );
 
 const Row: React.FC<{ label: string; children: React.ReactNode }> = ({ label, children }) => (
-  <div className="flex items-center justify-between gap-2 min-h-[28px]">
+  <div className="flex items-center justify-between gap-stack-xs min-h-[28px]">
     <span className="text-caption text-ink-400 shrink-0">{label}</span>
-    <div className="flex items-center gap-1">{children}</div>
+    <div className="flex items-center gap-stack-3xs">{children}</div>
   </div>
 );
 
@@ -100,7 +100,7 @@ export const DevPanel: React.FC = () => {
 
   return (
     /* Mobile: remonté au-dessus de la BottomNav (bottom-24). Desktop: après la sidebar (220/260px). */
-    <div className="fixed bottom-24 left-4 md:bottom-6 md:left-[236px] lg:left-[276px] z-tooltip flex flex-col items-start gap-2">
+    <div className="fixed bottom-24 left-4 md:bottom-6 md:left-[236px] lg:left-[276px] z-tooltip flex flex-col items-start gap-stack-xs">
 
       {/* Panel */}
       {isOpen && (
@@ -108,7 +108,7 @@ export const DevPanel: React.FC = () => {
 
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-2.5 border-b border-white/[0.07]">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-stack-xs">
               <Terminal size={14} className="text-accent-400" />
               <span className="font-mono text-caption font-bold text-accent-400 tracking-wide">
                 DEV
@@ -131,7 +131,7 @@ export const DevPanel: React.FC = () => {
             {/* ── Dashboard ── */}
             <div className="px-4 py-3">
               <SectionLabel>Dashboard</SectionLabel>
-              <div className="flex gap-1.5">
+              <div className="flex gap-stack-2xs">
                 <Chip active={dashState === 'first-time'} onClick={() => handleDashboard('first-time')}>
                   Empty state
                 </Chip>
@@ -150,7 +150,7 @@ export const DevPanel: React.FC = () => {
             </div>
 
             {/* ── Coaching ── */}
-            <div className="px-4 py-3 flex flex-col gap-2">
+            <div className="px-4 py-3 flex flex-col gap-stack-xs">
               <SectionLabel>Coaching</SectionLabel>
 
               <Row label="Coach">
@@ -179,7 +179,7 @@ export const DevPanel: React.FC = () => {
 
               <div className="mt-1">
                 <span className="block text-[10px] text-ink-600 mb-1.5">Modales</span>
-                <div className="flex flex-wrap gap-1">
+                <div className="flex flex-wrap gap-stack-3xs">
                   <GhostChip onClick={() => triggerDevModal('booking')}>Booking</GhostChip>
                   <GhostChip onClick={() => triggerDevModal('cancel')}>Cancel</GhostChip>
                   <GhostChip onClick={() => triggerDevModal('feedback')}>Feedback</GhostChip>

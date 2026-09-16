@@ -71,8 +71,8 @@ const JournalBubbleNudge: React.FC<JournalBubbleNudgeProps> = ({ navigate, hasUp
   return (
     <div className="flex flex-col gap-stack">
       {/* Section header with inline link */}
-      <div className="flex items-center justify-between gap-2">
-        <h3 className="font-display text-h3 font-bold text-ink-900 leading-tight tracking-headline">
+      <div className="flex items-center justify-between gap-stack-xs">
+        <h3 className="font-display text-h3 font-bold text-ink-900 tracking-headline">
           Écrire aujourd'hui
         </h3>
         <Button
@@ -86,10 +86,10 @@ const JournalBubbleNudge: React.FC<JournalBubbleNudgeProps> = ({ navigate, hasUp
       </div>
 
       {/* Chat card */}
-      <div className="bg-white rounded-xl border border-ink-100 p-stack flex flex-col gap-3">
+      <div className="bg-white rounded-xl border border-ink-100 p-stack flex flex-col gap-stack-sm">
 
         {/* Avatar + bubble */}
-        <div className="flex items-end gap-3">
+        <div className="flex items-end gap-stack-sm">
           {/* Avatar */}
           <div className="shrink-0 w-9 h-9 rounded-pill bg-primary-100 border border-primary-200/60 flex items-center justify-center text-primary-600">
             <Sparkles size={14} strokeWidth={2} aria-hidden="true" />
@@ -100,14 +100,14 @@ const JournalBubbleNudge: React.FC<JournalBubbleNudgeProps> = ({ navigate, hasUp
             <span className="block text-micro font-semibold text-primary-500 uppercase tracking-[0.07em] mb-2">
               {meta}
             </span>
-            <p className="font-body text-body text-ink-800 leading-relaxed m-0">
+            <p className="font-body text-body text-ink-800 m-0">
               {prompt}
             </p>
           </div>
         </div>
 
         {/* Reply bar — chat input style */}
-        <div className="flex items-center gap-2 pl-12">
+        <div className="flex items-center gap-stack-xs pl-12">
           <button
             type="button"
             onClick={() => navigate(href)}
@@ -141,8 +141,8 @@ const ActivitySection: React.FC<ActivitySectionProps> = ({ navigate }) => {
   return (
     <div className="flex flex-col gap-stack">
       {/* Section header with inline link */}
-      <div className="flex items-center justify-between gap-2">
-        <h3 className="font-display text-h3 font-bold text-ink-900 leading-tight tracking-headline">
+      <div className="flex items-center justify-between gap-stack-xs">
+        <h3 className="font-display text-h3 font-bold text-ink-900 tracking-headline">
           Activité & veille
         </h3>
         <Button
@@ -259,14 +259,14 @@ const DashboardContent: React.FC<DashboardContentProps> = ({ navigate }) => {
 
       <motion.div className="flex flex-col gap-stack" variants={itemVariants}>
         {/* Section header matching JournalBubble */}
-        <div className="flex items-center justify-between gap-2">
-          <h3 className="font-display text-h3 font-bold text-ink-900 leading-tight tracking-headline">
+        <div className="flex items-center justify-between gap-stack-xs">
+          <h3 className="font-display text-h3 font-bold text-ink-900 tracking-headline">
             Prochaine session
           </h3>
           <button
             type="button"
             onClick={() => navigate('/coaching')}
-            className="inline-flex items-center gap-1 text-caption font-medium text-primary-700 hover:text-primary-800 transition-colors duration-fast shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+            className="inline-flex items-center gap-stack-3xs text-caption font-medium text-primary-700 hover:text-primary-800 transition-colors duration-fast shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
           >
             3 sessions
             <ArrowRight size={14} aria-hidden="true" />

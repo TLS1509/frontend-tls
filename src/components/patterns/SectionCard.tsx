@@ -53,7 +53,7 @@ export const SectionCard: React.FC<SectionCardProps> = ({
               </h3>
             )}
             {description && (
-              <p className="m-0 text-body-sm text-ink-500 leading-relaxed">{description}</p>
+              <p className="m-0 text-body-sm text-ink-500">{description}</p>
             )}
           </div>
           {headerAction && <div className="shrink-0">{headerAction}</div>}

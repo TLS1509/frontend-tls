@@ -79,7 +79,7 @@ export default function HelpArticle() {
 
             <Card>
               <div className="flex flex-col gap-stack-lg">
-                <p className="text-body text-ink-700 leading-relaxed m-0 whitespace-pre-line">
+                <p className="text-body text-ink-700 m-0 whitespace-pre-line">
                   {article.content}
                 </p>
               </div>

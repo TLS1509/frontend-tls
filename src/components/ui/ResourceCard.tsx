@@ -145,7 +145,7 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
       <div className="flex flex-col gap-stack-xs">
         <h3 className="text-h4 leading-snug text-ink-900">{title}</h3>
         {variant !== 'minimal' && description && (
-          <p className="m-0 text-body-sm leading-relaxed text-ink-500">{description}</p>
+          <p className="m-0 text-body-sm text-ink-500">{description}</p>
         )}
       </div>
 

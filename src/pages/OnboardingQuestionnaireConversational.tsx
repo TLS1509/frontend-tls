@@ -322,7 +322,7 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
           placeholder="Réponds librement… (Entrée pour envoyer)"
           rows={1}
           disabled={transitioning}
-          className="flex-1 resize-none rounded-lg border border-ink-200 bg-white px-3 py-2.5 text-body-sm text-ink-900 leading-relaxed placeholder:text-ink-500 focus:outline-none focus:ring-2 focus:ring-secondary-300 focus:border-secondary-400 transition-all duration-base disabled:opacity-disabled max-h-24 overflow-y-auto"
+          className="flex-1 resize-none rounded-lg border border-ink-200 bg-white px-3 py-2.5 text-body-sm text-ink-900 placeholder:text-ink-500 focus:outline-none focus:ring-2 focus:ring-secondary-300 focus:border-secondary-400 transition-all duration-base disabled:opacity-disabled max-h-24 overflow-y-auto"
         />
         <Button
           variant="secondary"
@@ -374,7 +374,7 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
 
           {isClosed ? (
             <>
-              <p className="font-body text-body-sm text-ink-700 leading-relaxed">
+              <p className="font-body text-body-sm text-ink-700">
                 C'est terminé {firstName || ''} ! Ton Passeport de compétences est initialisé.
               </p>
               <p className="font-body text-body-sm text-ink-500">
@@ -390,7 +390,7 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
                   {competencyLabel}
                 </p>
               )}
-              <p className="font-body text-body font-medium text-ink-900 leading-relaxed">
+              <p className="font-body text-body font-medium text-ink-900">
                 {currentQ?.q}
               </p>
             </>
@@ -418,7 +418,7 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
 
   // ── VARIANT C : Immersive full-screen ─────────────────────────────────────
   const progressDots = (
-    <div className="flex items-center justify-center gap-1.5" role="progressbar" aria-valuenow={currentIdx + 1} aria-valuemax={total}>
+    <div className="flex items-center justify-center gap-stack-2xs" role="progressbar" aria-valuenow={currentIdx + 1} aria-valuemax={total}>
       {Array.from({ length: total }).map((_, i) => (
         <span
           key={i}
@@ -447,7 +447,7 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
             <p className="font-display text-h2 font-extrabold tracking-display text-ink-900 leading-tight">
               C'est tout !
             </p>
-            <p className="font-body text-body text-ink-500 leading-relaxed">
+            <p className="font-body text-body text-ink-500">
               Ton Passeport de compétences est initialisé.
               {requiresPayment
                 ? ' Prochaine étape : choisir ta formule.'
@@ -459,7 +459,7 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
             <span className="font-body text-caption font-semibold uppercase tracking-wider text-secondary-500">
               {competencyLabel && `${competencyLabel} · `}Question {currentIdx + 1} sur {total}
             </span>
-            <p className="font-display text-h3 font-bold tracking-headline text-ink-900 leading-tight">
+            <p className="font-display text-h3 font-bold tracking-headline text-ink-900">
               {currentQ?.q}
             </p>
           </>

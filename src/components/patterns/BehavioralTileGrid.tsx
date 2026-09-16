@@ -119,7 +119,7 @@ export const BehavioralTileGrid: React.FC<BehavioralTileGridProps> = ({
             </h3>
 
             {/* Description */}
-            <p className="m-0 mb-3 font-body text-body-sm text-ink-500 leading-relaxed">
+            <p className="m-0 mb-3 font-body text-body-sm text-ink-500">
               {tile.description}
             </p>
 

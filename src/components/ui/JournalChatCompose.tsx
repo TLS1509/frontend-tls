@@ -75,7 +75,7 @@ export const JournalChatCompose: React.FC<JournalChatComposeProps> = ({
             onChange={(e) => onChange(e.target.value)}
             placeholder={placeholder}
             onKeyDown={handleKeyDown}
-            className="w-full resize-none border-0 outline-none bg-transparent font-body text-body text-ink-900 placeholder:text-ink-500 leading-relaxed h-auto min-h-[44px] focus:outline-none"
+            className="w-full resize-none border-0 outline-none bg-transparent font-body text-body text-ink-900 placeholder:text-ink-500 h-auto min-h-[44px] focus:outline-none"
           />
         </div>
         <Button

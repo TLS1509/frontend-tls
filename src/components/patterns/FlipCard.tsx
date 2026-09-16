@@ -135,7 +135,7 @@ export const FlipCard: React.FC<FlipCardProps> = ({
             </span>
 
             {/* Title */}
-            <h2 className="font-display text-h3 sm:text-h2 font-bold text-white leading-tight max-w-prose text-balance [text-shadow:0_2px_10px_rgba(0,0,0,0.3)]">
+            <h2 className="font-display text-h3 sm:text-h2 font-bold text-white max-w-prose text-balance [text-shadow:0_2px_10px_rgba(0,0,0,0.3)]">
               {front.title}
             </h2>
 
@@ -174,7 +174,7 @@ export const FlipCard: React.FC<FlipCardProps> = ({
 
             {/* Optional details */}
             {back.details && (
-              <p className="m-0 font-body text-body-sm leading-relaxed opacity-90 max-w-[500px]">
+              <p className="m-0 font-body text-body-sm opacity-90 max-w-[500px]">
                 {back.details}
               </p>
             )}

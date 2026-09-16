@@ -48,7 +48,7 @@ export interface SessionCardProps {
 
 /* ─── Ghost action (discret — icône + label, pas de bordure lourde) ─────────── */
 const GHOST_ACTION =
-  'inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-caption font-body font-medium ' +
+  'inline-flex items-center gap-stack-2xs px-2.5 py-1.5 rounded-lg text-caption font-body font-medium ' +
   'text-ink-600 bg-transparent border-0 cursor-pointer whitespace-nowrap ' +
   'transition-colors duration-fast ease-emphasis hover:bg-ink-50 hover:text-ink-900 ' +
   'focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-500';
@@ -142,14 +142,14 @@ export const SessionCard: React.FC<SessionCardProps> = ({
       {/* Header : status chip + date (pill) → titre → coach */}
       <div className="flex flex-col gap-stack-xs">
         {/* Rôle status + date — une ligne, meta neutre */}
-        <div className="flex items-center gap-1.5 flex-wrap">
-          <span className={`inline-flex items-center gap-1 rounded-pill pl-1.5 pr-2 py-0.5 text-micro font-bold uppercase tracking-label leading-tight ${st.chip}`}>
+        <div className="flex items-center gap-stack-2xs flex-wrap">
+          <span className={`inline-flex items-center gap-stack-3xs rounded-pill pl-1.5 pr-2 py-0.5 text-micro font-bold uppercase tracking-label leading-tight ${st.chip}`}>
             {isCompleted
               ? <Check size={14} strokeWidth={2.5} aria-hidden />
               : <span className="w-1.5 h-1.5 rounded-pill bg-current" aria-hidden />}
             {st.label}
           </span>
-          <span className="inline-flex items-center gap-1 text-caption text-ink-500 font-medium">
+          <span className="inline-flex items-center gap-stack-3xs text-caption text-ink-500 font-medium">
             <CalendarClock size={14} className="text-ink-400 shrink-0" aria-hidden />
             {dateLabel}{durationLabel ? ` · ${durationLabel}` : ''}
           </span>
@@ -158,7 +158,7 @@ export const SessionCard: React.FC<SessionCardProps> = ({
         <CardTitle className={isCompleted ? 'text-ink-800' : ''}>{title}</CardTitle>
 
         {/* Coach — avatar + nom (+ rôle) */}
-        <div className="flex items-center gap-2.5 pt-0.5">
+        <div className="flex items-center gap-stack-xs.5 pt-0.5">
           <Avatar size="sm" name={coachName} shape="circle" />
           <div className="min-w-0">
             <p className="m-0 text-body-sm font-semibold text-ink-900 leading-tight truncate">{coachName}</p>
@@ -171,7 +171,7 @@ export const SessionCard: React.FC<SessionCardProps> = ({
       <CardDesc className="line-clamp-2">{description}</CardDesc>
 
       {(questionnaire || report || onOpen) && (
-        <div className="flex flex-wrap items-center gap-1 pt-3 border-t border-ink-100">
+        <div className="flex flex-wrap items-center gap-stack-3xs pt-3 border-t border-ink-100">
           {questionnaire && (
             <button type="button" className={GHOST_ACTION} onClick={onViewQuestionnaire}>
               <ClipboardList size={14} className="text-ink-400" aria-hidden />

@@ -76,21 +76,21 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         <Badge variant={STATUS_VARIANT[status]}>{STATUS_LABEL[status]}</Badge>
       </div>
 
-      <p className="m-0 text-body-sm text-ink-500 leading-relaxed line-clamp-2">{description}</p>
+      <p className="m-0 text-body-sm text-ink-500 line-clamp-2">{description}</p>
 
       <div className="flex flex-wrap items-center gap-stack text-caption text-ink-500">
-        <span className="inline-flex items-center gap-1">
+        <span className="inline-flex items-center gap-stack-3xs">
           <CheckCircle2 size={14} className="text-success-base" />
           <span className="font-semibold text-ink-700">{completedTasks}</span>
           <span>/ {totalTasks} tâches</span>
         </span>
         {deadline && (
-          <span className="inline-flex items-center gap-1">
+          <span className="inline-flex items-center gap-stack-3xs">
             <CalendarDays size={14} className="text-ink-600" />
             {deadline}
           </span>
         )}
-        <span className="inline-flex items-center gap-1">
+        <span className="inline-flex items-center gap-stack-3xs">
           <Users size={14} className="text-ink-600" />
           {teamMembers.length} membres
         </span>
@@ -101,11 +101,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
       </div>
 
       {teamMembers.length > 0 && (
-        <div className="flex flex-wrap gap-1">
+        <div className="flex flex-wrap gap-stack-3xs">
           {teamMembers.slice(0, 4).map((member) => (
             <span
               key={member.id}
-              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-pill bg-ink-50 border border-ink-200 text-caption text-ink-700 font-medium"
+              className="inline-flex items-center gap-stack-3xs px-2.5 py-1 rounded-pill bg-ink-50 border border-ink-200 text-caption text-ink-700 font-medium"
             >
               <span className={`inline-flex items-center justify-center w-5 h-5 rounded-pill text-micro font-bold ${STATUS_AVATAR[status]}`}>
                 {member.name.charAt(0)}

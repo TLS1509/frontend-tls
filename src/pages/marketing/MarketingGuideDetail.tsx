@@ -72,7 +72,7 @@ export const MarketingGuideDetail: React.FC = () => {
           <FadeInWhenVisible direction="up">
             <Link
               to="/website/resources"
-              className="inline-flex items-center gap-1.5 self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+              className="inline-flex items-center gap-stack-2xs self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
             >
               <ArrowLeft size={16} className="transition-transform duration-base group-hover:-translate-x-1" />
               Retour aux ressources
@@ -109,7 +109,7 @@ export const MarketingGuideDetail: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-section items-start">
           {/* Description + highlights */}
           <FadeInWhenVisible direction="up" className="flex flex-col gap-stack-lg">
-            <p className="font-body text-body text-ink-700 leading-relaxed m-0">
+            <p className="font-body text-body text-ink-700 m-0">
               {guide.description}
             </p>
             <div className="flex flex-col gap-stack">
@@ -120,7 +120,7 @@ export const MarketingGuideDetail: React.FC = () => {
                 {guide.highlights.map((h, i) => (
                   <li key={i} className="flex items-start gap-stack-xs">
                     <CheckCircle2 size={18} className="text-secondary-500 shrink-0 mt-0.5" />
-                    <span className="font-body text-body-sm text-ink-700 leading-relaxed">{h}</span>
+                    <span className="font-body text-body-sm text-ink-700">{h}</span>
                   </li>
                 ))}
               </ul>
@@ -166,7 +166,7 @@ export const MarketingGuideDetail: React.FC = () => {
                     <Button type="submit" variant="primary" size="lg" loading={loading} trailingIcon={<ArrowRight size={16} />}>
                       Télécharger le PDF
                     </Button>
-                    <span className="inline-flex items-center gap-1.5 font-body text-micro text-ink-500">
+                    <span className="inline-flex items-center gap-stack-2xs font-body text-micro text-ink-500">
                       <ShieldCheck size={14} /> RGPD conforme · zéro spam
                     </span>
                   </motion.form>

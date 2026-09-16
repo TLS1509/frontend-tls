@@ -89,7 +89,7 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
             <h2 className="text-h3 text-ink-900 text-center mb-2">
               Annuler la session ?
             </h2>
-            <p className="text-body-sm text-ink-600 text-center leading-relaxed mb-5">
+            <p className="text-body-sm text-ink-600 text-center mb-5">
               Cette action est irréversible. Vous pouvez aussi reprogrammer plutôt qu'annuler.
             </p>
 

@@ -66,11 +66,11 @@ export const TimelineChart: React.FC<TimelineChartProps> = ({
 
   if (layout === 'horizontal') {
     return (
-      <div className={`flex gap-4 overflow-x-auto pb-4 ${className}`}>
+      <div className={`flex gap-stack overflow-x-auto pb-4 ${className}`}>
         {displayEvents.map((event, idx) => (
           <div
             key={event.id}
-            className="flex flex-col items-center gap-2 flex-shrink-0 w-40"
+            className="flex flex-col items-center gap-stack-xs flex-shrink-0 w-40"
             role="button"
             tabIndex={0}
             onClick={() => onEventClick?.(event)}
@@ -108,11 +108,11 @@ export const TimelineChart: React.FC<TimelineChartProps> = ({
 
   // Vertical layout (default)
   return (
-    <div className={`flex flex-col gap-6 ${className}`}>
+    <div className={`flex flex-col gap-stack-lg ${className}`}>
       {displayEvents.map((event, idx) => (
         <div
           key={event.id}
-          className="flex gap-4 cursor-pointer group"
+          className="flex gap-stack cursor-pointer group"
           role="button"
           tabIndex={0}
           onClick={() => onEventClick?.(event)}
@@ -123,7 +123,7 @@ export const TimelineChart: React.FC<TimelineChartProps> = ({
           }}
         >
           {/* Timeline left side: date + dot + line */}
-          <div className="flex flex-col items-center gap-2">
+          <div className="flex flex-col items-center gap-stack-xs">
             {/* Date label */}
             <span className="text-caption text-ink-600 font-semibold w-20 text-right">
               {new Date(event.date).toLocaleDateString('fr-FR', {
@@ -150,7 +150,7 @@ export const TimelineChart: React.FC<TimelineChartProps> = ({
                 borderLeftColor: DOT_COLORS[event.type].replace('bg-', '#').split(' ')[0],
               }}
             >
-              <div className="flex items-start gap-2">
+              <div className="flex items-start gap-stack-xs">
                 {event.icon && (
                   <div className="flex-shrink-0 mt-1">
                     {event.icon}

@@ -50,7 +50,7 @@ const Hero: React.FC = () => {
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           className="flex max-w-4xl flex-col gap-stack-lg"
         >
-          <p className="inline-flex w-fit items-center gap-2 rounded-pill bg-secondary-100 px-4 py-1.5 font-body text-caption font-bold text-secondary-800 m-0">
+          <p className="inline-flex w-fit items-center gap-stack-xs rounded-pill bg-secondary-100 px-4 py-1.5 font-body text-caption font-bold text-secondary-800 m-0">
             <GraduationCap size={14} />
             Développement des compétences & upskilling
           </p>
@@ -58,7 +58,7 @@ const Hero: React.FC = () => {
             Concevez des projets d'upskilling sur-mesure.{' '}
             <span className="text-secondary-700">Pilotés par les professionnels de la formation.</span>
           </h1>
-          <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
+          <p className="font-body text-body-lg text-ink-600 m-0 max-w-2xl">
             Parce que la formation est un métier, tout projet d'upskilling
             commence chez The Learning Society par l'habilitation de vos
             concepteurs et formateurs. Une ingénierie orchestrée par notre
@@ -112,7 +112,7 @@ const Conviction: React.FC = () => (
               <div className="border-t border-white/15 py-stack-lg first:border-t-0">
                 <div className="flex flex-col gap-stack-xs">
                   <h3 className="font-display text-h4 font-bold text-white leading-tight">{r.title}</h3>
-                  <p className="font-body text-body text-white/70 leading-relaxed m-0 max-w-xl">{r.detail}</p>
+                  <p className="font-body text-body text-white/70 m-0 max-w-xl">{r.detail}</p>
                 </div>
               </div>
             </FadeInWhenVisible>
@@ -162,7 +162,7 @@ const Cibles: React.FC = () => (
                 {c.icon}
               </span>
               <h3 className="font-display text-h4 font-bold text-ink-900 leading-tight">{c.title}</h3>
-              <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">{c.detail}</p>
+              <p className="font-body text-body-sm text-ink-600 m-0">{c.detail}</p>
             </div>
           </FadeInWhenVisible>
         ))}
@@ -212,11 +212,11 @@ const Perimetre: React.FC = () => (
                 <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-secondary-700 shadow-card">
                   {p.icon}
                 </span>
-                <h3 className="font-display text-h3 font-bold text-ink-900 leading-tight [text-wrap:balance]">
+                <h3 className="font-display text-h3 font-bold text-ink-900 [text-wrap:balance]">
                   {p.title}
                 </h3>
               </div>
-              <p className="lg:col-span-7 font-body text-body text-ink-600 leading-relaxed m-0 max-w-2xl">
+              <p className="lg:col-span-7 font-body text-body text-ink-600 m-0 max-w-2xl">
                 {p.desc}
               </p>
             </div>
@@ -269,7 +269,7 @@ const Pilotage: React.FC = () => (
           <FadeInWhenVisible key={p.title} delay={i * 0.05}>
             <div className="flex items-start gap-stack border-t border-white/15 pt-stack">
               <CheckCircle2 size={20} className="text-accent-400 shrink-0 mt-1" />
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-stack-3xs">
                 <h3 className="font-display text-h4 font-bold text-white leading-tight">{p.title}</h3>
                 <p className="font-body text-body-sm text-white/70 leading-relaxed m-0">{p.detail}</p>
               </div>
@@ -319,7 +319,7 @@ const Modalites: React.FC = () => (
                 <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-secondary-100 text-secondary-700">
                   <Wrench size={20} />
                 </span>
-                <p className="font-body text-body text-ink-600 leading-relaxed m-0">
+                <p className="font-body text-body text-ink-600 m-0">
                   <span className="font-bold text-ink-900">Formation-Action :</span>{' '}
                   nous travaillons sur les cas réels de votre entreprise, jamais
                   sur des exercices hors-sol.
@@ -329,7 +329,7 @@ const Modalites: React.FC = () => (
                 <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-secondary-100 text-secondary-700">
                   <HeartHandshake size={20} />
                 </span>
-                <p className="font-body text-body text-ink-600 leading-relaxed m-0">
+                <p className="font-body text-body text-ink-600 m-0">
                   <span className="font-bold text-ink-900">Accompagnement hybride :</span>{' '}
                   ateliers, sprints, playground et débriefings, rythmés par la
                   plateforme.
@@ -367,7 +367,7 @@ const CtaFinal: React.FC = () => (
             <h2 className="font-display font-extrabold text-ink-900 leading-[1.04] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.5vw,3.25rem)]">
               Lançons votre prochain projet d'upskilling.
             </h2>
-            <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-xl [text-wrap:pretty]">
+            <p className="font-body text-body-lg text-ink-600 m-0 max-w-xl [text-wrap:pretty]">
               Un temps de cadrage avec les fondateurs suffit à dessiner le
               dispositif qui correspond à vos équipes.
             </p>
@@ -383,7 +383,7 @@ const CtaFinal: React.FC = () => (
             <h3 className="font-display text-h4 font-bold text-ink-900 leading-tight">
               Avant de vous décider
             </h3>
-            <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">
+            <p className="font-body text-body-sm text-ink-600 m-0">
               La Méthode TLS explique ce qui fonde nos dispositifs : échelle
               Dreyfus, EDRACT de C-Campus, augmentation cognitive.
             </p>

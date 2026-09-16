@@ -93,7 +93,7 @@ const CorrectionDetailLearner: React.FC = () => {
 
         {/* Learner submission */}
         <SectionCard title="Ta soumission" titleIcon={<Send size={18} />}>
-          <p className="text-body text-ink-700 leading-relaxed m-0">{correction.submittedContent}</p>
+          <p className="text-body text-ink-700 m-0">{correction.submittedContent}</p>
         </SectionCard>
 
         {/* Coach feedback */}
@@ -102,7 +102,7 @@ const CorrectionDetailLearner: React.FC = () => {
             <Avatar initials={MOCK_COACH_INITIALS} size="md" tint="brand" />
             <div className="flex-1">
               <div className="text-caption text-ink-500 mb-1">{MOCK_COACH_NAME} : Feedback</div>
-              <p className="text-body text-ink-700 leading-relaxed m-0">{correction.coachFeedback}</p>
+              <p className="text-body text-ink-700 m-0">{correction.coachFeedback}</p>
             </div>
           </Card>
         ) : (
@@ -114,7 +114,7 @@ const CorrectionDetailLearner: React.FC = () => {
         {/* Learner response */}
         {correction.learnerResponse && (
           <SectionCard title="Ta réponse au coach">
-            <p className="text-body text-ink-700 leading-relaxed m-0">{correction.learnerResponse}</p>
+            <p className="text-body text-ink-700 m-0">{correction.learnerResponse}</p>
           </SectionCard>
         )}
 

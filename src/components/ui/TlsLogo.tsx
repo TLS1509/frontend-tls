@@ -342,10 +342,10 @@ export const TlsLogoLockup: React.FC<TlsLogoLockupProps> = ({
 
   const layoutClass =
     layout === 'horizontal' || layout === 'horizontal-3'
-      ? 'flex-row gap-3'
+      ? 'flex-row gap-stack-sm'
       : layout === 'vertical'
-      ? 'flex-col gap-2'
-      : 'flex-col gap-3';
+      ? 'flex-col gap-stack-xs'
+      : 'flex-col gap-stack-sm';
 
   const content =
     layout === 'horizontal'    ? <>{icon}{oneLine(iconSize * 0.86)}</> :

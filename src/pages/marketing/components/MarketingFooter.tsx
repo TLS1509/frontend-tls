@@ -96,7 +96,7 @@ export const MarketingFooter: React.FC = () => (
       <div className="flex flex-col gap-flow sm:flex-row sm:items-start sm:justify-between">
         <Link
           to="/website"
-          className="flex w-fit shrink-0 items-center gap-2 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-500 rounded-lg"
+          className="flex w-fit shrink-0 items-center gap-stack-xs focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-500 rounded-lg"
         >
           <TlsLogo size={24} variant="primary" />
           <span className="font-display font-bold text-body-sm text-ink-900 leading-none whitespace-nowrap">
@@ -126,10 +126,10 @@ export const MarketingFooter: React.FC = () => (
       </div>
 
       {/* Rangée 2 — mentions, légal et contact sur une seule ligne. */}
-      <div className="flex flex-wrap items-center gap-x-group gap-y-1 border-t border-ink-200/70 pt-group font-body text-micro text-ink-600">
+      <div className="flex flex-wrap items-center gap-x-group gap-y-stack-3xs border-t border-ink-200/70 pt-group font-body text-micro text-ink-600">
         <span>© 2026 The Learning Society · Paris</span>
 
-        <nav aria-label="Pied de page : mentions légales" className="flex flex-wrap items-center gap-x-group gap-y-1">
+        <nav aria-label="Pied de page : mentions légales" className="flex flex-wrap items-center gap-x-group gap-y-stack-3xs">
           {LEGAL_LINKS.map(({ label, href }) => (
             <Link key={href} to={href} className={`${LIEN} hover:text-ink-900`}>
               {label}
@@ -142,7 +142,7 @@ export const MarketingFooter: React.FC = () => (
             href="https://www.linkedin.com/company/thelearningsociety"
             target="_blank"
             rel="noopener noreferrer"
-            className={`${LIEN} gap-1.5 hover:text-ink-900`}
+            className={`${LIEN} gap-stack-2xs hover:text-ink-900`}
           >
             <LinkedInIcon />
             LinkedIn

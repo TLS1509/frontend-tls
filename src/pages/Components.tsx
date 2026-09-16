@@ -1359,7 +1359,7 @@ const ContrasteChip: React.FC<{ valeur: string; seuil: number }> = ({ valeur, se
   const ok = parseFloat(valeur.replace(',', '.')) >= seuil;
   return (
     <span
-      className={`inline-flex items-center gap-1 rounded-pill px-2 py-0.5 font-mono text-micro tabular-nums ${
+      className={`inline-flex items-center gap-stack-3xs rounded-pill px-2 py-0.5 font-mono text-micro tabular-nums ${
         ok ? 'bg-success-bg text-success-fg' : 'bg-danger-bg text-danger-fg'
       }`}
       title={`Seuil AA : ${seuil}:1`}
@@ -1454,7 +1454,7 @@ const COMPONENTS: ComponentEntry[] = [
       <div className="flex flex-col gap-section">
         <ShowcaseBloc
           titre="L'échelle sémantique, à l'échelle"
-          note="Chaque barre vaut sa valeur réelle. Un nom se relit — gap-stack dit l'intention ; gap-4 oblige à recompter."
+          note="Chaque barre vaut sa valeur réelle. Un nom se relit — gap-stack dit l'intention ; gap-stack oblige à recompter."
         >
           <div className="flex flex-col gap-stack-xs">
             {([
@@ -1484,7 +1484,7 @@ const COMPONENTS: ComponentEntry[] = [
                 </tr>
               </thead>
               <tbody className="text-ink-600">
-                {([['gap-0.5', 'gap-tight', 53], ['gap-2', 'gap-stack-xs', 94], ['gap-4', 'gap-stack', 17], ['gap-6', 'gap-stack-lg', 15], ['gap-8', 'gap-section', 2]] as const).map(([a, b, n]) => (
+                {([['gap-0.5', 'gap-tight', 53], ['gap-stack-xs', 'gap-stack-xs', 94], ['gap-stack', 'gap-stack', 17], ['gap-stack-lg', 'gap-stack-lg', 15], ['gap-8', 'gap-section', 2]] as const).map(([a, b, n]) => (
                   <tr key={a} className="border-b border-ink-100">
                     <td className="py-2 pr-stack"><code className="font-mono text-caption">{a}</code></td>
                     <td className="py-2 pr-stack"><code className="font-mono text-caption text-primary-700">{b}</code></td>
@@ -1989,12 +1989,12 @@ const COMPONENTS: ComponentEntry[] = [
 
         <ShowcaseBloc
           titre="Ce qui a été rattaché aux tokens le 2026-09-10"
-          note="Le serrage de Badge était écrit en valeur arbitraire, à trois valeurs dont deux sur le même corps de 11 px. L’échelle n’avait aucun serrage positif : ses trois tokens resserrent des titres. --tracking-label (+0,05em) comble ce manque. Quatre gap-1.5 passent à gap-stack-2xs. Vérifié au navigateur : rayon 999 px sur les 69 pastilles rendues, et aucune dérive d’alignement au-delà de 1,2 px sur 36 pastilles à texte."
+          note="Le serrage de Badge était écrit en valeur arbitraire, à trois valeurs dont deux sur le même corps de 11 px. L’échelle n’avait aucun serrage positif : ses trois tokens resserrent des titres. --tracking-label (+0,05em) comble ce manque. Quatre gap-stack-2xs passent à gap-stack-2xs. Vérifié au navigateur : rayon 999 px sur les 69 pastilles rendues, et aucune dérive d’alignement au-delà de 1,2 px sur 36 pastilles à texte."
         >
           <div className="flex flex-col gap-stack-2xs">
             {([
               ['serrage', 'tracking-[0.06em] · [0.05em] · [0.04em]', 'tracking-label'],
-              ['gouttière', 'gap-1.5', 'gap-stack-2xs'],
+              ['gouttière', 'gap-stack-2xs', 'gap-stack-2xs'],
               ['rayon', '—', 'rounded-pill · 999 px partout'],
             ] as const).map(([quoi, avant, apres]) => (
               <div key={quoi} className="flex flex-wrap items-baseline gap-stack-xs text-caption">
@@ -3607,7 +3607,7 @@ const COMPONENTS: ComponentEntry[] = [
     render: () => (
       <div className="flex flex-col gap-stack-xs p-stack bg-ink-50 rounded-xl border border-ink-200">
         <p className="text-caption text-ink-400 m-0 italic">Simulation — rendu réel disponible dans toute page routée avec ≥ 2 segments (ex. /learning-paths/1, /veille/article/1)</p>
-        <div className="flex items-center gap-1.5 text-caption text-ink-500">
+        <div className="flex items-center gap-stack-2xs text-caption text-ink-500">
           <span className="inline-flex items-center gap-tight text-primary-600 hover:text-primary-700 cursor-pointer font-medium">
             <BookOpen size={13} /> Parcours
           </span>
@@ -4788,7 +4788,7 @@ const COMPONENTS: ComponentEntry[] = [
         <p className="text-caption text-ink-400 m-0">Aperçu tronqué — composant wrapper full-screen utilisé dans les pages viewer. children = contenu immersif (Flashcard, VideoPlayer, LessonContent…).</p>
         <div className="rounded-2xl overflow-hidden border border-ink-200 bg-white min-h-[260px] flex flex-col">
           <div className="flex items-center justify-between px-5 py-3 bg-white/85 backdrop-blur-glass-light border-b border-ink-200">
-            <button className="inline-flex items-center gap-1.5 text-caption text-ink-600 font-medium bg-ink-50 border border-ink-200 rounded-pill px-3 py-1.5">
+            <button className="inline-flex items-center gap-stack-2xs text-caption text-ink-600 font-medium bg-ink-50 border border-ink-200 rounded-pill px-3 py-1.5">
               <ArrowLeft size={14} /> Retour
             </button>
             <div className="flex-1 text-center">
@@ -4803,9 +4803,9 @@ const COMPONENTS: ComponentEntry[] = [
           <div className="h-1 bg-ink-100"><div className="h-full bg-gradient-to-r from-primary-500 to-primary-700" style={{ width: '25%' }} /></div>
           <div className="flex-1 flex items-center justify-center p-section text-ink-400 text-caption">— children slot (LessonPlayer / Flashcard / VideoPlayer…) —</div>
           <div className="px-5 py-3 border-t border-ink-200 bg-white flex items-center justify-between">
-            <button className="inline-flex items-center gap-1.5 text-caption font-medium text-ink-600 px-3 py-stack-xs rounded-pill hover:bg-ink-50 border border-ink-200 cursor-pointer"><ArrowLeft size={14} /> Précédent</button>
+            <button className="inline-flex items-center gap-stack-2xs text-caption font-medium text-ink-600 px-3 py-stack-xs rounded-pill hover:bg-ink-50 border border-ink-200 cursor-pointer"><ArrowLeft size={14} /> Précédent</button>
             <span className="text-caption text-ink-500">3 / 12</span>
-            <button className="inline-flex items-center gap-1.5 text-caption font-medium text-primary-700 px-3 py-stack-xs rounded-pill hover:bg-primary-50 border border-primary-200 cursor-pointer">Suivant <ArrowRight size={14} /></button>
+            <button className="inline-flex items-center gap-stack-2xs text-caption font-medium text-primary-700 px-3 py-stack-xs rounded-pill hover:bg-primary-50 border border-primary-200 cursor-pointer">Suivant <ArrowRight size={14} /></button>
           </div>
         </div>
       </div>
@@ -4972,7 +4972,7 @@ const COMPONENTS: ComponentEntry[] = [
             <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">C · Tinted full bg · couleur tone-aware en arrière-plan complet</p>
             <article className="flex flex-col rounded-2xl bg-accent-50/70 border border-accent-100 p-5 gap-stack-xs hover:bg-accent-50">
               <div className="flex items-center justify-between">
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-white/90 text-accent-700 border border-accent-200 text-micro font-bold uppercase tracking-wider"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
+                <span className="inline-flex items-center gap-stack-2xs px-2.5 py-1 rounded-pill bg-white/90 text-accent-700 border border-accent-200 text-micro font-bold uppercase tracking-wider"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
                 <button className="w-8 h-8 rounded-pill bg-white/70 text-ink-500 hover:text-ink-900 flex items-center justify-center"><Bookmark size={14} /></button>
               </div>
               <span className="font-body text-micro font-semibold uppercase tracking-wider text-accent-700">{item.category} · {item.publishedAt}</span>
@@ -5061,7 +5061,7 @@ const COMPONENTS: ComponentEntry[] = [
                   {/* Content : titre → meta → summary */}
                   <div className="flex flex-col justify-center gap-tight p-stack">
                     <h3 className="font-display text-body-sm font-bold text-ink-900 leading-tight line-clamp-2">{it.title}</h3>
-                    <div className="flex items-center gap-1.5 font-body text-micro text-ink-400 flex-wrap">
+                    <div className="flex items-center gap-stack-2xs font-body text-micro text-ink-400 flex-wrap">
                       <User size={10} className="shrink-0" />
                       <span>{it.author}</span>
                       <span aria-hidden>·</span>
@@ -5094,7 +5094,7 @@ const COMPONENTS: ComponentEntry[] = [
                   {/* Content */}
                   <div className="flex-1 min-w-0 flex flex-col gap-tight px-stack py-3">
                     <h3 className="font-display text-body-sm font-bold text-ink-900 leading-tight line-clamp-1">{it.title}</h3>
-                    <div className="flex items-center gap-1.5 font-body text-micro text-ink-500 flex-wrap">
+                    <div className="flex items-center gap-stack-2xs font-body text-micro text-ink-500 flex-wrap">
                       <User size={10} className="shrink-0" />
                       <span>{it.author}</span>
                       <span aria-hidden>·</span>
@@ -7331,7 +7331,7 @@ const COMPONENTS: ComponentEntry[] = [
     keywords: ['gauge', 'progress', 'circular', 'indicator', 'goal', 'achievement', 'needle', 'arc'],
     usedBy: ['Passeport', 'Dashboard', 'Analytics'],
     render: () => (
-      <div className="flex gap-6 flex-wrap">
+      <div className="flex gap-stack-lg flex-wrap">
         <GaugeChart current={68} max={100} label="Passeport Progress" tone="primary" variant="arc" size="md" showPercentage />
         <GaugeChart current={3.4} max={5} label="Leadership Level" tone="warm" variant="needle" size="md" target={4.5} />
         <GaugeChart current={75} max={100} label="Weekly Goal" tone="sun" variant="segment" size="sm" target={90} />
@@ -8092,11 +8092,11 @@ const FONT_TOKENS: TokenEntry[] = [
 
 /* `--spacing: 0.25rem` est la base multipliée par Tailwind : `p-4` = 16 px. Les
    noms sémantiques disent l'intention plutôt que le nombre — `gap-stack` se
-   relit, `gap-4` se recompte. */
+   relit, `gap-stack` se recompte. */
 const SPACING_TOKENS: TokenEntry[] = [
   { name: 'spacing (base 4pt)', cssVar: '--spacing', value: '0.25rem · 4 px — l’unité que Tailwind multiplie', group: 'Espacement — base', type: 'spacing' },
   { name: 'tight', cssVar: '--spacing-tight', value: '2 px', group: 'Espacement — sémantique', type: 'spacing' },
-  { name: 'stack-2xs', cssVar: '--spacing-stack-2xs', value: '6 px — le barreau ajouté le 2026-09-09, ex-gap-1.5', group: 'Espacement — sémantique', type: 'spacing' },
+  { name: 'stack-2xs', cssVar: '--spacing-stack-2xs', value: '6 px — le barreau ajouté le 2026-09-09, ex-gap-stack-2xs', group: 'Espacement — sémantique', type: 'spacing' },
   { name: 'stack-xs', cssVar: '--spacing-stack-xs', value: '8 px', group: 'Espacement — sémantique', type: 'spacing' },
   { name: 'stack', cssVar: '--spacing-stack', value: '16 px', group: 'Espacement — sémantique', type: 'spacing' },
   { name: 'stack-lg', cssVar: '--spacing-stack-lg', value: '24 px', group: 'Espacement — sémantique', type: 'spacing' },

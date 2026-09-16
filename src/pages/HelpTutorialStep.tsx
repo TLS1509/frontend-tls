@@ -57,19 +57,19 @@ export default function HelpTutorialStep() {
                   Renseigner vos informations personnelles
                 </h2>
               </div>
-              <p className="text-body text-ink-700 leading-relaxed m-0">
+              <p className="text-body text-ink-700 m-0">
                 Cette étape vous guide pour compléter les informations essentielles de votre profil apprenant : nom d'affichage, poste actuel, secteur d'activité et langue préférée.
               </p>
             </div>
 
             <div className="flex flex-col gap-stack">
-              <p className="text-body text-ink-700 leading-relaxed m-0">
+              <p className="text-body text-ink-700 m-0">
                 <strong>1.</strong> Depuis votre tableau de bord, cliquez sur votre avatar en haut à droite, puis sélectionnez <em>Mon profil</em>.
               </p>
-              <p className="text-body text-ink-700 leading-relaxed m-0">
+              <p className="text-body text-ink-700 m-0">
                 <strong>2.</strong> Dans la section <em>Informations personnelles</em>, renseignez votre prénom, nom, intitulé de poste et secteur d'activité. Ces informations seront visibles par votre coach.
               </p>
-              <p className="text-body text-ink-700 leading-relaxed m-0">
+              <p className="text-body text-ink-700 m-0">
                 <strong>3.</strong> Sélectionnez votre langue préférée pour l'interface et les contenus recommandés. Cette préférence peut être modifiée à tout moment.
               </p>
             </div>

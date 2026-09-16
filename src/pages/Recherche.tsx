@@ -197,11 +197,11 @@ export const Recherche: React.FC = () => {
             </p>
           </div>
         </div>
-        <p className="m-0 font-body text-body-sm text-ink-600 leading-relaxed">
+        <p className="m-0 font-body text-body-sm text-ink-600">
           {item.description}
         </p>
         {item.specialties && (
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex flex-wrap gap-stack-2xs">
             {item.specialties.map((s) => (
               <Badge key={s} variant="neutral">{s}</Badge>
             ))}

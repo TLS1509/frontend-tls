@@ -11,7 +11,7 @@ export const VariantSwitcher: React.FC = () => {
   const { pathname } = useLocation();
 
   return (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-1 px-3 py-2 rounded-pill bg-ink-900/85 backdrop-blur-sm border border-white/10 shadow-lg">
+    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-stack-3xs px-3 py-2 rounded-pill bg-ink-900/85 backdrop-blur-sm border border-white/10 shadow-lg">
       <span className="text-white/40 text-micro font-semibold pr-2 border-r border-white/10 mr-1">
         Variante
       </span>

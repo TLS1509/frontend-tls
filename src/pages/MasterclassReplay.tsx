@@ -57,7 +57,7 @@ export default function MasterclassReplay() {
             {/* Résumé IA */}
             <SectionCard title="Résumé IA" titleIcon={<Sparkles size={18} />}>
               <AITransparencyLabel variant="generated" size="md" />
-              <p className="text-body-sm text-ink-600 leading-relaxed mt-stack-xs">
+              <p className="text-body-sm text-ink-600 mt-stack-xs">
                 Marie Fontaine a présenté trois leviers essentiels pour maintenir la cohésion d'équipe en période de crise : la transparence radicale dans la communication, la délégation raisonnée pour préserver l'énergie collective, et le recadrage positif pour maintenir la motivation malgré l'incertitude.
               </p>
               <div className="flex flex-wrap gap-stack-xs mt-tight">

@@ -126,21 +126,21 @@ export const Magazine: React.FC = () => {
             L'IA au cœur de la formation
           </h1>
 
-          <p className="m-0 font-body text-body-lg text-white/75 leading-relaxed max-w-2xl">
+          <p className="m-0 font-body text-body-lg text-white/75 max-w-2xl">
             56 pages de recherches, portraits, analyses et tendances pour transformer vos
             pratiques pédagogiques en 2026.
           </p>
 
           <div className="flex items-center gap-stack flex-wrap font-body text-caption text-white/70">
-            <span className="inline-flex items-center gap-1.5">
+            <span className="inline-flex items-center gap-stack-2xs">
               <CalendarDays size={14} /> Avril 2026
             </span>
             <span aria-hidden className="text-white/30">·</span>
-            <span className="inline-flex items-center gap-1.5">
+            <span className="inline-flex items-center gap-stack-2xs">
               <FileText size={14} /> 56 pages
             </span>
             <span aria-hidden className="text-white/30">·</span>
-            <span className="inline-flex items-center gap-1.5">
+            <span className="inline-flex items-center gap-stack-2xs">
               <Download size={14} /> 1 240 téléchargements
             </span>
           </div>
@@ -162,7 +162,7 @@ export const Magazine: React.FC = () => {
                 </Button>
               }
             >
-              <p className="m-0 font-body text-body-sm text-ink-700 leading-relaxed">
+              <p className="m-0 font-body text-body-sm text-ink-700">
                 Ce numéro explore comment l'IA générative transforme concrètement le métier de
                 formateur : de la conception des contenus à la personnalisation des parcours.
                 Nos experts dressent un panorama complet des pratiques émergentes, soutenu par

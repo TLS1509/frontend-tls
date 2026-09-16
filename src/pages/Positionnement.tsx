@@ -133,7 +133,7 @@ export const Positionnement: React.FC = () => {
                   <span className="text-h1 font-display font-bold text-primary-600">D{avgLevel}</span>
                   <span className="text-body-sm text-ink-600">{DREYFUS_LABELS[avgLevel as DreyfusLevel]}</span>
                 </div>
-                <p className="m-0 font-body text-body-sm text-ink-700 leading-relaxed max-w-prose">
+                <p className="m-0 font-body text-body-sm text-ink-700 max-w-prose">
                   Nous avons évalué vos {total} compétences clés. Le contenu du parcours s'adapte à
                   votre progression.
                 </p>

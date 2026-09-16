@@ -177,15 +177,15 @@ export const HeatmapChart: React.FC<HeatmapChartProps> = ({
       {/* Legend */}
       <div className="mt-stack flex items-center gap-stack-xs text-caption text-ink-600">
         <span className="font-semibold">Légende:</span>
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-stack-3xs">
           <div style={{ width: 20, height: 20, backgroundColor: getColor(minValue), border: '1px solid #ccc' }} />
           <span>{minValue}</span>
         </div>
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-stack-3xs">
           <div style={{ width: 20, height: 20, backgroundColor: getColor((minValue + maxValue) / 2), border: '1px solid #ccc' }} />
           <span>{Math.round((minValue + maxValue) / 2)}</span>
         </div>
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-stack-3xs">
           <div style={{ width: 20, height: 20, backgroundColor: getColor(maxValue), border: '1px solid #ccc' }} />
           <span>{maxValue}</span>
         </div>

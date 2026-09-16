@@ -136,7 +136,7 @@ export default function CoachingSessionDetail() {
             <Badge variant="sun" size="compact">À faire avant la session</Badge>
           }
         >
-          <p className="text-body-sm text-ink-600 leading-relaxed">
+          <p className="text-body-sm text-ink-600">
             Avant la session, prends 10 minutes pour noter tes succès récents, les situations difficiles rencontrées, et les questions que tu souhaites aborder avec ton coach.
           </p>
           <div className="mt-stack flex gap-stack-xs">

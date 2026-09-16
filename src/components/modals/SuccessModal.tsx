@@ -57,7 +57,7 @@ export const SuccessModal: React.FC<SuccessModalProps> = ({
           <h2 className="text-h3 mb-3 modal-gradient-text">
             {title}
           </h2>
-          <p className="text-body text-ink-600 leading-relaxed">
+          <p className="text-body text-ink-600">
             {message}
           </p>
         </div>

@@ -151,7 +151,7 @@ export default function EvenementHub() {
 
               return (
                 <Card key={ev.id} variant="default" className="p-5 flex flex-col gap-tight">
-                  <div className="flex flex-wrap gap-1.5">
+                  <div className="flex flex-wrap gap-stack-2xs">
                     {isPast ? (
                       <Badge variant="neutral">Terminé</Badge>
                     ) : isFull ? (
@@ -181,7 +181,7 @@ export default function EvenementHub() {
 
                   <h3 className="text-body font-semibold text-ink-900">{ev.title}</h3>
 
-                  <p className="text-caption text-ink-500 m-0 inline-flex items-center gap-1.5 flex-wrap">
+                  <p className="text-caption text-ink-500 m-0 inline-flex items-center gap-stack-2xs flex-wrap">
                     <Calendar size={14} />
                     {formatDate(ev.scheduledAt)}
                     <span>·</span>

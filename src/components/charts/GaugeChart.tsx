@@ -90,7 +90,7 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
   const strokeDashoffset = circumference - (percentage / 100) * circumference;
 
   const renderArcVariant = () => (
-    <div className="flex flex-col items-center gap-3">
+    <div className="flex flex-col items-center gap-stack-sm">
       <svg width={svgSize} height={svgSize} className="transform -rotate-90">
         {/* Background circle */}
         <circle
@@ -161,7 +161,7 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
     const needleEndY = config.center + needleLength * Math.sin(radian);
 
     return (
-      <div className="flex flex-col items-center gap-3">
+      <div className="flex flex-col items-center gap-stack-sm">
         <svg width={svgSize} height={svgSize * 0.6}>
           {/* Background semi-circle */}
           <circle
@@ -236,7 +236,7 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
   };
 
   const renderSegmentVariant = () => (
-    <div className="flex flex-col items-center gap-3">
+    <div className="flex flex-col items-center gap-stack-sm">
       <svg width={svgSize} height={svgSize}>
         {/* Outer ring (max) */}
         <circle

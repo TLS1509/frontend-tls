@@ -65,7 +65,7 @@ const CheckboxField: React.FC<{
   description: string;
 }> = ({ id, checked, onChange, label, description }) => (
   /* relative on label is MANDATORY — sr-only uses position:absolute, anchors to nearest positioned ancestor */
-  <label htmlFor={id} className="relative flex items-start gap-3 cursor-pointer group">
+  <label htmlFor={id} className="relative flex items-start gap-stack-sm cursor-pointer group">
     <input
       id={id}
       type="checkbox"
@@ -166,18 +166,18 @@ export const MarketingWaitlist: React.FC = () => {
         />
 
         <div className="relative z-10 max-w-page mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-page lg:gap-20 items-start">
 
             {/* LEFT — copy ──────────────────────────────────────────────────── */}
             <motion.div
-              className="flex flex-col gap-6 lg:pt-2"
+              className="flex flex-col gap-stack-lg lg:pt-2"
               variants={colVariants}
               initial={reduced ? false : 'hidden'}
               animate={reduced ? false : 'show'}
             >
               {/* Urgency pill */}
               <motion.div variants={itemVariants}>
-                <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-pill bg-secondary-50 border border-secondary-200 font-body text-caption font-semibold text-secondary-600">
+                <span className="inline-flex items-center gap-stack-xs px-3.5 py-1.5 rounded-pill bg-secondary-50 border border-secondary-200 font-body text-caption font-semibold text-secondary-600">
                   <span
                     aria-hidden
                     className="w-2 h-2 rounded-pill bg-secondary-500 animate-pulse"
@@ -205,7 +205,7 @@ export const MarketingWaitlist: React.FC = () => {
               {/* Subtitle */}
               <motion.p
                 variants={itemVariants}
-                className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-[48ch]"
+                className="font-body text-body-lg text-ink-600 m-0 max-w-[48ch]"
               >
                 La Learning App qui apprend avec vos équipes : parcours adaptatifs,
                 Passeport Dreyfus, coaching intégré. Rejoignez la liste d'accès
@@ -218,10 +218,10 @@ export const MarketingWaitlist: React.FC = () => {
               {/* Benefits */}
               <motion.ul
                 variants={itemVariants}
-                className="flex flex-col gap-4 list-none m-0 p-0"
+                className="flex flex-col gap-stack list-none m-0 p-0"
               >
                 {BENEFITS.map((b) => (
-                  <li key={b.label} className="flex items-start gap-3">
+                  <li key={b.label} className="flex items-start gap-stack-sm">
                     {b.icon}
                     <div>
                       <span className="font-body text-body-sm font-semibold text-ink-800 block">
@@ -238,12 +238,12 @@ export const MarketingWaitlist: React.FC = () => {
               {/* Trust strip */}
               <motion.div
                 variants={itemVariants}
-                className="flex flex-wrap gap-x-5 gap-y-2 pt-1"
+                className="flex flex-wrap gap-x-5 gap-y-stack-xs pt-1"
               >
                 {TRUST_SIGNALS.map(({ icon, label }) => (
                   <div
                     key={label}
-                    className="flex items-center gap-1.5 font-body text-caption text-ink-600"
+                    className="flex items-center gap-stack-2xs font-body text-caption text-ink-600"
                   >
                     <span className="text-primary-400">{icon}</span>
                     {label}
@@ -274,7 +274,7 @@ export const MarketingWaitlist: React.FC = () => {
                         className="flex flex-col gap-5"
                       >
                         {/* Card heading */}
-                        <div className="flex flex-col gap-1">
+                        <div className="flex flex-col gap-stack-3xs">
                           <h2 className="font-display font-bold text-ink-900 text-h4">
                             Rejoindre la liste
                           </h2>
@@ -285,12 +285,12 @@ export const MarketingWaitlist: React.FC = () => {
 
                         <form
                           onSubmit={handleSubmit}
-                          className="flex flex-col gap-4"
+                          className="flex flex-col gap-stack"
                           noValidate
                           aria-label="Formulaire d'accès anticipé"
                         >
                           {/* Prénom (optionnel) */}
-                          <div className="flex flex-col gap-1.5">
+                          <div className="flex flex-col gap-stack-2xs">
                             <label
                               htmlFor="wl-firstname"
                               className="font-body text-caption font-semibold text-ink-700"
@@ -310,7 +310,7 @@ export const MarketingWaitlist: React.FC = () => {
                           </div>
 
                           {/* Email */}
-                          <div className="flex flex-col gap-1.5">
+                          <div className="flex flex-col gap-stack-2xs">
                             <label
                               htmlFor="wl-email"
                               className="font-body text-caption font-semibold text-ink-700"
@@ -343,7 +343,7 @@ export const MarketingWaitlist: React.FC = () => {
                               <span
                                 id="wl-email-error"
                                 role="alert"
-                                className="flex items-center gap-1.5 font-body text-caption text-danger-fg"
+                                className="flex items-center gap-stack-2xs font-body text-caption text-danger-fg"
                               >
                                 <AlertCircle size={14} className="shrink-0" aria-hidden />
                                 Email requis.
@@ -352,7 +352,7 @@ export const MarketingWaitlist: React.FC = () => {
                           </div>
 
                           {/* Separator */}
-                          <div className="flex items-center gap-3 py-1">
+                          <div className="flex items-center gap-stack-sm py-1">
                             <div className="flex-1 h-px bg-ink-100" />
                             <span className="font-body text-caption text-ink-600 font-medium shrink-0">
                               Je souhaite...
@@ -362,7 +362,7 @@ export const MarketingWaitlist: React.FC = () => {
 
                           {/* Checkboxes */}
                           <div
-                            className="flex flex-col gap-4"
+                            className="flex flex-col gap-stack"
                             role="group"
                             aria-labelledby="wl-checkboxes-label"
                           >
@@ -389,7 +389,7 @@ export const MarketingWaitlist: React.FC = () => {
                           {checkboxError && (
                             <div
                               role="alert"
-                              className="flex items-center gap-1.5 font-body text-caption text-danger-fg"
+                              className="flex items-center gap-stack-2xs font-body text-caption text-danger-fg"
                             >
                               <AlertCircle size={14} className="shrink-0" aria-hidden />
                               Sélectionnez au moins une option.
@@ -410,7 +410,7 @@ export const MarketingWaitlist: React.FC = () => {
                             )}
                           </button>
                           {submitError && (
-                            <div className="flex items-start gap-2 px-4 py-3 rounded-lg bg-danger-bg border border-danger-base/30 text-danger-fg font-body text-caption" role="alert">
+                            <div className="flex items-start gap-stack-xs px-4 py-3 rounded-lg bg-danger-bg border border-danger-base/30 text-danger-fg font-body text-caption" role="alert">
                               <AlertCircle size={14} className="shrink-0 mt-0.5" />
                               {submitError}
                             </div>
@@ -449,19 +449,19 @@ export const MarketingWaitlist: React.FC = () => {
                           />
                         </div>
 
-                        <div className="flex flex-col gap-2">
+                        <div className="flex flex-col gap-stack-xs">
                           <h2 className="font-display font-bold text-ink-900 text-h4">
                             {firstName ? `Parfait, ${firstName} !` : 'C’est noté !'}
                           </h2>
-                          <p className="font-body text-body-sm text-ink-600 m-0 max-w-xs mx-auto leading-relaxed">
+                          <p className="font-body text-body-sm text-ink-600 m-0 max-w-xs mx-auto">
                             {successMessage}
                           </p>
                         </div>
 
-                        <div className="flex flex-col items-center gap-2 pt-1">
+                        <div className="flex flex-col items-center gap-stack-xs pt-1">
                           <Link
                             to="/website/learning-app"
-                            className="inline-flex items-center gap-2 font-body text-caption font-semibold text-primary-600 hover:text-primary-800 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+                            className="inline-flex items-center gap-stack-xs font-body text-caption font-semibold text-primary-600 hover:text-primary-800 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
                           >
                             Découvrir la Learning App
                             <ArrowRight size={14} />
@@ -501,7 +501,7 @@ export const MarketingWaitlist: React.FC = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-stack-lg">
             {[
               {
                 tone: 'bg-primary-50 border-primary-100',
@@ -530,7 +530,7 @@ export const MarketingWaitlist: React.FC = () => {
             ].map((card) => (
               <div
                 key={card.eyebrow}
-                className={`rounded-2xl border p-6 flex flex-col gap-3 ${card.tone}`}
+                className={`rounded-2xl border p-6 flex flex-col gap-stack-sm ${card.tone}`}
               >
                 <span className={`font-display font-bold text-body-sm uppercase tracking-widest ${card.eyebrowColor}`}>
                   {card.eyebrow}
@@ -538,7 +538,7 @@ export const MarketingWaitlist: React.FC = () => {
                 <h3 className="font-display font-bold text-ink-900 text-h4 tracking-snug">
                   {card.title}
                 </h3>
-                <p className="font-body text-body-sm text-ink-600 m-0 leading-relaxed">
+                <p className="font-body text-body-sm text-ink-600 m-0">
                   {card.desc}
                 </p>
               </div>
@@ -549,7 +549,7 @@ export const MarketingWaitlist: React.FC = () => {
 
       {/* ── BOTTOM CTA ────────────────────────────────────────────────────── */}
       <FadeInWhenVisible className="w-full px-6 md:px-10 py-16 md:py-20 bg-gradient-to-br from-ink-950 via-primary-900 to-ink-900">
-        <div className="max-w-content mx-auto text-center flex flex-col items-center gap-6">
+        <div className="max-w-content mx-auto text-center flex flex-col items-center gap-stack-lg">
           <p className="font-body text-caption text-white/55 m-0">
             Accès anticipé · Bêta · Sans engagement
           </p>
@@ -558,7 +558,7 @@ export const MarketingWaitlist: React.FC = () => {
           >
             Rejoignez les premiers.
           </h2>
-          <p className="font-body text-body text-white/70 m-0 max-w-[48ch] leading-relaxed">
+          <p className="font-body text-body text-white/70 m-0 max-w-[48ch]">
             La formation IA qui prouve ce que vos équipes savent faire.
             Places limitées pour la prochaine session.
           </p>
@@ -568,7 +568,7 @@ export const MarketingWaitlist: React.FC = () => {
               e.preventDefault();
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
-            className="group inline-flex items-center justify-between gap-3 h-12 pl-6 pr-2 rounded-lg bg-accent-400 hover:bg-accent-500 text-ink-900 font-body font-bold text-body shadow-sun-sm active:scale-[0.98] transition-[background-color,transform] duration-base ease-emphasis focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-400"
+            className="group inline-flex items-center justify-between gap-stack-sm h-12 pl-6 pr-2 rounded-lg bg-accent-400 hover:bg-accent-500 text-ink-900 font-body font-bold text-body shadow-sun-sm active:scale-[0.98] transition-[background-color,transform] duration-base ease-emphasis focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-400"
           >
             <span>Obtenir un accès anticipé</span>
             <span className="w-8 h-8 rounded-pill bg-ink-900/10 flex items-center justify-center shrink-0 transition-transform duration-base ease-emphasis group-hover:translate-x-0.5">

@@ -119,7 +119,7 @@ export const MultiStepForm: React.FC<MultiStepFormProps> = ({
               {step.title}
             </h2>
             {step.description && (
-              <p className="m-0 text-body text-ink-500 leading-relaxed">{step.description}</p>
+              <p className="m-0 text-body text-ink-500">{step.description}</p>
             )}
           </div>
         )}

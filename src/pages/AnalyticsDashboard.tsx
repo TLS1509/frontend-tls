@@ -147,7 +147,7 @@ export default function AnalyticsDashboard() {
     ),
     xp: <span className="font-semibold text-primary-700">{learner.totalXp}</span>,
     streak: (
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-stack-3xs">
         <Flame size={14} className="text-secondary-500" />
         <span className="font-semibold">{learner.streak}</span>
       </div>
@@ -167,7 +167,7 @@ export default function AnalyticsDashboard() {
       </Badge>
     ),
     progress: (
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-stack-xs">
         <ProgressBar value={learner.progressPercent} fill="brand" size="sm" />
         <span className="text-caption text-ink-600 w-10 text-right">{learner.progressPercent}%</span>
       </div>
@@ -452,7 +452,7 @@ export default function AnalyticsDashboard() {
                     <div className="flex-1">
                       <ProgressBar value={Math.round((comp.avgLevel / 5) * 100)} fill="brand" size="md" />
                     </div>
-                    <div className="flex items-center gap-2 w-48">
+                    <div className="flex items-center gap-stack-xs w-48">
                       <span className="text-caption text-ink-600">{comp.adoption} apprenants</span>
                       <Badge variant="info" size="compact">D{comp.avgLevel.toFixed(1)}</Badge>
                     </div>
@@ -466,7 +466,7 @@ export default function AnalyticsDashboard() {
               <div className="text-h3 font-bold text-ink-900 mb-stack">Santé des compétences</div>
               <div className="grid md:grid-cols-2 gap-stack">
                 <Card className="flex flex-col gap-stack p-stack md:p-stack-lg bg-success-bg/30 border border-success-base/20">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-stack-xs">
                     <CheckCircle size={20} className="text-success-base" />
                     <div className="text-body-lg font-bold text-success-base">Compétences saines</div>
                   </div>
@@ -475,7 +475,7 @@ export default function AnalyticsDashboard() {
                 </Card>
 
                 <Card className="flex flex-col gap-stack p-stack md:p-stack-lg bg-warning-bg/30 border border-warning-base/20">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-stack-xs">
                     <AlertCircle size={20} className="text-warning-base" />
                     <div className="text-body-lg font-bold text-warning-base">Compétences en retard</div>
                   </div>

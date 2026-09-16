@@ -204,10 +204,10 @@ const FeaturedCard: React.FC<{ item: ResourceItem }> = ({ item }) => {
         <div className="relative p-section-lg sm:p-section-xl flex flex-col gap-section h-full justify-between">
           <div className="flex flex-col gap-stack">
             <div className="flex items-center gap-stack flex-wrap">
-              <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-pill border font-body text-caption font-bold uppercase tracking-wider ${badgeTone(item)}`}>
+              <span className={`inline-flex items-center gap-stack-2xs px-3 py-1 rounded-pill border font-body text-caption font-bold uppercase tracking-wider ${badgeTone(item)}`}>
                 <Sparkles size={14} /> À la une
               </span>
-              <span className="inline-flex items-center gap-1.5 font-body text-caption text-ink-600">
+              <span className="inline-flex items-center gap-stack-2xs font-body text-caption text-ink-600">
                 <Calendar size={14} />
                 {item.date}
               </span>
@@ -217,7 +217,7 @@ const FeaturedCard: React.FC<{ item: ResourceItem }> = ({ item }) => {
               {item.title}
             </h3>
 
-            <p className="font-body text-body text-ink-700 leading-relaxed m-0">
+            <p className="font-body text-body text-ink-700 m-0">
               {item.summary}
             </p>
           </div>
@@ -379,7 +379,7 @@ export const MarketingResources: React.FC = () => {
                   key={type.id}
                   type="button"
                   onClick={() => setSelectedType(type.id)}
-                  className={`inline-flex items-center gap-1.5 px-4 h-10 rounded-pill font-body text-body-sm font-bold transition-all duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
+                  className={`inline-flex items-center gap-stack-2xs px-4 h-10 rounded-pill font-body text-body-sm font-bold transition-all duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                     selectedType === type.id
                       ? 'bg-primary-500 text-white shadow-sm'
                       : 'bg-ink-50 text-ink-700 hover:bg-ink-100 border border-ink-200'

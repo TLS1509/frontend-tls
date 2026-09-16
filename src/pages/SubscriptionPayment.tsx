@@ -199,7 +199,7 @@ export const SubscriptionPayment: React.FC = () => {
           <h1 className="font-display text-h2 tracking-display text-ink-900 leading-tight">
             Choisis ta formule
           </h1>
-          <p className="m-0 font-body text-body text-ink-500 leading-relaxed max-w-prose mx-auto">
+          <p className="m-0 font-body text-body text-ink-500 max-w-prose mx-auto">
             Démarre en quelques secondes. Annulable à tout moment, sans frais.
           </p>
         </header>
@@ -217,7 +217,7 @@ export const SubscriptionPayment: React.FC = () => {
             <button
               type="button"
               onClick={() => setBilling('yearly')}
-              className={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-pill font-body text-body-sm font-bold transition-colors duration-base ${billing === 'yearly' ? 'bg-white text-ink-900 shadow-xs' : 'text-ink-500 hover:text-ink-800'}`}
+              className={`inline-flex items-center gap-stack-2xs px-4 py-1.5 rounded-pill font-body text-body-sm font-bold transition-colors duration-base ${billing === 'yearly' ? 'bg-white text-ink-900 shadow-xs' : 'text-ink-500 hover:text-ink-800'}`}
             >
               Annuel
               <span className="inline-flex items-center px-1.5 py-0.5 rounded-pill bg-accent-100 text-accent-700 text-micro font-bold">
@@ -276,7 +276,7 @@ export const SubscriptionPayment: React.FC = () => {
                   </span>
                 </p>
 
-                <ul className="m-0 p-0 list-none flex flex-col gap-1.5">
+                <ul className="m-0 p-0 list-none flex flex-col gap-stack-2xs">
                   {plan.features.map((f) => (
                     <li key={f} className="flex items-start gap-stack-xs font-body text-body-sm text-ink-700">
                       <Check size={14} className="shrink-0 mt-0.5 text-primary-600" />

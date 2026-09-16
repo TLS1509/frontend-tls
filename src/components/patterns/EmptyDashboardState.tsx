@@ -63,10 +63,10 @@ export const EmptyDashboardState: React.FC<EmptyDashboardStateProps> = ({
     <section className={wrapperClasses} aria-label="Premiers pas">
       {/* Orienting header — oriente, ne ré-accueille pas (le hero a déjà salué). */}
       <div className="flex flex-col gap-tight max-w-2xl">
-        <h2 className="text-h3 font-display font-bold text-ink-900 tracking-headline leading-tight text-balance">
+        <h2 className="text-h3 font-display font-bold text-ink-900 tracking-headline text-balance">
           Par où commencer&nbsp;?
         </h2>
-        <p className="text-body text-ink-600 leading-relaxed m-0">
+        <p className="text-body text-ink-600 m-0">
           Ton profil et ton passeport sont prêts. Trois portes d&apos;entrée pour lancer ta pratique.
         </p>
       </div>
@@ -76,9 +76,9 @@ export const EmptyDashboardState: React.FC<EmptyDashboardStateProps> = ({
         type="button"
         onClick={() => navigate('/learning-paths')}
         aria-label="Démarre ton premier parcours"
-        className="group relative overflow-hidden w-full text-left rounded-lg border border-secondary-200/70 bg-gradient-to-br from-secondary-100/92 to-secondary-50/78 shadow-[inset_0_1px_0_rgba(255,255,255,0.85)] p-6 md:p-8 cursor-pointer transition-[transform,box-shadow] duration-base ease-emphasis hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-400 flex flex-col gap-3.5"
+        className="group relative overflow-hidden w-full text-left rounded-lg border border-secondary-200/70 bg-gradient-to-br from-secondary-100/92 to-secondary-50/78 shadow-[inset_0_1px_0_rgba(255,255,255,0.85)] p-6 md:p-8 cursor-pointer transition-[transform,box-shadow] duration-base ease-emphasis hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-400 flex flex-col gap-stack-sm.5"
       >
-        <span className="inline-flex self-start items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide px-2.5 py-1 rounded-pill bg-secondary-200/60 text-secondary-700">
+        <span className="inline-flex self-start items-center gap-stack-2xs text-[11px] font-semibold uppercase tracking-wide px-2.5 py-1 rounded-pill bg-secondary-200/60 text-secondary-700">
           <Play size={14} fill="currentColor" aria-hidden="true" /> Premier pas
         </span>
 
@@ -86,7 +86,7 @@ export const EmptyDashboardState: React.FC<EmptyDashboardStateProps> = ({
           Démarre ton premier parcours
         </h3>
 
-        <p className="font-body text-body text-ink-700 leading-relaxed m-0 max-w-[52ch]">
+        <p className="font-body text-body text-ink-700 m-0 max-w-[52ch]">
           Découvre les parcours adaptés à ton profil et lance ta première leçon.
         </p>
 

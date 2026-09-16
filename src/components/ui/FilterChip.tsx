@@ -20,8 +20,8 @@ export type FilterChipSize = 'sm' | 'md';
 
 /** `md` (default) keeps the 44px touch target. `sm` is compact for dense toolbars. */
 const SIZE_MAP: Record<FilterChipSize, string> = {
-  sm: 'gap-1 px-2.5 py-1 text-micro font-semibold',
-  md: 'gap-1.5 px-3.5 py-2 min-h-touch text-caption font-semibold',
+  sm: 'gap-stack-3xs px-2.5 py-1 text-micro font-semibold',
+  md: 'gap-stack-2xs px-3.5 py-2 min-h-touch text-caption font-semibold',
 };
 
 /**

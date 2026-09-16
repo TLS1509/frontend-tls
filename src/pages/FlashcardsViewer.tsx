@@ -266,11 +266,11 @@ export const FlashcardsViewer: React.FC = () => {
 
       {/* ── Breadcrumb navigation (clickable) ──────────────────────────── */}
       {lessonCtx && (
-        <div className="shrink-0 px-4 sm:px-6 lg:px-10 py-1 flex items-center gap-1 text-micro text-ink-600 font-medium border-b border-ink-100/50">
+        <div className="shrink-0 px-4 sm:px-6 lg:px-10 py-1 flex items-center gap-stack-3xs text-micro text-ink-600 font-medium border-b border-ink-100/50">
           <button
             type="button"
             onClick={() => navigate(`/learning-paths/${lessonCtx.parcoursId}`)}
-            className="inline-flex items-center gap-1 hover:text-primary-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+            className="inline-flex items-center gap-stack-3xs hover:text-primary-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
           >
             <Home size={14} aria-hidden />
             {MOCK_PARCOURS_DATA[lessonCtx.parcoursId]?.title || 'Parcours'}
@@ -289,8 +289,8 @@ export const FlashcardsViewer: React.FC = () => {
       )}
 
       {/* ── Content container (grows, no scroll) ──────────────────────── */}
-      <div className="flex-1 flex flex-col min-h-0 px-4 sm:px-6 lg:px-10 py-2 gap-2 overflow-hidden">
-        <div className="max-w-3xl mx-auto flex flex-col gap-2 w-full">
+      <div className="flex-1 flex flex-col min-h-0 px-4 sm:px-6 lg:px-10 py-2 gap-stack-xs overflow-hidden">
+        <div className="max-w-3xl mx-auto flex flex-col gap-stack-xs w-full">
 
           {/* ── Progress bar ──────────────────────────────────────────── */}
           <ViewerProgressTrail
@@ -301,7 +301,7 @@ export const FlashcardsViewer: React.FC = () => {
           />
 
           {/* ── Thumbnails grid (shrinkable) ──────────────────────────── */}
-          <div className="flex gap-1.5 justify-center flex-wrap" role="tablist" aria-label="Sélection de flashcard">
+          <div className="flex gap-stack-2xs justify-center flex-wrap" role="tablist" aria-label="Sélection de flashcard">
             {FLASHCARDS.map((card, index) => {
               const active = index === currentCardIndex;
               const done = completedCards.includes(index);
@@ -340,7 +340,7 @@ export const FlashcardsViewer: React.FC = () => {
           {/* ── Compteur SRS : cartes dues aujourd'hui ── */}
           {dueToday > 0 && (
             <div className="flex justify-center">
-              <span className="inline-flex items-center gap-1.5 rounded-pill bg-primary-50 border border-primary-100 px-3 py-1 text-caption font-semibold text-primary-800">
+              <span className="inline-flex items-center gap-stack-2xs rounded-pill bg-primary-50 border border-primary-100 px-3 py-1 text-caption font-semibold text-primary-800">
                 <Brain size={14} aria-hidden /> {dueToday} à réviser aujourd'hui
               </span>
             </div>
@@ -361,18 +361,18 @@ export const FlashcardsViewer: React.FC = () => {
           {isFlipped && (
             <div className="flex flex-col items-center gap-stack-xs pb-stack" aria-live="polite">
               {lastScheduled != null ? (
-                <p className="inline-flex items-center gap-1.5 text-caption font-semibold text-success-fg" role="status">
+                <p className="inline-flex items-center gap-stack-2xs text-caption font-semibold text-success-fg" role="status">
                   <Check size={14} /> Noté — prochaine révision dans {lastScheduled}{' '}
                   {lastScheduled > 1 ? 'jours' : 'jour'}.
                 </p>
               ) : (
                 <>
                   <p className="text-micro text-ink-500">Tu la savais&nbsp;?</p>
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-stack-sm">
                     <button
                       type="button"
                       onClick={() => handleRate('again')}
-                      className="inline-flex items-center gap-1.5 min-h-touch px-4 py-2.5 rounded-lg bg-white text-ink-700 border border-ink-200 font-body text-caption font-semibold hover:bg-ink-50 hover:border-ink-300 active:scale-95 transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                      className="inline-flex items-center gap-stack-2xs min-h-touch px-4 py-2.5 rounded-lg bg-white text-ink-700 border border-ink-200 font-body text-caption font-semibold hover:bg-ink-50 hover:border-ink-300 active:scale-95 transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                     >
                       <RefreshCw size={14} />
                       À revoir
@@ -380,7 +380,7 @@ export const FlashcardsViewer: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => handleRate('known')}
-                      className="inline-flex items-center gap-1.5 min-h-touch px-4 py-2.5 rounded-lg bg-success-base text-white font-body text-caption font-semibold shadow-[0_2px_8px_rgba(157,190,186,0.3)] hover:bg-success-fg hover:scale-105 active:scale-95 transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-success-base"
+                      className="inline-flex items-center gap-stack-2xs min-h-touch px-4 py-2.5 rounded-lg bg-success-base text-white font-body text-caption font-semibold shadow-[0_2px_8px_rgba(157,190,186,0.3)] hover:bg-success-fg hover:scale-105 active:scale-95 transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-success-base"
                     >
                       <Check size={14} />
                       Je le savais

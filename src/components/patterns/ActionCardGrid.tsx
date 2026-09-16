@@ -62,7 +62,7 @@ export const ActionCardGrid: React.FC<ActionCardGridProps> = ({
           <h3 className="text-h4 font-display text-ink-900 leading-snug">
             {item.title}
           </h3>
-          <p className="m-0 text-body-sm text-ink-500 leading-relaxed">{item.description}</p>
+          <p className="m-0 text-body-sm text-ink-500">{item.description}</p>
           <ArrowRight
             size={16}
             className="absolute top-4 right-4 text-ink-300 group-hover:text-primary-600 group-hover:translate-x-0.5 transition-all"

@@ -191,7 +191,7 @@ export const Veille: React.FC = () => {
           <span className="text-caption text-ink-500 font-medium">
             {filteredItems.length} résultat{filteredItems.length !== 1 ? 's' : ''}
           </span>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-stack-3xs">
             <button
               type="button"
               onClick={() => setDisplayMode('grid')}

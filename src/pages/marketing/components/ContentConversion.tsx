@@ -42,7 +42,7 @@ export const DiagnosticInlineCta: React.FC = () => (
         <p className="font-display text-h4 font-bold text-ink-900 m-0 leading-tight [text-wrap:balance]">
           Où en est votre organisation, concrètement ?
         </p>
-        <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">
+        <p className="font-body text-body-sm text-ink-600 m-0">
           Huit questions, trois minutes, un score commenté : évaluez votre
           maturité Skills-Based Organization ou votre maturité IA.
         </p>
@@ -103,7 +103,7 @@ export const VigieSignupBanner: React.FC<{ source?: string }> = ({ source = 'vig
           <p className="font-display text-h4 font-bold text-ink-900 m-0 leading-tight [text-wrap:balance]">
             Un mardi sur deux, dans votre boîte mail.
           </p>
-          <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">
+          <p className="font-body text-body-sm text-ink-600 m-0">
             La Vigie IA : un workflow pédagogique autopsié, une fiche Out-skill,
             un crash-test terrain. Cinq minutes, sans discours commercial.
           </p>

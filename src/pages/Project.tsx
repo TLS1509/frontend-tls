@@ -151,7 +151,7 @@ export const Project: React.FC = () => {
                             D{task.dreyfusLevelRequired}+ · {task.estimatedHours}h
                           </p>
                         </div>
-                        <div className="flex items-center gap-1.5 shrink-0">
+                        <div className="flex items-center gap-stack-2xs shrink-0">
                           <Avatar initials={task.assignedToInitials} size="sm" />
                           <Badge variant={TASK_STATUS_VARIANTS[task.status]} size="compact">
                             {TASK_STATUS_LABELS[task.status]}
@@ -161,7 +161,7 @@ export const Project: React.FC = () => {
                     }
                   >
                     <div className="px-4 py-stack flex flex-col gap-stack border-t border-ink-100">
-                      <p className="text-body-sm text-ink-600 m-0 leading-relaxed">{task.description}</p>
+                      <p className="text-body-sm text-ink-600 m-0">{task.description}</p>
                       {task.successCriteria.length > 0 && (
                         <ul className="m-0 pl-4 flex flex-col gap-tight">
                           {task.successCriteria.map((c, i) => (
@@ -181,7 +181,7 @@ export const Project: React.FC = () => {
                           </Button>
                         )}
                         {task.status === 'approved' && (
-                          <span className="inline-flex items-center gap-1 text-caption text-success-fg font-semibold">
+                          <span className="inline-flex items-center gap-stack-3xs text-caption text-success-fg font-semibold">
                             <CheckCircle2 size={14} /> Tâche validée
                           </span>
                         )}

@@ -187,7 +187,7 @@ export const CoachingCompteRendu: React.FC = () => {
                   Session {report.sessionNumber}/{report.totalSessions}
                 </span>
               </div>
-              <h1 className="font-display text-h1 mb-stack-xs leading-tight">
+              <h1 className="font-display text-h1 mb-stack-xs">
                 {report.theme}
               </h1>
               <div className="flex flex-wrap gap-stack mt-3">
@@ -247,7 +247,7 @@ export const CoachingCompteRendu: React.FC = () => {
                       <h3 className="font-display text-body font-bold text-ink-900">
                         {tk.title}
                       </h3>
-                      <p className="font-body text-body-sm text-ink-500 m-0 leading-relaxed">
+                      <p className="font-body text-body-sm text-ink-500 m-0">
                         {tk.description}
                       </p>
                     </div>
@@ -300,7 +300,7 @@ export const CoachingCompteRendu: React.FC = () => {
                     {report.coach.initials}
                   </div>
                   <div className="flex-1">
-                    <p className="font-body text-body text-ink-900 leading-relaxed m-0 mb-3 italic">
+                    <p className="font-body text-body text-ink-900 m-0 mb-3 italic">
                       "{report.coachNotes}"
                     </p>
                     <p className="font-body text-caption text-ink-500 m-0 font-semibold">

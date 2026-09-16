@@ -131,7 +131,7 @@ export const PageCard: React.FC<{ item: PageCardItem; showThumbnail?: boolean }>
           {item.status && (
             <span
               className={[
-                'inline-flex items-center gap-1 text-caption font-semibold',
+                'inline-flex items-center gap-stack-3xs text-caption font-semibold',
                 STATUS_TEXT[item.status],
               ].join(' ')}
             >
@@ -174,7 +174,7 @@ export const PageCard: React.FC<{ item: PageCardItem; showThumbnail?: boolean }>
           {item.title}
         </h3>
         {item.description && (
-          <p className="font-body text-body-sm text-ink-500 m-0 leading-relaxed">
+          <p className="font-body text-body-sm text-ink-500 m-0">
             {item.description}
           </p>
         )}

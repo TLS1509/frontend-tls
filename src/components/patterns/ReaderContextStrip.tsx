@@ -64,7 +64,7 @@ export const ReaderContextStrip: React.FC<ReaderContextStripProps> = ({
         <button
           type="button"
           onClick={onBack}
-          className="shrink-0 inline-flex items-center gap-1.5 min-h-touch px-2 font-body text-caption font-semibold text-ink-700 hover:text-primary-700 bg-transparent border-0 cursor-pointer rounded-sm transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+          className="shrink-0 inline-flex items-center gap-stack-2xs min-h-touch px-2 font-body text-caption font-semibold text-ink-700 hover:text-primary-700 bg-transparent border-0 cursor-pointer rounded-sm transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
         >
           <ArrowLeft size={14} aria-hidden />
           {backLabel}

@@ -106,11 +106,11 @@ export const CongratulationsCard: React.FC<CongratulationsCardProps> = ({
       )}
 
       <div className="flex flex-col gap-stack max-w-lg">
-        <h1 className="text-h1 font-display font-bold text-ink-900 leading-tight">
+        <h1 className="text-h1 font-display font-bold text-ink-900">
           {title}
         </h1>
         {summary && (
-          <p className="text-body-lg text-ink-600 leading-relaxed m-0">
+          <p className="text-body-lg text-ink-600 m-0">
             {summary}
           </p>
         )}

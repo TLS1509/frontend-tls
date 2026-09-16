@@ -42,7 +42,7 @@ export const Newsletter: React.FC = () => {
           <button
             type="button"
             onClick={() => navigate('/veille')}
-            className="inline-flex items-center gap-1.5 font-body text-caption font-semibold text-ink-700 hover:text-primary-700 bg-transparent border-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+            className="inline-flex items-center gap-stack-2xs font-body text-caption font-semibold text-ink-700 hover:text-primary-700 bg-transparent border-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
           >
             <ArrowLeft size={14} /> Retour à la veille
           </button>
@@ -85,7 +85,7 @@ export const Newsletter: React.FC = () => {
                 titleIcon={<Calendar size={18} className="text-primary-600" />}
                 description="Édition de la semaine #17 : Lundi 28 avril 2026"
               >
-                <p className="m-0 font-body text-body-sm text-ink-600 leading-relaxed">
+                <p className="m-0 font-body text-body-sm text-ink-600">
                   Consultez la dernière synthèse hebdomadaire pour capter les tendances utiles en
                   quelques minutes. Vidéo de la semaine, articles à la une et sélection courte
                   curée par l'équipe éditoriale.

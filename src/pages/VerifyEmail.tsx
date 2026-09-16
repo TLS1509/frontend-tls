@@ -78,7 +78,7 @@ export const VerifyEmail: React.FC = () => {
               </div>
             </div>
 
-            <p className="m-0 font-body text-body-sm text-white/75 leading-relaxed text-center">
+            <p className="m-0 font-body text-body-sm text-white/75 text-center">
               Clique sur le lien de confirmation reçu dans ta boîte de réception pour activer ton compte.
               Vérifie aussi tes spams si besoin.
             </p>

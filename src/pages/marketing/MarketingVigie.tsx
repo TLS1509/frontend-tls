@@ -95,20 +95,20 @@ export const MarketingVigie: React.FC = () => {
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
             className="flex max-w-3xl flex-col gap-stack-lg"
           >
-            <p className="inline-flex w-fit items-center gap-2 rounded-pill bg-primary-100 px-4 py-1.5 font-body text-caption font-bold text-primary-800 m-0">
+            <p className="inline-flex w-fit items-center gap-stack-xs rounded-pill bg-primary-100 px-4 py-1.5 font-body text-caption font-bold text-primary-800 m-0">
               <Radar size={14} />
               La newsletter TLS
             </p>
             <h1 className="font-display font-extrabold text-ink-900 leading-[1.02] tracking-tight [text-wrap:balance] text-[clamp(2.5rem,5.5vw,4rem)]">
               La Vigie IA. <span className="text-primary-700">Le signal, sans le bruit.</span>
             </h1>
-            <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl [text-wrap:pretty]">
+            <p className="font-body text-body-lg text-ink-600 m-0 max-w-2xl [text-wrap:pretty]">
               Un mardi sur deux, à 8h : de la matière opérationnelle pour les
               équipes L&amp;D, les concepteurs pédagogiques et les directions de
               formation. Pas de discours commercial, pas de veille recopiée.
             </p>
 
-            <p className="inline-flex w-fit items-center gap-2 font-body text-body-sm font-bold text-ink-700 m-0">
+            <p className="inline-flex w-fit items-center gap-stack-xs font-body text-body-sm font-bold text-ink-700 m-0">
               <Clock size={16} className="text-primary-700" />
               Bimensuelle · 5 minutes de lecture · mardi 8h
             </p>

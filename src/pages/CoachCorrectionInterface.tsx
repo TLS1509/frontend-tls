@@ -88,7 +88,7 @@ export default function CoachCorrectionInterface() {
             <div className="prose prose-sm max-w-none">
               {SUBMISSION.content.split('\n').map((line, i) => (
                 line.trim() ? (
-                  <p key={i} className="text-body-sm text-ink-700 mb-stack-xs leading-relaxed">{line}</p>
+                  <p key={i} className="text-body-sm text-ink-700 mb-stack-xs">{line}</p>
                 ) : <br key={i} />
               ))}
             </div>

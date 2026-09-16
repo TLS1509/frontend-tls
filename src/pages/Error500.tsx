@@ -104,10 +104,10 @@ export const Error500: React.FC = () => {
           style={{ x: subX, y: subY }}
           className="flex flex-col items-center gap-stack-xs mb-section"
         >
-          <h1 className="font-display text-h1 font-bold text-ink-900 leading-tight max-w-xl">
+          <h1 className="font-display text-h1 font-bold text-ink-900 max-w-xl">
             Une erreur s'est produite
           </h1>
-          <p className="font-body text-body-lg text-ink-500 leading-relaxed max-w-lg">
+          <p className="font-body text-body-lg text-ink-500 max-w-lg">
             Notre équipe technique a été notifiée. Vous pouvez réessayer dans quelques instants.
           </p>
         </motion.div>

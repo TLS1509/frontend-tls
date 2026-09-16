@@ -107,7 +107,7 @@ export const IntroCallout: React.FC<IntroCalloutProps> = ({
               {eyebrow}
             </span>
           )}
-          <div className="font-body text-body-lg text-ink-800 leading-relaxed">
+          <div className="font-body text-body-lg text-ink-800">
             {children}
           </div>
         </div>

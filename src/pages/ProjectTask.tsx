@@ -96,7 +96,7 @@ export const ProjectTask: React.FC = () => {
         tone="flat"
         trailing={
           <Badge variant={STATUS_VARIANTS[task.status]}>
-            <span className="inline-flex items-center gap-1.5">
+            <span className="inline-flex items-center gap-stack-2xs">
               {STATUS_ICONS[task.status]}
               {STATUS_LABELS[task.status]}
             </span>

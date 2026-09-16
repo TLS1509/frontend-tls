@@ -59,7 +59,7 @@ export const QuizQuestionCard: React.FC<QuizQuestionCardProps> = ({
         </h2>
       </div>
 
-      <div className="flex flex-col gap-2.5" role="radiogroup">
+      <div className="flex flex-col gap-stack-xs.5" role="radiogroup">
         {options.map((option, idx) => {
           const isSelected = selectedId === option.id;
           const isCorrect = option.isCorrect;
@@ -118,7 +118,7 @@ export const QuizQuestionCard: React.FC<QuizQuestionCardProps> = ({
       {answered && (
         <div
           className={[
-            'flex items-start gap-stack-xs p-4 rounded-lg text-body-sm leading-relaxed',
+            'flex items-start gap-stack-xs p-4 rounded-lg text-body-sm',
             isCorrectAnswer
               ? 'bg-gradient-to-br from-success-bg to-white border border-success-base/30 text-success-fg'
               : 'bg-gradient-to-br from-danger-bg to-white border border-danger-base/30 text-danger-fg',
