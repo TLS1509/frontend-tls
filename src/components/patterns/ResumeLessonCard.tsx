@@ -94,18 +94,21 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
     level ? { text: level.charAt(0).toUpperCase() + level.slice(1) } : null,
   ].filter(Boolean) as MetaPillItem[];
 
+  /* La racine n'est plus un contrôle — décidé le 2026-09-16.
+
+        Elle portait `role="button"` et son propre `onClick`, tout en CONTENANT
+        le <Button> « Reprendre ». Deux arrêts de tabulation pour une seule
+        destination, et un contenu interactif imbriqué dans un `role="button"`,
+        ce qui est invalide : un lecteur d'écran annonçait « bouton, Reprendre
+        <parcours> » puis, une tabulation plus loin, « bouton, Reprendre ».
+
+        La règle de la famille : dans une GRILLE, la carte est le bouton et ne
+        contient pas de contrôle (ParcoursCard, PromptCard, LearningItemCard).
+        Sur une carte ISOLÉE et dominante comme celle-ci, l'action mérite un
+        vrai bouton — c'est donc la racine qui cède son rôle, pas le bouton. */
   return (
     <article
-      role="button"
-      tabIndex={0}
-      aria-label={`Reprendre ${parcoursTitle}`}
-      onClick={() => onClick?.(id)}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          onClick?.(id);
-        }
-      }}
+      aria-labelledby={`resume-${id}-titre`}
       className={[
         /* `@container` fait de la carte le conteneur mesuré pour ses DESCENDANTS.
 
@@ -164,7 +167,7 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
           </div>
 
           {/* Rôle 2 — titre héros */}
-          <h2 className="font-display font-bold leading-[1.1] tracking-headline text-ink-900 text-[1.3rem] @lg:text-[1.55rem] text-balance">
+          <h2 id={`resume-${id}-titre`} className="font-display font-bold leading-[1.1] tracking-headline text-ink-900 text-[1.3rem] @lg:text-[1.55rem] text-balance">
             {parcoursTitle}
           </h2>
 

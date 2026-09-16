@@ -20,7 +20,7 @@ import {
   Flame, Star, FileText, Map, Video, Play, BookOpen, Users, Lock, Clock, Tag, CheckCircle2,
 } from 'lucide-react';
 import { Card } from '../core/Card';
-import { Button } from '../core/Button';
+import { buttonClasses } from '../core/Button';
 import { Badge } from '../ui/Badge';
 import type { ItemType, DreyfusLevel } from '../../types/learning';
 import { ITEM_TYPE_LABELS } from '../../data/items';
@@ -167,7 +167,10 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
         hoverClasses,
         !isAccessible ? 'opacity-60 cursor-not-allowed' : '',
       ].filter(Boolean).join(' ')}
-      onClick={onClick ? () => onClick(id) : undefined}
+      /* Verrouillé = non cliquable. La racine appelait `onClick` quel que soit
+         l'accès : seul le curseur changeait, et un clic passait quand même. */
+      onClick={onClick && isAccessible ? () => onClick(id) : undefined}
+      title={!isAccessible ? denialMessage : undefined}
     >
 
       {/* ── Icon bubble (top-right corner) ── */}
@@ -244,19 +247,24 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
         </div>
       )}
 
-      {/* ── CTA button (full-width, tone-aware) ── */}
-      <Button
-        variant={isAccessible ? tone === 'brand' ? 'primary' : tone === 'warm' ? 'secondary' : 'accent' : 'secondary'}
-        size="sm"
-        fullWidth
-        disabled={!isAccessible}
-        title={!isAccessible ? denialMessage : undefined}
-        aria-label={isAccessible ? `Accéder à ${title}` : `${title} — verrouillé`}
-        onClick={onClick ? (e) => { e.stopPropagation(); onClick(id); } : undefined}
-        className="mt-stack"
+      {/* Une affordance, pas un contrôle — même motif que PromptCard et
+          ParcoursCard. C'était un <Button> qui rappelait le `onClick` de la
+          carte après un `stopPropagation` : même cible, même effet, mais DEUX
+          arrêts de tabulation par carte et un contenu interactif imbriqué dans
+          une racine cliquable, ce qui est invalide. Mesuré sur /learning-space :
+          23 arrêts pour 11 objets. `buttonClasses` donne l'apparence à la
+          source, donc cette pilule reçoit les décisions du composant. */}
+      <span
+        aria-hidden="true"
+        className={buttonClasses({
+          variant: isAccessible ? (tone === 'brand' ? 'primary' : tone === 'warm' ? 'secondary' : 'accent') : 'secondary',
+          size: 'sm',
+          fullWidth: true,
+          className: `mt-stack ${!isAccessible ? 'opacity-disabled' : ''}`,
+        })}
       >
         {isCompleted ? 'Revoir' : isAccessible ? 'Accéder' : 'Verrouillé'}
-      </Button>
+      </span>
     </Card>
   );
 };
