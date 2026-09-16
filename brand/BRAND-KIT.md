@@ -3,7 +3,9 @@
 > **Fiche unique de marque.** Une page, tout ce qui sert à produire un support TLS
 > hors du code : couleurs, typo, logo, ce qui est interdit.
 >
-> **Dernière vérification de première main : 2026-09-09** (valeurs relues dans
+> **Dernière vérification de première main : 2026-09-16** pour les couleurs, les rayons et
+> la rampe d'encre (relus dans `src/index.css`, `Card.tsx`, et Figma nœud `1111:46`) ;
+> **2026-09-09** pour le reste (valeurs relues dans
 > `src/index.css`, `TlsLogo.tsx`, `public/favicon.svg`, le Brand Kit Canva,
 > le Brand Hub Notion et le Drive `TLS — Brand`).
 
@@ -48,21 +50,22 @@ neutre ou tinté clair.
 
 ### Échelles complètes
 
-**Teal / primary** — `#E8F4F7` `#DCEBEF` `#B9D7DF` `#96C3CF` `#73AFBF` **`#55A1B4`** `#4A8FA1` `#3D7786` `#2F5F6A` `#1F3E45` (50→900), plus `#164267` (950, navy des héros saturés).
+**Teal / primary** — `#E8F4F7` `#DCEBEF` `#B9D7DF` `#96C3CF` `#73AFBF` **`#55A1B4`** `#4A8FA1` `#3D7786` `#2F5F6A` `#1F3E45` (50→900), plus le navy de marque `#164267` (`brand-navy`, héros saturés) — ce n'est **pas** un cran de la rampe : renommé depuis `primary-950` le 2026-09-09.
 
-**Ambre / secondary** — `#FFF3EB` `#FDDCC7` `#FCBB93` `#F59A5F` `#F18A4C` **`#ED843A`** `#C06920` `#8F5017` `#5E3710` `#3B2109` (50→900).
+**Ambre / secondary** — `#FFF3EB` `#FDDCC7` `#FCBB93` `#F59A5F` `#F18A4C` **`#ED843A`** `#C06920` `#8F5017` `#5E3710` `#3B2109` (50→900), plus `#BF693B` (650, cran intermédiaire aligné sur Figma).
 
 **Doré / accent** — `#FFF9EE` `#FFECC8` `#FFD791` `#FFC15A` **`#F8B044`** `#DF9E3D` `#C68D36` `#A85F0A` `#7E4006` `#5F2E05` (50→900).
 
-**Encre / ink** — `#f9fafb` `#f3f4f6` `#e5e7eb` `#d1d5db` `#9ca3af` `#6b7280` `#4b5563` `#374151` `#1f2937` **`#252B37`** `#0f172a` (50→950).
+**Encre / ink** — `#ffffff` (0) `#f9fafb` `#f3f4f6` `#e5e7eb` `#d1d5db` `#8d95a6` `#667082` `#4c5466` `#394050` `#2e3442` **`#252B37`** `#131820` (0, 50→950).
 `ink-900` = **`#252B37`**, le gris de texte TLS. ⚠️ Ce n'est **pas** `#1a1a1a` :
 cette valeur traîne dans d'anciens SVG de logo et dans de vieux docs, c'est une dérive.
 
-> 🕓 **Décision en cours sur cette rampe.** `ink-50 → 800` et `ink-950` sont aujourd'hui les
-> gris Tailwind bruts, avec `#252B37` inséré au milieu — d'où une rampe non monotone
-> (`ink-900` est plus clair que `ink-800`). [`docs/_audits/PLAN-REPRISE-DESIGN-2026-09-09.md`](../docs/_audits/PLAN-REPRISE-DESIGN-2026-09-09.md)
-> propose de la redériver autour de `#252B37`, qui ne bouge pas. **Tant que le code n'a pas
-> changé, les valeurs ci-dessus font foi** — mais ne pas les graver dans Canva avant l'arbitrage.
+> ✅ **Rampe reconstruite et adoptée le 2026-09-09** (corrigé ici le 2026-09-16 : ce fichier
+> portait encore les gris Tailwind d'avant). Elle est dérivée de `#252B37` à teinte constante
+> (264° en OKLCH), et Figma est aligné. Trois zones :
+> `ink-0 → 300` surfaces et bordures, jamais de texte · `ink-400` (3,01:1) désactivé et bordure
+> d'interface, jamais de texte · `ink-500` (4,99:1) → `ink-950` le texte.
+> Les valeurs ci-dessus peuvent être gravées dans Canva.
 
 ### Couleurs sémantiques
 
@@ -193,7 +196,13 @@ se propage dans les 24 lockups. Ne jamais recolorer un lockup à la main.
 
 ## 4. Formes et matière
 
-- **Rayons** : `rounded-pill` (999 px) sur les boutons, **14 px sur les cards**
+- **Rayons — une échelle étagée** (corrigé le 2026-09-16 : ce paragraphe disait « pill sur les
+  boutons, 14 px sur les cards », deux valeurs dépassées). Plus l'objet est grand, plus son rayon
+  l'est : **pilule** pour les étiquettes (badge, pastille, filtre) · **14 px** pour l'interactif
+  (bouton, champ, rangée de liste) · **20 px** pour les conteneurs (carte, carte de KPI) ·
+  **cercle** pour le bouton icône seule. La carte est revenue à 20 px le 16/09, alignée sur Figma.
+  Échelle réelle : 4 / 6 / 10 / 14 / 20 / 24 / 999 px.
+- *Ancienne formulation, pour mémoire* : `rounded-pill` (999 px) sur les boutons, **14 px sur les cards**
   (décidé le 09/09 : un trait de 1 px ne tient pas une courbe longue). Échelle
   réelle : 4 / 6 / 10 / 14 / 20 / 24 / 999 px.
   ⚠️ *Corrigé le 10/09 : ce paragraphe disait « jamais `rounded-full` (= 50 %,
@@ -263,13 +272,15 @@ Constaté de première main, à corriger sur les plateformes :
 | **`public/favicon.svg`** | Favicon violet `#863bff` / `#7e14ff` — gabarit d'outil no-code jamais remplacé | Corrigé le 09/09 : c'est le mark. ⚠️ Mais Figma spécifie aussi `favicon.ico` 16-32-48, `apple-touch-icon` 180 et un manifeste PWA 192-512 — **aucun n'existe dans `public/`** |
 | **Notion — Brand Hub** | « Error `#EF4444` », « Success `#14b8a6` » | Palette muted/coral (§1) |
 | **Notion — Brand Hub** | « CTA `#EB7724`, hover `#F49609` » | `#EB7724` est une couleur de **logo**, pas un CTA. CTA = `secondary-500` |
-| **Notion — Brand Hub** | Rayons « 6/8/10/16 px » | 6/8/12/16/24 + pill 999 |
+| **Notion — Brand Hub** | Rayons « 6/8/10/16 px » | 4/6/10/14/20/24 + pill 999 (corrigé le 16/09 : cette case disait 6/8/12/16/24, elle-même fausse) |
 | **Notion — Assets & Templates** | « 63 templates à créer », « 18 templates social » | Aucun n'existe. Roadmap de février jamais exécutée |
 | **Canva `kAGD5yGggy0`** | Kit non complété (couleurs/polices/logos à charger à la main) | §1–3 de ce fichier |
 | **Figma — couverture** | L'index de la couverture liste 7 sections dont une « 03 · Motion & Effects » qui n'existe pas, et numérote Atoms 04 / Composites 05 | Le fichier a 33 pages : Atoms est **03**, Composites **04**, Motion vit dans Foundations §07, les flows sont 10 pages (05→14). **2 lignes sur 7 sont justes** |
 | **Figma — page Logo** | Section `🗄 Anciens tests logo (superseded · supprimable)`, 4200×8000 px, que le fichier lui-même déclare supprimable | À supprimer après accord |
 | **Drive `03_Logos/`** | Fichiers nommés `Frame 30.svg`, `Frame 31.svg`, `Untitled design.png` | Convention `TLS_Logo_<variante>_<fond>.svg` |
 | **SVG `logos-modernises/`** | Wordmark en `#1a1a1a` | `ink-900` = `#252B37` |
+| **SVG `logos/svg/tls-*-ink*.svg`** *(constaté le 16/09)* | Encre secondaire `#374151` | C'était l'ancien `ink-700` Tailwind ; `ink-700` vaut `#394050` depuis le 09/09. Écart visuel minime, à régénérer avec les masters |
+| **Artefact « Tokens TLS »** *(constaté le 16/09)* | « Le rayon des cartes est à 14 px » ; `secondary-600` « premier cran sûr » pour du texte orange | 20 px depuis le 16/09 · `secondary-600` = 3,98:1, échoue le texte courant — c'est `secondary-700`. À régénérer via `brand/tools/generer-reference-tokens.py` |
 | **`public/og-image.svg`** | Police `Helvetica Neue, Arial` | League Spartan |
 
 ---

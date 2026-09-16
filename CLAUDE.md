@@ -13,7 +13,7 @@ Stack : React 19 · TypeScript 6 · Vite 8 · **Tailwind CSS 4** · React Router
 src/
 ├── components/
 │   ├── core/        Button, Card, Input, Select, FormGroup
-│   ├── ui/          Badge (incl. StatusBadge+TrendingBadge), Alert, Avatar, Modal, Toast, StatCard, TlsLogo… (87 fichiers)
+│   ├── ui/          Badge (incl. StatusBadge), Alert, Avatar, Modal, Toast, StatCard, TlsLogo… (87 fichiers)
 │   ├── patterns/    ParcoursCard, CardGrid, SectionHeader, PageHeader, HeroSection,
 │   │                EditorialHero, AuthShell, EditorialLayout, SectionCard,
 │   │                RelatedItemList, ResumeLessonCard, ViewerHeader, AmbientBlobs… (62 fichiers)
@@ -38,12 +38,11 @@ src/
 ## Familles de composants — Décisions de rationalisation (2026-05-09)
 
 ### Badges — Badge.tsx est le fichier canonique
-`Badge` contient maintenant 3 exports publics :
+`Badge` contient **2 exports publics** (corrigé le 2026-09-16 : cette section en listait 3) :
 - `Badge` — text status badge (variant: brand/neutral/warm/sun/success/danger/info)
 - `StatusBadge` — lesson state indicator avec icône (locked/available/in-progress/completed/failed)
-- `TrendingBadge` — gradient promo badge animé (trending/popular/recommended/featured/new)
 
-`StatusBadge.tsx` et `TrendingBadge.tsx` sont des thin re-exports depuis `Badge.tsx` (rétrocompat).
+`TrendingBadge` a été **supprimé le 2026-09-10** (0 usage produit). `StatusBadge.tsx` reste un thin re-export depuis `Badge.tsx` (rétrocompat).
 **Ne jamais créer de nouveaux fichiers badge séparés** — étendre `Badge.tsx` à la place.
 
 ### Breadcrumb — ui/Breadcrumb.tsx est le fichier canonique
@@ -54,17 +53,15 @@ src/
 `BreadcrumbNav.tsx` = thin re-export `export { Breadcrumb as BreadcrumbNav }`.
 **Utiliser `<Breadcrumb variant="nav">` pour les nouveaux usages.**
 
-### Famille Pills — 4 wrappers sur Chip primitive (Phase 19.A · 2026-05-26)
+### Famille Pills — wrappers sur Chip primitive (Phase 19.A · 2026-05-26, révisée le 2026-09-10)
 Depuis Phase 19.A, les 4 chips consomment **`ui/Chip.tsx`** (primitive interne) qui owne les style tokens partagés : `CHIP_BASE`, `CHIP_SIZE`, `CHIP_TONE_SOLID`, `CHIP_TONE_SOLID_ACTIVE`, `CHIP_TONE_HOVER`, `CHIP_SURFACE_MAP`, `CHIP_INTERACTIVE`. Helper `resolveChipClasses({size, tone, surface, interactive, hover})` retourne la chaîne complète.
 
-**4 wrappers publics conservés** (APIs spécialisées, pas de fusion) :
+**Wrappers publics conservés** (APIs spécialisées, pas de fusion) — `Pill` et `Tag` ne figurent plus dans cette table, supprimés le 2026-09-10 :
 
 | Composant | Usage |
 |-----------|-------|
-| `Pill` | glass/surface chip — hero overlays, compteurs. `children: ReactNode`, pas de tone. Variants : `surface` / `glass-light` / `glass-dark`. |
 | `MetaPill` | metadata chip — cards. `text: string`, `tone: semantic`. Clickable optionnel → rend un **vrai `<button>`** (Phase 19.A fix : avant c'était `role="button"` span, anti-pattern WCAG). |
 | `MetaPillGroup` | layout wrapper pour tableaux de MetaPills. |
-| `Tag` | removable filter chip avec X button. |
 | `FilterChip` | toggle interactif avec active state gradient. |
 
 ⚠️ **Révisé le 2026-09-10 — la famille est passée de 9 à 6.** L'ancien « ne pas
@@ -265,14 +262,27 @@ className={tone === 'primary' ? 'bg-primary-500' : 'bg-secondary-500'}
   sous 28 px `rounded-pill` et `rounded-lg` rendent **exactement la même forme** :
   la pilule y reste parce qu'elle est la convention du petit label et qu'elle ne
   coûte rien. Au-dessus, le rayon cesse d'être un accident de plafonnement et
-  devient une déclaration — il prend alors l'échelle, comme la Card (R1, 14 px).
+  devient une déclaration — il prend alors l'échelle.
 
-  | Famille | Rayon | Pourquoi |
-  |---|---|---|
-  | `Badge` · `MetaPill` · `Chip` | `rounded-pill` | sous le seuil par construction (20 · 24 · 28 px) |
-  | `Button` (4 tailles) | **`rounded-lg`** | au-dessus du seuil ; s'accorde à la Card qui le porte |
-  | `Button iconOnly` | `rounded-pill` | carré, donc cercle parfait — **exception écrite**, ne pas « uniformiser » |
-  | **famille champ** (`Input` · `Select` · `Combobox` · `Search` + faits main) | **`rounded-lg`** | R4 ci-dessous — 36 à 52 px de haut, donc toujours au-dessus du seuil |
+  ⚠️ **Mis à jour le 2026-09-16 — l'échelle est ÉTAGÉE, et la carte est à 20 px.**
+  R1 avait posé la carte à 14 px le 09/09 ; à l'usage 14 se lisait comme un
+  rectangle, et Figma était resté à 20 (nœuds Card `1111:46`, Card/Glass
+  `1111:63`, StatCard `1120:66`, tous liés à `--radius-xl`). `Card.tsx` est
+  revenu à `rounded-xl` (commit `0e03c98`). Le bouton **ne suit pas** : plus
+  l'élément est grand, plus son rayon l'est, et des rayons imbriqués doivent être
+  apparentés, pas identiques. Sur un bouton `sm` de 32 px, le plafond est de
+  toute façon à 16.
+
+  | Étage | Famille | Rayon | Pourquoi |
+  |---|---|---|---|
+  | étiquette | `Badge` · `MetaPill` · `Chip` · `FilterChip` | `rounded-pill` | sous le seuil par construction (20 · 24 · 28 px) |
+  | interactif | `Button` (4 tailles) · rangées de liste | **`rounded-lg`** (14) | au-dessus du seuil |
+  | interactif | **famille champ** (`Input` · `Select` · `Combobox` · `Search` + faits main) | **`rounded-lg`** (14) | R4 ci-dessous — 36 à 52 px de haut, donc toujours au-dessus du seuil |
+  | conteneur | `Card` · `StatCard` · cartes faites main | **`rounded-xl`** (20) | l'étage le plus grand |
+  | exception | `Button iconOnly` | `rounded-pill` | carré, donc cercle parfait — **exception écrite**, ne pas « uniformiser » |
+
+  ⏳ Reste ouvert : la famille **bulle** est incohérente — `PromptCard` à 24 sans
+  filet, `JournalChatCompose` à 24 avec filet, `JournalBubbleCard` à 20 avec filet.
 
   ⚠️ **Ne jamais poser deux classes de rayon sur le même élément** : elles ont la
   même spécificité (0,1,0), donc c'est l'ordre d'émission de Tailwind qui tranche,
@@ -301,7 +311,7 @@ className={tone === 'primary' ? 'bg-primary-500' : 'bg-secondary-500'}
   - Sur `/website/contact`, les quatre champs à 10 px et le bouton « Envoyer le
     message » à 14 px font **exactement la même hauteur (48 px)** et se suivent
     dans le même formulaire. Deux courbes pour des objets jumeaux.
-  - La Card qui porte les formulaires est à 14 (R1), le Button à 14 (R3). 10 px
+  - La Card qui porte les formulaires était à 14 (R1, revenue à 20 le 16/09), le Button à 14 (R3). 10 px
     était donc un **troisième cran pour la même taille**, sans raison écrite.
   - **Aucune des trois raisons possibles ne se vérifiait.** Ni la hauteur : deux
     zones de texte quasi identiques rendaient 156 px à 10 (contact) contre 158 px
@@ -1030,13 +1040,19 @@ Tous les composants card sont tone-aware (`tone: primary/warm/sun`). **Source de
 - **Métadonnées** : préférer `<MetaPillGroup>` au texte inline.
 - **Surfaces** : `card` / `tinted` / `glass` / `frosted` — divider adapté via `SURFACE_DIVIDER[surface]`.
 - `AstucesCard` : `border-2` volontaire (distinction visuelle tips), ne pas unifier sans revue design.
+- **Rayon** : `rounded-xl` (20 px) depuis le 2026-09-16 — voir la section Rayons.
+- **Survol** (règle du 2026-09-16, `CARD_HOVER` / `CARD_HOVER_NEUTRE` dans `tone-classes.ts`) : le filet se ferme d'un cran et le fond prend une teinte très légère. **Pas de soulèvement, pas d'ombre** — une carte ne porte plus d'ombre depuis S2 (09/09). `CARD_SHADOW_HOVER_*` est déprécié.
 
 **Padding intérieur — doctrine du 2026-09-09 : `p-stack-lg` (24 px) au canon,
 `p-stack` (16 px) en unique dérogation dense. Pas de troisième valeur.**
 L'industrie pose sa carte à 16 px (Material, Bootstrap, Polaris, Carbon, Primer)
-— mais avec des rayons de 6 à 12 px. Le nôtre est à **14 px**, et c'est le rapport
-du padding au rayon qui décide : sous ~1,4× le contenu serre la courbe et le coin
-se lit comme une coupe. 16 px ne donne que 1,14× ; 24 px donne 1,71×.
+— mais avec des rayons de 6 à 12 px. Le nôtre était à **14 px** quand cette doctrine
+a été posée, et c'est le rapport du padding au rayon qui décide : sous ~1,4× le
+contenu serre la courbe et le coin se lit comme une coupe. 16 px donnait 1,14× ;
+24 px donnait 1,71×.
+⚠️ **Rayon revenu à 20 px le 2026-09-16** : 24 px ne donne plus que **1,2×**, 16 px
+**0,8×** — tous deux sous le seuil de 1,4 que pose ce paragraphe. Soit le seuil est
+à revoir, soit le padding canon : **question ouverte, non tranchée**.
 `Card` tient déjà la décision (`size="md"` par défaut = 24 px, pris par 170 des
 171 usages). Les 90 cartes faites main ont été ramenées sur ces deux valeurs.
 ⚠️ **16 px reste majoritaire** (56 contre 31) : à revoir surface par surface —
