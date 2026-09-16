@@ -187,12 +187,12 @@ const Fondateurs: React.FC = () => (
                   <span className="font-body text-caption font-bold text-ink-500">{p.expertise}</span>
                 </div>
               </div>
-              <div className="lg:col-span-3">
+              <div className="lg:col-span-2">
                 <p className="font-display text-body-lg font-bold text-ink-900 m-0 leading-snug [text-wrap:balance]">
                   {p.domaine}
                 </p>
               </div>
-              <p className="lg:col-span-5 font-body text-body text-ink-600 leading-relaxed m-0 max-w-xl">
+              <p className="lg:col-span-6 font-body text-body text-ink-600 leading-relaxed m-0 max-w-xl">
                 {p.detail}
               </p>
             </div>
