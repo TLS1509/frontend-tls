@@ -61,6 +61,49 @@ type SectionId = typeof SECTIONS[number]['id'];
 /* ─── ContentBlock : typed rich content for any section ─────────────────── */
 
 type ContentBlock =
+  /* ─── Prose ────────────────────────────────────────────────────────────────
+     Ajoutés le 2026-09-14 avec la tranche verticale UXUI-M04. L'union ne portait
+     que du média et des mises en page ; un module réel est d'abord du texte, et
+     il n'y avait aucun moyen de l'écrire autrement qu'en le tassant dans les
+     champs structurés (`description`, `points`, `keyPoints`).
+
+     Discipline de tokens, valable pour les cinq : **aucun `leading-*`, aucun
+     `font-bold`, aucun `tracking-*`**. Les pas typographiques les portent déjà
+     (`--text-h3--line-height`, `--text-h3--font-weight`, `--text-h3--letter-spacing`).
+     Les réécrire ici, ce serait alimenter les deux familles que
+     `check-handmade.mjs` compte : « interligne écrasant un pas typographique »
+     (494 au 14/09) et « graisse écrasant un pas de titre » (21). */
+  | {
+      type: 'paragraph';
+      text: string;
+      /** Chapeau de section — un cran au-dessus du corps. Un seul par section. */
+      lead?: boolean;
+    }
+  | {
+      /** Titre intra-section. Le rythme vertical vient de la règle `@layer base`
+       *  de `index.css` (`margin-block-start: 0.75em`), pas d'un `mt-*` ici. */
+      type: 'heading';
+      level: 2 | 3 | 4;
+      text: string;
+    }
+  | {
+      type: 'list';
+      items: string[];
+      ordered?: boolean;
+    }
+  | {
+      /** League Spartan n'a aucune face Italic — l'italique passe par
+       *  `font-body italic` (Nunito), jamais par `font-display italic`. */
+      type: 'quote';
+      text: string;
+      source?: string;
+    }
+  | {
+      type: 'callout';
+      tone: 'primary' | 'warm' | 'sun' | 'neutral';
+      title?: string;
+      text: string;
+    }
   | {
       type: 'image';
       src?: string;
@@ -197,6 +240,409 @@ interface LessonData {
 }
 
 const LESSON_DATA: Record<string, LessonData> = {
+  /* ─── UXUI-M04 · Design Systems & Component Libraries ──────────────────────
+     Tranche verticale du 2026-09-14 : premier module réel du corpus
+     (`chloe/modules-corriges-2026-07-23/3-UX-UI-Product-Management/UXUI-M04-Design-Systems.md`)
+     porté dans le player, pour juger le design sur du texte qui n'a pas été
+     calibré pour lui.
+
+     ⚠️ Ce que la tranche apprend sur le mapping. `INTEGRATION-CORPUS-FORMATIONS.md`
+     prévoyait « un module = une Étape, une section EDRACT = une Leçon ». La forme
+     de `LessonData` dit l'inverse : elle porte les huit temps EDRACT d'un coup,
+     donc **un module = une Leçon**. Mapping à corriger avant de convertir les 33
+     autres.
+
+     Le quiz suit la contrainte du back-office (`tls_learning_items`, type
+     `lecon`) : exactement 7 questions × 4 options. */
+  'uxui-m04': {
+    title: 'Design Systems & Component Libraries',
+    duration: '65 min',
+    intro: {
+      heading: 'Ce que tu as construit sans le nommer',
+      description:
+        "Tu as déjà un design system. Ce module lui donne son vocabulaire — tokens en trois couches, anatomie d'un composant, Atomic Design — et te rend lisible le piège central : le drift, quand un même concept finit par avoir deux valeurs.",
+      objectives: [
+        'Construire un design system extensible (tokens, composants, documentation)',
+        'Créer une bibliothèque de composants avec variantes',
+        "Documenter un composant (props, usage, accessibilité)",
+      ],
+      blocks: [
+        {
+          type: 'quote',
+          text: 'A living, breathing system of components and standards that serves as the single source of truth.',
+          source: 'Formulation InVision, authentique',
+        },
+        {
+          type: 'callout',
+          tone: 'sun',
+          title: 'Trois statistiques ont été retirées de ce module',
+          text: "« Sans design system = 60 % du temps en redesign », « design system mature = +300 % de vitesse (Figma study 2025) » et « l'incohérence coûte 18 K€/mois » sont fabriquées : aucune étude Figma 2025 ne documente ce chiffre, les deux autres n'ont pas de source. Les bénéfices se défendent sans chiffre inventé — et c'est la première leçon du module.",
+        },
+      ],
+    },
+    engagement: {
+      heading: 'Une décision de design ne descend que dans les composants',
+      pillars: [
+        {
+          title: 'Le rayon qui n’est pas descendu',
+          description:
+            "Le 09/09, le rayon des cartes passe à 14 px dans Card.tsx. Le même jour, 82 cartes faites main restent à 20 ou 24. Deux rayons de carte coexistent, et personne ne le voit.",
+          tags: ['R1', 'Card.tsx', '14 px'],
+        },
+        {
+          title: 'Le filet qui n’est pas descendu',
+          description:
+            "Le 10/09, le filet des boutons doux est fermé au cran 600 — conforme au seuil de 3:1. Les CTA faits main ne l'ont jamais su.",
+          tags: ['contraste', 'SC 1.4.11'],
+        },
+        {
+          title: 'Chaque élément fait main est une décision future qui n’arrivera pas',
+          description:
+            "C'est la raison d'être des trois garde-fous. Ils ne jugent pas : ils disent où regarder quand une décision vient d'être prise.",
+          tags: ['check-handmade', 'garde-fou'],
+        },
+      ],
+      blocks: [
+        {
+          type: 'paragraph',
+          lead: true,
+          text: "La question de ce module n'est pas « as-tu un design system ? » — tu en as un. Elle est : est-ce qu'une décision prise à un endroit arrive partout ?",
+        },
+        {
+          type: 'table',
+          title: 'Le compteur, mesuré le 2026-09-14 sur 387 fichiers de produit',
+          headers: ['Famille', 'Faits main', 'Devrait passer par'],
+          rows: [
+            ['carte', 264, '<Card>'],
+            ['pastille d’icône', 179, 'aucun — à créer si le motif se confirme'],
+            ['ligne de méta', 93, '<MetaPill> / <MetaPillGroup>'],
+            ['badge d’état', 52, '<Badge>'],
+            ['bouton', 11, '<Button>'],
+            ['champ de saisie', 8, '<Input>'],
+          ],
+          caption:
+            'node scripts/check-handmade.mjs — un chiffre n’est pas un défaut : sur 110 cartes mesurées le 10/09, deux seulement étaient l’équivalent exact d’une <Card>.',
+        },
+      ],
+    },
+    decouvrir: {
+      heading: 'Tokens, composants, documentation',
+      bad: {
+        label: 'Sans système',
+        title: 'La valeur écrite à la main',
+        description:
+          "Chaque page redessine son bouton. Le hex vit dans le composant. Le même concept finit par avoir deux valeurs — et l'écran ment sans qu'aucune erreur ne s'affiche.",
+        points: [
+          'background: #55A1B4 écrit en dur dans la feuille du composant',
+          'Un correctif doit être répété à chaque endroit — donc il ne l’est pas',
+          'Deux définitions d’un même token : celle qui gagne dépend de la cascade',
+          'Aucun moyen de savoir ce qui s’applique sans ouvrir le navigateur',
+        ],
+      },
+      good: {
+        label: 'Avec système',
+        title: 'La valeur nommée une seule fois',
+        description:
+          "Un concept, une valeur, un endroit. Toute redéfinition est un alias sur la source unique. Un correctif se propage à toutes les instances.",
+        points: [
+          'Couche 1 — primitives : --blue-500: #55A1B4',
+          'Couche 2 — sémantique : --color-brand-primary: var(--blue-500)',
+          'Couche 3 — composant : --btn-primary-bg: var(--color-brand-primary)',
+          'Une seule définition par token, dans @theme — jamais une seconde valeur',
+        ],
+      },
+      steps: [
+        {
+          title: 'L’anatomie d’un composant',
+          blocks: [
+            {
+              type: 'paragraph',
+              text: "Un composant, c'est une partie visuelle, des variantes et des propriétés. Le bouton est l'exemple canonique parce qu'il porte les quatre axes d'un coup.",
+            },
+            {
+              type: 'list',
+              items: [
+                'Anatomie — libellé, fond, bordure (optionnelle), icône (optionnelle)',
+                'Variantes — type (primaire, secondaire, fantôme, danger) × taille (S/M/L) × état × largeur',
+                'Props — label, type, size, icon, onClick, disabled, loading',
+              ],
+            },
+            {
+              type: 'callout',
+              tone: 'primary',
+              title: 'La règle d’écriture des variantes',
+              text: "Des maps TypeScript de classes complètes et statiques, jamais de concaténation. Tailwind ne compile que le littéral : une classe construite avec ${x} n'existera pas dans le CSS produit.",
+            },
+          ],
+        },
+        {
+          title: 'La structure en couches du design system TLS',
+          blocks: [
+            {
+              type: 'bento',
+              title: 'Quatre couches',
+              cells: [
+                {
+                  size: 'md',
+                  tone: 'primary',
+                  label: 'Noyau',
+                  blocks: [
+                    {
+                      type: 'paragraph',
+                      text: 'Bouton, champ, case à cocher, bouton radio, interrupteur, menu déroulant, pastille, icône.',
+                    },
+                  ],
+                },
+                {
+                  size: 'sm',
+                  tone: 'neutral',
+                  label: 'Composite',
+                  blocks: [
+                    {
+                      type: 'paragraph',
+                      text: 'Carte, modale, notification, fil d’Ariane, onglets, accordéon, pagination.',
+                    },
+                  ],
+                },
+                {
+                  size: 'sm',
+                  tone: 'secondary',
+                  label: 'Fonctionnelle',
+                  blocks: [
+                    {
+                      type: 'paragraph',
+                      text: 'Navigation latérale, en-tête, grille de dashboard, carte de cours, lecteur de leçon.',
+                    },
+                  ],
+                },
+                {
+                  size: 'md',
+                  tone: 'accent',
+                  label: 'Patterns',
+                  blocks: [
+                    {
+                      type: 'paragraph',
+                      text: 'Mises en page de formulaires, états vides, états de chargement, pages d’erreur, parcours d’intégration.',
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              type: 'callout',
+              tone: 'warm',
+              title: 'Le compte a été recorrigé deux fois',
+              text: "La version d'origine disait « 87 composants documentés dans Storybook ». Le DS TLS n'utilise pas Storybook — le showcase est src/pages/Components.tsx. La passe du 23/07 avait posé « > 90 » ; recompté le 14/09 : 212 fichiers et ≈ 254 composants exportés, dont 85 en ui/ et 89 en patterns/. Le « > 90 » sous-estimait d'un facteur 2,5.",
+            },
+          ],
+        },
+        {
+          title: 'Atomic Design, et ce qu’il ne dit pas',
+          blocks: [
+            {
+              type: 'paragraph',
+              text: "Brad Frost : atomes → molécules → organismes → gabarits → pages. C'est du canon, et c'est une manière de ranger, pas une manière de décider.",
+            },
+            {
+              type: 'paragraph',
+              text: "Ce que la hiérarchie ne dit pas, c'est quand un élément fait main mérite de devenir un composant. Le détecteur repère par signature — un rayon, une surface, un padding — pas par nom. Il dit où regarder ; c'est un humain qui tranche entre migrer l'élément et étendre le composant.",
+            },
+            {
+              type: 'heading',
+              level: 3,
+              text: 'Documenter un composant',
+            },
+            {
+              type: 'list',
+              ordered: true,
+              items: [
+                'Usage — quand l’employer, et quand ne pas',
+                'Anatomie et variantes',
+                'À faire / à éviter',
+                'Props typées',
+                'Notes d’accessibilité',
+                'Lien Figma et implémentation',
+              ],
+            },
+            {
+              type: 'callout',
+              tone: 'sun',
+              title: 'La note d’accessibilité du bouton était incomplète',
+              text: "Elle disait « contraste ≥ 4,5:1 » sans réserve. Or le teal de marque #55A1B4 mesure 2,94:1 sur blanc — il échoue AA, et même le seuil grand texte. Le token de texte doit pointer vers #3D7786 (primary-700, 5,02:1). Un module qui enseigne l'accessibilité doit être exemplaire sur ce point précis.",
+            },
+          ],
+        },
+      ],
+    },
+    quiz: {
+      questions: [
+        {
+          id: 'q1',
+          text: 'Qu’est-ce qui définit un design system ?',
+          options: [
+            { id: 'a', label: 'Une bibliothèque de composants dans Figma' },
+            { id: 'b', label: 'Une source de vérité unique : tokens, composants, règles d’usage et code' },
+            { id: 'c', label: 'Un guide de style PDF partagé à l’équipe' },
+            { id: 'd', label: 'Un thème CSS réutilisable entre projets' },
+          ],
+          correct: 'b',
+        },
+        {
+          id: 'q2',
+          text: 'Dans quel ordre vont les trois couches de tokens ?',
+          options: [
+            { id: 'a', label: 'Composant → sémantique → primitive' },
+            { id: 'b', label: 'Sémantique → primitive → composant' },
+            { id: 'c', label: 'Primitive → sémantique → composant' },
+            { id: 'd', label: 'Il n’y a pas d’ordre, les trois sont équivalentes' },
+          ],
+          correct: 'c',
+        },
+        {
+          id: 'q3',
+          text: 'Atomic Design — quel est l’ordre de Brad Frost ?',
+          options: [
+            { id: 'a', label: 'Atomes → molécules → organismes → gabarits → pages' },
+            { id: 'b', label: 'Atomes → organismes → molécules → pages → gabarits' },
+            { id: 'c', label: 'Molécules → atomes → gabarits → organismes → pages' },
+            { id: 'd', label: 'Pages → gabarits → organismes → molécules → atomes' },
+          ],
+          correct: 'a',
+        },
+        {
+          id: 'q4',
+          text: 'Combien de composants compte le design system TLS (mesuré le 2026-09-14) ?',
+          options: [
+            { id: 'a', label: '87, documentés dans Storybook' },
+            { id: 'b', label: 'Un peu plus de 90' },
+            { id: 'c', label: '≈ 254 composants sur 212 fichiers' },
+            { id: 'd', label: 'Environ 500' },
+          ],
+          correct: 'c',
+        },
+        {
+          id: 'q5',
+          text: 'Où est documenté le design system TLS ?',
+          options: [
+            { id: 'a', label: 'Dans Storybook' },
+            { id: 'b', label: 'Dans le showcase interne src/pages/Components.tsx' },
+            { id: 'c', label: 'Dans un fichier tailwind.config.js' },
+            { id: 'd', label: 'Uniquement dans Figma' },
+          ],
+          correct: 'b',
+        },
+        {
+          id: 'q6',
+          text: 'Le teal de marque #55A1B4 sur blanc, pour du texte : quel est le verdict WCAG ?',
+          options: [
+            { id: 'a', label: '4,6:1 — il passe AA' },
+            { id: 'b', label: '3,2:1 — il passe en grand texte seulement' },
+            { id: 'c', label: '2,94:1 — il échoue AA et même le seuil grand texte' },
+            { id: 'd', label: 'Le ratio dépend de la police, il n’est pas calculable' },
+          ],
+          correct: 'c',
+        },
+        {
+          id: 'q7',
+          text: 'Un token est déjà défini dans @theme. Tu as besoin de le redéclarer ailleurs. Que fais-tu ?',
+          options: [
+            { id: 'a', label: 'Je recopie la valeur — c’est la même, donc c’est sans risque' },
+            { id: 'b', label: 'J’écris un alias : var(--la-vraie-source)' },
+            { id: 'c', label: 'J’ajoute une troisième valeur pour ce cas particulier' },
+            { id: 'd', label: 'Je supprime la définition d’origine' },
+          ],
+          correct: 'b',
+        },
+      ],
+    },
+    reflechir: {
+      heading: 'Ce que ça change dans ton propre code',
+      questions: [
+        'Où, dans ton repo, un même concept a-t-il deux valeurs aujourd’hui ? Qu’est-ce qui t’a permis de le voir — ou pas ?',
+        'Parmi les 264 cartes faites main, laquelle mérite de devenir une <Card> et laquelle demande plutôt d’étendre le composant ? À quoi le reconnais-tu ?',
+        'Une décision de design que tu as prise ces trois derniers mois : est-elle descendue partout ? Comment le sais-tu ?',
+      ],
+      blocks: [
+        {
+          type: 'callout',
+          tone: 'neutral',
+          title: 'La mesure, pas la lecture',
+          text: "getComputedStyle() dit ce qui s'applique ; le code lu dit ce qu'on croit avoir écrit. Quand les deux divergent, c'est la cascade qui a tranché — et c'est presque toujours là que vit le drift.",
+        },
+      ],
+    },
+    appliquer: {
+      heading: 'Ton chantier réel — R2, les rayons à 24 px',
+      instruction:
+        "Prends 10 des 89 fichiers qui portent un rounded-2xl (grep -rl \"rounded-2xl\" src/). Pour chacun, une seule question — celle que Card.tsx a déjà écrite : cet objet porte-t-il une bordure de 1 px ? Si oui, la courbe de 24 px est trop longue pour un trait fin et le coin paraît mou : candidat à rounded-lg. Si non — surface pleine, dégradé, verre, ombre portée — c'est l'autre registre, celui qui fait flotter l'objet, et 24 px peut être juste. Classe chaque cas, corrige-en un, vérifie au navigateur.",
+      blocks: [
+        {
+          type: 'callout',
+          tone: 'warm',
+          title: 'Le piège',
+          text: "Un sed sur les 157 occurrences. Tu casserais toutes les surfaces sans bordure, qui ont raison d'être à 24. La discipline est la même que pour le contraste : un verdict par élément, mesuré.",
+        },
+        {
+          type: 'paragraph',
+          text: "Le livrable n'est pas le diff : c'est R2 tranchée par écrit dans le commentaire de Card.tsx, au même endroit et dans la même forme que R1 et R3. Une décision qui n'est pas écrite ne descend pas — c'est tout le propos de ce module.",
+        },
+      ],
+    },
+    conclusion: {
+      heading: 'Ce que tu retiens',
+      keyPoints: [
+        'Un design system est une source de vérité unique — tokens, composants, documentation, code',
+        'Trois couches de tokens : primitive → sémantique → composant. Jamais un hex en dur',
+        'Atomic Design range ; il ne décide pas quand un élément fait main devient un composant',
+        'Une redéfinition est un alias, jamais une seconde valeur',
+        'La valeur d’un design system se démontre sans chiffre fabriqué',
+      ],
+      nextSteps: [
+        'Trancher R2 et l’écrire dans Card.tsx',
+        'Relancer les trois garde-fous après la décision, pas avant',
+        'Documenter une variante de composant que tu viens de créer',
+      ],
+      blocks: [
+        {
+          type: 'quote',
+          text: 'Single source of truth — un concept, une valeur, un endroit.',
+          source: 'Le mantra du module',
+        },
+      ],
+    },
+    transfert: {
+      heading: 'Cette semaine',
+      intro:
+        "Le transfert d'un module de design system ne se joue pas sur ce que tu retiens, mais sur ce qui descend. Choisis un scénario et engage-toi dessus.",
+      scenarios: [
+        {
+          title: 'Après chaque décision de design',
+          context:
+            'Lancer les trois garde-fous — check-handmade, check-token-coverage, check-showcase-coverage — et lire la famille concernée avant de fermer la décision.',
+        },
+        {
+          title: 'Avant de créer un composant',
+          context:
+            'Vérifier le type réel et ses champs dans le catalogue du back-office plutôt que d’inventer une forme côté front.',
+        },
+        {
+          title: 'Quand une valeur semble dupliquée',
+          context:
+            'Mesurer au navigateur laquelle gagne, puis transformer le doublon en alias — jamais ajouter une troisième valeur.',
+        },
+      ],
+      commitmentPrompt:
+        'Quelle décision de design vas-tu écrire cette semaine — et où exactement ?',
+      blocks: [
+        {
+          type: 'callout',
+          tone: 'primary',
+          title: 'Rappel espacé',
+          text: 'J+2 : relire les trois couches de tokens. J+7 : relancer check-handmade et comparer le compteur des cartes à celui du 14/09 (264).',
+        },
+      ],
+    },
+  },
   'lecon-1-2-1': {
     title: 'Motivation et Engagement',
     duration: '50 min',
@@ -1235,6 +1681,101 @@ export const LessonPlayer: React.FC = () => {
     const mb = compact ? 'mb-stack-xs' : 'mb-stack-lg';
 
     switch (block.type) {
+
+      /* ─── Prose ───────────────────────────────────────────────────────────
+         Voir le commentaire de l'union : pas de `leading-*`, pas de `font-bold`,
+         pas de `tracking-*` — les tokens `text-*` les portent. */
+
+      case 'paragraph':
+        return (
+          <p
+            key={key}
+            className={`${mb} max-w-prose font-body ${
+              block.lead ? 'text-body-lg text-ink-700' : 'text-body text-ink-800'
+            }`}
+          >
+            {block.text}
+          </p>
+        );
+
+      case 'heading': {
+        // mb serré volontairement : un titre appartient à ce qui le SUIT. L'air
+        // au-dessus vient de la règle `h2,h3,h4 { margin-block-start: 0.75em }`
+        // de `@layer base` — et c'est pourquoi on ne pose surtout pas `m-0` ici.
+        const HEADING_CLASSES: Record<2 | 3 | 4, string> = {
+          2: 'font-display text-h2 text-ink-900 text-balance',
+          3: 'font-display text-h3 text-ink-900 text-balance',
+          4: 'font-display text-h4 text-ink-900 text-balance',
+        };
+        const cls = `mb-stack-xs max-w-prose ${HEADING_CLASSES[block.level]}`;
+        if (block.level === 2) return <h2 key={key} className={cls}>{block.text}</h2>;
+        if (block.level === 3) return <h3 key={key} className={cls}>{block.text}</h3>;
+        return <h4 key={key} className={cls}>{block.text}</h4>;
+      }
+
+      case 'list': {
+        const items = block.items.map((item, i) => (
+          <li key={i} className="pl-1">{item}</li>
+        ));
+        const listClasses =
+          'max-w-prose font-body text-body text-ink-800 flex flex-col gap-stack-xs pl-5 marker:text-primary-600';
+        return (
+          <div key={key} className={mb}>
+            {block.ordered ? (
+              <ol className={`${listClasses} list-decimal marker:font-semibold`}>{items}</ol>
+            ) : (
+              <ul className={`${listClasses} list-disc`}>{items}</ul>
+            )}
+          </div>
+        );
+      }
+
+      case 'quote':
+        return (
+          <figure key={key} className={`${mb} max-w-prose border-l-2 border-primary-600 pl-stack`}>
+            {/* `font-body italic` : League Spartan n'a pas d'italique réel. */}
+            <blockquote className="font-body italic text-body-lg text-ink-700">
+              {block.text}
+            </blockquote>
+            {block.source && (
+              <figcaption className="mt-stack-xs font-body text-caption text-ink-600 not-italic">
+                — {block.source}
+              </figcaption>
+            )}
+          </figure>
+        );
+
+      case 'callout': {
+        // `rounded-lg` (14 px) et non `rounded-xl` : surface AVEC bordure, donc
+        // la décision R1 s'applique — au-delà, un trait de 1 px ne tient pas la
+        // courbe et le coin paraît mou. Les `rounded-xl` des blocs média
+        // au-dessus sont antérieurs à R1.
+        const CALLOUT_TONES: Record<string, string> = {
+          primary: 'bg-primary-50 border-primary-200',
+          warm:    'bg-secondary-50 border-secondary-500/25',
+          sun:     'bg-accent-50 border-accent-400/35',
+          neutral: 'bg-ink-50 border-ink-200',
+        };
+        const CALLOUT_TITLE: Record<string, string> = {
+          primary: 'text-primary-800',
+          warm:    'text-secondary-700',
+          sun:     'text-accent-700',
+          neutral: 'text-ink-900',
+        };
+        return (
+          <div
+            key={key}
+            className={`${mb} max-w-prose border rounded-lg p-stack-lg flex flex-col gap-stack-xs ${CALLOUT_TONES[block.tone]}`}
+          >
+            {block.title && (
+              <p className={`font-display text-body font-semibold ${CALLOUT_TITLE[block.tone]}`}>
+                {block.title}
+              </p>
+            )}
+            <p className="font-body text-body-sm text-ink-800">{block.text}</p>
+          </div>
+        );
+      }
 
       case 'image': {
         const ASPECT: Record<string, string> = {

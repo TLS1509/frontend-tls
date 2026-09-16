@@ -102,6 +102,58 @@ export interface Parcours {
 }
 
 export const MOCK_PARCOURS_DATA: Record<string, Parcours> = {
+  /* ─── Tranche verticale du corpus de formation (2026-09-14) ────────────────
+     Premier module RÉEL branché dans le player, à la place du contenu de démo.
+     Source : chloe/modules-corriges-2026-07-23/3-UX-UI-Product-Management/
+              UXUI-M04-Design-Systems.md
+
+     Pourquoi une seule leçon. Le parcours en compte douze, mais un seul est
+     converti : seeder des leçons sans contenu les ferait retomber sur
+     DEFAULT_LESSON_DATA, c'est-à-dire afficher du faux. Une tranche honnête vaut
+     mieux qu'un catalogue vide de sens — les onze autres suivront quand la
+     conversion sera prouvée.
+
+     Ce que la tranche sert à mesurer : ce que devient le player avec des titres
+     de vraie longueur, la vraie densité d'un module, et un texte qui n'a pas été
+     calibré pour les cards. */
+  uxui: {
+    id: 'uxui',
+    title: 'UX/UI Design & Product Management EdTech',
+    description:
+      "Le parcours que tu as écrit pour toi : socle visuel, principes UI, design systems, architecture de l'information, interaction — appliqué au produit que tu construis.",
+    instructor: 'Chloé Mimault',
+    level: 'intermédiaire',
+    duration: '12 modules',
+    category: 'Design & Produit',
+    backUrl: '/learning-paths',
+    etapes: [
+      {
+        id: 'uxui-etape-socle',
+        number: 1,
+        title: 'Socle design & systèmes',
+        description:
+          'Un seul module converti pour l’instant — le module 4, celui qui parle du système que tu es en train de trancher.',
+        duration: '65 min',
+        unlocked: true,
+        completed: false,
+        progression_mode: 'FLEXIBLE' as const,
+        competenceIds: ['product', 'creativity'],
+        lecons: [
+          {
+            id: 'uxui-m04',
+            number: 1,
+            title: 'Design Systems & Component Libraries',
+            description:
+              'Module 4 du parcours — tokens en trois couches, anatomie d’un composant, Atomic Design, et le drift comme piège central.',
+            duration: '65 min',
+            completed: false,
+          },
+        ],
+        progress: { completed: 0, total: 1, percentage: 0 },
+      },
+    ],
+    progress: { completed: 0, total: 1, percentage: 0 },
+  },
   '1': {
     id: '1',
     title: 'Fondamentaux du Leadership',
@@ -786,6 +838,20 @@ export interface ParcoursListItem {
 }
 
 export const MOCK_PARCOURS_LIST: ParcoursListItem[] = [
+  {
+    // Tranche verticale du corpus — voir MOCK_PARCOURS_DATA.uxui
+    id: 'uxui',
+    title: 'UX/UI Design & Product Management EdTech',
+    description:
+      "Le parcours que tu as écrit pour toi : socle visuel, principes UI, design systems, architecture de l'information, interaction — appliqué au produit que tu construis.",
+    instructor: 'Chloé Mimault',
+    level: 'intermédiaire',
+    duration: '12 modules',
+    lessons: 1,
+    progress: 0,
+    status: 'non commencé',
+    category: 'Design & Produit',
+  },
   {
     id: '1',
     title: 'Fondamentaux du Leadership',
