@@ -2,15 +2,22 @@
 
 > ## ⚠️ Statut au 2026-09-16 : une bibliothèque, pas une décision
 >
-> **Ce fichier ne prescrit rien.** Il rassemble du matériau de première main —
-> ce que Chloé a sauvé, et ce qu'on y lit — pour qu'une direction puisse s'y
-> appuyer le jour où elle sera prise. La direction visuelle et motion du site
-> reste **à rejouer entièrement**, à partir des pages telles qu'elles existent.
-> D'ici là : **aucun effet n'est prescrit, aucun effet n'est banni** — l'interdit
-> de parallaxe de `FACTS-CANON` a été levé le 29/07.
+> **Ce fichier ne prescrit rien** — mais il ne faut pas en conclure que rien
+> n'est décidé. Il rassemble du matériau de première main : ce que Chloé a sauvé,
+> et ce qu'on y lit.
+>
+> **La direction artistique, elle, existe et vit ailleurs** :
+> [`BRIEF-REDESIGN-SITE-V1.md`](BRIEF-REDESIGN-SITE-V1.md) §4 — *« le soin doit
+> être dans la matière, pas dans le mouvement »*. Elle est située plus bas, en
+> regard de la bibliothèque, sans être recopiée.
+>
+> **Ce qui est vraiment ouvert** : laquelle des quatre matières · figuratif ou
+> abstrait · le motion. Côté effets, **rien n'est prescrit ni banni** —
+> l'interdit de parallaxe de `FACTS-CANON` a été levé le 29/07.
 >
 > **Ce qui vit ici :** la bibliothèque Mobbin des 41 saves et le fil « décor
-> peint » (relevés le 16/09), le North Star, la question-filtre, les
+> peint » (relevés le 16/09), le renvoi vers la direction en cours et l'arbitrage
+> qu'elle laisse ouvert, le North Star, la question-filtre, les
 > anti-références, la règle « education / learning », et l'analyse des saves
 > **app** du 12/06 qui sert la Learning App.
 >
@@ -151,6 +158,98 @@ Huit des vingt-trois nouveaux saves n'ont rien à vendre en SaaS : **The New
 Yorker**, **OFF+BRAND**, **Phantom Studios**, **Analogue Agency**, **Koto**,
 **MANA**, **Savor**, **Contra Labs**. C'est un virage depuis juin, où la
 bibliothèque était surtout du produit. À surveiller, pas encore à nommer.
+
+---
+
+## 🎨 LA DIRECTION EN COURS — elle existe, et elle est ailleurs
+
+> **La direction artistique du site vit dans
+> [`BRIEF-REDESIGN-SITE-V1.md`](BRIEF-REDESIGN-SITE-V1.md) §4**, écrite le
+> 2026-07-29. Ce fichier ne la recopie pas — il la **situe**, parce que la
+> bibliothèque ci-dessus a été lue sans elle et qu'il faut savoir où les deux se
+> rejoignent. Pour la direction elle-même, ouvrir le brief.
+>
+> ⚠️ **Ce doc disait « la direction visuelle du site est à rejouer
+> entièrement ».** C'était vrai des Directions A/B/C/D archivées plus bas, et
+> faux du site : le brief a été écrit **le jour même de leur suspension, pour les
+> remplacer**. Personne ne l'a rejoué depuis. Corrigé le 2026-09-16.
+
+**Sa thèse, en une ligne :** « Le soin doit être dans la matière, pas dans le
+mouvement. » Avec l'argument qui la tient — *on met le travail dans ce qu'on ne
+peut pas installer : un dégradé animé s'installe en une commande, un lavis peint
+non.*
+
+**Son système de matières** fait du positionnement une règle de décision. Face à
+un élément, demander s'il relève de la main ou de l'instrument :
+
+| Matière | Porte | Pilier TLS |
+|---|---|---|
+| Papier texturé, **peint** | la main, l'irrégulier | **Humain** |
+| Verre | la précision, l'optique | **Augmenté** |
+| Typo et grille | la structure, la décision | **Stratégique** |
+
+### Ce que la bibliothèque confirme
+
+Le fil « décor peint » et la matière du brief disent la même chose par deux
+chemins indépendants : le brief l'a **déduite du positionnement** en juillet, les
+saves la **montrent** en septembre. Deux méthodes, trois mois d'écart, même
+réponse. C'est le seul point de ce fichier corroboré deux fois — et le brief hero
+archivé du 14/07 fait un troisième passage sur la même idée (« facture peinte à
+la main, encre et lavis »).
+
+### Ce sur quoi elles divergent — et c'est la vraie question
+
+**Le brief dit « zéro figuratif ». Les dix saves sont tous figuratifs.**
+
+La matière du brief est abstraite : un lavis, un grain de papier, une trame riso,
+un pli. Les décors de la bibliothèque sont des **scènes** — un lac et de la brume
+(Adaline), un affleurement rocheux et des fleurs sauvages (Legend), des collines
+et un champ jaune (Craft), un pique-nique vu d'en haut (Until). Ce n'est pas une
+nuance d'exécution, ce sont deux partis pris :
+
+| | La matière (brief §4) | Le décor (les saves) |
+|---|---|---|
+| Ce qu'on voit | de la texture, pas de sujet | un lieu |
+| Ce que ça coûte | une main, des variantes déclinables à l'infini | un décor par page, ou un seul très bon |
+| Le risque | fond d'écran, si mal calibré | illustration de banque d'images |
+| Ce que ça dit | « c'est fait main » | « c'est un monde » |
+
+Les deux tiennent le North Star *chaleureux · clair · augmenté*. **Il faut en
+choisir un** — c'est un arbitrage, pas une synthèse. Un décor figuratif traité en
+lavis reste un décor : c'est le sujet qui tranche, pas la facture.
+
+### L'avertissement qui vaut pour les deux
+
+Le brief hero archivé l'a écrit une fois, et ça répond d'avance à « on achète un
+lavis ou on en génère un » :
+
+> « c'est la main de quelqu'un d'autre […] Change juste *de qui* c'est le
+> fait-main, ça ne règle pas le "pas assez toi". »
+
+Corollaire déjà posé au §6 du brief de refonte : **une seule main pour toutes les
+déclinaisons**. Et la preuve est sur le disque —
+`public/marketing/assets/hero-watercolor.webp`, un lavis pêche et bleu sur crème,
+exactement dans la palette, que **rien n'appelle depuis le 28/07**. Il n'a rien
+de raté ; il pourrait être sur n'importe quel site. C'est tout le problème.
+
+### Ce qui reste ouvert dans le brief lui-même
+
+**Quatre matières proposées le 29/07, aucune tranchée** : le lavis humide · le
+papier lui-même · la risographie · l'encre et le pli. Sa recommandation : riso
+pour l'identité, papier teinté pour les fonds, parce que la riso encaisse mieux
+le verre qu'un lavis flou.
+
+**Et un verrou explicite** : l'encre commande la température de la matière, donc
+tant que la rampe `ink` n'est pas choisie (arbitrage ① du banc `/_design-lab`),
+**ne pas générer de matière**. Une image produite sur la mauvaise température est
+à refaire entièrement.
+
+> ⚠️ **L'anti-référence « fond cream/beige » plus bas ne bannit pas cette
+> direction.** Elle vise le remplissage crème **plat** du SaaS générique — une
+> couleur posée, rien d'autre. Un papier teinté porte du grain, un bord, une
+> irrégularité. C'est exactement la distinction que fait la thèse du brief : ce
+> qui s'installe en une commande contre ce qui demande une main. Ne pas lire
+> l'une contre l'autre.
 
 ---
 

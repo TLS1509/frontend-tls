@@ -120,7 +120,7 @@
 
 | Fichier | Purpose |
 |---|---|
-| [DESIGN-INSPO.md](site/DESIGN-INSPO.md) | **La bibliothèque Mobbin** — les 41 saves vitrine et le fil « décor peint » (relevés le 16/09), plus l'analyse des 24 saves **app** du 12/06. **Ne prescrit rien** : les Directions A/B/C/D, le bloc *Directrice créative* et le case study Until en sont sortis le 2026-09-16 → [`_archive/DESIGN-INSPO-directions-suspendues-2026-06.md`](_archive/DESIGN-INSPO-directions-suspendues-2026-06.md) |
+| [DESIGN-INSPO.md](site/DESIGN-INSPO.md) | **La bibliothèque Mobbin** — les 41 saves vitrine et le fil « décor peint » (relevés le 16/09), plus l'analyse des 24 saves **app** du 12/06. **Ne prescrit rien lui-même**, mais **situe la direction en cours** (§ « La direction en cours ») : le brief §4 et le fil « décor peint » convergent, et divergent sur un point à trancher — la matière du brief est abstraite (« zéro figuratif »), les dix décors sont des scènes. Les Directions A/B/C/D, le bloc *Directrice créative* et le case study Until en sont sortis le 2026-09-16 → [`_archive/DESIGN-INSPO-directions-suspendues-2026-06.md`](_archive/DESIGN-INSPO-directions-suspendues-2026-06.md) |
 | 🗄️ [`_archive/DESIGN-INSPO-directions-suspendues-2026-06.md`](_archive/DESIGN-INSPO-directions-suspendues-2026-06.md) | **Archivé le 2026-09-16** — 365 l. suspendues depuis le 29/07 qui pesaient 44 % de `DESIGN-INSPO`. Quatre directions, un vocabulaire d'effets page par page, la parallaxe d'Until en trois tiers. Conservé pour ne pas réexplorer sans le savoir ; ne fait pas foi |
 | ⛔ `ANIMATION-TECHNIQUES-RESEARCH.md` | **Archivé le 28/07** — adossé à Direction C, elle-même suspendue. Le motif d'archivage d'origine (« recommandait le parallax, effet écarté ») ne tient plus : cet interdit a été levé le 29/07. Doc à re-verser ou refaire dans la passe motion |
 
@@ -353,10 +353,11 @@ Les fichiers motion-effects datés ont été supprimés lors du nettoyage du 30/
 |---|---|
 | **Faits, offres, prix, registre** | **_canon/FACTS-CANON.md** (prime sur tout) |
 | **Voix de marque** | ⚠️ **à écrire par TLS** — l'ancienne doctrine était une production IA, archivée |
+| **Direction artistique du site** | [site/BRIEF-REDESIGN-SITE-V1.md](site/BRIEF-REDESIGN-SITE-V1.md) **§4** — « le soin dans la matière, pas dans le mouvement ». Située et mise en regard des saves Mobbin dans [site/DESIGN-INSPO.md](site/DESIGN-INSPO.md) § « La direction en cours ». ⚠️ **Ne pas conclure de « DESIGN-INSPO ne prescrit rien » qu'aucune direction n'existe** |
 | **Design tokens** | product/DESIGN.md |
 | **Component audit** | _audits/AUDIT-PHASE-19-2026-06-12.md |
 | **Figma sync status** | _audits/FIGMA-AUDIT-REPORT-2026-06-12.md |
-| **Motion primitives** | ⚠️ **aucune source en vigueur** — la direction motion du site est à rejouer (29/07). Le vocabulaire d'effets d'Until est archivé → `_archive/DESIGN-INSPO-directions-suspendues-2026-06.md` |
+| **Motion primitives** | ⚠️ **aucune source en vigueur** — le *motion* est le volet de la direction qui reste à rejouer (29/07) ; la matière, elle, est cadrée par le brief §4. Le vocabulaire d'effets d'Until est archivé → `_archive/DESIGN-INSPO-directions-suspendues-2026-06.md` |
 | **Project setup** | product/PRODUCT.md |
 | **Copy & messaging** | `docs/site/propositions-PAD/` (copy arbitrée) puis le code, `src/pages/marketing/*` |
 
