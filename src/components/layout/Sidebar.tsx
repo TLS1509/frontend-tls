@@ -160,7 +160,7 @@ const formatCount = (count: React.ReactNode): React.ReactNode => {
 };
 
 const NAV_BASE =
-  'group/nav relative flex items-center gap-stack-xs font-body font-semibold text-body-sm no-underline transition-[background-color,color,box-shadow] duration-fast ease-standard cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
+  'group/nav relative isolate flex items-center gap-stack-xs font-body font-semibold text-body-sm no-underline transition-[background-color,color] duration-fast ease-standard cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
 
 /* Un seul rayon pour les deux états — resserré le 2026-09-14.
 
@@ -182,8 +182,28 @@ const NAV_BASE =
 const NAV_INACTIVE =
   'rounded-lg text-ink-700 hover:bg-primary-100/60 hover:text-primary-800';
 
-const NAV_ACTIVE =
-  'rounded-lg bg-gradient-to-r from-primary-500 to-primary-700 text-white shadow-brand-sm';
+/* Le dégradé de la sélection ne vit PLUS sur la racine — il est passé sur une
+   couche dédiée (`NAV_VOILE`), dont c'est l'OPACITÉ qui s'anime.
+
+   Pourquoi. Un `background-image` ne s'interpole pas : mesuré au navigateur le
+   2026-09-16, une transition entre deux dégradés de structure identique ne
+   produit qu'UNE seule valeur sur toute la fenêtre — le fond saute. La liste
+   transitionnée (`background-color, color, box-shadow`) ne contenait de toute
+   façon pas `background-image`, et l'y ajouter n'aurait rien changé.
+
+   Ce que ça donnait à l'écran. À la désélection, le fond teal disparaissait d'un
+   coup pendant que le texte, lui, fondait du blanc vers l'encre sur 150 ms :
+   **du blanc sur blanc, et le label s'effaçait**. À la sélection, l'inverse — de
+   l'encre foncée sur un teal saturé le temps du fondu.
+
+   L'opacité, elle, s'anime toujours, et elle est composée par le GPU. Les deux
+   sens sont donc continus, et le libellé reste lisible à chaque image. */
+const NAV_ACTIVE = 'rounded-lg text-white';
+
+/* La couche : même boîte, même rayon, posée SOUS le contenu (`-z-10` dans le
+   contexte isolé de la rangée) et au-dessus du fond de survol de la racine. */
+const NAV_VOILE =
+  'pointer-events-none absolute inset-0 -z-10 rounded-lg bg-gradient-to-r from-primary-500 to-primary-700 shadow-brand-sm transition-opacity duration-fast ease-standard motion-reduce:transition-none';
 
 export const NavItem: React.FC<NavItemProps> = ({
   icon,
@@ -216,6 +236,7 @@ export const NavItem: React.FC<NavItemProps> = ({
       title={typeof label === 'string' ? label : undefined}
       {...rest}
     >
+      <span aria-hidden className={`${NAV_VOILE} ${active ? 'opacity-100' : 'opacity-0'}`} />
       {icon && (
         <span className="inline-flex items-center justify-center shrink-0 w-6 h-6 [&>svg]:w-[22px] [&>svg]:h-[22px]">
           {icon}
