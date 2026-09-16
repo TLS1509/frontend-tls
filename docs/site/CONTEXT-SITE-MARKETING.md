@@ -59,6 +59,12 @@ c'est garder une troisième valeur latente qui ressortira au mauvais moment.
 > scroll-jack sortent des invariants. La direction motion du site est à
 > rejouer entièrement dans une passe dédiée ; d'ici là, **rien n'est ni
 > prescrit ni banni** côté effets.
+>
+> 📌 **Précision du 2026-09-16 : « à rejouer » vaut pour le motion, pas pour
+> toute la direction.** La direction artistique existe — [`BRIEF-REDESIGN-SITE-V1.md`](BRIEF-REDESIGN-SITE-V1.md)
+> §4, « le soin doit être dans la matière, pas dans le mouvement ». Elle tranche
+> même en partie le sujet d'ici : elle met le travail dans la matière
+> *précisément pour* ne pas le mettre dans les effets.
 
 ### Les invariants
 
@@ -121,8 +127,16 @@ Ce sont des connaissances, pas des contraintes.
 ## Marque, copy, faits (autres docs)
 
 Le contenu / positionnement / faits du site ne vivent PAS ici — ils sont dans :
-- [`docs/_canon/FACTS-CANON.md`](../_canon/FACTS-CANON.md) — **faits validés, prime sur tout** (7 modules/7h, Qualiopi jamais, Open Badge sans « 2.0 », « vous » sur le public…).
-- [`docs/marketing/`](../marketing/) — `FAITS-OFFRES`, `MARQUE-VOIX`, `COPY-V2`, `COMPETITIVE-BRIEF`, `MARKETING-LINKEDIN`.
-- [`docs/site/`](.) — structure/design/inspo du site (`SITE-V1-*`, `DESIGN-INSPO`, `ANIMATION-TECHNIQUES-RESEARCH`, `SEO-CONTENT-PLAN`…).
+- [`docs/_canon/FACTS-CANON.md`](../_canon/FACTS-CANON.md) — **faits validés, prime sur tout**. Révisé le 16/09 : il connaît les six décisions du 31/08.
+- [`docs/site/BRIEF-REDESIGN-SITE-V1.md`](BRIEF-REDESIGN-SITE-V1.md) — **le chantier et sa direction artistique** (§4). C'est là que vit la matière ; ce doc-ci ne couvre que le motion et la technique.
+- [`docs/site/propositions-PAD/`](propositions-PAD/) — la copy arbitrée des neuf pages.
+- [`docs/site/DESIGN-INSPO.md`](DESIGN-INSPO.md) — la bibliothèque Mobbin et le fil « décor peint ».
+
+> ⚠️ **Corrigé le 2026-09-16 — cette liste envoyait vers des archives.**
+> `docs/marketing/` a été archivé **en entier** le 28/07 : `FAITS-OFFRES`,
+> `MARQUE-VOIX`, `COPY-V2`, `COMPETITIVE-BRIEF` sont une **production IA de juin
+> 2026**, lue sept semaines comme de la doctrine. Ne pas s'en servir comme source.
+> Idem pour `SITE-V1-*`, `ANIMATION-TECHNIQUES-RESEARCH` et `SEO-CONTENT-PLAN`,
+> archivés le 28/07 — le dernier parce que son pilier a été abandonné.
 
 > Note : la préférence durable « pas d'AI slop » (barres d'accent, eyebrow partout, card-soup) et le registre éditorial/premium sont en mémoire (`feedback_no_accent_border_bars`). Côté effets et animations, **il n'y a plus de préférence enregistrée** — la mémoire `feedback_no_parallax` a été supprimée le 29/07, la direction motion est à refaire.
