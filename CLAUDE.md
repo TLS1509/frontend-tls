@@ -488,6 +488,33 @@ l'écraser :
 élément. Utiliser `border` pour le filet, ou vérifier au navigateur avec
 `getComputedStyle(el).boxShadow` — c'est le seul moyen de voir le problème.
 
+### ⚠️ Piège n°6 ter : Tailwind v4 sérialise les couleurs à opacité modifiée en `oklab()`
+
+Toute sonde de contraste écrite dans ce dépôt DOIT lire les couleurs via un canvas,
+jamais par une expression régulière sur `rgba(...)`.
+
+Mesuré le 2026-09-16 : `bg-white/90` renvoie
+`oklab(0.999994 0.0000455678 0.0000200868 / 0.9)`. Une regex `rgba?\(([^)]+)\)`
+en extrait `0.999994, 0.0000455678, 0.0000200868` et les traite comme du RVB —
+elle calcule donc un contraste sur du noir quasi pur. Le faux résultat est
+**plausible** (on avait lu « 2,96, échoue » sur un badge réellement à 6,26), donc
+rien ne signale l'erreur.
+
+```js
+// ✅ on laisse le navigateur composer, on lit le pixel
+const parse = (str) => {
+  const cv = document.createElement('canvas'); cv.width = cv.height = 1;
+  const x = cv.getContext('2d', { willReadFrequently: true });
+  x.clearRect(0,0,1,1); x.fillStyle = str; x.fillRect(0,0,1,1);
+  const d = x.getImageData(0,0,1,1).data;
+  return { rgb: [d[0], d[1], d[2]], alpha: +(d[3]/255).toFixed(3) };
+};
+```
+
+Corollaire : un fond translucide n'a de contraste qu'une fois **composé sur ce
+qu'il recouvre**. Composer à la main (`α·premier + (1−α)·fond`) après avoir lu
+les deux couches — sinon on mesure une transparence, c'est-à-dire rien.
+
 ### ⚠️ Piège n°7 : `sr-only` sur un `<input>` ancré dans un label sans `position: relative`
 
 `sr-only` applique `position: absolute`. Sans ancêtre positionné explicite, l'input absolute remonte jusqu'au premier parent `position: relative/absolute/fixed` — souvent `<body>` ou `#root`. Quand l'input reçoit le focus (par exemple via un clic sur le `<label>` qui le contient), le navigateur scrolle pour le rendre visible — et donc scrolle vers le coin haut-gauche de l'ancêtre lointain, **arrachant le viewport de plusieurs milliers de pixels** (~2000 px observé). L'utilisateur perçoit une "page blanche" alors que c'est juste un scroll involontaire vers une zone vide.
@@ -901,6 +928,37 @@ L'app est une SPA réactive : les données du domaine vivent dans des stores Zus
   `ghost` 6,31 · `glass-warm` 8,69 · `glass-sun` 7,23 — contre 3,66 au mieux pour
   un fond plein. Leur filet a été fermé au cran conforme le même jour ; il était
   au cran 100, à 1,05, donc invisible.
+
+**Navigation — l'état sélectionné, et pourquoi les deux barres ne se ressemblent pas.**
+`Sidebar` (bureau) et `BottomNav` (mobile) gardent **deux registres distincts**,
+décidé le 2026-09-16 : rangée pleine en dégradé saturé d'un côté, pastille pâle
+derrière l'icône de l'autre. C'est un choix, pas une dérive — ne pas « unifier »
+sans revenir dessus.
+
+⚠️ Ce qui A été corrigé le même jour, ce sont **quatre échecs de contraste**
+(SC 1.4.3), tous mesurés au navigateur :
+
+| Surface | Avant | Après |
+|---|---|---|
+| Bureau — label blanc sur le **début** du dégradé | `from-primary-500` → **2,94** ✗ | `from-primary-700 to-primary-800` → **5,02 → 7,08** ✓ |
+| Mobile — label actif sur blanc (11 px) | `text-primary-600` → **3,66** ✗ | `text-primary-700` → **5,02** ✓ |
+| Compteur inactif sur `primary-100` | `text-primary-700` → **4,11** ✗ | `text-primary-800` → **5,79** ✓ |
+| Compteur actif, voile sur le dégradé | `bg-white/25 text-white` → **3,11** ✗ | `bg-white/90 text-primary-800` → **6,26** ✓ |
+
+**`primary-500` ne porte de texte dans aucun sens** : blanc dessus 2,94, et
+`primary-900` dessus seulement 3,90. C'est un demi-ton — ne jamais y poser de
+texte, quelle qu'en soit la couleur.
+
+Le dernier cas était contradictoire par construction : un voile blanc **éclaircit**
+le fond, alors que du texte blanc réclame du sombre. Poser un voile clair et du
+texte foncé, ou l'inverse — jamais les deux clairs.
+
+⏳ **Reste ouvert** : les deux barres maintiennent **deux listes d'entrées
+séparées** — `BottomNav` code la sienne en dur, `Sidebar` reçoit la sienne
+d'`App.tsx`. Elles ont déjà dérivé : le même écran s'appelle « Tableau de bord »
+sur bureau et « Accueil » sur mobile, « Journal de bord » et « Journal », et
+`Espace Apprentissage` n'existe pas sur mobile. Et la largeur du rail
+(72 ↔ 220/260 px) n'est animée sur aucune des deux.
 
 **Layout** : `PageShell width="page"` = conteneur canonique des pages principales ; padding responsive standard `px-4 sm:px-6 lg:px-10`. Les viewers modaux gardent leurs `max-w` étroits (lisibilité).
 

@@ -203,7 +203,14 @@ const NAV_ACTIVE = 'rounded-lg text-white';
 /* La couche : même boîte, même rayon, posée SOUS le contenu (`-z-10` dans le
    contexte isolé de la rangée) et au-dessus du fond de survol de la racine. */
 const NAV_VOILE =
-  'pointer-events-none absolute inset-0 -z-10 rounded-lg bg-gradient-to-r from-primary-500 to-primary-700 shadow-brand-sm transition-opacity duration-fast ease-standard motion-reduce:transition-none';
+  /* Le dégradé part de 700, plus de 500 — corrigé le 2026-09-16 pour SC 1.4.3.
+     Mesuré : texte blanc sur primary-500 = 2,94:1, sur 600 = 3,66, sur 700 =
+     5,02. Le libellé traversait donc un fond qui ÉCHOUAIT à gauche et passait à
+     droite. Et 500 n'était pas rattrapable en inversant le texte : du
+     primary-900 dessus ne donne que 3,90 — un demi-ton ne porte de texte ni
+     clair ni sombre. La forme et le registre saturé sont conservés (choix du
+     2026-09-16), seul le point de départ descend. */
+  'pointer-events-none absolute inset-0 -z-10 rounded-lg bg-gradient-to-r from-primary-700 to-primary-800 shadow-brand-sm transition-opacity duration-fast ease-standard motion-reduce:transition-none';
 
 export const NavItem: React.FC<NavItemProps> = ({
   icon,
@@ -247,9 +254,17 @@ export const NavItem: React.FC<NavItemProps> = ({
         <span
           className={[
             'inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-pill text-micro font-bold tabular-nums',
+            /* Les deux états rataient SC 1.4.3 sur un compteur de 11 px (mesuré
+               le 2026-09-16). Inactif : primary-700 sur primary-100 = 4,11 ;
+               primary-800 donne 5,79, et 4,67 au survol sur primary-200.
+               Actif : le voile `white/25` posé sur le dégradé composait un
+               rgb(110,153,164) sur lequel du blanc ne fait que 3,11 — c'était
+               contradictoire, un voile blanc ÉCLAIRCIT le fond alors que du
+               texte blanc réclame du sombre. On inverse : voile dense, texte
+               foncé, 6,22. */
             active
-              ? 'bg-white/25 text-white'
-              : 'bg-primary-100 text-primary-700 group-hover/nav:bg-primary-200',
+              ? 'bg-white/90 text-primary-800'
+              : 'bg-primary-100 text-primary-800 group-hover/nav:bg-primary-200',
           ].join(' ')}
         >
           {formatCount(count)}
