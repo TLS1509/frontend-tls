@@ -563,7 +563,7 @@ export const MarketingDiagnostic: React.FC = () => {
                           required
                           value={lead.companySize}
                           onChange={(e) => setLead((l) => ({ ...l, companySize: e.target.value }))}
-                          className="h-auto min-h-[48px] w-full appearance-none rounded-pill border border-ink-200 bg-white px-5 py-2.5 pr-11 font-body text-body text-ink-900 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                          className="h-auto min-h-[48px] w-full appearance-none rounded-lg border border-ink-200 bg-white px-5 py-2.5 pr-11 font-body text-body text-ink-900 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                         >
                           <option value="">Sélectionnez…</option>
                           {TAILLES.map((t) => (

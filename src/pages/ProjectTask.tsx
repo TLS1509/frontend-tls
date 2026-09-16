@@ -171,7 +171,7 @@ export const ProjectTask: React.FC = () => {
                     placeholder="Décrivez votre approche, les points clés de votre livrable..."
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
-                    className="w-full p-3 rounded-md border border-ink-200 font-body text-body-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent h-auto min-h-[88px]"
+                    className="w-full p-3 rounded-lg border border-ink-200 font-body text-body-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent h-auto min-h-[88px]"
                   />
                 </FormGroup>
                 <div className="flex justify-end">

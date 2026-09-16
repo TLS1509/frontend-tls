@@ -48,7 +48,7 @@ export function FilteredList<T>({
           onChange={(e) => setQuery(e.target.value)}
           placeholder={placeholder}
           className={[
-            'w-full h-10 pl-9 pr-9 rounded-xl border border-ink-200 bg-white',
+            'w-full h-10 pl-9 pr-9 rounded-lg border border-ink-200 bg-white',
             'text-body-sm font-body text-ink-900 placeholder:text-ink-500',
             'transition-all duration-base',
             'focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100',

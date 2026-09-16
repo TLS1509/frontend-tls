@@ -37,7 +37,42 @@ export interface InputProps
 const FIELD_BASE = 'flex flex-col gap-stack-xs font-body';
 
 const CONTROL_BASE =
-  'flex items-center gap-stack-xs w-full border rounded-md font-body transition-[border-color,box-shadow] duration-base ease-standard';
+  'flex items-center gap-stack-xs w-full border font-body transition-[border-color,box-shadow] duration-base ease-standard';
+
+/* R4 — LA FAMILLE CHAMP PREND L'ÉCHELLE, À 14 px (tranché le 2026-09-14).
+   ────────────────────────────────────────────────────────────────────────
+   R3 a posé la règle du seuil : sous 28 px de haut la pilule, au-dessus
+   l'échelle. Un champ fait 36 · 44 · 52 px — il est TOUJOURS au-dessus, donc
+   son rayon est une déclaration, pas un accident de plafonnement. Restait à
+   dire quel cran. Ce fichier disait `rounded-md` (10) sans l'avoir jamais
+   justifié ; la mesure a tranché contre lui.
+
+   Ce qui a été mesuré au navigateur, et qui décide :
+   · /website/contact — les quatre champs à 10 px et le bouton « Envoyer le
+     message » à 14 px font EXACTEMENT la même hauteur (48 px) et se suivent
+     dans le même formulaire. Deux courbes pour des objets jumeaux.
+   · La Card qui porte les formulaires est à 14 px (R1), le Button à 14 (R3).
+     10 px était donc un troisième cran, sans raison, pour la même taille.
+   · Aucune raison ne se vérifie côté champ : deux textarea quasi identiques
+     rendaient 156 px à 10 (contact) contre 158 px à 14 (pré-questionnaire).
+     Ni la hauteur, ni le contexte éditorial, ni le voisinage n'expliquaient
+     la répartition — c'était de la dérive.
+   · Le terrain fait main votait déjà 14 : 30 champs contre 15.
+
+   Vérifié aux trois tailles avant de trancher : à 36 px de haut — la plus
+   petite — le ratio rayon/hauteur reste à 0,39, loin des 0,5 de la pilule.
+   Le champ reste un rectangle, il ne devient pas une gélule.
+
+   Les contrôles à forme propre ne sont PAS concernés : la case à cocher garde
+   `rounded-sm`, le radio son cercle, le switch sa pilule, le slider la sienne.
+   La bulle de chat (`JournalChatCompose`, `rounded-2xl` + queue) non plus —
+   c'est un pattern speech-bubble, pas un champ.
+
+   Le rayon vit HORS de CONTROL_BASE, comme dans `Button.tsx`, et pour la même
+   raison : deux classes de rayon dans la même liste ont la même spécificité
+   (0,1,0), donc c'est l'ordre d'émission de Tailwind qui trancherait, pas
+   l'ordre du `className` — piège n°6 de CLAUDE.md. Une seule par appel. */
+const RAYON = 'rounded-lg';
 
 // Light surface (default)
 const CONTROL_LIGHT = 'bg-white text-ink-900';
@@ -96,6 +131,7 @@ export const Input: React.FC<InputProps> = ({
 
   const controlClasses = [
     CONTROL_BASE,
+    RAYON,
     SIZE_CLASSES[size],
     isGlass ? CONTROL_GLASS : CONTROL_LIGHT,
     !isGlass && STATUS_CLASSES[status],

@@ -216,7 +216,7 @@ export const PagesIndex: React.FC = () => {
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Filtrer par chemin ou composant…"
                 aria-label="Filtrer les routes"
-                className="w-full h-11 pl-9 pr-3 rounded-pill border border-ink-200 bg-white text-body-sm text-ink-900 placeholder:text-ink-500 focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/15 transition-colors duration-fast"
+                className="w-full h-11 pl-9 pr-3 rounded-lg border border-ink-200 bg-white text-body-sm text-ink-900 placeholder:text-ink-500 focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/15 transition-colors duration-fast"
               />
             </div>
           </div>

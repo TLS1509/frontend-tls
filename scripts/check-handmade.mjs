@@ -97,8 +97,16 @@ const FAMILLES = [
        signature de la carte : le compte est passé de 269 à 281 le jour du
        changement, sans qu'une seule carte soit née. Le discriminant est la
        signature du bouton moins son rayon — hauteur fixe ET libellé gras ET
-       corps de texte de label. Une carte n'a aucun des trois. */
+       corps de texte de label. Une carte n'a aucun des trois.
+
+       ⚠️ Et elle exclut les CHAMPS depuis le 2026-09-14 (R4), pour exactement
+       la même raison qu'elle exclut les boutons : la famille champ vient de
+       passer à `rounded-lg`, et un champ bordé avec du padding coche la
+       signature de la carte. Deux champs de plus sont apparus le jour du
+       changement sans qu'une carte soit née. Le discriminant est le
+       `placeholder:` — seul un champ en porte un ; aucune carte n'en a. */
     sauf: (cl) => /\b(absolute|fixed|sticky)\b/.test(cl)
+      || /\bplaceholder:/.test(cl)
       || (/\bfont-(bold|semibold)\b/.test(cl)
           && /\btext-(caption|body-sm|body)\b/.test(cl)
           && /\b(h-\d+|h-touch|min-h-touch|cursor-pointer)\b/.test(cl)),
@@ -155,7 +163,14 @@ const DERIVES = [
   { nom: 'style={{}} portant une couleur',        rx: /style=\{\{[^}]*\b(color|background)\b[^}]*\}\}/g },
   { nom: 'gouttière numérique (token existant)',  rx: /(?<![\w-])gap-(0\.5|2|4|6|8)(?![\w.-])/g },
   { nom: 'taille d’icône hors échelle',           rx: /size=\{(?!14\b|16\b|18\b|20\b|24\b|28\b|32\b|40\b|48\b)\d{1,3}\}/g },
-  { nom: 'rayon hors token (rounded-full / 3xl)', rx: /(?<![\w-])rounded-(full|3xl)(?![\w-])/g },
+  /* ⚠️ Le segment de DIRECTION est optionnel, et il ne l'était pas avant le
+     2026-09-14. La règle ne matchait que `rounded-3xl` nu, donc elle rendait
+     0 — et CLAUDE.md a écrit « rounded-3xl n'existe plus dans src/, 0
+     occurrence » sur la foi de ce 0. Il en restait deux, en `rounded-t-3xl` :
+     le filet de la coque Auth et la feuille modale mobile du site. Une règle
+     qui cherche un token hors échelle doit accepter ses variantes de coin,
+     sinon elle certifie une propreté qu'elle n'a pas vérifiée. */
+  { nom: 'rayon hors token (rounded-full / 3xl)', rx: /(?<![\w-])rounded-(?:(?:t|b|l|r|s|e|tl|tr|bl|br)-)?(?:full|3xl)(?![\w-])/g },
   /* Un pas typographique déclare DÉJÀ son interligne et sa graisse :
        --text-h4: 1.25rem
        --text-h4--line-height: 1.75rem
@@ -187,7 +202,34 @@ function classNames(src) {
   // pas là, et la capture courait jusqu'à un `].join` bien plus loin — fusionnant
   // les classes de plusieurs éléments et fabriquant de faux positifs.
   for (const m of src.matchAll(/className=\{\[([\s\S]*?)\]\s*\.\s*(?:join|filter)/g)) out.push(m[1]);
-  return out.map((c) => c.replace(/\s+/g, ' '));
+  return out.map((c) => resoudreConstantes(c, src).replace(/\s+/g, ' '));
+}
+
+/* ⚠️ Résoudre les constantes de classes du fichier — ajouté le 2026-09-14, et
+   c'est un correctif de FOND, pas un raffinement.
+
+   CLAUDE.md recommande (piège n°6) de sortir le rayon d'une liste de classes
+   dans une constante, pour n'en poser qu'une seule par appel. `Button.tsx`,
+   `core/Input.tsx`, `Select.tsx`, `Combobox.tsx`, `Search.tsx` et `AuthShell.tsx`
+   le font tous. Or le détecteur lisait le NOM de la constante, pas sa valeur :
+   appliquer la bonne pratique rendait donc l'élément invisible.
+
+   Constaté en direct : les trois boutons de la famille Auth, passés à
+   `rounded-lg` le même jour, ont disparu de la famille « bouton » à l'instant
+   où leur rayon est sorti dans `RAYON_BOUTON`. Le compte n'avait pas bougé —
+   c'est ce qui rendait l'angle mort indétectable à la lecture des totaux.
+
+   Seules les constantes dont la valeur est un littéral de chaîne simple sont
+   résolues ; une concaténation ou un template reste opaque, et c'est voulu —
+   mieux vaut ne pas résoudre que résoudre faux. */
+function resoudreConstantes(chaine, src) {
+  if (!/[A-Z_][A-Z0-9_]{2,}/.test(chaine)) return chaine;
+  const table = new Map();
+  for (const m of src.matchAll(/(?:^|\n)\s*const\s+([A-Z_][A-Z0-9_]*)\s*=\s*(['"])((?:[^'"\\]|\\.)*)\2\s*;/g)) {
+    table.set(m[1], m[3]);
+  }
+  if (table.size === 0) return chaine;
+  return chaine.replace(/\b[A-Z_][A-Z0-9_]*\b/g, (nom) => (table.has(nom) ? `'${table.get(nom)}'` : nom));
 }
 
 const cibles = fichiers(SRC).filter((f) => {

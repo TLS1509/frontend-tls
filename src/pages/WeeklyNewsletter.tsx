@@ -285,7 +285,7 @@ export const WeeklyNewsletter: React.FC = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="votre@email.com"
-              className="flex-1 h-11 px-stack rounded-pill border-0 bg-white/15 backdrop-blur-glass-light font-body text-body-sm text-white placeholder:text-white/60 focus:outline-2 focus:outline-white/40"
+              className="flex-1 h-11 px-stack rounded-lg border-0 bg-white/15 backdrop-blur-glass-light font-body text-body-sm text-white placeholder:text-white/60 focus:outline-2 focus:outline-white/40"
             />
             <Button variant="secondary" size="md" type="submit">
               S'abonner

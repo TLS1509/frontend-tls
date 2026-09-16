@@ -328,7 +328,7 @@ export default function CoachLearnerProfile() {
                           </label>
                           <textarea
                             id={`rationale-${lc.competenceId}`}
-                            className="w-full h-auto min-h-[72px] rounded-md border border-ink-200 bg-white px-3 py-2 text-body-sm text-ink-900 font-body placeholder:text-ink-500 focus:outline-none focus:border-primary-500 transition-colors resize-none"
+                            className="w-full h-auto min-h-[72px] rounded-lg border border-ink-200 bg-white px-3 py-2 text-body-sm text-ink-900 font-body placeholder:text-ink-500 focus:outline-none focus:border-primary-500 transition-colors resize-none"
                             placeholder="Sur quelle preuve observable repose cette validation ? (mise en situation, livrable, JAC…)"
                             value={rationale}
                             onChange={(e) => setRationale(e.target.value)}
@@ -476,7 +476,7 @@ export default function CoachLearnerProfile() {
           }
         >
           <textarea
-            className="w-full h-auto min-h-[120px] rounded-md border border-ink-200 bg-ink-50 px-3.5 py-3 text-body-sm text-ink-900 font-body placeholder:text-ink-500 focus:outline-none focus:border-primary-500 focus:bg-white transition-colors resize-none"
+            className="w-full h-auto min-h-[120px] rounded-lg border border-ink-200 bg-ink-50 px-3.5 py-3 text-body-sm text-ink-900 font-body placeholder:text-ink-500 focus:outline-none focus:border-primary-500 focus:bg-white transition-colors resize-none"
             placeholder="Écris ici tes observations sur l'apprenant, les points à travailler, les avancées notables…"
             value={note}
             onChange={(e) => setNote(e.target.value)}

@@ -48,7 +48,12 @@ const FIELD_BASE = 'flex flex-col gap-stack-xs font-body';
 // Visual control shell: border, bg, sizing. No `relative` here — the wrapper
 // <div class="relative"> below is the positioning context for the dropdown.
 const CONTROL_BASE =
-  'inline-flex items-center gap-stack-xs w-full bg-white border rounded-md text-ink-900 font-body transition-colors duration-base';
+  'inline-flex items-center gap-stack-xs w-full bg-white border text-ink-900 font-body transition-colors duration-base';
+
+/* R4 — le rayon de la famille champ, hors de BASE (une seule classe par appel).
+   La liste déroulante prend le même cran : elle prolonge le champ. Raisonnement
+   complet dans `core/Input.tsx`. */
+const RAYON = 'rounded-lg';
 
 const SIZE_CLASSES: Record<ComboboxSize, string> = {
   sm: 'h-9 px-3 text-caption',
@@ -220,6 +225,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
 
   const controlClasses = [
     CONTROL_BASE,
+    RAYON,
     SIZE_CLASSES[size],
     open ? active : idle,
     disabled ? 'bg-ink-50 text-ink-500 cursor-not-allowed' : '',
@@ -293,7 +299,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
             id={listboxId}
             role="listbox"
             aria-label={typeof label === 'string' ? label : 'Options'}
-            className="absolute left-0 right-0 top-full mt-1 z-dropdown bg-white border border-ink-200 rounded-md shadow-md overflow-y-auto max-h-[220px]"
+            className={`absolute left-0 right-0 top-full mt-1 z-dropdown bg-white border border-ink-200 ${RAYON} shadow-md overflow-y-auto max-h-[220px]`}
           >
             {filtered.length === 0 ? (
               <li

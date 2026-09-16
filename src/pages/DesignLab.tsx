@@ -2142,7 +2142,7 @@ const Atelier: React.FC = () => {
             <select
               value={surface}
               onChange={(e) => setSurface(e.target.value)}
-              className="h-8 rounded-md border border-ink-200 bg-white px-2 text-caption text-ink-900"
+              className="h-8 rounded-lg border border-ink-200 bg-white px-2 text-caption text-ink-900"
             >
               {SURFACE_OPTIONS.map((s) => <option key={s.css} value={s.css}>{s.label}</option>)}
             </select>

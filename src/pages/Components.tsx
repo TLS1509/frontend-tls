@@ -1589,10 +1589,10 @@ const COMPONENTS: ComponentEntry[] = [
 
 {
     name: 'Les rayons, et ce qui va ensemble',
-    codeName: 'R3 — tranchée le 14/09/2026',
+    codeName: 'R3 · R4 — tranchées le 14/09/2026',
     description:
-      "La règle est celle du seuil. Sous 28 px de haut, pilule et rayon 14 sont indiscernables — le navigateur plafonne à la moitié de la hauteur : la pilule reste, elle ne coûte rien. Au-dessus, le rayon devient une déclaration et prend l'échelle : le bouton est passé à 14, le bouton-icône garde son cercle.",
-    keywords: ['rayon', 'radius', 'pilule', 'bouton', 'badge', 'carte', 'cohérence'],
+      "La règle est celle du seuil. Sous 28 px de haut, pilule et rayon 14 sont indiscernables — le navigateur plafonne à la moitié de la hauteur : la pilule reste, elle ne coûte rien. Au-dessus, le rayon devient une déclaration et prend l'échelle : le bouton est passé à 14 (R3), le bouton-icône garde son cercle, et la famille champ a suivi le même jour (R4) — elle est à 36-52 px de haut, donc toujours au-dessus du seuil.",
+    keywords: ['rayon', 'radius', 'pilule', 'bouton', 'badge', 'carte', 'champ', 'input', 'cohérence'],
     render: () => {
       const coque = 'flex flex-col rounded-lg border border-ink-200 bg-white p-stack-lg min-w-0';
       const metas = [{ icon: <Clock3 />, text: '45 min' }, { icon: <Calendar />, text: 'Jeudi 18' }];
@@ -1612,6 +1612,7 @@ const COMPONENTS: ComponentEntry[] = [
                   ['Badge · MetaPill · Chip', 'pilule', "Sous le seuil par construction. La pilule y rend la même forme que 14 — la garder ne coûte rien et c'est la convention du petit label."],
                   ['Button', 'rounded-lg (14)', "Au-dessus du seuil sur ses quatre tailles. Prend le rayon de la Card qui le contient."],
                   ['Button iconOnly', 'pilule → cercle', "Carré, donc la pilule y donne un cercle parfait. Exception écrite dans le composant."],
+                  ['Famille champ', 'rounded-lg (14)', "R4, même jour : Input · Select · Combobox · Search. 36 à 52 px de haut, donc toujours au-dessus du seuil. Le composant disait 10 sans l'avoir justifié."],
                 ] as const).map(([fam, val, pourquoi]) => (
                   <div key={fam} className="flex flex-col gap-stack-2xs rounded-lg border border-ink-200 bg-white p-stack">
                     <span className="font-display text-h5 text-ink-900">{fam}</span>
@@ -1697,6 +1698,31 @@ const COMPONENTS: ComponentEntry[] = [
                     </div>
                   </div>
                   <span className="font-mono text-micro text-ink-500">{nom}</span>
+                </div>
+              ))}
+            </div>
+          </ShowcaseBloc>
+
+          <ShowcaseBloc
+            titre="R4 — le champ et son bouton font la même hauteur"
+            note="Mesuré sur /website/contact le 2026-09-14 : les quatre champs rendaient 10 px de rayon, le bouton « Envoyer le message » 14 — et tous les cinq mesurent exactement 48 px de haut. C'est ce relevé qui a tranché. Aucune des trois raisons possibles ne tenait : deux zones de texte quasi identiques rendaient 156 px à 10 (contact) contre 158 px à 14 (pré-questionnaire) ; le marketing portait les deux valeurs ; et sur la seule page /components/search-filters, « une barre de recherche » rendait 10, 14, 20 et 24 px côte à côte. Elle rend 14 partout aujourd'hui."
+          >
+            <div className="grid gap-section [grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))]">
+              {([
+                ['Avant — deux courbes', 'rounded-md', 'Le champ serre le coin, le bouton l’ouvre. Rien ne justifiait l’écart.'],
+                ['Après — une seule', 'rounded-lg', 'Le formulaire se lit comme un objet, pas comme deux familles empilées.'],
+              ] as const).map(([titre, rayon, dit]) => (
+                <div key={titre} className="flex flex-col gap-stack-xs">
+                  <span className="font-display text-h5 text-ink-900">{titre}</span>
+                  <input
+                    readOnly
+                    value="Jeanne Dupont"
+                    aria-label={`Champ de démonstration — ${rayon}`}
+                    className={`w-full h-12 px-4 ${rayon} border border-ink-300 bg-white font-body text-body-sm text-ink-900`}
+                  />
+                  <Button variant="primary" size="lg" fullWidth>Envoyer le message</Button>
+                  <span className="font-mono text-micro text-ink-500">champ 48 px · bouton 48 px · {rayon === 'rounded-md' ? '10 contre 14' : '14 et 14'}</span>
+                  <span className="font-body text-caption text-ink-600">{dit}</span>
                 </div>
               ))}
             </div>
@@ -7029,11 +7055,11 @@ const COMPONENTS: ComponentEntry[] = [
           >
             <div className="flex flex-col gap-stack-xs">
               <label className="text-body-sm font-semibold text-ink-900">Prénom</label>
-              <input className="w-full h-10 px-3 rounded-xl border border-ink-200 text-body-sm focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100" defaultValue="Marie" />
+              <input className="w-full h-10 px-3 rounded-lg border border-ink-200 text-body-sm focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100" defaultValue="Marie" />
             </div>
             <div className="flex flex-col gap-stack-xs">
               <label className="text-body-sm font-semibold text-ink-900">Rôle</label>
-              <select className="w-full h-10 px-3 rounded-xl border border-ink-200 text-body-sm focus:outline-none focus:border-primary-400 h-auto min-h-[44px] appearance-none bg-white">
+              <select className="w-full h-10 px-3 rounded-lg border border-ink-200 text-body-sm focus:outline-none focus:border-primary-400 h-auto min-h-[44px] appearance-none bg-white">
                 <option>Apprenante</option>
                 <option>Manager</option>
                 <option>Coach</option>

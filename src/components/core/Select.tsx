@@ -38,7 +38,11 @@ export interface SelectProps
 const FIELD_BASE = 'flex flex-col gap-stack-xs font-body';
 
 const CONTROL_BASE =
-  'inline-flex items-center gap-stack-xs w-full bg-white border rounded-md text-ink-900 font-body transition-[border-color,box-shadow] duration-150';
+  'inline-flex items-center gap-stack-xs w-full bg-white border text-ink-900 font-body transition-[border-color,box-shadow] duration-150';
+
+/* R4 — le rayon de la famille champ, hors de BASE (une seule classe par appel).
+   Raisonnement complet dans `core/Input.tsx`. */
+const RAYON = 'rounded-lg';
 
 const SIZE_CLASSES: Record<SelectSize, string> = {
   sm: 'h-9 px-3 text-caption',
@@ -80,6 +84,7 @@ export const Select: React.FC<SelectProps> = ({
 
   const controlClasses = [
     CONTROL_BASE,
+    RAYON,
     SIZE_CLASSES[size],
     STATUS_CLASSES[status],
     disabled && DISABLED_CLASSES,

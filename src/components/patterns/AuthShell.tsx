@@ -20,6 +20,27 @@ import { Input } from '../core/Input';
  * For glassy form fields inside, use the `AUTH_INPUT_CLASSES` helper exported below.
  */
 
+/* R3/R4 — le rayon des boutons de la famille Auth (ajouté le 2026-09-14).
+   ────────────────────────────────────────────────────────────────────────
+   Ces trois boutons sont faits main : R3 est passée par `Button.tsx` et ne les
+   a pas atteints. Ils sont restés à `rounded-xl` (20 px) pendant que le bouton
+   du reste de l'app passait à 14, puis les champs avec R4.
+
+   Mesuré sur /auth/login avant correction : le champ rendait **14 px pour
+   52 px de haut** et le bouton juste en dessous **20 px pour 48 px**. L'objet
+   le plus petit portait le rayon le plus grand — l'écart se lisait à l'envers,
+   dans une colonne où les deux se touchent presque.
+
+   Les formes propres du fichier ne bougent pas : les blobs d'ambiance et les
+   pastilles de logo sont des carrés en `rounded-pill`, donc des cercles ; la
+   case à cocher garde son `rounded-sm`. Les conteneurs (coque, aside, encart)
+   étaient déjà sur l'échelle.
+
+   Posé hors des listes de classes, et une seule fois par bouton : deux classes
+   de rayon ont la même spécificité, c'est l'ordre d'émission de Tailwind qui
+   trancherait (piège n°6). Même motif que `Button.tsx` et `core/Input.tsx`. */
+const RAYON_BOUTON = 'rounded-lg';
+
 export interface AuthShellProps {
   /** Form content (inputs + buttons). Wrapped in a glass dark Card automatically. */
   form: React.ReactNode;
@@ -125,7 +146,7 @@ export const AuthShell: React.FC<AuthShellProps> = ({
             {/* Inner highlight on top edge for glass premium feel */}
             <span
               aria-hidden="true"
-              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent rounded-t-3xl"
+              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent rounded-t-lg"
             />
 
             {/* Branding */}
@@ -230,7 +251,8 @@ export const AuthSocialButton: React.FC<AuthSocialButtonProps> = ({
   <button
     type="button"
     className={[
-      'inline-flex items-center justify-center gap-stack-xs h-12 px-4 rounded-xl',
+      'inline-flex items-center justify-center gap-stack-xs h-12 px-4',
+      RAYON_BOUTON,
       'bg-white text-ink-900 text-body-sm font-semibold cursor-pointer transition-all',
       'hover:bg-ink-50 hover:-translate-y-px hover:shadow-md',
       'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white',
@@ -417,7 +439,8 @@ export const AuthPrimaryButton: React.FC<React.ButtonHTMLAttributes<HTMLButtonEl
 }) => (
   <button
     className={[
-      'inline-flex items-center justify-center gap-stack-xs w-full h-12 px-4 rounded-xl',
+      'inline-flex items-center justify-center gap-stack-xs w-full h-12 px-4',
+      RAYON_BOUTON,
       'bg-white text-ink-900 text-body font-semibold cursor-pointer transition-all',
       'shadow-md hover:bg-ink-50 hover:-translate-y-px hover:shadow-lg',
       'disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-md',
@@ -444,7 +467,8 @@ export const AuthGhostButton: React.FC<React.ButtonHTMLAttributes<HTMLButtonElem
   <button
     type="button"
     className={[
-      'inline-flex items-center justify-center gap-stack-xs w-full h-12 px-4 rounded-xl',
+      'inline-flex items-center justify-center gap-stack-xs w-full h-12 px-4',
+      RAYON_BOUTON,
       'bg-transparent text-white border border-white/30 text-body font-semibold cursor-pointer transition-all',
       'hover:bg-white/10 hover:border-white/50 hover:-translate-y-px',
       'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white',
