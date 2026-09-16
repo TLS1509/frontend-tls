@@ -1,3 +1,4 @@
+import { JOURNAL_TYPES, JOURNAL_TYPE_ORDER } from '../lib/journal-types';
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useJournalStore } from '../stores/persistence';
@@ -15,13 +16,6 @@ import {
   PenSquare,
   Sparkles,
   X,
-  Compass,
-  PenLine,
-  Lightbulb,
-  BookOpen,
-  Target,
-  ClipboardList,
-  BarChart2,
 } from 'lucide-react';
 
 /* ─── Types ──────────────────────────────────────────────────────────────── */
@@ -57,14 +51,13 @@ const SPEC_TO_DISPLAY: Record<JournalEntryType, JournalBubbleType> = {
 /* ─── Filter config ──────────────────────────────────────────────────────── */
 
 const TYPE_FILTERS: { key: TypeFilter; label: string; icon?: React.ReactNode }[] = [
-  { key: 'all',           label: 'Toutes' },
-  { key: 'guided',        label: 'Guidé',         icon: <Compass size={14} /> },
-  { key: 'free',          label: 'Libre',          icon: <PenLine size={14} /> },
-  { key: 'learning',      label: 'Apprentissage',  icon: <BookOpen size={14} /> },
-  { key: 'coaching',      label: 'Coaching',       icon: <Target size={14} /> },
-  { key: 'insight',       label: 'Insight',        icon: <Lightbulb size={14} /> },
-  { key: 'questionnaire', label: 'Questionnaire',  icon: <ClipboardList size={14} /> },
-  { key: 'compte-rendu',  label: 'Compte rendu',   icon: <BarChart2 size={14} /> },
+  { key: 'all', label: 'Toutes' },
+  // Libellés et icônes viennent de `lib/journal-types` — la même table que la
+  // carte de la liste. Les deux divergeaient sur 4 types de 7.
+  ...JOURNAL_TYPE_ORDER.map((k) => {
+    const { label, Icon } = JOURNAL_TYPES[k];
+    return { key: k as TypeFilter, label, icon: <Icon size={14} /> };
+  }),
 ];
 
 const PERIOD_FILTERS: { key: PeriodFilter; label: string }[] = [
@@ -119,12 +112,20 @@ export const Journal: React.FC = () => {
 
   /* Types user-initiables (les 4 disponibles depuis la section "Compose new entry").
      Coaching/Questionnaire/Compte-rendu sont system-generated depuis le flow coaching. */
-  const COMPOSE_TYPES: { type: JournalBubbleType; icon: React.ReactNode; label: string; tone: 'brand' | 'warm' | 'sun'; subtitle: string }[] = [
-    { type: 'guided',   icon: <Compass size={28} strokeWidth={1.75} />,   label: 'Guidé',         tone: 'brand', subtitle: 'Questions structurées' },
-    { type: 'free',     icon: <PenLine size={28} strokeWidth={1.75} />,   label: 'Libre',         tone: 'warm',  subtitle: 'Écris comme tu veux' },
-    { type: 'insight',  icon: <Lightbulb size={28} strokeWidth={1.75} />, label: 'Insight',       tone: 'sun',   subtitle: 'Une prise de conscience' },
-    { type: 'learning', icon: <BookOpen size={28} strokeWidth={1.75} />,  label: 'Apprentissage', tone: 'warm',  subtitle: 'Notes post-leçon' },
-  ];
+  const COMPOSE_TYPES: { type: JournalBubbleType; icon: React.ReactNode; label: string; tone: 'brand' | 'warm' | 'sun'; subtitle: string }[] = (
+    [
+      ['guided',   'brand', 'Questions structurées'],
+      ['free',     'warm',  'Écris comme tu veux'],
+      ['insight',  'sun',   'Une prise de conscience'],
+      ['learning', 'warm',  'Notes post-leçon'],
+    ] as const
+  ).map(([type, tone, subtitle]) => {
+    // Icône et libellé viennent de `lib/journal-types`, comme les filtres et la
+    // carte de la liste. Une constante locale est nécessaire : JSX n'accepte
+    // pas un accès par index comme nom de balise.
+    const { Icon, label } = JOURNAL_TYPES[type];
+    return { type, icon: <Icon size={28} strokeWidth={1.75} />, label, tone, subtitle };
+  });
 
   const TONE_BG: Record<'brand' | 'warm' | 'sun', string> = {
     brand: 'bg-primary-50 hover:bg-primary-100 border-primary-100 hover:border-primary-300',

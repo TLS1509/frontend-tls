@@ -20,87 +20,16 @@
  *   />
  */
 
+import { JOURNAL_TYPES, type JournalTypeKey } from '../../lib/journal-types';
 import React from 'react';
 import {
-  BookOpen,
   ArrowRight,
-  GraduationCap,
-  PenSquare,
-  Zap,
-  Lightbulb,
-  ClipboardList,
-  FileText,
 } from 'lucide-react';
 import { Button } from '../core/Button';
 
-export type JournalBubbleType =
-  | 'guided'
-  | 'free'
-  | 'learning'
-  | 'coaching'
-  | 'insight'
-  | 'questionnaire'
-  | 'compte-rendu';
+/** Conservé comme alias : le vocabulaire vit dans `lib/journal-types`. */
+export type JournalBubbleType = JournalTypeKey;
 
-interface TypeMeta {
-  label: string;
-  Icon: React.ComponentType<{ size?: number; className?: string }>;
-  badge: string;
-  surface: string;
-  tail: string;
-}
-
-const TYPE_META: Record<JournalBubbleType, TypeMeta> = {
-  guided: {
-    label: 'Guidé',
-    Icon: GraduationCap,
-    badge: 'bg-primary-100 text-primary-700 border border-primary-200',
-    surface: 'bg-primary-50/70 border-primary-100 hover:border-primary-200 hover:bg-primary-50',
-    tail: 'bg-primary-50/70 border-primary-100',
-  },
-  free: {
-    label: 'Libre',
-    Icon: PenSquare,
-    badge: 'bg-ink-100 text-ink-700 border border-ink-200',
-    surface: 'bg-white border-ink-200 hover:border-ink-300',
-    tail: 'bg-white border-ink-200',
-  },
-  learning: {
-    label: 'Apprentissage',
-    Icon: BookOpen,
-    badge: 'bg-secondary-100 text-secondary-700 border border-secondary-200',
-    surface: 'bg-secondary-50/70 border-secondary-100 hover:border-secondary-200 hover:bg-secondary-50',
-    tail: 'bg-secondary-50/70 border-secondary-100',
-  },
-  coaching: {
-    label: 'Coaching',
-    Icon: Zap,
-    badge: 'bg-secondary-100 text-secondary-700 border border-secondary-200',
-    surface: 'bg-secondary-50/70 border-secondary-100 hover:border-secondary-200 hover:bg-secondary-50',
-    tail: 'bg-secondary-50/70 border-secondary-100',
-  },
-  insight: {
-    label: 'Insight',
-    Icon: Lightbulb,
-    badge: 'bg-accent-100 text-accent-700 border border-accent-200',
-    surface: 'bg-accent-50/70 border-accent-100 hover:border-accent-200 hover:bg-accent-50',
-    tail: 'bg-accent-50/70 border-accent-100',
-  },
-  questionnaire: {
-    label: 'Questionnaire',
-    Icon: ClipboardList,
-    badge: 'bg-primary-100 text-primary-700 border border-primary-200',
-    surface: 'bg-primary-50/70 border-primary-100 hover:border-primary-200 hover:bg-primary-50',
-    tail: 'bg-primary-50/70 border-primary-100',
-  },
-  'compte-rendu': {
-    label: 'Compte rendu',
-    Icon: FileText,
-    badge: 'bg-success-bg text-success-fg border border-success-base/30',
-    surface: 'bg-primary-50/70 border-primary-100 hover:border-primary-200 hover:bg-primary-50',
-    tail: 'bg-primary-50/70 border-primary-100',
-  },
-};
 
 export interface JournalBubbleCardProps {
   type: JournalBubbleType;
@@ -126,7 +55,7 @@ export const JournalBubbleCard: React.FC<JournalBubbleCardProps> = ({
   onCoachingAction,
   className = '',
 }) => {
-  const meta = TYPE_META[type];
+  const meta = JOURNAL_TYPES[type];
   const TypeIcon = meta.Icon;
 
   return (
@@ -196,7 +125,6 @@ export const JournalBubbleCard: React.FC<JournalBubbleCardProps> = ({
             <Button
               variant="glass-light"
               size="md"
-              leadingIcon={<BookOpen size={16} />}
               onClick={onRead}
             >
               Lire
