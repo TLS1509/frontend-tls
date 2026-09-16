@@ -107,7 +107,10 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
       {badge && (
         <span
           className={[
-            'absolute z-10 px-3 py-1 rounded-pill text-caption font-bold whitespace-nowrap',
+            // La prop s'appelle `badge` : vocabulaire Badge — 11 px, graisse 700,
+            // capitales, `tracking-label`. Elle rendait 13 px sans capitales, donc
+            // 28 px de haut au lieu de 24, et se lisait comme une pastille.
+            'absolute z-10 px-2.5 py-0.5 rounded-pill text-micro font-bold uppercase tracking-label whitespace-nowrap',
             BADGE_VARIANT[badge.variant ?? 'primary'],
             BADGE_POSITION[badge.position || 'top-right'],
           ]

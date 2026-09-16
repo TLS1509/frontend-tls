@@ -368,7 +368,7 @@ export const FeaturedSpotlight: React.FC<FeaturedSpotlightProps> = ({ item, isSa
         <div className="absolute inset-0 flex items-center justify-center">
           <TypeIcon size={96} strokeWidth={1.25} className="text-white/90 transition-transform duration-base group-hover:scale-110" />
         </div>
-        <span className="absolute top-4 left-4 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill bg-white/95 backdrop-blur-glass-light text-caption font-bold text-ink-900 shadow-sm">
+        <span className="absolute top-4 left-4 inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-pill bg-white/95 backdrop-blur-glass-light text-micro font-bold text-ink-900 shadow-sm uppercase tracking-label">
           ✨ À la une
         </span>
         {showSaveButton && onToggleSave && (
@@ -471,7 +471,7 @@ export const FeaturedSpotlightCarousel: React.FC<FeaturedSpotlightCarouselProps>
           <div className="absolute inset-0 flex items-center justify-center">
             <TypeIcon size={96} strokeWidth={1.25} className="text-white/90 transition-transform duration-slow" />
           </div>
-          <span className="absolute top-4 left-4 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill bg-white/95 backdrop-blur-glass-light text-caption font-bold text-ink-900 shadow-sm">
+          <span className="absolute top-4 left-4 inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-pill bg-white/95 backdrop-blur-glass-light text-micro font-bold text-ink-900 shadow-sm uppercase tracking-label">
             ✨ À la une
           </span>
           {showSaveButton && onToggleSave && (

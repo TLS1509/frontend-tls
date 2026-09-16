@@ -80,7 +80,9 @@ export const CorrectionCard: React.FC<CorrectionCardProps> = ({
       {/* Exercise title + competence */}
       <div className="flex flex-col gap-tight">
         <p className="text-body font-semibold text-ink-900 line-clamp-2">{exerciceTitle}</p>
-        <span className="inline-flex items-center gap-tight text-caption text-primary-700 bg-primary-50 px-2 py-0.5 rounded-pill w-fit font-medium">
+        {/* Vraie métadonnée (une compétence) : vocabulaire MetaPill — 11 px,
+            graisse 500. Elle rendait 13 px, seule valeur fausse. */}
+        <span className="inline-flex items-center gap-tight text-micro text-primary-700 bg-primary-50 px-2 py-0.5 rounded-pill w-fit font-medium">
           {competence}
         </span>
       </div>
