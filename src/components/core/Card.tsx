@@ -91,36 +91,34 @@ export interface CardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 't
 // globale de index.css ramène transition-duration à 0,01 ms mais ne touche ni
 // `translate` ni `scale` — une card `interactive` SAUTAIT de 4px au survol au
 // lieu de glisser. On supprime le déplacement lui-même sous reduced-motion.
-/* Rayon de référence : 14 px (`rounded-lg`) — décidé le 2026-09-09 (R1).
-   Avant : `rounded-xl`, soit 20 px.
+/* Rayon de référence : 20 px (`rounded-xl`) — décidé le 2026-09-16.
 
-   Pourquoi 14 et pas 20 ou 24. La Card porte une bordure de 1 px, et bordure et
-   rayon se contredisent au-delà d'une certaine courbe : à 24 px, la courbe est
-   longue et un trait fin ne la tient pas — le coin paraît mou, l'objet gonflé. À
-   14 px le trait suit un angle plus franc et l'objet se lit comme posé. Un grand
-   rayon fonctionne, mais sans bordure et avec une ombre : ce n'est pas le
-   registre TLS, qui est diurne et pose ses objets plutôt qu'il ne les fait
-   flotter.
+   HISTORIQUE, parce que la valeur a fait l'aller-retour et que ça compte.
+   R1 (2026-09-09) l'avait fait passer de 20 à 14, au motif qu'un filet de 1 px
+   ne tient pas une courbe longue : au-delà d'une certaine courbe le coin paraît
+   mou et l'objet gonflé. L'argument reste vrai — ce n'était pas une erreur,
+   c'était un arbitrage.
 
-   Cette valeur commande aussi la migration des 93 cards écrites à la main, et
-   les décisions R2 (les `rounded-2xl`) et R3 (les `rounded-pill`) : elles
-   l'attendaient toutes.
+   Ce qui l'a rouvert : à l'usage, 14 se lit comme un rectangle. Trois choses
+   ont pesé dans le retour à 20.
 
-   ✅ R3 TRANCHÉE le 2026-09-14 — la règle est celle du SEUIL, et elle vaut pour
-   les quatre familles. Le navigateur plafonne tout rayon à la moitié de la plus
-   petite dimension : sous 28 px de haut, la pilule et `rounded-lg` rendent la
-   MÊME forme. Donc, sous le seuil, la pilule reste (Badge, Chip, MetaPill) —
-   c'est la convention du petit label et elle ne coûte rien. Au-dessus, le rayon
-   devient une déclaration et prend l'échelle : `<Button>` est passé à
-   `rounded-lg`, avec le bouton-icône conservé en cercle par exception écrite.
-   Détail et mesures dans le commentaire de `BASE` de `core/Button.tsx`.
+   1. `--radius-xl` existe déjà dans l'échelle : aucun token à créer.
+   2. Figma était RESTÉ à 20 — les nœuds Card, Card/Glass et StatCard y sont
+      tous liés à `--radius-xl`. Le code s'aligne donc sur le dessin, au lieu de
+      creuser la dérive.
+   3. Le « rendu iOS » qu'on cherchait ne vient pas du rayon mais de la FORME de
+      la courbe — une superellipse, pas un arc de cercle. `corner-shape: squircle`
+      le donne, mais Chromium seulement : pas Safari, donc pas sur iPhone, où
+      l'on compare. Écarté pour l'instant ; à reprendre quand Safari suivra.
 
-   ⏳ R2 reste ouverte : les `rounded-2xl` (24 px) sur des conteneurs. Le cran
-   au-dessus, celui que Tailwind fournit par défaut à 24 px sans qu'il soit dans
-   `index.css`, a disparu de `src/` (0 occurrence au 2026-09-14) — R2 ne porte
-   donc plus que sur une valeur, pas deux. On évite ici de l'écrire en toutes
-   lettres : `check-handmade` le compterait comme un usage. */
-const BASE = 'flex flex-col rounded-lg text-ink-900 font-body text-body-sm transition-all duration-200 motion-reduce:transition-none [&[role=button]]:h-auto [&[role=button]]:font-normal [&[role=button]]:items-stretch';
+   ⚠️ Ce qui NE revient PAS de R1 : la migration des cartes faites main. R1 a
+   ramené 90 cartes sur la primitive, et elles doivent suivre ce changement.
+   Deux rayons de carte qui coexistent, c'est exactement le défaut que R1 a
+   réparé — ne pas le recréer à l'envers.
+
+   ⚠️ `Button` est à `rounded-lg` (14) depuis R3, au motif qu'il « s'accorde à la
+   Card qui le porte ». Cette justification tombe avec ce changement : à revoir. */
+const BASE = 'flex flex-col rounded-xl text-ink-900 font-body text-body-sm transition-all duration-200 motion-reduce:transition-none [&[role=button]]:h-auto [&[role=button]]:font-normal [&[role=button]]:items-stretch';
 
 const VARIANT_CLASSES: Record<CardVariant, string> = {
   // Shadows are tone-aware — applied dynamically via TONE_SHADOW_* maps below.

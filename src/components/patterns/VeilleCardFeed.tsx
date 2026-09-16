@@ -94,6 +94,19 @@ const TONE_LINK: Record<VeilleCardTone, string> = {
   sun:   'text-accent-700',
 };
 
+/* Rayons — remis d'aplomb le 2026-09-16.
+
+   Ce fichier se contredisait tout seul : trois conteneurs à `rounded-2xl`
+   (24 px) et deux à `rounded-lg` (14), pour le même objet à des vues
+   différentes. Les trois sont passés à 14, le rayon de la primitive (R1) —
+   l'argument de R1 s'applique mot pour mot ici, ce sont des cartes à filet de
+   1 px, et un trait fin ne tient pas une courbe longue.
+
+   Les couvertures, elles, ne portent plus AUCUN rayon : le parent est en
+   `overflow-hidden`, il les clippe déjà. Elles demandaient 24 px à l'intérieur
+   d'une carte qui en rend 14 — un rayon intérieur supérieur à l'extérieur, ce
+   qui creuse plus que le clip du parent et laisse voir le fond de la carte en
+   liseré aux deux coins hauts. Vérifié en sonde isolée, agrandi 3,4×. */
 const COVER_GRADIENT: Record<VeilleCardTone, string> = {
   brand: 'bg-gradient-to-br from-primary-400 via-primary-500 to-primary-700',
   warm:  'bg-gradient-to-br from-secondary-300 via-secondary-500 to-secondary-700',
@@ -151,7 +164,7 @@ export const VeilleCard: React.FC<VeilleCardProps> = ({ item, surface, isSaved, 
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onClick?.(item); }}
       aria-label={`${isVideo ? 'Visionner' : 'Lire'} : ${item.title}`}
       className={[
-        'group relative flex flex-col rounded-2xl border overflow-hidden cursor-pointer',
+        'group relative flex flex-col rounded-lg border overflow-hidden cursor-pointer',
         'transition-all duration-base hover:-translate-y-1 hover:shadow-xl',
         'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
         surface === 'glass' ? SURFACE_GLASS : 'bg-white border-ink-200 hover:border-ink-300',
@@ -159,7 +172,7 @@ export const VeilleCard: React.FC<VeilleCardProps> = ({ item, surface, isSaved, 
       ].join(' ')}
     >
       {/* Cover gradient tone-aware (h-40) — style magazine cover */}
-      <div className={['relative h-40 shrink-0 overflow-hidden rounded-t-2xl', COVER_GRADIENT[tone]].join(' ')}>
+      <div className={['relative h-40 shrink-0 overflow-hidden', COVER_GRADIENT[tone]].join(' ')}>
         {/* Decorative radial pattern */}
         <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'radial-gradient(circle at 25% 30%, rgba(255,255,255,0.6) 0%, transparent 60%)' }} aria-hidden />
 
@@ -243,7 +256,7 @@ export const VeilleCardListItem: React.FC<VeilleCardProps> = ({ item, surface, i
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onClick?.(item); }}
       aria-label={`${isVideo ? 'Visionner' : 'Lire'} : ${item.title}`}
       className={[
-        '@container group relative flex items-stretch gap-0 rounded-2xl border overflow-hidden cursor-pointer',
+        '@container group relative flex items-stretch gap-0 rounded-lg border overflow-hidden cursor-pointer',
         'transition-all duration-base hover:-translate-y-0.5 hover:shadow-lg',
         'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
         surface === 'glass' ? SURFACE_GLASS : 'bg-white border-ink-200 hover:border-ink-300',
@@ -350,7 +363,7 @@ export const FeaturedSpotlight: React.FC<FeaturedSpotlightProps> = ({ item, isSa
       ].join(' ')}
     >
       {/* Cover (left) — gradient + icon */}
-      <div className={['relative min-h-[240px] @2xl:min-h-[300px] overflow-hidden rounded-t-2xl @2xl:rounded-l-2xl @2xl:rounded-tr-none', COVER_GRADIENT[tone]].join(' ')}>
+      <div className={['relative min-h-[240px] @2xl:min-h-[300px] overflow-hidden', COVER_GRADIENT[tone]].join(' ')}>
         <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.6) 0%, transparent 60%)' }} aria-hidden />
         <div className="absolute inset-0 flex items-center justify-center">
           <TypeIcon size={96} strokeWidth={1.25} className="text-white/90 transition-transform duration-base group-hover:scale-110" />
@@ -453,7 +466,7 @@ export const FeaturedSpotlightCarousel: React.FC<FeaturedSpotlightCarouselProps>
     >
       <div className="grid grid-cols-1 @2xl:grid-cols-[1.1fr_1fr]">
         {/* Cover (left) */}
-        <div className={['relative min-h-[240px] @2xl:min-h-[320px] overflow-hidden rounded-t-2xl @2xl:rounded-l-2xl @2xl:rounded-tr-none', COVER_GRADIENT[tone]].join(' ')}>
+        <div className={['relative min-h-[240px] @2xl:min-h-[320px] overflow-hidden', COVER_GRADIENT[tone]].join(' ')}>
           <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.6) 0%, transparent 60%)' }} aria-hidden />
           <div className="absolute inset-0 flex items-center justify-center">
             <TypeIcon size={96} strokeWidth={1.25} className="text-white/90 transition-transform duration-slow" />
@@ -589,7 +602,7 @@ export const VeilleCardFeed: React.FC<VeilleCardFeedProps> = ({
     return (
       <div
         className={[
-          'flex items-center justify-center p-12 rounded-2xl bg-ink-50/50 border border-dashed border-ink-200',
+          'flex items-center justify-center p-12 rounded-lg bg-ink-50/50 border border-dashed border-ink-200',
           className,
         ].filter(Boolean).join(' ')}
       >

@@ -62,7 +62,7 @@ export const JournalBubbleCard: React.FC<JournalBubbleCardProps> = ({
     <div
       className={[
         // Chat-bubble shell: very rounded + overflow visible for the tail
-        'relative !overflow-visible rounded-lg border p-5 flex flex-col gap-stack',
+        'relative !overflow-visible rounded-xl border p-5 flex flex-col gap-stack',
         'transition-all duration-base hover:-translate-y-1 hover:shadow-md',
         meta.surface,
         className,

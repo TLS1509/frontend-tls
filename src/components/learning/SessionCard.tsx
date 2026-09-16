@@ -86,7 +86,7 @@ const STATUS: Record<'planned' | 'completed', { label: string; chip: string }> =
 const BASE =
   /* Aligné sur les décisions du 09/09 : rayon 14 px (R1), padding 24 px au canon,
    ni ombre ni soulèvement au survol — la bordure suffit à poser la carte. */
-  'group flex flex-col gap-stack p-stack-lg rounded-lg transition-[box-shadow,border-color] ' +
+  'group flex flex-col gap-stack p-stack-lg rounded-xl transition-[box-shadow,border-color] ' +
   'duration-base ease-emphasis focus-visible:outline-2 focus-visible:outline-offset-2';
 
 function plannedSurface(surface: SessionCardSurface, tone: SessionCardTone): string {
