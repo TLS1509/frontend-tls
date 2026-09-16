@@ -236,9 +236,14 @@ type Offre = { title: string; role: string; desc: string; link: string; cta: str
 // trois cartes tiennent mieux le rythme qu'une liste de deux suivie d'une
 // ligne isolée.
 //
-// Ce qui manque encore ici et attend une page : le Pack Sprint OS & Agents IA
-// (l'offre Studio vendable qui remplace STRIDE) et la Marketplace Notion. Les
-// deux ont une fiche dans la base Website pages, aucune n'a de route.
+// ⏳ Le Sprint OS & Agents IA — l'offre Studio vendable qui remplace STRIDE —
+// a sa page depuis le 16/09 (`/website/sprint`), mais elle n'entre pas encore
+// dans cette liste : son nom public et sa date de publication ne sont pas
+// validés. À ajouter dès qu'ils le sont.
+//
+// La Marketplace Notion, elle, n'aura pas de page — tranché le 16/09. Session 3
+// pose que les templates sont publiés au nom propre et « non mis en avant sur
+// le site vitrine ». Ne pas la rajouter ici en croyant combler un trou.
 const OFFRES: Offre[] = [
   // ⚠️ 16/09/2026 — cette carte vendait STRIDE comme une offre (« Audit &
   // stratégie », « livrables tangibles à chaque jalon »). STRIDE est gelée
