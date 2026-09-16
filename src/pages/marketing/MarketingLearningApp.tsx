@@ -611,7 +611,7 @@ const CtaFinal: React.FC = () => (
 );
 
 export const MarketingLearningApp: React.FC = () => (
-  <div className="bg-white">
+  <>
     <SEOHead
       title="Learning App · The Learning Society"
       description="Work-Integrated Learning & SBO Operating System : veille continue, apprentissage par l'action (EDRA), Passeport de compétences vivant sur l'échelle Dreyfus et coaching humain intégré."
@@ -624,7 +624,7 @@ export const MarketingLearningApp: React.FC = () => (
     <Bibliotheque />
     <ActifStrategique />
     <CtaFinal />
-  </div>
+  </>
 );
 
 export default MarketingLearningApp;

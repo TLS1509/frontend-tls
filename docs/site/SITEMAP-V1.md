@@ -323,6 +323,14 @@ ligne.** Ce n'est pas une source, c'est un miroir.
 | **🔗 Maillage** | Les liens entrants et sortants attendus — ce qui casse si on retire une page |
 | **🎨 Design & composition** | L'état des lieux section par section, avec le motion en place et son statut de validation |
 
+⚠️ **Correction du 16/09, en fin de journée.** Un commit de la veille affirmait que « STRIDE,
+Studio et Upskilling étaient passés sur le système le 29/07 ». **C'est faux, seul STRIDE l'était.**
+Relevé fichier par fichier :
+
+| Sur le système | Résidus (1-2) | Jamais passées |
+|---|---|---|
+| Learning App · Accueil | STRIDE · Contact · Waitlist | **Studio · Upskilling · Vigie · Équipe · Diagnostic · Ressources** |
+
 **La méthode retenue : copy inchangée, composition refaite au design system.** Les tokens du
 `@theme` de `src/index.css` font foi, les requêtes de conteneur remplacent les seuils de fenêtre
 sur tout composant de contenu (voir `src/lib/grid-columns.ts`), et les règles de rayon R1/R3/R4
@@ -380,3 +388,37 @@ et sept fonds de section.
 l'explorateur de la Bibliothèque (le seul vrai moment interactif du site, enterré en 5ᵉ position),
 décider si le bloc Learn → Do → Match doit rester visuellement identique à celui de l'accueil, et
 la table Dreyfus qui scrolle horizontalement sous 560 px.
+
+### Pages 3 et 4 — Studio et Upskilling
+
+Même passe que Learning App : **12 `clamp()`** remplacés par `text-hero`/`text-section`, fonds de
+section retirés, rythme sur `py-band`/`gap-flow`.
+
+🔴 **Et un défaut que les trois pages partageaient sans que personne le voie : leur racine était
+un `<div className="bg-white">`.** L'en-tête de `MarketingLayout` le nomme pourtant noir sur
+blanc — « *un `bg-white` perce un trou blanc dans le dégradé* ». Retirer les fonds de section ne
+servait donc à rien tant que la racine peignait par-dessus. Les trois passent en fragment ; seule
+STRIDE le faisait déjà. Vérifié : le dégradé ambiant traverse désormais les quatre sous-pages.
+
+**Les bandeaux sombres pleine largeur sont partis des deux pages**, et le dégradé
+`primary-800 → ink-900` de la section « Pilotage » d'Upskilling avec eux. Ce bandeau occupait la
+même position, avec la même couleur, sur **quatre sous-pages** : c'était le refrain, pas une
+composition.
+
+**Studio — le motif des quatre cartes dissous.** La fiche demandait de traiter « une grille de 4
+cartes identiques ». Elles avaient même fond, même ombre, même bulle d'icône, même longueur :
+quatre contenants identiques ne hiérarchisent rien. Reste une énumération sur filets, l'icône
+ramenée au rang de repère inline, et le texte comme objet.
+
+🔴 **Un bug de mise en page trouvé en vérifiant, et c'est le cas d'école du seuil de fenêtre.**
+Le CTA final de Studio basculait en ligne à `lg:` — 1024 px de **fenêtre** — alors que ses deux
+boutons `xl` en `shrink-0` réclament ~690 px. Mesuré au navigateur : **le titre était écrasé à
+245 px et cassait à un mot par ligne.** Il passe en `@5xl` (1024 px de **conteneur**) et les
+boutons perdent leur `shrink-0`. Le titre récupère ses 672 px sur deux lignes.
+
+⏳ **Ce qui n'a pas été touché parce que c'est de la copy, pas du design :** le mot **« conseil »**
+est abandonné depuis le 31/08, et il est encore dans le H1 de l'accueil, le boilerplate du footer,
+la **méta description par défaut de toutes les pages** (`SEOHead`) et la page Fondateurs.
+Remplacer le descripteur de l'entreprise — « Cabinet de conseil & studio expert en Skills-Based
+Organization » — est une décision de marque. Elle part en proposition, pas en `sed`.
+*(La mention dans les CGV/CGU reste : c'est un terme de contrat, pas du positionnement.)*
