@@ -19,9 +19,9 @@ tu construis.
 | # | Lentille (module) | Verdict | En un mot |
 |---|---|---|---|
 | M01 | Web & Visual Design | 🟢 sauf contraste | 2 polices, base-4, ombres douces OK — **le contraste texte est le point noir** |
-| M02 | Principes UI — 4C | 🟢 | Clarté (0 libellé vague), cohérence (>90 composants), confort (skeletons, empty states) |
+| M02 | Principes UI — 4C | 🟢 | Clarté (0 libellé vague), cohérence (≈ 254 composants, recomptés le 2026-09-14), confort (skeletons, empty states) |
 | M03 | Interaction & micro-interactions | 🟢 | `focus-visible` (146 fichiers), `useReducedMotion` (43), états définis |
-| M04 | Design Systems | 🟢 | Tokens 3 couches, showcase `Components.tsx`, >90 composants — **ton chef-d'œuvre** |
+| M04 | Design Systems | 🟢 | Tokens 3 couches, showcase `Components.tsx`, ≈ 254 composants — **ton chef-d'œuvre** |
 | M05 | User Research | ⚪ process | Non inspectable en code — voir recommandation |
 | M06 | Architecture de l'info | 🟢 | Piste informationnelle bonne (verbe+objet), fil d'Ariane, nav 3 niveaux |
 | M07 | Prototypage & tests | ⚪ process | Aucune trace de test d'utilisabilité — voir recommandation |
@@ -139,8 +139,10 @@ Un audit honnête protège ce qui marche :
 - **M03 Interaction** — `focus-visible` dans **146 fichiers**, `useReducedMotion`
   dans **43**, états définis, `Skeleton` + `EmptyState` présents. La lentille
   interaction/accessibilité du mouvement est parmi les mieux tenues.
-- **M04 Design System** — tokens en 3 couches, showcase `Components.tsx`, **>90
-  composants**. C'est le socle sur lequel tout le reste tient.
+- **M04 Design System** — tokens en 3 couches, showcase `Components.tsx`,
+  **212 fichiers / ≈ 254 composants** (recomptés le 2026-09-14 ; le « >90 » de
+  juillet sous-estimait d'un facteur ~2,5). C'est le socle sur lequel tout le
+  reste tient.
 - **M06 IA** — étiquetage dans les mots de l'utilisateur, fil d'Ariane, navigation
   à 3 niveaux (documentés dans `CLAUDE.md`).
 - **Ancré récemment** — quiz à **confiance déclarée avant réponse** (récupération

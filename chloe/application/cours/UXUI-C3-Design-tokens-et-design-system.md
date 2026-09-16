@@ -6,7 +6,9 @@
 
 > Suite de [UXUI-C1](UXUI-C1-Socle-visuel-typo-couleur-contraste-espacement.md) et
 > [C2](UXUI-C2-Les-4C.md). Le/la learner, c'est **toi** — tu as **déjà** construit un
-> design system (>90 composants). Ce cours nomme ce que tu as fait et en révèle le
+> design system (**212 fichiers, ≈ 254 composants** — recompté le 2026-09-14 ; le
+> « > 90 » qu'affichait ce cours sous-estimait d'un facteur ~2,5). Ce cours nomme
+> ce que tu as fait et en révèle le
 > piège central. L'étape *Appliquer* porte sur ton vrai code. Sources en fin.
 
 ---

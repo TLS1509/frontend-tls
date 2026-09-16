@@ -176,6 +176,15 @@ précédente — Coursera 4,9:1, etc. — étaient non vérifiés : à re-mesure
 **Pourquoi la base 4** : tous les espacements sont des multiples de 4, ce qui
 garantit l'alignement avec les grilles et reste extensible.
 
+⚠️ **Nom des tokens, corrigé le 2026-09-14.** Les `--space-1 … --space-12`
+ci-dessus **n'existent pas sous ce nom** dans le repo. La base-4 y passe par
+l'échelle Tailwind (`p-3` = 12 px…) et par des tokens **sémantiques** nommés par
+l'intention, pas par le chiffre — `--spacing-stack-xs` (8) · `--spacing-stack`
+(16) · `--spacing-stack-lg` (24) · `--spacing-section` (32) · `--spacing-page`
+(48). Le principe du module est juste ; c'est la nomenclature qui a dérivé.
+Préférer toujours le token sémantique (`gap-stack`) au chiffre générique
+(`gap-4`) : il dit l'intention.
+
 **Padding (interne) vs margin (externe)** : le premier agit dans le composant, le
 second entre les composants.
 
@@ -185,15 +194,45 @@ second entre les composants.
 > Material Design » est fabriqué — Material Design ne dit pas cela.
 
 Le principe, lui, tient sans chiffre : **un espacement généreux améliore la
-lisibilité et la perception de qualité.** Règle TLS : padding minimal des cartes
-20 px, des sections 48 px.
+lisibilité et la perception de qualité.**
+
+⚠️ **Règle TLS corrigée le 2026-09-14.** Ce module disait « padding minimal des
+cartes 20 px ». La doctrine du 2026-09-09 est plus précise, et donne sa raison :
+**24 px au canon (`p-stack-lg`), 16 px (`p-stack`) en unique dérogation dense.
+Pas de troisième valeur.** Ce qui décide n'est pas le padding seul mais **son
+rapport au rayon** : sous ~1,4×, le contenu serre la courbe et le coin se lit
+comme une coupe. Avec le rayon de carte à 14 px, 16 px ne donne que 1,14× — 24 px
+donne 1,71×. `Card.tsx` tient déjà la décision (`size="md"` = 24 px par défaut).
+Sections : 48 px reste juste.
 
 ### Rayons, ombres, patterns
 
+⚠️ **Échelle corrigée le 2026-09-14.** Celle qu'affichait ce module
+(`sm 6 / base 8 / lg 12 / xl 16 / 2xl 24 / full 9999`) n'est pas celle du code.
+La vraie, dans le bloc `@theme` de `src/index.css` — **source de vérité** :
+
 ```
---radius-sm: 6px;   --radius-base: 8px;   --radius-lg: 12px;
---radius-xl: 16px;  --radius-2xl: 24px;   --radius-full: 9999px;
+--radius-xs: 4px;   --radius-sm: 6px;    --radius-md: 10px;
+--radius-lg: 14px;  --radius-xl: 20px;   --radius-2xl: 24px;
+--radius-pill: 999px;
 ```
+
+Trois écarts : `--radius-base` n'existe pas, `lg` vaut **14** et non 12, `xl`
+vaut **20** et non 16, et la pilule s'appelle `pill`, pas `full`.
+
+**Le rayon de référence de la carte est 14 px** (`rounded-lg`), décidé le
+2026-09-09. La raison est instructive et vaut pour tout le module : la Card porte
+**une bordure de 1 px**, et bordure et rayon se contredisent au-delà d'une
+certaine courbe — à 24 px la courbe est longue, un trait fin ne la tient pas, le
+coin paraît mou. Un grand rayon marche, mais **sans bordure et avec une ombre** —
+autre registre. Le registre TLS est diurne : il *pose* ses objets, il ne les fait
+pas flotter.
+
+**Et un piège de vocabulaire** : `rounded-full` ne vaut pas 50 %. Tailwind v4 le
+génère à `3.40282e38px` — l'infini d'un float. Sur un rectangle le navigateur
+plafonne tout rayon à la moitié de la plus petite dimension, donc `rounded-full`
+et `rounded-pill` **rendent exactement pareil**. On préfère `rounded-pill` parce
+que c'est le token TLS, pas parce que le rendu diffère.
 
 **Ombres douces** (opacité 0,04 à 0,06), jamais dures. Patterns récurrents :
 carte, grille de dashboard responsive (`repeat(auto-fit, minmax(300px, 1fr))`).
@@ -276,6 +315,24 @@ hiérarchie visuelle (15), finition (15). Seuil : 70/100.
 | 8 | Contrastes concurrents (Coursera 4,9:1…) présentés comme exacts | Marqués « à re-mesurer » |
 | 9 | Titre « Typo = 80 % du design » | Requalifié : le « 95 % typographie » de Reichenstein est une **thèse rhétorique**, pas une mesure |
 | 10 | Quiz sans question sur l'accessibilité couleur | Question ajoutée sur le contraste du teal de marque |
+
+## 📋 Journal des corrections — 2026-09-14 (seconde passe)
+
+Trois valeurs avaient **dérivé du code** depuis la passe du 23/07. Ce n'est pas le
+même type d'erreur que les précédentes : rien n'était inventé, c'est le produit qui
+a bougé et le cours qui ne l'a pas suivi.
+
+| # | Ce que disait le module | Mesuré dans le code, le 2026-09-14 |
+|---|---|---|
+| 11 | Échelle de rayons `sm 6 / base 8 / lg 12 / xl 16 / 2xl 24 / full 9999` | **`xs 4 / sm 6 / md 10 / lg 14 / xl 20 / 2xl 24 / pill 999`** (`src/index.css`, bloc `@theme`). Rayon de carte = **14 px** depuis la décision du 09/09, avec sa raison (bordure 1 px vs longueur de courbe) |
+| 12 | « Padding minimal des cartes 20 px » | **24 px au canon, 16 px en dérogation dense** — et la règle réelle est le **rapport padding/rayon** (≥ ~1,4), pas une valeur absolue |
+| 13 | Tokens d'espacement `--space-1 … --space-12` | Ces noms **n'existent pas** dans le repo : échelle Tailwind + tokens sémantiques `--spacing-stack*` / `-section` / `-page`. Principe base-4 conservé |
+
+> 💡 **C'est l'exercice du module 4 à l'envers.** Là-bas, tu traques un concept qui
+> a deux valeurs dans le code. Ici, c'est le *cours* qui a dérivé du code. Même
+> discipline : une seule source de vérité, et c'est `src/index.css`.
+
+---
 
 **Conservé** : toute la partie typographie (anatomie, familles, association,
 hiérarchie, interlignage, longueur de ligne) · les design tokens · le système

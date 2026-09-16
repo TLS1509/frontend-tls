@@ -1,6 +1,6 @@
 # 📑 Documentation Index — The Learning Society
 
-**Last updated**: 2026-07-25 | **Total docs**: ~134 fichiers (hors `_archive/`)
+**Last updated**: 2026-09-14 | **Total docs**: ~135 fichiers (hors `_archive/`)
 
 > 🥇 **Avant toute session marketing ou site : lire [`_canon/FACTS-CANON.md`](_canon/FACTS-CANON.md)** — le registre des faits, avec ses interdits en §0.
 > **Ordre de préséance (revu le 28/07)** : (1) le code et le site en ligne, (2) une décision datée de Chloé, (3) ce registre, (4) le reste des docs. Le canon n'est plus présenté comme un arbitre absolu : il vieillit comme les autres.
@@ -296,8 +296,9 @@
 
 ---
 
-## 📋 briefs/ — Briefs de travail (4 fichiers)
+## 📋 briefs/ — Briefs de travail (3 fichiers)
 
+- `BRIEF-FORMATION-APPLIQUEE-DESIGN.md` — **feuille de route formation ↔ design** (2026-09-14) : croise les missions *Appliquer* des cours UX/UI de `chloe/application/cours/` avec les décisions de rayon encore ouvertes dans `src/` (R2 : 157 `rounded-2xl`). Chiffres mesurés le jour même. ⏳ **Périme quand R2 est tranchée**
 - `BRIEF-VEILLE-IA-PIPELINE.md` — brief technique pour Pierre-Armand : couche IA de la veille (collecte multi-canal RSS/newsletter/Perplexity, vérification de fiabilité, synthèse). Ancré sur les CDC 12bis/12/01bis/13bis + le contrat `wp-veille`. Statut : proposition à discuter (2026-07-15)
 - `BRIEF-LEARNING-SPACE-VEILLE.md` — brief refonte Learning Space + Veille
 

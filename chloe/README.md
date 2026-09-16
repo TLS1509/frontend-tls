@@ -12,7 +12,7 @@
 | `modules-corriges-2026-07-23/` | **Les parcours corrigés** — Ingénierie Pédagogique, Neuro-Éducation, UX-UI & Product Management, Recherche & Stratégie. 37 fichiers, c'est le gros du corpus |
 | `application/` | Cours d'application : vibe coding, UX-UI, architecture de l'information |
 | `CORRECTIONS-SOURCEES-*.md` | **Le fact-check sourcé** des trois parcours. Ce qui a été corrigé, pourquoi, avec les sources. À lire avant de retoucher un module |
-| `UX-UI-BOOTCAMP.md` | Parcours UX-UI, encore actif |
+| `UX-UI-BOOTCAMP.md` | ⚠️ **Périmé — corrigé le 2026-09-14.** Cette ligne disait « encore actif » : c'est faux. Sa fenêtre s'est fermée (échéance 31/07/2026) et son état des lieux est démenti par le code — il annonce « frontend mostly unbuilt » alors que `src/pages/` compte 177 pages et `src/components/` ≈ 254 composants. Relève de `_archive/bootcamp-juin-2026/` comme les autres plans de bootcamp. Le parcours UX-UI **vivant**, c'est `application/cours/` |
 
 ## La règle qui vaut pour ce dossier
 

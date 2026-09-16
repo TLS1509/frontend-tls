@@ -108,8 +108,20 @@ mesure *par contexte* (taille réelle + fond réel).
 Tous les espacements sont des multiples de 4px (`4, 8, 12, 16, 24, 32, 48`). Pourquoi :
 ça s'aligne sur les grilles, ça reste extensible, et ça supprime le bricolage `7px`
 ici / `13px` là. Padding interne (dans le composant) vs marge externe (entre
-composants). Carte : padding ≥ 20px ; section : ≥ 48px. Ombres **douces** (opacité
-0,04-0,06), jamais dures.
+composants). Section : ≥ 48px. Ombres **douces** (opacité 0,04-0,06), jamais dures.
+
+⚠️ **Corrigé le 2026-09-14 — « carte : padding ≥ 20px » était périmé.** La règle
+TLS est **24 px au canon (`p-stack-lg`), 16 px (`p-stack`) en unique dérogation
+dense — pas de troisième valeur**. Et ce qui décide n'est pas le padding seul,
+c'est son **rapport au rayon** : sous ~1,4× le contenu serre la courbe et le coin
+se lit comme une coupe. Rayon de carte = 14 px → 16 px donne 1,14×, 24 px donne
+1,71×.
+
+**Les rayons, tant qu'on y est** (`src/index.css`, `@theme` = source de vérité) :
+`xs 4 · sm 6 · md 10 · lg 14 · xl 20 · 2xl 24 · pill 999`. La carte est à
+`rounded-lg` = 14 px depuis le 2026-09-09, parce qu'elle porte **une bordure de
+1 px** : au-delà d'une certaine courbe, un trait fin ne la tient plus et le coin
+paraît mou. Grand rayon = pas de bordure + une ombre, autre registre.
 
 ---
 

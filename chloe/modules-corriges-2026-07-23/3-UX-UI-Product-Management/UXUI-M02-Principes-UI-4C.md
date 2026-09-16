@@ -78,8 +78,14 @@ suppression directe.
 > ⚠️ **Deux corrections sur le design system TLS.** La version précédente
 > affirmait « 87 composants documentés dans **Storybook** ». C'est faux sur deux
 > points : le DS TLS **n'utilise pas Storybook** (le showcase est
-> `src/pages/Components.tsx`), et il compte **plus de 90 composants** (≈ 51 `ui` +
-> 40 `patterns` + noyau). À recompter et re-libeller.
+> `src/pages/Components.tsx`), et il en compte bien davantage.
+>
+> ✅ **Recompté le 2026-09-14** (le « à recompter » de la passe de juillet est
+> levé) : **212 fichiers `.tsx` et ≈ 254 composants exportés** (mesuré le 2026-09-14 :
+`find` pour les fichiers, grep des `export function` / `export const` en
+PascalCase pour les composants — borne haute, quelques exports ne sont pas des
+composants). Dont **85 en `ui/`** et **89 en `patterns/`**.
+> Le « > 90 » de la version précédente sous-estimait d'un facteur ~2,5.
 
 > ⚠️ **Airbnb** — « 200+ composants, 10 000+ écrans » : ordre de grandeur
 > plausible mais chiffres exacts non vérifiables. Adoucir en « des centaines de
@@ -182,7 +188,7 @@ avec la checklist 4C.
 | 1 | Slide 35 : « `#55A1B4` sur blanc = 4,6:1 ✅ AA » | Corrigé en **2,94:1 (échec)** ; `#3D7786` (5,02:1) pour le texte. Même erreur qu'au module 1 |
 | 2 | Slide 43 : loi de Hick « 2→1 s, 10→3,5 s, 100→7 s » | Secondes fabriquées **retirées** ; loi conservée |
 | 3 | Slide 49 : « moins de 7 options » (Miller 7±2) | Corrigé en **~4 chunks (Cowan, 2001)** ; cohérence avec le parcours Neuro |
-| 4 | Slide 27 : « 87 composants documentés dans **Storybook** » | Corrigé : pas de Storybook (showcase `Components.tsx`), **> 90 composants** |
+| 4 | Slide 27 : « 87 composants documentés dans **Storybook** » | Corrigé : pas de Storybook (showcase `Components.tsx`). Le « > 90 » posé alors a été **recompté le 2026-09-14 → 212 fichiers, ≈ 254 composants** (85 `ui` + 89 `patterns`) |
 | 5 | Slide 29 : Airbnb « 200+ composants, 10 000+ écrans » | Adouci en « des centaines de composants » |
 | 6 | Slide 41 : « Familiar = Fast, Novel = Slow — Jakob Nielsen » entre guillemets | Requalifié en **paraphrase** de la loi de Jakob, sans guillemets stricts |
 | 7 | Framework 4C présenté comme standard | Requalifié : cadre maison légitime, pas une norme industrie |

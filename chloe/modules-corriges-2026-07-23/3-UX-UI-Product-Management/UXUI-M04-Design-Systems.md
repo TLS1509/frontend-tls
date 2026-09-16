@@ -67,9 +67,20 @@ chargement, pages d'erreur, parcours d'intégration.
 
 > ⚠️ **Le compte de composants était faux.** La version précédente parlait de
 > « 87 composants » et évoquait Storybook. Le design system TLS **n'utilise pas
-> Storybook** (le showcase est `src/pages/Components.tsx`) et compte **plus de 90
-> composants** (≈ 51 `ui` + 40 `patterns` + noyau). À recompter et re-libeller —
-> c'est la même correction qu'au module 2.
+> Storybook** — le showcase est `src/pages/Components.tsx`.
+>
+> ✅ **Recompté le 2026-09-14** : **212 fichiers `.tsx` et ≈ 254 composants exportés** (mesuré le 2026-09-14 :
+`find` pour les fichiers, grep des `export function` / `export const` en
+PascalCase pour les composants — borne haute, quelques exports ne sont pas des
+composants). Dont **85 en `ui/`** et **89 en `patterns/`**.
+> Le « > 90 » de juillet sous-estimait d'un facteur ~2,5. Même correction qu'au
+> module 2.
+>
+> 💡 **Ce que ce chiffre change pour toi.** À 254 composants, une décision de
+> design ne se propage plus à la main : c'est ce qui justifie les trois
+> garde-fous (`check-handmade.mjs`, `check-token-coverage.mjs`,
+> `check-showcase-coverage.mjs`). Un système de cette taille ne se tient que
+> mesuré.
 
 ---
 
@@ -116,7 +127,7 @@ se démontre sans chiffre fabriqué.
 | 1 | « Sans design system = 60 % du temps en redesign » | Supprimé — non sourcé |
 | 2 | « DS mature = +300 % de vitesse (**Figma study 2025**) » | Supprimé — étude inexistante |
 | 3 | « L'incohérence coûte 18 K€/mois » | Supprimé — fabriqué |
-| 4 | « 87 composants », mention de **Storybook** | Corrigé : > 90 composants, showcase `Components.tsx`, pas de Storybook (idem module 2) |
+| 4 | « 87 composants », mention de **Storybook** | Corrigé : showcase `Components.tsx`, pas de Storybook (idem module 2). Le « > 90 » posé alors a été **recompté le 2026-09-14 → 212 fichiers, ≈ 254 composants** (85 `ui` + 89 `patterns`) |
 | 5 | Note accessibilité bouton « contraste ≥ 4,5:1 » sans réserve | Précisé : le teal `#55A1B4` échoue (2,94:1) ; token de texte → `#3D7786` |
 
 **Conservé** : la définition et les bénéfices du design system · l'anatomie d'un

@@ -24,6 +24,25 @@
 > **Le verrou n'est donc pas le contenu, c'est le modèle de données.** C'est un chantier de
 > développement, pas de design ni de rédaction.
 
+> ⚠️ **Corrigé le 2026-09-14 — ce verrou est plus petit qu'annoncé.** Les deux ❌ du
+> tableau restent exacts pour `Lecon`, mais ils décrivent mal la situation réelle :
+> `LessonPlayer.tsx:145` porte déjà un **`LessonData` indexé par `lessonId`**, et sa
+> forme **est** EDRACT — `intro · engagement · decouvrir · quiz · reflechir · appliquer
+> · conclusion · transfert`. Chaque section accepte en plus un `ContentBlock[]`, une
+> union de **11 types riches** (`image`, `video`, `gif`, `chart`, `schema`,
+> `interactive`, `annotation`, `embed`, `split`, `bento`, `table`).
+>
+> Donc **seeder un module ne demande pas de toucher `Lecon`** : on écrit une entrée dans
+> `LESSON_DATA` et on y pointe depuis `learningPaths.ts`. Ce qui manque réellement, c'est
+> un bloc de **prose** — `paragraph` / `heading` / `list` — absent de l'union ; le texte
+> courant vit aujourd'hui dans des champs structurés (`description`, `points`,
+> `keyPoints`, `pillars`). C'est un ajout à l'union + à `renderContentBlock`, pas une
+> refonte du modèle.
+>
+> La conséquence pratique : une **tranche verticale sur un seul module** est faisable
+> tout de suite, et c'est elle qui fait le test de design décrit ci-dessus. La refonte
+> data-driven complète (§4) reste juste pour passer à l'échelle des 34 modules.
+
 ---
 
 ## 2. Le corpus
@@ -57,6 +76,17 @@ Les modules sont écrits en **EDRACT**, six sections numérotées, les mêmes pa
 ## 04 · Appliquer     ## 05 · Consolider   ## 06 · Transférer
 ```
 
+> ⚠️ **Corrigé le 2026-09-14 par la tranche verticale UXUI-M04 — le mapping
+> ci-dessous est faux.** `LessonData`, la forme que le player attend réellement,
+> porte **les huit temps EDRACT d'un coup** (`intro · engagement · decouvrir ·
+> quiz · reflechir · appliquer · conclusion · transfert`). Donc **un module = une
+> Leçon**, pas une Étape ; et une section EDRACT n'est pas une leçon mais un
+> écran du player. Le tableau ci-dessous surestime le volume d'un facteur 6 :
+> Neuro-Éducation fait **10 leçons**, pas 60.
+>
+> Le seul module converti (`LESSON_DATA['uxui-m04']`) tient en une entrée et le
+> quiz respecte la contrainte du back-office — 7 questions × 4 options.
+
 L'app attend `Parcours › Étape › Leçon`. La correspondance est immédiate :
 
 | Objet de l'app | Ce qui l'alimente | Volume pour Neuro-Éducation |
@@ -69,7 +99,24 @@ Et les six temps EDRACT correspondent déjà à des surfaces existantes de l'app
 l'ouverture de la leçon · *Réfléchir* → le quiz et le journal · *Appliquer* → une mission sur un
 chantier TLS réel · *Transférer* → les viewers.
 
-> **Rien à réécrire.** Un script de conversion suffit, une fois le modèle de données ouvert.
+> **Rien à réécrire.** Un script de conversion suffit — et il n'attend pas l'ouverture du
+> modèle de données : la tranche du 2026-09-14 l'a fait à la main pour UXUI-M04 sans toucher
+> à `Lecon`.
+
+### Ce que la tranche a coûté, mesuré
+
+| | |
+|---|---|
+| Cinq blocs de prose ajoutés à `ContentBlock` (`paragraph`, `heading`, `list`, `quote`, `callout`) | `LessonPlayer.tsx` |
+| Une entrée `LESSON_DATA['uxui-m04']` | `LessonPlayer.tsx` |
+| Un parcours `uxui` à une étape, une leçon | `learningPaths.ts` |
+| `npm run build` | ✅ vert |
+
+Vérifié au navigateur, pas supposé : `text-body` rend bien 16/26 px **sans** interligne
+écrasé, le `h3` porte 24/30 px avec sa graisse 700 et son tracking −0,025 em **venus du
+token**, sa marge haute vaut 18 px (`0.75em`, la règle `@layer base` — donc aucun `m-0`
+ne l'a tuée), et le callout sort à **14 px de rayon** avec 24 px de padding, conforme à R1
+et au canon de padding.
 
 ---
 
