@@ -34,22 +34,28 @@ const Hero: React.FC = () => {
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           className="flex max-w-4xl flex-col gap-flow"
         >
-          {/* Les deux noms SONT le titre. C'est la seule page du site dont
-              l'objet est une personne — et la promesse tient justement dans le
-              fait qu'il n'y en a que deux, qu'on peut les nommer, et qu'on
-              parlera à elles. Un H1 abstrait sur « l'alliance de la pédagogie
-              et de l'IA » dit l'inverse : une entité sans visage. */}
+          {/* Les noms SONT le titre. C'est la seule page du site dont l'objet
+              est une personne, et la promesse tient dans le fait qu'on peut les
+              nommer et qu'on leur parlera. Un H1 abstrait sur « l'alliance de
+              la pédagogie et de l'IA » dit l'inverse : une entité sans visage.
+
+              ⚠️ Décidé le 16/09/2026 : **le décompte ne s'écrit nulle part.**
+              La page nommait l'effectif sept fois — « voilà toute l'équipe »,
+              « les deux mêmes », « l'un de nous deux », « deux personnes, deux
+              métiers ». Devant un acheteur qui engage cinq chiffres, un nombre
+              se lit comme une capacité, pas comme une promesse de proximité.
+              Les noms restent, le compte part. Ne pas le réintroduire. */}
           <h1 className="font-display text-hero text-ink-900 [text-wrap:balance]">
             <span className="block">Pierre-Armand Dennery</span>
             <span className="block text-primary-700">Chloé Mimault</span>
           </h1>
           <p className="font-body text-lede text-ink-700 leading-relaxed m-0 max-w-2xl [text-wrap:pretty]">
-            Voilà toute l'équipe. L'un formalise la méthode, l'autre écrit le
-            logiciel, et ce sont les deux mêmes qui feront votre projet.
+            L'ingénierie pédagogique d'un côté, le logiciel de l'autre — et les
+            mêmes personnes du premier cadrage à la livraison.
           </p>
           <div>
             <Button to="/website/contact" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
-              Parler à l'un de nous deux
+              Échanger avec les fondateurs
             </Button>
           </div>
         </motion.div>
@@ -161,7 +167,7 @@ const Fondateurs: React.FC = () => (
     <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-band flex flex-col gap-flow">
       <FadeInWhenVisible>
         <h2 className="font-display text-section text-ink-900 [text-wrap:balance] max-w-3xl">
-          Deux personnes, deux métiers.
+          Les fondateurs, et ce dont chacun répond.
         </h2>
       </FadeInWhenVisible>
 
@@ -172,7 +178,7 @@ const Fondateurs: React.FC = () => (
               <div className="lg:col-span-4 flex items-center gap-stack">
                 <span
                   aria-hidden
-                  className={`inline-flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl font-display text-h3 font-extrabold ${p.monoClasses}`}
+                  className={`inline-flex h-16 w-16 shrink-0 items-center justify-center rounded-lg font-display text-h3 font-extrabold ${p.monoClasses}`}
                 >
                   {p.monogram}
                 </span>
@@ -212,7 +218,7 @@ const RAISONS = [
   {
     icon: <ArrowUpRight size={20} />,
     title: 'Une décision se prend en séance.',
-    detail: "Les arbitrages se font avec vous, pas en comité entre deux réunions.",
+    detail: "Les arbitrages se font avec vous, en direct, pas en comité.",
   },
   {
     icon: <Target size={20} />,
@@ -233,7 +239,7 @@ const Pourquoi: React.FC = () => (
         {RAISONS.map((r, i) => (
           <FadeInWhenVisible key={r.title} delay={i * 0.06} direction="up">
             <div className="flex h-full flex-col gap-stack border-t-2 border-primary-200 pt-stack-lg">
-              <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary-100 text-primary-700">
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-primary-100 text-primary-700">
                 {r.icon}
               </span>
               <h3 className="font-display text-h4 font-bold text-ink-900 leading-tight">{r.title}</h3>
@@ -257,8 +263,8 @@ const CtaFinal: React.FC = () => (
             Vous saurez en trente minutes si nous sommes les bons.
           </h2>
           <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-[62ch] [text-wrap:pretty]">
-            C'est l'un de nous deux au bout du fil. Si le format ne convient
-            pas à ce que vous cherchez, nous vous le dirons pendant l'appel.
+            C'est un fondateur au bout du fil. Si le format ne convient pas à
+            ce que vous cherchez, nous vous le dirons pendant l'appel.
           </p>
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs pt-stack-xs">
             <Button to="/website/contact" variant="primary" size="xl" trailingIcon={<ArrowRight size={20} />}>
