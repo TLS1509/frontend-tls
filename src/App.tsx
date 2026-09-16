@@ -227,6 +227,7 @@ import { MarketingAccompagnement } from './pages/marketing/MarketingAccompagneme
 import { MarketingStudio } from './pages/marketing/MarketingStudio';
 import { MarketingSprint } from './pages/marketing/MarketingSprint';
 import { MarketingVigie } from './pages/marketing/MarketingVigie';
+import { MarketingEssaisMatiere } from './pages/marketing/MarketingEssaisMatiere';
 import { MarketingUpskilling } from './pages/marketing/MarketingUpskilling';
 import { MarketingLearningApp } from './pages/marketing/MarketingLearningApp';
 import { MarketingArticleDetail } from './pages/marketing/MarketingArticleDetail';
@@ -566,6 +567,8 @@ function App() {
               l'offre n'existe pas encore. */}
           <Route path="sprint" element={<MarketingSprint />} />
           <Route path="vigie" element={<MarketingVigie />} />
+          {/* Banc d'essai du 16/09 — hors sitemap, hors nav. À retirer une fois tranché. */}
+          <Route path="_essais-matiere" element={<MarketingEssaisMatiere />} />
           <Route path="upskilling" element={<MarketingUpskilling />} />
           <Route path="learning-app" element={<MarketingLearningApp />} />
           {/* Magazine et Dossiers n'ont plus de hub dédié — un seul hub

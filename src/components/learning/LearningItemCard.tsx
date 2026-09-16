@@ -207,7 +207,10 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
 
         {/* 3. Footer: level + theme ── */}
         <div className="flex items-center gap-1 text-micro">
-          <span className={`px-2 py-1 rounded text-micro font-medium border ${levelPillClasses}`}>
+          {/* Le niveau Dreyfus est une DONNÉE, pas un état : vocabulaire MetaPill
+              (pilule, 11 px, graisse 500). Il portait `rounded` nu — 4 px — et
+              `py-1`, ce qui lui donnait 28 px de haut contre les 24 du système. */}
+          <span className={`px-2 py-0.5 rounded-pill text-micro font-medium border ${levelPillClasses}`}>
             D{dreyfusLevel}
           </span>
           <span className="text-ink-600 text-micro">•</span>

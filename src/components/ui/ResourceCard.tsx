@@ -149,8 +149,11 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
       {variant !== 'minimal' && (duration || category || cta) && (
         <footer className="flex items-center justify-between gap-stack-xs mt-2 pt-3 border-t border-ink-200">
           <div className="flex items-center gap-stack-xs flex-wrap">
+            {/* Capitales et graisse : c'est un BADGE, pas une méta. Vocabulaire
+                Badge — pilule, 11 px, graisse 700, `tracking-label`. Il était en
+                `rounded-sm` (6 px), `text-caption` (13) et graisse 600. */}
             {category && (
-              <span className="text-caption font-semibold uppercase tracking-wider text-ink-500 px-2 py-0.5 bg-ink-50 rounded-sm">
+              <span className="text-micro font-bold uppercase tracking-label text-ink-700 px-2.5 py-0.5 bg-ink-50 border border-ink-200 rounded-pill">
                 {category}
               </span>
             )}
