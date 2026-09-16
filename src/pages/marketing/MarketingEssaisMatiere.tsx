@@ -355,6 +355,71 @@ const MarkV4: React.FC = () => {
   );
 };
 
+// ─── 8 · La matière d'archive ────────────────────────────────────────────────
+//
+// Fragments de domaine public, recadrés serré et retraités dans la palette.
+// Source : « Autumn Landscape with a Flock of Turkeys », Jean-François Millet,
+// 1872-73 — The Met, Open Access. Détail dans public/marketing/archives/LISEZMOI.md.
+//
+// ⚠️ LA RÈGLE QUI REND ÇA LÉGITIME EST LE RECADRAGE. Une œuvre reconnaissable
+// emprunte l'autorité de quelqu'un d'autre — c'est le piège Bosch, et le brief
+// hero archivé l'avait déjà nommé (« ça change juste DE QUI c'est le fait-main »).
+// Un fragment serré de sa matière n'est plus l'œuvre : c'est de la peinture.
+//
+// Ce qui se juge ici : est-ce qu'une vraie touche de pinceau, retraitée dans nos
+// deux encres, donne le fait-main que les générateurs ne donnent pas ?
+
+const ARCHIVES = '/marketing/archives';
+
+const BandeArchive: React.FC<{ img: string; sombre?: boolean; legende: string }> = ({
+  img, sombre, legende,
+}) => (
+  <figure className="m-0">
+    <div className="relative isolate overflow-hidden rounded-lg">
+      <img src={`${ARCHIVES}/${img}`} alt="" aria-hidden
+           className="absolute inset-0 -z-10 h-full w-full object-cover" />
+      <div className="px-6 py-band sm:px-10">
+        <Titre sombre={sombre} />
+        <Cta />
+      </div>
+    </div>
+    <figcaption className="mt-stack font-body text-caption text-ink-500">{legende}</figcaption>
+  </figure>
+);
+
+const MatiereArchive: React.FC = () => (
+  <div className="flex flex-col gap-flow">
+    <BandeArchive img="bande-teal.webp"
+      legende="Bichromie primary-800 → crème. On voit la touche, la trame de la toile, la structure des nuages." />
+    <BandeArchive img="bande-marron.webp"
+      legende="La même bande dans l’encre chaude. À comparer avec la décision 1 : l’encre et la matière doivent s’accorder." />
+    <BandeArchive img="bande-brute.webp"
+      legende="Le fragment sans retraitement — pour mesurer ce que la bichromie apporte, et ce qu’elle coûte." />
+
+    {/* la pâte employée en texture, pas en image */}
+    <figure className="m-0">
+      <div className="relative isolate overflow-hidden rounded-lg bg-[#F4EFE4]">
+        <img src={`${ARCHIVES}/grain-pate.webp`} alt="" aria-hidden
+             className="absolute inset-0 -z-10 h-full w-full object-cover opacity-[0.22] mix-blend-multiply" />
+        <div className="px-6 py-band sm:px-10">
+          <Titre />
+          <Cta />
+        </div>
+      </div>
+      <figcaption className="mt-stack font-body text-caption text-ink-500">
+        La même pâte employée <strong>en texture et non en image</strong> — désaturée, à 22 %,
+        en produit multiplié sur un crème. C’est le grain de papier, mais pris sur une vraie toile.
+      </figcaption>
+    </figure>
+
+    <p className="font-body text-body-sm text-ink-600 m-0 max-w-3xl">
+      <strong className="text-ink-900">Source</strong> — <em>Autumn Landscape with a Flock of
+      Turkeys</em>, Jean-François Millet, 1872-73. The Metropolitan Museum of Art,
+      Open Access, domaine public. Aucune attribution n’est exigée ; on la porte quand même.
+    </p>
+  </div>
+);
+
 // ─── Le banc ─────────────────────────────────────────────────────────────────
 
 type Essai = { id: string; n: string; src: string; note: string; el: React.ReactNode };
@@ -381,6 +446,9 @@ const ESSAIS: Essai[] = [
   { id: 'mark', n: 'Le mark v4 — trois cercles qui se réunissent', src: 'brief logo du 09/09',
     note: 'Le regroupement dit-il quelque chose ? Et tient-il à 16 px ? Géométrie de test, pas un dessin de logo.',
     el: <MarkV4 /> },
+  { id: 'archive', n: 'La matière d’archive', src: 'Millet, 1872 · The Met, domaine public',
+    note: 'Un vrai fragment de peinture, recadré serré et passé dans nos deux encres. C’est le recadrage qui évite le piège Bosch.',
+    el: <MatiereArchive /> },
 ];
 
 export const MarketingEssaisMatiere: React.FC = () => (

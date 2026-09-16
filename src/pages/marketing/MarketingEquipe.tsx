@@ -12,15 +12,7 @@
 
 import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import {
-  ArrowRight,
-  ArrowUpRight,
-  Brain,
-  Cpu,
-  HeartHandshake,
-  Target,
-  Zap,
-} from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Brain, Cpu, Target, Zap } from 'lucide-react';
 import { Button } from '../../components/core/Button';
 import { FadeInWhenVisible } from '../../components/marketing/motion';
 import { SEOHead } from './components/SEOHead';
@@ -52,13 +44,12 @@ const Hero: React.FC = () => {
             <span className="block text-primary-700">Chloé Mimault</span>
           </h1>
           <p className="font-body text-lede text-ink-700 leading-relaxed m-0 max-w-2xl [text-wrap:pretty]">
-            Voilà toute l'équipe. Pas de chaîne hiérarchique, pas de consultants
-            juniors : l'ingénierie pédagogique et l'architecture IA, portées par
-            les deux personnes qui feront le travail.
+            Voilà toute l'équipe. L'un formalise la méthode, l'autre écrit le
+            logiciel, et ce sont les deux mêmes qui feront votre projet.
           </p>
           <div>
             <Button to="/website/contact" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
-              Réserver un échange direct avec les fondateurs
+              Parler à l'un de nous deux
             </Button>
           </div>
         </motion.div>
@@ -67,32 +58,55 @@ const Hero: React.FC = () => {
   );
 };
 
-// ─── 2. Notre ADN ────────────────────────────────────────────────────────────
+// ─── 2. Être deux ────────────────────────────────────────────────────────────
+//
+// Cette section s'appelait « Notre ADN » et disait « l'agilité d'une structure
+// experte au service de votre transformation » — trois tics de cabinet dans une
+// phrase, et aucune information. Elle dit maintenant la seule chose que la
+// taille de l'équipe implique vraiment, contrainte comprise : dire la limite
+// rend le reste croyable.
+//
+// Le bandeau `bg-primary-700` pleine largeur est retiré au passage : la coque
+// porte un dégradé ambiant, et la page n'a pas besoin d'un second fond.
 
-const Adn: React.FC = () => (
-  <section className="relative bg-primary-700 text-white">
+const EtreDeux: React.FC = () => (
+  <section>
     <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-band">
-      <FadeInWhenVisible>
-        <div className="max-w-4xl flex flex-col gap-stack-lg">
-          <h2 className="font-display text-section text-white [text-wrap:balance]">
-            L'agilité d'une structure experte au service de votre
-            transformation.
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-flow items-start">
+        <FadeInWhenVisible className="lg:col-span-5">
+          <h2 className="font-display text-section text-ink-900 [text-wrap:balance]">
+            Être deux, c'est une contrainte autant qu'un argument.
           </h2>
-          <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-3xl">
-            Ni cabinet traditionnel, ni éditeur de logiciel
-            impersonnel : vous échangez directement avec les concepteurs de la
-            méthode et de la plateforme.
-          </p>
-        </div>
-      </FadeInWhenVisible>
+        </FadeInWhenVisible>
+        <FadeInWhenVisible delay={0.08} className="lg:col-span-7 lg:pt-2">
+          <div className="flex flex-col gap-flow">
+            <p className="font-body text-lede text-ink-700 leading-relaxed m-0 [text-wrap:pretty]">
+              Nous faisons le travail nous-mêmes, donc nous ne prenons pas tous
+              les projets.
+            </p>
+            <p className="font-body text-body text-ink-600 leading-relaxed m-0">
+              Ce que vous y gagnez : personne ne vous repasse à quelqu'un
+              d'autre entre le devis et la livraison. Ce que ça implique : quand
+              ce que vous cherchez n'est pas ce que nous savons faire, nous le
+              disons au premier échange, pas au troisième comité.
+            </p>
+          </div>
+        </FadeInWhenVisible>
+      </div>
     </div>
   </section>
 );
 
-// ─── 3. Deux fondateurs, trois piliers ───────────────────────────────────────
+// ─── 3. Deux personnes, deux métiers ─────────────────────────────────────────
+//
+// Il y avait ici « trois piliers d'excellence » pour deux personnes : le
+// troisième, « Ensemble », était une catégorie déguisée en associé. Et depuis
+// D9 (31/08) le mot « pilier » désigne autre chose — les trois piliers de
+// l'offre. Deux fiches, deux métiers, pas de troisième colonne pour faire
+// nombre.
 
-type Pilier = {
-  monogram: string | null;
+type Fondateur = {
+  monogram: string;
   icon: React.ReactNode;
   nom: string;
   domaine: string;
@@ -102,15 +116,15 @@ type Pilier = {
   iconClasses: string;
 };
 
-const PILIERS: Pilier[] = [
+const FONDATEURS: Fondateur[] = [
   {
     monogram: 'PA',
     icon: <Brain size={20} />,
     nom: 'Pierre-Armand Dennery',
-    domaine: 'La science pédagogique & la vision SBO',
-    expertise: 'Ingénierie pédagogique · Modélisation des compétences · Thought leadership',
+    domaine: 'La méthode',
+    expertise: 'Ingénierie pédagogique · Modélisation des compétences',
     detail:
-      "Porte la vision Skills-Based Organization, formalise les travaux méthodologiques et garantit la rigueur scientifique du dispositif : arc de leçon EDRA, gestion de l'atrophie des acquis, échelle Dreyfus.",
+      "Il formalise ce que nous appliquons : l'arc de leçon, la gestion de l'atrophie des acquis, l'échelle Dreyfus. Quand un choix pédagogique se pose sur votre projet, c'est lui qui l'argumente.",
     monoClasses: 'bg-gradient-to-br from-secondary-100 to-secondary-200 text-secondary-800',
     iconClasses: 'bg-secondary-100 text-secondary-700',
   },
@@ -118,23 +132,12 @@ const PILIERS: Pilier[] = [
     monogram: 'CM',
     icon: <Cpu size={20} />,
     nom: 'Chloé Mimault',
-    domaine: "L'ingénierie IA, le produit & la data",
-    expertise: 'Architecture logicielle · IA générative · Product design',
+    domaine: 'Le logiciel',
+    expertise: 'Architecture · IA générative · Product design',
     detail:
-      'Conçoit et développe la Learning App TLS, traduit la pédagogie en fonctionnalités logicielles, configure les tuteurs IA et garantit la sécurité et la souveraineté des données.',
+      "Elle conçoit et développe la Learning App : les tuteurs IA, le Passeport de compétences, et les arbitrages de souveraineté — où tourne le modèle, quelles données sortent de chez vous.",
     monoClasses: 'bg-gradient-to-br from-primary-100 to-primary-200 text-primary-800',
     iconClasses: 'bg-primary-100 text-primary-700',
-  },
-  {
-    monogram: null,
-    icon: <HeartHandshake size={20} />,
-    nom: 'Ensemble',
-    domaine: "La transformation & l'ancrage terrain",
-    expertise: 'Accompagnement DRH · Directions L&D · CODIR',
-    detail:
-      "Un accompagnement personnel, du dépoussiérage des fiches de poste à l'embarquement des managers : la transformation ne se délègue pas à un slide.",
-    monoClasses: 'bg-gradient-to-br from-accent-100 to-accent-200 text-accent-900',
-    iconClasses: 'bg-accent-100 text-accent-800',
   },
 ];
 
@@ -143,12 +146,12 @@ const Fondateurs: React.FC = () => (
     <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-band flex flex-col gap-flow">
       <FadeInWhenVisible>
         <h2 className="font-display text-section text-ink-900 [text-wrap:balance] max-w-3xl">
-          Deux fondateurs, trois piliers d'excellence.
+          Deux personnes, deux métiers.
         </h2>
       </FadeInWhenVisible>
 
       <div className="flex flex-col">
-        {PILIERS.map((p, i) => (
+        {FONDATEURS.map((p, i) => (
           <FadeInWhenVisible key={p.domaine} delay={i * 0.06}>
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-stack-lg lg:gap-flow items-start border-t border-ink-200/70 py-section first:border-t-0">
               <div className="lg:col-span-4 flex items-center gap-stack">
@@ -156,7 +159,7 @@ const Fondateurs: React.FC = () => (
                   aria-hidden
                   className={`inline-flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl font-display text-h3 font-extrabold ${p.monoClasses}`}
                 >
-                  {p.monogram ?? <HeartHandshake size={28} />}
+                  {p.monogram}
                 </span>
                 <div className="flex flex-col gap-0.5">
                   <h3 className="font-display text-h4 text-ink-900 leading-tight">{p.nom}</h3>
@@ -181,21 +184,25 @@ const Fondateurs: React.FC = () => (
 
 // ─── 4. Pourquoi travailler directement avec les fondateurs ──────────────────
 
+// Ces trois entrées s'appelaient « Garantie de seniorité », « Réactivité et
+// sur-mesure » et « Pragmatisme opérationnel » — trois noms abstraits, dont le
+// dernier promettait « sans jargon ni slideware » en jargon. Un titre de
+// rubrique peut être une phrase qui affirme quelque chose.
 const RAISONS = [
   {
     icon: <Zap size={20} />,
-    title: 'Garantie de seniorité',
-    detail: 'Les personnes qui cadrent votre projet sont celles qui le livrent.',
+    title: 'La personne au devis est celle à la livraison.',
+    detail: "Aucun transfert de dossier, aucune montée en compétence à vos frais.",
   },
   {
     icon: <ArrowUpRight size={20} />,
-    title: 'Réactivité et sur-mesure',
-    detail: 'Pas de circuit de validation : les décisions se prennent avec vous, en séance.',
+    title: 'Une décision se prend en séance.',
+    detail: "Il n'y a personne à qui la remonter.",
   },
   {
     icon: <Target size={20} />,
-    title: 'Pragmatisme opérationnel',
-    detail: 'Des livrables actionnables, sans jargon ni slideware.',
+    title: 'Nous savons dire non.',
+    detail: "Si ce que vous cherchez n'est pas ce que nous faisons, vous le saurez avant de signer.",
   },
 ];
 
@@ -204,7 +211,7 @@ const Pourquoi: React.FC = () => (
     <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-band flex flex-col gap-flow">
       <FadeInWhenVisible>
         <h2 className="font-display text-section text-ink-900 [text-wrap:balance] max-w-2xl">
-          Pourquoi travailler directement avec les fondateurs.
+          Ce que ça change, concrètement.
         </h2>
       </FadeInWhenVisible>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-stack-lg">
@@ -232,18 +239,18 @@ const CtaFinal: React.FC = () => (
       <FadeInWhenVisible>
         <div className="mx-auto flex max-w-content flex-col items-center gap-stack-lg text-center">
           <h2 className="font-display text-section text-ink-900 [text-wrap:balance]">
-            Discutons directement de vos enjeux de compétences.
+            Vous saurez en trente minutes si nous sommes les bons.
           </h2>
           <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-[62ch] [text-wrap:pretty]">
-            Vous échangez avec les personnes qui conçoivent la méthode et la
-            plateforme, pas avec un intermédiaire.
+            C'est l'un de nous deux au bout du fil. Si le format ne convient
+            pas à ce que vous cherchez, nous vous le dirons pendant l'appel.
           </p>
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs pt-stack-xs">
             <Button to="/website/contact" variant="primary" size="xl" trailingIcon={<ArrowRight size={20} />}>
-              Planifier un échange stratégique
+              Réserver trente minutes
             </Button>
             <Button to="/website/diagnostic" variant="ghost" size="xl" trailingIcon={<ArrowUpRight size={20} />}>
-              Évaluer votre maturité SBO
+              Évaluer votre maturité
             </Button>
           </div>
         </div>
@@ -256,11 +263,11 @@ export const MarketingEquipe: React.FC = () => (
   <>
     <SEOHead
       title="Les Fondateurs · The Learning Society"
-      description="The Learning Society a été créée par un duo complémentaire : Pierre-Armand Dennery (ingénierie pédagogique, vision SBO) et Chloé Mimault (ingénierie IA, produit, data). Échangez directement avec les fondateurs."
+      description="The Learning Society, c'est deux personnes : Pierre-Armand Dennery pour la méthode, Chloé Mimault pour le logiciel. Vous parlez à celle ou celui qui fera le travail."
       canonical="/website/equipe"
     />
     <Hero />
-    <Adn />
+    <EtreDeux />
     <Fondateurs />
     <Pourquoi />
     <CtaFinal />

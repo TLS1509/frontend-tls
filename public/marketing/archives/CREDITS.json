@@ -1,0 +1,20 @@
+{
+  "millet": {
+    "titre": "Autumn Landscape with a Flock of Turkeys",
+    "auteur": "Jean-François Millet, 1872–73",
+    "source": "The Met · Open Access (domaine public)",
+    "url": "https://images.metmuseum.org/CRDImages/ep/original/DT1982.jpg"
+  },
+  "gericault": {
+    "titre": "Evening: Landscape with an Aqueduct",
+    "auteur": "Théodore Géricault, 1818",
+    "source": "The Met · Open Access (domaine public)",
+    "url": "https://images.metmuseum.org/CRDImages/ep/original/DT2138.jpg"
+  },
+  "koch": {
+    "titre": "Heroic Landscape with Rainbow",
+    "auteur": "Joseph Anton Koch, 1824",
+    "source": "The Met · Open Access (domaine public)",
+    "url": "https://images.metmuseum.org/CRDImages/ep/original/DP224123.jpg"
+  }
+}
