@@ -106,6 +106,23 @@ select:focus-visible{outline:2px solid var(--teal);outline-offset:1px}
 
 /* ─── formes ─── */
 .grille-formes{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+
+/* ─── espacement ─── */
+/* Un cran d'espacement ne se lit pas en chiffres : on le montre à l'échelle.
+   La barre EST la valeur, en pixels réels. */
+.barreau{display:grid;grid-template-columns:140px 64px 1fr;gap:12px;align-items:center;
+  padding:8px 0;border-bottom:1px solid var(--bord)}
+.barreau:last-child{border-bottom:none}
+.barreau-nom{font-family:var(--mono);font-size:11.5px;font-weight:600;color:var(--encre)}
+.barreau-val{font-family:var(--mono);font-size:11px;color:var(--encre-3);text-align:right;
+  font-variant-numeric:tabular-nums}
+.barreau-corps{display:flex;align-items:center;gap:10px;min-width:0}
+.barreau-barre{height:14px;border-radius:3px;background:var(--teal);flex:0 0 auto}
+.barreau.neuf .barreau-barre{background:var(--orange)}
+.barreau-note{font-size:12px;color:var(--encre-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.barreau.neuf .barreau-note{color:var(--orange)}
+@media (max-width:560px){.barreau{grid-template-columns:1fr auto;gap:4px}
+  .barreau-corps{grid-column:1/-1}}
 .forme{background:var(--sol-2);border:1px solid var(--bord);padding:14px;border-radius:var(--r-s);text-align:center}
 .forme-boite{height:62px;background:linear-gradient(135deg,#55A1B4,#3D7786);margin-bottom:9px}
 .forme-nom{font-family:var(--mono);font-size:11.5px;font-weight:600;color:var(--encre)}
@@ -137,12 +154,14 @@ select:focus-visible{outline:2px solid var(--teal);outline-offset:1px}
   <nav role="tablist">
     <button role="tab" aria-selected="true"  data-p="couleurs">Couleurs</button>
     <button role="tab" aria-selected="false" data-p="typo">Typographie</button>
+    <button role="tab" aria-selected="false" data-p="espace">Espacement</button>
     <button role="tab" aria-selected="false" data-p="contraste">Contraste</button>
     <button role="tab" aria-selected="false" data-p="formes">Formes</button>
   </nav>
 
   <section id="couleurs" role="tabpanel"></section>
   <section id="typo" role="tabpanel" hidden></section>
+  <section id="espace" role="tabpanel" hidden></section>
   <section id="contraste" role="tabpanel" hidden>
     <h2>Vérificateur</h2>
     <p class="sous">Le seuil AA est de 4,5 pour du texte courant, 3,0 pour du grand texte (18,66 px gras ou 24 px), 3,0 pour un contour de composant. AAA demande 7,0.</p>
@@ -298,11 +317,52 @@ function bloc(nom, desc, entrees){
   });
 }
 
+/* ── panneau espacement ── */
+{
+  const s = $('#espace');
+  s.append(el('h2', null, 'L’échelle d’empilement'),
+    el('p','sous','Dix crans : 2 · 4 · 6 · 8 · 12 · 16 · 24 · 32 · 40 · 48 px. Les barres sont à l’échelle réelle — c’est la seule façon de voir un espacement. Les noms sont sémantiques parce que la doctrine porte sur des intentions, pas sur des nombres : on écrit `gap-stack`, pas `gap-4`.'));
+
+  const grille = el('div');
+  TLS.espacements.forEach(([cle, rem, px, note]) => {
+    const neuf = /16\/09/.test(note);
+    const r = el('div', 'barreau' + (neuf ? ' neuf' : ''));
+    r.append(el('div','barreau-nom', '--spacing-' + cle),
+             el('div','barreau-val', px));
+    const corps = el('div','barreau-corps');
+    const barre = el('i','barreau-barre');
+    barre.style.width = px.replace(' ', '');
+    corps.append(barre, el('span','barreau-note', note || ''));
+    r.append(corps);
+    grille.append(r);
+  });
+  s.append(grille);
+
+  s.append(el('h2', null, 'Les deux crans ajoutés le 16 septembre'),
+    el('p','sous','Une valeur massivement contournée accuse l’échelle, pas ceux qui la contournent. `gap-1` (4 px) comptait 50 usages et n’avait aucun équivalent — `tight` vaut 2 px, et un renommage naïf les aurait tous divisés par deux. `gap-3` (12 px) en comptait 26, entre `stack-xs` (8) et `stack` (16). 401 gouttières ont rejoint l’échelle le même jour. Le 20 px n’a PAS de cran : huit usages, trop peu pour un token, ils se calent sur 16 ou 24.'));
+
+  if (TLS.fluides && TLS.fluides.length){
+    s.append(el('h2', null, 'Le rythme éditorial'),
+      el('p','sous','Des crans fluides, en clamp : ils respirent avec la largeur. Ils servent le site, là où l’échelle d’empilement sert l’interface.'));
+    const g2 = el('div');
+    TLS.fluides.forEach(([cle, val, note]) => {
+      const r = el('div','barreau');
+      r.append(el('div','barreau-nom', '--spacing-' + cle),
+               el('div','barreau-val', ''));
+      const corps = el('div','barreau-corps');
+      const b = el('i','barreau-barre'); b.style.width = val; b.style.maxWidth = '100%';
+      corps.append(b, el('span','barreau-note', note || ''));
+      r.append(corps); g2.append(r);
+    });
+    s.append(g2);
+  }
+}
+
 /* ── panneau formes ── */
 {
   const s = $('#formes');
   s.append(el('h2', null, 'Rayons'),
-           el('p','sous','Le rayon des cartes est à 14 px. C’est lui qui impose un padding intérieur de 24 px : sous un rapport de 1,4 entre le padding et le rayon, le contenu serre la courbe et le coin se lit comme une coupe.'));
+           el('p','sous','L’échelle est ÉTAGÉE depuis le 16/09. L’étiquette prend la pilule — sous 28 px de haut le navigateur plafonne le rayon à la moitié de la hauteur, donc pilule et échelle rendent la même forme. L’interactif — bouton, champ — prend 14 px. Le conteneur — la carte — prend 20 px : plus l’objet est grand, plus son rayon l’est, et des rayons imbriqués doivent être apparentés, pas identiques.'));
   const g = el('div','grille-formes');
   TLS.radius.forEach(([nom, val]) => {
     const d = el('div','forme');

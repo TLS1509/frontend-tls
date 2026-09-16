@@ -14,14 +14,24 @@ CSS = RACINE / 'src' / 'index.css'
 SORTIE = pathlib.Path(sys.argv[1]) if len(sys.argv) > 1 else RACINE / 'brand' / 'tools' / 'reference-tokens.html'
 
 src = CSS.read_text()
+
+# Les commentaires sont retirés AVANT toute collecte. Sans cela, un commentaire
+# qui cite un token — `index.css` en contient un qui explique le piège de
+# `--spacing-page: 3rem → gap-page` — est lu comme une déclaration, et comme la
+# valeur court jusqu'au prochain `;`, elle avale le paragraphe entier. Le dict
+# étant construit dans l'ordre, cette fausse valeur ÉCRASE la vraie, en silence.
+sans_commentaires = re.sub(r'/\*.*?\*/', '', src, flags=re.S)
+
 def collecte(prefixe):
+    """Une déclaration tient sur une ligne : on ne franchit pas le saut."""
     return {m.group(1): m.group(2).strip()
-            for m in re.finditer(rf'--{prefixe}-([a-z0-9-]+):\s*([^;]+);', src)}
+            for m in re.finditer(rf'--{prefixe}-([a-z0-9-]+):\s*([^;\n]+);', sans_commentaires)}
 
 couleurs = collecte('color')
 texte    = collecte('text')
 radius   = collecte('radius')
 ombres   = collecte('shadow')
+espaces  = collecte('spacing')
 
 RAMPES = ['primary', 'secondary', 'accent', 'ink']
 LEGENDES = {
@@ -43,6 +53,37 @@ ECHELLE = [
     ('micro', 'Micro', ''),
 ]
 
+# L'échelle d'empilement, dans l'ordre croissant. Les deux crans ajoutés le
+# 2026-09-16 (`stack-3xs` à 4 px et `stack-sm` à 12 px) comblaient des trous que
+# 76 usages numériques remplissaient à la main.
+EMPILEMENT = [
+    ('tight',      'le plus serré — étiquette et sa valeur'),
+    ('stack-3xs',  'ajouté le 16/09 — 50 usages de gap-1 sans équivalent'),
+    ('stack-2xs',  'ajouté le 09/09 — le barreau qui manquait'),
+    ('stack-xs',   'la gouttière dominante du répertoire'),
+    ('stack-sm',   'ajouté le 16/09 — entre stack-xs et stack'),
+    ('stack',      'le cran de référence'),
+    ('stack-lg',   'padding canonique d’une carte'),
+    ('section',    'entre deux blocs d’une page'),
+    ('section-lg', ''),
+    ('page',       'marge de page'),
+]
+# Le rythme éditorial du site : des crans fluides, en clamp.
+FLUIDES = [
+    ('rule',    'étiquette ↔ valeur'), ('group',   'blocs d’un même groupe'),
+    ('flow',    'titre de section ↔ contenu'), ('band',    'respiration d’une section'),
+    ('hero',    'haut de hero'), ('chapter', 'rupture de mouvement, rare'),
+    ('gutter',  'gouttière de grille'),
+]
+
+def en_px(v):
+    """rem → px, pour que l'échelle se lise en pixels comme on la dessine."""
+    v = v.strip()
+    if v.endswith('rem'):
+        n = float(v[:-3]) * 16
+        return f'{n:.10g} px'
+    return v
+
 def rampe(fam):
     crans = sorted([k for k in couleurs if k.startswith(fam + '-') and k.rsplit('-', 1)[1].isdigit()],
                    key=lambda x: int(x.rsplit('-', 1)[1]))
@@ -56,6 +97,8 @@ donnees = {
     'echelle': [{'cle': c, 'libelle': l, 'note': n, 'taille': texte.get(c, ''),
                  'ls': texte.get(c + '--letter-spacing', ''), 'fw': texte.get(c + '--font-weight', '')}
                 for c, l, n in ECHELLE if c in texte],
+    'espacements': [(c, espaces[c], en_px(espaces[c]), note) for c, note in EMPILEMENT if c in espaces],
+    'fluides': [(c, espaces[c], note) for c, note in FLUIDES if c in espaces],
     'radius': sorted(radius.items(), key=lambda kv: 9999 if kv[0] == 'pill' else int(re.sub(r'\D', '', kv[1]) or 0)),
     'ombres': [(k, v) for k, v in ombres.items() if re.match(r'^(card|card-hover|card-lift|brand-sm|warm-sm|sun-sm)$', k)],
     'genere': datetime.date.today().isoformat(),
@@ -69,4 +112,5 @@ SORTIE.write_text(html)
 print(f"  {SORTIE}")
 print(f"  {sum(len(v) for v in donnees['rampes'].values())} crans de rampe · "
       f"{sum(len(v[1]) for v in donnees['semantiques'].values())} sémantiques · "
-      f"{len(donnees['echelle'])} pas typographiques · {len(donnees['radius'])} rayons")
+      f"{len(donnees['echelle'])} pas typographiques · {len(donnees['radius'])} rayons · "
+      f"{len(donnees['espacements'])} crans d'espacement")
