@@ -95,8 +95,22 @@ const JournalBubbleNudge: React.FC<JournalBubbleNudgeProps> = ({ navigate, hasUp
             <Sparkles size={14} strokeWidth={2} aria-hidden="true" />
           </div>
 
-          {/* Bubble — vraie forme chat (bottom-left flat) */}
-          <div className="flex-1 bg-primary-50/80 rounded-tl-2xl rounded-tr-2xl rounded-br-2xl rounded-bl border border-primary-100/70 px-4 py-3">
+          {/* Bulle — vraie forme chat (coin bas-gauche aplati pour la queue).
+              Rayon 20 + padding 20, corrigé le 2026-09-17. Elle était à 24 de
+              rayon pour 16/12 de padding : le dégagement au coin tombait à
+              9,6 px contre 12 le long du bord le plus serré — 20 % de perte,
+              avec le premier texte mesuré à 21 px du coin, donc dans la zone.
+              Le padding était asymétrique (16 horizontal, 12 vertical) sans
+              raison écrite.
+              La cible n'est pas choisie au juger : `JournalBubbleCard`, le seul
+              membre propre de la famille bulle, est à `rounded-xl` + `p-5` —
+              soit padding = rayon exactement, le point où le coin cesse de
+              pincer. Cette bulle faite main s'aligne dessus.
+              ⚠️ `p-5` (20 px) n'est PAS dans l'échelle d'espacement
+              (2·4·6·8·12·16·24·32·40·48). On le garde ici pour coller au
+              composant plutôt que de forker une 6ᵉ valeur de bulle ; c'est à la
+              décision « famille bulle » de trancher, pas à cette correction. */}
+          <div className="flex-1 bg-primary-50/80 rounded-tl-xl rounded-tr-xl rounded-br-xl rounded-bl border border-primary-100/70 p-5">
             <span className="block text-micro font-semibold text-primary-500 uppercase tracking-[0.07em] mb-2">
               {meta}
             </span>
