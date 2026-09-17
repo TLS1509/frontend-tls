@@ -1046,17 +1046,75 @@ Tous les composants card sont tone-aware (`tone: primary/warm/sun`). **Source de
 **Padding intérieur — doctrine du 2026-09-09 : `p-stack-lg` (24 px) au canon,
 `p-stack` (16 px) en unique dérogation dense. Pas de troisième valeur.**
 L'industrie pose sa carte à 16 px (Material, Bootstrap, Polaris, Carbon, Primer)
-— mais avec des rayons de 6 à 12 px. Le nôtre était à **14 px** quand cette doctrine
-a été posée, et c'est le rapport du padding au rayon qui décide : sous ~1,4× le
-contenu serre la courbe et le coin se lit comme une coupe. 16 px donnait 1,14× ;
-24 px donnait 1,71×.
-⚠️ **Rayon revenu à 20 px le 2026-09-16** : 24 px ne donne plus que **1,2×**, 16 px
-**0,8×** — tous deux sous le seuil de 1,4 que pose ce paragraphe. Soit le seuil est
-à revoir, soit le padding canon : **question ouverte, non tranchée**.
-`Card` tient déjà la décision (`size="md"` par défaut = 24 px, pris par 170 des
-171 usages). Les 90 cartes faites main ont été ramenées sur ces deux valeurs.
-⚠️ **16 px reste majoritaire** (56 contre 31) : à revoir surface par surface —
-soit ces cartes sont vraiment denses, soit le canon devrait être 16.
+— mais avec des rayons de 6 à 12 px, et c'est le rapport du padding au rayon qui
+décide, pas le padding seul.
+
+**La règle : le padding ne descend pas sous le rayon.** Un coin arrondi mange de
+la place en diagonale — le contenu est à distance P du bord droit, mais sa pointe
+approche davantage la courbe. Le coin est un arc de rayon R centré en (R, R), la
+pointe du contenu est en (P, P), et il n'y a que deux régimes :
+
+- **P < R** — la pointe est *avant* le centre de l'arc. Le point serré est la
+  diagonale, à `R − √2(R − P)`.
+- **P ≥ R** — la pointe a *dépassé* le centre. L'arc cesse d'être le point serré,
+  c'est le bord droit, à P. **Le coin ne pince plus du tout.**
+
+Le basculement est donc à **P = R**, un rapport de **1,0**.
+
+| rayon | padding | au coin | au bord | |
+|---|---|---|---|---|
+| 14 (ancien rayon) | 16 | 16 | 16 | rien ne pince |
+| **20** (aujourd'hui) | **16** | **14,3** | 16 | pince de 10 % |
+| **20** (aujourd'hui) | **24** | **24** | 24 | rien ne pince |
+| 24 (`rounded-2xl`) | 16 | 12,7 | 16 | pince de 21 % |
+
+⚠️ **Corrigé le 2026-09-17 — le seuil de « ~1,4× » que ce paragraphe posait
+n'existait pas.** Il est apparu le 09/09 au commit `586e53d` et ne s'appuyait sur
+rien : ni mesure, ni source, ni entrée du banc de décision du même jour, qui
+enregistre pourtant 24 arbitrages et aucun sur le padding. Un nombre d'apparence
+précise avait été écrit pour habiller une intuition juste. L'alerte qui en
+découlait était à moitié fausse : elle donnait 24 px ET 16 px comme fautifs
+depuis le passage de la carte à 20 px, alors que **24 px va parfaitement bien**
+— le coin cesse d'être le point serré dès que le padding atteint le rayon. Seul
+16 px pince, et de 10 %. C'est le réflexe à retenir : un seuil qu'aucune mesure
+n'accompagne est une opinion déguisée en constante.
+
+`Card` tient la décision (`size="md"` par défaut = 24 px). Mesuré le 17/09 :
+**197 appels `<Card>`, dont 2 seulement passent un `size` explicite** — les 195
+autres prennent le canon. *(Cette ligne disait « 170 des 171 » ; le compte avait
+vieilli.)* Les 90 cartes faites main ont été ramenées sur ces deux valeurs.
+
+⚠️ **Le pincement ne compte QUE si le coin est occupé** (mesuré le 17/09). C'est
+la moitié manquante de la règle : le dégagement au coin ne décrit un défaut que
+si du contenu s'y assied. Sur les quatre tuiles de format du Journal — rayon 20,
+padding 16, donc 10 % de pincement sur le papier — le contenu est **centré**, et
+l'élément le plus proche est à **95 à 102 px du coin**. Il n'y a rien à pincer.
+Toujours mesurer la distance du contenu au coin avant de conclure ; un rapport
+padding/rayon fautif sur une carte à contenu centré est un faux positif.
+
+✅ **Tranché le 2026-09-17 : la dérogation dense RESTE à 16 px.** La remonter à
+20 la mettrait à égalité avec le rayon, mais **20 px n'existe pas dans l'échelle**
+(2 · 4 · 6 · 8 · 12 · 16 · 24 · 32 · 40 · 48) — il faudrait un onzième cran. Ce
+que la mesure a rendu :
+
+- **119 éléments** dans `src/` posent un padding sous leur rayon.
+- Le cas visé — rayon 20 + padding 16 — en compte **44**, dont **29 dans la
+  vitrine et le labo** : **15 en produit**.
+- Rendus sur les cinq pages principales : **6 instances**, et **2 seulement**
+  ont du contenu dans la zone du coin.
+- Le changement est gratuit en mise en page — **8 px de largeur utile en moins,
+  aucune croissance de hauteur, aucun reflux, aucune re-césure** (vérifié en
+  appliquant `padding: 20px` en direct sur les cibles).
+
+Un onzième cran d'échelle pour deux éléments à 10 % ne se justifie pas.
+
+⏳ **Le vrai coupable est ailleurs, et il est sur toutes les pages** : la carte
+utilisateur de la Sidebar ([`Sidebar.tsx:375`](src/components/layout/Sidebar.tsx))
+porte `px-3 py-2.5 rounded-2xl` — **12 px de padding pour 24 de rayon, soit 41 %
+de pincement**, avec du contenu à 18 px du coin. Elle viole aussi l'échelle
+étagée, qui met les **rangées de liste** à `rounded-lg` (14). Passer le rayon à
+14 ramène le pincement à 7 % et remet l'élément dans son étage — deux raisons
+qui convergent. Non fait, à trancher.
 
 ## Typo — League Spartan sans italique
 
