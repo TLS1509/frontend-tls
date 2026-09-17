@@ -1606,10 +1606,11 @@ const COMPONENTS: ComponentEntry[] = [
               </p>
               <div className="grid gap-stack [grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr))]">
                 {([
-                  ['Badge · MetaPill · Chip', 'pilule', "Sous le seuil par construction. La pilule y rend la même forme que 14 — la garder ne coûte rien et c'est la convention du petit label."],
-                  ['Button', 'rounded-lg (14)', "Au-dessus du seuil sur ses quatre tailles. Prend le rayon de la Card qui le contient."],
-                  ['Button iconOnly', 'pilule → cercle', "Carré, donc la pilule y donne un cercle parfait. Exception écrite dans le composant."],
-                  ['Famille champ', 'rounded-lg (14)', "R4, même jour : Input · Select · Combobox · Search. 36 à 52 px de haut, donc toujours au-dessus du seuil. Le composant disait 10 sans l'avoir justifié."],
+                  ['Badge · MetaPill · Chip · FilterChip', 'pilule', "Étage étiquette. Sous le seuil par construction (20 · 24 · 28 px) : la pilule y rend la même forme que 14 — la garder ne coûte rien et c'est la convention du petit label."],
+                  ['Button', 'rounded-lg (14)', "Étage interactif. Au-dessus du seuil sur ses quatre tailles. ⚠️ Cette fiche disait « prend le rayon de la Card qui le contient » — faux depuis que la Card est passée à 20 le 16/09. Le bouton NE suit PAS : plus l'élément est grand, plus son rayon l'est, et des rayons imbriqués doivent être apparentés, pas identiques."],
+                  ['Famille champ', 'rounded-lg (14)', "Étage interactif. R4, même jour : Input · Select · Combobox · Search. 36 à 52 px de haut, donc toujours au-dessus du seuil. Le composant disait 10 sans l'avoir justifié."],
+                  ['Card · StatCard · rangées de liste', 'rounded-xl (20) · 14 pour les rangées', "Étage conteneur, le plus grand — décidé le 16/09. R1 l'avait posée à 14 le 09/09 ; à l'usage 14 se lisait comme un rectangle, et Figma était resté à 20 (nœud Card 1111:46, lié à radius-xl). Une rangée de liste reste à l'étage interactif, donc 14."],
+                  ['Button iconOnly', 'pilule → cercle', "Exception écrite. Carré, donc la pilule y donne un cercle parfait — ne pas « uniformiser »."],
                 ] as const).map(([fam, val, pourquoi]) => (
                   <div key={fam} className="flex flex-col gap-stack-2xs rounded-lg border border-ink-200 bg-white p-stack">
                     <span className="font-display text-h5 text-ink-900">{fam}</span>
