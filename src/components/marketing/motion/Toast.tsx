@@ -107,7 +107,7 @@ const ToastCard: React.FC<{ item: ToastItem; onDismiss: () => void }> = ({ item,
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: -12, scale: 0.96 }}
       transition={{ duration: 0.25, ease: [0.21, 0.47, 0.32, 0.98] }}
-      className={`pointer-events-auto rounded-2xl border ${tone.bg} ${tone.border} shadow-2xl backdrop-blur-glass-medium p-stack`}
+      className={`pointer-events-auto rounded-lg border ${tone.bg} ${tone.border} shadow-2xl backdrop-blur-glass-medium p-stack`}
       role="status"
     >
       <div className="flex items-start gap-stack">

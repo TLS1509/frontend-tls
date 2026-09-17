@@ -278,7 +278,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({ navigate }) => {
             onClick={() => navigate('/coaching')}
             className="inline-flex items-center min-h-6 py-1 -my-1 gap-stack-3xs text-caption font-medium text-primary-700 hover:text-primary-800 transition-colors duration-fast shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
           >
-            3 sessions
+            Toutes mes sessions
             <ArrowRight size={14} aria-hidden="true" />
           </button>
         </div>
@@ -291,6 +291,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({ navigate }) => {
           durationLabel="45 min · Visio"
           status="planned"
           surface="card"
+          onOpen={() => navigate('/coaching')}
         />
       </motion.div>
 

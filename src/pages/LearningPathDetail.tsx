@@ -563,7 +563,7 @@ export const LearningPathDetail: React.FC = () => {
             <div className="flex flex-col gap-section">
               {/* Project hero */}
               <div
-                className={`text-center text-white p-stack-lg rounded-2xl ${TONE_HERO_GRADIENT[tone]}`}
+                className={`text-center text-white p-stack-lg rounded-xl ${TONE_HERO_GRADIENT[tone]}`}
               >
                 <div className="w-20 h-20 rounded-xl bg-white/15 backdrop-blur-sm mx-auto mb-stack-lg flex items-center justify-center">
                   <Award size={32} />

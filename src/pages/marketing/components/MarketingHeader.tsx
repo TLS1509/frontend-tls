@@ -298,7 +298,7 @@ export const MarketingHeader: React.FC = () => {
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, y: -8, scale: 0.97 }}
                           transition={{ duration: 0.2, ease: [0.32, 0.72, 0, 1] }}
-                          className="absolute left-1/2 top-full mt-3 w-80 -translate-x-1/2 overflow-hidden rounded-2xl border border-white/60 bg-white/85 shadow-card-lift backdrop-blur-glass-heavy z-dropdown"
+                          className="absolute left-1/2 top-full mt-3 w-80 -translate-x-1/2 overflow-hidden rounded-xl border border-white/60 bg-white/85 shadow-card-lift backdrop-blur-glass-heavy z-dropdown"
                           role="menu"
                         >
                           <div className="flex flex-col gap-tight p-2">
@@ -309,7 +309,7 @@ export const MarketingHeader: React.FC = () => {
                                   key={d.href}
                                   to={d.href}
                                   role="menuitem"
-                                  className={`flex items-start gap-stack rounded-xl p-stack transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
+                                  className={`flex items-start gap-stack rounded-lg p-stack transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                                     active ? 'bg-primary-50' : 'hover:bg-ink-50'
                                   }`}
                                 >

@@ -182,7 +182,7 @@ export const PageCard: React.FC<{ item: PageCardItem; showThumbnail?: boolean }>
 
   if (item.href) {
     return (
-      <a href={item.href} className="block no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-2xl">
+      <a href={item.href} className="block no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-lg">
         {card}
       </a>
     );
@@ -193,7 +193,7 @@ export const PageCard: React.FC<{ item: PageCardItem; showThumbnail?: boolean }>
       <button
         type="button"
         onClick={item.onClick}
-        className="block w-full text-left p-0 bg-transparent border-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-2xl"
+        className="block w-full text-left p-0 bg-transparent border-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-lg"
       >
         {card}
       </button>
