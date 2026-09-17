@@ -814,7 +814,7 @@ const CancelSessionModalDemo: React.FC = () => {
   const [showBooking, setShowBooking] = useState(false);
   return (
     <div className="flex gap-stack-xs items-start flex-wrap">
-      <Button variant="secondary" onClick={() => setOpen(true)}>❌ Annuler une session</Button>
+      <Button emphasis="soft" tone="warm" onClick={() => setOpen(true)}>❌ Annuler une session</Button>
       <CancelSessionModal
         isOpen={open}
         onClose={() => setOpen(false)}
@@ -958,7 +958,7 @@ const ChartDetailModalDemo: React.FC = () => {
   const [open, setOpen] = useState(false);
   return (
     <>
-      <Button variant="ghost" size="sm" onClick={() => setOpen(true)}>Ouvrir le détail</Button>
+      <Button emphasis="outline" size="sm" onClick={() => setOpen(true)}>Ouvrir le détail</Button>
       <ChartDetailModal
         isOpen={open}
         onClose={() => setOpen(false)}
@@ -979,7 +979,7 @@ const CompletionModalDemo2: React.FC = () => {
   const [open, setOpen] = useState(false);
   return (
     <>
-      <Button variant="ghost" size="sm" onClick={() => setOpen(true)}>Voir la modale</Button>
+      <Button emphasis="outline" size="sm" onClick={() => setOpen(true)}>Voir la modale</Button>
       <CompletionModal
         isOpen={open}
         onClose={() => setOpen(false)}
@@ -997,9 +997,9 @@ const ToastDemo: React.FC = () => {
     <div>
       <div className="flex gap-stack-xs flex-wrap mb-stack">
         <Button size="sm" onClick={() => success('Enregistré avec succès !')}>Success</Button>
-        <Button size="sm" variant="secondary" onClick={() => error('Une erreur est survenue')}>Erreur</Button>
-        <Button size="sm" variant="secondary" onClick={() => warning('Vérifiez votre connexion')}>Warning</Button>
-        <Button size="sm" variant="ghost" onClick={() => info('Mise à jour disponible')}>Info</Button>
+        <Button size="sm" emphasis="soft" tone="warm" onClick={() => error('Une erreur est survenue')}>Erreur</Button>
+        <Button size="sm" emphasis="soft" tone="warm" onClick={() => warning('Vérifiez votre connexion')}>Warning</Button>
+        <Button size="sm" emphasis="outline" onClick={() => info('Mise à jour disponible')}>Info</Button>
       </div>
       <ToastContainer toasts={toasts} onRemove={removeToast} />
       <div className="flex flex-col gap-stack-xs">
@@ -1121,8 +1121,8 @@ const ModalDemo: React.FC = () => {
         description="Cette opération ne peut pas être annulée."
         actions={
           <>
-            <Button variant="secondary" onClick={() => setOpen(false)}>Annuler</Button>
-            <Button variant="primary" onClick={() => setOpen(false)}>Confirmer</Button>
+            <Button emphasis="soft" tone="warm" onClick={() => setOpen(false)}>Annuler</Button>
+            <Button emphasis="soft" onClick={() => setOpen(false)}>Confirmer</Button>
           </>
         }
       >
@@ -1147,7 +1147,7 @@ const CelebrationModalDemo: React.FC = () => {
   const [open, setOpen] = useState(false);
   return (
     <>
-      <Button variant="secondary" onClick={() => setOpen(true)}>
+      <Button emphasis="soft" tone="warm" onClick={() => setOpen(true)}>
         Ouvrir CelebrationModal
       </Button>
       <CelebrationModal
@@ -1157,8 +1157,8 @@ const CelebrationModalDemo: React.FC = () => {
         description="Félicitations ! Vous avez terminé le parcours Prompt Engineering avec 92% de réussite."
         actions={
           <>
-            <Button variant="secondary" onClick={() => setOpen(false)}>Voir mon badge</Button>
-            <Button variant="ghost" onClick={() => setOpen(false)}>Partager</Button>
+            <Button emphasis="soft" tone="warm" onClick={() => setOpen(false)}>Voir mon badge</Button>
+            <Button emphasis="outline" onClick={() => setOpen(false)}>Partager</Button>
           </>
         }
       />
@@ -1718,7 +1718,7 @@ const COMPONENTS: ComponentEntry[] = [
                     aria-label={`Champ de démonstration — ${rayon}`}
                     className={`w-full h-12 px-4 ${rayon} border border-ink-300 bg-white font-body text-body-sm text-ink-900`}
                   />
-                  <Button variant="primary" size="lg" fullWidth>Envoyer le message</Button>
+                  <Button emphasis="soft" size="lg" fullWidth>Envoyer le message</Button>
                   <span className="font-mono text-micro text-ink-500">champ 48 px · bouton 48 px · {rayon === 'rounded-md' ? '10 contre 14' : '14 et 14'}</span>
                   <span className="font-body text-caption text-ink-600">{dit}</span>
                 </div>
@@ -2080,21 +2080,31 @@ const COMPONENTS: ComponentEntry[] = [
           </div>
         </ShowcaseBloc>
 
-        {/* ─── 2 · LES TREIZE VARIANTES ───────────────────────────────────── */}
-        <ShowcaseBloc titre="Les treize variantes" note="Six pour le fond clair, deux contours, une destructive, quatre pour les fonds teintés ou sombres, un lien.">
-          <div className="flex flex-col gap-stack">
-            <div className="hstack">
-              <Button variant="primary">Primary</Button>
-              <Button variant="secondary">Secondary</Button>
-              <Button variant="accent">Accent</Button>
-              <Button variant="ghost">Ghost</Button>
-              <Button variant="destructive">Destructive</Button>
-              <Button variant="link">Link</Button>
-            </div>
-            <div className="hstack">
-              <Button variant="outline">Outline primary</Button>
-              <Button variant="outline-warm">Outline warm</Button>
-            </div>
+        {/* ─── 2 · LA GRILLE : NIVEAU × TON ───────────────────────────────── */}
+        <ShowcaseBloc
+          titre="La grille — cinq niveaux, cinq tons"
+          note="L'API publique depuis le 2026-09-17. `emphasis` dit COMBIEN le bouton insiste, `tone` dit de quelle couleur. Les treize `variant` historiques restent supportés mais ne sont plus que des alias vers une case : `primary` = soft/brand, `ghost` = outline/brand, `glass` = solid + onDark. Le contrat de contraste est attaché au NIVEAU, pas à un nom — c'est ce qui a manqué le jour où la bascule a déplacé un niveau sous un nom, et où le site marketing a perdu ses aplats sans qu'une ligne du site ne change."
+        >
+          <div className="flex flex-col gap-stack-lg">
+            {([
+              ['solid',   'Aplat du ton au cran 700, label blanc. Le premier cran qui porte du blanc à 4,5:1 : 5,02 · 6,31 · 4,88 · 5,15. Le site marketing, le destructif.'],
+              ['soft',    'Fond du ton au cran 50 opaque, label 800, filet 700. Le niveau principal de l’app depuis la bascule — et le mieux contrasté du système (6,31 · 9,49 · 7,64).'],
+              ['outline', 'Filet sans fond. Le niveau secondaire.'],
+              ['ghost',   'Ni fond ni filet au repos. Le fond n’arrive qu’au survol.'],
+              ['link',    'Pas de boîte du tout.'],
+            ] as const).map(([emphasis, note]) => (
+              <div key={emphasis} className="flex flex-col gap-stack-xs">
+                <div className="flex items-baseline gap-stack-xs">
+                  <code className="font-mono text-caption font-bold text-ink-900">{emphasis}</code>
+                  <span className="font-body text-caption text-ink-600">{note}</span>
+                </div>
+                <div className="hstack">
+                  {(['brand', 'warm', 'sun', 'danger', 'neutral'] as const).map((tone) => (
+                    <Button key={tone} emphasis={emphasis} tone={tone} size="sm">{tone}</Button>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
         </ShowcaseBloc>
 
@@ -2117,8 +2127,8 @@ const COMPONENTS: ComponentEntry[] = [
             <div className="flex flex-col items-start gap-stack-xs">
               <div className="hstack">
                 <Button iconOnly aria-label="Ajouter" size="sm">{I.plus}</Button>
-                <Button iconOnly aria-label="Ajouter" size="md" variant="secondary">{I.plus}</Button>
-                <Button iconOnly aria-label="Ajouter" size="lg" variant="ghost">{I.plus}</Button>
+                <Button iconOnly aria-label="Ajouter" size="md" emphasis="soft" tone="warm">{I.plus}</Button>
+                <Button iconOnly aria-label="Ajouter" size="lg" emphasis="outline">{I.plus}</Button>
               </div>
               <span className="text-micro text-ink-500 font-body">iconOnly, même boîte</span>
             </div>
@@ -2134,31 +2144,34 @@ const COMPONENTS: ComponentEntry[] = [
             <Button>Au repos</Button>
             <Button loading>Chargement</Button>
             <Button disabled>Désactivé</Button>
-            <Button variant="outline" disabled>Désactivé, contour</Button>
-            <Button fullWidth={false} variant="link">Lien</Button>
+            <Button emphasis="outline" disabled>Désactivé, contour</Button>
+            <Button fullWidth={false} emphasis="link">Lien</Button>
           </div>
         </ShowcaseBloc>
 
-        {/* ─── 6 · LES VARIANTES DE VERRE ─────────────────────────────────── */}
+        {/* ─── 6 · LA SURFACE ─────────────────────────────────────────────── */}
         <ShowcaseBloc
-          titre="Le verre — la surface décide"
-          note="Quatre variantes dont le choix ne dépend pas du ton mais du fond sur lequel le bouton se pose. Se tromper de surface rend le bouton illisible, pas seulement discutable."
+          titre="La surface décide — `onDark`"
+          note="Le verre n'est plus un nom de variante mais une affirmation sur le fond, et une affirmation se vérifie. Sur `onDark`, les niveaux s'expriment en blanc ; le ton n'entre pas, puisque c'est la surface qui donne la couleur. Ce qui a été mesuré le 17/09 : 26 boutons « verre » vivaient sur un hero CLAIR — du blanc sur du blanc, 1,03 de contraste, et c'était l'action principale de vingt pages. Le nom `glass` décrivait une matière, donc rien ne pouvait vérifier la surface. Le niveau `solid` lui-même se contredisait : un voile blanc sous un texte blanc ne passait AA que sur ink-900, et mesurait 2,31 sur un hero teal."
         >
           <div className="flex flex-col gap-stack">
-            <div className="rounded-lg bg-gradient-to-br from-primary-500 via-primary-600 to-secondary-500 p-stack flex flex-wrap items-center gap-stack-xs">
-              <span className="font-body text-caption font-bold text-white/85 mr-2">Fond sombre</span>
-              <Button variant="glass" leadingIcon={I.plus}>glass</Button>
+            <div className="rounded-lg bg-gradient-to-br from-primary-800 via-primary-700 to-secondary-700 p-stack flex flex-wrap items-center gap-stack-xs">
+              <span className="font-body text-caption font-bold text-white mr-2">Fond saturé — cran 700 ou plus sombre</span>
+              <Button emphasis="solid" onDark leadingIcon={I.plus}>solid</Button>
+              <Button emphasis="outline" onDark>outline</Button>
+              <Button emphasis="ghost" onDark trailingIcon={I.arrow}>ghost</Button>
             </div>
-            <div className="rounded-lg bg-primary-50/60 border border-primary-100 p-stack flex flex-wrap items-center gap-stack-xs">
-              <span className="font-body text-caption font-bold text-primary-700 mr-2">Fond clair teinté</span>
-              <Button variant="glass-light" leadingIcon={I.plus}>glass-light</Button>
-              <Button variant="glass-light-ghost" trailingIcon={I.arrow}>glass-light-ghost</Button>
+            <div className="rounded-lg bg-secondary-50 border border-secondary-100 p-stack flex flex-wrap items-center gap-stack-xs">
+              <span className="font-body text-caption font-bold text-secondary-800 mr-2">Carte teintée</span>
+              <Button emphasis="soft" tone="neutral" leadingIcon={I.plus}>soft neutral</Button>
+              <Button emphasis="ghost" tone="neutral" trailingIcon={I.arrow}>ghost neutral</Button>
+              <Button emphasis="soft" tone="warm" leadingIcon={I.plus}>soft warm</Button>
             </div>
             <div className="rounded-lg bg-white border border-ink-200 p-stack flex flex-wrap items-center gap-stack-xs">
               <span className="font-body text-caption font-bold text-ink-600 mr-2">Fond blanc</span>
-              <Button variant="ghost" leadingIcon={I.plus}>ghost</Button>
-              <Button variant="glass-warm" leadingIcon={I.plus}>glass-warm</Button>
-              <Button variant="glass-sun" leadingIcon={I.plus}>glass-sun</Button>
+              <Button emphasis="soft" leadingIcon={I.plus}>soft</Button>
+              <Button emphasis="outline">outline</Button>
+              <Button emphasis="ghost" trailingIcon={I.arrow}>ghost</Button>
             </div>
           </div>
         </ShowcaseBloc>
@@ -2475,7 +2488,7 @@ const COMPONENTS: ComponentEntry[] = [
             <CardDesc>Ombre douce, padding généreux, pas de bordure.</CardDesc>
             <CardFooter>
               <span className="text-caption text-ink-500">il y a 3 min</span>
-              <Button size="sm" variant="ghost">Voir</Button>
+              <Button size="sm" emphasis="outline">Voir</Button>
             </CardFooter>
           </Card>
           <Card variant="elevated">
@@ -2654,13 +2667,13 @@ const COMPONENTS: ComponentEntry[] = [
         <EmptyState
           title="Aucun résultat"
           description="Essayez d'ajuster vos filtres ou le terme de recherche."
-          actions={<Button variant="primary">Réinitialiser les filtres</Button>}
+          actions={<Button emphasis="soft">Réinitialiser les filtres</Button>}
         />
         <EmptyState
           tone="warm"
           title="Commencez votre premier parcours"
           description="Explorez la bibliothèque et sélectionnez un parcours adapté à vos objectifs."
-          actions={<Button variant="secondary">Explorer</Button>}
+          actions={<Button emphasis="soft" tone="warm">Explorer</Button>}
         />
       </div>
     ),
@@ -3007,21 +3020,21 @@ const COMPONENTS: ComponentEntry[] = [
           icon={I.book}
           title="Continuer mon parcours"
           description="Prompt Engineering — Module 3 sur 8"
-          action={<Button size="sm" variant="primary">Reprendre</Button>}
+          action={<Button size="sm" emphasis="soft">Reprendre</Button>}
         />
         <ActionCard
           tone="warm"
           icon={I.trophy}
           title="Réserver une session"
           description="Coaching individuel avec Sophie Martin"
-          action={<Button size="sm" variant="secondary">Réserver</Button>}
+          action={<Button size="sm" emphasis="soft" tone="warm">Réserver</Button>}
         />
         <ActionCard
           tone="sun"
           icon={I.heart}
           title="Voir mes badges"
           description="Découvrez vos accomplissements récents"
-          action={<Button size="sm" variant="secondary">Voir</Button>}
+          action={<Button size="sm" emphasis="soft" tone="warm">Voir</Button>}
         />
       </div>
     ),
@@ -3485,7 +3498,7 @@ const COMPONENTS: ComponentEntry[] = [
       <div className="flex flex-col gap-stack">
         <Alert variant="info" title="Information">Mise à jour disponible — rechargez la page pour en bénéficier.</Alert>
         <Alert variant="success" title="Enregistré avec succès" dismissible>Vos modifications ont bien été sauvegardées.</Alert>
-        <Alert variant="warning" title="Attention" actions={<Button size="sm" variant="ghost">Voir les détails</Button>}>
+        <Alert variant="warning" title="Attention" actions={<Button size="sm" emphasis="outline">Voir les détails</Button>}>
           Votre session expire dans 5 minutes.
         </Alert>
         <Alert variant="danger" title="Erreur de connexion">Impossible de joindre le serveur. Vérifiez votre connexion.</Alert>
@@ -4666,7 +4679,7 @@ const COMPONENTS: ComponentEntry[] = [
           eyebrow={{ icon: <GraduationCap size={14} />, text: 'Mon parcours' }}
           title="Fondamentaux du Leadership"
           description="Apprenez les principes essentiels du leadership moderne et développez votre style unique."
-          actions={<><Button variant="secondary" size="sm">Partager</Button><Button variant="primary" size="sm">Continuer</Button></>}
+          actions={<><Button emphasis="soft" tone="warm" size="sm">Partager</Button><Button emphasis="soft" size="sm">Continuer</Button></>}
         />
         <PageHeader title="Tableau de bord" description="Bienvenue, retrouvez votre progression." />
         <PageHeader
@@ -6564,7 +6577,7 @@ const COMPONENTS: ComponentEntry[] = [
           icon={<FileText size={14} />}
           label="Support de l'atelier"
           badge={<Badge variant="neutral" size="compact">PDF</Badge>}
-          action={<Button variant="ghost" size="sm">Télécharger</Button>}
+          action={<Button emphasis="outline" size="sm">Télécharger</Button>}
         />
         <ResourceListItem
           icon={<Video size={14} />}
@@ -7437,10 +7450,10 @@ const COMPONENTS: ComponentEntry[] = [
     keywords: ['tooltip', 'infobulle', 'hover', 'focus', 'aide', 'side'],
     render: () => (
       <div className="flex flex-wrap items-center gap-section py-stack-lg">
-        <Tooltip content="Infobulle au-dessus"><Button variant="ghost" size="sm">top</Button></Tooltip>
-        <Tooltip content="A droite" side="right"><Button variant="ghost" size="sm">right</Button></Tooltip>
-        <Tooltip content="En dessous" side="bottom"><Button variant="ghost" size="sm">bottom</Button></Tooltip>
-        <Tooltip content="Variante brand" variant="brand"><Button variant="ghost" size="sm">brand</Button></Tooltip>
+        <Tooltip content="Infobulle au-dessus"><Button emphasis="outline" size="sm">top</Button></Tooltip>
+        <Tooltip content="A droite" side="right"><Button emphasis="outline" size="sm">right</Button></Tooltip>
+        <Tooltip content="En dessous" side="bottom"><Button emphasis="outline" size="sm">bottom</Button></Tooltip>
+        <Tooltip content="Variante brand" variant="brand"><Button emphasis="outline" size="sm">brand</Button></Tooltip>
       </div>
     ),
   },
@@ -7487,7 +7500,7 @@ const COMPONENTS: ComponentEntry[] = [
           <Badge variant="brand">3 sessions</Badge>
         </SettingsRow>
         <SettingsRow icon={<LogOut size={18} />} label="Supprimer le compte" description="Action irreversible" danger>
-          <Button variant="destructive" size="sm">Supprimer</Button>
+          <Button emphasis="solid" tone="danger" size="sm">Supprimer</Button>
         </SettingsRow>
       </div>
     ),
@@ -7619,7 +7632,7 @@ const COMPONENTS: ComponentEntry[] = [
         </Cluster>
         <Cluster gap="stack-xs" justify="between" align="center" className="rounded-lg border border-ink-200 bg-white px-stack py-stack-xs">
           <span className="text-body-sm font-semibold">justify=&quot;between&quot;</span>
-          <Button size="sm" variant="ghost">Action</Button>
+          <Button size="sm" emphasis="outline">Action</Button>
         </Cluster>
       </div>
     ),
@@ -9030,7 +9043,7 @@ const Components: React.FC = () => {
           title={`Catégorie « ${activeSlug} » inconnue`}
           description="Ce lien pointe vers une catégorie qui n'existe pas ou plus. Utilisez la navigation ci-dessus."
           actions={
-            <Button variant="primary" onClick={() => navigate('/components')}>
+            <Button emphasis="soft" onClick={() => navigate('/components')}>
               Voir tout le design system
             </Button>
           }
@@ -9043,7 +9056,7 @@ const Components: React.FC = () => {
           title="Aucun résultat"
           description={`Rien ne correspond à « ${query} ». Essayez un autre terme.`}
           actions={
-            <Button variant="primary" onClick={() => { setQuery(''); navigate('/components'); }}>
+            <Button emphasis="soft" onClick={() => { setQuery(''); navigate('/components'); }}>
               Réinitialiser
             </Button>
           }

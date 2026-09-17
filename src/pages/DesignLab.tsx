@@ -3364,11 +3364,11 @@ const DesignLab: React.FC = () => {
         <section className="flex flex-col gap-stack">
           <h2 className="text-h4 font-bold tracking-snug text-ink-900">Composant Button réel, pour repère</h2>
           <div className="flex flex-wrap items-center gap-stack rounded-xl border border-ink-200 bg-white p-4">
-            <Button variant="primary">Primary</Button>
-            <Button variant="secondary">Secondary</Button>
-            <Button variant="accent">Accent</Button>
-            <Button variant="ghost">Ghost</Button>
-            <Button variant="outline">Outline</Button>
+            <Button emphasis="soft">Primary</Button>
+            <Button emphasis="soft" tone="warm">Secondary</Button>
+            <Button emphasis="soft" tone="sun">Accent</Button>
+            <Button emphasis="outline">Ghost</Button>
+            <Button emphasis="outline">Outline</Button>
           </div>
           <p className="text-caption text-ink-500 m-0">
             Ci-dessus le vrai composant, non modifié — à comparer avec les simulations de la section Boutons.
