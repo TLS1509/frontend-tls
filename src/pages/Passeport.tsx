@@ -320,7 +320,7 @@ export default function Passeport() {
                         transform: showSuggestions ? 'translateY(0)' : 'translateY(16px)',
                       }}
                     >
-                      <Card className={`p-5 flex flex-col gap-stack-xs h-full transition-all bg-gradient-to-br from-accent-50 to-yellow-50 border border-accent-200 ${CARD_HOVER['sun']} group-focus-visible:outline-2 group-focus-visible:outline-offset-2 group-focus-visible:outline-accent-400`}>
+                      <Card className={`p-stack-md flex flex-col gap-stack-xs h-full transition-all bg-gradient-to-br from-accent-50 to-yellow-50 border border-accent-200 ${CARD_HOVER['sun']} group-focus-visible:outline-2 group-focus-visible:outline-offset-2 group-focus-visible:outline-accent-400`}>
                         <div className="flex items-start justify-between gap-stack-xs">
                           <div className="flex flex-col gap-tight flex-1 min-w-0">
                             <span className="text-body-sm font-semibold text-ink-900">{skill.label}</span>
@@ -370,7 +370,7 @@ export default function Passeport() {
                   className="group text-left"
                   aria-label={`Voir le détail de ${c.label}`}
                 >
-                  <Card className={`p-5 flex flex-col gap-stack-xs h-full transition-all ${CARD_HOVER_NEUTRE} group-focus-visible:outline-2 group-focus-visible:outline-offset-2 group-focus-visible:outline-primary-500`}>
+                  <Card className={`p-stack-md flex flex-col gap-stack-xs h-full transition-all ${CARD_HOVER_NEUTRE} group-focus-visible:outline-2 group-focus-visible:outline-offset-2 group-focus-visible:outline-primary-500`}>
                     <div className="flex items-start justify-between gap-stack-xs">
                       <div className="flex flex-col gap-tight flex-1 min-w-0">
                         <span className="text-body-sm font-semibold text-ink-900">{c.label}</span>

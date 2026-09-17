@@ -109,7 +109,7 @@ export const ConversationalChat: React.FC<ConversationalChatProps> = ({
 
       <div
         ref={scrollerRef}
-        className="flex-1 overflow-y-auto px-4 sm:px-6 py-5 flex flex-col gap-stack-xs scroll-smooth"
+        className="flex-1 overflow-y-auto px-4 sm:px-6 py-stack-md flex flex-col gap-stack-xs scroll-smooth"
         role="log"
         aria-live="polite"
         aria-atomic="false"

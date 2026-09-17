@@ -100,7 +100,7 @@ const CONTACT_DEFAULT_LABEL: Record<ProfileContactType, string> = {
 };
 
 const VARIANT_PADDING: Record<ProfileCardVariant, string> = {
-  compact:    'p-5 gap-stack',
+  compact:    'p-stack-md gap-stack',
   default:    'p-6 gap-stack',
   featured:   'p-8 gap-stack-lg',
   horizontal: 'p-6 gap-stack-lg', // horizontal banner — gap-stack-lg horizontal (24px between blocks)

@@ -296,7 +296,7 @@ function VariantB({ onDone }: { onDone: () => void }) {
   }
 
   const tileBase = [
-    'flex flex-col items-center justify-center gap-stack-xs rounded-2xl border-2 py-5 px-3 transition-all duration-200 active:scale-95 cursor-pointer min-h-[88px]',
+    'flex flex-col items-center justify-center gap-stack-xs rounded-xl border-2 py-stack-md px-3 transition-all duration-200 active:scale-95 cursor-pointer min-h-[88px]',
     'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-500',
   ].join(' ');
 
@@ -646,7 +646,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
       </div>
 
       {/* Footer nav */}
-      <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-stack-xs px-6 sm:px-8 py-5 border-t border-white/50 bg-white/40 backdrop-blur-glass-light">
+      <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-stack-xs px-6 sm:px-8 py-stack-md border-t border-white/50 bg-white/40 backdrop-blur-glass-light">
         {substep === 0 ? (
           <span />
         ) : (

@@ -198,7 +198,7 @@ const SecurityTab: React.FC = () => {
           <div
             key={session.id}
             className={[
-              'flex items-center justify-between gap-stack py-5 px-stack-lg -mx-6 transition-colors',
+              'flex items-center justify-between gap-stack py-stack-md px-stack-lg -mx-6 transition-colors',
               i < SESSIONS.length - 1 ? 'border-b border-ink-100' : '',
               session.current ? 'bg-primary-50' : '',
             ].join(' ')}

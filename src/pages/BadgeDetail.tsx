@@ -141,14 +141,14 @@ export default function BadgeDetail() {
           {/* Badge stats */}
           <div className="flex flex-col gap-stack flex-1 w-full">
             <div className="grid grid-cols-2 gap-stack">
-              <Card variant="tinted" tone="primary" className="flex flex-col items-center justify-center py-5 gap-tight">
+              <Card variant="tinted" tone="primary" className="flex flex-col items-center justify-center py-stack-md gap-tight">
                 <Trophy size={20} className="text-primary-600" />
                 <span className="text-h3 font-display font-bold text-primary-700">+{badge.xpValue} XP</span>
                 <span className="text-caption text-ink-500">
                   {earned ? 'Points gagnés' : 'Points à gagner'}
                 </span>
               </Card>
-              <Card variant="tinted" tone="sun" className="flex flex-col items-center justify-center py-5 gap-tight">
+              <Card variant="tinted" tone="sun" className="flex flex-col items-center justify-center py-stack-md gap-tight">
                 <Award size={20} className="text-accent-500" />
                 <Badge variant="sun" size="normal">{RARITY_LABEL(badge.xpValue)}</Badge>
                 <span className="text-caption text-ink-500">Rareté du badge</span>

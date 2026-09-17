@@ -172,7 +172,7 @@ export const AuthShell: React.FC<AuthShellProps> = ({
 
           {/* Optional aside content (e.g. recommendations on ResetPassword) */}
           {aside && (
-            <aside className="rounded-lg px-6 py-5 bg-white/8 backdrop-blur-glass-light border border-white/15 text-white/85">
+            <aside className="rounded-lg px-6 py-stack-md bg-white/8 backdrop-blur-glass-light border border-white/15 text-white/85">
               {aside}
             </aside>
           )}

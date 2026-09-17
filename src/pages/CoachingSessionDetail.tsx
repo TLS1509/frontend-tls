@@ -75,7 +75,7 @@ export default function CoachingSessionDetail() {
         {/* Info cards row */}
         <div className="grid md:grid-cols-3 gap-stack">
           {/* Coach */}
-          <Card variant="default" className="flex items-center gap-stack p-5">
+          <Card variant="default" className="flex items-center gap-stack p-stack-md">
             <Avatar name={session.coachName} initials={coachInitials} size="lg" />
             <div className="flex flex-col gap-tight">
               <span className="text-caption text-ink-600 uppercase tracking-wide">Coach</span>
@@ -85,7 +85,7 @@ export default function CoachingSessionDetail() {
           </Card>
 
           {/* Date & Time */}
-          <Card variant="default" className="flex items-center gap-stack p-5">
+          <Card variant="default" className="flex items-center gap-stack p-stack-md">
             <div className="w-10 h-10 rounded-xl bg-secondary-50 flex items-center justify-center shrink-0">
               <Calendar size={20} className="text-secondary-500" />
             </div>
@@ -97,7 +97,7 @@ export default function CoachingSessionDetail() {
           </Card>
 
           {/* Format */}
-          <Card variant="default" className="flex items-center gap-stack p-5">
+          <Card variant="default" className="flex items-center gap-stack p-stack-md">
             <div className="w-10 h-10 rounded-xl bg-secondary-50 flex items-center justify-center shrink-0">
               <Video size={20} className="text-secondary-500" />
             </div>

@@ -292,9 +292,9 @@ const AppLanding: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
           >
             {/* Outer tray */}
-            <div className="bg-white border border-primary-100 rounded-2xl p-2 shadow-brand-md">
+            <div className="bg-white border border-primary-100 rounded-xl p-2 shadow-brand-md">
               {/* Inner core */}
-              <div className="bg-primary-50/60 border border-primary-100 rounded-[18px] p-6 md:p-7 flex flex-col gap-5">
+              <div className="bg-primary-50/60 border border-primary-100 rounded-[18px] p-6 md:p-7 flex flex-col gap-stack-md">
                 <div className="flex flex-col gap-stack-3xs">
                   <span className="font-display font-bold text-ink-900 text-h4 m-0">Commencer gratuitement</span>
                   <span className="font-body text-body-sm text-ink-500">Accès complet · Aucune carte requise</span>
@@ -552,7 +552,7 @@ const AppLanding: React.FC = () => {
             © {new Date().getFullYear()} The Learning Society
           </span>
         </div>
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-stack-md">
           <Link to="/website/mentions-legales" className="font-body text-caption text-white/50 hover:text-white transition-colors">
             Mentions légales
           </Link>

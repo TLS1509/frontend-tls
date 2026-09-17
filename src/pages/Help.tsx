@@ -216,7 +216,7 @@ export const Help: React.FC = () => {
             </div>
 
             {/* Chat messages */}
-            <div className="flex flex-col gap-stack-xs p-5 min-h-[260px]">
+            <div className="flex flex-col gap-stack-xs p-stack-md min-h-[260px]">
               {CHAT_DEMO.map((msg, i) => (
                 <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                   <div className={[

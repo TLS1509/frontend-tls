@@ -162,7 +162,7 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
       variant="interactive"
       size="md"
       className={[
-        `relative border ${bgClasses} ${borderClasses} p-5 sm:p-6`,
+        `relative border ${bgClasses} ${borderClasses} p-stack-md sm:p-6`,
         shadowClasses,
         hoverClasses,
         !isAccessible ? 'opacity-60 cursor-not-allowed' : '',

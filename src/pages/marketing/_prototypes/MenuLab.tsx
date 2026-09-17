@@ -203,7 +203,7 @@ const MobileSheet: React.FC<{ onClose: () => void }> = ({ onClose }) => (
         </div>
       ))}
     </nav>
-    <div className="px-4 py-5 border-t border-ink-200/80 flex flex-col gap-2">
+    <div className="px-4 py-stack-md border-t border-ink-200/80 flex flex-col gap-2">
       <span className="inline-flex h-12 items-center justify-center rounded-pill bg-primary-700 font-body text-body-sm font-semibold text-white">
         Connexion
       </span>

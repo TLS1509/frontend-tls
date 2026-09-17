@@ -65,7 +65,7 @@ export const KeyFindingCard: React.FC<KeyFindingCardProps> = ({
     <div
       className={[
         'group relative rounded-lg bg-white/70 backdrop-blur-glass-light border border-ink-100',
-        'p-5 sm:p-6 shadow-xs hover:shadow-sm transition-all duration-base',
+        'p-stack-md sm:p-6 shadow-xs hover:shadow-sm transition-all duration-base',
         'flex gap-stack',
         isStacked ? 'flex-col items-start' : 'items-start',
         className,

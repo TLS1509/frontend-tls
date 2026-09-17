@@ -63,7 +63,7 @@ export const JournalBubbleCard: React.FC<JournalBubbleCardProps> = ({
       className={[
         // Chat-bubble shell — construction canonique de la famille bulle
         // (2026-09-17) : rayon conteneur (20), filet, queue bordée, padding
-        // canon carte (24 — p-5/20 px n'était pas dans l'échelle d'espacement).
+        // canon carte (24). Le cran `stack-md` (20 px) existe depuis le 17/09 au soir, mais la bulle reste au canon carte.
         'relative !overflow-visible rounded-xl border p-stack-lg flex flex-col gap-stack',
         'transition-all duration-base',
         meta.surface,

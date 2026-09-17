@@ -217,7 +217,7 @@ export const InteractiveAppMockup: React.FC<Props> = ({
   return (
     <MotionConfig reducedMotion="user">
       <div
-        className={`relative rounded-2xl bg-gradient-to-br from-primary-50 via-white to-secondary-50 border border-ink-100 shadow-2xl overflow-hidden p-5 flex flex-col gap-stack ${compact ? 'min-h-[360px]' : 'min-h-[460px]'} ${className}`}
+        className={`relative rounded-xl bg-gradient-to-br from-primary-50 via-white to-secondary-50 border border-ink-100 shadow-2xl overflow-hidden p-stack-md flex flex-col gap-stack ${compact ? 'min-h-[360px]' : 'min-h-[460px]'} ${className}`}
       >
         {compact ? (
           /* compact header — single feature label, no chrome/tab-switcher */

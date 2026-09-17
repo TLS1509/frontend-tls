@@ -111,7 +111,7 @@ export default function OpenBadgesSection() {
             {MOCK_BADGES.map((badge) => (
               <Card
                 key={badge.id}
-                className="p-5 flex flex-col gap-stack-xs"
+                className="p-stack-md flex flex-col gap-stack-xs"
               >
                 {/* Badge icon area */}
                 <div className="flex justify-center">

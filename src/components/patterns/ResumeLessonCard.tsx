@@ -121,7 +121,7 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
         cran `@lg` (512 px) se déclenche à 560 px de carte. Mesuré : la carte du
         tableau de bord fait 596 px, soit 548 de contenu — elle garde donc sa
         mise en ligne, ce qu'un seuil à `@xl` (576) lui aurait retiré. */
-        '@container group relative flex flex-col gap-5 rounded-xl border bg-white p-stack-lg cursor-pointer',
+        '@container group relative flex flex-col gap-stack-md rounded-xl border bg-white p-stack-lg cursor-pointer',
         ' transition-[transform,box-shadow,border-color] duration-base ease-emphasis',
         '',
         'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
@@ -190,7 +190,7 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
       </div>
 
       {/* ── Footer : progression + CTA (mobile stack → desktop row) ──────── */}
-      <div className="flex flex-col @lg:flex-row @lg:items-center gap-stack-sm @lg:gap-5">
+      <div className="flex flex-col @lg:flex-row @lg:items-center gap-stack-sm @lg:gap-stack-md">
         <div className="flex-1 flex flex-col gap-stack-2xs">
           <div className="flex items-center justify-between gap-stack-xs">
             <span className="text-micro font-semibold uppercase tracking-[0.06em] text-ink-600">

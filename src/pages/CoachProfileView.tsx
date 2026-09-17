@@ -150,7 +150,7 @@ export default function CoachProfileView() {
             <SectionCard title="Témoignages">
               <div className="flex flex-col gap-stack">
                 {TESTIMONIALS.map((t) => (
-                  <Card key={t.id} className="p-5 flex flex-col gap-stack-xs">
+                  <Card key={t.id} className="p-stack-md flex flex-col gap-stack-xs">
                     <div className="flex items-start justify-between gap-stack-xs flex-wrap">
                       <div className="flex items-center gap-stack-xs">
                         <Avatar name={t.name} initials={t.initials} size="sm" />

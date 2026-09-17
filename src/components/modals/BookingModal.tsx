@@ -296,7 +296,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
         </div>
 
         {/* Body — scrollable si vraiment nécessaire mais devrait fit */}
-        <div className="flex-1 overflow-y-auto p-5">
+        <div className="flex-1 overflow-y-auto p-stack-md">
           {step === 'datetime' && (
             <>
               {renderSourceBanner()}

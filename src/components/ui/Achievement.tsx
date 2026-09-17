@@ -18,7 +18,7 @@ interface AchievementProps {
 const SIZE_CLASSES: Record<'sm' | 'md' | 'lg', string> = {
   sm: 'p-3 gap-stack-xs',
   md: 'p-4 gap-stack',
-  lg: 'p-5 gap-stack',
+  lg: 'p-stack-md gap-stack',
 };
 
 const BADGE_SIZE: Record<'sm' | 'md' | 'lg', string> = {

@@ -150,7 +150,7 @@ export default function EvenementHub() {
                 : 0;
 
               return (
-                <Card key={ev.id} variant="default" className="p-5 flex flex-col gap-tight">
+                <Card key={ev.id} variant="default" className="p-stack-md flex flex-col gap-tight">
                   <div className="flex flex-wrap gap-stack-2xs">
                     {isPast ? (
                       <Badge variant="neutral">Terminé</Badge>

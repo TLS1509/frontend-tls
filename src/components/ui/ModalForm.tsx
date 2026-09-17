@@ -105,7 +105,7 @@ export const ModalForm: React.FC<ModalFormProps> = ({
         </div>
 
         {/* Body */}
-        <div className="px-6 py-5 flex flex-col gap-stack">
+        <div className="px-6 py-stack-md flex flex-col gap-stack">
           {children}
         </div>
 

@@ -99,15 +99,15 @@ export default function ManagerAlerts() {
 
         {/* Summary */}
         <div className="grid grid-cols-3 gap-stack">
-          <Card variant="tinted" tone="primary" className="flex flex-col items-center justify-center py-5 gap-tight">
+          <Card variant="tinted" tone="primary" className="flex flex-col items-center justify-center py-stack-md gap-tight">
             <span className="text-h2 font-display font-bold text-primary-700">{ALERTS.length}</span>
             <span className="text-caption text-ink-500">Alertes configurées</span>
           </Card>
-          <Card variant="tinted" tone="primary" className="flex flex-col items-center justify-center py-5 gap-tight">
+          <Card variant="tinted" tone="primary" className="flex flex-col items-center justify-center py-stack-md gap-tight">
             <span className="text-h2 font-display font-bold text-primary-700">{activeCount}</span>
             <span className="text-caption text-ink-500">Alertes actives</span>
           </Card>
-          <Card variant="tinted" tone="primary" className="flex flex-col items-center justify-center py-5 gap-tight">
+          <Card variant="tinted" tone="primary" className="flex flex-col items-center justify-center py-stack-md gap-tight">
             <span className="text-h2 font-display font-bold text-primary-700">{totalTriggers}</span>
             <span className="text-caption text-ink-500">Déclenchements ce mois</span>
           </Card>

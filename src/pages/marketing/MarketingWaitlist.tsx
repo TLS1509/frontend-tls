@@ -268,7 +268,7 @@ export const MarketingWaitlist: React.FC = () => {
                         key="form"
                         initial={{ opacity: 1 }}
                         exit={{ opacity: 0, scale: 0.97, transition: { duration: 0.2 } }}
-                        className="flex flex-col gap-5"
+                        className="flex flex-col gap-stack-md"
                       >
                         {/* Card heading */}
                         <div className="flex flex-col gap-stack-3xs">
@@ -435,7 +435,7 @@ export const MarketingWaitlist: React.FC = () => {
                         initial={{ opacity: 0, scale: 0.94, y: 8 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                        className="flex flex-col items-center gap-5 py-6 text-center"
+                        className="flex flex-col items-center gap-stack-md py-6 text-center"
                       >
                         <div className="w-16 h-16 rounded-pill bg-success-bg flex items-center justify-center">
                           <CheckCircle2

@@ -214,7 +214,7 @@ export const VeilleCard: React.FC<VeilleCardProps> = ({ item, surface, isSaved, 
       </div>
 
       {/* Body content */}
-      <div className="flex flex-col gap-stack-xs p-5 flex-1">
+      <div className="flex flex-col gap-stack-xs p-stack-md flex-1">
         <div className="inline-flex items-center gap-stack-2xs flex-wrap font-body text-micro font-semibold uppercase tracking-wider text-ink-500">
           <span className="inline-flex items-center gap-tight"><User size={14} strokeWidth={2} />{item.author}</span>
           <span aria-hidden>·</span>
@@ -285,7 +285,7 @@ export const VeilleCardListItem: React.FC<VeilleCardProps> = ({ item, surface, i
       </div>
 
       {/* Body content — titre → meta → summary */}
-      <div className="flex-1 min-w-0 flex flex-col gap-tight p-4 @lg:p-5 justify-center">
+      <div className="flex-1 min-w-0 flex flex-col gap-tight p-4 @lg:p-stack-md justify-center">
         <div className="flex items-start gap-stack-xs min-w-0">
           {item.isNew && (
             <span className="shrink-0 inline-flex px-2 py-0.5 rounded-pill bg-success-bg text-success-fg text-micro font-bold uppercase tracking-wide mt-px">

@@ -101,7 +101,7 @@ export default function ManagerExport() {
         </SectionCard>
 
         {/* Export preview */}
-        <Card variant="tinted" tone="primary" className="p-5 flex flex-col gap-stack-xs">
+        <Card variant="tinted" tone="primary" className="p-stack-md flex flex-col gap-stack-xs">
           <div className="flex items-center gap-stack-xs">
             <Download size={16} className="text-primary-600" />
             <span className="text-body-sm font-semibold text-primary-700">Aperçu de l'export</span>

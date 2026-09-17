@@ -178,7 +178,7 @@ export const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
         </div>
 
         {/* Info panel */}
-        <div className="p-5 bg-white border-t border-ink-200">
+        <div className="p-stack-md bg-white border-t border-ink-200">
           <div className="flex items-start justify-between gap-stack">
             <div className="flex-1 min-w-0">
               <h3 className="text-body font-bold text-ink-900 mb-1">

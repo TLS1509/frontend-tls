@@ -99,11 +99,11 @@ const JournalBubbleNudge: React.FC<JournalBubbleNudgeProps> = ({ navigate, hasUp
               Construction de la famille bulle, tranchée le 2026-09-17 : rayon
               conteneur (20) + padding canon carte (24, `p-stack-lg`). L'étape
               intermédiaire du même jour l'avait posée à `p-5` (20 px) pour
-              coller à `JournalBubbleCard` — mais 20 px n'est pas dans l'échelle
-              d'espacement, et c'est le composant qui a rejoint le canon, pas
-              l'inverse. Padding ≥ rayon : le coin ne pince pas. */}
+              coller à `JournalBubbleCard`, avant que le cran `stack-md` (20 px)
+              n'entre dans l'échelle le 17/09 au soir ; le composant avait
+              rejoint le canon carte (24) entre-temps. Padding ≥ rayon : le coin ne pince pas. */}
           <div className="flex-1 bg-primary-50/80 rounded-tl-xl rounded-tr-xl rounded-br-xl rounded-bl border border-primary-100/70 p-stack-lg">
-            <span className="block text-micro font-semibold text-primary-500 uppercase tracking-[0.07em] mb-2">
+            <span className="block text-micro font-semibold text-primary-700 uppercase tracking-[0.07em] mb-2">
               {meta}
             </span>
             <p className="font-body text-body text-ink-800 m-0">

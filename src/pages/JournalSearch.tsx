@@ -104,7 +104,7 @@ const JournalSearch: React.FC = () => {
               const excerpt = e.body.length > 150 ? e.body.slice(0, 150) + '…' : e.body;
               const date = new Date(e.createdAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
               return (
-                <Card key={e.id} className="p-5 cursor-pointer hover:border-primary-300 transition-all">
+                <Card key={e.id} className="p-stack-md cursor-pointer hover:border-primary-300 transition-all">
                   <div className="flex items-start gap-stack">
                     <Icon className={`w-6 h-6 ${cfg.color} shrink-0 mt-1`} />
                     <div className="flex-1">

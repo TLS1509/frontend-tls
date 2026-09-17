@@ -1534,7 +1534,7 @@ export const LessonPlayer: React.FC = () => {
     <div>
       <h2 className={SECTION_TITLE}>{lessonData.reflechir.heading}</h2>
       {lessonData.reflechir.questions.map((question, i) => (
-        <div key={i} className="bg-ink-50 rounded-lg p-5 mb-5">
+        <div key={i} className="bg-ink-50 rounded-lg p-stack-md mb-5">
           <h3 className="font-body text-body font-semibold text-ink-900">{question}</h3>
           <textarea
             className="w-full h-auto min-h-[96px] p-stack mt-3 font-body text-body-sm text-ink-900 bg-white border border-ink-200 rounded-lg resize-y transition-colors duration-150 focus:outline-none focus:border-primary-400 focus:ring-3 focus:ring-primary-100 focus:shadow-none"
@@ -1894,7 +1894,7 @@ export const LessonPlayer: React.FC = () => {
         if (block.chartType === 'bar') {
           const max = Math.max(...block.data.map(d => d.value), 1);
           return (
-            <div key={key} className={`bg-white border border-ink-100 rounded-xl ${compact ? 'p-3' : 'p-5'} ${mb}`}>
+            <div key={key} className={`bg-white border border-ink-100 rounded-xl ${compact ? 'p-3' : 'p-stack-md'} ${mb}`}>
               {block.title && <h4 className={`mb-3 font-display font-bold text-ink-900 ${compact ? 'text-body-sm' : 'text-h4'}`}>{block.title}</h4>}
               <div className="flex flex-col gap-stack-xs">
                 {block.data.map((item, i) => (
@@ -1922,7 +1922,7 @@ export const LessonPlayer: React.FC = () => {
           let accumulated = 0;
           const svgSize = compact ? 80 : 120;
           return (
-            <div key={key} className={`bg-white border border-ink-100 rounded-xl ${compact ? 'p-3' : 'p-5'} ${mb}`}>
+            <div key={key} className={`bg-white border border-ink-100 rounded-xl ${compact ? 'p-3' : 'p-stack-md'} ${mb}`}>
               {block.title && <h4 className={`mb-3 font-display font-bold text-ink-900 ${compact ? 'text-body-sm' : 'text-h4'}`}>{block.title}</h4>}
               <div className={`flex flex-col ${compact ? 'gap-stack-xs' : 'sm:flex-row items-center gap-stack-lg'}`}>
                 <svg width={svgSize} height={svgSize} viewBox="0 0 100 100" className="shrink-0 mx-auto" aria-hidden="true">
@@ -1968,7 +1968,7 @@ export const LessonPlayer: React.FC = () => {
             return `${x},${y}`;
           }).join(' ');
           return (
-            <div key={key} className={`bg-white border border-ink-100 rounded-xl ${compact ? 'p-3' : 'p-5'} ${mb} overflow-hidden`}>
+            <div key={key} className={`bg-white border border-ink-100 rounded-xl ${compact ? 'p-3' : 'p-stack-md'} ${mb} overflow-hidden`}>
               {block.title && <h4 className={`mb-3 font-display font-bold text-ink-900 ${compact ? 'text-body-sm' : 'text-h4'}`}>{block.title}</h4>}
               <svg viewBox={`0 0 ${W} ${H}`} className="w-full" aria-hidden="true">
                 <polyline points={pts} fill="none" stroke="var(--color-primary-500)"
@@ -2098,7 +2098,7 @@ export const LessonPlayer: React.FC = () => {
       case 'annotation': {
         const annotValue = reflections[block.journalKey] ?? '';
         return (
-          <div key={key} className={`bg-secondary-50 border border-secondary-500/30 rounded-xl ${compact ? 'p-3' : 'p-5'} ${mb}`}>
+          <div key={key} className={`bg-secondary-50 border border-secondary-500/30 rounded-xl ${compact ? 'p-3' : 'p-stack-md'} ${mb}`}>
             <div className="flex items-center gap-stack-xs mb-3">
               <BookOpen size={16} className="text-secondary-600 shrink-0" />
               <span className="font-body text-caption font-semibold text-secondary-600">Lié au Journal</span>

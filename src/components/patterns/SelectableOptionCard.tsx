@@ -43,7 +43,7 @@ export const SelectableOptionCard: React.FC<SelectableOptionCardProps> = ({
       className={[
         'flex rounded-lg border text-left transition-all duration-base',
         'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
-        isCompact ? 'flex-col items-center gap-tight p-3' : 'flex-col gap-stack-xs p-5',
+        isCompact ? 'flex-col items-center gap-tight p-3' : 'flex-col gap-stack-xs p-stack-md',
         selected
           ? 'bg-primary-50 border-primary-300 shadow-sm'
           : 'bg-white border-ink-100 hover:border-ink-200',

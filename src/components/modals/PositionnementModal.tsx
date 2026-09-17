@@ -194,7 +194,7 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
                       key={level.id}
                       onClick={() => handleLevelSelect(level.id)}
                       className={[
-                        'rounded-xl py-5 px-3 flex flex-col items-center gap-stack-xs cursor-pointer transition-all border-2 text-center',
+                        'rounded-xl py-stack-md px-3 flex flex-col items-center gap-stack-xs cursor-pointer transition-all border-2 text-center',
                         // Survol : filet fermé d'un cran + fond léger (règle du
                         // 2026-09-16) — plus de soulèvement ni d'ombre JS.
                         isSelected

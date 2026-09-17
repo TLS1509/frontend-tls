@@ -74,7 +74,7 @@ export default function AtelierHub() {
               const percent = Math.round((atelier.enrolledCount / atelier.maxParticipants) * 100);
 
               return (
-                <Card key={atelier.id} variant="default" className="flex flex-col gap-stack p-5">
+                <Card key={atelier.id} variant="default" className="flex flex-col gap-stack p-stack-md">
                   <div className="flex items-center gap-stack-xs flex-wrap">
                     {isPast ? (
                       <Badge variant="success">Passé</Badge>

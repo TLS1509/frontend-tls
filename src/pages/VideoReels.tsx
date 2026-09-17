@@ -274,7 +274,7 @@ export const VideoReels: React.FC = () => {
       />
 
       {/* ── Barre haute flottante ─────────────────────────────────── */}
-      <div className="fixed top-0 left-0 right-0 z-sticky px-stack-lg py-5 flex items-center justify-between gap-stack bg-gradient-to-b from-black/65 to-transparent">
+      <div className="fixed top-0 left-0 right-0 z-sticky px-stack-lg py-stack-md flex items-center justify-between gap-stack bg-gradient-to-b from-black/65 to-transparent">
 
         <button
           onClick={() => navigate('/veille')}

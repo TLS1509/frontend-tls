@@ -71,7 +71,7 @@ export default function CoachCorrectionInterface() {
         <div className="flex flex-col gap-section">
 
           {/* Apprenant header */}
-          <Card variant="default" className="flex items-center gap-stack p-5">
+          <Card variant="default" className="flex items-center gap-stack p-stack-md">
             <Avatar name={SUBMISSION.apprenantName} initials={SUBMISSION.apprenantInitials} size="lg" />
             <div className="flex flex-col gap-tight flex-1">
               <span className="text-body font-semibold text-ink-900">{SUBMISSION.apprenantName}</span>

@@ -505,14 +505,17 @@
      2 px, pas 4, et un renommage naïf les aurait tous divisés par deux.
      `gap-3` (12 px) en comptait 26, entre `stack-xs` (8) et `stack` (16).
 
-     L'échelle est donc : 2 · 4 · 6 · 8 · 12 · 16 · 24 · 32 · 40 · 48.
-     Le 20 px (8 usages) n'a PAS de cran : trop peu nombreux pour justifier un
-     token, ils se calent sur 16 ou 24 selon le cas. */
+     L'échelle est donc : 2 · 4 · 6 · 8 · 12 · 16 · 20 · 24 · 32 · 40 · 48.
+     ⚠️ Le cran 20 (`stack-md`) a été TRANCHÉ le 2026-09-17 (banc, décision
+     « cran-20px », option A) : la ligne précédente disait « 8 usages, pas de
+     cran » — recompté à 40 usages `p-5` en produit le même jour. L'échelle
+     raconte désormais 16 → 20 → 24 ; les `p-5` numériques migrent sur le token. */
   --spacing-stack-3xs:  0.25rem;
   --spacing-stack-2xs:  0.375rem;
   --spacing-stack-xs:   0.5rem;
   --spacing-stack-sm:   0.75rem;
   --spacing-stack:      1rem;
+  --spacing-stack-md:   1.25rem;
   --spacing-stack-lg:   1.5rem;
   --spacing-section:    2rem;
   --spacing-section-lg: 2.5rem;

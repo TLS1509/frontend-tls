@@ -240,7 +240,7 @@ export const SubscriptionPayment: React.FC = () => {
                 onClick={() => setSelectedPlan(plan.id)}
                 aria-pressed={isSelected}
                 className={[
-                  'group relative text-left flex flex-col gap-stack p-5 rounded-lg border-2 transition-all duration-base cursor-pointer',
+                  'group relative text-left flex flex-col gap-stack p-stack-md rounded-lg border-2 transition-all duration-base cursor-pointer',
                   isSelected
                     ? 'bg-white border-primary-500 ring-2 ring-primary-200'
                     : plan.highlight
