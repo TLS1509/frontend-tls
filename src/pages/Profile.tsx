@@ -277,7 +277,7 @@ export const Profile: React.FC = () => {
                           {k.icon}
                         </span>
                         <div className="flex-1 min-w-0">
-                          <p className="m-0 font-display text-body font-bold text-ink-900 leading-none">
+                          <p className="m-0 font-display text-body font-bold text-ink-900">
                             {k.value}
                           </p>
                           <p className="m-0 font-body text-caption text-ink-700 mt-0.5">
@@ -383,7 +383,7 @@ export const Profile: React.FC = () => {
                     >
                       {badge.icon}
                     </span>
-                    <p className="m-0 font-body text-caption font-semibold text-ink-900 leading-tight">
+                    <p className="m-0 font-body text-caption font-semibold text-ink-900">
                       {badge.label}
                     </p>
                     {badge.earned ? (

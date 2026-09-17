@@ -5019,7 +5019,7 @@ const COMPONENTS: ComponentEntry[] = [
               </button>
               <div className="absolute inset-x-3 bottom-3 rounded-xl bg-white/85 backdrop-blur-glass-heavy border border-white/60 p-stack flex flex-col gap-tight shadow-lg">
                 <span className="font-body text-micro font-bold uppercase tracking-wider text-primary-700">{item.category} · {item.publishedAt}</span>
-                <h3 className="font-display text-body-lg font-bold text-ink-900 leading-tight">{item.title}</h3>
+                <h3 className="font-display text-body-lg font-bold text-ink-900">{item.title}</h3>
                 <div className="flex items-center gap-stack-xs mt-1 font-body text-micro text-ink-600">
                   <User size={11} className="inline shrink-0" /><span>{item.author}</span>
                   <span aria-hidden>·</span>
@@ -5062,7 +5062,7 @@ const COMPONENTS: ComponentEntry[] = [
                   </div>
                   {/* Content : titre → meta → summary */}
                   <div className="flex flex-col justify-center gap-tight p-stack">
-                    <h3 className="font-display text-body-sm font-bold text-ink-900 leading-tight line-clamp-2">{it.title}</h3>
+                    <h3 className="font-display text-body-sm font-bold text-ink-900 line-clamp-2">{it.title}</h3>
                     <div className="flex items-center gap-stack-2xs font-body text-micro text-ink-400 flex-wrap">
                       <User size={10} className="shrink-0" />
                       <span>{it.author}</span>
@@ -5095,7 +5095,7 @@ const COMPONENTS: ComponentEntry[] = [
                   </div>
                   {/* Content */}
                   <div className="flex-1 min-w-0 flex flex-col gap-tight px-stack py-3">
-                    <h3 className="font-display text-body-sm font-bold text-ink-900 leading-tight line-clamp-1">{it.title}</h3>
+                    <h3 className="font-display text-body-sm font-bold text-ink-900 line-clamp-1">{it.title}</h3>
                     <div className="flex items-center gap-stack-2xs font-body text-micro text-ink-500 flex-wrap">
                       <User size={10} className="shrink-0" />
                       <span>{it.author}</span>
@@ -9165,7 +9165,7 @@ const Components: React.FC = () => {
                         >
                           {p.family}
                         </div>
-                        <div className="text-body font-extrabold text-ink-900 leading-tight">
+                        <div className="text-body font-extrabold text-ink-900">
                           {p.name}
                         </div>
                       </div>

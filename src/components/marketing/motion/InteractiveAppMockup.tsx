@@ -168,7 +168,7 @@ const VeillePanel: React.FC = () => (
         <span className="inline-flex items-center self-start px-2 py-0.5 rounded-pill bg-primary-50 text-primary-700 text-micro font-bold uppercase">
           {item.tag}
         </span>
-        <p className="font-body font-bold text-body-sm text-ink-900 m-0 leading-tight">{item.title}</p>
+        <p className="font-body font-bold text-body-sm text-ink-900 m-0">{item.title}</p>
         <p className="font-body text-caption text-ink-500 m-0">{item.src}</p>
       </motion.div>
     ))}
