@@ -365,12 +365,44 @@ const EMPHASIS_TONE: Record<ButtonEmphasis, Partial<Record<ButtonTone, string>>>
 };
 
 /** Sur surface sombre, `solid` bascule sur le traitement translucide existant. */
+/* ── PRÉVIZ « option D » (banc d'audit, décision 1) — DEV UNIQUEMENT ─────────
+   Interrupteur de prévisualisation demandé par Chloé le 17/09 pour VOIR l'app
+   sans remplissages pleins avant de trancher : l'action principale passe en
+   tinted, la secondaire en outline. Ne touche ni `destructive` ni le verre.
+   Activation dans la console du navigateur :
+     localStorage.setItem('tls-option-d', '1'); location.reload()
+   Retour à l'état réel :
+     localStorage.removeItem('tls-option-d'); location.reload()
+   `import.meta.env.DEV` garantit que le bloc est éliminé du build de prod.
+   ⚠️ À SUPPRIMER une fois la décision 1 tranchée au banc. */
+const OPTION_D_ACTIVE = (): boolean => {
+  if (!import.meta.env.DEV || typeof window === 'undefined') return false;
+  try {
+    if (window.location.search.includes('optionD=1')) window.localStorage.setItem('tls-option-d', '1');
+    if (window.location.search.includes('optionD=0')) window.localStorage.removeItem('tls-option-d');
+    return window.localStorage.getItem('tls-option-d') === '1';
+  } catch { return false; }
+};
+/** Exposé pour les CTA faits main (ParcoursCard…) afin que la préviz couvre
+    aussi les affordances hors <Button>. DEV uniquement, comme le reste. */
+export const apercuOptionD = OPTION_D_ACTIVE;
+const OPTION_D_REMAP: Partial<Record<ButtonVariant, ButtonVariant>> = {
+  primary: 'ghost',        // principal → tinted teal
+  ghost: 'outline',        // l'actuel secondaire descend d'un niveau
+  secondary: 'glass-warm', // principal warm → tinted warm
+  accent: 'glass-sun',     // principal sun → tinted sun
+};
+
 const resolveClasses = (
   variant: ButtonVariant,
   emphasis: ButtonEmphasis | undefined,
   tone: ButtonTone,
   onDark: boolean,
 ): string => {
+  if (OPTION_D_ACTIVE()) {
+    if (emphasis === 'solid') emphasis = 'soft';
+    else if (!emphasis) variant = OPTION_D_REMAP[variant] ?? variant;
+  }
   if (!emphasis) return VARIANT_CLASSES[variant];
   if (onDark && emphasis === 'solid') return VARIANT_CLASSES.glass;
   return EMPHASIS_TONE[emphasis][tone] ?? EMPHASIS_TONE[emphasis].brand ?? VARIANT_CLASSES.primary;
