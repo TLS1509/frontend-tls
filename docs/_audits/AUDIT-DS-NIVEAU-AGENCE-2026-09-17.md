@@ -126,7 +126,7 @@ mécanisme (blanc 13–16 px sur un remplissage 500/600) :
 | `primary-600` (variant primary) | **3,66** | 4,5 — le A2 connu |
 | `secondary-500` (variant secondary) | **2,64** | 4,5 |
 | `accent-500` (variant accent) | **2,31** | 4,5 |
-| FilterChip actif (dégradé → 600) | **3,66** | 4,5 |
+| un filtre actif saturé de la vitrine (dégradé → 600) — le `FilterChip` du système a, lui, un actif doux conforme | **3,66** | 4,5 |
 | Boutons d'humeur faits main (RatingModal) | 2,64 / 2,94 | 4,5 |
 
 La doctrine écrite (« texte blanc uniquement sur 700+ ») n'est donc pas respectée par les
@@ -230,7 +230,7 @@ signature carte non-verre — et le prochain écart se verra le jour même, pas 
 que l'échec du CTA (3,66) est le même mécanisme sur `secondary` (2,64) et `accent` (2,31) :
 c'est le niveau `solid` entier qui pose du blanc sur des remplissages 500/600. Une seule
 décision — « un label blanc exige un remplissage 700+ » ou « le solid garde son 500/600 et le
-label devient encre » — règle les trois familles, le FilterChip actif et les boutons d'humeur.
+label devient encre » — règle les trois familles, le filtre saturé de la vitrine et les boutons d'humeur.
 Les mesures sont faites ; il ne manque que la décision.
 
 **3 · Traiter Figma comme le code : une source, des étages, un rythme.** La couche tokens est
