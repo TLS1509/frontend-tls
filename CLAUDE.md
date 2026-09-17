@@ -406,6 +406,12 @@ Valeurs → `src/index.css` (@theme). Familles : `--spacing-*` (tight · stack-x
 
 **Règle** : préférer un token sémantique nommé (`gap-stack`, `gap-section`) à un `gap-4/6/8` générique — il exprime l'intention.
 
+✅ **Le cran `stack-md` (20 px) a fini sa migration le 2026-09-17.** Il était
+entré dans l'échelle la veille, mais 139 utilitaires au pas de 5 le valaient
+encore en numérique — dont les 67 `px-5` écartés à l'époque, 26 `mb-5` et
+16 `p-5`. Tous portent le token. Rendu strictement identique ; ce qui change,
+c'est qu'il n'y a plus qu'un endroit où modifier le cran.
+
 ⚠️ **Piège Tailwind v4** : `ease-*` et `duration-*` ne sont **pas** auto-générés depuis `@theme` — ils requièrent des `.ease-*` / `.duration-*` en `@layer utilities` (déjà dans `index.css`), exactement comme les `shadow-*` custom.
 
 
@@ -535,6 +541,41 @@ const parse = (str) => {
 Corollaire : un fond translucide n'a de contraste qu'une fois **composé sur ce
 qu'il recouvre**. Composer à la main (`α·premier + (1−α)·fond`) après avoir lu
 les deux couches — sinon on mesure une transparence, c'est-à-dire rien.
+
+### ⚠️ Piège n°6 quater : une sonde qui ne lit que `background-color` croit que les dégradés sont blancs
+
+Mesuré le 2026-09-17, et il a fallu s'en apercevoir **avant** d'agir. La sonde de
+contraste du cycle in situ remontait les ancêtres en lisant `backgroundColor`.
+Or un hero peint par `background-image: linear-gradient(...)` a un
+`backgroundColor` **transparent** : la sonde traversait, arrivait au blanc de la
+page, et déclarait en échec des boutons parfaitement lisibles. Elle a signalé
+« blanc sur blanc, 1,00 » sur un bouton posé sur un dégradé teal foncé.
+
+Le faux positif est du même genre que le piège précédent : **plausible**. Une
+passe de correction menée sur cette base aurait « réparé » des boutons sains.
+
+Le correctif : à chaque ancêtre, lire aussi `backgroundImage`, et s'il contient
+un `gradient(`, en extraire les **arrêts de couleur** et rendre l'intervalle
+pire cas / meilleur cas plutôt qu'un seul nombre.
+
+```js
+const arretsDuDegrade = (bgImage) => {
+  if (!bgImage || bgImage === 'none' || !/gradient\(/.test(bgImage)) return null;
+  const couleurs = bgImage.match(/(?:rgba?|oklab|oklch|color|lab|lch)\([^)]*\)|#[0-9a-f]{3,8}/gi) || [];
+  return couleurs.map(lire).filter(c => c && c.a > 0);   // `lire` = le canvas 1×1
+};
+```
+
+Un dégradé est opaque : dès qu'on en rencontre un, on arrête de remonter.
+
+⚠️ **Deuxième piège de mesure du même jour** : lire `getComputedStyle(el).boxShadow`
+juste après `el.focus()` sur un élément qui porte `transition-[…box-shadow…]`
+rend la valeur **interpolée**, pas la valeur cible. On croit l'anneau de focus
+absent alors qu'il arrive 150 ms plus tard. Attendre la fin de la transition, ou
+lire sur un élément déjà focalisé. *(L'anneau de `Button.tsx` a été soupçonné à
+tort pour cette raison ; vérification faite, il se peint bien — la pseudo-classe
+`:focus-visible` porte une spécificité de (0,2,0) qui bat nos `shadow-*` maison
+à (0,1,0). Le piège n°6 bis reste vrai entre classes de même spécificité.)*
 
 ### ⚠️ Piège n°7 : `sr-only` sur un `<input>` ancré dans un label sans `position: relative`
 
@@ -936,21 +977,100 @@ L'app est une SPA réactive : les données du domaine vivent dans des stores Zus
 
 **Accessibilité** (⚠️ corrigé 2026-07-23 : l'ancien « 44px = WCAG AA » était un amalgame) :
 - Seuils réels : **WCAG 2.2 AA (SC 2.5.8) = 24×24 px** (seul minimum normatif) ; AAA / Apple HIG = 44×44. **Règle TLS** : 44 px sur les actions principales, 24 px minimum partout.
-- Hauteurs Button mesurées : `sm` 32px · `md` 44px (`h-touch`) · `lg` 48px · `xl` 56px. `sm` passe AA mais rate 44 → contextes denses seulement.
-- **Focus visible** obligatoire sur tout élément focusable custom : `focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500`.
-- Contraste : `text-ink-900` sur blanc. Texte blanc uniquement sur `primary-700+` / `secondary-700+` / `accent-700+` — ⚠️ **`primary-600` est à 3,66:1 et échoue AA** pour du texte normal (corrigé le 2026-07-28 : cette ligne disait « `bg-primary-600+` », en contradiction avec l'avertissement de la section Référence Tailwind plus haut). Éviter `text-ink-500` pour titres/CTA.
+- Hauteurs Button mesurées : `sm` 32px · `md` 44px (`h-touch`) · `lg` 48px · `xl` **52px**. `sm` passe AA mais rate 44 → contextes denses seulement (sa cible tactile est portée à 44 px par un pseudo-élément qui déborde de 6 px).
+- **Focus visible** obligatoire sur tout élément focusable custom. Le canon est l'anneau bicolore de `Button.tsx` — blanc à l'intérieur, ink-900 à l'extérieur : aucune couleur unique ne passe le 3:1 sur tous les fonds de l'app.
+- Contraste : `text-ink-900` sur blanc. Texte blanc uniquement sur `primary-700+` / `secondary-700+` / `accent-700+` — ⚠️ **`primary-600` est à 3,66:1 et échoue AA** pour du texte normal.
 - Pour du **texte** sur fond clair, utiliser les tokens `-fg` : `secondary-600` et `accent-600` échouent AA en texte, ils servent au remplissage.
 - **Contour d'un composant (SC 1.4.11) = 3:1, et la règle ne dit rien de
   l'épaisseur.** Un filet de 1 px au bon cran passe comme un filet de 2 px : ne
-  jamais épaissir pour « faire passer », changer la teinte. Crans conformes sur
-  blanc : **teal 600** (3,66) · **orange 600** (3,98) · **or 700** (4,88 — l'or
-  est la seule famille dont le 600 rate, à 2,89). ⚠️ `primary-500`, le teal de la
-  signature, mesure **2,94** : il rate de six centièmes, il n'y a pas d'entre-deux.
+  jamais épaissir pour « faire passer », changer la teinte.
+
+  ⚠️⚠️ **Corrigé le 2026-09-17 — les crans donnés ici l'étaient SUR BLANC, et un
+  seuil mesuré sur blanc n'est pas un seuil.** Cette ligne disait « teal 600
+  (3,66) · orange 600 (3,98) · or 700 (4,88) ». C'est exact sur du blanc pur, et
+  faux partout où un bouton se pose réellement — c'est-à-dire aussi sur une carte
+  teintée. Mesuré au navigateur sur les trois surfaces :
+
+  | filet | blanc | tone-50 | tone-100 |
+  |---|---:|---:|---:|
+  | teal 600 | 3,66 | 3,26 | **2,99** ✗ |
+  | teal 700 | 5,02 | 4,48 | 4,11 ✓ |
+  | orange 600 | 3,98 | 3,65 | 3,07 |
+  | orange 700 | 6,31 | 5,79 | 4,88 ✓ |
+  | or 600 | 2,89 | 2,76 | 2,49 ✗ |
+  | or 700 | 4,88 | 4,65 | 4,20 ✓ |
+
+  **La règle est donc : le filet d'un bouton est au cran 700, le label au 800.**
+  L'or, seule famille qu'on savait déjà devoir monter au 700, cesse d'être une
+  exception : c'est la même règle pour les trois. ⚠️ `primary-500`, le teal de la
+  signature, mesure **2,94** sur blanc : il ne porte ni texte ni contour.
 - **Les variantes douces battent tous les remplissages saturés en contraste de
-  texte** (mesuré 2026-09-09, fonds translucides recomposés sur blanc) :
-  `ghost` 6,31 · `glass-warm` 8,69 · `glass-sun` 7,23 — contre 3,66 au mieux pour
-  un fond plein. Leur filet a été fermé au cran conforme le même jour ; il était
-  au cran 100, à 1,05, donc invisible.
+  texte** : `soft/brand` 6,31 · `soft/warm` 9,49 · `soft/sun` 7,64 — contre 5,02
+  au mieux pour un aplat conforme. C'est l'argument qui a porté la bascule.
+
+### Le bouton — `emphasis` × `tone`, et le contrat par niveau (2026-09-17)
+
+**L'API publique de `Button` est la grille.** `emphasis` dit COMBIEN le bouton
+insiste (`solid` · `soft` · `outline` · `ghost` · `link`), `tone` de quelle
+couleur (`brand` · `warm` · `sun` · `danger` · `neutral`). Les treize `variant`
+historiques restent supportés mais sont **dépréciés** : ce ne sont plus que des
+coordonnées dans la table `VARIANT_ALIAS`. `primary` = soft/brand · `ghost` =
+outline/brand · `glass` = solid + `onDark`.
+
+⚠️ **Pourquoi la dépendance a été inversée, et pas seulement renommée.** La
+bascule du 17/09 a changé ce que rendait `variant="primary"` en modifiant la
+chaîne de classes sous ce nom. La case `solid`/`brand` de la grille pointait sur
+cette chaîne : elle a suivi en silence. Mesuré sur `/website`, le CTA principal
+de la page d'accueil, qui déclare pourtant `emphasis="solid"`, rendait
+`#e8f4f7` — le teinté de l'app — et les deux CTA du hero étaient devenus
+indiscernables. **Un nom ne doit jamais porter de classes ; seule la grille le
+peut.**
+
+| niveau | fond | label | filet | contrat mesuré |
+|---|---|---|---|---|
+| `solid` | cran **700**, opaque | blanc | aucun | blanc sur 700 : 5,02 · 6,31 · 4,88 · 5,15. Le 600 rate (3,66) |
+| `soft` | cran **50**, **opaque** | 800 | 700 | labels 6,31 · 9,49 · 7,64 |
+| `outline` | transparent | 800 | 700 | — |
+| `ghost` | transparent | 800 | **aucun** | le fond n'arrive qu'au survol |
+| `link` | aucune boîte | 800 | — | — |
+
+⚠️ **Le fond du niveau `soft` est OPAQUE et au cran 50 pour les trois tons.** Un
+fond translucide laisse la PAGE changer la couleur du bouton : le CTA warm de
+`/website`, posé dans une bande `bg-ink-900`, composait à `#bda79c`, un mastic
+brunâtre. Et le cran 100 n'est pas un pas régulier d'une famille à l'autre —
+mesuré en ΔE contre le blanc, primary-100 vaut 9,7 quand secondary-100 vaut 19,5
+et accent-100 20,7, donc le bouton warm se détachait deux fois plus que le teal.
+Le cran 50 est régulier : 6,4 · 6,9 · 6,3.
+
+⚠️ **Le survol d'un `solid` FONCE (700 → 800), il n'éclaircit pas.** L'ancien
+`hover:bg-primary-500` faisait tomber le label blanc de 3,66 à 2,94 : le bouton
+devenait moins lisible au moment précis où on allait le presser.
+
+**`onDark` n'est pas un ton, c'est une affirmation sur la surface — et elle se
+vérifie.** Le nom `glass` décrivait une MATIÈRE, donc rien ne pouvait contrôler
+où on la posait : mesuré le 17/09, **26 boutons « verre » vivaient sur un hero
+clair**, blanc sur blanc à 1,03, et c'était l'action principale de vingt pages.
+
+⚠️ **Le niveau `onDark solid` est un verre CLAIR À ENCRE FONCÉE.** Il portait
+`bg-white/20` + `text-white` — un voile clair sous un texte clair, la
+contradiction que ce fichier nomme déjà pour le compteur de la nav. Mesuré :
+
+| voile + encre | ink-900 | p-800 | p-700 | p-600 | p-500 |
+|---|---:|---:|---:|---:|---:|
+| blanc/20 + blanc *(avant)* | 7,46 | 4,36 | 3,42 | 2,73 | 2,31 |
+| **blanc/85 + ink-900** *(après)* | **10,65** | **11,34** | **11,72** | **12,03** | **12,34** |
+
+⚠️ **Contrat de surface des deux niveaux restés en blanc** (`onDark outline` et
+`onDark ghost`) : ils demandent un fond au **cran 700 ou plus sombre**. Un hero
+qui descend au 500 ne peut porter aucun label blanc, quel que soit le bouton —
+c'est le fond qu'il faut remonter.
+
+**Padding horizontal** : `px-stack` (16) · `px-stack-md` (20) · `px-stack-lg`
+(24) · `px-7` (28). L'invariant qui range les crans est le rapport du padding à
+la POLICE du label — 1,23 · 1,33 · 1,50 · 1,47 — et non à la hauteur, qui dérive.
+⚠️ Le 28 de `xl` est hors échelle et c'est écrit plutôt que corrigé : 24
+donnerait 1,26 quand `lg` est à 1,50, donc le plus grand bouton paraîtrait plus
+serré que celui d'en dessous.
 
 **Navigation — l'état sélectionné, et pourquoi les deux barres ne se ressemblent pas.**
 `Sidebar` (bureau) et `BottomNav` (mobile) gardent **deux registres distincts**,

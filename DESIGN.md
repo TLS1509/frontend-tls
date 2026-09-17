@@ -670,16 +670,49 @@ dans la base.
 exactement comme `tracking-headline`. Préférer le token nommé : lui seul dit à quoi
 il sert.
 
+### Le bouton — l'API est une grille, pas une liste de noms
+
+> **Posé le 2026-09-17.** `emphasis` (solid · soft · outline · ghost · link) ×
+> `tone` (brand · warm · sun · danger · neutral). Les treize `variant`
+> historiques sont dépréciés : ce ne sont plus que des coordonnées.
+
+**La règle sous la règle : un nom ne porte jamais de classes.** La bascule du
+17/09 a changé ce que rendait `variant="primary"` en modifiant la chaîne de
+classes sous ce nom ; la case `solid`/`brand` pointait dessus et a suivi en
+silence. Résultat mesuré : le CTA principal de la page d'accueil marketing, qui
+déclare pourtant `emphasis="solid"`, rendait le teinté de l'app. Le site avait
+perdu ses aplats sans qu'une ligne du site ne change.
+
+**Deux surfaces, deux usages du même système.** Le site garde l'aplat (`solid`,
+reconstruit au cran 700, blanc à 5,02) ; l'app prend le teinté (`soft`, 6,31).
+Ce n'est pas une divergence de design system — c'est le même niveau choisi
+différemment selon le registre : la conversion d'un côté, la durée de l'autre.
+
+**Le contrat de contraste appartient au niveau.** Filet au cran 700, label au
+800 : un bouton se pose aussi sur une carte teintée, et un seuil mesuré sur du
+blanc n'est pas un seuil. Le détail chiffré vit dans `CLAUDE.md`, qui fait foi.
+
+**`onDark` est une affirmation sur la surface, donc vérifiable.** C'est tout
+l'intérêt du renommage : le mot `glass` désignait une matière, et on pouvait la
+poser n'importe où. Le jour du renommage, 26 boutons « verre » ont été trouvés
+sur des heros clairs — blanc sur blanc, action principale de vingt pages.
+
+---
+
 ### Le bouton — graisse, tailles, seuils
 
-| Taille | Police | Hauteur | Usages |
-|---|---|---|---:|
-| `sm` | 13 px | 32 px | **227** |
-| `md` *(défaut)* | 15 px | 44 px | 214 |
-| `lg` | 16 px | 48 px | 71 |
-| `xl` | 18 px | 56 px | 10 |
+| Taille | Police | Hauteur | Padding H | Usages |
+|---|---|---|---|---:|
+| `sm` | 13 px | 32 px | **16** | **227** |
+| `md` *(défaut)* | 15 px | 44 px | 20 | 214 |
+| `lg` | 16 px | 48 px | 24 | 71 |
+| `xl` | 19 px | **52 px** | 28 | 10 |
 
 **Graisse : 700 sur toutes les tailles** (décidé le 09/09). Aucun tracking.
+
+**Le padding horizontal se juge au rapport à la POLICE** (1,23 · 1,33 · 1,50 ·
+1,47), pas à la hauteur, qui dérive de 0,438 à 0,538. `sm` était le seul cran
+sous 1,2 — et le plus employé ; il est passé de 14 à 16 le 17/09.
 
 ⚠️ **Deux points ouverts sur cette table :**
 
@@ -699,7 +732,7 @@ Ils sont ici parce qu'ils sont **mesurés**, pas supposés :
 | Règle | État au 2026-09-09 |
 |---|---|
 | `ink-400` ne porte pas de texte | ⚠️ **355 usages**, dont **241 fautifs** — les 114 autres sont légitimes (états désactivés, glyphes décoratifs) ou hors produit. Depuis la reconstruction de la rampe, `ink-400` vaut 3,01 : utilisable en bordure, toujours pas en texte |
-| Texte blanc sur `primary-600` | ⚠️ **3,66:1 — échoue AA.** Le label des boutons est en 15px/600, donc du texte normal : le seuil est 4,5, pas 3,0. `primary-700` passe à 5,02. **Arbitrage ouvert, pas une règle à recopier** : changer le remplissage repeint tous les boutons de l'app |
+| Texte blanc sur `primary-600` | ✅ **Résolu le 2026-09-17.** L'app n'a plus d'aplat depuis la bascule (son niveau principal est `soft`, à 6,31), et le site marketing a vu son aplat reconstruit au **cran 700** — le premier qui porte du blanc à 4,5:1. Plus aucun bouton du produit ne s'appuie sur `primary-600` pour du texte |
 
 ---
 
@@ -774,8 +807,8 @@ lignes sont conservées pour l'archive, pas pour être suivies.
 |---|---|---|
 | ~~**R1**~~ | ~~Le rayon de référence : 14, 20 ou 24 px~~ | ✅ **Tranchée deux fois** — 14 px le 09/09, puis **20 px le 16/09** après mesure. L'échelle est étagée : étiquette en pilule, interactif à 14, conteneur à 20. Voir `CLAUDE.md` § Rayons |
 | ~~**B1**~~ | ~~La typographie du bouton *(posée le 09/09)*~~ | ✅ **Faite le 09/09** — `tracking-tight` a quitté la `BASE` de `Button.tsx` ; il n'en reste qu'un commentaire interdisant de l'y remettre. *(Le chiffre « 522 boutons » a vieilli : 593 au 17/09.)* |
-| C3 | Rempli ou outline pour les boutons de marque | commande le registre du site |
-| A2 | Le bouton primaire de l'app mesure 3,66 | seul défaut a11y restant après A1 |
+| ~~C3~~ | ~~Rempli ou outline pour les boutons de marque~~ | ✅ **Tranchée le 2026-09-17, et les deux surfaces ne répondent pas pareil** : le site garde l'aplat (`emphasis="solid"`, reconstruit au cran 700), l'app prend le teinté (`emphasis="soft"`). Ce n'est pas une divergence de système mais un usage différent du même niveau — le registre du site est la conversion, celui de l'app la durée |
+| ~~A2~~ | ~~Le bouton primaire de l'app mesure 3,66~~ | ✅ **Résolue le 2026-09-17.** Le niveau `soft` mesure 6,31, l'aplat du site 5,02. Le cran 600 ne porte plus de texte nulle part |
 | A3 | ~~Doctrine light-only~~ → **le dark mode est reporté, pas exclu** | à refaire proprement |
 
 ---
