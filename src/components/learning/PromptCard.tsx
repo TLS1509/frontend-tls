@@ -24,7 +24,11 @@ export interface PromptCardProps {
 }
 
 /**
- * Apple Messages-style chat bubble — borderless, drop-shadow only.
+ * Bulle de la famille chat (construction JournalBubbleCard, alignée le
+ * 2026-09-17) : rayon conteneur (20), filet tonal, queue bordée — et AUCUNE
+ * ombre, ni au repos (S2) ni au survol (règle carte du 16/09). L'ancienne
+ * construction « borderless + drop-shadow silhouette » contredisait ces deux
+ * décisions et donnait à la famille bulle un deuxième rayon (24).
  * Card body bg shifts to tone-tinted on hover.
  */
 const VARIANT_HOVER_BG: Record<BadgeVariant, string> = {
@@ -50,25 +54,34 @@ const VARIANT_CTA_HOVER: Record<BadgeVariant, string> = {
   danger:  'group-hover:text-danger-fg',
 };
 
-/**
- * Tone-aware drop-shadow on hover (matches the variant's accent color, very subtle).
- */
-const VARIANT_HOVER_SHADOW: Record<BadgeVariant, string> = {
-  brand:   'group-hover:[filter:drop-shadow(0_8px_24px_rgba(85,161,180,0.18))]',
-  info:    'group-hover:[filter:drop-shadow(0_8px_24px_rgba(85,161,180,0.18))]',
-  warm:    'group-hover:[filter:drop-shadow(0_8px_24px_rgba(237,132,58,0.18))]',
-  sun:     'group-hover:[filter:drop-shadow(0_8px_24px_rgba(248,176,68,0.20))]',
-  neutral: 'group-hover:[filter:drop-shadow(0_8px_20px_rgba(0,0,0,0.10))]',
-  success: 'group-hover:[filter:drop-shadow(0_8px_24px_rgba(157,190,186,0.18))]',
-  danger:  'group-hover:[filter:drop-shadow(0_8px_24px_rgba(242,133,89,0.18))]',
+/** Filet au repos — 100 du ton (comme JournalChatCompose), neutre sinon. */
+const VARIANT_BORDER: Record<BadgeVariant, string> = {
+  brand:   'border-primary-100',
+  info:    'border-primary-100',
+  warm:    'border-secondary-100',
+  sun:     'border-accent-100',
+  neutral: 'border-ink-200',
+  success: 'border-ink-200',
+  danger:  'border-ink-200',
+};
+
+/** Le filet se ferme d'un cran au survol (règle carte du 16/09). */
+const VARIANT_HOVER_BORDER: Record<BadgeVariant, string> = {
+  brand:   'hover:border-primary-300 group-hover:border-primary-300',
+  info:    'hover:border-primary-300 group-hover:border-primary-300',
+  warm:    'hover:border-secondary-300 group-hover:border-secondary-300',
+  sun:     'hover:border-accent-300 group-hover:border-accent-300',
+  neutral: 'hover:border-ink-300 group-hover:border-ink-300',
+  success: 'hover:border-ink-300 group-hover:border-ink-300',
+  danger:  'hover:border-ink-300 group-hover:border-ink-300',
 };
 
 /**
  * Speech-bubble tail — Apple Messages style at bottom-right.
  *
- * Borderless: the tail shares the card's background color (white at rest,
- * tone-tinted on hover) and inherits the parent's drop-shadow filter so
- * the silhouette appears as a single seamless bubble shape.
+ * Construction JournalBubbleCard : carré tourné 45°, coin br arrondi 6 px,
+ * bordures droite + basse qui prolongent le filet de la bulle, fond partagé
+ * (blanc au repos, teinté au survol via group-hover).
  */
 const SpeechTail: React.FC<{ variant: BadgeVariant }> = ({ variant }) => (
   <span
@@ -76,8 +89,9 @@ const SpeechTail: React.FC<{ variant: BadgeVariant }> = ({ variant }) => (
     className={[
       // Position: absolute, tucked under the card's bottom edge, offset from right
       'absolute -bottom-2 right-8 w-5 h-5 rotate-45 rounded-br-[6px]',
-      // No border — share the card's background to merge seamlessly
-      'bg-white/90 transition-colors duration-200',
+      'bg-white border-r border-b transition-colors duration-200',
+      VARIANT_BORDER[variant],
+      VARIANT_HOVER_BORDER[variant],
       // Match the card's tinted bg on hover
       VARIANT_HOVER_BG[variant],
     ].join(' ')}
@@ -85,12 +99,10 @@ const SpeechTail: React.FC<{ variant: BadgeVariant }> = ({ variant }) => (
 );
 
 const BASE_INTERACTIVE =
-  'group relative cursor-pointer rounded-2xl bg-white/90 backdrop-blur-sm transition-all duration-slow ease-emphasis ' +
+  'group relative cursor-pointer rounded-xl bg-white border transition-all duration-base ease-emphasis ' +
   // Override global [role="button"] rule from components-modern.css that forces height:40px + overflow:hidden
   '!h-auto !overflow-visible ' +
-  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ' +
-  '[filter:drop-shadow(0_2px_12px_rgba(0,0,0,0.08))] ' +
-  '';
+  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
 
 export const PromptCard: React.FC<PromptCardProps> = ({
   label,
@@ -105,7 +117,8 @@ export const PromptCard: React.FC<PromptCardProps> = ({
   className = '',
 }) => {
   const hoverBg = VARIANT_HOVER_BG[variant] ?? VARIANT_HOVER_BG.info;
-  const hoverShadow = VARIANT_HOVER_SHADOW[variant] ?? VARIANT_HOVER_SHADOW.info;
+  const restBorder = VARIANT_BORDER[variant] ?? VARIANT_BORDER.info;
+  const hoverBorder = VARIANT_HOVER_BORDER[variant] ?? VARIANT_HOVER_BORDER.info;
   const ctaHover = VARIANT_CTA_HOVER[variant] ?? 'group-hover:text-primary-700';
   // Default: bubble visible on compact, hidden on featured (the featured layout is too wide for a bubble)
   const showBubble = bubble ?? size === 'default';
@@ -131,8 +144,9 @@ export const PromptCard: React.FC<PromptCardProps> = ({
           '@container',
           'flex flex-col @xl:flex-row items-stretch @xl:items-center gap-stack @xl:gap-7',
           'p-stack-lg',
+          restBorder,
+          hoverBorder,
           hoverBg,
-          hoverShadow,
           className,
         ]
           .filter(Boolean)
@@ -176,9 +190,10 @@ export const PromptCard: React.FC<PromptCardProps> = ({
     <div
       className={[
         BASE_INTERACTIVE,
-        'flex flex-col items-center text-center gap-stack p-6',
+        'flex flex-col items-center text-center gap-stack p-stack-lg',
+        restBorder,
+        hoverBorder,
         hoverBg,
-        hoverShadow,
         className,
       ]
         .filter(Boolean)

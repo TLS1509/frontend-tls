@@ -96,21 +96,13 @@ const JournalBubbleNudge: React.FC<JournalBubbleNudgeProps> = ({ navigate, hasUp
           </div>
 
           {/* Bulle — vraie forme chat (coin bas-gauche aplati pour la queue).
-              Rayon 20 + padding 20, corrigé le 2026-09-17. Elle était à 24 de
-              rayon pour 16/12 de padding : le dégagement au coin tombait à
-              9,6 px contre 12 le long du bord le plus serré — 20 % de perte,
-              avec le premier texte mesuré à 21 px du coin, donc dans la zone.
-              Le padding était asymétrique (16 horizontal, 12 vertical) sans
-              raison écrite.
-              La cible n'est pas choisie au juger : `JournalBubbleCard`, le seul
-              membre propre de la famille bulle, est à `rounded-xl` + `p-5` —
-              soit padding = rayon exactement, le point où le coin cesse de
-              pincer. Cette bulle faite main s'aligne dessus.
-              ⚠️ `p-5` (20 px) n'est PAS dans l'échelle d'espacement
-              (2·4·6·8·12·16·24·32·40·48). On le garde ici pour coller au
-              composant plutôt que de forker une 6ᵉ valeur de bulle ; c'est à la
-              décision « famille bulle » de trancher, pas à cette correction. */}
-          <div className="flex-1 bg-primary-50/80 rounded-tl-xl rounded-tr-xl rounded-br-xl rounded-bl border border-primary-100/70 p-5">
+              Construction de la famille bulle, tranchée le 2026-09-17 : rayon
+              conteneur (20) + padding canon carte (24, `p-stack-lg`). L'étape
+              intermédiaire du même jour l'avait posée à `p-5` (20 px) pour
+              coller à `JournalBubbleCard` — mais 20 px n'est pas dans l'échelle
+              d'espacement, et c'est le composant qui a rejoint le canon, pas
+              l'inverse. Padding ≥ rayon : le coin ne pince pas. */}
+          <div className="flex-1 bg-primary-50/80 rounded-tl-xl rounded-tr-xl rounded-br-xl rounded-bl border border-primary-100/70 p-stack-lg">
             <span className="block text-micro font-semibold text-primary-500 uppercase tracking-[0.07em] mb-2">
               {meta}
             </span>
@@ -125,7 +117,7 @@ const JournalBubbleNudge: React.FC<JournalBubbleNudgeProps> = ({ navigate, hasUp
           <button
             type="button"
             onClick={() => navigate(href)}
-            className="flex-1 h-9 rounded-md bg-ink-50/80 border border-ink-100 px-4 text-body-sm text-ink-600 text-left hover:bg-ink-100 hover:border-ink-200 transition-[background-color,border-color] duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+            className="flex-1 h-9 rounded-lg bg-ink-50/80 border border-ink-100 px-4 text-body-sm text-ink-600 text-left hover:bg-ink-100 hover:border-ink-200 transition-[background-color,border-color] duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           >
             Répondre…
           </button>

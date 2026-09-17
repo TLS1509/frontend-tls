@@ -43,8 +43,12 @@ export const JournalChatCompose: React.FC<JournalChatComposeProps> = ({
   return (
     <Card
       className={[
-        '!p-0 !rounded-2xl !gap-0 !overflow-visible relative',
-        'bg-white border border-primary-100 shadow-sm hover:shadow-md transition-shadow',
+        /* Rayon : celui de la Card (20) — la famille bulle est alignée sur
+           l'étage conteneur depuis le 2026-09-17 (l'override !rounded-2xl
+           donnait à cette bulle un 3e rayon dans la famille). Pas d'ombre :
+           une carte n'en porte plus (S2), et celle-ci n'est pas cliquable. */
+        '!p-0 !gap-0 !overflow-visible relative',
+        'bg-white border border-primary-100',
         className,
       ]
         .filter(Boolean)
