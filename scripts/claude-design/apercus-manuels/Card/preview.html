@@ -1,0 +1,40 @@
+<!-- @dsCard group="Atoms" height=720 subtitle="variantes, tons, tailles" -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  body { margin: 0; padding: 24px; background: var(--color-surface-muted); font-family: var(--font-body); color: var(--color-text-strong); }
+  .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .label { grid-column: 1 / -1; font-size: 11px; line-height: 18px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--color-text-muted); margin: 8px 0 0; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+(function () {
+  var h = React.createElement;
+  var Card = window.TheLearningSocietyDesignSystem_96f558.Card;
+  var Button = window.TheLearningSocietyDesignSystem_96f558.Button;
+  function App() {
+    return h('div', { className: 'grid' },
+      h('p', { className: 'label' }, 'Variantes'),
+      h(Card, { eyebrow: 'Default', title: 'Carte par défaut', description: 'Filet ink-200, pas d’ombre. Le contenu reste groupé.' }),
+      h(Card, { variant: 'interactive', onClick: function () {}, eyebrow: 'Interactive', title: 'Survol', description: 'Le filet se ferme d’un cran, le fond se teinte.' }),
+      h(Card, { variant: 'minimal', eyebrow: 'Minimal', title: 'Carte minimale', description: 'Transparente, filet léger.' }),
+      h('p', { className: 'label' }, 'Tons'),
+      h(Card, { variant: 'tinted', tone: 'primary', eyebrow: 'Primary', title: 'Parcours en cours', description: 'Focus et progression.' }),
+      h(Card, { variant: 'tinted', tone: 'warm', eyebrow: 'Warm', title: 'Session coach', description: 'Action et contact humain.',
+        footer: h(Button, { size: 'sm', emphasis: 'soft', tone: 'warm' }, 'Réserver') }),
+      h(Card, { variant: 'tinted', tone: 'sun', eyebrow: 'Sun', title: 'Pratique validée', description: 'Réflexion et accomplissement.' }),
+      h('p', { className: 'label' }, 'Tailles sm · md (défaut) · lg'),
+      h(Card, { size: 'sm', title: 'Dense', description: 'Padding spacing-stack.' }),
+      h(Card, { size: 'md', title: 'Canon', description: 'Padding spacing-stack-lg.' }),
+      h(Card, { size: 'lg', title: 'Large', description: 'Pour un bloc autonome.' })
+    );
+  }
+  ReactDOM.createRoot(document.getElementById('root')).render(h(App));
+})();
+</script>
+</body>
+</html>

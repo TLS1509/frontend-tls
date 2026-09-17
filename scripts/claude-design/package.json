@@ -1,0 +1,18 @@
+{
+  "name": "tls-claude-design-kit",
+  "private": true,
+  "type": "module",
+  "description": "Recompile le bundle, les aperçus et les types du design system TLS publié dans Claude Design.",
+  "scripts": {
+    "build": "node build.mjs && node build-react.mjs && python3 gen_previews.py && node dts.mjs",
+    "check": "node render-check.mjs"
+  },
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.2.2",
+    "@types/react": "^19.3.0",
+    "esbuild": "^0.25.12",
+    "postcss": "^8.5.10",
+    "tailwindcss": "^4.2.2",
+    "typescript": "^6.0.3"
+  }
+}

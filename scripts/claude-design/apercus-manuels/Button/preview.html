@@ -1,0 +1,55 @@
+<!-- @dsCard group="Atoms" height=560 subtitle="emphasis × tone, 4 tailles, icône seule, états" -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  body { margin: 0; padding: 24px; background: var(--color-surface); font-family: var(--font-body); color: var(--color-text-strong); }
+  .rows { display: flex; flex-direction: column; gap: 20px; }
+  .label { font-size: 11px; line-height: 18px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--color-text-muted); margin: 0 0 8px; }
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+  .dark { padding: 16px; border-radius: var(--radius-xl); background: var(--color-primary-800); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+(function () {
+  var h = React.createElement;
+  var DS = window.TheLearningSocietyDesignSystem_96f558;
+  var Button = DS.Button;
+  var plus = function () { return h(DS.Icons.Plus, { size: 24, 'aria-hidden': true }); };
+  var arrow = function () { return h(DS.Icons.ArrowRight, { size: 24, 'aria-hidden': true }); };
+  function Row(p) { return h('div', null, h('p', { className: 'label' }, p.label), h('div', { className: 'row' + (p.dark ? ' dark' : '') }, p.children)); }
+  function App() {
+    return h('div', { className: 'rows' },
+      h(Row, { label: 'Emphase, ton brand' },
+        h(Button, { emphasis: 'solid' }, 'Valide la pratique'),
+        h(Button, { emphasis: 'soft' }, 'Reprends'),
+        h(Button, { emphasis: 'outline' }, 'Voir le parcours'),
+        h(Button, { emphasis: 'ghost' }, 'Plus tard'),
+        h(Button, { emphasis: 'link' }, 'En savoir plus')),
+      h(Row, { label: 'Tons, emphase solid' },
+        h(Button, { emphasis: 'solid', tone: 'brand' }, 'Brand'),
+        h(Button, { emphasis: 'solid', tone: 'warm' }, 'Warm'),
+        h(Button, { emphasis: 'solid', tone: 'sun' }, 'Sun'),
+        h(Button, { emphasis: 'solid', tone: 'danger' }, 'Supprimer'),
+        h(Button, { emphasis: 'soft', tone: 'neutral' }, 'Neutral')),
+      h(Row, { label: 'Tailles sm · md · lg · xl' },
+        ['sm', 'md', 'lg', 'xl'].map(function (s) { return h(Button, { key: s, size: s, leadingIcon: plus() }, 'Soumettre'); })),
+      h(Row, { label: 'Icône seule · états' },
+        h(Button, { iconOnly: true, 'aria-label': 'Ajouter', size: 'sm' }, plus()),
+        h(Button, { iconOnly: true, 'aria-label': 'Ajouter', emphasis: 'soft' }, plus()),
+        h(Button, { trailingIcon: arrow() }, 'Continuer'),
+        h(Button, { loading: true }, 'Chargement'),
+        h(Button, { disabled: true }, 'Désactivé')),
+      h(Row, { label: 'Sur fond sombre', dark: true },
+        h(Button, { emphasis: 'solid', onDark: true }, 'Commencer'),
+        h(Button, { variant: 'glass', leadingIcon: plus() }, 'glass'))
+    );
+  }
+  ReactDOM.createRoot(document.getElementById('root')).render(h(App));
+})();
+</script>
+</body>
+</html>
