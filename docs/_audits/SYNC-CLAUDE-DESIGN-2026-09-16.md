@@ -267,3 +267,49 @@ de classes) et les `.d.ts` (aucun type n'a changé, les noms de variantes sont
 conservés jusqu'au renommage). Le rendu de contrôle Playwright n'a pas été
 relancé : le delta est entièrement des littéraux de classes dans des maps déjà
 exercées par la §11 — à relancer à la passe de renommage, qui touchera l'API.
+
+---
+
+## 13. Versions 28–29 — le renommage, 17.09.2026 nuit (session DS suite)
+
+**Ce que la §12 renvoyait à cette passe, et qui est fait.** Elle annonçait le
+rendu de contrôle Playwright « à relancer à la passe de renommage, qui touchera
+l'API ». Il a été relancé : **0 erreur sur 191**, sur le commit `33a4c3c`.
+(`playwright` et son Chromium n'étaient pas installés sur ce Mac — `npm install
+--no-save playwright` puis `npx playwright install chromium`.)
+
+**Publié en deux appels, comme le protocole le demande.**
+
+- **v28** — `bundle.js`, `bundle.css`, `index.d.ts`, les **28 `.d.ts` écrits à
+  la main** (tous portent le commit dans leur en-tête, donc tous ont changé même
+  quand leur contenu est identique), `Button/preview.html` et
+  `Button/README.md`.
+- **v29** — l'index seul, relu juste avant, `lastChange` sur `33a4c3c`.
+
+**Non republiés, et cette fois c'est mesuré, pas supposé.** La §12 avait écarté
+les 191 `preview.html` en raisonnant ; cette fois huit d'entre eux ont été
+**relus depuis l'artefact et comparés octet à octet** au résultat de la
+recompilation — `SessionCard`, `ParcoursCard`, `CoachRow`, `VeilleCardFeed`,
+`ResumeLessonCard`, `JournalBubbleCard`, `StepTutorial`, `ConsentBanner`, tous
+riches en boutons. **Identiques.** Le renommage change la couleur et la largeur
+des boutons, pas la hauteur des fiches, et la hauteur est la seule chose qu'un
+aperçu porte en propre.
+
+**La fiche Button est réécrite en entier**, parce que l'API a changé : la grille
+`emphasis` × `tone` avec le contrat chiffré de chaque niveau, la raison du
+renommage (un nom ne porte jamais de classes), le contrat de surface d'`onDark`,
+et les deux « à éviter » que la journée a produits — le survol qui éclaircit, le
+fond translucide sur `soft`.
+
+⚠️ **L'aperçu manuel de Button disait une chose fausse** : sa rangée « Tons,
+emphase solid » finissait sur une case `soft`. `solid`/`neutral` existe
+maintenant (encre de marque, blanc dessus) et la rangée le montre ; une rangée
+`soft` dans les cinq tons a été ajoutée à côté, puisque c'est le niveau que
+l'app emploie réellement.
+
+⚠️ **Le conflit de verrou s'est présenté à nouveau, et le réflexe qui le résout
+n'est pas celui qu'on croit.** Le premier envoi a été refusé (« vous n'avez pas
+vu la dernière version ») alors que je venais de lire huit fichiers par `path`.
+**Une lecture par `path` n'enregistre pas la vue** : seule la lecture pleine, à
+l'URL sans chemin, le fait. C'est déjà noté dans la mémoire du dépôt ; ça vaut
+la peine de le redire ici, parce que l'erreur se reproduit à chaque session.
