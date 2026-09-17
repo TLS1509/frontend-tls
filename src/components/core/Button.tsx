@@ -4,37 +4,80 @@ import { Link } from 'react-router-dom';
 /**
  * Button — Valeurs : src/index.css (@theme) et src/styles/design-tokens.css.
  * Règles d'usage : docs/_canon/REGLES-USAGE-COMPOSANTS.md
- * (design-system/spec.json supprimé le 2026-07-22 : jamais importé, périmé.)
  *
- * A single action trigger. Hiérarchie depuis le 2026-09-17 (option D — l'app
- * n'a plus de remplissage plein ; les noms disent le RÔLE, pas la recette) :
- *   - primary:           l'action principale, une par écran — TINTED teal
- *   - secondary:         action principale warm — TINTED orange
- *   - accent:            célébration / highlight — TINTED or
- *   - ghost:             action secondaire — OUTLINE teal (≡ outline, le temps du renommage)
- *   - outline:          transparent bg + visible teal border
- *   - outline-warm:     transparent bg + visible orange border
- *   - destructive:       delete / irreversible
- *   - glass:             on DARK tinted/gradient surfaces (text-white, semi-transparent)
- *   - glass-light:       ⭐ on LIGHT tinted surfaces (cards EntryCard/SessionCard tinted) — filled frosted white
- *   - glass-light-ghost: ⭐ on LIGHT tinted surfaces — ghost frosted (secondary action)
- *   - glass-warm:        ⭐ frosted tinted warm (secondary-100/70 + blur)
- *   - glass-sun:         ⭐ frosted tinted sun (accent-100/70 + blur)
- *   - link:              inline text links
+ * ═══ L'API PUBLIQUE EST `emphasis` × `tone` ═══════════════════════════════
  *
- * Glass variants pair :
- *   - Use `glass` on saturated/dark backgrounds (hero brand, auth, dark gradient overlay)
- *   - Use `glass-light` (filled) + `glass-light-ghost` (secondary) on LIGHT tinted card surfaces
- *     (primary-50, secondary-50, accent-50, etc.) for cohérent frosted DS effect
+ * Deux axes, et ils disent deux choses différentes :
  *
- * PRÉFÉRER l'API `emphasis` × `tone` pour les nouveaux usages (voir plus bas).
+ *   emphasis — COMBIEN le bouton insiste. Cinq niveaux, du plus au moins :
+ *              solid · soft · outline · ghost · link
+ *   tone     — DE QUELLE COULEUR il insiste. Cinq tons :
+ *              brand · warm · sun · danger · neutral
  *
- * Retirés le 2026-07-23 (tous les usages migrés) :
- *   - warm        → secondary
- *   - brand-ghost → ghost
- *   - glass-brand → ghost  (doublon exact, 4 unités RGB)
+ * `variant` (13 noms historiques) reste supporté mais est DÉPRÉCIÉ : chaque
+ * nom n'est plus qu'un alias vers une case de la grille (table VARIANT_ALIAS).
+ *
+ * ⚠️ POURQUOI ce renommage, et pourquoi il fallait le faire tout de suite.
+ *
+ * La bascule du 2026-09-17 (banc, décision `a2-contrat-solid`, option D : l'app
+ * abandonne le remplissage plein) a changé ce que rendait `variant="primary"` —
+ * de l'aplat teal au teinté — en modifiant la chaîne de classes sous ce nom.
+ * Or la case `solid`/`brand` de la grille POINTAIT sur cette même chaîne. Elle a
+ * donc suivi, en silence.
+ *
+ * Conséquence mesurée au navigateur le 2026-09-17 sur `/website` : le CTA
+ * principal de la page d'accueil, qui déclare pourtant `emphasis="solid"`,
+ * rendait `#e8f4f7` — primary-50, le teinté de l'app — au lieu d'un aplat. Le
+ * site marketing avait perdu ses remplissages sans qu'une seule ligne du site
+ * ne change, et ses deux CTA de hero — le principal et le secondaire — étaient
+ * devenus visuellement indiscernables.
+ *
+ * La correction n'est pas de retoucher une valeur, c'est d'inverser la
+ * dépendance : **la grille porte les classes, les noms historiques n'y pointent
+ * plus que par coordonnées.** Un nom ne peut plus déplacer un niveau.
+ *
+ * ═══ LE CONTRAT DE CHAQUE NIVEAU ══════════════════════════════════════════
+ *
+ * Chaque contrat est mesuré au navigateur (canvas 1×1, fonds composés ancêtre
+ * par ancêtre — jamais de regex sur `rgba()`, cf. CLAUDE.md piège n°6 ter).
+ *
+ *   solid   — aplat du ton au cran 700, label blanc. Le cran 700 est le
+ *             PREMIER qui porte du blanc à 4,5:1 : brand 5,02 · warm 6,31 ·
+ *             sun 4,88 · danger 5,15. Le cran 600, où vivait l'ancien
+ *             `primary`, mesure 3,66 et échoue (c'est le défaut A2 de
+ *             DESIGN.md, « le bouton primaire de l'app mesure 3,66 »).
+ *   soft    — fond du ton au cran 50 OPAQUE, label 800, filet 600 (700 pour
+ *             l'or). Labels 6,31 / 9,49 / 7,64 — meilleurs que tout aplat.
+ *   outline — fond transparent, filet 600 (700 pour l'or), label 700.
+ *   ghost   — ni fond ni filet au repos, le fond n'arrive qu'au survol.
+ *   link    — texte souligné, pas de boîte.
+ *
+ * ⚠️ Le fond du niveau `soft` est OPAQUE, et le cran est 50 pour les trois tons.
+ *    Avant le renommage, `warm` et `sun` portaient `tone-100/70`. Deux mesures
+ *    condamnent ce choix :
+ *      · Un fond translucide laisse la PAGE changer la couleur du bouton. Sur
+ *        `/website`, le CTA warm posé dans la bande `bg-ink-900` composait à
+ *        `#bda79c` — un mastic brunâtre, plus une pastille ambre.
+ *      · Le cran 100 n'est pas un pas régulier d'une famille à l'autre : mesuré
+ *        en ΔE contre le blanc, primary-100 vaut 9,7 quand secondary-100 vaut
+ *        19,5 et accent-100 20,7. Le bouton warm se détachait deux fois plus de
+ *        la page que le teal. Le cran 50 est régulier : 6,4 · 6,9 · 6,3.
+ *
+ * ═══ LE FLOU, LUI, RESTE — mais seulement là où il recouvre ════════════════
+ *
+ * DESIGN.md §10.1 : « le verre est un signal, jamais une finition ». Il ne
+ * subsiste donc que sur `soft`/`neutral` et `ghost`/`neutral` — la pastille
+ * blanche givrée posée SUR une carte teintée — et sur `onDark`. Il a quitté
+ * `soft`/`warm` et `soft`/`sun`, où il ne recouvrait rien.
  */
 
+/**
+ * @deprecated API historique. Chaque nom est désormais un alias vers une case
+ * de la grille `emphasis` × `tone` (voir VARIANT_ALIAS). Préférer les deux axes.
+ *
+ * Retirés le 2026-07-23 (usages migrés) : `warm` → secondary · `brand-ghost` →
+ * ghost · `glass-brand` → ghost (doublon exact, 4 unités RGB).
+ */
 export type ButtonVariant =
   | 'primary'
   | 'secondary'
@@ -49,44 +92,19 @@ export type ButtonVariant =
   | 'glass-warm'
   | 'glass-sun'
   | 'link';
-  // 2026-07-23 : retirés après migration de tous les usages.
-  //   'warm'        → 'secondary'   (32 usages migrés)
-  //   'brand-ghost' → 'ghost'       (9 usages migrés)
-  //   'glass-brand' → 'ghost'       (2 usages migrés — doublon exact, 4 unités RGB)
 
 export type ButtonSize = 'sm' | 'md' | 'lg' | 'xl';
 
-/* ─────────────────── Grille emphase × ton (2026-07-23) ──────────────────── */
-
-/**
- * Les 14 `variant` ci-dessus encodent le TON dans leur nom. D'où la
- * prolifération : chaque nouveau ton exigeait un nouveau nom, et les doublons
- * devenaient invisibles. Rangés, ils forment une grille de 5 emphases × 5 tons,
- * avec un doublon (`glass-brand` ≡ `ghost`, 4 unités RGB d'écart) et des trous
- * (pas d'outline en sun/danger, pas de link hors brand).
- *
- * `emphasis` + `tone` expriment la même chose sans les noms arbitraires, et
- * attachent le contrat de contraste au NIVEAU plutôt qu'à chaque nom :
- *   solid   — fond porteur, label inversé
- *   soft    — fond teinté clair, label foncé du même ton, bordure visible
- *   outline — fond transparent, bordure et label du ton
- *   ghost   — ni fond ni bordure, label du ton
- *   link    — texte souligné, pas de boîte
- *
- * Migration : `variant` reste pleinement supporté et INCHANGÉ visuellement.
- * Les combinaisons déjà nommées réutilisent exactement les mêmes classes ;
- * seules les cases neuves sont écrites, et elles naissent conformes
- * (bordure ≥ 600, qui atteint le seuil 3:1 de WCAG 1.4.11 — les cases
- * héritées seront alignées dessus à l'étape suivante).
- */
+/** Combien le bouton insiste. Du plus fort au plus discret. */
 export type ButtonEmphasis = 'solid' | 'soft' | 'outline' | 'ghost' | 'link';
+/** De quelle couleur il insiste. */
 export type ButtonTone = 'brand' | 'warm' | 'sun' | 'danger' | 'neutral';
 
 export interface ButtonProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
   /**
-   * API historique — 14 noms, toujours supportée et inchangée.
-   * Préférer `emphasis` + `tone` pour les nouveaux usages.
+   * @deprecated Utiliser `emphasis` + `tone`. Toujours supporté : chaque nom
+   * est mappé sur une case de la grille par VARIANT_ALIAS.
    */
   variant?: ButtonVariant;
   /** Niveau d'insistance. Prend le pas sur `variant` s'il est fourni. */
@@ -200,63 +218,115 @@ const BASE = 'inline-flex items-center justify-center gap-stack-xs font-body fon
 const RAYON = 'rounded-lg';
 const RAYON_CERCLE = 'rounded-pill';
 
-// Hover strategy for filled variants: keep the base color (no aggressive
-// darkening) and add a colored glow shadow. Le soulèvement au survol a été
-// retiré le 2026-09-09 (S1) : il datait l'interface, déplaçait le contenu sous
-// le curseur, et n'existait pas sur mobile — où vivent 84 % des boutons. Le
-// retour tactile passe désormais par le seul `active:scale-[0.98]`, visible lui
-// au doigt comme à la souris.
-/* ═══ LA BASCULE DU 2026-09-17 — l'app abandonne le solid ═══════════════════
-   Verdict de Chloé (banc, décision `a2-contrat-solid`, option D) : plus de
-   remplissage plein dans l'app. Les NOMS de rôle restent — primary = l'action
-   principale, ghost = la secondaire — mais le NIVEAU rendu change dessous :
-   le principal est TINTED (fond doux du ton + filet fermé, labels au 800 :
-   6,31 / 8,63 / 7,22 mesurés — mieux que tout blanc-sur-plein, 3,66 au mieux),
-   la secondaire est OUTLINE. Le solid survit dans la grille emphasis×tone
-   (marketing via emphasis="solid", destructive, verre onDark).
-   ⚠️ `ghost` ≡ `outline` le temps de la passe de renommage (décision
-   `variantes-sans-usage`, option A) qui dépréciera les noms historiques. */
-const VARIANT_CLASSES: Record<ButtonVariant, string> = {
-  /* principal brand — tinted teal (l'ancien ghost). Filet au 600 : tranché le
-     09/09 — 3,66 sur blanc, seul cran conforme WCAG 1.4.11 ; label au 800. */
-  primary:     'bg-primary-50 text-primary-800 border border-primary-600 shadow-xs hover:bg-primary-100 hover:border-primary-700 hover:shadow-sm active:bg-primary-200 active:border-primary-800',
-  /* principal warm — tinted orange (l'ancien glass-warm, sans le flou inutile
-     sur fond clair). Filet 600 (3,98), label 800 (8,63). */
-  secondary:   'bg-secondary-100/70 text-secondary-800 border border-secondary-600 shadow-xs hover:bg-secondary-100 hover:border-secondary-700 active:bg-secondary-200 active:border-secondary-700',
-  /* principal sun — tinted or. L'or monte au 700 : son 600 rate le contour
-     (2,89) ; label 800 (7,22). */
-  accent:      'bg-accent-100/70 text-accent-800 border border-accent-700 shadow-xs hover:bg-accent-100 hover:border-accent-800 active:bg-accent-200 active:border-accent-800',
-  /* secondaire — outline (l'ancien rôle du ghost descend d'un niveau). */
-  ghost:       'bg-transparent text-primary-700 border border-primary-600 shadow-xs hover:bg-primary-50 hover:border-primary-700 hover:shadow-sm active:bg-primary-100 active:border-primary-700',
-  /* outline : transparent bg + visible colored border — mid-weight between ghost and primary
-     ⚠️ La bordure est à 600, PAS à 400/500. Mesuré le 2026-07-31 : sur blanc,
-     `primary-400` = 2,44 et `primary-500` = 2,94, tous deux sous le seuil de
-     3,0 que WCAG 1.4.11 impose au contour d'un élément d'interface — la
-     bordure était donc décorative, pas perceptible. `primary-600` = 3,66 et
-     `secondary-600` = 3,98 passent. Le label, lui, était déjà conforme
-     (`primary-700` = 5,02 sur blanc). Ne pas « adoucir » ces bordures en
-     revenant à 400 : c'est le contour qui porte l'affordance du bouton. */
-  outline:     'bg-transparent text-primary-700 border border-primary-600 shadow-xs hover:bg-primary-50 hover:border-primary-700 hover:shadow-sm active:bg-primary-100 active:border-primary-700',
-  'outline-warm': 'bg-transparent text-secondary-700 border border-secondary-600 shadow-xs hover:bg-secondary-50 hover:border-secondary-700 hover:shadow-warm-sm active:bg-secondary-100 active:border-secondary-700',
-  destructive: 'bg-danger-strong text-white shadow-sm hover:shadow-danger-md active:bg-danger-deep active:shadow-sm',
-  /* glass : pour surfaces DARK (hero brand, auth glass-dark) — semi-transparent + text-white */
-  glass:       'bg-white/20 text-white border border-white/30 backdrop-blur-sm hover:bg-white/35 hover:border-white/50',
-  /* glass-light : pour surfaces LIGHT tinted (EntryCard tinted, SessionCard tinted) — frosted white filled */
-  'glass-light':
-               'bg-white/70 text-ink-900 border border-white/70 backdrop-blur-glass-light shadow-sm hover:bg-white/90 hover:border-white active:bg-white',
-  /* glass-light-ghost : action secondary sur surface LIGHT tinted — frosted plus translucide */
-  'glass-light-ghost':
-               'bg-white/40 text-ink-800 border border-white/50 backdrop-blur-glass-light hover:bg-white/60 hover:border-white/70 active:bg-white/70',
-  /* glass-warm / glass-sun : tinted frosted buttons — bg tone-100/X + blur + tone-800 text.
-     Pour usages sur fond blanc OU sur surface tinted MÊME tone (emphasis subtle).
-     (glass-brand retiré le 2026-07-23 : doublon exact de `ghost`.) */
-  'glass-warm':
-               'bg-secondary-100/70 text-secondary-800 border border-secondary-600 backdrop-blur-glass-light shadow-xs hover:bg-secondary-100 hover:border-secondary-700 active:bg-secondary-200 active:border-secondary-700',
-  /* glass-sun monte au cran 700, pas 600 : l'or est la seule famille dont le
-     cran 600 (#C68D36) rate le seuil, à 2,89. Le 700 donne 4,88. */
-  'glass-sun':
-               'bg-accent-100/70 text-accent-800 border border-accent-700 backdrop-blur-glass-light shadow-xs hover:bg-accent-100 hover:border-accent-800 active:bg-accent-200 active:border-accent-800',
-  link:        'bg-transparent text-primary-700 underline underline-offset-4 hover:text-primary-800 p-0 h-auto',
+/* ═══ LA GRILLE — 5 niveaux × 5 tons, 25 cases, chacune complète ═══════════
+   C'est ICI que vivent les classes. Aucune case ne pointe sur une autre, et
+   surtout aucune ne pointe sur un nom historique : c'est la dépendance
+   inverse qui a laissé le site marketing perdre ses aplats le 17/09 sans
+   qu'une ligne du site ne change (voir l'en-tête du fichier).
+
+   Survol : fond + ombre, jamais de soulèvement (S1 — le `hover:-translate-y`
+   a été retiré de tout le produit le 2026-09-09 : il datait l'interface,
+   déplaçait le contenu sous le curseur, et n'existait pas sur mobile, où
+   vivent 84 % des boutons). Le retour tactile passe par `active:scale`.
+
+   Sur `solid`, le survol FONCE d'un cran (700 → 800) au lieu d'éclaircir.
+   L'ancien `hover:bg-primary-500` faisait tomber le contraste du label blanc
+   de 3,66 à 2,94 : le bouton devenait MOINS lisible au moment précis où on
+   s'apprêtait à le presser. Foncer le porte de 5,02 à 7,08. */
+const EMPHASIS_TONE: Record<ButtonEmphasis, Record<ButtonTone, string>> = {
+  /* ── solid — l'aplat. Le cran 700 est le premier à porter du blanc à 4,5:1.
+        Réservé au site marketing (36 appels), au destructif et au verre onDark :
+        l'app, elle, n'a plus d'aplat depuis le 17/09. */
+  solid: {
+    brand:   'bg-primary-700 text-white shadow-sm hover:bg-primary-800 hover:shadow-brand-md active:bg-primary-800 active:shadow-sm',
+    warm:    'bg-secondary-700 text-white shadow-sm hover:bg-secondary-800 hover:shadow-warm-md active:bg-secondary-800 active:shadow-sm',
+    sun:     'bg-accent-700 text-white shadow-sm hover:bg-accent-800 hover:shadow-sun-md active:bg-accent-800 active:shadow-sm',
+    danger:  'bg-danger-strong text-white shadow-sm hover:bg-danger-deep hover:shadow-danger-md active:bg-danger-deep active:shadow-sm',
+    neutral: 'bg-ink-900 text-white shadow-sm hover:bg-ink-800 active:bg-ink-900 active:shadow-sm',
+  },
+  /* ── soft — le fond doux. C'est le niveau PRINCIPAL de l'app depuis la
+        bascule. Fond opaque au cran 50, label 800, filet 600 — le filet monte
+        au 700 sur l'or, seule famille dont le 600 rate le seuil de contour
+        (2,89 contre les 3,0 de WCAG 1.4.11 ; le 700 donne 4,88).
+        `neutral` est la pastille blanche givrée posée sur une carte teintée :
+        elle recouvre vraiment, donc elle garde son flou. */
+  soft: {
+    brand:   'bg-primary-50 text-primary-800 border border-primary-600 shadow-xs hover:bg-primary-100 hover:border-primary-700 hover:shadow-sm active:bg-primary-200 active:border-primary-800',
+    warm:    'bg-secondary-50 text-secondary-800 border border-secondary-600 shadow-xs hover:bg-secondary-100 hover:border-secondary-700 hover:shadow-sm active:bg-secondary-200 active:border-secondary-700',
+    sun:     'bg-accent-50 text-accent-800 border border-accent-700 shadow-xs hover:bg-accent-100 hover:border-accent-800 hover:shadow-sm active:bg-accent-200 active:border-accent-800',
+    danger:  'bg-danger-bg text-danger-fg border border-danger-strong shadow-xs hover:border-danger-deep hover:shadow-sm active:bg-danger-bg active:border-danger-deep',
+    neutral: 'bg-white/70 text-ink-900 border border-white/70 backdrop-blur-glass-light shadow-sm hover:bg-white/90 hover:border-white active:bg-white',
+  },
+  /* ── outline — le filet sans fond. C'est le niveau secondaire.
+        ⚠️ Le filet est au cran 600, PAS 400/500. Mesuré le 2026-07-31 puis
+        revérifié le 17/09 : sur blanc, `primary-400` = 2,44 et `primary-500`
+        = 2,94, tous deux sous les 3,0 que WCAG 1.4.11 impose au contour d'un
+        composant — la bordure était décorative, pas perceptible. Ne pas
+        « adoucir » ces filets : c'est le contour qui porte l'affordance. */
+  outline: {
+    brand:   'bg-transparent text-primary-700 border border-primary-600 shadow-xs hover:bg-primary-50 hover:border-primary-700 hover:shadow-sm active:bg-primary-100 active:border-primary-700',
+    warm:    'bg-transparent text-secondary-700 border border-secondary-600 shadow-xs hover:bg-secondary-50 hover:border-secondary-700 hover:shadow-warm-sm active:bg-secondary-100 active:border-secondary-700',
+    sun:     'bg-transparent text-accent-800 border border-accent-700 shadow-xs hover:bg-accent-50 hover:border-accent-800 hover:shadow-sun-sm active:bg-accent-100 active:border-accent-800',
+    danger:  'bg-transparent text-danger-fg border border-danger-strong shadow-xs hover:bg-danger-bg hover:border-danger-deep active:bg-danger-bg active:border-danger-deep',
+    neutral: 'bg-transparent text-ink-700 border border-ink-400 shadow-xs hover:bg-ink-50 hover:border-ink-500 hover:shadow-sm active:bg-ink-100 active:border-ink-500',
+  },
+  /* ── ghost — ni fond ni filet au repos. Le niveau le plus discret qui reste
+        une boîte ; le fond n'apparaît qu'au survol. */
+  ghost: {
+    brand:   'bg-transparent text-primary-700 hover:bg-primary-50 hover:text-primary-800 active:bg-primary-100',
+    warm:    'bg-transparent text-secondary-700 hover:bg-secondary-50 hover:text-secondary-800 active:bg-secondary-100',
+    sun:     'bg-transparent text-accent-800 hover:bg-accent-50 active:bg-accent-100',
+    danger:  'bg-transparent text-danger-fg hover:bg-danger-bg active:bg-danger-bg',
+    neutral: 'bg-white/40 text-ink-800 border border-white/50 backdrop-blur-glass-light hover:bg-white/60 hover:border-white/70 active:bg-white/70',
+  },
+  /* ── link — pas de boîte du tout. */
+  link: {
+    brand:   'bg-transparent text-primary-700 underline underline-offset-4 hover:text-primary-800 p-0 h-auto',
+    warm:    'bg-transparent text-secondary-700 underline underline-offset-4 hover:text-secondary-800 p-0 h-auto',
+    sun:     'bg-transparent text-accent-800 underline underline-offset-4 hover:text-accent-800 p-0 h-auto',
+    danger:  'bg-transparent text-danger-fg underline underline-offset-4 hover:text-danger-deep p-0 h-auto',
+    neutral: 'bg-transparent text-ink-700 underline underline-offset-4 hover:text-ink-900 p-0 h-auto',
+  },
+};
+
+/* ═══ SUR SURFACE SOMBRE ═══════════════════════════════════════════════════
+   `onDark` n'est pas un ton : c'est le MÊME niveau, exprimé en blanc parce que
+   la surface est saturée ou sombre. Trois niveaux seulement en ont besoin —
+   sur du sombre, un aplat de marque n'a plus rien à dominer, et un lien reste
+   un lien. Le ton n'entre pas : sur fond sombre, c'est la surface qui donne la
+   couleur, le bouton se contente de la laisser passer (DESIGN.md §10.1). */
+const ON_DARK: Partial<Record<ButtonEmphasis, string>> = {
+  solid:   'bg-white/20 text-white border border-white/30 backdrop-blur-sm hover:bg-white/35 hover:border-white/50 active:bg-white/40',
+  outline: 'bg-transparent text-white border border-white/50 hover:bg-white/15 hover:border-white/70 active:bg-white/20',
+  ghost:   'bg-transparent text-white hover:bg-white/15 active:bg-white/20',
+};
+
+/* ═══ LES 13 NOMS HISTORIQUES — de simples coordonnées ═════════════════════
+   @deprecated. Ils ne portent plus de classes, seulement une case. Un nom ne
+   peut donc plus faire glisser un niveau sous les pieds d'un autre.
+
+   Deux alias changent de rendu, et c'est assumé (voir l'en-tête) :
+     · `secondary` et `glass-warm` → soft/warm : le fond passe de
+       `secondary-100/70` à `secondary-50` opaque.
+     · `accent` et `glass-sun`     → soft/sun  : idem sur l'or.
+   Les onze autres rendent exactement ce qu'ils rendaient. */
+const VARIANT_ALIAS: Record<
+  ButtonVariant,
+  { emphasis: ButtonEmphasis; tone: ButtonTone; onDark?: boolean }
+> = {
+  primary:              { emphasis: 'soft',    tone: 'brand'   },
+  secondary:            { emphasis: 'soft',    tone: 'warm'    },
+  accent:               { emphasis: 'soft',    tone: 'sun'     },
+  ghost:                { emphasis: 'outline', tone: 'brand'   },
+  outline:              { emphasis: 'outline', tone: 'brand'   },
+  'outline-warm':       { emphasis: 'outline', tone: 'warm'    },
+  destructive:          { emphasis: 'solid',   tone: 'danger'  },
+  glass:                { emphasis: 'solid',   tone: 'brand', onDark: true },
+  'glass-light':        { emphasis: 'soft',    tone: 'neutral' },
+  'glass-light-ghost':  { emphasis: 'ghost',   tone: 'neutral' },
+  'glass-warm':         { emphasis: 'soft',    tone: 'warm'    },
+  'glass-sun':          { emphasis: 'soft',    tone: 'sun'     },
+  link:                 { emphasis: 'link',    tone: 'brand'   },
 };
 
 /* Cibles tactiles — revues le 2026-09-09.
@@ -315,71 +385,20 @@ const ICON_SIZE_CLASSES: Record<ButtonSize, string> = {
   xl: 'icon-lg', // 24 px pour 19 px — 1,26
 };
 
-/* ────────────────── Résolution emphase × ton → classes ──────────────────── */
+/* ────────────────── Résolution : deux axes, ou un alias ──────────────────── */
 
-/**
- * Cases DÉJÀ nommées : elles pointent sur la classe existante, à l'identique.
- * `emphasis="soft" tone="brand"` rend donc exactement `variant="ghost"`.
- *
- * Cases NEUVES (marquées ✚) : elles n'existaient sous aucun nom. Écrites
- * conformes dès l'origine — bordure au cran 600, qui atteint le 3:1 exigé par
- * WCAG 1.4.11 pour le contour d'un composant. Les cases héritées gardent leur
- * bordure actuelle (souvent 100 ou 400, sous le seuil) : les aligner ferait
- * bouger le rendu, ce qui n'est pas le périmètre de cette étape.
- */
-const EMPHASIS_TONE: Record<ButtonEmphasis, Partial<Record<ButtonTone, string>>> = {
-  solid: {
-    brand:  VARIANT_CLASSES.primary,
-    warm:   VARIANT_CLASSES.secondary,
-    sun:    VARIANT_CLASSES.accent,
-    danger: VARIANT_CLASSES.destructive,
-    // ✚ neutre plein — encre de marque, blanc dessus
-    neutral: 'bg-ink-900 text-white shadow-sm hover:bg-ink-800 active:bg-ink-900 active:shadow-sm',
-  },
-  soft: {
-    brand:   VARIANT_CLASSES.ghost,
-    warm:    VARIANT_CLASSES['glass-warm'],
-    sun:     VARIANT_CLASSES['glass-sun'],
-    neutral: VARIANT_CLASSES['glass-light'],
-    // ✚ danger doux — pour les confirmations non destructives
-    danger:  'bg-danger-bg text-danger-fg border border-danger-strong shadow-xs hover:bg-danger-bg hover:border-danger-deep active:bg-danger-bg',
-  },
-  outline: {
-    brand: VARIANT_CLASSES.outline,
-    warm:  VARIANT_CLASSES['outline-warm'],
-    // ✚ les deux tons qui manquaient
-    sun:    'bg-transparent text-accent-800 border border-accent-600 shadow-xs hover:bg-accent-50 hover:border-accent-700 hover:shadow-sun-sm active:bg-accent-100',
-    danger: 'bg-transparent text-danger-fg border border-danger-strong shadow-xs hover:bg-danger-bg hover:border-danger-deep active:bg-danger-bg',
-  },
-  ghost: {
-    neutral: VARIANT_CLASSES['glass-light-ghost'],
-    // ✚ sans fond ni bordure — l'action la plus discrète
-    brand: 'bg-transparent text-primary-700 hover:bg-primary-50 hover:text-primary-800 active:bg-primary-100',
-    warm:  'bg-transparent text-secondary-700 hover:bg-secondary-50 hover:text-secondary-800 active:bg-secondary-100',
-    sun:   'bg-transparent text-accent-800 hover:bg-accent-50 active:bg-accent-100',
-  },
-  link: {
-    brand: VARIANT_CLASSES.link,
-    // ✚ le lien n'existait qu'en brand
-    warm:   'bg-transparent text-secondary-700 underline underline-offset-4 hover:text-secondary-800 p-0 h-auto',
-    sun:    'bg-transparent text-accent-800 underline underline-offset-4 hover:text-accent-800 p-0 h-auto',
-    danger: 'bg-transparent text-danger-fg underline underline-offset-4 hover:text-danger-deep p-0 h-auto',
-  },
-};
-
-/** Sur surface sombre, `solid` bascule sur le traitement translucide existant. */
-/* L'interrupteur de prévisualisation « option D » (17/09) a été RETIRÉ le jour
-   même : le verdict est rendu (banc, décision `a2-contrat-solid`, option D) et
-   la bascule est devenue permanente dans VARIANT_CLASSES ci-dessus. */
 const resolveClasses = (
   variant: ButtonVariant,
   emphasis: ButtonEmphasis | undefined,
   tone: ButtonTone,
   onDark: boolean,
 ): string => {
-  if (!emphasis) return VARIANT_CLASSES[variant];
-  if (onDark && emphasis === 'solid') return VARIANT_CLASSES.glass;
-  return EMPHASIS_TONE[emphasis][tone] ?? EMPHASIS_TONE[emphasis].brand ?? VARIANT_CLASSES.primary;
+  // Sans `emphasis`, on passe par l'alias — qui peut porter son propre onDark
+  // (c'est le cas de `glass`, seul nom historique lié à une surface sombre).
+  const coord = emphasis
+    ? { emphasis, tone, onDark }
+    : { ...VARIANT_ALIAS[variant], onDark: onDark || VARIANT_ALIAS[variant].onDark };
+  return (coord.onDark && ON_DARK[coord.emphasis]) || EMPHASIS_TONE[coord.emphasis][coord.tone];
 };
 
 /**
