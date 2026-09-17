@@ -408,7 +408,7 @@ export const MarketingResources: React.FC = () => {
                 Essayez une autre recherche ou explorez toutes nos ressources.
               </p>
               <Button
-                variant="ghost"
+                emphasis="outline"
                 onClick={() => {
                   setSearchQuery('');
                   setSelectedType('all');

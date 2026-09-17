@@ -136,7 +136,7 @@ const Hero: React.FC = () => {
               <Button href="#stride-etapes" emphasis="solid" tone="brand" size="lg" trailingIcon={<ArrowRight size={18} />}>
                 Découvrir les six étapes
               </Button>
-              <Button to="/website/methode" variant="ghost" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
+              <Button to="/website/methode" emphasis="outline" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
                 La science derrière la méthode
               </Button>
             </div>
@@ -312,7 +312,7 @@ const Methodologie: React.FC = () => (
             Pourquoi ces six étapes ? La science derrière STRIDE : échelle
             Dreyfus, méthode EDRACT de C-Campus et augmentation cognitive.
           </p>
-          <Button to="/website/methode" variant="ghost" size="md" trailingIcon={<ArrowRight size={16} />}>
+          <Button to="/website/methode" emphasis="outline" size="md" trailingIcon={<ArrowRight size={16} />}>
             Lire la Méthode TLS
           </Button>
         </div>
@@ -397,7 +397,7 @@ const CtaFinal: React.FC = () => (
               <Button to="/website/contact" emphasis="solid" tone="warm" size="xl" trailingIcon={<ArrowRight size={20} />}>
                 Parler de votre contexte
               </Button>
-              <Button to="/website/upskilling" variant="glass" size="xl" trailingIcon={<ArrowUpRight size={20} />}>
+              <Button to="/website/upskilling" emphasis="solid" onDark size="xl" trailingIcon={<ArrowUpRight size={20} />}>
                 Voir les projets d'upskilling
               </Button>
             </div>

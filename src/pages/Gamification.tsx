@@ -93,7 +93,7 @@ export default function Gamification() {
         summary="Streaks, badges, XP et niveaux Dreyfus : suis ta progression et célèbre chaque étape."
         tone="flat"
         trailing={
-          <Button variant="glass" size="md" leadingIcon={<Trophy size={16} />}>
+          <Button emphasis="soft" size="md" leadingIcon={<Trophy size={16} />}>
             Galerie de badges
           </Button>
         }
@@ -132,7 +132,7 @@ export default function Gamification() {
               titleIcon={<Award size={20} />}
               tone="warm"
               headerAction={
-                <Button variant="ghost" size="sm" onClick={() => setActiveTab('badges')}>
+                <Button emphasis="outline" size="sm" onClick={() => setActiveTab('badges')}>
                   Tout voir
                 </Button>
               }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import { Button } from '../core/Button';
+import { PAGE_TONE_TO_BUTTON } from '../../lib/tone-classes';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -39,12 +40,6 @@ const TONE_ICON_BG: Record<StepTutorialTone, string> = {
   primary: 'bg-primary-50 text-primary-600',
   warm: 'bg-secondary-50 text-secondary-600',
   sun: 'bg-accent-50 text-accent-500',
-};
-
-const TONE_NEXT_VARIANT: Record<StepTutorialTone, 'primary' | 'secondary'> = {
-  primary: 'primary',
-  warm: 'secondary',
-  sun: 'primary',
 };
 
 // ─── StepTutorial ─────────────────────────────────────────────────────────────
@@ -133,7 +128,7 @@ export const StepTutorial: React.FC<StepTutorialProps> = ({
 
           {/* Optional CTA */}
           {step.cta && step.onCta && (
-            <Button variant="ghost" size="md" onClick={step.onCta} className="self-start">
+            <Button emphasis="outline" size="md" onClick={step.onCta} className="self-start">
               {step.cta}
             </Button>
           )}
@@ -143,7 +138,7 @@ export const StepTutorial: React.FC<StepTutorialProps> = ({
       {/* Navigation */}
       <div className="flex items-center justify-between">
         <Button
-          variant="ghost"
+          emphasis="outline"
           size="md"
           leadingIcon={<ChevronLeft size={16} />}
           onClick={handlePrev}
@@ -173,7 +168,8 @@ export const StepTutorial: React.FC<StepTutorialProps> = ({
         </div>
 
         <Button
-          variant={TONE_NEXT_VARIANT[tone]}
+          emphasis="soft"
+          tone={PAGE_TONE_TO_BUTTON[tone]}
           size="md"
           trailingIcon={isLast ? <Check size={16} /> : <ChevronRight size={16} />}
           onClick={handleNext}

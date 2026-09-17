@@ -111,7 +111,7 @@ export const JournalBubbleCard: React.FC<JournalBubbleCardProps> = ({
       {/* Coaching quick action (questionnaire / compte-rendu only) */}
       {(type === 'questionnaire' || type === 'compte-rendu') && onCoachingAction && (
         <Button
-          variant="ghost"
+          emphasis="outline"
           size="sm"
           trailingIcon={<ArrowRight size={14} />}
           onClick={onCoachingAction}
@@ -125,7 +125,7 @@ export const JournalBubbleCard: React.FC<JournalBubbleCardProps> = ({
         <div className="flex gap-stack-xs pt-stack-xs border-t border-white/60">
           {onRead && (
             <Button
-              variant="glass-light"
+              emphasis="soft" tone="neutral"
               size="md"
               onClick={onRead}
             >
@@ -134,7 +134,7 @@ export const JournalBubbleCard: React.FC<JournalBubbleCardProps> = ({
           )}
           {onContinue && (
             <Button
-              variant="glass-light-ghost"
+              emphasis="ghost" tone="neutral"
               size="md"
               trailingIcon={<ArrowRight size={16} />}
               onClick={onContinue}

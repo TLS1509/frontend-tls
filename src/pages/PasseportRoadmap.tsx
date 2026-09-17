@@ -165,10 +165,10 @@ export default function PasseportRoadmap() {
         summary="Visualise ta trajectoire de progression vers tes objectifs Dreyfus."
         trailing={
           <div className="flex items-center gap-stack-xs flex-wrap">
-            <Button variant="ghost" size="sm">
+            <Button emphasis="outline" size="sm">
               Modifier les objectifs
             </Button>
-            <Button variant="glass" size="sm">
+            <Button emphasis="ghost" size="sm">
               Partager
             </Button>
           </div>
@@ -273,7 +273,7 @@ export default function PasseportRoadmap() {
                 </div>
                 <p className="m-0 text-body-sm text-ink-500">{s.detail}</p>
                 <div className="flex justify-end">
-                  <Button variant="ghost" size="sm" trailingIcon={<ChevronRight size={14} />}>
+                  <Button emphasis="outline" size="sm" trailingIcon={<ChevronRight size={14} />}>
                     Explorer
                   </Button>
                 </div>

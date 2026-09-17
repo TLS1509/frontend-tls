@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { Button } from '../core/Button';
+import type { ButtonEmphasis, ButtonTone } from '../core/Button';
 
 interface ChartDetailModalProps {
   isOpen: boolean;
@@ -12,7 +13,8 @@ interface ChartDetailModalProps {
   actions?: Array<{
     label: string;
     onClick: () => void;
-    variant?: 'primary' | 'secondary' | 'ghost';
+    emphasis?: ButtonEmphasis;
+    tone?: ButtonTone;
   }>;
   size?: 'sm' | 'md' | 'lg';
 }
@@ -127,7 +129,8 @@ export const ChartDetailModal: React.FC<ChartDetailModalProps> = ({
                   {actions.map((action, idx) => (
                     <Button
                       key={idx}
-                      variant={action.variant || 'secondary'}
+                      emphasis={action.emphasis ?? 'soft'}
+                      tone={action.tone ?? 'warm'}
                       size="md"
                       onClick={() => {
                         action.onClick();

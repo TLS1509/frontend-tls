@@ -157,14 +157,14 @@ export default function EnterpriseKpis() {
         trailing={
           <div className="flex flex-wrap gap-stack-xs">
             <Button
-              variant="ghost"
+              emphasis="outline"
               size="md"
               leadingIcon={<Download size={16} />}
             >
               Exporter
             </Button>
             <Button
-              variant="glass"
+              emphasis="soft"
               size="md"
               leadingIcon={<Settings size={16} />}
             >

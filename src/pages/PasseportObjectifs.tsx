@@ -147,7 +147,7 @@ export default function PasseportObjectifs() {
         summary="Définis des objectifs Dreyfus mesurables et suis leur avancement. Chaque objectif génère un plan d'action personnalisé."
         tone="flat"
         trailing={
-          <Button variant="glass" size="md" leadingIcon={<Plus size={16} />} onClick={openCreate}>
+          <Button emphasis="soft" size="md" leadingIcon={<Plus size={16} />} onClick={openCreate}>
             Nouvel objectif
           </Button>
         }
@@ -178,7 +178,7 @@ export default function PasseportObjectifs() {
           title="Objectifs actifs"
           titleIcon={<Target size={18} />}
           actions={
-            <Button variant="ghost" size="sm" leadingIcon={<Plus size={14} />} onClick={openCreate}>
+            <Button emphasis="outline" size="sm" leadingIcon={<Plus size={14} />} onClick={openCreate}>
               Ajouter
             </Button>
           }
@@ -188,7 +188,7 @@ export default function PasseportObjectifs() {
               icon={<Target size={32} />}
               title="Aucun objectif actif"
               description="Définis ton premier objectif de progression Dreyfus."
-              actions={<Button variant="primary" size="md" onClick={openCreate}>Créer un objectif</Button>}
+              actions={<Button emphasis="soft" size="md" onClick={openCreate}>Créer un objectif</Button>}
             />
           ) : (
             <div className="flex flex-col gap-stack-xs">
@@ -231,7 +231,7 @@ export default function PasseportObjectifs() {
                     </button>
                     <div className="mt-stack flex items-center justify-end gap-stack-xs">
                       <Button
-                        variant="ghost"
+                        emphasis="outline"
                         size="sm"
                         leadingIcon={<Pencil size={14} />}
                         onClick={(e) => {
@@ -242,7 +242,7 @@ export default function PasseportObjectifs() {
                         Modifier
                       </Button>
                       <Button
-                        variant="ghost"
+                        emphasis="outline"
                         size="sm"
                         leadingIcon={<Trash2 size={14} />}
                         onClick={(e) => {
@@ -288,7 +288,7 @@ export default function PasseportObjectifs() {
               ))}
             </div>
             <div className="mt-stack">
-              <Button variant="primary" size="md" leadingIcon={<ChevronRight size={16} />}>
+              <Button emphasis="soft" size="md" leadingIcon={<ChevronRight size={16} />}>
                 Voir le plan d'action complet
               </Button>
             </div>
@@ -309,7 +309,7 @@ export default function PasseportObjectifs() {
                     </div>
                     <div className="flex items-center gap-stack-xs">
                       <Button
-                        variant="ghost"
+                        emphasis="outline"
                         size="sm"
                         leadingIcon={<PlayCircle size={14} />}
                         onClick={() => handlePlan(g)}
@@ -317,7 +317,7 @@ export default function PasseportObjectifs() {
                         Planifier
                       </Button>
                       <Button
-                        variant="ghost"
+                        emphasis="outline"
                         size="sm"
                         leadingIcon={<Pencil size={14} />}
                         onClick={() => openEdit(g.id)}
@@ -350,8 +350,8 @@ export default function PasseportObjectifs() {
         description="Définis une compétence cible, le niveau Dreyfus visé et une échéance."
         actions={
           <div className="flex items-center justify-end gap-stack-xs w-full">
-            <Button variant="ghost" size="md" onClick={closeModal}>Annuler</Button>
-            <Button variant="primary" size="md" onClick={handleSubmit}>
+            <Button emphasis="outline" size="md" onClick={closeModal}>Annuler</Button>
+            <Button emphasis="soft" size="md" onClick={handleSubmit}>
               {modalState?.mode === 'edit' ? 'Enregistrer' : "Créer l'objectif"}
             </Button>
           </div>

@@ -92,7 +92,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({
           Regarder
         </Button>
         <Button
-          variant="ghost"
+          emphasis="outline"
           onClick={(e) => {
             e.stopPropagation();
             onSave?.();

@@ -200,7 +200,7 @@ export default function ProfilePrivacy() {
           title="Partage de données"
           titleIcon={<Eye size={18} />}
           description="Contrôle comment tes données de progression sont partagées en interne."
-          actions={<Button variant="primary" size="sm">Enregistrer</Button>}
+          actions={<Button emphasis="soft" size="sm">Enregistrer</Button>}
         >
           <div className="flex flex-col divide-y divide-ink-100">
             {SHARING_ITEMS.map((item) => (
@@ -240,7 +240,7 @@ export default function ProfilePrivacy() {
           title="Consentements IA"
           titleIcon={<Brain size={18} />}
           description="Active ou désactive chaque usage de l'IA sur tes données d'apprentissage."
-          actions={<Button variant="primary" size="sm">Enregistrer</Button>}
+          actions={<Button emphasis="soft" size="sm">Enregistrer</Button>}
         >
           <div className="flex flex-col divide-y divide-ink-100">
             {AI_CONSENT_ITEMS.map((item) => (
@@ -302,7 +302,7 @@ export default function ProfilePrivacy() {
               <span className="text-body-sm font-semibold text-ink-900">Demande d'accès (DSAR)</span>
               <span className="text-caption text-ink-700">Exporte toutes tes données · réponse sous 30 jours (Article 15 RGPD)</span>
             </div>
-            <Button variant="ghost" size="sm" trailingIcon={<ChevronRight size={14} />} onClick={() => navigate('/profile/privacy/dsar')}>
+            <Button emphasis="outline" size="sm" trailingIcon={<ChevronRight size={14} />} onClick={() => navigate('/profile/privacy/dsar')}>
               Faire une demande
             </Button>
           </Card>
@@ -316,7 +316,7 @@ export default function ProfilePrivacy() {
         >
           <div className="flex items-center gap-stack-xs">
             <Button
-              variant="ghost"
+              emphasis="outline"
               size="md"
               leadingIcon={<Trash2 size={16} />}
               className="text-danger-fg hover:bg-danger-bg"

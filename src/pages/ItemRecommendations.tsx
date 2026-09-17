@@ -75,11 +75,11 @@ const ItemRecommendations: React.FC = () => {
                       </div>
 
                       <div className="flex items-center gap-stack-xs">
-                        <Button variant="primary" size="sm" trailingIcon={<ArrowRight className="w-4 h-4" />}>
+                        <Button emphasis="soft" size="sm" trailingIcon={<ArrowRight className="w-4 h-4" />}>
                           Découvrir
                         </Button>
                         <Button
-                          variant="ghost"
+                          emphasis="outline"
                           size="sm"
                           leadingIcon={<EyeOff className="w-4 h-4" />}
                           onClick={() => coachingStore.dismissRecommendation(MOCK_USER_ID, r.id)}

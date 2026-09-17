@@ -45,7 +45,7 @@ const CorrectionDetailLearner: React.FC = () => {
     return (
       <PageShell>
         <EditorialHero title="Correction introuvable" summary="Cette correction n'existe pas." tone="flat" />
-        <Button variant="ghost" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/coaching')}>
+        <Button emphasis="outline" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/coaching')}>
           Retour au coaching
         </Button>
       </PageShell>
@@ -67,7 +67,7 @@ const CorrectionDetailLearner: React.FC = () => {
         summary={`Soumis le ${formatDate(correction.submittedAt)} · Iteration ${correction.iterationCount + 1}`}
         tone="flat"
         trailing={
-          <Button variant="ghost" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate('/coaching')}>
+          <Button emphasis="outline" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate('/coaching')}>
             Retour
           </Button>
         }
@@ -129,7 +129,7 @@ const CorrectionDetailLearner: React.FC = () => {
         <div className="flex flex-wrap gap-stack-xs">
           {canResubmit && (
             <Button
-              variant="primary"
+              emphasis="soft"
               size="lg"
               leadingIcon={<RotateCcw size={16} />}
               aria-label="Resoumettre une nouvelle version de l'exercice"
@@ -139,7 +139,7 @@ const CorrectionDetailLearner: React.FC = () => {
           )}
           {hasFeedback && (
             <Button
-              variant="secondary"
+              emphasis="soft" tone="warm"
               size="lg"
               leadingIcon={<Send size={16} />}
               aria-label="Répondre au feedback du coach"
@@ -149,7 +149,7 @@ const CorrectionDetailLearner: React.FC = () => {
           )}
           {correction.status !== 'completed' && (
             <Button
-              variant="ghost"
+              emphasis="outline"
               leadingIcon={<CheckCircle2 size={16} />}
               onClick={() => store.updateCorrection(MOCK_USER_ID, correction.id, { status: 'completed' })}
             >

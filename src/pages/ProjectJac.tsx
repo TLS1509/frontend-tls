@@ -199,8 +199,8 @@ const JacValidationForm: React.FC<{
       </div>
 
       <div className="flex gap-stack-xs justify-end">
-        <Button variant="ghost" size="sm" onClick={onClose}>Annuler</Button>
-        <Button variant="primary" size="sm" onClick={handleSubmit}>
+        <Button emphasis="outline" size="sm" onClick={onClose}>Annuler</Button>
+        <Button emphasis="soft" size="sm" onClick={handleSubmit}>
           Confirmer l'évaluation
         </Button>
       </div>
@@ -230,7 +230,7 @@ export const ProjectJac: React.FC = () => {
   return (
     <Container width="medium" className="py-section flex flex-col gap-section">
       <div>
-        <Button variant="ghost" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(`/project/${projectId}`)}>
+        <Button emphasis="outline" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(`/project/${projectId}`)}>
           Retour au projet
         </Button>
       </div>
@@ -292,7 +292,7 @@ export const ProjectJac: React.FC = () => {
                       />
                     ) : (
                       <Button
-                        variant="primary"
+                        emphasis="soft"
                         size="sm"
                         leadingIcon={<Target size={14} />}
                         onClick={() => setValidatingJacId(jac.id)}

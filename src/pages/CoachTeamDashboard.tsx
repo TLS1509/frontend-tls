@@ -82,10 +82,10 @@ export default function CoachTeamDashboard() {
         tone="flat"
         trailing={
           <div className="flex items-center gap-stack-xs">
-            <Button variant="ghost" size="md" leadingIcon={<Calendar size={16} />}>
+            <Button emphasis="outline" size="md" leadingIcon={<Calendar size={16} />}>
               Planifier une session
             </Button>
-            <Button variant="glass" size="md" leadingIcon={<Users size={16} />}>
+            <Button emphasis="soft" size="md" leadingIcon={<Users size={16} />}>
               Voir tous les profils
             </Button>
           </div>
@@ -128,7 +128,7 @@ export default function CoachTeamDashboard() {
               <strong>{stats.stuckCount} bloqué{stats.stuckCount !== 1 ? 's' : ''}</strong> et{' '}
               <strong>{stats.atRiskCount} à risque</strong> : planifie un bilan cette semaine.
             </p>
-            <Button variant="ghost" size="sm" className="shrink-0 ml-auto">
+            <Button emphasis="outline" size="sm" className="shrink-0 ml-auto">
               Planifier
             </Button>
           </div>

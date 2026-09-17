@@ -48,7 +48,7 @@ export default function MasterclassReplay() {
               <div className="flex flex-col items-center gap-stack text-white">
                 <Video size={48} className="text-white/40" />
                 <p className="text-body text-white/60">Replay · 1h 32min</p>
-                <Button variant="glass" size="lg" leadingIcon={<Play size={16} />}>
+                <Button emphasis="soft" size="lg" leadingIcon={<Play size={16} />}>
                   Regarder le replay
                 </Button>
               </div>
@@ -74,7 +74,7 @@ export default function MasterclassReplay() {
                 className="w-full min-h-[120px] h-auto p-3 border border-ink-200 rounded-lg text-body-sm resize-none focus:outline-none focus:border-primary-400"
               />
               <div className="flex justify-end mt-tight">
-                <Button variant="ghost" size="sm">Sauvegarder</Button>
+                <Button emphasis="outline" size="sm">Sauvegarder</Button>
               </div>
             </SectionCard>
           </div>
@@ -97,7 +97,7 @@ export default function MasterclassReplay() {
                     icon={m.icon}
                     label={m.label}
                     action={
-                      <Button variant="ghost" size="sm" leadingIcon={<Download size={14} />}>
+                      <Button emphasis="outline" size="sm" leadingIcon={<Download size={14} />}>
                         Télécharger
                       </Button>
                     }
@@ -110,7 +110,7 @@ export default function MasterclassReplay() {
             <Card variant="tinted" tone="sun" className="p-stack flex flex-col gap-tight">
               <p className="text-body-sm font-semibold text-ink-900">Ton avis compte !</p>
               <p className="text-caption text-ink-500">Aide-nous à améliorer les prochaines sessions.</p>
-              <Button variant="primary" size="sm" fullWidth className="mt-tight">
+              <Button emphasis="soft" size="sm" fullWidth className="mt-tight">
                 Donner mon avis
               </Button>
             </Card>

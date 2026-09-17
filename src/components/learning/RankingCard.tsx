@@ -71,7 +71,7 @@ export const RankingCard: React.FC<RankingCardProps> = ({
       <Badge variant={badgeVariant}>{points} pts</Badge>
 
       {onViewProfile && (
-        <Button size="sm" variant="ghost" onClick={onViewProfile} className="shrink-0">
+        <Button size="sm" emphasis="outline" onClick={onViewProfile} className="shrink-0">
           Voir
         </Button>
       )}

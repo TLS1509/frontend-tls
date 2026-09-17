@@ -94,10 +94,10 @@ export default function FicheApprenantAnalytics() {
         tone="flat"
         trailing={
           <div className="flex items-center gap-stack-xs">
-            <Button variant="ghost" size="md" leadingIcon={<MessageSquare size={16} />}>
+            <Button emphasis="outline" size="md" leadingIcon={<MessageSquare size={16} />}>
               Envoyer un message
             </Button>
-            <Button variant="glass" size="md" leadingIcon={<Calendar size={16} />}>
+            <Button emphasis="soft" size="md" leadingIcon={<Calendar size={16} />}>
               Planifier une session
             </Button>
           </div>

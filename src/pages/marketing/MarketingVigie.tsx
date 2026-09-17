@@ -213,7 +213,7 @@ export const MarketingVigie: React.FC = () => {
                 En attendant le prochain numéro, nos analyses de fond sont en
                 accès libre dans le Magazine.
               </p>
-              <Button to="/website/resources" variant="ghost" size="md" trailingIcon={<ArrowRight size={16} />}>
+              <Button to="/website/resources" emphasis="outline" size="md" trailingIcon={<ArrowRight size={16} />}>
                 Lire nos analyses
               </Button>
             </div>

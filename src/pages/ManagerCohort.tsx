@@ -117,7 +117,7 @@ export default function ManagerCohort() {
                       <span className="text-caption text-ink-600 shrink-0">D{m.dreyfus.toFixed(1)}</span>
                     </div>
                   ))}
-                  <Button variant="ghost" size="sm" trailingIcon={<ChevronRight size={14} />} onClick={() => setActiveTab('members')}>
+                  <Button emphasis="outline" size="sm" trailingIcon={<ChevronRight size={14} />} onClick={() => setActiveTab('members')}>
                     Voir tous les membres
                   </Button>
                 </div>
@@ -127,7 +127,7 @@ export default function ManagerCohort() {
               <SectionCard
                 title="Projets en cours"
                 titleIcon={<CheckCircle2 size={20} />}
-                headerAction={<Button variant="ghost" size="sm" onClick={() => setActiveTab('projects')}>Tout voir</Button>}
+                headerAction={<Button emphasis="outline" size="sm" onClick={() => setActiveTab('projects')}>Tout voir</Button>}
               >
                 <div className="flex flex-col gap-stack">
                   {PROJECTS.map((p) => {
@@ -186,7 +186,7 @@ export default function ManagerCohort() {
                   <ProgressBar value={m.completion} fill="brand" size="sm" />
                 </div>
                 <Button
-                  variant="ghost"
+                  emphasis="outline"
                   size="sm"
                   trailingIcon={<ChevronRight size={14} />}
                   onClick={() => navigate(`/coach/apprenant/${m.slug}`)}
@@ -215,7 +215,7 @@ export default function ManagerCohort() {
                   </div>
                   <ProgressBar value={p.progress} fill="brand" size="md" showLabel label={`${p.progress}% complété`} />
                   <div className="flex justify-end">
-                    <Button variant="ghost" size="sm" trailingIcon={<ChevronRight size={14} />}>
+                    <Button emphasis="outline" size="sm" trailingIcon={<ChevronRight size={14} />}>
                       Voir le projet
                     </Button>
                   </div>

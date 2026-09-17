@@ -138,7 +138,7 @@ export default function Passeport() {
         summary="Visualise ta progression Dreyfus, définis tes objectifs et suis l'évolution de tes compétences H.S.O."
         tone="default"
         trailing={
-          <Button variant="primary" size="md" leadingIcon={<Plus size={16} />} onClick={() => setActiveTab('objectifs')}>
+          <Button emphasis="soft" size="md" leadingIcon={<Plus size={16} />} onClick={() => setActiveTab('objectifs')}>
             Définir un objectif
           </Button>
         }
@@ -194,7 +194,8 @@ export default function Passeport() {
                     <span className="text-h2 font-display font-bold text-ink-900">{activeObjectives.length}</span>
                     <span className="text-body-sm text-ink-600 pb-1">objectifs</span>
                   </div>
-                  <Button variant="ghost" size="sm" trailingIcon={<ChevronRight size={14} />}
+                  <Button
+                    emphasis="outline" size="sm" trailingIcon={<ChevronRight size={14} />}
                     onClick={() => setActiveTab('objectifs')}>
                     Voir les objectifs
                   </Button>
@@ -271,7 +272,7 @@ export default function Passeport() {
               titleIcon={<TrendingUp size={20} />}
               tone="primary"
               actions={
-                <Button variant="ghost" size="sm" onClick={() => setActiveTab('competences')}>
+                <Button emphasis="outline" size="sm" onClick={() => setActiveTab('competences')}>
                   Tout voir
                 </Button>
               }
@@ -464,7 +465,7 @@ export default function Passeport() {
                 )}
 
                 <Button
-                  variant="ghost"
+                  emphasis="outline"
                   size="md"
                   leadingIcon={<Plus size={16} />}
                   onClick={() => setShowObjectiveModal(true)}
@@ -489,7 +490,7 @@ export default function Passeport() {
               <EmptyState
                 title="Aucun objectif pour le moment"
                 description="Crée ton premier objectif pour structurer ta progression. Fixe un niveau Dreyfus cible et un délai : c'est le secret pour progresser."
-                actions={<Button variant="primary" leadingIcon={<Plus size={16} />}>Créer mon premier objectif</Button>}
+                actions={<Button emphasis="soft" leadingIcon={<Plus size={16} />}>Créer mon premier objectif</Button>}
               />
             )}
           </div>

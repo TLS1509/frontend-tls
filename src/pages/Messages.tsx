@@ -243,7 +243,7 @@ export const Messages: React.FC = () => {
                 </span>
               )}
             </div>
-            <Button variant="primary" iconOnly aria-label="Nouveau message">
+            <Button emphasis="soft" iconOnly aria-label="Nouveau message">
               <MessageSquarePlus size={16} />
             </Button>
           </div>
@@ -351,7 +351,7 @@ export const Messages: React.FC = () => {
 
           {/* Thread header */}
           <div className="px-5 py-stack border-b border-ink-200 bg-white flex items-center gap-stack-xs">
-            <Button variant="secondary" iconOnly aria-label="Retour" className="shrink-0" onClick={() => setSelectedId(null)}>
+            <Button emphasis="soft" tone="warm" iconOnly aria-label="Retour" className="shrink-0" onClick={() => setSelectedId(null)}>
               <ArrowLeft size={14} />
             </Button>
 
@@ -435,7 +435,7 @@ export const Messages: React.FC = () => {
           {/* Compose bar */}
           <div className="px-5 py-stack border-t border-ink-200 bg-white">
             <div className="flex items-end gap-stack-xs">
-              <Button variant="secondary" iconOnly aria-label="Pièce jointe" className="shrink-0">
+              <Button emphasis="soft" tone="warm" iconOnly aria-label="Pièce jointe" className="shrink-0">
                 <Paperclip size={14} />
               </Button>
 
@@ -449,7 +449,7 @@ export const Messages: React.FC = () => {
               />
 
               <Button
-                variant="primary"
+                emphasis="soft"
                 iconOnly
                 aria-label="Envoyer"
                 className="shrink-0"
@@ -479,7 +479,7 @@ export const Messages: React.FC = () => {
             <p className="m-0 mb-stack font-body text-caption text-ink-500 leading-relaxed">
               Choisissez un fil dans la liste pour démarrer ou continuer la conversation.
             </p>
-            <Button variant="secondary" fullWidth leadingIcon={<Pencil size={14} />}>
+            <Button emphasis="soft" tone="warm" fullWidth leadingIcon={<Pencil size={14} />}>
               Nouveau message
             </Button>
           </div>

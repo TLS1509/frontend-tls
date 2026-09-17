@@ -84,7 +84,7 @@ const Hero: React.FC = () => {
             <Button to="/website/contact" emphasis="solid" tone="brand" size="lg" trailingIcon={<ArrowRight size={18} />}>
               Réserver une démonstration
             </Button>
-            <Button href="#bibliotheque" variant="ghost" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
+            <Button href="#bibliotheque" emphasis="outline" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
               Explorer la Bibliothèque de compétences
             </Button>
           </div>
@@ -608,7 +608,7 @@ const CtaFinal: React.FC = () => (
               <Button to="/website/contact" emphasis="solid" tone="warm" size="xl" trailingIcon={<ArrowRight size={20} />}>
                 Réserver une démonstration
               </Button>
-              <Button to="/website/diagnostic" variant="glass" size="xl" trailingIcon={<ArrowUpRight size={20} />}>
+              <Button to="/website/diagnostic" emphasis="solid" onDark size="xl" trailingIcon={<ArrowUpRight size={20} />}>
                 Évaluer votre maturité SBO
               </Button>
             </div>

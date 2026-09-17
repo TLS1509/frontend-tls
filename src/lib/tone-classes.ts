@@ -11,7 +11,27 @@
  * UI concerns separate from data layer.
  */
 
+import type { ButtonTone } from '../components/core/Button';
+
 export type PageTone = 'primary' | 'warm' | 'sun';
+
+/**
+ * Le ton d'une page et le ton d'un bouton nomment la même famille de couleurs
+ * avec deux mots différents : `primary` ici, `brand` là-bas. Cette table est la
+ * seule traduction — ne pas la recopier en ligne.
+ *
+ * Elle remplace trois tables `tone → variant` (StepTutorial, LessonNavigation,
+ * CoachRow) qui n'existaient que parce que l'ancienne API encodait le TON dans
+ * le NOM de la variante : il fallait une entrée par couleur, et l'or, qui
+ * n'avait pas de nom rempli, retombait sur le teal — deux composants portaient
+ * le commentaire « Button has no sun filled variant ». Depuis que `emphasis` et
+ * `tone` sont deux axes, l'or a sa case comme les autres.
+ */
+export const PAGE_TONE_TO_BUTTON: Record<PageTone, ButtonTone> = {
+  primary: 'brand',
+  warm:    'warm',
+  sun:     'sun',
+};
 
 /** Accent text color per tone */
 export const TONE_TEXT: Record<PageTone, string> = {

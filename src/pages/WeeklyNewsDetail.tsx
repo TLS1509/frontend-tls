@@ -90,14 +90,14 @@ export const WeeklyNewsDetail: React.FC = () => {
           <>
             <ReadingProgressRing targetRef={articleRef} tone="brand" size={32} />
             <Button
-              variant={saved ? 'primary' : 'ghost'}
+              emphasis={saved ? 'soft' : 'outline'}
               iconOnly
               aria-label={saved ? 'Retirer le marque-page' : 'Ajouter aux marque-pages'}
               onClick={() => toggleBookmark(bookmarkKey)}
             >
               <Bookmark size={14} fill={saved ? 'currentColor' : 'none'} />
             </Button>
-            <Button variant="ghost" iconOnly aria-label="Partager">
+            <Button emphasis="outline" iconOnly aria-label="Partager">
               <Share2 size={14} />
             </Button>
           </>
@@ -173,7 +173,7 @@ export const WeeklyNewsDetail: React.FC = () => {
                   ))}
                 </div>
                 <Button
-                  variant="secondary"
+                  emphasis="soft" tone="warm"
                   size="sm"
                   trailingIcon={<ExternalLink size={14} />}
                   onClick={() => window.open(ACTU.sourceUrl, '_blank', 'noopener')}

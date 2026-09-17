@@ -192,7 +192,7 @@ export const ComponentsLayout: React.FC<ComponentsLayoutProps> = ({ children }) 
           {/* Reset Button (only show if filters active) */}
           {hasActiveFilters && (
             <Button
-              variant="ghost"
+              emphasis="outline"
               size="sm"
               onClick={handleReset}
               title="Reset all filters"

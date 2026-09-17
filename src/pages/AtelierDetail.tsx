@@ -110,7 +110,7 @@ export default function AtelierDetail() {
             <span className="text-caption text-ink-600">Clôture des inscriptions : 17 juin à 18h00</span>
           </div>
           <div className="flex flex-col gap-tight items-stretch sm:items-end shrink-0">
-            <Button variant="primary" size="lg">Réserver ma place</Button>
+            <Button emphasis="soft" size="lg">Réserver ma place</Button>
             <span className="text-micro text-ink-600 text-center">Annulation gratuite jusqu'à J-2</span>
           </div>
         </Card>

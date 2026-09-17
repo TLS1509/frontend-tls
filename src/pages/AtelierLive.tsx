@@ -70,7 +70,7 @@ export default function AtelierLive() {
             <Card variant="default" className="aspect-video flex flex-col items-center justify-center bg-ink-900 gap-section">
               <Video size={48} className="text-white/40" />
               <Button
-                variant="glass"
+                emphasis="soft"
                 size="lg"
                 leadingIcon={<ExternalLink size={16} />}
               >
@@ -101,7 +101,7 @@ export default function AtelierLive() {
                     size="sm"
                   />
                 </div>
-                <Button variant="ghost" size="sm">Envoyer</Button>
+                <Button emphasis="outline" size="sm">Envoyer</Button>
               </div>
             </SectionCard>
           </div>
@@ -142,7 +142,7 @@ export default function AtelierLive() {
                       <Badge variant="neutral" size="compact">{res.type.toUpperCase()}</Badge>
                     </div>
                     <Button
-                      variant="ghost"
+                      emphasis="outline"
                       size="sm"
                       iconOnly
                       aria-label={res.type === 'pdf' ? 'Télécharger' : 'Ouvrir'}

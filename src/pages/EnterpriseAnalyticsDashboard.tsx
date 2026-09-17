@@ -81,10 +81,10 @@ export default function EnterpriseAnalyticsDashboard() {
         tone="flat"
         trailing={
           <div className="flex items-center gap-stack-xs">
-            <Button variant="ghost" size="md" leadingIcon={<Download size={16} />}>
+            <Button emphasis="outline" size="md" leadingIcon={<Download size={16} />}>
               Exporter le rapport
             </Button>
-            <Button variant="glass" size="md" leadingIcon={<RefreshCw size={16} />}>
+            <Button emphasis="soft" size="md" leadingIcon={<RefreshCw size={16} />}>
               Actualiser
             </Button>
           </div>

@@ -113,13 +113,6 @@ const COVER_GRADIENT: Record<VeilleCardTone, string> = {
   sun:   'bg-gradient-to-br from-accent-300 via-accent-500 to-secondary-500',
 };
 
-// `ghost` remplace `glass-brand` (retiré — doublon exact) : même rendu teinté brand.
-const CTA_VARIANT: Record<VeilleCardTone, 'ghost' | 'glass-warm' | 'glass-sun'> = {
-  brand: 'ghost',
-  warm:  'glass-warm',
-  sun:   'glass-sun',
-};
-
 /* ─── Surface maps ───────────────────────────────────────────────────────── */
 
 const SURFACE_CARD = 'bg-white border-ink-200 hover:border-ink-300';
@@ -407,7 +400,8 @@ export const FeaturedSpotlight: React.FC<FeaturedSpotlightProps> = ({ item, isSa
           <span>{item.publishedAt}</span>
         </div>
         <Button
-          variant={CTA_VARIANT[tone]}
+          emphasis="soft"
+          tone={tone}
           size="md"
           trailingIcon={<ArrowRight size={16} />}
           onClick={(e) => { e.stopPropagation(); onClick?.(item); }}
@@ -559,7 +553,8 @@ export const FeaturedSpotlightCarousel: React.FC<FeaturedSpotlightCarouselProps>
             <span>{item.publishedAt}</span>
           </div>
           <Button
-            variant={CTA_VARIANT[tone]}
+            emphasis="soft"
+          tone={tone}
             size="md"
             trailingIcon={<ArrowRight size={16} />}
             onClick={(e) => { e.stopPropagation(); onClick?.(item); }}

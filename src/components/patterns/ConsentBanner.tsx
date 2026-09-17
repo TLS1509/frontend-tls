@@ -143,17 +143,17 @@ export const ConsentBanner: React.FC<ConsentBannerProps> = ({
           {/* Action buttons */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs shrink-0">
             <Button
-              variant="ghost"
+              emphasis="outline"
               size="sm"
               onClick={() => setShowCustomize((v) => !v)}
               trailingIcon={showCustomize ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
             >
               Personnaliser
             </Button>
-            <Button variant="secondary" size="sm" onClick={onRejectAll}>
+            <Button emphasis="soft" tone="warm" size="sm" onClick={onRejectAll}>
               Tout refuser
             </Button>
-            <Button variant="primary" size="sm" onClick={onAcceptAll}>
+            <Button emphasis="soft" size="sm" onClick={onAcceptAll}>
               Tout accepter
             </Button>
           </div>
@@ -187,7 +187,7 @@ export const ConsentBanner: React.FC<ConsentBannerProps> = ({
               ))}
             </div>
             <div className="flex justify-end mt-2">
-              <Button variant="primary" size="sm" onClick={handleSaveCustom}>
+              <Button emphasis="soft" size="sm" onClick={handleSaveCustom}>
                 Enregistrer mes préférences
               </Button>
             </div>

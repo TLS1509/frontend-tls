@@ -274,7 +274,7 @@ export const Recherche: React.FC = () => {
             }
             actions={
               debouncedQuery ? (
-                <Button variant="secondary" size="sm" onClick={() => { setQuery(''); setFilter('all'); }}>
+                <Button emphasis="soft" tone="warm" size="sm" onClick={() => { setQuery(''); setFilter('all'); }}>
                   Réinitialiser
                 </Button>
               ) : undefined

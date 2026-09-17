@@ -75,7 +75,7 @@ export const WeeklyNewsletter: React.FC = () => {
       <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100">
         <PageShell width="page" className="h-14 flex items-center justify-between gap-stack-xs px-4 sm:px-6 lg:px-10 py-0">
           <Button
-            variant="ghost"
+            emphasis="outline"
             size="sm"
             leadingIcon={<ArrowLeft size={14} />}
             onClick={() => navigate('/veille')}
@@ -83,10 +83,10 @@ export const WeeklyNewsletter: React.FC = () => {
             Retour à la veille
           </Button>
           <div className="flex items-center gap-stack-xs">
-            <Button variant="primary" size="sm" leadingIcon={<Mail size={14} />} className="hidden sm:inline-flex">
+            <Button emphasis="soft" size="sm" leadingIcon={<Mail size={14} />} className="hidden sm:inline-flex">
               S'abonner
             </Button>
-            <Button variant="ghost" iconOnly aria-label="Partager">
+            <Button emphasis="outline" iconOnly aria-label="Partager">
               <Share2 size={14} />
             </Button>
           </div>
@@ -133,7 +133,7 @@ export const WeeklyNewsletter: React.FC = () => {
             <h2 className="font-display text-h3 font-bold text-ink-900 tracking-tight">
               Vidéo de la semaine
             </h2>
-            <Button variant="ghost" size="sm" trailingIcon={<ArrowRight size={14} />} onClick={() => navigate('/veille')}>
+            <Button emphasis="outline" size="sm" trailingIcon={<ArrowRight size={14} />} onClick={() => navigate('/veille')}>
               Toute la veille
             </Button>
           </div>
@@ -164,7 +164,7 @@ export const WeeklyNewsletter: React.FC = () => {
                   sur des cas réels de formation.
                 </p>
               </div>
-              <Button variant="primary" size="sm" leadingIcon={<Play size={14} fill="currentColor" />} className="self-start">
+              <Button emphasis="soft" size="sm" leadingIcon={<Play size={14} fill="currentColor" />} className="self-start">
                 Regarder maintenant
               </Button>
             </div>
@@ -239,7 +239,7 @@ export const WeeklyNewsletter: React.FC = () => {
                   </div>
 
                   <Button
-                    variant="ghost"
+                    emphasis="outline"
                     size="sm"
                     iconOnly
                     aria-label={isSaved ? 'Retirer le marque-page' : 'Ajouter aux marque-pages'}
@@ -288,7 +288,7 @@ export const WeeklyNewsletter: React.FC = () => {
               placeholder="votre@email.com"
               className="flex-1 h-11 px-stack rounded-lg border-0 bg-white/15 backdrop-blur-glass-light font-body text-body-sm text-white placeholder:text-white/60 focus:outline-2 focus:outline-white/40"
             />
-            <Button variant="secondary" size="md" type="submit">
+            <Button emphasis="soft" tone="warm" size="md" type="submit">
               S'abonner
             </Button>
           </form>

@@ -50,10 +50,10 @@ export default function CoachHeatmap() {
         tone="flat"
         trailing={
           <div className="flex items-center gap-stack-xs">
-            <Button variant="ghost" size="md" leadingIcon={<Download size={16} />}>
+            <Button emphasis="outline" size="md" leadingIcon={<Download size={16} />}>
               Exporter
             </Button>
-            <Button variant="glass" size="md" leadingIcon={<RefreshCw size={16} />}>
+            <Button emphasis="soft" size="md" leadingIcon={<RefreshCw size={16} />}>
               Actualiser
             </Button>
           </div>
@@ -90,7 +90,7 @@ export default function CoachHeatmap() {
               </p>
             </div>
             <Button
-              variant="ghost"
+              emphasis="outline"
               size="sm"
               className="shrink-0 ml-auto"
               onClick={() => navigate('/coach/apprenants?filter=stuck')}
@@ -160,7 +160,7 @@ export default function CoachHeatmap() {
                     <span className="text-caption text-ink-500">Moy. D{avg}</span>
                     <Badge variant={variant}>{label}</Badge>
                     <Button
-                      variant="ghost"
+                      emphasis="outline"
                       size="sm"
                       onClick={() => navigate(`/coach/apprenant/${a.id}`)}
                     >

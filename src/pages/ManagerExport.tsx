@@ -124,14 +124,14 @@ export default function ManagerExport() {
         {/* CTA */}
         <div className="flex items-center gap-stack-xs">
           <Button
-            variant="primary"
+            emphasis="soft"
             size="lg"
             leadingIcon={<Download size={18} />}
             onClick={handleExport}
           >
             Générer l'export
           </Button>
-          <Button variant="ghost" size="lg">
+          <Button emphasis="outline" size="lg">
             Planifier un export automatique
           </Button>
         </div>

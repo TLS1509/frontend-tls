@@ -81,7 +81,7 @@ export default function EvenementRecap() {
           {/* Replay */}
           <Card className="aspect-video flex items-center justify-center bg-ink-900 overflow-hidden">
             <Button
-              variant="glass"
+              emphasis="soft"
               size="lg"
               leadingIcon={<Play size={18} />}
             >
@@ -118,7 +118,7 @@ export default function EvenementRecap() {
                   <p className="text-body-sm font-semibold text-ink-900 m-0">{session.title}</p>
                   <p className="text-caption text-ink-500 m-0">{session.duration}</p>
                 </div>
-                <Button variant="ghost" size="sm">
+                <Button emphasis="outline" size="sm">
                   Voir
                 </Button>
               </Card>
@@ -168,12 +168,12 @@ export default function EvenementRecap() {
                 )}
                 <span className="text-caption text-ink-700 flex-1 min-w-0 truncate">{res.title}</span>
                 {res.type === 'download' && res.size && (
-                  <Button variant="ghost" size="sm" aria-label={`Télécharger ${res.title}`}>
+                  <Button emphasis="outline" size="sm" aria-label={`Télécharger ${res.title}`}>
                     <Download size={14} />
                   </Button>
                 )}
                 {res.type === 'link' && (
-                  <Button variant="ghost" size="sm" aria-label={`Ouvrir ${res.title}`}>
+                  <Button emphasis="outline" size="sm" aria-label={`Ouvrir ${res.title}`}>
                     <ExternalLink size={14} />
                   </Button>
                 )}
@@ -189,7 +189,7 @@ export default function EvenementRecap() {
             <p className="text-caption text-ink-500 m-0">
               Partagez votre retour d'expérience pour améliorer les prochains événements.
             </p>
-            <Button variant="primary" size="sm" className="w-full">
+            <Button emphasis="soft" size="sm" className="w-full">
               Donner mon avis
             </Button>
           </Card>

@@ -242,7 +242,7 @@ export const Help: React.FC = () => {
                 className="flex-1 border border-ink-200 rounded-lg px-stack py-3 bg-white text-ink-900 font-body text-body-sm outline-none transition-colors focus:border-primary-400 h-auto placeholder:text-ink-500"
               />
               <Button
-                variant="primary"
+                emphasis="soft"
                 size="sm"
                 leadingIcon={<Send size={14} />}
                 onClick={() => setChatInput('')}
@@ -273,7 +273,7 @@ export const Help: React.FC = () => {
                     <p className="m-0 mb-stack-xs font-display text-h4 font-bold text-ink-900">{opt.title}</p>
                     <p className="m-0 font-body text-caption text-ink-500 leading-relaxed">{opt.desc}</p>
                   </div>
-                  <Button variant="secondary" size="sm" className="mt-auto">
+                  <Button emphasis="soft" tone="warm" size="sm" className="mt-auto">
                     {opt.action}
                   </Button>
                 </Card>

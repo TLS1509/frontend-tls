@@ -55,7 +55,7 @@ export default function MasterclassSurvey() {
           <p className="text-body-sm text-ink-500">
             Ton avis nous aide à améliorer nos masterclasses. À très bientôt !
           </p>
-          <Button variant="primary" size="lg" onClick={() => navigate('/masterclass')}>
+          <Button emphasis="soft" size="lg" onClick={() => navigate('/masterclass')}>
             Voir les prochaines masterclasses
           </Button>
         </div>
@@ -121,7 +121,7 @@ export default function MasterclassSurvey() {
         {/* CTA */}
         <div className="flex flex-col gap-tight">
           <Button
-            variant="primary"
+            emphasis="soft"
             size="lg"
             fullWidth
             disabled={!rating}

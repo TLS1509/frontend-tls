@@ -41,21 +41,21 @@ const CoachCalendar: React.FC = () => {
         title="Mes sessions de coaching"
         summary="Synchronisé avec Google Calendar (Outlook V1)"
         tone="flat"
-        trailing={<Button variant="secondary" leadingIcon={<Plus className="w-4 h-4" />}>Nouvelle session</Button>}
+        trailing={<Button emphasis="soft" tone="warm" leadingIcon={<Plus className="w-4 h-4" />}>Nouvelle session</Button>}
       />
 
       <div className="flex flex-col gap-section">
         <div className="flex flex-wrap items-center justify-between gap-stack">
           <div className="flex items-center gap-stack-xs">
-            <Button variant="ghost" iconOnly leadingIcon={<ChevronLeft className="w-4 h-4" />} aria-label="Semaine précédente" onClick={() => setWeekOffset((w) => w - 1)} />
+            <Button emphasis="outline" iconOnly leadingIcon={<ChevronLeft className="w-4 h-4" />} aria-label="Semaine précédente" onClick={() => setWeekOffset((w) => w - 1)} />
             <div className="text-h4 font-semibold">Semaine du 11 mai 2026</div>
-            <Button variant="ghost" iconOnly leadingIcon={<ChevronRight className="w-4 h-4" />} aria-label="Semaine suivante" onClick={() => setWeekOffset((w) => w + 1)} />
+            <Button emphasis="outline" iconOnly leadingIcon={<ChevronRight className="w-4 h-4" />} aria-label="Semaine suivante" onClick={() => setWeekOffset((w) => w + 1)} />
           </div>
           <div className="flex items-center gap-stack-xs">
             <FilterChip label="Tous" active={providerFilter === 'all'} onClick={() => setProviderFilter('all')} />
             <FilterChip label="Google" active={providerFilter === 'google'} onClick={() => setProviderFilter('google')} />
             <FilterChip label="Outlook (V1)" active={providerFilter === 'outlook'} onClick={() => setProviderFilter('outlook')} />
-            <Button variant="ghost" size="sm" leadingIcon={<Settings className="w-4 h-4" />}>OAuth</Button>
+            <Button emphasis="outline" size="sm" leadingIcon={<Settings className="w-4 h-4" />}>OAuth</Button>
           </div>
         </div>
 

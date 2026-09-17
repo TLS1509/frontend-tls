@@ -136,10 +136,10 @@ export default function OpenBadgesSection() {
 
                 {/* Action buttons */}
                 <div className="flex gap-stack-xs justify-center pt-1">
-                  <Button variant="ghost" size="sm" leadingIcon={<Eye size={14} />}>
+                  <Button emphasis="outline" size="sm" leadingIcon={<Eye size={14} />}>
                     Voir
                   </Button>
-                  <Button variant="ghost" size="sm" leadingIcon={<Share2 size={14} />}>
+                  <Button emphasis="outline" size="sm" leadingIcon={<Share2 size={14} />}>
                     Partager
                   </Button>
                 </div>
@@ -154,7 +154,7 @@ export default function OpenBadgesSection() {
           titleIcon={<ExternalLink size={18} className="text-primary-500" />}
           description="Importez des badges depuis des plateformes externes compatibles Open Badges. Vos certifications Credly, Badgr ou IMS Global seront consolidées dans votre profil."
           actions={
-            <Button variant="secondary">
+            <Button emphasis="soft" tone="warm">
               Connecter un wallet
             </Button>
           }

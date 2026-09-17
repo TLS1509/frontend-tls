@@ -23,7 +23,7 @@ export const ProjectSkillGaps: React.FC = () => {
   if (!project) {
     return (
       <Container width="page" padding={false} className="px-stack py-section">
-        <Button variant="ghost" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate(`/project/${projectId}`)}>
+        <Button emphasis="outline" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate(`/project/${projectId}`)}>
           Retour au projet
         </Button>
       </Container>
@@ -65,7 +65,7 @@ export const ProjectSkillGaps: React.FC = () => {
   return (
     <Container width="medium" className="py-section flex flex-col gap-section">
       <div>
-        <Button variant="ghost" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(`/project/${projectId}`)}>
+        <Button emphasis="outline" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(`/project/${projectId}`)}>
           Retour au projet
         </Button>
       </div>

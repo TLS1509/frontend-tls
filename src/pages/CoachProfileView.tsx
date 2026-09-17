@@ -211,10 +211,10 @@ export default function CoachProfileView() {
 
             {/* CTAs */}
             <div className="flex flex-col gap-stack-xs">
-              <Button variant="secondary" size="md" fullWidth leadingIcon={<Calendar size={16} />}>
+              <Button emphasis="soft" tone="warm" size="md" fullWidth leadingIcon={<Calendar size={16} />}>
                 Réserver une session
               </Button>
-              <Button variant="secondary" size="md" fullWidth leadingIcon={<MessageCircle size={16} />}>
+              <Button emphasis="soft" tone="warm" size="md" fullWidth leadingIcon={<MessageCircle size={16} />}>
                 Envoyer un message
               </Button>
             </div>

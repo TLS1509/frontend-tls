@@ -381,7 +381,7 @@ const MarkV4: React.FC = () => {
         ))}
       </div>
       <div className="mt-stack-lg flex flex-wrap items-center gap-stack">
-        <Button variant="ghost" size="sm" onClick={() => setRejoue((n) => n + 1)}>
+        <Button emphasis="outline" size="sm" onClick={() => setRejoue((n) => n + 1)}>
           Rejouer l’arrivée
         </Button>
         <p className="font-body text-body-sm text-ink-600 m-0 max-w-xl">

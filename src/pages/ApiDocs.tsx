@@ -34,7 +34,7 @@ const ApiDocs: React.FC = () => {
         title="The Learning Society API v1"
         summary="Documentation Swagger/OpenAPI auto-générée : endpoints REST, authentification, rate limits"
         tone="flat"
-        trailing={<Button variant="primary" leadingIcon={<Code className="w-4 h-4" />}>Télécharger OpenAPI.json</Button>}
+        trailing={<Button emphasis="soft" leadingIcon={<Code className="w-4 h-4" />}>Télécharger OpenAPI.json</Button>}
       />
 
       <Container width="page" padding={false} className="px-stack py-section flex flex-col gap-section">
@@ -64,7 +64,7 @@ const ApiDocs: React.FC = () => {
                   <code className="font-mono text-body-sm flex-1">{e.path}</code>
                   <span className="text-caption text-ink-500 hidden md:block flex-1">{e.desc}</span>
                   <Badge variant="neutral">{e.auth}</Badge>
-                  <Button variant="ghost" iconOnly leadingIcon={<Copy className="w-4 h-4" />} aria-label="Copier" />
+                  <Button emphasis="outline" iconOnly leadingIcon={<Copy className="w-4 h-4" />} aria-label="Copier" />
                 </Card>
               ))}
             </div>

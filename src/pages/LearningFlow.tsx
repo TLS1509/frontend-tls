@@ -130,7 +130,7 @@ export const LearningFlow: React.FC = () => {
                   {step.route && (
                     <div className="mt-1">
                       <Button
-                        variant="secondary"
+                        emphasis="soft" tone="warm"
                         size="sm"
                         leadingIcon={<BookOpen size={14} />}
                       >

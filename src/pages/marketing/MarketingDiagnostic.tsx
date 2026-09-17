@@ -444,7 +444,7 @@ export const MarketingDiagnostic: React.FC = () => {
               <div className="pt-stack-xs">
                 <Button
                   onClick={() => (qIndex === 0 ? resetAll() : setQIndex((i) => i - 1))}
-                  variant="ghost"
+                  emphasis="outline"
                   size="md"
                   leadingIcon={<ArrowLeft size={16} />}
                 >
@@ -491,7 +491,7 @@ export const MarketingDiagnostic: React.FC = () => {
                     setQIndex(total - 1);
                     go('wizard');
                   }}
-                  variant="ghost"
+                  emphasis="outline"
                   size="md"
                   leadingIcon={<ArrowLeft size={16} />}
                 >
@@ -675,7 +675,7 @@ export const MarketingDiagnostic: React.FC = () => {
                   >
                     Réserver un débriefing de 15 min
                   </Button>
-                  <Button onClick={resetAll} variant="ghost" size="lg" trailingIcon={<RefreshCw size={16} />}>
+                  <Button onClick={resetAll} emphasis="outline" size="lg" trailingIcon={<RefreshCw size={16} />}>
                     Refaire un diagnostic
                   </Button>
                 </div>
@@ -699,7 +699,7 @@ export const MarketingDiagnostic: React.FC = () => {
                   Le diagnostic est la première étape de la méthode STRIDE :
                   les six suivantes disent ce qu'on fait du score.
                 </p>
-                <Button to="/website/accompagnement" variant="ghost" size="md" trailingIcon={<ArrowRight size={16} />}>
+                <Button to="/website/accompagnement" emphasis="outline" size="md" trailingIcon={<ArrowRight size={16} />}>
                   Découvrir la méthode STRIDE
                 </Button>
               </div>

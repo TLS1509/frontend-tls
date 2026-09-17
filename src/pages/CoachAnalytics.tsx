@@ -302,7 +302,7 @@ export default function CoachAnalytics() {
             <SectionCard
               title="Résumé corrections"
               actions={
-                <Button variant="primary" size="md">
+                <Button emphasis="soft" size="md">
                   Aller à la queue
                 </Button>
               }

@@ -81,7 +81,7 @@ export const VideoTutorial: React.FC = () => {
 
       {/* ─ Sticky glass header ────────────────────────────────────── */}
       <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100 flex items-center justify-between px-stack-lg h-14">
-        <Button variant="ghost" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate('/veille')}>
+        <Button emphasis="outline" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate('/veille')}>
           Retour
         </Button>
         <button

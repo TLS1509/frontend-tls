@@ -99,7 +99,7 @@ export default function CoachJournal() {
         summary="Consignez vos observations, bilans de session et réflexions pédagogiques."
         tone="flat"
         trailing={
-          <Button variant="glass" leadingIcon={<PenLine size={16} />}>
+          <Button emphasis="soft" leadingIcon={<PenLine size={16} />}>
             Nouvelle entrée
           </Button>
         }
@@ -125,7 +125,7 @@ export default function CoachJournal() {
                   </div>
                   <p className="text-body-sm text-ink-600">{entry.excerpt}</p>
                   <div className="flex justify-end">
-                    <Button variant="ghost" size="sm">Lire</Button>
+                    <Button emphasis="outline" size="sm">Lire</Button>
                   </div>
                 </div>
               </Card>
@@ -152,7 +152,7 @@ export default function CoachJournal() {
                       </span>
                     </div>
                     <Badge variant={sentiment.variant}>{sentiment.label}</Badge>
-                    <Button variant="ghost" size="sm">Voir</Button>
+                    <Button emphasis="outline" size="sm">Voir</Button>
                   </div>
                 </Card>
               );

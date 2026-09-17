@@ -53,7 +53,7 @@ export default function MasterclassLive() {
                 <Video size={48} className="text-white/40" />
                 <p className="text-body text-white/60">Session live · Google Meet</p>
                 <Button
-                  variant="glass"
+                  emphasis="soft"
                   size="lg"
                   leadingIcon={<ExternalLink size={16} />}
                 >
@@ -93,7 +93,7 @@ export default function MasterclassLive() {
                   placeholder="Poser une question..."
                   className="flex-1"
                 />
-                <Button variant="ghost" size="sm">Envoyer</Button>
+                <Button emphasis="outline" size="sm">Envoyer</Button>
               </div>
             </SectionCard>
 
@@ -106,7 +106,7 @@ export default function MasterclassLive() {
                       <FileText size={14} className="text-ink-600 shrink-0" />
                       <span className="text-caption text-ink-700 truncate">{r.label}</span>
                     </div>
-                    <Button variant="ghost" size="sm">Télécharger</Button>
+                    <Button emphasis="outline" size="sm">Télécharger</Button>
                   </div>
                 ))}
               </div>

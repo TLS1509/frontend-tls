@@ -19,7 +19,7 @@ export interface CoachRowProps {
  * Extracted from Coaching.tsx line 331 pattern (Phase 19.1).
  * Reusable across: session cards, lesson players, coaching detail pages.
  *
- * Variant: glass-warm surface for warm tint, ghost for brand context
+ * Le CTA prend le niveau `soft` au ton de la rangée (`tint`).
  * (ghost remplace glass-brand, retiré — doublon exact).
  */
 export const CoachRow: React.FC<CoachRowProps> = ({
@@ -30,8 +30,6 @@ export const CoachRow: React.FC<CoachRowProps> = ({
   className = '',
   tint = 'brand',
 }) => {
-  const glassVariant = tint === 'warm' ? 'glass-warm' : 'ghost';
-
   return (
     <div className={`flex flex-wrap items-center gap-stack-xs p-3 rounded-lg bg-white/60 backdrop-blur-glass-light border border-white/60 ${className}`}>
       <Avatar initials={coachInitials} size="sm" tint={tint} />
@@ -45,7 +43,8 @@ export const CoachRow: React.FC<CoachRowProps> = ({
       </div>
       {onMessage && (
         <Button
-          variant={glassVariant}
+          emphasis="soft"
+          tone={tint}
           size="md"
           leadingIcon={<MessageCircle size={14} />}
           onClick={onMessage}

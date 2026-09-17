@@ -236,14 +236,14 @@ export default function AlerteStagnation() {
                   {/* Actions */}
                   <div className="flex items-center gap-stack-xs shrink-0">
                     <Button
-                      variant="ghost"
+                      emphasis="outline"
                       size="sm"
                       leadingIcon={<Calendar size={14} />}
                     >
                       Planifier session
                     </Button>
                     <Button
-                      variant="ghost"
+                      emphasis="outline"
                       size="sm"
                       leadingIcon={<MessageSquare size={14} />}
                     >
@@ -279,7 +279,7 @@ export default function AlerteStagnation() {
                     {suggestion.advice}
                   </p>
                 </div>
-                <Button variant="secondary" size="sm" fullWidth leadingIcon={<Sparkles size={14} />}>
+                <Button emphasis="soft" tone="warm" size="sm" fullWidth leadingIcon={<Sparkles size={14} />}>
                   {suggestion.actionLabel}
                 </Button>
               </Card>

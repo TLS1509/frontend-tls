@@ -298,7 +298,7 @@ export const Coaching: React.FC = () => {
                     </span>
                   </div>
                   <Button
-                    variant="glass-warm"
+                    emphasis="soft" tone="warm"
                     size="md"
                     iconOnly
                     leadingIcon={<MessageCircle size={16} />}
@@ -319,13 +319,13 @@ export const Coaching: React.FC = () => {
                   </Button>
                   <Button
                     size="lg"
-                    variant="glass-warm"
+                    emphasis="soft" tone="warm"
                     iconOnly
                     leadingIcon={<Download size={16} />}
                     onClick={handleDownloadCalendarInvite}
                     aria-label="Ajouter au calendrier (.ics)"
                   />
-                  <Button variant="ghost" size="lg" onClick={() => setShowCancel(true)}>
+                  <Button emphasis="outline" size="lg" onClick={() => setShowCancel(true)}>
                     Reprogrammer
                   </Button>
                 </div>
@@ -362,7 +362,7 @@ export const Coaching: React.FC = () => {
                     Réserver une session
                   </Button>
                   <Button
-                    variant="ghost"
+                    emphasis="outline"
                     size="lg"
                     leadingIcon={<MessageCircle size={16} />}
                     onClick={() => navigate('/messages')}

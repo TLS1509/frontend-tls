@@ -375,7 +375,7 @@ export const SubscriptionPayment: React.FC = () => {
           </div>
 
           <Button
-            variant="primary"
+            emphasis="soft"
             size="lg"
             fullWidth
             leadingIcon={<ShieldCheck size={18} />}

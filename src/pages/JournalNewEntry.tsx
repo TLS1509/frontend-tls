@@ -261,7 +261,7 @@ export const JournalNewEntry: React.FC = () => {
       {/* Sticky top bar */}
       <header className="flex items-center px-4 sm:px-6 py-stack border-b border-ink-200 bg-white sticky top-0 z-sticky gap-stack-xs">
         <Button
-          variant="ghost"
+          emphasis="outline"
           size="sm"
           iconOnly
           aria-label="Retour au journal"

@@ -135,7 +135,7 @@ export const Error500: React.FC = () => {
         >
           <Button
             size="lg"
-            variant="secondary"
+            emphasis="soft" tone="warm"
             onClick={() => window.location.reload()}
             leadingIcon={<RefreshCw size={18} />}
           >
@@ -143,7 +143,7 @@ export const Error500: React.FC = () => {
           </Button>
           <Button
             size="lg"
-            variant="secondary"
+            emphasis="soft" tone="warm"
             onClick={() => navigate('/dashboard')}
             trailingIcon={<ArrowRight size={18} />}
           >

@@ -563,7 +563,7 @@ export const MarketingArticleDetail: React.FC = () => {
               <Button to="/website/accompagnement" emphasis="solid" tone="brand" size="lg" trailingIcon={<ArrowRight size={18} />}>
                 Découvrir notre méthode
               </Button>
-              <Button to="/website/learning-app" variant="glass" size="lg" trailingIcon={<ArrowRight size={18} />}>
+              <Button to="/website/learning-app" emphasis="solid" onDark size="lg" trailingIcon={<ArrowRight size={18} />}>
                 Voir la Learning App
               </Button>
             </div>

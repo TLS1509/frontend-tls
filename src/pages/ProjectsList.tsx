@@ -78,7 +78,7 @@ const ProjectsList: React.FC = () => {
         summary="Tâches assignées, statut JAC, progression et enrichissement Passeport en temps réel."
         tone="flat"
         trailing={
-          <Button variant="glass" leadingIcon={<Plus size={16} />}>
+          <Button emphasis="soft" leadingIcon={<Plus size={16} />}>
             Nouveau projet
           </Button>
         }

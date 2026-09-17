@@ -306,7 +306,7 @@ const CtaFinal: React.FC = () => (
             <Button to="/website/contact" emphasis="solid" tone="brand" size="xl" trailingIcon={<ArrowRight size={20} />}>
               Échanger avec l'équipe du Studio
             </Button>
-            <Button to="/website/accompagnement" variant="ghost" size="xl" trailingIcon={<ArrowUpRight size={20} />}>
+            <Button to="/website/accompagnement" emphasis="outline" size="xl" trailingIcon={<ArrowUpRight size={20} />}>
               Voir la méthode STRIDE
             </Button>
           </div>

@@ -77,7 +77,7 @@ export default function EvenementLive() {
               <Video size={48} className="text-white/40" />
               <p className="text-caption text-white/50 m-0">Diffusion live</p>
               <Button
-                variant="glass"
+                emphasis="soft"
                 size="lg"
                 leadingIcon={<ExternalLink size={16} />}
               >
@@ -109,7 +109,7 @@ export default function EvenementLive() {
                 onChange={(e) => setQuestion(e.target.value)}
                 className="flex-1"
               />
-              <Button variant="primary" size="sm">
+              <Button emphasis="soft" size="sm">
                 Envoyer
               </Button>
             </div>

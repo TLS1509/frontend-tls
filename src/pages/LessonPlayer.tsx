@@ -818,7 +818,7 @@ const LESSON_DATA: Record<string, LessonData> = {
         description: 'Figma variables → CSS custom properties → Tailwind utilities. Un changement de token se propage partout instantanément.',
         points: [
           '--color-primary-500 change en 1 ligne et c\'est mis à jour sur toutes les pages',
-          'Composants React typés avec props claires : <Button variant="primary" size="md" />',
+          'Composants React typés avec props claires : <Button emphasis="soft" size="md" />',
           'Figma et le code partagent le même vocabulaire : zéro traduction manuelle',
           'Open Badge, Passeport, Learning App : un seul design system pour tous',
         ],
@@ -832,7 +832,7 @@ const LESSON_DATA: Record<string, LessonData> = {
             { num: 1, label: 'Figma variables', desc: 'Source of truth visuelle', color: 'primary' },
             { num: 2, label: 'CSS custom props', desc: '--color-primary-500', color: 'secondary' },
             { num: 3, label: 'Tailwind utilities', desc: 'text-primary-500', color: 'accent' },
-            { num: 4, label: 'Composant React', desc: '<Button variant="primary" />', color: 'primary' },
+            { num: 4, label: 'Composant React', desc: '<Button emphasis="soft" />', color: 'primary' },
           ],
         },
       ],

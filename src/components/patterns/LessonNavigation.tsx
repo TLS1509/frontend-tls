@@ -25,6 +25,7 @@ import { ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import { Button } from '../core/Button';
 import { ProgressDots } from '../ui/ProgressDots';
 import type { PageTone } from '../../lib/tone-classes';
+import { PAGE_TONE_TO_BUTTON } from '../../lib/tone-classes';
 
 export interface LessonNavigationProps {
   /** 1-based current position. */
@@ -52,12 +53,6 @@ export interface LessonNavigationProps {
 
   className?: string;
 }
-
-const TONE_BUTTON_VARIANT: Record<PageTone, 'primary' | 'secondary'> = {
-  primary: 'primary',
-  warm:    'secondary',
-  sun:     'primary', // Button has no "sun" filled variant — fall back to primary
-};
 
 export const LessonNavigation: React.FC<LessonNavigationProps> = ({
   current,
@@ -89,7 +84,7 @@ export const LessonNavigation: React.FC<LessonNavigationProps> = ({
   return (
     <nav className={wrapperClasses} aria-label="Navigation de la leçon">
       <Button
-        variant="secondary"
+        emphasis="soft" tone="warm"
         size="md"
         leadingIcon={<ChevronLeft size={16} />}
         onClick={onPrev}
@@ -109,7 +104,8 @@ export const LessonNavigation: React.FC<LessonNavigationProps> = ({
       />
 
       <Button
-        variant={TONE_BUTTON_VARIANT[tone]}
+        emphasis="soft"
+        tone={PAGE_TONE_TO_BUTTON[tone]}
         size="md"
         trailingIcon={showFinish ? <Check size={16} /> : <ChevronRight size={16} />}
         onClick={handleNext}

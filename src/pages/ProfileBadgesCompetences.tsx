@@ -115,7 +115,7 @@ export default function ProfileBadgesCompetences() {
         summary={`${earnedCount} badges obtenus sur ${enrichedBadges.length}. Chaque badge atteste d'un niveau Dreyfus validé dans une compétence.`}
         tone="flat"
         trailing={
-          <Button variant="glass" size="md" leadingIcon={<Award size={16} />}>
+          <Button emphasis="soft" size="md" leadingIcon={<Award size={16} />}>
             Partager mon profil
           </Button>
         }

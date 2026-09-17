@@ -99,12 +99,12 @@ export const FormLayout: React.FC<FormLayoutProps> = ({
       {(onSubmit || onCancel) && (
         <div className="flex justify-end gap-stack-xs pt-stack-lg border-t border-ink-200">
           {onCancel && (
-            <Button variant="secondary" onClick={onCancel} disabled={isSubmitting}>
+            <Button emphasis="soft" tone="warm" onClick={onCancel} disabled={isSubmitting}>
               {cancelLabel}
             </Button>
           )}
           {onSubmit && (
-            <Button variant="primary" onClick={onSubmit} disabled={isSubmitting}>
+            <Button emphasis="soft" onClick={onSubmit} disabled={isSubmitting}>
               {isSubmitting ? 'Envoi…' : submitLabel}
             </Button>
           )}

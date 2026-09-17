@@ -163,7 +163,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
         {onRead && (
           <Button
             size="sm"
-            variant="ghost"
+            emphasis="outline"
             trailingIcon={
               <ArrowRight
                 size={14}

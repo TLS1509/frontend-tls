@@ -76,7 +76,7 @@ const JournalBubbleNudge: React.FC<JournalBubbleNudgeProps> = ({ navigate, hasUp
           Écrire aujourd'hui
         </h3>
         <Button
-          variant="ghost"
+          emphasis="outline"
           size="sm"
           leadingIcon={<PenLine size={14} />}
           onClick={() => navigate('/journal')}
@@ -152,7 +152,7 @@ const ActivitySection: React.FC<ActivitySectionProps> = ({ navigate }) => {
           Activité & veille
         </h3>
         <Button
-          variant="ghost"
+          emphasis="outline"
           size="sm"
           trailingIcon={<ArrowRight size={14} />}
           onClick={() => navigate('/veille')}

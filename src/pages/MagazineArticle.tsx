@@ -94,14 +94,14 @@ export const MagazineArticle: React.FC = () => {
           <>
             <ReadingProgressRing targetRef={articleRef} tone="brand" size={32} />
             <Button
-              variant={bookmarked ? 'primary' : 'ghost'}
+              emphasis={bookmarked ? 'soft' : 'outline'}
               iconOnly
               aria-label="Bookmark"
               onClick={() => toggleBookmark(bookmarkKey)}
             >
               <Bookmark size={14} fill={bookmarked ? 'currentColor' : 'none'} />
             </Button>
-            <Button variant="ghost" iconOnly aria-label="Partager">
+            <Button emphasis="outline" iconOnly aria-label="Partager">
               <Share2 size={14} />
             </Button>
           </>

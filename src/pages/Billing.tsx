@@ -137,10 +137,10 @@ const SubscriptionTab: React.FC<{
       </div>
 
       <div className="flex flex-wrap gap-stack-xs mt-stack">
-        <Button variant="primary" size="sm" trailingIcon={<ArrowUpRight size={14} />}>
+        <Button emphasis="soft" size="sm" trailingIcon={<ArrowUpRight size={14} />}>
           Changer de formule
         </Button>
-        <Button variant="ghost" size="sm">
+        <Button emphasis="outline" size="sm">
           Voir les avantages
         </Button>
       </div>
@@ -165,7 +165,7 @@ const SubscriptionTab: React.FC<{
           </div>
         </div>
 
-        <Button variant="secondary" size="sm">
+        <Button emphasis="soft" tone="warm" size="sm">
           Modifier
         </Button>
       </div>
@@ -208,7 +208,7 @@ const SubscriptionTab: React.FC<{
                 Payée
               </span>
               <Button
-                variant="ghost"
+                emphasis="outline"
                 size="sm"
                 iconOnly
                 leadingIcon={<Download size={14} />}
@@ -239,7 +239,7 @@ const SubscriptionTab: React.FC<{
             </p>
           </div>
         </div>
-        <Button variant="secondary" size="sm" onClick={onCancel}>
+        <Button emphasis="soft" tone="warm" size="sm" onClick={onCancel}>
           Annuler l'abonnement
         </Button>
       </div>
@@ -281,7 +281,7 @@ const CreditsTab: React.FC<{ credits: { classic: number; special: number } }> = 
         </div>
 
         <div className="flex flex-col gap-stack-xs items-center md:items-end">
-          <Button variant="secondary" leadingIcon={<ShoppingBag size={16} />} onClick={() => navigate('/account/billing/credits/buy')}>
+          <Button emphasis="soft" tone="warm" leadingIcon={<ShoppingBag size={16} />} onClick={() => navigate('/account/billing/credits/buy')}>
             Acheter des crédits
           </Button>
           <p className="m-0 text-caption text-ink-600">Packs à partir de 9,90 €</p>

@@ -77,7 +77,7 @@ export const PreCoachingQuestionnaire: React.FC = () => {
         {/* ─ Back button ─────────────────────────────────────────────── */}
         <div className="mb-section">
           <Button
-            variant="secondary"
+            emphasis="soft" tone="warm"
             size="sm"
             leadingIcon={<ChevronLeft size={14} />}
             onClick={() => navigate('/coaching')}
@@ -129,7 +129,7 @@ export const PreCoachingQuestionnaire: React.FC = () => {
         {/* ─ Submit button ────────────────────────────────────────────── */}
         <div className="text-center mt-section-lg">
           <Button
-            variant="primary"
+            emphasis="soft"
             size="lg"
             leadingIcon={<Send size={16} />}
             disabled={!isComplete}

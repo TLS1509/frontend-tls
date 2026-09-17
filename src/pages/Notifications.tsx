@@ -204,7 +204,7 @@ export const Notifications: React.FC = () => {
             {unread > 0 && (
               <Button
                 size="sm"
-                variant="ghost"
+                emphasis="outline"
                 leadingIcon={<CheckCheck size={14} />}
                 onClick={markAllRead}
               >
@@ -213,7 +213,7 @@ export const Notifications: React.FC = () => {
             )}
             <Button
               size="sm"
-              variant="ghost"
+              emphasis="outline"
               iconOnly
               leadingIcon={<Settings2 size={16} />}
               aria-label="Préférences de notifications"
@@ -297,7 +297,7 @@ export const Notifications: React.FC = () => {
           {hasMore && (
             <div className="pt-stack flex justify-center">
               <Button
-                variant="secondary"
+                emphasis="soft" tone="warm"
                 size="sm"
                 leadingIcon={<ChevronDown size={14} />}
                 onClick={() => setLoadCount((prev) => prev + 10)}

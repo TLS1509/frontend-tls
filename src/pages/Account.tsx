@@ -111,7 +111,7 @@ const GeneralTab: React.FC = () => {
         </div>
         <div className="pb-5 flex gap-stack-xs">
           <Button onClick={handleSave} loading={isSaving}>Enregistrer les modifications</Button>
-          <Button variant="secondary" disabled={isSaving}>Annuler</Button>
+          <Button emphasis="soft" tone="warm" disabled={isSaving}>Annuler</Button>
         </div>
       </SettingCard>
 
@@ -126,7 +126,7 @@ const GeneralTab: React.FC = () => {
           </div>
         </SettingsRow>
         <SettingsRow icon={<Clock size={16} />} label="Fuseau horaire" description="Europe/Paris (UTC+2)">
-          <Button variant="link" size="sm" trailingIcon={<ChevronRight size={14} />}>Modifier</Button>
+          <Button emphasis="link" size="sm" trailingIcon={<ChevronRight size={14} />}>Modifier</Button>
         </SettingsRow>
       </SettingCard>
 
@@ -144,13 +144,13 @@ const GeneralTab: React.FC = () => {
 
       <SettingCard title="Zone de danger">
         <SettingsRow icon={<Download size={16} />} label="Exporter mes données" description="Demande d'accès RGPD (DSAR) — délai légal 30 jours">
-          <Button variant="secondary" size="sm" leadingIcon={<Download size={14} />} onClick={() => navigate('/profile/privacy/dsar')}>
+          <Button emphasis="soft" tone="warm" size="sm" leadingIcon={<Download size={14} />} onClick={() => navigate('/profile/privacy/dsar')}>
             Exporter
           </Button>
         </SettingsRow>
         <SettingsRow icon={<Trash2 size={16} />} label="Supprimer mon compte" description="Cette action est irréversible. Toutes vos données seront perdues." danger>
           <Button
-            variant="secondary"
+            emphasis="soft" tone="warm"
             size="sm"
             className="border-danger-base text-danger-fg hover:bg-danger-bg"
             leadingIcon={<Trash2 size={14} />}
@@ -171,7 +171,7 @@ const SecurityTab: React.FC = () => {
     <div className="flex flex-col gap-stack-lg">
       <SettingCard title="Authentification">
         <SettingsRow icon={<Lock size={16} />} label="Mot de passe" description="Dernière modification il y a 3 mois">
-          <Button variant="secondary" size="sm">Changer</Button>
+          <Button emphasis="soft" tone="warm" size="sm">Changer</Button>
         </SettingsRow>
         <SettingsRow
           icon={<Fingerprint size={16} />}
@@ -220,14 +220,14 @@ const SecurityTab: React.FC = () => {
               </div>
             </div>
             {!session.current && (
-              <Button variant="secondary" size="sm" className="shrink-0" leadingIcon={<LogOut size={14} />}>
+              <Button emphasis="soft" tone="warm" size="sm" className="shrink-0" leadingIcon={<LogOut size={14} />}>
                 Révoquer
               </Button>
             )}
           </div>
         ))}
         <div className="pb-5 pt-3">
-          <Button variant="ghost" size="sm" className="text-danger-fg hover:bg-danger-bg" leadingIcon={<LogOut size={14} />}>
+          <Button emphasis="outline" size="sm" className="text-danger-fg hover:bg-danger-bg" leadingIcon={<LogOut size={14} />}>
             Déconnecter toutes les autres sessions
           </Button>
         </div>

@@ -314,7 +314,7 @@ export const Onboarding: React.FC = () => {
           autoFocus
         />
         <Button
-          variant="secondary"
+          emphasis="soft" tone="warm"
           size="md"
           iconOnly
           trailingIcon={<Send size={16} />}

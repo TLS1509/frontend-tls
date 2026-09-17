@@ -30,7 +30,7 @@ export const PreCoachingQuestionnaireResponse: React.FC = () => {
             titleIcon={<CheckCircle2 size={16} className="text-success-fg" />}
             actions={
               <>
-                <Button variant="secondary" onClick={() => navigate('/coaching/pre-questionnaire')}>
+                <Button emphasis="soft" tone="warm" onClick={() => navigate('/coaching/pre-questionnaire')}>
                   Modifier mes réponses
                 </Button>
                 <Button onClick={() => navigate('/coaching')}>Retour coaching</Button>

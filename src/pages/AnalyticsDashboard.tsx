@@ -203,10 +203,10 @@ export default function AnalyticsDashboard() {
         tone="default"
         trailing={
           <div className="flex items-center gap-stack-xs">
-            <Button variant="ghost" size="md" leadingIcon={<Download size={16} />}>
+            <Button emphasis="outline" size="md" leadingIcon={<Download size={16} />}>
               Exporter
             </Button>
-            <Button variant="secondary" size="md" leadingIcon={<RefreshCw size={16} />}>
+            <Button emphasis="soft" tone="warm" size="md" leadingIcon={<RefreshCw size={16} />}>
               Actualiser
             </Button>
           </div>

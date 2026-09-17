@@ -164,15 +164,15 @@ export const CompletionModal: React.FC<CompletionModalProps> = ({
           <div className="flex gap-stack-xs">
             {nextItem && onNext ? (
               <>
-                <Button variant="secondary" size="md" onClick={onClose} className="flex-1">
+                <Button emphasis="soft" tone="warm" size="md" onClick={onClose} className="flex-1">
                   Retour
                 </Button>
-                <Button variant="primary" size="md" trailingIcon={<ArrowRight size={14} />} onClick={onNext} className="flex-1">
+                <Button emphasis="soft" size="md" trailingIcon={<ArrowRight size={14} />} onClick={onNext} className="flex-1">
                   Suivant
                 </Button>
               </>
             ) : (
-              <Button variant="primary" size="md" fullWidth onClick={onClose}>
+              <Button emphasis="soft" size="md" fullWidth onClick={onClose}>
                 Retour à l'espace
               </Button>
             )}

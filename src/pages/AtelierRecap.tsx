@@ -62,7 +62,7 @@ export default function AtelierRecap() {
               <p className="text-body-sm font-semibold text-ink-900">Tu n'as pas encore donné ton avis</p>
               <p className="text-caption text-ink-600">Aide-nous à améliorer les prochains ateliers</p>
             </div>
-            <Button variant="primary" size="sm">Donner mon avis</Button>
+            <Button emphasis="soft" size="sm">Donner mon avis</Button>
           </Card>
         </SectionCard>
 
@@ -80,7 +80,7 @@ export default function AtelierRecap() {
                   <Badge variant="neutral" size="compact">{res.type}</Badge>
                 </div>
                 <Button
-                  variant="ghost"
+                  emphasis="outline"
                   size="sm"
                   leadingIcon={<Download size={14} />}
                 >
@@ -104,7 +104,7 @@ export default function AtelierRecap() {
                 <h4 className="text-body font-semibold text-ink-900">Atelier Communication assertive</h4>
                 <p className="text-caption text-ink-500">Développe une communication directe et respectueuse. Avec Pierre Bernard.</p>
               </div>
-              <Button variant="primary" size="sm">S'inscrire</Button>
+              <Button emphasis="soft" size="sm">S'inscrire</Button>
             </Card>
           </div>
         </SectionCard>

@@ -127,7 +127,7 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
             <div className="flex flex-col gap-stack-xs">
               {/* Reschedule (primary action) */}
               <Button
-                variant="primary"
+                emphasis="soft"
                 size="lg"
                 fullWidth
                 leadingIcon={<RefreshCcw size={14} />}

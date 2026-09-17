@@ -102,11 +102,11 @@ export default function BadgeDetail() {
         tone={tone === 'primary' ? 'default' : tone}
         trailing={
           <div className="flex items-center gap-stack-xs">
-            <Button variant="glass" size="md" leadingIcon={<Share2 size={16} />} onClick={handleShare}>
+            <Button emphasis="solid" onDark size="md" leadingIcon={<Share2 size={16} />} onClick={handleShare}>
               Partager
             </Button>
             <Button
-              variant="ghost"
+              emphasis="outline"
               size="md"
               onClick={() => navigate('/profile/badges/competences')}
             >
@@ -228,7 +228,7 @@ export default function BadgeDetail() {
         {/* CTA */}
         <div className="flex justify-center pb-section">
           <Button
-            variant="primary"
+            emphasis="soft"
             size="lg"
             leadingIcon={<Calendar size={18} />}
             onClick={() => navigate('/gamification/badges')}

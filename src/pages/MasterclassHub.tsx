@@ -124,20 +124,20 @@ export default function MasterclassHub() {
 
                     <div className="mt-auto pt-tight">
                       {hasReplay ? (
-                        <Button variant="ghost" size="sm" fullWidth leadingIcon={<Play size={14} />}>
+                        <Button emphasis="outline" size="sm" fullWidth leadingIcon={<Play size={14} />}>
                           Voir le replay
                         </Button>
                       ) : enrollment ? (
-                        <Button variant="ghost" size="sm" fullWidth disabled>
+                        <Button emphasis="outline" size="sm" fullWidth disabled>
                           Déjà inscrit(e)
                         </Button>
                       ) : isFull ? (
-                        <Button variant="ghost" size="sm" fullWidth disabled>
+                        <Button emphasis="outline" size="sm" fullWidth disabled>
                           Complet
                         </Button>
                       ) : (
                         <Button
-                          variant="primary"
+                          emphasis="soft"
                           size="sm"
                           fullWidth
                           onClick={() => eventsStore.enrollInMasterclass(MOCK_USER_ID, mc.id)}

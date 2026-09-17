@@ -102,7 +102,7 @@ const Hero: React.FC = () => {
             <Button to="/website/contact" emphasis="solid" tone="brand" size="lg" trailingIcon={<ArrowRight size={18} />}>
               Échanger sur votre projet SBO
             </Button>
-            <Button to="/website/diagnostic" variant="ghost" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
+            <Button to="/website/diagnostic" emphasis="outline" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
               Évaluer votre maturité
             </Button>
           </div>
@@ -374,7 +374,7 @@ const Reassurance: React.FC = () => (
                 des organisations, réunies dans une même structure experte.
               </p>
               <div>
-                <Button to="/website/equipe" variant="ghost" size="md" trailingIcon={<ArrowRight size={16} />}>
+                <Button to="/website/equipe" emphasis="outline" size="md" trailingIcon={<ArrowRight size={16} />}>
                   Rencontrer les fondateurs
                 </Button>
               </div>

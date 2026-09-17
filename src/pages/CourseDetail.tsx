@@ -109,7 +109,7 @@ export const CourseDetail: React.FC = () => {
       {/* ─ Sticky header ─────────────────────────────────────────── */}
       <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-light border-b border-ink-100">
         <PageShell width="medium" noPadTop className="!h-14 !py-0 !gap-0 flex items-center justify-between gap-stack-xs">
-          <Button variant="ghost" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(-1)}>
+          <Button emphasis="outline" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(-1)}>
             Retour
           </Button>
           <span className="font-body text-caption text-ink-500">Cours #{id ?? ':'}</span>
@@ -145,7 +145,7 @@ export const CourseDetail: React.FC = () => {
           </div>
           <div className="flex flex-wrap gap-stack-xs">
             <Button leadingIcon={<PlayCircle size={18} />}>Continuer la leçon</Button>
-            <Button variant="secondary">Voir le badge</Button>
+            <Button emphasis="soft" tone="warm">Voir le badge</Button>
           </div>
         </section>
 

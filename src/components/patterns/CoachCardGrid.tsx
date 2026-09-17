@@ -111,7 +111,7 @@ export const CoachCardGrid: React.FC<CoachCardGridProps> = ({
                   ? {
                       label: coach.ctaLabel || 'Réserver une session',
                       onClick: coach.onBookClick,
-                      variant: 'primary',
+                      emphasis: 'soft' as const,
                     }
                   : undefined
               }

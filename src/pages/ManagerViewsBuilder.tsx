@@ -151,8 +151,8 @@ const ManagerViewsBuilder: React.FC = () => {
           </SectionCard>
 
           <div className="flex gap-stack-xs">
-            <Button variant="primary" leadingIcon={<Save className="w-4 h-4" />} fullWidth>Sauvegarder</Button>
-            <Button variant="ghost" iconOnly leadingIcon={<Trash2 className="w-4 h-4" />} aria-label="Supprimer" />
+            <Button emphasis="soft" leadingIcon={<Save className="w-4 h-4" />} fullWidth>Sauvegarder</Button>
+            <Button emphasis="outline" iconOnly leadingIcon={<Trash2 className="w-4 h-4" />} aria-label="Supprimer" />
           </div>
         </div>
 

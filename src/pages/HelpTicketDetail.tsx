@@ -53,7 +53,7 @@ export default function HelpTicketDetail() {
           tone="flat"
         />
         <Container width="page" padding={false} className="px-stack pb-page">
-          <Button variant="ghost" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/help/tickets')}>
+          <Button emphasis="outline" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/help/tickets')}>
             Retour aux tickets
           </Button>
         </Container>
@@ -75,7 +75,7 @@ export default function HelpTicketDetail() {
 
       <Container width="page" padding={false} className="px-stack flex flex-col gap-section pb-page">
         <div className="flex items-center gap-stack-xs">
-          <Button variant="ghost" leadingIcon={<ArrowLeft size={16} />} size="sm" onClick={() => navigate('/help/tickets')}>
+          <Button emphasis="outline" leadingIcon={<ArrowLeft size={16} />} size="sm" onClick={() => navigate('/help/tickets')}>
             Retour aux tickets
           </Button>
           <Badge variant={badge.variant}>{badge.label}</Badge>
@@ -134,7 +134,7 @@ export default function HelpTicketDetail() {
               </FormGroup>
               <div className="flex gap-stack-xs">
                 <Button
-                  variant="primary"
+                  emphasis="soft"
                   leadingIcon={<Send size={16} />}
                   disabled={!replyText.trim()}
                   onClick={handleReply}

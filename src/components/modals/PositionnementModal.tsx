@@ -229,7 +229,7 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
               {/* Next button */}
               <div className="flex justify-end">
                 <Button
-                  variant="primary"
+                  emphasis="soft"
                   size="lg"
                   disabled={!canProceed}
                   trailingIcon={<ArrowRight size={18} />}

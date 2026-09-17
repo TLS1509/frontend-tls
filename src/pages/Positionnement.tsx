@@ -156,7 +156,7 @@ export const Positionnement: React.FC = () => {
 
             <div className="flex flex-col sm:flex-row gap-stack justify-center">
               <Button
-                variant="ghost"
+                emphasis="outline"
                 size="md"
                 onClick={() => {
                   setCurrentIndex(0);
@@ -167,7 +167,7 @@ export const Positionnement: React.FC = () => {
                 Refaire le positionnement
               </Button>
               <Button
-                variant="primary"
+                emphasis="soft"
                 size="md"
                 trailingIcon={<ArrowRight size={14} />}
                 onClick={handleStartPath}
@@ -222,7 +222,7 @@ export const Positionnement: React.FC = () => {
           {/* Footer nav */}
           <div className="flex items-center justify-between gap-stack">
             <Button
-              variant="secondary"
+              emphasis="soft" tone="warm"
               size="md"
               leadingIcon={<ArrowLeft size={14} />}
               onClick={handlePrev}
@@ -232,7 +232,7 @@ export const Positionnement: React.FC = () => {
             </Button>
 
             <Button
-              variant="primary"
+              emphasis="soft"
               size="md"
               trailingIcon={<ArrowRight size={14} />}
               onClick={handleNext}

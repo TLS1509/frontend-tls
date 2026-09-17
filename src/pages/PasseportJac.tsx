@@ -191,7 +191,7 @@ export default function PasseportJac() {
                   </div>
                 </div>
                 <div className="flex justify-center pt-tight">
-                  <Button variant="ghost" size="sm" trailingIcon={<FileText size={14} />}>
+                  <Button emphasis="outline" size="sm" trailingIcon={<FileText size={14} />}>
                     Voir le certificat
                   </Button>
                 </div>

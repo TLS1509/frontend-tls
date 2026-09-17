@@ -204,14 +204,14 @@ export const ArticleDetail: React.FC = () => {
           <div className="flex items-center gap-stack-xs">
             <ReadingProgressRing targetRef={articleRef} tone="brand" size={32} />
             <Button
-              variant={bookmarked ? 'primary' : 'ghost'}
+              emphasis={bookmarked ? 'soft' : 'outline'}
               iconOnly
               aria-label={bookmarked ? 'Retirer le marque-page' : 'Ajouter aux marque-pages'}
               onClick={() => toggleBookmark(bookmarkKey)}
             >
               <Bookmark size={14} fill={bookmarked ? 'currentColor' : 'none'} />
             </Button>
-            <Button variant="ghost" iconOnly aria-label="Partager">
+            <Button emphasis="outline" iconOnly aria-label="Partager">
               <Share2 size={14} />
             </Button>
           </div>

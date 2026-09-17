@@ -197,7 +197,7 @@ export const Leaderboard: React.FC = () => {
 
                 <Button
                   size="sm"
-                  variant="secondary"
+                  emphasis="soft" tone="warm"
                   className="self-start"
                   onClick={() => !entry.isCurrentUser && navigate(`/coach/apprenant/${entry.id}`)}
                   disabled={entry.isCurrentUser}

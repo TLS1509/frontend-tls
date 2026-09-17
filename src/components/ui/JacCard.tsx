@@ -46,7 +46,7 @@ export const JacCardPending: React.FC<JacCardPendingProps> = ({
       </div>
       <div className="flex items-center gap-stack-xs shrink-0">
         <Badge variant="sun" size="compact">En revue</Badge>
-        <Button variant="ghost" size="sm" trailingIcon={<ChevronRight size={14} />} onClick={onRelancer}>
+        <Button emphasis="outline" size="sm" trailingIcon={<ChevronRight size={14} />} onClick={onRelancer}>
           Relancer
         </Button>
       </div>
@@ -101,7 +101,7 @@ export const JacCardNextJalon: React.FC<JacCardNextJalonProps> = ({
         </div>
       </div>
       <div className="shrink-0">
-        <Button variant="primary" size="sm" trailingIcon={<ChevronRight size={14} />} onClick={onPreparer}>
+        <Button emphasis="soft" size="sm" trailingIcon={<ChevronRight size={14} />} onClick={onPreparer}>
           Préparer
         </Button>
       </div>

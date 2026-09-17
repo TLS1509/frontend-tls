@@ -94,7 +94,7 @@ const CoachEnterpriseDashboard: React.FC = () => {
                     <div className="text-caption text-ink-500">{m.role} · {m.progressPercent}% progression</div>
                   </div>
                   <Badge variant={MEMBER_STATUS_VARIANT[m.status]}>{m.status}</Badge>
-                  <Button variant="ghost" size="sm">Voir fiche</Button>
+                  <Button emphasis="outline" size="sm">Voir fiche</Button>
                 </Card>
               ))}
             </div>
@@ -117,7 +117,7 @@ const CoachEnterpriseDashboard: React.FC = () => {
                         <div className="text-caption text-ink-500">{formatDate(c.submittedAt)}</div>
                       </div>
                       {competence && <Badge variant="brand">{competence.label}</Badge>}
-                      <Button variant="secondary" size="sm">Reviewer</Button>
+                      <Button emphasis="soft" tone="warm" size="sm">Reviewer</Button>
                     </Card>
                   );
                 })}

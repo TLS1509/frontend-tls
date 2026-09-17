@@ -121,7 +121,7 @@ const PurchaseCredits: React.FC = () => {
               </div>
             </div>
 
-            <Button variant="primary" fullWidth size="lg" className="mt-stack" leadingIcon={<Check className="w-4 h-4" />} onClick={handlePurchase} disabled={purchased}>
+            <Button emphasis="soft" fullWidth size="lg" className="mt-stack" leadingIcon={<Check className="w-4 h-4" />} onClick={handlePurchase} disabled={purchased}>
               {purchased ? 'Achat confirmé' : 'Payer via WooCommerce / Stripe'}
             </Button>
 

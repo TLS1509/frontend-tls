@@ -109,7 +109,7 @@ export const CorrectionCard: React.FC<CorrectionCardProps> = ({
         <div className="flex items-center gap-stack-xs">
           {onAssign && status === 'pending' && (
             <Button
-              variant="ghost"
+              emphasis="outline"
               size="sm"
               leadingIcon={<UserCheck size={14} />}
               onClick={onAssign}
@@ -119,7 +119,7 @@ export const CorrectionCard: React.FC<CorrectionCardProps> = ({
           )}
           {onOpen && (
             <Button
-              variant="ghost"
+              emphasis="outline"
               size="sm"
               trailingIcon={<ChevronRight size={14} />}
               onClick={onOpen}

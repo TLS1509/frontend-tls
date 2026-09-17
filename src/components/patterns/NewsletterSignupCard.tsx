@@ -39,7 +39,7 @@ export const NewsletterSignupCard: React.FC<NewsletterSignupCardProps> = ({
             {onSeeLastIssue && (
               <Button
                 type="button"
-                variant="glass"
+                emphasis="solid" onDark
                 size="sm"
                 trailingIcon={<ArrowRight size={14} />}
                 onClick={onSeeLastIssue}
@@ -75,7 +75,7 @@ export const NewsletterSignupCard: React.FC<NewsletterSignupCardProps> = ({
                 leadingIcon={<Mail size={14} />}
                 className="flex-1 min-w-0"
               />
-              <Button type="submit" variant="primary" size="md">
+              <Button type="submit" emphasis="soft" size="md">
                 S'inscrire
               </Button>
             </div>

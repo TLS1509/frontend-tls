@@ -107,7 +107,7 @@ const Hero: React.FC = () => {
             <Button to="/website/contact" emphasis="solid" tone="brand" size="lg" trailingIcon={<ArrowRight size={18} />}>
               Parler de votre périmètre
             </Button>
-            <Button to="/website/studio" variant="ghost" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
+            <Button to="/website/studio" emphasis="outline" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
               Voir le Studio
             </Button>
           </div>
@@ -282,7 +282,7 @@ const CtaFinal: React.FC = () => (
             <Button to="/website/contact" emphasis="solid" tone="brand" size="xl" trailingIcon={<ArrowRight size={20} />}>
               Cadrer votre Sprint
             </Button>
-            <Button to="/website/diagnostic" variant="ghost" size="xl" trailingIcon={<ArrowUpRight size={20} />}>
+            <Button to="/website/diagnostic" emphasis="outline" size="xl" trailingIcon={<ArrowUpRight size={20} />}>
               Évaluer votre maturité
             </Button>
           </div>

@@ -193,7 +193,7 @@ export default function CoachDashboard() {
                     />
                   </ChartContainer>
                   <Button
-                    variant="ghost"
+                    emphasis="outline"
                     size="sm"
                     fullWidth
                     trailingIcon={<ChevronRight size={14} />}
@@ -267,7 +267,7 @@ export default function CoachDashboard() {
               tone="primary"
               size="md"
               action={
-                <Button variant="ghost" size="sm" trailingIcon={<ChevronRight size={14} />} onClick={() => navigate('/coach/corrections')}>
+                <Button emphasis="outline" size="sm" trailingIcon={<ChevronRight size={14} />} onClick={() => navigate('/coach/corrections')}>
                   Tout voir
                 </Button>
               }
@@ -295,7 +295,7 @@ export default function CoachDashboard() {
                       </div>
                     </div>
                     <Button
-                      variant="primary"
+                      emphasis="soft"
                       size="sm"
                       onClick={() => navigate(`/coach/correction/${c.id}`)}
                     >

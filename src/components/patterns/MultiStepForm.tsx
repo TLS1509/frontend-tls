@@ -128,7 +128,7 @@ export const MultiStepForm: React.FC<MultiStepFormProps> = ({
       </Card>
 
       <div className="flex justify-between gap-stack-xs">
-        <Button onClick={onBack} disabled={currentStep === 1} variant="secondary">
+        <Button onClick={onBack} disabled={currentStep === 1} emphasis="soft" tone="warm">
           ← Précédent
         </Button>
         <Button onClick={onNext} disabled={currentStep === steps.length}>

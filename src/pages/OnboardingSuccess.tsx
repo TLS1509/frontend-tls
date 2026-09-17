@@ -87,7 +87,7 @@ export default function OnboardingSuccess() {
 
         <div className="flex flex-col items-center gap-stack w-full sm:w-auto">
           <Button
-            variant="primary"
+            emphasis="soft"
             size="lg"
             trailingIcon={<ArrowRight size={18} />}
             onClick={() => navigate('/dashboard?firstTime=1')}

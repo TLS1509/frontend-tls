@@ -205,7 +205,7 @@ export const ComplementaryContentViewer: React.FC = () => {
 
                       <div className="mt-3">
                         <Button
-                          variant="ghost"
+                          emphasis="outline"
                           size="sm"
                           trailingIcon={<ExternalLink size={14} />}
                           onClick={(e) => { e.stopPropagation(); window.open(resource.url, '_blank'); }}

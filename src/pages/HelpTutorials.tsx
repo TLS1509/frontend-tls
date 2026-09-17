@@ -70,7 +70,7 @@ export default function HelpTutorials() {
                       </span>
                     )}
                     <Button
-                      variant="primary"
+                      emphasis="soft"
                       size="sm"
                       leadingIcon={<Play size={14} />}
                       onClick={() => navigate(`/help/tutorials/${tutorial.id}/step/1`)}

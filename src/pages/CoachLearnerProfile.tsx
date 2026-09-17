@@ -224,7 +224,7 @@ export default function CoachLearnerProfile() {
         tone="flat"
         trailing={
           <Button
-            variant="ghost"
+            emphasis="outline"
             size="md"
             leadingIcon={<ArrowLeft size={16} />}
             onClick={() => navigate('/coach/apprenants')}
@@ -288,7 +288,8 @@ export default function CoachLearnerProfile() {
                       </div>
                       {!isOpen && (
                         <Button
-                          variant={validated ? 'ghost' : 'secondary'}
+                          emphasis={validated ? 'outline' : 'soft'}
+                    tone={validated ? 'brand' : 'warm'}
                           size="sm"
                           leadingIcon={<ShieldCheck size={14} />}
                           onClick={() => openValidation(lc.competenceId, level)}
@@ -336,11 +337,11 @@ export default function CoachLearnerProfile() {
                           />
                         </div>
                         <div className="flex items-center justify-end gap-stack-xs">
-                          <Button variant="ghost" size="sm" onClick={() => setValidating(null)}>
+                          <Button emphasis="outline" size="sm" onClick={() => setValidating(null)}>
                             Annuler
                           </Button>
                           <Button
-                            variant="primary"
+                            emphasis="soft"
                             size="sm"
                             leadingIcon={<Check size={14} />}
                             disabled={!rationale.trim()}
@@ -409,7 +410,7 @@ export default function CoachLearnerProfile() {
                     </div>
                     <div className="flex items-center justify-between pt-tight border-t border-ink-100 mt-1">
                       <Button
-                        variant="primary"
+                        emphasis="soft"
                         size="sm"
                         onClick={() => logDecision(rec, 'ai_accepted')}
                       >
@@ -466,7 +467,7 @@ export default function CoachLearnerProfile() {
           description="Tes observations et points de suivi : visibles uniquement par toi"
           actions={
             <Button
-              variant="primary"
+              emphasis="soft"
               size="sm"
               leadingIcon={<Plus size={14} />}
               onClick={() => setNote('')}
@@ -484,7 +485,7 @@ export default function CoachLearnerProfile() {
           />
           {note && (
             <div className="flex justify-end mt-stack">
-              <Button variant="primary" size="sm" leadingIcon={<Plus size={14} />}>
+              <Button emphasis="soft" size="sm" leadingIcon={<Plus size={14} />}>
                 Enregistrer la note
               </Button>
             </div>

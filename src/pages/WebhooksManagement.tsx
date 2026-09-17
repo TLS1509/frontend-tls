@@ -37,8 +37,8 @@ const WEBHOOK_ROWS: DataTableRow[] = [
     last_triggered: <span className="text-body-sm text-ink-600">Il y a 3 min</span>,
     actions: (
       <div className="flex items-center gap-tight">
-        <Button variant="ghost" size="sm">Tester</Button>
-        <Button variant="ghost" size="sm">Modifier</Button>
+        <Button emphasis="outline" size="sm">Tester</Button>
+        <Button emphasis="outline" size="sm">Modifier</Button>
       </div>
     ),
   },
@@ -57,8 +57,8 @@ const WEBHOOK_ROWS: DataTableRow[] = [
     last_triggered: <span className="text-body-sm text-ink-600">Il y a 27 min</span>,
     actions: (
       <div className="flex items-center gap-tight">
-        <Button variant="ghost" size="sm">Tester</Button>
-        <Button variant="ghost" size="sm">Modifier</Button>
+        <Button emphasis="outline" size="sm">Tester</Button>
+        <Button emphasis="outline" size="sm">Modifier</Button>
       </div>
     ),
   },
@@ -78,8 +78,8 @@ const WEBHOOK_ROWS: DataTableRow[] = [
     last_triggered: <span className="text-body-sm text-ink-600">Il y a 2 h</span>,
     actions: (
       <div className="flex items-center gap-tight">
-        <Button variant="ghost" size="sm">Tester</Button>
-        <Button variant="ghost" size="sm">Modifier</Button>
+        <Button emphasis="outline" size="sm">Tester</Button>
+        <Button emphasis="outline" size="sm">Modifier</Button>
       </div>
     ),
   },
@@ -98,8 +98,8 @@ const WEBHOOK_ROWS: DataTableRow[] = [
     last_triggered: <span className="text-body-sm text-ink-600">Il y a 14 j</span>,
     actions: (
       <div className="flex items-center gap-tight">
-        <Button variant="ghost" size="sm">Tester</Button>
-        <Button variant="ghost" size="sm">Modifier</Button>
+        <Button emphasis="outline" size="sm">Tester</Button>
+        <Button emphasis="outline" size="sm">Modifier</Button>
       </div>
     ),
   },
@@ -153,7 +153,7 @@ export default function WebhooksManagement() {
         summary="Configurez les webhooks pour synchroniser les données d'apprentissage avec vos outils RH et LMS."
         tone="flat"
         trailing={
-          <Button variant="glass" size="md" leadingIcon={<Zap size={16} />}>
+          <Button emphasis="soft" size="md" leadingIcon={<Zap size={16} />}>
             Ajouter un webhook
           </Button>
         }
@@ -182,7 +182,7 @@ export default function WebhooksManagement() {
           title="Webhooks configurés"
           titleIcon={<Webhook size={18} />}
           headerAction={
-            <Button variant="secondary" size="sm" leadingIcon={<Zap size={14} />}>
+            <Button emphasis="soft" tone="warm" size="sm" leadingIcon={<Zap size={14} />}>
               Ajouter
             </Button>
           }
@@ -249,14 +249,14 @@ export default function WebhooksManagement() {
             {/* API docs link */}
             <div className="flex items-center gap-stack-xs pt-2">
               <Button
-                variant="ghost"
+                emphasis="outline"
                 size="sm"
                 trailingIcon={<ExternalLink size={14} />}
               >
                 Documentation API complète
               </Button>
               <Button
-                variant="ghost"
+                emphasis="outline"
                 size="sm"
                 trailingIcon={<ExternalLink size={14} />}
               >

@@ -62,7 +62,7 @@ export const ProjectTask: React.FC = () => {
     return (
       <Container width="page" padding={false} className="px-stack py-section flex flex-col gap-section">
         <EditorialHero title="Tâche introuvable" summary="Cette tâche n'existe pas." tone="flat" />
-        <Button variant="ghost" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate(`/project/${projectId}`)}>
+        <Button emphasis="outline" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate(`/project/${projectId}`)}>
           Retour au projet
         </Button>
       </Container>
@@ -84,7 +84,7 @@ export const ProjectTask: React.FC = () => {
   return (
     <Container width="medium" className="py-section flex flex-col gap-section">
       <div>
-        <Button variant="ghost" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(`/project/${projectId}`)}>
+        <Button emphasis="outline" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(`/project/${projectId}`)}>
           Retour au projet
         </Button>
       </div>
@@ -176,7 +176,7 @@ export const ProjectTask: React.FC = () => {
                 </FormGroup>
                 <div className="flex justify-end">
                   <Button
-                    variant="primary"
+                    emphasis="soft"
                     leadingIcon={<Send size={16} />}
                     onClick={handleSubmit}
                     disabled={!deliverableUrl.trim()}

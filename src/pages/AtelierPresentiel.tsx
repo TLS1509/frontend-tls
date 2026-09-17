@@ -82,10 +82,10 @@ export default function AtelierPresentiel() {
           </div>
 
           <div className="flex gap-stack-xs flex-wrap">
-            <Button variant="ghost" size="sm" leadingIcon={<Navigation size={14} />}>
+            <Button emphasis="outline" size="sm" leadingIcon={<Navigation size={14} />}>
               Itinéraire
             </Button>
-            <Button variant="ghost" size="sm" leadingIcon={<Copy size={14} />}>
+            <Button emphasis="outline" size="sm" leadingIcon={<Copy size={14} />}>
               Copier l'adresse
             </Button>
           </div>
@@ -138,7 +138,7 @@ export default function AtelierPresentiel() {
                 label={res.label}
                 badge={<Badge variant="neutral" size="compact">{res.type}</Badge>}
                 action={
-                  <Button variant="ghost" size="sm" leadingIcon={<Download size={14} />}>
+                  <Button emphasis="outline" size="sm" leadingIcon={<Download size={14} />}>
                     Télécharger
                   </Button>
                 }

@@ -102,14 +102,14 @@ export default function HelpTicketNew() {
 
           <div className="flex flex-wrap gap-stack-xs">
             <Button
-              variant="primary"
+              emphasis="soft"
               leadingIcon={<Send size={16} />}
               disabled={!subject.trim() || !description.trim() || !categoryId}
               onClick={handleSubmit}
             >
               Envoyer la demande
             </Button>
-            <Button variant="ghost" leadingIcon={<X size={16} />} onClick={() => navigate('/help/tickets')}>
+            <Button emphasis="outline" leadingIcon={<X size={16} />} onClick={() => navigate('/help/tickets')}>
               Annuler
             </Button>
           </div>

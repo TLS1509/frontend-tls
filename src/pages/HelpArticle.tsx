@@ -44,7 +44,7 @@ export default function HelpArticle() {
           tone="flat"
         />
         <div className="pb-page">
-          <Button variant="ghost" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/help')}>
+          <Button emphasis="outline" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/help')}>
             Retour à l'aide
           </Button>
         </div>
@@ -66,7 +66,7 @@ export default function HelpArticle() {
         summary={article.summary}
         tone="flat"
         trailing={
-          <Button variant="glass" leadingIcon={<ArrowLeft size={16} />} size="sm" onClick={() => navigate('/help')}>
+          <Button emphasis="soft" leadingIcon={<ArrowLeft size={16} />} size="sm" onClick={() => navigate('/help')}>
             Retour à l'aide
           </Button>
         }
@@ -89,7 +89,8 @@ export default function HelpArticle() {
               <p className="text-body-sm font-semibold text-ink-800 m-0">Cet article vous a-t-il été utile ?</p>
               <div className="flex gap-stack-xs">
                 <Button
-                  variant={feedback?.reaction === 'helpful' || feedback?.reaction === '👍' ? 'primary' : 'secondary'}
+                  emphasis="soft"
+                tone={feedback?.reaction === 'helpful' || feedback?.reaction === '👍' ? 'brand' : 'warm'}
                   size="sm"
                   leadingIcon={<ThumbsUp size={14} />}
                   onClick={() => store.submitFeedback(MOCK_USER_ID, article.id, 'helpful')}
@@ -97,7 +98,8 @@ export default function HelpArticle() {
                   Oui ({article.helpfulCount})
                 </Button>
                 <Button
-                  variant={feedback?.reaction === 'unhelpful' || feedback?.reaction === '😕' ? 'primary' : 'secondary'}
+                  emphasis="soft"
+                tone={feedback?.reaction === 'unhelpful' || feedback?.reaction === '😕' ? 'brand' : 'warm'}
                   size="sm"
                   leadingIcon={<ThumbsDown size={14} />}
                   onClick={() => store.submitFeedback(MOCK_USER_ID, article.id, 'unhelpful')}
@@ -108,7 +110,7 @@ export default function HelpArticle() {
             </div>
 
             <div className="flex flex-wrap gap-stack-xs">
-              <Button variant="ghost" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/help')}>
+              <Button emphasis="outline" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/help')}>
                 Retour à l'aide
               </Button>
             </div>

@@ -531,23 +531,23 @@ export const BookingModal: React.FC<BookingModalProps> = ({
         {/* Footer */}
         <div className="px-5 py-3 border-t border-ink-200 flex justify-between gap-stack-xs bg-ink-50 flex-wrap shrink-0">
           {step !== 'datetime' ? (
-            <Button variant="secondary" size="sm" onClick={goBack}>
+            <Button emphasis="soft" tone="warm" size="sm" onClick={goBack}>
               ← Retour
             </Button>
           ) : <div />}
 
           {step === 'datetime' && (
-            <Button variant="primary" onClick={goNext} disabled={!canProceedDatetime}>
+            <Button emphasis="soft" onClick={goNext} disabled={!canProceedDatetime}>
               {needsPayment ? 'Continuer →' : 'Confirmer →'}
             </Button>
           )}
           {step === 'payment' && (
-            <Button variant="primary" onClick={goNext} disabled={!canProceedPayment} leadingIcon={<Lock size={14} />}>
+            <Button emphasis="soft" onClick={goNext} disabled={!canProceedPayment} leadingIcon={<Lock size={14} />}>
               Payer {sessionPrice} €
             </Button>
           )}
           {step === 'confirmation' && (
-            <Button variant="primary" onClick={handleConfirm} leadingIcon={<CheckCircle2 size={16} />}>
+            <Button emphasis="soft" onClick={handleConfirm} leadingIcon={<CheckCircle2 size={16} />}>
               Réserver la session
             </Button>
           )}

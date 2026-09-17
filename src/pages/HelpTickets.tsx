@@ -47,7 +47,7 @@ export default function HelpTickets() {
         summary="Suivez l'état de vos demandes de support et échangez avec notre équipe."
         tone="flat"
         trailing={
-          <Button variant="glass" leadingIcon={<Plus size={16} />} onClick={() => navigate('/help/tickets/new')}>
+          <Button emphasis="soft" leadingIcon={<Plus size={16} />} onClick={() => navigate('/help/tickets/new')}>
             Nouveau ticket
           </Button>
         }
@@ -82,7 +82,7 @@ export default function HelpTickets() {
                     </div>
                     <Badge variant={badge.variant}>{badge.label}</Badge>
                     <Button
-                      variant="ghost"
+                      emphasis="outline"
                       size="sm"
                       onClick={() => navigate(`/help/tickets/${ticket.id}`)}
                     >

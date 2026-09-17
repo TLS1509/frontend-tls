@@ -33,8 +33,8 @@ export default function CoachJournalDetail() {
         tone="flat"
         trailing={
           <div className="flex gap-stack-xs">
-            <Button variant="glass" leadingIcon={<Pencil size={16} />} size="sm">Modifier</Button>
-            <Button variant="glass" leadingIcon={<ArrowLeft size={16} />} size="sm">Retour au journal</Button>
+            <Button emphasis="soft" leadingIcon={<Pencil size={16} />} size="sm">Modifier</Button>
+            <Button emphasis="outline" leadingIcon={<ArrowLeft size={16} />} size="sm">Retour au journal</Button>
           </div>
         }
       />
@@ -101,8 +101,8 @@ export default function CoachJournalDetail() {
         </SectionCard>
 
         <div className="flex gap-stack-xs">
-          <Button variant="ghost" leadingIcon={<Pencil size={16} />}>Modifier</Button>
-          <Button variant="ghost" leadingIcon={<ArrowLeft size={16} />}>Retour au journal</Button>
+          <Button emphasis="outline" leadingIcon={<Pencil size={16} />}>Modifier</Button>
+          <Button emphasis="outline" leadingIcon={<ArrowLeft size={16} />}>Retour au journal</Button>
         </div>
       </div>
     </PageShell>

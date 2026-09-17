@@ -128,12 +128,12 @@ export const RatingModal: React.FC<RatingModalProps> = ({
 
       <div className="flex justify-end gap-stack-xs pt-1">
         {onCancel && (
-          <Button variant="secondary" onClick={onCancel} disabled={isSubmitting}>
+          <Button emphasis="soft" tone="warm" onClick={onCancel} disabled={isSubmitting}>
             Annuler
           </Button>
         )}
         <Button
-          variant="primary"
+          emphasis="soft"
           onClick={handleSubmit}
           disabled={rating === 0 || isSubmitting}
         >

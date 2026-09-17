@@ -83,7 +83,7 @@ export const JournalChatCompose: React.FC<JournalChatComposeProps> = ({
           />
         </div>
         <Button
-          variant="primary"
+          emphasis="soft"
           size="md"
           onClick={onSubmit}
           aria-label="Continuer l'entrée"

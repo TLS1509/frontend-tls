@@ -270,7 +270,7 @@ const CtaFinal: React.FC = () => (
             <Button to="/website/contact" emphasis="solid" tone="brand" size="xl" trailingIcon={<ArrowRight size={20} />}>
               Réserver trente minutes
             </Button>
-            <Button to="/website/diagnostic" variant="ghost" size="xl" trailingIcon={<ArrowUpRight size={20} />}>
+            <Button to="/website/diagnostic" emphasis="outline" size="xl" trailingIcon={<ArrowUpRight size={20} />}>
               Évaluer votre maturité
             </Button>
           </div>

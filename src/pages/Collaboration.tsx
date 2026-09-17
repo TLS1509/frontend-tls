@@ -95,10 +95,10 @@ export const Collaboration: React.FC = () => {
           summary="Pilotez vos projets d'équipe, suivez la progression collective et coordonnez les contributions."
           trailing={
             <div className="flex gap-stack-xs">
-              <Button variant="secondary" size="sm" leadingIcon={<Plus size={14} />}>
+              <Button emphasis="soft" tone="warm" size="sm" leadingIcon={<Plus size={14} />}>
                 Nouveau projet
               </Button>
-              <Button variant="secondary" size="sm" leadingIcon={<Users size={14} />}>
+              <Button emphasis="soft" tone="warm" size="sm" leadingIcon={<Users size={14} />}>
                 Inviter
               </Button>
             </div>

@@ -88,11 +88,11 @@ export default function AtelierWaitlist() {
         </Alert>
 
         <div className="flex flex-col gap-tight w-full">
-          <Button variant="primary" size="lg" fullWidth onClick={() => navigate('/ateliers')}>
+          <Button emphasis="soft" size="lg" fullWidth onClick={() => navigate('/ateliers')}>
             Voir les autres ateliers disponibles
           </Button>
           <Button
-            variant="ghost"
+            emphasis="outline"
             size="md"
             fullWidth
             onClick={() => navigate(-1)}

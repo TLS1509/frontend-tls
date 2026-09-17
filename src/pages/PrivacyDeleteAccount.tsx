@@ -95,8 +95,8 @@ const PrivacyDeleteAccount: React.FC = () => {
               />
             </FormGroup>
             <div className="flex gap-stack-xs">
-              <Button variant="ghost" fullWidth>Annuler</Button>
-              <Button variant="destructive" fullWidth onClick={() => setStep(2)}>
+              <Button emphasis="outline" fullWidth>Annuler</Button>
+              <Button emphasis="solid" tone="danger" fullWidth onClick={() => setStep(2)}>
                 Continuer →
               </Button>
             </div>
@@ -121,8 +121,8 @@ const PrivacyDeleteAccount: React.FC = () => {
               />
             </FormGroup>
             <div className="flex gap-stack-xs">
-              <Button variant="ghost" fullWidth onClick={() => setStep(1)}>Retour</Button>
-              <Button variant="destructive" fullWidth disabled={!canConfirm} leadingIcon={<AlertTriangle className="w-4 h-4" />} onClick={handleConfirmDeletion}>
+              <Button emphasis="outline" fullWidth onClick={() => setStep(1)}>Retour</Button>
+              <Button emphasis="solid" tone="danger" fullWidth disabled={!canConfirm} leadingIcon={<AlertTriangle className="w-4 h-4" />} onClick={handleConfirmDeletion}>
                 Supprimer définitivement
               </Button>
             </div>

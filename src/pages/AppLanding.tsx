@@ -228,7 +228,7 @@ const AppLanding: React.FC = () => {
           >
             Se connecter
           </Link>
-          <Button variant="primary" size="sm" onClick={() => navigate('/auth/signup')}>
+          <Button emphasis="soft" size="sm" onClick={() => navigate('/auth/signup')}>
             Démarrer
           </Button>
         </div>

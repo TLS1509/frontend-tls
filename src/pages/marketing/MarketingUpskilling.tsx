@@ -86,7 +86,7 @@ const Hero: React.FC = () => {
             <Button to="/website/contact" emphasis="solid" tone="brand" size="lg" trailingIcon={<ArrowRight size={18} />}>
               Cadrer un projet d'upskilling
             </Button>
-            <Button to="/website/learning-app" variant="ghost" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
+            <Button to="/website/learning-app" emphasis="outline" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
               Découvrir la Learning App
             </Button>
           </div>
@@ -413,7 +413,7 @@ const CtaFinal: React.FC = () => (
               Dreyfus, EDRACT de C-Campus, augmentation cognitive.
             </p>
             <div>
-              <Button to="/website/methode" variant="ghost" size="md" trailingIcon={<ArrowUpRight size={16} />}>
+              <Button to="/website/methode" emphasis="outline" size="md" trailingIcon={<ArrowUpRight size={16} />}>
                 Découvrir la Méthode TLS
               </Button>
             </div>

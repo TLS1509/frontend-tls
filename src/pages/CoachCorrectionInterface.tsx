@@ -59,7 +59,7 @@ export default function CoachCorrectionInterface() {
         summary={`${SUBMISSION.exerciceTitle} : ${SUBMISSION.apprenantName}`}
         tone="flat"
         trailing={
-          <Button variant="ghost" size="md" leadingIcon={<ChevronLeft size={16} />}>
+          <Button emphasis="outline" size="md" leadingIcon={<ChevronLeft size={16} />}>
             Retour à la file
           </Button>
         }
@@ -122,7 +122,7 @@ export default function CoachCorrectionInterface() {
                 </div>
 
                 <Button
-                  variant="secondary"
+                  emphasis="soft" tone="warm"
                   size="md"
                   leadingIcon={<Send size={16} />}
                   onClick={handleSubmit}
@@ -141,7 +141,7 @@ export default function CoachCorrectionInterface() {
                 <p className="text-body font-semibold text-ink-900">Feedback envoyé</p>
                 <p className="text-body-sm text-ink-500">Sophie Martin sera notifiée de ta correction.</p>
               </div>
-              <Button variant="primary" size="md">
+              <Button emphasis="soft" size="md">
                 Exercice suivant
               </Button>
             </Card>

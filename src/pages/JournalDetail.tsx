@@ -128,7 +128,7 @@ export const JournalDetail: React.FC = () => {
       <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100">
         <PageShell width="medium" className="h-14 flex items-center justify-between gap-stack-xs" noPadTop>
           <Button
-            variant="ghost"
+            emphasis="outline"
             size="sm"
             leadingIcon={<ArrowLeft size={14} />}
             onClick={() => navigate('/journal')}
@@ -138,7 +138,7 @@ export const JournalDetail: React.FC = () => {
           <div className="flex items-center gap-stack-xs">
             <ReadingProgressRing targetRef={articleRef} tone="brand" size={32} />
             <Button
-              variant="primary"
+              emphasis="soft"
               size="sm"
               leadingIcon={<PenLine size={14} />}
               onClick={() => navigate('/journal/new-entry')}
@@ -304,7 +304,7 @@ export const JournalDetail: React.FC = () => {
             </p>
           </div>
           <Button
-            variant="glass-light"
+            emphasis="soft" tone="neutral"
             size="md"
             leadingIcon={<PenLine size={14} />}
             onClick={() => navigate('/journal/new-entry')}

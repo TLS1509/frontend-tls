@@ -67,7 +67,7 @@ export const Project: React.FC = () => {
     return (
       <Container width="page" padding={false} className="px-stack py-section flex flex-col gap-section">
         <EditorialHero title="Projet introuvable" summary="Ce projet n'existe pas." tone="flat" />
-        <Button variant="ghost" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/projects')}>
+        <Button emphasis="outline" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/projects')}>
           Retour aux projets
         </Button>
       </Container>
@@ -84,7 +84,7 @@ export const Project: React.FC = () => {
   return (
     <Container width="medium" className="py-section flex flex-col gap-section">
       <div>
-        <Button variant="ghost" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate('/projects')}>
+        <Button emphasis="outline" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate('/projects')}>
           Retour aux projets
         </Button>
       </div>
@@ -172,7 +172,7 @@ export const Project: React.FC = () => {
                       <div className="flex gap-stack-xs">
                         {task.status !== 'approved' && (
                           <Button
-                            variant="primary"
+                            emphasis="soft"
                             size="sm"
                             trailingIcon={<ChevronRight size={14} />}
                             onClick={() => navigate(`/project/${project.id}/task/${task.id}/submit`)}
@@ -239,16 +239,16 @@ export const Project: React.FC = () => {
 
             <SectionCard title="Pages du projet" titleIcon={<FolderKanban size={14} />}>
               <div className="flex flex-col gap-tight">
-                <Button variant="secondary" size="sm" fullWidth onClick={() => navigate(`/project/${project.id}/team`)}>
+                <Button emphasis="soft" tone="warm" size="sm" fullWidth onClick={() => navigate(`/project/${project.id}/team`)}>
                   Équipe
                 </Button>
-                <Button variant="secondary" size="sm" fullWidth onClick={() => navigate(`/project/${project.id}/skill-gaps`)}>
+                <Button emphasis="soft" tone="warm" size="sm" fullWidth onClick={() => navigate(`/project/${project.id}/skill-gaps`)}>
                   Lacunes compétences
                 </Button>
-                <Button variant="secondary" size="sm" fullWidth onClick={() => navigate(`/project/${project.id}/passeport`)}>
+                <Button emphasis="soft" tone="warm" size="sm" fullWidth onClick={() => navigate(`/project/${project.id}/passeport`)}>
                   Feed Passeport
                 </Button>
-                <Button variant="secondary" size="sm" fullWidth onClick={() => navigate(`/project/${project.id}/jac`)}>
+                <Button emphasis="soft" tone="warm" size="sm" fullWidth onClick={() => navigate(`/project/${project.id}/jac`)}>
                   JAC
                 </Button>
               </div>

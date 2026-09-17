@@ -46,11 +46,29 @@ import { Link } from 'react-router-dom';
  *             sun 4,88 · danger 5,15. Le cran 600, où vivait l'ancien
  *             `primary`, mesure 3,66 et échoue (c'est le défaut A2 de
  *             DESIGN.md, « le bouton primaire de l'app mesure 3,66 »).
- *   soft    — fond du ton au cran 50 OPAQUE, label 800, filet 600 (700 pour
- *             l'or). Labels 6,31 / 9,49 / 7,64 — meilleurs que tout aplat.
- *   outline — fond transparent, filet 600 (700 pour l'or), label 700.
+ *   soft    — fond du ton au cran 50 OPAQUE, label 800, filet 700.
+ *             Labels 6,31 / 9,49 / 7,64 — meilleurs que tout aplat.
+ *   outline — fond transparent, filet 700, label 800.
  *   ghost   — ni fond ni filet au repos, le fond n'arrive qu'au survol.
  *   link    — texte souligné, pas de boîte.
+ *
+ * ⚠️ LE FILET EST AU 700 ET LE LABEL AU 800, parce qu'un bouton se pose aussi
+ *    sur une carte teintée — pas seulement sur du blanc. C'est la correction du
+ *    17/09, et elle généralise une leçon que le dépôt avait déjà apprise une
+ *    fois : un seuil mesuré sur blanc n'est pas un seuil.
+ *
+ *      filet      blanc   tone-50   tone-100
+ *      p-600       3,66      3,26       2,99  ✗
+ *      p-700       5,02      4,48       4,11  ✓
+ *      sec-600     3,98      3,65       3,07
+ *      sec-700     6,31      5,79       4,88  ✓
+ *      or-600      2,89      2,76       2,49  ✗ (déjà au 700 avant)
+ *      or-700      4,88      4,65       4,20  ✓
+ *
+ *    Le cran 600 tenait sur le blanc et lâchait dès la première carte teal.
+ *    L'or, seule famille déjà au 700, cesse d'être une exception : c'est la
+ *    même règle pour les trois. Idem pour le label — `primary-700` mesure 4,48
+ *    sur `primary-50`, donc il ratait AA sur les cartes de `/passeport`.
  *
  * ⚠️ Le fond du niveau `soft` est OPAQUE, et le cran est 50 pour les trois tons.
  *    Avant le renommage, `warm` et `sun` portaient `tone-100/70`. Deux mesures
@@ -251,38 +269,45 @@ const EMPHASIS_TONE: Record<ButtonEmphasis, Record<ButtonTone, string>> = {
         `neutral` est la pastille blanche givrée posée sur une carte teintée :
         elle recouvre vraiment, donc elle garde son flou. */
   soft: {
-    brand:   'bg-primary-50 text-primary-800 border border-primary-600 shadow-xs hover:bg-primary-100 hover:border-primary-700 hover:shadow-sm active:bg-primary-200 active:border-primary-800',
-    warm:    'bg-secondary-50 text-secondary-800 border border-secondary-600 shadow-xs hover:bg-secondary-100 hover:border-secondary-700 hover:shadow-sm active:bg-secondary-200 active:border-secondary-700',
+    brand:   'bg-primary-50 text-primary-800 border border-primary-700 shadow-xs hover:bg-primary-100 hover:border-primary-800 hover:shadow-sm active:bg-primary-200 active:border-primary-800',
+    warm:    'bg-secondary-50 text-secondary-800 border border-secondary-700 shadow-xs hover:bg-secondary-100 hover:border-secondary-800 hover:shadow-sm active:bg-secondary-200 active:border-secondary-800',
     sun:     'bg-accent-50 text-accent-800 border border-accent-700 shadow-xs hover:bg-accent-100 hover:border-accent-800 hover:shadow-sm active:bg-accent-200 active:border-accent-800',
     danger:  'bg-danger-bg text-danger-fg border border-danger-strong shadow-xs hover:border-danger-deep hover:shadow-sm active:bg-danger-bg active:border-danger-deep',
-    neutral: 'bg-white/70 text-ink-900 border border-white/70 backdrop-blur-glass-light shadow-sm hover:bg-white/90 hover:border-white active:bg-white',
+    /* Le filet de la pastille givrée est au cran ink-500, PAS ink-400.
+       Mesuré le 17/09 sur ses vraies surfaces : ink-400 vaut 3,01 sur le blanc
+       pur — pile le seuil — mais 2,78 sur la carte warm du Journal et 2,68 sur
+       une carte teal. Le cran « bordure d'interface » de la rampe est calibré
+       pour le blanc et pour lui seul. ink-500 donne 4,61 / 4,45 / 4,99.
+       Avant correction, le filet était BLANC sur une carte quasi blanche :
+       mesuré à 1,05 sur `/journal`, la pastille n'avait aucun contour — 12
+       boutons se lisaient comme du texte gras, pas comme des boutons. */
+    neutral: 'bg-white/80 text-ink-900 border border-ink-500 backdrop-blur-glass-light shadow-sm hover:bg-white hover:border-ink-600 active:bg-white',
   },
-  /* ── outline — le filet sans fond. C'est le niveau secondaire.
-        ⚠️ Le filet est au cran 600, PAS 400/500. Mesuré le 2026-07-31 puis
-        revérifié le 17/09 : sur blanc, `primary-400` = 2,44 et `primary-500`
-        = 2,94, tous deux sous les 3,0 que WCAG 1.4.11 impose au contour d'un
-        composant — la bordure était décorative, pas perceptible. Ne pas
-        « adoucir » ces filets : c'est le contour qui porte l'affordance. */
+  /* ── outline — le filet sans fond. C'est le niveau secondaire. */
   outline: {
-    brand:   'bg-transparent text-primary-700 border border-primary-600 shadow-xs hover:bg-primary-50 hover:border-primary-700 hover:shadow-sm active:bg-primary-100 active:border-primary-700',
-    warm:    'bg-transparent text-secondary-700 border border-secondary-600 shadow-xs hover:bg-secondary-50 hover:border-secondary-700 hover:shadow-warm-sm active:bg-secondary-100 active:border-secondary-700',
+    brand:   'bg-transparent text-primary-800 border border-primary-700 shadow-xs hover:bg-primary-50 hover:border-primary-800 hover:shadow-sm active:bg-primary-100 active:border-primary-800',
+    warm:    'bg-transparent text-secondary-800 border border-secondary-700 shadow-xs hover:bg-secondary-50 hover:border-secondary-800 hover:shadow-warm-sm active:bg-secondary-100 active:border-secondary-800',
     sun:     'bg-transparent text-accent-800 border border-accent-700 shadow-xs hover:bg-accent-50 hover:border-accent-800 hover:shadow-sun-sm active:bg-accent-100 active:border-accent-800',
     danger:  'bg-transparent text-danger-fg border border-danger-strong shadow-xs hover:bg-danger-bg hover:border-danger-deep active:bg-danger-bg active:border-danger-deep',
-    neutral: 'bg-transparent text-ink-700 border border-ink-400 shadow-xs hover:bg-ink-50 hover:border-ink-500 hover:shadow-sm active:bg-ink-100 active:border-ink-500',
+    neutral: 'bg-transparent text-ink-700 border border-ink-500 shadow-xs hover:bg-ink-50 hover:border-ink-600 hover:shadow-sm active:bg-ink-100 active:border-ink-600',
   },
   /* ── ghost — ni fond ni filet au repos. Le niveau le plus discret qui reste
         une boîte ; le fond n'apparaît qu'au survol. */
   ghost: {
-    brand:   'bg-transparent text-primary-700 hover:bg-primary-50 hover:text-primary-800 active:bg-primary-100',
-    warm:    'bg-transparent text-secondary-700 hover:bg-secondary-50 hover:text-secondary-800 active:bg-secondary-100',
+    brand:   'bg-transparent text-primary-800 hover:bg-primary-50 active:bg-primary-100',
+    warm:    'bg-transparent text-secondary-800 hover:bg-secondary-50 active:bg-secondary-100',
     sun:     'bg-transparent text-accent-800 hover:bg-accent-50 active:bg-accent-100',
     danger:  'bg-transparent text-danger-fg hover:bg-danger-bg active:bg-danger-bg',
-    neutral: 'bg-white/40 text-ink-800 border border-white/50 backdrop-blur-glass-light hover:bg-white/60 hover:border-white/70 active:bg-white/70',
+    /* `ghost` n'a PAS de filet — c'est son contrat, et les quatre autres tons
+       le respectent. Celui-ci portait un filet blanc/50, donc invisible (1,04
+       mesuré sur `/journal`) : un contour qui ne se voit pas n'est pas un
+       contour, c'est une ligne de code. */
+    neutral: 'bg-transparent text-ink-700 hover:bg-ink-50 hover:text-ink-900 active:bg-ink-100',
   },
   /* ── link — pas de boîte du tout. */
   link: {
-    brand:   'bg-transparent text-primary-700 underline underline-offset-4 hover:text-primary-800 p-0 h-auto',
-    warm:    'bg-transparent text-secondary-700 underline underline-offset-4 hover:text-secondary-800 p-0 h-auto',
+    brand:   'bg-transparent text-primary-800 underline underline-offset-4 hover:text-primary-900 p-0 h-auto',
+    warm:    'bg-transparent text-secondary-800 underline underline-offset-4 hover:text-secondary-900 p-0 h-auto',
     sun:     'bg-transparent text-accent-800 underline underline-offset-4 hover:text-accent-800 p-0 h-auto',
     danger:  'bg-transparent text-danger-fg underline underline-offset-4 hover:text-danger-deep p-0 h-auto',
     neutral: 'bg-transparent text-ink-700 underline underline-offset-4 hover:text-ink-900 p-0 h-auto',
@@ -296,8 +321,30 @@ const EMPHASIS_TONE: Record<ButtonEmphasis, Record<ButtonTone, string>> = {
    un lien. Le ton n'entre pas : sur fond sombre, c'est la surface qui donne la
    couleur, le bouton se contente de la laisser passer (DESIGN.md §10.1). */
 const ON_DARK: Partial<Record<ButtonEmphasis, string>> = {
-  solid:   'bg-white/20 text-white border border-white/30 backdrop-blur-sm hover:bg-white/35 hover:border-white/50 active:bg-white/40',
-  outline: 'bg-transparent text-white border border-white/50 hover:bg-white/15 hover:border-white/70 active:bg-white/20',
+  /* ⚠️ `solid` est un VERRE CLAIR À ENCRE FONCÉE, et c'est une correction, pas
+     un goût. Il portait `bg-white/20 text-white` — un voile blanc SOUS du texte
+     blanc, c'est-à-dire les deux clairs à la fois. CLAUDE.md nomme déjà cette
+     contradiction pour le compteur de la nav : « un voile blanc éclaircit le
+     fond, alors que du texte blanc réclame du sombre ».
+
+     Mesuré le 17/09 sur les six surfaces sombres ou saturées du produit :
+
+       voile + encre            ink-900  p-800  p-700  p-600  p-500  sec-500
+       blanc/20 + blanc  (avant)   7,46   4,36   3,42   2,73   2,31    2,16
+       blanc/85 + ink-900 (après) 10,65  11,34  11,72  12,03  12,34   12,40
+
+     L'ancien passait AA sur UNE surface des six, et était le pire choix du
+     tableau sur les cinq autres. Constaté en vrai sur `/coaching/compte-rendu`,
+     dont le hero descend jusqu'à primary-500 : le bouton « Retour » mesurait
+     2,31. Le verre clair passe partout, et il reste le verre côtier de
+     DESIGN.md §10.1 — pas le verre sombre froid des SaaS IA. */
+  solid:   'bg-white/85 text-ink-900 border border-white backdrop-blur-sm shadow-sm hover:bg-white active:bg-white/90',
+  /* ⚠️ CONTRAT DE SURFACE pour les deux niveaux en blanc : ils demandent un fond
+     au cran 700 OU PLUS FONCÉ. Sans voile, du blanc mesure 14,2 sur ink-900,
+     7,08 sur le 800, 5,02 sur le 700 — et tombe à 3,66 sur le 600, 2,94 sur le
+     500. Un hero qui descend au 500 ne peut porter aucun label blanc, quel que
+     soit le bouton : c'est le fond qu'il faut remonter. */
+  outline: 'bg-transparent text-white border border-white/70 hover:bg-white/15 hover:border-white active:bg-white/20',
   ghost:   'bg-transparent text-white hover:bg-white/15 active:bg-white/20',
 };
 

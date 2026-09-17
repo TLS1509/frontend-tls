@@ -210,10 +210,10 @@ export const Profile: React.FC = () => {
 
           {/* Actions */}
           <div className="flex gap-stack-xs shrink-0 sm:self-start">
-            <Button variant="secondary" size="sm" leadingIcon={<Edit3 size={14} />} onClick={() => navigate('/account')}>
+            <Button emphasis="soft" tone="warm" size="sm" leadingIcon={<Edit3 size={14} />} onClick={() => navigate('/account')}>
               Modifier
             </Button>
-            <Button variant="ghost" iconOnly aria-label="Partager">
+            <Button emphasis="outline" iconOnly aria-label="Partager">
               <Share2 size={14} />
             </Button>
           </div>
@@ -296,7 +296,7 @@ export const Profile: React.FC = () => {
                   <h2 className="font-display text-h4 font-bold text-ink-900 tracking-snug">
                     Top compétences
                   </h2>
-                  <Button variant="ghost" size="sm" trailingIcon={<ArrowRight size={14} />} onClick={() => setActiveTab('skills')}>
+                  <Button emphasis="outline" size="sm" trailingIcon={<ArrowRight size={14} />} onClick={() => setActiveTab('skills')}>
                     Voir la matrice complète
                   </Button>
                 </div>
@@ -347,7 +347,7 @@ export const Profile: React.FC = () => {
                   </div>
                 ))}
               </div>
-              <Button variant="ghost" size="sm" trailingIcon={<ArrowRight size={14} />} className="self-center mt-stack">
+              <Button emphasis="outline" size="sm" trailingIcon={<ArrowRight size={14} />} className="self-center mt-stack">
                 Voir toute l'historique
               </Button>
             </section>

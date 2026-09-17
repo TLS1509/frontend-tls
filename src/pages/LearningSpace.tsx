@@ -280,7 +280,7 @@ export const LearningSpace: React.FC = () => {
             description="Essaie d'ajuster tes filtres ou ta recherche."
             actions={
               hasActiveFilters ? (
-                <Button variant="secondary" size="sm" leadingIcon={<RotateCcw size={14} />} onClick={resetFilters}>
+                <Button emphasis="soft" tone="warm" size="sm" leadingIcon={<RotateCcw size={14} />} onClick={resetFilters}>
                   Réinitialiser les filtres
                 </Button>
               ) : undefined

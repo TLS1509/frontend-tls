@@ -59,7 +59,7 @@ export default function ManagerEnterprise() {
         summary="KPIs globaux, suivi des cohortes, gestion du budget formation et alertes en temps réel."
         tone="flat"
         trailing={
-          <Button variant="glass" size="md" leadingIcon={<Download size={16} />}>
+          <Button emphasis="soft" size="md" leadingIcon={<Download size={16} />}>
             Exporter rapport
           </Button>
         }
@@ -89,7 +89,7 @@ export default function ManagerEnterprise() {
               >
                 <AlertTriangle size={16} className="shrink-0" />
                 <span className="text-body-sm flex-1">{a.message}</span>
-                <Button variant="ghost" size="sm" onClick={() => enterpriseStore.acknowledgeAlert(MOCK_COMPANY_ID, a.id)}>
+                <Button emphasis="outline" size="sm" onClick={() => enterpriseStore.acknowledgeAlert(MOCK_COMPANY_ID, a.id)}>
                   Ignorer
                 </Button>
               </div>
@@ -106,7 +106,7 @@ export default function ManagerEnterprise() {
             <SectionCard
               title="Top projets en cours"
               titleIcon={<TrendingUp size={20} />}
-              headerAction={<Button variant="ghost" size="sm">Tout voir</Button>}
+              headerAction={<Button emphasis="outline" size="sm">Tout voir</Button>}
             >
               <div className="flex flex-col gap-stack">
                 {projects.map((p) => {
@@ -130,7 +130,7 @@ export default function ManagerEnterprise() {
             <SectionCard
               title="Résumé cohortes"
               titleIcon={<Users size={20} />}
-              headerAction={<Button variant="ghost" size="sm" onClick={() => setActiveTab('cohorts')}>Gérer</Button>}
+              headerAction={<Button emphasis="outline" size="sm" onClick={() => setActiveTab('cohorts')}>Gérer</Button>}
             >
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack">
                 {cohorts.map((c) => (
@@ -165,7 +165,7 @@ export default function ManagerEnterprise() {
                   </div>
                   <div className="text-caption text-ink-600">Coach : {c.coachName ?? '–'} · Dreyfus moy. {c.avgDreyfusLevel}/5</div>
                 </div>
-                <Button variant="ghost" size="sm" trailingIcon={<ChevronRight size={14} />}>
+                <Button emphasis="outline" size="sm" trailingIcon={<ChevronRight size={14} />}>
                   Détail
                 </Button>
               </Card>
@@ -193,7 +193,7 @@ export default function ManagerEnterprise() {
                   </Card>
                 </div>
                 <ProgressBar value={stats.budgetUsedPercent} fill="warm" size="lg" showLabel label={`${stats.budgetUsedPercent}% consommé`} />
-                <Button variant="ghost" size="sm" leadingIcon={<Download size={14} />}>
+                <Button emphasis="outline" size="sm" leadingIcon={<Download size={14} />}>
                   Exporter rapport budget
                 </Button>
               </div>

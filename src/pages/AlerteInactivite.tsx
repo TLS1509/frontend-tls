@@ -26,7 +26,7 @@ const ALERT_HISTORY_ROWS = [
     statut: <Badge variant="danger" size="compact">En cours</Badge>,
     date: <span className="text-caption text-ink-600">08 mai 2026</span>,
     action: (
-      <Button variant="link" size="sm">
+      <Button emphasis="link" size="sm">
         Voir détails
       </Button>
     ),
@@ -42,7 +42,7 @@ const ALERT_HISTORY_ROWS = [
     statut: <Badge variant="success" size="compact">Résolue</Badge>,
     date: <span className="text-caption text-ink-600">05 mai 2026</span>,
     action: (
-      <Button variant="link" size="sm">
+      <Button emphasis="link" size="sm">
         Voir détails
       </Button>
     ),
@@ -58,7 +58,7 @@ const ALERT_HISTORY_ROWS = [
     statut: <Badge variant="sun" size="compact">En cours</Badge>,
     date: <span className="text-caption text-ink-600">03 mai 2026</span>,
     action: (
-      <Button variant="link" size="sm">
+      <Button emphasis="link" size="sm">
         Voir détails
       </Button>
     ),
@@ -74,7 +74,7 @@ const ALERT_HISTORY_ROWS = [
     statut: <Badge variant="neutral" size="compact">Ignorée</Badge>,
     date: <span className="text-caption text-ink-600">28 avr. 2026</span>,
     action: (
-      <Button variant="link" size="sm">
+      <Button emphasis="link" size="sm">
         Voir détails
       </Button>
     ),
@@ -90,7 +90,7 @@ const ALERT_HISTORY_ROWS = [
     statut: <Badge variant="success" size="compact">Résolue</Badge>,
     date: <span className="text-caption text-ink-600">25 avr. 2026</span>,
     action: (
-      <Button variant="link" size="sm">
+      <Button emphasis="link" size="sm">
         Voir détails
       </Button>
     ),
@@ -129,7 +129,7 @@ export default function AlerteInactivite() {
         summary="Configure les seuils d'alerte pour les apprenants inactifs et consulte l'historique des alertes déclenchées."
         tone="flat"
         trailing={
-          <Button variant="glass" size="sm" leadingIcon={<Bell size={14} />}>
+          <Button emphasis="soft" size="sm" leadingIcon={<Bell size={14} />}>
             Envoyer une alerte test
           </Button>
         }
@@ -213,7 +213,7 @@ export default function AlerteInactivite() {
           </Alert>
 
           <div className="mt-stack">
-            <Button variant="primary" size="md" leadingIcon={<Settings size={16} />}>
+            <Button emphasis="soft" size="md" leadingIcon={<Settings size={16} />}>
               Enregistrer la configuration
             </Button>
           </div>

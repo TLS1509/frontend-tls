@@ -46,7 +46,7 @@ export const Newsletter: React.FC = () => {
           >
             <ArrowLeft size={14} /> Retour à la veille
           </button>
-          <Button variant="primary" size="sm" trailingIcon={<ArrowRight size={14} />} onClick={() => navigate('/veille/weekly-newsletter')}>
+          <Button emphasis="soft" size="sm" trailingIcon={<ArrowRight size={14} />} onClick={() => navigate('/veille/weekly-newsletter')}>
             Voir la dernière édition
           </Button>
         </PageShell>
@@ -74,7 +74,7 @@ export const Newsletter: React.FC = () => {
                   <FormGroup label="Fréquence" id="newsletter-freq">
                     <Input id="newsletter-freq" type="text" defaultValue="Hebdomadaire (chaque lundi)" readOnly />
                   </FormGroup>
-                  <Button variant="primary" className="self-start" leadingIcon={<Mail size={14} />}>
+                  <Button emphasis="soft" className="self-start" leadingIcon={<Mail size={14} />}>
                     Mettre à jour mes préférences
                   </Button>
                 </div>
@@ -91,7 +91,7 @@ export const Newsletter: React.FC = () => {
                   curée par l'équipe éditoriale.
                 </p>
                 <Button
-                  variant="primary"
+                  emphasis="soft"
                   trailingIcon={<ArrowRight size={14} />}
                   onClick={() => navigate('/veille/weekly-newsletter')}
                   className="self-start mt-stack"

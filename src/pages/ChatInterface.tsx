@@ -195,7 +195,7 @@ export default function ChatInterface() {
                   className="flex-1 resize-none rounded-lg border border-ink-200 bg-white px-3 py-2.5 text-body-sm text-ink-900 placeholder:text-ink-500 focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100 transition-all duration-base h-auto min-h-[64px] disabled:opacity-disabled disabled:cursor-not-allowed"
                 />
                 <Button
-                  variant="primary"
+                  emphasis="soft"
                   size="md"
                   leadingIcon={<Send size={16} />}
                   onClick={handleSend}
@@ -229,7 +229,7 @@ export default function ChatInterface() {
                   return (
                     <Button
                       key={s.id}
-                      variant="ghost"
+                      emphasis="outline"
                       size="sm"
                       leadingIcon={icons[s.intent] ?? <Sparkles size={14} />}
                       fullWidth

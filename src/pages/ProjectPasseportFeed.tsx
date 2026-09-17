@@ -49,7 +49,7 @@ export const ProjectPasseportFeed: React.FC = () => {
   return (
     <Container width="medium" className="py-section flex flex-col gap-section">
       <div>
-        <Button variant="ghost" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(`/project/${projectId}`)}>
+        <Button emphasis="outline" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(`/project/${projectId}`)}>
           Retour au projet
         </Button>
       </div>

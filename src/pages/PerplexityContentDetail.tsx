@@ -79,7 +79,7 @@ const PerplexityContentDetail: React.FC = () => {
                         <div className="text-caption text-ink-500">{s.date}</div>
                       </div>
                     </div>
-                    <Button variant="ghost" size="sm" trailingIcon={<ExternalLink className="w-4 h-4" />}>
+                    <Button emphasis="outline" size="sm" trailingIcon={<ExternalLink className="w-4 h-4" />}>
                       Lire
                     </Button>
                   </Card>

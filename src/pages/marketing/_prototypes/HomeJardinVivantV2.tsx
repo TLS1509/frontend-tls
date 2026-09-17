@@ -170,7 +170,7 @@ const Hero: React.FC = () => {
             <MagneticButton strength={8}>
               <Button
                 to="/website/learning-app"
-                variant="glass"
+                emphasis="solid" onDark
                 size="lg"
                 trailingIcon={<ArrowUpRight size={18} />}
               >

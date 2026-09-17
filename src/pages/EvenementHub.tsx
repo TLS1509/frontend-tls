@@ -66,7 +66,7 @@ export default function EvenementHub() {
         title="Événements & Conférences"
         summary="Conférences, webinaires et ateliers ouverts à la communauté TLS. Certains événements sont réservés aux membres."
         trailing={
-          <Button variant="glass" size="md">
+          <Button emphasis="soft" size="md">
             S'abonner au calendrier
           </Button>
         }
@@ -118,12 +118,12 @@ export default function EvenementHub() {
               )}
               <div className="mt-stack-xs">
                 {eventsStore.getEventRegistration(MOCK_USER_ID, featured.id) ? (
-                  <Button variant="ghost" size="md" disabled>
+                  <Button emphasis="outline" size="md" disabled>
                     <CheckCircle size={16} className="mr-1.5" /> Déjà inscrit(e)
                   </Button>
                 ) : (
                   <Button
-                    variant="primary"
+                    emphasis="soft"
                     size="md"
                     onClick={() => eventsStore.registerForEvent(MOCK_USER_ID, featured.id)}
                   >
@@ -200,16 +200,16 @@ export default function EvenementHub() {
 
                   <div className="mt-auto pt-2">
                     {!isPrivateAccessible ? (
-                      <Button variant="ghost" size="sm" disabled>
+                      <Button emphasis="outline" size="sm" disabled>
                         <Lock size={14} className="mr-1.5" /> Réservé aux membres
                       </Button>
                     ) : isPast ? (
-                      <Button variant="ghost" size="sm">Voir le récap</Button>
+                      <Button emphasis="outline" size="sm">Voir le récap</Button>
                     ) : registration ? (
-                      <Button variant="ghost" size="sm" disabled>Déjà inscrit(e)</Button>
+                      <Button emphasis="outline" size="sm" disabled>Déjà inscrit(e)</Button>
                     ) : (
                       <Button
-                        variant="primary"
+                        emphasis="soft"
                         size="sm"
                         onClick={() => eventsStore.registerForEvent(MOCK_USER_ID, ev.id)}
                       >

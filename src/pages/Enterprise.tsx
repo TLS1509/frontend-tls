@@ -233,7 +233,7 @@ export const Enterprise: React.FC = () => {
           titleIcon={<Users size={18} className="text-primary-600" />}
           description={`${activeMembers.length} collaborateurs actifs`}
           headerAction={
-            <Button variant="ghost" size="sm" trailingIcon={<ChevronRight size={14} />}>
+            <Button emphasis="outline" size="sm" trailingIcon={<ChevronRight size={14} />}>
               Voir tous
             </Button>
           }
@@ -284,7 +284,7 @@ export const Enterprise: React.FC = () => {
           description="Inviter, gérer ou désactiver les comptes."
           headerAction={
             <Button
-              variant="primary"
+              emphasis="soft"
               size="sm"
               leadingIcon={<UserPlus size={14} />}
               onClick={() => setInviteOpen((v) => !v)}
@@ -336,7 +336,7 @@ export const Enterprise: React.FC = () => {
                     options={ROLE_OPTIONS}
                   />
                 </FormGroup>
-                <Button type="submit" variant="primary" size="md" leadingIcon={<Mail size={14} />} className="self-stretch sm:self-end">
+                <Button type="submit" emphasis="soft" size="md" leadingIcon={<Mail size={14} />} className="self-stretch sm:self-end">
                   Envoyer
                 </Button>
               </div>
@@ -373,7 +373,7 @@ export const Enterprise: React.FC = () => {
                 <Badge variant={u.status === 'active' ? 'success' : 'warm'}>
                   {u.status === 'active' ? 'Actif' : 'En attente'}
                 </Badge>
-                <Button variant="ghost" size="sm" leadingIcon={<Mail size={14} />}>
+                <Button emphasis="outline" size="sm" leadingIcon={<Mail size={14} />}>
                   {u.status === 'pending' ? 'Renvoyer' : 'Contacter'}
                 </Button>
               </div>
@@ -387,7 +387,7 @@ export const Enterprise: React.FC = () => {
             <h2 className="font-display text-h3 font-bold text-ink-900 tracking-tight">
               Rapports
             </h2>
-            <Button variant="ghost" size="sm" trailingIcon={<ChevronRight size={14} />}>
+            <Button emphasis="outline" size="sm" trailingIcon={<ChevronRight size={14} />}>
               Voir tous les rapports
             </Button>
           </div>
@@ -415,10 +415,10 @@ export const Enterprise: React.FC = () => {
                     {r.desc}
                   </p>
                   <div className="flex gap-stack-xs mt-auto">
-                    <Button variant="secondary" size="sm" leadingIcon={<Download size={14} />}>
+                    <Button emphasis="soft" tone="warm" size="sm" leadingIcon={<Download size={14} />}>
                       Télécharger
                     </Button>
-                    <Button variant="ghost" size="sm" trailingIcon={<ChevronRight size={14} />}>
+                    <Button emphasis="outline" size="sm" trailingIcon={<ChevronRight size={14} />}>
                       Aperçu
                     </Button>
                   </div>

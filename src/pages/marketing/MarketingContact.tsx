@@ -237,7 +237,7 @@ export const MarketingContact: React.FC = () => {
                     </p>
                   </div>
                   <Button
-                    variant="ghost"
+                    emphasis="outline"
                     size="md"
                     onClick={() => {
                       setSubmitted(false);

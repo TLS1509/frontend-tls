@@ -83,7 +83,7 @@ export const CoachingBookingFlow: React.FC = () => {
                 >
                   Confirmer (1 crédit Classic)
                 </Button>
-                <Button variant="secondary">Voir tous les créneaux</Button>
+                <Button emphasis="soft" tone="warm">Voir tous les créneaux</Button>
               </>
             }
           >

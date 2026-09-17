@@ -89,7 +89,7 @@ export default function ManagerAlerts() {
         summary="Configure les alertes automatiques pour suivre l'engagement de ton équipe et anticiper les situations à risque."
         tone="flat"
         trailing={
-          <Button variant="glass" size="md" leadingIcon={<Plus size={16} />} onClick={() => setShowNewForm(true)}>
+          <Button emphasis="soft" size="md" leadingIcon={<Plus size={16} />} onClick={() => setShowNewForm(true)}>
             Nouvelle alerte
           </Button>
         }
@@ -156,10 +156,10 @@ export default function ManagerAlerts() {
               </FormGroup>
             </div>
             <div className="flex gap-stack-xs mt-stack">
-              <Button variant="primary" size="md" leadingIcon={<CheckCircle2 size={16} />}>
+              <Button emphasis="soft" size="md" leadingIcon={<CheckCircle2 size={16} />}>
                 Créer l'alerte
               </Button>
-              <Button variant="ghost" size="md" onClick={() => setShowNewForm(false)}>
+              <Button emphasis="outline" size="md" onClick={() => setShowNewForm(false)}>
                 Annuler
               </Button>
             </div>

@@ -87,10 +87,10 @@ export default function PasseportCompetenceDetail() {
         tone={DOMAIN_TONE[domain]}
         trailing={
           <div className="flex items-center gap-stack-xs">
-            <Button variant="ghost" size="md" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/passeport')}>
+            <Button emphasis="outline" size="md" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/passeport')}>
               Retour
             </Button>
-            <Button variant="glass" size="md" leadingIcon={<Target size={16} />}>
+            <Button emphasis="soft" size="md" leadingIcon={<Target size={16} />}>
               Définir un objectif
             </Button>
           </div>
@@ -308,13 +308,13 @@ export default function PasseportCompetenceDetail() {
 
         {/* CTA */}
         <div className="flex flex-wrap justify-center gap-stack-xs pb-section">
-          <Button variant="primary" size="lg" leadingIcon={<BookOpen size={18} />}>
+          <Button emphasis="soft" size="lg" leadingIcon={<BookOpen size={18} />}>
             Continuer ma progression
           </Button>
           {/* Boucle Passeport → Journal → Passeport : l'entrée publiée avec ce
               `competenceId` redépose une preuve légère sur cette compétence. */}
           <Button
-            variant="secondary"
+            emphasis="soft" tone="warm"
             size="lg"
             leadingIcon={<PenLine size={18} />}
             onClick={() =>

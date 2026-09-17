@@ -100,7 +100,7 @@ function ConversationCard({ item }: { item: ConversationItem }) {
           {item.date}
         </span>
         <Button
-          variant="ghost"
+          emphasis="outline"
           size="sm"
           trailingIcon={<ChevronRight size={14} />}
           className="opacity-0 group-hover:opacity-100 transition-opacity duration-fast"
@@ -155,7 +155,7 @@ export default function ChatHistoryPanel() {
             title="Aucune conversation"
             description="Vous n'avez pas encore de conversations pour cette période. Démarrez une nouvelle session avec l'assistant."
             actions={
-              <Button variant="primary" size="md" leadingIcon={<Sparkles size={16} />}>
+              <Button emphasis="soft" size="md" leadingIcon={<Sparkles size={16} />}>
                 Nouvelle conversation
               </Button>
             }
@@ -165,7 +165,7 @@ export default function ChatHistoryPanel() {
         {/* New conversation CTA */}
         {filtered.length > 0 && (
           <div className="flex justify-center pt-2">
-            <Button variant="primary" size="md" leadingIcon={<Sparkles size={16} />}>
+            <Button emphasis="soft" size="md" leadingIcon={<Sparkles size={16} />}>
               Nouvelle conversation
             </Button>
           </div>

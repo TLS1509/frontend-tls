@@ -131,14 +131,14 @@ export default function AtelierHub() {
 
                   <div className="mt-tight">
                     {isPast ? (
-                      <Button variant="ghost" size="sm" fullWidth>Voir le récap</Button>
+                      <Button emphasis="outline" size="sm" fullWidth>Voir le récap</Button>
                     ) : enrollment ? (
-                      <Button variant="ghost" size="sm" fullWidth disabled>
+                      <Button emphasis="outline" size="sm" fullWidth disabled>
                         {enrollment.status === 'waitlist' ? 'Sur liste d\'attente' : 'Inscription en cours'}
                       </Button>
                     ) : isFull ? (
                       <Button
-                        variant="ghost"
+                        emphasis="outline"
                         size="sm"
                         fullWidth
                         onClick={() => eventsStore.requestAtelierEnrollment(MOCK_USER_ID, atelier.id)}
@@ -147,7 +147,7 @@ export default function AtelierHub() {
                       </Button>
                     ) : (
                       <Button
-                        variant="primary"
+                        emphasis="soft"
                         size="sm"
                         fullWidth
                         onClick={() => eventsStore.requestAtelierEnrollment(MOCK_USER_ID, atelier.id)}

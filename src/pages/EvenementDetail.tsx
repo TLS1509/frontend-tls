@@ -164,7 +164,7 @@ export default function EvenementDetail() {
             </p>
           </div>
           <div className="flex flex-col gap-tight items-end shrink-0">
-            <Button variant="primary" size="lg">
+            <Button emphasis="soft" size="lg">
               S'inscrire gratuitement
             </Button>
             <p className="text-micro text-ink-600 m-0">Annulation possible jusqu'à J-1</p>

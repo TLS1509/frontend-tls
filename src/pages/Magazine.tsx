@@ -74,7 +74,7 @@ export const Magazine: React.FC = () => {
       <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100">
         <PageShell width="page" noPadTop className="!h-14 !py-0 !gap-0 flex items-center justify-between gap-stack-xs">
           <Button
-            variant="ghost"
+            emphasis="outline"
             size="sm"
             leadingIcon={<ArrowLeft size={14} />}
             onClick={() => navigate('/veille')}
@@ -83,18 +83,18 @@ export const Magazine: React.FC = () => {
           </Button>
 
           <div className="flex items-center gap-stack-xs">
-            <Button variant="primary" size="sm" leadingIcon={<Download size={14} />} className="hidden sm:inline-flex">
+            <Button emphasis="soft" size="sm" leadingIcon={<Download size={14} />} className="hidden sm:inline-flex">
               Télécharger le PDF
             </Button>
             <Button
-              variant={saved ? 'primary' : 'ghost'}
+              emphasis={saved ? 'soft' : 'outline'}
               iconOnly
               aria-label={saved ? 'Retirer le marque-page' : 'Ajouter aux marque-pages'}
               onClick={() => toggleBookmark(bookmarkKey)}
             >
               <Bookmark size={14} fill={saved ? 'currentColor' : 'none'} />
             </Button>
-            <Button variant="ghost" iconOnly aria-label="Partager">
+            <Button emphasis="outline" iconOnly aria-label="Partager">
               <Share2 size={14} />
             </Button>
           </div>
@@ -157,7 +157,7 @@ export const Magazine: React.FC = () => {
               title="Synthèse exécutive"
               description="Lecture rapide"
               actions={
-                <Button variant="primary" size="sm" leadingIcon={<Download size={14} />}>
+                <Button emphasis="soft" size="sm" leadingIcon={<Download size={14} />}>
                   Télécharger le PDF
                 </Button>
               }

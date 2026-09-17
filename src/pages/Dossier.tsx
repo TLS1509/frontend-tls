@@ -105,18 +105,18 @@ export const Dossier: React.FC = () => {
         trailing={
           <>
             <ReadingProgressRing targetRef={articleRef} tone="warm" size={32} />
-            <Button variant="secondary" size="sm" leadingIcon={<Download size={14} />} className="hidden sm:inline-flex">
+            <Button emphasis="soft" tone="warm" size="sm" leadingIcon={<Download size={14} />} className="hidden sm:inline-flex">
               Télécharger
             </Button>
             <Button
-              variant={saved ? 'primary' : 'ghost'}
+              emphasis={saved ? 'soft' : 'outline'}
               iconOnly
               aria-label={saved ? 'Retirer le marque-page' : 'Ajouter aux marque-pages'}
               onClick={() => toggleBookmark(bookmarkKey)}
             >
               <Bookmark size={14} fill={saved ? 'currentColor' : 'none'} />
             </Button>
-            <Button variant="ghost" iconOnly aria-label="Partager">
+            <Button emphasis="outline" iconOnly aria-label="Partager">
               <Share2 size={14} />
             </Button>
           </>
@@ -314,7 +314,7 @@ export const Dossier: React.FC = () => {
                 PDF de 38 pages · Données exclusives · Mise à jour janvier 2026
               </p>
             </div>
-            <Button variant="secondary" size="lg" leadingIcon={<Download size={16} />}>
+            <Button emphasis="soft" tone="warm" size="lg" leadingIcon={<Download size={16} />}>
               Télécharger le PDF gratuit
             </Button>
           </div>

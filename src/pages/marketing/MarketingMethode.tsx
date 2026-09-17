@@ -176,7 +176,7 @@ const Framework: React.FC = () => (
             La version opérationnelle, avec les livrables de chaque jalon, est
             sur la page consacrée à la méthode STRIDE.
           </p>
-          <Button to="/website/accompagnement" variant="ghost" size="md" trailingIcon={<ArrowRight size={16} />}>
+          <Button to="/website/accompagnement" emphasis="outline" size="md" trailingIcon={<ArrowRight size={16} />}>
             Voir les six étapes
           </Button>
         </div>
@@ -256,7 +256,7 @@ const AllerPlusLoin: React.FC = () => (
               travail, dans votre boîte mail.
             </p>
             <div>
-              <Button to="/website/vigie" variant="ghost" size="md" trailingIcon={<ArrowRight size={16} />}>
+              <Button to="/website/vigie" emphasis="outline" size="md" trailingIcon={<ArrowRight size={16} />}>
                 S'abonner à La Vigie IA
               </Button>
             </div>
@@ -273,7 +273,7 @@ const AllerPlusLoin: React.FC = () => (
               Analyses de fond, dossiers et retours de terrain, en accès libre.
             </p>
             <div>
-              <Button to="/website/resources" variant="ghost" size="md" trailingIcon={<ArrowRight size={16} />}>
+              <Button to="/website/resources" emphasis="outline" size="md" trailingIcon={<ArrowRight size={16} />}>
                 Lire le Magazine
               </Button>
             </div>

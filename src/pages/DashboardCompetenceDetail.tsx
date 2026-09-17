@@ -64,7 +64,7 @@ export default function DashboardCompetenceDetail() {
         summary={`Niveau Dreyfus D${COMPETENCE.currentLevel} → Objectif D${COMPETENCE.targetLevel} · ${COMPETENCE.progress}% de progression`}
         tone="flat"
         trailing={
-          <Button variant="glass" size="md" leadingIcon={<Target size={16} />}>
+          <Button emphasis="soft" size="md" leadingIcon={<Target size={16} />}>
             Voir le passeport complet
           </Button>
         }
@@ -141,7 +141,7 @@ export default function DashboardCompetenceDetail() {
         )}
 
         <div className="flex justify-center pb-section">
-          <Button variant="primary" size="lg" leadingIcon={<BookOpen size={18} />}>
+          <Button emphasis="soft" size="lg" leadingIcon={<BookOpen size={18} />}>
             Continuer ma progression
           </Button>
         </div>

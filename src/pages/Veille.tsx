@@ -257,7 +257,7 @@ export const Veille: React.FC = () => {
               autoComplete="email"
               className="w-48 sm:w-56"
             />
-            <Button type="submit" variant="primary" size="sm">
+            <Button type="submit" emphasis="soft" size="sm">
               S'abonner
             </Button>
             <button

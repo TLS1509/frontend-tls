@@ -59,11 +59,11 @@ export default function CoachingSessionDetail() {
         trailing={
           <div className="flex items-center gap-stack-xs">
             {isPlanned && (
-              <Button variant="glass" size="md" leadingIcon={<Video size={16} />}>
+              <Button emphasis="soft" size="md" leadingIcon={<Video size={16} />}>
                 Rejoindre la session
               </Button>
             )}
-            <Button variant="ghost" size="md" leadingIcon={<Download size={16} />}>
+            <Button emphasis="outline" size="md" leadingIcon={<Download size={16} />}>
               Ajouter au calendrier
             </Button>
           </div>
@@ -141,7 +141,7 @@ export default function CoachingSessionDetail() {
           </p>
           <div className="mt-stack flex gap-stack-xs">
             <Button
-              variant="secondary"
+              emphasis="soft" tone="warm"
               size="md"
               leadingIcon={<FileText size={16} />}
             >
@@ -173,10 +173,10 @@ export default function CoachingSessionDetail() {
 
         {/* Actions */}
         <div className="flex items-center gap-stack-xs pb-section">
-          <Button variant="ghost" size="md" leadingIcon={<MessageSquare size={16} />}>
+          <Button emphasis="outline" size="md" leadingIcon={<MessageSquare size={16} />}>
             Contacter le coach
           </Button>
-          <Button variant="ghost" size="md" className="text-danger-fg hover:bg-danger-bg">
+          <Button emphasis="outline" size="md" className="text-danger-fg hover:bg-danger-bg">
             Annuler la session
           </Button>
         </div>

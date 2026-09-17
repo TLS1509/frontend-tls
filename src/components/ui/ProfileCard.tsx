@@ -19,7 +19,7 @@ import { Mail, ExternalLink, Globe, Phone, Star } from 'lucide-react';
 import { Avatar } from './Avatar';
 import { MetaPillGroup } from './MetaPillGroup';
 import { Button } from '../core/Button';
-import type { ButtonVariant } from '../core/Button';
+import type { ButtonEmphasis, ButtonTone } from '../core/Button';
 
 export type ProfileCardVariant = 'default' | 'compact' | 'featured' | 'horizontal';
 export type ProfileCardTone = 'primary' | 'warm' | 'sun';
@@ -68,7 +68,8 @@ export interface ProfileCardProps {
     label: string;
     onClick: () => void;
     icon?: React.ReactNode;
-    variant?: ButtonVariant;
+    emphasis?: ButtonEmphasis;
+    tone?: ButtonTone;
   };
   /** Variant : default (md) / compact (sm) / featured (lg + tone border). */
   variant?: ProfileCardVariant;
@@ -268,7 +269,8 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
           <div className="shrink-0 md:ml-auto mt-stack-xs md:mt-0">
             {typeof cta === 'object' && 'label' in cta ? (
               <Button
-                variant={cta.variant ?? (tone === 'warm' ? 'secondary' : 'primary')}
+                emphasis={cta.emphasis ?? 'soft'}
+                tone={cta.tone ?? (tone === 'warm' ? 'warm' : 'brand')}
                 size="md"
                 leadingIcon={cta.icon}
                 onClick={cta.onClick}
@@ -364,7 +366,8 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
       {cta && (
         typeof cta === 'object' && 'label' in cta ? (
           <Button
-            variant={cta.variant ?? (tone === 'warm' ? 'secondary' : 'primary')}
+            emphasis={cta.emphasis ?? 'soft'}
+            tone={cta.tone ?? (tone === 'warm' ? 'warm' : 'brand')}
             size="md"
             leadingIcon={cta.icon}
             onClick={cta.onClick}

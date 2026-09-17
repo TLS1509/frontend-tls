@@ -81,10 +81,10 @@ export default function HelpTutorialStep() {
         </Card>
 
         <div className="flex flex-wrap items-center justify-between gap-stack">
-          <Button variant="ghost" leadingIcon={<ArrowLeft size={16} />}>
+          <Button emphasis="outline" leadingIcon={<ArrowLeft size={16} />}>
             Étape précédente
           </Button>
-          <Button variant="primary" trailingIcon={<ArrowRight size={16} />}>
+          <Button emphasis="soft" trailingIcon={<ArrowRight size={16} />}>
             Étape suivante
           </Button>
         </div>

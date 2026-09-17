@@ -127,7 +127,7 @@ export const JournalFreeEntry: React.FC = () => {
       <div className="flex items-center justify-between px-section py-stack border-b border-ink-200 sticky top-0 bg-white z-sticky">
         <div className="flex items-center gap-stack-xs">
           <Button
-            variant="secondary"
+            emphasis="soft" tone="warm"
             size="sm"
             leadingIcon={<ArrowLeft size={14} />}
             onClick={() => navigate('/journal')}
@@ -140,7 +140,7 @@ export const JournalFreeEntry: React.FC = () => {
           </div>
         </div>
         <div className="flex gap-stack-xs">
-          <Button variant="secondary" size="sm" leadingIcon={<Save size={14} />}>
+          <Button emphasis="soft" tone="warm" size="sm" leadingIcon={<Save size={14} />}>
             Brouillon
           </Button>
           <Button size="sm" leadingIcon={<Send size={14} />} onClick={buildAndSaveEntry}>
@@ -278,7 +278,7 @@ export const JournalFreeEntry: React.FC = () => {
           {/* Bottom actions */}
           <div className="flex gap-stack-xs mt-stack-lg">
             <Button leadingIcon={<Send size={14} />} onClick={buildAndSaveEntry}>Publier l'entrée</Button>
-            <Button variant="secondary" leadingIcon={<Save size={14} />} onClick={buildAndSaveEntry}>
+            <Button emphasis="soft" tone="warm" leadingIcon={<Save size={14} />} onClick={buildAndSaveEntry}>
               Sauvegarder en brouillon
             </Button>
           </div>

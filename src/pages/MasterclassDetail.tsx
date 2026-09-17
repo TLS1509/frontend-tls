@@ -115,7 +115,7 @@ export default function MasterclassDetail() {
                   <p className="text-caption text-ink-600 m-0">47 / 100 places restantes</p>
                   <ProgressBar value={53} fill="brand" size="sm" valueLabel={false} />
                 </div>
-                <Button variant="primary" size="lg" className="shrink-0">
+                <Button emphasis="soft" size="lg" className="shrink-0">
                   S'inscrire à la masterclass
                 </Button>
               </Card>

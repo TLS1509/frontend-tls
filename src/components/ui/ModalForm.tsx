@@ -115,7 +115,7 @@ export const ModalForm: React.FC<ModalFormProps> = ({
             {destructiveLabel && onDestructive && (
               <Button
                 type="button"
-                variant="destructive"
+                emphasis="solid" tone="danger"
                 size="sm"
                 onClick={onDestructive}
               >
@@ -124,13 +124,13 @@ export const ModalForm: React.FC<ModalFormProps> = ({
             )}
           </div>
           <div className="flex items-center gap-stack-xs">
-            <Button type="button" variant="ghost" size="sm" onClick={onClose}>
+            <Button type="button" emphasis="outline" size="sm" onClick={onClose}>
               Annuler
             </Button>
             {onSubmit && (
               <Button
                 type="submit"
-                variant="primary"
+                emphasis="soft"
                 size="sm"
                 loading={submitting}
                 disabled={submitting}

@@ -263,7 +263,7 @@ export const LearningPathDetail: React.FC = () => {
             progressLabel={`${completedLessons} / ${totalLessons} leçons complétées`}
             trailing={
               progressPct === 0 && !positioned ? (
-                <Button variant="glass" onClick={() => setShowPositionnement(true)}>
+                <Button emphasis="solid" onDark onClick={() => setShowPositionnement(true)}>
                   🎯 Se positionner &amp; commencer
                 </Button>
               ) : undefined

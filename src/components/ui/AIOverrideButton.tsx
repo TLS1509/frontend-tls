@@ -68,7 +68,7 @@ export const AIOverrideButton: React.FC<AIOverrideButtonProps> = ({
         />
         <div className="flex gap-stack-xs justify-end">
           <Button
-            variant="ghost"
+            emphasis="outline"
             size="sm"
             onClick={handleCancel}
             leadingIcon={<X size={14} />}
@@ -76,7 +76,7 @@ export const AIOverrideButton: React.FC<AIOverrideButtonProps> = ({
             Annuler
           </Button>
           <Button
-            variant="secondary"
+            emphasis="soft" tone="warm"
             size="sm"
             onClick={handleConfirm}
             leadingIcon={<Check size={14} />}
@@ -90,7 +90,7 @@ export const AIOverrideButton: React.FC<AIOverrideButtonProps> = ({
 
   return (
     <Button
-      variant="ghost"
+      emphasis="outline"
       size={size}
       onClick={handleClick}
       leadingIcon={<XCircle size={size === 'sm' ? 14 : 16} />}

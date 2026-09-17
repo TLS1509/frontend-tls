@@ -132,7 +132,7 @@ export default function CoachApprenants() {
                         <div className="flex items-center gap-stack-xs">
                           <Badge variant={variant} size="compact">{label}</Badge>
                           <Button
-                            variant="ghost"
+                            emphasis="outline"
                             size="sm"
                             onClick={() => navigate(`/coach/apprenant/${a.id}`)}
                           >

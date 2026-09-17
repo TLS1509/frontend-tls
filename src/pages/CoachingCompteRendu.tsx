@@ -164,10 +164,10 @@ export const CoachingCompteRendu: React.FC = () => {
     <div className="min-h-[100dvh] bg-surface flex flex-col font-body">
 
       {/* ── Hero / Header ── */}
-      <div className="bg-gradient-to-br from-primary-800 via-primary-600 to-primary-500 p-section text-white">
+      <div className="bg-gradient-to-br from-primary-900 via-primary-800 to-primary-700 p-section text-white">
 
         <Button
-          variant="glass"
+          emphasis="solid" onDark
           size="sm"
           leadingIcon={<ArrowLeft size={14} />}
           onClick={() => navigate(-1)}
@@ -374,7 +374,7 @@ export const CoachingCompteRendu: React.FC = () => {
                   </span>
                 </div>
                 <Button
-                  variant="primary"
+                  emphasis="soft"
                   size="sm"
                   fullWidth
                   trailingIcon={<ChevronRight size={14} />}
@@ -386,7 +386,7 @@ export const CoachingCompteRendu: React.FC = () => {
             </Card>
 
             <Button
-              variant="secondary"
+              emphasis="soft" tone="warm"
               fullWidth
               leadingIcon={<PlusCircle size={16} />}
               onClick={() => navigate(`/journal/new-entry?type=compte-rendu&sessionId=${report.id}`)}
@@ -395,7 +395,7 @@ export const CoachingCompteRendu: React.FC = () => {
             </Button>
 
             <Button
-              variant="ghost"
+              emphasis="outline"
               fullWidth
               leadingIcon={<BookOpen size={16} />}
               onClick={() => navigate('/journal')}
