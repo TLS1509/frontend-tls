@@ -354,7 +354,17 @@ export const SidebarUserCard: React.FC<SidebarUserCardProps> = ({
         aria-label={`Menu ${name}${notificationCount > 0 ? ` · ${notificationCount} notifications non lues` : ''}`}
         aria-expanded={menuOpen}
         className={[
-          'relative flex items-center justify-center w-12 h-12 mx-auto rounded-xl bg-primary-100 text-primary-700 hover:bg-primary-200 transition-[background-color] duration-fast ease-standard focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 cursor-pointer border-0 p-0',
+          /* `rounded-lg` (14) comme l'état déplié — corrigé le 2026-09-17.
+             Il était à `rounded-xl` (20), et c'était un TROISIÈME rayon : ni son
+             étage, ni l'exception écrite du bouton carré à icône seule.
+             Mesuré dans le rail replié : les rangées de nav font 48 px de haut
+             à rayon 14, la carte utilisateur 48×48 à rayon 20 — même colonne,
+             même hauteur, deux courbes. Et 20 sur un carré de 48 inversait
+             l'échelle étagée, puisque l'objet est PLUS PETIT que la rangée
+             dépliée (235×66) qui, elle, est à 14.
+             Ici le padding vaut 0 mais le contenu est centré : ce rayon ne
+             pinçait rien, c'est une question de vocabulaire, pas de coin. */
+          'relative flex items-center justify-center w-12 h-12 mx-auto rounded-lg bg-primary-100 text-primary-700 hover:bg-primary-200 transition-[background-color] duration-fast ease-standard focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 cursor-pointer border-0 p-0',
           menuOpen && 'ring-2 ring-primary-300',
           className,
         ]
@@ -372,7 +382,18 @@ export const SidebarUserCard: React.FC<SidebarUserCardProps> = ({
       onClick={onClick}
       aria-expanded={menuOpen}
       className={[
-        'flex items-center gap-stack-xs w-full px-3 py-2.5 rounded-2xl bg-white/70 border border-ink-200 hover:bg-white hover:border-primary-300 transition-[background-color,border-color,box-shadow] duration-base ease-standard cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+        /* `rounded-lg` (14), pas `rounded-2xl` (24) — corrigé le 2026-09-17.
+           Deux raisons qui convergent, et c'est ce qui rend la correction sûre :
+           — L'échelle étagée met les RANGÉES DE LISTE interactives à 14. C'en
+             est une : un `<button>` pleine largeur, avatar puis deux lignes de
+             texte puis un chevron. 24 était l'étage des conteneurs.
+           — Le padding est de 12 px (`px-3`) pour un rayon de 24, donc le coin
+             pinçait : 7 px de dégagement en diagonale contre 12 le long du
+             bord, soit 41 % de perte — avec du contenu mesuré à 18 px du coin,
+             donc dans la zone. À 14 la perte tombe à 7 %.
+           La carte utilisateur vit dans la chrome : elle était sur TOUTES les
+           pages, ce qui en faisait le pire pincement de l'app, et le plus vu. */
+        'flex items-center gap-stack-xs w-full px-3 py-2.5 rounded-lg bg-white/70 border border-ink-200 hover:bg-white hover:border-primary-300 transition-[background-color,border-color,box-shadow] duration-base ease-standard cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
         menuOpen && 'border-primary-400 bg-white',
         className,
       ]

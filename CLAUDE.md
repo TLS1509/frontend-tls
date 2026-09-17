@@ -1108,13 +1108,29 @@ que la mesure a rendu :
 
 Un onzième cran d'échelle pour deux éléments à 10 % ne se justifie pas.
 
-⏳ **Le vrai coupable est ailleurs, et il est sur toutes les pages** : la carte
-utilisateur de la Sidebar ([`Sidebar.tsx:375`](src/components/layout/Sidebar.tsx))
-porte `px-3 py-2.5 rounded-2xl` — **12 px de padding pour 24 de rayon, soit 41 %
-de pincement**, avec du contenu à 18 px du coin. Elle viole aussi l'échelle
-étagée, qui met les **rangées de liste** à `rounded-lg` (14). Passer le rayon à
-14 ramène le pincement à 7 % et remet l'élément dans son étage — deux raisons
-qui convergent. Non fait, à trancher.
+✅ **Le vrai coupable était ailleurs — corrigé le 2026-09-17.** La carte
+utilisateur de la Sidebar était le pire pincement de l'app, et le plus vu :
+elle vit dans la chrome, donc elle était sur **toutes** les pages.
+
+| | avant | après |
+|---|---|---|
+| état déplié (235×66) | `rounded-2xl` (24) pour 12 de padding → **41 %** | `rounded-lg` (14) → **7 %** |
+| état replié (48×48) | `rounded-xl` (20) | `rounded-lg` (14) |
+
+L'état replié n'avait aucun problème de coin — padding 0, contenu centré. Il
+portait un **troisième rayon** : ni son étage, ni l'exception écrite du bouton
+carré à icône seule. Mesuré dans le rail replié, les rangées de nav font 48 px
+de haut à rayon 14 et la carte 48×48 à rayon 20 — même colonne, même hauteur,
+deux courbes. Et 20 sur un carré de 48 **inversait l'échelle étagée**, puisque
+l'objet est plus petit que la rangée dépliée qui, elle, est à 14.
+
+⚠️ **Ne pas « unifier » les deux états sur la pilule.** L'exception écrite vise
+le `Button iconOnly` ; ici le bon repère est le voisinage — la carte est la
+dernière d'une colonne de rangées à 14.
+
+⏳ **Reste le plus fort après lui** : sur `/dashboard`, la carte « Session
+coaching » est à `rounded-2xl` (24) pour 16 de padding — **21 %**, contenu à
+21 px du coin. Non fait.
 
 ## Typo — League Spartan sans italique
 
