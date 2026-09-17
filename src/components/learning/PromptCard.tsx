@@ -174,7 +174,7 @@ export const PromptCard: React.FC<PromptCardProps> = ({
               y imbriquer un <Button> annoncerait deux boutons pour un seul objet.
               `buttonClasses` donne l'apparence à la source — cette pilule recopiait
               jusqu'ici les classes à la main, et manquait donc chaque décision. */}
-          <span className={buttonClasses({ emphasis: 'solid', tone: 'brand' })}>
+          <span className={buttonClasses({ emphasis: 'soft', tone: 'brand' })}>
             {ctaLabel ?? 'Écrire ma réflexion'}
             <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
           </span>

@@ -464,7 +464,7 @@ export const MarketingResources: React.FC = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 className="flex-1"
               />
-              <Button type="submit" variant="primary" size="lg" disabled={sending} className="w-full sm:w-auto">
+              <Button type="submit" emphasis="solid" tone="brand" size="lg" disabled={sending} className="w-full sm:w-auto">
                 {sending ? 'Envoi en cours…' : "S'abonner"}
               </Button>
             </form>

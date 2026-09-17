@@ -54,7 +54,7 @@ const Hero: React.FC = () => {
             mêmes personnes du premier cadrage à la livraison.
           </p>
           <div>
-            <Button to="/website/contact" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+            <Button to="/website/contact" emphasis="solid" tone="brand" size="lg" trailingIcon={<ArrowRight size={18} />}>
               Échanger avec les fondateurs
             </Button>
           </div>
@@ -267,7 +267,7 @@ const CtaFinal: React.FC = () => (
             ce que vous cherchez, nous vous le dirons pendant l'appel.
           </p>
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs pt-stack-xs">
-            <Button to="/website/contact" variant="primary" size="xl" trailingIcon={<ArrowRight size={20} />}>
+            <Button to="/website/contact" emphasis="solid" tone="brand" size="xl" trailingIcon={<ArrowRight size={20} />}>
               Réserver trente minutes
             </Button>
             <Button to="/website/diagnostic" variant="ghost" size="xl" trailingIcon={<ArrowUpRight size={20} />}>

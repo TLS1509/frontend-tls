@@ -73,18 +73,12 @@ const HOVER_BG_OUTLINE: Record<ParcoursTone, string> = {
 const CTA_BASE =
   'flex items-center justify-center gap-stack-xs w-full h-11 rounded-lg px-4 cursor-pointer font-body text-body-sm font-semibold whitespace-nowrap transition-[background-color,color,transform,box-shadow] duration-fast ease-emphasis active:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-2';
 
-// Tone-aware CTA classes — includes tone-matched focus outline.
-// ⚠️ Relevé du 17/09 : blanc sur 500 = 2,94 (primary) / 2,64 (warm) — ces
-// remplissages sont dans le périmètre de la décision 1 du banc (contrat solid).
+/* Tone-aware CTA classes — TINTED depuis le 2026-09-17 (verdict option D :
+   l'app abandonne le solid). L'ancienne recette posait du blanc sur 500 —
+   2,94 (primary) / 2,64 (warm), mesurés — et contredisait la doctrine
+   « blanc seulement sur 700+ ». Labels au 800 du ton, filets 600 (700 pour
+   l'or, dont le 600 rate le contour). */
 const CTA_TONE_CLASSES: Record<ParcoursTone, string> = {
-  primary: 'bg-primary-500 hover:bg-primary-600 text-white shadow-brand-sm focus-visible:outline-primary-400',
-  warm:    'bg-secondary-500 hover:bg-secondary-600 text-white shadow-xs focus-visible:outline-secondary-400',
-  sun:     'bg-accent-400 hover:bg-accent-500 text-accent-900 shadow-xs focus-visible:outline-accent-500',
-};
-
-/* PRÉVIZ « option D » (banc, décision 1) — DEV uniquement, à supprimer avec
-   l'interrupteur de Button.tsx : l'équivalent tinted de chaque ton. */
-const CTA_TONE_CLASSES_OPTION_D: Record<ParcoursTone, string> = {
   primary: 'bg-primary-50 hover:bg-primary-100 text-primary-800 border border-primary-600 hover:border-primary-700 focus-visible:outline-primary-500',
   warm:    'bg-secondary-100/70 hover:bg-secondary-100 text-secondary-800 border border-secondary-600 hover:border-secondary-700 focus-visible:outline-secondary-500',
   sun:     'bg-accent-100/70 hover:bg-accent-100 text-accent-800 border border-accent-700 hover:border-accent-800 focus-visible:outline-accent-500',

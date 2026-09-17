@@ -67,7 +67,7 @@ const Hero: React.FC = () => {
           </div>
 
           <div>
-            <Button to="/website/contact" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+            <Button to="/website/contact" emphasis="solid" tone="brand" size="lg" trailingIcon={<ArrowRight size={18} />}>
               Lancer un projet avec le Studio
             </Button>
           </div>
@@ -303,7 +303,7 @@ const CtaFinal: React.FC = () => (
             </p>
           </div>
           <div className="flex flex-wrap flex-col items-start gap-stack-xs @md:flex-row @md:items-center">
-            <Button to="/website/contact" variant="primary" size="xl" trailingIcon={<ArrowRight size={20} />}>
+            <Button to="/website/contact" emphasis="solid" tone="brand" size="xl" trailingIcon={<ArrowRight size={20} />}>
               Échanger avec l'équipe du Studio
             </Button>
             <Button to="/website/accompagnement" variant="ghost" size="xl" trailingIcon={<ArrowUpRight size={20} />}>

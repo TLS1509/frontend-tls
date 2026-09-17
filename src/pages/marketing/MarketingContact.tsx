@@ -522,7 +522,8 @@ export const MarketingContact: React.FC = () => {
                     <div className="flex justify-end">
                       <Button
                         type="submit"
-                        variant="primary"
+                        emphasis="solid"
+                        tone="brand"
                         size="lg"
                         disabled={submitting}
                         trailingIcon={submitting ? undefined : <ArrowRight size={18} />}
@@ -568,7 +569,8 @@ export const MarketingContact: React.FC = () => {
                 </div>
                 <a href="#contact-formulaire" className="block">
                   <Button
-                    variant="secondary"
+                    emphasis="solid"
+                    tone="warm"
                     size="md"
                     fullWidth
                     trailingIcon={<Calendar size={16} />}

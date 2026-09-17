@@ -188,7 +188,7 @@ export const MarketingWebinaireDetail: React.FC = () => {
                       {error && (
                         <span className="font-body text-caption text-danger-fg">{error}</span>
                       )}
-                      <Button type="submit" variant="primary" size="lg" loading={loading} trailingIcon={<ArrowRight size={16} />}>
+                      <Button type="submit" emphasis="solid" tone="brand" size="lg" loading={loading} trailingIcon={<ArrowRight size={16} />}>
                         Réserver ma place
                       </Button>
                       <span className="inline-flex items-center gap-stack-2xs font-body text-micro text-ink-500">

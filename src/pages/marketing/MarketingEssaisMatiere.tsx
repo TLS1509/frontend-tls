@@ -98,7 +98,7 @@ const Titre: React.FC<{ sombre?: boolean }> = ({ sombre }) => (
 
 const Cta: React.FC = () => (
   <div className="mt-stack-lg">
-    <Button to="/website/diagnostic" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+    <Button to="/website/diagnostic" emphasis="solid" tone="brand" size="lg" trailingIcon={<ArrowRight size={18} />}>
       Évaluer notre maturité
     </Button>
   </div>

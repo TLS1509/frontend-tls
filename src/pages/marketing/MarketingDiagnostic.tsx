@@ -372,7 +372,7 @@ export const MarketingDiagnostic: React.FC = () => {
                           ))}
                         </ul>
                       </div>
-                      <Button onClick={() => startDiagnostic(k)} variant="primary" size="lg" fullWidth trailingIcon={<ArrowRight size={18} />}>
+                      <Button onClick={() => startDiagnostic(k)} emphasis="solid" tone="brand" size="lg" fullWidth trailingIcon={<ArrowRight size={18} />}>
                         {k === 'sbo' ? 'Démarrer le diagnostic SBO' : 'Démarrer le diagnostic IA'}
                       </Button>
                     </div>
@@ -497,7 +497,7 @@ export const MarketingDiagnostic: React.FC = () => {
                 >
                   Retour
                 </Button>
-                <Button onClick={() => go('result')} variant="primary" size="md" trailingIcon={<ArrowRight size={16} />}>
+                <Button onClick={() => go('result')} emphasis="solid" tone="brand" size="md" trailingIcon={<ArrowRight size={16} />}>
                   Voir mon résultat
                 </Button>
               </div>
@@ -587,7 +587,7 @@ export const MarketingDiagnostic: React.FC = () => {
                     <p role="alert" className="font-body text-body-sm font-bold text-danger-strong m-0">{leadError}</p>
                   )}
                   <div className="pt-stack-xs">
-                    <Button type="submit" variant="primary" size="lg" fullWidth disabled={sending} trailingIcon={<ArrowRight size={18} />}>
+                    <Button type="submit" emphasis="solid" tone="brand" size="lg" fullWidth disabled={sending} trailingIcon={<ArrowRight size={18} />}>
                       {sending ? 'Envoi en cours…' : 'Débloquer mon rapport complet'}
                     </Button>
                   </div>
@@ -668,7 +668,8 @@ export const MarketingDiagnostic: React.FC = () => {
                       finir son diagnostic devait le retrouver à la main. */}
                   <Button
                     to="/website/contact?sujet=D%C3%A9briefing%20diagnostic"
-                    variant="primary"
+                    emphasis="solid"
+                    tone="brand"
                     size="lg"
                     trailingIcon={<ArrowRight size={18} />}
                   >

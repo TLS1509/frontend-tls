@@ -83,7 +83,7 @@ const Hero: React.FC = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs">
-            <Button to="/website/contact" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+            <Button to="/website/contact" emphasis="solid" tone="brand" size="lg" trailingIcon={<ArrowRight size={18} />}>
               Cadrer un projet d'upskilling
             </Button>
             <Button to="/website/learning-app" variant="ghost" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
@@ -397,7 +397,7 @@ const CtaFinal: React.FC = () => (
               dispositif qui correspond à vos équipes.
             </p>
             <div className="pt-stack-xs">
-              <Button to="/website/contact" variant="primary" size="xl" trailingIcon={<ArrowRight size={20} />}>
+              <Button to="/website/contact" emphasis="solid" tone="brand" size="xl" trailingIcon={<ArrowRight size={20} />}>
                 Planifier un échange de cadrage
               </Button>
             </div>

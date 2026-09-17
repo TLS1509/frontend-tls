@@ -195,7 +195,7 @@ export const SessionCard: React.FC<SessionCardProps> = ({
           {onOpen && (
             <Button
               size="sm"
-              emphasis="solid"
+              emphasis="soft"
               tone={isCompleted ? 'neutral' : 'brand'}
               onClick={onOpen}
               trailingIcon={<ArrowRight />}

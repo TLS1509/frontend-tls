@@ -133,7 +133,7 @@ const Hero: React.FC = () => {
               de poste et installer des copilotes IA là où le travail se fait.
             </p>
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs">
-              <Button href="#stride-etapes" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+              <Button href="#stride-etapes" emphasis="solid" tone="brand" size="lg" trailingIcon={<ArrowRight size={18} />}>
                 Découvrir les six étapes
               </Button>
               <Button to="/website/methode" variant="ghost" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
@@ -394,7 +394,7 @@ const CtaFinal: React.FC = () => (
               Un premier échange suffit à voir ce qu'elle donnerait chez vous.
             </p>
             <div className="flex flex-wrap items-center gap-stack-xs">
-              <Button to="/website/contact" variant="secondary" size="xl" trailingIcon={<ArrowRight size={20} />}>
+              <Button to="/website/contact" emphasis="solid" tone="warm" size="xl" trailingIcon={<ArrowRight size={20} />}>
                 Parler de votre contexte
               </Button>
               <Button to="/website/upskilling" variant="glass" size="xl" trailingIcon={<ArrowUpRight size={20} />}>

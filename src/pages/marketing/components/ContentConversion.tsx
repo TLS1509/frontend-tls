@@ -49,7 +49,7 @@ export const DiagnosticInlineCta: React.FC = () => (
       </div>
     </div>
     <div className="w-fit">
-      <Button to="/website/diagnostic" variant="primary" size="md" trailingIcon={<ArrowRight size={16} />}>
+      <Button to="/website/diagnostic" emphasis="solid" tone="brand" size="md" trailingIcon={<ArrowRight size={16} />}>
         Lancer l'autodiagnostic
       </Button>
     </div>
@@ -123,7 +123,7 @@ export const VigieSignupBanner: React.FC<{ source?: string }> = ({ source = 'vig
           placeholder="Votre email professionnel"
           className="h-12 flex-1 rounded-lg border border-ink-200 bg-white px-5 font-body text-body text-ink-900 placeholder:text-ink-500 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
         />
-        <Button type="submit" variant="primary" size="lg" disabled={sending} trailingIcon={<ArrowRight size={18} />}>
+        <Button type="submit" emphasis="solid" tone="brand" size="lg" disabled={sending} trailingIcon={<ArrowRight size={18} />}>
           {sending ? 'Envoi en cours…' : "S'abonner"}
         </Button>
       </form>

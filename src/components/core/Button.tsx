@@ -6,12 +6,13 @@ import { Link } from 'react-router-dom';
  * Règles d'usage : docs/_canon/REGLES-USAGE-COMPOSANTS.md
  * (design-system/spec.json supprimé le 2026-07-22 : jamais importé, périmé.)
  *
- * A single action trigger. Pill shape, clear hierarchy:
- *   - primary:           one per screen, main task (teal #4A8FA1)
- *   - secondary:         alternative actions / warm CTA (orange #ED843A)
- *   - accent:            celebration / highlight (yellow #DF9E3D)
- *   - ghost:             soft brand action (light teal bg, very subtle border)
- *   - outline:          transparent bg + visible teal border (mid-weight between ghost and primary)
+ * A single action trigger. Hiérarchie depuis le 2026-09-17 (option D — l'app
+ * n'a plus de remplissage plein ; les noms disent le RÔLE, pas la recette) :
+ *   - primary:           l'action principale, une par écran — TINTED teal
+ *   - secondary:         action principale warm — TINTED orange
+ *   - accent:            célébration / highlight — TINTED or
+ *   - ghost:             action secondaire — OUTLINE teal (≡ outline, le temps du renommage)
+ *   - outline:          transparent bg + visible teal border
  *   - outline-warm:     transparent bg + visible orange border
  *   - destructive:       delete / irreversible
  *   - glass:             on DARK tinted/gradient surfaces (text-white, semi-transparent)
@@ -205,26 +206,28 @@ const RAYON_CERCLE = 'rounded-pill';
 // le curseur, et n'existait pas sur mobile — où vivent 84 % des boutons. Le
 // retour tactile passe désormais par le seul `active:scale-[0.98]`, visible lui
 // au doigt comme à la souris.
+/* ═══ LA BASCULE DU 2026-09-17 — l'app abandonne le solid ═══════════════════
+   Verdict de Chloé (banc, décision `a2-contrat-solid`, option D) : plus de
+   remplissage plein dans l'app. Les NOMS de rôle restent — primary = l'action
+   principale, ghost = la secondaire — mais le NIVEAU rendu change dessous :
+   le principal est TINTED (fond doux du ton + filet fermé, labels au 800 :
+   6,31 / 8,63 / 7,22 mesurés — mieux que tout blanc-sur-plein, 3,66 au mieux),
+   la secondaire est OUTLINE. Le solid survit dans la grille emphasis×tone
+   (marketing via emphasis="solid", destructive, verre onDark).
+   ⚠️ `ghost` ≡ `outline` le temps de la passe de renommage (décision
+   `variantes-sans-usage`, option A) qui dépréciera les noms historiques. */
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
-  primary:     'bg-primary-600 text-white shadow-sm hover:shadow-brand-md hover:bg-primary-500 active:bg-primary-800 active:shadow-sm',
-  secondary:   'bg-secondary-500 text-white shadow-sm hover:shadow-warm-md hover:bg-secondary-400 active:bg-secondary-700 active:shadow-sm',
-  accent:      'bg-accent-500 text-white shadow-sm hover:shadow-sun-md hover:bg-accent-400 active:bg-accent-600 active:shadow-sm',
-  /* ghost — le fond doux, filet fermé.
-
-     C'est la variante la plus employée de l'app : 191 des 495 boutons du produit,
-     devant `primary`. Son filet vivait au cran 100, à 1,05 de contraste avec le
-     blanc — invisible. Le bouton se lisait, mais rien n'annonçait que c'en était
-     un, ce que WCAG 1.4.11 réclame à 3,0 pour le contour d'un composant.
-
-     Tranché le 2026-09-09 : le filet passe au cran 600 (3,66) et reste à 1 px.
-     La règle ne dit rien de l'épaisseur, seulement de la couleur — un trait fin
-     au bon cran passe comme un trait épais, et le bouton ne s'alourdit pas.
-     Il n'y avait d'ailleurs pas d'entre-deux : `primary-500`, le teal de la
-     signature, mesure 2,94 et rate le seuil de six centièmes.
-
-     Le label reste au cran 800, à 6,31 sur ce fond — le meilleur contraste de
-     texte de toutes les pistes examinées, remplissages saturés compris. */
-  ghost:       'bg-primary-50 text-primary-800 border border-primary-600 shadow-xs hover:bg-primary-100 hover:border-primary-700 hover:shadow-sm active:bg-primary-200 active:border-primary-800',
+  /* principal brand — tinted teal (l'ancien ghost). Filet au 600 : tranché le
+     09/09 — 3,66 sur blanc, seul cran conforme WCAG 1.4.11 ; label au 800. */
+  primary:     'bg-primary-50 text-primary-800 border border-primary-600 shadow-xs hover:bg-primary-100 hover:border-primary-700 hover:shadow-sm active:bg-primary-200 active:border-primary-800',
+  /* principal warm — tinted orange (l'ancien glass-warm, sans le flou inutile
+     sur fond clair). Filet 600 (3,98), label 800 (8,63). */
+  secondary:   'bg-secondary-100/70 text-secondary-800 border border-secondary-600 shadow-xs hover:bg-secondary-100 hover:border-secondary-700 active:bg-secondary-200 active:border-secondary-700',
+  /* principal sun — tinted or. L'or monte au 700 : son 600 rate le contour
+     (2,89) ; label 800 (7,22). */
+  accent:      'bg-accent-100/70 text-accent-800 border border-accent-700 shadow-xs hover:bg-accent-100 hover:border-accent-800 active:bg-accent-200 active:border-accent-800',
+  /* secondaire — outline (l'ancien rôle du ghost descend d'un niveau). */
+  ghost:       'bg-transparent text-primary-700 border border-primary-600 shadow-xs hover:bg-primary-50 hover:border-primary-700 hover:shadow-sm active:bg-primary-100 active:border-primary-700',
   /* outline : transparent bg + visible colored border — mid-weight between ghost and primary
      ⚠️ La bordure est à 600, PAS à 400/500. Mesuré le 2026-07-31 : sur blanc,
      `primary-400` = 2,44 et `primary-500` = 2,94, tous deux sous le seuil de
@@ -365,44 +368,15 @@ const EMPHASIS_TONE: Record<ButtonEmphasis, Partial<Record<ButtonTone, string>>>
 };
 
 /** Sur surface sombre, `solid` bascule sur le traitement translucide existant. */
-/* ── PRÉVIZ « option D » (banc d'audit, décision 1) — DEV UNIQUEMENT ─────────
-   Interrupteur de prévisualisation demandé par Chloé le 17/09 pour VOIR l'app
-   sans remplissages pleins avant de trancher : l'action principale passe en
-   tinted, la secondaire en outline. Ne touche ni `destructive` ni le verre.
-   Activation dans la console du navigateur :
-     localStorage.setItem('tls-option-d', '1'); location.reload()
-   Retour à l'état réel :
-     localStorage.removeItem('tls-option-d'); location.reload()
-   `import.meta.env.DEV` garantit que le bloc est éliminé du build de prod.
-   ⚠️ À SUPPRIMER une fois la décision 1 tranchée au banc. */
-const OPTION_D_ACTIVE = (): boolean => {
-  if (!import.meta.env.DEV || typeof window === 'undefined') return false;
-  try {
-    if (window.location.search.includes('optionD=1')) window.localStorage.setItem('tls-option-d', '1');
-    if (window.location.search.includes('optionD=0')) window.localStorage.removeItem('tls-option-d');
-    return window.localStorage.getItem('tls-option-d') === '1';
-  } catch { return false; }
-};
-/** Exposé pour les CTA faits main (ParcoursCard…) afin que la préviz couvre
-    aussi les affordances hors <Button>. DEV uniquement, comme le reste. */
-export const apercuOptionD = OPTION_D_ACTIVE;
-const OPTION_D_REMAP: Partial<Record<ButtonVariant, ButtonVariant>> = {
-  primary: 'ghost',        // principal → tinted teal
-  ghost: 'outline',        // l'actuel secondaire descend d'un niveau
-  secondary: 'glass-warm', // principal warm → tinted warm
-  accent: 'glass-sun',     // principal sun → tinted sun
-};
-
+/* L'interrupteur de prévisualisation « option D » (17/09) a été RETIRÉ le jour
+   même : le verdict est rendu (banc, décision `a2-contrat-solid`, option D) et
+   la bascule est devenue permanente dans VARIANT_CLASSES ci-dessus. */
 const resolveClasses = (
   variant: ButtonVariant,
   emphasis: ButtonEmphasis | undefined,
   tone: ButtonTone,
   onDark: boolean,
 ): string => {
-  if (OPTION_D_ACTIVE()) {
-    if (emphasis === 'solid') emphasis = 'soft';
-    else if (!emphasis) variant = OPTION_D_REMAP[variant] ?? variant;
-  }
   if (!emphasis) return VARIANT_CLASSES[variant];
   if (onDark && emphasis === 'solid') return VARIANT_CLASSES.glass;
   return EMPHASIS_TONE[emphasis][tone] ?? EMPHASIS_TONE[emphasis].brand ?? VARIANT_CLASSES.primary;

@@ -163,7 +163,7 @@ export const MarketingGuideDetail: React.FC = () => {
                     {error && (
                       <span className="font-body text-caption text-danger-fg">{error}</span>
                     )}
-                    <Button type="submit" variant="primary" size="lg" loading={loading} trailingIcon={<ArrowRight size={16} />}>
+                    <Button type="submit" emphasis="solid" tone="brand" size="lg" loading={loading} trailingIcon={<ArrowRight size={16} />}>
                       Télécharger le PDF
                     </Button>
                     <span className="inline-flex items-center gap-stack-2xs font-body text-micro text-ink-500">
@@ -188,7 +188,7 @@ export const MarketingGuideDetail: React.FC = () => {
                         Votre téléchargement est prêt. Vous recevrez aussi une copie du lien par email.
                       </span>
                     </div>
-                    <Button href={guide.fileUrl} download variant="primary" size="lg" className="w-full" trailingIcon={<Download size={16} />}>
+                    <Button href={guide.fileUrl} download emphasis="solid" tone="brand" size="lg" className="w-full" trailingIcon={<Download size={16} />}>
                       Télécharger maintenant
                     </Button>
                   </motion.div>

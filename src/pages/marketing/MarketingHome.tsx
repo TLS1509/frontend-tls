@@ -99,7 +99,7 @@ const Hero: React.FC = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs">
-            <Button to="/website/contact" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+            <Button to="/website/contact" emphasis="solid" tone="brand" size="lg" trailingIcon={<ArrowRight size={18} />}>
               Échanger sur votre projet SBO
             </Button>
             <Button to="/website/diagnostic" variant="ghost" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
@@ -452,7 +452,7 @@ const DoubleCta: React.FC = () => {
                 </p>
                 <div className="flex flex-col gap-group">
                   <div>
-                    <Button to="/website/contact" variant="secondary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                    <Button to="/website/contact" emphasis="solid" tone="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
                       Planifier un échange de 30 min
                     </Button>
                   </div>
@@ -500,7 +500,7 @@ const DoubleCta: React.FC = () => {
                     placeholder="Votre email professionnel"
                     className="h-12 w-full rounded-lg border border-white/25 bg-white/10 px-5 font-body text-body text-white placeholder:text-white/55 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-400"
                   />
-                  <Button type="submit" variant="secondary" size="lg" fullWidth disabled={sending} trailingIcon={<ArrowRight size={18} />}>
+                  <Button type="submit" emphasis="solid" tone="warm" size="lg" fullWidth disabled={sending} trailingIcon={<ArrowRight size={18} />}>
                     {sending ? 'Envoi en cours…' : "S'abonner à La Vigie IA"}
                   </Button>
                   <Link

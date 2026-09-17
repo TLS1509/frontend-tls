@@ -104,7 +104,7 @@ const Hero: React.FC = () => {
           </ul>
 
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs">
-            <Button to="/website/contact" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+            <Button to="/website/contact" emphasis="solid" tone="brand" size="lg" trailingIcon={<ArrowRight size={18} />}>
               Parler de votre périmètre
             </Button>
             <Button to="/website/studio" variant="ghost" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
@@ -279,7 +279,7 @@ const CtaFinal: React.FC = () => (
             franchement si ce n'est pas le cas.
           </p>
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs pt-stack-xs">
-            <Button to="/website/contact" variant="primary" size="xl" trailingIcon={<ArrowRight size={20} />}>
+            <Button to="/website/contact" emphasis="solid" tone="brand" size="xl" trailingIcon={<ArrowRight size={20} />}>
               Cadrer votre Sprint
             </Button>
             <Button to="/website/diagnostic" variant="ghost" size="xl" trailingIcon={<ArrowUpRight size={20} />}>

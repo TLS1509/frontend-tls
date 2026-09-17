@@ -81,7 +81,7 @@ const Hero: React.FC = () => {
             trace vivante de ce qui est réellement maîtrisé.
           </p>
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs">
-            <Button to="/website/contact" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+            <Button to="/website/contact" emphasis="solid" tone="brand" size="lg" trailingIcon={<ArrowRight size={18} />}>
               Réserver une démonstration
             </Button>
             <Button href="#bibliotheque" variant="ghost" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
@@ -605,7 +605,7 @@ const CtaFinal: React.FC = () => (
               modalités se cadrent ensuite ensemble, selon votre contexte.
             </p>
             <div className="flex flex-wrap items-center gap-stack-xs pt-stack">
-              <Button to="/website/contact" variant="secondary" size="xl" trailingIcon={<ArrowRight size={20} />}>
+              <Button to="/website/contact" emphasis="solid" tone="warm" size="xl" trailingIcon={<ArrowRight size={20} />}>
                 Réserver une démonstration
               </Button>
               <Button to="/website/diagnostic" variant="glass" size="xl" trailingIcon={<ArrowUpRight size={20} />}>

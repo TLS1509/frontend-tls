@@ -380,7 +380,7 @@ export const MarketingHeader: React.FC = () => {
             {/* Desktop CTA — magnetic, flattened (plain trailing icon, no
                 nested icon-button treatment) */}
             <div className="shrink-0 pl-1">
-              <Button to="/auth/login" variant="primary" size="md" trailingIcon={<ArrowRight size={16} />}>
+              <Button to="/auth/login" emphasis="solid" tone="brand" size="md" trailingIcon={<ArrowRight size={16} />}>
                 Connexion
               </Button>
             </div>
@@ -538,7 +538,7 @@ export const MarketingHeader: React.FC = () => {
                     })}
                 className="mt-stack-lg"
               >
-                <Button to="/auth/login" variant="primary" size="lg" fullWidth trailingIcon={<ArrowRight size={18} />}>
+                <Button to="/auth/login" emphasis="solid" tone="brand" size="lg" fullWidth trailingIcon={<ArrowRight size={18} />}>
                   Connexion
                 </Button>
               </motion.div>

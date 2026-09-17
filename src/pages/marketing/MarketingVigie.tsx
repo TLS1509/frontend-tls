@@ -132,7 +132,7 @@ export const MarketingVigie: React.FC = () => {
                       placeholder="Votre email professionnel"
                       className="h-12 flex-1 rounded-lg border border-ink-200 bg-white px-5 font-body text-body text-ink-900 placeholder:text-ink-500 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                     />
-                    <Button type="submit" variant="primary" size="lg" disabled={sending} trailingIcon={<ArrowRight size={18} />}>
+                    <Button type="submit" emphasis="solid" tone="brand" size="lg" disabled={sending} trailingIcon={<ArrowRight size={18} />}>
                       {sending ? 'Envoi en cours…' : "S'abonner"}
                     </Button>
                   </form>

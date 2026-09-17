@@ -132,10 +132,10 @@ export const MarketingError404: React.FC = () => {
         >
           {/* `to` et non `window.location.href` : ce dernier rechargeait toute
               l'application au lieu de naviguer côté client. */}
-          <Button size="lg" to="/website" trailingIcon={<ArrowRight size={18} />}>
+          <Button size="lg" emphasis="solid" tone="brand" to="/website" trailingIcon={<ArrowRight size={18} />}>
             Retour à l'accueil
           </Button>
-          <Button size="lg" variant="secondary" to="/website/contact">
+          <Button size="lg" emphasis="solid" tone="warm" to="/website/contact">
             Nous contacter
           </Button>
         </motion.div>
