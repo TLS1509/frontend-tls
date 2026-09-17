@@ -34,7 +34,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   className = '',
 }) => {
   const containerClasses = [
-    'flex flex-col items-center text-center px-6 py-14 gap-stack rounded-2xl bg-ink-50/40 border border-dashed border-ink-200',
+    'flex flex-col items-center text-center px-6 py-14 gap-stack rounded-xl bg-ink-50/40 border border-dashed border-ink-200',
     className,
   ]
     .filter(Boolean)

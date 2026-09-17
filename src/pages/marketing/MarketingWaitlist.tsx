@@ -257,7 +257,7 @@ export const MarketingWaitlist: React.FC = () => {
               className="w-full lg:max-w-md lg:ml-auto"
             >
               {/* Double-bezel card (consistent with /inscription) */}
-              <div className="bg-white border border-primary-100 rounded-2xl p-2 shadow-brand-md">
+              <div className="bg-white border border-primary-100 rounded-xl p-2 shadow-brand-md">
                 <div className="bg-primary-50/60 border border-primary-100 rounded-[18px] p-6 md:p-8">
 
                   <AnimatePresence mode="wait">
@@ -527,7 +527,7 @@ export const MarketingWaitlist: React.FC = () => {
             ].map((card) => (
               <div
                 key={card.eyebrow}
-                className={`rounded-2xl border p-6 flex flex-col gap-stack-sm ${card.tone}`}
+                className={`rounded-xl border p-6 flex flex-col gap-stack-sm ${card.tone}`}
               >
                 <span className={`font-display font-bold text-body-sm uppercase tracking-widest ${card.eyebrowColor}`}>
                   {card.eyebrow}

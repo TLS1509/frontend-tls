@@ -202,7 +202,7 @@ export const StepCard: React.FC<StepCardProps> = ({
       )}
 
       {isLocked && (
-        <div className="absolute inset-0 flex items-center justify-center rounded-2xl bg-white/80 backdrop-blur-sm pointer-events-none">
+        <div className="absolute inset-0 flex items-center justify-center rounded-xl bg-white/80 backdrop-blur-sm pointer-events-none">
           <div className="inline-flex items-center gap-stack-xs px-4 py-2 rounded-pill bg-ink-100 text-ink-700 font-semibold border border-ink-200">
             <Lock size={16} /> Étape verrouillée
           </div>

@@ -258,7 +258,7 @@ export const Dossier: React.FC = () => {
                     ))}
                   </div>
 
-                  <div className="bg-ink-50 border border-dashed border-ink-200 rounded-2xl h-[200px] flex flex-col items-center justify-center gap-stack-xs text-ink-500">
+                  <div className="bg-ink-50 border border-dashed border-ink-200 rounded-xl h-[200px] flex flex-col items-center justify-center gap-stack-xs text-ink-500">
                     <BarChart2 size={32} className="opacity-50" />
                     <span className="font-body text-body-sm">
                       Graphique : Évolution de l'adoption IA en formation (2023–2026)
@@ -272,7 +272,7 @@ export const Dossier: React.FC = () => {
                     05 : Conclusions & recommandations
                   </h2>
 
-                  <div className="rounded-2xl bg-gradient-to-br from-primary-600 to-primary-700 p-stack-lg sm:p-section text-white">
+                  <div className="rounded-xl bg-gradient-to-br from-primary-600 to-primary-700 p-stack-lg sm:p-section text-white">
                     <div className="flex items-center gap-stack-xs mb-stack">
                       <CheckCircle2 size={20} className="text-white/80" />
                       <span className="font-body text-caption font-bold text-white/80 uppercase tracking-wider">

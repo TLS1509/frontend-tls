@@ -85,7 +85,7 @@ export const AccountFamilyNav: React.FC<AccountFamilyNavProps> = ({
     <nav
       aria-label="Navigation compte"
       className={[
-        'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-stack-xs p-2 rounded-2xl bg-ink-50 border border-ink-100',
+        'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-stack-xs p-2 rounded-xl bg-ink-50 border border-ink-100',
         className,
       ].join(' ')}
     >

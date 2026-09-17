@@ -239,7 +239,7 @@ export const SearchFilters: React.FC<SearchFiltersProps> = ({
         {panelOpen && (
           <div
             className={[
-              'flex flex-wrap items-center gap-stack-xs p-2.5 rounded-2xl',
+              'flex flex-wrap items-center gap-stack-xs p-2.5 rounded-xl',
               'bg-white/70 backdrop-blur-glass-light border border-white/60',
               'shadow-[0_8px_24px_-8px_rgba(85,161,180,0.18)]',
               'animate-[filterIn_0.18s_ease]',

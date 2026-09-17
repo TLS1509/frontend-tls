@@ -384,7 +384,7 @@ export const LearningPathDetail: React.FC = () => {
                   <div
                     key={etape.id}
                     className={[
-                      'rounded-2xl border-2 overflow-hidden transition-colors',
+                      'rounded-xl border-2 overflow-hidden transition-colors',
                       etape.unlocked ? 'bg-white' : 'bg-ink-50',
                       stepBorderClass,
                     ].join(' ')}

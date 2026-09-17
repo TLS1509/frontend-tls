@@ -32,7 +32,7 @@ import { submitForm } from '../utils/submitForm';
 export const DiagnosticInlineCta: React.FC = () => (
   <aside
     aria-label="Évaluer la maturité de votre organisation"
-    className="my-stack-lg flex flex-col gap-stack rounded-2xl bg-primary-50 p-stack-lg sm:p-section"
+    className="my-stack-lg flex flex-col gap-stack rounded-xl bg-primary-50 p-stack-lg sm:p-section"
   >
     <div className="flex items-start gap-stack">
       <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-100 text-primary-700">

@@ -487,7 +487,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
     : 'Développement professionnel personnalisé selon tes objectifs';
 
   return (
-    <div className="rounded-2xl bg-white/75 backdrop-blur-glass-medium border border-white/60 shadow-card overflow-hidden">
+    <div className="rounded-xl bg-white/75 backdrop-blur-glass-medium border border-white/60 shadow-card overflow-hidden">
 
       {/* Segmented progress */}
       <div className="flex h-1 gap-px bg-ink-100" aria-hidden>

@@ -234,7 +234,7 @@ export const Coaching: React.FC = () => {
               - coach + pas session → empty state "Réserver une session"
               - coach + session     → upcoming session card */}
           {!coachAssigned ? (
-            <Card variant="tinted" tone="primary" className="!p-0 !rounded-2xl !gap-0">
+            <Card variant="tinted" tone="primary" className="!p-0 !gap-0">
               <div className="p-section lg:p-section-lg flex flex-col items-center text-center gap-stack-lg">
                 <span className="inline-flex items-center justify-center w-16 h-16 rounded-pill bg-white/70 backdrop-blur-glass-light text-primary-500 shadow-sm">
                   <CalendarPlus size={28} strokeWidth={1.75} />
@@ -260,7 +260,7 @@ export const Coaching: React.FC = () => {
             <Card
               variant="tinted"
               tone="primary"
-              className="!p-0 !rounded-2xl !gap-0"
+              className="!p-0 !gap-0"
             >
               <div className="p-stack-lg lg:p-section flex flex-col gap-stack-lg">
                 <div className="flex flex-wrap items-start justify-between gap-stack-xs">
@@ -336,7 +336,7 @@ export const Coaching: React.FC = () => {
             <Card
               variant="tinted"
               tone="primary"
-              className="!p-0 !rounded-2xl !gap-0"
+              className="!p-0 !gap-0"
             >
               <div className="p-section lg:p-section-lg flex flex-col items-center text-center gap-stack-lg">
                 <span className="inline-flex items-center justify-center w-16 h-16 rounded-pill bg-white/70 backdrop-blur-glass-light text-primary-500 shadow-sm">

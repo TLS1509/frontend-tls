@@ -187,7 +187,7 @@ const Moteur: React.FC = () => (
       </div>
 
       <FadeInWhenVisible delay={0.1}>
-        <div className="rounded-2xl overflow-hidden ring-1 ring-ink-200 shadow-card-lift bg-white">
+        <div className="rounded-xl overflow-hidden ring-1 ring-ink-200 shadow-card-lift bg-white">
           <InteractiveAppMockup />
         </div>
       </FadeInWhenVisible>
@@ -431,7 +431,7 @@ const Bibliotheque: React.FC = () => {
 
         {/* Matrice Dreyfus */}
         <FadeInWhenVisible>
-          <div className="overflow-x-auto rounded-2xl ring-1 ring-ink-200">
+          <div className="overflow-x-auto rounded-xl ring-1 ring-ink-200">
             <table className="w-full min-w-[560px] border-collapse text-left">
               <caption className="sr-only">Matrice d'évaluation : échelle Dreyfus D1 à D5</caption>
               <thead>

@@ -319,7 +319,7 @@ export const Profile: React.FC = () => {
                   {ACTIVITY.length} événements
                 </span>
               </div>
-              <div className="rounded-2xl border border-ink-100 bg-white overflow-hidden">
+              <div className="rounded-xl border border-ink-100 bg-white overflow-hidden">
                 {ACTIVITY.map((a, idx) => (
                   <div
                     key={a.id}

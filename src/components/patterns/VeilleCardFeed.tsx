@@ -264,7 +264,7 @@ export const VeilleCardListItem: React.FC<VeilleCardProps> = ({ item, surface, i
       ].join(' ')}
     >
       {/* Cover gradient left — badge catégorie overlaid en bas */}
-      <div className={['relative w-28 @lg:w-36 shrink-0 overflow-hidden rounded-l-2xl', COVER_GRADIENT[tone]].join(' ')}>
+      <div className={['relative w-28 @lg:w-36 shrink-0 overflow-hidden', COVER_GRADIENT[tone]].join(' ')}>
         <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'radial-gradient(circle at 30% 40%, rgba(255,255,255,0.6) 0%, transparent 60%)' }} aria-hidden />
         <div className="absolute inset-0 flex items-center justify-center">
           <TypeIcon size={40} strokeWidth={1.5} className="text-white/95 transition-transform duration-base group-hover:scale-110" />

@@ -67,7 +67,7 @@ export default function AtelierLive() {
           {/* Zone player : col span 2 */}
           <div className="md:col-span-2 flex flex-col gap-section">
             {/* Video placeholder */}
-            <Card variant="default" className="aspect-video flex flex-col items-center justify-center bg-ink-900 rounded-2xl gap-section">
+            <Card variant="default" className="aspect-video flex flex-col items-center justify-center bg-ink-900 gap-section">
               <Video size={48} className="text-white/40" />
               <Button
                 variant="glass"

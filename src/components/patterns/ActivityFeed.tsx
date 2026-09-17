@@ -308,7 +308,7 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
     return (
       <div
         className={[
-          'flex items-center justify-center px-6 py-12 rounded-2xl bg-ink-50/50 border border-dashed border-ink-200',
+          'flex items-center justify-center px-6 py-12 rounded-xl bg-ink-50/50 border border-dashed border-ink-200',
           className,
         ]
           .filter(Boolean)

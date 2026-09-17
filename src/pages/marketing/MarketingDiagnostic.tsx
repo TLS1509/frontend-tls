@@ -352,7 +352,7 @@ export const MarketingDiagnostic: React.FC = () => {
                   return (
                     <div
                       key={k}
-                      className={`flex h-full flex-col justify-between gap-stack-lg rounded-2xl border bg-white p-stack-lg ${b.accent.border}`}
+                      className={`flex h-full flex-col justify-between gap-stack-lg rounded-xl border bg-white p-stack-lg ${b.accent.border}`}
                     >
                       <div className="flex flex-col gap-stack">
                         <div className="flex items-center justify-between">
@@ -422,7 +422,7 @@ export const MarketingDiagnostic: React.FC = () => {
                       role="radio"
                       aria-checked={selected}
                       onClick={() => selectOption(vi)}
-                      className={`flex min-h-touch items-start gap-stack rounded-2xl border-2 p-stack text-left transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
+                      className={`flex min-h-touch items-start gap-stack rounded-xl border-2 p-stack text-left transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                         selected
                           ? bank.accent.optSelected
                           : 'border-ink-200 bg-white text-ink-800 hover:bg-ink-50'

@@ -75,7 +75,7 @@ export const RatingModal: React.FC<RatingModalProps> = ({
                 className={[
                   'inline-flex items-center justify-center w-14 h-14 rounded-2xl border-0 bg-transparent cursor-pointer transition-all duration-200',
                   'hover:scale-115 active:scale-95',
-                  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-md',
+                  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                   'disabled:cursor-not-allowed disabled:opacity-50',
                   isActive ? 'text-accent-400' : 'text-ink-200 hover:text-accent-300',
                 ].join(' ')}

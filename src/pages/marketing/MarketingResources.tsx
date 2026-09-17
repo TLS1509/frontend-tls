@@ -190,11 +190,11 @@ const badgeTone = (item: ResourceItem) =>
 const FeaturedCard: React.FC<{ item: ResourceItem }> = ({ item }) => {
   return (
   <FadeInWhenVisible>
-    <Link to={item.href} className="group block rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">
+    <Link to={item.href} className="group block rounded-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">
       {/* Survol : filet seul (règle 16/09) — le fond de cette carte est un dégradé
           opaque, une teinte hover:bg-* serait peinte dessous, donc invisible. */}
       <div
-        className={`relative rounded-2xl bg-gradient-to-br ${item.cover} border border-ink-200 hover:border-ink-300 h-full overflow-hidden flex flex-col transition-colors duration-base`}
+        className={`relative rounded-xl bg-gradient-to-br ${item.cover} border border-ink-200 hover:border-ink-300 h-full overflow-hidden flex flex-col transition-colors duration-base`}
       >
         {/* Image background */}
         <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-transparent pointer-events-none" />
@@ -242,9 +242,9 @@ const ResourceCard: React.FC<{ item: ResourceItem; index: number }> = ({ item, i
   const Icon = TYPE_ICON[item.type];
   return (
     <FadeInWhenVisible direction="up" delay={index * 0.05}>
-      <Link to={item.href} className="group block h-full rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">
+      <Link to={item.href} className="group block h-full rounded-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">
         <article
-          className={`h-full bg-white border border-ink-100 rounded-2xl overflow-hidden flex flex-col ${CARD_HOVER.primary} transition-colors duration-base`}
+          className={`h-full bg-white border border-ink-100 rounded-xl overflow-hidden flex flex-col ${CARD_HOVER.primary} transition-colors duration-base`}
         >
           {/* Image placeholder */}
           <div className={`relative h-40 bg-gradient-to-br ${item.cover} flex items-center justify-center overflow-hidden`}>

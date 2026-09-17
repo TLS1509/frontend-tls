@@ -82,7 +82,7 @@ export const AstucesCard: React.FC<AstucesCardProps> = ({
     </div>
 
     {/* Hero image */}
-    <div className="rounded-2xl overflow-hidden mb-3 shadow-md aspect-video sm:aspect-[3/1]">
+    <div className="rounded-xl overflow-hidden mb-3 shadow-md aspect-video sm:aspect-[3/1]">
       <img src={image} alt="" className="w-full h-full object-cover" loading="lazy" />
     </div>
 

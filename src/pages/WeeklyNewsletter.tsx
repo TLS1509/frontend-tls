@@ -140,7 +140,7 @@ export const WeeklyNewsletter: React.FC = () => {
 
           <article
             onClick={() => navigate('/veille/video-tutorial/1')}
-            className={`grid grid-cols-1 md:grid-cols-[3fr_2fr] rounded-2xl overflow-hidden border border-ink-100 cursor-pointer ${CARD_HOVER_NEUTRE} transition-colors duration-base`}
+            className={`grid grid-cols-1 md:grid-cols-[3fr_2fr] rounded-xl overflow-hidden border border-ink-100 cursor-pointer ${CARD_HOVER_NEUTRE} transition-colors duration-base`}
           >
             {/* Thumbnail */}
             <div className="relative aspect-video md:aspect-auto md:min-h-[260px] bg-gradient-to-br from-ink-900 via-primary-900 to-ink-800 flex items-center justify-center">
@@ -183,7 +183,7 @@ export const WeeklyNewsletter: React.FC = () => {
                 <article
                   key={article.id}
                   onClick={() => navigate('/veille/weekly-news/1')}
-                  className={`rounded-2xl overflow-hidden border border-ink-100 cursor-pointer ${CARD_HOVER_NEUTRE} transition-colors duration-base`}
+                  className={`rounded-xl overflow-hidden border border-ink-100 cursor-pointer ${CARD_HOVER_NEUTRE} transition-colors duration-base`}
                 >
                   <div className={`h-28 flex items-end p-3 ${tone.cover}`}>
                     <span className={`inline-flex px-2.5 py-1 rounded-pill text-micro font-bold backdrop-blur-glass-light ${tone.chip}`}>
@@ -209,7 +209,7 @@ export const WeeklyNewsletter: React.FC = () => {
           <h2 className="font-display text-h3 font-bold text-ink-900 tracking-tight">
             Toutes les actus
           </h2>
-          <div className="flex flex-col rounded-2xl border border-ink-100 overflow-hidden">
+          <div className="flex flex-col rounded-xl border border-ink-100 overflow-hidden">
             {ALL_ARTICLES.map((article, idx) => {
               const isSaved = savedArticles.has(article.id);
               return (
@@ -260,7 +260,7 @@ export const WeeklyNewsletter: React.FC = () => {
         {/* Newsletter signup */}
         <section
           aria-label="Inscription newsletter"
-          className="rounded-2xl bg-gradient-to-br from-primary-600 to-primary-700 p-section sm:p-section-lg text-white flex flex-col items-center text-center gap-stack"
+          className="rounded-xl bg-gradient-to-br from-primary-600 to-primary-700 p-section sm:p-section-lg text-white flex flex-col items-center text-center gap-stack"
         >
           <span aria-hidden className="inline-flex items-center justify-center w-14 h-14 rounded-pill bg-white/15 backdrop-blur-glass-light">
             <Mail size={20} />

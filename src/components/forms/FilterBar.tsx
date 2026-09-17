@@ -69,7 +69,7 @@ const TONE_MAP: Record<FilterBarTone, FilterChipTone> = {
 };
 
 const SURFACE: Record<'tinted' | 'plain', string> = {
-  tinted: 'bg-ink-50 border border-ink-100 rounded-2xl p-2',
+  tinted: 'bg-ink-50 border border-ink-100 rounded-xl p-2',
   plain:  '',
 };
 

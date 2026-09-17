@@ -129,7 +129,7 @@ export const MarketingGuideDetail: React.FC = () => {
 
           {/* Form card */}
           <FadeInWhenVisible direction="up" delay={0.05}>
-            <div className={`relative rounded-2xl border p-section-lg flex flex-col gap-stack bg-gradient-to-br ${guide.cover} border-ink-100 shadow-sm`}>
+            <div className={`relative rounded-xl border p-section-lg flex flex-col gap-stack bg-gradient-to-br ${guide.cover} border-ink-100 shadow-sm`}>
               <AnimatePresence mode="wait">
                 {!unlocked ? (
                   <motion.form
@@ -211,7 +211,7 @@ export const MarketingGuideDetail: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
               {related.map((g, i) => (
                 <FadeInWhenVisible key={g.slug} direction="up" delay={i * 0.06}>
-                  <Link to={`/website/guides/${g.slug}`} className="group block h-full rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">
+                  <Link to={`/website/guides/${g.slug}`} className="group block h-full rounded-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">
                     <div className="h-full bg-white border border-ink-100 rounded-lg p-stack-lg flex flex-col gap-stack hover:border-secondary-200 transition-all duration-base">
                       <span className="inline-flex items-center gap-tight font-body text-caption text-ink-500">
                         <FileText size={14} /> {g.pageCount} pages

@@ -90,7 +90,7 @@ export const MarketingVideoDetail: React.FC = () => {
       {/* ── Player + chapters ────────────────────────────────────────────── */}
       <PageShell width="medium" className="bg-white">
         <FadeInWhenVisible direction="up">
-          <div className="aspect-video w-full rounded-2xl bg-gradient-to-br from-primary-900 via-primary-800 to-ink-900 relative flex items-center justify-center overflow-hidden">
+          <div className="aspect-video w-full rounded-xl bg-gradient-to-br from-primary-900 via-primary-800 to-ink-900 relative flex items-center justify-center overflow-hidden">
             <div
               aria-hidden
               className="absolute inset-0"
@@ -157,9 +157,9 @@ export const MarketingVideoDetail: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-stack">
               {related.map((r, i) => (
                 <FadeInWhenVisible key={r.slug} direction="up" delay={i * 0.06}>
-                  <Link to={`/website/videos/${r.slug}`} className="group block h-full rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">
+                  <Link to={`/website/videos/${r.slug}`} className="group block h-full rounded-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">
                     <article
-                      className={`h-full bg-white border border-ink-100 rounded-2xl overflow-hidden flex flex-col ${CARD_HOVER.primary} transition-colors duration-base`}
+                      className={`h-full bg-white border border-ink-100 rounded-xl overflow-hidden flex flex-col ${CARD_HOVER.primary} transition-colors duration-base`}
                     >
                       <div className={`relative h-32 bg-gradient-to-br ${r.cover} flex items-center justify-center`}>
                         <Play size={28} strokeWidth={1.5} className="text-ink-900/30" />

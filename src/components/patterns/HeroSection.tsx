@@ -270,8 +270,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
   // KPI card — glass on light variants, soft bg on dark text variants
   const kpiCardClasses = isLight
-    ? 'flex items-center gap-stack-xs px-4 py-3 rounded-2xl bg-white/15 hover:bg-white/22 backdrop-blur-glass-light transition-colors border border-white/15'
-    : `flex items-center gap-stack-xs px-4 py-3 rounded-2xl ${MINIMAL_BG[tone]} border transition-colors`;
+    ? 'flex items-center gap-stack-xs px-4 py-3 rounded-xl bg-white/15 hover:bg-white/22 backdrop-blur-glass-light transition-colors border border-white/15'
+    : `flex items-center gap-stack-xs px-4 py-3 rounded-xl ${MINIMAL_BG[tone]} border transition-colors`;
 
   const kpiIconBubble = isLight
     ? 'inline-flex items-center justify-center w-10 h-10 rounded-xl bg-white/20 shrink-0'

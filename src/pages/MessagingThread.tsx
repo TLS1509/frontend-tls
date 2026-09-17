@@ -75,7 +75,7 @@ const MessagingThread: React.FC = () => {
               {!m.isMe && <Avatar initials={m.initials} size="sm" />}
               <div className={`max-w-[70%] ${m.isMe ? 'items-end' : 'items-start'} flex flex-col gap-tight`}>
                 <div
-                  className={`px-stack py-3 rounded-2xl ${
+                  className={`px-stack py-3 rounded-xl ${
                     m.isMe
                       ? 'bg-primary-600 text-white rounded-br-[6px]'
                       : 'bg-white border border-ink-200 rounded-bl-[6px]'

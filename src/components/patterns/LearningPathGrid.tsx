@@ -64,7 +64,7 @@ export const LearningPathGrid: React.FC<LearningPathGridProps> = ({
     return (
       <div
         className={[
-          'flex items-center justify-center p-12 rounded-2xl bg-ink-50/50 border border-dashed border-ink-200',
+          'flex items-center justify-center p-12 rounded-xl bg-ink-50/50 border border-dashed border-ink-200',
           className,
         ]
           .filter(Boolean)
@@ -110,7 +110,7 @@ export const LearningPathGrid: React.FC<LearningPathGridProps> = ({
                 onPathClick(path.id);
               }
             }}
-            className="block w-full h-auto p-0 overflow-visible cursor-pointer rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+            className="block w-full h-auto p-0 overflow-visible cursor-pointer rounded-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           >
             {card}
           </div>

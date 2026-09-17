@@ -292,7 +292,7 @@ const Ecosysteme: React.FC = () => (
             <li className="border-t border-ink-200">
               <Link
                 to={o.link}
-                className="group grid grid-cols-1 md:grid-cols-12 gap-group md:gap-flow py-flow rounded-2xl transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-500"
+                className="group grid grid-cols-1 md:grid-cols-12 gap-group md:gap-flow py-flow rounded-xl transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-500"
               >
                 <div className="md:col-span-5 flex flex-col gap-rule">
                   <span className="font-body text-caption font-bold text-secondary-600">
@@ -327,7 +327,7 @@ const Ecosysteme: React.FC = () => (
       <FadeInWhenVisible delay={0.1}>
         <Link
           to="/website/learning-app"
-          className="group flex flex-col sm:flex-row sm:items-end justify-between gap-flow rounded-2xl bg-primary-50 ring-1 ring-primary-100 p-flow transition-colors duration-base hover:bg-primary-100/70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+          className="group flex flex-col sm:flex-row sm:items-end justify-between gap-flow rounded-xl bg-primary-50 ring-1 ring-primary-100 p-flow transition-colors duration-base hover:bg-primary-100/70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
         >
           <div className="flex flex-col gap-group max-w-2xl">
             <h3 className="font-display text-title text-ink-900 [text-wrap:balance]">
@@ -438,7 +438,7 @@ const DoubleCta: React.FC = () => {
     <section>
       <div className={`${SHELL} pb-chapter`}>
         <FadeInWhenVisible>
-          <div className="rounded-2xl bg-ink-900 text-white p-flow sm:p-band">
+          <div className="rounded-xl bg-ink-900 text-white p-flow sm:p-band">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-flow items-start">
               {/* Bloc chaud */}
               <div className="lg:col-span-7 flex flex-col gap-flow">

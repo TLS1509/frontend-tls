@@ -219,7 +219,7 @@ export const MarketingWebinaireDetail: React.FC = () => {
               </div>
             ) : (
               <div className="flex flex-col gap-stack">
-                <div className="aspect-video w-full rounded-2xl bg-gradient-to-br from-primary-900 via-primary-800 to-ink-900 relative flex items-center justify-center overflow-hidden">
+                <div className="aspect-video w-full rounded-xl bg-gradient-to-br from-primary-900 via-primary-800 to-ink-900 relative flex items-center justify-center overflow-hidden">
                   {webinaire.replayUrl ? (
                     <a
                       href={webinaire.replayUrl}
@@ -260,7 +260,7 @@ export const MarketingWebinaireDetail: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
               {related.map((w, i) => (
                 <FadeInWhenVisible key={w.slug} direction="up" delay={i * 0.06}>
-                  <Link to={`/website/webinaires/${w.slug}`} className="group block h-full rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">
+                  <Link to={`/website/webinaires/${w.slug}`} className="group block h-full rounded-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">
                     <div className="h-full bg-white border border-ink-100 rounded-lg p-stack-lg flex flex-col gap-stack hover:border-primary-200 transition-all duration-base">
                       <span className="inline-flex items-center gap-tight font-body text-caption text-ink-500">
                         <Calendar size={14} /> {w.date}

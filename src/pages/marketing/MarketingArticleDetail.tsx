@@ -227,7 +227,7 @@ const BodyBlock: React.FC<{ block: ArticleBodyBlock; pullquoteIndex: number }> =
     case 'pullquote':
       return (
         <blockquote
-          className={`relative my-2 rounded-2xl bg-gradient-to-br ${PULLQUOTE_GRADIENTS[gradIdx]} border p-section`}
+          className={`relative my-2 rounded-xl bg-gradient-to-br ${PULLQUOTE_GRADIENTS[gradIdx]} border p-section`}
         >
           <Quote
             aria-hidden
@@ -467,7 +467,7 @@ export const MarketingArticleDetail: React.FC = () => {
           {next && (
             <Link
               to={`/website/magazine/${next.slug}`}
-              className={`group flex flex-col gap-stack p-stack-lg rounded-2xl bg-white border border-ink-100 ${CARD_HOVER.primary} transition-all duration-base text-right focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${!prev ? 'md:col-start-2' : ''}`}
+              className={`group flex flex-col gap-stack p-stack-lg rounded-xl bg-white border border-ink-100 ${CARD_HOVER.primary} transition-all duration-base text-right focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${!prev ? 'md:col-start-2' : ''}`}
             >
               <span className="inline-flex items-center gap-stack-2xs self-end font-body text-caption font-bold text-ink-500 uppercase tracking-widest">
                 Article suivant
@@ -500,9 +500,9 @@ export const MarketingArticleDetail: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-stack">
             {related.map((r, i) => (
               <FadeInWhenVisible key={r.slug} direction="up" delay={i * 0.1}>
-                <Link to={`/website/magazine/${r.slug}`} className="group block h-full rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">
+                <Link to={`/website/magazine/${r.slug}`} className="group block h-full rounded-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">
                   <article
-                    className={`h-full bg-white border border-ink-100 rounded-2xl overflow-hidden flex flex-col ${CARD_HOVER.primary} transition-colors duration-base`}
+                    className={`h-full bg-white border border-ink-100 rounded-xl overflow-hidden flex flex-col ${CARD_HOVER.primary} transition-colors duration-base`}
                   >
                     <div className={`relative h-32 bg-gradient-to-br ${r.cover} flex items-center justify-center overflow-hidden`}>
                       <div aria-hidden className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/10 to-white/20" />

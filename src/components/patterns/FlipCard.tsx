@@ -81,7 +81,7 @@ export const FlipCard: React.FC<FlipCardProps> = ({
   const focusOutline = TONE_FOCUS_OUTLINE[tone];
 
   const faceBase = [
-    'absolute inset-0 rounded-2xl overflow-hidden cursor-pointer border-[3px]',
+    'absolute inset-0 rounded-xl overflow-hidden cursor-pointer border-[3px]',
     'shadow-[0_8px_32px_rgba(85,161,180,0.18)]',
     'focus-visible:outline-2 focus-visible:outline-offset-2',
     borderClass,

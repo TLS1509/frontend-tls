@@ -93,7 +93,7 @@ export const ConversationalChat: React.FC<ConversationalChatProps> = ({
   return (
     <section
       className={[
-        'flex flex-col rounded-2xl bg-white/70 backdrop-blur-glass-medium border border-white/60 shadow-lg overflow-hidden',
+        'flex flex-col rounded-xl bg-white/70 backdrop-blur-glass-medium border border-white/60 shadow-lg overflow-hidden',
         'min-h-[60vh] max-h-[75vh]',
         className,
       ]

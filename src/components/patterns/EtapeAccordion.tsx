@@ -44,7 +44,7 @@ export interface EtapeAccordionProps {
 
 const WRAPPER: Record<EtapeAccordionVariant, string> = {
   default: 'border border-ink-200 rounded-lg bg-white overflow-hidden',
-  panel:   'rounded-2xl border-2 overflow-hidden transition-colors',
+  panel:   'rounded-xl border-2 overflow-hidden transition-colors',
 };
 
 const HEADER_BTN: Record<EtapeAccordionVariant, string> = {
