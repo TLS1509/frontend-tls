@@ -99,7 +99,7 @@ export const BehavioralTileGrid: React.FC<BehavioralTileGridProps> = ({
               PAD[size],
               isSelected
                 ? 'bg-secondary-500 border-secondary-500 text-white shadow-card scale-[1.01]'
-                : 'bg-white border border-ink-100 shadow-xs text-ink-800 hover:border-secondary-300 hover:shadow-card-hover active:scale-[0.99]',
+                : 'bg-white border border-ink-100 text-ink-800 hover:border-secondary-300 hover:bg-secondary-50/40 active:scale-[0.99]',
             ]
               .filter(Boolean)
               .join(' ')}

@@ -135,42 +135,12 @@ export const CARD_HOVER: Record<CardTone, string> = {
 /** La même règle, pour une carte sans `tone`. */
 export const CARD_HOVER_NEUTRE = 'hover:border-ink-300 hover:bg-ink-50/50';
 
-/** Resting shadow xs — barely lifts off the page. */
-export const CARD_SHADOW_RESTING: Record<CardTone, string> = {
-  primary: 'shadow-brand-xs',
-  brand:   'shadow-brand-xs',
-  warm:    'shadow-warm-xs',
-  sun:     'shadow-sun-xs',
-};
-
-/** Resting shadow sm — stronger presence for feature/elevated variants. */
-export const CARD_SHADOW_RESTING_SM: Record<CardTone, string> = {
-  primary: 'shadow-brand-sm',
-  brand:   'shadow-brand-sm',
-  warm:    'shadow-warm-sm',
-  sun:     'shadow-sun-sm',
-};
-
-/** Hover shadow sm — for Card default/tinted variants. */
-/** @deprecated — le survol d'une carte ne porte plus d'ombre. Voir CARD_HOVER. */
-export const CARD_SHADOW_HOVER_SM: Record<CardTone, string> = {
-  primary: 'hover:shadow-brand-sm',
-  brand:   'hover:shadow-brand-sm',
-  warm:    'hover:shadow-warm-sm',
-  sun:     'hover:shadow-sun-sm',
-};
-
-/**
- * Hover shadow md — for content cards (CourseCard, LessonCard, SessionCard…).
- * More dramatic lift since these cards are larger / primary-action cards.
- */
-/** @deprecated — le survol d'une carte ne porte plus d'ombre. Voir CARD_HOVER. */
-export const CARD_SHADOW_HOVER_MD: Record<CardTone, string> = {
-  primary: 'hover:shadow-brand-md',
-  brand:   'hover:shadow-brand-md',
-  warm:    'hover:shadow-warm-md',
-  sun:     'hover:shadow-sun-md',
-};
+/* Les cinq maps d'ombre de carte (CARD_SHADOW_RESTING, CARD_SHADOW_RESTING_SM,
+   CARD_SHADOW_HOVER_SM, CARD_SHADOW_HOVER_MD, CTA_SHADOW_HOVER_MD) ont été
+   SUPPRIMÉES le 2026-09-17 : plus aucun appel dans src/ (seuls 6 imports morts
+   subsistaient), et une carte ne porte plus d'ombre — ni au repos (S2, 09/09)
+   ni au survol (CARD_HOVER, 16/09). Ne pas les réintroduire : le survol d'une
+   carte, c'est CARD_HOVER / CARD_HOVER_NEUTRE ci-dessus, rien d'autre. */
 
 /**
  * ProgressBar fill per tone — pass as `fill={CARD_PROGRESS_FILL[tone]}` to <ProgressBar>.
@@ -181,14 +151,6 @@ export const CARD_PROGRESS_FILL: Record<CardTone, 'brand' | 'warm' | 'sun'> = {
   brand:   'brand',
   warm:    'warm',
   sun:     'sun',
-};
-
-/** Hover shadow md for action CTA buttons — tone-aware lift */
-/** @deprecated — le survol d'une carte ne porte plus d'ombre. Voir CARD_HOVER. */
-export const CTA_SHADOW_HOVER_MD: Record<PageTone, string> = {
-  primary: 'hover:shadow-brand-md',
-  warm:    'hover:shadow-card-hover',
-  sun:     'hover:shadow-sun-md',
 };
 
 /** Action button tone classes (for footer buttons, action rows) */

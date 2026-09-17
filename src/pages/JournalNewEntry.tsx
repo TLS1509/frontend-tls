@@ -418,7 +418,7 @@ export const JournalNewEntry: React.FC = () => {
         </div>
 
         {/* Writing area */}
-        <div className={`border border-ink-200 rounded-2xl p-7 shadow-sm ${cfg.writingBg || 'bg-white'}`}>
+        <div className={`border border-ink-200 rounded-2xl p-7 ${cfg.writingBg || 'bg-white'}`}>
 
           {/* Reflection question */}
           <div className="mb-stack-lg">

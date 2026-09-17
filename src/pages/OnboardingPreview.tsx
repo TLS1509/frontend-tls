@@ -369,7 +369,7 @@ function VariantB({ onDone }: { onDone: () => void }) {
                   tileBase,
                   selectedRole === r.id
                     ? 'bg-secondary-500 border-secondary-500 text-white shadow-card scale-[1.02]'
-                    : 'bg-white/85 border-white/60 text-ink-800 hover:border-secondary-300 hover:shadow-card-hover shadow-xs',
+                    : 'bg-white/85 border-white/60 text-ink-800 hover:border-secondary-300 hover:bg-secondary-50/85',
                 ].join(' ')}
               >
                 <span className="text-2xl">{r.emoji}</span>
@@ -403,7 +403,7 @@ function VariantB({ onDone }: { onDone: () => void }) {
                     tileBase, 'relative',
                     on
                       ? 'bg-secondary-500 border-secondary-500 text-white shadow-card'
-                      : 'bg-white/85 border-white/60 text-ink-800 hover:border-secondary-300 hover:shadow-card-hover shadow-xs',
+                      : 'bg-white/85 border-white/60 text-ink-800 hover:border-secondary-300 hover:bg-secondary-50/85',
                   ].join(' ')}
                 >
                   {on && (
@@ -550,7 +550,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
                         tileBase,
                         on
                           ? 'bg-secondary-500 border-secondary-500 text-white shadow-sm'
-                          : 'bg-white border-ink-100 text-ink-800 hover:border-secondary-300 hover:shadow-xs disabled:opacity-40',
+                          : 'bg-white border-ink-100 text-ink-800 hover:border-secondary-300 hover:bg-secondary-50/40 disabled:opacity-40',
                       ].join(' ')}
                     >
                       <span className="text-lg shrink-0">{r.emoji}</span>
@@ -591,7 +591,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
                       tileBase, 'relative',
                       on
                         ? 'bg-secondary-500 border-secondary-500 text-white shadow-sm'
-                        : 'bg-white border-ink-100 text-ink-800 hover:border-secondary-300 hover:shadow-xs',
+                        : 'bg-white border-ink-100 text-ink-800 hover:border-secondary-300 hover:bg-secondary-50/40',
                     ].join(' ')}
                   >
                     <span className="text-lg shrink-0">{g.emoji}</span>

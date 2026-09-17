@@ -156,7 +156,7 @@ export const Leaderboard: React.FC = () => {
             return (
               <Card
                 key={entry.id}
-                className={`p-stack-lg flex flex-col gap-stack hover:-translate-y-1 transition-transform duration-200 cursor-default ${pod.cardClasses}`}
+                className={`p-stack-lg flex flex-col gap-stack cursor-default ${pod.cardClasses}`}
               >
                 {/* Rank badge + points */}
                 <div className="flex items-center justify-between">

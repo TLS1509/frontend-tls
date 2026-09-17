@@ -82,7 +82,7 @@ const FILTERS: { key: FilterKey; label: string }[] = [
 
 function ConversationCard({ item }: { item: ConversationItem }) {
   return (
-    <Card className="flex flex-col gap-stack-xs p-stack hover:shadow-md transition-shadow duration-base group">
+    <Card className="flex flex-col gap-stack-xs p-stack group">
       <div className="flex items-start justify-between gap-stack">
         <p className="text-body-sm font-semibold text-ink-900 leading-snug flex-1 min-w-0 truncate">
           {item.title}

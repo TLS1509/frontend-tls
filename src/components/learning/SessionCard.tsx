@@ -18,9 +18,7 @@ import { Button } from '../core/Button';
 import { CardTitle, CardDesc } from '../core/Card';
 import { Avatar } from '../ui/Avatar';
 import { CalendarClock, FileText, ClipboardList, Notebook, Check, ArrowRight } from 'lucide-react';
-import { CARD_SHADOW_HOVER_MD,
-  CARD_HOVER,
-} from '../../lib/tone-classes';
+import { CARD_HOVER } from '../../lib/tone-classes';
 
 export type SessionCardSurface = 'card' | 'tinted' | 'glass' | 'frosted' | 'outline';
 export type SessionCardTone = 'primary' | 'warm' | 'sun';
@@ -63,9 +61,9 @@ const SURFACE_CARD_HOVER_BORDER: Record<SessionCardTone, string> = {
 };
 
 const SURFACE_TINTED: Record<SessionCardTone, string> = {
-  primary: 'bg-gradient-to-br from-primary-50 to-white border border-primary-200/70 hover:border-primary-300/80 shadow-brand-sm',
-  warm:    'bg-gradient-to-br from-secondary-50 to-white border border-secondary-200/70 hover:border-secondary-300/80 shadow-warm-sm',
-  sun:     'bg-gradient-to-br from-accent-50 to-white border border-accent-200/70 hover:border-accent-300/80 shadow-sun-sm',
+  primary: 'bg-gradient-to-br from-primary-50 to-white border border-primary-200/70 hover:border-primary-300/80',
+  warm:    'bg-gradient-to-br from-secondary-50 to-white border border-secondary-200/70 hover:border-secondary-300/80',
+  sun:     'bg-gradient-to-br from-accent-50 to-white border border-accent-200/70 hover:border-accent-300/80',
 };
 
 const SURFACE_GLASS =

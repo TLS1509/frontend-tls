@@ -352,7 +352,7 @@ export const MarketingDiagnostic: React.FC = () => {
                   return (
                     <div
                       key={k}
-                      className={`flex h-full flex-col justify-between gap-stack-lg rounded-2xl border bg-white p-stack-lg shadow-card ${b.accent.border}`}
+                      className={`flex h-full flex-col justify-between gap-stack-lg rounded-2xl border bg-white p-stack-lg ${b.accent.border}`}
                     >
                       <div className="flex flex-col gap-stack">
                         <div className="flex items-center justify-between">

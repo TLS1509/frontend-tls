@@ -38,7 +38,7 @@ const BTN_BASE =
   'disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none';
 
 const BTN_DEFAULT =
-  'bg-white border-ink-200 text-ink-700 hover:bg-ink-50 hover:border-ink-300 hover:text-primary-700 hover:-translate-y-px active:translate-y-0';
+  'bg-white border-ink-200 text-ink-700 hover:bg-ink-50 hover:border-ink-300 hover:text-primary-700';
 
 const BTN_NAV =
   'bg-white border-ink-200 text-ink-500 hover:bg-ink-50 hover:border-ink-300 hover:text-primary-700';

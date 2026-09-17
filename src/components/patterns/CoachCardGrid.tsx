@@ -98,7 +98,7 @@ export const CoachCardGrid: React.FC<CoachCardGridProps> = ({
                 }
               },
             })}
-            className="block w-full h-auto p-0 overflow-visible cursor-pointer rounded-lg transition-transform group-hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+            className="block w-full h-auto p-0 overflow-visible cursor-pointer rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           >
             <ProfileCard
               name={coach.name}

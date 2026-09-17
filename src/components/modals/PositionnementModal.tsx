@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight, BarChart2, Flame, Rocket, Sparkles, Sprout, Star, Target, X } from 'lucide-react';
 import { Button } from '../core/Button';
+import { CARD_HOVER_NEUTRE } from '../../lib/tone-classes';
 
 /**
  * PositionnementModal — Auto-évaluation des compétences avant un parcours
@@ -194,29 +195,21 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
                       onClick={() => handleLevelSelect(level.id)}
                       className={[
                         'rounded-xl py-5 px-3 flex flex-col items-center gap-stack-xs cursor-pointer transition-all border-2 text-center',
+                        // Survol : filet fermé d'un cran + fond léger (règle du
+                        // 2026-09-16) — plus de soulèvement ni d'ombre JS.
                         isSelected
                           ? '-translate-y-1 scale-[1.04]'
-                          : 'hover:-translate-y-[3px] hover:scale-[1.02]',
+                          : `bg-white border-ink-900/8 ${CARD_HOVER_NEUTRE}`,
                       ].join(' ')}
-                      style={{
-                        background: isSelected ? level.colorLight : 'white',
-                        borderColor: isSelected ? level.color : 'rgba(37,43,55,0.08)',
-                        boxShadow: isSelected
-                          ? `0 8px 24px ${level.glowColor}, 0 1px 3px 0 rgba(0, 0, 0, 0.1)`
-                          : '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
-                      }}
-                      onMouseEnter={(e) => {
-                        if (!isSelected) {
-                          e.currentTarget.style.boxShadow = `0 8px 20px ${level.glowColor}`;
-                          e.currentTarget.style.borderColor = level.color;
-                        }
-                      }}
-                      onMouseLeave={(e) => {
-                        if (!isSelected) {
-                          e.currentTarget.style.boxShadow = '0 1px 2px 0 rgba(0, 0, 0, 0.05)';
-                          e.currentTarget.style.borderColor = 'rgba(37,43,55,0.08)';
-                        }
-                      }}
+                      style={
+                        isSelected
+                          ? {
+                              background: level.colorLight,
+                              borderColor: level.color,
+                              boxShadow: `0 8px 24px ${level.glowColor}, 0 1px 3px 0 rgba(0, 0, 0, 0.1)`,
+                            }
+                          : undefined
+                      }
                     >
                       <span className="inline-flex items-center justify-center">{level.icon}</span>
                       <span

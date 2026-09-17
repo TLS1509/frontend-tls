@@ -138,10 +138,9 @@ export const Error404: React.FC = () => {
                 hidden: { opacity: 0, y: 12 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0, 0, 0.2, 1] } },
               }}
-              whileHover={!parallax.reduce ? { y: -3, scale: 1.02 } : undefined}
               whileTap={{ scale: 0.97 }}
               onClick={() => navigate(s.to)}
-              className="flex flex-col items-center gap-stack-xs px-4 py-stack rounded-lg bg-white/80 border border-primary-100 hover:border-primary-300 hover:bg-white hover:shadow-sm transition-all min-h-touch cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 shadow-xs"
+              className="flex flex-col items-center gap-stack-xs px-4 py-stack rounded-lg bg-white/80 border border-primary-100 hover:border-primary-300 hover:bg-white transition-colors min-h-touch cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
             >
               <span className="text-primary-500">{s.icon}</span>
               <span className="font-body text-caption font-semibold text-ink-700 text-center">{s.label}</span>

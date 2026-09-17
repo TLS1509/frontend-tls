@@ -190,7 +190,7 @@ export const Journal: React.FC = () => {
                   onClick={() => navigate(`/journal/new-entry?type=${t.type}`)}
                   className={[
                     'group flex flex-col items-center justify-center gap-tight p-stack rounded-xl border-2 text-center cursor-pointer',
-                    'transition-all duration-base hover:-translate-y-0.5 hover:shadow-md',
+                    'transition-colors duration-base',
                     'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                     TONE_BG[t.tone],
                   ].join(' ')}
@@ -235,7 +235,7 @@ export const Journal: React.FC = () => {
 
         {/* Active filter result count */}
         {hasActiveFilter && (
-          <div className="flex items-center justify-between px-5 py-3 bg-primary-50 border border-primary-100 rounded-lg shadow-xs">
+          <div className="flex items-center justify-between px-5 py-3 bg-primary-50 border border-primary-100 rounded-lg">
             <span className="font-body text-body-sm text-primary-700 font-medium">
               {filteredEntries.length} entrée{filteredEntries.length > 1 ? 's' : ''} trouvée{filteredEntries.length > 1 ? 's' : ''}
             </span>

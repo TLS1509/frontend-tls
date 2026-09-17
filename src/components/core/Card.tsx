@@ -1,10 +1,4 @@
 import React from 'react';
-import {
-  CARD_SHADOW_RESTING,
-  CARD_SHADOW_RESTING_SM,
-  CARD_SHADOW_HOVER_SM,
-  CARD_SHADOW_HOVER_MD,
-} from '../../lib/tone-classes';
 
 /**
  * Card — Valeurs : src/index.css (@theme) et src/styles/design-tokens.css.
@@ -159,28 +153,26 @@ const TONE_GRADIENT_BG_CLASSES: Record<CardTone, string> = {
   brand:   'bg-gradient-to-br from-primary-100/92 to-primary-50/78 border-primary-200/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.85)]',
 };
 
-/* Le padding intérieur — doctrine arrêtée le 2026-09-09.
+/* Le padding intérieur — doctrine du 2026-09-09, géométrie corrigée le 17/09.
 
-   **24 px est le canon** (`md`, le défaut : 170 des 171 Cards du produit le
-   prennent sans rien dire). **16 px est la seule dérogation**, pour les surfaces
-   denses. Pas de troisième valeur.
+   **24 px est le canon** (`md`, le défaut : 195 des 197 appels du produit le
+   prennent sans rien dire — recompté le 17/09). **16 px est la seule
+   dérogation**, pour les surfaces denses. Pas de troisième valeur.
 
-   Pourquoi 24 et non les 16 px de l'industrie. Material, Bootstrap, Polaris,
-   Carbon et Primer posent tous leur carte à 16 px — mais avec des rayons de 6 à
-   12 px. Le nôtre est à 14 px depuis ce matin, et c'est le rapport du padding au
-   rayon qui décide : en dessous d'environ 1,4× le contenu vient serrer la courbe
-   et le coin se lit comme une coupe plutôt que comme un arrondi.
-
-     16 px → 1,14×   trop serré pour un rayon de 14
-     20 px → 1,43×   limite
-     24 px → 1,71×   le bon rapport
-     32 px → 2,29×   registre éditorial
+   La règle géométrique (CLAUDE.md § padding) : **le padding ne descend pas sous
+   le rayon**. Le point serré bascule à P = R exactement — dès que le padding
+   atteint le rayon, le coin cesse d'être le point le plus proche du contenu et
+   ne pince plus DU TOUT. Au rayon 20 : 24 px ne pince pas ; 16 px pince de
+   10 %, et seulement si du contenu occupe le coin (tranché le 17/09 : la
+   dérogation dense RESTE à 16 — 20 px n'existe pas dans l'échelle d'espacement).
+   ⚠️ L'ancien commentaire posait ici un seuil de « ~1,4× » : il n'existait pas
+   (aucune mesure, aucune source — corrigé le 17/09). Ne pas le réintroduire.
 
    Les noms sont sémantiques parce que la doctrine porte sur des intentions —
    « dense » et « canonique » — et non sur des nombres. `xs` garde `p-3` : 12 px
    n'a pas de nom dans l'échelle, et cette taille n'a aucun consommateur.
 
-   Les 90 cartes faites main ont été ramenées sur ces deux valeurs le même jour :
+   Les 90 cartes faites main ont été ramenées sur ces deux valeurs le 09/09 :
    17 conversions de vocabulaire à pixel constant, 32 convergences depuis 12, 20
    et 32 px. */
 const SIZE_CLASSES: Record<CardSize, string> = {
@@ -220,11 +212,9 @@ const TONE_INTERACTIVE_HOVER: Record<CardTone, string> = {
   brand:   'hover:border-primary-300 hover:bg-primary-50/50',
 };
 
-// Shadow maps imported from tone-classes.ts — single source of truth.
-// CARD_SHADOW_RESTING      → xs tint at rest (default/tinted)
-// CARD_SHADOW_RESTING_SM   → sm tint at rest (feature/elevated)
-// CARD_SHADOW_HOVER_SM     → sm hover (default/tinted)
-// CARD_SHADOW_HOVER_MD     → md hover (feature/elevated, interactive)
+// Les maps d'ombre CARD_SHADOW_* ont été retirées le 2026-09-17 : une carte ne
+// porte plus d'ombre, ni au repos (S2, 09/09) ni au survol (règle CARD_HOVER,
+// 16/09). Le survol vit dans TONE_INTERACTIVE_HOVER ci-dessus.
 
 const INTERACTIVE_EXTRA = 'cursor-pointer';
 
@@ -280,25 +270,10 @@ export const Card: React.FC<CardProps> = ({
       : TONE_BG_CLASSES[tone]
     : '';
 
-  // Tone-matched shadow — applied per variant group.
-  const isFeatureVariant = variant === 'feature' || variant === 'elevated';
-  const isDefaultVariant = variant === 'default' || variant === 'tinted';
-  const usesToneShadow = isDefaultVariant || variant === 'interactive' || interactive;
-
-  // feature/elevated: stronger resting + hover shadows (sm/md), tone-aware.
   /* Aucune ombre sur les cards — décidé le 2026-09-09 (S1, S2).
      La bordure de 1 px pose l'objet ; cumuler bordure et ombre est le « ghost
      card », le tell le plus reconnaissable des interfaces générées. Le verre
      garde la sienne, lui en a besoin pour se détacher de ce qu'il recouvre. */
-  const featureShadowResting = '';
-  const featureShadowHover = '';
-
-  // default/tinted/interactive: subtle resting + hover, tone-aware.
-  const toneShadowResting = '';
-  const toneShadowHover = '';
-
-  // Interactive hover shadow — only when not already covered by toneShadowHover.
-  const interactiveHoverShadow = '';
 
   // When interactive + tone, override the hardcoded primary hover with tone colors.
   const isInteractive = variant === 'interactive' || interactive;
@@ -309,11 +284,6 @@ export const Card: React.FC<CardProps> = ({
     VARIANT_CLASSES[variant],
     SIZE_CLASSES[size],
     toneBgClasses,
-    featureShadowResting,
-    featureShadowHover,
-    toneShadowResting,
-    toneShadowHover,
-    interactiveHoverShadow,
     toneInteractiveClasses,
     interactive && variant !== 'interactive' && INTERACTIVE_EXTRA,
     onClick && CLICKABLE,

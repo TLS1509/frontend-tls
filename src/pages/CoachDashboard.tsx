@@ -19,6 +19,7 @@ import { ScatterChart, type ScatterChartDataPoint } from '../components/charts/S
 import { RadarChart, type RadarDataPoint } from '../components/charts/RadarChart';
 import { ChartContainer } from '../components/charts/ChartContainer';
 import { APPRENANTS, APPRENANT_AXES, getApprenantById, type ApprenantStatus } from '../data/apprenants';
+import { CARD_HOVER } from '../lib/tone-classes';
 import { useCoachingStore } from '../stores/persistence';
 
 // ─── Display helpers ──────────────────────────────────────────────────────────
@@ -150,7 +151,7 @@ export default function CoachDashboard() {
                 return (
                   <Card
                     key={a.id}
-                    className={`p-stack flex items-start gap-stack cursor-pointer transition-all duration-base ${isSelected ? 'ring-2 ring-primary-400' : 'hover:shadow-primary-md hover:-translate-y-1'}`}
+                    className={`p-stack flex items-start gap-stack cursor-pointer transition-all duration-base ${isSelected ? 'ring-2 ring-primary-400' : CARD_HOVER['primary']}`}
                     onClick={() => setSelectedApprenantId(isSelected ? null : a.id)}
                   >
                     <Avatar initials={a.initials} size="md" />

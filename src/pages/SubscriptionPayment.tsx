@@ -40,6 +40,7 @@ import { useUserProfileStore, useOnboardingStore } from '../stores/persistence';
 import { Stepper } from '../components/ui/Stepper';
 import { buildOnboardingStepperItems } from '../lib/onboarding-steps';
 import { PageShell } from '../components/layout';
+import { CARD_HOVER } from '../lib/tone-classes';
 import type { SubscriptionTier } from '../types/learning';
 
 /* ─── Types & data ──────────────────────────────────────────────────────── */
@@ -241,10 +242,10 @@ export const SubscriptionPayment: React.FC = () => {
                 className={[
                   'group relative text-left flex flex-col gap-stack p-5 rounded-lg border-2 transition-all duration-base cursor-pointer',
                   isSelected
-                    ? 'bg-white border-primary-500 shadow-card-hover ring-2 ring-primary-200 -translate-y-1'
+                    ? 'bg-white border-primary-500 ring-2 ring-primary-200'
                     : plan.highlight
-                    ? 'bg-gradient-to-br from-primary-50 to-white border-primary-300 hover:-translate-y-0.5'
-                    : 'bg-white border-ink-100 hover:border-primary-200 hover:shadow-sm',
+                    ? `bg-gradient-to-br from-primary-50 to-white border-primary-300 ${CARD_HOVER['primary']}`
+                    : `bg-white border-ink-100 ${CARD_HOVER['primary']}`,
                 ].join(' ')}
               >
                 {plan.badge && (

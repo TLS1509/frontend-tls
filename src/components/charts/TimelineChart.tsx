@@ -35,6 +35,25 @@ const DOT_COLORS: Record<TimelineEvent['type'], string> = {
   achievement: 'bg-accent-500',
 };
 
+/* Survol : bordure fermée d'un cran (règle du 2026-09-16 — pas d'ombre au
+ * survol d'une carte). Les tons success/accent n'existent pas dans CARD_HOVER
+ * (lib/tone-classes.ts) → crans inline cohérents avec TYPE_COLORS ci-dessus. */
+const TYPE_HOVER_BORDER: Record<TimelineEvent['type'], string> = {
+  lesson: 'hover:border-primary-400',
+  session: 'hover:border-secondary-400',
+  badge: 'hover:border-accent-400',
+  milestone: 'hover:border-success-vivid',
+  achievement: 'hover:border-accent-500',
+};
+
+const TYPE_GROUP_HOVER_BORDER: Record<TimelineEvent['type'], string> = {
+  lesson: 'group-hover:border-primary-400',
+  session: 'group-hover:border-secondary-400',
+  badge: 'group-hover:border-accent-400',
+  milestone: 'group-hover:border-success-vivid',
+  achievement: 'group-hover:border-accent-500',
+};
+
 /**
  * TimelineChart — Display a vertical or horizontal timeline of events
  * Shows learner journey with lessons, sessions, badges, milestones
@@ -93,7 +112,7 @@ export const TimelineChart: React.FC<TimelineChartProps> = ({
 
             {/* Event card */}
             <div
-              className={`p-2.5 rounded-md text-center border cursor-pointer hover:shadow-sm transition-shadow ${TYPE_COLORS[event.type]}`}
+              className={`p-2.5 rounded-md text-center border cursor-pointer transition-colors ${TYPE_COLORS[event.type]} ${TYPE_HOVER_BORDER[event.type]}`}
             >
               <p className="text-caption font-semibold line-clamp-2">{event.label}</p>
               {event.description && (
@@ -145,7 +164,7 @@ export const TimelineChart: React.FC<TimelineChartProps> = ({
           {/* Timeline right side: event card */}
           <div className="flex-1 mt-1">
             <div
-              className={`p-4 rounded-lg border-l-4 transition-all group-hover:shadow-sm ${TYPE_COLORS[event.type]}`}
+              className={`p-4 rounded-lg border-l-4 transition-all ${TYPE_COLORS[event.type]} ${TYPE_GROUP_HOVER_BORDER[event.type]}`}
               style={{
                 borderLeftColor: DOT_COLORS[event.type].replace('bg-', '#').split(' ')[0],
               }}

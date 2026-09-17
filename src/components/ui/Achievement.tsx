@@ -1,5 +1,6 @@
 import React from 'react';
 import { Lock, Sparkles } from 'lucide-react';
+import { CARD_HOVER, CARD_HOVER_NEUTRE } from '../../lib/tone-classes';
 
 interface AchievementProps {
   icon: React.ReactNode;
@@ -38,6 +39,15 @@ const VARIANT_BADGE: Record<'unlocked' | 'locked' | 'in-progress', string> = {
   'in-progress': 'bg-gradient-to-br from-primary-400 to-primary-700 text-white shadow-brand-sm ring-4 ring-primary-100',
 };
 
+/* Survol (carte cliquable) : filet fermé d'un cran + fond très léger — règle du
+ * 2026-09-16 (CARD_HOVER, lib/tone-classes.ts). Pas de soulèvement, pas d'ombre.
+ * sun pour débloqué, primary pour en cours, neutre pour verrouillé. */
+const VARIANT_HOVER: Record<'unlocked' | 'locked' | 'in-progress', string> = {
+  unlocked:      CARD_HOVER.sun,
+  locked:        CARD_HOVER_NEUTRE,
+  'in-progress': CARD_HOVER.primary,
+};
+
 export const Achievement: React.FC<AchievementProps> = ({
   icon,
   title,
@@ -55,11 +65,11 @@ export const Achievement: React.FC<AchievementProps> = ({
     maxProgress > 0 ? Math.min(((progress || 0) / maxProgress) * 100, 100) : 0;
 
   const classes = [
-    'flex items-center border-2 rounded-2xl transition-[box-shadow,transform] duration-base ease-emphasis',
+    'flex items-center border-2 rounded-2xl transition-colors duration-base ease-emphasis',
     SIZE_CLASSES[size],
     VARIANT_CARD[variant],
     isClickable
-      ? 'cursor-pointer hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500'
+      ? `cursor-pointer ${VARIANT_HOVER[variant]} focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500`
       : '',
     className,
   ]

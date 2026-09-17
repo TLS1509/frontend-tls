@@ -22,9 +22,7 @@ import { ArrowRight, Clock3, BookOpen } from 'lucide-react';
 import { InlineProgress } from './InlineProgress';
 import { Card } from '../core/Card';
 import { MetaPillGroup } from '../ui/MetaPillGroup';
-import { CTA_SHADOW_HOVER_MD,
-  CARD_HOVER,
-} from '../../lib/tone-classes';
+import { CARD_HOVER } from '../../lib/tone-classes';
 
 export type ParcoursTone = 'primary' | 'warm' | 'sun';
 export type ParcoursStatus = 'en cours' | 'complété' | 'non commencé';
@@ -82,7 +80,8 @@ const CTA_TONE_CLASSES: Record<ParcoursTone, string> = {
   sun:     'bg-accent-400 hover:bg-accent-500 text-accent-900 shadow-xs focus-visible:outline-accent-500',
 };
 
-// CARD_HOVER_SHADOW moved to tone-classes.ts as CTA_SHADOW_HOVER_MD (single source of truth)
+// Le CTA ne prend plus d'ombre au survol — CTA_SHADOW_HOVER_MD (tone-classes.ts)
+// est déprécié depuis la règle du 2026-09-16 (pas d'ombre, pas de soulèvement).
 
 const GLOW_BG: Record<ParcoursTone, React.CSSProperties> = {
   primary: { background: 'radial-gradient(circle at 50% 0%, rgba(85, 161, 180, 0.10) 0%, transparent 70%)' },
@@ -120,7 +119,8 @@ export const ParcoursCard: React.FC<ParcoursCardProps> = ({
         isTinted ? CARD_HOVER[tone] : '',
         /* Les trois `!important` qui vivaient ici — `!p-0 !rounded-2xl !gap-0` —
            annulaient la primitive que la carte venait d'appeler. Retirés le
-           2026-09-16 : `<Card size="md">` donne déjà `rounded-lg` (14 px, R1) et
+           2026-09-16 : `<Card size="md">` donne déjà son rayon de carte (20 px
+           depuis le 16/09 — cette note disait « 14 px, R1 », corrigée) et
            `p-stack-lg` (24 px, le canon). Mesuré avant/après sur la carte réelle :
            le padding de 32 coûtait 16 px de largeur de texte, donc une TROISIÈME
            ligne de titre, donc 43 px de hauteur — sur huit cartes, une ligne de

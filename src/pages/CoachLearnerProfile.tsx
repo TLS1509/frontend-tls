@@ -236,7 +236,7 @@ export default function CoachLearnerProfile() {
 
       <div className="flex flex-col gap-section">
         {/* Header apprenant */}
-        <div className="flex items-center gap-stack-lg bg-white border border-ink-100 rounded-lg p-stack-lg shadow-xs">
+        <div className="flex items-center gap-stack-lg bg-white border border-ink-100 rounded-lg p-stack-lg">
           <Avatar
             initials={learner.initials}
             name={learner.name}

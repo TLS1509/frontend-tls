@@ -115,7 +115,7 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
           </button>
           <button
             onClick={() => { onConfirm(); onClose(); }}
-            className={`${ACTION_BTN_BASE} font-bold border-0 text-white hover:-translate-y-0.5 ${VARIANT_CONFIRM_BG[variant]} ${VARIANT_CONFIRM_SHADOW[variant]}`}
+            className={`${ACTION_BTN_BASE} font-bold border-0 text-white ${VARIANT_CONFIRM_BG[variant]} ${VARIANT_CONFIRM_SHADOW[variant]}`}
           >
             {confirmText}
           </button>

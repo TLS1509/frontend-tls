@@ -55,8 +55,10 @@ export interface FilterChipProps {
 }
 
 const BORDER_OVERRIDE = 'border-[1.5px]';
+/* Le nom historique portait un « lift » — retiré le 2026-09-17 (motif S1) :
+   le feedback de survol vit dans les tone maps (fond), pas dans un translate. */
 const INTERACTIVE_LIFT =
-  'cursor-pointer hover:-translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2';
+  'cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2';
 
 /* ── Glass surface — keeps its own classes (white-alpha logic distinct from solid tone) ─ */
 const GLASS_INACTIVE =

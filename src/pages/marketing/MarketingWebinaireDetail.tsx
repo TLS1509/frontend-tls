@@ -154,7 +154,7 @@ export const MarketingWebinaireDetail: React.FC = () => {
           {/* Registration card OR replay player */}
           <FadeInWhenVisible direction="up" delay={0.05}>
             {isUpcoming ? (
-              <div className="relative rounded-lg border border-ink-100 bg-white p-section-lg flex flex-col gap-stack shadow-sm">
+              <div className="relative rounded-lg border border-ink-100 bg-white p-section-lg flex flex-col gap-stack">
                 <AnimatePresence mode="wait">
                   {!registered ? (
                     <motion.form

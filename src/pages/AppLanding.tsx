@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import { TlsLogo } from '../components/ui/TlsLogo';
 import { Button } from '../components/core/Button';
+import { CARD_HOVER } from '../lib/tone-classes';
 import {
   MeshGradientBg,
   NoiseTexture,
@@ -386,7 +387,7 @@ const AppLanding: React.FC = () => {
               return (
                 <FadeInWhenVisible key={feat.eyebrow} direction="up" delay={i * 0.1}>
                   <div
-                    className={`group h-full flex flex-col gap-stack p-6 rounded-2xl shadow-card hover:shadow-card-lift hover:-translate-y-1 transition-[transform,box-shadow] duration-base ease-emphasis ${tones.card}`}
+                    className={`group h-full flex flex-col gap-stack p-6 rounded-2xl transition-colors duration-base ease-emphasis ${tones.card} ${CARD_HOVER[feat.tone]}`}
                   >
                     <div className={`w-11 h-11 rounded-xl flex items-center justify-center transition-transform duration-base ease-emphasis group-hover:scale-105 ${tones.icon}`}>
                       {feat.icon}

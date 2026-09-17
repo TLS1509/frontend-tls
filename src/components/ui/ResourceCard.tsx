@@ -1,5 +1,6 @@
 import React from 'react';
 import { Clock, ChevronRight } from 'lucide-react';
+import { CARD_HOVER } from '../../lib/tone-classes';
 import type { CardTone, CardBadgeConfig } from '../core/Card';
 
 export type ResourceCardVariant = 'default' | 'minimal' | 'with-badge';
@@ -92,8 +93,8 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
   const padding = variant === 'minimal' ? 'p-4' : 'p-6';
 
   const classes = [
-    'relative border rounded-xl flex flex-col gap-stack transition-[box-shadow,transform] duration-base ease-emphasis no-underline text-inherit',
-    'hover:-translate-y-0.5 hover:shadow-md',
+    'relative border rounded-xl flex flex-col gap-stack transition-colors duration-base ease-emphasis no-underline text-inherit',
+    CARD_HOVER[tone],
     'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
     toneBg,
     padding,

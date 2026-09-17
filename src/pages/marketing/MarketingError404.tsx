@@ -112,7 +112,6 @@ export const MarketingError404: React.FC = () => {
                 hidden: { y: 10 },
                 visible: { y: 0, transition: { duration: 0.35, ease: [0, 0, 0.2, 1] } },
               }}
-              whileHover={{ y: -2 }}
             >
               <Link
                 to={s.href}

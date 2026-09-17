@@ -157,7 +157,7 @@ const Framework: React.FC = () => (
       <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-stack-lg m-0 p-0 list-none">
         {STRIDE_PHASES.map((s, i) => (
           <FadeInWhenVisible key={s.lettre} delay={i * 0.04} direction="up">
-            <li className="flex h-full items-center gap-stack rounded-lg bg-white p-stack-lg shadow-card">
+            <li className="flex h-full items-center gap-stack rounded-lg border border-ink-200 bg-white p-stack-lg">
               <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary-700 font-display text-h4 font-extrabold text-white">
                 {s.lettre}
               </span>
@@ -171,7 +171,7 @@ const Framework: React.FC = () => (
       </ol>
 
       <FadeInWhenVisible>
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-stack rounded-lg bg-white p-stack-lg shadow-card">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-stack rounded-lg border border-ink-200 bg-white p-stack-lg">
           <p className="font-body text-body text-ink-600 m-0 max-w-xl">
             La version opérationnelle, avec les livrables de chaque jalon, est
             sur la page consacrée à la méthode STRIDE.

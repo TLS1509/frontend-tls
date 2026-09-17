@@ -34,16 +34,16 @@ const TONE_ICON: Record<ActionCardTone, string> = {
 
 const SURFACE_TONE: Record<ActionCardSurface, Record<ActionCardTone, string>> = {
   card: {
-    neutral: 'bg-white border border-ink-200 hover:border-ink-300',
-    brand:   'bg-white border border-primary-200 hover:border-primary-300',
-    warm:    'bg-white border border-secondary-200 hover:border-secondary-300',
-    sun:     'bg-white border border-accent-200 hover:border-accent-300',
+    neutral: 'bg-white border border-ink-200 hover:border-ink-300 hover:bg-ink-50/50',
+    brand:   'bg-white border border-primary-200 hover:border-primary-300 hover:bg-primary-50/40',
+    warm:    'bg-white border border-secondary-200 hover:border-secondary-300 hover:bg-secondary-50/40',
+    sun:     'bg-white border border-accent-200 hover:border-accent-300 hover:bg-accent-50/40',
   },
   tinted: {
     neutral: 'bg-ink-50 border border-ink-100 hover:border-ink-200 hover:bg-ink-100/50',
-    brand:   'bg-primary-50/60 border border-primary-100 hover:border-primary-200',
-    warm:    'bg-secondary-50/60 border border-secondary-100 hover:border-secondary-200',
-    sun:     'bg-accent-50/70 border border-accent-100 hover:border-accent-200',
+    brand:   'bg-primary-50/60 border border-primary-100 hover:border-primary-200 hover:bg-primary-50',
+    warm:    'bg-secondary-50/60 border border-secondary-100 hover:border-secondary-200 hover:bg-secondary-50',
+    sun:     'bg-accent-50/70 border border-accent-100 hover:border-accent-200 hover:bg-accent-50',
   },
   glass: {
     neutral: 'bg-white/70 backdrop-blur-glass-light border border-white/60 hover:bg-white/85 shadow-sm',
@@ -57,13 +57,6 @@ const SURFACE_TONE: Record<ActionCardSurface, Record<ActionCardTone, string>> = 
     warm:    'bg-secondary-100/40 backdrop-blur-glass-medium border border-secondary-200/50 hover:bg-secondary-100/55 shadow-md',
     sun:     'bg-accent-100/45 backdrop-blur-glass-medium border border-accent-200/50 hover:bg-accent-100/60 shadow-md',
   },
-};
-
-const TONE_HOVER_SHADOW: Record<ActionCardTone, string> = {
-  brand:   'hover:shadow-brand-sm',
-  warm:    'hover:shadow-warm-sm',
-  sun:     'hover:shadow-sun-sm',
-  neutral: 'hover:shadow-card-hover',
 };
 
 export const ActionCard: React.FC<ActionCardProps> = ({
@@ -81,7 +74,6 @@ export const ActionCard: React.FC<ActionCardProps> = ({
   const classes = [
     'group flex items-center gap-stack p-6 rounded-xl transition-all duration-base min-h-touch',
     SURFACE_TONE[surface][tone],
-    TONE_HOVER_SHADOW[tone], 'hover:-translate-y-1',
     clickable &&
       'cursor-pointer text-left w-full !h-auto !overflow-visible !items-center !font-normal focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
     className,

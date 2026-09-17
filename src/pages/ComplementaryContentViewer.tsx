@@ -19,7 +19,7 @@ import { ExternalLink, BookOpen, Video, FileText, Wrench, Clock, ArrowRight, Lib
 import { ViewerHeader } from '../components/patterns/ViewerHeader';
 import { Container } from '../components/layout';
 import { useLessonContext } from '../lib/lesson-context';
-import { TONE_BG_500, TONE_HERO_GRADIENT } from '../lib/tone-classes';
+import { CARD_HOVER, TONE_BG_500, TONE_HERO_GRADIENT } from '../lib/tone-classes';
 import type { PageTone } from '../lib/tone-classes';
 
 interface ComplementaryResource {
@@ -164,7 +164,7 @@ export const ComplementaryContentViewer: React.FC = () => {
               {RESOURCES.map((resource) => (
                 <Card
                   key={resource.id}
-                  className="transition-all duration-base hover:shadow-md hover:-translate-y-0.5"
+                  className={`transition-colors duration-base ${CARD_HOVER[tone]}`}
                 >
                   <div className="flex gap-stack">
                     {/* Icon bubble */}

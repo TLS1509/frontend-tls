@@ -47,11 +47,13 @@ const TONE_CTA: Record<NextStepTone, string> = {
   neutral: 'text-ink-900 group-hover:text-primary-700',
 };
 
+/* Survol : filet fermé d'un cran + fond très léger (règle du 2026-09-16,
+ * cf. CARD_HOVER dans lib/tone-classes.ts) — pas de soulèvement, pas d'ombre. */
 const TONE_HOVER_BORDER: Record<NextStepTone, string> = {
-  brand:   'hover:border-primary-200',
-  warm:    'hover:border-secondary-200',
-  sun:     'hover:border-accent-200',
-  neutral: 'hover:border-ink-300',
+  brand:   'hover:border-primary-200 hover:bg-primary-50/40',
+  warm:    'hover:border-secondary-200 hover:bg-secondary-50/40',
+  sun:     'hover:border-accent-200 hover:bg-accent-50/40',
+  neutral: 'hover:border-ink-300 hover:bg-ink-50/50',
 };
 
 const TONE_FOCUS: Record<NextStepTone, string> = {
@@ -87,9 +89,8 @@ export const NextStepsGrid: React.FC<NextStepsGridProps> = ({
       {items.map((step) => {
         const tone = step.tone ?? 'brand';
         const cardClasses = [
-          'group flex flex-col gap-stack p-6 bg-white rounded-lg border border-ink-100 shadow-card',
+          'group flex flex-col gap-stack p-6 bg-white rounded-lg border border-ink-100',
           'min-h-touch transition-all duration-base text-left cursor-pointer',
-          'hover:shadow-card-hover hover:-translate-y-0.5 active:translate-y-0 active:shadow-card',
           TONE_HOVER_BORDER[tone],
           'focus-visible:outline-2 focus-visible:outline-offset-2',
           TONE_FOCUS[tone],

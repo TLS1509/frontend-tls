@@ -31,6 +31,7 @@ import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { EditorialQuoteCallout } from '../components/patterns/EditorialQuoteCallout';
 import { PageShell } from '../components/layout';
+import { CARD_HOVER_NEUTRE } from '../lib/tone-classes';
 
 /* ─── Data ───────────────────────────────────────────────────────────────── */
 
@@ -139,7 +140,7 @@ export const WeeklyNewsletter: React.FC = () => {
 
           <article
             onClick={() => navigate('/veille/video-tutorial/1')}
-            className="grid grid-cols-1 md:grid-cols-[3fr_2fr] rounded-2xl overflow-hidden border border-ink-100 cursor-pointer hover:shadow-md transition-shadow duration-base"
+            className={`grid grid-cols-1 md:grid-cols-[3fr_2fr] rounded-2xl overflow-hidden border border-ink-100 cursor-pointer ${CARD_HOVER_NEUTRE} transition-colors duration-base`}
           >
             {/* Thumbnail */}
             <div className="relative aspect-video md:aspect-auto md:min-h-[260px] bg-gradient-to-br from-ink-900 via-primary-900 to-ink-800 flex items-center justify-center">
@@ -182,7 +183,7 @@ export const WeeklyNewsletter: React.FC = () => {
                 <article
                   key={article.id}
                   onClick={() => navigate('/veille/weekly-news/1')}
-                  className="rounded-2xl overflow-hidden border border-ink-100 cursor-pointer hover:-translate-y-0.5 hover:shadow-md transition-all duration-base"
+                  className={`rounded-2xl overflow-hidden border border-ink-100 cursor-pointer ${CARD_HOVER_NEUTRE} transition-colors duration-base`}
                 >
                   <div className={`h-28 flex items-end p-3 ${tone.cover}`}>
                     <span className={`inline-flex px-2.5 py-1 rounded-pill text-micro font-bold backdrop-blur-glass-light ${tone.chip}`}>

@@ -189,7 +189,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 
   // Horizontal variant : flex-row, avatar left, info center, cta right (responsive stacks on mobile)
   const cardClasses = [
-    'rounded-xl border bg-white shadow-sm transition-[box-shadow] duration-base ease-emphasis',
+    'rounded-xl border bg-white',
     isHorizontal
       ? 'flex flex-col md:flex-row md:items-center'
       : ['flex flex-col', isCentered ? 'items-center text-center' : 'items-start text-left'].join(' '),

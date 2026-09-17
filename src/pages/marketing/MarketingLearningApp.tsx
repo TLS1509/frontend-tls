@@ -486,7 +486,7 @@ const Bibliotheque: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-stack-lg items-start">
-              <div className="lg:col-span-7 flex flex-col gap-stack rounded-lg bg-white p-stack-lg shadow-card">
+              <div className="lg:col-span-7 flex flex-col gap-stack rounded-lg border border-ink-200 bg-white p-stack-lg">
                 <div className="flex flex-wrap items-center gap-stack-xs">
                   <span className="rounded-pill bg-primary-100 px-3 py-1 font-body text-caption font-bold text-primary-800">
                     {fiche.type}
@@ -523,14 +523,14 @@ const Bibliotheque: React.FC = () => {
               </div>
 
               <div className="lg:col-span-5 flex flex-col gap-stack">
-                <div className="flex items-start gap-stack rounded-lg bg-white p-stack-lg shadow-card">
+                <div className="flex items-start gap-stack rounded-lg border border-ink-200 bg-white p-stack-lg">
                   <CalendarClock size={20} className="text-primary-700 shrink-0 mt-0.5" />
                   <p className="font-body text-body-sm text-ink-700 m-0">
                     <span className="font-bold text-ink-900">Parcours lié : </span>
                     {fiche.parcours}
                   </p>
                 </div>
-                <div className="flex items-start gap-stack rounded-lg bg-white p-stack-lg shadow-card">
+                <div className="flex items-start gap-stack rounded-lg border border-ink-200 bg-white p-stack-lg">
                   <BadgeCheck size={20} className="text-primary-700 shrink-0 mt-0.5" />
                   <p className="font-body text-body-sm text-ink-700 m-0">
                     <span className="font-bold text-ink-900">Reconnaissance : </span>

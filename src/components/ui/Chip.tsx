@@ -89,8 +89,11 @@ export const CHIP_SURFACE_MAP: Record<
   'glass-tinted': 'bg-white/55 text-ink-700 border-white/60 backdrop-blur-glass-light shadow-xs',
 };
 
+/* Soulèvement retiré le 2026-09-17 (motif S1) : le survol d'un chip est déjà
+   dit par CHIP_TONE_HOVER (fond) — le translate déplaçait la cible sous le
+   curseur et n'existait pas au tactile. */
 export const CHIP_INTERACTIVE =
-  'cursor-pointer hover:-translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
+  'cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
 
 // ─── Helper: resolve full class string for any chip configuration ───────────
 

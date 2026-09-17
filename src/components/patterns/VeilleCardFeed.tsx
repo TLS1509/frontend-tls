@@ -165,9 +165,9 @@ export const VeilleCard: React.FC<VeilleCardProps> = ({ item, surface, isSaved, 
       aria-label={`${isVideo ? 'Visionner' : 'Lire'} : ${item.title}`}
       className={[
         'group relative flex flex-col rounded-lg border overflow-hidden cursor-pointer',
-        'transition-all duration-base hover:-translate-y-1 hover:shadow-xl',
+        'transition-all duration-base',
         'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
-        surface === 'glass' ? SURFACE_GLASS : 'bg-white border-ink-200 hover:border-ink-300',
+        surface === 'glass' ? SURFACE_GLASS : 'bg-white border-ink-200 hover:border-ink-300 hover:bg-ink-50/50',
         ROLE_BUTTON_RESET,
       ].join(' ')}
     >
@@ -257,9 +257,9 @@ export const VeilleCardListItem: React.FC<VeilleCardProps> = ({ item, surface, i
       aria-label={`${isVideo ? 'Visionner' : 'Lire'} : ${item.title}`}
       className={[
         '@container group relative flex items-stretch gap-0 rounded-lg border overflow-hidden cursor-pointer',
-        'transition-all duration-base hover:-translate-y-0.5 hover:shadow-lg',
+        'transition-all duration-base',
         'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
-        surface === 'glass' ? SURFACE_GLASS : 'bg-white border-ink-200 hover:border-ink-300',
+        surface === 'glass' ? SURFACE_GLASS : 'bg-white border-ink-200 hover:border-ink-300 hover:bg-ink-50/50',
         ROLE_BUTTON_RESET,
       ].join(' ')}
     >
@@ -357,7 +357,7 @@ export const FeaturedSpotlight: React.FC<FeaturedSpotlightProps> = ({ item, isSa
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onClick?.(item); }}
       className={[
         'group relative grid grid-cols-1 @2xl:grid-cols-[1.1fr_1fr] rounded-lg border border-ink-200 bg-white overflow-hidden cursor-pointer',
-        'transition-all duration-base hover:-translate-y-1 hover:shadow-xl',
+        'transition-all duration-base hover:border-ink-300 hover:bg-ink-50/50',
         'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
         ROLE_BUTTON_RESET,
       ].join(' ')}

@@ -254,7 +254,10 @@ export const AuthSocialButton: React.FC<AuthSocialButtonProps> = ({
       'inline-flex items-center justify-center gap-stack-xs h-12 px-4',
       RAYON_BOUTON,
       'bg-white text-ink-900 text-body-sm font-semibold cursor-pointer transition-all',
-      'hover:bg-ink-50 hover:-translate-y-px hover:shadow-md',
+      /* Soulèvement retiré le 2026-09-17 — même motif que S1 sur Button.tsx :
+         il datait l'interface, déplaçait le contenu sous le curseur et
+         n'existait pas sur mobile. L'ombre reste (canon bouton). */
+      'hover:bg-ink-50 hover:shadow-md',
       'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white',
       className,
     ]
@@ -442,8 +445,8 @@ export const AuthPrimaryButton: React.FC<React.ButtonHTMLAttributes<HTMLButtonEl
       'inline-flex items-center justify-center gap-stack-xs w-full h-12 px-4',
       RAYON_BOUTON,
       'bg-white text-ink-900 text-body font-semibold cursor-pointer transition-all',
-      'shadow-md hover:bg-ink-50 hover:-translate-y-px hover:shadow-lg',
-      'disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-md',
+      'shadow-md hover:bg-ink-50 hover:shadow-lg',
+      'disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-md',
       'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white',
       className,
     ]
@@ -470,7 +473,7 @@ export const AuthGhostButton: React.FC<React.ButtonHTMLAttributes<HTMLButtonElem
       'inline-flex items-center justify-center gap-stack-xs w-full h-12 px-4',
       RAYON_BOUTON,
       'bg-transparent text-white border border-white/30 text-body font-semibold cursor-pointer transition-all',
-      'hover:bg-white/10 hover:border-white/50 hover:-translate-y-px',
+      'hover:bg-white/10 hover:border-white/50',
       'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white',
       className,
     ]

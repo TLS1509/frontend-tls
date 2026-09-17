@@ -216,7 +216,7 @@ export const MarketingContact: React.FC = () => {
         <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 grid grid-cols-1 lg:grid-cols-[1.6fr_1fr] gap-section items-start">
           {/* Form column */}
           <FadeInWhenVisible direction="up">
-            <div className="rounded-lg bg-gradient-to-br from-white to-primary-50/30 border border-ink-100 shadow-sm p-section">
+            <div className="rounded-lg bg-gradient-to-br from-white to-primary-50/30 border border-ink-100 p-section">
               {submitted ? (
                 <motion.div
                   initial={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.95 }}
@@ -552,7 +552,7 @@ export const MarketingContact: React.FC = () => {
                   → Dès que l'URL de réservation existe : rétablir le `<a>`
                   externe, le libellé « Réservez un échange de 30 min » et
                   « Choisissez votre créneau dans notre agenda ». */}
-              <div className="relative overflow-hidden rounded-lg bg-primary-50 border border-primary-200 p-stack-lg flex flex-col gap-stack-lg shadow-sm">
+              <div className="relative overflow-hidden rounded-lg bg-primary-50 border border-primary-200 p-stack-lg flex flex-col gap-stack-lg">
                 <div className="flex flex-col gap-stack">
                   <span className="inline-flex items-center gap-stack-2xs px-2.5 py-1 rounded-pill bg-white border border-primary-200 text-accent-400 text-caption font-bold w-fit">
                     <Sparkles size={14} />
@@ -579,7 +579,7 @@ export const MarketingContact: React.FC = () => {
               </div>
 
             {/* Contact info */}
-              <div className="rounded-lg bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack shadow-sm">
+              <div className="rounded-lg bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack">
                 <h3 className="font-display text-body font-semibold font-bold text-ink-900">Autres canaux</h3>
                 <div className="flex flex-col gap-stack">
                   <a
@@ -639,7 +639,7 @@ export const MarketingContact: React.FC = () => {
               </div>
 
             {/* Quick links */}
-              <div className="rounded-lg bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack shadow-sm">
+              <div className="rounded-lg bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack">
                 <h3 className="font-display text-body font-semibold font-bold text-ink-900">Accès rapide</h3>
                 <div className="flex flex-col gap-stack-xs">
                   {QUICK_LINKS.map((q) => (

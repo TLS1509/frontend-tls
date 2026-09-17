@@ -7,6 +7,7 @@
 
 import React from 'react';
 import { GRID_CONTAINER, GRID_COLS_CONTENT } from '../../lib/grid-columns';
+import { CARD_HOVER } from '../../lib/tone-classes';
 import { ArrowRight, FileText, Loader2 } from 'lucide-react';
 import type { CardTone } from '../core/Card';
 
@@ -71,19 +72,8 @@ const BADGE_CLASSES: Record<PageCardBadgeVariant, string> = {
 /* Colonnage : src/lib/grid-columns.ts — source unique, en largeur de conteneur. */
 const COLUMNS_CLASSES = GRID_COLS_CONTENT;
 
-const TONE_RING: Record<NonNullable<PageCardItem['tone']>, string> = {
-  primary:   'hover:border-primary-300',
-  warm:      'hover:border-secondary-300',
-  sun:       'hover:border-accent-300',
-  brand:     'hover:border-primary-300',
-};
-
-const TONE_HOVER_SHADOW: Record<NonNullable<PageCardItem['tone']>, string> = {
-  primary: 'hover:shadow-brand-sm',
-  warm:    'hover:shadow-warm-sm',
-  sun:     'hover:shadow-sun-sm',
-  brand:   'hover:shadow-brand-sm',
-};
+/* Survol : filet fermé d'un cran + fond très léger — CARD_HOVER[tone]
+ * (lib/tone-classes.ts, règle du 2026-09-16). Pas de soulèvement, pas d'ombre. */
 
 const TONE_ICON_BUBBLE: Record<NonNullable<PageCardItem['tone']>, string> = {
   primary: 'bg-primary-50 text-primary-600',
@@ -108,10 +98,8 @@ export const PageCard: React.FC<{ item: PageCardItem; showThumbnail?: boolean }>
   const card = (
     <div
       className={[
-        'group relative flex flex-col overflow-hidden bg-white border border-ink-200 rounded-lg shadow-card transition-all duration-base',
-        'hover:-translate-y-1',
-        TONE_HOVER_SHADOW[tone],
-        TONE_RING[tone],
+        'group relative flex flex-col overflow-hidden bg-white border border-ink-200 rounded-lg transition-all duration-base',
+        CARD_HOVER[tone],
       ].join(' ')}
     >
       {/* Thumbnail */}

@@ -10,7 +10,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useParams, Navigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { CARD_HOVER } from '../../lib/tone-classes';
 import {
   ArrowLeft,
   ArrowRight,
@@ -452,7 +452,7 @@ export const MarketingArticleDetail: React.FC = () => {
           {prev && (
             <Link
               to={`/website/magazine/${prev.slug}`}
-              className="group flex flex-col gap-stack p-stack-lg rounded-xl bg-white border border-ink-100 hover:border-primary-200 transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+              className={`group flex flex-col gap-stack p-stack-lg rounded-xl bg-white border border-ink-100 ${CARD_HOVER.primary} transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500`}
             >
               <span className="inline-flex items-center gap-stack-2xs font-body text-caption font-bold text-ink-500 uppercase tracking-widest">
                 <ArrowLeft size={14} className="transition-transform duration-base group-hover:-translate-x-1" />
@@ -467,7 +467,7 @@ export const MarketingArticleDetail: React.FC = () => {
           {next && (
             <Link
               to={`/website/magazine/${next.slug}`}
-              className={`group flex flex-col gap-stack p-stack-lg rounded-2xl bg-white border border-ink-100 hover:border-primary-200 hover:shadow-card-hover transition-all duration-base text-right focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${!prev ? 'md:col-start-2' : ''}`}
+              className={`group flex flex-col gap-stack p-stack-lg rounded-2xl bg-white border border-ink-100 ${CARD_HOVER.primary} transition-all duration-base text-right focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${!prev ? 'md:col-start-2' : ''}`}
             >
               <span className="inline-flex items-center gap-stack-2xs self-end font-body text-caption font-bold text-ink-500 uppercase tracking-widest">
                 Article suivant
@@ -501,10 +501,8 @@ export const MarketingArticleDetail: React.FC = () => {
             {related.map((r, i) => (
               <FadeInWhenVisible key={r.slug} direction="up" delay={i * 0.1}>
                 <Link to={`/website/magazine/${r.slug}`} className="group block h-full rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">
-                  <motion.article
-                    whileHover={{ y: -4 }}
-                    transition={{ type: 'spring', stiffness: 280, damping: 22 }}
-                    className="h-full bg-white border border-ink-100 rounded-2xl overflow-hidden flex flex-col shadow-card hover:shadow-card-lift hover:border-primary-200 transition-shadow duration-base"
+                  <article
+                    className={`h-full bg-white border border-ink-100 rounded-2xl overflow-hidden flex flex-col ${CARD_HOVER.primary} transition-colors duration-base`}
                   >
                     <div className={`relative h-32 bg-gradient-to-br ${r.cover} flex items-center justify-center overflow-hidden`}>
                       <div aria-hidden className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/10 to-white/20" />
@@ -538,7 +536,7 @@ export const MarketingArticleDetail: React.FC = () => {
                         />
                       </div>
                     </div>
-                  </motion.article>
+                  </article>
                 </Link>
               </FadeInWhenVisible>
             ))}

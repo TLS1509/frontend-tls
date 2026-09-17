@@ -37,7 +37,7 @@ export const QuizQuestionCard: React.FC<QuizQuestionCardProps> = ({
   return (
     <div
       className={[
-        'flex flex-col gap-stack-lg bg-white border border-ink-200 rounded-lg p-7 shadow-sm',
+        'flex flex-col gap-stack-lg bg-white border border-ink-200 rounded-lg p-7',
         className,
       ]
         .filter(Boolean)
@@ -67,7 +67,7 @@ export const QuizQuestionCard: React.FC<QuizQuestionCardProps> = ({
           const showIncorrect = answered && showCorrectAnswer && isSelected && !isCorrect;
           const optionLetter = String.fromCharCode(65 + idx);
 
-          let optionClasses = 'border-ink-200 bg-white hover:border-primary-300 hover:bg-primary-50/30 hover:-translate-y-px';
+          let optionClasses = 'border-ink-200 bg-white hover:border-primary-300 hover:bg-primary-50/30';
           let letterBg = 'bg-ink-100 text-ink-700';
           if (showCorrect) {
             optionClasses = 'border-success-base bg-success-bg shadow-sm';

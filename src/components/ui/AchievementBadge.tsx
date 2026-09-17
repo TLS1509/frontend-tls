@@ -124,7 +124,7 @@ export const AchievementBadge: React.FC<AchievementBadgeProps> = ({
           onClick={onShare}
           className={[
             'mt-stack px-5 py-3 min-h-touch text-white border-0 rounded-md text-caption font-semibold cursor-pointer transition-all',
-            'hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+            'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
             COLOR_BTN[color],
           ].join(' ')}
         >

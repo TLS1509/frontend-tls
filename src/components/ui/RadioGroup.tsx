@@ -102,10 +102,10 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
                 key={option.value}
                 className={[
                   'relative flex items-start gap-stack-xs p-4 rounded-lg border-2 cursor-pointer',
-                  'transition-[border-color,background-color,transform,box-shadow] duration-base ease-standard select-none',
+                  'transition-[border-color,background-color,box-shadow] duration-base ease-standard select-none',
                   isChecked
                     ? TONE_CHECKED_CARD[tone]
-                    : 'border-ink-200 bg-white hover:border-ink-300 hover:-translate-y-px hover:shadow-sm',
+                    : 'border-ink-200 bg-white hover:border-ink-300',
                   isDisabled && 'opacity-disabled cursor-not-allowed pointer-events-none',
                   TONE_FOCUS[tone],
                 ]

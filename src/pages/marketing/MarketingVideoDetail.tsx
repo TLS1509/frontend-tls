@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { Link, useParams, Navigate } from 'react-router-dom';
-import { motion, useReducedMotion } from 'framer-motion';
+import { CARD_HOVER } from '../../lib/tone-classes';
 import {
   ArrowLeft,
   ArrowRight,
@@ -28,7 +28,6 @@ const CONTAINER = 'max-w-medium mx-auto px-4 sm:px-6 lg:px-10';
 export const MarketingVideoDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const video = slug ? findVideo(slug) : null;
-  const reduced = useReducedMotion();
 
   if (!video) {
     return <Navigate to="/website/resources" replace />;
@@ -159,10 +158,8 @@ export const MarketingVideoDetail: React.FC = () => {
               {related.map((r, i) => (
                 <FadeInWhenVisible key={r.slug} direction="up" delay={i * 0.06}>
                   <Link to={`/website/videos/${r.slug}`} className="group block h-full rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">
-                    <motion.article
-                      whileHover={reduced ? undefined : { y: -4 }}
-                      transition={{ type: 'spring', stiffness: 280, damping: 22 }}
-                      className="h-full bg-white border border-ink-100 rounded-2xl overflow-hidden flex flex-col shadow-card hover:shadow-card-hover hover:border-primary-200 transition-shadow duration-base"
+                    <article
+                      className={`h-full bg-white border border-ink-100 rounded-2xl overflow-hidden flex flex-col ${CARD_HOVER.primary} transition-colors duration-base`}
                     >
                       <div className={`relative h-32 bg-gradient-to-br ${r.cover} flex items-center justify-center`}>
                         <Play size={28} strokeWidth={1.5} className="text-ink-900/30" />
@@ -179,7 +176,7 @@ export const MarketingVideoDetail: React.FC = () => {
                           <ArrowRight size={14} className="transition-transform duration-base group-hover:translate-x-0.5" />
                         </div>
                       </div>
-                    </motion.article>
+                    </article>
                   </Link>
                 </FadeInWhenVisible>
               ))}

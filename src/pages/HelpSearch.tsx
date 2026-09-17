@@ -9,6 +9,7 @@ import { FilterChip } from '../components/ui/FilterChip';
 import { Input } from '../components/core/Input';
 import { Container, PageShell } from '../components/layout';
 import { useHelpcenterStore } from '../stores/persistence';
+import { CARD_HOVER_NEUTRE } from '../lib/tone-classes';
 
 const CATEGORY_ICONS: Record<string, React.ReactNode> = {
   'cat-01': <GraduationCap size={14} />,
@@ -92,7 +93,7 @@ export default function HelpSearch() {
             results.map((article) => (
               <Card
                 key={article.id}
-                className="cursor-pointer hover:shadow-md transition-all duration-base"
+                className={`cursor-pointer ${CARD_HOVER_NEUTRE} transition-colors duration-base`}
                 onClick={() => navigate(`/help/article/${article.id}`)}
               >
                 <div className="flex flex-col gap-stack-xs">

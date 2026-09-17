@@ -18,7 +18,7 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, useReducedMotion } from 'framer-motion';
+import { CARD_HOVER } from '../../lib/tone-classes';
 import type { LucideIcon } from 'lucide-react';
 import {
   BookOpen,
@@ -188,14 +188,13 @@ const badgeTone = (item: ResourceItem) =>
  * Featured card — Hero card at top of grid
  */
 const FeaturedCard: React.FC<{ item: ResourceItem }> = ({ item }) => {
-  const reduced = useReducedMotion();
   return (
   <FadeInWhenVisible>
     <Link to={item.href} className="group block rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">
-      <motion.div
-        whileHover={reduced ? undefined : { y: -6 }}
-        transition={{ type: 'spring', stiffness: 280, damping: 22 }}
-        className={`relative rounded-2xl bg-gradient-to-br ${item.cover} border h-full overflow-hidden flex flex-col shadow-sm hover:shadow-xl transition-all duration-base`}
+      {/* Survol : filet seul (règle 16/09) — le fond de cette carte est un dégradé
+          opaque, une teinte hover:bg-* serait peinte dessous, donc invisible. */}
+      <div
+        className={`relative rounded-2xl bg-gradient-to-br ${item.cover} border border-ink-200 hover:border-ink-300 h-full overflow-hidden flex flex-col transition-colors duration-base`}
       >
         {/* Image background */}
         <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-transparent pointer-events-none" />
@@ -230,7 +229,7 @@ const FeaturedCard: React.FC<{ item: ResourceItem }> = ({ item }) => {
             />
           </div>
         </div>
-      </motion.div>
+      </div>
     </Link>
   </FadeInWhenVisible>
   );
@@ -240,15 +239,12 @@ const FeaturedCard: React.FC<{ item: ResourceItem }> = ({ item }) => {
  * Resource card — standard grid item
  */
 const ResourceCard: React.FC<{ item: ResourceItem; index: number }> = ({ item, index }) => {
-  const reduced = useReducedMotion();
   const Icon = TYPE_ICON[item.type];
   return (
     <FadeInWhenVisible direction="up" delay={index * 0.05}>
       <Link to={item.href} className="group block h-full rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">
-        <motion.article
-          whileHover={reduced ? undefined : { y: -4 }}
-          transition={{ type: 'spring', stiffness: 280, damping: 22 }}
-          className="h-full bg-white border border-ink-100 rounded-2xl overflow-hidden flex flex-col shadow-sm hover:shadow-lg hover:border-primary-200 transition-all duration-base"
+        <article
+          className={`h-full bg-white border border-ink-100 rounded-2xl overflow-hidden flex flex-col ${CARD_HOVER.primary} transition-colors duration-base`}
         >
           {/* Image placeholder */}
           <div className={`relative h-40 bg-gradient-to-br ${item.cover} flex items-center justify-center overflow-hidden`}>
@@ -285,7 +281,7 @@ const ResourceCard: React.FC<{ item: ResourceItem; index: number }> = ({ item, i
               <ArrowRight size={14} className="transition-transform duration-base group-hover:translate-x-0.5" />
             </div>
           </div>
-        </motion.article>
+        </article>
       </Link>
     </FadeInWhenVisible>
   );

@@ -6,7 +6,7 @@
  *
  * 2 modes :
  *  - **display** (default) : div wrapper — pour features statiques sur landing/marketing
- *  - **button** (onClick provided) : button wrapper sémantique + focus-visible + hover lift
+ *  - **button** (onClick provided) : button wrapper sémantique + focus-visible
  *
  * 3 icon styles :
  *  - **plain** (default) : icon stroke nu, tone-colored — visuel le plus discret
@@ -43,6 +43,7 @@
  */
 
 import React from 'react';
+import { CARD_HOVER } from '../../lib/tone-classes';
 
 export type IconFeatureCardTone = 'brand' | 'warm' | 'sun';
 export type IconFeatureCardIconStyle = 'plain' | 'filled' | 'bubble';
@@ -106,9 +107,11 @@ const TONE_FOCUS: Record<IconFeatureCardTone, string> = {
   sun:   'focus-visible:outline-accent-500',
 };
 
-/* Surface (aspect de fond) — tone-aware pour 'tinted' uniquement */
+/* Surface (aspect de fond) — tone-aware pour 'tinted' uniquement.
+ * 'card' reçoit son survol via CARD_HOVER[tone] (getSurfaceClasses) — filet
+ * fermé d'un cran + fond léger, règle du 2026-09-16. */
 const SURFACE_CARD =
-  'bg-white border border-ink-200 hover:border-ink-300';
+  'bg-white border border-ink-200';
 
 const SURFACE_TINTED: Record<IconFeatureCardTone, string> = {
   brand: 'bg-primary-50/60 border border-primary-100 hover:border-primary-200 hover:bg-primary-50',
@@ -135,10 +138,10 @@ const SURFACE_FROSTED =
    pour des grids homogènes (typique des quick actions, KPI tiles, etc.). */
 /* BASE — padding ajouté via PADDING_BY_SIZE (scale avec iconSize). */
 const BASE_DISPLAY =
-  'group flex flex-col items-center justify-center text-center gap-stack-xs rounded-2xl transition-[box-shadow,transform] duration-base ease-emphasis hover:shadow-md hover:-translate-y-1';
+  'group flex flex-col items-center justify-center text-center gap-stack-xs rounded-2xl transition-colors duration-base ease-emphasis';
 
 const BASE_BUTTON =
-  'group flex flex-col items-center justify-center text-center gap-stack-xs rounded-2xl transition-[box-shadow,transform] duration-base ease-emphasis cursor-pointer hover:shadow-md hover:-translate-y-1 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-disabled disabled:cursor-not-allowed disabled:hover:shadow-none disabled:hover:translate-y-0 active:scale-[0.98] active:translate-y-0';
+  'group flex flex-col items-center justify-center text-center gap-stack-xs rounded-2xl transition-[border-color,background-color,transform] duration-base ease-emphasis cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-disabled disabled:cursor-not-allowed active:scale-[0.98]';
 
 /* Square aspect — garde l'aspect bouton-compact responsive (ratio 1:1) */
 const SQUARE_ASPECT = 'aspect-square';
@@ -194,7 +197,7 @@ function getSurfaceClasses(surface: IconFeatureCardSurface, tone: IconFeatureCar
     case 'glass': return SURFACE_GLASS;
     case 'frosted': return SURFACE_FROSTED;
     case 'card':
-    default: return SURFACE_CARD;
+    default: return `${SURFACE_CARD} ${CARD_HOVER[tone]}`;
   }
 }
 
