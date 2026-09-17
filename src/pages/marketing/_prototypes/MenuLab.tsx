@@ -67,7 +67,7 @@ const CtaPair: React.FC<{ compact?: boolean }> = ({ compact }) => (
     </span>
     <span
       className={`inline-flex items-center gap-1.5 rounded-pill bg-primary-700 font-body font-semibold text-white transition-colors duration-fast hover:bg-primary-800 ${
-        compact ? 'px-3.5 py-1.5 text-caption' : 'px-5 py-2.5 text-body-sm'
+        compact ? 'px-3.5 py-1.5 text-caption' : 'px-stack-md py-2.5 text-body-sm'
       }`}
     >
       Connexion
@@ -97,7 +97,7 @@ const VariantA: React.FC = () => (
 const VariantB: React.FC = () => (
   <div className="w-full py-4">
     <div className="max-w-wide mx-auto px-gutter flex items-center justify-between gap-flow">
-      <div className="flex items-center gap-6 rounded-pill bg-white/85 ring-1 ring-ink-200/70 backdrop-blur-glass-light pl-5 pr-6 h-14 shadow-xs">
+      <div className="flex items-center gap-6 rounded-pill bg-white/85 ring-1 ring-ink-200/70 backdrop-blur-glass-light pl-stack-md pr-6 h-14 shadow-xs">
         <Wordmark compact />
         <nav className="hidden lg:flex items-center gap-6">
           {LINKS.map((l) => (
@@ -117,7 +117,7 @@ const VariantB: React.FC = () => (
 const VariantC: React.FC = () => (
   <div className="w-full py-4">
     <div className="max-w-wide mx-auto px-gutter">
-      <div className="flex items-center justify-between gap-flow rounded-pill bg-white/85 ring-1 ring-ink-200/70 backdrop-blur-glass-light pl-5 pr-1.5 h-16 shadow-xs">
+      <div className="flex items-center justify-between gap-flow rounded-pill bg-white/85 ring-1 ring-ink-200/70 backdrop-blur-glass-light pl-stack-md pr-1.5 h-16 shadow-xs">
         <Wordmark />
         <nav className="hidden lg:flex items-center gap-6">
           {LINKS.map((l) => (

@@ -498,7 +498,7 @@ const DoubleCta: React.FC = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Votre email professionnel"
-                    className="h-12 w-full rounded-lg border border-white/25 bg-white/10 px-5 font-body text-body text-white placeholder:text-white/55 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-400"
+                    className="h-12 w-full rounded-lg border border-white/25 bg-white/10 px-stack-md font-body text-body text-white placeholder:text-white/55 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-400"
                   />
                   <Button type="submit" emphasis="solid" tone="warm" size="lg" fullWidth disabled={sending} trailingIcon={<ArrowRight size={18} />}>
                     {sending ? 'Envoi en cours…' : "S'abonner à La Vigie IA"}

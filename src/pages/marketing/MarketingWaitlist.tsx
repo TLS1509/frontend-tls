@@ -235,7 +235,7 @@ export const MarketingWaitlist: React.FC = () => {
               {/* Trust strip */}
               <motion.div
                 variants={itemVariants}
-                className="flex flex-wrap gap-x-5 gap-y-stack-xs pt-1"
+                className="flex flex-wrap gap-x-stack-md gap-y-stack-xs pt-1"
               >
                 {TRUST_SIGNALS.map(({ icon, label }) => (
                   <div

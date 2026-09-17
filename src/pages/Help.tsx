@@ -166,7 +166,7 @@ export const Help: React.FC = () => {
                     type="button"
                     aria-expanded={isOpen}
                     onClick={() => toggleFaq(item.id)}
-                    className="w-full flex items-center justify-between gap-stack px-5 py-stack bg-transparent border-0 cursor-pointer text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-t-xl"
+                    className="w-full flex items-center justify-between gap-stack px-stack-md py-stack bg-transparent border-0 cursor-pointer text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-t-xl"
                   >
                     <div className="flex items-center gap-stack-xs">
                       <Badge variant={isOpen ? 'brand' : 'neutral'}>{item.topic}</Badge>
@@ -179,7 +179,7 @@ export const Help: React.FC = () => {
                     </span>
                   </button>
                   {isOpen && (
-                    <div className="px-5 pb-5 pt-stack border-t border-ink-200 font-body text-body-sm text-ink-500 leading-relaxed">
+                    <div className="px-stack-md pb-stack-md pt-stack border-t border-ink-200 font-body text-body-sm text-ink-500 leading-relaxed">
                       {item.answer}
                     </div>
                   )}
@@ -203,7 +203,7 @@ export const Help: React.FC = () => {
 
           <Card className="border border-primary-200 bg-white overflow-hidden flex flex-col">
             {/* Chat header */}
-            <div className="flex items-center gap-stack-xs px-5 py-stack border-b border-ink-200 bg-gradient-to-br from-primary-50 to-white">
+            <div className="flex items-center gap-stack-xs px-stack-md py-stack border-b border-ink-200 bg-gradient-to-br from-primary-50 to-white">
               <div className="w-10 h-10 rounded-lg bg-primary-100 text-primary-700 flex items-center justify-center shrink-0">
                 <Bot size={20} />
               </div>

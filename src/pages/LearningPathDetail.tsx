@@ -650,7 +650,7 @@ export const LearningPathDetail: React.FC = () => {
                   </div>
                   <div className="flex-1">
                     <div className="text-h4 font-bold text-ink-900 mb-2">Avant de commencer</div>
-                    <ul className="m-0 pl-5 text-body-sm text-ink-500 leading-relaxed">
+                    <ul className="m-0 pl-stack-md text-body-sm text-ink-500 leading-relaxed">
                       <li>Complétez les 5 étapes du parcours de formation</li>
                       <li>Maîtrisez la méthode ROLE-CONTEXT-TASK (RCT)</li>
                       <li>Ayez identifié vos cas d'usage prioritaires</li>

@@ -84,7 +84,7 @@ export const QuizQuestionCard: React.FC<QuizQuestionCardProps> = ({
             <button
               key={option.id}
               className={[
-                'group flex items-center gap-stack px-5 py-stack rounded-lg border-2 cursor-pointer transition-all text-left',
+                'group flex items-center gap-stack px-stack-md py-stack rounded-lg border-2 cursor-pointer transition-all text-left',
                 'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                 'disabled:cursor-not-allowed disabled:opacity-60',
                 optionClasses,

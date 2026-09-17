@@ -235,7 +235,7 @@ export const Journal: React.FC = () => {
 
         {/* Active filter result count */}
         {hasActiveFilter && (
-          <div className="flex items-center justify-between px-5 py-3 bg-primary-50 border border-primary-100 rounded-lg">
+          <div className="flex items-center justify-between px-stack-md py-3 bg-primary-50 border border-primary-100 rounded-lg">
             <span className="font-body text-body-sm text-primary-700 font-medium">
               {filteredEntries.length} entrée{filteredEntries.length > 1 ? 's' : ''} trouvée{filteredEntries.length > 1 ? 's' : ''}
             </span>

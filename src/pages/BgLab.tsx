@@ -40,7 +40,7 @@ const VARIANTS: Variant[] = [
 
 const Sample: React.FC<{ v: Variant }> = ({ v }) => (
   <section
-    className="relative flex flex-col gap-5 p-6 sm:p-8 min-h-[560px] overflow-hidden border-r border-b border-ink-100"
+    className="relative flex flex-col gap-stack-md p-6 sm:p-8 min-h-[560px] overflow-hidden border-r border-b border-ink-100"
     style={{ backgroundImage: v.bg }}
   >
     {/* Label variante */}
@@ -98,7 +98,7 @@ const Sample: React.FC<{ v: Variant }> = ({ v }) => (
 
 export const BgLab: React.FC = () => (
   <div className="min-h-[100dvh] w-full bg-white">
-    <header className="px-6 sm:px-8 py-5 border-b border-ink-100 bg-white sticky top-0 z-10">
+    <header className="px-6 sm:px-8 py-stack-md border-b border-ink-100 bg-white sticky top-0 z-10">
       <h1 className="font-display text-h4 font-bold text-ink-900 tracking-headline">
         Fond d'app — test de texture
       </h1>

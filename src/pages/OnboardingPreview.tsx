@@ -333,7 +333,7 @@ function VariantB({ onDone }: { onDone: () => void }) {
               value={firstName}
               onChange={e => setFirstName(e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter' && firstName.trim()) advance(); }}
-              className="w-full rounded-lg border-2 border-ink-200 bg-white/80 px-5 py-stack text-body-lg text-ink-900 placeholder:text-ink-500 focus:outline-none focus:border-secondary-400 transition-colors duration-base text-center font-body"
+              className="w-full rounded-lg border-2 border-ink-200 bg-white/80 px-stack-md py-stack text-body-lg text-ink-900 placeholder:text-ink-500 focus:outline-none focus:border-secondary-400 transition-colors duration-base text-center font-body"
             />
             <Button
               emphasis="soft" tone="warm" size="lg"
@@ -627,7 +627,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
                 { key: 'Rôle',      val: ROLES.find(r => r.id === selectedRole)?.label ?? '—' },
                 { key: 'Objectifs', val: selectedGoals.length > 0 ? selectedGoals.join(', ') : '—' },
               ].map(row => (
-                <div key={row.key} className="flex justify-between items-center gap-stack px-5 py-3 border-b border-ink-100 last:border-b-0">
+                <div key={row.key} className="flex justify-between items-center gap-stack px-stack-md py-3 border-b border-ink-100 last:border-b-0">
                   <span className="font-body text-body-sm font-semibold text-ink-500">{row.key}</span>
                   <span className="font-body text-body-sm text-ink-900 text-right">{row.val}</span>
                 </div>

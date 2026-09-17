@@ -102,7 +102,7 @@ export const ConversationalChat: React.FC<ConversationalChatProps> = ({
       aria-label="Conversation d'onboarding"
     >
       {title && (
-        <header className="shrink-0 px-5 py-3 border-b border-white/50 bg-white/40 backdrop-blur-glass-light text-body-sm font-semibold text-ink-700">
+        <header className="shrink-0 px-stack-md py-3 border-b border-white/50 bg-white/40 backdrop-blur-glass-light text-body-sm font-semibold text-ink-700">
           {title}
         </header>
       )}
@@ -137,7 +137,7 @@ export const ConversationalChat: React.FC<ConversationalChatProps> = ({
       </div>
 
       {footer && (
-        <footer className="shrink-0 px-4 sm:px-5 py-3 border-t border-white/50 bg-white/60 backdrop-blur-glass-light">
+        <footer className="shrink-0 px-4 sm:px-stack-md py-3 border-t border-white/50 bg-white/60 backdrop-blur-glass-light">
           {footer}
         </footer>
       )}

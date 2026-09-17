@@ -135,7 +135,7 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
             )}
 
             {/* Comment */}
-            <div className="mb-5">
+            <div className="mb-stack-md">
               <label className="block mb-2 text-body-sm font-semibold text-ink-900">
                 Commentaire <span className="font-normal text-ink-600">(optionnel)</span>
               </label>

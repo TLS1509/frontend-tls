@@ -324,7 +324,7 @@ export const Profile: React.FC = () => {
                   <div
                     key={a.id}
                     className={[
-                      'flex items-center gap-stack px-5 py-stack',
+                      'flex items-center gap-stack px-stack-md py-stack',
                       idx < ACTIVITY.length - 1 ? 'border-b border-ink-100' : '',
                     ].join(' ')}
                   >

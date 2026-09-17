@@ -1348,7 +1348,7 @@ export const LessonPlayer: React.FC = () => {
       <p className="font-body text-body text-ink-500 mb-stack-lg">
         {lessonData.intro.description}
       </p>
-      <div className="flex items-center gap-stack-xs mb-5">
+      <div className="flex items-center gap-stack-xs mb-stack-md">
         <Target size={20} className="text-primary-500" />
         <h3 className="font-display text-h4 font-bold text-ink-900">
           Objectifs d&apos;apprentissage
@@ -1382,7 +1382,7 @@ export const LessonPlayer: React.FC = () => {
     return (
       <div>
         <h2 className={SECTION_TITLE}>{d.heading}</h2>
-        <div className="rounded-lg p-stack-lg mb-5 bg-danger-base/[0.06] border-2 border-danger-base/25">
+        <div className="rounded-lg p-stack-lg mb-stack-md bg-danger-base/[0.06] border-2 border-danger-base/25">
           <div className="mb-3">
             <span className="inline-flex items-center gap-tight bg-danger-base text-white px-3 py-1 rounded-lg text-caption font-bold">
               <XCircle size={14} /> {d.bad.label}
@@ -1450,7 +1450,7 @@ export const LessonPlayer: React.FC = () => {
                 </div>
               </div>
               {/* Step content */}
-              <div className="px-5 pb-2">
+              <div className="px-stack-md pb-2">
                 {step.blocks.map((block, i) => renderContentBlock(block, i))}
               </div>
               {/* Prev / Next */}
@@ -1534,7 +1534,7 @@ export const LessonPlayer: React.FC = () => {
     <div>
       <h2 className={SECTION_TITLE}>{lessonData.reflechir.heading}</h2>
       {lessonData.reflechir.questions.map((question, i) => (
-        <div key={i} className="bg-ink-50 rounded-lg p-stack-md mb-5">
+        <div key={i} className="bg-ink-50 rounded-lg p-stack-md mb-stack-md">
           <h3 className="font-body text-body font-semibold text-ink-900">{question}</h3>
           <textarea
             className="w-full h-auto min-h-[96px] p-stack mt-3 font-body text-body-sm text-ink-900 bg-white border border-ink-200 rounded-lg resize-y transition-colors duration-150 focus:outline-none focus:border-primary-400 focus:ring-3 focus:ring-primary-100 focus:shadow-none"
@@ -1718,7 +1718,7 @@ export const LessonPlayer: React.FC = () => {
           <li key={i} className="pl-1">{item}</li>
         ));
         const listClasses =
-          'max-w-prose font-body text-body text-ink-800 flex flex-col gap-stack-xs pl-5 marker:text-primary-600';
+          'max-w-prose font-body text-body text-ink-800 flex flex-col gap-stack-xs pl-stack-md marker:text-primary-600';
         return (
           <div key={key} className={mb}>
             {block.ordered ? (

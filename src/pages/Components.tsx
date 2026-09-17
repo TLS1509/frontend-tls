@@ -1080,7 +1080,7 @@ const FilterChipDemo: React.FC = () => {
       {/* Glass variant */}
       <div className="flex flex-col gap-stack-xs">
         <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Glass variant · sur fond coloré</p>
-        <div className="bg-gradient-to-r from-primary-500 to-primary-700 rounded-xl px-stack py-5 flex gap-stack-xs flex-wrap">
+        <div className="bg-gradient-to-r from-primary-500 to-primary-700 rounded-xl px-stack py-stack-md flex gap-stack-xs flex-wrap">
           {TOPICS.map((label, i) => {
             const key = i === 0 ? 'tous' : label.toLowerCase();
             return (
@@ -1099,7 +1099,7 @@ const FilterChipDemo: React.FC = () => {
       {/* Glass with count badges */}
       <div className="flex flex-col gap-stack-xs">
         <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Glass · avec count badges</p>
-        <div className="bg-gradient-to-r from-secondary-500 to-secondary-700 rounded-xl px-stack py-5 flex gap-stack-xs flex-wrap">
+        <div className="bg-gradient-to-r from-secondary-500 to-secondary-700 rounded-xl px-stack py-stack-md flex gap-stack-xs flex-wrap">
           <FilterChip label="Non lus" variant="glass" active count={3} onClick={() => {}} />
           <FilterChip label="Mentions" variant="glass" count={7} onClick={() => {}} />
           <FilterChip label="Invitations" variant="glass" onClick={() => {}} />
@@ -1454,7 +1454,7 @@ const COMPONENTS: ComponentEntry[] = [
       <div className="flex flex-col gap-section">
         <ShowcaseBloc
           titre="L'échelle sémantique, à l'échelle"
-          note="Chaque barre vaut sa valeur réelle. Un nom se relit — gap-stack dit l'intention ; gap-4 oblige à recompter. ⚠️ `stack-3xs` (4 px) et `stack-sm` (12 px) ont été ajoutés le 2026-09-16 : l'échelle sautait de 2 à 6 et de 8 à 16, et 74 usages numériques comblaient ces trous à la main. `stack-md` (20 px) a suivi le 2026-09-17 (verdict « cran 20 px », option A) : 56 usages numériques — p-5, py-5, gap-5 — vivaient entre 16 et 24 sans barreau. Attention au piège : `tight` vaut 2 px, pas 4 — renommer un `gap-1` en `gap-tight` le divise par deux."
+          note="Chaque barre vaut sa valeur réelle. Un nom se relit — gap-stack dit l'intention ; gap-4 oblige à recompter. ⚠️ `stack-3xs` (4 px) et `stack-sm` (12 px) ont été ajoutés le 2026-09-16 : l'échelle sautait de 2 à 6 et de 8 à 16, et 74 usages numériques comblaient ces trous à la main. `stack-md` (20 px) a suivi le 2026-09-17 (verdict « cran 20 px », option A) : 56 usages numériques — p-stack-md, py-stack-md, gap-stack-md — vivaient entre 16 et 24 sans barreau. Attention au piège : `tight` vaut 2 px, pas 4 — renommer un `gap-1` en `gap-tight` le divise par deux."
         >
           <div className="flex flex-col gap-stack-xs">
             {([
@@ -4600,7 +4600,7 @@ const COMPONENTS: ComponentEntry[] = [
     render: () => (
       <div className="flex flex-col gap-section">
         {/* Variants showcase (size md, tone primary) */}
-        <div className="flex flex-col gap-stack p-5 rounded-xl bg-ink-50/50 border border-ink-200">
+        <div className="flex flex-col gap-stack p-stack-md rounded-xl bg-ink-50/50 border border-ink-200">
           <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">5 variants · size md · tone primary</p>
           <SectionHeader variant="default" icon={Calendar} title="Default — tinted bubble" subtitle="bg-{tone}-50 + tone icon (legacy)" />
           <SectionHeader variant="solid" icon={Calendar} title="Solid — filled bubble" subtitle="bg-gradient {tone}-500→700 + white icon (strong CTA)" />
@@ -4610,7 +4610,7 @@ const COMPONENTS: ComponentEntry[] = [
         </div>
 
         {/* Sizes showcase (variant solid, tone warm) */}
-        <div className="flex flex-col gap-stack p-5 rounded-xl bg-secondary-50/30 border border-secondary-200">
+        <div className="flex flex-col gap-stack p-stack-md rounded-xl bg-secondary-50/30 border border-secondary-200">
           <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">4 sizes · variant solid · tone warm</p>
           <SectionHeader size="xs" variant="solid" tone="warm" icon={Calendar} title="Size xs — h5" />
           <SectionHeader size="sm" variant="solid" tone="warm" icon={Calendar} title="Size sm — h4" />
@@ -4619,7 +4619,7 @@ const COMPONENTS: ComponentEntry[] = [
         </div>
 
         {/* Tones showcase (variant default, size md) */}
-        <div className="flex flex-col gap-stack p-5 rounded-xl bg-ink-50/50 border border-ink-200">
+        <div className="flex flex-col gap-stack p-stack-md rounded-xl bg-ink-50/50 border border-ink-200">
           <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">5 tones · variant default</p>
           <SectionHeader variant="default" tone="primary" icon={Calendar} title="Tone primary (teal)" />
           <SectionHeader variant="default" tone="warm" icon={Calendar} title="Tone warm (orange)" />
@@ -4789,7 +4789,7 @@ const COMPONENTS: ComponentEntry[] = [
       <div className="flex flex-col gap-stack-xs">
         <p className="text-caption text-ink-400 m-0">Aperçu tronqué — composant wrapper full-screen utilisé dans les pages viewer. children = contenu immersif (Flashcard, VideoPlayer, LessonContent…).</p>
         <div className="rounded-2xl overflow-hidden border border-ink-200 bg-white min-h-[260px] flex flex-col">
-          <div className="flex items-center justify-between px-5 py-3 bg-white/85 backdrop-blur-glass-light border-b border-ink-200">
+          <div className="flex items-center justify-between px-stack-md py-3 bg-white/85 backdrop-blur-glass-light border-b border-ink-200">
             <button className="inline-flex items-center gap-stack-2xs text-caption text-ink-600 font-medium bg-ink-50 border border-ink-200 rounded-pill px-3 py-1.5">
               <ArrowLeft size={14} /> Retour
             </button>
@@ -4804,7 +4804,7 @@ const COMPONENTS: ComponentEntry[] = [
           </div>
           <div className="h-1 bg-ink-100"><div className="h-full bg-gradient-to-r from-primary-500 to-primary-700" style={{ width: '25%' }} /></div>
           <div className="flex-1 flex items-center justify-center p-section text-ink-400 text-caption">— children slot (LessonPlayer / Flashcard / VideoPlayer…) —</div>
-          <div className="px-5 py-3 border-t border-ink-200 bg-white flex items-center justify-between">
+          <div className="px-stack-md py-3 border-t border-ink-200 bg-white flex items-center justify-between">
             <button className="inline-flex items-center gap-stack-2xs text-caption font-medium text-ink-600 px-3 py-stack-xs rounded-pill hover:bg-ink-50 border border-ink-200 cursor-pointer"><ArrowLeft size={14} /> Précédent</button>
             <span className="text-caption text-ink-500">3 / 12</span>
             <button className="inline-flex items-center gap-stack-2xs text-caption font-medium text-primary-700 px-3 py-stack-xs rounded-pill hover:bg-primary-50 border border-primary-200 cursor-pointer">Suivant <ArrowRight size={14} /></button>
@@ -4959,7 +4959,7 @@ const COMPONENTS: ComponentEntry[] = [
                 <div className="absolute inset-0 flex items-center justify-center"><FolderOpen size={56} strokeWidth={1.25} className="text-white/95" /></div>
                 <span className="absolute top-3 left-3 inline-flex items-center gap-tight px-2.5 py-1 rounded-pill bg-white/95 backdrop-blur-glass-light text-micro font-bold uppercase text-ink-900 shadow-sm"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
               </div>
-              <div className="flex flex-col gap-stack-xs p-5">
+              <div className="flex flex-col gap-stack-xs p-stack-md">
                 <span className="font-body text-micro font-semibold uppercase tracking-wider text-ink-500">{item.category} · {item.publishedAt}</span>
                 <h3 className="font-display text-h4 font-bold text-ink-900 leading-tight">{item.title}</h3>
                 <span className="font-body text-caption text-ink-500"><User size={12} className="inline mr-0.5" /> {item.author} · ⏱ {item.readTime}</span>
@@ -4972,7 +4972,7 @@ const COMPONENTS: ComponentEntry[] = [
           {/* Design C — Tinted full bg */}
           <div className="flex flex-col gap-stack-xs">
             <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">C · Tinted full bg · couleur tone-aware en arrière-plan complet</p>
-            <article className="flex flex-col rounded-2xl bg-accent-50/70 border border-accent-100 p-5 gap-stack-xs hover:bg-accent-50">
+            <article className="flex flex-col rounded-2xl bg-accent-50/70 border border-accent-100 p-stack-md gap-stack-xs hover:bg-accent-50">
               <div className="flex items-center justify-between">
                 <span className="inline-flex items-center gap-stack-2xs px-2.5 py-1 rounded-pill bg-white/90 text-accent-700 border border-accent-200 text-micro font-bold uppercase tracking-wider"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
                 <button className="w-8 h-8 rounded-pill bg-white/70 text-ink-500 hover:text-ink-900 flex items-center justify-center"><Bookmark size={14} /></button>
@@ -4993,7 +4993,7 @@ const COMPONENTS: ComponentEntry[] = [
               {/* Gradient overlay bottom for readability */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
               <span className="absolute top-3 left-3 inline-flex items-center gap-tight px-2.5 py-1 rounded-pill bg-white/95 backdrop-blur-glass-light text-micro font-bold uppercase text-ink-900 shadow-sm"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
-              <div className="absolute inset-x-0 bottom-0 p-5 text-white flex flex-col gap-tight">
+              <div className="absolute inset-x-0 bottom-0 p-stack-md text-white flex flex-col gap-tight">
                 <span className="font-body text-micro font-semibold uppercase tracking-wider text-white/80">{item.category} · {item.publishedAt}</span>
                 <h3 className="font-display text-h4 font-bold leading-tight text-white">{item.title}</h3>
                 <div className="flex justify-between items-center text-caption text-white/90 mt-tight">
@@ -6512,7 +6512,7 @@ const COMPONENTS: ComponentEntry[] = [
       const [pos, setPos] = React.useState(3);
       const total = 7;
       return (
-        <div className="max-w-2xl mx-auto p-5 rounded-2xl bg-white shadow-sm border border-ink-100">
+        <div className="max-w-2xl mx-auto p-stack-md rounded-2xl bg-white shadow-sm border border-ink-100">
           <LessonNavigation
             tone="primary"
             current={pos}
@@ -8103,7 +8103,7 @@ const SPACING_TOKENS: TokenEntry[] = [
   { name: 'stack-xs', cssVar: '--spacing-stack-xs', value: '8 px', group: 'Espacement — sémantique', type: 'spacing' },
   { name: 'stack-sm', cssVar: '--spacing-stack-sm', value: '12 px — ajouté le 2026-09-16, 23 usages l\'attendaient (ex-gap-3)', group: 'Espacement — sémantique', type: 'spacing' },
   { name: 'stack', cssVar: '--spacing-stack', value: '16 px', group: 'Espacement — sémantique', type: 'spacing' },
-  { name: 'stack-md', cssVar: '--spacing-stack-md', value: '20 px — ajouté le 2026-09-17 (verdict « cran 20 px », option A), 56 usages l\'attendaient (ex-p-5/py-5/gap-5)', group: 'Espacement — sémantique', type: 'spacing' },
+  { name: 'stack-md', cssVar: '--spacing-stack-md', value: '20 px — ajouté le 2026-09-17 (verdict « cran 20 px », option A), 56 usages l\'attendaient (ex-p-stack-md/py-stack-md/gap-stack-md)', group: 'Espacement — sémantique', type: 'spacing' },
   { name: 'stack-lg', cssVar: '--spacing-stack-lg', value: '24 px', group: 'Espacement — sémantique', type: 'spacing' },
   { name: 'section', cssVar: '--spacing-section', value: '32 px', group: 'Espacement — sémantique', type: 'spacing' },
   { name: 'section-lg', cssVar: '--spacing-section-lg', value: '40 px', group: 'Espacement — sémantique', type: 'spacing' },

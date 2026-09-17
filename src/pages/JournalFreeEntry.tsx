@@ -166,7 +166,7 @@ export const JournalFreeEntry: React.FC = () => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Titre de votre entrée..."
-            className="w-full border-0 outline-none text-3xl font-black text-ink-900 font-display bg-transparent mb-5 tracking-tight h-auto block placeholder:text-ink-200"
+            className="w-full border-0 outline-none text-3xl font-black text-ink-900 font-display bg-transparent mb-stack-md tracking-tight h-auto block placeholder:text-ink-200"
           />
 
           {/* Category selector */}
@@ -198,7 +198,7 @@ export const JournalFreeEntry: React.FC = () => {
           </div>
 
           {/* Mood selector */}
-          <div className="mb-5">
+          <div className="mb-stack-md">
             <div className="font-body text-micro font-bold text-ink-500 uppercase tracking-widest mb-stack-xs">
               Comment vous sentez-vous ?
             </div>
@@ -225,7 +225,7 @@ export const JournalFreeEntry: React.FC = () => {
             </div>
           </div>
 
-          <hr className="border-ink-200 mb-5" />
+          <hr className="border-ink-200 mb-stack-md" />
 
           {/* Content textarea */}
           <div className="relative">
@@ -241,7 +241,7 @@ export const JournalFreeEntry: React.FC = () => {
             </div>
           </div>
 
-          <hr className="border-ink-200 my-5" />
+          <hr className="border-ink-200 my-stack-md" />
 
           {/* Tags */}
           <div>
@@ -288,7 +288,7 @@ export const JournalFreeEntry: React.FC = () => {
         <aside className="sticky top-[72px] flex flex-col gap-stack">
 
           {/* Writing prompts */}
-          <div className="bg-primary-50 border border-primary-200 rounded-lg p-stack px-5">
+          <div className="bg-primary-50 border border-primary-200 rounded-lg p-stack px-stack-md">
             <div className="flex items-center gap-stack-xs mb-3">
               <PenLine size={14} className="text-primary-600" />
               <span className="font-body text-caption font-extrabold text-primary-700 uppercase tracking-widest">
@@ -318,7 +318,7 @@ export const JournalFreeEntry: React.FC = () => {
           </div>
 
           {/* Tips */}
-          <div className="bg-secondary-50 border border-secondary-200 rounded-lg p-stack px-5">
+          <div className="bg-secondary-50 border border-secondary-200 rounded-lg p-stack px-stack-md">
             <div className="flex items-center gap-stack-xs mb-3">
               <Lightbulb size={14} className="text-secondary-500" />
               <span className="font-body text-caption font-extrabold text-secondary-700 uppercase tracking-widest">

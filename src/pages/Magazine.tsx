@@ -185,7 +185,7 @@ export const Magazine: React.FC = () => {
               title="Sommaire du magazine"
               description="6 articles · 56 pages"
             >
-              <div className="-mx-5 -mb-5 sm:-mx-6 sm:-mb-stack-lg">
+              <div className="-mx-stack-md -mb-stack-md sm:-mx-6 sm:-mb-stack-lg">
                 {SOMMAIRE.map((item, index) => {
                   const tone = ENTRY_TONE[item.tone];
                   return (
@@ -194,7 +194,7 @@ export const Magazine: React.FC = () => {
                       type="button"
                       onClick={() => navigate('/veille/magazine-article/1')}
                       className={[
-                        'w-full flex items-start gap-stack px-5 sm:px-stack-lg py-stack text-left cursor-pointer transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-primary-500',
+                        'w-full flex items-start gap-stack px-stack-md sm:px-stack-lg py-stack text-left cursor-pointer transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-primary-500',
                         tone.hover,
                         index < SOMMAIRE.length - 1 ? 'border-b border-ink-100' : '',
                         '!h-auto !overflow-visible !items-start !font-normal',

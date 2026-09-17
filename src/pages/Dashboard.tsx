@@ -98,7 +98,7 @@ const JournalBubbleNudge: React.FC<JournalBubbleNudgeProps> = ({ navigate, hasUp
           {/* Bulle — vraie forme chat (coin bas-gauche aplati pour la queue).
               Construction de la famille bulle, tranchée le 2026-09-17 : rayon
               conteneur (20) + padding canon carte (24, `p-stack-lg`). L'étape
-              intermédiaire du même jour l'avait posée à `p-5` (20 px) pour
+              intermédiaire du même jour l'avait posée à `p-stack-md` (20 px) pour
               coller à `JournalBubbleCard`, avant que le cran `stack-md` (20 px)
               n'entre dans l'échelle le 17/09 au soir ; le composant avait
               rejoint le canon carte (24) entre-temps. Padding ≥ rayon : le coin ne pince pas. */}

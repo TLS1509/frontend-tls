@@ -112,7 +112,7 @@ export const CelebrationModal: React.FC<CelebrationModalProps> = ({
         )}
 
         {/* Icon bubble */}
-        <div className="relative inline-flex items-center justify-center w-20 h-20 rounded-2xl mb-5 bg-gradient-to-br from-secondary-400 via-secondary-500 to-accent-500 text-white shadow-warm-md ring-4 ring-white/60">
+        <div className="relative inline-flex items-center justify-center w-20 h-20 rounded-2xl mb-stack-md bg-gradient-to-br from-secondary-400 via-secondary-500 to-accent-500 text-white shadow-warm-md ring-4 ring-white/60">
           {icon ?? <Trophy size={32} strokeWidth={2} fill="currentColor" />}
         </div>
 

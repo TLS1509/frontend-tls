@@ -298,7 +298,7 @@ export const Coaching: React.FC = () => {
                     </span>
                   </div>
                   <Button
-                    emphasis="soft" tone="warm"
+                    emphasis="ghost"
                     size="md"
                     iconOnly
                     leadingIcon={<MessageCircle size={16} />}
@@ -319,7 +319,7 @@ export const Coaching: React.FC = () => {
                   </Button>
                   <Button
                     size="lg"
-                    emphasis="soft" tone="warm"
+                    emphasis="ghost"
                     iconOnly
                     leadingIcon={<Download size={16} />}
                     onClick={handleDownloadCalendarInvite}

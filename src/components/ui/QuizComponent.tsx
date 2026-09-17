@@ -71,7 +71,7 @@ const CONFIDENCE_OPTIONS: { level: ConfidenceLevel; label: string }[] = [
 ];
 
 const BTN_BASE =
-  'inline-flex items-center justify-center gap-stack-xs px-5 py-2.5 rounded-md text-body-sm font-semibold cursor-pointer transition-[background-color,border-color,box-shadow,transform] duration-fast ease-emphasis active:scale-[0.98] ' +
+  'inline-flex items-center justify-center gap-stack-xs px-stack-md py-2.5 rounded-md text-body-sm font-semibold cursor-pointer transition-[background-color,border-color,box-shadow,transform] duration-fast ease-emphasis active:scale-[0.98] ' +
   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-400 ' +
   'disabled:opacity-40 disabled:cursor-not-allowed';
 const BTN_PRIMARY = 'bg-primary-600 text-white hover:bg-primary-700';
@@ -194,7 +194,7 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({
 
   return (
     <div className="bg-white rounded-lg border border-ink-200 p-stack-lg max-w-2xl mx-auto">
-      <div className="mb-5">
+      <div className="mb-stack-md">
         <div className="flex items-center justify-between mb-2">
           <span className="text-caption font-semibold text-ink-500">
             Question {current + 1} sur {questions.length}
@@ -211,7 +211,7 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({
         </div>
       </div>
 
-      <div className="mb-5">
+      <div className="mb-stack-md">
         <h3 className="mb-stack text-h4 font-display text-ink-900">
           {currentQuestion.question}
         </h3>
@@ -281,7 +281,7 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({
 
       {/* Calibration : demandée après le choix, avant la révélation. */}
       {askConfidence && record !== null && !isRevealed && (
-        <fieldset className="mb-5 border-0 p-0 m-0">
+        <fieldset className="mb-stack-md border-0 p-0 m-0">
           <legend className="text-body-sm font-semibold text-ink-900 mb-stack-xs p-0">
             À quel point es-tu sûr de ta réponse&nbsp;?
           </legend>

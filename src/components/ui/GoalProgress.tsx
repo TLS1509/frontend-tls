@@ -27,7 +27,7 @@ const CONTAINER_TONE_CLASSES: Record<GoalProgressTone, string> = {
 
 const CONTAINER_SIZE_CLASSES: Record<GoalProgressSize, string> = {
   sm: 'p-3 px-4',
-  md: 'p-4 px-5',
+  md: 'p-4 px-stack-md',
 };
 
 const TITLE_SIZE_CLASSES: Record<GoalProgressSize, string> = {

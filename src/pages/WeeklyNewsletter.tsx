@@ -217,7 +217,7 @@ export const WeeklyNewsletter: React.FC = () => {
                   key={article.id}
                   onClick={() => navigate('/veille/weekly-news/1')}
                   className={[
-                    'flex items-center gap-stack px-5 py-stack cursor-pointer hover:bg-ink-50 transition-colors duration-base',
+                    'flex items-center gap-stack px-stack-md py-stack cursor-pointer hover:bg-ink-50 transition-colors duration-base',
                     idx < ALL_ARTICLES.length - 1 ? 'border-b border-ink-100' : '',
                   ].join(' ')}
                 >

@@ -91,7 +91,7 @@ export const StreakCelebrationModal: React.FC<StreakCelebrationModalProps> = ({
           </div>
 
           {/* Streak count */}
-          <div className="text-center mb-5 relative z-10 animate-[scFadeUp_0.4s_ease_0.3s_both]">
+          <div className="text-center mb-stack-md relative z-10 animate-[scFadeUp_0.4s_ease_0.3s_both]">
             <div className="text-[4.5rem] font-black leading-none modal-flame-text mb-1">
               {streakCount}
             </div>
@@ -102,7 +102,7 @@ export const StreakCelebrationModal: React.FC<StreakCelebrationModalProps> = ({
 
           {/* Milestone badge */}
           {isMilestone && (
-            <div className="flex justify-center mb-5 relative z-10">
+            <div className="flex justify-center mb-stack-md relative z-10">
               <div className="inline-flex items-center gap-stack-xs px-4 py-2 rounded-pill modal-milestone-bg text-white text-caption font-bold shadow-[0_4px_16px_rgba(255,215,0,0.4)] animate-milestone-in">
                 <TrendingUp size={14} /> Jalon {milestone} jours atteint !
               </div>

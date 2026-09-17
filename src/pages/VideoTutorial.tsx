@@ -105,7 +105,7 @@ export const VideoTutorial: React.FC = () => {
         <div className="flex flex-col border-r border-ink-200">
 
           {/* Header info */}
-          <div className="px-section py-stack-lg pb-5">
+          <div className="px-section py-stack-lg pb-stack-md">
             <h1 className="font-display text-h1 text-ink-900 mb-3 leading-[1.15] tracking-tight">
               {tuto.title}
             </h1>
@@ -178,7 +178,7 @@ export const VideoTutorial: React.FC = () => {
         <div className="flex flex-col bg-ink-50">
 
           {/* Chapitres header */}
-          <div className="px-5 pt-5 pb-3 border-b border-ink-200">
+          <div className="px-stack-md pt-stack-md pb-3 border-b border-ink-200">
             <span className="font-body text-caption font-extrabold text-ink-900 uppercase tracking-widest">
               Chapitres
             </span>
@@ -194,7 +194,7 @@ export const VideoTutorial: React.FC = () => {
                   type="button"
                   onClick={() => { setActiveChapter(i); setPlaying(true); }}
                   className={[
-                    'flex items-start gap-stack-xs w-full px-5 py-3 border-0 border-l-[3px] cursor-pointer text-left font-body transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-primary-500',
+                    'flex items-start gap-stack-xs w-full px-stack-md py-3 border-0 border-l-[3px] cursor-pointer text-left font-body transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-primary-500',
                     isActive
                       ? 'bg-white border-l-primary-500'
                       : 'bg-transparent border-l-transparent hover:bg-ink-100',
@@ -224,7 +224,7 @@ export const VideoTutorial: React.FC = () => {
           </div>
 
           {/* Back to veille */}
-          <div className="px-5 py-stack border-t border-ink-200">
+          <div className="px-stack-md py-stack border-t border-ink-200">
             <button
               type="button"
               onClick={() => navigate("/veille")}

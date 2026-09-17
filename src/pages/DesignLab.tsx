@@ -837,7 +837,7 @@ const BUTTON_OPTIONS: Record<string, BtnCase[]> = {
 
 const FakeButton: React.FC<{ bg: string; fg: string; children: React.ReactNode }> = ({ bg, fg, children }) => (
   <span
-    className="inline-flex items-center justify-center h-11 px-5 rounded-pill font-body font-semibold text-body-sm shrink-0"
+    className="inline-flex items-center justify-center h-11 px-stack-md rounded-pill font-body font-semibold text-body-sm shrink-0"
     style={{ backgroundColor: bg, color: fg }}
   >
     {children}
@@ -1207,7 +1207,7 @@ const RampeArbitrage: React.FC<{ tick: number }> = ({ tick }) => {
           return (
             <div
               key={r.cle}
-              className="rounded-xl border border-ink-200 p-5 flex flex-col gap-stack-xs"
+              className="rounded-xl border border-ink-200 p-stack-md flex flex-col gap-stack-xs"
               style={{ backgroundColor: blanc }}
             >
               <span className="text-micro font-bold" style={{ color: discret }}>
@@ -1265,7 +1265,7 @@ const EncreArbitrage: React.FC<{ tick: number }> = ({ tick }) => {
                 return (
                   <div
                     key={col.nom}
-                    className="rounded-xl border border-ink-200 p-5 flex flex-col gap-stack-xs min-w-0"
+                    className="rounded-xl border border-ink-200 p-stack-md flex flex-col gap-stack-xs min-w-0"
                     style={{ backgroundColor: bg }}
                   >
                     <div className="flex flex-col gap-0.5">
@@ -1350,7 +1350,7 @@ const RayonArbitrage: React.FC<{ tick: number }> = ({ tick }) => {
 
               {/* card */}
               <div
-                className="p-5 flex flex-col gap-stack-xs"
+                className="p-stack-md flex flex-col gap-stack-xs"
                 style={{
                   borderRadius: rad,
                   backgroundColor: tokens['--color-ink-0'],
@@ -1487,7 +1487,7 @@ const BtnSpecimen: React.FC<{
   rayon: string;
 }> = ({ texte, fond, label, bordure, rayon }) => (
   <span
-    className="inline-flex items-center justify-center px-5 h-11 font-body text-body-sm font-semibold whitespace-nowrap"
+    className="inline-flex items-center justify-center px-stack-md h-11 font-body text-body-sm font-semibold whitespace-nowrap"
     style={{
       borderRadius: rayon,
       backgroundColor: fond ?? 'transparent',
@@ -1519,7 +1519,7 @@ const BoutonsOutline: React.FC<{ tick: number }> = ({ tick }) => {
         <span className="text-micro font-extrabold uppercase tracking-[0.07em] text-ink-700">{titre}</span>
         <span className="text-micro text-ink-500">{note}</span>
       </div>
-      <div className="rounded-xl border border-ink-200 p-5 flex flex-wrap items-start gap-6" style={{ backgroundColor: blanc }}>
+      <div className="rounded-xl border border-ink-200 p-stack-md flex flex-wrap items-start gap-6" style={{ backgroundColor: blanc }}>
         {children}
       </div>
     </div>
@@ -2168,7 +2168,7 @@ const Atelier: React.FC = () => {
           {target === 'bouton' ? (
             <span
               ref={previewRef as React.RefObject<HTMLSpanElement>}
-              className="inline-flex items-center justify-center h-touch px-5 rounded-pill"
+              className="inline-flex items-center justify-center h-touch px-stack-md rounded-pill"
               style={previewStyle}
             >
               Reprendre
@@ -2897,7 +2897,7 @@ const DesignLab: React.FC = () => {
                       return (
                         <div key={s.s} className="flex flex-col gap-1 items-start">
                           <span
-                            className="inline-flex items-center justify-center h-touch px-5 rounded-pill font-body text-body-sm font-semibold"
+                            className="inline-flex items-center justify-center h-touch px-stack-md rounded-pill font-body text-body-sm font-semibold"
                             style={{
                               background: s.bg,
                               color: s.tx,

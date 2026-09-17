@@ -231,7 +231,7 @@ export const Messages: React.FC = () => {
       <div className="w-[360px] min-w-[280px] shrink-0 flex flex-col border-r border-ink-200 bg-white overflow-hidden">
 
         {/* Header */}
-        <div className="px-5 pt-5 pb-stack border-b border-ink-200 bg-white">
+        <div className="px-stack-md pt-stack-md pb-stack border-b border-ink-200 bg-white">
           <div className="flex items-center justify-between mb-stack">
             <div className="flex items-center gap-stack-xs">
               <h2 className="font-display text-h3 text-ink-900 tracking-tight">
@@ -350,7 +350,7 @@ export const Messages: React.FC = () => {
         <div className="flex-1 flex flex-col overflow-hidden">
 
           {/* Thread header */}
-          <div className="px-5 py-stack border-b border-ink-200 bg-white flex items-center gap-stack-xs">
+          <div className="px-stack-md py-stack border-b border-ink-200 bg-white flex items-center gap-stack-xs">
             <Button emphasis="soft" tone="warm" iconOnly aria-label="Retour" className="shrink-0" onClick={() => setSelectedId(null)}>
               <ArrowLeft size={14} />
             </Button>
@@ -433,7 +433,7 @@ export const Messages: React.FC = () => {
           </div>
 
           {/* Compose bar */}
-          <div className="px-5 py-stack border-t border-ink-200 bg-white">
+          <div className="px-stack-md py-stack border-t border-ink-200 bg-white">
             <div className="flex items-end gap-stack-xs">
               <Button emphasis="soft" tone="warm" iconOnly aria-label="Pièce jointe" className="shrink-0">
                 <Paperclip size={14} />

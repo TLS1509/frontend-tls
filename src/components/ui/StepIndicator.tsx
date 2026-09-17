@@ -88,7 +88,7 @@ export const StepIndicator: React.FC<StepIndicatorProps> = ({
               </div>
 
               {/* Text */}
-              <div className={['pb-5', isLast ? '' : ''].join(' ')}>
+              <div className={['pb-stack-md', isLast ? '' : ''].join(' ')}>
                 <p
                   className={[
                     'text-body-sm font-semibold m-0 transition-colors duration-base',

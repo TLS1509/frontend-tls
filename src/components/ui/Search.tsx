@@ -66,7 +66,7 @@ const RAYON = 'rounded-lg';
 const SIZE_WRAPPER: Record<SearchSize, string> = {
   sm: 'py-1.5 px-3',
   md: 'py-2.5 px-4',
-  lg: 'py-3.5 px-5',
+  lg: 'py-3.5 px-stack-md',
 };
 
 const SIZE_GAP: Record<SearchSize, string> = {

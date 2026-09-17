@@ -116,7 +116,7 @@ export const OptionGrid: React.FC<OptionGridProps> = (props) => {
           layout === 'icon-left'
             ? 'flex items-center gap-stack-xs px-4 py-3 text-left'
             : layout === 'text-only'
-            ? 'flex flex-col gap-tight px-5 py-stack text-left'
+            ? 'flex flex-col gap-tight px-stack-md py-stack text-left'
             : 'flex flex-col items-center justify-center gap-stack-xs px-3 py-stack text-center',
           selected ? TONE_SELECTED[tone] : `border-ink-200 ${TONE_HOVER[tone]}`,
           'focus-visible:outline-2 focus-visible:outline-offset-2',

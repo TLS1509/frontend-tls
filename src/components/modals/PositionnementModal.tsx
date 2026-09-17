@@ -243,7 +243,7 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
             /* Success screen */
             <div className="flex flex-col gap-stack animate-modal-in">
               <div className="bg-white rounded-xl p-stack-lg border border-primary-500/20 shadow-lg text-center">
-                <div className="inline-flex gap-stack-xs mb-5 p-3 rounded-xl bg-ink-50">
+                <div className="inline-flex gap-stack-xs mb-stack-md p-3 rounded-xl bg-ink-50">
                   {([<Target size={20} strokeWidth={1.75} />, <Star size={20} strokeWidth={1.75} />, <Rocket size={20} strokeWidth={1.75} />] as React.ReactNode[]).map((icon, i) => (
                     <div
                       key={i}
@@ -258,7 +258,7 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
                   Le parcours va maintenant s'adapter à votre niveau.
                 </p>
 
-                <div className="grid grid-cols-3 gap-stack-xs mb-5">
+                <div className="grid grid-cols-3 gap-stack-xs mb-stack-md">
                   {SUCCESS_FEATURES.map((f, i) => (
                     <div key={i} className={`p-4 rounded-lg bg-ink-50 border ${f.borderClass}`}>
                       <div className="inline-flex items-center justify-center mb-2 text-ink-700">{f.icon}</div>

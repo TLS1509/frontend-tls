@@ -115,7 +115,7 @@ export const PageCard: React.FC<{ item: PageCardItem; showThumbnail?: boolean }>
 
       {/* Status + Badge row */}
       {(item.status || item.badge) && (
-        <div className="flex items-center gap-stack-xs px-5 pt-stack flex-wrap">
+        <div className="flex items-center gap-stack-xs px-stack-md pt-stack flex-wrap">
           {item.status && (
             <span
               className={[
@@ -149,7 +149,7 @@ export const PageCard: React.FC<{ item: PageCardItem; showThumbnail?: boolean }>
 
       {/* Icon (when no thumbnail) */}
       {!item.thumbnail && item.icon && (
-        <div className="px-5 pt-5">
+        <div className="px-stack-md pt-stack-md">
           <span className={`inline-flex items-center justify-center w-12 h-12 rounded-xl ${TONE_ICON_BUBBLE[tone]}`}>
             {item.icon}
           </span>
@@ -157,7 +157,7 @@ export const PageCard: React.FC<{ item: PageCardItem; showThumbnail?: boolean }>
       )}
 
       {/* Content */}
-      <div className="flex-1 flex flex-col gap-stack-xs px-5 py-stack">
+      <div className="flex-1 flex flex-col gap-stack-xs px-stack-md py-stack">
         <h3 className="font-display text-h4 text-ink-900 leading-tight">
           {item.title}
         </h3>
@@ -174,7 +174,7 @@ export const PageCard: React.FC<{ item: PageCardItem; showThumbnail?: boolean }>
       </div>
 
       {/* Hover arrow */}
-      <div className={`flex items-center justify-end px-5 pb-stack opacity-0 -translate-x-2 transition-all duration-base group-hover:opacity-100 group-hover:translate-x-0 ${TONE_ARROW[tone]}`}>
+      <div className={`flex items-center justify-end px-stack-md pb-stack opacity-0 -translate-x-2 transition-all duration-base group-hover:opacity-100 group-hover:translate-x-0 ${TONE_ARROW[tone]}`}>
         <ArrowRight size={18} strokeWidth={2.25} />
       </div>
     </div>

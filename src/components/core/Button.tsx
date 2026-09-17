@@ -391,10 +391,33 @@ const VARIANT_ALIAS: Record<
    le seuil des 18,66 px et bascule en « grand texte » au sens WCAG — son
    exigence de contraste tombe de 4,5 à 3,0, ce qui rouvre le cran 600 des
    couleurs de marque en label blanc. */
+/* Le padding horizontal, mesuré contre la hauteur du cran (passe du 17/09).
+
+   L'invariant qui parle n'est ni padH/hauteur (0,438 → 0,538, il dérive) ni
+   padH/padV (2,33 · 2,00 · 2,18 · 2,48, il n'a pas d'ordre) mais le rapport du
+   padding à la POLICE du label — l'air qu'on laisse à la lettre :
+
+     cran  hauteur  police  padH   padH/police
+     sm      32       13     14       1,08   ← l'intrus
+     md      44       15     20       1,33
+     lg      48       16     24       1,50
+     xl      52       19     28       1,47
+
+   `sm` était le seul sous 1,2, et c'est le cran le plus employé du produit
+   (227 boutons sur 574). Même forme de défaut que le serrage de septembre : la
+   taille la plus vue encaissait l'écart. Il passe à 16 — 1,23, et un rapport à
+   la hauteur de 0,50, exactement celui de `lg`. 16 est en plus DANS l'échelle
+   d'espacement, ce que 14 n'était pas.
+
+   ⚠️ `xl` garde 28 px, hors échelle, et c'est délibéré. Les deux crans voisins
+   disponibles l'abîment : 24 donnerait 1,26 quand `lg` est à 1,50 — le plus
+   grand bouton paraîtrait plus serré que celui d'en dessous — et 32 monterait à
+   1,68 et 0,62 de la hauteur. Deux usages, un écart argumenté : mieux vaut une
+   exception écrite qu'un douzième cran d'échelle pour dix boutons. */
 const SIZE_CLASSES: Record<ButtonSize, string> = {
-  sm: 'h-8 px-3.5 text-caption relative after:absolute after:content-[""] after:inset-x-0 after:-inset-y-1.5',
-  md: 'h-touch px-5 text-body-sm',
-  lg: 'h-12 px-6 text-body',
+  sm: 'h-8 px-stack text-caption relative after:absolute after:content-[""] after:inset-x-0 after:-inset-y-1.5',
+  md: 'h-touch px-stack-md text-body-sm',
+  lg: 'h-12 px-stack-lg text-body',
   xl: 'h-13 px-7 text-[1.1875rem]',
 };
 

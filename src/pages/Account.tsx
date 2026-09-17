@@ -103,13 +103,13 @@ const GeneralTab: React.FC = () => {
   return (
     <div className="flex flex-col gap-stack-lg">
       <SettingCard title="Informations personnelles">
-        <div className="grid grid-cols-2 gap-stack pt-5 pb-5">
+        <div className="grid grid-cols-2 gap-stack pt-stack-md pb-stack-md">
           <Input label="Nom complet"     id="name"    value={name}  onChange={(e) => setName(e.target.value)} />
           <Input label="Adresse email"   id="email"   type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
           <Input label="Poste"           id="poste"   defaultValue="Responsable Formation" />
           <Input label="Entreprise"      id="company" defaultValue="TLS Learning Society" />
         </div>
-        <div className="pb-5 flex gap-stack-xs">
+        <div className="pb-stack-md flex gap-stack-xs">
           <Button onClick={handleSave} loading={isSaving}>Enregistrer les modifications</Button>
           <Button emphasis="soft" tone="warm" disabled={isSaving}>Annuler</Button>
         </div>
@@ -226,7 +226,7 @@ const SecurityTab: React.FC = () => {
             )}
           </div>
         ))}
-        <div className="pb-5 pt-3">
+        <div className="pb-stack-md pt-3">
           <Button emphasis="outline" size="sm" className="text-danger-fg hover:bg-danger-bg" leadingIcon={<LogOut size={14} />}>
             Déconnecter toutes les autres sessions
           </Button>

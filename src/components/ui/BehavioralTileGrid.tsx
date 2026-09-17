@@ -49,7 +49,7 @@ const ICON_SIZE: Record<TileSize, number> = {
 const PAD: Record<TileSize, string> = {
   compact: 'px-3 py-2.5',
   default: 'px-4 py-3',
-  large: 'px-5 py-stack',
+  large: 'px-stack-md py-stack',
 };
 
 const LABEL_TEXT: Record<TileSize, string> = {

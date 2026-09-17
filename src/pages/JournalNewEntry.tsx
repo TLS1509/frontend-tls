@@ -430,7 +430,7 @@ export const JournalNewEntry: React.FC = () => {
             </p>
           </div>
 
-          <hr className="border-ink-200 mb-5" />
+          <hr className="border-ink-200 mb-stack-md" />
 
           {/* Title input */}
           <input
@@ -441,7 +441,7 @@ export const JournalNewEntry: React.FC = () => {
             className="w-full border-0 outline-none bg-transparent text-2xl font-semibold text-ink-900 font-body mb-3 h-auto block placeholder:text-ink-300"
           />
 
-          <hr className="border-ink-200 mb-5" />
+          <hr className="border-ink-200 mb-stack-md" />
 
           {/* Body textarea */}
           <textarea

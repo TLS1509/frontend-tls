@@ -144,7 +144,7 @@ const PROGRESS_FILL_DARK: Record<HeroTone, string> = {
 
 // Size scales — applies to padding, title size, icon bubble
 const SIZE_PADDING: Record<HeroSize, string> = {
-  sm: 'px-6 py-section max-md:px-5 max-md:py-stack-lg',
+  sm: 'px-6 py-section max-md:px-stack-md max-md:py-stack-lg',
   md: 'px-10 py-12 max-md:px-6 max-md:py-9',
   lg: 'px-12 py-16 max-md:px-7 max-md:py-11',
 };

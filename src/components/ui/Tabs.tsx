@@ -33,7 +33,7 @@ const TAB_BASE =
 const TAB_VARIANT: Record<TabsVariant, string> = {
   pill:      'px-4 py-2 rounded-pill hover:text-ink-900 hover:bg-white/60',
   underline: 'px-3 py-3 rounded-none relative hover:text-ink-900 hover:bg-ink-50/60 -mb-px',
-  boxed:     'px-5 py-3 rounded-none border-r border-ink-200 last:border-r-0 flex-1 justify-center hover:bg-ink-50',
+  boxed:     'px-stack-md py-3 rounded-none border-r border-ink-200 last:border-r-0 flex-1 justify-center hover:bg-ink-50',
 };
 
 const TAB_ACTIVE: Record<TabsVariant, string> = {

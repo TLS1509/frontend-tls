@@ -436,17 +436,17 @@ const Bibliotheque: React.FC = () => {
               <caption className="sr-only">Matrice d'évaluation : échelle Dreyfus D1 à D5</caption>
               <thead>
                 <tr className="bg-primary-50">
-                  <th scope="col" className="px-5 py-3 font-display text-body-sm font-bold text-ink-900">Niveau</th>
-                  <th scope="col" className="px-5 py-3 font-display text-body-sm font-bold text-ink-900">Statut</th>
-                  <th scope="col" className="px-5 py-3 font-display text-body-sm font-bold text-ink-900">Critère d'observation</th>
+                  <th scope="col" className="px-stack-md py-3 font-display text-body-sm font-bold text-ink-900">Niveau</th>
+                  <th scope="col" className="px-stack-md py-3 font-display text-body-sm font-bold text-ink-900">Statut</th>
+                  <th scope="col" className="px-stack-md py-3 font-display text-body-sm font-bold text-ink-900">Critère d'observation</th>
                 </tr>
               </thead>
               <tbody>
                 {DREYFUS.map((d) => (
                   <tr key={d.niveau} className="border-t border-ink-100">
-                    <td className="px-5 py-3 font-body text-body-sm font-bold text-primary-800 whitespace-nowrap">{d.niveau}</td>
-                    <td className="px-5 py-3 font-body text-body-sm text-ink-700 whitespace-nowrap">{d.statut}</td>
-                    <td className="px-5 py-3 font-body text-body-sm text-ink-600">{d.critere}</td>
+                    <td className="px-stack-md py-3 font-body text-body-sm font-bold text-primary-800 whitespace-nowrap">{d.niveau}</td>
+                    <td className="px-stack-md py-3 font-body text-body-sm text-ink-700 whitespace-nowrap">{d.statut}</td>
+                    <td className="px-stack-md py-3 font-body text-body-sm text-ink-600">{d.critere}</td>
                   </tr>
                 ))}
               </tbody>

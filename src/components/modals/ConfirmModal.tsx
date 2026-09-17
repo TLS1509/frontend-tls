@@ -91,7 +91,7 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
         </button>
 
         {/* Variant icon */}
-        <div className={`w-16 h-16 rounded-pill flex items-center justify-center mx-auto mb-5 animate-cm-icon-in ${VARIANT_ICON_BG[variant]} ${VARIANT_ICON_COLOR[variant]}`}>
+        <div className={`w-16 h-16 rounded-pill flex items-center justify-center mx-auto mb-stack-md animate-cm-icon-in ${VARIANT_ICON_BG[variant]} ${VARIANT_ICON_COLOR[variant]}`}>
           {displayIcon}
         </div>
 

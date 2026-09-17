@@ -274,7 +274,7 @@ const AppLanding: React.FC = () => {
             </motion.p>
 
             {/* Preuves qualitatives (zéro métrique inventée) */}
-            <motion.div variants={heroItem} className="flex flex-wrap gap-x-5 gap-y-stack-xs pt-2">
+            <motion.div variants={heroItem} className="flex flex-wrap gap-x-stack-md gap-y-stack-xs pt-2">
               {TRUST.map(({ icon, label }) => (
                 <div key={label} className="flex items-center gap-stack-2xs text-ink-500 font-body text-body-sm">
                   <span className="text-primary-500">{icon}</span>

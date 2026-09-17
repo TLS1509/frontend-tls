@@ -238,7 +238,7 @@ export const Enterprise: React.FC = () => {
             </Button>
           }
         >
-          <div className="flex flex-col -mx-5 sm:-mx-6 -mb-5 sm:-mb-stack-lg">
+          <div className="flex flex-col -mx-stack-md sm:-mx-6 -mb-stack-md sm:-mb-stack-lg">
             {activeMembers.map((m, idx) => {
               const tones = ['brand', 'warm', 'sun', 'brand', 'warm'] as const;
               const tone = tones[idx % tones.length];
@@ -246,7 +246,7 @@ export const Enterprise: React.FC = () => {
                 <div
                   key={m.id}
                   className={[
-                    'flex items-center gap-stack px-5 sm:px-stack-lg py-stack',
+                    'flex items-center gap-stack px-stack-md sm:px-stack-lg py-stack',
                     idx < activeMembers.length - 1 ? 'border-b border-ink-100' : '',
                   ].join(' ')}
                 >
@@ -343,12 +343,12 @@ export const Enterprise: React.FC = () => {
             </form>
           )}
 
-          <div className="flex flex-col -mx-5 sm:-mx-6 -mb-5 sm:-mb-stack-lg">
+          <div className="flex flex-col -mx-stack-md sm:-mx-6 -mb-stack-md sm:-mb-stack-lg">
             {members.map((u, idx) => (
               <div
                 key={u.id}
                 className={[
-                  'flex flex-wrap items-center gap-stack px-5 sm:px-stack-lg py-stack',
+                  'flex flex-wrap items-center gap-stack px-stack-md sm:px-stack-lg py-stack',
                   idx < members.length - 1 ? 'border-b border-ink-100' : '',
                 ].join(' ')}
               >
