@@ -125,7 +125,7 @@ const JournalBubbleNudge: React.FC<JournalBubbleNudgeProps> = ({ navigate, hasUp
             type="button"
             onClick={() => navigate(href)}
             aria-label="Ouvrir le journal"
-            className="w-9 h-9 rounded-pill bg-primary-500 hover:bg-primary-600 flex items-center justify-center text-white shadow-brand-sm hover:shadow-brand-md transition-[background-color,box-shadow] duration-fast shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+            className="w-9 h-9 rounded-pill bg-primary-100 hover:bg-primary-200 flex items-center justify-center text-primary-800 shadow-xs transition-[background-color] duration-fast shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           >
             <ArrowRight size={14} strokeWidth={2.5} aria-hidden="true" />
           </button>
@@ -276,7 +276,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({ navigate }) => {
           <button
             type="button"
             onClick={() => navigate('/coaching')}
-            className="inline-flex items-center gap-stack-3xs text-caption font-medium text-primary-700 hover:text-primary-800 transition-colors duration-fast shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+            className="inline-flex items-center min-h-6 py-1 -my-1 gap-stack-3xs text-caption font-medium text-primary-700 hover:text-primary-800 transition-colors duration-fast shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
           >
             3 sessions
             <ArrowRight size={14} aria-hidden="true" />

@@ -138,7 +138,7 @@ export default function Passeport() {
         summary="Visualise ta progression Dreyfus, définis tes objectifs et suis l'évolution de tes compétences H.S.O."
         tone="default"
         trailing={
-          <Button variant="glass" size="md" leadingIcon={<Plus size={16} />} onClick={() => setActiveTab('objectifs')}>
+          <Button variant="primary" size="md" leadingIcon={<Plus size={16} />} onClick={() => setActiveTab('objectifs')}>
             Définir un objectif
           </Button>
         }

@@ -249,7 +249,7 @@ export const LearningSpace: React.FC = () => {
               className={[
                 'inline-flex items-center justify-center p-1.5 rounded-md transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                 gridCols === 2
-                  ? 'bg-primary-100 text-primary-600 shadow-xs'
+                  ? 'bg-primary-100 text-primary-800 shadow-xs'
                   : 'bg-white text-ink-600 hover:text-ink-600 hover:bg-ink-50 border border-ink-200',
               ].join(' ')}
             >
@@ -263,7 +263,7 @@ export const LearningSpace: React.FC = () => {
               className={[
                 'inline-flex items-center justify-center p-1.5 rounded-md transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                 gridCols === 4
-                  ? 'bg-primary-100 text-primary-600 shadow-xs'
+                  ? 'bg-primary-100 text-primary-800 shadow-xs'
                   : 'bg-white text-ink-600 hover:text-ink-600 hover:bg-ink-50 border border-ink-200',
               ].join(' ')}
             >

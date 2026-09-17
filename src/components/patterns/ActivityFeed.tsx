@@ -253,7 +253,7 @@ const ActivityRow: React.FC<{
               <button
                 type="button"
                 onClick={item.onActionClick}
-                className="inline-flex items-center gap-stack-3xs text-caption font-semibold text-primary-600 hover:text-primary-700 cursor-pointer transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                className="inline-flex items-center min-h-6 py-1 -my-1 gap-stack-3xs text-caption font-semibold text-primary-700 hover:text-primary-800 cursor-pointer transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
               >
                 {item.actionLabel}
                 <ArrowRight size={14} strokeWidth={2.5} aria-hidden="true" />

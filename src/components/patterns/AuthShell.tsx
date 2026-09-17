@@ -208,7 +208,7 @@ export const AuthBackLink: React.FC<AuthBackLinkProps> = ({ label, onClick, clas
     className={[
       'inline-flex items-center gap-stack-2xs self-start',
       'bg-transparent border-0 p-0 cursor-pointer',
-      'text-body-sm font-medium text-white/75 hover:text-white transition-colors',
+      'text-body-sm font-medium text-white/90 hover:text-white transition-colors',
       className,
     ].filter(Boolean).join(' ')}
   >
@@ -420,7 +420,7 @@ export const AuthPasswordField: React.FC<AuthPasswordFieldProps> = ({
           type="button"
           onClick={() => setShow((s) => !s)}
           aria-label={show ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
-          className="bg-transparent border-0 p-1 cursor-pointer text-white/60 hover:text-white transition-colors inline-flex items-center justify-center"
+          className="bg-transparent border-0 p-1 cursor-pointer text-white/85 hover:text-white transition-colors inline-flex items-center justify-center"
         >
           {show ? <EyeOff size={18} /> : <Eye size={18} />}
         </button>

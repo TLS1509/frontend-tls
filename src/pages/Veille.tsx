@@ -200,7 +200,7 @@ export const Veille: React.FC = () => {
               className={[
                 'inline-flex items-center justify-center p-1.5 rounded-md transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                 displayMode === 'grid'
-                  ? 'bg-primary-100 text-primary-600 shadow-xs'
+                  ? 'bg-primary-100 text-primary-800 shadow-xs'
                   : 'bg-white text-ink-600 hover:text-ink-600 hover:bg-ink-50 border border-ink-200',
               ].join(' ')}
             >
@@ -214,7 +214,7 @@ export const Veille: React.FC = () => {
               className={[
                 'inline-flex items-center justify-center p-1.5 rounded-md transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                 displayMode === 'list'
-                  ? 'bg-primary-100 text-primary-600 shadow-xs'
+                  ? 'bg-primary-100 text-primary-800 shadow-xs'
                   : 'bg-white text-ink-600 hover:text-ink-600 hover:bg-ink-50 border border-ink-200',
               ].join(' ')}
             >
@@ -263,7 +263,7 @@ export const Veille: React.FC = () => {
             <button
               type="button"
               onClick={() => navigate('/veille/newsletter')}
-              className="font-body text-caption text-ink-600 hover:text-primary-600 underline underline-offset-2 transition-colors whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+              className="inline-flex items-center min-h-6 py-1 -my-1 font-body text-caption text-ink-600 hover:text-primary-700 underline underline-offset-2 transition-colors whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
             >
               Gérer mes préférences
             </button>

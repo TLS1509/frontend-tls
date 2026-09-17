@@ -141,7 +141,7 @@ const TONE_SHADOW: Record<PageHeroTone, string> = {
 };
 
 const TONE_EYEBROW: Record<PageHeroTone, string> = {
-  flat:    'text-primary-600',
+  flat:    'text-primary-700',
   default: 'text-primary-700',
   brand:   'text-white/80',
   warm:    'text-white/85',
