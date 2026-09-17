@@ -170,7 +170,7 @@ Les fichiers restent dans le stockage de l'artefact ; seule leur référence dis
 
 **Vérification** : rendu de contrôle React 19 sur les 28 aperçus, 0 erreur ; captures comparées une à une à la v11 (différences = styles de base retrouvés). Dans la vraie page de l'artefact (volet navigateur), la carte Button rend avec ses icônes Lucide, 0 erreur console.
 
-**Kit reproductible** : `scripts/claude-design/` (non commité). `npm install && npm run build` compile bundle, feuille, aperçus et types dans `out/components/` ; `DS=<tokens.json + fonts de l'artefact> npm run check` rejoue le rendu de contrôle. Testé : sortie identique octet pour octet à celle publiée en v12.
+**Kit reproductible** : `scripts/claude-design/` (commité depuis : `ddae2c1`). `npm install && npm run build` compile bundle, feuille, aperçus et types dans `out/components/` ; `DS=<tokens.json + fonts de l'artefact> npm run check` rejoue le rendu de contrôle. Testé : sortie identique octet pour octet à celle publiée en v12.
 
 **Toujours pas à jour : le catalogue généré.** `project/api/**`, `project/tokens.css` et `project/manifest.json` sont écrits par la page de l'artefact, au premier enregistrement fait dedans, et on ne doit pas les écrire à la main. Ils décrivent encore l'ancien système migré : 65 composants dont `TrendingBadge`, `CHIP_*`, `Approach1Minimalist`… et React 18.3.1. Un agent qui lirait les fiches `api/` avant le README serait induit en erreur. Les aperçus et le brand book, eux, sont justes.
 
@@ -187,7 +187,12 @@ Les fichiers restent dans le stockage de l'artefact ; seule leur référence dis
 
 ---
 
-## 9. Recompilation à HEAD — 17.09.2026 après-midi (session audit)
+## 10. Recompilation à HEAD, en parallèle — 17.09.2026 après-midi (session audit Claude Code)
+
+> Écrit sans connaître le §9 ci-dessus : les deux sessions ont travaillé le même après-midi
+> sur le même arbre. **Pour les prochains re-syncs, le kit du §9 (`scripts/claude-design/`,
+> `npm run build` + `npm run check`, commit `ddae2c1`) est le pipeline canonique** — la
+> compilation rolldown décrite ici était un one-off, superseded.
 
 | Étape | Résultat |
 |---|---|
@@ -198,6 +203,6 @@ Les fichiers restent dans le stockage de l'artefact ; seule leur référence dis
 | Vérification | Harnais local imitant la page (tokens.css + libs React de l'artefact + nouveau bundle) : **0 erreur JS**, 47 exports, plus aucun `hover:-translate-y`, carte interactive → 20 px + `hover:border-primary-300 hover:bg-primary-50/30` + `box-shadow: none`, AuthPrimaryButton → 14 px sans lift, FilterChip actif doux (dégradé 50→100, texte 800). |
 | Constat au passage | La lib `project/components/lib/react.production.min.js` est **React 19.2.5** réempaqueté — le §8 disait « React 18 » ; aucun écart de version avec l'app, la note du §8 était fausse. |
 | Publication | D'abord **bloquée** par le classifieur (« Modify Shared Resources », mode auto) — fichiers déposés dans `Claude outputs/ds-sync-2026-09-17/`. Chloé a élargi les permissions : **publiée en version 14** (les deux bundles) puis **version 18** (l'index avec `lastChange`). |
-| ⚠️ Collision constatée | La session **Cowork avait recompilé sur le même commit `113e5ae` à 13h04** (son `lastChange` : « feuille de l'app complète — globals.css et design-tokens.css manquaient » dans son bundle du matin). Ma publication de 13h18 a recouvert la sienne **sans le savoir** : la lecture ciblée par `path` servait encore l'ancienne version, et la comparaison de sha256 a conclu à tort « rien de neuf ». Sans perte : deux builds du même commit, et la feuille Vite est complète (vérifié : `--tls-*`, globals, modales, `@theme`, utilities maison). **Leçon : seule la lecture PLEINE (sans `path`) enregistre la vue de la dernière version ; une lecture par `path` peut servir un instantané antérieur.** |
+| ⚠️ Collision constatée | La session **Cowork avait recompilé sur le même commit `113e5ae` à 13h04** (son `lastChange` : « feuille de l'app complète — globals.css et design-tokens.css manquaient » — défaut des v1 à v11, que sa v12 de 13h04 corrigeait déjà). Ma publication de 13h18 a donc recouvert **une v12/v13 saine** sans le savoir : la lecture ciblée par `path` servait encore l'ancienne version, et la comparaison de sha256 a conclu à tort « rien de neuf ». Sans perte : deux builds complets du même commit (le sien esbuild/453 Ko non minifié, le mien Vite/365 Ko minifié — la v12 reste dans l'historique de l'artefact), et la feuille Vite est complète (vérifié : `--tls-*`, globals, modales, `@theme`, utilities maison). **Leçon : seule la lecture PLEINE (sans `path`) enregistre la vue de la dernière version ; une lecture par `path` peut servir un instantané antérieur.** |
 | Régénération de la page | Un enregistrement fait dans la page à 13h20 a régénéré `api/` sur le nouveau bundle : **183 → 144 fichiers** — les fiches héritées (`TrendingBadge.md`, `Approach1/2/3`, `CHIP_*`, anciennes vitrines) ont disparu d'elles-mêmes, comme le §7 l'annonçait. |
 | Non touché | `project/api/**`, `tokens.css`, `manifest.json` (générés par la page, se refont au prochain enregistrement) ; fiches A7 (déjà justes) ; aperçus (inchangés — le rendu vient du bundle). |
