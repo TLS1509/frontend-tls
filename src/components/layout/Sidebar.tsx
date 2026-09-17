@@ -80,9 +80,18 @@ export const Sidebar: React.FC<SidebarProps> = ({
         aria-label="Navigation principale"
         {...rest}
       >
-        {/* Brand row + mobile close button */}
-        <div className={['flex items-center justify-between gap-stack-xs pl-6 pr-4 pt-6 pb-6', collapsed && 'justify-center px-2 pb-6'].filter(Boolean).join(' ')}>
-          <div className={['shrink-0', collapsed && 'mx-auto'].filter(Boolean).join(' ')}>{brand ?? <DefaultBrand collapsed={collapsed} />}</div>
+        {/* Brand row + mobile close button.
+            DATUM DE TÊTE D'ÉCRAN (2026-09-17, mesuré : logo à 24 quand la nav
+            vivait à 12+14, et −7 px entre centre du logo et eyebrow de page) :
+            1. même rampe de padding haut que la tête de page (pt-section
+               md:pt-section-lg lg:pt-page — LA rampe par défaut de PageShell)
+               → le rail et le contenu PARTENT DE LA MÊME LIGNE à tous les
+               breakpoints, sur toutes les pages qui n'overrident pas ;
+            2. le logo s'aligne sur la colonne des ICÔNES de nav : retrait de
+               rangée (pl-3 = 12) + retrait interne d'une rangée (pl-3.5 = 14)
+               = 26 px, composé en tokens. Ne pas re-fusionner en pl-6. */}
+        <div className={['flex items-center justify-between gap-stack-xs pl-3 pr-4 pt-section md:pt-section-lg lg:pt-page pb-6', collapsed && 'justify-center px-2 pb-6'].filter(Boolean).join(' ')}>
+          <div className={['shrink-0', collapsed ? 'mx-auto' : 'pl-3.5'].filter(Boolean).join(' ')}>{brand ?? <DefaultBrand collapsed={collapsed} />}</div>
           {/* Mobile-only close button — visible quand drawer ouvert sur viewport < 768px */}
           {onMobileClose && (
             <button

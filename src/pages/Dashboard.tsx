@@ -202,7 +202,11 @@ export const Dashboard: React.FC = () => {
 
   return (
     <div className="relative min-h-[100dvh]">
-      <PageShell width="page" noPadTop className="relative z-[2] gap-section pt-6 md:pt-8 lg:pt-10">
+      {/* Datum de tête d'écran (17/09) : plus d'override de padding haut — la
+          page prend LA rampe par défaut de PageShell (section/section-lg/page),
+          la même que la rangée logo du rail. Les deux colonnes partent de la
+          même ligne. */}
+      <PageShell width="page" className="relative z-[2] gap-section">
 
         {/* ① Hero */}
         <PageHero
