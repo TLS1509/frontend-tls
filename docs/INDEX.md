@@ -308,8 +308,9 @@
 
 ---
 
-## 📋 briefs/ — Briefs de travail (4 fichiers)
+## 📋 briefs/ — Briefs de travail (5 fichiers)
 
+- [**BRIEF-SESSION-DS-SUITE-2026-09-17.md**](briefs/BRIEF-SESSION-DS-SUITE-2026-09-17.md) — 🎯 **Prompt d'ouverture de la session suivante** (écrit le 2026-09-17 au soir, état `eb2b3c7`) : la suite du chantier DS après la bascule (l'app abandonne le solid). Quatre chantiers priorisés — le renommage `emphasis`×`tone` (P0, avec passe `px-5`, recalage Figma et render-check), le dark mode sur l'univers auth (« nuit TLS » `#0D1A1E`, verre-sombre encore sans verdict au banc), la grammaire de page à 5 zones (pilote Dashboard), et les restes triés (pastilles ≥ 48 px, contour des champs, `AuthPrimaryButton` vs `onDark`). Liens banc + artefact DS + les 5 commits du 17/09.
 - [**BRIEF-AUDIT-DS-AGENCY-GRADE.md**](briefs/BRIEF-AUDIT-DS-AGENCY-GRADE.md) — 🎯 **Prompt d'ouverture de session** (2026-09-17) : audit du design system au niveau agence, sur les **trois surfaces** (codebase · docs locales + vitrine · Figma `LccBZ1GKWQVwVzPtsSzk5Y`). Porte la liste de ce qui a bougé du 9 au 17/09 et de ce qui n'a pas suivi, les écarts déjà relevés et chiffrés (Button Figma à `md` 40 vs 44, emojis vs Lucide, famille bulle incohérente, `p-5` hors échelle, 9 interlignes), et les quatre pièges qui ont déjà coûté cher — dont le lookahead `(?![\d.])` sans lequel un renommage de gouttière tombe à 0 en silence. Skills à charger : `design:design-system`, `impeccable`, `web-design-guidelines`, `figma:figma-use`
 - `BRIEF-FORMATION-APPLIQUEE-DESIGN.md` — **feuille de route formation ↔ design** (2026-09-14) : croise les missions *Appliquer* des cours UX/UI de `chloe/application/cours/` avec les décisions de rayon encore ouvertes dans `src/` (R2 : 157 `rounded-2xl`). Chiffres mesurés le jour même. ⏳ **Périme quand R2 est tranchée**
 - `BRIEF-VEILLE-IA-PIPELINE.md` — brief technique pour Pierre-Armand : couche IA de la veille (collecte multi-canal RSS/newsletter/Perplexity, vérification de fiabilité, synthèse). Ancré sur les CDC 12bis/12/01bis/13bis + le contrat `wp-veille`. Statut : proposition à discuter (2026-07-15)

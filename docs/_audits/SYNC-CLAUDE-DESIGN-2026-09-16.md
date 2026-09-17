@@ -237,3 +237,33 @@ Le §10 raconte la même après-midi vue de la session d'audit Claude Code. Les 
 - Le message du bouchon affiche `${a.path}` au lieu du nom de la bibliothèque dans le bundle publié (coquille corrigée dans le kit, disparaîtra à la prochaine recompilation).
 
 **Reproductibilité** : `scripts/claude-design/` refait depuis une copie propre de `b6da293` produit le même bundle au caractère près (hors la coquille ci-dessus), les mêmes aperçus et le même `index.d.ts`.
+
+## 12. Versions 24–25 — re-sync après la bascule, 17.09.2026 soir (session audit Claude Code)
+
+Le verdict « option D » (l'app abandonne le solid) et ses suites avaient périmé
+les bundles de la §11, compilés sur `b6da293`. Recompilation du kit sur
+**`eb2b3c7`** (bascule + cran `stack-md` + R2 exécutée + cycle in situ + cas
+limites), après commit et push — le commit cité par les en-têtes est le vrai.
+
+**Publié (v24)** : `components/bundle.js` (recette teintée de Button vérifiée
+dedans avant envoi, la coquille `${a.path}` de la §11 disparaît au passage),
+`components/bundle.css` (le cran `spacing-stack-md` ×7), `tokens.json`
+(+ `spacing-stack-md` = 1.25rem, inséré entre `stack` et `stack-lg` avec sa
+note d'usage), et la **fiche Button réécrite** — elle décrivait `solid` en
+« fond porteur » et marquait l'arbitrage contraste « ouvert » alors qu'il est
+tranché. **Puis l'index seul (v25)**, relu juste avant, `lastChange` sur
+`eb2b3c7`.
+
+**Conflit rencontré, résolu proprement** : le verrou a refusé le premier envoi
+— la session Cowork avait remplacé les deux bundles depuis ma dernière vue.
+Lecture par path des deux fichiers (enregistre la vue), vérification que
+`b6da293` est un **ancêtre** de `eb2b3c7` (`git merge-base --is-ancestor`) —
+donc ma recompilation contient son état, rien ne se perd — puis republication.
+C'est le protocole de la §10, qui a fonctionné tel qu'écrit cette fois.
+
+**Non republiés, à dessein** : les 191 `preview.html` (coquilles fines qui
+rejouent le bundle à l'exécution — leur contenu ne bouge pas avec des chaînes
+de classes) et les `.d.ts` (aucun type n'a changé, les noms de variantes sont
+conservés jusqu'au renommage). Le rendu de contrôle Playwright n'a pas été
+relancé : le delta est entièrement des littéraux de classes dans des maps déjà
+exercées par la §11 — à relancer à la passe de renommage, qui touchera l'API.
