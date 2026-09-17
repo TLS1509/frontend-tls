@@ -14,15 +14,34 @@ const entries = JSON.parse(fs.readFileSync(path.join(HERE, 'entries.json'), 'utf
 // entries: [{ name, from }]  from = path relative to src/components
 fs.mkdirSync(OUT, { recursive: true });
 
-const entrySrc = entries.map(e => e.raw ? e.raw : e.pkg
+let entrySrc = entries.map(e => e.raw ? e.raw : e.pkg
   ? `export { ${e.names.join(', ')} } from ${JSON.stringify(e.pkg)};`
   : `export { ${(e.names || [e.name]).join(', ')} } from ${JSON.stringify(path.join(REPO, 'src/components', e.from))};`).join('\n');
 const cards = entries.flatMap(e => e.cards || (e.name ? [e.name] : []));
+
+// La vitrine /components : chaque fiche devient une carte dont l'aperçu rejoue son rendu (Showcase[nom]).
+// out/showcase.json vient de showcase.mjs ; absent, le bundle ne contient que les cartes écrites à la main.
+const SHOW = path.join(HERE, 'out/showcase.json');
+const showcase = fs.existsSync(SHOW) ? JSON.parse(fs.readFileSync(SHOW, 'utf8')).cards : [];
+if (showcase.length) {
+  const already = new Set(entries.flatMap(e => e.names || (e.name ? [e.name] : [])));
+  const lines = showcase.filter(c => c.exportFrom && !already.has(c.id))
+    .map(c => `export { ${c.id} } from ${JSON.stringify(path.join(REPO, 'src/components', c.exportFrom))};`);
+  const extra = `\nimport { __SHOWCASE } from ${JSON.stringify(path.join(REPO, 'src/pages/Components.tsx'))};\n`
+    + `export const Showcase = Object.fromEntries(__SHOWCASE.map(c => [c.name, c.render]));\n` + lines.join('\n');
+  entrySrc += extra;
+  cards.push(...showcase.map(c => c.id));
+}
 
 const globals = {
   name: 'react-globals',
   setup(b) {
     b.onResolve({ filter: /^react(-dom)?(\/.*)?$/ }, a => ({ path: a.path, namespace: 'g' }));
+    // COMPONENTS n'est pas exporté par la page vitrine : on l'expose à la compilation, sans toucher au fichier.
+    b.onLoad({ filter: /src[\\/]pages[\\/]Components\.tsx$/ }, a => ({ contents: fs.readFileSync(a.path, 'utf8') + '\nexport { COMPONENTS as __SHOWCASE };\n', loader: 'tsx' }));
+    // Export PDF et capture d'écran : inutiles dans un aperçu, 700 Ko de moins.
+    b.onResolve({ filter: /^(jspdf|html2canvas)$/ }, a => ({ path: a.path, namespace: 'stub' }));
+    b.onLoad({ filter: /.*/, namespace: 'stub' }, a => ({ contents: `const no = () => { throw new Error('${a.path} indisponible dans Claude Design'); }; export default no; export const jsPDF = no;`, loader: 'js' }));
     b.onLoad({ filter: /.*/, namespace: 'g' }, a => {
       if (a.path === 'react/jsx-runtime' || a.path === 'react/jsx-dev-runtime') {
         return { contents: `const R = window.React;
@@ -39,10 +58,10 @@ const r = await esbuild.build({
   stdin: { contents: entrySrc, resolveDir: REPO, loader: 'ts' },
   bundle: true, format: 'iife', globalName: '__tls', minify: true, write: false,
   jsx: 'automatic', target: 'es2020', platform: 'browser',
-  define: { 'process.env.NODE_ENV': '"production"' },
+  define: { 'process.env.NODE_ENV': '"production"', 'import.meta.env': '{"DEV":false,"PROD":true,"MODE":"production","BASE_URL":"/"}' },
   nodePaths: [path.join(HERE, 'node_modules'), path.join(REPO, 'node_modules')],
   plugins: [globals], logLevel: 'warning',
-  loader: { '.svg': 'dataurl', '.png': 'dataurl', '.css': 'empty' },
+  loader: { '.svg': 'dataurl', '.png': 'dataurl', '.jpg': 'dataurl', '.jpeg': 'dataurl', '.webp': 'dataurl', '.css': 'empty' },
 });
 let js = r.outputFiles[0].text;
 const header = `/* @ds-bundle: ${JSON.stringify({ format: 4, namespace: NS, components: cards.map(name => ({ name })) })} */`;

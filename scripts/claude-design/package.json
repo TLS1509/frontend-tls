@@ -2,10 +2,10 @@
   "name": "tls-claude-design-kit",
   "private": true,
   "type": "module",
-  "description": "Recompile le bundle, les aperçus et les types du design system TLS publié dans Claude Design.",
+  "description": "Recompile le bundle, les aperçus et les types du design system TLS publié dans Claude Design (28 cartes écrites à la main + les fiches de la vitrine /components).",
   "scripts": {
-    "build": "node build.mjs && node build-react.mjs && python3 gen_previews.py && node dts.mjs",
-    "check": "node render-check.mjs"
+    "build": "node showcase.mjs && node build.mjs && node build-react.mjs && python3 gen_previews.py && node dts.mjs",
+    "check": "FIX_HEIGHTS=1 node render-check.mjs"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.2.2",

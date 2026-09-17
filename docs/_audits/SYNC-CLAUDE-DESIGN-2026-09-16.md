@@ -176,14 +176,14 @@ Les fichiers restent dans le stockage de l'artefact ; seule leur référence dis
 
 **Police mono dans l'app** : `--font-mono` déclare JetBrains Mono, mais aucune `@font-face` ni feuille ne la charge. Les eyebrows en `font-mono` s'affichent dans la mono du système. L'artefact, lui, l'embarque.
 
-### Actions en attente de validation
+### Actions de la section 9
 
-| # | Action | Validation |
-|---|---|---|
-| 9.1 | Commiter `scripts/claude-design/` et ce document | |
-| 9.2 | Déclencher la régénération du catalogue : un enregistrement dans la page de l'artefact (toi dans la page, ou Claude via le volet navigateur) | |
-| 9.3 | Charger JetBrains Mono dans l'app (auto-hébergée dans `public/fonts/` + `@font-face`), ou retirer `--font-mono` des eyebrows | |
-| 9.4 | Étendre l'artefact aux composants de l'app qui n'y sont pas encore (28 exposés aujourd'hui) | |
+| # | Action | Validation | Exécution |
+|---|---|---|---|
+| 9.1 | Commiter `scripts/claude-design/` et ce document | Validé - corrige (17/09) | Fait : commit `ddae2c1` |
+| 9.2 | Déclencher la régénération du catalogue : un enregistrement dans la page de l'artefact | Validé - corrige (17/09) | Fait, deux fois (après la v14 puis après la v20). Méthode : une note d'usage (`color-primary-50`) modifiée puis rétablie dans la page ; texte final identique, vérifié dans `tokens.json` |
+| 9.3 | Charger JetBrains Mono dans l'app | Validé - corrige (17/09) | Fait : commit `b6da293`, `public/fonts/JetBrainsMono-Variable-latin.woff2` + `@font-face` dans `design-tokens.css`, licence OFL à côté |
+| 9.4 | Étendre l'artefact aux composants de l'app qui n'y sont pas encore | Validé - corrige (17/09) | Fait : 191 cartes (voir §10) |
 
 ---
 
@@ -206,3 +206,34 @@ Les fichiers restent dans le stockage de l'artefact ; seule leur référence dis
 | ⚠️ Collision constatée | La session **Cowork avait recompilé sur le même commit `113e5ae` à 13h04** (son `lastChange` : « feuille de l'app complète — globals.css et design-tokens.css manquaient » — défaut des v1 à v11, que sa v12 de 13h04 corrigeait déjà). Ma publication de 13h18 a donc recouvert **une v12/v13 saine** sans le savoir : la lecture ciblée par `path` servait encore l'ancienne version, et la comparaison de sha256 a conclu à tort « rien de neuf ». Sans perte : deux builds complets du même commit (le sien esbuild/453 Ko non minifié, le mien Vite/365 Ko minifié — la v12 reste dans l'historique de l'artefact), et la feuille Vite est complète (vérifié : `--tls-*`, globals, modales, `@theme`, utilities maison). **Leçon : seule la lecture PLEINE (sans `path`) enregistre la vue de la dernière version ; une lecture par `path` peut servir un instantané antérieur.** |
 | Régénération de la page | Un enregistrement fait dans la page à 13h20 a régénéré `api/` sur le nouveau bundle : **183 → 144 fichiers** — les fiches héritées (`TrendingBadge.md`, `Approach1/2/3`, `CHIP_*`, anciennes vitrines) ont disparu d'elles-mêmes, comme le §7 l'annonçait. |
 | Non touché | `project/api/**`, `tokens.css`, `manifest.json` (générés par la page, se refont au prochain enregistrement) ; fiches A7 (déjà justes) ; aperçus (inchangés — le rendu vient du bundle). |
+
+---
+
+## 11. Versions 14 à 21 — catalogue régénéré, 191 composants, 17.09.2026 (session Cowork)
+
+Le §10 raconte la même après-midi vue de la session d'audit Claude Code. Les deux récits se complètent ; ce qui suit est la part Cowork.
+
+⚠️ **Deux sessions sur le même artefact.** Ma publication de la v19 a été refusée trois fois (« une version plus récente est en ligne ») : les relectures ciblées par `path` ne suffisaient pas, seule la lecture pleine de l'artefact a débloqué la publication — même leçon que le §10. Avant de publier, j'ai vérifié que le bundle de la v19 est un **sur-ensemble** des 47 exports publiés par l'autre session.
+
+| Version | Contenu |
+|---|---|
+| 14 | Session d'audit (§10) : bundles Vite minifiés sur `113e5ae` |
+| 15–17 | Enregistrements dans la page, faits par moi (note d'usage modifiée puis rétablie) : catalogue régénéré sur 28 composants. La page réécrit `tokens.json` à sa façon : `name` et `meta` retirés |
+| 18 | Session d'audit (§10) : index, `lastChange` |
+| 19 | Bundle recompilé sur `b6da293` avec la vitrine : 1,5 Mo (au lieu de 0,27), 163 nouveaux `preview.html`, `components/index.d.ts` (157 fichiers sources), les 28 `.d.ts` au commit `b6da293`, brand book (§8 : taxonomie de la vitrine ; « Hors synchronisation » : 191 cartes, limites, police mono chargée dans l'app) |
+| 20 | Index : `lastChange` |
+| 21 | Enregistrement dans la page : catalogue régénéré, **191 composants** dans `manifest.json`, 191 fiches `api/` |
+
+**Comment les 163 cartes sont faites.** Le kit ne réécrit aucun exemple : il lit le tableau `COMPONENTS` de la vitrine (`src/pages/Components.tsx`) et son classement (`registry.ts`), expose ce tableau à la compilation (sans modifier le fichier) et chaque aperçu rejoue `Showcase[nom]()`. Les aperçus montrent donc exactement ce que montre `/components`, notes d'arbitrage comprises, et suivent la vitrine à chaque recompilation. Groupes = les 15 catégories du registre ; sous-titre = première phrase de la description de la fiche (ou sa sous-catégorie si elle est trop longue).
+
+**Écartées** : les 8 fiches de convention (leurs règles sont dans le brand book), les 27 fiches déjà couvertes par une carte écrite à la main, et « Toast + useToast » (couverte par Toast).
+
+**Vérification** : rendu de contrôle des 163 aperçus sous React 19, **0 erreur JS** ; 2 erreurs réseau attendues (`FlipCard`, `AstucesCard` appellent une image distante, qui ne charge pas dans Claude Design) ; 7 planches de captures relues une à une. Les 28 cartes écrites à la main repassées sur le nouveau bundle : 0 erreur. Dans la vraie page, Button rend sur le bundle de 1,5 Mo.
+
+**Choix faits sans te consulter, à relire** :
+- Les cartes de vitrine n'ont **pas de fiche d'usage** (`README.md`) : le système est plafonné à 512 fichiers, catalogue généré compris. Avec une fiche chacune, on dépassait (621). Au 17/09 : 459 fichiers propres, marge d'une vingtaine de cartes.
+- `jspdf` et `html2canvas` (export PDF/PNG des graphiques) sont remplacés par un bouchon dans le bundle : −700 Ko, et l'export n'a pas de sens dans un aperçu.
+- Les fiches dont le nom n'est pas un identifiant sont renommées : « Dialog Modals » → `DialogModals`, « VeilleCard — design proposals » → `VeilleCardDesignProposals`.
+- Le message du bouchon affiche `${a.path}` au lieu du nom de la bibliothèque dans le bundle publié (coquille corrigée dans le kit, disparaîtra à la prochaine recompilation).
+
+**Reproductibilité** : `scripts/claude-design/` refait depuis une copie propre de `b6da293` produit le même bundle au caractère près (hors la coquille ci-dessus), les mêmes aperçus et le même `index.d.ts`.

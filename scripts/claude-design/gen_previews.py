@@ -335,6 +335,22 @@ add('AuthShell', 'Auth Family', 980, "coque d'authentification glass-dark", """
     return h(A.AuthShell, { form: form, aside: h('div', { style: { color: '#fff' } }, h('p', { style: { fontFamily: 'var(--font-display)', fontSize: '32px', fontWeight: 800, margin: 0 } }, 'Pratique, valide, maîtrise.')) });
   }""", pad='0', width=1200)
 
+# Les fiches de la vitrine /components (out/showcase.json, produit par showcase.mjs) :
+# l'aperçu rejoue le rendu de la fiche, dans un routeur mémoire (certaines fiches naviguent).
+import json
+SHOW = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'out', 'showcase.json')
+SHOW_JS = """
+  var NAME = %s;
+  function Fiche() { return DS.Showcase[NAME](); }
+  function App() { return h(DS.MemoryRouter, null, h(Fiche)); }"""
+if os.path.exists(SHOW):
+    for c in json.load(open(SHOW))['cards']:
+        if c['id'] in C:
+            continue
+        sub = c['summary'] if 0 < len(c['summary']) <= 90 else c['subCategory']
+        sub = sub.replace('"', "'").replace('-->', '→')
+        add(c['id'], c['group'], 600, sub, SHOW_JS % json.dumps(c['name'], ensure_ascii=False), width=1040)
+
 for name, c in C.items():
     d = os.path.join(OUT, name)
     os.makedirs(d, exist_ok=True)

@@ -11,6 +11,12 @@ const OUT = process.env.OUT || path.join(HERE, 'out/components');
 const TMP = path.join(HERE, 'out/.dts');
 const entries = JSON.parse(fs.readFileSync(path.join(HERE, 'entries.json'), 'utf8')).filter(e => e.from);
 const mods = [path.join(HERE, 'node_modules'), path.join(REPO, 'node_modules')];
+// Les fiches de la vitrine (out/showcase.json) : leurs types vont dans un seul components/index.d.ts,
+// pas un fichier par carte (le système est plafonné à 512 fichiers, catalogue généré compris).
+const SHOW = path.join(HERE, 'out/showcase.json');
+const showcase = fs.existsSync(SHOW) ? JSON.parse(fs.readFileSync(SHOW, 'utf8')).cards : [];
+const curatedFiles = new Set(entries.map(e => e.from));
+const showSources = [...new Set(showcase.flatMap(c => c.sources))].filter(f => !curatedFiles.has(f)).sort();
 
 fs.rmSync(TMP, { recursive: true, force: true });
 fs.mkdirSync(TMP, { recursive: true });
@@ -22,7 +28,7 @@ const tsconfig = {
     typeRoots: mods.map(m => path.join(m, '@types')), types: [],
     baseUrl: TMP, paths: { '*': mods.flatMap(m => [m + '/*', m + '/@types/*']) },
   },
-  files: entries.map(e => path.join(REPO, 'src/components', e.from)),
+  files: [...new Set([...entries.map(e => e.from), ...showSources])].map(f => path.join(REPO, 'src/components', f)),
 };
 fs.writeFileSync(path.join(TMP, 'tsconfig.json'), JSON.stringify(tsconfig, null, 2));
 const tsc = [path.join(HERE, 'node_modules/.bin/tsc'), path.join(REPO, 'node_modules/.bin/tsc')].find(fs.existsSync);
@@ -39,4 +45,13 @@ for (const e of entries) {
     fs.writeFileSync(path.join(OUT, name, `${name}.d.ts`), header + body);
   }
 }
-console.log('d.ts', entries.flatMap(e => e.cards).length);
+let index = `// Types des composants de la vitrine /components (frontend-tls@${REF}), émis par tsc. Documentation, jamais vérifiés.\n`
+  + `// Les 28 cartes écrites à la main ont leur propre components/<Nom>/<Nom>.d.ts.\n`;
+for (const f of showSources) {
+  const src = path.join(TMP, 'out/components', f.replace(/\.tsx?$/, '.d.ts'));
+  if (!fs.existsSync(src)) { console.warn('pas de .d.ts pour', f); continue; }
+  const cardsOf = showcase.filter(c => c.sources.includes(f)).map(c => c.name).join(', ');
+  index += `\n// ─── src/components/${f} — carte(s) : ${cardsOf}\n` + fs.readFileSync(src, 'utf8').replace(/^export default \w+;\n?/m, '');
+}
+if (showSources.length) fs.writeFileSync(path.join(OUT, 'index.d.ts'), index);
+console.log('d.ts', entries.flatMap(e => e.cards).length, '+ index.d.ts', showSources.length, 'fichiers');

@@ -38,10 +38,19 @@ ${prev.slice(prev.indexOf('<head>') + 6)}`;
   p.on('console', m => { if (m.type() === 'error') errs.push(m.text()); });
   p.on('pageerror', e => errs.push('PAGEERROR ' + e.message));
   await p.goto('file://' + file); await p.waitForTimeout(800);
-  const h = await p.evaluate(() => document.body.scrollHeight);
+  const h = await p.evaluate(() => {
+    // Le contenu, pas #root : l'app pose un min-height de plein écran sur la racine.
+    const range = document.createRange(); range.selectNodeContents(document.getElementById('root'));
+    return Math.ceil(range.getBoundingClientRect().bottom + parseFloat(getComputedStyle(document.body).paddingBottom || '0'));
+  });
   await p.setViewportSize({ width, height: Math.max(height, h) });
   await p.screenshot({ path: path.join(CHECK, `${n}.png`) });
   if (errs.length) bad++;
+  // FIX_HEIGHTS=1 : la hauteur mesurée remplace celle du marqueur (la ligne s'ouvre à la bonne taille dans la page).
+  if (process.env.FIX_HEIGHTS && !errs.length) {
+    const fixed = prev.replace(/height=\d+/, `height=${Math.min(4000, Math.max(40, h))}`);
+    fs.writeFileSync(path.join(C, n, 'preview.html'), fixed);
+  }
   console.log(n, 'hauteur', h, 'erreurs', JSON.stringify(errs.slice(0, 5)));
   await p.close();
 }
