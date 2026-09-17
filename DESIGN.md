@@ -262,12 +262,17 @@ les quatre valeurs canoniques.
 
 | État | Effet |
 |---|---|
-| Repos | `shadow-xs` ou rien |
-| Survol (cards cliquables) | `hover:shadow-md hover:-translate-y-1` + bordure teintée |
-| Pressé | `active:shadow-sm active:translate-y-0` |
+| Repos | filet 1 px, **aucune ombre** (S2, 09/09 — le verre garde la sienne) |
+| Survol (cards cliquables) | **`CARD_HOVER[tone]`** : filet fermé d'un cran + fond très légèrement teinté. **Ni soulèvement ni ombre** (règle du 16/09, `tone-classes.ts`) |
+| Pressé | rien de plus — le survol suffit ; pas de translate |
 | Focus | `focus-visible:outline-2 focus-visible:outline-{tone}-500` |
 | Désactivé | `opacity-disabled cursor-not-allowed`, sans lift |
 | Sélectionné | bordure 2px `{tone}-500` + `ring-2 ring-{tone}-100` |
+
+> ⚠️ Cette table disait jusqu'au 2026-09-17 « Survol : `hover:shadow-md
+> hover:-translate-y-1` » — l'exact contraire de la règle rendue le 16/09.
+> C'est la version ci-dessus qui fait foi, alignée sur `CARD_HOVER` /
+> `CARD_HOVER_NEUTRE` dans `src/lib/tone-classes.ts`.
 
 **Pourquoi.** Une seule card sert la page blanche, la section thématique,
 l'overlay de hero et la couverture image. On tune une map de surface, tous les
@@ -330,11 +335,15 @@ contraste prime.
 Les décisions de rationalisation vivent dans [`CLAUDE.md`](./CLAUDE.md), qui fait
 foi. En résumé :
 
-- **Badge** — `Badge.tsx` est canonique, trois exports (`Badge`, `StatusBadge`,
-  `TrendingBadge`). Ne jamais créer un nouveau fichier badge.
+- **Badge** — `Badge.tsx` est canonique, **deux exports** (`Badge`,
+  `StatusBadge`). `TrendingBadge` a été supprimé le 2026-09-10 (0 usage produit ;
+  cette ligne le listait encore — corrigé le 17/09). Ne jamais créer un nouveau
+  fichier badge.
 - **Breadcrumb** — `ui/Breadcrumb.tsx` canonique, `variant: simple | nav`.
-- **Pills** — cinq composants distincts sur une primitive `Chip` commune. Ne pas
-  les fusionner : leurs API diffèrent fondamentalement.
+- **Pills** — la famille est passée de 9 à 6 le 2026-09-10 (`Pill` et `Tag`
+  supprimés, 0 usage) : `Badge` · `FilterChip` · `MetaPill` + `MetaPillGroup` ·
+  `Chip` (primitive interne) · `StatusBadge`. Détail et registres (crier/chuchoter)
+  dans `CLAUDE.md`, qui fait foi.
 - **Card** — un seul fichier, **dix** variants (`default`, `feature`, `elevated`,
   `interactive`, `glass`, `glass-brand`, `glass-warm`, `glass-dark`, `minimal`,
   `tinted`). `bordered`, `muted` et `sunken` ont été retirés le 2026-07-24, sans
@@ -533,8 +542,10 @@ signature codée et débranchée.
   marketing, e-mails).
 - **Toute sortie d'IA est étiquetée**, avec sa source et son degré de confiance,
   et un humain peut la contredire.
-- **Ombres de survol teintées par le tone** (`shadow-brand-md`, `shadow-warm-md`),
-  jamais un gris neutre.
+- **Quand une ombre existe, elle est teintée par le tone** (`shadow-brand-md`,
+  `shadow-warm-md`), jamais un gris neutre. Depuis le 16/09 cela ne concerne
+  plus que les **boutons** (canon `Button.tsx`) et le **verre** — une carte ne
+  porte plus d'ombre, ni au repos ni au survol (voir §4).
 - **League Spartan en display, Nunito en texte** — jamais l'inverse.
 - **65–75 caractères** par ligne de texte courant (`max-w-prose`).
 - **44 px** (`min-h-touch`) sur toute cible interactive principale.

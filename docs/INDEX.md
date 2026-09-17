@@ -1,6 +1,12 @@
 # 📑 Documentation Index — The Learning Society
 
-**Last updated**: 2026-09-16 | **Total docs**: ~135 fichiers (hors `_archive/`)
+**Last updated**: 2026-09-17 | **Total docs**: ~136 fichiers (hors `_archive/`)
+
+> 🆕 **17/09** : [`_audits/AUDIT-DS-NIVEAU-AGENCE-2026-09-17.md`](_audits/AUDIT-DS-NIVEAU-AGENCE-2026-09-17.md)
+> — audit trois surfaces (code · docs · Figma, node IDs cités) + correction dans la foulée :
+> la règle de survol du 16/09 est descendue partout (~60 fichiers), famille bulle tranchée,
+> matrice Button Figma refaite à l'identique du code, docs recalées. Reste ouvert : A2 étendu
+> (le niveau `solid` entier), le cran 20 px (40 usages), R2 (135 `rounded-2xl`).
 
 > 🥇 **Avant toute session marketing ou site : lire [`_canon/FACTS-CANON.md`](_canon/FACTS-CANON.md)** — le registre des faits, avec ses interdits en §0.
 > **Ordre de préséance (revu le 28/07)** : (1) le code et le site en ligne, (2) une décision datée de Chloé, (3) ce registre, (4) le reste des docs. Le canon n'est plus présenté comme un arbitre absolu : il vieillit comme les autres.

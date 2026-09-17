@@ -281,8 +281,18 @@ className={tone === 'primary' ? 'bg-primary-500' : 'bg-secondary-500'}
   | conteneur | `Card` · `StatCard` · cartes faites main | **`rounded-xl`** (20) | l'étage le plus grand |
   | exception | `Button iconOnly` | `rounded-pill` | carré, donc cercle parfait — **exception écrite**, ne pas « uniformiser » |
 
-  ⏳ Reste ouvert : la famille **bulle** est incohérente — `PromptCard` à 24 sans
-  filet, `JournalChatCompose` à 24 avec filet, `JournalBubbleCard` à 20 avec filet.
+  ✅ **La famille bulle est tranchée et alignée (2026-09-17).** Elle était la
+  seule sans décision écrite — `PromptCard` à 24 sans filet + drop-shadow,
+  `JournalChatCompose` à 24 avec filet + ombre, `JournalBubbleCard` à 20 avec
+  filet, la bulle faite main du Dashboard à 20. **La construction canonique est
+  celle de `JournalBubbleCard`** : rayon conteneur (`rounded-xl`, 20) · filet
+  1 px (tonal 100 sur blanc, ou la surface teintée du type) · queue = carré
+  tourné 45° avec `border-r border-b` et coin `rounded-br-[6px]` (4 px sur la
+  petite bulle de saisie) · padding canon carte (`p-stack-lg`, 24 — `p-5`/20 px
+  n'est pas dans l'échelle) · **aucune ombre**, ni repos ni survol (S2 + règle
+  carte du 16/09). Les quatre membres sont alignés ; l'ancienne approche
+  « borderless + drop-shadow silhouette » de `PromptCard` est abandonnée (voir
+  piège n°8, addendum 2).
 
   ⚠️ **Ne jamais poser deux classes de rayon sur le même élément** : elles ont la
   même spécificité (0,1,0), donc c'est l'ordre d'émission de Tailwind qui tranche,
@@ -371,10 +381,12 @@ className={tone === 'primary' ? 'bg-primary-500' : 'bg-secondary-500'}
   Coque, champs et boutons rendent aujourd'hui une seule courbe sur `/auth/login`,
   `/auth/signup` et `/auth/forgot-password` (vérifié au navigateur).
 
-  📌 **Reste ouvert sur ces boutons, hors sujet du rayon** : ils portent encore
-  `hover:-translate-y-px`, le soulèvement au survol que S1 a retiré de
-  `Button.tsx` le 2026-09-09 — il datait l'interface, déplaçait le contenu sous
-  le curseur et n'existait pas sur mobile. À traiter dans une passe motion.
+  ✅ **La passe motion est passée (2026-09-17)** : le soulèvement au survol a été
+  retiré des trois boutons Auth (motif S1), et avec lui tous les
+  `hover:-translate-y-*` / `whileHover y` du produit — boutons, cartes, chips.
+  Le feedback de survol est désormais : bouton = fond + ombre (canon
+  `Button.tsx:209`), carte = `CARD_HOVER` (filet + fond, ni ombre ni
+  soulèvement), chip = fond (tone maps).
   ⚠️ **Corrigé le 2026-09-09 : l'affirmation « `rounded-full` = 50 %, cercle » était fausse.**
   Mesuré dans le CSS livré, Tailwind v4 génère `rounded-full: 3.40282e38px` — l'infini d'un float,
   pas un pourcentage. Sur un rectangle, le navigateur plafonne tout rayon à la moitié de la plus
@@ -437,19 +449,18 @@ Les pièges non-évidents rencontrés sur ce repo — à relire avant de toucher
    ```
    Impact : ~164 usages `var(--tls-ink-*)` (surtout `components/documentation/*`) passent de teal-tinté à neutre. **Le Figma DS est synchronisé sur `index.css` (neutre)** — donc Figma ↔ Tailwind ↔ BEM rendent enfin les mêmes gris. **Règle générale** : ne JAMAIS redéfinir une valeur de couleur/radius dans `design-tokens.css` ; toujours `var(--color-*)` / `var(--radius-*)` depuis `@theme`. ⚠️ **CORRIGÉ le 2026-07-23 — l'affirmation précédente était FAUSSE.** Elle disait que pour les `--shadow-*` homonymes « `@theme` gagne déjà, pas d'action ». Vérifié au navigateur via `getComputedStyle(document.documentElement)` : c'est **`design-tokens.css` qui gagnait**, donc **11 tokens `--shadow-*` de `@theme` étaient lettre morte** (dont toute l'échelle neutre `xs/sm/md/lg`). Une modification dans `@theme` n'avait aucun effet visible. Résolu : les 11 doublons ont été supprimés de `design-tokens.css`, et les 4 neutres — dont les valeurs y étaient meilleures (`rgba(18,24,28,…)`, plus douces que les défauts Tailwind `rgba(0,0,0,0.1)`) — ont été promus dans `@theme`. **Une seule définition par token, dans `@theme`.** Ne jamais rétablir de définition `--shadow-*` dans `design-tokens.css`.
 
-**⚠️ Le piège est encore actif ailleurs (mesuré au navigateur le 2026-07-28).** Neuf tokens restent définis aux deux endroits, et c'est toujours `design-tokens.css` qui gagne :
-
-| Token | `@theme` (mort) | Valeur réellement servie |
-|---|---|---|
-| `--z-base` · `--z-sticky` · `--z-dropdown` · `--z-modal` · `--z-tooltip` | 1 · 20 · 30 · 50 · 70 | **0 · 1020 · 1000 · 1050 · 1070** |
-| `--ease-standard` | `cubic-bezier(0.4, 0, 0.2, 1)` | **`cubic-bezier(0.2, 0, 0, 1)`** |
-| `--font-display` · `--font-body` · `--font-mono` | — | identiques (guillemets seuls) → inoffensif |
-
-**Ce qui sauve la mise** : les utilities Tailwind `z-*` sont générées depuis `--z-index-*`, un namespace **sans doublon** — `class="z-modal"` rend donc bien `50`. Le danger est le `var(--z-modal)` écrit à la main dans un CSS ou un `style={{}}`, qui renvoie `1050`. **Deux échelles pour un même concept : n'écrire aucun `var(--z-*)` brut, toujours la classe.**
-
-Corollaire sur `--ease-standard` : la valeur `@theme` est lettre morte, l'utility `.ease-standard` lit `var(--ease-standard)` et sert donc la courbe de `design-tokens.css`. Aligner les deux (ou supprimer le doublon) avant de toucher aux courbes.
-
-Même schéma pour le flou : `@theme` porte `--blur-glass-{light|medium|heavy}` + `--blur-ambient`, tandis que `design-tokens.css` déclare une **seconde échelle** `--backdrop-blur-{light|medium|standard|heavy}` (10/18/24/32px) que **personne ne consomme** — noms différents, donc pas de collision, mais deux vérités pour un même concept. À supprimer.
+✅ **L'état « neuf tokens définis aux deux endroits » est résolu (revérifié le
+2026-09-17).** L'intersection des noms entre `design-tokens.css` et le `@theme`
+est **vide** — plus aucun doublon `--z-*`, `--ease-*`, `--font-*`, et la seconde
+échelle de flou `--backdrop-blur-*` a été supprimée (0 définition, 0
+consommateur). Le PRINCIPE du piège reste entier : ne jamais redéfinir dans
+`design-tokens.css` un nom qui existe en `@theme` (c'est `design-tokens.css`,
+non-layered à l'époque, qui gagnait), et re-vérifier l'intersection après toute
+retouche de l'un des deux fichiers :
+```bash
+comm -12 <(grep -o '^\s*--[a-z0-9-]*:' src/styles/design-tokens.css | tr -d ' :' | sort) \
+         <(grep -o '^\s*--[a-z0-9-]*:' src/index.css | tr -d ' :' | sort)
+```
 
 4. **CSS importés SANS `@layer` dans globals.css** : Tout fichier CSS importé sans `layer(...)` se retrouve dans la cascade NON-LAYERED, qui **gagne sur toutes les couches nommées** (utilities, components, base). Pendant la migration de Input.tsx, on a découvert que `animations-polish.css` était importé sans layer et ses `.transition-colors` / `.transition-all` / `.transition-shadow` / `.transition-transform` legacy écrasaient les versions Tailwind. Symptôme : transitions de couleur très lentes (~400 ms au lieu de 200 ms), focus border qui semble ne jamais s'activer en mesure synchrone. **Fix appliqué** : `@import './animations-polish.css' layer(components);` dans `globals.css`. **Action générale** : auditer tous les `@import` de `globals.css` et confirmer qu'ils ont `layer(...)` ou que leurs sélecteurs ne collisionnent pas avec Tailwind.
 
@@ -562,7 +573,7 @@ les deux couches — sinon on mesure une transparence, c'est-à-dire rien.
 
 **⚠️ Addendum — Card BASE** : La Card a initialement reçu `[&[role=button]]:h-auto [&[role=button]]:overflow-visible` dans son BASE pour contrer le BEM. **Ne pas ajouter `overflow-visible`** ici — cela override le `overflow-hidden` passé via `className` sur des wrappers comme ToneAwareCard, exposant des coins carrés non-clippés sur hover (`ParcoursCard`). Seul `[&[role=button]]:h-auto` est nécessaire dans BASE pour contrer `height:40px`. Si une Card descendante a besoin d'`overflow-hidden` pour clipper ses enfants à ses coins arrondis, elle le met dans son propre `className`.
 
-**⚠️ Addendum 2 — Speech bubble (PromptCard, `JournalBubbleCard`)** : Le pattern Apple Messages ajoute un *tail* (queue) en bottom-right via `rounded-3xl rounded-br-[6px]`. Ce tail est **clippé** par le `overflow:hidden` global de `[role="button"]` ET par toute hauteur fixée à 40 px. Symptôme : la card chat-bubble apparaît rectangulaire sans tail (les pixels du coin tronqué sont coupés). **Fix** : forcer `!h-auto !overflow-visible` sur le wrapper chat-bubble. ⚠️ `JournalEntryCard`, que cet addendum citait, a été **supprimé le 2026-09-16** (0 consommateur produit) ; la bulle vivante est `JournalBubbleCard`. Le `!` est nécessaire car BEM `[role="button"]` est dans `@layer components` qui peut gagner sur `@layer utilities` selon ordre. Voir aussi : approche **borderless** = `bg-white` + `[filter:drop-shadow(0_2px_8px_rgba(0,0,0,0.06))]` (PAS de border) — la `drop-shadow` s'applique à la **silhouette du wrapper** (card + tail mergés en un seul SVG-like outline), donc le shadow épouse la forme avec tail seamlessly. Ajouter une `border` casserait l'illusion (la border ferait apparaître les arêtes internes du tail).
+**⚠️ Addendum 2 — Speech bubble (PromptCard, `JournalBubbleCard`)** : Le pattern Apple Messages ajoute un *tail* (queue) en bottom-right via `rounded-3xl rounded-br-[6px]`. Ce tail est **clippé** par le `overflow:hidden` global de `[role="button"]` ET par toute hauteur fixée à 40 px. Symptôme : la card chat-bubble apparaît rectangulaire sans tail (les pixels du coin tronqué sont coupés). **Fix** : forcer `!h-auto !overflow-visible` sur le wrapper chat-bubble. ⚠️ `JournalEntryCard`, que cet addendum citait, a été **supprimé le 2026-09-16** (0 consommateur produit) ; la bulle vivante est `JournalBubbleCard`. Le `!` est nécessaire car BEM `[role="button"]` est dans `@layer components` qui peut gagner sur `@layer utilities` selon ordre. ⚠️ **L'approche « borderless + drop-shadow silhouette » est abandonnée depuis le 2026-09-17** (elle contredisait S2 — plus d'ombre sur une carte — et donnait à `PromptCard` un rayon à part). La construction canonique de la bulle est celle de `JournalBubbleCard` : filet 1 px sur la bulle ET sur la queue (`border-r border-b` sur le carré tourné, coin `rounded-br-[6px]`) — la queue prolonge le filet proprement, sans arête interne visible : l'ancienne mise en garde « une border casserait l'illusion » était fausse, `JournalBubbleCard` le prouvait déjà.
 
 ### ⚠️ Piège n°9 : Tailwind v4 `translate` vs `transform` des keyframes
 
@@ -765,9 +776,11 @@ par cas. Chaque cran est apparié à un pas de l'échelle de texte
 dans un rapport d'environ 1,25 : `xs` avec `caption`, `sm` avec `body-sm`, `md`
 avec `body`, `lg` avec `body-lg`.
 
-**État au 2026-09-09** : 2 066 tailles sont posées à la main dans `src/`, dont
-**1 037 hors échelle**, réparties sur 27 valeurs distinctes. La plus fréquente,
-14 px, compte 357 usages — plus que le 20 px du système. Ne pas en ajouter.
+**État au 2026-09-09** : 2 066 tailles posées à la main, dont 1 037 hors
+échelle sur 27 valeurs — la plus fréquente était 14 px (357 usages), hors
+échelle À L'ÉPOQUE. **Recompté le 2026-09-17 : il en reste 12** (détecteur
+`check-handmade.mjs`) — l'ajout du cran `2xs` (14 px) le 14/09 et les passes
+d'alignement ont résorbé l'essentiel. Ne pas en rajouter.
 
 **Le piège de la boîte.** Dimensionner le conteneur ne suffit pas : si la boîte
 est plus étroite que le glyphe, `flex-shrink` mord sur la largeur et pas sur la
@@ -963,12 +976,13 @@ Le dernier cas était contradictoire par construction : un voile blanc **éclair
 le fond, alors que du texte blanc réclame du sombre. Poser un voile clair et du
 texte foncé, ou l'inverse — jamais les deux clairs.
 
-⏳ **Reste ouvert** : les deux barres maintiennent **deux listes d'entrées
-séparées** — `BottomNav` code la sienne en dur, `Sidebar` reçoit la sienne
-d'`App.tsx`. Elles ont déjà dérivé : le même écran s'appelle « Tableau de bord »
-sur bureau et « Accueil » sur mobile, « Journal de bord » et « Journal », et
-`Espace Apprentissage` n'existe pas sur mobile. Et la largeur du rail
-(72 ↔ 220/260 px) n'est animée sur aucune des deux.
+✅ **Résolu depuis (vérifié le 17/09)** : les deux barres consomment désormais
+**une seule liste**, `src/config/navigation.ts` (`NAVIGATION_PRINCIPALE` ;
+`NAVIGATION_BARRE_DU_BAS` en est un filtre). « Accueil » vs « Tableau de bord »
+n'est plus une dérive mais un champ assumé (`labelCourt`), documenté dans le
+fichier. Et le rail s'anime (`transition-[width] duration-slow` — c'est lui qui
+bouge, les rangées suivent). L'entrée précédente décrivait l'état d'avant le
+commit `e4a2286`.
 
 **Layout** : `PageShell width="page"` = conteneur canonique des pages principales ; padding responsive standard `px-4 sm:px-6 lg:px-10`. Les viewers modaux gardent leurs `max-w` étroits (lisibilité).
 
@@ -1128,9 +1142,11 @@ l'objet est plus petit que la rangée dépliée qui, elle, est à 14.
 le `Button iconOnly` ; ici le bon repère est le voisinage — la carte est la
 dernière d'une colonne de rangées à 14.
 
-⏳ **Reste le plus fort après lui** : sur `/dashboard`, la carte « Session
-coaching » est à `rounded-2xl` (24) pour 16 de padding — **21 %**, contenu à
-21 px du coin. Non fait.
+✅ **Le « plus fort après lui » est tombé aussi** (constaté le 17/09 après-midi,
+mesuré au navigateur) : la carte « Session coaching » de `/dashboard` rend
+aujourd'hui **20 de rayon pour 16 de padding** — la dérogation dense, dans les
+règles. L'entrée précédente (« 24 pour 16, 21 %, non fait ») décrivait un état
+déjà corrigé.
 
 ## Typo — League Spartan sans italique
 
