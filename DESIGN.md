@@ -142,12 +142,27 @@ d'affichage `text-display-xl` / `-lg` / `-md` réservée aux heros. Plus
 `/_design-lab` (sections *Tailles*, *Graisses*, *Taille optique*). Ne pas figer
 d'échelle typographique dans un composant tant que l'arbitrage n'est pas rendu.
 
-**Espacement sémantique** — `tight` · `stack-xs` · `stack` (défaut) ·
-`stack-lg` · `section` · `section-lg` · `page`. **Toujours préférer le token
+**Espacement sémantique** — `tight` (2) · `stack-3xs` (4) · `stack-2xs` (6) ·
+`stack-xs` (8) · `stack-sm` (12) · `stack` (16, défaut) · `stack-lg` (24) ·
+`section` (32) · `section-lg` (40) · `page` (48). **Toujours préférer le token
 nommé à un `gap-4/6/8` générique** : il exprime l'intention plutôt qu'une valeur.
+⚠️ **Dix crans, pas sept** — `stack-3xs` et `stack-sm` ont été ajoutés le
+2026-09-16 et cette liste ne les portait pas. ⚠️ `tight` vaut **2 px**, pas 4 :
+s'en servir comme d'un « petit stack » divise la gouttière par deux en silence.
 
-**Rayons** — `xs` · `sm` · `md` · `lg` · `xl` · `2xl` · `pill` (999 px).
-⚠️ `rounded-pill`, jamais `rounded-full` qui vaut 50 % et produit un cercle.
+**Rayons** — `xs` (4) · `sm` (6) · `md` (10) · `lg` (14) · `xl` (20) ·
+`2xl` (24) · `pill` (999).
+⚠️ **Corrigé le 2026-09-17 — cette ligne disait « `rounded-full` vaut 50 % et
+produit un cercle ».** C'est faux, et le même document le dit correctement plus
+bas (§ « Préférer `rounded-pill` à `rounded-full` ») : Tailwind v4 génère
+`rounded-full: 3.40282e38px`, l'infini d'un float, et le navigateur plafonne
+tout rayon à la moitié de la plus petite dimension — **`rounded-full` et
+`rounded-pill` rendent donc exactement pareil**. La préférence tient au
+vocabulaire, pas au rendu : `rounded-pill` est le token TLS.
+
+**L'échelle est étagée** — étiquette en pilule, interactif à 14, conteneur à 20.
+La règle complète, avec le seuil des 28 px et la géométrie du padding, vit dans
+`CLAUDE.md` § Rayons, qui fait foi.
 
 **Ombres** — échelle neutre `xs→xl`, plus les teintées `shadow-brand-*`,
 `shadow-warm-*`, `shadow-sun-*`. Les cards sans `tone` prennent la neutre, celles
@@ -724,16 +739,30 @@ Ils sont ici parce qu'ils sont **mesurés**, pas supposés :
 
 | # | Décision | Choix | État |
 |---|---|---|---|
-| R2 | Les 22 `rounded-3xl` sans token | **Les ramener dans l'échelle** | 🔨 ⚠️ **attend R1** |
-| R3 | Les 204 `rounded-full` | **Auditer et corriger les fautifs** | 🔨 ⚠️ **attend R1** |
-| R4 | `radius-3xl`, doublon de `radius-2xl` | **Retirer le doublon** | 🔨 1 ligne |
+⚠️⚠️ **ATTENTION — les codes R1–R4 de ce tableau ne sont PAS ceux de
+`CLAUDE.md`.** Les deux fichiers ont numéroté leurs décisions de rayon
+séparément, et les numéros se contredisent :
+
+| code | ici, dans DESIGN.md | dans CLAUDE.md, qui fait foi |
+|---|---|---|
+| R1 | « le rayon de référence : 14, 20 ou 24 » | le rayon de la carte — 14 le 09/09, **renversé à 20 le 16/09** |
+| R2 | les `rounded-3xl` sans token | les `rounded-2xl` (24) sur des conteneurs — **encore ouverte** |
+| R3 | les `rounded-full` | **la règle du seuil** : sous 28 px la pilule, au-dessus l'échelle |
+| R4 | le doublon `radius-3xl` | **la famille champ** à 14 px |
+
+**Ne jamais citer un « R » de rayon sans dire ce qu'il désigne.** Ces quatre
+lignes sont conservées pour l'archive, pas pour être suivies.
+
+| R2 *(ici)* | Les 22 `rounded-3xl` sans token | Les ramener dans l'échelle | ✅ **fait** — 0 occurrence mesurée le 17/09 |
+| R3 *(ici)* | Les 204 `rounded-full` | Auditer et corriger les fautifs | ✅ **fait** — 0 occurrence mesurée le 17/09 |
+| R4 *(ici)* | `radius-3xl`, doublon de `radius-2xl` | Retirer le doublon | ✅ **fait** — le token n'existe plus |
 
 ### Les cinq encore ouvertes
 
 | # | Question | Pourquoi elle compte |
 |---|---|---|
-| **R1** | Le rayon de référence : 14, 20 ou 24 px | **La plus rentable** — R2 et R3 sont tranchées mais l'attendent |
-| **B1** | La typographie du bouton *(posée le 09/09)* | Le `tracking-tight` de la BASE abîme les 522 boutons `sm` |
+| ~~**R1**~~ | ~~Le rayon de référence : 14, 20 ou 24 px~~ | ✅ **Tranchée deux fois** — 14 px le 09/09, puis **20 px le 16/09** après mesure. L'échelle est étagée : étiquette en pilule, interactif à 14, conteneur à 20. Voir `CLAUDE.md` § Rayons |
+| ~~**B1**~~ | ~~La typographie du bouton *(posée le 09/09)*~~ | ✅ **Faite le 09/09** — `tracking-tight` a quitté la `BASE` de `Button.tsx` ; il n'en reste qu'un commentaire interdisant de l'y remettre. *(Le chiffre « 522 boutons » a vieilli : 593 au 17/09.)* |
 | C3 | Rempli ou outline pour les boutons de marque | commande le registre du site |
 | A2 | Le bouton primaire de l'app mesure 3,66 | seul défaut a11y restant après A1 |
 | A3 | ~~Doctrine light-only~~ → **le dark mode est reporté, pas exclu** | à refaire proprement |

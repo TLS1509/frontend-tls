@@ -13,13 +13,13 @@ Stack : React 19 · TypeScript 6 · Vite 8 · **Tailwind CSS 4** · React Router
 src/
 ├── components/
 │   ├── core/        Button, Card, Input, Select, FormGroup
-│   ├── ui/          Badge (incl. StatusBadge), Alert, Avatar, Modal, Toast, StatCard, TlsLogo… (87 fichiers)
+│   ├── ui/          Badge (incl. StatusBadge), Alert, Avatar, Modal, Toast, StatCard, TlsLogo… (79 fichiers)
 │   ├── patterns/    ParcoursCard, CardGrid, SectionHeader, PageHeader, HeroSection,
 │   │                EditorialHero, AuthShell, EditorialLayout, SectionCard,
 │   │                RelatedItemList, ResumeLessonCard, ViewerHeader, AmbientBlobs… (62 fichiers)
-│   ├── learning/    LessonCard, ArticleCard, SessionCard, VideoCard, PromptCard, AstucesCard, ResourceListItem…
+│   ├── learning/    ArticleCard, SessionCard, VideoCard, PromptCard, AstucesCard, ResourceListItem…
 │   ├── modals/      BookingModal, SuccessModal, VideoPlayerModal…
-│   ├── cards/       NotificationCard, JournalEntryCard, JournalBubbleCard, JournalTypeTile
+│   ├── cards/       NotificationCard, JournalBubbleCard
 │   ├── forms/       FilterBar
 │   └── layout/      Sidebar, NavItem
 ├── pages/           149 pages à la racine + 28 en sous-dossiers = 177 (route-level)
@@ -88,7 +88,7 @@ minimum WCAG 2.2 AA (24×24), et **sous le seuil des 28 px** où le rayon commen
 pastille : changer celui de `MetaPill` seul ne descend pas — les cartes passent
 par le groupe.
 
-**La famille aujourd'hui** : `Badge` (l'état, 285) · `FilterChip` (le filtre, 76)
+**La famille aujourd'hui** : `Badge` (l'état, 291) · `FilterChip` (le filtre, 76)
 · `MetaPill` + `MetaPillGroup` (la donnée) · `Chip` (primitive interne) ·
 `StatusBadge` (les états de leçon).
 
@@ -562,7 +562,7 @@ les deux couches — sinon on mesure une transparence, c'est-à-dire rien.
 
 **⚠️ Addendum — Card BASE** : La Card a initialement reçu `[&[role=button]]:h-auto [&[role=button]]:overflow-visible` dans son BASE pour contrer le BEM. **Ne pas ajouter `overflow-visible`** ici — cela override le `overflow-hidden` passé via `className` sur des wrappers comme ToneAwareCard, exposant des coins carrés non-clippés sur hover (`ParcoursCard`). Seul `[&[role=button]]:h-auto` est nécessaire dans BASE pour contrer `height:40px`. Si une Card descendante a besoin d'`overflow-hidden` pour clipper ses enfants à ses coins arrondis, elle le met dans son propre `className`.
 
-**⚠️ Addendum 2 — Speech bubble (PromptCard, JournalEntryCard)** : Le pattern Apple Messages ajoute un *tail* (queue) en bottom-right via `rounded-3xl rounded-br-[6px]`. Ce tail est **clippé** par le `overflow:hidden` global de `[role="button"]` ET par toute hauteur fixée à 40 px. Symptôme : la card chat-bubble apparaît rectangulaire sans tail (les pixels du coin tronqué sont coupés). **Fix** : forcer `!h-auto !overflow-visible` sur le wrapper chat-bubble (PromptCard, JournalEntryCard). Le `!` est nécessaire car BEM `[role="button"]` est dans `@layer components` qui peut gagner sur `@layer utilities` selon ordre. Voir aussi : approche **borderless** = `bg-white` + `[filter:drop-shadow(0_2px_8px_rgba(0,0,0,0.06))]` (PAS de border) — la `drop-shadow` s'applique à la **silhouette du wrapper** (card + tail mergés en un seul SVG-like outline), donc le shadow épouse la forme avec tail seamlessly. Ajouter une `border` casserait l'illusion (la border ferait apparaître les arêtes internes du tail).
+**⚠️ Addendum 2 — Speech bubble (PromptCard, `JournalBubbleCard`)** : Le pattern Apple Messages ajoute un *tail* (queue) en bottom-right via `rounded-3xl rounded-br-[6px]`. Ce tail est **clippé** par le `overflow:hidden` global de `[role="button"]` ET par toute hauteur fixée à 40 px. Symptôme : la card chat-bubble apparaît rectangulaire sans tail (les pixels du coin tronqué sont coupés). **Fix** : forcer `!h-auto !overflow-visible` sur le wrapper chat-bubble. ⚠️ `JournalEntryCard`, que cet addendum citait, a été **supprimé le 2026-09-16** (0 consommateur produit) ; la bulle vivante est `JournalBubbleCard`. Le `!` est nécessaire car BEM `[role="button"]` est dans `@layer components` qui peut gagner sur `@layer utilities` selon ordre. Voir aussi : approche **borderless** = `bg-white` + `[filter:drop-shadow(0_2px_8px_rgba(0,0,0,0.06))]` (PAS de border) — la `drop-shadow` s'applique à la **silhouette du wrapper** (card + tail mergés en un seul SVG-like outline), donc le shadow épouse la forme avec tail seamlessly. Ajouter une `border` casserait l'illusion (la border ferait apparaître les arêtes internes du tail).
 
 ### ⚠️ Piège n°9 : Tailwind v4 `translate` vs `transform` des keyframes
 
