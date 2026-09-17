@@ -139,6 +139,19 @@ contrat de contraste du niveau `solid` entier** — le trancher une fois règle 
 sont des cases de la grille `emphasis × tone` (le contrat vit au niveau). La bonne sortie est la
 migration annoncée vers `emphasis`+`tone` puis la dépréciation des noms historiques.
 
+**Complément du soir — le verre sombre échoue sur ses propres fonds.** Mesure demandée par Chloé
+sur outline / outline-warm / glass-sun : tous conformes au repos comme au survol (labels 4,81 · 6,04 ·
+7,22, filets 3,50 · 3,80 · 4,88 — leurs crans 600/700 ont été choisis pour ça). Graisse mesurée : **700**
+partout (les `Auth*` faits main sont à 600 — un argument de plus pour la question `<Button onDark>`).
+Mais la variante `glass` (31 usages) : label blanc sur voile blanc/20 = **3,42 sur primary-700, 4,36 sur
+primary-800**, et le survol (blanc/35) AGGRAVE — 4,05 même sur primary-900. Un voile blanc éclaircit le
+fond sous un label qui réclame du sombre : le mécanisme du compteur de nav corrigé le 16/09. Cinq écrans
+cumulent verre + fond warm (2,16 sur orange) : Gamification, CoachingSessionDetail, MarketingArticleDetail,
+MarketingDossierDetail, DropdownMenu — à vérifier un par un. **Décision 5 du banc** (`verre-sombre`) :
+voile qui fonce (noir/15, ~5,6 sur p-700, le survol aide) / verre givré réservé aux fonds 900+ avec survol
+inversé / statu quo. La matrice complète (13 variantes × 4 tailles × 8 surfaces, dont le fond app et le
+hero brand in situ) est sur le banc.
+
 **« Pas de teal tinted-outlined comme l'orange et le jaune ? »** — si : c'est **`ghost`**
 (fond `primary-50`, filet `primary-600`, label `primary-800`), la variante la plus employée de
 l'app (191 usages). C'est même pour ça que `glass-brand` a été supprimé : doublon exact. La
