@@ -7,28 +7,19 @@ import { SectionHeader } from '../components/patterns/SectionHeader';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
-import { Avatar } from '../components/ui/Avatar';
 import { StatCard } from '../components/ui/StatCard';
-import { ProgressBar } from '../components/ui/ProgressBar';
 import { EmptyState } from '../components/ui/EmptyState';
 import { Tabs } from '../components/ui/Tabs';
 import { CompetencyRadar } from '../components/ui/CompetencyRadar';
-import { AtrophieIndicator } from '../components/ui/AtrophieIndicator';
 import { Container, PageShell } from '../components/layout';
 import { ScatterChart, type ScatterChartDataPoint } from '../components/charts/ScatterChart';
 import { RadarChart, type RadarDataPoint } from '../components/charts/RadarChart';
 import { ChartContainer } from '../components/charts/ChartContainer';
-import { DataTable, type DataTableColumn, type SortDirection } from '../components/patterns/DataTable';
+import { ApprenantsTable, formatDreyfus, parseDays } from '../components/coach/ApprenantsTable';
 import { APPRENANTS, APPRENANT_AXES, getApprenantById, type ApprenantStatus } from '../data/apprenants';
 import { useCoachingStore } from '../stores/persistence';
 
 // ─── Display helpers ──────────────────────────────────────────────────────────
-
-const STATUS_CONFIG: Record<ApprenantStatus, { label: string; variant: 'success' | 'danger' | 'brand' }> = {
-  active: { label: 'Actif', variant: 'success' },
-  stuck: { label: 'En difficulté', variant: 'danger' },
-  ahead: { label: 'En avance', variant: 'brand' },
-};
 
 const TABS = [
   { id: 'apprenants', label: 'Mes apprenants' },
@@ -36,31 +27,6 @@ const TABS = [
   { id: 'corrections', label: 'Corrections' },
   { id: 'sessions', label: 'Sessions' },
 ];
-
-// ─── Table des apprenants ─────────────────────────────────────────────────────
-
-type LearnerSortKey = 'name' | 'status' | 'lastActivity' | 'jac' | 'dreyfus';
-
-const LEARNER_COLUMNS: DataTableColumn[] = [
-  { key: 'name', label: 'Apprenant', sortable: true },
-  { key: 'status', label: 'Statut', sortable: true },
-  { key: 'lastActivity', label: 'Activité', sortable: true },
-  { key: 'jac', label: 'JAC', sortable: true },
-  { key: 'dreyfus', label: 'Dreyfus', sortable: true, align: 'right' },
-];
-
-/** Ordre de tri par défaut : celui qui décroche d'abord, c'est le tri du coach. */
-const STATUS_PRIORITY: Record<ApprenantStatus, number> = { stuck: 0, active: 1, ahead: 2 };
-
-/** 2.9 → « 2,9 » : le niveau se lit sur 5, sans le préfixe « D » que rien n'expliquait. */
-const formatDreyfus = (n: number) => n.toFixed(1).replace('.', ',');
-
-/** "2j", "8j", "Hier" → integer days for atrophie/jac computations. */
-const parseDays = (s: string): number => {
-  if (/hier/i.test(s)) return 1;
-  const m = s.match(/(\d+)/);
-  return m ? Number(m[1]) : 0;
-};
 
 /**
  * Build scatter chart data from apprenants.
@@ -112,33 +78,9 @@ export default function CoachDashboard() {
 
   const selected = selectedApprenantId ? getApprenantById(selectedApprenantId) : undefined;
 
-  // DataTable n'affiche que la flèche de tri : c'est à la page de trier les rangées.
-  const [sort, setSort] = useState<{ key: LearnerSortKey; dir: Exclude<SortDirection, null> } | null>(null);
-  const sortedApprenants = useMemo(() => {
-    const value = (a: (typeof APPRENANTS)[number], key: LearnerSortKey): number | string => {
-      switch (key) {
-        case 'name': return a.name;
-        case 'status': return STATUS_PRIORITY[a.status];
-        case 'lastActivity': return parseDays(a.lastActivity);
-        case 'jac':
-        case 'dreyfus': return a.dreyfusAvg;
-      }
-    };
-    const list = [...APPRENANTS];
-    if (!sort) {
-      return list.sort((a, b) => STATUS_PRIORITY[a.status] - STATUS_PRIORITY[b.status] || parseDays(b.lastActivity) - parseDays(a.lastActivity));
-    }
-    const sign = sort.dir === 'asc' ? 1 : -1;
-    return list.sort((a, b) => {
-      const va = value(a, sort.key), vb = value(b, sort.key);
-      return (typeof va === 'string' ? va.localeCompare(vb as string, 'fr') : va - (vb as number)) * sign;
-    });
-  }, [sort]);
-
   // Build scatter chart data (memoized)
   const scatterData = useMemo(() => buildScatterData(), []);
 
-  const jacPct = (level: number) => Math.round((level / 5) * 100);
   const radarFor = (scores: number[]) =>
     APPRENANT_AXES.map((label, idx) => ({ label, current: scores[idx] ?? 0 }));
 
@@ -187,45 +129,10 @@ export default function CoachDashboard() {
               {/* Une collection d'objets du même type se lit en table, pas en pile
                   de cartes : dix apprenants tenaient 2 840 px en cartes, et le coach
                   ne pouvait pas trier pour trouver qui décroche. */}
-              <DataTable
-                columns={LEARNER_COLUMNS}
-                rows={sortedApprenants.map((a) => {
-                  const status = STATUS_CONFIG[a.status];
-                  const jac = jacPct(a.dreyfusAvg);
-                  const isSelected = selectedApprenantId === a.id;
-                  return {
-                    name: (
-                      <span className="flex items-center gap-stack-sm min-w-0">
-                        <Avatar initials={a.initials} size="sm" />
-                        <span className="flex flex-col min-w-0">
-                          <span className={`font-semibold truncate ${isSelected ? 'text-primary-800' : 'text-ink-900'}`}>{a.name}</span>
-                          <span className="text-caption text-ink-600 truncate">{a.role}</span>
-                        </span>
-                      </span>
-                    ),
-                    status: (
-                      <span className="inline-flex items-center gap-stack-xs">
-                        <Badge variant={status.variant} size="compact">{status.label}</Badge>
-                        <AtrophieIndicator daysSinceActivity={parseDays(a.lastActivity)} currentLevel={Math.round(a.dreyfusAvg)} size="sm" showLabel={false} />
-                      </span>
-                    ),
-                    lastActivity: <span className="text-ink-700">{a.lastActivity}</span>,
-                    jac: (
-                      <span className="flex items-center gap-stack-xs min-w-[5.5rem]">
-                        <ProgressBar value={jac} fill="brand" size="sm" valueLabel={false} className="flex-1" />
-                        <span className="tabular-nums text-ink-700 w-9 text-right">{jac} %</span>
-                      </span>
-                    ),
-                    dreyfus: <span className="tabular-nums text-ink-900">{formatDreyfus(a.dreyfusAvg)}</span>,
-                  };
-                })}
-                onSort={(key, dir) => setSort(dir ? { key: key as LearnerSortKey, dir } : null)}
-                onRowClick={(_row, index) => {
-                  const a = sortedApprenants[index];
-                  if (a) setSelectedApprenantId(selectedApprenantId === a.id ? null : a.id);
-                }}
-                pageSize={sortedApprenants.length}
-                emptyMessage="Aucun apprenant assigné pour l'instant."
+              <ApprenantsTable
+                apprenants={APPRENANTS}
+                selectedId={selectedApprenantId}
+                onRowClick={(a) => setSelectedApprenantId(selectedApprenantId === a.id ? null : a.id)}
               />
             </div>
 

@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Users, AlertTriangle, Search as SearchIcon } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
-import { SectionCard } from '../components/patterns/SectionCard';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { Button } from '../components/core/Button';
 import { StatCard } from '../components/ui/StatCard';
-import { ProfileCard } from '../components/ui/ProfileCard';
 import { FilterChip } from '../components/ui/FilterChip';
-import { Badge } from '../components/ui/Badge';
 import { EmptyState } from '../components/ui/EmptyState';
+import { ApprenantsTable, formatDreyfus } from '../components/coach/ApprenantsTable';
 import { PageShell } from '../components/layout';
 import { APPRENANTS } from '../data/apprenants';
 
@@ -18,12 +17,6 @@ const FILTER_OPTIONS = [
   { id: 'stuck', label: 'En difficulté' },
   { id: 'ahead', label: 'En avance' },
 ];
-
-const STATUS_BADGE: Record<string, { label: string; variant: 'neutral' | 'danger' | 'success' }> = {
-  active: { label: 'Actif', variant: 'neutral' },
-  stuck: { label: 'En difficulté', variant: 'danger' },
-  ahead: { label: 'En avance', variant: 'success' },
-};
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
@@ -67,7 +60,7 @@ export default function CoachApprenants() {
           />
           <StatCard value={aheadCount} label="En avance" variant="brand" size="sm" delta="Excellent" deltaDirection="up" />
           <StatCard
-            value={`D${(APPRENANTS.reduce((acc, a) => acc + a.dreyfusAvg, 0) / APPRENANTS.length).toFixed(1)}`}
+            value={`${formatDreyfus(APPRENANTS.reduce((acc, a) => acc + a.dreyfusAvg, 0) / APPRENANTS.length)} / 5`}
             label="Score Dreyfus moyen"
             size="sm"
           />
@@ -107,8 +100,16 @@ export default function CoachApprenants() {
           </div>
         </div>
 
-        {/* Apprenants grid */}
-        <SectionCard title={`${filtered.length} apprenant${filtered.length !== 1 ? 's' : ''}`} titleIcon={<Users size={18} />}>
+        {/* Une collection d'apprenants se lit en table triable, pas en grille de
+            cartes (arbitrage n°5 du 23/09) : le coach trie par statut, activité,
+            JAC ou Dreyfus pour trouver qui a besoin de lui. */}
+        <section className="flex flex-col gap-stack" aria-label="Liste des apprenants">
+          <SectionHeader
+            title={`${filtered.length} apprenant${filtered.length !== 1 ? 's' : ''}`}
+            icon={<Users size={20} />}
+            tone="primary"
+            size="md"
+          />
           {filtered.length === 0 ? (
             <EmptyState
               icon={<Users size={32} />}
@@ -116,37 +117,26 @@ export default function CoachApprenants() {
               description="Aucun apprenant ne correspond à votre recherche."
             />
           ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-stack">
-              {filtered.map((a) => {
-                const { label, variant } = STATUS_BADGE[a.status];
-                return (
-                  <div key={a.id} className="flex flex-col gap-0">
-                    <ProfileCard
-                      name={a.name}
-                      role={a.role}
-                      initials={a.initials}
-                      specialties={a.tags}
-                      variant="default"
-                      align="left"
-                      cta={
-                        <div className="flex items-center gap-stack-xs">
-                          <Badge variant={variant} size="compact">{label}</Badge>
-                          <Button
-                            emphasis="outline"
-                            size="sm"
-                            onClick={() => navigate(`/coach/apprenant/${a.id}`)}
-                          >
-                            Profil
-                          </Button>
-                        </div>
-                      }
-                    />
-                  </div>
-                );
-              })}
-            </div>
+            <ApprenantsTable
+              apprenants={filtered}
+              onRowClick={(a) => navigate(`/coach/apprenant/${a.id}`)}
+              actionLabel="Fiche"
+              renderAction={(a) => (
+                <Button
+                  emphasis="outline"
+                  size="sm"
+                  aria-label={`Profil de ${a.name}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(`/coach/apprenant/${a.id}`);
+                  }}
+                >
+                  Profil
+                </Button>
+              )}
+            />
           )}
-        </SectionCard>
+        </section>
 
       </div>
     </PageShell>
