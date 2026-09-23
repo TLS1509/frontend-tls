@@ -120,19 +120,19 @@ const FEATURE_TONE: Record<FeatureCard['tone'], { card: string; icon: string; ey
   brand: {
     card: 'bg-primary-50 border border-primary-200',
     icon: 'bg-primary-100 text-primary-700',
-    eyebrow: 'text-primary-600',
+    eyebrow: 'text-primary-800',
     bullet: 'text-primary-500',
   },
   warm: {
     card: 'bg-secondary-50 border border-secondary-200',
     icon: 'bg-secondary-100 text-secondary-600',
-    eyebrow: 'text-secondary-600',
+    eyebrow: 'text-secondary-700',
     bullet: 'text-secondary-500',
   },
   sun: {
     card: 'bg-accent-50 border border-accent-200',
     icon: 'bg-accent-100 text-accent-500',
-    eyebrow: 'text-accent-500',
+    eyebrow: 'text-accent-700',
     bullet: 'text-accent-400',
   },
 };
@@ -264,7 +264,7 @@ const AppLanding: React.FC = () => {
             >
               <span className="block"><KineticHeadline text="Formez-vous." delay={0.1} /></span>
               <span className="block"><KineticHeadline text="Pratiquez." delay={0.22} /></span>
-              <span className="block text-accent-400"><KineticHeadline text="Validez." delay={0.34} /></span>
+              <span className="block text-accent-700"><KineticHeadline text="Validez." delay={0.34} /></span>
             </h1>
 
             <motion.p
@@ -316,7 +316,7 @@ const AppLanding: React.FC = () => {
 
                 <p className="font-body text-micro text-ink-600 text-center m-0">
                   Déjà inscrit ?{' '}
-                  <Link to="/auth/login" className="text-primary-600 hover:text-primary-800 underline underline-offset-2 transition-colors">
+                  <Link to="/auth/login" className="text-primary-700 hover:text-primary-800 underline underline-offset-2 transition-colors">
                     Se connecter
                   </Link>
                 </p>
@@ -345,7 +345,7 @@ const AppLanding: React.FC = () => {
         <div className="relative z-10 max-w-page mx-auto flex flex-col gap-stack-lg">
           <FadeInWhenVisible direction="up">
             <div className="flex flex-col gap-tight text-center max-w-xl mx-auto">
-              <span className="inline-flex items-center justify-center gap-stack-2xs font-body text-caption font-semibold text-primary-600">
+              <span className="inline-flex items-center justify-center gap-stack-2xs font-body text-caption font-semibold text-primary-700">
                 <MousePointerClick size={14} />
                 Essayez, c'est interactif
               </span>
@@ -370,7 +370,7 @@ const AppLanding: React.FC = () => {
 
           <FadeInWhenVisible direction="up">
             <div className="flex flex-col gap-tight text-center max-w-xl mx-auto">
-              <span className="font-body text-caption font-semibold text-primary-600">
+              <span className="font-body text-caption font-semibold text-primary-700">
                 Une plateforme, trois espaces
               </span>
               <h2 className="font-display font-bold text-ink-900 text-h2 tracking-headline text-balance">
@@ -426,7 +426,7 @@ const AppLanding: React.FC = () => {
 
           <FadeInWhenVisible direction="up">
             <div className="flex flex-col gap-tight text-center max-w-xl mx-auto">
-              <span className="font-body text-caption font-semibold text-primary-600">
+              <span className="font-body text-caption font-semibold text-primary-700">
                 Simple à démarrer
               </span>
               <h2 className="font-display font-bold text-ink-900 text-h2 tracking-headline text-balance">
@@ -469,7 +469,7 @@ const AppLanding: React.FC = () => {
             <div className="flex flex-col gap-stack-xs">
               <div className="flex items-center gap-stack-xs">
                 <Brain size={20} className="text-primary-500 shrink-0" />
-                <span className="font-body text-caption font-semibold text-primary-600 uppercase tracking-wider">
+                <span className="font-body text-caption font-semibold text-primary-700 uppercase tracking-wider">
                   Skills-Based Organisation
                 </span>
               </div>

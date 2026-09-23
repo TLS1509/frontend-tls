@@ -1719,7 +1719,7 @@ export const LessonPlayer: React.FC = () => {
           <li key={i} className="pl-1">{item}</li>
         ));
         const listClasses =
-          'max-w-prose font-body text-body text-ink-800 flex flex-col gap-stack-xs pl-stack-md marker:text-primary-600';
+          'max-w-prose font-body text-body text-ink-800 flex flex-col gap-stack-xs pl-stack-md marker:text-primary-700';
         return (
           <div key={key} className={mb}>
             {block.ordered ? (
@@ -2102,7 +2102,7 @@ export const LessonPlayer: React.FC = () => {
           <div key={key} className={`bg-secondary-50 border border-secondary-500/30 rounded-xl ${compact ? 'p-3' : 'p-stack-md'} ${mb}`}>
             <div className="flex items-center gap-stack-xs mb-3">
               <BookOpen size={16} className="text-secondary-600 shrink-0" />
-              <span className="font-body text-caption font-semibold text-secondary-600">Lié au Journal</span>
+              <span className="font-body text-caption font-semibold text-secondary-700">Lié au Journal</span>
             </div>
             <p className="m-0 mb-3 font-body text-body-sm font-semibold text-ink-900">{block.prompt}</p>
             <textarea
@@ -2275,8 +2275,8 @@ export const LessonPlayer: React.FC = () => {
         };
         const CELL_TONE: Record<string, { bg: string; label: string }> = {
           primary:   { bg: 'bg-primary-50 border-primary-200',        label: 'text-primary-700' },
-          secondary: { bg: 'bg-secondary-50 border-secondary-500/20', label: 'text-secondary-600' },
-          accent:    { bg: 'bg-accent-50 border-accent-400/30',       label: 'text-accent-500' },
+          secondary: { bg: 'bg-secondary-50 border-secondary-500/20', label: 'text-secondary-700' },
+          accent:    { bg: 'bg-accent-50 border-accent-400/30',       label: 'text-accent-700' },
           neutral:   { bg: 'bg-ink-50 border-ink-200',                label: 'text-ink-500' },
           dark:      { bg: 'bg-ink-900 border-ink-800',               label: 'text-ink-300' },
         };

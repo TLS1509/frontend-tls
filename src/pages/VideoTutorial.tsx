@@ -200,7 +200,7 @@ export const VideoTutorial: React.FC = () => {
                 >
                   <span className={[
                     'font-body text-caption font-bold min-w-[36px] mt-px shrink-0 tabular-nums',
-                    isActive ? 'text-primary-600' : 'text-ink-600',
+                    isActive ? 'text-primary-700' : 'text-ink-600',
                   ].join(' ')}>
                     {ch.time}
                   </span>
@@ -226,7 +226,7 @@ export const VideoTutorial: React.FC = () => {
             <button
               type="button"
               onClick={() => navigate("/veille")}
-              className="inline-flex items-center gap-stack-2xs bg-transparent border-0 text-ink-500 font-body text-caption font-semibold cursor-pointer p-0 hover:text-primary-600 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+              className="inline-flex items-center gap-stack-2xs bg-transparent border-0 text-ink-500 font-body text-caption font-semibold cursor-pointer p-0 hover:text-primary-700 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
             >
               <ArrowLeft size={14} /> Retour veille
             </button>

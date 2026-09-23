@@ -425,7 +425,7 @@ export default function AnalyticsDashboard() {
                       </div>
                       <div>
                         <div className="text-caption text-ink-500">Streak</div>
-                        <div className="font-display text-h3 font-bold text-secondary-500">{learner.streak}</div>
+                        <div className="font-display text-h3 font-bold text-secondary-600">{learner.streak}</div>
                       </div>
                     </div>
                     <ProgressBar value={learner.progressPercent} fill="brand" size="md" />
@@ -468,7 +468,7 @@ export default function AnalyticsDashboard() {
                 <Card className="flex flex-col gap-stack p-stack-md md:p-stack-lg bg-success-bg/30 border border-success-base/20">
                   <div className="flex items-center gap-stack-xs">
                     <CheckCircle size={20} className="text-success-base" />
-                    <div className="text-body-lg font-bold text-success-base">Compétences saines</div>
+                    <div className="text-body-lg font-bold text-success-fg">Compétences saines</div>
                   </div>
                   <div className="font-display text-h3 font-bold text-ink-900">Leadership, Communication</div>
                   <div className="text-body-sm text-ink-600">&gt; 70% d'adoption, niveau D3+</div>

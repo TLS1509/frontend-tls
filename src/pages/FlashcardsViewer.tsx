@@ -271,7 +271,7 @@ export const FlashcardsViewer: React.FC = () => {
           <button
             type="button"
             onClick={() => navigate(`/learning-paths/${lessonCtx.parcoursId}`)}
-            className="inline-flex items-center gap-stack-3xs hover:text-primary-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+            className="inline-flex items-center gap-stack-3xs hover:text-primary-700 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
           >
             <Home size={14} aria-hidden />
             {MOCK_PARCOURS_DATA[lessonCtx.parcoursId]?.title || 'Parcours'}
@@ -280,7 +280,7 @@ export const FlashcardsViewer: React.FC = () => {
           <button
             type="button"
             onClick={() => navigate(`/learning-paths/${lessonCtx.parcoursId}/lessons/${lessonCtx.lesson.id}`)}
-            className="hover:text-primary-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+            className="hover:text-primary-700 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
           >
             {lessonCtx.lesson.title}
           </button>

@@ -112,7 +112,7 @@ export const CoachingBookingFlow: React.FC = () => {
               <li className="inline-flex items-center gap-stack-2xs"><Clock3 size={14} /> 60 minutes</li>
               <li className="inline-flex items-center gap-stack-2xs"><MapPin size={14} /> Visioconférence</li>
               <li className="inline-flex items-center gap-stack-2xs"><UserRound size={14} /> Coach : {slot.coach}</li>
-              <li className="inline-flex items-center gap-stack-2xs mt-stack-xs text-secondary-600 font-medium">
+              <li className="inline-flex items-center gap-stack-2xs mt-stack-xs text-secondary-700 font-medium">
                 <Coins size={14} /> 1 crédit Classic requis
               </li>
             </ul>

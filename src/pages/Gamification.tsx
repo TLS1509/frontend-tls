@@ -31,7 +31,7 @@ const DREYFUS_LEVEL_STYLES: Record<number, { color: string }> = {
   2: { color: 'bg-info-bg text-info-fg' },
   3: { color: 'bg-success-bg text-success-fg' },
   4: { color: 'bg-warning-bg text-warning-fg' },
-  5: { color: 'bg-accent-50 text-accent-600' },
+  5: { color: 'bg-accent-50 text-accent-700' },
 };
 
 const BADGE_ICON: Record<BadgeType, React.ReactNode> = {

@@ -156,7 +156,7 @@ export default function EvenementLive() {
 
           {/* Participants live */}
           <Card variant="tinted" tone="sun" className="p-stack-md text-center">
-            <p className="text-h2 font-bold text-accent-600 font-display m-0">
+            <p className="text-h2 font-bold text-accent-700 font-display m-0">
               {EVENT.participants}
             </p>
             <p className="text-caption text-ink-500 m-0">participants en direct</p>

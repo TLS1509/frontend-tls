@@ -210,7 +210,7 @@ export const Help: React.FC = () => {
               </div>
               <div>
                 <p className="m-0 font-body text-body-sm font-bold text-ink-900">Assistant TLS</p>
-                <p className="m-0 font-body text-caption text-primary-600 flex items-center gap-tight">
+                <p className="m-0 font-body text-caption text-primary-800 flex items-center gap-tight">
                   <Sparkles size={14} /> En ligne · répond instantanément
                 </p>
               </div>

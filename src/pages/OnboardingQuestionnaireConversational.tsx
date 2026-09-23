@@ -369,7 +369,7 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
             <span className="inline-flex items-center justify-center w-7 h-7 rounded-pill bg-white border border-primary-100 shadow-xs">
               <TlsLogo size={24} withBubble={false} variant="primary" />
             </span>
-            <span className="text-caption font-semibold text-primary-600">Assistant TLS</span>
+            <span className="text-caption font-semibold text-primary-700">Assistant TLS</span>
           </div>
 
           {isClosed ? (
@@ -386,7 +386,7 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
           ) : (
             <>
               {competencyLabel && (
-                <p className="font-body text-caption font-semibold uppercase tracking-wider text-secondary-500">
+                <p className="font-body text-caption font-semibold uppercase tracking-wider text-secondary-700">
                   {competencyLabel}
                 </p>
               )}
@@ -456,7 +456,7 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
           </>
         ) : (
           <>
-            <span className="font-body text-caption font-semibold uppercase tracking-wider text-secondary-500">
+            <span className="font-body text-caption font-semibold uppercase tracking-wider text-secondary-700">
               {competencyLabel && `${competencyLabel} · `}Question {currentIdx + 1} sur {total}
             </span>
             <p className="font-display text-h3 font-bold tracking-headline text-ink-900">

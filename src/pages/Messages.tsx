@@ -325,7 +325,7 @@ export const Messages: React.FC = () => {
                       </div>
 
                       {conv.context && (
-                        <p className="m-0 mb-0.5 font-body text-[11px] text-primary-600 font-semibold">
+                        <p className="m-0 mb-0.5 font-body text-[11px] text-primary-800 font-semibold">
                           {CONTEXT_ICONS[conv.context.type]} {conv.context.title}
                         </p>
                       )}

@@ -58,7 +58,7 @@ const TYPE_CONFIG: Record<EntryType, TypeConfig> = {
     iconSelected: 'text-primary-500',
     borderSelected: 'border-primary-500',
     checkBg: 'bg-primary-500',
-    questionClass: 'text-primary-600',
+    questionClass: 'text-primary-800',
     writingBg: '',
     question: "Qu'est-ce qui occupe mon esprit aujourd'hui ?",
     bodyPlaceholder: 'Écrivez librement vos pensées, réflexions, découvertes du jour...',
@@ -69,7 +69,7 @@ const TYPE_CONFIG: Record<EntryType, TypeConfig> = {
     iconSelected: 'text-primary-500',
     borderSelected: 'border-primary-500',
     checkBg: 'bg-primary-500',
-    questionClass: 'text-primary-600',
+    questionClass: 'text-primary-800',
     writingBg: 'bg-gradient-to-br from-white to-primary-50',
     question: 'Quelle idée vais-je retenir de ma dernière leçon — et pourquoi ?',
     bodyPlaceholder: "Décris ce que tu as découvert, compris ou expérimenté dans tes leçons / parcours / projets / lectures veille...",
@@ -80,7 +80,7 @@ const TYPE_CONFIG: Record<EntryType, TypeConfig> = {
     iconSelected: 'text-secondary-500',
     borderSelected: 'border-secondary-500',
     checkBg: 'bg-secondary-500',
-    questionClass: 'text-secondary-600',
+    questionClass: 'text-secondary-700',
     writingBg: 'bg-gradient-to-br from-white to-secondary-50',
     question: 'Comment vais-je activer cet apprentissage dans mon travail cette semaine ?',
     bodyPlaceholder: 'Note les actions concrètes, les changements de posture, les expérimentations à mener avec ton équipe...',
@@ -102,7 +102,7 @@ const TYPE_CONFIG: Record<EntryType, TypeConfig> = {
     iconSelected: 'text-primary-500',
     borderSelected: 'border-primary-500',
     checkBg: 'bg-primary-500',
-    questionClass: 'text-primary-600',
+    questionClass: 'text-primary-800',
     writingBg: '',
     question: "Quelle idée m'a illuminé ?",
     bodyPlaceholder: "Capturez cette idée brillante avant qu'elle ne s'envole...",
@@ -375,7 +375,7 @@ export const JournalNewEntry: React.FC = () => {
           <button
             type="button"
             onClick={handleInspirationClick}
-            className="inline-flex items-center gap-stack-xs px-4 py-2 rounded-lg bg-secondary-50 border border-secondary-200 text-secondary-600 font-body text-body-sm font-bold cursor-pointer hover:bg-secondary-100 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-500"
+            className="inline-flex items-center gap-stack-xs px-4 py-2 rounded-lg bg-secondary-50 border border-secondary-200 text-secondary-700 font-body text-body-sm font-bold cursor-pointer hover:bg-secondary-100 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-500"
           >
             <Sparkles size={14} />
             Besoin d'inspiration ?

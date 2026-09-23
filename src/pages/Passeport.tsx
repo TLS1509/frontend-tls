@@ -332,7 +332,7 @@ export default function Passeport() {
                         </div>
                         <Badge variant="sun" size="compact">{skill.synergy}</Badge>
                         <p className="text-caption text-ink-500">~{skill.estimatedWeeks} semaines d'apprentissage</p>
-                        <div className="text-caption text-accent-600 group-hover:text-accent-700 transition-colors font-medium">
+                        <div className="text-caption text-accent-700 group-hover:text-accent-800 transition-colors font-medium">
                           Créer objectif →
                         </div>
                       </Card>
@@ -401,7 +401,7 @@ export default function Passeport() {
                       label={`${c.points} / ${c.nextPoints} pts`}
                       showLabel
                     />
-                    <div className="text-caption text-ink-600 group-hover:text-primary-600 transition-colors">
+                    <div className="text-caption text-ink-600 group-hover:text-primary-700 transition-colors">
                       Voir le détail →
                     </div>
                   </Card>

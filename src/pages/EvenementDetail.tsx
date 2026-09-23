@@ -103,7 +103,7 @@ export default function EvenementDetail() {
         >
           {PROGRAMME.map((item, idx) => (
             <div key={idx} className="flex gap-section items-start py-stack-xs border-b border-ink-100 last:border-0">
-              <span className="text-caption font-mono font-bold text-primary-600 shrink-0 w-12">
+              <span className="text-caption font-mono font-bold text-primary-700 shrink-0 w-12">
                 {item.time}
               </span>
               <div className="flex flex-col gap-tight min-w-0">

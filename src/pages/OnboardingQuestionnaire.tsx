@@ -145,7 +145,7 @@ const OnboardingQuestionnaire: React.FC = () => {
           <Stepper items={buildOnboardingStepperItems('positionnement', onboardingStore.accountType)} orientation="horizontal" />
 
           <header className="flex flex-col gap-tight text-center">
-            <p className="m-0 inline-flex items-center justify-center gap-stack-xs font-body text-caption font-semibold uppercase tracking-wider text-secondary-600">
+            <p className="m-0 inline-flex items-center justify-center gap-stack-xs font-body text-caption font-semibold uppercase tracking-wider text-secondary-700">
               <Target size={14} aria-hidden="true" />
               Positionnement
             </p>
@@ -217,7 +217,7 @@ const OnboardingQuestionnaire: React.FC = () => {
         <Stepper items={buildOnboardingStepperItems('positionnement', onboardingStore.accountType)} orientation="horizontal" />
 
         <header className="flex flex-col gap-tight text-center">
-          <p className="m-0 inline-flex items-center justify-center gap-stack-xs font-body text-caption font-semibold uppercase tracking-wider text-secondary-600">
+          <p className="m-0 inline-flex items-center justify-center gap-stack-xs font-body text-caption font-semibold uppercase tracking-wider text-secondary-700">
             <Target size={14} aria-hidden="true" />
             Positionnement Dreyfus
           </p>

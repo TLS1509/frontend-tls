@@ -88,7 +88,7 @@ export const Error404: React.FC = () => {
           initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.05, duration: 0.5 }}
           style={{ x: subX, y: subY }}
-          className="font-mono text-caption font-bold uppercase tracking-[0.28em] text-primary-400 inline-flex items-center gap-stack-xs mb-stack"
+          className="font-mono text-caption font-bold uppercase tracking-[0.28em] text-primary-800 inline-flex items-center gap-stack-xs mb-stack"
         >
           <Compass size={14} /> Navigation perdue
         </motion.p>
@@ -101,7 +101,7 @@ export const Error404: React.FC = () => {
           aria-hidden
           className="font-display font-black tracking-tighter mb-stack-lg"
         >
-          <span className="block text-[clamp(7rem,20vw,14rem)] text-primary-500 drop-shadow-[0_2px_20px_rgba(85,161,180,0.18)]">
+          <span className="block text-[clamp(7rem,20vw,14rem)] text-primary-600 drop-shadow-[0_2px_20px_rgba(85,161,180,0.18)]">
             404
           </span>
         </motion.div>

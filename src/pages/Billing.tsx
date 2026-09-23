@@ -254,7 +254,7 @@ const CreditsTab: React.FC<{ credits: { classic: number; special: number } }> = 
     <div className="flex flex-col gap-stack-lg">
       <div className="p-stack-lg flex flex-col md:flex-row items-center md:items-start justify-between gap-section rounded-lg bg-secondary-50/60 border border-secondary-200">
         <div className="flex flex-col gap-stack text-center md:text-left">
-          <p className="m-0 text-caption font-medium text-secondary-600">Solde actuel</p>
+          <p className="m-0 text-caption font-medium text-secondary-700">Solde actuel</p>
           <div className="flex items-center gap-stack-xs justify-center md:justify-start">
             <div className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-secondary-100 text-secondary-600 shrink-0">
               <Coins size={18} />
@@ -262,7 +262,7 @@ const CreditsTab: React.FC<{ credits: { classic: number; special: number } }> = 
             <div className="flex flex-col gap-tight">
               <div className="flex items-end gap-tight">
                 <span className="font-display text-h2 font-extrabold text-secondary-600">{credits.classic}</span>
-                <span className="mb-0.5 font-body text-body-sm font-semibold text-secondary-500">crédits Classic</span>
+                <span className="mb-0.5 font-body text-body-sm font-semibold text-secondary-700">crédits Classic</span>
               </div>
               <p className="m-0 text-caption text-ink-600">Sessions coaching standard (1h)</p>
             </div>
@@ -273,8 +273,8 @@ const CreditsTab: React.FC<{ credits: { classic: number; special: number } }> = 
             </div>
             <div className="flex flex-col gap-tight">
               <div className="flex items-end gap-tight">
-                <span className="font-display text-h2 font-extrabold text-accent-500">{credits.special}</span>
-                <span className="mb-0.5 font-body text-body-sm font-semibold text-accent-500">crédits Spécial</span>
+                <span className="font-display text-h2 font-extrabold text-accent-800">{credits.special}</span>
+                <span className="mb-0.5 font-body text-body-sm font-semibold text-accent-800">crédits Spécial</span>
               </div>
               <p className="m-0 text-caption text-ink-600">Sessions expert / masterclasses premium</p>
             </div>

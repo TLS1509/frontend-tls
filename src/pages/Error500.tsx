@@ -79,7 +79,7 @@ export const Error500: React.FC = () => {
           initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.05, duration: 0.5 }}
           style={{ x: subX, y: subY }}
-          className="font-mono text-caption font-bold uppercase tracking-[0.28em] text-secondary-500/80 inline-flex items-center gap-stack-xs mb-stack"
+          className="font-mono text-caption font-bold uppercase tracking-[0.28em] text-secondary-700 inline-flex items-center gap-stack-xs mb-stack"
         >
           <AlertTriangle size={14} /> Système · Incident
         </motion.p>
@@ -92,7 +92,7 @@ export const Error500: React.FC = () => {
           aria-hidden
           className="font-display font-black tracking-tighter leading-none mb-stack-lg"
         >
-          <span className="block text-[clamp(7rem,20vw,14rem)] text-secondary-500 drop-shadow-[0_2px_24px_rgba(237,132,58,0.18)]">
+          <span className="block text-[clamp(7rem,20vw,14rem)] text-secondary-600 drop-shadow-[0_2px_24px_rgba(237,132,58,0.18)]">
             500
           </span>
         </motion.div>
@@ -122,7 +122,7 @@ export const Error500: React.FC = () => {
           <p className="font-mono text-caption font-bold uppercase tracking-wider text-ink-600 mb-1">
             Diagnostic
           </p>
-          <p className="font-mono text-caption text-ink-700">Code: <span className="text-secondary-600 font-bold">500</span> · Erreur interne</p>
+          <p className="font-mono text-caption text-ink-700">Code: <span className="text-secondary-700 font-bold">500</span> · Erreur interne</p>
           <p className="font-mono text-caption text-ink-600">Équipe technique notifiée</p>
           <p className="font-mono text-caption text-ink-600">Action recommandée : réessayer dans quelques instants</p>
         </motion.div>

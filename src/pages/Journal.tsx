@@ -241,7 +241,7 @@ export const Journal: React.FC = () => {
             </span>
             <button
               onClick={() => { setTypeFilter('all'); setPeriodFilter('all'); setSearchQuery(''); }}
-              className="inline-flex items-center gap-tight font-body text-caption text-primary-600 hover:text-primary-700 font-semibold bg-transparent border-0 cursor-pointer transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+              className="inline-flex items-center gap-tight font-body text-caption text-primary-700 hover:text-primary-800 font-semibold bg-transparent border-0 cursor-pointer transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
             >
               <X size={14} /> Réinitialiser
             </button>

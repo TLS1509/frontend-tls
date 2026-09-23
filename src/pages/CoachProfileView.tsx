@@ -141,7 +141,7 @@ export default function CoachProfileView() {
                   <p className="text-body-sm text-primary-800 italic">
                     "Je travaille avec les apprenants pour qu'ils développent leur propre système de pensée : pas pour qu'ils adoptent le mien. Mon rôle est de créer les conditions de la clarté."
                   </p>
-                  <p className="mt-stack-xs text-caption text-primary-600 font-semibold">: Sophie Martin</p>
+                  <p className="mt-stack-xs text-caption text-primary-800 font-semibold">: Sophie Martin</p>
                 </div>
               </div>
             </SectionCard>

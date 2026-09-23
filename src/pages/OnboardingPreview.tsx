@@ -220,7 +220,7 @@ function VariantA({ onDone }: { onDone: () => void }) {
   const chatTitle = (
     <div className="flex items-center justify-between">
       <span className="text-body-sm font-semibold text-ink-700">Configuration de ton profil</span>
-      <span className="text-caption text-secondary-600 font-semibold">Guide IA</span>
+      <span className="text-caption text-secondary-700 font-semibold">Guide IA</span>
     </div>
   );
 
@@ -250,7 +250,7 @@ function VariantA({ onDone }: { onDone: () => void }) {
       />
     </div>
   ) : (
-    <p className="text-caption text-ink-400 text-center py-0.5 select-none">
+    <p className="text-caption text-ink-500 text-center py-0.5 select-none">
       {phase === 'role' ? 'Sélectionne ton rôle ci-dessus' :
        phase === 'goals' ? 'Sélectionne tes objectifs ci-dessus' : ''}
     </p>
@@ -319,7 +319,7 @@ function VariantB({ onDone }: { onDone: () => void }) {
       {step === 0 && (
         <>
           <div className="text-center flex flex-col gap-stack max-w-md w-full">
-            <p className="font-body text-caption font-semibold uppercase tracking-wider text-secondary-600 m-0">
+            <p className="font-body text-caption font-semibold uppercase tracking-wider text-secondary-700 m-0">
               Bienvenue sur TLS
             </p>
             <h2 className="font-display text-h1 tracking-display text-ink-900">
@@ -353,7 +353,7 @@ function VariantB({ onDone }: { onDone: () => void }) {
       {step === 1 && (
         <>
           <div className="text-center flex flex-col gap-stack max-w-lg w-full">
-            <p className="font-body text-caption font-semibold uppercase tracking-wider text-secondary-600 m-0">
+            <p className="font-body text-caption font-semibold uppercase tracking-wider text-secondary-700 m-0">
               1 / 2
             </p>
             <h2 className="font-display text-h1 tracking-display text-ink-900">
@@ -385,7 +385,7 @@ function VariantB({ onDone }: { onDone: () => void }) {
       {step === 2 && (
         <>
           <div className="text-center flex flex-col gap-stack max-w-lg w-full">
-            <p className="font-body text-caption font-semibold uppercase tracking-wider text-secondary-600 m-0">
+            <p className="font-body text-caption font-semibold uppercase tracking-wider text-secondary-700 m-0">
               2 / 2
             </p>
             <h2 className="font-display text-h1 tracking-display text-ink-900">
@@ -662,7 +662,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
         )}
 
         <div className="flex items-center gap-stack-xs flex-1 sm:flex-none justify-between sm:justify-end">
-          <span className="font-body text-caption text-ink-400 tabular-nums hidden sm:inline select-none">
+          <span className="font-body text-caption text-ink-500 tabular-nums hidden sm:inline select-none">
             {substep + 1} / {LABELS.length}
           </span>
           {substep < 2 ? (
@@ -707,7 +707,7 @@ const VariantSwitcher: React.FC<{ current: Variant; onChange: (v: Variant) => vo
     role="group"
     aria-label="Changer de variante"
   >
-    <span className="text-micro text-ink-400 px-2 shrink-0 select-none font-body">Variante</span>
+    <span className="text-micro text-ink-500 px-2 shrink-0 select-none font-body">Variante</span>
     {(['a', 'b', 'c'] as Variant[]).map(v => (
       <button
         key={v}
@@ -760,7 +760,7 @@ export default function OnboardingPreview() {
 
         {/* Preview header */}
         <header className="flex flex-col gap-tight text-center">
-          <p className="m-0 inline-flex items-center justify-center gap-stack-xs font-body text-caption font-semibold uppercase tracking-wider text-secondary-600">
+          <p className="m-0 inline-flex items-center justify-center gap-stack-xs font-body text-caption font-semibold uppercase tracking-wider text-secondary-700">
             <Sparkles size={14} aria-hidden />
             Comparatif — Variante {variant.toUpperCase()}
           </p>
