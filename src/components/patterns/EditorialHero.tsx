@@ -195,12 +195,16 @@ const isBackLinkObject = (value: unknown): value is PageHeroBackLink =>
   value !== null &&
   'onClick' in (value as Record<string, unknown>);
 
+/* Bouton « Retour » des heros sombres : voile SOMBRE sous le blanc (23/09).
+   Il portait blanc/15 — un voile clair qui éclaircit ce que le blanc a besoin
+   de sombre : 3,75 sur l'arrêt 700 d'un hero brand (parcours). ink-900/20 :
+   6,17 (brand) · 7,54 (warm) · 6,10 (sun). Le survol fonce, il n'éclaircit pas. */
 const TONE_BACKLINK: Record<PageHeroTone, string> = {
   flat:    'text-primary-700 bg-ink-50 border-ink-200 hover:bg-ink-100',
   default: 'text-primary-700 bg-white/70 border-primary-200 hover:bg-primary-50',
-  brand:   'text-white bg-white/15 border-white/25 hover:bg-white/25',
-  warm:    'text-white bg-white/15 border-white/25 hover:bg-white/25',
-  sun:     'text-white bg-white/15 border-white/25 hover:bg-white/25',
+  brand:   'text-white bg-ink-900/20 border-white/30 hover:bg-ink-900/30',
+  warm:    'text-white bg-ink-900/20 border-white/30 hover:bg-ink-900/30',
+  sun:     'text-white bg-ink-900/20 border-white/30 hover:bg-ink-900/30',
 };
 
 const TONE_PROGRESS_TRACK: Record<PageHeroTone, string> = {
