@@ -2,24 +2,45 @@ import React, { useState } from 'react';
 import { Users, ClipboardCheck, TrendingUp } from 'lucide-react';
 import EditorialHero from '../components/patterns/EditorialHero';
 import SectionCard from '../components/patterns/SectionCard';
+import { SectionHeader } from '../components/patterns/SectionHeader';
+import { DataTable, type DataTableColumn } from '../components/patterns/DataTable';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { StatCard } from '../components/ui/StatCard';
 import { Tabs } from '../components/ui/Tabs';
 import { Avatar } from '../components/ui/Avatar';
+import { ProgressBar } from '../components/ui/ProgressBar';
 import { PageShell } from '../components/layout';
 import { BarChart, ChartWithExport } from '../components/charts';
 import { useEnterpriseStore, useCoachingStore } from '../stores/persistence';
 import { MOCK_COMPANY_ID } from '../data/enterprise';
 import { MOCK_USER_ID } from '../data/passeport';
 import { getCompetenceById } from '../data/competencies';
+import type { EnterpriseRole, MemberStatus } from '../types/learning';
 
-const MEMBER_STATUS_VARIANT: Record<string, 'success' | 'warm' | 'info' | 'neutral'> = {
-  active: 'success',
-  pending: 'warm',
-  suspended: 'neutral',
+const MEMBER_STATUS: Record<MemberStatus, { label: string; variant: 'success' | 'warm' | 'neutral'; order: number }> = {
+  active: { label: 'Actif', variant: 'success', order: 0 },
+  pending: { label: 'En attente', variant: 'warm', order: 1 },
+  suspended: { label: 'Suspendu', variant: 'neutral', order: 2 },
 };
+
+const ROLE_LABEL: Record<EnterpriseRole, string> = {
+  admin: 'Admin',
+  manager: 'Manager',
+  member: 'Membre',
+  viewer: 'Invité',
+};
+
+/* Des membres qu'on compare sur la progression et le statut : une table
+   triable, pas une pile de cartes (arbitrage n°5 du 23/09). Les valeurs de
+   tri voyagent dans la rangée sous des clés que la table n'affiche pas. */
+const ROSTER_COLUMNS: DataTableColumn[] = [
+  { key: 'name', label: 'Apprenant', sortable: true, sortValue: (r) => r._name as string },
+  { key: 'progress', label: 'Progression', sortable: true, sortValue: (r) => r._progress as number },
+  { key: 'status', label: 'Statut', sortable: true, sortValue: (r) => r._status as number },
+  { key: 'action', label: 'Fiche', align: 'right' },
+];
 
 const CoachEnterpriseDashboard: React.FC = () => {
   const [tab, setTab] = useState<'roster' | 'queue' | 'analytics'>('roster');
@@ -84,21 +105,49 @@ const CoachEnterpriseDashboard: React.FC = () => {
         />
 
         {tab === 'roster' && (
-          <SectionCard title="Apprenants assignés" description="Statut et progression par membre de l'équipe">
-            <div className="flex flex-col gap-stack-xs">
-              {members.map((m) => (
-                <Card key={m.id} className="p-stack-md flex items-center gap-stack">
-                  <Avatar initials={m.name.split(' ').map((n) => n[0]).join('').slice(0, 2)} size="md" />
-                  <div className="flex-1">
-                    <div className="font-semibold">{m.name}</div>
-                    <div className="text-caption text-ink-500">{m.role} · {m.progressPercent}% progression</div>
-                  </div>
-                  <Badge variant={MEMBER_STATUS_VARIANT[m.status]}>{m.status}</Badge>
-                  <Button emphasis="outline" size="sm">Voir fiche</Button>
-                </Card>
-              ))}
-            </div>
-          </SectionCard>
+          <section className="flex flex-col gap-stack" aria-label="Apprenants assignés">
+            <SectionHeader
+              title="Apprenants assignés"
+              subtitle="Statut et progression par membre de l'équipe"
+              icon={<Users size={20} />}
+              tone="primary"
+              size="md"
+            />
+            <DataTable
+              columns={ROSTER_COLUMNS}
+              pageSize={Math.max(members.length, 1)}
+              emptyMessage="Aucun membre dans l'équipe."
+              rows={members.map((m) => {
+                const status = MEMBER_STATUS[m.status];
+                return {
+                  _name: m.name,
+                  _progress: m.progressPercent,
+                  _status: status.order,
+                  name: (
+                    <span className="flex items-center gap-stack-sm min-w-0">
+                      <Avatar initials={m.name.split(' ').map((n) => n[0]).join('').slice(0, 2)} size="sm" />
+                      <span className="flex flex-col min-w-0">
+                        <span className="font-semibold text-ink-900 truncate">{m.name}</span>
+                        <span className="text-caption text-ink-600 truncate">{ROLE_LABEL[m.role]}</span>
+                      </span>
+                    </span>
+                  ),
+                  progress: (
+                    <span className="flex items-center gap-stack-xs min-w-[8rem]">
+                      <ProgressBar value={m.progressPercent} fill="brand" size="sm" valueLabel={false} className="flex-1" />
+                      <span className="tabular-nums text-ink-700 w-9 text-right">{m.progressPercent} %</span>
+                    </span>
+                  ),
+                  status: <Badge variant={status.variant} size="compact">{status.label}</Badge>,
+                  action: (
+                    <Button emphasis="outline" size="sm" aria-label={`Voir la fiche de ${m.name}`}>
+                      Voir fiche
+                    </Button>
+                  ),
+                };
+              })}
+            />
+          </section>
         )}
 
         {tab === 'queue' && (
