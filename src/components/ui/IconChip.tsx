@@ -46,6 +46,29 @@ import React from 'react';
  * 50 des trois tons de marque se détachent d'un ΔE de 6 à 7. `ink-100` rend au
  * neutre la même présence qu'aux autres.
  *
+ * ═══ SUR UNE CARTE DE MÊME TEINTE — arbitrage n°10 du 2026-09-23 ═══════════
+ *
+ * Posée sur une carte `primary-50` (brand), `secondary-50` (warm) ou
+ * `accent-50` (sun), la pastille au cran 50 a EXACTEMENT le fond de la carte
+ * (1,00:1) : le carré disparaît, il ne reste qu'un glyphe flottant. Tranché par
+ * Chloé le 23/09 (option C, « Cran 100 ») : dans ce cas, passer
+ * `surface="tinted"` — le fond monte au cran 100, le glyphe reste au 800.
+ *
+ *   surface="tinted"   fond       glyphe/fond   pastille/carte 50
+ *   brand              primary-100     5,79          1,09
+ *   warm               secondary-100   8,00          1,19
+ *   sun                accent-100      6,89          1,11
+ *   neutral            ink-200         8,38          1,13 (sur carte ink-100)
+ *
+ * Le glyphe passe toujours le 4,5. `neutral` prend « le cran au-dessus de la
+ * carte » : son défaut `ink-100` est déjà au-dessus d'une carte `ink-50`, c'est
+ * sur une carte `ink-100` qu'il faut `tinted` (→ `ink-200`). Les tons
+ * sémantiques n'ont pas de cran 100 : `surface` ne les change pas.
+ *
+ * C'est une prop EXPLICITE, pas une détection : le fond vient souvent d'un
+ * parent lointain, et un composant ne lit pas la couleur de ses ancêtres.
+ * Celui qui pose la pastille sur une carte teintée sait qu'il le fait.
+ *
  * ═══ CONSTRUCTION ═════════════════════════════════════════════════════════
  *
  * Maps de classes complètes et statiques (motif `Button.tsx`) : Tailwind ne
@@ -65,6 +88,8 @@ import React from 'react';
 
 export type IconChipSize = 'xs' | 'sm' | 'md' | 'lg';
 export type IconChipTone = 'brand' | 'warm' | 'sun' | 'neutral' | 'success' | 'danger' | 'info';
+/** Le fond sur lequel la pastille est posée — arbitrage n°10 du 2026-09-23. */
+export type IconChipSurface = 'default' | 'tinted';
 
 export interface IconChipProps {
   /** Une icône Lucide. Sa taille propre est ignorée : elle remplit la boîte. */
@@ -73,6 +98,13 @@ export interface IconChipProps {
   size?: IconChipSize;
   /** Défaut : `brand`. */
   tone?: IconChipTone;
+  /**
+   * `tinted` quand la carte porte la même teinte que le ton (primary-50 pour
+   * `brand`, secondary-50 pour `warm`, accent-50 pour `sun`, ink-100 pour
+   * `neutral`) : le fond monte au cran 100 pour ne pas se fondre dans la carte.
+   * Défaut : `default` (fond clair ou blanc).
+   */
+  surface?: IconChipSurface;
   /** Nom accessible. Absent = pastille décorative, masquée aux lecteurs d'écran. */
   label?: string;
   /** Placement uniquement (marges, `shrink-0` déjà posé, `self-start`…). */
@@ -116,10 +148,28 @@ const TONE: Record<IconChipTone, string> = {
   info:    'bg-info-bg text-info-fg',
 };
 
+/* Sur carte de même teinte : un cran plus haut que la carte — arbitrage n°10.
+ * Les sémantiques n'ont pas de cran 100 : elles gardent leur -bg. */
+const TONE_TINTED: Record<IconChipTone, string> = {
+  brand:   'bg-primary-100 text-primary-800',
+  warm:    'bg-secondary-100 text-secondary-800',
+  sun:     'bg-accent-100 text-accent-800',
+  neutral: 'bg-ink-200 text-ink-700',
+  success: 'bg-success-bg text-success-fg',
+  danger:  'bg-danger-bg text-danger-fg',
+  info:    'bg-info-bg text-info-fg',
+};
+
+const TONE_BY_SURFACE: Record<IconChipSurface, Record<IconChipTone, string>> = {
+  default: TONE,
+  tinted:  TONE_TINTED,
+};
+
 export const IconChip: React.FC<IconChipProps> = ({
   children,
   size = 'sm',
   tone = 'brand',
+  surface = 'default',
   label,
   className = '',
 }) => {
@@ -129,7 +179,7 @@ export const IconChip: React.FC<IconChipProps> = ({
 
   return (
     <span
-      className={[BASE, SIZE[size], RAYON[size], TONE[tone], className].filter(Boolean).join(' ')}
+      className={[BASE, SIZE[size], RAYON[size], TONE_BY_SURFACE[surface][tone], className].filter(Boolean).join(' ')}
       {...a11y}
     >
       <span className={`${ICON_BOX} ${ICON_SIZE[size]}`}>{children}</span>

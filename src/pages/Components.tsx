@@ -5820,8 +5820,8 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'IconChip',
     codeName: 'ui/IconChip.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: "Pastille d'icône : un carré teinté qui porte un glyphe Lucide. Rayon PROPORTIONNEL (arbitrage n°3 du 23/09) — 24 px rounded-sm (6) · 32 et 40 px rounded-md (10) · 48 px rounded-lg (14). Le rond reste réservé aux personnes (Avatar). Fond cran 50 / -bg, glyphe cran 800 / -fg : 6,31 à 10,21:1. Décorative (aria-hidden) sauf si `label` est passé. Une pastille qu'on presse n'en est pas une : c'est un Button iconOnly.",
-    keywords: ['icon', 'chip', 'pastille', 'bubble', 'glyph', 'tone', 'brand', 'warm', 'sun', 'neutral', 'success', 'danger', 'info', 'decoration'],
+    description: "Pastille d'icône : un carré teinté qui porte un glyphe Lucide. Rayon PROPORTIONNEL (arbitrage n°3 du 23/09) — 24 px rounded-sm (6) · 32 et 40 px rounded-md (10) · 48 px rounded-lg (14). Le rond reste réservé aux personnes (Avatar). Fond cran 50 / -bg, glyphe cran 800 / -fg : 6,31 à 10,21:1. Décorative (aria-hidden) sauf si `label` est passé. Une pastille qu'on presse n'en est pas une : c'est un Button iconOnly. Sur une carte de MÊME teinte (primary-50, secondary-50, accent-50, ink-100), passer surface=\"tinted\" : le fond monte au cran 100, sinon la pastille se confond avec la carte (arbitrage n°10 du 23/09).",
+    keywords: ['icon', 'chip', 'pastille', 'bubble', 'glyph', 'tone', 'brand', 'warm', 'sun', 'neutral', 'success', 'danger', 'info', 'decoration', 'surface', 'tinted'],
     render: () => (
       <div className="flex flex-col gap-stack">
         <div className="hstack flex-wrap items-end">
@@ -5843,6 +5843,29 @@ const COMPONENTS: ComponentEntry[] = [
         <div className="flex items-center gap-stack-sm">
           <IconChip tone="warm"><Calendar /></IconChip>
           <span className="text-body-sm text-ink-900">Prochaine session : jeudi 14 h</span>
+        </div>
+        {/* Arbitrage n°10 (23/09) : sur une carte de même teinte, le cran 50
+            se confond avec la carte (1,00:1) — surface="tinted" monte au 100. */}
+        <div className="grid gap-stack sm:grid-cols-3">
+          {/* Surface faite main, volontairement : `<Card tone>` hors variante
+              `tinted` rend aujourd'hui blanc (bg-white gagne sur bg-primary-50). */}
+          {([
+            ['brand', 'bg-primary-50 border-primary-200', <BookOpen key="i" />, 'Carte primary-50'],
+            ['warm', 'bg-secondary-50 border-secondary-200', <Flame key="i" />, 'Carte secondary-50'],
+            ['sun', 'bg-accent-50 border-accent-200', <Trophy key="i" />, 'Carte accent-50'],
+          ] as const).map(([chipTone, surfaceClasses, icon, label]) => (
+            <div key={chipTone} className={['flex flex-col gap-stack-sm rounded-xl border p-stack-lg', surfaceClasses].join(' ')}>
+              <span className="text-micro text-ink-700 font-mono">{label}</span>
+              <div className="flex items-center gap-stack-sm">
+                <IconChip size="md" tone={chipTone}>{icon}</IconChip>
+                <span className="text-body-sm text-ink-700">défaut : cran 50, se fond</span>
+              </div>
+              <div className="flex items-center gap-stack-sm">
+                <IconChip size="md" tone={chipTone} surface="tinted">{icon}</IconChip>
+                <span className="text-body-sm text-ink-900">surface="tinted" : cran 100</span>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     ),
