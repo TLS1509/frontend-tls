@@ -5,6 +5,7 @@ import { SectionCard } from '../components/patterns/SectionCard';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
+import { MetaPill } from '../components/ui/MetaPill';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { EmptyState } from '../components/ui/EmptyState';
 import { Modal } from '../components/ui/Modal';
@@ -215,9 +216,7 @@ export default function PasseportObjectifs() {
                           <span className="text-body-sm font-semibold text-ink-900">
                             {comp?.label ?? g.competenceId}
                           </span>
-                          <span className="inline-flex items-center gap-tight text-caption text-primary-700 bg-primary-50 px-2 py-0.5 rounded-pill w-fit font-medium">
-                            {comp ? domainLabel(comp.domain) : g.competenceId}
-                          </span>
+                          <MetaPill text={comp ? domainLabel(comp.domain) : g.competenceId} tone="primary" className="w-fit" />
                         </div>
                         <div className="flex items-center gap-stack-xs shrink-0">
                           <Badge variant="neutral" size="compact">D{g.startLevel}→D{g.targetLevel}</Badge>

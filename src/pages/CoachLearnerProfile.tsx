@@ -276,9 +276,9 @@ export default function CoachLearnerProfile() {
                       <div className="flex flex-col gap-tight min-w-0">
                         <span className="text-body-sm font-semibold text-ink-800">{compLabel}</span>
                         <div className="flex items-center gap-stack-xs">
-                          <span className="inline-flex items-center px-2 py-0.5 text-micro font-semibold rounded-pill bg-primary-50 text-primary-800">
+                          <Badge variant="brand" size="compact">
                             D{level} · {DREYFUS_LABELS[level]}
-                          </span>
+                          </Badge>
                           {validated ? (
                             <Badge variant="success" size="compact">Validé</Badge>
                           ) : (

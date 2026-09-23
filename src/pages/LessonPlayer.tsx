@@ -13,6 +13,7 @@ import React, { useEffect, useState } from 'react';
 import { useLessonProgressStore, usePasseportStore } from '../stores/persistence';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from '../components/core/Button';
+import { Badge } from '../components/ui/Badge';
 import { SessionFeedbackModal } from '../components/modals';
 import { QuizComponent } from '../components/ui/QuizComponent';
 import { ViewerHeader } from '../components/patterns/ViewerHeader';
@@ -2087,9 +2088,9 @@ export const LessonPlayer: React.FC = () => {
               {block.description && (
                 <p className="m-0 mb-3 font-body text-body-sm text-ink-600">{block.description}</p>
               )}
-              <span className="inline-flex items-center gap-stack-2xs bg-primary-100 text-primary-700 px-3 py-1 rounded-pill font-body text-caption font-semibold">
-                <Cpu size={14} /> Module interactif · Bientôt disponible
-              </span>
+              <Badge variant="brand">
+                <Cpu size={14} aria-hidden /> Module interactif · Bientôt disponible
+              </Badge>
             </div>
           </div>
         );

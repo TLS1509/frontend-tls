@@ -19,6 +19,7 @@ import { ViewerHeader } from '../components/patterns/ViewerHeader';
 import { LessonNavigation } from '../components/patterns/LessonNavigation';
 import { ViewerProgressTrail } from '../components/patterns/ViewerProgressTrail';
 import { FlipCard } from '../components/patterns/FlipCard';
+import { MetaPill } from '../components/ui/MetaPill';
 import { CompletionModal } from '../components/modals';
 import { useLessonContext, resolveAfterLessonRoute } from '../lib/lesson-context';
 import { useLessonProgressStore, useCardReviewStore, usePasseportStore, type CardRating } from '../stores/persistence';
@@ -340,9 +341,7 @@ export const FlashcardsViewer: React.FC = () => {
           {/* ── Compteur SRS : cartes dues aujourd'hui ── */}
           {dueToday > 0 && (
             <div className="flex justify-center">
-              <span className="inline-flex items-center gap-stack-2xs rounded-pill bg-primary-50 border border-primary-100 px-3 py-1 text-caption font-semibold text-primary-800">
-                <Brain size={14} aria-hidden /> {dueToday} à réviser aujourd'hui
-              </span>
+              <MetaPill icon={<Brain aria-hidden />} text={`${dueToday} à réviser aujourd'hui`} tone="primary" />
             </div>
           )}
 

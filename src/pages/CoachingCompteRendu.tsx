@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
+import { MetaPill } from '../components/ui/MetaPill';
 import { Container } from '../components/layout';
 import {
   ArrowLeft,
@@ -276,10 +277,7 @@ export const CoachingCompteRendu: React.FC = () => {
                         <p className="font-body text-body text-ink-900 m-0 mb-1 leading-snug">
                           {ap.action}
                         </p>
-                        <span className="inline-flex items-center gap-tight font-body text-caption text-primary-700 bg-primary-50 px-2 py-0.5 rounded-pill font-semibold">
-                          <CalendarDays size={14} />
-                          {ap.deadline}
-                        </span>
+                        <MetaPill icon={<CalendarDays />} text={ap.deadline} tone="primary" />
                       </div>
                       <ChevronRight size={16} className="text-ink-400 shrink-0 mt-stack-xs" />
                     </div>
