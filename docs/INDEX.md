@@ -1,6 +1,6 @@
 # 📑 Documentation Index — The Learning Society
 
-**Last updated**: 2026-09-17 | **Total docs**: ~136 fichiers (hors `_archive/`)
+**Last updated**: 2026-09-23 | **Total docs**: 193 fichiers suivis dans `docs/` hors `_archive/` (+ `CDC/`, local et non suivi)
 
 > 🆕 **17/09** : [`_audits/AUDIT-DS-NIVEAU-AGENCE-2026-09-17.md`](_audits/AUDIT-DS-NIVEAU-AGENCE-2026-09-17.md)
 > — audit trois surfaces (code · docs · Figma, node IDs cités) + correction dans la foulée :
@@ -12,7 +12,7 @@
 > **Ordre de préséance (revu le 28/07)** : (1) le code et le site en ligne, (2) une décision datée de Chloé, (3) ce registre, (4) le reste des docs. Le canon n'est plus présenté comme un arbitre absolu : il vieillit comme les autres.
 > ⛔ **Le corpus site & copy de juin 2026 a été archivé le 28/07** → [`_archive/corpus-site-juin-2026/`](_archive/corpus-site-juin-2026/). Neuf docs, même dernier commit du 11/06, décrivant un site qui n'existe plus.
 
-> 🧹 **Nettoyage 2026-06-30** : ~20 docs déversés en vrac (racine repo + `docs/`) par des sessions d'agents ont été re-rangés. Nouveaux sous-dossiers `_phases/`, `charts/`, `briefs/`. 4 audits Figma du 26/06 marqués `⚠️ FIABILITÉ NON VÉRIFIÉE` (claims non vérifiés contre le fichier Figma). `.claude/worktrees/` (40 Mo) + `.agents/skills 2/` + `docs/_old-sessions/` supprimés. Voir règles d'hygiène doc dans `CLAUDE.md`.
+> 🧹 **Nettoyage 2026-06-30** : ~20 docs déversés en vrac (racine repo + `docs/`) par des sessions d'agents ont été re-rangés. Nouveaux sous-dossiers `_phases/` (vidé le 28/07), `charts/`, `briefs/`. 4 audits Figma du 26/06 marqués `⚠️ FIABILITÉ NON VÉRIFIÉE` (claims non vérifiés contre le fichier Figma). `.claude/worktrees/` (40 Mo) + `.agents/skills 2/` + `docs/_old-sessions/` supprimés. Voir règles d'hygiène doc dans `CLAUDE.md`.
 
 ---
 
@@ -20,30 +20,38 @@
 
 | Fichier | Description | Taille | Utiliser pour |
 |---------|---|---|---|
-| [product/PRODUCT.md](../PRODUCT.md) | Config projet, version, routes | — | Démarrer une session, setup MCP |
-| [product/DESIGN.md](../DESIGN.md) | Design system Tailwind, patterns | — | Vérifier tokens, conventions styling |
+| [PRODUCT.md](../PRODUCT.md) *(racine)* | Config projet, version, routes | — | Démarrer une session, setup MCP |
+| [DESIGN.md](../DESIGN.md) *(racine)* | Design system Tailwind, patterns | — | Vérifier tokens, conventions styling |
 | [_canon/FACTS-CANON.md](_canon/FACTS-CANON.md) | **Faits validés TLS** — 10 interdits, décisions datées de Chloé, ce que dit le code. **Révisé le 16/09 : le pivot du 31/08 y entre** (D8→D13), et une violation vivante de X10 y est notée | 16/09/2026 | **Toute session marketing / site : lire EN PREMIER** |
 | [_canon/DECISION-FONDS-ET-TEXTURES.md](_canon/DECISION-FONDS-ET-TEXTURES.md) | Les 17 fonds SVG n'entrent pas dans le DS — et pourquoi les vagues non plus | — | Avant d'ajouter un motif décoratif au design system |
 
 ---
 
-## 📂 ROOT — Docs stratégiques
+## 📂 ROOT — Point d'entrée et fichiers hors `docs/`
 
-**Actifs:**
-- `IMPLEMENTATION_ORDER.md` — Ordre exécution recommandé phases
-- `README.md` — Navigation guide (ce fichier vous amène ici)
-- `INDEX.md` ← vous êtes ici
+- `INDEX.md` ← vous êtes ici. **Seul point d'entrée de la doc** : l'ancien `docs/README.md` y a été fusionné le 2026-09-23.
+- `IMPLEMENTATION_ORDER.md` — ordre d'exécution recommandé des phases. ⚠️ **Local seulement** (exclu par `.gitignore`)
+
+**Hors `docs/`, mais à connaître**
+
+| Fichier | Chargé quand | Rôle |
+|---|---|---|
+| [`CLAUDE.md`](../CLAUDE.md) | toujours (instructions projet) | Règles strictes, familles de composants, hygiène documentaire, gate de build |
+| [`PRODUCT.md`](../PRODUCT.md) · [`DESIGN.md`](../DESIGN.md) | injectés en tâche design | Produit ; design system (tokens, patterns, arbitrages) |
+| [`.claude/rules/pieges-tailwind.md`](../.claude/rules/pieges-tailwind.md) | dès qu'un fichier de `src/` est touché | Pièges Tailwind v4 / cascade CSS n°1 à 15 — sortis de `CLAUDE.md` le 2026-09-23 |
+| [`.claude/rules/doctrine-design.md`](../.claude/rules/doctrine-design.md) | dès qu'un fichier de `src/` est touché | Doctrine rayons (seuil, échelle étagée), bouton `emphasis`×`tone`, requêtes de conteneur, cartes — sortie de `CLAUDE.md` le 2026-09-23 |
+| [`.claude/brand-voice-guidelines.md`](../.claude/brand-voice-guidelines.md) | à la demande | Voix de marque v2.0 (17/06). ⚠️ Non revalidée depuis le pivot du 31/08 — voir « Voix de marque » dans le Howto |
+| [`.claude/stitch-design-system.md`](../.claude/stitch-design-system.md) | à la demande | Description du DS destinée à Stitch. Recopie des valeurs : `src/index.css` fait foi |
+| [`../brand/README.md`](../brand/README.md) → [`BRAND-KIT.md`](../brand/BRAND-KIT.md) | à la demande | Supports de marque hors app |
 
 ---
 
 ## 📋 CDC/ — Cahiers de charges (source de vérité)
 
 **16 modules spécification métier** — NE PAS modifier sans approbation métier.
+⚠️ **`docs/CDC/` est local** (exclu par `.gitignore` : specs Notion propriétaires). Un dossier par cahier (`01_Parcours_Learning_Space/` … `13bis_GDPR_AI_Act_Security/`), chacun avec `CAHIER.md`, `README.md` et ses parcours `UJ-*.md` ; point d'entrée `USER_JOURNEYS_INDEX.md`.
 
-| # | Cahier | Focus | Status |
-|---|--------|-------|--------|
-
-**Utilities:**
+**Utilities** (`CDC/_inventaires/`) :
 - `FO_PAGES_INVENTORY.md` — 140+ routes FO learner (83 screens × 2 tiers)
 - `BO_PAGES_INVENTORY.md` — Back-office WordPress pages (hors scope)
 - `PLUGIN_DEPENDENCY_ANALYSIS.md` — Module dependencies, critical path
@@ -52,7 +60,7 @@
 
 ## 📊 _AUDITS/ — Rapports consolidés
 
-**14 audit reports** — analyses de qualité, gaps design, spec compliance.
+**17 fichiers** — analyses de qualité, gaps design, spec compliance.
 
 | Fichier | Type | Focus |
 |---------|------|-------|
@@ -71,11 +79,13 @@
 | [FIGMA-AUDIT-REPORT-2026-06-12.md](_audits/FIGMA-AUDIT-REPORT-2026-06-12.md) | Design-Dev sync | React components vs Figma DS gaps, 3 missing components |
 | [FIGMA-FOUNDATIONS-AUDIT-2026-07-23.md](_audits/FIGMA-FOUNDATIONS-AUDIT-2026-07-23.md) | Token parity | Figma variables ↔ Tailwind @theme cross-check |
 | [FLOWS-TIER1-SYNTHESIS-2026-06-12.md](_audits/FLOWS-TIER1-SYNTHESIS-2026-06-12.md) | Daily-use analysis | 33 Tier 1 pages patterns, UX clarity scoring |
+| [AUDIT-DESIGN-2026-07-22.md](_audits/AUDIT-DESIGN-2026-07-22.md) | Docs ↔ code | Confrontation des 5 docs design au code réel : **4 référentiels de tokens** (3 CSS chargés + 1 spec fossile), pas un seul, et pourquoi l'audit de juin concluait « tokens cohérents » |
+| [tls-foundations-bench.html](_audits/tls-foundations-bench.html) | 🧪 Banc | « Banc TLS — typo, couleur, cards » : page autonome (polices embarquées), à ouvrir dans un navigateur |
 | [AUDIT-CLAUDE-MD-CONTEXT-2026-07-25.md](_audits/AUDIT-CLAUDE-MD-CONTEXT-2026-07-25.md) | Context engineering | CLAUDE.md (2747 l) + mémoire vs règles Claude 5 : KEEP 388 / POINT 534 / EXTRACT 872 / CUT 806. Preuve de dérive tokens, doublons Phase 14+/16, liens morts, plan de refonte 2 passes |
 
 ---
 
-## 🎨 SITE/ — Design & site vitrine (26 fichiers)
+## 🎨 SITE/ — Design & site vitrine (27 fichiers)
 
 > 🧭 **Contexte-maison du site marketing** (projet séparé de l'app) : [`site/CONTEXT-SITE-MARKETING.md`](site/CONTEXT-SITE-MARKETING.md) — code (`src/pages/marketing/`), outillage motion (framer défaut / gsap pour le scroll complexe), primitives, patterns, pièges. **Point d'entrée de toute session site.** ⚠️ Depuis le 29/07, **aucun effet n'est banni** — la direction motion est à rejouer dans une passe dédiée.
 
@@ -134,25 +144,20 @@
 | 🗄️ [`_archive/DESIGN-INSPO-directions-suspendues-2026-06.md`](_archive/DESIGN-INSPO-directions-suspendues-2026-06.md) | **Archivé le 2026-09-16** — 365 l. suspendues depuis le 29/07 qui pesaient 44 % de `DESIGN-INSPO`. Quatre directions, un vocabulaire d'effets page par page, la parallaxe d'Until en trois tiers. Conservé pour ne pas réexplorer sans le savoir ; ne fait pas foi |
 | ⛔ `ANIMATION-TECHNIQUES-RESEARCH.md` | **Archivé le 28/07** — adossé à Direction C, elle-même suspendue. Le motif d'archivage d'origine (« recommandait le parallax, effet écarté ») ne tient plus : cet interdit a été levé le 29/07. Doc à re-verser ou refaire dans la passe motion |
 
-**Recherche & inspiration** *(artefacts d'exploration, valeur de référence)*
-
-`APP-INSPIRATION-RESEARCH.md` · `MOODBOARD-INSPIRATION-GUIDE.md` · `INSPIRATION-SEARCH-KEYWORDS.md` · `QUICK-SEARCH-TERMS.md` · `LES-ROMANTIQUES-ARTE-STYLE-ANALYSIS.md` · `PHASE-2B-DUAL-RESEARCH.md` · `PHASE-2B-COMPLETE-MAP.md` · `PHASE-2B-QUICKSTART.md` · `HERO-ASSETS-SOURCING.md`
-
-**Figma & composants**
-
-`FIGMA-ENRICHMENT-GUIDE.md` · `FIGMA-WIREFRAME-STRUCTURE.md` · `COMPONENT-EXTRACTION-CHECKLIST.md`
+> 🗑️ Les 12 artefacts d'exploration de juin (`APP-INSPIRATION-RESEARCH`, `MOODBOARD-INSPIRATION-GUIDE`, `PHASE-2B-*`, `FIGMA-ENRICHMENT-GUIDE`, `COMPONENT-EXTRACTION-CHECKLIST`…) ont été **supprimés le 2026-07-28** (commit `c41d628`). Historique dans git.
 
 ---
 
-## 🎓 LEARNING/ — Bootcamp & Skills transfer (252K)
+## 🎓 learning/ — Corpus pédagogique
 
-**12-week UX/UI design bootcamp + Framer Motion + animated logo projects**
+**Cours perso de Chloé (EDRACT, appliqués au vrai produit), modules corrigés et corrections sourcées.** Vivait à la racine sous `chloe/` jusqu'au 2026-09-23. Point d'entrée : [`learning/README.md`](learning/README.md) · modules : [`learning/modules-corriges-2026-07-23/`](learning/modules-corriges-2026-07-23/)
 
 | Fichier | Topic | Level |
 |---------|-------|-------|
 | 🗄️ [UX-UI-BOOTCAMP.md](_archive/UX-UI-BOOTCAMP.md) | **Archivé le 2026-09-23** — plan périmé (échéance 31/07) | Historique uniquement |
 | _archivés 2026-07-24 →_ [`_archive/factcheck-corpus/`](_archive/factcheck-corpus/) | **Docs de process fact-check du corpus** (CORPUS-FORMATIONS-FACT-CHECK, PARCOURS-CORRECTIONS-DETAIL, FACTCHECK-CERTIFIED ×3) — corrections **déjà appliquées** dans les modules `modules-corriges-2026-07-23/` (journaux inline). Conservés en archive pour traçabilité. | 🗄️ Archivé |
 | [CORRECTIONS-SOURCEES-UXUI.md](learning/CORRECTIONS-SOURCEES-UXUI.md) | **Corrections sourcées** du parcours UX/UI : chaque claim faux → correction + source RÉELLE vérifiée sur le web (auteur/année/lien) + phrase prête à coller. Contrastes WCAG recalculés (mini-tableau), section « À RETIRER », 12 sources clés (W3C, BBC 2017, McKinsey 2018, NN/g, Cowan 2001, Lally 2010, HolonIQ, PayScale, Lindgaard 2006, Intercom, Christensen) | ✅ Corrections sourcées |
+| [CORRECTIONS-SOURCEES-NEURO.md](learning/CORRECTIONS-SOURCEES-NEURO.md) | **Corrections sourcées** du parcours Neuro-Éducation | — |
 | [CORRECTIONS-SOURCEES-IP.md](learning/CORRECTIONS-SOURCEES-IP.md) | **Corrections sourcées** du parcours Ingénierie Pédagogique : chaque claim faux → correction + source RÉELLE vérifiée sur le web (auteur/année/lien) + phrase prête à coller. Vraie taxonomie Bloom (Anderson & Krathwohl 2001), débunkage VARK (Pashler 2008 / Newton 2020 → multimodal Mayer), origine ADDIE (Branson 1975 FSU/US Army), Alliger 1997, Xunzi ≠ Franklin, mythe 60 000×, méthode ROI Phillips, prix outils T1 2026 (Synthesia/PaLM/Knewton/Smart Sparrow), section « À RETIRER », M6 → Kirkpatrick 2016 | ✅ Corrections sourcées |
 | [application/AUDIT-UXUI-APP-ET-SITE.md](learning/application/AUDIT-UXUI-APP-ET-SITE.md) | **Application du parcours bootcamp (M01-M08) au produit réel** : les 8 lentilles passées sur le code de la learning app + site marketing, mesures WCAG de première main. 2 chantiers systémiques (contraste des tokens de marque en texte ; répétition espacée promise/non câblée + promesse site), 6 lentilles vertes, chantiers priorisés P0-P2 | 🔍 Audit produit |
 | [application/cours/00-CADRE-PEDAGOGIQUE.md](learning/application/cours/00-CADRE-PEDAGOGIQUE.md) | **Cadre d'instructional design** des cours perso de Chloé (learner = elle, in-situ). Structure = **EDRACT®** — modèle **C-Campus** (Marc Dennery), lignée Gagné+Kolb, **à attribuer, PAS une méthode TLS** (corrige l'erreur « structure maison » du doc RECHERCHE interne). Chaque phase adossée à son fondement + un principe robuste + mappée à une surface app. Plan 3 pistes (PM / UX-UI / vibe coding) | 🧭 Cadre péda |
@@ -248,53 +253,38 @@
 | `CDC-13BIS-RGPD-PROPOSITIONS.md` | `docs/product/` | **Propositions d'évolution du cahier 13bis** (2026-07-23). Constate que le modèle de données est **bon** : `ai_decisions` (rationale, confidence_score) et `ai_overrides` (motif obligatoire) instrumentent déjà AI Act art. 13/14/15 **et** l'exemption RGPD art. 22 — ce qui invalide et retire la proposition `AIDecisionLog` du doc cahier 10. **Cinq absences mesurées** (comptage sur 1 009 lignes), toutes de *gouvernance* et non de sécurité : **AIPD art. 35 (0 mention)** · **article 22 jamais nommé** · **registre des traitements art. 30 (0)** · **sous-traitants art. 28 (0)** · **transferts hors UE (0)** — cette dernière vérifiable sur la pile actuelle (Notion, Drive, HeyGen, Figma, Canva sont américains ; Mistral est un bon choix de souveraineté). Propose de **séparer le volet RGPD (applicable) du volet AI Act (déc. 2027)**, aujourd'hui confondus sous le même « MVP Juillet ». |
 | `REGLEMENTAIRE-ET-SBO.md` | `docs/product/` | **Cadre juridique + état de l'art SBO** (2026-07-23). ⚠️ **L'échéance AI Act du 2 août 2026 est reportée au 2 décembre 2027** (Digital Omnibus signé le 08/07/2026) — corrige une alerte erronée. **Le RGPD passe devant** : art. 22 et AIPD s'appliquent *aujourd'hui* et touchent le cœur du passeport ; « intervention humaine significative » a un sens strict (valider sans analyse ne compte pas). TLS est **fournisseur**, donc côté lourd — allègement PME art. 62 à surveiller. Grille de qualification par usage (auto-évaluation = hors périmètre ; matching = affectation de tâches ; churn = surveillance). Côté SBO, chiffres Deloitte **citables avec attribution** (< 1 organisation sur 5 adopte, +63 % de performance, 46 % d'obstacle culturel) — sortie partielle de la contrainte de preuve S1. 6 questions à poser à un conseil. |
 | `CDC-10-ANALYTICS-PROPOSITIONS.md` | `docs/product/` | **Propositions d'évolution du cahier 10** (2026-07-23) — le CDC reste source de vérité, non modifié. Constate d'abord que le cahier existant est mature (stade 3-4 du modèle de maturité marché). Relève 5 écarts : `Event` suppose que tout se passe dans l'app (manque `surface`/`context`) · aucun standard d'interopérabilité (**xAPI + profil HR Open Standards** = le passeport devient un *learner wallet* portable) · rien ne fait passer une métrique de tableau de bord à **métrique citable** (le chaînon manquant de `METRICS-A-COLLECTER`) · **⚠️ AI Act annexe III point 4 : les plateformes d'évaluation de compétences sont classées haut risque, obligations complètes au 2 août 2026** — le cahier 10 devient le substrat de conformité (art. 12 journalisation), entité `AIDecisionLog` proposée · le stade 5 suppose une jointure SIRH client, à ne pas viser au MVP. Contrainte de **conception**, distincte de la règle marketing « jamais l'AI Act en accroche ». |
+| [BRIEF-Learning-Buddy.md](product/BRIEF-Learning-Buddy.md) | `docs/product/` | **Brief de décision Learning Buddy** (24/07, pour Pierre-Armand) : faut-il porter l'app là où les gens travaillent, et sous quelle forme. Exploration, rien d'engagé |
+| [CONFRONTATION-SSOT-vs-ETUDES.md](product/CONFRONTATION-SSOT-vs-ETUDES.md) | `docs/product/` | **Plan de lancement PAD × nos études** (28/07, v2 après le CR de réunion) |
+| [MATCH-ET-ANALYTICS-ETAT-REEL.md](product/MATCH-ET-ANALYTICS-ETAT-REEL.md) | `docs/product/` | **« Match » & Analytics — état réel** (28/07) : ce qu'on peut dire du Match sans mentir, et le plus petit incrément crédible |
 | `LEARNING-BUDDY-IN-SITU.md` | `docs/product/` | **Exploration produit** (2026-07-23) — Learning Buddy en situation de travail. Compare 5 surfaces (serveur MCP · barre de menus macOS · extension navigateur · Slack/Teams · add-in Office). Recommande le **serveur MCP** : la moins chère, s'écrit une fois, présente dans Claude/Cursor/ChatGPT/Copilot. Thèse centrale : **le différenciateur n'est pas l'agent mais le Passeport** — il transforme chaque interaction en preuve de compétence, ce qu'aucun LLM générique ne peut faire. Chiffres MCP (8-12k serveurs Q2 2026, Forrester 30 % des SaaS en 2026), précédent Autodesk. ⚠️ Statut **exploration, pas décision** — question ouverte : fonctionnalité de la Learning App ou produit distinct ? |
 
----
-
-## 📝 BLOG/ — Article drafts & SEO content (40K)
-
-**Marketing blog articles (3 posts drafted)**
-
+> 📄 Les `.docx` de `docs/product/` (`ETUDE-VIABILITE`, `RAPPORT-COHERENCE`, `BRIEF-Learning-Buddy`) sont des **exports** des `.md` du même nom, pour envoi : régénérables, le `.md` fait foi.
 
 ---
 
-## 🔗 FLOW-PROMPTS/ — Session prompts by user flow
+> 🗑️ **Sections retirées le 2026-09-23** : `BLOG/`, `FLOW-PROMPTS/`, `_phases/` et `veille/` décrivaient des dossiers qui n'existent plus (`_phases/` et `veille/` vidés le 28/07, commits `c41d628` et `0cdfd99`). Historique dans git.
 
-**Structured prompts for Phase 14 flow-based design**
+## 📂 figma/ — Figma-specific docs (2 fichiers)
 
-- `README.md` — Index of flows
-
----
-
-## 📂 figma/ — Figma-specific docs (5 fichiers)
-
-**Figma design system audit & gap analysis** (Token parity → voir `_audits/FIGMA-FOUNDATIONS-AUDIT-2026-07-23.md`, doublon réconcilié 06-30)
+**Figma design system audit & gap analysis** (Token parity → voir `_audits/FIGMA-FOUNDATIONS-AUDIT-2026-07-23.md`, seule version)
 
 | Fichier | Note |
 |---|---|
 | `RESOURCES-DESIGN-MAPPING.md` | Mapping ressources ↔ design |
 | `AUDIT-VARIABLES-COMPONENT-SETS-2026-09-09.md` | Liaison aux variables des 155 component sets (Atoms + Composites). Inspection node-par-node. 41 hex bruts traités, 7 exceptions assumées et justifiées. |
 
-> Pour l'état Figma **vérifié** (2026-06-30, inspection node-par-node), voir `CLAUDE.md` § Phase 1 P0.
+> Pour l'état Figma **vérifié de première main**, voir [`_audits/PARITE-FIGMA-CODE-2026-07-29.md`](_audits/PARITE-FIGMA-CODE-2026-07-29.md) et [`_audits/AUDIT-DS-NIVEAU-AGENCE-2026-09-17.md`](_audits/AUDIT-DS-NIVEAU-AGENCE-2026-09-17.md) (node IDs cités).
 
 ---
-
-## 🧩 _phases/ — Rapports de phase (4 fichiers)
-
 
 ## 📊 charts/ — Data visualization (5 fichiers)
 
 - `CHARTS-SYSTEM.md` · `CHARTS-DS-ENTRY.md` · `CHARTS-QUICK-START.md` · `CHARTS-FUTURE-CANDIDATES.md`
 - `FIGMA-CHARTS-SYNC-PLAN.md` — sync charts ↔ Figma
 
-## 🔭 veille/ — Livrables de veille approfondie (1 fichier)
-
-- `2026-07-15-IA-GENERATIVE-FORMATION-PREUVES.md` — **premier livrable du process de veille approfondie** (test du 2026-07-15). IA générative en formation : ce qui est démontré vs ce qui circule. 12 claims vérifiés en adversarial 3 voix sur 25 sources, 13 rejetés. Contient 2 pièges de citation à bannir dans les contenus TLS (« cognitive debt » contesté · 10 % Insee ≠ adoption IA générative). Coût du run + limites documentés en §4-5.
-
 ---
 
-## 🧭 ops/ — Outillage & workflows de l'entreprise (7 fichiers)
+## 🧭 ops/ — Outillage & workflows de l'entreprise (9 fichiers)
 
 > 🧭 **Contexte-maison orga société** (projet séparé, hors frontend) : [`ops/CONTEXT-ORGA-SOCIETE.md`](ops/CONTEXT-ORGA-SOCIETE.md) — principe « clean / suivable / automatisé », Pennylane = source de vérité argent, index des docs ops. **Point d'entrée.**
 
@@ -303,6 +293,14 @@
 - `NOTION-CAPACITES-2026.md` — **ce que Notion sait faire depuis février 2026** (2026-07-23). Étude des versions 3.3 à 3.6 rapportée aux problèmes de TLS. Réponse à « peut-on développer nos propres outils sans quitter Notion » : **oui** — le Developer Platform de mai apporte **Workers** (runtime hébergé), **Database Sync** (brancher Pennylane), **Custom Agent Tools**, CLI et Agent SDK. Vues `chart` et `dashboard` créables par API avec un DSL complet. **Claude est agent externe dans Notion depuis le 1er juillet.** Blocs HTML interactifs — mais limites non documentées, à tester. ⏰ **Deux échéances de coût** : Custom Agents en crédits depuis le 04/05, **Workers à partir du 11/08**. Propose une restructuration Sales · Finance · Ops · Stratégie en tableaux de bord, et 7 actions ordonnées dont 4 gratuites et sans développement.
 
 - `NOTION-WORKSPACE-AUDIT-2026-07-24.md` — **audit du workspace Notion, partage et automatisation** (2026-07-23). Diagnostic : le workspace n'est pas sous-conçu mais **sous-activé**. 40 projets, 257 tâches (147 ouvertes), 7 Company Areas, Master Vault SSOT, 7 bases CRM. ⚠️ **Trois constats chiffrés** : (1) un **AI Agents Index de 32 entrées dont 6 agents P0 jamais testés** et une **base Skills de 11 skills TLS jamais activées** — dont `Note de réunion TLS` qui créerait les tâches depuis les décisions ; (2) le **CRM porte ~40 000 € de pipeline ouvert avec toutes les relances dépassées de 3 à 5 mois**, alors que *Suivi des commandes* est tenu à jour ; (3) l'administratif n'a **aucune routine** — une contrainte URSSAF est en cours. Documente l'écart de partage Chloé ↔ Pierre-Armand (5 projets communs sur 40) et propose une base Échéances + agent mensuel. Plan d'action en 7 points.
+
+- [`CARTE-SYSTEME-TLS.md`](ops/CARTE-SYSTEME-TLS.md) — **carte du système TLS** (25/07) : où vit quoi, ce qui circule seul, ce qui dépend d'une main humaine. Schémas Mermaid collables dans Notion
+
+- [`GABARIT-PORTAILS-AREA-NOTION.md`](ops/GABARIT-PORTAILS-AREA-NOTION.md) — **gabarit des 7 portails Company Area** (25/07) en cockpits qui se mettent à jour seuls
+
+- [`RECAP-SESSION-2026-07-25.md`](ops/RECAP-SESSION-2026-07-25.md) — **récap de la session du 25/07** : de l'étude de marché au réalignement stratégique + réorg ops
+
+- [`REORG-OPS-DONNEES-STACK-H2-2026.md`](ops/REORG-OPS-DONNEES-STACK-H2-2026.md) — réorg ops/données/stack H2 2026 (détail dans la section product/ ci-dessus)
 
 - `CARTOGRAPHIE-OUTILLAGE.md` — **cartographie besoins → workflows → outillage** (2026-07-23). Méthode en 3 niveaux (objectif chiffré → workflow récurrent → outil), 5 fonctions cartographiées (acquisition, vente, produit, preuve, pilotage), roadmap priorisée de 8 skills TLS sur-mesure. Croise Notion et le dépôt. ⚠️ **Relève 6 divergences entre sources, dont 2 graves** : des métriques inventées (turnover −30 %, 4,2 h/semaine) circulent dans les argumentaires de vente Notion en violation de C7, et **deux modèles de tarification coexistent** (crédit-based canonique vs abonnement plat). Les docs Notion datent du 09/06, `FACTS-CANON` du 10/06 — ils n'ont jamais été repassés depuis. Documente aussi 4 contraintes bloquantes et 5 sources non lues (dont les plus récentes, juillet).
 
@@ -323,6 +321,10 @@
 **Deprecated but preserved**
 
 - [`AUDIT-COHERENCE-2026-07-22.md`](_archive/AUDIT-COHERENCE-2026-07-22.md) — audit de cohérence marketing, périmé depuis le 22/07 (visait le site HTML supprimé). Archivé le 2026-09-23
+- [`CHANTIERS-DESIGN-2026-06-30.md`](_archive/CHANTIERS-DESIGN-2026-06-30.md) — sept chantiers « premium » sortis de `DESIGN-IMPECCABLE` ; instantané daté, dépassé par [`_audits/PLAN-REPRISE-DESIGN-2026-09-09.md`](_audits/PLAN-REPRISE-DESIGN-2026-09-09.md). Archivé le 2026-09-23
+- [`UX-UI-BOOTCAMP.md`](_archive/UX-UI-BOOTCAMP.md) — plan de bootcamp périmé (échéance 31/07). Archivé le 2026-09-23
+- [`brand-voice-guidelines.v1.0-archive-2026-05-28.md`](_archive/brand-voice-guidelines.v1.0-archive-2026-05-28.md) — voix de marque v1.0, remplacée par la v2.0 de `.claude/`. Sortie de `.claude/` le 2026-09-23
+- [`notion-sync-phase-17-18.md`](_archive/notion-sync-phase-17-18.md) — synchro Notion des phases 17-18 (15/05), révolue. Sortie de `.claude/` le 2026-09-23
 
 ---
 
@@ -331,15 +333,13 @@
 **Source de vérité unique. Prime sur TOUS les autres docs, y compris marketing et site.**
 
 - `FACTS-CANON.md` — **Faits validés ligne par ligne** par Chloé : formation (7 modules / 7h / C-Campus / Open Badge / OPCO), accompagnement (STRIDE), Learning App, chiffres, marque & fondateurs. Statut par ligne : ✅ vrai · ✏️ à corriger · ❌ faux · ❓ à valider. ⏸️ Pricing & business model **gelés** (non validés, base provisoire = CDC)
+- [`DECISION-FONDS-ET-TEXTURES.md`](_canon/DECISION-FONDS-ET-TEXTURES.md) — les 17 fonds SVG n'entrent pas dans le DS, les vagues non plus
 - `METRICS-A-COLLECTER.md` — Métriques manquantes à collecter avant de pouvoir les publier
 - `REGLES-USAGE-COMPOSANTS.md` — **Règles d'usage des composants** (2026-07-23) : quand utiliser
   Modal vs Toast, la sémantique des 4 variantes d'Alert, le choix numbered/load-more/infinite
   pour Pagination, et les contrats a11y de Button et Input. Récupérées de `src/design-system/spec.json`
   avant sa suppression — elles n'existaient nulle part ailleurs. **Doctrine uniquement, aucune valeur
   de token** : les valeurs vivent dans `src/index.css` (@theme)
-- `AUDIT-DESIGN-2026-07-22.md` — Confrontation des 5 docs design au code réel. Établit qu'il y a
-  **4 référentiels de tokens** (3 CSS chargés + 1 spec fossile), pas un seul, et pourquoi l'audit
-  de juin concluait « tokens cohérents » : les 2 docs les plus dérivés n'étaient pas dans son périmètre
 - `CHANTIER-TYPO-A11Y.md` — **État mesuré typo + accessibilité** (2026-07-23, deux passes) :
   contrastes calculés cran par cran (ink-400 à 2,54:1 sur 309 textes — mais les **3 variants
   pleins de `Button` échouent aussi**, jusqu'à 2,64:1 sur le CTA principal, et le survol
@@ -363,18 +363,29 @@ Les fichiers motion-effects datés ont été supprimés lors du nettoyage du 30/
 | Looking for... | Read this |
 |---|---|
 | **Faits, offres, prix, registre** | **_canon/FACTS-CANON.md** (prime sur tout) |
-| **Voix de marque** | ⚠️ **à écrire par TLS** — l'ancienne doctrine était une production IA, archivée |
+| **Voix de marque** | ⚠️ **à écrire par TLS** — l'ancienne doctrine était une production IA, archivée. Une v2.0 « consolidée » du 17/06 existe dans [`.claude/brand-voice-guidelines.md`](../.claude/brand-voice-guidelines.md), non revalidée depuis : à trancher avant de s'en servir |
 | **Direction artistique du site** | [site/BRIEF-REDESIGN-SITE-V1.md](site/BRIEF-REDESIGN-SITE-V1.md) **§4** — « le soin dans la matière, pas dans le mouvement ». Située et mise en regard des saves Mobbin dans [site/DESIGN-INSPO.md](site/DESIGN-INSPO.md) § « La direction en cours ». ⚠️ **Ne pas conclure de « DESIGN-INSPO ne prescrit rien » qu'aucune direction n'existe** |
-| **Design tokens** | product/DESIGN.md |
+| **Design tokens** | [`DESIGN.md`](../DESIGN.md) (racine) — valeurs : `src/index.css` @theme |
 | **Component audit** | _audits/AUDIT-PHASE-19-2026-06-12.md |
 | **Figma sync status** | _audits/FIGMA-AUDIT-REPORT-2026-06-12.md |
 | **Motion primitives** | ⚠️ **aucune source en vigueur** — le *motion* est le volet de la direction qui reste à rejouer (29/07) ; la matière, elle, est cadrée par le brief §4. Le vocabulaire d'effets d'Until est archivé → `_archive/DESIGN-INSPO-directions-suspendues-2026-06.md` |
-| **Project setup** | product/PRODUCT.md |
+| **Project setup** | [`PRODUCT.md`](../PRODUCT.md) (racine) |
 | **Copy & messaging** | `docs/site/propositions-PAD/` (copy arbitrée) puis le code, `src/pages/marketing/*` |
+| **Pièges Tailwind / doctrine de design** | [`.claude/rules/pieges-tailwind.md`](../.claude/rules/pieges-tailwind.md) · [`.claude/rules/doctrine-design.md`](../.claude/rules/doctrine-design.md) |
+| **Refonte du site marketing** | [`site/CONTEXT-SITE-MARKETING.md`](site/CONTEXT-SITE-MARKETING.md) puis [`site/DESIGN-INSPO.md`](site/DESIGN-INSPO.md) (sa « Direction C » est suspendue depuis le 29/07) |
+| **Orga & ops société** | [`ops/CONTEXT-ORGA-SOCIETE.md`](ops/CONTEXT-ORGA-SOCIETE.md) |
+| **Corpus pédagogique** | [`learning/README.md`](learning/README.md) |
 
 ---
 
 ## 📈 Cleanup status
+
+**2026-09-23** (hygiène doc, suite de la scission de `CLAUDE.md`)
+✅ `chloe/` → `docs/learning/` (seul dossier de docs hors `docs/`)
+✅ Archivés : audit de cohérence du 22/07, plan de bootcamp UX/UI, chantiers design du 30/06, brand voice v1.0, synchro Notion phases 17-18
+✅ Retirés du dépôt : `skills-lock.json` (skills partis dans `~/.claude/skills`), `.claude/memory/MEMORY.md` (un seul lien mort), `docs/README.md` (fusionné ici)
+✅ Liens morts des docs vivants recalés ; commentaires de `src/` repointés vers `.claude/rules/`
+✅ INDEX : 17 entrées cassées retirées, 13 docs fantômes indexés, comptes refaits
 
 **2026-07-22** (clean marketing + site)
 🗑️ **`website/` SUPPRIMÉ** (21 fichiers suivis, 336K) — site HTML statique périmé. Vérifié orphelin avant suppression : aucune référence dans `vite.config` / `package.json` / `vercel` / `netlify` / `src/`, et absent de `dist/`. **Le site vitrine vit uniquement dans `src/pages/marketing/*`** (routes `/website/*`). Historique récupérable dans git
@@ -400,9 +411,9 @@ Les fichiers motion-effects datés ont été supprimés lors du nettoyage du 30/
 ✅ Merged CDC doublon · Archived motion files · Consolidated audits → _audits/ · Created README + INDEX
 
 **Reste à faire :**
-- [ ] Réconcilier les 2 versions divergentes de `FIGMA-FOUNDATIONS-AUDIT-2026-07-23.md` (figma/ vs _audits/)
-- [ ] Re-vérifier (ou archiver) les 4 audits Figma flaggés non-vérifiés
+- [x] ~~Réconcilier les 2 versions de `FIGMA-FOUNDATIONS-AUDIT-2026-07-23.md`~~ — une seule subsiste, dans `_audits/` (constaté le 2026-09-23)
+- [x] ~~Re-vérifier (ou archiver) les 4 audits Figma non vérifiés~~ — archivés dans [`_archive/figma-audits-non-verifies/`](_archive/figma-audits-non-verifies/)
 
 ---
 
-*Generated 2026-06-12 | Total: ~80 docs organized | Last modified: auto-index*
+*Créé le 2026-06-12 · refait à la main le 2026-09-23 · 193 fichiers suivis hors `_archive/`*
