@@ -28,7 +28,7 @@ const panelMotion = {
 
 const ParcoursPanel: React.FC = () => (
   <motion.div {...panelMotion} className="flex flex-col gap-stack-xs">
-    <div className="rounded-xl bg-gradient-to-br from-secondary-500 to-secondary-600 p-4 text-white">
+    <div className="rounded-xl bg-gradient-to-br from-secondary-700 to-secondary-800 p-4 text-white">
       <span className="text-caption opacity-80 font-semibold uppercase tracking-wider">Étape 4 sur 7</span>
       <p className="font-display text-h4 font-bold m-0 mt-1">Devenir prompt designer</p>
       <div className="mt-3 h-1.5 bg-white/30 rounded-pill overflow-hidden">
@@ -94,7 +94,7 @@ const CoachingPanel: React.FC = () => (
       transition={{ delay: 0.4 }}
       className="flex justify-end"
     >
-      <div className="rounded-lg rounded-br-md bg-primary-500 text-white px-3 py-2 max-w-[85%]">
+      <div className="rounded-lg rounded-br-md bg-primary-700 text-white px-3 py-2 max-w-[85%]">
         <p className="font-body text-body-sm m-0">Merci Sarah, je relis ce soir 🙏</p>
       </div>
     </motion.div>
@@ -104,7 +104,7 @@ const CoachingPanel: React.FC = () => (
       transition={{ delay: 0.7 }}
       className="rounded-lg bg-white border border-ink-200 p-3 flex items-center gap-stack-xs mt-2 shadow-xs"
     >
-      <div className="w-10 h-10 rounded-pill bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white font-bold">
+      <div className="w-10 h-10 rounded-pill bg-gradient-to-br from-primary-700 to-primary-800 flex items-center justify-center text-white font-bold">
         S
       </div>
       <div className="flex-1 min-w-0">
