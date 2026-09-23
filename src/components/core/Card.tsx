@@ -70,7 +70,7 @@ export interface CardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 't
 // so a Card with role="button" doesn't get clipped to a 40px tall
 // mini-button. Padding/border-radius/display are already set by BASE +
 // SIZE_CLASSES in @layer utilities and beat the @layer components rule.
-// See CLAUDE.md piège #8.
+// See piège n°8 in .claude/rules/pieges-tailwind.md.
 // [&[role=button]]:h-auto neutralizes the BEM rule in components-modern.css
 // that sets height:40px on every [role="button"] element (piège #8).
 // We intentionally do NOT add overflow-visible here so that cards with
@@ -159,7 +159,7 @@ const TONE_GRADIENT_BG_CLASSES: Record<CardTone, string> = {
    prennent sans rien dire — recompté le 17/09). **16 px est la seule
    dérogation**, pour les surfaces denses. Pas de troisième valeur.
 
-   La règle géométrique (CLAUDE.md § padding) : **le padding ne descend pas sous
+   La règle géométrique (.claude/rules/doctrine-design.md § Padding intérieur) : **le padding ne descend pas sous
    le rayon**. Le point serré bascule à P = R exactement — dès que le padding
    atteint le rayon, le coin cesse d'être le point le plus proche du contenu et
    ne pince plus DU TOUT. Au rayon 20 : 24 px ne pince pas ; 16 px pince de

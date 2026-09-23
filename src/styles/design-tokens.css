@@ -91,13 +91,13 @@
      index.css) matches both. Previously these carried their own literals (#252B37…), which diverged
      from what the BEM cascade served. NB : #252B37 n'a jamais été « teal-tinted »
      — il est à 264° en OKLCH, le teal de marque à 216°. Et index.css ne vaut pas
-     #1a1a1a : c'est #252B37. Voir CLAUDE.md « Pièges ».
+     #1a1a1a : c'est #252B37. Voir .claude/rules/pieges-tailwind.md, piège n°3.
      --tls-ink-25 has no @theme equivalent — kept as a neutral literal. */
   --tls-ink-0:   var(--color-ink-0);
   /* Les 12 tokens sémantiques --tls-success/warning/danger/info-* ont été
      SUPPRIMÉS le 2026-07-28 : ils dupliquaient les mêmes valeurs que le bloc
      @theme de src/index.css. Un token défini à deux endroits finit par diverger
-     (cf. CLAUDE.md piège n°3). Source unique désormais : @theme.
+     (cf. .claude/rules/pieges-tailwind.md, piège n°3). Source unique désormais : @theme.
      Utiliser var(--color-success-base) etc., ou les classes Tailwind. */
   --tls-ink-25:  #FAFBFC;
   --tls-ink-50:  var(--color-ink-50);

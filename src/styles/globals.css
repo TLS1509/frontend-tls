@@ -49,7 +49,7 @@
        balise agit avant le premier octet de CSS, la règle fait foi ensuite.
 
        ⚠️ À passer à `light dark` le jour où un vrai mode sombre existe (tokens
-       retirés le 28/07, cf. CLAUDE.md). */
+       retirés le 28/07, cf. DESIGN.md « Le dark mode — reporté, pas exclu »). */
     color-scheme: light;
   }
 

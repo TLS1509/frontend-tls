@@ -71,7 +71,7 @@ const CONTROL_BASE =
    Le rayon vit HORS de CONTROL_BASE, comme dans `Button.tsx`, et pour la même
    raison : deux classes de rayon dans la même liste ont la même spécificité
    (0,1,0), donc c'est l'ordre d'émission de Tailwind qui trancherait, pas
-   l'ordre du `className` — piège n°6 de CLAUDE.md. Une seule par appel. */
+   l'ordre du `className` — piège n°6 de .claude/rules/pieges-tailwind.md. Une seule par appel. */
 const RAYON = 'rounded-lg';
 
 // Light surface (default)

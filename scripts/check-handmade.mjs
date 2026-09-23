@@ -208,7 +208,7 @@ function classNames(src) {
 /* ⚠️ Résoudre les constantes de classes du fichier — ajouté le 2026-09-14, et
    c'est un correctif de FOND, pas un raffinement.
 
-   CLAUDE.md recommande (piège n°6) de sortir le rayon d'une liste de classes
+   .claude/rules/pieges-tailwind.md recommande (piège n°6) de sortir le rayon d'une liste de classes
    dans une constante, pour n'en poser qu'une seule par appel. `Button.tsx`,
    `core/Input.tsx`, `Select.tsx`, `Combobox.tsx`, `Search.tsx` et `AuthShell.tsx`
    le font tous. Or le détecteur lisait le NOM de la constante, pas sa valeur :

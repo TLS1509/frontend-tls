@@ -248,9 +248,9 @@
      posé, Card.tsx bascule sur les ombres colorées (--shadow-brand|warm|sun-*)
      via les maps CARD_SHADOW_*. Une valeur ambrée par défaut entrerait en
      collision avec le tone `warm`, dont l'ambre est précisément la couleur.
-     ⚠️ Le commentaire précédent annonçait un "amber wash" : périmé. Le Figma
-     (effect styles shadow/card*) et CLAUDE.md décrivent encore l'ambre — c'est
-     eux qui doivent être corrigés, pas ces valeurs. */
+     ⚠️ Le commentaire précédent annonçait un "amber wash" : périmé. Si le Figma
+     (effect styles shadow/card*) décrit encore l'ambre, c'est lui qu'il faut
+     corriger, pas ces valeurs — la doctrine (.claude/rules/doctrine-design.md) dit neutre. */
   --shadow-card:       0 1px 3px rgba(0, 0, 0, 0.07), 0 1px 2px rgba(0, 0, 0, 0.04);
   --shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.10), 0 2px 6px rgba(0, 0, 0, 0.06);
   --shadow-card-lift:  0 8px 24px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.07);
@@ -1297,7 +1297,7 @@
 
   /* Variante `active:` — ajoutée le 2026-09-09.
      Tailwind v4 ne génère pas les utilities `duration-*` depuis @theme (piège
-     n°2 de CLAUDE.md), et il ne génère pas davantage leurs variantes d'état.
+     n°2 de .claude/rules/pieges-tailwind.md), et il ne génère pas davantage leurs variantes d'état.
      Il faut donc écrire `active:duration-instant` à la main, comme la classe
      de base. Sert au retour tactile du bouton : l'enfoncement doit répondre en
      80 ms, pas en 150 — un press qui traîne ne se lit pas comme un press. */

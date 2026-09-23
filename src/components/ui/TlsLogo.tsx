@@ -259,7 +259,7 @@ export const TlsLogo: React.FC<TlsLogoProps> = ({
   //
   // `drop-shadow` plutôt que `box-shadow` : la première épouse le contour réel
   // du glyphe, la seconde dessinerait l'ombre d'un rectangle que rien ne projette.
-  // Même motif que le pattern borderless des speech bubbles (CLAUDE.md, piège n°8).
+  // Même motif que le pattern borderless des speech bubbles (.claude/rules/pieges-tailwind.md, piège n°8).
   //
   // ⚠️ La plaque OPAQUE reste obligatoire ailleurs, et ce n'est pas un oubli :
   // apple-touch-icon et les icônes PWA ne peuvent pas être transparentes, iOS

@@ -39,7 +39,7 @@ import { Link } from 'react-router-dom';
  * ═══ LE CONTRAT DE CHAQUE NIVEAU ══════════════════════════════════════════
  *
  * Chaque contrat est mesuré au navigateur (canvas 1×1, fonds composés ancêtre
- * par ancêtre — jamais de regex sur `rgba()`, cf. CLAUDE.md piège n°6 ter).
+ * par ancêtre — jamais de regex sur `rgba()`, cf. piège n°6 ter, .claude/rules/pieges-tailwind.md).
  *
  *   solid   — aplat du ton au cran 700, label blanc. Le cran 700 est le
  *             PREMIER qui porte du blanc à 4,5:1 : brand 5,02 · warm 6,31 ·
@@ -231,7 +231,7 @@ const BASE = 'inline-flex items-center justify-center gap-stack-xs font-body fon
 /* Le rayon vit HORS de BASE, et c'est délibéré : deux classes de rayon dans la
    même liste ont la même spécificité (0,1,0), donc c'est l'ordre d'émission de
    Tailwind qui trancherait, pas l'ordre du `className` — le piège n°6 de
-   CLAUDE.md, déjà rencontré sur la couleur de bordure d'`Input`. Une seule
+   .claude/rules/pieges-tailwind.md, déjà rencontré sur la couleur de bordure d'`Input`. Une seule
    classe de rayon est posée par appel, jamais deux. */
 const RAYON = 'rounded-lg';
 const RAYON_CERCLE = 'rounded-pill';
@@ -323,7 +323,8 @@ const EMPHASIS_TONE: Record<ButtonEmphasis, Record<ButtonTone, string>> = {
 const ON_DARK: Partial<Record<ButtonEmphasis, string>> = {
   /* ⚠️ `solid` est un VERRE CLAIR À ENCRE FONCÉE, et c'est une correction, pas
      un goût. Il portait `bg-white/20 text-white` — un voile blanc SOUS du texte
-     blanc, c'est-à-dire les deux clairs à la fois. CLAUDE.md nomme déjà cette
+     blanc, c'est-à-dire les deux clairs à la fois.
+     .claude/rules/doctrine-design.md nomme déjà cette
      contradiction pour le compteur de la nav : « un voile blanc éclaircit le
      fond, alors que du texte blanc réclame du sombre ».
 
