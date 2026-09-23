@@ -183,7 +183,8 @@ export default function ChatInterface() {
             />
 
             {/* Input area */}
-            <Card className="p-stack flex flex-col gap-stack-xs">
+            {/* Padding canon (24) : à 16, le champ (14) était à 17 du coin — évasé. */}
+            <Card className="flex flex-col gap-stack-xs">
               <div className="flex gap-stack items-end">
                 <textarea
                   value={inputValue}

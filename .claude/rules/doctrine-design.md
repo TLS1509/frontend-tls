@@ -49,6 +49,35 @@ paths:
   « borderless + drop-shadow silhouette » de `PromptCard` est abandonnée (voir
   piège n°8, addendum 2).
 
+  ✅ **Règle des coins imbriqués — adoptée le 2026-09-23.**
+  **Rayon intérieur = rayon extérieur − retrait.** Un élément arrondi posé près
+  du coin d'un conteneur arrondi partage le centre de son arc : c'est la forme
+  « concentrique » d'Apple (WWDC25, *Get to know the new design system*), la
+  formule `outerRadius - gap = innerRadius` de Cloud Four, le « un peu moins que
+  l'extérieur » de CSS-Tricks. Le retrait se mesure du bord extérieur au bord
+  intérieur, **bordure du parent comprise**.
+
+  | Retrait au coin (dx, dy) | Régime | Ce qu'on fait |
+  |---|---|---|
+  | les deux ≥ rayon extérieur | **forme fixe** — les arcs ne se voient pas ensemble | l'élément garde le rayon de son étage (14, pilule…) |
+  | les deux < rayon extérieur | **concentrique** | rayon = R − retrait, à ±3 px |
+  | l'un < R, l'autre ≥ R | hors zone — le coin longe un bord droit | pas de contrainte (décision ouverte, audit du 23/09) |
+  | élément en capsule ou cercle | forme propre (Apple) | pas de contrainte (décision ouverte) |
+
+  **Corriger le retrait avant le rayon.** Presque toujours, un token
+  d'espacement existant fait tomber le cas dans « forme fixe » ou « concentrique
+  exact » sans créer de rayon : nav de compte à `p-stack-2xs` (20 − 6 = 14),
+  bouton filtre de `Search` tiré à 4 px (14 − 4 − 1 ≈ 10), carte du dashboard à
+  `p-stack-lg` (25 ≥ 20). ⚠️ **Aucune source ne traite le retrait supérieur au
+  rayon** : le régime « forme fixe » est une lecture de la typologie d'Apple,
+  pas une règle citée. C'est pourtant 87 % des cas (1 155 paires sur 1 321,
+  mesurées sur 60 routes le 23/09) — la règle « le padding ne descend pas sous
+  le rayon » est ce qui rend le système sûr par défaut.
+
+  ⚠️ Mesurer au navigateur, animations d'entrée terminées : un `translateY`
+  figé dans un onglet en arrière-plan a produit un faux « retrait 9 » au
+  Passeport le 23/09.
+
   ⚠️ **Ne jamais poser deux classes de rayon sur le même élément** : elles ont la
   même spécificité (0,1,0), donc c'est l'ordre d'émission de Tailwind qui tranche,
   pas l'ordre du `className` — piège n°6. `Button.tsx` sort pour cette raison son

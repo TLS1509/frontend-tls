@@ -85,7 +85,8 @@ export const AccountFamilyNav: React.FC<AccountFamilyNavProps> = ({
     <nav
       aria-label="Navigation compte"
       className={[
-        'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-stack-xs p-2 rounded-xl bg-ink-50 border border-ink-100',
+        // Coins imbriqués : nav 20, retrait 6 (+1 de bordure) → liens à 14, concentriques.
+        'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-stack-xs p-stack-2xs rounded-xl bg-ink-50 border border-ink-100',
         className,
       ].join(' ')}
     >
@@ -97,7 +98,8 @@ export const AccountFamilyNav: React.FC<AccountFamilyNavProps> = ({
             to={item.href}
             aria-current={isActive ? 'page' : undefined}
             className={[
-              'group flex items-start gap-stack-xs p-3 rounded-lg transition-all duration-base',
+              // Lien 14, retrait 16 ≥ 14 : la pastille (14) est une forme fixe.
+              'group flex items-start gap-stack-xs p-stack rounded-lg transition-all duration-base',
               isActive
                 ? 'bg-white shadow-sm cursor-default'
                 : 'hover:bg-white/70 hover:shadow-xs',

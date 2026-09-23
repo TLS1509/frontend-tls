@@ -174,7 +174,10 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
     >
 
       {/* ── Icon bubble (top-right corner) ── */}
-      <div className="absolute top-3 right-3">
+      {/* Calée sur le padding de la carte (retrait 20/24 ≥ rayon 20) : forme fixe.
+          À 12 px du coin, son rayon 14 aurait dû valoir 7 (règle des coins
+          imbriqués, `.claude/rules/doctrine-design.md`). */}
+      <div className="absolute top-stack-md right-stack-md sm:top-stack-lg sm:right-stack-lg">
         <span
           className={[
             'w-8 h-8 shrink-0 flex items-center justify-center rounded-lg',

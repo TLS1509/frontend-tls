@@ -283,7 +283,7 @@ export const LearningPathDetail: React.FC = () => {
               {OBJECTIFS.map(({ Icon, label, desc, classes, iconColor }) => (
                 <div
                   key={label}
-                  className={`p-stack rounded-xl border flex flex-col gap-stack-xs ${classes}`}
+                  className={`p-stack-lg rounded-xl border flex flex-col gap-stack-xs ${classes}`}
                 >
                   <div className="w-10 h-10 rounded-md bg-white/50 flex items-center justify-center shrink-0">
                     <Icon size={20} className={iconColor} />

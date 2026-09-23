@@ -406,7 +406,8 @@ export const Messages: React.FC = () => {
                           key={i}
                           className={`flex items-center gap-stack-xs px-3 py-stack-xs rounded-lg ${isUser ? 'bg-white/10' : 'bg-ink-50'}`}
                         >
-                          <div className={`w-[30px] h-[30px] rounded-md flex items-center justify-center shrink-0 ${isUser ? 'bg-white/20' : 'bg-primary-50'}`}>
+                          {/* Rangée 14, retrait 12 → rayon concentrique 2 : `rounded-xs` (4). */}
+                          <div className={`w-[30px] h-[30px] rounded-xs flex items-center justify-center shrink-0 ${isUser ? 'bg-white/20' : 'bg-primary-50'}`}>
                             {att.type === 'image'
                               ? <ImageIcon size={14} className={isUser ? 'text-white' : 'text-primary-500'} />
                               : <File size={14} className={isUser ? 'text-white' : 'text-primary-500'} />

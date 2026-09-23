@@ -163,6 +163,9 @@ tout rayon à la moitié de la plus petite dimension — **`rounded-full` et
 vocabulaire, pas au rendu : `rounded-pill` est le token TLS.
 
 **L'échelle est étagée** — étiquette en pilule, interactif à 14, conteneur à 20.
+**Coins imbriqués (23/09)** : près d'un coin, rayon intérieur = rayon extérieur −
+retrait ; si le retrait dépasse le rayon extérieur, l'élément garde le rayon de
+son étage. On corrige le retrait avant le rayon.
 La règle complète, avec le seuil des 28 px et la géométrie du padding, vit dans
 `.claude/rules/doctrine-design.md` § Rayons, qui fait foi.
 

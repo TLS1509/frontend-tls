@@ -188,7 +188,9 @@ export default function Passeport() {
                   <ProgressBar value={(avgLevel / 5) * 100} fill="brand" size="md" showLabel />
                   <p className="text-caption text-ink-600">Moyenne pondérée · {COMPETENCES.length} compétences</p>
                 </Card>
-                <Card className="p-stack flex flex-col gap-stack-xs">
+                {/* Padding canon (24) : le bouton pleine largeur du bas tombe à 25 du
+                    coin, au-delà du rayon 20 — forme fixe (règle des coins imbriqués). */}
+                <Card className="flex flex-col gap-stack-xs">
                   <p className="text-caption text-ink-500 font-medium uppercase tracking-wide">Objectifs actifs</p>
                   <div className="flex items-end gap-stack-xs">
                     <span className="text-h2 font-display font-bold text-ink-900">{activeObjectives.length}</span>

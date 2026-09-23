@@ -218,7 +218,11 @@ export const SearchFilters: React.FC<SearchFiltersProps> = ({
                   activeCount > 0 ? ` (${activeCount} actif${activeCount > 1 ? 's' : ''})` : ''
                 }`}
                 className={[
-                  'relative inline-flex items-center justify-center min-h-touch w-10 rounded-md border cursor-pointer transition-all',
+                  /* Coins imbriqués : le bouton est tiré à 4 px du bord du champ (marges
+                     négatives sur le padding md de Search : 10 et 16 px). Champ 14,
+                     retrait 4 + 1 de bordure → rayon concentrique 9 ≈ `rounded-md`
+                     (10). Il faisait 44 px à 11 du bord et gonflait le champ à 66 px. */
+                  'relative inline-flex items-center justify-center h-9 w-9 -my-stack-2xs -mr-stack-sm rounded-md border cursor-pointer transition-all',
                   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                   panelOpen || activeCount > 0
                     ? 'bg-primary-500 border-primary-500 text-white hover:bg-primary-600'

@@ -101,7 +101,7 @@ export default function MasterclassLive() {
             <SectionCard title="Ressources" titleIcon={<FileText size={18} />}>
               <div className="flex flex-col gap-stack-xs">
                 {RESOURCES.map((r) => (
-                  <div key={r.id} className="flex items-center justify-between gap-stack-xs p-3 rounded-lg bg-ink-50">
+                  <div key={r.id} className="flex items-center justify-between gap-stack-xs p-stack rounded-lg bg-ink-50">
                     <div className="flex items-center gap-stack-xs min-w-0">
                       <FileText size={14} className="text-ink-600 shrink-0" />
                       <span className="text-caption text-ink-700 truncate">{r.label}</span>

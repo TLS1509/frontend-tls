@@ -86,7 +86,9 @@ const JournalBubbleNudge: React.FC<JournalBubbleNudgeProps> = ({ navigate, hasUp
       </div>
 
       {/* Chat card */}
-      <div className="bg-white rounded-xl border border-ink-100 p-stack flex flex-col gap-stack-sm">
+      {/* Padding 24 ≥ rayon 20 : la bulle (20) est une forme fixe. À 16, son coin
+          était évasé (rayon concentrique attendu : 3). */}
+      <div className="bg-white rounded-xl border border-ink-100 p-stack-lg flex flex-col gap-stack-sm">
 
         {/* Avatar + bubble */}
         <div className="flex items-end gap-stack-sm">
