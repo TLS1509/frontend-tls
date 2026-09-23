@@ -28,6 +28,7 @@
 
 import React from 'react';
 import { Check, X } from 'lucide-react';
+import { Button } from '../core/Button';
 
 export type NotificationTone = 'brand' | 'warm' | 'sun' | 'success' | 'neutral';
 
@@ -42,7 +43,17 @@ export type NotificationType =
   | 'completion'
   | 'report';
 
+/**
+ * `card` (défaut) : l'item porte sa propre coque arrondie — pour un item isolé.
+ * `row` : l'item perd sa coque et devient une rangée, à poser dans UNE carte
+ * qui clippe ses coins (`overflow-hidden`) et sépare par `divide-y` —
+ * arbitrage n°5 du 23/09, une collection se rend en rangées.
+ */
+export type NotificationCardVariant = 'card' | 'row';
+
 export interface NotificationCardProps {
+  /** Coque propre (`card`) ou rangée dans une carte (`row`). */
+  variant?: NotificationCardVariant;
   /** Visual tone — semantic meaning. */
   tone?: NotificationTone;
   /** Lucide icon (size 14-16 recommended). */
@@ -101,6 +112,16 @@ const UNREAD_BORDER: Record<NotificationTone, string> = {
   neutral: 'border-ink-100 hover:border-ink-200',
 };
 
+/* La rangée n'a ni rayon ni filet : c'est la carte parente qui porte le coin
+   (rayon 20) et le clippe. Son fond non lu épouse donc l'arc intérieur de la
+   carte — la règle des coins imbriqués est tenue par construction. Retrait
+   horizontal 20 puis 24, jamais sous le rayon de la carte : au coin, un seul
+   des deux retraits est sous le rayon, le contenu longe un bord droit. */
+const SHELL: Record<NotificationCardVariant, string> = {
+  card: 'px-3 py-3 sm:px-4 sm:py-3.5 rounded-xl border border-transparent',
+  row:  'px-stack-md py-stack-sm sm:px-stack-lg',
+};
+
 const READ_HOVER_BG: Record<NotificationTone, string> = {
   brand:   'hover:bg-primary-50/30',
   warm:    'hover:bg-secondary-50/30',
@@ -112,6 +133,7 @@ const READ_HOVER_BG: Record<NotificationTone, string> = {
 /* ── Component ──────────────────────────────────────────────────────────── */
 
 export const NotificationCard: React.FC<NotificationCardProps> = ({
+  variant = 'card',
   tone = 'brand',
   icon,
   title,
@@ -132,10 +154,10 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
       role={clickable ? 'button' : undefined}
       tabIndex={clickable ? 0 : undefined}
       className={[
-        'group relative flex items-start gap-stack-xs px-3 py-3 sm:px-4 sm:py-3.5',
-        'rounded-xl border border-transparent transition-all duration-base',
+        'group relative flex items-start gap-stack-xs transition-all duration-base',
+        SHELL[variant],
         unread
-          ? `${UNREAD_BG[tone]} ${UNREAD_BORDER[tone]}`
+          ? variant === 'card' ? `${UNREAD_BG[tone]} ${UNREAD_BORDER[tone]}` : UNREAD_BG[tone]
           : READ_HOVER_BG[tone],
         clickable && 'cursor-pointer',
         '!h-auto !overflow-visible !items-start !font-normal',
@@ -199,33 +221,40 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
           'transition-opacity duration-base',
         ].join(' ')}
       >
+        {/* Boutons du système : `iconOnly` = cercle de 32 px, cible portée à 44
+            en hauteur, anneau de focus bicolore — les boutons faits main à
+            28 px en `rounded-md` n'avaient ni l'un ni l'autre. */}
         {unread && onMarkRead && (
-          <button
-            type="button"
+          <Button
+            iconOnly
+            size="sm"
+            emphasis="ghost"
+            tone="neutral"
             title="Marquer comme lu"
             aria-label="Marquer comme lu"
             onClick={(e) => {
               e.stopPropagation();
               onMarkRead();
             }}
-            className="w-7 h-7 inline-flex items-center justify-center rounded-md text-ink-500 hover:bg-success-bg hover:text-success-fg transition-colors duration-fast"
           >
-            <Check size={14} />
-          </button>
+            <Check />
+          </Button>
         )}
         {onDelete && (
-          <button
-            type="button"
+          <Button
+            iconOnly
+            size="sm"
+            emphasis="ghost"
+            tone="neutral"
             title="Supprimer"
             aria-label="Supprimer"
             onClick={(e) => {
               e.stopPropagation();
               onDelete();
             }}
-            className="w-7 h-7 inline-flex items-center justify-center rounded-md text-ink-600 hover:bg-danger-bg hover:text-danger-fg transition-colors duration-fast"
           >
-            <X size={14} />
-          </button>
+            <X />
+          </Button>
         )}
       </div>
     </div>

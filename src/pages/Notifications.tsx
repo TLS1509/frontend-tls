@@ -13,6 +13,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/core/Button';
+import { Card } from '../components/core/Card';
 import { FilterChip } from '../components/ui/FilterChip';
 import { EmptyState } from '../components/ui/EmptyState';
 import { NotificationCard } from '../components/cards/NotificationCard';
@@ -256,7 +257,11 @@ export const Notifications: React.FC = () => {
               }
             />
           ) : (
-            <div className="flex flex-col divide-y divide-ink-100">
+            // Une collection de notifications se lit en rangées dans UNE carte
+            // (arbitrage n°5 du 23/09) : la carte porte le coin et le clippe,
+            // les rangées n'ont que leur séparateur.
+            <Card className="p-0 overflow-hidden">
+            <ul className="flex flex-col divide-y divide-ink-100">
               {displayed.map((item) => {
                 const cfg = TYPE_CONFIG[item.type];
 
@@ -277,8 +282,9 @@ export const Notifications: React.FC = () => {
                   );
 
                 return (
+                  <li key={item.id}>
                   <NotificationCard
-                    key={item.id}
+                    variant="row"
                     tone={cfg.tone}
                     icon={cfg.icon}
                     title={item.title}
@@ -289,9 +295,11 @@ export const Notifications: React.FC = () => {
                     onMarkRead={() => markRead(item.id)}
                     onDelete={() => deleteNotif(item.id)}
                   />
+                  </li>
                 );
               })}
-            </div>
+            </ul>
+            </Card>
           )}
 
           {hasMore && (
