@@ -140,9 +140,10 @@ export const FlipCard: React.FC<FlipCardProps> = ({
             </h2>
 
             {/* Flip hint */}
-            <div className="inline-flex items-center gap-stack-xs px-4 py-2 rounded-pill bg-white/15 backdrop-blur-glass-light border border-white/30">
-              <RotateCw size={16} className="text-white" />
-              <span className="font-body text-caption font-medium text-white">
+            {/* Voile CLAIR + encre foncée : blanc sur blanc/15 tombait sous 4,5 sur l'or 700. */}
+            <div className="inline-flex items-center gap-stack-xs px-4 py-2 rounded-pill bg-white/90 backdrop-blur-glass-light border border-white/30">
+              <RotateCw size={16} className="text-ink-900" />
+              <span className="font-body text-caption font-medium text-ink-900">
                 Cliquez pour voir la réponse
               </span>
             </div>
@@ -174,7 +175,7 @@ export const FlipCard: React.FC<FlipCardProps> = ({
 
             {/* Optional details */}
             {back.details && (
-              <p className="m-0 font-body text-body-sm opacity-90 max-w-[500px]">
+              <p className="m-0 font-body text-body-sm max-w-[500px]">
                 {back.details}
               </p>
             )}

@@ -56,11 +56,14 @@ export const TONE_BORDER_200: Record<PageTone, string> = {
   sun:     'border-accent-200',
 };
 
-/** Saturated background (500 / accent-400) per tone */
-export const TONE_BG_500: Record<PageTone, string> = {
-  primary: 'bg-primary-500',
-  warm:    'bg-secondary-500',
-  sun:     'bg-accent-400',
+/** Fond plein qui PORTE du blanc (numéros, étiquettes, pastilles d'icône) : cran
+ * 700, le seul où le blanc passe 4,5:1 dans les trois tons (5,02 · 6,31 · 4,88).
+ * Remplace TONE_BG_500 (2026-09-23) : tous ses consommateurs y posaient du blanc,
+ * à 2,94 · 2,64 · 1,86. */
+export const TONE_BG_700: Record<PageTone, string> = {
+  primary: 'bg-primary-700',
+  warm:    'bg-secondary-700',
+  sun:     'bg-accent-700',
 };
 
 /** Saturated border (500 / accent-400) per tone */
@@ -75,9 +78,11 @@ export const TONE_BORDER_500: Record<PageTone, string> = {
  * Use on section headers, project banners, decorative backgrounds.
  */
 export const TONE_HERO_GRADIENT: Record<PageTone, string> = {
-  primary: 'bg-gradient-to-br from-primary-500 to-secondary-500',
-  warm:    'bg-gradient-to-br from-secondary-500 to-accent-400',
-  sun:     'bg-gradient-to-br from-accent-400 to-primary-500',
+  // Tous les consommateurs y posent du blanc : dégradé entre crans 700 (arbitrage
+  // n°8), arrêt le plus clair à 4,88 (or). Au 400/500 : 1,86 à 2,94.
+  primary: 'bg-gradient-to-br from-primary-700 to-secondary-700',
+  warm:    'bg-gradient-to-br from-secondary-700 to-accent-700',
+  sun:     'bg-gradient-to-br from-accent-700 to-primary-700',
 };
 
 /**

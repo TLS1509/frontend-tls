@@ -247,7 +247,7 @@ export const SubscriptionPayment: React.FC = () => {
                 ].join(' ')}
               >
                 {plan.badge && (
-                  <span className="absolute -top-3 left-5 inline-flex items-center px-2.5 py-0.5 rounded-pill bg-gradient-to-r from-primary-500 to-primary-600 text-white text-micro font-bold uppercase tracking-wider shadow-sm">
+                  <span className="absolute -top-3 left-5 inline-flex items-center px-2.5 py-0.5 rounded-pill bg-gradient-to-r from-primary-700 to-primary-800 text-white text-micro font-bold uppercase tracking-wider shadow-sm">
                     {plan.badge}
                   </span>
                 )}

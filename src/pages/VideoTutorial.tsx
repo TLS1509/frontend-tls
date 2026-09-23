@@ -152,7 +152,7 @@ export const VideoTutorial: React.FC = () => {
                 'relative z-[1] w-[72px] h-[72px] rounded-pill border-0 flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70',
                 playing
                   ? 'bg-white/20'
-                  : 'bg-primary-500 shadow-[0_0_0_12px_rgba(85,161,180,0.20)]',
+                  : 'bg-primary-600 shadow-[0_0_0_12px_rgba(85,161,180,0.20)]',
               ].join(' ')}
             >
               {playing ? (

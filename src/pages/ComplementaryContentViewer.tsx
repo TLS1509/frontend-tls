@@ -19,7 +19,7 @@ import { ExternalLink, BookOpen, Video, FileText, Wrench, Clock, ArrowRight, Lib
 import { ViewerHeader } from '../components/patterns/ViewerHeader';
 import { Container } from '../components/layout';
 import { useLessonContext } from '../lib/lesson-context';
-import { CARD_HOVER, TONE_BG_500, TONE_HERO_GRADIENT } from '../lib/tone-classes';
+import { CARD_HOVER, TONE_BG_700, TONE_HERO_GRADIENT } from '../lib/tone-classes';
 import type { PageTone } from '../lib/tone-classes';
 
 interface ComplementaryResource {
@@ -171,7 +171,7 @@ export const ComplementaryContentViewer: React.FC = () => {
                     <div
                       className={[
                         'w-14 h-14 rounded-xl flex items-center justify-center shrink-0',
-                        TONE_BG_500[tone],
+                        TONE_BG_700[tone],
                       ].join(' ')}
                     >
                       <span className="text-white">{getResourceIcon(resource.type)}</span>

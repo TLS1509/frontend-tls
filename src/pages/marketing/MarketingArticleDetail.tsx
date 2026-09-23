@@ -411,7 +411,7 @@ export const MarketingArticleDetail: React.FC = () => {
           <FadeInWhenVisible direction="up" delay={0.2}>
             <div className="flex items-center justify-between gap-stack flex-wrap pt-stack border-t border-ink-200/60">
               <div className="flex items-center gap-stack-xs">
-                <div className="w-10 h-10 rounded-pill bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white font-display font-bold text-body-sm">
+                <div className="w-10 h-10 rounded-pill bg-gradient-to-br from-primary-700 to-secondary-700 flex items-center justify-center text-white font-display font-bold text-body-sm">
                   TLS
                 </div>
                 <div className="flex flex-col">

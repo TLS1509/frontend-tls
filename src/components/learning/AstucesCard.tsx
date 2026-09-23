@@ -9,7 +9,7 @@
  */
 
 import React from 'react';
-import { TONE_BG_500, TONE_BG_50, TONE_BORDER_200, TONE_TEXT_700 } from '../../lib/tone-classes';
+import { TONE_BG_700, TONE_BG_50, TONE_BORDER_200, TONE_TEXT_700 } from '../../lib/tone-classes';
 import type { PageTone } from '../../lib/tone-classes';
 
 export interface AstucesCardProps {
@@ -62,7 +62,7 @@ export const AstucesCard: React.FC<AstucesCardProps> = ({
       className={[
         'absolute -top-4 -left-2 sm:left-6',
         'w-10 h-10 rounded-xl inline-flex items-center justify-center shadow-md',
-        TONE_BG_500[tone],
+        TONE_BG_700[tone],
       ].join(' ')}
     >
       <span className="font-display text-body font-semibold font-bold text-white">{number}</span>
@@ -74,7 +74,7 @@ export const AstucesCard: React.FC<AstucesCardProps> = ({
         className={[
           'inline-flex items-center px-2 py-1 rounded-lg',
           'text-white text-micro font-bold uppercase tracking-wide',
-          TONE_BG_500[tone],
+          TONE_BG_700[tone],
         ].join(' ')}
       >
         {badge}
@@ -117,7 +117,7 @@ export const AstucesCard: React.FC<AstucesCardProps> = ({
               className={[
                 'shrink-0 inline-flex items-center justify-center w-6 h-6',
                 'rounded-pill text-white text-caption font-bold text-xs',
-                TONE_BG_500[tone],
+                TONE_BG_700[tone],
               ].join(' ')}
             >
               {idx + 1}

@@ -60,13 +60,15 @@ const TONE_BG: Record<ReelTone, string> = {
 };
 
 /** Tone → avatar gradient (instructor bubble). */
+/* Les initiales (13 px, blanc) demandent 4,5:1 à l'arrêt le plus clair :
+   tous les dégradés partent du 700. Partis du 300-500, ils mesuraient 1,86 à 2,94. */
 const TONE_AVATAR: Record<ReelTone, string> = {
-  brand: 'bg-gradient-to-br from-primary-400 to-primary-600',
-  warm:  'bg-gradient-to-br from-secondary-400 to-secondary-600',
-  cool:  'bg-gradient-to-br from-primary-300 to-primary-500',
-  amber: 'bg-gradient-to-br from-accent-400 to-secondary-600',
-  teal:  'bg-gradient-to-br from-primary-500 to-primary-700',
-  rose:  'bg-gradient-to-br from-secondary-500 to-secondary-700',
+  brand: 'bg-gradient-to-br from-primary-700 to-primary-800',
+  warm:  'bg-gradient-to-br from-secondary-700 to-secondary-800',
+  cool:  'bg-gradient-to-br from-primary-800 to-primary-900',
+  amber: 'bg-gradient-to-br from-accent-700 to-secondary-700',
+  teal:  'bg-gradient-to-br from-primary-700 to-primary-900',
+  rose:  'bg-gradient-to-br from-secondary-800 to-secondary-900',
 };
 
 /** Tone → ambient glow (radial overlay) : uses tone-aware Tailwind opacity. */
@@ -367,7 +369,7 @@ export const VideoReels: React.FC = () => {
               {/* Avatar : gradient tone-aware via tokens */}
               <div
                 className={[
-                  'w-[38px] h-[38px] rounded-pill shrink-0 border-2 border-white/22 flex items-center justify-center font-body text-caption font-bold text-white/95',
+                  'w-[38px] h-[38px] rounded-pill shrink-0 border-2 border-white/22 flex items-center justify-center font-body text-caption font-bold text-white',
                   TONE_AVATAR[video.tone],
                 ].join(' ')}
               >

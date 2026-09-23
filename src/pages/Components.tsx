@@ -1070,7 +1070,7 @@ const FilterChipDemo: React.FC = () => {
       {/* Glass variant */}
       <div className="flex flex-col gap-stack-xs">
         <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Glass variant · sur fond coloré</p>
-        <div className="bg-gradient-to-r from-primary-500 to-primary-700 rounded-xl px-stack py-stack-md flex gap-stack-xs flex-wrap">
+        <div className="bg-gradient-to-r from-primary-700 to-primary-800 rounded-xl px-stack py-stack-md flex gap-stack-xs flex-wrap">
           {TOPICS.map((label, i) => {
             const key = i === 0 ? 'tous' : label.toLowerCase();
             return (
@@ -1089,7 +1089,7 @@ const FilterChipDemo: React.FC = () => {
       {/* Glass with count badges */}
       <div className="flex flex-col gap-stack-xs">
         <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Glass · avec count badges</p>
-        <div className="bg-gradient-to-r from-secondary-500 to-secondary-700 rounded-xl px-stack py-stack-md flex gap-stack-xs flex-wrap">
+        <div className="bg-gradient-to-r from-secondary-700 to-secondary-800 rounded-xl px-stack py-stack-md flex gap-stack-xs flex-wrap">
           <FilterChip label="Non lus" variant="glass" active count={3} onClick={() => {}} />
           <FilterChip label="Mentions" variant="glass" count={7} onClick={() => {}} />
           <FilterChip label="Invitations" variant="glass" onClick={() => {}} />
@@ -2751,7 +2751,7 @@ const COMPONENTS: ComponentEntry[] = [
           <div className="flex flex-col gap-stack-xs">
             <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Variants</p>
             <Search placeholder="default — blanc + bordure (pages app)" shortcut="⌘K" />
-            <div className="bg-gradient-to-r from-primary-500 to-primary-700 p-stack rounded-xl">
+            <div className="bg-gradient-to-r from-primary-700 to-primary-800 p-stack rounded-xl">
               <Search variant="glass" placeholder="glass — sur fond coloré / hero…" shortcut="⌘K" />
             </div>
           </div>
@@ -2800,7 +2800,7 @@ const COMPONENTS: ComponentEntry[] = [
                   aria-label="Filtres"
                 >
                   <SlidersHorizontal size={16} />
-                  <span className="absolute -top-1 -right-1 inline-flex items-center justify-center w-4 h-4 rounded-pill bg-accent-400 text-white text-[10px] font-bold border border-white">2</span>
+                  <span className="absolute -top-1 -right-1 inline-flex items-center justify-center w-4 h-4 rounded-pill bg-accent-700 text-white text-[10px] font-bold border border-white">2</span>
                 </button>
               }
             />
@@ -2827,7 +2827,7 @@ const COMPONENTS: ComponentEntry[] = [
           {/* ── Glass + FilterBar (pattern hero gradient) ────────────────────── */}
           <div className="flex flex-col gap-stack-xs">
             <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">glass + FilterBar · pattern hero gradient (LearningPaths)</p>
-            <div className="bg-gradient-to-r from-primary-500 to-primary-700 p-stack-lg rounded-xl">
+            <div className="bg-gradient-to-r from-primary-700 to-primary-800 p-stack-lg rounded-xl">
               <Search
                 size="sm"
                 variant="glass"
@@ -3158,8 +3158,8 @@ const COMPONENTS: ComponentEntry[] = [
         </div>
 
         {/* Glass-dark variant — on saturated dark bg */}
-        <div className="flex flex-col gap-stack-xs p-stack rounded-xl bg-gradient-to-br from-primary-500 via-primary-600 to-primary-700 border border-primary-700">
-          <p className="text-caption font-bold uppercase tracking-wider text-white/85 m-0">Glass-dark (frosted on saturated gradient — heroes)</p>
+        <div className="flex flex-col gap-stack-xs p-stack rounded-xl bg-gradient-to-br from-primary-700 to-primary-800 border border-primary-700">
+          <p className="text-caption font-bold uppercase tracking-wider text-white m-0">Glass-dark (frosted on saturated gradient — heroes)</p>
           <MetaPillGroup
             items={[
               { text: '6 semaines', tone: 'glass-dark' },
@@ -3885,7 +3885,7 @@ const COMPONENTS: ComponentEntry[] = [
             <IconFeatureCard square surface="tinted" tone="warm" iconStyle="bubble" iconSize="md" icon={<MapIcon size={22} strokeWidth={1.75} />} title="tinted" onClick={() => {}} className="w-[140px]" />
           </div>
           {/* glass + frosted sur fond gradient */}
-          <div className="rounded-2xl bg-gradient-to-br from-primary-500 via-primary-600 to-secondary-500 p-stack">
+          <div className="rounded-2xl bg-gradient-to-br from-primary-700 via-primary-800 to-secondary-700 p-stack">
             <div className="flex flex-wrap gap-stack">
               <IconFeatureCard square surface="glass" tone="brand" iconStyle="plain" iconSize="md" icon={<SparklesIcon size={32} strokeWidth={1.75} className="text-white" />} title="glass" onClick={() => {}} className="w-[140px] [&_h3]:text-white" />
               <IconFeatureCard square surface="frosted" tone="sun" iconStyle="plain" iconSize="md" icon={<Star size={32} strokeWidth={1.75} className="text-white" />} title="frosted" onClick={() => {}} className="w-[140px] [&_h3]:text-white" />
@@ -4000,7 +4000,7 @@ const COMPONENTS: ComponentEntry[] = [
         </div>
 
         <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mt-stack">Surfaces · glass / frosted (sur fond coloré pour visualiser le blur)</p>
-        <div className="rounded-2xl bg-gradient-to-br from-primary-500 via-primary-600 to-secondary-500 p-stack flex flex-col gap-stack">
+        <div className="rounded-2xl bg-gradient-to-br from-primary-700 via-primary-800 to-secondary-700 p-stack flex flex-col gap-stack">
           <SessionCard
             surface="glass"
             title="Session glass"
@@ -4528,7 +4528,7 @@ const COMPONENTS: ComponentEntry[] = [
               />
             </div>
 
-            <div className="rounded-xl p-stack-lg bg-gradient-to-r from-primary-500 to-primary-700">
+            <div className="rounded-xl p-stack-lg bg-gradient-to-r from-primary-700 to-primary-800">
               <p className="text-caption font-bold uppercase tracking-wider text-white mb-3">Glass variant · on gradient hero</p>
               <FilterBar
                 tone="brand"
@@ -5014,10 +5014,10 @@ const COMPONENTS: ComponentEntry[] = [
               <div className="absolute inset-0 flex items-center justify-center opacity-90">
                 <FolderOpen size={96} strokeWidth={0.9} className="text-white/85" />
               </div>
-              <span className="absolute top-3 left-3 inline-flex items-center gap-tight px-2.5 py-1 rounded-pill bg-white/25 backdrop-blur-glass-medium text-white text-micro font-bold uppercase border border-white/30">
+              <span className="absolute top-3 left-3 inline-flex items-center gap-tight px-2.5 py-1 rounded-pill bg-white/90 backdrop-blur-glass-medium text-ink-900 text-micro font-bold uppercase border border-white/30">
                 <FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}
               </span>
-              <button className="absolute top-3 right-3 inline-flex items-center justify-center w-9 h-9 rounded-pill bg-white/25 text-white backdrop-blur-glass-medium border border-white/30 hover:bg-white/40">
+              <button className="absolute top-3 right-3 inline-flex items-center justify-center w-9 h-9 rounded-pill bg-white/90 text-ink-900 backdrop-blur-glass-medium border border-white/30 hover:bg-white">
                 <Bookmark size={15} />
               </button>
               <div className="absolute inset-x-3 bottom-3 rounded-xl bg-white/85 backdrop-blur-glass-heavy border border-white/60 p-stack flex flex-col gap-tight shadow-lg">
@@ -5058,7 +5058,7 @@ const COMPONENTS: ComponentEntry[] = [
                     <it.Icon size={38} strokeWidth={1.25} className="text-white/90 group-hover:scale-110 transition-transform duration-base" />
                     {/* Badge catégorie — sur l'image en haut, glassy */}
                     <span className="absolute top-2 left-0 right-0 flex justify-center">
-                      <span className="inline-flex items-center gap-tight px-2.5 py-1 rounded-pill bg-white/25 backdrop-blur-glass-medium border border-white/40 text-[10px] font-bold uppercase tracking-wide text-white shadow-sm">
+                      <span className="inline-flex items-center gap-tight px-2.5 py-1 rounded-pill bg-white/90 backdrop-blur-glass-medium border border-white/40 text-[10px] font-bold uppercase tracking-wide text-ink-900 shadow-sm">
                         <it.Icon size={9} strokeWidth={2.5} /> {it.typeLabel}
                       </span>
                     </span>
@@ -6469,7 +6469,7 @@ const COMPONENTS: ComponentEntry[] = [
                 key={t}
                 type="button"
                 onClick={() => setTone(t)}
-                className={`px-3 py-1.5 rounded-pill text-caption font-semibold transition-colors ${tone === t ? 'bg-primary-500 text-white' : 'bg-ink-100 text-ink-700 hover:bg-ink-200'}`}
+                className={`px-3 py-1.5 rounded-pill text-caption font-semibold transition-colors ${tone === t ? 'bg-primary-700 text-white' : 'bg-ink-100 text-ink-700 hover:bg-ink-200'}`}
               >
                 {t}
               </button>
@@ -8657,7 +8657,7 @@ const Swatch: React.FC<{ t: TokenEntry }> = ({ t }) => {
     return (
       <div className="token-card">
         <div className="h-[88px] rounded-md bg-ink-50 flex items-center justify-center">
-          <div className={`${sizeClass} rounded-md bg-primary-500 flex items-center justify-center text-white text-micro font-bold tabular-nums`}>
+          <div className={`${sizeClass} rounded-md bg-primary-700 flex items-center justify-center text-white text-micro font-bold tabular-nums`}>
             {t.name === 'touch-lg' ? '48' : '44'}
           </div>
         </div>

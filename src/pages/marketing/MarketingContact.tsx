@@ -177,7 +177,7 @@ export const MarketingContact: React.FC = () => {
                       {isActive && (
                         <motion.span
                           layoutId="contact-hero-subject-bg"
-                          className="absolute inset-0 rounded-pill bg-gradient-to-r from-primary-500 to-primary-600 shadow-sm"
+                          className="absolute inset-0 rounded-pill bg-gradient-to-r from-primary-700 to-primary-800 shadow-sm"
                           transition={pillSpring}
                         />
                       )}
@@ -224,7 +224,7 @@ export const MarketingContact: React.FC = () => {
                   transition={reduced ? { duration: 0.15 } : { type: 'spring', stiffness: 260, damping: 20 }}
                   className="flex flex-col items-center text-center gap-stack-lg py-stack-lg"
                 >
-                  <div className="w-20 h-20 rounded-pill bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center shadow-xl">
+                  <div className="w-20 h-20 rounded-pill bg-gradient-to-br from-primary-600 to-primary-700 flex items-center justify-center shadow-xl">
                     <CheckCircle2 size={40} className="text-white" />
                   </div>
                   <div className="flex flex-col gap-stack">
@@ -309,7 +309,7 @@ export const MarketingContact: React.FC = () => {
                             {isActive && (
                               <motion.span
                                 layoutId="contact-subject-bg"
-                                className="absolute inset-0 rounded-pill bg-gradient-to-r from-primary-500 to-primary-600 shadow-sm"
+                                className="absolute inset-0 rounded-pill bg-gradient-to-r from-primary-700 to-primary-800 shadow-sm"
                                 transition={pillSpring}
                               />
                             )}

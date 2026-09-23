@@ -226,7 +226,7 @@ export const MarketingWebinaireDetail: React.FC = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="Lire le replay (nouvel onglet)"
-                      className="w-16 h-16 rounded-pill bg-primary-500 shadow-[0_0_0_12px_rgba(85,161,180,0.20)] flex items-center justify-center transition-transform duration-base hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/70"
+                      className="w-16 h-16 rounded-pill bg-primary-600 shadow-[0_0_0_12px_rgba(85,161,180,0.20)] flex items-center justify-center transition-transform duration-base hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/70"
                     >
                       <Play size={24} className="ml-1 fill-white text-white" />
                     </a>

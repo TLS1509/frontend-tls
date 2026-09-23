@@ -377,14 +377,14 @@ export const MarketingResources: React.FC = () => {
                   onClick={() => setSelectedType(type.id)}
                   className={`inline-flex items-center gap-stack-2xs px-4 h-10 rounded-pill font-body text-body-sm font-bold transition-all duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                     selectedType === type.id
-                      ? 'bg-primary-500 text-white shadow-sm'
+                      ? 'bg-primary-700 text-white shadow-sm'
                       : 'bg-ink-50 text-ink-700 hover:bg-ink-100 border border-ink-200'
                   }`}
                 >
                   {type.Icon && <type.Icon size={14} />}
                   <span>{type.label}</span>
                   <span className={`inline-flex items-center justify-center w-5 h-5 rounded-pill text-caption font-bold ${
-                    selectedType === type.id ? 'bg-white/20' : 'bg-ink-200 text-ink-700'
+                    selectedType === type.id ? 'bg-white/90 text-primary-800' : 'bg-ink-200 text-ink-700'
                   }`}>
                     {type.count}
                   </span>

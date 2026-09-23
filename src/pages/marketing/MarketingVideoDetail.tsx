@@ -104,7 +104,7 @@ export const MarketingVideoDetail: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Lire la vidéo (nouvel onglet)"
-                className="relative z-[1] w-20 h-20 rounded-pill bg-primary-500 shadow-[0_0_0_14px_rgba(85,161,180,0.20)] flex items-center justify-center transition-transform duration-base hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/70"
+                className="relative z-[1] w-20 h-20 rounded-pill bg-primary-600 shadow-[0_0_0_14px_rgba(85,161,180,0.20)] flex items-center justify-center transition-transform duration-base hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/70"
               >
                 <Play size={28} className="ml-1 fill-white text-white" />
               </a>

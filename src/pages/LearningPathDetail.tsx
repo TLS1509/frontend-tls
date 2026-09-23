@@ -29,7 +29,7 @@ import {
   TONE_TEXT,
   TONE_BG_50,
   TONE_BORDER_200,
-  TONE_BG_500,
+  TONE_BG_700,
   TONE_BORDER_500,
   TONE_HERO_GRADIENT,
 } from '../lib/tone-classes';
@@ -374,11 +374,13 @@ export const LearningPathDetail: React.FC = () => {
                   ? 'border-success-base/40'
                   : TONE_BORDER_200[tone];
 
+                // La pastille porte un cadenas, une coche ou le numéro : chaque fond
+                // choisit son encre (blanc sur ink-200 mesurait 1,3, sur success-base 2,00).
                 const badgeBgClass = !etape.unlocked
-                  ? 'bg-ink-200'
+                  ? 'bg-ink-200 text-ink-600'
                   : etape.completed
-                  ? 'bg-success-base'
-                  : TONE_BG_500[tone];
+                  ? 'bg-success-vivid text-white'
+                  : `${TONE_BG_700[tone]} text-white`;
 
                 return (
                   <div
@@ -395,7 +397,7 @@ export const LearningPathDetail: React.FC = () => {
                     >
                       <div
                         className={[
-                          'w-16 h-16 rounded-xl shrink-0 flex items-center justify-center text-white',
+                          'w-16 h-16 rounded-xl shrink-0 flex items-center justify-center',
                           badgeBgClass,
                           etape.unlocked && !etape.completed ? 'shadow-md' : '',
                         ].join(' ')}
@@ -482,7 +484,7 @@ export const LearningPathDetail: React.FC = () => {
                             const iconBg = lecon.completed
                               ? 'bg-success-base/20 text-success-fg'
                               : isCurrent
-                              ? `${TONE_BG_500[tone]} text-white`
+                              ? `${TONE_BG_700[tone]} text-white`
                               : 'bg-ink-100 text-ink-500';
 
                             return (
@@ -571,7 +573,7 @@ export const LearningPathDetail: React.FC = () => {
                 <h2 className="font-display text-h2 font-bold mb-3">
                   {parcours.finalProject.title}
                 </h2>
-                <p className="text-body-lg m-0 mb-section opacity-90 max-w-[720px] mx-auto">
+                <p className="text-body-lg m-0 mb-section max-w-[720px] mx-auto">
                   {parcours.finalProject.description}
                 </p>
 
@@ -627,7 +629,7 @@ export const LearningPathDetail: React.FC = () => {
                       className="flex gap-stack items-start p-stack rounded-xl bg-ink-50 border border-ink-200"
                     >
                       <div
-                        className={`w-11 h-11 rounded-lg text-white flex items-center justify-center font-bold text-h4 shrink-0 ${TONE_BG_500[tone]}`}
+                        className={`w-11 h-11 rounded-lg text-white flex items-center justify-center font-bold text-h4 shrink-0 ${TONE_BG_700[tone]}`}
                       >
                         {step.num}
                       </div>
@@ -681,7 +683,7 @@ export const LearningPathDetail: React.FC = () => {
                           key={i}
                           className={[
                             'w-6 h-6 rounded-pill flex items-center justify-center text-caption font-semibold',
-                            reached ? `${TONE_BG_500[tone]} text-white` : 'bg-ink-200 text-ink-500',
+                            reached ? `${TONE_BG_700[tone]} text-white` : 'bg-ink-200 text-ink-500',
                           ].join(' ')}
                         >
                           {i}
