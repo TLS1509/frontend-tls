@@ -513,7 +513,7 @@ export const MarketingContact: React.FC = () => {
                         <Lock size={14} className="text-ink-600 shrink-0" />
                         Données confidentielles · RGPD
                       </span>
-                      <span className="text-ink-300 text-caption">·</span>
+                      <span aria-hidden className="text-ink-500 text-caption">·</span>
                       <span className="inline-flex items-center gap-stack-3xs font-body text-caption text-ink-500">
                         <MapPin size={14} className="text-ink-600 shrink-0" />
                         Équipe basée à Paris
