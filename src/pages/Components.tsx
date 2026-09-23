@@ -24,7 +24,6 @@ import {
   BookingModal,
   ConfirmModal,
   SuccessModal,
-  StreakCelebrationModal,
   SessionFeedbackModal,
   CancelSessionModal,
   VideoPlayerModal,
@@ -781,16 +780,6 @@ const SuccessModalDemo: React.FC = () => {
     <div className="flex gap-stack-xs items-start">
       <Button onClick={() => setOpen(true)}>🎉 Afficher Success</Button>
       <SuccessModal isOpen={open} onClose={() => setOpen(false)} title="Module complété !" message="Vous avez terminé le module avec succès. Continuez sur votre lancée !" buttonText="Continuer" />
-    </div>
-  );
-};
-
-const StreakCelebrationModalDemo: React.FC = () => {
-  const [open, setOpen] = useState(false);
-  return (
-    <div className="flex gap-stack-xs items-start">
-      <Button onClick={() => setOpen(true)}>🔥 Streak !</Button>
-      <StreakCelebrationModal isOpen={open} onClose={() => setOpen(false)} streakCount={14} milestone={14} encouragement="14 jours consécutifs — vous êtes en feu !" />
     </div>
   );
 };
@@ -3524,8 +3513,8 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'modals/CelebrationModal.tsx',
     cssBase: 'Tailwind + modals.css animations',
     showcaseOnly: true,
-    description: 'Modal de célébration pour milestones (parcours complété, badge débloqué). **CelebrationModal** : confetti + badge + message court. **StreakCelebrationModal** : variante streak (particules feu, streak count, stats semaines/XP).',
-    keywords: ['celebration', 'modal', 'milestone', 'achievement', 'parcours', 'badge', 'reward', 'streak', 'flame'],
+    description: 'Modal de célébration pour milestones (parcours complété, badge débloqué). **CelebrationModal** : confetti + badge + message court.',
+    keywords: ['celebration', 'modal', 'milestone', 'achievement', 'parcours', 'badge', 'reward'],
     render: () => <CelebrationModalDemo />,
   },
   {

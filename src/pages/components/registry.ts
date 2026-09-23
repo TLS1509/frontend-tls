@@ -94,7 +94,6 @@ export const COVERED_BY: Record<string, string> = {
   ConfirmModal: 'Modal',
   SuccessModal: 'Modal',
   CancelSessionModal: 'Modal',
-  StreakCelebrationModal: 'Modal',
   AuthCheckbox: 'AuthShell',
   AuthDivider: 'AuthShell',
   AuthField: 'AuthShell',
@@ -407,7 +406,6 @@ export const CATALOG: Record<string, CatalogMeta> = {
   // CancelSessionModal supprimé — fusionné dans 'Dialog Modals'
   SessionFeedbackModal: { category: 'Modals', subCategory: 'Confirm/Status' },
   CelebrationModal:     { category: 'Modals', subCategory: 'Celebrations' },
-  // StreakCelebrationModal supprimé — mentionné dans CelebrationModal description
   VideoPlayerModal:     { category: 'Modals', subCategory: 'Media' },
   RatingModal:          { category: 'Modals', subCategory: 'Confirm/Status' },
 

@@ -7,7 +7,7 @@ import { useDialog } from '../../hooks/useDialog';
  *
  * Replaces the inline `Celebration` UI component (deleted) with a proper
  * modal-style celebration that follows the same animation/scrim language
- * as the rest of `src/components/modals/` (BookingModal, StreakCelebrationModal,
+ * as the rest of `src/components/modals/` (BookingModal, CompletionModal,
  * SuccessModal, etc.).
  *
  * Design:
