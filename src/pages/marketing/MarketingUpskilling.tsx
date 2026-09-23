@@ -119,7 +119,7 @@ const Conviction: React.FC = () => (
           <FadeInWhenVisible>
             <h2 className="font-display text-section text-ink-900 [text-wrap:balance]">
               Tout projet commence par outiller et former ceux qui{' '}
-              <span className="text-secondary-400">façonnent l'apprentissage.</span>
+              <span className="text-secondary-600">façonnent l'apprentissage.</span>
             </h2>
           </FadeInWhenVisible>
         </div>
@@ -272,7 +272,7 @@ const Pilotage: React.FC = () => (
       <FadeInWhenVisible>
         <div className="max-w-3xl flex flex-col gap-stack">
           <h2 className="font-display text-section text-ink-900 [text-wrap:balance]">
-            Une ingénierie orchestrée par la <span className="text-accent-400">Learning App TLS</span>.
+            Une ingénierie orchestrée par la <span className="text-accent-700">Learning App TLS</span>.
           </h2>
           <p className="font-body text-lede text-ink-700 leading-relaxed m-0">
             Le projet ne vit pas dans un slide : il s'opère dans la plateforme,

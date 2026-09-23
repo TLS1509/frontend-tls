@@ -198,7 +198,7 @@ export const MarketingWaitlist: React.FC = () => {
                 <span className="block">
                   équipes à l'IA.
                 </span>
-                <span className="block text-accent-400">
+                <span className="block text-accent-700">
                   Accès anticipé.
                 </span>
               </h1>
@@ -317,7 +317,7 @@ export const MarketingWaitlist: React.FC = () => {
                               className="font-body text-caption font-semibold text-ink-700"
                             >
                               Email professionnel{' '}
-                              <span className="text-secondary-500" aria-hidden>*</span>
+                              <span className="text-secondary-700" aria-hidden>*</span>
                             </label>
                             <input
                               id="wl-email"
@@ -422,7 +422,7 @@ export const MarketingWaitlist: React.FC = () => {
                             En envoyant ce formulaire, vous acceptez notre{' '}
                             <Link
                               to="/website/politique-confidentialite"
-                              className="text-primary-600 hover:text-primary-800 underline underline-offset-2 transition-colors"
+                              className="text-primary-700 hover:text-primary-800 underline underline-offset-2 transition-colors"
                             >
                               politique de confidentialité
                             </Link>
@@ -462,7 +462,7 @@ export const MarketingWaitlist: React.FC = () => {
                         <div className="flex flex-col items-center gap-stack-xs pt-1">
                           <Link
                             to="/website/learning-app"
-                            className="inline-flex items-center gap-stack-xs font-body text-caption font-semibold text-primary-600 hover:text-primary-800 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+                            className="inline-flex items-center gap-stack-xs font-body text-caption font-semibold text-primary-700 hover:text-primary-800 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
                           >
                             Découvrir la Learning App
                             <ArrowRight size={14} />
@@ -490,7 +490,7 @@ export const MarketingWaitlist: React.FC = () => {
       <FadeInWhenVisible className="w-full px-6 md:px-10 py-16 md:py-20 bg-white">
         <div className="max-w-page mx-auto">
           <div className="text-center mb-10">
-            <p className="font-body text-caption font-semibold text-primary-500 uppercase tracking-widest mb-2">
+            <p className="font-body text-caption font-semibold text-primary-700 uppercase tracking-widest mb-2">
               La plateforme
             </p>
             <h2 className="font-display font-bold text-ink-900 text-h2 tracking-headline">
@@ -507,14 +507,14 @@ export const MarketingWaitlist: React.FC = () => {
               {
                 tone: 'bg-primary-50 border-primary-100',
                 eyebrow: 'Learn',
-                eyebrowColor: 'text-primary-600',
+                eyebrowColor: 'text-primary-800',
                 title: 'Parcours adaptatifs',
                 desc: 'Modules IA contextualisés à votre secteur, progression Dreyfus, restitution immédiate.',
               },
               {
                 tone: 'bg-secondary-50 border-secondary-100',
                 eyebrow: 'Do',
-                eyebrowColor: 'text-secondary-600',
+                eyebrowColor: 'text-secondary-700',
                 title: 'Coaching humain 1:1',
                 // « un coach certifié » retiré le 29/07 : aucune certification
                 // de coach n'est documentée côté TLS, et le canon interdit les
@@ -524,7 +524,7 @@ export const MarketingWaitlist: React.FC = () => {
               {
                 tone: 'bg-accent-50 border-accent-200',
                 eyebrow: 'Match',
-                eyebrowColor: 'text-accent-500',
+                eyebrowColor: 'text-accent-700',
                 title: 'Passeport de Compétences',
                 desc: 'Preuves vérifiables, Open Badge, visibles par votre employeur et votre réseau.',
               },

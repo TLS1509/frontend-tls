@@ -37,7 +37,7 @@ import { SEOHead } from './components/SEOHead';
 const CATEGORY_TONES: Record<string, string> = {
   IA: 'bg-primary-50 text-primary-700 border-primary-100',
   Pédagogie: 'bg-secondary-50 text-secondary-700 border-secondary-100',
-  Outils: 'bg-accent-50 text-accent-600 border-accent-200',
+  Outils: 'bg-accent-50 text-accent-700 border-accent-200',
   Innovation: 'bg-ink-100 text-ink-700 border-ink-200',
   "Retours d'expérience": 'bg-success-bg text-success-fg border-success-base/30',
 };
@@ -310,7 +310,7 @@ const ArticleBody: React.FC<{
               href={liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-primary-600 hover:text-primary-700 underline underline-offset-2 transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+              className="text-primary-700 hover:text-primary-800 underline underline-offset-2 transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
             >
               thelearningsociety.fr
             </a>
@@ -492,7 +492,7 @@ export const MarketingArticleDetail: React.FC = () => {
               </span>
               <h2 className="font-display text-[clamp(2rem,4vw,3.25rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight">
                 Trois autres{' '}
-                <span className="text-accent-400">analyses</span> sur le même thème.
+                <span className="text-accent-700">analyses</span> sur le même thème.
               </h2>
             </div>
           </FadeInWhenVisible>

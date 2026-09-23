@@ -133,7 +133,7 @@ export const MarketingVideoDetail: React.FC = () => {
             <ul className="flex flex-col gap-tight m-0 p-0 list-none">
               {video.chapters.map((ch, i) => (
                 <li key={i} className="flex items-center gap-stack-xs py-1.5 border-b border-ink-100 last:border-b-0">
-                  <span className="font-body text-caption font-bold text-primary-600 tabular-nums w-12 shrink-0">
+                  <span className="font-body text-caption font-bold text-primary-700 tabular-nums w-12 shrink-0">
                     {ch.time}
                   </span>
                   <span className="font-body text-body-sm text-ink-700">{ch.label}</span>

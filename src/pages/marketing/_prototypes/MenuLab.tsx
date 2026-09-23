@@ -300,7 +300,7 @@ export const MenuLab: React.FC = () => (
         return (
           <section key={v.key} className="flex flex-col gap-flow">
             <div className="flex flex-col gap-rule border-t border-ink-300 pt-flow">
-              <span className="font-body text-caption font-bold text-secondary-600">
+              <span className="font-body text-caption font-bold text-secondary-700">
                 Variante {v.key} · {v.source}
               </span>
               <h2 className="font-display text-title text-ink-900">{v.titre}</h2>

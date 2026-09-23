@@ -304,7 +304,7 @@ const Bibliography: React.FC<{ sources: DossierSource[] }> = ({ sources }) => (
               rel="noopener noreferrer"
               className="group flex gap-stack-xs p-stack rounded-lg bg-white border border-ink-100 hover:border-primary-200 hover: transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
             >
-              <span className="font-mono text-caption font-bold text-primary-600 shrink-0 mt-0.5">
+              <span className="font-mono text-caption font-bold text-primary-700 shrink-0 mt-0.5">
                 {s.ref}
               </span>
               <span className="flex flex-col gap-tight min-w-0">

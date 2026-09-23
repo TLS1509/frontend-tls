@@ -201,12 +201,12 @@ const Moteur: React.FC = () => (
         {ETAPES.map((e, i) => (
           <FadeInWhenVisible key={e.verbe} delay={i * 0.08} direction="up">
             <li className="flex flex-col gap-group">
-              <span className="font-body text-caption font-bold tabular-nums text-primary-500">
+              <span className="font-body text-caption font-bold tabular-nums text-primary-700">
                 {e.num}
               </span>
               <h3 className="font-display text-title text-ink-900">
                 {e.verbe}
-                <span className="block font-body text-body-sm font-bold text-secondary-600 mt-1">
+                <span className="block font-body text-body-sm font-bold text-secondary-700 mt-1">
                   {e.sousTitre}
                 </span>
               </h3>
@@ -295,7 +295,7 @@ const Ecosysteme: React.FC = () => (
                 className="group grid grid-cols-1 md:grid-cols-12 gap-group md:gap-flow py-flow rounded-xl transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-500"
               >
                 <div className="md:col-span-5 flex flex-col gap-rule">
-                  <span className="font-body text-caption font-bold text-secondary-600">
+                  <span className="font-body text-caption font-bold text-secondary-700">
                     {o.role}
                   </span>
                   <h3 className="font-display text-title text-ink-900 transition-colors duration-base group-hover:text-primary-700">

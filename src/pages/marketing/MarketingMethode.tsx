@@ -214,7 +214,7 @@ const Manifeste: React.FC = () => (
   <section className="relative bg-ink-900 text-white">
     <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
       <FadeInWhenVisible>
-        <h2 className="font-display font-extrabold leading-[1.06] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)] max-w-3xl">
+        <h2 className="font-display font-extrabold leading-[1.06] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)] max-w-3xl text-white">
           Quatre règles d'or : ce que The Learning Society{' '}
           <span className="text-accent-400">refuse</span>.
         </h2>

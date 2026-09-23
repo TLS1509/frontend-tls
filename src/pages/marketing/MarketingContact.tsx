@@ -555,7 +555,7 @@ export const MarketingContact: React.FC = () => {
                   « Choisissez votre créneau dans notre agenda ». */}
               <div className="relative overflow-hidden rounded-lg bg-primary-50 border border-primary-200 p-stack-lg flex flex-col gap-stack-lg">
                 <div className="flex flex-col gap-stack">
-                  <span className="inline-flex items-center gap-stack-2xs px-2.5 py-1 rounded-pill bg-white border border-primary-200 text-accent-400 text-caption font-bold w-fit">
+                  <span className="inline-flex items-center gap-stack-2xs px-2.5 py-1 rounded-pill bg-white border border-primary-200 text-accent-700 text-caption font-bold w-fit">
                     <Sparkles size={14} />
                     Plus rapide
                   </span>
