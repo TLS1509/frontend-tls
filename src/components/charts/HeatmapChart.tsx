@@ -84,10 +84,10 @@ export const HeatmapChart: React.FC<HeatmapChartProps> = ({
     }
   };
 
-  const getLabelColor = (value: number): string => {
-    const normalized = (value - minValue) / (maxValue - minValue);
-    return normalized > 0.5 ? '#1a1a1a' : '#ffffff';
-  };
+  // Toute l'échelle est claire (corail #F28559 → ambre #F8B044 → sauge #9DBEBA) :
+  // le blanc y tombait à 1,86–2,54:1 sous la moitié basse, l'encre y passe partout
+  // (≥ 5,7:1). Une seule couleur de label, donc.
+  const getLabelColor = (): string => 'var(--color-ink-900)';
 
   return (
     // Groupe nommé plutôt que role="img" : la grille contient de vrais boutons,
@@ -155,7 +155,7 @@ export const HeatmapChart: React.FC<HeatmapChartProps> = ({
                     width: cellSize,
                     height: cellSize,
                     backgroundColor: cellColor,
-                    color: hasValue ? getLabelColor(value!) : '#9ca3af',
+                    color: hasValue ? getLabelColor() : 'var(--color-ink-600)',
                     fontSize: '12px',
                     fontWeight: hasValue ? '600' : '400',
                     cursor: hasValue ? 'pointer' : 'default',
