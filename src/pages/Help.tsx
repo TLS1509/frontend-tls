@@ -205,7 +205,7 @@ export const Help: React.FC = () => {
           <Card className="border border-primary-200 bg-white overflow-hidden flex flex-col">
             {/* Chat header */}
             <div className="flex items-center gap-stack-xs px-stack-md py-stack border-b border-ink-200 bg-gradient-to-br from-primary-50 to-white">
-              <div className="w-10 h-10 rounded-lg bg-primary-100 text-primary-700 flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-lg bg-primary-100 text-primary-800 flex items-center justify-center shrink-0">
                 <Bot size={20} />
               </div>
               <div>

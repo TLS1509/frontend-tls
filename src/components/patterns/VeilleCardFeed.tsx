@@ -83,7 +83,7 @@ const STRIPE_BG: Record<VeilleCardTone, string> = {
 };
 
 const BADGE_STYLE: Record<VeilleCardTone, string> = {
-  brand: 'bg-primary-50 text-primary-700 border-primary-200',
+  brand: 'bg-primary-50 text-primary-800 border-primary-200',
   warm:  'bg-secondary-50 text-secondary-700 border-secondary-200',
   sun:   'bg-accent-50 text-accent-700 border-accent-200',
 };

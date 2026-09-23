@@ -247,7 +247,7 @@ const AllerPlusLoin: React.FC = () => (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
         <FadeInWhenVisible direction="up">
           <div className="flex h-full flex-col gap-stack rounded-lg bg-primary-50 p-section">
-            <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary-100 text-primary-700">
+            <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary-100 text-primary-800">
               <Radar size={20} />
             </span>
             <h3 className="font-display text-h3 font-bold text-ink-900">La Vigie IA</h3>

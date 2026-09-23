@@ -47,7 +47,7 @@ const STATUS_PROGRESS_FILL: Record<ProjectCardProps['status'], ProgressFill> = {
 
 const STATUS_AVATAR: Record<ProjectCardProps['status'], string> = {
   planning:     'bg-secondary-100 text-secondary-700',
-  'in-progress': 'bg-primary-100 text-primary-700',
+  'in-progress': 'bg-primary-100 text-primary-800',
   completed:    'bg-success-bg text-success-fg',
 };
 

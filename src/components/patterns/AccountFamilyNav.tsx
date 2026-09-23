@@ -110,7 +110,7 @@ export const AccountFamilyNav: React.FC<AccountFamilyNavProps> = ({
               className={[
                 'shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-lg',
                 isActive
-                  ? 'bg-primary-100 text-primary-700'
+                  ? 'bg-primary-100 text-primary-800'
                   : 'bg-ink-100 text-ink-600 group-hover:bg-ink-200 group-hover:text-ink-800',
               ].join(' ')}
             >

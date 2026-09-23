@@ -158,7 +158,7 @@ const FONDATEURS: Fondateur[] = [
     detail:
       "Elle conçoit et développe la Learning App : les tuteurs IA, le Passeport de compétences, et les arbitrages de souveraineté — où tourne le modèle, quelles données sortent de chez vous.",
     monoClasses: 'bg-gradient-to-br from-primary-100 to-primary-200 text-primary-800',
-    iconClasses: 'bg-primary-100 text-primary-700',
+    iconClasses: 'bg-primary-100 text-primary-800',
   },
 ];
 
@@ -239,7 +239,7 @@ const Pourquoi: React.FC = () => (
         {RAISONS.map((r, i) => (
           <FadeInWhenVisible key={r.title} delay={i * 0.06} direction="up">
             <div className="flex h-full flex-col gap-stack border-t-2 border-primary-200 pt-stack-lg">
-              <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-primary-100 text-primary-700">
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-primary-100 text-primary-800">
                 {r.icon}
               </span>
               <h3 className="font-display text-h4 font-bold text-ink-900">{r.title}</h3>

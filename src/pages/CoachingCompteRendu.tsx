@@ -90,7 +90,7 @@ const MOCK_REPORTS: Record<string, SessionReport> = {
         icon: TrendingUp,
         title: 'Gestion du stress situationnel',
         description: "Lors de situations de tension, vous avez appliqué la technique de la pause consciente. Résultat : 2 conflits désamorcés cette semaine.",
-        iconClass: 'text-primary-700 bg-primary-100',
+        iconClass: 'text-primary-800 bg-primary-100',
         cardBorderClass: 'border-l-primary-200',
       },
       {
@@ -270,7 +270,7 @@ export const CoachingCompteRendu: React.FC = () => {
                       key={ap.id}
                       className={`flex gap-stack items-start py-stack ${index < report.actionPlan.length - 1 ? 'border-b border-ink-200' : ''}`}
                     >
-                      <div className="shrink-0 w-8 h-8 rounded-pill bg-primary-50 text-primary-700 flex items-center justify-center font-body text-body-sm font-extrabold border-2 border-primary-200">
+                      <div className="shrink-0 w-8 h-8 rounded-pill bg-primary-50 text-primary-800 flex items-center justify-center font-body text-body-sm font-extrabold border-2 border-primary-200">
                         {ap.step}
                       </div>
                       <div className="flex-1 min-w-0">

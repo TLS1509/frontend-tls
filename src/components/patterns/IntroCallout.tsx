@@ -52,9 +52,9 @@ const EYEBROW: Record<IntroCalloutTone, string> = {
 };
 
 const ICON_BG: Record<IntroCalloutTone, string> = {
-  brand:   'bg-primary-100 text-primary-700',
+  brand:   'bg-primary-100 text-primary-800',
   warm:    'bg-secondary-100 text-secondary-700',
-  sun:     'bg-accent-100 text-accent-700',
+  sun:     'bg-accent-100 text-accent-800',
   neutral: 'bg-ink-100 text-ink-600',
 };
 

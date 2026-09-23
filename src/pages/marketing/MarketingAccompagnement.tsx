@@ -180,7 +180,7 @@ const DoublePiege: React.FC = () => (
           {PIEGES.map((p, i) => (
             <FadeInWhenVisible key={p.title} delay={i * 0.08}>
               <div className="flex items-start gap-stack-lg border-t border-ink-200 py-flow first:border-t-0 first:pt-0">
-                <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-100 text-primary-700">
+                <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-100 text-primary-800">
                   {p.icon}
                 </span>
                 <div className="flex flex-col gap-group">
@@ -362,7 +362,7 @@ const PourQui: React.FC = () => (
         {PROFILS.map((p, i) => (
           <FadeInWhenVisible key={p.title} delay={i * 0.06} direction="up">
             <li className="flex h-full flex-col gap-group">
-              <span className="inline-flex h-11 w-11 items-center justify-center rounded-pill bg-primary-100 text-primary-700">
+              <span className="inline-flex h-11 w-11 items-center justify-center rounded-pill bg-primary-100 text-primary-800">
                 {p.icon}
               </span>
               <h3 className="font-display text-feature text-ink-900">{p.title}</h3>

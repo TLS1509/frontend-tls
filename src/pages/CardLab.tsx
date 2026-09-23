@@ -24,7 +24,7 @@ const TYPE_META: Record<SampleType, { tone: Tone; label: string; icon: React.Rea
 const ICON_BUBBLE: Record<Tone, string> = {
   brand: 'bg-primary-100 text-primary-600',
   warm:  'bg-secondary-100 text-secondary-600',
-  sun:   'bg-accent-100 text-accent-700',
+  sun:   'bg-accent-100 text-accent-800',
 };
 const COVER_GRAD: Record<Tone, string> = {
   brand: 'bg-gradient-to-br from-primary-100 to-primary-50 text-primary-600',

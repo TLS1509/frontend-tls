@@ -316,7 +316,7 @@ export const MarketingHeader: React.FC = () => {
                                   <span
                                     className={`inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border ${
                                       active
-                                        ? 'border-primary-200 bg-primary-100 text-primary-700'
+                                        ? 'border-primary-200 bg-primary-100 text-primary-800'
                                         : 'border-ink-100 bg-ink-50 text-ink-700'
                                     }`}
                                   >
@@ -488,7 +488,7 @@ export const MarketingHeader: React.FC = () => {
                                     key={d.href}
                                     to={d.href}
                                     className={`flex min-h-touch items-start gap-stack rounded-lg p-stack focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
-                                      active ? 'bg-primary-50 text-primary-700' : 'text-ink-700 hover:bg-ink-50'
+                                      active ? 'bg-primary-50 text-primary-800' : 'text-ink-700 hover:bg-ink-50'
                                     }`}
                                   >
                                     <span className="mt-0.5 shrink-0 text-primary-600">{d.icon}</span>

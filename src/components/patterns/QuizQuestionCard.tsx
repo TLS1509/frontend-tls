@@ -46,7 +46,7 @@ export const QuizQuestionCard: React.FC<QuizQuestionCardProps> = ({
       <div>
         {questionNumber && totalQuestions && (
           <div className="flex items-center gap-stack-xs mb-3">
-            <span className="inline-flex items-center justify-center w-7 h-7 rounded-pill bg-primary-50 text-primary-700 text-caption font-bold">
+            <span className="inline-flex items-center justify-center w-7 h-7 rounded-pill bg-primary-50 text-primary-800 text-caption font-bold">
               {questionNumber}
             </span>
             <span className="text-caption text-ink-500 font-medium">

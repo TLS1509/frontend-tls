@@ -134,7 +134,7 @@ const JournalPanel: React.FC = () => (
     </div>
     <div className="grid grid-cols-3 gap-stack-xs">
       {[
-        { label: 'Insight', tone: 'bg-primary-50 text-primary-700 border-primary-100' },
+        { label: 'Insight', tone: 'bg-primary-50 text-primary-800 border-primary-100' },
         { label: 'Question', tone: 'bg-secondary-50 text-secondary-700 border-secondary-100' },
         { label: 'Action', tone: 'bg-accent-50 text-warning-fg border-accent-100' },
       ].map(({ label, tone }, i) => (

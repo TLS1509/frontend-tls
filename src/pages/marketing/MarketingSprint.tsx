@@ -154,7 +154,7 @@ const Livrables: React.FC = () => (
           <FadeInWhenVisible key={l.titre} delay={i * 0.06}>
             <li className="grid grid-cols-1 md:grid-cols-12 gap-group md:gap-flow border-t border-ink-200 py-flow">
               <div className="md:col-span-5 flex items-start gap-stack">
-                <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary-100 text-primary-700">
+                <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary-100 text-primary-800">
                   {l.icon}
                 </span>
                 <h3 className="font-display text-title text-ink-900 [text-wrap:balance]">{l.titre}</h3>

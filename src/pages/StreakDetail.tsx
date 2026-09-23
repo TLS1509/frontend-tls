@@ -12,7 +12,7 @@ import { PageShell } from '../components/layout';
 
 // Milestone tone → icon bubble classes
 const MILESTONE_BUBBLE: Record<string, string> = {
-  info:    'bg-primary-100 text-primary-700',
+  info:    'bg-primary-100 text-primary-800',
   success: 'bg-success-bg text-success-fg',
   warm:    'bg-secondary-50 text-secondary-600',
   sun:     'bg-accent-50 text-accent-500',

@@ -253,7 +253,7 @@ export const SubscriptionPayment: React.FC = () => {
                 )}
 
                 <div className="flex items-center gap-stack-xs">
-                  <span className={`inline-flex items-center justify-center w-10 h-10 rounded-xl ${plan.highlight ? 'bg-primary-100 text-primary-700' : 'bg-ink-100 text-ink-600'}`}>
+                  <span className={`inline-flex items-center justify-center w-10 h-10 rounded-xl ${plan.highlight ? 'bg-primary-100 text-primary-800' : 'bg-ink-100 text-ink-600'}`}>
                     {plan.icon}
                   </span>
                   <div className="flex flex-col">

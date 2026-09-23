@@ -186,7 +186,7 @@ export const JournalFreeEntry: React.FC = () => {
                       'inline-flex items-center gap-stack-2xs px-3 py-1.5 rounded-pill border cursor-pointer font-body text-caption font-bold transition-all duration-150',
                       'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                       active
-                        ? 'border-primary-400 bg-primary-50 text-primary-700'
+                        ? 'border-primary-400 bg-primary-50 text-primary-800'
                         : 'border-ink-200 bg-transparent text-ink-500 hover:border-ink-400',
                     ].join(' ')}
                   >
@@ -214,7 +214,7 @@ export const JournalFreeEntry: React.FC = () => {
                       'inline-flex items-center gap-tight px-3 py-1.5 rounded-pill border cursor-pointer font-body text-micro font-bold transition-all duration-150',
                       'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                       active
-                        ? 'border-primary-400 bg-primary-50 text-primary-700'
+                        ? 'border-primary-400 bg-primary-50 text-primary-800'
                         : 'border-ink-200 bg-transparent text-ink-500 hover:border-ink-400',
                     ].join(' ')}
                   >
@@ -258,7 +258,7 @@ export const JournalFreeEntry: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => removeTag(tag)}
-                    className="bg-transparent border-0 cursor-pointer text-primary-700 hover:text-primary-900 p-0 text-body-sm focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-400 rounded-sm"
+                    className="bg-transparent border-0 cursor-pointer text-primary-800 hover:text-primary-900 p-0 text-body-sm focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-400 rounded-sm"
                   >
                     ×
                   </button>
@@ -291,7 +291,7 @@ export const JournalFreeEntry: React.FC = () => {
           <div className="bg-primary-50 border border-primary-200 rounded-lg p-stack px-stack-md">
             <div className="flex items-center gap-stack-xs mb-3">
               <PenLine size={14} className="text-primary-600" />
-              <span className="font-body text-caption font-extrabold text-primary-700 uppercase tracking-widest">
+              <span className="font-body text-caption font-extrabold text-primary-800 uppercase tracking-widest">
                 Aide à l'écriture
               </span>
             </div>

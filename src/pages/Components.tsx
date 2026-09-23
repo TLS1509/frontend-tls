@@ -1173,7 +1173,7 @@ const SidebarDemo: React.FC = () => {
         <button
           type="button"
           onClick={() => setCollapsed(p => !p)}
-          className="px-3 py-1 rounded-pill bg-primary-50 text-primary-700 font-semibold border border-primary-200 hover:bg-primary-100"
+          className="px-3 py-1 rounded-pill bg-primary-50 text-primary-800 font-semibold border border-primary-200 hover:bg-primary-100"
         >
           {collapsed ? 'Étendre' : 'Réduire'}
         </button>
@@ -3057,7 +3057,7 @@ const COMPONENTS: ComponentEntry[] = [
         <p className="m-0 text-micro font-bold text-ink-500 uppercase tracking-[0.06em]">layout="default" (3 col)</p>
         <CardGrid layout="default" gapSize="sm">
           {['Module A', 'Module B', 'Module C'].map((t) => (
-            <div key={t} className="p-3 bg-primary-50 rounded-lg text-caption text-primary-700 font-semibold border border-primary-100">{t}</div>
+            <div key={t} className="p-3 bg-primary-50 rounded-lg text-caption text-primary-800 font-semibold border border-primary-100">{t}</div>
           ))}
         </CardGrid>
         <p className="m-0 text-micro font-bold text-ink-500 uppercase tracking-[0.06em]">layout="feature" (4 col)</p>
@@ -6997,14 +6997,14 @@ const COMPONENTS: ComponentEntry[] = [
           renderCard={(item, _, layout) =>
             layout === 'grid' ? (
               <div key={item.id} className="flex flex-col gap-stack-xs p-stack rounded-xl border border-ink-200 bg-white hover:border-primary-300 hover:shadow-sm transition-all">
-                <span className="inline-flex self-start px-2 py-0.5 rounded-pill bg-primary-50 text-primary-700 text-micro font-semibold">{item.cat}</span>
+                <span className="inline-flex self-start px-2 py-0.5 rounded-pill bg-primary-50 text-primary-800 text-micro font-semibold">{item.cat}</span>
                 <p className="font-semibold text-ink-900 text-body-sm m-0">{item.title}</p>
                 <p className="text-caption text-ink-500 m-0">{item.author}</p>
               </div>
             ) : (
               <div key={item.id} className="flex items-center justify-between px-stack py-3 rounded-xl border border-ink-200 bg-white hover:border-primary-300 transition-all">
                 <div className="flex items-center gap-stack-xs">
-                  <span className="inline-flex px-2 py-0.5 rounded-pill bg-primary-50 text-primary-700 text-micro font-semibold shrink-0">{item.cat}</span>
+                  <span className="inline-flex px-2 py-0.5 rounded-pill bg-primary-50 text-primary-800 text-micro font-semibold shrink-0">{item.cat}</span>
                   <p className="font-semibold text-ink-900 text-body-sm m-0">{item.title}</p>
                 </div>
                 <p className="text-caption text-ink-500 m-0 shrink-0 ml-3">{item.author}</p>
@@ -8634,7 +8634,7 @@ const Swatch: React.FC<{ t: TokenEntry }> = ({ t }) => {
     return (
       <div className="token-card">
         <div className="h-[88px] rounded-md bg-ink-50 flex items-center justify-center gap-stack-xs">
-          <span className={`${box} inline-flex items-center justify-center bg-primary-100 rounded-xs text-primary-700 [&>svg]:w-full [&>svg]:h-full`}>
+          <span className={`${box} inline-flex items-center justify-center bg-primary-100 rounded-xs text-primary-800 [&>svg]:w-full [&>svg]:h-full`}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
               <circle cx="12" cy="12" r="9" /><path d="M12 8v8M8 12h8" />
             </svg>

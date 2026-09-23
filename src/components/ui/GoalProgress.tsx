@@ -36,7 +36,7 @@ const TITLE_SIZE_CLASSES: Record<GoalProgressSize, string> = {
 };
 
 const STATUS_TONE_CLASSES: Record<GoalProgressTone, string> = {
-  primary: 'text-primary-700',
+  primary: 'text-primary-800',
   warm:    'text-secondary-700',
   success: 'text-success-fg',
   danger:  'text-danger-fg',

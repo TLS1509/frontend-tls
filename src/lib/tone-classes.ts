@@ -179,7 +179,7 @@ export const CARD_PROGRESS_FILL: Record<CardTone, 'brand' | 'warm' | 'sun'> = {
 export const ACTION_BTN_TONES: Record<PageTone, Record<'primary' | 'secondary', string>> = {
   primary: {
     primary: 'bg-primary-700 hover:bg-primary-800 text-white',
-    secondary: 'bg-primary-50 hover:bg-primary-100 text-primary-700 border border-primary-200'
+    secondary: 'bg-primary-50 hover:bg-primary-100 text-primary-800 border border-primary-200'
   },
   warm: {
     primary: 'bg-secondary-700 hover:bg-secondary-800 text-white',

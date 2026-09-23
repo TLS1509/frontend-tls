@@ -109,7 +109,7 @@ const BADGES = [
 ];
 
 const ACTIVITY_TONE: Record<'brand' | 'warm' | 'sun' | 'success', string> = {
-  brand:   'bg-primary-50 text-primary-700 border-primary-100',
+  brand:   'bg-primary-50 text-primary-800 border-primary-100',
   warm:    'bg-secondary-50 text-secondary-700 border-secondary-100',
   sun:     'bg-accent-50 text-accent-700 border-accent-100',
   success: 'bg-success-bg text-success-fg border-success-border',

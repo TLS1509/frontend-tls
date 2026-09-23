@@ -393,7 +393,7 @@ export const SidebarUserCard: React.FC<SidebarUserCardProps> = ({
              dépliée (235×66) qui, elle, est à 14.
              Ici le padding vaut 0 mais le contenu est centré : ce rayon ne
              pinçait rien, c'est une question de vocabulaire, pas de coin. */
-          'relative flex items-center justify-center w-12 h-12 mx-auto rounded-lg bg-primary-100 text-primary-700 hover:bg-primary-200 transition-[background-color] duration-fast ease-standard focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 cursor-pointer border-0 p-0',
+          'relative flex items-center justify-center w-12 h-12 mx-auto rounded-lg bg-primary-100 text-primary-800 hover:bg-primary-200 transition-[background-color] duration-fast ease-standard focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 cursor-pointer border-0 p-0',
           menuOpen && 'ring-2 ring-primary-300',
           className,
         ]

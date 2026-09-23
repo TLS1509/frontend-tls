@@ -35,7 +35,7 @@ const QUICK_LINKS = [
     label: 'Notre méthode STRIDE',
     href: '/website/methode',
     desc: 'Comment on travaille',
-    tone: 'bg-primary-50 text-primary-700 border-primary-100',
+    tone: 'bg-primary-50 text-primary-800 border-primary-100',
   },
   {
     icon: <Briefcase size={20} />,
@@ -588,7 +588,7 @@ export const MarketingContact: React.FC = () => {
                     href="mailto:contact@thelearningsociety.fr"
                     className="flex items-start gap-stack p-stack rounded-lg hover:bg-primary-50/50 transition-colors duration-fast group"
                   >
-                    <span className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-primary-50 text-primary-700 border border-primary-100 shrink-0">
+                    <span className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-primary-50 text-primary-800 border border-primary-100 shrink-0">
                       <Mail size={18} />
                     </span>
                     <div className="flex flex-col gap-tight min-w-0">
@@ -606,7 +606,7 @@ export const MarketingContact: React.FC = () => {
                     rel="noopener noreferrer"
                     className="flex items-start gap-stack p-stack rounded-lg hover:bg-primary-50/50 transition-colors duration-fast group"
                   >
-                    <span className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-primary-50 text-primary-700 border border-primary-100 shrink-0">
+                    <span className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-primary-50 text-primary-800 border border-primary-100 shrink-0">
                       <ExternalLink size={18} />
                     </span>
                     <div className="flex flex-col gap-tight min-w-0">

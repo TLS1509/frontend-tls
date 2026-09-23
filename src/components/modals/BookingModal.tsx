@@ -101,12 +101,12 @@ function getPillClass(stepKey: Step, currentStep: Step, allSteps: Step[]): strin
 const getDayBtnClass = (hasSlots: boolean, isSelected: boolean): string => {
   const base = 'aspect-square rounded-md border text-caption transition-all';
   if (isSelected) return `${base} border-primary-700 bg-primary-700 text-white font-bold cursor-pointer`;
-  if (hasSlots) return `${base} border-transparent bg-primary-50 text-primary-700 font-bold cursor-pointer hover:bg-primary-100`;
+  if (hasSlots) return `${base} border-transparent bg-primary-50 text-primary-800 font-bold cursor-pointer hover:bg-primary-100`;
   return `${base} border-transparent bg-transparent text-ink-600 opacity-35 cursor-default`;
 };
 
 const TIME_SLOT_BASE = 'w-full py-2 rounded-lg font-semibold text-body-sm cursor-pointer transition-all text-center border';
-const TIME_SLOT_SELECTED = 'border-2 border-primary-500 bg-primary-50 text-primary-700';
+const TIME_SLOT_SELECTED = 'border-2 border-primary-500 bg-primary-50 text-primary-800';
 const TIME_SLOT_DEFAULT = 'border-ink-200 bg-white text-ink-900 hover:border-primary-300 hover:bg-primary-50';
 
 const STEP_LABELS: Record<Step, string> = {
@@ -268,7 +268,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
       >
         {/* Header — compact */}
         <div className="px-stack-md py-stack border-b border-ink-200 flex items-center gap-stack-xs flex-wrap shrink-0">
-          <div className="w-10 h-10 rounded-pill bg-primary-100 text-primary-700 flex items-center justify-center font-display font-black text-caption shrink-0">
+          <div className="w-10 h-10 rounded-pill bg-primary-100 text-primary-800 flex items-center justify-center font-display font-black text-caption shrink-0">
             {coachInitials}
           </div>
 

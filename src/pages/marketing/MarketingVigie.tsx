@@ -188,7 +188,7 @@ export const MarketingVigie: React.FC = () => {
               <FadeInWhenVisible key={r.titre} delay={i * 0.06}>
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-stack lg:gap-flow items-start border-t border-ink-200/70 py-section first:border-t-0">
                   <div className="lg:col-span-5 flex items-start gap-stack">
-                    <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-100 text-primary-700">
+                    <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-100 text-primary-800">
                       {r.icon}
                     </span>
                     <h3 className="font-display text-h3 font-bold text-ink-900 [text-wrap:balance]">

@@ -52,7 +52,7 @@ const STATUS_FILL: Record<StepStatus, string> = {
 
 const STATUS_LABEL: Record<StepStatus, { text: string; className: string }> = {
   'not-started': { text: 'À commencer', className: 'bg-ink-100 text-ink-700' },
-  'in-progress': { text: 'En cours', className: 'bg-primary-50 text-primary-700' },
+  'in-progress': { text: 'En cours', className: 'bg-primary-50 text-primary-800' },
   completed:     { text: 'Terminée', className: 'bg-success-bg text-success-fg' },
   locked:        { text: 'Verrouillée', className: 'bg-ink-50 text-ink-500' },
 };

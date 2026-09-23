@@ -78,7 +78,7 @@ const RECOMMENDATIONS = [
 ];
 
 const STAT_TONE: Record<'brand' | 'warm' | 'sun', { value: string; trend: string }> = {
-  brand: { value: 'text-primary-700',   trend: 'bg-primary-100 text-primary-700' },
+  brand: { value: 'text-primary-700',   trend: 'bg-primary-100 text-primary-800' },
   warm:  { value: 'text-secondary-700', trend: 'bg-secondary-100 text-secondary-700' },
   sun:   { value: 'text-accent-700',    trend: 'bg-accent-100 text-accent-800' },
 };

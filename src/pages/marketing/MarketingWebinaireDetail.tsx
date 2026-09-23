@@ -165,7 +165,7 @@ export const MarketingWebinaireDetail: React.FC = () => {
                       onSubmit={handleSubmit}
                       className="flex flex-col gap-stack"
                     >
-                      <div className="inline-flex w-12 h-12 items-center justify-center rounded-xl bg-primary-50 text-primary-700">
+                      <div className="inline-flex w-12 h-12 items-center justify-center rounded-xl bg-primary-50 text-primary-800">
                         <CalendarCheck size={20} />
                       </div>
                       <div className="flex flex-col gap-tight">

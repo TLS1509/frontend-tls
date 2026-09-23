@@ -297,7 +297,7 @@ const Pilotage: React.FC = () => (
 
       <FadeInWhenVisible delay={0.1}>
         <div className="flex items-start gap-stack rounded-lg bg-primary-50 p-stack-lg">
-          <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent-100 text-accent-700">
+          <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent-100 text-accent-800">
             <Gift size={20} />
           </span>
           {/* Disait « un an d'accès offert ». Corrigé le 16/09/2026 : la durée

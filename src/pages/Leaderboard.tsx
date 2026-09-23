@@ -300,7 +300,7 @@ export const Leaderboard: React.FC = () => {
         {/* Weekly goal */}
         <Card variant="tinted" tone="primary" className="p-stack-lg flex flex-col gap-stack">
           <div className="flex items-center gap-stack-xs">
-            <div className="w-11 h-11 rounded-xl bg-primary-100 text-primary-700 flex items-center justify-center shrink-0">
+            <div className="w-11 h-11 rounded-xl bg-primary-100 text-primary-800 flex items-center justify-center shrink-0">
               <Zap size={20} strokeWidth={1.8} />
             </div>
             <div>

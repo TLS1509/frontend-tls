@@ -126,7 +126,7 @@ const STATUS_LABELS: Record<StatusBadgeStatus, string> = {
 
 const STATUS_CLASSES: Record<StatusBadgeStatus, string> = {
   locked:        'bg-ink-100 text-ink-500 border-ink-200',
-  available:     'bg-primary-50 text-primary-700 border-primary-200',
+  available:     'bg-primary-50 text-primary-800 border-primary-200',
   'in-progress': 'bg-primary-100 text-primary-800 border-primary-300 shadow-brand-xs',
   completed:     'bg-success-bg text-success-fg border-success-base/30',
   failed:        'bg-danger-bg text-danger-fg border-danger-base/30',

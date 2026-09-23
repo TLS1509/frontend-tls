@@ -119,7 +119,7 @@ const TRUST: Trust[] = [
 const FEATURE_TONE: Record<FeatureCard['tone'], { card: string; icon: string; eyebrow: string; bullet: string }> = {
   brand: {
     card: 'bg-primary-50 border border-primary-200',
-    icon: 'bg-primary-100 text-primary-700',
+    icon: 'bg-primary-100 text-primary-800',
     eyebrow: 'text-primary-800',
     bullet: 'text-primary-500',
   },
@@ -250,7 +250,7 @@ const AppLanding: React.FC = () => {
             animate={reduce ? false : 'show'}
           >
             <motion.div variants={heroItem}>
-              <Pill className="bg-primary-50 text-primary-700 border border-primary-200 self-start">
+              <Pill className="bg-primary-50 text-primary-800 border border-primary-200 self-start">
                 <Sparkles size={14} />
                 Skills-Based Organisation
               </Pill>

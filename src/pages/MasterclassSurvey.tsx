@@ -94,7 +94,7 @@ export default function MasterclassSurvey() {
                   'flex-1 flex flex-col items-center gap-tight py-3 rounded-lg border-2 transition-all duration-fast',
                   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                   rating === score
-                    ? 'border-primary-400 bg-primary-50 text-primary-700'
+                    ? 'border-primary-400 bg-primary-50 text-primary-800'
                     : 'border-ink-200 bg-white text-ink-600 hover:border-primary-300 hover:bg-primary-50',
                 ].join(' ')}
                 aria-label={RATING_LABELS[score]}

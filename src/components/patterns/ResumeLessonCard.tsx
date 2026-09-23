@@ -56,7 +56,7 @@ const ICON_BUBBLE: Record<ResumeLessonTone, string> = {
 
 /** Status chip "En cours" — echoes accent (c'est l'état de la card). */
 const STATUS_CHIP: Record<ResumeLessonTone, string> = {
-  primary: 'bg-primary-100 text-primary-700',
+  primary: 'bg-primary-100 text-primary-800',
   warm:    'bg-secondary-100 text-secondary-700',
   sun:     'bg-accent-100 text-accent-800',
 };

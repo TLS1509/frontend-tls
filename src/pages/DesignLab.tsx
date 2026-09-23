@@ -164,7 +164,7 @@ const Section: React.FC<{
   <section id={id} className="scroll-mt-24 flex flex-col gap-stack">
     <header className="flex flex-col gap-tight">
       <h2 className="flex items-center gap-stack-xs text-h3 font-bold tracking-headline text-ink-900">
-        <span className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-primary-50 text-primary-700 shrink-0">
+        <span className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-primary-50 text-primary-800 shrink-0">
           {icon}
         </span>
         {title}
@@ -1923,7 +1923,7 @@ const DecisionPanel: React.FC<{ onJump: (id: string) => void }> = ({ onJump }) =
     <section id="decisions" className="scroll-mt-24 flex flex-col gap-stack">
       <header className="flex flex-col gap-tight">
         <h2 className="flex items-center gap-stack-xs text-h3 font-bold tracking-headline text-ink-900">
-          <span className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-primary-50 text-primary-700 shrink-0">
+          <span className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-primary-50 text-primary-800 shrink-0">
             <ListChecks size={18} strokeWidth={2} />
           </span>
           Décisions à trancher
@@ -2109,7 +2109,7 @@ const Atelier: React.FC = () => {
     <section id="atelier" className="scroll-mt-24 flex flex-col gap-stack">
       <header className="flex flex-col gap-tight">
         <h2 className="flex items-center gap-stack-xs text-h3 font-bold tracking-headline text-ink-900">
-          <span className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-primary-50 text-primary-700 shrink-0">
+          <span className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-primary-50 text-primary-800 shrink-0">
             <FlaskConical size={18} strokeWidth={2} />
           </span>
           Atelier — composer et tester

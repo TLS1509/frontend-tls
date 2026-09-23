@@ -81,9 +81,9 @@ export interface NotificationCardProps {
 /* ── Tone styles ────────────────────────────────────────────────────────── */
 
 const ICON_BUBBLE: Record<NotificationTone, string> = {
-  brand:   'bg-primary-100 text-primary-700',
+  brand:   'bg-primary-100 text-primary-800',
   warm:    'bg-secondary-100 text-secondary-700',
-  sun:     'bg-accent-100 text-accent-700',
+  sun:     'bg-accent-100 text-accent-800',
   success: 'bg-success-bg text-success-fg',
   neutral: 'bg-ink-100 text-ink-600',
 };

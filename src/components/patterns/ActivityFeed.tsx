@@ -153,7 +153,7 @@ const TONE_HOVER_BG: Record<ActivityTone, string> = {
 };
 
 const TONE_ACTION: Record<ActivityTone, string> = {
-  primary: 'bg-primary-50 text-primary-700 border-primary-200 hover:bg-primary-100',
+  primary: 'bg-primary-50 text-primary-800 border-primary-200 hover:bg-primary-100',
   warm:    'bg-secondary-50 text-secondary-700 border-secondary-200 hover:bg-secondary-100',
   sun:     'bg-accent-50 text-accent-800 border-accent-200 hover:bg-accent-100',
   success: 'bg-success-bg text-success-fg border-success-base/30 hover:bg-success-base/20',

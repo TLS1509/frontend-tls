@@ -35,7 +35,7 @@ import { DiagnosticInlineCta, VigieSignupBanner, midArticleInsertIndex } from '.
 import { SEOHead } from './components/SEOHead';
 
 const CATEGORY_TONES: Record<string, string> = {
-  IA: 'bg-primary-50 text-primary-700 border-primary-100',
+  IA: 'bg-primary-50 text-primary-800 border-primary-100',
   Pédagogie: 'bg-secondary-50 text-secondary-700 border-secondary-100',
   Outils: 'bg-accent-50 text-accent-700 border-accent-200',
   Innovation: 'bg-ink-100 text-ink-700 border-ink-200',

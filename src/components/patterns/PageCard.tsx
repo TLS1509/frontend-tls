@@ -64,7 +64,7 @@ const STATUS_TEXT: Record<PageCardStatus, string> = {
 };
 
 const BADGE_CLASSES: Record<PageCardBadgeVariant, string> = {
-  primary: 'bg-primary-50 text-primary-700 border-primary-200',
+  primary: 'bg-primary-50 text-primary-800 border-primary-200',
   warm:    'bg-secondary-50 text-secondary-700 border-secondary-200',
   sun:     'bg-accent-50 text-accent-800 border-accent-200',
   success: 'bg-success-bg text-success-fg border-success-base/30',

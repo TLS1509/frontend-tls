@@ -64,7 +64,7 @@ export const SelectCheckboxFloating: React.FC<SelectCheckboxFloatingProps> = ({
                 'flex items-center gap-stack-xs px-4 py-2 rounded-pill border transition-all cursor-pointer',
                 'focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-primary-500',
                 isSelected
-                  ? 'bg-primary-50 border-primary-200 text-primary-700 font-medium shadow-xs'
+                  ? 'bg-primary-50 border-primary-200 text-primary-800 font-medium shadow-xs'
                   : 'bg-white border-ink-200 text-ink-700 hover:bg-ink-50 hover:border-ink-300',
               ].join(' ')}
             >

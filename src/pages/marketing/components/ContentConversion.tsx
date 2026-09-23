@@ -35,7 +35,7 @@ export const DiagnosticInlineCta: React.FC = () => (
     className="my-stack-lg flex flex-col gap-stack rounded-xl bg-primary-50 p-stack-lg sm:p-section"
   >
     <div className="flex items-start gap-stack">
-      <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-100 text-primary-700">
+      <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-100 text-primary-800">
         <Gauge size={20} />
       </span>
       <div className="flex flex-col gap-stack-xs">

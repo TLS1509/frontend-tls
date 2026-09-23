@@ -25,7 +25,7 @@ const TONE_ACTIVE: Record<string, string> = {
 };
 
 const TONE_COMPLETED: Record<string, string> = {
-  primary: 'bg-primary-100 text-primary-700',
+  primary: 'bg-primary-100 text-primary-800',
   warm:    'bg-secondary-50 text-secondary-600',
   sun:     'bg-accent-50 text-accent-500',
 };

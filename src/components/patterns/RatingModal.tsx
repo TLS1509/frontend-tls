@@ -23,7 +23,7 @@ const RATING_COLORS: Record<number, string> = {
   1: 'text-danger-fg bg-danger-bg border-danger-base/30',
   2: 'text-secondary-700 bg-secondary-50 border-secondary-200',
   3: 'text-accent-700 bg-accent-50 border-accent-200',
-  4: 'text-primary-700 bg-primary-50 border-primary-200',
+  4: 'text-primary-800 bg-primary-50 border-primary-200',
   5: 'text-success-fg bg-success-bg border-success-base/30',
 };
 

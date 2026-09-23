@@ -68,9 +68,9 @@ const ACTIVE_BAR: Record<TocTone, string> = {
 };
 
 const COMPLETED_BG: Record<TocTone, string> = {
-  brand:   'bg-primary-100 text-primary-700',
+  brand:   'bg-primary-100 text-primary-800',
   warm:    'bg-secondary-100 text-secondary-700',
-  sun:     'bg-accent-100 text-accent-700',
+  sun:     'bg-accent-100 text-accent-800',
   neutral: 'bg-success-bg text-success-fg',
 };
 

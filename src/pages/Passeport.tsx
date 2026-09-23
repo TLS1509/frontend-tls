@@ -457,7 +457,7 @@ export default function Passeport() {
                             setNewObjectiveTarget(c.target);
                             setShowObjectiveModal(true);
                           }}
-                          className="group px-3 py-2 rounded-lg border border-primary-200 bg-primary-50 text-primary-700 text-caption font-medium hover:bg-primary-100 transition-colors"
+                          className="group px-3 py-2 rounded-lg border border-primary-200 bg-primary-50 text-primary-800 text-caption font-medium hover:bg-primary-100 transition-colors"
                         >
                           {c.label} → D{c.target}
                         </button>

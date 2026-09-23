@@ -525,7 +525,7 @@ export const MarketingDiagnostic: React.FC = () => {
 
               <div className="flex flex-col gap-stack-lg rounded-lg bg-primary-50 p-stack-lg sm:p-section">
                 <div className="flex items-start gap-stack">
-                  <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-100 text-primary-700">
+                  <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-100 text-primary-800">
                     <Lock size={20} />
                   </span>
                   <div className="flex flex-col gap-stack-xs">

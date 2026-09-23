@@ -125,9 +125,9 @@ const EYEBROW_DARK_COLOR: Record<HeroTone, string> = {
 };
 
 const ICON_BUBBLE_DARK: Record<HeroTone, string> = {
-  primary: 'bg-primary-100 text-primary-700 ring-primary-200',
+  primary: 'bg-primary-100 text-primary-800 ring-primary-200',
   warm:    'bg-secondary-100 text-secondary-700 ring-secondary-200',
-  sun:     'bg-accent-100 text-accent-700 ring-accent-200',
+  sun:     'bg-accent-100 text-accent-800 ring-accent-200',
   success: 'bg-success-bg text-success-fg ring-success-base/30',
   danger:  'bg-danger-bg text-danger-fg ring-danger-base/30',
 };

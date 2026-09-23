@@ -186,7 +186,7 @@ export const Notifications: React.FC = () => {
         {/* ── Header épuré ───────────────────────────────────────────── */}
         <header className="flex flex-wrap items-center justify-between gap-stack">
           <div className="flex items-center gap-stack-xs">
-            <div className="w-10 h-10 rounded-pill bg-primary-100 text-primary-700 inline-flex items-center justify-center">
+            <div className="w-10 h-10 rounded-pill bg-primary-100 text-primary-800 inline-flex items-center justify-center">
               <Bell size={18} />
             </div>
             <div>
@@ -273,7 +273,7 @@ export const Notifications: React.FC = () => {
                       {item.grade}
                     </span>
                   ) : item.badgeName ? (
-                    <span className="inline-flex items-center gap-tight px-2 py-0.5 rounded-pill bg-accent-100 text-accent-700 font-semibold">
+                    <span className="inline-flex items-center gap-tight px-2 py-0.5 rounded-pill bg-accent-100 text-accent-800 font-semibold">
                       <Award size={14} />
                       {item.badgeName}
                     </span>

@@ -59,7 +59,7 @@ interface ResourceItem {
 }
 
 const CATEGORY_BADGE: Record<string, string> = {
-  IA: 'bg-primary-50 text-primary-700 border-primary-100',
+  IA: 'bg-primary-50 text-primary-800 border-primary-100',
   Pédagogie: 'bg-secondary-50 text-secondary-700 border-secondary-100',
   Outils: 'bg-accent-50 text-warning-fg border-accent-100',
   Innovation: 'bg-ink-100 text-ink-700 border-ink-200',
@@ -67,10 +67,10 @@ const CATEGORY_BADGE: Record<string, string> = {
 };
 
 const TYPE_BADGE_TONE: Record<ContentType, string> = {
-  article: 'bg-primary-50 text-primary-700 border-primary-100',
+  article: 'bg-primary-50 text-primary-800 border-primary-100',
   dossier: 'bg-secondary-50 text-secondary-700 border-secondary-100',
   guide: 'bg-accent-50 text-warning-fg border-accent-100',
-  tutorial: 'bg-primary-50 text-primary-700 border-primary-100',
+  tutorial: 'bg-primary-50 text-primary-800 border-primary-100',
   webinaire: 'bg-success-bg text-success-fg border-success-base/30',
 };
 

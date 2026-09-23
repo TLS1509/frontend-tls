@@ -2323,7 +2323,7 @@ export const LessonPlayer: React.FC = () => {
                     <th
                       key={i}
                       className={`px-stack py-3 text-left font-display text-caption font-bold whitespace-nowrap ${
-                        block.highlightCol === i ? 'text-primary-700 bg-primary-50' : 'text-ink-700'
+                        block.highlightCol === i ? 'text-primary-800 bg-primary-50' : 'text-ink-700'
                       }`}
                     >
                       {h}

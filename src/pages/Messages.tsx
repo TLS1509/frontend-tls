@@ -147,7 +147,7 @@ const INITIAL_CONVERSATIONS: Conversation[] = [
 ];
 
 const AVATAR_CLASSES: Record<'coach' | 'support' | 'admin', string> = {
-  coach:   'bg-primary-50 text-primary-700 border border-primary-200',
+  coach:   'bg-primary-50 text-primary-800 border border-primary-200',
   support: 'bg-success-bg text-success-fg',
   admin:   'bg-accent-50 text-accent-700',
 };

@@ -53,7 +53,7 @@ const TILE_PALETTES: TilePalette[] = [
     card:      'bg-primary-50 border-primary-100',
     accentBg:  'bg-primary-500/20',
     accentDot: 'bg-primary-500',
-    tag:       'bg-primary-100 text-primary-700',
+    tag:       'bg-primary-100 text-primary-800',
   },
   {
     card:      'bg-secondary-50 border-secondary-100',
@@ -65,7 +65,7 @@ const TILE_PALETTES: TilePalette[] = [
     card:      'bg-accent-50 border-accent-100',
     accentBg:  'bg-accent-500/20',
     accentDot: 'bg-accent-500',
-    tag:       'bg-accent-100 text-accent-700',
+    tag:       'bg-accent-100 text-accent-800',
   },
   {
     card:      'bg-primary-50 border-primary-100',

@@ -61,12 +61,12 @@ const FILL_VARIANT_CLASSES: Record<ProgressFill, string> = {
 };
 
 const VALUE_TONE_CLASSES: Record<ProgressFill, string> = {
-  brand:    'text-primary-700',
+  brand:    'text-primary-800',
   warm:     'text-secondary-700',
-  sun:      'text-accent-700',
+  sun:      'text-accent-800',
   success:  'text-success-fg',
   danger:   'text-danger-fg',
-  gradient: 'text-primary-700',
+  gradient: 'text-primary-800',
 };
 
 export const ProgressBar: React.FC<ProgressBarProps> = ({

@@ -110,7 +110,7 @@ const SubscriptionTab: React.FC<{
     >
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-stack p-stack rounded-lg bg-primary-50/60 border border-primary-200">
         <div className="flex items-start gap-stack-xs">
-          <div className="shrink-0 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary-100 text-primary-700">
+          <div className="shrink-0 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary-100 text-primary-800">
             <Sparkles size={20} />
           </div>
           <div className="flex flex-col gap-tight">
