@@ -130,7 +130,7 @@ export default function MasterclassDetail() {
                   <div className="flex flex-col gap-tight min-w-0">
                     <p className="text-body-sm font-semibold text-ink-900 m-0">Marie Fontaine</p>
                     <p className="text-caption text-ink-500 m-0">DRH · Groupe Vinci</p>
-                    <p className="text-caption text-ink-600 m-0 leading-snug">
+                    <p className="text-caption text-ink-600 m-0">
                       15 ans d'expérience en leadership et gestion de crise.
                     </p>
                   </div>

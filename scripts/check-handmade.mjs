@@ -183,7 +183,11 @@ const DERIVES = [
      Écrire `leading-*` ou `font-*` à côté de `text-h4` annule ce que le token
      dit. C'est de là que viennent les dix combinaisons de titre de carte et les
      six interlignes relevés le 2026-09-10 sur quatre tailles de paragraphe. */
+  /* Arbitrage n°11 (2026-09-23, option C) : `leading-snug` est ADMIS sur un
+     titre court en gras — un titre se lit d'un bloc — et nulle part ailleurs.
+     `admis` est testé sur la chaîne de classes reconnue. */
   { nom: 'interligne écrasant un pas typographique',
+    admis: /^(?=[\s\S]*\bleading-snug\b)(?=[\s\S]*\bfont-(?:semibold|bold|extrabold|black)\b)(?![\s\S]*\bleading-(?!snug\b))/,
     rx: /className=(["'`])(?:(?!\1)[\s\S])*?(?:\btext-(?:h[1-4]|body-lg|body-sm|body|caption|micro|hero|section|title|feature|lede)\b(?:(?!\1)[\s\S])*?\bleading-|\bleading-(?:(?!\1)[\s\S])*?\btext-(?:h[1-4]|body-lg|body-sm|body|caption|micro|hero|section|title|feature|lede)\b)/g },
   { nom: 'graisse écrasant un pas de titre',
     rx: /className=(["'`])(?:(?!\1)[\s\S])*?(?:\btext-h[1-4]\b(?:(?!\1)[\s\S])*?\bfont-(?:semibold|extrabold|black|medium|normal)\b|\bfont-(?:semibold|extrabold|black|medium|normal)\b(?:(?!\1)[\s\S])*?\btext-h[1-4]\b)/g },
@@ -263,7 +267,14 @@ for (const f of cibles) {
   }
 
   for (const d of DERIVES) {
-    const n = (src.match(d.rx) ?? []).length;
+    // La correspondance s'arrête au premier `leading-` : `admis` lit la chaîne de
+    // classes ENTIÈRE, du guillemet ouvrant au guillemet fermant.
+    const n = [...src.matchAll(d.rx)].filter((m) => {
+      if (!d.admis) return true;
+      const q = m[1] ?? '"';
+      const fin = src.indexOf(q, m.index + m[0].length);
+      return !d.admis.test(src.slice(m.index, fin < 0 ? undefined : fin));
+    }).length;
     if (!n) continue;
     const r = derives.get(d.nom);
     r.total += n;

@@ -132,7 +132,7 @@ export const QuickActionButton: React.FC<QuickActionButtonProps> = ({
           {label}
         </span>
         {subtitle && (
-          <span className="font-body text-caption text-ink-500 leading-snug truncate">
+          <span className="font-body text-caption text-ink-500 truncate">
             {subtitle}
           </span>
         )}

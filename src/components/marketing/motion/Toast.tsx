@@ -115,7 +115,7 @@ const ToastCard: React.FC<{ item: ToastItem; onDismiss: () => void }> = ({ item,
         <div className={`flex-1 min-w-0 ${tone.text}`}>
           <p className="font-display font-bold text-body-sm m-0">{item.message}</p>
           {item.description && (
-            <p className="font-body text-caption text-ink-600 m-0 mt-0.5 leading-snug">
+            <p className="font-body text-caption text-ink-600 m-0 mt-0.5">
               {item.description}
             </p>
           )}

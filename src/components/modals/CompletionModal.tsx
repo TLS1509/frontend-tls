@@ -109,13 +109,13 @@ export const CompletionModal: React.FC<CompletionModalProps> = ({
           </h2>
 
           {itemTitle && (
-            <p className="m-0 mt-1 text-body-sm text-white leading-snug line-clamp-2">
+            <p className="m-0 mt-1 text-body-sm text-white line-clamp-2">
               {itemTitle}
             </p>
           )}
 
           {description && (
-            <p className="m-0 mt-2 text-body-sm text-white leading-snug">
+            <p className="m-0 mt-2 text-body-sm text-white">
               {description}
             </p>
           )}

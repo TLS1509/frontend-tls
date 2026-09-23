@@ -203,7 +203,7 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
           <h3 className="font-display text-body font-semibold font-semibold text-ink-900 line-clamp-2">
             {title}
           </h3>
-          <p className="m-0 text-caption text-ink-500 leading-snug line-clamp-2">
+          <p className="m-0 text-caption text-ink-500 line-clamp-2">
             {description}
           </p>
         </div>

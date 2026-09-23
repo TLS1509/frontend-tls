@@ -603,7 +603,7 @@ export const LearningPathDetail: React.FC = () => {
                       {label}
                     </div>
                     <div className="font-display text-h3 font-bold text-ink-900 mb-2">{value}</div>
-                    <p className="text-caption text-ink-500 m-0 leading-snug">{desc}</p>
+                    <p className="text-caption text-ink-500 m-0">{desc}</p>
                   </div>
                 ))}
               </div>

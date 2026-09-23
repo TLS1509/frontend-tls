@@ -2674,7 +2674,7 @@ const DesignLab: React.FC = () => {
                 >
                   Prochaine session
                 </h4>
-                <p className="text-caption text-ink-500 m-0 leading-snug">
+                <p className="text-caption text-ink-500 m-0">
                   Cette semaine · 14:30 · 45 min · Visio
                 </p>
                 <div className="flex gap-stack-xs mt-stack-xs text-micro tabular-nums">

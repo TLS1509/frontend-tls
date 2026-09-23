@@ -196,7 +196,7 @@ const Approche: React.FC = () => (
                 {p.exemples.map((e) => (
                   <li key={e} className="flex items-start gap-stack-xs">
                     <CheckCircle2 size={16} className="text-secondary-600 shrink-0 mt-0.5" />
-                    <span className="font-body text-body-sm text-ink-700 leading-snug">{e}</span>
+                    <span className="font-body text-body-sm text-ink-700">{e}</span>
                   </li>
                 ))}
               </ul>

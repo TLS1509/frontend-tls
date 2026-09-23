@@ -385,7 +385,7 @@ export const VideoReels: React.FC = () => {
                 </div>
               </div>
             </div>
-            <p className="font-body text-body-sm text-white/85 leading-snug m-0">
+            <p className="font-body text-body-sm text-white/85 m-0">
               {video.description}
             </p>
           </div>

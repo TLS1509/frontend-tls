@@ -279,7 +279,7 @@ export const CoachingCompteRendu: React.FC = () => {
                         {ap.step}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="font-body text-body text-ink-900 m-0 mb-1 leading-snug">
+                        <p className="font-body text-body text-ink-900 m-0 mb-1">
                           {ap.action}
                         </p>
                         <MetaPill icon={<CalendarDays />} text={ap.deadline} tone="primary" />
@@ -332,7 +332,7 @@ export const CoachingCompteRendu: React.FC = () => {
                     <p className="font-body text-body font-bold text-ink-900 m-0 mb-1">
                       {report.coach.name}
                     </p>
-                    <p className="font-body text-caption text-ink-500 m-0 leading-snug">
+                    <p className="font-body text-caption text-ink-500 m-0">
                       {report.coach.speciality}
                     </p>
                   </div>
@@ -358,7 +358,7 @@ export const CoachingCompteRendu: React.FC = () => {
                     {report.satisfactionRating}/5
                   </span>
                 </div>
-                <p className="font-body text-caption text-ink-500 m-0 leading-snug">
+                <p className="font-body text-caption text-ink-500 m-0">
                   Basé sur ton évaluation post-session
                 </p>
               </div>

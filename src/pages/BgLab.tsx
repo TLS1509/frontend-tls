@@ -73,7 +73,7 @@ const Sample: React.FC<{ v: Variant }> = ({ v }) => (
         </span>
         <span className="font-display text-body-sm font-bold text-ink-900">Card blanche solide</span>
       </div>
-      <p className="m-0 text-caption text-ink-500 leading-snug">
+      <p className="m-0 text-caption text-ink-500">
         Les cartes de l'app restent blanches — vérifier qu'elles se détachent bien du fond.
       </p>
       <div className="flex items-center gap-1.5 pt-1">
@@ -89,7 +89,7 @@ const Sample: React.FC<{ v: Variant }> = ({ v }) => (
     {/* Card teintée (surface active) */}
     <div className="rounded-lg bg-gradient-to-br from-primary-50 to-white border border-primary-200/70 shadow-brand-sm p-stack flex flex-col gap-1">
       <span className="font-display text-body-sm font-bold text-ink-900">Card teintée (surface active)</span>
-      <p className="m-0 text-caption text-ink-600 leading-snug">
+      <p className="m-0 text-caption text-ink-600">
         Une surface teintée sur le fond texturé — cohérence des deux lavis.
       </p>
     </div>

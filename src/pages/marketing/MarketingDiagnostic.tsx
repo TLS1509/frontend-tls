@@ -435,7 +435,7 @@ export const MarketingDiagnostic: React.FC = () => {
                       >
                         {LETTRES[vi]}
                       </span>
-                      <span className="font-body text-body leading-snug">{opt}</span>
+                      <span className="font-body text-body">{opt}</span>
                     </button>
                   );
                 })}

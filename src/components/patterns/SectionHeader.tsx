@@ -313,7 +313,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
                 {title}
               </h2>
             </div>
-            {subtitle && <p className="font-body text-body-sm text-ink-500 leading-snug m-0">{subtitle}</p>}
+            {subtitle && <p className="font-body text-body-sm text-ink-500 m-0">{subtitle}</p>}
           </div>
         </div>
         {action && <div className="shrink-0 flex items-center gap-stack-xs">{action}</div>}
@@ -333,7 +333,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
                 <span aria-hidden="true" className={['absolute left-0 -bottom-0.5 rounded-pill', SIZE_UNDERLINE_HEIGHT[size], SIZE_UNDERLINE_WIDTH[size], TONE_UNDERLINE[tone]].join(' ')} />
               </span>
             </h2>
-            {subtitle && <p className="font-body text-body-sm text-ink-500 leading-snug m-0 mt-tight">{subtitle}</p>}
+            {subtitle && <p className="font-body text-body-sm text-ink-500 m-0 mt-tight">{subtitle}</p>}
           </div>
         </div>
         {action && <div className="shrink-0 flex items-center gap-stack-xs">{action}</div>}
@@ -356,7 +356,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
             {title}
           </h2>
           {subtitle && (
-            <p className="font-body text-body-sm text-ink-500 leading-snug m-0">{subtitle}</p>
+            <p className="font-body text-body-sm text-ink-500 m-0">{subtitle}</p>
           )}
         </div>
         {action && <div className="shrink-0 flex items-center gap-stack-xs">{action}</div>}
@@ -401,7 +401,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
 
         {/* Chapô — rangée 2, colonne 2 : sous le titre, jamais sous l'icône */}
         {subtitle && (
-          <p className="col-start-2 mt-tight font-body text-body-sm text-ink-500 leading-snug m-0">
+          <p className="col-start-2 mt-tight font-body text-body-sm text-ink-500 m-0">
             {subtitle}
           </p>
         )}

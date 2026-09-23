@@ -38,7 +38,7 @@ export const SettingsRow: React.FC<SettingsRowProps> = ({ icon, label, descripti
           {label}
         </p>
         {description && (
-          <p className="m-0 mt-0.5 font-body text-caption text-ink-700 leading-snug">
+          <p className="m-0 mt-0.5 font-body text-caption text-ink-700">
             {description}
           </p>
         )}

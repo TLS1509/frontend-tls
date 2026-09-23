@@ -106,7 +106,7 @@ const KeyFindings: React.FC<{ findings: { text: string; source?: string }[] }> =
               <span className="font-display text-h4 font-bold text-primary-700 leading-none">
                 {String(i + 1).padStart(2, '0')}
               </span>
-              <p className="font-body text-body text-ink-800 leading-snug m-0">{f.text}</p>
+              <p className="font-body text-body text-ink-800 m-0">{f.text}</p>
               {f.source && (
                 <span className="font-body text-caption text-ink-500 mt-auto">Source : {f.source}</span>
               )}
@@ -265,7 +265,7 @@ function renderDossierBlock(block: DossierBodyBlock, i: number) {
               <span className="font-display text-[clamp(2.5rem,6vw,3.5rem)] font-extrabold text-secondary-700 leading-none tracking-tight">
                 {block.value}
               </span>
-              <span className="font-body text-body text-ink-700 leading-snug">{block.label}</span>
+              <span className="font-body text-body text-ink-700">{block.label}</span>
               <span className="font-body text-caption text-ink-500 mt-1">Source : {block.source}</span>
             </div>
           );

@@ -97,7 +97,7 @@ export const AstucesCard: React.FC<AstucesCardProps> = ({
     </h2>
 
     {/* Description */}
-    <p className="m-0 text-body-sm sm:text-body text-ink-700 leading-snug">
+    <p className="m-0 text-body-sm sm:text-body text-ink-700">
       {description}
     </p>
 
@@ -122,7 +122,7 @@ export const AstucesCard: React.FC<AstucesCardProps> = ({
             >
               {idx + 1}
             </span>
-            <span className="font-body text-caption text-ink-800 leading-snug">{example}</span>
+            <span className="font-body text-caption text-ink-800">{example}</span>
           </li>
         ))}
       </ul>

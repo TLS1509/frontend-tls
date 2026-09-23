@@ -308,7 +308,7 @@ export const JournalFreeEntry: React.FC = () => {
                     <div className="font-body text-micro font-bold text-primary-800 uppercase tracking-widest mb-0.5">
                       {prompt.label}
                     </div>
-                    <div className="font-body text-caption text-ink-500 leading-snug">
+                    <div className="font-body text-caption text-ink-500">
                       {prompt.hint}
                     </div>
                   </div>

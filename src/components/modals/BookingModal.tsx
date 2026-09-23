@@ -528,7 +528,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   <div key={info.title} className="p-stack rounded-lg bg-ink-50 border border-ink-200">
                     <div className="text-primary-500 mb-1">{info.icon}</div>
                     <p className="m-0 mb-0.5 text-caption font-bold text-ink-900">{info.title}</p>
-                    <p className="m-0 text-micro text-ink-600 leading-snug">{info.body}</p>
+                    <p className="m-0 text-micro text-ink-600">{info.body}</p>
                   </div>
                 ))}
               </div>

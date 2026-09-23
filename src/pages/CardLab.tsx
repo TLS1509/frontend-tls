@@ -104,7 +104,7 @@ const CardA: React.FC<{ item: Item }> = ({ item }) => {
         {done && <span className="ml-auto inline-flex items-center gap-1 text-micro font-semibold text-success-fg"><Check size={14} /> Fait</span>}
       </div>
       <h3 className="font-display text-body-lg font-bold leading-snug text-ink-900 line-clamp-2 tracking-tight">{item.title}</h3>
-      <p className="m-0 text-caption text-ink-500 leading-snug line-clamp-2">{item.desc}</p>
+      <p className="m-0 text-caption text-ink-500 line-clamp-2">{item.desc}</p>
       {locked ? (
         <span className="mt-1 inline-flex items-center gap-1.5 text-caption text-ink-500"><Lock size={14} /> Upgrade requis</span>
       ) : (
@@ -137,7 +137,7 @@ const CardB: React.FC<{ item: Item }> = ({ item }) => {
       <div className="flex flex-col gap-1.5 p-4">
         <span className={`text-micro font-bold uppercase tracking-[0.05em] ${ACCENT_TEXT[m.tone]}`}>{m.label}</span>
         <h3 className="font-display text-body-lg font-bold leading-snug text-ink-900 line-clamp-2 tracking-tight">{item.title}</h3>
-        <p className="m-0 text-caption text-ink-500 leading-snug line-clamp-2">{item.desc}</p>
+        <p className="m-0 text-caption text-ink-500 line-clamp-2">{item.desc}</p>
         {locked ? (
           <span className="mt-1 inline-flex items-center gap-1.5 text-caption text-ink-500"><Lock size={14} /> Upgrade requis</span>
         ) : (
@@ -171,7 +171,7 @@ const CardC: React.FC<{ item: Item }> = ({ item }) => {
           <h3 className="mt-0.5 font-display text-body-lg font-bold leading-snug text-ink-900 line-clamp-2 tracking-tight">{item.title}</h3>
         </div>
       </div>
-      <p className="m-0 text-caption text-ink-500 leading-snug line-clamp-2">{item.desc}</p>
+      <p className="m-0 text-caption text-ink-500 line-clamp-2">{item.desc}</p>
       <div className="mt-1 flex items-center gap-1.5 pt-2.5 border-t border-ink-100">
         {locked ? (
           <span className="inline-flex items-center gap-1.5 text-caption text-ink-500"><Lock size={14} /> Upgrade requis</span>
@@ -208,7 +208,7 @@ const CardD: React.FC<{ item: Item }> = ({ item }) => {
         {done && <span className="ml-auto inline-flex items-center gap-1 text-micro font-semibold text-success-fg"><Check size={14} /> Fait</span>}
       </div>
       <h3 className="font-display text-body-lg font-bold leading-snug text-ink-900 line-clamp-2 tracking-tight">{item.title}</h3>
-      <p className="m-0 text-caption text-ink-500 leading-snug line-clamp-2">{item.desc}</p>
+      <p className="m-0 text-caption text-ink-500 line-clamp-2">{item.desc}</p>
       {locked ? (
         <span className="mt-1 inline-flex items-center gap-1.5 text-caption text-ink-500"><Lock size={14} /> Upgrade requis</span>
       ) : (

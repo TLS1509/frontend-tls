@@ -596,7 +596,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
                     ].join(' ')}
                   >
                     <span className="text-lg shrink-0">{g.emoji}</span>
-                    <span className="font-body text-body-sm font-medium leading-snug">{g.label}</span>
+                    <span className="font-body text-body-sm font-medium">{g.label}</span>
                     {on && <Check size={14} className="absolute top-2 right-2 opacity-80" />}
                   </button>
                 );

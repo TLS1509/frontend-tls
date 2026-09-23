@@ -330,7 +330,7 @@ export const MarketingHeader: React.FC = () => {
                                     >
                                       {d.label}
                                     </span>
-                                    <span className="font-body text-caption leading-snug text-ink-500">
+                                    <span className="font-body text-caption text-ink-500">
                                       {d.desc}
                                     </span>
                                   </div>
@@ -496,7 +496,7 @@ export const MarketingHeader: React.FC = () => {
                                       <span className="font-body text-body-sm font-bold">
                                         {d.label}
                                       </span>
-                                      <span className="font-body text-caption leading-snug text-ink-500">
+                                      <span className="font-body text-caption text-ink-500">
                                         {d.desc}
                                       </span>
                                     </div>

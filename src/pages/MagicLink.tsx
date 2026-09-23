@@ -69,7 +69,7 @@ export const MagicLink: React.FC = () => {
                   <p className="m-0 font-body text-body-sm font-semibold text-white">
                     Plus rapide
                   </p>
-                  <p className="m-0 font-body text-caption text-white/65 leading-snug">
+                  <p className="m-0 font-body text-caption text-white/65">
                     Connexion en 2 clics sans mot de passe à retenir.
                   </p>
                 </div>
@@ -82,7 +82,7 @@ export const MagicLink: React.FC = () => {
                   <p className="m-0 font-body text-body-sm font-semibold text-white">
                     Plus sûr
                   </p>
-                  <p className="m-0 font-body text-caption text-white/65 leading-snug">
+                  <p className="m-0 font-body text-caption text-white/65">
                     Lien à usage unique, expirant après 15 minutes.
                   </p>
                 </div>

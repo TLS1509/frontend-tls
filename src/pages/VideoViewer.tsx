@@ -271,7 +271,7 @@ export const VideoViewer: React.FC = () => {
                     onClick={() => {}}
                     className="w-full min-h-touch px-3 py-stack-xs border border-ink-100 rounded-md bg-white cursor-pointer text-left transition-colors duration-base hover:bg-ink-50 hover:border-primary-200"
                   >
-                    <div className="font-body text-body-sm font-medium text-ink-900 mb-1 leading-snug">
+                    <div className="font-body text-body-sm font-medium text-ink-900 mb-1">
                       {video.title}
                     </div>
                     <div className="font-body text-caption text-ink-500 flex items-center gap-tight">
