@@ -231,7 +231,7 @@ export const MarketingWebinaireDetail: React.FC = () => {
                       <Play size={24} className="ml-1 fill-white text-white" />
                     </a>
                   ) : (
-                    <div aria-label="Replay à venir" className="flex flex-col items-center gap-stack-xs text-white/70">
+                    <div aria-label="Replay à venir" className="flex flex-col items-center gap-stack-xs text-white">
                       <div className="w-16 h-16 rounded-pill bg-white/10 border border-white/20 flex items-center justify-center">
                         <Play size={24} className="ml-1 text-white/50" />
                       </div>

@@ -111,7 +111,7 @@ export const MarketingVideoDetail: React.FC = () => {
             ) : (
               <div
                 aria-label="Vidéo à venir"
-                className="relative z-[1] flex flex-col items-center gap-stack-xs text-white/70"
+                className="relative z-[1] flex flex-col items-center gap-stack-xs text-white"
               >
                 <div className="w-20 h-20 rounded-pill bg-white/10 border border-white/20 flex items-center justify-center">
                   <Play size={28} className="ml-1 text-white/50" />
