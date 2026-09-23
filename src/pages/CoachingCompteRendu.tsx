@@ -164,7 +164,12 @@ export const CoachingCompteRendu: React.FC = () => {
   return (
     <div className="min-h-[100dvh] bg-surface flex flex-col font-body">
 
-      {/* ── Hero / Header ── */}
+      {/* ── Hero / Header ──
+          Texte en BLANC PLEIN, comme PageHero depuis l'arbitrage n°8 (23/09) :
+          l'arrêt le plus clair du dégradé est le 700, où le blanc ne vaut que
+          5,02 — opacity-85 le faisait tomber à 4,13, opacity-80 à 3,86. Les
+          deux pastilles posaient du blanc sur un voile BLANC (/20, /12 : 3,41
+          et 3,95) : voile sombre à la place, la hiérarchie passe par sa densité. */}
       <div className="bg-gradient-to-br from-primary-900 via-primary-800 to-primary-700 p-section text-white">
 
         <Button
@@ -181,10 +186,10 @@ export const CoachingCompteRendu: React.FC = () => {
           <div className="flex flex-wrap gap-stack items-start justify-between">
             <div>
               <div className="flex items-center gap-stack-xs mb-3">
-                <span className="font-body text-caption font-bold uppercase tracking-widest bg-white/20 px-3 py-1 rounded-pill">
+                <span className="font-body text-caption font-bold uppercase tracking-widest bg-ink-900/30 px-3 py-1 rounded-pill">
                   Compte rendu
                 </span>
-                <span className="font-body text-caption font-semibold bg-white/12 px-3 py-1 rounded-pill">
+                <span className="font-body text-caption font-semibold bg-ink-900/15 px-3 py-1 rounded-pill">
                   Session {report.sessionNumber}/{report.totalSessions}
                 </span>
               </div>
@@ -192,11 +197,11 @@ export const CoachingCompteRendu: React.FC = () => {
                 {report.theme}
               </h1>
               <div className="flex flex-wrap gap-stack mt-3">
-                <span className="flex items-center gap-tight font-body text-body-sm opacity-85">
+                <span className="flex items-center gap-tight font-body text-body-sm">
                   <CalendarDays size={14} />
                   {report.date}
                 </span>
-                <span className="flex items-center gap-tight font-body text-body-sm opacity-85">
+                <span className="flex items-center gap-tight font-body text-body-sm">
                   <Clock3 size={14} />
                   {report.duration}
                 </span>
@@ -213,7 +218,7 @@ export const CoachingCompteRendu: React.FC = () => {
               >
                 <div className="w-[60px] h-[60px] rounded-pill bg-primary-700 flex flex-col items-center justify-center">
                   <span className="font-display text-h4 font-extrabold leading-none">{progressPercent}%</span>
-                  <span className="font-body opacity-80 mt-0.5 text-micro">parcours</span>
+                  <span className="font-body mt-0.5 text-micro">parcours</span>
                 </div>
               </div>
             </div>
