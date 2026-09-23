@@ -365,6 +365,31 @@ empilées disent « collection » sans en avoir les moyens — pages longues
 plate, tri impossible. Les grilles de cartes restent justes pour des objets
 qu'on choisit plutôt qu'on parcourt (parcours, ressources).
 
+## Arbitrages du banc `/_arbitrages` — 2026-09-23 (n°9, 13 à 17)
+
+Tranchés par Chloé sur le banc, avec les vrais composants. Les n°1 à 8, 10, 11
+et 12 sont écrits à leur place dans ce fichier.
+
+- **n°9 · Interrupteur façon Material 3.** Éteint : rail `ink-50` cerné d'un
+  filet 2 px `ink-400`, petit rond gris ; allumé : rail `primary-700`, rond blanc
+  plus grand. **Tout état coché d'un contrôle est au cran 700** (interrupteur,
+  case, radio) : au 500 il faisait 2,94:1, sous le 3:1 d'un contrôle. Aucun
+  interrupteur fait main : `Switch` de `core/Input` partout (le bandeau cookies
+  en avait un).
+- **n°13 · Un bouton posé sur un fond clair n'est jamais `onDark outline`.**
+  Sur les couvertures de la Veille (dégradés qui partent du cran 300/400), les
+  boutons sont en `onDark solid` — verre blanc 85 % + encre, lisible sur tous
+  les crans. `onDark outline` (filet et icône blancs) exige un fond ≥ 700.
+- **n°14 et n°15 · Catégorie et type de contenu = MetaPill.** La catégorie d'une
+  ressource et le surtitre au-dessus du titre d'un article sont des données :
+  `MetaPill`, jamais `Badge` (réservé aux états).
+- **n°16 · Pas de mouvement permanent pour signaler un état.** Le point
+  « Disponible » est fixe (`Badge dot`) ; le mot porte l'information. Brief de
+  marque : « le soin dans la matière, pas dans le mouvement ».
+- **n°17 · Aucun sombre hors palette.** Les sombres passent par `ink-950`,
+  `ink-900`, `primary-900`. Une famille « nuit » ne sera ouverte qu'avec la
+  décision du mode sombre.
+
 ## Cards — conventions tone-aware
 
 Tous les composants card sont tone-aware (`tone: primary/warm/sun`). **Source de vérité unique des maps de tone** : `src/lib/tone-classes.ts` (`TONE_BG_50`, `CTA_SHADOW_HOVER_MD`, `TONE_CTA_TEXT`, `ACTION_BTN_TONES`, `TONE_BORDER`, `SURFACE_DIVIDER`) — importer, **jamais** redéfinir inline.
