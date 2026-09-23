@@ -65,7 +65,7 @@ export const SelectableOptionCard: React.FC<SelectableOptionCardProps> = ({
           {label}
         </span>
         {!isCompact && description && (
-          <span className="text-caption text-ink-500">{description}</span>
+          <span className={`text-caption ${selected ? 'text-ink-600' : 'text-ink-500'}`}>{description}</span>
         )}
       </div>
 

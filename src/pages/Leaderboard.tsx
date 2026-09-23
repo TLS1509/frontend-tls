@@ -221,7 +221,7 @@ export const Leaderboard: React.FC = () => {
               </div>
               <div className="flex-1">
                 <div className="font-body text-body-sm font-bold text-ink-900">{currentUserRow.name}</div>
-                <div className="font-body text-caption text-ink-500">
+                <div className="font-body text-caption text-ink-600">
                   Niveau {currentUserRow.level} · {currentUserRow.xp.toLocaleString('fr-FR')} XP
                 </div>
               </div>
@@ -229,7 +229,7 @@ export const Leaderboard: React.FC = () => {
                 <div className="font-display text-h3 font-extrabold text-primary-600">
                   #{currentUserRow.rank}
                 </div>
-                <div className="font-body text-caption text-ink-500">classement</div>
+                <div className="font-body text-caption text-ink-600">classement</div>
               </div>
             </Card>
           )}
@@ -261,7 +261,8 @@ export const Leaderboard: React.FC = () => {
                     </span>
                     <div className="flex-1 min-w-0">
                       <p className="font-body text-body-sm font-bold text-ink-900 truncate">{entry.name}</p>
-                      <p className="font-body text-caption text-ink-500 truncate">
+                      {/* ink-500 fait 4,45:1 sur la rangée primary-50 de l'utilisateur : 600 là. */}
+                      <p className={`font-body text-caption truncate ${entry.isCurrentUser ? 'text-ink-600' : 'text-ink-500'}`}>
                         Niveau {entry.level} · {entry.xp.toLocaleString('fr-FR')} XP
                       </p>
                     </div>
