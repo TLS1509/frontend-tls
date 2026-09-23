@@ -19,6 +19,7 @@ import { Button } from '../components/core/Button';
 import { Card } from '../components/core/Card';
 import { Badge } from '../components/ui/Badge';
 import { Avatar } from '../components/ui/Avatar';
+import { Input } from '../components/core/Input';
 
 /* ─────────────────────────── Couleurs et contraste ─────────────────────────── */
 
@@ -282,17 +283,31 @@ const CircleCornerSpecimen: React.FC<{ inset: 'serre' | 'recule' }> = ({ inset }
   </div>
 );
 
-const FieldSpecimen: React.FC<{ border: 'border-ink-300' | 'border-ink-500' }> = ({ border }) => (
-  <div className="flex flex-col gap-stack-sm w-full max-w-[15rem]">
-    <div className={`flex items-center gap-stack-xs bg-white rounded-lg border ${border} px-stack h-11`}>
-      <SearchIcon size={16} className="text-ink-600" aria-hidden />
-      <span className="text-body-sm text-ink-500">Rechercher une compétence…</span>
+/* Le VRAI Input de l'app, pas une maquette : la première version du banc
+   dessinait un faux champ dont le texte trop long passait sur deux lignes, et
+   paraissait désaligné — le vrai Input est centré à 1,3 px près (mesuré).
+   Seule la couleur du filet est forcée, par option, pour comparer. */
+type FieldBorder = '300' | '400' | '500';
+const FIELD_BORDER: Record<FieldBorder, string> = {
+  '300': '',
+  '400': '[&_div:has(>input)]:!border-ink-400',
+  '500': '[&_div:has(>input)]:!border-ink-500',
+};
+const RAIL: Record<FieldBorder, string> = { '300': 'bg-ink-300', '400': 'bg-ink-400', '500': 'bg-ink-500' };
+
+const FieldSpecimen: React.FC<{ border: FieldBorder }> = ({ border }) => (
+  <div className="flex flex-col gap-stack-sm w-full">
+    <div className={`bg-white rounded-lg p-stack-xs ${FIELD_BORDER[border]}`}>
+      <Input aria-label="Recherche (exemple)" placeholder="Rechercher…" leadingIcon={<SearchIcon size={16} />} />
+    </div>
+    <div className={`bg-primary-50 rounded-lg p-stack-xs ${FIELD_BORDER[border]}`}>
+      <Input aria-label="Nom (exemple sur carte teintée)" placeholder="Sur carte teintée" />
     </div>
     <div className="flex items-center gap-stack-xs">
-      <span className={`relative w-11 h-6 rounded-pill ${border === 'border-ink-300' ? 'bg-ink-300' : 'bg-ink-500'}`}>
+      <span className={`relative w-11 h-6 rounded-pill shrink-0 ${RAIL[border]}`}>
         <span className="absolute top-1 left-1 w-4 h-4 rounded-pill bg-white" />
       </span>
-      <span className="text-caption text-ink-700">Notifications le week-end</span>
+      <span className="text-caption text-ink-700">Interrupteur éteint</span>
     </div>
   </div>
 );
@@ -322,7 +337,7 @@ export default function ArbitragesLab() {
 
   const white = '#ffffff';
   const p50 = tok('primary-50'), p500 = tok('primary-500'), p700 = tok('primary-700'), p800 = tok('primary-800'), ink900 = tok('ink-900');
-  const ink300 = tok('ink-300'), ink500 = tok('ink-500');
+  const ink300 = tok('ink-300'), ink400 = tok('ink-400'), ink500 = tok('ink-500');
   const worst = (c: string) => Math.min(ratio(c, white), ratio(c, p50), ratio(c, p700));
   // L'anneau bicolore : l'un des deux anneaux touche toujours la surface avec le plus fort contraste.
   const bicolore = Math.min(...[white, p50, p700].map((bg) => Math.max(ratio(white, bg), ratio(ink900, bg))));
@@ -393,12 +408,12 @@ export default function ArbitragesLab() {
   const VALIDATIONS: Omit<DecisionProps, 'choice' | 'setChoice'>[] = [
     {
       id: 'champ', n: 7, title: 'Filet des champs et interrupteurs',
-      question: 'Le correctif proposé te convient-il ?',
-      context: <p>Pas une décision de doctrine : WCAG 1.4.11 impose 3:1 au contour d'un champ. C'est le rendu qui change, d'où la validation.</p>,
+      question: 'Quel filet pour les champs et les interrupteurs ? (le vrai Input de l\u2019app)',
+      context: <p>WCAG 1.4.11 impose 3:1 au contour d'un champ, contre la surface où il est posé : d'où la mesure sur blanc ET sur carte teintée. Tu as demandé à voir 400.</p>,
       options: [
-        { letter: 'A', label: 'ink-300 (actuel)', facts: [`Contour : ${fmt(ratio(ink300, white))}:1 — échoue`], children: <FieldSpecimen border="border-ink-300" /> },
-        { letter: 'B', label: 'ink-500 (proposé)', recommended: true, facts: [`Contour : ${fmt(ratio(ink500, white))}:1`, 'Même filet que Button neutre'], children: <FieldSpecimen border="border-ink-500" /> },
-        { letter: '—', label: 'Autre chose', facts: ['Dis-moi quoi'], children: <span className="text-caption text-ink-600">À préciser</span> },
+        { letter: 'A', label: 'ink-300 (actuel)', facts: [`Sur blanc : ${fmt(ratio(ink300, white))}:1 — échoue`, `Sur carte teintée : ${fmt(ratio(ink300, p50))}:1 — échoue`], children: <FieldSpecimen border="300" /> },
+        { letter: 'B', label: 'ink-400 (à tester)', facts: [`Sur blanc : ${fmt(ratio(ink400, white))}:1 — passe de justesse`, `Sur carte teintée : ${fmt(ratio(ink400, p50))}:1 — ${ratio(ink400, p50) >= 3 ? 'passe' : 'échoue'}`, 'Le plus discret qui passe sur blanc'], children: <FieldSpecimen border="400" /> },
+        { letter: 'C', label: 'ink-500', recommended: true, facts: [`Sur blanc : ${fmt(ratio(ink500, white))}:1`, `Sur carte teintée : ${fmt(ratio(ink500, p50))}:1`, 'Passe partout ; même filet que Button neutre'], children: <FieldSpecimen border="500" /> },
       ],
     },
     {
