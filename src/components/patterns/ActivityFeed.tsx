@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { Avatar } from '../ui/Avatar';
 import { IconChip } from '../ui/IconChip';
+import { Card } from '../core/Card';
 
 /**
  * ActivityFeed — chronological list of user activities.
@@ -28,7 +29,12 @@ import { IconChip } from '../ui/IconChip';
  *   - Avatar component for actor cards
  *   - Smaller, gradient timeline rail
  *   - Optional date grouping (groupByDate)
- *   - 2 layouts: timeline (default) | cards
+ *   - 3 layouts: timeline (default) | list | cards
+ *
+ * `list` — rangées dans UNE carte, séparées par un filet (arbitrage n°5 du
+ * 23/09 : une collection se lit en rangées, pas en pile de cartes). C'est le
+ * layout d'un fil qu'on parcourt. `cards` (une carte par activité) reste
+ * pour compatibilité ; ne pas l'utiliser pour un nouveau fil.
  */
 
 export type ActivityType =
@@ -49,7 +55,7 @@ export type ActivityType =
   | 'coaching';
 
 export type ActivityTone = 'primary' | 'warm' | 'sun' | 'success' | 'danger';
-export type ActivityLayout = 'timeline' | 'cards';
+export type ActivityLayout = 'timeline' | 'list' | 'cards';
 
 export interface ActivityFeedItem {
   id: string;
@@ -73,7 +79,11 @@ export type ActivityItem = ActivityFeedItem;
 
 export interface ActivityFeedProps {
   items: ActivityFeedItem[];
-  /** Layout: 'timeline' (default, vertical rail) or 'cards' (separated cards). */
+  /**
+   * Layout: 'timeline' (default, vertical rail), 'list' (rows in one card —
+   * the one to use for a feed) or 'cards' (one card per item, kept for
+   * compatibility).
+   */
   layout?: ActivityLayout;
   /** Group items by relative date (Today / Yesterday / This week / Earlier). */
   groupByDate?: boolean;
@@ -208,10 +218,14 @@ const ActivityRow: React.FC<{
   return (
     <article
       className={[
-        'group/item relative flex items-start gap-stack-xs rounded-lg transition-[background-color,border-color,box-shadow] duration-fast ease-standard',
-        layout === 'cards'
-          ? 'p-4 bg-white border border-ink-100 hover:border-ink-200'
-          : 'p-3 bg-white border border-ink-100 hover:border-ink-200',
+        'group/item relative flex items-start gap-stack-xs',
+        /* En `list`, la rangée n'a ni coque ni fond : la carte parente porte le
+           coin, et le retrait (20 puis 24 px) ne descend jamais sous son rayon. */
+        layout === 'list'
+          ? 'px-stack-md sm:px-stack-lg py-stack'
+          : layout === 'cards'
+            ? 'p-4 rounded-lg bg-white border border-ink-100 hover:border-ink-200 transition-[background-color,border-color,box-shadow] duration-fast ease-standard'
+            : 'p-3 rounded-lg bg-white border border-ink-100 hover:border-ink-200 transition-[background-color,border-color,box-shadow] duration-fast ease-standard',
       ].join(' ')}
     >
       {/* Icon + optional rail */}
@@ -347,17 +361,34 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
               {bucket.label}
             </p>
           )}
-          <div className={layout === 'cards' ? 'flex flex-col gap-stack-xs' : 'flex flex-col gap-tight'}>
-            {bucket.items.map((item, idx) => (
-              <ActivityRow
-                key={item.id}
-                item={item}
-                layout={layout}
-                isLast={idx === bucket.items.length - 1}
-                timeFormat={timeFormat}
-              />
-            ))}
-          </div>
+          {layout === 'list' ? (
+            <Card className="p-0">
+              <ul className="flex flex-col divide-y divide-ink-100">
+                {bucket.items.map((item, idx) => (
+                  <li key={item.id}>
+                    <ActivityRow
+                      item={item}
+                      layout={layout}
+                      isLast={idx === bucket.items.length - 1}
+                      timeFormat={timeFormat}
+                    />
+                  </li>
+                ))}
+              </ul>
+            </Card>
+          ) : (
+            <div className={layout === 'cards' ? 'flex flex-col gap-stack-xs' : 'flex flex-col gap-tight'}>
+              {bucket.items.map((item, idx) => (
+                <ActivityRow
+                  key={item.id}
+                  item={item}
+                  layout={layout}
+                  isLast={idx === bucket.items.length - 1}
+                  timeFormat={timeFormat}
+                />
+              ))}
+            </div>
+          )}
         </div>
       ))}
 

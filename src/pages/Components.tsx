@@ -4224,7 +4224,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'ActivityFeed',
     codeName: 'patterns/ActivityFeed.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: 'Feed d\'activités chronologique. Lucide icons par type, Avatar pour actor, 2 layouts (timeline / cards), groupByDate optionnel. Empty state + load more.',
+    description: 'Feed d\'activités chronologique. Lucide icons par type, Avatar pour actor, 3 layouts (timeline / list / cards) — `list` = rangées dans une carte, le layout d\'un fil (arbitrage n°5) ; `cards` gardé pour compatibilité. groupByDate optionnel. Empty state + load more.',
     keywords: ['activity', 'feed', 'timeline', 'history', 'events', 'chronological', 'notification'],
     render: () => {
       const items = [
@@ -4241,8 +4241,8 @@ const COMPONENTS: ComponentEntry[] = [
             <ActivityFeed items={items} layout="timeline" groupByDate />
           </div>
           <div>
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">Layout: cards</p>
-            <ActivityFeed items={items.slice(0, 3)} layout="cards" />
+            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">Layout: list</p>
+            <ActivityFeed items={items.slice(0, 3)} layout="list" />
           </div>
         </div>
       );

@@ -166,8 +166,9 @@ const ActivitySection: React.FC<ActivitySectionProps> = ({ navigate }) => {
         </Button>
       </div>
 
+      {/* Un fil qu'on parcourt : des rangées dans une carte (arbitrage n°5 du 23/09). */}
       <ActivityFeed
-        layout="cards"
+        layout="list"
         groupByDate={false}
         timeFormat="relative"
         itemsPerPage={4}
