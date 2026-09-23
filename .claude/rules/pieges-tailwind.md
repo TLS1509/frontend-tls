@@ -17,7 +17,7 @@ Les pièges non-évidents rencontrés sur ce repo — à relire avant de toucher
 
 1. **Collisions de classes** : `utilities.css` et `layouts.css` définissaient `.border`, `.shadow-sm`, `.rounded-md`, etc. **sans @layer** → écrasaient Tailwind. Solution : `@import './X.css' layer(components);`
 
-2. **Tailwind v4 + custom shadows en @theme** : Les utilities `.shadow-X` Tailwind v4 utilisent `--tw-shadow` qui ne fonctionne PAS avec des custom shadows définies en `@theme`. Solution : ajouter dans `@layer utilities` des classes `.shadow-X { box-shadow: var(--shadow-X); }` ET `.hover:shadow-X:hover { box-shadow: var(--shadow-X); }` (déjà fait dans index.css).
+2. ⚠️ **PÉRIMÉ depuis le 2026-09-23 — ne plus appliquer.** Tailwind 4.2 génère `shadow-*` depuis `--shadow-*` avec la chaîne ring ; nos réécritures plates ont été retirées d'`index.css` (elles effaçaient les `ring-*`, voir n°6 bis). Texte d'origine conservé pour l'historique : **Tailwind v4 + custom shadows en @theme** : Les utilities `.shadow-X` Tailwind v4 utilisent `--tw-shadow` qui ne fonctionne PAS avec des custom shadows définies en `@theme`. Solution : ajouter dans `@layer utilities` des classes `.shadow-X { box-shadow: var(--shadow-X); }` ET `.hover:shadow-X:hover { box-shadow: var(--shadow-X); }` (déjà fait dans index.css).
 
 3. **Tokens identiques entre @theme et design-tokens.css** : Une variable CSS définie aux deux endroits avec des valeurs différentes peut causer des bugs visuels subtils. Toujours vérifier `getComputedStyle()`.
 
@@ -49,6 +49,8 @@ comm -12 <(grep -o '^\s*--[a-z0-9-]*:' src/styles/design-tokens.css | tr -d ' :'
 6. **Border color split entre BASE et STATUS** : Si un composant a une `border-X-Y` dans la BASE (couleur par défaut) ET un override dans `STATUS_CLASSES` (couleur erreur/succès), Tailwind v4 émet les deux dans le même `@layer utilities` et la spécificité est identique (0,1,0). L'ordre dans la classe **n'importe pas** ; c'est l'ordre d'émission de Tailwind qui décide → souvent la couleur de base gagne. **Solution** : retirer la couleur de la BASE et la mettre dans `STATUS_CLASSES.default`, comme dans `Input.tsx`. Garder seulement `border` (largeur) dans BASE.
 
 ### ⚠️ Piège n°6 bis : nos `shadow-*` maison tuent silencieusement les `ring-*`
+
+> ✅ **Résolu le 2026-09-23** : le bloc de `shadow-*` plats a été supprimé d'`index.css` ; Tailwind génère les mêmes ombres (134 relevés identiques sur 135 au navigateur) en nourrissant la chaîne ring. Le seul écart mesuré est l'anneau `ring-4` du Stepper, qui réapparaît. Le piège reste vrai pour toute utility `box-shadow` écrite à la main : ne pas en réintroduire.
 
 Mesuré au navigateur le 2026-09-10, sur `TlsLogo` puis reproduit en sonde isolée :
 

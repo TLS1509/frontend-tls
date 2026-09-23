@@ -294,12 +294,17 @@
        disabled  50%  → disabled UI elements (existing token, kept)
        overlay   70%  → strong scrim (modal backdrop with content focus)
   */
-  --opacity-faint:    0.05;
-  --opacity-soft:     0.10;
-  --opacity-tinted:   0.15;
-  --opacity-medium:   0.30;
-  --opacity-disabled: 0.5;
-  --opacity-overlay:  0.70;
+  /* En POURCENTAGES, pas en fractions (corrigé le 2026-09-23) : le modificateur
+     `/medium` se compile en `color-mix(in oklab, … 0.30, transparent)`, et
+     color-mix exige un pourcentage. À 0.30 la déclaration était invalide et la
+     couleur tombait à transparent — mesuré sur `bg-primary-500/overlay`.
+     `opacity: 50%` reste valide pour `opacity-disabled`. */
+  --opacity-faint:    5%;
+  --opacity-soft:     10%;
+  --opacity-tinted:   15%;
+  --opacity-medium:   30%;
+  --opacity-disabled: 50%;
+  --opacity-overlay:  70%;
 
   /* ── z-index ── SEMANTIC LAYERING SCALE
      Tailwind v4 auto-generates utilities `z-{name}` :
@@ -1228,58 +1233,20 @@
 }
 
 /* ============================================
-   TAILWIND v4 SHADOW FIX (statique + hover)
+   OMBRES ET TRACKING : générés par Tailwind depuis @theme
    ─────────────────────────────────────────────
-   Tailwind v4 utility shadow utilise un système --tw-shadow complexe qui ne
-   se cumule pas correctement avec nos custom shadows du @theme + design-tokens.
-   On force box-shadow direct via var(--shadow-X) pour un rendu fiable.
+   Jusqu'au 2026-09-23, ce bloc réécrivait les ~40 `shadow-*` / `hover:shadow-*`
+   en `box-shadow: var(--shadow-X)` PLAT. Motif d'origine : Tailwind v4 ne
+   composait pas nos ombres. C'est faux depuis 4.2 (mesuré dans le CSS livré :
+   Tailwind génère `.shadow-sm` depuis `--shadow-sm` avec la chaîne
+   `--tw-ring-shadow`). Notre réécriture, émise après, écrasait cette chaîne :
+   tout `ring-*` posé avec une ombre maison disparaissait (piège n°6 bis,
+   23 chaînes dans 14 fichiers). Même motif pour `tracking-display` et
+   `tracking-headline`, figés en dur alors que Tailwind les lit dans
+   `--tracking-*` : changer le token n'avait aucun effet.
+   Ne pas rétablir ces classes : modifier le token dans @theme suffit.
    ============================================ */
 @layer utilities {
-  .shadow-xs { box-shadow: var(--shadow-xs); }
-  .shadow-sm { box-shadow: var(--shadow-sm); }
-  .shadow-md { box-shadow: var(--shadow-md); }
-  .shadow-lg { box-shadow: var(--shadow-lg); }
-  .shadow-xl { box-shadow: var(--shadow-xl); }
-  .shadow-brand-xs { box-shadow: var(--shadow-brand-xs); }
-  .shadow-brand-sm { box-shadow: var(--shadow-brand-sm); }
-  .shadow-brand-md { box-shadow: var(--shadow-brand-md); }
-  .shadow-warm-xs { box-shadow: var(--shadow-warm-xs); }
-  .shadow-warm-sm { box-shadow: var(--shadow-warm-sm); }
-  .shadow-warm-md { box-shadow: var(--shadow-warm-md); }
-  .shadow-sun-xs { box-shadow: var(--shadow-sun-xs); }
-  .shadow-sun-sm { box-shadow: var(--shadow-sun-sm); }
-  .shadow-sun-md { box-shadow: var(--shadow-sun-md); }
-  /* Warm-tinted card shadows (Phase 19.D) */
-  .shadow-card       { box-shadow: var(--shadow-card); }
-  .shadow-card-hover { box-shadow: var(--shadow-card-hover); }
-  .shadow-card-lift  { box-shadow: var(--shadow-card-lift); }
-  .hover\:shadow-xs:hover { box-shadow: var(--shadow-xs); }
-  .hover\:shadow-sm:hover { box-shadow: var(--shadow-sm); }
-  .hover\:shadow-md:hover { box-shadow: var(--shadow-md); }
-  .hover\:shadow-lg:hover { box-shadow: var(--shadow-lg); }
-  .hover\:shadow-xl:hover { box-shadow: var(--shadow-xl); }
-  .hover\:shadow-brand-xs:hover { box-shadow: var(--shadow-brand-xs); }
-  .hover\:shadow-brand-sm:hover { box-shadow: var(--shadow-brand-sm); }
-  .hover\:shadow-brand-md:hover { box-shadow: var(--shadow-brand-md); }
-  .hover\:shadow-warm-xs:hover { box-shadow: var(--shadow-warm-xs); }
-  .hover\:shadow-warm-sm:hover { box-shadow: var(--shadow-warm-sm); }
-  .hover\:shadow-warm-md:hover { box-shadow: var(--shadow-warm-md); }
-  .hover\:shadow-sun-xs:hover { box-shadow: var(--shadow-sun-xs); }
-  .hover\:shadow-sun-sm:hover { box-shadow: var(--shadow-sun-sm); }
-  .hover\:shadow-sun-md:hover { box-shadow: var(--shadow-sun-md); }
-  .shadow-danger-md { box-shadow: var(--shadow-danger-md); }
-  .hover\:shadow-danger-md:hover { box-shadow: var(--shadow-danger-md); }
-  .shadow-success-xs { box-shadow: var(--shadow-success-xs); }
-  .shadow-success-sm { box-shadow: var(--shadow-success-sm); }
-  .hover\:shadow-success-xs:hover { box-shadow: var(--shadow-success-xs); }
-  .hover\:shadow-success-sm:hover { box-shadow: var(--shadow-success-sm); }
-  .hover\:shadow-card:hover       { box-shadow: var(--shadow-card); }
-  .hover\:shadow-card-hover:hover { box-shadow: var(--shadow-card-hover); }
-  .hover\:shadow-card-lift:hover  { box-shadow: var(--shadow-card-lift); }
-  /* Display-level typography tracking (Phase 19.D gap #1)
-     Use on League Spartan at ≥2rem sizes for premium tightness */
-  .tracking-display { letter-spacing: -0.03em; }
-  .tracking-headline { letter-spacing: -0.025em; }
 
   /* Ease utilities — @theme --ease-* not auto-generated by Tailwind v4 (same pattern as shadow-*) */
   .ease-standard   { transition-timing-function: var(--ease-standard); }
