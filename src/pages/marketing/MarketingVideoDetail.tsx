@@ -19,6 +19,7 @@ import {
   ListVideo,
 } from 'lucide-react';
 import { PageShell } from '../../components/layout';
+import { MetaPill } from '../../components/ui/MetaPill';
 import { FadeInWhenVisible } from '../../components/marketing/motion';
 import { SEOHead } from './components/SEOHead';
 import { findVideo, getRelatedVideos } from '../../data/marketingVideos';
@@ -58,9 +59,7 @@ export const MarketingVideoDetail: React.FC = () => {
 
           <FadeInWhenVisible direction="up" delay={0.05}>
             <div className="flex items-center gap-stack flex-wrap">
-              <span className="inline-flex items-center px-3 py-1 rounded-pill border bg-primary-50 text-primary-700 border-primary-100 font-body text-caption font-bold uppercase tracking-wider">
-                <Play size={14} className="mr-1.5" /> Vidéo
-              </span>
+              <MetaPill icon={<Play />} text="Vidéo" tone="primary" />
               <span className="inline-flex items-center gap-stack-2xs font-body text-caption text-ink-600">
                 <Calendar size={14} /> {video.date}
               </span>

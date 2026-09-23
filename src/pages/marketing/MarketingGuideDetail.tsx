@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
 import { Input } from '../../components/core/Input';
+import { MetaPill } from '../../components/ui/MetaPill';
 import { PageShell } from '../../components/layout';
 import { FadeInWhenVisible } from '../../components/marketing/motion';
 import { SEOHead } from './components/SEOHead';
@@ -81,9 +82,7 @@ export const MarketingGuideDetail: React.FC = () => {
 
           <FadeInWhenVisible direction="up" delay={0.05}>
             <div className="flex items-center gap-stack flex-wrap">
-              <span className="inline-flex items-center px-3 py-1 rounded-pill border bg-secondary-50 text-secondary-700 border-secondary-100 font-body text-caption font-bold uppercase tracking-wider">
-                <FileText size={14} className="mr-1.5" /> Guide {guide.format}
-              </span>
+              <MetaPill icon={<FileText />} text={`Guide ${guide.format}`} tone="warm" />
               <span className="font-body text-caption text-ink-600">
                 {guide.pageCount} pages · {guide.date}
               </span>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence, MotionConfig } from 'framer-motion';
 import { BookOpen, MessageSquare, NotebookPen, Compass, Sparkles } from 'lucide-react';
 import { TlsLogo } from '../../ui/TlsLogo';
+import { MetaPill } from '../../ui/MetaPill';
 
 type TabKey = 'parcours' | 'coaching' | 'journal' | 'veille';
 
@@ -165,9 +166,7 @@ const VeillePanel: React.FC = () => (
         transition={{ delay: i * 0.12 }}
         className="rounded-lg bg-white border border-ink-200 p-3 flex flex-col gap-tight"
       >
-        <span className="inline-flex items-center self-start px-2 py-0.5 rounded-pill bg-primary-50 text-primary-700 text-micro font-bold uppercase">
-          {item.tag}
-        </span>
+        <MetaPill text={item.tag} tone="primary" className="self-start" />
         <p className="font-body font-bold text-body-sm text-ink-900 m-0">{item.title}</p>
         <p className="font-body text-caption text-ink-500 m-0">{item.src}</p>
       </motion.div>
