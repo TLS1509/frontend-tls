@@ -268,7 +268,9 @@ const CreditsTab: React.FC<{ credits: { classic: number; special: number } }> = 
             </div>
           </div>
           <div className="flex items-center gap-stack-xs justify-center md:justify-start">
-            <div className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-accent-50 text-accent-500 shrink-0">
+            {/* Cran 100 : au 50, la pastille se fondait dans la carte
+                secondary-50/60 (arbitrage n°10 du 2026-09-23). */}
+            <div className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-accent-100 text-accent-500 shrink-0">
               <Star size={18} />
             </div>
             <div className="flex flex-col gap-tight">

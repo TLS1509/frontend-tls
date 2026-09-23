@@ -101,6 +101,16 @@ const TONE_BUBBLE: Record<IconFeatureCardTone, string> = {
   sun:   'bg-accent-50 text-accent-400',
 };
 
+/* Bulle sur surface `tinted` — arbitrage n°10 du 2026-09-23 (option C,
+   « Cran 100 »). La surface est au cran 50 (à 60 % au repos, pleine au
+   survol) : une bulle au 50 s'y fondait, jusqu'à 1,00:1 sous le pointeur.
+   Elle monte au cran 100, comme `IconChip surface="tinted"`. */
+const TONE_BUBBLE_ON_TINTED: Record<IconFeatureCardTone, string> = {
+  brand: 'bg-primary-100 text-primary-500',
+  warm:  'bg-secondary-100 text-secondary-500',
+  sun:   'bg-accent-100 text-accent-400',
+};
+
 const TONE_FOCUS: Record<IconFeatureCardTone, string> = {
   brand: 'focus-visible:outline-primary-500',
   warm:  'focus-visible:outline-secondary-400',
@@ -244,7 +254,7 @@ export const IconFeatureCard: React.FC<IconFeatureCardProps> = ({
         className={[
           'inline-flex items-center justify-center rounded-xl transition-transform group-hover:scale-110',
           BUBBLE_SIZE[iconSize],
-          TONE_BUBBLE[tone],
+          surface === 'tinted' ? TONE_BUBBLE_ON_TINTED[tone] : TONE_BUBBLE[tone],
         ].join(' ')}
         aria-hidden="true"
       >
