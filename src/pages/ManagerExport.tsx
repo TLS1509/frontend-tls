@@ -46,7 +46,7 @@ export default function ManagerExport() {
       <EditorialHero
         eyebrow="Manager · Export"
         title="Exporter les Données"
-        summary="Génère des rapports personnalisés sur la progression de ta cohorte, les KPIs d'engagement et les niveaux Dreyfus."
+        summary="Générez des rapports personnalisés sur la progression de votre cohorte, les KPIs d'engagement et les niveaux Dreyfus."
         tone="flat"
         trailing={
           <Badge variant="info" size="normal">RGPD conforme : données anonymisables</Badge>

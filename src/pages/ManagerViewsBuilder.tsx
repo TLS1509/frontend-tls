@@ -92,8 +92,8 @@ const ManagerViewsBuilder: React.FC = () => {
     <div className="min-h-[100dvh] bg-surface">
       <EditorialHero
         eyebrow="Manager · Custom Views Builder"
-        title="Crée ta vue analytique sur mesure"
-        summary="Sélectionne tes métriques, choisis ton type de graphique, sauvegarde et partage"
+        title="Créez votre vue analytique sur mesure"
+        summary="Sélectionnez vos métriques, choisissez votre type de graphique, sauvegardez et partagez"
         tone="flat"
       />
 

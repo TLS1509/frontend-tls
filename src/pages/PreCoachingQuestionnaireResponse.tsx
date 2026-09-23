@@ -16,7 +16,7 @@ export const PreCoachingQuestionnaireResponse: React.FC = () => {
       <EditorialHero
         eyebrow={{ icon: <Sparkles size={14} />, label: 'Coaching prep' }}
         title="Questionnaire Response"
-        summary="Vue de restitution des réponses envoyées au coach, utilisées pour personnaliser votre prochaine session."
+        summary="Vue de restitution des réponses envoyées au coach, utilisées pour personnaliser ta prochaine session."
         meta={[
           { icon: <CalendarDays size={14} />, label: 'Session prévue mardi 14:30' },
           { icon: <Clock3 size={14} />, label: 'Soumis il y a 2h' },
@@ -26,7 +26,7 @@ export const PreCoachingQuestionnaireResponse: React.FC = () => {
       <EditorialLayout
         main={
           <SectionCard
-            title="Vos réponses"
+            title="Tes réponses"
             titleIcon={<CheckCircle2 size={16} className="text-success-fg" />}
             actions={
               <>

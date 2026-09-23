@@ -46,7 +46,7 @@ export default function CoachHeatmap() {
       <EditorialHero
         eyebrow="Coach · Passeport"
         title="Heatmap Compétences Équipe"
-        summary="Visualise les niveaux Dreyfus de toute ton équipe d'un seul coup d'œil. Identifie les lacunes collectives et les apprenants en difficulté."
+        summary="Visualisez les niveaux Dreyfus de toute votre équipe d'un seul coup d'œil. Identifiez les lacunes collectives et les apprenants en difficulté."
         tone="flat"
         trailing={
           <div className="flex items-center gap-stack-xs">

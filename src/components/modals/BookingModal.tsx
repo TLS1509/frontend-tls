@@ -124,7 +124,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   userPlan = 'free',
   creditsRemaining,
   creditsTotal,
-  companyName = 'Votre entreprise',
+  companyName = 'Ton entreprise',
   sessionPrice = 75,
 }) => {
   // Comportement de dialogue partagé (APG) : focus entrant, Tab piégé, Échap, focus rendu.
@@ -227,7 +227,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
           <Wallet size={16} className="text-primary-600 shrink-0 mt-0.5" />
           <div className="flex-1 min-w-0">
             <p className="m-0 font-body text-caption font-bold text-ink-900">
-              Incluse dans votre forfait {userPlan === 'pro' ? 'Pro' : ''}
+              Incluse dans ton forfait {userPlan === 'pro' ? 'Pro' : ''}
             </p>
             <p className="m-0 font-body text-micro text-ink-600">
               {credits.remaining} / {credits.total} sessions restantes ce mois
@@ -248,8 +248,8 @@ export const BookingModal: React.FC<BookingModalProps> = ({
           </p>
           <p className="m-0 font-body text-micro text-ink-600">
             {userPlan === 'pro'
-              ? 'Cette session sera facturée en plus de votre forfait.'
-              : <>Passez à <strong>TLS Pro</strong> pour des sessions incluses · <a href="/account/billing" className="text-primary-700 underline font-semibold">Voir forfaits</a></>}
+              ? 'Cette session sera facturée en plus de ton forfait.'
+              : <>Passe à <strong>TLS Pro</strong> pour des sessions incluses · <a href="/account/billing" className="text-primary-700 underline font-semibold">Voir forfaits</a></>}
           </p>
         </div>
       </div>
@@ -465,7 +465,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               </div>
 
               <p className="m-0 font-body text-micro text-ink-500 leading-relaxed">
-                En confirmant, vous acceptez nos{' '}
+                En confirmant, tu acceptes nos{' '}
                 <a href="/terms" className="text-primary-700 underline">CGV</a> et la{' '}
                 <a href="/cancellation" className="text-primary-700 underline">politique d'annulation</a> (gratuite jusqu'à 24h avant).
               </p>

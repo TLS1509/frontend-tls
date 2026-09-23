@@ -257,7 +257,7 @@ export default function CoachLearnerProfile() {
         <SectionCard
           title="Progression Dreyfus par compétence"
           titleIcon={<BookOpen size={18} />}
-          description="Valide le niveau atteint par l'apprenant. Une validation coach/manager est une décision humaine : elle écrit le niveau validé et signe une preuve certifiante au Passeport (AI Act art. 22)."
+          description="Validez le niveau atteint par l'apprenant. Une validation coach/manager est une décision humaine : elle écrit le niveau validé et signe une preuve certifiante au Passeport (AI Act art. 22)."
         >
           {competencies.length === 0 ? (
             <p className="text-body-sm text-ink-500 m-0">
@@ -382,7 +382,7 @@ export default function CoachLearnerProfile() {
           <SectionCard
             title="Recommandations IA"
             titleIcon={<Sparkles size={18} />}
-            description="Suggestions générées par l'analyse comportementale. Tu peux les appliquer ou les rejeter avec un motif."
+            description="Suggestions générées par l'analyse comportementale. Vous pouvez les appliquer ou les rejeter avec un motif."
             headerAction={<AITransparencyLabel variant="recommended" size="sm" />}
           >
             <div className="flex flex-col gap-stack-xs">
@@ -464,7 +464,7 @@ export default function CoachLearnerProfile() {
         <SectionCard
           title="Notes coach"
           titleIcon={<FileText size={18} />}
-          description="Tes observations et points de suivi : visibles uniquement par toi"
+          description="Vos observations et points de suivi : visibles uniquement par vous"
           actions={
             <Button
               emphasis="soft"
@@ -478,7 +478,7 @@ export default function CoachLearnerProfile() {
         >
           <textarea
             className="w-full h-auto min-h-[120px] rounded-lg border border-ink-200 bg-ink-50 px-3.5 py-3 text-body-sm text-ink-900 font-body placeholder:text-ink-500 focus:outline-none focus:border-primary-500 focus:bg-white transition-colors resize-none"
-            placeholder="Écris ici tes observations sur l'apprenant, les points à travailler, les avancées notables…"
+            placeholder="Écrivez ici vos observations sur l'apprenant, les points à travailler, les avancées notables…"
             value={note}
             onChange={(e) => setNote(e.target.value)}
             rows={5}

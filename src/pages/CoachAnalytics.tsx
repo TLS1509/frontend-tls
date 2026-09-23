@@ -123,7 +123,7 @@ export default function CoachAnalytics() {
       <EditorialHero
         eyebrow={{ label: 'Coach · Analytics' }}
         title="Analytics Équipe"
-        summary="Suivi de l'engagement, de la progression Dreyfus et de l'activité de correction de ta cohorte."
+        summary="Suivi de l'engagement, de la progression Dreyfus et de l'activité de correction de votre cohorte."
         tone="flat"
         trailing={
           <div className="flex flex-wrap gap-stack-xs">

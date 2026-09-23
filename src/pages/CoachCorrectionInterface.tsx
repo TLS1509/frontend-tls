@@ -96,7 +96,7 @@ export default function CoachCorrectionInterface() {
 
           {/* Feedback form */}
           {!submitted ? (
-            <SectionCard title="Ton feedback" titleIcon={<MessageSquare size={18} />}>
+            <SectionCard title="Votre feedback" titleIcon={<MessageSquare size={18} />}>
               <div className="flex flex-col gap-stack">
                 <FormGroup label="Commentaire général" id="feedback">
                   <textarea
@@ -139,7 +139,7 @@ export default function CoachCorrectionInterface() {
               </div>
               <div className="flex flex-col gap-tight">
                 <p className="text-body font-semibold text-ink-900">Feedback envoyé</p>
-                <p className="text-body-sm text-ink-500">Sophie Martin sera notifiée de ta correction.</p>
+                <p className="text-body-sm text-ink-500">Sophie Martin sera notifiée de votre correction.</p>
               </div>
               <Button emphasis="soft" size="md">
                 Exercice suivant

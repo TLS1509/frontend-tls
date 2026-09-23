@@ -138,7 +138,7 @@ export default function AlerteInactivite() {
       <EditorialHero
         eyebrow="Enterprise · Alertes"
         title="Alertes Inactivité"
-        summary="Configure les seuils d'alerte pour les apprenants inactifs et consulte l'historique des alertes déclenchées."
+        summary="Configurez les seuils d'alerte pour les apprenants inactifs et consultez l'historique des alertes déclenchées."
         tone="flat"
         trailing={
           <Button emphasis="soft" size="sm" leadingIcon={<Bell size={14} />}>

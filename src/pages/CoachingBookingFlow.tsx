@@ -30,7 +30,7 @@ export const CoachingBookingFlow: React.FC = () => {
   const handleConfirm = async () => {
     const profile = profileStore.get();
     if (profile.credits.classic < 1) {
-      toast.error('Vous n\'avez plus de crédits Classic. Rechargez votre compte pour réserver.', 'Crédits insuffisants');
+      toast.error('Tu n\'as plus de crédits Classic. Recharge ton compte pour réserver.', 'Crédits insuffisants');
       return;
     }
     setIsConfirming(true);
@@ -73,7 +73,7 @@ export const CoachingBookingFlow: React.FC = () => {
           <SectionCard
             title="Choisir un créneau"
             titleIcon={<CalendarDays size={16} className="text-primary-600" />}
-            description="Sélectionnez le créneau souhaité : 1 crédit Classic sera déduit à la confirmation."
+            description="Sélectionne le créneau souhaité : 1 crédit Classic sera déduit à la confirmation."
             actions={
               <>
                 <Button

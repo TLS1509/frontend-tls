@@ -78,7 +78,7 @@ export default function CoachTeamDashboard() {
       <EditorialHero
         eyebrow="Coach · Équipe"
         title="Tableau de Bord Équipe"
-        summary="Vue d'ensemble de la progression de toute ton équipe : activité, niveaux Dreyfus, sessions et corrections."
+        summary="Vue d'ensemble de la progression de toute votre équipe : activité, niveaux Dreyfus, sessions et corrections."
         tone="flat"
         trailing={
           <div className="flex items-center gap-stack-xs">

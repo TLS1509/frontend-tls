@@ -46,8 +46,8 @@ export const ResetPassword: React.FC = () => {
     <AuthShell
       brand={{
         icon: <ShieldCheck size={24} strokeWidth={1.75} className="text-white" />,
-        title: 'Réinitialiser ton mot de passe',
-        subtitle: 'Choisis un mot de passe robuste',
+        title: 'Réinitialiser votre mot de passe',
+        subtitle: 'Choisissez un mot de passe robuste',
       }}
       form={
         <form className="flex flex-col gap-stack" onSubmit={handleSubmit}>

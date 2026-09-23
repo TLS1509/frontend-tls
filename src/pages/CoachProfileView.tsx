@@ -96,7 +96,7 @@ export default function CoachProfileView() {
       <EditorialHero
         eyebrow="Coaching · Mon Coach"
         title="Sophie Martin"
-        summary="Votre coach certifiée en IA & Pédagogie. Découvrez son parcours, ses spécialités et réservez votre prochaine session."
+        summary="Ta coach certifiée en IA & Pédagogie. Découvre son parcours, ses spécialités et réserve ta prochaine session."
         tone="flat"
       />
 
@@ -127,7 +127,7 @@ export default function CoachProfileView() {
             <SectionCard title="Approche pédagogique">
               <div className="flex flex-col gap-stack">
                 <p className="text-body text-ink-700">
-                  Sophie adopte une approche co-constructive : chaque session part de votre réalité, de vos blocages concrets et de vos ambitions. Elle ne prescrit pas, elle explore avec vous. L'objectif : que vous repartiez avec des outils actionnables dès le lendemain matin.
+                  Sophie adopte une approche co-constructive : chaque session part de ta réalité, de tes blocages concrets et de tes ambitions. Elle ne prescrit pas, elle explore avec toi. L'objectif : que tu repartes avec des outils actionnables dès le lendemain matin.
                 </p>
                 <ul className="flex flex-col gap-stack-xs">
                   {APPROACH_ITEMS.map((item, i) => (

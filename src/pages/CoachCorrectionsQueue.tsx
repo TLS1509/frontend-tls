@@ -76,7 +76,7 @@ export default function CoachCorrectionsQueue() {
       <EditorialHero
         eyebrow="Coach · Corrections"
         title="File de Corrections"
-        summary="Gère les exercices soumis par tes apprenants. Corrige, commente et suis la progression de chacun."
+        summary="Gérez les exercices soumis par vos apprenants. Corrigez, commentez et suivez la progression de chacun."
         tone="flat"
         trailing={
           urgentCount > 0 ? (

@@ -48,7 +48,7 @@ export default function CoachApprenants() {
       <EditorialHero
         eyebrow="Coach · Apprenants"
         title="Mes Apprenants"
-        summary="Suis la progression de chaque apprenant, identifie les situations à risque et planifie les interventions."
+        summary="Suivez la progression de chaque apprenant, identifiez les situations à risque et planifiez les interventions."
         tone="flat"
       />
 
@@ -113,7 +113,7 @@ export default function CoachApprenants() {
             <EmptyState
               icon={<Users size={32} />}
               title="Aucun apprenant trouvé"
-              description="Aucun apprenant ne correspond à ta recherche."
+              description="Aucun apprenant ne correspond à votre recherche."
             />
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-stack">

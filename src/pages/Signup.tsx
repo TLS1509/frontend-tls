@@ -33,14 +33,14 @@ export const Signup: React.FC = () => {
 
   return (
     <AuthShell
-      brand={{ subtitle: 'Crée ton compte pour démarrer ta formation' }}
+      brand={{ subtitle: 'Créez votre compte pour démarrer votre formation' }}
       form={
         <form className="flex flex-col gap-stack" onSubmit={handleSubmit}>
           <AuthField
             label="Nom complet"
             icon={<UserRound size={18} />}
             type="text"
-            placeholder="Ton nom"
+            placeholder="Votre nom"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
             required
@@ -50,7 +50,7 @@ export const Signup: React.FC = () => {
             label="Adresse email"
             icon={<Mail size={18} />}
             type="email"
-            placeholder="toi@entreprise.com"
+            placeholder="vous@entreprise.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required

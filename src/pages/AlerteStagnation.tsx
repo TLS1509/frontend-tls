@@ -118,7 +118,7 @@ export default function AlerteStagnation() {
       <EditorialHero
         eyebrow="Coach · Alertes"
         title="Alertes Stagnation"
-        summary="Apprenants dont la progression Dreyfus est bloquée depuis plus de 30 jours. Interviens avant qu'ils décrochent."
+        summary="Apprenants dont la progression Dreyfus est bloquée depuis plus de 30 jours. Intervenez avant qu'ils décrochent."
         tone="flat"
         trailing={
           <Badge variant="sun" size="normal">3 stagnations critiques</Badge>

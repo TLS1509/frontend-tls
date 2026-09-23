@@ -42,19 +42,19 @@ const DEFAULT_QUESTIONS: Question[] = [
   {
     id: 1,
     title: 'Maîtrise des outils numériques',
-    description: 'Comment évaluez-vous votre niveau actuel ?',
+    description: 'Comment évalues-tu ton niveau actuel ?',
     competenceKey: 'outils_numeriques',
   },
   {
     id: 2,
     title: 'Analyse de données',
-    description: 'Quelle est votre aisance avec les statistiques ?',
+    description: 'Quelle est ton aisance avec les statistiques ?',
     competenceKey: 'analyse_donnees',
   },
   {
     id: 3,
     title: 'Communication digitale',
-    description: 'Comment vous situez-vous en communication en ligne ?',
+    description: 'Comment te situes-tu en communication en ligne ?',
     competenceKey: 'communication_digitale',
   },
 ];
@@ -257,9 +257,9 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
                     </div>
                   ))}
                 </div>
-                <h3 className="text-h3 text-ink-900 mb-2">Votre profil est prêt.</h3>
+                <h3 className="text-h3 text-ink-900 mb-2">Ton profil est prêt.</h3>
                 <p className="text-body text-ink-600 mb-stack-lg">
-                  Le parcours va maintenant s'adapter à votre niveau.
+                  Le parcours va maintenant s'adapter à ton niveau.
                 </p>
 
                 <div className="grid grid-cols-3 gap-stack-xs mb-stack-md">
@@ -278,7 +278,7 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
                   <div>
                     <p className="text-caption font-bold text-primary-600 mb-1">🔮 Prochainement : Adaptive Learning</p>
                     <p className="text-caption text-ink-600 leading-relaxed">
-                      Votre <strong>Passport de Compétences</strong> personnalisera le contenu en fonction de votre progression.
+                      Ton <strong>Passport de Compétences</strong> personnalisera le contenu en fonction de ta progression.
                     </p>
                   </div>
                 </div>
@@ -286,7 +286,7 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
 
               <div className="text-center p-3 rounded-lg bg-primary-500/6 animate-pulse">
                 <p className="text-caption text-ink-600">
-                  Redirection vers votre parcours dans quelques instants… 🎓
+                  Redirection vers ton parcours dans quelques instants… 🎓
                 </p>
               </div>
             </div>

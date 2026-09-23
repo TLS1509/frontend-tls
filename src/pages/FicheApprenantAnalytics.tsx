@@ -56,7 +56,7 @@ export default function FicheApprenantAnalytics() {
   if (!learner) {
     return (
       <div className="flex flex-col gap-section">
-        <EditorialHero eyebrow="Coach · Fiche Apprenant" title="Apprenant introuvable" summary="Cet apprenant n'est pas dans ton équipe." tone="flat" />
+        <EditorialHero eyebrow="Coach · Fiche Apprenant" title="Apprenant introuvable" summary="Cet apprenant n'est pas dans votre équipe." tone="flat" />
         <Container width="wide" padding={false} className="px-stack md:px-section">
           <p className="text-body-sm text-ink-500">Aucune donnée pour l'identifiant : {id}</p>
         </Container>

@@ -27,8 +27,8 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
   isOpen,
   onClose,
   onSubmit,
-  title = 'Votre avis compte',
-  subtitle = 'Comment évaluez-vous cette session ?',
+  title = 'Ton avis compte',
+  subtitle = 'Comment évalues-tu cette session ?',
 }) => {
   // Comportement de dialogue partagé (APG) : focus entrant, Tab piégé, Échap, focus rendu.
   const dialog = useDialog<HTMLDivElement>(isOpen, onClose);
@@ -146,7 +146,7 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
               <textarea
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
-                placeholder="Partagez votre expérience…"
+                placeholder="Partage ton expérience…"
                 rows={4}
                 className="w-full box-border p-3 rounded-lg border-[1.5px] border-ink-200 bg-ink-50 text-ink-900 text-body-sm resize-y transition-colors font-body h-auto min-h-[120px] focus:outline-none focus:border-accent-400 focus:bg-white"
               />
@@ -166,10 +166,10 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
           <div className="text-center py-stack-lg animate-[fbFadeIn_0.4s_ease_both]">
             <div className="text-[3.5rem] mb-3">🌟</div>
             <h3 className="text-h4 font-bold text-ink-900 mb-2">
-              Merci pour votre retour.
+              Merci pour ton retour.
             </h3>
             <p className="text-body text-ink-600">
-              Votre avis nous aide à améliorer l'expérience.
+              Ton avis nous aide à améliorer l'expérience.
             </p>
           </div>
         )}

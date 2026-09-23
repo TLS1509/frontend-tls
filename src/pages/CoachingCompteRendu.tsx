@@ -292,7 +292,7 @@ export const CoachingCompteRendu: React.FC = () => {
             <section>
               <h2 className="font-display text-h3 font-bold text-ink-900 mb-stack-md flex items-center gap-stack-xs">
                 <MessageSquareQuote size={20} className="text-primary-600" />
-                Note de votre coach
+                Note de ton coach
               </h2>
               <div className="bg-primary-50/40 border border-primary-100 rounded-lg p-stack-lg">
                 <div className="flex gap-stack items-start">
@@ -319,7 +319,7 @@ export const CoachingCompteRendu: React.FC = () => {
             <Card variant="feature">
               <div className="flex flex-col gap-stack">
                 <h3 className="font-body text-caption font-medium text-ink-500">
-                  Votre coach
+                  Ton coach
                 </h3>
                 <div className="flex gap-stack-xs items-center">
                   <div className="w-[52px] h-[52px] rounded-pill shrink-0 bg-gradient-to-br from-primary-500 to-primary-700 text-white flex items-center justify-center font-body text-body font-extrabold shadow-card">
@@ -356,7 +356,7 @@ export const CoachingCompteRendu: React.FC = () => {
                   </span>
                 </div>
                 <p className="font-body text-caption text-ink-500 m-0 leading-snug">
-                  Basé sur votre évaluation post-session
+                  Basé sur ton évaluation post-session
                 </p>
               </div>
             </Card>

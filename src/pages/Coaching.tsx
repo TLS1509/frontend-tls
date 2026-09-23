@@ -221,7 +221,7 @@ export const Coaching: React.FC = () => {
           <EditorialHero
             tone="flat"
             title="Coaching 1:1"
-            summary="Accompagnement individuel pour accélérer la mise en pratique sur vos cas réels."
+            summary="Accompagnement individuel pour accélérer la mise en pratique sur tes cas réels."
           />
 
 
@@ -241,10 +241,10 @@ export const Coaching: React.FC = () => {
                 </span>
                 <div className="flex flex-col gap-tight max-w-[520px]">
                   <h2 className="font-display text-h2 font-bold text-ink-900 tracking-headline">
-                    Démarrez votre accompagnement
+                    Démarre ton accompagnement
                   </h2>
                   <p className="m-0 font-body text-body text-ink-600 mt-stack-xs">
-                    Réservez votre première session 1:1. Un coach vous sera attribué selon vos objectifs.
+                    Réserve ta première session 1:1. Un coach te sera attribué selon tes objectifs.
                   </p>
                 </div>
                 <Button
@@ -350,7 +350,7 @@ export const Coaching: React.FC = () => {
                     Prêt(e) pour une nouvelle session ?
                   </h2>
                   <p className="m-0 font-body text-body text-ink-600 mt-stack-xs">
-                    Réservez un créneau 1:1 de 60 minutes pour avancer sur vos cas réels.
+                    Réserve un créneau 1:1 de 60 minutes pour avancer sur tes cas réels.
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-stack-xs justify-center items-center">
@@ -384,7 +384,7 @@ export const Coaching: React.FC = () => {
               tone="primary"
               icon={<ClipboardList size={20} />}
               title="Mes outils"
-              subtitle="Accédez à vos préparations, comptes-rendus et réflexions"
+              subtitle="Accède à tes préparations, comptes-rendus et réflexions"
             />
             {outilsTiles}
           </section>
@@ -396,7 +396,7 @@ export const Coaching: React.FC = () => {
               size="md"
               tone="primary"
               title="Sessions passées"
-              subtitle="Historique complet de vos sessions de coaching"
+              subtitle="Historique complet de tes sessions de coaching"
               action={
                 <MetaPill
                   text={`${sessions.length} session${sessions.length > 1 ? 's' : ''}`}
@@ -481,8 +481,8 @@ export const Coaching: React.FC = () => {
           console.log('⭐ Avis:', rating, comment);
           setShowFeedback(false);
         }}
-        title="Votre avis sur la session"
-        subtitle="Comment évaluez-vous cette session de coaching ?"
+        title="Ton avis sur la session"
+        subtitle="Comment évalues-tu cette session de coaching ?"
       />
 
       {/* SuccessModal: confirmation booking */}
@@ -492,8 +492,8 @@ export const Coaching: React.FC = () => {
         title="Session réservée"
         message={
           displayedUpcoming
-            ? `Votre session est confirmée le ${displayedUpcoming.dateLabel} à ${displayedUpcoming.hourLabel}. Un lien visio vous sera envoyé par email.`
-            : 'Votre session a été réservée avec succès.'
+            ? `Ta session est confirmée le ${displayedUpcoming.dateLabel} à ${displayedUpcoming.hourLabel}. Un lien visio te sera envoyé par email.`
+            : 'Ta session a été réservée avec succès.'
         }
       />
 
@@ -502,7 +502,7 @@ export const Coaching: React.FC = () => {
         isOpen={showCancelSuccess}
         onClose={() => setShowCancelSuccess(false)}
         title="Session annulée"
-        message="Votre session a bien été annulée. Vous pouvez réserver un nouveau créneau quand vous le souhaitez."
+        message="Ta session a bien été annulée. Tu peux réserver un nouveau créneau quand tu le souhaites."
       />
     </>
   );

@@ -73,7 +73,7 @@ export const Positionnement: React.FC = () => {
 
   const handleNext = () => {
     if (!currentAnswer) {
-      toast.warning('Choisissez un niveau avant de continuer', 'Niveau requis');
+      toast.warning('Choisis un niveau avant de continuer', 'Niveau requis');
       return;
     }
     if (isLast) {
@@ -126,7 +126,7 @@ export const Positionnement: React.FC = () => {
               tone="brand"
               titleIcon={<CheckCircle size={20} />}
               title="Positionnement complété"
-              description="Voici votre niveau moyen Dreyfus. Le parcours s'adapte à votre profil."
+              description="Voici ton niveau moyen Dreyfus. Le parcours s'adapte à ton profil."
             >
               <div className="flex flex-col items-center gap-stack text-center py-stack">
                 <div className="flex items-baseline gap-stack-xs">
@@ -134,8 +134,8 @@ export const Positionnement: React.FC = () => {
                   <span className="text-body-sm text-ink-600">{DREYFUS_LABELS[avgLevel as DreyfusLevel]}</span>
                 </div>
                 <p className="m-0 font-body text-body-sm text-ink-700 max-w-prose">
-                  Nous avons évalué vos {total} compétences clés. Le contenu du parcours s'adapte à
-                  votre progression.
+                  Nous avons évalué tes {total} compétences clés. Le contenu du parcours s'adapte à
+                  ta progression.
                 </p>
               </div>
 
@@ -188,7 +188,7 @@ export const Positionnement: React.FC = () => {
         onBack={() => navigate(`/learning-paths/${id}`)}
         backLabel="Retour au parcours"
         eyebrow="Positionnement"
-        title="Évaluons votre niveau"
+        title="Évaluons ton niveau"
         current={currentIndex + 1}
         total={total}
       />

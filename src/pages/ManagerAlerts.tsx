@@ -90,7 +90,7 @@ export default function ManagerAlerts() {
       <EditorialHero
         eyebrow="Manager · Configuration"
         title="Alertes & Notifications"
-        summary="Configure les alertes automatiques pour suivre l'engagement de ton équipe et anticiper les situations à risque."
+        summary="Configurez les alertes automatiques pour suivre l'engagement de votre équipe et anticiper les situations à risque."
         tone="flat"
         trailing={
           <Button emphasis="soft" size="md" leadingIcon={<Plus size={16} />} onClick={() => setShowNewForm(true)}>

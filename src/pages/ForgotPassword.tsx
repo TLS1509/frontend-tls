@@ -29,7 +29,7 @@ export const ForgotPassword: React.FC = () => {
       brand={{
         icon: <MailCheck size={24} strokeWidth={1.75} className="text-white" />,
         title: 'Mot de passe oublié',
-        subtitle: 'Réinitialise ton accès en quelques étapes sécurisées',
+        subtitle: 'Réinitialisez votre accès en quelques étapes sécurisées',
       }}
       backLink={{ label: 'Retour à la connexion', onClick: () => navigate('/auth/login') }}
       form={

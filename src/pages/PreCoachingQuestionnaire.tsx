@@ -1,7 +1,7 @@
 /**
  * Pre-Coaching Questionnaire
  *
- * "Préparez votre session" : 3 vertical steps with icon + card + textarea
+ * "Prépare ta session" : 3 vertical steps with icon + card + textarea
  */
 
 import React, { useState } from 'react';
@@ -24,24 +24,24 @@ const STEPS = [
     step: 'ÉTAPE 1',
     label: 'VOS OBJECTIFS',
     icon: <Target size={20} />,
-    question: 'Quels sont vos objectifs principaux pour cette session de coaching ?',
-    placeholder: 'Décrivez en détail vos attentes et ce que vous souhaitez accomplir...',
+    question: 'Quels sont tes objectifs principaux pour cette session de coaching ?',
+    placeholder: 'Décris en détail tes attentes et ce que tu souhaites accomplir...',
   },
   {
     id: 'defis',
     step: 'ÉTAPE 2',
     label: 'VOS DÉFIS',
     icon: <Lightbulb size={20} />,
-    question: 'Quels défis ou obstacles rencontrez-vous actuellement ?',
-    placeholder: 'Partagez les difficultés que vous rencontrez dans votre parcours...',
+    question: 'Quels défis ou obstacles rencontres-tu actuellement ?',
+    placeholder: 'Partage les difficultés que tu rencontres dans ton parcours...',
   },
   {
     id: 'sujets',
     step: 'ÉTAPE 3',
     label: 'SUJETS PRIORITAIRES',
     icon: <Compass size={20} />,
-    question: 'Y a-t-il des sujets spécifiques que vous aimeriez aborder ?',
-    placeholder: 'Listez les thématiques prioritaires que vous souhaitez traiter...',
+    question: 'Y a-t-il des sujets spécifiques que tu aimerais aborder ?',
+    placeholder: 'Liste les thématiques prioritaires que tu souhaites traiter...',
   },
 ];
 
@@ -63,10 +63,10 @@ export const PreCoachingQuestionnaire: React.FC = () => {
 
   const handleSubmit = () => {
     if (!isComplete) {
-      toast.warning('Renseignez au moins une réponse avant d\'envoyer', 'Formulaire incomplet');
+      toast.warning('Renseigne au moins une réponse avant d\'envoyer', 'Formulaire incomplet');
       return;
     }
-    toast.success('Vos réponses ont été transmises à votre coach', 'Questionnaire envoyé');
+    toast.success('Tes réponses ont été transmises à ton coach', 'Questionnaire envoyé');
     setTimeout(() => navigate('/coaching/pre-questionnaire/response'), 800);
   };
 
@@ -89,10 +89,10 @@ export const PreCoachingQuestionnaire: React.FC = () => {
         {/* ─ Header ──────────────────────────────────────────────────── */}
         <div className="text-center mb-section-lg">
           <h1 className="font-display text-h1 text-ink-900 mb-stack-xs tracking-tight">
-            Préparez votre session
+            Prépare ta session
           </h1>
           <p className="font-body text-body text-ink-500 m-0">
-            Répondez à ces 3 questions pour une session sur-mesure
+            Réponds à ces 3 questions pour une session sur-mesure
           </p>
         </div>
 
