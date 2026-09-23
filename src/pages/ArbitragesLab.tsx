@@ -22,6 +22,9 @@ import { Avatar } from '../components/ui/Avatar';
 import { Input } from '../components/core/Input';
 import { IconChip } from '../components/ui/IconChip';
 import { PageHero } from '../components/patterns/EditorialHero';
+import { MetaPill } from '../components/ui/MetaPill';
+import { ResourceCard } from '../components/ui/ResourceCard';
+import { Bookmark, FileText, Clock } from 'lucide-react';
 import { Compass, Target, Lightbulb } from 'lucide-react';
 
 /* ─────────────────────────── Couleurs et contraste ─────────────────────────── */
@@ -426,6 +429,106 @@ const WeightSpecimen: React.FC<{ weight: '800' | '700' }> = ({ weight }) => {
   );
 };
 
+/* n°13 — Couvertures de la Veille : les VRAIS dégradés de VeilleCardFeed et le
+   VRAI Button onDark. Seul l'un des deux change selon l'option. */
+type CoverLook = 'actuel' | 'fonce' | 'bouton-clair';
+const COVER_NOW = {
+  brand: 'bg-gradient-to-br from-primary-400 via-primary-500 to-primary-700',
+  warm:  'bg-gradient-to-br from-secondary-300 via-secondary-500 to-secondary-700',
+  sun:   'bg-gradient-to-br from-accent-300 via-accent-500 to-secondary-500',
+} as const;
+const COVER_DARK = {
+  brand: 'bg-gradient-to-br from-primary-700 via-primary-700 to-primary-800',
+  warm:  'bg-gradient-to-br from-secondary-700 via-secondary-700 to-secondary-800',
+  sun:   'bg-gradient-to-br from-accent-700 via-accent-700 to-secondary-800',
+} as const;
+const CoverSpecimen: React.FC<{ look: CoverLook }> = ({ look }) => (
+  <div className="w-full grid grid-cols-3 gap-stack-xs">
+    {(['brand', 'warm', 'sun'] as const).map((tone) => (
+      <div key={tone} className={`relative h-28 rounded-lg overflow-hidden ${look === 'fonce' ? COVER_DARK[tone] : COVER_NOW[tone]}`}>
+        <FileText size={40} strokeWidth={1.25} className="absolute inset-0 m-auto text-white/95" aria-hidden />
+        {look === 'bouton-clair' ? (
+          <Button iconOnly size="sm" emphasis="ghost" tone="neutral" aria-label="Enregistrer" className="absolute top-2 right-2 !bg-white/95 !text-ink-900 shadow-sm">
+            <Bookmark />
+          </Button>
+        ) : (
+          <Button iconOnly size="sm" onDark emphasis="outline" aria-label="Enregistrer" className="absolute top-2 right-2">
+            <Bookmark />
+          </Button>
+        )}
+      </div>
+    ))}
+  </div>
+);
+
+/* n°14 — Catégorie de ResourceCard. A = le VRAI ResourceCard ; B = son pied de
+   carte recomposé avec MetaPill (le composant n'a pas encore l'option). */
+const ResourceFooterSpecimen: React.FC<{ as: 'badge' | 'meta' }> = ({ as }) =>
+  as === 'badge' ? (
+    <ResourceCard title="Donner un feedback qui fait progresser" description="La méthode en quatre temps, avec les formulations qui marchent." category="Management" duration="12 min" tone="primary" className="w-full" />
+  ) : (
+    <div className="w-full rounded-xl border border-ink-200 bg-white p-stack-md flex flex-col gap-stack-xs">
+      <p className="m-0 font-display text-h4 text-ink-900">Donner un feedback qui fait progresser</p>
+      <p className="m-0 text-body-sm text-ink-500">La méthode en quatre temps, avec les formulations qui marchent.</p>
+      <div className="flex items-center gap-stack-xs mt-2 pt-3 border-t border-ink-200">
+        <MetaPill text="Management" tone="neutral" />
+        <span className="inline-flex items-center gap-tight text-caption text-ink-500"><Clock size={14} className="opacity-70" />12 min</span>
+      </div>
+    </div>
+  );
+
+/* n°15 — Surtitre au-dessus du titre d'un article (Veille, Magazine, Dossier). */
+type KickerLook = 'metapill' | 'criard' | 'texte';
+const KickerSpecimen: React.FC<{ look: KickerLook }> = ({ look }) => (
+  <div className="w-full flex flex-col gap-stack-xs p-stack-md rounded-xl bg-white border border-ink-100">
+    {look === 'metapill' && <MetaPill text="Dossier thématique" tone="warm" className="self-start" />}
+    {look === 'criard' && (
+      <span className="inline-flex self-start px-2.5 py-1 rounded-pill bg-secondary-100 border border-secondary-200 text-micro font-bold uppercase tracking-wider text-secondary-800">Dossier thématique</span>
+    )}
+    {look === 'texte' && <span className="text-caption font-medium text-secondary-700">Dossier thématique</span>}
+    <p className="m-0 font-display text-h2 text-ink-900">L'IA générative en formation : ce qui marche</p>
+    <p className="m-0 text-body-sm text-ink-600">Douze études relues, trois pièges de citation, et ce qu'on peut vraiment en dire.</p>
+  </div>
+);
+
+/* n°16 — Disponibilité d'un coach : le VRAI Badge, avec son point fixe ou un
+   point qui pulse (et qui s'arrête si l'utilisateur réduit les animations). */
+const DispoSpecimen: React.FC<{ pulse: boolean }> = ({ pulse }) => (
+  <div className="w-full flex flex-col items-center gap-stack-sm p-stack-md rounded-xl bg-white border border-ink-100">
+    <Avatar initials="SM" size="lg" />
+    <span className="font-display text-h4 text-ink-900">Sophie Martin</span>
+    {pulse ? (
+      <Badge variant="success">
+        <span className="relative inline-flex w-1.5 h-1.5 mr-1.5" aria-hidden>
+          <span className="absolute inset-0 rounded-pill bg-success-fg opacity-60 motion-safe:animate-ping" />
+          <span className="relative inline-flex w-1.5 h-1.5 rounded-pill bg-success-fg" />
+        </span>
+        Disponible
+      </Badge>
+    ) : (
+      <Badge variant="success" dot>Disponible</Badge>
+    )}
+  </div>
+);
+
+/* n°17 — Les trois sombres écrits en hex. Rendu par style={{}} : c'est une
+   vitrine de VALEURS, pas du produit. */
+const DARK_NOW = { modal: ['#0f1117', '#1a1f2e'], site: ['#1F3E45', '#1B3B47', '#111820'] };
+const DarkSpecimen: React.FC<{ look: 'hex' | 'tokens' | 'nuit' }> = ({ look }) => {
+  const modal = look === 'hex' ? DARK_NOW.modal : look === 'tokens' ? ['var(--color-ink-950)', 'var(--color-ink-900)'] : ['#0D1A1E', '#16272C'];
+  const site = look === 'hex' ? DARK_NOW.site : look === 'tokens' ? ['var(--color-primary-900)', 'var(--color-primary-900)', 'var(--color-ink-950)'] : ['#1F3E45', '#16272C', '#0D1A1E'];
+  return (
+    <div className="w-full grid grid-cols-2 gap-stack-xs">
+      <div className="h-24 rounded-lg flex items-end p-2" style={{ background: `linear-gradient(135deg, ${modal[0]}, ${modal[1]})` }}>
+        <span className="text-micro text-white">Lecteur vidéo</span>
+      </div>
+      <div className="h-24 rounded-lg flex items-end p-2" style={{ background: `linear-gradient(180deg, ${site.join(', ')})` }}>
+        <span className="text-micro text-white">Carte des compétences (site)</span>
+      </div>
+    </div>
+  );
+};
+
 /* ─────────────────────────────── La page ─────────────────────────────── */
 
 export default function ArbitragesLab() {
@@ -575,6 +678,56 @@ export default function ArbitragesLab() {
     options: [
       { letter: 'A', label: '800 : un registre « display »', facts: ['État actuel, rendu inchangé', 'On l\u2019écrit : le titre d\u2019ouverture de page et les chiffres-héros sont à 800, tout le reste à 700', 'Même registre que les titres du site'], children: <WeightSpecimen weight="800" /> },
       { letter: 'B', label: '700 : le token h1', recommended: true, facts: ['Un seul poids de titre dans l\u2019app', 'Le titre de page se distingue par sa taille (36 px contre 28), pas par sa graisse', 'Plus calme, plus proche d\u2019Apple (Large Title = bold)'], children: <WeightSpecimen weight="700" /> },
+    ],
+  });
+
+  const pc400 = tok('primary-400'), sc300 = tok('secondary-300'), ac300 = tok('accent-300');
+  VALIDATIONS.push({
+    id: 'couverture-veille', n: 13, title: 'Couvertures de la Veille et bouton « Enregistrer »',
+    question: 'Les couvertures sont claires, le bouton est fait pour le sombre : lequel change ?',
+    context: <p>Les cartes de la Veille ont une couverture en dégradé qui part d'un cran clair (teal 400, orange et or 300). Le bouton « Enregistrer » y est en <code>onDark</code> : filet et icône blancs, prévus pour un fond au cran 700 ou plus. Vrais dégradés, vrai <code>Button</code>.</p>,
+    options: [
+      { letter: 'A', label: 'Tel quel', facts: [`Blanc sur teal 400 : ${fmt(ratio('#ffffff', pc400))}:1`, `Blanc sur orange 300 : ${fmt(ratio('#ffffff', sc300))}:1`, `Blanc sur or 300 : ${fmt(ratio('#ffffff', ac300))}:1 — une icône demande 3:1`], children: <CoverSpecimen look="actuel" /> },
+      { letter: 'B', label: 'Couvertures foncées (700→800)', facts: ['Le bouton onDark devient conforme', 'La Veille perd ses couvertures lumineuses « magazine »', 'Même traitement que les heros (n°8)'], children: <CoverSpecimen look="fonce" /> },
+      { letter: 'C', label: 'Bouton clair, couvertures gardées', recommended: true, facts: ['Pastille blanche à 95 % et icône encre, comme l\u2019étiquette de type déjà posée en haut à gauche', 'Conforme sur tous les crans', 'Les couvertures ne bougent pas'], children: <CoverSpecimen look="bouton-clair" /> },
+    ],
+  });
+  VALIDATIONS.push({
+    id: 'categorie-ressource', n: 14, title: 'Catégorie d\u2019une ressource',
+    question: 'La catégorie d\u2019une ResourceCard crie (Badge) ou chuchote (MetaPill) ?',
+    context: <p>Une décision antérieure l'a mise en <code>Badge</code> : capitales, graisse 700. La doctrine dit qu'un <code>Badge</code> porte un <strong>état</strong> et une <code>MetaPill</code> une <strong>donnée</strong>. Or une catégorie est une donnée, comme la durée posée juste à côté.</p>,
+    options: [
+      { letter: 'A', label: 'Badge (actuel)', facts: ['Vrai ResourceCard', 'La catégorie pèse plus lourd que le titre de la carte', 'Contredit la règle des deux registres'], children: <ResourceFooterSpecimen as="badge" /> },
+      { letter: 'B', label: 'MetaPill', recommended: true, facts: ['Même registre que la durée : deux données, côte à côte', 'Suit la doctrine', 'Pied de carte recomposé (le composant n\u2019a pas encore l\u2019option)'], children: <ResourceFooterSpecimen as="meta" /> },
+    ],
+  });
+  VALIDATIONS.push({
+    id: 'surtitre-article', n: 15, title: 'Surtitre au-dessus du titre d\u2019un article',
+    question: 'Le type de contenu au-dessus d\u2019un h1 (Veille, Magazine, Dossier, pages ressource du site) : quelle voix ?',
+    context: <p>Ils étaient en capitales, graisse 700, parfois en aplat teal plein. La migration des badges les a passés en <code>MetaPill</code>, ce qui calme visiblement ces en-têtes.</p>,
+    options: [
+      { letter: 'A', label: 'MetaPill (appliqué)', recommended: true, facts: ['Une donnée, dite comme une donnée', 'Le titre redevient le premier élément lu'], children: <KickerSpecimen look="metapill" /> },
+      { letter: 'B', label: 'Revenir au criard', facts: ['Capitales, 700, filet : le registre d\u2019un état', 'Rivalise avec le h1'], children: <KickerSpecimen look="criard" /> },
+      { letter: 'C', label: 'Texte seul, sans pastille', facts: ['Le plus éditorial, façon magazine', 'Plus de pastille du tout', 'Orange 700 : 6,31:1'], children: <KickerSpecimen look="texte" /> },
+    ],
+  });
+  VALIDATIONS.push({
+    id: 'dispo-pulse', n: 16, title: 'Point « Disponible » d\u2019un coach',
+    question: 'Le point de disponibilité pulse-t-il ?',
+    context: <p>Dans la grille des coachs, le point pulsait (<code>animate-pulse</code>). En passant par <code>Badge dot</code>, il est devenu fixe. Brief de marque : « le soin dans la matière, pas dans le mouvement ».</p>,
+    options: [
+      { letter: 'A', label: 'Point fixe (actuel)', recommended: true, facts: ['Aucun mouvement permanent sur la page', 'Le mot « Disponible » porte l\u2019information'], children: <DispoSpecimen pulse={false} /> },
+      { letter: 'B', label: 'Point qui pulse', facts: ['Signale « en direct », attire l\u2019œil', 'Mouvement infini : WCAG 2.2.2 demande de pouvoir l\u2019arrêter', 'S\u2019arrête si l\u2019utilisateur réduit les animations'], children: <DispoSpecimen pulse /> },
+    ],
+  });
+  VALIDATIONS.push({
+    id: 'sombres-hex', n: 17, title: 'Les sombres écrits en hex',
+    question: 'Lecteur vidéo (#0f1117 → #1a1f2e) et carte des compétences du site (→ #1B3B47 → #111820) : token ou pas ?',
+    context: <p>Trois sombres vivent hors de la palette. <code>#111820</code> est à 2 unités de rouge d'<code>ink-950</code> (#131820), <code>#1B3B47</code> est très proche de <code>primary-900</code> (#1F3E45). La direction du mode sombre a posé un candidat « nuit TLS » <code>#0D1A1E</code>.</p>,
+    options: [
+      { letter: 'A', label: 'Garder les hex', facts: ['Rendu inchangé', 'Trois valeurs qu\u2019aucune décision de palette n\u2019atteindra'], children: <DarkSpecimen look="hex" /> },
+      { letter: 'B', label: 'Les ramener aux tokens', recommended: true, facts: ['ink-950, ink-900, primary-900 : écart à peine visible', 'Plus aucun sombre hors palette', 'Le lecteur vidéo s\u2019éclaircit un peu en bas à droite (ink-900)'], children: <DarkSpecimen look="tokens" /> },
+      { letter: 'C', label: 'Ouvrir une famille « nuit »', facts: ['#0D1A1E et un second cran : la teinte du futur mode sombre', 'Engage la décision du dark mode, qui n\u2019est pas prise'], children: <DarkSpecimen look="nuit" /> },
     ],
   });
 
