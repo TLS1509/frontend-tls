@@ -359,6 +359,27 @@ grandes tailles seulement. **Jamais dans `BASE`.**
 ⚠️ Et préférer `tracking-headline` à `tracking-tight` : même valeur (`-0,025em`),
 mais le premier est un token TLS qui dit son emploi, le second est le défaut Tailwind.
 
+### ⚠️ Piège n°16 : une règle de BASE qui pose `color` sur un élément casse l'héritage
+
+`@layer base { h1 { color: var(--text) } }` s'applique à l'élément lui-même, donc
+il **bat** la couleur héritée du parent — `utilities` ne gagne que si la classe
+est posée sur l'élément. Un `<section className="bg-primary-800 text-white">`
+contenant un `<h2>` sans classe de couleur rendait ce h2 en ink-900 sur teal
+foncé. Constaté le 2026-09-23 : 5 titres (pages légales du site, newsletter), une
+bulle de message à 2,83:1, et le corps de toutes les `Alert` qui rendait en ink-900
+au lieu de la couleur de l'alerte.
+
+**Règle** : dans `@layer base`, seul `body` pose une couleur ; tout élément
+typographique (`h1`…`h4`, `p`) fait `color: inherit`. Et pour le vérifier, sonder
+les éléments dont la couleur calculée diffère de celle du parent sans classe
+`text-*` propre — c'est la signature exacte du défaut.
+
+Même famille, côté composant : une classe de la `BASE` d'un composant (`flex-col`
+et `gap-*` de `Card`) peut battre celle que la page passe en `className`. `Card`
+les retire quand la page déclare les siennes (`OWN_PADDING`, `OWN_DISPLAY`,
+`OWN_DIRECTION`) — reprendre ce motif pour toute propriété qu'une page doit
+pouvoir surcharger.
+
 ### ⚠️ Règle : pas de SVG inline custom — utiliser Lucide
 
 `lucide-react` est notre librairie d'icônes par défaut. **Ne jamais hardcoder un `<svg>` inline** dans un composant si Lucide propose l'équivalent.
