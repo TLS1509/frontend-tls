@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { AlertTriangle, Users, Clock, Calendar, MessageSquare, Sparkles, TrendingUp } from 'lucide-react';
+import { AlertTriangle, Users, Clock, Calendar, MessageSquare, Sparkles } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
+import { SectionHeader } from '../components/patterns/SectionHeader';
+import { DataTable, type DataTableColumn } from '../components/patterns/DataTable';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
@@ -103,6 +105,19 @@ const AI_SUGGESTIONS = [
 
 type FilterKey = 'all' | 'critical' | 'medium' | 'resolved';
 
+/* Des apprenants qu'on trie pour savoir qui relancer d'abord (inactivité,
+   durée de stagnation, niveau) : une table triable, pas une pile de cartes
+   (arbitrage n°5 du 23/09). Les valeurs de tri voyagent dans la rangée sous
+   des clés que la table n'affiche pas. */
+const COLUMNS: DataTableColumn[] = [
+  { key: 'name', label: 'Apprenant', sortable: true, sortValue: (r) => r._name as string },
+  { key: 'inactivity', label: 'Inactivité', sortable: true, sortValue: (r) => r._inactive as number },
+  { key: 'stagnation', label: 'Stagnation', sortable: true, sortValue: (r) => r._stagnation as number },
+  { key: 'skill', label: 'Compétence', sortable: true, sortValue: (r) => r._skill as string },
+  { key: 'dreyfus', label: 'Dreyfus', sortable: true, align: 'right', sortValue: (r) => r._dreyfus as number },
+  { key: 'actions', label: 'Actions', align: 'right' },
+];
+
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function AlerteStagnation() {
@@ -182,79 +197,72 @@ export default function AlerteStagnation() {
         </div>
 
         {/* Liste apprenants en stagnation */}
-        <SectionCard
-          title="Apprenants en stagnation"
-          titleIcon={<AlertTriangle size={18} />}
-          description={`${filteredLearners.length} apprenant${filteredLearners.length > 1 ? 's' : ''} affiché${filteredLearners.length > 1 ? 's' : ''}`}
-        >
-          {filteredLearners.length === 0 ? (
-            <div className="py-section text-center text-body-sm text-ink-500">
-              Aucun apprenant dans cette catégorie.
-            </div>
-          ) : (
-            <div className="flex flex-col gap-stack-xs">
-              {filteredLearners.map((learner) => (
-                <Card
-                  key={learner.id}
-                  variant="default"
-                  className="flex flex-col md:flex-row md:items-center gap-stack p-stack-md"
-                >
-                  {/* Identité */}
-                  <div className="flex items-center gap-stack-xs flex-1 min-w-0">
-                    <Avatar name={learner.name} size="md" />
-                    <div className="flex flex-col gap-tight min-w-0">
-                      <div className="flex items-center gap-stack-xs flex-wrap">
-                        <span className="text-body-sm font-semibold text-ink-900">{learner.name}</span>
-                        <AtrophieIndicator
-                          daysSinceActivity={learner.daysSinceActivity}
-                          currentLevel={learner.dreyfusLevel}
-                          size="sm"
-                          showLabel
-                        />
-                      </div>
-                      <span className="text-caption text-ink-500">{learner.role}</span>
-                    </div>
-                  </div>
-
-                  {/* Méta-infos */}
-                  <div className="flex flex-wrap items-center gap-stack-xs shrink-0">
-                    <Badge
-                      variant={learner.severity === 'critical' ? 'danger' : 'info'}
-                      size="compact"
-                    >
-                      {learner.stagnationDays}j de stagnation
-                    </Badge>
-                    <Badge variant="brand" size="compact">
-                      <TrendingUp size={14} className="inline mr-0.5" />
-                      {learner.blockedSkill}
-                    </Badge>
-                    <Badge variant="info" size="compact">
-                      Dreyfus niv. {learner.dreyfusLevel}
-                    </Badge>
-                  </div>
-
-                  {/* Actions */}
-                  <div className="flex items-center gap-stack-xs shrink-0">
-                    <Button
-                      emphasis="outline"
-                      size="sm"
-                      leadingIcon={<Calendar size={14} />}
-                    >
-                      Planifier session
-                    </Button>
-                    <Button
-                      emphasis="outline"
-                      size="sm"
-                      leadingIcon={<MessageSquare size={14} />}
-                    >
-                      Envoyer message
-                    </Button>
-                  </div>
-                </Card>
-              ))}
-            </div>
-          )}
-        </SectionCard>
+        <section className="flex flex-col gap-stack" aria-label="Apprenants en stagnation">
+          <SectionHeader
+            title="Apprenants en stagnation"
+            subtitle={`${filteredLearners.length} apprenant${filteredLearners.length > 1 ? 's' : ''} affiché${filteredLearners.length > 1 ? 's' : ''}`}
+            icon={<AlertTriangle size={20} />}
+            tone="primary"
+            size="md"
+          />
+          <DataTable
+            columns={COLUMNS}
+            pageSize={Math.max(filteredLearners.length, 1)}
+            emptyMessage="Aucun apprenant dans cette catégorie."
+            rows={filteredLearners.map((learner) => ({
+              _name: learner.name,
+              _inactive: learner.daysSinceActivity,
+              _stagnation: learner.stagnationDays,
+              _skill: learner.blockedSkill,
+              _dreyfus: learner.dreyfusLevel,
+              name: (
+                <span className="flex items-center gap-stack-sm min-w-0">
+                  <Avatar name={learner.name} size="sm" />
+                  <span className="flex flex-col min-w-0">
+                    <span className="font-semibold text-ink-900 truncate">{learner.name}</span>
+                    <span className="text-caption text-ink-600 truncate">{learner.role}</span>
+                  </span>
+                </span>
+              ),
+              inactivity: (
+                <AtrophieIndicator
+                  daysSinceActivity={learner.daysSinceActivity}
+                  currentLevel={learner.dreyfusLevel}
+                  size="sm"
+                  showLabel
+                  className="whitespace-nowrap"
+                />
+              ),
+              stagnation: (
+                <Badge variant={learner.severity === 'critical' ? 'danger' : 'info'} size="compact">
+                  {learner.stagnationDays} j
+                </Badge>
+              ),
+              skill: <span className="text-ink-700">{learner.blockedSkill}</span>,
+              dreyfus: <span className="tabular-nums text-ink-900 whitespace-nowrap">niv. {learner.dreyfusLevel}</span>,
+              actions: (
+                <span className="inline-flex items-center gap-stack-xs">
+                  <Button
+                    emphasis="outline"
+                    size="sm"
+                    leadingIcon={<Calendar size={14} />}
+                    aria-label={`Planifier une session avec ${learner.name}`}
+                  >
+                    Planifier
+                  </Button>
+                  <Button
+                    emphasis="outline"
+                    size="sm"
+                    leadingIcon={<MessageSquare size={14} />}
+                    aria-label={`Envoyer un message à ${learner.name}`}
+                  >
+                    Message
+                  </Button>
+                </span>
+              ),
+            }))}
+          />
+        </section>
 
         {/* Actions recommandées par l'IA */}
         <SectionCard
