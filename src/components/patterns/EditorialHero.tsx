@@ -113,7 +113,7 @@ const TONE_BORDER: Record<PageHeroTone, string> = {
   sun:     'border-white/20',
 };
 
-/* Halos — des classes, plus des `style={{ background }}` (2026-09-23). Chaque
+/* Halos — des classes, plus un fond passé en style inline (2026-09-23). Chaque
    couleur était déjà un token au rgb près : rgba(85,161,180) = primary-500,
    rgba(248,176,68) = accent-400. Le span est carré, donc l'ellipse par défaut
    de `bg-radial` (farthest-corner) est le cercle qu'écrivait `circle` ; et un
