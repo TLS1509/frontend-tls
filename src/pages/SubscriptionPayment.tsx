@@ -161,7 +161,7 @@ export const SubscriptionPayment: React.FC = () => {
     }
     onboardingStore.markStepComplete('payment');
     onboardingStore.goToStep('tutorial');
-    toast.success('Paiement confirmé', 'Bienvenue dans The Learning Society !');
+    toast.success('Paiement confirmé', 'Bienvenue dans The Learning Society.');
     setTimeout(() => navigate('/onboarding/tutorial'), 1200);
   };
 

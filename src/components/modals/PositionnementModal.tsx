@@ -257,7 +257,7 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
                     </div>
                   ))}
                 </div>
-                <h3 className="text-h3 text-ink-900 mb-2">Votre profil est prêt !</h3>
+                <h3 className="text-h3 text-ink-900 mb-2">Votre profil est prêt.</h3>
                 <p className="text-body text-ink-600 mb-stack-lg">
                   Le parcours va maintenant s'adapter à votre niveau.
                 </p>

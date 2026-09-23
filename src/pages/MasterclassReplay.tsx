@@ -108,7 +108,7 @@ export default function MasterclassReplay() {
 
             {/* CTA enquête */}
             <Card variant="tinted" tone="sun" className="p-stack flex flex-col gap-tight">
-              <p className="text-body-sm font-semibold text-ink-900">Ton avis compte !</p>
+              <p className="text-body-sm font-semibold text-ink-900">Ton avis compte.</p>
               <p className="text-caption text-ink-500">Aide-nous à améliorer les prochaines sessions.</p>
               <Button emphasis="soft" size="sm" fullWidth className="mt-tight">
                 Donner mon avis

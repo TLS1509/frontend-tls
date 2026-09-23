@@ -51,9 +51,9 @@ export default function MasterclassSurvey() {
           <div className="w-16 h-16 rounded-pill bg-success-bg flex items-center justify-center">
             <CheckCircle size={32} className="text-success-fg" />
           </div>
-          <h1 className="text-h2 font-display font-bold text-ink-900 text-balance">Merci pour ton retour !</h1>
+          <h1 className="text-h2 font-display font-bold text-ink-900 text-balance">Merci pour ton retour.</h1>
           <p className="text-body-sm text-ink-500">
-            Ton avis nous aide à améliorer nos masterclasses. À très bientôt !
+            Ton avis nous aide à améliorer nos masterclasses. À bientôt.
           </p>
           <Button emphasis="soft" size="lg" onClick={() => navigate('/masterclass')}>
             Voir les prochaines masterclasses

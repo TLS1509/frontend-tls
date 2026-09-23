@@ -122,7 +122,7 @@ export const MagicLink: React.FC = () => {
         ) : (
           <AuthSuccess
             icon={<Mail size={32} />}
-            title="Lien envoyé !"
+            title="Lien envoyé"
             description={
               <>
                 Un lien magique a été envoyé à <strong className="text-white">{email}</strong>. Cliquez dessus pour vous connecter. Le lien expire dans 15 minutes.

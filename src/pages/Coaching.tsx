@@ -489,7 +489,7 @@ export const Coaching: React.FC = () => {
       <SuccessModal
         isOpen={showBookingSuccess}
         onClose={() => setShowBookingSuccess(false)}
-        title="Session réservée !"
+        title="Session réservée"
         message={
           displayedUpcoming
             ? `Votre session est confirmée le ${displayedUpcoming.dateLabel} à ${displayedUpcoming.hourLabel}. Un lien visio vous sera envoyé par email.`

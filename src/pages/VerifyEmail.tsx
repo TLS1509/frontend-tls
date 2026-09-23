@@ -104,7 +104,7 @@ export const VerifyEmail: React.FC = () => {
         ) : (
           <AuthSuccess
             icon={<CheckCircle2 size={32} />}
-            title="Email vérifié !"
+            title="Email vérifié"
             description="Ton compte est actif. Continue ton inscription en choisissant ta formule d'abonnement."
           >
             <div className="flex flex-col gap-stack-xs">

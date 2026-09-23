@@ -176,7 +176,7 @@ export default function BadgeDetail() {
                 </div>
                 <ProgressBar value={pctEarned} fill="sun" size="md" showLabel />
                 <p className="text-caption text-ink-500">
-                  {pctEarned}% des apprenants ont obtenu ce badge {earned ? ": tu fais partie de cette communauté !" : ": prochaine étape pour toi."}
+                  {pctEarned}% des apprenants ont obtenu ce badge {earned ? ": tu fais partie de cette communauté." : ": prochaine étape pour toi."}
                 </p>
               </div>
             </SectionCard>

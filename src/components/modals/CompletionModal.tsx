@@ -36,7 +36,7 @@ export interface CompletionModalProps {
   nextItem?: CompletionNextItem;
   /** Called when user clicks "Voir le prochain". */
   onNext?: () => void;
-  /** Custom heading — defaults to "Terminé !" */
+  /** Custom heading — defaults to "Étape validée" */
   title?: string;
   /** Custom description. */
   description?: string;
@@ -49,7 +49,7 @@ export const CompletionModal: React.FC<CompletionModalProps> = ({
   xpEarned = 50,
   nextItem,
   onNext,
-  title = 'Terminé !',
+  title = 'Étape validée',
   description,
 }) => {
   // Comportement de dialogue partagé (APG) : focus entrant, Tab piégé, Échap, focus rendu.

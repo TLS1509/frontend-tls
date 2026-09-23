@@ -166,7 +166,7 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
           <div className="text-center py-stack-lg animate-[fbFadeIn_0.4s_ease_both]">
             <div className="text-[3.5rem] mb-3">🌟</div>
             <h3 className="text-h4 font-bold text-ink-900 mb-2">
-              Merci pour votre retour !
+              Merci pour votre retour.
             </h3>
             <p className="text-body text-ink-600">
               Votre avis nous aide à améliorer l'expérience.

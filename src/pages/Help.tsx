@@ -60,7 +60,7 @@ const FAQ_ITEMS = [
 const POPULAR_TOPICS = ['Parcours', 'Coaching', 'Badges', 'Facturation', 'Journal', 'RGPD'];
 
 const CHAT_DEMO = [
-  { role: 'ai'   as const, text: "Bonjour ! Je suis l'assistant TLS. Comment puis-je vous aider aujourd'hui ?" },
+  { role: 'ai'   as const, text: "Bonjour. Je suis l'assistant TLS. Comment puis-je vous aider aujourd'hui ?" },
   { role: 'user' as const, text: 'Comment accéder à mon historique de formation ?' },
   { role: 'ai'   as const, text: 'Votre historique est disponible dans "Mon profil > Activité". Vous y retrouvez tous les modules terminés, le temps passé et vos notes de journal associées.' },
 ];

@@ -41,7 +41,7 @@ const ROLE_TILES: Array<{ id: UserRole; label: string; icon: React.ComponentType
 /* ─── AI message builders (stub — to be replaced by Mistral in Phase 16.12bis) ──── */
 function buildGreeting(): string[] {
   return [
-    'Salut ! 👋 Je suis ton assistant IA de The Learning Society.',
+    'Salut 👋 Je suis ton assistant IA de The Learning Society.',
     'Je vais te poser quelques questions pour créer un profil personnalisé.',
   ];
 }
@@ -51,7 +51,7 @@ function buildNameQuestion(): string {
 }
 
 function buildRoleQuestion(): string {
-  return 'Parfait ! Quel est ton rôle dans l\'organisation ?';
+  return 'Parfait. Quel est ton rôle dans l\'organisation ?';
 }
 
 function buildAckName(firstName: string): string {
@@ -60,7 +60,7 @@ function buildAckName(firstName: string): string {
 
 function buildAckRole(role: UserRole): string {
   const roleLabel = ROLE_TILES.find((r) => r.id === role)?.label ?? role;
-  return `Super, tu es ${roleLabel}. On va vraiment pouvoir t'adapter un parcours !`;
+  return `Super, tu es ${roleLabel}. On va pouvoir t'adapter un parcours.`;
 }
 
 function buildTransition(): string[] {
@@ -359,7 +359,7 @@ export const Onboarding: React.FC = () => {
               Démarrage personnalisé
             </p>
             <h1 className="font-display text-h2 tracking-display text-ink-900 leading-tight">
-              Bienvenue !
+              Bienvenue
             </h1>
           </header>
 

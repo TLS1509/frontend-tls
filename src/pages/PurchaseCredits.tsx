@@ -51,7 +51,7 @@ const PurchaseCredits: React.FC = () => {
 
       <Container width="content" padding={false} className="px-stack py-section flex flex-col gap-section">
         {purchased && (
-          <Alert variant="success" title="Achat confirmé !">
+          <Alert variant="success" title="Achat confirmé">
             {pack ? `${pack.credits + (pack.bonus ?? 0)} crédits ajoutés à ton compte.` : 'Crédits ajoutés.'}
           </Alert>
         )}

@@ -20,7 +20,7 @@ export const SuccessModal: React.FC<SuccessModalProps> = ({
   onClose,
   title,
   message,
-  buttonText = 'Super !',
+  buttonText = 'Continuer',
 }) => {
   // Comportement de dialogue partagé (APG) : focus entrant, Tab piégé, Échap, focus rendu.
   const dialog = useDialog<HTMLDivElement>(isOpen, onClose);

@@ -129,7 +129,7 @@ export const QuizQuestionCard: React.FC<QuizQuestionCardProps> = ({
           </span>
           <span className="font-medium">
             {isCorrectAnswer
-              ? 'Excellent ! Bonne réponse.'
+              ? 'Bonne réponse.'
               : 'Incorrect. Consultez la bonne réponse ci-dessus pour comprendre.'}
           </span>
         </div>

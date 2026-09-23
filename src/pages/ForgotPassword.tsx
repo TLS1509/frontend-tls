@@ -55,7 +55,7 @@ export const ForgotPassword: React.FC = () => {
         ) : (
           <AuthSuccess
             icon={<CheckCircle2 size={32} />}
-            title="Email envoyé !"
+            title="Email envoyé"
             description="Un lien de réinitialisation a été envoyé sur votre adresse email. Vérifiez votre boîte de réception et vos spams si besoin."
           >
             <AuthPrimaryButton type="button" onClick={() => navigate('/auth/login')}>

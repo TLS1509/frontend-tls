@@ -95,7 +95,7 @@ function VariantA({ onDone }: { onDone: () => void }) {
 
   useEffect(() => {
     seq(
-      ["Bonjour ! Pour personnaliser ton expérience, je vais te poser quelques questions rapides."],
+      ["Bonjour. Pour personnaliser ton expérience, je vais te poser quelques questions rapides."],
       () => seq(["Commençons par ton prénom ?"], () => setPhase('name'))
     );
     return cancel;
@@ -139,7 +139,7 @@ function VariantA({ onDone }: { onDone: () => void }) {
     seq(
       [
         `Excellent ${firstName} ! Profil créé.`,
-        `Je vais maintenant évaluer tes compétences sur **${selectedGoals.length + 2} axes** liés à tes objectifs. C'est parti !`,
+        `Je vais maintenant évaluer tes compétences sur **${selectedGoals.length + 2} axes** liés à tes objectifs. On commence.`,
       ],
       () => { setPhase('done'); setTransitioning(false); }
     );
@@ -615,7 +615,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
           <>
             <div className="flex flex-col gap-tight">
               <h2 className="font-display text-h2 text-ink-900 leading-tight">
-                {firstName ? `Parfait, ${firstName} !` : 'Ton profil est prêt !'}
+                {firstName ? `${firstName}, ton profil est prêt` : 'Ton profil est prêt'}
               </h2>
               <p className="font-body text-body text-ink-500 m-0">
                 Voici un résumé avant de démarrer le positionnement.
@@ -777,7 +777,7 @@ export default function OnboardingPreview() {
               <Check size={28} className="text-success-fg" />
             </div>
             <p className="font-display text-h3 font-bold text-ink-900 m-0">
-              Profil complété !
+              Profil complété
             </p>
             <p className="font-body text-body-sm text-ink-500 m-0">
               → En production : transition vers <code className="bg-ink-100 px-1.5 py-0.5 rounded text-primary-700">/onboarding/questionnaire</code>

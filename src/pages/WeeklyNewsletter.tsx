@@ -275,7 +275,7 @@ export const WeeklyNewsletter: React.FC = () => {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              if (email) alert(`Merci ! Inscription confirmée pour ${email}`);
+              if (email) alert(`Inscription confirmée pour ${email}.`);
               setEmail('');
             }}
             className="w-full max-w-md flex flex-col sm:flex-row gap-stack-xs"

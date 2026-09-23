@@ -184,7 +184,7 @@ export default function EvenementRecap() {
           {/* CTA avis */}
           <Card variant="tinted" tone="sun" className="p-stack flex flex-col gap-tight">
             <p className="text-body-sm font-semibold text-ink-900 m-0">
-              Votre avis compte !
+              Votre avis compte
             </p>
             <p className="text-caption text-ink-500 m-0">
               Partagez votre retour d'expérience pour améliorer les prochains événements.

@@ -146,7 +146,7 @@ export const GoalProgress: React.FC<GoalProgressProps> = ({
       {isComplete && (
         <p className="mt-2.5 pt-2.5 border-t border-success-base/20 text-caption font-medium text-success-fg flex items-center gap-stack-2xs m-0">
           <Sparkles size={14} />
-          Objectif atteint ! Quel est le prochain ?
+          Objectif atteint. Quel est le prochain ?
         </p>
       )}
     </div>
