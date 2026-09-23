@@ -50,9 +50,9 @@ const ALL_ARTICLES = [
 ];
 
 const CATEGORY_TONE: Record<'brand' | 'warm' | 'sun', { cover: string; chip: string }> = {
-  brand: { cover: 'bg-gradient-to-br from-primary-400 to-primary-600',     chip: 'bg-white/15 text-white' },
-  warm:  { cover: 'bg-gradient-to-br from-secondary-400 to-secondary-600', chip: 'bg-white/15 text-white' },
-  sun:   { cover: 'bg-gradient-to-br from-accent-300 to-secondary-400',    chip: 'bg-white/20 text-white' },
+  brand: { cover: 'bg-gradient-to-br from-primary-400 to-primary-600',     chip: 'bg-white/90 text-ink-900' },
+  warm:  { cover: 'bg-gradient-to-br from-secondary-400 to-secondary-600', chip: 'bg-white/90 text-ink-900' },
+  sun:   { cover: 'bg-gradient-to-br from-accent-300 to-secondary-400',    chip: 'bg-white/90 text-ink-900' },
 };
 
 /* ─── Component ──────────────────────────────────────────────────────────── */
@@ -259,7 +259,7 @@ export const WeeklyNewsletter: React.FC = () => {
         {/* Newsletter signup */}
         <section
           aria-label="Inscription newsletter"
-          className="rounded-xl bg-gradient-to-br from-primary-600 to-primary-700 p-section sm:p-section-lg text-white flex flex-col items-center text-center gap-stack"
+          className="rounded-xl bg-gradient-to-br from-primary-700 to-primary-800 p-section sm:p-section-lg text-white flex flex-col items-center text-center gap-stack"
         >
           <span aria-hidden className="inline-flex items-center justify-center w-14 h-14 rounded-pill bg-white/15 backdrop-blur-glass-light">
             <Mail size={20} />
@@ -267,7 +267,7 @@ export const WeeklyNewsletter: React.FC = () => {
           <h3 className="font-display text-h3 font-bold tracking-tight">
             Recevez les actus chaque lundi
           </h3>
-          <p className="m-0 font-body text-body text-white/85 max-w-prose">
+          <p className="m-0 font-body text-body text-white max-w-prose">
             La sélection hebdomadaire TLS directement dans votre boîte mail. Pas de spam,
             désinscription en 1 clic.
           </p>
@@ -285,7 +285,7 @@ export const WeeklyNewsletter: React.FC = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="votre@email.com"
-              className="flex-1 h-11 px-stack rounded-lg border-0 bg-white/15 backdrop-blur-glass-light font-body text-body-sm text-white placeholder:text-white/60 focus:outline-2 focus:outline-white/40"
+              className="flex-1 h-11 px-stack rounded-lg border-0 bg-white/15 backdrop-blur-glass-light font-body text-body-sm text-white placeholder:text-white/80 focus:outline-2 focus:outline-white/40"
             />
             <Button emphasis="soft" tone="warm" size="md" type="submit">
               S'abonner
