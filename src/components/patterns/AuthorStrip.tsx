@@ -66,7 +66,7 @@ export const AuthorStrip: React.FC<AuthorStripProps> = ({
         shape="circle"
       />
 
-      <div className="min-w-0 flex-1 flex flex-col gap-0.5">
+      <div className="min-w-0 flex-1 flex flex-col gap-tight">
         <div className="flex items-baseline gap-stack-xs flex-wrap min-w-0">
           <span className="font-body text-body-sm font-bold text-ink-900 truncate">
             {name}

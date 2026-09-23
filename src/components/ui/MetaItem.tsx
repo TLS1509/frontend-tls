@@ -37,7 +37,7 @@ export const MetaItem: React.FC<MetaItemProps> = ({
   className = '',
 }) => {
   const classes = [
-    'flex flex-col gap-0.5',
+    'flex flex-col gap-tight',
     className,
   ]
     .filter(Boolean)

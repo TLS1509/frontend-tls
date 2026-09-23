@@ -35,7 +35,7 @@ export const Kbd: React.FC<KbdProps> = ({
 
   if (keys && keys.length > 0) {
     return (
-      <span className="inline-flex items-center gap-0.5" aria-label={keys.join('+')}>
+      <span className="inline-flex items-center gap-tight" aria-label={keys.join('+')}>
         {keys.map((key, i) => (
           <React.Fragment key={key}>
             {i > 0 && (

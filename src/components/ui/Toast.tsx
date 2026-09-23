@@ -88,7 +88,7 @@ export const Toast: React.FC<ToastProps> = ({
       <span className={`shrink-0 mt-px ${ICON_TONE[variant]}`} aria-hidden="true">
         {icon ?? <IconComponent size={20} strokeWidth={2} />}
       </span>
-      <div className="flex-1 flex flex-col gap-0.5 min-w-0">
+      <div className="flex-1 flex flex-col gap-tight min-w-0">
         {title && <p className="font-bold m-0 leading-tight">{title}</p>}
         {children && <p className="m-0 opacity-90">{children}</p>}
       </div>

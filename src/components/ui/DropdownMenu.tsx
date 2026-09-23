@@ -41,7 +41,7 @@ export interface DropdownMenuProps extends React.HTMLAttributes<HTMLDivElement> 
 }
 
 const MENU_BASE =
-  'min-w-[220px] p-1.5 rounded-xl flex flex-col gap-0.5 font-body animate-[dd-slide-up_0.2s_ease-out] outline-none';
+  'min-w-[220px] p-1.5 rounded-xl flex flex-col gap-tight font-body animate-[dd-slide-up_0.2s_ease-out] outline-none';
 
 const MENU_VARIANTS: Record<DropdownMenuVariant, string> = {
   solid:

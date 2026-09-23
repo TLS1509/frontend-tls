@@ -44,7 +44,7 @@ const ParcoursPanel: React.FC = () => (
         initial={{ scale: 0.85, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ delay: 0.45, type: 'spring', stiffness: 260, damping: 18 }}
-        className="rounded-lg bg-primary-50 border border-primary-100 p-3 flex flex-col gap-0.5"
+        className="rounded-lg bg-primary-50 border border-primary-100 p-3 flex flex-col gap-tight"
       >
         <span className="text-caption font-bold text-primary-700 uppercase">XP gagnés</span>
         <span className="font-display text-h4 font-bold text-ink-900 tabular-nums">+340</span>
@@ -53,7 +53,7 @@ const ParcoursPanel: React.FC = () => (
         initial={{ scale: 0.85, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ delay: 0.6, type: 'spring', stiffness: 260, damping: 18 }}
-        className="rounded-lg bg-accent-50 border border-accent-100 p-3 flex flex-col gap-0.5"
+        className="rounded-lg bg-accent-50 border border-accent-100 p-3 flex flex-col gap-tight"
       >
         <span className="text-caption font-bold text-warning-fg uppercase">Streak</span>
         <span className="font-display text-h4 font-bold text-ink-900 tabular-nums">12 j</span>

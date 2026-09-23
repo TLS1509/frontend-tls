@@ -107,7 +107,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
               </div>
             </div>
           )}
-          <div className="flex flex-col gap-0.5">
+          <div className="flex flex-col gap-tight">
             <CardEyebrow>{typeLabel}</CardEyebrow>
             <span className="inline-flex items-center gap-tight text-micro text-ink-600 font-medium">
               <Calendar size={14} aria-hidden="true" />

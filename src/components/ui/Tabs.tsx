@@ -55,7 +55,7 @@ export interface TabsProps
 }
 
 const CONTAINER_VARIANT: Record<TabsVariant, string> = {
-  pill:      'inline-flex items-center gap-0.5 p-1 bg-ink-100 rounded-pill',
+  pill:      'inline-flex items-center gap-tight p-1 bg-ink-100 rounded-pill',
   underline: 'inline-flex items-center gap-tight border-b border-ink-200',
   boxed:     'inline-flex items-stretch border border-ink-200 rounded-xl overflow-hidden bg-white',
 };

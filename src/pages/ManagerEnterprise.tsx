@@ -114,7 +114,7 @@ export default function ManagerEnterprise() {
                   return (
                     <Card key={p.id} className="p-stack-md flex flex-col gap-stack-xs">
                       <div className="flex items-center justify-between gap-stack-xs">
-                        <div className="flex flex-col gap-0.5">
+                        <div className="flex flex-col gap-tight">
                           <span className="text-body-sm font-semibold text-ink-900">{p.title}</span>
                           <span className="text-caption text-ink-600">{p.team}</span>
                         </div>

@@ -181,7 +181,7 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
         />
       </svg>
 
-      <div className="absolute inset-0 flex flex-col items-center justify-center gap-0.5 pointer-events-none">
+      <div className="absolute inset-0 flex flex-col items-center justify-center gap-tight pointer-events-none">
         <span
           className={[
             'font-display font-bold tracking-tight leading-none tabular-nums',

@@ -22,11 +22,11 @@ export interface SegmentedControlProps<T extends string = string> {
 }
 
 const TRACK_BASE =
-  'inline-flex items-center p-1 bg-ink-100 rounded-lg gap-0.5';
+  'inline-flex items-center p-1 bg-ink-100 rounded-lg gap-tight';
 
 const TRACK_SIZE: Record<SegmentedControlSize, string> = {
   sm: 'gap-0',
-  md: 'gap-0.5',
+  md: 'gap-tight',
   lg: 'gap-tight',
 };
 

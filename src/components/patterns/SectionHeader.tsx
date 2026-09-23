@@ -349,7 +349,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
     // No icon — simple stack layout
     return (
       <div className={wrapperBase}>
-        <div className="flex flex-col flex-1 min-w-0 gap-0.5">
+        <div className="flex flex-col flex-1 min-w-0 gap-tight">
           <h2 className={['font-display font-bold text-ink-900 leading-tight text-balance', titleSize].join(' ')}>
             {title}
           </h2>

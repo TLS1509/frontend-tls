@@ -146,7 +146,7 @@ const RatingDisplay: React.FC<{ rating: ProfileRating; tone: ProfileCardTone }> 
   const rounded = Math.round(rating.value);
   return (
     <div className="flex items-center gap-stack-xs" aria-label={`Note : ${rating.value} sur ${max}`}>
-      <div className="flex gap-0.5" aria-hidden="true">
+      <div className="flex gap-tight" aria-hidden="true">
         {Array.from({ length: max }, (_, i) => (
           <Star
             key={i}

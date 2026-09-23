@@ -193,7 +193,7 @@ export const DreyfusSlider: React.FC<DreyfusSliderProps> = ({
               <div
                 key={lv.v}
                 className={[
-                  'flex flex-col items-center gap-0.5 w-1/5 text-center min-w-0',
+                  'flex flex-col items-center gap-tight w-1/5 text-center min-w-0',
                   'transition-all duration-base',
                   isActive ? `${TICK_ACTIVE[tone]} font-bold scale-105` : 'text-ink-500',
                 ].join(' ')}

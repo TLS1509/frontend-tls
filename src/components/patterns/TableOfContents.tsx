@@ -134,7 +134,7 @@ export const TableOfContents: React.FC<TableOfContentsProps> = ({
         </span>
       )}
 
-      <ol className="m-0 p-0 list-none flex flex-col gap-0.5">
+      <ol className="m-0 p-0 list-none flex flex-col gap-tight">
         {items.map((item, index) => {
           const isActive = item.id === activeId;
           const numberLabel = String(index + 1).padStart(2, '0');

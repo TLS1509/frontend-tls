@@ -74,7 +74,7 @@ const APPROACH_ITEMS = [
 
 function StarRating({ value, max = 5 }: { value: number; max?: number }) {
   return (
-    <span className="inline-flex items-center gap-0.5">
+    <span className="inline-flex items-center gap-tight">
       {Array.from({ length: max }).map((_, i) => (
         <Star
           key={i}
