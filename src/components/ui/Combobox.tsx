@@ -64,7 +64,7 @@ const SIZE_CLASSES: Record<ComboboxSize, string> = {
 type StatusVariant = { idle: string; active: string };
 const STATUS_CLASSES: Record<ComboboxStatus, StatusVariant> = {
   default: {
-    idle:   'border-ink-300',
+    idle:   'border-ink-400', // arbitrage n°7 du 23/09 : 3,01:1 sur blanc (ink-300 : 1,47)
     active: 'border-primary-500 ring-1 ring-primary-500/25',
   },
   success: {

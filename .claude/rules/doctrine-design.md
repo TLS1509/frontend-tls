@@ -119,6 +119,14 @@ paths:
     — « une barre de recherche » — rendait **10, 14, 20 et 24 px côte à côte**.
     Elle rend aujourd'hui 14 partout.
 
+  ✅ **Filet de la famille champ : `ink-400` — arbitrage n°7 du 2026-09-23.**
+  `Input`, `Select`, `Combobox`, `Search`, case à cocher, radio et rail éteint du
+  Switch. Mesuré : **3,01:1 sur blanc** (WCAG 1.4.11 : 3:1, passe de justesse),
+  **2,68:1 sur carte teintée `primary-50`** — sous le seuil, **choix assumé**
+  pour garder un filet discret. `ink-300` mesurait 1,47:1. `ink-500` (4,99 /
+  4,45) passait partout : c'est l'option à reprendre si un champ doit vivre
+  sur une surface teintée. Le survol de `Search` fonce au 500.
+
   **Ce que la décision ne touche pas.** Les contrôles à forme propre gardent la
   leur : case à cocher `rounded-sm`, radio son cercle, switch et rail de slider
   leur pilule. La bulle de chat (`JournalChatCompose`, `rounded-2xl` + queue)

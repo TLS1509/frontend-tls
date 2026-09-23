@@ -78,7 +78,10 @@ const RAYON = 'rounded-lg';
 const CONTROL_LIGHT = 'bg-white text-ink-900';
 
 const STATUS_CLASSES: Record<InputStatus, string> = {
-  default: 'border-ink-300 focus-within:border-primary-500 focus-within:ring-2 focus-within:ring-primary-500/20',
+  // Filet à ink-400 — arbitrage n°7 du 2026-09-23 : 3,01:1 sur blanc (WCAG 1.4.11
+  // exige 3:1), 2,68:1 sur carte teintée (sous le seuil, choix assumé). ink-300
+  // mesurait 1,47:1 : un champ blanc sur fond blanc n'existait pas.
+  default: 'border-ink-400 focus-within:border-primary-500 focus-within:ring-2 focus-within:ring-primary-500/20',
   success: 'border-success-base focus-within:ring-2 focus-within:ring-success-base/35',
   error: 'border-danger-base focus-within:ring-2 focus-within:ring-danger-base/35',
 };
@@ -222,7 +225,7 @@ const TOGGLE_LABEL =
   'relative inline-flex items-center gap-stack-xs cursor-pointer font-body text-body-sm text-ink-900 select-none';
 
 const CHECKBOX_BOX =
-  "inline-flex items-center justify-center w-5 h-5 shrink-0 bg-white border-2 border-ink-300 rounded-sm transition-colors " +
+  "inline-flex items-center justify-center w-5 h-5 shrink-0 bg-white border-2 border-ink-400 rounded-sm transition-colors " +
   "peer-checked:bg-primary-500 peer-checked:border-primary-500 " +
   "peer-indeterminate:bg-primary-200 peer-indeterminate:border-primary-400 " +
   "peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-primary-500 " +
@@ -272,7 +275,7 @@ export interface RadioProps
 }
 
 const RADIO_BOX =
-  "inline-flex items-center justify-center w-5 h-5 shrink-0 bg-white border-2 border-ink-300 rounded-pill transition-colors " +
+  "inline-flex items-center justify-center w-5 h-5 shrink-0 bg-white border-2 border-ink-400 rounded-pill transition-colors " +
   "peer-checked:border-primary-500 " +
   "peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-primary-500 " +
   "peer-disabled:bg-ink-50 peer-disabled:border-ink-200 peer-disabled:cursor-not-allowed " +
@@ -306,7 +309,7 @@ export interface SwitchProps
 }
 
 const SWITCH_TRACK =
-  "relative inline-block w-11 h-6 rounded-xl bg-ink-300 shrink-0 transition-colors " +
+  "relative inline-block w-11 h-6 rounded-xl bg-ink-400 shrink-0 transition-colors " +
   "peer-checked:bg-primary-500 " +
   "peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-primary-500 " +
   "peer-disabled:bg-ink-50 peer-disabled:cursor-not-allowed " +

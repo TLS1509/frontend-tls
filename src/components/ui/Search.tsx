@@ -88,7 +88,8 @@ const SIZE_ICON: Record<SearchSize, number> = {
 };
 
 const VARIANT_WRAPPER: Record<SearchVariant, string> = {
-  default: 'bg-white border border-ink-300 hover:border-ink-400 focus-within:border-primary-400 focus-within:shadow-brand-sm',
+  // Filet ink-400 (arbitrage n°7 du 23/09, 3,01:1 sur blanc) ; le survol fonce d'un cran.
+  default: 'bg-white border border-ink-400 hover:border-ink-500 focus-within:border-primary-400 focus-within:shadow-brand-sm',
   glass:   'bg-white/15 border border-white/25 backdrop-blur-glass-light hover:bg-white/22 focus-within:bg-white/30 focus-within:border-white/50',
 };
 

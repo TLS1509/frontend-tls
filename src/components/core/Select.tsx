@@ -51,7 +51,10 @@ const SIZE_CLASSES: Record<SelectSize, string> = {
 };
 
 const STATUS_CLASSES: Record<SelectStatus, string> = {
-  default: 'border-ink-300 focus-within:border-primary-500 focus-within:ring-2 focus-within:ring-primary-500/20',
+  // Filet à ink-400 — arbitrage n°7 du 2026-09-23 : 3,01:1 sur blanc (WCAG 1.4.11
+  // exige 3:1), 2,68:1 sur carte teintée (sous le seuil, choix assumé). ink-300
+  // mesurait 1,47:1 : un champ blanc sur fond blanc n'existait pas.
+  default: 'border-ink-400 focus-within:border-primary-500 focus-within:ring-2 focus-within:ring-primary-500/20',
   success: 'border-success-base focus-within:ring-2 focus-within:ring-success-base/35',
   error: 'border-danger-base focus-within:ring-2 focus-within:ring-danger-base/35',
 };
