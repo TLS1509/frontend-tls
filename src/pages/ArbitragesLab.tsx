@@ -21,6 +21,7 @@ import { Badge } from '../components/ui/Badge';
 import { Avatar } from '../components/ui/Avatar';
 import { Input } from '../components/core/Input';
 import { IconChip } from '../components/ui/IconChip';
+import { PageHero } from '../components/patterns/EditorialHero';
 import { Compass, Target, Lightbulb } from 'lucide-react';
 
 /* ─────────────────────────── Couleurs et contraste ─────────────────────────── */
@@ -407,6 +408,24 @@ const HeroSpecimen: React.FC<{ gradient: 'actuel' | 'fonce' }> = ({ gradient }) 
   </div>
 );
 
+/* Le VRAI PageHero, en ton `flat` (le plus courant) puis `brand`. Pour B, un
+   span `font-bold` dans le titre ramène le texte au 700 du token h1. */
+const WeightSpecimen: React.FC<{ weight: '800' | '700' }> = ({ weight }) => {
+  const title = (t: string) => (weight === '700' ? <span className="font-bold">{t}</span> : t);
+  return (
+    <div className="w-full flex flex-col gap-stack-sm">
+      <PageHero tone="flat" title={title('Mon Passeport Compétences')} summary="Vos compétences, leur niveau et ce qui le prouve." />
+      <div className="rounded-xl overflow-hidden">
+        <PageHero tone="brand" title={title('Bonjour Chloé')} summary="Reprenez là où vous vous étiez arrêtée." />
+      </div>
+      <div className="flex items-baseline gap-stack-sm px-stack-md">
+        <span className="font-display text-h2 text-ink-900">Section de page</span>
+        <span className="text-caption text-ink-500">h2 · 700</span>
+      </div>
+    </div>
+  );
+};
+
 /* ─────────────────────────────── La page ─────────────────────────────── */
 
 export default function ArbitragesLab() {
@@ -546,6 +565,16 @@ export default function ArbitragesLab() {
       { letter: 'A', label: 'Tout serré (actuel)', facts: ['Description : 17,9 px par ligne au lieu de 20', 'Titre : 20,6 px au lieu de 24', 'Le détecteur continue de les signaler'], children: <LeadingSpecimen look="serre" /> },
       { letter: 'B', label: 'Tout au token', facts: ['Description 20 px, titre 24 px', 'Plus d\u2019air : +25 px sur ces deux rangées', 'Aucune exception à maintenir'], children: <LeadingSpecimen look="token" /> },
       { letter: 'C', label: 'Serré pour les titres seulement', recommended: true, facts: ['Titre gras 20,6 px : il se lit d\u2019un bloc', 'Description au token, 20 px : elle se lit', 'Deviendrait une règle du détecteur : snug admis sur texte gras'], children: <LeadingSpecimen look="role" /> },
+    ],
+  });
+
+  VALIDATIONS.push({
+    id: 'graisse-titre-page', n: 12, title: 'Graisse du titre de page',
+    question: 'Le titre d\u2019ouverture de page est-il un « display » à 800, ou un h1 comme les autres à 700 ?',
+    context: <p>Tous les pas de titre de l'app (h1 à h4) sont à 700 dans le token. Mais <code>PageHero</code> force son titre à 800, sur plus de 100 pages, et le podium du classement aussi, alors que <code>StatCard</code> affiche ses chiffres à 700. Le site, lui, a un vrai registre 800 (<code>text-hero</code>, <code>text-section</code>). Ce sont de vrais <code>PageHero</code>.</p>,
+    options: [
+      { letter: 'A', label: '800 : un registre « display »', facts: ['État actuel, rendu inchangé', 'On l\u2019écrit : le titre d\u2019ouverture de page et les chiffres-héros sont à 800, tout le reste à 700', 'Même registre que les titres du site'], children: <WeightSpecimen weight="800" /> },
+      { letter: 'B', label: '700 : le token h1', recommended: true, facts: ['Un seul poids de titre dans l\u2019app', 'Le titre de page se distingue par sa taille (36 px contre 28), pas par sa graisse', 'Plus calme, plus proche d\u2019Apple (Large Title = bold)'], children: <WeightSpecimen weight="700" /> },
     ],
   });
 
