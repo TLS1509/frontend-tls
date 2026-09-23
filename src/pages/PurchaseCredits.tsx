@@ -82,7 +82,7 @@ const PurchaseCredits: React.FC = () => {
                   {p.bonus && (
                     <Badge variant="success" className="mb-stack">+{p.bonus} bonus</Badge>
                   )}
-                  <div className="text-h3 font-semibold mt-stack">{p.price}€</div>
+                  <div className="text-h3 mt-stack">{p.price}€</div>
                   <div className="text-caption text-ink-500">soit {(p.price / p.credits).toFixed(2)}€ / crédit</div>
                 </div>
               </Card>

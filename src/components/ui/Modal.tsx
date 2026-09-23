@@ -71,7 +71,7 @@ export const Modal: React.FC<ModalProps> = ({
                 /* Un vrai titre (h2) à id unique : l'ancien `p#modal-title`
                    n'était pas un titre et son id fixe collisionnait dès que
                    deux modales coexistaient. */
-                <h2 id={dialog.titleId} className="font-display text-h2 font-semibold tracking-headline leading-[1.15] text-ink-900 mb-2">
+                <h2 id={dialog.titleId} className="font-display text-h2 tracking-headline leading-[1.15] text-ink-900 mb-2">
                   {title}
                 </h2>
               )}
