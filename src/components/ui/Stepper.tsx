@@ -21,11 +21,11 @@ const CIRCLE_BASE =
 const CIRCLE_STATE: Record<StepperState, string> = {
   done:     'bg-success-vivid border-success-vivid text-white shadow-sm',
   current:  'bg-white border-primary-600 text-primary-700 shadow-brand-sm ring-4 ring-primary-100 scale-110',
-  upcoming: 'bg-white border-ink-200 text-ink-400',
+  upcoming: 'bg-white border-ink-200 text-ink-500',
 };
 
 const LABEL_STATE: Record<StepperState, string> = {
-  done:     'text-success-base font-semibold',
+  done:     'text-success-fg font-semibold',
   current:  'text-ink-900 font-bold',
   upcoming: 'text-ink-500 font-medium',
 };
@@ -87,7 +87,7 @@ export const Stepper: React.FC<StepperProps> = ({
                 )}
               </div>
             ) : (
-              <p className={`m-0 text-[11px] sm:text-caption break-words ${LABEL_STATE[item.state]}`}>
+              <p className={`m-0 text-micro sm:text-caption break-words ${LABEL_STATE[item.state]}`}>
                 {item.label}
               </p>
             )}

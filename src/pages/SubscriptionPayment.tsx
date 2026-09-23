@@ -194,7 +194,7 @@ export const SubscriptionPayment: React.FC = () => {
 
         {/* Header */}
         <header className="flex flex-col gap-tight text-center">
-          <p className="m-0 font-body text-caption font-semibold uppercase tracking-wider text-primary-600">
+          <p className="m-0 font-body text-caption font-semibold uppercase tracking-wider text-primary-700">
             Étape paiement · Abonnement
           </p>
           <h1 className="font-display text-h2 tracking-display text-ink-900">
