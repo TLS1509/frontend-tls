@@ -66,8 +66,10 @@ function resolveSurface(tone: MetaPillTone): string {
     case 'glass':
       return CHIP_SURFACE_MAP['glass-tinted'];
     case 'glass-dark':
-      // softer alphas than Pill's full dark variant
-      return 'bg-white/15 text-white border-white/25 backdrop-blur-glass-light shadow-xs';
+      /* Voile SOMBRE sous le blanc — corrigé le 2026-09-23. Il était blanc/15 :
+         un voile clair sous un texte clair, 3,75 sur l'arrêt 700 d'un hero.
+         ink-900/20 : 6,17. Contrat : hero au cran 700 ou plus sombre. */
+      return 'bg-ink-900/20 text-white border-white/30 backdrop-blur-glass-light shadow-xs';
     default:
       return CHIP_TONE_SOLID.neutral;
   }

@@ -154,7 +154,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             onClick={handleClear}
             className={`inline-flex items-center gap-tight px-2.5 py-1 font-body text-micro font-bold bg-transparent border-0 cursor-pointer transition-colors duration-base rounded-pill focus-visible:outline-2 focus-visible:outline-offset-2 ${
               isGlass
-                ? 'text-white/70 hover:text-white focus-visible:outline-white/50'
+                ? 'text-white underline-offset-2 hover:underline focus-visible:outline-white/50'
                 : 'text-ink-500 hover:text-danger-fg focus-visible:outline-primary-500'
             }`}
             title="Effacer tous les filtres"

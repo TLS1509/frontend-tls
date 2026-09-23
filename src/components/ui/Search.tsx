@@ -87,20 +87,25 @@ const SIZE_ICON: Record<SearchSize, number> = {
   lg: 20,
 };
 
+/* `glass` — contrat : un hero au cran 700 ou plus sombre.
+   ⚠️ Corrigé le 2026-09-23 : le voile était BLANC (/15) sous un texte blanc —
+   un voile clair éclaircit ce que le blanc a besoin de sombre. Mesuré sur la
+   vitrine, arrêt 700 : placeholder 2,36, icône 2,67, raccourci 2,23. Voile
+   sombre (ink-900/20) et blanc plein ou /80 : placeholder 4,63, le reste ≥ 6. */
 const VARIANT_WRAPPER: Record<SearchVariant, string> = {
   // Filet ink-400 (arbitrage n°7 du 23/09, 3,01:1 sur blanc) ; le survol fonce d'un cran.
   default: 'bg-white border border-ink-400 hover:border-ink-500 focus-within:border-primary-400 focus-within:shadow-brand-sm',
-  glass:   'bg-white/15 border border-white/25 backdrop-blur-glass-light hover:bg-white/22 focus-within:bg-white/30 focus-within:border-white/50',
+  glass:   'bg-ink-900/20 border border-white/30 backdrop-blur-glass-light hover:bg-ink-900/25 focus-within:bg-ink-900/30 focus-within:border-white/60',
 };
 
 const VARIANT_ICON: Record<SearchVariant, string> = {
   default: 'text-ink-500',
-  glass:   'text-white/70',
+  glass:   'text-white',
 };
 
 const VARIANT_INPUT: Record<SearchVariant, string> = {
   default: 'text-ink-900 placeholder:text-ink-500',
-  glass:   'text-white placeholder:text-white/60',
+  glass:   'text-white placeholder:text-white/80',
 };
 
 export const Search: React.FC<SearchProps> = ({
@@ -222,7 +227,7 @@ export const Search: React.FC<SearchProps> = ({
               'inline-flex items-center justify-center w-5 h-5 p-0 border-0 rounded-sm cursor-pointer shrink-0 transition-all',
               'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
               isGlass
-                ? 'bg-white/20 text-white/80 hover:bg-white/30 hover:text-white'
+                ? 'bg-ink-900/30 text-white hover:bg-ink-900/45'
                 : 'bg-ink-50 text-ink-600 hover:bg-ink-200 hover:text-ink-900',
             ].join(' ')}
           >
@@ -244,7 +249,7 @@ export const Search: React.FC<SearchProps> = ({
           <kbd className={[
             'font-mono text-[11px] py-0.5 px-2 rounded-sm shrink-0 border',
             isGlass
-              ? 'bg-white/15 text-white/70 border-white/20'
+              ? 'bg-ink-900/30 text-white border-white/30'
               : 'bg-ink-50 text-ink-500 border-ink-200',
           ].join(' ')}>
             {shortcut}
@@ -275,7 +280,7 @@ export const Search: React.FC<SearchProps> = ({
               className={[
                 'flex items-center gap-stack-xs px-2 py-1.5 rounded-md text-left transition-all',
                 isGlass
-                  ? 'hover:bg-white/15 text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70'
+                  ? 'hover:bg-ink-900/20 text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70'
                   : 'hover:bg-ink-50 text-ink-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
               ].join(' ')}
             >
@@ -285,7 +290,7 @@ export const Search: React.FC<SearchProps> = ({
                   {renderSuggestion ? renderSuggestion(suggestion) : suggestion.label}
                 </div>
                 {suggestion.metadata && (
-                  <div className={`text-caption truncate ${isGlass ? 'text-white/60' : 'text-ink-500'}`}>
+                  <div className={`text-caption truncate ${isGlass ? 'text-white/80' : 'text-ink-500'}`}>
                     {suggestion.metadata}
                   </div>
                 )}

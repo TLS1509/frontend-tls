@@ -3887,8 +3887,8 @@ const COMPONENTS: ComponentEntry[] = [
           {/* glass + frosted sur fond gradient */}
           <div className="rounded-2xl bg-gradient-to-br from-primary-700 via-primary-800 to-secondary-700 p-stack">
             <div className="flex flex-wrap gap-stack">
-              <IconFeatureCard square surface="glass" tone="brand" iconStyle="plain" iconSize="md" icon={<SparklesIcon size={32} strokeWidth={1.75} className="text-white" />} title="glass" onClick={() => {}} className="w-[140px] [&_h3]:text-white" />
-              <IconFeatureCard square surface="frosted" tone="sun" iconStyle="plain" iconSize="md" icon={<Star size={32} strokeWidth={1.75} className="text-white" />} title="frosted" onClick={() => {}} className="w-[140px] [&_h3]:text-white" />
+              <IconFeatureCard square surface="glass" tone="brand" iconStyle="plain" iconSize="md" icon={<SparklesIcon size={32} strokeWidth={1.75} />} title="glass" onClick={() => {}} className="w-[140px]" />
+              <IconFeatureCard square surface="frosted" tone="sun" iconStyle="plain" iconSize="md" icon={<Star size={32} strokeWidth={1.75} />} title="frosted" onClick={() => {}} className="w-[140px]" />
             </div>
           </div>
         </div>
@@ -5223,7 +5223,7 @@ const COMPONENTS: ComponentEntry[] = [
       const [savedActive, setSavedActive] = React.useState(false);
       const hasFilter = active !== 'all' || savedActive;
       return (
-        <div className="p-stack-lg rounded-xl" style={{ background: 'linear-gradient(150deg, #2F5F6A 0%, #55A1B4 100%)' }}>
+        <div className="p-stack-lg rounded-xl bg-gradient-to-br from-primary-800 to-primary-700">
           <VeilleHeroFilterChips
             filters={[
               { id: 'all',      label: 'Tout' },

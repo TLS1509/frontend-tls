@@ -34,7 +34,7 @@ const SIZE_MAP: Record<FilterChipSize, string> = {
  * Variants:
  *   - default : solid tinted, primary tone when active (gradient + bold border)
  *   - reset   : passive neutral, no active state — used for "Clear filters" button
- *   - glass   : translucent white-alpha (hero overlays)
+ *   - glass   : voile sombre au repos, verre clair à encre foncée actif (heroes 700+)
  */
 
 export interface FilterChipProps {
@@ -60,11 +60,21 @@ const BORDER_OVERRIDE = 'border-[1.5px]';
 const INTERACTIVE_LIFT =
   'cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2';
 
-/* ── Glass surface — keeps its own classes (white-alpha logic distinct from solid tone) ─ */
+/* ── Glass surface — keeps its own classes (voile logic distinct from solid tone) ─
+   Contrat : un hero au cran 700 ou plus sombre (doctrine `onDark`).
+
+   ⚠️ Corrigé le 2026-09-23 — le verre posait un voile BLANC sous un texte blanc,
+   la contradiction que la doctrine nomme pour le compteur de la nav : un voile
+   clair éclaircit le fond, le texte blanc réclame du sombre. Mesuré sur la
+   vitrine, arrêt le plus clair d'un hero 700→800 : repos 2,62 (blanc/80 sur
+   blanc/10), actif 2,38 (blanc sur blanc/30), compteurs 1,63.
+   Désormais les deux états s'opposent, comme les deux niveaux `onDark` de
+   Button : au repos un voile SOMBRE et du blanc plein ; actif un verre CLAIR à
+   encre foncée. */
 const GLASS_INACTIVE =
-  'bg-white/10 border-white/25 text-white/80 backdrop-blur-glass-light hover:bg-white/20 hover:border-white/40 hover:text-white focus-visible:outline-white/60';
+  'bg-ink-900/20 border-white/40 text-white backdrop-blur-glass-light hover:bg-ink-900/30 hover:border-white/60 focus-visible:outline-white/60';
 const GLASS_ACTIVE =
-  'bg-white/30 border-white/70 text-white font-bold shadow-xs hover:bg-white/35 focus-visible:outline-white/60';
+  'bg-white/90 border-white text-ink-900 font-bold shadow-xs hover:bg-white focus-visible:outline-white/60';
 
 export const FilterChip: React.FC<FilterChipProps> = ({
   label,
@@ -109,8 +119,8 @@ export const FilterChip: React.FC<FilterChipProps> = ({
 
   const countBg = isGlass
     ? active
-      ? 'bg-white/40 text-white'
-      : 'bg-white/20 text-white/80'
+      ? 'bg-ink-900 text-white'
+      : 'bg-ink-900/30 text-white'
     : active
       ? COUNT_BG_ACTIVE[tone]
       : 'bg-ink-200 text-ink-700';

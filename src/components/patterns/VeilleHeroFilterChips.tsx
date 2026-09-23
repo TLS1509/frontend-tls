@@ -117,7 +117,7 @@ export const VeilleHeroFilterChips: React.FC<VeilleHeroFilterChipsProps> = ({
       <button
         type="button"
         onClick={onReset}
-        className="font-body text-caption text-white/40 hover:text-white/70 underline underline-offset-2 transition-colors ml-1 cursor-pointer bg-transparent border-0"
+        className="font-body text-caption text-white hover:decoration-2 underline underline-offset-2 transition-colors ml-1 cursor-pointer bg-transparent border-0"
       >
         Réinitialiser
       </button>
@@ -125,8 +125,8 @@ export const VeilleHeroFilterChips: React.FC<VeilleHeroFilterChipsProps> = ({
 
     {/* ── Results count ───────────────────────────────────────────────────── */}
     {hasActiveFilter && resultsCount !== undefined && (
-      <span className="font-body text-caption text-white/40 ml-auto">
-        <strong className="text-white/70">{resultsCount}</strong>
+      <span className="font-body text-caption text-white ml-auto">
+        <strong className="text-white">{resultsCount}</strong>
         {' '}résultat{resultsCount !== 1 ? 's' : ''}
       </span>
     )}

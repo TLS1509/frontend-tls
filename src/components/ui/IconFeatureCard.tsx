@@ -25,8 +25,8 @@
  * 4 surfaces (aspect de fond) :
  *  - **card** (default) : bg-white + border ink-200 — neutre, surface standard
  *  - **tinted** : bg-{tone}-50 + border {tone}-100 — teinté tone (subtle accent)
- *  - **glass** : bg-white/60 backdrop-blur-glass-light — translucide léger
- *  - **frosted** : bg-white/40 backdrop-blur-glass-medium + border white/40 — verre dépoli
+ *  - **glass** : voile ink-900/15 + blur léger, texte blanc — sur hero 700+
+ *  - **frosted** : voile ink-900/25 + blur moyen, texte blanc — verre dépoli, hero 700+
  *
  * Tones : brand (primary) / warm / sun
  *
@@ -119,11 +119,22 @@ const SURFACE_TINTED: Record<IconFeatureCardTone, string> = {
   sun:   'bg-accent-50/60 border border-accent-100 hover:border-accent-200 hover:bg-accent-50',
 };
 
+/* glass / frosted — surfaces de hero SOMBRE (cran 700 ou plus), texte blanc.
+   ⚠️ Corrigé le 2026-09-23. Elles posaient un voile BLANC (/60, /40) et
+   laissaient le texte en encre : c'était donc à l'appelant de passer le texte
+   en blanc, et la vitrine le faisait — blanc sur voile blanc, 1,74 (glass) et
+   2,39 (frosted) sur l'arrêt 700. Garder le voile clair et l'encre n'aurait pas
+   suffi : ink-500 sur blanc/60 composé sur 700 donne 2,88, et l'icône au
+   cran 500 moins encore. Le composant porte désormais les deux moitiés du
+   contrat : voile sombre ET texte blanc plein (5,86 et 6,50 sur 700). */
 const SURFACE_GLASS =
-  'bg-white/60 backdrop-blur-glass-light border border-white/60 hover:bg-white/75';
+  'bg-ink-900/15 backdrop-blur-glass-light border border-white/30 hover:bg-ink-900/25';
 
 const SURFACE_FROSTED =
-  'bg-white/40 backdrop-blur-glass-medium border border-white/50 hover:bg-white/55 shadow-sm';
+  'bg-ink-900/25 backdrop-blur-glass-medium border border-white/40 hover:bg-ink-900/35 shadow-sm';
+
+const isSurfaceSombre = (surface: IconFeatureCardSurface) =>
+  surface === 'glass' || surface === 'frosted';
 
 /* Auto-layout CENTERED 2 axes — padding visuel ÉGAL haut/bas/gauche/droite :
    - items-center    → x-centered (icon + title sur l'axe central horizontal)
@@ -214,6 +225,7 @@ export const IconFeatureCard: React.FC<IconFeatureCardProps> = ({
   ...rest
 }) => {
   const isButton = 'onClick' in rest && typeof rest.onClick === 'function';
+  const surSombre = isSurfaceSombre(surface);
 
   const classes = [
     isButton ? BASE_BUTTON : BASE_DISPLAY,
@@ -244,7 +256,7 @@ export const IconFeatureCard: React.FC<IconFeatureCardProps> = ({
       <div
         className={[
           'inline-flex items-center justify-center transition-transform group-hover:scale-110',
-          TONE_FILLED[tone],
+          surSombre ? 'text-white [&_svg]:fill-current' : TONE_FILLED[tone],
         ].join(' ')}
         aria-hidden="true"
       >
@@ -257,7 +269,7 @@ export const IconFeatureCard: React.FC<IconFeatureCardProps> = ({
       <div
         className={[
           'inline-flex items-center justify-center transition-transform group-hover:scale-110',
-          TONE_PLAIN[tone],
+          surSombre ? 'text-white' : TONE_PLAIN[tone],
         ].join(' ')}
         aria-hidden="true"
       >
@@ -279,11 +291,11 @@ export const IconFeatureCard: React.FC<IconFeatureCardProps> = ({
       {iconNode}
       <div className="flex flex-col gap-tight">
         {/* Title scale avec iconSize (xs→body-sm · sm→body · md→h4 · lg/xl→h3). */}
-        <h3 className={`font-display ${TITLE_SIZE[iconSize]} font-bold text-ink-900 leading-tight`}>
+        <h3 className={`font-display ${TITLE_SIZE[iconSize]} font-bold leading-tight ${surSombre ? 'text-white' : 'text-ink-900'}`}>
           {title}
         </h3>
         {description && (
-          <p className="m-0 font-body text-body-sm text-ink-500">{description}</p>
+          <p className={`m-0 font-body text-body-sm ${surSombre ? 'text-white' : 'text-ink-500'}`}>{description}</p>
         )}
       </div>
     </>
