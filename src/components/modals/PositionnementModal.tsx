@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ArrowRight, BarChart2, Flame, Rocket, Sparkles, Sprout, Star, Target, X } from 'lucide-react';
 import { Button } from '../core/Button';
 import { CARD_HOVER_NEUTRE } from '../../lib/tone-classes';
+import { useDialog } from '../../hooks/useDialog';
 
 /**
  * PositionnementModal — Auto-évaluation des compétences avant un parcours
@@ -82,6 +83,8 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
   onStartCourse,
   onPositionnementComplete,
 }) => {
+  // Comportement de dialogue partagé (APG) : focus entrant, Tab piégé, Échap, focus rendu.
+  const dialog = useDialog<HTMLDivElement>(isOpen, onClose);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [responses, setResponses] = useState<Record<number, string>>({});
   const [selectedLevel, setSelectedLevel] = useState<string | null>(null);
@@ -139,6 +142,7 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
     >
       {/* Modal container */}
       <div
+        ref={dialog.ref} role="dialog" aria-modal="true" aria-labelledby={dialog.titleId} tabIndex={-1}
         onClick={(e) => e.stopPropagation()}
         className="relative w-full max-w-[880px] bg-gradient-to-br from-primary-50 to-accent-50/95 rounded-2xl border border-ink-200 shadow-modal overflow-hidden animate-modal-in"
       >
@@ -177,7 +181,7 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
 
               {/* Question card */}
               <div className="bg-white rounded-xl p-stack-lg shadow-md mb-stack-lg border border-ink-200">
-                <h2 className="text-h3 text-ink-900 leading-snug mb-2">
+                <h2 id={dialog.titleId} className="text-h3 text-ink-900 leading-snug mb-2">
                   {currentQuestion.title}
                 </h2>
                 <p className="text-body text-ink-600">

@@ -1,5 +1,6 @@
 import React from 'react';
 import { X, AlertTriangle, CheckCircle2, Info, AlertCircle } from 'lucide-react';
+import { useDialog } from '../../hooks/useDialog';
 
 /**
  * ConfirmModal — Dialog de confirmation générique
@@ -68,6 +69,8 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
   variant = 'info',
   icon,
 }) => {
+  // Comportement de dialogue partagé (APG) : focus entrant, Tab piégé, Échap, focus rendu.
+  const dialog = useDialog<HTMLDivElement>(isOpen, onClose);
   if (!isOpen) return null;
 
   const displayIcon = icon ?? DEFAULT_ICONS[variant];
@@ -78,6 +81,7 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
       onClick={onClose}
     >
       <div
+        ref={dialog.ref} role="dialog" aria-modal="true" aria-labelledby={dialog.titleId} tabIndex={-1}
         onClick={(e) => e.stopPropagation()}
         className="relative w-full max-w-[440px] bg-white rounded-2xl border border-ink-200 shadow-xl p-8 animate-cm-in"
       >
@@ -97,7 +101,7 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
 
         {/* Text */}
         <div className="text-center mb-stack-lg">
-          <h2 className="text-h4 font-bold text-ink-900 mb-3">
+          <h2 id={dialog.titleId} className="text-h4 font-bold text-ink-900 mb-3">
             {title}
           </h2>
           <p className="text-body text-ink-600">

@@ -14,9 +14,10 @@
  *   />
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { CheckCircle2, Sparkles, ArrowRight, X, Zap } from 'lucide-react';
 import { Button } from '../core/Button';
+import { useDialog } from '../../hooks/useDialog';
 
 export interface CompletionNextItem {
   title: string;
@@ -51,14 +52,8 @@ export const CompletionModal: React.FC<CompletionModalProps> = ({
   title = 'Terminé !',
   description,
 }) => {
-  useEffect(() => {
-    if (!isOpen) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
-    document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
-  }, [isOpen, onClose]);
+  // Comportement de dialogue partagé (APG) : focus entrant, Tab piégé, Échap, focus rendu.
+  const dialog = useDialog<HTMLDivElement>(isOpen, onClose);
 
   if (!isOpen) return null;
 
@@ -66,6 +61,8 @@ export const CompletionModal: React.FC<CompletionModalProps> = ({
     <div
       className="fixed inset-0 z-modal flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-modal-bd-in"
       onClick={onClose}
+      ref={dialog.ref}
+      tabIndex={-1}
       role="dialog"
       aria-modal="true"
       aria-labelledby="completion-modal-title"

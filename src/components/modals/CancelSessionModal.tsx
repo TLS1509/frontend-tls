@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, AlertTriangle, CalendarX, RefreshCcw, ChevronDown } from 'lucide-react';
 import { Button } from '../core/Button';
+import { useDialog } from '../../hooks/useDialog';
 
 /**
  * CancelSessionModal — Annulation ou reprogrammation d'une session de coaching
@@ -32,6 +33,8 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
   sessionTitle = 'Session de coaching IA',
   sessionDate = 'Mardi 30 avril 2026 — 14h00',
 }) => {
+  // Comportement de dialogue partagé (APG) : focus entrant, Tab piégé, Échap, focus rendu.
+  const dialog = useDialog<HTMLDivElement>(isOpen, onClose);
   const [reason, setReason] = useState('');
   const [step, setStep] = useState<'confirm' | 'done'>('confirm');
 
@@ -64,6 +67,7 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
       onClick={handleClose}
     >
       <div
+        ref={dialog.ref} role="dialog" aria-modal="true" aria-labelledby={dialog.titleId} tabIndex={-1}
         onClick={(e) => e.stopPropagation()}
         className="relative w-full max-w-[460px] bg-white rounded-2xl border border-ink-200 shadow-xl overflow-hidden p-8 animate-cso-in"
       >
@@ -86,7 +90,7 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
               <AlertTriangle size={24} className="text-secondary-600" />
             </div>
 
-            <h2 className="text-h3 text-ink-900 text-center mb-2">
+            <h2 id={dialog.titleId} className="text-h3 text-ink-900 text-center mb-2">
               Annuler la session ?
             </h2>
             <p className="text-body-sm text-ink-600 text-center mb-stack-md">

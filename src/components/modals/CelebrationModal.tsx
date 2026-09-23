@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { X, Sparkles, Star, Trophy } from 'lucide-react';
+import { useDialog } from '../../hooks/useDialog';
 
 /**
  * CelebrationModal — generic milestone celebration modal.
@@ -68,15 +69,8 @@ export const CelebrationModal: React.FC<CelebrationModalProps> = ({
   hideSparkles = false,
   hideClose = false,
 }) => {
-  // Close on Escape
-  useEffect(() => {
-    if (!isOpen) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
-    document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
-  }, [isOpen, onClose]);
+  // Comportement de dialogue partagé (APG) : focus entrant, Tab piégé, Échap, focus rendu.
+  const dialog = useDialog<HTMLDivElement>(isOpen, onClose);
 
   if (!isOpen) return null;
 
@@ -84,6 +78,8 @@ export const CelebrationModal: React.FC<CelebrationModalProps> = ({
     <div
       className="fixed inset-0 z-modal flex items-center justify-center p-4 bg-black/45 backdrop-blur-sm animate-modal-bd-in"
       onClick={onClose}
+      ref={dialog.ref}
+      tabIndex={-1}
       role="dialog"
       aria-modal="true"
       aria-labelledby="celebration-modal-title"

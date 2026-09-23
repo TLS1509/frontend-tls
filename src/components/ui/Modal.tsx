@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useDialog } from '../../hooks/useDialog';
 import { X } from 'lucide-react';
 
 /**
@@ -34,14 +35,9 @@ export const Modal: React.FC<ModalProps> = ({
   children,
   className = '',
 }) => {
-  useEffect(() => {
-    if (!open) return;
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
-    document.addEventListener('keydown', handleKey);
-    return () => document.removeEventListener('keydown', handleKey);
-  }, [open, onClose]);
+  // Focus entrant, Tab piégé, Échap, focus rendu (APG) — la modale ne gérait
+  // qu'Échap, et laissait le focus sur la page derrière.
+  const dialog = useDialog<HTMLDivElement>(open, onClose);
 
   if (!open) return null;
 
@@ -60,18 +56,23 @@ export const Modal: React.FC<ModalProps> = ({
     >
       <div
         className={dialogClasses}
+        ref={dialog.ref}
+        tabIndex={-1}
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
-        aria-labelledby={title ? 'modal-title' : undefined}
+        aria-labelledby={title ? dialog.titleId : undefined}
       >
         {(title || description || showClose) && (
           <div className="grid grid-cols-[1fr_auto] gap-stack-xs items-start">
             <div className="flex-1 min-w-0">
               {title && (
-                <p id="modal-title" className="font-display text-h2 font-semibold tracking-tight leading-[1.15] text-ink-900 mb-2">
+                /* Un vrai titre (h2) à id unique : l'ancien `p#modal-title`
+                   n'était pas un titre et son id fixe collisionnait dès que
+                   deux modales coexistaient. */
+                <h2 id={dialog.titleId} className="font-display text-h2 font-semibold tracking-headline leading-[1.15] text-ink-900 mb-2">
                   {title}
-                </p>
+                </h2>
               )}
               {description && (
                 <p className="text-body text-ink-600 m-0">{description}</p>

@@ -20,6 +20,7 @@ import {
   CreditCard, Lock, Sparkles, Building2, Wallet,
 } from 'lucide-react';
 import { Button } from '../core/Button';
+import { useDialog } from '../../hooks/useDialog';
 
 export type UserPlan = 'free' | 'pro' | 'enterprise';
 
@@ -126,6 +127,8 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   companyName = 'Votre entreprise',
   sessionPrice = 75,
 }) => {
+  // Comportement de dialogue partagé (APG) : focus entrant, Tab piégé, Échap, focus rendu.
+  const dialog = useDialog<HTMLDivElement>(isOpen, onClose);
   /* Defaults raisonnables si creditsRemaining n'est pas passé */
   const defaultCredits: Record<UserPlan, { remaining: number; total: number }> = {
     free:       { remaining: 0, total: 0 },
@@ -259,6 +262,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
       onClick={handleClose}
     >
       <div
+        ref={dialog.ref} role="dialog" aria-modal="true" aria-labelledby={dialog.titleId} tabIndex={-1}
         onClick={(e) => e.stopPropagation()}
         className="relative w-full max-w-[820px] max-h-[92vh] flex flex-col bg-white rounded-2xl border border-ink-200 shadow-modal animate-modal-in overflow-hidden"
       >
@@ -269,7 +273,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
           </div>
 
           <div className="flex-1 min-w-[180px]">
-            <h2 className="text-body font-bold text-ink-900">
+            <h2 id={dialog.titleId} className="text-body font-bold text-ink-900">
               Réserver une session
             </h2>
             <p className="m-0 text-caption text-ink-600">

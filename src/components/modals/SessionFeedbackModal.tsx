@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, Send, Sparkles, Star } from 'lucide-react';
+import { useDialog } from '../../hooks/useDialog';
 
 /**
  * SessionFeedbackModal — Notation étoiles + commentaire
@@ -29,6 +30,8 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
   title = 'Votre avis compte',
   subtitle = 'Comment évaluez-vous cette session ?',
 }) => {
+  // Comportement de dialogue partagé (APG) : focus entrant, Tab piégé, Échap, focus rendu.
+  const dialog = useDialog<HTMLDivElement>(isOpen, onClose);
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
   const [comment, setComment] = useState('');
@@ -64,6 +67,7 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
       onClick={handleClose}
     >
       <div
+        ref={dialog.ref} role="dialog" aria-modal="true" aria-labelledby={dialog.titleId} tabIndex={-1}
         onClick={(e) => e.stopPropagation()}
         className="relative w-full max-w-[500px] bg-white rounded-2xl border border-ink-200 shadow-xl overflow-hidden p-8 animate-fb-in"
       >
@@ -87,7 +91,7 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
             </div>
 
             {/* Title */}
-            <h2 className="text-h3 text-ink-900 text-center mb-2">
+            <h2 id={dialog.titleId} className="text-h3 text-ink-900 text-center mb-2">
               {title}
             </h2>
             <p className="text-body text-ink-600 text-center mb-stack-lg">

@@ -1,5 +1,6 @@
 import React from 'react';
 import { X, CheckCircle2 } from 'lucide-react';
+import { useDialog } from '../../hooks/useDialog';
 
 /**
  * SuccessModal — Célébration d'une réussite générique
@@ -21,6 +22,8 @@ export const SuccessModal: React.FC<SuccessModalProps> = ({
   message,
   buttonText = 'Super !',
 }) => {
+  // Comportement de dialogue partagé (APG) : focus entrant, Tab piégé, Échap, focus rendu.
+  const dialog = useDialog<HTMLDivElement>(isOpen, onClose);
   if (!isOpen) return null;
 
   return (
@@ -29,6 +32,7 @@ export const SuccessModal: React.FC<SuccessModalProps> = ({
       onClick={onClose}
     >
       <div
+        ref={dialog.ref} role="dialog" aria-modal="true" aria-labelledby={dialog.titleId} tabIndex={-1}
         onClick={(e) => e.stopPropagation()}
         className="relative w-full max-w-[480px] bg-white rounded-2xl border border-primary-500/20 shadow-success-modal p-10 overflow-hidden animate-sm-in"
       >
@@ -54,7 +58,7 @@ export const SuccessModal: React.FC<SuccessModalProps> = ({
 
         {/* Content */}
         <div className="text-center mb-section relative z-10 animate-sm-fade-up-1">
-          <h2 className="text-h3 mb-3 modal-gradient-text">
+          <h2 id={dialog.titleId} className="text-h3 mb-3 modal-gradient-text">
             {title}
           </h2>
           <p className="text-body text-ink-600">

@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { X, Play, Pause, Volume2, VolumeX, Maximize, Download, Share2, Clock } from 'lucide-react';
+import { useDialog } from '../../hooks/useDialog';
 
 /**
  * VideoPlayerModal — Lecteur vidéo plein écran
@@ -29,6 +30,8 @@ export const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
   description = 'Découvrez les fondamentaux du prompt engineering et comment structurer vos demandes pour obtenir des résultats optimaux.',
   onDownload,
 }) => {
+  // Comportement de dialogue partagé (APG) : focus entrant, Tab piégé, Échap, focus rendu.
+  const dialog = useDialog<HTMLDivElement>(isOpen, onClose);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
@@ -88,6 +91,7 @@ export const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
       className="fixed inset-0 flex items-center justify-center p-4 z-modal bg-black/85 animate-vp-bd-in"
     >
       <div
+        ref={dialog.ref} role="dialog" aria-modal="true" aria-labelledby={dialog.titleId} tabIndex={-1}
         onClick={(e) => e.stopPropagation()}
         className="relative w-full max-w-[860px] bg-[#0f1117] rounded-2xl border border-white/8 shadow-[0_40px_80px_rgba(0,0,0,0.6)] overflow-hidden animate-vp-in"
       >
@@ -181,7 +185,7 @@ export const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
         <div className="p-stack-md bg-white border-t border-ink-200">
           <div className="flex items-start justify-between gap-stack">
             <div className="flex-1 min-w-0">
-              <h3 className="text-body font-bold text-ink-900 mb-1">
+              <h3 id={dialog.titleId} className="text-body font-bold text-ink-900 mb-1">
                 {title}
               </h3>
               <p className="text-caption text-ink-600 mb-2">
