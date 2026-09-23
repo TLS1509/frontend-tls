@@ -191,6 +191,8 @@ export { ActionCard } from './ui/ActionCard';
 // SurfaceCard deprecated → use <Card variant="default|elevated|glass|bordered|muted|sunken">
 
 export { MetaPill } from './ui/MetaPill';
+export { IconChip } from './ui/IconChip';
+export type { IconChipProps, IconChipSize, IconChipTone } from './ui/IconChip';
 export { MetaItem } from './ui/MetaItem';
 export { ActivityItem } from './ui/ActivityItem';
 export { IconFeatureCard } from './ui/IconFeatureCard';

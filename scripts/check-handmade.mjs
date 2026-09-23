@@ -134,8 +134,11 @@ const FAMILLES = [
   },
   {
     nom: 'pastille d’icône',
-    primitive: 'aucune — à créer si le motif se confirme',
-    fichiers: [],
+    // Créée le 2026-09-23 (arbitrage n°3) : le motif s'est confirmé — 159
+    // pastilles faites main dans l'app. Une pastille INTERACTIVE relève, elle,
+    // de <Button iconOnly> : le détecteur ne sait pas les distinguer.
+    primitive: '<IconChip>',
+    fichiers: ['ui/IconChip.tsx'],
     // Carré arrondi qui centre un glyphe : le motif le plus répété du repo.
     signature: (cl) => /\b(inline-flex|flex)\b/.test(cl)
       && /\bitems-center\b/.test(cl) && /\bjustify-center\b/.test(cl)

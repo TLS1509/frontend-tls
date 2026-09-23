@@ -254,6 +254,7 @@ export const CATALOG: Record<string, CatalogMeta> = {
 
   // Decoration
   Divider:              { category: 'Atoms', subCategory: 'Decoration' },
+  IconChip:             { category: 'Atoms', subCategory: 'Decoration' },
   // BackgroundBlobs supprimé (Phase 10) — legacy remplacé par AmbientBlobs (patterns/)
 
   // ── COMPOSITES ────────────────────────────────────────────────────────

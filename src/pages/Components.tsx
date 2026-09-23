@@ -237,6 +237,7 @@ import { Briefcase, HeartHandshake, FileText } from 'lucide-react';
 import { Plus, Heart, Home, Trophy as TrophyIcon, Settings, Trash2, Pencil } from 'lucide-react';
 import { FloatLabel } from '../components/core/FloatLabel';
 import { Chip } from '../components/ui/Chip';
+import { IconChip } from '../components/ui/IconChip';
 import { Tooltip } from '../components/ui/Tooltip';
 import { Kbd } from '../components/ui/Kbd';
 import { SegmentedControl } from '../components/ui/SegmentedControl';
@@ -5926,6 +5927,37 @@ const COMPONENTS: ComponentEntry[] = [
         level="intermédiaire"
         onClick={() => {}}
       />
+    ),
+  },
+  {
+    name: 'IconChip',
+    codeName: 'ui/IconChip.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    description: "Pastille d'icône : un carré teinté qui porte un glyphe Lucide. Rayon PROPORTIONNEL (arbitrage n°3 du 23/09) — 24 px rounded-sm (6) · 32 et 40 px rounded-md (10) · 48 px rounded-lg (14). Le rond reste réservé aux personnes (Avatar). Fond cran 50 / -bg, glyphe cran 800 / -fg : 6,31 à 10,21:1. Décorative (aria-hidden) sauf si `label` est passé. Une pastille qu'on presse n'en est pas une : c'est un Button iconOnly.",
+    keywords: ['icon', 'chip', 'pastille', 'bubble', 'glyph', 'tone', 'brand', 'warm', 'sun', 'neutral', 'success', 'danger', 'info', 'decoration'],
+    render: () => (
+      <div className="flex flex-col gap-stack">
+        <div className="hstack flex-wrap items-end">
+          <IconChip size="xs"><Target /></IconChip>
+          <IconChip size="sm"><Target /></IconChip>
+          <IconChip size="md"><Target /></IconChip>
+          <IconChip size="lg"><Target /></IconChip>
+          <span className="text-micro text-ink-500 font-mono">xs 24 · sm 32 · md 40 · lg 48</span>
+        </div>
+        <div className="hstack flex-wrap">
+          <IconChip size="md" tone="brand"><BookOpen /></IconChip>
+          <IconChip size="md" tone="warm"><Flame /></IconChip>
+          <IconChip size="md" tone="sun"><Trophy /></IconChip>
+          <IconChip size="md" tone="neutral"><Settings2 /></IconChip>
+          <IconChip size="md" tone="success"><CheckCircle2 /></IconChip>
+          <IconChip size="md" tone="danger"><Trash2 /></IconChip>
+          <IconChip size="md" tone="info"><Lightbulb /></IconChip>
+        </div>
+        <div className="flex items-center gap-stack-sm">
+          <IconChip tone="warm"><Calendar /></IconChip>
+          <span className="text-body-sm text-ink-900">Prochaine session : jeudi 14 h</span>
+        </div>
+      </div>
     ),
   },
   {
