@@ -174,7 +174,7 @@ export const StepTutorial: React.FC<StepTutorialProps> = ({
           trailingIcon={isLast ? <Check size={16} /> : <ChevronRight size={16} />}
           onClick={handleNext}
         >
-          {isLast ? 'Terminer' : 'Suivant'}
+          {isLast ? 'Compris' : 'Suivant'}
         </Button>
       </div>
 

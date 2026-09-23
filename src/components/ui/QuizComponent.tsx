@@ -315,7 +315,7 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({
           disabled={!isRevealed}
           className={`${BTN_BASE} ${BTN_PRIMARY}`}
         >
-          {isLast ? 'Terminer' : 'Suivant'} <ArrowRight size={16} />
+          {isLast ? 'Valider' : 'Suivant'} <ArrowRight size={16} />
         </button>
       </div>
     </div>

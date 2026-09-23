@@ -71,7 +71,7 @@ const MOCK_TRANSACTIONS = [
 ];
 
 const EARN_WAYS = [
-  { icon: <BookOpen size={18} className="text-primary-600" />, iconBg: 'bg-primary-50', label: 'Terminer une leçon', amount: '+5 crédits', amountColor: 'text-success-fg' },
+  { icon: <BookOpen size={18} className="text-primary-600" />, iconBg: 'bg-primary-50', label: 'Valider une leçon', amount: '+5 crédits', amountColor: 'text-success-fg' },
   { icon: <TrendingUp size={18} className="text-secondary-600" />, iconBg: 'bg-secondary-50', label: 'Finir un parcours', amount: '+20 crédits', amountColor: 'text-success-fg' },
   { icon: <Users size={18} className="text-accent-500" />, iconBg: 'bg-accent-50', label: 'Session coaching', amount: '-15 crédits', amountColor: 'text-danger-fg' },
   { icon: <Zap size={18} className="text-primary-500" />, iconBg: 'bg-primary-50', label: 'Ressource premium', amount: '-5 crédits', amountColor: 'text-danger-fg' },

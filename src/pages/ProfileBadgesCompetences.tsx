@@ -132,7 +132,7 @@ export default function ProfileBadgesCompetences() {
               <EmptyState
                 icon={<Award size={32} />}
                 title="Radar vide"
-                description="Complète le questionnaire de positionnement pour activer ton radar."
+                description="Réponds au questionnaire de positionnement pour activer ton radar."
               />
             )}
           </SectionCard>

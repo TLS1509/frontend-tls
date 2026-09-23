@@ -132,7 +132,7 @@ export const MultiStepForm: React.FC<MultiStepFormProps> = ({
           ← Précédent
         </Button>
         <Button onClick={onNext} disabled={currentStep === steps.length}>
-          {currentStep === steps.length ? 'Terminer' : 'Suivant'} →
+          {currentStep === steps.length ? 'Valider' : 'Suivant'} →
         </Button>
       </div>
     </div>

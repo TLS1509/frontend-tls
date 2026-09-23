@@ -145,7 +145,7 @@ export default function CoachingSessionDetail() {
               size="md"
               leadingIcon={<FileText size={16} />}
             >
-              Compléter le questionnaire
+              Répondre au questionnaire
             </Button>
           </div>
         </SectionCard>

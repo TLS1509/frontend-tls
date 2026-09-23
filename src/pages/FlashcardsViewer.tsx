@@ -405,7 +405,7 @@ export const FlashcardsViewer: React.FC = () => {
             onNext={handleNext}
             onFinish={handleFinish}
             onDotSelect={(idx) => goToCard(idx)}
-            finishLabel="Terminer les flashcards"
+            finishLabel="Valider les flashcards"
           />
         </div>
       </div>

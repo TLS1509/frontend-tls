@@ -276,7 +276,7 @@ export const AstucesViewer: React.FC = () => {
               setDirection(idx > currentIndex ? 1 : -1);
               setCurrentIndex(idx);
             }}
-            finishLabel="Terminer les astuces"
+            finishLabel="Valider les astuces"
           />
         </div>
       </div>

@@ -45,7 +45,7 @@ export interface ParcoursCardProps {
 }
 
 const CTA_LABELS: Record<ParcoursStatus, string> = {
-  'en cours':       'Continuer le parcours',
+  'en cours':       'Reprendre le parcours',
   complété:         'Revoir le parcours',
   'non commencé':   'Commencer le parcours',
 };

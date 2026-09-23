@@ -239,7 +239,7 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
                   trailingIcon={<ArrowRight size={18} />}
                   onClick={handleNext}
                 >
-                  {isLastQuestion ? 'Terminer' : 'Suivant'}
+                  {isLastQuestion ? 'Valider' : 'Suivant'}
                 </Button>
               </div>
             </>

@@ -272,7 +272,7 @@ export const Leaderboard: React.FC = () => {
                 Objectif de la semaine
               </h3>
               <p className="m-0 font-body text-body-sm text-ink-500">
-                Complète 3 activités réflexives et 2 modules pour intégrer le top 3.
+                Valide 3 activités réflexives et 2 modules pour intégrer le top 3.
               </p>
             </div>
           </div>

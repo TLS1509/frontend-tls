@@ -125,7 +125,7 @@ export const Positionnement: React.FC = () => {
             <SectionCard
               tone="brand"
               titleIcon={<CheckCircle size={20} />}
-              title="Positionnement complété"
+              title="Positionnement enregistré"
               description="Voici ton niveau moyen Dreyfus. Le parcours s'adapte à ton profil."
             >
               <div className="flex flex-col items-center gap-stack text-center py-stack">

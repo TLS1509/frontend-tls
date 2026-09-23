@@ -155,7 +155,7 @@ export const VeilleCard: React.FC<VeilleCardProps> = ({ item, surface, isSaved, 
       tabIndex={0}
       onClick={() => onClick?.(item)}
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onClick?.(item); }}
-      aria-label={`${isVideo ? 'Visionner' : 'Lire'} : ${item.title}`}
+      aria-label={`${isVideo ? 'Ouvrir la vidéo' : 'Lire'} : ${item.title}`}
       className={[
         'group relative flex flex-col rounded-lg border overflow-hidden cursor-pointer',
         'transition-all duration-base',
@@ -247,7 +247,7 @@ export const VeilleCardListItem: React.FC<VeilleCardProps> = ({ item, surface, i
       tabIndex={0}
       onClick={() => onClick?.(item)}
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onClick?.(item); }}
-      aria-label={`${isVideo ? 'Visionner' : 'Lire'} : ${item.title}`}
+      aria-label={`${isVideo ? 'Ouvrir la vidéo' : 'Lire'} : ${item.title}`}
       className={[
         '@container group relative flex items-stretch gap-0 rounded-lg border overflow-hidden cursor-pointer',
         'transition-all duration-base',
@@ -407,7 +407,7 @@ export const FeaturedSpotlight: React.FC<FeaturedSpotlightProps> = ({ item, isSa
           onClick={(e) => { e.stopPropagation(); onClick?.(item); }}
           className="self-start"
         >
-          {item.isVideo ? 'Visionner maintenant' : "Lire l'article"}
+          {item.isVideo ? 'Ouvrir la vidéo' : "Lire l'article"}
         </Button>
       </div>
     </article>
@@ -560,7 +560,7 @@ export const FeaturedSpotlightCarousel: React.FC<FeaturedSpotlightCarouselProps>
             onClick={(e) => { e.stopPropagation(); onClick?.(item); }}
             className="self-start"
           >
-            {item.isVideo ? 'Visionner maintenant' : "Lire l'article"}
+            {item.isVideo ? 'Ouvrir la vidéo' : "Lire l'article"}
           </Button>
         </div>
       </div>

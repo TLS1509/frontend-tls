@@ -144,7 +144,7 @@ export const CourseDetail: React.FC = () => {
             </span>
           </div>
           <div className="flex flex-wrap gap-stack-xs">
-            <Button leadingIcon={<PlayCircle size={18} />}>Continuer la leçon</Button>
+            <Button leadingIcon={<PlayCircle size={18} />}>Reprendre la leçon</Button>
             <Button emphasis="soft" tone="warm">Voir le badge</Button>
           </div>
         </section>

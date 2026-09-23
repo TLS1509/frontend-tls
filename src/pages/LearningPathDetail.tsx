@@ -215,14 +215,14 @@ export const LearningPathDetail: React.FC = () => {
     {
       Icon: Target,
       label: 'Compétences opérationnelles',
-      desc: 'Des méthodes applicables immédiatement dans votre contexte professionnel.',
+      desc: 'Des méthodes applicables immédiatement dans ton contexte professionnel.',
       classes: `${TONE_BG_50[tone]} ${TONE_BORDER_200[tone]}`,
       iconColor: TONE_TEXT[tone],
     },
     {
       Icon: Lightbulb,
       label: 'Insights & prise de conscience',
-      desc: 'Comprendre vos patterns, identifier vos angles morts, renforcer votre posture.',
+      desc: 'Comprendre tes patterns, identifier tes angles morts, renforcer ta posture.',
       classes: 'bg-accent-100 border-accent-300',
       iconColor: 'text-accent-700',
     },
@@ -236,7 +236,7 @@ export const LearningPathDetail: React.FC = () => {
     {
       Icon: TrendingUp,
       label: 'Progression mesurable',
-      desc: 'Évaluez vos acquis via le quiz de positionnement et le projet final.',
+      desc: 'Évalue tes acquis via le quiz de positionnement et le projet final.',
       classes: 'bg-success-bg border-success-base/30',
       iconColor: 'text-success-fg',
     },
@@ -277,7 +277,7 @@ export const LearningPathDetail: React.FC = () => {
               size="md"
               tone={tone}
               icon={<Target size={20} />}
-              title="Ce que vous allez acquérir"
+              title="Ce que tu vas acquérir"
             />
             <div className="grid gap-stack grid-cols-[repeat(auto-fit,minmax(220px,1fr))]">
               {OBJECTIFS.map(({ Icon, label, desc, classes, iconColor }) => (
@@ -590,7 +590,7 @@ export const LearningPathDetail: React.FC = () => {
               <div className="grid gap-stack grid-cols-[repeat(auto-fit,minmax(200px,1fr))]">
                 {[
                   { label: 'Complexité', value: 'Avancé', desc: 'Nécessite les connaissances des 5 étapes précédentes' },
-                  { label: 'Format', value: 'Multi-étape', desc: 'Répondez à 5 questions structurées' },
+                  { label: 'Format', value: 'Multi-étape', desc: 'Réponds à 5 questions structurées' },
                   { label: 'Résultat', value: 'Plan concret', desc: 'Document exportable et partageable' },
                 ].map(({ label, value, desc }) => (
                   <div
@@ -616,11 +616,11 @@ export const LearningPathDetail: React.FC = () => {
                 />
                 <div className="flex flex-col gap-stack-xs">
                   {[
-                    { num: 1, title: 'Contexte', desc: 'Analysez votre situation actuelle' },
-                    { num: 2, title: 'Conception', desc: 'Créez 3-5 prompts clés avec RCIF' },
-                    { num: 3, title: 'Tests', desc: 'Testez et améliorez vos prompts' },
-                    { num: 4, title: 'Déploiement', desc: "Planifiez l'intégration pratique" },
-                    { num: 5, title: 'Réflexion', desc: 'Capitalisez sur vos apprentissages' },
+                    { num: 1, title: 'Contexte', desc: 'Analyse ta situation actuelle' },
+                    { num: 2, title: 'Conception', desc: 'Crée 3-5 prompts clés avec RCIF' },
+                    { num: 3, title: 'Tests', desc: 'Teste et améliore tes prompts' },
+                    { num: 4, title: 'Déploiement', desc: "Planifie l'intégration pratique" },
+                    { num: 5, title: 'Réflexion', desc: 'Capitalise sur tes apprentissages' },
                   ].map((step) => (
                     <div
                       key={step.num}
@@ -651,10 +651,10 @@ export const LearningPathDetail: React.FC = () => {
                   <div className="flex-1">
                     <div className="text-h4 font-bold text-ink-900 mb-2">Avant de commencer</div>
                     <ul className="m-0 pl-stack-md text-body-sm text-ink-500 leading-relaxed">
-                      <li>Complétez les 5 étapes du parcours de formation</li>
-                      <li>Maîtrisez la méthode ROLE-CONTEXT-TASK (RCT)</li>
-                      <li>Ayez identifié vos cas d'usage prioritaires</li>
-                      <li>Prévoyez 80 minutes sans interruption</li>
+                      <li>Valide les 5 étapes du parcours de formation</li>
+                      <li>Maîtrise la méthode ROLE-CONTEXT-TASK (RCT)</li>
+                      <li>Aie identifié tes cas d'usage prioritaires</li>
+                      <li>Prévois 80 minutes sans interruption</li>
                     </ul>
                   </div>
                 </div>
@@ -668,7 +668,7 @@ export const LearningPathDetail: React.FC = () => {
                   Prêt à passer à l'action ?
                 </h3>
                 <p className="text-body text-ink-500 m-0 mb-stack-lg">
-                  Créez votre plan d'intégration de l'IA en 5 étapes structurées
+                  Crée ton plan d'intégration de l'IA en 5 étapes structurées
                 </p>
 
                 <div className="mb-stack-lg flex items-center gap-stack justify-center">
