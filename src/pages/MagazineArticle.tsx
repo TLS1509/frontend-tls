@@ -27,6 +27,7 @@ import {
 } from 'lucide-react';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
+import { MetaPill } from '../components/ui/MetaPill';
 import { EditorialLayout } from '../components/patterns/EditorialLayout';
 import { RelatedItemList } from '../components/patterns/RelatedItemList';
 import { SectionCard } from '../components/patterns/SectionCard';
@@ -116,9 +117,7 @@ export const MagazineArticle: React.FC = () => {
       >
         {/* Hero */}
         <header className="flex flex-col gap-stack max-w-prose">
-          <span className="inline-flex items-center gap-stack-2xs self-start px-2.5 py-1 rounded-pill border-2 border-primary-300 bg-primary-50/30 text-micro font-bold uppercase tracking-wider text-primary-700">
-            <BookOpen size={14} /> {ARTICLE.category} · {ARTICLE.pages}
-          </span>
+          <MetaPill icon={<BookOpen />} text={`${ARTICLE.category} · ${ARTICLE.pages}`} tone="primary" className="self-start" />
 
           <h1 className="font-display text-h1 sm:text-[3rem] leading-[1.05] tracking-display text-primary-700">
             {ARTICLE.title}

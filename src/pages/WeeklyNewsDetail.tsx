@@ -21,6 +21,8 @@ import {
   Tag as TagIcon,
 } from 'lucide-react';
 import { Button } from '../components/core/Button';
+import { Badge } from '../components/ui/Badge';
+import { MetaPill } from '../components/ui/MetaPill';
 import { PageShell } from '../components/layout';
 import { EditorialLayout } from '../components/patterns/EditorialLayout';
 import { SectionCard } from '../components/patterns/SectionCard';
@@ -113,15 +115,9 @@ export const WeeklyNewsDetail: React.FC = () => {
               <header className="flex flex-col gap-stack">
                 {/* Eyebrow */}
                 <div className="flex items-center gap-stack-xs flex-wrap">
-                  <span className="inline-flex items-center gap-stack-2xs px-3 py-1.5 rounded-pill bg-primary-700 text-white font-body text-micro font-bold uppercase tracking-widest">
-                    <TrendingUp size={14} /> {ACTU.week}
-                  </span>
-                  <span className="inline-flex items-center gap-stack-2xs px-2.5 py-1 rounded-pill bg-ink-100 text-ink-600 font-body text-micro font-semibold">
-                    {ACTU.category}
-                  </span>
-                  <span className="inline-flex items-center gap-stack-2xs px-2.5 py-1 rounded-pill bg-danger-bg text-danger-fg font-body text-micro font-semibold">
-                    {ACTU.priority}
-                  </span>
+                  <MetaPill icon={<TrendingUp />} text={ACTU.week} tone="primary" />
+                  <MetaPill text={ACTU.category} />
+                  <Badge variant="danger">{ACTU.priority}</Badge>
                 </div>
 
                 <h1 className="font-display text-h1 font-bold text-ink-900 tracking-tight">
@@ -167,9 +163,7 @@ export const WeeklyNewsDetail: React.FC = () => {
                 <div className="flex items-center gap-stack-2xs flex-wrap">
                   <TagIcon size={14} className="text-ink-400 shrink-0" />
                   {ACTU.tags.map((tag) => (
-                    <span key={tag} className="px-2.5 py-1 rounded-pill bg-ink-100 font-body text-micro text-ink-600 font-semibold">
-                      {tag}
-                    </span>
+                    <MetaPill key={tag} text={tag} />
                   ))}
                 </div>
                 <Button

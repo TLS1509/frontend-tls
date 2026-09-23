@@ -221,9 +221,7 @@ export const SubscriptionPayment: React.FC = () => {
               className={`inline-flex items-center gap-stack-2xs px-4 py-1.5 rounded-pill font-body text-body-sm font-bold transition-colors duration-base ${billing === 'yearly' ? 'bg-white text-ink-900 shadow-xs' : 'text-ink-500 hover:text-ink-800'}`}
             >
               Annuel
-              <span className="inline-flex items-center px-1.5 py-0.5 rounded-pill bg-accent-100 text-accent-700 text-micro font-bold">
-                −20%
-              </span>
+              <Badge variant="sun" size="compact">−20%</Badge>
             </button>
           </div>
         </div>

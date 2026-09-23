@@ -252,13 +252,13 @@ export const JournalFreeEntry: React.FC = () => {
               {tags.map((tag) => (
                 <span
                   key={tag}
-                  className="inline-flex items-center gap-tight px-2.5 py-1 rounded-pill bg-primary-50 text-primary-700 font-body text-micro font-semibold border border-primary-200"
+                  className="inline-flex items-center gap-tight px-2.5 py-1 rounded-pill bg-primary-50 text-primary-800 font-body text-micro font-semibold border border-primary-200"
                 >
                   {tag}
                   <button
                     type="button"
                     onClick={() => removeTag(tag)}
-                    className="bg-transparent border-0 cursor-pointer text-primary-400 hover:text-primary-600 p-0 text-body-sm focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-400 rounded-sm"
+                    className="bg-transparent border-0 cursor-pointer text-primary-700 hover:text-primary-900 p-0 text-body-sm focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-400 rounded-sm"
                   >
                     ×
                   </button>

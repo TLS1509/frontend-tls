@@ -21,6 +21,7 @@ import { getBadgeDefById } from '../data/gamification';
 import { MOCK_USER_ID } from '../data/passeport';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
+import { MetaPillGroup } from '../components/ui/MetaPillGroup';
 import { IconChip } from '../components/ui/IconChip';
 import { SkillBar } from '../components/ui/SkillBar';
 import { Tabs } from '../components/ui/Tabs';
@@ -255,16 +256,10 @@ export const Profile: React.FC = () => {
                   <p className="m-0 font-body text-body-sm text-ink-700">
                     {USER.bio}
                   </p>
-                  <div className="flex flex-wrap gap-stack-2xs mt-stack-xs">
-                    {USER.interests.map((interest) => (
-                      <span
-                        key={interest}
-                        className="inline-flex items-center px-2.5 py-1 rounded-pill bg-ink-50 border border-ink-200 font-body text-micro font-semibold text-ink-700"
-                      >
-                        {interest}
-                      </span>
-                    ))}
-                  </div>
+                  <MetaPillGroup
+                    className="mt-stack-xs"
+                    items={USER.interests.map((interest) => ({ text: interest }))}
+                  />
                 </div>
 
                 <div className="rounded-xl border border-ink-100 bg-white p-stack-lg flex flex-col gap-stack">
