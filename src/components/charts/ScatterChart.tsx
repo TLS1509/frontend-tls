@@ -55,6 +55,8 @@ const COLORS = {
   info: '#55A1B4',        // primary-500
 };
 
+const arrondi = (v: number) => Math.round(v).toLocaleString('fr-FR');
+
 /**
  * ScatterChart — correlation and distribution analysis
  * Useful for: skill vs engagement, learner performance matrix, team comparison
@@ -126,12 +128,29 @@ export const ScatterChart: React.FC<ScatterChartProps> = ({
             domain={yDomain}
             tick={{ fontSize: 12 }}
           />
+          {/* Info-bulle écrite ici plutôt que celle de Recharts (2026-09-23) : un
+              nuage de points n'a pas d'axe de catégories, donc pas de « label »
+              à passer à `labelFormatter` — l'info-bulle par défaut ne disait pas
+              de QUI était le point (sur /coach/dashboard, le nom de l'apprenant)
+              et écrivait « 64.00 » pour 64. Elle montre maintenant le libellé du
+              point, puis chaque valeur arrondie derrière le nom de son axe.
+              Même boîte que les autres graphiques : les objets de style de
+              CHART_TOOLTIP, pas une copie en classes qui pourrait diverger. */}
           <Tooltip
             cursor={{ strokeDasharray: '3 3' }}
-            {...CHART_TOOLTIP}
-            formatter={/* v3: Formatter reçoit ValueType | undefined, pas number */ (value) =>
-              typeof value === 'number' ? value.toFixed(2) : String(value ?? '')
-            }
+            content={({ active, payload }) => {
+              const point = active ? (payload?.[0]?.payload as ScatterChartDataPoint | undefined) : undefined;
+              if (!point) return null;
+              return (
+                <div style={{ whiteSpace: 'nowrap', ...CHART_TOOLTIP.contentStyle }}>
+                  <p style={{ margin: 0, ...CHART_TOOLTIP.labelStyle }}>{point.label}</p>
+                  <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
+                    <li style={CHART_TOOLTIP.itemStyle}>{nomX} : {arrondi(point.x)}</li>
+                    <li style={CHART_TOOLTIP.itemStyle}>{nomY} : {arrondi(point.y)}</li>
+                  </ul>
+                </div>
+              );
+            }}
           />
           {showLegend && <Legend {...CHART_LEGEND} />}
 
