@@ -84,18 +84,17 @@ export const VideoTutorial: React.FC = () => {
         <Button emphasis="outline" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate('/veille')}>
           Retour
         </Button>
-        <button
-          type="button"
+        <Button
+          iconOnly
+          size="sm"
+          emphasis={saved ? 'soft' : 'outline'}
+          tone={saved ? 'brand' : 'neutral'}
           onClick={() => setSaved(!saved)}
-          className={[
-            'inline-flex items-center justify-center w-9 h-9 rounded-pill border cursor-pointer transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
-            saved
-              ? 'border-primary-300 text-primary-500 bg-primary-50'
-              : 'border-ink-200 text-ink-600 bg-transparent hover:bg-ink-50',
-          ].join(' ')}
+          aria-label={saved ? 'Retirer des favoris' : 'Enregistrer'}
+          aria-pressed={saved}
         >
-          {saved ? <BookmarkCheck size={16} /> : <Bookmark size={16} />}
-        </button>
+          {saved ? <BookmarkCheck /> : <Bookmark />}
+        </Button>
       </div>
 
       {/* ─ Main 2-column layout ───────────────────────────────────── */}

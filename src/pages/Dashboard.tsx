@@ -123,14 +123,17 @@ const JournalBubbleNudge: React.FC<JournalBubbleNudgeProps> = ({ navigate, hasUp
           >
             Répondre…
           </button>
-          <button
-            type="button"
+          <Button
+            iconOnly
+            size="sm"
+            emphasis="soft"
+            tone="brand"
             onClick={() => navigate(href)}
             aria-label="Ouvrir le journal"
-            className="w-9 h-9 rounded-pill bg-primary-100 hover:bg-primary-200 flex items-center justify-center text-primary-800 shadow-xs transition-[background-color] duration-fast shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+            className="shrink-0"
           >
-            <ArrowRight size={14} strokeWidth={2.5} aria-hidden="true" />
-          </button>
+            <ArrowRight strokeWidth={2.5} aria-hidden="true" />
+          </Button>
         </div>
 
       </div>

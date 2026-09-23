@@ -6,6 +6,7 @@ import React, { useMemo, useState } from 'react';
 import { useHelpcenterStore } from '../stores/persistence';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
+import { IconChip } from '../components/ui/IconChip';
 import { Badge } from '../components/ui/Badge';
 import { Search as SearchInput } from '../components/ui/Search';
 import { FilterBar } from '../components/forms/FilterBar';
@@ -264,9 +265,9 @@ export const Help: React.FC = () => {
               return (
                 <Card key={opt.title} className="p-stack-lg flex flex-col gap-stack border border-ink-200 bg-white shadow-sm">
                   <div className="flex items-start justify-between">
-                    <div className="w-12 h-12 rounded-lg bg-primary-50 text-primary-600 flex items-center justify-center">
-                      <Icon size={20} />
-                    </div>
+                    <IconChip size="lg" tone="brand">
+                      <Icon />
+                    </IconChip>
                     <Badge variant={opt.badgeVariant}>{opt.badge}</Badge>
                   </div>
                   <div>

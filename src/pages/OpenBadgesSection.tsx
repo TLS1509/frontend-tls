@@ -4,6 +4,7 @@ import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
+import { IconChip } from '../components/ui/IconChip';
 import { Badge } from '../components/ui/Badge';
 import { Container } from '../components/layout';
 
@@ -161,27 +162,27 @@ export default function OpenBadgesSection() {
         >
           <div className="flex flex-col gap-stack-xs">
             <div className="flex items-center gap-stack-xs p-stack rounded-lg bg-ink-50 border border-ink-100">
-              <div className="w-8 h-8 rounded-md bg-primary-100 flex items-center justify-center shrink-0">
-                <Award size={16} className="text-primary-600" />
-              </div>
+              <IconChip size="sm" tone="brand">
+                <Award />
+              </IconChip>
               <div className="flex flex-col gap-tight min-w-0">
                 <p className="m-0 text-body-sm font-semibold text-ink-900">Credly</p>
                 <p className="m-0 text-caption text-ink-500">Plateforme leader pour les badges professionnels et certifications IT</p>
               </div>
             </div>
             <div className="flex items-center gap-stack-xs p-stack rounded-lg bg-ink-50 border border-ink-100">
-              <div className="w-8 h-8 rounded-md bg-secondary-50 flex items-center justify-center shrink-0">
-                <Award size={16} className="text-secondary-600" />
-              </div>
+              <IconChip size="sm" tone="warm">
+                <Award />
+              </IconChip>
               <div className="flex flex-col gap-tight min-w-0">
                 <p className="m-0 text-body-sm font-semibold text-ink-900">Badgr</p>
                 <p className="m-0 text-caption text-ink-500">Solution open-source pour la gestion de badges numériques</p>
               </div>
             </div>
             <div className="flex items-center gap-stack-xs p-stack rounded-lg bg-ink-50 border border-ink-100">
-              <div className="w-8 h-8 rounded-md bg-accent-50 flex items-center justify-center shrink-0">
-                <Award size={16} className="text-accent-500" />
-              </div>
+              <IconChip size="sm" tone="sun">
+                <Award />
+              </IconChip>
               <div className="flex flex-col gap-tight min-w-0">
                 <p className="m-0 text-body-sm font-semibold text-ink-900">IMS Global</p>
                 <p className="m-0 text-caption text-ink-500">Standard international Open Badges 3.0 : compatible avec tous les émetteurs certifiés</p>

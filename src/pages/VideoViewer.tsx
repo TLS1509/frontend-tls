@@ -13,6 +13,7 @@
 import React, { useRef, useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/core/Card';
+import { Button } from '../components/core/Button';
 import { MetaPill } from '../components/ui/MetaPill';
 import {
   Play, Pause, Volume2, VolumeX, Maximize2, FileText,
@@ -128,13 +129,9 @@ export const VideoViewer: React.FC = () => {
         subtitle={`${VIDEO_DATA.instructor} · ${VIDEO_DATA.duration}`}
         onClose={() => navigate(-1)}
         trailing={
-          <button
-            type="button"
-            aria-label="Plein écran"
-            className="inline-flex items-center justify-center min-w-touch min-h-touch w-11 h-11 rounded-pill bg-ink-50 hover:bg-ink-100 text-ink-700 transition-colors"
-          >
-            <Maximize2 size={16} />
-          </button>
+          <Button iconOnly emphasis="ghost" tone="neutral" aria-label="Plein écran">
+            <Maximize2 />
+          </Button>
         }
       />
 

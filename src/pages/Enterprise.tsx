@@ -13,6 +13,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { Button } from '../components/core/Button';
+import { IconChip } from '../components/ui/IconChip';
 import { Badge } from '../components/ui/Badge';
 import { StatCard } from '../components/ui/StatCard';
 import { Avatar } from '../components/ui/Avatar';
@@ -401,9 +402,9 @@ export const Enterprise: React.FC = () => {
                   className={`flex flex-col gap-stack p-stack-lg sm:p-stack-lg rounded-lg border border-ink-100 bg-white ${CARD_HOVER_NEUTRE} transition-colors duration-base`}
                 >
                   <div className="flex items-start gap-stack">
-                    <span className="shrink-0 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary-50 text-primary-700">
-                      <Icon size={20} />
-                    </span>
+                    <IconChip size="lg" tone="brand">
+                      <Icon />
+                    </IconChip>
                     <div className="flex-1 min-w-0 flex flex-col gap-tight">
                       <h3 className="font-display text-body-lg font-bold text-ink-900">
                         {r.title}

@@ -11,6 +11,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowRight, Check, ChevronLeft, ChevronRight, Send, Sparkles } from 'lucide-react';
 import { Button } from '../components/core/Button';
+import { IconChip } from '../components/ui/IconChip';
 import { AmbientBlobs } from '../components/patterns/AmbientBlobs';
 import { ConversationalChat } from '../components/patterns/ConversationalChat';
 import type { ChatMessage } from '../components/patterns/ConversationalChat';
@@ -773,9 +774,9 @@ export default function OnboardingPreview() {
 
         {done ? (
           <div className="rounded-lg bg-white/75 border border-white/60 p-stack-lg text-center flex flex-col items-center gap-stack">
-            <div className="w-14 h-14 rounded-xl bg-success-bg flex items-center justify-center">
-              <Check size={28} className="text-success-fg" />
-            </div>
+            <IconChip size="lg" tone="success">
+              <Check />
+            </IconChip>
             <p className="font-display text-h3 font-bold text-ink-900 m-0">
               Profil complété
             </p>

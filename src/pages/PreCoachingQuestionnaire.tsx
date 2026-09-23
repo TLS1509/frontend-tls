@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { useToastContext } from '../contexts/ToastContext';
 import { Button } from '../components/core/Button';
+import { IconChip } from '../components/ui/IconChip';
 
 /* ─── Step config ────────────────────────────────────────────────────────── */
 
@@ -102,9 +103,9 @@ export const PreCoachingQuestionnaire: React.FC = () => {
             <div key={step.id} className="flex gap-stack items-start">
 
               {/* Circle icon */}
-              <div className="w-12 h-12 rounded-pill bg-ink-50 border border-ink-200 text-ink-600 flex items-center justify-center shrink-0 mt-stack">
+              <IconChip size="lg" tone="neutral" className="mt-stack">
                 {step.icon}
-              </div>
+              </IconChip>
 
               {/* Card */}
               <div className="flex-1 bg-white border border-ink-200 rounded-lg p-stack-lg">

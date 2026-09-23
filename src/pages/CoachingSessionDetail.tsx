@@ -5,6 +5,7 @@ import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
+import { IconChip } from '../components/ui/IconChip';
 import { Badge } from '../components/ui/Badge';
 import { Avatar } from '../components/ui/Avatar';
 import { SessionCard } from '../components/learning/SessionCard';
@@ -86,9 +87,9 @@ export default function CoachingSessionDetail() {
 
           {/* Date & Time */}
           <Card variant="default" className="flex items-center gap-stack p-stack-md">
-            <div className="w-10 h-10 rounded-xl bg-secondary-50 flex items-center justify-center shrink-0">
-              <Calendar size={20} className="text-secondary-500" />
-            </div>
+            <IconChip size="md" tone="warm">
+              <Calendar />
+            </IconChip>
             <div className="flex flex-col gap-tight">
               <span className="text-caption text-ink-600 uppercase tracking-wide">Date & heure</span>
               <span className="text-body-sm font-semibold text-ink-900">{day}</span>
@@ -98,9 +99,9 @@ export default function CoachingSessionDetail() {
 
           {/* Format */}
           <Card variant="default" className="flex items-center gap-stack p-stack-md">
-            <div className="w-10 h-10 rounded-xl bg-secondary-50 flex items-center justify-center shrink-0">
-              <Video size={20} className="text-secondary-500" />
-            </div>
+            <IconChip size="md" tone="warm">
+              <Video />
+            </IconChip>
             <div className="flex flex-col gap-tight">
               <span className="text-caption text-ink-600 uppercase tracking-wide">Format</span>
               <span className="text-body-sm font-semibold text-ink-900">Visioconférence</span>

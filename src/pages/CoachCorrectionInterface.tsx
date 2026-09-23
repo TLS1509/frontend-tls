@@ -5,6 +5,7 @@ import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
+import { IconChip } from '../components/ui/IconChip';
 import { Badge } from '../components/ui/Badge';
 import { Avatar } from '../components/ui/Avatar';
 import { DreyfusSlider } from '../components/ui/DreyfusSlider';
@@ -134,9 +135,9 @@ export default function CoachCorrectionInterface() {
             </SectionCard>
           ) : (
             <Card variant="tinted" tone="warm" className="flex flex-col items-center gap-stack py-section text-center">
-              <div className="w-12 h-12 rounded-pill bg-success-bg border border-success-border flex items-center justify-center">
-                <Send size={20} className="text-success-fg" />
-              </div>
+              <IconChip size="lg" tone="success">
+                <Send />
+              </IconChip>
               <div className="flex flex-col gap-tight">
                 <p className="text-body font-semibold text-ink-900">Feedback envoyé</p>
                 <p className="text-body-sm text-ink-500">Sophie Martin sera notifiée de votre correction.</p>

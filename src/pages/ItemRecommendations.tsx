@@ -4,6 +4,7 @@ import EditorialHero from '../components/patterns/EditorialHero';
 import SectionCard from '../components/patterns/SectionCard';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
+import { IconChip } from '../components/ui/IconChip';
 import { Badge } from '../components/ui/Badge';
 import { Avatar } from '../components/ui/Avatar';
 import { Container } from '../components/layout';
@@ -55,9 +56,9 @@ const ItemRecommendations: React.FC = () => {
               return (
                 <Card key={r.id} className="p-stack-lg">
                   <div className="flex items-start gap-stack">
-                    <div className="w-12 h-12 rounded-lg bg-primary-50 flex items-center justify-center shrink-0">
-                      <Icon className="w-6 h-6 text-primary-600" />
-                    </div>
+                    <IconChip size="lg" tone="brand">
+                      <Icon />
+                    </IconChip>
                     <div className="flex-1">
                       <div className="flex items-center gap-stack-xs mb-stack-xs flex-wrap">
                         <Badge variant="brand">{r.competence}</Badge>

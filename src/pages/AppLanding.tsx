@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import { TlsLogo } from '../components/ui/TlsLogo';
 import { Button } from '../components/core/Button';
+import { IconChip } from '../components/ui/IconChip';
 import { CARD_HOVER } from '../lib/tone-classes';
 import {
   MeshGradientBg,
@@ -489,9 +490,9 @@ const AppLanding: React.FC = () => {
                 'Coaching humain + IA éthique',
               ].map((item) => (
                 <div key={item} className="flex items-center gap-stack-xs">
-                  <div className="w-5 h-5 rounded-pill bg-primary-100 flex items-center justify-center shrink-0">
-                    <Check size={14} className="text-primary-600" />
-                  </div>
+                  <IconChip size="xs" tone="brand">
+                    <Check />
+                  </IconChip>
                   <span className="font-body text-body-sm text-ink-700">{item}</span>
                 </div>
               ))}
