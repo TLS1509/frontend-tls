@@ -132,7 +132,7 @@ const CoachEngagement: React.FC = () => {
 
         {LEARNERS.some((l) => l.atrophyDays) && (
           <Card className="p-stack-md bg-warning-bg border-warning-base/30 flex items-start gap-stack-xs">
-            <AlertTriangle className="w-5 h-5 text-warning-fg mt-1" />
+            <AlertTriangle className="w-5 h-5 text-warning-fg mt-1 shrink-0" />
             <div>
               <div className="font-semibold mb-1">2 apprenants en atrophie</div>
               <p className="text-body-sm text-ink-700">Sara C. (95 jours) et Anna R. (32 jours) n'ont pas validé d'activité récemment. Pensez à les recontacter.</p>

@@ -117,7 +117,7 @@ export interface CardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 't
 
    ⚠️ `Button` est à `rounded-lg` (14) depuis R3, au motif qu'il « s'accorde à la
    Card qui le porte ». Cette justification tombe avec ce changement : à revoir. */
-const BASE = 'flex flex-col rounded-xl text-ink-900 font-body text-body-sm transition-all duration-200 motion-reduce:transition-none [&[role=button]]:h-auto [&[role=button]]:font-normal [&[role=button]]:items-stretch';
+const BASE = 'rounded-xl text-ink-900 font-body text-body-sm transition-all duration-200 motion-reduce:transition-none [&[role=button]]:h-auto [&[role=button]]:font-normal [&[role=button]]:items-stretch';
 
 const VARIANT_CLASSES: Record<CardVariant, string> = {
   // Shadows are tone-aware — applied dynamically via TONE_SHADOW_* maps below.
@@ -207,6 +207,24 @@ const SIZE_GAP: Record<CardSize, string> = {
    pas le padding de base (propriétés distinctes ou variante émise après).
    Préférer `size="sm"` à `className="p-stack"` : le nom dit l'intention. */
 const OWN_PADDING = /(?:^|\s)p-\S+/;
+
+/* Même principe pour la disposition : une carte est une colonne (`flex
+   flex-col`) SAUF si `className` déclare la sienne. Avant le 2026-09-23, BASE
+   posait toujours `flex-col`, et une page qui écrivait `flex items-center
+   gap-stack` pour faire une rangée n'ajoutait que `flex` — déjà là. Rien ne
+   disait « rangée », la direction restait `column` : 35 cartes pensées en
+   rangée s'empilaient — mesuré à 1 440 px, 192 px de haut au lieu de 92 pour
+   la ligne du classement, 202 au lieu de 86 pour un endpoint d'ApiDocs.
+   - Une disposition déclarée (`flex`, `grid`, `block`…) retire les deux : la
+     page a dit ce qu'elle voulait, `flex` seul redevient une rangée, comme
+     partout ailleurs en CSS.
+   - Une direction déclarée seule (`flex-row`, `flex-col-reverse`…) ne retire
+     que `flex-col` : la carte reste flex.
+   Comme pour le padding, seules les classes NUES comptent : un `md:flex-row`
+   s'ajoute à la colonne de base, il ne la remplace pas en dessous de `md`.
+   Une page qui veut une colonne l'écrit : `flex flex-col …`. */
+const OWN_DISPLAY = /(?:^|\s)(?:flex|inline-flex|grid|inline-grid|block|inline-block|inline|contents|hidden|table)(?=\s|$)/;
+const OWN_DIRECTION = /(?:^|\s)flex-(?:row|col)(?:-reverse)?(?=\s|$)/;
 
 const TONE_BG_CLASSES: Record<CardTone, string> = {
   primary: 'bg-primary-50 border-primary-200',
@@ -305,7 +323,10 @@ export const Card: React.FC<CardProps> = ({
   const isInteractive = variant === 'interactive' || interactive;
   const toneInteractiveClasses = isInteractive && tone ? TONE_INTERACTIVE_HOVER[tone] : '';
 
+  const ownDisplay = OWN_DISPLAY.test(className);
   const classes = [
+    !ownDisplay && 'flex',
+    !ownDisplay && !OWN_DIRECTION.test(className) && 'flex-col',
     BASE,
     VARIANT_CLASSES[variant],
     !OWN_PADDING.test(className) && SIZE_PADDING[size],

@@ -159,9 +159,9 @@ const CoachEnterpriseDashboard: React.FC = () => {
                 {pendingCorrections.map((c) => {
                   const competence = c.competenceId ? getCompetenceById(c.competenceId) : null;
                   return (
-                    <Card key={c.id} className="p-stack-md flex items-center gap-stack">
+                    <Card key={c.id} className="p-stack-md flex flex-wrap items-center gap-stack">
                       <ClipboardCheck className="w-6 h-6 text-secondary-600 shrink-0" />
-                      <div className="flex-1 min-w-0">
+                      <div className="flex-1 basis-40 min-w-0">
                         <div className="font-semibold truncate">{c.exerciseTitle}</div>
                         <div className="text-caption text-ink-500">{formatDate(c.submittedAt)}</div>
                       </div>

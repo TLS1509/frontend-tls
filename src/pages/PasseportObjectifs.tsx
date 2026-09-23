@@ -301,12 +301,12 @@ export default function PasseportObjectifs() {
               {draftGoals.map((g) => {
                 const comp = getCompetenceById(g.competenceId);
                 return (
-                  <Card key={g.id} variant="default" className="flex items-center justify-between px-stack py-3">
+                  <Card key={g.id} variant="default" className="flex flex-wrap items-center justify-between px-stack py-3">
                     <div className="flex flex-col gap-tight">
                       <span className="text-body-sm font-medium text-ink-900">{comp?.label ?? g.competenceId}</span>
                       <span className="text-caption text-ink-600">{comp?.subdomain ?? (comp ? domainLabel(comp.domain) : '')} · D{g.startLevel}→D{g.targetLevel}</span>
                     </div>
-                    <div className="flex items-center gap-stack-xs">
+                    <div className="flex flex-wrap items-center gap-stack-xs">
                       <Button
                         emphasis="outline"
                         size="sm"

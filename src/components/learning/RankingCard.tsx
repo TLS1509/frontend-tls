@@ -39,7 +39,7 @@ export const RankingCard: React.FC<RankingCardProps> = ({
 
   return (
     <Card
-      className={['group flex items-center gap-stack transition-all duration-slow ease-emphasis hover-glow-primary', className]
+      className={['group flex flex-wrap items-center gap-stack transition-all duration-slow ease-emphasis hover-glow-primary', className]
         .filter(Boolean)
         .join(' ')}
     >
@@ -52,7 +52,7 @@ export const RankingCard: React.FC<RankingCardProps> = ({
         {isPodium ? <MedalIcon size={20} /> : `#${rank}`}
       </div>
 
-      <div className="flex-1 min-w-0">
+      <div className="flex-1 basis-32 min-w-0">
         <h3 className="text-body font-semibold text-ink-900 truncate">{name}</h3>
         <div className="flex items-center gap-stack-xs mt-1 flex-wrap">
           <span className="inline-flex items-center gap-tight text-caption font-bold text-primary-700">

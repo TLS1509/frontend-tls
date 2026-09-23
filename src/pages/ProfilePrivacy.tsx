@@ -297,7 +297,7 @@ export default function ProfilePrivacy() {
           titleIcon={<Download size={18} />}
           description="Consulte ou exporte toutes les données que nous détenons sur toi."
         >
-          <Card variant="default" className="flex items-center justify-between px-stack py-3">
+          <Card variant="default" className="flex flex-wrap items-center justify-between px-stack py-3">
             <div className="flex flex-col gap-tight">
               <span className="text-body-sm font-semibold text-ink-900">Demande d'accès (DSAR)</span>
               <span className="text-caption text-ink-700">Exporte toutes tes données · réponse sous 30 jours (Article 15 RGPD)</span>
