@@ -29,6 +29,22 @@ const TABS = [
 ];
 
 /**
+ * Statut d'un apprenant dans la matrice : une seule source pour la bulle et la
+ * légende. Le remplissage passe par la variable du token (l'attribut `fill` du
+ * SVG la résout) et la pastille de légende par la classe du même token : les
+ * deux ne peuvent plus diverger.
+ */
+const STATUT_MATRICE: Record<ApprenantStatus, { label: string; fill: string; pastille: string }> = {
+  active: { label: 'Apprenant actif', fill: 'var(--color-primary-500)', pastille: 'bg-primary-500' },
+  stuck: { label: 'En difficulté', fill: 'var(--color-danger-base)', pastille: 'bg-danger-base' },
+  ahead: { label: 'En avance', fill: 'var(--color-success-base)', pastille: 'bg-success-base' },
+};
+
+/* Rangée dans la carte : retrait 20 puis 24 px, jamais sous le rayon (20) de
+   la carte — au coin, le contenu reste dans le régime « forme fixe ». */
+const ROW = 'flex items-center gap-stack px-stack-md sm:px-stack-lg py-stack';
+
+/**
  * Build scatter chart data from apprenants.
  * x: skill level (Dreyfus avg)
  * y: engagement score (based on streak + last activity recency)
@@ -45,18 +61,12 @@ const buildScatterData = (): ScatterChartDataPoint[] => {
     // hours: mock value based on streak (1 hour per day assumption)
     const hoursLogged = a.streak * 1.5;
 
-    const statusColorMap: Record<ApprenantStatus, string> = {
-      active: '#55A1B4', // primary-500
-      stuck: '#F28559', // danger-base
-      ahead: '#9DBEBA', // success-base
-    };
-
     return {
       label: a.name,
       x: skillLevel,
       y: engagementScore,
       z: hoursLogged,
-      color: statusColorMap[a.status],
+      color: STATUT_MATRICE[a.status].fill,
     };
   });
 };
@@ -187,35 +197,33 @@ export default function CoachDashboard() {
                 xDomain={[0, 100]}
                 yDomain={[0, 100]}
                 size="lg"
-                showLegend={true}
+                showLegend={false}
                 bubbleScale={2}
-                onDotClick={(dataPoint, index) => {
+                onDotClick={(_, index) => {
                   const apprenant = APPRENANTS[index];
                   if (apprenant) {
+                    // Le radar vit dans l'onglet « Mes apprenants » : sélectionner
+                    // sans y aller ne montrait rien.
                     setSelectedApprenantId(apprenant.id);
+                    setActiveTab('apprenants');
                   }
                 }}
               />
             </ChartContainer>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-stack-xs text-caption text-ink-600 mt-stack">
-              <div className="flex items-center gap-stack-xs">
-                <div className="w-3 h-3 rounded-pill" style={{ backgroundColor: '#55A1B4' }} />
-                <span>Apprenant actif</span>
-              </div>
-              <div className="flex items-center gap-stack-xs">
-                <div className="w-3 h-3 rounded-pill" style={{ backgroundColor: '#F28559' }} />
-                <span>En difficulté</span>
-              </div>
-              <div className="flex items-center gap-stack-xs">
-                <div className="w-3 h-3 rounded-pill" style={{ backgroundColor: '#9DBEBA' }} />
-                <span>En avance</span>
-              </div>
-            </div>
-            <div className="mt-stack-lg p-stack bg-primary-50 rounded-lg border border-primary-200">
-              <p className="text-caption text-ink-700">
-                <strong>Tooltip:</strong> Survolez une bulle pour voir le nom et les détails. Cliquez pour sélectionner l'apprenant et voir son radar de compétences.
-              </p>
-            </div>
+            {/* Légende tirée de la même table que les bulles. L'aide dit ce que le
+                graphique ne dit pas : ce que mesure la taille, et ce que fait le clic. */}
+            <ul className="flex flex-wrap gap-x-section gap-y-stack-xs text-caption text-ink-600" aria-label="Légende">
+              {(Object.keys(STATUT_MATRICE) as ApprenantStatus[]).map((statut) => (
+                <li key={statut} className="flex items-center gap-stack-xs">
+                  <span className={`w-3 h-3 rounded-pill ${STATUT_MATRICE[statut].pastille}`} aria-hidden="true" />
+                  {STATUT_MATRICE[statut].label}
+                </li>
+              ))}
+            </ul>
+            <p className="text-caption text-ink-600">
+              Chaque bulle est un apprenant ; sa taille suit ses heures de formation.
+              Cliquez sur une bulle pour ouvrir son radar de compétences dans « Mes apprenants ».
+            </p>
           </div>
         )}
 
@@ -234,38 +242,47 @@ export default function CoachDashboard() {
                 </Button>
               }
             />
+            {/* Les travaux à corriger forment une collection qu'on parcourt : des
+                rangées dans UNE carte, pas une pile de cartes (arbitrage n°5 du
+                23/09). Les rangées n'ont pas de fond propre : la carte porte le coin. */}
             {pendingCorrections.length > 0 ? (
-              pendingCorrections.slice(0, 5).map((c) => {
-                const learner = getApprenantById(c.learnerId);
-                return (
-                  <Card key={c.id} className="p-stack-md flex items-start gap-stack">
-                    <div className="flex-1 min-w-0 flex flex-col gap-tight">
-                      <div className="flex items-center gap-stack-xs flex-wrap">
-                        <span className="text-body-sm font-semibold text-ink-900">{c.exerciseTitle}</span>
-                        {c.iterationCount === 0 && <Badge variant="sun" size="compact">Nouveau</Badge>}
-                      </div>
-                      <div className="flex gap-stack-xs text-caption text-ink-500 flex-wrap">
-                        <span>{learner?.name ?? c.learnerId}</span>
-                        {c.competenceId && (
-                          <>
-                            <span>·</span>
-                            <span className="capitalize">{c.competenceId.replace(/_/g, ' ')}</span>
-                          </>
-                        )}
-                        <span>·</span>
-                        <span>{new Date(c.submittedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}</span>
-                      </div>
-                    </div>
-                    <Button
-                      emphasis="soft"
-                      size="sm"
-                      onClick={() => navigate(`/coach/correction/${c.id}`)}
-                    >
-                      Corriger
-                    </Button>
-                  </Card>
-                );
-              })
+              <Card className="p-0">
+                <ul className="flex flex-col divide-y divide-ink-100" aria-label="Corrections en attente">
+                  {pendingCorrections.slice(0, 5).map((c) => {
+                    const learner = getApprenantById(c.learnerId);
+                    return (
+                      <li key={c.id} className={ROW}>
+                        <div className="flex-1 min-w-0 flex flex-col gap-tight">
+                          <div className="flex items-center gap-stack-xs flex-wrap">
+                            <span className="text-body-sm font-semibold text-ink-900">{c.exerciseTitle}</span>
+                            {c.iterationCount === 0 && <Badge variant="sun" size="compact">Nouveau</Badge>}
+                          </div>
+                          <div className="flex gap-stack-xs text-caption text-ink-500 flex-wrap">
+                            <span>{learner?.name ?? c.learnerId}</span>
+                            {c.competenceId && (
+                              <>
+                                <span aria-hidden="true">·</span>
+                                <span className="capitalize">{c.competenceId.replace(/_/g, ' ')}</span>
+                              </>
+                            )}
+                            <span aria-hidden="true">·</span>
+                            <span>{new Date(c.submittedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}</span>
+                          </div>
+                        </div>
+                        <Button
+                          emphasis="soft"
+                          size="sm"
+                          className="shrink-0"
+                          aria-label={`Corriger : ${c.exerciseTitle}`}
+                          onClick={() => navigate(`/coach/correction/${c.id}`)}
+                        >
+                          Corriger
+                        </Button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </Card>
             ) : (
               <EmptyState title="Aucune correction en attente" description="Tous les travaux ont été reviewés." />
             )}
