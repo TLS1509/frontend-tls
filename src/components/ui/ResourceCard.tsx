@@ -2,7 +2,7 @@ import React from 'react';
 import { Clock, ChevronRight } from 'lucide-react';
 import { CARD_HOVER } from '../../lib/tone-classes';
 import type { CardTone, CardBadgeConfig } from '../core/Card';
-import { Badge } from './Badge';
+import { MetaPill } from './MetaPill';
 
 export type ResourceCardVariant = 'default' | 'minimal' | 'with-badge';
 export type ResourceCardIconSize = 'sm' | 'md' | 'lg';
@@ -154,11 +154,10 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
       {variant !== 'minimal' && (duration || category || cta) && (
         <footer className="flex items-center justify-between gap-stack-xs mt-2 pt-3 border-t border-ink-200">
           <div className="flex items-center gap-stack-xs flex-wrap">
-            {/* Capitales et graisse : c'est un BADGE, pas une méta — décision
-                antérieure, gardée. Il en recopiait la classe à l'identique ; c'est
-                désormais le composant (rendu inchangé). ⚠️ Question ouverte : une
-                catégorie est une donnée, et la doctrine la donnerait à MetaPill. */}
-            {category && <Badge variant="neutral">{category}</Badge>}
+            {/* Une catégorie est une DONNÉE : MetaPill, même registre que la durée
+                posée à côté (arbitrage n°14, 2026-09-23). Elle était en Badge
+                — capitales, 700 — et pesait plus lourd que le titre. */}
+            {category && <MetaPill text={category} tone="neutral" />}
             {duration && (
               <span className="inline-flex items-center gap-tight text-caption text-ink-500">
                 <Clock size={14} strokeWidth={2} className="opacity-70" />
