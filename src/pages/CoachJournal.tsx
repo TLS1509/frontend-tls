@@ -83,6 +83,10 @@ const CATEGORY_VARIANT: Record<string, 'brand' | 'warm' | 'sun' | 'neutral'> = {
   Préparation: 'neutral',
 };
 
+/* Rangée dans la carte : retrait 20 puis 24 px, jamais sous le rayon (20)
+   de la carte — au coin, le contenu reste dans le régime « forme fixe ». */
+const ROW = 'flex items-center gap-stack px-stack-md sm:px-stack-lg py-stack';
+
 const TAB_ITEMS = [
   { id: 'mine',     label: 'Mes entrées'        },
   { id: 'learners', label: 'Entrées apprenants' },
@@ -108,56 +112,65 @@ export default function CoachJournal() {
       <div className="px-stack flex flex-col gap-section pb-page">
         <Tabs items={TAB_ITEMS} value={tab} onChange={setTab} variant="underline" />
 
+        {/* Des entrées de journal forment une collection qu'on parcourt : des
+            rangées dans UNE carte, pas une pile de cartes (arbitrage n°5 du
+            23/09). Les rangées n'ont pas de fond propre : la carte porte le coin. */}
         {tab === 'mine' && (
-          <div className="flex flex-col gap-stack">
-            {MY_ENTRIES.map((entry) => (
-              <Card key={entry.id}>
-                <div className="flex flex-col gap-stack-xs">
-                  <div className="flex items-start justify-between gap-stack-xs">
-                    <div className="flex flex-col gap-tight">
-                      <span className="font-display font-semibold text-h4 text-ink-900">{entry.title}</span>
-                      <span className="flex items-center gap-stack-xs text-caption text-ink-500">
-                        <Calendar size={14} />
-                        {entry.date}
-                      </span>
+          <Card className="p-0">
+            <ul className="flex flex-col divide-y divide-ink-100" aria-label="Mes entrées">
+              {MY_ENTRIES.map((entry) => (
+                <li key={entry.id} className={ROW}>
+                  <div className="flex flex-col gap-stack-2xs flex-1 min-w-0">
+                    <div className="flex items-center gap-stack-xs flex-wrap">
+                      <span className="font-display font-semibold text-body text-ink-900">{entry.title}</span>
+                      <Badge variant={CATEGORY_VARIANT[entry.category] ?? 'neutral'} size="compact">{entry.category}</Badge>
                     </div>
-                    <Badge variant={CATEGORY_VARIANT[entry.category] ?? 'neutral'}>{entry.category}</Badge>
+                    <span className="flex items-center gap-stack-xs text-caption text-ink-500">
+                      <Calendar size={14} />
+                      {entry.date}
+                    </span>
+                    <p className="text-body-sm text-ink-600 line-clamp-2">{entry.excerpt}</p>
                   </div>
-                  <p className="text-body-sm text-ink-600">{entry.excerpt}</p>
-                  <div className="flex justify-end">
-                    <Button emphasis="outline" size="sm">Lire</Button>
-                  </div>
-                </div>
-              </Card>
-            ))}
-          </div>
+                  <Button emphasis="outline" size="sm" className="shrink-0" aria-label={`Lire : ${entry.title}`}>Lire</Button>
+                </li>
+              ))}
+            </ul>
+          </Card>
         )}
 
         {tab === 'learners' && (
-          <div className="flex flex-col gap-stack">
-            {LEARNER_ENTRIES.map((entry) => {
-              const sentiment = SENTIMENT_CONFIG[entry.sentiment];
-              return (
-                <Card key={entry.id}>
-                  <div className="flex items-center gap-stack">
-                    <Avatar size="md" tint="warm">{entry.learner.initials}</Avatar>
-                    <div className="flex flex-col gap-tight flex-1 min-w-0">
-                      <span className="font-display font-semibold text-body text-ink-900 truncate">{entry.title}</span>
-                      <span className="flex items-center gap-stack-xs text-caption text-ink-500">
-                        <User size={14} />
-                        {entry.learner.name}
-                        <span className="text-ink-300">·</span>
-                        <Calendar size={14} />
-                        {entry.date}
+          <Card className="p-0">
+            <ul className="flex flex-col divide-y divide-ink-100" aria-label="Entrées apprenants">
+              {LEARNER_ENTRIES.map((entry) => {
+                const sentiment = SENTIMENT_CONFIG[entry.sentiment];
+                return (
+                  <li key={entry.id} className={ROW}>
+                    {/* À 375 px l'avatar prenait 52 px à une colonne de texte de 139 : il
+                        n'apparaît qu'à partir de sm (le nom reste dans la ligne de méta). */}
+                    <span className="hidden sm:block shrink-0">
+                      <Avatar size="md" tint="warm">{entry.learner.initials}</Avatar>
+                    </span>
+                    <div className="flex flex-col gap-stack-2xs flex-1 min-w-0">
+                      <span className="font-display font-semibold text-body text-ink-900">{entry.title}</span>
+                      <span className="flex items-center gap-stack-xs flex-wrap text-caption text-ink-500">
+                        <span className="inline-flex items-center gap-stack-xs">
+                          <User size={14} />
+                          {entry.learner.name}
+                        </span>
+                        <span className="text-ink-300" aria-hidden="true">·</span>
+                        <span className="inline-flex items-center gap-stack-xs">
+                          <Calendar size={14} />
+                          {entry.date}
+                        </span>
+                        <Badge variant={sentiment.variant} size="compact">{sentiment.label}</Badge>
                       </span>
                     </div>
-                    <Badge variant={sentiment.variant}>{sentiment.label}</Badge>
-                    <Button emphasis="outline" size="sm">Voir</Button>
-                  </div>
-                </Card>
-              );
-            })}
-          </div>
+                    <Button emphasis="outline" size="sm" className="shrink-0" aria-label={`Voir : ${entry.title}`}>Voir</Button>
+                  </li>
+                );
+              })}
+            </ul>
+          </Card>
         )}
       </div>
     </PageShell>
