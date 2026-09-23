@@ -153,9 +153,12 @@ const TONE_SHADOW: Record<PageHeroTone, string> = {
    le blanc ne vaut que 5,02 (brand) et 4,88 (sun) — la moindre transparence
    (/75, /85) le faisait tomber à 3,60-4,32. La hiérarchie passe par la taille
    et la graisse, pas par l'opacité. */
+/* Ton `default` : son dégradé part de primary-50, où primary-700 ne fait que
+   4,48 et ink-500 4,45 (sondé sur /passeport, /coaching/booking, /veille/newsletter,
+   23/09). Il prend donc le cran au-dessus : primary-800, ink-600. */
 const TONE_EYEBROW: Record<PageHeroTone, string> = {
   flat:    'text-primary-700',
-  default: 'text-primary-700',
+  default: 'text-primary-800',
   brand:   'text-white',
   warm:    'text-white',
   sun:     'text-white',
@@ -171,7 +174,7 @@ const TONE_TITLE: Record<PageHeroTone, string> = {
 
 const TONE_SUMMARY: Record<PageHeroTone, string> = {
   flat:    'text-ink-600',
-  default: 'text-ink-500',
+  default: 'text-ink-600',
   brand:   'text-white',
   warm:    'text-white',
   sun:     'text-white',
@@ -179,7 +182,7 @@ const TONE_SUMMARY: Record<PageHeroTone, string> = {
 
 const TONE_META: Record<PageHeroTone, string> = {
   flat:    'text-ink-600',
-  default: 'text-ink-500',
+  default: 'text-ink-600',
   brand:   'text-white',
   warm:    'text-white',
   sun:     'text-white',
@@ -201,7 +204,7 @@ const isBackLinkObject = (value: unknown): value is PageHeroBackLink =>
    6,17 (brand) · 7,54 (warm) · 6,10 (sun). Le survol fonce, il n'éclaircit pas. */
 const TONE_BACKLINK: Record<PageHeroTone, string> = {
   flat:    'text-primary-700 bg-ink-50 border-ink-200 hover:bg-ink-100',
-  default: 'text-primary-700 bg-white/70 border-primary-200 hover:bg-primary-50',
+  default: 'text-primary-800 bg-white/70 border-primary-200 hover:bg-primary-50',
   brand:   'text-white bg-ink-900/20 border-white/30 hover:bg-ink-900/30',
   warm:    'text-white bg-ink-900/20 border-white/30 hover:bg-ink-900/30',
   sun:     'text-white bg-ink-900/20 border-white/30 hover:bg-ink-900/30',
