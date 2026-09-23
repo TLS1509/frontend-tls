@@ -4,7 +4,7 @@ import { Button } from '../components/core/Button';
 import { Card } from '../components/core/Card';
 import { StatCard } from '../components/ui/StatCard';
 import { Pagination } from '../components/ui/Pagination';
-import { RankingCard } from '../components/learning/RankingCard';
+import { Avatar } from '../components/ui/Avatar';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { Flame, Medal, Sparkles, Trophy, Users, Zap, Star } from 'lucide-react';
 import { useGamificationStore } from '../stores/persistence';
@@ -48,7 +48,9 @@ const PODIUM_CONFIG = [
   },
 ];
 
-const ITEMS_PER_PAGE = 4;
+/* Dix rangs par page : en rangées de ~64 px, la page tient ce que quatre
+   cartes de 224 px tenaient à peine. */
+const ITEMS_PER_PAGE = 10;
 
 export const Leaderboard: React.FC = () => {
   const navigate = useNavigate();
@@ -232,23 +234,58 @@ export const Leaderboard: React.FC = () => {
             </Card>
           )}
 
-          <div className="flex flex-col gap-stack-xs">
-            {paginatedRanking.map((entry) => (
-              <RankingCard
-                key={entry.id}
-                rank={entry.rank}
-                name={entry.name}
-                points={entry.points}
-                streak={undefined}
-                variant={entry.isCurrentUser ? 'brand' : 'neutral'}
-                onViewProfile={() =>
-                  entry.isCurrentUser
-                    ? navigate('/profile/badges/competences')
-                    : navigate(`/coach/apprenant/${entry.id}`)
-                }
-              />
-            ))}
-          </div>
+          {/* Les rangs 4 et suivants forment une collection qu'on parcourt :
+              des rangées dans UNE carte (arbitrage n°5 du 23/09). Le podium,
+              lui, reste en cartes — trois objets mis en avant. La carte clippe
+              ses coins : le fond de ta rangée épouse son arc intérieur. */}
+          {paginatedRanking.length > 0 && (
+            <Card className="p-0 overflow-hidden">
+              <ol className="flex flex-col divide-y divide-ink-100" aria-label="Suite du classement">
+                {paginatedRanking.map((entry) => (
+                  <li
+                    key={entry.id}
+                    aria-current={entry.isCurrentUser ? 'true' : undefined}
+                    className={[
+                      'flex items-center gap-stack-sm px-stack-md sm:px-stack-lg py-stack-sm',
+                      entry.isCurrentUser ? 'bg-primary-50' : '',
+                    ].join(' ')}
+                  >
+                    <span className="w-8 shrink-0 font-display text-body font-bold tabular-nums text-ink-600">
+                      #{entry.rank}
+                    </span>
+                    {/* À 375 px, l'avatar coûtait 44 px au nom : il n'apparaît qu'à partir
+                        de sm. Masqué par un enveloppant — `hidden` posé sur l'Avatar perdrait
+                        contre son `inline-flex` (même spécificité, piège n°6). */}
+                    <span className="hidden sm:block shrink-0">
+                      <Avatar initials={entry.initials} size="sm" />
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-body text-body-sm font-bold text-ink-900 truncate">{entry.name}</p>
+                      <p className="font-body text-caption text-ink-500 truncate">
+                        Niveau {entry.level} · {entry.xp.toLocaleString('fr-FR')} XP
+                      </p>
+                    </div>
+                    <span className="shrink-0 font-body text-body-sm font-bold tabular-nums text-primary-800">
+                      {entry.points} pts
+                    </span>
+                    <Button
+                      size="sm"
+                      emphasis="outline"
+                      className="shrink-0"
+                      aria-label={entry.isCurrentUser ? 'Voir ton profil' : `Voir le profil de ${entry.name}`}
+                      onClick={() =>
+                        entry.isCurrentUser
+                          ? navigate('/profile/badges/competences')
+                          : navigate(`/coach/apprenant/${entry.id}`)
+                      }
+                    >
+                      Voir
+                    </Button>
+                  </li>
+                ))}
+              </ol>
+            </Card>
+          )}
 
           {totalRankPages > 1 && (
             <Pagination
