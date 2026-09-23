@@ -188,7 +188,7 @@ export const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
               <p className="text-caption text-ink-600 mb-2">
                 Par {instructor} · {duration}
               </p>
-              <p className="text-caption text-ink-600 leading-relaxed">
+              <p className="text-caption text-ink-600">
                 {description}
               </p>
             </div>

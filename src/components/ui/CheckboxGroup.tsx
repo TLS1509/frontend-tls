@@ -140,7 +140,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
                     {option.label}
                   </span>
                   {option.description && (
-                    <span className="text-caption text-ink-500 leading-relaxed">
+                    <span className="text-caption text-ink-500">
                       {option.description}
                     </span>
                   )}

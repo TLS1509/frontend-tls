@@ -163,7 +163,7 @@ export const OptionGrid: React.FC<OptionGridProps> = (props) => {
               <span className="flex flex-col gap-tight min-w-0">
                 <span className={labelClasses}>{label}</span>
                 {description && (
-                  <span className="font-body text-caption text-ink-500 leading-relaxed">
+                  <span className="font-body text-caption text-ink-500">
                     {description}
                   </span>
                 )}

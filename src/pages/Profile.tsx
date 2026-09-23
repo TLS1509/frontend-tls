@@ -194,7 +194,7 @@ export const Profile: React.FC = () => {
 
           {/* Identity */}
           <div className="flex-1 min-w-0 flex flex-col gap-tight">
-            <h1 className="font-display text-h2 font-bold text-ink-900 leading-tight tracking-headline">
+            <h1 className="font-display text-h2 font-bold text-ink-900 tracking-headline">
               {displayName}
             </h1>
             <p className="m-0 font-body text-body-sm text-ink-600">
@@ -252,7 +252,7 @@ export const Profile: React.FC = () => {
                   <h2 className="font-display text-h4 font-bold text-ink-900 tracking-snug">
                     À propos
                   </h2>
-                  <p className="m-0 font-body text-body-sm text-ink-700 leading-relaxed">
+                  <p className="m-0 font-body text-body-sm text-ink-700">
                     {USER.bio}
                   </p>
                   <div className="flex flex-wrap gap-stack-2xs mt-stack-xs">

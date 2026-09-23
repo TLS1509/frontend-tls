@@ -88,7 +88,7 @@ const CheckboxField: React.FC<{
     </span>
     <div className="flex flex-col gap-tight">
       <span className="font-body text-body-sm font-semibold text-ink-900 leading-snug">{label}</span>
-      <span className="font-body text-caption text-ink-500 leading-relaxed">{description}</span>
+      <span className="font-body text-caption text-ink-500">{description}</span>
     </div>
   </label>
 );
@@ -414,7 +414,7 @@ export const MarketingWaitlist: React.FC = () => {
                           )}
 
                           {/* RGPD micro-note */}
-                          <p className="font-body text-micro text-ink-600 text-center m-0 leading-relaxed">
+                          <p className="font-body text-micro text-ink-600 text-center m-0">
                             En envoyant ce formulaire, vous acceptez notre{' '}
                             <Link
                               to="/website/politique-confidentialite"

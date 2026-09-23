@@ -458,7 +458,7 @@ export const MarketingArticleDetail: React.FC = () => {
                 <ArrowLeft size={14} className="transition-transform duration-base group-hover:-translate-x-1" />
                 Article précédent
               </span>
-              <h3 className="font-display text-h4 font-bold text-ink-900 leading-tight group-hover:text-primary-700 transition-colors duration-fast">
+              <h3 className="font-display text-h4 font-bold text-ink-900 group-hover:text-primary-700 transition-colors duration-fast">
                 {prev.title}
               </h3>
               <p className="font-body text-caption text-ink-500 m-0">{prev.date} · {prev.readTime}</p>
@@ -473,7 +473,7 @@ export const MarketingArticleDetail: React.FC = () => {
                 Article suivant
                 <ArrowRight size={14} className="transition-transform duration-base group-hover:translate-x-1" />
               </span>
-              <h3 className="font-display text-h4 font-bold text-ink-900 leading-tight group-hover:text-primary-700 transition-colors duration-fast">
+              <h3 className="font-display text-h4 font-bold text-ink-900 group-hover:text-primary-700 transition-colors duration-fast">
                 {next.title}
               </h3>
               <p className="font-body text-caption text-ink-500 m-0">{next.date} · {next.readTime}</p>

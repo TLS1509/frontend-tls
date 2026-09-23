@@ -56,10 +56,10 @@ const Sample: React.FC<{ v: Variant }> = ({ v }) => (
 
     {/* Titre + corps témoin (test lisibilité sur le fond) */}
     <div className="flex flex-col gap-2 max-w-[46ch]">
-      <h3 className="font-display text-h3 font-bold text-ink-900 tracking-headline leading-tight">
+      <h3 className="font-display text-h3 font-bold text-ink-900 tracking-headline">
         Mes objectifs de progression
       </h3>
-      <p className="m-0 text-body-sm text-ink-600 leading-relaxed">
+      <p className="m-0 text-body-sm text-ink-600">
         Le corps de texte se lit-il bien sur ce fond ? Contraste, confort, et sensation
         générale de la texture au repos comme au scroll.
       </p>

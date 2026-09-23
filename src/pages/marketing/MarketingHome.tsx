@@ -302,7 +302,7 @@ const Ecosysteme: React.FC = () => (
                     {o.title}
                   </h3>
                 </div>
-                <p className="md:col-span-5 font-body text-body text-ink-600 leading-relaxed m-0">
+                <p className="md:col-span-5 font-body text-body text-ink-600 m-0">
                   {o.desc}
                 </p>
                 <span className="md:col-span-2 flex items-start md:justify-end font-body text-body-sm font-semibold text-primary-700">
@@ -333,7 +333,7 @@ const Ecosysteme: React.FC = () => (
             <h3 className="font-display text-title text-ink-900 [text-wrap:balance]">
               Ce qui a été appris ne se perd pas.
             </h3>
-            <p className="font-body text-body text-ink-600 leading-relaxed m-0">
+            <p className="font-body text-body text-ink-600 m-0">
               Veille continue, apprentissage par l'action et Passeport de
               compétences vivant : la Learning App ancre les compétences
               acquises et les rend mesurables dans la durée.
@@ -387,7 +387,7 @@ const Reassurance: React.FC = () => (
             <h3 className="font-display text-feature text-ink-900">
               Partenaire stratégique de C-Campus
             </h3>
-            <p className="font-body text-body text-ink-600 leading-relaxed m-0">
+            <p className="font-body text-body text-ink-600 m-0">
               Référence française de l'ingénierie de formation et de l'AFEST,
               C-Campus certifie les dispositifs que nous concevons ensemble.
             </p>
@@ -475,7 +475,7 @@ const DoubleCta: React.FC = () => {
                   <h3 className="font-display text-feature text-white">
                     Restez en veille.
                   </h3>
-                  <p className="font-body text-body text-white/70 leading-relaxed m-0">
+                  <p className="font-body text-body text-white/70 m-0">
                     Abonnez-vous à La Vigie IA pour recevoir nos meilleures
                     analyses sur l'IA, les compétences et le futur du travail.
                   </p>

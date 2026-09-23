@@ -385,7 +385,7 @@ export const SubscriptionPayment: React.FC = () => {
             Confirmer le paiement
           </Button>
 
-          <p className="m-0 font-body text-caption text-ink-500 text-center leading-relaxed">
+          <p className="m-0 font-body text-caption text-ink-500 text-center">
             En confirmant, tu acceptes les <a href="#" className="text-primary-700 hover:underline">conditions d'utilisation</a> et la <a href="#" className="text-primary-700 hover:underline">politique de remboursement</a> (14 jours).
           </p>
         </div>

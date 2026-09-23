@@ -91,7 +91,7 @@ function ConversationCard({ item }: { item: ConversationItem }) {
           {item.messageCount} msg
         </Badge>
       </div>
-      <p className="text-caption text-ink-500 line-clamp-2 leading-relaxed">
+      <p className="text-caption text-ink-500 line-clamp-2">
         {item.lastMessage}
       </p>
       <div className="flex items-center justify-between gap-stack mt-1">

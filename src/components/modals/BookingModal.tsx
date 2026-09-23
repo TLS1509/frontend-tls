@@ -468,7 +468,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 </label>
               </div>
 
-              <p className="m-0 font-body text-micro text-ink-500 leading-relaxed">
+              <p className="m-0 font-body text-micro text-ink-500">
                 En confirmant, tu acceptes nos{' '}
                 <a href="/terms" className="text-primary-700 underline">CGV</a> et la{' '}
                 <a href="/cancellation" className="text-primary-700 underline">politique d'annulation</a> (gratuite jusqu'à 24h avant).

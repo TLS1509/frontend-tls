@@ -180,7 +180,7 @@ export const Help: React.FC = () => {
                     </span>
                   </button>
                   {isOpen && (
-                    <div className="px-stack-md pb-stack-md pt-stack border-t border-ink-200 font-body text-body-sm text-ink-500 leading-relaxed">
+                    <div className="px-stack-md pb-stack-md pt-stack border-t border-ink-200 font-body text-body-sm text-ink-500">
                       {item.answer}
                     </div>
                   )}
@@ -272,7 +272,7 @@ export const Help: React.FC = () => {
                   </div>
                   <div>
                     <p className="m-0 mb-stack-xs font-display text-h4 font-bold text-ink-900">{opt.title}</p>
-                    <p className="m-0 font-body text-caption text-ink-500 leading-relaxed">{opt.desc}</p>
+                    <p className="m-0 font-body text-caption text-ink-500">{opt.desc}</p>
                   </div>
                   <Button emphasis="soft" tone="warm" size="sm" className="mt-auto">
                     {opt.action}

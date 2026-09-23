@@ -174,7 +174,7 @@ export const ParcoursCard: React.FC<ParcoursCardProps> = ({
         {/* Description — min-h réservé (3 lignes ≈ 72px) pour aligner inter-cards.
             Full par défaut (jusqu'à 5 lignes), tooltip natif si plus long. */}
         <p
-          className="font-body text-body-sm text-ink-600 leading-normal m-0 line-clamp-5 min-h-[4.5rem]"
+          className="font-body text-body-sm text-ink-600 m-0 line-clamp-5 min-h-[4.5rem]"
           title={description}
         >
           {description}

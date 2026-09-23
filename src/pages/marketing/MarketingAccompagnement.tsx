@@ -185,7 +185,7 @@ const DoublePiege: React.FC = () => (
                 </span>
                 <div className="flex flex-col gap-group">
                   <h3 className="font-display text-feature text-ink-900">{p.title}</h3>
-                  <p className="font-body text-body text-ink-600 leading-relaxed m-0 max-w-xl">{p.detail}</p>
+                  <p className="font-body text-body text-ink-600 m-0 max-w-xl">{p.detail}</p>
                 </div>
               </div>
             </FadeInWhenVisible>
@@ -296,7 +296,7 @@ const Methodologie: React.FC = () => (
                       {String(i + 1).padStart(2, '0')} · {e.phase}
                     </span>
                   </div>
-                  <p className="col-span-2 @3xl:col-span-1 font-body text-body text-ink-600 leading-relaxed m-0">
+                  <p className="col-span-2 @3xl:col-span-1 font-body text-body text-ink-600 m-0">
                     {e.livrable}
                   </p>
                 </FadeInWhenVisible>
@@ -366,7 +366,7 @@ const PourQui: React.FC = () => (
                 {p.icon}
               </span>
               <h3 className="font-display text-feature text-ink-900">{p.title}</h3>
-              <p className="font-body text-body text-ink-600 leading-relaxed m-0">{p.detail}</p>
+              <p className="font-body text-body text-ink-600 m-0">{p.detail}</p>
             </li>
           </FadeInWhenVisible>
         ))}

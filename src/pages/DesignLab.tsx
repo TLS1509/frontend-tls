@@ -1219,7 +1219,7 @@ const RampeArbitrage: React.FC<{ tick: number }> = ({ tick }) => {
               >
                 Ne formez plus pour former.
               </p>
-              <p className="font-body text-body leading-relaxed m-0" style={{ color: corps }}>
+              <p className="font-body text-body m-0" style={{ color: corps }}>
                 {PARAGRAPHE}
               </p>
               <div className="flex flex-wrap items-center gap-2 pt-1">
@@ -1282,7 +1282,7 @@ const EncreArbitrage: React.FC<{ tick: number }> = ({ tick }) => {
                     >
                       Ne formez plus pour former.
                     </p>
-                    <p className="font-body text-body leading-relaxed m-0" style={{ color: corps }}>
+                    <p className="font-body text-body m-0" style={{ color: corps }}>
                       {PARAGRAPHE}
                     </p>
                     <div className="flex flex-wrap items-center gap-2 pt-1">
@@ -1364,7 +1364,7 @@ const RayonArbitrage: React.FC<{ tick: number }> = ({ tick }) => {
                   Accompagnement STRIDE
                 </p>
                 <p
-                  className="font-body text-body-sm leading-relaxed m-0"
+                  className="font-body text-body-sm m-0"
                   style={{ color: tokens['--color-ink-600'] }}
                 >
                   La méthode en six étapes pour cadrer votre transition, avec un livrable à chaque

@@ -271,7 +271,7 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
                   </div>
                   <div>
                     <p className="text-caption font-bold text-primary-600 mb-1">🔮 Prochainement : Adaptive Learning</p>
-                    <p className="text-caption text-ink-600 leading-relaxed">
+                    <p className="text-caption text-ink-600">
                       Ton <strong>Passport de Compétences</strong> personnalisera le contenu en fonction de ta progression.
                     </p>
                   </div>

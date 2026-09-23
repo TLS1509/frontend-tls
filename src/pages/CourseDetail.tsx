@@ -247,7 +247,7 @@ export const CourseDetail: React.FC = () => {
                 <Sparkles size={14} className="text-accent-400" />
                 Conseil du formateur
               </p>
-              <p className="font-body text-caption text-ink-600 m-0 leading-relaxed">
+              <p className="font-body text-caption text-ink-600 m-0">
                 Commencez avec la leçon 1 puis revenez ici pour dérouler les étapes suivantes.
               </p>
             </div>

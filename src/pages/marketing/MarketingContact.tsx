@@ -493,7 +493,7 @@ export const MarketingContact: React.FC = () => {
                           page Vigie, le hub Ressources et le bas d'article
                           disent tous « un mardi sur deux ». Deux fréquences pour
                           la même liste, c'est une promesse d'abonnement fausse. */}
-                      <span className="font-body text-caption text-ink-500 leading-relaxed">
+                      <span className="font-body text-caption text-ink-500">
                         Un mardi sur deux, à 8h : un workflow pédagogique autopsié, une fiche Out-skill, un crash-test terrain. Cinq minutes. Résiliable en un clic.
                       </span>
                     </div>
@@ -559,10 +559,10 @@ export const MarketingContact: React.FC = () => {
                     <Sparkles size={14} />
                     Plus rapide
                   </span>
-                  <h3 className="font-display text-h3 text-ink-900 leading-tight">
+                  <h3 className="font-display text-h3 text-ink-900">
                     Un échange de 30 min
                   </h3>
-                  <p className="font-body text-body-sm text-ink-600 m-0 leading-relaxed">
+                  <p className="font-body text-body-sm text-ink-600 m-0">
                     Dites-nous vos disponibilités, nous vous proposons un créneau
                     sous 48 h ouvrées.
                   </p>

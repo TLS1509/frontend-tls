@@ -56,7 +56,7 @@ export const RatingModal: React.FC<RatingModalProps> = ({
     >
       <div className="text-center">
         {title && (
-          <h2 className="mb-2 font-display text-h2 font-bold text-ink-900 leading-tight text-balance">
+          <h2 className="mb-2 font-display text-h2 font-bold text-ink-900 text-balance">
             {title}
           </h2>
         )}

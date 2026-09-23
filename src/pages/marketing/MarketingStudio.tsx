@@ -53,12 +53,12 @@ const Hero: React.FC = () => {
 
           <div className={GRID_CONTAINER}>
             <div className="grid grid-cols-1 @3xl:grid-cols-2 gap-flow max-w-4xl">
-              <p className="font-body text-body text-ink-600 leading-relaxed m-0 border-t-2 border-secondary-500 pt-stack">
+              <p className="font-body text-body text-ink-600 m-0 border-t-2 border-secondary-500 pt-stack">
                 De l'ingénierie pédagogique aux agents IA métiers, nous
                 concevons, déployons et vous transmettons les briques qui font
                 tourner votre organisation.
               </p>
-              <p className="font-body text-body text-ink-600 leading-relaxed m-0 border-t border-ink-200 pt-stack">
+              <p className="font-body text-body text-ink-600 m-0 border-t border-ink-200 pt-stack">
                 Vos équipes les opèrent sans nous : parcours, agents configurés,
                 tableau de bord et kit de déploiement restent chez vous après
                 notre départ.
@@ -109,7 +109,7 @@ const Probleme: React.FC = () => (
               <div className="border-t border-ink-200 py-stack-lg first:border-t-0">
                 <div className="flex flex-col gap-stack-xs">
                   <h3 className="font-display text-feature text-ink-900">{f.title}</h3>
-                  <p className="font-body text-body text-ink-600 leading-relaxed m-0 max-w-xl">{f.detail}</p>
+                  <p className="font-body text-body text-ink-600 m-0 max-w-xl">{f.detail}</p>
                 </div>
               </div>
             </FadeInWhenVisible>
@@ -241,7 +241,7 @@ const Livrables: React.FC = () => (
           <h2 className="font-display text-section text-ink-900 [text-wrap:balance]">
             Une production opérationnelle, clé en main.
           </h2>
-          <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0">
+          <p className="font-body text-body-lg text-ink-600 m-0">
             Chaque projet Studio livre des actifs concrets que vos équipes
             peuvent opérer sans nous.
           </p>
@@ -270,7 +270,7 @@ const Livrables: React.FC = () => (
                 </span>
                 <h3 className="font-display text-feature text-ink-900">{l.title}</h3>
               </div>
-              <p className="font-body text-body text-ink-600 leading-relaxed m-0 max-w-lg">{l.detail}</p>
+              <p className="font-body text-body text-ink-600 m-0 max-w-lg">{l.detail}</p>
             </FadeInWhenVisible>
             </li>
           ))}
@@ -297,7 +297,7 @@ const CtaFinal: React.FC = () => (
             <h2 className="font-display text-section text-ink-900 [text-wrap:balance]">
               Concevons vos prochains actifs pédagogiques et IA.
             </h2>
-            <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 [text-wrap:pretty]">
+            <p className="font-body text-body-lg text-ink-600 m-0 [text-wrap:pretty]">
               Chaque projet Studio commence par un cadrage sur-mesure : nous
               partons de votre besoin réel, jamais d'un catalogue.
             </p>

@@ -83,7 +83,7 @@ export default function MasterclassLive() {
                     <Avatar name={q.author} initials={q.initials} size="sm" />
                     <div className="flex flex-col gap-tight min-w-0">
                       <span className="text-caption font-semibold text-ink-700">{q.author}</span>
-                      <p className="text-caption text-ink-600 leading-relaxed">{q.text}</p>
+                      <p className="text-caption text-ink-600">{q.text}</p>
                     </div>
                   </div>
                 ))}

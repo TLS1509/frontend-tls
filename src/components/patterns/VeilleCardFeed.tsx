@@ -217,7 +217,7 @@ export const VeilleCard: React.FC<VeilleCardProps> = ({ item, surface, isSaved, 
           <span className="inline-flex items-center gap-tight"><Clock size={14} strokeWidth={2} />{item.readTime}</span>
         </div>
 
-        <h3 className="font-display text-h4 font-bold text-ink-900 leading-tight line-clamp-2">
+        <h3 className="font-display text-h4 font-bold text-ink-900 line-clamp-2">
           {item.title}
         </h3>
 
@@ -522,10 +522,10 @@ export const FeaturedSpotlightCarousel: React.FC<FeaturedSpotlightCarouselProps>
           <span className={['inline-flex items-center gap-stack-2xs self-start px-2.5 py-1 rounded-pill border text-micro font-bold uppercase tracking-wider', BADGE_STYLE[tone]].join(' ')}>
             <TypeIcon size={14} strokeWidth={2.5} /> {item.typeLabel} · {item.category}
           </span>
-          <h2 className="font-display text-h2 font-bold text-ink-900 leading-tight group-hover:text-primary-700 transition-colors">
+          <h2 className="font-display text-h2 font-bold text-ink-900 group-hover:text-primary-700 transition-colors">
             {item.title}
           </h2>
-          <p className="m-0 font-body text-body text-ink-700 leading-relaxed line-clamp-3">
+          <p className="m-0 font-body text-body text-ink-700 line-clamp-3">
             {item.summary}
           </p>
           <div className="flex flex-wrap gap-stack-xs items-center text-caption text-ink-600">

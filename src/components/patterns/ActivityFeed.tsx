@@ -234,7 +234,7 @@ const ActivityRow: React.FC<{
         </header>
 
         {item.description && (
-          <p className="m-0 mt-1 text-caption text-ink-600 leading-relaxed">{item.description}</p>
+          <p className="m-0 mt-1 text-caption text-ink-600">{item.description}</p>
         )}
 
         {(item.actor || (item.actionLabel && item.onActionClick)) && (

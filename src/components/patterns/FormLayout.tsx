@@ -49,7 +49,7 @@ export const FormLayout: React.FC<FormLayoutProps> = ({
     >
       {(title || description) && (
         <div className="flex flex-col gap-stack-xs pb-stack-lg border-b border-ink-200">
-          {title && <h2 className="text-h2 font-display font-bold text-ink-900 leading-tight text-balance">{title}</h2>}
+          {title && <h2 className="text-h2 font-display font-bold text-ink-900 text-balance">{title}</h2>}
           {description && <p className="m-0 text-body text-ink-500 max-w-[640px]">{description}</p>}
         </div>
       )}
@@ -87,7 +87,7 @@ export const FormLayout: React.FC<FormLayoutProps> = ({
                     </p>
                   )}
                   {field.helpText && !field.error && (
-                    <p className="m-0 text-caption text-ink-500 leading-relaxed">{field.helpText}</p>
+                    <p className="m-0 text-caption text-ink-500">{field.helpText}</p>
                   )}
                 </div>
               ))}

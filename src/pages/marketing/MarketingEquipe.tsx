@@ -104,7 +104,7 @@ const Approche: React.FC = () => (
               C'est ce qui relie tout ce que nous faisons, de la conception d'un
               parcours à la ligne de code.
             </p>
-            <p className="font-body text-body text-ink-600 leading-relaxed m-0">
+            <p className="font-body text-body text-ink-600 m-0">
               Des leçons qui se terminent par une mise en pratique plutôt que
               par un quiz. Un logiciel qui garde la trace de ce qui a été
               démontré en situation réelle. Et un accompagnement qui part du
@@ -183,7 +183,7 @@ const Fondateurs: React.FC = () => (
                   {p.monogram}
                 </span>
                 <div className="flex flex-col gap-tight">
-                  <h3 className="font-display text-h4 text-ink-900 leading-tight">{p.nom}</h3>
+                  <h3 className="font-display text-h4 text-ink-900">{p.nom}</h3>
                   <span className="font-body text-caption font-bold text-ink-500">{p.expertise}</span>
                 </div>
               </div>
@@ -192,7 +192,7 @@ const Fondateurs: React.FC = () => (
                   {p.domaine}
                 </p>
               </div>
-              <p className="lg:col-span-6 font-body text-body text-ink-600 leading-relaxed m-0 max-w-xl">
+              <p className="lg:col-span-6 font-body text-body text-ink-600 m-0 max-w-xl">
                 {p.detail}
               </p>
             </div>
@@ -242,7 +242,7 @@ const Pourquoi: React.FC = () => (
               <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-primary-100 text-primary-700">
                 {r.icon}
               </span>
-              <h3 className="font-display text-h4 font-bold text-ink-900 leading-tight">{r.title}</h3>
+              <h3 className="font-display text-h4 font-bold text-ink-900">{r.title}</h3>
               <p className="font-body text-body-sm text-ink-600 m-0">{r.detail}</p>
             </div>
           </FadeInWhenVisible>
@@ -262,7 +262,7 @@ const CtaFinal: React.FC = () => (
           <h2 className="font-display text-section text-ink-900 [text-wrap:balance]">
             Vous saurez en trente minutes si nous sommes les bons.
           </h2>
-          <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-[62ch] [text-wrap:pretty]">
+          <p className="font-body text-body-lg text-ink-600 m-0 max-w-[62ch] [text-wrap:pretty]">
             C'est un fondateur au bout du fil. Si le format ne convient pas à
             ce que vous cherchez, nous vous le dirons pendant l'appel.
           </p>

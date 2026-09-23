@@ -200,7 +200,7 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
 
         {/* Body */}
         {body && (
-          <p className="m-0 font-body text-caption text-ink-500 leading-relaxed line-clamp-2">
+          <p className="m-0 font-body text-caption text-ink-500 line-clamp-2">
             {body}
           </p>
         )}

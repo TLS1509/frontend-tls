@@ -115,7 +115,7 @@ const SubscriptionTab: React.FC<{
           </div>
           <div className="flex flex-col gap-tight">
             <div className="flex items-center gap-stack-xs flex-wrap">
-              <h3 className="font-display text-h4 font-bold text-ink-900 leading-tight">
+              <h3 className="font-display text-h4 font-bold text-ink-900">
                 {tierConfig.name}
               </h3>
               <Badge variant="brand">Actif</Badge>
@@ -235,7 +235,7 @@ const SubscriptionTab: React.FC<{
             <p className="m-0 font-body text-body-sm font-semibold text-ink-900">
               Annuler mon abonnement {tierConfig.name}
             </p>
-            <p className="m-0 font-body text-caption text-ink-600 leading-relaxed">
+            <p className="m-0 font-body text-caption text-ink-600">
               Cette action est réversible jusqu'au 1er juin 2026. Au-delà, vous perdrez l'accès aux parcours, coaching et veille.
             </p>
           </div>

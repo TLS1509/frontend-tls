@@ -84,7 +84,7 @@ export const ActivityItem: React.FC<ActivityItemProps> = ({
           )}
         </header>
         {description && (
-          <p className="m-0 mt-1 text-caption text-ink-600 leading-relaxed">{description}</p>
+          <p className="m-0 mt-1 text-caption text-ink-600">{description}</p>
         )}
       </div>
     </article>

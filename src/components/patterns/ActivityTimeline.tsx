@@ -94,7 +94,7 @@ export const ActivityTimeline: React.FC<ActivityTimelineProps> = ({
                 </div>
 
                 {item.description && (
-                  <p className="m-0 mt-1 text-caption text-ink-500 leading-relaxed">
+                  <p className="m-0 mt-1 text-caption text-ink-500">
                     {item.description}
                   </p>
                 )}

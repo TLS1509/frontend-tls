@@ -124,7 +124,7 @@ export const MagazineArticle: React.FC = () => {
             {ARTICLE.title}
           </h1>
 
-          <p className="m-0 font-body text-body-lg text-ink-600 leading-relaxed">
+          <p className="m-0 font-body text-body-lg text-ink-600">
             {ARTICLE.excerpt}
           </p>
         </header>
@@ -162,14 +162,14 @@ export const MagazineArticle: React.FC = () => {
               {/* Body paragraphs */}
               <div className="flex flex-col gap-stack">
                 {PARAGRAPHS.map((p, i) => (
-                  <p key={i} className="m-0 font-body text-body text-ink-700 leading-relaxed">
+                  <p key={i} className="m-0 font-body text-body text-ink-700">
                     {p}
                   </p>
                 ))}
 
                 {/* Inline quote */}
                 <figure className="m-0 my-stack px-stack-md sm:px-6 py-stack bg-primary-50 rounded-xl">
-                  <blockquote className="m-0 font-body italic text-body-lg text-primary-800 leading-relaxed">
+                  <blockquote className="m-0 font-body italic text-body-lg text-primary-800">
                     « Le métier d'ingénieur pédagogique cesse d'être un métier de production
                     pour devenir un métier de curation, de coaching et de design. »
                   </blockquote>
@@ -178,10 +178,10 @@ export const MagazineArticle: React.FC = () => {
                   </figcaption>
                 </figure>
 
-                <h2 className="mt-stack-lg font-display text-h3 font-bold text-ink-900 leading-tight tracking-tight">
+                <h2 className="mt-stack-lg font-display text-h3 font-bold text-ink-900 tracking-tight">
                   Une chaîne de valeur reconfigurée
                 </h2>
-                <p className="m-0 font-body text-body text-ink-700 leading-relaxed">
+                <p className="m-0 font-body text-body text-ink-700">
                   Concrètement, sur les 8 jours d'une production typique 2026, l'IA prend en charge
                   environ 60 % du temps de scénarisation initiale, 40 % du story-board et 30 % de la
                   production multimédia. Le reste : l'essentiel : reste un travail humain et expert :

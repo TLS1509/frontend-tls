@@ -513,7 +513,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
         {substep === 0 && (
           <>
             <div className="flex flex-col gap-tight">
-              <h2 className="font-display text-h2 text-ink-900 leading-tight">
+              <h2 className="font-display text-h2 text-ink-900">
                 Dis-nous qui tu es
               </h2>
               <p className="font-body text-body text-ink-500 m-0">
@@ -615,7 +615,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
         {substep === 2 && (
           <>
             <div className="flex flex-col gap-tight">
-              <h2 className="font-display text-h2 text-ink-900 leading-tight">
+              <h2 className="font-display text-h2 text-ink-900">
                 {firstName ? `${firstName}, ton profil est prêt` : 'Ton profil est prêt'}
               </h2>
               <p className="font-body text-body text-ink-500 m-0">
@@ -764,7 +764,7 @@ export default function OnboardingPreview() {
             <Sparkles size={14} aria-hidden />
             Comparatif — Variante {variant.toUpperCase()}
           </p>
-          <h1 className="font-display text-h2 tracking-display text-ink-900 leading-tight">
+          <h1 className="font-display text-h2 tracking-display text-ink-900">
             {VARIANT_META[variant].label}
           </h1>
           <p className="m-0 font-body text-body text-ink-500">

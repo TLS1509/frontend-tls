@@ -124,7 +124,7 @@ export const WeeklyNewsDetail: React.FC = () => {
                   </span>
                 </div>
 
-                <h1 className="font-display text-h1 font-bold text-ink-900 leading-tight tracking-tight">
+                <h1 className="font-display text-h1 font-bold text-ink-900 tracking-tight">
                   {ACTU.title}
                 </h1>
 
@@ -155,7 +155,7 @@ export const WeeklyNewsDetail: React.FC = () => {
                     <h2 className="font-display text-h3 font-bold text-ink-900 tracking-tight">
                       {section.heading}
                     </h2>
-                    <p className="m-0 font-body text-body text-ink-700 leading-relaxed">
+                    <p className="m-0 font-body text-body text-ink-700">
                       {section.text}
                     </p>
                   </section>

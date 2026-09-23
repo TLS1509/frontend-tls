@@ -151,7 +151,7 @@ export const ComplementaryContentViewer: React.FC = () => {
             >
               <Library size={20} className="text-white" />
             </div>
-            <h1 className="font-display text-h3 font-bold text-ink-900 leading-tight">
+            <h1 className="font-display text-h3 font-bold text-ink-900">
               Ressources complémentaires
             </h1>
           </header>
@@ -188,7 +188,7 @@ export const ComplementaryContentViewer: React.FC = () => {
                         </Badge>
                       </div>
 
-                      <p className="font-body text-body-sm text-ink-500 m-0 mb-stack-xs leading-relaxed">
+                      <p className="font-body text-body-sm text-ink-500 m-0 mb-stack-xs">
                         {resource.description}
                       </p>
 

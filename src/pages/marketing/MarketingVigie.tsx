@@ -176,7 +176,7 @@ export const MarketingVigie: React.FC = () => {
               <h2 className="font-display text-section text-ink-900 [text-wrap:balance]">
                 Trois rubriques, à chaque numéro.
               </h2>
-              <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 [text-wrap:pretty]">
+              <p className="font-body text-body-lg text-ink-600 m-0 [text-wrap:pretty]">
                 Le format ne change pas : vous savez toujours ce que vous allez
                 lire, et en combien de temps.
               </p>
@@ -191,11 +191,11 @@ export const MarketingVigie: React.FC = () => {
                     <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-100 text-primary-700">
                       {r.icon}
                     </span>
-                    <h3 className="font-display text-h3 font-bold text-ink-900 leading-tight [text-wrap:balance]">
+                    <h3 className="font-display text-h3 font-bold text-ink-900 [text-wrap:balance]">
                       {r.titre}
                     </h3>
                   </div>
-                  <p className="lg:col-span-7 font-body text-body text-ink-600 leading-relaxed m-0 max-w-2xl">
+                  <p className="lg:col-span-7 font-body text-body text-ink-600 m-0 max-w-2xl">
                     {r.detail}
                   </p>
                 </div>

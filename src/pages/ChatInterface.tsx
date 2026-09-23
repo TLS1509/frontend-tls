@@ -247,7 +247,7 @@ export default function ChatInterface() {
             {/* Info card */}
             <Card variant="tinted" tone="primary" className="mt-stack p-stack-md flex flex-col gap-tight">
               <p className="text-caption font-semibold text-primary-900">À propos de cet assistant</p>
-              <p className="text-caption text-primary-700 leading-relaxed">
+              <p className="text-caption text-primary-700">
                 Les réponses sont générées uniquement depuis le contenu indexé de la plateforme (formations, Passeport, Coaching, Missions). Aucune donnée externe.
               </p>
               <div className="flex flex-wrap gap-tight mt-1">

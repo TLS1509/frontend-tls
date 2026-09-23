@@ -131,7 +131,7 @@ const Probleme: React.FC = () => (
               <div className="border-t border-ink-200 py-stack-lg first:border-t-0">
                 <div className="flex flex-col gap-stack-xs">
                   <h3 className="font-display text-feature text-ink-900">{c.title}</h3>
-                  <p className="font-body text-body text-ink-600 leading-relaxed m-0 max-w-xl">{c.detail}</p>
+                  <p className="font-body text-body text-ink-600 m-0 max-w-xl">{c.detail}</p>
                 </div>
               </div>
             </FadeInWhenVisible>
@@ -493,7 +493,7 @@ const Bibliotheque: React.FC = () => {
                   </span>
                   <span className="font-body text-caption text-ink-500">{fiche.domaine}</span>
                 </div>
-                <h4 className="font-display text-h4 text-ink-900 leading-tight">
+                <h4 className="font-display text-h4 text-ink-900">
                   {fiche.competence}
                 </h4>
                 <div className="flex flex-wrap gap-stack-xs" role="group" aria-label="Choisir un niveau Dreyfus">
@@ -577,7 +577,7 @@ const ActifStrategique: React.FC = () => (
             <h3 className="font-display text-feature text-ink-900">
               Du Skills-Based au Matching Projets
             </h3>
-            <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">
+            <p className="font-body text-body-sm text-ink-600 m-0">
               La maturité IA de votre organisation commence par une donnée de
               compétences propre et vivante. C'est exactement ce que la
               Learning App construit, jour après jour.

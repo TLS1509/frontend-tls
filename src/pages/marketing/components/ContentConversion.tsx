@@ -39,7 +39,7 @@ export const DiagnosticInlineCta: React.FC = () => (
         <Gauge size={20} />
       </span>
       <div className="flex flex-col gap-stack-xs">
-        <p className="font-display text-h4 font-bold text-ink-900 m-0 leading-tight [text-wrap:balance]">
+        <p className="font-display text-h4 font-bold text-ink-900 m-0 [text-wrap:balance]">
           Où en est votre organisation, concrètement ?
         </p>
         <p className="font-body text-body-sm text-ink-600 m-0">
@@ -100,7 +100,7 @@ export const VigieSignupBanner: React.FC<{ source?: string }> = ({ source = 'vig
           <Radar size={20} />
         </span>
         <div className="flex flex-col gap-stack-xs">
-          <p className="font-display text-h4 font-bold text-ink-900 m-0 leading-tight [text-wrap:balance]">
+          <p className="font-display text-h4 font-bold text-ink-900 m-0 [text-wrap:balance]">
             Un mardi sur deux, dans votre boîte mail.
           </p>
           <p className="font-body text-body-sm text-ink-600 m-0">

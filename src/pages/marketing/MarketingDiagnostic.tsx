@@ -341,7 +341,7 @@ export const MarketingDiagnostic: React.FC = () => {
                     </li>
                   ))}
                 </ul>
-                <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
+                <p className="font-body text-body-lg text-ink-600 m-0 max-w-2xl">
                   Choisissez le diagnostic adapté à votre enjeu.
                 </p>
               </div>
@@ -461,7 +461,7 @@ export const MarketingDiagnostic: React.FC = () => {
                 {bank.icon}
                 Diagnostic {bank.label}
               </span>
-              <h2 className="font-display text-h2 text-ink-900 leading-tight [text-wrap:balance]">
+              <h2 className="font-display text-h2 text-ink-900 [text-wrap:balance]">
                 Deux dernières questions, en toute liberté.
               </h2>
               <p className="font-body text-body text-ink-600 m-0">
@@ -529,7 +529,7 @@ export const MarketingDiagnostic: React.FC = () => {
                     <Lock size={20} />
                   </span>
                   <div className="flex flex-col gap-stack-xs">
-                    <h3 className="font-display text-h4 text-ink-900 leading-tight">
+                    <h3 className="font-display text-h4 text-ink-900">
                       Débloquez votre rapport d'analyse complet.
                     </h3>
                     <p className="font-body text-body-sm text-ink-600 m-0">

@@ -148,7 +148,7 @@ const Hero: React.FC = () => {
             </span>
           </h1>
 
-          <p className="font-body text-body-lg text-white/90 leading-relaxed m-0 max-w-[58ch]">
+          <p className="font-body text-body-lg text-white/90 m-0 max-w-[58ch]">
             The Learning Society aide organisations et professionnels à maîtriser
             l'IA en formation : une formation certifiante, une Learning App
             adaptative et un accompagnement sur mesure. Sans perdre l'humain au
@@ -259,7 +259,7 @@ const LivingWorld: React.FC = () => {
             <h2 className="font-display font-bold text-white leading-[1.1] tracking-tight [text-wrap:balance] text-[clamp(1.75rem,3.8vw,3rem)]">
               Un jardin où l'apprentissage prend vraiment racine.
             </h2>
-            <p className="font-body text-body-lg text-white/80 leading-relaxed m-0 max-w-[60ch]">
+            <p className="font-body text-body-lg text-white/80 m-0 max-w-[60ch]">
               Trois leviers qui grandissent ensemble, comme un même écosystème
               vivant. On ne juxtapose pas des outils : on cultive un monde
               d'apprentissage cohérent, dans la durée.
@@ -274,10 +274,10 @@ const LivingWorld: React.FC = () => {
                 <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-accent-400/15 text-accent-400">
                   {bloom.icon}
                 </span>
-                <h3 className="font-display font-bold text-white text-h4 leading-tight">
+                <h3 className="font-display font-bold text-white text-h4">
                   {bloom.title}
                 </h3>
-                <p className="font-body text-body text-white/75 leading-relaxed m-0">
+                <p className="font-body text-body text-white/75 m-0">
                   {bloom.body}
                 </p>
               </article>

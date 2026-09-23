@@ -128,7 +128,7 @@ export const DreyfusLevelSelector: React.FC<DreyfusLevelSelectorProps> = ({
             <div className="mt-1 font-semibold text-body-sm text-ink-900">
               {lv.label}
             </div>
-            <div className="mt-1 text-caption text-ink-500 leading-relaxed">
+            <div className="mt-1 text-caption text-ink-500">
               {lv.desc}
             </div>
           </button>

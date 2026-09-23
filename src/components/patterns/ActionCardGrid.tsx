@@ -61,7 +61,7 @@ export const ActionCardGrid: React.FC<ActionCardGridProps> = ({
           <IconChip size="lg" tone="brand" className="transition-transform group-hover:scale-110 motion-reduce:group-hover:scale-100">
             {item.icon}
           </IconChip>
-          <h3 className="text-h4 font-display text-ink-900 leading-snug">
+          <h3 className="text-h4 font-display text-ink-900">
             {item.title}
           </h3>
           <p className="m-0 text-body-sm text-ink-500">{item.description}</p>

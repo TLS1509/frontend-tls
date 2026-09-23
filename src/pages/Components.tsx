@@ -4964,9 +4964,9 @@ const COMPONENTS: ComponentEntry[] = [
               </div>
               <div className="flex flex-col gap-stack-xs p-stack-md">
                 <span className="font-body text-micro font-semibold uppercase tracking-wider text-ink-500">{item.category} · {item.publishedAt}</span>
-                <h3 className="font-display text-h4 font-bold text-ink-900 leading-tight">{item.title}</h3>
+                <h3 className="font-display text-h4 font-bold text-ink-900">{item.title}</h3>
                 <span className="font-body text-caption text-ink-500"><User size={12} className="inline mr-0.5" /> {item.author} · ⏱ {item.readTime}</span>
-                <p className="m-0 font-body text-body-sm text-ink-600 leading-relaxed">{item.summary}</p>
+                <p className="m-0 font-body text-body-sm text-ink-600">{item.summary}</p>
                 <footer className="flex justify-between items-center pt-stack-xs border-t border-ink-100"><span className="text-caption font-bold text-accent-700">Lire →</span></footer>
               </div>
             </article>
@@ -4981,9 +4981,9 @@ const COMPONENTS: ComponentEntry[] = [
                 <button className="w-8 h-8 rounded-pill bg-white/70 text-ink-500 hover:text-ink-900 flex items-center justify-center"><Bookmark size={14} /></button>
               </div>
               <span className="font-body text-micro font-semibold uppercase tracking-wider text-accent-700">{item.category} · {item.publishedAt}</span>
-              <h3 className="font-display text-h4 font-bold text-ink-900 leading-tight">{item.title}</h3>
+              <h3 className="font-display text-h4 font-bold text-ink-900">{item.title}</h3>
               <span className="font-body text-caption text-ink-500"><User size={12} className="inline mr-0.5" /> {item.author} · ⏱ {item.readTime}</span>
-              <p className="m-0 font-body text-body-sm text-ink-700 leading-relaxed">{item.summary}</p>
+              <p className="m-0 font-body text-body-sm text-ink-700">{item.summary}</p>
               <footer className="flex justify-between items-center pt-stack-xs border-t border-white/60"><span className="text-caption font-bold text-accent-700">Lire →</span></footer>
             </article>
           </div>
@@ -4998,7 +4998,7 @@ const COMPONENTS: ComponentEntry[] = [
               <span className="absolute top-3 left-3 inline-flex items-center gap-tight px-2.5 py-1 rounded-pill bg-white/95 backdrop-blur-glass-light text-micro font-bold uppercase text-ink-900 shadow-sm"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
               <div className="absolute inset-x-0 bottom-0 p-stack-md text-white flex flex-col gap-tight">
                 <span className="font-body text-micro font-semibold uppercase tracking-wider text-white/80">{item.category} · {item.publishedAt}</span>
-                <h3 className="font-display text-h4 font-bold leading-tight text-white">{item.title}</h3>
+                <h3 className="font-display text-h4 font-bold text-white">{item.title}</h3>
                 <div className="flex justify-between items-center text-caption text-white/90 mt-tight">
                   <span><User size={12} className="inline" /> {item.author} · ⏱ {item.readTime}</span>
                   <span className="font-bold">Lire →</span>
@@ -5572,7 +5572,7 @@ const COMPONENTS: ComponentEntry[] = [
       <div className="max-w-md">
         <Flashcard
           front={<div className="flex items-center justify-center h-full p-stack-lg"><p className="text-h3 font-bold text-ink-900 text-center m-0">Qu&apos;est-ce que le leadership transformationnel ?</p></div>}
-          back={<div className="flex items-center justify-center h-full p-stack-lg"><p className="text-body text-ink-700 text-center m-0 leading-relaxed">Style de leadership qui inspire et motive les collaborateurs à dépasser leurs intérêts personnels pour le bien collectif.</p></div>}
+          back={<div className="flex items-center justify-center h-full p-stack-lg"><p className="text-body text-ink-700 text-center m-0">Style de leadership qui inspire et motive les collaborateurs à dépasser leurs intérêts personnels pour le bien collectif.</p></div>}
         />
       </div>
     ),
@@ -9208,7 +9208,7 @@ const Components: React.FC = () => {
 
                     {/* Body */}
                     <div className="flex-1 flex flex-col gap-stack-xs" style={{ padding: 'var(--s-4) var(--s-5)' }}>
-                      <p className="text-body-sm text-ink-500 m-0 leading-relaxed">
+                      <p className="text-body-sm text-ink-500 m-0">
                         {p.description}
                       </p>
 

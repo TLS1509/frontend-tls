@@ -115,7 +115,7 @@ export const MagicLink: React.FC = () => {
               Se connecter avec mot de passe
             </AuthGhostButton>
 
-            <p className="m-0 font-body text-caption text-white/60 text-center leading-relaxed">
+            <p className="m-0 font-body text-caption text-white/60 text-center">
               Pas encore de compte ? <AuthInlineLink onClick={() => navigate('/auth/signup')}>Créer un compte</AuthInlineLink>
             </p>
           </form>
@@ -141,7 +141,7 @@ export const MagicLink: React.FC = () => {
               </AuthGhostButton>
             </div>
 
-            <p className="m-0 mt-stack font-body text-caption text-white/60 text-center leading-relaxed">
+            <p className="m-0 mt-stack font-body text-caption text-white/60 text-center">
               Email non reçu ? Vérifiez vos spams ou <AuthInlineLink onClick={() => navigate('/help')}>contactez le support</AuthInlineLink>.
             </p>
           </AuthSuccess>

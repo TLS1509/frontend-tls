@@ -225,7 +225,7 @@ function renderDossierBlock(block: DossierBodyBlock, i: number) {
           );
         case 'h3':
           return (
-            <h3 key={i} className="font-display text-h4 font-bold text-ink-800 leading-snug mt-stack">
+            <h3 key={i} className="font-display text-h4 font-bold text-ink-800 mt-stack">
               {block.text}
             </h3>
           );

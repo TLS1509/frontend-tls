@@ -397,7 +397,7 @@ const AppLanding: React.FC = () => {
                       <span className={`font-body text-caption font-semibold uppercase tracking-wider ${tones.eyebrow}`}>
                         {feat.eyebrow}
                       </span>
-                      <h3 className="font-display font-bold text-ink-900 text-h4 leading-snug">
+                      <h3 className="font-display font-bold text-ink-900 text-h4">
                         {feat.title}
                       </h3>
                     </div>
@@ -510,7 +510,7 @@ const AppLanding: React.FC = () => {
           <span className="font-body text-caption font-semibold text-white/55">
             Prêt à commencer ?
           </span>
-          <h2 className="font-display text-white text-h2 tracking-headline leading-tight text-balance">
+          <h2 className="font-display text-white text-h2 tracking-headline text-balance">
             Formez-vous sur vos projets réels, pas sur des vidéos
           </h2>
           <p className="font-body text-body text-white/75 m-0">

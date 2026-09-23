@@ -97,7 +97,7 @@ export const VerifyEmail: React.FC = () => {
               </AuthGhostButton>
             </div>
 
-            <p className="m-0 font-body text-caption text-white/60 text-center leading-relaxed">
+            <p className="m-0 font-body text-caption text-white/60 text-center">
               Mauvaise adresse email ? <AuthInlineLink onClick={() => navigate('/auth/signup')}>Modifier l'inscription</AuthInlineLink>
             </p>
           </div>

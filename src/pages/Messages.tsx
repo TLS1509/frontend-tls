@@ -503,7 +503,7 @@ export const Messages: React.FC = () => {
             <h3 className="mb-stack-xs font-display text-h4 font-bold text-ink-900">
               Sélectionnez une conversation
             </h3>
-            <p className="m-0 mb-stack font-body text-caption text-ink-500 leading-relaxed">
+            <p className="m-0 mb-stack font-body text-caption text-ink-500">
               Choisissez un fil dans la liste pour démarrer ou continuer la conversation.
             </p>
             <Button emphasis="soft" tone="warm" fullWidth leadingIcon={<Pencil size={14} />}>

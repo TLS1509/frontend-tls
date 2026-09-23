@@ -103,7 +103,7 @@ export const CompletionModal: React.FC<CompletionModalProps> = ({
 
           <h2
             id="completion-modal-title"
-            className="font-display text-h2 font-bold tracking-display leading-tight text-white"
+            className="font-display text-h2 font-bold tracking-display text-white"
           >
             {title}
           </h2>
