@@ -2473,20 +2473,27 @@ export const LessonPlayer: React.FC = () => {
         </nav>
 
         {/* CONTENT — scrollable, padded bottom for progress dots */}
-        <div className="flex-1 overflow-y-auto flex flex-col items-center px-stack sm:px-stack-lg lg:px-section pt-stack-lg pb-16">
+        {/* pb-24 sous md : la barre du bas y porte aussi les flèches. */}
+        <div className="flex-1 overflow-y-auto flex flex-col items-center px-stack sm:px-stack-lg lg:px-section pt-stack-lg pb-24 md:pb-16">
+          {/* Carte de contenu au canon carte (rayon 20, filet, sans ombre — S2).
+              Texte courant plafonné à 65-75 caractères : dans 820 px utiles, les
+              paragraphes montaient à 133 caractères par ligne (audit du 23/09),
+              sur la surface où PRODUCT.md vise l'AAA. */}
           <div
-            className="lp-card-anim bg-white rounded-lg p-stack-lg sm:p-section-lg shadow-md w-full max-w-[900px]"
+            className="lp-card-anim bg-white rounded-xl border border-ink-200 p-stack-lg sm:p-section-lg w-full max-w-[900px] [&_p]:max-w-prose [&_li]:max-w-prose [&_h3]:max-w-prose"
             key={currentSection.id}
           >
             {SECTION_RENDERERS[currentSection.id]()}
           </div>
         </div>
 
-        {/* SIDE ARROWS — fixed, vertically centered */}
+        {/* SIDE ARROWS — fixed, vertically centered. Masquées sous md : à 375 px
+            elles couvraient la colonne de texte (x 12-56 et 319-363 pour un texte
+            de 40 à 327) ; sur mobile elles vivent dans la barre du bas. */}
         <button
           onClick={handlePrev}
           disabled={isFirst}
-          className="fixed left-3 top-1/2 -translate-y-1/2 z-[51] w-11 h-11 rounded-pill bg-white border border-ink-200 shadow-md flex items-center justify-center text-ink-600 hover:bg-ink-50 hover:border-ink-300 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+          className="hidden md:flex fixed left-3 top-1/2 -translate-y-1/2 z-[51] w-11 h-11 rounded-pill bg-white border border-ink-200 shadow-md flex items-center justify-center text-ink-600 hover:bg-ink-50 hover:border-ink-300 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           aria-label="Section précédente"
         >
           <ChevronLeft size={18} />
@@ -2494,14 +2501,22 @@ export const LessonPlayer: React.FC = () => {
         <button
           onClick={handleNext}
           disabled={false}
-          className="fixed right-3 top-1/2 -translate-y-1/2 z-[51] w-11 h-11 rounded-pill bg-white border border-ink-200 shadow-md flex items-center justify-center text-ink-600 hover:bg-ink-50 hover:border-ink-300 transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
-          aria-label={isLast ? 'Terminer la leçon' : 'Section suivante'}
+          className="hidden md:flex fixed right-3 top-1/2 -translate-y-1/2 z-[51] w-11 h-11 rounded-pill bg-white border border-ink-200 shadow-md flex items-center justify-center text-ink-600 hover:bg-ink-50 hover:border-ink-300 transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+          aria-label={isLast ? 'Valider la leçon' : 'Section suivante'}
         >
           <ChevronRight size={18} />
         </button>
 
         {/* BOTTOM PROGRESS — fixed, centered */}
         <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[51] flex items-center gap-stack-2xs px-3 py-stack-xs bg-white/80 backdrop-blur-sm rounded-pill shadow-sm border border-ink-100">
+          <button
+            onClick={handlePrev}
+            disabled={isFirst}
+            className="md:hidden w-11 h-11 -my-stack-xs -ml-2 rounded-pill flex items-center justify-center text-ink-700 hover:bg-ink-50 disabled:opacity-30 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+            aria-label="Section précédente"
+          >
+            <ChevronLeft size={18} />
+          </button>
           {SECTIONS.map((_, i) => (
             <button
               key={i}
@@ -2517,6 +2532,13 @@ export const LessonPlayer: React.FC = () => {
               ].join(' ')}
             />
           ))}
+          <button
+            onClick={handleNext}
+            className="md:hidden w-11 h-11 -my-stack-xs -mr-2 rounded-pill flex items-center justify-center text-ink-700 hover:bg-ink-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+            aria-label={isLast ? 'Valider la leçon' : 'Section suivante'}
+          >
+            <ChevronRight size={18} />
+          </button>
         </div>
 
         {/* ─ Session Feedback Modal ─────────────────────────────────── */}
@@ -2531,7 +2553,7 @@ export const LessonPlayer: React.FC = () => {
             navigate(`/learning-paths/${pathId}`);
           }}
           title={displayTitle}
-          subtitle={`Leçon complétée · ${displayDuration}`}
+          subtitle={`Leçon validée · ${displayDuration}`}
         />
       </div>
     </>
