@@ -96,7 +96,7 @@
   --color-ink-200: #e5e7eb;
   --color-ink-300: #d1d5db;
   --color-ink-400: #8d95a6;  /* 3,01 sur blanc — désactivé et bordures, jamais du texte */
-  --color-ink-500: #667082;  /* 4,99 — texte secondaire, passe sur tous les fonds */
+  --color-ink-500: #667082;  /* 4,99 sur blanc — texte secondaire. ⚠️ Pas sur une surface teintée : 4,45 sur primary-50 (mesuré 2026-09-23) → ink-600 là. */
   --color-ink-600: #4c5466;  /* 7,59 — texte secondaire sûr */
   --color-ink-700: #394050;  /* 10,38 — texte appuyé */
   --color-ink-800: #2e3442;  /* 12,46 — texte fort. Passe sous ink-900, c'est voulu */
