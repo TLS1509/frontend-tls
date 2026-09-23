@@ -53,8 +53,13 @@ export const AtrophieIndicator: React.FC<AtrophieIndicatorProps> = ({
         className,
       ].filter(Boolean).join(' ')}
       title={tooltip}
+      // Pas de `role="status"` : le contenu est statique, rien ne change
+      // pendant qu'on lit la page — un rôle live l'aurait annoncé au montage,
+      // dix fois sur une page de cohorte. `role="img"` donne à la pastille un
+      // nom complet (le libellé visible y est inclus), et rend `aria-label`
+      // valide : sur un <span> sans rôle, il est interdit et ignoré.
+      role="img"
       aria-label={tooltip}
-      role="status"
     >
       <AlertTriangle size={iconSize} aria-hidden className="shrink-0" />
       {showLabel && (
