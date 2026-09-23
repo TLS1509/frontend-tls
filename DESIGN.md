@@ -162,7 +162,10 @@ tout rayon à la moitié de la plus petite dimension — **`rounded-full` et
 `rounded-pill` rendent donc exactement pareil**. La préférence tient au
 vocabulaire, pas au rendu : `rounded-pill` est le token TLS.
 
-**L'échelle est étagée** — étiquette en pilule, interactif à 14, conteneur à 20.
+**L'échelle est étagée** — étiquette en pilule, interactif à 14, conteneur à 20,
+surcouche (modales, tiroirs) à 24, pastille d'icône proportionnelle (6 · 10 · 14).
+**Padding de carte** : 24 au canon, 20 en dense (arbitrage n°4 du 23/09).
+**Collections** : rangées dans une carte, table quand on trie (arbitrage n°5).
 **Coins imbriqués (23/09)** : près d'un coin, rayon intérieur = rayon extérieur −
 retrait ; si le retrait dépasse le rayon extérieur, l'élément garde le rayon de
 son étage. On corrige le retrait avant le rayon.

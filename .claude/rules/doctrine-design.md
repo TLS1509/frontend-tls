@@ -33,7 +33,9 @@ paths:
   | étiquette | `Badge` · `MetaPill` · `Chip` · `FilterChip` | `rounded-pill` | sous le seuil par construction (20 · 24 · 28 px) |
   | interactif | `Button` (4 tailles) · rangées de liste | **`rounded-lg`** (14) | au-dessus du seuil |
   | interactif | **famille champ** (`Input` · `Select` · `Combobox` · `Search` + faits main) | **`rounded-lg`** (14) | R4 ci-dessous — 36 à 52 px de haut, donc toujours au-dessus du seuil |
-  | conteneur | `Card` · `StatCard` · cartes faites main | **`rounded-xl`** (20) | l'étage le plus grand |
+  | conteneur | `Card` · `StatCard` · cartes faites main | **`rounded-xl`** (20) | l'étage le plus grand posé dans la page |
+  | **surcouche** | `Modal` · modales · tiroirs · feuilles | **`rounded-2xl`** (24) | tranché le 2026-09-23 (arbitrage n°2) : plus l'objet est haut dans l'empilement, plus il est rond. Padding 24 ≥ rayon 24 : ses boutons restent des formes fixes. Material 3 va jusqu'à 28 dp, mais à 28 le padding 24 rendrait ses boutons évasés |
+  | pastille d'icône | `IconChip` | **proportionnel** : 24 → `rounded-sm` · 32/40 → `rounded-md` · 48 → `rounded-lg` | tranché le 2026-09-23 (arbitrage n°3) : un carré qui se lit carré à toutes les tailles ; le rond reste réservé aux personnes (avatars), comme chez Atlassian |
   | exception | `Button iconOnly` | `rounded-pill` | carré, donc cercle parfait — **exception écrite**, ne pas « uniformiser » |
 
   ✅ **La famille bulle est tranchée et alignée (2026-09-17).** Elle était la
@@ -61,8 +63,8 @@ paths:
   |---|---|---|
   | les deux ≥ rayon extérieur | **forme fixe** — les arcs ne se voient pas ensemble | l'élément garde le rayon de son étage (14, pilule…) |
   | les deux < rayon extérieur | **concentrique** | rayon = R − retrait, à ±3 px |
-  | l'un < R, l'autre ≥ R | hors zone — le coin longe un bord droit | pas de contrainte (décision ouverte, audit du 23/09) |
-  | élément en capsule ou cercle | forme propre (Apple) | pas de contrainte (décision ouverte) |
+  | l'un < R, l'autre ≥ R | hors zone — le coin longe un bord droit | pas de contrainte |
+  | élément en capsule ou cercle | forme propre (Apple) | **exempté** — tranché le 2026-09-23 (arbitrage n°6) : une capsule n'a pas de coin à accorder |
 
   **Corriger le retrait avant le rayon.** Presque toujours, un token
   d'espacement existant fait tomber le cas dans « forme fixe » ou « concentrique
@@ -84,7 +86,9 @@ paths:
   rayon de `BASE` (constantes `RAYON` / `RAYON_CERCLE`, une seule posée par appel).
   `Input`, `Select`, `Combobox` et `Search` ont été mis sur le même motif par R4.
 
-  ⏳ **R2 reste ouverte** : les `rounded-2xl` (24 px) sur des conteneurs.
+  ✅ **R2 (les 24 px sur des conteneurs) est tranchée le 2026-09-23** : 24 est
+  l'étage **surcouche** (modales, tiroirs, feuilles), écrit dans la table
+  ci-dessus. Posé DANS la page, un conteneur reste à 20.
 
   ⚠️ **`rounded-3xl` : le « 0 occurrence » de la ligne précédente était faux** —
   corrigé le même jour. Le grep, comme la règle du détecteur, ne cherchait que
@@ -341,6 +345,16 @@ des cartes (260–400 px), `GRID_COLS_TILES` pour des tuiles (150–200 px), et
 
 **ErrorPage** (`patterns/ErrorPage.tsx`) : pattern canonique des pages d'erreur (props `code/title/description/suggestions/primaryAction/tone`), tone `default` | `danger`. API dans le fichier.
 
+## Collections — une liste n'est pas une pile de cartes (arbitrage n°5, 2026-09-23)
+
+**Une collection d'objets du même type se rend en rangées dans UNE carte**
+(une coque, des séparateurs `divide-y`), **et en table (`DataTable`) dès qu'on
+doit trier ou comparer.** Une carte dit « objet autonome » ; dix cartes
+empilées disent « collection » sans en avoir les moyens — pages longues
+(10 apprenants = 2 840 px sur l'ancien tableau de bord coach), hiérarchie
+plate, tri impossible. Les grilles de cartes restent justes pour des objets
+qu'on choisit plutôt qu'on parcourt (parcours, ressources).
+
 ## Cards — conventions tone-aware
 
 Tous les composants card sont tone-aware (`tone: primary/warm/sun`). **Source de vérité unique des maps de tone** : `src/lib/tone-classes.ts` (`TONE_BG_50`, `CTA_SHADOW_HOVER_MD`, `TONE_CTA_TEXT`, `ACTION_BTN_TONES`, `TONE_BORDER`, `SURFACE_DIVIDER`) — importer, **jamais** redéfinir inline.
@@ -353,8 +367,13 @@ Tous les composants card sont tone-aware (`tone: primary/warm/sun`). **Source de
 - **Rayon** : `rounded-xl` (20 px) depuis le 2026-09-16 — voir la section Rayons.
 - **Survol** (règle du 2026-09-16, `CARD_HOVER` / `CARD_HOVER_NEUTRE` dans `tone-classes.ts`) : le filet se ferme d'un cran et le fond prend une teinte très légère. **Pas de soulèvement, pas d'ombre** — une carte ne porte plus d'ombre depuis S2 (09/09). `CARD_SHADOW_HOVER_*` est déprécié.
 
-**Padding intérieur — doctrine du 2026-09-09 : `p-stack-lg` (24 px) au canon,
-`p-stack` (16 px) en unique dérogation dense. Pas de troisième valeur.**
+**Padding intérieur — révisé le 2026-09-23 (arbitrage n°4) : `p-stack-lg` (24 px)
+au canon, `p-stack-md` (20 px) en unique dérogation dense. Pas de troisième
+valeur.** À 20, le padding égale le rayon : le coin cesse d'être le point serré.
+L'ancienne dérogation à 16 pinçait de 10 %, et l'argument qui la gardait
+(« 20 n'existe pas dans l'échelle ») était faux — `stack-md` existe. *(La
+doctrine du 09/09, ci-dessous, reste pour la géométrie ; ses valeurs sont
+remplacées.)*
 L'industrie pose sa carte à 16 px (Material, Bootstrap, Polaris, Carbon, Primer)
 — mais avec des rayons de 6 à 12 px, et c'est le rapport du padding au rayon qui
 décide, pas le padding seul.
@@ -402,7 +421,8 @@ l'élément le plus proche est à **95 à 102 px du coin**. Il n'y a rien à pin
 Toujours mesurer la distance du contenu au coin avant de conclure ; un rapport
 padding/rayon fautif sur une carte à contenu centré est un faux positif.
 
-✅ **Tranché le 2026-09-17 : la dérogation dense RESTE à 16 px.** La remonter à
+⚠️ **Renversé le 2026-09-23 (arbitrage n°4) — la dérogation dense passe à 20.**
+Ce qui suit est l'état du 17/09, gardé pour l'historique. ~~**Tranché le 2026-09-17 : la dérogation dense RESTE à 16 px.**~~ La remonter à
 20 la mettrait à égalité avec le rayon, mais **20 px n'existe pas dans l'échelle**
 (2 · 4 · 6 · 8 · 12 · 16 · 24 · 32 · 40 · 48) — il faudrait un onzième cran. Ce
 que la mesure a rendu :
