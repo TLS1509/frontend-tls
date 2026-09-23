@@ -104,7 +104,7 @@ export interface Parcours {
 export const MOCK_PARCOURS_DATA: Record<string, Parcours> = {
   /* ─── Tranche verticale du corpus de formation (2026-09-14) ────────────────
      Premier module RÉEL branché dans le player, à la place du contenu de démo.
-     Source : chloe/modules-corriges-2026-07-23/3-UX-UI-Product-Management/
+     Source : docs/learning/modules-corriges-2026-07-23/3-UX-UI-Product-Management/
               UXUI-M04-Design-Systems.md
 
      Pourquoi une seule leçon. Le parcours en compte douze, mais un seul est

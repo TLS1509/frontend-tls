@@ -1,7 +1,7 @@
 # Intégrer le corpus de formation dans l'app
 
 > **Écrit le 2026-09-09.** Comment passer des 34 modules Markdown de
-> [`chloe/modules-corriges-2026-07-23/`](../../chloe/modules-corriges-2026-07-23/) à du vrai contenu
+> [`docs/learning/modules-corriges-2026-07-23/`](../learning/modules-corriges-2026-07-23/) à du vrai contenu
 > dans la Learning App. Tout ce qui est affirmé ici a été vérifié dans le code ce jour-là.
 >
 > **Ce que ça sert.** Trois choses en même temps : Chloé se forme, elle applique sur TLS, et l'app
@@ -47,7 +47,7 @@
 
 ## 2. Le corpus
 
-Quatre dossiers dans `chloe/modules-corriges-2026-07-23/` :
+Quatre dossiers dans `docs/learning/modules-corriges-2026-07-23/` :
 
 | Parcours | Modules | Remarque |
 |---|---:|---|

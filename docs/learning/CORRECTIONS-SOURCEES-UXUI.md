@@ -1,7 +1,7 @@
 # ✅ Corrections SOURCÉES — Parcours UX/UI Design & PM EdTech
 
 **Créé** : 2026-07-10 · **Méthode** : chaque claim faux du parcours est corrigé et **adossé à une source réelle vérifiée sur le web** (WebSearch/W3C) ou à un **calcul refait à la main** (contrastes WCAG). Les ratios de contraste ont été recalculés algorithmiquement (formule WCAG 2.x, luminance relative).
-**Complète** : [`FACTCHECK-CERTIFIED-UXUI.md`](FACTCHECK-CERTIFIED-UXUI.md) (registre verbatim) et [`PARCOURS-CORRECTIONS-DETAIL.md`](PARCOURS-CORRECTIONS-DETAIL.md).
+**Complète** : [`FACTCHECK-CERTIFIED-UXUI.md`](../_archive/factcheck-corpus/FACTCHECK-CERTIFIED-UXUI.md) (registre verbatim) et [`PARCOURS-CORRECTIONS-DETAIL.md`](../_archive/factcheck-corpus/PARCOURS-CORRECTIONS-DETAIL.md).
 
 > **RÈGLE ABSOLUE appliquée** : aucune source n'est inventée. Chaque source ci-dessous a été **vérifiée** (auteur, année, éditeur, lien). Un chiffre invérifiable → marqué **« RETIRER »**, jamais remplacé par une autre fabrication. On ne reproduit pas la sur-promesse qu'on corrige.
 

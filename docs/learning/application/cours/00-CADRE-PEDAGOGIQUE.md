@@ -71,7 +71,7 @@ Voici la réponse complète à « quel framework tu utilises » : **EDRACT® (C-
 lignée Gagné + Kolb) en surface, chaque phase adossée à son fondement propre ET à un
 principe robuste qui la renforce, et mappée à la surface de l'app qui l'incarne**
 (mapping 1:1 déjà établi dans
-[`CORPUS-FORMATIONS-FACT-CHECK.md`](../../CORPUS-FORMATIONS-FACT-CHECK.md)).
+[`CORPUS-FORMATIONS-FACT-CHECK.md`](../../../_archive/factcheck-corpus/CORPUS-FORMATIONS-FACT-CHECK.md)).
 
 | Phase EDRACT® | Ce qu'elle fait | Fondement (Gagné/Kolb) + principe qui la renforce | Surface app |
 |---|---|---|---|

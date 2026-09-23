@@ -170,7 +170,7 @@ commerciale.
 Trois parcours EdTech conçus par toi pour toi : te former, appliquer sur TLS, **dogfooder l'app**.
 
 **Correction importante par rapport à ce que je disais ce matin : les versions corrigées sont dans
-le repo**, dans [`chloe/modules-corriges-2026-07-23/`](../../chloe/modules-corriges-2026-07-23/),
+le repo**, dans [`docs/learning/modules-corriges-2026-07-23/`](../learning/modules-corriges-2026-07-23/),
 suivies par git.
 
 | Parcours | Modules | |

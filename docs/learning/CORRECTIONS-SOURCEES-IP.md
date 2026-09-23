@@ -1,7 +1,7 @@
 # 📚 Corrections SOURCÉES — Parcours « Ingénierie Pédagogique » (IP / EDRACT)
 
 **Créé** : 2026-07-10 · **Statut** : ✅ Chaque source vérifiée en direct (WebSearch, 2026-07-10)
-**Complète** : [`FACTCHECK-CERTIFIED-IP.md`](FACTCHECK-CERTIFIED-IP.md) (l'audit qui *identifie* les problèmes). Ce document-ci fournit, pour chaque claim faux/fabriqué, **la correction adossée à une source réelle et récente** + une **phrase prête à coller** dans le module.
+**Complète** : [`FACTCHECK-CERTIFIED-IP.md`](../_archive/factcheck-corpus/FACTCHECK-CERTIFIED-IP.md) (l'audit qui *identifie* les problèmes). Ce document-ci fournit, pour chaque claim faux/fabriqué, **la correction adossée à une source réelle et récente** + une **phrase prête à coller** dans le module.
 
 > **Règle de fabrication zéro** — Aucune source n'a été inventée. Chaque référence ci-dessous a été retrouvée sur le web le 2026-07-10 (auteur, année, lien réels). Quand aucune source fiable n'existe, le claim est classé **RETIRER**, jamais « sourcé » de force. Le problème qu'on corrige *est* la fabrication — on ne la reproduit pas.
 
