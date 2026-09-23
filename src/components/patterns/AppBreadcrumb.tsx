@@ -17,6 +17,7 @@
 import React from 'react';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { ChevronRight, Home, ArrowLeft } from 'lucide-react';
+import { Button } from '../core/Button';
 
 type Crumb = { label: string; href?: string };
 
@@ -256,24 +257,22 @@ export const AppBreadcrumb: React.FC<AppBreadcrumbProps> = ({
     >
       {/* Back button (mobile-first) — touche 44x44 = WCAG SC 2.5.5, pill light bg, focus-visible */}
       {parentHref && (
-        <button
-          type="button"
+        <Button
+          iconOnly
+          emphasis="outline"
+          tone="neutral"
           onClick={() => navigate(parentHref)}
           aria-label={`Retour à ${parentCrumb.label}`}
-          className="sm:hidden inline-flex items-center justify-center w-11 h-11 rounded-pill bg-ink-50 border border-ink-200 text-ink-800 hover:bg-primary-50 hover:border-primary-300 hover:text-primary-700 active:scale-95 transition-all duration-base shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+          className="sm:hidden shrink-0"
         >
-          <ArrowLeft size={18} strokeWidth={2.25} />
-        </button>
+          <ArrowLeft strokeWidth={2.25} />
+        </Button>
       )}
 
       {/* Home icon — caché sur mobile (back button suffit), pill button sur desktop */}
-      <Link
-        to="/"
-        className="max-sm:hidden inline-flex items-center justify-center w-8 h-8 rounded-pill text-ink-500 hover:bg-ink-100 hover:text-primary-700 transition-colors duration-base shrink-0"
-        aria-label="Accueil"
-      >
-        <Home size={14} aria-hidden />
-      </Link>
+      <Button iconOnly size="sm" emphasis="ghost" tone="neutral" to="/" aria-label="Accueil" className="max-sm:hidden shrink-0">
+        <Home aria-hidden />
+      </Button>
 
       {/* Crumb chain — always visible */}
       {crumbs.map((crumb, i) => {

@@ -15,6 +15,7 @@
 import React from 'react';
 import { Switch } from '../core/Input';
 import { Badge } from '../ui/Badge';
+import { IconChip } from '../ui/IconChip';
 
 export interface SettingsRowProps {
   icon?: React.ReactNode;
@@ -28,14 +29,9 @@ export const SettingsRow: React.FC<SettingsRowProps> = ({ icon, label, descripti
   <div className="flex items-center justify-between gap-stack py-3 first:pt-0 last:pb-0">
     <div className="flex items-start gap-stack-xs flex-1 min-w-0">
       {icon && (
-        <div
-          className={[
-            'w-9 h-9 rounded-md shrink-0 flex items-center justify-center',
-            danger ? 'bg-danger-bg text-danger-fg' : 'bg-ink-100 text-ink-700',
-          ].join(' ')}
-        >
+        <IconChip size="md" tone={danger ? 'danger' : 'neutral'}>
           {icon}
-        </div>
+        </IconChip>
       )}
       <div className="min-w-0">
         <p className={`m-0 font-body text-body-sm font-semibold ${danger ? 'text-danger-fg' : 'text-ink-900'}`}>

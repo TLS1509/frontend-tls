@@ -2,6 +2,7 @@ import React from 'react';
 import { GRID_CONTAINER, GRID_COLS_CONTENT } from '../../lib/grid-columns';
 import { Users } from 'lucide-react';
 import { ProfileCard } from '../ui/ProfileCard';
+import { IconChip } from '../ui/IconChip';
 import type { ProfileCardVariant } from '../ui/ProfileCard';
 
 export interface CoachItem {
@@ -68,9 +69,9 @@ export const CoachCardGrid: React.FC<CoachCardGridProps> = ({
     return (
       <div className={['flex items-center justify-center p-12 rounded-lg bg-ink-50/50 border border-dashed border-ink-200', className].filter(Boolean).join(' ')}>
         <div className="flex flex-col items-center gap-stack-xs text-ink-500 text-center">
-          <span className="inline-flex items-center justify-center w-14 h-14 rounded-lg bg-white border border-ink-200 text-ink-600">
-            <Users size={24} strokeWidth={2} />
-          </span>
+          <IconChip size="lg" tone="neutral">
+            <Users strokeWidth={2} />
+          </IconChip>
           <p className="m-0 text-body-sm font-medium">{emptyMessage}</p>
         </div>
       </div>

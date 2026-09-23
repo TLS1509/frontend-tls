@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, Send, Sparkles, Star } from 'lucide-react';
 import { useDialog } from '../../hooks/useDialog';
+import { Button } from '../core/Button';
 
 /**
  * SessionFeedbackModal — Notation étoiles + commentaire
@@ -75,13 +76,9 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
         <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-60 h-60 rounded-pill bg-[radial-gradient(circle,rgba(248,176,68,0.25)_0%,transparent_70%)] blur-[40px] pointer-events-none" />
 
         {/* Close */}
-        <button
-          onClick={handleClose}
-          className="absolute top-4 right-4 w-8 h-8 rounded-pill bg-ink-50 border-0 flex items-center justify-center cursor-pointer text-ink-600 hover:bg-ink-200 transition-all z-10 p-0"
-          aria-label="Fermer"
-        >
-          <X size={14} />
-        </button>
+        <Button iconOnly size="sm" emphasis="ghost" tone="neutral" onClick={handleClose} aria-label="Fermer" className="absolute top-4 right-4 z-10">
+          <X />
+        </Button>
 
         {!submitted ? (
           <>

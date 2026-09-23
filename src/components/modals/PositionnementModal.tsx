@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight, BarChart2, Flame, Rocket, Sparkles, Sprout, Star, Target, X } from 'lucide-react';
 import { Button } from '../core/Button';
+import { IconChip } from '../ui/IconChip';
 import { CARD_HOVER_NEUTRE } from '../../lib/tone-classes';
 import { useDialog } from '../../hooks/useDialog';
 
@@ -147,13 +148,9 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
         className="relative w-full max-w-[880px] bg-gradient-to-br from-primary-50 to-accent-50/95 rounded-2xl border border-ink-200 shadow-modal overflow-hidden animate-modal-in"
       >
         {/* Close */}
-        <button
-          onClick={onClose}
-          className="absolute top-5 right-5 w-9 h-9 rounded-pill bg-white border border-ink-200 flex items-center justify-center cursor-pointer text-ink-600 hover:bg-danger-bg hover:text-danger-fg transition-all z-10 p-0"
-          aria-label="Fermer"
-        >
-          <X size={16} />
-        </button>
+        <Button iconOnly size="sm" emphasis="ghost" tone="neutral" onClick={onClose} aria-label="Fermer" className="absolute top-5 right-5 z-10">
+          <X />
+        </Button>
 
         <div className="p-8">
           {!isCompleted ? (
@@ -249,12 +246,9 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
               <div className="bg-white rounded-xl p-stack-lg border border-primary-500/20 shadow-lg text-center">
                 <div className="inline-flex gap-stack-xs mb-stack-md p-3 rounded-xl bg-ink-50">
                   {([<Target size={20} strokeWidth={1.75} />, <Star size={20} strokeWidth={1.75} />, <Rocket size={20} strokeWidth={1.75} />] as React.ReactNode[]).map((icon, i) => (
-                    <div
-                      key={i}
-                      className="w-11 h-11 rounded-lg bg-primary-100 flex items-center justify-center text-primary-600"
-                    >
+                    <IconChip key={i} size="lg" tone="brand">
                       {icon}
-                    </div>
+                    </IconChip>
                   ))}
                 </div>
                 <h3 className="text-h3 text-ink-900 mb-2">Ton profil est prêt.</h3>

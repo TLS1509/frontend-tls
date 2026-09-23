@@ -1,6 +1,7 @@
 import React from 'react';
 import { X, CheckCircle2 } from 'lucide-react';
 import { useDialog } from '../../hooks/useDialog';
+import { Button } from '../core/Button';
 
 /**
  * SuccessModal — Célébration d'une réussite générique
@@ -40,13 +41,9 @@ export const SuccessModal: React.FC<SuccessModalProps> = ({
         <div className="absolute inset-0 pointer-events-none bg-gradient-to-br from-primary-500/6 to-transparent" />
 
         {/* Close */}
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 w-8 h-8 rounded-pill bg-ink-50 border-0 flex items-center justify-center cursor-pointer text-ink-600 hover:bg-ink-200 transition-all z-10 p-0"
-          aria-label="Fermer"
-        >
-          <X size={14} />
-        </button>
+        <Button iconOnly size="sm" emphasis="ghost" tone="neutral" onClick={onClose} aria-label="Fermer" className="absolute top-4 right-4 z-10">
+          <X />
+        </Button>
 
         {/* Success icon with pulse ring */}
         <div className="relative w-24 h-24 mx-auto mb-stack-lg flex items-center justify-center">

@@ -1,6 +1,7 @@
 import React from 'react';
 import { X, Sparkles, Star, Trophy } from 'lucide-react';
 import { useDialog } from '../../hooks/useDialog';
+import { Button } from '../core/Button';
 
 /**
  * CelebrationModal — generic milestone celebration modal.
@@ -97,14 +98,17 @@ export const CelebrationModal: React.FC<CelebrationModalProps> = ({
         {!hideSparkles && <CornerSparkles />}
 
         {!hideClose && (
-          <button
-            type="button"
+          <Button
+            iconOnly
+            size="sm"
+            emphasis="ghost"
+            tone="neutral"
             onClick={onClose}
             aria-label="Fermer"
-            className="absolute top-4 right-4 z-10 inline-flex items-center justify-center w-8 h-8 rounded-pill bg-white/70 border border-ink-200 text-ink-500 hover:bg-white hover:text-ink-700 transition-colors cursor-pointer"
+            className="absolute top-4 right-4 z-10"
           >
-            <X size={16} strokeWidth={2.5} />
-          </button>
+            <X strokeWidth={2.5} />
+          </Button>
         )}
 
         {/* Icon bubble */}

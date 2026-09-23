@@ -52,16 +52,12 @@ const TONE_HOVER_GLOW: Record<ArticleTone, string> = {
   sun:     'hover-glow-sun',
 };
 
-const TONE_SAVE_ACTIVE: Record<ArticleTone, string> = {
-  primary: 'text-primary-600 border-primary-200 bg-primary-50',
-  warm:    'text-secondary-600 border-secondary-200 bg-secondary-50',
-  sun:     'text-accent-700 border-accent-200 bg-accent-50',
-};
-
-const TONE_SAVE_HOVER: Record<ArticleTone, string> = {
-  primary: 'hover:text-primary-600 hover:border-primary-200 hover:bg-primary-50',
-  warm:    'hover:text-secondary-600 hover:border-secondary-200 hover:bg-secondary-50',
-  sun:     'hover:text-accent-700 hover:border-accent-200 hover:bg-accent-50',
+/* Le ton de la carte, dans le vocabulaire de Button. Enregistré = `soft` du
+   ton (filet 700, glyphe 800) ; pas encore = `outline` neutre. */
+const TONE_SAVE: Record<ArticleTone, 'brand' | 'warm' | 'sun'> = {
+  primary: 'brand',
+  warm:    'warm',
+  sun:     'sun',
 };
 
 export const ArticleCard: React.FC<ArticleCardProps> = ({
@@ -121,24 +117,21 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
         </div>
 
         {onSave && (
-          <button
-            type="button"
-            className={[
-              'inline-flex items-center justify-center w-9 h-9 rounded-xl border cursor-pointer',
-              'transition-all duration-base ease-standard shrink-0',
-              'active:scale-95',
-              isSaved
-                ? TONE_SAVE_ACTIVE[tone]
-                : `text-ink-600 border-ink-200 bg-white ${TONE_SAVE_HOVER[tone]}`,
-            ].join(' ')}
+          <Button
+            iconOnly
+            size="sm"
+            emphasis={isSaved ? 'soft' : 'outline'}
+            tone={isSaved ? TONE_SAVE[tone] : 'neutral'}
+            className="shrink-0"
             onClick={(e) => {
               e.stopPropagation();
               onSave(itemId);
             }}
             aria-label={isSaved ? 'Retirer des favoris' : 'Enregistrer'}
+            aria-pressed={isSaved}
           >
-            {isSaved ? <BookmarkCheck size={16} /> : <Bookmark size={16} />}
-          </button>
+            {isSaved ? <BookmarkCheck /> : <Bookmark />}
+          </Button>
         )}
       </div>
 

@@ -18,6 +18,7 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import { Avatar } from '../ui/Avatar';
+import { IconChip } from '../ui/IconChip';
 
 /**
  * ActivityFeed — chronological list of user activities.
@@ -315,9 +316,9 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
           .join(' ')}
       >
         <div className="flex flex-col items-center gap-stack-xs text-ink-500 text-center">
-          <span className="inline-flex items-center justify-center w-14 h-14 rounded-lg bg-white border border-ink-200 text-ink-600">
-            <Inbox size={24} strokeWidth={2} />
-          </span>
+          <IconChip size="lg" tone="neutral">
+            <Inbox strokeWidth={2} />
+          </IconChip>
           <p className="m-0 text-body-sm font-medium text-ink-700">{emptyMessage}</p>
           <p className="m-0 text-caption text-ink-600 max-w-[280px]">Vos prochaines activités apparaîtront ici dès que vous commencerez à apprendre.</p>
         </div>

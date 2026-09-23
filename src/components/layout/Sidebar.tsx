@@ -1,6 +1,7 @@
 import React from 'react';
 import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown, X } from 'lucide-react';
 import { TlsLogo } from '../ui/TlsLogo';
+import { Button } from '../core/Button';
 
 /**
  * Sidebar — primary app navigation.
@@ -110,14 +111,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <div className={['shrink-0', collapsed ? 'mx-auto' : 'pl-3.5'].filter(Boolean).join(' ')}>{brand ?? <DefaultBrand collapsed={collapsed} />}</div>
           {/* Mobile-only close button — visible quand drawer ouvert sur viewport < 768px */}
           {onMobileClose && (
-            <button
-              type="button"
+            <Button
+              iconOnly
+              size="sm"
+              emphasis="ghost"
+              tone="neutral"
               onClick={onMobileClose}
               aria-label="Fermer la navigation"
-              className="md:hidden shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-pill bg-ink-50 hover:bg-ink-100 text-ink-700 hover:text-ink-900 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+              className="md:hidden shrink-0"
             >
-              <X size={18} strokeWidth={2.25} />
-            </button>
+              <X strokeWidth={2.25} />
+            </Button>
           )}
         </div>
 

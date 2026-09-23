@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, AlertTriangle, CalendarX, RefreshCcw, ChevronDown } from 'lucide-react';
 import { Button } from '../core/Button';
+import { IconChip } from '../ui/IconChip';
 import { useDialog } from '../../hooks/useDialog';
 
 /**
@@ -75,19 +76,17 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
         <div className="absolute -top-[60px] left-1/2 -translate-x-1/2 w-[200px] h-[200px] rounded-pill bg-[radial-gradient(circle,rgba(237,132,58,0.18)_0%,transparent_70%)] blur-[30px] pointer-events-none" />
 
         {/* Close */}
-        <button
-          onClick={handleClose}
-          className="absolute top-4 right-4 w-8 h-8 rounded-pill bg-ink-50 border-0 flex items-center justify-center cursor-pointer text-ink-600 hover:bg-ink-200 transition-all z-10 p-0"
-          aria-label="Fermer"
-        >
-          <X size={14} />
-        </button>
+        <Button iconOnly size="sm" emphasis="ghost" tone="neutral" onClick={handleClose} aria-label="Fermer" className="absolute top-4 right-4 z-10">
+          <X />
+        </Button>
 
         {step === 'confirm' ? (
           <>
             {/* Warning icon */}
-            <div className="relative w-14 h-14 rounded-xl bg-gradient-to-br from-secondary-500/15 to-secondary-500/6 border border-secondary-500/25 flex items-center justify-center mx-auto mb-stack">
-              <AlertTriangle size={24} className="text-secondary-600" />
+            <div className="flex justify-center mb-stack">
+              <IconChip size="lg" tone="warm">
+                <AlertTriangle />
+              </IconChip>
             </div>
 
             <h2 id={dialog.titleId} className="text-h3 text-ink-900 text-center mb-2">

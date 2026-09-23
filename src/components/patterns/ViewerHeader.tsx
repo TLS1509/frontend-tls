@@ -30,6 +30,7 @@
 import React from 'react';
 import { ArrowLeft, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import type { PageTone } from '../../lib/tone-classes';
+import { Button } from '../core/Button';
 
 export interface ViewerHeaderProps {
   /** Back button label (default "Retour"). Hidden if onBack is omitted. */
@@ -124,13 +125,6 @@ export const ViewerHeader: React.FC<ViewerHeaderProps> = ({
   const hasNav = !!onPrev || !!onNext;
   const focusOutline = TONE_FOCUS_OUTLINE[tone];
 
-  const navButtonBase = [
-    'inline-flex items-center justify-center min-w-touch min-h-touch w-11 h-11 rounded-pill text-ink-700 bg-ink-50 hover:bg-ink-100 transition-colors',
-    'disabled:opacity-disabled disabled:cursor-not-allowed',
-    'focus-visible:outline-2 focus-visible:outline-offset-2',
-    focusOutline,
-  ].join(' ');
-
   const wrapperClasses = [
     'bg-white/85 backdrop-blur-glass-light border-b border-ink-200',
     sticky && 'sticky top-0 z-sticky',
@@ -202,41 +196,20 @@ export const ViewerHeader: React.FC<ViewerHeaderProps> = ({
           {/* Prev / Next nav chevrons */}
           {hasNav && (
             <div className="flex items-center gap-tight">
-              <button
-                type="button"
-                onClick={onPrev}
-                disabled={prevDisabled}
-                aria-label="Élément précédent"
-                className={navButtonBase}
-              >
-                <ChevronLeft size={18} strokeWidth={2.25} />
-              </button>
-              <button
-                type="button"
-                onClick={onNext}
-                disabled={nextDisabled}
-                aria-label="Élément suivant"
-                className={navButtonBase}
-              >
-                <ChevronRight size={18} strokeWidth={2.25} />
-              </button>
+              <Button iconOnly emphasis="ghost" tone="neutral" onClick={onPrev} disabled={prevDisabled} aria-label="Élément précédent">
+                <ChevronLeft strokeWidth={2.25} />
+              </Button>
+              <Button iconOnly emphasis="ghost" tone="neutral" onClick={onNext} disabled={nextDisabled} aria-label="Élément suivant">
+                <ChevronRight strokeWidth={2.25} />
+              </Button>
             </div>
           )}
 
           {/* Close button (right) */}
           {onClose && (
-            <button
-              type="button"
-              onClick={onClose}
-              aria-label="Fermer"
-              className={[
-                'shrink-0 inline-flex items-center justify-center min-w-touch min-h-touch w-11 h-11 rounded-pill text-ink-700 bg-ink-50 hover:bg-danger-bg hover:text-danger-fg transition-colors',
-                'focus-visible:outline-2 focus-visible:outline-offset-2',
-                focusOutline,
-              ].join(' ')}
-            >
-              <X size={18} strokeWidth={2.25} />
-            </button>
+            <Button iconOnly emphasis="ghost" tone="neutral" onClick={onClose} aria-label="Fermer" className="shrink-0">
+              <X strokeWidth={2.25} />
+            </Button>
           )}
         </div>
       </div>

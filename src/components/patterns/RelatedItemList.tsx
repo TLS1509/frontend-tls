@@ -1,5 +1,6 @@
 import React from 'react';
 import { ChevronRight } from 'lucide-react';
+import { IconChip } from '../ui/IconChip';
 
 /**
  * RelatedItemList — vertical list of related/cross-link items.
@@ -46,9 +47,9 @@ export const RelatedItemList: React.FC<RelatedItemListProps> = ({
               .join(' ')}
           >
             {item.icon && (
-              <span className="shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-md bg-primary-50 text-primary-600">
+              <IconChip size="md" tone="brand">
                 {item.icon}
-              </span>
+              </IconChip>
             )}
             <div className="flex-1 min-w-0">
               {item.meta && (

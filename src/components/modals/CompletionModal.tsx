@@ -84,14 +84,17 @@ export const CompletionModal: React.FC<CompletionModalProps> = ({
           />
 
           {/* Close button */}
-          <button
-            type="button"
+          <Button
+            iconOnly
+            size="sm"
+            onDark
+            emphasis="ghost"
             onClick={onClose}
             aria-label="Fermer"
-            className="absolute top-3 right-3 z-10 inline-flex items-center justify-center w-8 h-8 rounded-pill bg-white/20 text-white hover:bg-white/30 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70"
+            className="absolute top-3 right-3 z-10"
           >
-            <X size={14} strokeWidth={2.5} />
-          </button>
+            <X strokeWidth={2.5} />
+          </Button>
 
           {/* Icon */}
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/20 ring-4 ring-white/30 mb-4">

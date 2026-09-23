@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { CARD_HOVER } from '../../lib/tone-classes';
+import { IconChip } from '../ui/IconChip';
 
 export interface ActionCardItem {
   id?: string;
@@ -57,9 +58,9 @@ export const ActionCardGrid: React.FC<ActionCardGridProps> = ({
             }
           }}
         >
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-50 to-primary-100 text-primary-600 transition-transform group-hover:scale-110 shrink-0">
+          <IconChip size="lg" tone="brand" className="transition-transform group-hover:scale-110 motion-reduce:group-hover:scale-100">
             {item.icon}
-          </div>
+          </IconChip>
           <h3 className="text-h4 font-display text-ink-900 leading-snug">
             {item.title}
           </h3>

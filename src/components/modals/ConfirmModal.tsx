@@ -1,6 +1,7 @@
 import React from 'react';
 import { X, AlertTriangle, CheckCircle2, Info, AlertCircle } from 'lucide-react';
 import { useDialog } from '../../hooks/useDialog';
+import { Button } from '../core/Button';
 
 /**
  * ConfirmModal — Dialog de confirmation générique
@@ -86,13 +87,9 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
         className="relative w-full max-w-[440px] bg-white rounded-2xl border border-ink-200 shadow-xl p-8 animate-cm-in"
       >
         {/* Close */}
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 w-8 h-8 rounded-pill bg-ink-50 border-0 flex items-center justify-center cursor-pointer text-ink-600 hover:bg-ink-200 transition-all z-10 p-0"
-          aria-label="Fermer"
-        >
-          <X size={14} />
-        </button>
+        <Button iconOnly size="sm" emphasis="ghost" tone="neutral" onClick={onClose} aria-label="Fermer" className="absolute top-4 right-4 z-10">
+          <X />
+        </Button>
 
         {/* Variant icon */}
         <div className={`w-16 h-16 rounded-pill flex items-center justify-center mx-auto mb-stack-md animate-cm-icon-in ${VARIANT_ICON_BG[variant]} ${VARIANT_ICON_COLOR[variant]}`}>

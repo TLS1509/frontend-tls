@@ -10,6 +10,7 @@ import { GRID_CONTAINER, GRID_COLS_CONTENT } from '../../lib/grid-columns';
 import { CARD_HOVER } from '../../lib/tone-classes';
 import { ArrowRight, FileText, Loader2 } from 'lucide-react';
 import type { CardTone } from '../core/Card';
+import { IconChip } from '../ui/IconChip';
 
 export type PageCardStatus = 'active' | 'coming-soon' | 'beta' | 'archived';
 export type PageCardBadgeVariant = 'primary' | 'warm' | 'sun' | 'success' | 'danger';
@@ -233,9 +234,9 @@ export const PageCardGrid: React.FC<PageCardGridProps> = ({
           .join(' ')}
       >
         <div className="flex flex-col items-center gap-stack-xs text-ink-500 text-center">
-          <span className="inline-flex items-center justify-center w-14 h-14 rounded-lg bg-white border border-ink-200 text-ink-600">
-            <FileText size={24} strokeWidth={2} />
-          </span>
+          <IconChip size="lg" tone="neutral">
+            <FileText strokeWidth={2} />
+          </IconChip>
           <p className="m-0 text-body-sm font-medium text-ink-700">{emptyMessage}</p>
         </div>
       </div>

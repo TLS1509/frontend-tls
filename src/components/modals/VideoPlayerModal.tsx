@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { X, Play, Pause, Volume2, VolumeX, Maximize, Download, Share2, Clock } from 'lucide-react';
 import { useDialog } from '../../hooks/useDialog';
+import { Button } from '../core/Button';
 
 /**
  * VideoPlayerModal — Lecteur vidéo plein écran
@@ -96,13 +97,9 @@ export const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
         className="relative w-full max-w-[860px] bg-[#0f1117] rounded-2xl border border-white/8 shadow-[0_40px_80px_rgba(0,0,0,0.6)] overflow-hidden animate-vp-in"
       >
         {/* Close button */}
-        <button
-          onClick={handleClose}
-          className="absolute top-3 right-3 w-8 h-8 rounded-pill bg-white/12 border border-white/15 flex items-center justify-center cursor-pointer text-white z-10 transition-all hover:bg-white/22 p-0"
-          aria-label="Fermer"
-        >
-          <X size={14} />
-        </button>
+        <Button iconOnly size="sm" onDark emphasis="ghost" onClick={handleClose} aria-label="Fermer" className="absolute top-3 right-3 z-10">
+          <X />
+        </Button>
 
         {/* Video area */}
         <div className="relative aspect-video bg-black overflow-hidden">
