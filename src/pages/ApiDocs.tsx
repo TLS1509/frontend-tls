@@ -116,7 +116,7 @@ const ApiDocs: React.FC = () => {
 
         {tab === 'examples' && (
           <SectionCard title="Exemples" description="Curl, JavaScript, Python">
-            <Card className="p-stack bg-ink-900 text-ink-100 font-mono text-caption rounded-md overflow-x-auto">
+            <Card variant="ink" size="sm" className="text-ink-100 font-mono text-caption overflow-x-auto">
               <pre>{`curl -X GET https://api.tls.io/v1/passeport/me \\
   -H "Authorization: Bearer YOUR_TOKEN" \\
   -H "Content-Type: application/json"`}</pre>

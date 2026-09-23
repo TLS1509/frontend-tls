@@ -1,8 +1,9 @@
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CheckCircle2, AlertTriangle } from 'lucide-react';
+import { CheckCircle2 } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { CorrectionCard } from '../components/ui/CorrectionCard';
+import { Badge } from '../components/ui/Badge';
 import { StatCard } from '../components/ui/StatCard';
 import { EmptyState } from '../components/ui/EmptyState';
 import { Tabs } from '../components/ui/Tabs';
@@ -79,10 +80,9 @@ export default function CoachCorrectionsQueue() {
         tone="flat"
         trailing={
           urgentCount > 0 ? (
-            <div className="flex items-center gap-stack-xs bg-white/20 backdrop-blur-sm px-3 py-stack-xs rounded-lg border border-white/30">
-              <AlertTriangle size={16} className="text-white" />
-              <span className="text-body-sm text-white font-semibold">{urgentCount} en attente</span>
-            </div>
+            /* Le hero `flat` est clair : un voile blanc et du texte blanc y
+               rendaient 1,00:1 (audit du 23/09, P0). Un état qui compte = Badge. */
+            <Badge variant="danger" size="normal">{urgentCount} en attente</Badge>
           ) : undefined
         }
       />

@@ -44,7 +44,7 @@ export default function MasterclassReplay() {
           {/* Colonne principale : span 2 */}
           <div className="md:col-span-2 flex flex-col gap-section">
             {/* Player replay */}
-            <Card variant="default" className="aspect-video flex items-center justify-center bg-ink-900 overflow-hidden">
+            <Card variant="ink" className="aspect-video flex items-center justify-center overflow-hidden">
               <div className="flex flex-col items-center gap-stack text-white">
                 <Video size={48} className="text-white/40" />
                 <p className="text-body text-white/60">Replay · 1h 32min</p>

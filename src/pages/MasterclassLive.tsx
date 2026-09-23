@@ -37,7 +37,7 @@ export default function MasterclassLive() {
         trailing={
           <div className="flex items-center gap-stack-xs flex-wrap">
             <Badge variant="danger" size="normal" className="animate-pulse">🔴 EN DIRECT</Badge>
-            <span className="text-caption text-white/70 flex items-center gap-tight">
+            <span className="text-caption text-ink-600 flex items-center gap-tight">
               <Users size={14} />
               127 participants
             </span>
@@ -48,7 +48,7 @@ export default function MasterclassLive() {
       <div className="grid md:grid-cols-3 gap-section">
           {/* Player embed : col span 2 */}
           <div className="md:col-span-2">
-            <Card variant="default" className="aspect-video flex items-center justify-center bg-ink-900 overflow-hidden">
+            <Card variant="ink" className="aspect-video flex items-center justify-center overflow-hidden">
               <div className="flex flex-col items-center gap-stack text-white">
                 <Video size={48} className="text-white/40" />
                 <p className="text-body text-white/60">Session live · Google Meet</p>

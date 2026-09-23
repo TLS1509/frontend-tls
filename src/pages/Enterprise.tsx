@@ -149,7 +149,7 @@ export const Enterprise: React.FC = () => {
           eyebrow={{ icon: <Building2 size={14} />, label: 'Tableau de bord entreprise' }}
           title="Espace Entreprise"
           summary="Pilotez la formation de votre équipe, gérez les accès et suivez les indicateurs clés en temps réel."
-          trailing={<Badge variant="brand" className="bg-white/20 text-white border-white/30">Premium Enterprise</Badge>}
+          trailing={<Badge variant="brand" size="normal">Premium Enterprise</Badge>}
         />
 
         {/* ── KPIs ──────────────────────────────────────────────── */}

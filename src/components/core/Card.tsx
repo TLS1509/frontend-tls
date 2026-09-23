@@ -29,6 +29,11 @@ export type CardVariant =
   | 'glass-warm'
   | 'glass-dark'
   | 'minimal'
+  /** Surface sombre opaque — lecteurs vidéo, blocs de code. Texte blanc à 15,8:1
+      sur ink-900. Remplace les `className="bg-ink-900"` qui PERDAIENT contre le
+      `bg-white` de `default` (même spécificité, ordre d'émission : piège n°6) —
+      six pages rendaient du texte blanc sur blanc, 1,00:1 (audit du 23/09). */
+  | 'ink'
   // Retirés le 2026-07-24 : `bordered`, `muted`, `sunken` — 0 usage dans tout src/.
   /** Tinted gradient — REQUIRES the `tone` prop to render properly.
       Used as the surface for ParcoursCard / learning hubs. */
@@ -133,6 +138,7 @@ const VARIANT_CLASSES: Record<CardVariant, string> = {
   // inline n'accepte pas de classe Tailwind.
   'glass-dark':  'backdrop-blur-glass-medium backdrop-saturate-[180%] [background:radial-gradient(circle_at_0%_0%,var(--color-primary-500)_0%,var(--color-primary-800)_60%,var(--color-primary-900)_100%)] border border-white/20 shadow-lg hover:shadow-xl text-white/95',
   minimal:  'bg-transparent border border-ink-200 hover:bg-ink-50 hover:border-ink-300',
+  ink:      'bg-ink-900 border border-ink-800 text-white',
   // bordered / muted / sunken retirés le 2026-07-24 (0 usage). Si un besoin
   // resurgit : bordered = border-2 primary-200 ; muted = bg-ink-50 ; sunken = bg-ink-100.
   // `tinted` provides only the border + shadow defaults — the actual gradient
@@ -175,12 +181,30 @@ const TONE_GRADIENT_BG_CLASSES: Record<CardTone, string> = {
    Les 90 cartes faites main ont été ramenées sur ces deux valeurs le 09/09 :
    17 conversions de vocabulaire à pixel constant, 32 convergences depuis 12, 20
    et 32 px. */
-const SIZE_CLASSES: Record<CardSize, string> = {
-  xs: 'p-3 gap-stack-xs',
-  sm: 'p-stack gap-stack-xs',      // 16 px — dense
-  md: 'p-stack-lg gap-stack-xs',   // 24 px — le canon
-  lg: 'p-section gap-stack',       // 32 px — éditorial
+const SIZE_PADDING: Record<CardSize, string> = {
+  xs: 'p-3',
+  sm: 'p-stack',      // 16 px — dense
+  md: 'p-stack-lg',   // 24 px — le canon
+  lg: 'p-section',    // 32 px — éditorial
 };
+
+const SIZE_GAP: Record<CardSize, string> = {
+  xs: 'gap-stack-xs',
+  sm: 'gap-stack-xs',
+  md: 'gap-stack-xs',
+  lg: 'gap-stack',
+};
+
+/* Un `p-*` passé en `className` REMPLACE le padding de la taille — il ne
+   s'y ajoute pas. Avant le 2026-09-23, les deux classes coexistaient et c'est
+   l'ordre d'émission de Tailwind qui tranchait (piège n°6) : `p-stack` et `p-0`
+   perdaient contre `p-stack-lg` et rendaient 24 px, `p-stack-md` gagnait. 71
+   appels demandaient une marge qu'ils n'obtenaient pas — la dérogation dense à
+   16 px n'existait nulle part à l'écran (audit du 23/09, volets 3 et 4).
+   Seul un `p-` NU est détecté : un `px-`/`py-`/`pt-`… ou un `md:p-` n'efface
+   pas le padding de base (propriétés distinctes ou variante émise après).
+   Préférer `size="sm"` à `className="p-stack"` : le nom dit l'intention. */
+const OWN_PADDING = /(?:^|\s)p-\S+/;
 
 const TONE_BG_CLASSES: Record<CardTone, string> = {
   primary: 'bg-primary-50 border-primary-200',
@@ -282,7 +306,8 @@ export const Card: React.FC<CardProps> = ({
   const classes = [
     BASE,
     VARIANT_CLASSES[variant],
-    SIZE_CLASSES[size],
+    !OWN_PADDING.test(className) && SIZE_PADDING[size],
+    SIZE_GAP[size],
     toneBgClasses,
     toneInteractiveClasses,
     interactive && variant !== 'interactive' && INTERACTIVE_EXTRA,

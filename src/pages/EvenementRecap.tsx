@@ -79,7 +79,7 @@ export default function EvenementRecap() {
         {/* Colonne principale : col span 2 */}
         <div className="md:col-span-2 flex flex-col gap-section">
           {/* Replay */}
-          <Card className="aspect-video flex items-center justify-center bg-ink-900 overflow-hidden">
+          <Card variant="ink" className="aspect-video flex items-center justify-center overflow-hidden">
             <Button
               emphasis="soft"
               size="lg"

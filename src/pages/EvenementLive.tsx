@@ -72,7 +72,7 @@ export default function EvenementLive() {
       <Container width="wide" padding={false} className="grid md:grid-cols-3 gap-section">
         {/* Player : col span 2 */}
         <div className="md:col-span-2 flex flex-col gap-section">
-          <Card className="aspect-video flex items-center justify-center bg-ink-900 overflow-hidden">
+          <Card variant="ink" className="aspect-video flex items-center justify-center overflow-hidden">
             <div className="flex flex-col items-center gap-stack">
               <Video size={48} className="text-white/40" />
               <p className="text-caption text-white/50 m-0">Diffusion live</p>
