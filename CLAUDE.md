@@ -252,13 +252,25 @@ Tone cohérent par nature d'écran : **primary** (focus / leadership) · **warm*
 
 ---
 
-## Les trois garde-fous — à lancer avant et après une décision de design
+## Les garde-fous — à lancer avant et après une décision de design
 
 ```bash
 node scripts/check-handmade.mjs        # ce qui se comporte comme un composant sans en être un
 node scripts/check-token-coverage.mjs  # parité @theme ↔ vitrine, dans les deux sens
 node scripts/check-showcase-coverage.mjs  # tout composant exporté est-il classé ?
+# Au rendu — serveur de dev lancé, Chromium du cache Playwright (playwright-core) :
+npm run check:contrast                 # tout texte passe-t-il AA sur son fond RÉEL ?
+npm run check:radius                   # rayon intérieur = extérieur − retrait ?
+npm run capture -- --out <dossier>     # captures pleine page, 1440 et 375, pour la critique
 ```
+
+⚠️ **Les trois derniers lisent le serveur de `BASE_URL` (défaut `localhost:5173`).**
+Si une autre session (worktree) tient déjà ce port, ils mesurent SON code, pas le
+vôtre — constaté le 2026-09-23 : 258 « échecs » qui venaient d'un worktree. Passer
+`BASE_URL=http://localhost:<port>` quand le serveur a pris un autre port. Nés le
+2026-09-23 : ce jour-là, la sonde de contraste lancée à la main a trouvé un
+stepper à 1,93:1, des h1 sombres sur teal et un titre blanc sur blanc que rien
+dans le code ne laissait voir.
 
 **Pourquoi le premier existe.** Une décision de design ne descend que dans les
 composants. Le 09/09, le rayon des cartes est passé à 14 px dans `Card.tsx` et

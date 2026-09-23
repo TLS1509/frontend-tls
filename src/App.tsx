@@ -438,7 +438,6 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 <Avatar
                   initials={user.name?.charAt(0).toUpperCase()}
                   size="md"
-                  shape="square"
                   tint="brand"
                 />
               }

@@ -102,7 +102,14 @@ const TONE_LINK: Record<VeilleCardTone, string> = {
    l'argument de R1 s'applique mot pour mot ici, ce sont des cartes à filet de
    1 px, et un trait fin ne tient pas une courbe longue.
 
-   Les couvertures, elles, ne portent plus AUCUN rayon : le parent est en
+   ⚠️ Corrigé le 2026-09-23 : les couvertures portent de nouveau le rayon de la
+   carte (14) sur leurs coins extérieurs. Le paragraphe qui suit supposait que la
+   carte les rogne ; or `ROLE_BUTTON_RESET` force `!overflow-visible` sur les
+   cartes cliquables, et leur coin carré dépassait de l'arc (check-radius).
+   Même rayon que la carte, pas plus : le liseré décrit ci-dessous venait d'un
+   rayon SUPÉRIEUR (24 dans 14).
+
+   (Historique) Les couvertures, elles, ne portent plus AUCUN rayon : le parent est en
    `overflow-hidden`, il les clippe déjà. Elles demandaient 24 px à l'intérieur
    d'une carte qui en rend 14 — un rayon intérieur supérieur à l'extérieur, ce
    qui creuse plus que le clip du parent et laisse voir le fond de la carte en
@@ -172,7 +179,7 @@ export const VeilleCard: React.FC<VeilleCardProps> = ({ item, surface, isSaved, 
       ].join(' ')}
     >
       {/* Cover gradient tone-aware (h-40) — style magazine cover */}
-      <div className={['relative h-40 shrink-0 overflow-hidden', COVER_GRADIENT[tone]].join(' ')}>
+      <div className={['relative h-40 shrink-0 overflow-hidden rounded-t-lg', COVER_GRADIENT[tone]].join(' ')}>
         {/* Decorative radial pattern */}
         <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'radial-gradient(circle at 25% 30%, rgba(255,255,255,0.6) 0%, transparent 60%)' }} aria-hidden />
 
@@ -263,7 +270,10 @@ export const VeilleCardListItem: React.FC<VeilleCardProps> = ({ item, surface, i
       ].join(' ')}
     >
       {/* Cover gradient left — badge catégorie overlaid en bas */}
-      <div className={['relative w-28 @lg:w-36 shrink-0 overflow-hidden', COVER_GRADIENT[tone]].join(' ')}>
+      {/* La carte ne rogne pas (`!overflow-visible`, cf. ROLE_BUTTON_RESET) : la
+          couverture porte donc elle-même le rayon de la carte à gauche, sinon son
+          coin carré dépasse de l'arc (relevé par check-radius, 23/09). */}
+      <div className={['relative w-28 @lg:w-36 shrink-0 overflow-hidden rounded-l-lg', COVER_GRADIENT[tone]].join(' ')}>
         <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'radial-gradient(circle at 30% 40%, rgba(255,255,255,0.6) 0%, transparent 60%)' }} aria-hidden />
         <div className="absolute inset-0 flex items-center justify-center">
           <TypeIcon size={40} strokeWidth={1.5} className="text-white/95 transition-transform duration-base group-hover:scale-110" />
@@ -360,7 +370,7 @@ export const FeaturedSpotlight: React.FC<FeaturedSpotlightProps> = ({ item, isSa
       ].join(' ')}
     >
       {/* Cover (left) — gradient + icon */}
-      <div className={['relative min-h-[240px] @2xl:min-h-[300px] overflow-hidden', COVER_GRADIENT[tone]].join(' ')}>
+      <div className={['relative min-h-[240px] @2xl:min-h-[300px] overflow-hidden rounded-t-lg @2xl:rounded-tr-none @2xl:rounded-bl-lg', COVER_GRADIENT[tone]].join(' ')}>
         <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.6) 0%, transparent 60%)' }} aria-hidden />
         <div className="absolute inset-0 flex items-center justify-center">
           <TypeIcon size={96} strokeWidth={1.25} className="text-white/90 transition-transform duration-base group-hover:scale-110" />
@@ -462,7 +472,7 @@ export const FeaturedSpotlightCarousel: React.FC<FeaturedSpotlightCarouselProps>
     >
       <div className="grid grid-cols-1 @2xl:grid-cols-[1.1fr_1fr]">
         {/* Cover (left) */}
-        <div className={['relative min-h-[240px] @2xl:min-h-[320px] overflow-hidden', COVER_GRADIENT[tone]].join(' ')}>
+        <div className={['relative min-h-[240px] @2xl:min-h-[320px] overflow-hidden rounded-t-lg @2xl:rounded-tr-none @2xl:rounded-bl-lg', COVER_GRADIENT[tone]].join(' ')}>
           <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.6) 0%, transparent 60%)' }} aria-hidden />
           <div className="absolute inset-0 flex items-center justify-center">
             <TypeIcon size={96} strokeWidth={1.25} className="text-white/90 transition-transform duration-slow" />
