@@ -81,7 +81,7 @@ export default function CoachTeamDashboard() {
         summary="Vue d'ensemble de la progression de toute votre équipe : activité, niveaux Dreyfus, sessions et corrections."
         tone="flat"
         trailing={
-          <div className="flex items-center gap-stack-xs">
+          <div className="flex flex-wrap items-center gap-stack-xs">
             <Button emphasis="outline" size="md" leadingIcon={<Calendar size={16} />}>
               Planifier une session
             </Button>
@@ -199,45 +199,55 @@ export default function CoachTeamDashboard() {
               })}
             </div>
 
-            {/* Learner list */}
-            <div className="flex flex-col gap-stack-xs">
-              {filteredLearners.length === 0 ? (
-                <p className="text-body-sm text-ink-500 py-stack">Aucun apprenant dans cette catégorie.</p>
-              ) : (
-                filteredLearners.map((learner) => (
-                  <Link key={learner.userId} to={`/coach/apprenant/${learner.userId}/analytics`} className="block">
-                    <Card variant="default" className="flex items-center gap-stack px-stack py-3 hover:bg-ink-50 transition-colors duration-fast cursor-pointer">
-                      <Avatar initials={learner.initials} name={learner.name} size="sm" tint="warm" />
+            {/* Learner list — une collection qu'on parcourt pour ouvrir une fiche :
+                des rangées dans UNE carte, pas une pile de cartes (arbitrage n°5 du
+                23/09). Chaque rangée est un lien ; son fond de survol est rogné par
+                la carte à son arc intérieur (overflow-hidden), et l'anneau de focus
+                est posé à l'intérieur pour ne pas être rogné avec lui. */}
+            {filteredLearners.length === 0 ? (
+              <p className="text-body-sm text-ink-500 py-stack">Aucun apprenant dans cette catégorie.</p>
+            ) : (
+              <Card className="p-0 overflow-hidden">
+                <ul className="flex flex-col divide-y divide-ink-100" aria-label="Apprenants">
+                  {filteredLearners.map((learner) => (
+                    <li key={learner.userId}>
+                      <Link
+                        to={`/coach/apprenant/${learner.userId}/analytics`}
+                        className="flex items-center gap-stack px-stack-md sm:px-stack-lg py-stack-sm hover:bg-ink-50 transition-colors duration-fast focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ink-900"
+                      >
+                        <Avatar initials={learner.initials} name={learner.name} size="sm" tint="warm" />
 
-                      {/* Info */}
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-stack-xs flex-wrap">
-                          <span className="text-body-sm font-semibold text-ink-900">{learner.name}</span>
-                          <Badge variant={STATUS_VARIANT[learner.status]} size="compact">
-                            {STATUS_LABEL[learner.status]}
-                          </Badge>
+                        {/* Info */}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-stack-xs flex-wrap">
+                            <span className="text-body-sm font-semibold text-ink-900">{learner.name}</span>
+                            <Badge variant={STATUS_VARIANT[learner.status]} size="compact">
+                              {STATUS_LABEL[learner.status]}
+                            </Badge>
+                          </div>
+                          <p className="text-caption text-ink-600 truncate">{learner.role}</p>
                         </div>
-                        <p className="text-caption text-ink-600 truncate">{learner.role}</p>
-                      </div>
 
-                      {/* Progress */}
-                      <div className="hidden md:flex flex-col items-end gap-tight w-32 shrink-0">
-                        <span className="text-caption text-ink-500">Dreyfus {learner.dreyfusAvg.toFixed(1)}</span>
-                        <ProgressBar value={learner.progressPercent} fill="brand" size="sm" />
-                        <span className="text-micro text-ink-600">{learner.progressPercent}% objectif</span>
-                      </div>
+                        {/* Progress */}
+                        <div className="hidden md:flex flex-col items-end gap-tight w-32 shrink-0">
+                          <span className="text-caption text-ink-500">Dreyfus {learner.dreyfusAvg.toFixed(1).replace('.', ',')}</span>
+                          {/* Le pourcentage est dit une fois, sous la jauge (la jauge le répétait). */}
+                          <ProgressBar value={learner.progressPercent} fill="brand" size="sm" valueLabel={false} className="w-full" />
+                          <span className="text-micro text-ink-600">{learner.progressPercent} % de l'objectif</span>
+                        </div>
 
-                      {/* Last activity */}
-                      <span className="hidden lg:block text-caption text-ink-600 w-28 text-right shrink-0">
-                        {formatLastActive(learner.daysSinceActivity)}
-                      </span>
+                        {/* Last activity */}
+                        <span className="hidden lg:block text-caption text-ink-600 w-28 text-right shrink-0">
+                          {formatLastActive(learner.daysSinceActivity)}
+                        </span>
 
-                      <ChevronRight size={16} className="text-ink-300 shrink-0" />
-                    </Card>
-                  </Link>
-                ))
-              )}
-            </div>
+                        <ChevronRight size={16} className="text-ink-300 shrink-0" aria-hidden="true" />
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </Card>
+            )}
           </div>
         )}
 
