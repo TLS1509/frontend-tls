@@ -103,16 +103,15 @@ export const Magazine: React.FC = () => {
 
       {/* Full-bleed dark hero */}
       <section className="relative bg-gradient-to-br from-ink-900 via-primary-900 to-ink-800 overflow-hidden">
-        {/* Decorative radial blobs : colored ambient */}
+        {/* Decorative radial blobs : colored ambient — primary-300 et secondary-300,
+            au rgb près ; carrés, donc l'ellipse de `bg-radial` est un cercle */}
         <div
           aria-hidden
-          className="absolute -top-20 -right-20 w-[400px] h-[400px] rounded-pill opacity-25 pointer-events-none"
-          style={{ background: 'radial-gradient(circle, rgba(150,195,207,0.5) 0%, transparent 70%)' }}
+          className="absolute -top-20 -right-20 w-[400px] h-[400px] rounded-pill opacity-25 pointer-events-none bg-radial from-primary-300/50 to-transparent to-70%"
         />
         <div
           aria-hidden
-          className="absolute -bottom-16 -left-16 w-[350px] h-[350px] rounded-pill opacity-20 pointer-events-none"
-          style={{ background: 'radial-gradient(circle, rgba(245,154,95,0.6) 0%, transparent 70%)' }}
+          className="absolute -bottom-16 -left-16 w-[350px] h-[350px] rounded-pill opacity-20 pointer-events-none bg-radial from-secondary-300/60 to-transparent to-70%"
         />
 
         <PageShell width="page" className="relative py-section sm:py-page flex flex-col gap-stack-lg">

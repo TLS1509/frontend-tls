@@ -240,8 +240,7 @@ export const CourseDetail: React.FC = () => {
             </Card>
 
             <div
-              className="rounded-lg border border-accent-200 p-stack flex flex-col gap-stack-xs"
-              style={{ background: 'linear-gradient(135deg, rgba(248, 176, 68, 0.14), rgba(248, 176, 68, 0.04))' }}
+              className="rounded-lg border border-accent-200 p-stack flex flex-col gap-stack-xs bg-linear-135 from-accent-400/14 to-accent-400/4"
             >
               <p className="font-body text-body-sm font-semibold text-ink-900 m-0 inline-flex items-center gap-stack-2xs">
                 <Sparkles size={14} className="text-accent-400" />

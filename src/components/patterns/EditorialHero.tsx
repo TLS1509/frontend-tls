@@ -113,20 +113,26 @@ const TONE_BORDER: Record<PageHeroTone, string> = {
   sun:     'border-white/20',
 };
 
+/* Halos — des classes, plus des `style={{ background }}` (2026-09-23). Chaque
+   couleur était déjà un token au rgb près : rgba(85,161,180) = primary-500,
+   rgba(248,176,68) = accent-400. Le span est carré, donc l'ellipse par défaut
+   de `bg-radial` (farthest-corner) est le cercle qu'écrivait `circle` ; et un
+   dégradé d'une couleur vers transparent s'interpole à l'identique en oklab
+   comme en sRGB (interpolation prémultipliée). Rendu inchangé. */
 const TONE_HALO: Record<PageHeroTone, string> = {
   flat:    '',
-  default: 'radial-gradient(circle, rgba(85, 161, 180, 0.28) 0%, transparent 65%)',
-  brand:   'radial-gradient(circle, rgba(255, 255, 255, 0.50) 0%, transparent 65%)',
-  warm:    'radial-gradient(circle, rgba(255, 255, 255, 0.48) 0%, transparent 65%)',
-  sun:     'radial-gradient(circle, rgba(255, 255, 255, 0.52) 0%, transparent 65%)',
+  default: 'bg-radial from-primary-500/28 to-transparent to-65%',
+  brand:   'bg-radial from-white/50 to-transparent to-65%',
+  warm:    'bg-radial from-white/48 to-transparent to-65%',
+  sun:     'bg-radial from-white/52 to-transparent to-65%',
 };
 
 const TONE_HALO_2: Record<PageHeroTone, string> = {
   flat:    '',
-  default: 'radial-gradient(circle, rgba(248, 176, 68, 0.16) 0%, transparent 60%)',
-  brand:   'radial-gradient(circle, rgba(248, 176, 68, 0.26) 0%, transparent 60%)',
-  warm:    'radial-gradient(circle, rgba(85, 161, 180, 0.22) 0%, transparent 60%)',
-  sun:     'radial-gradient(circle, rgba(85, 161, 180, 0.20) 0%, transparent 60%)',
+  default: 'bg-radial from-accent-400/16 to-transparent to-60%',
+  brand:   'bg-radial from-accent-400/26 to-transparent to-60%',
+  warm:    'bg-radial from-primary-500/22 to-transparent to-60%',
+  sun:     'bg-radial from-primary-500/20 to-transparent to-60%',
 };
 
 const TONE_MESH: Partial<Record<PageHeroTone, MeshTone>> = {
@@ -257,13 +263,11 @@ export const PageHero: React.FC<PageHeroProps> = ({
         <>
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -top-[55%] -right-[15%] w-[520px] h-[520px] rounded-pill"
-            style={{ background: TONE_HALO[tone] }}
+            className={['pointer-events-none absolute -top-[55%] -right-[15%] w-[520px] h-[520px] rounded-pill', TONE_HALO[tone]].join(' ')}
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -bottom-[45%] -left-[10%] w-[320px] h-[320px] rounded-pill"
-            style={{ background: TONE_HALO_2[tone] }}
+            className={['pointer-events-none absolute -bottom-[45%] -left-[10%] w-[320px] h-[320px] rounded-pill', TONE_HALO_2[tone]].join(' ')}
           />
         </>
       )}
