@@ -356,8 +356,9 @@ foi. En résumé :
   `interactive`, `glass`, `glass-brand`, `glass-warm`, `glass-dark`, `minimal`,
   `tinted`). `bordered`, `muted` et `sunken` ont été retirés le 2026-07-24, sans
   aucun usage. Tous les wrappers dérivés ont été supprimés.
-- **Heroes** — deux patterns : `HeroSection` (actionnable) et `PageHero`
-  (éditorial, alias `EditorialHero`).
+- **Heroes** — un seul pattern : `PageHero` (alias `EditorialHero` pour les
+  surfaces éditoriales). `HeroSection` a été supprimé le 2026-09-23 : déprécié
+  depuis le 2026-05-26, il ne vivait plus que dans la vitrine.
 
 ---
 

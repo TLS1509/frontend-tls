@@ -101,13 +101,12 @@ import { CompetencyMatrix } from '../components/ui/CompetencyMatrix';
 import { GoalProgress } from '../components/ui/GoalProgress';
 import { QuizComponent } from '../components/ui/QuizComponent';
 import { ActivityFeed } from '../components/patterns/ActivityFeed';
-// (DashboardHero deprecated → use HeroSection variant="gradient" instead)
+// (DashboardHero deprecated → use PageHero tone="brand" instead)
 import { CardGrid } from '../components/patterns/CardGrid';
 import { CoachCardGrid } from '../components/patterns/CoachCardGrid';
-import { HeroSection } from '../components/patterns/HeroSection';
 import { InlineProgress } from '../components/patterns/InlineProgress';
 import { LearningPathGrid } from '../components/patterns/LearningPathGrid';
-// (LearningPathHeader deprecated → use HeroSection variant="gradient" with size="lg" showBackButton progress)
+// (LearningPathHeader deprecated → use PageHero with backLink + progress)
 import { MultiStepForm } from '../components/patterns/MultiStepForm';
 import { PageCard } from '../components/patterns/PageCard';
 import { ResumeLessonCard } from '../components/patterns/ResumeLessonCard';
@@ -4108,118 +4107,6 @@ const COMPONENTS: ComponentEntry[] = [
   },
 
   /* ---- PATTERNS (additional) -------------------------------------------- */
-  {
-    name: 'HeroSection',
-    codeName: 'patterns/HeroSection.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    usedBy: ['LearningPathDetail', 'Coaching'],
-    description: 'Hero canonique (absorbe DashboardHero + LearningPathHeader). 4 variants × 5 tones × 3 sizes. Props clés : showBackButton+onBack, progress+progressLabel, metadata (pills), kpis (grid KPI), actions, eyebrow. → Pour hero éditorial text-focused sans stats, utiliser EditorialHero.',
-    keywords: ['hero', 'section', 'header', 'gradient', 'glass', 'media', 'minimal', 'variants', 'dashboard', 'learning path', 'kpi', 'progress'],
-    render: () => (
-      <div className="flex flex-col gap-stack-lg">
-        {/* DNA 1 : LearningPath archetype — back btn + progress + metadata pills + KPIs (gradient saturé) */}
-        <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">
-            Archetype « LearningPath » — gradient · lg · back btn · progress · metadata · KPIs
-          </p>
-          <HeroSection
-            variant="gradient"
-            tone="primary"
-            size="lg"
-            showBackButton
-            onBack={() => {}}
-            eyebrow="Leadership"
-            title="Fondamentaux du Leadership"
-            description="Apprenez les principes essentiels du leadership moderne et développez vos compétences de management."
-            metadata={[
-              { icon: <GraduationCap size={14} />, text: 'Marie Dubois' },
-              { icon: <Clock3 size={14} />, text: '6 semaines' },
-              { icon: <BookOpen size={14} />, text: '12 leçons' },
-            ]}
-            progress={65}
-            progressLabel="8 / 12 leçons complétées"
-          />
-        </div>
-
-        {/* DNA 2 : Dashboard archetype — gradient + KPIs grid + dual CTA (white primary / glass ghost) */}
-        <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">
-            Archetype « Dashboard » — gradient · KPIs grid · dual CTA
-          </p>
-          <HeroSection
-            variant="gradient"
-            tone="warm"
-            eyebrow="Bienvenue"
-            title="Bonjour Jeanne"
-            description="Vous avez progressé de 12% cette semaine — continuez sur votre lancée."
-            kpis={[
-              { icon: <BookOpen size={20} />, value: 12, label: 'Cours complétés' },
-              { icon: <Trophy size={20} />, value: '2 450', label: 'Points XP' },
-              { icon: <Flame size={20} />, value: '7j', label: 'Série actuelle' },
-            ]}
-            actions={
-              <>
-                <button type="button" className="inline-flex items-center gap-stack-xs px-stack-lg py-2.5 rounded-pill bg-white text-ink-900 font-semibold cursor-pointer hover:-translate-y-0.5 transition-all shadow-md">
-                  Continuer mon parcours
-                </button>
-                <button type="button" className="inline-flex items-center gap-stack-xs px-stack-lg py-2.5 rounded-pill bg-white/15 text-white border border-white/30 font-semibold cursor-pointer hover:bg-white/25 backdrop-blur-sm transition-all">
-                  Explorer
-                </button>
-              </>
-            }
-          />
-        </div>
-
-        {/* DNA 3 : Glass archetype — frosted glass + texte sombre (pour pages secondaires) */}
-        <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">
-            Archetype « Glass » — glass · texte sombre (pages secondaires)
-          </p>
-          <HeroSection
-            variant="glass"
-            tone="primary"
-            icon={GraduationCap}
-            eyebrow="Mon apprentissage"
-            title="Mes Parcours"
-            description="Reprenez là où vous vous êtes arrêté(e) et explorez vos prochaines étapes."
-            size="md"
-          />
-        </div>
-
-        {/* DNA 4 : Minimal archetype — soft bg + outline (utility pages) */}
-        <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">
-            Archetype « Minimal » — soft bg · outline (pages utilitaires)
-          </p>
-          <HeroSection
-            variant="minimal"
-            tone="sun"
-            icon={Lightbulb}
-            eyebrow="Tip"
-            title="Coaching 1-to-1"
-            description="Sessions personnalisées avec des experts certifiés."
-            size="sm"
-          />
-        </div>
-
-        {/* DNA 5 : Media archetype — gradient + sparkles décoratives (celebration) */}
-        <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">
-            Archetype « Media » — gradient · sparkles décoratives (milestones / celebrations)
-          </p>
-          <HeroSection
-            variant="media"
-            tone="warm"
-            icon={Trophy}
-            eyebrow="Milestone"
-            title="Parcours complété"
-            description="Félicitations ! Continuez votre lancée avec le prochain parcours recommandé."
-            align="center"
-          />
-        </div>
-      </div>
-    ),
-  },
   {
     name: 'ActivityFeed',
     codeName: 'patterns/ActivityFeed.tsx',

@@ -280,7 +280,7 @@ export const CATALOG: Record<string, CatalogMeta> = {
   FilterableCardGrid:   { category: 'Search & Filters', subCategory: 'Filter composites' },
 
   // ── HEADERS & SECTIONS ────────────────────────────────────────────────
-  HeroSection:          { category: 'Headers & Sections', subCategory: 'Heroes' },
+  // HeroSection supprimé le 2026-09-23 — déprécié depuis 19.B, aucun consommateur hors vitrine ; PageHero couvre tout
   EditorialHero:        { category: 'Headers & Sections', subCategory: 'Heroes' },
   // 'PageHero archetypes' supprimé — proposals non encore implémentées
   AmbientBlobs:         { category: 'Foundations', subCategory: 'Backgrounds' },
