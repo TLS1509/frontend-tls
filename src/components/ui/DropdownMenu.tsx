@@ -16,18 +16,23 @@
  *   - ArrowDown / ArrowUp navigation between focusable items
  *   - Home / End jump to first / last
  *   - Escape calls onClose (if provided)
- *   - Focus returns to `returnFocusTo` element on close
+ *   - Activating an item calls onClose too (APG Menu Button)
+ *   - Focus returns to the trigger on close — Escape, item, click outside
+ *     (audit du 23/09 : il tombait sur <body>). Cible : `returnFocusTo` si
+ *     fourni, sinon l'élément qui avait le focus à l'ouverture du menu.
+ *   - Le déclencheur porte `aria-haspopup="menu"` + `aria-expanded` : c'est au
+ *     parent de les poser, il possède le bouton.
  *
  * Used by : App.tsx (Sidebar user menu — variant="glass")
  */
 
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useCallback } from 'react';
 
 export type DropdownMenuVariant = 'solid' | 'glass';
 
 export interface DropdownMenuProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: DropdownMenuVariant;
-  /** Called when user presses Escape — caller should toggle their open state. */
+  /** Called on Escape, Tab and item activation — caller should toggle their open state. */
   onClose?: () => void;
   /** Auto-focus first item when menu opens (default: true). */
   autoFocus?: boolean;
@@ -58,9 +63,38 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
   returnFocusTo,
   className = '',
   children,
+  onClick,
   ...rest
 }) => {
   const menuRef = useRef<HTMLDivElement>(null);
+
+  // Retour du focus au déclencheur (APG Menu Button). On mémorise, AVANT de
+  // prendre le focus, l'élément qui l'avait : c'est le bouton d'ouverture quand
+  // le menu s'ouvre au clavier (et au clic dans Chrome et Firefox).
+  // `useLayoutEffect` et pas `useEffect` : son nettoyage s'exécute AVANT que
+  // React retire le menu du DOM, donc on sait encore si le focus y était.
+  // Après retrait, il serait déjà sur <body> et on ne saurait plus rien.
+  const returnFocusRef = useRef(returnFocusTo);
+  returnFocusRef.current = returnFocusTo;
+  useLayoutEffect(() => {
+    const menu = menuRef.current;
+    const opener = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    return () => {
+      const target =
+        returnFocusRef.current?.current ??
+        (opener && opener !== document.body && opener.isConnected ? opener : null);
+      if (!target) return;
+      const active = document.activeElement;
+      // On ne vole pas le focus : seulement s'il était dans le menu, ou perdu.
+      if (active && active !== document.body && !menu?.contains(active)) return;
+      target.focus();
+      // Clic dehors sur une zone non focalisable : le navigateur remet le focus
+      // sur <body> APRÈS nous (action par défaut du mousedown). On repasse.
+      window.setTimeout(() => {
+        if (document.activeElement === document.body && target.isConnected) target.focus();
+      }, 0);
+    };
+  }, []);
 
   // Focus first item on mount
   useEffect(() => {
@@ -101,12 +135,8 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
         }
         case 'Escape': {
           e.preventDefault();
+          // Le retour du focus au déclencheur se fait au démontage (ci-dessus).
           onClose?.();
-          // Return focus to trigger after close
-          if (returnFocusTo?.current) {
-            // Slight delay to allow re-render before refocusing
-            window.setTimeout(() => returnFocusTo.current?.focus(), 0);
-          }
           break;
         }
         case 'Tab': {
@@ -116,7 +146,18 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
         }
       }
     },
-    [onClose, returnFocusTo],
+    [onClose],
+  );
+
+  // Choisir un item ferme le menu (APG Menu Button) ; le focus revient alors au
+  // déclencheur par le même chemin. Le onClick de l'item s'exécute d'abord.
+  const handleClick = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      const item = (e.target as HTMLElement).closest('[role="menuitem"]');
+      onClick?.(e);
+      if (item && menuRef.current?.contains(item) && !item.hasAttribute('disabled')) onClose?.();
+    },
+    [onClose, onClick],
   );
 
   return (
@@ -126,6 +167,7 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
       role="menu"
       aria-orientation="vertical"
       onKeyDown={handleKeyDown}
+      onClick={handleClick}
       tabIndex={-1}
       {...rest}
     >

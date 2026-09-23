@@ -386,6 +386,7 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       {isUserMenuOpen && user && (
         <DropdownMenu
           variant="glass"
+          aria-label="Menu utilisateur"
           onClose={() => setIsUserMenuOpen(false)}
           className="absolute bottom-3 left-full ml-3 z-dropdown min-w-[260px] max-md:left-auto max-md:right-3 max-md:bottom-[80px] max-md:ml-0"
         >
