@@ -67,7 +67,7 @@ export default function AtelierPresentiel() {
 
       <div className="flex flex-col gap-section">
         {/* Adresse card */}
-        <Card variant="tinted" className="p-stack-lg flex flex-col gap-stack">
+        <Card variant="tinted" className="p-stack-lg flex flex-col">
           <div className="flex items-center gap-stack-xs">
             <MapPin size={24} className="text-secondary-600" />
             <h3 className="text-h3 text-ink-900">The Learning Hub</h3>

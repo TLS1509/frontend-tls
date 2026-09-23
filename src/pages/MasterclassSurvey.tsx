@@ -82,7 +82,7 @@ export default function MasterclassSurvey() {
         </div>
 
         {/* Rating : 1–5 scale per spec (chat_surveys.rating 1-5) */}
-        <Card variant="default" className="p-stack-lg flex flex-col gap-stack">
+        <Card variant="default" className="p-stack-lg flex flex-col">
           <p className="text-body-sm font-semibold text-ink-800">Ta satisfaction globale</p>
           <div className="flex justify-between gap-stack-xs">
             {([1, 2, 3, 4, 5] as const).map((score) => (
@@ -108,7 +108,7 @@ export default function MasterclassSurvey() {
         </Card>
 
         {/* Feedback */}
-        <Card variant="default" className="p-stack-lg flex flex-col gap-stack">
+        <Card variant="default" className="p-stack-lg flex flex-col">
           <p className="text-body-sm font-semibold text-ink-800">Un commentaire ? (optionnel)</p>
           <textarea
             value={feedback}

@@ -226,6 +226,18 @@ const OWN_PADDING = /(?:^|\s)p-\S+/;
 const OWN_DISPLAY = /(?:^|\s)(?:flex|inline-flex|grid|inline-grid|block|inline-block|inline|contents|hidden|table)(?=\s|$)/;
 const OWN_DIRECTION = /(?:^|\s)flex-(?:row|col)(?:-reverse)?(?=\s|$)/;
 
+/* Et pour l'espacement : un `gap-*` passé en `className` REMPLACE celui de la
+   taille (SIZE_GAP). Avant le 2026-09-23, les deux coexistaient et l'ordre
+   d'émission tranchait (piège n°6) — alphabétique entre tokens nommés :
+   `gap-stack`, `gap-stack-md`, `gap-section` sortent AVANT `gap-stack-xs` et
+   perdaient donc toujours contre lui ; `gap-tight`, émis après, gagnait. 50
+   cartes demandaient 16 ou 32 px et en recevaient 8 — RankingCard, SectionCard
+   et ses 229 appels compris (mesuré au navigateur le 23/09).
+   `gap-x-*` et `gap-y-*` comptent aussi : n'en déclarer qu'un met l'autre axe
+   à 0, pas au défaut de la taille. Comme pour le padding, seules les classes
+   NUES comptent — un `md:gap-*` s'ajoute au gap de base. */
+const OWN_GAP = /(?:^|\s)gap-\S+/;
+
 const TONE_BG_CLASSES: Record<CardTone, string> = {
   primary: 'bg-primary-50 border-primary-200',
   warm: 'bg-secondary-50 border-secondary-200',
@@ -330,7 +342,7 @@ export const Card: React.FC<CardProps> = ({
     BASE,
     VARIANT_CLASSES[variant],
     !OWN_PADDING.test(className) && SIZE_PADDING[size],
-    SIZE_GAP[size],
+    !OWN_GAP.test(className) && SIZE_GAP[size],
     toneBgClasses,
     toneInteractiveClasses,
     interactive && variant !== 'interactive' && INTERACTIVE_EXTRA,

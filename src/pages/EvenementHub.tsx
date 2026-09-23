@@ -91,7 +91,7 @@ export default function EvenementHub() {
 
         {/* Featured event */}
         {featured && (
-          <Card variant="default" className="md:flex gap-section p-0 overflow-hidden">
+          <Card variant="default" className="md:flex p-0 overflow-hidden">
             <div className="md:w-64 bg-primary-100 flex items-center justify-center min-h-[180px] shrink-0">
               <Calendar size={48} className="text-primary-300" />
             </div>

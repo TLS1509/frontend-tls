@@ -107,7 +107,7 @@ export default function FicheApprenantAnalytics() {
       <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
 
         {/* Profile header */}
-        <Card variant="default" className="flex items-center gap-section p-stack-lg flex-wrap">
+        <Card variant="default" className="flex items-center gap-stack p-stack-lg flex-wrap">
           <Avatar name={learner.name} initials={learner.initials} size="xl" />
           <div className="flex flex-col gap-tight flex-1">
             <div className="flex items-center gap-stack-xs flex-wrap">

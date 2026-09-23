@@ -45,7 +45,7 @@ export default function AtelierRecap() {
 
       <div className="flex flex-col gap-section">
         {/* XP celebratoire */}
-        <Card variant="tinted" tone="primary" className="text-center py-section flex flex-col items-center gap-stack">
+        <Card variant="tinted" tone="primary" className="text-center py-section flex flex-col items-center">
           <Award size={40} className="text-primary-600" />
           <h2 className="text-h2 font-display font-bold text-primary-700">+120 XP gagnés</h2>
           <p className="text-body-sm text-ink-500">Atelier complété · Compétence Communication +0.2 Dreyfus</p>
@@ -98,7 +98,7 @@ export default function AtelierRecap() {
         >
           <div className="flex flex-col gap-stack">
             <AITransparencyLabel variant="recommended" size="md" />
-            <Card variant="default" className="flex flex-col sm:flex-row items-start sm:items-center gap-section p-stack-md">
+            <Card variant="default" className="flex flex-col sm:flex-row items-start sm:items-center gap-stack p-stack-md">
               <div className="flex flex-col gap-tight flex-1">
                 <Badge variant="info" size="compact">À venir · 2 juil.</Badge>
                 <h4 className="text-body font-semibold text-ink-900">Atelier Communication assertive</h4>

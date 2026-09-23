@@ -112,7 +112,7 @@ export default function EvenementRecap() {
               <Card
                 key={session.id}
                 variant="default"
-                className="flex items-center gap-section p-stack-md"
+                className="flex items-center gap-stack p-stack-md"
               >
                 <div className="flex flex-col gap-tight flex-1 min-w-0">
                   <p className="text-body-sm font-semibold text-ink-900 m-0">{session.title}</p>

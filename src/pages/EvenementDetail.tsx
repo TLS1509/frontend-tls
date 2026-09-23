@@ -87,7 +87,7 @@ export default function EvenementDetail() {
 
       <div className="flex flex-col gap-section">
         {/* Organizer */}
-        <Card variant="tinted" tone="sun" className="flex items-center gap-section p-stack-lg">
+        <Card variant="tinted" tone="sun" className="flex items-center gap-stack p-stack-lg">
           <Avatar name={EVENT.organizer.name} initials={EVENT.organizer.initials} size="lg" />
           <div className="flex flex-col gap-tight">
             <h3 className="text-h3 font-bold text-ink-900">{EVENT.organizer.name}</h3>
@@ -149,7 +149,7 @@ export default function EvenementDetail() {
         </SectionCard>
 
         {/* Inscription */}
-        <Card variant="default" className="p-stack-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-section">
+        <Card variant="default" className="p-stack-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-stack">
           <div className="flex flex-col gap-tight flex-1">
             <Badge variant="success">{EVENT.registered} / {EVENT.capacity} inscrits</Badge>
             <ProgressBar

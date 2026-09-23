@@ -71,7 +71,7 @@ export default function MasterclassHub() {
               const isFull = mc.maxParticipants !== null && mc.enrolledCount >= mc.maxParticipants;
 
               return (
-                <Card key={mc.id} variant="default" className="flex flex-col gap-stack p-0 overflow-hidden">
+                <Card key={mc.id} variant="default" className="flex flex-col p-0 overflow-hidden">
                   <div className="bg-primary-100 h-44 flex items-center justify-center relative">
                     <Video size={40} className="text-primary-400" />
                     {hasReplay && (
