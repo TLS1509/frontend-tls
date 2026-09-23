@@ -418,7 +418,7 @@ export const MarketingArticleDetail: React.FC = () => {
                   <span className="font-display font-bold text-body-sm text-ink-900">
                     Équipe TLS
                   </span>
-                  <span className="font-body text-caption text-ink-500">
+                  <span className="font-body text-caption text-ink-600">
                     The Learning Society
                   </span>
                 </div>

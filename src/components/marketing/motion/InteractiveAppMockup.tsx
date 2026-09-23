@@ -290,7 +290,7 @@ export const InteractiveAppMockup: React.FC<Props> = ({
         {!compact && (
           <div className="pt-2 border-t border-ink-100 flex items-center justify-center gap-stack-2xs">
             <Sparkles size={14} className="text-warning-fg" />
-            <span className="font-body text-caption text-ink-500">Clique sur les onglets pour explorer</span>
+            <span className="font-body text-caption text-ink-600">Clique sur les onglets pour explorer</span>
           </div>
         )}
       </div>

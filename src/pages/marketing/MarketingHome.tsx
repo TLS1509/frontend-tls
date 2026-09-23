@@ -339,7 +339,7 @@ const Ecosysteme: React.FC = () => (
               acquises et les rend mesurables dans la durée.
             </p>
           </div>
-          <span className="inline-flex shrink-0 items-center gap-stack-2xs font-body text-body-sm font-semibold text-primary-700">
+          <span className="inline-flex shrink-0 items-center gap-stack-2xs font-body text-body-sm font-semibold text-primary-800">
             Découvrir la Learning App
             <ArrowRight size={16} className="transition-transform duration-base group-hover:translate-x-1" />
           </span>

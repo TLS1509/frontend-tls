@@ -221,7 +221,7 @@ const FeaturedCard: React.FC<{ item: ResourceItem }> = ({ item }) => {
             </p>
           </div>
 
-          <div className="flex items-center gap-tight font-body text-caption font-bold text-primary-700 pt-stack border-t border-ink-200/40">
+          <div className="flex items-center gap-tight font-body text-caption font-bold text-primary-800 pt-stack border-t border-ink-200/40">
             {TYPE_CTA_LABEL[item.type]}
             <ArrowRight
               size={14}
@@ -468,7 +468,7 @@ export const MarketingResources: React.FC = () => {
                 {sending ? 'Envoi en cours…' : "S'abonner"}
               </Button>
             </form>
-            <p className="font-body text-caption text-ink-500">
+            <p className="font-body text-caption text-ink-600">
               Sans spam. Désinscrivez-vous à tout moment.
             </p>
           </FadeInWhenVisible>
