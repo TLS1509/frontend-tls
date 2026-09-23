@@ -280,65 +280,91 @@ export const Messages: React.FC = () => {
           ) : (
             filteredConversations.map((conv) => {
               const isSelected = conv.id === selectedId;
+              // La rangée n'est plus un <button> englobant : l'étoile y était un
+              // <button> imbriqué (HTML invalide, erreur React « cannot be a
+              // descendant of <button> », audit du 23/09). Deux boutons frères :
+              // la zone nom/aperçu ouvre la conversation, l'étoile bascule le
+              // favori. L'étoile est posée en absolu, et le bouton principal lui
+              // réserve sa place à droite (`pr-11`).
               return (
-                <button
+                <div
                   key={conv.id}
-                  type="button"
-                  onClick={() => handleSelectConversation(conv.id)}
                   data-selected={isSelected}
                   className={[
-                    'flex items-start gap-stack-xs w-full p-3 rounded-lg text-left cursor-pointer mb-0.5 transition-all duration-100 font-body',
-                    'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+                    'relative mb-0.5 rounded-lg border transition-all duration-100',
                     isSelected
-                      ? 'bg-primary-50 shadow-xs border border-primary-200'
-                      : 'bg-transparent hover:bg-ink-50 border border-transparent',
+                      ? 'bg-primary-50 shadow-xs border-primary-200'
+                      : 'bg-transparent hover:bg-ink-50 border-transparent',
                   ].join(' ')}
                 >
-                  {/* Avatar */}
-                  <Avatar
-                    name={conv.participantName}
-                    initials={conv.participantInitials}
-                    size="md"
-                    tint={conv.participantRole === 'coach' ? 'brand' : conv.participantRole === 'support' ? 'warm' : 'ink'}
-                  />
+                  <button
+                    type="button"
+                    onClick={() => handleSelectConversation(conv.id)}
+                    aria-current={isSelected ? 'true' : undefined}
+                    className="flex items-start gap-stack-xs w-full p-3 pr-11 rounded-lg bg-transparent border-0 text-left cursor-pointer font-body focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                  >
+                    {/* Avatar */}
+                    <Avatar
+                      name={conv.participantName}
+                      initials={conv.participantInitials}
+                      size="md"
+                      tint={conv.participantRole === 'coach' ? 'brand' : conv.participantRole === 'support' ? 'warm' : 'ink'}
+                    />
 
-                  {/* Content */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-tight mb-0.5">
-                      <span className={`font-body text-body-sm flex-1 overflow-hidden text-ellipsis whitespace-nowrap text-ink-900 ${conv.unreadCount > 0 ? 'font-bold' : 'font-semibold'}`}>
-                        {conv.participantName}
-                      </span>
-                      <button
-                        type="button"
-                        onClick={(e) => handleToggleStar(e, conv.id)}
-                        className="bg-transparent border-0 cursor-pointer p-0.5 shrink-0 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-500 rounded-sm"
-                      >
-                        <Star
-                          size={14}
-                          className={conv.isStarred ? 'text-accent-400 fill-accent-400' : 'text-ink-300 fill-transparent'}
-                        />
-                      </button>
-                      {conv.unreadCount > 0 && (
-                        <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] rounded-pill bg-primary-700 text-white font-body text-micro font-bold px-1 shrink-0">
-                          {conv.unreadCount}
+                    {/* Content */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-tight mb-0.5">
+                        <span className={`font-body text-body-sm flex-1 overflow-hidden text-ellipsis whitespace-nowrap text-ink-900 ${conv.unreadCount > 0 ? 'font-bold' : 'font-semibold'}`}>
+                          {conv.participantName}
                         </span>
+                        {conv.unreadCount > 0 && (
+                          <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] rounded-pill bg-primary-700 text-white font-body text-micro font-bold px-1 shrink-0">
+                            {conv.unreadCount}
+                          </span>
+                        )}
+                      </div>
+
+                      {conv.context && (
+                        <p className="m-0 mb-0.5 font-body text-[11px] text-primary-600 font-semibold">
+                          {CONTEXT_ICONS[conv.context.type]} {conv.context.title}
+                        </p>
                       )}
-                    </div>
 
-                    {conv.context && (
-                      <p className="m-0 mb-0.5 font-body text-[11px] text-primary-600 font-semibold">
-                        {CONTEXT_ICONS[conv.context.type]} {conv.context.title}
+                      <p className={`m-0 mb-0.5 font-body text-caption overflow-hidden text-ellipsis whitespace-nowrap ${conv.unreadCount > 0 ? 'text-ink-900 font-semibold' : 'text-ink-500 font-normal'}`}>
+                        {conv.lastMessage}
                       </p>
-                    )}
+                      <span className="font-body text-micro text-ink-600 flex items-center gap-tight">
+                        <Clock3 size={14} /> {conv.lastMessageTime}
+                      </span>
+                    </div>
+                  </button>
 
-                    <p className={`m-0 mb-0.5 font-body text-caption overflow-hidden text-ellipsis whitespace-nowrap ${conv.unreadCount > 0 ? 'text-ink-900 font-semibold' : 'text-ink-500 font-normal'}`}>
-                      {conv.lastMessage}
-                    </p>
-                    <span className="font-body text-micro text-ink-600 flex items-center gap-tight">
-                      <Clock3 size={14} /> {conv.lastMessageTime}
-                    </span>
-                  </div>
-                </button>
+                  {/* Libellé fixe + `aria-pressed` : l'état se lit sur le
+                      « enfoncé », pas dans le nom (APG Button, bouton bascule —
+                      un nom qui change en même temps que l'état se contredit :
+                      « Retirer des favoris, enfoncé »). 32 × 32, au-dessus des
+                      24 px de WCAG 2.5.8. Positionné par un <span> : le cran
+                      `sm` de Button porte déjà `relative` (pour sa cible
+                      tactile), et deux `position` sur un élément, c'est l'ordre
+                      d'émission de Tailwind qui tranche. */}
+                  <span className="absolute top-1.5 right-1.5 inline-flex">
+                    <Button
+                      emphasis="ghost"
+                      tone="neutral"
+                      size="sm"
+                      iconOnly
+                      aria-label="Marquer comme favori"
+                      aria-pressed={conv.isStarred}
+                      onClick={(e) => handleToggleStar(e, conv.id)}
+                    >
+                      <Star
+                        size={14}
+                        aria-hidden
+                        className={conv.isStarred ? 'text-accent-400 fill-accent-400' : 'text-ink-300 fill-transparent'}
+                      />
+                    </Button>
+                  </span>
+                </div>
               );
             })
           )}
