@@ -377,7 +377,9 @@ les éléments dont la couleur calculée diffère de celle du parent sans classe
 Même famille, côté composant : une classe de la `BASE` d'un composant (`flex-col`
 et `gap-*` de `Card`) peut battre celle que la page passe en `className`. `Card`
 les retire quand la page déclare les siennes (`OWN_PADDING`, `OWN_DISPLAY`,
-`OWN_DIRECTION`) — reprendre ce motif pour toute propriété qu'une page doit
+`OWN_DIRECTION`, `OWN_GAP`). ⚠️ Ces tests ne lisent que les classes sans préfixe :
+un `md:flex` ne compte pas comme disposition — écrire `md:flex-row`, qui bat le
+`flex-col` de base au point de rupture — reprendre ce motif pour toute propriété qu'une page doit
 pouvoir surcharger.
 
 ### ⚠️ Règle : pas de SVG inline custom — utiliser Lucide
