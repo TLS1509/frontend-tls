@@ -32,6 +32,7 @@ import {
   BarChart2,
 } from 'lucide-react';
 import { Button } from '../components/core/Button';
+import { MetaPill } from '../components/ui/MetaPill';
 import { PageShell } from '../components/layout';
 import { EditorialLayout } from '../components/patterns/EditorialLayout';
 import { TableOfContents } from '../components/patterns/TableOfContents';
@@ -132,9 +133,7 @@ export const Dossier: React.FC = () => {
                 🧠
               </span>
               <div className="flex-1 min-w-0 flex flex-col gap-stack">
-                <span className="inline-flex items-center gap-stack-2xs self-start px-2.5 py-1 rounded-pill bg-secondary-100 border border-secondary-200 text-micro font-bold uppercase tracking-wider text-secondary-800">
-                  Dossier thématique
-                </span>
+                <MetaPill text="Dossier thématique" tone="warm" className="self-start" />
                 <h1 className="font-display text-h1 font-bold text-ink-900 tracking-tight max-w-content">
                   Transformation IA des parcours de formation professionnelle
                 </h1>

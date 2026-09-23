@@ -29,6 +29,7 @@ import {
 } from 'lucide-react';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
+import { MetaPill } from '../components/ui/MetaPill';
 import { EditorialLayout } from '../components/patterns/EditorialLayout';
 import { RelatedItemList } from '../components/patterns/RelatedItemList';
 import { AuthorStrip } from '../components/patterns/AuthorStrip';
@@ -222,9 +223,7 @@ export const ArticleDetail: React.FC = () => {
         <div ref={articleRef} className="flex flex-col gap-section">
         {/* Breadcrumb + eyebrow + h1 + excerpt */}
         <header className="flex flex-col gap-stack max-w-prose">
-          <span className="inline-flex items-center gap-stack-2xs self-start px-2.5 py-1 rounded-pill bg-primary-100 border border-primary-200 text-micro font-bold uppercase tracking-wider text-primary-700">
-            <Newspaper size={14} /> {sourceLabel}
-          </span>
+          <MetaPill icon={<Newspaper />} text={sourceLabel} tone="primary" className="self-start" />
 
           <h1 className="font-display text-h1 font-bold text-ink-900 tracking-tight">
             {ARTICLE.title}
@@ -290,14 +289,17 @@ export const ArticleDetail: React.FC = () => {
 
               {/* External link CTA */}
               {ARTICLE.externalLink && (
-                <a
+                <Button
                   href={ARTICLE.externalLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="self-start inline-flex items-center gap-stack-xs px-stack py-stack-xs rounded-pill bg-primary-50 border border-primary-200 font-body text-caption font-bold text-primary-700 hover:bg-primary-100 transition-colors"
+                  emphasis="soft"
+                  size="sm"
+                  leadingIcon={<ExternalLink size={14} />}
+                  className="self-start"
                 >
-                  <ExternalLink size={14} /> Voir la source originale
-                </a>
+                  Voir la source originale
+                </Button>
               )}
             </article>
           }

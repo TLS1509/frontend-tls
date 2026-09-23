@@ -29,6 +29,7 @@ import {
 } from 'lucide-react';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
+import { MetaPill } from '../components/ui/MetaPill';
 import { EditorialQuoteCallout } from '../components/patterns/EditorialQuoteCallout';
 import { PageShell } from '../components/layout';
 import { CARD_HOVER_NEUTRE } from '../lib/tone-classes';
@@ -97,9 +98,7 @@ export const WeeklyNewsletter: React.FC = () => {
 
         {/* Hero éditorial */}
         <header className="flex flex-col gap-stack">
-          <span className="inline-flex items-center gap-stack-2xs self-start px-3 py-1.5 rounded-pill bg-primary-700 text-white font-body text-micro font-bold uppercase tracking-widest">
-            <TrendingUp size={14} /> Semaine #08
-          </span>
+          <MetaPill icon={<TrendingUp />} text="Semaine #08" tone="primary" className="self-start" />
 
           <h1 className="font-display text-h1 sm:text-[3rem] leading-[1.05] tracking-tight text-primary-700">
             Actus de la semaine

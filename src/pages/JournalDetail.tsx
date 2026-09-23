@@ -33,6 +33,8 @@ import {
 } from 'lucide-react';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
+import { MetaPill } from '../components/ui/MetaPill';
+import { MetaPillGroup } from '../components/ui/MetaPillGroup';
 import { KeyFindingCard } from '../components/patterns/KeyFindingCard';
 import { AuthorStrip } from '../components/patterns/AuthorStrip';
 import { PageShell } from '../components/layout';
@@ -160,13 +162,9 @@ export const JournalDetail: React.FC = () => {
         <header className="flex flex-col gap-stack">
           {/* Eyebrow chips */}
           <div className="flex items-center gap-stack-xs flex-wrap">
-            <span className="inline-flex items-center gap-stack-2xs px-2.5 py-1 rounded-pill bg-primary-100 text-primary-700 text-micro font-bold uppercase tracking-wider">
-              <Sparkles size={14} /> Journal de bord
-            </span>
+            <MetaPill icon={<Sparkles />} text="Journal de bord" tone="primary" />
             <Badge variant="brand">{displayEntry.category}</Badge>
-            <span className="inline-flex items-center gap-stack-2xs px-2.5 py-1 rounded-pill bg-ink-100 text-ink-700 text-micro font-semibold">
-              {displayEntry.mood} {displayEntry.moodLabel}
-            </span>
+            <MetaPill text={`${displayEntry.mood} ${displayEntry.moodLabel}`} />
           </div>
 
           <h1 className="font-display text-h1 font-bold text-ink-900 tracking-tight">
@@ -243,16 +241,7 @@ export const JournalDetail: React.FC = () => {
           <span className="inline-flex items-center gap-stack-2xs font-body text-caption font-medium text-ink-500">
             <TagIcon size={14} /> Tags
           </span>
-          <div className="flex flex-wrap gap-stack-xs">
-            {displayEntry.tags.map((tag) => (
-              <span
-                key={tag}
-                className="inline-flex items-center px-2.5 py-1 rounded-pill bg-ink-50 border border-ink-200 font-body text-micro font-semibold text-ink-700"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
+          <MetaPillGroup items={displayEntry.tags.map((tag) => ({ text: tag }))} />
         </div>
 
         {/* Entry navigation prev/next */}

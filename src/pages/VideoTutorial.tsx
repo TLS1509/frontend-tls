@@ -15,6 +15,7 @@ import {
   BookmarkCheck,
 } from "lucide-react";
 import { Button } from "../components/core/Button";
+import { MetaPill } from "../components/ui/MetaPill";
 
 /* ─── Data ────────────────────────────────────────────────────────────────── */
 
@@ -37,7 +38,7 @@ const TUTORIALS: Record<string, {
   chapitres: typeof CHAPITRES;
 }> = {
   "2": {
-    category: "PROMPT ENGINEERING",
+    category: "Prompt engineering",
     title: "Construire un prompt structuré en 5 étapes",
     description:
       "Séquence pratique orientée exécution : cadrage, exemples, validation et itération sur des cas réels de formation.",
@@ -46,7 +47,7 @@ const TUTORIALS: Record<string, {
     chapitres: CHAPITRES,
   },
   "6": {
-    category: "IA EN FORMATION",
+    category: "IA en formation",
     title: "Maîtriser l'IA pour la Formation Professionnelle",
     description:
       "Comment intégrer l'intelligence artificielle dans vos parcours de formation pour maximiser l'engagement et les résultats d'apprentissage.",
@@ -112,9 +113,7 @@ export const VideoTutorial: React.FC = () => {
               {tuto.description}
             </p>
             <div className="flex items-center gap-stack-xs flex-wrap">
-              <span className="inline-flex items-center px-3 py-1 rounded-pill bg-primary-50 border border-primary-200 text-primary-700 font-body text-micro font-extrabold tracking-wider">
-                {tuto.category}
-              </span>
+              <MetaPill text={tuto.category} tone="primary" />
               <span className="inline-flex items-center gap-tight font-body text-caption text-ink-500">
                 <Clock size={14} />
                 {tuto.duration}
