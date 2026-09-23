@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { BarChart3, TrendingUp, Download, Settings } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
-import { DataTable } from '../components/patterns/DataTable';
+import { DataTable, type DataTableColumn } from '../components/patterns/DataTable';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
@@ -94,12 +94,14 @@ const DEPARTMENTS = [
   { name: 'Support', learners: 13, avgDreyfusRaw: 2.6, engagement: 54, roi: '260%' },
 ];
 
-const TABLE_COLUMNS = [
+// Engagement et ROI sont rendus en barre / span stylé : le tri lit les valeurs
+// brutes `engagementTri` / `roiTri`, portées par la rangée.
+const TABLE_COLUMNS: DataTableColumn[] = [
   { key: 'name', label: 'Département', sortable: true },
-  { key: 'learners', label: 'Apprenants', sortable: true, align: 'center' as const },
-  { key: 'avgDreyfus', label: 'Dreyfus moy.', sortable: false, align: 'center' as const },
-  { key: 'engagement', label: 'Engagement', sortable: true, width: '180px' },
-  { key: 'roi', label: 'ROI', sortable: true, align: 'right' as const },
+  { key: 'learners', label: 'Apprenants', sortable: true, align: 'center' },
+  { key: 'avgDreyfus', label: 'Dreyfus moy.', sortable: false, align: 'center' },
+  { key: 'engagement', label: 'Engagement', sortable: true, width: '180px', sortValue: (r) => r.engagementTri as number },
+  { key: 'roi', label: 'ROI', sortable: true, align: 'right', sortValue: (r) => r.roiTri as number },
 ];
 
 const COMPETENCES = [
@@ -127,6 +129,8 @@ export default function EnterpriseKpis() {
   const tableRows = DEPARTMENTS.map((d) => ({
     name: d.name,
     learners: d.learners,
+    engagementTri: d.engagement,
+    roiTri: parseInt(d.roi, 10),
     avgDreyfus: (
       <Badge
         variant={d.avgDreyfusRaw >= 3.5 ? 'success' : d.avgDreyfusRaw >= 3.0 ? 'info' : 'danger'}

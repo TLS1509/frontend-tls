@@ -2,7 +2,7 @@ import React from 'react';
 import { Bell, Settings, AlertTriangle, CheckCircle2, Clock, Users } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
-import { DataTable } from '../components/patterns/DataTable';
+import { DataTable, type DataTableColumn } from '../components/patterns/DataTable';
 import { Button } from '../components/core/Button';
 import { FormGroup } from '../components/core/FormGroup';
 import { Input } from '../components/core/Input';
@@ -23,8 +23,10 @@ const ALERT_HISTORY_ROWS = [
       </div>
     ),
     jours: <span className="font-bold text-danger-fg">21 jours</span>,
+    joursTri: 21,
     statut: <Badge variant="danger" size="compact">En cours</Badge>,
     date: <span className="text-caption text-ink-600">08 mai 2026</span>,
+    dateTri: '2026-05-08',
     action: (
       <Button emphasis="link" size="sm">
         Voir détails
@@ -39,8 +41,10 @@ const ALERT_HISTORY_ROWS = [
       </div>
     ),
     jours: <span className="font-bold text-success-fg">18 jours</span>,
+    joursTri: 18,
     statut: <Badge variant="success" size="compact">Résolue</Badge>,
     date: <span className="text-caption text-ink-600">05 mai 2026</span>,
+    dateTri: '2026-05-05',
     action: (
       <Button emphasis="link" size="sm">
         Voir détails
@@ -55,8 +59,10 @@ const ALERT_HISTORY_ROWS = [
       </div>
     ),
     jours: <span className="font-bold text-warning-fg">16 jours</span>,
+    joursTri: 16,
     statut: <Badge variant="sun" size="compact">En cours</Badge>,
     date: <span className="text-caption text-ink-600">03 mai 2026</span>,
+    dateTri: '2026-05-03',
     action: (
       <Button emphasis="link" size="sm">
         Voir détails
@@ -71,8 +77,10 @@ const ALERT_HISTORY_ROWS = [
       </div>
     ),
     jours: <span className="font-bold text-ink-500">14 jours</span>,
+    joursTri: 14,
     statut: <Badge variant="neutral" size="compact">Ignorée</Badge>,
     date: <span className="text-caption text-ink-600">28 avr. 2026</span>,
+    dateTri: '2026-04-28',
     action: (
       <Button emphasis="link" size="sm">
         Voir détails
@@ -87,8 +95,10 @@ const ALERT_HISTORY_ROWS = [
       </div>
     ),
     jours: <span className="font-bold text-success-fg">19 jours</span>,
+    joursTri: 19,
     statut: <Badge variant="success" size="compact">Résolue</Badge>,
     date: <span className="text-caption text-ink-600">25 avr. 2026</span>,
+    dateTri: '2026-04-25',
     action: (
       <Button emphasis="link" size="sm">
         Voir détails
@@ -97,12 +107,14 @@ const ALERT_HISTORY_ROWS = [
   },
 ];
 
-const TABLE_COLUMNS = [
+// Les cellules sont des nœuds stylés : le tri lit les valeurs brutes
+// `joursTri` / `dateTri`, portées par la rangée mais jamais affichées.
+const TABLE_COLUMNS: DataTableColumn[] = [
   { key: 'apprenant', label: 'Apprenant', sortable: false },
-  { key: 'jours', label: 'Jours d\'inactivité', sortable: true, align: 'center' as const },
-  { key: 'statut', label: 'Statut', sortable: false, align: 'center' as const },
-  { key: 'date', label: 'Envoyé le', sortable: true },
-  { key: 'action', label: 'Action', sortable: false, align: 'center' as const },
+  { key: 'jours', label: 'Jours d\'inactivité', sortable: true, align: 'center', sortValue: (r) => r.joursTri as number },
+  { key: 'statut', label: 'Statut', sortable: false, align: 'center' },
+  { key: 'date', label: 'Envoyé le', sortable: true, sortValue: (r) => r.dateTri as string },
+  { key: 'action', label: 'Action', sortable: false, align: 'center' },
 ];
 
 const PRIORITY_OPTIONS = [

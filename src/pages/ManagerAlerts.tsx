@@ -8,7 +8,7 @@ import { Badge } from '../components/ui/Badge';
 import { FormGroup } from '../components/core/FormGroup';
 import { Input } from '../components/core/Input';
 import { Select } from '../components/core/Select';
-import { DataTable } from '../components/patterns/DataTable';
+import { DataTable, type DataTableColumn } from '../components/patterns/DataTable';
 import { Alert } from '../components/ui/Alert';
 import { Container } from '../components/layout';
 
@@ -53,12 +53,14 @@ const ALERTS = [
   },
 ];
 
-const TABLE_COLUMNS = [
+// Statut et déclenchements sont rendus en badge / span : le tri lit les valeurs
+// brutes `statusTri` (libellé affiché) / `triggerCountTri`, portées par la rangée.
+const TABLE_COLUMNS: DataTableColumn[] = [
   { key: 'name', label: 'Nom de l\'alerte', sortable: true },
   { key: 'trigger', label: 'Déclencheur', sortable: false },
   { key: 'recipients', label: 'Destinataires', sortable: false },
-  { key: 'status', label: 'Statut', sortable: true },
-  { key: 'triggerCount', label: 'Déclenchements', sortable: true },
+  { key: 'status', label: 'Statut', sortable: true, sortValue: (r) => r.statusTri as string },
+  { key: 'triggerCount', label: 'Déclenchements', sortable: true, sortValue: (r) => r.triggerCountTri as number },
 ];
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -73,6 +75,8 @@ export default function ManagerAlerts() {
 
   const tableRows = ALERTS.map((a) => ({
     ...a,
+    statusTri: a.status === 'active' ? 'Active' : 'En pause',
+    triggerCountTri: a.triggerCount,
     status: (
       <Badge variant={a.status === 'active' ? 'success' : 'neutral'} size="compact">
         {a.status === 'active' ? 'Active' : 'En pause'}

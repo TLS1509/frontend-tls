@@ -1,16 +1,26 @@
-import React, { useState } from 'react';
-import { ChevronUp, ChevronDown } from 'lucide-react';
+import React, { useMemo, useState } from 'react';
+import { ChevronUp, ChevronDown, ChevronsUpDown, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Button } from '../core/Button';
+
+export interface DataTableRow {
+  [key: string]: React.ReactNode;
+}
 
 export interface DataTableColumn {
   key: string;
   label: string;
   sortable?: boolean;
+  /**
+   * Valeur de tri de la rangée pour cette colonne. Indispensable dès que la
+   * cellule est un ReactNode (badge, barre, span stylé) : le composant ne sait
+   * pas lire un nœud. Sans elle, la colonne trie sur la cellule si TOUTES les
+   * cellules sont des chaînes ou des nombres — sinon elle ne trie pas et
+   * n'affiche aucune affordance de tri (une flèche qui ne réordonne rien est
+   * pire que pas de flèche).
+   */
+  sortValue?: (row: DataTableRow) => string | number | null | undefined;
   align?: 'left' | 'center' | 'right';
   width?: string;
-}
-
-export interface DataTableRow {
-  [key: string]: React.ReactNode;
 }
 
 export type SortDirection = 'asc' | 'desc' | null;
@@ -20,10 +30,21 @@ export interface DataTableProps {
   rows: DataTableRow[];
   sortBy?: string;
   sortDirection?: SortDirection;
+  /**
+   * Si fourni, le PARENT est maître du tri : il reçoit la demande et repasse
+   * des `rows` déjà triées — le composant n'y touche pas (cas de CoachDashboard).
+   * Sans lui, le composant trie lui-même.
+   */
   onSort?: (key: string, direction: SortDirection) => void;
+  /** `index` = position de la rangée dans le tableau `rows` d'origine, pas à l'écran. */
   onRowClick?: (row: DataTableRow, index: number) => void;
   pageSize?: number;
+  /** Page contrôlée (1-based). Sans elle, la pagination est interne. */
   currentPage?: number;
+  /**
+   * Nombre total de rangées côté serveur. S'il dépasse `rows.length`, `rows`
+   * est considérée comme la page courante déjà découpée et n'est pas tranchée.
+   */
   totalRows?: number;
   onPageChange?: (page: number) => void;
   loading?: boolean;
@@ -37,11 +58,26 @@ const ALIGN: Record<NonNullable<DataTableColumn['align']>, string> = {
   right: 'text-right',
 };
 
-const PAG_BTN =
-  'px-3 py-2 rounded-md border border-ink-200 bg-white text-ink-900 text-body-sm font-medium ' +
-  'hover:bg-ink-50 hover:border-ink-300 transition-all cursor-pointer ' +
-  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ' +
-  'disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none';
+const JUSTIFY: Record<NonNullable<DataTableColumn['align']>, string> = {
+  left: 'justify-start',
+  center: 'justify-center',
+  right: 'justify-end',
+};
+
+/** Anneau intérieur : le conteneur est en `overflow-x-auto`, un anneau décalé vers l'extérieur serait rogné. */
+const FOCUS_INSET =
+  'focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ink-900';
+
+const TH_BUTTON = [
+  'inline-flex w-full items-center gap-tight px-4 py-3 font-semibold text-ink-700 cursor-pointer',
+  'hover:bg-ink-100 transition-colors duration-fast',
+  FOCUS_INSET,
+].join(' ');
+
+const isPlain = (v: unknown): v is string | number | null | undefined =>
+  v == null || typeof v === 'string' || typeof v === 'number';
+
+const collator = (a: string, b: string) => a.localeCompare(b, 'fr', { numeric: true, sensitivity: 'base' });
 
 export const DataTable: React.FC<DataTableProps> = ({
   columns,
@@ -51,129 +87,185 @@ export const DataTable: React.FC<DataTableProps> = ({
   onSort,
   onRowClick,
   pageSize = 10,
-  currentPage = 1,
+  currentPage,
   totalRows,
   onPageChange,
   loading = false,
-  emptyMessage = 'No data available',
+  emptyMessage = 'Aucune donnée',
   className = '',
 }) => {
   const [internalSort, setInternalSort] = useState<{ key: string; dir: SortDirection }>({
     key: sortBy || '',
     dir: sortDirection || null,
   });
+  const [internalPage, setInternalPage] = useState(1);
+
+  const activeSort = sortBy ?? internalSort.key;
+  const activeDir = sortDirection !== undefined ? sortDirection : internalSort.dir;
+
+  /** Lecteur de valeur de tri par colonne, ou `null` si la colonne ne peut pas trier. */
+  const sortReaders = useMemo(() => {
+    const map: Record<string, ((row: DataTableRow) => string | number | null | undefined) | null> = {};
+    for (const col of columns) {
+      if (!col.sortable) map[col.key] = null;
+      else if (col.sortValue) map[col.key] = col.sortValue;
+      else if (onSort) map[col.key] = (row) => row[col.key] as string | number | null | undefined;
+      else if (rows.every((r) => isPlain(r[col.key]))) map[col.key] = (row) => row[col.key] as string | number | null | undefined;
+      else map[col.key] = null;
+    }
+    return map;
+  }, [columns, rows, onSort]);
+
+  const canSort = (key: string) => sortReaders[key] != null;
 
   const handleSort = (key: string) => {
-    const column = columns.find((col) => col.key === key);
-    if (!column?.sortable) return;
-
+    if (!canSort(key)) return;
     let newDir: SortDirection = 'asc';
-    if (internalSort.key === key) {
-      if (internalSort.dir === 'asc') newDir = 'desc';
-      else if (internalSort.dir === 'desc') newDir = null;
+    if (activeSort === key) {
+      if (activeDir === 'asc') newDir = 'desc';
+      else if (activeDir === 'desc') newDir = null;
     }
-
     setInternalSort({ key, dir: newDir });
+    if (currentPage === undefined) setInternalPage(1);
+    else onPageChange?.(1);
     onSort?.(key, newDir);
   };
 
-  const activeSort = sortBy || internalSort.key;
-  const activeDir = sortDirection ?? internalSort.dir;
-  const totalPages = Math.ceil((totalRows || rows.length) / pageSize);
-  const displayedRows = rows.slice(0, pageSize);
+  // Rangées indexées sur leur position d'origine : la clé React et l'index
+  // rendu à `onRowClick` restent stables quel que soit le tri.
+  const sortedRows = useMemo(() => {
+    const indexed = rows.map((row, index) => ({ row, index }));
+    const read = activeSort ? sortReaders[activeSort] : null;
+    if (onSort || !read || !activeDir) return indexed;
+    const sign = activeDir === 'asc' ? 1 : -1;
+    return indexed.sort((a, b) => {
+      const va = read(a.row);
+      const vb = read(b.row);
+      // Les cellules vides vont en fin de liste, quel que soit le sens.
+      if (va == null || va === '') return vb == null || vb === '' ? a.index - b.index : 1;
+      if (vb == null || vb === '') return -1;
+      const cmp =
+        typeof va === 'number' && typeof vb === 'number' ? va - vb : collator(String(va), String(vb));
+      return cmp !== 0 ? sign * cmp : a.index - b.index;
+    });
+  }, [rows, activeSort, activeDir, sortReaders, onSort]);
+
+  const serverPaged = totalRows !== undefined && totalRows > rows.length;
+  const total = totalRows ?? rows.length;
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
+  const page = Math.min(Math.max(1, currentPage ?? internalPage), totalPages);
+  const displayedRows = serverPaged
+    ? sortedRows
+    : sortedRows.slice((page - 1) * pageSize, page * pageSize);
+
+  const goTo = (next: number) => {
+    const clamped = Math.min(Math.max(1, next), totalPages);
+    if (currentPage === undefined) setInternalPage(clamped);
+    onPageChange?.(clamped);
+  };
+
+  const hasSortable = columns.some((c) => canSort(c.key));
 
   return (
     <div className={['flex flex-col gap-stack', className].filter(Boolean).join(' ')}>
       <div className="overflow-x-auto rounded-lg border border-ink-200 bg-white">
         <table className="w-full border-collapse font-body text-body-sm">
+          {hasSortable && (
+            // Motif APG « Sortable Table » : la légende annonce que les en-têtes à bouton trient.
+            <caption className="sr-only">Les en-têtes munis d'un bouton permettent de trier la colonne.</caption>
+          )}
           <thead className="bg-ink-50 border-b border-ink-200">
             <tr>
-              {columns.map((column) => (
-                <th
-                  key={column.key}
-                  className={[
-                    'px-4 py-3 font-semibold text-ink-700 select-none',
-                    ALIGN[column.align ?? 'left'],
-                    column.sortable
-                      ? 'cursor-pointer hover:bg-ink-100 transition-colors focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-primary-500'
-                      : '',
-                  ]
-                    .filter(Boolean)
-                    .join(' ')}
-                  style={column.width ? { width: column.width } : undefined}
-                  onClick={() => column.sortable && handleSort(column.key)}
-                  role={column.sortable ? 'button' : undefined}
-                  tabIndex={column.sortable ? 0 : undefined}
-                  onKeyDown={(e) => {
-                    if (column.sortable && (e.key === 'Enter' || e.key === ' ')) {
-                      handleSort(column.key);
-                    }
-                  }}
-                >
-                  <div
+              {columns.map((column) => {
+                const align = column.align ?? 'left';
+                const sortable = canSort(column.key);
+                const isActive = sortable && activeSort === column.key && activeDir != null;
+                return (
+                  <th
+                    key={column.key}
+                    scope="col"
+                    // aria-sort n'est posé que sur la colonne triée : sa valeur par défaut est
+                    // déjà « none », et ARIA demande qu'un seul en-tête le porte à la fois.
+                    aria-sort={isActive ? (activeDir === 'asc' ? 'ascending' : 'descending') : undefined}
                     className={[
-                      'inline-flex items-center gap-tight',
-                      column.align === 'center' ? 'justify-center' : '',
-                      column.align === 'right' ? 'justify-end' : '',
-                    ]
-                      .filter(Boolean)
-                      .join(' ')}
+                      'font-semibold text-ink-700 select-none',
+                      ALIGN[align],
+                      sortable ? 'p-0' : 'px-4 py-3',
+                    ].join(' ')}
+                    style={column.width ? { width: column.width } : undefined}
                   >
-                    <span>{column.label}</span>
-                    {column.sortable && activeSort === column.key && (
-                      <span className="inline-flex">
-                        {activeDir === 'asc' ? (
-                          <ChevronUp size={16} aria-label="Sort ascending" />
-                        ) : (
-                          <ChevronDown size={16} aria-label="Sort descending" />
-                        )}
-                      </span>
+                    {sortable ? (
+                      <button
+                        type="button"
+                        className={[TH_BUTTON, JUSTIFY[align]].join(' ')}
+                        onClick={() => handleSort(column.key)}
+                      >
+                        <span>{column.label}</span>
+                        <span aria-hidden="true" className={isActive ? 'inline-flex text-ink-900' : 'inline-flex text-ink-500'}>
+                          {!isActive ? (
+                            <ChevronsUpDown size={14} />
+                          ) : activeDir === 'asc' ? (
+                            <ChevronUp size={16} />
+                          ) : (
+                            <ChevronDown size={16} />
+                          )}
+                        </span>
+                      </button>
+                    ) : (
+                      column.label
                     )}
-                  </div>
-                </th>
-              ))}
+                  </th>
+                );
+              })}
             </tr>
           </thead>
 
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={columns.length} className="px-4 py-section text-center text-ink-500">
-                  Loading...
+                <td colSpan={columns.length} className="px-4 py-section text-center text-ink-600" aria-live="polite">
+                  Chargement…
                 </td>
               </tr>
             ) : displayedRows.length === 0 ? (
               <tr>
-                <td colSpan={columns.length} className="px-4 py-section text-center text-ink-500">
+                <td colSpan={columns.length} className="px-4 py-section text-center text-ink-600">
                   {emptyMessage}
                 </td>
               </tr>
             ) : (
-              displayedRows.map((row, rowIdx) => (
+              displayedRows.map(({ row, index }) => (
+                // Rangée cliquable : elle reste une vraie rangée de tableau (pas de
+                // role="button", qui effacerait la structure lignes/colonnes pour
+                // un lecteur d'écran). L'activation clavier passe par tabIndex +
+                // Entrée/Espace, filtrés sur la rangée elle-même pour ne pas
+                // doubler l'action d'un bouton posé dans une cellule.
                 <tr
-                  key={rowIdx}
+                  key={index}
                   className={[
                     'border-b border-ink-200 last:border-b-0 transition-colors',
-                    onRowClick ? 'cursor-pointer hover:bg-ink-50' : '',
+                    onRowClick ? `cursor-pointer hover:bg-ink-50 ${FOCUS_INSET}` : '',
                   ]
                     .filter(Boolean)
                     .join(' ')}
-                  onClick={() => onRowClick?.(row, rowIdx)}
-                  role={onRowClick ? 'button' : undefined}
+                  onClick={onRowClick ? () => onRowClick(row, index) : undefined}
                   tabIndex={onRowClick ? 0 : undefined}
-                  onKeyDown={(e) => {
-                    if (onRowClick && (e.key === 'Enter' || e.key === ' ')) {
-                      onRowClick(row, rowIdx);
-                    }
-                  }}
+                  onKeyDown={
+                    onRowClick
+                      ? (e) => {
+                          if (e.target !== e.currentTarget) return;
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            onRowClick(row, index);
+                          }
+                        }
+                      : undefined
+                  }
                 >
                   {columns.map((column) => (
                     <td
-                      key={`${rowIdx}-${column.key}`}
-                      className={[
-                        'px-4 py-3 text-ink-900',
-                        ALIGN[column.align ?? 'left'],
-                      ].join(' ')}
+                      key={`${index}-${column.key}`}
+                      className={['px-4 py-3 text-ink-900', ALIGN[column.align ?? 'left']].join(' ')}
                     >
                       {row[column.key]}
                     </td>
@@ -186,29 +278,31 @@ export const DataTable: React.FC<DataTableProps> = ({
       </div>
 
       {totalPages > 1 && (
-        <div className="flex items-center justify-between gap-stack-xs">
-          <button
-            className={PAG_BTN}
-            onClick={() => onPageChange?.(currentPage - 1)}
-            disabled={currentPage <= 1}
-            aria-label="Previous page"
+        <nav aria-label="Pagination du tableau" className="flex items-center justify-between gap-stack-xs">
+          <Button
+            emphasis="outline"
+            size="sm"
+            leadingIcon={<ChevronLeft size={14} />}
+            onClick={() => goTo(page - 1)}
+            disabled={page <= 1}
           >
-            Previous
-          </button>
+            Précédent
+          </Button>
 
-          <div className="text-caption text-ink-500">
-            Page {currentPage} of {totalPages}
-          </div>
+          <p className="text-caption text-ink-600 tabular-nums" aria-live="polite">
+            Page {page} sur {totalPages}
+          </p>
 
-          <button
-            className={PAG_BTN}
-            onClick={() => onPageChange?.(currentPage + 1)}
-            disabled={currentPage >= totalPages}
-            aria-label="Next page"
+          <Button
+            emphasis="outline"
+            size="sm"
+            trailingIcon={<ChevronRight size={14} />}
+            onClick={() => goTo(page + 1)}
+            disabled={page >= totalPages}
           >
-            Next
-          </button>
-        </div>
+            Suivant
+          </Button>
+        </nav>
       )}
     </div>
   );

@@ -9,7 +9,7 @@ import { StatCard } from '../components/ui/StatCard';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { FilterChip } from '../components/ui/FilterChip';
 import { Tabs } from '../components/ui/Tabs';
-import { DataTable } from '../components/patterns/DataTable';
+import { DataTable, type DataTableColumn } from '../components/patterns/DataTable';
 import { BarChart } from '../components/charts/BarChart';
 import { PageShell } from '../components/layout';
 
@@ -31,11 +31,13 @@ const DEPARTMENTS = [
   { name: 'Support Client', learners: 13, avgDreyfus: 2.6, engagement: 54, badgesEarned: 29 },
 ];
 
-const TABLE_COLUMNS = [
+// Dreyfus et engagement sont rendus en badge / barre : le tri lit les valeurs
+// brutes `avgDreyfusTri` / `engagementTri`, portées par la rangée.
+const TABLE_COLUMNS: DataTableColumn[] = [
   { key: 'name', label: 'Département', sortable: true },
   { key: 'learners', label: 'Apprenants', sortable: true },
-  { key: 'avgDreyfus', label: 'Dreyfus moy.', sortable: true },
-  { key: 'engagement', label: 'Engagement', sortable: true },
+  { key: 'avgDreyfus', label: 'Dreyfus moy.', sortable: true, sortValue: (r) => r.avgDreyfusTri as number },
+  { key: 'engagement', label: 'Engagement', sortable: true, sortValue: (r) => r.engagementTri as number },
   { key: 'badgesEarned', label: 'Badges obtenus', sortable: true },
 ];
 
@@ -59,6 +61,8 @@ export default function EnterpriseAnalyticsDashboard() {
 
   const tableRows = DEPARTMENTS.map((d) => ({
     ...d,
+    avgDreyfusTri: d.avgDreyfus,
+    engagementTri: d.engagement,
     avgDreyfus: (
       <Badge variant={d.avgDreyfus >= 3.5 ? 'success' : d.avgDreyfus >= 3 ? 'info' : 'danger'} size="compact">
         D{d.avgDreyfus.toFixed(1)}
@@ -66,7 +70,7 @@ export default function EnterpriseAnalyticsDashboard() {
     ),
     engagement: (
       <div className="flex items-center gap-stack-xs min-w-[120px]">
-        <ProgressBar value={d.engagement} fill="brand" size="sm" />
+        <ProgressBar value={d.engagement} fill="brand" size="sm" valueLabel={false} className="flex-1" />
         <span className="text-caption text-ink-600 shrink-0">{d.engagement}%</span>
       </div>
     ),
