@@ -162,7 +162,7 @@ export default function PasseportCompetenceDetail() {
               >
                 <span className={[
                   'inline-flex items-center justify-center w-8 h-8 rounded-lg text-caption font-bold shrink-0',
-                  d.level === currentLevel ? 'bg-primary-600 text-white' : d.level < currentLevel ? 'bg-success-bg text-success-fg' : 'bg-ink-100 text-ink-600',
+                  d.level === currentLevel ? 'bg-primary-700 text-white' : d.level < currentLevel ? 'bg-success-bg text-success-fg' : 'bg-ink-100 text-ink-600',
                 ].join(' ')}>
                   D{d.level}
                 </span>

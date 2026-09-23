@@ -118,7 +118,7 @@ const JacValidationForm: React.FC<{
                   onClick={() => handleScoreChange(idx, level)}
                   className={`px-3 py-1 rounded-pill text-caption font-bold transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                     row.score === level
-                      ? 'bg-primary-600 text-white'
+                      ? 'bg-primary-700 text-white'
                       : 'bg-ink-100 text-ink-600 hover:bg-primary-50 hover:text-primary-700'
                   }`}
                 >
@@ -153,7 +153,7 @@ const JacValidationForm: React.FC<{
               onClick={() => setLevelOverride(level)}
               className={`px-3 py-1 rounded-pill text-caption font-bold transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                 effectiveLevel === level
-                  ? 'bg-primary-600 text-white'
+                  ? 'bg-primary-700 text-white'
                   : 'bg-white text-ink-600 hover:bg-primary-100 hover:text-primary-700'
               }`}
             >
@@ -185,9 +185,9 @@ const JacValidationForm: React.FC<{
               className={`px-stack py-stack-xs rounded-pill text-body-sm font-bold transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                 decision === d
                   ? d === 'approved'
-                    ? 'bg-success-base text-white'
+                    ? 'bg-success-vivid text-white'
                     : d === 'rejected'
-                    ? 'bg-danger-base text-white'
+                    ? 'bg-danger-strong text-white'
                     : 'bg-info-base text-white'
                   : 'bg-ink-100 text-ink-600 hover:bg-ink-200'
               }`}

@@ -113,7 +113,7 @@ export const WeeklyNewsDetail: React.FC = () => {
               <header className="flex flex-col gap-stack">
                 {/* Eyebrow */}
                 <div className="flex items-center gap-stack-xs flex-wrap">
-                  <span className="inline-flex items-center gap-stack-2xs px-3 py-1.5 rounded-pill bg-primary-500 text-white font-body text-micro font-bold uppercase tracking-widest">
+                  <span className="inline-flex items-center gap-stack-2xs px-3 py-1.5 rounded-pill bg-primary-700 text-white font-body text-micro font-bold uppercase tracking-widest">
                     <TrendingUp size={14} /> {ACTU.week}
                   </span>
                   <span className="inline-flex items-center gap-stack-2xs px-2.5 py-1 rounded-pill bg-ink-100 text-ink-600 font-body text-micro font-semibold">

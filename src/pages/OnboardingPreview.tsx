@@ -187,7 +187,7 @@ function VariantA({ onDone }: { onDone: () => void }) {
                 className={[
                   'px-3 py-2 rounded-lg border text-body-sm font-medium transition-all duration-150 active:scale-95',
                   on
-                    ? 'bg-secondary-500 border-secondary-500 text-white'
+                    ? 'bg-secondary-700 border-secondary-700 text-white'
                     : 'bg-white/90 border-ink-200 text-ink-800 hover:border-secondary-400 hover:bg-secondary-50',
                 ].join(' ')}
               >
@@ -201,7 +201,7 @@ function VariantA({ onDone }: { onDone: () => void }) {
           <button
             onClick={confirmGoals}
             disabled={transitioning}
-            className="self-start mt-1 px-4 py-2 rounded-lg bg-secondary-500 text-white text-body-sm font-semibold hover:bg-secondary-600 transition-all duration-150 disabled:opacity-50"
+            className="self-start mt-1 px-4 py-2 rounded-lg bg-secondary-700 text-white text-body-sm font-semibold hover:bg-secondary-800 transition-all duration-150 disabled:opacity-50"
           >
             Valider mes objectifs →
           </button>
@@ -368,7 +368,7 @@ function VariantB({ onDone }: { onDone: () => void }) {
                 className={[
                   tileBase,
                   selectedRole === r.id
-                    ? 'bg-secondary-500 border-secondary-500 text-white shadow-card scale-[1.02]'
+                    ? 'bg-secondary-700 border-secondary-700 text-white shadow-card scale-[1.02]'
                     : 'bg-white/85 border-white/60 text-ink-800 hover:border-secondary-300 hover:bg-secondary-50/85',
                 ].join(' ')}
               >
@@ -402,7 +402,7 @@ function VariantB({ onDone }: { onDone: () => void }) {
                   className={[
                     tileBase, 'relative',
                     on
-                      ? 'bg-secondary-500 border-secondary-500 text-white shadow-card'
+                      ? 'bg-secondary-700 border-secondary-700 text-white shadow-card'
                       : 'bg-white/85 border-white/60 text-ink-800 hover:border-secondary-300 hover:bg-secondary-50/85',
                   ].join(' ')}
                 >
@@ -549,7 +549,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
                       className={[
                         tileBase,
                         on
-                          ? 'bg-secondary-500 border-secondary-500 text-white shadow-sm'
+                          ? 'bg-secondary-700 border-secondary-700 text-white shadow-sm'
                           : 'bg-white border-ink-100 text-ink-800 hover:border-secondary-300 hover:bg-secondary-50/40 disabled:opacity-40',
                       ].join(' ')}
                     >
@@ -590,7 +590,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
                     className={[
                       tileBase, 'relative',
                       on
-                        ? 'bg-secondary-500 border-secondary-500 text-white shadow-sm'
+                        ? 'bg-secondary-700 border-secondary-700 text-white shadow-sm'
                         : 'bg-white border-ink-100 text-ink-800 hover:border-secondary-300 hover:bg-secondary-50/40',
                     ].join(' ')}
                   >
@@ -718,7 +718,7 @@ const VariantSwitcher: React.FC<{ current: Variant; onChange: (v: Variant) => vo
           'rounded-pill px-3 py-1 text-caption font-semibold transition-all duration-200 min-h-[32px] font-body',
           'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
           current === v
-            ? 'bg-secondary-500 text-white shadow-sm'
+            ? 'bg-secondary-700 text-white shadow-sm'
             : 'text-ink-500 hover:text-ink-900 hover:bg-ink-50',
         ].join(' ')}
       >

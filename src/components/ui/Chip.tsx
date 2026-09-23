@@ -57,10 +57,12 @@ export const CHIP_SIZE: Record<ChipSize, string> = {
 
 export const CHIP_TONE_SOLID: Record<ChipTone, string> = {
   neutral: 'bg-ink-50 text-ink-700 border-ink-200',
-  primary: 'bg-primary-50 text-primary-700 border-primary-200',
-  warm:    'bg-secondary-50 text-secondary-700 border-secondary-200',
-  sun:     'bg-accent-50 text-accent-700 border-accent-200',
-  brand:   'bg-primary-50 text-primary-700 border-primary-200',
+  // Label au cran 800 (règle « filet 700, label 800 ») : primary-700 sur
+  // primary-50 mesurait 4,48 à 11 px, sous le seuil AA (audit du 23/09).
+  primary: 'bg-primary-50 text-primary-800 border-primary-200',
+  warm:    'bg-secondary-50 text-secondary-800 border-secondary-200',
+  sun:     'bg-accent-50 text-accent-800 border-accent-200',
+  brand:   'bg-primary-50 text-primary-800 border-primary-200',
 };
 
 export const CHIP_TONE_SOLID_ACTIVE: Record<ChipTone, string> = {

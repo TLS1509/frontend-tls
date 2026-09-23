@@ -21,7 +21,7 @@ const PERIODS = [
 const PODIUM_CONFIG = [
   {
     label: '1er',
-    rankClasses: 'bg-accent-400 text-white',
+    rankClasses: 'bg-accent-700 text-white',
     cardClasses: 'bg-gradient-to-br from-accent-100 to-white border border-accent-300',
     avatarClasses: 'bg-accent-100 border-2 border-accent-300 text-accent-800',
     pillClasses: 'bg-accent-100 text-accent-800',
@@ -30,7 +30,7 @@ const PODIUM_CONFIG = [
   },
   {
     label: '2ème',
-    rankClasses: 'bg-ink-400 text-white',
+    rankClasses: 'bg-ink-600 text-white',
     cardClasses: 'bg-gradient-to-br from-ink-100 to-white border border-ink-300',
     avatarClasses: 'bg-ink-100 border-2 border-ink-300 text-ink-600',
     pillClasses: 'bg-ink-100 text-ink-600',
@@ -39,7 +39,7 @@ const PODIUM_CONFIG = [
   },
   {
     label: '3ème',
-    rankClasses: 'bg-secondary-400 text-white',
+    rankClasses: 'bg-secondary-700 text-white',
     cardClasses: 'bg-gradient-to-br from-secondary-100 to-white border border-secondary-300',
     avatarClasses: 'bg-secondary-100 border-2 border-secondary-300 text-secondary-700',
     pillClasses: 'bg-secondary-100 text-secondary-700',
@@ -214,7 +214,7 @@ export const Leaderboard: React.FC = () => {
           {/* Current user banner : only show if they're not on the podium */}
           {currentUserRow && currentUserRow.rank > 3 && (
             <Card variant="tinted" tone="primary" className="flex items-center gap-stack p-stack">
-              <div className="w-10 h-10 rounded-pill bg-gradient-to-br from-primary-400 to-secondary-500 flex items-center justify-center text-white font-extrabold text-body-sm shrink-0">
+              <div className="w-10 h-10 rounded-pill bg-gradient-to-br from-primary-700 to-secondary-700 flex items-center justify-center text-white font-extrabold text-body-sm shrink-0">
                 {currentUserRow.initials}
               </div>
               <div className="flex-1">

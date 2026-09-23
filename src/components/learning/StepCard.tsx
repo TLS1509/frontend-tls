@@ -181,7 +181,7 @@ export const StepCard: React.FC<StepCardProps> = ({
                     <span
                       className={[
                         'inline-flex items-center justify-center w-6 h-6 rounded-pill shrink-0',
-                        lesson.completed ? 'bg-success-base text-white' : 'bg-ink-100 text-ink-500',
+                        lesson.completed ? 'bg-success-vivid text-white' : 'bg-ink-100 text-ink-500',
                       ].join(' ')}
                     >
                       {lesson.completed ? <Check size={14} strokeWidth={3} /> : '·'}

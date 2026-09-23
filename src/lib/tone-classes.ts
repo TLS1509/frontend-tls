@@ -176,11 +176,11 @@ export const CARD_PROGRESS_FILL: Record<CardTone, 'brand' | 'warm' | 'sun'> = {
 /** Action button tone classes (for footer buttons, action rows) */
 export const ACTION_BTN_TONES: Record<PageTone, Record<'primary' | 'secondary', string>> = {
   primary: {
-    primary: 'bg-primary-500 hover:bg-primary-600 text-white',
+    primary: 'bg-primary-700 hover:bg-primary-800 text-white',
     secondary: 'bg-primary-50 hover:bg-primary-100 text-primary-700 border border-primary-200'
   },
   warm: {
-    primary: 'bg-secondary-500 hover:bg-secondary-600 text-white',
+    primary: 'bg-secondary-700 hover:bg-secondary-800 text-white',
     secondary: 'bg-secondary-50 hover:bg-secondary-100 text-secondary-700 border border-secondary-200'
   },
   sun: {

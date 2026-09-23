@@ -39,7 +39,7 @@ const TAB_VARIANT: Record<TabsVariant, string> = {
 const TAB_ACTIVE: Record<TabsVariant, string> = {
   pill:      'bg-white text-ink-900 shadow-sm font-bold',
   underline: 'text-primary-700 font-bold after:content-[""] after:absolute after:left-3 after:right-3 after:-bottom-px after:h-0.5 after:bg-primary-600 after:rounded-t-sm',
-  boxed:     'bg-gradient-to-br from-primary-600 to-primary-700 text-white font-bold shadow-brand-sm hover:bg-primary-600 hover:text-white',
+  boxed:     'bg-gradient-to-br from-primary-700 to-primary-800 text-white font-bold shadow-brand-sm hover:bg-primary-800 hover:text-white',
 };
 
 export const Tabs: React.FC<TabsProps> = ({
@@ -130,7 +130,7 @@ export const Tabs: React.FC<TabsProps> = ({
                   active
                     ? variant === 'boxed'
                       ? 'bg-white/30 text-white'
-                      : 'bg-primary-600 text-white'
+                      : 'bg-primary-700 text-white'
                     : 'bg-ink-200 text-ink-700',
                 ].join(' ')}
               >

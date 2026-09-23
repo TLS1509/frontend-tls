@@ -74,7 +74,7 @@ const BTN_BASE =
   'inline-flex items-center justify-center gap-stack-xs px-stack-md py-2.5 rounded-md text-body-sm font-semibold cursor-pointer transition-[background-color,border-color,box-shadow,transform] duration-fast ease-emphasis active:scale-[0.98] ' +
   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-400 ' +
   'disabled:opacity-40 disabled:cursor-not-allowed';
-const BTN_PRIMARY = 'bg-primary-600 text-white hover:bg-primary-700';
+const BTN_PRIMARY = 'bg-primary-700 text-white hover:bg-primary-800';
 const BTN_SECONDARY = 'bg-ink-50 text-ink-900 border border-ink-200 hover:bg-ink-100';
 
 export const QuizComponent: React.FC<QuizComponentProps> = ({

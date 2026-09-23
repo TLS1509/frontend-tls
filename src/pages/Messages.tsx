@@ -238,7 +238,7 @@ export const Messages: React.FC = () => {
                 Messages
               </h2>
               {totalUnread > 0 && (
-                <span className="inline-flex items-center justify-center min-w-[20px] h-5 rounded-pill bg-primary-500 text-white font-body text-[11px] font-bold px-1.5">
+                <span className="inline-flex items-center justify-center min-w-[20px] h-5 rounded-pill bg-primary-700 text-white font-body text-[11px] font-bold px-1.5">
                   {totalUnread}
                 </span>
               )}
@@ -319,7 +319,7 @@ export const Messages: React.FC = () => {
                         />
                       </button>
                       {conv.unreadCount > 0 && (
-                        <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] rounded-pill bg-primary-500 text-white font-body text-micro font-bold px-1 shrink-0">
+                        <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] rounded-pill bg-primary-700 text-white font-body text-micro font-bold px-1 shrink-0">
                           {conv.unreadCount}
                         </span>
                       )}

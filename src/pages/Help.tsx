@@ -222,7 +222,7 @@ export const Help: React.FC = () => {
                   <div className={[
                     'max-w-[72%] px-stack py-3 font-body text-body-sm shadow-xs',
                     msg.role === 'user'
-                      ? 'rounded-xl rounded-br-sm bg-primary-500 text-white'
+                      ? 'rounded-xl rounded-br-sm bg-primary-700 text-white'
                       : 'rounded-xl rounded-bl-sm bg-primary-50 text-ink-900',
                   ].join(' ')}>
                     {msg.text}

@@ -218,7 +218,7 @@ export const JournalDetail: React.FC = () => {
                     className={[
                       'shrink-0 w-5 h-5 inline-flex items-center justify-center rounded-pill border-2 transition-colors duration-base',
                       item.done
-                        ? 'bg-primary-600 border-primary-600 text-white'
+                        ? 'bg-primary-700 border-primary-700 text-white'
                         : 'bg-white border-ink-300',
                     ].join(' ')}
                   >

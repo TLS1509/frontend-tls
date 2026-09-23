@@ -50,7 +50,7 @@ export default function HelpTutorialStep() {
           <div className="flex flex-col gap-stack-lg">
             <div className="flex flex-col gap-stack-xs">
               <div className="flex items-center gap-stack-xs">
-                <span className="inline-flex items-center justify-center w-8 h-8 rounded-pill bg-primary-600 text-white font-display font-bold text-body-sm shrink-0">
+                <span className="inline-flex items-center justify-center w-8 h-8 rounded-pill bg-primary-700 text-white font-display font-bold text-body-sm shrink-0">
                   {CURRENT_STEP}
                 </span>
                 <h2 className="font-display text-h3 text-ink-900">

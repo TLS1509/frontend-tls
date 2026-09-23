@@ -295,6 +295,11 @@ export const PageHero: React.FC<PageHeroProps> = ({
               {eyebrow.icon}
               {eyebrow.label}
             </span>
+          ) : typeof eyebrow === 'string' && (tone === 'brand' || tone === 'warm' || tone === 'sun') ? (
+            /* Un eyebrow passé en simple chaîne n'avait AUCUNE couleur : il
+               héritait d'ink-900, posé sur le dégradé teal des heros brand
+               (jusqu'à 2,25:1, audit du 23/09). Il prend la couleur du ton. */
+            <span className={['text-caption font-medium', TONE_EYEBROW[tone]].join(' ')}>{eyebrow}</span>
           ) : (
             eyebrow
           )}

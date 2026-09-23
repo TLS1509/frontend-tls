@@ -60,9 +60,9 @@ const TONE_SELECTED: Record<OptionGridTone, string> = {
 };
 
 const TONE_ICON_BG_SELECTED: Record<OptionGridTone, string> = {
-  brand: 'bg-primary-500 text-white',
-  warm:  'bg-secondary-500 text-white',
-  sun:   'bg-accent-400 text-white',
+  brand: 'bg-primary-700 text-white',
+  warm:  'bg-secondary-700 text-white',
+  sun:   'bg-accent-700 text-white',
 };
 
 const TONE_LABEL_SELECTED: Record<OptionGridTone, string> = {

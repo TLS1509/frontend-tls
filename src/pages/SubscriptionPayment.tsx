@@ -291,7 +291,7 @@ export const SubscriptionPayment: React.FC = () => {
                     className={[
                       'inline-flex items-center justify-center w-full px-4 py-2 rounded-pill font-body text-body-sm font-semibold transition-colors duration-base',
                       isSelected
-                        ? 'bg-primary-600 text-white'
+                        ? 'bg-primary-700 text-white'
                         : 'bg-ink-100 text-ink-700 group-hover:bg-primary-50 group-hover:text-primary-700',
                     ].join(' ')}
                   >

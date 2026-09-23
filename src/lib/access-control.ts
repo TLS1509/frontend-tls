@@ -101,13 +101,13 @@ export function getAccessDenialMessage(result: AccessCheckResult): string {
 
   switch (result.reason) {
     case 'tier':
-      return `Upgrade your subscription to access this content`;
+      return `Passe à l'abonnement supérieur pour accéder à ce contenu`;
     case 'prerequisite_items':
-      return `Complete prerequisite items first (${result.details})`;
+      return `Valide d'abord les prérequis (${result.details})`;
     case 'prerequisite_level':
-      return `Reach the required competence level (${result.details})`;
+      return `Atteins le niveau de compétence requis (${result.details})`;
     default:
-      return 'Access restricted';
+      return 'Accès restreint';
   }
 }
 

@@ -24,7 +24,7 @@ const SCORE_CLASSES: Record<number, string> = {
   2: 'bg-warning-bg text-warning-fg',
   3: 'bg-info-bg text-info-fg',
   4: 'bg-success-bg text-success-fg',
-  5: 'bg-primary-600 text-white',
+  5: 'bg-primary-700 text-white',
 };
 
 const SCORE_LABEL: Record<number, string> = {

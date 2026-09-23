@@ -48,8 +48,8 @@ export interface FloatingNavButtonProps {
 }
 
 const TONE_BG: Record<FloatingNavTone, string> = {
-  primary: 'bg-primary-600 hover:bg-primary-500 text-white shadow-brand-md',
-  warm:    'bg-secondary-500 hover:bg-secondary-400 text-white shadow-warm-md',
+  primary: 'bg-primary-700 hover:bg-primary-800 text-white shadow-brand-md',
+  warm:    'bg-secondary-700 hover:bg-secondary-800 text-white shadow-warm-md',
   sun:     'bg-accent-400 hover:bg-accent-300 text-ink-900 shadow-sun-sm',
   brand:   'bg-gradient-to-br from-primary-500 to-primary-700 hover:from-primary-400 hover:to-primary-600 text-white shadow-lg',
 };

@@ -98,7 +98,7 @@ export const BehavioralTileGrid: React.FC<BehavioralTileGridProps> = ({
               'disabled:opacity-disabled disabled:cursor-not-allowed',
               PAD[size],
               isSelected
-                ? 'bg-secondary-500 border-secondary-500 text-white shadow-card scale-[1.01]'
+                ? 'bg-secondary-700 border-secondary-700 text-white shadow-card scale-[1.01]'
                 : 'bg-white border border-ink-100 text-ink-800 hover:border-secondary-300 hover:bg-secondary-50/40 active:scale-[0.99]',
             ]
               .filter(Boolean)

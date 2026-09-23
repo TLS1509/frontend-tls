@@ -296,15 +296,20 @@ export const JournalNewEntry: React.FC = () => {
         </span>
 
         <div className="flex items-center gap-stack-xs shrink-0">
-          {autoSaveStatus === 'saving' && (
-            <span className="text-caption text-ink-600 font-medium">Sauvegarde...</span>
-          )}
-          {autoSaveStatus === 'saved' && (
-            <div className="flex items-center gap-tight text-caption text-success-base font-medium">
-              <CheckCheck size={14} />
-              Enregistré
-            </div>
-          )}
+          {/* Région live permanente : l'état de sauvegarde est annoncé aux
+              lecteurs d'écran (WCAG 4.1.3). « Enregistré » passe de success-base
+              (2,0:1) à success-fg. */}
+          <span role="status" aria-live="polite" className="contents">
+            {autoSaveStatus === 'saving' && (
+              <span className="text-caption text-ink-600 font-medium">Sauvegarde…</span>
+            )}
+            {autoSaveStatus === 'saved' && (
+              <span className="flex items-center gap-tight text-caption text-success-fg font-medium">
+                <CheckCheck size={14} aria-hidden />
+                Enregistré
+              </span>
+            )}
+          </span>
           <Button leadingIcon={<Save size={14} />} size="sm" onClick={handlePublish}>
             Publier
           </Button>
@@ -441,13 +446,19 @@ export const JournalNewEntry: React.FC = () => {
 
           <hr className="border-ink-200 mb-stack-md" />
 
-          {/* Title input */}
+          {/* La page n'avait aucun titre de niveau 1 : il est posé pour les
+              lecteurs d'écran, le champ de titre faisant office de titre visible. */}
+          <h1 className="sr-only">Nouvelle entrée de journal</h1>
+
+          {/* Title input — nom accessible explicite (le placeholder n'en est pas
+              un) et placeholder en ink-500 (4,99:1 ; ink-300 mesurait 1,47). */}
           <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="Donnez un titre à votre entrée..."
-            className="w-full border-0 outline-none bg-transparent text-2xl font-semibold text-ink-900 font-body mb-3 h-auto block placeholder:text-ink-300"
+            aria-label="Titre de l'entrée"
+            placeholder="Donne un titre à ton entrée…"
+            className="w-full border-0 outline-none bg-transparent text-2xl font-semibold text-ink-900 font-body mb-3 h-auto block placeholder:text-ink-500"
           />
 
           <hr className="border-ink-200 mb-stack-md" />
@@ -456,9 +467,10 @@ export const JournalNewEntry: React.FC = () => {
           <textarea
             value={body}
             onChange={(e) => setBody(e.target.value)}
+            aria-label="Contenu de l'entrée"
             placeholder={cfg.bodyPlaceholder}
             rows={12}
-            className="w-full border-0 outline-none bg-transparent font-body text-body text-ink-900 resize-none h-auto block placeholder:text-ink-300"
+            className="w-full border-0 outline-none bg-transparent font-body text-body text-ink-900 resize-none h-auto block placeholder:text-ink-500"
           />
         </div>
       </PageShell>

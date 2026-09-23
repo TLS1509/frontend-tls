@@ -150,7 +150,7 @@ const Pill: React.FC<{ children: React.ReactNode; className?: string }> = ({ chi
  * tone="warm" : orange sur fond clair (hero). tone="gold" : jaune TLS sur fond sombre (CTA section).
  */
 const LANDING_CTA_TONE = {
-  warm: { btn: 'bg-secondary-500 hover:bg-secondary-600 shadow-warm-md text-white', icon: 'bg-white/20', focus: 'focus-visible:outline-white' },
+  warm: { btn: 'bg-secondary-700 hover:bg-secondary-800 shadow-warm-md text-white', icon: 'bg-white/20', focus: 'focus-visible:outline-white' },
   gold: { btn: 'bg-accent-400 hover:bg-accent-500 shadow-sun-sm text-ink-900', icon: 'bg-ink-900/10', focus: 'focus-visible:outline-accent-400' },
 } as const;
 

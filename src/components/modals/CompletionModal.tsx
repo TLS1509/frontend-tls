@@ -126,7 +126,7 @@ export const CompletionModal: React.FC<CompletionModalProps> = ({
           {/* XP badge */}
           {xpEarned > 0 && (
             <div className="flex items-center justify-center gap-stack-xs py-3 px-4 rounded-xl bg-accent-50 border border-accent-200">
-              <span className="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-accent-400 text-white shrink-0">
+              <span className="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-accent-700 text-white shrink-0">
                 <Zap size={14} strokeWidth={2.5} />
               </span>
               <span className="font-body text-body-sm font-semibold text-accent-700">

@@ -90,7 +90,7 @@ function formatDateLabel(dateKey: string): string {
 const PILL_BASE = 'px-2.5 py-1 rounded-pill text-micro font-bold whitespace-nowrap';
 
 function getPillClass(stepKey: Step, currentStep: Step, allSteps: Step[]): string {
-  if (stepKey === currentStep) return `${PILL_BASE} bg-primary-500 text-white`;
+  if (stepKey === currentStep) return `${PILL_BASE} bg-primary-700 text-white`;
   const idx = allSteps.indexOf(stepKey);
   const curIdx = allSteps.indexOf(currentStep);
   if (idx < curIdx) return `${PILL_BASE} bg-success-bg text-success-fg`;
@@ -99,7 +99,7 @@ function getPillClass(stepKey: Step, currentStep: Step, allSteps: Step[]): strin
 
 const getDayBtnClass = (hasSlots: boolean, isSelected: boolean): string => {
   const base = 'aspect-square rounded-md border text-caption transition-all';
-  if (isSelected) return `${base} border-primary-500 bg-primary-500 text-white font-bold cursor-pointer`;
+  if (isSelected) return `${base} border-primary-700 bg-primary-700 text-white font-bold cursor-pointer`;
   if (hasSlots) return `${base} border-transparent bg-primary-50 text-primary-700 font-bold cursor-pointer hover:bg-primary-100`;
   return `${base} border-transparent bg-transparent text-ink-600 opacity-35 cursor-default`;
 };

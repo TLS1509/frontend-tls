@@ -16,9 +16,9 @@ const LEVEL_BADGE_CLASSES: Record<CompetenceLevel, string> = {
 };
 
 const LEVEL_DOT_CLASSES: Record<CompetenceLevel, string> = {
-  1: 'bg-primary-600 text-white shadow-brand-xs',
-  2: 'bg-secondary-600 text-white shadow-sm',
-  3: 'bg-accent-500 text-white shadow-sm',
+  1: 'bg-primary-700 text-white shadow-brand-xs',
+  2: 'bg-secondary-700 text-white shadow-sm',
+  3: 'bg-accent-700 text-white shadow-sm',
   4: 'bg-white/95 text-primary-800 shadow-md',
 };
 

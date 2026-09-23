@@ -48,7 +48,7 @@ const SIZE_CLASSES: Record<AvatarSize, string> = {
 
 const TINT_CLASSES: Record<AvatarTint, string> = {
   brand: 'bg-gradient-to-br from-primary-100 to-primary-200 text-primary-800',
-  warm:  'bg-gradient-to-br from-secondary-100 to-secondary-200 text-secondary-700',
+  warm:  'bg-gradient-to-br from-secondary-100 to-secondary-200 text-secondary-800',
   sun:   'bg-gradient-to-br from-accent-100 to-accent-200 text-accent-800',
   ink:   'bg-gradient-to-br from-ink-100 to-ink-300 text-ink-800',
 };

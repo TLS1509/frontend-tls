@@ -19,8 +19,8 @@ export interface StepIndicatorProps {
 }
 
 const TONE_ACTIVE: Record<string, string> = {
-  primary: 'bg-primary-600 text-white',
-  warm:    'bg-secondary-500 text-white',
+  primary: 'bg-primary-700 text-white',
+  warm:    'bg-secondary-700 text-white',
   sun:     'bg-accent-400 text-ink-900',
 };
 

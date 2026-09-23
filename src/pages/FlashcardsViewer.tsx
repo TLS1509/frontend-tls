@@ -380,7 +380,7 @@ export const FlashcardsViewer: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => handleRate('known')}
-                      className="inline-flex items-center gap-stack-2xs min-h-touch px-4 py-2.5 rounded-lg bg-success-base text-white font-body text-caption font-semibold shadow-[0_2px_8px_rgba(157,190,186,0.3)] hover:bg-success-fg active:scale-95 transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-success-base"
+                      className="inline-flex items-center gap-stack-2xs min-h-touch px-4 py-2.5 rounded-lg bg-success-vivid text-white font-body text-caption font-semibold shadow-[0_2px_8px_rgba(157,190,186,0.3)] hover:bg-success-fg active:scale-95 transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-success-base"
                     >
                       <Check size={14} />
                       Je le savais

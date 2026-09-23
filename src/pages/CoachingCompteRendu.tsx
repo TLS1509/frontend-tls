@@ -296,7 +296,7 @@ export const CoachingCompteRendu: React.FC = () => {
               </h2>
               <div className="bg-primary-50/40 border border-primary-100 rounded-lg p-stack-lg">
                 <div className="flex gap-stack items-start">
-                  <div className="shrink-0 w-11 h-11 rounded-pill bg-primary-600 text-white flex items-center justify-center font-body text-body-sm font-extrabold shadow-sm">
+                  <div className="shrink-0 w-11 h-11 rounded-pill bg-primary-700 text-white flex items-center justify-center font-body text-body-sm font-extrabold shadow-sm">
                     {report.coach.initials}
                   </div>
                   <div className="flex-1">

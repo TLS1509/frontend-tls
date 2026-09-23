@@ -313,7 +313,7 @@ export default function CoachLearnerProfile() {
                                 className={[
                                   'flex-1 h-10 rounded-lg text-body-sm font-semibold border transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                                   pickedLevel === lvl
-                                    ? 'bg-primary-600 text-white border-primary-600'
+                                    ? 'bg-primary-700 text-white border-primary-700'
                                     : 'bg-white text-ink-600 border-ink-200 hover:border-primary-300',
                                 ].join(' ')}
                               >

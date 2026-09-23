@@ -10,8 +10,8 @@ import {
 export type FilterChipTone = 'primary' | 'warm' | 'sun' | 'neutral';
 
 const COUNT_BG_ACTIVE: Record<FilterChipTone, string> = {
-  primary: 'bg-primary-500 text-white',
-  warm:    'bg-secondary-500 text-white',
+  primary: 'bg-primary-700 text-white',
+  warm:    'bg-secondary-700 text-white',
   sun:     'bg-accent-400 text-ink-900',
   neutral: 'bg-ink-900 text-white',
 };

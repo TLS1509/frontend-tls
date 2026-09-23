@@ -77,7 +77,7 @@ const MessagingThread: React.FC = () => {
                 <div
                   className={`px-stack py-3 rounded-xl ${
                     m.isMe
-                      ? 'bg-primary-600 text-white rounded-br-[6px]'
+                      ? 'bg-primary-700 text-white rounded-br-[6px]'
                       : 'bg-white border border-ink-200 rounded-bl-[6px]'
                   }`}
                 >

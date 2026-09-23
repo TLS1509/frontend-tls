@@ -64,7 +64,7 @@ const AiBubble: React.FC<{ children: React.ReactNode }> = ({ children }) => (
 
 const UserBubble: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <div className="flex items-end justify-end gap-stack-xs max-w-[88%] sm:max-w-[78%] ml-auto animate-in fade-in slide-in-from-bottom-1 duration-300">
-    <div className="rounded-lg rounded-br-md bg-secondary-500 text-white px-4 py-3 text-body-sm shadow-sm">
+    <div className="rounded-lg rounded-br-md bg-secondary-700 text-white px-4 py-3 text-body-sm shadow-sm">
       {children}
     </div>
   </div>

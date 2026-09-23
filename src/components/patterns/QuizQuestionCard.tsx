@@ -71,13 +71,13 @@ export const QuizQuestionCard: React.FC<QuizQuestionCardProps> = ({
           let letterBg = 'bg-ink-100 text-ink-700';
           if (showCorrect) {
             optionClasses = 'border-success-base bg-success-bg shadow-sm';
-            letterBg = 'bg-success-base text-white';
+            letterBg = 'bg-success-vivid text-white';
           } else if (showIncorrect) {
             optionClasses = 'border-danger-base bg-danger-bg';
-            letterBg = 'bg-danger-base text-white';
+            letterBg = 'bg-danger-strong text-white';
           } else if (isSelected) {
             optionClasses = 'border-primary-500 bg-primary-50 shadow-brand-xs';
-            letterBg = 'bg-primary-500 text-white';
+            letterBg = 'bg-primary-700 text-white';
           }
 
           return (

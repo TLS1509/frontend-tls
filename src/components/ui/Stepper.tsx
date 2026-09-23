@@ -19,7 +19,7 @@ const CIRCLE_BASE =
   'relative z-10 inline-flex items-center justify-center w-10 h-10 rounded-pill border-2 font-body font-bold text-caption shrink-0 transition-[background-color,border-color,box-shadow,transform] duration-base ease-emphasis';
 
 const CIRCLE_STATE: Record<StepperState, string> = {
-  done:     'bg-success-base border-success-base text-white shadow-sm',
+  done:     'bg-success-vivid border-success-vivid text-white shadow-sm',
   current:  'bg-white border-primary-600 text-primary-700 shadow-brand-sm ring-4 ring-primary-100 scale-110',
   upcoming: 'bg-white border-ink-200 text-ink-400',
 };

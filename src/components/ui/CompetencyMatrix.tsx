@@ -21,10 +21,10 @@ const ICON_COMPONENTS = [null, Lightbulb, Brain, Rocket, Zap, Crown];
 const COLOR_KEYS: SkillColor[] = ['primary', 'warm', 'sun', 'success'];
 
 const SKILL_BG_ACTIVE: Record<SkillColor, string> = {
-  primary: 'bg-primary-500 border-primary-500 text-white',
-  warm:    'bg-secondary-500 border-secondary-500 text-white',
+  primary: 'bg-primary-700 border-primary-700 text-white',
+  warm:    'bg-secondary-700 border-secondary-700 text-white',
   sun:     'bg-accent-400 border-accent-400 text-accent-900',
-  success: 'bg-success-base border-success-base text-white',
+  success: 'bg-success-vivid border-success-vivid text-white',
 };
 
 const CELL_INACTIVE = 'bg-ink-50 border-ink-200 text-ink-400';

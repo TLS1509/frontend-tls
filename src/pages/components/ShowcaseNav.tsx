@@ -24,7 +24,7 @@ const LINK_BASE =
   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
 
 const LINK_IDLE = 'text-ink-600 hover:bg-primary-50 hover:text-primary-700';
-const LINK_ACTIVE = 'bg-primary-600 text-white hover:bg-primary-700';
+const LINK_ACTIVE = 'bg-primary-700 text-white hover:bg-primary-800';
 
 const COUNT_IDLE = 'text-ink-600';
 const COUNT_ACTIVE = 'text-white/75';

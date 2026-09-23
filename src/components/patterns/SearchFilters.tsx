@@ -225,13 +225,13 @@ export const SearchFilters: React.FC<SearchFiltersProps> = ({
                   'relative inline-flex items-center justify-center h-9 w-9 -my-stack-2xs -mr-stack-sm rounded-md border cursor-pointer transition-all',
                   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                   panelOpen || activeCount > 0
-                    ? 'bg-primary-500 border-primary-500 text-white hover:bg-primary-600'
+                    ? 'bg-primary-700 border-primary-700 text-white hover:bg-primary-800'
                     : 'bg-white border-ink-200 text-ink-600 hover:bg-ink-50 hover:border-ink-300',
                 ].join(' ')}
               >
                 <SlidersHorizontal size={16} strokeWidth={2.25} />
                 {activeCount > 0 && !panelOpen && (
-                  <span className="absolute -top-1 -right-1 inline-flex items-center justify-center w-4 h-4 rounded-pill bg-accent-500 text-white text-micro font-bold border border-white">
+                  <span className="absolute -top-1 -right-1 inline-flex items-center justify-center w-4 h-4 rounded-pill bg-accent-700 text-white text-micro font-bold border border-white">
                     {activeCount}
                   </span>
                 )}

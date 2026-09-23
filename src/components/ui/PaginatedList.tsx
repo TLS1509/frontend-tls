@@ -67,7 +67,7 @@ export function PaginatedList<T>({
                     className={[
                       'inline-flex items-center justify-center w-9 h-9 rounded-pill text-caption font-bold transition-all duration-fast',
                       i === page
-                        ? 'bg-primary-600 text-white shadow-sm'
+                        ? 'bg-primary-700 text-white shadow-sm'
                         : 'border border-ink-200 text-ink-600 hover:bg-primary-50 hover:border-primary-300 hover:text-primary-700',
                     ].join(' ')}
                   >

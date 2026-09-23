@@ -1384,7 +1384,7 @@ export const LessonPlayer: React.FC = () => {
         <h2 className={SECTION_TITLE}>{d.heading}</h2>
         <div className="rounded-lg p-stack-lg mb-stack-md bg-danger-base/[0.06] border-2 border-danger-base/25">
           <div className="mb-3">
-            <span className="inline-flex items-center gap-tight bg-danger-base text-white px-3 py-1 rounded-lg text-caption font-bold">
+            <span className="inline-flex items-center gap-tight bg-danger-strong text-white px-3 py-1 rounded-lg text-caption font-bold">
               <XCircle size={14} /> {d.bad.label}
             </span>
           </div>
@@ -1399,7 +1399,7 @@ export const LessonPlayer: React.FC = () => {
         </div>
         <div className="rounded-lg p-stack-lg bg-success-base/[0.08] border-2 border-success-base/30">
           <div className="mb-3">
-            <span className="inline-flex items-center gap-tight bg-success-base text-white px-3 py-1 rounded-lg text-caption font-bold">
+            <span className="inline-flex items-center gap-tight bg-success-vivid text-white px-3 py-1 rounded-lg text-caption font-bold">
               <CheckCircle2 size={14} /> {d.good.label}
             </span>
           </div>
@@ -1465,7 +1465,7 @@ export const LessonPlayer: React.FC = () => {
                 <button
                   onClick={() => setDecouvrirStep((s) => Math.min(total - 1, s + 1))}
                   disabled={decouvrirStep === total - 1}
-                  className="inline-flex items-center gap-stack-2xs px-3 py-1.5 rounded-lg font-body text-caption font-semibold text-white bg-primary-600 disabled:opacity-disabled disabled:cursor-not-allowed hover:bg-primary-700 transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                  className="inline-flex items-center gap-stack-2xs px-3 py-1.5 rounded-lg font-body text-caption font-semibold text-white bg-primary-700 disabled:opacity-disabled disabled:cursor-not-allowed hover:bg-primary-800 transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                 >
                   Suivant <ChevronRight size={14} />
                 </button>
@@ -1597,7 +1597,7 @@ export const LessonPlayer: React.FC = () => {
       <div className="mb-section">
         {lessonData.conclusion.keyPoints.map((point, i) => (
           <div key={i} className="flex items-center gap-stack-xs p-stack bg-ink-50 rounded-lg mb-3">
-            <div className="w-7 h-7 rounded-pill bg-success-base text-white font-display text-caption font-bold flex items-center justify-center shrink-0">
+            <div className="w-7 h-7 rounded-pill bg-success-vivid text-white font-display text-caption font-bold flex items-center justify-center shrink-0">
               {i + 1}
             </div>
             <span className="font-body text-body-sm">{point}</span>
@@ -1629,7 +1629,7 @@ export const LessonPlayer: React.FC = () => {
         <div className="flex flex-col gap-stack mb-section">
           {t.scenarios.map((scenario, i) => (
             <div key={i} className="flex gap-stack p-stack-lg bg-white border border-ink-200 rounded-lg hover:border-primary-300 transition-colors duration-200">
-              <div className="w-8 h-8 rounded-pill bg-primary-500 text-white font-display text-caption font-bold flex items-center justify-center shrink-0 mt-0.5">
+              <div className="w-8 h-8 rounded-pill bg-primary-700 text-white font-display text-caption font-bold flex items-center justify-center shrink-0 mt-0.5">
                 {i + 1}
               </div>
               <div>
@@ -1662,8 +1662,8 @@ export const LessonPlayer: React.FC = () => {
   /* ── ContentBlock renderer ────────────────────────────────────────────── */
 
   const SCHEMA_COLOR_MAP: Record<string, { card: string; num: string }> = {
-    primary:   { card: 'bg-primary-50 border-primary-200',   num: 'bg-primary-500 text-white' },
-    secondary: { card: 'bg-secondary-50 border-secondary-500/30', num: 'bg-secondary-500 text-white' },
+    primary:   { card: 'bg-primary-50 border-primary-200',   num: 'bg-primary-700 text-white' },
+    secondary: { card: 'bg-secondary-50 border-secondary-500/30', num: 'bg-secondary-700 text-white' },
     accent:    { card: 'bg-accent-50 border-accent-400/50',  num: 'bg-accent-400 text-ink-900' },
     neutral:   { card: 'bg-ink-50 border-ink-200',           num: 'bg-ink-300 text-ink-700' },
   };
@@ -2213,7 +2213,7 @@ export const LessonPlayer: React.FC = () => {
                         setEmbeddedUrls((prev) => ({ ...prev, [index]: normalizeEmbedUrl(embedInputs[index]) }));
                       }
                     }}
-                    className="inline-flex items-center gap-stack-2xs px-stack h-10 bg-primary-600 text-white rounded-lg font-body text-caption font-semibold hover:bg-primary-700 transition-colors duration-150 shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                    className="inline-flex items-center gap-stack-2xs px-stack h-10 bg-primary-700 text-white rounded-lg font-body text-caption font-semibold hover:bg-primary-800 transition-colors duration-150 shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                   >
                     <Link2 size={14} /> Charger
                   </button>
@@ -2455,7 +2455,7 @@ export const LessonPlayer: React.FC = () => {
                   className={[
                     'inline-flex items-center gap-stack-2xs px-3 py-1.5 rounded-lg border-none font-body text-micro cursor-pointer transition-all duration-200 whitespace-nowrap relative focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                     isActive
-                      ? 'bg-primary-500 text-white font-bold shadow-sm'
+                      ? 'bg-primary-700 text-white font-bold shadow-sm'
                       : 'bg-ink-50 text-ink-600 font-medium hover:bg-ink-100',
                   ].join(' ')}
                   onClick={() => goTo(index)}

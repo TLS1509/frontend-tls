@@ -91,12 +91,12 @@ const TONE_CHIP: Record<ReelTone, string> = {
 
 /** Tone → active category filter button. */
 const TONE_CATEGORY_ACTIVE: Record<ReelTone, string> = {
-  brand: 'bg-primary-500 text-white',
-  warm:  'bg-secondary-500 text-white',
-  cool:  'bg-primary-400 text-white',
+  brand: 'bg-primary-700 text-white',
+  warm:  'bg-secondary-700 text-white',
+  cool:  'bg-primary-700 text-white',
   amber: 'bg-accent-500 text-ink-900',
-  teal:  'bg-primary-600 text-white',
-  rose:  'bg-secondary-600 text-white',
+  teal:  'bg-primary-700 text-white',
+  rose:  'bg-secondary-700 text-white',
 };
 
 const REELS: Reel[] = [

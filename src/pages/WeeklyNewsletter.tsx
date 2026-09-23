@@ -97,7 +97,7 @@ export const WeeklyNewsletter: React.FC = () => {
 
         {/* Hero éditorial */}
         <header className="flex flex-col gap-stack">
-          <span className="inline-flex items-center gap-stack-2xs self-start px-3 py-1.5 rounded-pill bg-primary-500 text-white font-body text-micro font-bold uppercase tracking-widest">
+          <span className="inline-flex items-center gap-stack-2xs self-start px-3 py-1.5 rounded-pill bg-primary-700 text-white font-body text-micro font-bold uppercase tracking-widest">
             <TrendingUp size={14} /> Semaine #08
           </span>
 

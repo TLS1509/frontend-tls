@@ -54,7 +54,7 @@ export const SelectableOptionCard: React.FC<SelectableOptionCardProps> = ({
         className={[
           'rounded-lg flex items-center justify-center shrink-0',
           isCompact ? 'w-8 h-8' : 'w-10 h-10',
-          selected ? 'bg-primary-600 text-white' : 'bg-ink-100 text-ink-500',
+          selected ? 'bg-primary-700 text-white' : 'bg-ink-100 text-ink-500',
         ].join(' ')}
       >
         {icon}
