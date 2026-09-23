@@ -306,7 +306,10 @@ export const VideoReels: React.FC = () => {
         </div>
 
         <button
+          type="button"
           onClick={() => setIsMuted((m) => !m)}
+          aria-label="Couper le son"
+          aria-pressed={isMuted}
           className="w-10 h-10 rounded-pill border border-white/15 bg-black/55 backdrop-blur-glass-light flex items-center justify-center text-white/85 cursor-pointer transition-all duration-200 hover:bg-black/75 shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70"
         >
           {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
