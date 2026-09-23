@@ -18,7 +18,8 @@ export interface RankingCardProps {
 const RANK_BG: Record<number, string> = {
   1: 'bg-gradient-to-br from-accent-300 to-accent-500 text-accent-900 shadow-md ring-4 ring-accent-100',
   2: 'bg-gradient-to-br from-ink-200 to-ink-400 text-ink-900 shadow-md ring-4 ring-ink-100',
-  3: 'bg-gradient-to-br from-secondary-400 to-secondary-600 text-white shadow-md ring-4 ring-secondary-100',
+  // Podium = une icône de médaille, 3:1 : arrêt clair au 600 (3,98 ; le 400, 2,48).
+  3: 'bg-gradient-to-br from-secondary-600 to-secondary-700 text-white shadow-md ring-4 ring-secondary-100',
 };
 
 const DEFAULT_RANK_BG = 'bg-ink-100 text-ink-700 ring-2 ring-ink-200';

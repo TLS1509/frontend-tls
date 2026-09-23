@@ -24,7 +24,9 @@ export interface StepCardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const STATUS_BADGE: Record<StepStatus, string> = {
   'not-started': 'bg-ink-100 text-ink-600 ring-2 ring-ink-200',
-  'in-progress': 'bg-gradient-to-br from-primary-500 to-primary-700 text-white shadow-brand-sm ring-4 ring-primary-100',
+  // Numéro d'étape en text-h3 (24 px) = grand texte, 3:1 : arrêt clair au 600
+  // (3,66). Parti du 500, il mesurait 2,94.
+  'in-progress': 'bg-gradient-to-br from-primary-600 to-primary-700 text-white shadow-brand-sm ring-4 ring-primary-100',
   completed:     'bg-gradient-to-br from-success-base to-success-fg text-white shadow-success-sm ring-4 ring-success-bg',
   locked:        'bg-ink-50 text-ink-400 ring-2 ring-ink-200',
 };

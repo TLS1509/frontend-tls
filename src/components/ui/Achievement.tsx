@@ -34,9 +34,11 @@ const VARIANT_CARD: Record<'unlocked' | 'locked' | 'in-progress', string> = {
 };
 
 const VARIANT_BADGE: Record<'unlocked' | 'locked' | 'in-progress', string> = {
-  unlocked:     'bg-gradient-to-br from-accent-300 via-accent-400 to-accent-600 text-white shadow-md ring-4 ring-accent-100',
+  // La pastille porte une icône : 3:1 à l'arrêt le plus clair. L'or n'y
+  // arrive qu'au 700 (4,88 ; le 300 mesurait 1,61), le teal au 600 (3,66 ; le 400, 2,44).
+  unlocked:     'bg-gradient-to-br from-accent-700 to-accent-800 text-white shadow-md ring-4 ring-accent-100',
   locked:       'bg-ink-200 text-ink-400',
-  'in-progress': 'bg-gradient-to-br from-primary-400 to-primary-700 text-white shadow-brand-sm ring-4 ring-primary-100',
+  'in-progress': 'bg-gradient-to-br from-primary-600 to-primary-700 text-white shadow-brand-sm ring-4 ring-primary-100',
 };
 
 /* Survol (carte cliquable) : filet fermé d'un cran + fond très léger — règle du

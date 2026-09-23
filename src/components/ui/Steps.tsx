@@ -17,7 +17,9 @@ const MARKER_BASE =
   'absolute left-0 top-0 w-9 h-9 rounded-pill flex items-center justify-center text-caption font-bold border-2 transition-[background-color,border-color,box-shadow,transform] duration-base ease-emphasis';
 
 const MARKER_STATE: Record<StepState, string> = {
-  done:     'bg-gradient-to-br from-primary-500 to-primary-700 border-transparent text-white shadow-brand-sm',
+  // Pastille « faite » = une coche, icône porteuse de sens : 3:1 suffit, donc
+  // l'arrêt clair au 600 (3,66). Partie du 500, la coche mesurait 2,94.
+  done:     'bg-gradient-to-br from-primary-600 to-primary-700 border-transparent text-white shadow-brand-sm',
   current:  'bg-white border-primary-500 text-primary-700 shadow-brand-sm ring-4 ring-primary-100 scale-105',
   upcoming: 'bg-white border-ink-200 text-ink-500',
   locked:   'bg-ink-50 border-ink-200 text-ink-400 opacity-70',
