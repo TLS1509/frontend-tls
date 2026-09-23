@@ -178,7 +178,7 @@ const Moteur: React.FC = () => (
           <FadeInWhenVisible key={e.verbe} delay={i * 0.07} direction="up">
             <div className="flex h-full flex-col gap-stack border-t-2 border-primary-200 pt-stack-lg">
               <div className="flex items-baseline gap-stack-xs">
-                <span className="font-display text-h1 font-extrabold text-primary-300 leading-none">{e.num}</span>
+                <span className="font-display text-h1 font-extrabold text-primary-700 leading-none">{e.num}</span>
                 <h3 className="font-display text-h2 text-ink-900 leading-none">{e.verbe}</h3>
               </div>
               <p className="font-body text-body text-ink-600 m-0">{e.detail}</p>
