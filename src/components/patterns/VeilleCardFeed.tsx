@@ -107,6 +107,13 @@ const TONE_LINK: Record<VeilleCardTone, string> = {
    d'une carte qui en rend 14 — un rayon intérieur supérieur à l'extérieur, ce
    qui creuse plus que le clip du parent et laisse voir le fond de la carte en
    liseré aux deux coins hauts. Vérifié en sonde isolée, agrandi 3,4×. */
+/* Les boutons posés SUR une couverture (Enregistrer, flèches du carrousel) sont
+   en `onDark solid` : verre blanc à 85 % et icône encre, lisible sur tous les
+   crans du dégradé. En `onDark outline` (filet et icône blancs), ils tombaient
+   à 1,61:1 sur l'or 300 et 2,44 sur le teal 400 — les couvertures partent de
+   crans clairs. Arbitrage n°13 (2026-09-23, option C) : les couvertures
+   « magazine » restent lumineuses, c'est le bouton qui s'éclaircit. L'état
+   « enregistré » est porté par l'icône (BookmarkCheck) et `aria-pressed`. */
 const COVER_GRADIENT: Record<VeilleCardTone, string> = {
   brand: 'bg-gradient-to-br from-primary-400 via-primary-500 to-primary-700',
   warm:  'bg-gradient-to-br from-secondary-300 via-secondary-500 to-secondary-700',
@@ -194,7 +201,7 @@ export const VeilleCard: React.FC<VeilleCardProps> = ({ item, surface, isSaved, 
             iconOnly
             size="sm"
             onDark
-            emphasis={isSaved ? 'solid' : 'outline'}
+            emphasis="solid"
             onClick={(e) => { e.stopPropagation(); onToggleSave(item.id); }}
             aria-label={isSaved ? 'Retirer des favoris' : 'Enregistrer'}
             aria-pressed={isSaved}
@@ -365,7 +372,7 @@ export const FeaturedSpotlight: React.FC<FeaturedSpotlightProps> = ({ item, isSa
           <Button
             iconOnly
             onDark
-            emphasis={isSaved ? 'solid' : 'outline'}
+            emphasis="solid"
             onClick={(e) => { e.stopPropagation(); onToggleSave(item.id); }}
             aria-label={isSaved ? 'Retirer des favoris' : 'Enregistrer'}
             aria-pressed={isSaved}
@@ -467,7 +474,7 @@ export const FeaturedSpotlightCarousel: React.FC<FeaturedSpotlightCarouselProps>
             <Button
               iconOnly
               onDark
-              emphasis={isSaved ? 'solid' : 'outline'}
+              emphasis="solid"
               onClick={(e) => { e.stopPropagation(); onToggleSave(item.id); }}
               aria-label={isSaved ? 'Retirer des favoris' : 'Enregistrer'}
               aria-pressed={isSaved}
@@ -500,10 +507,10 @@ export const FeaturedSpotlightCarousel: React.FC<FeaturedSpotlightCarouselProps>
 
               {/* Arrow buttons */}
               <div className="flex items-center gap-stack-xs">
-                <Button iconOnly size="sm" onDark emphasis="outline" aria-label="Précédent" onClick={prev}>
+                <Button iconOnly size="sm" onDark emphasis="solid" aria-label="Précédent" onClick={prev}>
                   <ChevronLeft strokeWidth={2.5} />
                 </Button>
-                <Button iconOnly size="sm" onDark emphasis="outline" aria-label="Suivant" onClick={next}>
+                <Button iconOnly size="sm" onDark emphasis="solid" aria-label="Suivant" onClick={next}>
                   <ChevronRight strokeWidth={2.5} />
                 </Button>
               </div>
