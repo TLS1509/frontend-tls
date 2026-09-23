@@ -168,7 +168,7 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({
         </h2>
         <div
           className={[
-            'text-h1 font-display font-black mb-2',
+            'text-h1 font-display mb-2',
             isSuccess ? 'text-success-fg' : 'text-primary-600',
           ].join(' ')}
         >

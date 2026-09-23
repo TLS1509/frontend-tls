@@ -327,10 +327,10 @@ export const PageHero: React.FC<PageHeroProps> = ({
       <h1 className={[
         'font-display leading-[1.1] text-balance',
         isFlat && !compact
-          ? 'text-h1 font-extrabold tracking-display'
+          ? 'text-h1 tracking-display'
           : isFlat && compact
           ? 'text-h2 font-bold tracking-headline'
-          : 'relative text-h1 font-extrabold tracking-display',
+          : 'relative text-h1 tracking-display',
         TONE_TITLE[tone],
       ].join(' ')}>
         {title}

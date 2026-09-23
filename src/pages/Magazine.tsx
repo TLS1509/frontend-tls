@@ -199,7 +199,7 @@ export const Magazine: React.FC = () => {
                         '!h-auto !overflow-visible !items-start !font-normal',
                       ].join(' ')}
                     >
-                      <span className={`font-display text-h2 font-extrabold leading-none min-w-[40px] shrink-0 tabular-nums ${tone.num}`}>
+                      <span className={`font-display text-h2 leading-none min-w-[40px] shrink-0 tabular-nums ${tone.num}`}>
                         {item.num}
                       </span>
                       <div className="flex-1 min-w-0">

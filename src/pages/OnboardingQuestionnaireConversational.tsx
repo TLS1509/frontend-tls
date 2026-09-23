@@ -444,7 +444,7 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
       >
         {isClosed ? (
           <>
-            <p className="font-display text-h2 font-extrabold tracking-display text-ink-900">
+            <p className="font-display text-h2 tracking-display text-ink-900">
               C'est tout.
             </p>
             <p className="font-body text-body text-ink-500">

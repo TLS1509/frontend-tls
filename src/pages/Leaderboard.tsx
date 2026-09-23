@@ -162,7 +162,7 @@ export const Leaderboard: React.FC = () => {
               >
                 {/* Rank badge + points */}
                 <div className="flex items-center justify-between">
-                  <span className={['inline-flex items-center justify-center w-10 h-10 rounded-xl font-display text-h4 font-extrabold leading-none', pod.rankClasses].join(' ')}>
+                  <span className={['inline-flex items-center justify-center w-10 h-10 rounded-xl font-display text-h4 leading-none', pod.rankClasses].join(' ')}>
                     #{index + 1}
                   </span>
                   <span className={`text-caption font-bold ${pod.badgeClasses}`}>
@@ -226,7 +226,7 @@ export const Leaderboard: React.FC = () => {
                 </div>
               </div>
               <div className="text-right">
-                <div className="font-display text-h3 font-extrabold text-primary-600">
+                <div className="font-display text-h3 text-primary-600">
                   #{currentUserRow.rank}
                 </div>
                 <div className="font-body text-caption text-ink-600">classement</div>

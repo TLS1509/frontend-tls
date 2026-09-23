@@ -244,7 +244,7 @@ export const Dossier: React.FC = () => {
                   <div className="grid grid-cols-2 gap-stack">
                     {BIG_STATS.map((stat, i) => (
                       <div key={i} className="flex flex-col items-center text-center p-stack-lg rounded-lg border border-ink-100 bg-white">
-                        <div className={`font-display text-h1 font-extrabold leading-none mb-stack-xs ${STAT_TONE[stat.tone].value}`}>
+                        <div className={`font-display text-h1 leading-none mb-stack-xs ${STAT_TONE[stat.tone].value}`}>
                           {stat.value}
                         </div>
                         <p className="m-0 font-body text-body-sm font-semibold text-ink-900 mb-stack-xs">

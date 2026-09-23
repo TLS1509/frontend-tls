@@ -261,7 +261,7 @@ const CreditsTab: React.FC<{ credits: { classic: number; special: number } }> = 
             </div>
             <div className="flex flex-col gap-tight">
               <div className="flex items-end gap-tight">
-                <span className="font-display text-h2 font-extrabold text-secondary-600">{credits.classic}</span>
+                <span className="font-display text-h2 text-secondary-600">{credits.classic}</span>
                 <span className="mb-0.5 font-body text-body-sm font-semibold text-secondary-700">crédits Classic</span>
               </div>
               <p className="m-0 text-caption text-ink-600">Sessions coaching standard (1h)</p>
@@ -273,7 +273,7 @@ const CreditsTab: React.FC<{ credits: { classic: number; special: number } }> = 
             </div>
             <div className="flex flex-col gap-tight">
               <div className="flex items-end gap-tight">
-                <span className="font-display text-h2 font-extrabold text-accent-800">{credits.special}</span>
+                <span className="font-display text-h2 text-accent-800">{credits.special}</span>
                 <span className="mb-0.5 font-body text-body-sm font-semibold text-accent-800">crédits Spécial</span>
               </div>
               <p className="m-0 text-caption text-ink-600">Sessions expert / masterclasses premium</p>

@@ -217,7 +217,7 @@ export const CoachingCompteRendu: React.FC = () => {
                 }}
               >
                 <div className="w-[60px] h-[60px] rounded-pill bg-primary-700 flex flex-col items-center justify-center">
-                  <span className="font-display text-h4 font-extrabold leading-none">{progressPercent}%</span>
+                  <span className="font-display text-h4 leading-none">{progressPercent}%</span>
                   <span className="font-body mt-0.5 text-micro">parcours</span>
                 </div>
               </div>
@@ -354,7 +354,7 @@ export const CoachingCompteRendu: React.FC = () => {
                 </h3>
                 <div className="flex items-center gap-stack-xs">
                   <StarRating rating={report.satisfactionRating} />
-                  <span className="font-display text-h4 font-extrabold text-accent-700">
+                  <span className="font-display text-h4 text-accent-700">
                     {report.satisfactionRating}/5
                   </span>
                 </div>

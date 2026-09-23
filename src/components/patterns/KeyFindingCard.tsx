@@ -89,7 +89,7 @@ export const KeyFindingCard: React.FC<KeyFindingCardProps> = ({
 
         {metric ? (
           <div className="flex items-baseline gap-stack-xs mt-1">
-            <span className={`font-display text-h2 font-extrabold leading-none ${METRIC_TEXT[tone]}`}>
+            <span className={`font-display text-h2 leading-none ${METRIC_TEXT[tone]}`}>
               {metric.value}
             </span>
             {metric.label && (

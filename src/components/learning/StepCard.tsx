@@ -101,7 +101,7 @@ export const StepCard: React.FC<StepCardProps> = ({
       <header className="flex items-start gap-stack">
         <div
           className={[
-            'inline-flex items-center justify-center w-14 h-14 rounded-2xl shrink-0 font-display font-extrabold text-h3',
+            'inline-flex items-center justify-center w-14 h-14 rounded-2xl shrink-0 font-display text-h3',
             STATUS_BADGE[status],
           ].join(' ')}
         >
