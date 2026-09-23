@@ -1,4 +1,4 @@
-import React, { useId, useRef } from 'react';
+import React, { useEffect, useId, useRef } from 'react';
 
 /**
  * Tabs — onglets à tabindex itinérant (flèches, Début, Fin).
@@ -54,26 +54,40 @@ export interface TabsProps
   idPrefix?: string;
 }
 
+/* `underline` défile dans son propre cadre (2026-09-23). Ses onglets ne
+   passaient pas à 375 px : sur /coach/dashboard, la liste faisait 401 px pour
+   343 de place et « Sessions » sortait de l'écran, hors d'atteinte — un ancêtre
+   coupe le débordement, la page ne défilait pas. La liste défile donc
+   horizontalement, sans barre visible (même motif que `ShowcaseNav`), et les
+   onglets ne se compriment plus (`shrink-0 whitespace-nowrap`).
+   Conséquence du défilement : `overflow` coupe tout ce qui dépasse la boîte de
+   remplissage — la bordure comprise. Le filet de base n'est donc plus un
+   `border-b` que l'indicateur actif venait recouvrir en `-bottom-px` (il serait
+   coupé), mais une ombre intérieure de 1 px, peinte DANS la boîte, sur laquelle
+   l'indicateur se pose. Même raison pour le focus : l'anneau passe à
+   l'intérieur de l'onglet (`-outline-offset-2`), sinon le cadre le rognait. */
 const CONTAINER_VARIANT: Record<TabsVariant, string> = {
   pill:      'inline-flex items-center gap-tight p-1 bg-ink-100 rounded-pill',
-  underline: 'inline-flex items-center gap-tight border-b border-ink-200',
+  underline: 'inline-flex items-center gap-tight max-w-full overflow-x-auto overflow-y-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden shadow-[inset_0_-1px_0_0] shadow-ink-200',
   boxed:     'inline-flex items-stretch border border-ink-200 rounded-xl overflow-hidden bg-white',
 };
 
 const TAB_BASE =
   'inline-flex items-center gap-stack-xs min-h-touch bg-transparent border-0 font-body text-body-sm font-medium text-ink-600 cursor-pointer transition-all ' +
-  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-400 ' +
+  'focus-visible:outline-2 focus-visible:outline-primary-400 ' +
   'disabled:opacity-disabled disabled:cursor-not-allowed';
 
 const TAB_VARIANT: Record<TabsVariant, string> = {
-  pill:      'px-4 py-2 rounded-pill hover:text-ink-900 hover:bg-white/60',
-  underline: 'px-3 py-3 rounded-none relative hover:text-ink-900 hover:bg-ink-50/60 -mb-px',
-  boxed:     'px-stack-md py-3 rounded-none border-r border-ink-200 last:border-r-0 flex-1 justify-center hover:bg-ink-50',
+  // Décalage du focus par variante, pas dans TAB_BASE : deux `outline-offset`
+  // sur un même élément, c'est l'ordre d'émission qui trancherait (piège n°6).
+  pill:      'px-4 py-2 rounded-pill hover:text-ink-900 hover:bg-white/60 focus-visible:outline-offset-2',
+  underline: 'px-3 py-3 rounded-none relative shrink-0 whitespace-nowrap hover:text-ink-900 hover:bg-ink-50/60 focus-visible:-outline-offset-2',
+  boxed:     'px-stack-md py-3 rounded-none border-r border-ink-200 last:border-r-0 flex-1 justify-center hover:bg-ink-50 focus-visible:outline-offset-2',
 };
 
 const TAB_ACTIVE: Record<TabsVariant, string> = {
   pill:      'bg-white text-ink-900 shadow-sm font-bold',
-  underline: 'text-primary-700 font-bold after:content-[""] after:absolute after:left-3 after:right-3 after:-bottom-px after:h-0.5 after:bg-primary-600 after:rounded-t-sm',
+  underline: 'text-primary-700 font-bold after:content-[""] after:absolute after:left-3 after:right-3 after:bottom-0 after:h-0.5 after:bg-primary-600 after:rounded-t-sm',
   boxed:     'bg-gradient-to-br from-primary-700 to-primary-800 text-white font-bold shadow-brand-sm hover:bg-primary-800 hover:text-white',
 };
 
@@ -122,6 +136,22 @@ export const Tabs: React.FC<TabsProps> = ({
       btn?.focus();
     }
   };
+
+  // L'onglet actif reste visible dans le cadre qui défile — à l'arrivée sur la
+  // page comme après un changement. Au clavier, le focus y suffirait ; pas pour
+  // un onglet actif dès le chargement, ni pour un changement venu d'ailleurs.
+  // On règle `scrollLeft` du seul cadre : `scrollIntoView` ferait aussi défiler
+  // la page verticalement.
+  useEffect(() => {
+    const box = containerRef.current;
+    if (!box || box.scrollWidth <= box.clientWidth) return;
+    const tab = box.querySelector<HTMLElement>(`[data-tab-id="${value}"]`);
+    if (!tab) return;
+    const b = box.getBoundingClientRect();
+    const t = tab.getBoundingClientRect();
+    if (t.left < b.left) box.scrollLeft -= b.left - t.left;
+    else if (t.right > b.right) box.scrollLeft += t.right - b.right;
+  }, [value]);
 
   const containerClasses = [
     CONTAINER_VARIANT[variant],
