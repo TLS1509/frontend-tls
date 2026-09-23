@@ -282,6 +282,13 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches
   );
   const userMenuRef = React.useRef<HTMLDivElement>(null);
+  // Tiroir mobile : à la fermeture, le focus revient au bouton qui l'a ouvert.
+  const menuButtonRef = React.useRef<HTMLButtonElement>(null);
+  const wasMobileOpen = React.useRef(false);
+  React.useEffect(() => {
+    if (wasMobileOpen.current && !isMobileOpen && isMobile) menuButtonRef.current?.focus();
+    wasMobileOpen.current = isMobileOpen;
+  }, [isMobileOpen, isMobile]);
   // Hover-peek timers — 200ms hover-in delay (avoid accidental open),
   // 400ms hover-out delay (allow re-cross into sidebar without closing).
   const hoverOpenTimer = React.useRef<number | null>(null);
@@ -364,7 +371,10 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         }}
         onMouseEnter={scheduleHoverOpen}
         onMouseLeave={scheduleHoverClose}
+        ref={menuButtonRef}
         aria-label="Ouvrir la navigation"
+        aria-expanded={isMobileOpen}
+        aria-controls="navigation-principale"
         className="md:hidden fixed top-2 left-2 z-dropdown inline-flex items-center justify-center w-touch h-touch rounded-pill bg-white border border-ink-200 shadow-md text-ink-700 hover:bg-primary-50 transition-colors"
       >
         <Menu size={18} />
@@ -416,6 +426,7 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         collapsed={collapsed}
         onToggleCollapse={isMobile ? undefined : () => setIsSidebarCollapsed((p) => !p)}
         mobileOpen={isMobileOpen}
+        isMobile={isMobile}
         onMobileClose={() => setIsMobileOpen(false)}
         onMouseEnter={isMobile ? clearHoverTimers : undefined}
         onMouseLeave={isMobile ? scheduleHoverClose : undefined}
@@ -507,6 +518,37 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 /**
  * Main App Component with Routing
  */
+/**
+ * Un titre de document par vue (WCAG 2.4.2) : toutes les routes s'appelaient
+ * « The Learning Society ». Le titre est lu dans le h1 rendu plutôt que
+ * recopié dans une table : il suit la page quand elle change, et une page
+ * sans h1 le signale en gardant le titre générique. Les pages chargées en
+ * différé sont attendues jusqu'à 2 s.
+ */
+const DocumentTitle: React.FC = () => {
+  const { pathname } = useLocation();
+  React.useEffect(() => {
+    const BASE = 'The Learning Society';
+    let done = false;
+    const apply = () => {
+      // Une page peut imposer son nom quand son h1 est une salutation
+      // (« Bonjour Dev ») : attribut `data-page-title` sur sa racine.
+      const named = document.querySelector('[data-page-title]')?.getAttribute('data-page-title');
+      const h1 = document.querySelector('main h1, h1');
+      const text = named || h1?.textContent?.trim();
+      if (text) { document.title = `${text} · ${BASE}`; done = true; }
+      return done;
+    };
+    document.title = BASE;
+    if (apply()) return;
+    const obs = new MutationObserver(() => { if (apply()) obs.disconnect(); });
+    obs.observe(document.body, { childList: true, subtree: true });
+    const t = window.setTimeout(() => obs.disconnect(), 2000);
+    return () => { obs.disconnect(); window.clearTimeout(t); };
+  }, [pathname]);
+  return null;
+};
+
 function App() {
   const { loading, isAuthenticated } = useAuth();
 
@@ -527,6 +569,7 @@ function App() {
     <Router>
       <ToastProvider>
       <ScrollToTop />
+      <DocumentTitle />
       <Routes>
         {/* ── Marketing site (public — no auth required) ── */}
         {/* Banc de comparaison des menus (29/07). Hors <MarketingLayout> à

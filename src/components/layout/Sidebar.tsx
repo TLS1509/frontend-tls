@@ -24,6 +24,10 @@ export interface SidebarProps extends Omit<React.HTMLAttributes<HTMLElement>, 'c
   children?: React.ReactNode;
   /** Mobile drawer open state (controlled). Hidden by default on mobile. */
   mobileOpen?: boolean;
+  /** Vrai sous 768 px : la barre devient un tiroir. Fermé, il est `inert` —
+   *  sinon ses 7 liens restaient dans l'ordre de tabulation, hors écran à
+   *  −268 px (WCAG 2.4.7 / 2.4.11, audit du 23/09). */
+  isMobile?: boolean;
   onMobileClose?: () => void;
 }
 
@@ -45,6 +49,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   userCard,
   children,
   mobileOpen = false,
+  isMobile = false,
   onMobileClose,
   className = '',
   ...rest
@@ -52,6 +57,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
   // Width progressive : 220px tablet (768-1023), 260px desktop (1024+).
   // Sur mobile drawer, la classe `max-md:w-[280px]` override prend le dessus.
   const widthClasses = collapsed ? 'w-[72px]' : 'w-[220px] lg:w-[260px]';
+
+  // Tiroir ouvert : Échap le ferme (motif APG Dialog). Le retour du focus au
+  // bouton d'ouverture est géré par le parent, qui possède ce bouton.
+  React.useEffect(() => {
+    if (!isMobile || !mobileOpen) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onMobileClose?.(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isMobile, mobileOpen, onMobileClose]);
 
   return (
     <>
@@ -77,7 +91,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
         ]
           .filter(Boolean)
           .join(' ')}
+        id="navigation-principale"
         aria-label="Navigation principale"
+        inert={isMobile && !mobileOpen ? true : undefined}
         {...rest}
       >
         {/* Brand row + mobile close button.

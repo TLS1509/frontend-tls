@@ -203,7 +203,7 @@ export const Dashboard: React.FC = () => {
   const firstName = user?.name?.split(' ')[0] ?? 'toi';
 
   return (
-    <div className="relative min-h-[100dvh]">
+    <div className="relative min-h-[100dvh]" data-page-title="Tableau de bord">
       {/* Datum de tête d'écran (17/09) : plus d'override de padding haut — la
           page prend LA rampe par défaut de PageShell (section/section-lg/page),
           la même que la rangée logo du rail. Les deux colonnes partent de la
