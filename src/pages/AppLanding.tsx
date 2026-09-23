@@ -435,7 +435,7 @@ const AppLanding: React.FC = () => {
             </div>
           </FadeInWhenVisible>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-section relative">
             {/* Connector line (desktop) */}
             <div
               aria-hidden
@@ -464,7 +464,7 @@ const AppLanding: React.FC = () => {
 
       {/* ── SBO POSITIONING STRIP ── */}
       <section className="py-section px-6 md:px-10 bg-white border-y border-ink-100">
-        <div className="max-w-page mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+        <div className="max-w-page mx-auto flex flex-col md:flex-row items-center justify-between gap-section">
           <FadeInWhenVisible direction="left" className="max-w-lg">
             <div className="flex flex-col gap-stack-xs">
               <div className="flex items-center gap-stack-xs">

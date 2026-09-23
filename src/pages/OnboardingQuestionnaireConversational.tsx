@@ -266,7 +266,7 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
   // bubble — no separate footer input zone needed.
   if (variant === 'a') {
     const title = (
-      <div className="flex flex-col gap-0.5">
+      <div className="flex flex-col gap-tight">
         <div className="flex items-baseline justify-between gap-stack-xs">
           <span className="text-body-sm font-semibold text-ink-700">Positionnement</span>
           <span className="text-caption text-ink-500 tabular-nums">

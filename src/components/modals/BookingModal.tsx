@@ -330,7 +330,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     </Button>
                   </div>
 
-                  <div className="grid grid-cols-7 gap-0.5 mb-1">
+                  <div className="grid grid-cols-7 gap-tight mb-1">
                     {DAYS_FR.map((d) => (
                       <div key={d} className="text-center text-micro font-bold text-ink-600 uppercase tracking-wide py-1">
                         {d}
@@ -338,7 +338,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     ))}
                   </div>
 
-                  <div className="grid grid-cols-7 gap-0.5">
+                  <div className="grid grid-cols-7 gap-tight">
                     {days.map((day, idx) => {
                       if (day === null) return <div key={`e-${idx}`} />;
                       const dateKey = formatDateKey(day, currentMonth);

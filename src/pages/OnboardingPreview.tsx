@@ -637,7 +637,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
 
             <div className="rounded-lg border border-secondary-200 bg-gradient-to-br from-secondary-50 to-white p-stack flex items-start gap-stack-xs">
               <Sparkles size={18} className="text-secondary-500 shrink-0 mt-0.5" />
-              <div className="flex flex-col gap-0.5">
+              <div className="flex flex-col gap-tight">
                 <span className="font-body text-body-sm font-bold text-ink-900">Parcours recommandé</span>
                 <p className="font-body text-body-sm text-ink-500 m-0">{aiSuggestion}</p>
               </div>

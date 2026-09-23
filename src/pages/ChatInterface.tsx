@@ -36,7 +36,7 @@ function ConfidenceChip({ score }: { score: number }) {
 
 function SourceChip({ source }: { source: ChatSourceCitation }) {
   const inner = (
-    <span className="inline-flex items-center gap-0.5 text-micro text-primary-700 bg-primary-50 border border-primary-100 px-1.5 py-0.5 rounded-xs font-medium hover:bg-primary-100 transition-colors duration-fast">
+    <span className="inline-flex items-center gap-tight text-micro text-primary-700 bg-primary-50 border border-primary-100 px-1.5 py-0.5 rounded-xs font-medium hover:bg-primary-100 transition-colors duration-fast">
       {source.title}
       {source.url && <ExternalLink size={14} aria-hidden />}
     </span>

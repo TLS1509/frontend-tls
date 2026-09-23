@@ -138,7 +138,7 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
                   )}
                 </span>
 
-                <div className="flex flex-col gap-0.5 min-w-0">
+                <div className="flex flex-col gap-tight min-w-0">
                   <span className="text-body-sm font-semibold text-ink-900 leading-snug">
                     {option.label}
                   </span>
@@ -195,7 +195,7 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
               </span>
 
               {(option.label || option.description) && (
-                <div className="flex flex-col gap-0.5">
+                <div className="flex flex-col gap-tight">
                   {option.label && (
                     <span className="text-body-sm font-semibold text-ink-900 leading-snug">
                       {option.label}

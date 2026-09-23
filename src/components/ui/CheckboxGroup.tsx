@@ -135,7 +135,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
                   {isChecked && <Check size={14} className="text-white" strokeWidth={3} />}
                 </span>
 
-                <div className="flex flex-col gap-0.5 min-w-0">
+                <div className="flex flex-col gap-tight min-w-0">
                   <span className="text-body-sm font-semibold text-ink-900 leading-snug">
                     {option.label}
                   </span>
@@ -183,7 +183,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
               </span>
 
               {(option.label || option.description) && (
-                <div className="flex flex-col gap-0.5">
+                <div className="flex flex-col gap-tight">
                   {option.label && (
                     <span className="text-body-sm font-semibold text-ink-900 leading-snug">
                       {option.label}
