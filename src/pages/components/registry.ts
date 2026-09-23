@@ -119,6 +119,7 @@ export const NOT_SHOWCASED: Record<string, string> = {
   ScrollToTop: 'effet de navigation, retourne null',
   DevPanel: 'outil de développement, pas un composant du DS',
   AuthFeature: '@deprecated, aucun consommateur — ne pas encourager son usage',
+  ApprenantsTable: 'composition métier du coach sur DataTable (colonnes et tri) — la table elle-même est en vitrine',
 };
 
 export interface CatalogMeta {
