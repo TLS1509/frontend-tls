@@ -37,10 +37,12 @@ const VARIANT_ICON_COLOR: Record<ConfirmVariant, string> = {
 };
 
 const VARIANT_CONFIRM_BG: Record<ConfirmVariant, string> = {
-  info: 'bg-gradient-to-br from-primary-500 to-primary-400',
-  success: 'bg-gradient-to-br from-success-fg to-success-base',
-  warning: 'bg-gradient-to-br from-accent-400 to-accent-500',
-  danger: 'bg-gradient-to-br from-danger-fg to-danger-base',
+  // Libellé blanc à 15 px : l'arrêt le plus clair doit tenir 4,5:1. Partis du
+  // 400/base, ils mesuraient 1,86 à 2,54 ; au pire désormais 4,88 (or 700).
+  info: 'bg-gradient-to-br from-primary-800 to-primary-700',
+  success: 'bg-gradient-to-br from-success-fg to-success-vivid',
+  warning: 'bg-gradient-to-br from-accent-700 to-accent-800',
+  danger: 'bg-gradient-to-br from-danger-fg to-danger-strong',
 };
 
 const VARIANT_CONFIRM_SHADOW: Record<ConfirmVariant, string> = {

@@ -124,7 +124,7 @@ export const Avatar: React.FC<AvatarProps> = ({
       )}
       {level !== undefined && (
         <span
-          className={`absolute flex items-center justify-center px-1 rounded-pill bg-gradient-to-br from-primary-500 to-primary-700 text-white font-body font-extrabold leading-none ring-2 ring-white pointer-events-none whitespace-nowrap z-[2] shadow-brand-xs ${LEVEL_BASE_SIZE_CLASSES[size]}`}
+          className={`absolute flex items-center justify-center px-1 rounded-pill bg-gradient-to-br from-primary-700 to-primary-800 text-white font-body font-extrabold leading-none ring-2 ring-white pointer-events-none whitespace-nowrap z-[2] shadow-brand-xs ${LEVEL_BASE_SIZE_CLASSES[size]}`}
           aria-hidden="true"
         >
           {level}

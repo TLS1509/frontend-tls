@@ -67,8 +67,9 @@ const SIZE_CLASSES: Record<QualitativeRatingSize, string> = {
 };
 
 const SELECTED_CLASSES: Record<QualitativeRatingTone, string> = {
-  primary: 'bg-gradient-to-r from-primary-500 to-primary-700 text-white border-transparent shadow-sm',
-  warm:    'bg-gradient-to-r from-secondary-500 to-secondary-600 text-white border-transparent shadow-sm',
+  // Libellé à 13-15 px : 700 → 800, blanc à 5,02 (teal) et 6,31 (orange) au pire.
+  primary: 'bg-gradient-to-r from-primary-700 to-primary-800 text-white border-transparent shadow-sm',
+  warm:    'bg-gradient-to-r from-secondary-700 to-secondary-800 text-white border-transparent shadow-sm',
   // Yellow: skip gradient (contrast issue with white text) → flat amber + dark text
   sun:     'bg-accent-400 text-ink-900 border-transparent shadow-sm',
 };

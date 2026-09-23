@@ -72,7 +72,7 @@ export const CompletionModal: React.FC<CompletionModalProps> = ({
         onClick={(e) => e.stopPropagation()}
       >
         {/* ── Gradient header band ───────────────────────────────── */}
-        <div className="relative px-8 pt-8 pb-6 bg-gradient-to-br from-primary-500 to-primary-700 text-white text-center overflow-hidden">
+        <div className="relative px-8 pt-8 pb-6 bg-gradient-to-br from-primary-700 to-primary-800 text-white text-center overflow-hidden">
           {/* Decorative ambient blobs */}
           <div
             aria-hidden
@@ -109,13 +109,13 @@ export const CompletionModal: React.FC<CompletionModalProps> = ({
           </h2>
 
           {itemTitle && (
-            <p className="m-0 mt-1 text-body-sm text-white/75 leading-snug line-clamp-2">
+            <p className="m-0 mt-1 text-body-sm text-white leading-snug line-clamp-2">
               {itemTitle}
             </p>
           )}
 
           {description && (
-            <p className="m-0 mt-2 text-body-sm text-white/80 leading-snug">
+            <p className="m-0 mt-2 text-body-sm text-white leading-snug">
               {description}
             </p>
           )}

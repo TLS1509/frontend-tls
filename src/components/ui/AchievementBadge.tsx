@@ -50,10 +50,12 @@ const COLOR_TEXT: Record<AchievementBadgeColor, string> = {
 };
 
 const COLOR_BTN: Record<AchievementBadgeColor, string> = {
-  primary: 'bg-primary-500 hover:bg-primary-600 shadow-brand-sm hover:shadow-brand-md',
-  warm:    'bg-secondary-500 hover:bg-secondary-600 shadow-sm hover:shadow-md',
-  sun:     'bg-accent-500 hover:bg-accent-600 shadow-sm hover:shadow-md',
-  success: 'bg-success-base hover:bg-success-fg shadow-sm hover:shadow-md',
+  // Libellé blanc à 13 px : fond au 700, survol qui fonce au 800 (contrat de
+  // Button solid). Au 500, le blanc mesurait 2,31 à 2,94.
+  primary: 'bg-primary-700 hover:bg-primary-800 shadow-brand-sm hover:shadow-brand-md',
+  warm:    'bg-secondary-700 hover:bg-secondary-800 shadow-sm hover:shadow-md',
+  sun:     'bg-accent-700 hover:bg-accent-800 shadow-sm hover:shadow-md',
+  success: 'bg-success-vivid hover:bg-success-fg shadow-sm hover:shadow-md',
 };
 
 export const AchievementBadge: React.FC<AchievementBadgeProps> = ({

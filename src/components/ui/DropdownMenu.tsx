@@ -224,10 +224,13 @@ const ITEM_DANGER =
   'text-danger-fg hover:bg-danger-bg focus-visible:outline-danger-base focus:bg-danger-bg';
 
 const BADGE_CLASSES: Record<DropdownItemBadge, string> = {
-  demo: 'bg-gradient-to-br from-secondary-400 to-secondary-600 text-white',
-  pro:  'bg-gradient-to-br from-secondary-500 to-secondary-700 text-white',
-  new:  'bg-gradient-to-br from-success-base to-success-fg text-white',
-  beta: 'bg-gradient-to-br from-primary-400 to-primary-600 text-white',
+  // Libellés à 11 px : 4,5:1 à l'arrêt le plus clair, donc 700 au minimum
+  // (partis du 400/500, ils mesuraient 2,44 à 2,64). PRO descend d'un cran de
+  // plus pour rester distinct de DEMO.
+  demo: 'bg-gradient-to-br from-secondary-700 to-secondary-800 text-white',
+  pro:  'bg-gradient-to-br from-secondary-800 to-secondary-900 text-white',
+  new:  'bg-gradient-to-br from-success-vivid to-success-fg text-white',
+  beta: 'bg-gradient-to-br from-primary-700 to-primary-800 text-white',
 };
 
 const BADGE_LABELS: Record<DropdownItemBadge, string> = {

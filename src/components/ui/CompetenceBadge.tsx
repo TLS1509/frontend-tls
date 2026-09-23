@@ -12,7 +12,7 @@ const LEVEL_BADGE_CLASSES: Record<CompetenceLevel, string> = {
   1: 'bg-gradient-to-r from-primary-50 to-primary-100 text-primary-800 border border-primary-200',
   2: 'bg-gradient-to-r from-secondary-50 to-secondary-100 text-secondary-800 border border-secondary-200',
   3: 'bg-gradient-to-r from-accent-50 to-accent-100 text-accent-900 border border-accent-200',
-  4: 'bg-[radial-gradient(circle_at_0%_0%,#55A1B4_0%,#2F5F6A_60%,#1F3E45_100%)] text-white border border-primary-900/30',
+  4: 'bg-[radial-gradient(circle_at_0%_0%,#3D7786_0%,#2F5F6A_60%,#1F3E45_100%)] text-white border border-primary-900/30',
 };
 
 const LEVEL_DOT_CLASSES: Record<CompetenceLevel, string> = {
