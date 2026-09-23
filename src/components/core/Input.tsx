@@ -226,13 +226,13 @@ const TOGGLE_LABEL =
 
 const CHECKBOX_BOX =
   "inline-flex items-center justify-center w-5 h-5 shrink-0 bg-white border-2 border-ink-400 rounded-sm transition-colors " +
-  "peer-checked:bg-primary-500 peer-checked:border-primary-500 " +
-  "peer-indeterminate:bg-primary-200 peer-indeterminate:border-primary-400 " +
+  "peer-checked:bg-primary-700 peer-checked:border-primary-700 " +
+  "peer-indeterminate:bg-primary-700 peer-indeterminate:border-primary-700 " +
   "peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-primary-500 " +
   "peer-disabled:bg-ink-50 peer-disabled:border-ink-200 peer-disabled:cursor-not-allowed " +
   "after:content-[''] after:text-white after:font-bold after:text-[12px] after:leading-none after:opacity-0 " +
   "peer-checked:after:content-['✓'] peer-checked:after:opacity-100 " +
-  "peer-indeterminate:after:content-['−'] peer-indeterminate:after:text-primary-700 peer-indeterminate:after:opacity-100";
+  "peer-indeterminate:after:content-['−'] peer-indeterminate:after:opacity-100";
 
 export interface CheckboxProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'size'> {
@@ -276,10 +276,10 @@ export interface RadioProps
 
 const RADIO_BOX =
   "inline-flex items-center justify-center w-5 h-5 shrink-0 bg-white border-2 border-ink-400 rounded-pill transition-colors " +
-  "peer-checked:border-primary-500 " +
+  "peer-checked:border-primary-700 " +
   "peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-primary-500 " +
   "peer-disabled:bg-ink-50 peer-disabled:border-ink-200 peer-disabled:cursor-not-allowed " +
-  "after:content-[''] after:w-2 after:h-2 after:rounded-pill after:bg-primary-500 after:opacity-0 " +
+  "after:content-[''] after:w-2 after:h-2 after:rounded-pill after:bg-primary-700 after:opacity-0 " +
   "peer-checked:after:opacity-100";
 
 export const Radio: React.FC<RadioProps> = ({
@@ -308,13 +308,19 @@ export interface SwitchProps
   label?: React.ReactNode;
 }
 
+/* Interrupteur façon Material 3 (arbitrage n°9, 2026-09-23). Éteint, le rail
+   n'est PAS rempli : quasi blanc, cerné d'un filet 2 px ink-400 (3:1 sur blanc,
+   WCAG 1.4.11), avec un petit rond gris. Allumé, le rail se remplit au cran 700
+   (5,02:1 — le 500 d'avant ne faisait que 2,94) et le rond grossit en blanc.
+   Le rail plein ink-400 d'avant se lisait comme une masse sombre. Coches et
+   radios suivent : leur état coché est au cran 700 pour la même raison. */
 const SWITCH_TRACK =
-  "relative inline-block w-11 h-6 rounded-xl bg-ink-400 shrink-0 transition-colors " +
-  "peer-checked:bg-primary-500 " +
+  "relative inline-block w-11 h-6 rounded-pill bg-ink-50 border-2 border-ink-400 shrink-0 transition-colors " +
+  "peer-checked:bg-primary-700 peer-checked:border-primary-700 " +
   "peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-primary-500 " +
-  "peer-disabled:bg-ink-50 peer-disabled:cursor-not-allowed " +
-  "after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:w-5 after:h-5 after:rounded-pill after:bg-white after:transition-transform " +
-  "peer-checked:after:translate-x-5";
+  "peer-disabled:bg-ink-50 peer-disabled:border-ink-200 peer-disabled:cursor-not-allowed peer-disabled:after:bg-ink-200 " +
+  "after:content-[''] after:absolute after:top-1 after:left-1 after:w-3 after:h-3 after:rounded-pill after:bg-ink-500 after:transition-all " +
+  "peer-checked:after:top-0.5 peer-checked:after:left-0.5 peer-checked:after:w-4 peer-checked:after:h-4 peer-checked:after:bg-white peer-checked:after:translate-x-5";
 
 export const Switch: React.FC<SwitchProps> = ({
   label,
