@@ -150,7 +150,7 @@
 
 | Fichier | Topic | Level |
 |---------|-------|-------|
-| [UX-UI-BOOTCAMP.md](learning/UX-UI-BOOTCAMP.md) | Main track | Day-by-day curriculum |
+| 🗄️ [UX-UI-BOOTCAMP.md](_archive/UX-UI-BOOTCAMP.md) | **Archivé le 2026-09-23** — plan périmé (échéance 31/07) | Historique uniquement |
 | _archivés 2026-07-24 →_ [`_archive/factcheck-corpus/`](_archive/factcheck-corpus/) | **Docs de process fact-check du corpus** (CORPUS-FORMATIONS-FACT-CHECK, PARCOURS-CORRECTIONS-DETAIL, FACTCHECK-CERTIFIED ×3) — corrections **déjà appliquées** dans les modules `modules-corriges-2026-07-23/` (journaux inline). Conservés en archive pour traçabilité. | 🗄️ Archivé |
 | [CORRECTIONS-SOURCEES-UXUI.md](learning/CORRECTIONS-SOURCEES-UXUI.md) | **Corrections sourcées** du parcours UX/UI : chaque claim faux → correction + source RÉELLE vérifiée sur le web (auteur/année/lien) + phrase prête à coller. Contrastes WCAG recalculés (mini-tableau), section « À RETIRER », 12 sources clés (W3C, BBC 2017, McKinsey 2018, NN/g, Cowan 2001, Lally 2010, HolonIQ, PayScale, Lindgaard 2006, Intercom, Christensen) | ✅ Corrections sourcées |
 | [CORRECTIONS-SOURCEES-IP.md](learning/CORRECTIONS-SOURCEES-IP.md) | **Corrections sourcées** du parcours Ingénierie Pédagogique : chaque claim faux → correction + source RÉELLE vérifiée sur le web (auteur/année/lien) + phrase prête à coller. Vraie taxonomie Bloom (Anderson & Krathwohl 2001), débunkage VARK (Pashler 2008 / Newton 2020 → multimodal Mayer), origine ADDIE (Branson 1975 FSU/US Army), Alliger 1997, Xunzi ≠ Franklin, mythe 60 000×, méthode ROI Phillips, prix outils T1 2026 (Synthesia/PaLM/Knewton/Smart Sparrow), section « À RETIRER », M6 → Kirkpatrick 2016 | ✅ Corrections sourcées |
@@ -322,7 +322,7 @@
 
 **Deprecated but preserved**
 
-- `AUDIT-COHERENCE-2026-07-22.md` — Old coherence audit (superseded by Phase 19)
+- [`AUDIT-COHERENCE-2026-07-22.md`](_archive/AUDIT-COHERENCE-2026-07-22.md) — audit de cohérence marketing, périmé depuis le 22/07 (visait le site HTML supprimé). Archivé le 2026-09-23
 
 ---
 
@@ -331,7 +331,6 @@
 **Source de vérité unique. Prime sur TOUS les autres docs, y compris marketing et site.**
 
 - `FACTS-CANON.md` — **Faits validés ligne par ligne** par Chloé : formation (7 modules / 7h / C-Campus / Open Badge / OPCO), accompagnement (STRIDE), Learning App, chiffres, marque & fondateurs. Statut par ligne : ✅ vrai · ✏️ à corriger · ❌ faux · ❓ à valider. ⏸️ Pricing & business model **gelés** (non validés, base provisoire = CDC)
-- `AUDIT-COHERENCE-2026-07-22.md` — Audit 2026-06-10 qui a déclenché la création du canon (docs marketing porteurs de copy + chiffres IA non fiables)
 - `METRICS-A-COLLECTER.md` — Métriques manquantes à collecter avant de pouvoir les publier
 - `REGLES-USAGE-COMPOSANTS.md` — **Règles d'usage des composants** (2026-07-23) : quand utiliser
   Modal vs Toast, la sémantique des 4 variantes d'Alert, le choix numbered/load-more/infinite
@@ -379,7 +378,7 @@ Les fichiers motion-effects datés ont été supprimés lors du nettoyage du 30/
 
 **2026-07-22** (clean marketing + site)
 🗑️ **`website/` SUPPRIMÉ** (21 fichiers suivis, 336K) — site HTML statique périmé. Vérifié orphelin avant suppression : aucune référence dans `vite.config` / `package.json` / `vercel` / `netlify` / `src/`, et absent de `dist/`. **Le site vitrine vit uniquement dans `src/pages/marketing/*`** (routes `/website/*`). Historique récupérable dans git
-✅ `_canon/FACTS-CANON.md` + `_canon/AUDIT-COHERENCE-2026-07-22.md` : notes de périmption ajoutées (ils référençaient le dossier supprimé)
+✅ `_canon/FACTS-CANON.md` + `AUDIT-COHERENCE-2026-07-22.md` (aujourd'hui dans `_archive/`) : notes de périmption ajoutées (ils référençaient le dossier supprimé)
 ⚠️ **Ne pas confondre `docs/site/` (docs, conservé) et `website/site/` (HTML, supprimé).**
 ✅ **Hiérarchie canonique rétablie dans l'index** : `_canon/FACTS-CANON.md` promu « lire en premier » à la place de `MARKETING-CONTEXT.md`, qui était encore pointé « 🔴 LIRE EN PREMIER » alors qu'il est rétrogradé depuis l'audit du 10/06. C'était la cause directe de sessions partant sur des faits périmés (23h, Qualiopi TLS, CPF, tutoiement)
 ✅ Section MARKETING/ : statut explicite par doc (🟢 canonique / 🟡 canonique partiel / 🔴 rétrogradé) + avertissement sur les exemples de copy de MARQUE-VOIX (drafts IA)

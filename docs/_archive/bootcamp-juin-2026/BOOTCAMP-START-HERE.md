@@ -74,7 +74,7 @@ Create illustration assets:
    - What co-construction means
    - Communication channels
 
-2. **[UX-UI-BOOTCAMP.md](UX-UI-BOOTCAMP.md)**
+2. **[UX-UI-BOOTCAMP.md](../UX-UI-BOOTCAMP.md)**
    - 4-week bootcamp structure (Weeks 1–4)
    - Day-by-day lessons
    - Learning outcomes per week

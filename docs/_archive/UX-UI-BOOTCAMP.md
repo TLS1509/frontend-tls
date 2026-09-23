@@ -7,10 +7,10 @@
 > ≈ 254 composants. Un plan périmé se lit comme un plan en cours — c'est la raison
 > d'être de cet avertissement.
 >
-> **Où est le parcours vivant** : [`application/cours/`](application/cours/) —
+> **Où est le parcours vivant** : [`application/cours/`](../learning/application/cours/) —
 > 5 cours UX/UI de 30 min en EDRACT, dont l'étape *Appliquer* porte sur un vrai
 > chantier TLS. Le fond long est dans
-> [`modules-corriges-2026-07-23/3-UX-UI-Product-Management/`](modules-corriges-2026-07-23/3-UX-UI-Product-Management/).
+> [`modules-corriges-2026-07-23/3-UX-UI-Product-Management/`](../learning/modules-corriges-2026-07-23/3-UX-UI-Product-Management/).
 > Ce fichier est conservé pour mémoire ; sa place est `docs/_archive/bootcamp-juin-2026/`.
 
 > **Duration** : 4 weeks (40 hours total)  

@@ -4,7 +4,7 @@
 >
 > **Où aller :**
 > - Faits & offres → [FAITS-OFFRES.md](FAITS-OFFRES.md) · Marque & voix → [MARQUE-VOIX.md](MARQUE-VOIX.md) · Copy & SEO → [COPY-V2.md](COPY-V2.md) · LinkedIn → [MARKETING-LINKEDIN.md](MARKETING-LINKEDIN.md)
-> - **Faits validés (la vérité)** → [FACTS-CANON.md](../_canon/FACTS-CANON.md) · Audit → [AUDIT-COHERENCE.md](../_canon/AUDIT-COHERENCE.md)
+> - **Faits validés (la vérité)** → [FACTS-CANON.md](../_canon/FACTS-CANON.md) · Audit → [AUDIT-COHERENCE.md](AUDIT-COHERENCE-2026-07-22.md)
 
 ---
 
