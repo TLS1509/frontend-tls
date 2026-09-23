@@ -75,7 +75,7 @@ const MetaPill: React.FC<{ children: React.ReactNode; icon?: React.ReactNode }> 
 );
 
 /* Base structurelle SANS couleur de bordure — chaque direction compose sa propre
-   largeur/couleur de bordure pour éviter la collision BASE vs STATUS (CLAUDE.md piège #6). */
+   largeur/couleur de bordure pour éviter la collision BASE vs STATUS (piège n°6, .claude/rules/pieges-tailwind.md). */
 const CARD_SHARED =
   'group relative text-left w-full flex flex-col rounded-2xl bg-white shadow-card ' +
   'transition-[transform,box-shadow,border-color] duration-base ease-emphasis cursor-pointer ' +

@@ -7600,7 +7600,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'Stack',
     codeName: 'layout/Stack.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: "Empilement vertical avec un espacement semantique. Le parent possede le rythme — c'est ce qui evite le double-spacing du piege n°12 de CLAUDE.md, ou un enfant ajoute son propre `mb-*` par-dessus le `gap` du parent.",
+    description: "Empilement vertical avec un espacement semantique. Le parent possede le rythme — c'est ce qui evite le double-spacing du piege n°12 (.claude/rules/pieges-tailwind.md), ou un enfant ajoute son propre `mb-*` par-dessus le `gap` du parent.",
     keywords: ['stack', 'vertical', 'gap', 'espacement', 'rythme', 'flex-col'],
     render: () => (
       <div className="flex gap-section">

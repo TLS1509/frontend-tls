@@ -242,7 +242,7 @@ interface LessonData {
 const LESSON_DATA: Record<string, LessonData> = {
   /* ─── UXUI-M04 · Design Systems & Component Libraries ──────────────────────
      Tranche verticale du 2026-09-14 : premier module réel du corpus
-     (`chloe/modules-corriges-2026-07-23/3-UX-UI-Product-Management/UXUI-M04-Design-Systems.md`)
+     (`docs/learning/modules-corriges-2026-07-23/3-UX-UI-Product-Management/UXUI-M04-Design-Systems.md`)
      porté dans le player, pour juger le design sur du texte qui n'a pas été
      calibré pour lui.
 
