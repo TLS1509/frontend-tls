@@ -379,6 +379,26 @@ const ChipOnTintSpecimen: React.FC<{ fill: ChipOnTint }> = ({ fill }) => (
   </div>
 );
 
+/* Interligne des textes de carte : trois rangées réelles (titre gras body-sm +
+   description caption sur deux lignes), seules les classes leading-* changent. */
+type LeadLook = 'serre' | 'token' | 'role';
+const LEAD_TITLE: Record<LeadLook, string> = { serre: 'leading-snug', token: '', role: 'leading-snug' };
+const LEAD_DESC: Record<LeadLook, string> = { serre: 'leading-snug', token: '', role: '' };
+const LEAD_ROWS = [
+  { title: 'Conduire un entretien de feedback', desc: 'Trois situations filmées, puis une mise en pratique avec votre coach sur un cas de votre équipe.' },
+  { title: 'Déléguer sans perdre le fil', desc: 'Ce que vous gardez, ce que vous confiez, et comment le suivre sans tout reprendre.' },
+];
+const LeadingSpecimen: React.FC<{ look: LeadLook }> = ({ look }) => (
+  <div className="w-full rounded-xl border border-ink-100 bg-white divide-y divide-ink-100">
+    {LEAD_ROWS.map((r) => (
+      <div key={r.title} className="flex flex-col gap-tight px-stack-md py-stack-sm">
+        <p className={`m-0 font-body text-body-sm font-semibold text-ink-900 ${LEAD_TITLE[look]}`}>{r.title}</p>
+        <p className={`m-0 font-body text-caption text-ink-600 ${LEAD_DESC[look]}`}>{r.desc}</p>
+      </div>
+    ))}
+  </div>
+);
+
 const HeroSpecimen: React.FC<{ gradient: 'actuel' | 'fonce' }> = ({ gradient }) => (
   <div className={`w-full rounded-xl p-stack-lg flex flex-col gap-stack-xs ${gradient === 'actuel' ? 'bg-gradient-to-br from-primary-500 via-primary-600 to-primary-700' : 'bg-gradient-to-br from-primary-700 to-primary-800'}`}>
     <span className="text-caption text-white/90">← Retour</span>
@@ -515,6 +535,17 @@ export default function ArbitragesLab() {
       { letter: 'A', label: 'Cran 50 (IconChip tel quel)', facts: [`Pastille / carte : ${fmt(ratio(p50, p50))}:1 — elle disparaît`, 'Il ne reste que l\u2019icône'], children: <ChipOnTintSpecimen fill="meme" /> },
       { letter: 'B', label: 'Pastille blanche', recommended: true, facts: [`Pastille / carte : ${fmt(ratio(white, p50))}:1`, 'Même écart que la pastille 50 sur blanc, inversé', 'Lit « une pièce posée sur la carte »'], children: <ChipOnTintSpecimen fill="blanc" /> },
       { letter: 'C', label: 'Cran 100', facts: [`Pastille / carte : ${fmt(ratio(p100, p50))}:1 (teal)`, 'Plus foncé que la carte : la pastille s\u2019enfonce', 'Écart inégal selon le ton (le 100 orange et or est plus soutenu)'], children: <ChipOnTintSpecimen fill="cran100" /> },
+    ],
+  });
+
+  VALIDATIONS.push({
+    id: 'interligne-serre', n: 11, title: 'Interligne des textes de carte',
+    question: 'Les 58 resserrements d\u2019interligne qui restent : on les garde, on les retire, ou on les réserve aux titres ?',
+    context: <p>139 surcharges d'interligne qui ne changeaient rien ont été retirées. Restent 58 <code>leading-snug</code> qui, eux, resserrent vraiment : 33 sur du texte courant (sous-titres de section, descriptions), 25 sur des titres courts en gras. Apple et Material resserrent les titres, jamais le texte qu'on lit sur plusieurs lignes.</p>,
+    options: [
+      { letter: 'A', label: 'Tout serré (actuel)', facts: ['Description : 17,9 px par ligne au lieu de 20', 'Titre : 20,6 px au lieu de 24', 'Le détecteur continue de les signaler'], children: <LeadingSpecimen look="serre" /> },
+      { letter: 'B', label: 'Tout au token', facts: ['Description 20 px, titre 24 px', 'Plus d\u2019air : +25 px sur ces deux rangées', 'Aucune exception à maintenir'], children: <LeadingSpecimen look="token" /> },
+      { letter: 'C', label: 'Serré pour les titres seulement', recommended: true, facts: ['Titre gras 20,6 px : il se lit d\u2019un bloc', 'Description au token, 20 px : elle se lit', 'Deviendrait une règle du détecteur : snug admis sur texte gras'], children: <LeadingSpecimen look="role" /> },
     ],
   });
 
