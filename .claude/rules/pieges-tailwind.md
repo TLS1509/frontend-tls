@@ -186,6 +186,8 @@ tort pour cette raison ; vérification faite, il se peint bien — la pseudo-cla
 
 **Action générale** : tout `<div role="button">` ou wrapper a11y doit annuler ces propriétés. Idéalement, narrow le sélecteur BEM en cleanup post-migration.
 
+> ✅ **Vérifié le 2026-09-23 : le contournement n'est plus nécessaire.** `components-modern.css` n'existe plus nulle part, `globals.css` n'importe que `design-tokens.css` et `modals.css`, et aucune feuille de `src/` ne pose de règle sur `[role="button"]` (la seule occurrence est un commentaire, `index.css:1308`). Les `h-auto` / `!h-auto !overflow-visible` encore présents (`Card.tsx`, `PromptCard.tsx`) sont inoffensifs mais morts ; les retirer n'est plus risqué.
+
 **⚠️ Addendum — Card BASE** : La Card a initialement reçu `[&[role=button]]:h-auto [&[role=button]]:overflow-visible` dans son BASE pour contrer le BEM. **Ne pas ajouter `overflow-visible`** ici — cela override le `overflow-hidden` passé via `className` sur des wrappers comme ToneAwareCard, exposant des coins carrés non-clippés sur hover (`ParcoursCard`). Seul `[&[role=button]]:h-auto` est nécessaire dans BASE pour contrer `height:40px`. Si une Card descendante a besoin d'`overflow-hidden` pour clipper ses enfants à ses coins arrondis, elle le met dans son propre `className`.
 
 **⚠️ Addendum 2 — Speech bubble (PromptCard, `JournalBubbleCard`)** : Le pattern Apple Messages ajoute un *tail* (queue) en bottom-right via `rounded-3xl rounded-br-[6px]`. Ce tail est **clippé** par le `overflow:hidden` global de `[role="button"]` ET par toute hauteur fixée à 40 px. Symptôme : la card chat-bubble apparaît rectangulaire sans tail (les pixels du coin tronqué sont coupés). **Fix** : forcer `!h-auto !overflow-visible` sur le wrapper chat-bubble. ⚠️ `JournalEntryCard`, que cet addendum citait, a été **supprimé le 2026-09-16** (0 consommateur produit) ; la bulle vivante est `JournalBubbleCard`. Le `!` est nécessaire car BEM `[role="button"]` est dans `@layer components` qui peut gagner sur `@layer utilities` selon ordre. ⚠️ **L'approche « borderless + drop-shadow silhouette » est abandonnée depuis le 2026-09-17** (elle contredisait S2 — plus d'ombre sur une carte — et donnait à `PromptCard` un rayon à part). La construction canonique de la bulle est celle de `JournalBubbleCard` : filet 1 px sur la bulle ET sur la queue (`border-r border-b` sur le carré tourné, coin `rounded-br-[6px]`) — la queue prolonge le filet proprement, sans arête interne visible : l'ancienne mise en garde « une border casserait l'illusion » était fausse, `JournalBubbleCard` le prouvait déjà.
@@ -231,6 +233,8 @@ Avec `Tailwind p-3` (12px padding all sides), le content area = `40px - 24px = 1
 ```
 
 `h-auto` annule le `height: 40px` et `min-h-[X]` garantit la hauteur minimale.
+
+> ✅ **Vérifié le 2026-09-23 : le contournement n'est plus nécessaire.** `components-modern.css` n'existe plus, et plus aucune règle ne consomme `--input-height` : le token est encore défini (`design-tokens.css:386`) mais aucune feuille ni aucun composant ne le lit. `h-auto` reste utile seulement si on veut une hauteur libre ; `min-h-[X]` garde son sens.
 
 **Note pour `<select>`** : utiliser aussi `appearance-none` + custom `<ChevronDown>` Lucide positionné `absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none` pour un visuel cohérent avec le reste du DS (la flèche native est toujours collée au bord).
 

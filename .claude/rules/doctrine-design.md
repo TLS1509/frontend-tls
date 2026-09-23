@@ -306,7 +306,7 @@ en fait 596, donc elle avait silencieusement perdu sa mise en ligne. Toujours
 retrancher le padding avant de choisir le cran, et **mesurer après**.
 
 **Colonnage des grilles** : ne pas écrire de seuils à la main, consommer
-[`src/lib/grid-columns.ts`](src/lib/grid-columns.ts) — `GRID_COLS_CONTENT` pour
+[`src/lib/grid-columns.ts`](../../src/lib/grid-columns.ts) — `GRID_COLS_CONTENT` pour
 des cartes (260–400 px), `GRID_COLS_TILES` pour des tuiles (150–200 px), et
 `GRID_CONTAINER` pour le wrapper.
 

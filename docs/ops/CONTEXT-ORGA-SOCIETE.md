@@ -19,7 +19,7 @@ Le point faible historique du duo est le **partage d'infos et la mise à jour de
 |---|---|
 | [`CARTOGRAPHIE-OUTILLAGE.md`](CARTOGRAPHIE-OUTILLAGE.md) | Cartographie besoins → workflows → outillage (5 fonctions : acquisition, vente, produit, preuve, pilotage) + roadmap skills TLS. Relève des divergences de sources (métriques inventées, 2 modèles de pricing). |
 | [`NOTION-CAPACITES-2026.md`](NOTION-CAPACITES-2026.md) | Ce que Notion sait faire depuis 2026 (Workers, Database Sync → Pennylane, Custom Agent Tools, API charts/dashboards). Échéances de coût (Custom Agents, Workers). |
-| [`NOTION-WORKSPACE-AUDIT.md`](NOTION-WORKSPACE-AUDIT.md) | Audit du workspace : sous-activé (40 projets, agents/skills jamais testés, CRM avec relances en retard, admin sans routine). Plan d'action. |
+| [`NOTION-WORKSPACE-AUDIT.md`](NOTION-WORKSPACE-AUDIT-2026-07-24.md) | Audit du workspace : sous-activé (40 projets, agents/skills jamais testés, CRM avec relances en retard, admin sans routine). Plan d'action. |
 | [`GABARIT-PORTAILS-AREA-NOTION.md`](GABARIT-PORTAILS-AREA-NOTION.md) | Gabarit de portails / Company Areas Notion. |
 | [`REORG-OPS-DONNEES-STACK-H2-2026.md`](REORG-OPS-DONNEES-STACK-H2-2026.md) | Réorg ops / données / stack, H2 2026. |
 

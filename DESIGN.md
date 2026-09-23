@@ -786,10 +786,10 @@ Ils sont ici parce qu'ils sont **mesurés**, pas supposés :
 | # | Décision | Choix | État |
 |---|---|---|---|
 ⚠️⚠️ **ATTENTION — les codes R1–R4 de ce tableau ne sont PAS ceux de
-`CLAUDE.md`.** Les deux fichiers ont numéroté leurs décisions de rayon
+`.claude/rules/doctrine-design.md` § Rayons.** Les deux fichiers ont numéroté leurs décisions de rayon
 séparément, et les numéros se contredisent :
 
-| code | ici, dans DESIGN.md | dans CLAUDE.md, qui fait foi |
+| code | ici, dans DESIGN.md | dans `.claude/rules/doctrine-design.md`, qui fait foi |
 |---|---|---|
 | R1 | « le rayon de référence : 14, 20 ou 24 » | le rayon de la carte — 14 le 09/09, **renversé à 20 le 16/09** |
 | R2 | les `rounded-3xl` sans token | les `rounded-2xl` (24) sur des conteneurs — **encore ouverte** |
@@ -807,7 +807,7 @@ lignes sont conservées pour l'archive, pas pour être suivies.
 
 | # | Question | Pourquoi elle compte |
 |---|---|---|
-| ~~**R1**~~ | ~~Le rayon de référence : 14, 20 ou 24 px~~ | ✅ **Tranchée deux fois** — 14 px le 09/09, puis **20 px le 16/09** après mesure. L'échelle est étagée : étiquette en pilule, interactif à 14, conteneur à 20. Voir `CLAUDE.md` § Rayons |
+| ~~**R1**~~ | ~~Le rayon de référence : 14, 20 ou 24 px~~ | ✅ **Tranchée deux fois** — 14 px le 09/09, puis **20 px le 16/09** après mesure. L'échelle est étagée : étiquette en pilule, interactif à 14, conteneur à 20. Voir `.claude/rules/doctrine-design.md` § Rayons |
 | ~~**B1**~~ | ~~La typographie du bouton *(posée le 09/09)*~~ | ✅ **Faite le 09/09** — `tracking-tight` a quitté la `BASE` de `Button.tsx` ; il n'en reste qu'un commentaire interdisant de l'y remettre. *(Le chiffre « 522 boutons » a vieilli : 593 au 17/09.)* |
 | ~~C3~~ | ~~Rempli ou outline pour les boutons de marque~~ | ✅ **Tranchée le 2026-09-17, et les deux surfaces ne répondent pas pareil** : le site garde l'aplat (`emphasis="solid"`, reconstruit au cran 700), l'app prend le teinté (`emphasis="soft"`). Ce n'est pas une divergence de système mais un usage différent du même niveau — le registre du site est la conversion, celui de l'app la durée |
 | ~~A2~~ | ~~Le bouton primaire de l'app mesure 3,66~~ | ✅ **Résolue le 2026-09-17.** Le niveau `soft` mesure 6,31, l'aplat du site 5,02. Le cran 600 ne porte plus de texte nulle part |

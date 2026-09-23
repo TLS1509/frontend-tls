@@ -3,7 +3,7 @@
 > **2026-07-23.** Propositions de conception pour le cahier 10 (Analytics & Tracking System),
 > à partir de la plateforme existante, des tendances du marché et de recherches en ligne.
 > ⚠️ **Document de proposition, pas de spécification.** Le cahier
-> [`10_Analytics_Tracking_System.md`](../CDC/10_Analytics_Tracking_System.md) reste la source de
+> [`10_Analytics_Tracking_System.md`](../CDC/10_Analytics_Tracking_System/CAHIER.md) reste la source de
 > vérité et n'est pas modifié ici — toute reprise passe par un accord métier.
 
 ---

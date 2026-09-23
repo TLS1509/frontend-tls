@@ -3,7 +3,7 @@
 > **Contexte :** PAD a produit 3 docs + 9 pages « proposition PAD » **sans avoir lu** l'étude de viabilité ni le réalignement H2 2026 du repo. Ce doc confronte les deux et propose des arbitrages.
 > **Date :** 28 juillet 2026 · **Usage :** interne, support de réunion.
 > **Sources PAD (les 4, lues) :** [Vision & Sitemap](PAD-vision-strategique-sitemap.md) · [Stratégie de contenu B2B](PAD-strategie-contenu-b2b.md) · [Blog/Magazine](PAD-blog-magazine-strategie.md) · [Website pages](PAD-website-pages.csv)
-> **Nos sources :** [`ETUDE-VIABILITE`](../../product/ETUDE-VIABILITE-LEARNING-APP.md) · [`STRATEGIE-REALIGNEMENT-H2-2026`](../../product/STRATEGIE-REALIGNEMENT-H2-2026.md) · [`FACTS-CANON`](../../_canon/FACTS-CANON.md) · [`SEO-CONTENT-PLAN`](../SEO-CONTENT-PLAN.md)
+> **Nos sources :** [`ETUDE-VIABILITE`](../../product/ETUDE-VIABILITE-LEARNING-APP.md) · [`STRATEGIE-REALIGNEMENT-H2-2026`](../../product/STRATEGIE-REALIGNEMENT-H2-2026.md) · [`FACTS-CANON`](../../_canon/FACTS-CANON.md) · [`SEO-CONTENT-PLAN`](../../_archive/corpus-marketing-IA-juin-2026/SEO-CONTENT-PLAN.md)
 
 ---
 

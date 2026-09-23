@@ -683,7 +683,7 @@ const height = heightMap[size];
 - [Recharts Documentation](https://recharts.org)
 - [Recharts Radar API](https://recharts.org/api/Radar)
 - [Recharts Tooltip](https://recharts.org/api/Tooltip)
-- [TLS Design System](../CLAUDE.md)
+- [TLS Design System](../../CLAUDE.md)
 
 ---
 

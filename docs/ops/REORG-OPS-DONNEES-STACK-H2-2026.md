@@ -3,7 +3,7 @@
 > **Nature :** plan opérationnel de la réorganisation des bases Notion, du CRM, de la synchronisation Pennylane et des dashboards.
 > **Date :** 25 juillet 2026 · **Statut :** v1, exécutable par lots · **Usage :** interne.
 > **Principe directeur non négociable :** *aucun chiffre ni process critique ne doit dépendre d'une saisie ou d'une maintenance à finir.* **Notion est alimenté par des flux, jamais par la discipline.**
-> **Docs liés :** [`../product/STRATEGIE-REALIGNEMENT-H2-2026.md`](../product/STRATEGIE-REALIGNEMENT-H2-2026.md) · Registre des bases (Notion) · [`../marketing/FAITS-OFFRES.md`](../marketing/FAITS-OFFRES.md)
+> **Docs liés :** [`../product/STRATEGIE-REALIGNEMENT-H2-2026.md`](../product/STRATEGIE-REALIGNEMENT-H2-2026.md) · Registre des bases (Notion) · [`../_canon/FACTS-CANON.md`](../_canon/FACTS-CANON.md) *(remplace `FAITS-OFFRES.md`, archivé)*
 
 ---
 

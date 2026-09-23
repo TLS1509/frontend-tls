@@ -1,7 +1,7 @@
 # Ce que Notion sait faire depuis six mois — et ce que ça change pour TLS
 
 > **2026-07-23.** Étude des fonctionnalités Notion sorties entre février et juillet 2026,
-> rapportées aux problèmes constatés dans [`NOTION-WORKSPACE-AUDIT.md`](NOTION-WORKSPACE-AUDIT.md).
+> rapportées aux problèmes constatés dans [`NOTION-WORKSPACE-AUDIT.md`](NOTION-WORKSPACE-AUDIT-2026-07-24.md).
 > Objectif : mieux utiliser Notion à deux, avant d'envisager de développer quoi que ce soit.
 
 ---
