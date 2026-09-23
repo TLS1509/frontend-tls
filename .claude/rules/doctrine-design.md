@@ -10,6 +10,7 @@ paths:
 ### Typographie · tracking · rayons · ombres — doctrine (valeurs → `src/index.css`)
 
 - **Typo** : classes Tailwind auto-générées depuis les tokens (`--text-h1` → `text-h1`, `--font-display` → `font-display`, etc.).
+- **Interligne : le pas le porte, ne pas l'écrire à côté.** Chaque `text-*` déclare son `--line-height` ; un `leading-*` posé à côté l'écrase (il gagne quel que soit l'ordre). Le 2026-09-23, 139 surcharges qui bougeaient la ligne de ≤ 1,5 px ont été retirées (`text-body leading-relaxed` = 26 px dans les deux cas). Restent 58 `leading-snug` qui resserrent vraiment : leur sort est l'arbitrage n°11 du banc `/_arbitrages` (tout serré / tout au token / serré pour les titres gras seulement). Tant qu'il n'est pas tranché, n'en ajouter aucun.
 - **Tracking gradué** (h1 -0.03em · h2/h3 -0.025em · h4 -0.02em · body 0). ⚠️ Ne **jamais** aplatir le tracking sur tous les headings (anti-pattern). Le marketing BEM (`display-*`, `pole__title`) garde son propre tracking, hors `@theme`.
 - **Rayons — la règle est celle du SEUIL (R3, tranchée le 2026-09-14).**
   **Sous 28 px de haut, la pilule. Au-dessus, l'échelle (`rounded-lg`, 14 px).**
