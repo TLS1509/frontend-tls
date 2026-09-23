@@ -111,19 +111,21 @@ const PrivacyDsar: React.FC = () => {
           title="Données qui seront incluses"
           description="Toutes ces catégories seront exportées dans un fichier ZIP structuré (JSON + CSV)"
         >
-          <div className="flex flex-col gap-stack-xs">
+          {/* Des catégories de données qu'on parcourt : des rangées dans la carte
+              de section, pas des cartes dans la carte (arbitrage n°5 du 23/09). */}
+          <ul className="flex flex-col divide-y divide-ink-100">
             {DATA_TYPES.map((d) => (
-              <Card key={d.id} className="p-stack-md flex items-center gap-stack-xs">
-                <CheckCircle2 className="w-5 h-5 text-success-fg shrink-0" />
-                <FileText className="w-5 h-5 text-primary-600 shrink-0" />
-                <div className="flex-1">
+              <li key={d.id} className="flex items-center gap-stack-xs py-stack-sm first:pt-0">
+                <CheckCircle2 className="w-5 h-5 text-success-fg shrink-0" aria-hidden="true" />
+                <FileText className="w-5 h-5 text-primary-600 shrink-0" aria-hidden="true" />
+                <div className="flex-1 min-w-0">
                   <div className="font-semibold text-body-sm">{d.label}</div>
                   <div className="text-caption text-ink-500">{d.desc}</div>
                 </div>
-                <Badge variant="neutral">{d.size}</Badge>
-              </Card>
+                <Badge variant="neutral" className="shrink-0">{d.size}</Badge>
+              </li>
             ))}
-          </div>
+          </ul>
           <div className="mt-stack flex items-center justify-between p-3 bg-primary-50 rounded-lg">
             <span className="text-body-sm font-semibold">Total estimé</span>
             <Badge variant="brand">~1.1 MB</Badge>
@@ -155,14 +157,14 @@ const PrivacyDsar: React.FC = () => {
           {pastRequests.length === 0 ? (
             <p className="text-body-sm text-ink-500">Aucune demande passée.</p>
           ) : (
-            <div className="flex flex-col gap-stack-xs">
+            <ul className="flex flex-col divide-y divide-ink-100">
               {pastRequests.map((r) => {
                 const s = STATUS_LABEL[r.status] ?? STATUS_LABEL.submitted;
                 const dateLabel = new Date(r.submittedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
                 return (
-                  <Card key={r.id} className="p-stack-md flex items-center gap-stack-xs">
-                    <Clock className="w-5 h-5 text-ink-500" />
-                    <div className="flex-1">
+                  <li key={r.id} className="flex items-center gap-stack-xs py-stack-sm first:pt-0 last:pb-0">
+                    <Clock className="w-5 h-5 text-ink-500 shrink-0" aria-hidden="true" />
+                    <div className="flex-1 min-w-0">
                       <div className="font-semibold text-body-sm">Demande du {dateLabel}</div>
                       {r.archiveSize && <div className="text-caption text-ink-500">Archive : {r.archiveSize}</div>}
                     </div>
@@ -170,10 +172,10 @@ const PrivacyDsar: React.FC = () => {
                     {r.status === 'completed' && (
                       <Button emphasis="outline" size="sm" leadingIcon={<Mail className="w-4 h-4" />}>Renvoyer email</Button>
                     )}
-                  </Card>
+                  </li>
                 );
               })}
-            </div>
+            </ul>
           )}
         </SectionCard>
       </div>
