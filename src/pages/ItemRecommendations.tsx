@@ -36,7 +36,7 @@ const ItemRecommendations: React.FC = () => {
       <Container width="content" padding={false} className="px-stack py-section flex flex-col gap-section">
         <div className="flex items-center justify-between gap-stack">
           <div>
-            <div className="text-h4">{recommendations.length} recommandation{recommendations.length > 1 ? 's' : ''} active{recommendations.length > 1 ? 's' : ''}</div>
+            <div className="font-display text-h4">{recommendations.length} recommandation{recommendations.length > 1 ? 's' : ''} active{recommendations.length > 1 ? 's' : ''}</div>
             <div className="text-caption text-ink-500 mt-1">Mises à jour au fil de tes sessions de coaching</div>
           </div>
         </div>

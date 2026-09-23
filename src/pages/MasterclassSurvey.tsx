@@ -100,7 +100,7 @@ export default function MasterclassSurvey() {
                 aria-label={RATING_LABELS[score]}
                 aria-pressed={rating === score}
               >
-                <span className="text-h3 font-bold">{score}</span>
+                <span className="font-display text-h3 font-bold">{score}</span>
                 <span className="text-micro text-center">{RATING_LABELS[score]}</span>
               </button>
             ))}

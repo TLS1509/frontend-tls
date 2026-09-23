@@ -600,7 +600,7 @@ export const LearningPathDetail: React.FC = () => {
                     <div className={`text-caption font-bold uppercase mb-2 ${TONE_TEXT[tone]}`}>
                       {label}
                     </div>
-                    <div className="text-h3 font-bold text-ink-900 mb-2">{value}</div>
+                    <div className="font-display text-h3 font-bold text-ink-900 mb-2">{value}</div>
                     <p className="text-caption text-ink-500 m-0 leading-snug">{desc}</p>
                   </div>
                 ))}
@@ -649,7 +649,7 @@ export const LearningPathDetail: React.FC = () => {
                     ℹ️
                   </div>
                   <div className="flex-1">
-                    <div className="text-h4 font-bold text-ink-900 mb-2">Avant de commencer</div>
+                    <div className="font-display text-h4 font-bold text-ink-900 mb-2">Avant de commencer</div>
                     <ul className="m-0 pl-stack-md text-body-sm text-ink-500">
                       <li>Valide les 5 étapes du parcours de formation</li>
                       <li>Maîtrise la méthode ROLE-CONTEXT-TASK (RCT)</li>

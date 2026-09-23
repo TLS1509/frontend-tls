@@ -77,12 +77,12 @@ const PurchaseCredits: React.FC = () => {
                 )}
                 <div className="text-center">
                   <Zap className="w-8 h-8 text-accent-400 mx-auto mb-stack" />
-                  <div className="text-h2 font-bold">{p.credits}</div>
+                  <div className="font-display text-h2 font-bold">{p.credits}</div>
                   <div className="text-caption text-ink-500 mb-stack-xs">crédits</div>
                   {p.bonus && (
                     <Badge variant="success" className="mb-stack">+{p.bonus} bonus</Badge>
                   )}
-                  <div className="text-h3 mt-stack">{p.price}€</div>
+                  <div className="font-display text-h3 mt-stack">{p.price}€</div>
                   <div className="text-caption text-ink-500">soit {(p.price / p.credits).toFixed(2)}€ / crédit</div>
                 </div>
               </Card>
@@ -111,11 +111,11 @@ const PurchaseCredits: React.FC = () => {
             <div className="flex items-center justify-between mt-stack-lg p-stack rounded-lg bg-ink-50">
               <div>
                 <div className="text-caption text-ink-500">Total à payer</div>
-                <div className="text-h3 font-bold">{pack.price}€</div>
+                <div className="font-display text-h3 font-bold">{pack.price}€</div>
               </div>
               <div className="text-right">
                 <div className="text-caption text-ink-500">Crédits reçus</div>
-                <div className="text-h3 font-bold text-primary-700">
+                <div className="font-display text-h3 font-bold text-primary-700">
                   {pack.credits + (pack.bonus || 0)}
                 </div>
               </div>

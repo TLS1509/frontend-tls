@@ -55,7 +55,7 @@ export default function AtelierWaitlist() {
           <div className="flex items-center justify-between">
             <span className="text-body-sm text-ink-600">Ta position</span>
             <Badge variant="sun" size="normal">
-              <span className="text-h3 font-bold">#{waitlistPosition}</span>
+              <span className="font-display text-h3 font-bold">#{waitlistPosition}</span>
             </Badge>
           </div>
 

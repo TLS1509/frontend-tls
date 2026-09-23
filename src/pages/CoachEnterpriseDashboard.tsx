@@ -182,13 +182,13 @@ const CoachEnterpriseDashboard: React.FC = () => {
               <Card className="p-stack-lg">
                 <TrendingUp className="w-6 h-6 text-success-fg mb-stack-xs" />
                 <div className="font-semibold mb-1">Taux de complétion</div>
-                <div className="text-h2 font-bold">{stats.completionRate}%</div>
+                <div className="font-display text-h2 font-bold">{stats.completionRate}%</div>
                 <div className="text-caption text-ink-500">formations actives : {stats.activeFormations}</div>
               </Card>
               <Card className="p-stack-lg">
                 <Users className="w-6 h-6 text-info-fg mb-stack-xs" />
                 <div className="font-semibold mb-1">Taux d'engagement hebdomadaire</div>
-                <div className="text-h2 font-bold">{stats.engagementRate}%</div>
+                <div className="font-display text-h2 font-bold">{stats.engagementRate}%</div>
                 <div className="text-caption text-ink-500">{stats.activeMembers} / {members.length} apprenants actifs</div>
               </Card>
             </div>

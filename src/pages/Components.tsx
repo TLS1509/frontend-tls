@@ -5571,7 +5571,7 @@ const COMPONENTS: ComponentEntry[] = [
     render: () => (
       <div className="max-w-md">
         <Flashcard
-          front={<div className="flex items-center justify-center h-full p-stack-lg"><p className="text-h3 font-bold text-ink-900 text-center m-0">Qu&apos;est-ce que le leadership transformationnel ?</p></div>}
+          front={<div className="flex items-center justify-center h-full p-stack-lg"><p className="font-display text-h3 font-bold text-ink-900 text-center m-0">Qu&apos;est-ce que le leadership transformationnel ?</p></div>}
           back={<div className="flex items-center justify-center h-full p-stack-lg"><p className="text-body text-ink-700 text-center m-0">Style de leadership qui inspire et motive les collaborateurs à dépasser leurs intérêts personnels pour le bien collectif.</p></div>}
         />
       </div>

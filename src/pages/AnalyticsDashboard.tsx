@@ -352,7 +352,7 @@ export default function AnalyticsDashboard() {
                     <CheckCircle size={20} className="text-success-fg" />
                   </div>
                   <div>
-                    <div className="text-h4 font-bold text-ink-900">{MOCK_LEARNER_PROFILES.filter(l => l.status === 'on-track').length}</div>
+                    <div className="font-display text-h4 font-bold text-ink-900">{MOCK_LEARNER_PROFILES.filter(l => l.status === 'on-track').length}</div>
                     <div className="text-body-sm text-ink-600">Sur la bonne voie</div>
                   </div>
                 </Card>
@@ -362,7 +362,7 @@ export default function AnalyticsDashboard() {
                     <AlertCircle size={20} className="text-warning-fg" />
                   </div>
                   <div>
-                    <div className="text-h4 font-bold text-ink-900">{MOCK_LEARNER_PROFILES.filter(l => l.status === 'at-risk').length}</div>
+                    <div className="font-display text-h4 font-bold text-ink-900">{MOCK_LEARNER_PROFILES.filter(l => l.status === 'at-risk').length}</div>
                     <div className="text-body-sm text-ink-600">À risque</div>
                   </div>
                 </Card>
@@ -372,7 +372,7 @@ export default function AnalyticsDashboard() {
                     <AlertCircle size={20} className="text-danger-fg" />
                   </div>
                   <div>
-                    <div className="text-h4 font-bold text-ink-900">{MOCK_LEARNER_PROFILES.filter(l => l.status === 'stuck').length}</div>
+                    <div className="font-display text-h4 font-bold text-ink-900">{MOCK_LEARNER_PROFILES.filter(l => l.status === 'stuck').length}</div>
                     <div className="text-body-sm text-ink-600">Bloqués</div>
                   </div>
                 </Card>
@@ -406,7 +406,7 @@ export default function AnalyticsDashboard() {
 
             {/* Top Performers Cards */}
             <div>
-              <div className="text-h3 font-bold text-ink-900 mb-stack">Meilleurs performants</div>
+              <div className="font-display text-h3 font-bold text-ink-900 mb-stack">Meilleurs performants</div>
               <div className="grid md:grid-cols-3 gap-stack">
                 {sortedLearners.slice(0, 3).map((learner, idx) => (
                   <Card key={learner.userId} className="flex flex-col gap-stack p-stack-md md:p-stack-lg">
@@ -421,11 +421,11 @@ export default function AnalyticsDashboard() {
                     <div className="flex gap-stack">
                       <div>
                         <div className="text-caption text-ink-500">XP</div>
-                        <div className="text-h3 font-bold text-primary-700">{learner.totalXp}</div>
+                        <div className="font-display text-h3 font-bold text-primary-700">{learner.totalXp}</div>
                       </div>
                       <div>
                         <div className="text-caption text-ink-500">Streak</div>
-                        <div className="text-h3 font-bold text-secondary-500">{learner.streak}</div>
+                        <div className="font-display text-h3 font-bold text-secondary-500">{learner.streak}</div>
                       </div>
                     </div>
                     <ProgressBar value={learner.progressPercent} fill="brand" size="md" />
@@ -463,14 +463,14 @@ export default function AnalyticsDashboard() {
 
             {/* Competency Health Cards */}
             <div>
-              <div className="text-h3 font-bold text-ink-900 mb-stack">Santé des compétences</div>
+              <div className="font-display text-h3 font-bold text-ink-900 mb-stack">Santé des compétences</div>
               <div className="grid md:grid-cols-2 gap-stack">
                 <Card className="flex flex-col gap-stack p-stack-md md:p-stack-lg bg-success-bg/30 border border-success-base/20">
                   <div className="flex items-center gap-stack-xs">
                     <CheckCircle size={20} className="text-success-base" />
                     <div className="text-body-lg font-bold text-success-base">Compétences saines</div>
                   </div>
-                  <div className="text-h3 font-bold text-ink-900">Leadership, Communication</div>
+                  <div className="font-display text-h3 font-bold text-ink-900">Leadership, Communication</div>
                   <div className="text-body-sm text-ink-600">&gt; 70% d'adoption, niveau D3+</div>
                 </Card>
 
@@ -479,7 +479,7 @@ export default function AnalyticsDashboard() {
                     <AlertCircle size={20} className="text-warning-base" />
                     <div className="text-body-lg font-bold text-warning-base">Compétences en retard</div>
                   </div>
-                  <div className="text-h3 font-bold text-ink-900">Créativité, Analyse</div>
+                  <div className="font-display text-h3 font-bold text-ink-900">Créativité, Analyse</div>
                   <div className="text-body-sm text-ink-600">{'<'} 50% d'adoption, focus d'accompagnement requis</div>
                 </Card>
               </div>

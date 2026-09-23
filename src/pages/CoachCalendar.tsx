@@ -48,7 +48,7 @@ const CoachCalendar: React.FC = () => {
         <div className="flex flex-wrap items-center justify-between gap-stack">
           <div className="flex items-center gap-stack-xs">
             <Button emphasis="outline" iconOnly leadingIcon={<ChevronLeft className="w-4 h-4" />} aria-label="Semaine précédente" onClick={() => setWeekOffset((w) => w - 1)} />
-            <div className="text-h4">Semaine du 11 mai 2026</div>
+            <div className="font-display text-h4">Semaine du 11 mai 2026</div>
             <Button emphasis="outline" iconOnly leadingIcon={<ChevronRight className="w-4 h-4" />} aria-label="Semaine suivante" onClick={() => setWeekOffset((w) => w + 1)} />
           </div>
           <div className="flex items-center gap-stack-xs">

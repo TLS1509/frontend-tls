@@ -97,17 +97,17 @@ const ApiDocs: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-stack-xs">
               <Card className="p-stack-md text-center">
                 <Zap className="w-6 h-6 text-info-fg mx-auto mb-stack-xs" />
-                <div className="text-h3 font-bold">60 / min</div>
+                <div className="font-display text-h3 font-bold">60 / min</div>
                 <div className="text-caption text-ink-500">Plan Découverte</div>
               </Card>
               <Card className="p-stack-md text-center">
                 <Zap className="w-6 h-6 text-secondary-600 mx-auto mb-stack-xs" />
-                <div className="text-h3 font-bold">600 / min</div>
+                <div className="font-display text-h3 font-bold">600 / min</div>
                 <div className="text-caption text-ink-500">Plan Premium</div>
               </Card>
               <Card className="p-stack-md text-center">
                 <Zap className="w-6 h-6 text-success-fg mx-auto mb-stack-xs" />
-                <div className="text-h3 font-bold">Illimité</div>
+                <div className="font-display text-h3 font-bold">Illimité</div>
                 <div className="text-caption text-ink-500">Plan Enterprise</div>
               </Card>
             </div>
