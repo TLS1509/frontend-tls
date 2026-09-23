@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useId } from 'react';
 
 /**
  * ProgressBar — linear progress tracking.
@@ -9,6 +9,13 @@ import React from 'react';
  *
  * Sizes: xs/sm/md/lg.
  * Fill: brand/warm/sun/success/danger/gradient.
+ *
+ * Nom accessible de la barre (`role="progressbar"`), par ordre de priorité :
+ *   1. `aria-label` / `aria-labelledby` passés par l'appelant ;
+ *   2. le `label` visible, relié par `aria-labelledby` ;
+ *   3. à défaut, « Progression ».
+ * `aria-valuetext` dit la valeur en français (« 40 % »), ou reprend
+ * `valueLabel` quand l'appelant l'a écrit en texte (« 3 leçons sur 5 »).
  */
 
 export type ProgressSize = 'xs' | 'sm' | 'md' | 'lg';
@@ -74,8 +81,11 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   showLabel,
   variant,
   className = '',
+  'aria-label': ariaLabel,
+  'aria-labelledby': ariaLabelledBy,
   ...rest
 }) => {
+  const labelId = useId();
   const resolvedValue = value ?? percentage ?? 0;
   const pct = Math.min(Math.max((resolvedValue / max) * 100, 0), 100);
 
@@ -84,6 +94,32 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
 
   const showValueLabel =
     valueLabel !== false && (valueLabel !== undefined || showLabel !== false);
+
+  // Nom de la barre : sans lui, un lecteur d'écran annonce « barre de
+  // progression, 40 % » sans dire de quoi (8 barres sur 8 sans nom sur
+  // /learning-paths, audit du 23/09).
+  const nameProps: React.AriaAttributes = ariaLabel || ariaLabelledBy
+    ? { 'aria-label': ariaLabel, 'aria-labelledby': ariaLabelledBy }
+    : label
+      ? { 'aria-labelledby': labelId }
+      : { 'aria-label': 'Progression' };
+
+  const pctRounded = Math.round(pct);
+  // Espace insécable avant « % » : la typographie française, et une valeur que
+  // le lecteur d'écran lit « 40 pour cent » plutôt que « 40 ».
+  const valueText =
+    typeof valueLabel === 'string' || typeof valueLabel === 'number'
+      ? String(valueLabel)
+      : `${pctRounded}\u00a0%`;
+
+  const progressProps = {
+    role: 'progressbar',
+    ...nameProps,
+    'aria-valuenow': pctRounded,
+    'aria-valuemin': 0,
+    'aria-valuemax': 100,
+    'aria-valuetext': valueText,
+  } as const;
 
   const trackClasses = [TRACK_BASE, TRACK_SIZE_CLASSES[size]].join(' ');
   const fillClasses = [FILL_BASE, FILL_VARIANT_CLASSES[resolvedFill]].join(' ');
@@ -95,14 +131,11 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
         {...rest}
       >
         {label && (
-          <span className="text-caption text-ink-600 font-medium whitespace-nowrap">{label}</span>
+          <span id={labelId} className="text-caption text-ink-600 font-medium whitespace-nowrap">{label}</span>
         )}
         <div
           className={`${trackClasses} flex-1 min-w-20 shadow-inner`}
-          role="progressbar"
-          aria-valuenow={Math.round(pct)}
-          aria-valuemin={0}
-          aria-valuemax={100}
+          {...progressProps}
         >
           <div className={fillClasses} style={{ width: `${pct}%` }} />
         </div>
@@ -122,7 +155,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
       {(label || showValueLabel) && (
         <div className="flex justify-between items-center text-caption">
           {label && (
-            <span className="text-ink-600 font-semibold uppercase tracking-[0.04em] text-micro">
+            <span id={labelId} className="text-ink-600 font-semibold uppercase tracking-[0.04em] text-micro">
               {label}
             </span>
           )}
@@ -137,10 +170,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
       )}
       <div
         className={`${trackClasses} shadow-inner`}
-        role="progressbar"
-        aria-valuenow={Math.round(pct)}
-        aria-valuemin={0}
-        aria-valuemax={100}
+        {...progressProps}
       >
         <div className={fillClasses} style={{ width: `${pct}%` }} />
       </div>
