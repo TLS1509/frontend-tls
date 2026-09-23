@@ -1223,7 +1223,7 @@ const SidebarDemo: React.FC = () => {
         </Sidebar>
         <div className="flex-1 p-stack-lg bg-gradient-to-br from-ink-50 to-white overflow-hidden rounded-r-xl">
           <p className="text-body-sm text-ink-500">Active : <strong className="text-ink-900">{items.find(i => i.id === active)?.label}</strong></p>
-          <p className="text-caption text-ink-400 mt-1">Cliquer sur la carte utilisateur en bas → dropdown glass à droite. Mobile : drawer + hamburger (md:)</p>
+          <p className="text-caption text-ink-500 mt-1">Cliquer sur la carte utilisateur en bas → dropdown glass à droite. Mobile : drawer + hamburger (md:)</p>
         </div>
       </div>
     </div>
@@ -1992,7 +1992,7 @@ const COMPONENTS: ComponentEntry[] = [
               <div key={quoi} className="flex flex-wrap items-baseline gap-stack-xs text-caption">
                 <span className="w-24 shrink-0 font-bold text-ink-700">{quoi}</span>
                 <code className="font-mono text-micro text-ink-500 line-through">{avant}</code>
-                <span className="text-ink-400">→</span>
+                <span className="text-ink-500">→</span>
                 <code className="font-mono text-micro text-primary-700">{apres}</code>
               </div>
             ))}
@@ -2568,7 +2568,7 @@ const COMPONENTS: ComponentEntry[] = [
       <div className="flex flex-col gap-stack-lg">
         {/* Badge — sémantique */}
         <div className="flex flex-col gap-stack-xs">
-          <span className="font-body text-micro font-bold uppercase tracking-widest text-ink-400">Badge — sémantique</span>
+          <span className="font-body text-micro font-bold uppercase tracking-widest text-ink-500">Badge — sémantique</span>
           <div className="hstack flex-wrap">
             <Badge variant="brand">Brand</Badge>
             <Badge variant="neutral">Neutral</Badge>
@@ -2583,7 +2583,7 @@ const COMPONENTS: ComponentEntry[] = [
         </div>
         {/* StatusBadge — état leçon */}
         <div className="flex flex-col gap-stack-xs">
-          <span className="font-body text-micro font-bold uppercase tracking-widest text-ink-400">StatusBadge — état leçon</span>
+          <span className="font-body text-micro font-bold uppercase tracking-widest text-ink-500">StatusBadge — état leçon</span>
           <div className="hstack flex-wrap gap-stack-xs">
             <StatusBadge status="locked" />
             <StatusBadge status="available" />
@@ -3063,7 +3063,7 @@ const COMPONENTS: ComponentEntry[] = [
         <p className="m-0 text-micro font-bold text-ink-500 uppercase tracking-[0.06em]">layout="feature" (4 col)</p>
         <CardGrid layout="feature" gapSize="sm">
           {['Actu', 'Tutoriel', 'Dossier', 'Mag'].map((t) => (
-            <div key={t} className="p-3 bg-secondary-50 rounded-lg text-caption text-secondary-600 font-semibold border border-secondary-100">{t}</div>
+            <div key={t} className="p-3 bg-secondary-50 rounded-lg text-caption text-secondary-700 font-semibold border border-secondary-100">{t}</div>
           ))}
         </CardGrid>
       </div>
@@ -3585,7 +3585,7 @@ const COMPONENTS: ComponentEntry[] = [
             onNavigate={(i) => console.log('navigate', i)}
             className="mt-stack-xs"
           />
-          <div className="text-micro text-ink-400 mt-1">↑ maxVisible=3 → ellipsis automatique</div>
+          <div className="text-micro text-ink-500 mt-1">↑ maxVisible=3 → ellipsis automatique</div>
         </div>
 
         <div className="bg-ink-50 rounded-md overflow-hidden">
@@ -3611,9 +3611,9 @@ const COMPONENTS: ComponentEntry[] = [
     keywords: ['breadcrumb', 'auto', 'location', 'path', 'navigation', 'back', 'layout', 'route'],
     render: () => (
       <div className="flex flex-col gap-stack-xs p-stack bg-ink-50 rounded-xl border border-ink-200">
-        <p className="text-caption text-ink-400 m-0 italic">Simulation — rendu réel disponible dans toute page routée avec ≥ 2 segments (ex. /learning-paths/1, /veille/article/1)</p>
+        <p className="text-caption text-ink-500 m-0 italic">Simulation — rendu réel disponible dans toute page routée avec ≥ 2 segments (ex. /learning-paths/1, /veille/article/1)</p>
         <div className="flex items-center gap-stack-2xs text-caption text-ink-500">
-          <span className="inline-flex items-center gap-tight text-primary-600 hover:text-primary-700 cursor-pointer font-medium">
+          <span className="inline-flex items-center gap-tight text-primary-700 hover:text-primary-800 cursor-pointer font-medium">
             <BookOpen size={13} /> Parcours
           </span>
           <span className="text-ink-300">›</span>
@@ -4407,7 +4407,7 @@ const COMPONENTS: ComponentEntry[] = [
               <ReadingProgressBar tone="sun" fixed={false} height={6} className="absolute inset-0" />
             </div>
           </div>
-          <p className="text-micro text-ink-400 mt-stack-xs">Note : en usage normal, `fixed=true` (défaut) ancre la barre au top du viewport.</p>
+          <p className="text-micro text-ink-500 mt-stack-xs">Note : en usage normal, `fixed=true` (défaut) ancre la barre au top du viewport.</p>
         </div>
         <div>
           <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">ReadingProgressRing — 4 tones</p>
@@ -4634,7 +4634,7 @@ const COMPONENTS: ComponentEntry[] = [
         {/* Real usage examples */}
         <div className="flex flex-col gap-stack">
           <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Usage examples</p>
-          <SectionHeader icon={Calendar} title="Prochaine session" subtitle="Votre prochain rendez-vous de coaching" action={<button className="text-caption text-primary-600 hover:underline">Voir tout →</button>} />
+          <SectionHeader icon={Calendar} title="Prochaine session" subtitle="Votre prochain rendez-vous de coaching" action={<button className="text-caption text-primary-700 hover:underline">Voir tout →</button>} />
           <SectionHeader icon="⚡" title="Actions rapides" subtitle="ReactNode/emoji icon supporté" />
           <SectionHeader title="Sans icône" subtitle="Section minimale" divider />
         </div>
@@ -4790,7 +4790,7 @@ const COMPONENTS: ComponentEntry[] = [
     keywords: ['viewer', 'overlay', 'fullscreen', 'immersive', 'player', 'reader', 'tone', 'progress', 'prev', 'next'],
     render: () => (
       <div className="flex flex-col gap-stack-xs">
-        <p className="text-caption text-ink-400 m-0">Aperçu tronqué — composant wrapper full-screen utilisé dans les pages viewer. children = contenu immersif (Flashcard, VideoPlayer, LessonContent…).</p>
+        <p className="text-caption text-ink-500 m-0">Aperçu tronqué — composant wrapper full-screen utilisé dans les pages viewer. children = contenu immersif (Flashcard, VideoPlayer, LessonContent…).</p>
         <div className="rounded-2xl overflow-hidden border border-ink-200 bg-white min-h-[260px] flex flex-col">
           <div className="flex items-center justify-between px-stack-md py-3 bg-white/85 backdrop-blur-glass-light border-b border-ink-200">
             <button className="inline-flex items-center gap-stack-2xs text-caption text-ink-600 font-medium bg-ink-50 border border-ink-200 rounded-pill px-3 py-1.5">
@@ -4806,7 +4806,7 @@ const COMPONENTS: ComponentEntry[] = [
             </div>
           </div>
           <div className="h-1 bg-ink-100"><div className="h-full bg-gradient-to-r from-primary-500 to-primary-700" style={{ width: '25%' }} /></div>
-          <div className="flex-1 flex items-center justify-center p-section text-ink-400 text-caption">— children slot (LessonPlayer / Flashcard / VideoPlayer…) —</div>
+          <div className="flex-1 flex items-center justify-center p-section text-ink-500 text-caption">— children slot (LessonPlayer / Flashcard / VideoPlayer…) —</div>
           <div className="px-stack-md py-3 border-t border-ink-200 bg-white flex items-center justify-between">
             <button className="inline-flex items-center gap-stack-2xs text-caption font-medium text-ink-600 px-3 py-stack-xs rounded-pill hover:bg-ink-50 border border-ink-200 cursor-pointer"><ArrowLeft size={14} /> Précédent</button>
             <span className="text-caption text-ink-500">3 / 12</span>
@@ -5040,7 +5040,7 @@ const COMPONENTS: ComponentEntry[] = [
           {(() => {
             const hzItems = [
               { typeLabel: 'Actu', Icon: TrendingUp, gradFrom: 'from-primary-400', gradTo: 'to-primary-700', toneText: 'text-primary-700', toneBg: 'bg-primary-50', toneBorder: 'border-primary-200', category: 'IA & Pédagogie', title: "IA générative en formation : où en sommes-nous en 2026 ?", summary: "Tour d'horizon des nouveaux usages de l'IA.", author: 'The Learning Society', publishedAt: "Aujourd'hui", readTime: '6 min' },
-              { typeLabel: 'Tutoriel', Icon: Video, gradFrom: 'from-secondary-400', gradTo: 'to-secondary-700', toneText: 'text-secondary-600', toneBg: 'bg-secondary-50', toneBorder: 'border-secondary-200', category: 'Prompt Engineering', title: 'Construire un prompt structuré en 5 étapes', summary: 'Une vidéo pas à pas pour formaliser ses prompts.', author: 'Marie Dubois', publishedAt: 'Hier', readTime: '12 min' },
+              { typeLabel: 'Tutoriel', Icon: Video, gradFrom: 'from-secondary-400', gradTo: 'to-secondary-700', toneText: 'text-secondary-700', toneBg: 'bg-secondary-50', toneBorder: 'border-secondary-200', category: 'Prompt Engineering', title: 'Construire un prompt structuré en 5 étapes', summary: 'Une vidéo pas à pas pour formaliser ses prompts.', author: 'Marie Dubois', publishedAt: 'Hier', readTime: '12 min' },
               { typeLabel: 'Dossier', Icon: FolderOpen, gradFrom: 'from-accent-300', gradTo: 'to-accent-600', toneText: 'text-accent-700', toneBg: 'bg-accent-50', toneBorder: 'border-accent-200', category: 'Management', title: "Transformation IA des parcours de formation", summary: "Synthèse approfondie sur les dispositifs de formation en Europe.", author: 'McKinsey', publishedAt: 'Il y a 3 jours', readTime: '22 min' },
             ];
             return (
@@ -5066,7 +5066,7 @@ const COMPONENTS: ComponentEntry[] = [
                   {/* Content : titre → meta → summary */}
                   <div className="flex flex-col justify-center gap-tight p-stack">
                     <h3 className="font-display text-body-sm font-bold text-ink-900 line-clamp-2">{it.title}</h3>
-                    <div className="flex items-center gap-stack-2xs font-body text-micro text-ink-400 flex-wrap">
+                    <div className="flex items-center gap-stack-2xs font-body text-micro text-ink-500 flex-wrap">
                       <User size={10} className="shrink-0" />
                       <span>{it.author}</span>
                       <span aria-hidden>·</span>
@@ -5094,7 +5094,7 @@ const COMPONENTS: ComponentEntry[] = [
                     <div className={`inline-flex items-center justify-center w-9 h-9 rounded-lg bg-white/80 ${it.toneText} shadow-xs`}>
                       <it.Icon size={17} strokeWidth={1.75} />
                     </div>
-                    <span className={`font-body text-[9px] font-black uppercase tracking-wider ${it.toneText} opacity-70`}>{it.typeLabel}</span>
+                    <span className={`font-body text-[9px] font-black uppercase tracking-wider ${it.toneText}`}>{it.typeLabel}</span>
                   </div>
                   {/* Content */}
                   <div className="flex-1 min-w-0 flex flex-col gap-tight px-stack py-3">
@@ -5130,7 +5130,7 @@ const COMPONENTS: ComponentEntry[] = [
                   {/* Title + meta */}
                   <div className="flex-1 min-w-0 flex flex-col gap-tight">
                     <h4 className="font-display text-body-sm font-bold text-ink-900 truncate group-hover:text-primary-700 transition-colors">{it.title}</h4>
-                    <p className="m-0 font-body text-micro text-ink-400 truncate">
+                    <p className="m-0 font-body text-micro text-ink-500 truncate">
                       <User size={9} className="inline mr-0.5" />{it.author} · {it.publishedAt} · ⏱ {it.readTime}
                     </p>
                   </div>
@@ -5847,7 +5847,7 @@ const COMPONENTS: ComponentEntry[] = [
         headerAction={<span className="text-caption text-ink-500">3 items</span>}
         actions={
           <>
-            <button type="button" className="inline-flex items-center gap-tight text-body-sm text-primary-600 hover:text-primary-700 underline bg-transparent border-0 p-0 cursor-pointer">
+            <button type="button" className="inline-flex items-center gap-tight text-body-sm text-primary-700 hover:text-primary-800 underline bg-transparent border-0 p-0 cursor-pointer">
               Voir tout
             </button>
           </>
@@ -5994,7 +5994,7 @@ const COMPONENTS: ComponentEntry[] = [
     usedBy: [],
     render: () => (
       <div className="relative min-h-[120px] border border-ink-100 rounded-lg overflow-hidden bg-ink-50">
-        <p className="p-stack text-caption text-ink-400 italic">ConsentBanner — position fixed bottom dans l'app réelle. Démo statique ci-dessous :</p>
+        <p className="p-stack text-caption text-ink-500 italic">ConsentBanner — position fixed bottom dans l'app réelle. Démo statique ci-dessous :</p>
         <div className="relative bg-white/95 border-t border-ink-100 shadow-lg p-stack">
           <div className="flex flex-col md:flex-row md:items-center gap-stack-xs">
             <div className="flex-1 text-body-sm text-ink-600">
@@ -6056,7 +6056,7 @@ const COMPONENTS: ComponentEntry[] = [
             />
           </div>
         </div>
-        <p className="text-caption text-ink-400 text-center max-w-prose">Clic sur les labels d'axes → drill-down (console.log). Échelle Dreyfus 1–5.</p>
+        <p className="text-caption text-ink-500 text-center max-w-prose">Clic sur les labels d'axes → drill-down (console.log). Échelle Dreyfus 1–5.</p>
       </div>
     ),
   },
@@ -6134,22 +6134,22 @@ const COMPONENTS: ComponentEntry[] = [
     render: () => (
       <div className="flex flex-col gap-stack">
         <div className="flex flex-wrap gap-stack-xs items-center">
-          <span className="text-caption text-ink-400">≤ 90j :</span>
-          <span className="text-caption text-ink-300 italic">(rien affiché)</span>
+          <span className="text-caption text-ink-500">≤ 90j :</span>
+          <span className="text-caption text-ink-500 italic">(rien affiché)</span>
           <AtrophieIndicator daysSinceActivity={45} />
         </div>
         <div className="flex flex-wrap gap-stack-xs items-center">
-          <span className="text-caption text-ink-400">91–180j :</span>
+          <span className="text-caption text-ink-500">91–180j :</span>
           <AtrophieIndicator daysSinceActivity={94} currentLevel={3} size="sm" />
           <AtrophieIndicator daysSinceActivity={130} currentLevel={2} size="md" />
         </div>
         <div className="flex flex-wrap gap-stack-xs items-center">
-          <span className="text-caption text-ink-400">&gt; 180j (critique) :</span>
+          <span className="text-caption text-ink-500">&gt; 180j (critique) :</span>
           <AtrophieIndicator daysSinceActivity={210} currentLevel={4} size="sm" />
           <AtrophieIndicator daysSinceActivity={365} size="md" />
         </div>
         <div className="flex flex-wrap gap-stack-xs items-center">
-          <span className="text-caption text-ink-400">Sans label :</span>
+          <span className="text-caption text-ink-500">Sans label :</span>
           <AtrophieIndicator daysSinceActivity={100} showLabel={false} />
           <AtrophieIndicator daysSinceActivity={200} showLabel={false} />
         </div>
@@ -6859,7 +6859,7 @@ const COMPONENTS: ComponentEntry[] = [
           renderItem={(item) => (
             <div key={item.id} className="flex items-center justify-between px-stack py-3 border-b border-ink-100 last:border-0 hover:bg-ink-50 rounded-lg transition-colors">
               <span className="font-semibold text-ink-900">{item.title}</span>
-              <span className="text-caption text-primary-600 font-medium">{item.cat}</span>
+              <span className="text-caption text-primary-700 font-medium">{item.cat}</span>
             </div>
           )}
           listClassName="border border-ink-200 rounded-xl overflow-hidden"
@@ -9104,7 +9104,7 @@ const Components: React.FC = () => {
                       className="inline-flex items-center gap-tight rounded-pill border border-ink-200 bg-white px-3 py-1 text-caption font-semibold text-ink-600 transition-colors duration-fast ease-standard hover:border-primary-300 hover:bg-primary-50 hover:text-primary-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                     >
                       {subCat}
-                      <span className="text-ink-400 font-normal">{list.length}</span>
+                      <span className="text-ink-500 font-normal">{list.length}</span>
                     </a>
                   ))}
                 </nav>
