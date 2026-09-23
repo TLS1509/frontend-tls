@@ -165,7 +165,9 @@ const DERIVES = [
   { nom: 'couleur en dur (hex dans une classe)', rx: /\[#[0-9a-fA-F]{3,8}\]/g },
   { nom: 'style={{}} portant une couleur',        rx: /style=\{\{[^}]*\b(color|background)\b[^}]*\}\}/g },
   { nom: 'gouttière numérique (token existant)',  rx: /(?<![\w-])gap-(0\.5|2|4|6|8)(?![\w.-])/g },
-  { nom: 'taille d’icône hors échelle',           rx: /size=\{(?!14\b|16\b|18\b|20\b|24\b|28\b|32\b|40\b|48\b)\d{1,3}\}/g },
+  /* `<TlsLogo size>` n'est pas une icône : le logo a sa propre échelle (défaut 36).
+     Ses 8 occurrences étaient comptées comme dérives (relevé du 2026-09-23). */
+  { nom: 'taille d’icône hors échelle',           rx: /(?<!<TlsLogo\b[^<>]*)size=\{(?!14\b|16\b|18\b|20\b|24\b|28\b|32\b|40\b|48\b)\d{1,3}\}/g },
   /* ⚠️ Le segment de DIRECTION est optionnel, et il ne l'était pas avant le
      2026-09-14. La règle ne matchait que `rounded-3xl` nu, donc elle rendait
      0 — et CLAUDE.md a écrit « rounded-3xl n'existe plus dans src/, 0
