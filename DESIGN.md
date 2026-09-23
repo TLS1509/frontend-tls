@@ -23,7 +23,9 @@ souvenir. C'est le motif de l'archivage de `DESIGN-IMPECCABLE.md` (voir plus bas
 
 | Besoin | Doc | Chargé ? |
 |---|---|---|
-| Règles strictes, tokens, pièges Tailwind, gate de build | [`CLAUDE.md`](./CLAUDE.md) | ✅ instructions projet |
+| Règles strictes, familles de composants, gate de build | [`CLAUDE.md`](./CLAUDE.md) | ✅ instructions projet |
+| Pièges Tailwind / cascade CSS | [`.claude/rules/pieges-tailwind.md`](./.claude/rules/pieges-tailwind.md) | ✅ dès qu'un fichier de `src/` est touché |
+| Doctrine rayons, bouton, conteneurs, cartes | [`.claude/rules/doctrine-design.md`](./.claude/rules/doctrine-design.md) | ✅ dès qu'un fichier de `src/` est touché |
 | Stratégie produit, North Star, voix, anti-références | [`PRODUCT.md`](./PRODUCT.md) | ✅ par la skill |
 | **Composition d'interface** (ce doc) | — | ✅ par la skill |
 | Doctrine longue : altitudes, transparence IA, grammaire de pratique | [`docs/_archive/DESIGN-IMPECCABLE.md`](./docs/_archive/DESIGN-IMPECCABLE.md) | ⛔ **archivé le 2026-09-09** — ses décisions vivantes sont §10 et §11 ci-dessous |
@@ -51,7 +53,7 @@ dériverait ; c'est exactement ce qui est arrivé au design system parallèle de
 |---|---:|---|---|
 | **`src/index.css`** | 1048 | Bloc `@theme` = **tous les tokens**, les `@keyframes`, et les utilities que Tailwind v4 ne génère pas (`shadow-*`, `ease-*`, `duration-*`, `bg-gradient-*`) | ✅ **source de vérité unique** |
 | `src/styles/globals.css` | 159 | Reset et sélecteurs d'élément, tout en `@layer base`. Importe les deux CSS ci-dessous | ✅ |
-| `src/styles/design-tokens.css` | 622 | Alias legacy `--tls-*` pour le BEM résiduel. **Ne doit rien définir de neuf** | ⚠️ contient encore 9 doublons (voir CLAUDE.md, piège #3) |
+| `src/styles/design-tokens.css` | 622 | Alias legacy `--tls-*` pour le BEM résiduel. **Ne doit rien définir de neuf** | ✅ plus aucun doublon avec `@theme` depuis le 17/09 (piège n°3, `.claude/rules/pieges-tailwind.md`) |
 | `src/components/modals/modals.css` | 387 | Pseudo-éléments et animations de modale | ✅ |
 | `src/components/patterns/Flashcard.css` | 93 | Retournement 3D — impossible en utilities | ✅ |
 
@@ -162,7 +164,7 @@ vocabulaire, pas au rendu : `rounded-pill` est le token TLS.
 
 **L'échelle est étagée** — étiquette en pilule, interactif à 14, conteneur à 20.
 La règle complète, avec le seuil des 28 px et la géométrie du padding, vit dans
-`CLAUDE.md` § Rayons, qui fait foi.
+`.claude/rules/doctrine-design.md` § Rayons, qui fait foi.
 
 **Ombres** — échelle neutre `xs→xl`, plus les teintées `shadow-brand-*`,
 `shadow-warm-*`, `shadow-sun-*`. Les cards sans `tone` prennent la neutre, celles
@@ -690,7 +692,7 @@ différemment selon le registre : la conversion d'un côté, la durée de l'autr
 
 **Le contrat de contraste appartient au niveau.** Filet au cran 700, label au
 800 : un bouton se pose aussi sur une carte teintée, et un seuil mesuré sur du
-blanc n'est pas un seuil. Le détail chiffré vit dans `CLAUDE.md`, qui fait foi.
+blanc n'est pas un seuil. Le détail chiffré vit dans `.claude/rules/doctrine-design.md`, qui fait foi.
 
 **`onDark` est une affirmation sur la surface, donc vérifiable.** C'est tout
 l'intérêt du renommage : le mot `glass` désignait une matière, et on pouvait la
@@ -817,5 +819,5 @@ lignes sont conservées pour l'archive, pas pour être suivies.
 La synchronisation Notion du design system (elle n'est plus tenue), le catalogue
 de pages par tier (statut figé à une phase révolue), les inventaires de patterns
 avec compteurs d'usage (ils périment à chaque commit), l'historique des phases 10
-à 18, et la liste des pièges Tailwind — qui vit dans `CLAUDE.md`, seul endroit où
+à 18, et la liste des pièges Tailwind — qui vit dans `.claude/rules/pieges-tailwind.md`, seul endroit où
 elle est maintenue.
