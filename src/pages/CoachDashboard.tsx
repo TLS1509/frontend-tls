@@ -18,8 +18,8 @@ import { Container, PageShell } from '../components/layout';
 import { ScatterChart, type ScatterChartDataPoint } from '../components/charts/ScatterChart';
 import { RadarChart, type RadarDataPoint } from '../components/charts/RadarChart';
 import { ChartContainer } from '../components/charts/ChartContainer';
+import { DataTable, type DataTableColumn, type SortDirection } from '../components/patterns/DataTable';
 import { APPRENANTS, APPRENANT_AXES, getApprenantById, type ApprenantStatus } from '../data/apprenants';
-import { CARD_HOVER } from '../lib/tone-classes';
 import { useCoachingStore } from '../stores/persistence';
 
 // ─── Display helpers ──────────────────────────────────────────────────────────
@@ -36,6 +36,24 @@ const TABS = [
   { id: 'corrections', label: 'Corrections' },
   { id: 'sessions', label: 'Sessions' },
 ];
+
+// ─── Table des apprenants ─────────────────────────────────────────────────────
+
+type LearnerSortKey = 'name' | 'status' | 'lastActivity' | 'jac' | 'dreyfus';
+
+const LEARNER_COLUMNS: DataTableColumn[] = [
+  { key: 'name', label: 'Apprenant', sortable: true },
+  { key: 'status', label: 'Statut', sortable: true },
+  { key: 'lastActivity', label: 'Activité', sortable: true },
+  { key: 'jac', label: 'JAC', sortable: true },
+  { key: 'dreyfus', label: 'Dreyfus', sortable: true, align: 'right' },
+];
+
+/** Ordre de tri par défaut : celui qui décroche d'abord, c'est le tri du coach. */
+const STATUS_PRIORITY: Record<ApprenantStatus, number> = { stuck: 0, active: 1, ahead: 2 };
+
+/** 2.9 → « 2,9 » : le niveau se lit sur 5, sans le préfixe « D » que rien n'expliquait. */
+const formatDreyfus = (n: number) => n.toFixed(1).replace('.', ',');
 
 /** "2j", "8j", "Hier" → integer days for atrophie/jac computations. */
 const parseDays = (s: string): number => {
@@ -94,6 +112,29 @@ export default function CoachDashboard() {
 
   const selected = selectedApprenantId ? getApprenantById(selectedApprenantId) : undefined;
 
+  // DataTable n'affiche que la flèche de tri : c'est à la page de trier les rangées.
+  const [sort, setSort] = useState<{ key: LearnerSortKey; dir: Exclude<SortDirection, null> } | null>(null);
+  const sortedApprenants = useMemo(() => {
+    const value = (a: (typeof APPRENANTS)[number], key: LearnerSortKey): number | string => {
+      switch (key) {
+        case 'name': return a.name;
+        case 'status': return STATUS_PRIORITY[a.status];
+        case 'lastActivity': return parseDays(a.lastActivity);
+        case 'jac':
+        case 'dreyfus': return a.dreyfusAvg;
+      }
+    };
+    const list = [...APPRENANTS];
+    if (!sort) {
+      return list.sort((a, b) => STATUS_PRIORITY[a.status] - STATUS_PRIORITY[b.status] || parseDays(b.lastActivity) - parseDays(a.lastActivity));
+    }
+    const sign = sort.dir === 'asc' ? 1 : -1;
+    return list.sort((a, b) => {
+      const va = value(a, sort.key), vb = value(b, sort.key);
+      return (typeof va === 'string' ? va.localeCompare(vb as string, 'fr') : va - (vb as number)) * sign;
+    });
+  }, [sort]);
+
   // Build scatter chart data (memoized)
   const scatterData = useMemo(() => buildScatterData(), []);
 
@@ -106,7 +147,7 @@ export default function CoachDashboard() {
       <EditorialHero
         eyebrow="Espace Coach"
         title="Tableau de bord Coach"
-        summary="Suis la progression de tes apprenants, revois leurs travaux et planifie vos sessions."
+        summary="Suivez la progression de vos apprenants, relisez leurs travaux et planifiez vos sessions."
         tone="flat"
       />
 
@@ -124,8 +165,8 @@ export default function CoachDashboard() {
           />
           <StatCard label="Sessions cette semaine" value="2" size="sm" />
           <StatCard
-            label="Score Dreyfus moyen"
-            value={`D${(APPRENANTS.reduce((acc, a) => acc + a.dreyfusAvg, 0) / APPRENANTS.length).toFixed(1)}`}
+            label="Niveau Dreyfus moyen"
+            value={`${formatDreyfus(APPRENANTS.reduce((acc, a) => acc + a.dreyfusAvg, 0) / APPRENANTS.length)} / 5`}
             size="sm"
           />
         </div>
@@ -134,7 +175,7 @@ export default function CoachDashboard() {
 
         {/* Apprenants tab */}
         {activeTab === 'apprenants' && (
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-section items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_auto] gap-section items-start">
             <div className="flex flex-col gap-stack">
               <SectionHeader
                 title="Mes apprenants"
@@ -143,35 +184,49 @@ export default function CoachDashboard() {
                 tone="primary"
                 size="md"
               />
-              {APPRENANTS.map((a) => {
-                const status = STATUS_CONFIG[a.status];
-                const days = parseDays(a.lastActivity);
-                const jac = jacPct(a.dreyfusAvg);
-                const isSelected = selectedApprenantId === a.id;
-                return (
-                  <Card
-                    key={a.id}
-                    className={`p-stack flex items-start gap-stack cursor-pointer transition-all duration-base ${isSelected ? 'ring-2 ring-primary-400' : CARD_HOVER['primary']}`}
-                    onClick={() => setSelectedApprenantId(isSelected ? null : a.id)}
-                  >
-                    <Avatar initials={a.initials} size="md" />
-                    <div className="flex-1 min-w-0 flex flex-col gap-stack-xs">
-                      <div className="flex items-center gap-stack-xs flex-wrap">
-                        <span className="text-body-sm font-semibold text-ink-900">{a.name}</span>
+              {/* Une collection d'objets du même type se lit en table, pas en pile
+                  de cartes : dix apprenants tenaient 2 840 px en cartes, et le coach
+                  ne pouvait pas trier pour trouver qui décroche. */}
+              <DataTable
+                columns={LEARNER_COLUMNS}
+                rows={sortedApprenants.map((a) => {
+                  const status = STATUS_CONFIG[a.status];
+                  const jac = jacPct(a.dreyfusAvg);
+                  const isSelected = selectedApprenantId === a.id;
+                  return {
+                    name: (
+                      <span className="flex items-center gap-stack-sm min-w-0">
+                        <Avatar initials={a.initials} size="sm" />
+                        <span className="flex flex-col min-w-0">
+                          <span className={`font-semibold truncate ${isSelected ? 'text-primary-800' : 'text-ink-900'}`}>{a.name}</span>
+                          <span className="text-caption text-ink-600 truncate">{a.role}</span>
+                        </span>
+                      </span>
+                    ),
+                    status: (
+                      <span className="inline-flex items-center gap-stack-xs">
                         <Badge variant={status.variant} size="compact">{status.label}</Badge>
-                        <AtrophieIndicator daysSinceActivity={days} currentLevel={Math.round(a.dreyfusAvg)} size="sm" showLabel={false} />
-                      </div>
-                      <div className="flex gap-stack text-caption text-ink-500 flex-wrap">
-                        <span>Dernière activité : {a.lastActivity}</span>
-                        <span>JAC : {jac}%</span>
-                        <span>Dreyfus moy. : D{a.dreyfusAvg.toFixed(1)}</span>
-                      </div>
-                      <ProgressBar value={jac} fill="brand" size="sm" />
-                    </div>
-                    <ChevronRight size={16} className="shrink-0 text-ink-300 mt-1" />
-                  </Card>
-                );
-              })}
+                        <AtrophieIndicator daysSinceActivity={parseDays(a.lastActivity)} currentLevel={Math.round(a.dreyfusAvg)} size="sm" showLabel={false} />
+                      </span>
+                    ),
+                    lastActivity: <span className="text-ink-700">{a.lastActivity}</span>,
+                    jac: (
+                      <span className="flex items-center gap-stack-xs min-w-[5.5rem]">
+                        <ProgressBar value={jac} fill="brand" size="sm" valueLabel={false} className="flex-1" />
+                        <span className="tabular-nums text-ink-700 w-9 text-right">{jac} %</span>
+                      </span>
+                    ),
+                    dreyfus: <span className="tabular-nums text-ink-900">{formatDreyfus(a.dreyfusAvg)}</span>,
+                  };
+                })}
+                onSort={(key, dir) => setSort(dir ? { key: key as LearnerSortKey, dir } : null)}
+                onRowClick={(_row, index) => {
+                  const a = sortedApprenants[index];
+                  if (a) setSelectedApprenantId(selectedApprenantId === a.id ? null : a.id);
+                }}
+                pageSize={sortedApprenants.length}
+                emptyMessage="Aucun apprenant assigné pour l'instant."
+              />
             </div>
 
             {/* Radar detail panel */}
