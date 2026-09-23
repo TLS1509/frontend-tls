@@ -28,6 +28,7 @@ import {
   FadeInWhenVisible,
   } from '../../components/marketing/motion';
 import { SEOHead } from './components/SEOHead';
+import { Badge } from '../../components/ui/Badge';
 
 /* ─── Data ──────────────────────────────────────────────────────────────────── */
 
@@ -177,13 +178,16 @@ export const MarketingWaitlist: React.FC = () => {
             >
               {/* Urgency pill */}
               <motion.div variants={itemVariants}>
-                <span className="inline-flex items-center gap-stack-xs px-3.5 py-1.5 rounded-pill bg-secondary-50 border border-secondary-200 font-body text-caption font-semibold text-secondary-600">
+                {/* État de l'offre → Badge warm. Le label était en secondary-600,
+                    qui échoue AA en texte ; le point pulsant (motion du site) est
+                    gardé en enfant plutôt que via `dot`, qui est statique. */}
+                <Badge variant="warm" size="large">
                   <span
                     aria-hidden
                     className="w-2 h-2 rounded-pill bg-secondary-500 animate-pulse"
                   />
                   Bêta · Accès anticipé · Places limitées
-                </span>
+                </Badge>
               </motion.div>
 
               {/* H1 */}

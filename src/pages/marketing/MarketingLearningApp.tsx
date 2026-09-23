@@ -34,6 +34,7 @@ import {
   Users,
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
+import { MetaPill } from '../../components/ui/MetaPill';
 import {
   FadeInWhenVisible,
   InteractiveAppMockup,
@@ -488,9 +489,7 @@ const Bibliotheque: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-stack-lg items-start">
               <div className="lg:col-span-7 flex flex-col gap-stack rounded-lg border border-ink-200 bg-white p-stack-lg">
                 <div className="flex flex-wrap items-center gap-stack-xs">
-                  <span className="rounded-pill bg-primary-100 px-3 py-1 font-body text-caption font-bold text-primary-800">
-                    {fiche.type}
-                  </span>
+                  <MetaPill text={fiche.type} tone="primary" />
                   <span className="font-body text-caption text-ink-500">{fiche.domaine}</span>
                 </div>
                 <h4 className="font-display text-h4 text-ink-900">
