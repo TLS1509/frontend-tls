@@ -401,7 +401,7 @@ export const MarketingWaitlist: React.FC = () => {
                           <button
                             type="submit"
                             disabled={submitting}
-                            className="group w-full inline-flex items-center justify-between h-12 pl-6 pr-2 rounded-lg bg-secondary-500 hover:bg-secondary-600 disabled:opacity-60 disabled:cursor-not-allowed text-white font-body font-bold text-body shadow-warm-sm active:scale-[0.98] transition-[background-color,transform,opacity] duration-base ease-emphasis focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white mt-1"
+                            className="group w-full inline-flex items-center justify-between h-12 pl-6 pr-2 rounded-lg bg-secondary-700 hover:bg-secondary-800 disabled:opacity-60 disabled:cursor-not-allowed text-white font-body font-bold text-body shadow-warm-sm active:scale-[0.98] transition-[background-color,transform,opacity] duration-base ease-emphasis focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white mt-1"
                           >
                             <span>{submitting ? 'Inscription en cours…' : 'Rejoindre la liste'}</span>
                             {!submitting && (

@@ -43,8 +43,11 @@ const BTN_DEFAULT =
 const BTN_NAV =
   'bg-white border-ink-200 text-ink-500 hover:bg-ink-50 hover:border-ink-300 hover:text-primary-700';
 
+/* Page active : le NUMÉRO est du texte (body-sm, 15 px), pas une icône — il lui
+   faut 4,5:1 sur l'arrêt le plus clair. Parti du 600, il mesurait 3,66 ;
+   dégradé 700→800 : 5,02 → 7,08 (corrigé le 2026-09-23). */
 const BTN_ACTIVE =
-  'bg-gradient-to-br from-primary-600 to-primary-700 border-transparent text-white font-bold shadow-brand-sm cursor-default scale-105 ring-2 ring-primary-100';
+  'bg-gradient-to-br from-primary-700 to-primary-800 border-transparent text-white font-bold shadow-brand-sm cursor-default scale-105 ring-2 ring-primary-100';
 
 export const Pagination: React.FC<PaginationProps> = ({
   page,

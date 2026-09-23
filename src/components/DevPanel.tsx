@@ -52,7 +52,7 @@ const Chip: React.FC<ChipProps> = ({ active, accent, disabled, onClick, children
       'focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-500',
       'disabled:opacity-40 disabled:cursor-not-allowed',
       active && accent  ? 'bg-accent-400 text-ink-900' :
-      active            ? 'bg-primary-600 text-white' :
+      active            ? 'bg-primary-700 text-white' :
                           'bg-white/[0.07] text-ink-400 hover:bg-white/[0.12] hover:text-white',
     ].filter(Boolean).join(' ')}
   >

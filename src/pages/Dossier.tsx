@@ -271,10 +271,10 @@ export const Dossier: React.FC = () => {
                     05 : Conclusions & recommandations
                   </h2>
 
-                  <div className="rounded-xl bg-gradient-to-br from-primary-600 to-primary-700 p-stack-lg sm:p-section text-white">
+                  <div className="rounded-xl bg-gradient-to-br from-primary-700 to-primary-800 p-stack-lg sm:p-section text-white">
                     <div className="flex items-center gap-stack-xs mb-stack">
-                      <CheckCircle2 size={20} className="text-white/80" />
-                      <span className="font-body text-caption font-bold text-white/80 uppercase tracking-wider">
+                      <CheckCircle2 size={20} className="text-white" />
+                      <span className="font-body text-caption font-bold text-white uppercase tracking-wider">
                         Conclusion principale
                       </span>
                     </div>
@@ -287,7 +287,7 @@ export const Dossier: React.FC = () => {
                     <ul className="m-0 p-0 list-none flex flex-col gap-stack-xs">
                       {RECOMMENDATIONS.map((rec, i) => (
                         <li key={i} className="flex items-start gap-stack-xs">
-                          <ArrowRight size={14} className="text-white/60 shrink-0 mt-1" />
+                          <ArrowRight size={14} className="text-white/80 shrink-0 mt-1" />
                           <span className="font-body text-body-sm text-white/95">{rec}</span>
                         </li>
                       ))}

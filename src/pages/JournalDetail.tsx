@@ -283,12 +283,12 @@ export const JournalDetail: React.FC = () => {
         </div>
 
         {/* New entry CTA */}
-        <section className="rounded-xl bg-gradient-to-br from-primary-600 to-primary-700 p-stack-lg sm:p-section flex flex-col sm:flex-row sm:items-center gap-stack-lg text-white">
+        <section className="rounded-xl bg-gradient-to-br from-primary-700 to-primary-800 p-stack-lg sm:p-section flex flex-col sm:flex-row sm:items-center gap-stack-lg text-white">
           <div className="flex-1">
             <h3 className="font-display text-h4 font-bold mb-1">
               Qu'avez-vous appris cette semaine ?
             </h3>
-            <p className="m-0 font-body text-body-sm text-white/85">
+            <p className="m-0 font-body text-body-sm text-white">
               Capturez vos observations pendant qu'elles sont fraîches.
             </p>
           </div>

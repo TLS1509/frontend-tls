@@ -6002,9 +6002,11 @@ const COMPONENTS: ComponentEntry[] = [
               {' — '}Nous utilisons des cookies pour améliorer votre expérience.
             </div>
             <div className="flex flex-col sm:flex-row gap-stack-xs shrink-0">
-              <button className="px-3 py-1.5 text-caption rounded-md border border-ink-200 text-ink-600 hover:bg-ink-50">Personnaliser</button>
-              <button className="px-3 py-1.5 text-caption rounded-md border border-ink-200 text-ink-700 hover:bg-ink-100">Tout refuser</button>
-              <button className="px-3 py-1.5 text-caption rounded-pill bg-primary-600 text-white hover:bg-primary-700">Tout accepter</button>
+              {/* Mêmes boutons que ConsentBanner.tsx — la démo les refaisait à la main,
+                  et « Tout accepter » y posait du blanc sur 600 (3,66). */}
+              <Button emphasis="outline" size="sm">Personnaliser</Button>
+              <Button emphasis="soft" tone="warm" size="sm">Tout refuser</Button>
+              <Button emphasis="soft" size="sm">Tout accepter</Button>
             </div>
           </div>
         </div>
@@ -6927,13 +6929,9 @@ const COMPONENTS: ComponentEntry[] = [
       };
       return (
         <div className="flex flex-wrap gap-stack">
-          <button
-            type="button"
-            onClick={() => setOpen(true)}
-            className="inline-flex items-center px-stack py-stack-xs rounded-pill bg-primary-600 text-white text-body-sm font-semibold hover:bg-primary-700 transition-colors"
-          >
+          <Button emphasis="solid" size="sm" onClick={() => setOpen(true)}>
             Ouvrir ModalForm
-          </button>
+          </Button>
           <ModalForm
             open={open}
             onClose={() => setOpen(false)}
