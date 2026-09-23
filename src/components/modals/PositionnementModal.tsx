@@ -269,7 +269,7 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
                 </div>
 
                 <div className="flex gap-stack-xs p-stack rounded-lg bg-primary-50 border border-primary-500/20 text-left">
-                  <div className="shrink-0 w-9 h-9 rounded-md bg-primary-500 flex items-center justify-center">
+                  <div className="shrink-0 w-9 h-9 rounded-md bg-primary-600 flex items-center justify-center">
                     <Sparkles size={18} className="text-white" />
                   </div>
                   <div>

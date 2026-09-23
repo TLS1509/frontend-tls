@@ -51,7 +51,9 @@ const TONE_BG: Record<FloatingNavTone, string> = {
   primary: 'bg-primary-700 hover:bg-primary-800 text-white shadow-brand-md',
   warm:    'bg-secondary-700 hover:bg-secondary-800 text-white shadow-warm-md',
   sun:     'bg-accent-400 hover:bg-accent-300 text-ink-900 shadow-sun-sm',
-  brand:   'bg-gradient-to-br from-primary-500 to-primary-700 hover:from-primary-400 hover:to-primary-600 text-white shadow-lg',
+  // Icône seule : 3:1 à l'arrêt clair, donc 600 (3,66 ; le 500 mesurait 2,94).
+  // Le survol FONCE, comme Button solid — il éclaircissait jusqu'au 400 (2,44).
+  brand:   'bg-gradient-to-br from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white shadow-lg',
 };
 
 const TONE_ACTION_BG: Record<FloatingNavTone, string> = {

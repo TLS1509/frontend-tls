@@ -481,7 +481,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               {/* Recap card compact */}
               <div className="p-stack rounded-xl bg-primary-50 border border-primary-500/20">
                 <div className="flex items-center gap-stack-xs flex-wrap">
-                  <div className="w-10 h-10 rounded-md bg-primary-500 flex items-center justify-center shrink-0">
+                  <div className="w-10 h-10 rounded-md bg-primary-600 flex items-center justify-center shrink-0">
                     <Calendar size={18} className="text-white" />
                   </div>
                   <div className="flex-1 min-w-[180px]">

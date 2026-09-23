@@ -217,7 +217,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
             {avatarBadge && (
               <span
                 aria-hidden="true"
-                className="absolute -bottom-1 -right-1 inline-flex items-center justify-center w-6 h-6 rounded-pill bg-gradient-to-br from-accent-400 to-secondary-500 border-2 border-white shadow-sm text-white"
+                className="absolute -bottom-1 -right-1 inline-flex items-center justify-center w-6 h-6 rounded-pill bg-gradient-to-br from-accent-700 to-secondary-600 border-2 border-white shadow-sm text-white"
               >
                 {avatarBadge}
               </span>
@@ -303,7 +303,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
           {avatarBadge && (
             <span
               aria-hidden="true"
-              className="absolute -bottom-1 -right-1 inline-flex items-center justify-center w-7 h-7 rounded-pill bg-gradient-to-br from-accent-400 to-secondary-500 border-2 border-white shadow-sm text-white"
+              className="absolute -bottom-1 -right-1 inline-flex items-center justify-center w-7 h-7 rounded-pill bg-gradient-to-br from-accent-700 to-secondary-600 border-2 border-white shadow-sm text-white"
             >
               {avatarBadge}
             </span>

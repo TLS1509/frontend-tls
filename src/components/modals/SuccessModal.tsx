@@ -48,7 +48,7 @@ export const SuccessModal: React.FC<SuccessModalProps> = ({
         {/* Success icon with pulse ring */}
         <div className="relative w-24 h-24 mx-auto mb-stack-lg flex items-center justify-center">
           <div className="absolute inset-0 rounded-pill border-[3px] border-primary-300 animate-sm-pulse" />
-          <div className="relative w-20 h-20 rounded-pill bg-gradient-to-br from-primary-500 to-primary-400 flex items-center justify-center shadow-[0_12px_32px_rgba(85,161,180,0.35)] animate-sm-icon-in">
+          <div className="relative w-20 h-20 rounded-pill bg-gradient-to-br from-primary-700 to-primary-600 flex items-center justify-center shadow-[0_12px_32px_rgba(85,161,180,0.35)] animate-sm-icon-in">
             <CheckCircle2 size={40} className="text-white" />
           </div>
         </div>

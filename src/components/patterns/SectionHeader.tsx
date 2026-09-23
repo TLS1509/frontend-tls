@@ -63,10 +63,12 @@ const TONE_BUBBLE_BG: Record<SectionHeaderTone, string> = {
 };
 
 const TONE_SOLID_BG: Record<SectionHeaderTone, string> = {
-  primary: 'bg-gradient-to-br from-primary-500 to-primary-700 text-white shadow-brand-sm',
-  warm:    'bg-gradient-to-br from-secondary-500 to-secondary-700 text-white shadow-warm-sm',
+  // Pastille d'icône : 3:1 à l'arrêt le plus clair — 600 pour le teal et l'orange,
+  // 700 pour l'or (le blanc y mesure 3,66 · 3,98 · 4,88).
+  primary: 'bg-gradient-to-br from-primary-600 to-primary-700 text-white shadow-brand-sm',
+  warm:    'bg-gradient-to-br from-secondary-600 to-secondary-700 text-white shadow-warm-sm',
   sun:     'bg-gradient-to-br from-accent-400 to-accent-600 text-accent-900 shadow-sun-sm',
-  accent:  'bg-gradient-to-br from-accent-500 to-accent-700 text-white shadow-sun-sm',
+  accent:  'bg-gradient-to-br from-accent-700 to-accent-800 text-white shadow-sun-sm',
   neutral: 'bg-gradient-to-br from-ink-700 to-ink-900 text-white shadow-sm',
 };
 

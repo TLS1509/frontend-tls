@@ -23,9 +23,11 @@ interface ActivityItemProps {
 
 const TYPE_GRADIENT: Record<ActivityItemType, string> = {
   default:     'bg-gradient-to-br from-ink-300 to-ink-500 text-white',
-  lesson:      'bg-gradient-to-br from-primary-400 to-primary-600 text-white',
+  // Pastille d'icône : 3:1 à l'arrêt le plus clair — 600 pour le teal et l'orange,
+  // 700 pour l'or (le blanc y mesure 3,66 · 3,98 · 4,88).
+  lesson:      'bg-gradient-to-br from-primary-600 to-primary-700 text-white',
   achievement: 'bg-gradient-to-br from-accent-300 to-accent-500 text-accent-900',
-  coach:       'bg-gradient-to-br from-secondary-400 to-secondary-600 text-white',
+  coach:       'bg-gradient-to-br from-secondary-600 to-secondary-700 text-white',
   journal:     'bg-gradient-to-br from-success-base to-success-fg text-white',
 };
 

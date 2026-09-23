@@ -49,8 +49,10 @@ const CARD_BORDER: Record<ResumeLessonTone, string> = {
 };
 
 const ICON_BUBBLE: Record<ResumeLessonTone, string> = {
-  primary: 'bg-gradient-to-br from-primary-400 to-primary-600 text-white shadow-brand-sm',
-  warm:    'bg-gradient-to-br from-secondary-400 to-secondary-500 text-white shadow-warm-sm',
+  // Pastille d'icône : 3:1 à l'arrêt le plus clair — 600 pour le teal et l'orange,
+  // 700 pour l'or (le blanc y mesure 3,66 · 3,98 · 4,88).
+  primary: 'bg-gradient-to-br from-primary-600 to-primary-700 text-white shadow-brand-sm',
+  warm:    'bg-gradient-to-br from-secondary-600 to-secondary-700 text-white shadow-warm-sm',
   sun:     'bg-gradient-to-br from-accent-300 to-accent-500 text-accent-900 shadow-sun-sm',
 };
 
