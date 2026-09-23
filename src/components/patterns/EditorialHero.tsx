@@ -97,9 +97,12 @@ export type EditorialHeroProps = PageHeroProps;
 const TONE_BG: Record<PageHeroTone, string> = {
   flat:    '',
   default: 'bg-gradient-to-br from-primary-50 via-white/90 to-white/85',
-  brand:   'bg-gradient-to-br from-primary-500 via-primary-600 to-primary-700',
-  warm:    'bg-gradient-to-br from-secondary-500 via-secondary-600 to-secondary-700',
-  sun:     'bg-gradient-to-br from-accent-500 via-accent-600 to-accent-700',
+  // 700 → 800 (arbitrage n°8 du 23/09) : partis du cran 500, ces dégradés
+  // portaient du texte blanc entre 2,44 et 3,22:1. Même dégradé que la
+  // rangée active de la Sidebar ; blanc à 5,02 → 7,08 (brand).
+  brand:   'bg-gradient-to-br from-primary-700 to-primary-800',
+  warm:    'bg-gradient-to-br from-secondary-700 to-secondary-800',
+  sun:     'bg-gradient-to-br from-accent-700 to-accent-800',
 };
 
 const TONE_BORDER: Record<PageHeroTone, string> = {
@@ -140,12 +143,16 @@ const TONE_SHADOW: Record<PageHeroTone, string> = {
   sun:     'shadow-[0_4px_12px_-2px_rgba(180,120,10,0.14),inset_0_1px_0_rgba(255,255,255,0.26)]',
 };
 
+/* Sur les heros sombres, le texte est en BLANC PLEIN (23/09) : sur le cran 700,
+   le blanc ne vaut que 5,02 (brand) et 4,88 (sun) — la moindre transparence
+   (/75, /85) le faisait tomber à 3,60-4,32. La hiérarchie passe par la taille
+   et la graisse, pas par l'opacité. */
 const TONE_EYEBROW: Record<PageHeroTone, string> = {
   flat:    'text-primary-700',
   default: 'text-primary-700',
-  brand:   'text-white/80',
-  warm:    'text-white/85',
-  sun:     'text-white/90',
+  brand:   'text-white',
+  warm:    'text-white',
+  sun:     'text-white',
 };
 
 const TONE_TITLE: Record<PageHeroTone, string> = {
@@ -159,17 +166,17 @@ const TONE_TITLE: Record<PageHeroTone, string> = {
 const TONE_SUMMARY: Record<PageHeroTone, string> = {
   flat:    'text-ink-600',
   default: 'text-ink-500',
-  brand:   'text-white/85',
-  warm:    'text-white/85',
-  sun:     'text-white/90',
+  brand:   'text-white',
+  warm:    'text-white',
+  sun:     'text-white',
 };
 
 const TONE_META: Record<PageHeroTone, string> = {
   flat:    'text-ink-600',
   default: 'text-ink-500',
-  brand:   'text-white/75',
-  warm:    'text-white/75',
-  sun:     'text-white/80',
+  brand:   'text-white',
+  warm:    'text-white',
+  sun:     'text-white',
 };
 
 const isEyebrowObject = (value: unknown): value is PageHeroEyebrow =>
