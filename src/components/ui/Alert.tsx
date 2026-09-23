@@ -56,6 +56,20 @@ const ICON_TONE_CLASSES: Record<AlertVariant, string> = {
   danger:  'text-danger-base',
 };
 
+/* Rôle live par variante (audit du 23/09 : `role="alert"` était posé sur les
+   quatre, alors que 15 des 20 usages sont des `info` statiques — chaque info
+   interrompait le lecteur d'écran comme une erreur).
+   - danger / warning → `alert` : il faut l'entendre tout de suite ;
+   - success          → `status` : confirmation, annoncée sans couper ;
+   - info             → aucun rôle live : un texte de page, lu à son tour.
+   L'appelant peut toujours surcharger avec `role` (les props sont étalées après). */
+const ROLE_BY_VARIANT: Record<AlertVariant, 'alert' | 'status' | undefined> = {
+  danger:  'alert',
+  warning: 'alert',
+  success: 'status',
+  info:    undefined,
+};
+
 const ICON_SIZE_BY_PATTERN: Record<AlertPattern, number> = {
   banner: 20,
   inline: 16,
@@ -94,7 +108,7 @@ export const Alert: React.FC<AlertProps> = ({
     .join(' ');
 
   return (
-    <div className={classes} role="alert" {...rest}>
+    <div className={classes} role={ROLE_BY_VARIANT[resolvedVariant]} {...rest}>
       <span className={iconWrapperClasses} aria-hidden="true">
         {icon ?? <IconComponent size={iconSize} strokeWidth={2} aria-hidden />}
       </span>
