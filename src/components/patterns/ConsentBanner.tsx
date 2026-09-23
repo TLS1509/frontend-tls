@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Cookie, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { Button } from '../core/Button';
+import { Switch } from '../core/Input';
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -49,37 +50,23 @@ const DEFAULT_CATEGORIES: ConsentCategory[] = [
 
 // ─── Toggle Component ─────────────────────────────────────────────────────────
 
+/* L'interrupteur du système (arbitrage n°9, Material 3). Celui-ci était fait
+   main : rail ink-300 sans filet (1,5:1 contre la page), allumé en primary-600,
+   et sans role="switch". Le nom accessible passe par aria-label : la catégorie
+   est déjà écrite à côté. */
 const Toggle: React.FC<{
   checked: boolean;
   disabled?: boolean;
   onChange: (val: boolean) => void;
   label: string;
 }> = ({ checked, disabled = false, onChange, label }) => (
-  <label className="relative inline-flex items-center cursor-pointer shrink-0">
-    <input
-      type="checkbox"
-      className="peer sr-only"
-      checked={checked}
-      disabled={disabled}
-      onChange={(e) => onChange(e.target.checked)}
-      aria-label={label}
-    />
-    <span
-      aria-hidden
-      className={[
-        'w-9 h-5 rounded-pill transition-colors duration-base',
-        'after:content-[\'\'] after:absolute after:top-[2px] after:left-[2px]',
-        'after:w-4 after:h-4 after:rounded-pill after:bg-white after:shadow-sm',
-        'after:transition-transform after:duration-base',
-        'peer-checked:after:translate-x-4',
-        disabled
-          ? 'bg-ink-200 cursor-not-allowed'
-          : checked
-            ? 'bg-primary-600'
-            : 'bg-ink-300',
-      ].filter(Boolean).join(' ')}
-    />
-  </label>
+  <Switch
+    checked={checked}
+    disabled={disabled}
+    onChange={(e) => onChange(e.target.checked)}
+    aria-label={label}
+    className="shrink-0"
+  />
 );
 
 // ─── ConsentBanner ───────────────────────────────────────────────────────────
