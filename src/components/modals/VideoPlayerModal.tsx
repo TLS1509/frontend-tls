@@ -94,7 +94,7 @@ export const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
       <div
         ref={dialog.ref} role="dialog" aria-modal="true" aria-labelledby={dialog.titleId} tabIndex={-1}
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-[860px] bg-[#0f1117] rounded-2xl border border-white/8 shadow-[0_40px_80px_rgba(0,0,0,0.6)] overflow-hidden animate-vp-in"
+        className="relative w-full max-w-[860px] bg-ink-950 rounded-2xl border border-white/8 shadow-[0_40px_80px_rgba(0,0,0,0.6)] overflow-hidden animate-vp-in"
       >
         {/* Close button */}
         <Button iconOnly size="sm" onDark emphasis="ghost" onClick={handleClose} aria-label="Fermer" className="absolute top-3 right-3 z-10">
@@ -114,7 +114,7 @@ export const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
             />
           ) : (
             /* Demo poster / placeholder */
-            <div className="w-full h-full bg-gradient-to-br from-[#0f1117] to-[#1a1f2e] flex items-center justify-center flex-col gap-stack">
+            <div className="w-full h-full bg-gradient-to-br from-ink-950 to-ink-900 flex items-center justify-center flex-col gap-stack">
               {/* Decorative glow */}
               <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_50%_50%,rgba(85,161,180,0.12)_0%,transparent_70%)]" />
               <div className="w-20 h-20 rounded-pill bg-white/8 border border-white/12 flex items-center justify-center relative z-10 text-white/80">

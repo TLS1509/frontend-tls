@@ -154,7 +154,7 @@ export const SkillMapSection: React.FC = () => {
   return (
     <section
       ref={ref}
-      className="relative isolate overflow-hidden bg-gradient-to-b from-primary-900 via-[#1B3B47] to-[#111820] py-page"
+      className="relative isolate overflow-hidden bg-gradient-to-b from-primary-900 via-primary-900 to-ink-950 py-page"
       aria-labelledby="skillmap-title"
     >
       {/* Seams : adoucissent les coupures nettes entre cette section et ses
