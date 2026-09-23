@@ -76,6 +76,7 @@ const PERIOD_MS: Record<PeriodFilter, number> = {
 export const Journal: React.FC = () => {
   const navigate = useNavigate();
   const journalStore = useJournalStore();
+  const setJournalDraft = useJournalStore((s) => s.setDraft);
   const [typeFilter,   setTypeFilter]   = useState<TypeFilter>('all');
   const [periodFilter, setPeriodFilter] = useState<PeriodFilter>('all');
   const [searchQuery,  setSearchQuery]  = useState('');
@@ -140,12 +141,11 @@ export const Journal: React.FC = () => {
   };
 
   const handleComposeSubmit = () => {
+    // Le texte passe par le store persisté, jamais par l'URL (voir JournalDraft).
     if (composeText.trim().length > 0) {
-      // Pass text via query param (URLEncoded): picked up by NewEntry page
-      navigate(`/journal/new-entry?type=free&draft=${encodeURIComponent(composeText)}`);
-    } else {
-      navigate('/journal/new-entry?type=free');
+      setJournalDraft({ title: '', body: composeText });
     }
+    navigate('/journal/new-entry?type=free');
   };
 
   return (

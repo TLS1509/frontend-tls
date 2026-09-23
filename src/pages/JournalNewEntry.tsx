@@ -143,8 +143,14 @@ export const JournalNewEntry: React.FC = () => {
   const linkedCompetenceId = searchParams.get('competenceId') ?? undefined;
 
   const [selectedType, setSelectedType] = useState<EntryType>(initialType);
-  const [title, setTitle] = useState('');
-  const [body, setBody] = useState('');
+  // Reprise : le brouillon persisté (store) pré-remplit la page. Il est posé
+  // soit par cette page elle-même (sauvegarde auto), soit par le compositeur
+  // de /journal (« Continuer l'entrée »), qui le perdait auparavant.
+  const savedDraft = useJournalStore.getState().draft;
+  const setDraft = useJournalStore((s) => s.setDraft);
+  const clearDraft = useJournalStore((s) => s.clearDraft);
+  const [title, setTitle] = useState(savedDraft?.title ?? '');
+  const [body, setBody] = useState(savedDraft?.body ?? '');
   const [mood, setMood] = useState<MoodLevel>('neutral');
   const [structuredAnswers, setStructuredAnswers] = useState<Record<string, string>>({});
   const [expandedQuestions, setExpandedQuestions] = useState<Set<string>>(new Set());
@@ -177,7 +183,9 @@ export const JournalNewEntry: React.FC = () => {
       setAutoSaveStatus('saving');
 
       autoSaveTimeoutRef.current = window.setTimeout(() => {
-        // Simulate save (in real app, would call an API)
+        // Sauvegarde RÉELLE dans le store persisté : « Enregistré » ne ment
+        // plus (l'ancienne version simulait et n'écrivait rien).
+        setDraft({ title, body });
         setAutoSaveStatus('saved');
         // Clear "saved" indicator after 2s
         setTimeout(() => setAutoSaveStatus('idle'), 2000);
@@ -189,7 +197,7 @@ export const JournalNewEntry: React.FC = () => {
         clearTimeout(autoSaveTimeoutRef.current);
       }
     };
-  }, [title, body, mood, structuredAnswers, isDraft]);
+  }, [title, body, mood, structuredAnswers, isDraft, setDraft]);
 
   const toggleQuestion = (questionId: string) => {
     const newExpanded = new Set(expandedQuestions);
@@ -234,6 +242,7 @@ export const JournalNewEntry: React.FC = () => {
       updatedAt: now,
     };
     journalStore.addEntry(entry);
+    clearDraft();
     // Boucle Journal → Passeport : une réflexion rattachée à une compétence y dépose une
     // preuve LÉGÈRE. Jusqu'ici le lien était à sens unique — l'entrée pointait la
     // compétence, la compétence ne le savait pas. Aucun niveau affirmé (`assertedLevel`
