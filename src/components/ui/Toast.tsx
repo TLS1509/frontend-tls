@@ -7,6 +7,7 @@ import { Info, CheckCircle2, AlertTriangle, XCircle, X } from 'lucide-react';
  * (design-system/spec.json supprimé le 2026-07-22 : jamais importé, périmé.)
  *
  * Transient confirmation, non-blocking. 4–6s display, bottom-right, max 3 stacked.
+ * Sans rôle live propre : l'annonce passe par ToastContainer (voir ce fichier).
  * Variants: success/info/warning/danger.
  * Design aligned with Alert: tinted gradient bg, variant-colored border + icon,
  * no circular icon background.
@@ -80,7 +81,10 @@ export const Toast: React.FC<ToastProps> = ({
     .join(' ');
 
   return (
-    <div className={classes} role="status" aria-live="polite" {...rest}>
+    // Pas de rôle live ici : c'est la région PERMANENTE de ToastContainer qui
+    // annonce. Un rôle sur chaque toast, monté en même temps que son message,
+    // imbriquait deux régions et n'était souvent pas annoncé du tout.
+    <div className={classes} {...rest}>
       <span className={`shrink-0 mt-px ${ICON_TONE[variant]}`} aria-hidden="true">
         {icon ?? <IconComponent size={20} strokeWidth={2} />}
       </span>
@@ -92,7 +96,7 @@ export const Toast: React.FC<ToastProps> = ({
         <button
           type="button"
           onClick={onAction}
-          className="shrink-0 self-center bg-transparent border-0 text-current font-semibold text-caption cursor-pointer px-2.5 py-1.5 min-h-touch rounded-md transition-all hover:bg-black/[0.06] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
+          className="shrink-0 self-center bg-transparent border-0 text-current font-semibold text-caption cursor-pointer px-2.5 py-1.5 min-h-touch rounded-lg transition-all hover:bg-black/[0.06] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
         >
           {actionLabel}
         </button>
