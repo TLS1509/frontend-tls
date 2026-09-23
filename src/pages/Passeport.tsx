@@ -179,7 +179,7 @@ export default function Passeport() {
               </SectionCard>
 
               <div className="flex flex-col gap-stack w-full lg:w-72">
-                <Card className="p-stack flex flex-col gap-stack-xs">
+                <Card className="p-stack-md flex flex-col gap-stack-xs">
                   <p className="text-caption text-ink-500 font-medium uppercase tracking-wide">Progression globale</p>
                   <div className="flex items-end gap-stack-xs">
                     <span className="text-h2 font-display font-bold text-ink-900">{avgLevel.toFixed(1)}</span>

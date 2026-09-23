@@ -155,7 +155,7 @@ export default function EvenementLive() {
           </SectionCard>
 
           {/* Participants live */}
-          <Card variant="tinted" tone="sun" className="p-stack text-center">
+          <Card variant="tinted" tone="sun" className="p-stack-md text-center">
             <p className="text-h2 font-bold text-accent-600 font-display m-0">
               {EVENT.participants}
             </p>

@@ -197,7 +197,7 @@ export default function AlerteStagnation() {
                 <Card
                   key={learner.id}
                   variant="default"
-                  className="flex flex-col md:flex-row md:items-center gap-stack p-stack"
+                  className="flex flex-col md:flex-row md:items-center gap-stack p-stack-md"
                 >
                   {/* Identité */}
                   <div className="flex items-center gap-stack-xs flex-1 min-w-0">
@@ -269,7 +269,7 @@ export default function AlerteStagnation() {
                 key={suggestion.id}
                 variant="tinted"
                 tone="warm"
-                className="flex flex-col gap-stack p-stack"
+                className="flex flex-col gap-stack p-stack-md"
               >
                 <div className="flex flex-col gap-tight">
                   <span className="text-caption font-bold text-secondary-700 uppercase tracking-wide">

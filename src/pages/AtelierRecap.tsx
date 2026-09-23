@@ -57,7 +57,7 @@ export default function AtelierRecap() {
           title="Mon retour"
           titleIcon={<Star size={18} />}
         >
-          <Card variant="tinted" tone="sun" className="p-stack flex flex-col sm:flex-row items-start sm:items-center justify-between gap-stack">
+          <Card variant="tinted" tone="sun" className="p-stack-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-stack">
             <div className="flex flex-col gap-tight">
               <p className="text-body-sm font-semibold text-ink-900">Tu n'as pas encore donné ton avis</p>
               <p className="text-caption text-ink-600">Aide-nous à améliorer les prochains ateliers</p>
@@ -98,7 +98,7 @@ export default function AtelierRecap() {
         >
           <div className="flex flex-col gap-stack">
             <AITransparencyLabel variant="recommended" size="md" />
-            <Card variant="default" className="flex flex-col sm:flex-row items-start sm:items-center gap-section p-stack">
+            <Card variant="default" className="flex flex-col sm:flex-row items-start sm:items-center gap-section p-stack-md">
               <div className="flex flex-col gap-tight flex-1">
                 <Badge variant="info" size="compact">À venir · 2 juil.</Badge>
                 <h4 className="text-body font-semibold text-ink-900">Atelier Communication assertive</h4>

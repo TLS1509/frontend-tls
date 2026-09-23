@@ -158,7 +158,7 @@ export default function Gamification() {
             >
               <div className="flex flex-col gap-stack">
                 {NEXT_BADGES.map((b, i) => (
-                  <Card key={i} className="p-stack flex flex-col gap-stack-xs">
+                  <Card key={i} className="p-stack-md flex flex-col gap-stack-xs">
                     <div className="flex items-center justify-between gap-stack-xs">
                       <span className="text-body-sm font-semibold text-ink-900">{b.title}</span>
                       <span className="text-caption text-ink-600">{b.description}</span>
@@ -185,7 +185,7 @@ export default function Gamification() {
                 const dreyfusLabel = ['Novice', 'Apprenant', 'Compétent', 'Expert', 'Maître'][c.level - 1] ?? 'Novice';
                 const levelStyle = DREYFUS_LEVEL_STYLES[c.level];
                 return (
-                  <Card key={i} className="p-stack flex flex-col gap-stack-xs">
+                  <Card key={i} className="p-stack-md flex flex-col gap-stack-xs">
                     <div className="flex items-start justify-between gap-stack-xs">
                       <span className="text-body-sm font-semibold text-ink-900">{c.label}</span>
                       <AtrophieIndicator

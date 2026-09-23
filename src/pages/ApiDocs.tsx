@@ -59,7 +59,7 @@ const ApiDocs: React.FC = () => {
           <SectionCard title="Endpoints REST" description={`${ENDPOINTS.length} endpoints documentés sur ${ENDPOINTS.length}`}>
             <div className="flex flex-col gap-stack-xs">
               {ENDPOINTS.map((e, i) => (
-                <Card key={i} className="p-stack flex items-center gap-stack">
+                <Card key={i} className="p-stack-md flex items-center gap-stack">
                   <Badge variant={METHOD_COLOR[e.method]}>{e.method}</Badge>
                   <code className="font-mono text-body-sm flex-1">{e.path}</code>
                   <span className="text-caption text-ink-500 hidden md:block flex-1">{e.desc}</span>
@@ -74,14 +74,14 @@ const ApiDocs: React.FC = () => {
         {tab === 'auth' && (
           <SectionCard title="Authentification" description="OAuth 2.0 + JWT Bearer">
             <div className="flex flex-col gap-stack">
-              <Card className="p-stack flex items-start gap-stack-xs">
+              <Card className="p-stack-md flex items-start gap-stack-xs">
                 <Key className="w-5 h-5 text-primary-600 mt-1" />
                 <div>
                   <div className="font-semibold mb-1">JWT Bearer Token</div>
                   <p className="text-body-sm text-ink-600">Inclure <code className="px-1 py-0.5 bg-ink-100 rounded">Authorization: Bearer &lt;token&gt;</code> dans chaque requête.</p>
                 </div>
               </Card>
-              <Card className="p-stack flex items-start gap-stack-xs">
+              <Card className="p-stack-md flex items-start gap-stack-xs">
                 <Shield className="w-5 h-5 text-success-fg mt-1" />
                 <div>
                   <div className="font-semibold mb-1">Scopes par rôle</div>
@@ -95,17 +95,17 @@ const ApiDocs: React.FC = () => {
         {tab === 'rate-limits' && (
           <SectionCard title="Rate limits" description="Limites par minute selon le plan">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-stack-xs">
-              <Card className="p-stack text-center">
+              <Card className="p-stack-md text-center">
                 <Zap className="w-6 h-6 text-info-fg mx-auto mb-stack-xs" />
                 <div className="text-h3 font-bold">60 / min</div>
                 <div className="text-caption text-ink-500">Plan Découverte</div>
               </Card>
-              <Card className="p-stack text-center">
+              <Card className="p-stack-md text-center">
                 <Zap className="w-6 h-6 text-secondary-600 mx-auto mb-stack-xs" />
                 <div className="text-h3 font-bold">600 / min</div>
                 <div className="text-caption text-ink-500">Plan Premium</div>
               </Card>
-              <Card className="p-stack text-center">
+              <Card className="p-stack-md text-center">
                 <Zap className="w-6 h-6 text-success-fg mx-auto mb-stack-xs" />
                 <div className="text-h3 font-bold">Illimité</div>
                 <div className="text-caption text-ink-500">Plan Enterprise</div>

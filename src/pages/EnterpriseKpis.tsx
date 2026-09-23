@@ -281,7 +281,7 @@ export default function EnterpriseKpis() {
                 <BarChart data={ENGAGEMENT_TREND_CHART} dataKey="value" size="sm" />
 
                 {/* Summary card */}
-                <Card variant="tinted" tone="brand" className="p-stack">
+                <Card variant="tinted" tone="brand" className="p-stack-md">
                   <div className="flex flex-col sm:flex-row gap-stack sm:items-center">
                     <div className="flex items-center gap-stack-xs">
                       <TrendingUp size={18} className="text-primary-600 shrink-0" />

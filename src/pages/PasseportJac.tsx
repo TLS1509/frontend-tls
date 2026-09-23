@@ -167,7 +167,7 @@ export default function PasseportJac() {
                 key={cert.id}
                 variant="tinted"
                 tone="primary"
-                className="p-stack flex flex-col gap-stack-xs"
+                className="p-stack-md flex flex-col gap-stack-xs"
               >
                 <div className="flex justify-center">
                   <AchievementBadge

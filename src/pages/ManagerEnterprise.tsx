@@ -112,7 +112,7 @@ export default function ManagerEnterprise() {
                 {projects.map((p) => {
                   const s = STATUS_STYLE[p.status];
                   return (
-                    <Card key={p.id} className="p-stack flex flex-col gap-stack-xs">
+                    <Card key={p.id} className="p-stack-md flex flex-col gap-stack-xs">
                       <div className="flex items-center justify-between gap-stack-xs">
                         <div className="flex flex-col gap-0.5">
                           <span className="text-body-sm font-semibold text-ink-900">{p.title}</span>
@@ -134,7 +134,7 @@ export default function ManagerEnterprise() {
             >
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack">
                 {cohorts.map((c) => (
-                  <Card key={c.id} className="p-stack flex flex-col gap-stack-xs">
+                  <Card key={c.id} className="p-stack-md flex flex-col gap-stack-xs">
                     <div className="flex items-center justify-between gap-stack-xs">
                       <span className="text-body-sm font-semibold text-ink-900">{c.name}</span>
                       <span className="text-caption text-ink-600">{c.memberCount} membres</span>
@@ -157,7 +157,7 @@ export default function ManagerEnterprise() {
           <div className="flex flex-col gap-stack">
             <SectionHeader title="Gestion des cohortes" icon={<Users size={20} />} tone="primary" />
             {cohorts.map((c) => (
-              <Card key={c.id} className="p-stack flex items-center gap-stack">
+              <Card key={c.id} className="p-stack-md flex items-center gap-stack">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-stack-xs mb-1">
                     <span className="text-body-sm font-semibold text-ink-900">{c.name}</span>
@@ -179,15 +179,15 @@ export default function ManagerEnterprise() {
             <SectionCard title="Budget Formation" titleIcon={<Building2 size={20} />}>
               <div className="flex flex-col gap-section">
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
-                  <Card className="p-stack flex flex-col gap-stack-xs">
+                  <Card className="p-stack-md flex flex-col gap-stack-xs">
                     <p className="text-caption text-ink-500">Budget annuel</p>
                     <p className="text-h3 font-display font-bold text-ink-900">48 000 €</p>
                   </Card>
-                  <Card className="p-stack flex flex-col gap-stack-xs">
+                  <Card className="p-stack-md flex flex-col gap-stack-xs">
                     <p className="text-caption text-ink-500">Consommé</p>
                     <p className="text-h3 font-display font-bold text-secondary-600">29 760 €</p>
                   </Card>
-                  <Card className="p-stack flex flex-col gap-stack-xs">
+                  <Card className="p-stack-md flex flex-col gap-stack-xs">
                     <p className="text-caption text-ink-500">Restant</p>
                     <p className="text-h3 font-display font-bold text-success-fg">18 240 €</p>
                   </Card>

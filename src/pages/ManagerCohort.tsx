@@ -170,7 +170,7 @@ export default function ManagerCohort() {
           <div className="flex flex-col gap-stack">
             <SectionHeader title="Membres de la cohorte" subtitle={`${TEAM_MEMBERS.length} membres · Équipe Tech`} icon={<Users size={20} />} tone="primary" />
             {TEAM_MEMBERS.map((m) => (
-              <Card key={m.id} className="p-stack flex items-start gap-stack">
+              <Card key={m.id} className="p-stack-md flex items-start gap-stack">
                 <Avatar initials={m.initials} size="md" />
                 <div className="flex-1 min-w-0 flex flex-col gap-stack-xs">
                   <div className="flex items-center gap-stack-xs flex-wrap">
@@ -205,7 +205,7 @@ export default function ManagerCohort() {
             {PROJECTS.map((p) => {
               const s = PROJECT_STATUS_STYLE[p.status as keyof typeof PROJECT_STATUS_STYLE];
               return (
-                <Card key={p.id} className="p-stack flex flex-col gap-stack-xs">
+                <Card key={p.id} className="p-stack-md flex flex-col gap-stack-xs">
                   <div className="flex items-center justify-between gap-stack-xs">
                     <div>
                       <p className="text-body-sm font-semibold text-ink-900">{p.title}</p>

@@ -331,7 +331,7 @@ export default function CoachDashboard() {
               pendingCorrections.slice(0, 5).map((c) => {
                 const learner = getApprenantById(c.learnerId);
                 return (
-                  <Card key={c.id} className="p-stack flex items-start gap-stack">
+                  <Card key={c.id} className="p-stack-md flex items-start gap-stack">
                     <div className="flex-1 min-w-0 flex flex-col gap-tight">
                       <div className="flex items-center gap-stack-xs flex-wrap">
                         <span className="text-body-sm font-semibold text-ink-900">{c.exerciseTitle}</span>

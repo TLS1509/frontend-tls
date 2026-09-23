@@ -156,7 +156,7 @@ export const CourseDetail: React.FC = () => {
             { label: 'Étapes', value: steps.length, meta: 'Fondamentaux + application' },
             { label: 'Leçons', value: steps.reduce((acc, step) => acc + step.lessons.length, 0), meta: 'Format micro-learning guidé' },
           ].map((kpi) => (
-            <Card key={kpi.label} className="flex flex-col gap-tight p-stack">
+            <Card key={kpi.label} className="flex flex-col gap-tight p-stack-md">
               <p className="font-body text-caption text-ink-500 m-0">{kpi.label}</p>
               <p className="font-display text-h2 font-bold text-ink-900 m-0">{kpi.value}</p>
               <p className="font-body text-caption text-ink-600 m-0">{kpi.meta}</p>

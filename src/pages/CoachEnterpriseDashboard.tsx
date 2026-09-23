@@ -87,7 +87,7 @@ const CoachEnterpriseDashboard: React.FC = () => {
           <SectionCard title="Apprenants assignés" description="Statut et progression par membre de l'équipe">
             <div className="flex flex-col gap-stack-xs">
               {members.map((m) => (
-                <Card key={m.id} className="p-stack flex items-center gap-stack">
+                <Card key={m.id} className="p-stack-md flex items-center gap-stack">
                   <Avatar initials={m.name.split(' ').map((n) => n[0]).join('').slice(0, 2)} size="md" />
                   <div className="flex-1">
                     <div className="font-semibold">{m.name}</div>
@@ -110,7 +110,7 @@ const CoachEnterpriseDashboard: React.FC = () => {
                 {pendingCorrections.map((c) => {
                   const competence = c.competenceId ? getCompetenceById(c.competenceId) : null;
                   return (
-                    <Card key={c.id} className="p-stack flex items-center gap-stack">
+                    <Card key={c.id} className="p-stack-md flex items-center gap-stack">
                       <ClipboardCheck className="w-6 h-6 text-secondary-600 shrink-0" />
                       <div className="flex-1 min-w-0">
                         <div className="font-semibold truncate">{c.exerciseTitle}</div>

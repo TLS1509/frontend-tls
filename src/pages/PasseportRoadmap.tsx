@@ -266,7 +266,7 @@ export default function PasseportRoadmap() {
         >
           <div className="flex flex-col gap-stack">
             {AI_SUGGESTIONS.map((s) => (
-              <Card key={s.id} variant="tinted" tone="primary" className="p-stack flex flex-col gap-tight">
+              <Card key={s.id} variant="tinted" tone="primary" className="p-stack-md flex flex-col gap-tight">
                 <div className="flex items-start justify-between gap-stack-xs flex-wrap">
                   <p className="m-0 font-semibold text-body-sm text-ink-900 flex-1">{s.conseil}</p>
                   <Badge variant="brand" size="compact">{s.competence}</Badge>

@@ -197,7 +197,7 @@ export default function CoachProfileView() {
             </div>
 
             {/* Next slot */}
-            <Card className="p-stack flex flex-col gap-stack-xs">
+            <Card className="p-stack-md flex flex-col gap-stack-xs">
               <div className="flex items-center gap-stack-xs text-body-sm text-ink-600">
                 <Clock3 size={14} className="text-secondary-500 shrink-0" />
                 <span className="font-semibold text-ink-900">Prochain créneau disponible</span>

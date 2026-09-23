@@ -80,7 +80,7 @@ const PasseportHistorique: React.FC = () => {
                     <div className={`absolute left-2 w-9 h-9 rounded-pill ${cfg.bg} flex items-center justify-center`}>
                       <Icon className={`w-5 h-5 ${cfg.color}`} />
                     </div>
-                    <Card className="p-stack">
+                    <Card className="p-stack-md">
                       <div className="flex items-start justify-between gap-stack mb-1">
                         <div className="font-semibold">{ev.title}</div>
                         <Badge variant="neutral">{dateLabel}</Badge>

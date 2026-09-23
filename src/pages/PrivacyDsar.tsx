@@ -113,7 +113,7 @@ const PrivacyDsar: React.FC = () => {
         >
           <div className="flex flex-col gap-stack-xs">
             {DATA_TYPES.map((d) => (
-              <Card key={d.id} className="p-stack flex items-center gap-stack-xs">
+              <Card key={d.id} className="p-stack-md flex items-center gap-stack-xs">
                 <CheckCircle2 className="w-5 h-5 text-success-fg shrink-0" />
                 <FileText className="w-5 h-5 text-primary-600 shrink-0" />
                 <div className="flex-1">
@@ -160,7 +160,7 @@ const PrivacyDsar: React.FC = () => {
                 const s = STATUS_LABEL[r.status] ?? STATUS_LABEL.submitted;
                 const dateLabel = new Date(r.submittedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
                 return (
-                  <Card key={r.id} className="p-stack flex items-center gap-stack-xs">
+                  <Card key={r.id} className="p-stack-md flex items-center gap-stack-xs">
                     <Clock className="w-5 h-5 text-ink-500" />
                     <div className="flex-1">
                       <div className="font-semibold text-body-sm">Demande du {dateLabel}</div>

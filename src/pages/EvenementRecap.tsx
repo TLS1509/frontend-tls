@@ -112,7 +112,7 @@ export default function EvenementRecap() {
               <Card
                 key={session.id}
                 variant="default"
-                className="flex items-center gap-section p-stack"
+                className="flex items-center gap-section p-stack-md"
               >
                 <div className="flex flex-col gap-tight flex-1 min-w-0">
                   <p className="text-body-sm font-semibold text-ink-900 m-0">{session.title}</p>
@@ -129,14 +129,14 @@ export default function EvenementRecap() {
         {/* Sidebar : col span 1 */}
         <div className="md:col-span-1 flex flex-col gap-stack">
           {/* XP */}
-          <Card variant="tinted" tone="primary" className="p-stack text-center flex flex-col items-center gap-tight">
+          <Card variant="tinted" tone="primary" className="p-stack-md text-center flex flex-col items-center gap-tight">
             <Award size={28} className="text-primary-600" />
             <p className="text-h2 font-bold text-primary-700 font-display m-0">+{EVENT.xp} XP</p>
             <p className="text-caption text-ink-500 m-0">Événement complété</p>
           </Card>
 
           {/* Stats */}
-          <Card variant="default" className="p-stack flex flex-col gap-tight">
+          <Card variant="default" className="p-stack-md flex flex-col gap-tight">
             <StatCard
               value={EVENT.participants}
               label="Participants"
@@ -182,7 +182,7 @@ export default function EvenementRecap() {
           </SectionCard>
 
           {/* CTA avis */}
-          <Card variant="tinted" tone="sun" className="p-stack flex flex-col gap-tight">
+          <Card variant="tinted" tone="sun" className="p-stack-md flex flex-col gap-tight">
             <p className="text-body-sm font-semibold text-ink-900 m-0">
               Votre avis compte
             </p>

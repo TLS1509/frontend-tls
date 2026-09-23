@@ -347,7 +347,7 @@ export default function AnalyticsDashboard() {
 
               {/* Status Summary Cards */}
               <div className="flex flex-col gap-stack">
-                <Card className="flex items-start gap-stack p-stack md:p-stack-lg">
+                <Card className="flex items-start gap-stack p-stack-md md:p-stack-lg">
                   <div className="p-2 rounded-md bg-success-bg">
                     <CheckCircle size={20} className="text-success-fg" />
                   </div>
@@ -357,7 +357,7 @@ export default function AnalyticsDashboard() {
                   </div>
                 </Card>
 
-                <Card className="flex items-start gap-stack p-stack md:p-stack-lg">
+                <Card className="flex items-start gap-stack p-stack-md md:p-stack-lg">
                   <div className="p-2 rounded-md bg-warning-bg">
                     <AlertCircle size={20} className="text-warning-fg" />
                   </div>
@@ -367,7 +367,7 @@ export default function AnalyticsDashboard() {
                   </div>
                 </Card>
 
-                <Card className="flex items-start gap-stack p-stack md:p-stack-lg">
+                <Card className="flex items-start gap-stack p-stack-md md:p-stack-lg">
                   <div className="p-2 rounded-md bg-danger-bg">
                     <AlertCircle size={20} className="text-danger-fg" />
                   </div>
@@ -409,7 +409,7 @@ export default function AnalyticsDashboard() {
               <div className="text-h3 font-bold text-ink-900 mb-stack">Meilleurs performants</div>
               <div className="grid md:grid-cols-3 gap-stack">
                 {sortedLearners.slice(0, 3).map((learner, idx) => (
-                  <Card key={learner.userId} className="flex flex-col gap-stack p-stack md:p-stack-lg">
+                  <Card key={learner.userId} className="flex flex-col gap-stack p-stack-md md:p-stack-lg">
                     <div className="flex items-start justify-between">
                       <div>
                         <div className="text-caption text-ink-500 font-semibold">#{idx + 1}</div>
@@ -465,7 +465,7 @@ export default function AnalyticsDashboard() {
             <div>
               <div className="text-h3 font-bold text-ink-900 mb-stack">Santé des compétences</div>
               <div className="grid md:grid-cols-2 gap-stack">
-                <Card className="flex flex-col gap-stack p-stack md:p-stack-lg bg-success-bg/30 border border-success-base/20">
+                <Card className="flex flex-col gap-stack p-stack-md md:p-stack-lg bg-success-bg/30 border border-success-base/20">
                   <div className="flex items-center gap-stack-xs">
                     <CheckCircle size={20} className="text-success-base" />
                     <div className="text-body-lg font-bold text-success-base">Compétences saines</div>
@@ -474,7 +474,7 @@ export default function AnalyticsDashboard() {
                   <div className="text-body-sm text-ink-600">&gt; 70% d'adoption, niveau D3+</div>
                 </Card>
 
-                <Card className="flex flex-col gap-stack p-stack md:p-stack-lg bg-warning-bg/30 border border-warning-base/20">
+                <Card className="flex flex-col gap-stack p-stack-md md:p-stack-lg bg-warning-bg/30 border border-warning-base/20">
                   <div className="flex items-center gap-stack-xs">
                     <AlertCircle size={20} className="text-warning-base" />
                     <div className="text-body-lg font-bold text-warning-base">Compétences en retard</div>

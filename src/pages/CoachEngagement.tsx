@@ -64,7 +64,7 @@ const CoachEngagement: React.FC = () => {
         <SectionCard title="Apprenants assignés" description="Cliquez sur un apprenant pour voir son détail">
           <div className="flex flex-col gap-stack-xs">
             {filtered.map((l) => (
-              <Card key={l.name} className="p-stack flex items-center gap-stack">
+              <Card key={l.name} className="p-stack-md flex items-center gap-stack">
                 <Avatar initials={l.initials} size="md" />
                 <div className="flex-1">
                   <div className="font-semibold flex items-center gap-stack-xs">
@@ -89,7 +89,7 @@ const CoachEngagement: React.FC = () => {
         </SectionCard>
 
         {LEARNERS.some((l) => l.atrophyDays) && (
-          <Card className="p-stack bg-warning-bg border-warning-base/30 flex items-start gap-stack-xs">
+          <Card className="p-stack-md bg-warning-bg border-warning-base/30 flex items-start gap-stack-xs">
             <AlertTriangle className="w-5 h-5 text-warning-fg mt-1" />
             <div>
               <div className="font-semibold mb-1">2 apprenants en atrophie</div>

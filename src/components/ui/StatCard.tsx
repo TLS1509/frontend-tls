@@ -117,10 +117,12 @@ const VARIANT_TO_TONE_SURFACE: Record<StatCardVariant, { tone: StatCardTone; sur
   sun:      { tone: 'sun',     surface: 'tinted' },
 };
 
+// Deux paddings seulement (arbitrage n°4 du 23/09) : 20 dense, 24 canon.
+// `sm` était à 16, sous le rayon 20 : son coin pinçait.
 const CONTAINER_SIZE_CLASSES: Record<StatCardSize, string> = {
-  sm: 'p-4 gap-stack-xs',
+  sm: 'p-stack-md gap-stack-xs',
   md: 'p-stack-md gap-2.5',
-  lg: 'p-6 gap-stack-xs',
+  lg: 'p-stack-lg gap-stack-xs',
 };
 
 // Label below value — regular sans font, NOT font-mono. Slightly muted color.
@@ -169,10 +171,13 @@ const ICON_BUBBLE_SIZE: Record<StatCardSize, string> = {
 };
 
 const DELTA_BASE = 'absolute inline-flex items-center gap-tight text-caption font-semibold';
+// La pastille de variation se cale sur le padding de la carte : posée à 12 px
+// d'un coin de rayon 20, elle touchait l'arc (dégagement 9,4 à 10,8 px, audit
+// du 23/09). Au retrait = padding (≥ 20), c'est une forme fixe.
 const DELTA_POSITION_CLASSES: Record<StatCardSize, string> = {
-  sm: 'top-3 right-3',
-  md: 'top-4 right-4',
-  lg: 'top-5 right-5',
+  sm: 'top-stack-md right-stack-md',
+  md: 'top-stack-md right-stack-md',
+  lg: 'top-stack-lg right-stack-lg',
 };
 const DELTA_DIRECTION_CLASSES: Record<StatDeltaDirection, string> = {
   up: 'text-success-fg',

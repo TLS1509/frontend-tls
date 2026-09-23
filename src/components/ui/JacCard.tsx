@@ -33,7 +33,7 @@ export const JacCardPending: React.FC<JacCardPendingProps> = ({
   waitingFor,
   onRelancer,
 }) => (
-  <Card variant="default" className="p-stack flex flex-col gap-stack-xs">
+  <Card variant="default" className="p-stack-md flex flex-col gap-stack-xs">
     <div className="flex items-start justify-between gap-stack flex-wrap">
       <div className="flex flex-col gap-tight">
         <span className="font-display font-semibold text-body-sm text-ink-900">{title}</span>
@@ -73,7 +73,7 @@ export const JacCardNextJalon: React.FC<JacCardNextJalonProps> = ({
   progress,
   onPreparer,
 }) => (
-  <Card variant="default" className="p-stack flex flex-col gap-stack-xs">
+  <Card variant="default" className="p-stack-md flex flex-col gap-stack-xs">
     <div className="flex items-start justify-between gap-stack flex-wrap">
       <div className="flex flex-col gap-tight flex-1 min-w-0">
         <div className="flex items-center gap-stack-xs flex-wrap">

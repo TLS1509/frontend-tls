@@ -66,7 +66,7 @@ export default function MasterclassLive() {
           {/* Sidebar droite */}
           <div className="md:col-span-1 flex flex-col gap-stack">
             {/* Timer card */}
-            <Card variant="tinted" tone="primary" className="text-center p-stack">
+            <Card variant="tinted" tone="primary" className="text-center p-stack-md">
               <p className="text-micro text-ink-600 uppercase tracking-wider mb-tight">Temps écoulé</p>
               <p className="text-h2 font-display font-bold text-primary-700">47:23</p>
               <div className="flex items-center justify-center gap-stack-xs mt-tight text-caption text-ink-500">

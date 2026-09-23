@@ -213,7 +213,7 @@ export const Leaderboard: React.FC = () => {
         <div className="flex flex-col gap-stack">
           {/* Current user banner : only show if they're not on the podium */}
           {currentUserRow && currentUserRow.rank > 3 && (
-            <Card variant="tinted" tone="primary" className="flex items-center gap-stack p-stack">
+            <Card variant="tinted" tone="primary" className="flex items-center gap-stack p-stack-md">
               <div className="w-10 h-10 rounded-pill bg-gradient-to-br from-primary-700 to-secondary-700 flex items-center justify-center text-white font-extrabold text-body-sm shrink-0">
                 {currentUserRow.initials}
               </div>

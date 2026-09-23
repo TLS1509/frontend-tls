@@ -82,7 +82,7 @@ export default function MasterclassReplay() {
           {/* Sidebar droite */}
           <div className="md:col-span-1 flex flex-col gap-stack">
             {/* XP card */}
-            <Card variant="tinted" tone="primary" className="text-center p-stack flex flex-col items-center gap-tight">
+            <Card variant="tinted" tone="primary" className="text-center p-stack-md flex flex-col items-center gap-tight">
               <Award size={28} className="text-primary-600" />
               <p className="text-h2 font-display font-bold text-primary-700">+150 XP</p>
               <p className="text-caption text-ink-600">Masterclass complétée</p>
@@ -107,7 +107,7 @@ export default function MasterclassReplay() {
             </SectionCard>
 
             {/* CTA enquête */}
-            <Card variant="tinted" tone="sun" className="p-stack flex flex-col gap-tight">
+            <Card variant="tinted" tone="sun" className="p-stack-md flex flex-col gap-tight">
               <p className="text-body-sm font-semibold text-ink-900">Ton avis compte.</p>
               <p className="text-caption text-ink-500">Aide-nous à améliorer les prochaines sessions.</p>
               <Button emphasis="soft" size="sm" fullWidth className="mt-tight">

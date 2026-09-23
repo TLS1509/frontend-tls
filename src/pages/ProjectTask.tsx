@@ -248,7 +248,7 @@ export const ProjectTask: React.FC = () => {
             </div>
           </SectionCard>
 
-          <Card className="p-stack flex flex-col gap-stack-xs">
+          <Card className="p-stack-md flex flex-col gap-stack-xs">
             <p className="text-caption font-semibold text-ink-500 uppercase tracking-wide m-0">Statut</p>
             <div className="flex items-center gap-stack-xs">
               {STATUS_ICONS[task.status]}

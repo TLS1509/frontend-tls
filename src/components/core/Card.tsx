@@ -161,9 +161,11 @@ const TONE_GRADIENT_BG_CLASSES: Record<CardTone, string> = {
 
 /* Le padding intérieur — doctrine du 2026-09-09, géométrie corrigée le 17/09.
 
-   **24 px est le canon** (`md`, le défaut : 195 des 197 appels du produit le
-   prennent sans rien dire — recompté le 17/09). **16 px est la seule
-   dérogation**, pour les surfaces denses. Pas de troisième valeur.
+   **24 px est le canon** (`md`, le défaut). **20 px est la seule dérogation**,
+   pour les surfaces denses — tranché le 2026-09-23 (arbitrage n°4) : à 20, le
+   padding égale le rayon, le coin cesse de pincer ; l'ancien argument pour
+   16 (« 20 n'existe pas dans l'échelle ») était faux, `stack-md` existe.
+   Pas de troisième valeur.
 
    La règle géométrique (.claude/rules/doctrine-design.md § Padding intérieur) : **le padding ne descend pas sous
    le rayon**. Le point serré bascule à P = R exactement — dès que le padding
@@ -183,7 +185,7 @@ const TONE_GRADIENT_BG_CLASSES: Record<CardTone, string> = {
    et 32 px. */
 const SIZE_PADDING: Record<CardSize, string> = {
   xs: 'p-3',
-  sm: 'p-stack',      // 16 px — dense
+  sm: 'p-stack-md',   // 20 px — dense (arbitrage n°4 du 23/09 : padding = rayon, le coin ne pince plus)
   md: 'p-stack-lg',   // 24 px — le canon
   lg: 'p-section',    // 32 px — éditorial
 };

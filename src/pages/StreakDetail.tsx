@@ -82,7 +82,7 @@ const StreakDetail: React.FC = () => {
         <SectionCard title="Milestones débloquées" description="Atteins ces paliers pour gagner des badges">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
             {MILESTONES.map((m) => (
-              <Card key={m.days} className="p-stack flex items-center gap-stack">
+              <Card key={m.days} className="p-stack-md flex items-center gap-stack">
                 {/* Icon bubble : replaces AchievementBadge (full card component, not suitable inline) */}
                 <div className={`w-12 h-12 rounded-pill flex items-center justify-center shrink-0 ${MILESTONE_BUBBLE[m.tone]}`}>
                   {m.unlocked

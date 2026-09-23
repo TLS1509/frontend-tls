@@ -64,7 +64,7 @@ const JournalSearch: React.FC = () => {
       />
 
       <Container width="content" padding={false} className="px-stack py-section flex flex-col gap-section">
-        <Card className="p-stack">
+        <Card className="p-stack-md">
           <Input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
