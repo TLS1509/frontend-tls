@@ -142,35 +142,42 @@ export default function CoachHeatmap() {
 
         {/* Per-apprenant status list */}
         <SectionCard title="Résumé par apprenant" titleIcon={<Users size={18} />}>
-          <div className="flex flex-col gap-stack-xs">
+          {/* Une liste qu'on parcourt pour ouvrir un profil : des rangées dans la
+              carte de section, séparées par un filet, plutôt que dix boîtes
+              bordées empilées (arbitrage n°5 du 23/09). */}
+          <ul className="flex flex-col divide-y divide-ink-100">
             {filteredRows.map((a) => {
               const { label, variant } = STATUS_BADGE[a.status];
               const avg = (a.scores.filter((s) => s > 0).reduce((acc, s) => acc + s, 0) /
-                Math.max(a.scores.filter((s) => s > 0).length, 1)).toFixed(1);
+                Math.max(a.scores.filter((s) => s > 0).length, 1)).toFixed(1).replace('.', ',');
               return (
-                <div
-                  key={a.id}
-                  className="flex items-center justify-between px-stack py-3 rounded-lg border border-ink-100 bg-white hover:bg-ink-50 transition-colors duration-fast"
-                >
-                  <div className="flex items-center gap-stack">
+                <li key={a.id} className="flex items-center gap-stack-sm py-stack-sm first:pt-0 last:pb-0">
+                  {/* À 375 px, l'avatar coûtait sa place au nom : il n'apparaît qu'à
+                      partir de sm (enveloppant — `hidden` sur l'Avatar perdrait contre
+                      son `inline-flex`, piège n°6). */}
+                  <span className="hidden sm:block shrink-0">
                     <Avatar initials={a.initials} name={a.name} size="sm" tint="brand" />
-                    <span className="text-body-sm font-medium text-ink-900">{a.name}</span>
+                  </span>
+                  {/* La moyenne passe sous le nom à 375 px, à côté au-delà : la rangée
+                      garde une seule ligne sur grand écran. */}
+                  <div className="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-center sm:justify-between sm:gap-stack">
+                    <span className="text-body-sm font-medium text-ink-900 truncate">{a.name}</span>
+                    <span className="text-caption text-ink-500 shrink-0">Moyenne D{avg}</span>
                   </div>
-                  <div className="flex items-center gap-stack-xs">
-                    <span className="text-caption text-ink-500">Moy. D{avg}</span>
-                    <Badge variant={variant}>{label}</Badge>
-                    <Button
-                      emphasis="outline"
-                      size="sm"
-                      onClick={() => navigate(`/coach/apprenant/${a.id}`)}
-                    >
-                      Profil
-                    </Button>
-                  </div>
-                </div>
+                  <Badge variant={variant} size="compact" className="shrink-0">{label}</Badge>
+                  <Button
+                    emphasis="outline"
+                    size="sm"
+                    className="shrink-0"
+                    aria-label={`Profil de ${a.name}`}
+                    onClick={() => navigate(`/coach/apprenant/${a.id}`)}
+                  >
+                    Profil
+                  </Button>
+                </li>
               );
             })}
-          </div>
+          </ul>
         </SectionCard>
 
       </div>
