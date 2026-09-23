@@ -555,7 +555,7 @@ const ActifStrategique: React.FC = () => (
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-flow items-start">
         <div className="lg:col-span-7 flex flex-col gap-stack-lg">
           <FadeInWhenVisible>
-            <h2 className="font-display text-section text-white [text-wrap:balance]">
+            <h2 className="font-display text-section text-ink-900 [text-wrap:balance]">
               Un actif de compétences qui prend de la valeur{' '}
               <span className="text-primary-700">à mesure que vous l'utilisez</span>.
             </h2>
