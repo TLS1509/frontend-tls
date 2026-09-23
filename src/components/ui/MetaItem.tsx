@@ -25,7 +25,7 @@ const SIZE_VALUE: Record<MetaItemSize, string> = {
 const TONE_VALUE: Record<MetaItemTone, string> = {
   muted: 'text-ink-900',
   brand: 'text-primary-700',
-  warm:  'text-secondary-600',
+  warm:  'text-secondary-700',
 };
 
 export const MetaItem: React.FC<MetaItemProps> = ({

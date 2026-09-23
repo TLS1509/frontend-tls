@@ -86,7 +86,7 @@ export const Pagination: React.FC<PaginationProps> = ({
             <span
               key={`dots-${i}`}
               aria-hidden="true"
-              className="inline-flex items-center justify-center min-w-10 h-10 text-body text-ink-400 select-none font-bold"
+              className="inline-flex items-center justify-center min-w-10 h-10 text-body text-ink-500 select-none font-bold"
             >
               …
             </span>

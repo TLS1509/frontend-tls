@@ -44,7 +44,7 @@ const COLOR_BORDER: Record<AchievementBadgeColor, string> = {
 
 const COLOR_TEXT: Record<AchievementBadgeColor, string> = {
   primary: 'text-primary-700',
-  warm:    'text-secondary-600',
+  warm:    'text-secondary-700',
   sun:     'text-accent-700',
   success: 'text-success-fg',
 };

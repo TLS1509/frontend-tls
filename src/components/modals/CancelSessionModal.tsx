@@ -109,7 +109,7 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
             {/* Reason dropdown */}
             <div className="mb-stack-lg">
               <label className="block mb-2 text-body-sm font-semibold text-ink-900">
-                Motif d'annulation <span className="text-secondary-600">*</span>
+                Motif d'annulation <span className="text-secondary-700">*</span>
               </label>
               <div className="relative">
                 <select

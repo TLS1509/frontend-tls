@@ -223,10 +223,10 @@ const TONE_TITLE_CLASSES: Record<CardTone, string> = {
 };
 
 const TONE_EYEBROW_CLASSES: Record<CardTone, string> = {
-  primary: 'text-primary-500',
-  warm: 'text-secondary-600',
-  sun: 'text-accent-600',
-  brand: 'text-primary-600',
+  primary: 'text-primary-800',
+  warm: 'text-secondary-700',
+  sun: 'text-accent-700',
+  brand: 'text-primary-800',
 };
 
 // When variant="interactive" (or interactive=true) is combined with a tone,

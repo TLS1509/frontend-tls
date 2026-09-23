@@ -40,8 +40,8 @@ const TONE_ICON_CORE: Record<ArticleTone, string> = {
 };
 
 const TONE_CATEGORY: Record<ArticleTone, string> = {
-  primary: 'text-primary-600',
-  warm:    'text-secondary-600',
+  primary: 'text-primary-700',
+  warm:    'text-secondary-700',
   sun:     'text-accent-700',
 };
 

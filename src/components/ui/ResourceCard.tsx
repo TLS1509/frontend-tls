@@ -38,11 +38,11 @@ const TONE_BG: Record<string, string> = {
 };
 
 const TONE_ACCENT_TEXT: Record<string, string> = {
-  primary: 'text-primary-500',
-  brand:   'text-primary-600',
-  warm:    'text-secondary-500',
-  sun:     'text-accent-500',
-  default: 'text-primary-500',
+  primary: 'text-primary-800',
+  brand:   'text-primary-800',
+  warm:    'text-secondary-700',
+  sun:     'text-accent-700',
+  default: 'text-primary-800',
 };
 
 const TONE_CTA_HOVER: Record<string, string> = {

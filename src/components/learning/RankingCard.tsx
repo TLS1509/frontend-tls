@@ -60,7 +60,7 @@ export const RankingCard: React.FC<RankingCardProps> = ({
             {points} pts
           </span>
           {streak !== undefined && (
-            <span className="inline-flex items-center gap-tight text-caption text-secondary-600 font-medium">
+            <span className="inline-flex items-center gap-tight text-caption text-secondary-700 font-medium">
               <Flame size={14} />
               {streak}j
             </span>

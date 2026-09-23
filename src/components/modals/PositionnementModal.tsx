@@ -26,6 +26,10 @@ interface Level {
   color: string;
   colorLight: string;
   glowColor: string;
+  /** Couleur du libellé une fois le niveau choisi. `color` reste le filet et
+      le halo : c'est un remplissage, il ne passe pas en texte (1,52 à 2,63:1
+      sur la carte teintée). Ces crans passent 4,5:1 sur le même fond. */
+  textClass: string;
 }
 
 interface PositionnementModalProps {
@@ -61,11 +65,11 @@ const DEFAULT_QUESTIONS: Question[] = [
 ];
 
 const LEVELS: Level[] = [
-  { id: 'debutant',      icon: <Sprout size={40} strokeWidth={1.5} />, label: 'Débutant',      description: 'Je découvre',      value: 1, color: '#FFC15A', colorLight: 'rgba(255,193,90,0.12)',  glowColor: 'rgba(255,193,90,0.35)' },
-  { id: 'novice',        icon: <Flame size={40} strokeWidth={1.5} />,  label: 'Novice',        description: 'Bases acquises',   value: 2, color: '#F8B044', colorLight: 'rgba(248,176,68,0.12)',  glowColor: 'rgba(248,176,68,0.35)' },
-  { id: 'intermediaire', icon: <Target size={40} strokeWidth={1.5} />, label: 'Intermédiaire', description: 'Autonome',         value: 3, color: '#f49a76', colorLight: 'rgba(244,154,118,0.12)', glowColor: 'rgba(244,154,118,0.35)' },
-  { id: 'avance',        icon: <Rocket size={40} strokeWidth={1.5} />, label: 'Avancé',        description: "Très à l'aise",   value: 4, color: '#55A1B4', colorLight: 'rgba(85,161,180,0.12)',  glowColor: 'rgba(85,161,180,0.35)' },
-  { id: 'expert',        icon: <Star size={40} strokeWidth={1.5} />,   label: 'Expert',        description: 'Maîtrise totale',  value: 5, color: '#9dbeba', colorLight: 'rgba(157,190,186,0.12)', glowColor: 'rgba(157,190,186,0.35)' },
+  { id: 'debutant',      icon: <Sprout size={40} strokeWidth={1.5} />, label: 'Débutant',      description: 'Je découvre',      value: 1, textClass: 'text-accent-700',    color: '#FFC15A', colorLight: 'rgba(255,193,90,0.12)',  glowColor: 'rgba(255,193,90,0.35)' },
+  { id: 'novice',        icon: <Flame size={40} strokeWidth={1.5} />,  label: 'Novice',        description: 'Bases acquises',   value: 2, textClass: 'text-accent-800',    color: '#F8B044', colorLight: 'rgba(248,176,68,0.12)',  glowColor: 'rgba(248,176,68,0.35)' },
+  { id: 'intermediaire', icon: <Target size={40} strokeWidth={1.5} />, label: 'Intermédiaire', description: 'Autonome',         value: 3, textClass: 'text-secondary-700', color: '#f49a76', colorLight: 'rgba(244,154,118,0.12)', glowColor: 'rgba(244,154,118,0.35)' },
+  { id: 'avance',        icon: <Rocket size={40} strokeWidth={1.5} />, label: 'Avancé',        description: "Très à l'aise",   value: 4, textClass: 'text-primary-800',   color: '#55A1B4', colorLight: 'rgba(85,161,180,0.12)',  glowColor: 'rgba(85,161,180,0.35)' },
+  { id: 'expert',        icon: <Star size={40} strokeWidth={1.5} />,   label: 'Expert',        description: 'Maîtrise totale',  value: 5, textClass: 'text-success-fg',    color: '#9dbeba', colorLight: 'rgba(157,190,186,0.12)', glowColor: 'rgba(157,190,186,0.35)' },
 ];
 
 const SUCCESS_FEATURES = [
@@ -157,14 +161,14 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
             <>
               {/* Header + progress */}
               <div className="mb-stack-lg">
-                <p className="text-caption font-semibold text-primary-600 uppercase tracking-[0.06em] mb-1">
+                <p className="text-caption font-semibold text-primary-700 uppercase tracking-[0.06em] mb-1">
                   {courseTitle}
                 </p>
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-caption text-ink-600">
                     Question {currentIndex + 1} / {questions.length}
                   </span>
-                  <span className="text-caption font-bold text-primary-600">
+                  <span className="text-caption font-bold text-primary-700">
                     {Math.round(progress)}%
                   </span>
                 </div>
@@ -214,8 +218,7 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
                     >
                       <span className="inline-flex items-center justify-center">{level.icon}</span>
                       <span
-                        className="text-caption font-bold text-center text-ink-900"
-                        style={{ color: isSelected ? level.color : undefined }}
+                        className={`text-caption font-bold text-center ${isSelected ? level.textClass : 'text-ink-900'}`}
                       >
                         {level.label}
                       </span>
@@ -270,7 +273,7 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
                     <Sparkles size={18} className="text-white" />
                   </div>
                   <div>
-                    <p className="text-caption font-bold text-primary-600 mb-1">🔮 Prochainement : Adaptive Learning</p>
+                    <p className="text-caption font-bold text-primary-800 mb-1">🔮 Prochainement : Adaptive Learning</p>
                     <p className="text-caption text-ink-600">
                       Ton <strong>Passport de Compétences</strong> personnalisera le contenu en fonction de ta progression.
                     </p>

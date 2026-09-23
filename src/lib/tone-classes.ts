@@ -33,11 +33,13 @@ export const PAGE_TONE_TO_BUTTON: Record<PageTone, ButtonTone> = {
   sun:     'sun',
 };
 
-/** Accent text color per tone */
+/** Accent text color per tone — lisible (4,5:1) sur blanc ET sur le -50 du ton.
+    Teal 800 et non 700 : 700 fait 4,48 sur primary-50. Les crans 400-600 sont
+    des remplissages, pas des encres. */
 export const TONE_TEXT: Record<PageTone, string> = {
-  primary: 'text-primary-500',
-  warm:    'text-secondary-500',
-  sun:     'text-accent-400',
+  primary: 'text-primary-800',
+  warm:    'text-secondary-700',
+  sun:     'text-accent-700',
 };
 
 /** Subtle tinted background (50-level) per tone */

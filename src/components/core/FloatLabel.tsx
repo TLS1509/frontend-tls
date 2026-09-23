@@ -25,7 +25,7 @@ const LABEL_BASE =
   'absolute left-3.5 top-1/2 -translate-y-1/2 text-body-sm font-medium text-ink-500 origin-left pointer-events-none transition-all duration-base ease-emphasis';
 
 const LABEL_FLOATING =
-  'top-1 -translate-y-1/2 scale-75 text-caption text-primary-600 font-semibold';
+  'top-1 -translate-y-1/2 scale-75 text-caption text-primary-700 font-semibold';
 
 export const FloatLabel: React.FC<FloatLabelProps> = ({
   label,

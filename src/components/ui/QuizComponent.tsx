@@ -199,7 +199,7 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({
           <span className="text-caption font-semibold text-ink-500">
             Question {current + 1} sur {questions.length}
           </span>
-          <span className="text-caption font-semibold text-primary-600">
+          <span className="text-caption font-semibold text-primary-700">
             {Math.round(progress)}%
           </span>
         </div>

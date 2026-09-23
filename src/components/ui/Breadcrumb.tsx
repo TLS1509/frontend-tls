@@ -33,7 +33,7 @@ const SimpleItem: React.FC<{ item: BreadcrumbItem; isLast: boolean }> = ({ item,
     </span>
   ) : (
     <a
-      className="text-ink-600 no-underline rounded-xs transition-colors hover:text-primary-600 hover:underline hover:underline-offset-[3px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+      className="text-ink-600 no-underline rounded-xs transition-colors hover:text-primary-700 hover:underline hover:underline-offset-[3px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
       href={item.href ?? '#'}
       onClick={item.onClick as React.MouseEventHandler<HTMLAnchorElement>}
     >

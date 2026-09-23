@@ -34,9 +34,9 @@ const LABEL_MAP = {
 };
 
 const COLOR_MAP = {
-  component: 'text-primary-600 bg-primary-50',
-  category: 'text-secondary-600 bg-secondary-50',
-  token: 'text-accent-600 bg-accent-50',
+  component: 'text-primary-800 bg-primary-50',
+  category: 'text-secondary-700 bg-secondary-50',
+  token: 'text-accent-700 bg-accent-50',
   page: 'text-ink-600 bg-ink-50',
 };
 

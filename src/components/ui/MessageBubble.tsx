@@ -236,7 +236,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
                 <span className="text-micro text-ink-600">Utile ?</span>
                 <button
                   onClick={() => messageId && onFeedback?.(messageId, 'yes')}
-                  className="inline-flex items-center gap-tight text-micro text-success-fg hover:text-success-base transition-colors duration-fast px-1.5 py-0.5 rounded-sm hover:bg-success-bg"
+                  className="inline-flex items-center gap-tight text-micro text-success-fg transition-colors duration-fast px-1.5 py-0.5 rounded-sm hover:bg-success-bg"
                   aria-label="Marquer comme utile"
                 >
                   <ThumbsUp size={14} /> Oui

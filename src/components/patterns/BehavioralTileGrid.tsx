@@ -71,7 +71,7 @@ const TILE_PALETTES: TilePalette[] = [
     card:      'bg-primary-50 border-primary-100',
     accentBg:  'bg-primary-400/20',
     accentDot: 'bg-primary-400',
-    tag:       'bg-primary-100 text-primary-600',
+    tag:       'bg-primary-100 text-primary-800',
   },
 ];
 

@@ -129,7 +129,7 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
             {/* Rating label — conditional, compact */}
             {display > 0 && (
               <div className="flex justify-center mb-stack">
-                <div className="px-4 py-1.5 rounded-lg modal-amber-badge text-body-sm font-bold text-accent-600">
+                <div className="px-4 py-1.5 rounded-lg modal-amber-badge text-body-sm font-bold text-accent-800">
                   {RATING_LABELS[display]}
                 </div>
               </div>

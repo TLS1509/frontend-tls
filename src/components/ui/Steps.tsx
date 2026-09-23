@@ -18,8 +18,8 @@ const MARKER_BASE =
 
 const MARKER_STATE: Record<StepState, string> = {
   done:     'bg-gradient-to-br from-primary-500 to-primary-700 border-transparent text-white shadow-brand-sm',
-  current:  'bg-white border-primary-500 text-primary-600 shadow-brand-sm ring-4 ring-primary-100 scale-105',
-  upcoming: 'bg-white border-ink-200 text-ink-400',
+  current:  'bg-white border-primary-500 text-primary-700 shadow-brand-sm ring-4 ring-primary-100 scale-105',
+  upcoming: 'bg-white border-ink-200 text-ink-500',
   locked:   'bg-ink-50 border-ink-200 text-ink-400 opacity-70',
 };
 

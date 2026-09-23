@@ -486,7 +486,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   </div>
                   <div className="flex-1 min-w-[180px]">
                     <p className="m-0 text-caption font-bold text-ink-900">Session</p>
-                    <p className="m-0 text-body-sm font-extrabold text-primary-600">
+                    <p className="m-0 text-body-sm font-extrabold text-primary-800">
                       {selectedDate && formatDateLabel(selectedDate)} · {selectedTime}
                     </p>
                   </div>

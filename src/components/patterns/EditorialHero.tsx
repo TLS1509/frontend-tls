@@ -196,7 +196,7 @@ const isBackLinkObject = (value: unknown): value is PageHeroBackLink =>
   'onClick' in (value as Record<string, unknown>);
 
 const TONE_BACKLINK: Record<PageHeroTone, string> = {
-  flat:    'text-primary-600 bg-ink-50 border-ink-200 hover:bg-ink-100',
+  flat:    'text-primary-700 bg-ink-50 border-ink-200 hover:bg-ink-100',
   default: 'text-primary-700 bg-white/70 border-primary-200 hover:bg-primary-50',
   brand:   'text-white bg-white/15 border-white/25 hover:bg-white/25',
   warm:    'text-white bg-white/15 border-white/25 hover:bg-white/25',

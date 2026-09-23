@@ -38,8 +38,8 @@ const TONE_CONNECTOR_DONE: Record<string, string> = {
 
 const TONE_LABEL_ACTIVE: Record<string, string> = {
   primary: 'text-primary-700',
-  warm:    'text-secondary-600',
-  sun:     'text-accent-500',
+  warm:    'text-secondary-700',
+  sun:     'text-accent-700',
 };
 
 function getStatus(index: number, currentStep: number): StepStatus {
@@ -71,7 +71,7 @@ export const StepIndicator: React.FC<StepIndicatorProps> = ({
                     'inline-flex items-center justify-center w-8 h-8 rounded-pill shrink-0 text-caption font-bold transition-all duration-base',
                     status === 'active'    ? TONE_ACTIVE[tone] : '',
                     status === 'completed' ? TONE_COMPLETED[tone] : '',
-                    status === 'upcoming'  ? 'bg-ink-100 text-ink-400' : '',
+                    status === 'upcoming'  ? 'bg-ink-100 text-ink-500' : '',
                   ].filter(Boolean).join(' ')}
                 >
                   {status === 'completed' ? <Check size={14} strokeWidth={2.5} /> : i + 1}
@@ -94,7 +94,7 @@ export const StepIndicator: React.FC<StepIndicatorProps> = ({
                     'text-body-sm font-semibold m-0 transition-colors duration-base',
                     status === 'active' ? TONE_LABEL_ACTIVE[tone] : '',
                     status === 'completed' ? 'text-ink-600' : '',
-                    status === 'upcoming' ? 'text-ink-400' : '',
+                    status === 'upcoming' ? 'text-ink-500' : '',
                   ].filter(Boolean).join(' ')}
                 >
                   {step.label}
@@ -143,7 +143,7 @@ export const StepIndicator: React.FC<StepIndicatorProps> = ({
                 'relative z-base inline-flex items-center justify-center w-8 h-8 rounded-pill shrink-0 text-caption font-bold transition-all duration-base',
                 status === 'active'    ? TONE_ACTIVE[tone] : '',
                 status === 'completed' ? TONE_COMPLETED[tone] : '',
-                status === 'upcoming'  ? 'bg-ink-100 text-ink-400' : '',
+                status === 'upcoming'  ? 'bg-ink-100 text-ink-500' : '',
               ].filter(Boolean).join(' ')}
             >
               {status === 'completed' ? <Check size={14} strokeWidth={2.5} /> : i + 1}
@@ -155,7 +155,7 @@ export const StepIndicator: React.FC<StepIndicatorProps> = ({
                 'text-micro font-semibold text-center mt-2 m-0 px-1 transition-colors duration-base',
                 status === 'active' ? TONE_LABEL_ACTIVE[tone] : '',
                 status === 'completed' ? 'text-ink-600' : '',
-                status === 'upcoming' ? 'text-ink-400' : '',
+                status === 'upcoming' ? 'text-ink-500' : '',
               ].filter(Boolean).join(' ')}
             >
               {step.label}

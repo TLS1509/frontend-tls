@@ -132,7 +132,7 @@ export const ConsentBanner: React.FC<ConsentBannerProps> = ({
                 Nous utilisons des cookies pour améliorer votre expérience, analyser notre trafic et personnaliser les contenus.{' '}
                 <button
                   onClick={() => setShowCustomize((v) => !v)}
-                  className="text-primary-600 underline underline-offset-2 hover:text-primary-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded-xs"
+                  className="text-primary-700 underline underline-offset-2 hover:text-primary-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded-xs"
                 >
                   En savoir plus
                 </button>
