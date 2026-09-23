@@ -197,11 +197,14 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
           <span className="text-micro text-ink-600 shrink-0">{timestamp}</span>
 
           {isChatbot && sourcesCited && sourcesCited.length > 0 && (
+            /* Pastille faite main, et c'est voulu : elle porte un LIEN, et
+               MetaPill n'a que deux rendus (span, ou <button> avec onClick) — pas
+               d'<a>. Label au cran 800 : le 700 mesurait 4,48 à 11 px. */
             <div className="flex flex-wrap gap-tight">
               {sourcesCited.map((src) => (
                 <span
                   key={src.sourceId}
-                  className="inline-flex items-center gap-tight text-micro bg-primary-50 text-primary-700 border border-primary-200 rounded-pill px-2 py-0.5"
+                  className="inline-flex items-center gap-tight text-micro bg-primary-50 text-primary-800 border border-primary-200 rounded-pill px-2 py-0.5"
                 >
                   {src.url ? (
                     <a

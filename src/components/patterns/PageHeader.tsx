@@ -1,4 +1,5 @@
 import React from 'react';
+import { MetaPill } from '../ui/MetaPill';
 
 /**
  * PageHeader — Canonical page-level header.
@@ -60,12 +61,10 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
     <div className={wrapperClasses}>
       <div className={contentClasses}>
         {eyebrow && (
-          <div className="inline-flex items-center gap-stack-2xs self-start text-caption font-bold uppercase tracking-[0.1em] text-primary-700 px-2.5 py-1 rounded-pill bg-primary-50 border border-primary-100">
-            {eyebrow.icon && (
-              <span className="inline-flex items-center text-current">{eyebrow.icon}</span>
-            )}
-            {eyebrow.text}
-          </div>
+          /* Le surtitre dit OÙ l'on est — une donnée, pas un état : il chuchote
+             (MetaPill), il ne crie pas. Il rendait 13 px en capitales graisse 700,
+             primary-700 sur primary-50 (4,48:1, sous AA). */
+          <MetaPill text={eyebrow.text} icon={eyebrow.icon} tone="primary" className="self-start" />
         )}
 
         <h1

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import { Button } from '../core/Button';
+import { Badge } from '../ui/Badge';
 import { PAGE_TONE_TO_BUTTON } from '../../lib/tone-classes';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -105,9 +106,9 @@ export const StepTutorial: React.FC<StepTutorialProps> = ({
 
         <div className="p-7 sm:p-8 flex flex-col gap-stack-lg">
           {/* Step badge */}
-          <span className="inline-flex self-start items-center gap-stack-2xs px-2.5 py-1 rounded-pill bg-ink-100/70 font-body text-micro font-bold uppercase tracking-wider text-ink-500 select-none">
+          <Badge variant="neutral" className="self-start select-none">
             {activeStep + 1} / {steps.length}
-          </span>
+          </Badge>
 
           {/* Icon + title */}
           <div className="flex items-start gap-stack">

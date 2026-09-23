@@ -1,6 +1,7 @@
 import React, { useState, useDeferredValue } from 'react';
 import { GRID_COLS_CONTENT } from '../../lib/grid-columns';
 import { Search, X, LayoutGrid, List } from 'lucide-react';
+import { FilterChip } from './FilterChip';
 
 export type FilterableCardGridLayout = 'grid' | 'list';
 export type FilterableCardGridColumns = 2 | 3 | 4;
@@ -91,13 +92,14 @@ export function FilterableCardGrid<T>({
 
       {categories && categories.length > 0 && (
         <div className="flex items-center gap-stack-xs flex-wrap">
-          <button type="button" onClick={() => setActiveCategory(null)} className={['inline-flex items-center px-3 py-1.5 rounded-pill text-caption font-bold transition-all duration-fast focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-500', activeCategory === null ? 'bg-primary-700 text-white' : 'bg-ink-100 text-ink-600 hover:bg-ink-200'].join(' ')}>
-            Tout
-          </button>
+          <FilterChip label="Tout" active={activeCategory === null} onClick={() => setActiveCategory(null)} />
           {categories.map((cat) => (
-            <button key={cat} type="button" onClick={() => setActiveCategory(cat === activeCategory ? null : cat)} className={['inline-flex items-center px-3 py-1.5 rounded-pill text-caption font-bold transition-all duration-fast focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-500', activeCategory === cat ? 'bg-primary-700 text-white' : 'bg-ink-100 text-ink-600 hover:bg-ink-200'].join(' ')}>
-              {cat}
-            </button>
+            <FilterChip
+              key={cat}
+              label={cat}
+              active={activeCategory === cat}
+              onClick={() => setActiveCategory(cat === activeCategory ? null : cat)}
+            />
           ))}
         </div>
       )}
