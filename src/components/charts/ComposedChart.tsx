@@ -10,6 +10,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
+import { CHART_TOOLTIP, CHART_LEGEND, decrireSeries } from './chartTheme';
 
 export interface ComposedChartDataPoint {
   label: string;
@@ -40,6 +41,8 @@ export interface ComposedChartProps {
   leftAxisLabel?: string;
   /** Right Y axis label */
   rightAxisLabel?: string;
+  /** Nom accessible. Par défaut, décrit le type et les valeurs de chaque série. */
+  ariaLabel?: string;
   /** Additional CSS */
   className?: string;
 }
@@ -74,14 +77,20 @@ export const ComposedChart: React.FC<ComposedChartProps> = ({
   leftAxisLabel = 'Value',
   rightAxisLabel = 'Score',
   className = '',
+  ariaLabel,
 }) => {
   const heightMap = { sm: 250, md: 350, lg: 450 };
   const height = heightMap[size];
 
   return (
-    <div className={`w-full ${className}`}>
+    <div
+      className={`w-full ${className}`}
+      role="img"
+      aria-label={ariaLabel ?? decrireSeries('Graphique combiné barres et courbes', data, series)}
+    >
       <ResponsiveContainer width="100%" height={height}>
         <RechartsComposedChart
+          accessibilityLayer={false}
           data={data}
           margin={{ top: 20, right: dualAxis ? 80 : 30, bottom: 20, left: 30 }}
         >
@@ -109,18 +118,8 @@ export const ComposedChart: React.FC<ComposedChartProps> = ({
               label={{ value: rightAxisLabel, angle: 90, position: 'insideRight' }}
             />
           )}
-          <Tooltip
-            contentStyle={{
-              backgroundColor: '#ffffff',
-              border: '1px solid #e5e7eb',
-              borderRadius: '8px',
-              padding: '8px 12px',
-              fontSize: '13px',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-            }}
-            labelStyle={{ color: '#1a1a1a' }}
-          />
-          {showLegend && <Legend wrapperStyle={{ paddingTop: '20px' }} />}
+          <Tooltip {...CHART_TOOLTIP} />
+          {showLegend && <Legend {...CHART_LEGEND} />}
 
           {series.map((s, idx) => {
             const color = s.color || COLOR_PALETTE[idx % COLOR_PALETTE.length];

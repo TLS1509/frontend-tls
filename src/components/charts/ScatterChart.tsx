@@ -11,6 +11,7 @@ import {
   ResponsiveContainer,
   Cell,
 } from 'recharts';
+import { CHART_TOOLTIP, CHART_LEGEND } from './chartTheme';
 
 export interface ScatterChartDataPoint {
   label: string;
@@ -39,6 +40,8 @@ export interface ScatterChartProps {
   bubbleScale?: number;
   /** Callback on dot click */
   onDotClick?: (data: ScatterChartDataPoint, index: number) => void;
+  /** Nom accessible. Par défaut, décrit le type et les valeurs de chaque série. */
+  ariaLabel?: string;
   /** Additional CSS */
   className?: string;
 }
@@ -67,6 +70,7 @@ export const ScatterChart: React.FC<ScatterChartProps> = ({
   bubbleScale = 3,
   onDotClick,
   className = '',
+  ariaLabel,
 }) => {
   const heightMap = { sm: 250, md: 350, lg: 450 };
   const height = heightMap[size];
@@ -80,15 +84,27 @@ export const ScatterChart: React.FC<ScatterChartProps> = ({
 
   const prefersReducedMotion = useReducedMotion();
 
+  const nomX = xAxisLabel ?? 'x';
+  const nomY = yAxisLabel ?? 'y';
+  const description =
+    ariaLabel ??
+    `Nuage de points, ${data.length} points. ${data
+      .slice(0, 12)
+      .map((d) => `${d.label} : ${nomX} ${d.x.toLocaleString('fr-FR')}, ${nomY} ${d.y.toLocaleString('fr-FR')}`)
+      .join(' ; ')}${data.length > 12 ? ' ; …' : ''}.`;
+
   return (
     <motion.div
       className={`w-full ${className}`}
+      role="img"
+      aria-label={description}
       initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
       animate={prefersReducedMotion ? false : { opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
     >
       <ResponsiveContainer width="100%" height={height}>
         <RechartsScatterChart
+          accessibilityLayer={false}
           margin={{ top: 20, right: 30, bottom: 20, left: 30 }}
         >
           <CartesianGrid strokeDasharray="3 3" stroke="currentColor" className="text-ink-200" />
@@ -112,20 +128,12 @@ export const ScatterChart: React.FC<ScatterChartProps> = ({
           />
           <Tooltip
             cursor={{ strokeDasharray: '3 3' }}
-            contentStyle={{
-              backgroundColor: '#ffffff',
-              border: '1px solid #e5e7eb',
-              borderRadius: '8px',
-              padding: '8px 12px',
-              fontSize: '13px',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-            }}
+            {...CHART_TOOLTIP}
             formatter={/* v3: Formatter reçoit ValueType | undefined, pas number */ (value) =>
               typeof value === 'number' ? value.toFixed(2) : String(value ?? '')
             }
-            labelStyle={{ color: '#1a1a1a' }}
           />
-          {showLegend && <Legend wrapperStyle={{ paddingTop: '20px' }} />}
+          {showLegend && <Legend {...CHART_LEGEND} />}
 
           <Scatter
             name="Data"

@@ -18,6 +18,8 @@ export interface HeatmapChartProps {
   showValues?: boolean;
   /** Callback on cell click */
   onCellClick?: (data: HeatmapDataPoint) => void;
+  /** Nom accessible de la grille. */
+  ariaLabel?: string;
   /** Additional CSS */
   className?: string;
 }
@@ -36,6 +38,7 @@ export const HeatmapChart: React.FC<HeatmapChartProps> = ({
   cellSize = 48,
   showValues = true,
   onCellClick,
+  ariaLabel = 'Carte de chaleur',
   className = '',
 }) => {
   const { xLabels, yLabels, grid } = useMemo(() => {
@@ -87,7 +90,9 @@ export const HeatmapChart: React.FC<HeatmapChartProps> = ({
   };
 
   return (
-    <div className={`w-full overflow-x-auto ${className}`}>
+    // Groupe nommé plutôt que role="img" : la grille contient de vrais boutons,
+    // qu'une image masquerait aux technologies d'assistance.
+    <div role="group" aria-label={ariaLabel} className={`w-full overflow-x-auto ${className}`}>
       <div className="inline-block">
         {/* X-axis labels */}
         <div className="flex">

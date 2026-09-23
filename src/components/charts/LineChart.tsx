@@ -10,6 +10,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
+import { CHART_TOOLTIP, CHART_LEGEND, decrireSeries } from './chartTheme';
 
 export interface LineChartDataPoint {
   label: string;
@@ -39,6 +40,8 @@ export interface LineChartProps {
   showDots?: boolean;
   /** Callback on line click */
   onPointClick?: (data: LineChartDataPoint, index: number) => void;
+  /** Nom accessible. Par défaut, décrit le type et les valeurs de chaque série. */
+  ariaLabel?: string;
   /** Additional CSS */
   className?: string;
 }
@@ -74,6 +77,7 @@ export const LineChart: React.FC<LineChartProps> = ({
   showDots = true,
   onPointClick,
   className = '',
+  ariaLabel,
 }) => {
   const heightMap = { sm: 250, md: 350, lg: 450 };
   const height = heightMap[size];
@@ -82,12 +86,18 @@ export const LineChart: React.FC<LineChartProps> = ({
   return (
     <motion.div
       className={`w-full ${className}`}
+      role="img"
+      aria-label={
+        ariaLabel ??
+        decrireSeries('Graphique en courbes', data, series ?? [{ key: dataKey || 'value', label: 'Valeur' }])
+      }
       initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
       animate={prefersReducedMotion ? false : { opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
     >
       <ResponsiveContainer width="100%" height={height}>
         <RechartsLineChart
+          accessibilityLayer={false}
           data={data}
           margin={{ top: 20, right: 30, bottom: 20, left: 30 }}
           /* recharts v3 : le handler de clic vit sur le chart, pas sur <Line>.
@@ -115,18 +125,8 @@ export const LineChart: React.FC<LineChartProps> = ({
             className="text-body-sm text-ink-600"
             tick={{ fontSize: 12 }}
           />
-          <Tooltip
-            contentStyle={{
-              backgroundColor: '#ffffff',
-              border: '1px solid #e5e7eb',
-              borderRadius: '8px',
-              padding: '8px 12px',
-              fontSize: '13px',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-            }}
-            labelStyle={{ color: '#1a1a1a' }}
-          />
-          {showLegend && <Legend wrapperStyle={{ paddingTop: '20px' }} />}
+          <Tooltip {...CHART_TOOLTIP} />
+          {showLegend && <Legend {...CHART_LEGEND} />}
 
           {series ? (
             series.map((s, idx) => (

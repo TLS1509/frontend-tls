@@ -9,6 +9,8 @@ export interface GaugeChartProps {
   size?: 'sm' | 'md' | 'lg';
   showPercentage?: boolean;
   target?: number; // Optional target line
+  /** Nom accessible. Par défaut : libellé, pourcentage et objectif. */
+  ariaLabel?: string;
 }
 
 const TONE_COLORS: Record<string, { arc: string; needle: string; bg: string }> = {
@@ -37,6 +39,17 @@ const TONE_COLORS: Record<string, { arc: string; needle: string; bg: string }> =
     needle: '#C0432A',
     bg: '#FFF5F2',
   },
+};
+
+/* Le pourcentage central est du TEXTE : il ne peut pas reprendre la teinte de
+ * l'arc (500, 1,86 à 2,94:1 sur blanc). Il passe au cran 800 ou au `-fg` de la
+ * famille (≥ 4,5:1) ; seul l'arc garde la couleur du ton. */
+const TONE_TEXT: Record<NonNullable<GaugeChartProps['tone']>, string> = {
+  primary: 'text-primary-800',
+  warm: 'text-secondary-800',
+  sun: 'text-accent-800',
+  success: 'text-success-fg',
+  danger: 'text-danger-fg',
 };
 
 const SIZE_CONFIG: Record<string, { radius: number; center: number; strokeWidth: number; fontSize: number }> = {
@@ -74,6 +87,7 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
   size = 'md',
   showPercentage = true,
   target,
+  ariaLabel,
 }) => {
   const config = SIZE_CONFIG[size];
   const colors = TONE_COLORS[tone];
@@ -139,7 +153,7 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
       {/* Center label */}
       <div className="text-center -mt-16">
         {showPercentage && (
-          <p className="font-bold" style={{ fontSize: `${config.fontSize}px`, color: colors.arc }}>
+          <p className={`font-bold ${TONE_TEXT[tone]}`} style={{ fontSize: `${config.fontSize}px` }}>
             {Math.round(percentage)}%
           </p>
         )}
@@ -147,7 +161,7 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
           <p className="text-caption text-ink-600 mt-1">{label}</p>
         )}
         {targetPercentage !== null && (
-          <p className="text-micro text-ink-500 mt-1">Target: {Math.round(targetPercentage)}%</p>
+          <p className="text-micro text-ink-500 mt-1">Objectif : {Math.round(targetPercentage)} %</p>
         )}
       </div>
     </div>
@@ -176,7 +190,7 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
           <path
             d={`M ${config.center - config.radius} ${config.center} A ${config.radius} ${config.radius} 0 0 1 ${config.center + config.radius} ${config.center}`}
             fill="none"
-            stroke="#e5e7eb"
+            className="stroke-ink-200"
             strokeWidth={config.strokeWidth}
           />
 
@@ -223,7 +237,7 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
         {/* Center label */}
         <div className="text-center -mt-4">
           {showPercentage && (
-            <p className="font-bold" style={{ fontSize: `${config.fontSize}px`, color: colors.arc }}>
+            <p className={`font-bold ${TONE_TEXT[tone]}`} style={{ fontSize: `${config.fontSize}px` }}>
               {Math.round(percentage)}%
             </p>
           )}
@@ -244,7 +258,7 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
           cy={config.center}
           r={config.radius}
           fill="none"
-          stroke="#e5e7eb"
+          className="stroke-ink-200"
           strokeWidth={4}
           opacity={0.3}
         />
@@ -293,7 +307,7 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
       {/* Center label */}
       <div className="text-center -mt-20">
         {showPercentage && (
-          <p className="font-bold" style={{ fontSize: `${config.fontSize}px`, color: colors.arc }}>
+          <p className={`font-bold ${TONE_TEXT[tone]}`} style={{ fontSize: `${config.fontSize}px` }}>
             {Math.round(percentage)}%
           </p>
         )}
@@ -301,14 +315,19 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
           <p className="text-caption text-ink-600 mt-1">{label}</p>
         )}
         {targetPercentage !== null && (
-          <p className="text-micro text-ink-500 mt-1">Target: {Math.round(targetPercentage)}%</p>
+          <p className="text-micro text-ink-500 mt-1">Objectif : {Math.round(targetPercentage)} %</p>
         )}
       </div>
     </div>
   );
 
+  const description =
+    ariaLabel ??
+    `${label ?? 'Jauge'} : ${Math.round(percentage)} %` +
+    (targetPercentage !== null ? `, objectif ${Math.round(targetPercentage)} %` : '');
+
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center" role="img" aria-label={description}>
       {variant === 'needle' && renderNeedleVariant()}
       {variant === 'segment' && renderSegmentVariant()}
       {variant === 'arc' && renderArcVariant()}
