@@ -51,12 +51,16 @@ interface TypeConfig {
   bodyPlaceholder: string;
 }
 
+/* `borderSelected` est au cran 700 (23/09) : le filet est ce qui marque la
+   sélection, donc un contour de composant — 3:1 (WCAG 1.4.11). Au 500, il
+   mesurait 2,94 (teal), 2,64 (orange) et 2,31 (or) sur le blanc de la carte.
+   Au 700 : 5,02 · 6,31 · 4,88 — la doctrine du filet (CLAUDE.md). */
 const TYPE_CONFIG: Record<EntryType, TypeConfig> = {
   'reflexion-libre': {
     label: 'Réflexion Libre',
     icon: <Sparkles size={28} strokeWidth={1.5} />,
     iconSelected: 'text-primary-500',
-    borderSelected: 'border-primary-500',
+    borderSelected: 'border-primary-700',
     checkBg: 'bg-primary-600',
     questionClass: 'text-primary-800',
     writingBg: '',
@@ -67,7 +71,7 @@ const TYPE_CONFIG: Record<EntryType, TypeConfig> = {
     label: 'Apprentissage',
     icon: <BookOpen size={28} strokeWidth={1.5} />,
     iconSelected: 'text-primary-500',
-    borderSelected: 'border-primary-500',
+    borderSelected: 'border-primary-700',
     checkBg: 'bg-primary-600',
     questionClass: 'text-primary-800',
     writingBg: 'bg-gradient-to-br from-white to-primary-50',
@@ -78,7 +82,7 @@ const TYPE_CONFIG: Record<EntryType, TypeConfig> = {
     label: 'Pratique pro',
     icon: <Briefcase size={28} strokeWidth={1.5} />,
     iconSelected: 'text-secondary-500',
-    borderSelected: 'border-secondary-500',
+    borderSelected: 'border-secondary-700',
     checkBg: 'bg-secondary-600',
     questionClass: 'text-secondary-700',
     writingBg: 'bg-gradient-to-br from-white to-secondary-50',
@@ -89,7 +93,7 @@ const TYPE_CONFIG: Record<EntryType, TypeConfig> = {
     label: 'Coaching',
     icon: <Target size={28} strokeWidth={1.5} />,
     iconSelected: 'text-accent-700',
-    borderSelected: 'border-accent-500',
+    borderSelected: 'border-accent-700',
     checkBg: 'bg-accent-700',
     questionClass: 'text-accent-700',
     writingBg: 'bg-gradient-to-br from-white to-accent-50',
@@ -100,7 +104,7 @@ const TYPE_CONFIG: Record<EntryType, TypeConfig> = {
     label: 'Moment Eurêka',
     icon: <Lightbulb size={28} strokeWidth={1.5} />,
     iconSelected: 'text-primary-500',
-    borderSelected: 'border-primary-500',
+    borderSelected: 'border-primary-700',
     checkBg: 'bg-primary-600',
     questionClass: 'text-primary-800',
     writingBg: '',

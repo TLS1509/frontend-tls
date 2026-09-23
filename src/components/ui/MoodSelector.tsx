@@ -55,8 +55,12 @@ export const MoodSelector: React.FC<MoodSelectorProps> = ({
           aria-pressed={selected}
           className={[
             'flex flex-col items-center gap-tight p-3 rounded-lg cursor-pointer transition-[background-color,border-color,box-shadow,transform] duration-fast ease-emphasis active:scale-[0.94] min-h-touch focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+            /* Filet de sélection au cran 700 (23/09) : c'est lui qui dit « choisi »,
+               le fond primary-100 ne se distingue guère de l'ink-50 du repos.
+               Au 500 : 2,40 contre son propre fond, 2,94 contre le blanc ;
+               au 700 : 4,11 et 5,02 (WCAG 1.4.11, 3:1). */
             selected
-              ? 'bg-primary-100 border-2 border-primary-500 shadow-sm'
+              ? 'bg-primary-100 border-2 border-primary-700 shadow-sm'
               : 'bg-ink-50 border-2 border-transparent hover:bg-ink-100',
           ].join(' ')}
         >
