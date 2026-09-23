@@ -20,6 +20,8 @@ import { Card } from '../components/core/Card';
 import { Badge } from '../components/ui/Badge';
 import { Avatar } from '../components/ui/Avatar';
 import { Input } from '../components/core/Input';
+import { IconChip } from '../components/ui/IconChip';
+import { Compass, Target, Lightbulb } from 'lucide-react';
 
 /* ─────────────────────────── Couleurs et contraste ─────────────────────────── */
 
@@ -351,6 +353,32 @@ const SwitchSpecimen: React.FC<{ look: SwitchLook }> = ({ look }) => (
   </div>
 );
 
+/* Le VRAI IconChip, posé sur une carte teintée du même ton — le cas des ~16
+   pastilles que la migration a laissées. Seul le fond de la pastille est forcé
+   (bench uniquement, `!` pour battre la map de ton : piège n°6). */
+type ChipOnTint = 'meme' | 'blanc' | 'cran100';
+const CHIP_FILL: Record<ChipOnTint, Record<'brand' | 'warm' | 'sun', string>> = {
+  meme:    { brand: '', warm: '', sun: '' },
+  blanc:   { brand: '!bg-white', warm: '!bg-white', sun: '!bg-white' },
+  cran100: { brand: '!bg-primary-100', warm: '!bg-secondary-100', sun: '!bg-accent-100' },
+};
+const TINT_CARD = { brand: 'bg-primary-50 border-primary-100', warm: 'bg-secondary-50 border-secondary-100', sun: 'bg-accent-50 border-accent-100' } as const;
+const CHIP_DEMO = [
+  { tone: 'brand' as const, icon: <Compass />, title: 'Compétences opérationnelles' },
+  { tone: 'warm' as const, icon: <Target />, title: 'Mise en pratique' },
+  { tone: 'sun' as const, icon: <Lightbulb />, title: 'Prise de conscience' },
+];
+const ChipOnTintSpecimen: React.FC<{ fill: ChipOnTint }> = ({ fill }) => (
+  <div className="flex flex-col gap-stack-xs w-full">
+    {CHIP_DEMO.map((d) => (
+      <div key={d.tone} className={`flex items-center gap-stack-sm rounded-xl border p-stack-md ${TINT_CARD[d.tone]}`}>
+        <IconChip tone={d.tone} size="md" className={CHIP_FILL[fill][d.tone]}>{d.icon}</IconChip>
+        <span className="text-body-sm font-semibold text-ink-900">{d.title}</span>
+      </div>
+    ))}
+  </div>
+);
+
 const HeroSpecimen: React.FC<{ gradient: 'actuel' | 'fonce' }> = ({ gradient }) => (
   <div className={`w-full rounded-xl p-stack-lg flex flex-col gap-stack-xs ${gradient === 'actuel' ? 'bg-gradient-to-br from-primary-500 via-primary-600 to-primary-700' : 'bg-gradient-to-br from-primary-700 to-primary-800'}`}>
     <span className="text-caption text-white/90">← Retour</span>
@@ -475,6 +503,18 @@ export default function ArbitragesLab() {
       { letter: 'A', label: 'Plein ink-400 (appliqué)', facts: [`Rail éteint : ${fmt(ratio(ink400, white))}:1 sur blanc`, `Rail allumé primary-500 : ${fmt(ratio(p500, white))}:1 — échoue`, 'Masse grise foncée'], children: <SwitchSpecimen look="actuel" /> },
       { letter: 'B', label: 'Façon Material 3', recommended: true, facts: [`Filet 2 px ink-400 : ${fmt(ratio(ink400, white))}:1 sur blanc`, 'Rail quasi blanc, rond gris qui grossit une fois allumé', `Allumé primary-700 : ${fmt(ratio(p700, white))}:1`], children: <SwitchSpecimen look="material" /> },
       { letter: 'C', label: 'Rail clair + filet 1 px', facts: [`Filet 1 px ink-400 : ${fmt(ratio(ink400, white))}:1 sur blanc`, 'Le plus léger ; rond blanc cerné', `Allumé primary-700 : ${fmt(ratio(p700, white))}:1`], children: <SwitchSpecimen look="filet" /> },
+    ],
+  });
+
+  const p100 = tok('primary-100');
+  VALIDATIONS.push({
+    id: 'pastille-teinte', n: 10, title: 'Pastille sur carte teintée',
+    question: 'Quel fond pour une pastille d\u2019icône posée sur une carte de la même couleur ?',
+    context: <p>Environ 16 pastilles vivent sur une carte déjà teintée de leur ton (objectifs de parcours, facturation, modales). <code>IconChip</code> y pose un fond au cran 50 — celui de la carte. Ce sont trois vraies <code>IconChip</code>.</p>,
+    options: [
+      { letter: 'A', label: 'Cran 50 (IconChip tel quel)', facts: [`Pastille / carte : ${fmt(ratio(p50, p50))}:1 — elle disparaît`, 'Il ne reste que l\u2019icône'], children: <ChipOnTintSpecimen fill="meme" /> },
+      { letter: 'B', label: 'Pastille blanche', recommended: true, facts: [`Pastille / carte : ${fmt(ratio(white, p50))}:1`, 'Même écart que la pastille 50 sur blanc, inversé', 'Lit « une pièce posée sur la carte »'], children: <ChipOnTintSpecimen fill="blanc" /> },
+      { letter: 'C', label: 'Cran 100', facts: [`Pastille / carte : ${fmt(ratio(p100, p50))}:1 (teal)`, 'Plus foncé que la carte : la pastille s\u2019enfonce', 'Écart inégal selon le ton (le 100 orange et or est plus soutenu)'], children: <ChipOnTintSpecimen fill="cran100" /> },
     ],
   });
 
