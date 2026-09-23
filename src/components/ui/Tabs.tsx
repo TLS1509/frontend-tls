@@ -1,4 +1,35 @@
-import React, { useRef } from 'react';
+import React, { useId, useRef } from 'react';
+
+/**
+ * Tabs — onglets à tabindex itinérant (flèches, Début, Fin).
+ *
+ * Accessibilité (APG Tabs, audit du 23/09) :
+ * - `label` nomme la liste d'onglets (`aria-label` du tablist). Sans nom, un
+ *   lecteur d'écran annonce « liste d'onglets » sans dire laquelle.
+ * - Chaque onglet a un id stable. Pour relier onglet et panneau, passer
+ *   `idPrefix` et poser sur le panneau `getTabPanelProps(idPrefix, id)` :
+ *
+ *     <Tabs idPrefix="profil" label="Sections du profil" items={…} value={tab} onChange={setTab} />
+ *     <div {...getTabPanelProps('profil', tab)}>…</div>
+ *
+ *   L'onglet reçoit alors `aria-controls`. Sans `idPrefix`, pas d'`aria-controls` :
+ *   il pointerait vers un id absent du DOM.
+ */
+
+/** Id de l'onglet `tabId` pour un préfixe donné. */
+export const getTabId = (idPrefix: string, tabId: string) => `${idPrefix}-tab-${tabId}`;
+
+/** Id du panneau associé à l'onglet `tabId`. */
+export const getTabPanelId = (idPrefix: string, tabId: string) => `${idPrefix}-panel-${tabId}`;
+
+/** Props à étaler sur le panneau de l'onglet actif. */
+export const getTabPanelProps = (idPrefix: string, tabId: string) => ({
+  id: getTabPanelId(idPrefix, tabId),
+  role: 'tabpanel' as const,
+  'aria-labelledby': getTabId(idPrefix, tabId),
+  // Focalisable : APG, quand le panneau ne commence pas par un élément focalisable.
+  tabIndex: 0,
+});
 
 export type TabsVariant = 'pill' | 'underline' | 'boxed';
 
@@ -17,6 +48,10 @@ export interface TabsProps
   onChange: (id: string) => void;
   variant?: TabsVariant;
   fullWidth?: boolean;
+  /** Nom de la liste d'onglets, posé en `aria-label` sur le tablist. */
+  label?: string;
+  /** Préfixe d'ids : active `aria-controls` vers `getTabPanelProps(idPrefix, id)`. */
+  idPrefix?: string;
 }
 
 const CONTAINER_VARIANT: Record<TabsVariant, string> = {
@@ -48,10 +83,14 @@ export const Tabs: React.FC<TabsProps> = ({
   onChange,
   variant = 'pill',
   fullWidth = false,
+  label,
+  idPrefix,
   className = '',
   ...rest
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const autoId = useId();
+  const prefix = idPrefix ?? autoId;
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>, currentIdx: number) => {
     const enabledItems = items.filter((it) => !it.disabled);
@@ -93,7 +132,7 @@ export const Tabs: React.FC<TabsProps> = ({
     .join(' ');
 
   return (
-    <div ref={containerRef} className={containerClasses} role="tablist" {...rest}>
+    <div ref={containerRef} className={containerClasses} role="tablist" aria-label={label} {...rest}>
       {items.map((item, idx) => {
         const active = item.id === value;
         const tabClasses = [
@@ -109,7 +148,9 @@ export const Tabs: React.FC<TabsProps> = ({
             key={item.id}
             type="button"
             role="tab"
+            id={getTabId(prefix, item.id)}
             aria-selected={active}
+            aria-controls={idPrefix ? getTabPanelId(idPrefix, item.id) : undefined}
             disabled={item.disabled}
             className={tabClasses}
             data-tab-id={item.id}
