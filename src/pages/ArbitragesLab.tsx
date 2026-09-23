@@ -312,6 +312,45 @@ const FieldSpecimen: React.FC<{ border: FieldBorder }> = ({ border }) => (
   </div>
 );
 
+/* Interrupteur reconstruit aux cotes EXACTES du Switch de l'app (rail w-11 h-6,
+   rond w-5 h-5 à 2 px du bord) : seules les couleurs changent selon l'option. */
+type SwitchLook = 'actuel' | 'material' | 'filet';
+const TRACK_OFF: Record<SwitchLook, string> = {
+  actuel: 'bg-ink-400',
+  material: 'bg-ink-50 border-2 border-ink-400',
+  filet: 'bg-ink-100 border border-ink-400',
+};
+const THUMB_OFF: Record<SwitchLook, string> = {
+  actuel: 'top-0.5 left-0.5 w-5 h-5 bg-white',
+  material: 'top-1 left-1 w-3 h-3 bg-ink-500',
+  filet: 'top-[1px] left-[1px] w-5 h-5 bg-white border border-ink-400',
+};
+const TRACK_ON: Record<SwitchLook, string> = { actuel: 'bg-primary-500', material: 'bg-primary-700', filet: 'bg-primary-700' };
+
+const SwitchPair: React.FC<{ look: SwitchLook; surface: 'bg-white' | 'bg-primary-50' }> = ({ look, surface }) => (
+  <div className={`${surface} rounded-lg p-stack-sm flex items-center justify-around`}>
+    <span className="flex items-center gap-stack-2xs text-caption text-ink-700">
+      <span className={`relative inline-block w-11 h-6 rounded-pill ${TRACK_OFF[look]}`}>
+        <span className={`absolute rounded-pill ${THUMB_OFF[look]}`} />
+      </span>
+      Éteint
+    </span>
+    <span className="flex items-center gap-stack-2xs text-caption text-ink-700">
+      <span className={`relative inline-block w-11 h-6 rounded-pill ${TRACK_ON[look]}`}>
+        <span className="absolute top-0.5 left-[22px] w-5 h-5 rounded-pill bg-white" />
+      </span>
+      Allumé
+    </span>
+  </div>
+);
+
+const SwitchSpecimen: React.FC<{ look: SwitchLook }> = ({ look }) => (
+  <div className="flex flex-col gap-stack-xs w-full">
+    <SwitchPair look={look} surface="bg-white" />
+    <SwitchPair look={look} surface="bg-primary-50" />
+  </div>
+);
+
 const HeroSpecimen: React.FC<{ gradient: 'actuel' | 'fonce' }> = ({ gradient }) => (
   <div className={`w-full rounded-xl p-stack-lg flex flex-col gap-stack-xs ${gradient === 'actuel' ? 'bg-gradient-to-br from-primary-500 via-primary-600 to-primary-700' : 'bg-gradient-to-br from-primary-700 to-primary-800'}`}>
     <span className="text-caption text-white/90">← Retour</span>
@@ -427,6 +466,17 @@ export default function ArbitragesLab() {
       ],
     },
   ];
+
+  VALIDATIONS.push({
+    id: 'interrupteur', n: 9, title: 'Interrupteur',
+    question: 'Le rail éteint en ink-400 est trop foncé : quelle construction ?',
+    context: <p>Material 3 ne remplit pas le rail éteint : il le laisse clair et porte le contraste par un <strong>filet</strong>, avec un rond intérieur gris. Au passage, l'état allumé actuel (<code>primary-500</code>) échoue lui aussi contre la page ; B et C le passent au 700.</p>,
+    options: [
+      { letter: 'A', label: 'Plein ink-400 (appliqué)', facts: [`Rail éteint : ${fmt(ratio(ink400, white))}:1 sur blanc`, `Rail allumé primary-500 : ${fmt(ratio(p500, white))}:1 — échoue`, 'Masse grise foncée'], children: <SwitchSpecimen look="actuel" /> },
+      { letter: 'B', label: 'Façon Material 3', recommended: true, facts: [`Filet 2 px ink-400 : ${fmt(ratio(ink400, white))}:1 sur blanc`, 'Rail quasi blanc, rond gris qui grossit une fois allumé', `Allumé primary-700 : ${fmt(ratio(p700, white))}:1`], children: <SwitchSpecimen look="material" /> },
+      { letter: 'C', label: 'Rail clair + filet 1 px', facts: [`Filet 1 px ink-400 : ${fmt(ratio(ink400, white))}:1 sur blanc`, 'Le plus léger ; rond blanc cerné', `Allumé primary-700 : ${fmt(ratio(p700, white))}:1`], children: <SwitchSpecimen look="filet" /> },
+    ],
+  });
 
   const all = [...DECISIONS, ...VALIDATIONS];
   const summary = all
