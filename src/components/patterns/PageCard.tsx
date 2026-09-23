@@ -11,6 +11,7 @@ import { CARD_HOVER } from '../../lib/tone-classes';
 import { ArrowRight, FileText, Loader2 } from 'lucide-react';
 import type { CardTone } from '../core/Card';
 import { IconChip } from '../ui/IconChip';
+import { MetaPill } from '../ui/MetaPill';
 
 export type PageCardStatus = 'active' | 'coming-soon' | 'beta' | 'archived';
 export type PageCardBadgeVariant = 'primary' | 'warm' | 'sun' | 'success' | 'danger';
@@ -168,9 +169,7 @@ export const PageCard: React.FC<{ item: PageCardItem; showThumbnail?: boolean }>
           </p>
         )}
         {item.tag && (
-          <span className="inline-flex self-start mt-1 px-2 py-0.5 rounded-pill bg-ink-50 text-ink-600 text-micro font-medium">
-            {item.tag}
-          </span>
+          <MetaPill text={item.tag} className="self-start mt-1" />
         )}
       </div>
 
