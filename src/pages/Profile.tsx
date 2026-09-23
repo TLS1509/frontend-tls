@@ -21,6 +21,7 @@ import { getBadgeDefById } from '../data/gamification';
 import { MOCK_USER_ID } from '../data/passeport';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
+import { IconChip } from '../components/ui/IconChip';
 import { SkillBar } from '../components/ui/SkillBar';
 import { Tabs } from '../components/ui/Tabs';
 import type { TabItem } from '../components/ui/Tabs';
@@ -77,9 +78,9 @@ const HERO_STATS = [
 ];
 
 const WEEK_KPIS = [
-  { icon: <Target size={18} />, value: '3/5',  label: 'Objectifs atteints' },
-  { icon: <Clock3 size={18} />, value: '12h',  label: "Temps d'étude" },
-  { icon: <Zap size={18} />,    value: '+450', label: 'XP gagnés' },
+  { icon: <Target />, value: '3/5',  label: 'Objectifs atteints' },
+  { icon: <Clock3 />, value: '12h',  label: "Temps d'étude" },
+  { icon: <Zap />,    value: '+450', label: 'XP gagnés' },
 ];
 
 const SKILLS: { id: string; label: string; value: number; tone: 'brand' | 'warm' | 'sun' }[] = [
@@ -273,9 +274,9 @@ export const Profile: React.FC = () => {
                   <div className="flex flex-col gap-stack">
                     {WEEK_KPIS.map((k) => (
                       <div key={k.label} className="flex items-center gap-stack-xs">
-                        <span className="shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-lg bg-ink-50 text-ink-700">
+                        <IconChip size="md" tone="neutral">
                           {k.icon}
-                        </span>
+                        </IconChip>
                         <div className="flex-1 min-w-0">
                           <p className="m-0 font-display text-body font-bold text-ink-900">
                             {k.value}

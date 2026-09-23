@@ -190,19 +190,18 @@ export const VeilleCard: React.FC<VeilleCardProps> = ({ item, surface, isSaved, 
 
         {/* Bookmark top-right glass */}
         {showSaveButton && onToggleSave && (
-          <button
-            type="button"
+          <Button
+            iconOnly
+            size="sm"
+            onDark
+            emphasis={isSaved ? 'solid' : 'outline'}
             onClick={(e) => { e.stopPropagation(); onToggleSave(item.id); }}
             aria-label={isSaved ? 'Retirer des favoris' : 'Enregistrer'}
-            className={[
-              'absolute top-3 right-3 inline-flex items-center justify-center w-9 h-9 rounded-pill backdrop-blur-glass-light border transition-all',
-              isSaved
-                ? 'bg-white text-primary-700 border-white shadow-sm'
-                : 'bg-white/30 text-white border-white/40 hover:bg-white/60 hover:text-ink-900',
-            ].join(' ')}
+            aria-pressed={isSaved}
+            className="absolute top-3 right-3"
           >
-            {isSaved ? <BookmarkCheck size={16} /> : <Bookmark size={16} />}
-          </button>
+            {isSaved ? <BookmarkCheck /> : <Bookmark />}
+          </Button>
         )}
       </div>
 
@@ -306,19 +305,17 @@ export const VeilleCardListItem: React.FC<VeilleCardProps> = ({ item, surface, i
       {/* Right actions : bookmark + CTA */}
       <div className="flex flex-col items-end justify-between gap-stack-xs shrink-0 p-4">
         {showSaveButton && onToggleSave ? (
-          <button
-            type="button"
+          <Button
+            iconOnly
+            size="sm"
+            emphasis={isSaved ? 'soft' : 'ghost'}
+            tone={isSaved ? 'brand' : 'neutral'}
             onClick={(e) => { e.stopPropagation(); onToggleSave(item.id); }}
             aria-label={isSaved ? 'Retirer des favoris' : 'Enregistrer'}
-            className={[
-              'inline-flex items-center justify-center w-9 h-9 rounded-pill cursor-pointer transition-all',
-              isSaved
-                ? 'bg-primary-50 text-primary-700 border border-primary-200'
-                : 'bg-ink-50 text-ink-500 hover:bg-ink-100 hover:text-ink-700 border border-transparent',
-            ].join(' ')}
+            aria-pressed={isSaved}
           >
-            {isSaved ? <BookmarkCheck size={16} /> : <Bookmark size={16} />}
-          </button>
+            {isSaved ? <BookmarkCheck /> : <Bookmark />}
+          </Button>
         ) : <span aria-hidden />}
         <span className={['inline-flex items-center gap-tight font-body text-caption font-bold transition-transform group-hover:translate-x-0.5 whitespace-nowrap', TONE_LINK[tone]].join(' ')}>
           {isVideo ? <><Play size={14} fill="currentColor" /> Voir</> : <>Lire <ArrowRight size={14} /></>}
@@ -365,19 +362,17 @@ export const FeaturedSpotlight: React.FC<FeaturedSpotlightProps> = ({ item, isSa
           ✨ À la une
         </span>
         {showSaveButton && onToggleSave && (
-          <button
-            type="button"
+          <Button
+            iconOnly
+            onDark
+            emphasis={isSaved ? 'solid' : 'outline'}
             onClick={(e) => { e.stopPropagation(); onToggleSave(item.id); }}
             aria-label={isSaved ? 'Retirer des favoris' : 'Enregistrer'}
-            className={[
-              'absolute top-4 right-4 inline-flex items-center justify-center w-10 h-10 rounded-pill backdrop-blur-glass-light border transition-all',
-              isSaved
-                ? 'bg-white text-primary-700 border-white shadow-sm'
-                : 'bg-white/30 text-white border-white/40 hover:bg-white/60 hover:text-ink-900',
-            ].join(' ')}
+            aria-pressed={isSaved}
+            className="absolute top-4 right-4"
           >
-            {isSaved ? <BookmarkCheck size={18} /> : <Bookmark size={18} />}
-          </button>
+            {isSaved ? <BookmarkCheck /> : <Bookmark />}
+          </Button>
         )}
       </div>
 
@@ -469,19 +464,17 @@ export const FeaturedSpotlightCarousel: React.FC<FeaturedSpotlightCarouselProps>
             ✨ À la une
           </span>
           {showSaveButton && onToggleSave && (
-            <button
-              type="button"
+            <Button
+              iconOnly
+              onDark
+              emphasis={isSaved ? 'solid' : 'outline'}
               onClick={(e) => { e.stopPropagation(); onToggleSave(item.id); }}
               aria-label={isSaved ? 'Retirer des favoris' : 'Enregistrer'}
-              className={[
-                'absolute top-4 right-4 inline-flex items-center justify-center w-10 h-10 rounded-pill backdrop-blur-glass-light border transition-all',
-                isSaved
-                  ? 'bg-white text-primary-700 border-white shadow-sm'
-                  : 'bg-white/30 text-white border-white/40 hover:bg-white/60 hover:text-ink-900',
-              ].join(' ')}
+              aria-pressed={isSaved}
+              className="absolute top-4 right-4"
             >
-              {isSaved ? <BookmarkCheck size={18} /> : <Bookmark size={18} />}
-            </button>
+              {isSaved ? <BookmarkCheck /> : <Bookmark />}
+            </Button>
           )}
 
           {/* Dots + arrows overlay (bottom of cover) */}
@@ -507,22 +500,12 @@ export const FeaturedSpotlightCarousel: React.FC<FeaturedSpotlightCarouselProps>
 
               {/* Arrow buttons */}
               <div className="flex items-center gap-stack-xs">
-                <button
-                  type="button"
-                  aria-label="Précédent"
-                  onClick={prev}
-                  className="inline-flex items-center justify-center w-8 h-8 rounded-pill bg-white/20 text-white border border-white/30 hover:bg-white/40 backdrop-blur-glass-light transition-all"
-                >
-                  <ChevronLeft size={14} strokeWidth={2.5} />
-                </button>
-                <button
-                  type="button"
-                  aria-label="Suivant"
-                  onClick={next}
-                  className="inline-flex items-center justify-center w-8 h-8 rounded-pill bg-white/20 text-white border border-white/30 hover:bg-white/40 backdrop-blur-glass-light transition-all"
-                >
-                  <ChevronRight size={14} strokeWidth={2.5} />
-                </button>
+                <Button iconOnly size="sm" onDark emphasis="outline" aria-label="Précédent" onClick={prev}>
+                  <ChevronLeft strokeWidth={2.5} />
+                </Button>
+                <Button iconOnly size="sm" onDark emphasis="outline" aria-label="Suivant" onClick={next}>
+                  <ChevronRight strokeWidth={2.5} />
+                </Button>
               </div>
             </div>
           )}

@@ -290,13 +290,9 @@ export const BookingModal: React.FC<BookingModalProps> = ({
             ))}
           </div>
 
-          <button
-            onClick={handleClose}
-            className="w-8 h-8 rounded-pill bg-ink-50 border border-ink-200 flex items-center justify-center cursor-pointer text-ink-600 hover:bg-ink-200 transition-all shrink-0"
-            aria-label="Fermer"
-          >
-            <X size={14} />
-          </button>
+          <Button iconOnly size="sm" emphasis="ghost" tone="neutral" onClick={handleClose} aria-label="Fermer" className="shrink-0">
+            <X />
+          </Button>
         </div>
 
         {/* Body — scrollable si vraiment nécessaire mais devrait fit */}
@@ -309,21 +305,29 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 {/* Calendar */}
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <button
+                    <Button
+                      iconOnly
+                      size="sm"
+                      emphasis="outline"
+                      tone="neutral"
                       onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))}
-                      className="w-7 h-7 rounded-md bg-ink-50 border border-ink-200 flex items-center justify-center cursor-pointer text-ink-600 hover:bg-ink-200 transition-all"
+                      aria-label="Mois précédent"
                     >
-                      <ChevronLeft size={14} />
-                    </button>
+                      <ChevronLeft />
+                    </Button>
                     <span className="font-bold text-body-sm text-ink-900">
                       {MONTHS_FR[currentMonth.getMonth()]} {currentMonth.getFullYear()}
                     </span>
-                    <button
+                    <Button
+                      iconOnly
+                      size="sm"
+                      emphasis="outline"
+                      tone="neutral"
                       onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))}
-                      className="w-7 h-7 rounded-md bg-ink-50 border border-ink-200 flex items-center justify-center cursor-pointer text-ink-600 hover:bg-ink-200 transition-all"
+                      aria-label="Mois suivant"
                     >
-                      <ChevronRight size={14} />
-                    </button>
+                      <ChevronRight />
+                    </Button>
                   </div>
 
                   <div className="grid grid-cols-7 gap-0.5 mb-1">

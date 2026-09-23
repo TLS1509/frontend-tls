@@ -33,6 +33,7 @@ import { PageHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
+import { IconChip } from '../components/ui/IconChip';
 import { Tabs } from '../components/ui/Tabs';
 import { StatCard } from '../components/ui/StatCard';
 import { Alert } from '../components/ui/Alert';
@@ -227,9 +228,9 @@ const SubscriptionTab: React.FC<{
     >
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-stack p-stack rounded-lg bg-danger-bg/30 border border-danger-border">
         <div className="flex items-start gap-stack-xs">
-          <div className="shrink-0 inline-flex items-center justify-center w-10 h-10 rounded-xl bg-danger-bg text-danger-fg">
-            <AlertTriangle size={18} />
-          </div>
+          <IconChip size="md" tone="danger">
+            <AlertTriangle />
+          </IconChip>
           <div className="flex flex-col gap-tight">
             <p className="m-0 font-body text-body-sm font-semibold text-ink-900">
               Annuler mon abonnement {tierConfig.name}
