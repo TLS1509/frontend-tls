@@ -222,6 +222,7 @@ import { PagesIndex } from './pages/PagesIndex';
 import BgLab from './pages/BgLab';
 import CardLab from './pages/CardLab';
 import DesignLab from './pages/DesignLab';
+import ArbitragesLab from './pages/ArbitragesLab';
 import { FloatingNavButton } from './components/FloatingNavButton';
 import { DevPanel } from './components/DevPanel';
 // Marketing site
@@ -598,6 +599,8 @@ function App() {
             scrollIntoView sans pouvoir scroller (scrollHeight === clientHeight), ce qui
             neutralise silencieusement les ancres. DesignLab gère son propre plein écran. */}
         <Route path="/_design-lab" element={<DesignLab />} />
+        {/* Banc des décisions de l'audit du 23/09 — à supprimer une fois tranchées. */}
+        <Route path="/_arbitrages" element={<ArbitragesLab />} />
 
         {/* ── Landing page inscription — public, plein écran ── */}
         <Route path="/inscription" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><AppLanding /></div>} />
