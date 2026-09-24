@@ -127,7 +127,6 @@ import { NotificationCard } from '../components/cards/NotificationCard';
 import { ActionCardGrid } from '../components/patterns/ActionCardGrid';
 import { StepCard } from '../components/learning/StepCard';
 import type { JournalBubbleType } from '../components/cards/JournalBubbleCard';
-import { RankingCard } from '../components/learning/RankingCard';
 import { TlsLogo, TlsLogoLockup } from '../components/ui/TlsLogo';
 import { Flashcard } from '../components/patterns/Flashcard';
 import { QuizQuestionCard } from '../components/patterns/QuizQuestionCard';
@@ -5600,20 +5599,6 @@ const COMPONENTS: ComponentEntry[] = [
         ]}
         className="max-h-[380px]"
       />
-    ),
-  },
-  {
-    name: 'RankingCard',
-    codeName: 'learning/RankingCard.tsx',
-    usedBy: ['Leaderboard'],
-    description: "Rangée de classement : rang en pastille de 48 px (médaille sur le podium), nom 16/600, points en 13/600, et une action. ⚠️ L'arbitrage n°18 (« Reconnaissances ») retire de l'app apprenant le classement nominatif et la série quotidienne : ce composant ne sert plus de modèle à un écran neuf. La démo n'affiche plus de série.",
-    keywords: ['ranking', 'leaderboard', 'podium', 'rank', 'gamification', 'streak'],
-    render: () => (
-      <div className="flex flex-col gap-stack max-w-md">
-        <RankingCard rank={1} name="Sophie Martin" points={2840} variant="sun" onViewProfile={() => {}} />
-        <RankingCard rank={2} name="Marc Dubois" points={2650} onViewProfile={() => {}} />
-        <RankingCard rank={3} name="Léa Petit" points={2410} onViewProfile={() => {}} />
-      </div>
     ),
   },
   {

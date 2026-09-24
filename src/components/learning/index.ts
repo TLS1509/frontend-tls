@@ -4,9 +4,6 @@ export type { StepCardProps, StepLesson } from './StepCard';
 export { PromptCard } from './PromptCard';
 export type { PromptCardProps } from './PromptCard';
 
-export { RankingCard } from './RankingCard';
-export type { RankingCardProps } from './RankingCard';
-
 export { SessionCard } from './SessionCard';
 export type { SessionCardProps } from './SessionCard';
 

@@ -370,7 +370,7 @@ export const CATALOG: Record<string, CatalogMeta> = {
   // Domain
   SessionCard:          { category: 'Cards', subCategory: 'Domain (coaching/project)' },
   ProjectCard:          { category: 'Cards', subCategory: 'Domain (coaching/project)' },
-  RankingCard:          { category: 'Cards', subCategory: 'Domain (coaching/project)' },
+  // RankingCard retiré le 2026-09-24 : le classement nominatif a quitté l'app (arbitrage n°18).
 
   // Activity
   ActivityItem:         { category: 'Cards', subCategory: 'Activity' },
