@@ -329,7 +329,7 @@
 - [`UX-UI-BOOTCAMP.md`](_archive/UX-UI-BOOTCAMP.md) — plan de bootcamp périmé (échéance 31/07). Archivé le 2026-09-23
 - [`brand-voice-guidelines.v1.0-archive-2026-05-28.md`](_archive/brand-voice-guidelines.v1.0-archive-2026-05-28.md) — voix de marque v1.0, remplacée par la v2.0 de `.claude/`. Sortie de `.claude/` le 2026-09-23
 - [`notion-sync-phase-17-18.md`](_archive/notion-sync-phase-17-18.md) — synchro Notion des phases 17-18 (15/05), révolue. Sortie de `.claude/` le 2026-09-23
-- [`PRODUCT-2026-05-genere-IA.md`](_archive/PRODUCT-2026-05-genere-IA.md) — la version de mai de `PRODUCT.md`, **générée par IA** (`/impeccable teach`, 26/05) : North Star, personas, doctrine IA, vision 2031, triplet de marque, anti-références, règles de copie — rien de validé. Archivée le 2026-09-24 sur décision de Chloé ; la racine ne garde que ce qui est validé
+- [`PRODUCT-2026-05-genere-IA.md`](_archive/PRODUCT-2026-05-genere-IA.md) — la version de mai de `PRODUCT.md`, **générée par IA** (`/impeccable teach`, 26/05) : North Star, personas, doctrine IA, vision 2031, triplet de marque, anti-références — rien de validé (les règles de copie, revalidées le 24/09, sont revenues à la racine). Archivée le 2026-09-24 sur décision de Chloé ; la racine ne garde que ce qui est validé
 
 ---
 

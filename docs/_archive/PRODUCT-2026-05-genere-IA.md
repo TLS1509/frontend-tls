@@ -9,7 +9,8 @@
 >
 > **Rien ici ne fait foi.** North Star, personas et leurs chiffres, doctrine IA,
 > raison d'être, moat, vision 2031 et cible d'ARR, triplet de marque, tagline,
-> anti-références, règles de copie : aucun n'a été validé par une décision datée.
+> anti-références : aucun n'a été validé par une décision datée. *(Les règles de
+> copie, elles, ont été revalidées par Chloé le 24/09 et remises dans PRODUCT.md.)*
 > FACTS-CANON §3 range ces sujets « à reconstruire ». Quelques lignes de code citent
 > encore « PRODUCT.md » pour une règle d'ici (pause-reprise, AAA, override IA) :
 > c'est cette version qu'elles visent.

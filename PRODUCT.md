@@ -4,8 +4,9 @@
 > de Chloé. Sa première version avait été **générée par IA** le 26/05/2026 (commande
 > `/impeccable teach`, à partir des cahiers du CDC Notion, depuis archivé). Elle
 > contenait une North Star, des personas chiffrés, une doctrine IA, une raison d'être,
-> une vision 2031, un triplet de marque, des anti-références et des règles de copie —
-> **rien de cela n'avait été validé**. Tout est archivé dans
+> une vision 2031, un triplet de marque et des anti-références — **rien de cela
+> n'avait été validé**. Seules ses règles de copie ont été revalidées par Chloé le
+> 24/09 : elles sont revenues ci-dessous. Tout est archivé dans
 > [`docs/_archive/PRODUCT-2026-05-genere-IA.md`](./docs/_archive/PRODUCT-2026-05-genere-IA.md),
 > et `docs/_canon/FACTS-CANON.md` §3 range ces sujets « à reconstruire ».
 >
@@ -73,6 +74,18 @@ place dans le parcours (FACTS-CANON D1 ; arbitrage n°23 du 24/09).
   Et **la Veille**, ses publications comme ses propres écrans (décidé par Chloé
   le 24/09).
 - **Cas ambigu** : « vous ».
+
+## Règles de copie
+
+Revalidées par Chloé le 24/09 (elles venaient de la version de mai). Elles valent pour
+le texte d'interface :
+- **pas de point d'exclamation** dans le produit, sauf pour une erreur destructive
+  confirmée ;
+- **pas de tiret cadratin** (—) : des virgules, des deux-points, des points ;
+- **pas d'hyperbole** marketing (« incroyable », « révolutionnaire ») ;
+- **pas de « ! » quand un badge est débloqué** : le badge s'affiche calmement ;
+- les **acronymes TLS s'écrivent en clair** la première fois qu'ils apparaissent sur
+  une surface (JAC, FAST, EDRA, STRIDE, H.S.O, RIEC, DSAR, RTBF).
 
 ## Cadence et reconnaissance
 
