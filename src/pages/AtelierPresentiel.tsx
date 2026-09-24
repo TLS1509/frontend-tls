@@ -61,7 +61,7 @@ export default function AtelierPresentiel() {
         title="Atelier Gestion du stress"
         summary="Session en présentiel · Sophie Martin"
         trailing={
-          <Badge variant="danger" size="normal" className="animate-pulse">🔴 AUJOURD'HUI</Badge>
+          <Badge variant="danger" size="normal" dot>Aujourd'hui</Badge>
         }
       />
 

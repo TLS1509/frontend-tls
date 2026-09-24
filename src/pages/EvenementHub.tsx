@@ -97,7 +97,7 @@ export default function EvenementHub() {
             </div>
             <div className="p-stack-lg flex flex-col gap-tight flex-1">
               <div className="flex flex-wrap gap-stack-xs">
-                <Badge variant="danger" className="animate-pulse">🔴 En vedette · {formatDate(featured.scheduledAt)}</Badge>
+                <Badge variant="danger" dot>En vedette · {formatDate(featured.scheduledAt)}</Badge>
                 <Badge variant="info">{featured.mode === 'distanciel' ? 'Distanciel' : 'Présentiel'}</Badge>
                 {featured.maxParticipants && (
                   <Badge variant={featured.registeredCount >= featured.maxParticipants ? 'neutral' : 'success'}>

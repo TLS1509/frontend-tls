@@ -59,7 +59,7 @@ export default function AtelierLive() {
         title="Atelier Feedback 360°"
         summary="Session en cours · Sophie Martin · 11 participants"
         trailing={
-          <Badge variant="danger" size="normal" className="animate-pulse">🔴 EN DIRECT</Badge>
+          <Badge variant="danger" size="normal" dot>En direct</Badge>
         }
       />
 

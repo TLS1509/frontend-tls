@@ -8,6 +8,7 @@ import {
   FileText,
   Download,
   ExternalLink,
+  Check,
 } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
@@ -69,7 +70,7 @@ export default function EvenementRecap() {
         summary={`Session du ${EVENT.date} · ${EVENT.participants} participants`}
         trailing={
           <div className="flex flex-wrap gap-stack-xs items-center">
-            <Badge variant="success">✓ Participé</Badge>
+            <Badge variant="success"><Check size={12} aria-hidden="true" /> Participé</Badge>
             <Badge variant="success">+{EVENT.xp} XP</Badge>
           </div>
         }

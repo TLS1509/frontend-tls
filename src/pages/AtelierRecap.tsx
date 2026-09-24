@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { Award, Star, FileText, Download, Sparkles } from 'lucide-react';
+import { Award, Star, FileText, Download, Sparkles, Check } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { PageShell } from '../components/layout';
@@ -37,7 +37,7 @@ export default function AtelierRecap() {
         summary="Session du 18 juin 2026 · Sophie Martin"
         trailing={
           <div className="flex gap-stack-xs flex-wrap">
-            <Badge variant="success" size="normal">✓ Complété</Badge>
+            <Badge variant="success" size="normal"><Check size={12} aria-hidden="true" /> Participé</Badge>
             <Badge variant="success" size="normal">+120 XP</Badge>
           </div>
         }

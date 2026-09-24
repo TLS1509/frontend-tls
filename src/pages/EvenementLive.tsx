@@ -46,7 +46,7 @@ const RESOURCES = [
 
 const PROGRAMME_BADGE: Record<string, React.ReactNode> = {
   done:     <Badge variant="neutral">Terminé</Badge>,
-  live:     <Badge variant="danger" className="animate-pulse">En cours 🔴</Badge>,
+  live:     <Badge variant="danger" dot>En cours</Badge>,
   upcoming: <Badge variant="info">À venir</Badge>,
 };
 
@@ -63,7 +63,7 @@ export default function EvenementLive() {
         summary={`En cours · ${EVENT.participants} participants connectés`}
         trailing={
           <div className="flex flex-wrap items-center gap-stack-xs">
-            <Badge variant="danger" className="animate-pulse">🔴 EN DIRECT</Badge>
+            <Badge variant="danger" dot>En direct</Badge>
             <Badge variant="neutral">{EVENT.participants} participants</Badge>
           </div>
         }

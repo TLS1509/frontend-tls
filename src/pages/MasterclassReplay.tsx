@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { Video, Play, Sparkles, FileText, Download, Award, Edit3 } from 'lucide-react';
+import { Video, Play, Sparkles, FileText, Download, Award, Edit3, Check } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { PageShell } from '../components/layout';
@@ -34,7 +34,7 @@ export default function MasterclassReplay() {
         summary="Session du 15 juin 2026 · Marie Fontaine"
         trailing={
           <div className="flex gap-stack-xs flex-wrap">
-            <Badge variant="success" size="normal">✓ Participé</Badge>
+            <Badge variant="success" size="normal"><Check size={12} aria-hidden="true" /> Participé</Badge>
             <Badge variant="success" size="normal">+150 XP</Badge>
           </div>
         }

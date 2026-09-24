@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Clock, Bell } from 'lucide-react';
+import { Clock, Bell, Check } from 'lucide-react';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
@@ -61,7 +61,7 @@ export default function AtelierWaitlist() {
 
           <div className="flex items-center justify-between">
             <span className="text-body-sm text-ink-600">Notification manager</span>
-            <Badge variant="success" size="compact">Envoyée ✓</Badge>
+            <Badge variant="success" size="compact"><Check size={12} aria-hidden="true" /> Envoyée</Badge>
           </div>
 
           {atelier && (
