@@ -233,7 +233,7 @@ import { ResourceListItem } from '../components/learning/ResourceListItem';
 import { EtapeAccordion } from '../components/patterns/EtapeAccordion';
 import { AuthBackLink } from '../components/patterns/AuthShell';
 import { Briefcase, HeartHandshake, FileText } from 'lucide-react';
-import { Plus, Heart, Home, Trophy as TrophyIcon, Settings, Trash2, Pencil, Maximize2 } from 'lucide-react';
+import { Plus, Heart, Home, Trophy as TrophyIcon, Settings, Trash2, Pencil, Maximize2, Download } from 'lucide-react';
 import { FloatLabel } from '../components/core/FloatLabel';
 import { Chip } from '../components/ui/Chip';
 import { IconChip } from '../components/ui/IconChip';
@@ -3355,23 +3355,25 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'ui/AchievementBadge.tsx',
     cssBase: 'Tailwind (no BEM)',
     usedBy: ['DashboardAchievements', 'BadgeGallery', 'BadgeDetail', 'ProfileBadgesCompetences', 'PasseportJac', 'Gamification'],
-    description: "Carte de badge obtenu, centrée : disque en dégradé (60 · 100 · 140 px), titre h3 20/700, description 16 ink-700, date en légende 13. Quatre couleurs (primary · warm · sun · success) × trois tailles ; état `isLocked` (opacité réduite, cadenas) ; bouton de partage optionnel (`onShare`).",
-    keywords: ['achievement', 'badge', 'unlock', 'locked', 'share', 'reward', 'milestone', 'color', 'standalone'],
+    description: "Carte de badge obtenu : disque en dégradé (60 · 100 · 140 px), titre h3 20/700, description 16 ink-700, puis « Obtenu le 15 janv. 2026 » en légende 13 au cran 800 du ton. Le composant formate lui-même une date ISO, en français ; toute autre chaîne passe telle quelle, et sans date il dit « Obtenu », sans en inventer une. Avec une description, la carte se cale à gauche, médaille comprise ; sans, titre et date sont courts et elle reste centrée (le centré se limite à deux lignes). Verrouillée (`isLocked`) : estompée, « S'obtient une fois les prérequis validés ». Bouton « Partager » optionnel (`onShare`). Quatre couleurs (primary · warm · sun · success) × trois tailles. ⚠️ L'étincelle — fixe depuis le 24/09, elle pulsait — et le cadenas de l'état verrouillé sont posés au bord du disque, dont l'`overflow-hidden` les rogne : ni l'une ni l'autre ne se voit (1 % de l'icône dans le cercle, mesuré).",
+    keywords: ['achievement', 'badge', 'unlock', 'locked', 'share', 'partager', 'reward', 'milestone', 'color', 'standalone', 'date', 'iso', 'obtenu'],
     render: () => (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-stack">
+        {/* Des dates ISO, comme les pages les passent : le composant les écrit
+            en français. */}
         <AchievementBadge
           icon={<Trophy size={48} className="text-white" />}
           title="Pionnier IA"
           description="Premier parcours terminé avec succès"
-          unlockedDate="15 janv. 2026"
+          unlockedDate="2026-01-15"
           color="primary"
           size="md"
         />
+        {/* Sans description : titre et date, courts, restent centrés. */}
         <AchievementBadge
           icon={<Flame size={48} className="text-white" />}
           title="Régularité"
-          description="Actif 3 semaines sur les 4 dernières"
-          unlockedDate="28 mars 2026"
+          unlockedDate="2026-03-28"
           color="warm"
           size="md"
         />
@@ -3379,9 +3381,10 @@ const COMPONENTS: ComponentEntry[] = [
           icon={<Star size={48} className="text-white" />}
           title="Expert Certifié"
           description="Niveau Expert validé en Leadership"
-          unlockedDate="3 mai 2026"
+          unlockedDate="2026-05-03"
           color="sun"
           size="md"
+          onShare={() => {}}
         />
         <AchievementBadge
           icon={<CheckCircle2 size={48} className="text-white" />}
@@ -3399,8 +3402,8 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'ui/JacCard.tsx',
     cssBase: 'Tailwind (no BEM)',
     usedBy: ['PasseportJac'],
-    description: "Deux cartes du Passeport, Jalons et certifications (cahiers 02 et 11). JacCardPending : une validation en cours — libellé 16/600, méta 13 ink-600, Badge « En revue » et un Button outline sm « Relancer ». JacCardNextJalon : le prochain jalon — libellé 16/600 et niveau en MetaPill, exigences en 16 ink-700, ProgressBar sm et Button soft sm « Préparer ».",
-    keywords: ['jac', 'jalon', 'certification', 'dreyfus', 'validation', 'passeport', 'pending', 'progress'],
+    description: "Deux cartes du Passeport, Jalons et certifications (cahiers 02 et 11). JacCardPending : une validation en cours — libellé 16/600, méta 13 ink-600, Badge « En revue » et un Button sm « Relancer ». JacCardNextJalon : le prochain jalon — libellé 16/600, puis le niveau en MetaPill, seulement si le titre ne le dit pas déjà : « Communication : Niveau D4 » le porte, et la pastille ne le répète plus depuis le 24/09 ; exigences en 16 ink-700, ProgressBar sm et un Button sm « Préparer ».",
+    keywords: ['jac', 'jalon', 'certification', 'dreyfus', 'validation', 'passeport', 'pending', 'progress', 'niveau', 'MetaPill'],
     render: () => (
       <div className="flex flex-col gap-stack max-w-xl">
         <JacCardPending
@@ -3411,6 +3414,7 @@ const COMPONENTS: ComponentEntry[] = [
           submittedDaysAgo={3}
           waitingFor="Coach"
         />
+        {/* Le titre porte déjà « D4 » : pas de pastille. */}
         <JacCardNextJalon
           id="demo-n1"
           title="Communication : Niveau D4"
@@ -3418,6 +3422,15 @@ const COMPONENTS: ComponentEntry[] = [
           dreyfusLevel="D4"
           requirements={['2 présentations stratégiques', '1 session mentoring', '1 évaluation coach']}
           progress={60}
+        />
+        {/* Le titre ne dit pas le niveau : la pastille le donne, une fois. */}
+        <JacCardNextJalon
+          id="demo-n2"
+          title="Animer une rétrospective d'équipe"
+          competence="Facilitation"
+          dreyfusLevel="D3"
+          requirements={['1 rétrospective animée', '1 retour du manager']}
+          progress={25}
         />
       </div>
     ),
@@ -4082,15 +4095,13 @@ const COMPONENTS: ComponentEntry[] = [
   /* ---- LEARNING (additional) -------------------------------------------- */
   {
     name: 'CompetencyMatrix',
-    codeName: 'CompetencyMatrix.tsx',
+    codeName: 'ui/CompetencyMatrix.tsx',
     cssBase: 'CompetencyMatrix (table + inline styles)',
-    description: "Tableau de compétences sur cinq niveaux : en-têtes 13/600 ink-600 avec une icône par niveau, noms 16/600 ink-900, cellules rondes de 40 px au filet 2 px, pleines au cran 700 une fois le niveau atteint. Couleur par compétence ; `maxLevel`, `labels` (en anglais par défaut, à traduire), `onSkillHover`.",
-    keywords: ['competency', 'matrix', 'skills', 'levels', 'table', 'assessment'],
+    description: "Tableau de compétences sur les cinq niveaux Dreyfus — Novice, Apprenant, Compétent, Expert, Maître —, pris à la source unique `DREYFUS_LABELS` depuis le 24/09 : ils étaient en anglais, et sur une autre échelle. En-têtes 13/600 ink-600 avec une icône par niveau, colonne « Compétence », noms 16/600 ink-900, cellules rondes de 40 px au filet 2 px, pleines une fois le niveau atteint (cran 700 ; l'or au 400, à l'encre accent-900), infobulle « Pas encore atteint » sinon. Couleur par compétence ; `maxLevel`, `labels`, `onSkillHover`. Aucune marge extérieure : elle portait un `mt-stack-lg` que le profil devait annuler.",
+    keywords: ['competency', 'matrix', 'skills', 'levels', 'table', 'assessment', 'dreyfus', 'DREYFUS_LABELS'],
     render: () => (
-      /* Les libellés par défaut sont en anglais (Beginner, Intermediate…) :
-         la démo passe les niveaux canoniques du Passeport. */
+      /* Les libellés par défaut sont ceux du Passeport : la démo n'en passe plus. */
       <CompetencyMatrix
-        labels={['', 'Novice', 'Apprenant', 'Compétent', 'Expert', 'Maître']}
         skills={[
           { name: 'Prompt Engineering', level: 4 },
           { name: 'Leadership', level: 3, color: 'warm' },
@@ -4117,10 +4128,10 @@ const COMPONENTS: ComponentEntry[] = [
   },
   {
     name: 'QuizComponent',
-    codeName: 'QuizComponent.tsx',
+    codeName: 'ui/QuizComponent.tsx',
     cssBase: 'QuizComponent (inline styles)',
-    description: "Quiz à plusieurs questions : « Question n sur N » et pourcentage en 13/600, barre de 6 px, question en h3 20, options en rangées de 16, degré de confiance après chaque réponse (`askConfidence`) ; à la fin, le score en `stat-value` et une phrase en 16 ink-700.",
-    keywords: ['quiz', 'question', 'answer', 'test', 'assessment', 'score', 'interactive'],
+    description: "Quiz à plusieurs questions, calé à gauche de sa colonne à la largeur de lecture (672 px) : il se centrait lui-même, sur un autre axe que le titre de sa section, et la leçon devait l'enfermer dans une boîte pour le retenir. « Question n sur N » et pourcentage en 13/600, barre de 6 px, question en h3 20, options en rangées de 16, degré de confiance après chaque réponse (`askConfidence`) ; à la fin, le score en `stat-value` et une phrase en 16 ink-700.",
+    keywords: ['quiz', 'question', 'answer', 'test', 'assessment', 'score', 'interactive', 'aligné', 'gauche'],
     render: () => (
       <QuizComponent
         questions={[
@@ -6015,7 +6026,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'CompetencyRadar',
     codeName: 'ui/CompetencyRadar.tsx',
     cssBase: 'CompetencyRadar',
-    description: "Radar Dreyfus de 1 à 5, six axes au plus : niveau actuel et objectif. Il mesure sa boîte et réduit son rayon pour que les libellés — 13/400 ink-600 à toutes les tailles — y tiennent, jusqu'à 375 px ; sous 48 px de rayon, les pointes sont numérotées (13/600) et les libellés passent dans une liste en 13 ink-700 sous le dessin. Libellés cliquables au clavier (`onAxisClick`) ; légende en 13 ink-700 et « Échelle Dreyfus 1–5 ». Tailles de 200 · 320 · 480 px.",
+    description: "Radar Dreyfus de 1 à 5, six axes au plus : niveau actuel et objectif. Il mesure sa boîte et réduit son rayon pour que les libellés — 13/400 ink-600 à toutes les tailles — y tiennent, jusqu'à 375 px. Depuis le 24/09, chaque ligne de libellé est mesurée dans sa police calculée (canvas `measureText`), après le premier rendu puis au chargement des polices : partie d'une chasse moyenne, l'estimation laissait sortir du dessin un mot plus large que la moyenne (« Communicatior », rogné, sur /manager/cohort). Sous 48 px de rayon, les pointes sont numérotées (13/600) et les libellés passent dans une liste en 13 ink-700 sous le dessin. Libellés cliquables au clavier (`onAxisClick`) ; légende en 13 ink-700 et « Échelle Dreyfus 1–5 ». Tailles de 200 · 320 · 480 px.",
     keywords: ['radar', 'compétences', 'dreyfus', 'skills', 'passeport', 'svg', 'chart', 'hso'],
     showcaseOnly: false,
     usedBy: ['Passeport', 'CoachDashboard', 'ManagerCohort', 'PasseportHistorique'],
@@ -6340,13 +6351,14 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'DreyfusSlider',
     codeName: 'ui/DreyfusSlider.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: "Choix d'un niveau Dreyfus sur une piste horizontale (D1 à D5), plus compact que DreyfusLevelSelector : piste de 10 px, curseur de 28 px, un `<input type=\"range\">` invisible pour le clavier ; libellés en 13/600 ink-600 sous la piste, l'actif au cran 800 du ton sans changer de graisse ; description en 13. Tons brand · warm · sun ; libellés canoniques (DREYFUS_LABELS, cahier 02).",
-    keywords: ['dreyfus', 'slider', 'level', 'positionnement', 'competence', 'track', 'horizontal', 'compact', 'touch'],
+    description: "Choix d'un niveau Dreyfus sur une piste horizontale (D1 à D5), plus compact que DreyfusLevelSelector : piste de 10 px, curseur de 28 px, un `<input type=\"range\">` invisible pour le clavier ; libellés en 13/600 ink-600 sous la piste, l'actif au cran 800 du ton sans changer de graisse ; description en 13. Sous 24rem de rangée (requête de conteneur), les mots cèdent la place à leur code, D1…D5, au lieu de se chevaucher — « Apprenant » et « Compétent » se recouvraient de 11 px à 375 ; le mot reste lu par les lecteurs d'écran, et la description sous la piste redonne le nom du niveau choisi. Tons brand · warm · sun ; libellés canoniques (DREYFUS_LABELS, cahier 02).",
+    keywords: ['dreyfus', 'slider', 'level', 'positionnement', 'competence', 'track', 'horizontal', 'compact', 'touch', 'container', 'abréviation', 'D1'],
     usedBy: ['Positionnement'],
     render: () => {
       const [v1, setV1] = React.useState<number | undefined>(undefined);
       const [v2, setV2] = React.useState<number | undefined>(3);
       const [v3, setV3] = React.useState<number | undefined>(2);
+      const [v4, setV4] = React.useState<number | undefined>(4);
       return (
         <div className="flex flex-col gap-section max-w-xl">
           <div className="flex flex-col gap-stack">
@@ -6360,6 +6372,11 @@ const COMPONENTS: ComponentEntry[] = [
           <div className="flex flex-col gap-stack">
             <span className="text-caption font-semibold text-ink-600">Tone sun · D2 sélectionné</span>
             <DreyfusSlider value={v3} onChange={(n) => setV3(n)} tone="sun" />
+          </div>
+          {/* Sous 24rem de rangée, D1…D5 : c'est la place qui décide, pas la fenêtre. */}
+          <div className="flex flex-col gap-stack max-w-[280px]">
+            <span className="text-caption font-semibold text-ink-600">Dans une colonne de 280 px · D1…D5</span>
+            <DreyfusSlider value={v4} onChange={(n) => setV4(n)} tone="brand" />
           </div>
         </div>
       );
@@ -6451,42 +6468,47 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'FlipCard',
     codeName: 'patterns/FlipCard.tsx',
     cssBase: 'FlipCard',
-    description: "Carte à retourner (rotation 3D). Au recto, une photo voilée, une bulle d'icône, la catégorie en MetaPill md, le titre (20, puis 28 dès 640 px) et une indication en 13/600 ; au verso, un dégradé au cran 700 du ton, la réponse en chapô 18/28 et le détail en 16. Tons primary · warm · sun ; hauteur réglable (380 par défaut).",
-    keywords: ['flip', 'card', 'flashcard', '3d', 'rotate', 'learning', 'tone'],
+    description: "Carte à retourner (rotation 3D), dont chaque face est un `<button>` : tout son contenu est phrasé, en `<span>`, sans élément de titre. Au recto, une photo voilée, une bulle d'icône, la catégorie en MetaPill md, le titre en 20/26/700 à toutes les largeurs — il passait à 28 dès 640 px, un titre de section pour nommer une carte — et une indication en 13/600 ; au verso, un dégradé au cran 700 du ton, la réponse en chapô 18/28 et le détail en 16. Tons primary · warm · sun ; hauteur réglable (380 par défaut).",
+    keywords: ['flip', 'card', 'flashcard', '3d', 'rotate', 'learning', 'tone', 'button'],
     usedBy: ['FlashcardsViewer'],
     render: () => {
       const [flipped, setFlipped] = React.useState(false);
       const [tone, setTone] = React.useState<'primary' | 'warm' | 'sun'>('primary');
       return (
-        <div className="flex flex-col gap-stack max-w-2xl mx-auto">
-          <div className="flex gap-stack-xs justify-center">
-            {(['primary', 'warm', 'sun'] as const).map((t) => (
-              <button
-                key={t}
-                type="button"
-                onClick={() => setTone(t)}
-                className={`px-3 py-1.5 rounded-pill text-caption font-semibold transition-colors ${tone === t ? 'bg-primary-700 text-white' : 'bg-ink-100 text-ink-700 hover:bg-ink-200'}`}
-              >
-                {t}
-              </button>
-            ))}
-          </div>
-          <FlipCard
-            front={{
-              image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1080&q=80',
-              icon: <Target className="icon-xl" />,
-              category: 'Prompt engineering',
-              title: 'Les 4 Piliers du Prompt',
-            }}
-            back={{
-              content: 'Rôle, contexte, instruction, format',
-              details: 'Ces 4 éléments structurent un prompt clair pour obtenir les meilleurs résultats.',
-            }}
-            isFlipped={flipped}
-            onFlip={() => setFlipped((f) => !f)}
-            tone={tone}
+        <div className="flex flex-col items-start gap-stack max-w-2xl">
+          {/* Le choix du ton s'applique tout de suite : un SegmentedControl, pas
+              des pastilles faites main. */}
+          <SegmentedControl
+            size="sm"
+            aria-label="Ton de la carte"
+            options={[
+              { value: 'primary', label: 'primary' },
+              { value: 'warm', label: 'warm' },
+              { value: 'sun', label: 'sun' },
+            ]}
+            value={tone}
+            onChange={setTone}
           />
-          <p className="text-center font-body text-caption text-ink-600">
+          {/* La carte se centre elle-même jusqu'à 560 px : le cadre prend sa
+              largeur, pour qu'elle parte du même bord que la bascule. */}
+          <div className="w-full max-w-[560px]">
+            <FlipCard
+              front={{
+                image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1080&q=80',
+                icon: <Target className="icon-xl" />,
+                category: 'Prompt engineering',
+                title: 'Les 4 Piliers du Prompt',
+              }}
+              back={{
+                content: 'Rôle, contexte, instruction, format',
+                details: 'Ces 4 éléments structurent un prompt clair pour obtenir les meilleurs résultats.',
+              }}
+              isFlipped={flipped}
+              onFlip={() => setFlipped((f) => !f)}
+              tone={tone}
+            />
+          </div>
+          <p className="font-body text-caption text-ink-600">
             {flipped ? 'Verso visible — cliquer pour retourner' : 'Recto — cliquer pour voir la réponse'}
           </p>
         </div>
@@ -6586,19 +6608,20 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'learning/ResourceListItem.tsx',
     cssBase: 'ResourceListItem (resource row)',
     usedBy: ['MasterclassReplay', 'AtelierPresentiel'],
-    description: "Rangée de ressource complémentaire : icône, libellé 16/600 ink-900, badge et action à droite ; fond ink-50, rayon 14, padding 16. Rendue en `<button>` avec `onClick`, en `<div>` sinon. Dans les colonnes « Matériaux » et « Ressources » des lecteurs de masterclass et d'atelier.",
-    keywords: ['resource', 'list', 'item', 'download', 'file', 'material', 'sidebar'],
+    description: "Rangée de ressource complémentaire : icône, libellé 16/600 ink-900 tronqué, puis `meta` — une donnée sur la ressource (type, poids, durée), en légende 13 ink-600 —, et l'action à droite ; fond ink-50, rayon 14, padding 16. `badge` est déprécié depuis le 24/09 : son nom invitait à poser une donnée dans un Badge, réservé aux états (la donnée chuchote, l'état crie). Rendue en `<button>` avec `onClick` — son intérieur n'est fait que de `<span>`, le seul contenu qu'un bouton admet —, en `<div>` sinon. Dans les colonnes « Matériaux » et « Ressources » des lecteurs de masterclass et d'atelier.",
+    keywords: ['resource', 'list', 'item', 'download', 'file', 'material', 'sidebar', 'meta', 'donnée'],
     render: () => (
       <div className="flex flex-col gap-stack-xs max-w-sm">
         <ResourceListItem
-          icon={<FileText size={14} />}
+          icon={<FileText size={16} />}
           label="Support de l'atelier"
-          badge={<Badge variant="neutral" size="compact">PDF</Badge>}
-          action={<Button emphasis="outline" size="sm">Télécharger</Button>}
+          meta="PDF"
+          action={<Button emphasis="soft" iconOnly leadingIcon={<Download />} aria-label="Télécharger le support de l'atelier" />}
         />
         <ResourceListItem
-          icon={<Video size={14} />}
+          icon={<Video size={16} />}
           label="Replay vidéo de la session"
+          meta="45 min"
           onClick={() => {}}
         />
         <ResourceListItem
@@ -7030,8 +7053,8 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'MoodSelector',
     codeName: 'ui/MoodSelector.tsx',
     cssBase: 'MoodSelector',
-    description: "L'humeur du jour pour le journal, en cinq niveaux : des boutons de 44 px au moins, une icône Lucide de 28 et un libellé en 13/600 ; le niveau choisi passe sur fond primary-100, filet 2 px au cran 700. `value` et `onChange`.",
-    keywords: ['mood', 'journal', 'humeur', 'emoji', 'selector', 'feeling', 'MoodLevel'],
+    description: "L'humeur du jour pour le journal, sur une échelle symétrique de cinq niveaux — Très difficile · Difficile · Neutre · Bien · Excellent —, que les visages Lucide suivent d'un cran à l'autre : colère, moue, bouche droite, sourire, rire. Chaque libellé dit la valeur qu'il enregistre : jusqu'au 24/09, ils étaient décalés d'un cran (« Neutre » enregistrait `sad`, et l'éditeur s'ouvrait sur « Bien »). Des boutons de 44 px au moins (`aria-pressed`), une icône de 28 et un libellé en 13/600 ; le niveau choisi passe sur fond primary-100, filet 2 px au cran 700. La table `HUMEURS` est exportée : la page de lecture d'une entrée la relit. `value` et `onChange`.",
+    keywords: ['mood', 'journal', 'humeur', 'emoji', 'selector', 'feeling', 'MoodLevel', 'HUMEURS', 'échelle'],
     usedBy: ['JournalNewEntry'],
     render: () => {
       const [mood, setMood] = React.useState<MoodLevel>('neutral');
@@ -7068,8 +7091,8 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'JournalChatCompose',
     codeName: 'ui/JournalChatCompose.tsx',
     cssBase: 'JournalChatCompose',
-    description: "La saisie rapide du journal, en bulle (Card au rayon 20, avec une queue) : une zone de texte à 16, un Button soft md « Continuer », une aide en 13 ink-600 et le raccourci ⌘ ou Ctrl + Entrée. En haut de la page Journal.",
-    keywords: ['journal', 'compose', 'chat', 'textarea', 'quick-entry', 'speech-bubble', 'send'],
+    description: "La saisie rapide du journal, en bulle (Card au rayon 20, filet primary-100, queue en bas à gauche) : le repère d'écriture — l'icône PenLine, 20 px au cran 700, centrée dans une boîte de 44, la hauteur du bouton ; c'était l'émoji ✍️, dont le dessin change d'un système à l'autre —, une zone de texte à 16, un Button md « Continuer », puis une aide en 13 ink-600 et le raccourci ⌘ ou Ctrl + Entrée. En haut de la page Journal.",
+    keywords: ['journal', 'compose', 'chat', 'textarea', 'quick-entry', 'speech-bubble', 'send', 'PenLine'],
     usedBy: ['Journal'],
     render: () => {
       const [value, setValue] = React.useState('');
@@ -7786,8 +7809,8 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'learning/CorrectionStatusBar.tsx',
     showcaseOnly: true,
     cssBase: 'Tailwind (no BEM)',
-    description: "Bandeau d'état d'une correction : StatusBadge, compétence en 16/600, « +N XP » en 16/600 accent-800, « Itération N » en 13 ink-600. L'état n'est jamais porté par la seule couleur : icône et libellé l'accompagnent. ⚠️ L'XP relève de ce que l'arbitrage n°18 retire de l'app apprenant ; la démo ne le montre plus.",
-    keywords: ['correction', 'statut', 'jac', 'validation', 'xp', 'iteration', 'bandeau'],
+    description: "Bandeau d'état d'une correction : StatusBadge, la compétence en 16/600, « Itération N » en 13 ink-600. Une correction emprunte l'icône d'un état de leçon mais dit son propre mot, passé par la prop `label` de StatusBadge : en attente — cercle vide, « En attente de correction » ; en cours — lecture, « En cours de révision » ; terminé — coche ; échoué — croix. Jusqu'au 24/09, la correspondance était décalée d'un cran : « en attente » s'affichait avec le cadenas et se lisait « Verrouillé ». La pastille ne montre que l'icône : le mot en est le nom accessible. « +N XP » (`xpAwarded`, 16/600 accent-800) relève de ce que l'arbitrage n°18 retire de l'app apprenant ; la démo ne le montre pas.",
+    keywords: ['correction', 'statut', 'jac', 'validation', 'xp', 'iteration', 'bandeau', 'StatusBadge', 'label'],
     render: () => (
       <div className="flex flex-col gap-stack-xs">
         <CorrectionStatusBar status="pending" competenceLabel="Concevoir une séquence" />
