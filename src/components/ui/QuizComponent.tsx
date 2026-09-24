@@ -70,8 +70,9 @@ const CONFIDENCE_OPTIONS: { level: ConfidenceLevel; label: string }[] = [
   { level: 3, label: 'Certain' },
 ];
 
+// Graisse 700 : celle des boutons (doctrine § 2).
 const BTN_BASE =
-  'inline-flex items-center justify-center gap-stack-xs px-stack-md py-2.5 rounded-md text-body font-semibold cursor-pointer transition-[background-color,border-color,box-shadow,transform] duration-fast ease-emphasis active:scale-[0.98] ' +
+  'inline-flex items-center justify-center gap-stack-xs px-stack-md py-2.5 rounded-md text-body font-bold cursor-pointer transition-[background-color,border-color,box-shadow,transform] duration-fast ease-emphasis active:scale-[0.98] ' +
   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-400 ' +
   'disabled:opacity-40 disabled:cursor-not-allowed';
 const BTN_PRIMARY = 'bg-primary-700 text-white hover:bg-primary-800';
@@ -148,44 +149,47 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({
       (r, i) => r && r.confidence === 3 && r.selected !== questions[i].correct
     ).length;
 
+    /* Résultat (passe typographique du 2026-09-24) : icône · 16 · titre h2 au
+       pas du bloc (20/26/700, ink-900) · 8 · score en `stat-value` (le chiffre
+       mis en avant) · 8 · phrase 16 ink-700 · 24 · action. Le titre était au
+       pas de la section et teinté ; le score au pas du h1, en primary-600 (qui
+       ne porte pas de texte, doctrine § 2). La couleur de réussite reste sur
+       le chiffre : elle dit un état. */
     return (
-      <div className="bg-white rounded-lg border border-ink-200 p-stack-lg text-center max-w-2xl mx-auto">
+      <div className="bg-white rounded-lg border border-ink-200 p-stack-lg text-center max-w-2xl mx-auto flex flex-col items-center">
         <div
           className={[
-            'inline-flex items-center justify-center w-20 h-20 rounded-pill mb-stack',
+            'inline-flex items-center justify-center w-20 h-20 rounded-pill',
             isSuccess ? 'bg-success-bg text-success-fg' : 'bg-primary-50 text-primary-600',
           ].join(' ')}
         >
           {isSuccess ? <PartyPopper size={40} /> : <BarChart3 size={40} />}
         </div>
-        <h2
+        {/* `mt-stack` écrit sur le titre : il bat la marge de base des titres. */}
+        <h2 className="mt-stack font-display text-h3 text-ink-900">
+          Quiz terminé
+        </h2>
+        <p
           className={[
-            'mb-2 text-h2 font-display font-bold',
+            'mt-stack-xs font-display font-bold text-stat-value tracking-headline leading-none tabular-nums',
             isSuccess ? 'text-success-fg' : 'text-ink-900',
           ].join(' ')}
         >
-          Quiz terminé
-        </h2>
-        <div
-          className={[
-            'text-h1 font-display mb-2',
-            isSuccess ? 'text-success-fg' : 'text-primary-600',
-          ].join(' ')}
-        >
-          {percentage}%
-        </div>
-        <p className="m-0 mb-stack text-body text-ink-500">
+          {percentage}&nbsp;%
+        </p>
+        <p className="mt-stack-xs text-body text-ink-700">
           {correctCount} bonne{correctCount > 1 ? 's' : ''} réponse
           {correctCount > 1 ? 's' : ''} sur {questions.length}.
         </p>
+        {/* Une ligne (16) entre deux paragraphes, 24 avant l'action. */}
         {overconfident > 0 && (
-          <p className="m-0 mb-stack-lg text-body text-ink-500 max-w-prose mx-auto">
+          <p className="mt-stack text-body text-ink-700 max-w-prose text-balance">
             {overconfident === 1
               ? 'Sur une question, tu étais certain de ta réponse alors qu’elle était fausse. C’est le point à revoir en priorité.'
               : `Sur ${overconfident} questions, tu étais certain de ta réponse alors qu’elle était fausse. Ce sont les points à revoir en priorité.`}
           </p>
         )}
-        <button type="button" onClick={handleRestart} className={`${BTN_BASE} ${BTN_PRIMARY}`}>
+        <button type="button" onClick={handleRestart} className={`mt-stack-lg ${BTN_BASE} ${BTN_PRIMARY}`}>
           <RotateCcw size={16} /> Refaire le quiz
         </button>
       </div>
@@ -196,11 +200,11 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({
     <div className="bg-white rounded-lg border border-ink-200 p-stack-lg max-w-2xl mx-auto">
       <div className="mb-stack-md">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-caption font-semibold text-ink-500">
+          <span className="text-caption font-semibold text-ink-600 tabular-nums">
             Question {current + 1} sur {questions.length}
           </span>
-          <span className="text-caption font-semibold text-primary-700">
-            {Math.round(progress)}%
+          <span className="text-caption font-semibold text-primary-800 tabular-nums">
+            {Math.round(progress)}&nbsp;%
           </span>
         </div>
         <div className="h-1.5 bg-ink-100 rounded-pill overflow-hidden">

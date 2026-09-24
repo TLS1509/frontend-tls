@@ -24,24 +24,25 @@ interface ToneStops {
   text: string;
 }
 
+// Valeur en texte de marque : cran 800 (doctrine § 2).
 const TONE_STOPS: Record<ProgressRingTone, ToneStops> = {
   brand: {
     from: 'var(--color-primary-400)',
     to:   'var(--color-primary-600)',
     glow: 'rgba(85, 161, 180, 0.45)',
-    text: 'text-primary-700',
+    text: 'text-primary-800',
   },
   warm: {
     from: 'var(--color-secondary-400)',
     to:   'var(--color-secondary-600)',
     glow: 'rgba(237, 132, 58, 0.45)',
-    text: 'text-secondary-700',
+    text: 'text-secondary-800',
   },
   sun: {
     from: 'var(--color-accent-300)',
     to:   'var(--color-accent-500)',
     glow: 'rgba(248, 176, 68, 0.50)',
-    text: 'text-accent-700',
+    text: 'text-accent-800',
   },
   success: {
     from: 'var(--color-success-base)',
@@ -56,6 +57,18 @@ const TONE_STOPS: Record<ProgressRingTone, ToneStops> = {
     text: 'text-danger-fg',
   },
 };
+
+/* La valeur prend un pas de l'échelle, choisi sur le diamètre (passe
+   typographique du 2026-09-24). Elle était à `size / 4.5` px, en style
+   inline : 26,7 px pour l'anneau par défaut de 120, 17,8 pour 80, 13,3 pour
+   60 — autant de tailles hors échelle, et du League Spartan sous 16 px.
+   Sous 80 px de diamètre, le chiffre passe en Nunito 600 (doctrine § 1). */
+const valueClassFor = (size: number): string =>
+  size >= 160 ? 'font-display font-bold text-stat-value tracking-headline'
+  : size >= 112 ? 'font-display text-h2'
+  : size >= 80 ? 'font-display text-h3'
+  : size >= 64 ? 'font-body text-body font-semibold'
+  : 'font-body text-caption font-semibold';
 
 export const ProgressRing: React.FC<ProgressRingProps> = ({
   value,
@@ -94,7 +107,6 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
   }, [pct, animate]);
 
   const dashOffset = circumference - (displayed / 100) * circumference;
-  const valueFontSize = `${size / 4.5}px`;
 
   return (
     <div
@@ -184,15 +196,17 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-tight pointer-events-none">
         <span
           className={[
-            'font-display font-bold tracking-tight leading-none tabular-nums',
+            'leading-none tabular-nums',
+            valueClassFor(size),
             stops.text,
           ].join(' ')}
-          style={{ fontSize: valueFontSize }}
         >
-          {valueLabel ?? `${Math.round(pct)}%`}
+          {valueLabel ?? `${Math.round(pct)}\u00a0%`}
         </span>
+        {/* Libellé : légende 13/600 ink-600 — il était en mono 11 px
+            capitales, le registre du `Badge`. */}
         {label && (
-          <span className="text-micro font-mono uppercase tracking-wider text-ink-500 font-semibold">
+          <span className="font-body text-caption font-semibold text-ink-600">
             {label}
           </span>
         )}

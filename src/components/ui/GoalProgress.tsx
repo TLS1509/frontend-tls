@@ -91,12 +91,16 @@ export const GoalProgress: React.FC<GoalProgressProps> = ({
 
   return (
     <div className={containerClass}>
-      <div className="flex items-center justify-between mb-3 gap-stack-xs">
-        <div className="flex items-center gap-2.5 flex-1 min-w-0">
+      {/* L'objectif est un libellé de rangée (16/600, Nunito) : il était dans
+          un <h3>, qui prenait le League Spartan de la base, une graisse 600
+          qu'aucun titre ne porte, et la marge haute des titres (0,75em) —
+          décalé de 6 px sous le centre de sa rangée. */}
+      <div className="flex items-center justify-between mb-stack-sm gap-stack-xs">
+        <div className="flex items-center gap-stack-xs flex-1 min-w-0">
           {icon && <div className={`shrink-0 ${STATUS_TONE_CLASSES[effectiveTone]}`}>{icon}</div>}
-          <h3 className={`font-semibold text-ink-900 leading-snug truncate ${TITLE_SIZE_CLASSES[size]}`}>
+          <p className={`font-body font-semibold text-ink-900 truncate ${TITLE_SIZE_CLASSES[size]}`}>
             {goal}
-          </h3>
+          </p>
         </div>
         <div className={`shrink-0 ${STATUS_TONE_CLASSES[effectiveTone]}`}>
           {isComplete ? (
@@ -123,12 +127,14 @@ export const GoalProgress: React.FC<GoalProgressProps> = ({
       </div>
 
       {showDetails && (
-        <div className={`flex justify-between items-center text-ink-700 ${DETAILS_SIZE_CLASSES[size]}`}>
-          <span className={`font-display font-bold tabular-nums ${STATUS_TONE_CLASSES[effectiveTone]}`}>
-            {Math.round(percentComplete)}% complété
+        <div className={`flex justify-between items-baseline gap-stack-xs text-ink-700 ${DETAILS_SIZE_CLASSES[size]}`}>
+          {/* Chiffre dans une phrase : Nunito 600 tabulaire (le League Spartan
+              ne descend pas sous 16 px, et la taille `sm` est à 13). */}
+          <span className={`font-body font-semibold tabular-nums ${STATUS_TONE_CLASSES[effectiveTone]}`}>
+            {Math.round(percentComplete)}&nbsp;% complété
           </span>
           {timeRemaining && (
-            <span className="inline-flex items-center gap-tight text-ink-500 font-medium">
+            <span className="inline-flex items-center gap-stack-3xs text-ink-600">
               <Clock size={14} aria-hidden="true" />
               {timeRemaining}
             </span>
@@ -137,14 +143,14 @@ export const GoalProgress: React.FC<GoalProgressProps> = ({
       )}
 
       {!isOnTrack && (
-        <p className={`mt-2.5 pt-2.5 border-t ${effectiveTone === 'danger' ? 'border-danger-base/20' : 'border-ink-200'} text-caption font-medium text-danger-fg flex items-center gap-stack-2xs m-0`}>
+        <p className={`mt-stack-sm pt-stack-sm border-t ${effectiveTone === 'danger' ? 'border-danger-base/20' : 'border-ink-200'} text-caption text-danger-fg flex items-center gap-stack-2xs`}>
           <AlertCircle size={14} />
           Retard sur le calendrier — augmentez le rythme
         </p>
       )}
 
       {isComplete && (
-        <p className="mt-2.5 pt-2.5 border-t border-success-base/20 text-caption font-medium text-success-fg flex items-center gap-stack-2xs m-0">
+        <p className="mt-stack-sm pt-stack-sm border-t border-success-base/20 text-caption text-success-fg flex items-center gap-stack-2xs">
           <Sparkles size={14} />
           Objectif atteint. Quel est le prochain ?
         </p>

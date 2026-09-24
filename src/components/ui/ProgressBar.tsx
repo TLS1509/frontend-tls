@@ -62,7 +62,7 @@ const FILL_VARIANT_CLASSES: Record<ProgressFill, string> = {
 
 const VALUE_TONE_CLASSES: Record<ProgressFill, string> = {
   brand:    'text-primary-800',
-  warm:     'text-secondary-700',
+  warm:     'text-secondary-800',
   sun:      'text-accent-800',
   success:  'text-success-fg',
   danger:   'text-danger-fg',
@@ -124,6 +124,16 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   const trackClasses = [TRACK_BASE, TRACK_SIZE_CLASSES[size]].join(' ');
   const fillClasses = [FILL_BASE, FILL_VARIANT_CLASSES[resolvedFill]].join(' ');
 
+  /* Libellé et valeur — passe typographique du 2026-09-24.
+     - Le libellé nomme la barre : légende 13/600 ink-600, en casse normale (il
+       était en 11 px capitales espacées, le registre du `Badge`).
+     - La valeur est un chiffre sous 16 px : Nunito 600, tabulaire — le League
+       Spartan ne descend pas sous 16 px. Espace insécable avant « % », comme
+       `aria-valuetext`. */
+  const labelClasses = 'text-caption font-semibold text-ink-600';
+  const valueClasses = `font-body text-caption font-semibold tabular-nums ${VALUE_TONE_CLASSES[resolvedFill]}`;
+  const valueDisplay = valueLabel ?? `${pctRounded}\u00a0%`;
+
   if (layout === 'inline') {
     return (
       <div
@@ -131,7 +141,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
         {...rest}
       >
         {label && (
-          <span id={labelId} className="text-caption text-ink-600 font-medium whitespace-nowrap">{label}</span>
+          <span id={labelId} className={`${labelClasses} whitespace-nowrap`}>{label}</span>
         )}
         <div
           className={`${trackClasses} flex-1 min-w-20 shadow-inner`}
@@ -140,10 +150,8 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
           <div className={fillClasses} style={{ width: `${pct}%` }} />
         </div>
         {showValueLabel && (
-          <span
-            className={`font-display text-caption font-bold tabular-nums min-w-10 text-right ${VALUE_TONE_CLASSES[resolvedFill]}`}
-          >
-            {valueLabel ?? `${Math.round(pct)}%`}
+          <span className={`${valueClasses} min-w-10 text-right whitespace-nowrap`}>
+            {valueDisplay}
           </span>
         )}
       </div>
@@ -152,18 +160,17 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
 
   return (
     <div className={`flex flex-col gap-stack-xs ${className}`} {...rest}>
+      {/* Libellé et valeur sur la même ligne de base (doctrine § 4). */}
       {(label || showValueLabel) && (
-        <div className="flex justify-between items-center text-caption">
+        <div className="flex justify-between items-baseline gap-stack-xs">
           {label && (
-            <span id={labelId} className="text-ink-600 font-semibold uppercase tracking-[0.04em] text-micro">
+            <span id={labelId} className={labelClasses}>
               {label}
             </span>
           )}
           {showValueLabel && (
-            <span
-              className={`font-display font-bold tabular-nums text-caption ${VALUE_TONE_CLASSES[resolvedFill]}`}
-            >
-              {valueLabel ?? `${Math.round(pct)}%`}
+            <span className={`${valueClasses} whitespace-nowrap`}>
+              {valueDisplay}
             </span>
           )}
         </div>
