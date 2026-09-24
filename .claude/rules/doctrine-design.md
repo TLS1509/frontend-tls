@@ -500,7 +500,9 @@ Tranchés par Chloé sur le banc `/_arbitrages`. Chaque ligne dit la règle à s
 dès maintenant dans le code neuf. **n°20, 21 et 22 sont appliqués partout depuis
 le 24/09** (passe typographique : tokens, composants, puis les 143 pages de l'app — mesuré
 sur 148 routes, 100 % du texte sur l'échelle, 13 tailles au lieu de 28, défauts
-typographiques 5 477 → 11). n°18, 19 et 23 sont en cours d'application.
+typographiques 5 477 → 11). **n°18, 19 et 23 sont appliqués aussi, le même jour** : un seul `solid` par écran
+(`solid` 24 → 86, `outline` 298 → 27, `check:boutons`), la voix par surface, et « Reconnaissances » à la place
+de l'XP, de la série et du classement — bilan : `docs/_audits/PASSES-ARBITRAGES-18-19-23-2026-09-24.md`.
 
 - **n°18 · Gamification → « Reconnaissances ».** Plus de série quotidienne, de
   classement nominatif ni de niveaux d'XP dans l'app apprenant. Ce qui reste :

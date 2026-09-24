@@ -1,9 +1,10 @@
 # 📑 Documentation Index — The Learning Society
 
-**Last updated**: 2026-09-24 | **Total docs**: 195 fichiers suivis dans `docs/` hors `_archive/` (+ `CDC/`, local et non suivi)
+**Last updated**: 2026-09-24 | **Total docs**: 196 fichiers suivis dans `docs/` hors `_archive/` (+ `CDC/`, local et non suivi)
 
 > 🆕 **24/09** : [`_audits/PASSE-TYPOGRAPHIQUE-2026-09-24.md`](_audits/PASSE-TYPOGRAPHIQUE-2026-09-24.md)
 > — la passe typographique (arbitrages n°20-22) : bilan mesuré, décisions à valider, reste à faire.
+> Suivie des arbitrages n°18, 19 et 23 : [`_audits/PASSES-ARBITRAGES-18-19-23-2026-09-24.md`](_audits/PASSES-ARBITRAGES-18-19-23-2026-09-24.md).
 
 > 🆕 **17/09** : [`_audits/AUDIT-DS-NIVEAU-AGENCE-2026-09-17.md`](_audits/AUDIT-DS-NIVEAU-AGENCE-2026-09-17.md)
 > — audit trois surfaces (code · docs · Figma, node IDs cités) + correction dans la foulée :
@@ -63,10 +64,11 @@
 
 ## 📊 _AUDITS/ — Rapports consolidés
 
-**18 fichiers** — analyses de qualité, gaps design, spec compliance.
+**19 fichiers** — analyses de qualité, gaps design, spec compliance.
 
 | Fichier | Type | Focus |
 |---------|------|-------|
+| [**PASSES-ARBITRAGES-18-19-23-2026-09-24.md**](_audits/PASSES-ARBITRAGES-18-19-23-2026-09-24.md) | 🎛️ **Bilan de passes** | Arbitrages n°19 (un seul `solid` par écran : `solid` 24 → 86, `outline` 298 → 27, écrans sans action principale 120 → 59), n°23 (la voix par surface ; la Veille vouvoie) et n°18 (« Reconnaissances » : l'XP, la série et le classement quittent l'app apprenant, 8 routes redirigées). Conventions à valider, 8 questions produit, défauts relevés hors design (boutons sans action, « brouillon » qui publie) |
 | [**PASSE-TYPOGRAPHIQUE-2026-09-24.md**](_audits/PASSE-TYPOGRAPHIQUE-2026-09-24.md) | 🔤 **Bilan de passe** | Arbitrages n°20-22 appliqués partout (tokens → composants → 143 pages → suites), 143 commits. Mesuré sur 148 routes, chaque état dans son worktree : texte sur l'échelle 63 → 100 %, 28 → 13 tailles, défauts typo 5 477 → 19, titres plats 135/257 → 75/467, contraste AA 174 → 7. Porte les **décisions prises par les agents à valider**, les questions ouvertes et le reste à faire hors typo |
 | [**AUDIT-DS-NIVEAU-AGENCE-2026-09-17.md**](_audits/AUDIT-DS-NIVEAU-AGENCE-2026-09-17.md) | 🎯 **Audit trois surfaces + correction** | Ce qui n'a pas suivi les décisions du 9–17/09, mesuré de première main (navigateur, canvas, Figma nœud par nœud). Constat central : les règles survol/ombres n'avaient atteint que les primitives — **~60 fichiers migrés** dans la foulée, famille bulle tranchée, matrice Button Figma refaite à l'identique du code, 6 entrées périmées des docs closes. A2 élargi : l'échec de contraste est le contrat du niveau `solid` entier (secondary 2,64 · accent 2,31). Banc interactif : https://claude.ai/artifact/7iMbxvaSzqac4QsXG1TRmj |
 | [**SYNC-CLAUDE-DESIGN-2026-09-16.md**](_audits/SYNC-CLAUDE-DESIGN-2026-09-16.md) | 🔁 **Journal du miroir Claude Design** | Migration du projet claude-design vers l'artefact « The Learning Society Design System » (16/09) + phase 1 exécutée (tokens, brand book, 60 logos, 28 fiches, −392 fichiers), phase 2 (aperçus vivants, §8, 17/09 matin), **§9 : recompilation à HEAD `113e5ae`** (17/09 après-midi, session audit) avec la collision Cowork/Claude Code documentée et la leçon sur la lecture pleine vs par `path` |
