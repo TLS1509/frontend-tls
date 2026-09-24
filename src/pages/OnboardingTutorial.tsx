@@ -80,8 +80,10 @@ export default function OnboardingTutorial() {
             <TlsLogo size={36} variant="color" withBubble />
           </a>
           <div className="w-24 flex justify-end">
+            {/* « Passer » saute CETTE étape, pas l'onboarding : il mène à l'écran de fin, qui pose isOnboarded.
+                Il envoyait au tableau de bord sans marquer l'onboarding fait. */}
             <button
-              onClick={() => navigate('/dashboard')}
+              onClick={() => navigate('/onboarding/success')}
               className="font-body text-caption text-ink-500 hover:text-ink-900 transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm min-h-touch flex items-center"
             >
               Passer
