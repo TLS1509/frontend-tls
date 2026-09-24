@@ -264,8 +264,12 @@ export const SearchFilters: React.FC<SearchFiltersProps> = ({
           >
             {filters.map((axis) => (
               <div key={axis.id} className="flex flex-col gap-stack-xs">
+                {/* Un groupe de pastilles est un champ à choix multiples : son nom
+                    prend la voix d'un libellé de champ, 16 / 600 ink-900 (comme la
+                    légende de `CheckboxGroup`). En légende 13 px, il pesait moins
+                    que les pastilles (16 / 600) qu'il nomme. */}
                 {!isDropdownAxis(axis) && (
-                  <span className="font-body text-caption font-semibold text-ink-700">{axis.label}</span>
+                  <span className="font-body text-body font-semibold text-ink-900">{axis.label}</span>
                 )}
                 <div
                   className="flex flex-wrap items-center gap-stack-xs"
