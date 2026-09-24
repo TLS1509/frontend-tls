@@ -132,8 +132,10 @@ export const SubscriptionPayment: React.FC = () => {
   const onboardingStore = useOnboardingStore();
 
   const [billing, setBilling] = useState<Billing>('monthly');
+  // Par défaut, le forfait Gratuit : présélectionner une formule payante
+  // (Plan 2 à 29 €) poussait vers l'achat (audit du 23/09).
   const [selectedPlan, setSelectedPlan] = useState<PlanId>(
-    (onboardingStore.selectedPlan as PlanId | null) ?? 'plan_2'
+    (onboardingStore.selectedPlan as PlanId | null) ?? 'free'
   );
   const [showConfirm, setShowConfirm] = useState(false);
 
@@ -146,7 +148,12 @@ export const SubscriptionPayment: React.FC = () => {
   const price = billing === 'monthly' ? currentPlan.monthly : currentPlan.yearly;
   const periodLabel = billing === 'monthly' ? '/mois' : '/an';
 
+  // Le forfait Gratuit n'exige pas de carte : pas de formulaire, pas de
+  // prélèvement à confirmer. La carte n'est demandée que pour un forfait payant.
+  const isFree = currentPlan.monthly === 0;
+
   const isFormValid =
+    isFree ||
     cardName.trim().length > 2 &&
     cardNumber.replace(/\s/g, '').length >= 12 &&
     cardExpiry.length >= 4 &&
@@ -161,7 +168,11 @@ export const SubscriptionPayment: React.FC = () => {
     }
     onboardingStore.markStepComplete('payment');
     onboardingStore.goToStep('tutorial');
-    toast.success('Paiement confirmé', 'Bienvenue dans The Learning Society.');
+    if (isFree) {
+      toast.success('Formule Gratuite activée', 'Bienvenue dans The Learning Society.');
+    } else {
+      toast.success('Paiement confirmé', 'Bienvenue dans The Learning Society.');
+    }
     setTimeout(() => navigate('/onboarding/tutorial'), 1200);
   };
 
@@ -301,7 +312,8 @@ export const SubscriptionPayment: React.FC = () => {
           })}
         </div>
 
-        {/* Payment form */}
+        {/* Payment form — forfait payant seulement */}
+        {!isFree && (
         <SectionCard
           title="Informations de paiement"
           description="Paiement sécurisé par Stripe. Aucune donnée bancaire n'est stockée sur nos serveurs."
@@ -357,6 +369,7 @@ export const SubscriptionPayment: React.FC = () => {
             </div>
           </div>
         </SectionCard>
+        )}
 
         {/* Summary + CTA */}
         <div className="flex flex-col gap-stack p-stack-lg rounded-lg bg-primary-50/60 border border-primary-200">
@@ -378,9 +391,9 @@ export const SubscriptionPayment: React.FC = () => {
             fullWidth
             leadingIcon={<ShieldCheck size={18} />}
             disabled={!isFormValid}
-            onClick={() => setShowConfirm(true)}
+            onClick={() => (isFree ? handleConfirmPayment() : setShowConfirm(true))}
           >
-            Confirmer le paiement
+            {isFree ? 'Continuer avec la formule Gratuite' : 'Confirmer le paiement'}
           </Button>
 
           <p className="m-0 font-body text-caption text-ink-500 text-center">
