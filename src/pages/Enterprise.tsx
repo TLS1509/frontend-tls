@@ -271,7 +271,7 @@ export const Enterprise: React.FC = () => {
                     size="sm"
                     layout="inline"
                     aria-label={`Progression de ${m.name}`}
-                    className="hidden sm:flex sm:w-48 sm:shrink-0"
+                    className="max-sm:hidden sm:w-48 sm:shrink-0"
                   />
                   <span className="font-body text-caption text-ink-600 whitespace-nowrap shrink-0 hidden md:inline">
                     {formatLastActive(m.lastActiveAt)}

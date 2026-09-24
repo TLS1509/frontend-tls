@@ -83,7 +83,7 @@ const ApiDocs: React.FC = () => {
                       <code className="font-mono text-body text-ink-900 wrap-anywhere">{e.path}</code>
                       <span className="text-caption text-ink-600">{e.desc}</span>
                     </div>
-                    <MetaPill text={e.auth} tone="neutral" className="hidden sm:inline-flex shrink-0" />
+                    <MetaPill text={e.auth} tone="neutral" className="max-sm:hidden shrink-0" />
                     <Button emphasis="outline" size="sm" iconOnly leadingIcon={<Copy className="w-4 h-4" />} aria-label={`Copier ${e.path}`} />
                   </li>
                 ))}

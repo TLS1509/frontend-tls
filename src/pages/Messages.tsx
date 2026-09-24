@@ -426,7 +426,7 @@ export const Messages: React.FC = () => {
                 icon={CONTEXT_ICONS[currentConversation.context.type]}
                 text={currentConversation.context.title}
                 tone="primary"
-                className="shrink-0 hidden sm:inline-flex"
+                className="shrink-0 max-sm:hidden"
               />
             )}
           </div>

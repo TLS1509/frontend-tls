@@ -382,6 +382,38 @@ un `md:flex` ne compte pas comme disposition — écrire `md:flex-row`, qui bat 
 `flex-col` de base au point de rupture — reprendre ce motif pour toute propriété qu'une page doit
 pouvoir surcharger.
 
+### ⚠️ Piège n°17 : `hidden sm:inline-flex` ne masque rien sur un composant qui pose son propre `display`
+
+Pour cacher un élément sur mobile, le réflexe est `hidden sm:inline-flex`. Sur
+une balise nue, ça marche. Passé en `className` à un **composant** qui pose
+lui-même `inline-flex` (ou `flex`, `grid`…) dans sa base, ça ne marche pas :
+`hidden` et `inline-flex` sont deux utilities de même spécificité (0,1,0) sur la
+même propriété, donc c'est l'ordre d'émission de Tailwind qui tranche (piège
+n°6), et la classe du composant gagne. L'élément reste visible sous `sm`.
+
+**Constaté le 2026-09-24**, au navigateur, à 375 px — trois cas, tous visibles
+alors qu'ils devaient être masqués :
+- `/api-docs` : la `MetaPill` d'authentification de chaque endpoint ;
+- `/messages` : la `MetaPill` de contexte de l'en-tête de fil, qui coupait le
+  nom de l'interlocuteur (« Sophie … ») ;
+- `/enterprise` : la `ProgressBar` de chaque membre (229 px), qui écrasait le nom.
+
+**Fix** : `max-sm:hidden` (ou `max-md:hidden`…), et plus de `sm:inline-flex`.
+Une variante est émise APRÈS les utilities de base, donc elle bat le `display`
+du composant sous le point de rupture ; au-dessus, le composant garde le sien.
+
+```tsx
+// ❌ MAUVAIS — `hidden` perd contre l'`inline-flex` de MetaPill
+<MetaPill text="Bearer" className="hidden sm:inline-flex" />
+
+// ✅ BON
+<MetaPill text="Bearer" className="max-sm:hidden" />
+```
+
+Le motif inverse (`sm:hidden` sur un composant) fonctionne, pour la même raison.
+Pour chercher les cas restants : un composant (balise en majuscule) dont le
+`className` contient `hidden` nu. Il n'y en a plus aucun dans `src/`.
+
 ### ⚠️ Règle : pas de SVG inline custom — utiliser Lucide
 
 `lucide-react` est notre librairie d'icônes par défaut. **Ne jamais hardcoder un `<svg>` inline** dans un composant si Lucide propose l'équivalent.
