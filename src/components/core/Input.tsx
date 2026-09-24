@@ -108,9 +108,23 @@ const DISABLED_GLASS = 'bg-white/8 text-white/40 cursor-not-allowed hover:border
    famille champ — Select, Combobox et Search le reprennent : leurs textes et
    leurs icônes partent de la même verticale dans un formulaire. */
 const SIZE_CLASSES: Record<InputSize, string> = {
-  sm: 'h-9 px-stack-sm text-body',
-  md: 'h-touch px-stack text-body',
-  lg: 'h-13 px-stack-md text-body',
+  sm: 'px-stack-sm text-body',
+  md: 'px-stack text-body',
+  lg: 'px-stack-md text-body',
+};
+
+/* La hauteur fixe ne vaut que pour UNE ligne — sortie de SIZE_CLASSES le
+   2026-09-24. En multiligne, le cadre portait `h-touch` ET `h-auto` : deux
+   classes de hauteur de même spécificité, c'est l'ordre d'émission de
+   Tailwind qui tranche (piège n°6), et `h-touch` gagnait. Le cadre restait
+   à 96 px (`min-h-24`) quand la zone de texte en faisait 156 : mesuré sur
+   /help/tickets/new (6 lignes), 73 px de texte hors du cadre, et la poignée
+   de redimensionnement dessinée sous le filet. Une seule classe de hauteur
+   par appel, et aucune en multiligne : le cadre suit sa zone de texte. */
+const SIZE_HEIGHT: Record<InputSize, string> = {
+  sm: 'h-9',
+  md: 'h-touch',
+  lg: 'h-13',
 };
 
 /* Icônes : 16 en `sm`, 18 en `md`, 20 en `lg` — le glyphe direct est plié à
@@ -156,10 +170,10 @@ export const Input: React.FC<InputProps> = ({
     CONTROL_BASE,
     RAYON,
     SIZE_CLASSES[size],
+    !multiline && SIZE_HEIGHT[size],
     isGlass ? CONTROL_GLASS : CONTROL_LIGHT,
     !isGlass && STATUS_CLASSES[status],
     multiline && TEXTAREA_EXTRA,
-    multiline && 'h-auto',
     disabled && (isGlass ? DISABLED_GLASS : DISABLED_LIGHT),
   ]
     .filter(Boolean)
