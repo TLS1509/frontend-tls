@@ -266,13 +266,21 @@ npm run check:rythme                   # espace au-dessus d'un titre ≥ 1,5 × 
 npm run capture -- --out <dossier>     # captures pleine page, 1440 et 375, pour la critique
 ```
 
-⚠️ **Les trois derniers lisent le serveur de `BASE_URL` (défaut `localhost:5173`).**
-Si une autre session (worktree) tient déjà ce port, ils mesurent SON code, pas le
-vôtre — constaté le 2026-09-23 : 258 « échecs » qui venaient d'un worktree. Passer
+⚠️ **Les cinq sondes au rendu (contraste, rayons, typo, rythme, capture) lisent le
+serveur de `BASE_URL` (défaut `localhost:5173`).** Si une autre session (worktree)
+tient déjà ce port, elles mesurent SON code, pas le vôtre — constaté le
+2026-09-23 : 258 « échecs » qui venaient d'un worktree. Passer
 `BASE_URL=http://localhost:<port>` quand le serveur a pris un autre port. Nés le
 2026-09-23 : ce jour-là, la sonde de contraste lancée à la main a trouvé un
 stepper à 1,93:1, des h1 sombres sur teal et un titre blanc sur blanc que rien
-dans le code ne laissait voir.
+dans le code ne laissait voir. `--params` ajoute les routes à paramètre (`:id` → 1),
+où vivent la leçon, le détail de parcours et la fiche apprenant.
+
+⚠️ **Mesurer un commit passé dans un worktree : y copier `.env`.** Il est ignoré
+par git, donc absent du worktree, et c'est lui qui porte `VITE_SKIP_AUTH_CHECK`.
+Sans lui, chaque route protégée redirige vers la connexion et la sonde mesure la
+page de login 148 fois, sans rien signaler : constaté le 2026-09-24, « 2 026 textes
+sur 148 routes », quatorze par page, et un relevé qui avait l'air d'un résultat.
 
 **Pourquoi le premier existe.** Une décision de design ne descend que dans les
 composants. Le 09/09, le rayon des cartes est passé à 14 px dans `Card.tsx` et
