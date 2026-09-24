@@ -165,7 +165,12 @@ const FILTERS: { id: FilterType; label: string }[] = [
 
 export const Messages: React.FC = () => {
   const [conversations, setConversations] = useState<Conversation[]>(INITIAL_CONVERSATIONS);
-  const [selectedId, setSelectedId]       = useState<string | null>('1');
+  // Sous 768 px, la liste et le fil ne tiennent pas côte à côte (le fil était
+  // comprimé à ~15 px, le champ de saisie hors écran) : on affiche l'un OU
+  // l'autre, et le mobile s'ouvre sur la liste plutôt que sur un fil.
+  const [selectedId, setSelectedId]       = useState<string | null>(() =>
+    typeof window !== 'undefined' && window.matchMedia('(min-width: 768px)').matches ? '1' : null,
+  );
   const [filterType, setFilterType]       = useState<FilterType>('all');
   const [searchQuery, setSearchQuery]     = useState('');
   const [messageInput, setMessageInput]   = useState('');
@@ -228,7 +233,7 @@ export const Messages: React.FC = () => {
     <div className="min-h-[100dvh] flex bg-ink-50 font-body overflow-hidden">
 
       {/* Left Panel: Conversation list */}
-      <div className="w-[360px] min-w-[280px] shrink-0 flex flex-col border-r border-ink-200 bg-white overflow-hidden">
+      <div className={`${currentConversation ? 'hidden md:flex' : 'flex'} w-full md:w-[360px] md:min-w-[280px] shrink-0 flex-col md:border-r border-ink-200 bg-white overflow-hidden`}>
 
         {/* Header */}
         <div className="px-stack-md pt-stack-md pb-stack border-b border-ink-200 bg-white">
@@ -373,7 +378,7 @@ export const Messages: React.FC = () => {
 
       {/* Right Panel: Message thread */}
       {currentConversation ? (
-        <div className="flex-1 flex flex-col overflow-hidden">
+        <div className="flex-1 min-w-0 flex flex-col overflow-hidden">
 
           {/* Thread header */}
           <div className="px-stack-md py-stack border-b border-ink-200 bg-white flex items-center gap-stack-xs">
@@ -495,7 +500,7 @@ export const Messages: React.FC = () => {
         </div>
       ) : (
         /* Empty state */
-        <div className="flex-1 flex items-center justify-center bg-ink-50">
+        <div className="hidden md:flex flex-1 items-center justify-center bg-ink-50">
           <div className="text-center max-w-xs px-stack-lg">
             <div className="w-[72px] h-[72px] rounded-pill bg-primary-50 border border-primary-100 flex items-center justify-center mx-auto mb-stack text-primary-400">
               <MessageSquarePlus size={28} />
