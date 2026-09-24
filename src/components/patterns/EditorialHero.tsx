@@ -273,6 +273,7 @@ export const PageHero: React.FC<PageHeroProps> = ({
 
   /* Le rythme de l'en-tête (passe typographique du 2026-09-24) — ce qui va
      ensemble est proche :
+       retour → surtitre    24   (le retour mène AILLEURS : il se tient à l'écart)
        surtitre → titre      8   (un seul groupe : le titre et son lieu)
        titre → chapô        12
        chapô → méta         12
@@ -281,12 +282,22 @@ export const PageHero: React.FC<PageHeroProps> = ({
      Avant, un `gap-stack-xs` uniforme mettait 8 px partout : le chapô collait
      au titre autant que le surtitre, et rien ne disait ce qui formait un
      groupe. L'espace sous l'en-tête (32 à 48 px) appartient à la page
-     (`PageShell`), pas au composant (piège n°12). */
+     (`PageShell`), pas au composant (piège n°12).
+     Le retour était à 16 px du titre, qui n'était qu'à 12 de son chapô : le h1
+     flottait à égale distance des deux (rapport 1,33, sous le 1,5 de
+     `check-rythme` sur trois pages du centre d'aide). À 24, il revient à son
+     chapô (2,0).
+
+     Rayon des tons colorés : 20 (`rounded-xl`), l'étage conteneur — le hero
+     est l'objet le plus grand posé dans la page. Il était à 14, le rayon d'un
+     bouton. Son padding (32, ou 24 en `compact`) reste au-dessus de 20 : ce
+     qu'il contient garde la forme de son étage (règle des coins imbriqués,
+     régime « forme fixe ») ; le mesh et les halos sont rognés par le hero. */
   return (
     <section
       className={[
         'flex flex-col',
-        !isFlat && 'relative overflow-hidden rounded-lg border backdrop-blur-glass-light',
+        !isFlat && 'relative overflow-hidden rounded-xl border backdrop-blur-glass-light',
         !isFlat && TONE_BG[tone],
         !isFlat && TONE_BORDER[tone],
         !isFlat && TONE_SHADOW[tone],
@@ -314,7 +325,7 @@ export const PageHero: React.FC<PageHeroProps> = ({
       )}
 
       {backLink && (
-        <div className="relative mb-stack">
+        <div className="relative mb-stack-lg">
           {isBackLinkObject(backLink) ? (
             <button
               type="button"
