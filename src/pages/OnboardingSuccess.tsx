@@ -93,7 +93,6 @@ export default function OnboardingSuccess() {
           badgeLabel="Profil complété"
           title="Bienvenue sur The Learning Society"
           summary="Ton profil est configuré et ton passeport de compétences est prêt. Tu peux maintenant commencer ton parcours d'apprentissage personnalisé."
-          xp={{ earned: 150, current: 150, max: 500, levelLabel: 'Onboarding terminé' }}
         />
 
         {/* « Par où commencer ? » est une section : h2 à 28 (il était à 20, la

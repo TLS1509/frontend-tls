@@ -314,7 +314,7 @@ export { DreyfusLevelSelector, DEFAULT_DREYFUS_LEVELS } from './ui/DreyfusLevelS
 export type { DreyfusLevelSelectorProps, DreyfusLevel, DreyfusLevelSelectorTone } from './ui/DreyfusLevelSelector';
 
 export { CongratulationsCard } from './patterns/CongratulationsCard';
-export type { CongratulationsCardProps, CongratulationsCardTone, CongratulationsCardXp } from './patterns/CongratulationsCard';
+export type { CongratulationsCardProps, CongratulationsCardTone } from './patterns/CongratulationsCard';
 
 export { NextStepsGrid } from './patterns/NextStepsGrid';
 export type { NextStepsGridProps, NextStepItem, NextStepTone } from './patterns/NextStepsGrid';

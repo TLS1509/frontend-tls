@@ -28,13 +28,13 @@ const TUTORIAL_STEPS = [
   {
     id: 'passeport',
     title: 'Le Passeport Compétences',
-    description: "Ton Passeport visualise ta progression sur l'échelle Dreyfus (D1 Novice → D5 Expert) pour chaque compétence. Il évolue automatiquement au fil de tes activités. Tu peux définir des objectifs et suivre leur avancement.",
+    description: "Ton Passeport situe chaque compétence sur l'échelle Dreyfus, de D1 Novice à D5 Maître. Un niveau y est validé par ton coach ou ton manager, sur preuves de ta pratique. Tu peux définir des objectifs et suivre leur avancement.",
     icon: <Target size={20} />,
   },
   {
     id: 'analytics',
     title: 'Ton tableau de bord',
-    description: "Le Dashboard centralise toutes tes données : XP accumulés, streak d'activité, progression Dreyfus, prochaines sessions coaching, et contenu de veille personnalisé. Consulte-le chaque matin pour savoir par où commencer.",
+    description: "Le tableau de bord ouvre sur ton action du jour : reprendre ton parcours, préparer ta prochaine session de coaching, écrire dans ton journal, lire la veille choisie pour toi. Ouvre-le en début de séance pour savoir par où reprendre.",
     icon: <BarChart3 size={20} />,
   },
   {
