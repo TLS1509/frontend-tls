@@ -280,7 +280,7 @@ export const VideoReels: React.FC = () => {
 
         <button
           onClick={() => navigate('/veille')}
-          className="flex items-center gap-stack-xs px-stack py-stack-xs rounded-lg border border-white/15 bg-black/55 backdrop-blur-glass-light text-white/85 font-body text-body-sm font-semibold cursor-pointer transition-all duration-200 hover:bg-black/75 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70"
+          className="flex items-center gap-stack-xs px-stack py-stack-xs rounded-lg border border-white/15 bg-black/55 backdrop-blur-glass-light text-white/85 font-body text-body font-semibold cursor-pointer transition-all duration-200 hover:bg-black/75 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70"
         >
           <ArrowLeft size={16} />
           Retour
@@ -376,7 +376,7 @@ export const VideoReels: React.FC = () => {
                 {video.instructorInitials}
               </div>
               <div>
-                <div className="font-body text-body-sm font-semibold text-white/95">
+                <div className="font-body text-body font-semibold text-white/95">
                   {video.instructor}
                 </div>
                 <div className="flex items-center gap-tight font-body text-caption text-white/70 mt-0.5">
@@ -385,7 +385,7 @@ export const VideoReels: React.FC = () => {
                 </div>
               </div>
             </div>
-            <p className="font-body text-body-sm text-white/85 m-0">
+            <p className="font-body text-body text-white/85 m-0">
               {video.description}
             </p>
           </div>

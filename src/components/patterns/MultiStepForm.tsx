@@ -82,7 +82,7 @@ export const MultiStepForm: React.FC<MultiStepFormProps> = ({
 
                 <div
                   className={[
-                    'relative inline-flex items-center justify-center w-10 h-10 rounded-pill font-bold text-body-sm transition-all duration-200',
+                    'relative inline-flex items-center justify-center w-10 h-10 rounded-pill font-bold text-body transition-all duration-200',
                     isCompleted
                       ? 'bg-gradient-to-br from-success-base to-success-fg text-white shadow-md ring-4 ring-success-bg'
                       : isActive

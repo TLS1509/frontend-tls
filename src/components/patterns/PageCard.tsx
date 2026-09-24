@@ -160,11 +160,11 @@ export const PageCard: React.FC<{ item: PageCardItem; showThumbnail?: boolean }>
 
       {/* Content */}
       <div className="flex-1 flex flex-col gap-stack-xs px-stack-md py-stack">
-        <h3 className="font-display text-h4 text-ink-900">
+        <h3 className="font-display text-h3 text-ink-900">
           {item.title}
         </h3>
         {item.description && (
-          <p className="font-body text-body-sm text-ink-500 m-0">
+          <p className="font-body text-body text-ink-500 m-0">
             {item.description}
           </p>
         )}
@@ -216,7 +216,7 @@ export const PageCardGrid: React.FC<PageCardGridProps> = ({
       <div className={['flex items-center justify-center p-12', className].filter(Boolean).join(' ')}>
         <div className="flex flex-col items-center gap-stack-xs text-ink-500">
           <Loader2 className="w-8 h-8 animate-spin text-primary-500" strokeWidth={2.5} />
-          <p className="m-0 text-body-sm font-medium">Chargement…</p>
+          <p className="m-0 text-body font-medium">Chargement…</p>
         </div>
       </div>
     );
@@ -236,7 +236,7 @@ export const PageCardGrid: React.FC<PageCardGridProps> = ({
           <IconChip size="lg" tone="neutral">
             <FileText strokeWidth={2} />
           </IconChip>
-          <p className="m-0 text-body-sm font-medium text-ink-700">{emptyMessage}</p>
+          <p className="m-0 text-body font-medium text-ink-700">{emptyMessage}</p>
         </div>
       </div>
     );

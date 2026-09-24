@@ -109,7 +109,7 @@ export const Project: React.FC = () => {
         <div className="flex items-start gap-stack-xs p-stack rounded-lg bg-warning-bg border border-warning-base/30">
           <Lock size={16} className="text-warning-fg mt-0.5 shrink-0" />
           <div>
-            <p className="text-body-sm font-semibold text-warning-fg m-0 mb-1">Pré-requis Dreyfus non atteints</p>
+            <p className="text-body font-semibold text-warning-fg m-0 mb-1">Pré-requis Dreyfus non atteints</p>
             <ul className="m-0 pl-4 flex flex-col gap-tight">
               {gatingFails.map((f) => (
                 <li key={f.competencyId} className="text-caption text-warning-fg">
@@ -146,7 +146,7 @@ export const Project: React.FC = () => {
                     header={
                       <div className="flex items-center gap-stack min-w-0 flex-1">
                         <div className="flex-1 min-w-0">
-                          <p className="text-body-sm font-semibold text-ink-900 m-0 truncate">{task.title}</p>
+                          <p className="text-body font-semibold text-ink-900 m-0 truncate">{task.title}</p>
                           <p className="text-caption text-ink-600 m-0 mt-0.5">
                             D{task.dreyfusLevelRequired}+ · {task.estimatedHours}h
                           </p>
@@ -161,7 +161,7 @@ export const Project: React.FC = () => {
                     }
                   >
                     <div className="px-4 py-stack flex flex-col gap-stack border-t border-ink-100">
-                      <p className="text-body-sm text-ink-600 m-0">{task.description}</p>
+                      <p className="text-body text-ink-600 m-0">{task.description}</p>
                       {task.successCriteria.length > 0 && (
                         <ul className="m-0 pl-4 flex flex-col gap-tight">
                           {task.successCriteria.map((c, i) => (
@@ -199,7 +199,7 @@ export const Project: React.FC = () => {
                     <div key={e.id} className="flex items-center gap-stack p-3 rounded-lg bg-success-bg">
                       <Avatar initials={e.collaboratorInitials} size="sm" tint="brand" />
                       <div className="flex-1 min-w-0">
-                        <p className="text-body-sm font-semibold text-ink-900 m-0">
+                        <p className="text-body font-semibold text-ink-900 m-0">
                           {e.collaboratorName} : {e.competencyName}
                         </p>
                         <p className="text-caption text-success-fg m-0">
@@ -220,7 +220,7 @@ export const Project: React.FC = () => {
               <div className="flex items-center gap-stack">
                 <Avatar initials={project.expertInitials} size="md" tint="brand" />
                 <div>
-                  <p className="text-body-sm font-semibold text-ink-900 m-0">{project.expertName}</p>
+                  <p className="text-body font-semibold text-ink-900 m-0">{project.expertName}</p>
                   <p className="text-caption text-ink-500 m-0">Mentor TLS</p>
                 </div>
               </div>

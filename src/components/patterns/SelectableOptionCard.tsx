@@ -61,7 +61,7 @@ export const SelectableOptionCard: React.FC<SelectableOptionCardProps> = ({
       </div>
 
       <div className={['flex flex-col', isCompact ? 'items-center gap-0' : 'gap-tight'].join(' ')}>
-        <span className={isCompact ? 'text-caption font-semibold text-ink-900' : 'text-body-sm font-semibold text-ink-900'}>
+        <span className={isCompact ? 'text-caption font-semibold text-ink-900' : 'text-body font-semibold text-ink-900'}>
           {label}
         </span>
         {!isCompact && description && (

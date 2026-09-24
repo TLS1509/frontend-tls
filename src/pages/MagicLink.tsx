@@ -66,7 +66,7 @@ export const MagicLink: React.FC = () => {
                   <Zap size={14} />
                 </span>
                 <div>
-                  <p className="m-0 font-body text-body-sm font-semibold text-white">
+                  <p className="m-0 font-body text-body font-semibold text-white">
                     Plus rapide
                   </p>
                   <p className="m-0 font-body text-caption text-white/65">
@@ -79,7 +79,7 @@ export const MagicLink: React.FC = () => {
                   <ShieldCheck size={14} />
                 </span>
                 <div>
-                  <p className="m-0 font-body text-body-sm font-semibold text-white">
+                  <p className="m-0 font-body text-body font-semibold text-white">
                     Plus sûr
                   </p>
                   <p className="m-0 font-body text-caption text-white/65">

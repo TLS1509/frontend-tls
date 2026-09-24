@@ -88,9 +88,9 @@ export const ModalForm: React.FC<ModalFormProps> = ({
         {/* Header */}
         <div className="flex items-start justify-between gap-stack-xs px-6 pt-stack-md pb-stack border-b border-ink-100">
           <div>
-            <h2 className="text-h4 font-display font-bold text-ink-900">{title}</h2>
+            <h2 className="text-h3 font-display font-bold text-ink-900">{title}</h2>
             {description && (
-              <p className="text-body-sm text-ink-500 m-0 mt-1">{description}</p>
+              <p className="text-body text-ink-500 m-0 mt-1">{description}</p>
             )}
           </div>
           <button

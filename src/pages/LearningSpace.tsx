@@ -180,7 +180,7 @@ export const LearningSpace: React.FC = () => {
         <h1 className="font-display text-h2 font-bold text-ink-900 tracking-headline">
           Explorez nos ressources
         </h1>
-        <p className="m-0 font-body text-body-sm text-ink-500 max-w-2xl">
+        <p className="m-0 font-body text-body text-ink-500 max-w-2xl">
           Ressources adaptées à ton niveau et tes parcours actuels
         </p>
       </div>

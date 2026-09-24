@@ -157,7 +157,7 @@ export const MarketingContact: React.FC = () => {
 
             {/* Interactive subject selector — visible above fold */}
             <div className="flex flex-col items-center gap-stack">
-              <p className="font-body text-body-sm text-ink-500 m-0">
+              <p className="font-body text-body text-ink-500 m-0">
                 Pour mieux vous orienter, quel est votre sujet ?
               </p>
               <div className="flex flex-wrap justify-center gap-stack-xs">
@@ -168,7 +168,7 @@ export const MarketingContact: React.FC = () => {
                       key={s}
                       type="button"
                       onClick={() => setForm({ ...form, subject: s })}
-                      className={`relative inline-flex items-center px-4 py-2 rounded-pill font-body text-body-sm font-bold transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 min-h-touch ${
+                      className={`relative inline-flex items-center px-4 py-2 rounded-pill font-body text-body font-bold transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 min-h-touch ${
                         isActive
                           ? 'text-white'
                           : 'text-ink-700 hover:text-ink-900 bg-ink-50 hover:bg-ink-100 border border-ink-200'
@@ -288,7 +288,7 @@ export const MarketingContact: React.FC = () => {
 
                   {/* Subject pills — pré-rempli depuis le sélecteur du hero, modifiable ici */}
                   <div className="flex flex-col gap-stack-xs">
-                    <label className="font-body text-body-sm font-semibold text-ink-900">
+                    <label className="font-body text-body font-semibold text-ink-900">
                       Sujet
                     </label>
                     <p className="font-body text-caption text-ink-500 m-0 -mt-1">
@@ -322,7 +322,7 @@ export const MarketingContact: React.FC = () => {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
                     <div className="flex flex-col gap-stack-xs">
-                      <label htmlFor="ct-name" className="font-body text-body-sm font-semibold text-ink-900">
+                      <label htmlFor="ct-name" className="font-body text-body font-semibold text-ink-900">
                         Prénom et nom *
                       </label>
                       {/* `name` + `autoComplete` ajoutés le 2026-07-29. Sans eux,
@@ -356,7 +356,7 @@ export const MarketingContact: React.FC = () => {
                       )}
                     </div>
                     <div className="flex flex-col gap-stack-xs">
-                      <label htmlFor="ct-email" className="font-body text-body-sm font-semibold text-ink-900">
+                      <label htmlFor="ct-email" className="font-body text-body font-semibold text-ink-900">
                         Email pro *
                       </label>
                       {/* `spellCheck={false}` : un correcteur orthographique
@@ -393,7 +393,7 @@ export const MarketingContact: React.FC = () => {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
                     <div className="flex flex-col gap-stack-xs">
-                      <label htmlFor="ct-org" className="font-body text-body-sm font-semibold text-ink-900">
+                      <label htmlFor="ct-org" className="font-body text-body font-semibold text-ink-900">
                         Organisation
                       </label>
                       <input
@@ -408,7 +408,7 @@ export const MarketingContact: React.FC = () => {
                       />
                     </div>
                     <div className="flex flex-col gap-stack-xs">
-                      <label htmlFor="ct-phone" className="font-body text-body-sm font-semibold text-ink-900">
+                      <label htmlFor="ct-phone" className="font-body text-body font-semibold text-ink-900">
                         Téléphone <span className="text-ink-600 font-normal">(optionnel)</span>
                       </label>
                       <input
@@ -425,7 +425,7 @@ export const MarketingContact: React.FC = () => {
                   </div>
 
                   <div className="flex flex-col gap-stack-xs">
-                    <label htmlFor="ct-message" className="font-body text-body-sm font-semibold text-ink-900">
+                    <label htmlFor="ct-message" className="font-body text-body font-semibold text-ink-900">
                       Votre message *
                     </label>
                     {/* Rejoué le 2026-09-14, comme ce commentaire le prévoyait.
@@ -484,7 +484,7 @@ export const MarketingContact: React.FC = () => {
                         peer-checked:after:opacity-100 flex items-center justify-center"
                     />
                     <div className="flex flex-col gap-tight">
-                      <span className="font-body text-body-sm font-semibold text-ink-900 leading-snug">
+                      <span className="font-body text-body font-semibold text-ink-900 leading-snug">
                         Recevoir La Vigie IA
                       </span>
                       {/* Corrigé le 29/07 : la case annonçait « nos ressources et
@@ -500,7 +500,7 @@ export const MarketingContact: React.FC = () => {
                   </label>
 
                   {submitError && (
-                    <div className="flex items-start gap-stack-xs px-4 py-3 rounded-lg bg-danger-bg border border-danger-base/30 text-danger-fg font-body text-body-sm" role="alert">
+                    <div className="flex items-start gap-stack-xs px-4 py-3 rounded-lg bg-danger-bg border border-danger-base/30 text-danger-fg font-body text-body" role="alert">
                       <AlertCircle size={16} className="shrink-0 mt-0.5" />
                       {submitError}
                     </div>
@@ -562,7 +562,7 @@ export const MarketingContact: React.FC = () => {
                   <h3 className="font-display text-h3 text-ink-900">
                     Un échange de 30 min
                   </h3>
-                  <p className="font-body text-body-sm text-ink-600 m-0">
+                  <p className="font-body text-body text-ink-600 m-0">
                     Dites-nous vos disponibilités, nous vous proposons un créneau
                     sous 48 h ouvrées.
                   </p>
@@ -595,7 +595,7 @@ export const MarketingContact: React.FC = () => {
                       <span className="font-body text-caption font-bold text-ink-500">
                         Email
                       </span>
-                      <span className="font-body text-body-sm font-semibold text-ink-900 group-hover:text-primary-700 transition-colors truncate">
+                      <span className="font-body text-body font-semibold text-ink-900 group-hover:text-primary-700 transition-colors truncate">
                         contact@thelearningsociety.fr
                       </span>
                     </div>
@@ -613,7 +613,7 @@ export const MarketingContact: React.FC = () => {
                       <span className="font-body text-caption font-bold text-ink-500">
                         LinkedIn
                       </span>
-                      <span className="font-body text-body-sm font-semibold text-ink-900 group-hover:text-primary-700 transition-colors">
+                      <span className="font-body text-body font-semibold text-ink-900 group-hover:text-primary-700 transition-colors">
                         @thelearningsociety
                       </span>
                     </div>
@@ -626,7 +626,7 @@ export const MarketingContact: React.FC = () => {
                       <span className="font-body text-caption font-bold text-ink-500">
                         Bureau
                       </span>
-                      <span className="font-body text-body-sm font-semibold text-ink-900">
+                      <span className="font-body text-body font-semibold text-ink-900">
                         Paris, France
                       </span>
                     </div>
@@ -654,7 +654,7 @@ export const MarketingContact: React.FC = () => {
                         {q.icon}
                       </span>
                       <div className="flex flex-col gap-tight min-w-0 flex-1">
-                        <span className="font-body text-body-sm font-bold text-ink-900 group-hover:text-primary-700 transition-colors">
+                        <span className="font-body text-body font-bold text-ink-900 group-hover:text-primary-700 transition-colors">
                           {q.label}
                         </span>
                         <span className="font-body text-caption text-ink-500">{q.desc}</span>

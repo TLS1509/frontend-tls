@@ -106,7 +106,7 @@ export default function NotificationPreferences() {
             <div className="flex items-start justify-between gap-stack py-3">
               <div className="flex flex-col gap-tight flex-1 min-w-0">
                 <div className="flex items-center gap-stack-xs">
-                  <span className="text-body-sm font-semibold text-ink-900">Suivi des emails</span>
+                  <span className="text-body font-semibold text-ink-900">Suivi des emails</span>
                   <Badge variant="neutral" size="compact">Confidentialité</Badge>
                 </div>
                 <span className="text-caption text-ink-500">

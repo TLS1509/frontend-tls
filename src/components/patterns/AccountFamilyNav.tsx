@@ -119,7 +119,7 @@ export const AccountFamilyNav: React.FC<AccountFamilyNavProps> = ({
             <div className="flex flex-col min-w-0">
               <span
                 className={[
-                  'font-body text-body-sm',
+                  'font-body text-body',
                   isActive ? 'font-bold text-ink-900' : 'font-semibold text-ink-700',
                 ].join(' ')}
               >

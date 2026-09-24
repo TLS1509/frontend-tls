@@ -119,7 +119,7 @@ const PrivacyDsar: React.FC = () => {
                 <CheckCircle2 className="w-5 h-5 text-success-fg shrink-0" aria-hidden="true" />
                 <FileText className="w-5 h-5 text-primary-600 shrink-0" aria-hidden="true" />
                 <div className="flex-1 min-w-0">
-                  <div className="font-semibold text-body-sm">{d.label}</div>
+                  <div className="font-semibold text-body">{d.label}</div>
                   <div className="text-caption text-ink-500">{d.desc}</div>
                 </div>
                 <Badge variant="neutral" className="shrink-0">{d.size}</Badge>
@@ -127,7 +127,7 @@ const PrivacyDsar: React.FC = () => {
             ))}
           </ul>
           <div className="mt-stack flex items-center justify-between p-3 bg-primary-50 rounded-lg">
-            <span className="text-body-sm font-semibold">Total estimé</span>
+            <span className="text-body font-semibold">Total estimé</span>
             <Badge variant="brand">~1.1 MB</Badge>
           </div>
         </SectionCard>
@@ -141,8 +141,8 @@ const PrivacyDsar: React.FC = () => {
             <div className="flex items-start gap-stack-xs">
               <Shield className="w-6 h-6 text-primary-600 mt-1" />
               <div>
-                <h3 className="text-h4 mb-1">Lancer ma demande</h3>
-                <p className="text-body-sm text-ink-600">
+                <h3 className="text-h3 mb-1">Lancer ma demande</h3>
+                <p className="text-body text-ink-600">
                   En cliquant ci-dessous, tu déclenches le workflow officiel. Un email avec le lien de téléchargement (valide 7 jours) te sera envoyé dans un délai maximum de 30 jours (généralement sous 48h).
                 </p>
               </div>
@@ -155,7 +155,7 @@ const PrivacyDsar: React.FC = () => {
 
         <SectionCard title="Historique de mes demandes" description="Demandes passées et statut">
           {pastRequests.length === 0 ? (
-            <p className="text-body-sm text-ink-500">Aucune demande passée.</p>
+            <p className="text-body text-ink-500">Aucune demande passée.</p>
           ) : (
             <ul className="flex flex-col divide-y divide-ink-100">
               {pastRequests.map((r) => {
@@ -165,7 +165,7 @@ const PrivacyDsar: React.FC = () => {
                   <li key={r.id} className="flex items-center gap-stack-xs py-stack-sm first:pt-0 last:pb-0">
                     <Clock className="w-5 h-5 text-ink-500 shrink-0" aria-hidden="true" />
                     <div className="flex-1 min-w-0">
-                      <div className="font-semibold text-body-sm">Demande du {dateLabel}</div>
+                      <div className="font-semibold text-body">Demande du {dateLabel}</div>
                       {r.archiveSize && <div className="text-caption text-ink-500">Archive : {r.archiveSize}</div>}
                     </div>
                     <Badge variant={s.variant}>{s.label}</Badge>

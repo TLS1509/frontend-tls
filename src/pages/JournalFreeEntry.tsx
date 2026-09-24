@@ -155,7 +155,7 @@ export const JournalFreeEntry: React.FC = () => {
         {/* Main editor */}
         <div>
           {/* Date chip */}
-          <div className="flex items-center gap-stack-2xs mb-stack text-ink-500 font-body text-body-sm">
+          <div className="flex items-center gap-stack-2xs mb-stack text-ink-500 font-body text-body">
             <CalendarDays size={14} />
             <span>{new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
           </div>
@@ -258,7 +258,7 @@ export const JournalFreeEntry: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => removeTag(tag)}
-                    className="bg-transparent border-0 cursor-pointer text-primary-800 hover:text-primary-900 p-0 text-body-sm focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-400 rounded-sm"
+                    className="bg-transparent border-0 cursor-pointer text-primary-800 hover:text-primary-900 p-0 text-body focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-400 rounded-sm"
                   >
                     ×
                   </button>

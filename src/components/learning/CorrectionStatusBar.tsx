@@ -43,7 +43,7 @@ export const CorrectionStatusBar: React.FC<CorrectionStatusBarProps> = ({
       <StatusBadge status={badgeStatus} />
 
       {competenceLabel && (
-        <span className="text-body-sm font-semibold text-ink-700">
+        <span className="text-body font-semibold text-ink-700">
           {competenceLabel}
         </span>
       )}
@@ -51,7 +51,7 @@ export const CorrectionStatusBar: React.FC<CorrectionStatusBarProps> = ({
       {xpAwarded !== undefined && (
         <div className="flex items-center gap-tight">
           <Zap size={14} className="text-accent-400" />
-          <span className="text-body-sm font-semibold text-accent-700">
+          <span className="text-body font-semibold text-accent-700">
             +{xpAwarded} XP
           </span>
         </div>

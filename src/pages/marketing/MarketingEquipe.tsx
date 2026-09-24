@@ -183,7 +183,7 @@ const Fondateurs: React.FC = () => (
                   {p.monogram}
                 </span>
                 <div className="flex flex-col gap-tight">
-                  <h3 className="font-display text-h4 text-ink-900">{p.nom}</h3>
+                  <h3 className="font-display text-h3 text-ink-900">{p.nom}</h3>
                   <span className="font-body text-caption font-bold text-ink-500">{p.expertise}</span>
                 </div>
               </div>
@@ -242,8 +242,8 @@ const Pourquoi: React.FC = () => (
               <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-primary-100 text-primary-800">
                 {r.icon}
               </span>
-              <h3 className="font-display text-h4 font-bold text-ink-900">{r.title}</h3>
-              <p className="font-body text-body-sm text-ink-600 m-0">{r.detail}</p>
+              <h3 className="font-display text-h3 font-bold text-ink-900">{r.title}</h3>
+              <p className="font-body text-body text-ink-600 m-0">{r.detail}</p>
             </div>
           </FadeInWhenVisible>
         ))}

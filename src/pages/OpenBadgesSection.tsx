@@ -106,7 +106,7 @@ export default function OpenBadgesSection() {
         <section className="flex flex-col gap-stack">
           <div className="flex items-baseline justify-between gap-stack-xs flex-wrap">
             <h2 className="font-display text-h3 font-bold text-ink-900">Mes certifications</h2>
-            <p className="m-0 font-body text-body-sm text-ink-500 shrink-0">8 obtenus · 3 partagés · 2 en cours</p>
+            <p className="m-0 font-body text-body text-ink-500 shrink-0">8 obtenus · 3 partagés · 2 en cours</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-stack">
             {MOCK_BADGES.map((badge) => (
@@ -125,7 +125,7 @@ export default function OpenBadgesSection() {
 
                 {/* Badge info */}
                 <div className="flex flex-col gap-tight text-center">
-                  <p className="m-0 font-semibold text-body-sm text-ink-900">{badge.name}</p>
+                  <p className="m-0 font-semibold text-body text-ink-900">{badge.name}</p>
                   <p className="m-0 text-caption text-ink-500">{badge.issuer}</p>
                   <p className="m-0 text-caption text-ink-600">{badge.date}</p>
                 </div>
@@ -166,7 +166,7 @@ export default function OpenBadgesSection() {
                 <Award />
               </IconChip>
               <div className="flex flex-col gap-tight min-w-0">
-                <p className="m-0 text-body-sm font-semibold text-ink-900">Credly</p>
+                <p className="m-0 text-body font-semibold text-ink-900">Credly</p>
                 <p className="m-0 text-caption text-ink-500">Plateforme leader pour les badges professionnels et certifications IT</p>
               </div>
             </div>
@@ -175,7 +175,7 @@ export default function OpenBadgesSection() {
                 <Award />
               </IconChip>
               <div className="flex flex-col gap-tight min-w-0">
-                <p className="m-0 text-body-sm font-semibold text-ink-900">Badgr</p>
+                <p className="m-0 text-body font-semibold text-ink-900">Badgr</p>
                 <p className="m-0 text-caption text-ink-500">Solution open-source pour la gestion de badges numériques</p>
               </div>
             </div>
@@ -184,7 +184,7 @@ export default function OpenBadgesSection() {
                 <Award />
               </IconChip>
               <div className="flex flex-col gap-tight min-w-0">
-                <p className="m-0 text-body-sm font-semibold text-ink-900">IMS Global</p>
+                <p className="m-0 text-body font-semibold text-ink-900">IMS Global</p>
                 <p className="m-0 text-caption text-ink-500">Standard international Open Badges 3.0 : compatible avec tous les émetteurs certifiés</p>
               </div>
             </div>

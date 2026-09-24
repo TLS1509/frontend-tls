@@ -19,7 +19,7 @@ const SIZE_LABEL: Record<MetaItemSize, string> = {
 
 const SIZE_VALUE: Record<MetaItemSize, string> = {
   sm: 'text-caption',
-  md: 'text-body-sm',
+  md: 'text-body',
 };
 
 const TONE_VALUE: Record<MetaItemTone, string> = {

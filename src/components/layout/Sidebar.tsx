@@ -189,7 +189,7 @@ const formatCount = (count: React.ReactNode): React.ReactNode => {
 };
 
 const NAV_BASE =
-  'group/nav relative isolate flex items-center font-body font-semibold text-body-sm no-underline transition-[background-color,color,padding] duration-fast ease-standard cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
+  'group/nav relative isolate flex items-center font-body font-semibold text-body no-underline transition-[background-color,color,padding] duration-fast ease-standard cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
 
 /* Un seul rayon pour les deux états — resserré le 2026-09-14.
 
@@ -431,7 +431,7 @@ export const SidebarUserCard: React.FC<SidebarUserCardProps> = ({
     >
       <span className="shrink-0">{avatarWithBadge}</span>
       <span className="flex-1 min-w-0 text-left">
-        <span className="block text-body-sm font-bold text-ink-900 truncate">{name}</span>
+        <span className="block text-body font-bold text-ink-900 truncate">{name}</span>
         {subtitle && <span className="block text-caption text-ink-500 truncate">{subtitle}</span>}
       </span>
       <span className="shrink-0 text-ink-600">

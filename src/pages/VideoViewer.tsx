@@ -231,7 +231,7 @@ export const VideoViewer: React.FC = () => {
             </div>
 
             {/* Description */}
-            <p className="font-body text-body-sm text-ink-500 m-0">
+            <p className="font-body text-body text-ink-500 m-0">
               {VIDEO_DATA.description}
             </p>
 
@@ -240,7 +240,7 @@ export const VideoViewer: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setShowTranscript(!showTranscript)}
-                className="w-full min-h-touch px-3 py-stack-xs border-0 bg-transparent cursor-pointer flex items-center justify-between font-body text-body-sm font-semibold text-ink-900 hover:text-primary-700 transition-colors"
+                className="w-full min-h-touch px-3 py-stack-xs border-0 bg-transparent cursor-pointer flex items-center justify-between font-body text-body font-semibold text-ink-900 hover:text-primary-700 transition-colors"
               >
                 <div className="flex items-center gap-stack-xs">
                   <FileText size={16} />
@@ -250,7 +250,7 @@ export const VideoViewer: React.FC = () => {
               </button>
 
               {showTranscript && (
-                <div className="px-3 pb-3 pt-0 border-t border-ink-100 font-body text-body-sm text-ink-500 leading-[1.8] max-h-[400px] overflow-y-auto whitespace-pre-line">
+                <div className="px-3 pb-3 pt-0 border-t border-ink-100 font-body text-body text-ink-500 leading-[1.8] max-h-[400px] overflow-y-auto whitespace-pre-line">
                   {VIDEO_DATA.transcript}
                 </div>
               )}
@@ -271,7 +271,7 @@ export const VideoViewer: React.FC = () => {
                     onClick={() => {}}
                     className="w-full min-h-touch px-3 py-stack-xs border border-ink-100 rounded-md bg-white cursor-pointer text-left transition-colors duration-base hover:bg-ink-50 hover:border-primary-200"
                   >
-                    <div className="font-body text-body-sm font-medium text-ink-900 mb-1">
+                    <div className="font-body text-body font-medium text-ink-900 mb-1">
                       {video.title}
                     </div>
                     <div className="font-body text-caption text-ink-500 flex items-center gap-tight">

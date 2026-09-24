@@ -100,10 +100,10 @@ export const AchievementBadge: React.FC<AchievementBadgeProps> = ({
         )}
       </div>
 
-      <h3 className="mb-2 text-h4 font-display text-ink-900">{title}</h3>
+      <h3 className="mb-2 text-h3 font-display text-ink-900">{title}</h3>
 
       {description && (
-        <p className="m-0 mb-stack text-body-sm text-ink-500">{description}</p>
+        <p className="m-0 mb-stack text-body text-ink-500">{description}</p>
       )}
 
       <p

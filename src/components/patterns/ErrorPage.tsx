@@ -195,7 +195,7 @@ const SuggestionCard: React.FC<SuggestionCardProps> = ({
         {icon}
       </div>
       <div className="flex flex-col gap-tight">
-        <h3 className="font-body text-body-sm font-bold text-ink-900">{title}</h3>
+        <h3 className="font-body text-body font-bold text-ink-900">{title}</h3>
         {description && (
           <p className="font-body text-caption text-ink-500 m-0">{description}</p>
         )}

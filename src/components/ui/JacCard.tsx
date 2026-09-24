@@ -36,7 +36,7 @@ export const JacCardPending: React.FC<JacCardPendingProps> = ({
   <Card variant="default" className="p-stack-md flex flex-col gap-stack-xs">
     <div className="flex items-start justify-between gap-stack flex-wrap">
       <div className="flex flex-col gap-tight">
-        <span className="font-display font-semibold text-body-sm text-ink-900">{title}</span>
+        <span className="font-display font-semibold text-body text-ink-900">{title}</span>
         <div className="flex items-center gap-stack-xs text-caption text-ink-600">
           <AlertCircle size={14} aria-hidden />
           <span>
@@ -77,7 +77,7 @@ export const JacCardNextJalon: React.FC<JacCardNextJalonProps> = ({
     <div className="flex items-start justify-between gap-stack flex-wrap">
       <div className="flex flex-col gap-tight flex-1 min-w-0">
         <div className="flex items-center gap-stack-xs flex-wrap">
-          <span className="font-display font-semibold text-body-sm text-ink-900">{title}</span>
+          <span className="font-display font-semibold text-body text-ink-900">{title}</span>
           <Badge variant="brand" size="compact">{dreyfusLevel}</Badge>
         </div>
         <ul className="m-0 pl-0 list-none flex flex-col gap-tight">

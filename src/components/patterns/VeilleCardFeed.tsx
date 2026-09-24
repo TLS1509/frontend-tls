@@ -231,11 +231,11 @@ export const VeilleCard: React.FC<VeilleCardProps> = ({ item, surface, isSaved, 
           <span className="inline-flex items-center gap-tight"><Clock size={14} strokeWidth={2} />{item.readTime}</span>
         </div>
 
-        <h3 className="font-display text-h4 font-bold text-ink-900 line-clamp-2">
+        <h3 className="font-display text-h3 font-bold text-ink-900 line-clamp-2">
           {item.title}
         </h3>
 
-        <p className="m-0 font-body text-body-sm text-ink-600 line-clamp-2 flex-1">
+        <p className="m-0 font-body text-body text-ink-600 line-clamp-2 flex-1">
           {item.summary}
         </p>
 
@@ -301,7 +301,7 @@ export const VeilleCardListItem: React.FC<VeilleCardProps> = ({ item, surface, i
               Nouveau
             </span>
           )}
-          <h3 className="font-display text-body @lg:text-h4 font-bold text-ink-900 line-clamp-2">
+          <h3 className="font-display text-body @lg:text-h3 font-bold text-ink-900 line-clamp-2">
             {item.title}
           </h3>
         </div>
@@ -314,7 +314,7 @@ export const VeilleCardListItem: React.FC<VeilleCardProps> = ({ item, surface, i
           <span aria-hidden>·</span>
           <span className="inline-flex items-center gap-tight"><Clock size={14} strokeWidth={2} />{item.readTime}</span>
         </div>
-        <p className="m-0 font-body text-caption @lg:text-body-sm text-ink-600 line-clamp-2">
+        <p className="m-0 font-body text-caption @lg:text-body text-ink-600 line-clamp-2">
           {item.summary}
         </p>
       </div>
@@ -587,7 +587,7 @@ export const VeilleCardFeed: React.FC<VeilleCardFeedProps> = ({
       <div className={['flex items-center justify-center p-12', className].filter(Boolean).join(' ')}>
         <div className="flex flex-col items-center gap-stack-xs text-ink-500">
           <div className="w-10 h-10 rounded-pill border-[3px] border-ink-200 border-t-primary-500 animate-spin" />
-          <p className="m-0 text-body-sm font-medium">Chargement…</p>
+          <p className="m-0 text-body font-medium">Chargement…</p>
         </div>
       </div>
     );
@@ -603,7 +603,7 @@ export const VeilleCardFeed: React.FC<VeilleCardFeedProps> = ({
       >
         <div className="flex flex-col items-center gap-stack-xs text-ink-500 text-center">
           <p className="m-0 text-4xl">📭</p>
-          <p className="m-0 text-body-sm font-medium">{emptyMessage}</p>
+          <p className="m-0 text-body font-medium">{emptyMessage}</p>
         </div>
       </div>
     );

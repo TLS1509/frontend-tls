@@ -71,7 +71,7 @@ const CONFIDENCE_OPTIONS: { level: ConfidenceLevel; label: string }[] = [
 ];
 
 const BTN_BASE =
-  'inline-flex items-center justify-center gap-stack-xs px-stack-md py-2.5 rounded-md text-body-sm font-semibold cursor-pointer transition-[background-color,border-color,box-shadow,transform] duration-fast ease-emphasis active:scale-[0.98] ' +
+  'inline-flex items-center justify-center gap-stack-xs px-stack-md py-2.5 rounded-md text-body font-semibold cursor-pointer transition-[background-color,border-color,box-shadow,transform] duration-fast ease-emphasis active:scale-[0.98] ' +
   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-400 ' +
   'disabled:opacity-40 disabled:cursor-not-allowed';
 const BTN_PRIMARY = 'bg-primary-700 text-white hover:bg-primary-800';
@@ -179,7 +179,7 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({
           {correctCount > 1 ? 's' : ''} sur {questions.length}.
         </p>
         {overconfident > 0 && (
-          <p className="m-0 mb-stack-lg text-body-sm text-ink-500 max-w-prose mx-auto">
+          <p className="m-0 mb-stack-lg text-body text-ink-500 max-w-prose mx-auto">
             {overconfident === 1
               ? 'Sur une question, tu étais certain de ta réponse alors qu’elle était fausse. C’est le point à revoir en priorité.'
               : `Sur ${overconfident} questions, tu étais certain de ta réponse alors qu’elle était fausse. Ce sont les points à revoir en priorité.`}
@@ -212,7 +212,7 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({
       </div>
 
       <div className="mb-stack-md">
-        <h3 className="mb-stack text-h4 font-display text-ink-900">
+        <h3 className="mb-stack text-h3 font-display text-ink-900">
           {currentQuestion.question}
         </h3>
 
@@ -258,7 +258,7 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({
                 >
                   {isSelected && <span className="block w-2 h-2 rounded-pill bg-white" />}
                 </span>
-                <span className="flex-1 text-body-sm text-ink-900">{option}</span>
+                <span className="flex-1 text-body text-ink-900">{option}</span>
                 {(showAsCorrect || showAsWrong) && (
                   <span
                     className={[
@@ -282,7 +282,7 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({
       {/* Calibration : demandée après le choix, avant la révélation. */}
       {askConfidence && record !== null && !isRevealed && (
         <fieldset className="mb-stack-md border-0 p-0 m-0">
-          <legend className="text-body-sm font-semibold text-ink-900 mb-stack-xs p-0">
+          <legend className="text-body font-semibold text-ink-900 mb-stack-xs p-0">
             À quel point es-tu sûr de ta réponse&nbsp;?
           </legend>
           <div className="flex flex-wrap gap-stack-xs">

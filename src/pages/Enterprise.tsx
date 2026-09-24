@@ -257,7 +257,7 @@ export const Enterprise: React.FC = () => {
                 >
                   <Avatar name={m.name} tint={tone} size="md" />
                   <div className="flex-1 min-w-0">
-                    <p className="m-0 font-body text-body-sm font-bold text-ink-900 truncate">
+                    <p className="m-0 font-body text-body font-bold text-ink-900 truncate">
                       {m.name}
                     </p>
                     <p className="m-0 font-body text-caption text-ink-500 mt-0.5">
@@ -365,7 +365,7 @@ export const Enterprise: React.FC = () => {
                   )}
                 </span>
                 <div className="flex-1 min-w-40">
-                  <p className="m-0 font-body text-body-sm font-bold text-ink-900">
+                  <p className="m-0 font-body text-body font-bold text-ink-900">
                     {u.name}
                   </p>
                   <p className="m-0 font-body text-caption text-ink-500 mt-0.5">
@@ -416,7 +416,7 @@ export const Enterprise: React.FC = () => {
                       <Badge variant="neutral">{r.period}</Badge>
                     </div>
                   </div>
-                  <p className="m-0 font-body text-body-sm text-ink-600 flex-1">
+                  <p className="m-0 font-body text-body text-ink-600 flex-1">
                     {r.desc}
                   </p>
                   <div className="flex gap-stack-xs mt-auto">

@@ -46,7 +46,7 @@ const RAYON = 'rounded-lg';
 
 const SIZE_CLASSES: Record<SelectSize, string> = {
   sm: 'h-9 px-3 text-caption',
-  md: 'h-11 px-3.5 text-body-sm',
+  md: 'h-11 px-3.5 text-body',
   lg: 'h-13 px-4 text-body',
 };
 
@@ -99,7 +99,7 @@ export const Select: React.FC<SelectProps> = ({
     <div className={containerClasses}>
       {label && (
         <label
-          className="text-body-sm font-semibold text-ink-900"
+          className="text-body font-semibold text-ink-900"
           htmlFor={fieldId}
         >
           {label}

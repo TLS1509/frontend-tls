@@ -106,7 +106,7 @@ export const MarketingFooter: React.FC = () => (
           className="flex w-fit shrink-0 items-center gap-stack-xs focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-500 rounded-lg"
         >
           <TlsLogo size={24} variant="primary" />
-          <span className="font-display font-bold text-body-sm text-ink-900 whitespace-nowrap">
+          <span className="font-display font-bold text-body text-ink-900 whitespace-nowrap">
             The Learning Society
           </span>
         </Link>
@@ -120,7 +120,7 @@ export const MarketingFooter: React.FC = () => (
                   <li key={href}>
                     <Link
                       to={href}
-                      className={`${LIEN} font-body text-body-sm text-ink-600 hover:text-ink-900`}
+                      className={`${LIEN} font-body text-body text-ink-600 hover:text-ink-900`}
                     >
                       {label}
                     </Link>

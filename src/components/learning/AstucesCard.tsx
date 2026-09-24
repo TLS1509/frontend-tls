@@ -89,7 +89,7 @@ export const AstucesCard: React.FC<AstucesCardProps> = ({
     {/* Title */}
     <h2
       className={[
-        'mb-2 font-display text-h4 sm:text-h3 font-bold tracking-headline',
+        'mb-2 font-display text-h3 sm:text-h3 font-bold tracking-headline',
         TONE_TEXT_700[tone],
       ].join(' ')}
     >
@@ -97,7 +97,7 @@ export const AstucesCard: React.FC<AstucesCardProps> = ({
     </h2>
 
     {/* Description */}
-    <p className="m-0 text-body-sm sm:text-body text-ink-700">
+    <p className="m-0 text-body sm:text-body text-ink-700">
       {description}
     </p>
 

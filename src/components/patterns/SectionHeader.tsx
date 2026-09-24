@@ -99,7 +99,7 @@ const TONE_UNDERLINE: Record<SectionHeaderTone, string> = {
 
 const SIZE_TITLE: Record<SectionHeaderSize, string> = {
   xs: 'text-body', // graisse portée par la variante (700) : un 2e poids ici se battait avec font-bold
-  sm: 'text-h4',
+  sm: 'text-h3',
   md: 'text-h3',
   lg: 'text-h2',
 };
@@ -292,7 +292,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
             {title}
           </Heading>
           {subtitle && (
-            <span className="hidden sm:inline-flex text-body-sm text-ink-500 font-body before:content-['·'] before:mx-2 before:text-ink-300">
+            <span className="hidden sm:inline-flex text-body text-ink-500 font-body before:content-['·'] before:mx-2 before:text-ink-300">
               {subtitle}
             </span>
           )}
@@ -314,7 +314,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
                 <span aria-hidden="true" className={['absolute left-0 -bottom-0.5 rounded-pill', SIZE_UNDERLINE_HEIGHT[size], SIZE_UNDERLINE_WIDTH[size], TONE_UNDERLINE[tone]].join(' ')} />
               </span>
             </Heading>
-            {subtitle && <p className="font-body text-body-sm text-ink-500 m-0 mt-tight">{subtitle}</p>}
+            {subtitle && <p className="font-body text-body text-ink-500 m-0 mt-tight">{subtitle}</p>}
           </div>
         </div>
         {action && <div className="shrink-0 flex items-center gap-stack-xs">{action}</div>}
@@ -337,7 +337,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
             {title}
           </Heading>
           {subtitle && (
-            <p className="font-body text-body-sm text-ink-500 m-0">{subtitle}</p>
+            <p className="font-body text-body text-ink-500 m-0">{subtitle}</p>
           )}
         </div>
         {action && <div className="shrink-0 flex items-center gap-stack-xs">{action}</div>}
@@ -382,7 +382,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
 
         {/* Chapô — rangée 2, colonne 2 : sous le titre, jamais sous l'icône */}
         {subtitle && (
-          <p className="col-start-2 mt-tight font-body text-body-sm text-ink-500 m-0">
+          <p className="col-start-2 mt-tight font-body text-body text-ink-500 m-0">
             {subtitle}
           </p>
         )}

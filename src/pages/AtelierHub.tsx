@@ -64,7 +64,7 @@ export default function AtelierHub() {
 
         {/* Grid */}
         {filtered.length === 0 ? (
-          <p className="text-body-sm text-ink-600 py-section text-center">Aucun atelier dans cette catégorie.</p>
+          <p className="text-body text-ink-600 py-section text-center">Aucun atelier dans cette catégorie.</p>
         ) : (
           <div className="grid md:grid-cols-2 gap-stack">
             {filtered.map((atelier) => {
@@ -103,7 +103,7 @@ export default function AtelierHub() {
 
                   <div className="flex items-center gap-stack-xs">
                     <Avatar initials={atelier.coachInitials} size="sm" />
-                    <span className="text-body-sm text-ink-600">{atelier.coachName}</span>
+                    <span className="text-body text-ink-600">{atelier.coachName}</span>
                   </div>
 
                   <div className="flex items-center gap-stack-xs flex-wrap">

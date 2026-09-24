@@ -69,7 +69,7 @@ export default function CoachJournalDetail() {
               {AI_OBSERVATIONS.map((obs) => (
                 <div key={obs.label} className="flex flex-col gap-tight p-3 bg-primary-50 rounded-lg">
                   <span className="text-caption font-semibold text-primary-700 uppercase tracking-wide">{obs.label}</span>
-                  <span className="text-body-sm text-ink-700">{obs.value}</span>
+                  <span className="text-body text-ink-700">{obs.value}</span>
                 </div>
               ))}
             </div>
@@ -81,15 +81,15 @@ export default function CoachJournalDetail() {
           titleIcon={<Calendar size={18} />}
         >
           <div className="flex flex-col gap-stack-xs">
-            <div className="flex items-center gap-stack text-body-sm text-ink-700">
+            <div className="flex items-center gap-stack text-body text-ink-700">
               <span className="text-ink-500 w-28 shrink-0">Date</span>
               <span>12 mai 2026</span>
             </div>
-            <div className="flex items-center gap-stack text-body-sm text-ink-700">
+            <div className="flex items-center gap-stack text-body text-ink-700">
               <span className="text-ink-500 w-28 shrink-0">Apprenant</span>
               <span>Marie Dupont</span>
             </div>
-            <div className="flex items-start gap-stack text-body-sm text-ink-700">
+            <div className="flex items-start gap-stack text-body text-ink-700">
               <span className="text-ink-500 w-28 shrink-0 pt-0.5">Compétences</span>
               <div className="flex flex-wrap gap-stack-xs">
                 {COMPETENCY_TAGS.map((tag) => (

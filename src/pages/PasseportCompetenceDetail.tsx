@@ -168,7 +168,7 @@ export default function PasseportCompetenceDetail() {
                 </span>
                 <div className="flex flex-col gap-tight min-w-0">
                   <div className="flex items-center gap-stack-xs">
-                    <span className="text-body-sm font-semibold text-ink-900">{d.label}</span>
+                    <span className="text-body font-semibold text-ink-900">{d.label}</span>
                     {d.level === currentLevel && <Badge variant="info" size="compact">Ton niveau</Badge>}
                     {d.level === targetLevel && d.level !== currentLevel && <Badge variant="brand" size="compact">Objectif</Badge>}
                   </div>
@@ -186,7 +186,7 @@ export default function PasseportCompetenceDetail() {
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={[
-                'px-stack py-stack-xs text-body-sm font-semibold transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-t-sm',
+                'px-stack py-stack-xs text-body font-semibold transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-t-sm',
                 activeTab === tab
                   ? 'text-primary-700 border-b-2 border-primary-600'
                   : 'text-ink-500 hover:text-ink-900',
@@ -221,7 +221,7 @@ export default function PasseportCompetenceDetail() {
                   {competencyProgressions.map((p) => (
                     <div key={p.id} className="flex items-center justify-between px-stack py-3 rounded-lg border border-ink-100">
                       <div className="flex flex-col gap-tight">
-                        <span className="text-body-sm font-medium text-ink-900">{p.title}</span>
+                        <span className="text-body font-medium text-ink-900">{p.title}</span>
                         <span className="text-caption text-ink-600">{new Date(p.occurredAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
                       </div>
                       {p.newLevel && <Badge variant="success" size="compact">D{p.newLevel}</Badge>}
@@ -229,7 +229,7 @@ export default function PasseportCompetenceDetail() {
                   ))}
                 </div>
               ) : (
-                <p className="text-body-sm text-ink-500 m-0">Aucune activité enregistrée pour cette compétence.</p>
+                <p className="text-body text-ink-500 m-0">Aucune activité enregistrée pour cette compétence.</p>
               )}
             </SectionCard>
 
@@ -242,7 +242,7 @@ export default function PasseportCompetenceDetail() {
                   {validations.map((e) => (
                     <div key={e.id} className="flex items-center justify-between px-stack py-3 rounded-lg border border-primary-100 bg-primary-50">
                       <div className="flex flex-col gap-tight">
-                        <span className="text-body-sm font-medium text-ink-900">{e.sourceLabel}</span>
+                        <span className="text-body font-medium text-ink-900">{e.sourceLabel}</span>
                         <span className="text-caption text-ink-600">
                           {new Date(e.occurredAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}
                           {e.verifiedByName ? ` · validé par ${e.verifiedByName}` : ''}
@@ -267,7 +267,7 @@ export default function PasseportCompetenceDetail() {
                   {traces.map((e) => (
                     <div key={e.id} className="flex items-center justify-between gap-stack px-stack py-3 rounded-lg border border-ink-100">
                       <div className="flex flex-col gap-tight min-w-0">
-                        <span className="text-body-sm font-medium text-ink-900">{e.sourceLabel}</span>
+                        <span className="text-body font-medium text-ink-900">{e.sourceLabel}</span>
                         <span className="text-caption text-ink-600">
                           {new Date(e.occurredAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}
                           {e.retention ? ` · prochaine révision dans ${e.retention.intervalDays} j` : ''}

@@ -117,12 +117,12 @@ export const LineChart: React.FC<LineChartProps> = ({
           <XAxis
             dataKey="label"
             stroke="currentColor"
-            className="text-body-sm text-ink-600"
+            className="text-body text-ink-600"
             tick={{ fontSize: 12 }}
           />
           <YAxis
             stroke="currentColor"
-            className="text-body-sm text-ink-600"
+            className="text-body text-ink-600"
             tick={{ fontSize: 12 }}
           />
           <Tooltip {...CHART_TOOLTIP} />

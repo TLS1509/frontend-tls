@@ -162,7 +162,7 @@ export const Leaderboard: React.FC = () => {
               >
                 {/* Rank badge + points */}
                 <div className="flex items-center justify-between">
-                  <span className={['inline-flex items-center justify-center w-10 h-10 rounded-xl font-display text-h4 leading-none', pod.rankClasses].join(' ')}>
+                  <span className={['inline-flex items-center justify-center w-10 h-10 rounded-xl font-display text-h3 leading-none', pod.rankClasses].join(' ')}>
                     #{index + 1}
                   </span>
                   <span className={`text-caption font-bold ${pod.badgeClasses}`}>
@@ -172,7 +172,7 @@ export const Leaderboard: React.FC = () => {
 
                 {/* Avatar + name */}
                 <div className="flex items-center gap-stack-xs">
-                  <div className={`w-12 h-12 rounded-pill flex items-center justify-center text-body-sm font-extrabold shrink-0 ${pod.avatarClasses}`}>
+                  <div className={`w-12 h-12 rounded-pill flex items-center justify-center text-body font-extrabold shrink-0 ${pod.avatarClasses}`}>
                     {entry.initials}
                   </div>
                   <div>
@@ -216,11 +216,11 @@ export const Leaderboard: React.FC = () => {
           {/* Current user banner : only show if they're not on the podium */}
           {currentUserRow && currentUserRow.rank > 3 && (
             <Card variant="tinted" tone="primary" className="flex items-center gap-stack p-stack-md">
-              <div className="w-10 h-10 rounded-pill bg-gradient-to-br from-primary-700 to-secondary-700 flex items-center justify-center text-white font-extrabold text-body-sm shrink-0">
+              <div className="w-10 h-10 rounded-pill bg-gradient-to-br from-primary-700 to-secondary-700 flex items-center justify-center text-white font-extrabold text-body shrink-0">
                 {currentUserRow.initials}
               </div>
               <div className="flex-1">
-                <div className="font-body text-body-sm font-bold text-ink-900">{currentUserRow.name}</div>
+                <div className="font-body text-body font-bold text-ink-900">{currentUserRow.name}</div>
                 <div className="font-body text-caption text-ink-600">
                   Niveau {currentUserRow.level} · {currentUserRow.xp.toLocaleString('fr-FR')} XP
                 </div>
@@ -260,13 +260,13 @@ export const Leaderboard: React.FC = () => {
                       <Avatar initials={entry.initials} size="sm" />
                     </span>
                     <div className="flex-1 min-w-0">
-                      <p className="font-body text-body-sm font-bold text-ink-900 truncate">{entry.name}</p>
+                      <p className="font-body text-body font-bold text-ink-900 truncate">{entry.name}</p>
                       {/* ink-500 fait 4,45:1 sur la rangée primary-50 de l'utilisateur : 600 là. */}
                       <p className={`font-body text-caption truncate ${entry.isCurrentUser ? 'text-ink-600' : 'text-ink-500'}`}>
                         Niveau {entry.level} · {entry.xp.toLocaleString('fr-FR')} XP
                       </p>
                     </div>
-                    <span className="shrink-0 font-body text-body-sm font-bold tabular-nums text-primary-800">
+                    <span className="shrink-0 font-body text-body font-bold tabular-nums text-primary-800">
                       {entry.points} pts
                     </span>
                     <Button
@@ -305,11 +305,11 @@ export const Leaderboard: React.FC = () => {
               <Zap size={20} strokeWidth={1.8} />
             </div>
             <div>
-              <h3 className="font-display text-h4 font-bold text-ink-900 flex items-center gap-stack-xs">
+              <h3 className="font-display text-h3 font-bold text-ink-900 flex items-center gap-stack-xs">
                 <Sparkles size={16} className="text-primary-500" />
                 Objectif de la semaine
               </h3>
-              <p className="m-0 font-body text-body-sm text-ink-500">
+              <p className="m-0 font-body text-body text-ink-500">
                 Valide 3 activités réflexives et 2 modules pour intégrer le top 3.
               </p>
             </div>

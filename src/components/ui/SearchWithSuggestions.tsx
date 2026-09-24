@@ -153,7 +153,7 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
             placeholder={placeholder}
             className={`
               flex-1 bg-transparent border-0
-              text-body-sm font-medium text-ink-900 placeholder-ink-400
+              text-body font-medium text-ink-900 placeholder-ink-400
               focus:outline-none
               ${sizeClasses[size]}
             `}
@@ -213,7 +213,7 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
                     {/* Text content */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-stack-xs flex-wrap">
-                        <p className="text-body-sm font-semibold text-ink-900 truncate">
+                        <p className="text-body font-semibold text-ink-900 truncate">
                           {suggestion.label}
                         </p>
                         <span className={`text-micro font-bold px-2 py-0.5 rounded-pill whitespace-nowrap ${COLOR_MAP[suggestion.type]}`}>
@@ -262,7 +262,7 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
               `}
             >
               <div className="px-4 py-section text-center">
-                <p className="text-body-sm text-ink-500">
+                <p className="text-body text-ink-500">
                   Aucun résultat pour « <strong>{value}</strong> »
                 </p>
                 <p className="text-micro text-ink-600 mt-1">

@@ -245,7 +245,7 @@ export default function CoachLearnerProfile() {
           />
           <div className="flex flex-col gap-tight flex-1 min-w-0">
             <h2 className="text-h3 font-display font-bold text-ink-900">{learner.name}</h2>
-            <p className="text-body-sm text-ink-500">{learner.role} · {learner.email}</p>
+            <p className="text-body text-ink-500">{learner.role} · {learner.email}</p>
             <div className="flex flex-wrap items-center gap-stack-xs mt-1">
               <Badge variant="info">{learner.level}</Badge>
               <Badge variant={STATUS_BADGE_VARIANT[learner.status]}>{STATUS_BADGE_LABEL[learner.status]}</Badge>
@@ -260,7 +260,7 @@ export default function CoachLearnerProfile() {
           description="Validez le niveau atteint par l'apprenant. Une validation coach/manager est une décision humaine : elle écrit le niveau validé et signe une preuve certifiante au Passeport (AI Act art. 22)."
         >
           {competencies.length === 0 ? (
-            <p className="text-body-sm text-ink-500 m-0">
+            <p className="text-body text-ink-500 m-0">
               Aucune compétence évaluée dans le Passeport de {learner.name} pour l'instant.
             </p>
           ) : (
@@ -274,7 +274,7 @@ export default function CoachLearnerProfile() {
                   <div key={lc.competenceId} className="flex flex-col gap-stack-xs py-stack">
                     <div className="flex items-center justify-between gap-stack">
                       <div className="flex flex-col gap-tight min-w-0">
-                        <span className="text-body-sm font-semibold text-ink-800">{compLabel}</span>
+                        <span className="text-body font-semibold text-ink-800">{compLabel}</span>
                         <div className="flex items-center gap-stack-xs">
                           <Badge variant="brand" size="compact">
                             D{level} · {DREYFUS_LABELS[level]}
@@ -311,7 +311,7 @@ export default function CoachLearnerProfile() {
                                 onClick={() => setPickedLevel(lvl)}
                                 aria-pressed={pickedLevel === lvl}
                                 className={[
-                                  'flex-1 h-10 rounded-lg text-body-sm font-semibold border transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+                                  'flex-1 h-10 rounded-lg text-body font-semibold border transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                                   pickedLevel === lvl
                                     ? 'bg-primary-700 text-white border-primary-700'
                                     : 'bg-white text-ink-600 border-ink-200 hover:border-primary-300',
@@ -329,7 +329,7 @@ export default function CoachLearnerProfile() {
                           </label>
                           <textarea
                             id={`rationale-${lc.competenceId}`}
-                            className="w-full h-auto min-h-[72px] rounded-lg border border-ink-200 bg-white px-3 py-2 text-body-sm text-ink-900 font-body placeholder:text-ink-500 focus:outline-none focus:border-primary-500 transition-colors resize-none"
+                            className="w-full h-auto min-h-[72px] rounded-lg border border-ink-200 bg-white px-3 py-2 text-body text-ink-900 font-body placeholder:text-ink-500 focus:outline-none focus:border-primary-500 transition-colors resize-none"
                             placeholder="Sur quelle preuve observable repose cette validation ? (mise en situation, livrable, JAC…)"
                             value={rationale}
                             onChange={(e) => setRationale(e.target.value)}
@@ -371,7 +371,7 @@ export default function CoachLearnerProfile() {
           >
             <div className="flex items-start gap-stack-xs p-stack rounded-lg border border-ink-100 bg-ink-50">
               <ShieldOff size={18} className="text-ink-600 mt-0.5 shrink-0" />
-              <p className="text-body-sm text-ink-600">
+              <p className="text-body text-ink-600">
                 {learner.name} a désactivé les recommandations IA dans ses préférences de
                 confidentialité. Aucune suggestion automatique n'est générée pour cet apprenant.
               </p>
@@ -401,7 +401,7 @@ export default function CoachLearnerProfile() {
                   >
                     <div className="flex items-start justify-between gap-stack">
                       <div className="flex flex-col gap-tight flex-1 min-w-0">
-                        <span className="text-body-sm font-semibold text-ink-900">{rec.title}</span>
+                        <span className="text-body font-semibold text-ink-900">{rec.title}</span>
                         <p className="text-caption text-ink-500">{rec.rationale}</p>
                       </div>
                       <span className={`inline-flex items-center text-micro font-medium px-1.5 py-0.5 rounded-xs border shrink-0 ${confCls}`}>
@@ -449,7 +449,7 @@ export default function CoachLearnerProfile() {
             {SESSIONS.map((session) => (
               <li key={session.id} className="flex items-center gap-stack py-3">
                 <div className="flex flex-col gap-tight flex-1 min-w-0">
-                  <span className="text-body-sm font-semibold text-ink-900">{session.subject}</span>
+                  <span className="text-body font-semibold text-ink-900">{session.subject}</span>
                   <span className="text-caption text-ink-500">{session.date}</span>
                 </div>
                 <Badge variant={SESSION_BADGE_VARIANT[session.status]}>
@@ -477,7 +477,7 @@ export default function CoachLearnerProfile() {
           }
         >
           <textarea
-            className="w-full h-auto min-h-[120px] rounded-lg border border-ink-200 bg-ink-50 px-3.5 py-3 text-body-sm text-ink-900 font-body placeholder:text-ink-500 focus:outline-none focus:border-primary-500 focus:bg-white transition-colors resize-none"
+            className="w-full h-auto min-h-[120px] rounded-lg border border-ink-200 bg-ink-50 px-3.5 py-3 text-body text-ink-900 font-body placeholder:text-ink-500 focus:outline-none focus:border-primary-500 focus:bg-white transition-colors resize-none"
             placeholder="Écrivez ici vos observations sur l'apprenant, les points à travailler, les avancées notables…"
             value={note}
             onChange={(e) => setNote(e.target.value)}

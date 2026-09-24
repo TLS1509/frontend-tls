@@ -213,7 +213,7 @@ export default function PasseportObjectifs() {
                     >
                       <div className="flex items-start justify-between gap-stack-xs mb-3">
                         <div className="flex flex-col gap-tight">
-                          <span className="text-body-sm font-semibold text-ink-900">
+                          <span className="text-body font-semibold text-ink-900">
                             {comp?.label ?? g.competenceId}
                           </span>
                           <MetaPill text={comp ? domainLabel(comp.domain) : g.competenceId} tone="primary" className="w-fit" />
@@ -280,7 +280,7 @@ export default function PasseportObjectifs() {
                   ].join(' ')}>
                     {m.done ? '✓' : idx + 1}
                   </span>
-                  <span className={['text-body-sm', m.done ? 'text-success-fg line-through' : 'text-ink-800'].join(' ')}>
+                  <span className={['text-body', m.done ? 'text-success-fg line-through' : 'text-ink-800'].join(' ')}>
                     {m.label}
                   </span>
                 </div>
@@ -303,7 +303,7 @@ export default function PasseportObjectifs() {
                 return (
                   <Card key={g.id} variant="default" className="flex flex-wrap items-center justify-between px-stack py-3">
                     <div className="flex flex-col gap-tight">
-                      <span className="text-body-sm font-medium text-ink-900">{comp?.label ?? g.competenceId}</span>
+                      <span className="text-body font-medium text-ink-900">{comp?.label ?? g.competenceId}</span>
                       <span className="text-caption text-ink-600">{comp?.subdomain ?? (comp ? domainLabel(comp.domain) : '')} · D{g.startLevel}→D{g.targetLevel}</span>
                     </div>
                     <div className="flex flex-wrap items-center gap-stack-xs">

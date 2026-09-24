@@ -58,7 +58,7 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
     onClose();
   };
 
-  const CONFIRM_BTN_BASE = 'w-full py-3.5 px-4 rounded-xl border-[1.5px] flex items-center justify-center gap-stack-xs font-bold text-body-sm transition-all font-body';
+  const CONFIRM_BTN_BASE = 'w-full py-3.5 px-4 rounded-xl border-[1.5px] flex items-center justify-center gap-stack-xs font-bold text-body transition-all font-body';
   const CONFIRM_BTN_ENABLED = 'border-secondary-500/40 bg-secondary-500/8 text-secondary-700 cursor-pointer hover:bg-secondary-500/14';
   const CONFIRM_BTN_DISABLED = 'border-ink-200 bg-ink-50 text-ink-600 opacity-50 cursor-not-allowed';
 
@@ -92,13 +92,13 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
             <h2 id={dialog.titleId} className="text-h3 text-ink-900 text-center mb-2">
               Annuler la session ?
             </h2>
-            <p className="text-body-sm text-ink-600 text-center mb-stack-md">
+            <p className="text-body text-ink-600 text-center mb-stack-md">
               Cette action est irréversible. Vous pouvez aussi reprogrammer plutôt qu'annuler.
             </p>
 
             {/* Session summary */}
             <div className="px-4 py-3 rounded-xl bg-ink-50 border border-ink-200 mb-stack-md">
-              <p className="text-body-sm font-bold text-ink-900 mb-0.5">
+              <p className="text-body font-bold text-ink-900 mb-0.5">
                 {sessionTitle}
               </p>
               <p className="text-micro text-ink-600 flex items-center gap-tight">
@@ -108,14 +108,14 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
 
             {/* Reason dropdown */}
             <div className="mb-stack-lg">
-              <label className="block mb-2 text-body-sm font-semibold text-ink-900">
+              <label className="block mb-2 text-body font-semibold text-ink-900">
                 Motif d'annulation <span className="text-secondary-700">*</span>
               </label>
               <div className="relative">
                 <select
                   value={reason}
                   onChange={(e) => setReason(e.target.value)}
-                  className={`w-full pl-3 pr-10 py-2.5 h-auto min-h-[44px] rounded-lg border-[1.5px] border-ink-200 bg-ink-50 text-body-sm font-body outline-none cursor-pointer transition-colors box-border appearance-none focus:border-secondary-400 ${reason ? 'text-ink-900' : 'text-ink-600'}`}
+                  className={`w-full pl-3 pr-10 py-2.5 h-auto min-h-[44px] rounded-lg border-[1.5px] border-ink-200 bg-ink-50 text-body font-body outline-none cursor-pointer transition-colors box-border appearance-none focus:border-secondary-400 ${reason ? 'text-ink-900' : 'text-ink-600'}`}
                 >
                   <option value="">Sélectionnez un motif…</option>
                   {REASONS.map((r) => (
@@ -153,10 +153,10 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
           /* Done state */
           <div className="text-center py-stack-lg animate-[csoFadeIn_0.4s_ease_both]">
             <div className="text-[3rem] mb-3">✅</div>
-            <h3 className="text-h4 font-bold text-ink-900 mb-2">
+            <h3 className="text-h3 font-bold text-ink-900 mb-2">
               Session annulée
             </h3>
-            <p className="text-body-sm text-ink-600">
+            <p className="text-body text-ink-600">
               Vous pouvez réserver une nouvelle session quand vous le souhaitez.
             </p>
           </div>

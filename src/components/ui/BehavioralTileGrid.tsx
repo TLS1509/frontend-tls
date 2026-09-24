@@ -54,7 +54,7 @@ const PAD: Record<TileSize, string> = {
 
 const LABEL_TEXT: Record<TileSize, string> = {
   compact: 'text-caption',
-  default: 'text-body-sm',
+  default: 'text-body',
   large: 'text-body',
 };
 

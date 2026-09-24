@@ -205,7 +205,7 @@ export default function DashboardAchievements() {
             {inProgress.map((item) => (
               <div key={item.id} className="flex flex-col gap-tight">
                 <div className="flex items-center justify-between">
-                  <span className="text-body-sm font-semibold text-ink-800">{item.label}</span>
+                  <span className="text-body font-semibold text-ink-800">{item.label}</span>
                   <span className="text-caption text-ink-500">
                     {item.current.toLocaleString('fr-FR')} / {item.target.toLocaleString('fr-FR')}
                   </span>
@@ -243,7 +243,7 @@ export default function DashboardAchievements() {
                 className={`flex items-center gap-stack py-3 ${entry.isCurrentUser ? 'bg-primary-50 -mx-4 px-stack rounded-md' : ''}`}
               >
                 <span
-                  className={`w-7 text-center text-body-sm font-bold shrink-0 ${
+                  className={`w-7 text-center text-body font-bold shrink-0 ${
                     entry.rank === 1
                       ? 'text-warning-fg'
                       : entry.rank <= 3
@@ -259,13 +259,13 @@ export default function DashboardAchievements() {
                   tint={entry.isCurrentUser ? 'brand' : 'ink'}
                 />
                 <span
-                  className={`flex-1 text-body-sm ${
+                  className={`flex-1 text-body ${
                     entry.isCurrentUser ? 'font-bold text-primary-700' : 'text-ink-800'
                   }`}
                 >
                   {entry.name}
                 </span>
-                <span className="text-body-sm font-semibold text-ink-600">
+                <span className="text-body font-semibold text-ink-600">
                   {entry.xp.toLocaleString('fr-FR')} XP
                 </span>
               </li>

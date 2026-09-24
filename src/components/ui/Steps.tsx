@@ -80,7 +80,7 @@ export const Steps: React.FC<StepsProps> = ({ items, className = '', ...rest }) 
             )}
 
             <p
-              className={`m-0 mb-1 text-body-sm leading-snug pt-1.5 ${TITLE_STATE[item.state]}`}
+              className={`m-0 mb-1 text-body leading-snug pt-1.5 ${TITLE_STATE[item.state]}`}
             >
               {item.title}
             </p>

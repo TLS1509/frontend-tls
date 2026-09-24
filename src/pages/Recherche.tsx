@@ -189,7 +189,7 @@ export const Recherche: React.FC = () => {
         <div className="flex items-start gap-stack-xs">
           <Avatar name={item.title} tint={item.tone === 'warm' ? 'warm' : item.tone === 'sun' ? 'sun' : 'brand'} size="lg" />
           <div className="flex-1 min-w-0">
-            <h3 className="font-display text-h4 font-bold text-ink-900">
+            <h3 className="font-display text-h3 font-bold text-ink-900">
               {item.title}
             </h3>
             <p className="m-0 mt-1 font-body text-caption text-ink-500">
@@ -197,7 +197,7 @@ export const Recherche: React.FC = () => {
             </p>
           </div>
         </div>
-        <p className="m-0 font-body text-body-sm text-ink-600">
+        <p className="m-0 font-body text-body text-ink-600">
           {item.description}
         </p>
         {item.specialties && (
@@ -255,7 +255,7 @@ export const Recherche: React.FC = () => {
 
         {/* Result count */}
         {debouncedQuery && !isSearching && (
-          <p className="m-0 font-body text-body-sm text-ink-600">
+          <p className="m-0 font-body text-body text-ink-600">
             <strong className="text-primary-700 tabular-nums">{results.length}</strong> résultat{results.length > 1 ? 's' : ''} pour "{debouncedQuery}"
           </p>
         )}

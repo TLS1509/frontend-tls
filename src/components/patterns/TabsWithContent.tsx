@@ -20,7 +20,7 @@ export interface TabsWithContentProps {
 }
 
 const TAB_BASE =
-  'inline-flex items-center gap-stack-xs px-4 py-2.5 bg-transparent border-0 cursor-pointer font-body text-body-sm font-medium transition-all ' +
+  'inline-flex items-center gap-stack-xs px-4 py-2.5 bg-transparent border-0 cursor-pointer font-body text-body font-medium transition-all ' +
   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ' +
   'disabled:cursor-not-allowed disabled:opacity-50';
 

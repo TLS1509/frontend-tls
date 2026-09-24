@@ -102,7 +102,7 @@ export const MarketingVigie: React.FC = () => {
               <span className="text-primary-700">8h</span>
               <span aria-hidden className="text-ink-200">/</span>
               <span className="text-primary-700">5 min</span>
-              <span className="font-body text-body-sm font-normal text-ink-500">un mardi sur deux</span>
+              <span className="font-body text-body font-normal text-ink-500">un mardi sur deux</span>
             </p>
 
             <h1 className="font-display text-hero text-ink-900 [text-wrap:balance] max-w-3xl">

@@ -71,7 +71,7 @@ const HOVER_BG_OUTLINE: Record<ParcoursTone, string> = {
 };
 
 const CTA_BASE =
-  'flex items-center justify-center gap-stack-xs w-full h-11 rounded-lg px-4 cursor-pointer font-body text-body-sm font-semibold whitespace-nowrap transition-[background-color,color,transform,box-shadow] duration-fast ease-emphasis active:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-2';
+  'flex items-center justify-center gap-stack-xs w-full h-11 rounded-lg px-4 cursor-pointer font-body text-body font-semibold whitespace-nowrap transition-[background-color,color,transform,box-shadow] duration-fast ease-emphasis active:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-2';
 
 /* Tone-aware CTA classes — TINTED depuis le 2026-09-17 (verdict option D :
    l'app abandonne le solid). L'ancienne recette posait du blanc sur 500 —
@@ -152,7 +152,7 @@ export const ParcoursCard: React.FC<ParcoursCardProps> = ({
             hyphens-none désactive la césure automatique (évite "Communica-tion"), text-wrap:balance
             pour wrap équilibré. */}
         <h3
-          className={`font-display text-h3 font-bold leading-[1.15] [overflow-wrap:anywhere] hyphens-none max-md:text-h4 [text-wrap:balance] ${TITLE_TONE_CLASSES[tone]}`}
+          className={`font-display text-h3 font-bold leading-[1.15] [overflow-wrap:anywhere] hyphens-none max-md:text-h3 [text-wrap:balance] ${TITLE_TONE_CLASSES[tone]}`}
           title={title}
         >
           {title}
@@ -174,7 +174,7 @@ export const ParcoursCard: React.FC<ParcoursCardProps> = ({
         {/* Description — min-h réservé (3 lignes ≈ 72px) pour aligner inter-cards.
             Full par défaut (jusqu'à 5 lignes), tooltip natif si plus long. */}
         <p
-          className="font-body text-body-sm text-ink-600 m-0 line-clamp-5 min-h-[4.5rem]"
+          className="font-body text-body text-ink-600 m-0 line-clamp-5 min-h-[4.5rem]"
           title={description}
         >
           {description}

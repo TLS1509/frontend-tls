@@ -64,7 +64,7 @@ export const Login: React.FC = () => {
             <button
               type="button"
               onClick={() => navigate('/auth/forgot-password')}
-              className="shrink-0 bg-transparent border-0 p-0 cursor-pointer text-body-sm font-medium text-white/85 hover:text-white hover:underline underline-offset-4 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60 rounded-sm whitespace-nowrap"
+              className="shrink-0 bg-transparent border-0 p-0 cursor-pointer text-body font-medium text-white/85 hover:text-white hover:underline underline-offset-4 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60 rounded-sm whitespace-nowrap"
             >
               Mot de passe oublié ?
             </button>
@@ -80,7 +80,7 @@ export const Login: React.FC = () => {
           </div>
 
           {/* Footer link */}
-          <p className="text-center text-body-sm text-white/75 m-0 mt-1">
+          <p className="text-center text-body text-white/75 m-0 mt-1">
             Pas encore de compte ?{' '}
             <AuthInlineLink onClick={() => navigate('/auth/signup')}>
               Créer un compte

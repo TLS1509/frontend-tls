@@ -221,9 +221,9 @@ export default function ProfilePrivacy() {
         <Card variant="tinted" tone="primary" className="flex flex-col gap-stack">
           <div className="flex items-center gap-stack-xs">
             <AITransparencyLabel variant="assisted" size="md" />
-            <span className="text-body-sm font-semibold text-primary-900">Comment l'IA utilise tes données</span>
+            <span className="text-body font-semibold text-primary-900">Comment l'IA utilise tes données</span>
           </div>
-          <p className="text-body-sm text-primary-800">
+          <p className="text-body text-primary-800">
             Nos modèles IA traitent tes données d'apprentissage uniquement sur les bases légales que tu as acceptées.
             Chaque traitement est documenté, auditable et conforme à l'IA Act européen (2024/1689).
             Tu peux modifier tes préférences à tout moment : les changements prennent effet immédiatement.
@@ -277,7 +277,7 @@ export default function ProfilePrivacy() {
             />
 
             <div className="p-stack rounded-lg border border-ink-100 bg-ink-50 flex flex-col gap-tight">
-              <p className="text-body-sm font-semibold text-ink-900">Tes droits (Article 22 RGPD)</p>
+              <p className="text-body font-semibold text-ink-900">Tes droits (Article 22 RGPD)</p>
               <ul className="flex flex-col gap-tight text-caption text-ink-600 list-disc list-inside">
                 <li>Droit de ne pas faire l'objet d'une décision fondée exclusivement sur un traitement automatisé</li>
                 <li>Droit d'obtenir une intervention humaine</li>
@@ -299,7 +299,7 @@ export default function ProfilePrivacy() {
         >
           <Card variant="default" className="flex flex-wrap items-center justify-between px-stack py-3">
             <div className="flex flex-col gap-tight">
-              <span className="text-body-sm font-semibold text-ink-900">Demande d'accès (DSAR)</span>
+              <span className="text-body font-semibold text-ink-900">Demande d'accès (DSAR)</span>
               <span className="text-caption text-ink-700">Exporte toutes tes données · réponse sous 30 jours (Article 15 RGPD)</span>
             </div>
             <Button emphasis="outline" size="sm" trailingIcon={<ChevronRight size={14} />} onClick={() => navigate('/profile/privacy/dsar')}>
@@ -338,7 +338,7 @@ export default function ProfilePrivacy() {
             {CONSENT_HISTORY.map((h) => (
               <div key={h.id} className="flex items-center justify-between py-2.5 gap-section">
                 <div className="flex flex-col gap-tight flex-1">
-                  <span className="text-body-sm font-medium text-ink-900">{h.type}</span>
+                  <span className="text-body font-medium text-ink-900">{h.type}</span>
                   <span className="text-caption text-ink-600">{h.date} · {h.version}</span>
                 </div>
                 <Badge
@@ -364,7 +364,7 @@ export default function ProfilePrivacy() {
           <div className="flex flex-col gap-stack-xs">
             {DATA_RETENTION.map((r) => (
               <div key={r.type} className="flex items-center justify-between gap-section px-stack py-2.5 rounded-lg bg-ink-50 border border-ink-100">
-                <span className="flex items-center gap-stack-xs text-body-sm text-ink-800 font-medium">
+                <span className="flex items-center gap-stack-xs text-body text-ink-800 font-medium">
                   <r.Icon size={14} className="text-ink-500 shrink-0" />
                   {r.type}
                 </span>

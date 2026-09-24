@@ -31,7 +31,7 @@ const CONTAINER_SIZE_CLASSES: Record<GoalProgressSize, string> = {
 };
 
 const TITLE_SIZE_CLASSES: Record<GoalProgressSize, string> = {
-  sm: 'text-body-sm',
+  sm: 'text-body',
   md: 'text-body',
 };
 
@@ -56,7 +56,7 @@ const TRACK_SIZE_CLASSES: Record<GoalProgressSize, string> = {
 
 const DETAILS_SIZE_CLASSES: Record<GoalProgressSize, string> = {
   sm: 'text-caption',
-  md: 'text-body-sm',
+  md: 'text-body',
 };
 
 export const GoalProgress: React.FC<GoalProgressProps> = ({

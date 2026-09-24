@@ -146,7 +146,7 @@ export const MagazineArticle: React.FC = () => {
             <article className="flex flex-col gap-stack max-w-prose">
               {/* Featured image */}
               <figure className="m-0">
-                <div className="aspect-video w-full rounded-xl bg-gradient-to-br from-primary-100 via-secondary-50 to-primary-200 border border-ink-100 flex items-center justify-center font-body text-body-sm text-ink-500">
+                <div className="aspect-video w-full rounded-xl bg-gradient-to-br from-primary-100 via-secondary-50 to-primary-200 border border-ink-100 flex items-center justify-center font-body text-body text-ink-500">
                   Image principale : schéma de transformation
                 </div>
               </figure>

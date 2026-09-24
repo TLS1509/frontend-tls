@@ -59,7 +59,7 @@ const DEFAULT_ICONS: Record<ConfirmVariant, React.ReactNode> = {
   danger:  <AlertTriangle size={24} />,
 };
 
-const ACTION_BTN_BASE = 'flex-1 py-3 px-4 rounded-lg text-body-sm cursor-pointer transition-all font-body';
+const ACTION_BTN_BASE = 'flex-1 py-3 px-4 rounded-lg text-body cursor-pointer transition-all font-body';
 
 export const ConfirmModal: React.FC<ConfirmModalProps> = ({
   isOpen,
@@ -100,7 +100,7 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
 
         {/* Text */}
         <div className="text-center mb-stack-lg">
-          <h2 id={dialog.titleId} className="text-h4 font-bold text-ink-900 mb-3">
+          <h2 id={dialog.titleId} className="text-h3 font-bold text-ink-900 mb-3">
             {title}
           </h2>
           <p className="text-body text-ink-600">

@@ -158,11 +158,11 @@ const Framework: React.FC = () => (
         {STRIDE_PHASES.map((s, i) => (
           <FadeInWhenVisible key={s.lettre} delay={i * 0.04} direction="up">
             <li className="flex h-full items-center gap-stack rounded-lg border border-ink-200 bg-white p-stack-lg">
-              <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary-700 font-display text-h4 font-extrabold text-white">
+              <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary-700 font-display text-h3 font-extrabold text-white">
                 {s.lettre}
               </span>
               <div className="flex flex-col gap-tight">
-                <h3 className="font-display text-h4 text-ink-900">{s.verbe}</h3>
+                <h3 className="font-display text-h3 text-ink-900">{s.verbe}</h3>
                 <span className="font-body text-caption text-ink-500 italic">{s.experience}</span>
               </div>
             </li>
@@ -228,8 +228,8 @@ const Manifeste: React.FC = () => (
                 <Ban size={20} />
               </span>
               <div className="flex flex-col gap-stack-3xs">
-                <h3 className="font-display text-h4 font-bold text-white">{r.title}</h3>
-                <p className="font-body text-body-sm text-white/70 m-0">{r.detail}</p>
+                <h3 className="font-display text-h3 font-bold text-white">{r.title}</h3>
+                <p className="font-body text-body text-white/70 m-0">{r.detail}</p>
               </div>
             </div>
           </FadeInWhenVisible>

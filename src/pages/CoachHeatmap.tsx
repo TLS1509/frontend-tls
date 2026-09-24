@@ -82,7 +82,7 @@ export default function CoachHeatmap() {
           <div className="flex items-start gap-stack p-stack bg-warning-bg border border-warning-border rounded-lg">
             <AlertTriangle size={18} className="text-warning-fg shrink-0 mt-0.5" />
             <div className="flex flex-col gap-tight">
-              <p className="text-body-sm font-semibold text-warning-fg">
+              <p className="text-body font-semibold text-warning-fg">
                 {stuckCount} apprenant{stuckCount > 1 ? 's' : ''} en difficulté
               </p>
               <p className="text-caption text-ink-600">
@@ -161,7 +161,7 @@ export default function CoachHeatmap() {
                   {/* La moyenne passe sous le nom à 375 px, à côté au-delà : la rangée
                       garde une seule ligne sur grand écran. */}
                   <div className="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-center sm:justify-between sm:gap-stack">
-                    <span className="text-body-sm font-medium text-ink-900 truncate">{a.name}</span>
+                    <span className="text-body font-medium text-ink-900 truncate">{a.name}</span>
                     <span className="text-caption text-ink-500 shrink-0">Moyenne D{avg}</span>
                   </div>
                   <Badge variant={variant} size="compact" className="shrink-0">{label}</Badge>

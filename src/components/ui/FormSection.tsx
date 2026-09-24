@@ -38,7 +38,7 @@ export const FormSection: React.FC<FormSectionProps> = ({
                 {titleIcon}
               </IconChip>
             )}
-            <h3 className="text-h4 font-display text-ink-900">
+            <h3 className="text-h3 font-display text-ink-900">
               {title}
             </h3>
           </div>
@@ -66,7 +66,7 @@ export const FormSection: React.FC<FormSectionProps> = ({
         </div>
 
         {description && (
-          <p className="text-body-sm text-ink-500 m-0">
+          <p className="text-body text-ink-500 m-0">
             {description}
           </p>
         )}

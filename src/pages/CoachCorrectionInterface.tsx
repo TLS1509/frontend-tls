@@ -89,7 +89,7 @@ export default function CoachCorrectionInterface() {
             <div className="prose prose-sm max-w-none">
               {SUBMISSION.content.split('\n').map((line, i) => (
                 line.trim() ? (
-                  <p key={i} className="text-body-sm text-ink-700 mb-stack-xs">{line}</p>
+                  <p key={i} className="text-body text-ink-700 mb-stack-xs">{line}</p>
                 ) : <br key={i} />
               ))}
             </div>
@@ -106,13 +106,13 @@ export default function CoachCorrectionInterface() {
                     onChange={(e) => setFeedback(e.target.value)}
                     rows={6}
                     placeholder="Points forts, axes d'amélioration, conseils pratiques..."
-                    className="w-full rounded-lg border border-ink-200 px-stack py-3 text-body-sm text-ink-900 focus:outline-none focus:border-primary-400 transition-colors duration-fast resize-none"
+                    className="w-full rounded-lg border border-ink-200 px-stack py-3 text-body text-ink-900 focus:outline-none focus:border-primary-400 transition-colors duration-fast resize-none"
                   />
                 </FormGroup>
 
                 {/* Dreyfus assessment */}
                 <div className="flex flex-col gap-stack-xs">
-                  <span className="text-body-sm font-semibold text-ink-700">Évaluation Dreyfus</span>
+                  <span className="text-body font-semibold text-ink-700">Évaluation Dreyfus</span>
                   <DreyfusSlider
                     value={dreyfusAssessed ?? undefined}
                     onChange={setDreyfusAssessed}
@@ -140,7 +140,7 @@ export default function CoachCorrectionInterface() {
               </IconChip>
               <div className="flex flex-col gap-tight">
                 <p className="text-body font-semibold text-ink-900">Feedback envoyé</p>
-                <p className="text-body-sm text-ink-500">Sophie Martin sera notifiée de votre correction.</p>
+                <p className="text-body text-ink-500">Sophie Martin sera notifiée de votre correction.</p>
               </div>
               <Button emphasis="soft" size="md">
                 Exercice suivant

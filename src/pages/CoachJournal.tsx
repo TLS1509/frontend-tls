@@ -129,7 +129,7 @@ export default function CoachJournal() {
                       <Calendar size={14} />
                       {entry.date}
                     </span>
-                    <p className="text-body-sm text-ink-600 line-clamp-2">{entry.excerpt}</p>
+                    <p className="text-body text-ink-600 line-clamp-2">{entry.excerpt}</p>
                   </div>
                   <Button emphasis="outline" size="sm" className="shrink-0" aria-label={`Lire : ${entry.title}`}>Lire</Button>
                 </li>

@@ -57,7 +57,7 @@ const RAYON = 'rounded-lg';
 
 const SIZE_CLASSES: Record<ComboboxSize, string> = {
   sm: 'h-9 px-3 text-caption',
-  md: 'h-11 px-3.5 text-body-sm',
+  md: 'h-11 px-3.5 text-body',
   lg: 'h-13 px-4 text-body',
 };
 
@@ -236,7 +236,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
   return (
     <div ref={wrapRef} className={[FIELD_BASE, className].filter(Boolean).join(' ')}>
       {label && (
-        <label htmlFor={fieldId} className="text-body-sm font-semibold text-ink-900">
+        <label htmlFor={fieldId} className="text-body font-semibold text-ink-900">
           {label}
           {required && (
             <span className="text-danger-base ml-0.5" aria-hidden="true">
@@ -304,7 +304,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
             {filtered.length === 0 ? (
               <li
                 role="presentation"
-                className="px-3.5 py-2.5 text-body-sm text-ink-500 select-none"
+                className="px-3.5 py-2.5 text-body text-ink-500 select-none"
               >
                 {noResultsLabel}
               </li>
@@ -325,7 +325,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
                     }}
                     onMouseEnter={() => setFocusedIdx(idx)}
                     className={[
-                      'flex items-center justify-between gap-stack-xs px-3.5 py-2.5 text-body-sm',
+                      'flex items-center justify-between gap-stack-xs px-3.5 py-2.5 text-body',
                       'cursor-pointer select-none transition-colors duration-fast',
                       isSelected ? 'text-primary-700 font-semibold' : 'text-ink-900',
                       isFocused && !opt.disabled ? 'bg-primary-50' : '',

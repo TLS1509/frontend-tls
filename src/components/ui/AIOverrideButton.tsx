@@ -61,7 +61,7 @@ export const AIOverrideButton: React.FC<AIOverrideButtonProps> = ({
           rows={3}
           className={[
             'w-full h-auto min-h-[80px] rounded-lg border border-ink-200 bg-white',
-            'px-3 py-2 text-body-sm text-ink-900 placeholder:text-ink-500',
+            'px-3 py-2 text-body text-ink-900 placeholder:text-ink-500',
             'focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500',
             'resize-none transition-colors duration-base',
           ].join(' ')}

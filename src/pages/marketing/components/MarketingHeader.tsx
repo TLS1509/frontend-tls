@@ -242,7 +242,7 @@ export const MarketingHeader: React.FC = () => {
               aria-label="The Learning Society: Accueil"
             >
               <TlsLogo variant="primary" size={30} className="transition-transform duration-base ease-emphasis group-hover:scale-105" />
-              <span className="hidden font-display text-body-sm font-extrabold tracking-tight text-primary-700 whitespace-nowrap xl:block">
+              <span className="hidden font-display text-body font-extrabold tracking-tight text-primary-700 whitespace-nowrap xl:block">
                 The Learning Society
               </span>
             </Link>
@@ -272,7 +272,7 @@ export const MarketingHeader: React.FC = () => {
                       aria-expanded={isOpen}
                       aria-haspopup="menu"
                       className={[
-                        'relative flex items-center gap-tight rounded-lg px-3 py-2 text-body-sm font-semibold whitespace-nowrap',
+                        'relative flex items-center gap-tight rounded-lg px-3 py-2 text-body font-semibold whitespace-nowrap',
                         'transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                         hasActiveChild ? 'text-primary-800' : 'text-ink-700 hover:text-ink-900',
                       ].join(' ')}
@@ -324,7 +324,7 @@ export const MarketingHeader: React.FC = () => {
                                   </span>
                                   <div className="flex min-w-0 flex-1 flex-col gap-tight">
                                     <span
-                                      className={`font-display text-body-sm font-bold ${
+                                      className={`font-display text-body font-bold ${
                                         active ? 'text-primary-700' : 'text-ink-900'
                                       }`}
                                     >
@@ -351,7 +351,7 @@ export const MarketingHeader: React.FC = () => {
                   key={item.href}
                   to={item.href!}
                   className={[
-                    'relative flex items-center rounded-lg px-3 py-2 text-body-sm font-bold whitespace-nowrap',
+                    'relative flex items-center rounded-lg px-3 py-2 text-body font-bold whitespace-nowrap',
                     'transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                     active ? 'text-primary-800' : 'text-ink-700 hover:text-ink-900',
                   ].join(' ')}
@@ -463,7 +463,7 @@ export const MarketingHeader: React.FC = () => {
                         type="button"
                         onClick={() => setMobileExpanded(isExpanded ? null : item.label)}
                         aria-expanded={isExpanded}
-                        className="flex min-h-touch items-center gap-stack-xs rounded-xl px-4 py-3 font-display text-h4 font-bold text-ink-900 transition-colors duration-fast hover:bg-ink-900/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                        className="flex min-h-touch items-center gap-stack-xs rounded-xl px-4 py-3 font-display text-h3 font-bold text-ink-900 transition-colors duration-fast hover:bg-ink-900/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                       >
                         <span>{item.label}</span>
                         <ChevronDown
@@ -493,7 +493,7 @@ export const MarketingHeader: React.FC = () => {
                                   >
                                     <span className="mt-0.5 shrink-0 text-primary-600">{d.icon}</span>
                                     <div className="flex min-w-0 flex-col gap-tight">
-                                      <span className="font-body text-body-sm font-bold">
+                                      <span className="font-body text-body font-bold">
                                         {d.label}
                                       </span>
                                       <span className="font-body text-caption text-ink-500">
@@ -517,7 +517,7 @@ export const MarketingHeader: React.FC = () => {
                     <Link
                       to={item.href!}
                       className={[
-                        'flex min-h-touch items-center rounded-xl px-4 py-3 font-display text-h4 font-bold transition-colors duration-fast',
+                        'flex min-h-touch items-center rounded-xl px-4 py-3 font-display text-h3 font-bold transition-colors duration-fast',
                         'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                         active ? 'text-primary-700' : 'text-ink-900 hover:bg-ink-900/5',
                       ].join(' ')}

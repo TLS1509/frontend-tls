@@ -77,7 +77,7 @@ const SIZE_GAP: Record<SearchSize, string> = {
 
 const SIZE_INPUT: Record<SearchSize, string> = {
   sm: 'text-caption',
-  md: 'text-body-sm',
+  md: 'text-body',
   lg: 'text-body',
 };
 
@@ -286,7 +286,7 @@ export const Search: React.FC<SearchProps> = ({
             >
               {suggestion.icon && <span className="inline-flex shrink-0">{suggestion.icon}</span>}
               <div className="flex-1 min-w-0">
-                <div className={`text-body-sm font-medium truncate ${isGlass ? 'text-white' : 'text-ink-900'}`}>
+                <div className={`text-body font-medium truncate ${isGlass ? 'text-white' : 'text-ink-900'}`}>
                   {renderSuggestion ? renderSuggestion(suggestion) : suggestion.label}
                 </div>
                 {suggestion.metadata && (

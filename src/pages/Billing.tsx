@@ -115,12 +115,12 @@ const SubscriptionTab: React.FC<{
           </div>
           <div className="flex flex-col gap-tight">
             <div className="flex items-center gap-stack-xs flex-wrap">
-              <h3 className="font-display text-h4 font-bold text-ink-900">
+              <h3 className="font-display text-h3 font-bold text-ink-900">
                 {tierConfig.name}
               </h3>
               <Badge variant="brand">Actif</Badge>
             </div>
-            <p className="m-0 font-body text-body-sm text-ink-600">
+            <p className="m-0 font-body text-body text-ink-600">
               {tierConfig.tagline}
             </p>
             <p className="m-0 font-body text-caption text-ink-500 mt-1 inline-flex items-center gap-tight">
@@ -157,7 +157,7 @@ const SubscriptionTab: React.FC<{
             <CreditCard size={20} />
           </div>
           <div className="flex flex-col gap-tight">
-            <p className="m-0 font-body text-body-sm font-semibold text-ink-900">
+            <p className="m-0 font-body text-body font-semibold text-ink-900">
               Visa se terminant par •••• 4242
             </p>
             <p className="m-0 font-body text-caption text-ink-500">
@@ -193,14 +193,14 @@ const SubscriptionTab: React.FC<{
               <span className="md:hidden inline-flex items-center gap-tight text-success-fg">
                 <CheckCircle2 size={14} />
               </span>
-              <span className="font-body text-body-sm font-semibold text-ink-800">
+              <span className="font-body text-body font-semibold text-ink-800">
                 {inv.date}
               </span>
             </div>
-            <p className="m-0 font-body text-body-sm text-ink-600">
+            <p className="m-0 font-body text-body text-ink-600">
               {inv.description}
             </p>
-            <p className="m-0 font-body text-body-sm font-semibold text-ink-900 tabular-nums md:text-right">
+            <p className="m-0 font-body text-body font-semibold text-ink-900 tabular-nums md:text-right">
               {inv.amount}
             </p>
             <div className="flex items-center gap-stack-xs md:justify-end">
@@ -232,7 +232,7 @@ const SubscriptionTab: React.FC<{
             <AlertTriangle />
           </IconChip>
           <div className="flex flex-col gap-tight">
-            <p className="m-0 font-body text-body-sm font-semibold text-ink-900">
+            <p className="m-0 font-body text-body font-semibold text-ink-900">
               Annuler mon abonnement {tierConfig.name}
             </p>
             <p className="m-0 font-body text-caption text-ink-600">
@@ -262,7 +262,7 @@ const CreditsTab: React.FC<{ credits: { classic: number; special: number } }> = 
             <div className="flex flex-col gap-tight">
               <div className="flex items-end gap-tight">
                 <span className="font-display text-h2 text-secondary-600">{credits.classic}</span>
-                <span className="mb-0.5 font-body text-body-sm font-semibold text-secondary-700">crédits Classic</span>
+                <span className="mb-0.5 font-body text-body font-semibold text-secondary-700">crédits Classic</span>
               </div>
               <p className="m-0 text-caption text-ink-600">Sessions coaching standard (1h)</p>
             </div>
@@ -276,7 +276,7 @@ const CreditsTab: React.FC<{ credits: { classic: number; special: number } }> = 
             <div className="flex flex-col gap-tight">
               <div className="flex items-end gap-tight">
                 <span className="font-display text-h2 text-accent-800">{credits.special}</span>
-                <span className="mb-0.5 font-body text-body-sm font-semibold text-accent-800">crédits Spécial</span>
+                <span className="mb-0.5 font-body text-body font-semibold text-accent-800">crédits Spécial</span>
               </div>
               <p className="m-0 text-caption text-ink-600">Sessions expert / masterclasses premium</p>
             </div>
@@ -307,10 +307,10 @@ const CreditsTab: React.FC<{ credits: { classic: number; special: number } }> = 
             {MOCK_TRANSACTIONS.map((tx) => (
               <div key={tx.id} className="flex items-center justify-between gap-stack-xs py-3 border-b border-ink-100 last:border-b-0">
                 <div className="flex flex-col gap-tight min-w-0">
-                  <p className="m-0 text-body-sm font-medium text-ink-900 truncate">{tx.description}</p>
+                  <p className="m-0 text-body font-medium text-ink-900 truncate">{tx.description}</p>
                   <p className="m-0 text-caption text-ink-600">{tx.date}</p>
                 </div>
-                <span className={['shrink-0 font-mono font-bold text-body-sm', tx.type === 'credit' ? 'text-success-fg' : 'text-danger-fg'].join(' ')}>
+                <span className={['shrink-0 font-mono font-bold text-body', tx.type === 'credit' ? 'text-success-fg' : 'text-danger-fg'].join(' ')}>
                   {tx.amount > 0 ? '+' : ''}{tx.amount}
                 </span>
               </div>
@@ -329,8 +329,8 @@ const CreditsTab: React.FC<{ credits: { classic: number; special: number } }> = 
                 <div className={`w-9 h-9 rounded-md ${way.iconBg} flex items-center justify-center shrink-0`}>
                   {way.icon}
                 </div>
-                <p className="m-0 text-body-sm text-ink-700 flex-1 min-w-0">{way.label}</p>
-                <span className={`shrink-0 font-mono font-bold text-body-sm ${way.amountColor}`}>
+                <p className="m-0 text-body text-ink-700 flex-1 min-w-0">{way.label}</p>
+                <span className={`shrink-0 font-mono font-bold text-body ${way.amountColor}`}>
                   {way.amount}
                 </span>
               </div>

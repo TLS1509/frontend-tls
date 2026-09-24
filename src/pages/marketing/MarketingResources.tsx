@@ -351,7 +351,7 @@ export const MarketingResources: React.FC = () => {
         <h1 className="font-display text-h2 font-bold text-ink-900 tracking-headline">
           Magazine &amp; Ressources
         </h1>
-        <p className="m-0 font-body text-body-sm text-ink-500 max-w-2xl">
+        <p className="m-0 font-body text-body text-ink-500 max-w-2xl">
           Articles, dossiers, guides, vidéos et webinaires : tout le contenu TLS au même endroit.
         </p>
       </div>
@@ -375,7 +375,7 @@ export const MarketingResources: React.FC = () => {
                   key={type.id}
                   type="button"
                   onClick={() => setSelectedType(type.id)}
-                  className={`inline-flex items-center gap-stack-2xs px-4 h-10 rounded-pill font-body text-body-sm font-bold transition-all duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
+                  className={`inline-flex items-center gap-stack-2xs px-4 h-10 rounded-pill font-body text-body font-bold transition-all duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                     selectedType === type.id
                       ? 'bg-primary-700 text-white shadow-sm'
                       : 'bg-ink-50 text-ink-700 hover:bg-ink-100 border border-ink-200'

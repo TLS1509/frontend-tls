@@ -57,7 +57,7 @@ export const RelatedItemList: React.FC<RelatedItemListProps> = ({
                   {item.meta}
                 </span>
               )}
-              <strong className="block font-body text-body-sm font-semibold text-ink-900 leading-snug">
+              <strong className="block font-body text-body font-semibold text-ink-900 leading-snug">
                 {item.title}
               </strong>
               {item.description && (

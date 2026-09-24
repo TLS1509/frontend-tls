@@ -171,7 +171,7 @@ export default function Passeport() {
                 {selectedAxis && (
                   <div className="flex items-start gap-stack-xs p-stack rounded-lg bg-primary-50 border border-primary-200">
                     <div className="w-1.5 h-1.5 rounded-pill bg-primary-500 mt-1.5 shrink-0" />
-                    <p className="text-body-sm text-primary-900">
+                    <p className="text-body text-primary-900">
                       <strong>{selectedAxis}</strong> · Vois l'onglet "Compétences" ci-dessous pour explorer cette compétence.
                     </p>
                   </div>
@@ -183,7 +183,7 @@ export default function Passeport() {
                   <p className="text-caption text-ink-500 font-medium uppercase tracking-wide">Progression globale</p>
                   <div className="flex items-end gap-stack-xs">
                     <span className="text-h2 font-display font-bold text-ink-900">{avgLevel.toFixed(1)}</span>
-                    <span className="text-body-sm text-ink-600 pb-1">/ 5 Dreyfus</span>
+                    <span className="text-body text-ink-600 pb-1">/ 5 Dreyfus</span>
                   </div>
                   <ProgressBar value={(avgLevel / 5) * 100} fill="brand" size="md" showLabel />
                   <p className="text-caption text-ink-600">Moyenne pondérée · {COMPETENCES.length} compétences</p>
@@ -194,7 +194,7 @@ export default function Passeport() {
                   <p className="text-caption text-ink-500 font-medium uppercase tracking-wide">Objectifs actifs</p>
                   <div className="flex items-end gap-stack-xs">
                     <span className="text-h2 font-display font-bold text-ink-900">{activeObjectives.length}</span>
-                    <span className="text-body-sm text-ink-600 pb-1">objectifs</span>
+                    <span className="text-body text-ink-600 pb-1">objectifs</span>
                   </div>
                   <Button
                     emphasis="outline" size="sm" trailingIcon={<ChevronRight size={14} />}
@@ -326,7 +326,7 @@ export default function Passeport() {
                       <Card className={`p-stack-md flex flex-col gap-stack-xs h-full transition-all bg-gradient-to-br from-accent-50 to-yellow-50 border border-accent-200 ${CARD_HOVER['sun']} group-focus-visible:outline-2 group-focus-visible:outline-offset-2 group-focus-visible:outline-accent-400`}>
                         <div className="flex items-start justify-between gap-stack-xs">
                           <div className="flex flex-col gap-tight flex-1 min-w-0">
-                            <span className="text-body-sm font-semibold text-ink-900">{skill.label}</span>
+                            <span className="text-body font-semibold text-ink-900">{skill.label}</span>
                             <p className="text-caption text-ink-600">{skill.reason}</p>
                           </div>
                         </div>
@@ -376,7 +376,7 @@ export default function Passeport() {
                   <Card className={`p-stack-md flex flex-col gap-stack-xs h-full transition-all ${CARD_HOVER_NEUTRE} group-focus-visible:outline-2 group-focus-visible:outline-offset-2 group-focus-visible:outline-primary-500`}>
                     <div className="flex items-start justify-between gap-stack-xs">
                       <div className="flex flex-col gap-tight flex-1 min-w-0">
-                        <span className="text-body-sm font-semibold text-ink-900">{c.label}</span>
+                        <span className="text-body font-semibold text-ink-900">{c.label}</span>
                         <Badge variant={DOMAIN_COLORS[c.domain]} size="compact">
                           {domainLabel(c.domain)}
                         </Badge>
@@ -386,7 +386,7 @@ export default function Passeport() {
                       </div>
                     </div>
                     <div className="flex items-center gap-stack-xs flex-wrap">
-                      <span className="text-h4 font-display font-bold text-ink-900">D{c.level}</span>
+                      <span className="text-h3 font-display font-bold text-ink-900">D{c.level}</span>
                       {c.target > c.level && (
                         <span className="text-caption text-ink-500">→ D{c.target}</span>
                       )}

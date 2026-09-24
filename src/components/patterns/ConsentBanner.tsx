@@ -112,10 +112,10 @@ export const ConsentBanner: React.FC<ConsentBannerProps> = ({
           <div className="flex items-start gap-stack-xs flex-1 min-w-0">
             <Cookie className="shrink-0 mt-0.5 text-primary-500" size={18} />
             <div className="flex flex-col gap-tight">
-              <p className="text-body-sm font-semibold text-ink-900">
+              <p className="text-body font-semibold text-ink-900">
                 {companyName} respecte votre vie privée
               </p>
-              <p className="text-body-sm text-ink-600">
+              <p className="text-body text-ink-600">
                 Nous utilisons des cookies pour améliorer votre expérience, analyser notre trafic et personnaliser les contenus.{' '}
                 <button
                   onClick={() => setShowCustomize((v) => !v)}
@@ -162,7 +162,7 @@ export const ConsentBanner: React.FC<ConsentBannerProps> = ({
                     label={cat.label}
                   />
                   <div className="flex flex-col gap-tight flex-1">
-                    <span className="text-body-sm font-semibold text-ink-900">
+                    <span className="text-body font-semibold text-ink-900">
                       {cat.label}
                       {cat.required && (
                         <span className="ml-1 text-micro text-ink-600 font-normal">(obligatoire)</span>

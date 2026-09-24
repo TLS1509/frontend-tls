@@ -155,10 +155,10 @@ export const WeeklyNewsletter: React.FC = () => {
             <div className="bg-white p-stack-lg flex flex-col gap-stack justify-between">
               <div className="flex flex-col gap-stack-xs">
                 <Badge variant="warm">Tutoriel vidéo</Badge>
-                <h3 className="font-display text-h4 font-bold text-ink-900 tracking-tight">
+                <h3 className="font-display text-h3 font-bold text-ink-900 tracking-tight">
                   Construire un prompt structuré en 5 étapes
                 </h3>
-                <p className="m-0 font-body text-body-sm text-ink-600">
+                <p className="m-0 font-body text-body text-ink-600">
                   Séquence pratique orientée exécution : cadrage, exemples, validation et itération
                   sur des cas réels de formation.
                 </p>
@@ -190,7 +190,7 @@ export const WeeklyNewsletter: React.FC = () => {
                     </span>
                   </div>
                   <div className="p-stack bg-white flex flex-col gap-stack-xs">
-                    <h3 className="font-body text-body-sm font-bold text-ink-900 leading-snug">
+                    <h3 className="font-body text-body font-bold text-ink-900 leading-snug">
                       {article.title}
                     </h3>
                     <span className="inline-flex items-center gap-tight font-body text-micro font-semibold text-primary-700">
@@ -232,7 +232,7 @@ export const WeeklyNewsletter: React.FC = () => {
                       <span aria-hidden>·</span>
                       <span>{article.date}</span>
                     </div>
-                    <p className="m-0 font-body text-body-sm font-semibold text-ink-900 leading-snug">
+                    <p className="m-0 font-body text-body font-semibold text-ink-900 leading-snug">
                       {article.title}
                     </p>
                   </div>
@@ -285,7 +285,7 @@ export const WeeklyNewsletter: React.FC = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="votre@email.com"
-              className="flex-1 h-11 px-stack rounded-lg border-0 bg-white/15 backdrop-blur-glass-light font-body text-body-sm text-white placeholder:text-white/80 focus:outline-2 focus:outline-white/40"
+              className="flex-1 h-11 px-stack rounded-lg border-0 bg-white/15 backdrop-blur-glass-light font-body text-body text-white placeholder:text-white/80 focus:outline-2 focus:outline-white/40"
             />
             <Button emphasis="soft" tone="warm" size="md" type="submit">
               S'abonner

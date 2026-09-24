@@ -19,7 +19,7 @@ export interface ShowcaseNavProps {
 }
 
 const LINK_BASE =
-  'inline-flex shrink-0 items-center gap-stack-xs px-3 py-1.5 rounded-pill text-body-sm font-semibold whitespace-nowrap ' +
+  'inline-flex shrink-0 items-center gap-stack-xs px-3 py-1.5 rounded-pill text-body font-semibold whitespace-nowrap ' +
   'transition-colors duration-fast ease-standard ' +
   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
 

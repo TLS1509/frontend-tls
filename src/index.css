@@ -206,18 +206,16 @@
   --text-h2--line-height: 2.25rem;
   --text-h2--font-weight: 700;
   --text-h2--letter-spacing: -0.025em;
-  --text-h3: 1.5rem;              /* 24px — T5. À 22 px, h3 ratait le seuil WCAG
-                                     « grand texte » de League Spartan (22,4 px). */
-  --text-h3--line-height: 1.875rem;/* 30px — ratio 1,25 */
-  --text-h3--font-weight: 700;    /* T2 — le token suit l'usage : 72 % des h3
-                                     portaient déjà un font-bold local */
-  --text-h3--letter-spacing: -0.025em;
-  --text-h4: 1.25rem;             /* 20px — T7. Sort de la collision avec
-                                     body-lg (18 px) et remet l'interligne sur
-                                     la grille. Ratio 1,400, entre h3 et body-lg. */
-  --text-h4--line-height: 1.625rem;/* 26px — ratio 1,30 */
-  --text-h4--font-weight: 700;    /* T2 */
-  --text-h4--letter-spacing: -0.02em;
+  /* ⚠️ Arbitrage n°21 (2026-09-24) : sous le h1, deux titres seulement, 28 puis 20.
+     L'ancien h3 (24 px) sortait de l'échelle : 28 / 24 / 20 à 700 dans la même
+     famille, trois rangs à 4 px d'écart, se lisaient mal quand ils se suivaient.
+     L'ancien h4 (20/26) DEVIENT le h3 ; ses 163 usages ont été renommés
+     `text-h3`. 20 px en gras reste du « grand texte » WCAG (≥ 18,66 px gras).
+     Échelle de l'app : 36 → 28 → 20 → 16 → 13 (rapports 1,29 · 1,40 · 1,25 · 1,23). */
+  --text-h3: 1.25rem;             /* 20px */
+  --text-h3--line-height: 1.625rem;/* 26px — ratio 1,30 */
+  --text-h3--font-weight: 700;
+  --text-h3--letter-spacing: -0.02em;
   /* h5 retiré le 2026-09-09 (T3) — il faisait exactement la taille de body
      (16 px) et seule la graisse les distinguait. Ses 19 usages sont passés à
      `text-body font-semibold`, qui dit la même chose sans un cran d'échelle. */
@@ -227,8 +225,11 @@
   --text-body-lg--line-height: 1.75rem; /* 28px — ratio 1,56 · vote NON suivi, voir plus haut */
   --text-body: 1rem;
   --text-body--line-height: 1.625rem;   /* 26px — ratio 1,62 */
-  --text-body-sm: 0.9375rem;
-  --text-body-sm--line-height: 1.5rem;  /* 24px — ratio 1,60 · vote NON suivi, voir plus haut */
+  /* `body-sm` (15) retiré le 2026-09-24 — arbitrage n°20 : le texte courant est
+     à 16 px partout. 15 et 16 étaient à 1 px l'un de l'autre, un écart que l'œil
+     ne distingue pas ; ses 860 usages sont passés à `text-body`. La hiérarchie
+     entre un libellé et sa description passe par la graisse et la couleur
+     (600 ink-900 / 400 ink-700), plus par un pixel. */
   --text-caption: 0.8125rem;
   --text-caption--line-height: 1.25rem;
   --text-micro: 0.6875rem;
@@ -640,7 +641,7 @@
      La règle mesurée : **le cran d'icône vaut à peu près le CORPS du texte**.
      Table complète et raisonnement : src/lib/icon-pairing.ts. */
   --icon-size-2xs: 14px; /* va avec caption (13) et micro (11) */
-  --icon-size-xs: 16px;  /* va avec body-sm (15) et body (16) */
+  --icon-size-xs: 16px;  /* va avec body (16) */
   --icon-size-sm: 18px;  /* va avec body-lg (18) */
   --icon-size-md: 20px;  /* va avec h4 (20) */
   --icon-size-lg: 24px;  /* va avec h3 (24) */

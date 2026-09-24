@@ -85,7 +85,7 @@ export const Newsletter: React.FC = () => {
                 titleIcon={<Calendar size={18} className="text-primary-600" />}
                 description="Édition de la semaine #17 : Lundi 28 avril 2026"
               >
-                <p className="m-0 font-body text-body-sm text-ink-600">
+                <p className="m-0 font-body text-body text-ink-600">
                   Consultez la dernière synthèse hebdomadaire pour capter les tendances utiles en
                   quelques minutes. Vidéo de la semaine, articles à la une et sélection courte
                   curée par l'équipe éditoriale.

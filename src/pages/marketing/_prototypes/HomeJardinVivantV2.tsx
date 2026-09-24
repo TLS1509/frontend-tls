@@ -135,7 +135,7 @@ const Hero: React.FC = () => {
           className="w-full max-w-page mx-auto px-6 sm:px-10 pb-page pt-page flex flex-col items-start gap-stack-lg"
         >
           {/* Eyebrow unique, honnête : le concept du jardin */}
-          <span className="inline-flex items-center gap-stack-xs rounded-pill border border-accent-400/40 bg-primary-900/40 px-4 py-2 font-body text-body-sm text-accent-400 backdrop-blur-sm">
+          <span className="inline-flex items-center gap-stack-xs rounded-pill border border-accent-400/40 bg-primary-900/40 px-4 py-2 font-body text-body text-accent-400 backdrop-blur-sm">
             <Leaf size={14} strokeWidth={2} />
             Un univers d'apprentissage vivant
           </span>
@@ -274,7 +274,7 @@ const LivingWorld: React.FC = () => {
                 <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-accent-400/15 text-accent-400">
                   {bloom.icon}
                 </span>
-                <h3 className="font-display font-bold text-white text-h4">
+                <h3 className="font-display font-bold text-white text-h3">
                   {bloom.title}
                 </h3>
                 <p className="font-body text-body text-white/75 m-0">

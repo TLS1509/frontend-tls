@@ -175,7 +175,7 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
 
           {/* Prochaine leçon */}
           {nextLessonTitle && (
-            <p className="flex items-start gap-stack-2xs font-body text-body-sm text-ink-500 m-0">
+            <p className="flex items-start gap-stack-2xs font-body text-body text-ink-500 m-0">
               <Target size={14} strokeWidth={2} className="shrink-0 mt-0.5 text-ink-400" aria-hidden />
               <span className="min-w-0">
                 <span className="text-ink-600">Prochaine leçon · </span>

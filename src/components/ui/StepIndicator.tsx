@@ -91,7 +91,7 @@ export const StepIndicator: React.FC<StepIndicatorProps> = ({
               <div className={['pb-stack-md', isLast ? '' : ''].join(' ')}>
                 <p
                   className={[
-                    'text-body-sm font-semibold m-0 transition-colors duration-base',
+                    'text-body font-semibold m-0 transition-colors duration-base',
                     status === 'active' ? TONE_LABEL_ACTIVE[tone] : '',
                     status === 'completed' ? 'text-ink-600' : '',
                     status === 'upcoming' ? 'text-ink-500' : '',

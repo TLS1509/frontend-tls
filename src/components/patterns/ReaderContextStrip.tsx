@@ -74,7 +74,7 @@ export const ReaderContextStrip: React.FC<ReaderContextStripProps> = ({
         <p
           aria-hidden={!titleVisible}
           className={[
-            'flex-1 min-w-0 m-0 font-body text-body-sm font-semibold text-ink-800 truncate',
+            'flex-1 min-w-0 m-0 font-body text-body font-semibold text-ink-800 truncate',
             'transition-opacity duration-slow',
             titleVisible ? 'opacity-100' : 'opacity-0 pointer-events-none',
           ].join(' ')}

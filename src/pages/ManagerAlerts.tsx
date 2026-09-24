@@ -82,7 +82,7 @@ export default function ManagerAlerts() {
         {a.status === 'active' ? 'Active' : 'En pause'}
       </Badge>
     ),
-    triggerCount: <span className="text-body-sm font-semibold text-ink-900">{a.triggerCount}</span>,
+    triggerCount: <span className="text-body font-semibold text-ink-900">{a.triggerCount}</span>,
   }));
 
   return (

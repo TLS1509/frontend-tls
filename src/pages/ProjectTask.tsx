@@ -113,7 +113,7 @@ export const ProjectTask: React.FC = () => {
         <div className="flex items-start gap-stack-xs p-stack rounded-lg bg-warning-bg border border-warning-base/30">
           <AlertCircle size={16} className="text-warning-fg mt-0.5 shrink-0" />
           <div>
-            <p className="text-body-sm font-semibold text-warning-fg m-0 mb-1">Pré-requis Dreyfus non atteints</p>
+            <p className="text-body font-semibold text-warning-fg m-0 mb-1">Pré-requis Dreyfus non atteints</p>
             <ul className="m-0 pl-4 flex flex-col gap-tight">
               {myGatingFails.map((f) => (
                 <li key={f.competencyId} className="text-caption text-warning-fg">
@@ -137,7 +137,7 @@ export const ProjectTask: React.FC = () => {
                   ) : (
                     <Square size={16} className="text-ink-600 mt-0.5 shrink-0" />
                   )}
-                  <span className={`text-body-sm ${sc.checked ? 'text-ink-500 line-through' : 'text-ink-800'}`}>
+                  <span className={`text-body ${sc.checked ? 'text-ink-500 line-through' : 'text-ink-800'}`}>
                     {sc.criterion}
                   </span>
                 </div>
@@ -148,7 +148,7 @@ export const ProjectTask: React.FC = () => {
           {/* Spécification du livrable */}
           <SectionCard title="Livrable attendu" titleIcon={<FileText size={18} />}>
             <div className="flex flex-col gap-stack-xs">
-              <p className="text-body-sm text-ink-700 m-0">{task.deliverableSpec.description}</p>
+              <p className="text-body text-ink-700 m-0">{task.deliverableSpec.description}</p>
               <Badge variant="neutral">Format : {task.deliverableSpec.format}</Badge>
             </div>
           </SectionCard>
@@ -171,7 +171,7 @@ export const ProjectTask: React.FC = () => {
                     placeholder="Décrivez votre approche, les points clés de votre livrable..."
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
-                    className="w-full p-3 rounded-lg border border-ink-200 font-body text-body-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent h-auto min-h-[88px]"
+                    className="w-full p-3 rounded-lg border border-ink-200 font-body text-body focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent h-auto min-h-[88px]"
                   />
                 </FormGroup>
                 <div className="flex justify-end">
@@ -192,7 +192,7 @@ export const ProjectTask: React.FC = () => {
             <div className="flex items-start gap-stack-xs p-stack rounded-lg bg-info-bg border border-info-base/30">
               <Send size={16} className="text-info-fg mt-0.5 shrink-0" />
               <div>
-                <p className="text-body-sm font-semibold text-info-fg m-0">Livrable soumis : en attente de validation</p>
+                <p className="text-body font-semibold text-info-fg m-0">Livrable soumis : en attente de validation</p>
                 {task.deliverableUrl && (
                   <a href={task.deliverableUrl} target="_blank" rel="noopener noreferrer" className="text-caption text-info-fg underline">
                     {task.deliverableUrl}
@@ -205,13 +205,13 @@ export const ProjectTask: React.FC = () => {
           {isApproved && (
             <div className="flex items-start gap-stack-xs p-stack rounded-lg bg-success-bg border border-success-base/30">
               <CheckCircle2 size={16} className="text-success-fg mt-0.5 shrink-0" />
-              <p className="text-body-sm font-semibold text-success-fg m-0">Tâche validée par l'expert</p>
+              <p className="text-body font-semibold text-success-fg m-0">Tâche validée par l'expert</p>
             </div>
           )}
 
           {task.expertFeedback && (
             <SectionCard title="Feedback de l'expert">
-              <p className="text-body-sm text-ink-700 m-0 italic">"{task.expertFeedback}"</p>
+              <p className="text-body text-ink-700 m-0 italic">"{task.expertFeedback}"</p>
             </SectionCard>
           )}
 
@@ -223,7 +223,7 @@ export const ProjectTask: React.FC = () => {
                   <div key={jac.id} className="flex items-center gap-stack p-stack rounded-lg border border-ink-100">
                     <Avatar initials={jac.collaboratorInitials} size="sm" tint="brand" />
                     <div className="flex-1 min-w-0">
-                      <p className="text-body-sm font-semibold text-ink-900 m-0">{jac.collaboratorName}</p>
+                      <p className="text-body font-semibold text-ink-900 m-0">{jac.collaboratorName}</p>
                       <p className="text-caption text-ink-500 m-0">{jac.competencyName}</p>
                     </div>
                     <Badge variant={jac.status === 'approved' ? 'success' : jac.status === 'pending' ? 'neutral' : 'danger'}>
@@ -242,7 +242,7 @@ export const ProjectTask: React.FC = () => {
             <div className="flex items-center gap-stack">
               <Avatar initials={task.assignedToInitials} size="md" tint="brand" />
               <div>
-                <p className="text-body-sm font-semibold text-ink-900 m-0">{task.assignedToName}</p>
+                <p className="text-body font-semibold text-ink-900 m-0">{task.assignedToName}</p>
                 <p className="text-caption text-ink-500 m-0">Collaborateur</p>
               </div>
             </div>
@@ -252,14 +252,14 @@ export const ProjectTask: React.FC = () => {
             <p className="text-caption font-semibold text-ink-500 uppercase tracking-wide m-0">Statut</p>
             <div className="flex items-center gap-stack-xs">
               {STATUS_ICONS[task.status]}
-              <span className="text-body-sm font-semibold text-ink-900">{STATUS_LABELS[task.status]}</span>
+              <span className="text-body font-semibold text-ink-900">{STATUS_LABELS[task.status]}</span>
             </div>
             <p className="text-caption font-semibold text-ink-500 uppercase tracking-wide m-0 mt-stack-xs">Échéance</p>
-            <p className="text-body-sm text-ink-800 m-0">{formatDate(task.dueDate)}</p>
+            <p className="text-body text-ink-800 m-0">{formatDate(task.dueDate)}</p>
             {task.submissionDate && (
               <>
                 <p className="text-caption font-semibold text-ink-500 uppercase tracking-wide m-0 mt-stack-xs">Soumis le</p>
-                <p className="text-body-sm text-ink-800 m-0">{formatDate(task.submissionDate)}</p>
+                <p className="text-body text-ink-800 m-0">{formatDate(task.submissionDate)}</p>
               </>
             )}
           </Card>

@@ -117,7 +117,7 @@ export interface CardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 't
 
    ⚠️ `Button` est à `rounded-lg` (14) depuis R3, au motif qu'il « s'accorde à la
    Card qui le porte ». Cette justification tombe avec ce changement : à revoir. */
-const BASE = 'rounded-xl text-ink-900 font-body text-body-sm transition-all duration-200 motion-reduce:transition-none [&[role=button]]:h-auto [&[role=button]]:font-normal [&[role=button]]:items-stretch';
+const BASE = 'rounded-xl text-ink-900 font-body text-body transition-all duration-200 motion-reduce:transition-none [&[role=button]]:h-auto [&[role=button]]:font-normal [&[role=button]]:items-stretch';
 
 const VARIANT_CLASSES: Record<CardVariant, string> = {
   // Shadows are tone-aware — applied dynamically via TONE_SHADOW_* maps below.
@@ -284,14 +284,14 @@ const CLICKABLE = 'cursor-pointer focus-visible:outline-none focus-visible:ring-
 const TITLE_SIZE: Record<CardSize, string> = {
   xs: 'text-body font-semibold',
   sm: 'text-body font-semibold',
-  md: 'text-h4',
+  md: 'text-h3',
   lg: 'text-h3',
 };
 
 const DESC_SIZE: Record<CardSize, string> = {
   xs: 'text-caption',
   sm: 'text-caption',
-  md: 'text-body-sm',
+  md: 'text-body',
   lg: 'text-body',
 };
 
@@ -418,7 +418,7 @@ export const CardTitle: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({
     /* Pas de graisse écrite ici : le token `text-h4` déclare déjà 700, et la poser
        à côté ne peut que le contredire — c'était le cas, à 600, sur la primitive
        même qui sert de référence aux cartes. Corrigé le 2026-09-10. */
-    className={`p-0 font-display text-h4 leading-tight tracking-headline text-ink-900 ${className}`}
+    className={`p-0 font-display text-h3 leading-tight tracking-headline text-ink-900 ${className}`}
     {...rest}
   />
 );
@@ -428,7 +428,7 @@ export const CardDesc: React.FC<React.HTMLAttributes<HTMLParagraphElement>> = ({
   ...rest
 }) => (
   <p
-    className={`m-0 p-0 text-body-sm leading-normal text-ink-600 ${className}`}
+    className={`m-0 p-0 text-body leading-normal text-ink-600 ${className}`}
     {...rest}
   />
 );

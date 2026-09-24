@@ -68,7 +68,7 @@ export const CorrectionCard: React.FC<CorrectionCardProps> = ({
             size="sm"
           />
           <div className="min-w-0">
-            <p className="text-body-sm font-semibold text-ink-900 truncate">{apprenantName}</p>
+            <p className="text-body font-semibold text-ink-900 truncate">{apprenantName}</p>
             <p className="text-caption text-ink-600 flex items-center gap-tight">
               <Clock size={14} aria-hidden />
               {submittedAt}
@@ -89,7 +89,7 @@ export const CorrectionCard: React.FC<CorrectionCardProps> = ({
       {/* Excerpt — blockquote with background tint (no side-stripe, per DESIGN-IMPECCABLE §11) */}
       {excerpt && (
         <div className="rounded-lg bg-ink-50/70 px-3 py-2">
-          <p className="text-body-sm text-ink-600 line-clamp-2 italic">
+          <p className="text-body text-ink-600 line-clamp-2 italic">
             « {excerpt} »
           </p>
         </div>

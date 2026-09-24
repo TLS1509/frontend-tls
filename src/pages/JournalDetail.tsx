@@ -273,7 +273,7 @@ export const JournalDetail: React.FC = () => {
                 <div className="font-body text-micro font-bold text-ink-500 uppercase tracking-wider mb-1">
                   Entrée précédente
                 </div>
-                <div className="font-body text-body-sm font-semibold text-ink-900 truncate">
+                <div className="font-body text-body font-semibold text-ink-900 truncate">
                   {prevEntry.title}
                 </div>
               </div>
@@ -289,7 +289,7 @@ export const JournalDetail: React.FC = () => {
                 <div className="font-body text-micro font-bold text-ink-500 uppercase tracking-wider mb-1">
                   Entrée suivante
                 </div>
-                <div className="font-body text-body-sm font-semibold text-ink-900 truncate">
+                <div className="font-body text-body font-semibold text-ink-900 truncate">
                   {nextEntry.title}
                 </div>
               </div>
@@ -301,10 +301,10 @@ export const JournalDetail: React.FC = () => {
         {/* New entry CTA */}
         <section className="rounded-xl bg-gradient-to-br from-primary-700 to-primary-800 p-stack-lg sm:p-section flex flex-col sm:flex-row sm:items-center gap-stack-lg text-white">
           <div className="flex-1">
-            <h3 className="font-display text-h4 font-bold mb-1">
+            <h3 className="font-display text-h3 font-bold mb-1">
               Qu'avez-vous appris cette semaine ?
             </h3>
-            <p className="m-0 font-body text-body-sm text-white">
+            <p className="m-0 font-body text-body text-white">
               Capturez vos observations pendant qu'elles sont fraîches.
             </p>
           </div>

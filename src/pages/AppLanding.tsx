@@ -220,14 +220,14 @@ const AppLanding: React.FC = () => {
       <nav className="fixed top-0 left-0 right-0 z-sticky h-14 flex items-center justify-between px-6 md:px-10 bg-white/80 backdrop-blur-glass-light border-b border-ink-100">
         <Link to="/website" className="flex items-center gap-stack-xs">
           <TlsLogo variant="primary" className="h-7 w-7" />
-          <span className="font-display font-bold text-body-sm text-ink-900 tracking-snug hidden sm:inline">
+          <span className="font-display font-bold text-body text-ink-900 tracking-snug hidden sm:inline">
             The Learning Society
           </span>
         </Link>
         <div className="flex items-center gap-stack-sm">
           <Link
             to="/auth/login"
-            className="font-body text-body-sm text-ink-600 hover:text-ink-900 transition-colors hidden sm:inline"
+            className="font-body text-body text-ink-600 hover:text-ink-900 transition-colors hidden sm:inline"
           >
             Se connecter
           </Link>
@@ -279,7 +279,7 @@ const AppLanding: React.FC = () => {
             {/* Preuves qualitatives (zéro métrique inventée) */}
             <motion.div variants={heroItem} className="flex flex-wrap gap-x-stack-md gap-y-stack-xs pt-2">
               {TRUST.map(({ icon, label }) => (
-                <div key={label} className="flex items-center gap-stack-2xs text-ink-500 font-body text-body-sm">
+                <div key={label} className="flex items-center gap-stack-2xs text-ink-500 font-body text-body">
                   <span className="text-primary-500">{icon}</span>
                   {label}
                 </div>
@@ -299,8 +299,8 @@ const AppLanding: React.FC = () => {
               {/* Inner core */}
               <div className="bg-primary-50/60 border border-primary-100 rounded-[18px] p-6 md:p-7 flex flex-col gap-stack-md">
                 <div className="flex flex-col gap-stack-3xs">
-                  <span className="font-display font-bold text-ink-900 text-h4 m-0">Commencer gratuitement</span>
-                  <span className="font-body text-body-sm text-ink-500">Accès complet · Aucune carte requise</span>
+                  <span className="font-display font-bold text-ink-900 text-h3 m-0">Commencer gratuitement</span>
+                  <span className="font-body text-body text-ink-500">Accès complet · Aucune carte requise</span>
                 </div>
 
                 <form onSubmit={(e) => handleSignup(e, email)} className="flex flex-col gap-stack-sm">
@@ -311,7 +311,7 @@ const AppLanding: React.FC = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="votre@email.com"
                     aria-label="Adresse email"
-                    className="h-12 px-4 rounded-lg bg-white border border-ink-200 text-ink-900 placeholder:text-ink-500 font-body text-body-sm focus:outline-none focus:border-primary-400 transition-all shadow-xs"
+                    className="h-12 px-4 rounded-lg bg-white border border-ink-200 text-ink-900 placeholder:text-ink-500 font-body text-body focus:outline-none focus:border-primary-400 transition-all shadow-xs"
                   />
                   <LandingCta fullWidth>Créer mon compte</LandingCta>
                 </form>
@@ -399,11 +399,11 @@ const AppLanding: React.FC = () => {
                       <span className={`font-body text-caption font-semibold uppercase tracking-wider ${tones.eyebrow}`}>
                         {feat.eyebrow}
                       </span>
-                      <h3 className="font-display font-bold text-ink-900 text-h4">
+                      <h3 className="font-display font-bold text-ink-900 text-h3">
                         {feat.title}
                       </h3>
                     </div>
-                    <p className="font-body text-body-sm text-ink-600 m-0 flex-1">
+                    <p className="font-body text-body text-ink-600 m-0 flex-1">
                       {feat.description}
                     </p>
                     <ul className="flex flex-col gap-stack-xs m-0 p-0 list-none">
@@ -447,13 +447,13 @@ const AppLanding: React.FC = () => {
               <FadeInWhenVisible key={step.number} direction="up" delay={i * 0.12} className="relative z-[1]">
                 <div className="flex flex-col items-center text-center gap-stack">
                   <div className="w-16 h-16 rounded-pill bg-white border-2 border-primary-200 flex items-center justify-center shadow-sm">
-                    <span className="font-display font-bold text-primary-600 text-h4 m-0 leading-none tabular-nums">
+                    <span className="font-display font-bold text-primary-600 text-h3 m-0 leading-none tabular-nums">
                       {step.number}
                     </span>
                   </div>
                   <div className="flex flex-col gap-stack-3xs">
-                    <h3 className="font-display font-bold text-ink-900 text-h4">{step.title}</h3>
-                    <p className="font-body text-body-sm text-ink-600 m-0 max-w-xs mx-auto">
+                    <h3 className="font-display font-bold text-ink-900 text-h3">{step.title}</h3>
+                    <p className="font-body text-body text-ink-600 m-0 max-w-xs mx-auto">
                       {step.description}
                     </p>
                   </div>
@@ -495,7 +495,7 @@ const AppLanding: React.FC = () => {
                   <IconChip size="xs" tone="brand">
                     <Check />
                   </IconChip>
-                  <span className="font-body text-body-sm text-ink-700">{item}</span>
+                  <span className="font-body text-body text-ink-700">{item}</span>
                 </div>
               ))}
             </div>
@@ -527,7 +527,7 @@ const AppLanding: React.FC = () => {
               onChange={(e) => setEmailBottom(e.target.value)}
               placeholder="votre@email.com"
               aria-label="Adresse email"
-              className="flex-1 w-full h-12 px-4 rounded-lg bg-white/8 border border-white/20 text-white placeholder:text-white/40 font-body text-body-sm focus:outline-none focus:bg-white/12 focus:border-white/40 transition-all"
+              className="flex-1 w-full h-12 px-4 rounded-lg bg-white/8 border border-white/20 text-white placeholder:text-white/40 font-body text-body focus:outline-none focus:bg-white/12 focus:border-white/40 transition-all"
             />
             <MagneticButton strength={12}>
               <LandingCta tone="gold">Créer mon compte</LandingCta>

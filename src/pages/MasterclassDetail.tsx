@@ -89,12 +89,12 @@ export default function MasterclassDetail() {
                       header={
                         <div className="flex items-center gap-stack-xs flex-1 min-w-0">
                           <Badge variant="neutral" size="compact">{item.duration}</Badge>
-                          <span className="text-body-sm text-ink-800 font-medium truncate">{item.label}</span>
+                          <span className="text-body text-ink-800 font-medium truncate">{item.label}</span>
                         </div>
                       }
                     >
                       <div className="px-4 py-stack border-t border-ink-100">
-                        <p className="text-body-sm text-ink-600 m-0">{item.detail}</p>
+                        <p className="text-body text-ink-600 m-0">{item.detail}</p>
                       </div>
                     </EtapeAccordion>
                   ))}
@@ -118,7 +118,7 @@ export default function MasterclassDetail() {
               {estTerminee ? (
                 <Card variant="tinted" tone="primary" className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-stack p-stack-lg">
                   <div className="flex flex-col gap-tight flex-1 min-w-0">
-                    <p className="text-body-sm font-semibold text-ink-900 m-0">
+                    <p className="text-body font-semibold text-ink-900 m-0">
                       Cette masterclass est terminée
                     </p>
                     <p className="text-caption text-ink-600 m-0">Les inscriptions sont closes.</p>
@@ -130,7 +130,7 @@ export default function MasterclassDetail() {
               ) : (
               <Card variant="tinted" tone="primary" className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-stack p-stack-lg">
                 <div className="flex flex-col gap-tight flex-1 min-w-0">
-                  <p className="text-body-sm font-semibold text-ink-900 m-0">
+                  <p className="text-body font-semibold text-ink-900 m-0">
                     Inscription ouverte jusqu'au 15 juin à 15h00
                   </p>
                   <p className="text-caption text-ink-600 m-0">47 / 100 places restantes</p>
@@ -150,7 +150,7 @@ export default function MasterclassDetail() {
                 <div className="flex items-center gap-stack">
                   <Avatar name="Marie Fontaine" initials="MF" size="lg" tint="brand" />
                   <div className="flex flex-col gap-tight min-w-0">
-                    <p className="text-body-sm font-semibold text-ink-900 m-0">Marie Fontaine</p>
+                    <p className="text-body font-semibold text-ink-900 m-0">Marie Fontaine</p>
                     <p className="text-caption text-ink-500 m-0">DRH · Groupe Vinci</p>
                     <p className="text-caption text-ink-600 m-0">
                       15 ans d'expérience en leadership et gestion de crise.
@@ -172,7 +172,7 @@ export default function MasterclassDetail() {
                       <div className="flex items-center gap-stack-xs min-w-0">
                         <Video size={14} className="text-primary-400 shrink-0" />
                         <div className="flex flex-col gap-tight min-w-0">
-                          <span className="text-body-sm font-semibold text-ink-900 truncate">{m.title}</span>
+                          <span className="text-body font-semibold text-ink-900 truncate">{m.title}</span>
                           <span className="text-caption text-ink-500">{m.expert}</span>
                         </div>
                       </div>

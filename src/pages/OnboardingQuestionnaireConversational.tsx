@@ -268,7 +268,7 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
     const title = (
       <div className="flex flex-col gap-tight">
         <div className="flex items-baseline justify-between gap-stack-xs">
-          <span className="text-body-sm font-semibold text-ink-700">Positionnement</span>
+          <span className="text-body font-semibold text-ink-700">Positionnement</span>
           <span className="text-caption text-ink-500 tabular-nums">
             {isClosed ? total : Math.min(currentIdx + 1, total)} / {total}
           </span>
@@ -322,7 +322,7 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
           placeholder="Réponds librement… (Entrée pour envoyer)"
           rows={1}
           disabled={transitioning}
-          className="flex-1 resize-none rounded-lg border border-ink-200 bg-white px-3 py-2.5 text-body-sm text-ink-900 placeholder:text-ink-500 focus:outline-none focus:ring-2 focus:ring-secondary-300 focus:border-secondary-400 transition-all duration-base disabled:opacity-disabled max-h-24 overflow-y-auto"
+          className="flex-1 resize-none rounded-lg border border-ink-200 bg-white px-3 py-2.5 text-body text-ink-900 placeholder:text-ink-500 focus:outline-none focus:ring-2 focus:ring-secondary-300 focus:border-secondary-400 transition-all duration-base disabled:opacity-disabled max-h-24 overflow-y-auto"
         />
         <Button
           emphasis="soft" tone="warm"
@@ -374,10 +374,10 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
 
           {isClosed ? (
             <>
-              <p className="font-body text-body-sm text-ink-700">
+              <p className="font-body text-body text-ink-700">
                 C'est terminé{firstName ? `, ${firstName}` : ''}. Ton Passeport de compétences est initialisé.
               </p>
-              <p className="font-body text-body-sm text-ink-500">
+              <p className="font-body text-body text-ink-500">
                 {requiresPayment
                   ? 'Prochaine étape : choisir ta formule pour démarrer.'
                   : 'Prochaine étape : un tour rapide de la plateforme.'}

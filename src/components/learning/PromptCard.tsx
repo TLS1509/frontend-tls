@@ -209,7 +209,7 @@ export const PromptCard: React.FC<PromptCardProps> = ({
         {icon}
       </div>
 
-      <p className="m-0 text-body-sm text-ink-600 text-balance">{text}</p>
+      <p className="m-0 text-body text-ink-600 text-balance">{text}</p>
 
       <div className={['inline-flex items-center gap-tight text-caption font-semibold text-ink-500 transition-colors', ctaHover].join(' ')}>
         {ctaLabel ?? 'Réfléchir'}

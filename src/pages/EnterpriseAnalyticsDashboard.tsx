@@ -200,7 +200,7 @@ export default function EnterpriseAnalyticsDashboard() {
                 const pct = Math.round((avg / 5) * 100);
                 return (
                   <div key={comp} className="flex items-center gap-stack">
-                    <span className="text-body-sm font-medium text-ink-700 w-36 shrink-0">{comp}</span>
+                    <span className="text-body font-medium text-ink-700 w-36 shrink-0">{comp}</span>
                     <div className="flex-1">
                       <ProgressBar value={pct} fill="brand" size="md" />
                     </div>

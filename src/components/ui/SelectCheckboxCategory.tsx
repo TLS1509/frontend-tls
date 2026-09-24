@@ -57,7 +57,7 @@ export const SelectCheckboxCategory: React.FC<SelectCheckboxCategoryProps> = ({
           onClick={() => setIsOpen(!isOpen)}
           className={`
             w-full px-4 py-3 bg-white rounded-lg
-            text-body-sm font-medium text-ink-900
+            text-body font-medium text-ink-900
             border border-ink-100
             shadow-[inset_0_1px_1px_white/15]
             flex items-center justify-between gap-stack-xs
@@ -147,7 +147,7 @@ export const SelectCheckboxCategory: React.FC<SelectCheckboxCategoryProps> = ({
                             )}
                           </div>
                           <span
-                            className={`text-body-sm transition-all duration-200 ${
+                            className={`text-body transition-all duration-200 ${
                               isSelected ? 'text-ink-900 font-semibold' : 'text-ink-600'
                             }`}
                           >
@@ -188,7 +188,7 @@ export const SelectCheckboxCategory: React.FC<SelectCheckboxCategoryProps> = ({
                               }}
                               style={{ animationDelay: `${300 + subIdx * 20}ms` }}
                               className={`
-                                w-full text-left px-3 py-2 rounded-lg text-body-sm
+                                w-full text-left px-3 py-2 rounded-lg text-body
                                 transition-all duration-200 ease-[cubic-bezier(0.32,0.72,0,1)]
                                 animate-in fade-in slide-in-from-left-1
                                 hover:bg-primary-50 hover:text-primary-700
@@ -211,7 +211,7 @@ export const SelectCheckboxCategory: React.FC<SelectCheckboxCategoryProps> = ({
                     onChange('all');
                     setIsOpen(false);
                   }}
-                  className="w-full px-3 py-2 text-body-sm text-ink-600 hover:text-ink-900 font-medium rounded-lg hover:bg-ink-100 transition-all duration-200"
+                  className="w-full px-3 py-2 text-body text-ink-600 hover:text-ink-900 font-medium rounded-lg hover:bg-ink-100 transition-all duration-200"
                 >
                   Voir tous
                 </button>

@@ -61,7 +61,7 @@ const ApiDocs: React.FC = () => {
               {ENDPOINTS.map((e, i) => (
                 <Card key={i} className="p-stack-md flex flex-wrap items-center gap-stack">
                   <Badge variant={METHOD_COLOR[e.method]}>{e.method}</Badge>
-                  <code className="font-mono text-body-sm flex-1 basis-48 wrap-anywhere">{e.path}</code>
+                  <code className="font-mono text-body flex-1 basis-48 wrap-anywhere">{e.path}</code>
                   <span className="text-caption text-ink-500 hidden md:block flex-1 basis-48">{e.desc}</span>
                   <Badge variant="neutral">{e.auth}</Badge>
                   <Button emphasis="outline" iconOnly leadingIcon={<Copy className="w-4 h-4" />} aria-label="Copier" />
@@ -78,14 +78,14 @@ const ApiDocs: React.FC = () => {
                 <Key className="w-5 h-5 text-primary-600 mt-1 shrink-0" />
                 <div>
                   <div className="font-semibold mb-1">JWT Bearer Token</div>
-                  <p className="text-body-sm text-ink-600">Inclure <code className="px-1 py-0.5 bg-ink-100 rounded">Authorization: Bearer &lt;token&gt;</code> dans chaque requête.</p>
+                  <p className="text-body text-ink-600">Inclure <code className="px-1 py-0.5 bg-ink-100 rounded">Authorization: Bearer &lt;token&gt;</code> dans chaque requête.</p>
                 </div>
               </Card>
               <Card className="p-stack-md flex items-start gap-stack-xs">
                 <Shield className="w-5 h-5 text-success-fg mt-1 shrink-0" />
                 <div>
                   <div className="font-semibold mb-1">Scopes par rôle</div>
-                  <p className="text-body-sm text-ink-600">Apprenant · Coach · Manager · Admin. Les endpoints vérifient le scope au niveau du middleware.</p>
+                  <p className="text-body text-ink-600">Apprenant · Coach · Manager · Admin. Les endpoints vérifient le scope au niveau du middleware.</p>
                 </div>
               </Card>
             </div>

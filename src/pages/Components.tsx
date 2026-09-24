@@ -1115,7 +1115,7 @@ const ModalDemo: React.FC = () => {
           </>
         }
       >
-        <p className="m-0 text-ink-600 text-body-sm">
+        <p className="m-0 text-ink-600 text-body">
           Voulez-vous vraiment supprimer cet élément ? Cette action est irréversible et toutes les données associées seront perdues.
         </p>
       </Modal>
@@ -1221,7 +1221,7 @@ const SidebarDemo: React.FC = () => {
           ))}
         </Sidebar>
         <div className="flex-1 p-stack-lg bg-gradient-to-br from-ink-50 to-white overflow-hidden rounded-r-xl">
-          <p className="text-body-sm text-ink-500">Active : <strong className="text-ink-900">{items.find(i => i.id === active)?.label}</strong></p>
+          <p className="text-body text-ink-500">Active : <strong className="text-ink-900">{items.find(i => i.id === active)?.label}</strong></p>
           <p className="text-caption text-ink-500 mt-1">Cliquer sur la carte utilisateur en bas → dropdown glass à droite. Mobile : drawer + hamburger (md:)</p>
         </div>
       </div>
@@ -1302,7 +1302,7 @@ const AuthShellDemo: React.FC = () => {
             <AuthSocialButton icon={<AuthGoogleIcon />}>Google</AuthSocialButton>
             <AuthSocialButton icon={<AuthLinkedinIcon />}>LinkedIn</AuthSocialButton>
           </div>
-          <p className="text-center text-body-sm text-white/75 m-0 mt-1">
+          <p className="text-center text-body text-white/75 m-0 mt-1">
             Déjà inscrit ?{' '}
             <AuthInlineLink onClick={() => {}}>Se connecter</AuthInlineLink>
           </p>
@@ -1336,8 +1336,8 @@ const ShowcaseBloc: React.FC<{
      page d'arbitrages, qui sait enregistrer une réponse — la vitrine, non. */
   <section className="flex flex-col gap-stack">
     <div className="flex flex-col gap-tight">
-      <h4 className="font-display text-h4 text-ink-900">{titre}</h4>
-      {note && <p className="m-0 font-body text-body-sm text-ink-600 max-w-[65ch]">{note}</p>}
+      <h4 className="font-display text-h3 text-ink-900">{titre}</h4>
+      {note && <p className="m-0 font-body text-body text-ink-600 max-w-[65ch]">{note}</p>}
     </div>
     {children}
   </section>
@@ -1412,18 +1412,18 @@ const COMPONENTS: ComponentEntry[] = [
             <div className="rounded-lg border border-ink-200 p-stack">
               <p className="m-0 mb-stack-xs text-micro font-bold uppercase tracking-wider text-ink-500">Constaté — gap-stack uniforme</p>
               <div className="flex flex-col gap-stack rounded-md bg-ink-50 p-stack">
-                <p className="m-0 font-body text-body-sm text-ink-600">Fin du bloc précédent.</p>
-                <h5 className="m-0 font-display text-h4 text-ink-900">Un titre de section</h5>
-                <p className="m-0 font-body text-body-sm text-ink-600">Le texte qui lui appartient.</p>
+                <p className="m-0 font-body text-body text-ink-600">Fin du bloc précédent.</p>
+                <h5 className="m-0 font-display text-h3 text-ink-900">Un titre de section</h5>
+                <p className="m-0 font-body text-body text-ink-600">Le texte qui lui appartient.</p>
               </div>
               <p className="m-0 mt-stack-xs text-micro text-ink-500 tabular-nums">16 px dessus · 16 px dessous — ratio 1,0</p>
             </div>
             <div className="rounded-lg border border-primary-200 bg-primary-50/30 p-stack">
               <p className="m-0 mb-stack-xs text-micro font-bold uppercase tracking-wider text-primary-700">Proposé — règle de proximité</p>
               <div className="rounded-md bg-white p-stack">
-                <p className="m-0 font-body text-body-sm text-ink-600">Fin du bloc précédent.</p>
-                <h5 className="mt-section mb-stack-xs font-display text-h4 text-ink-900">Un titre de section</h5>
-                <p className="m-0 font-body text-body-sm text-ink-600">Le texte qui lui appartient.</p>
+                <p className="m-0 font-body text-body text-ink-600">Fin du bloc précédent.</p>
+                <h5 className="mt-section mb-stack-xs font-display text-h3 text-ink-900">Un titre de section</h5>
+                <p className="m-0 font-body text-body text-ink-600">Le texte qui lui appartient.</p>
               </div>
               <p className="m-0 mt-stack-xs text-micro text-primary-700 tabular-nums">32 px dessus · 8 px dessous — ratio 4,0</p>
             </div>
@@ -1465,7 +1465,7 @@ const COMPONENTS: ComponentEntry[] = [
           note="181 gouttières numériques rendent exactement la même valeur qu'un token existant. Les remplacer ne change pas un pixel à l'écran ; c'est une conversion mécanique, pas un arbitrage."
         >
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[420px] border-collapse font-body text-body-sm">
+            <table className="w-full min-w-[420px] border-collapse font-body text-body">
               <thead>
                 <tr className="border-b border-ink-200 text-left">
                   <th className="py-2 pr-stack font-bold text-ink-700">Écrit</th>
@@ -1503,7 +1503,7 @@ const COMPONENTS: ComponentEntry[] = [
         >
           <div className="rounded-lg border border-ink-200 bg-ink-50 py-stack">
             <div className="bg-white px-4 py-stack sm:px-6 lg:px-10">
-              <p className="m-0 font-body text-body-sm text-ink-600">
+              <p className="m-0 font-body text-body text-ink-600">
                 La zone blanche est le contenu ; le liseré gris, la gouttière. Elle passe de 16 px sur mobile
                 à 24 px sur tablette et 40 px sur grand écran — redimensionnez pour la voir bouger.
               </p>
@@ -1527,7 +1527,7 @@ const COMPONENTS: ComponentEntry[] = [
           note="Un centrage vertical par items-center centre la boîte de ligne, pas la hauteur de capitale — et les deux ne coïncident que si les métriques de la fonte s'y prêtent. Celles de Nunito s'y prêtent : sur un bouton md de 44 px, la ligne de base tombe à 28 px du haut, la capitale mesure 10,69 px, donc son milieu est à 22,65 px pour un centre géométrique à 22. L'écart de 0,65 px est invisible. Rien à corriger, et c'est utile de le savoir : la prochaine fois qu'un bloc paraîtra mal centré, il faudra chercher ailleurs."
         >
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[460px] border-collapse font-body text-body-sm">
+            <table className="w-full min-w-[460px] border-collapse font-body text-body">
               <tbody className="text-ink-600">
                 {([
                   ['Bouton md, hauteur', '44,00 px'],
@@ -1608,7 +1608,7 @@ const COMPONENTS: ComponentEntry[] = [
                   </div>
                 ))}
               </div>
-              <p className="m-0 font-body text-body-sm text-ink-600">
+              <p className="m-0 font-body text-body text-ink-600">
                 L'argument écarté en connaissance de cause : le rayon d'une pilule vaut la moitié de sa
                 hauteur, donc sa silhouette ne dépend pas de la longueur du label. C'est vrai — mais ce
                 que ça achète, une constance que personne ne perçoit, coûte l'accord entre le CTA et la
@@ -1676,8 +1676,8 @@ const COMPONENTS: ComponentEntry[] = [
                     </div>
                     <div className="mt-stack flex items-center justify-between gap-stack">
                       <div className="min-w-0">
-                        <h4 className="font-display text-h4 text-ink-900">Session de coaching</h4>
-                        <p className="m-0 mt-1 font-body text-body-sm text-ink-600">
+                        <h4 className="font-display text-h3 text-ink-900">Session de coaching</h4>
+                        <p className="m-0 mt-1 font-body text-body text-ink-600">
                           Préparer le lancement du parcours Neuro-éducation.
                         </p>
                       </div>
@@ -1705,7 +1705,7 @@ const COMPONENTS: ComponentEntry[] = [
                     readOnly
                     value="Jeanne Dupont"
                     aria-label={`Champ de démonstration — ${rayon}`}
-                    className={`w-full h-12 px-4 ${rayon} border border-ink-300 bg-white font-body text-body-sm text-ink-900`}
+                    className={`w-full h-12 px-4 ${rayon} border border-ink-300 bg-white font-body text-body text-ink-900`}
                   />
                   <Button emphasis="soft" size="lg" fullWidth>Envoyer le message</Button>
                   <span className="font-mono text-micro text-ink-500">champ 48 px · bouton 48 px · {rayon === 'rounded-md' ? '10 contre 14' : '14 et 14'}</span>
@@ -1720,7 +1720,7 @@ const COMPONENTS: ComponentEntry[] = [
             note="Mesuré au navigateur. Au-dessus de 28 px seulement, la classe choisie change quelque chose."
           >
             <div className="defiler">
-              <table className="w-full min-w-[400px] border-collapse font-body text-body-sm">
+              <table className="w-full min-w-[400px] border-collapse font-body text-body">
                 <thead>
                   <tr className="border-b border-ink-200 text-left">
                     <th className="py-2 pr-stack font-bold text-ink-700">hauteur</th>
@@ -1784,8 +1784,8 @@ const COMPONENTS: ComponentEntry[] = [
               <div className="flex flex-col gap-stack-xs">
                 <div className={coque}>
                   <Badge variant="warm" className="self-start">À venir</Badge>
-                  <h4 className="mt-stack-xs font-display text-h4 text-ink-900">{titre}</h4>
-                  <p className="m-0 mt-1 font-body text-body-sm text-ink-600">{texte}</p>
+                  <h4 className="mt-stack-xs font-display text-h3 text-ink-900">{titre}</h4>
+                  <p className="m-0 mt-1 font-body text-body text-ink-600">{texte}</p>
                   <MetaPillGroup items={metas} className="mt-stack" />
                   <Button size="sm" className="mt-stack self-start">Rejoindre</Button>
                 </div>
@@ -1802,8 +1802,8 @@ const COMPONENTS: ComponentEntry[] = [
                     <MetaPillGroup items={metas} />
                     <Badge variant="warm" className="shrink-0">À venir</Badge>
                   </div>
-                  <h4 className="mt-stack font-display text-h4 text-ink-900">{titre}</h4>
-                  <p className="m-0 mt-1 font-body text-body-sm text-ink-600">{texte}</p>
+                  <h4 className="mt-stack font-display text-h3 text-ink-900">{titre}</h4>
+                  <p className="m-0 mt-1 font-body text-body text-ink-600">{texte}</p>
                   <Button size="sm" className="mt-stack self-start">Rejoindre</Button>
                 </div>
                 <span className="text-micro font-mono text-ink-500"><b>B</b> · métas à gauche, statut à droite</span>
@@ -1813,10 +1813,10 @@ const COMPONENTS: ComponentEntry[] = [
               <div className="flex flex-col gap-stack-xs">
                 <div className={coque}>
                   <div className="flex items-start justify-between gap-stack-xs">
-                    <h4 className="font-display text-h4 text-ink-900">{titre}</h4>
+                    <h4 className="font-display text-h3 text-ink-900">{titre}</h4>
                     <Badge variant="warm" className="shrink-0 mt-0.5">À venir</Badge>
                   </div>
-                  <p className="m-0 mt-1 font-body text-body-sm text-ink-600">{texte}</p>
+                  <p className="m-0 mt-1 font-body text-body text-ink-600">{texte}</p>
                   <MetaPillGroup items={metas} className="mt-stack" />
                   <Button size="sm" className="mt-stack self-start">Rejoindre</Button>
                 </div>
@@ -1827,10 +1827,10 @@ const COMPONENTS: ComponentEntry[] = [
               <div className="flex flex-col gap-stack-xs">
                 <div className={coque}>
                   <div className="flex items-start justify-between gap-stack-xs">
-                    <h4 className="font-display text-h4 text-ink-900">{titre}</h4>
+                    <h4 className="font-display text-h3 text-ink-900">{titre}</h4>
                     <Badge variant="warm" className="shrink-0 mt-0.5">À venir</Badge>
                   </div>
-                  <p className="m-0 mt-1 font-body text-body-sm text-ink-600">{texte}</p>
+                  <p className="m-0 mt-1 font-body text-body text-ink-600">{texte}</p>
                   <div className="mt-stack pt-stack border-t border-ink-200 flex items-center justify-between gap-stack-xs">
                     <MetaPillGroup items={metas} />
                     <Button size="sm" className="shrink-0">Rejoindre</Button>
@@ -1850,8 +1850,8 @@ const COMPONENTS: ComponentEntry[] = [
                   {/* Corps : le texte à gauche, l'action à droite, centrée sur lui */}
                   <div className="mt-stack flex items-center justify-between gap-stack">
                     <div className="min-w-0">
-                      <h4 className="font-display text-h4 text-ink-900">{titre}</h4>
-                      <p className="m-0 mt-1 font-body text-body-sm text-ink-600">{texte}</p>
+                      <h4 className="font-display text-h3 text-ink-900">{titre}</h4>
+                      <p className="m-0 mt-1 font-body text-body text-ink-600">{texte}</p>
                     </div>
                     <Button size="sm" className="shrink-0">Rejoindre</Button>
                   </div>
@@ -1867,7 +1867,7 @@ const COMPONENTS: ComponentEntry[] = [
                     <MetaPillGroup items={metas} className="justify-end" />
                   </div>
                   <h4 className="mt-stack font-display text-h3 text-ink-900">{titre}</h4>
-                  <p className="m-0 mt-1 font-body text-body-sm text-ink-600">{texte}</p>
+                  <p className="m-0 mt-1 font-body text-body text-ink-600">{texte}</p>
                   <div className="mt-stack flex justify-end">
                     <Button size="sm">Rejoindre</Button>
                   </div>
@@ -1947,7 +1947,7 @@ const COMPONENTS: ComponentEntry[] = [
           note="Neuf enveloppes déclarées, deux réellement employées. Le CLAUDE.md disait « ne pas fusionner, APIs fondamentalement différentes » — écrit en supposant qu’elles servaient toutes. Quatre composants pour neuf usages cumulés, c’est du vocabulaire, pas des API."
         >
           <div className="defiler">
-            <table className="w-full min-w-[420px] border-collapse font-body text-body-sm">
+            <table className="w-full min-w-[420px] border-collapse font-body text-body">
               <thead>
                 <tr className="border-b border-ink-200 text-left">
                   <th className="py-2 pr-stack font-bold text-ink-700">composant</th>
@@ -2016,10 +2016,10 @@ const COMPONENTS: ComponentEntry[] = [
           <div className="flex flex-col gap-stack">
             {([
               ['xs', 'text-caption', '16 px · caption 13'],
-              ['sm', 'text-body-sm', '18 px · body-sm 15'],
+              ['sm', 'text-body', '18 px · body-sm 15'],
               ['md', 'text-body', '20 px · body 16'],
               ['lg', 'text-body-lg', '24 px · body-lg 18'],
-              ['xl', 'text-h4', '28 px · h4 20'],
+              ['xl', 'text-h3', '28 px · h4 20'],
             ] as const).map(([cran, texte, meta]) => (
               <div key={cran} className="flex items-center gap-stack">
                 <code className="w-20 shrink-0 font-mono text-micro text-ink-600">icon-{cran}</code>
@@ -4502,7 +4502,7 @@ const COMPONENTS: ComponentEntry[] = [
         <div className="flex flex-col gap-stack p-stack-md rounded-xl bg-secondary-50/30 border border-secondary-200">
           <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">4 sizes · variant solid · tone warm</p>
           <SectionHeader size="xs" variant="solid" tone="warm" icon={Calendar} title="Size xs — text-body 16" as="h4" />
-          <SectionHeader size="sm" variant="solid" tone="warm" icon={Calendar} title="Size sm — text-h4 20" as="h3" />
+          <SectionHeader size="sm" variant="solid" tone="warm" icon={Calendar} title="Size sm — text-h3 20" as="h3" />
           <SectionHeader size="md" variant="solid" tone="warm" icon={Calendar} title="Size md — text-h3 24 (default)" as="h3" />
           <SectionHeader size="lg" variant="solid" tone="warm" icon={Calendar} title="Size lg — text-h2 28" />
         </div>
@@ -4684,7 +4684,7 @@ const COMPONENTS: ComponentEntry[] = [
             </button>
             <div className="flex-1 text-center">
               <p className="m-0 text-caption text-ink-500">Carte 3 sur 12</p>
-              <p className="m-0 text-body-sm font-bold text-ink-900 truncate">Boucle de feedback OKR</p>
+              <p className="m-0 text-body font-bold text-ink-900 truncate">Boucle de feedback OKR</p>
             </div>
             <div className="flex items-center gap-tight">
               <button className="w-8 h-8 rounded-pill flex items-center justify-center text-ink-400 hover:bg-ink-100 border-0 cursor-pointer"><ArrowLeft size={16} /></button>
@@ -4850,9 +4850,9 @@ const COMPONENTS: ComponentEntry[] = [
               </div>
               <div className="flex flex-col gap-stack-xs p-stack-md">
                 <span className="font-body text-micro font-semibold uppercase tracking-wider text-ink-500">{item.category} · {item.publishedAt}</span>
-                <h3 className="font-display text-h4 font-bold text-ink-900">{item.title}</h3>
+                <h3 className="font-display text-h3 font-bold text-ink-900">{item.title}</h3>
                 <span className="font-body text-caption text-ink-500"><User size={12} className="inline mr-0.5" /> {item.author} · ⏱ {item.readTime}</span>
-                <p className="m-0 font-body text-body-sm text-ink-600">{item.summary}</p>
+                <p className="m-0 font-body text-body text-ink-600">{item.summary}</p>
                 <footer className="flex justify-between items-center pt-stack-xs border-t border-ink-100"><span className="text-caption font-bold text-accent-700">Lire →</span></footer>
               </div>
             </article>
@@ -4867,9 +4867,9 @@ const COMPONENTS: ComponentEntry[] = [
                 <button className="w-8 h-8 rounded-pill bg-white/70 text-ink-500 hover:text-ink-900 flex items-center justify-center"><Bookmark size={14} /></button>
               </div>
               <span className="font-body text-micro font-semibold uppercase tracking-wider text-accent-700">{item.category} · {item.publishedAt}</span>
-              <h3 className="font-display text-h4 font-bold text-ink-900">{item.title}</h3>
+              <h3 className="font-display text-h3 font-bold text-ink-900">{item.title}</h3>
               <span className="font-body text-caption text-ink-500"><User size={12} className="inline mr-0.5" /> {item.author} · ⏱ {item.readTime}</span>
-              <p className="m-0 font-body text-body-sm text-ink-700">{item.summary}</p>
+              <p className="m-0 font-body text-body text-ink-700">{item.summary}</p>
               <footer className="flex justify-between items-center pt-stack-xs border-t border-white/60"><span className="text-caption font-bold text-accent-700">Lire →</span></footer>
             </article>
           </div>
@@ -4884,7 +4884,7 @@ const COMPONENTS: ComponentEntry[] = [
               <span className="absolute top-3 left-3 inline-flex items-center gap-tight px-2.5 py-1 rounded-pill bg-white/95 backdrop-blur-glass-light text-micro font-bold uppercase text-ink-900 shadow-sm"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
               <div className="absolute inset-x-0 bottom-0 p-stack-md text-white flex flex-col gap-tight">
                 <span className="font-body text-micro font-semibold uppercase tracking-wider text-white/80">{item.category} · {item.publishedAt}</span>
-                <h3 className="font-display text-h4 font-bold text-white">{item.title}</h3>
+                <h3 className="font-display text-h3 font-bold text-white">{item.title}</h3>
                 <div className="flex justify-between items-center text-caption text-white/90 mt-tight">
                   <span><User size={12} className="inline" /> {item.author} · ⏱ {item.readTime}</span>
                   <span className="font-bold">Lire →</span>
@@ -4920,7 +4920,7 @@ const COMPONENTS: ComponentEntry[] = [
 
           {/* ── SECTION HORIZONTALES (LIST) ─── */}
           <div className="border-t border-ink-100 pt-section">
-            <p className="text-body-sm font-bold text-ink-700 mb-section-lg">Designs horizontaux · vue liste</p>
+            <p className="text-body font-bold text-ink-700 mb-section-lg">Designs horizontaux · vue liste</p>
           </div>
 
           {(() => {
@@ -4951,7 +4951,7 @@ const COMPONENTS: ComponentEntry[] = [
                   </div>
                   {/* Content : titre → meta → summary */}
                   <div className="flex flex-col justify-center gap-tight p-stack">
-                    <h3 className="font-display text-body-sm font-bold text-ink-900 line-clamp-2">{it.title}</h3>
+                    <h3 className="font-display text-body font-bold text-ink-900 line-clamp-2">{it.title}</h3>
                     <div className="flex items-center gap-stack-2xs font-body text-micro text-ink-500 flex-wrap">
                       <User size={10} className="shrink-0" />
                       <span>{it.author}</span>
@@ -4984,7 +4984,7 @@ const COMPONENTS: ComponentEntry[] = [
                   </div>
                   {/* Content */}
                   <div className="flex-1 min-w-0 flex flex-col gap-tight px-stack py-3">
-                    <h3 className="font-display text-body-sm font-bold text-ink-900 line-clamp-1">{it.title}</h3>
+                    <h3 className="font-display text-body font-bold text-ink-900 line-clamp-1">{it.title}</h3>
                     <div className="flex items-center gap-stack-2xs font-body text-micro text-ink-500 flex-wrap">
                       <User size={10} className="shrink-0" />
                       <span>{it.author}</span>
@@ -5015,7 +5015,7 @@ const COMPONENTS: ComponentEntry[] = [
                   </div>
                   {/* Title + meta */}
                   <div className="flex-1 min-w-0 flex flex-col gap-tight">
-                    <h4 className="font-display text-body-sm font-bold text-ink-900 truncate group-hover:text-primary-700 transition-colors">{it.title}</h4>
+                    <h4 className="font-display text-body font-bold text-ink-900 truncate group-hover:text-primary-700 transition-colors">{it.title}</h4>
                     <p className="m-0 font-body text-micro text-ink-500 truncate">
                       <User size={9} className="inline mr-0.5" />{it.author} · {it.publishedAt} · ⏱ {it.readTime}
                     </p>
@@ -5610,14 +5610,14 @@ const COMPONENTS: ComponentEntry[] = [
           <div className="relative h-[180px] overflow-hidden rounded-xl bg-gradient-page-ambient-warm border border-ink-200">
             <AmbientBlobs position="absolute" intensity="subtle" />
             <div className="relative z-base p-stack flex flex-col items-center justify-center h-full text-center">
-              <p className="m-0 font-display text-body-sm font-bold text-ink-900">bg-gradient-page-ambient-warm</p>
+              <p className="m-0 font-display text-body font-bold text-ink-900">bg-gradient-page-ambient-warm</p>
               <p className="m-0 mt-tight font-body text-caption text-ink-600">Teal → white → orange</p>
             </div>
           </div>
           <div className="relative h-[180px] overflow-hidden rounded-xl bg-gradient-page-ambient-sun border border-ink-200">
             <AmbientBlobs position="absolute" intensity="subtle" />
             <div className="relative z-base p-stack flex flex-col items-center justify-center h-full text-center">
-              <p className="m-0 font-display text-body-sm font-bold text-ink-900">bg-gradient-page-ambient-sun</p>
+              <p className="m-0 font-display text-body font-bold text-ink-900">bg-gradient-page-ambient-sun</p>
               <p className="m-0 mt-tight font-body text-caption text-ink-600">Orange → white → yellow</p>
             </div>
           </div>
@@ -5638,13 +5638,13 @@ const COMPONENTS: ComponentEntry[] = [
         <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
           <div className="relative h-[180px] overflow-hidden rounded-xl bg-gradient-soft-pastel border border-ink-200">
             <div className="relative z-base p-stack flex flex-col items-center justify-center h-full text-center">
-              <p className="m-0 font-display text-body-sm font-bold text-ink-900">bg-gradient-soft-pastel</p>
+              <p className="m-0 font-display text-body font-bold text-ink-900">bg-gradient-soft-pastel</p>
               <p className="m-0 mt-tight font-body text-micro text-ink-600 font-mono">135° · cyan #f0f9ff → mist #f8fbfd → cream #fefaf5</p>
             </div>
           </div>
           <div className="relative h-[180px] overflow-hidden rounded-xl bg-gradient-soft-duo border border-ink-200">
             <div className="relative z-base p-stack flex flex-col items-center justify-center h-full text-center">
-              <p className="m-0 font-display text-body-sm font-bold text-ink-900">bg-gradient-soft-duo</p>
+              <p className="m-0 font-display text-body font-bold text-ink-900">bg-gradient-soft-duo</p>
               <p className="m-0 mt-tight font-body text-micro text-ink-600 font-mono">135° · cyan #f0f9ff → mist #f8fbfd → cream #fefaf5</p>
             </div>
           </div>
@@ -5703,14 +5703,14 @@ const COMPONENTS: ComponentEntry[] = [
         staticAside
         main={
           <SectionCard title="Contenu principal">
-            <p className="m-0 text-body-sm text-ink-500">
+            <p className="m-0 text-body text-ink-500">
               La colonne principale prend ~1.4fr de l'espace disponible. Elle peut contenir n'importe quel contenu : SectionCard, formulaires, listes, médias.
             </p>
           </SectionCard>
         }
         aside={
           <SectionCard title="Aside">
-            <p className="m-0 text-body-sm text-ink-500">
+            <p className="m-0 text-body text-ink-500">
               L'aside prend ~0.8fr et devient sticky sur desktop (top: 96px). Sur mobile, le layout passe en single-column.
             </p>
           </SectionCard>
@@ -5733,13 +5733,13 @@ const COMPONENTS: ComponentEntry[] = [
         headerAction={<span className="text-caption text-ink-500">3 items</span>}
         actions={
           <>
-            <button type="button" className="inline-flex items-center gap-tight text-body-sm text-primary-700 hover:text-primary-800 underline bg-transparent border-0 p-0 cursor-pointer">
+            <button type="button" className="inline-flex items-center gap-tight text-body text-primary-700 hover:text-primary-800 underline bg-transparent border-0 p-0 cursor-pointer">
               Voir tout
             </button>
           </>
         }
       >
-        <ul className="m-0 pl-4 flex flex-col gap-stack-xs text-body-sm text-ink-700 list-disc">
+        <ul className="m-0 pl-4 flex flex-col gap-stack-xs text-body text-ink-700 list-disc">
           <li>Premier point essentiel à retenir.</li>
           <li>Deuxième point avec une explication détaillée.</li>
           <li>Troisième point pour clore la section.</li>
@@ -5841,7 +5841,7 @@ const COMPONENTS: ComponentEntry[] = [
         </div>
         <div className="flex items-center gap-stack-sm">
           <IconChip tone="warm"><Calendar /></IconChip>
-          <span className="text-body-sm text-ink-900">Prochaine session : jeudi 14 h</span>
+          <span className="text-body text-ink-900">Prochaine session : jeudi 14 h</span>
         </div>
         {/* Arbitrage n°10 (23/09) : sur une carte de même teinte, le cran 50
             se confond avec la carte (1,00:1) — surface="tinted" monte au 100. */}
@@ -5857,11 +5857,11 @@ const COMPONENTS: ComponentEntry[] = [
               <span className="text-micro text-ink-700 font-mono">{label}</span>
               <div className="flex items-center gap-stack-sm">
                 <IconChip size="md" tone={chipTone}>{icon}</IconChip>
-                <span className="text-body-sm text-ink-700">défaut : cran 50, se fond</span>
+                <span className="text-body text-ink-700">défaut : cran 50, se fond</span>
               </div>
               <div className="flex items-center gap-stack-sm">
                 <IconChip size="md" tone={chipTone} surface="tinted">{icon}</IconChip>
-                <span className="text-body-sm text-ink-900">surface="tinted" : cran 100</span>
+                <span className="text-body text-ink-900">surface="tinted" : cran 100</span>
               </div>
             </div>
           ))}
@@ -5881,11 +5881,11 @@ const COMPONENTS: ComponentEntry[] = [
         <Divider label="ou" />
         <Divider label="Compétences" spacing="lg" />
         <div className="flex items-center gap-stack h-20">
-          <span className="text-body-sm">Section A</span>
+          <span className="text-body">Section A</span>
           <Divider orientation="vertical" />
-          <span className="text-body-sm">Section B</span>
+          <span className="text-body">Section B</span>
           <Divider orientation="vertical" />
-          <span className="text-body-sm">Section C</span>
+          <span className="text-body">Section C</span>
         </div>
       </div>
     ),
@@ -5906,7 +5906,7 @@ const COMPONENTS: ComponentEntry[] = [
         <p className="p-stack text-caption text-ink-500 italic">ConsentBanner — position fixed bottom dans l'app réelle. Démo statique ci-dessous :</p>
         <div className="relative bg-white/95 border-t border-ink-100 shadow-lg p-stack">
           <div className="flex flex-col md:flex-row md:items-center gap-stack-xs">
-            <div className="flex-1 text-body-sm text-ink-600">
+            <div className="flex-1 text-body text-ink-600">
               <span className="font-semibold text-ink-900">The Learning Society respecte votre vie privée</span>
               {' — '}Nous utilisons des cookies pour améliorer votre expérience.
             </div>
@@ -5997,7 +5997,7 @@ const COMPONENTS: ComponentEntry[] = [
         <div className="flex items-start gap-stack-xs p-stack bg-ink-50 rounded-lg">
           <div className="flex flex-col gap-stack-xs">
             <div className="flex items-center gap-stack-xs">
-              <span className="text-body-sm font-semibold text-ink-900">Prompt Engineering avancé</span>
+              <span className="text-body font-semibold text-ink-900">Prompt Engineering avancé</span>
               <AITransparencyLabel variant="recommended" size="sm" />
             </div>
             <p className="text-caption text-ink-500">Exemple d'usage en contexte — label inline sur une recommandation IA</p>
@@ -6543,7 +6543,7 @@ const COMPONENTS: ComponentEntry[] = [
             className="mb-0"
             bodyClassName="px-stack pb-stack"
           >
-            <p className="text-body-sm text-ink-600 pt-2 m-0">Contenu de l'étape — leçons, exercices, ressources.</p>
+            <p className="text-body text-ink-600 pt-2 m-0">Contenu de l'étape — leçons, exercices, ressources.</p>
           </EtapeAccordion>
           <EtapeAccordion
             title="Devenir prompt designer"
@@ -6553,7 +6553,7 @@ const COMPONENTS: ComponentEntry[] = [
             locked
             className="mb-0"
           >
-            <p className="text-body-sm text-ink-600 pt-2 m-0">Contenu verrouillé</p>
+            <p className="text-body text-ink-600 pt-2 m-0">Contenu verrouillé</p>
           </EtapeAccordion>
         </div>
       );
@@ -6854,12 +6854,12 @@ const COMPONENTS: ComponentEntry[] = [
             size="sm"
           >
             <div className="flex flex-col gap-stack-xs">
-              <label className="text-body-sm font-semibold text-ink-900">Prénom</label>
-              <input className="w-full h-10 px-3 rounded-lg border border-ink-200 text-body-sm focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100" defaultValue="Marie" />
+              <label className="text-body font-semibold text-ink-900">Prénom</label>
+              <input className="w-full h-10 px-3 rounded-lg border border-ink-200 text-body focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100" defaultValue="Marie" />
             </div>
             <div className="flex flex-col gap-stack-xs">
-              <label className="text-body-sm font-semibold text-ink-900">Rôle</label>
-              <select className="w-full h-10 px-3 rounded-lg border border-ink-200 text-body-sm focus:outline-none focus:border-primary-400 h-auto min-h-[44px] appearance-none bg-white">
+              <label className="text-body font-semibold text-ink-900">Rôle</label>
+              <select className="w-full h-10 px-3 rounded-lg border border-ink-200 text-body focus:outline-none focus:border-primary-400 h-auto min-h-[44px] appearance-none bg-white">
                 <option>Apprenante</option>
                 <option>Manager</option>
                 <option>Coach</option>
@@ -6905,14 +6905,14 @@ const COMPONENTS: ComponentEntry[] = [
             layout === 'grid' ? (
               <div key={item.id} className="flex flex-col gap-stack-xs p-stack rounded-xl border border-ink-200 bg-white hover:border-primary-300 hover:shadow-sm transition-all">
                 <span className="inline-flex self-start px-2 py-0.5 rounded-pill bg-primary-50 text-primary-800 text-micro font-semibold">{item.cat}</span>
-                <p className="font-semibold text-ink-900 text-body-sm m-0">{item.title}</p>
+                <p className="font-semibold text-ink-900 text-body m-0">{item.title}</p>
                 <p className="text-caption text-ink-500 m-0">{item.author}</p>
               </div>
             ) : (
               <div key={item.id} className="flex items-center justify-between px-stack py-3 rounded-xl border border-ink-200 bg-white hover:border-primary-300 transition-all">
                 <div className="flex items-center gap-stack-xs">
                   <span className="inline-flex px-2 py-0.5 rounded-pill bg-primary-50 text-primary-800 text-micro font-semibold shrink-0">{item.cat}</span>
-                  <p className="font-semibold text-ink-900 text-body-sm m-0">{item.title}</p>
+                  <p className="font-semibold text-ink-900 text-body m-0">{item.title}</p>
                 </div>
                 <p className="text-caption text-ink-500 m-0 shrink-0 ml-3">{item.author}</p>
               </div>
@@ -7472,9 +7472,9 @@ const COMPONENTS: ComponentEntry[] = [
     render: () => (
       <div className="rounded-xl border border-dashed border-primary-300 bg-primary-50/40">
         <PageShell width="content" gap="stack">
-          <div className="rounded-lg bg-white border border-ink-200 p-stack text-body-sm">Bloc 1</div>
-          <div className="rounded-lg bg-white border border-ink-200 p-stack text-body-sm">Bloc 2</div>
-          <div className="rounded-lg bg-white border border-ink-200 p-stack text-body-sm">Bloc 3</div>
+          <div className="rounded-lg bg-white border border-ink-200 p-stack text-body">Bloc 1</div>
+          <div className="rounded-lg bg-white border border-ink-200 p-stack text-body">Bloc 2</div>
+          <div className="rounded-lg bg-white border border-ink-200 p-stack text-body">Bloc 3</div>
         </PageShell>
       </div>
     ),
@@ -7559,7 +7559,7 @@ const COMPONENTS: ComponentEntry[] = [
           ))}
         </Cluster>
         <Cluster gap="stack-xs" justify="between" align="center" className="rounded-lg border border-ink-200 bg-white px-stack py-stack-xs">
-          <span className="text-body-sm font-semibold">justify=&quot;between&quot;</span>
+          <span className="text-body font-semibold">justify=&quot;between&quot;</span>
           <Button size="sm" emphasis="outline">Action</Button>
         </Cluster>
       </div>
@@ -7997,11 +7997,9 @@ const SURFACE_TOKENS: TokenEntry[] = [
 const TYPOGRAPHY_TOKENS: TokenEntry[] = [
   { name: 'h1', cssVar: '--text-h1', value: '36 px · 44 · 700 · -0.03em', group: 'Typographie — échelle produit', type: 'typography' },
   { name: 'h2', cssVar: '--text-h2', value: '28 px · 36 · 700 · -0.025em', group: 'Typographie — échelle produit', type: 'typography' },
-  { name: 'h3', cssVar: '--text-h3', value: '24 px · 32 · 700 · -0.025em', group: 'Typographie — échelle produit', type: 'typography' },
-  { name: 'h4', cssVar: '--text-h4', value: '20 px · 28 · 700 · -0.02em', group: 'Typographie — échelle produit', type: 'typography' },
+  { name: 'h3', cssVar: '--text-h3', value: '20 px · 26 · 700 · -0.02em — titre de bloc (arbitrage n°21 : 28 puis 20)', group: 'Typographie — échelle produit', type: 'typography' },
   { name: 'body-lg', cssVar: '--text-body-lg', value: '18 px · 28', group: 'Typographie — échelle produit', type: 'typography' },
-  { name: 'body', cssVar: '--text-body', value: '16 px · 24', group: 'Typographie — échelle produit', type: 'typography' },
-  { name: 'body-sm', cssVar: '--text-body-sm', value: '15 px · 24 — le corps de l’app', group: 'Typographie — échelle produit', type: 'typography' },
+  { name: 'body', cssVar: '--text-body', value: '16 px · 26 — tout le texte qu’on lit (arbitrage n°20)', group: 'Typographie — échelle produit', type: 'typography' },
   { name: 'caption', cssVar: '--text-caption', value: '13 px · 20', group: 'Typographie — échelle produit', type: 'typography' },
   { name: 'micro', cssVar: '--text-micro', value: '11 px · 18', group: 'Typographie — échelle produit', type: 'typography' },
 ];
@@ -8535,8 +8533,8 @@ const Swatch: React.FC<{ t: TokenEntry }> = ({ t }) => {
        corrigé dans Button le 2026-09-09. */
     const box = `icon-${t.name}`;
     const paired: Record<string, string> = {
-      '2xs': 'text-micro', xs: 'text-caption', sm: 'text-body-sm', md: 'text-body',
-      lg: 'text-body-lg', xl: 'text-h4', '2xl': 'text-h4', '3xl': 'text-h3', '4xl': 'text-h3',
+      '2xs': 'text-micro', xs: 'text-caption', sm: 'text-body', md: 'text-body',
+      lg: 'text-body-lg', xl: 'text-h3', '2xl': 'text-h3', '3xl': 'text-h3', '4xl': 'text-h3',
     };
     return (
       <div className="token-card">
@@ -8585,7 +8583,7 @@ const Swatch: React.FC<{ t: TokenEntry }> = ({ t }) => {
         <div className="h-[72px] rounded-md bg-ink-50 flex items-center justify-center relative overflow-hidden">
           <div className="absolute left-4 top-4 w-12 h-12 rounded-md bg-primary-300/medium" />
           <div className="absolute left-7 top-7 w-12 h-12 rounded-md bg-primary-500/overlay" />
-          <span className="relative font-display font-bold text-h4 text-white tabular-nums drop-shadow">{z}</span>
+          <span className="relative font-display font-bold text-h3 text-white tabular-nums drop-shadow">{z}</span>
         </div>
         <div className="token-card__meta">
           <p className="token-card__name">{t.name}</p>
@@ -9025,7 +9023,7 @@ const Components: React.FC = () => {
                       id={`sub-${componentSlug(subCat)}`}
                       className="flex items-baseline gap-stack-xs mt-stack-lg first:mt-0 pb-2 border-b border-ink-100 scroll-mt-20"
                     >
-                      <h3 className="font-display text-h4 font-semibold text-ink-700">{subCat}</h3>
+                      <h3 className="font-display text-h3 font-semibold text-ink-700">{subCat}</h3>
                       <span className="text-caption text-ink-500">{list.length}</span>
                     </div>
                   )}
@@ -9115,7 +9113,7 @@ const Components: React.FC = () => {
 
                     {/* Body */}
                     <div className="flex-1 flex flex-col gap-stack-xs" style={{ padding: 'var(--s-4) var(--s-5)' }}>
-                      <p className="text-body-sm text-ink-500 m-0">
+                      <p className="text-body text-ink-500 m-0">
                         {p.description}
                       </p>
 
@@ -9136,7 +9134,7 @@ const Components: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => navigate(p.path)}
-                        className="mt-auto inline-flex items-center justify-center rounded-pill border-none text-white font-bold text-body-sm cursor-pointer font-body w-full transition-opacity duration-150"
+                        className="mt-auto inline-flex items-center justify-center rounded-pill border-none text-white font-bold text-body cursor-pointer font-body w-full transition-opacity duration-150"
                         style={{
                           gap: 'var(--s-1-5)',
                           padding: 'var(--s-2) var(--s-4-5)',
@@ -9306,7 +9304,7 @@ const PAGE_STYLES = `
     font-weight: 700; margin: 0; color: var(--text);
   }
   .ds-component__desc {
-    margin: 4px 0 0; color: var(--text-muted); font-size: var(--text-body-sm);
+    margin: 4px 0 0; color: var(--text-muted); font-size: var(--text-body);
     max-width: 70ch;
   }
   .ds-component__chips { display: flex; gap: var(--s-1-5); align-items: center; flex-wrap: wrap; }
@@ -9345,7 +9343,7 @@ const PAGE_STYLES = `
   .ds-token-group { display: flex; flex-direction: column; gap: var(--s-3); margin-top: var(--s-5); }
   .ds-token-group__title {
     font-family: 'League Spartan', sans-serif;
-    font-size: var(--text-h4); margin: 0; color: var(--text);
+    font-size: var(--text-h3); margin: 0; color: var(--text);
   }
   .ds-token-grid {
     display: grid; gap: var(--s-3);

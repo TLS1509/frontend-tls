@@ -105,7 +105,7 @@ export const RadarChart: React.FC<RadarChartProps> = ({
           <PolarAngleAxis
             dataKey="name"
             stroke="currentColor"
-            className="text-body-sm text-ink-600"
+            className="text-body text-ink-600"
             onClick={(e) => {
               const index = chartData.findIndex((d) => d.name === e.value);
               if (index >= 0) handleAxisClick(e, index);

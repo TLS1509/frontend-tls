@@ -99,7 +99,7 @@ export default function EvenementRecap() {
             {KEY_POINTS.map((point) => (
               <div key={point.id} className="flex items-start gap-stack-xs py-stack-xs border-b border-ink-100 last:border-0">
                 <Badge variant="brand">{point.id}</Badge>
-                <p className="text-body-sm text-ink-700 m-0 flex-1">{point.text}</p>
+                <p className="text-body text-ink-700 m-0 flex-1">{point.text}</p>
               </div>
             ))}
           </SectionCard>
@@ -116,7 +116,7 @@ export default function EvenementRecap() {
                 className="flex items-center gap-stack p-stack-md"
               >
                 <div className="flex flex-col gap-tight flex-1 min-w-0">
-                  <p className="text-body-sm font-semibold text-ink-900 m-0">{session.title}</p>
+                  <p className="text-body font-semibold text-ink-900 m-0">{session.title}</p>
                   <p className="text-caption text-ink-500 m-0">{session.duration}</p>
                 </div>
                 <Button emphasis="outline" size="sm">
@@ -184,7 +184,7 @@ export default function EvenementRecap() {
 
           {/* CTA avis */}
           <Card variant="tinted" tone="sun" className="p-stack-md flex flex-col gap-tight">
-            <p className="text-body-sm font-semibold text-ink-900 m-0">
+            <p className="text-body font-semibold text-ink-900 m-0">
               Votre avis compte
             </p>
             <p className="text-caption text-ink-500 m-0">

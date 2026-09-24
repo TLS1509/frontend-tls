@@ -156,12 +156,12 @@ export const BarChart: React.FC<BarChartProps> = ({
           margin={{ top: 20, right: margeDroite, bottom: 20, left: isVertical ? 8 : margeDroite }}
         >
           <CartesianGrid strokeDasharray="3 3" stroke="currentColor" className="text-ink-200" />
-          <XAxis type={isVertical ? 'number' : 'category'} stroke="currentColor" className="text-body-sm text-ink-600" />
+          <XAxis type={isVertical ? 'number' : 'category'} stroke="currentColor" className="text-body text-ink-600" />
           <YAxis
             type={isVertical ? 'category' : 'number'}
             dataKey={isVertical ? 'label' : undefined}
             stroke="currentColor"
-            className="text-body-sm text-ink-600"
+            className="text-body text-ink-600"
             width={isVertical ? libelles : undefined}
             tickFormatter={isVertical ? (v: string) => tronquer(String(v), libelles - 12) : undefined}
           />

@@ -153,7 +153,7 @@ const CoachEnterpriseDashboard: React.FC = () => {
         {tab === 'queue' && (
           <SectionCard title="Validation Queue" description="Corrections soumises en attente de review">
             {pendingCorrections.length === 0 ? (
-              <p className="text-body-sm text-ink-500 m-0">Aucune correction en attente.</p>
+              <p className="text-body text-ink-500 m-0">Aucune correction en attente.</p>
             ) : (
               <div className="flex flex-col gap-stack-xs">
                 {pendingCorrections.map((c) => {

@@ -159,7 +159,7 @@ export const SessionCard: React.FC<SessionCardProps> = ({
         <div className="flex items-center gap-2.5 pt-0.5">
           <Avatar size="sm" name={coachName} shape="circle" />
           <div className="min-w-0">
-            <p className="m-0 text-body-sm font-semibold text-ink-900 truncate">{coachName}</p>
+            <p className="m-0 text-body font-semibold text-ink-900 truncate">{coachName}</p>
             {coachRole && <p className="m-0 text-caption text-ink-500 truncate">{coachRole}</p>}
           </div>
         </div>

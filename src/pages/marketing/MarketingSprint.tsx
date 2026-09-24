@@ -97,8 +97,8 @@ const Hero: React.FC = () => {
                 <span className="font-display text-section text-ink-900 tabular-nums leading-none">
                   {d.valeur}
                 </span>
-                <span className="font-body text-body-sm font-bold text-secondary-700">{d.role}</span>
-                <p className="font-body text-body-sm text-ink-600 m-0">{d.detail}</p>
+                <span className="font-body text-body font-bold text-secondary-700">{d.role}</span>
+                <p className="font-body text-body text-ink-600 m-0">{d.detail}</p>
               </li>
             ))}
           </ul>

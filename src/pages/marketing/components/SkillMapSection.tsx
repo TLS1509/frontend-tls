@@ -399,7 +399,7 @@ export const SkillMapSection: React.FC = () => {
           {CAPTIONS.map((c) => (
             <div key={c.title} className="flex flex-col gap-tight text-center md:text-left">
               <p className="font-display text-body font-bold text-white m-0">{c.title}</p>
-              <p className="font-body text-body-sm text-primary-200/70 m-0">{c.body}</p>
+              <p className="font-body text-body text-primary-200/70 m-0">{c.body}</p>
             </div>
           ))}
         </div>

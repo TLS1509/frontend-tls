@@ -68,7 +68,7 @@ export const AuthorStrip: React.FC<AuthorStripProps> = ({
 
       <div className="min-w-0 flex-1 flex flex-col gap-tight">
         <div className="flex items-baseline gap-stack-xs flex-wrap min-w-0">
-          <span className="font-body text-body-sm font-bold text-ink-900 truncate">
+          <span className="font-body text-body font-bold text-ink-900 truncate">
             {name}
           </span>
           {role && variant === 'compact' && (

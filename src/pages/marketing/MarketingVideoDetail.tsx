@@ -50,7 +50,7 @@ export const MarketingVideoDetail: React.FC = () => {
           <FadeInWhenVisible direction="up">
             <Link
               to="/website/resources"
-              className="inline-flex items-center gap-stack-2xs self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+              className="inline-flex items-center gap-stack-2xs self-start text-ink-700 hover:text-ink-900 font-body text-body font-semibold transition-colors duration-fast group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
             >
               <ArrowLeft size={16} className="transition-transform duration-base group-hover:-translate-x-1" />
               Retour aux ressources
@@ -136,7 +136,7 @@ export const MarketingVideoDetail: React.FC = () => {
                   <span className="font-body text-caption font-bold text-primary-700 tabular-nums w-12 shrink-0">
                     {ch.time}
                   </span>
-                  <span className="font-body text-body-sm text-ink-700">{ch.label}</span>
+                  <span className="font-body text-body text-ink-700">{ch.label}</span>
                 </li>
               ))}
             </ul>

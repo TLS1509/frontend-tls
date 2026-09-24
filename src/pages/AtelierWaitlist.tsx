@@ -50,7 +50,7 @@ export default function AtelierWaitlist() {
           Tu es sur la liste d'attente
         </h1>
 
-        <p className="text-body-sm text-ink-500">
+        <p className="text-body text-ink-500">
           {atelier ? <>L'atelier « {atelier.title} » est complet.</> : <>Cet atelier est complet.</>}
           {' '}Tu as été ajouté(e) à la liste d'attente.
         </p>
@@ -58,21 +58,21 @@ export default function AtelierWaitlist() {
         {/* Info card */}
         <Card variant="tinted" tone="warm" className="w-full p-stack-lg flex flex-col gap-stack">
           <div className="flex items-center justify-between">
-            <span className="text-body-sm text-ink-600">Ta position</span>
+            <span className="text-body text-ink-600">Ta position</span>
             <Badge variant="sun" size="normal">
               <span className="font-display text-h3 font-bold">#{waitlistPosition}</span>
             </Badge>
           </div>
 
           <div className="flex items-center justify-between">
-            <span className="text-body-sm text-ink-600">Notification manager</span>
+            <span className="text-body text-ink-600">Notification manager</span>
             <Badge variant="success" size="compact"><Check size={12} aria-hidden="true" /> Envoyée</Badge>
           </div>
 
           {atelier && (
             <div className="flex items-center justify-between">
-              <span className="text-body-sm text-ink-600">Session</span>
-              <span className="text-body-sm font-semibold text-ink-900">
+              <span className="text-body text-ink-600">Session</span>
+              <span className="text-body font-semibold text-ink-900">
                 {formatDate(atelier.scheduledAt)}
               </span>
             </div>
@@ -80,8 +80,8 @@ export default function AtelierWaitlist() {
 
           {atelier && (
             <div className="flex items-center justify-between">
-              <span className="text-body-sm text-ink-600">Inscrits / Capacité</span>
-              <span className="text-body-sm font-semibold text-ink-900">
+              <span className="text-body text-ink-600">Inscrits / Capacité</span>
+              <span className="text-body font-semibold text-ink-900">
                 {atelier.enrolledCount} / {atelier.maxParticipants}
               </span>
             </div>

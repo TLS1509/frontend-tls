@@ -70,7 +70,7 @@ const Hero: React.FC = () => {
                 </span>
                 <span className="flex flex-col gap-tight">
                   <span className="font-display text-feature text-ink-900">{o.nom}</span>
-                  <span className="font-body text-body-sm text-ink-500">{o.format}</span>
+                  <span className="font-body text-body text-ink-500">{o.format}</span>
                 </span>
               </li>
             ))}
@@ -178,8 +178,8 @@ const Cibles: React.FC = () => (
               <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-secondary-100 text-secondary-700">
                 {c.icon}
               </span>
-              <h3 className="font-display text-h4 font-bold text-ink-900">{c.title}</h3>
-              <p className="font-body text-body-sm text-ink-600 m-0">{c.detail}</p>
+              <h3 className="font-display text-h3 font-bold text-ink-900">{c.title}</h3>
+              <p className="font-body text-body text-ink-600 m-0">{c.detail}</p>
             </div>
           </FadeInWhenVisible>
         ))}
@@ -288,7 +288,7 @@ const Pilotage: React.FC = () => (
               <CheckCircle2 size={20} className="text-accent-400 shrink-0 mt-1" />
               <div className="flex flex-col gap-stack-3xs">
                 <h3 className="font-display text-feature text-ink-900">{p.title}</h3>
-                <p className="font-body text-body-sm text-ink-600 m-0">{p.detail}</p>
+                <p className="font-body text-body text-ink-600 m-0">{p.detail}</p>
               </div>
             </div>
           </FadeInWhenVisible>
@@ -405,10 +405,10 @@ const CtaFinal: React.FC = () => (
         </FadeInWhenVisible>
         <FadeInWhenVisible delay={0.08} className="lg:col-span-2">
           <div className="flex flex-col gap-stack rounded-lg bg-secondary-50 p-stack-lg">
-            <h3 className="font-display text-h4 font-bold text-ink-900">
+            <h3 className="font-display text-h3 font-bold text-ink-900">
               Avant de vous décider
             </h3>
-            <p className="font-body text-body-sm text-ink-600 m-0">
+            <p className="font-body text-body text-ink-600 m-0">
               La Méthode TLS explique ce qui fonde nos dispositifs : échelle
               Dreyfus, EDRACT de C-Campus, augmentation cognitive.
             </p>

@@ -91,7 +91,7 @@ function buildAiContent(m: ChatMessage): React.ReactNode {
   if (m.privacyBlocked) {
     return (
       <div className="flex flex-col gap-tight">
-        <p className="text-body-sm text-ink-900">{m.content}</p>
+        <p className="text-body text-ink-900">{m.content}</p>
         <div className="flex items-center gap-tight pt-tight border-t border-ink-100 mt-1">
           <span className="inline-flex items-center gap-tight text-micro font-medium text-ink-500 bg-ink-50 border border-ink-200 px-1.5 py-0.5 rounded-xs">
             <Shield size={14} aria-hidden />
@@ -106,7 +106,7 @@ function buildAiContent(m: ChatMessage): React.ReactNode {
 
   return (
     <div className="flex flex-col gap-tight">
-      <div className="flex flex-col gap-stack-xs text-body-sm text-ink-900">{renderMarkdown(m.content)}</div>
+      <div className="flex flex-col gap-stack-xs text-body text-ink-900">{renderMarkdown(m.content)}</div>
       <div className="flex flex-wrap items-center gap-tight pt-tight border-t border-primary-100 mt-1">
         <AITransparencyLabel variant="generated" size="sm" />
         {m.confidenceScore !== undefined && (
@@ -242,7 +242,7 @@ export default function ChatInterface() {
                   rows={2}
                   placeholder="Posez votre question à l'assistant…"
                   disabled={isTyping}
-                  className="flex-1 min-w-0 resize-none rounded-lg border border-ink-200 bg-white px-3 py-2.5 text-body-sm text-ink-900 placeholder:text-ink-500 focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100 transition-all duration-base h-auto min-h-[64px] disabled:opacity-disabled disabled:cursor-not-allowed"
+                  className="flex-1 min-w-0 resize-none rounded-lg border border-ink-200 bg-white px-3 py-2.5 text-body text-ink-900 placeholder:text-ink-500 focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100 transition-all duration-base h-auto min-h-[64px] disabled:opacity-disabled disabled:cursor-not-allowed"
                 />
                 <Button
                   emphasis="soft"

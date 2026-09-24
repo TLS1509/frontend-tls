@@ -163,7 +163,7 @@ function VariantA({ onDone }: { onDone: () => void }) {
             key={r.id}
             onClick={() => selectRole(r.id)}
             disabled={transitioning}
-            className="px-3 py-2 rounded-lg border border-ink-200 bg-white/90 text-body-sm text-ink-800 font-medium hover:border-secondary-400 hover:bg-secondary-50 active:scale-95 transition-all duration-150 disabled:opacity-50"
+            className="px-3 py-2 rounded-lg border border-ink-200 bg-white/90 text-body text-ink-800 font-medium hover:border-secondary-400 hover:bg-secondary-50 active:scale-95 transition-all duration-150 disabled:opacity-50"
           >
             {r.emoji} {r.label}
           </button>
@@ -186,7 +186,7 @@ function VariantA({ onDone }: { onDone: () => void }) {
                 onClick={() => toggleGoal(g.id)}
                 disabled={transitioning}
                 className={[
-                  'px-3 py-2 rounded-lg border text-body-sm font-medium transition-all duration-150 active:scale-95',
+                  'px-3 py-2 rounded-lg border text-body font-medium transition-all duration-150 active:scale-95',
                   on
                     ? 'bg-secondary-700 border-secondary-700 text-white'
                     : 'bg-white/90 border-ink-200 text-ink-800 hover:border-secondary-400 hover:bg-secondary-50',
@@ -202,7 +202,7 @@ function VariantA({ onDone }: { onDone: () => void }) {
           <button
             onClick={confirmGoals}
             disabled={transitioning}
-            className="self-start mt-1 px-4 py-2 rounded-lg bg-secondary-700 text-white text-body-sm font-semibold hover:bg-secondary-800 transition-all duration-150 disabled:opacity-50"
+            className="self-start mt-1 px-4 py-2 rounded-lg bg-secondary-700 text-white text-body font-semibold hover:bg-secondary-800 transition-all duration-150 disabled:opacity-50"
           >
             Valider mes objectifs →
           </button>
@@ -219,7 +219,7 @@ function VariantA({ onDone }: { onDone: () => void }) {
 
   const chatTitle = (
     <div className="flex items-center justify-between">
-      <span className="text-body-sm font-semibold text-ink-700">Configuration de ton profil</span>
+      <span className="text-body font-semibold text-ink-700">Configuration de ton profil</span>
       <span className="text-caption text-secondary-700 font-semibold">Guide IA</span>
     </div>
   );
@@ -238,7 +238,7 @@ function VariantA({ onDone }: { onDone: () => void }) {
         onChange={e => setTextValue(e.target.value)}
         onKeyDown={e => { if (e.key === 'Enter') sendName(); }}
         placeholder="Ton prénom…"
-        className="flex-1 rounded-lg border border-ink-200 bg-white px-3 py-2.5 text-body-sm text-ink-900 placeholder:text-ink-500 focus:outline-none focus:ring-2 focus:ring-secondary-300 transition-all"
+        className="flex-1 rounded-lg border border-ink-200 bg-white px-3 py-2.5 text-body text-ink-900 placeholder:text-ink-500 focus:outline-none focus:ring-2 focus:ring-secondary-300 transition-all"
       />
       <Button
         emphasis="soft" tone="warm" size="md" iconOnly
@@ -359,7 +359,7 @@ function VariantB({ onDone }: { onDone: () => void }) {
             <h2 className="font-display text-h1 tracking-display text-ink-900">
               {firstName ? `${firstName}, quel est ton rôle ?` : 'Quel est ton rôle ?'}
             </h2>
-            <p className="font-body text-body-sm text-ink-500 m-0">Appuie pour continuer →</p>
+            <p className="font-body text-body text-ink-500 m-0">Appuie pour continuer →</p>
           </div>
           <div className="grid grid-cols-3 gap-stack-xs w-full max-w-lg">
             {ROLES.map(r => (
@@ -374,7 +374,7 @@ function VariantB({ onDone }: { onDone: () => void }) {
                 ].join(' ')}
               >
                 <span className="text-2xl">{r.emoji}</span>
-                <span className="font-body text-body-sm font-semibold">{r.label}</span>
+                <span className="font-body text-body font-semibold">{r.label}</span>
               </button>
             ))}
           </div>
@@ -391,7 +391,7 @@ function VariantB({ onDone }: { onDone: () => void }) {
             <h2 className="font-display text-h1 tracking-display text-ink-900">
               Tes priorités ?
             </h2>
-            <p className="font-body text-body-sm text-ink-500 m-0">{goalHint}</p>
+            <p className="font-body text-body text-ink-500 m-0">{goalHint}</p>
           </div>
           <div className="grid grid-cols-3 gap-stack-xs w-full max-w-lg">
             {GOALS.map(g => {
@@ -522,18 +522,18 @@ function VariantC({ onDone }: { onDone: () => void }) {
             </div>
 
             <div className="flex flex-col gap-stack-xs">
-              <label className="font-body text-body-sm font-semibold text-ink-900">Ton prénom</label>
+              <label className="font-body text-body font-semibold text-ink-900">Ton prénom</label>
               <input
                 autoFocus
                 placeholder="Sophie…"
                 value={firstName}
                 onChange={e => setFirstName(e.target.value)}
-                className="rounded-lg border border-ink-200 bg-white px-4 py-3 text-body-sm text-ink-900 placeholder:text-ink-500 focus:outline-none focus:border-secondary-400 transition-colors duration-base"
+                className="rounded-lg border border-ink-200 bg-white px-4 py-3 text-body text-ink-900 placeholder:text-ink-500 focus:outline-none focus:border-secondary-400 transition-colors duration-base"
               />
             </div>
 
             <div className="flex flex-col gap-stack-xs">
-              <label className="font-body text-body-sm font-semibold text-ink-900">
+              <label className="font-body text-body font-semibold text-ink-900">
                 Ton rôle
                 {!firstName.trim() && (
                   <span className="ml-2 font-normal text-caption text-ink-600">(remplis ton prénom d'abord)</span>
@@ -555,7 +555,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
                       ].join(' ')}
                     >
                       <span className="text-lg shrink-0">{r.emoji}</span>
-                      <span className="font-body text-body-sm font-medium">{r.label}</span>
+                      <span className="font-body text-body font-medium">{r.label}</span>
                     </button>
                   );
                 })}
@@ -596,7 +596,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
                     ].join(' ')}
                   >
                     <span className="text-lg shrink-0">{g.emoji}</span>
-                    <span className="font-body text-body-sm font-medium">{g.label}</span>
+                    <span className="font-body text-body font-medium">{g.label}</span>
                     {on && <Check size={14} className="absolute top-2 right-2 opacity-80" />}
                   </button>
                 );
@@ -629,8 +629,8 @@ function VariantC({ onDone }: { onDone: () => void }) {
                 { key: 'Objectifs', val: selectedGoals.length > 0 ? selectedGoals.join(', ') : '—' },
               ].map(row => (
                 <div key={row.key} className="flex justify-between items-center gap-stack px-stack-md py-3 border-b border-ink-100 last:border-b-0">
-                  <span className="font-body text-body-sm font-semibold text-ink-500">{row.key}</span>
-                  <span className="font-body text-body-sm text-ink-900 text-right">{row.val}</span>
+                  <span className="font-body text-body font-semibold text-ink-500">{row.key}</span>
+                  <span className="font-body text-body text-ink-900 text-right">{row.val}</span>
                 </div>
               ))}
             </div>
@@ -638,8 +638,8 @@ function VariantC({ onDone }: { onDone: () => void }) {
             <div className="rounded-lg border border-secondary-200 bg-gradient-to-br from-secondary-50 to-white p-stack flex items-start gap-stack-xs">
               <Sparkles size={18} className="text-secondary-500 shrink-0 mt-0.5" />
               <div className="flex flex-col gap-tight">
-                <span className="font-body text-body-sm font-bold text-ink-900">Parcours recommandé</span>
-                <p className="font-body text-body-sm text-ink-500 m-0">{aiSuggestion}</p>
+                <span className="font-body text-body font-bold text-ink-900">Parcours recommandé</span>
+                <p className="font-body text-body text-ink-500 m-0">{aiSuggestion}</p>
               </div>
             </div>
           </>
@@ -780,7 +780,7 @@ export default function OnboardingPreview() {
             <p className="font-display text-h3 font-bold text-ink-900 m-0">
               Profil complété
             </p>
-            <p className="font-body text-body-sm text-ink-500 m-0">
+            <p className="font-body text-body text-ink-500 m-0">
               → En production : transition vers <code className="bg-ink-100 px-1.5 py-0.5 rounded text-primary-700">/onboarding/questionnaire</code>
             </p>
             <Button emphasis="soft" tone="warm" onClick={() => setDone(false)}>

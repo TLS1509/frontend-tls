@@ -112,7 +112,7 @@ export const FloatingNavButton: React.FC<FloatingNavButtonProps> = ({
                 <span className="inline-flex items-center justify-center w-6 h-6 shrink-0">
                   {action.icon}
                 </span>
-                <span className="font-body text-body-sm font-semibold whitespace-nowrap">
+                <span className="font-body text-body font-semibold whitespace-nowrap">
                   {action.label}
                 </span>
               </button>

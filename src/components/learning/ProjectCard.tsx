@@ -70,13 +70,13 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         .join(' ')}
     >
       <div className="flex items-start justify-between gap-stack-xs">
-        <h3 className="text-h4 font-display text-ink-900 flex-1">
+        <h3 className="text-h3 font-display text-ink-900 flex-1">
           {title}
         </h3>
         <Badge variant={STATUS_VARIANT[status]}>{STATUS_LABEL[status]}</Badge>
       </div>
 
-      <p className="m-0 text-body-sm text-ink-500 line-clamp-2">{description}</p>
+      <p className="m-0 text-body text-ink-500 line-clamp-2">{description}</p>
 
       <div className="flex flex-wrap items-center gap-stack text-caption text-ink-500">
         <span className="inline-flex items-center gap-stack-3xs">

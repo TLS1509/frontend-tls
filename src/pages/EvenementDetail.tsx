@@ -99,7 +99,7 @@ export default function EvenementDetail() {
           <Avatar name={EVENT.organizer.name} initials={EVENT.organizer.initials} size="lg" />
           <div className="flex flex-col gap-tight">
             <h3 className="text-h3 font-bold text-ink-900">{EVENT.organizer.name}</h3>
-            <p className="text-body-sm text-ink-500 m-0">{EVENT.organizer.role}</p>
+            <p className="text-body text-ink-500 m-0">{EVENT.organizer.role}</p>
             <p className="text-caption text-ink-600 m-0">{EVENT.organizer.description}</p>
           </div>
         </Card>
@@ -115,7 +115,7 @@ export default function EvenementDetail() {
                 {item.time}
               </span>
               <div className="flex flex-col gap-tight min-w-0">
-                <p className="text-body-sm font-semibold text-ink-900 m-0">{item.title}</p>
+                <p className="text-body font-semibold text-ink-900 m-0">{item.title}</p>
                 <p className="text-caption text-ink-500 m-0">{item.speaker}</p>
               </div>
             </div>
@@ -133,7 +133,7 @@ export default function EvenementDetail() {
                 <span className="text-primary-500 shrink-0">{item.icon}</span>
                 <div className="flex flex-col gap-tight min-w-0">
                   <span className="text-micro font-bold uppercase tracking-wider text-ink-600">{item.label}</span>
-                  <span className="text-body-sm text-ink-900">{item.value}</span>
+                  <span className="text-body text-ink-900">{item.value}</span>
                 </div>
               </div>
             ))}
@@ -149,7 +149,7 @@ export default function EvenementDetail() {
             <div key={idx} className="flex items-center gap-stack-xs py-stack-xs border-b border-ink-100 last:border-0">
               <Avatar name={sp.name} size="md" />
               <div className="flex flex-col gap-tight min-w-0">
-                <p className="text-body-sm font-semibold text-ink-900 m-0">{sp.name}</p>
+                <p className="text-body font-semibold text-ink-900 m-0">{sp.name}</p>
                 <p className="text-caption text-ink-500 m-0">{sp.title} · {sp.company}</p>
               </div>
             </div>
@@ -160,7 +160,7 @@ export default function EvenementDetail() {
         {estTermine ? (
           <Card variant="default" className="p-stack-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-stack">
             <div className="flex flex-col gap-tight flex-1">
-              <p className="text-body-sm font-semibold text-ink-900 m-0">Cet événement est terminé</p>
+              <p className="text-body font-semibold text-ink-900 m-0">Cet événement est terminé</p>
               <p className="text-caption text-ink-600 m-0">Les inscriptions sont closes.</p>
             </div>
             <Button emphasis="soft" size="lg" className="shrink-0" to={`/evenements/${id}/recap`}>

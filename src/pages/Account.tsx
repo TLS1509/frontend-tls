@@ -197,7 +197,7 @@ const SecurityTab: React.FC = () => {
               </div>
               <div>
                 <div className="flex items-center gap-stack-xs">
-                  <p className="m-0 font-body text-body-sm font-semibold text-ink-900">
+                  <p className="m-0 font-body text-body font-semibold text-ink-900">
                     {session.device}
                   </p>
                   {session.current && <Badge variant="success">session actuelle</Badge>}

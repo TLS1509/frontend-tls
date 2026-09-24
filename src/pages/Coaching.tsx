@@ -290,7 +290,7 @@ export const Coaching: React.FC = () => {
                 <div className="flex items-center gap-stack-xs p-stack rounded-xl bg-white/60 backdrop-blur-glass-light border border-white/60">
                   <Avatar initials="SM" size="sm" tint="brand" />
                   <div className="flex flex-col min-w-0 flex-1">
-                    <span className="font-display text-body-sm font-bold text-ink-900 truncate">
+                    <span className="font-display text-body font-bold text-ink-900 truncate">
                       {coach.name}
                     </span>
                     <span className="font-body text-caption text-ink-600 truncate">

@@ -131,9 +131,9 @@ export const Positionnement: React.FC = () => {
               <div className="flex flex-col items-center gap-stack text-center py-stack">
                 <div className="flex items-baseline gap-stack-xs">
                   <span className="text-h1 font-display font-bold text-primary-600">D{avgLevel}</span>
-                  <span className="text-body-sm text-ink-600">{DREYFUS_LABELS[avgLevel as DreyfusLevel]}</span>
+                  <span className="text-body text-ink-600">{DREYFUS_LABELS[avgLevel as DreyfusLevel]}</span>
                 </div>
-                <p className="m-0 font-body text-body-sm text-ink-700 max-w-prose">
+                <p className="m-0 font-body text-body text-ink-700 max-w-prose">
                   Nous avons évalué tes {total} compétences clés. Le contenu du parcours s'adapte à
                   ta progression.
                 </p>

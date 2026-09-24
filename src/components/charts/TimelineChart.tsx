@@ -190,7 +190,7 @@ export const TimelineChart: React.FC<TimelineChartProps> = ({
                   <span className="flex flex-1 flex-col items-start gap-stack-3xs">
                     <span className="text-body font-semibold text-ink-900">{event.label}</span>
                     {event.description && (
-                      <span className="text-body-sm text-ink-600">{event.description}</span>
+                      <span className="text-body text-ink-600">{event.description}</span>
                     )}
                     <span className="mt-stack-3xs">
                       <TypeTag type={event.type} />

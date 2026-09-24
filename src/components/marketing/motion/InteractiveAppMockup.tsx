@@ -30,7 +30,7 @@ const ParcoursPanel: React.FC = () => (
   <motion.div {...panelMotion} className="flex flex-col gap-stack-xs">
     <div className="rounded-xl bg-gradient-to-br from-secondary-700 to-secondary-800 p-4 text-white">
       <span className="text-caption opacity-80 font-semibold uppercase tracking-wider">Étape 4 sur 7</span>
-      <p className="font-display text-h4 font-bold m-0 mt-1">Devenir prompt designer</p>
+      <p className="font-display text-h3 font-bold m-0 mt-1">Devenir prompt designer</p>
       <div className="mt-3 h-1.5 bg-white/30 rounded-pill overflow-hidden">
         <motion.div
           initial={{ width: '0%' }}
@@ -48,7 +48,7 @@ const ParcoursPanel: React.FC = () => (
         className="rounded-lg bg-primary-50 border border-primary-100 p-3 flex flex-col gap-tight"
       >
         <span className="text-caption font-bold text-primary-700 uppercase">XP gagnés</span>
-        <span className="font-display text-h4 font-bold text-ink-900 tabular-nums">+340</span>
+        <span className="font-display text-h3 font-bold text-ink-900 tabular-nums">+340</span>
       </motion.div>
       <motion.div
         initial={{ scale: 0.85, opacity: 0 }}
@@ -57,7 +57,7 @@ const ParcoursPanel: React.FC = () => (
         className="rounded-lg bg-accent-50 border border-accent-100 p-3 flex flex-col gap-tight"
       >
         <span className="text-caption font-bold text-warning-fg uppercase">Streak</span>
-        <span className="font-display text-h4 font-bold text-ink-900 tabular-nums">12 j</span>
+        <span className="font-display text-h3 font-bold text-ink-900 tabular-nums">12 j</span>
       </motion.div>
     </div>
     <motion.div
@@ -83,7 +83,7 @@ const CoachingPanel: React.FC = () => (
       className="flex justify-start"
     >
       <div className="rounded-lg rounded-bl-md bg-ink-100 px-3 py-2 max-w-[85%]">
-        <p className="font-body text-body-sm text-ink-900 m-0">
+        <p className="font-body text-body text-ink-900 m-0">
           Bravo pour ta soumission Marie ! J'ai trois retours détaillés à partager.
         </p>
       </div>
@@ -95,7 +95,7 @@ const CoachingPanel: React.FC = () => (
       className="flex justify-end"
     >
       <div className="rounded-lg rounded-br-md bg-primary-700 text-white px-3 py-2 max-w-[85%]">
-        <p className="font-body text-body-sm m-0">Merci Sarah, je relis ce soir 🙏</p>
+        <p className="font-body text-body m-0">Merci Sarah, je relis ce soir 🙏</p>
       </div>
     </motion.div>
     <motion.div
@@ -108,7 +108,7 @@ const CoachingPanel: React.FC = () => (
         S
       </div>
       <div className="flex-1 min-w-0">
-        <p className="font-body font-bold text-body-sm text-ink-900 m-0 truncate">Session avec Sarah</p>
+        <p className="font-body font-bold text-body text-ink-900 m-0 truncate">Session avec Sarah</p>
         <p className="font-body text-caption text-ink-500 m-0 truncate">Mardi 14:30 · Visio</p>
       </div>
       <motion.span
@@ -128,7 +128,7 @@ const JournalPanel: React.FC = () => (
     <div className="rounded-lg bg-gradient-to-br from-accent-50 to-secondary-50 p-4 border border-accent-200">
       <span className="text-caption font-bold text-warning-fg uppercase tracking-wider">Aujourd'hui</span>
       <p className="font-display text-body font-semibold font-bold text-ink-900 m-0 mt-1">3 insights après ma session</p>
-      <p className="font-body text-body-sm text-ink-700 m-0 mt-2 line-clamp-2">
+      <p className="font-body text-body text-ink-700 m-0 mt-2 line-clamp-2">
         J'ai compris que mes apprenants ont besoin de respiration entre les modules denses. La prochaine cohorte sera plus rythmée.
       </p>
     </div>
@@ -167,7 +167,7 @@ const VeillePanel: React.FC = () => (
         className="rounded-lg bg-white border border-ink-200 p-3 flex flex-col gap-tight"
       >
         <MetaPill text={item.tag} tone="primary" className="self-start" />
-        <p className="font-body font-bold text-body-sm text-ink-900 m-0">{item.title}</p>
+        <p className="font-body font-bold text-body text-ink-900 m-0">{item.title}</p>
         <p className="font-body text-caption text-ink-500 m-0">{item.src}</p>
       </motion.div>
     ))}
@@ -224,14 +224,14 @@ export const InteractiveAppMockup: React.FC<Props> = ({
             <span className="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-white shadow-xs text-primary-600">
               {activeTab?.icon}
             </span>
-            <span className="font-display font-bold text-body-sm text-ink-900">{activeTab?.label}</span>
+            <span className="font-display font-bold text-body text-ink-900">{activeTab?.label}</span>
           </div>
         ) : (
           <>
             {/* mockup header */}
             <div className="flex items-center gap-stack-xs pb-3 border-b border-ink-100">
               <TlsLogo size={20} />
-              <span className="font-display font-bold text-body-sm text-ink-900">Learning App</span>
+              <span className="font-display font-bold text-body text-ink-900">Learning App</span>
               <div className="ml-auto flex gap-tight">
                 <span className="w-2 h-2 rounded-pill bg-ink-200" />
                 <span className="w-2 h-2 rounded-pill bg-ink-200" />

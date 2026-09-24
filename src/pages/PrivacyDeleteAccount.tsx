@@ -67,7 +67,7 @@ const PrivacyDeleteAccount: React.FC = () => {
             ].map((item) => (
               <div key={item} className="flex items-center gap-stack-xs p-3 bg-danger-bg/50 rounded-lg">
                 <Trash2 className="w-4 h-4 text-danger-fg shrink-0" />
-                <span className="text-body-sm">{item}</span>
+                <span className="text-body">{item}</span>
               </div>
             ))}
           </div>
@@ -77,14 +77,14 @@ const PrivacyDeleteAccount: React.FC = () => {
           <div className="flex flex-col gap-stack-xs">
             <div className="flex items-center gap-stack-xs p-3 bg-info-bg/50 rounded-lg">
               <Info className="w-4 h-4 text-info-fg shrink-0" />
-              <span className="text-body-sm">Factures et historique de paiement (anonymisés, conservés 10 ans pour obligations fiscales)</span>
+              <span className="text-body">Factures et historique de paiement (anonymisés, conservés 10 ans pour obligations fiscales)</span>
             </div>
           </div>
         </SectionCard>
 
         {step === 1 && (
           <Card className="p-stack-lg flex flex-col gap-stack">
-            <h3 className="text-h4">Étape 1/2 : Raison du départ (optionnel)</h3>
+            <h3 className="text-h3">Étape 1/2 : Raison du départ (optionnel)</h3>
             <FormGroup label="Pour nous aider à nous améliorer, peux-tu nous dire pourquoi tu pars ?">
               <Input
                 multiline
@@ -108,8 +108,8 @@ const PrivacyDeleteAccount: React.FC = () => {
             <div className="flex items-start gap-stack-xs">
               <ShieldOff className="w-8 h-8 text-danger-fg" />
               <div>
-                <h3 className="text-h4 mb-1">Étape 2/2 : Confirmation finale</h3>
-                <p className="text-body-sm text-ink-600">Pour confirmer, tape exactement la phrase ci-dessous.</p>
+                <h3 className="text-h3 mb-1">Étape 2/2 : Confirmation finale</h3>
+                <p className="text-body text-ink-600">Pour confirmer, tape exactement la phrase ci-dessous.</p>
               </div>
             </div>
             <Badge variant="danger" className="text-center py-stack-xs font-mono">SUPPRIMER MON COMPTE</Badge>

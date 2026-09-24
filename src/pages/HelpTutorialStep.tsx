@@ -77,7 +77,7 @@ export default function HelpTutorialStep() {
           <div className="flex flex-col gap-stack-lg">
             <div className="flex flex-col gap-stack-xs">
               <div className="flex items-center gap-stack-xs">
-                <span className="inline-flex items-center justify-center w-8 h-8 rounded-pill bg-primary-700 text-white font-display font-bold text-body-sm shrink-0">
+                <span className="inline-flex items-center justify-center w-8 h-8 rounded-pill bg-primary-700 text-white font-display font-bold text-body shrink-0">
                   {current}
                 </span>
                 <h2 className="font-display text-h3 text-ink-900">
@@ -90,7 +90,7 @@ export default function HelpTutorialStep() {
             </div>
 
             <div className="w-full aspect-video bg-ink-100 rounded-lg flex items-center justify-center">
-              <span className="text-body-sm text-ink-600">{section.imageAlt ?? `Illustration de l'étape ${current}`}</span>
+              <span className="text-body text-ink-600">{section.imageAlt ?? `Illustration de l'étape ${current}`}</span>
             </div>
           </div>
         </Card>
@@ -147,7 +147,7 @@ export default function HelpTutorialStep() {
                   </span>
                   <span
                     className={[
-                      'flex-1 text-body-sm',
+                      'flex-1 text-body',
                       step.status === 'current'   ? 'font-semibold text-primary-800'
                       : step.status === 'completed' ? 'text-ink-500 line-through'
                       : 'text-ink-700',

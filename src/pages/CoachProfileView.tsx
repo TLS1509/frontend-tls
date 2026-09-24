@@ -131,14 +131,14 @@ export default function CoachProfileView() {
                 </p>
                 <ul className="flex flex-col gap-stack-xs">
                   {APPROACH_ITEMS.map((item, i) => (
-                    <li key={i} className="flex items-center gap-stack-xs text-body-sm text-ink-700">
+                    <li key={i} className="flex items-center gap-stack-xs text-body text-ink-700">
                       <span className="text-success-base shrink-0">{item.icon}</span>
                       {item.text}
                     </li>
                   ))}
                 </ul>
                 <div className="rounded-lg bg-primary-50 border border-primary-100 p-stack">
-                  <p className="text-body-sm text-primary-800 italic">
+                  <p className="text-body text-primary-800 italic">
                     "Je travaille avec les apprenants pour qu'ils développent leur propre système de pensée : pas pour qu'ils adoptent le mien. Mon rôle est de créer les conditions de la clarté."
                   </p>
                   <p className="mt-stack-xs text-caption text-primary-800 font-semibold">Sophie Martin</p>
@@ -155,7 +155,7 @@ export default function CoachProfileView() {
                       <div className="flex items-center gap-stack-xs">
                         <Avatar name={t.name} initials={t.initials} size="sm" />
                         <div className="flex flex-col gap-tight">
-                          <span className="text-body-sm font-semibold text-ink-900">{t.name}</span>
+                          <span className="text-body font-semibold text-ink-900">{t.name}</span>
                           <span className="text-caption text-ink-500">{t.role}</span>
                         </div>
                       </div>
@@ -164,7 +164,7 @@ export default function CoachProfileView() {
                         <span className="text-caption text-ink-600">{t.date}</span>
                       </div>
                     </div>
-                    <p className="text-body-sm text-ink-700 italic">"{t.quote}"</p>
+                    <p className="text-body text-ink-700 italic">"{t.quote}"</p>
                   </Card>
                 ))}
               </div>
@@ -198,13 +198,13 @@ export default function CoachProfileView() {
 
             {/* Next slot */}
             <Card className="p-stack-md flex flex-col gap-stack-xs">
-              <div className="flex items-center gap-stack-xs text-body-sm text-ink-600">
+              <div className="flex items-center gap-stack-xs text-body text-ink-600">
                 <Clock3 size={14} className="text-secondary-500 shrink-0" />
                 <span className="font-semibold text-ink-900">Prochain créneau disponible</span>
               </div>
               <div className="flex items-center gap-stack-xs">
                 <Calendar size={14} className="text-ink-600 shrink-0" />
-                <span className="text-body-sm text-ink-700">Jeudi 15 mai 2026 · 14h00 – 15h00</span>
+                <span className="text-body text-ink-700">Jeudi 15 mai 2026 · 14h00 – 15h00</span>
               </div>
               <Badge variant="success" className="self-start">Disponible</Badge>
             </Card>

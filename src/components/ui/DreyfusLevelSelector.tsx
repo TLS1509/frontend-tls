@@ -122,10 +122,10 @@ export const DreyfusLevelSelector: React.FC<DreyfusLevelSelectorProps> = ({
             onClick={() => onChange(lv.v)}
             className={btnClasses}
           >
-            <div className={['text-h4 font-bold leading-none', TONE_NUMBER[tone]].join(' ')}>
+            <div className={['text-h3 font-bold leading-none', TONE_NUMBER[tone]].join(' ')}>
               {lv.v}
             </div>
-            <div className="mt-1 font-semibold text-body-sm text-ink-900">
+            <div className="mt-1 font-semibold text-body text-ink-900">
               {lv.label}
             </div>
             <div className="mt-1 text-caption text-ink-500">

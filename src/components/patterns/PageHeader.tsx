@@ -80,7 +80,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
           <p
             className={[
               'm-0 text-ink-500 leading-relaxed max-w-[640px]',
-              tight ? 'text-body-sm' : 'text-body',
+              tight ? 'text-body' : 'text-body',
               isCenter ? 'text-center mx-auto' : '',
             ]
               .filter(Boolean)

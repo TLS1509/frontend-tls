@@ -98,7 +98,7 @@ const DISABLED_GLASS = 'bg-white/8 text-white/40 cursor-not-allowed hover:border
 
 const SIZE_CLASSES: Record<InputSize, string> = {
   sm: 'h-9 px-3 text-caption',
-  md: 'h-touch px-3.5 text-body-sm',
+  md: 'h-touch px-3.5 text-body',
   lg: 'h-13 px-4 text-body',
 };
 
@@ -146,8 +146,8 @@ export const Input: React.FC<InputProps> = ({
     .join(' ');
 
   const labelClasses = isGlass
-    ? 'text-body-sm font-semibold text-white'
-    : 'text-body-sm font-semibold text-ink-900';
+    ? 'text-body font-semibold text-white'
+    : 'text-body font-semibold text-ink-900';
 
   const nativeFieldClasses = isGlass ? NATIVE_FIELD_GLASS : NATIVE_FIELD_LIGHT;
 
@@ -222,7 +222,7 @@ export const Input: React.FC<InputProps> = ({
 // ============================================================================
 
 const TOGGLE_LABEL =
-  'relative inline-flex items-center gap-stack-xs cursor-pointer font-body text-body-sm text-ink-900 select-none';
+  'relative inline-flex items-center gap-stack-xs cursor-pointer font-body text-body text-ink-900 select-none';
 
 const CHECKBOX_BOX =
   "inline-flex items-center justify-center w-5 h-5 shrink-0 bg-white border-2 border-ink-400 rounded-sm transition-colors " +

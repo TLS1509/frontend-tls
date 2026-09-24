@@ -180,7 +180,7 @@ export const TableOfContents: React.FC<TableOfContentsProps> = ({
                   {item.completed ? <Check size={14} strokeWidth={3} /> : numberLabel}
                 </span>
 
-                <span className="font-body text-body-sm min-w-0 flex-1 truncate">
+                <span className="font-body text-body min-w-0 flex-1 truncate">
                   {item.label}
                 </span>
               </a>

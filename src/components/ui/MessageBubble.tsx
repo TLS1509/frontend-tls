@@ -116,7 +116,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
       <div className={`flex flex-col items-end gap-stack-xs ${className}`}>
         <div
           className={[
-            'px-4 py-3 text-body-sm',
+            'px-4 py-3 text-body',
             isChatbot
               ? 'max-w-[75%] bg-primary-100 text-primary-900 rounded-xl rounded-br-sm'
               : 'max-w-[68%] bg-primary-700 text-white rounded-xl rounded-br-xs shadow-md',
@@ -157,7 +157,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
         {/* Bubble */}
         <div
           className={[
-            'px-4 py-3 text-body-sm',
+            'px-4 py-3 text-body',
             isChatbot
               ? 'max-w-[82%] rounded-lg rounded-bl-sm'
               : 'max-w-[68%] rounded-lg rounded-bl-xs shadow-xs',

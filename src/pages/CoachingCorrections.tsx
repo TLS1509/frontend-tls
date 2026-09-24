@@ -91,7 +91,7 @@ const LearnerCorrectionCard: React.FC<LearnerCorrection & { onOpen: () => void }
         <div className="flex items-center gap-stack-xs min-w-0">
           <Avatar name={coachName} initials={initials} size="sm" />
           <div className="min-w-0">
-            <p className="text-body-sm font-semibold text-ink-900 truncate">{status === 'waiting' ? 'Envoyé à' : 'Relu par'} {coachName}</p>
+            <p className="text-body font-semibold text-ink-900 truncate">{status === 'waiting' ? 'Envoyé à' : 'Relu par'} {coachName}</p>
             <p className="text-caption text-ink-600 flex items-center gap-tight">
               <Clock size={14} aria-hidden />
               Soumis {submittedAt}
@@ -108,7 +108,7 @@ const LearnerCorrectionCard: React.FC<LearnerCorrection & { onOpen: () => void }
 
       {excerpt && (
         <div className="rounded-lg bg-ink-50/70 px-3 py-2">
-          <p className="text-body-sm text-ink-600 line-clamp-2 italic">« {excerpt} »</p>
+          <p className="text-body text-ink-600 line-clamp-2 italic">« {excerpt} »</p>
         </div>
       )}
 
@@ -192,7 +192,7 @@ export default function CoachingCorrections() {
               placeholder="Rechercher un exercice ou une compétence…"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2.5 rounded-lg border border-ink-200 text-body-sm focus:outline-none focus:border-primary-400 transition-colors duration-fast"
+              className="w-full pl-9 pr-4 py-2.5 rounded-lg border border-ink-200 text-body focus:outline-none focus:border-primary-400 transition-colors duration-fast"
             />
           </div>
           <div className="flex flex-wrap gap-stack-xs">

@@ -81,7 +81,7 @@ export const ProjectSkillGaps: React.FC = () => {
       {criticalGaps.length > 0 && (
         <div className="flex items-start gap-stack-xs p-stack rounded-lg bg-warning-bg border border-warning-base/30">
           <AlertTriangle size={16} className="text-warning-fg mt-0.5 shrink-0" />
-          <p className="text-body-sm font-semibold text-warning-fg m-0">
+          <p className="text-body font-semibold text-warning-fg m-0">
             {criticalGaps.length} compétence(s) insuffisamment couvertes : des recrutements ou formations sont recommandés avant le lancement.
           </p>
         </div>
@@ -100,7 +100,7 @@ export const ProjectSkillGaps: React.FC = () => {
               return (
                 <div key={entry.competencyId} className="p-stack rounded-lg border border-warning-base/30 bg-warning-bg flex flex-col gap-stack-xs">
                   <div className="flex items-center justify-between gap-stack flex-wrap">
-                    <p className="text-body-sm font-semibold text-ink-900 m-0">{entry.competencyName}</p>
+                    <p className="text-body font-semibold text-ink-900 m-0">{entry.competencyName}</p>
                     <div className="flex items-center gap-stack-xs">
                       <Badge variant="brand">D{entry.required}+ requis ({DREYFUS_LABELS[entry.required]})</Badge>
                       <Badge variant="danger">−{deficit} membre(s)</Badge>
@@ -129,7 +129,7 @@ export const ProjectSkillGaps: React.FC = () => {
           <div className="flex flex-col gap-stack-xs">
             {coveredSkills.map((entry) => (
               <div key={entry.competencyId} className="p-stack rounded-lg border border-success-base/30 bg-success-bg flex items-center justify-between gap-stack flex-wrap">
-                <p className="text-body-sm font-semibold text-ink-900 m-0">{entry.competencyName}</p>
+                <p className="text-body font-semibold text-ink-900 m-0">{entry.competencyName}</p>
                 <div className="flex items-center gap-stack-xs">
                   <Badge variant="brand">D{entry.required}+ ({DREYFUS_LABELS[entry.required]})</Badge>
                   <Badge variant="success">{entry.membersAtLevel.length}/{entry.requiredCount} membres</Badge>

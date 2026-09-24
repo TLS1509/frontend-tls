@@ -96,7 +96,7 @@ export const EditorialQuoteCallout: React.FC<EditorialQuoteCalloutProps> = ({
             </span>
           )}
 
-          <blockquote className="m-0 font-body italic text-body-lg sm:text-h4 text-ink-800 [&_p]:m-0 [&_p+p]:mt-stack">
+          <blockquote className="m-0 font-body italic text-body-lg sm:text-h3 text-ink-800 [&_p]:m-0 [&_p+p]:mt-stack">
             {children}
           </blockquote>
         </div>

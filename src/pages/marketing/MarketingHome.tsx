@@ -74,7 +74,7 @@ const Hero: React.FC = () => {
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           className="flex max-w-4xl flex-col gap-flow"
         >
-          <p className="flex items-center gap-stack-xs font-body text-body-sm font-bold text-primary-800 m-0">
+          <p className="flex items-center gap-stack-xs font-body text-body font-bold text-primary-800 m-0">
             <span aria-hidden className="h-px w-10 bg-secondary-500" />
             Studio expert en Skills-Based Organization
           </p>
@@ -206,7 +206,7 @@ const Moteur: React.FC = () => (
               </span>
               <h3 className="font-display text-title text-ink-900">
                 {e.verbe}
-                <span className="block font-body text-body-sm font-bold text-secondary-700 mt-1">
+                <span className="block font-body text-body font-bold text-secondary-700 mt-1">
                   {e.sousTitre}
                 </span>
               </h3>
@@ -305,7 +305,7 @@ const Ecosysteme: React.FC = () => (
                 <p className="md:col-span-5 font-body text-body text-ink-600 m-0">
                   {o.desc}
                 </p>
-                <span className="md:col-span-2 flex items-start md:justify-end font-body text-body-sm font-semibold text-primary-700">
+                <span className="md:col-span-2 flex items-start md:justify-end font-body text-body font-semibold text-primary-700">
                   <span className="inline-flex items-center gap-stack-2xs">
                     {o.cta}
                     <ArrowRight
@@ -339,7 +339,7 @@ const Ecosysteme: React.FC = () => (
               acquises et les rend mesurables dans la durée.
             </p>
           </div>
-          <span className="inline-flex shrink-0 items-center gap-stack-2xs font-body text-body-sm font-semibold text-primary-800">
+          <span className="inline-flex shrink-0 items-center gap-stack-2xs font-body text-body font-semibold text-primary-800">
             Découvrir la Learning App
             <ArrowRight size={16} className="transition-transform duration-base group-hover:translate-x-1" />
           </span>
@@ -456,7 +456,7 @@ const DoubleCta: React.FC = () => {
                       Planifier un échange de 30 min
                     </Button>
                   </div>
-                  <p className="font-body text-body-sm text-white/75 m-0">
+                  <p className="font-body text-body text-white/75 m-0">
                     Pas encore prêt ?{' '}
                     <Link
                       to="/website/diagnostic"

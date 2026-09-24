@@ -115,7 +115,7 @@ export const ScatterChart: React.FC<ScatterChartProps> = ({
             dataKey="x"
             name={xAxisLabel || 'X'}
             stroke="currentColor"
-            className="text-body-sm text-ink-600"
+            className="text-body text-ink-600"
             domain={xDomain}
             tick={{ fontSize: 12 }}
           />
@@ -124,7 +124,7 @@ export const ScatterChart: React.FC<ScatterChartProps> = ({
             dataKey="y"
             name={yAxisLabel || 'Y'}
             stroke="currentColor"
-            className="text-body-sm text-ink-600"
+            className="text-body text-ink-600"
             domain={yDomain}
             tick={{ fontSize: 12 }}
           />

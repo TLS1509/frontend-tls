@@ -310,7 +310,7 @@ export const Onboarding: React.FC = () => {
           placeholder="Entre ton prénom…"
           rows={1}
           disabled={transitioning}
-          className="flex-1 resize-none rounded-lg border border-ink-200 bg-white px-3 py-2.5 text-body-sm text-ink-900 placeholder:text-ink-500 focus:outline-none focus:ring-2 focus:ring-secondary-300 focus:border-secondary-400 transition-all duration-base disabled:opacity-disabled max-h-24 overflow-y-auto"
+          className="flex-1 resize-none rounded-lg border border-ink-200 bg-white px-3 py-2.5 text-body text-ink-900 placeholder:text-ink-500 focus:outline-none focus:ring-2 focus:ring-secondary-300 focus:border-secondary-400 transition-all duration-base disabled:opacity-disabled max-h-24 overflow-y-auto"
           autoFocus
         />
         <Button
@@ -365,7 +365,7 @@ export const Onboarding: React.FC = () => {
 
           {/* Chat window */}
           <ConversationalChat
-            title={<span className="font-body text-body-sm font-semibold text-ink-700">Guide IA</span>}
+            title={<span className="font-body text-body font-semibold text-ink-700">Guide IA</span>}
             messages={messages}
             footer={footer}
             className="min-h-[62vh] max-h-[72vh]"
@@ -389,7 +389,7 @@ export const Onboarding: React.FC = () => {
               className="inline-flex items-center gap-stack-xs px-4 py-2 rounded-pill border-2 border-secondary-300 bg-white text-secondary-700 hover:bg-secondary-50 hover:border-secondary-400 transition-all duration-base disabled:opacity-disabled cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-500"
             >
               <Icon size={16} />
-              <span className="font-body text-body-sm font-medium">{roleOption.label}</span>
+              <span className="font-body text-body font-medium">{roleOption.label}</span>
             </button>
           );
         })}
@@ -417,7 +417,7 @@ export const Onboarding: React.FC = () => {
 
           {/* Chat window */}
           <ConversationalChat
-            title={<span className="font-body text-body-sm font-semibold text-ink-700">Guide IA</span>}
+            title={<span className="font-body text-body font-semibold text-ink-700">Guide IA</span>}
             messages={messages}
             footer={footer}
             className="min-h-[62vh] max-h-[72vh]"

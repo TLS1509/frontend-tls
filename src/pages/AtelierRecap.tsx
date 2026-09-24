@@ -51,7 +51,7 @@ export default function AtelierRecap() {
           {/* Assister ne fait pas monter un niveau : seul un niveau validé par
               le coach et le manager bouge le Passeport. L'ancien « +0,2 Dreyfus ·
               D3.2 → D3.4 » disait l'inverse de cet invariant (audit du 23/09). */}
-          <p className="text-body-sm text-ink-500">Trace ajoutée à ton Passeport, en attente de validation</p>
+          <p className="text-body text-ink-500">Trace ajoutée à ton Passeport, en attente de validation</p>
         </Card>
 
         {/* Mon retour */}
@@ -61,7 +61,7 @@ export default function AtelierRecap() {
         >
           <Card variant="tinted" tone="sun" className="p-stack-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-stack">
             <div className="flex flex-col gap-tight">
-              <p className="text-body-sm font-semibold text-ink-900">Tu n'as pas encore donné ton avis</p>
+              <p className="text-body font-semibold text-ink-900">Tu n'as pas encore donné ton avis</p>
               <p className="text-caption text-ink-600">Aide-nous à améliorer les prochains ateliers</p>
             </div>
             <Button emphasis="soft" size="sm">Donner mon avis</Button>

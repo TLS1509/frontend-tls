@@ -88,7 +88,7 @@ const ICONE_PASTILLE_BASE =
   'inline-flex items-center justify-center shrink-0 [&>svg]:w-full [&>svg]:h-full';
 
 /* Le cran suit la TAILLE de la pastille, pas une valeur unique : Chip rend
-   `text-micro` en sm, `text-caption` en md, `text-body-sm` en lg — et
+   `text-micro` en sm, `text-caption` en md, `text-body` en lg — et
    l'appariement de src/lib/icon-pairing.ts leur donne 14, 14 et 16. */
 const ICONE_PASTILLE_CRAN: Record<MetaPillSize, string> = {
   sm: 'icon-2xs',  // avec micro (11)

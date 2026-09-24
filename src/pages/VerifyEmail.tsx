@@ -69,7 +69,7 @@ export const VerifyEmail: React.FC = () => {
                 <Inbox size={24} strokeWidth={1.75} />
               </div>
               <div className="flex flex-col items-center text-center gap-tight">
-                <p className="m-0 font-body text-body-sm text-white/70">
+                <p className="m-0 font-body text-body text-white/70">
                   Lien envoyé à
                 </p>
                 <p className="m-0 font-display text-body font-semibold text-white">
@@ -78,7 +78,7 @@ export const VerifyEmail: React.FC = () => {
               </div>
             </div>
 
-            <p className="m-0 font-body text-body-sm text-white/75 text-center">
+            <p className="m-0 font-body text-body text-white/75 text-center">
               Cliquez sur le lien de confirmation reçu dans votre boîte de réception pour activer votre compte.
               Vérifiez aussi vos spams si besoin.
             </p>

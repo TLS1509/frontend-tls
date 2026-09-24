@@ -227,14 +227,14 @@ export const SubscriptionPayment: React.FC = () => {
             <button
               type="button"
               onClick={() => setBilling('monthly')}
-              className={`px-4 py-1.5 rounded-pill font-body text-body-sm font-bold transition-colors duration-base ${billing === 'monthly' ? 'bg-white text-ink-900 shadow-xs' : 'text-ink-500 hover:text-ink-800'}`}
+              className={`px-4 py-1.5 rounded-pill font-body text-body font-bold transition-colors duration-base ${billing === 'monthly' ? 'bg-white text-ink-900 shadow-xs' : 'text-ink-500 hover:text-ink-800'}`}
             >
               Mensuel
             </button>
             <button
               type="button"
               onClick={() => setBilling('yearly')}
-              className={`inline-flex items-center gap-stack-2xs px-4 py-1.5 rounded-pill font-body text-body-sm font-bold transition-colors duration-base ${billing === 'yearly' ? 'bg-white text-ink-900 shadow-xs' : 'text-ink-500 hover:text-ink-800'}`}
+              className={`inline-flex items-center gap-stack-2xs px-4 py-1.5 rounded-pill font-body text-body font-bold transition-colors duration-base ${billing === 'yearly' ? 'bg-white text-ink-900 shadow-xs' : 'text-ink-500 hover:text-ink-800'}`}
             >
               Annuel
               <Badge variant="sun" size="compact">−20%</Badge>
@@ -273,7 +273,7 @@ export const SubscriptionPayment: React.FC = () => {
                     {plan.icon}
                   </span>
                   <div className="flex flex-col">
-                    <h3 className="font-display text-h4 font-bold text-ink-900">
+                    <h3 className="font-display text-h3 font-bold text-ink-900">
                       {plan.name}
                     </h3>
                     <p className="m-0 font-body text-caption text-ink-500">
@@ -286,14 +286,14 @@ export const SubscriptionPayment: React.FC = () => {
                   <span className="font-display text-h2 font-bold text-ink-900 tabular-nums">
                     {planPrice} €
                   </span>
-                  <span className="font-body text-body-sm text-ink-500 ml-1">
+                  <span className="font-body text-body text-ink-500 ml-1">
                     {periodLabel}
                   </span>
                 </p>
 
                 <ul className="m-0 p-0 list-none flex flex-col gap-stack-2xs">
                   {plan.features.map((f) => (
-                    <li key={f} className="flex items-start gap-stack-xs font-body text-body-sm text-ink-700">
+                    <li key={f} className="flex items-start gap-stack-xs font-body text-body text-ink-700">
                       <Check size={14} className="shrink-0 mt-0.5 text-primary-600" />
                       <span>{f}</span>
                     </li>
@@ -303,7 +303,7 @@ export const SubscriptionPayment: React.FC = () => {
                 <div className="mt-auto">
                   <span
                     className={[
-                      'inline-flex items-center justify-center w-full px-4 py-2 rounded-pill font-body text-body-sm font-semibold transition-colors duration-base',
+                      'inline-flex items-center justify-center w-full px-4 py-2 rounded-pill font-body text-body font-semibold transition-colors duration-base',
                       isSelected
                         ? 'bg-primary-700 text-white'
                         : 'bg-ink-100 text-ink-700 group-hover:bg-primary-50 group-hover:text-primary-700',
@@ -384,7 +384,7 @@ export const SubscriptionPayment: React.FC = () => {
                 Total à payer
               </p>
               <p className="m-0 font-display text-h3 font-bold text-ink-900 tabular-nums">
-                {price} €<span className="font-body text-body-sm font-normal text-ink-500">{periodLabel}</span>
+                {price} €<span className="font-body text-body font-normal text-ink-500">{periodLabel}</span>
               </p>
             </div>
             <Badge variant="brand">{currentPlan.name}</Badge>

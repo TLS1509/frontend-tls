@@ -81,7 +81,7 @@ const MessagingThread: React.FC = () => {
                       : 'bg-white border border-ink-200 rounded-bl-[6px]'
                   }`}
                 >
-                  <p className="text-body-sm">{m.text}</p>
+                  <p className="text-body">{m.text}</p>
                 </div>
                 <div className="flex items-center gap-tight text-caption text-ink-500 px-2">
                   <span>{m.time}</span>
@@ -105,7 +105,7 @@ const MessagingThread: React.FC = () => {
               }
             }}
             placeholder="Écris ton message..."
-            className="flex-1 h-auto min-h-[44px] max-h-32 resize-none p-stack-xs border-0 focus:outline-2 focus:outline-offset-2 focus:outline-primary-500 text-body-sm"
+            className="flex-1 h-auto min-h-[44px] max-h-32 resize-none p-stack-xs border-0 focus:outline-2 focus:outline-offset-2 focus:outline-primary-500 text-body"
             rows={1}
           />
           <Button emphasis="soft" leadingIcon={<Send className="w-4 h-4" />} onClick={send} disabled={!draft.trim()}>

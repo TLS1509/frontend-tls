@@ -51,7 +51,7 @@ export const InputGroup: React.FC<InputGroupProps> = ({
       aria-describedby={error || hint ? `${groupId}-message` : undefined}
     >
       {label && (
-        <span className="text-body-sm font-semibold text-ink-900">
+        <span className="text-body font-semibold text-ink-900">
           {label}
           {required && (
             <span className="text-danger-fg ml-0.5" aria-hidden="true">*</span>

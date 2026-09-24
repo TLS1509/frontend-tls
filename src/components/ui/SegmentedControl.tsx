@@ -37,7 +37,7 @@ const SEGMENT_BASE =
 
 const SEGMENT_SIZE: Record<SegmentedControlSize, string> = {
   sm: 'h-7 px-3 text-caption',
-  md: 'h-9 px-4 text-body-sm',
+  md: 'h-9 px-4 text-body',
   lg: 'h-11 px-stack-md text-body',
 };
 

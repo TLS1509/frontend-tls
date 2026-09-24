@@ -85,7 +85,7 @@ const PasseportHistorique: React.FC = () => {
                         <div className="font-semibold">{ev.title}</div>
                         <Badge variant="neutral">{dateLabel}</Badge>
                       </div>
-                      <div className="text-body-sm text-ink-600 mb-stack-xs">{ev.detail}</div>
+                      <div className="text-body text-ink-600 mb-stack-xs">{ev.detail}</div>
                       <div className="flex items-center gap-stack-xs">
                         <Badge variant="brand">{comp?.label ?? ev.competenceId}</Badge>
                         {ev.newLevel && <Badge variant="success">Dreyfus {ev.newLevel}</Badge>}

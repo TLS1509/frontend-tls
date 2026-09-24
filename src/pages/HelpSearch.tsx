@@ -84,11 +84,11 @@ export default function HelpSearch() {
         )}
 
         <div className="flex flex-col gap-stack">
-          <h2 className="font-display text-h4 text-ink-900">
+          <h2 className="font-display text-h3 text-ink-900">
             {query ? `Résultats pour "${query}" (${results.length})` : `Articles populaires (${allArticles.length})`}
           </h2>
           {results.length === 0 ? (
-            <p className="text-body-sm text-ink-600 py-stack">Aucun article trouvé pour cette recherche.</p>
+            <p className="text-body text-ink-600 py-stack">Aucun article trouvé pour cette recherche.</p>
           ) : (
             results.map((article) => (
               <Card
@@ -101,7 +101,7 @@ export default function HelpSearch() {
                     <h3 className="font-display font-semibold text-body text-ink-900">{article.title}</h3>
                     <Badge variant="neutral">{getCategoryName(article.categoryId)}</Badge>
                   </div>
-                  <p className="text-body-sm text-ink-600 m-0">{article.summary}</p>
+                  <p className="text-body text-ink-600 m-0">{article.summary}</p>
                 </div>
               </Card>
             ))

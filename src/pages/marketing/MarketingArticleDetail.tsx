@@ -78,7 +78,7 @@ const SectionTOC: React.FC<{ sections: { heading: string }[]; activeId: string |
           <li key={id}>
             <a
               href={`#${id}`}
-              className={`block py-1.5 pl-3 border-l-2 text-body-sm leading-snug transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
+              className={`block py-1.5 pl-3 border-l-2 text-body leading-snug transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                 isActive
                   ? 'border-primary-600 text-primary-700 font-semibold'
                   : 'border-ink-200 text-ink-600 hover:text-ink-900 hover:border-ink-400'
@@ -365,7 +365,7 @@ export const MarketingArticleDetail: React.FC = () => {
           <FadeInWhenVisible direction="up">
             <Link
               to="/website/resources"
-              className="inline-flex items-center gap-stack-2xs self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+              className="inline-flex items-center gap-stack-2xs self-start text-ink-700 hover:text-ink-900 font-body text-body font-semibold transition-colors duration-fast group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
             >
               <ArrowLeft size={16} className="transition-transform duration-base group-hover:-translate-x-1" />
               Retour au Mag'
@@ -411,11 +411,11 @@ export const MarketingArticleDetail: React.FC = () => {
           <FadeInWhenVisible direction="up" delay={0.2}>
             <div className="flex items-center justify-between gap-stack flex-wrap pt-stack border-t border-ink-200/60">
               <div className="flex items-center gap-stack-xs">
-                <div className="w-10 h-10 rounded-pill bg-gradient-to-br from-primary-700 to-secondary-700 flex items-center justify-center text-white font-display font-bold text-body-sm">
+                <div className="w-10 h-10 rounded-pill bg-gradient-to-br from-primary-700 to-secondary-700 flex items-center justify-center text-white font-display font-bold text-body">
                   TLS
                 </div>
                 <div className="flex flex-col">
-                  <span className="font-display font-bold text-body-sm text-ink-900">
+                  <span className="font-display font-bold text-body text-ink-900">
                     Équipe TLS
                   </span>
                   <span className="font-body text-caption text-ink-600">
@@ -458,7 +458,7 @@ export const MarketingArticleDetail: React.FC = () => {
                 <ArrowLeft size={14} className="transition-transform duration-base group-hover:-translate-x-1" />
                 Article précédent
               </span>
-              <h3 className="font-display text-h4 font-bold text-ink-900 group-hover:text-primary-700 transition-colors duration-fast">
+              <h3 className="font-display text-h3 font-bold text-ink-900 group-hover:text-primary-700 transition-colors duration-fast">
                 {prev.title}
               </h3>
               <p className="font-body text-caption text-ink-500 m-0">{prev.date} · {prev.readTime}</p>
@@ -473,7 +473,7 @@ export const MarketingArticleDetail: React.FC = () => {
                 Article suivant
                 <ArrowRight size={14} className="transition-transform duration-base group-hover:translate-x-1" />
               </span>
-              <h3 className="font-display text-h4 font-bold text-ink-900 group-hover:text-primary-700 transition-colors duration-fast">
+              <h3 className="font-display text-h3 font-bold text-ink-900 group-hover:text-primary-700 transition-colors duration-fast">
                 {next.title}
               </h3>
               <p className="font-body text-caption text-ink-500 m-0">{next.date} · {next.readTime}</p>

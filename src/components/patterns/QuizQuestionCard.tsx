@@ -96,7 +96,7 @@ export const QuizQuestionCard: React.FC<QuizQuestionCardProps> = ({
             >
               <span
                 className={[
-                  'inline-flex items-center justify-center w-8 h-8 rounded-pill font-display font-bold text-body-sm transition-colors shrink-0',
+                  'inline-flex items-center justify-center w-8 h-8 rounded-pill font-display font-bold text-body transition-colors shrink-0',
                   letterBg,
                 ].join(' ')}
               >
@@ -118,7 +118,7 @@ export const QuizQuestionCard: React.FC<QuizQuestionCardProps> = ({
       {answered && (
         <div
           className={[
-            'flex items-start gap-stack-xs p-4 rounded-lg text-body-sm',
+            'flex items-start gap-stack-xs p-4 rounded-lg text-body',
             isCorrectAnswer
               ? 'bg-gradient-to-br from-success-bg to-white border border-success-base/30 text-success-fg'
               : 'bg-gradient-to-br from-danger-bg to-white border border-danger-base/30 text-danger-fg',

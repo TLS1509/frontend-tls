@@ -232,7 +232,7 @@ const DIRECTIONS = [
 export const CardLab: React.FC = () => (
   <div className="min-h-[100dvh] w-full bg-gradient-page-ambient">
     <header className="px-6 sm:px-8 py-stack-md border-b border-ink-100 bg-white/80 backdrop-blur-glass-light sticky top-0 z-10">
-      <h1 className="font-display text-h4 font-bold text-ink-900 tracking-headline">Card ressource unifiée — 3 directions</h1>
+      <h1 className="font-display text-h3 font-bold text-ink-900 tracking-headline">Card ressource unifiée — 3 directions</h1>
       <p className="m-0 text-caption text-ink-500 mt-0.5">
         Remplace LearningItemCard + ResourceCard · grammaire meta unifiée · niveau en mots · tappable · contenu + états réels.
       </p>
@@ -244,7 +244,7 @@ export const CardLab: React.FC = () => (
           <div className="flex items-baseline gap-2">
             <span className="inline-flex items-center justify-center w-7 h-7 rounded-pill bg-ink-900 text-white text-caption font-bold">{id}</span>
             <div>
-              <h2 className="font-display text-h4 font-bold text-ink-900 tracking-headline">{name}</h2>
+              <h2 className="font-display text-h3 font-bold text-ink-900 tracking-headline">{name}</h2>
               <p className="m-0 text-caption text-ink-500">{desc}</p>
             </div>
           </div>

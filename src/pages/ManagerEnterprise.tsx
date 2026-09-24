@@ -88,7 +88,7 @@ export default function ManagerEnterprise() {
                 className={`flex items-center gap-stack-xs p-stack rounded-lg border ${SEVERITY_STYLE[a.severity]}`}
               >
                 <AlertTriangle size={16} className="shrink-0" />
-                <span className="text-body-sm flex-1">{a.message}</span>
+                <span className="text-body flex-1">{a.message}</span>
                 <Button emphasis="outline" size="sm" onClick={() => enterpriseStore.acknowledgeAlert(MOCK_COMPANY_ID, a.id)}>
                   Ignorer
                 </Button>
@@ -115,7 +115,7 @@ export default function ManagerEnterprise() {
                     <Card key={p.id} className="p-stack-md flex flex-col gap-stack-xs">
                       <div className="flex items-center justify-between gap-stack-xs">
                         <div className="flex flex-col gap-tight">
-                          <span className="text-body-sm font-semibold text-ink-900">{p.title}</span>
+                          <span className="text-body font-semibold text-ink-900">{p.title}</span>
                           <span className="text-caption text-ink-600">{p.team}</span>
                         </div>
                         <Badge variant={s.variant} size="compact">{s.label}</Badge>
@@ -136,7 +136,7 @@ export default function ManagerEnterprise() {
                 {cohorts.map((c) => (
                   <Card key={c.id} className="p-stack-md flex flex-col gap-stack-xs">
                     <div className="flex items-center justify-between gap-stack-xs">
-                      <span className="text-body-sm font-semibold text-ink-900">{c.name}</span>
+                      <span className="text-body font-semibold text-ink-900">{c.name}</span>
                       <span className="text-caption text-ink-600">{c.memberCount} membres</span>
                     </div>
                     <div className="flex items-center gap-stack-xs text-caption text-ink-500">
@@ -160,7 +160,7 @@ export default function ManagerEnterprise() {
               <Card key={c.id} className="p-stack-md flex items-center gap-stack">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-stack-xs mb-1">
-                    <span className="text-body-sm font-semibold text-ink-900">{c.name}</span>
+                    <span className="text-body font-semibold text-ink-900">{c.name}</span>
                     <Badge variant="neutral" size="compact">{c.memberCount} membres</Badge>
                   </div>
                   <div className="text-caption text-ink-600">Coach : {c.coachName ?? '–'} · Dreyfus moy. {c.avgDreyfusLevel}/5</div>

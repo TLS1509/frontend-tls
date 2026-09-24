@@ -319,7 +319,7 @@ export const Messages: React.FC = () => {
                     {/* Content */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-tight mb-0.5">
-                        <span className={`font-body text-body-sm flex-1 overflow-hidden text-ellipsis whitespace-nowrap text-ink-900 ${conv.unreadCount > 0 ? 'font-bold' : 'font-semibold'}`}>
+                        <span className={`font-body text-body flex-1 overflow-hidden text-ellipsis whitespace-nowrap text-ink-900 ${conv.unreadCount > 0 ? 'font-bold' : 'font-semibold'}`}>
                           {conv.participantName}
                         </span>
                         {conv.unreadCount > 0 && (
@@ -391,7 +391,7 @@ export const Messages: React.FC = () => {
             </div>
 
             <div className="flex-1 min-w-0">
-              <h3 className="font-body text-body-sm font-bold text-ink-900">
+              <h3 className="font-body text-body font-bold text-ink-900">
                 {currentConversation.participantName}
               </h3>
               <p className="m-0 font-body text-micro text-ink-500">
@@ -477,7 +477,7 @@ export const Messages: React.FC = () => {
                 onKeyDown={handleKeyDown}
                 placeholder="Écrivez votre message… (Entrée pour envoyer)"
                 rows={1}
-                className="flex-1 px-3 py-stack-xs rounded-lg border border-ink-200 bg-ink-50 text-ink-900 font-body text-body-sm resize-none outline-none h-auto min-h-[38px] max-h-[120px] transition-colors focus:border-primary-400 focus:bg-white placeholder:text-ink-500"
+                className="flex-1 px-3 py-stack-xs rounded-lg border border-ink-200 bg-ink-50 text-ink-900 font-body text-body resize-none outline-none h-auto min-h-[38px] max-h-[120px] transition-colors focus:border-primary-400 focus:bg-white placeholder:text-ink-500"
               />
 
               <Button
@@ -505,7 +505,7 @@ export const Messages: React.FC = () => {
             <div className="w-[72px] h-[72px] rounded-pill bg-primary-50 border border-primary-100 flex items-center justify-center mx-auto mb-stack text-primary-400">
               <MessageSquarePlus size={28} />
             </div>
-            <h3 className="mb-stack-xs font-display text-h4 font-bold text-ink-900">
+            <h3 className="mb-stack-xs font-display text-h3 font-bold text-ink-900">
               Sélectionnez une conversation
             </h3>
             <p className="m-0 mb-stack font-body text-caption text-ink-500">

@@ -106,7 +106,7 @@ export default function EvenementHub() {
                 )}
               </div>
               <h2 className="text-h3 font-display font-bold text-ink-900">{featured.title}</h2>
-              <p className="text-body-sm text-ink-500 m-0">{featured.description}</p>
+              <p className="text-body text-ink-500 m-0">{featured.description}</p>
               {featured.maxParticipants && (
                 <ProgressBar
                   value={Math.round((featured.registeredCount / featured.maxParticipants) * 100)}
@@ -137,7 +137,7 @@ export default function EvenementHub() {
 
         {/* Event grid */}
         {filteredEvents.length === 0 ? (
-          <p className="text-body-sm text-ink-600 py-section text-center">Aucun événement dans cette catégorie.</p>
+          <p className="text-body text-ink-600 py-section text-center">Aucun événement dans cette catégorie.</p>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-stack">
             {filteredEvents.map((ev) => {

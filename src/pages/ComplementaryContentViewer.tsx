@@ -188,7 +188,7 @@ export const ComplementaryContentViewer: React.FC = () => {
                         </Badge>
                       </div>
 
-                      <p className="font-body text-body-sm text-ink-500 m-0 mb-stack-xs">
+                      <p className="font-body text-body text-ink-500 m-0 mb-stack-xs">
                         {resource.description}
                       </p>
 
@@ -235,7 +235,7 @@ export const ComplementaryContentViewer: React.FC = () => {
                     { label: 'Outils',   count: RESOURCES.filter(r => r.type === 'tool').length },
                   ].filter(s => s.count > 0).map((stat) => (
                     <div key={stat.label} className="flex justify-between items-center p-stack-xs bg-ink-50 rounded-md">
-                      <span className="font-body text-body-sm text-ink-500">{stat.label}</span>
+                      <span className="font-body text-body text-ink-500">{stat.label}</span>
                       <span className="font-body text-body font-semibold text-ink-900">{stat.count}</span>
                     </div>
                   ))}
@@ -253,7 +253,7 @@ export const ComplementaryContentViewer: React.FC = () => {
                       key={topic}
                       type="button"
                       onClick={() => {}}
-                      className="w-full min-h-touch px-3 py-stack-xs border border-ink-100 rounded-md bg-white text-ink-900 cursor-pointer font-body text-body-sm text-left transition-colors duration-base hover:bg-ink-50 flex justify-between items-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                      className="w-full min-h-touch px-3 py-stack-xs border border-ink-100 rounded-md bg-white text-ink-900 cursor-pointer font-body text-body text-left transition-colors duration-base hover:bg-ink-50 flex justify-between items-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                     >
                       <span>{topic}</span>
                       <ArrowRight size={14} className="text-ink-600 shrink-0" />

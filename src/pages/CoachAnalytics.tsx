@@ -205,7 +205,7 @@ export default function CoachAnalytics() {
               <div className="flex flex-col gap-stack">
                 {dreyfusDistribution.map((d) => (
                   <div key={d.level} className="flex items-center gap-stack">
-                    <span className="w-8 shrink-0 font-display text-body-sm font-bold text-ink-700">
+                    <span className="w-8 shrink-0 font-display text-body font-bold text-ink-700">
                       {d.level}
                     </span>
                     <span className="w-36 shrink-0 text-caption text-ink-500 hidden sm:block">
@@ -252,7 +252,7 @@ export default function CoachAnalytics() {
               <div className="flex flex-col gap-stack">
                 {COMPETENCES.map((c) => (
                   <div key={c.label} className="flex items-center gap-stack">
-                    <span className="w-32 shrink-0 text-body-sm font-semibold text-ink-700">
+                    <span className="w-32 shrink-0 text-body font-semibold text-ink-700">
                       {c.label}
                     </span>
                     <div className="flex-1">
@@ -314,10 +314,10 @@ export default function CoachAnalytics() {
                       key={c.id}
                       className="flex flex-col sm:flex-row sm:items-center gap-stack-xs px-stack py-3"
                     >
-                      <span className="font-display text-body-sm font-bold text-ink-900 w-36 shrink-0">
+                      <span className="font-display text-body font-bold text-ink-900 w-36 shrink-0">
                         {c.apprenant}
                       </span>
-                      <span className="flex-1 text-body-sm text-ink-700">{c.exercice}</span>
+                      <span className="flex-1 text-body text-ink-700">{c.exercice}</span>
                       <Badge variant="info" size="compact">
                         {c.competence}
                       </Badge>

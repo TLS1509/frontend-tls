@@ -247,7 +247,7 @@ export const Dossier: React.FC = () => {
                         <div className={`font-display text-h1 leading-none mb-stack-xs ${STAT_TONE[stat.tone].value}`}>
                           {stat.value}
                         </div>
-                        <p className="m-0 font-body text-body-sm font-semibold text-ink-900 mb-stack-xs">
+                        <p className="m-0 font-body text-body font-semibold text-ink-900 mb-stack-xs">
                           {stat.label}
                         </p>
                         <span className={`inline-flex items-center gap-tight px-2 py-0.5 rounded-pill font-body text-micro font-semibold ${STAT_TONE[stat.tone].trend}`}>
@@ -259,7 +259,7 @@ export const Dossier: React.FC = () => {
 
                   <div className="bg-ink-50 border border-dashed border-ink-200 rounded-xl h-[200px] flex flex-col items-center justify-center gap-stack-xs text-ink-500">
                     <BarChart2 size={32} className="opacity-50" />
-                    <span className="font-body text-body-sm">
+                    <span className="font-body text-body">
                       Graphique : Évolution de l'adoption IA en formation (2023–2026)
                     </span>
                   </div>
@@ -278,7 +278,7 @@ export const Dossier: React.FC = () => {
                         Conclusion principale
                       </span>
                     </div>
-                    <p className="m-0 mb-stack-lg font-display text-h4 font-semibold text-white leading-relaxed">
+                    <p className="m-0 mb-stack-lg font-display text-h3 font-semibold text-white leading-relaxed">
                       La transformation IA des parcours de formation n'est plus optionnelle. Les organisations
                       qui agissent maintenant, avec méthode et gouvernance, bâtissent un avantage durable sur
                       l'acquisition et la rétention des talents.
@@ -288,7 +288,7 @@ export const Dossier: React.FC = () => {
                       {RECOMMENDATIONS.map((rec, i) => (
                         <li key={i} className="flex items-start gap-stack-xs">
                           <ArrowRight size={14} className="text-white/80 shrink-0 mt-1" />
-                          <span className="font-body text-body-sm text-white/95">{rec}</span>
+                          <span className="font-body text-body text-white/95">{rec}</span>
                         </li>
                       ))}
                     </ul>
@@ -309,7 +309,7 @@ export const Dossier: React.FC = () => {
               <h3 className="font-display text-h3 font-bold text-ink-900 tracking-tight">
                 Télécharger le dossier complet
               </h3>
-              <p className="m-0 font-body text-body-sm text-ink-600">
+              <p className="m-0 font-body text-body text-ink-600">
                 PDF de 38 pages · Données exclusives · Mise à jour janvier 2026
               </p>
             </div>

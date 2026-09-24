@@ -137,7 +137,7 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
             {/* Rating label — conditional, compact */}
             {display > 0 && (
               <div className="flex justify-center mb-stack">
-                <div className="px-4 py-1.5 rounded-lg modal-amber-badge text-body-sm font-bold text-accent-800">
+                <div className="px-4 py-1.5 rounded-lg modal-amber-badge text-body font-bold text-accent-800">
                   {RATING_LABELS[display]}
                 </div>
               </div>
@@ -145,7 +145,7 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
 
             {/* Comment */}
             <div className="mb-stack-md">
-              <label className="block mb-2 text-body-sm font-semibold text-ink-900">
+              <label className="block mb-2 text-body font-semibold text-ink-900">
                 Commentaire <span className="font-normal text-ink-600">(optionnel)</span>
               </label>
               <textarea
@@ -153,7 +153,7 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
                 onChange={(e) => setComment(e.target.value)}
                 placeholder="Partage ton expérience…"
                 rows={4}
-                className="w-full box-border p-3 rounded-lg border-[1.5px] border-ink-200 bg-ink-50 text-ink-900 text-body-sm resize-y transition-colors font-body h-auto min-h-[120px] focus:outline-none focus:border-accent-400 focus:bg-white"
+                className="w-full box-border p-3 rounded-lg border-[1.5px] border-ink-200 bg-ink-50 text-ink-900 text-body resize-y transition-colors font-body h-auto min-h-[120px] focus:outline-none focus:border-accent-400 focus:bg-white"
               />
             </div>
 
@@ -170,7 +170,7 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
           /* Submitted confirmation */
           <div className="text-center py-stack-lg animate-[fbFadeIn_0.4s_ease_both]">
             <div className="text-[3.5rem] mb-3">🌟</div>
-            <h3 className="text-h4 font-bold text-ink-900 mb-2">
+            <h3 className="text-h3 font-bold text-ink-900 mb-2">
               Merci pour ton retour.
             </h3>
             <p className="text-body text-ink-600">

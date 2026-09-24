@@ -352,8 +352,8 @@ export default function AnalyticsDashboard() {
                     <CheckCircle size={20} className="text-success-fg" />
                   </div>
                   <div>
-                    <div className="font-display text-h4 font-bold text-ink-900">{MOCK_LEARNER_PROFILES.filter(l => l.status === 'on-track').length}</div>
-                    <div className="text-body-sm text-ink-600">Sur la bonne voie</div>
+                    <div className="font-display text-h3 font-bold text-ink-900">{MOCK_LEARNER_PROFILES.filter(l => l.status === 'on-track').length}</div>
+                    <div className="text-body text-ink-600">Sur la bonne voie</div>
                   </div>
                 </Card>
 
@@ -362,8 +362,8 @@ export default function AnalyticsDashboard() {
                     <AlertCircle size={20} className="text-warning-fg" />
                   </div>
                   <div>
-                    <div className="font-display text-h4 font-bold text-ink-900">{MOCK_LEARNER_PROFILES.filter(l => l.status === 'at-risk').length}</div>
-                    <div className="text-body-sm text-ink-600">À risque</div>
+                    <div className="font-display text-h3 font-bold text-ink-900">{MOCK_LEARNER_PROFILES.filter(l => l.status === 'at-risk').length}</div>
+                    <div className="text-body text-ink-600">À risque</div>
                   </div>
                 </Card>
 
@@ -372,8 +372,8 @@ export default function AnalyticsDashboard() {
                     <AlertCircle size={20} className="text-danger-fg" />
                   </div>
                   <div>
-                    <div className="font-display text-h4 font-bold text-ink-900">{MOCK_LEARNER_PROFILES.filter(l => l.status === 'stuck').length}</div>
-                    <div className="text-body-sm text-ink-600">Bloqués</div>
+                    <div className="font-display text-h3 font-bold text-ink-900">{MOCK_LEARNER_PROFILES.filter(l => l.status === 'stuck').length}</div>
+                    <div className="text-body text-ink-600">Bloqués</div>
                   </div>
                 </Card>
               </div>
@@ -388,7 +388,7 @@ export default function AnalyticsDashboard() {
 
             {/* Sorting Controls */}
             <div className="flex gap-stack-xs flex-wrap">
-              <span className="text-body-sm text-ink-600 font-medium">Trier par :</span>
+              <span className="text-body text-ink-600 font-medium">Trier par :</span>
               {(['xp', 'streak', 'level'] as const).map((metric) => (
                 <FilterChip
                   key={metric}
@@ -414,7 +414,7 @@ export default function AnalyticsDashboard() {
                       <div>
                         <div className="text-caption text-ink-500 font-semibold">#{idx + 1}</div>
                         <div className="text-body-lg font-bold text-ink-900">{learner.name}</div>
-                        <div className="text-body-sm text-ink-600">{learner.role}</div>
+                        <div className="text-body text-ink-600">{learner.role}</div>
                       </div>
                       <Badge variant="success" size="compact">D{learner.dreyfusAvg.toFixed(1)}</Badge>
                     </div>
@@ -447,7 +447,7 @@ export default function AnalyticsDashboard() {
                 {competencies.map((comp) => (
                   <div key={comp.name} className="flex items-center gap-stack">
                     <div className="w-36 shrink-0">
-                      <span className="text-body-sm font-semibold text-ink-700">{comp.name}</span>
+                      <span className="text-body font-semibold text-ink-700">{comp.name}</span>
                     </div>
                     <div className="flex-1">
                       <ProgressBar value={Math.round((comp.avgLevel / 5) * 100)} fill="brand" size="md" />
@@ -471,7 +471,7 @@ export default function AnalyticsDashboard() {
                     <div className="text-body-lg font-bold text-success-fg">Compétences saines</div>
                   </div>
                   <div className="font-display text-h3 font-bold text-ink-900">Leadership, Communication</div>
-                  <div className="text-body-sm text-ink-600">&gt; 70% d'adoption, niveau D3+</div>
+                  <div className="text-body text-ink-600">&gt; 70% d'adoption, niveau D3+</div>
                 </Card>
 
                 <Card className="flex flex-col gap-stack p-stack-md md:p-stack-lg bg-warning-bg/30 border border-warning-base/20">
@@ -480,7 +480,7 @@ export default function AnalyticsDashboard() {
                     <div className="text-body-lg font-bold text-warning-base">Compétences en retard</div>
                   </div>
                   <div className="font-display text-h3 font-bold text-ink-900">Créativité, Analyse</div>
-                  <div className="text-body-sm text-ink-600">{'<'} 50% d'adoption, focus d'accompagnement requis</div>
+                  <div className="text-body text-ink-600">{'<'} 50% d'adoption, focus d'accompagnement requis</div>
                 </Card>
               </div>
             </div>

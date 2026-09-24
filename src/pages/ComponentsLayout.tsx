@@ -289,7 +289,7 @@ const LAYOUT_STYLES = `
     background: transparent;
     outline: none;
     flex: 1;
-    font-size: var(--text-body-sm);
+    font-size: var(--text-body);
     padding: var(--s-2) 0;
     color: var(--text);
   }
@@ -314,7 +314,7 @@ const LAYOUT_STYLES = `
     display: flex;
     align-items: center;
     gap: var(--s-1);
-    font-size: var(--text-body-sm);
+    font-size: var(--text-body);
     font-weight: 600;
     color: var(--text-muted);
     white-space: nowrap;

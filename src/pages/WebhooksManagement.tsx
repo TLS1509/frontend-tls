@@ -34,7 +34,7 @@ const WEBHOOK_ROWS: DataTableRow[] = [
       </div>
     ),
     status: <Badge variant="success">Actif</Badge>,
-    last_triggered: <span className="text-body-sm text-ink-600">Il y a 3 min</span>,
+    last_triggered: <span className="text-body text-ink-600">Il y a 3 min</span>,
     actions: (
       <div className="flex items-center gap-tight">
         <Button emphasis="outline" size="sm">Tester</Button>
@@ -54,7 +54,7 @@ const WEBHOOK_ROWS: DataTableRow[] = [
       </div>
     ),
     status: <Badge variant="success">Actif</Badge>,
-    last_triggered: <span className="text-body-sm text-ink-600">Il y a 27 min</span>,
+    last_triggered: <span className="text-body text-ink-600">Il y a 27 min</span>,
     actions: (
       <div className="flex items-center gap-tight">
         <Button emphasis="outline" size="sm">Tester</Button>
@@ -75,7 +75,7 @@ const WEBHOOK_ROWS: DataTableRow[] = [
       </div>
     ),
     status: <Badge variant="success">Actif</Badge>,
-    last_triggered: <span className="text-body-sm text-ink-600">Il y a 2 h</span>,
+    last_triggered: <span className="text-body text-ink-600">Il y a 2 h</span>,
     actions: (
       <div className="flex items-center gap-tight">
         <Button emphasis="outline" size="sm">Tester</Button>
@@ -95,7 +95,7 @@ const WEBHOOK_ROWS: DataTableRow[] = [
       </div>
     ),
     status: <Badge variant="neutral">Inactif</Badge>,
-    last_triggered: <span className="text-body-sm text-ink-600">Il y a 14 j</span>,
+    last_triggered: <span className="text-body text-ink-600">Il y a 14 j</span>,
     actions: (
       <div className="flex items-center gap-tight">
         <Button emphasis="outline" size="sm">Tester</Button>
@@ -208,7 +208,7 @@ export default function WebhooksManagement() {
             {EVENT_TYPES.map((evt) => (
               <div key={evt.key} className="flex items-center gap-stack-xs bg-ink-50 border border-ink-100 rounded-lg px-3 py-stack-xs">
                 <Badge variant={evt.variant}>{evt.key}</Badge>
-                <span className="text-body-sm text-ink-600">{evt.label}</span>
+                <span className="text-body text-ink-600">{evt.label}</span>
               </div>
             ))}
           </div>
@@ -228,7 +228,7 @@ export default function WebhooksManagement() {
                 <Key size={16} className="text-primary-600 shrink-0" />
                 <h4 className="font-display font-semibold text-body text-ink-900">Authentification</h4>
               </div>
-              <p className="text-body-sm text-ink-600">
+              <p className="text-body text-ink-600">
                 Chaque requête webhook inclut un header <code className="px-1 py-0.5 bg-ink-100 rounded text-caption font-mono text-ink-800">X-TLS-Signature</code> contenant une signature HMAC-SHA256 calculée avec votre secret. Comparez cette signature côté serveur pour valider l'origine des événements.
               </p>
               {/* L'exemple montrait `Authorization: Bearer <votre_secret_api>`,
@@ -246,7 +246,7 @@ export default function WebhooksManagement() {
                 <FileJson size={16} className="text-primary-600 shrink-0" />
                 <h4 className="font-display font-semibold text-body text-ink-900">Format de payload</h4>
               </div>
-              <p className="text-body-sm text-ink-600">
+              <p className="text-body text-ink-600">
                 Les événements sont envoyés en POST avec un corps JSON encodé en UTF-8. La structure est identique pour tous les types d'événements.
               </p>
               <pre className="rounded-lg bg-ink-900 p-stack font-mono text-caption text-ink-100 overflow-x-auto whitespace-pre">

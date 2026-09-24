@@ -80,7 +80,7 @@ export default function CoachingSessionDetail() {
             <Avatar name={session.coachName} initials={coachInitials} size="lg" />
             <div className="flex flex-col gap-tight">
               <span className="text-caption text-ink-600 uppercase tracking-wide">Coach</span>
-              <span className="text-body-sm font-semibold text-ink-900">{session.coachName}</span>
+              <span className="text-body font-semibold text-ink-900">{session.coachName}</span>
               <span className="text-caption text-ink-500">{session.coachSpeciality ?? 'Leadership · Communication'}</span>
             </div>
           </Card>
@@ -92,7 +92,7 @@ export default function CoachingSessionDetail() {
             </IconChip>
             <div className="flex flex-col gap-tight">
               <span className="text-caption text-ink-600 uppercase tracking-wide">Date & heure</span>
-              <span className="text-body-sm font-semibold text-ink-900">{day}</span>
+              <span className="text-body font-semibold text-ink-900">{day}</span>
               <span className="text-caption text-ink-500">{time}</span>
             </div>
           </Card>
@@ -104,7 +104,7 @@ export default function CoachingSessionDetail() {
             </IconChip>
             <div className="flex flex-col gap-tight">
               <span className="text-caption text-ink-600 uppercase tracking-wide">Format</span>
-              <span className="text-body-sm font-semibold text-ink-900">Visioconférence</span>
+              <span className="text-body font-semibold text-ink-900">Visioconférence</span>
               <Badge variant="info" size="compact">
                 {isPlanned ? 'Confirmée' : 'Terminée'}
               </Badge>
@@ -123,7 +123,7 @@ export default function CoachingSessionDetail() {
                 <span className="inline-flex items-center justify-center w-6 h-6 rounded-pill bg-secondary-50 text-secondary-700 text-caption font-bold shrink-0">
                   {i + 1}
                 </span>
-                <span className="text-body-sm text-ink-700">{obj}</span>
+                <span className="text-body text-ink-700">{obj}</span>
               </li>
             ))}
           </ul>
@@ -137,7 +137,7 @@ export default function CoachingSessionDetail() {
             <Badge variant="sun" size="compact">À faire avant la session</Badge>
           }
         >
-          <p className="text-body-sm text-ink-600">
+          <p className="text-body text-ink-600">
             Avant la session, prends 10 minutes pour noter tes succès récents, les situations difficiles rencontrées, et les questions que tu souhaites aborder avec ton coach.
           </p>
           <div className="mt-stack flex gap-stack-xs">

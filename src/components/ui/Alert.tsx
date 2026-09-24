@@ -38,7 +38,7 @@ const BASE =
   'flex gap-stack-xs rounded-lg border backdrop-blur-sm animate-alert-slide';
 
 const PATTERN_CLASSES: Record<AlertPattern, string> = {
-  banner: 'items-start py-stack px-stack-md text-body-sm leading-normal',
+  banner: 'items-start py-stack px-stack-md text-body leading-normal',
   inline: 'items-center py-2 px-3 text-caption leading-normal',
 };
 

@@ -110,7 +110,7 @@ const StreakDetail: React.FC = () => {
           <Target className="w-10 h-10 text-secondary-600" />
           <div className="flex-1">
             <div className="font-semibold mb-1">Objectif du jour</div>
-            <p className="text-body-sm text-ink-700">Valide une leçon ou écris une entrée de journal avant minuit pour maintenir ta streak.</p>
+            <p className="text-body text-ink-700">Valide une leçon ou écris une entrée de journal avant minuit pour maintenir ta streak.</p>
           </div>
         </Card>
       </PageShell>

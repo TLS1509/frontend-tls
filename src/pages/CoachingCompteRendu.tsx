@@ -197,11 +197,11 @@ export const CoachingCompteRendu: React.FC = () => {
                 {report.theme}
               </h1>
               <div className="flex flex-wrap gap-stack mt-3">
-                <span className="flex items-center gap-tight font-body text-body-sm">
+                <span className="flex items-center gap-tight font-body text-body">
                   <CalendarDays size={14} />
                   {report.date}
                 </span>
-                <span className="flex items-center gap-tight font-body text-body-sm">
+                <span className="flex items-center gap-tight font-body text-body">
                   <Clock3 size={14} />
                   {report.duration}
                 </span>
@@ -217,7 +217,7 @@ export const CoachingCompteRendu: React.FC = () => {
                 }}
               >
                 <div className="w-[60px] h-[60px] rounded-pill bg-primary-700 flex flex-col items-center justify-center">
-                  <span className="font-display text-h4 leading-none">{progressPercent}%</span>
+                  <span className="font-display text-h3 leading-none">{progressPercent}%</span>
                   <span className="font-body mt-0.5 text-micro">parcours</span>
                 </div>
               </div>
@@ -253,7 +253,7 @@ export const CoachingCompteRendu: React.FC = () => {
                       <h3 className="font-display text-body font-bold text-ink-900">
                         {tk.title}
                       </h3>
-                      <p className="font-body text-body-sm text-ink-500 m-0">
+                      <p className="font-body text-body text-ink-500 m-0">
                         {tk.description}
                       </p>
                     </div>
@@ -275,7 +275,7 @@ export const CoachingCompteRendu: React.FC = () => {
                       key={ap.id}
                       className={`flex gap-stack items-start py-stack ${index < report.actionPlan.length - 1 ? 'border-b border-ink-200' : ''}`}
                     >
-                      <div className="shrink-0 w-8 h-8 rounded-pill bg-primary-50 text-primary-800 flex items-center justify-center font-body text-body-sm font-extrabold border-2 border-primary-200">
+                      <div className="shrink-0 w-8 h-8 rounded-pill bg-primary-50 text-primary-800 flex items-center justify-center font-body text-body font-extrabold border-2 border-primary-200">
                         {ap.step}
                       </div>
                       <div className="flex-1 min-w-0">
@@ -299,7 +299,7 @@ export const CoachingCompteRendu: React.FC = () => {
               </h2>
               <div className="bg-primary-50/40 border border-primary-100 rounded-lg p-stack-lg">
                 <div className="flex gap-stack items-start">
-                  <div className="shrink-0 w-11 h-11 rounded-pill bg-primary-700 text-white flex items-center justify-center font-body text-body-sm font-extrabold shadow-sm">
+                  <div className="shrink-0 w-11 h-11 rounded-pill bg-primary-700 text-white flex items-center justify-center font-body text-body font-extrabold shadow-sm">
                     {report.coach.initials}
                   </div>
                   <div className="flex-1">
@@ -354,7 +354,7 @@ export const CoachingCompteRendu: React.FC = () => {
                 </h3>
                 <div className="flex items-center gap-stack-xs">
                   <StarRating rating={report.satisfactionRating} />
-                  <span className="font-display text-h4 text-accent-700">
+                  <span className="font-display text-h3 text-accent-700">
                     {report.satisfactionRating}/5
                   </span>
                 </div>

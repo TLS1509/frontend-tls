@@ -135,7 +135,7 @@ const CoachEngagement: React.FC = () => {
             <AlertTriangle className="w-5 h-5 text-warning-fg mt-1 shrink-0" />
             <div>
               <div className="font-semibold mb-1">2 apprenants en atrophie</div>
-              <p className="text-body-sm text-ink-700">Sara C. (95 jours) et Anna R. (32 jours) n'ont pas validé d'activité récemment. Pensez à les recontacter.</p>
+              <p className="text-body text-ink-700">Sara C. (95 jours) et Anna R. (32 jours) n'ont pas validé d'activité récemment. Pensez à les recontacter.</p>
             </div>
           </Card>
         )}

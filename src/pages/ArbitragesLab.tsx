@@ -95,7 +95,7 @@ const Option: React.FC<OptionProps> = ({ letter, label, recommended, selected, o
   >
     <div className="flex items-start justify-between gap-stack-xs">
       <div className="flex flex-col gap-tight">
-        <span className="font-display text-h4 text-ink-900">{letter}. {label}</span>
+        <span className="font-display text-h3 text-ink-900">{letter}. {label}</span>
         {recommended && <Badge variant="brand" size="compact">Recommandé</Badge>}
       </div>
     </div>
@@ -131,7 +131,7 @@ const Decision: React.FC<DecisionProps> = ({ id, n, title, question, context, ch
       <span className="text-caption text-ink-600">Décision {n}</span>
       <h2 className="font-display text-h2 text-ink-900">{title}</h2>
       <p className="text-body text-ink-900 font-semibold">{question}</p>
-      <div className="text-body-sm text-ink-700 flex flex-col gap-stack-xs">{context}</div>
+      <div className="text-body text-ink-700 flex flex-col gap-stack-xs">{context}</div>
     </header>
     <div className="grid gap-stack grid-cols-1 lg:grid-cols-3">
       {options.map((o) => (
@@ -154,7 +154,7 @@ const FocusSpecimen: React.FC<{ ring: 'p500' | 'p700' | 'bicolore'; surface: 'wh
   const label = surface === 'dark' ? 'text-white' : 'text-ink-900';
   return (
     <div className={`${SURFACE[surface]} rounded-lg p-stack flex items-center justify-center`}>
-      <span className={`inline-flex items-center gap-stack-2xs rounded-lg px-stack py-stack-xs text-body-sm font-semibold ${label} ${RING[ring]}`}>
+      <span className={`inline-flex items-center gap-stack-2xs rounded-lg px-stack py-stack-xs text-body font-semibold ${label} ${RING[ring]}`}>
         <BookOpen size={16} aria-hidden /> Parcours
       </span>
     </div>
@@ -164,7 +164,7 @@ const FocusSpecimen: React.FC<{ ring: 'p500' | 'p700' | 'bicolore'; surface: 'wh
 const ModalSpecimen: React.FC<{ radius: 'rounded-xl' | 'rounded-2xl' | 'rounded-[28px]' }> = ({ radius }) => (
   <div className="relative w-full rounded-lg bg-ink-900/40 p-stack flex items-center justify-center">
     <div className={`w-full max-w-[16rem] bg-white ${radius} p-stack-lg flex flex-col gap-stack-sm`}>
-      <span className="font-display text-h4 text-ink-900">Annuler la session ?</span>
+      <span className="font-display text-h3 text-ink-900">Annuler la session ?</span>
       <span className="text-caption text-ink-700">Ton coach sera prévenu.</span>
       <div className="flex gap-stack-xs justify-end">
         <Button emphasis="ghost" size="sm">Garder</Button>
@@ -212,7 +212,7 @@ const PaddingSpecimen: React.FC<{ pad: 'p-stack' | 'p-stack-md' | 'p-stack-lg'; 
           <Badge variant="brand" size="compact">En cours</Badge>
           <span className="text-caption text-ink-600">3/5</span>
         </div>
-        <span className="font-display text-h4 text-ink-900">Leadership</span>
+        <span className="font-display text-h3 text-ink-900">Leadership</span>
         <div className="flex justify-between items-end">
           <span className="text-caption text-ink-600">2 h restantes</span>
           <Button emphasis="soft" size="sm">Reprendre</Button>
@@ -237,7 +237,7 @@ const CollectionSpecimen: React.FC<{ mode: 'cartes' | 'rangees' | 'table' }> = (
         {LEARNERS.map((l) => (
           <div key={l.n} className="bg-white rounded-xl border border-ink-200 p-stack flex items-center gap-stack-sm">
             <Avatar initials={l.i} size="sm" />
-            <span className="text-body-sm font-semibold text-ink-900 flex-1">{l.n}</span>
+            <span className="text-body font-semibold text-ink-900 flex-1">{l.n}</span>
             <Badge variant={l.v} size="compact">{l.s}</Badge>
           </div>
         ))}
@@ -250,7 +250,7 @@ const CollectionSpecimen: React.FC<{ mode: 'cartes' | 'rangees' | 'table' }> = (
         {LEARNERS.map((l) => (
           <div key={l.n} className="px-stack py-stack-xs flex items-center gap-stack-sm">
             <Avatar initials={l.i} size="sm" />
-            <span className="text-body-sm font-semibold text-ink-900 flex-1">{l.n}</span>
+            <span className="text-body font-semibold text-ink-900 flex-1">{l.n}</span>
             <Badge variant={l.v} size="compact">{l.s}</Badge>
             <ChevronRight size={16} className="text-ink-500" aria-hidden />
           </div>
@@ -284,7 +284,7 @@ const CircleCornerSpecimen: React.FC<{ inset: 'serre' | 'recule' }> = ({ inset }
       <Users size={16} aria-hidden />
     </span>
     <div className="absolute left-stack-lg bottom-stack-lg flex flex-col gap-tight">
-      <span className="font-display text-h4 text-ink-900">12 apprenants</span>
+      <span className="font-display text-h3 text-ink-900">12 apprenants</span>
       <span className="text-caption text-ink-600">Cohorte de septembre</span>
     </div>
   </div>
@@ -378,7 +378,7 @@ const ChipOnTintSpecimen: React.FC<{ fill: ChipOnTint }> = ({ fill }) => (
     {CHIP_DEMO.map((d) => (
       <div key={d.tone} className={`flex items-center gap-stack-sm rounded-xl border p-stack-md ${TINT_CARD[d.tone]}`}>
         <IconChip tone={d.tone} size="md" className={CHIP_FILL[fill][d.tone]}>{d.icon}</IconChip>
-        <span className="text-body-sm font-semibold text-ink-900">{d.title}</span>
+        <span className="text-body font-semibold text-ink-900">{d.title}</span>
       </div>
     ))}
   </div>
@@ -397,7 +397,7 @@ const LeadingSpecimen: React.FC<{ look: LeadLook }> = ({ look }) => (
   <div className="w-full rounded-xl border border-ink-100 bg-white divide-y divide-ink-100">
     {LEAD_ROWS.map((r) => (
       <div key={r.title} className="flex flex-col gap-tight px-stack-md py-stack-sm">
-        <p className={`m-0 font-body text-body-sm font-semibold text-ink-900 ${LEAD_TITLE[look]}`}>{r.title}</p>
+        <p className={`m-0 font-body text-body font-semibold text-ink-900 ${LEAD_TITLE[look]}`}>{r.title}</p>
         <p className={`m-0 font-body text-caption text-ink-600 ${LEAD_DESC[look]}`}>{r.desc}</p>
       </div>
     ))}
@@ -408,7 +408,7 @@ const HeroSpecimen: React.FC<{ gradient: 'actuel' | 'fonce' }> = ({ gradient }) 
   <div className={`w-full rounded-xl p-stack-lg flex flex-col gap-stack-xs ${gradient === 'actuel' ? 'bg-gradient-to-br from-primary-500 via-primary-600 to-primary-700' : 'bg-gradient-to-br from-primary-700 to-primary-800'}`}>
     <span className="text-caption text-white/90">← Retour</span>
     <span className="font-display text-h3 text-white">Fondamentaux du Leadership</span>
-    <span className="text-body-sm text-white/85">Les principes essentiels du leadership moderne.</span>
+    <span className="text-body text-white/85">Les principes essentiels du leadership moderne.</span>
   </div>
 );
 
@@ -469,8 +469,8 @@ const ResourceFooterSpecimen: React.FC<{ as: 'badge' | 'meta' }> = ({ as }) =>
     <ResourceCard title="Donner un feedback qui fait progresser" description="La méthode en quatre temps, avec les formulations qui marchent." category="Management" duration="12 min" tone="primary" className="w-full" />
   ) : (
     <div className="w-full rounded-xl border border-ink-200 bg-white p-stack-md flex flex-col gap-stack-xs">
-      <p className="m-0 font-display text-h4 text-ink-900">Donner un feedback qui fait progresser</p>
-      <p className="m-0 text-body-sm text-ink-500">La méthode en quatre temps, avec les formulations qui marchent.</p>
+      <p className="m-0 font-display text-h3 text-ink-900">Donner un feedback qui fait progresser</p>
+      <p className="m-0 text-body text-ink-500">La méthode en quatre temps, avec les formulations qui marchent.</p>
       <div className="flex items-center gap-stack-xs mt-2 pt-3 border-t border-ink-200">
         <MetaPill text="Management" tone="neutral" />
         <span className="inline-flex items-center gap-tight text-caption text-ink-500"><Clock size={14} className="opacity-70" />12 min</span>
@@ -488,7 +488,7 @@ const KickerSpecimen: React.FC<{ look: KickerLook }> = ({ look }) => (
     )}
     {look === 'texte' && <span className="text-caption font-medium text-secondary-700">Dossier thématique</span>}
     <p className="m-0 font-display text-h2 text-ink-900">L'IA générative en formation : ce qui marche</p>
-    <p className="m-0 text-body-sm text-ink-600">Douze études relues, trois pièges de citation, et ce qu'on peut vraiment en dire.</p>
+    <p className="m-0 text-body text-ink-600">Douze études relues, trois pièges de citation, et ce qu'on peut vraiment en dire.</p>
   </div>
 );
 
@@ -497,7 +497,7 @@ const KickerSpecimen: React.FC<{ look: KickerLook }> = ({ look }) => (
 const DispoSpecimen: React.FC<{ pulse: boolean }> = ({ pulse }) => (
   <div className="w-full flex flex-col items-center gap-stack-sm p-stack-md rounded-xl bg-white border border-ink-100">
     <Avatar initials="SM" size="lg" />
-    <span className="font-display text-h4 text-ink-900">Sophie Martin</span>
+    <span className="font-display text-h3 text-ink-900">Sophie Martin</span>
     {pulse ? (
       <Badge variant="success">
         <span className="relative inline-flex w-1.5 h-1.5 mr-1.5" aria-hidden>
@@ -538,25 +538,25 @@ const GamifSpecimen: React.FC<{ look: 'actuel' | 'reco' }> = ({ look }) =>
     <div className="w-full rounded-xl border border-ink-200 bg-white divide-y divide-ink-100">
       <div className="flex items-center gap-stack-sm px-stack-md py-stack-sm">
         <IconChip tone="warm" size="md"><Flame /></IconChip>
-        <div className="flex-1"><p className="m-0 text-body-sm font-semibold text-ink-900">18 jours de série</p><p className="m-0 text-caption text-ink-600">Écris une entrée avant minuit pour la garder</p></div>
+        <div className="flex-1"><p className="m-0 text-body font-semibold text-ink-900">18 jours de série</p><p className="m-0 text-caption text-ink-600">Écris une entrée avant minuit pour la garder</p></div>
       </div>
       <div className="flex items-center gap-stack-sm px-stack-md py-stack-sm">
         <IconChip tone="sun" size="md"><Award /></IconChip>
-        <div className="flex-1"><p className="m-0 text-body-sm font-semibold text-ink-900">1 400 XP · Niveau 12</p><p className="m-0 text-caption text-ink-600">180 XP avant D4 en Leadership</p></div>
+        <div className="flex-1"><p className="m-0 text-body font-semibold text-ink-900">1 400 XP · Niveau 12</p><p className="m-0 text-caption text-ink-600">180 XP avant D4 en Leadership</p></div>
       </div>
       {[['1', 'Léa Martin', '2 340 XP'], ['2', 'Tom Bernard', '2 110 XP'], ['11', 'Toi', '1 400 XP']].map(([r, n, x]) => (
-        <div key={r} className="flex items-center gap-stack-sm px-stack-md py-stack-xs text-body-sm">
+        <div key={r} className="flex items-center gap-stack-sm px-stack-md py-stack-xs text-body">
           <span className="w-8 font-display font-bold text-ink-600">#{r}</span><span className="flex-1 text-ink-900">{n}</span><span className="text-ink-600">{x}</span>
         </div>
       ))}
     </div>
   ) : (
     <div className="w-full rounded-xl border border-ink-200 bg-white p-stack-md flex flex-col gap-stack-sm">
-      <p className="m-0 font-display text-h4 text-ink-900">Reconnaissances</p>
+      <p className="m-0 font-display text-h3 text-ink-900">Reconnaissances</p>
       {[['Leadership', 'D3 · Compétent', 'validé le 12 mars par Sophie'], ['Communication', 'D3 · Compétent', 'validé le 2 février par ton manager']].map(([c, l, w]) => (
         <div key={c} className="flex items-center gap-stack-sm">
           <IconChip tone="brand" size="md"><Award /></IconChip>
-          <div className="flex-1"><p className="m-0 text-body-sm font-semibold text-ink-900">{c} · {l}</p><p className="m-0 text-caption text-ink-600">Open Badge {w}</p></div>
+          <div className="flex-1"><p className="m-0 text-body font-semibold text-ink-900">{c} · {l}</p><p className="m-0 text-caption text-ink-600">Open Badge {w}</p></div>
         </div>
       ))}
       <div className="flex items-center gap-stack-xs pt-stack-xs border-t border-ink-100">
@@ -593,8 +593,8 @@ const ButtonHierSpecimen: React.FC<{ look: BtnLook }> = ({ look }) => (
 /* n°20 — Corps de texte : une seule taille, 16 ou 15. */
 const BodySizeSpecimen: React.FC<{ size: 'body' | 'body-sm' }> = ({ size }) => (
   <div className="w-full rounded-xl border border-ink-200 bg-white p-stack-md flex flex-col gap-stack-xs">
-    <p className="m-0 font-display text-h4 text-ink-900">Déléguer sans perdre le fil</p>
-    <p className={`m-0 text-ink-800 ${size === 'body' ? 'text-body' : 'text-body-sm'}`}>
+    <p className="m-0 font-display text-h3 text-ink-900">Déléguer sans perdre le fil</p>
+    <p className={`m-0 text-ink-800 ${size === 'body' ? 'text-body' : 'text-body'}`}>
       Ce que tu gardes, ce que tu confies, et comment suivre sans tout reprendre. Trois situations tirées de ton équipe, puis une mise en pratique avec ta coach.
     </p>
     <p className="m-0 text-caption text-ink-600">12 min · Leadership</p>
@@ -606,9 +606,9 @@ const HeadingScaleSpecimen: React.FC<{ look: 'trois' | 'deux' }> = ({ look }) =>
   <div className="w-full rounded-xl border border-ink-200 bg-white p-stack-md flex flex-col gap-stack-sm">
     <p className="m-0 font-display text-h2 text-ink-900">Ton Passeport</p>
     {look === 'trois' && <p className="m-0 font-display text-h3 text-ink-900">Compétences validées</p>}
-    <p className="m-0 font-display text-h4 text-ink-900">{look === 'trois' ? 'Leadership' : 'Compétences validées'}</p>
-    {look === 'deux' && <p className="m-0 text-body-sm font-semibold text-ink-900">Leadership</p>}
-    <p className="m-0 text-body-sm text-ink-700">Validé D3 par Sophie le 12 mars, sur la mission « Réorganiser le planning ».</p>
+    <p className="m-0 font-display text-h3 text-ink-900">{look === 'trois' ? 'Leadership' : 'Compétences validées'}</p>
+    {look === 'deux' && <p className="m-0 text-body font-semibold text-ink-900">Leadership</p>}
+    <p className="m-0 text-body text-ink-700">Validé D3 par Sophie le 12 mars, sur la mission « Réorganiser le planning ».</p>
   </div>
 );
 
@@ -631,10 +631,10 @@ const ControlHeightSpecimen: React.FC<{ look: 'actuel' | 'commun' }> = ({ look }
 /* n°23 — Voix des pages de pilotage. */
 const VoiceSpecimen: React.FC<{ v: 'tu' | 'vous' }> = ({ v }) => (
   <div className="w-full rounded-xl border border-ink-200 bg-white p-stack-md flex flex-col gap-stack-xs">
-    <p className="m-0 font-display text-h4 text-ink-900">Ma cohorte</p>
-    <p className="m-0 text-body-sm text-ink-700">{v === 'tu' ? '3 personnes demandent ton attention cette semaine.' : '3 personnes demandent votre attention cette semaine.'}</p>
+    <p className="m-0 font-display text-h3 text-ink-900">Ma cohorte</p>
+    <p className="m-0 text-body text-ink-700">{v === 'tu' ? '3 personnes demandent ton attention cette semaine.' : '3 personnes demandent votre attention cette semaine.'}</p>
     <div className="flex items-center gap-stack-sm pt-stack-xs border-t border-ink-100">
-      <span className="flex-1 text-body-sm text-ink-900">Camille Rousseau · inactive depuis 21 jours</span>
+      <span className="flex-1 text-body text-ink-900">Camille Rousseau · inactive depuis 21 jours</span>
       <Button emphasis="soft" tone="brand" size="sm">Relancer</Button>
     </div>
     <p className="m-0 text-caption text-ink-600">{v === 'tu' ? 'Tu peux exporter la cohorte en CSV depuis Exports.' : 'Vous pouvez exporter la cohorte en CSV depuis Exports.'}</p>
@@ -651,7 +651,7 @@ const NAV_RESSOURCES = [
 const NavSpecimen: React.FC<{ look: 'actuel' | 'ressources' }> = ({ look }) => (
   <div className="w-full rounded-xl border border-ink-200 bg-primary-50 p-stack-xs flex flex-col gap-tight">
     {(look === 'actuel' ? NAV_ACTUEL : NAV_RESSOURCES).map(([Icon, label]) => (
-      <span key={label} className="flex items-center gap-stack-xs rounded-lg px-stack-sm py-stack-xs text-body-sm text-ink-800">
+      <span key={label} className="flex items-center gap-stack-xs rounded-lg px-stack-sm py-stack-xs text-body text-ink-800">
         <Icon size={18} aria-hidden />{label}
       </span>
     ))}
@@ -663,9 +663,9 @@ const NavSpecimen: React.FC<{ look: 'actuel' | 'ressources' }> = ({ look }) => (
 const OnboardingSpecimen: React.FC<{ look: 'chat' | 'form' }> = ({ look }) =>
   look === 'chat' ? (
     <div className="w-full rounded-xl border border-ink-200 bg-white p-stack-md flex flex-col gap-stack-xs">
-      <span className="self-start max-w-[80%] rounded-xl bg-ink-100 px-stack-sm py-stack-xs text-body-sm text-ink-900">Enchanté, Claire. Qu'aimerais-tu pratiquer ce trimestre ?</span>
-      <span className="self-end max-w-[80%] rounded-xl bg-primary-700 px-stack-sm py-stack-xs text-body-sm text-white">Déléguer davantage</span>
-      <span className="self-start max-w-[80%] rounded-xl bg-ink-100 px-stack-sm py-stack-xs text-body-sm text-ink-900">Compris. Et à quel rythme ?</span>
+      <span className="self-start max-w-[80%] rounded-xl bg-ink-100 px-stack-sm py-stack-xs text-body text-ink-900">Enchanté, Claire. Qu'aimerais-tu pratiquer ce trimestre ?</span>
+      <span className="self-end max-w-[80%] rounded-xl bg-primary-700 px-stack-sm py-stack-xs text-body text-white">Déléguer davantage</span>
+      <span className="self-start max-w-[80%] rounded-xl bg-ink-100 px-stack-sm py-stack-xs text-body text-ink-900">Compris. Et à quel rythme ?</span>
       <div className="flex flex-wrap gap-stack-xs pt-stack-2xs">
         {['2 sessions / semaine', '3 sessions / semaine'].map((o) => <span key={o} className="rounded-pill border border-ink-300 px-stack-sm py-stack-3xs text-caption text-ink-800">{o}</span>)}
       </div>
@@ -673,10 +673,10 @@ const OnboardingSpecimen: React.FC<{ look: 'chat' | 'form' }> = ({ look }) =>
   ) : (
     <div className="w-full rounded-xl border border-ink-200 bg-white p-stack-md flex flex-col gap-stack-sm">
       <span className="text-caption text-ink-600">Étape 2 sur 3</span>
-      <p className="m-0 font-display text-h4 text-ink-900">Qu'aimerais-tu pratiquer ce trimestre ?</p>
+      <p className="m-0 font-display text-h3 text-ink-900">Qu'aimerais-tu pratiquer ce trimestre ?</p>
       <div className="rounded-lg border border-ink-200 divide-y divide-ink-100">
         {['Déléguer davantage', 'Donner du feedback', 'Conduire le changement'].map((o, i) => (
-          <span key={o} className={`flex items-center gap-stack-xs px-stack-sm py-stack-xs text-body-sm ${i === 0 ? 'bg-primary-50 text-ink-900 font-semibold' : 'text-ink-800'}`}>
+          <span key={o} className={`flex items-center gap-stack-xs px-stack-sm py-stack-xs text-body ${i === 0 ? 'bg-primary-50 text-ink-900 font-semibold' : 'text-ink-800'}`}>
             <span className={`w-4 h-4 rounded-pill border-2 ${i === 0 ? 'border-primary-700 bg-primary-700' : 'border-ink-400'}`} aria-hidden />{o}
           </span>
         ))}

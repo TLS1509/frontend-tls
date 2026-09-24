@@ -70,7 +70,7 @@ export const CompetencyMatrix: React.FC<CompetencyMatrixProps> = ({
               onMouseEnter={() => onSkillHover?.(skill)}
               onMouseLeave={() => onSkillHover?.(null)}
             >
-              <td className="p-4 text-body-sm font-semibold text-ink-900">{skill.name}</td>
+              <td className="p-4 text-body font-semibold text-ink-900">{skill.name}</td>
               {Array.from({ length: maxLevel }).map((_, levelIdx) => {
                 const lvl = levelIdx + 1;
                 const isAchieved = lvl <= skill.level;

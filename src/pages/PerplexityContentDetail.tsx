@@ -75,7 +75,7 @@ const PerplexityContentDetail: React.FC = () => {
                     <div className="flex items-center gap-stack-xs">
                       <BookOpen className="w-5 h-5 text-primary-600" />
                       <div>
-                        <div className="font-semibold text-body-sm">{s.name}</div>
+                        <div className="font-semibold text-body">{s.name}</div>
                         <div className="text-caption text-ink-500">{s.date}</div>
                       </div>
                     </div>

@@ -48,7 +48,7 @@ const CoachCalendar: React.FC = () => {
         <div className="flex flex-wrap items-center justify-between gap-stack">
           <div className="flex items-center gap-stack-xs">
             <Button emphasis="outline" iconOnly leadingIcon={<ChevronLeft className="w-4 h-4" />} aria-label="Semaine précédente" onClick={() => setWeekOffset((w) => w - 1)} />
-            <div className="font-display text-h4">Semaine du 11 mai 2026</div>
+            <div className="font-display text-h3">Semaine du 11 mai 2026</div>
             <Button emphasis="outline" iconOnly leadingIcon={<ChevronRight className="w-4 h-4" />} aria-label="Semaine suivante" onClick={() => setWeekOffset((w) => w + 1)} />
           </div>
           <div className="flex items-center gap-stack-xs">
@@ -63,7 +63,7 @@ const CoachCalendar: React.FC = () => {
           <div className="grid grid-cols-[80px_repeat(7,_1fr)] min-w-[800px]">
             <div className="p-3 border-b border-r border-ink-200 bg-ink-50" />
             {WEEK.map((d, i) => (
-              <div key={d} className="p-3 border-b border-ink-200 text-center font-semibold text-body-sm">
+              <div key={d} className="p-3 border-b border-ink-200 text-center font-semibold text-body">
                 {d}<span className="text-caption text-ink-500 block">{11 + i} mai</span>
               </div>
             ))}

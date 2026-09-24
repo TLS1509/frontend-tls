@@ -324,7 +324,7 @@ export const LearningPathDetail: React.FC = () => {
                     <h3 className="font-display text-body font-bold text-ink-900">
                       {label}
                     </h3>
-                    <p className="m-0 text-body-sm text-ink-500">{desc}</p>
+                    <p className="m-0 text-body text-ink-500">{desc}</p>
                   </div>
                 </div>
               ))}
@@ -545,7 +545,7 @@ export const LearningPathDetail: React.FC = () => {
 
                                 <div className="flex-1 min-w-0">
                                   <div
-                                    className={`text-body-sm leading-snug truncate text-ink-900 ${
+                                    className={`text-body leading-snug truncate text-ink-900 ${
                                       isCurrent ? 'font-semibold' : 'font-normal'
                                     }`}
                                   >
@@ -670,7 +670,7 @@ export const LearningPathDetail: React.FC = () => {
                       className="flex gap-stack items-start p-stack rounded-xl bg-ink-50 border border-ink-200"
                     >
                       <div
-                        className={`w-11 h-11 rounded-lg text-white flex items-center justify-center font-bold text-h4 shrink-0 ${TONE_BG_700[tone]}`}
+                        className={`w-11 h-11 rounded-lg text-white flex items-center justify-center font-bold text-h3 shrink-0 ${TONE_BG_700[tone]}`}
                       >
                         {step.num}
                       </div>
@@ -692,8 +692,8 @@ export const LearningPathDetail: React.FC = () => {
                     ℹ️
                   </div>
                   <div className="flex-1">
-                    <div className="font-display text-h4 font-bold text-ink-900 mb-2">Avant de commencer</div>
-                    <ul className="m-0 pl-stack-md text-body-sm text-ink-500">
+                    <div className="font-display text-h3 font-bold text-ink-900 mb-2">Avant de commencer</div>
+                    <ul className="m-0 pl-stack-md text-body text-ink-500">
                       <li>Valide les 5 étapes du parcours de formation</li>
                       <li>Maîtrise la méthode ROLE-CONTEXT-TASK (RCT)</li>
                       <li>Aie identifié tes cas d'usage prioritaires</li>
@@ -707,7 +707,7 @@ export const LearningPathDetail: React.FC = () => {
               <div
                 className={`p-8 rounded-xl bg-white border-2 text-center ${TONE_BORDER_500[tone]}`}
               >
-                <h3 className="text-h4 font-bold text-ink-900 mb-2">
+                <h3 className="text-h3 font-bold text-ink-900 mb-2">
                   Prêt à passer à l'action ?
                 </h3>
                 <p className="text-body text-ink-500 m-0 mb-stack-lg">

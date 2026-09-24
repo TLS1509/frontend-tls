@@ -159,7 +159,7 @@ export default function BadgeDetail() {
             {competenceLabel && (
               <SectionCard title="Compétence liée" titleIcon={<ChevronRight size={18} />}>
                 <div className="flex items-center justify-between">
-                  <span className="text-body-sm text-ink-700">{competenceLabel}</span>
+                  <span className="text-body text-ink-700">{competenceLabel}</span>
                   {badge.dreyfusLevel && (
                     <Badge variant="info" size="compact">Niveau D{badge.dreyfusLevel} requis</Badge>
                   )}
@@ -170,7 +170,7 @@ export default function BadgeDetail() {
             {/* Community stats */}
             <SectionCard title="Dans la communauté" titleIcon={<Users size={18} />}>
               <div className="flex flex-col gap-stack-xs">
-                <div className="flex items-center justify-between text-body-sm">
+                <div className="flex items-center justify-between text-body">
                   <span className="text-ink-600">Apprenants qui l'ont obtenu</span>
                   <span className="font-semibold text-ink-900">{earnedBy} / {totalLearners}</span>
                 </div>
@@ -191,7 +191,7 @@ export default function BadgeDetail() {
                 <span className={`inline-flex items-center justify-center w-6 h-6 rounded-pill text-caption font-bold shrink-0 ${earned ? 'bg-success-bg text-success-fg' : 'bg-ink-100 text-ink-600'}`}>
                   {earned ? '✓' : i + 1}
                 </span>
-                <span className="text-body-sm text-ink-700">{c}</span>
+                <span className="text-body text-ink-700">{c}</span>
               </li>
             ))}
           </ul>

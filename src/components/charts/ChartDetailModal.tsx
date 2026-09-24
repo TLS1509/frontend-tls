@@ -106,7 +106,7 @@ export const ChartDetailModal: React.FC<ChartDetailModalProps> = ({
                 <div className="flex-1">
                   <h2 className="text-h3 font-bold text-ink-900">{title}</h2>
                   {subtitle && (
-                    <p className="text-body-sm text-ink-600 mt-1">{subtitle}</p>
+                    <p className="text-body text-ink-600 mt-1">{subtitle}</p>
                   )}
                 </div>
                 <button

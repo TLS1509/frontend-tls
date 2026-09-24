@@ -104,7 +104,7 @@ export default function ManagerExport() {
         <Card variant="tinted" tone="primary" className="p-stack-md flex flex-col gap-stack-xs">
           <div className="flex items-center gap-stack-xs">
             <Download size={16} className="text-primary-600" />
-            <span className="text-body-sm font-semibold text-primary-700">Aperçu de l'export</span>
+            <span className="text-body font-semibold text-primary-700">Aperçu de l'export</span>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-stack-xs">
             {[
@@ -115,7 +115,7 @@ export default function ManagerExport() {
             ].map(({ label, value }) => (
               <div key={label} className="flex flex-col gap-tight">
                 <span className="text-caption text-ink-500">{label}</span>
-                <span className="text-body-sm font-semibold text-ink-900">{value}</span>
+                <span className="text-body font-semibold text-ink-900">{value}</span>
               </div>
             ))}
           </div>

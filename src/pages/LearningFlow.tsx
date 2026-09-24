@@ -87,7 +87,7 @@ export const LearningFlow: React.FC = () => {
             <h1 className="font-display text-h2 font-bold text-ink-900 tracking-headline">
               Learning App Flow
             </h1>
-            <p className="m-0 font-body text-body-sm text-ink-500 max-w-2xl">
+            <p className="m-0 font-body text-body text-ink-500 max-w-2xl">
               Parcours complet d'un apprenant : de la découverte à l'accomplissement. Chaque étape du flow correspond à des écrans et des interactions spécifiques.
             </p>
           </div>
@@ -119,10 +119,10 @@ export const LearningFlow: React.FC = () => {
                 <div className="flex-1 flex flex-col gap-stack-xs pt-1">
                   <div className="flex items-start justify-between gap-stack">
                     <div className="flex flex-col gap-tight flex-1">
-                      <h2 className="font-display text-h4 font-bold text-ink-900">
+                      <h2 className="font-display text-h3 font-bold text-ink-900">
                         {idx + 1}. {step.title}
                       </h2>
-                      <p className="m-0 font-body text-body-sm text-ink-500">
+                      <p className="m-0 font-body text-body text-ink-500">
                         {step.description}
                       </p>
                     </div>
@@ -154,25 +154,25 @@ export const LearningFlow: React.FC = () => {
             <ul className="m-0 p-0 list-none flex flex-col gap-stack-xs">
               <li className="flex items-start gap-stack-xs">
                 <span className="text-h6 font-bold text-primary-600 mt-px">✓</span>
-                <span className="font-body text-body-sm text-ink-700">
+                <span className="font-body text-body text-ink-700">
                   <strong>Progressive disclosure:</strong> Révéler les fonctionnalités au fur et à mesure du parcours
                 </span>
               </li>
               <li className="flex items-start gap-stack-xs">
                 <span className="text-h6 font-bold text-primary-600 mt-px">✓</span>
-                <span className="font-body text-body-sm text-ink-700">
+                <span className="font-body text-body text-ink-700">
                   <strong>Micro-content:</strong> Leçons courtes, astuces pratiques, flashcards pour la rétention
                 </span>
               </li>
               <li className="flex items-start gap-stack-xs">
                 <span className="text-h6 font-bold text-primary-600 mt-px">✓</span>
-                <span className="font-body text-body-sm text-ink-700">
+                <span className="font-body text-body text-ink-700">
                   <strong>Motivation:</strong> Badges, points XP, leaderboard pour gamifier l'apprentissage
                 </span>
               </li>
               <li className="flex items-start gap-stack-xs">
                 <span className="text-h6 font-bold text-primary-600 mt-px">✓</span>
-                <span className="font-body text-body-sm text-ink-700">
+                <span className="font-body text-body text-ink-700">
                   <strong>Application réelle:</strong> Projets, missions et évaluations pour valider les compétences
                 </span>
               </li>

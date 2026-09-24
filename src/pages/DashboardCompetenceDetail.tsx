@@ -98,7 +98,7 @@ export default function DashboardCompetenceDetail() {
               key={t}
               onClick={() => setTab(t)}
               className={[
-                'px-stack py-stack-xs text-body-sm font-semibold transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-t-sm',
+                'px-stack py-stack-xs text-body font-semibold transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-t-sm',
                 tab === t ? 'text-primary-700 border-b-2 border-primary-600' : 'text-ink-500 hover:text-ink-900',
               ].join(' ')}
             >
@@ -127,7 +127,7 @@ export default function DashboardCompetenceDetail() {
               {ACTIVITY_ITEMS.map((item) => (
                 <Card key={item.id} variant="default" className="flex items-center justify-between px-stack py-3">
                   <div className="flex flex-col gap-tight">
-                    <span className="text-body-sm font-medium text-ink-900">{item.title}</span>
+                    <span className="text-body font-medium text-ink-900">{item.title}</span>
                     <span className="text-caption text-ink-600">{item.date}</span>
                   </div>
                   <div className="flex items-center gap-stack-xs">

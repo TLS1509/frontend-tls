@@ -70,7 +70,7 @@ export const Toast: React.FC<ToastProps> = ({
 
   const classes = [
     'flex items-start gap-stack-xs rounded-lg border backdrop-blur-sm shadow-lg',
-    'min-w-[320px] max-w-[440px] py-3 px-4 font-body text-body-sm leading-normal',
+    'min-w-[320px] max-w-[440px] py-3 px-4 font-body text-body leading-normal',
     VARIANT_CLASSES[variant],
     dismissing
       ? 'animate-[toast-out_0.2s_ease_both]'

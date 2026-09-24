@@ -137,8 +137,8 @@ const CONTAINER_SIZE_CLASSES: Record<StatCardSize, string> = {
 const LABEL_BASE = 'font-body font-medium text-ink-500 leading-snug';
 const LABEL_SIZE_CLASSES: Record<StatCardSize, string> = {
   sm: 'text-caption',
-  md: 'text-body-sm',
-  lg: 'text-body-sm',
+  md: 'text-body',
+  lg: 'text-body',
 };
 
 const VALUE_BASE = 'font-display font-bold tracking-tight leading-none inline-flex items-baseline gap-tight';

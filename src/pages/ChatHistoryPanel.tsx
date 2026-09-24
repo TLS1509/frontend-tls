@@ -84,7 +84,7 @@ function ConversationCard({ item }: { item: ConversationItem }) {
   return (
     <Card className="flex flex-col gap-stack-xs p-stack-md group">
       <div className="flex items-start justify-between gap-stack">
-        <p className="text-body-sm font-semibold text-ink-900 leading-snug flex-1 min-w-0 truncate">
+        <p className="text-body font-semibold text-ink-900 leading-snug flex-1 min-w-0 truncate">
           {item.title}
         </p>
         <Badge variant="neutral" className="shrink-0 text-micro">

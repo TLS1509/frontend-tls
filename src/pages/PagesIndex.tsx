@@ -179,7 +179,7 @@ export const PagesIndex: React.FC = () => {
       <header className="sticky top-0 z-sticky border-b border-ink-200 bg-white/92 backdrop-blur-glass-medium">
         <div className="mx-auto max-w-page px-4 sm:px-6 py-3 flex flex-col gap-stack-xs">
           <div className="flex flex-wrap items-baseline gap-stack-xs">
-            <h1 className="text-h4 font-bold tracking-snug text-ink-900">Carte de l'application</h1>
+            <h1 className="text-h3 font-bold tracking-snug text-ink-900">Carte de l'application</h1>
             <p className="text-caption text-ink-500 m-0">
               <span className="tabular-nums font-semibold text-ink-700">{ROUTES.length}</span> routes, lues depuis{' '}
               <code className="text-micro">App.tsx</code>
@@ -216,7 +216,7 @@ export const PagesIndex: React.FC = () => {
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Filtrer par chemin ou composant…"
                 aria-label="Filtrer les routes"
-                className="w-full h-11 pl-9 pr-3 rounded-lg border border-ink-200 bg-white text-body-sm text-ink-900 placeholder:text-ink-500 focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/15 transition-colors duration-fast"
+                className="w-full h-11 pl-9 pr-3 rounded-lg border border-ink-200 bg-white text-body text-ink-900 placeholder:text-ink-500 focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/15 transition-colors duration-fast"
               />
             </div>
           </div>
@@ -277,11 +277,11 @@ export const PagesIndex: React.FC = () => {
 
       <main className="mx-auto max-w-page px-4 sm:px-6 py-section">
         {filtered.length === 0 ? (
-          <p className="text-body-sm text-ink-600">Aucune route ne correspond à « {query} ».</p>
+          <p className="text-body text-ink-600">Aucune route ne correspond à « {query} ».</p>
         ) : view === 'schema' ? (
           /* ── SCHÉMA : la surface par public ─────────────────────────── */
           <div className="flex flex-col gap-section">
-            <p className="text-body-sm text-ink-600 m-0 max-w-prose">
+            <p className="text-body text-ink-600 m-0 max-w-prose">
               Chaque bloc est un public ; chaque puce une section d'URL. La barre mesure la part de routes{' '}
               <strong className="font-bold text-ink-900">réellement atteignables</strong> — celles vers lesquelles un
               lien pointe quelque part dans le code. Le reste n'existe qu'en tapant l'URL.
@@ -300,7 +300,7 @@ export const PagesIndex: React.FC = () => {
                   <section key={a.key} className="rounded-lg border border-ink-200 bg-white p-4 flex flex-col gap-stack-xs">
                     <div className="flex items-baseline gap-stack-xs">
                       <span className={`w-2 h-2 rounded-pill shrink-0 ${a.dot}`} aria-hidden />
-                      <h2 className="text-body-sm font-bold text-ink-900">{a.label}</h2>
+                      <h2 className="text-body font-bold text-ink-900">{a.label}</h2>
                       <span className="text-micro text-ink-500">{a.hint}</span>
                       <span className="ml-auto text-caption font-bold text-ink-700 tabular-nums">{total}</span>
                     </div>

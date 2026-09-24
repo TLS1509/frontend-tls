@@ -43,7 +43,7 @@ export const InlineWin: React.FC<InlineWinProps> = ({
       {icon ?? <Star size={18} strokeWidth={2} fill="currentColor" />}
     </span>
     <div className="flex-1 min-w-0">
-      <p className="m-0 text-body-sm font-bold text-secondary-700">{title}</p>
+      <p className="m-0 text-body font-bold text-secondary-700">{title}</p>
       {description && <p className="m-0 mt-0.5 text-caption text-ink-500">{description}</p>}
     </div>
   </div>

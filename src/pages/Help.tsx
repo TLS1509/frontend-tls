@@ -171,7 +171,7 @@ export const Help: React.FC = () => {
                   >
                     <div className="flex items-center gap-stack-xs">
                       <Badge variant={isOpen ? 'brand' : 'neutral'}>{item.topic}</Badge>
-                      <span className="font-body text-body-sm font-semibold text-ink-900">
+                      <span className="font-body text-body font-semibold text-ink-900">
                         {item.question}
                       </span>
                     </div>
@@ -180,7 +180,7 @@ export const Help: React.FC = () => {
                     </span>
                   </button>
                   {isOpen && (
-                    <div className="px-stack-md pb-stack-md pt-stack border-t border-ink-200 font-body text-body-sm text-ink-500">
+                    <div className="px-stack-md pb-stack-md pt-stack border-t border-ink-200 font-body text-body text-ink-500">
                       {item.answer}
                     </div>
                   )}
@@ -209,7 +209,7 @@ export const Help: React.FC = () => {
                 <Bot size={20} />
               </div>
               <div>
-                <p className="m-0 font-body text-body-sm font-bold text-ink-900">Assistant TLS</p>
+                <p className="m-0 font-body text-body font-bold text-ink-900">Assistant TLS</p>
                 <p className="m-0 font-body text-caption text-primary-800 flex items-center gap-tight">
                   <Sparkles size={14} /> En ligne · répond instantanément
                 </p>
@@ -221,7 +221,7 @@ export const Help: React.FC = () => {
               {CHAT_DEMO.map((msg, i) => (
                 <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                   <div className={[
-                    'max-w-[72%] px-stack py-3 font-body text-body-sm shadow-xs',
+                    'max-w-[72%] px-stack py-3 font-body text-body shadow-xs',
                     msg.role === 'user'
                       ? 'rounded-xl rounded-br-sm bg-primary-700 text-white'
                       : 'rounded-xl rounded-bl-sm bg-primary-50 text-ink-900',
@@ -240,7 +240,7 @@ export const Help: React.FC = () => {
                 onChange={(e) => setChatInput(e.target.value)}
                 placeholder="Posez votre question…"
                 aria-label="Message pour l'assistant"
-                className="flex-1 border border-ink-200 rounded-lg px-stack py-3 bg-white text-ink-900 font-body text-body-sm outline-none transition-colors focus:border-primary-400 h-auto placeholder:text-ink-500"
+                className="flex-1 border border-ink-200 rounded-lg px-stack py-3 bg-white text-ink-900 font-body text-body outline-none transition-colors focus:border-primary-400 h-auto placeholder:text-ink-500"
               />
               <Button
                 emphasis="soft"
@@ -271,7 +271,7 @@ export const Help: React.FC = () => {
                     <Badge variant={opt.badgeVariant}>{opt.badge}</Badge>
                   </div>
                   <div>
-                    <p className="m-0 mb-stack-xs font-display text-h4 font-bold text-ink-900">{opt.title}</p>
+                    <p className="m-0 mb-stack-xs font-display text-h3 font-bold text-ink-900">{opt.title}</p>
                     <p className="m-0 font-body text-caption text-ink-500">{opt.desc}</p>
                   </div>
                   <Button emphasis="soft" tone="warm" size="sm" className="mt-auto">

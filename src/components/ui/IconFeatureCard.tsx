@@ -181,9 +181,9 @@ const ICON_ZONE: Record<IconFeatureCardIconSize, string> = {
 /* Title size scale — plus grand quand l'icône est grande pour rythme visuel cohérent.
    xs → body-sm (14px) · sm → body (16px) · md → h4 (20px) · lg/xl → h3 (24px). */
 const TITLE_SIZE: Record<IconFeatureCardIconSize, string> = {
-  xs: 'text-body-sm',
+  xs: 'text-body',
   sm: 'text-body',
-  md: 'text-h4',
+  md: 'text-h3',
   lg: 'text-h3',
   xl: 'text-h3',
 };
@@ -305,7 +305,7 @@ export const IconFeatureCard: React.FC<IconFeatureCardProps> = ({
           {title}
         </h3>
         {description && (
-          <p className={`m-0 font-body text-body-sm ${surSombre ? 'text-white' : 'text-ink-500'}`}>{description}</p>
+          <p className={`m-0 font-body text-body ${surSombre ? 'text-white' : 'text-ink-500'}`}>{description}</p>
         )}
       </div>
     </>

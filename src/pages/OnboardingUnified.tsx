@@ -318,7 +318,7 @@ export const OnboardingUnified: React.FC = () => {
       <div className="relative z-10 border-t border-primary-100 bg-white/40 px-6 py-stack backdrop-blur-glass-light">
         {(step === 'greeting' || step === 'transition') && (
           <div className="flex justify-center">
-            <p className="animate-pulse text-body-sm text-ink-500">Chargement...</p>
+            <p className="animate-pulse text-body text-ink-500">Chargement...</p>
           </div>
         )}
 

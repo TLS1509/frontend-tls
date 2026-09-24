@@ -54,12 +54,12 @@ export default function HelpTutorials() {
               <Card key={tutorial.id} className="flex flex-col h-full">
                 <div className="flex flex-col gap-stack flex-1">
                   <div className="flex items-start justify-between gap-stack-xs">
-                    <h3 className="font-display text-h4 text-ink-900">
+                    <h3 className="font-display text-h3 text-ink-900">
                       {tutorial.title}
                     </h3>
                     <Badge variant="brand">{stepCount} étapes</Badge>
                   </div>
-                  <p className="text-body-sm text-ink-600 m-0 flex-1">
+                  <p className="text-body text-ink-600 m-0 flex-1">
                     {tutorial.description}
                   </p>
                   <div className="flex items-center justify-between gap-stack-xs pt-stack-xs border-t border-ink-100">

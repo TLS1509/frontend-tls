@@ -124,7 +124,7 @@ export default function CoachTeamDashboard() {
         {alertCount > 0 && (
           <div className="flex items-start gap-stack p-stack bg-warning-bg border border-warning-border rounded-lg">
             <AlertTriangle size={18} className="text-warning-fg shrink-0 mt-0.5" />
-            <p className="text-body-sm text-ink-700">
+            <p className="text-body text-ink-700">
               <strong>{stats.stuckCount} bloqué{stats.stuckCount !== 1 ? 's' : ''}</strong> et{' '}
               <strong>{stats.atRiskCount} à risque</strong> : planifie un bilan cette semaine.
             </p>
@@ -205,7 +205,7 @@ export default function CoachTeamDashboard() {
                 la carte à son arc intérieur (overflow-hidden), et l'anneau de focus
                 est posé à l'intérieur pour ne pas être rogné avec lui. */}
             {filteredLearners.length === 0 ? (
-              <p className="text-body-sm text-ink-500 py-stack">Aucun apprenant dans cette catégorie.</p>
+              <p className="text-body text-ink-500 py-stack">Aucun apprenant dans cette catégorie.</p>
             ) : (
               <Card className="p-0 overflow-hidden">
                 <ul className="flex flex-col divide-y divide-ink-100" aria-label="Apprenants">
@@ -220,7 +220,7 @@ export default function CoachTeamDashboard() {
                         {/* Info */}
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-stack-xs flex-wrap">
-                            <span className="text-body-sm font-semibold text-ink-900">{learner.name}</span>
+                            <span className="text-body font-semibold text-ink-900">{learner.name}</span>
                             <Badge variant={STATUS_VARIANT[learner.status]} size="compact">
                               {STATUS_LABEL[learner.status]}
                             </Badge>

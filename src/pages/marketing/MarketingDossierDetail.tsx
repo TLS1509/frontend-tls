@@ -103,7 +103,7 @@ const KeyFindings: React.FC<{ findings: { text: string; source?: string }[] }> =
         {findings.map((f, i) => (
           <Reveal key={i} delay={i * 0.06}>
             <div className="h-full rounded-lg border border-ink-100 bg-ink-50/40 p-stack-lg flex flex-col gap-stack">
-              <span className="font-display text-h4 font-bold text-primary-700 leading-none">
+              <span className="font-display text-h3 font-bold text-primary-700 leading-none">
                 {String(i + 1).padStart(2, '0')}
               </span>
               <p className="font-body text-body text-ink-800 m-0">{f.text}</p>
@@ -168,7 +168,7 @@ const SectionTOC: React.FC<{ sections: { heading: string }[]; activeId: string |
           <li key={id}>
             <a
               href={`#${id}`}
-              className={`block py-1.5 pl-3 border-l-2 text-body-sm leading-snug transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
+              className={`block py-1.5 pl-3 border-l-2 text-body leading-snug transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                 isActive
                   ? 'border-primary-600 text-primary-700 font-semibold'
                   : 'border-ink-200 text-ink-600 hover:text-ink-900 hover:border-ink-400'
@@ -226,7 +226,7 @@ function renderDossierBlock(block: DossierBodyBlock, i: number) {
           );
         case 'h3':
           return (
-            <h3 key={i} className="font-display text-h4 font-bold text-ink-800 mt-stack">
+            <h3 key={i} className="font-display text-h3 font-bold text-ink-800 mt-stack">
               {block.text}
             </h3>
           );
@@ -308,7 +308,7 @@ const Bibliography: React.FC<{ sources: DossierSource[] }> = ({ sources }) => (
                 {s.ref}
               </span>
               <span className="flex flex-col gap-tight min-w-0">
-                <span className="font-body text-body-sm font-semibold text-ink-900 leading-snug group-hover:text-primary-700 transition-colors duration-fast">
+                <span className="font-body text-body font-semibold text-ink-900 leading-snug group-hover:text-primary-700 transition-colors duration-fast">
                   {s.title}
                 </span>
                 <span className="font-body text-caption text-ink-500">
@@ -359,7 +359,7 @@ export const MarketingDossierDetail: React.FC = () => {
           <Reveal>
             <Link
               to="/website/resources"
-              className="inline-flex items-center gap-stack-2xs self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+              className="inline-flex items-center gap-stack-2xs self-start text-ink-700 hover:text-ink-900 font-body text-body font-semibold transition-colors duration-fast group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
             >
               <ArrowLeft size={16} className="transition-transform duration-base group-hover:-translate-x-1" />
               Tous les dossiers

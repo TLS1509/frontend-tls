@@ -78,7 +78,7 @@ export const MarketingWebinaireDetail: React.FC = () => {
           <FadeInWhenVisible direction="up">
             <Link
               to="/website/resources"
-              className="inline-flex items-center gap-stack-2xs self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+              className="inline-flex items-center gap-stack-2xs self-start text-ink-700 hover:text-ink-900 font-body text-body font-semibold transition-colors duration-fast group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
             >
               <ArrowLeft size={16} className="transition-transform duration-base group-hover:-translate-x-1" />
               Retour aux ressources
@@ -136,7 +136,7 @@ export const MarketingWebinaireDetail: React.FC = () => {
                 {webinaire.agenda.map((item, i) => (
                   <li key={i} className="flex items-start gap-stack-xs">
                     <span aria-hidden className="mt-2 h-1.5 w-1.5 shrink-0 rounded-pill bg-primary-500" />
-                    <span className="font-body text-body-sm text-ink-700">{item}</span>
+                    <span className="font-body text-body text-ink-700">{item}</span>
                   </li>
                 ))}
               </ul>

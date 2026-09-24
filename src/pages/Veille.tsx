@@ -147,7 +147,7 @@ export const Veille: React.FC = () => {
         <h1 className="font-display text-h2 font-bold text-ink-900 tracking-headline">
           Veille &amp; Actualités
         </h1>
-        <p className="m-0 font-body text-body-sm text-ink-500 max-w-2xl">
+        <p className="m-0 font-body text-body text-ink-500 max-w-2xl">
           Actus, tutoriels, dossiers et magazine — toute la veille TLS au même endroit.
         </p>
       </div>
@@ -241,7 +241,7 @@ export const Veille: React.FC = () => {
         >
           <div className="flex items-center gap-stack-xs text-ink-600 shrink-0">
             <Mail size={14} className="text-ink-600" />
-            <span className="font-body text-body-sm">
+            <span className="font-body text-body">
               Recevoir les actus veille dans ta boîte mail
             </span>
           </div>

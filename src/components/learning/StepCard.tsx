@@ -124,7 +124,7 @@ export const StepCard: React.FC<StepCardProps> = ({
               {label.text}
             </span>
           </div>
-          <h3 className="text-h4 font-display font-bold text-ink-900">{title}</h3>
+          <h3 className="text-h3 font-display font-bold text-ink-900">{title}</h3>
           {lessonCount !== undefined && (
             <span className="inline-flex items-center gap-tight text-caption text-ink-500 mt-1">
               <Clock size={14} className="text-ink-600" />
@@ -135,7 +135,7 @@ export const StepCard: React.FC<StepCardProps> = ({
       </header>
 
       {description && (
-        <p className="m-0 text-body-sm text-ink-500">{description}</p>
+        <p className="m-0 text-body text-ink-500">{description}</p>
       )}
 
       {progress !== undefined && (
@@ -156,7 +156,7 @@ export const StepCard: React.FC<StepCardProps> = ({
         <>
           <button
             type="button"
-            className="inline-flex items-center justify-between w-full px-4 py-2.5 text-body-sm font-semibold text-ink-700 bg-ink-50 hover:bg-ink-100 rounded-lg cursor-pointer transition-colors border border-ink-100"
+            className="inline-flex items-center justify-between w-full px-4 py-2.5 text-body font-semibold text-ink-700 bg-ink-50 hover:bg-ink-100 rounded-lg cursor-pointer transition-colors border border-ink-100"
             onClick={handleToggleExpand}
             aria-expanded={isExpanded}
           >
@@ -188,7 +188,7 @@ export const StepCard: React.FC<StepCardProps> = ({
                     >
                       {lesson.completed ? <Check size={14} strokeWidth={3} /> : '·'}
                     </span>
-                    <div className="text-body-sm font-medium truncate">{lesson.title}</div>
+                    <div className="text-body font-medium truncate">{lesson.title}</div>
                   </div>
                   {lesson.duration && (
                     <span className="text-caption text-ink-500 shrink-0 inline-flex items-center gap-tight">

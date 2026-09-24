@@ -127,7 +127,7 @@ export default function FicheApprenantAnalytics() {
               <Badge variant="info" size="normal">D{dreyfusLevelRound} {dreyfusLabel(dreyfusLevelRound)}</Badge>
               <AtrophieIndicator daysSinceActivity={learner.daysSinceActivity} />
             </div>
-            <p className="text-body-sm text-ink-500">{learner.role}</p>
+            <p className="text-body text-ink-500">{learner.role}</p>
           </div>
           <div className="w-full md:w-48">
             <div className="flex justify-between text-caption text-ink-500 mb-1">
@@ -180,14 +180,14 @@ export default function FicheApprenantAnalytics() {
         {tab === 'activity' && (
           <SectionCard title="Activités récentes" titleIcon={<Clock size={18} />}>
             {learner.recentCompletions.length === 0 ? (
-              <p className="text-body-sm text-ink-500">Aucune activité récente enregistrée.</p>
+              <p className="text-body text-ink-500">Aucune activité récente enregistrée.</p>
             ) : (
               <div className="flex flex-col gap-stack-xs">
                 {learner.recentCompletions.map((a) => (
                   <Card key={a.id} variant="default" className="flex items-center justify-between px-stack py-3 flex-wrap gap-stack-xs">
                     <div className="flex items-center gap-stack-xs">
                       <Badge variant="neutral" size="compact">{a.itemType}</Badge>
-                      <span className="text-body-sm text-ink-800">{a.itemLabel}</span>
+                      <span className="text-body text-ink-800">{a.itemLabel}</span>
                     </div>
                     <div className="flex items-center gap-stack-xs flex-wrap">
                       {a.npsGiven !== undefined && (

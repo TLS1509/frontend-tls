@@ -207,7 +207,7 @@ export const Journal: React.FC = () => {
                   ].join(' ')}
                 >
                   <span className={['transition-transform group-hover:scale-110', TONE_ICON[t.tone]].join(' ')} aria-hidden="true">{t.icon}</span>
-                  <span className="font-display text-body-sm font-bold text-ink-900">{t.label}</span>
+                  <span className="font-display text-body font-bold text-ink-900">{t.label}</span>
                   <span className="font-body text-caption text-ink-600">{t.subtitle}</span>
                 </button>
               ))}
@@ -247,7 +247,7 @@ export const Journal: React.FC = () => {
         {/* Active filter result count */}
         {hasActiveFilter && (
           <div className="flex items-center justify-between px-stack-md py-3 bg-primary-50 border border-primary-100 rounded-lg">
-            <span className="font-body text-body-sm text-primary-700 font-medium">
+            <span className="font-body text-body text-primary-700 font-medium">
               {filteredEntries.length} entrée{filteredEntries.length > 1 ? 's' : ''} trouvée{filteredEntries.length > 1 ? 's' : ''}
             </span>
             <button

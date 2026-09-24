@@ -241,7 +241,7 @@ const ActivityRow: React.FC<{
 
       <div className="flex-1 min-w-0 pt-1 pb-1">
         <header className="flex items-start justify-between gap-stack-xs flex-wrap">
-          <h3 className="text-body-sm font-semibold text-ink-900 leading-snug">{item.title}</h3>
+          <h3 className="text-body font-semibold text-ink-900 leading-snug">{item.title}</h3>
           <time className="text-micro text-ink-600 font-medium whitespace-nowrap shrink-0 mt-0.5 tabular-nums">
             {formatTimestamp(item.timestamp, timeFormat)}
           </time>
@@ -313,7 +313,7 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
       <div className={['flex items-center justify-center p-12', className].filter(Boolean).join(' ')}>
         <div className="flex flex-col items-center gap-stack-xs text-ink-500">
           <Loader2 className="w-8 h-8 animate-spin text-primary-500" strokeWidth={2.5} />
-          <p className="m-0 text-body-sm font-medium">Chargement des activités…</p>
+          <p className="m-0 text-body font-medium">Chargement des activités…</p>
         </div>
       </div>
     );
@@ -333,7 +333,7 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
           <IconChip size="lg" tone="neutral">
             <Inbox strokeWidth={2} />
           </IconChip>
-          <p className="m-0 text-body-sm font-medium text-ink-700">{emptyMessage}</p>
+          <p className="m-0 text-body font-medium text-ink-700">{emptyMessage}</p>
           <p className="m-0 text-caption text-ink-600 max-w-[280px]">Vos prochaines activités apparaîtront ici dès que vous commencerez à apprendre.</p>
         </div>
       </div>
@@ -397,7 +397,7 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
           <button
             type="button"
             onClick={handleLoadMore}
-            className="inline-flex items-center gap-stack-xs px-stack-md py-2.5 rounded-lg border border-ink-200 bg-white text-body-sm font-bold text-ink-700 cursor-pointer hover:bg-ink-50 hover:border-primary-300 hover:shadow-sm transition-[background-color,border-color,box-shadow] duration-base ease-emphasis focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+            className="inline-flex items-center gap-stack-xs px-stack-md py-2.5 rounded-lg border border-ink-200 bg-white text-body font-bold text-ink-700 cursor-pointer hover:bg-ink-50 hover:border-primary-300 hover:shadow-sm transition-[background-color,border-color,box-shadow] duration-base ease-emphasis focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           >
             Voir plus d’activités
             <ArrowRight size={14} strokeWidth={2.25} />

@@ -180,7 +180,7 @@ export default function PasseportJac() {
                   />
                 </div>
                 <div className="flex flex-col gap-tight">
-                  <p className="m-0 font-display font-semibold text-body-sm text-ink-900 text-center">
+                  <p className="m-0 font-display font-semibold text-body text-ink-900 text-center">
                     {cert.title}
                   </p>
                   <div className="flex items-center justify-center gap-stack-xs">

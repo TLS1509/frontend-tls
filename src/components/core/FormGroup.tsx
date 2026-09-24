@@ -35,7 +35,7 @@ export const FormGroup: React.FC<FormGroupProps> = ({
     .join(' ');
 
   const labelClasses = [
-    'text-body-sm font-semibold flex items-center gap-tight',
+    'text-body font-semibold flex items-center gap-tight',
     hasError ? 'text-danger-fg' : 'text-ink-900',
     layout === 'horizontal' && 'sm:shrink-0 sm:min-w-[150px]',
   ]

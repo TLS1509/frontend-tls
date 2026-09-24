@@ -58,7 +58,7 @@ export const StructuredQuestionAccordion: React.FC<StructuredQuestionAccordionPr
   return (
     <div className={['flex flex-col gap-stack', className].filter(Boolean).join(' ')}>
       {label && (
-        <span className="font-body text-body-sm font-semibold text-ink-900">{label}</span>
+        <span className="font-body text-body font-semibold text-ink-900">{label}</span>
       )}
 
       <div className="flex flex-col gap-stack-xs">
@@ -72,7 +72,7 @@ export const StructuredQuestionAccordion: React.FC<StructuredQuestionAccordionPr
                 className="w-full flex items-center justify-between gap-stack-xs px-4 py-3 bg-white hover:bg-ink-50 transition-colors text-left min-h-touch"
               >
                 <div className="flex-1 min-w-0">
-                  <p className="font-body text-body-sm font-semibold text-ink-900 m-0">
+                  <p className="font-body text-body font-semibold text-ink-900 m-0">
                     {q.title}
                   </p>
                   {!isOpen && (

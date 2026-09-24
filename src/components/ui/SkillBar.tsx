@@ -33,7 +33,7 @@ export const SkillBar: React.FC<SkillBarProps> = ({
 
   return (
     <div className={`flex flex-col gap-stack-xs ${className}`}>
-      <div className="flex justify-between items-baseline text-body-sm">
+      <div className="flex justify-between items-baseline text-body">
         <span className="font-semibold text-ink-900">{label}</span>
         {showValue && (
           <span

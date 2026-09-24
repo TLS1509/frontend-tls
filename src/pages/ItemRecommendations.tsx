@@ -36,14 +36,14 @@ const ItemRecommendations: React.FC = () => {
       <Container width="content" padding={false} className="px-stack py-section flex flex-col gap-section">
         <div className="flex items-center justify-between gap-stack">
           <div>
-            <div className="font-display text-h4">{recommendations.length} recommandation{recommendations.length > 1 ? 's' : ''} active{recommendations.length > 1 ? 's' : ''}</div>
+            <div className="font-display text-h3">{recommendations.length} recommandation{recommendations.length > 1 ? 's' : ''} active{recommendations.length > 1 ? 's' : ''}</div>
             <div className="text-caption text-ink-500 mt-1">Mises à jour au fil de tes sessions de coaching</div>
           </div>
         </div>
 
         {recommendations.length === 0 ? (
           <SectionCard title="À consulter en priorité" description="Triés par pertinence pour tes objectifs en cours">
-            <p className="text-body-sm text-ink-500">
+            <p className="text-body text-ink-500">
               Aucune recommandation active. Tu as masqué toutes les suggestions de ton coach — elles
               reviendront au fil de tes prochaines sessions.
             </p>
@@ -65,13 +65,13 @@ const ItemRecommendations: React.FC = () => {
                         <Badge variant="neutral">{r.duration}</Badge>
                         <span className="text-caption text-ink-500">{r.date}</span>
                       </div>
-                      <h3 className="text-h4 mb-stack-xs">{r.title}</h3>
+                      <h3 className="text-h3 mb-stack-xs">{r.title}</h3>
 
                       <div className="flex items-start gap-stack-xs p-3 rounded-lg bg-secondary-50/70 mb-stack">
                         <Avatar initials={r.coachInitials} size="sm" />
                         <div className="flex-1">
                           <div className="text-caption text-ink-500 mb-1">Marie écrit :</div>
-                          <p className="text-body-sm italic text-ink-700">{r.reason}</p>
+                          <p className="text-body italic text-ink-700">{r.reason}</p>
                         </div>
                       </div>
 

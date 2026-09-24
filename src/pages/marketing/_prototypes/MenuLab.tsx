@@ -35,7 +35,7 @@ const SUB_ACCOMPAGNEMENT = [
 const Wordmark: React.FC<{ compact?: boolean }> = ({ compact }) => (
   <span className="flex items-center gap-2 shrink-0">
     <TlsLogo size={compact ? 22 : 26} withBubble={false} />
-    <span className="font-display text-body-sm font-extrabold text-primary-800 whitespace-nowrap">
+    <span className="font-display text-body font-extrabold text-primary-800 whitespace-nowrap">
       The Learning Society
     </span>
   </span>
@@ -47,7 +47,7 @@ const NavLink: React.FC<{ label: string; hasMenu?: boolean; active?: boolean }> 
   active,
 }) => (
   <span
-    className={`inline-flex items-center gap-1 whitespace-nowrap font-body text-body-sm transition-colors duration-fast ${
+    className={`inline-flex items-center gap-1 whitespace-nowrap font-body text-body transition-colors duration-fast ${
       active ? 'font-bold text-primary-800' : 'font-semibold text-ink-700 hover:text-ink-900'
     }`}
   >
@@ -60,14 +60,14 @@ const CtaPair: React.FC<{ compact?: boolean }> = ({ compact }) => (
   <span className="flex items-center gap-2 shrink-0">
     <span
       className={`inline-flex items-center rounded-pill font-body font-semibold text-ink-800 transition-colors duration-fast hover:text-primary-800 ${
-        compact ? 'px-3 py-1.5 text-caption' : 'px-4 py-2 text-body-sm'
+        compact ? 'px-3 py-1.5 text-caption' : 'px-4 py-2 text-body'
       }`}
     >
       Contact
     </span>
     <span
       className={`inline-flex items-center gap-1.5 rounded-pill bg-primary-700 font-body font-semibold text-white transition-colors duration-fast hover:bg-primary-800 ${
-        compact ? 'px-3.5 py-1.5 text-caption' : 'px-stack-md py-2.5 text-body-sm'
+        compact ? 'px-3.5 py-1.5 text-caption' : 'px-stack-md py-2.5 text-body'
       }`}
     >
       Connexion
@@ -204,10 +204,10 @@ const MobileSheet: React.FC<{ onClose: () => void }> = ({ onClose }) => (
       ))}
     </nav>
     <div className="px-4 py-stack-md border-t border-ink-200/80 flex flex-col gap-2">
-      <span className="inline-flex h-12 items-center justify-center rounded-pill bg-primary-700 font-body text-body-sm font-semibold text-white">
+      <span className="inline-flex h-12 items-center justify-center rounded-pill bg-primary-700 font-body text-body font-semibold text-white">
         Connexion
       </span>
-      <span className="inline-flex h-12 items-center justify-center rounded-pill ring-1 ring-ink-200 font-body text-body-sm font-semibold text-ink-800">
+      <span className="inline-flex h-12 items-center justify-center rounded-pill ring-1 ring-ink-200 font-body text-body font-semibold text-ink-800">
         Contact
       </span>
     </div>

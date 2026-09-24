@@ -1351,7 +1351,7 @@ export const LessonPlayer: React.FC = () => {
       </p>
       <div className="flex items-center gap-stack-xs mb-stack-md">
         <Target size={20} className="text-primary-500" />
-        <h3 className="font-display text-h4 font-bold text-ink-900">
+        <h3 className="font-display text-h3 font-bold text-ink-900">
           Objectifs d&apos;apprentissage
         </h3>
       </div>
@@ -1389,12 +1389,12 @@ export const LessonPlayer: React.FC = () => {
               <XCircle size={14} /> {d.bad.label}
             </span>
           </div>
-          <h3 className="mb-1 font-display text-h4 font-bold text-ink-900">{d.bad.title}</h3>
-          <p className="m-0 mb-stack font-body text-body-sm text-ink-500">{d.bad.description}</p>
+          <h3 className="mb-1 font-display text-h3 font-bold text-ink-900">{d.bad.title}</h3>
+          <p className="m-0 mb-stack font-body text-body text-ink-500">{d.bad.description}</p>
           {d.bad.points.map((p, i) => (
             <div key={i} className="flex items-center gap-stack-xs mb-stack-xs">
               <AlertTriangle size={16} className="text-danger-fg shrink-0" aria-hidden="true" />
-              <span className="font-body text-body-sm">{p}</span>
+              <span className="font-body text-body">{p}</span>
             </div>
           ))}
         </div>
@@ -1404,12 +1404,12 @@ export const LessonPlayer: React.FC = () => {
               <CheckCircle2 size={14} /> {d.good.label}
             </span>
           </div>
-          <h3 className="mb-1 font-display text-h4 font-bold text-ink-900">{d.good.title}</h3>
-          <p className="m-0 mb-stack font-body text-body-sm text-ink-500">{d.good.description}</p>
+          <h3 className="mb-1 font-display text-h3 font-bold text-ink-900">{d.good.title}</h3>
+          <p className="m-0 mb-stack font-body text-body text-ink-500">{d.good.description}</p>
           {d.good.points.map((p, i) => (
             <div key={i} className="flex items-center gap-stack-xs mb-stack-xs">
               <CheckCircle2 size={16} className="text-success-base shrink-0" />
-              <span className="font-body text-body-sm">{p}</span>
+              <span className="font-body text-body">{p}</span>
             </div>
           ))}
         </div>
@@ -1538,7 +1538,7 @@ export const LessonPlayer: React.FC = () => {
         <div key={i} className="bg-ink-50 rounded-lg p-stack-md mb-stack-md">
           <h3 className="font-body text-body font-semibold text-ink-900">{question}</h3>
           <textarea
-            className="w-full h-auto min-h-[96px] p-stack mt-3 font-body text-body-sm text-ink-900 bg-white border border-ink-200 rounded-lg resize-y transition-colors duration-150 focus:outline-none focus:border-primary-400 focus:ring-3 focus:ring-primary-100 focus:shadow-none"
+            className="w-full h-auto min-h-[96px] p-stack mt-3 font-body text-body text-ink-900 bg-white border border-ink-200 rounded-lg resize-y transition-colors duration-150 focus:outline-none focus:border-primary-400 focus:ring-3 focus:ring-primary-100 focus:shadow-none"
             value={reflections[`q${i}`] ?? ''}
             onChange={(e) => {
               const key = `q${i}`;
@@ -1572,7 +1572,7 @@ export const LessonPlayer: React.FC = () => {
             <label className="block font-body text-caption font-semibold text-ink-900 mb-stack-xs">{label}</label>
             <input
               type="text"
-              className="w-full h-auto p-stack rounded-lg border border-ink-200 font-body text-body-sm text-ink-900 bg-white transition-colors duration-150 focus:outline-none focus:border-primary-400 focus:ring-3 focus:ring-primary-100 focus:shadow-none"
+              className="w-full h-auto p-stack rounded-lg border border-ink-200 font-body text-body text-ink-900 bg-white transition-colors duration-150 focus:outline-none focus:border-primary-400 focus:ring-3 focus:ring-primary-100 focus:shadow-none"
               value={actionPlan[key]}
               onChange={(e) => {
                 const next = { ...actionPlan, [key]: e.target.value };
@@ -1593,7 +1593,7 @@ export const LessonPlayer: React.FC = () => {
       <h2 className={SECTION_TITLE}>{lessonData.conclusion.heading}</h2>
       <div className="flex items-center gap-stack-xs mb-stack">
         <CheckCircle2 size={18} className="text-success-base" />
-        <h3 className="font-display text-h4 font-bold text-ink-900">Points clés à retenir</h3>
+        <h3 className="font-display text-h3 font-bold text-ink-900">Points clés à retenir</h3>
       </div>
       <div className="mb-section">
         {lessonData.conclusion.keyPoints.map((point, i) => (
@@ -1601,18 +1601,18 @@ export const LessonPlayer: React.FC = () => {
             <div className="w-7 h-7 rounded-pill bg-success-vivid text-white font-display text-caption font-bold flex items-center justify-center shrink-0">
               {i + 1}
             </div>
-            <span className="font-body text-body-sm">{point}</span>
+            <span className="font-body text-body">{point}</span>
           </div>
         ))}
       </div>
       <div className="flex items-center gap-stack-xs mb-stack">
         <Zap size={18} className="text-primary-500" />
-        <h3 className="font-display text-h4 font-bold text-ink-900">Prochaines étapes</h3>
+        <h3 className="font-display text-h3 font-bold text-ink-900">Prochaines étapes</h3>
       </div>
       {lessonData.conclusion.nextSteps.map((step, i) => (
         <div key={i} className="flex items-center gap-stack-xs p-stack bg-white rounded-lg border border-ink-200 mb-3 transition-all duration-200 hover:translate-x-1 hover:border-primary-400">
           <ChevronRight size={18} className="text-primary-500 shrink-0" />
-          <span className="font-body text-body-sm">{step}</span>
+          <span className="font-body text-body">{step}</span>
         </div>
       ))}
       {lessonData.conclusion.blocks?.map((block, i) => renderContentBlock(block, i))}
@@ -1634,8 +1634,8 @@ export const LessonPlayer: React.FC = () => {
                 {i + 1}
               </div>
               <div>
-                <h3 className="mb-1.5 font-display text-h4 font-bold text-ink-900">{scenario.title}</h3>
-                <p className="m-0 font-body text-body-sm text-ink-600">{scenario.context}</p>
+                <h3 className="mb-1.5 font-display text-h3 font-bold text-ink-900">{scenario.title}</h3>
+                <p className="m-0 font-body text-body text-ink-600">{scenario.context}</p>
               </div>
             </div>
           ))}
@@ -1644,9 +1644,9 @@ export const LessonPlayer: React.FC = () => {
           <label className="block font-body text-caption font-semibold text-ink-900 mb-stack-xs">
             Mon engagement de transfert
           </label>
-          <p className="font-body text-body-sm text-ink-500 mb-3">{t.commitmentPrompt}</p>
+          <p className="font-body text-body text-ink-500 mb-3">{t.commitmentPrompt}</p>
           <textarea
-            className="w-full min-h-[120px] p-stack font-body text-body-sm text-ink-900 bg-white border border-ink-200 rounded-lg resize-y transition-colors duration-150 focus:outline-none focus:border-primary-400 focus:ring-3 focus:ring-primary-100 focus:shadow-none"
+            className="w-full min-h-[120px] p-stack font-body text-body text-ink-900 bg-white border border-ink-200 rounded-lg resize-y transition-colors duration-150 focus:outline-none focus:border-primary-400 focus:ring-3 focus:ring-primary-100 focus:shadow-none"
             value={reflections['transfert'] ?? ''}
             onChange={(e) => {
               setReflections((prev) => ({ ...prev, transfert: e.target.value }));
@@ -1706,7 +1706,7 @@ export const LessonPlayer: React.FC = () => {
         const HEADING_CLASSES: Record<2 | 3 | 4, string> = {
           2: 'font-display text-h2 text-ink-900 text-balance',
           3: 'font-display text-h3 text-ink-900 text-balance',
-          4: 'font-display text-h4 text-ink-900 text-balance',
+          4: 'font-display text-h3 text-ink-900 text-balance',
         };
         const cls = `mb-stack-xs max-w-prose ${HEADING_CLASSES[block.level]}`;
         if (block.level === 2) return <h2 key={key} className={cls}>{block.text}</h2>;
@@ -1773,7 +1773,7 @@ export const LessonPlayer: React.FC = () => {
                 {block.title}
               </p>
             )}
-            <p className="font-body text-body-sm text-ink-800">{block.text}</p>
+            <p className="font-body text-body text-ink-800">{block.text}</p>
           </div>
         );
       }
@@ -1794,7 +1794,7 @@ export const LessonPlayer: React.FC = () => {
             ) : (
               <div className={`w-full ${arClass} rounded-xl border-2 border-dashed border-ink-300 bg-ink-100 flex flex-col items-center justify-center gap-stack-xs`}>
                 <ImageIcon size={32} className="text-ink-400" />
-                <span className="font-body text-body-sm text-ink-500 text-center px-stack">
+                <span className="font-body text-body text-ink-500 text-center px-stack">
                   Image à connecter · Unsplash / Backoffice
                 </span>
                 <label className="cursor-pointer">
@@ -1834,7 +1834,7 @@ export const LessonPlayer: React.FC = () => {
                 <div className="w-14 h-14 rounded-pill bg-ink-200 flex items-center justify-center">
                   <Play size={24} className="text-ink-600 ml-1" />
                 </div>
-                <span className="font-body text-body-sm text-ink-500">Vidéo à brancher</span>
+                <span className="font-body text-body text-ink-500">Vidéo à brancher</span>
                 <label className="cursor-pointer">
                   <input
                     type="file"
@@ -1867,7 +1867,7 @@ export const LessonPlayer: React.FC = () => {
             ) : (
               <div className="w-full aspect-video rounded-xl border-2 border-dashed border-ink-300 bg-ink-100 flex flex-col items-center justify-center gap-stack-xs">
                 <ImageIcon size={32} className="text-ink-400" />
-                <span className="font-body text-body-sm text-ink-500">GIF à connecter</span>
+                <span className="font-body text-body text-ink-500">GIF à connecter</span>
                 <label className="cursor-pointer">
                   <input
                     type="file"
@@ -1896,12 +1896,12 @@ export const LessonPlayer: React.FC = () => {
           const max = Math.max(...block.data.map(d => d.value), 1);
           return (
             <div key={key} className={`bg-white border border-ink-100 rounded-xl ${compact ? 'p-3' : 'p-stack-md'} ${mb}`}>
-              {block.title && <h4 className={`mb-3 font-display font-bold text-ink-900 ${compact ? 'text-body-sm' : 'text-h4'}`}>{block.title}</h4>}
+              {block.title && <h4 className={`mb-3 font-display font-bold text-ink-900 ${compact ? 'text-body' : 'text-h3'}`}>{block.title}</h4>}
               <div className="flex flex-col gap-stack-xs">
                 {block.data.map((item, i) => (
                   <div key={i}>
                     <div className="flex justify-between mb-1.5">
-                      <span className="font-body text-body-sm text-ink-700">{item.label}</span>
+                      <span className="font-body text-body text-ink-700">{item.label}</span>
                       <span className="font-body text-caption font-semibold text-ink-900">{item.value}</span>
                     </div>
                     <div className="h-2.5 bg-ink-100 rounded-pill overflow-hidden">
@@ -1924,7 +1924,7 @@ export const LessonPlayer: React.FC = () => {
           const svgSize = compact ? 80 : 120;
           return (
             <div key={key} className={`bg-white border border-ink-100 rounded-xl ${compact ? 'p-3' : 'p-stack-md'} ${mb}`}>
-              {block.title && <h4 className={`mb-3 font-display font-bold text-ink-900 ${compact ? 'text-body-sm' : 'text-h4'}`}>{block.title}</h4>}
+              {block.title && <h4 className={`mb-3 font-display font-bold text-ink-900 ${compact ? 'text-body' : 'text-h3'}`}>{block.title}</h4>}
               <div className={`flex flex-col ${compact ? 'gap-stack-xs' : 'sm:flex-row items-center gap-stack-lg'}`}>
                 <svg width={svgSize} height={svgSize} viewBox="0 0 100 100" className="shrink-0 mx-auto" aria-hidden="true">
                   <circle cx="50" cy="50" r={r} fill="none" stroke="var(--color-ink-100)" strokeWidth="10" />
@@ -1948,7 +1948,7 @@ export const LessonPlayer: React.FC = () => {
                     <div key={i} className="flex items-center gap-stack-xs">
                       <span className="w-3 h-3 rounded-pill shrink-0"
                         style={{ background: item.color ?? CHART_PALETTE[i % CHART_PALETTE.length] }} />
-                      <span className="font-body text-body-sm text-ink-700 flex-1">{item.label}</span>
+                      <span className="font-body text-body text-ink-700 flex-1">{item.label}</span>
                       <span className="font-body text-caption font-semibold text-ink-900">{item.value}</span>
                     </div>
                   ))}
@@ -1970,7 +1970,7 @@ export const LessonPlayer: React.FC = () => {
           }).join(' ');
           return (
             <div key={key} className={`bg-white border border-ink-100 rounded-xl ${compact ? 'p-3' : 'p-stack-md'} ${mb} overflow-hidden`}>
-              {block.title && <h4 className={`mb-3 font-display font-bold text-ink-900 ${compact ? 'text-body-sm' : 'text-h4'}`}>{block.title}</h4>}
+              {block.title && <h4 className={`mb-3 font-display font-bold text-ink-900 ${compact ? 'text-body' : 'text-h3'}`}>{block.title}</h4>}
               <svg viewBox={`0 0 ${W} ${H}`} className="w-full" aria-hidden="true">
                 <polyline points={pts} fill="none" stroke="var(--color-primary-500)"
                   strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
@@ -1995,13 +1995,13 @@ export const LessonPlayer: React.FC = () => {
         const layout = block.layout ?? 'vertical';
         const getColors = (c?: string) => SCHEMA_COLOR_MAP[c ?? 'primary'] ?? SCHEMA_COLOR_MAP['primary'];
         const itemPad = compact ? 'p-stack-xs' : 'p-3';
-        const labelCls = compact ? 'font-body text-caption font-semibold text-ink-900' : 'font-body text-body-sm font-semibold text-ink-900';
+        const labelCls = compact ? 'font-body text-caption font-semibold text-ink-900' : 'font-body text-body font-semibold text-ink-900';
         const descCls = compact ? 'font-body text-micro text-ink-500' : 'font-body text-caption text-ink-500';
 
         if (layout === 'horizontal') {
           return (
             <div key={key} className={mb}>
-              {block.title && <h4 className={`mb-3 font-display font-bold text-ink-900 ${compact ? 'text-body-sm' : 'text-h4'}`}>{block.title}</h4>}
+              {block.title && <h4 className={`mb-3 font-display font-bold text-ink-900 ${compact ? 'text-body' : 'text-h3'}`}>{block.title}</h4>}
               <div className="flex flex-wrap items-stretch gap-stack-2xs">
                 {block.items.map((item, i) => {
                   const { card, num } = getColors(item.color);
@@ -2032,7 +2032,7 @@ export const LessonPlayer: React.FC = () => {
         if (layout === 'flow') {
           return (
             <div key={key} className={mb}>
-              {block.title && <h4 className={`mb-3 font-display font-bold text-ink-900 ${compact ? 'text-body-sm' : 'text-h4'}`}>{block.title}</h4>}
+              {block.title && <h4 className={`mb-3 font-display font-bold text-ink-900 ${compact ? 'text-body' : 'text-h3'}`}>{block.title}</h4>}
               <div className={`grid gap-stack-xs ${compact ? 'grid-cols-1' : 'grid-cols-2 sm:grid-cols-3'}`}>
                 {block.items.map((item, i) => {
                   const { card, num } = getColors(item.color);
@@ -2056,7 +2056,7 @@ export const LessonPlayer: React.FC = () => {
         // vertical (default)
         return (
           <div key={key} className={`flex flex-col ${compact ? 'gap-stack-2xs' : 'gap-stack-xs'} ${mb}`}>
-            {block.title && <h4 className={`font-display font-bold text-ink-900 ${compact ? 'text-body-sm' : 'text-h4'}`}>{block.title}</h4>}
+            {block.title && <h4 className={`font-display font-bold text-ink-900 ${compact ? 'text-body' : 'text-h3'}`}>{block.title}</h4>}
             {block.items.map((item, i) => {
               const { card, num } = getColors(item.color);
               return (
@@ -2084,9 +2084,9 @@ export const LessonPlayer: React.FC = () => {
               <Cpu size={20} className="text-primary-600" />
             </div>
             <div className="flex-1">
-              {block.title && <h4 className="mb-1 font-display text-h4 font-bold text-ink-900">{block.title}</h4>}
+              {block.title && <h4 className="mb-1 font-display text-h3 font-bold text-ink-900">{block.title}</h4>}
               {block.description && (
-                <p className="m-0 mb-3 font-body text-body-sm text-ink-600">{block.description}</p>
+                <p className="m-0 mb-3 font-body text-body text-ink-600">{block.description}</p>
               )}
               <Badge variant="brand">
                 <Cpu size={14} aria-hidden /> Module interactif · Bientôt disponible
@@ -2104,9 +2104,9 @@ export const LessonPlayer: React.FC = () => {
               <BookOpen size={16} className="text-secondary-600 shrink-0" />
               <span className="font-body text-caption font-semibold text-secondary-700">Lié au Journal</span>
             </div>
-            <p className="m-0 mb-3 font-body text-body-sm font-semibold text-ink-900">{block.prompt}</p>
+            <p className="m-0 mb-3 font-body text-body font-semibold text-ink-900">{block.prompt}</p>
             <textarea
-              className="w-full h-auto min-h-[96px] p-stack font-body text-body-sm text-ink-900 bg-white border border-secondary-500/30 rounded-lg resize-y transition-colors duration-150 focus:outline-none focus:border-secondary-500 focus:ring-3 focus:ring-secondary-50 focus:shadow-none"
+              className="w-full h-auto min-h-[96px] p-stack font-body text-body text-ink-900 bg-white border border-secondary-500/30 rounded-lg resize-y transition-colors duration-150 focus:outline-none focus:border-secondary-500 focus:ring-3 focus:ring-secondary-50 focus:shadow-none"
               value={annotValue}
               onChange={(e) => {
                 setReflections((prev) => ({ ...prev, [block.journalKey]: e.target.value }));
@@ -2173,7 +2173,7 @@ export const LessonPlayer: React.FC = () => {
         return (
           <div key={key} className={mb}>
             {block.title && (
-              <h4 className={`mb-3 font-display font-bold text-ink-900 ${compact ? 'text-body-sm' : 'text-h4'}`}>{block.title}</h4>
+              <h4 className={`mb-3 font-display font-bold text-ink-900 ${compact ? 'text-body' : 'text-h3'}`}>{block.title}</h4>
             )}
             {resolvedUrl ? (
               <div className={`w-full ${arClass} rounded-xl overflow-hidden border border-ink-200 shadow-sm`}>
@@ -2190,7 +2190,7 @@ export const LessonPlayer: React.FC = () => {
               <div className="rounded-lg border-2 border-dashed border-ink-300 bg-ink-50 p-stack-lg">
                 <div className="flex items-center gap-stack-xs mb-stack">
                   <Globe size={18} className="text-ink-600 shrink-0" />
-                  <span className="font-body text-body-sm font-semibold text-ink-700">
+                  <span className="font-body text-body font-semibold text-ink-700">
                     {block.provider ? PROVIDER_LABELS[block.provider] : 'Embed externe'}
                   </span>
                   <span className="ml-auto font-body text-caption text-ink-600">YouTube · Vimeo · Loom · Canva · Slides · Figma</span>
@@ -2198,7 +2198,7 @@ export const LessonPlayer: React.FC = () => {
                 <div className="flex gap-stack-xs">
                   <input
                     type="url"
-                    className="flex-1 h-10 px-3 font-body text-body-sm text-ink-900 bg-white border border-ink-200 rounded-lg focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100"
+                    className="flex-1 h-10 px-3 font-body text-body text-ink-900 bg-white border border-ink-200 rounded-lg focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100"
                     placeholder="YouTube, Vimeo, Loom, Canva, Google Slides, Figma…"
                     value={embedInputs[index] ?? ''}
                     onChange={(e) => setEmbedInputs((prev) => ({ ...prev, [index]: e.target.value }))}
@@ -2283,7 +2283,7 @@ export const LessonPlayer: React.FC = () => {
         return (
           <div key={key} className={mb}>
             {block.title && (
-              <h4 className="mb-3 font-display text-h4 font-bold text-ink-900">{block.title}</h4>
+              <h4 className="mb-3 font-display text-h3 font-bold text-ink-900">{block.title}</h4>
             )}
             <div className="grid grid-cols-3 gap-stack-xs auto-rows-min">
               {block.cells.map((cell, ci) => {
@@ -2313,7 +2313,7 @@ export const LessonPlayer: React.FC = () => {
           <div key={key} className="mb-stack-lg overflow-x-auto rounded-xl border border-ink-200">
             {block.title && (
               <div className="px-stack py-3 bg-ink-50 border-b border-ink-200">
-                <h4 className="font-display text-h4 font-bold text-ink-900">{block.title}</h4>
+                <h4 className="font-display text-h3 font-bold text-ink-900">{block.title}</h4>
               </div>
             )}
             <table className="w-full border-collapse">
@@ -2337,7 +2337,7 @@ export const LessonPlayer: React.FC = () => {
                     {row.map((cell, ci) => (
                       <td
                         key={ci}
-                        className={`px-stack py-3 font-body text-body-sm ${
+                        className={`px-stack py-3 font-body text-body ${
                           ci === 0 ? 'font-semibold text-ink-900' : 'text-ink-700'
                         } ${block.highlightCol === ci ? 'font-semibold text-primary-700' : ''}`}
                       >
@@ -2411,7 +2411,7 @@ export const LessonPlayer: React.FC = () => {
                   {ctx.step.title}
                 </span>
               )}
-              <span className="font-display text-body-sm font-bold text-ink-900 truncate max-w-full">
+              <span className="font-display text-body font-bold text-ink-900 truncate max-w-full">
                 {displayTitle}
               </span>
             </div>

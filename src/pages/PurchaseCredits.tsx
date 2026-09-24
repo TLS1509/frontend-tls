@@ -92,7 +92,7 @@ const PurchaseCredits: React.FC = () => {
 
         {pack && (
           <Card className="p-stack-lg">
-            <h3 className="text-h4 mb-stack">Paiement sécurisé</h3>
+            <h3 className="text-h3 mb-stack">Paiement sécurisé</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
               <FormGroup label="Numéro de carte">
                 <Input placeholder="4242 4242 4242 4242" leadingIcon={<CreditCard className="w-4 h-4" />} />

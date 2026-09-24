@@ -46,7 +46,7 @@ export const RankingCard: React.FC<RankingCardProps> = ({
     >
       <div
         className={[
-          'inline-flex items-center justify-center w-12 h-12 rounded-2xl font-display text-h4 shrink-0',
+          'inline-flex items-center justify-center w-12 h-12 rounded-2xl font-display text-h3 shrink-0',
           RANK_BG[rank] ?? DEFAULT_RANK_BG,
         ].join(' ')}
       >

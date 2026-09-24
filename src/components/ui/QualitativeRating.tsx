@@ -63,7 +63,7 @@ const PILL_BASE =
 
 const SIZE_CLASSES: Record<QualitativeRatingSize, string> = {
   sm: 'h-8 px-3 text-caption',
-  md: 'h-10 px-4 text-body-sm',
+  md: 'h-10 px-4 text-body',
 };
 
 const SELECTED_CLASSES: Record<QualitativeRatingTone, string> = {
@@ -96,7 +96,7 @@ export const QualitativeRating: React.FC<QualitativeRatingProps> = ({
   return (
     <div className={['flex flex-col gap-stack-xs font-body', className].filter(Boolean).join(' ')}>
       {label && (
-        <span className="text-body-sm font-semibold text-ink-900">
+        <span className="text-body font-semibold text-ink-900">
           {label}
           {required && (
             <span className="text-danger-base ml-0.5" aria-hidden="true">

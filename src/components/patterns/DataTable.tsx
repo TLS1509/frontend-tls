@@ -169,7 +169,7 @@ export const DataTable: React.FC<DataTableProps> = ({
   return (
     <div className={['flex flex-col gap-stack', className].filter(Boolean).join(' ')}>
       <div className="overflow-x-auto rounded-lg border border-ink-200 bg-white">
-        <table className="w-full border-collapse font-body text-body-sm">
+        <table className="w-full border-collapse font-body text-body">
           {hasSortable && (
             // Motif APG « Sortable Table » : la légende annonce que les en-têtes à bouton trient.
             <caption className="sr-only">Les en-têtes munis d'un bouton permettent de trier la colonne.</caption>

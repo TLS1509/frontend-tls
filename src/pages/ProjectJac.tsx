@@ -99,7 +99,7 @@ const JacValidationForm: React.FC<{
   return (
     <div className="flex flex-col gap-section p-stack bg-ink-50 rounded-lg border border-ink-200">
       <div>
-        <p className="text-body-sm font-semibold text-ink-900 m-0">
+        <p className="text-body font-semibold text-ink-900 m-0">
           Validation JAC : {collaboratorName}
         </p>
         <p className="text-caption text-ink-500 m-0">{competencyName}</p>
@@ -110,7 +110,7 @@ const JacValidationForm: React.FC<{
         <p className="text-caption font-semibold text-ink-600 uppercase tracking-wide m-0">Grille d'évaluation Dreyfus</p>
         {rubric.map((row, idx) => (
           <div key={idx} className="flex flex-col gap-stack-xs p-stack bg-white rounded-lg border border-ink-100">
-            <p className="text-body-sm font-semibold text-ink-900 m-0">{row.criterion}</p>
+            <p className="text-body font-semibold text-ink-900 m-0">{row.criterion}</p>
             <div className="flex flex-wrap gap-stack-2xs">
               {([1, 2, 3, 4, 5] as DreyfusLevel[]).map((level) => (
                 <button
@@ -170,7 +170,7 @@ const JacValidationForm: React.FC<{
           placeholder="Synthèse de l'évaluation, axes d'amélioration..."
           value={globalFeedback}
           onChange={(e) => setGlobalFeedback(e.target.value)}
-          className="w-full p-3 rounded-lg border border-ink-200 font-body text-body-sm focus:outline-none focus:ring-2 focus:ring-primary-500 h-auto min-h-[88px]"
+          className="w-full p-3 rounded-lg border border-ink-200 font-body text-body focus:outline-none focus:ring-2 focus:ring-primary-500 h-auto min-h-[88px]"
         />
       </FormGroup>
 
@@ -182,7 +182,7 @@ const JacValidationForm: React.FC<{
             <button
               key={d}
               onClick={() => setDecision(d)}
-              className={`px-stack py-stack-xs rounded-pill text-body-sm font-bold transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
+              className={`px-stack py-stack-xs rounded-pill text-body font-bold transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                 decision === d
                   ? d === 'approved'
                     ? 'bg-success-vivid text-white'
@@ -262,7 +262,7 @@ export const ProjectJac: React.FC = () => {
                 >
                   <Avatar initials={jac.collaboratorInitials} size="md" tint="brand" />
                   <div className="flex-1 min-w-0">
-                    <p className="text-body-sm font-semibold text-ink-900 m-0">{jac.collaboratorName}</p>
+                    <p className="text-body font-semibold text-ink-900 m-0">{jac.collaboratorName}</p>
                     <p className="text-caption text-ink-500 m-0">{jac.competencyName} · soumis le {formatDate(jac.createdAt)}</p>
                   </div>
                   <div className="flex items-center gap-stack-xs shrink-0">
@@ -324,7 +324,7 @@ export const ProjectJac: React.FC = () => {
                 >
                   <Avatar initials={jac.collaboratorInitials} size="md" tint={jac.status === 'approved' ? 'brand' : 'warm'} />
                   <div className="flex-1 min-w-0">
-                    <p className="text-body-sm font-semibold text-ink-900 m-0">{jac.collaboratorName}</p>
+                    <p className="text-body font-semibold text-ink-900 m-0">{jac.collaboratorName}</p>
                     <p className="text-caption text-ink-500 m-0">
                       {jac.competencyName}
                       {jac.dreyfusLevelAchieved && ` · D${jac.dreyfusLevelAchieved} : ${DREYFUS_LABELS[jac.dreyfusLevelAchieved]}`}
@@ -349,7 +349,7 @@ export const ProjectJac: React.FC = () => {
                         <p className="text-caption font-semibold text-ink-500 uppercase tracking-wide m-0">Grille Dreyfus</p>
                         {jac.rubricScores.map((rs, idx) => (
                           <div key={idx} className="flex items-start justify-between gap-stack p-3 bg-ink-50 rounded-lg">
-                            <span className="text-body-sm text-ink-700 flex-1">{rs.criterion}</span>
+                            <span className="text-body text-ink-700 flex-1">{rs.criterion}</span>
                             <div className="flex flex-col items-end gap-tight shrink-0">
                               <Badge variant="brand">D{rs.score} · {DREYFUS_LABELS[rs.score]}</Badge>
                               {rs.comment && <span className="text-caption text-ink-500 text-right">{rs.comment}</span>}
@@ -361,7 +361,7 @@ export const ProjectJac: React.FC = () => {
                     {jac.expertFeedback && (
                       <div className="p-3 bg-success-bg rounded-lg">
                         <p className="text-caption font-semibold text-success-fg m-0 mb-1">Feedback expert</p>
-                        <p className="text-body-sm text-ink-700 m-0 italic">"{jac.expertFeedback}"</p>
+                        <p className="text-body text-ink-700 m-0 italic">"{jac.expertFeedback}"</p>
                       </div>
                     )}
                   </div>
@@ -375,7 +375,7 @@ export const ProjectJac: React.FC = () => {
       {jacs.length === 0 && (
         <div className="flex flex-col items-center justify-center py-section gap-stack text-center">
           <Target size={40} className="text-ink-300" />
-          <p className="text-body-sm text-ink-500 m-0">Aucun JAC soumis pour ce projet.</p>
+          <p className="text-body text-ink-500 m-0">Aucun JAC soumis pour ce projet.</p>
         </div>
       )}
     </Container>

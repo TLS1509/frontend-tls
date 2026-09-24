@@ -161,7 +161,7 @@ export const Magazine: React.FC = () => {
                 </Button>
               }
             >
-              <p className="m-0 font-body text-body-sm text-ink-700">
+              <p className="m-0 font-body text-body text-ink-700">
                 Ce numéro explore comment l'IA générative transforme concrètement le métier de
                 formateur : de la conception des contenus à la personnalisation des parcours.
                 Nos experts dressent un panorama complet des pratiques émergentes, soutenu par
@@ -170,7 +170,7 @@ export const Magazine: React.FC = () => {
 
               <ul className="m-0 p-0 list-none flex flex-col gap-stack-xs mt-stack">
                 {SUMMARY_POINTS.map((point, i) => (
-                  <li key={i} className="flex items-center gap-stack-xs font-body text-body-sm text-ink-800">
+                  <li key={i} className="flex items-center gap-stack-xs font-body text-body text-ink-800">
                     <CheckCircle2 size={14} className="text-primary-600 shrink-0" />
                     {point}
                   </li>

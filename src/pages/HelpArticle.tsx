@@ -35,7 +35,7 @@ function CorpsArticle({ contenu }: { contenu: string }) {
     const titre = lignes[0]?.match(INTERTITRE);
     if (titre) {
       rendu.push(
-        <h2 key={`t${b}`} className="font-display text-h4 text-ink-900">
+        <h2 key={`t${b}`} className="font-display text-h3 text-ink-900">
           {titre[1]}
         </h2>,
       );
@@ -138,7 +138,7 @@ export default function HelpArticle() {
             </Card>
 
             <div className="flex flex-col gap-stack-xs p-stack rounded-lg border border-ink-200 bg-ink-50">
-              <p className="text-body-sm font-semibold text-ink-800 m-0">Cet article vous a-t-il été utile ?</p>
+              <p className="text-body font-semibold text-ink-800 m-0">Cet article vous a-t-il été utile ?</p>
               <div className="flex gap-stack-xs">
                 <Button
                   emphasis="soft"
@@ -179,7 +179,7 @@ export default function HelpArticle() {
                       onClick={() => navigate(`/help/article/${related.id}`)}
                       className="flex items-center justify-between gap-stack-xs p-3 rounded-lg hover:bg-ink-50 transition-all duration-base group text-left w-full border-0 bg-transparent cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                     >
-                      <span className="text-body-sm text-ink-700 group-hover:text-primary-700 transition-all duration-base">
+                      <span className="text-body text-ink-700 group-hover:text-primary-700 transition-all duration-base">
                         {related.title}
                       </span>
                       <ExternalLink size={14} className="text-ink-600 shrink-0" />

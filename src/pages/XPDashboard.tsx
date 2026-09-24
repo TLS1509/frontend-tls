@@ -90,9 +90,9 @@ export default function XPDashboard() {
           <ul className="flex flex-col divide-y divide-ink-100">
             {xpEvents.slice(0, 10).map((item) => (
               <li key={item.id} className="flex items-center justify-between gap-stack py-3">
-                <span className="text-body-sm text-ink-800">{item.description}</span>
+                <span className="text-body text-ink-800">{item.description}</span>
                 <div className="flex items-center gap-stack-xs shrink-0">
-                  <span className="text-body-sm font-bold text-warning-fg">+{item.xp} XP</span>
+                  <span className="text-body font-bold text-warning-fg">+{item.xp} XP</span>
                   <span className="text-caption text-ink-600">
                     {new Date(item.occurredAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}
                   </span>
@@ -112,7 +112,7 @@ export default function XPDashboard() {
             {XP_CATEGORIES.map((cat) => (
               <div key={cat.label} className="flex flex-col gap-tight">
                 <div className="flex items-center justify-between">
-                  <span className="text-body-sm font-semibold text-ink-800">{cat.label}</span>
+                  <span className="text-body font-semibold text-ink-800">{cat.label}</span>
                   <span className="text-caption text-ink-500">{cat.xp} XP</span>
                 </div>
                 <ProgressBar

@@ -109,13 +109,13 @@ export const CompletionModal: React.FC<CompletionModalProps> = ({
           </h2>
 
           {itemTitle && (
-            <p className="m-0 mt-1 text-body-sm text-white line-clamp-2">
+            <p className="m-0 mt-1 text-body text-white line-clamp-2">
               {itemTitle}
             </p>
           )}
 
           {description && (
-            <p className="m-0 mt-2 text-body-sm text-white">
+            <p className="m-0 mt-2 text-body text-white">
               {description}
             </p>
           )}
@@ -129,7 +129,7 @@ export const CompletionModal: React.FC<CompletionModalProps> = ({
               <span className="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-accent-700 text-white shrink-0">
                 <Zap size={14} strokeWidth={2.5} />
               </span>
-              <span className="font-body text-body-sm font-semibold text-accent-700">
+              <span className="font-body text-body font-semibold text-accent-700">
                 +{xpEarned} XP gagnés
               </span>
               <Sparkles size={14} className="text-accent-500 ml-auto shrink-0" aria-hidden />
@@ -147,7 +147,7 @@ export const CompletionModal: React.FC<CompletionModalProps> = ({
                 Continuer avec
               </span>
               <span className="flex items-center justify-between gap-stack-xs">
-                <span className="font-body text-body-sm font-semibold text-ink-800 group-hover:text-primary-700 transition-colors line-clamp-1">
+                <span className="font-body text-body font-semibold text-ink-800 group-hover:text-primary-700 transition-colors line-clamp-1">
                   {nextItem.title}
                 </span>
                 <ArrowRight size={14} className="text-ink-400 group-hover:text-primary-600 shrink-0 transition-colors" aria-hidden />

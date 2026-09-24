@@ -154,7 +154,7 @@ export default function ManagerCohort() {
                     return (
                       <li key={p.id} className="flex flex-col gap-stack-xs py-stack first:pt-0 last:pb-0">
                         <div className="flex items-center justify-between gap-stack-xs">
-                          <span className="text-body-sm font-semibold text-ink-900">{p.title}</span>
+                          <span className="text-body font-semibold text-ink-900">{p.title}</span>
                           <Badge variant={s.variant} size="compact">{s.label}</Badge>
                         </div>
                         <p className="text-caption text-ink-600">
@@ -246,7 +246,7 @@ export default function ManagerCohort() {
                     <li key={p.id} className={ROW}>
                       <div className="flex-1 min-w-0 flex flex-col gap-tight">
                         <div className="flex items-center gap-stack-xs flex-wrap">
-                          <span className="text-body-sm font-semibold text-ink-900">{p.title}</span>
+                          <span className="text-body font-semibold text-ink-900">{p.title}</span>
                           <Badge variant={s.variant} size="compact">{s.label}</Badge>
                         </div>
                         <p className="text-caption text-ink-600">{p.type} · {p.members} membres · Échéance {p.dueDate}</p>

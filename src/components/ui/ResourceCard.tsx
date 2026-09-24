@@ -145,9 +145,9 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
       )}
 
       <div className="flex flex-col gap-stack-xs">
-        <h3 className="text-h4 text-ink-900">{title}</h3>
+        <h3 className="text-h3 text-ink-900">{title}</h3>
         {variant !== 'minimal' && description && (
-          <p className="m-0 text-body-sm text-ink-500">{description}</p>
+          <p className="m-0 text-body text-ink-500">{description}</p>
         )}
       </div>
 
@@ -171,7 +171,7 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
               onClick={cta.onClick}
               className={[
                 'inline-flex items-center gap-stack-xs px-3 py-2 bg-transparent border-0 rounded-md',
-                'text-body-sm font-semibold cursor-pointer whitespace-nowrap transition-[background-color] duration-fast ease-emphasis',
+                'text-body font-semibold cursor-pointer whitespace-nowrap transition-[background-color] duration-fast ease-emphasis',
                 'focus-visible:outline-2 focus-visible:outline-offset-2',
                 accentText,
                 ctaHover,

@@ -72,8 +72,8 @@ export default function AtelierPresentiel() {
             <MapPin size={24} className="text-secondary-600" />
             <h3 className="text-h3 text-ink-900">The Learning Hub</h3>
           </div>
-          <p className="text-body-sm text-ink-600">45 avenue Montaigne, 75008 Paris</p>
-          <p className="text-body-sm text-ink-600">Salle Liberté · 3e étage</p>
+          <p className="text-body text-ink-600">45 avenue Montaigne, 75008 Paris</p>
+          <p className="text-body text-ink-600">Salle Liberté · 3e étage</p>
 
           {/* Carte placeholder */}
           <div className="bg-ink-100 rounded-xl h-48 flex flex-col items-center justify-center gap-stack-xs">
@@ -102,7 +102,7 @@ export default function AtelierPresentiel() {
                 <span className="text-ink-600 shrink-0 mt-0.5">{item.icon}</span>
                 <div className="flex flex-col gap-tight">
                   <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">{item.label}</span>
-                  <span className="text-body-sm text-ink-800">{item.value}</span>
+                  <span className="text-body text-ink-800">{item.value}</span>
                 </div>
               </div>
             ))}
@@ -118,7 +118,7 @@ export default function AtelierPresentiel() {
             {PROGRAMME.map((item, idx) => (
               <div key={idx} className="flex items-center gap-stack flex-wrap">
                 <Badge variant="info" size="compact">{item.time}</Badge>
-                <span className="text-body-sm text-ink-700 flex-1">{item.label}</span>
+                <span className="text-body text-ink-700 flex-1">{item.label}</span>
                 <span className="text-caption text-ink-600">{item.duration}</span>
               </div>
             ))}

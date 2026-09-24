@@ -417,7 +417,7 @@ const VARIANT_ALIAS: Record<
    exception écrite qu'un douzième cran d'échelle pour dix boutons. */
 const SIZE_CLASSES: Record<ButtonSize, string> = {
   sm: 'h-8 px-stack text-caption relative after:absolute after:content-[""] after:inset-x-0 after:-inset-y-1.5',
-  md: 'h-touch px-stack-md text-body-sm',
+  md: 'h-touch px-stack-md text-body',
   lg: 'h-12 px-stack-lg text-body',
   xl: 'h-13 px-7 text-[1.1875rem]',
 };

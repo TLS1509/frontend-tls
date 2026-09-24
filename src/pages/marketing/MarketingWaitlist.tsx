@@ -88,7 +88,7 @@ const CheckboxField: React.FC<{
       {checked && <Check size={14} className="text-white" strokeWidth={2.5} />}
     </span>
     <div className="flex flex-col gap-tight">
-      <span className="font-body text-body-sm font-semibold text-ink-900 leading-snug">{label}</span>
+      <span className="font-body text-body font-semibold text-ink-900 leading-snug">{label}</span>
       <span className="font-body text-caption text-ink-500">{description}</span>
     </div>
   </label>
@@ -225,7 +225,7 @@ export const MarketingWaitlist: React.FC = () => {
                   <li key={b.label} className="flex items-start gap-stack-sm">
                     {b.icon}
                     <div>
-                      <span className="font-body text-body-sm font-semibold text-ink-800 block">
+                      <span className="font-body text-body font-semibold text-ink-800 block">
                         {b.label}
                       </span>
                       <span className="font-body text-caption text-ink-500">
@@ -276,10 +276,10 @@ export const MarketingWaitlist: React.FC = () => {
                       >
                         {/* Card heading */}
                         <div className="flex flex-col gap-stack-3xs">
-                          <h2 className="font-display font-bold text-ink-900 text-h4">
+                          <h2 className="font-display font-bold text-ink-900 text-h3">
                             Rejoindre la liste
                           </h2>
-                          <p className="font-body text-body-sm text-ink-500 m-0">
+                          <p className="font-body text-body text-ink-500 m-0">
                             Accès anticipé · Aucun engagement
                           </p>
                         </div>
@@ -306,7 +306,7 @@ export const MarketingWaitlist: React.FC = () => {
                               value={firstName}
                               onChange={(e) => setFirstName(e.target.value)}
                               placeholder="Votre prénom"
-                              className="h-11 px-4 rounded-lg bg-white border border-ink-200 text-ink-900 placeholder:text-ink-500 font-body text-body-sm focus:outline-none focus:border-primary-400 focus:shadow-sm transition-all shadow-xs"
+                              className="h-11 px-4 rounded-lg bg-white border border-ink-200 text-ink-900 placeholder:text-ink-500 font-body text-body focus:outline-none focus:border-primary-400 focus:shadow-sm transition-all shadow-xs"
                             />
                           </div>
 
@@ -333,7 +333,7 @@ export const MarketingWaitlist: React.FC = () => {
                               aria-describedby={emailError ? 'wl-email-error' : undefined}
                               aria-invalid={emailError}
                               className={[
-                                'h-11 px-4 rounded-lg bg-white border font-body text-body-sm text-ink-900',
+                                'h-11 px-4 rounded-lg bg-white border font-body text-body text-ink-900',
                                 'placeholder:text-ink-500 focus:outline-none transition-all shadow-xs',
                                 emailError
                                   ? 'border-danger-base focus:border-danger-base'
@@ -451,10 +451,10 @@ export const MarketingWaitlist: React.FC = () => {
                         </div>
 
                         <div className="flex flex-col gap-stack-xs">
-                          <h2 className="font-display font-bold text-ink-900 text-h4">
+                          <h2 className="font-display font-bold text-ink-900 text-h3">
                             {firstName ? `Parfait, ${firstName} !` : 'C’est noté !'}
                           </h2>
-                          <p className="font-body text-body-sm text-ink-600 m-0 max-w-xs mx-auto">
+                          <p className="font-body text-body text-ink-600 m-0 max-w-xs mx-auto">
                             {successMessage}
                           </p>
                         </div>
@@ -533,13 +533,13 @@ export const MarketingWaitlist: React.FC = () => {
                 key={card.eyebrow}
                 className={`rounded-xl border p-6 flex flex-col gap-stack-sm ${card.tone}`}
               >
-                <span className={`font-display font-bold text-body-sm uppercase tracking-widest ${card.eyebrowColor}`}>
+                <span className={`font-display font-bold text-body uppercase tracking-widest ${card.eyebrowColor}`}>
                   {card.eyebrow}
                 </span>
-                <h3 className="font-display font-bold text-ink-900 text-h4 tracking-snug">
+                <h3 className="font-display font-bold text-ink-900 text-h3 tracking-snug">
                   {card.title}
                 </h3>
-                <p className="font-body text-body-sm text-ink-600 m-0">
+                <p className="font-body text-body text-ink-600 m-0">
                   {card.desc}
                 </p>
               </div>

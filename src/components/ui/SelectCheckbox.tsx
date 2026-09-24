@@ -69,7 +69,7 @@ export const SelectCheckbox: React.FC<SelectCheckboxProps> = ({
         onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
         className={[
-          'inline-flex items-center gap-stack-2xs px-3.5 py-2 rounded-pill text-body-sm font-medium',
+          'inline-flex items-center gap-stack-2xs px-3.5 py-2 rounded-pill text-body font-medium',
           'backdrop-blur-glass-light transition-all duration-base',
           'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
           isActive

@@ -148,7 +148,7 @@ export default function EnterpriseKpis() {
       </div>
     ),
     roi: (
-      <span className="font-display text-body-sm font-bold text-success-fg">{d.roi}</span>
+      <span className="font-display text-body font-bold text-success-fg">{d.roi}</span>
     ),
   }));
 
@@ -257,7 +257,7 @@ export default function EnterpriseKpis() {
               <div className="flex flex-col gap-stack">
                 {COMPETENCES.map((c) => (
                   <div key={c.label} className="flex items-center gap-stack">
-                    <span className="w-36 shrink-0 text-body-sm font-semibold text-ink-700">
+                    <span className="w-36 shrink-0 text-body font-semibold text-ink-700">
                       {c.label}
                     </span>
                     <div className="flex-1">
@@ -288,14 +288,14 @@ export default function EnterpriseKpis() {
                   <div className="flex flex-col sm:flex-row gap-stack sm:items-center">
                     <div className="flex items-center gap-stack-xs">
                       <TrendingUp size={18} className="text-primary-600 shrink-0" />
-                      <span className="text-body-sm font-bold text-ink-900">
+                      <span className="text-body font-bold text-ink-900">
                         +10% engagement sur 6 mois
                       </span>
                     </div>
                     <div className="hidden sm:block w-px h-4 bg-ink-200 shrink-0" />
                     <div className="flex items-center gap-stack-xs">
                       <TrendingUp size={18} className="text-primary-600 shrink-0" />
-                      <span className="text-body-sm font-bold text-ink-900">
+                      <span className="text-body font-bold text-ink-900">
                         +0.4 Dreyfus moyen sur la période
                       </span>
                     </div>

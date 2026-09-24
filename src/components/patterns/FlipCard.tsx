@@ -169,13 +169,13 @@ export const FlipCard: React.FC<FlipCardProps> = ({
             </div>
 
             {/* Answer content */}
-            <p className="m-0 font-body text-h4 sm:text-h3 font-semibold leading-relaxed max-w-[600px]">
+            <p className="m-0 font-body text-h3 sm:text-h3 font-semibold leading-relaxed max-w-[600px]">
               {back.content}
             </p>
 
             {/* Optional details */}
             {back.details && (
-              <p className="m-0 font-body text-body-sm max-w-[500px]">
+              <p className="m-0 font-body text-body max-w-[500px]">
                 {back.details}
               </p>
             )}

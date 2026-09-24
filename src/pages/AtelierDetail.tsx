@@ -73,7 +73,7 @@ export default function AtelierDetail() {
           <Avatar name="Sophie Martin" initials="SM" size="xl" />
           <div className="flex flex-col gap-tight">
             <h3 className="text-h3 font-display font-bold text-ink-900">Sophie Martin</h3>
-            <p className="text-body-sm text-ink-500">Coach certifiée ICF · Spécialité Communication</p>
+            <p className="text-body text-ink-500">Coach certifiée ICF · Spécialité Communication</p>
             <p className="text-caption text-ink-600">Animation de +120 ateliers. Approche pratique et bienveillante.</p>
           </div>
         </Card>
@@ -87,7 +87,7 @@ export default function AtelierDetail() {
             {PROGRAMME.map((item, idx) => (
               <div key={idx} className="flex items-center gap-stack flex-wrap">
                 <Badge variant="info" size="compact">{item.time}</Badge>
-                <span className="text-body-sm text-ink-700 flex-1">{item.label}</span>
+                <span className="text-body text-ink-700 flex-1">{item.label}</span>
                 <span className="text-caption text-ink-600">{item.duration}</span>
               </div>
             ))}
@@ -103,7 +103,7 @@ export default function AtelierDetail() {
             {INFOS.map((info, idx) => (
               <div key={idx} className="flex flex-col gap-tight">
                 <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">{info.label}</span>
-                <span className="text-body-sm text-ink-800">{info.value}</span>
+                <span className="text-body text-ink-800">{info.value}</span>
               </div>
             ))}
           </div>

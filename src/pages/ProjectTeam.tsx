@@ -71,7 +71,7 @@ export const ProjectTeam: React.FC = () => {
                   <div className="flex items-center gap-stack-xs">
                     <Avatar initials={m.initials} size="md" tint="brand" />
                     <div className="flex flex-col gap-tight min-w-0">
-                      <span className="text-body-sm font-semibold text-ink-900 truncate">{m.name}</span>
+                      <span className="text-body font-semibold text-ink-900 truncate">{m.name}</span>
                       <div className="flex items-center gap-stack-2xs flex-wrap">
                         <Badge variant="neutral">{ROLE_LABELS[m.role]}</Badge>
                         <Badge variant="brand">{m.assignedTaskIds.length} tâche(s)</Badge>
@@ -114,7 +114,7 @@ export const ProjectTeam: React.FC = () => {
               <div key={m.userId} className="flex items-center gap-stack p-stack rounded-lg border border-ink-100">
                 <Avatar initials={m.initials} size="md" tint="warm" />
                 <div className="flex-1 min-w-0">
-                  <p className="text-body-sm font-semibold text-ink-900 m-0">{m.name}</p>
+                  <p className="text-body font-semibold text-ink-900 m-0">{m.name}</p>
                   <p className="text-caption text-ink-500 m-0">{ROLE_LABELS[m.role]}</p>
                 </div>
                 <Badge variant="warm">{ROLE_LABELS[m.role]}</Badge>
@@ -135,7 +135,7 @@ export const ProjectTeam: React.FC = () => {
               return (
                 <div key={req.competencyId} className="flex items-center justify-between gap-stack p-3 rounded-lg bg-ink-50">
                   <div className="flex-1 min-w-0">
-                    <p className="text-body-sm font-semibold text-ink-900 m-0">{req.competencyName}</p>
+                    <p className="text-body font-semibold text-ink-900 m-0">{req.competencyName}</p>
                     <p className="text-caption text-ink-500 m-0">
                       {membersAtLevel}/{collaborateurs.length} membres au niveau requis
                     </p>

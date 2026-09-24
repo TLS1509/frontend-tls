@@ -98,13 +98,13 @@ export const ComposedChart: React.FC<ComposedChartProps> = ({
           <XAxis
             dataKey="label"
             stroke="currentColor"
-            className="text-body-sm text-ink-600"
+            className="text-body text-ink-600"
             tick={{ fontSize: 12 }}
           />
           <YAxis
             yAxisId="left"
             stroke="currentColor"
-            className="text-body-sm text-ink-600"
+            className="text-body text-ink-600"
             tick={{ fontSize: 12 }}
             label={{ value: leftAxisLabel, angle: -90, position: 'insideLeft' }}
           />
@@ -113,7 +113,7 @@ export const ComposedChart: React.FC<ComposedChartProps> = ({
               yAxisId="right"
               orientation="right"
               stroke="currentColor"
-              className="text-body-sm text-ink-600"
+              className="text-body text-ink-600"
               tick={{ fontSize: 12 }}
               label={{ value: rightAxisLabel, angle: 90, position: 'insideRight' }}
             />

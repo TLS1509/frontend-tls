@@ -104,12 +104,12 @@ export default function HelpTicketDetail() {
                     </Avatar>
                     <div className="flex flex-col gap-stack-xs flex-1">
                       <div className="flex items-center justify-between gap-stack-xs">
-                        <span className="font-display font-semibold text-body-sm text-ink-900">
+                        <span className="font-display font-semibold text-body text-ink-900">
                           {reply.isAdminReply ? 'Support TLS' : 'Moi'}
                         </span>
                         <span className="text-caption text-ink-500">{formatDate(reply.createdAt)}</span>
                       </div>
-                      <p className="text-body-sm text-ink-700 m-0 whitespace-pre-line">
+                      <p className="text-body text-ink-700 m-0 whitespace-pre-line">
                         {reply.replyText}
                       </p>
                     </div>

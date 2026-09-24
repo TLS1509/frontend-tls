@@ -51,7 +51,7 @@ export const SelectCheckboxFloating: React.FC<SelectCheckboxFloatingProps> = ({
 
   return (
     <div className={`flex flex-col gap-tight ${className}`}>
-      {label && <span className="text-body-sm font-semibold text-ink-700">{label}</span>}
+      {label && <span className="text-body font-semibold text-ink-700">{label}</span>}
 
       {/* Floating pills container */}
       <div className="flex flex-wrap gap-stack-xs">
@@ -74,7 +74,7 @@ export const SelectCheckboxFloating: React.FC<SelectCheckboxFloatingProps> = ({
                 onChange={() => handleToggle(option.id)}
                 className="w-4 h-4 cursor-pointer accent-primary-600 rounded"
               />
-              <span className="text-body-sm">{option.label}</span>
+              <span className="text-body">{option.label}</span>
             </label>
           );
         })}

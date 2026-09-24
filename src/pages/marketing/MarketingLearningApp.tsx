@@ -72,7 +72,7 @@ const Hero: React.FC = () => {
                 <span className={i === 3 ? 'text-primary-700' : undefined}>{j}</span>
               </li>
             ))}
-            <li className="font-body text-body-sm text-ink-500 ps-stack-xs">
+            <li className="font-body text-body text-ink-500 ps-stack-xs">
               la reprise espacée, jusqu'à la bascule des 90 jours
             </li>
           </ol>
@@ -437,17 +437,17 @@ const Bibliotheque: React.FC = () => {
               <caption className="sr-only">Matrice d'évaluation : échelle Dreyfus D1 à D5</caption>
               <thead>
                 <tr className="bg-primary-50">
-                  <th scope="col" className="px-stack-md py-3 font-display text-body-sm font-bold text-ink-900">Niveau</th>
-                  <th scope="col" className="px-stack-md py-3 font-display text-body-sm font-bold text-ink-900">Statut</th>
-                  <th scope="col" className="px-stack-md py-3 font-display text-body-sm font-bold text-ink-900">Critère d'observation</th>
+                  <th scope="col" className="px-stack-md py-3 font-display text-body font-bold text-ink-900">Niveau</th>
+                  <th scope="col" className="px-stack-md py-3 font-display text-body font-bold text-ink-900">Statut</th>
+                  <th scope="col" className="px-stack-md py-3 font-display text-body font-bold text-ink-900">Critère d'observation</th>
                 </tr>
               </thead>
               <tbody>
                 {DREYFUS.map((d) => (
                   <tr key={d.niveau} className="border-t border-ink-100">
-                    <td className="px-stack-md py-3 font-body text-body-sm font-bold text-primary-800 whitespace-nowrap">{d.niveau}</td>
-                    <td className="px-stack-md py-3 font-body text-body-sm text-ink-700 whitespace-nowrap">{d.statut}</td>
-                    <td className="px-stack-md py-3 font-body text-body-sm text-ink-600">{d.critere}</td>
+                    <td className="px-stack-md py-3 font-body text-body font-bold text-primary-800 whitespace-nowrap">{d.niveau}</td>
+                    <td className="px-stack-md py-3 font-body text-body text-ink-700 whitespace-nowrap">{d.statut}</td>
+                    <td className="px-stack-md py-3 font-body text-body text-ink-600">{d.critere}</td>
                   </tr>
                 ))}
               </tbody>
@@ -462,7 +462,7 @@ const Bibliotheque: React.FC = () => {
               <h3 className="font-display text-h3 font-bold text-ink-900">
                 Explorez une brique de compétence.
               </h3>
-              <p className="font-body text-body-sm text-ink-600 m-0">
+              <p className="font-body text-body text-ink-600 m-0">
                 Choisissez une compétence et un niveau : la fiche montre les
                 preuves attendues et le parcours qui y mène.
               </p>
@@ -475,7 +475,7 @@ const Bibliotheque: React.FC = () => {
                   type="button"
                   onClick={() => setFicheIdx(i)}
                   aria-pressed={i === ficheIdx}
-                  className={`min-h-touch rounded-pill px-4 py-2 font-body text-body-sm font-bold transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
+                  className={`min-h-touch rounded-pill px-4 py-2 font-body text-body font-bold transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                     i === ficheIdx
                       ? 'bg-primary-700 text-white'
                       : 'bg-white text-ink-700 hover:bg-primary-100 ring-1 ring-ink-200'
@@ -492,7 +492,7 @@ const Bibliotheque: React.FC = () => {
                   <MetaPill text={fiche.type} tone="primary" />
                   <span className="font-body text-caption text-ink-500">{fiche.domaine}</span>
                 </div>
-                <h4 className="font-display text-h4 text-ink-900">
+                <h4 className="font-display text-h3 text-ink-900">
                   {fiche.competence}
                 </h4>
                 <div className="flex flex-wrap gap-stack-xs" role="group" aria-label="Choisir un niveau Dreyfus">
@@ -502,7 +502,7 @@ const Bibliotheque: React.FC = () => {
                       type="button"
                       onClick={() => setNiveau(n)}
                       aria-pressed={n === niveau}
-                      className={`min-h-touch rounded-pill px-4 py-1.5 font-body text-body-sm font-bold transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
+                      className={`min-h-touch rounded-pill px-4 py-1.5 font-body text-body font-bold transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                         n === niveau
                           ? 'bg-ink-900 text-white'
                           : 'bg-ink-50 text-ink-700 hover:bg-ink-100'
@@ -524,14 +524,14 @@ const Bibliotheque: React.FC = () => {
               <div className="lg:col-span-5 flex flex-col gap-stack">
                 <div className="flex items-start gap-stack rounded-lg border border-ink-200 bg-white p-stack-lg">
                   <CalendarClock size={20} className="text-primary-700 shrink-0 mt-0.5" />
-                  <p className="font-body text-body-sm text-ink-700 m-0">
+                  <p className="font-body text-body text-ink-700 m-0">
                     <span className="font-bold text-ink-900">Parcours lié : </span>
                     {fiche.parcours}
                   </p>
                 </div>
                 <div className="flex items-start gap-stack rounded-lg border border-ink-200 bg-white p-stack-lg">
                   <BadgeCheck size={20} className="text-primary-700 shrink-0 mt-0.5" />
-                  <p className="font-body text-body-sm text-ink-700 m-0">
+                  <p className="font-body text-body text-ink-700 m-0">
                     <span className="font-bold text-ink-900">Reconnaissance : </span>
                     chaque niveau validé génère un Open Badge et incrémente le
                     Passeport ainsi que la heatmap d'équipe.
@@ -576,7 +576,7 @@ const ActifStrategique: React.FC = () => (
             <h3 className="font-display text-feature text-ink-900">
               Du Skills-Based au Matching Projets
             </h3>
-            <p className="font-body text-body-sm text-ink-600 m-0">
+            <p className="font-body text-body text-ink-600 m-0">
               La maturité IA de votre organisation commence par une donnée de
               compétences propre et vivante. C'est exactement ce que la
               Learning App construit, jour après jour.

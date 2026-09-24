@@ -65,7 +65,7 @@ export const ProjectPasseportFeed: React.FC = () => {
       {enrichments.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-section gap-stack text-center">
           <TrendingUp size={40} className="text-ink-300" />
-          <p className="text-body-sm text-ink-500 m-0">Aucun enrichissement Passeport pour ce projet.</p>
+          <p className="text-body text-ink-500 m-0">Aucun enrichissement Passeport pour ce projet.</p>
           <p className="text-caption text-ink-600 m-0">Les enrichissements apparaîtront quand des JAC seront validés.</p>
         </div>
       ) : (
@@ -81,7 +81,7 @@ export const ProjectPasseportFeed: React.FC = () => {
                 <div key={e.id} className="flex items-center gap-stack p-stack rounded-lg bg-success-bg border border-success-base/20">
                   <Avatar initials={e.collaboratorInitials} size="md" tint="brand" />
                   <div className="flex-1 min-w-0">
-                    <p className="text-body-sm font-semibold text-ink-900 m-0">
+                    <p className="text-body font-semibold text-ink-900 m-0">
                       {e.collaboratorName} : {e.competencyName}
                     </p>
                     <p className="text-caption text-success-fg m-0">
@@ -108,7 +108,7 @@ export const ProjectPasseportFeed: React.FC = () => {
                     <div className="flex items-center gap-stack-xs">
                       <Avatar initials={c.initials} size="md" tint="brand" />
                       <div>
-                        <p className="text-body-sm font-semibold text-ink-900 m-0">{c.name}</p>
+                        <p className="text-body font-semibold text-ink-900 m-0">{c.name}</p>
                         <p className="text-caption text-ink-500 m-0">{c.count} enrichissement(s)</p>
                       </div>
                     </div>

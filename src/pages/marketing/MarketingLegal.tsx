@@ -24,13 +24,13 @@ const LegalPage: React.FC<LegalPageProps> = ({ icon, title, subtitle, lastUpdate
     {/* Hero */}
     <div className="bg-gradient-to-br from-primary-700 to-primary-900 text-white pt-24 sm:pt-28 lg:pt-32 pb-16 px-6">
       <div className="max-w-page mx-auto">
-        <Link to="/website" className="inline-flex items-center gap-stack-xs text-white hover:underline underline-offset-4 text-body-sm mb-section">
+        <Link to="/website" className="inline-flex items-center gap-stack-xs text-white hover:underline underline-offset-4 text-body mb-section">
           <ArrowLeft size={16} />
           Retour à l'accueil
         </Link>
         <div className="flex items-center gap-stack-xs mb-stack text-white">
           {icon}
-          <span className="text-body-sm font-body uppercase tracking-widest">Document légal</span>
+          <span className="text-body font-body uppercase tracking-widest">Document légal</span>
         </div>
         <h1 className="font-display text-h1 font-bold mb-3">{title}</h1>
         <p className="text-white text-body-lg">{subtitle}</p>
@@ -50,7 +50,7 @@ const LegalPage: React.FC<LegalPageProps> = ({ icon, title, subtitle, lastUpdate
 
         {/* Placeholder notice */}
         <div className="rounded-lg border border-warning-bg bg-warning-bg/50 p-stack mt-stack-lg">
-          <p className="text-body-sm text-warning-fg font-body">
+          <p className="text-body text-warning-fg font-body">
             <strong>Document en cours de rédaction.</strong> Ce contenu sera complété avant le lancement du site. Pour toute question, contactez-nous à{' '}
             <a href="mailto:contact@thelearningsociety.fr" className="underline hover:no-underline">
               contact@thelearningsociety.fr

@@ -326,7 +326,7 @@ export const JournalNewEntry: React.FC = () => {
         <div className="mb-stack-lg">
           <div className="flex items-center gap-stack-xs mb-stack">
             <Wand2 size={16} className="text-primary-500" />
-            <span className="font-body text-body-sm font-semibold text-ink-900">Type d'entrée</span>
+            <span className="font-body text-body font-semibold text-ink-900">Type d'entrée</span>
           </div>
 
           <div className="grid grid-cols-4 gap-stack max-sm:grid-cols-2">
@@ -356,7 +356,7 @@ export const JournalNewEntry: React.FC = () => {
                     {tc.icon}
                   </span>
 
-                  <span className={`font-body text-body-sm leading-snug ${isSelected ? 'font-semibold text-ink-900' : 'font-medium text-ink-500'}`}>
+                  <span className={`font-body text-body leading-snug ${isSelected ? 'font-semibold text-ink-900' : 'font-medium text-ink-500'}`}>
                     {tc.label}
                   </span>
                 </button>
@@ -369,7 +369,7 @@ export const JournalNewEntry: React.FC = () => {
         <div className="mb-section">
           <div className="flex items-center gap-stack-xs mb-stack">
             <Smile size={18} className="text-primary-500" />
-            <span className="font-body text-body-sm font-semibold text-ink-900">Comment vous sentez-vous ?</span>
+            <span className="font-body text-body font-semibold text-ink-900">Comment vous sentez-vous ?</span>
           </div>
           <MoodSelector value={mood} onChange={setMood} />
         </div>
@@ -379,7 +379,7 @@ export const JournalNewEntry: React.FC = () => {
           <button
             type="button"
             onClick={handleInspirationClick}
-            className="inline-flex items-center gap-stack-xs px-4 py-2 rounded-lg bg-secondary-50 border border-secondary-200 text-secondary-700 font-body text-body-sm font-bold cursor-pointer hover:bg-secondary-100 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-500"
+            className="inline-flex items-center gap-stack-xs px-4 py-2 rounded-lg bg-secondary-50 border border-secondary-200 text-secondary-700 font-body text-body font-bold cursor-pointer hover:bg-secondary-100 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-500"
           >
             <Sparkles size={14} />
             Besoin d'inspiration ?
@@ -390,7 +390,7 @@ export const JournalNewEntry: React.FC = () => {
         <div className="mb-section">
           <div className="flex items-center gap-stack-xs mb-stack">
             <Lightbulb size={18} className="text-primary-500" />
-            <span className="font-body text-body-sm font-semibold text-ink-900">
+            <span className="font-body text-body font-semibold text-ink-900">
               {selectedType === 'apprentissage' || selectedType === 'pratique-pro'
                 ? 'Template EDRA-R (optionnel)'
                 : 'Questions structurantes (optionnel)'}
@@ -408,7 +408,7 @@ export const JournalNewEntry: React.FC = () => {
                     className="w-full flex items-center justify-between gap-stack-xs px-4 py-3 bg-white hover:bg-ink-50 transition-colors text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                   >
                     <div className="flex-1 min-w-0">
-                      <p className="font-body text-body-sm font-semibold text-ink-900">{q.title}</p>
+                      <p className="font-body text-body font-semibold text-ink-900">{q.title}</p>
                       {!isExpanded && <p className="text-caption text-ink-500">{q.description}</p>}
                     </div>
                     <ChevronDown

@@ -159,7 +159,7 @@ export const AuthShell: React.FC<AuthShellProps> = ({
                   {brandContent.title}
                 </h1>
                 {brandContent.subtitle && (
-                  <p className="font-body text-body-sm text-white/75 m-0">
+                  <p className="font-body text-body text-white/75 m-0">
                     {brandContent.subtitle}
                   </p>
                 )}
@@ -208,7 +208,7 @@ export const AuthBackLink: React.FC<AuthBackLinkProps> = ({ label, onClick, clas
     className={[
       'inline-flex items-center gap-stack-2xs self-start',
       'bg-transparent border-0 p-0 cursor-pointer',
-      'text-body-sm font-medium text-white/90 hover:text-white transition-colors',
+      'text-body font-medium text-white/90 hover:text-white transition-colors',
       className,
     ].filter(Boolean).join(' ')}
   >
@@ -253,7 +253,7 @@ export const AuthSocialButton: React.FC<AuthSocialButtonProps> = ({
     className={[
       'inline-flex items-center justify-center gap-stack-xs h-12 px-4',
       RAYON_BOUTON,
-      'bg-white text-ink-900 text-body-sm font-semibold cursor-pointer transition-all',
+      'bg-white text-ink-900 text-body font-semibold cursor-pointer transition-all',
       /* Soulèvement retiré le 2026-09-17 — même motif que S1 sur Button.tsx :
          il datait l'interface, déplaçait le contenu sous le curseur et
          n'existait pas sur mobile. L'ombre reste (canon bouton). */
@@ -286,7 +286,7 @@ export const AuthSuccess: React.FC<AuthSuccessProps> = ({ icon, title, descripti
     <div className="flex flex-col gap-stack-xs">
       <h3 className="font-display text-h3 font-bold text-white">{title}</h3>
       {description && (
-        <p className="m-0 text-body-sm text-white/75 max-w-[44ch]">{description}</p>
+        <p className="m-0 text-body text-white/75 max-w-[44ch]">{description}</p>
       )}
     </div>
     {children && <div className="mt-2 w-full">{children}</div>}
@@ -304,7 +304,7 @@ export const AuthInlineLink: React.FC<React.ButtonHTMLAttributes<HTMLButtonEleme
   <button
     type="button"
     className={[
-      'bg-transparent border-0 p-0 cursor-pointer text-body-sm font-semibold text-white underline-offset-4 hover:underline transition-colors',
+      'bg-transparent border-0 p-0 cursor-pointer text-body font-semibold text-white underline-offset-4 hover:underline transition-colors',
       className,
     ]
       .filter(Boolean)
@@ -350,7 +350,7 @@ export const AuthFeature: React.FC<AuthFeatureProps> = ({
       {icon}
       {title}
     </h4>
-    {description && <p className="m-0 text-body-sm text-white/75">{description}</p>}
+    {description && <p className="m-0 text-body text-white/75">{description}</p>}
   </div>
 );
 
@@ -525,7 +525,7 @@ export const AuthCheckbox: React.FC<AuthCheckboxProps> = ({
       aria-hidden
       className="mt-0.5 inline-flex items-center justify-center w-5 h-5 shrink-0 rounded-sm border-2 border-white/40 bg-white/10 transition-all peer-checked:bg-white peer-checked:border-white after:content-['✓'] after:text-primary-700 after:font-bold after:text-[13px] after:opacity-0 peer-checked:after:opacity-100"
     />
-    <span className="text-body-sm text-white/85">{label}</span>
+    <span className="text-body text-white/85">{label}</span>
   </label>
 );
 

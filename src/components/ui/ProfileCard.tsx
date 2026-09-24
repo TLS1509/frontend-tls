@@ -108,9 +108,9 @@ const VARIANT_PADDING: Record<ProfileCardVariant, string> = {
 };
 
 const VARIANT_NAME_SIZE: Record<ProfileCardVariant, string> = {
-  compact:    'text-h4',
-  horizontal: 'text-h4',
-  default:  'text-h4',
+  compact:    'text-h3',
+  horizontal: 'text-h3',
+  default:  'text-h3',
   featured: 'text-h3',
 };
 
@@ -357,7 +357,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 
       {/* Bio */}
       {bio && (
-        <p className={`m-0 font-body text-body-sm text-ink-600 ${isCentered ? 'text-center' : 'text-left'}`}>
+        <p className={`m-0 font-body text-body text-ink-600 ${isCentered ? 'text-center' : 'text-left'}`}>
           {bio}
         </p>
       )}

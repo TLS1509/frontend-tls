@@ -70,7 +70,7 @@ export default function CoachApprenants() {
         {stuckCount > 0 && (
           <div className="flex items-start gap-stack p-stack bg-warning-bg border border-warning-border rounded-lg">
             <AlertTriangle size={18} className="text-warning-fg shrink-0 mt-0.5" />
-            <p className="text-body-sm text-ink-700">
+            <p className="text-body text-ink-700">
               <strong>{stuckCount} apprenants</strong> n'ont pas eu d'activité depuis plus de 7 jours. Une prise de contact est recommandée.
             </p>
           </div>
@@ -85,7 +85,7 @@ export default function CoachApprenants() {
               placeholder="Rechercher un apprenant..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2.5 rounded-lg border border-ink-200 text-body-sm focus:outline-none focus:border-primary-400 transition-colors duration-fast"
+              className="w-full pl-9 pr-4 py-2.5 rounded-lg border border-ink-200 text-body focus:outline-none focus:border-primary-400 transition-colors duration-fast"
             />
           </div>
           <div className="flex flex-wrap gap-stack-xs">

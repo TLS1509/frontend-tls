@@ -52,7 +52,7 @@ export default function MasterclassSurvey() {
             <CheckCircle size={32} className="text-success-fg" />
           </div>
           <h1 className="text-h2 font-display font-bold text-ink-900 text-balance">Merci pour ton retour.</h1>
-          <p className="text-body-sm text-ink-500">
+          <p className="text-body text-ink-500">
             Ton avis nous aide à améliorer nos masterclasses. À bientôt.
           </p>
           <Button emphasis="soft" size="lg" onClick={() => navigate('/masterclass')}>
@@ -76,14 +76,14 @@ export default function MasterclassSurvey() {
           <h1 className="text-h2 font-display font-bold text-ink-900 text-balance">
             Comment s'est passée la session ?
           </h1>
-          <p className="text-body-sm text-ink-500">
+          <p className="text-body text-ink-500">
             Ton avis nous aide à améliorer les prochaines masterclasses.
           </p>
         </div>
 
         {/* Rating : 1–5 scale per spec (chat_surveys.rating 1-5) */}
         <Card variant="default" className="p-stack-lg flex flex-col">
-          <p className="text-body-sm font-semibold text-ink-800">Ta satisfaction globale</p>
+          <p className="text-body font-semibold text-ink-800">Ta satisfaction globale</p>
           <div className="flex justify-between gap-stack-xs">
             {([1, 2, 3, 4, 5] as const).map((score) => (
               <button
@@ -109,11 +109,11 @@ export default function MasterclassSurvey() {
 
         {/* Feedback */}
         <Card variant="default" className="p-stack-lg flex flex-col">
-          <p className="text-body-sm font-semibold text-ink-800">Un commentaire ? (optionnel)</p>
+          <p className="text-body font-semibold text-ink-800">Un commentaire ? (optionnel)</p>
           <textarea
             value={feedback}
             onChange={(e) => setFeedback(e.target.value)}
-            className="w-full min-h-[100px] h-auto p-3 border border-ink-200 rounded-lg text-body-sm resize-none focus:outline-none focus:border-primary-400"
+            className="w-full min-h-[100px] h-auto p-3 border border-ink-200 rounded-lg text-body resize-none focus:outline-none focus:border-primary-400"
             placeholder="Ce que tu as aimé, ce qui pourrait être amélioré..."
           />
         </Card>

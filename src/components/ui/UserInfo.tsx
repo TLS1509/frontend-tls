@@ -21,15 +21,15 @@ const SIZE_GAP: Record<UserInfoSize, string> = {
 };
 
 const NAME_SIZE: Record<UserInfoSize, string> = {
-  sm: 'text-body-sm',
+  sm: 'text-body',
   md: 'text-body',
-  lg: 'text-h4',
+  lg: 'text-h3',
 };
 
 const ROLE_SIZE: Record<UserInfoSize, string> = {
   sm: 'text-micro',
   md: 'text-caption',
-  lg: 'text-body-sm',
+  lg: 'text-body',
 };
 
 const STATUS_DOT_COLOR: Record<UserInfoStatus, string> = {

@@ -73,7 +73,7 @@ const CONTAINER_VARIANT: Record<TabsVariant, string> = {
 };
 
 const TAB_BASE =
-  'inline-flex items-center gap-stack-xs min-h-touch bg-transparent border-0 font-body text-body-sm font-medium text-ink-600 cursor-pointer transition-all ' +
+  'inline-flex items-center gap-stack-xs min-h-touch bg-transparent border-0 font-body text-body font-medium text-ink-600 cursor-pointer transition-all ' +
   'focus-visible:outline-2 focus-visible:outline-primary-400 ' +
   'disabled:opacity-disabled disabled:cursor-not-allowed';
 

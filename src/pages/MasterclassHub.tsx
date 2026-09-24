@@ -61,7 +61,7 @@ export default function MasterclassHub() {
 
         {/* Grid */}
         {filtered.length === 0 ? (
-          <p className="text-body-sm text-ink-600 py-section text-center">Aucune masterclass dans cette catégorie.</p>
+          <p className="text-body text-ink-600 py-section text-center">Aucune masterclass dans cette catégorie.</p>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-stack">
             {filtered.map((mc) => {

@@ -57,7 +57,7 @@ export default function MasterclassReplay() {
             {/* Résumé IA */}
             <SectionCard title="Résumé IA" titleIcon={<Sparkles size={18} />}>
               <AITransparencyLabel variant="generated" size="md" />
-              <p className="text-body-sm text-ink-600 mt-stack-xs">
+              <p className="text-body text-ink-600 mt-stack-xs">
                 Marie Fontaine a présenté trois leviers essentiels pour maintenir la cohésion d'équipe en période de crise : la transparence radicale dans la communication, la délégation raisonnée pour préserver l'énergie collective, et le recadrage positif pour maintenir la motivation malgré l'incertitude.
               </p>
               <div className="flex flex-wrap gap-stack-xs mt-tight">
@@ -71,7 +71,7 @@ export default function MasterclassReplay() {
             <SectionCard title="Mes notes" titleIcon={<Edit3 size={18} />}>
               <textarea
                 placeholder="Ajoute tes notes sur la session..."
-                className="w-full min-h-[120px] h-auto p-3 border border-ink-200 rounded-lg text-body-sm resize-none focus:outline-none focus:border-primary-400"
+                className="w-full min-h-[120px] h-auto p-3 border border-ink-200 rounded-lg text-body resize-none focus:outline-none focus:border-primary-400"
               />
               <div className="flex justify-end mt-tight">
                 <Button emphasis="outline" size="sm">Sauvegarder</Button>
@@ -108,7 +108,7 @@ export default function MasterclassReplay() {
 
             {/* CTA enquête */}
             <Card variant="tinted" tone="sun" className="p-stack-md flex flex-col gap-tight">
-              <p className="text-body-sm font-semibold text-ink-900">Ton avis compte.</p>
+              <p className="text-body font-semibold text-ink-900">Ton avis compte.</p>
               <p className="text-caption text-ink-500">Aide-nous à améliorer les prochaines sessions.</p>
               <Button emphasis="soft" size="sm" fullWidth className="mt-tight">
                 Donner mon avis

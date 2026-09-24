@@ -52,7 +52,7 @@ export function SimpleTable<T>({
 
   return (
     <div className={['w-full overflow-x-auto rounded-xl border border-ink-200', className].filter(Boolean).join(' ')}>
-      <table className="w-full text-body-sm font-body border-collapse">
+      <table className="w-full text-body font-body border-collapse">
         {caption && (
           <caption className="text-caption text-ink-500 text-left px-4 py-2 font-medium">
             {caption}
@@ -82,7 +82,7 @@ export function SimpleTable<T>({
             <tr>
               <td
                 colSpan={columns.length}
-                className="px-4 py-10 text-center text-body-sm text-ink-600 italic"
+                className="px-4 py-10 text-center text-body text-ink-600 italic"
               >
                 {emptyLabel}
               </td>

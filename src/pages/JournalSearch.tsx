@@ -111,7 +111,7 @@ const JournalSearch: React.FC = () => {
                       <div className="flex items-center gap-stack-xs mb-1">
                         <h3 className="font-semibold">{e.title}</h3>
                       </div>
-                      <p className="text-body-sm text-ink-600 mb-stack-xs">{excerpt}</p>
+                      <p className="text-body text-ink-600 mb-stack-xs">{excerpt}</p>
                       <div className="flex items-center gap-stack-xs flex-wrap">
                         <Badge variant="neutral">{TYPE_LABELS[e.type] ?? e.type}</Badge>
                         <Badge variant="brand">{cfg.label}</Badge>

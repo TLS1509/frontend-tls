@@ -74,7 +74,7 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
       aria-describedby={error || hint ? `${groupId}-message` : undefined}
     >
       {label && (
-        <legend className="text-body-sm font-semibold text-ink-900 mb-1">
+        <legend className="text-body font-semibold text-ink-900 mb-1">
           {label}
           {required && <span className="text-danger-fg ml-0.5" aria-hidden="true">*</span>}
         </legend>
@@ -139,7 +139,7 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
                 </span>
 
                 <div className="flex flex-col gap-tight min-w-0">
-                  <span className="text-body-sm font-semibold text-ink-900 leading-snug">
+                  <span className="text-body font-semibold text-ink-900 leading-snug">
                     {option.label}
                   </span>
                   {option.description && (
@@ -197,7 +197,7 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
               {(option.label || option.description) && (
                 <div className="flex flex-col gap-tight">
                   {option.label && (
-                    <span className="text-body-sm font-semibold text-ink-900 leading-snug">
+                    <span className="text-body font-semibold text-ink-900 leading-snug">
                       {option.label}
                     </span>
                   )}

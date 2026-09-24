@@ -105,7 +105,7 @@ const getDayBtnClass = (hasSlots: boolean, isSelected: boolean): string => {
   return `${base} border-transparent bg-transparent text-ink-600 opacity-35 cursor-default`;
 };
 
-const TIME_SLOT_BASE = 'w-full py-2 rounded-lg font-semibold text-body-sm cursor-pointer transition-all text-center border';
+const TIME_SLOT_BASE = 'w-full py-2 rounded-lg font-semibold text-body cursor-pointer transition-all text-center border';
 const TIME_SLOT_SELECTED = 'border-2 border-primary-500 bg-primary-50 text-primary-800';
 const TIME_SLOT_DEFAULT = 'border-ink-200 bg-white text-ink-900 hover:border-primary-300 hover:bg-primary-50';
 
@@ -315,7 +315,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     >
                       <ChevronLeft />
                     </Button>
-                    <span className="font-bold text-body-sm text-ink-900">
+                    <span className="font-bold text-body text-ink-900">
                       {MONTHS_FR[currentMonth.getMonth()]} {currentMonth.getFullYear()}
                     </span>
                     <Button
@@ -396,7 +396,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               {/* Order summary compact */}
               <div className="p-stack rounded-xl bg-primary-50 border border-primary-100 flex items-center justify-between gap-stack-xs">
                 <div className="flex flex-col gap-tight min-w-0">
-                  <span className="font-display text-body-sm font-bold text-ink-900 truncate">
+                  <span className="font-display text-body font-bold text-ink-900 truncate">
                     Session 1:1 avec {coachName}
                   </span>
                   <span className="font-body text-caption text-ink-600 truncate">
@@ -428,7 +428,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     placeholder="1234 5678 9012 3456"
                     value={cardNumber}
                     onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
-                    className="px-3 py-2 rounded-lg border border-ink-200 bg-white text-body-sm text-ink-900 font-mono tracking-wider focus:outline-2 focus:outline-primary-500 focus:border-primary-500"
+                    className="px-3 py-2 rounded-lg border border-ink-200 bg-white text-body text-ink-900 font-mono tracking-wider focus:outline-2 focus:outline-primary-500 focus:border-primary-500"
                   />
                 </label>
 
@@ -439,7 +439,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     placeholder="JEAN DUPONT"
                     value={cardName}
                     onChange={(e) => setCardName(e.target.value.toUpperCase())}
-                    className="px-3 py-2 rounded-lg border border-ink-200 bg-white text-body-sm text-ink-900 focus:outline-2 focus:outline-primary-500 focus:border-primary-500"
+                    className="px-3 py-2 rounded-lg border border-ink-200 bg-white text-body text-ink-900 focus:outline-2 focus:outline-primary-500 focus:border-primary-500"
                   />
                 </label>
 
@@ -451,7 +451,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     placeholder="MM/AA"
                     value={cardExpiry}
                     onChange={(e) => setCardExpiry(formatExpiry(e.target.value))}
-                    className="px-3 py-2 rounded-lg border border-ink-200 bg-white text-body-sm text-ink-900 font-mono focus:outline-2 focus:outline-primary-500 focus:border-primary-500"
+                    className="px-3 py-2 rounded-lg border border-ink-200 bg-white text-body text-ink-900 font-mono focus:outline-2 focus:outline-primary-500 focus:border-primary-500"
                   />
                 </label>
                 <label className="flex flex-col gap-tight">
@@ -463,7 +463,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     maxLength={4}
                     value={cardCVC}
                     onChange={(e) => setCardCVC(e.target.value.replace(/\D/g, ''))}
-                    className="px-3 py-2 rounded-lg border border-ink-200 bg-white text-body-sm text-ink-900 font-mono focus:outline-2 focus:outline-primary-500 focus:border-primary-500"
+                    className="px-3 py-2 rounded-lg border border-ink-200 bg-white text-body text-ink-900 font-mono focus:outline-2 focus:outline-primary-500 focus:border-primary-500"
                   />
                 </label>
               </div>
@@ -486,7 +486,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   </div>
                   <div className="flex-1 min-w-[180px]">
                     <p className="m-0 text-caption font-bold text-ink-900">Session</p>
-                    <p className="m-0 text-body-sm font-extrabold text-primary-800">
+                    <p className="m-0 text-body font-extrabold text-primary-800">
                       {selectedDate && formatDateLabel(selectedDate)} · {selectedTime}
                     </p>
                   </div>
@@ -513,7 +513,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     </span>
                   )}
                   {needsPayment && (
-                    <span className="font-display text-body-sm font-bold text-ink-900">{sessionPrice} €</span>
+                    <span className="font-display text-body font-bold text-ink-900">{sessionPrice} €</span>
                   )}
                 </div>
               </div>

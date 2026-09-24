@@ -95,7 +95,7 @@ export const HeatmapGrid: React.FC<HeatmapGridProps> = ({
                         {row.initials}
                       </span>
                     )}
-                    <span className="text-body-sm font-medium text-ink-900 whitespace-nowrap">
+                    <span className="text-body font-medium text-ink-900 whitespace-nowrap">
                       {row.name}
                     </span>
                   </div>

@@ -261,7 +261,7 @@ export default function PasseportRoadmap() {
                   {/* Content */}
                   <div className={['flex flex-col gap-tight pb-stack', isLast ? '' : ''].join(' ')}>
                     <div className="flex items-center gap-stack-xs flex-wrap">
-                      <span className="font-display font-semibold text-body-sm text-ink-900">
+                      <span className="font-display font-semibold text-body text-ink-900">
                         {jalon.title}
                       </span>
                       <Badge variant={cfg.badgeVariant} size="compact">
@@ -271,7 +271,7 @@ export default function PasseportRoadmap() {
                         {jalon.dreyfusLevel}
                       </Badge>
                     </div>
-                    <p className="m-0 text-body-sm text-ink-500">{jalon.description}</p>
+                    <p className="m-0 text-body text-ink-500">{jalon.description}</p>
                     <div className="flex items-center gap-stack-xs text-caption text-ink-600">
                       <Clock size={14} aria-hidden />
                       <span>Cible : {jalon.targetDate}</span>
@@ -291,17 +291,17 @@ export default function PasseportRoadmap() {
         >
           <div className="flex flex-col gap-stack">
             {suggestions.length === 0 && (
-              <p className="m-0 text-body-sm text-ink-500">
+              <p className="m-0 text-body text-ink-500">
                 Tu as ignoré toutes les suggestions de cette page.
               </p>
             )}
             {suggestions.map((s) => (
               <Card key={s.id} variant="tinted" tone="primary" className="p-stack-md flex flex-col gap-tight">
                 <div className="flex items-start justify-between gap-stack-xs flex-wrap">
-                  <p className="m-0 font-semibold text-body-sm text-ink-900 flex-1">{s.conseil}</p>
+                  <p className="m-0 font-semibold text-body text-ink-900 flex-1">{s.conseil}</p>
                   <Badge variant="brand" size="compact">{s.competence}</Badge>
                 </div>
-                <p className="m-0 text-body-sm text-ink-500">{s.detail}</p>
+                <p className="m-0 text-body text-ink-500">{s.detail}</p>
                 <div className="flex justify-end gap-stack-xs flex-wrap">
                   <AIOverrideButton label="Ignorer" onOverride={(reason) => ignorer(s, reason)} size="sm" />
                   <Button emphasis="outline" size="sm" trailingIcon={<ChevronRight size={14} />}>

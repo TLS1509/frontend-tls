@@ -77,7 +77,7 @@ export const Stepper: React.FC<StepperProps> = ({
 
             {isVertical ? (
               <div className="pt-2 flex-1 min-w-0">
-                <p className={`m-0 text-body-sm leading-snug ${LABEL_STATE[item.state]}`}>
+                <p className={`m-0 text-body leading-snug ${LABEL_STATE[item.state]}`}>
                   {item.label}
                 </p>
                 {item.description && (
