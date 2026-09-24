@@ -49,6 +49,29 @@ const RAYON_BOUTON = 'rounded-lg';
    de bouton dans l'app. */
 const TAILLE_BOUTON = 'h-13 px-stack-lg text-body font-bold';
 
+/* Le niveau « contour » de la famille Auth — les deux boutons secondaires,
+   `AuthGhostButton` et `AuthSocialButton`, le partagent (2026-09-24).
+
+   Hiérarchie (arbitrage n°19) : sur la coque, UN aplat — `AuthPrimaryButton`,
+   blanc plein, l'action principale. Tout le reste recule d'un cran. Les boutons
+   Google et LinkedIn portaient le même fond blanc plein : sur /auth/login et
+   /auth/signup, trois boutons pleins, et l'action principale ne se distinguait
+   plus que par son ombre.
+
+   Filet blanc à 70 %, et non 30 % : c'est le contrat de `Button onDark
+   outline`, et il est mesuré. Le contour d'un composant doit tenir 3:1 contre
+   ce qui l'entoure (SC 1.4.11). Mesuré aux pixels sur la coque, le 24/09 :
+   blanc/30 → 2,01:1 à 1440 px, 1,88:1 à 375 (la coque s'éclaircit en haut à
+   375) ; blanc/70 → 3,7 à 4,3:1. On a changé la teinte, pas l'épaisseur.
+
+   Le survol FONCE, il n'éclaircit pas — même règle que l'aplat de `Button`.
+   Un voile blanc sous un libellé blanc le fait tomber : mesuré de 375 à
+   1440 px, `hover:bg-white/15` (celui de `Button onDark`) donnait 3,80 à
+   4,91:1, et l'ancien `white/10` de ce bouton 4,2 à 5,0 — sous 4,5 dès que
+   la coque s'éclaircit. Le survol assombrit donc d'un voile primary-900 et
+   ferme le filet au blanc plein : le libellé y gagne. */
+const NIVEAU_CONTOUR = 'bg-transparent text-white border border-white/70 cursor-pointer transition-all hover:bg-primary-900/30 hover:border-white active:bg-primary-900/40';
+
 export interface AuthShellProps {
   /** Form content (inputs + buttons). Wrapped in a glass dark Card automatically. */
   form: React.ReactNode;
@@ -270,8 +293,9 @@ export interface AuthSocialButtonProps extends React.ButtonHTMLAttributes<HTMLBu
 }
 
 /**
- * Social provider button (Google, LinkedIn, etc.) — white card on glass dark.
- * Pass `icon` (provider logo) + label as children.
+ * Social provider button (Google, LinkedIn, etc.) — contour blanc sur la coque,
+ * le niveau d'`AuthGhostButton` (`NIVEAU_CONTOUR`) : une autre façon d'entrer,
+ * pas l'action principale. Pass `icon` (provider logo) + label as children.
  */
 export const AuthSocialButton: React.FC<AuthSocialButtonProps> = ({
   icon,
@@ -285,11 +309,8 @@ export const AuthSocialButton: React.FC<AuthSocialButtonProps> = ({
       'inline-flex items-center justify-center gap-stack-xs',
       TAILLE_BOUTON,
       RAYON_BOUTON,
-      'bg-white text-ink-900 cursor-pointer transition-all',
-      /* Soulèvement retiré le 2026-09-17 — même motif que S1 sur Button.tsx :
-         il datait l'interface, déplaçait le contenu sous le curseur et
-         n'existait pas sur mobile. L'ombre reste (canon bouton). */
-      'hover:bg-ink-50 hover:shadow-md',
+      /* Il était en blanc plein, comme l'aplat — voir `NIVEAU_CONTOUR`. */
+      NIVEAU_CONTOUR,
       'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white',
       className,
     ]
@@ -493,7 +514,8 @@ export const AuthPrimaryButton: React.FC<React.ButtonHTMLAttributes<HTMLButtonEl
 
 /**
  * AuthGhostButton — outlined white-border button on dark for secondary actions
- * (e.g. "Retour connexion" next to a primary CTA).
+ * (e.g. "Retour connexion" next to a primary CTA). Niveau `NIVEAU_CONTOUR`,
+ * partagé avec `AuthSocialButton`.
  */
 export const AuthGhostButton: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({
   children,
@@ -506,8 +528,7 @@ export const AuthGhostButton: React.FC<React.ButtonHTMLAttributes<HTMLButtonElem
       'inline-flex items-center justify-center gap-stack-xs w-full',
       TAILLE_BOUTON,
       RAYON_BOUTON,
-      'bg-transparent text-white border border-white/30 cursor-pointer transition-all',
-      'hover:bg-white/10 hover:border-white/50',
+      NIVEAU_CONTOUR,
       'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white',
       className,
     ]
