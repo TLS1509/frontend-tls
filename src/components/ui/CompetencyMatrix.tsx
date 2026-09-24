@@ -86,13 +86,18 @@ export const CompetencyMatrix: React.FC<CompetencyMatrixProps> = ({
                 const Icon = ICON_COMPONENTS[lvl];
                 const color = colorAssignment[skill.name];
 
+                /* Une cellule se LIT, elle ne s'active pas (2026-09-24) : aucun
+                   gestionnaire, ni rôle ni tabindex, rien au clavier. Elle
+                   portait pourtant les deux promesses d'un contrôle — le
+                   curseur main et un agrandissement de 40 à 44 px au survol.
+                   Retirés : un signe d'interaction sans interaction est une
+                   impasse. L'infobulle `title` reste, c'est une lecture. */
                 return (
                   <td key={lvl} className="p-4 text-center">
                     <div
                       title={isAchieved ? labels[lvl] : 'Pas encore atteint'}
                       className={[
-                        'w-10 h-10 mx-auto rounded-pill inline-flex items-center justify-center border-2 cursor-pointer transition-transform',
-                        'hover:scale-110',
+                        'w-10 h-10 mx-auto rounded-pill inline-flex items-center justify-center border-2',
                         isAchieved ? SKILL_BG_ACTIVE[color] : CELL_INACTIVE,
                       ].join(' ')}
                     >
