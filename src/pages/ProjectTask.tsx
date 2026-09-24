@@ -1,20 +1,23 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
-  ArrowLeft, FileText, CheckSquare, Square, Send, CheckCircle2,
+  ArrowLeft, Square, Send, CheckCircle2,
   Clock, AlertCircle, RefreshCw, CalendarDays, Shield,
 } from 'lucide-react';
 import { Button } from '../components/core/Button';
 import { Card } from '../components/core/Card';
 import { Badge } from '../components/ui/Badge';
+import { MetaPill } from '../components/ui/MetaPill';
+import { Alert } from '../components/ui/Alert';
 import { EditorialHero } from '../components/patterns/EditorialHero';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { Avatar } from '../components/ui/Avatar';
 import FormGroup from '../components/core/FormGroup';
 import { Input } from '../components/core/Input';
 import { useProjectsStore } from '../stores/persistence';
 import type { TaskStatus } from '../types/projects';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 
 const MOCK_USER_ID = 'user-demo';
 
@@ -60,12 +63,12 @@ export const ProjectTask: React.FC = () => {
 
   if (!task) {
     return (
-      <Container width="page" padding={false} className="px-stack py-section flex flex-col gap-section">
+      <PageShell width="page">
         <EditorialHero title="Tâche introuvable" summary="Cette tâche n'existe pas." tone="flat" />
-        <Button emphasis="outline" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate(`/project/${projectId}`)}>
+        <Button emphasis="outline" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate(`/project/${projectId}`)} className="self-start">
           Retour au projet
         </Button>
-      </Container>
+      </PageShell>
     );
   }
 
@@ -82,81 +85,92 @@ export const ProjectTask: React.FC = () => {
     new Date(iso).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' });
 
   return (
-    <Container width="medium" className="py-section flex flex-col gap-section">
-      <div>
-        <Button emphasis="outline" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(`/project/${projectId}`)}>
-          Retour au projet
-        </Button>
+    /* `PageShell` : le `Container` ajoutait sa gouttière à celle de la page.
+       Le retour et l'en-tête forment un groupe (24). */
+    <PageShell width="medium">
+      <div className="flex flex-col gap-stack-lg">
+        <div>
+          <Button emphasis="outline" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(`/project/${projectId}`)}>
+            Retour au projet
+          </Button>
+        </div>
+
+        <EditorialHero
+          eyebrow={{ label: `Projet · Tâche` }}
+          title={task.title}
+          summary={task.description}
+          tone="flat"
+          trailing={
+            <Badge variant={STATUS_VARIANTS[task.status]}>
+              <span className="inline-flex items-center gap-stack-2xs">
+                {STATUS_ICONS[task.status]}
+                {STATUS_LABELS[task.status]}
+              </span>
+            </Badge>
+          }
+          meta={[
+            { icon: <CalendarDays size={14} />, label: `Échéance : ${formatDate(task.dueDate)}` },
+            { icon: <Shield size={14} />, label: `Dreyfus ${task.dreyfusLevelRequired}+ requis (${DREYFUS_LABELS[task.dreyfusLevelRequired]})` },
+            { icon: <Clock size={14} />, label: `${task.estimatedHours}h estimées` },
+          ]}
+        />
       </div>
 
-      <EditorialHero
-        eyebrow={{ label: `Projet · Tâche` }}
-        title={task.title}
-        summary={task.description}
-        tone="flat"
-        trailing={
-          <Badge variant={STATUS_VARIANTS[task.status]}>
-            <span className="inline-flex items-center gap-stack-2xs">
-              {STATUS_ICONS[task.status]}
-              {STATUS_LABELS[task.status]}
-            </span>
-          </Badge>
-        }
-        meta={[
-          { icon: <CalendarDays size={14} />, label: `Échéance : ${formatDate(task.dueDate)}` },
-          { icon: <Shield size={14} />, label: `Dreyfus ${task.dreyfusLevelRequired}+ requis (${DREYFUS_LABELS[task.dreyfusLevelRequired]})` },
-          { icon: <Clock size={14} />, label: `${task.estimatedHours}h estimées` },
-        ]}
-      />
-
+      {/* Alerte du système (faite main, liste indentée sans puces). */}
       {myGatingFails.length > 0 && (
-        <div className="flex items-start gap-stack-xs p-stack rounded-lg bg-warning-bg border border-warning-base/30">
-          <AlertCircle size={16} className="text-warning-fg mt-0.5 shrink-0" />
-          <div>
-            <p className="text-body font-semibold text-warning-fg m-0 mb-1">Pré-requis Dreyfus non atteints</p>
-            <ul className="m-0 pl-4 flex flex-col gap-tight">
-              {myGatingFails.map((f) => (
-                <li key={f.competencyId} className="text-caption text-warning-fg">
-                  {f.competencyName} : vous êtes D{f.current} ({DREYFUS_LABELS[f.current]}), niveau D{f.required}+ requis
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+        <Alert variant="warning" icon={<AlertCircle size={18} />} title="Pré-requis Dreyfus non atteints">
+          <ul className="list-disc pl-5 flex flex-col gap-stack-3xs">
+            {myGatingFails.map((f) => (
+              <li key={f.competencyId}>
+                {f.competencyName} : vous êtes D{f.current} ({DREYFUS_LABELS[f.current]}), niveau D{f.required}+ requis
+              </li>
+            ))}
+          </ul>
+        </Alert>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-section">
-        <div className="lg:col-span-2 flex flex-col gap-section">
-          {/* Critères de succès */}
-          <SectionCard title="Critères de succès" titleIcon={<CheckSquare size={18} />}>
-            <div className="flex flex-col gap-stack-xs">
-              {task.successCriteria.map((sc, i) => (
-                <div key={i} className="flex items-start gap-stack-xs p-stack-xs rounded-lg bg-ink-50">
-                  {sc.checked ? (
-                    <CheckCircle2 size={16} className="text-success-base mt-0.5 shrink-0" />
-                  ) : (
-                    <Square size={16} className="text-ink-600 mt-0.5 shrink-0" />
-                  )}
-                  <span className={`text-body ${sc.checked ? 'text-ink-500 line-through' : 'text-ink-800'}`}>
-                    {sc.criterion}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </SectionCard>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-page lg:gap-section">
+        {/* Colonne principale : des sections, titre (h2 28) sur la page,
+            contenu dans sa carte. */}
+        <div className="lg:col-span-2 flex flex-col gap-page min-w-0">
+          {/* Critères de succès — une liste dans une carte (chaque critère
+              était une boîte grise dans une carte) ; un critère coché passe en
+              ink-600 barré (ink-500 est la couleur des placeholders). */}
+          <section className="flex flex-col gap-stack">
+            <SectionHeader title="Critères de succès" />
+            <Card>
+              <ul className="flex flex-col gap-stack-xs">
+                {task.successCriteria.map((sc, i) => (
+                  <li key={i} className="flex items-start gap-stack-xs">
+                    {sc.checked ? (
+                      <CheckCircle2 size={16} className="text-success-base mt-[5px] shrink-0" aria-label="Fait" />
+                    ) : (
+                      <Square size={16} className="text-ink-600 mt-[5px] shrink-0" aria-hidden="true" />
+                    )}
+                    <span className={`text-body ${sc.checked ? 'text-ink-600 line-through' : 'text-ink-900'}`}>
+                      {sc.criterion}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </Card>
+          </section>
 
-          {/* Spécification du livrable */}
-          <SectionCard title="Livrable attendu" titleIcon={<FileText size={18} />}>
-            <div className="flex flex-col gap-stack-xs">
-              <p className="text-body text-ink-700 m-0">{task.deliverableSpec.description}</p>
-              <Badge variant="neutral">Format : {task.deliverableSpec.format}</Badge>
-            </div>
-          </SectionCard>
+          {/* Spécification du livrable — le format est une donnée (MetaPill),
+              il criait en Badge capitales. */}
+          <section className="flex flex-col gap-stack">
+            <SectionHeader title="Livrable attendu" />
+            <Card className="flex flex-col gap-stack-sm">
+              <p className="text-body text-ink-700 max-w-prose">{task.deliverableSpec.description}</p>
+              <MetaPill text={`Format : ${task.deliverableSpec.format}`} className="self-start" />
+            </Card>
+          </section>
 
           {/* Soumission */}
           {canSubmit && !submitted && (
-            <SectionCard title="Soumettre le livrable" titleIcon={<Send size={18} />}>
-              <div className="flex flex-col gap-stack">
+            <section className="flex flex-col gap-stack">
+              <SectionHeader title="Soumettre le livrable" />
+              <Card className="flex flex-col gap-stack">
                 <FormGroup label="URL du livrable *">
                   <Input
                     type="url"
@@ -171,10 +185,10 @@ export const ProjectTask: React.FC = () => {
                     placeholder="Décrivez votre approche, les points clés de votre livrable..."
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
-                    className="w-full p-3 rounded-lg border border-ink-200 font-body text-body focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent h-auto min-h-[88px]"
+                    className="w-full p-stack-sm rounded-lg border border-ink-400 font-body text-body placeholder:text-ink-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent h-auto min-h-[88px]"
                   />
                 </FormGroup>
-                <div className="flex justify-end">
+                <div className="flex justify-end mt-stack-xs">
                   <Button
                     emphasis="soft"
                     leadingIcon={<Send size={16} />}
@@ -184,88 +198,97 @@ export const ProjectTask: React.FC = () => {
                     Soumettre
                   </Button>
                 </div>
-              </div>
-            </SectionCard>
+              </Card>
+            </section>
           )}
 
+          {/* États : les alertes du système (elles étaient faites main). */}
           {(submitted || task.status === 'submitted') && (
-            <div className="flex items-start gap-stack-xs p-stack rounded-lg bg-info-bg border border-info-base/30">
-              <Send size={16} className="text-info-fg mt-0.5 shrink-0" />
-              <div>
-                <p className="text-body font-semibold text-info-fg m-0">Livrable soumis : en attente de validation</p>
-                {task.deliverableUrl && (
-                  <a href={task.deliverableUrl} target="_blank" rel="noopener noreferrer" className="text-caption text-info-fg underline">
-                    {task.deliverableUrl}
-                  </a>
-                )}
-              </div>
-            </div>
+            <Alert variant="info" icon={<Send size={18} />} title="Livrable soumis : en attente de validation">
+              {task.deliverableUrl && (
+                <a href={task.deliverableUrl} target="_blank" rel="noopener noreferrer" className="underline break-all">
+                  {task.deliverableUrl}
+                </a>
+              )}
+            </Alert>
           )}
 
           {isApproved && (
-            <div className="flex items-start gap-stack-xs p-stack rounded-lg bg-success-bg border border-success-base/30">
-              <CheckCircle2 size={16} className="text-success-fg mt-0.5 shrink-0" />
-              <p className="text-body font-semibold text-success-fg m-0">Tâche validée par l'expert</p>
-            </div>
+            <Alert variant="success" icon={<CheckCircle2 size={18} />} title="Tâche validée par l'expert" />
           )}
 
           {task.expertFeedback && (
-            <SectionCard title="Feedback de l'expert">
-              <p className="text-body text-ink-700 m-0 italic">"{task.expertFeedback}"</p>
-            </SectionCard>
+            <section className="flex flex-col gap-stack">
+              <SectionHeader title="Feedback de l'expert" />
+              <Card>
+                <p className="font-body text-body text-ink-700 italic max-w-prose">"{task.expertFeedback}"</p>
+              </Card>
+            </section>
           )}
 
-          {/* JACs liés */}
+          {/* JACs liés — rangées dans une carte. */}
           {taskJacs.length > 0 && (
-            <SectionCard title="JAC liés à cette tâche" titleIcon={<CheckCircle2 size={18} />}>
-              <div className="flex flex-col gap-stack-xs">
-                {taskJacs.map((jac) => (
-                  <div key={jac.id} className="flex items-center gap-stack p-stack rounded-lg border border-ink-100">
-                    <Avatar initials={jac.collaboratorInitials} size="sm" tint="brand" />
-                    <div className="flex-1 min-w-0">
-                      <p className="text-body font-semibold text-ink-900 m-0">{jac.collaboratorName}</p>
-                      <p className="text-caption text-ink-500 m-0">{jac.competencyName}</p>
-                    </div>
-                    <Badge variant={jac.status === 'approved' ? 'success' : jac.status === 'pending' ? 'neutral' : 'danger'}>
-                      {jac.status === 'approved' ? 'Validé' : jac.status === 'pending' ? 'En attente' : 'À retravailler'}
-                    </Badge>
-                  </div>
-                ))}
-              </div>
-            </SectionCard>
+            <section className="flex flex-col gap-stack">
+              <SectionHeader title="JAC liés à cette tâche" />
+              <Card className="p-0 overflow-hidden">
+                <ul className="divide-y divide-ink-100">
+                  {taskJacs.map((jac) => (
+                    <li key={jac.id} className="flex items-center gap-stack px-stack-lg py-stack">
+                      <Avatar initials={jac.collaboratorInitials} size="sm" tint="brand" />
+                      <div className="flex-1 min-w-0 flex flex-col gap-stack-3xs">
+                        <p className="text-body font-semibold text-ink-900">{jac.collaboratorName}</p>
+                        <p className="text-caption text-ink-600">{jac.competencyName}</p>
+                      </div>
+                      <Badge variant={jac.status === 'approved' ? 'success' : jac.status === 'pending' ? 'neutral' : 'danger'}>
+                        {jac.status === 'approved' ? 'Validé' : jac.status === 'pending' ? 'En attente' : 'À retravailler'}
+                      </Badge>
+                    </li>
+                  ))}
+                </ul>
+              </Card>
+            </section>
           )}
         </div>
 
-        {/* Aside */}
-        <div className="flex flex-col gap-section">
+        {/* Aside — des blocs (h3 20), après les sections. L'encart « Statut »
+            est une liste de paires : intitulé en légende 13/600 (il était en
+            capitales espacées ink-500), valeur en corps, 4 entre eux, 12 entre
+            deux paires. */}
+        <div className="flex flex-col gap-stack-lg">
           <SectionCard title="Assigné à">
-            <div className="flex items-center gap-stack">
+            <div className="flex items-center gap-stack-sm">
               <Avatar initials={task.assignedToInitials} size="md" tint="brand" />
-              <div>
-                <p className="text-body font-semibold text-ink-900 m-0">{task.assignedToName}</p>
-                <p className="text-caption text-ink-500 m-0">Collaborateur</p>
+              <div className="flex flex-col gap-stack-3xs">
+                <p className="text-body font-semibold text-ink-900">{task.assignedToName}</p>
+                <p className="text-caption text-ink-600">Collaborateur</p>
               </div>
             </div>
           </SectionCard>
 
-          <Card className="p-stack-md flex flex-col gap-stack-xs">
-            <p className="text-caption font-semibold text-ink-500 uppercase tracking-wide m-0">Statut</p>
-            <div className="flex items-center gap-stack-xs">
-              {STATUS_ICONS[task.status]}
-              <span className="text-body font-semibold text-ink-900">{STATUS_LABELS[task.status]}</span>
-            </div>
-            <p className="text-caption font-semibold text-ink-500 uppercase tracking-wide m-0 mt-stack-xs">Échéance</p>
-            <p className="text-body text-ink-800 m-0">{formatDate(task.dueDate)}</p>
-            {task.submissionDate && (
-              <>
-                <p className="text-caption font-semibold text-ink-500 uppercase tracking-wide m-0 mt-stack-xs">Soumis le</p>
-                <p className="text-body text-ink-800 m-0">{formatDate(task.submissionDate)}</p>
-              </>
-            )}
+          <Card size="sm">
+            <dl className="flex flex-col gap-stack-sm">
+              <div className="flex flex-col gap-stack-3xs">
+                <dt className="text-caption font-semibold text-ink-600">Statut</dt>
+                <dd className="flex items-center gap-stack-xs">
+                  {STATUS_ICONS[task.status]}
+                  <span className="text-body font-semibold text-ink-900">{STATUS_LABELS[task.status]}</span>
+                </dd>
+              </div>
+              <div className="flex flex-col gap-stack-3xs">
+                <dt className="text-caption font-semibold text-ink-600">Échéance</dt>
+                <dd className="text-body text-ink-900 tabular-nums">{formatDate(task.dueDate)}</dd>
+              </div>
+              {task.submissionDate && (
+                <div className="flex flex-col gap-stack-3xs">
+                  <dt className="text-caption font-semibold text-ink-600">Soumis le</dt>
+                  <dd className="text-body text-ink-900 tabular-nums">{formatDate(task.submissionDate)}</dd>
+                </div>
+              )}
+            </dl>
           </Card>
         </div>
       </div>
-    </Container>
+    </PageShell>
   );
 };
 

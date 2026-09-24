@@ -1,13 +1,15 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, TrendingUp, Users } from 'lucide-react';
+import { ArrowLeft, TrendingUp } from 'lucide-react';
 import { Button } from '../components/core/Button';
-import { Badge } from '../components/ui/Badge';
+import { MetaPill } from '../components/ui/MetaPill';
+import { Card } from '../components/core/Card';
+import { EmptyState } from '../components/ui/EmptyState';
 import { EditorialHero } from '../components/patterns/EditorialHero';
-import { SectionCard } from '../components/patterns/SectionCard';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { Avatar } from '../components/ui/Avatar';
 import { useProjectsStore } from '../stores/persistence';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 
 const DREYFUS_LABELS = ['', 'Novice', 'Apprenant', 'Compétent', 'Expert', 'Maître'] as const;
 
@@ -47,84 +49,91 @@ export const ProjectPasseportFeed: React.FC = () => {
     new Date(iso).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' });
 
   return (
-    <Container width="medium" className="py-section flex flex-col gap-section">
-      <div>
-        <Button emphasis="outline" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(`/project/${projectId}`)}>
-          Retour au projet
-        </Button>
+    /* `PageShell` : le `Container` ajoutait sa propre gouttière à celle de la
+       page. Le retour et l'en-tête forment un groupe (24). */
+    <PageShell width="medium">
+      <div className="flex flex-col gap-stack-lg">
+        <div>
+          <Button emphasis="outline" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(`/project/${projectId}`)}>
+            Retour au projet
+          </Button>
+        </div>
+
+        <EditorialHero
+          eyebrow={{ label: 'Projet · Passeport' }}
+          title="Feed Passeport Compétences"
+          summary="Enrichissements Dreyfus générés par le projet : progressions validées par les experts."
+          tone="flat"
+        />
       </div>
 
-      <EditorialHero
-        eyebrow={{ label: 'Projet · Passeport' }}
-        title="Feed Passeport Compétences"
-        summary="Enrichissements Dreyfus générés par le projet : progressions validées par les experts."
-        tone="flat"
-      />
-
-
       {enrichments.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-section gap-stack text-center">
-          <TrendingUp size={40} className="text-ink-300" />
-          <p className="text-body text-ink-500 m-0">Aucun enrichissement Passeport pour ce projet.</p>
-          <p className="text-caption text-ink-600 m-0">Les enrichissements apparaîtront quand des JAC seront validés.</p>
-        </div>
+        <EmptyState
+          icon={<TrendingUp size={32} />}
+          title="Aucun enrichissement Passeport pour ce projet."
+          description="Les enrichissements apparaîtront quand des JAC seront validés."
+        />
       ) : (
         <>
-          {/* Feed chronologique */}
-          <SectionCard
-            title="Enrichissements récents"
-            titleIcon={<TrendingUp size={18} />}
-            description={`${enrichments.length} progression(s) validée(s)`}
-          >
-            <div className="flex flex-col gap-stack-xs">
-              {enrichments.map((e) => (
-                <div key={e.id} className="flex items-center gap-stack p-stack rounded-lg bg-success-bg border border-success-base/20">
-                  <Avatar initials={e.collaboratorInitials} size="md" tint="brand" />
-                  <div className="flex-1 min-w-0">
-                    <p className="text-body font-semibold text-ink-900 m-0">
-                      {e.collaboratorName} : {e.competencyName}
-                    </p>
-                    <p className="text-caption text-success-fg m-0">
-                      D{e.oldDreyfusLevel} ({DREYFUS_LABELS[e.oldDreyfusLevel]}) → D{e.newDreyfusLevel} ({DREYFUS_LABELS[e.newDreyfusLevel]})
-                      · validé par {e.verifiedByName} · {formatDate(e.verifiedAt)}
-                    </p>
-                    <p className="text-caption text-ink-500 m-0">{SOURCE_LABELS[e.sourceType] ?? e.sourceType}</p>
-                  </div>
-                  <Badge variant="success">+{e.newDreyfusLevel - e.oldDreyfusLevel}</Badge>
-                </div>
-              ))}
-            </div>
-          </SectionCard>
+          {/* Feed chronologique — titre (h2 28) sur la page, le compte en méta ;
+              les progressions en rangées dans une carte (elles étaient des
+              boîtes vertes dans une carte). La source est une méta (ink-600,
+              elle était en ink-500 à 4,32:1) ; l'écart de niveau une donnée. */}
+          <section className="flex flex-col gap-stack">
+            <SectionHeader
+              title="Enrichissements récents"
+              meta={`${enrichments.length} progression(s) validée(s)`}
+            />
+            <Card className="p-0 overflow-hidden">
+              <ul className="divide-y divide-ink-100">
+                {enrichments.map((e) => (
+                  <li key={e.id} className="flex items-center gap-stack px-stack-lg py-stack">
+                    <Avatar initials={e.collaboratorInitials} size="md" tint="brand" />
+                    <div className="flex-1 min-w-0 flex flex-col gap-stack-3xs">
+                      <p className="text-body font-semibold text-ink-900">
+                        {e.collaboratorName} : {e.competencyName}
+                      </p>
+                      <p className="text-caption text-success-fg">
+                        D{e.oldDreyfusLevel} ({DREYFUS_LABELS[e.oldDreyfusLevel]}) → D{e.newDreyfusLevel} ({DREYFUS_LABELS[e.newDreyfusLevel]})
+                        · validé par {e.verifiedByName} · {formatDate(e.verifiedAt)}
+                      </p>
+                      <p className="text-caption text-ink-600">{SOURCE_LABELS[e.sourceType] ?? e.sourceType}</p>
+                    </div>
+                    <MetaPill text={`+${e.newDreyfusLevel - e.oldDreyfusLevel}`} tone="success" className="shrink-0 tabular-nums" />
+                  </li>
+                ))}
+              </ul>
+            </Card>
+          </section>
 
-          {/* Synthèse par collaborateur */}
+          {/* Synthèse par collaborateur — des cartes d'objets autonomes, sans
+              carte autour ; les compétences sont des données (MetaPill). */}
           {collaboratorMap.size > 0 && (
-            <SectionCard
-              title="Synthèse par collaborateur"
-              titleIcon={<Users size={18} />}
-            >
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack-xs">
+            <section className="flex flex-col gap-stack">
+              <SectionHeader title="Synthèse par collaborateur" />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack">
                 {[...collaboratorMap.values()].map((c) => (
-                  <div key={c.name} className="flex flex-col gap-stack-xs p-stack rounded-lg border border-ink-100 bg-ink-50">
-                    <div className="flex items-center gap-stack-xs">
+                  <Card key={c.name} size="sm" className="flex flex-col gap-stack-sm">
+                    <div className="flex items-center gap-stack-sm">
                       <Avatar initials={c.initials} size="md" tint="brand" />
-                      <div>
-                        <p className="text-body font-semibold text-ink-900 m-0">{c.name}</p>
-                        <p className="text-caption text-ink-500 m-0">{c.count} enrichissement(s)</p>
+                      <div className="flex flex-col gap-stack-3xs">
+                        <p className="text-body font-semibold text-ink-900">{c.name}</p>
+                        <p className="text-caption text-ink-600">{c.count} enrichissement(s)</p>
                       </div>
                     </div>
                     <div className="flex flex-wrap gap-stack-2xs">
                       {c.competencies.map((comp) => (
-                        <Badge key={comp} variant="brand">{comp}</Badge>
+                        <MetaPill key={comp} text={comp} tone="primary" />
                       ))}
                     </div>
-                  </div>
+                  </Card>
                 ))}
               </div>
-            </SectionCard>
+            </section>
           )}
         </>
       )}
-    </Container>
+    </PageShell>
   );
 };
 

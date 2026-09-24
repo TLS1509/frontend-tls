@@ -6,7 +6,8 @@ import React, { useState } from 'react';
 import { Button } from '../components/core/Button';
 import { ProjectCard } from '../components/learning/ProjectCard';
 import { EditorialHero } from '../components/patterns/EditorialHero';
-import { Container } from '../components/layout';
+import { SectionHeader } from '../components/patterns/SectionHeader';
+import { PageShell } from '../components/layout';
 import {
   Plus,
   Users,
@@ -85,55 +86,48 @@ export const Collaboration: React.FC = () => {
   const [projects] = useState<CollaborativeProject[]>(PROJECTS);
 
   return (
-    <div className="min-h-[100dvh] bg-surface flex flex-col">
-      <Container width="page" className="flex-1 py-section flex flex-col gap-section">
-
-        <EditorialHero
-          tone="flat"
-          eyebrow={{ icon: <Users size={14} />, label: "Travail d'équipe" }}
-          title="Collaboration"
-          summary="Pilotez vos projets d'équipe, suivez la progression collective et coordonnez les contributions."
-          trailing={
-            <div className="flex gap-stack-xs">
-              <Button emphasis="soft" tone="warm" size="sm" leadingIcon={<Plus size={14} />}>
-                Nouveau projet
-              </Button>
-              <Button emphasis="soft" tone="warm" size="sm" leadingIcon={<Users size={14} />}>
-                Inviter
-              </Button>
-            </div>
-          }
-        />
-
-
-        {/* Project cards */}
-        <div className="flex flex-col gap-stack">
-          <div className="flex items-baseline justify-between gap-stack-xs">
-            <h2 className="font-display text-h3 font-bold text-ink-900 tracking-tight">
-              Projets en cours
-            </h2>
-            <span className="font-body text-caption text-ink-500">
-              {projects.length} projets
-            </span>
+    /* `PageShell` : le `Container` ajoutait sa gouttière à celle de la page
+       (tout le contenu décalé de 40 px à 1440). */
+    <PageShell width="page">
+      <EditorialHero
+        tone="flat"
+        eyebrow={{ icon: <Users size={14} />, label: "Travail d'équipe" }}
+        title="Collaboration"
+        summary="Pilotez vos projets d'équipe, suivez la progression collective et coordonnez les contributions."
+        trailing={
+          <div className="flex gap-stack-xs">
+            <Button emphasis="soft" tone="warm" size="sm" leadingIcon={<Plus size={14} />}>
+              Nouveau projet
+            </Button>
+            <Button emphasis="soft" tone="warm" size="sm" leadingIcon={<Users size={14} />}>
+              Inviter
+            </Button>
           </div>
-          <div className="grid grid-cols-1 gap-stack-lg sm:grid-cols-2 lg:grid-cols-3">
-            {projects.map((project) => (
-              <ProjectCard
-                key={project.id}
-                title={project.title}
-                description={project.description}
-                status={project.status}
-                progress={project.progress}
-                totalTasks={project.totalTasks}
-                completedTasks={project.completedTasks}
-                deadline={project.deadline}
-                teamMembers={project.teamMembers}
-                onViewProject={() => undefined}
-              />
-            ))}
-          </div>
+        }
+      />
+
+      {/* Project cards — titre de section à 28 (un h2 à 20, serré par
+          `tracking-tight`) et son compte en méta (ink-600 ; il était en
+          ink-500) ; 16 entre deux cartes d'une grille (24 avant). */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader title="Projets en cours" meta={`${projects.length} projets`} />
+        <div className="grid grid-cols-1 gap-stack sm:grid-cols-2 lg:grid-cols-3">
+          {projects.map((project) => (
+            <ProjectCard
+              key={project.id}
+              title={project.title}
+              description={project.description}
+              status={project.status}
+              progress={project.progress}
+              totalTasks={project.totalTasks}
+              completedTasks={project.completedTasks}
+              deadline={project.deadline}
+              teamMembers={project.teamMembers}
+              onViewProject={() => undefined}
+            />
+          ))}
         </div>
-      </Container>
-    </div>
+      </section>
+    </PageShell>
   );
 };

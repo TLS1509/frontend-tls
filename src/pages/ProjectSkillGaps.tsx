@@ -1,15 +1,18 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, AlertTriangle, CheckCircle2, BarChart2 } from 'lucide-react';
+import { ArrowLeft, AlertTriangle } from 'lucide-react';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
+import { MetaPill } from '../components/ui/MetaPill';
+import { Alert } from '../components/ui/Alert';
+import { Card } from '../components/core/Card';
 import { EditorialHero } from '../components/patterns/EditorialHero';
-import { SectionCard } from '../components/patterns/SectionCard';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { DataTable } from '../components/patterns/DataTable';
 import { useProjectsStore } from '../stores/persistence';
 import type { DreyfusLevel } from '../types/learning';
 import { DREYFUS_LABELS } from '../data/competencies';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 
 export const ProjectSkillGaps: React.FC = () => {
   const { id: projectId } = useParams<{ id: string }>();
@@ -22,11 +25,11 @@ export const ProjectSkillGaps: React.FC = () => {
 
   if (!project) {
     return (
-      <Container width="page" padding={false} className="px-stack py-section">
-        <Button emphasis="outline" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate(`/project/${projectId}`)}>
+      <PageShell width="page">
+        <Button emphasis="outline" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate(`/project/${projectId}`)} className="self-start">
           Retour au projet
         </Button>
-      </Container>
+      </PageShell>
     );
   }
 
@@ -63,85 +66,95 @@ export const ProjectSkillGaps: React.FC = () => {
   const coveredSkills = gapEntries.filter((e) => !e.gap);
 
   return (
-    <Container width="medium" className="py-section flex flex-col gap-section">
-      <div>
-        <Button emphasis="outline" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(`/project/${projectId}`)}>
-          Retour au projet
-        </Button>
+    /* `PageShell` : le `Container` ajoutait sa gouttière à celle de la page.
+       Le retour et l'en-tête forment un groupe (24). */
+    <PageShell width="medium">
+      <div className="flex flex-col gap-stack-lg">
+        <div>
+          <Button emphasis="outline" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(`/project/${projectId}`)}>
+            Retour au projet
+          </Button>
+        </div>
+
+        <EditorialHero
+          eyebrow={{ label: 'Projet · Analyse' }}
+          title="Lacunes de compétences"
+          summary={`Comparaison entre les niveaux Dreyfus requis par le projet et les niveaux actuels de l'équipe.`}
+          tone="flat"
+        />
       </div>
 
-      <EditorialHero
-        eyebrow={{ label: 'Projet · Analyse' }}
-        title="Lacunes de compétences"
-        summary={`Comparaison entre les niveaux Dreyfus requis par le projet et les niveaux actuels de l'équipe.`}
-        tone="flat"
-      />
-
-
+      {/* L'alerte du système (elle était faite main). */}
       {criticalGaps.length > 0 && (
-        <div className="flex items-start gap-stack-xs p-stack rounded-lg bg-warning-bg border border-warning-base/30">
-          <AlertTriangle size={16} className="text-warning-fg mt-0.5 shrink-0" />
-          <p className="text-body font-semibold text-warning-fg m-0">
-            {criticalGaps.length} compétence(s) insuffisamment couvertes : des recrutements ou formations sont recommandés avant le lancement.
-          </p>
-        </div>
+        <Alert variant="warning" icon={<AlertTriangle size={18} />}>
+          {criticalGaps.length} compétence(s) insuffisamment couvertes : des recrutements ou formations sont recommandés avant le lancement.
+        </Alert>
       )}
 
-      {/* Gaps critiques */}
+      {/* Gaps critiques — titre (h2 28) et explication sur la page ; les
+          compétences en rangées dans une carte (elles étaient des boîtes
+          teintées dans une carte). Le niveau requis est une donnée
+          (MetaPill) ; le manque reste un Badge, c'est l'état qui alerte. */}
       {criticalGaps.length > 0 && (
-        <SectionCard
-          title="Gaps critiques"
-          titleIcon={<AlertTriangle size={18} />}
-          description="Compétences dont le nombre de membres qualifiés est inférieur au requis"
-        >
-          <div className="flex flex-col gap-stack-xs">
-            {criticalGaps.map((entry) => {
-              const deficit = entry.requiredCount - entry.membersAtLevel.length;
-              return (
-                <div key={entry.competencyId} className="p-stack rounded-lg border border-warning-base/30 bg-warning-bg flex flex-col gap-stack-xs">
-                  <div className="flex items-center justify-between gap-stack flex-wrap">
-                    <p className="text-body font-semibold text-ink-900 m-0">{entry.competencyName}</p>
-                    <div className="flex items-center gap-stack-xs">
-                      <Badge variant="brand">D{entry.required}+ requis ({DREYFUS_LABELS[entry.required]})</Badge>
-                      <Badge variant="danger">−{deficit} membre(s)</Badge>
+        <section className="flex flex-col gap-stack">
+          <SectionHeader
+            title="Gaps critiques"
+            subtitle="Compétences dont le nombre de membres qualifiés est inférieur au requis"
+          />
+          <Card className="p-0 overflow-hidden">
+            <ul className="divide-y divide-ink-100">
+              {criticalGaps.map((entry) => {
+                const deficit = entry.requiredCount - entry.membersAtLevel.length;
+                return (
+                  <li key={entry.competencyId} className="flex flex-col gap-stack-xs px-stack-lg py-stack">
+                    <div className="flex items-center justify-between gap-stack flex-wrap">
+                      <p className="text-body font-semibold text-ink-900">{entry.competencyName}</p>
+                      <div className="flex items-center gap-stack-xs">
+                        <MetaPill text={`D${entry.required}+ requis (${DREYFUS_LABELS[entry.required]})`} tone="primary" />
+                        <Badge variant="danger">−{deficit} membre(s)</Badge>
+                      </div>
                     </div>
-                  </div>
-                  <p className="text-caption text-ink-600 m-0">
-                    {entry.membersAtLevel.length}/{entry.requiredCount} membres au niveau requis
-                    {entry.membersAtLevel.length > 0 && (
-                      <> · Qualifiés : {entry.membersAtLevel.map((m) => `${m.name} (D${m.current})`).join(', ')}</>
-                    )}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </SectionCard>
+                    <p className="text-caption text-ink-600">
+                      {entry.membersAtLevel.length}/{entry.requiredCount} membres au niveau requis
+                      {entry.membersAtLevel.length > 0 && (
+                        <> · Qualifiés : {entry.membersAtLevel.map((m) => `${m.name} (D${m.current})`).join(', ')}</>
+                      )}
+                    </p>
+                  </li>
+                );
+              })}
+            </ul>
+          </Card>
+        </section>
       )}
 
       {/* Compétences couvertes */}
       {coveredSkills.length > 0 && (
-        <SectionCard
-          title="Compétences couvertes"
-          titleIcon={<CheckCircle2 size={18} />}
-          description="Compétences suffisamment couvertes par l'équipe actuelle"
-        >
-          <div className="flex flex-col gap-stack-xs">
-            {coveredSkills.map((entry) => (
-              <div key={entry.competencyId} className="p-stack rounded-lg border border-success-base/30 bg-success-bg flex items-center justify-between gap-stack flex-wrap">
-                <p className="text-body font-semibold text-ink-900 m-0">{entry.competencyName}</p>
-                <div className="flex items-center gap-stack-xs">
-                  <Badge variant="brand">D{entry.required}+ ({DREYFUS_LABELS[entry.required]})</Badge>
-                  <Badge variant="success">{entry.membersAtLevel.length}/{entry.requiredCount} membres</Badge>
-                </div>
-              </div>
-            ))}
-          </div>
-        </SectionCard>
+        <section className="flex flex-col gap-stack">
+          <SectionHeader
+            title="Compétences couvertes"
+            subtitle="Compétences suffisamment couvertes par l'équipe actuelle"
+          />
+          <Card className="p-0 overflow-hidden">
+            <ul className="divide-y divide-ink-100">
+              {coveredSkills.map((entry) => (
+                <li key={entry.competencyId} className="flex items-center justify-between gap-stack flex-wrap px-stack-lg py-stack">
+                  <p className="text-body font-semibold text-ink-900">{entry.competencyName}</p>
+                  <div className="flex items-center gap-stack-xs">
+                    <MetaPill text={`D${entry.required}+ (${DREYFUS_LABELS[entry.required]})`} tone="primary" />
+                    <MetaPill text={`${entry.membersAtLevel.length}/${entry.requiredCount} membres`} tone="success" className="tabular-nums" />
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </Card>
+        </section>
       )}
 
-      {/* Vue d'ensemble */}
-      <SectionCard title="Vue d'ensemble par membre" titleIcon={<BarChart2 size={18} />}>
+      {/* Vue d'ensemble — le tableau porte son propre cadre : pas de carte
+          autour. Les niveaux sont des données (MetaPill). */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader title="Vue d'ensemble par membre" />
         <DataTable
           columns={[
             { key: 'name', label: 'Membre', align: 'left' },
@@ -153,23 +166,21 @@ export const ProjectSkillGaps: React.FC = () => {
           ]}
           rows={collaborateurs.map((m) => {
             const row: Record<string, React.ReactNode> = {
-              name: <span className="font-semibold text-ink-800 whitespace-nowrap">{m.name}</span>,
+              name: <span className="font-semibold text-ink-900 whitespace-nowrap">{m.name}</span>,
             };
             project.skillProfile.forEach((req) => {
               const current = (m.currentDreyfusLevels[req.competencyId] ?? 1) as DreyfusLevel;
               const ok = current >= req.dreyfusLevelRequired;
               row[req.competencyId] = (
-                <Badge variant={ok ? 'success' : 'warm'} size="compact">
-                  D{current} · {DREYFUS_LABELS[current]}
-                </Badge>
+                <MetaPill text={`D${current} · ${DREYFUS_LABELS[current]}`} tone={ok ? 'success' : 'warm'} />
               );
             });
             return row;
           })}
           emptyMessage="Aucun collaborateur dans ce projet."
         />
-      </SectionCard>
-    </Container>
+      </section>
+    </PageShell>
   );
 };
 
