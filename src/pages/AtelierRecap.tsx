@@ -48,8 +48,10 @@ export default function AtelierRecap() {
         <Card variant="tinted" tone="primary" className="text-center py-section flex flex-col items-center">
           <Award size={40} className="text-primary-600" />
           <h2 className="text-h2 font-display font-bold text-primary-700">+120 XP gagnés</h2>
-          <p className="text-body-sm text-ink-500">Atelier complété · Compétence Communication +0.2 Dreyfus</p>
-          <Badge variant="info" size="normal">Communication D3.2 → D3.4</Badge>
+          {/* Assister ne fait pas monter un niveau : seul un niveau validé par
+              le coach et le manager bouge le Passeport. L'ancien « +0,2 Dreyfus ·
+              D3.2 → D3.4 » disait l'inverse de cet invariant (audit du 23/09). */}
+          <p className="text-body-sm text-ink-500">Trace ajoutée à ton Passeport, en attente de validation</p>
         </Card>
 
         {/* Mon retour */}
