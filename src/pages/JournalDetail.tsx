@@ -298,10 +298,10 @@ export const JournalDetail: React.FC = () => {
         <aside aria-label="Nouvelle entrée" className="rounded-xl bg-gradient-to-br from-primary-700 to-primary-800 p-stack-lg sm:p-section flex flex-col sm:flex-row sm:items-center gap-stack-lg text-white">
           <div className="flex-1 flex flex-col gap-stack-3xs">
             <p className="font-display text-h3 text-white text-balance">
-              Qu'avez-vous appris cette semaine ?
+              Qu'as-tu appris cette semaine ?
             </p>
             <p className="font-body text-body text-white max-w-prose">
-              Capturez vos observations pendant qu'elles sont fraîches.
+              Capture tes observations pendant qu'elles sont fraîches.
             </p>
           </div>
           {/* L'action principale de la page, sur un fond au cran 700 : l'aplat

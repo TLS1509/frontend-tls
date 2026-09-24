@@ -67,7 +67,7 @@ const TYPE_CONFIG: Record<EntryType, TypeConfig> = {
     questionClass: 'text-primary-800',
     writingBg: '',
     question: "Qu'est-ce qui occupe mon esprit aujourd'hui ?",
-    bodyPlaceholder: 'Écrivez librement vos pensées, réflexions, découvertes du jour...',
+    bodyPlaceholder: 'Écris librement tes pensées, réflexions, découvertes du jour...',
   },
   'apprentissage': {
     label: 'Apprentissage',
@@ -77,7 +77,7 @@ const TYPE_CONFIG: Record<EntryType, TypeConfig> = {
     checkBg: 'bg-primary-600',
     questionClass: 'text-primary-800',
     writingBg: 'bg-gradient-to-br from-white to-primary-50',
-    question: 'Quelle idée vais-je retenir de ma dernière leçon — et pourquoi ?',
+    question: 'Quelle idée vais-je retenir de ma dernière leçon, et pourquoi ?',
     bodyPlaceholder: "Décris ce que tu as découvert, compris ou expérimenté dans tes leçons / parcours / projets / lectures veille...",
   },
   'pratique-pro': {
@@ -111,7 +111,7 @@ const TYPE_CONFIG: Record<EntryType, TypeConfig> = {
     questionClass: 'text-primary-800',
     writingBg: '',
     question: "Quelle idée m'a illuminé ?",
-    bodyPlaceholder: "Capturez cette idée brillante avant qu'elle ne s'envole...",
+    bodyPlaceholder: "Capture cette idée brillante avant qu'elle ne s'envole...",
   },
 };
 
@@ -223,7 +223,7 @@ export const JournalNewEntry: React.FC = () => {
   const toast = useToastContext();
   const handlePublish = () => {
     if (!title.trim() && !body.trim()) {
-      toast.warning('Ajoutez un titre ou du contenu avant de publier', 'Brouillon vide');
+      toast.warning('Ajoute un titre ou du contenu avant de publier', 'Brouillon vide');
       return;
     }
     const now = new Date().toISOString();
@@ -266,7 +266,7 @@ export const JournalNewEntry: React.FC = () => {
         occurredAt: now,
       });
     }
-    toast.success('Votre entrée a été publiée dans votre journal', 'Entrée enregistrée');
+    toast.success('Ton entrée a été publiée dans ton journal', 'Entrée enregistrée');
     setTimeout(() => navigate('/journal'), 800);
   };
 
@@ -385,7 +385,7 @@ export const JournalNewEntry: React.FC = () => {
         <div className="flex flex-col gap-stack-xs">
           <div className="flex items-center gap-stack-xs">
             <Smile size={18} className="text-primary-500" aria-hidden="true" />
-            <span className="font-body text-body font-semibold text-ink-900">Comment vous sentez-vous ?</span>
+            <span className="font-body text-body font-semibold text-ink-900">Comment te sens-tu ?</span>
           </div>
           <MoodSelector value={mood} onChange={setMood} />
         </div>

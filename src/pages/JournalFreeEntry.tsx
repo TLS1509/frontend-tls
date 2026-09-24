@@ -47,9 +47,9 @@ const MOODS: { icon: React.ReactNode; label: string }[] = [
 ];
 
 const PROMPTS = [
-  { icon: <Eye size={14} />,       label: 'Observation',     hint: "Qu'avez-vous observé cette semaine ?" },
-  { icon: <Lightbulb size={14} />, label: 'Prise de recul',  hint: "Qu'est-ce que cela vous apprend ?" },
-  { icon: <Target size={14} />,    label: 'Action',          hint: "Que voulez-vous faire différemment ?" },
+  { icon: <Eye size={14} />,       label: 'Observation',     hint: "Qu'as-tu observé cette semaine ?" },
+  { icon: <Lightbulb size={14} />, label: 'Prise de recul',  hint: "Qu'est-ce que cela t'apprend ?" },
+  { icon: <Target size={14} />,    label: 'Action',          hint: "Que veux-tu faire différemment ?" },
 ];
 
 const TIPS = [
@@ -181,7 +181,7 @@ export const JournalFreeEntry: React.FC = () => {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               aria-label="Titre de l'entrée"
-              placeholder="Titre de votre entrée..."
+              placeholder="Titre de ton entrée..."
               className="w-full border-0 outline-none font-display text-h2 text-ink-900 bg-transparent h-auto block placeholder:text-ink-500"
             />
           </div>
@@ -212,7 +212,7 @@ export const JournalFreeEntry: React.FC = () => {
           {/* Mood selector */}
           <div className="flex flex-col gap-stack-xs">
             <div className="font-body text-body font-semibold text-ink-900">
-              Comment vous sentez-vous ?
+              Comment te sens-tu ?
             </div>
             <div className="flex gap-stack-xs flex-wrap">
               {MOODS.map((mood) => {
@@ -239,7 +239,7 @@ export const JournalFreeEntry: React.FC = () => {
               value={content}
               onChange={(e) => setContent(e.target.value)}
               aria-label="Contenu de l'entrée"
-              placeholder="Commencez à écrire... Qu'avez-vous observé ? Qu'avez-vous appris ? Que voulez-vous faire différemment ?"
+              placeholder="Commence à écrire... Qu'as-tu observé ? Qu'as-tu appris ? Que veux-tu faire différemment ?"
               rows={18}
               className="w-full border-0 outline-none resize-none font-body text-body text-ink-900 bg-transparent h-auto block placeholder:text-ink-500"
             />
