@@ -395,7 +395,10 @@ export const Messages: React.FC = () => {
 
           {/* Thread header */}
           <div className="px-stack-md py-stack border-b border-ink-200 bg-white flex items-center gap-stack-xs">
-            <Button emphasis="soft" tone="warm" iconOnly aria-label="Retour" className="shrink-0" onClick={() => setSelectedId(null)}>
+            {/* Retour et pièce jointe sont des outils du fil : `ghost` neutre.
+                Ils étaient deux pastilles orange face à un envoi teal, deux
+                tons pour la même chrome (arbitrage n°19). */}
+            <Button emphasis="ghost" tone="neutral" iconOnly aria-label="Retour" className="shrink-0" onClick={() => setSelectedId(null)}>
               <ArrowLeft size={14} />
             </Button>
 
@@ -493,7 +496,7 @@ export const Messages: React.FC = () => {
           {/* Compose bar */}
           <div className="px-stack-md py-stack border-t border-ink-200 bg-white">
             <div className="flex items-end gap-stack-xs">
-              <Button emphasis="soft" tone="warm" iconOnly aria-label="Pièce jointe" className="shrink-0">
+              <Button emphasis="ghost" tone="neutral" iconOnly aria-label="Pièce jointe" className="shrink-0">
                 <Paperclip size={14} />
               </Button>
 
@@ -507,8 +510,9 @@ export const Messages: React.FC = () => {
                 className="flex-1 px-stack-sm py-2 rounded-lg border border-ink-400 bg-ink-50 text-ink-900 font-body text-body resize-none outline-none h-auto min-h-11 max-h-[120px] transition-colors focus:border-primary-700 focus:bg-white placeholder:text-ink-500"
               />
 
+              {/* L'envoi, l'action principale d'un fil ouvert : l'aplat. */}
               <Button
-                emphasis="soft"
+                emphasis="solid"
                 iconOnly
                 aria-label="Envoyer"
                 className="shrink-0"
@@ -543,7 +547,9 @@ export const Messages: React.FC = () => {
             <p className="mb-stack font-body text-body text-ink-700">
               Choisissez un fil dans la liste pour démarrer ou continuer la conversation.
             </p>
-            <Button emphasis="soft" tone="warm" fullWidth leadingIcon={<Pencil size={14} />}>
+            {/* Sans fil ouvert, il n'y a rien à envoyer : écrire un nouveau
+                message devient l'action principale, donc l'aplat. */}
+            <Button emphasis="solid" fullWidth leadingIcon={<Pencil size={14} />}>
               Nouveau message
             </Button>
           </div>

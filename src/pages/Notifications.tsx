@@ -202,11 +202,14 @@ export const Notifications: React.FC = () => {
             </p>
           </div>
 
+          {/* Un fil qu'on lit : pas d'aplat (arbitrage n°19). « Tout marquer
+              comme lu » et les préférences sont des outils, `ghost` neutre. */}
           <div className="flex items-center gap-stack-xs pt-1">
             {unread > 0 && (
               <Button
                 size="sm"
-                emphasis="outline"
+                emphasis="ghost"
+                tone="neutral"
                 leadingIcon={<CheckCheck size={14} />}
                 onClick={markAllRead}
               >
@@ -217,7 +220,8 @@ export const Notifications: React.FC = () => {
                 `leadingIcon`, elle se décalait et le cercle paraissait coupé. */}
             <Button
               size="sm"
-              emphasis="outline"
+              emphasis="ghost"
+              tone="neutral"
               iconOnly
               aria-label="Préférences de notifications"
               onClick={() => navigate('/notifications/preferences')}
@@ -308,8 +312,10 @@ export const Notifications: React.FC = () => {
           {/* Sur le bord gauche de la liste qu'il prolonge (il était centré). */}
           {hasMore && (
             <div className="pt-stack flex">
+              {/* Charger plus est un outil de la liste, comme une pagination :
+                  `ghost` neutre (l'orange y disait « secondaire »). */}
               <Button
-                emphasis="soft" tone="warm"
+                emphasis="ghost" tone="neutral"
                 size="sm"
                 leadingIcon={<ChevronDown size={14} />}
                 onClick={() => setLoadCount((prev) => prev + 10)}

@@ -61,8 +61,10 @@ export default function NotificationPreferences() {
         title="Préférences de notifications"
         summary="Choisis comment et quand tu veux être notifié. Tu peux modifier ces réglages à tout moment."
         tone="flat"
+        /* Un lien vers la page voisine : `ghost`. L'aplat est
+           l'enregistrement, en bas du formulaire (arbitrage n°19). */
         trailing={
-          <Button emphasis="outline" size="sm" leadingIcon={<Bell size={14} />} onClick={() => navigate('/notifications')}>
+          <Button emphasis="ghost" size="sm" leadingIcon={<Bell size={14} />} onClick={() => navigate('/notifications')}>
             Voir mes notifications
           </Button>
         }
@@ -175,7 +177,7 @@ export default function NotificationPreferences() {
 
         {/* Save CTA */}
         <div className="flex justify-end">
-          <Button emphasis="soft" leadingIcon={<Save size={16} />} size="lg" onClick={handleSave}>
+          <Button emphasis="solid" leadingIcon={<Save size={16} />} size="lg" onClick={handleSave}>
             Enregistrer les préférences
           </Button>
         </div>
