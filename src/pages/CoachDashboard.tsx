@@ -161,17 +161,17 @@ export default function CoachDashboard() {
                   title={`Radar : ${selected.name}`}
                   description="Niveau actuel Dreyfus par compétence"
                 >
-                  <ChartContainer>
-                    <RadarChart
-                      data={radarFor(selected.scores)}
-                      size="sm"
-                      showLegend={true}
-                      onAxisClick={(axis, index) => {
-                        // Axis click handler — could navigate to competency detail or show modal
-                        console.log(`Clicked axis: ${axis.label} (index ${index})`);
-                      }}
-                    />
-                  </ChartContainer>
+                  {/* Le radar se pose directement dans la carte : un
+                      `ChartContainer` y ajoutait une carte dans la carte. */}
+                  <RadarChart
+                    data={radarFor(selected.scores)}
+                    size="sm"
+                    showLegend={true}
+                    onAxisClick={(axis, index) => {
+                      // Axis click handler — could navigate to competency detail or show modal
+                      console.log(`Clicked axis: ${axis.label} (index ${index})`);
+                    }}
+                  />
                   <Button
                     emphasis="outline"
                     size="sm"
