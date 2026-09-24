@@ -85,9 +85,12 @@ export const JacCardNextJalon: React.FC<JacCardNextJalonProps> = ({
         qu'il reste à faire, le texte qu'on vient lire. */}
     <div className="flex items-start justify-between gap-stack flex-wrap">
       <div className="flex flex-col gap-stack-xs flex-1 min-w-0">
+        {/* Le niveau se dit une fois (2026-09-24). Les titres le portent
+            souvent déjà (« Communication : Niveau D3 ») et la pastille le
+            répétait (« D3 ») : elle ne s'affiche que si le titre ne le dit pas. */}
         <div className="flex items-center gap-stack-xs flex-wrap">
           <span className="font-body font-semibold text-body text-ink-900">{title}</span>
-          <MetaPill text={dreyfusLevel} tone="primary" />
+          {!title.includes(dreyfusLevel) && <MetaPill text={dreyfusLevel} tone="primary" />}
         </div>
         <ul className="m-0 pl-0 list-none flex flex-col gap-stack-3xs">
           {requirements.map((req) => (
