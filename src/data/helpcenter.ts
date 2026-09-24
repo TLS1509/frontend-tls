@@ -78,7 +78,7 @@ export const FAQ_ARTICLES: FaqArticle[] = [
     id: 'art-04',
     title: 'Comment soumettre une mission JAC ?',
     slug: 'soumettre-mission-jac',
-    summary: 'Guide complet pour créer, rédiger et soumettre une mission JAC (Journée d\'Apprentissage en Contexte).',
+    summary: 'Guide complet pour créer, rédiger et soumettre une mission JAC (Jalon d\'Application Critique).',
     content: `**1. Accédez à Mes Missions**\n\nDans le menu principal, cliquez sur "Missions" > "Mes projets".\n\n**2. Créez une nouvelle mission**\n\nCliquez sur "Nouvelle mission" et choisissez un template (JAC standard, STRIDE, ou libre).\n\n**3. Formulez votre problématique**\n\nBonne problématique = Défi réel + Compétence ciblée + Indicateur de succès. Exemple : "Comment améliorer le feedback de mon équipe technique pour augmenter l'engagement ?" (cible : Communication, indicateur : score engagement +10%).\n\n**4. Rédigez votre rapport**\n\nDécrivez le contexte, votre démarche, les résultats obtenus et vos apprentissages. Minimum 300 mots.\n\n**5. Soumettez pour correction**\n\nCliquez "Soumettre" — votre coach reçoit une notification et dispose de 48h pour corriger.`,
     categoryId: 'cat-05',
     articleType: 'how-to',

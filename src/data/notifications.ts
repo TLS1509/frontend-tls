@@ -72,7 +72,7 @@ export const MOCK_IN_APP_NOTIFICATIONS: InAppNotification[] = [
     userId: MOCK_USER_ID,
     eventType: 'jac_approved',
     title: 'JAC approuvé',
-    body: 'Votre Journal d\'Actions-Compétences sur la « Communication assertive » a été validé.',
+    body: 'Votre Jalon d\'Application Critique sur la « Communication assertive » a été validé.',
     isRead: true,
     deepLink: '/passeport',
     createdAt: '2026-05-10T11:30:00Z',

@@ -135,7 +135,7 @@ export default function PasseportJac() {
       <EditorialHero
         tone="flat"
         eyebrow={{ label: 'Passeport · JAC' }}
-        title="Jalons & Certifications"
+        title="Jalons d'Application Critique"
         summary="Valide officiellement tes niveaux Dreyfus auprès de ton entreprise et obtiens tes certifications."
         trailing={
           <Badge variant="success" size="large">
