@@ -14,7 +14,7 @@
  */
 
 import React from 'react';
-import { Send } from 'lucide-react';
+import { PenLine, Send } from 'lucide-react';
 import { Card } from '../core/Card';
 import { Button } from '../core/Button';
 
@@ -62,11 +62,16 @@ export const JournalChatCompose: React.FC<JournalChatComposeProps> = ({
 
       {/* Compose row */}
       <div className="flex items-end gap-stack-xs p-4">
+        {/* Repère d'écriture : l'icône Lucide PenLine (2026-09-24), plus
+            l'émoji ✍️ — les icônes de l'app sont Lucide (pièges, « pas de SVG
+            inline custom »), un émoji change de dessin d'un système à l'autre.
+            20 px (cran `md`), à l'encre de la bulle ; centrée dans une boîte de
+            44 px, la hauteur du bouton d'envoi, sur la même ligne de base. */}
         <span
-          className="text-h2 leading-none shrink-0 select-none"
+          className="shrink-0 inline-flex items-center justify-center h-touch text-primary-700 select-none"
           aria-hidden="true"
         >
-          ✍️
+          <PenLine size={20} />
         </span>
         <div className="flex-1 min-w-0">
           <label className="sr-only" htmlFor="journal-compose">
