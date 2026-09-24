@@ -254,8 +254,11 @@ const ActivityRow: React.FC<{
           </time>
         </header>
 
+        {/* Largeur de lecture (2026-09-24) : la rangée occupe toute la colonne,
+            et la description courait sur 1 000 px au tableau de bord (des
+            lignes de 780 px, une centaine de caractères). */}
         {item.description && (
-          <p className="m-0 mt-stack-3xs text-body text-ink-700 line-clamp-2">{item.description}</p>
+          <p className="m-0 mt-stack-3xs text-body text-ink-700 line-clamp-2 max-w-prose">{item.description}</p>
         )}
 
         {(item.actor || (item.actionLabel && item.onActionClick)) && (
