@@ -34,7 +34,24 @@ import { WIDTH, type ContainerWidth } from './widths';
  *       <SectionHeader title="…" />
  *
  * Une page dense (formulaire, outil) garde la main : `gap="section"` ou moins.
+ *
+ * ── Ce que `className` déclare remplace la base (2026-09-24) ───────────────
+ * La base posait toujours `flex flex-col` et le `gap` de la prop. Une page qui
+ * écrivait `flex-row` n'ajoutait qu'une seconde direction, et c'est l'ordre
+ * d'émission de Tailwind qui tranchait (piège n°6) : la barre collante du
+ * détail de journal, celles de la newsletter et de l'édition hebdo
+ * s'empilaient, et chaque page avait fini par sortir de `PageShell`. Mêmes
+ * règles que `Card` (OWN_DISPLAY, OWN_DIRECTION, OWN_GAP), classes NUES
+ * seulement — un `md:flex-row` s'ajoute à la colonne de base :
+ *   - une disposition déclarée (`grid`, `flex`, `block`…) retire `flex` et
+ *     `flex-col` : la page a dit ce qu'elle voulait ;
+ *   - une direction déclarée seule (`flex-row`…) ne retire que `flex-col` ;
+ *   - un `gap-*` déclaré remplace celui de la prop `gap`.
  */
+
+const OWN_DISPLAY = /(?:^|\s)(?:flex|inline-flex|grid|inline-grid|block|inline-block|inline|contents|hidden|table)(?=\s|$)/;
+const OWN_DIRECTION = /(?:^|\s)flex-(?:row|col)(?:-reverse)?(?=\s|$)/;
+const OWN_GAP = /(?:^|\s)gap-\S+/;
 
 interface PageShellOwnProps {
   width?: ContainerWidth;
@@ -62,6 +79,7 @@ export function PageShell<E extends React.ElementType = 'div'>({
   ...rest
 }: PolymorphicProps<E, PageShellOwnProps>) {
   const Tag = (as || 'div') as React.ElementType;
+  const ownDisplay = OWN_DISPLAY.test(className);
   return (
     <Tag
       className={cx(
@@ -72,8 +90,9 @@ export function PageShell<E extends React.ElementType = 'div'>({
         noPadTop
           ? 'pb-section md:pb-section-lg lg:pb-page'
           : 'py-section md:py-section-lg lg:py-page',
-        'flex flex-col',
-        GAP[gap],
+        !ownDisplay && 'flex',
+        !ownDisplay && !OWN_DIRECTION.test(className) && 'flex-col',
+        !OWN_GAP.test(className) && GAP[gap],
         className,
       )}
       {...rest}
