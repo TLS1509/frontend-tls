@@ -49,14 +49,17 @@ const PurchaseCredits: React.FC = () => {
   /* Passe typographique du 2026-09-24 : plus d'aplat `bg-surface` ; une seule
      colonne (l'en-tête était à x 311 et le contenu, centré, à x 488) ; les
      packs sont calés à gauche, sans l'éclair décoratif, le bonus en donnée
-     (`MetaPill`) ; « Choisis un pack » et « Paiement sécurisé » sont des
+     (`MetaPill`) ; « Choisissez un pack » et « Paiement sécurisé » sont des
      sections à h2 ; les montants s'écrivent à la française, et le bouton dit
-     ce qu'il fait (« Payer 200 € ») plutôt que son prestataire. */
+     ce qu'il fait (« Payer 200 € ») plutôt que son prestataire.
+     Voix (arbitrage n°23) : « vous ». Un achat est une transaction, dans la
+     famille Facturation qui vouvoie ; ce n'est pas l'intimité de l'espace
+     d'apprentissage, et un cas ambigu se vouvoie. */
   return (
     <PageShell width="content">
       <PageHero
         eyebrow="Facturation · Crédits"
-        title="Recharge ton compte"
+        title="Rechargez votre compte"
         summary="Les crédits servent à débloquer du coaching premium et des formations spécialisées."
         tone="flat"
       />
@@ -64,16 +67,16 @@ const PurchaseCredits: React.FC = () => {
       <div className="flex flex-col gap-stack-sm">
         {purchased && (
           <Alert variant="success" title="Achat confirmé">
-            {pack ? `${pack.credits + (pack.bonus ?? 0)} crédits ajoutés à ton compte.` : 'Crédits ajoutés.'}
+            {pack ? `${pack.credits + (pack.bonus ?? 0)} crédits ajoutés à votre compte.` : 'Crédits ajoutés.'}
           </Alert>
         )}
         <Alert variant="info" title={`Solde actuel : ${creditBalance} crédits`}>
-          Tu peux acheter des crédits supplémentaires à tout moment.
+          Vous pouvez acheter des crédits supplémentaires à tout moment.
         </Alert>
       </div>
 
       <section className="flex flex-col gap-stack">
-        <SectionHeader title="Choisis un pack" />
+        <SectionHeader title="Choisissez un pack" />
         {/* 12 px au-dessus des cartes : la pastille « Le plus populaire »
             déborde de 12 px au-dessus de la sienne. */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-stack mt-stack-sm">
