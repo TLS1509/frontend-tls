@@ -11,7 +11,8 @@
  *  - Variants : default / compact / featured
  *  - Align : center (default — hero cards) / left (sidebar / inline)
  *
- * Used by : Coaching (assigned coach profile), Profile, Leaderboard.
+ * Used by : les vues coach (CoachCardGrid, CoachProfileView, CoachTeamDashboard,
+ *   CoachAnalytics). Le classement qui l'utilisait a été retiré (arbitrage n°18).
  */
 
 import React from 'react';

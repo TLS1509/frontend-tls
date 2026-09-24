@@ -61,7 +61,6 @@ export { VideoViewer } from './VideoViewer';
 export { CoachingCompteRendu } from './CoachingCompteRendu';
 // Phase 11 — Sitemap Alignment & MVP
 export { default as Passeport } from './Passeport';
-export { default as Gamification } from './Gamification';
 export { default as CoachDashboard } from './CoachDashboard';
 export { default as ManagerEnterprise } from './ManagerEnterprise';
 export { default as ManagerCohort } from './ManagerCohort';
@@ -77,7 +76,6 @@ export { default as CoachCorrectionsQueue } from './CoachCorrectionsQueue';
 export { default as CoachCorrectionInterface } from './CoachCorrectionInterface';
 export { default as CoachApprenants } from './CoachApprenants';
 export { default as BadgeDetail } from './BadgeDetail';
-export { default as ProfileBadgesCompetences } from './ProfileBadgesCompetences';
 export { default as ManagerAlerts } from './ManagerAlerts';
 export { default as ManagerExport } from './ManagerExport';
 export { default as DashboardCompetenceDetail } from './DashboardCompetenceDetail';
@@ -126,8 +124,6 @@ export { default as ProjectPasseportFeed } from './ProjectPasseportFeed';
 export { default as ProjectSkillGaps } from './ProjectSkillGaps';
 export { default as ProjectTask } from './ProjectTask';
 export { default as ProjectTeam } from './ProjectTeam';
-export { default as BadgeGallery } from './BadgeGallery';
-export { default as XPDashboard } from './XPDashboard';
 export { default as NotificationPreferences } from './NotificationPreferences';
 // Phase 16 — 17 sitemap gap pages (P0 + P1 from FO_SCREENS_CONSOLIDATION)
 export { default as PerplexityContentDetail } from './PerplexityContentDetail';

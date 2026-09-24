@@ -277,7 +277,7 @@ export const ROUTES: RouteEntry[] = [
     "component": "CoachLearnerProfile",
     "section": "coach",
     "audience": "coach",
-    "inbound": 6,
+    "inbound": 5,
     "linkedFrom": [
       "pages/CoachApprenants.tsx",
       "pages/CoachDashboard.tsx",
@@ -289,7 +289,7 @@ export const ROUTES: RouteEntry[] = [
     "component": "FicheApprenantAnalytics",
     "section": "coach",
     "audience": "coach",
-    "inbound": 6,
+    "inbound": 5,
     "linkedFrom": [
       "pages/CoachApprenants.tsx",
       "pages/CoachDashboard.tsx",
@@ -675,11 +675,9 @@ export const ROUTES: RouteEntry[] = [
     "component": "Navigate",
     "section": "gamification",
     "audience": "apprenant",
-    "inbound": 3,
+    "inbound": 1,
     "linkedFrom": [
-      "pages/DashboardAchievements.tsx",
-      "pages/Profile.tsx",
-      "pages/ProfileBadgesCompetences.tsx"
+      "pages/Profile.tsx"
     ]
   },
   {
@@ -687,11 +685,9 @@ export const ROUTES: RouteEntry[] = [
     "component": "BadgeDetail",
     "section": "gamification",
     "audience": "apprenant",
-    "inbound": 3,
+    "inbound": 1,
     "linkedFrom": [
-      "pages/DashboardAchievements.tsx",
-      "pages/Profile.tsx",
-      "pages/ProfileBadgesCompetences.tsx"
+      "pages/Profile.tsx"
     ]
   },
   {
@@ -889,7 +885,7 @@ export const ROUTES: RouteEntry[] = [
     "component": "LearningPaths",
     "section": "learning-paths",
     "audience": "apprenant",
-    "inbound": 19,
+    "inbound": 18,
     "linkedFrom": [
       "components/marketing/FooterMinimal.tsx",
       "components/patterns/AppBreadcrumb.tsx",
@@ -901,7 +897,7 @@ export const ROUTES: RouteEntry[] = [
     "component": "LearningPathDetail",
     "section": "learning-paths",
     "audience": "apprenant",
-    "inbound": 19,
+    "inbound": 18,
     "linkedFrom": [
       "components/marketing/FooterMinimal.tsx",
       "components/patterns/AppBreadcrumb.tsx",
@@ -913,7 +909,7 @@ export const ROUTES: RouteEntry[] = [
     "component": "Positionnement",
     "section": "learning-paths",
     "audience": "apprenant",
-    "inbound": 19,
+    "inbound": 18,
     "linkedFrom": [
       "components/marketing/FooterMinimal.tsx",
       "components/patterns/AppBreadcrumb.tsx",
@@ -925,7 +921,7 @@ export const ROUTES: RouteEntry[] = [
     "component": "LessonPlayer",
     "section": "learning-paths",
     "audience": "apprenant",
-    "inbound": 19,
+    "inbound": 18,
     "linkedFrom": [
       "components/marketing/FooterMinimal.tsx",
       "components/patterns/AppBreadcrumb.tsx",
@@ -1255,7 +1251,7 @@ export const ROUTES: RouteEntry[] = [
     "component": "Profile",
     "section": "profile",
     "audience": "apprenant",
-    "inbound": 7,
+    "inbound": 6,
     "linkedFrom": [
       "App.tsx",
       "components/patterns/AccountFamilyNav.tsx",
@@ -1267,10 +1263,8 @@ export const ROUTES: RouteEntry[] = [
     "component": "Navigate",
     "section": "profile",
     "audience": "apprenant",
-    "inbound": 1,
-    "linkedFrom": [
-      "pages/Leaderboard.tsx"
-    ]
+    "inbound": 0,
+    "linkedFrom": []
   },
   {
     "path": "/profile/consent",
