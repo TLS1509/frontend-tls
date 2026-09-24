@@ -24,12 +24,17 @@
  *   texte        px   cran      encre   encre/capitale
  *   micro        11   icon-2xs  11,67   1,49  ⚠ le plancher de l'échelle
  *   caption      13   icon-2xs  11,67   1,26
- *   body-sm      15   icon-xs   13,33   1,25
  *   body         16   icon-xs   13,33   1,17
- *   body-lg      18   icon-sm   15,00   1,17
- *   h4           20   icon-md   16,67   1,17
- *   h3           24   icon-lg   20,00   1,17
+ *   lede         18   icon-sm   15,00   1,17
+ *   h3           20   icon-md   16,67   1,17
  *   h2           28   icon-xl   23,33   1,17
+ *
+ * Échelle du 24/09 (arbitrages n°20 et 21) — table mise à jour le même jour.
+ * Elle citait encore `body-sm` (15, fondu dans `body`), `body-lg` (devenu le
+ * chapô, `lede`), un h4 à 20 et un h3 à 24 : l'ancien h4 est le h3, et le pas
+ * 24 a quitté l'échelle. `icon-lg` (24) n'accompagne donc plus aucun pas de
+ * texte en ligne : il reste le glyphe de la pastille `IconChip` lg (48). Le h1
+ * (36) n'a pas de cran : une icône ne se pose pas à côté du titre de la page.
  *
  * ⚠️ `micro` (11 px) n'a pas de cran à sa mesure : 14 px est le plancher de
  * l'échelle et donne 1,49. Un cran à 12 px le corrigerait, mais 12 et 14 sont
@@ -38,28 +43,25 @@
  *
  * ⚠️ Ceci vaut pour une icône posée EN LIGNE à côté de son étiquette. Une icône
  * dans une PASTILLE obéit à une autre règle : c'est la pastille qui s'apparie au
- * texte, et le glyphe vaut environ la moitié de la pastille. `SectionHeader`
- * l'applique déjà, à 0,5 exactement sur ses quatre tailles.
+ * texte, et le glyphe vaut environ la moitié de la pastille. `IconChip`
+ * l'applique (14 · 16 · 20 · 24 pour 24 · 32 · 40 · 48) — et `SectionHeader`,
+ * qui la consomme depuis le 2026-09-24.
  */
 
 /** Le pas de texte, tel qu'il s'écrit en classe Tailwind. */
-export type PasTexte =
-  | 'micro' | 'caption' | 'body-sm' | 'body' | 'body-lg' | 'h4' | 'h3' | 'h2';
+export type PasTexte = 'micro' | 'caption' | 'body' | 'lede' | 'h3' | 'h2';
 
 /** La classe d'icône appariée à chaque pas. */
 export const ICONE_POUR_TEXTE: Record<PasTexte, string> = {
-  micro:     'icon-2xs',
-  caption:   'icon-2xs',
-  'body-sm': 'icon-xs',
-  body:      'icon-xs',
-  'body-lg': 'icon-sm',
-  h4:        'icon-md',
-  h3:        'icon-lg',
-  h2:        'icon-xl',
+  micro:   'icon-2xs',
+  caption: 'icon-2xs',
+  body:    'icon-xs',
+  lede:    'icon-sm',
+  h3:      'icon-md',
+  h2:      'icon-xl',
 };
 
 /** La même table en pixels, pour les composants qui passent `size={n}` à Lucide. */
 export const TAILLE_POUR_TEXTE: Record<PasTexte, number> = {
-  micro: 14, caption: 14, 'body-sm': 16, body: 16,
-  'body-lg': 18, h4: 20, h3: 24, h2: 28,
+  micro: 14, caption: 14, body: 16, lede: 18, h3: 20, h2: 28,
 };
