@@ -127,6 +127,10 @@ const EVENT_TYPES = [
   { key: 'team.updated', label: 'Équipe mise à jour', variant: 'neutral' as const },
 ];
 
+const WEBHOOK_HEADERS_EXAMPLE = `POST /votre-endpoint HTTP/1.1
+Content-Type: application/json
+X-TLS-Signature: sha256=<HMAC-SHA256 du corps brut, clé = votre secret, en hexadécimal>`;
+
 const PAYLOAD_EXAMPLE = `{
   "event": "lesson.completed",
   "timestamp": "2026-05-13T14:23:00Z",
@@ -227,9 +231,13 @@ export default function WebhooksManagement() {
               <p className="text-body-sm text-ink-600">
                 Chaque requête webhook inclut un header <code className="px-1 py-0.5 bg-ink-100 rounded text-caption font-mono text-ink-800">X-TLS-Signature</code> contenant une signature HMAC-SHA256 calculée avec votre secret. Comparez cette signature côté serveur pour valider l'origine des événements.
               </p>
-              <div className="rounded-lg bg-ink-900 p-stack font-mono text-caption text-ink-100">
-                Authorization: Bearer {'<'}votre_secret_api{'>'}
-              </div>
+              {/* L'exemple montrait `Authorization: Bearer <votre_secret_api>`,
+                  contredisant le texte juste au-dessus (2026-09-24). Le Bearer
+                  est le mécanisme de l'API entrante (/api-docs) ; un webhook
+                  sortant est signé, et le secret ne voyage jamais. */}
+              <pre className="rounded-lg bg-ink-900 p-stack font-mono text-caption text-ink-100 overflow-x-auto whitespace-pre">
+                {WEBHOOK_HEADERS_EXAMPLE}
+              </pre>
             </div>
 
             {/* Payload */}
