@@ -74,7 +74,7 @@ export const ComposedChart: React.FC<ComposedChartProps> = ({
   size = 'md',
   showLegend = true,
   dualAxis = false,
-  leftAxisLabel = 'Value',
+  leftAxisLabel = 'Valeur',
   rightAxisLabel = 'Score',
   className = '',
   ariaLabel,
