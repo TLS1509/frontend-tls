@@ -25,7 +25,8 @@
  *   parent (faux 1,00 de /website/contact) ;
  * - seuils : 4,5 ; 3 pour le grand texte (≥ 24 px, ou ≥ 18,66 px gras) et pour
  *   un glyphe seul (✓, ·) qui fonctionne comme une icône ;
- * - exclus : aria-hidden, disabled / aria-disabled (exemptés par WCAG).
+ * - exclus : aria-hidden, disabled / aria-disabled (exemptés par WCAG) ;
+ * - un texte recouvert par un calque peint n'est pas compté (occlusion).
  *
  * Ne couvre pas : états survol et focus, texte sur image ou canvas.
  * Sortie non nulle s'il reste un échec.
@@ -91,15 +92,66 @@ const sonde = () => {
     return base;
   };
 
+  const texteDirect = (el) => [...el.childNodes].filter((n) => n.nodeType === 3 && n.textContent.trim()).map((n) => n.textContent.trim()).join(' ');
+  const candidat = (el) => {
+    if (!texteDirect(el) || el.closest('[aria-hidden="true"],[disabled],[aria-disabled="true"],script,style,noscript')) return false;
+    const r = el.getBoundingClientRect();
+    if (!r.width || !r.height) return false;
+    const s = getComputedStyle(el);
+    return !(s.visibility === 'hidden' || +s.opacity < 0.99);
+  };
+
+  /* Occlusion (2026-09-24). Un texte RECOUVERT par un calque peint — lecteur
+     plein écran, tiroir, modale — ne se voit pas : son contraste ne veut rien
+     dire. La sonde comptait le libellé « Parcours » de la barre latérale sous
+     le lecteur de /lesson/1/astuces (1,00:1). Test au centre de la boîte :
+     dans la pile `elementsFromPoint`, du plus haut au plus bas, on doit
+     atteindre le texte (ou un descendant, ou un ancêtre : le point tombe sur
+     un blanc de sa boîte) avant tout calque opaque. Un calque transparent — un
+     lien étiré en `absolute inset-0` — ne recouvre rien. Un texte en
+     `pointer-events: none` est rendu testable le temps du test.
+     Le centre doit être dans la fenêtre : on fait défiler la page par bandes
+     (le texte au milieu, loin d'un en-tête collant ou d'une barre du bas), puis
+     on revient en haut — le reste de la sonde mesure comme avant. Un texte
+     hors d'atteinte (défilement bloqué, tiroir hors écran) n'est pas jugé
+     recouvert : il est compté, comme avant. */
+  const opaque = (x) => { const sx = getComputedStyle(x); return rgb(sx.backgroundColor)[3] >= 0.5 || sx.backgroundImage !== 'none'; };
+  const recouvert = (el) => {
+    const r = el.getBoundingClientRect();
+    const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    if (cx < 0 || cy < 0 || cx >= innerWidth || cy >= innerHeight) return null;
+    const avant = el.style.pointerEvents;
+    const forcer = getComputedStyle(el).pointerEvents === 'none';
+    if (forcer) el.style.pointerEvents = 'auto';
+    const pile = document.elementsFromPoint(cx, cy);
+    if (forcer) el.style.pointerEvents = avant;
+    for (const x of pile) {
+      if (x === el || el.contains(x) || x.contains(el)) return false;
+      if (opaque(x)) return true;
+    }
+    return false;
+  };
+  const occultes = new Set();
+  {
+    const y0 = scrollY;
+    const liste = [...document.querySelectorAll('body *')].filter(candidat)
+      .map((el) => { const r = el.getBoundingClientRect(); return { el, y: r.top + r.height / 2 + scrollY }; })
+      .sort((a, b) => a.y - b.y);
+    for (const { el, y } of liste) {
+      const c = y - scrollY;
+      if (c < innerHeight * 0.2 || c > innerHeight * 0.8) scrollTo({ left: scrollX, top: y - innerHeight / 2, behavior: 'instant' });
+      if (recouvert(el)) occultes.add(el);
+    }
+    scrollTo({ left: scrollX, top: y0, behavior: 'instant' });
+  }
+
   const echecs = [];
   let mesures = 0;
   for (const el of document.querySelectorAll('body *')) {
-    const texte = [...el.childNodes].filter((n) => n.nodeType === 3 && n.textContent.trim()).map((n) => n.textContent.trim()).join(' ');
-    if (!texte || el.closest('[aria-hidden="true"],[disabled],[aria-disabled="true"],script,style,noscript')) continue;
+    if (!candidat(el) || occultes.has(el)) continue;
+    const texte = texteDirect(el);
     const r = el.getBoundingClientRect();
-    if (!r.width || !r.height) continue;
     const s = getComputedStyle(el);
-    if (s.visibility === 'hidden' || +s.opacity < 0.99) continue;
     const fond = fondDepuis(el);
     if (!fond) continue;
     mesures++;
