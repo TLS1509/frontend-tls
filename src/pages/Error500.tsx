@@ -24,15 +24,15 @@ export const Error500: React.FC = () => {
       eyebrow={<><AlertTriangle size={14} aria-hidden /> Système · Incident</>}
       title="Une erreur s'est produite"
       description="Notre équipe technique a été notifiée. Vous pouvez réessayer dans quelques instants."
+      /* Passe typographique du 2026-09-24 : le libellé « Diagnostic » passe de
+         700 à 600 (la légende n'a que deux graisses) ; les deux lignes qui
+         redisaient la description (« équipe notifiée », « réessayer ») sont
+         retirées — l'encart garde la seule donnée qu'on transmet au support. */
       callout={
         <>
-          <p className="font-body text-caption font-bold text-ink-700 m-0">Diagnostic</p>
-          <p className="font-mono text-caption text-ink-700 m-0">
-            Code : <span className="font-bold">500</span> · Erreur interne
-          </p>
-          <p className="font-mono text-caption text-ink-600 m-0">Équipe technique notifiée</p>
-          <p className="font-mono text-caption text-ink-600 m-0">
-            Action recommandée : réessayer dans quelques instants
+          <p className="font-body text-caption font-semibold text-ink-700">Diagnostic</p>
+          <p className="font-mono text-caption text-ink-700">
+            Code <span className="font-semibold">500</span> · Erreur interne
           </p>
         </>
       }
