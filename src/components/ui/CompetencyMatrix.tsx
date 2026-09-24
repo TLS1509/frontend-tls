@@ -45,7 +45,8 @@ export const CompetencyMatrix: React.FC<CompetencyMatrixProps> = ({
       <table className="w-full border-collapse font-body">
         <thead>
           <tr>
-            <th className="p-4 text-left text-caption font-semibold text-ink-900 border-b-2 border-ink-200">
+            {/* En-têtes 13/600 ink-600 (passe typographique du 2026-09-24). */}
+            <th className="p-4 text-left text-caption font-semibold text-ink-600 border-b-2 border-ink-200">
               Skill
             </th>
             {labels.slice(1).map((level, idx) => {
@@ -53,7 +54,7 @@ export const CompetencyMatrix: React.FC<CompetencyMatrixProps> = ({
               return (
                 <th
                   key={level}
-                  className="p-4 text-center text-micro font-medium text-ink-500 border-b-2 border-ink-200 whitespace-nowrap"
+                  className="p-4 text-center text-caption font-semibold text-ink-600 border-b-2 border-ink-200 whitespace-nowrap"
                 >
                   {IconComponent && <IconComponent size={18} className="inline-block mr-1 -mt-0.5" />}
                   {level}

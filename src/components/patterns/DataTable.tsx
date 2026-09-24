@@ -52,10 +52,13 @@ export interface DataTableProps {
   className?: string;
 }
 
+/* Une colonne alignée à droite est une colonne de chiffres : `tabular-nums`
+   donne à chaque chiffre la même chasse, donc les unités tombent l'une sous
+   l'autre (doctrine § 3). Sans effet sur une cellule de texte. */
 const ALIGN: Record<NonNullable<DataTableColumn['align']>, string> = {
   left: 'text-left',
   center: 'text-center',
-  right: 'text-right',
+  right: 'text-right tabular-nums',
 };
 
 const JUSTIFY: Record<NonNullable<DataTableColumn['align']>, string> = {
@@ -68,8 +71,15 @@ const JUSTIFY: Record<NonNullable<DataTableColumn['align']>, string> = {
 const FOCUS_INSET =
   'focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ink-900';
 
+/* En-tête : 13/600 ink-600, en casse normale (passe typographique du
+   2026-09-24). Il était au corps du tableau (16/600 ink-700) : aussi gros que
+   les cellules qu'il nomme, il se lisait comme une première rangée. Le même
+   retrait que les cellules (16 × 12), pour qu'en-tête et contenu partent du
+   même bord. */
+const CELL_PAD = 'px-stack py-stack-sm';
+
 const TH_BUTTON = [
-  'inline-flex w-full items-center gap-tight px-4 py-3 font-semibold text-ink-700 cursor-pointer',
+  `inline-flex w-full items-center gap-tight ${CELL_PAD} text-caption font-semibold cursor-pointer`,
   'hover:bg-ink-100 transition-colors duration-fast',
   FOCUS_INSET,
 ].join(' ');
@@ -188,16 +198,16 @@ export const DataTable: React.FC<DataTableProps> = ({
                     // déjà « none », et ARIA demande qu'un seul en-tête le porte à la fois.
                     aria-sort={isActive ? (activeDir === 'asc' ? 'ascending' : 'descending') : undefined}
                     className={[
-                      'font-semibold text-ink-700 select-none',
+                      'text-caption font-semibold text-ink-600 select-none',
                       ALIGN[align],
-                      sortable ? 'p-0' : 'px-4 py-3',
+                      sortable ? 'p-0' : CELL_PAD,
                     ].join(' ')}
                     style={column.width ? { width: column.width } : undefined}
                   >
                     {sortable ? (
                       <button
                         type="button"
-                        className={[TH_BUTTON, JUSTIFY[align]].join(' ')}
+                        className={[TH_BUTTON, JUSTIFY[align], isActive ? 'text-ink-900' : 'text-ink-600'].join(' ')}
                         onClick={() => handleSort(column.key)}
                       >
                         <span>{column.label}</span>
@@ -223,13 +233,13 @@ export const DataTable: React.FC<DataTableProps> = ({
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={columns.length} className="px-4 py-section text-center text-ink-600" aria-live="polite">
+                <td colSpan={columns.length} className="px-stack py-section text-center text-ink-600" aria-live="polite">
                   Chargement…
                 </td>
               </tr>
             ) : displayedRows.length === 0 ? (
               <tr>
-                <td colSpan={columns.length} className="px-4 py-section text-center text-ink-600">
+                <td colSpan={columns.length} className="px-stack py-section text-center text-ink-600">
                   {emptyMessage}
                 </td>
               </tr>
@@ -265,7 +275,7 @@ export const DataTable: React.FC<DataTableProps> = ({
                   {columns.map((column) => (
                     <td
                       key={`${index}-${column.key}`}
-                      className={['px-4 py-3 text-ink-900', ALIGN[column.align ?? 'left']].join(' ')}
+                      className={[CELL_PAD, 'text-ink-900', ALIGN[column.align ?? 'left']].join(' ')}
                     >
                       {row[column.key]}
                     </td>

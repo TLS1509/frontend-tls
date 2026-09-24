@@ -95,7 +95,10 @@ export const ApprenantsTable: React.FC<ApprenantsTableProps> = ({
       name: (
         <span className="flex items-center gap-stack-sm min-w-0">
           <Avatar initials={a.initials} size="sm" />
-          <span className="flex flex-col min-w-0">
+          {/* Nom 16/600 et rôle 13/400 ink-600 à 2 px. L'avatar reste centré
+              sur la cellule : dans une table, toutes les cellules d'une rangée
+              s'alignent au milieu, et c'est à elles qu'il répond. */}
+          <span className="flex flex-col gap-tight min-w-0">
             <span className={`font-semibold truncate ${isSelected ? 'text-primary-800' : 'text-ink-900'}`}>{a.name}</span>
             <span className="text-caption text-ink-600 truncate">{a.role}</span>
           </span>
@@ -111,7 +114,9 @@ export const ApprenantsTable: React.FC<ApprenantsTableProps> = ({
       jac: (
         <span className="flex items-center gap-stack-xs min-w-[5.5rem]">
           <ProgressBar value={jac} fill="brand" size="sm" valueLabel={false} className="flex-1" />
-          <span className="tabular-nums text-ink-700 w-9 text-right">{jac} %</span>
+          {/* « 30 % » tenait dans 36 px à 15 px ; à 16 (arbitrage n°20) le
+              signe passait à la ligne. Espace insécable et 48 px. */}
+          <span className="tabular-nums text-ink-700 w-12 shrink-0 whitespace-nowrap text-right">{jac}&nbsp;%</span>
         </span>
       ),
       dreyfus: <span className="tabular-nums text-ink-900">{formatDreyfus(a.dreyfusAvg)}</span>,

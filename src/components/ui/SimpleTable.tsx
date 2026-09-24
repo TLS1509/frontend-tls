@@ -32,11 +32,15 @@ const ALIGN_TH: Record<ColumnAlign, string> = {
   right:  'text-right',
 };
 
+/* Colonne à droite = colonne de chiffres : `tabular-nums` (doctrine § 3). */
 const ALIGN_TD: Record<ColumnAlign, string> = {
   left:   'text-left',
   center: 'text-center',
-  right:  'text-right',
+  right:  'text-right tabular-nums',
 };
+
+/* Le même retrait pour l'en-tête et les cellules : un seul bord gauche. */
+const CELL_PAD = 'px-stack py-stack-sm';
 
 export function SimpleTable<T>({
   columns,
@@ -54,7 +58,7 @@ export function SimpleTable<T>({
     <div className={['w-full overflow-x-auto rounded-xl border border-ink-200', className].filter(Boolean).join(' ')}>
       <table className="w-full text-body font-body border-collapse">
         {caption && (
-          <caption className="text-caption text-ink-500 text-left px-4 py-2 font-medium">
+          <caption className="text-caption text-ink-600 text-left px-stack py-stack-xs">
             {caption}
           </caption>
         )}
@@ -65,7 +69,10 @@ export function SimpleTable<T>({
                 key={col.key}
                 scope="col"
                 className={[
-                  'px-4 py-3 text-caption font-semibold text-ink-600 uppercase tracking-wide whitespace-nowrap',
+                  /* En-tête 13/600 ink-600, en casse normale : les capitales
+                     espacées sont le registre de Badge (un état), pas celui
+                     d'un nom de colonne. */
+                  `${CELL_PAD} text-caption font-semibold text-ink-600 whitespace-nowrap`,
                   ALIGN_TH[col.align ?? 'left'],
                   col.width,
                 ]
@@ -82,7 +89,7 @@ export function SimpleTable<T>({
             <tr>
               <td
                 colSpan={columns.length}
-                className="px-4 py-10 text-center text-body text-ink-600 italic"
+                className="px-stack py-section-lg text-center text-body text-ink-600 italic"
               >
                 {emptyLabel}
               </td>
@@ -104,7 +111,7 @@ export function SimpleTable<T>({
                   <td
                     key={col.key}
                     className={[
-                      'px-4 py-3 text-ink-900',
+                      `${CELL_PAD} text-ink-900`,
                       ALIGN_TD[col.align ?? 'left'],
                       col.width,
                     ]
