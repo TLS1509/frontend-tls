@@ -4946,7 +4946,7 @@ const COMPONENTS: ComponentEntry[] = [
               <div className="absolute inset-x-0 bottom-0 p-stack-md text-white flex flex-col gap-tight">
                 <span className="font-body text-caption font-semibold text-white">{item.category} · {item.publishedAt}</span>
                 <h3 className="font-display text-h3 font-bold text-white">{item.title}</h3>
-                <div className="flex justify-between items-center text-caption text-white/90 mt-tight">
+                <div className="flex justify-between items-center text-caption text-white mt-tight">
                   <span><User size={12} className="inline" /> {item.author} · ⏱ {item.readTime}</span>
                   <span className="font-bold">Lire →</span>
                 </div>
@@ -5691,11 +5691,14 @@ const COMPONENTS: ComponentEntry[] = [
         {/* Brand deep + soft pastels (gradients tokens additionnels) */}
         <p className="text-caption font-semibold text-ink-600 m-0 mt-stack">Hero & soft pastels — autres gradients tokens DS</p>
 
-        {/* Brand deep (saturated 90°) */}
-        <div className="relative h-[140px] overflow-hidden rounded-xl bg-gradient-brand-deep border border-ink-200">
-          <div className="relative z-base p-stack flex flex-col items-center justify-center h-full text-center">
-            <p className="m-0 font-display text-body font-bold text-white">bg-gradient-brand-deep</p>
-            <p className="m-0 mt-tight font-body text-caption text-white/80 font-mono">90deg · brand-navy #164267 → primary-500 #55a1b4</p>
+        {/* Brand deep (saturated 90°) — le libellé sous la nuance, pas dessus :
+            du blanc n'y passe que côté navy, et le bout primary-500 le porte à
+            2,94:1 (à 375 px, le libellé replié y débordait : 3,98:1). */}
+        <div className="flex flex-col gap-stack-xs">
+          <div aria-hidden className="h-[140px] rounded-xl bg-gradient-brand-deep border border-ink-200" />
+          <div>
+            <p className="m-0 font-display text-body font-bold text-ink-900">bg-gradient-brand-deep</p>
+            <p className="m-0 mt-tight font-mono text-caption text-ink-600">90deg · brand-navy #164267 → primary-500 #55a1b4</p>
           </div>
         </div>
 
