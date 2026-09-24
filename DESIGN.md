@@ -398,8 +398,10 @@ n'est pas dérivable du code : c'est une décision.
 ## 7. Responsive et accessibilité
 
 **Mobile d'abord.** Colonne unique par défaut. Points de rupture `md` 768 ·
-`lg` 1024 · `xl` 1280. Sidebar en tiroir sous 768 px, en ligne à 220 px sur
-tablette, 260 px sur desktop avec repli possible.
+`lg` 1024 · `xl` 1280. Sidebar en tiroir (280 px) sous 768 px, en ligne à
+260 px dès 768 px, repliable à 72 px. *(Révisé le 2026-09-24 : la tablette
+avait 220 px, où les entrées à 16 px de l'arbitrage n°20 se coupaient —
+« Espace Apprentissage » demande 162 px et n'en avait que 133.)*
 
 **Verre.** `backdrop-blur-glass-{light|medium|heavy}` (8 / 16 / 24 px), plus
 `backdrop-blur-ambient` (60 px) pour les halos de fond — attention, celui-ci n'a
