@@ -233,7 +233,7 @@ import { ResourceListItem } from '../components/learning/ResourceListItem';
 import { EtapeAccordion } from '../components/patterns/EtapeAccordion';
 import { AuthBackLink } from '../components/patterns/AuthShell';
 import { Briefcase, HeartHandshake, FileText } from 'lucide-react';
-import { Plus, Heart, Home, Trophy as TrophyIcon, Settings, Trash2, Pencil } from 'lucide-react';
+import { Plus, Heart, Home, Trophy as TrophyIcon, Settings, Trash2, Pencil, Maximize2 } from 'lucide-react';
 import { FloatLabel } from '../components/core/FloatLabel';
 import { Chip } from '../components/ui/Chip';
 import { IconChip } from '../components/ui/IconChip';
@@ -4600,52 +4600,82 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'ViewerHeader',
     codeName: 'patterns/ViewerHeader.tsx',
     cssBase: 'Tailwind (no BEM)',
-    usedBy: ['Positionnement', 'AstucesViewer', 'FlashcardsViewer', 'LessonPlayer', '(target) VideoViewer, ComplementaryContentViewer, VideoReels, JournalDetail'],
-    description: "La barre des lecteurs plein écran (flashcards, astuces, positionnement) : Retour à gauche, le titre, un compteur « 3 / 12 », précédent, suivant et fermer (Button iconOnly ghost de 44 px). Titre en 16/600 ink-900, dans un `<p>` par défaut : `titleAs=\"h1\"` en fait le titre de la page quand le lecteur n'en a pas d'autre, et `titleId` l'expose à `aria-labelledby` (deux props ajoutées le 24/09). Une seule ligne de méta en 13 ink-600 : le surtitre en 600, « · », le sous-titre. Compteur 13/600 tabulaire, valeur au cran 800 du ton ; barre de progression optionnelle de 4 px. Aligné à gauche sous 640 px, centré au-delà ; tons primary · warm · sun.",
-    keywords: ['viewer', 'lecteur', 'reader', 'toolbar', 'header', 'titleAs', 'titleId', 'prev-next', 'navigation', 'back', 'close', 'sticky'],
+    usedBy: ['LessonPlayer', 'FlashcardsViewer', 'AstucesViewer', 'VideoViewer', 'ComplementaryContentViewer', 'Positionnement'],
+    description: "La barre des lecteurs plein écran : leçon, flashcards, astuces, vidéo, ressources complémentaires, positionnement. Retour à gauche ; au centre le titre en 16/600 ink-900 et une seule ligne de méta en 13 ink-600 (le surtitre en 600 ink-700, « · », le sous-titre) ; à droite un emplacement `trailing`, le compteur « 3 / 12 » en 13/600 tabulaire (valeur au cran 800 du ton), puis précédent, suivant et fermer (Button iconOnly ghost de 44 px). Barre de progression optionnelle de 4 px. La barre ne nomme pas l'écran : son titre est un `<p>`, et le h1 à 36 vit dans le contenu. La couverture d'une leçon l'affiche ; ses autres sections le gardent pour le seul plan du document (`sr-only`). `titleAs=\"h1\"` reste une échappatoire pour un écran sans autre titre, que check-typo relève — aucune page ne s'en sert ; `titleId` expose le titre à `aria-labelledby`. Aligné à gauche sous 640 px, centré au-delà ; tons primary · warm · sun.",
+    keywords: ['viewer', 'lecteur', 'reader', 'toolbar', 'header', 'titleAs', 'titleId', 'trailing', 'h1', 'prev-next', 'navigation', 'back', 'close', 'sticky'],
     render: () => (
       <div className="flex flex-col gap-stack-lg">
-        {/* Pattern 1 — Viewer with prev/next + counter (FlashcardsViewer style) */}
+        {/* Leçon (LessonPlayer) : la barre porte titre et méta, la couverture
+            porte le h1. Le h1 est simulé par un paragraphe au pas h1 : la
+            vitrine a déjà le sien, et un second fausserait son plan. */}
         <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-semibold text-ink-600 m-0">Lecteur à navigation séquentielle (Flashcards, Astuces)</p>
-          <div className="rounded-xl overflow-hidden border border-ink-200 bg-ink-50">
+          <p className="text-caption font-semibold text-ink-600">Leçon : la barre porte le titre et la méta, la couverture porte le h1</p>
+          <div className="rounded-xl overflow-hidden border border-ink-200 bg-white">
             <ViewerHeader
               sticky={false}
+              tone="warm"
               backLabel="Retour"
               onBack={() => {}}
-              eyebrow="Module 2"
-              title="Carte 3 — Boucle de feedback OKR"
-              current={3}
+              title="Donner un feedback qui fait progresser"
+              eyebrow="Étape 2 · Le feedback"
+              subtitle="12 min"
+              current={1}
+              total={6}
+              progress={17}
+              onClose={() => {}}
+            />
+            <div className="flex flex-col gap-stack-sm p-stack-lg sm:p-section">
+              <p className="font-display text-h1 text-ink-900 text-balance">Donner un feedback qui fait progresser</p>
+              <p className="font-body text-body-lg text-ink-700 max-w-prose">Décrire un fait, en dire l’effet, proposer une suite : trois gestes pour qu’un retour serve à celui qui le reçoit.</p>
+            </div>
+          </div>
+          <p className="text-caption text-ink-600 max-w-prose">Dans la page, le titre de la couverture est le <code className="font-mono text-caption">h1</code> de l’écran ; ici un paragraphe, la vitrine ayant déjà le sien. Dans les autres sections, il ne reste que dans le plan du document.</p>
+        </div>
+
+        {/* Flashcards et astuces : pas de titre dans la barre, une ligne de
+            méta seulement ; le h1 centré nomme le jeu. */}
+        <div className="flex flex-col gap-stack-xs">
+          <p className="text-caption font-semibold text-ink-600">Flashcards, astuces : une ligne de méta dans la barre, le h1 centré nomme le jeu</p>
+          <div className="rounded-xl overflow-hidden border border-ink-200 bg-white">
+            <ViewerHeader
+              sticky={false}
+              tone="primary"
+              eyebrow="Flashcards"
+              subtitle="4 / 12 comprises"
+              current={5}
               total={12}
-              onPrev={() => {}}
-              onNext={() => {}}
+              progress={42}
               onClose={() => {}}
             />
-            <div className="p-section text-center text-ink-600 text-caption">Contenu du lecteur</div>
+            <div className="p-stack-lg sm:p-section">
+              <p className="font-display text-h1 text-ink-900 text-center text-balance">Boucle de feedback OKR</p>
+            </div>
           </div>
         </div>
 
-        {/* Pattern 2 — Viewer simple title-only (VideoViewer style) */}
+        {/* Vidéo : l'emplacement `trailing` reçoit une action de plus. */}
         <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-semibold text-ink-600 m-0">Lecteur simple : retour, titre et méta, fermer (vidéo, article)</p>
-          <div className="rounded-xl overflow-hidden border border-ink-200 bg-ink-50">
+          <p className="text-caption font-semibold text-ink-600">Vidéo : une action de plus dans l’emplacement <code className="font-mono text-caption">trailing</code></p>
+          <div className="rounded-xl overflow-hidden border border-ink-200 bg-white">
             <ViewerHeader
               sticky={false}
-              backLabel="Retour"
-              onBack={() => {}}
-              eyebrow="Vidéo · 6 min"
+              eyebrow="Vidéo · Veille"
               title="Tendance Leadership 2026 — replay de la conférence"
-              subtitle="Publié le 30 avril 2026 par Sophie Martin"
               onClose={() => {}}
+              trailing={
+                <Button iconOnly emphasis="ghost" tone="neutral" aria-label="Plein écran">
+                  <Maximize2 />
+                </Button>
+              }
             />
-            <div className="p-section text-center text-ink-600 text-caption">Contenu du lecteur</div>
           </div>
         </div>
 
-        {/* Pattern 3 — Disabled boundaries (first/last item) */}
+        {/* Précédent / suivant : dans l'API, désactivés aux bornes — mais
+            aucun lecteur ne s'en sert aujourd'hui. */}
         <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-semibold text-ink-600 m-0">Aux bornes : précédent désactivé sur le premier élément</p>
-          <div className="rounded-xl overflow-hidden border border-ink-200 bg-ink-50">
+          <p className="text-caption font-semibold text-ink-600">Précédent et suivant, désactivés aux bornes</p>
+          <div className="rounded-xl overflow-hidden border border-ink-200 bg-white">
             <ViewerHeader
               sticky={false}
               backLabel="Retour"
@@ -4657,8 +4687,8 @@ const COMPONENTS: ComponentEntry[] = [
               onNext={() => {}}
               disablePrev
             />
-            <div className="p-stack text-center text-ink-600 text-caption">Premier élément : pas de précédent</div>
           </div>
+          <p className="text-caption text-ink-600 max-w-prose">Dans l’API, mais aucun lecteur ne s’en sert aujourd’hui : leur navigation vit dans le pied de page (LessonNavigation).</p>
         </div>
       </div>
     ),
