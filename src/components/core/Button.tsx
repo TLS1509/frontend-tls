@@ -454,6 +454,19 @@ const SIZE_TEXT: Record<TailleRendue, string> = {
 const CIBLE_SM = 'relative after:absolute after:content-[""] after:inset-x-0 after:-inset-y-1';
 const CIBLE_SM_CARREE = 'relative after:absolute after:content-[""] after:-inset-1';
 
+/* ⚠️ Un bouton que la page positionne elle-même (la croix `absolute top-4
+   right-4` d'une modale, un bouton `fixed` ou `sticky`) est déjà un bloc
+   positionné : le pseudo-élément de la cible s'y ancre sans `relative`. Et ce
+   `relative` BATTAIT la position de la page — même propriété, même
+   spécificité, c'est l'ordre d'émission qui tranche (piège n°6). Mesuré le
+   24/09 sur /coaching : la croix de fermeture des modales rendait
+   `position: relative` et tombait dans le flux, en haut à gauche, au-dessus
+   du contenu qu'elle poussait vers le bas. Seules les classes sans préfixe
+   sont lues (comme les OWN_* de `Card`). */
+const POSITION_PROPRE = /(?:^|\s)(?:absolute|fixed|sticky)(?:\s|$)/;
+const cibleSm = (cible: string, className: string): string =>
+  POSITION_PROPRE.test(className) ? cible.replace(/^relative /, '') : cible;
+
 /* L'icône suit la taille du bouton, et c'est le SVG qui se plie à la boîte.
 
    Avant : la boîte valait `1em` d'un `font-size: 1.05em`, et le SVG gardait sa
@@ -549,7 +562,7 @@ export function buttonClasses({
     RAYON,
     resolveClasses(variant, emphasis, tone, onDark),
     (emphasis ?? VARIANT_ALIAS[variant].emphasis) === 'link' ? SIZE_TEXT[tailleRendue(size)] : SIZE_CLASSES[tailleRendue(size)],
-    tailleRendue(size) === 'sm' && CIBLE_SM,
+    tailleRendue(size) === 'sm' && cibleSm(CIBLE_SM, className),
     fullWidth && 'w-full',
     className,
   ]
@@ -592,7 +605,7 @@ export const Button: React.FC<ButtonProps> = ({
     resolveClasses(variant, emphasis, tone, onDark),
     !iconOnly && (niveau === 'link' ? SIZE_TEXT[taille] : SIZE_CLASSES[taille]),
     iconOnly && `${ICON_ONLY_WIDTH[taille]} aspect-square`,
-    taille === 'sm' && (iconOnly ? CIBLE_SM_CARREE : CIBLE_SM),
+    taille === 'sm' && cibleSm(iconOnly ? CIBLE_SM_CARREE : CIBLE_SM, className),
     fullWidth && 'w-full',
     className,
   ]
