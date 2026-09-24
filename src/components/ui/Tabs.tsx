@@ -67,9 +67,12 @@ export interface TabsProps
    l'indicateur se pose. Même raison pour le focus : l'anneau passe à
    l'intérieur de l'onglet (`-outline-offset-2`), sinon le cadre le rognait. */
 const CONTAINER_VARIANT: Record<TabsVariant, string> = {
-  pill:      'inline-flex items-center gap-tight p-1 bg-ink-100 rounded-pill',
+  // Rail de 52 px (onglet 44 + retrait 4) : au-dessus du seuil de 28 px, le rayon
+  // prend l'échelle (R3) — 14 pour le rail, 14 − 4 = 10 pour l'onglet (règle des
+  // coins imbriqués). Même construction que `SegmentedControl`. (24/09)
+  pill:      'inline-flex items-center gap-tight p-1 bg-ink-100 rounded-lg',
   underline: 'inline-flex items-center gap-tight max-w-full overflow-x-auto overflow-y-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden shadow-[inset_0_-1px_0_0] shadow-ink-200',
-  boxed:     'inline-flex items-stretch border border-ink-200 rounded-xl overflow-hidden bg-white',
+  boxed:     'inline-flex items-stretch border border-ink-200 rounded-lg overflow-hidden bg-white',
 };
 
 /* Libellé d'onglet : 16 / 600 aux deux états (passe typographique du
@@ -86,9 +89,11 @@ const TAB_BASE =
 const TAB_VARIANT: Record<TabsVariant, string> = {
   // Décalage du focus par variante, pas dans TAB_BASE : deux `outline-offset`
   // sur un même élément, c'est l'ordre d'émission qui trancherait (piège n°6).
-  pill:      'px-4 py-2 rounded-pill hover:text-ink-900 hover:bg-white/60 focus-visible:outline-offset-2',
-  underline: 'px-3 py-3 rounded-none relative shrink-0 whitespace-nowrap hover:text-ink-900 hover:bg-ink-50/60 focus-visible:-outline-offset-2',
-  boxed:     'px-stack-md py-3 rounded-none border-r border-ink-200 last:border-r-0 flex-1 justify-center hover:bg-ink-50 focus-visible:outline-offset-2',
+  pill:      'px-4 py-2 rounded-md hover:text-ink-900 hover:bg-white/60 focus-visible:outline-offset-2',
+  // py-2 + interligne 26 + `min-h-touch` = 44 px, la hauteur commune des
+  // contrôles (arbitrage n°22) ; py-3 donnait 50.
+  underline: 'px-3 py-2 rounded-none relative shrink-0 whitespace-nowrap hover:text-ink-900 hover:bg-ink-50/60 focus-visible:-outline-offset-2',
+  boxed:     'px-stack-md py-2 rounded-none border-r border-ink-200 last:border-r-0 flex-1 justify-center hover:bg-ink-50 focus-visible:outline-offset-2',
 };
 
 /* Trait de l'onglet `underline` au cran 700 — arbitrage n°9, l'état choisi
