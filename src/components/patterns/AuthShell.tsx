@@ -41,6 +41,14 @@ import { Input } from '../core/Input';
    trancherait (piège n°6). Même motif que `Button.tsx` et `core/Input.tsx`. */
 const RAYON_BOUTON = 'rounded-lg';
 
+/* Hauteur et libellé des trois boutons Auth — arbitrage n°22 (2026-09-24).
+   Ils faisaient 48 px sous des champs de 52 (`AuthField` = `Input lg`) : la
+   colonne alternait deux hauteurs pour deux objets qu'on lit comme jumeaux.
+   Ils prennent le `lg` de l'échelle commune, 52, et le libellé du `Button`
+   de même cran : 16 / 700, padding 24. Leur 600 était une deuxième graisse
+   de bouton dans l'app. */
+const TAILLE_BOUTON = 'h-13 px-stack-lg text-body font-bold';
+
 export interface AuthShellProps {
   /** Form content (inputs + buttons). Wrapped in a glass dark Card automatically. */
   form: React.ReactNode;
@@ -208,11 +216,11 @@ export const AuthBackLink: React.FC<AuthBackLinkProps> = ({ label, onClick, clas
     className={[
       'inline-flex items-center gap-stack-2xs self-start',
       'bg-transparent border-0 p-0 cursor-pointer',
-      'text-body font-medium text-white/90 hover:text-white transition-colors',
+      'text-body font-semibold text-white/90 hover:text-white transition-colors',
       className,
     ].filter(Boolean).join(' ')}
   >
-    <ArrowLeft size={14} />
+    <ArrowLeft size={16} />
     {label}
   </button>
 );
@@ -227,7 +235,12 @@ export const AuthDivider: React.FC<AuthDividerProps> = ({
 }) => (
   <div className="flex items-center gap-stack-xs my-1">
     <span aria-hidden className="h-px flex-1 bg-white/20" />
-    <p className="m-0 text-micro text-white/70 uppercase tracking-wider font-semibold whitespace-nowrap">
+    {/* 13 / 400 en casse normale : une légende entre deux groupes. Le `micro`
+        en capitales est le registre du `Badge` (doctrine, échelle). Blanc plein,
+        le maximum que le texte puisse donner : même ainsi, 4,4:1 mesuré le 24/09
+        — c'est le fond de la coque (dégradé parti de primary-600) qui manque
+        d'encre, pas ce libellé. */}
+    <p className="text-caption text-white whitespace-nowrap">
       {children}
     </p>
     <span aria-hidden className="h-px flex-1 bg-white/20" />
@@ -251,9 +264,10 @@ export const AuthSocialButton: React.FC<AuthSocialButtonProps> = ({
   <button
     type="button"
     className={[
-      'inline-flex items-center justify-center gap-stack-xs h-12 px-4',
+      'inline-flex items-center justify-center gap-stack-xs',
+      TAILLE_BOUTON,
       RAYON_BOUTON,
-      'bg-white text-ink-900 text-body font-semibold cursor-pointer transition-all',
+      'bg-white text-ink-900 cursor-pointer transition-all',
       /* Soulèvement retiré le 2026-09-17 — même motif que S1 sur Button.tsx :
          il datait l'interface, déplaçait le contenu sous le curseur et
          n'existait pas sur mobile. L'ombre reste (canon bouton). */
@@ -414,7 +428,7 @@ export const AuthPasswordField: React.FC<AuthPasswordFieldProps> = ({
       label={label}
       placeholder={placeholder}
       type={show ? 'text' : 'password'}
-      icon={showLockIcon ? <Lock size={18} /> : undefined}
+      icon={showLockIcon ? <Lock size={20} /> : undefined}
       trailing={
         <button
           type="button"
@@ -422,7 +436,7 @@ export const AuthPasswordField: React.FC<AuthPasswordFieldProps> = ({
           aria-label={show ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
           className="bg-transparent border-0 p-1 cursor-pointer text-white/85 hover:text-white transition-colors inline-flex items-center justify-center"
         >
-          {show ? <EyeOff size={18} /> : <Eye size={18} />}
+          {show ? <EyeOff size={20} /> : <Eye size={20} />}
         </button>
       }
       {...rest}
@@ -442,9 +456,10 @@ export const AuthPrimaryButton: React.FC<React.ButtonHTMLAttributes<HTMLButtonEl
 }) => (
   <button
     className={[
-      'inline-flex items-center justify-center gap-stack-xs w-full h-12 px-4',
+      'inline-flex items-center justify-center gap-stack-xs w-full',
+      TAILLE_BOUTON,
       RAYON_BOUTON,
-      'bg-white text-ink-900 text-body font-semibold cursor-pointer transition-all',
+      'bg-white text-ink-900 cursor-pointer transition-all',
       'shadow-md hover:bg-ink-50 hover:shadow-lg',
       'disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-md',
       'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white',
@@ -470,9 +485,10 @@ export const AuthGhostButton: React.FC<React.ButtonHTMLAttributes<HTMLButtonElem
   <button
     type="button"
     className={[
-      'inline-flex items-center justify-center gap-stack-xs w-full h-12 px-4',
+      'inline-flex items-center justify-center gap-stack-xs w-full',
+      TAILLE_BOUTON,
       RAYON_BOUTON,
-      'bg-transparent text-white border border-white/30 text-body font-semibold cursor-pointer transition-all',
+      'bg-transparent text-white border border-white/30 cursor-pointer transition-all',
       'hover:bg-white/10 hover:border-white/50',
       'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white',
       className,
@@ -523,7 +539,7 @@ export const AuthCheckbox: React.FC<AuthCheckboxProps> = ({
     />
     <span
       aria-hidden
-      className="mt-0.5 inline-flex items-center justify-center w-5 h-5 shrink-0 rounded-sm border-2 border-white/40 bg-white/10 transition-all peer-checked:bg-white peer-checked:border-white after:content-['✓'] after:text-primary-700 after:font-bold after:text-[13px] after:opacity-0 peer-checked:after:opacity-100"
+      className="mt-0.5 inline-flex items-center justify-center w-5 h-5 shrink-0 rounded-sm border-2 border-white/40 bg-white/10 transition-all peer-checked:bg-white peer-checked:border-white after:content-['✓'] after:text-primary-700 after:font-bold after:text-caption after:opacity-0 peer-checked:after:opacity-100"
     />
     <span className="text-body text-white/85">{label}</span>
   </label>

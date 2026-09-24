@@ -35,7 +35,7 @@ export const MultiStepForm: React.FC<MultiStepFormProps> = ({
   const step = steps[currentStep - 1];
 
   return (
-    <div className="flex flex-col gap-7">
+    <div className="flex flex-col gap-stack-lg">
       {showProgressBar && (
         <div className="flex items-center gap-stack">
           <div className="flex-1 h-2 rounded-pill bg-ink-100 overflow-hidden shadow-inner">
@@ -44,7 +44,7 @@ export const MultiStepForm: React.FC<MultiStepFormProps> = ({
               style={{ width: `${progress}%` }}
             />
           </div>
-          <span className="text-caption font-bold text-primary-700 whitespace-nowrap min-w-[3.5rem] text-right">
+          <span className="text-caption font-semibold text-ink-700 tabular-nums whitespace-nowrap min-w-[3.5rem] text-right">
             {currentStep} / {steps.length}
           </span>
         </div>
@@ -97,7 +97,7 @@ export const MultiStepForm: React.FC<MultiStepFormProps> = ({
                   <span
                     className={[
                       'block text-caption font-semibold',
-                      isActive ? 'text-ink-900' : isCompleted ? 'text-success-fg' : 'text-ink-500',
+                      isActive ? 'text-ink-900' : isCompleted ? 'text-success-fg' : 'text-ink-600',
                     ].join(' ')}
                   >
                     {s.title}
@@ -111,15 +111,23 @@ export const MultiStepForm: React.FC<MultiStepFormProps> = ({
 
       <Card>
         {step && (
-          <div className="mb-stack-lg pb-stack-lg border-b border-ink-200">
-            <span className="inline-block text-caption font-medium text-primary-700 mb-2">
-              Étape {step.id} / {steps.length}
-            </span>
-            <h2 className="mb-2 font-display text-h2 font-bold text-ink-900">
+          /* En-tête d'étape : titre → texte 8 (anatomie de carte, doctrine §5),
+             description au rôle « texte secondaire long » (ink-700), plafonnée
+             en largeur. Le compteur « Étape 2 / 4 » ne s'affiche que sans barre
+             de progression : la barre l'écrit déjà juste au-dessus (« 2 / 4 »),
+             et les pastilles d'étape nomment chaque étape — trois fois le même
+             fait. Quand il s'affiche, il colle à son titre (méta → titre 4). */
+          <div className="flex flex-col mb-stack-lg pb-stack-lg border-b border-ink-200">
+            {!showProgressBar && (
+              <span className="text-caption font-semibold text-ink-600">
+                Étape {step.id} / {steps.length}
+              </span>
+            )}
+            <h2 className={`${showProgressBar ? '' : 'mt-stack-3xs '}font-display text-h2 text-ink-900`}>
               {step.title}
             </h2>
             {step.description && (
-              <p className="m-0 text-body text-ink-500">{step.description}</p>
+              <p className="mt-stack-xs text-body text-ink-700 max-w-prose">{step.description}</p>
             )}
           </div>
         )}

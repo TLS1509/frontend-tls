@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useId, useState } from 'react';
 import { XCircle, Check, X } from 'lucide-react';
 import { Button } from '../core/Button';
 
@@ -28,6 +28,7 @@ export const AIOverrideButton: React.FC<AIOverrideButtonProps> = ({
 }) => {
   const [expanded, setExpanded] = useState(false);
   const [reason, setReason] = useState('');
+  const reasonId = useId();
 
   const handleClick = () => {
     if (requireReason) {
@@ -51,17 +52,21 @@ export const AIOverrideButton: React.FC<AIOverrideButtonProps> = ({
   if (expanded) {
     return (
       <div className={`flex flex-col gap-stack-xs ${className}`}>
-        <label className="text-caption text-ink-600 font-medium">
-          Raison du rejet <span className="text-ink-600 font-normal">(optionnel)</span>
+        {/* Libellé de champ : 16 / 600 ink-900 (il était en légende grise, 13 /
+            500) ; « (optionnel) » reste à la graisse du texte. Filet ink-400 de
+            la famille champ (arbitrage n°7) — ink-200 mesurait 1,2:1. */}
+        <label htmlFor={reasonId} className="text-body font-semibold text-ink-900">
+          Raison du rejet <span className="font-normal text-ink-600">(optionnel)</span>
         </label>
         <textarea
+          id={reasonId}
           value={reason}
           onChange={(e) => setReason(e.target.value)}
           placeholder="Expliquez pourquoi vous rejetez cette recommandation..."
           rows={3}
           className={[
-            'w-full h-auto min-h-[80px] rounded-lg border border-ink-200 bg-white',
-            'px-3 py-2 text-body text-ink-900 placeholder:text-ink-500',
+            'w-full h-auto min-h-[80px] rounded-lg border border-ink-400 bg-white',
+            'px-stack-sm py-2 text-body text-ink-900 placeholder:text-ink-500',
             'focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500',
             'resize-none transition-colors duration-base',
           ].join(' ')}
@@ -89,12 +94,18 @@ export const AIOverrideButton: React.FC<AIOverrideButtonProps> = ({
   }
 
   return (
+    /* Contour neutre, par la grille (`tone="neutral"` : label ink-700, filet
+       ink-500). Il était obtenu en écrasant la couleur du label par `className`
+       — `text-ink-500`, le cran des placeholders, contre le `text-primary-800`
+       du ton : deux classes de même spécificité, c'est l'ordre d'émission qui
+       tranchait (piège n°6). */
     <Button
       emphasis="outline"
+      tone="neutral"
       size={size}
       onClick={handleClick}
-      leadingIcon={<XCircle size={size === 'sm' ? 14 : 16} />}
-      className={`text-ink-500 hover:text-danger-fg hover:bg-danger-bg ${className}`}
+      leadingIcon={<XCircle />}
+      className={className}
     >
       {label}
     </Button>

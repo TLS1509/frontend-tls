@@ -94,13 +94,14 @@ export const JournalChatCompose: React.FC<JournalChatComposeProps> = ({
         </Button>
       </div>
 
-      {/* Footer hint */}
+      {/* Aide et raccourci : 13 / 400 ink-600, la voix de l'aide sous un champ
+          (ink-500 est réservé aux placeholders, le `micro` aux étiquettes). */}
       <div className="px-4 pb-3 -mt-1 flex items-center justify-between gap-stack-xs flex-wrap">
         {hint && (
-          <span className="font-body text-caption text-ink-500">{hint}</span>
+          <span className="font-body text-caption text-ink-600">{hint}</span>
         )}
-        <span className="font-body text-micro text-ink-600 hidden sm:inline ml-auto">
-          <kbd className="px-1.5 py-0.5 rounded bg-ink-50 border border-ink-200 text-ink-600 font-mono text-micro">
+        <span className="font-body text-caption text-ink-600 hidden sm:inline ml-auto">
+          <kbd className="px-1.5 py-0.5 rounded-xs bg-ink-50 border border-ink-200 text-ink-600 font-mono text-micro">
             ⌘ + Entrée
           </kbd>{' '}
           pour envoyer

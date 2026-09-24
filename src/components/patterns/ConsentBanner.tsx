@@ -119,7 +119,7 @@ export const ConsentBanner: React.FC<ConsentBannerProps> = ({
                 Nous utilisons des cookies pour améliorer votre expérience, analyser notre trafic et personnaliser les contenus.{' '}
                 <button
                   onClick={() => setShowCustomize((v) => !v)}
-                  className="text-primary-700 underline underline-offset-2 hover:text-primary-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded-xs"
+                  className="text-primary-800 underline underline-offset-2 hover:text-primary-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded-xs"
                 >
                   En savoir plus
                 </button>
@@ -148,11 +148,15 @@ export const ConsentBanner: React.FC<ConsentBannerProps> = ({
 
         {/* Customize panel */}
         {showCustomize && (
-          <div className="mt-stack pt-stack border-t border-ink-100 flex flex-col gap-stack-xs">
-            <p className="text-caption text-ink-500 font-medium uppercase tracking-wide">
+          /* Titre du panneau : 16 / 600 ink-900, le libellé d'un groupe de
+             réglages — l'ancien surtitre en capitales grises (13, ink-500) était
+             un « eyebrow », et ink-500 est réservé aux placeholders. Réglages
+             espacés de 12 : des éléments d'un même ensemble, pas un bloc. */
+          <div className="mt-stack pt-stack border-t border-ink-100 flex flex-col gap-stack-sm">
+            <p className="text-body font-semibold text-ink-900">
               Gérer mes préférences
             </p>
-            <div className="flex flex-col gap-stack-xs">
+            <div className="flex flex-col gap-stack-sm">
               {categories.map((cat) => (
                 <div key={cat.id} className="flex items-start gap-stack-xs">
                   <Toggle
@@ -165,15 +169,15 @@ export const ConsentBanner: React.FC<ConsentBannerProps> = ({
                     <span className="text-body font-semibold text-ink-900">
                       {cat.label}
                       {cat.required && (
-                        <span className="ml-1 text-micro text-ink-600 font-normal">(obligatoire)</span>
+                        <span className="ml-1 text-caption font-normal text-ink-600">(obligatoire)</span>
                       )}
                     </span>
-                    <span className="text-caption text-ink-500">{cat.description}</span>
+                    <span className="text-caption text-ink-600">{cat.description}</span>
                   </div>
                 </div>
               ))}
             </div>
-            <div className="flex justify-end mt-2">
+            <div className="flex justify-end mt-stack-xs">
               <Button emphasis="soft" size="sm" onClick={handleSaveCustom}>
                 Enregistrer mes préférences
               </Button>

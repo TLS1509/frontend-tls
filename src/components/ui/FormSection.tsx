@@ -30,9 +30,11 @@ export const FormSection: React.FC<FormSectionProps> = ({
       className={['flex flex-col gap-stack font-body', className].filter(Boolean).join(' ')}
     >
       {/* Header */}
-      <div className="flex flex-col gap-tight pb-stack border-b border-ink-100">
+      {/* Titre → description : 8 (un groupe). Description au rôle « texte
+          secondaire long » (ink-700), plafonnée à la largeur de lecture. */}
+      <div className="flex flex-col gap-stack-xs pb-stack border-b border-ink-100">
         <div className="flex items-center justify-between gap-stack-xs">
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-stack-xs">
             {titleIcon && (
               <IconChip size="sm" tone="brand">
                 {titleIcon}
@@ -66,7 +68,7 @@ export const FormSection: React.FC<FormSectionProps> = ({
         </div>
 
         {description && (
-          <p className="text-body text-ink-500 m-0">
+          <p className="text-body text-ink-700 max-w-prose">
             {description}
           </p>
         )}
