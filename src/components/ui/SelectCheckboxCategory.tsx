@@ -57,7 +57,7 @@ export const SelectCheckboxCategory: React.FC<SelectCheckboxCategoryProps> = ({
           onClick={() => setIsOpen(!isOpen)}
           className={`
             w-full px-4 py-3 bg-white rounded-lg
-            text-body font-medium text-ink-900
+            text-body text-ink-900
             border border-ink-100
             shadow-[inset_0_1px_1px_white/15]
             flex items-center justify-between gap-stack-xs
@@ -96,7 +96,7 @@ export const SelectCheckboxCategory: React.FC<SelectCheckboxCategoryProps> = ({
             >
               {/* Header */}
               <div className="px-4 py-3 border-b border-ink-100">
-                <p className="text-micro font-bold uppercase tracking-[0.15em] text-ink-500">
+                <p className="text-caption font-semibold text-ink-600">
                   Catégories
                 </p>
               </div>
@@ -137,8 +137,8 @@ export const SelectCheckboxCategory: React.FC<SelectCheckboxCategoryProps> = ({
                               transition-all duration-200 ease-[cubic-bezier(0.32,0.72,0,1)]
                               ${
                                 isSelected
-                                  ? 'bg-primary-500 border-primary-500'
-                                  : 'border-ink-300 bg-white'
+                                  ? 'bg-primary-700 border-primary-700'
+                                  : 'border-ink-400 bg-white'
                               }
                             `}
                           >
@@ -147,8 +147,8 @@ export const SelectCheckboxCategory: React.FC<SelectCheckboxCategoryProps> = ({
                             )}
                           </div>
                           <span
-                            className={`text-body transition-all duration-200 ${
-                              isSelected ? 'text-ink-900 font-semibold' : 'text-ink-600'
+                            className={`text-body transition-colors duration-200 ${
+                              isSelected ? 'text-ink-900' : 'text-ink-700'
                             }`}
                           >
                             {cat.label}
@@ -211,7 +211,7 @@ export const SelectCheckboxCategory: React.FC<SelectCheckboxCategoryProps> = ({
                     onChange('all');
                     setIsOpen(false);
                   }}
-                  className="w-full px-3 py-2 text-body text-ink-600 hover:text-ink-900 font-medium rounded-lg hover:bg-ink-100 transition-all duration-200"
+                  className="w-full px-3 py-2 text-body font-semibold text-ink-700 hover:text-ink-900 rounded-lg hover:bg-ink-100 transition-all duration-200"
                 >
                   Voir tous
                 </button>

@@ -35,20 +35,29 @@ const SEGMENT_BASE =
   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ' +
   'disabled:opacity-disabled disabled:cursor-not-allowed';
 
+/* Hauteur : c'est le RAIL qui se pose sur la ligne, pas le segment. Rail =
+   segment + 2 × 4 px de retrait (`p-1`) : 28 + 8 = 36, 36 + 8 = 44,
+   44 + 8 = 52 — l'échelle commune de l'arbitrage n°22, déjà tenue ; vérifiée
+   au navigateur le 24/09 (36 et 44 sur la vitrine).
+   Libellés : ceux du bouton de même cran — 13 en `sm`, 16 en `md` et `lg`,
+   graisse 600 aux deux états (l'actif se dit par la pastille blanche).
+   Icônes : 16 · 18 · 20, pliées à leur boîte (motif de `Button`). */
 const SEGMENT_SIZE: Record<SegmentedControlSize, string> = {
-  sm: 'h-7 px-3 text-caption',
-  md: 'h-9 px-4 text-body',
-  lg: 'h-11 px-stack-md text-body',
+  sm: 'h-7 px-stack-sm text-caption [&_svg]:size-4',
+  md: 'h-9 px-stack text-body [&_svg]:size-4.5',
+  lg: 'h-11 px-stack-md text-body [&_svg]:size-5',
 };
 
+/* Encre de marque au cran 800, comme le label d'un bouton `soft` : le 700
+   mesure 4,48 sur un fond primary-50 et n'a pas de raison d'exister ici. */
 const SEGMENT_ACTIVE: Record<SegmentedControlTone, string> = {
-  primary: 'bg-white text-primary-700 shadow-xs',
-  warm:    'bg-white text-secondary-700 shadow-xs',
-  sun:     'bg-white text-accent-700 shadow-xs',
+  primary: 'bg-white text-primary-800 shadow-xs',
+  warm:    'bg-white text-secondary-800 shadow-xs',
+  sun:     'bg-white text-accent-800 shadow-xs',
 };
 
 const SEGMENT_INACTIVE =
-  'text-ink-600 hover:text-ink-900 hover:bg-white/60 active:scale-[0.97]';
+  'text-ink-700 hover:text-ink-900 hover:bg-white/60 active:scale-[0.97]';
 
 export function SegmentedControl<T extends string = string>({
   options,
@@ -97,7 +106,7 @@ export function SegmentedControl<T extends string = string>({
             className={segmentClasses}
           >
             {opt.icon && (
-              <span className="inline-flex items-center justify-center shrink-0 [&>svg]:w-[1em] [&>svg]:h-[1em]">
+              <span className="inline-flex items-center justify-center shrink-0">
                 {opt.icon}
               </span>
             )}

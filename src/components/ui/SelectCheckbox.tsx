@@ -68,18 +68,24 @@ export const SelectCheckbox: React.FC<SelectCheckboxProps> = ({
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
+        /* Déclencheur : le jumeau d'un `FilterChip md` — il vit dans la même
+           barre (`SearchFilters`, axe à beaucoup d'options). Donc 44 px, rayon
+           14, libellé 16 / 600, et, une fois une valeur choisie, le filet au
+           cran 700 et l'encre au 800 de l'état actif (arbitrage n°9). Il était
+           en pilule, 16 / 500, filet primary-200 : un troisième objet dans la
+           rangée. */
         className={[
-          'inline-flex items-center gap-stack-2xs px-3.5 py-2 rounded-pill text-body font-medium',
+          'inline-flex items-center gap-stack-xs min-h-touch px-stack rounded-lg text-body font-semibold',
           'backdrop-blur-glass-light transition-all duration-base',
           'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
           isActive
-            ? 'bg-primary-50/80 border border-primary-200 text-primary-700 hover:bg-primary-50'
-            : 'bg-white/70 border border-ink-200/70 text-ink-700 hover:bg-white hover:border-ink-300',
+            ? 'bg-primary-50 border border-primary-700 text-primary-800 hover:bg-primary-100'
+            : 'bg-white/70 border border-ink-200 text-ink-700 hover:bg-white hover:border-ink-300',
         ].join(' ')}
       >
         <span className="truncate max-w-[10rem]">{triggerText}</span>
         <ChevronDown
-          size={14}
+          size={16}
           strokeWidth={2.25}
           className={`shrink-0 transition-transform duration-base ${isOpen ? 'rotate-180' : 'rotate-0'}`}
         />
@@ -117,7 +123,7 @@ export const SelectCheckbox: React.FC<SelectCheckboxProps> = ({
                 <button
                   type="button"
                   onClick={() => onChange([])}
-                  className="w-full px-2 py-1 text-caption text-ink-500 hover:text-ink-900 font-medium rounded-md hover:bg-ink-100/60 transition-colors duration-fast text-left"
+                  className="w-full px-2 py-1 text-caption font-semibold text-ink-700 hover:text-ink-900 rounded-md hover:bg-ink-100/60 transition-colors duration-fast text-left"
                 >
                   Réinitialiser
                 </button>

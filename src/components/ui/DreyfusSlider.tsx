@@ -73,10 +73,11 @@ const THUMB_GLOW: Record<DreyfusSliderTone, string> = {
   sun:   'shadow-[0_0_0_6px_rgba(248,176,68,0.18),0_4px_12px_-2px_rgba(248,176,68,0.45)]',
 };
 
+// Libellé du niveau choisi à l'encre de marque au cran 800 (doctrine).
 const TICK_ACTIVE: Record<DreyfusSliderTone, string> = {
-  brand: 'text-primary-700',
-  warm:  'text-secondary-700',
-  sun:   'text-accent-700',
+  brand: 'text-primary-800',
+  warm:  'text-secondary-800',
+  sun:   'text-accent-800',
 };
 
 // ─── Variant backgrounds (track unfilled portion) ────────────────────────────
@@ -176,7 +177,7 @@ export const DreyfusSlider: React.FC<DreyfusSliderProps> = ({
                 ].join(' ')}
               >
                 {!isPast && !isActive && (
-                  <span className="text-micro font-bold text-ink-500">{lv.v}</span>
+                  <span className="text-micro font-bold text-ink-600">{lv.v}</span>
                 )}
               </button>
             );
@@ -193,13 +194,17 @@ export const DreyfusSlider: React.FC<DreyfusSliderProps> = ({
               <div
                 key={lv.v}
                 className={[
-                  'flex flex-col items-center gap-tight w-1/5 text-center min-w-0',
-                  'transition-all duration-base',
-                  isActive ? `${TICK_ACTIVE[tone]} font-bold scale-105` : 'text-ink-500',
+                  'flex flex-col items-center gap-stack-3xs w-1/5 text-center min-w-0',
+                  'transition-colors duration-base',
+                  // Le niveau choisi se dit par l'encre de marque, à graisse égale
+                  // (600) : le gras et le `scale-105` faisaient bouger le mot.
+                  isActive ? TICK_ACTIVE[tone] : 'text-ink-600',
                 ].join(' ')}
               >
                 {lv.icon && <span aria-hidden="true" className="inline-flex items-center justify-center">{lv.icon}</span>}
-                <span className="text-micro sm:text-caption font-semibold">{lv.label}</span>
+                {/* 13 px à toutes les largeurs : le `micro` (11) de l'écran étroit
+                    est le pas des étiquettes en capitales, pas d'un libellé. */}
+                <span className="text-caption font-semibold break-words">{lv.label}</span>
               </div>
             );
           })}

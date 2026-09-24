@@ -38,16 +38,20 @@ export interface DreyfusLevelSelectorProps {
   'aria-label'?: string;
 }
 
+/* Niveau choisi : filet au cran 700 (arbitrage n°9 — l'état choisi d'un
+   contrôle est au 700 ; au 500 il mesurait 2,94:1 sur blanc). */
 const TONE_SELECTED: Record<DreyfusLevelSelectorTone, string> = {
-  brand: 'border-primary-500 bg-primary-50',
-  warm:  'border-secondary-500 bg-secondary-50',
-  sun:   'border-accent-400 bg-accent-50',
+  brand: 'border-primary-700 bg-primary-50',
+  warm:  'border-secondary-700 bg-secondary-50',
+  sun:   'border-accent-700 bg-accent-50',
 };
 
+/* Chiffre du niveau : encre de marque au cran 800 (doctrine : une couleur de
+   marque ne porte du texte qu'au 800). */
 const TONE_NUMBER: Record<DreyfusLevelSelectorTone, string> = {
-  brand: 'text-primary-700',
-  warm:  'text-secondary-700',
-  sun:   'text-accent-700',
+  brand: 'text-primary-800',
+  warm:  'text-secondary-800',
+  sun:   'text-accent-800',
 };
 
 const TONE_HOVER: Record<DreyfusLevelSelectorTone, string> = {
@@ -104,7 +108,7 @@ export const DreyfusLevelSelector: React.FC<DreyfusLevelSelectorProps> = ({
       {levels.map((lv, idx) => {
         const selected = value === lv.v;
         const btnClasses = [
-          'min-h-touch p-4 rounded-lg border-2 text-left transition-[background-color,border-color] duration-base ease-emphasis bg-white cursor-pointer',
+          'flex flex-col min-h-touch p-stack rounded-lg border-2 text-left transition-[background-color,border-color] duration-base ease-emphasis bg-white cursor-pointer',
           'focus-visible:outline-2 focus-visible:outline-offset-2',
           TONE_FOCUS[tone],
           selected ? TONE_SELECTED[tone] : `border-ink-200 ${TONE_HOVER[tone]}`,
@@ -122,15 +126,18 @@ export const DreyfusLevelSelector: React.FC<DreyfusLevelSelectorProps> = ({
             onClick={() => onChange(lv.v)}
             className={btnClasses}
           >
-            <div className={['text-h3 font-bold leading-none', TONE_NUMBER[tone]].join(' ')}>
+            {/* Chiffre en League Spartan au pas h3 (un chiffre mis en avant ;
+                en Nunito gras à 20 px, il se lisait comme un titre qui s'ignore),
+                puis libellé 16 / 600 et description 13 / 400 ink-600, à 4 px. */}
+            <span className={['font-display text-h3 tabular-nums', TONE_NUMBER[tone]].join(' ')}>
               {lv.v}
-            </div>
-            <div className="mt-1 font-semibold text-body text-ink-900">
+            </span>
+            <span className="mt-stack-3xs font-semibold text-body text-ink-900">
               {lv.label}
-            </div>
-            <div className="mt-1 text-caption text-ink-500">
+            </span>
+            <span className="mt-stack-3xs text-caption text-ink-600">
               {lv.desc}
-            </div>
+            </span>
           </button>
         );
       })}

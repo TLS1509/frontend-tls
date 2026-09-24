@@ -54,7 +54,7 @@ export const MoodSelector: React.FC<MoodSelectorProps> = ({
           aria-label={cfg.label}
           aria-pressed={selected}
           className={[
-            'flex flex-col items-center gap-tight p-3 rounded-lg cursor-pointer transition-[background-color,border-color,box-shadow,transform] duration-fast ease-emphasis active:scale-[0.94] min-h-touch focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+            'flex flex-col items-center gap-stack-3xs p-3 rounded-lg cursor-pointer transition-[background-color,border-color,box-shadow,transform] duration-fast ease-emphasis active:scale-[0.94] min-h-touch focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
             /* Filet de sélection au cran 700 (23/09) : c'est lui qui dit « choisi »,
                le fond primary-100 ne se distingue guère de l'ink-50 du repos.
                Au 500 : 2,40 contre son propre fond, 2,94 contre le blanc ;
@@ -67,7 +67,9 @@ export const MoodSelector: React.FC<MoodSelectorProps> = ({
           <span className="inline-flex items-center justify-center select-none" aria-hidden="true">
             {cfg.icon}
           </span>
-          <span className="font-body text-caption text-ink-600 font-medium">{cfg.label}</span>
+          {/* Libellé de l'option : 13 / 600 aux deux états (500 est la graisse des
+              puces) ; l'encre fonce d'un cran quand l'humeur est choisie. */}
+          <span className={`font-body text-caption font-semibold ${selected ? 'text-ink-900' : 'text-ink-700'}`}>{cfg.label}</span>
         </button>
       );
     })}

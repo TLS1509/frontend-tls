@@ -46,8 +46,15 @@ export type ChipSurface =
 
 // ─── Shared style constants ─────────────────────────────────────────────────
 
-export const CHIP_BASE =
-  'inline-flex items-center rounded-pill font-body whitespace-nowrap transition-all border select-none';
+/* Le rayon est posé À PART de la base (piège n°6 : deux classes de rayon sur un
+   même élément, c'est l'ordre d'émission de Tailwind qui tranche). Les
+   étiquettes — `Chip`, `MetaPill` — prennent `CHIP_BASE`, donc la pilule ;
+   `FilterChip`, qui est un contrôle de la ligne depuis l'arbitrage n°22
+   (44 px en `md`), prend la base sans rayon et pose le sien. */
+export const CHIP_BASE_SANS_RAYON =
+  'inline-flex items-center font-body whitespace-nowrap transition-all border select-none';
+
+export const CHIP_BASE = `${CHIP_BASE_SANS_RAYON} rounded-pill`;
 
 export const CHIP_SIZE: Record<ChipSize, string> = {
   sm: 'gap-tight px-2 py-0.5 text-micro font-medium',
@@ -65,12 +72,18 @@ export const CHIP_TONE_SOLID: Record<ChipTone, string> = {
   brand:   'bg-primary-50 text-primary-800 border-primary-200',
 };
 
+/* État actif (FilterChip, Chip `active`) — le filet au cran 700 pour les
+   quatre tons : arbitrage n°9 du 23/09, « tout état coché d'un contrôle est au
+   cran 700 ». Au 500, le filet qui dit « choisi » mesurait 2,94:1 sur blanc,
+   sous le 3:1 d'un contrôle (WCAG 1.4.11) ; le neutre au 300, 1,5:1.
+   Pas de `font-bold` : l'état ne change pas la graisse (une par rôle), il ne
+   faisait d'ailleurs rien — battu par la graisse de la taille. */
 export const CHIP_TONE_SOLID_ACTIVE: Record<ChipTone, string> = {
-  neutral: 'bg-ink-100 text-ink-900 border-ink-300 font-bold',
-  primary: 'bg-gradient-to-br from-primary-50 to-primary-100/60 text-primary-800 border-primary-500 font-bold shadow-brand-xs',
-  warm:    'bg-gradient-to-br from-secondary-50 to-secondary-100/60 text-secondary-800 border-secondary-500 font-bold',
-  sun:     'bg-gradient-to-br from-accent-50 to-accent-100/60 text-accent-800 border-accent-500 font-bold',
-  brand:   'bg-gradient-to-br from-primary-50 to-primary-100/60 text-primary-800 border-primary-500 font-bold shadow-brand-xs',
+  neutral: 'bg-ink-100 text-ink-900 border-ink-700',
+  primary: 'bg-gradient-to-br from-primary-50 to-primary-100/60 text-primary-800 border-primary-700 shadow-brand-xs',
+  warm:    'bg-gradient-to-br from-secondary-50 to-secondary-100/60 text-secondary-800 border-secondary-700',
+  sun:     'bg-gradient-to-br from-accent-50 to-accent-100/60 text-accent-800 border-accent-700',
+  brand:   'bg-gradient-to-br from-primary-50 to-primary-100/60 text-primary-800 border-primary-700 shadow-brand-xs',
 };
 
 export const CHIP_TONE_HOVER: Record<ChipTone, string> = {
@@ -85,7 +98,7 @@ export const CHIP_SURFACE_MAP: Record<
   Exclude<ChipSurface, 'solid' | 'solid-active'>,
   string
 > = {
-  'solid-white':  'bg-white text-ink-500 border-ink-200',
+  'solid-white':  'bg-white text-ink-600 border-ink-200',
   'glass-light':  'bg-white/15 backdrop-blur-glass-light text-white border-white/30',
   'glass-dark':   'bg-black/40 backdrop-blur-glass-light text-white/80 border-white/15',
   'glass-tinted': 'bg-white/55 text-ink-700 border-white/60 backdrop-blur-glass-light shadow-xs',

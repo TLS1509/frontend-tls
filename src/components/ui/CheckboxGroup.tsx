@@ -33,10 +33,13 @@ const TONE_CHECKED_CARD: Record<CheckboxGroupTone, string> = {
   sun:     'border-accent-400 bg-accent-50 shadow-sun-sm',
 };
 
+/* État coché au cran 700 pour les trois tons — arbitrage n°9 du 23/09 : au
+   500 la case mesurait 2,94:1 sur blanc, sous le 3:1 d'un contrôle (WCAG
+   1.4.11) ; l'or au 400 était pire encore. Même règle que `Checkbox`. */
 const TONE_CHECKBOX: Record<CheckboxGroupTone, string> = {
-  primary: 'bg-primary-500 border-primary-500',
-  warm:    'bg-secondary-500 border-secondary-500',
-  sun:     'bg-accent-400 border-accent-400',
+  primary: 'bg-primary-700 border-primary-700',
+  warm:    'bg-secondary-700 border-secondary-700',
+  sun:     'bg-accent-700 border-accent-700',
 };
 
 const TONE_FOCUS: Record<CheckboxGroupTone, string> = {
@@ -77,7 +80,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
       aria-describedby={error || hint ? `${groupId}-message` : undefined}
     >
       {label && (
-        <legend className="text-body font-semibold text-ink-900 mb-1">
+        <legend className="text-body font-semibold text-ink-900 mb-stack-xs">
           {label}
           {required && <span className="text-danger-fg ml-0.5" aria-hidden="true">*</span>}
         </legend>
@@ -85,13 +88,15 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
 
       <div
         className={[
+          // Options d'un même champ : 12 entre elles (doctrine, « éléments
+          // d'un même ensemble ») ; le 8 était l'écart libellé → champ.
           isCard
             ? orientation === 'horizontal'
-              ? 'grid grid-cols-2 gap-stack-xs'
-              : 'flex flex-col gap-stack-xs'
+              ? 'grid grid-cols-2 gap-stack-sm'
+              : 'flex flex-col gap-stack-sm'
             : orientation === 'horizontal'
               ? 'flex flex-wrap gap-x-stack-lg gap-y-stack-sm'
-              : 'flex flex-col gap-stack-xs',
+              : 'flex flex-col gap-stack-sm',
         ].join(' ')}
       >
         {options.map((option) => {
@@ -103,7 +108,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
               <label
                 key={option.value}
                 className={[
-                  'relative flex items-start gap-stack-xs p-4 rounded-lg border-2 cursor-pointer',
+                  'relative flex items-start gap-stack-xs p-stack rounded-lg border-2 cursor-pointer',
                   'transition-[border-color,background-color,box-shadow] duration-base ease-standard select-none',
                   isChecked
                     ? TONE_CHECKED_CARD[tone]
@@ -129,18 +134,18 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
                   className={[
                     'mt-0.5 w-5 h-5 shrink-0 rounded-sm border-2 flex items-center justify-center',
                     'transition-[border-color,background-color] duration-base ease-standard',
-                    isChecked ? TONE_CHECKBOX[tone] : 'border-ink-300 bg-white',
+                    isChecked ? TONE_CHECKBOX[tone] : 'border-ink-400 bg-white',
                   ].join(' ')}
                 >
                   {isChecked && <Check size={14} className="text-white" strokeWidth={3} />}
                 </span>
 
-                <div className="flex flex-col gap-tight min-w-0">
+                <div className="flex flex-col gap-stack-3xs min-w-0">
                   <span className="text-body font-semibold text-ink-900 leading-snug">
                     {option.label}
                   </span>
                   {option.description && (
-                    <span className="text-caption text-ink-500">
+                    <span className="text-caption text-ink-600">
                       {option.description}
                     </span>
                   )}
@@ -176,21 +181,21 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
                   'mt-0.5 w-5 h-5 shrink-0 rounded-sm border-2 flex items-center justify-center',
                   'transition-[border-color,background-color] duration-base ease-standard',
                   'peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-primary-500',
-                  isChecked ? TONE_CHECKBOX[tone] : 'border-ink-300 bg-white',
+                  isChecked ? TONE_CHECKBOX[tone] : 'border-ink-400 bg-white',
                 ].join(' ')}
               >
                 {isChecked && <Check size={14} className="text-white" strokeWidth={3} />}
               </span>
 
               {(option.label || option.description) && (
-                <div className="flex flex-col gap-tight">
+                <div className="flex flex-col gap-stack-3xs">
                   {option.label && (
                     <span className="text-body font-semibold text-ink-900 leading-snug">
                       {option.label}
                     </span>
                   )}
                   {option.description && (
-                    <span className="text-caption text-ink-500">{option.description}</span>
+                    <span className="text-caption text-ink-600">{option.description}</span>
                   )}
                 </div>
               )}
@@ -202,7 +207,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
       {(error || hint) && (
         <p
           id={`${groupId}-message`}
-          className={error ? 'text-caption text-danger-fg flex items-center gap-tight' : 'text-caption text-ink-500'}
+          className={error ? 'text-caption text-danger-fg flex items-center gap-tight' : 'text-caption text-ink-600'}
           role={error ? 'alert' : undefined}
         >
           {error || hint}
