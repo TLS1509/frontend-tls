@@ -70,6 +70,24 @@ const DOT_CLASSES: Record<BadgeVariant, string> = {
   info:     'bg-info-base',
 };
 
+/* Largeur : le badge épouse son texte, où qu'on le pose (2026-09-24).
+   `inline-flex` ne suffit pas : dans un parent `flex-col`, l'`align-items:
+   stretch` par défaut l'étirait sur toute la colonne — « À VENIR · 2 JUIL. »
+   sur 479 px au récap d'atelier, « 342 / 400 INSCRITS » sur 739 px au détail
+   d'événement. `w-fit` et non `self-start` : ce dernier aurait aussi remonté
+   le badge en haut de toutes les rangées `items-center`, où il est aligné sur
+   le titre. Une largeur rend le `stretch` inopérant sans toucher l'axe
+   vertical ; dans une grille, elle neutralise de même le `justify-items`.
+   Si la page déclare sa propre largeur (`w-*`, `flex-1`, `grow`,
+   `self-stretch`), on la lui laisse — deux classes de largeur sur le même
+   élément, c'est l'ordre d'émission de Tailwind qui tranche (piège n°6). */
+const OWN_WIDTH = /(^|\s)([a-z0-9]+:)*(w-|flex-1|grow|self-stretch)/;
+
+/* Pas de mouvement permanent sur un état (arbitrage n°16) : le mot porte
+   l'information, un badge ne pulse pas. Les classes `animate-*` passées par
+   la page sont donc ignorées — le point `dot` est fixe. */
+const ANIMATION = /^([a-z0-9-]+:)*animate-/;
+
 export const Badge: React.FC<BadgeProps> = ({
   variant,
   color,
@@ -81,7 +99,17 @@ export const Badge: React.FC<BadgeProps> = ({
   ...rest
 }) => {
   const resolvedVariant: BadgeVariant = variant ?? mapLegacyColor(color);
-  const classes = [BASE, SIZE_CLASSES[size], VARIANT_CLASSES[resolvedVariant], className]
+  const pageClasses = className
+    .split(/\s+/)
+    .filter((c) => c && !ANIMATION.test(c))
+    .join(' ');
+  const classes = [
+    BASE,
+    OWN_WIDTH.test(pageClasses) ? '' : 'w-fit',
+    SIZE_CLASSES[size],
+    VARIANT_CLASSES[resolvedVariant],
+    pageClasses,
+  ]
     .filter(Boolean)
     .join(' ');
 
