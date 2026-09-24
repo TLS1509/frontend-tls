@@ -38,7 +38,7 @@ const LEVELS = 5; // Dreyfus 1–5
  *
  * Ce qui a obligé à revoir la géométrie : le dessin avait une taille FIXE
  * (200 · 320 · 480 px) et laissait déborder ses libellés (`overflow-visible`).
- * Mesuré le 24/09 à 375 px, les libellés sortaient de leur carte de 36 à 113 px
+ * Mesuré le 24/09 à 375 px, les libellés sortaient de leur carte de 39 à 113 px
  * sur quatre pages — avant même de grossir. Le radar mesure désormais sa boîte
  * et réduit son RAYON pour que les libellés tiennent, texte toujours à 13 px ;
  * un libellé long passe sur deux lignes (`coupeLibelle`). Quand même ainsi le

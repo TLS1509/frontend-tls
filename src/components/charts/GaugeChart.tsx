@@ -52,25 +52,33 @@ const TONE_TEXT: Record<NonNullable<GaugeChartProps['tone']>, string> = {
   danger: 'text-danger-fg',
 };
 
-const SIZE_CONFIG: Record<string, { radius: number; center: number; strokeWidth: number; fontSize: number }> = {
+const SIZE_CONFIG: Record<string, { radius: number; center: number; strokeWidth: number }> = {
   sm: {
     radius: 40,
     center: 50,
     strokeWidth: 6,
-    fontSize: 14,
   },
   md: {
     radius: 60,
     center: 70,
     strokeWidth: 8,
-    fontSize: 18,
   },
   lg: {
     radius: 80,
     center: 100,
     strokeWidth: 10,
-    fontSize: 22,
   },
+};
+
+/* La valeur d'une jauge est un chiffre mis en avant : la famille de `stat-value`
+ * (League Spartan 700), sur un pas de l'échelle proportionnel à la jauge — elle
+ * était à 14 · 18 · 22 px, trois tailles hors échelle posées en style en ligne.
+ * Chaque pas tient dans l'anneau : « 100 % » fait 50 · 70 · 90 px de large pour
+ * un intérieur de 74 · 112 · 150 px. */
+const VALUE_SIZE: Record<NonNullable<GaugeChartProps['size']>, string> = {
+  sm: 'text-h3',
+  md: 'text-h2',
+  lg: 'text-h1',
 };
 
 /**
@@ -103,73 +111,90 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
   const circumference = 2 * Math.PI * config.radius;
   const strokeDashoffset = circumference - (percentage / 100) * circumference;
 
-  const renderArcVariant = () => (
-    <div className="flex flex-col items-center gap-stack-sm">
-      <svg width={svgSize} height={svgSize} className="transform -rotate-90">
-        {/* Background circle */}
-        <circle
-          cx={config.center}
-          cy={config.center}
-          r={config.radius}
-          fill={colors.bg}
-          opacity={0.5}
-        />
+  /* ⚠️ Valeur et légende étaient posées SOUS le SVG puis remontées dessus par
+   * une marge négative (`-mt-16`). Or le SVG tourné (`-rotate-90`) se peint
+   * au-dessus du texte qui le suit : mesuré le 2026-09-24 sur /passeport, le
+   * « 57% » passait derrière le disque teinté et « Objectif : 90 % » derrière
+   * l'anneau — illisible. La valeur se pose maintenant DANS l'anneau, par-dessus
+   * le SVG ; le libellé et l'objectif, sous la jauge. */
+  const valeur = `${Math.round(percentage)}\u202F%`;
+  const valueClasses = `font-display tabular-nums ${VALUE_SIZE[size]} ${TONE_TEXT[tone]}`;
 
-        {/* Target indicator line (if provided) */}
-        {targetPercentage !== null && (
+  /* Le corps est posé sur chaque <p> : la base (`globals.css`) donne 16 px à
+     tout paragraphe, et cette règle d'élément bat l'héritage du conteneur. */
+  const legende = (label || targetPercentage !== null) && (
+    <div className="flex flex-col items-center gap-stack-3xs text-center">
+      {label && <p className="text-caption text-ink-600">{label}</p>}
+      {targetPercentage !== null && (
+        <p className="text-caption text-ink-600 tabular-nums">{`Objectif : ${Math.round(targetPercentage)}\u202F%`}</p>
+      )}
+    </div>
+  );
+
+  const renderArcVariant = () => (
+    <div className="flex flex-col items-center gap-stack-xs">
+      <div className="relative">
+        <svg width={svgSize} height={svgSize} className="block -rotate-90">
+          {/* Background circle */}
+          <circle
+            cx={config.center}
+            cy={config.center}
+            r={config.radius}
+            fill={colors.bg}
+            opacity={0.5}
+          />
+
+          {/* Target indicator line (if provided) */}
+          {targetPercentage !== null && (
+            <circle
+              cx={config.center}
+              cy={config.center}
+              r={config.radius}
+              fill="none"
+              stroke={colors.needle}
+              strokeWidth={2}
+              strokeDasharray={`${(targetPercentage / 100) * circumference} ${(100 - targetPercentage) / 100 * circumference}`}
+              opacity={0.4}
+              strokeDashoffset={0}
+            />
+          )}
+
+          {/* Main arc */}
           <circle
             cx={config.center}
             cy={config.center}
             r={config.radius}
             fill="none"
-            stroke={colors.needle}
-            strokeWidth={2}
-            strokeDasharray={`${(targetPercentage / 100) * circumference} ${(100 - targetPercentage) / 100 * circumference}`}
-            opacity={0.4}
-            strokeDashoffset={0}
+            stroke={colors.arc}
+            strokeWidth={config.strokeWidth}
+            strokeDasharray={circumference}
+            strokeDashoffset={strokeDashoffset}
+            strokeLinecap="round"
+            style={{
+              transition: 'stroke-dashoffset 1s ease-out',
+            }}
           />
-        )}
+        </svg>
 
-        {/* Main arc */}
-        <circle
-          cx={config.center}
-          cy={config.center}
-          r={config.radius}
-          fill="none"
-          stroke={colors.arc}
-          strokeWidth={config.strokeWidth}
-          strokeDasharray={circumference}
-          strokeDashoffset={strokeDashoffset}
-          strokeLinecap="round"
-          style={{
-            transition: 'stroke-dashoffset 1s ease-out',
-          }}
-        />
-
-        {/* Center circle background */}
-        <circle cx={config.center} cy={config.center} r={config.radius * 0.35} fill="white" />
-      </svg>
-
-      {/* Center label */}
-      <div className="text-center -mt-16">
+        {/* La valeur, au centre de l'anneau. Le petit disque blanc qui occupait
+            ce centre est retiré : le chiffre y tombait à cheval sur son bord. */}
         {showPercentage && (
-          <p className={`font-bold ${TONE_TEXT[tone]}`} style={{ fontSize: `${config.fontSize}px` }}>
-            {Math.round(percentage)}%
-          </p>
-        )}
-        {label && (
-          <p className="text-caption text-ink-600 mt-1">{label}</p>
-        )}
-        {targetPercentage !== null && (
-          <p className="text-micro text-ink-500 mt-1">Objectif : {Math.round(targetPercentage)} %</p>
+          <span className={`absolute inset-0 flex items-center justify-center ${valueClasses}`}>
+            {valeur}
+          </span>
         )}
       </div>
+      {legende}
     </div>
   );
 
   const renderNeedleVariant = () => {
-    const angle = (percentage / 100) * 180 - 90; // 180° range, -90° offset
+    /* Le demi-cercle va de la gauche (0 %) à la droite (100 %) en passant par le
+     * haut, soit −180° → 0° à l'écran. L'ancien décalage de −90° faisait pointer
+     * l'aiguille vers le HAUT à 0 % et vers le BAS à 100 % : la jauge mentait. */
+    const angle = (percentage / 100) * 180 - 180;
     const radian = (angle * Math.PI) / 180;
+    const angleCible = targetPercentage !== null ? (((targetPercentage / 100) * 180 - 180) * Math.PI) / 180 : 0;
     const needleLength = config.radius * 0.8;
     const needleEndX = config.center + needleLength * Math.cos(radian);
     const needleEndY = config.center + needleLength * Math.sin(radian);
@@ -196,7 +221,7 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
 
           {/* Gauge filled arc */}
           <path
-            d={`M ${config.center - config.radius} ${config.center} A ${config.radius} ${config.radius} 0 ${percentage > 50 ? 1 : 0} 1 ${
+            d={`M ${config.center - config.radius} ${config.center} A ${config.radius} ${config.radius} 0 0 1 ${
               config.center + config.radius * Math.cos(radian)
             } ${config.center + config.radius * Math.sin(radian)}`}
             fill="none"
@@ -208,8 +233,8 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
           {/* Target indicator (if provided) */}
           {targetPercentage !== null && (
             <circle
-              cx={config.center + config.radius * Math.cos((((targetPercentage / 100) * 180 - 90) * Math.PI) / 180)}
-              cy={config.center + config.radius * Math.sin((((targetPercentage / 100) * 180 - 90) * Math.PI) / 180)}
+              cx={config.center + config.radius * Math.cos(angleCible)}
+              cy={config.center + config.radius * Math.sin(angleCible)}
               r={3}
               fill={colors.needle}
               opacity={0.6}
@@ -234,17 +259,10 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
           <circle cx={config.center} cy={config.center} r={4} fill={colors.needle} />
         </svg>
 
-        {/* Center label */}
-        <div className="text-center -mt-4">
-          {showPercentage && (
-            <p className={`font-bold ${TONE_TEXT[tone]}`} style={{ fontSize: `${config.fontSize}px` }}>
-              {Math.round(percentage)}%
-            </p>
-          )}
-          {label && (
-            <p className="text-caption text-ink-600 mt-0.5">{label}</p>
-          )}
-        </div>
+        {/* Valeur sous le demi-cercle, dans le flux : la marge négative qui la
+            remontait vers le pivot la faisait passer sous l'aiguille. */}
+        {showPercentage && <span className={valueClasses}>{valeur}</span>}
+        {label && <p className="text-caption text-ink-600 text-center">{label}</p>}
       </div>
     );
   };
@@ -304,20 +322,10 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
         <circle cx={config.center} cy={config.center} r={config.radius * 0.3} fill="white" />
       </svg>
 
-      {/* Center label */}
-      <div className="text-center -mt-20">
-        {showPercentage && (
-          <p className={`font-bold ${TONE_TEXT[tone]}`} style={{ fontSize: `${config.fontSize}px` }}>
-            {Math.round(percentage)}%
-          </p>
-        )}
-        {label && (
-          <p className="text-caption text-ink-600 mt-1">{label}</p>
-        )}
-        {targetPercentage !== null && (
-          <p className="text-micro text-ink-500 mt-1">Objectif : {Math.round(targetPercentage)} %</p>
-        )}
-      </div>
+      {/* Valeur sous les anneaux : au centre, elle chevauchait l'anneau de
+          l'objectif (0,4 × le rayon). */}
+      {showPercentage && <span className={valueClasses}>{valeur}</span>}
+      {legende}
     </div>
   );
 
