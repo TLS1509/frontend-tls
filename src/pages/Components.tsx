@@ -744,7 +744,7 @@ const BookingModalDemo: React.FC = () => {
       <BookingModal
         isOpen={open}
         onClose={() => setOpen(false)}
-        onBookingConfirmed={({ date, time }) => { alert(`Session réservée le ${date} à ${time}`); setOpen(false); }}
+        onBookingConfirmed={() => setOpen(false)}
         coachName="Sophie Martin"
         coachInitials="SM"
       />
@@ -2164,10 +2164,10 @@ const COMPONENTS: ComponentEntry[] = [
         >
           <div className="flex flex-col gap-stack-lg">
             {([
-              ['solid',   'Aplat du ton au cran 700, label blanc, survol au 800. Le premier cran qui porte du blanc à 4,5:1 : 5,02 · 6,31 · 4,88 · 5,15. L’action principale — une par écran.'],
-              ['soft',    'Fond du ton au cran 50, opaque ; label 800, filet 700. L’action de contexte, dans une carte ou une rangée — et le mieux contrasté du système (6,31 · 9,49 · 7,64).'],
-              ['outline', 'Filet 700 sans fond, label 800. Réservé aux paires Annuler / Confirmer.'],
-              ['ghost',   'Label 800, ni fond ni filet au repos ; le fond n’arrive qu’au survol. L’action tertiaire.'],
+              ['solid',   'Aplat du ton au cran 700, label blanc, survol au 800. Le premier cran qui porte du blanc à 4,5:1 : 5,02 · 6,31 · 4,88 · 5,15. L’action principale, une par écran au plus — la page, ou la modale ouverte : « Reprendre » à l’accueil, l’envoi d’un formulaire, Confirmer dans une modale (danger pour une suppression). Un écran de consultation peut n’en avoir aucun.'],
+              ['soft',    'Fond du ton au cran 50, opaque ; label 800, filet 700. L’action de contexte — celle d’une carte, d’une rangée, d’un panneau — et l’outil qui a besoin d’un contour ; le mieux contrasté du système (6,31 · 9,49 · 7,64).'],
+              ['outline', 'Filet 700 sans fond, label 800. Réservé aux paires Annuler / Confirmer : Annuler en outline neutre, Confirmer en solid.'],
+              ['ghost',   'Label 800, ni fond ni filet au repos ; le fond n’arrive qu’au survol. Le tertiaire — « Plus tard », « Voir tout », Précédent — et les outils : exporter, paginer, réinitialiser un filtre.'],
               ['link',    'Ni fond ni filet : label 800 souligné, survol au 900.'],
             ] as const).map(([emphasis, note]) => (
               <div key={emphasis} className="flex flex-col gap-stack-xs">
@@ -2951,7 +2951,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/SearchFilters.tsx',
     usedBy: ['Journal', 'Veille', 'LearningPaths', 'LearningSpace'],
     description:
-      "Recherche et filtres, en un composant. Il orchestre Search, FilterChip et SelectCheckbox : on déclare des axes (`filters`) et il choisit le contrôle — des pastilles jusqu'à `chipThreshold` options (6), une liste à cocher au-delà, une seule pastille pour une bascule. Les pastilles suivent la taille du champ : sm (28 px) avec un Search sm, md (44 px) sinon. Deux dispositions : `inline`, filtres toujours visibles ; `panel`, un bouton de filtres avec compteur qui déplie un panneau où chaque groupe est nommé comme un champ (16/600 ink-900). Réinitialisation automatique (Button sm), trois tons.",
+      "Recherche et filtres, en un composant. Il orchestre Search, FilterChip et SelectCheckbox : on déclare des axes (`filters`) et il choisit le contrôle — des pastilles jusqu'à `chipThreshold` options (6), une liste à cocher au-delà, une seule pastille pour une bascule. Les pastilles suivent la taille du champ : sm (28 px) avec un Search sm, md (44 px) sinon. Deux dispositions : `inline`, filtres toujours visibles ; `panel`, un bouton de filtres avec compteur qui déplie un panneau où chaque groupe est nommé comme un champ (16/600 ink-900). Réinitialisation automatique (Button sm ghost neutre, un outil), trois tons.",
     keywords: ['search', 'filter', 'filtre', 'recherche', 'composite', 'panel', 'chips', 'checklist', 'toggle', 'facets'],
     render: () => {
       const [q1, setQ1] = React.useState('');
@@ -3279,14 +3279,14 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'PositionnementModal',
     codeName: 'modals/PositionnementModal.tsx',
-    description: 'Auto-évaluation des compétences apprenant avant de démarrer un parcours. 5 niveaux, barre de progression, écran de succès.',
+    description: "Auto-évaluation des compétences de l'apprenant avant de démarrer un parcours : cinq niveaux par question, une barre de progression, un écran de succès. « Suivant » — « Valider » à la dernière question — est le solid de la modale (arbitrage n°19).",
     keywords: ['modal', 'positioning', 'competence', 'assessment', 'level', 'self-eval'],
     render: () => <PositionnementModalDemo />,
   },
   {
     name: 'BookingModal',
     codeName: 'modals/BookingModal.tsx',
-    description: 'Réservation de session coaching en 2 étapes : sélection date/heure via calendrier + confirmation.',
+    description: "Réservation d'une session de coaching en deux étapes, trois quand la session est payante : date et heure au calendrier, paiement, confirmation. Au pied, l'étape suivante est le solid (« Continuer », « Payer », « Réserver la session ») ; le retour et les flèches de mois du calendrier sont en ghost neutre (arbitrage n°19).",
     keywords: ['modal', 'booking', 'calendar', 'coaching', 'slot', 'time', 'reservation'],
     render: () => <BookingModalDemo />,
   },
@@ -3294,7 +3294,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'Dialog Modals',
     codeName: 'modals/ConfirmModal.tsx · modals/SuccessModal.tsx · modals/CancelSessionModal.tsx',
     usedBy: ['Billing', 'SubscriptionPayment'],
-    description: "Trois dialogues bâtis sur le même tronc, texte centré : pastille d'icône, titre en h2 au pas h3 (20/700), 8 px, message 16 ink-700, 24 px, actions. ConfirmModal : quatre variantes (info · success · warning · danger). SuccessModal : une réussite, avec une coche. CancelSessionModal : annuler ou reprogrammer une session, avec le choix d'un motif.",
+    description: "Trois dialogues bâtis sur le même tronc, texte centré : pastille d'icône, titre en h2 au pas h3 (20/700), 8 px, message 16 ink-700, 24 px, actions — un seul solid par modale (arbitrage n°19). ConfirmModal : quatre variantes (info · success · warning · danger) ; Annuler en outline neutre, Confirmer en solid au ton de la variante (brand pour info et success, sun pour warning, danger). SuccessModal : une réussite, avec une coche ; « Continuer », l'unique action, en solid. CancelSessionModal : annuler ou reprogrammer une session, avec le choix d'un motif ; « Confirmer l'annulation » en solid danger, posé en premier, sous le motif dont il dépend, « Reprogrammer plutôt » en ghost.",
     keywords: ['modal', 'confirm', 'dialog', 'alert', 'danger', 'warning', 'info', 'success', 'cancel', 'session'],
     render: () => (
       <div className="flex flex-col gap-section">
@@ -3310,7 +3310,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'SessionFeedbackModal',
     codeName: 'modals/SessionFeedbackModal.tsx',
-    description: 'Notation étoiles + commentaire. Feedback post-session coaching ou fin de leçon.',
+    description: "Notation en étoiles et commentaire, après une session de coaching ou en fin de leçon. L'envoi, « Envoyer mon avis », est le solid de la modale, au ton sun (arbitrage n°19).",
     keywords: ['modal', 'feedback', 'rating', 'stars', 'review', 'comment', 'session'],
     render: () => <SessionFeedbackModalDemo />,
   },
@@ -3457,7 +3457,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'JacCard',
     codeName: 'ui/JacCard.tsx',
     usedBy: ['PasseportJac'],
-    description: "Deux cartes du Passeport, Jalons et certifications (cahiers 02 et 11). JacCardPending : une validation en cours — libellé 16/600, méta 13 ink-600, Badge « En revue » et un Button sm « Relancer ». JacCardNextJalon : le prochain jalon — libellé 16/600, puis le niveau en MetaPill, seulement si le titre ne le dit pas déjà : « Communication : Niveau D4 » le porte, et la pastille ne le répète plus depuis le 24/09 ; exigences en 16 ink-700, ProgressBar sm et un Button sm « Préparer ».",
+    description: "Deux cartes du Passeport, Jalons et certifications (cahiers 02 et 11). JacCardPending : une validation en cours — libellé 16/600, méta 13 ink-600, Badge « En revue » et un Button soft sm « Relancer ». JacCardNextJalon : le prochain jalon — libellé 16/600, puis le niveau en MetaPill, seulement si le titre ne le dit pas déjà : « Communication : Niveau D4 » le porte, et la pastille ne le répète plus depuis le 24/09 ; exigences en 16 ink-700, ProgressBar sm et un Button soft sm « Préparer ».",
     keywords: ['jac', 'jalon', 'certification', 'dreyfus', 'validation', 'passeport', 'pending', 'progress', 'niveau', 'MetaPill'],
     render: () => (
       <div className="flex flex-col gap-stack max-w-xl">
@@ -3596,7 +3596,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Modal',
     codeName: 'ui/Modal.tsx',
-    description: "Dialogue bloquant, pour une décision : voile, boîte au rayon 24 (étage surcouche), 480 px au plus, padding 24 puis 32. Titre en h2 au pas h3 (20/700), 8 px, description 16 ink-700, 16 px, le corps en 16, puis les actions à 24 px du contenu, alignées à droite. Fermeture par Échap, par le bouton-icône ou par un clic sur le voile.",
+    description: "Dialogue bloquant, pour une décision : voile, boîte au rayon 24 (étage surcouche), 480 px au plus, padding 24 puis 32. Titre en h2 au pas h3 (20/700), 8 px, description 16 ink-700, 16 px, le corps en 16, puis les actions à 24 px du contenu, alignées à droite, Confirmer en dernier. Une modale ouverte est un écran à elle seule (arbitrage n°19) : un seul solid, l'action qu'elle sert — en danger pour confirmer une suppression —, Annuler en outline neutre quand il forme la paire, le reste en ghost. Fermeture par Échap, par le bouton-icône ou par un clic sur le voile.",
     keywords: ['modal', 'dialog', 'overlay', 'popup', 'scrim', 'interrupt'],
     render: () => <ModalDemo />,
   },
@@ -3604,7 +3604,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'CelebrationModal',
     codeName: 'modals/CelebrationModal.tsx',
     showcaseOnly: true,
-    description: "Célébration d'un jalon (parcours terminé, badge obtenu) : pastille de 80 px, titre en h2 au pas h3 (20/700) ink-900, description 16 ink-700, actions ; des étincelles animées autour, que `hideSparkles` retire.",
+    description: "Célébration d'un jalon (parcours terminé, badge obtenu) : pastille de 80 px, titre en h2 au pas h3 (20/700) ink-900, description 16 ink-700, puis les actions, passées par la page — un seul solid, l'action que la modale sert (« Voir mon badge »), le reste en ghost (arbitrage n°19) ; des étincelles animées autour, que `hideSparkles` retire.",
     keywords: ['celebration', 'modal', 'milestone', 'achievement', 'parcours', 'badge', 'reward'],
     render: () => <CelebrationModalDemo />,
   },
@@ -3694,7 +3694,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'AppBreadcrumb',
     codeName: 'patterns/AppBreadcrumb.tsx',
     usedBy: ['AppLayout (global)', 'LearningPathDetail', 'ArticleDetail', 'VeilleContent'],
-    description: "Le fil d'Ariane de l'app, généré depuis l'URL (`useLocation`) et monté pour toute l'app ; il s'affiche à partir de deux segments. Barre de 44 px au moins, en légende 13 : les parents en 400 ink-600, la page courante en 600 ink-900 (`aria-current`), des chevrons de 14. Un bouton Retour de 44 px sous 640 px, un bouton Accueil au-delà.",
+    description: "Le fil d'Ariane de l'app, généré depuis l'URL (`useLocation`) et monté pour toute l'app ; il s'affiche à partir de deux segments. Barre de 44 px au moins, en légende 13 : les parents en 400 ink-600, la page courante en 600 ink-900 (`aria-current`), des chevrons de 14. Un bouton Retour de 44 px sous 640 px, un bouton Accueil au-delà, tous deux en ghost neutre.",
     keywords: ['breadcrumb', 'auto', 'location', 'path', 'navigation', 'back', 'layout', 'route'],
     render: () => (
       <div className="flex flex-col gap-stack-xs p-stack bg-ink-50 rounded-xl border border-ink-200">
@@ -4748,7 +4748,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'HeaderNav',
     codeName: 'patterns/HeaderNav.tsx',
     showcaseOnly: true,
-    description: "En-tête collant des parcours en plusieurs étapes (onboarding, questionnaire) : Retour à gauche ; au centre, la progression — « Progression » en 13, l'étape en 13/600 au cran 800, une barre de 6 px, le pourcentage en 13/600 tabulaire ; Enregistrer (Button sm) à droite. Verre clair ; « Progression » se masque sous 640 px.",
+    description: "En-tête collant des parcours en plusieurs étapes (onboarding, questionnaire) : Retour à gauche ; au centre, la progression — « Progression » en 13, l'étape en 13/600 au cran 800, une barre de 6 px, le pourcentage en 13/600 tabulaire ; Enregistrer (Button sm soft) à droite. Verre clair ; « Progression » se masque sous 640 px.",
     keywords: ['header', 'nav', 'sticky', 'back', 'save', 'progress', 'onboarding', 'wizard', 'glass', 'multi-step'],
     render: () => (
       <div className="flex flex-col gap-stack-lg">
@@ -4815,7 +4815,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'MultiStepForm',
     codeName: 'patterns/MultiStepForm.tsx',
     showcaseOnly: true,
-    description: "Formulaire en plusieurs étapes : barre de progression et compteur « Étape X / Y » (13/600), pastilles d'étape de 40 px — faite, en cours, à venir — avec leur titre en légende 13/600 ; puis l'étape dans une carte, sa description en 16 ink-700 à la largeur de lecture, et les boutons Précédent / Suivant. Pour l'onboarding ou un assistant de configuration.",
+    description: "Formulaire en plusieurs étapes : barre de progression et compteur « Étape X / Y » (13/600), pastilles d'étape de 40 px — faite, en cours, à venir — avec leur titre en légende 13/600 ; puis l'étape dans une carte, sa description en 16 ink-700 à la largeur de lecture, et les boutons : Précédent en ghost neutre, Suivant en solid (arbitrage n°19). Pour l'onboarding ou un assistant de configuration.",
     keywords: ['form', 'multi-step', 'progress', 'navigation', 'wizard'],
     render: () => <MultiStepFormDemo />,
   },
@@ -4823,7 +4823,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'FormLayout',
     codeName: 'patterns/FormLayout.tsx',
     showcaseOnly: true,
-    description: "Formulaire en sections : titre h2 28 et description, puis des sections en h3 20 ; chaque champ a son libellé 16/600, son aide 13 ink-600 et son erreur 13 danger-fg. Carte au rayon 20, padding 24, 32 px entre les blocs ; Annuler et Enregistrer en fin. Chaque `input` est un emplacement : Input, Select, Switch…",
+    description: "Formulaire en sections : titre h2 28 et description, puis des sections en h3 20 ; chaque champ a son libellé 16/600, son aide 13 ink-600 et son erreur 13 danger-fg. Carte au rayon 20, padding 24, 32 px entre les blocs ; en fin, Annuler en outline neutre et Enregistrer en solid (arbitrage n°19). Chaque `input` est un emplacement : Input, Select, Switch…",
     keywords: ['form', 'layout', 'section', 'field', 'label', 'help', 'error', 'submit', 'cancel'],
     render: () => (
       <FormLayout
@@ -4896,7 +4896,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'VeilleCard',
     codeName: 'patterns/VeilleCardFeed.tsx (exports VeilleCard + VeilleCardListItem + FeaturedSpotlight)',
     usedBy: ['Veille (via VeilleCardFeed)'],
-    description: "La Veille, trois objets exportés par VeilleCardFeed. VeilleCard (grille) : couverture de 160 px avec le type en MetaPill, méta en 13 ink-600, titre h3 20 sur deux lignes, résumé 16 ink-700, lien « Lire » au cran 800. VeilleCardListItem (liste) : couverture à gauche, titre de 16 à 20 selon la largeur de sa boîte, Badge « Nouveau » devant. FeaturedSpotlight (« À la une ») : grand format, titre h2 28, Button soft. Trois tons par élément.",
+    description: "La Veille, trois objets exportés par VeilleCardFeed. VeilleCard (grille) : couverture de 160 px avec le type en MetaPill, méta en 13 ink-600, titre h3 20 sur deux lignes, résumé 16 ink-700, lien « Lire » au cran 800. VeilleCardListItem (liste) : couverture à gauche, titre de 16 à 20 selon la largeur de sa boîte, Badge « Nouveau » devant. FeaturedSpotlight (« À la une ») : grand format, titre h2 28, Button soft. L'enregistrement est un Button icône soft neutre, soft brand une fois enregistré — ghost dans la liste. Trois tons par élément.",
     keywords: ['veille', 'card', 'editorial', 'article', 'tutoriel', 'dossier', 'magazine', 'vertical', 'horizontal', 'featured', 'spotlight'],
     render: () => {
       const sampleItem = { id: 'demo-1', typeLabel: 'Actu', TypeIcon: TrendingUp, tone: 'brand' as const, title: "IA générative en formation : où en sommes-nous en 2026 ?", summary: "Tour d'horizon des nouveaux usages de l'IA dans les parcours de formation, des cas concrets et des limites.", category: 'IA & Pédagogie', author: 'TLS', publishedAt: "Aujourd'hui", readTime: '6 min' };
@@ -5144,7 +5144,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'VeilleCardFeed',
     codeName: 'patterns/VeilleCardFeed.tsx',
     usedBy: ['Veille'],
-    description: "Fil éditorial de la Veille : un élément `featured` passe en tête (FeaturedSpotlight), puis deux dispositions — grid, le défaut, en cartes verticales, ou list, en rangées denses. Bouton d'enregistrement, états de chargement et vide.",
+    description: "Fil éditorial de la Veille : un élément `featured` passe en tête (FeaturedSpotlight), puis deux dispositions — grid, le défaut, en cartes verticales, ou list, en rangées denses. Bouton d'enregistrement en soft neutre, soft brand une fois l'élément enregistré (ghost dans la liste) ; flèches du carrousel en soft neutre. États de chargement et vide.",
     keywords: ['veille', 'feed', 'news', 'content', 'editorial', 'cards', 'spotlight', 'featured', 'article', 'tutoriel', 'dossier', 'magazine', 'tone', 'grid', 'list', 'horizontal'],
     render: () => {
       const sampleItems = [
@@ -5241,7 +5241,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'LearningItemCard',
     codeName: 'learning/LearningItemCard.tsx',
-    description: "Carte d'un contenu de l'Espace Apprentissage (neuf types, dont astuces, flashcard, ressource, guide, vidéo, mission, masterclass). Type en MetaPill et durée en 13, libellé 16/600 sur deux lignes, description 16 ink-700, niveau Dreyfus (« D3 ») et thème en MetaPill, puis l'action (Button sm). Trois états : accessible, complété, verrouillé (opacité 60 %, raison du verrou). Rayon 20, padding 20 puis 24 dès 640 px.",
+    description: "Carte d'un contenu de l'Espace Apprentissage (neuf types, dont astuces, flashcard, ressource, guide, vidéo, mission, masterclass). Type en MetaPill et durée en 13, libellé 16/600 sur deux lignes, description 16 ink-700, niveau Dreyfus (« D3 ») et thème en MetaPill, puis l'action, un Button sm soft pleine largeur. Trois états : accessible, complété, verrouillé (opacité 60 %, raison du verrou). Rayon 20, padding 20 puis 24 dès 640 px.",
     keywords: ['learning', 'item', 'card', 'astuces', 'flashcard', 'mission', 'video', 'locked', 'completed', 'progress', 'tone', 'badge', 'dreyfus'],
     usedBy: ['LearningSpace'],
     toneAware: true,
@@ -5312,7 +5312,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'EditorialCard',
     codeName: 'learning/ArticleCard.tsx · learning/VideoCard.tsx',
-    description: "Carte éditoriale, deux formats. ArticleCard (actu, tutoriel, dossier) : icône, type en MetaPill et date, catégorie en surtitre 13/600, titre h3 20, résumé 16 ink-700, puis l'auteur et la durée en MetaPill et un Button sm « Lire ». VideoCard : vignette 16:9 au dégradé du ton avec la durée, catégorie en MetaPill, titre h3, « Par … » en 13, et un Button « Regarder ».",
+    description: "Carte éditoriale, deux formats. ArticleCard (actu, tutoriel, dossier) : icône, type en MetaPill et date, catégorie en surtitre 13/600, titre h3 20, résumé 16 ink-700, puis l'auteur et la durée en MetaPill et un Button sm soft « Lire ». VideoCard : vignette 16:9 au dégradé du ton avec la durée, catégorie en MetaPill, titre h3, « Par … » en 13, et un Button soft « Regarder ». Sur l'une et l'autre, l'enregistrement est un bouton-icône ghost, soft une fois enregistré (`aria-pressed` sur la vidéo).",
     keywords: ['article', 'editorial', 'actu', 'tutoriel', 'dossier', 'magazine', 'bookmark', 'tone', 'video', 'thumbnail', 'play'],
     render: () => (
       <div className="flex flex-col gap-section">
@@ -5382,7 +5382,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'NewsletterSignupCard',
     codeName: 'patterns/NewsletterSignupCard.tsx',
-    description: "Bandeau pleine largeur d'inscription à la newsletter, sur primary-900 : surtitre 13/600, titre h2 28, texte 16, tout en blanc plein, puis le formulaire (Input md et Button soft) et une note en 13. Propre à la Veille ; pas de coque de carte.",
+    description: "Bandeau pleine largeur d'inscription à la newsletter, sur primary-900 : surtitre 13/600, titre h2 28, texte 16, tout en blanc plein, puis le formulaire (Input md et Button md, soft par défaut ; `ctaEmphasis=\"solid\"` en fait le verre clair `onDark`, le solid d'un fond sombre) et une note en 13 ; « Voir la dernière édition » en ghost `onDark`. Propre à la Veille ; pas de coque de carte.",
     keywords: ['newsletter', 'signup', 'email', 'subscription', 'veille', 'editorial', 'band', 'full-bleed'],
     render: () => (
       <NewsletterSignupCard
@@ -5627,7 +5627,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'DataTable',
     codeName: 'patterns/DataTable.tsx',
-    description: "Tableau de données : en-têtes 13/600 ink-600 en casse normale — la colonne triée passe en ink-900 —, cellules à 16 avec un retrait de 16 × 12, chiffres alignés à droite en tabulaire. Une table plus large que l'écran défile ; chaque colonne peut garder une largeur (`width`) ou une largeur minimale (`minWidth`, 24/09) — sans elle, l'algorithme des tables la ramène au mot le plus long de son en-tête : à 375, les URL des webhooks tombaient à 91 px, coupées tous les 7 caractères. Tri par colonne (`onSort`, le parent trie ; `sortValue` depuis le 23/09), rangées cliquables, pagination (deux Button sm et « Page n sur N »), états de chargement et vide. Pour comparer ou trier une collection (arbitrage n°5).",
+    description: "Tableau de données : en-têtes 13/600 ink-600 en casse normale — la colonne triée passe en ink-900 —, cellules à 16 avec un retrait de 16 × 12, chiffres alignés à droite en tabulaire. Une table plus large que l'écran défile ; chaque colonne peut garder une largeur (`width`) ou une largeur minimale (`minWidth`, 24/09) — sans elle, l'algorithme des tables la ramène au mot le plus long de son en-tête : à 375, les URL des webhooks tombaient à 91 px, coupées tous les 7 caractères. Tri par colonne (`onSort`, le parent trie ; `sortValue` depuis le 23/09), rangées cliquables, pagination (Précédent et Suivant en Button sm ghost neutre — des outils, arbitrage n°19 —, et « Page n sur N »), états de chargement et vide. Pour comparer ou trier une collection (arbitrage n°5).",
     keywords: ['table', 'data', 'grid', 'admin', 'analytics', 'sort', 'minWidth', 'width', 'colonne'],
     render: () => (
       <DataTable
@@ -5651,7 +5651,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'RatingModal',
     codeName: 'patterns/RatingModal.tsx',
     showcaseOnly: true,
-    description: "Notation en cinq étoiles avec un commentaire, pour une session, une leçon ou un contenu. Malgré son nom, ce n'est pas un dialogue — ni rôle, ni voile, ni piège de focus — mais un panneau au rayon 24 à poser dans un Modal : titre h2 au pas du titre de dialogue, 20/26/700, comme Modal (il était au pas d'une section de page, 28/36), description 16 ink-700, étoiles de 56 px, sens de la note en pastille 13, commentaire, actions.",
+    description: "Notation en cinq étoiles avec un commentaire, pour une session, une leçon ou un contenu. Malgré son nom, ce n'est pas un dialogue — ni rôle, ni voile, ni piège de focus — mais un panneau au rayon 24 à poser dans un Modal : titre h2 au pas du titre de dialogue, 20/26/700, comme Modal (il était au pas d'une section de page, 28/36), description 16 ink-700, étoiles de 56 px, sens de la note en pastille 13, commentaire, puis Annuler en outline neutre et « Envoyer mon avis » en solid (arbitrage n°19).",
     keywords: ['rating', 'stars', 'feedback', 'review', 'evaluation'],
     render: () => (
       <div className="max-w-md">
@@ -5921,7 +5921,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'ResumeLessonCard',
     codeName: 'patterns/ResumeLessonCard.tsx',
     usedBy: ['Dashboard'],
-    description: "La carte « Reprendre ta leçon » du tableau de bord : pastille de 48 px, Badge « En cours » et étape en 13, titre du parcours en h2 au pas h3 (20, puis 28 quand la carte dépasse 512 px), « Prochaine leçon » en 16, données en MetaPillGroup sm ; en pied, la progression en 13 sur une barre de 6 px et un Button md. Fond blanc, rayon 20, padding 24. `description` est dépréciée : elle n'est plus rendue.",
+    description: "La carte « Reprendre ta leçon » du tableau de bord : pastille de 48 px, Badge « En cours » et étape en 13, titre du parcours en h2 au pas h3 (20, puis 28 quand la carte dépasse 512 px), « Prochaine leçon » en 16, données en MetaPillGroup sm ; en pied, la progression en 13 sur une barre de 6 px et le Button md « Reprendre », en solid au ton de la carte — l'exception à la règle des cartes (arbitrage n°19) : c'est l'action principale de l'accueil. Fond blanc, rayon 20, padding 24. `description` est dépréciée : elle n'est plus rendue.",
     keywords: ['resume', 'reprendre', 'parcours', 'lesson', 'leçon', 'dashboard', 'continue', 'hero'],
     render: () => (
       <ResumeLessonCard
@@ -6018,27 +6018,18 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ConsentBanner',
     codeName: 'patterns/ConsentBanner.tsx',
-    description: "Bandeau de consentement aux cookies, fixé en bas : titre 16/600, texte 16, trois boutons sm (Personnaliser, Tout refuser, Tout accepter). Le panneau « Personnaliser » déplie les catégories — nécessaires, analytiques, marketing — en réglages à interrupteur. Module 13 bis, RGPD.",
-    keywords: ['consent', 'gdpr', 'rgpd', 'cookies', 'privacy', 'banner', 'compliance', 'ai act'],
-    showcaseOnly: false,
-    usedBy: [],
+    description: "Bandeau de consentement aux cookies, fixé en bas : titre 16/600, texte 16, trois boutons sm. « Tout refuser » et « Tout accepter » ont le même poids — soft brand l'un et l'autre, et aucun solid sur le bandeau : la CNIL exige que refuser soit aussi simple et aussi visible qu'accepter. C'est l'exception écrite à l'arbitrage n°19 ; « Tout refuser » était en soft warm, un orange d'avertissement face au teal de l'acceptation. « Personnaliser », en ghost, déplie les catégories — nécessaires, analytiques, marketing — en réglages à interrupteur, et « Enregistrer mes préférences » garde le même soft. Module 13 bis, RGPD.",
+    keywords: ['consent', 'gdpr', 'rgpd', 'cookies', 'privacy', 'banner', 'compliance', 'cnil', 'ai act'],
+    usedBy: ['ProfilePrivacy'],
     render: () => (
-      <div className="relative min-h-[120px] border border-ink-100 rounded-lg overflow-hidden bg-ink-50">
-        <p className="p-stack text-caption text-ink-600 italic">ConsentBanner — position fixed bottom dans l'app réelle. Démo statique ci-dessous :</p>
-        <div className="relative bg-white/95 border-t border-ink-100 shadow-lg p-stack">
-          <div className="flex flex-col md:flex-row md:items-center gap-stack-xs">
-            <div className="flex-1 text-body text-ink-700">
-              <span className="font-semibold text-ink-900">The Learning Society respecte votre vie privée</span>
-              {' — '}Nous utilisons des cookies pour améliorer votre expérience.
-            </div>
-            <div className="flex flex-col sm:flex-row gap-stack-xs shrink-0">
-              {/* Mêmes boutons que ConsentBanner.tsx — la démo les refaisait à la main,
-                  et « Tout accepter » y posait du blanc sur 600 (3,66). */}
-              <Button emphasis="outline" size="sm">Personnaliser</Button>
-              <Button emphasis="soft" tone="warm" size="sm">Tout refuser</Button>
-              <Button emphasis="soft" size="sm">Tout accepter</Button>
-            </div>
-          </div>
+      /* Le vrai composant, plus une copie de ses boutons : la démo les
+         refaisait à la main, et avait gardé « Tout refuser » en orange quand
+         le composant est passé au même poids que « Tout accepter ». Fixé en
+         bas dans l'app ; `!static` le pose dans la fiche. */
+      <div className="flex flex-col gap-stack-xs">
+        <p className="text-caption font-semibold text-ink-600">Fixé en bas de l'écran dans l'app · posé ici dans le flux</p>
+        <div className="overflow-hidden rounded-xl border border-ink-200">
+          <ConsentBanner className="!static" onAcceptAll={() => {}} onRejectAll={() => {}} onCustomize={() => {}} />
         </div>
       </div>
     ),
@@ -6129,7 +6120,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'AIOverrideButton',
     codeName: 'ui/AIOverrideButton.tsx',
-    description: "« Rejeter cette recommandation », pour le coach ou l'admin : un Button outline neutral (sm par défaut) précédé d'une icône. Avec `requireReason`, il déplie une zone de texte — libellé 16/600, filet ink-400 — et deux actions sm, « Annuler » et « Confirmer le rejet ». Transversal IA (module 13 bis).",
+    description: "« Rejeter cette recommandation », pour le coach ou l'admin : un Button ghost neutre (sm par défaut) précédé d'une icône — un outil, jamais l'action principale (arbitrage n°19). Avec `requireReason`, il déplie une zone de texte — libellé 16/600, filet ink-400 — et deux actions sm : « Annuler » en ghost et « Confirmer le rejet » en soft warm, la page gardant son solid. Transversal IA (module 13 bis).",
     keywords: ['ai', 'ia', 'override', 'reject', 'button', 'coach', 'admin', 'feedback'],
     showcaseOnly: false,
     usedBy: ['CoachLearnerProfile'],
@@ -6210,7 +6201,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'CorrectionCard',
     codeName: 'ui/CorrectionCard.tsx',
-    description: "Carte d'un travail à corriger : l'apprenant (Avatar sm, nom 16/600, date 13) et l'état en Badge, l'exercice en titre h3 sur deux lignes, la compétence en MetaPill, un extrait en 16 italique ink-700, puis deux Button sm. Statuts pending · in-review · corrected · rejected ; surface card ou tinted. Module 4, Coaching.",
+    description: "Carte d'un travail à corriger : l'apprenant (Avatar sm, nom 16/600, date 13) et l'état en Badge, l'exercice en titre h3 sur deux lignes, la compétence en MetaPill, un extrait en 16 italique ink-700, puis deux Button sm : « Assigner » en ghost, « Corriger » (« Voir » une fois corrigé) en soft, l'action de la carte. Statuts pending · in-review · corrected · rejected ; surface card ou tinted. Module 4, Coaching.",
     keywords: ['correction', 'coaching', 'travail', 'feedback', 'corrigé', 'apprenant', 'inbox'],
     usedBy: ['CoachingCorrections', 'CoachCorrectionsQueue', 'CoachCorrectionInterface'],
     render: () => (
@@ -6260,7 +6251,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'StepTutorial',
     codeName: 'patterns/StepTutorial.tsx',
-    description: "Tutoriel guidé pas à pas : filet de progression, image optionnelle, compteur « 1 / 3 » en Badge, puis une pastille d'icône de 56 px dont le centre tient la première ligne du titre — un h2 à 28/36 depuis le 24/09 : il suit le h1 de l'écran d'onboarding et nomme le contenu principal ; il était dessiné à 20 — et la description 16 ink-700 ; sous la carte, Précédent · Suivant · Terminer en Button md, et « Passer » en 13. Contrôlé (`currentStep`) ou autonome ; trois tons. Module 3, Onboarding.",
+    description: "Tutoriel guidé pas à pas : filet de progression, image optionnelle, compteur « 1 / 3 » en Badge, puis une pastille d'icône de 56 px dont le centre tient la première ligne du titre — un h2 à 28/36 depuis le 24/09 : il suit le h1 de l'écran d'onboarding et nomme le contenu principal ; il était dessiné à 20 — et la description 16 ink-700 ; sous la carte, Précédent en ghost neutre, Suivant et Terminer en solid au ton de la page (arbitrage n°19), tous en Button md, et « Passer » en 13 ; le CTA facultatif d'une étape est en soft. Contrôlé (`currentStep`) ou autonome ; trois tons. Module 3, Onboarding.",
     keywords: ['tutorial', 'wizard', 'onboarding', 'step', 'étape', 'guide', 'tour', 'progression'],
     usedBy: ['OnboardingTutorial'],
     render: () => (
@@ -6435,7 +6426,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'EmptyDashboardState',
     codeName: 'patterns/EmptyDashboardState.tsx',
-    description: "Tableau de bord du premier jour, juste après l'onboarding : un titre h2 28 et une phrase 16 ink-700, puis une carte dominante — MetaPill « Premier pas », titre 20, texte 16, action — et la NextStepsGrid des pistes suivantes, en deux colonnes.",
+    description: "Tableau de bord du premier jour, juste après l'onboarding : un titre h2 28 et une phrase 16 ink-700, puis une carte dominante — MetaPill « Premier pas », titre 20, texte 16, et son action en solid warm, l'action principale de l'écran — et la NextStepsGrid des pistes suivantes, en deux colonnes.",
     keywords: ['empty', 'cold start', 'first time', 'dashboard', 'welcome', 'onboarding', 'new user'],
     usedBy: ['Dashboard'],
     render: () => (
@@ -6564,21 +6555,21 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'LessonNavigation',
     codeName: 'patterns/LessonNavigation.tsx',
-    description: "Pied de navigation des lecteurs : [Précédent] · points · [Suivant ou Terminer]. Boutons soft md (44 px, 16/700), libellés masqués sous 640 px (icône seule avec son nom accessible), points ProgressDots sm. Au dernier écran, avec `onFinish`, « Suivant » devient « Terminer ».",
+    description: "Pied de navigation des lecteurs : [Précédent] · points · [Suivant ou Terminer]. Boutons md (44 px, 16/700) : Suivant en solid au ton de la page, l'action principale du lecteur, Précédent en ghost neutre (arbitrage n°19) ; libellés masqués sous 640 px (icône seule avec son nom accessible), points ProgressDots sm. Au dernier écran, avec `onFinish`, « Suivant » devient « Terminer ».",
     keywords: ['navigation', 'lesson', 'prev', 'next', 'finish', 'footer', 'viewer'],
     usedBy: ['LessonPlayer', 'AstucesViewer', 'FlashcardsViewer'],
     render: () => {
       const [pos, setPos] = React.useState(3);
       const total = 7;
       return (
-        <div className="max-w-2xl mx-auto p-stack-lg rounded-2xl bg-white shadow-sm border border-ink-100">
+        <div className="max-w-2xl p-stack-lg rounded-xl bg-white border border-ink-200">
           <LessonNavigation
             tone="primary"
             current={pos}
             total={total}
             onPrev={() => setPos((p) => Math.max(1, p - 1))}
             onNext={() => setPos((p) => Math.min(total, p + 1))}
-            onFinish={() => alert('Leçon terminée !')}
+            onFinish={() => setPos(1)}
             onDotSelect={(idx) => setPos(idx + 1)}
           />
         </div>
@@ -6930,7 +6921,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'ui/ModalForm.tsx',
     showcaseOnly: true,
     subCategory: 'Form groups',
-    description: "Formulaire en dialogue natif (`<dialog>`) au rayon 24 : en-tête — titre en h2 au pas h3 (20/700), description 16 ink-700 —, corps (24 · 20 · 16), puis les actions à 24 px, toutes en Button sm : l'action destructive à gauche, Annuler en outline et la soumission en soft à droite. Largeur xs 320 · sm 384 · md 448 · lg 512 ; fermeture par le voile ou Échap. Le dialogue est nommé par son titre (`aria-labelledby`) et décrit par sa description (`aria-describedby`), sur des identifiants `useId` : sans eux, un `<dialog>` n'a pas de nom, et un lecteur d'écran annonçait « dialogue » sans dire lequel.",
+    description: "Formulaire en dialogue natif (`<dialog>`) au rayon 24 : en-tête — titre en h2 au pas h3 (20/700), description 16 ink-700 —, corps (24 · 20 · 16), puis les actions à 24 px, toutes en Button sm : l'action destructive à gauche, en ghost danger — en solid danger quand il n'y a pas de soumission —, Annuler en outline neutre et la soumission en solid à droite (arbitrage n°19). Largeur xs 320 · sm 384 · md 448 · lg 512 ; fermeture par le voile ou Échap. Le dialogue est nommé par son titre (`aria-labelledby`) et décrit par sa description (`aria-describedby`), sur des identifiants `useId` : sans eux, un `<dialog>` n'a pas de nom, et un lecteur d'écran annonçait « dialogue » sans dire lequel. ⚠️ Le pied ne passe pas à la ligne : à 375 px, où la boîte prend tout l'écran, « Supprimer le compte », Annuler et Enregistrer débordent de 7 px (mesuré sur la démo).",
     keywords: ['modal', 'dialog', 'form', 'formulaire', 'popup', 'overlay', 'submit', 'aria-labelledby', 'nom accessible'],
     render: () => {
       const [open, setOpen] = React.useState(false);
@@ -7149,7 +7140,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'JournalChatCompose',
     codeName: 'ui/JournalChatCompose.tsx',
-    description: "La saisie rapide du journal, en bulle (Card au rayon 20, filet primary-100, queue en bas à gauche) : le repère d'écriture — l'icône PenLine, 20 px au cran 700, centrée dans une boîte de 44, la hauteur du bouton ; c'était l'émoji ✍️, dont le dessin change d'un système à l'autre —, une zone de texte à 16, un Button md « Continuer », puis une aide en 13 ink-600 et le raccourci ⌘ ou Ctrl + Entrée. En haut de la page Journal.",
+    description: "La saisie rapide du journal, en bulle (Card au rayon 20, filet primary-100, queue en bas à gauche) : le repère d'écriture — l'icône PenLine, 20 px au cran 700, centrée dans une boîte de 44, la hauteur du bouton ; c'était l'émoji ✍️, dont le dessin change d'un système à l'autre —, une zone de texte à 16, le Button md « Continuer » en solid — l'envoi, l'action principale de la saisie (arbitrage n°19) —, puis une aide en 13 ink-600 et le raccourci ⌘ ou Ctrl + Entrée. En haut de la page Journal.",
     keywords: ['journal', 'compose', 'chat', 'textarea', 'quick-entry', 'speech-bubble', 'send', 'PenLine'],
     usedBy: ['Journal'],
     render: () => {
@@ -7978,14 +7969,14 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'ChartDetailModal',
     codeName: 'charts/ChartDetailModal.tsx',
     showcaseOnly: true,
-    description: "Ouvre un graphique en grand, dans un panneau au rayon 24 (90 % de la hauteur au plus), en-tête et pied collants : titre h2 au pas h3 (20/700), sous-titre 16 ink-700, le graphique, puis les actions en Button md — la dernière, l'action que la modale sert, en solid ; les autres en ghost (arbitrage n°19). Un vrai dialogue depuis le 24/09, par `useDialog` comme les modales de `modals/` : nommé par son titre, focus d'entrée sur « Fermer », Tab et Maj+Tab piégés, Échap, focus rendu au déclencheur ; le voile n'est plus un faux bouton, seulement une zone de clic.",
+    description: "Ouvre un graphique en grand, dans un panneau au rayon 24 (90 % de la hauteur au plus), en-tête et pied collants : titre h2 au pas h3 (20/700), sous-titre 16 ink-700, le graphique, puis les actions en Button md — la dernière, l'action que la modale sert, en solid brand ; les autres en ghost neutre (arbitrage n°19), `emphasis` et `tone` restant surchargeables. Un vrai dialogue depuis le 24/09, par `useDialog` comme les modales de `modals/` : nommé par son titre, focus d'entrée sur « Fermer », Tab et Maj+Tab piégés, Échap, focus rendu au déclencheur ; le voile n'est plus un faux bouton, seulement une zone de clic.",
     keywords: ['chart', 'modal', 'detail', 'plein ecran', 'analytics', 'zoom', 'dialog', 'focus', 'useDialog'],
     render: () => <ChartDetailModalDemo />,
   },
   {
     name: 'CompletionModal',
     codeName: 'modals/CompletionModal.tsx',
-    description: "Fin de leçon ou de module : un bandeau au dégradé 700 → 800 — pastille, titre en h2 au pas h3 (20), titre de l'élément et description en 16, tout en blanc —, puis l'étape suivante en carte (13/600, titre 16/600, méta 13) et des Button md. Ton calme : pas de confettis par défaut, pas de « ! ». ⚠️ Elle affiche « +50 XP » par défaut (`xpEarned`), ce que l'arbitrage n°18 retire de l'app apprenant.",
+    description: "Fin de leçon ou de module : un bandeau au dégradé 700 → 800 — pastille, titre en h2 au pas h3 (20), titre de l'élément et description en 16, tout en blanc —, puis l'étape suivante en carte (13/600, titre 16/600, méta 13) et des Button md : Suivant en solid, Retour en ghost — seul, « Retour à l'espace » est le solid (arbitrage n°19). Ton calme : pas de confettis par défaut, pas de « ! ». ⚠️ Elle affiche « +50 XP » par défaut (`xpEarned`), ce que l'arbitrage n°18 retire de l'app apprenant.",
     keywords: ['completion', 'modal', 'fin', 'lecon', 'xp', 'suite', 'celebration'],
     render: () => <CompletionModalDemo2 />,
   },
