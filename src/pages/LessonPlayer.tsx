@@ -38,6 +38,7 @@ import {
   Cpu,
   Globe,
   Link2,
+  AlertTriangle,
 } from 'lucide-react';
 import { resolveLessonContext, getToneFromLevel, getLessonCompetenceIds } from '../data/learningPaths';
 import { getCompetenceById } from '../data/competencies';
@@ -1332,13 +1333,12 @@ export const LessonPlayer: React.FC = () => {
     }
   };
 
+  /* Fermer ramène au détail du parcours, jamais à la leçon suivante : le ✕
+     avançait l'apprenant quand il voulait sortir (audit du 23/09). La position
+     n'a rien à faire ici, elle est déjà persistée à chaque changement de
+     section (`setSectionInStore`, plus haut) : on la retrouve en revenant. */
   const handleClose = () => {
-    // If a next lesson exists in this parcours, go straight to it; otherwise back to the path hub.
-    if (ctx?.nextLesson) {
-      navigate(`/learning-paths/${ctx.nextLesson.pathId}/lessons/${ctx.nextLesson.lessonId}`);
-    } else {
-      navigate(`/learning-paths/${pathId}`);
-    }
+    navigate(`/learning-paths/${pathId}`);
   };
 
   /* ── Section renderers ──────────────────────────────────────────────── */
@@ -1393,7 +1393,7 @@ export const LessonPlayer: React.FC = () => {
           <p className="m-0 mb-stack font-body text-body-sm text-ink-500">{d.bad.description}</p>
           {d.bad.points.map((p, i) => (
             <div key={i} className="flex items-center gap-stack-xs mb-stack-xs">
-              <span className="text-lg">⚠️</span>
+              <AlertTriangle size={16} className="text-danger-fg shrink-0" aria-hidden="true" />
               <span className="font-body text-body-sm">{p}</span>
             </div>
           ))}
@@ -2525,21 +2525,34 @@ export const LessonPlayer: React.FC = () => {
           >
             <ChevronLeft />
           </Button>
-          {SECTIONS.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => goTo(i)}
-              aria-label={`Aller à ${SECTIONS[i].title}`}
-              className={[
-                'rounded-pill transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
-                i === currentIndex
-                  ? 'w-5 h-2 bg-accent-400'
-                  : completedSections.has(i)
-                  ? 'w-2 h-2 bg-accent-400/50 hover:bg-accent-400/80'
-                  : 'w-2 h-2 bg-ink-300 hover:bg-ink-400',
-              ].join(' ')}
-            />
-          ))}
+          {/* Le point garde son dessin (8 px, 20 px pour le courant), mais le
+              bouton qui le porte fait 24 px de haut et au moins 24 de large :
+              WCAG 2.2, SC 2.5.8. Un pseudo-élément débordant n'aurait pas suffi,
+              les cibles de deux points voisins (14 px d'axe à axe) se seraient
+              chevauchées. Le pas passe donc à 24 px, sans espacement en plus. */}
+          <div className="flex items-center">
+            {SECTIONS.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => goTo(i)}
+                aria-label={`Aller à ${SECTIONS[i].title}`}
+                aria-current={i === currentIndex ? 'step' : undefined}
+                className="group inline-flex items-center justify-center h-6 min-w-6 px-2 rounded-pill cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-primary-500"
+              >
+                <span
+                  aria-hidden="true"
+                  className={[
+                    'block rounded-pill transition-all duration-200',
+                    i === currentIndex
+                      ? 'w-5 h-2 bg-accent-400'
+                      : completedSections.has(i)
+                      ? 'w-2 h-2 bg-accent-400/50 group-hover:bg-accent-400/80'
+                      : 'w-2 h-2 bg-ink-300 group-hover:bg-ink-400',
+                  ].join(' ')}
+                />
+              </button>
+            ))}
+          </div>
           <Button
             iconOnly
             emphasis="ghost"
