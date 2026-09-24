@@ -85,8 +85,10 @@ const CorrectionDetailLearner: React.FC = () => {
           ...(correction.xpAwarded ? [{ label: `+${correction.xpAwarded} XP` }] : []),
         ]}
         tone="flat"
+        /* Le retour, `ghost` neutre calé sur le bord du texte
+           (`-ml-stack-md` rattrape son padding). */
         trailing={
-          <Button emphasis="ghost" tone="neutral" size="md" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/coaching/corrections')}>
+          <Button emphasis="ghost" tone="neutral" size="md" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/coaching/corrections')} className="-ml-stack-md">
             Retour aux corrections
           </Button>
         }
@@ -171,6 +173,9 @@ const CorrectionDetailLearner: React.FC = () => {
               emphasis="ghost"
               tone="brand"
               size="lg"
+              /* Seul bouton de la rangée (en attente du coach) : calé sur le
+                 bord du texte, `-ml-stack-lg` rattrape son padding. */
+              className={canResubmit || hasFeedback ? undefined : '-ml-stack-lg'}
               leadingIcon={<CheckCircle2 size={16} />}
               onClick={() => store.updateCorrection(MOCK_USER_ID, correction.id, { status: 'completed' })}
             >

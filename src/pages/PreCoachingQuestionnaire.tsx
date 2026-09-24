@@ -88,7 +88,9 @@ export const PreCoachingQuestionnaire: React.FC = () => {
         title="Prépare ta session"
         summary="Réponds à ces 3 questions pour une session sur-mesure."
         trailing={
-          <Button emphasis="ghost" tone="neutral" size="md" leadingIcon={<ChevronLeft size={16} />} onClick={() => navigate('/coaching')}>
+          /* `ghost` calé sur le bord du texte : `-ml-stack-md` rattrape son
+             padding. */
+          <Button emphasis="ghost" tone="neutral" size="md" leadingIcon={<ChevronLeft size={16} />} onClick={() => navigate('/coaching')} className="-ml-stack-md">
             Retour
           </Button>
         }

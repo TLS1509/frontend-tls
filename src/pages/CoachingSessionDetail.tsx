@@ -85,7 +85,9 @@ export default function CoachingSessionDetail() {
                 Rejoindre la session
               </Button>
             )}
-            <Button emphasis="ghost" tone="neutral" size="md" leadingIcon={<Download size={16} />}>
+            {/* Seul, pour une session passée, il se cale sur le bord du texte
+                (`-ml-stack-md` rattrape le padding du ghost). */}
+            <Button emphasis="ghost" tone="neutral" size="md" leadingIcon={<Download size={16} />} className={isPlanned ? undefined : '-ml-stack-md'}>
               Ajouter au calendrier
             </Button>
           </div>
