@@ -160,7 +160,7 @@ export const AuthShell: React.FC<AuthShellProps> = ({
           <section
             className={[
               'relative rounded-xl px-8 py-10 sm:px-10 sm:py-12',
-              'bg-white/10 backdrop-blur-glass-medium',
+              'bg-white/5 backdrop-blur-glass-medium',
               'border border-white/20',
               'shadow-[0_20px_60px_-15px_rgba(0,0,0,0.30)]',
               'flex flex-col gap-stack-lg',
