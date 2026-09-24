@@ -390,6 +390,38 @@ et 12 sont écrits à leur place dans ce fichier.
   `ink-900`, `primary-900`. Une famille « nuit » ne sera ouverte qu'avec la
   décision du mode sombre.
 
+## Arbitrages de l'audit UX/UI — tranchés le 2026-09-24 (n°18 à 23)
+
+Tranchés par Chloé sur le banc `/_arbitrages`. **Décidés, pas encore appliqués**
+partout : chaque ligne dit la règle à suivre dès maintenant dans le code neuf.
+
+- **n°18 · Gamification → « Reconnaissances ».** Plus de série quotidienne, de
+  classement nominatif ni de niveaux d'XP dans l'app apprenant. Ce qui reste :
+  des Open Badges adossés aux niveaux **validés** et un rythme hebdomadaire calme
+  (« actif 3 semaines sur les 4 dernières »), sans compte à rebours. Aucun XP
+  n'est jamais affiché à côté d'un niveau Dreyfus (PRODUCT.md : JAC = zéro XP).
+- **n°19 · Un seul `solid` par écran = l'action principale.** `soft` devient
+  l'action de contexte (dans une carte, une rangée), `ghost` le tertiaire,
+  `outline` est réservé aux paires Annuler / Confirmer. Remplace la règle du
+  17/09 (« `soft` principal »), dont la faille était que `soft` et `outline` ne
+  différaient que d'un fond au cran 50, invisible sur une carte teintée.
+- **n°20 · Texte courant à 16 px partout.** `body` (16/26) est LE corps de
+  lecture ; `body-sm` (15) disparaît comme pas de texte courant. Registre
+  éditorial.
+- **n°21 · Titres sous le h1 : 28 puis 20.** Le pas 24 (`h3` actuel) sort de
+  l'échelle ; l'échelle de l'app devient 36 → 28 → 20 → 16 → 13 (+ 18 pour le
+  chapô, 11 pour les étiquettes). Chaque pas se voit (rapport ≥ 1,23).
+- **n°22 · Une échelle de hauteur commune : 36 / 44 / 52** pour tout ce qui se
+  pose sur une même ligne (Button, Input, Select, Combobox, Search,
+  SegmentedControl, FilterChip). Le `Button sm` passe de 32 à 36 ; le `xl` (52)
+  devient le `lg`. Les étiquettes (Badge, MetaPill, Chip) gardent leur échelle,
+  sous le seuil de 28 px.
+- **n°23 · Voix : « vous » pour le pilotage** (manager, entreprise, admin, CLO),
+  « tu » pour l'apprenant et le coach. Conforme à PRODUCT.md.
+
+**Ouverts** : n°24 (Parcours et Espace Apprentissage : deux entrées ou une
+entrée « Ressources ») et n°25 (onboarding en chat ou formulaire progressif).
+
 ## Cards — conventions tone-aware
 
 Tous les composants card sont tone-aware (`tone: primary/warm/sun`). **Source de vérité unique des maps de tone** : `src/lib/tone-classes.ts` (`TONE_BG_50`, `CTA_SHADOW_HOVER_MD`, `TONE_CTA_TEXT`, `ACTION_BTN_TONES`, `TONE_BORDER`, `SURFACE_DIVIDER`) — importer, **jamais** redéfinir inline.
