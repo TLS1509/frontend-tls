@@ -2,7 +2,8 @@ import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Award } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
-import { SectionCard } from '../components/patterns/SectionCard';
+import { SectionHeader } from '../components/patterns/SectionHeader';
+import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { AchievementBadge } from '../components/ui/AchievementBadge';
@@ -14,7 +15,7 @@ import { BADGE_DEFS } from '../data/gamification';
 import { MOCK_USER_ID } from '../data/passeport';
 import { getCompetenceById, competencyLevel } from '../data/competencies';
 import type { BadgeDef } from '../types/learning';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 
 // ─── Display helpers ──────────────────────────────────────────────────────────
 
@@ -108,7 +109,11 @@ export default function ProfileBadgesCompetences() {
   }, [enrichedBadges]);
 
   return (
-    <div className="flex flex-col gap-section">
+    /* Un seul conteneur : l'en-tête collait au haut de l'écran et le corps
+       partait 32 px plus à droite que le titre. Les mots et l'ordre des blocs
+       ne bougent pas (arbitrage n°18 en cours) : seuls la typographie et le
+       rythme changent. */
+    <PageShell width="wide">
       <EditorialHero
         eyebrow="Profil · Badges Compétences"
         title="Mes Badges Dreyfus"
@@ -121,11 +126,12 @@ export default function ProfileBadgesCompetences() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
-
-        {/* Radar overview */}
-        <div className="grid md:grid-cols-2 gap-section">
-          <SectionCard title="Mon Radar Compétences" titleIcon={<Award size={18} />}>
+      {/* Radar + progression : deux sections côte à côte, titre (h2 28) sur
+          la page, la carte ne portant que son contenu. */}
+      <div className="grid md:grid-cols-2 gap-page md:gap-section">
+        <section className="flex flex-col gap-stack min-w-0">
+          <SectionHeader title="Mon Radar Compétences" />
+          <Card>
             {radarAxes.length > 0 ? (
               <CompetencyRadar axes={radarAxes} size="md" showLegend />
             ) : (
@@ -135,29 +141,44 @@ export default function ProfileBadgesCompetences() {
                 description="Réponds au questionnaire de positionnement pour activer ton radar."
               />
             )}
-          </SectionCard>
+          </Card>
+        </section>
 
-          <SectionCard title="Progression badges" titleIcon={<Award size={18} />}>
-            <div className="flex flex-col gap-stack-xs">
+        {/* Chaque rangée : le nom de la compétence en entier, son compte sur
+            la même ligne de base, la barre dessous. Le nom tenait dans 112 px
+            et se coupait (« Leadership & Ma… »). */}
+        <section className="flex flex-col gap-stack min-w-0">
+          <SectionHeader title="Progression badges" />
+          <Card>
+            <div className="flex flex-col gap-stack">
               {progressByCategory.length === 0 ? (
-                <p className="text-caption text-ink-600">Aucun badge compétence pour l'instant.</p>
+                <p className="text-body text-ink-700">Aucun badge compétence pour l'instant.</p>
               ) : (
                 progressByCategory.map(({ cat, earned, total, pct }) => (
-                  <div key={cat} className="flex items-center gap-stack">
-                    <span className="text-caption text-ink-600 w-28 shrink-0 truncate">{cat}</span>
-                    <div className="flex-1 h-2 bg-ink-100 rounded-pill overflow-hidden">
+                  <div key={cat} className="flex flex-col gap-stack-xs">
+                    <div className="flex items-baseline justify-between gap-stack">
+                      <span className="text-body text-ink-900 min-w-0">{cat}</span>
+                      <span className="text-caption font-semibold text-ink-700 tabular-nums shrink-0">{earned}/{total}</span>
+                    </div>
+                    <div className="h-2 bg-ink-100 rounded-pill overflow-hidden">
                       <div
                         className="h-full bg-accent-400 rounded-pill transition-all duration-slow"
                         style={{ width: `${pct}%` }}
                       />
                     </div>
-                    <span className="text-caption font-semibold text-ink-700 w-12 text-right">{earned}/{total}</span>
                   </div>
                 ))
               )}
             </div>
-          </SectionCard>
-        </div>
+          </Card>
+        </section>
+      </div>
+
+      {/* La grille et ses filtres forment une section : les filtres suivent le
+          titre à 16, la grille les filtres à 16. Le titre (le compte) sort de
+          la carte qui enveloppait des cartes. */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader title={`${filtered.length} badge${filtered.length !== 1 ? 's' : ''}`} />
 
         {/* Filters */}
         <div className="flex flex-col gap-stack-xs">
@@ -184,47 +205,44 @@ export default function ProfileBadgesCompetences() {
           </div>
         </div>
 
-        {/* Badges grid */}
-        <SectionCard
-          title={`${filtered.length} badge${filtered.length !== 1 ? 's' : ''}`}
-          titleIcon={<Award size={18} />}
-        >
-          {filtered.length === 0 ? (
-            <EmptyState
-              icon={<Award size={32} />}
-              title="Aucun badge trouvé"
-              description="Change les filtres pour voir d'autres badges."
-            />
-          ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-section">
-              {filtered.map((b) => (
-                <button
-                  key={b.def.id}
-                  type="button"
-                  onClick={() => navigate(`/gamification/badge/${b.def.id}`)}
-                  className="flex flex-col items-center gap-stack-xs bg-transparent border-0 p-0 cursor-pointer hover:opacity-80 transition-opacity focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
-                >
-                  <AchievementBadge
-                    title={b.def.name}
-                    icon={<Award size={20} />}
-                    color={b.tone}
-                    size="md"
-                    isLocked={!b.earned}
-                  />
-                  <div className="flex flex-col items-center gap-tight text-center">
-                    <span className="text-caption font-semibold text-ink-800 line-clamp-2">{b.def.name}</span>
-                    {b.earnedDate && <span className="text-micro text-ink-500">{b.earnedDate}</span>}
-                    {!b.earned && b.def.dreyfusLevel && (
-                      <Badge variant="info" size="compact">D{b.def.dreyfusLevel} requis</Badge>
-                    )}
-                  </div>
-                </button>
-              ))}
-            </div>
-          )}
-        </SectionCard>
-
-      </Container>
-    </div>
+        {/* Badges grid — 16 entre deux badges, 24 entre deux rangées (chacun
+            porte sa légende) : ils étaient à 32 dans les deux sens. */}
+        {filtered.length === 0 ? (
+          <EmptyState
+            icon={<Award size={32} />}
+            title="Aucun badge trouvé"
+            description="Change les filtres pour voir d'autres badges."
+          />
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-stack gap-y-stack-lg">
+            {filtered.map((b) => (
+              <button
+                key={b.def.id}
+                type="button"
+                onClick={() => navigate(`/gamification/badge/${b.def.id}`)}
+                className="flex flex-col items-center gap-stack-xs bg-transparent border-0 p-0 cursor-pointer hover:opacity-80 transition-opacity focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+              >
+                <AchievementBadge
+                  title={b.def.name}
+                  icon={<Award size={20} />}
+                  color={b.tone}
+                  size="md"
+                  isLocked={!b.earned}
+                />
+                {/* Nom → date 4 ; la date est une légende 13 ink-600 (elle
+                    était en étiquette 11 ink-500). */}
+                <div className="flex flex-col items-center gap-stack-3xs text-center">
+                  <span className="text-caption font-semibold text-ink-900 line-clamp-2">{b.def.name}</span>
+                  {b.earnedDate && <span className="text-caption text-ink-600">{b.earnedDate}</span>}
+                  {!b.earned && b.def.dreyfusLevel && (
+                    <Badge variant="info" size="compact">D{b.def.dreyfusLevel} requis</Badge>
+                  )}
+                </div>
+              </button>
+            ))}
+          </div>
+        )}
+      </section>
+    </PageShell>
   );
 }

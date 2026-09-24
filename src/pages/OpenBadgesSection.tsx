@@ -1,12 +1,12 @@
 import React from 'react';
-import { Share2, Eye, Award, ExternalLink } from 'lucide-react';
+import { Share2, Eye, Award } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
-import { SectionCard } from '../components/patterns/SectionCard';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { IconChip } from '../components/ui/IconChip';
-import { Badge } from '../components/ui/Badge';
-import { Container } from '../components/layout';
+import { MetaPill } from '../components/ui/MetaPill';
+import { PageShell } from '../components/layout';
 
 const MOCK_BADGES = [
   {
@@ -93,7 +93,10 @@ const MOCK_BADGES = [
 
 export default function OpenBadgesSection() {
   return (
-    <div className="flex flex-col gap-section">
+    /* Un seul conteneur pour l'en-tête et le corps (deux bords gauches, et
+       un en-tête collé au haut de l'écran). Mots et ordre des blocs
+       inchangés : seuls la typographie et le rythme bougent. */
+    <PageShell width="wide">
       <EditorialHero
         eyebrow={{ label: 'Profil · Badges', icon: <Award size={14} /> }}
         title="Mes Open Badges"
@@ -101,96 +104,85 @@ export default function OpenBadgesSection() {
         tone="flat"
       />
 
-      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
-        {/* Badge grid */}
-        <section className="flex flex-col gap-stack">
-          <div className="flex items-baseline justify-between gap-stack-xs flex-wrap">
-            <h2 className="font-display text-h3 font-bold text-ink-900">Mes certifications</h2>
-            <p className="m-0 font-body text-body text-ink-500 shrink-0">8 obtenus · 3 partagés · 2 en cours</p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-stack">
-            {MOCK_BADGES.map((badge) => (
-              <Card
-                key={badge.id}
-                className="p-stack-md flex flex-col gap-stack-xs"
-              >
-                {/* Badge icon area */}
-                <div className="flex justify-center">
-                  <div
-                    className={`w-16 h-16 rounded-xl bg-gradient-to-br ${badge.gradientFrom} ${badge.gradientTo} flex items-center justify-center`}
-                  >
-                    <Award size={28} className="text-white" strokeWidth={1.5} />
-                  </div>
+      {/* Badge grid — titre de section à 28 (il était un h2 à 20) ; le
+          compte en méta, plus en corps ink-500. */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader title="Mes certifications" meta="8 obtenus · 3 partagés · 2 en cours" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-stack">
+          {MOCK_BADGES.map((badge) => (
+            <Card
+              key={badge.id}
+              className="p-stack-md flex flex-col gap-stack-xs"
+            >
+              {/* Badge icon area */}
+              <div className="flex justify-center">
+                <div
+                  className={`w-16 h-16 rounded-xl bg-gradient-to-br ${badge.gradientFrom} ${badge.gradientTo} flex items-center justify-center`}
+                >
+                  <Award size={28} className="text-white" strokeWidth={1.5} />
                 </div>
+              </div>
 
-                {/* Badge info */}
-                <div className="flex flex-col gap-tight text-center">
-                  <p className="m-0 font-semibold text-body text-ink-900">{badge.name}</p>
-                  <p className="m-0 text-caption text-ink-500">{badge.issuer}</p>
-                  <p className="m-0 text-caption text-ink-600">{badge.date}</p>
-                </div>
+              {/* Badge info — nom → émetteur → date à 4 ; émetteur et date sont
+                  des méta (ink-600). */}
+              <div className="flex flex-col gap-stack-3xs text-center">
+                <p className="font-semibold text-body text-ink-900">{badge.name}</p>
+                <p className="text-caption text-ink-600">{badge.issuer}</p>
+                <p className="text-caption text-ink-600">{badge.date}</p>
+              </div>
 
-                {/* Level badge */}
-                <div className="flex justify-center">
-                  <Badge variant={badge.levelVariant}>{badge.level}</Badge>
-                </div>
+              {/* Le niveau est une donnée : MetaPill (arbitrages n°14-15). */}
+              <div className="flex justify-center">
+                <MetaPill text={badge.level} tone={badge.levelVariant} />
+              </div>
 
-                {/* Action buttons */}
-                <div className="flex gap-stack-xs justify-center pt-1">
-                  <Button emphasis="outline" size="sm" leadingIcon={<Eye size={14} />}>
-                    Voir
-                  </Button>
-                  <Button emphasis="outline" size="sm" leadingIcon={<Share2 size={14} />}>
-                    Partager
-                  </Button>
-                </div>
-              </Card>
-            ))}
-          </div>
-        </section>
+              {/* Action buttons — à 20 du contenu (anatomie dense). */}
+              <div className="flex gap-stack-xs justify-center mt-stack-sm">
+                <Button emphasis="outline" size="sm" leadingIcon={<Eye size={14} />}>
+                  Voir
+                </Button>
+                <Button emphasis="outline" size="sm" leadingIcon={<Share2 size={14} />}>
+                  Partager
+                </Button>
+              </div>
+            </Card>
+          ))}
+        </div>
+      </section>
 
-        {/* Connect wallet section */}
-        <SectionCard
+      {/* Connect wallet section — titre et explication sur la page, les trois
+          plateformes en rangées dans une carte (elles étaient trois boîtes
+          dans une carte), l'action à la suite. Chaque plateforme : son nom,
+          puis sa description en corps ink-700 (elle était en légende ink-500) ;
+          la pastille se cale sur la première ligne. */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader
           title="Connecter un wallet Open Badges"
-          titleIcon={<ExternalLink size={18} className="text-primary-500" />}
-          description="Importez des badges depuis des plateformes externes compatibles Open Badges. Vos certifications Credly, Badgr ou IMS Global seront consolidées dans votre profil."
-          actions={
-            <Button emphasis="soft" tone="warm">
-              Connecter un wallet
-            </Button>
-          }
-        >
-          <div className="flex flex-col gap-stack-xs">
-            <div className="flex items-center gap-stack-xs p-stack rounded-lg bg-ink-50 border border-ink-100">
-              <IconChip size="sm" tone="brand">
-                <Award />
-              </IconChip>
-              <div className="flex flex-col gap-tight min-w-0">
-                <p className="m-0 text-body font-semibold text-ink-900">Credly</p>
-                <p className="m-0 text-caption text-ink-500">Plateforme leader pour les badges professionnels et certifications IT</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-stack-xs p-stack rounded-lg bg-ink-50 border border-ink-100">
-              <IconChip size="sm" tone="warm">
-                <Award />
-              </IconChip>
-              <div className="flex flex-col gap-tight min-w-0">
-                <p className="m-0 text-body font-semibold text-ink-900">Badgr</p>
-                <p className="m-0 text-caption text-ink-500">Solution open-source pour la gestion de badges numériques</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-stack-xs p-stack rounded-lg bg-ink-50 border border-ink-100">
-              <IconChip size="sm" tone="sun">
-                <Award />
-              </IconChip>
-              <div className="flex flex-col gap-tight min-w-0">
-                <p className="m-0 text-body font-semibold text-ink-900">IMS Global</p>
-                <p className="m-0 text-caption text-ink-500">Standard international Open Badges 3.0 : compatible avec tous les émetteurs certifiés</p>
-              </div>
-            </div>
-          </div>
-        </SectionCard>
-      </Container>
-    </div>
+          subtitle="Importez des badges depuis des plateformes externes compatibles Open Badges. Vos certifications Credly, Badgr ou IMS Global seront consolidées dans votre profil."
+        />
+        <Card className="p-0 overflow-hidden">
+          <ul className="divide-y divide-ink-100">
+            {([
+              { name: 'Credly', tone: 'brand', desc: 'Plateforme leader pour les badges professionnels et certifications IT' },
+              { name: 'Badgr', tone: 'warm', desc: 'Solution open-source pour la gestion de badges numériques' },
+              { name: 'IMS Global', tone: 'sun', desc: 'Standard international Open Badges 3.0 : compatible avec tous les émetteurs certifiés' },
+            ] as const).map((w) => (
+              <li key={w.name} className="flex items-start gap-stack-sm px-stack-lg py-stack">
+                <IconChip size="sm" tone={w.tone}>
+                  <Award />
+                </IconChip>
+                <div className="flex flex-col gap-stack-3xs min-w-0 mt-[3px]">
+                  <p className="text-body font-semibold text-ink-900">{w.name}</p>
+                  <p className="text-body text-ink-700 max-w-prose">{w.desc}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </Card>
+        <Button emphasis="soft" tone="warm" className="self-start mt-stack-xs">
+          Connecter un wallet
+        </Button>
+      </section>
+    </PageShell>
   );
 }

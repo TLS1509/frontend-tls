@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { AlertTriangle, Trash2, ShieldOff, Info } from 'lucide-react';
 import EditorialHero from '../components/patterns/EditorialHero';
-import SectionCard from '../components/patterns/SectionCard';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Input } from '../components/core/Input';
 import { FormGroup } from '../components/core/FormGroup';
 import { Alert } from '../components/ui/Alert';
-import { Badge } from '../components/ui/Badge';
 import { PageShell } from '../components/layout';
 import { usePrivacyStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
@@ -37,7 +36,7 @@ const PrivacyDeleteAccount: React.FC = () => {
   };
 
   return (
-    <PageShell width="content" noPadTop className="pt-6 md:pt-8 lg:pt-10">
+    <PageShell width="content">
       <EditorialHero
         eyebrow="Confidentialité · Droit à l'oubli (RGPD)"
         title="Supprimer définitivement mon compte"
@@ -45,46 +44,51 @@ const PrivacyDeleteAccount: React.FC = () => {
         tone="flat"
       />
 
-      <div className="flex flex-col gap-section">
+      {/* 48 entre deux blocs ; titres de section (h2 28) sur la page. */}
+      <div className="flex flex-col gap-page">
         <Alert variant="warning" icon={<AlertTriangle size={18} />} title="Action irréversible">
           Cette action est définitive. Tu ne pourras pas récupérer ton compte ni tes données après confirmation. Pense à exporter tes données avant via la demande DSAR.
         </Alert>
 
-        <SectionCard
-          title="Ce qui sera supprimé"
-          description="Toutes les données te concernant disparaîtront définitivement"
-        >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-xs">
-            {[
-              'Ton profil utilisateur',
-              'Tes parcours et leçons complétées',
-              'Tes badges et achievements',
-              'Ton journal de bord',
-              'Tes sessions de coaching',
-              'Tes messages avec ton coach',
-              'Tes objectifs et passeport',
-              'Tes crédits restants (non remboursés)',
-            ].map((item) => (
-              <div key={item} className="flex items-center gap-stack-xs p-3 bg-danger-bg/50 rounded-lg">
-                <Trash2 className="w-4 h-4 text-danger-fg shrink-0" />
-                <span className="text-body">{item}</span>
-              </div>
-            ))}
-          </div>
-        </SectionCard>
+        {/* Une liste, pas huit boîtes teintées : l'icône rouge suffit à dire
+            « supprimé ». Deux colonnes, 8 entre deux lignes. */}
+        <section className="flex flex-col gap-stack">
+          <SectionHeader
+            title="Ce qui sera supprimé"
+            subtitle="Toutes les données te concernant disparaîtront définitivement"
+          />
+          <Card>
+            <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-stack-lg gap-y-stack-xs">
+              {[
+                'Ton profil utilisateur',
+                'Tes parcours et leçons complétées',
+                'Tes badges et achievements',
+                'Ton journal de bord',
+                'Tes sessions de coaching',
+                'Tes messages avec ton coach',
+                'Tes objectifs et passeport',
+                'Tes crédits restants (non remboursés)',
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-stack-xs">
+                  <Trash2 className="w-4 h-4 text-danger-fg shrink-0 mt-[5px]" aria-hidden="true" />
+                  <span className="text-body text-ink-900">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </Card>
+        </section>
 
-        <SectionCard title="Ce qui sera conservé (anonymisé)" description="Pour respecter nos obligations comptables et légales">
-          <div className="flex flex-col gap-stack-xs">
-            <div className="flex items-center gap-stack-xs p-3 bg-info-bg/50 rounded-lg">
-              <Info className="w-4 h-4 text-info-fg shrink-0" />
-              <span className="text-body">Factures et historique de paiement (anonymisés, conservés 10 ans pour obligations fiscales)</span>
-            </div>
-          </div>
-        </SectionCard>
+        <section className="flex flex-col gap-stack">
+          <SectionHeader title="Ce qui sera conservé (anonymisé)" subtitle="Pour respecter nos obligations comptables et légales" />
+          <Card className="flex flex-row items-start gap-stack-xs">
+            <Info className="w-4 h-4 text-info-fg shrink-0 mt-[5px]" aria-hidden="true" />
+            <span className="text-body text-ink-900 max-w-prose">Factures et historique de paiement (anonymisés, conservés 10 ans pour obligations fiscales)</span>
+          </Card>
+        </section>
 
         {step === 1 && (
-          <Card className="p-stack-lg flex flex-col gap-stack">
-            <h3 className="text-h3">Étape 1/2 : Raison du départ (optionnel)</h3>
+          <Card className="flex flex-col gap-stack">
+            <h3 className="font-display text-h3 text-ink-900">Étape 1/2 : Raison du départ (optionnel)</h3>
             <FormGroup label="Pour nous aider à nous améliorer, peux-tu nous dire pourquoi tu pars ?">
               <Input
                 multiline
@@ -94,7 +98,7 @@ const PrivacyDeleteAccount: React.FC = () => {
                 placeholder="Optionnel : ta réponse nous aide à améliorer la plateforme"
               />
             </FormGroup>
-            <div className="flex gap-stack-xs">
+            <div className="flex gap-stack-xs mt-stack-xs">
               <Button emphasis="outline" fullWidth>Annuler</Button>
               <Button emphasis="solid" tone="danger" fullWidth onClick={() => setStep(2)}>
                 Continuer →
@@ -104,15 +108,18 @@ const PrivacyDeleteAccount: React.FC = () => {
         )}
 
         {step === 2 && (
-          <Card className="p-stack-lg flex flex-col gap-stack border-danger-base/30">
-            <div className="flex items-start gap-stack-xs">
-              <ShieldOff className="w-8 h-8 text-danger-fg" />
-              <div>
-                <h3 className="text-h3 mb-1">Étape 2/2 : Confirmation finale</h3>
-                <p className="text-body text-ink-600">Pour confirmer, tape exactement la phrase ci-dessous.</p>
+          <Card className="flex flex-col gap-stack border-danger-base/30">
+            {/* Icône (24) sur la première ligne du titre ; titre → texte 8. */}
+            <div className="flex items-start gap-stack-sm">
+              <ShieldOff className="w-6 h-6 text-danger-fg shrink-0 mt-px" aria-hidden="true" />
+              <div className="flex flex-col gap-stack-xs min-w-0">
+                <h3 className="font-display text-h3 text-ink-900">Étape 2/2 : Confirmation finale</h3>
+                <p className="text-body text-ink-700">Pour confirmer, tape exactement la phrase ci-dessous.</p>
               </div>
             </div>
-            <Badge variant="danger" className="text-center py-stack-xs font-mono">SUPPRIMER MON COMPTE</Badge>
+            {/* La phrase à recopier est un texte exact, pas un état : un bloc
+                de code, plus un Badge. */}
+            <code className="self-start rounded-lg bg-danger-bg px-stack-sm py-stack-xs font-mono text-body text-danger-fg">SUPPRIMER MON COMPTE</code>
             <FormGroup label="Tape la phrase exacte ci-dessus">
               <Input
                 value={confirmText}
@@ -120,7 +127,7 @@ const PrivacyDeleteAccount: React.FC = () => {
                 placeholder="SUPPRIMER MON COMPTE"
               />
             </FormGroup>
-            <div className="flex gap-stack-xs">
+            <div className="flex gap-stack-xs mt-stack-xs">
               <Button emphasis="outline" fullWidth onClick={() => setStep(1)}>Retour</Button>
               <Button emphasis="solid" tone="danger" fullWidth disabled={!canConfirm} leadingIcon={<AlertTriangle className="w-4 h-4" />} onClick={handleConfirmDeletion}>
                 Supprimer définitivement

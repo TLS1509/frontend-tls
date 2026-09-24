@@ -20,12 +20,12 @@ import { useGamificationStore } from '../stores/persistence';
 import { getBadgeDefById } from '../data/gamification';
 import { MOCK_USER_ID } from '../data/passeport';
 import { Button } from '../components/core/Button';
-import { Badge } from '../components/ui/Badge';
 import { MetaPillGroup } from '../components/ui/MetaPillGroup';
 import { IconChip } from '../components/ui/IconChip';
 import { SkillBar } from '../components/ui/SkillBar';
 import { Tabs } from '../components/ui/Tabs';
 import type { TabItem } from '../components/ui/Tabs';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { CompetencyMatrix } from '../components/ui/CompetencyMatrix';
 import { AccountFamilyNav } from '../components/patterns/AccountFamilyNav';
 import type { SkillEntry } from '../components/ui/CompetencyMatrix';
@@ -47,7 +47,6 @@ import {
   Target,
   Clock3,
   Users,
-  CheckCircle2,
   Bot,
   Star,
   Compass,
@@ -181,11 +180,17 @@ export const Profile: React.FC = () => {
         {/* ── Account family sub-nav ───────────────────────────── */}
         <AccountFamilyNav active="profile" />
 
+        {/* L'en-tête d'identité et les onglets forment un bloc : 32 entre eux
+            (la fourchette de l'en-tête de page, 32 à 48). Ils en avaient 81 —
+            padding, filet et gap cumulés — pour 48 au-dessus : le nom flottait
+            entre la navigation du compte et son propre contenu. */}
+        <div className="flex flex-col gap-section">
+
         {/* ── Identity header (épuré) ──────────────────────────── */}
-        <header className="flex flex-col sm:flex-row sm:items-start gap-stack-lg pb-section border-b border-ink-100">
+        <header className="flex flex-col sm:flex-row sm:items-start gap-stack-lg">
           {/* Avatar */}
           <div className="relative shrink-0">
-            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-pill bg-ink-100 text-ink-700 flex items-center justify-center font-display font-bold text-h3">
+            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-pill bg-ink-100 text-ink-700 flex items-center justify-center font-display font-bold text-h3" aria-hidden="true">
               {USER.initials}
             </div>
             <span className="absolute -bottom-1 -right-1 inline-flex items-center justify-center min-w-7 h-7 px-1.5 rounded-pill bg-ink-900 text-white font-body font-bold text-micro border-2 border-white">
@@ -193,20 +198,22 @@ export const Profile: React.FC = () => {
             </span>
           </div>
 
-          {/* Identity */}
-          <div className="flex-1 min-w-0 flex flex-col gap-tight">
-            <h1 className="font-display text-h2 font-bold text-ink-900 tracking-headline">
+          {/* Identity — le nom est le h1 de la page : 36 (il était à 28, le pas
+              d'une section). Nom → rôle 8, rôle → méta 12 ; le rôle est un
+              texte secondaire (ink-700), les coordonnées une méta (ink-600). */}
+          <div className="flex-1 min-w-0 flex flex-col">
+            <h1 className="font-display text-h1 text-ink-900 text-balance">
               {displayName}
             </h1>
-            <p className="m-0 font-body text-body text-ink-600">
+            <p className="mt-stack-xs font-body text-body text-ink-700">
               {USER.role} · {USER.username}
             </p>
-            <div className="flex flex-wrap items-center gap-x-stack-sm gap-y-stack-3xs mt-stack-xs font-body text-caption text-ink-700">
-              <span className="inline-flex items-center gap-stack-2xs"><Mail size={14} /> {displayEmail}</span>
+            <div className="flex flex-wrap items-center gap-x-stack-sm gap-y-stack-3xs mt-stack-sm font-body text-caption text-ink-600">
+              <span className="inline-flex items-center gap-stack-3xs"><Mail size={14} aria-hidden="true" /> {displayEmail}</span>
               <span aria-hidden className="text-ink-300">·</span>
-              <span className="inline-flex items-center gap-stack-2xs"><MapPin size={14} /> {USER.location}</span>
+              <span className="inline-flex items-center gap-stack-3xs"><MapPin size={14} aria-hidden="true" /> {USER.location}</span>
               <span aria-hidden className="text-ink-300">·</span>
-              <span className="inline-flex items-center gap-stack-2xs"><Calendar size={14} /> Membre depuis {USER.joinDate}</span>
+              <span className="inline-flex items-center gap-stack-3xs"><Calendar size={14} aria-hidden="true" /> Membre depuis {USER.joinDate}</span>
             </div>
           </div>
 
@@ -232,70 +239,72 @@ export const Profile: React.FC = () => {
             />
           </div>
 
-          {/* ── Tab content ───────────────────────────────────── */}
+          {/* ── Tab content ─────────────────────────────────────
+              Chaque bloc est une section : son titre (h2 28) posé sur la page,
+              la carte ne portant que son contenu. Les titres étaient des h2 à
+              20 px, dans les cartes — la taille d'un titre de carte. */}
           {activeTab === 'overview' && (
-            <div className="flex flex-col gap-section">
-              {/* Stats compact strip */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-stack-xs p-stack-lg rounded-xl bg-ink-50 border border-ink-100">
+            <div className="flex flex-col gap-page">
+              {/* Stats compact strip — valeur → libellé 4 ; le libellé est une
+                  légende (ink-600). Le token porte la graisse et le serrage du
+                  h3 : `tracking-headline` écrasait le sien. */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-stack p-stack-lg rounded-xl bg-ink-50 border border-ink-100">
                 {heroStats.map((s) => (
-                  <div key={s.label} className="flex flex-col gap-tight">
-                    <span className="font-display text-h3 font-bold text-ink-900 leading-none tracking-headline tabular-nums">
+                  <div key={s.label} className="flex flex-col gap-stack-3xs">
+                    <span className="font-display text-h3 text-ink-900 leading-none tabular-nums">
                       {s.value}
                     </span>
-                    <span className="font-body text-caption text-ink-700">{s.label}</span>
+                    <span className="font-body text-caption text-ink-600">{s.label}</span>
                   </div>
                 ))}
               </div>
 
-              {/* Bio + interests */}
-              <section className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr] gap-stack-lg">
-                <div className="rounded-xl border border-ink-100 bg-white p-stack-lg flex flex-col gap-stack">
-                  <h2 className="font-display text-h3 font-bold text-ink-900 tracking-snug">
-                    À propos
-                  </h2>
-                  <p className="m-0 font-body text-body text-ink-700">
-                    {USER.bio}
-                  </p>
-                  <MetaPillGroup
-                    className="mt-stack-xs"
-                    items={USER.interests.map((interest) => ({ text: interest }))}
-                  />
-                </div>
+              {/* Bio + semaine : deux sections côte à côte */}
+              <div className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr] gap-page md:gap-stack-lg">
+                <section className="flex flex-col gap-stack min-w-0">
+                  <SectionHeader title="À propos" />
+                  <div className="rounded-xl border border-ink-100 bg-white p-stack-lg flex flex-col gap-stack flex-1">
+                    <p className="font-body text-body text-ink-700 max-w-prose">
+                      {USER.bio}
+                    </p>
+                    <MetaPillGroup
+                      items={USER.interests.map((interest) => ({ text: interest }))}
+                    />
+                  </div>
+                </section>
 
-                <div className="rounded-xl border border-ink-100 bg-white p-stack-lg flex flex-col gap-stack">
-                  <h2 className="font-display text-h3 font-bold text-ink-900 tracking-snug">
-                    Cette semaine
-                  </h2>
-                  <div className="flex flex-col gap-stack">
+                <section className="flex flex-col gap-stack min-w-0">
+                  <SectionHeader title="Cette semaine" />
+                  <div className="rounded-xl border border-ink-100 bg-white p-stack-lg flex flex-col gap-stack flex-1">
                     {WEEK_KPIS.map((k) => (
-                      <div key={k.label} className="flex items-center gap-stack-xs">
+                      <div key={k.label} className="flex items-center gap-stack-sm">
                         <IconChip size="md" tone="neutral">
                           {k.icon}
                         </IconChip>
-                        <div className="flex-1 min-w-0">
-                          <p className="m-0 font-display text-body font-bold text-ink-900">
+                        <div className="flex-1 min-w-0 flex flex-col gap-stack-3xs">
+                          <p className="font-body text-body font-semibold text-ink-900 tabular-nums">
                             {k.value}
                           </p>
-                          <p className="m-0 font-body text-caption text-ink-700 mt-0.5">
+                          <p className="font-body text-caption text-ink-600">
                             {k.label}
                           </p>
                         </div>
                       </div>
                     ))}
                   </div>
-                </div>
-              </section>
+                </section>
+              </div>
 
               {/* Top compétences (preview) */}
               <section className="flex flex-col gap-stack">
-                <div className="flex items-baseline justify-between gap-stack-xs">
-                  <h2 className="font-display text-h3 font-bold text-ink-900 tracking-snug">
-                    Top compétences
-                  </h2>
-                  <Button emphasis="outline" size="sm" trailingIcon={<ArrowRight size={14} />} onClick={() => setActiveTab('skills')}>
-                    Voir la matrice complète
-                  </Button>
-                </div>
+                <SectionHeader
+                  title="Top compétences"
+                  action={
+                    <Button emphasis="outline" size="sm" trailingIcon={<ArrowRight size={14} />} onClick={() => setActiveTab('skills')}>
+                      Voir la matrice complète
+                    </Button>
+                  }
+                />
                 <div className="rounded-xl border border-ink-100 bg-white p-stack-lg flex flex-col gap-stack-lg">
                   {SKILLS.slice(0, 3).map((skill) => (
                     <SkillBar key={skill.id} label={skill.label} value={skill.value} tone={skill.tone} showValue />
@@ -307,43 +316,41 @@ export const Profile: React.FC = () => {
 
           {activeTab === 'activity' && (
             <section className="flex flex-col gap-stack">
-              <div className="flex items-baseline justify-between gap-stack-xs">
-                <h2 className="font-display text-h3 font-bold text-ink-900 tracking-snug">
-                  Activité récente
-                </h2>
-                <span className="font-body text-caption text-ink-700">
-                  {ACTIVITY.length} événements
-                </span>
-              </div>
+              {/* Le compte est une donnée : la méta de l'en-tête. */}
+              <SectionHeader title="Activité récente" meta={`${ACTIVITY.length} événements`} />
               <div className="rounded-xl border border-ink-100 bg-white overflow-hidden">
                 {ACTIVITY.map((a, idx) => (
                   <div
                     key={a.id}
                     className={[
-                      'flex items-center gap-stack px-stack-md py-stack',
+                      'flex items-center gap-stack px-stack-lg py-stack',
                       idx < ACTIVITY.length - 1 ? 'border-b border-ink-100' : '',
                     ].join(' ')}
                   >
+                    {/* Pastille carrée proportionnelle (arbitrage n°3) : le rond
+                        est réservé aux personnes. */}
                     <span
                       className={[
-                        'shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-pill border',
+                        'shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-md border',
                         ACTIVITY_TONE[a.tone],
                       ].join(' ')}
                     >
                       {a.icon}
                     </span>
-                    <div className="flex-1 min-w-0">
-                      <p className="m-0 font-body text-body font-semibold text-ink-900 truncate">
+                    <div className="flex-1 min-w-0 flex flex-col gap-stack-3xs">
+                      <p className="font-body text-body font-semibold text-ink-900 truncate">
                         {a.title}
                       </p>
-                      <p className="m-0 font-body text-caption text-ink-700 mt-0.5">
+                      <p className="font-body text-caption text-ink-600">
                         {a.date} · {a.meta}
                       </p>
                     </div>
                   </div>
                 ))}
               </div>
-              <Button emphasis="outline" size="sm" trailingIcon={<ArrowRight size={14} />} className="self-center mt-stack">
+              {/* Sur le bord gauche de la liste qu'il prolonge (il était
+                  centré) ; à 24 du contenu. */}
+              <Button emphasis="outline" size="sm" trailingIcon={<ArrowRight size={14} />} className="self-start mt-stack-xs">
                 Voir toute l'historique
               </Button>
             </section>
@@ -351,14 +358,7 @@ export const Profile: React.FC = () => {
 
           {activeTab === 'badges' && (
             <section className="flex flex-col gap-stack">
-              <div className="flex items-baseline justify-between gap-stack-xs">
-                <h2 className="font-display text-h3 font-bold text-ink-900 tracking-snug">
-                  Badges
-                </h2>
-                <span className="font-body text-caption text-ink-700">
-                  {earnedCount}/{badges.length} débloqués
-                </span>
-              </div>
+              <SectionHeader title="Badges" meta={`${earnedCount}/${badges.length} débloqués`} />
               <div className="grid grid-cols-3 sm:grid-cols-6 gap-stack-xs">
                 {badges.map((badge) => (
                   <div
@@ -379,17 +379,19 @@ export const Profile: React.FC = () => {
                     >
                       {badge.icon}
                     </span>
-                    <p className="m-0 font-body text-caption font-semibold text-ink-900">
+                    {/* Nom → date 4 ; la date est une légende 13 (l'étiquette
+                        11 est le registre des seuls Badge). */}
+                    <p className="font-body text-caption font-semibold text-ink-900">
                       {badge.label}
                     </p>
                     {badge.earned ? (
-                      <p className="m-0 mt-0.5 font-body text-micro text-ink-600">{badge.date}</p>
+                      <p className="mt-stack-3xs font-body text-caption text-ink-600">{badge.date}</p>
                     ) : (
                       <>
-                        <p className="m-0 mt-0.5 font-body text-micro text-ink-600">{badge.progress}%</p>
+                        <p className="mt-stack-3xs font-body text-caption text-ink-600 tabular-nums">{badge.progress}%</p>
                         <span
                           aria-label="Verrouillé"
-                          className="absolute top-2 right-2 inline-flex items-center justify-center w-5 h-5 rounded-pill bg-white text-ink-400 border border-ink-200"
+                          className="absolute top-2 right-2 inline-flex items-center justify-center w-5 h-5 rounded-pill bg-white text-ink-600 border border-ink-200"
                         >
                           <Lock size={14} />
                         </span>
@@ -403,36 +405,37 @@ export const Profile: React.FC = () => {
 
           {activeTab === 'skills' && (
             <section className="flex flex-col gap-stack">
-              <div className="flex items-baseline justify-between gap-stack-xs">
-                <h2 className="font-display text-h3 font-bold text-ink-900 tracking-snug">
-                  Matrice de compétences
-                </h2>
-                <Badge variant="brand">5 compétences</Badge>
-              </div>
-              <p className="m-0 font-body text-caption text-ink-700 max-w-prose">
-                Évaluation par niveau (Novice → Expert) sur 5 paliers. Survolez une ligne
-                pour voir le détail de progression.
-              </p>
+              {/* L'explication est une phrase à lire : le sous-titre (16,
+                  ink-700) — elle était en légende 13. Le compte, une donnée :
+                  la méta, plus un Badge. */}
+              <SectionHeader
+                title="Matrice de compétences"
+                subtitle="Évaluation par niveau (Novice → Expert) sur 5 paliers. Survolez une ligne pour voir le détail de progression."
+                meta="5 compétences"
+              />
 
-              {/* Matrice */}
-              <div className="rounded-lg border border-ink-100 bg-white px-stack-lg pt-stack pb-stack-lg overflow-x-auto">
+              {/* Matrice — padding symétrique (24). `CompetencyMatrix` pose une
+                  marge haute de 24 sur sa racine (piège n°12) ; la page la
+                  compensait par un padding haut réduit (16 + 24 en haut, 24 en
+                  bas). On l'annule ici, en attendant que le composant la
+                  retire. */}
+              <div className="rounded-xl border border-ink-100 bg-white p-stack-lg overflow-x-auto [&>*]:mt-0">
                 <CompetencyMatrix skills={skillsForMatrix} />
               </div>
 
-              {/* Détail SkillBar pour mobile / vue alternative */}
+              {/* Détail SkillBar pour mobile / vue alternative — un titre de
+                  bloc (h3 20) : il était un h3 à 13 px, graisse 500. */}
               <div className="rounded-xl border border-ink-100 bg-white p-stack-lg flex flex-col gap-stack-lg">
-                <div className="flex items-center gap-stack-xs">
-                  <CheckCircle2 size={14} className="text-primary-600" />
-                  <h3 className="font-body text-caption font-medium text-ink-700">
-                    Vue détaillée
-                  </h3>
-                </div>
+                <h3 className="font-display text-h3 text-ink-900">
+                  Vue détaillée
+                </h3>
                 {SKILLS.map((skill) => (
                   <SkillBar key={skill.id} label={skill.label} value={skill.value} tone={skill.tone} showValue />
                 ))}
               </div>
             </section>
           )}
+        </div>
         </div>
       </PageShell>
     </div>
