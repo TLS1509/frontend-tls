@@ -5,7 +5,6 @@ import EditorialHero from '../components/patterns/EditorialHero';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Avatar } from '../components/ui/Avatar';
-import { Badge } from '../components/ui/Badge';
 import { useCoachingStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
 import { PageShell } from '../components/layout';
@@ -49,27 +48,31 @@ const MessagingThread: React.FC = () => {
   };
 
   return (
-    <div className="min-h-[100dvh] bg-surface flex flex-col">
-      <EditorialHero
-        eyebrow="Coaching · Messagerie"
-        title={coachName}
-        summary="Conversation directe avec ton coach"
-        tone="flat"
-      />
+    /* Route « pleine page » (`/messages/` est dans `isFullBleed`, App.tsx) :
+       la coque ne pose pas sa gouttière, la page la porte — l'en-tête partait
+       à 265 px, sous le bord de la barre latérale (le « S » était coupé).
+       L'en-tête vit dans la même colonne que la conversation : un seul bord
+       gauche. */
+    <div className="min-h-[100dvh] flex flex-col px-4 sm:px-6 lg:px-10">
+      <PageShell width="content" noPadTop gap="section" className="pt-6 md:pt-8 lg:pt-10 flex-1">
+        {/* La carte du coach répétait le nom du h1 : elle se fond dans la
+            ligne de méta. « Coach assigné » est une donnée, pas un état. */}
+        <EditorialHero
+          eyebrow="Coaching · Messagerie"
+          title={coachName}
+          summary="Conversation directe avec ton coach."
+          meta={[
+            { icon: <Avatar initials={coachInitials} size="xs" />, label: 'Coach assigné' },
+            { icon: <span className="w-2 h-2 rounded-pill bg-success-base" aria-hidden="true" />, label: 'En ligne' },
+          ]}
+          tone="flat"
+        />
 
-      <PageShell width="content" noPadTop className="pt-6 md:pt-8 lg:pt-10 flex-1">
-        <Card className="p-stack-md flex items-center gap-stack-xs">
-          <Avatar initials={coachInitials} size="md" />
-          <div className="flex-1">
-            <div className="font-semibold">{coachName}</div>
-            <div className="text-caption text-success-fg flex items-center gap-tight">
-              <span className="w-2 h-2 rounded-pill bg-success-base" /> En ligne
-            </div>
-          </div>
-          <Badge variant="info">Coach assigné</Badge>
-        </Card>
-
-        <div className="flex-1 flex flex-col gap-stack-xs overflow-y-auto max-h-[60vh] py-stack">
+        {/* La conversation : le fil et la zone de saisie forment un groupe
+            (16 px). Dans le fil, 12 px entre deux messages, l'heure collée sous
+            sa bulle en légende ink-600 (ink-500 est réservé aux placeholders). */}
+        <div className="flex-1 flex flex-col gap-stack">
+        <div className="flex-1 flex flex-col gap-stack-sm overflow-y-auto max-h-[60vh]" aria-label="Messages" role="log">
           {messages.map((m) => (
             <div key={m.id} className={`flex gap-stack-xs ${m.isMe ? 'flex-row-reverse' : ''}`}>
               {!m.isMe && <Avatar initials={m.initials} size="sm" />}
@@ -83,9 +86,11 @@ const MessagingThread: React.FC = () => {
                 >
                   <p className="text-body">{m.text}</p>
                 </div>
-                <div className="flex items-center gap-tight text-caption text-ink-500 px-2">
+                <div className="flex items-center gap-stack-3xs text-caption text-ink-600 tabular-nums px-stack-xs">
                   <span>{m.time}</span>
-                  {m.isMe && (m.read ? <CheckCheck className="w-3 h-3" /> : <Check className="w-3 h-3" />)}
+                  {m.isMe && (m.read
+                    ? <CheckCheck className="w-3.5 h-3.5" aria-label="Lu" />
+                    : <Check className="w-3.5 h-3.5" aria-label="Envoyé" />)}
                 </div>
               </div>
             </div>
@@ -104,14 +109,16 @@ const MessagingThread: React.FC = () => {
                 send();
               }
             }}
-            placeholder="Écris ton message..."
-            className="flex-1 h-auto min-h-[44px] max-h-32 resize-none p-stack-xs border-0 focus:outline-2 focus:outline-offset-2 focus:outline-primary-500 text-body"
+            placeholder="Écris ton message…"
+            aria-label="Ton message"
+            className="flex-1 h-auto min-h-[44px] max-h-32 resize-none p-stack-xs border-0 focus:outline-2 focus:outline-offset-2 focus:outline-primary-500 text-body placeholder:text-ink-500"
             rows={1}
           />
           <Button emphasis="soft" leadingIcon={<Send className="w-4 h-4" />} onClick={send} disabled={!draft.trim()}>
             Envoyer
           </Button>
         </Card>
+        </div>
       </PageShell>
     </div>
   );

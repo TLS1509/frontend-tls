@@ -1,9 +1,10 @@
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FileText, CheckCircle2, Search, Clock, MessageSquare, ChevronRight } from 'lucide-react';
+import { CheckCircle2, Clock, MessageSquare, ChevronRight } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { PageShell } from '../components/layout';
-import { SectionCard } from '../components/patterns/SectionCard';
+import { SectionHeader } from '../components/patterns/SectionHeader';
+import { Search } from '../components/ui/Search';
 import { FilterChip } from '../components/ui/FilterChip';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
@@ -85,38 +86,39 @@ const LearnerCorrectionCard: React.FC<LearnerCorrection & { onOpen: () => void }
 }) => {
   const { label, variant } = STATUS[status];
   const initials = coachName.split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase();
+  /* Anatomie de carte (doctrine § 5) : la méta (à qui, quand) et l'état au-
+     dessus → 4 → le titre, l'exercice, en h3 20 → 8 → la compétence (une
+     donnée, MetaPill) → 12 → l'extrait → 24, filet compris → l'itération et
+     l'action. L'exercice était une ligne 16/600 au milieu de la carte, au
+     même poids que « Envoyé à Sophie Marchand » : rien ne disait lequel des
+     deux était le sujet. */
   return (
-    <Card variant="default" tone="primary" className="flex flex-col gap-stack-xs">
-      <div className="flex items-start justify-between gap-stack-xs">
-        <div className="flex items-center gap-stack-xs min-w-0">
-          <Avatar name={coachName} initials={initials} size="sm" />
-          <div className="min-w-0">
-            <p className="text-body font-semibold text-ink-900 truncate">{status === 'waiting' ? 'Envoyé à' : 'Relu par'} {coachName}</p>
-            <p className="text-caption text-ink-600 flex items-center gap-tight">
-              <Clock size={14} aria-hidden />
-              Soumis {submittedAt}
-            </p>
-          </div>
-        </div>
+    <Card variant="default" tone="primary" className="flex flex-col gap-0">
+      <div className="flex flex-wrap items-center justify-between gap-stack-xs">
+        <p className="flex items-center gap-stack-xs text-caption text-ink-600 min-w-0">
+          <Avatar name={coachName} initials={initials} size="xs" />
+          <span className="truncate">{status === 'waiting' ? 'Envoyé à' : 'Relu par'} {coachName}</span>
+          <span aria-hidden="true">·</span>
+          <span className="inline-flex items-center gap-stack-3xs shrink-0">
+            <Clock size={14} aria-hidden />
+            Soumis {submittedAt}
+          </span>
+        </p>
         <Badge variant={variant}>{label}</Badge>
       </div>
 
-      <div className="flex flex-col gap-tight">
-        <p className="text-body font-semibold text-ink-900 line-clamp-2">{exerciceTitle}</p>
-        {competence && <MetaPill text={competence} tone="primary" className="w-fit" />}
-      </div>
+      <h3 className="mt-stack-3xs font-display text-h3 text-ink-900 line-clamp-2">{exerciceTitle}</h3>
+      {competence && <MetaPill text={competence} tone="primary" className="mt-stack-xs w-fit" />}
 
       {excerpt && (
-        <div className="rounded-lg bg-ink-50/70 px-3 py-2">
-          <p className="text-body text-ink-600 line-clamp-2 italic">« {excerpt} »</p>
-        </div>
+        <p className="mt-stack-sm text-body text-ink-700 italic line-clamp-2 max-w-prose">«&nbsp;{excerpt}&nbsp;»</p>
       )}
 
-      <div className="flex items-center justify-between pt-stack-xs border-t border-ink-100 mt-auto">
-        <div className="flex items-center gap-tight text-caption text-ink-600">
+      <div className="mt-stack-sm pt-stack-sm border-t border-ink-100 flex items-center justify-between gap-stack-xs">
+        <p className="flex items-center gap-stack-3xs text-caption text-ink-600">
           <MessageSquare size={14} aria-hidden />
-          <span>Itération {iterationCount + 1}</span>
-        </div>
+          Itération {iterationCount + 1}
+        </p>
         <Button emphasis="outline" size="sm" trailingIcon={<ChevronRight size={14} />} onClick={onOpen}>
           {status === 'waiting' ? 'Voir ma soumission' : 'Lire le retour'}
         </Button>
@@ -165,37 +167,44 @@ export default function CoachingCorrections() {
     return matchFilter && matchSearch;
   });
 
+  const filtreActif = activeFilter !== 'all' || searchQuery.trim() !== '';
+
   return (
-    <div className="flex flex-col gap-section">
+    /* L'en-tête vit dans PageShell, comme partout : il était au-dessus, et le
+       contenu commençait 72 px plus bas (32 + la marge haute de PageShell). */
+    <PageShell noPadTop className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
         eyebrow="Coaching · Corrections"
-        title="Mes Corrections"
+        title="Mes corrections"
         summary="Retrouve les exercices que tu as soumis : ceux qui attendent ton coach, les retours à lire et les corrections validées."
         tone="flat"
       />
 
-      <PageShell noPadTop className="pt-6 md:pt-8 lg:pt-10">
+      <div className="grid grid-cols-3 gap-stack">
+        <StatCard value={countOf('waiting')} label="En attente du coach" variant="default" size="sm" />
+        <StatCard value={countOf('feedback')} label="Retours à lire" variant="warm" size="sm" />
+        <StatCard value={countOf('validated')} label="Validées" variant="brand" size="sm" />
+      </div>
 
-        {/* KPI row */}
-        <div className="grid grid-cols-3 gap-stack">
-          <StatCard value={countOf('waiting')} label="En attente du coach" variant="default" size="sm" />
-          <StatCard value={countOf('feedback')} label="Retours à lire" variant="warm" size="sm" />
-          <StatCard value={countOf('validated')} label="Validées" variant="brand" size="sm" />
-        </div>
-
-        {/* Search + filters */}
-        <div className="flex flex-col gap-stack-xs">
-          <div className="relative">
-            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-400" />
-            <input
-              type="text"
-              placeholder="Rechercher un exercice ou une compétence…"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2.5 rounded-lg border border-ink-200 text-body focus:outline-none focus:border-primary-400 transition-colors duration-fast"
-            />
-          </div>
-          <div className="flex flex-wrap gap-stack-xs">
+      {/* La liste : son titre (h2), sa recherche, ses filtres et ses cartes
+          forment un groupe. Le titre était le compte (« 2 résultats ») : il
+          nomme la liste, le compte passe en méta. Les cartes ne sont plus
+          enfermées dans une carte de section. */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader
+          title="Exercices soumis"
+          meta={filtreActif ? `${filtered.length} sur ${corrections.length}` : `${corrections.length} exercice${corrections.length > 1 ? 's' : ''}`}
+          size="md"
+        />
+        <div className="flex flex-col md:flex-row md:items-center gap-stack-sm">
+          <Search
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Rechercher un exercice ou une compétence…"
+            aria-label="Rechercher un exercice ou une compétence"
+            wrapperClassName="md:w-80 md:shrink-0"
+          />
+          <div className="flex flex-wrap gap-stack-xs" role="group" aria-label="Filtrer par état">
             {FILTER_OPTIONS.map((f) => (
               <FilterChip
                 key={f.id}
@@ -207,32 +216,28 @@ export default function CoachingCorrections() {
           </div>
         </div>
 
-        {/* Corrections list */}
-        <SectionCard title={`${filtered.length} résultat${filtered.length !== 1 ? 's' : ''}`} titleIcon={<FileText size={18} />}>
-          {filtered.length === 0 ? (
-            <EmptyState
-              icon={<CheckCircle2 size={32} />}
-              title={corrections.length === 0 ? 'Aucun exercice soumis' : 'Aucun exercice trouvé'}
-              description={
-                corrections.length === 0
-                  ? "Quand tu soumettras un exercice à ton coach, tu suivras ici sa correction."
-                  : 'Aucune correction ne correspond à ta recherche.'
-              }
-            />
-          ) : (
-            <div className="flex flex-col gap-stack-xs">
-              {filtered.map((correction) => (
-                <LearnerCorrectionCard
-                  key={correction.id}
-                  {...correction}
-                  onOpen={() => navigate(`/coaching/correction/${correction.id}`)}
-                />
-              ))}
-            </div>
-          )}
-        </SectionCard>
-
-      </PageShell>
-    </div>
+        {filtered.length === 0 ? (
+          <EmptyState
+            icon={<CheckCircle2 size={32} />}
+            title={corrections.length === 0 ? 'Aucun exercice soumis' : 'Aucun exercice trouvé'}
+            description={
+              corrections.length === 0
+                ? "Quand tu soumettras un exercice à ton coach, tu suivras ici sa correction."
+                : 'Aucune correction ne correspond à ta recherche.'
+            }
+          />
+        ) : (
+          <div className="flex flex-col gap-stack-sm">
+            {filtered.map((correction) => (
+              <LearnerCorrectionCard
+                key={correction.id}
+                {...correction}
+                onOpen={() => navigate(`/coaching/correction/${correction.id}`)}
+              />
+            ))}
+          </div>
+        )}
+      </section>
+    </PageShell>
   );
 }

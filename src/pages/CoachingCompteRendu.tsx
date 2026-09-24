@@ -3,15 +3,17 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { MetaPill } from '../components/ui/MetaPill';
-import { Container } from '../components/layout';
+import { Avatar } from '../components/ui/Avatar';
+import { EditorialHero } from '../components/patterns/EditorialHero';
+import { SectionHeader } from '../components/patterns/SectionHeader';
+import { SectionCard } from '../components/patterns/SectionCard';
+import { PageShell } from '../components/layout';
 import {
   ArrowLeft,
   Star,
-  CheckCircle2,
   Target,
   Lightbulb,
   TrendingUp,
-  MessageSquareQuote,
   BookOpen,
   CalendarDays,
   Clock3,
@@ -139,14 +141,16 @@ const getReport = (id: string): SessionReport =>
 
 /* ─── Sub-components ─────────────────────────────────────────────────────────── */
 
+/* Étoiles : des classes de token (elles portaient `#F8B044` et `#e5e7eb` en dur). */
 const StarRating: React.FC<{ rating: number; max?: number }> = ({ rating, max = 5 }) => (
-  <div className="flex gap-tight">
+  <div className="flex gap-tight" role="img" aria-label={`${rating} sur ${max}`}>
     {Array.from({ length: max }).map((_, i) => (
       <Star
         key={i}
         size={18}
-        fill={i < rating ? '#F8B044' : 'none'}
-        stroke={i < rating ? '#F8B044' : '#e5e7eb'}
+        strokeWidth={1.75}
+        className={i < rating ? 'fill-accent-400 text-accent-400' : 'fill-transparent text-ink-300'}
+        aria-hidden="true"
       />
     ))}
   </div>
@@ -162,232 +166,146 @@ export const CoachingCompteRendu: React.FC = () => {
   const progressPercent = Math.round((report.sessionNumber / report.totalSessions) * 100);
 
   return (
-    <div className="min-h-[100dvh] bg-surface flex flex-col font-body">
+    /* Passe typographique du 24/09 : la page était entièrement faite main —
+       bandeau sombre maison, étiquette « COMPTE RENDU » en capitales, anneau de
+       progression à 11 px, titres de section h2 rendus à 20 px, chiffres en
+       graisse 800, fond blanc `bg-surface` arrêté à la colonne. Elle prend
+       l'ouverture de toutes les pages (`PageHero`, ton `flat`) : surtitre →
+       h1 36 → méta → la progression du parcours en barre (l'anneau disait la
+       même chose en décor). */
+    <PageShell width="page" noPadTop className="pt-6 md:pt-8 lg:pt-10">
+      <EditorialHero
+        tone="flat"
+        trailing={
+          <Button emphasis="outline" size="md" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate(-1)}>
+            Retour
+          </Button>
+        }
+        eyebrow={`Compte rendu · Session ${report.sessionNumber} sur ${report.totalSessions}`}
+        title={report.theme}
+        meta={[
+          { icon: <CalendarDays size={14} aria-hidden="true" />, label: report.date },
+          { icon: <Clock3 size={14} aria-hidden="true" />, label: report.duration },
+          { label: `Avec ${report.coach.name}` },
+        ]}
+        progress={progressPercent}
+        progressLabel={`${progressPercent} % du parcours de coaching · session ${report.sessionNumber} sur ${report.totalSessions}`}
+      />
 
-      {/* ── Hero / Header ──
-          Texte en BLANC PLEIN, comme PageHero depuis l'arbitrage n°8 (23/09) :
-          l'arrêt le plus clair du dégradé est le 700, où le blanc ne vaut que
-          5,02 — opacity-85 le faisait tomber à 4,13, opacity-80 à 3,86. Les
-          deux pastilles posaient du blanc sur un voile BLANC (/20, /12 : 3,41
-          et 3,95) : voile sombre à la place, la hiérarchie passe par sa densité. */}
-      <div className="bg-gradient-to-br from-primary-900 via-primary-800 to-primary-700 p-section text-white">
+      {/* Deux colonnes à partir de lg seulement : la grille `1fr 320px` sans
+          repli poussait l'aside hors de l'écran à 375 px. */}
+      <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_320px] gap-page lg:gap-section items-start">
 
-        <Button
-          emphasis="solid" onDark
-          size="sm"
-          leadingIcon={<ArrowLeft size={14} />}
-          onClick={() => navigate(-1)}
-          className="mb-section"
-        >
-          Retour
-        </Button>
+        {/* ── Left column : trois sections h2 28, 48 px entre elles ── */}
+        <div className="flex flex-col gap-page min-w-0">
 
-        <Container width="page" padding={false}>
-          <div className="flex flex-wrap gap-stack items-start justify-between">
-            <div>
-              <div className="flex items-center gap-stack-xs mb-3">
-                <span className="font-body text-caption font-bold uppercase tracking-widest bg-ink-900/30 px-3 py-1 rounded-pill">
-                  Compte rendu
-                </span>
-                <span className="font-body text-caption font-semibold bg-ink-900/15 px-3 py-1 rounded-pill">
-                  Session {report.sessionNumber}/{report.totalSessions}
-                </span>
-              </div>
-              <h1 className="font-display text-h1 mb-stack-xs">
-                {report.theme}
-              </h1>
-              <div className="flex flex-wrap gap-stack mt-3">
-                <span className="flex items-center gap-tight font-body text-body">
-                  <CalendarDays size={14} />
-                  {report.date}
-                </span>
-                <span className="flex items-center gap-tight font-body text-body">
-                  <Clock3 size={14} />
-                  {report.duration}
-                </span>
-              </div>
-            </div>
+          {/* Points clés : quatre paragraphes titrés dans une carte — plus une
+              grille de quatre cartes à pastilles d'icône en quatre teintes.
+              Titre h3 20, texte 16 ink-700 (il était en ink-500) à 8 px. */}
+          <section className="flex flex-col gap-stack">
+            <SectionHeader title="Points clés de la session" size="md" />
+            <Card>
+              <ul className="flex flex-col divide-y divide-ink-100">
+                {report.takeaways.map((tk) => (
+                  <li key={tk.id} className="flex flex-col gap-stack-xs py-stack-md first:pt-0 last:pb-0">
+                    <h3 className="font-display text-h3 text-ink-900">{tk.title}</h3>
+                    <p className="font-body text-body text-ink-700 max-w-prose">{tk.description}</p>
+                  </li>
+                ))}
+              </ul>
+            </Card>
+          </section>
 
-            {/* Progress ring: conic-gradient is a runtime computed value → style={} allowed */}
-            <div className="text-center">
-              <div
-                className="w-20 h-20 rounded-pill flex items-center justify-center"
-                style={{
-                  background: `conic-gradient(rgba(255,255,255,0.90) ${progressPercent * 3.6}deg, rgba(255,255,255,0.20) 0deg)`,
-                }}
-              >
-                <div className="w-[60px] h-[60px] rounded-pill bg-primary-700 flex flex-col items-center justify-center">
-                  <span className="font-display text-h3 leading-none">{progressPercent}%</span>
-                  <span className="font-body mt-0.5 text-micro">parcours</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Container>
-      </div>
-
-      {/* ── Page body ── */}
-      <Container width="page" padding={false} className="flex-1 p-section">
-        <div className="grid grid-cols-[1fr_320px] gap-section items-start">
-
-          {/* ── Left column ── */}
-          <div className="flex flex-col gap-section">
-
-            {/* ── Key takeaways ── */}
-            <section>
-              <h2 className="font-display text-h3 font-bold text-ink-900 mb-stack-md flex items-center gap-stack-xs">
-                <CheckCircle2 size={20} className="text-primary-600" />
-                Points clés de la session
-              </h2>
-              <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-stack">
-                {report.takeaways.map((tk) => {
-                  const TkIcon = tk.icon;
-                  return (
-                    <div
-                      key={tk.id}
-                      className="bg-white border border-ink-100 rounded-lg p-stack-lg flex flex-col gap-stack-xs"
-                    >
-                      <div className={`w-10 h-10 rounded-md flex items-center justify-center shrink-0 ${tk.iconClass}`}>
-                        <TkIcon size={20} />
-                      </div>
-                      <h3 className="font-display text-body font-bold text-ink-900">
-                        {tk.title}
-                      </h3>
-                      <p className="font-body text-body text-ink-500 m-0">
-                        {tk.description}
-                      </p>
-                    </div>
-                  );
-                })}
-              </div>
-            </section>
-
-            {/* ── Action plan ── */}
-            <section>
-              <h2 className="font-display text-h3 font-bold text-ink-900 mb-stack-md flex items-center gap-stack-xs">
-                <Target size={20} className="text-secondary-600" />
-                Plan d'action
-              </h2>
-              <Card variant="feature">
-                <div className="flex flex-col gap-0">
-                  {report.actionPlan.map((ap, index) => (
-                    <div
-                      key={ap.id}
-                      className={`flex gap-stack items-start py-stack ${index < report.actionPlan.length - 1 ? 'border-b border-ink-200' : ''}`}
-                    >
-                      <div className="shrink-0 w-8 h-8 rounded-pill bg-primary-50 text-primary-800 flex items-center justify-center font-body text-body font-extrabold border-2 border-primary-200">
+          {/* Plan d'action : le numéro se cale sur la première ligne, en 700
+              (il était en 800) ; l'échéance est une donnée (MetaPill). Les
+              chevrons disaient « cliquable » sur des rangées qui ne le sont pas. */}
+          <section className="flex flex-col gap-stack">
+            <SectionHeader title="Plan d'action" meta={`${report.actionPlan.length} actions`} size="md" />
+            <Card className="p-0">
+              <ol className="flex flex-col divide-y divide-ink-100">
+                {report.actionPlan.map((ap) => (
+                  <li key={ap.id} className="flex gap-stack items-start px-stack-md sm:px-stack-lg py-stack">
+                    <span className="shrink-0 inline-flex items-center h-lh text-body">
+                      <span className="w-8 h-8 rounded-pill bg-primary-50 text-primary-800 flex items-center justify-center font-body text-body font-bold tabular-nums border-2 border-primary-200">
                         {ap.step}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="font-body text-body text-ink-900 m-0 mb-1">
-                          {ap.action}
-                        </p>
-                        <MetaPill icon={<CalendarDays />} text={ap.deadline} tone="primary" />
-                      </div>
-                      <ChevronRight size={16} className="text-ink-400 shrink-0 mt-stack-xs" />
+                      </span>
+                    </span>
+                    <div className="flex-1 min-w-0 flex flex-col items-start gap-stack-xs">
+                      <p className="font-body text-body text-ink-900 max-w-prose">{ap.action}</p>
+                      <MetaPill icon={<CalendarDays />} text={ap.deadline} tone="primary" />
                     </div>
-                  ))}
-                </div>
-              </Card>
-            </section>
-
-            {/* ── Coach notes ── */}
-            <section>
-              <h2 className="font-display text-h3 font-bold text-ink-900 mb-stack-md flex items-center gap-stack-xs">
-                <MessageSquareQuote size={20} className="text-primary-600" />
-                Note de ton coach
-              </h2>
-              <div className="bg-primary-50/40 border border-primary-100 rounded-lg p-stack-lg">
-                <div className="flex gap-stack items-start">
-                  <div className="shrink-0 w-11 h-11 rounded-pill bg-primary-700 text-white flex items-center justify-center font-body text-body font-extrabold shadow-sm">
-                    {report.coach.initials}
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-body text-body text-ink-900 m-0 mb-3 italic">
-                      "{report.coachNotes}"
-                    </p>
-                    <p className="font-body text-caption text-ink-500 m-0 font-semibold">
-                     : {report.coach.name}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </section>
-          </div>
-
-          {/* ── Right sidebar ── */}
-          <div className="flex flex-col gap-stack-lg sticky top-6">
-
-            {/* Coach info card */}
-            <Card variant="feature">
-              <div className="flex flex-col gap-stack">
-                <h3 className="font-body text-caption font-medium text-ink-500">
-                  Ton coach
-                </h3>
-                <div className="flex gap-stack-xs items-center">
-                  <div className="w-[52px] h-[52px] rounded-pill shrink-0 bg-gradient-to-br from-primary-700 to-primary-800 text-white flex items-center justify-center font-body text-body font-extrabold shadow-card">
-                    {report.coach.initials}
-                  </div>
-                  <div>
-                    <p className="font-body text-body font-bold text-ink-900 m-0 mb-1">
-                      {report.coach.name}
-                    </p>
-                    <p className="font-body text-caption text-ink-500 m-0">
-                      {report.coach.speciality}
-                    </p>
-                  </div>
-                </div>
-                <div className="pt-2 border-t border-ink-200">
-                  <p className="font-body text-caption text-ink-500 m-0 mb-stack-xs font-semibold">
-                    Évaluation du coach
-                  </p>
-                  <StarRating rating={report.coach.rating} />
-                </div>
-              </div>
+                  </li>
+                ))}
+              </ol>
             </Card>
+          </section>
 
-            {/* Satisfaction */}
-            <Card variant="feature">
-              <div className="flex flex-col gap-stack-xs">
-                <h3 className="font-body text-caption font-medium text-ink-500">
-                  Satisfaction de la session
-                </h3>
-                <div className="flex items-center gap-stack-xs">
-                  <StarRating rating={report.satisfactionRating} />
-                  <span className="font-display text-h3 text-accent-700">
-                    {report.satisfactionRating}/5
-                  </span>
-                </div>
-                <p className="font-body text-caption text-ink-500 m-0">
-                  Basé sur ton évaluation post-session
-                </p>
+          {/* Note du coach : une citation (guillemets français, insécables),
+              signée en légende — la signature commençait par « : », reste du
+              retrait des tirets. */}
+          <section className="flex flex-col gap-stack">
+            <SectionHeader title="Note de ton coach" size="md" />
+            <figure className="bg-primary-50/40 border border-primary-100 rounded-xl p-stack-lg flex gap-stack items-start">
+              <Avatar initials={report.coach.initials} name={report.coach.name} size="md" tint="brand" />
+              <div className="flex-1 flex flex-col gap-stack-sm min-w-0">
+                <blockquote className="font-body text-body text-ink-900 italic max-w-prose">
+                  «&nbsp;{report.coachNotes}&nbsp;»
+                </blockquote>
+                <figcaption className="font-body text-caption font-semibold text-ink-600">
+                  {report.coach.name}
+                </figcaption>
               </div>
-            </Card>
+            </figure>
+          </section>
+        </div>
 
-            {/* Next session */}
-            <Card variant="feature" className="bg-gradient-to-br from-primary-50 to-white">
-              <div className="flex flex-col gap-stack-xs">
-                <h3 className="font-body text-caption font-medium text-ink-500">
-                  Session suivante
-                </h3>
-                <div className="flex items-center gap-stack-xs">
-                  <CalendarDays size={16} className="text-primary-600" />
-                  <span className="font-display text-body font-bold text-primary-700">
-                    {report.nextSessionDate}
-                  </span>
+        {/* ── Right sidebar : des blocs (h3 20) ── Leurs titres étaient des h3
+            rendus en légende 13/500 ink-500 : un titre qui chuchote. */}
+        <aside className="flex flex-col gap-stack lg:sticky lg:top-6" aria-label="Autour de la session">
+          <SectionCard title="Ton coach">
+            <div className="flex flex-col gap-stack">
+              <div className="flex gap-stack-sm items-center">
+                <Avatar initials={report.coach.initials} name={report.coach.name} size="lg" tint="brand" />
+                <div className="flex flex-col gap-tight min-w-0">
+                  <p className="font-body text-body font-semibold text-ink-900">{report.coach.name}</p>
+                  <p className="font-body text-caption text-ink-600">{report.coach.speciality}</p>
                 </div>
-                <Button
-                  emphasis="soft"
-                  size="sm"
-                  fullWidth
-                  trailingIcon={<ChevronRight size={14} />}
-                  onClick={() => navigate('/coaching')}
-                >
-                  Prochaine session
-                </Button>
               </div>
-            </Card>
+              <div className="flex flex-col gap-stack-xs pt-stack-sm border-t border-ink-200">
+                <p className="font-body text-caption font-semibold text-ink-600">Évaluation du coach</p>
+                <StarRating rating={report.coach.rating} />
+              </div>
+            </div>
+          </SectionCard>
 
+          <SectionCard title="Satisfaction de la session" description="Basé sur ton évaluation post-session.">
+            <div className="flex items-center gap-stack-xs">
+              <StarRating rating={report.satisfactionRating} />
+              <span className="font-display text-h3 text-ink-900 tabular-nums">
+                {report.satisfactionRating}/5
+              </span>
+            </div>
+          </SectionCard>
+
+          <SectionCard title="Session suivante" tone="primary">
+            <div className="flex flex-col gap-stack-sm">
+              <p className="flex items-center gap-stack-xs font-body text-body font-semibold text-ink-900">
+                <CalendarDays size={16} className="shrink-0 text-primary-700" aria-hidden="true" />
+                {report.nextSessionDate}
+              </p>
+              <Button
+                emphasis="soft"
+                size="sm"
+                fullWidth
+                trailingIcon={<ChevronRight size={14} />}
+                onClick={() => navigate('/coaching')}
+              >
+                Prochaine session
+              </Button>
+            </div>
+          </SectionCard>
+
+          <div className="flex flex-col gap-stack-xs">
             <Button
               emphasis="soft" tone="warm"
               fullWidth
@@ -406,10 +324,10 @@ export const CoachingCompteRendu: React.FC = () => {
               Voir tous les comptes rendus
             </Button>
           </div>
+        </aside>
 
-        </div>
-      </Container>
-    </div>
+      </div>
+    </PageShell>
   );
 };
 
