@@ -246,9 +246,13 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
     ? (getCompetenceById(currentQ.competenceId)?.label ?? currentQ.competenceId)
     : '';
 
+  /* Arbitrage n°19 : la fin du positionnement mène à l'étape suivante, c'est
+     l'action principale de l'écran (solid). Pendant l'échange, c'est l'envoi
+     d'une réponse libre ; les tuiles de réponse sont des choix, pas des
+     boutons d'action. */
   const finishButton = (
     <Button
-      emphasis="soft" tone="warm"
+      emphasis="solid" tone="warm"
       size="lg"
       trailingIcon={<ArrowRight size={16} />}
       onClick={() => onComplete(answers, {})}
@@ -325,7 +329,7 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
           className="flex-1 resize-none rounded-lg border border-ink-400 bg-white px-3 py-2.5 text-body text-ink-900 placeholder:text-ink-500 focus:outline-none focus:ring-2 focus:ring-secondary-300 focus:border-secondary-400 transition-all duration-base disabled:opacity-disabled max-h-24 overflow-y-auto"
         />
         <Button
-          emphasis="soft" tone="warm"
+          emphasis="solid" tone="warm"
           size="md"
           iconOnly
           trailingIcon={<Send size={16} />}

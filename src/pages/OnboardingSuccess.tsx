@@ -106,8 +106,11 @@ export default function OnboardingSuccess() {
         </section>
 
         <div className="flex flex-col items-center gap-stack w-full sm:w-auto">
+          {/* L'action principale de l'écran de fin (arbitrage n°19) ; le
+              tutoriel reste un lien. */}
           <Button
-            emphasis="soft"
+            emphasis="solid"
+            tone="brand"
             size="lg"
             trailingIcon={<ArrowRight size={18} />}
             onClick={() => navigate('/dashboard')}

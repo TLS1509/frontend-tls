@@ -343,7 +343,10 @@ export const OnboardingUnified: React.FC = () => {
               className="flex-1"
               autoFocus
             />
+            {/* L'envoi de la réponse est l'action de l'étape (arbitrage n°19). */}
             <Button
+              emphasis="solid"
+              tone="brand"
               size="md"
               onClick={handleNameSubmit}
               disabled={!nameInput.trim() || loading}
@@ -391,6 +394,8 @@ export const OnboardingUnified: React.FC = () => {
               {paiementRequis ? 'Passons à la sélection de ton plan…' : 'Passons à un tour rapide de la plateforme…'}
             </p>
             <Button
+              emphasis="solid"
+              tone="brand"
               size="lg"
               onClick={() => navigate(suite)}
               leadingIcon={<ArrowRight size={18} />}

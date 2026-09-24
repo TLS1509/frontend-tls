@@ -313,8 +313,9 @@ export const Onboarding: React.FC = () => {
           className="flex-1 resize-none rounded-lg border border-ink-200 bg-white px-3 py-2.5 text-body text-ink-900 placeholder:text-ink-500 focus:outline-none focus:ring-2 focus:ring-secondary-300 focus:border-secondary-400 transition-all duration-base disabled:opacity-disabled max-h-24 overflow-y-auto"
           autoFocus
         />
+        {/* L'envoi est l'action de l'étape (arbitrage n°19). */}
         <Button
-          emphasis="soft" tone="warm"
+          emphasis="solid" tone="warm"
           size="md"
           iconOnly
           trailingIcon={<Send size={16} />}

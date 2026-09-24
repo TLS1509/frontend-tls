@@ -227,7 +227,7 @@ function VariantA({ onDone }: { onDone: () => void }) {
 
   const footer = phase === 'done' ? (
     <div className="flex justify-end">
-      <Button emphasis="soft" tone="warm" size="lg" trailingIcon={<ArrowRight size={16} />} onClick={onDone}>
+      <Button emphasis="solid" tone="warm" size="lg" trailingIcon={<ArrowRight size={16} />} onClick={onDone}>
         Commencer le positionnement
       </Button>
     </div>
@@ -242,7 +242,7 @@ function VariantA({ onDone }: { onDone: () => void }) {
         className="flex-1 rounded-lg border border-ink-400 bg-white px-3 py-2.5 text-body text-ink-900 placeholder:text-ink-500 focus:outline-none focus:ring-2 focus:ring-secondary-300 transition-all"
       />
       <Button
-        emphasis="soft" tone="warm" size="md" iconOnly
+        emphasis="solid" tone="warm" size="md" iconOnly
         trailingIcon={<Send size={16} />}
         aria-label="Envoyer"
         disabled={!textValue.trim()}
@@ -338,7 +338,7 @@ function VariantB({ onDone }: { onDone: () => void }) {
               className="w-full rounded-lg border-2 border-ink-200 bg-white/80 px-stack-md py-stack text-body-lg text-ink-900 placeholder:text-ink-500 focus:outline-none focus:border-secondary-400 transition-colors duration-base text-center font-body"
             />
             <Button
-              emphasis="soft" tone="warm" size="lg"
+              emphasis="solid" tone="warm" size="lg"
               trailingIcon={<ArrowRight size={16} />}
               onClick={advance}
               disabled={!firstName.trim()}
@@ -420,7 +420,7 @@ function VariantB({ onDone }: { onDone: () => void }) {
             })}
           </div>
           <Button
-            emphasis="soft" tone="warm" size="lg"
+            emphasis="solid" tone="warm" size="lg"
             trailingIcon={<ArrowRight size={16} />}
             onClick={onDone}
             disabled={selectedGoals.length === 0}
@@ -653,7 +653,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
           <span />
         ) : (
           <Button
-            emphasis="soft" tone="warm" size="sm"
+            emphasis="ghost" tone="neutral" size="sm"
             leadingIcon={<ChevronLeft size={14} />}
             onClick={() => setSubstep(s => Math.max(0, s - 1) as CSubstep)}
             className="sm:flex-none flex-1"
@@ -668,7 +668,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
           </span>
           {substep < 2 ? (
             <Button
-              emphasis="soft" tone="warm"
+              emphasis="solid" tone="warm"
               trailingIcon={<ChevronRight size={14} />}
               onClick={() => setSubstep(s => Math.min(2, s + 1) as CSubstep)}
               disabled={substep === 0 ? !canNext0 : !canNext1}
@@ -678,7 +678,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
             </Button>
           ) : (
             <Button
-              emphasis="soft" tone="warm"
+              emphasis="solid" tone="warm"
               trailingIcon={<ArrowRight size={16} />}
               onClick={onDone}
               className="flex-1 sm:flex-none"
@@ -744,7 +744,9 @@ export default function OnboardingPreview() {
       <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-warm" aria-hidden />
       <AmbientBlobs intensity="subtle" />
 
-      {/* Passe typographique du 2026-09-24 (banc de l'arbitrage n°25, ouvert :
+      {/* Arbitrage n°19 (24/09) : dans chaque variante, avancer est l'aplat
+          (solid) et revenir un ghost ; la forme des variantes ne change pas.
+          Passe typographique du 2026-09-24 (banc de l'arbitrage n°25, ouvert :
           aucune variante ne change de forme). En-tête `PageHeader` centré —
           surtitre 13 / 600 ink-600 (il était en capitales orange), h1 à 36 (28),
           chapô 18 ink-700 — groupé avec la variante (32 dessous, 48 au-dessus). */}

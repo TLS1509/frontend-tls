@@ -247,7 +247,8 @@ const OnboardingQuestionnaire: React.FC = () => {
               Question {currentQ + 1} sur {total} · {Object.keys(answers).length} répondue{Object.keys(answers).length > 1 ? 's' : ''}
             </div>
           </div>
-          <Button emphasis="outline" size="sm" leadingIcon={<Save className="w-4 h-4" />} className="sm:flex-none w-full sm:w-auto">
+          {/* Un outil (garder sa progression) : ghost (arbitrage n°19). */}
+          <Button emphasis="ghost" tone="warm" size="sm" leadingIcon={<Save className="w-4 h-4" />} className="sm:flex-none w-full sm:w-auto">
             Sauvegarder
           </Button>
         </div>
@@ -261,8 +262,10 @@ const OnboardingQuestionnaire: React.FC = () => {
         </SectionCard>
 
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-stack-xs sm:gap-stack">
+          {/* Un pas à pas : avancer est l'aplat, reculer un ghost neutre (le
+              motif des lecteurs, arbitrage n°19). */}
           <Button
-            emphasis="soft" tone="warm"
+            emphasis="ghost" tone="neutral"
             leadingIcon={<ChevronLeft className="w-4 h-4" />}
             onClick={handlePrev}
             disabled={currentQ === 0}
@@ -272,7 +275,7 @@ const OnboardingQuestionnaire: React.FC = () => {
           </Button>
 
           <Button
-            emphasis="soft" tone="warm"
+            emphasis="solid" tone="warm"
             trailingIcon={<ChevronRight className="w-4 h-4" />}
             onClick={handleNext}
             disabled={!selected}

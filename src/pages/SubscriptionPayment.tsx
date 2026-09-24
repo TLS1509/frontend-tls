@@ -319,12 +319,17 @@ export const SubscriptionPayment: React.FC = () => {
                       ))}
                     </ul>
 
+                    {/* Arbitrage n°19 : la pastille « Sélectionnée » dit un état.
+                        Elle portait l'aplat au cran 700, le même que l'action
+                        principale de l'écran (« Confirmer le paiement ») : elle
+                        prend l'apparence du `soft` (fond 50, label 800, filet
+                        700 en anneau intérieur, qui ne change pas sa hauteur). */}
                     <div className="mt-auto pt-stack-xs">
                       <span
                         className={[
                           'inline-flex items-center justify-center w-full px-4 py-2 rounded-lg font-body text-body font-semibold transition-colors duration-base',
                           isSelected
-                            ? 'bg-primary-700 text-white'
+                            ? 'bg-primary-50 text-primary-800 ring-1 ring-inset ring-primary-700'
                             : 'bg-ink-100 text-ink-700 group-hover:bg-primary-50 group-hover:text-primary-800',
                         ].join(' ')}
                       >
@@ -414,7 +419,8 @@ export const SubscriptionPayment: React.FC = () => {
 
           <div className="flex flex-col gap-stack-sm">
             <Button
-              emphasis="soft"
+              emphasis="solid"
+              tone="brand"
               size="lg"
               fullWidth
               leadingIcon={<ShieldCheck size={18} />}
