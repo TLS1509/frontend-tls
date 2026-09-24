@@ -591,16 +591,24 @@ export const Button: React.FC<ButtonProps> = ({
     </span>
   );
 
-  const content = (
+  /* En `iconOnly`, UN glyphe, dans UNE boîte — corrigé le 2026-09-24.
+     Le glyphe arrivait par `children`, mais 23 appels le passent par
+     `leadingIcon` (ou `trailingIcon`) sans enfant : le bouton rendait alors la
+     boîte de l'icône de tête ET une boîte vide pour `children`, séparées par le
+     `gap` de 8 px. Centrées ensemble, elles décalaient l'icône de 12 px vers la
+     gauche dans son cercle (mesuré sur /api-docs, « Copier », et sur les
+     factures de /account/billing). On prend donc le premier glyphe fourni, et
+     on ne rend que lui. */
+  const glyphe = iconOnly ? children ?? leadingIcon ?? trailingIcon : null;
+
+  const content = iconOnly ? (
+    loading ? spinner : <span className={iconBox}>{glyphe}</span>
+  ) : (
     <>
       {loading
         ? spinner
         : leadingIcon && <span className={iconBox}>{leadingIcon}</span>}
-      {!iconOnly && children}
-      {/* En `iconOnly`, le glyphe arrive par `children` : il passe donc par la
-          même boîte, sinon lui seul garderait une taille fixe pendant que le
-          bouton change de taille autour de lui. */}
-      {iconOnly && !loading && <span className={iconBox}>{children}</span>}
+      {children}
       {trailingIcon && <span className={iconBox}>{trailingIcon}</span>}
     </>
   );
