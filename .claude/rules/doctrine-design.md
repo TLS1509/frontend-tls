@@ -496,8 +496,11 @@ sur les tokens existants :
 
 ## Arbitrages de l'audit UX/UI — tranchés le 2026-09-24 (n°18 à 23)
 
-Tranchés par Chloé sur le banc `/_arbitrages`. **Décidés, pas encore appliqués**
-partout : chaque ligne dit la règle à suivre dès maintenant dans le code neuf.
+Tranchés par Chloé sur le banc `/_arbitrages`. Chaque ligne dit la règle à suivre
+dès maintenant dans le code neuf. **n°20, 21 et 22 sont appliqués partout depuis
+le 24/09** (passe typographique : tokens, composants, puis les 143 pages de l'app — mesuré
+sur 148 routes, 100 % du texte sur l'échelle, 13 tailles au lieu de 28, défauts
+typographiques 5 477 → 11). n°18, 19 et 23 sont en cours d'application.
 
 - **n°18 · Gamification → « Reconnaissances ».** Plus de série quotidienne, de
   classement nominatif ni de niveaux d'XP dans l'app apprenant. Ce qui reste :
