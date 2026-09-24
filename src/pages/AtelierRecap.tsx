@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { Award, FileText, Download, Check } from 'lucide-react';
+import { CheckCircle2, FileText, Download, Check } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionHeader } from '../components/patterns/SectionHeader';
 import { PageShell } from '../components/layout';
@@ -30,8 +30,8 @@ export default function AtelierRecap() {
 
   return (
     <PageShell width="medium" noPadTop={true} className="pt-6 md:pt-8 lg:pt-10">
-      {/* « Participé » est un état (Badge) ; les XP, une donnée : la ligne de
-          méta de l'en-tête, en légende. */}
+      {/* « Participé » est un état (Badge). Les « +120 XP » de la ligne de
+          méta sont sortis avec l'arbitrage n°18. */}
       <EditorialHero
         tone="flat"
         eyebrow="Atelier · Récapitulatif"
@@ -39,16 +39,17 @@ export default function AtelierRecap() {
         summary="Session du 18 juin 2026 · Sophie Martin"
         meta={[
           { label: <Badge variant="success" size="normal"><Check size={12} aria-hidden="true" /> Participé</Badge> },
-          { label: '+120 XP' },
         ]}
       />
 
-      {/* XP celebratoire — une confirmation courte, centrée. Titre en ink-900
-          (il était en teal 700 : une couleur de marque ne décore pas un
-          titre) ; 12 px entre les trois lignes, qui se touchaient. */}
+      {/* Ce qui s'est passé, dit calmement — une confirmation courte, centrée.
+          Elle célébrait « +120 XP gagnés » sous une rosette : l'arbitrage n°18
+          retire l'XP de l'app apprenant, et l'atelier se clôt sur ce qu'il a
+          réellement produit, une trace au Passeport. Titre en ink-900 ; 12 px
+          entre les trois lignes. */}
       <Card variant="tinted" tone="primary" className="text-center py-section flex flex-col items-center gap-stack-sm">
-        <Award size={40} className="text-primary-700" aria-hidden="true" />
-        <h2 className="font-display text-h2 text-ink-900">+120 XP gagnés</h2>
+        <CheckCircle2 size={40} className="text-primary-700" aria-hidden="true" />
+        <h2 className="font-display text-h2 text-ink-900">Participation enregistrée</h2>
         {/* Assister ne fait pas monter un niveau : seul un niveau validé par
             le coach et le manager bouge le Passeport. L'ancien « +0,2 Dreyfus ·
             D3.2 → D3.4 » disait l'inverse de cet invariant (audit du 23/09). */}

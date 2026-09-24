@@ -2,7 +2,6 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import {
   Play,
-  Award,
   Video,
   Download,
   ExternalLink,
@@ -23,7 +22,6 @@ const EVENT = {
   title: 'Conférence TLS 2026',
   date: '20 juin 2026',
   participants: 342,
-  xp: 80,
   replayDuration: '2h 47min',
 };
 
@@ -61,8 +59,8 @@ export default function EvenementRecap() {
 
   return (
     /* PageShell (la page avait sa propre enveloppe plus un `Container` : deux
-       bords gauches). « Participé » est un état (Badge) ; les XP, une donnée
-       de la ligne de méta. */
+       bords gauches). « Participé » est un état (Badge) ; les « +80 XP » qui
+       le suivaient sont sortis avec l'arbitrage n°18. */
     <PageShell width="wide" noPadTop className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
         tone="flat"
@@ -71,7 +69,6 @@ export default function EvenementRecap() {
         summary={`Session du ${EVENT.date} · ${EVENT.participants} participants`}
         meta={[
           { label: <Badge variant="success"><Check size={12} aria-hidden="true" /> Participé</Badge> },
-          { label: `+${EVENT.xp} XP` },
         ]}
       />
 
@@ -146,7 +143,6 @@ export default function EvenementRecap() {
             ressources (section h2), l'enquête. */}
         <div className="md:col-span-1 flex flex-col gap-section">
           <div className="grid grid-cols-2 gap-stack-sm">
-            <StatCard icon={<Award size={18} />} value={`+${EVENT.xp} XP`} label="Événement complété" variant="brand" size="sm" className="col-span-2" />
             <StatCard value={EVENT.participants} label="Participants" size="sm" />
             <StatCard value={47} label="Questions posées" size="sm" />
           </div>

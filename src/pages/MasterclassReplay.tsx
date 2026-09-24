@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { Video, Play, FileText, Download, Award, Check } from 'lucide-react';
+import { Video, Play, FileText, Download, Check } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionHeader } from '../components/patterns/SectionHeader';
 import { PageShell } from '../components/layout';
@@ -8,7 +8,6 @@ import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { MetaPillGroup } from '../components/ui/MetaPillGroup';
-import { StatCard } from '../components/ui/StatCard';
 import { AITransparencyLabel } from '../components/ui/AITransparencyLabel';
 import { ResourceListItem } from '../components/learning/ResourceListItem';
 
@@ -29,8 +28,9 @@ export default function MasterclassReplay() {
 
   return (
     <PageShell width="page" noPadTop={true} className="pt-6 md:pt-8 lg:pt-10">
-      {/* « Participé » est un état (Badge) ; les XP sont une donnée : la ligne
-          de méta, en légende. */}
+      {/* « Participé » est un état (Badge). Les « +150 XP » qui le suivaient
+          sont sortis avec l'arbitrage n°18 : assister ne rapporte pas de
+          points, et ne fait pas monter un niveau. */}
       <EditorialHero
         tone="flat"
         eyebrow="Masterclass · Replay"
@@ -38,7 +38,6 @@ export default function MasterclassReplay() {
         summary="Session du 15 juin 2026 · Marie Fontaine"
         meta={[
           { label: <Badge variant="success" size="normal"><Check size={12} aria-hidden="true" /> Participé</Badge> },
-          { label: '+150 XP' },
         ]}
       />
 
@@ -92,12 +91,10 @@ export default function MasterclassReplay() {
             </section>
           </div>
 
-          {/* Sidebar droite : trois blocs à 32 px — le chiffre, les matériaux
-              (titre à 32 au-dessus, 16 en dessous), l'enquête. */}
+          {/* Sidebar droite : deux blocs à 32 px — les matériaux (titre à 32
+              au-dessus, 16 en dessous), l'enquête. Le chiffre qui les
+              précédait (« +150 XP ») est sorti avec l'arbitrage n°18. */}
           <div className="md:col-span-1 flex flex-col gap-section w-full">
-            {/* Le chiffre : une StatCard (il était fait main, centré, en teal 700). */}
-            <StatCard icon={<Award size={20} />} value="+150 XP" label="Masterclass complétée" variant="brand" size="sm" />
-
             {/* Matériaux : une section h2, comme les blocs de la colonne du
                 direct — à côté du lecteur, elle se lit avant le résumé. Un
                 bouton icône libère la place du nom (« Slides de la … » était
