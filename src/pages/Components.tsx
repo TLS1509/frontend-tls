@@ -233,7 +233,7 @@ import { ResourceListItem } from '../components/learning/ResourceListItem';
 import { EtapeAccordion } from '../components/patterns/EtapeAccordion';
 import { AuthBackLink } from '../components/patterns/AuthShell';
 import { Briefcase, HeartHandshake, FileText } from 'lucide-react';
-import { Plus, Heart, Home, Trophy as TrophyIcon, Settings, Trash2, Pencil, Maximize2, Download } from 'lucide-react';
+import { Plus, Heart, Home, Trophy as TrophyIcon, Settings, Trash2, Pencil, Maximize2, Download, Globe } from 'lucide-react';
 import { FloatLabel } from '../components/core/FloatLabel';
 import { Chip } from '../components/ui/Chip';
 import { IconChip } from '../components/ui/IconChip';
@@ -1004,6 +1004,7 @@ const ToastDemo: React.FC = () => {
 const TabsDemo: React.FC = () => {
   const [active1, setActive1] = useState('tab1');
   const [active2, setActive2] = useState('a');
+  const [active3, setActive3] = useState('vue');
   return (
     <div className="flex flex-col gap-stack-lg">
       <div>
@@ -1017,6 +1018,22 @@ const TabsDemo: React.FC = () => {
           ]}
           value={active1}
           onChange={setActive1}
+          variant="pill"
+        />
+      </div>
+      {/* Quatre onglets dans 280 px : le rail défile, les libellés restent
+          sur une ligne (à 375, c'était un onglet hors de l'écran). */}
+      <div className="max-w-[280px]">
+        <p className="mb-stack-xs text-caption font-semibold text-ink-600">Pill dans un cadre de 280 px · la liste défile</p>
+        <Tabs
+          items={[
+            { id: 'vue', label: 'Vue d’ensemble' },
+            { id: 'competences', label: 'Compétences' },
+            { id: 'top', label: 'Top progresseurs' },
+            { id: 'alertes', label: 'Alertes' },
+          ]}
+          value={active3}
+          onChange={setActive3}
           variant="pill"
         />
       </div>
@@ -2110,15 +2127,15 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'core/Button.tsx',
     cssBase: '.btn',
     description:
-      "Le déclencheur d'une action. Son API est une grille : `emphasis` (solid · soft · outline · ghost · link) dit combien il insiste, `tone` (brand · warm · sun · danger · neutral) de quelle couleur. Trois tailles, 36 · 44 · 52, celles des champs d'une même ligne (arbitrage n°22) ; rayon 14, graisse 700. Un seul `solid` par écran, pour l'action principale (arbitrage n°19). Les treize `variant` historiques et l'ancien cran `xl` restent acceptés, comme alias dépréciés.",
-    keywords: ['cta', 'action', 'emphasis', 'tone', 'solid', 'soft', 'outline', 'ghost', 'link', 'onDark', 'iconOnly', 'primary', 'destructive', 'glass', 'taille', '36', '44', '52', 'contraste', 'wcag', 'icône'],
+      "Le déclencheur d'une action. Son API est une grille : `emphasis` (solid · soft · outline · ghost · link) dit combien il insiste, `tone` (brand · warm · sun · danger · neutral) de quelle couleur. Trois tailles, 36 · 44 · 52, celles des champs d'une même ligne (arbitrage n°22) ; rayon 14, graisse 700. Un seul `solid` par écran, pour l'action principale (arbitrage n°19) : le bouton expose son niveau au DOM (`data-emphasis`), que la sonde `check:boutons` compte écran par écran. Les treize `variant` historiques et l'ancien cran `xl` restent acceptés, comme alias dépréciés.",
+    keywords: ['cta', 'action', 'emphasis', 'tone', 'solid', 'soft', 'outline', 'ghost', 'link', 'onDark', 'iconOnly', 'primary', 'destructive', 'glass', 'taille', '36', '44', '52', 'contraste', 'wcag', 'icône', 'data-emphasis', 'cible', 'tactile'],
     render: () => (
       <div className="flex flex-col gap-section">
 
         {/* ─── 1 · LES TROIS TAILLES ──────────────────────────────────────── */}
         <ShowcaseBloc
           titre="Les trois tailles"
-          note="Le défaut est md, à 44 px : la cible tactile recommandée par Apple et Material. Les trois crans sont ceux des champs (Input, Select, Search) : un bouton et un champ posés sur la même ligne ont la même hauteur (arbitrage n°22 du 24/09). sm, à 36 px, sert les rangées denses ; un pseudo-élément déborde de 4 px en haut et en bas et porte sa zone tactile à 44 sans toucher au rendu. Son label reste à 13 : essayé à 16 dans trois rangées réelles, l'action pesait plus que le nom qu'elle sert. `xl` n'existe plus — il rend `lg`."
+          note="Le défaut est md, à 44 px : la cible tactile recommandée par Apple et Material. Les trois crans sont ceux des champs (Input, Select, Search) : un bouton et un champ posés sur la même ligne ont la même hauteur (arbitrage n°22 du 24/09). sm, à 36 px, sert les rangées denses ; un pseudo-élément déborde de 4 px en haut et en bas et porte sa zone tactile à 44 sans toucher au rendu — sur les quatre côtés pour le bouton-icône sm, dont la cible restait à 36 × 36 jusqu'au 24/09. Un bouton que la page positionne (`absolute`, la croix d'une modale) ancre lui-même ce pseudo-élément. Son label reste à 13 : essayé à 16 dans trois rangées réelles, l'action pesait plus que le nom qu'elle sert. `xl` n'existe plus — il rend `lg`."
         >
           <div className="flex flex-wrap items-end gap-stack">
             {([
@@ -2165,7 +2182,7 @@ const COMPONENTS: ComponentEntry[] = [
         {/* ─── 3 · LES ICÔNES ─────────────────────────────────────────────── */}
         <ShowcaseBloc
           titre="Les icônes suivent la taille du bouton"
-          note="Corrigé le 2026-09-09. La boîte de l'icône valait 1em d'un font-size de 1,05em, et le glyphe gardait sa taille propre — presque toujours 16 px. En dessous de lg la boîte était plus étroite que le glyphe : flex-shrink mordait sur la largeur et pas sur la hauteur, donc un cercle devenait un ovale. Sur sm, l'écrasement mesurait 2,35 px. Désormais la boîte vient de l'échelle --icon-size-*, appariée à la police du label, et le SVG remplit la boîte : carré par construction."
+          note="Corrigé le 2026-09-09. La boîte de l'icône valait 1em d'un font-size de 1,05em, et le glyphe gardait sa taille propre — presque toujours 16 px. En dessous de lg la boîte était plus étroite que le glyphe : flex-shrink mordait sur la largeur et pas sur la hauteur, donc un cercle devenait un ovale. Sur sm, l'écrasement mesurait 2,35 px. Désormais la boîte vient de l'échelle --icon-size-*, appariée à la police du label, et le SVG remplit la boîte : carré par construction. En iconOnly, un seul glyphe est rendu — le premier fourni : l'enfant, puis l'icône de tête, puis celle de queue. Passé par `leadingIcon`, il était suivi d'une boîte vide destinée aux enfants, et le gap de 8 px le décalait de 12 px à gauche du centre (24/09)."
         >
           <div className="flex flex-wrap items-end gap-stack">
             {([
@@ -2182,7 +2199,7 @@ const COMPONENTS: ComponentEntry[] = [
                 <Button iconOnly aria-label="Ajouter" size="md" emphasis="soft" tone="warm">{I.plus}</Button>
                 <Button iconOnly aria-label="Ajouter" size="lg" emphasis="outline">{I.plus}</Button>
               </div>
-              <span className="text-caption text-ink-600 font-body">iconOnly : un cercle de 36, 44 ou 52</span>
+              <span className="text-caption text-ink-600 font-body">iconOnly : un cercle de 36, 44 ou 52, cible de 44 au moins, un seul glyphe centré</span>
             </div>
           </div>
         </ShowcaseBloc>
@@ -2190,7 +2207,7 @@ const COMPONENTS: ComponentEntry[] = [
         {/* ─── 4 · ÉTATS ET RETOUR AU CLIC ────────────────────────────────── */}
         <ShowcaseBloc
           titre="Les états, et le retour au clic"
-          note="À l'enfoncement, le bouton descend à 97 % en 80 ms. Le survol n'existe pas au doigt : sur mobile, cet enfoncement est le seul retour que reçoit l'utilisateur, et une transition qui traîne ne se lit plus comme un appui. Sous prefers-reduced-motion, l'échelle ne bouge pas."
+          note="À l'enfoncement, le bouton descend à 97 % en 80 ms. Le survol n'existe pas au doigt : sur mobile, cet enfoncement est le seul retour que reçoit l'utilisateur, et une transition qui traîne ne se lit plus comme un appui. Sous prefers-reduced-motion, l'échelle ne bouge pas. Le lien (`link`) ne prend de sa taille que le corps du libellé, 13 ou 16 : ni hauteur ni padding, il part du bord de sa colonne — son `p-0` perdait contre le padding de la taille, et le décalait de 16 px."
         >
           <div className="hstack">
             <Button>Au repos</Button>
@@ -2278,8 +2295,8 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'Input',
     codeName: 'Input.tsx',
     cssBase: '.input / .field / .check / .radio / .switch',
-    description: "Champ de saisie, libellé toujours au-dessus. Trois tailles, 36 · 44 · 52 (défaut md), les mêmes que Button ; on saisit à 16 px à toutes les tailles — sous 16, iOS Safari zoome la page au focus. Rayon 14, filet ink-400 (arbitrage n°7, le filet de la famille champ). Libellé 16/600 ink-900, aide 13 ink-600, erreur 13 danger-fg annoncée (`role=alert`), 8 px entre libellé, champ et message. Statuts default · success · error, surface light ou glass, icônes de tête et de queue (16 · 18 · 20), `multiline`. Le fichier exporte aussi Checkbox, Radio et Switch : libellé 16/400, contrôle de 20 px calé sur la première ligne du libellé, état coché au cran 700 (arbitrage n°9).",
-    keywords: ['form', 'champ', 'saisie', 'text', 'label', 'hint', 'error', 'checkbox', 'radio', 'switch', 'textarea', '36', '44', '52'],
+    description: "Champ de saisie, libellé toujours au-dessus. Trois tailles, 36 · 44 · 52 (défaut md), les mêmes que Button ; on saisit à 16 px à toutes les tailles — sous 16, iOS Safari zoome la page au focus. Rayon 14, filet ink-400 (arbitrage n°7, le filet de la famille champ). Libellé 16/600 ink-900, aide 13 ink-600, erreur 13 danger-fg annoncée (`role=alert`), 8 px entre libellé, champ et message. Statuts default · success · error, surface light ou glass, icônes de tête et de queue (16 · 18 · 20). Désactivé : fond ink-50 et encre ink-500 — blanc/8 en verre ; jusqu'au 24/09, le fond et l'encre du repos gagnaient, et un champ désactivé ne se lisait pas comme tel. En `multiline`, le cadre suit sa zone de texte : il restait à 96 px, le texte débordait dessous et la poignée de redimensionnement flottait hors du filet. Le fichier exporte aussi Checkbox, Radio et Switch : libellé 16/400, contrôle de 20 px calé sur la première ligne du libellé, état coché au cran 700 (arbitrage n°9).",
+    keywords: ['form', 'champ', 'saisie', 'text', 'label', 'hint', 'error', 'checkbox', 'radio', 'switch', 'textarea', 'multiline', 'disabled', 'désactivé', '36', '44', '52'],
     render: () => (
       <div className="vstack max-w-[480px]">
         <Input
@@ -2310,6 +2327,13 @@ const COMPONENTS: ComponentEntry[] = [
           rows={3}
           placeholder="Écrivez ici…"
         />
+        <Input
+          label="Identifiant"
+          id="demo-disabled"
+          hint="Attribué par votre organisation"
+          defaultValue="jeanne.dupont"
+          disabled
+        />
         <div className="hstack items-center">
           <Checkbox label="Me tenir informée" defaultChecked />
           <Checkbox label="Indéterminé" indeterminate />
@@ -2334,8 +2358,8 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'Select',
     codeName: 'Select.tsx',
     cssBase: '.field / .input (select wrapper)',
-    description: "Menu natif du navigateur, habillé comme Input : mêmes hauteurs (36 · 44 · 52), même rayon 14, même filet ink-400, même texte à 16, mêmes rôles de libellé, d'aide et d'erreur. Chevron de 16 · 18 · 20. Statuts default · success · error. Pour une liste longue ou à filtrer, Combobox.",
-    keywords: ['form', 'dropdown', 'select', 'options', 'menu', 'champ', '36', '44', '52'],
+    description: "Menu natif du navigateur, habillé comme Input : mêmes hauteurs (36 · 44 · 52), même rayon 14, même filet ink-400, même texte à 16, mêmes rôles de libellé, d'aide et d'erreur. Chevron de 16 · 18 · 20. Statuts default · success · error ; désactivé, fond ink-50 et encre ink-500, comme Input. Pour une liste longue ou à filtrer, Combobox.",
+    keywords: ['form', 'dropdown', 'select', 'options', 'menu', 'champ', 'disabled', 'désactivé', '36', '44', '52'],
     render: () => (
       <div className="vstack max-w-[480px]">
         <Select
@@ -2368,6 +2392,14 @@ const COMPONENTS: ComponentEntry[] = [
           ]}
           defaultValue="a"
         />
+        <Select
+          label="Désactivé"
+          disabled
+          options={[
+            { value: 'fr', label: 'Français' },
+          ]}
+          defaultValue="fr"
+        />
         <div className="hstack">
           <Select size="sm" placeholder="sm · 36 px" options={[{ value: 'a', label: 'A' }]} />
           <Select size="md" placeholder="md · 44 px" options={[{ value: 'a', label: 'A' }]} />
@@ -2382,7 +2414,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'ui/Combobox.tsx',
     cssBase: 'combobox',
     description:
-      "Sélection unique avec recherche : le champ filtre la liste pendant la frappe. Clavier ↑ ↓ Entrée Échap Tab. Même champ que Select — 36 · 44 · 52, texte 16, rayon 14, filet ink-400. Liste en panneau au rayon 14, options à 16 ; l'option choisie passe en 600 au cran 800, avec une coche. Statuts default · success · error, état désactivé.",
+      "Sélection unique avec recherche : le champ filtre la liste pendant la frappe. Clavier ↑ ↓ Entrée Échap Tab. Même champ que Select — 36 · 44 · 52, texte 16, rayon 14, filet ink-400. Liste en panneau au rayon 14, options à 16 ; l'option choisie passe en 600 au cran 800, avec une coche. Statuts default · success · error ; désactivé, fond ink-50 et encre ink-500, comme Input et Select.",
     keywords: ['combobox', 'autocomplete', 'searchable', 'select', 'dropdown', 'filter', 'keyboard', 'typeahead'],
     showcaseOnly: true,
     render: () => {
@@ -2593,8 +2625,8 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'Badge',
     codeName: 'ui/Badge.tsx',
     cssBase: 'Tailwind',
-    description: "L'état qui crie : 11 px en capitales, graisse 700, serrage positif (`tracking-label`), bordure, pilule. Sept variantes (brand · neutral · warm · sun · success · danger · info) ; trois tailles — compact et normal font 20 px (padding 8 ou 10), large 26 px en 13 ; un point `dot` fixe (arbitrage n°16 : pas de mouvement permanent pour dire un état). StatusBadge, dans le même fichier, dit les cinq états d'une leçon avec leur icône — Verrouillé, Disponible, En cours, Terminé, Échoué — au même corps de 11 px. Une donnée n'est pas un état : catégorie, type ou durée vont en MetaPill (arbitrages n°14-15).",
-    keywords: ['status', 'état', 'label', 'brand', 'warm', 'sun', 'success', 'danger', 'info', 'dot', 'compact', 'normal', 'large', 'locked', 'completed', 'statusbadge'],
+    description: "L'état qui crie : 11 px en capitales, graisse 700, serrage positif (`tracking-label`), bordure, pilule. Sept variantes (brand · neutral · warm · sun · success · danger · info) ; trois tailles, toutes au corps de 11 — compact et normal font 20 px (padding 8 ou 10), large 24 px (padding 12). Jusqu'au 24/09, large parlait en 13, plus fort que tous les états de l'app. Un point `dot` fixe, à 4 px de son libellé (arbitrage n°16 : pas de mouvement permanent pour dire un état). StatusBadge, dans le même fichier, dit les cinq états d'une leçon avec leur icône — Verrouillé, Disponible, En cours, Terminé, Échoué — au même corps de 11 px ; sa prop `label` prête l'icône d'un état à un autre domaine, avec son propre mot — nom accessible, et libellé visible avec `showLabel` : « En attente de correction » dans CorrectionStatusBar. Une donnée n'est pas un état : catégorie, type ou durée vont en MetaPill (arbitrages n°14-15).",
+    keywords: ['status', 'état', 'label', 'brand', 'warm', 'sun', 'success', 'danger', 'info', 'dot', 'compact', 'normal', 'large', 'locked', 'completed', 'statusbadge', 'showLabel', '24'],
     usedBy: ['LessonCard', 'ParcoursCard', 'VeilleCardFeed', 'Dashboard'],
     render: () => (
       <div className="flex flex-col gap-stack-lg">
@@ -2613,6 +2645,16 @@ const COMPONENTS: ComponentEntry[] = [
             <Badge variant="danger" dot>Offline</Badge>
           </div>
         </div>
+        {/* Trois tailles, un seul corps : 11 px. */}
+        <div className="flex flex-col gap-stack-xs">
+          <span className="font-body text-caption font-semibold text-ink-600">Tailles — compact 20 · normal 20 · large 24, toutes en 11</span>
+          <div className="hstack flex-wrap items-center">
+            <Badge variant="brand" size="compact">Compact</Badge>
+            <Badge variant="brand">Normal</Badge>
+            <Badge variant="brand" size="large">Large</Badge>
+            <Badge variant="success" size="large" dot>Profil complété</Badge>
+          </div>
+        </div>
         {/* StatusBadge — état leçon */}
         <div className="flex flex-col gap-stack-xs">
           <span className="font-body text-caption font-semibold text-ink-600">StatusBadge — état leçon</span>
@@ -2629,6 +2671,11 @@ const COMPONENTS: ComponentEntry[] = [
             <StatusBadge status="in-progress" showLabel />
             <StatusBadge status="completed" showLabel />
             <StatusBadge status="failed" showLabel />
+          </div>
+          {/* `label` : l'icône d'un état de leçon, le mot d'un autre domaine. */}
+          <div className="hstack flex-wrap gap-stack-xs">
+            <StatusBadge status="available" label="En attente de correction" showLabel />
+            <StatusBadge status="in-progress" label="En cours de révision" showLabel />
           </div>
         </div>
       </div>
@@ -2700,22 +2747,34 @@ const COMPONENTS: ComponentEntry[] = [
   },
   {
     name: 'Skeleton',
-    codeName: 'Skeleton.tsx',
+    codeName: 'ui/Skeleton.tsx',
     cssBase: '.skeleton',
-    description: "Bloc de chargement qui épouse la forme du contenu attendu, pour une attente d'une à trois secondes. Variantes text, title, block, circle, card, button ; `width` et `height`. ⚠️ Ses lignes (14 et 24 px) et son bouton en pilule de 40 px datent d'avant le 24/09 : elles ne reprennent plus le texte à 16, les titres à 20 et 28, ni le bouton à 36 · 44 · 52.",
-    keywords: ['loading', 'placeholder', 'shimmer'],
+    description: "Bloc de chargement qui épouse la forme du contenu attendu, pour une attente d'une à trois secondes. Une ligne prend la hauteur de ligne de son pas (`1lh`) et ne peint, au milieu, qu'une barre au corps de ce pas, là où seraient les lettres : text 26/16, caption 20/13, title 26/20, heading 36/28 — caption et heading sont nés le 24/09, quand les lignes à 14 et 24 px ont rejoint l'échelle. stat pose la valeur d'une StatCard au corps de `stat-value` (32 → 44). Les lignes d'un paragraphe se posent sans gap, comme les vraies. block 120 px au rayon 14, circle, card 160 px au rayon 20, button 44 px au rayon 14, celui d'un Button md (arbitrage n°22). `width` et `height` ; masqué aux lecteurs d'écran.",
+    keywords: ['loading', 'placeholder', 'shimmer', 'chargement', 'caption', 'heading', 'stat', '1lh'],
     render: () => (
-      <div className="vstack max-w-[420px]">
-        <div className="hstack items-center">
+      <div className="flex flex-col gap-stack-lg max-w-[420px]">
+        {/* Une rangée : titre de bloc puis sa méta, sans gap — la hauteur de
+            ligne de chaque pas donne l'écart. */}
+        <div className="flex items-start gap-stack-sm">
           <Skeleton variant="circle" width={40} height={40} />
-          <div className="vstack flex-1 gap-stack-xs">
+          <div className="flex flex-1 flex-col">
             <Skeleton variant="title" />
-            <Skeleton variant="text" width="80%" />
+            <Skeleton variant="caption" width="40%" />
           </div>
         </div>
+        {/* Un titre de section et son paragraphe. */}
+        <div className="flex flex-col">
+          <Skeleton variant="heading" />
+          <Skeleton variant="text" />
+          <Skeleton variant="text" />
+          <Skeleton variant="text" width="70%" />
+        </div>
+        <Skeleton variant="stat" />
         <Skeleton variant="block" />
-        <Skeleton variant="text" />
-        <Skeleton variant="text" width="70%" />
+        <div className="flex gap-stack-xs">
+          <Skeleton variant="button" />
+          <Skeleton variant="button" />
+        </div>
       </div>
     ),
   },
@@ -3123,12 +3182,12 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'ui/MetaPillGroup.tsx',
     cssBase: 'Tailwind (no BEM)',
     usedBy: ['ParcoursCard', 'LearningPathDetail', 'Dashboard', 'Journal'],
-    description: "Groupe de MetaPill, la ligne de données des cartes. Il porte SON propre défaut de taille, sm, et le passe à chaque pastille : changer celui de MetaPill seul ne descend pas jusqu'aux cartes. Disposition horizontale ou verticale ; écart de 8 (`gap` sm et md) ou 16 (lg). Tons par pastille, dont glass et glass-dark pour les surfaces teintées ou saturées.",
+    description: "Groupe de MetaPill, la ligne de données des cartes. Il porte SON propre défaut de taille, sm, et le passe à chaque pastille : changer celui de MetaPill seul ne descend pas jusqu'aux cartes. Le rayon suit la taille passée — pilule en sm, 14 en md et lg. Disposition horizontale ou verticale ; écart de 8 (`gap` sm et md) ou 16 (lg). Tons par pastille, dont glass et glass-dark pour les surfaces teintées ou saturées.",
     keywords: ['pill', 'chip', 'tag', 'meta', 'group', 'tone', 'glass', 'frosted'],
     render: () => (
       <div className="flex flex-col gap-stack-lg">
         {/* Tones — light bg */}
-        <div className="flex flex-col gap-stack-xs p-stack rounded-xl bg-white border border-ink-200">
+        <div className="flex flex-col gap-stack-xs p-stack-md rounded-xl bg-white border border-ink-200">
           <p className="text-caption font-semibold text-ink-600 m-0">Tons · à la taille par défaut, sm</p>
           <MetaPillGroup
             items={[
@@ -3142,36 +3201,36 @@ const COMPONENTS: ComponentEntry[] = [
         </div>
 
         {/* Sizes */}
-        <div className="flex flex-col gap-stack-xs p-stack rounded-xl bg-white border border-ink-200">
+        <div className="flex flex-col gap-stack-xs p-stack-md rounded-xl bg-white border border-ink-200">
           <p className="text-caption font-semibold text-ink-600 m-0">Tailles · sm 24 · md 30 · lg 44</p>
           <MetaPillGroup
             items={[
-              { text: 'Small', tone: 'primary' },
-              { text: 'Medium', tone: 'primary' },
-              { text: 'Large', tone: 'primary' },
+              { text: 'sm · pilule', tone: 'primary' },
+              { text: '6 semaines', tone: 'primary' },
+              { text: '12 leçons', tone: 'primary' },
             ]}
             size="sm"
           />
           <MetaPillGroup
             items={[
-              { text: 'Small', tone: 'primary' },
-              { text: 'Medium', tone: 'primary' },
-              { text: 'Large', tone: 'primary' },
+              { text: 'md · rayon 14', tone: 'primary' },
+              { text: '6 semaines', tone: 'primary' },
+              { text: '12 leçons', tone: 'primary' },
             ]}
             size="md"
           />
           <MetaPillGroup
             items={[
-              { text: 'Small', tone: 'primary' },
-              { text: 'Medium', tone: 'primary' },
-              { text: 'Large', tone: 'primary' },
+              { text: 'lg · rayon 14', tone: 'primary' },
+              { text: '6 semaines', tone: 'primary' },
+              { text: '12 leçons', tone: 'primary' },
             ]}
             size="lg"
           />
         </div>
 
         {/* Glass variant — on tinted backdrop */}
-        <div className="flex flex-col gap-stack-xs p-stack rounded-xl bg-gradient-to-br from-primary-50 via-primary-100 to-primary-50 border border-primary-200">
+        <div className="flex flex-col gap-stack-xs p-stack-md rounded-xl bg-gradient-to-br from-primary-50 via-primary-100 to-primary-50 border border-primary-200">
           <p className="text-caption font-semibold text-ink-600 m-0">Glass · sur fond teinté clair</p>
           <MetaPillGroup
             items={[
@@ -3183,7 +3242,7 @@ const COMPONENTS: ComponentEntry[] = [
         </div>
 
         {/* Glass-dark variant — on saturated dark bg */}
-        <div className="flex flex-col gap-stack-xs p-stack rounded-xl bg-gradient-to-br from-primary-700 to-primary-800 border border-primary-700">
+        <div className="flex flex-col gap-stack-xs p-stack-md rounded-xl bg-gradient-to-br from-primary-700 to-primary-800 border border-primary-700">
           <p className="text-caption font-semibold text-white m-0">Glass-dark · sur un dégradé saturé (heros)</p>
           <MetaPillGroup
             items={[
@@ -3201,7 +3260,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'Sidebar',
     codeName: 'layout/Sidebar.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: "La navigation principale de l'app : 260 px de large dès 768 px (72 px repliée), un tiroir de 280 px en dessous. Les six entrées viennent de la liste unique de `src/config/navigation.ts` ; rangées de 48 px au rayon 14, libellé 16/600 ink-700, icône de 20, 8 px entre deux entrées. L'entrée active est en texte blanc sur un voile primary-700 → 800 ; les compteurs sont des pastilles de 20 px. En bas, la carte utilisateur (nom 16/600, e-mail 13) ouvre le menu du compte.",
+    description: "La navigation principale de l'app : 260 px de large dès 768 px (72 px repliée), un tiroir de 280 px en dessous. Les six entrées viennent de la liste unique de `src/config/navigation.ts` ; rangées de 48 px au rayon 14, libellé 16/600 ink-700, icône de 20, 8 px entre deux entrées. L'entrée active est en texte blanc sur un voile primary-700 → 800 ; les compteurs sont des pastilles de 20 px. En bas, la carte utilisateur (nom 16/600, e-mail 13) ouvre le menu du compte. Fermé, le tiroir mobile est `inert` et `aria-hidden` : hors du clavier et des technologies d'assistance, qui lisaient ses libellés hors écran.",
     keywords: ['sidebar', 'nav', 'navigation', 'menu', 'shell', 'collapsible', 'drawer', 'tiroir', '260'],
     render: () => <SidebarDemo />,
   },
@@ -3269,10 +3328,10 @@ const COMPONENTS: ComponentEntry[] = [
   },
   {
     name: 'Tabs',
-    codeName: 'Tabs.tsx',
+    codeName: 'ui/Tabs.tsx',
     cssBase: '.tabs / .tab / .tab--active',
-    description: "Navigation par onglets, de deux à cinq, avec `aria-selected` et la navigation au clavier. Onglets de 44 px, libellé 16/600 aux deux états (ink-700 au repos), icône de 18. Trois variantes : pill (défaut) — un rail au rayon 14 où l'onglet actif, au rayon 10, se détache en blanc ; underline — trait de 2 px au cran 700 sous un libellé 800 ; boxed — onglets séparés, l'actif en dégradé 700 → 800. Compteur optionnel. `getTabPanelProps` relie un onglet à son panneau.",
-    keywords: ['tab', 'onglet', 'navigation', 'pill', 'underline', 'boxed', 'switch', '44'],
+    description: "Navigation par onglets, de deux à cinq, avec `aria-selected` et la navigation au clavier. Onglets de 44 px, libellé 16/600 aux deux états (ink-700 au repos), icône de 18. Trois variantes : pill (défaut) — un rail au rayon 14 où l'onglet actif, au rayon 10, se détache en blanc ; underline — trait de 2 px au cran 700 sous un libellé 800 ; boxed — onglets séparés, l'actif en dégradé 700 → 800. pill et underline défilent horizontalement dans leur rail, sans barre visible, et leurs onglets ne se compriment pas : à 375 px, quatre pages avaient un onglet en pastille hors de l'écran, hors d'atteinte, jusqu'au 24/09. L'onglet actif est ramené dans le cadre. Compteur optionnel. `getTabPanelProps` relie un onglet à son panneau.",
+    keywords: ['tab', 'onglet', 'navigation', 'pill', 'underline', 'boxed', 'switch', '44', 'scroll', 'défilement', 'overflow'],
     render: () => <TabsDemo />,
   },
   {
@@ -3737,7 +3796,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'MetaPill',
     codeName: 'MetaPill.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: "La donnée qui chuchote : 11 px en 500, casse normale — le registre opposé à Badge. Taille par défaut sm (24 px) ; md 30 px en 13, lg 44 px en 16. Dix tons : neutral (et son alias déprécié default), primary, warm, sun, brand, success, danger, info, glass, glass-dark. Avec `onClick`, elle rend un vrai `<button>`. Une catégorie ou un type de contenu est une donnée : MetaPill, jamais Badge (arbitrages n°14-15).",
+    description: "La donnée qui chuchote : 11 px en 500, casse normale — le registre opposé à Badge. Taille par défaut sm (24 px, en pilule) ; md 30 px en 13 et lg 44 px en 16, au rayon 14 — au-dessus de 28 px, le rayon d'un contrôle (règle du seuil, `CHIP_RAYON`). Dix tons : neutral (et son alias déprécié default), primary, warm, sun, brand, success, danger, info, glass, glass-dark. Avec `onClick`, elle rend un vrai `<button>`. Une catégorie ou un type de contenu est une donnée : MetaPill, jamais Badge (arbitrages n°14-15).",
     keywords: ['pill', 'meta', 'chip', 'tag', 'tone', 'primary', 'warm', 'sun', 'brand', 'success', 'danger', 'info'],
     render: () => (
       <div className="flex flex-col gap-stack">
@@ -3754,9 +3813,9 @@ const COMPONENTS: ComponentEntry[] = [
           <MetaPill text="Info" tone="info" />
         </div>
         <div className="hstack flex-wrap">
-          <MetaPill text="sm · 24 px" size="sm" tone="primary" />
-          <MetaPill text="md · 30 px" size="md" tone="primary" />
-          <MetaPill text="lg · 44 px" size="lg" tone="primary" />
+          <MetaPill text="sm · 24 px, pilule" size="sm" tone="primary" />
+          <MetaPill text="md · 30 px, rayon 14" size="md" tone="primary" />
+          <MetaPill text="lg · 44 px, rayon 14" size="lg" tone="primary" />
           <MetaPill text="Cliquable" tone="warm" onClick={() => {}} />
         </div>
       </div>
@@ -4390,8 +4449,8 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'forms/FilterBar.tsx',
     cssBase: 'Tailwind (no BEM)',
     usedBy: ['LearningPaths (glass variant in hero Search)', 'Veille (filter type drawer)', 'Recherche (4 types sticky)', 'Notifications (à venir)', 'Listings n-1 (Actus/Tutoriels/Dossiers à venir)'],
-    description: "Barre de filtres en pastilles, pour une barre d'outils (dans le `filtersSlot` de Search) ou entre un hero et une liste : choix multiple ou unique, compteurs, « Tout effacer », quatre tons, variantes solid · glass · glass-inverse, surfaces tinted · plain, tailles sm et md. ⚠️ Hors de la passe du 24/09 : son libellé et son bouton « Effacer » sont encore en 11/700 capitales.",
-    keywords: ['filter', 'pills', 'chips', 'toolbar', 'multi-select', 'count', 'clear-all', 'glass'],
+    description: "Barre de filtres en pastilles, pour une barre d'outils (dans le `filtersSlot` de Search) ou entre un hero et une liste : choix multiple ou unique, compteurs, « Tout effacer », quatre tons, variantes solid · glass · glass-inverse, surfaces tinted · plain, tailles sm et md. Le nom du groupe (`label`) a la voix d'un libellé de champ depuis le 24/09 : 16/600, casse normale, ink-900 — blanc sur les variantes verre ; il était en étiquette, 11 px capitales ink-500, la voix d'un Badge. ⚠️ Le bouton « Effacer », fait main, est encore en 11/700 ink-500.",
+    keywords: ['filter', 'pills', 'chips', 'toolbar', 'multi-select', 'count', 'clear-all', 'glass', 'label', 'groupe'],
     render: () => {
       const FilterBarDemo: React.FC = () => {
         const [s1, setS1] = useState<string[]>(['all']);
@@ -5506,9 +5565,9 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'TlsLogoLockup',
     codeName: 'ui/TlsLogo.tsx',
     cssBase: 'Tailwind (TlsLogo + League Spartan)',
-    usedBy: [],
-    description: "Le logo et son nom : l'icône TlsLogo et le mot « The Learning Society » en League Spartan 800, au teal de la marque. Un logotype — ni l'échelle typographique ni le seuil de contraste ne s'y appliquent. Quatre dispositions (`layout`) : horizontal · vertical · vertical-3 · horizontal-3, miroir du composant Figma. Props : `layout`, `iconSize`, `variant` (de l'icône), `wordmarkTone` (primary · ink · white).",
-    keywords: ['logo', 'lockup', 'wordmark', 'brand', 'tls', 'league spartan', 'horizontal', 'vertical'],
+    showcaseOnly: true,
+    description: "Le logo et son nom : l'icône TlsLogo et le mot « The Learning Society » en League Spartan 800, au teal de la marque. Un logotype — ni l'échelle typographique ni le seuil de contraste ne s'y appliquent (WCAG 1.4.3 l'exempte) : le mot-symbole porte `data-logotype` depuis le 24/09, et check-contrast comme check-typo l'ignorent — ils le relevaient à 2,87:1 et en graisse 800 hors échelle. Quatre dispositions (`layout`) : horizontal · vertical · vertical-3 · horizontal-3, miroir du composant Figma. Props : `layout`, `iconSize`, `variant` (de l'icône), `wordmarkTone` (primary · ink · white).",
+    keywords: ['logo', 'lockup', 'wordmark', 'brand', 'tls', 'league spartan', 'horizontal', 'vertical', 'logotype', 'data-logotype'],
     render: () => (
       <div className="flex flex-col gap-section p-stack rounded-xl bg-white border border-ink-200">
         <div className="flex flex-wrap items-center gap-section">
@@ -5661,7 +5720,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'FloatingNavButton',
     codeName: 'FloatingNavButton.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: "Bouton flottant à actions (speed-dial) : 56 px, au cran 700 du ton (sun : accent-400 et encre), qui déplie des actions de 48 px — libellé 16/600, filet au cran 200 du ton. Il se place au-dessus de la BottomNav sous 768 px. `actions`, `tone`, `position`, `icon` et `closeIcon`. Dans l'app, il sert de raccourci de développement vers la vitrine et l'index des pages.",
+    description: "Bouton flottant à actions (speed-dial) : 56 px, au cran 700 du ton (sun : accent-400 et encre), qui déplie des actions de 48 px — libellé 16/600, filet au cran 200 du ton. Ouvert, il montre `closeIcon`, une croix, sans rotation : jusqu'au 24/09, la croix tournait aussi de 45° et se relisait « + », le même signe que fermé. Il se place au-dessus de la BottomNav sous 768 px. `actions`, `tone`, `position`, `icon` et `closeIcon`. Dans l'app, il sert de raccourci de développement vers la vitrine et l'index des pages.",
     keywords: ['floating', 'fab', 'speed-dial', 'quick-actions', 'chatbot', 'contact', 'help', 'fixed'],
     render: () => (
       <div className="relative h-[280px] rounded-2xl border border-ink-200 bg-gradient-page-ambient overflow-hidden">
@@ -5673,9 +5732,9 @@ const COMPONENTS: ComponentEntry[] = [
           <FloatingNavButton
             tone="primary"
             actions={[
-              { label: "Demander à l'IA", icon: <SparklesIcon size={18} />, onClick: () => alert('Assistant IA'), tone: 'primary' },
-              { label: 'Contact', icon: <MessageSquare size={18} />, onClick: () => alert('Contact'), tone: 'warm' },
-              { label: 'Aide', icon: <BookOpen size={18} />, onClick: () => alert('Help'), tone: 'sun' },
+              { label: "Demander à l'IA", icon: <SparklesIcon size={18} />, onClick: () => {}, tone: 'primary' },
+              { label: 'Contact', icon: <MessageSquare size={18} />, onClick: () => {}, tone: 'warm' },
+              { label: 'Aide', icon: <BookOpen size={18} />, onClick: () => {}, tone: 'sun' },
             ]}
             className="!static"
           />
@@ -6075,7 +6134,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'AITransparencyLabel',
     codeName: 'ui/AITransparencyLabel.tsx',
     cssBase: 'AITransparencyLabel',
-    description: "Étiquette « IA » transversale, sur tout contenu généré, recommandé ou assisté par l'IA : sm en 11/500 avec une étincelle de 10 px, md en 13/500 avec une de 12. Trois variantes — recommended (info), generated (warning), assisted (ink). Sur une recommandation, dans une suggestion de coach, dans l'assistant. Module 13 bis.",
+    description: "Étiquette « IA » transversale, sur tout contenu généré, recommandé ou assisté par l'IA : sm, 24 px de haut en 11/500, sous le seuil de 28 px, donc en pilule ; md, 30 px en 13/500, au-dessus, donc au rayon 14 (règle du seuil). Une étincelle de 14 px aux deux tailles, le plancher de l'échelle d'icônes (elle était à 10 et 12), à 4 px du mot. Trois variantes — recommended (info), generated (warning), assisted (ink) — sur le fond de leur état et son filet clair (`--color-*-border`). Sur une recommandation, dans une suggestion de coach, dans l'assistant. Module 13 bis.",
     keywords: ['ai', 'ia', 'transparency', 'transparence', 'label', 'étiquette', 'generated', 'recommended', 'assisted', 'rgpd'],
     showcaseOnly: false,
     usedBy: ['PerplexityContentDetail', 'ItemRecommendations', 'ChatInterface', 'CoachLearnerProfile'],
@@ -7458,8 +7517,8 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'Chip',
     codeName: 'ui/Chip.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: "Primitive interne de la famille des pastilles : elle porte les tokens partagés (CHIP_BASE, CHIP_SIZE, tons, surfaces) et le helper `resolveChipClasses`, que MetaPill et FilterChip consomment. Trois tailles — sm 24 px en 11/500, md 30 px en 13/500, lg 44 px en 16/500 —, cinq tons, surfaces solid et glass. Pill et Tag ont été supprimés le 10/09 ; ses seuls appels directs sont dans le DevPanel. Dans une page, passer par MetaPill (la donnée) ou FilterChip (le filtre).",
-    keywords: ['chip', 'pill', 'pastille', 'primitive', 'tone', 'glass', 'surface', 'filter', 'meta'],
+    description: "Primitive interne de la famille des pastilles : elle porte les tokens partagés — `CHIP_BASE_SANS_RAYON`, `CHIP_RAYON`, `CHIP_SIZE`, tons, surfaces — et le helper `resolveChipClasses`, que MetaPill et FilterChip consomment. Trois tailles — sm 24 px en 11/500, md 30 px en 13/500, lg 44 px en 16/500 — dont le rayon suit la hauteur (`CHIP_RAYON`, règle du seuil) : pilule en sm, 14 en md et lg. À 44 px, la pilule rendait 22 à côté d'un champ et d'un bouton de même hauteur à 14. `CHIP_BASE`, la base avec pilule, reste exporté mais déprécié, sans consommateur. Cinq tons, surfaces solid et glass. Pill et Tag ont été supprimés le 10/09 ; ses seuls appels directs sont dans le DevPanel. Dans une page, passer par MetaPill (la donnée) ou FilterChip (le filtre).",
+    keywords: ['chip', 'pill', 'pastille', 'primitive', 'tone', 'glass', 'surface', 'filter', 'meta', 'rayon', 'CHIP_RAYON', 'seuil'],
     usedBy: ['MetaPill', 'FilterChip', 'DevPanel'],
     render: () => (
       <div className="flex flex-col gap-stack">
@@ -7471,9 +7530,9 @@ const COMPONENTS: ComponentEntry[] = [
           <Chip tone="brand">brand</Chip>
         </div>
         <div className="flex flex-wrap items-center gap-stack-xs">
-          <Chip size="sm" tone="primary">sm · 24 px</Chip>
-          <Chip size="md" tone="primary">md · 30 px</Chip>
-          <Chip size="lg" tone="primary">lg · 44 px</Chip>
+          <Chip size="sm" tone="primary">sm · 24 px, pilule</Chip>
+          <Chip size="md" tone="primary">md · 30 px, rayon 14</Chip>
+          <Chip size="lg" tone="primary">lg · 44 px, rayon 14</Chip>
         </div>
         <div className="flex flex-wrap items-center gap-stack-xs">
           <Chip tone="primary" leadingIcon={<Target size={14} />}>avec icône</Chip>
@@ -7530,8 +7589,8 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'SettingsRow',
     codeName: 'patterns/SettingsRow.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: "Rangée de réglage : pastille d'icône (IconChip md), libellé 16/600 ink-900 (danger-fg si `danger`), 4 px, description 16 ink-700 à la largeur de lecture, et le contrôle à droite. SettingsToggleRow, dans le même fichier, y pose un Switch. Brique des pages Compte, Facturation et Confidentialité.",
-    keywords: ['settings', 'reglage', 'row', 'compte', 'preferences', 'toggle', 'danger'],
+    description: "Rangée de réglage : pastille d'icône (IconChip md), libellé 16/600 ink-900 (danger-fg si `danger`), 4 px, description 16 ink-700 à la largeur de lecture, et le contrôle à droite. Le texte et le contrôle forment une rangée qui se replie : le texte réclame 12rem à côté du contrôle, sinon celui-ci descend de 12 px, dans la colonne du texte, la pastille restant la marque de la rangée — à 375 px, « Langue de l'interface » n'avait que 45 px à côté d'un Select, un mot par ligne. La règle mesure la place réelle, et suit la largeur du contrôle. SettingsToggleRow, dans le même fichier, y pose un Switch. Brique des pages Compte, Facturation et Confidentialité.",
+    keywords: ['settings', 'reglage', 'row', 'compte', 'preferences', 'toggle', 'danger', 'wrap', 'replie', 'select'],
     /* Les rangées dans UNE carte (arbitrage n°5), et la carte porte le padding :
        SettingsRow n'en a pas à l'horizontale. */
     render: () => (
@@ -7539,8 +7598,19 @@ const COMPONENTS: ComponentEntry[] = [
         <SettingsRow icon={<Bell size={18} />} label="Notifications par e-mail" description="Un résumé hebdomadaire, jamais le week-end">
           <Switch defaultChecked />
         </SettingsRow>
-        <SettingsRow icon={<Target size={18} />} label="Objectif hebdomadaire" description="Nombre de sessions visées">
-          <Badge variant="brand">3 sessions</Badge>
+        {/* Un Select : quand il ne laisse plus 12rem au texte, il passe
+            dessous (à 375, ou dans une colonne étroite). La valeur était un
+            Badge — une donnée dans la voix d'un état. */}
+        <SettingsRow icon={<Globe size={18} />} label="Langue de l'interface" description="Celle des menus, des e-mails et des notifications">
+          <Select
+            aria-label="Langue de l'interface"
+            size="sm"
+            options={[
+              { value: 'fr', label: 'Français' },
+              { value: 'en', label: 'English' },
+            ]}
+            defaultValue="fr"
+          />
         </SettingsRow>
         <SettingsRow icon={<LogOut size={18} />} label="Supprimer le compte" description="Action irréversible" danger>
           <Button emphasis="solid" tone="danger" size="sm">Supprimer</Button>
@@ -7582,7 +7652,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'PageShell',
     codeName: 'layout/PageShell.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: "Le conteneur canonique des pages principales : largeur (`width`, page par défaut, 1 152 px), marges verticales (32 · 40 · 48 selon la largeur) et rythme entre sections (`gap`, 48 par défaut depuis le 24/09 — il en posait 32). Pas de padding horizontal : la gouttière vient de la mise en page. `noPadTop` retire la marge du haut.",
+    description: "Le conteneur canonique des pages principales : largeur (`width`, page par défaut, 1 152 px), marges verticales (32 · 40 · 48 selon la largeur) et rythme entre sections (`gap`, 48 par défaut depuis le 24/09 — il en posait 32). Pas de padding horizontal : la gouttière vient de la mise en page. `noPadTop` retire la marge du haut. Une disposition (`grid`, `flex`…), une direction (`flex-row`…) ou un `gap-*` passés en `className` remplacent ceux de la base depuis le 24/09 — les règles OWN_* de Card, pour les classes sans préfixe : avant, l'ordre d'émission de Tailwind tranchait, et les barres collantes du journal et de la newsletter s'empilaient.",
     keywords: ['shell', 'page', 'layout', 'conteneur', 'largeur', 'padding', 'rythme'],
     render: () => (
       <div className="rounded-xl border border-dashed border-primary-300 bg-primary-50/40">
@@ -7751,11 +7821,12 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'StatCardSkeleton',
     codeName: 'patterns/SkeletonTemplates.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: "Squelette de StatCard : une pastille, la valeur et le libellé en blocs gris. ⚠️ Il ne reprend plus exactement les proportions de la carte (rayon 14 contre 20, padding 24 contre 20) : le passage au contenu réel décale légèrement.",
-    keywords: ['skeleton', 'statcard', 'kpi', 'chargement', 'shimmer'],
+    description: "Squelette de StatCard, à l'anatomie de la carte md depuis le 24/09 : rayon 20, padding 20, filet ink-200, pastille de 44, 12 px, la valeur au corps de `stat-value`, 4 px, le libellé en légende. Il a la hauteur de la carte réelle — 165 px à 1440 — : le contenu le remplace sans que la page saute. Il était au rayon 14, au padding 24, avec une pastille ronde et des blocs de 32 et 12 px.",
+    keywords: ['skeleton', 'statcard', 'kpi', 'chargement', 'shimmer', 'stat'],
     render: () => (
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-stack">
-        <StatCardSkeleton />
+      /* La carte et son squelette côte à côte : même rayon, même padding, même hauteur. */
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack items-start">
+        <StatCard icon={<BookOpen size={20} />} label="Parcours complétés" value={12} sub="/24" />
         <StatCardSkeleton />
         <StatCardSkeleton />
       </div>
