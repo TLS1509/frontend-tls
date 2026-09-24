@@ -122,8 +122,13 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         .filter(Boolean)
         .join(' ')}
     >
+      {/* Le nom du groupe a la voix d'un libellé de champ (2026-09-24) : 16/600,
+          casse normale, à l'encre du texte — blanc sur les variantes verre,
+          comme « Effacer » plus bas. Il était en étiquette (11 px, capitales
+          espacées, ink-500) : la voix d'un `Badge`, réservée aux états, et au
+          cran des placeholders. */}
       {label && (
-        <span className="font-body text-micro font-bold uppercase tracking-wider text-ink-500 mr-1">
+        <span className={`font-body text-body font-semibold mr-1 ${isGlass ? 'text-white' : 'text-ink-900'}`}>
           {label}
         </span>
       )}
