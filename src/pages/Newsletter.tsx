@@ -65,7 +65,7 @@ export const Newsletter: React.FC = () => {
               <div className="flex flex-col gap-stack-3xs">
                 <h2 id="newsletter-preferences" className="font-display text-h2 text-ink-900">Préférences d'abonnement</h2>
                 <p className="font-body text-body text-ink-700 max-w-prose">
-                  Tu peux te désinscrire à tout moment depuis n'importe quel email reçu.
+                  Vous pouvez vous désinscrire à tout moment depuis n'importe quel email reçu.
                 </p>
               </div>
               <Card className="flex flex-col gap-stack">
@@ -92,7 +92,7 @@ export const Newsletter: React.FC = () => {
               </div>
               <Card className="flex flex-col items-start gap-stack-lg">
                 <p className="font-body text-body text-ink-700 max-w-prose">
-                  Consulte la dernière synthèse hebdomadaire pour capter les tendances utiles en
+                  Consultez la dernière synthèse hebdomadaire pour capter les tendances utiles en
                   quelques minutes. Vidéo de la semaine, articles à la une et sélection courte
                   curée par l'équipe éditoriale.
                 </p>

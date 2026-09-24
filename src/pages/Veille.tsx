@@ -237,7 +237,7 @@ export const Veille: React.FC = () => {
           savedIds={savedIds}
           onToggleSave={(id) => toggleBookmark(id)}
           onItemClick={handleOpen}
-          emptyMessage="Aucun résultat. Essaie d'élargir tes filtres."
+          emptyMessage="Aucun résultat. Essayez d'élargir vos filtres."
         />
       </section>
 
@@ -257,10 +257,10 @@ export const Veille: React.FC = () => {
               de la méta). L'icône se cale sur sa première ligne. */}
           <p className="flex items-start gap-stack-xs font-body text-body font-semibold text-ink-900 @3xl:flex-1">
             <Mail size={16} className="shrink-0 mt-[5px] text-ink-600" aria-hidden="true" />
-            Recevoir les actus veille dans ta boîte mail
+            Recevoir les actus veille dans votre boîte mail
           </p>
           <div className="flex items-center gap-stack-xs">
-            <label htmlFor={emailId} className="sr-only">Ton adresse e-mail</label>
+            <label htmlFor={emailId} className="sr-only">Votre adresse e-mail</label>
             <Input
               id={emailId}
               name="email"

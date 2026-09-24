@@ -289,10 +289,10 @@ export const WeeklyNewsletter: React.FC = () => {
             <Mail size={20} />
           </span>
           <h2 className="font-display text-h2 text-white">
-            Reçois les actus chaque lundi
+            Recevez les actus chaque lundi
           </h2>
           <p className="font-body text-body text-white max-w-prose">
-            La sélection hebdomadaire TLS directement dans ta boîte mail. Pas de spam,
+            La sélection hebdomadaire TLS directement dans votre boîte mail. Pas de spam,
             désinscription en 1 clic.
           </p>
           <form
