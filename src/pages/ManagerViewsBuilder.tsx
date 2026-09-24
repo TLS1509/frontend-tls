@@ -16,14 +16,19 @@ import { LineChart } from '../components/charts/LineChart';
 import { PieChart } from '../components/charts/PieChart';
 import { PageShell } from '../components/layout';
 
+/* Arbitrage n°18 : l'XP et la série sortent aussi des métriques proposées au
+   manager — « XP gagnés / semaine » devient les leçons terminées (l'activité
+   réelle), « Streak moyen » le rythme hebdomadaire, et « Badges débloqués »
+   les Open Badges, adossés à des niveaux validés. Les valeurs de l'aperçu
+   restent des valeurs de démonstration (mockValue). */
 const METRICS = [
   'Taux complétion parcours',
   'Niveau Dreyfus moyen',
-  'XP gagnés / semaine',
-  'Badges débloqués',
+  'Leçons terminées / semaine',
+  'Open Badges obtenus',
   'Sessions coaching',
   'JAC validés',
-  'Streak moyen',
+  'Semaines actives sur 4 (moyenne)',
   'Budget consommé',
 ];
 

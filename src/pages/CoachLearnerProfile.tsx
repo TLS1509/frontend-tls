@@ -29,12 +29,15 @@ const FALLBACK_LEARNER = {
 
 const DREYFUS_LEVELS: DreyfusLevel[] = [1, 2, 3, 4, 5];
 
+/* Les leçons terminées ne portent plus leur gain (« +80 XP », « +60 XP ») :
+   l'arbitrage n°18 retire l'XP, et la ligne dit déjà ce qui s'est passé. Le
+   « Badge débloqué : Explorateur » (badge de plateforme, sans niveau validé)
+   reste en l'état : question produit ouverte pour les vues coach. */
 const ACTIVITY_ITEMS: ActivityFeedItem[] = [
   {
     id: 'a1',
     type: 'complete',
     title: 'Leçon terminée : Gestion du temps',
-    description: '+80 XP',
     timestamp: new Date('2026-05-13T09:00:00'),
     tone: 'success',
   },
@@ -58,7 +61,6 @@ const ACTIVITY_ITEMS: ActivityFeedItem[] = [
     id: 'a4',
     type: 'complete',
     title: 'Leçon terminée : Feedback constructif',
-    description: '+60 XP',
     timestamp: new Date('2026-05-10T16:00:00'),
     tone: 'success',
   },

@@ -18,6 +18,7 @@ import { Tabs } from '../components/ui/Tabs';
 import { useAnalyticsStore } from '../stores/persistence';
 import { PageShell } from '../components/layout';
 import { MOCK_COACH_ID } from '../data/analytics';
+import { semainesActives } from '../lib/reconnaissances';
 import type { LearnerStatus } from '../types/learning';
 
 const STATUS_LABEL: Record<LearnerStatus, string> = {
@@ -81,6 +82,12 @@ export default function FicheApprenantAnalytics() {
     current: cs.current,
     target: cs.target,
   }));
+
+  // Semaines glissantes (sur les 4 dernières) où au moins une activité est
+  // enregistrée — le rythme calme qui remplace la série (arbitrage n°18).
+  const semainesActivesSur4 = semainesActives(
+    learner.recentCompletions.map((c) => Date.parse(c.completedAt)),
+  ).filter(Boolean).length;
 
   /* `SkillBar` attend un pourcentage : on lui passait le niveau brut (4 sur 5),
      qu'il affichait « 4 % » avec une jauge presque vide. Niveau / 5, comme la
@@ -148,11 +155,16 @@ export default function FicheApprenantAnalytics() {
           </div>
         </Card>
 
+        {/* Arbitrage n°18 : la série (« Streak actuel ») et le total d'XP
+            cèdent la place à ce que l'apprenant a réellement fait — le rythme
+            des quatre dernières semaines, lu sur ses activités enregistrées,
+            et les corrections reçues. Même calcul que la section
+            Reconnaissances du profil (lib/reconnaissances). */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
           <StatCard value={`D${learner.dreyfusAvg.toFixed(1).replace('.', ',')}`} label="Dreyfus moyen" variant="brand" size="sm" />
-          <StatCard value={`${learner.streak} j`} label="Streak actuel" variant="warm" size="sm" delta={learner.streak > 0 ? `↑ actif` : 'Inactif'} deltaDirection={learner.streak > 0 ? 'up' : 'down'} />
+          <StatCard value={`${semainesActivesSur4} sur 4`} label="Semaines actives" variant="warm" size="sm" />
           <StatCard value={learner.sessionsCompleted} label="Sessions complétées" size="sm" />
-          <StatCard value={`${learner.totalXp.toLocaleString('fr-FR')} XP`} label="Total XP" size="sm" />
+          <StatCard value={learner.correctionsReceived} label="Corrections reçues" size="sm" />
         </div>
       </div>
 
@@ -205,8 +217,8 @@ export default function FicheApprenantAnalytics() {
               <p className="text-body text-ink-600">Aucune activité récente enregistrée.</p>
             ) : (
               /* Une collection du même type : des rangées dans UNE carte, plus
-                 une pile de cartes. Le type et les XP sont des données : MetaPill
-                 et légende, plus des pastilles d'état. */
+                 une pile de cartes. Le type est une donnée : MetaPill. Le gain
+                 d'XP de chaque activité est sorti (arbitrage n°18). */
               <Card className="p-0">
                 <ul className="flex flex-col divide-y divide-ink-100">
                   {learner.recentCompletions.map((a) => (
@@ -218,7 +230,6 @@ export default function FicheApprenantAnalytics() {
                       <div className="flex items-center gap-stack-sm flex-wrap text-caption text-ink-600 tabular-nums">
                         {a.npsGiven !== undefined && <span>NPS {a.npsGiven}/10</span>}
                         <span>{formatRelativeDate(a.completedAt)}</span>
-                        <span className="font-semibold text-ink-700">+{a.xpEarned} XP</span>
                       </div>
                     </li>
                   ))}
