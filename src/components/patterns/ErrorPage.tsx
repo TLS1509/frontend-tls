@@ -3,7 +3,9 @@ import { AlertTriangle } from 'lucide-react';
 import { motion, useReducedMotion, useMotionValue, useSpring, type Variants } from 'framer-motion';
 import { AmbientBlobs } from './AmbientBlobs';
 
-export type ErrorPageTone = 'default' | 'danger';
+/* `neutral` (2026-09-24) : une panne serveur n'est ni une faute de
+   l'utilisateur ni une alerte à crier — ton utilitaire, encre seule. */
+export type ErrorPageTone = 'default' | 'danger' | 'neutral';
 
 export type ErrorSuggestionTone = 'primary' | 'warm' | 'sun' | 'neutral';
 
@@ -53,16 +55,27 @@ export interface ErrorPageProps {
 const TONE_CODE_COLOR: Record<ErrorPageTone, string> = {
   default: 'text-primary-200',
   danger: 'text-danger-base/70',
+  neutral: 'text-ink-200',
 };
 
 const TONE_ICON_BG: Record<ErrorPageTone, string> = {
   default: 'bg-gradient-to-br from-primary-50 to-secondary-50 border-primary-200 text-primary-600',
   danger: 'bg-danger-bg border-secondary-200 text-danger-fg',
+  neutral: 'bg-ink-50 border-ink-200 text-ink-600',
 };
 
 const TONE_EYEBROW: Record<ErrorPageTone, string> = {
   default: 'text-primary-700',
   danger: 'text-danger-fg',
+  neutral: 'text-ink-600',
+};
+
+// Encart (diagnostic, statut). Or pour `default` et `danger` comme avant ;
+// encre pour `neutral`.
+const TONE_CALLOUT: Record<ErrorPageTone, string> = {
+  default: 'border-accent-200 bg-gradient-to-br from-accent-50 to-accent-50/40',
+  danger: 'border-accent-200 bg-gradient-to-br from-accent-50 to-accent-50/40',
+  neutral: 'border-ink-200 bg-ink-50',
 };
 
 const SUGGESTION_TONE_BG: Record<ErrorSuggestionTone, string> = {
@@ -295,7 +308,10 @@ export const ErrorPage: React.FC<ErrorPageProps> = ({
         {callout && (
           <motion.div
             variants={itemVariants}
-            className="rounded-lg border border-accent-200 bg-gradient-to-br from-accent-50 to-accent-50/40 p-stack-lg text-left max-w-[560px] w-full flex flex-col gap-tight"
+            className={[
+              'rounded-lg border p-stack-lg text-left max-w-[560px] w-full flex flex-col gap-tight',
+              TONE_CALLOUT[tone],
+            ].join(' ')}
           >
             {callout}
           </motion.div>
