@@ -48,6 +48,17 @@ const SPEC_TO_DISPLAY: Record<JournalEntryType, JournalBubbleType> = {
   'moment-eureka':    'insight',
 };
 
+/* Sens inverse, pour les tuiles de format : l'éditeur (`JournalNewEntry`)
+   n'accepte en `?type=` que les types du domaine. Les tuiles envoyaient
+   `guided|free|insight|learning` et retombaient toutes sur « Réflexion libre ». */
+const DISPLAY_TO_SPEC: Partial<Record<JournalBubbleType, JournalEntryType>> = {
+  free:     'reflexion-libre',
+  learning: 'apprentissage',
+  guided:   'pratique-pro',
+  coaching: 'session-coaching',
+  insight:  'moment-eureka',
+};
+
 /* ─── Filter config ──────────────────────────────────────────────────────── */
 
 const TYPE_FILTERS: { key: TypeFilter; label: string; icon?: React.ReactNode }[] = [
@@ -145,7 +156,7 @@ export const Journal: React.FC = () => {
     if (composeText.trim().length > 0) {
       setJournalDraft({ title: '', body: composeText });
     }
-    navigate('/journal/new-entry?type=free');
+    navigate('/journal/new-entry?type=reflexion-libre');
   };
 
   return (
@@ -187,7 +198,7 @@ export const Journal: React.FC = () => {
                 <button
                   key={t.type}
                   type="button"
-                  onClick={() => navigate(`/journal/new-entry?type=${t.type}`)}
+                  onClick={() => navigate(`/journal/new-entry?type=${DISPLAY_TO_SPEC[t.type] ?? 'reflexion-libre'}`)}
                   className={[
                     'group flex flex-col items-center justify-center gap-tight p-stack rounded-xl border-2 text-center cursor-pointer',
                     'transition-colors duration-base',
