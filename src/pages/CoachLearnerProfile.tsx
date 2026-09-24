@@ -226,7 +226,8 @@ export default function CoachLearnerProfile() {
       {/* Une fiche de consultation : aucune action ne vaut pour tout l'écran,
           donc aucun `solid` (arbitrage n°19). Chaque action appartient à sa
           rangée (valider un niveau, appliquer une recommandation) ou à son
-          bloc (les notes) ; le retour est un `ghost` neutre. */}
+          bloc (les notes) ; le retour est un `ghost` neutre, calé sur le bord
+          du texte (`-ml-stack-md` rattrape son padding). */}
       <EditorialHero
         eyebrow="Coach · Apprenant"
         title={learner.name}
@@ -239,6 +240,7 @@ export default function CoachLearnerProfile() {
             size="md"
             leadingIcon={<ArrowLeft size={16} />}
             onClick={() => navigate('/coach/apprenants')}
+            className="-ml-stack-md"
           >
             Retour aux apprenants
           </Button>

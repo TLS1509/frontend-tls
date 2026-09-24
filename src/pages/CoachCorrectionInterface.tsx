@@ -76,10 +76,11 @@ export default function CoachCorrectionInterface() {
           { label: `Soumis le ${SUBMISSION.submittedAt}` },
         ]}
         tone="flat"
-        /* Arbitrage n°19 : le retour est un `ghost` neutre ; le seul `solid`
+        /* Arbitrage n°19 : le retour est un `ghost` neutre, calé sur le bord
+           du texte (`-ml-stack-md` rattrape son padding) ; le seul `solid`
            de l'écran est l'envoi du feedback (puis « Exercice suivant »). */
         trailing={
-          <Button emphasis="ghost" tone="neutral" size="md" leadingIcon={<ChevronLeft size={16} />}>
+          <Button emphasis="ghost" tone="neutral" size="md" leadingIcon={<ChevronLeft size={16} />} className="-ml-stack-md">
             Retour à la file
           </Button>
         }
