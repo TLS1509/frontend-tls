@@ -1,4 +1,5 @@
 import React from 'react';
+import { IconChip, type IconChipSize, type IconChipTone } from './IconChip';
 
 /**
  * StatCard — Valeurs : src/index.css (@theme) et src/styles/design-tokens.css.
@@ -171,28 +172,28 @@ const VALUE_COLOR_CLASSES: Record<StatValueColor, string> = {
   brand:   'text-primary-800',
 };
 
-// Icon bubble — light fill (variant-aware), rounded-xl, smaller than the value
-const ICON_BUBBLE_BASE = 'inline-flex items-center justify-center rounded-xl shrink-0 [&>svg]:opacity-90';
-
-const ICON_BUBBLE_VARIANT: Record<StatCardVariant, string> = {
-  default:  'bg-ink-50 text-ink-600 border border-ink-200/60',
-  elevated: 'bg-ink-50 text-ink-600 border border-ink-200/60',
-  brand:    'bg-primary-100 text-primary-800',
-  warm:     'bg-secondary-100 text-secondary-700',
-  sun:      'bg-accent-100 text-accent-800',
+/* La pastille d'icône est l'`IconChip` du système (arbitrage n°3, appliqué
+   le 2026-09-24). Elle était faite main : un carré de 36 · 44 · 48 px au rayon
+   de la CARTE (`rounded-xl`, 20) — 0,45 du côté à 44 px, un galet presque rond
+   —, un glyphe à 90 % d'opacité, et en neutre un fond ink-50 cerné d'un filet
+   (1,05:1 contre le blanc, la pastille n'existait que par son trait).
+   Désormais : 32 · 40 · 48 px, rayon proportionnel (10 · 10 · 14), glyphe au
+   cran 800. Sur une surface teintée du même ton (`tinted`, `glass`,
+   `frosted` — et les variantes héritées brand · warm · sun, qui partent du
+   cran 50), la pastille monte au cran 100 : au 50, elle aurait le fond exact
+   de la carte (arbitrage n°10). Le neutre reste au 100 sur toutes les
+   surfaces : sa carte teintée est à ink-50, un cran sous lui. */
+const ICON_CHIP_SIZE: Record<StatCardSize, IconChipSize> = {
+  sm: 'sm',
+  md: 'md',
+  lg: 'lg',
 };
 
-const ICON_BUBBLE_TONE: Record<StatCardTone, string> = {
-  neutral: 'bg-ink-100 text-ink-700',
-  brand:   'bg-primary-100 text-primary-800',
-  warm:    'bg-secondary-100 text-secondary-700',
-  sun:     'bg-accent-100 text-accent-800',
-};
-
-const ICON_BUBBLE_SIZE: Record<StatCardSize, string> = {
-  sm: 'w-9 h-9 [&>svg]:w-4 [&>svg]:h-4',
-  md: 'w-11 h-11 [&>svg]:w-5 [&>svg]:h-5',
-  lg: 'w-12 h-12 [&>svg]:w-5 [&>svg]:h-5',
+const ICON_CHIP_TONE: Record<StatCardTone, IconChipTone> = {
+  neutral: 'neutral',
+  brand:   'brand',
+  warm:    'warm',
+  sun:     'sun',
 };
 
 /* Le delta n'est plus posé en absolu dans le coin (2026-09-24) : il
@@ -285,16 +286,17 @@ export const StatCard: React.FC<StatCardProps> = ({
     .filter(Boolean)
     .join(' ');
 
-  const iconBubbleClasses = [
-    ICON_BUBBLE_BASE,
-    useExplicit ? ICON_BUBBLE_TONE[resolvedTone] : ICON_BUBBLE_VARIANT[variant],
-    ICON_BUBBLE_SIZE[size],
-  ].join(' ');
+  // Teinte de la carte sous la pastille : tout sauf le blanc de `card`.
+  const surfaceTeintee = resolvedSurface !== 'card' && resolvedTone !== 'neutral';
 
   const iconEl = icon && (
-    <div className={iconBubbleClasses} aria-hidden="true">
+    <IconChip
+      size={ICON_CHIP_SIZE[size]}
+      tone={ICON_CHIP_TONE[resolvedTone]}
+      surface={surfaceTeintee ? 'tinted' : 'default'}
+    >
       {icon}
-    </div>
+    </IconChip>
   );
   const valueEl = (
     <p className={valueClasses}>
