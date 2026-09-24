@@ -463,7 +463,6 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
               onClick={goTo(entree.href)}
               icon={<Icone size={18} />}
               label={entree.label}
-              count={entree.id === 'parcours' ? '3' : undefined}
               active={entreeActive(entree, location.pathname)}
               collapsed={collapsed}
             />
@@ -500,16 +499,20 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       {/* BottomNav — primary mobile navigation (< md). Replaces hamburger for Tier 1 pages. */}
       <BottomNav />
 
-      {/* FloatingNavButton — DEV shortcut pour accès rapide /components + /pages-index.
-          À remplacer par un chatbot / agent / FAQ widget en prod ultérieurement. */}
-      <FloatingNavButton
-        tone="brand"
-        ariaLabel="Raccourcis développeur"
-        actions={[
-          { label: 'Design System', icon: <Palette size={18} />,       onClick: () => navigate('/components'),  tone: 'primary' },
-          { label: 'Pages Index',   icon: <BookOpenText size={18} />,  onClick: () => navigate('/pages-index'), tone: 'warm' },
-        ]}
-      />
+      {/* FloatingNavButton — raccourci DÉVELOPPEUR (/components, /pages-index).
+          Gardé derrière DEV comme le DevPanel : rendu sans condition, il
+          sortait en production et recouvrait le contenu aligné à droite
+          (audit du 23/09). À remplacer par un vrai widget s'il en faut un. */}
+      {import.meta.env.DEV && (
+        <FloatingNavButton
+          tone="brand"
+          ariaLabel="Raccourcis développeur"
+          actions={[
+            { label: 'Design System', icon: <Palette size={18} />,       onClick: () => navigate('/components'),  tone: 'primary' },
+            { label: 'Pages Index',   icon: <BookOpenText size={18} />,  onClick: () => navigate('/pages-index'), tone: 'warm' },
+          ]}
+        />
+      )}
       {import.meta.env.DEV && <DevPanel />}
     </div>
   );

@@ -84,10 +84,13 @@ export const VerifyEmail: React.FC = () => {
             </p>
 
             <div className="flex flex-col gap-stack-xs">
-              {/* Demo button : would not exist in prod; simulates clicking the email link */}
-              <AuthPrimaryButton onClick={handleSimulateClick}>
-                Simuler la vérification (démo)
-              </AuthPrimaryButton>
+              {/* Bouton de démo : simule le clic sur le lien reçu. DEV seulement —
+                  en production, c'est le lien de l'e-mail qui vérifie. */}
+              {import.meta.env.DEV && (
+                <AuthPrimaryButton onClick={handleSimulateClick}>
+                  Simuler la vérification (démo)
+                </AuthPrimaryButton>
+              )}
 
               <AuthGhostButton onClick={handleResend} disabled={cooldown > 0}>
                 <span className="inline-flex items-center gap-stack-xs">

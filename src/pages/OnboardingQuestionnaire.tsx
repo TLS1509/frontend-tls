@@ -168,8 +168,9 @@ const OnboardingQuestionnaire: React.FC = () => {
           />
         </PageShell>
 
-        {/* Variant switcher — fixed bottom-right */}
-        <VariantSwitcher current={qVariant} onChange={setQVariant} />
+        {/* Sélecteur de variante — outil de labo, DEV seulement : en production
+            il recouvrait le bouton d'envoi du chat (audit du 23/09). */}
+        {import.meta.env.DEV && <VariantSwitcher current={qVariant} onChange={setQVariant} />}
       </main>
     );
   }
