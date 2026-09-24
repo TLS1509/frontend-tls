@@ -47,7 +47,10 @@ const ParcoursPanel: React.FC = () => (
         transition={{ delay: 0.45, type: 'spring', stiffness: 260, damping: 18 }}
         className="rounded-lg bg-primary-50 border border-primary-100 p-3 flex flex-col gap-tight"
       >
-        <span className="text-caption font-bold text-primary-700 uppercase">XP gagnés</span>
+        {/* Libellé de donnée : légende 13/600 à l'encre de marque au cran 800
+            (6,31:1 sur primary-50). Il était en capitales, 700, au cran 700 :
+            4,48:1, sous le seuil AA. L'XP lui-même relève de l'arbitrage n°18. */}
+        <span className="text-caption font-semibold text-primary-800">XP gagnés</span>
         <span className="font-display text-h3 font-bold text-ink-900 tabular-nums">+340</span>
       </motion.div>
       <motion.div
@@ -56,7 +59,7 @@ const ParcoursPanel: React.FC = () => (
         transition={{ delay: 0.6, type: 'spring', stiffness: 260, damping: 18 }}
         className="rounded-lg bg-accent-50 border border-accent-100 p-3 flex flex-col gap-tight"
       >
-        <span className="text-caption font-bold text-warning-fg uppercase">Streak</span>
+        <span className="text-caption font-semibold text-warning-fg">Streak</span>
         <span className="font-display text-h3 font-bold text-ink-900 tabular-nums">12 j</span>
       </motion.div>
     </div>
