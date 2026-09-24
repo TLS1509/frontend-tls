@@ -130,6 +130,8 @@ const tailleRendue = (size: ButtonSize): TailleRendue => (size === 'xl' ? 'lg' :
 export type ButtonEmphasis = 'solid' | 'soft' | 'outline' | 'ghost' | 'link';
 /** De quelle couleur il insiste. */
 export type ButtonTone = 'brand' | 'warm' | 'sun' | 'danger' | 'neutral';
+/** Le bord sur lequel un `ghost` cale son libellé (voir `flush`). */
+export type ButtonFlush = 'start' | 'end' | 'both';
 
 export interface ButtonProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
@@ -155,6 +157,28 @@ export interface ButtonProps
   loading?: boolean;
   /** Stretch to full container width */
   fullWidth?: boolean;
+  /**
+   * Cale le LIBELLÉ d'un `ghost` sur le bord du texte qu'il suit, au lieu de
+   * sa boîte (2026-09-24). Au repos, un `ghost` n'a ni fond ni filet : ce qu'on
+   * voit, c'est son libellé, et son padding le décale de 16 · 20 · 24 px
+   * (sm · md · lg) du bord du texte. Une marge négative de la même valeur le
+   * ramène ; la boîte déborde d'autant, et son fond n'y apparaît qu'au survol.
+   *
+   *   start — en début de rangée, sous un titre ou un paragraphe (« Précédent »,
+   *           « Retour », l'action seule d'une rangée) ;
+   *   end   — en bout de rangée, calé sur le bord droit ;
+   *   both  — les deux : une place qui change de côté selon la largeur
+   *           (l'emplacement d'action de `SectionHeader`, à droite du titre ou
+   *           dessous).
+   *
+   * Sans effet sur les autres niveaux — `solid`, `soft` et `outline` montrent
+   * leur boîte, c'est elle qui s'aligne ; `link` n'a pas de padding — ni sur
+   * `iconOnly`. On peut donc le poser sur un bouton dont le niveau change avec
+   * l'état : il ne s'applique que lorsqu'il rend un `ghost`.
+   * Ne pas l'associer à une marge horizontale passée en `className` (même
+   * propriété, même spécificité : l'ordre d'émission trancherait, piège n°6).
+   */
+  flush?: ButtonFlush;
   /** HTML button type (button | submit | reset) */
   type?: 'button' | 'submit' | 'reset';
   /**
@@ -285,9 +309,12 @@ const EMPHASIS_TONE: Record<ButtonEmphasis, Record<ButtonTone, string>> = {
   },
   /* ── soft — le fond doux. L'action DE CONTEXTE (arbitrage n°19) : celle
         d'une carte, d'une rangée, d'un panneau ; et l'outil qui a besoin d'un
-        contour. Fond opaque au cran 50, label 800, filet 600 — le filet monte
-        au 700 sur l'or, seule famille dont le 600 rate le seuil de contour
-        (2,89 contre les 3,0 de WCAG 1.4.11 ; le 700 donne 4,88).
+        contour. Fond opaque au cran 50, label 800, filet 700 pour les trois
+        tons. ⚠️ Corrigé le 24/09 : ce commentaire disait « filet 600, 700 sur
+        l'or seulement » — l'état du 10/09. Le 600 tenait sur le blanc
+        (3,66 · 3,98) mais tombait sous le 3:1 d'un contour sur une carte au
+        cran 100 (teal 2,99, or 2,49) : depuis le 17/09, les trois sont au 700
+        (tableau dans l'en-tête du fichier).
         `neutral` est la pastille blanche givrée posée sur une carte teintée :
         elle recouvre vraiment, donc elle garde son flou. */
   soft: {
@@ -517,6 +544,17 @@ const ICON_ONLY_WIDTH: Record<TailleRendue, string> = {
   lg: 'w-13',
 };
 
+/* Calage du libellé d'un `ghost` sur le bord du texte (prop `flush`) : la
+   marge négative vaut EXACTEMENT le padding horizontal du cran (SIZE_CLASSES :
+   px-stack · px-stack-md · px-stack-lg). Si l'un change, l'autre suit.
+   Avant la prop, trois tranches de pages l'écrivaient à la main
+   (`-ml-stack-md`, `-ml-stack-lg` selon la taille), chacune à retrouver. */
+const FLUSH: Record<ButtonFlush, Record<TailleRendue, string>> = {
+  start: { sm: '-ml-stack', md: '-ml-stack-md', lg: '-ml-stack-lg' },
+  end:   { sm: '-mr-stack', md: '-mr-stack-md', lg: '-mr-stack-lg' },
+  both:  { sm: '-mx-stack', md: '-mx-stack-md', lg: '-mx-stack-lg' },
+};
+
 /* ────────────────── Résolution : deux axes, ou un alias ──────────────────── */
 
 const resolveClasses = (
@@ -544,8 +582,8 @@ const resolveClasses = (
  *
  * Ces affordances ont donc besoin de l'APPARENCE seule. Sans cette fonction,
  * elles la recopiaient à la main — et manquaient chaque décision : la graisse
- * 700 du 09/09, le filet au cran 600 du 10/09, la cible tactile. Elles la
- * prennent maintenant à la source.
+ * 700 du 09/09, le filet des boutons doux (fermé au 600 le 10/09, au 700 depuis
+ * le 17/09), la cible tactile. Elles la prennent maintenant à la source.
  *
  * ⚠️ À n'employer que sur un élément NON interactif, à l'intérieur d'un parent
  * qui porte déjà l'interaction. Pour tout le reste, c'est `<Button>`.
@@ -591,6 +629,7 @@ export const Button: React.FC<ButtonProps> = ({
   trailingIcon,
   loading = false,
   fullWidth = false,
+  flush,
   type = 'button',
   disabled,
   className = '',
@@ -616,6 +655,8 @@ export const Button: React.FC<ButtonProps> = ({
     !iconOnly && (niveau === 'link' ? SIZE_TEXT[taille] : SIZE_CLASSES[taille]),
     iconOnly && `${ICON_ONLY_WIDTH[taille]} aspect-square`,
     taille === 'sm' && cibleSm(iconOnly ? CIBLE_SM_CARREE : CIBLE_SM, className),
+    // Seul le `ghost` a un padding sans boîte visible : c'est lui qu'on cale.
+    flush && niveau === 'ghost' && !iconOnly && FLUSH[flush][taille],
     fullWidth && 'w-full',
     className,
   ]
