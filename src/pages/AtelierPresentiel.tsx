@@ -91,11 +91,14 @@ export default function AtelierPresentiel() {
             <p className="text-caption text-ink-600">Carte interactive</p>
           </div>
 
+          {/* Le jour d'un atelier en présentiel, s'y rendre est l'action
+              principale de l'écran : « Itinéraire » est son seul `solid`
+              (arbitrage n°19). Copier l'adresse est un outil (`ghost`). */}
           <div className="mt-stack-lg flex gap-stack-xs flex-wrap">
-            <Button emphasis="outline" size="sm" leadingIcon={<Navigation size={14} />}>
+            <Button emphasis="solid" tone="brand" size="sm" leadingIcon={<Navigation size={14} />}>
               Itinéraire
             </Button>
-            <Button emphasis="outline" size="sm" leadingIcon={<Copy size={14} />}>
+            <Button emphasis="ghost" tone="neutral" size="sm" leadingIcon={<Copy size={14} />}>
               Copier l'adresse
             </Button>
           </div>
@@ -151,8 +154,9 @@ export default function AtelierPresentiel() {
               icon={<FileText size={16} />}
               label={res.label}
               badge={<span className="shrink-0 text-caption text-ink-600">{res.type}</span>}
+              /* L'action de la rangée : `soft` (arbitrage n°19). */
               action={
-                <Button emphasis="outline" iconOnly leadingIcon={<Download size={16} />} aria-label={`Télécharger ${res.label}`} />
+                <Button emphasis="soft" tone="brand" iconOnly leadingIcon={<Download size={16} />} aria-label={`Télécharger ${res.label}`} />
               }
             />
           ))}

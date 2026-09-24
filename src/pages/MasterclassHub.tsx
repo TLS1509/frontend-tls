@@ -140,17 +140,21 @@ export default function MasterclassHub() {
                       )}
                     </div>
 
+                    {/* L'action de la carte en `soft` ; un état (bouton
+                        désactivé) en `ghost` neutre, qui ne se lit pas comme
+                        une action. Un catalogue n'a pas d'action principale :
+                        pas de `solid` (arbitrage n°19). */}
                     <div className="mt-auto pt-stack-lg">
                       {hasReplay ? (
-                        <Button emphasis="outline" size="sm" fullWidth leadingIcon={<Play size={14} />}>
+                        <Button emphasis="soft" tone="brand" size="sm" fullWidth leadingIcon={<Play size={14} />}>
                           Voir le replay
                         </Button>
                       ) : enrollment ? (
-                        <Button emphasis="outline" size="sm" fullWidth disabled>
+                        <Button emphasis="ghost" tone="neutral" size="sm" fullWidth disabled>
                           Déjà inscrit(e)
                         </Button>
                       ) : isFull ? (
-                        <Button emphasis="outline" size="sm" fullWidth disabled>
+                        <Button emphasis="ghost" tone="neutral" size="sm" fullWidth disabled>
                           Complet
                         </Button>
                       ) : (

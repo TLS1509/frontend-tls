@@ -72,8 +72,13 @@ export default function EvenementHub() {
         eyebrow={{ label: 'Événements' }}
         title="Événements & Conférences"
         summary="Conférences, webinaires et ateliers ouverts à la communauté TLS. Certains événements sont réservés aux membres."
+        /* S'abonner au calendrier est un outil : `ghost` (arbitrage n°19).
+           `-ml-stack-md` rend à son libellé le bord gauche du texte (le
+           padding du ghost le décalait de 20 px). Le seul `solid` possible de
+           la page est l'inscription à l'événement à la une ; déjà inscrit, la
+           page n'en a plus. */
         trailing={
-          <Button emphasis="soft" size="md">
+          <Button emphasis="ghost" tone="brand" size="md" className="-ml-stack-md">
             S'abonner au calendrier
           </Button>
         }
@@ -114,12 +119,13 @@ export default function EvenementHub() {
               )}
               <div className="mt-stack-lg">
                 {eventsStore.getEventRegistration(MOCK_USER_ID, featured.id) ? (
-                  <Button emphasis="outline" size="md" disabled>
+                  <Button emphasis="ghost" tone="neutral" size="md" disabled className="-ml-stack-md">
                     <CheckCircle size={16} className="mr-1.5" /> Déjà inscrit(e)
                   </Button>
                 ) : (
                   <Button
-                    emphasis="soft"
+                    emphasis="solid"
+                    tone="brand"
                     size="md"
                     onClick={() => eventsStore.registerForEvent(MOCK_USER_ID, featured.id)}
                   >
@@ -213,15 +219,19 @@ export default function EvenementHub() {
                     </div>
                   )}
 
+                  {/* L'action de la carte en `soft` ; un état (bouton
+                      désactivé) en `ghost` neutre, qui ne se lit pas comme une
+                      action (arbitrage n°19), calé sur le bord du texte
+                      (`-ml-stack`, le padding du ghost `sm`). */}
                   <div className="mt-auto pt-stack-lg">
                     {!isPrivateAccessible ? (
-                      <Button emphasis="outline" size="sm" disabled>
+                      <Button emphasis="ghost" tone="neutral" size="sm" disabled className="-ml-stack">
                         <Lock size={14} className="mr-1.5" /> Réservé aux membres
                       </Button>
                     ) : isPast ? (
-                      <Button emphasis="outline" size="sm">Voir le récap</Button>
+                      <Button emphasis="soft" tone="brand" size="sm">Voir le récap</Button>
                     ) : registration ? (
-                      <Button emphasis="outline" size="sm" disabled>Déjà inscrit(e)</Button>
+                      <Button emphasis="ghost" tone="neutral" size="sm" disabled className="-ml-stack">Déjà inscrit(e)</Button>
                     ) : (
                       <Button
                         emphasis="soft"

@@ -49,7 +49,11 @@ export default function MasterclassReplay() {
               <div className="flex flex-col items-center gap-stack text-white">
                 <Video size={48} className="text-white/40" />
                 <p className="text-body text-white/60">Replay · 1h 32min</p>
-                <Button emphasis="soft" size="lg" leadingIcon={<Play size={16} />}>
+                {/* Regarder : l'action principale de l'écran, son seul
+                    `solid` (arbitrage n°19) — le verre clair `onDark` sur le
+                    lecteur. Les autres boutons de la page sont des actions de
+                    bloc ou de rangée, en `soft`. */}
+                <Button emphasis="solid" tone="brand" onDark size="lg" leadingIcon={<Play size={16} />}>
                   Regarder le replay
                 </Button>
               </div>
@@ -82,7 +86,7 @@ export default function MasterclassReplay() {
                   className="w-full min-h-[120px] h-auto p-3 border border-ink-400 rounded-lg text-body text-ink-900 placeholder:text-ink-500 resize-none focus:outline-none focus:border-primary-700"
                 />
                 <div className="flex justify-end">
-                  <Button emphasis="outline" size="sm">Sauvegarder</Button>
+                  <Button emphasis="soft" tone="brand" size="sm">Sauvegarder</Button>
                 </div>
               </Card>
             </section>
@@ -107,7 +111,7 @@ export default function MasterclassReplay() {
                     icon={m.icon}
                     label={m.label}
                     action={
-                      <Button emphasis="outline" iconOnly leadingIcon={<Download size={16} />} aria-label={`Télécharger ${m.label}`} />
+                      <Button emphasis="soft" tone="brand" iconOnly leadingIcon={<Download size={16} />} aria-label={`Télécharger ${m.label}`} />
                     }
                   />
                 ))}

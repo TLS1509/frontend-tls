@@ -49,8 +49,13 @@ export default function MasterclassLive() {
               <div className="flex flex-col items-center gap-stack text-white">
                 <Video size={48} className="text-white/40" />
                 <p className="text-body text-white/60">Session live · Google Meet</p>
+                {/* Rejoindre : l'action principale de l'écran, son seul
+                    `solid` (arbitrage n°19) — le verre clair `onDark` sur le
+                    lecteur. */}
                 <Button
-                  emphasis="soft"
+                  emphasis="solid"
+                  tone="brand"
+                  onDark
                   size="lg"
                   leadingIcon={<ExternalLink size={16} />}
                 >
@@ -91,7 +96,7 @@ export default function MasterclassLive() {
                     aria-label="Poser une question"
                     className="flex-1 min-w-0"
                   />
-                  <Button emphasis="outline">Envoyer</Button>
+                  <Button emphasis="soft" tone="brand">Envoyer</Button>
                 </div>
               </Card>
             </section>
@@ -114,7 +119,7 @@ export default function MasterclassLive() {
                           <span className="text-caption text-ink-600">{r.type}</span>
                         </div>
                       </div>
-                      <Button emphasis="outline" iconOnly leadingIcon={<Download size={16} />} aria-label={`Télécharger ${r.label}`} className="shrink-0" />
+                      <Button emphasis="soft" tone="brand" iconOnly leadingIcon={<Download size={16} />} aria-label={`Télécharger ${r.label}`} className="shrink-0" />
                     </li>
                   ))}
                 </ul>

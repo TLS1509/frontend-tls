@@ -73,8 +73,12 @@ export default function EvenementLive() {
             <div className="flex flex-col items-center gap-stack">
               <Video size={48} className="text-white/40" />
               <p className="text-caption text-white/50">Diffusion live</p>
+              {/* Rejoindre : l'action principale de l'écran, son seul `solid`
+                  (arbitrage n°19) — le verre clair `onDark` sur le lecteur. */}
               <Button
-                emphasis="soft"
+                emphasis="solid"
+                tone="brand"
+                onDark
                 size="lg"
                 leadingIcon={<ExternalLink size={16} />}
               >

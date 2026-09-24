@@ -64,7 +64,9 @@ export default function AtelierRecap() {
             <p className="text-body font-semibold text-ink-900">Tu n'as pas encore donné ton avis</p>
             <p className="text-caption text-ink-600">Aide-nous à améliorer les prochains ateliers</p>
           </div>
-          <Button emphasis="soft" size="sm">Donner mon avis</Button>
+          {/* Donner son avis, ce qui reste à faire après l'atelier : l'action
+              principale du récapitulatif, son seul `solid` (arbitrage n°19). */}
+          <Button emphasis="solid" tone="brand" size="sm">Donner mon avis</Button>
         </Card>
       </section>
 
@@ -86,7 +88,8 @@ export default function AtelierRecap() {
                   </div>
                 </div>
                 <Button
-                  emphasis="outline"
+                  emphasis="soft"
+                  tone="brand"
                   iconOnly
                   className="shrink-0"
                   aria-label={`Télécharger ${res.label}`}

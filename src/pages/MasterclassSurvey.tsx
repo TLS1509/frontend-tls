@@ -61,7 +61,9 @@ export default function MasterclassSurvey() {
               Ton avis nous aide à améliorer nos masterclasses. À bientôt.
             </p>
           </div>
-          <Button emphasis="soft" size="lg" onClick={() => navigate('/masterclass')}>
+          {/* La suite proposée : l'action principale de la confirmation, son
+              seul `solid` (arbitrage n°19). */}
+          <Button emphasis="solid" tone="brand" size="lg" onClick={() => navigate('/masterclass')}>
             Voir les prochaines masterclasses
           </Button>
         </div>
@@ -123,22 +125,22 @@ export default function MasterclassSurvey() {
         </Card>
       </div>
 
-      <div className="flex flex-wrap items-center gap-stack">
+      {/* L'envoi du formulaire est l'action principale de l'écran, son seul
+          `solid` ; « Passer » est le tertiaire, un `ghost` neutre (arbitrage
+          n°19) — c'était un bouton fait main, souligné comme un lien. */}
+      <div className="flex flex-wrap items-center gap-stack-xs">
         <Button
-          emphasis="soft"
+          emphasis="solid"
+          tone="brand"
           size="lg"
           disabled={!rating}
           onClick={handleSubmit}
         >
           Envoyer mon avis
         </Button>
-        <button
-          type="button"
-          onClick={() => navigate('/masterclass')}
-          className="text-body text-ink-700 underline underline-offset-2 hover:text-ink-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
-        >
+        <Button emphasis="ghost" tone="neutral" size="lg" onClick={() => navigate('/masterclass')}>
           Passer
-        </button>
+        </Button>
       </div>
     </PageShell>
   );

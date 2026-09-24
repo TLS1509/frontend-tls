@@ -166,14 +166,16 @@ export default function EvenementDetail() {
       </section>
 
       {/* Inscription — ou, la date passée, l'état terminé. Les inscrits sont
-          une donnée (légende 600, chiffres tabulaires), plus une pastille. */}
+          une donnée (légende 600, chiffres tabulaires), plus une pastille.
+          Dans les deux cas, l'action principale de la page, son seul
+          `solid` (arbitrage n°19). */}
       {estTermine ? (
         <Card variant="default" className="p-stack-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-stack">
           <div className="flex flex-col gap-stack-3xs flex-1">
             <p className="text-body font-semibold text-ink-900">Cet événement est terminé</p>
             <p className="text-caption text-ink-600">Les inscriptions sont closes.</p>
           </div>
-          <Button emphasis="soft" size="lg" className="shrink-0" to={`/evenements/${id}/recap`}>
+          <Button emphasis="solid" tone="brand" size="lg" className="shrink-0" to={`/evenements/${id}/recap`}>
             Voir le récapitulatif
           </Button>
         </Card>
@@ -193,7 +195,7 @@ export default function EvenementDetail() {
           </p>
         </div>
         <div className="flex flex-col gap-stack-xs items-end shrink-0">
-          <Button emphasis="soft" size="lg">
+          <Button emphasis="solid" tone="brand" size="lg">
             S'inscrire gratuitement
           </Button>
           <p className="text-caption text-ink-600">Annulation possible jusqu'à J-1</p>

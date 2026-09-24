@@ -78,9 +78,15 @@ export default function EvenementRecap() {
       <div className="grid md:grid-cols-3 gap-page md:gap-section items-start">
         {/* Colonne principale : col span 2 */}
         <div className="md:col-span-2 flex flex-col gap-page min-w-0">
+          {/* Le replay : l'action principale du récapitulatif, son seul
+              `solid` (arbitrage n°19) — le verre clair `onDark` sur le
+              lecteur. Les actions des rangées (Voir, Télécharger, Ouvrir)
+              sont en `soft`. */}
           <Card variant="ink" className="aspect-video flex items-center justify-center overflow-hidden">
             <Button
-              emphasis="soft"
+              emphasis="solid"
+              tone="brand"
+              onDark
               size="lg"
               leadingIcon={<Play size={18} />}
             >
@@ -125,7 +131,7 @@ export default function EvenementRecap() {
                       <p className="text-body font-semibold text-ink-900">{session.title}</p>
                       <p className="text-caption text-ink-600 tabular-nums">{session.duration}</p>
                     </div>
-                    <Button emphasis="outline" size="sm" className="shrink-0" leadingIcon={<Video size={14} />}>
+                    <Button emphasis="soft" tone="brand" size="sm" className="shrink-0" leadingIcon={<Video size={14} />}>
                       Voir
                     </Button>
                   </li>
@@ -161,7 +167,8 @@ export default function EvenementRecap() {
                       </span>
                     </div>
                     <Button
-                      emphasis="outline"
+                      emphasis="soft"
+                      tone="brand"
                       iconOnly
                       className="shrink-0"
                       aria-label={res.type === 'download' ? `Télécharger ${res.title}` : `Ouvrir ${res.title}`}

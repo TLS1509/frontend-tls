@@ -127,7 +127,9 @@ export default function MasterclassDetail() {
                 </Card>
               </section>
 
-              {/* CTA inscription — ou, la date passée, l'état terminé */}
+              {/* CTA inscription — ou, la date passée, l'état terminé. Dans
+                  les deux cas, l'action principale de la page, son seul
+                  `solid` (arbitrage n°19). */}
               {estTerminee ? (
                 <Card variant="tinted" tone="primary" className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-stack p-stack-lg">
                   <div className="flex flex-col gap-stack-3xs flex-1 min-w-0">
@@ -136,7 +138,7 @@ export default function MasterclassDetail() {
                     </p>
                     <p className="text-caption text-ink-600">Les inscriptions sont closes.</p>
                   </div>
-                  <Button emphasis="soft" size="lg" className="shrink-0" to={`/masterclass/${id}/replay`}>
+                  <Button emphasis="solid" tone="brand" size="lg" className="shrink-0" to={`/masterclass/${id}/replay`}>
                     Voir le replay
                   </Button>
                 </Card>
@@ -151,7 +153,7 @@ export default function MasterclassDetail() {
                   </div>
                   <ProgressBar value={53} fill="brand" size="sm" valueLabel={false} />
                 </div>
-                <Button emphasis="soft" size="lg" className="shrink-0">
+                <Button emphasis="solid" tone="brand" size="lg" className="shrink-0">
                   S'inscrire à la masterclass
                 </Button>
               </Card>

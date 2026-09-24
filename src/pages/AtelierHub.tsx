@@ -152,16 +152,21 @@ export default function AtelierHub() {
                     </div>
                   </div>
 
+                  {/* Arbitrage n°19 : l'action de la carte en `soft` ; un état
+                      (« Inscription en cours », bouton désactivé) en `ghost`
+                      neutre, qui ne se lit pas comme une action. Un catalogue
+                      n'a pas d'action principale : pas de `solid`. */}
                   <div className="mt-auto pt-stack-lg">
                     {isPast ? (
-                      <Button emphasis="outline" size="sm" fullWidth>Voir le récap</Button>
+                      <Button emphasis="soft" tone="brand" size="sm" fullWidth>Voir le récap</Button>
                     ) : enrollment ? (
-                      <Button emphasis="outline" size="sm" fullWidth disabled>
+                      <Button emphasis="ghost" tone="neutral" size="sm" fullWidth disabled>
                         {enrollment.status === 'waitlist' ? 'Sur liste d\'attente' : 'Inscription en cours'}
                       </Button>
                     ) : isFull ? (
                       <Button
-                        emphasis="outline"
+                        emphasis="soft"
+                        tone="brand"
                         size="sm"
                         fullWidth
                         onClick={() => eventsStore.requestAtelierEnrollment(MOCK_USER_ID, atelier.id)}

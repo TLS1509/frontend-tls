@@ -124,14 +124,16 @@ export default function AtelierDetail() {
         </Card>
       </section>
 
-      {/* Inscription CTA — ou, la date passée, l'état terminé */}
+      {/* Inscription CTA — ou, la date passée, l'état terminé. Dans les deux
+          cas, c'est l'action principale de la page, son seul `solid`
+          (arbitrage n°19). */}
       {estTermine ? (
         <Card variant="default" className="p-stack-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-stack">
           <div className="flex flex-col gap-stack-3xs w-full sm:flex-1">
             <p className="text-body font-semibold text-ink-900">Cet atelier est terminé</p>
             <p className="text-caption text-ink-600">Les réservations sont closes.</p>
           </div>
-          <Button emphasis="soft" size="lg" className="shrink-0" to={`/ateliers/${id}/recap`}>
+          <Button emphasis="solid" tone="brand" size="lg" className="shrink-0" to={`/ateliers/${id}/recap`}>
             Voir le récapitulatif
           </Button>
         </Card>
@@ -143,7 +145,7 @@ export default function AtelierDetail() {
           <p className="text-caption text-ink-600">Clôture des inscriptions : 17 juin à 18h00</p>
         </div>
         <div className="flex flex-col gap-stack-xs items-stretch sm:items-end shrink-0">
-          <Button emphasis="soft" size="lg">Réserver ma place</Button>
+          <Button emphasis="solid" tone="brand" size="lg">Réserver ma place</Button>
           <p className="text-caption text-ink-600 text-center">Annulation gratuite jusqu'à J-2</p>
         </div>
       </Card>

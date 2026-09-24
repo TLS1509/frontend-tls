@@ -93,12 +93,15 @@ export default function AtelierWaitlist() {
           Tu seras notifié(e) par email si une place se libère. Le manager a été informé de ta demande pour validation budgétaire.
         </Alert>
 
+        {/* La suite proposée est l'action principale de l'écran, son seul
+            `solid` ; le retour est un `ghost` neutre (arbitrage n°19). */}
         <div className="flex flex-wrap items-center gap-stack-xs">
-          <Button emphasis="soft" size="lg" onClick={() => navigate('/ateliers')}>
+          <Button emphasis="solid" tone="brand" size="lg" onClick={() => navigate('/ateliers')}>
             Voir les autres ateliers disponibles
           </Button>
           <Button
-            emphasis="outline"
+            emphasis="ghost"
+            tone="neutral"
             size="lg"
             onClick={() => navigate(-1)}
           >

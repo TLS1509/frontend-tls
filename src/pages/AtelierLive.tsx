@@ -68,10 +68,15 @@ export default function AtelierLive() {
       <div className="grid md:grid-cols-3 gap-page md:gap-section items-start">
           {/* Zone player : col span 2 */}
           <div className="md:col-span-2 flex flex-col gap-page min-w-0">
+            {/* Rejoindre : l'action principale de l'écran, son seul `solid`
+                (arbitrage n°19). Posé sur le lecteur sombre, c'est le verre
+                clair `onDark`, encre foncée. */}
             <Card variant="ink" className="aspect-video flex flex-col items-center justify-center gap-section">
               <Video size={48} className="text-white/40" />
               <Button
-                emphasis="soft"
+                emphasis="solid"
+                tone="brand"
+                onDark
                 size="lg"
                 leadingIcon={<ExternalLink size={16} />}
               >
@@ -103,7 +108,8 @@ export default function AtelierLive() {
                     aria-label="Écrire un message"
                     className="flex-1 min-w-0"
                   />
-                  <Button emphasis="outline">Envoyer</Button>
+                  {/* L'envoi du chat, action du panneau : `soft`. */}
+                  <Button emphasis="soft" tone="brand">Envoyer</Button>
                 </div>
               </Card>
             </section>
@@ -148,8 +154,11 @@ export default function AtelierLive() {
                           <span className="text-caption text-ink-600">{res.type === 'pdf' ? 'PDF' : 'Lien'}</span>
                         </div>
                       </div>
+                      {/* L'action de la rangée : `soft` (arbitrage n°19 ;
+                          `outline` est réservé à Annuler). */}
                       <Button
-                        emphasis="outline"
+                        emphasis="soft"
+                        tone="brand"
                         iconOnly
                         className="shrink-0"
                         aria-label={res.type === 'pdf' ? `Télécharger ${res.label}` : `Ouvrir ${res.label}`}
