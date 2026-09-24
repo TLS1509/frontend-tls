@@ -55,10 +55,13 @@ export const RatingModal: React.FC<RatingModalProps> = ({
         .join(' ')}
     >
       {/* Titre → texte 8 ; la description passe de ink-500 (réservé aux
-          textes indicatifs) à ink-700, le texte secondaire qu'on lit. */}
+          textes indicatifs) à ink-700, le texte secondaire qu'on lit.
+          Le titre prend celui de `Modal` (2026-09-24) : un h2 au pas du titre
+          de bloc, 20/26/700. Il était au pas de la section (28/36) — un
+          dialogue est un bloc posé sur la page, pas une section de page. */}
       <div className="flex flex-col gap-stack-xs text-center">
         {title && (
-          <h2 className="font-display text-h2 text-ink-900 text-balance">
+          <h2 className="font-display text-h3 text-ink-900 text-balance">
             {title}
           </h2>
         )}
