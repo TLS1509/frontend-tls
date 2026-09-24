@@ -5,6 +5,8 @@ import { Button } from '../core/Button';
 // ─── Types ──────────────────────────────────────────────────────────────────
 
 export type AIOverrideSize = 'sm' | 'md';
+/** L'adresse de la surface qui porte le bouton (arbitrage n°23). */
+export type AIOverrideVoix = 'tu' | 'vous';
 
 export interface AIOverrideButtonProps {
   /** Button label. Defaults to "Rejeter cette recommandation" */
@@ -14,8 +16,24 @@ export interface AIOverrideButtonProps {
   /** If true, shows an inline textarea to collect a rejection reason before confirming */
   requireReason?: boolean;
   size?: AIOverrideSize;
+  /**
+   * La voix de la page qui porte le bouton (arbitrage n°23, 2026-09-24) :
+   * `tu` sur une page de l'apprenant (Passeport, confidentialité de son
+   * profil), `vous` ailleurs. Défaut `vous` : le bouton sert aussi au coach et
+   * au manager, et PRODUCT.md (§ Voice) tranche le cas ambigu en « vous ».
+   * Seule l'aide du champ déplié s'adresse à quelqu'un ; les libellés sont à
+   * l'infinitif ou nominaux, donc justes dans les deux voix.
+   */
+  voix?: AIOverrideVoix;
   className?: string;
 }
+
+/* L'aide du champ de la raison, dans les deux voix. Elle vouvoyait sur des
+   pages qui tutoient (/profile/privacy). */
+const AIDE_RAISON: Record<AIOverrideVoix, string> = {
+  tu:   'Explique pourquoi tu rejettes cette recommandation…',
+  vous: 'Expliquez pourquoi vous rejetez cette recommandation…',
+};
 
 // ─── AIOverrideButton ────────────────────────────────────────────────────────
 
@@ -24,6 +42,7 @@ export const AIOverrideButton: React.FC<AIOverrideButtonProps> = ({
   onOverride,
   requireReason = false,
   size = 'sm',
+  voix = 'vous',
   className = '',
 }) => {
   const [expanded, setExpanded] = useState(false);
@@ -62,7 +81,7 @@ export const AIOverrideButton: React.FC<AIOverrideButtonProps> = ({
           id={reasonId}
           value={reason}
           onChange={(e) => setReason(e.target.value)}
-          placeholder="Expliquez pourquoi vous rejetez cette recommandation..."
+          placeholder={AIDE_RAISON[voix]}
           rows={3}
           className={[
             'w-full h-auto min-h-[80px] rounded-lg border border-ink-400 bg-white',
