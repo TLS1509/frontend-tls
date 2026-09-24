@@ -178,7 +178,7 @@ import { PageHeader } from '../components/patterns/PageHeader';
 import { ViewerHeader } from '../components/patterns/ViewerHeader';
 import { QuickActionButton } from '../components/ui/QuickActionButton';
 import { Divider } from '../components/ui/Divider';
-import { Bell, MessageSquare, BookOpen, Calendar, GraduationCap, Clock3, Flame, Trophy, Zap, Users, Lightbulb, CheckCircle2, LayoutDashboard, Map as MapIcon, PenLine, Video, Sparkles as SparklesIcon, UserRound as UserIcon, Settings2, Target, BarChart3, LogOut, Mail, Layers, Palette, FolderTree, LayoutTemplate, Star, SlidersHorizontal, ArrowLeft, ArrowRight, TrendingUp, FolderOpen, User, Bookmark, Check, CheckCheck, ChevronUp, CirclePlus, Lock } from 'lucide-react';
+import { Bell, MessageSquare, BookOpen, Calendar, GraduationCap, Clock3, Flame, Trophy, Zap, Users, Lightbulb, CheckCircle2, LayoutDashboard, Map as MapIcon, PenLine, Video, Sparkles as SparklesIcon, UserRound as UserIcon, Settings2, Target, BarChart3, LogOut, Mail, Layers, Palette, FolderTree, LayoutTemplate, Star, SlidersHorizontal, ArrowLeft, ArrowRight, TrendingUp, FolderOpen, User, Bookmark, Check, CheckCheck, ChevronUp, CirclePlus, Lock, BookOpenText } from 'lucide-react';
 import { SidebarUserCard } from '../components/layout/Sidebar';
 import { ConsentBanner } from '../components/patterns/ConsentBanner';
 import { CompetencyRadar } from '../components/ui/CompetencyRadar';
@@ -1185,23 +1185,22 @@ const SidebarDemo: React.FC = () => {
   const [active, setActive] = useState('dashboard');
   const [menuOpen, setMenuOpen] = useState(false);
   const items = [
-    { id: 'dashboard', label: 'Tableau de bord', icon: <LayoutDashboard size={18} /> },
-    { id: 'paths',     label: 'Parcours',         icon: <MapIcon size={18} />, count: '3' },
-    { id: 'journal',   label: 'Journal de bord',  icon: <PenLine size={18} /> },
-    { id: 'coaching',  label: 'Coaching',         icon: <Video size={18} /> },
-    { id: 'veille',    label: 'Veille',           icon: <SparklesIcon size={18} /> },
+    /* Les icônes de NAVIGATION_PRINCIPALE (src/config/navigation.ts) : la démo
+       montrait Video et Sparkles, que l'app n'emploie pas ici. */
+    { id: 'dashboard', label: 'Tableau de bord', icon: <LayoutDashboard /> },
+    { id: 'paths',     label: 'Parcours',         icon: <MapIcon />, count: '3' },
+    { id: 'journal',   label: 'Journal de bord',  icon: <PenLine /> },
+    { id: 'coaching',  label: 'Coaching',         icon: <GraduationCap /> },
+    { id: 'veille',    label: 'Veille',           icon: <BookOpenText /> },
+    { id: 'espace',    label: 'Espace Apprentissage', icon: <Layers /> },
   ];
   return (
     <div className="flex flex-col gap-stack-xs">
       <div className="flex items-center gap-stack-xs text-caption text-ink-600">
-        <button
-          type="button"
-          onClick={() => setCollapsed(p => !p)}
-          className="px-3 py-1 rounded-pill bg-primary-50 text-primary-800 font-semibold border border-primary-200 hover:bg-primary-100"
-        >
-          {collapsed ? 'Étendre' : 'Réduire'}
-        </button>
-        <span>← cliquer pour basculer collapsed/expanded</span>
+        <Button emphasis="soft" size="sm" onClick={() => setCollapsed(p => !p)}>
+          {collapsed ? 'Déplier' : 'Replier'}
+        </Button>
+        <span>La barre passe de 260 à 72 px.</span>
       </div>
       <div className="h-[480px] rounded-xl border border-ink-200 flex bg-white relative">
         {/* Glass dropdown — floats to the right of the sidebar */}
@@ -1247,7 +1246,7 @@ const SidebarDemo: React.FC = () => {
         </Sidebar>
         <div className="flex-1 p-stack-lg bg-gradient-to-br from-ink-50 to-white overflow-hidden rounded-r-xl">
           <p className="text-body text-ink-700">Active : <strong className="text-ink-900">{items.find(i => i.id === active)?.label}</strong></p>
-          <p className="text-caption text-ink-600 mt-1">Cliquer sur la carte utilisateur en bas → dropdown glass à droite. Mobile : drawer + hamburger (md:)</p>
+          <p className="text-caption text-ink-600 mt-1">La carte utilisateur, en bas, ouvre le menu du compte. Sous 768 px, la barre devient un tiroir.</p>
         </div>
       </div>
     </div>
@@ -1327,7 +1326,7 @@ const AuthShellDemo: React.FC = () => {
             <AuthSocialButton icon={<AuthGoogleIcon />}>Google</AuthSocialButton>
             <AuthSocialButton icon={<AuthLinkedinIcon />}>LinkedIn</AuthSocialButton>
           </div>
-          <p className="text-center text-body text-white/75 m-0 mt-1">
+          <p className="text-center text-body text-white m-0 mt-1">
             Déjà inscrit ?{' '}
             <AuthInlineLink onClick={() => {}}>Se connecter</AuthInlineLink>
           </p>
@@ -2262,9 +2261,9 @@ const COMPONENTS: ComponentEntry[] = [
         />
         <QuickActionButton
           tone="primary"
-          icon={<SparklesIcon size={18} />}
-          label="Action disabled"
-          subtitle="Désactivé par défaut"
+          icon={<Settings2 size={18} />}
+          label="Action désactivée"
+          subtitle="Indisponible pour l'instant"
           disabled
           onClick={() => {}}
         />
@@ -2702,7 +2701,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'Skeleton',
     codeName: 'Skeleton.tsx',
     cssBase: '.skeleton',
-    description: 'Placeholder shimmer matching expected content shape. Use for 1–3s loads.',
+    description: "Bloc de chargement qui épouse la forme du contenu attendu, pour une attente d'une à trois secondes. Variantes text, title, block, circle, card, button ; `width` et `height`. ⚠️ Ses lignes (14 et 24 px) et son bouton en pilule de 40 px datent d'avant le 24/09 : elles ne reprennent plus le texte à 16, les titres à 20 et 28, ni le bouton à 36 · 44 · 52.",
     keywords: ['loading', 'placeholder', 'shimmer'],
     render: () => (
       <div className="vstack max-w-[420px]">
@@ -2724,7 +2723,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/SkeletonTemplates.tsx',
     cssBase: 'Tailwind (no BEM)',
     usedBy: ['Notifications', 'LearningPaths', 'Dashboard', 'Veille', 'Journal'],
-    description: 'Templates shimmer pré-construits correspondant aux silhouettes des cards principales. Évite la duplication de placeholders. Templates disponibles : `ParcoursCardSkeleton`, `NotificationRowSkeleton`, `EditorialCardSkeleton`, `ResumeLessonSkeleton`, `ActivityItemSkeleton`. `SkeletonGrid` : wrap N templates dans une grille responsive.',
+    description: "Gabarits de chargement prêts à l'emploi, à la silhouette des cartes principales : ParcoursCardSkeleton, NotificationRowSkeleton, EditorialCardSkeleton, ResumeLessonSkeleton, ActivityItemSkeleton, StatCardSkeleton. SkeletonGroup en répète un en liste ou en grille. Ils évitent de refaire des placeholders à chaque page.",
     keywords: ['skeleton', 'loading', 'placeholder', 'shimmer', 'template', 'grid', 'card'],
     render: () => (
       <div className="flex flex-col gap-stack-lg">
@@ -3201,8 +3200,8 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'Sidebar',
     codeName: 'layout/Sidebar.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: 'Primary app navigation — flat list (no group labels), active state via teal gradient pill, collapsible (icons only), responsive mobile drawer with backdrop. Bottom user card with optional dropdown trigger.',
-    keywords: ['sidebar', 'nav', 'menu', 'shell', 'collapsible', 'drawer'],
+    description: "La navigation principale de l'app : 260 px de large dès 768 px (72 px repliée), un tiroir de 280 px en dessous. Les six entrées viennent de la liste unique de `src/config/navigation.ts` ; rangées de 48 px au rayon 14, libellé 16/600 ink-700, icône de 20, 8 px entre deux entrées. L'entrée active est en texte blanc sur un voile primary-700 → 800 ; les compteurs sont des pastilles de 20 px. En bas, la carte utilisateur (nom 16/600, e-mail 13) ouvre le menu du compte.",
+    keywords: ['sidebar', 'nav', 'navigation', 'menu', 'shell', 'collapsible', 'drawer', 'tiroir', '260'],
     render: () => <SidebarDemo />,
   },
 
@@ -3634,18 +3633,13 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/AppBreadcrumb.tsx',
     cssBase: 'Tailwind (no BEM)',
     usedBy: ['AppLayout (global)', 'LearningPathDetail', 'ArticleDetail', 'VeilleContent'],
-    description: 'Fil d\'Ariane auto-généré depuis `useLocation`. Rendu si ≥ 2 segments seulement (évite "Accueil > Parcours" sur les hubs top-level). Includes bouton Retour sur mobile. Routes mappées statiquement pour des labels humainement lisibles.',
+    description: "Le fil d'Ariane de l'app, généré depuis l'URL (`useLocation`) et monté pour toute l'app ; il s'affiche à partir de deux segments. Barre de 44 px au moins, en légende 13 : les parents en 400 ink-600, la page courante en 600 ink-900 (`aria-current`), des chevrons de 14. Un bouton Retour de 44 px sous 640 px, un bouton Accueil au-delà.",
     keywords: ['breadcrumb', 'auto', 'location', 'path', 'navigation', 'back', 'layout', 'route'],
     render: () => (
       <div className="flex flex-col gap-stack-xs p-stack bg-ink-50 rounded-xl border border-ink-200">
-        <p className="text-caption text-ink-600 m-0 italic">Simulation — rendu réel disponible dans toute page routée avec ≥ 2 segments (ex. /learning-paths/1, /veille/article/1)</p>
-        <div className="flex items-center gap-stack-2xs text-caption text-ink-600">
-          <span className="inline-flex items-center gap-tight text-primary-700 hover:text-primary-800 cursor-pointer font-medium">
-            <BookOpen size={13} /> Parcours
-          </span>
-          <span className="text-ink-300">›</span>
-          <span className="text-ink-900 font-semibold">Prompt Engineering Avancé</span>
-        </div>
+        <p className="text-caption text-ink-600 italic">Simulation, par Breadcrumb : le vrai fil se lit sur toute page à deux segments ou plus (/learning-paths/1, /veille/article/1).</p>
+        {/* La maquette faite main posait un séparateur ink-300 (1,39:1) et un lien en 500. */}
+        <Breadcrumb items={[{ label: 'Parcours', href: '#' }, { label: 'Prompt engineering avancé' }]} />
       </div>
     ),
   },
@@ -3654,8 +3648,8 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/AccountFamilyNav.tsx',
     cssBase: 'Tailwind (no BEM)',
     usedBy: ['Profile', 'Account', 'Billing'],
-    description: 'Sub-navigation pour les pages "compte" (Profil / Mon compte / Facturation / Paramètres). Pills scrollables avec label + description courte du rôle de chaque page. Clarifie la séparation des responsabilités.',
-    keywords: ['account', 'profile', 'settings', 'nav', 'sub-navigation', 'billing', 'tabs', 'secondary'],
+    description: "La navigation des pages du compte : cinq destinations — Profil, Mon compte, Confidentialité, Notifications, Facturation —, chacune avec sa pastille d'icône (IconChip sm), son libellé 16/600 et une description en 13 ink-600. La grille compte ses colonnes sur sa propre largeur (requête de conteneur) : une, deux dès 448 px, trois dès 672 px. L'onglet actif est blanc sur le rail ink-50.",
+    keywords: ['account', 'compte', 'profile', 'settings', 'nav', 'sub-navigation', 'billing', 'confidentialité', 'notifications', 'container query'],
     render: () => (
       <div className="flex flex-col gap-stack">
         <AccountFamilyNav active="profile" />
@@ -3855,7 +3849,7 @@ const COMPONENTS: ComponentEntry[] = [
             <IconFeatureCard square tone="brand" iconStyle="plain" icon={<MessageSquare size={32} strokeWidth={1.75} />} title="Coaching" onClick={() => {}} />
             <IconFeatureCard square tone="warm" iconStyle="plain" icon={<MapIcon size={32} strokeWidth={1.75} />} title="Parcours" onClick={() => {}} />
             <IconFeatureCard square tone="sun" iconStyle="plain" icon={<PenLine size={32} strokeWidth={1.75} />} title="Journal" onClick={() => {}} />
-            <IconFeatureCard square tone="brand" iconStyle="plain" icon={<SparklesIcon size={32} strokeWidth={1.75} />} title="Veille" onClick={() => {}} />
+            <IconFeatureCard square tone="brand" iconStyle="plain" icon={<BookOpenText size={32} strokeWidth={1.75} />} title="Veille" onClick={() => {}} />
           </CardGrid>
         </div>
 
@@ -3866,7 +3860,7 @@ const COMPONENTS: ComponentEntry[] = [
             <IconFeatureCard square tone="brand" iconStyle="plain" iconSize="sm" icon={<MessageSquare size={24} strokeWidth={1.75} />} title="Coaching" onClick={() => {}} />
             <IconFeatureCard square tone="warm" iconStyle="plain" iconSize="sm" icon={<MapIcon size={24} strokeWidth={1.75} />} title="Parcours" onClick={() => {}} />
             <IconFeatureCard square tone="sun" iconStyle="plain" iconSize="sm" icon={<PenLine size={24} strokeWidth={1.75} />} title="Journal" onClick={() => {}} />
-            <IconFeatureCard square tone="brand" iconStyle="plain" iconSize="sm" icon={<SparklesIcon size={24} strokeWidth={1.75} />} title="Veille" onClick={() => {}} />
+            <IconFeatureCard square tone="brand" iconStyle="plain" iconSize="sm" icon={<BookOpenText size={24} strokeWidth={1.75} />} title="Veille" onClick={() => {}} />
           </CardGrid>
         </div>
 
@@ -3877,7 +3871,7 @@ const COMPONENTS: ComponentEntry[] = [
             <IconFeatureCard tone="brand" iconStyle="plain" icon={<MessageSquare size={32} strokeWidth={1.75} />} title="Coaching" description="Sessions 1:1 personnalisées" onClick={() => {}} />
             <IconFeatureCard tone="warm" iconStyle="plain" icon={<MapIcon size={32} strokeWidth={1.75} />} title="Parcours" description="Apprenez à votre rythme" onClick={() => {}} />
             <IconFeatureCard tone="sun" iconStyle="plain" icon={<PenLine size={32} strokeWidth={1.75} />} title="Journal" description="Notez vos réflexions" onClick={() => {}} />
-            <IconFeatureCard tone="brand" iconStyle="plain" icon={<SparklesIcon size={32} strokeWidth={1.75} />} title="Veille" description="Actualités curées" onClick={() => {}} />
+            <IconFeatureCard tone="brand" iconStyle="plain" icon={<BookOpenText size={32} strokeWidth={1.75} />} title="Veille" description="Actualités choisies" onClick={() => {}} />
           </CardGrid>
         </div>
 
@@ -3914,7 +3908,7 @@ const COMPONENTS: ComponentEntry[] = [
           {/* glass + frosted sur fond gradient */}
           <div className="rounded-2xl bg-gradient-to-br from-primary-700 via-primary-800 to-secondary-700 p-stack">
             <div className="flex flex-wrap gap-stack">
-              <IconFeatureCard square surface="glass" tone="brand" iconStyle="plain" iconSize="md" icon={<SparklesIcon size={32} strokeWidth={1.75} />} title="glass" onClick={() => {}} className="w-[140px]" />
+              <IconFeatureCard square surface="glass" tone="brand" iconStyle="plain" iconSize="md" icon={<Layers size={32} strokeWidth={1.75} />} title="glass" onClick={() => {}} className="w-[140px]" />
               <IconFeatureCard square surface="frosted" tone="sun" iconStyle="plain" iconSize="md" icon={<Star size={32} strokeWidth={1.75} />} title="frosted" onClick={() => {}} className="w-[140px]" />
             </div>
           </div>
@@ -4189,30 +4183,30 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/AuthorStrip.tsx',
     cssBase: 'Tailwind (no BEM)',
     usedBy: ['ArticleDetail (Tier 2)', 'MagazineArticle (Tier 2)', 'JournalDetail (Tier 2)', 'EditorialQuoteCallout signature'],
-    description: '⭐ Inline author meta strip — avatar + nom + rôle + meta (date, readTime). 2 variants : `compact` (1 ligne) et `expanded` (2 lignes avec rôle visible et meta wrapping). Réutilisable pour toutes les pages éditoriales.',
+    description: "La signature d'un contenu éditorial : avatar, nom 16/600 ink-900 et, en compact, le rôle sur la même ligne (« · Rôle », 13 ink-600) ; dessous, à 2 px, la méta en 13 ink-600 — date, durée — séparée par « · ». `expanded` passe le rôle sur sa propre ligne, avec un avatar plus grand.",
     keywords: ['author', 'byline', 'meta', 'avatar', 'editorial', 'article', 'strip'],
     render: () => (
       <div className="flex flex-col gap-stack-lg">
         <div>
-          <p className="text-caption font-semibold text-ink-600 mb-3">Compact (default)</p>
+          <p className="text-caption font-semibold text-ink-600 mb-3">compact, le défaut</p>
           <AuthorStrip
             name="Marie Dubois"
             role="Senior Editor TLS"
             meta={[
-              { icon: <Calendar size={12} />, text: '12 mai 2026' },
-              { icon: <Clock3 size={12} />,    text: '6 min de lecture' },
+              { icon: <Calendar size={14} />, text: '12 mai 2026' },
+              { icon: <Clock3 size={14} />,    text: '6 min de lecture' },
             ]}
           />
         </div>
         <div>
-          <p className="text-caption font-semibold text-ink-600 mb-3">Expanded</p>
+          <p className="text-caption font-semibold text-ink-600 mb-3">expanded</p>
           <AuthorStrip
             variant="expanded"
             name="Pierre Leclerc"
             role="Lead Pédagogie · The Learning Society"
             meta={[
-              { icon: <Calendar size={12} />, text: '8 mai 2026' },
-              { icon: <Clock3 size={12} />,    text: '12 min de lecture' },
+              { icon: <Calendar size={14} />, text: '8 mai 2026' },
+              { icon: <Clock3 size={14} />,    text: '12 min de lecture' },
             ]}
           />
         </div>
@@ -4305,12 +4299,12 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/ReadingProgress.tsx',
     cssBase: 'Tailwind (no BEM)',
     usedBy: ['ArticleDetail (Tier 2)', 'MagazineArticle (Tier 2)', 'Dossier (Tier 2)', 'LessonPlayer (futur)'],
-    description: '⭐ 2 sub-composants pilotés par le hook `useReadingProgress(targetRef?)` : (1) `<ReadingProgressBar>` fixed top + gradient tone-aware, (2) `<ReadingProgressRing>` SVG circular 40px avec label %. Passer un ref article pour mesurer le scroll précis ou omettre pour le document entier.',
+    description: "Deux indicateurs pilotés par `useReadingProgress(ref?)`, de 0 à 100. ReadingProgressBar : un filet en haut de fenêtre (`fixed`), au dégradé du ton, de 2 px par défaut. ReadingProgressRing : un anneau de 44 px par défaut (trait de 3) ; le pourcentage — 13/600 tabulaire au cran 800 — ne s'écrit qu'à partir de 44 px, et les pages l'emploient à 32 : la valeur n'y est donnée qu'aux lecteurs d'écran. Quatre tons.",
     keywords: ['reading', 'progress', 'scroll', 'indicator', 'bar', 'ring', 'circular', 'article'],
     render: () => (
       <div className="flex flex-col gap-stack-lg">
         <div>
-          <p className="text-caption font-semibold text-ink-600 mb-3">ReadingProgressBar — tones (relative position pour la démo)</p>
+          <p className="text-caption font-semibold text-ink-600 mb-3">ReadingProgressBar — trois tons, posés dans la page pour la démo</p>
           <div className="flex flex-col gap-stack-xs">
             <div className="relative h-6 bg-ink-50 rounded-md overflow-hidden">
               <ReadingProgressBar tone="brand" fixed={false} height={6} className="absolute inset-0" />
@@ -4322,10 +4316,10 @@ const COMPONENTS: ComponentEntry[] = [
               <ReadingProgressBar tone="sun" fixed={false} height={6} className="absolute inset-0" />
             </div>
           </div>
-          <p className="text-caption text-ink-600 mt-stack-xs">Note : en usage normal, `fixed=true` (défaut) ancre la barre au top du viewport.</p>
+          <p className="text-caption text-ink-600 mt-stack-xs">En usage normal, `fixed` (le défaut) ancre la barre en haut de la fenêtre.</p>
         </div>
         <div>
-          <p className="text-caption font-semibold text-ink-600 mb-3">ReadingProgressRing — 4 tones</p>
+          <p className="text-caption font-semibold text-ink-600 mb-3">ReadingProgressRing — quatre tons à 44 px, puis 56 px</p>
           <div className="flex items-center gap-stack-lg">
             <ReadingProgressRing tone="brand" />
             <ReadingProgressRing tone="warm" />
@@ -4342,12 +4336,12 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/TableOfContents.tsx',
     cssBase: 'Tailwind (no BEM)',
     usedBy: ['Dossier (Tier 2)', 'LessonPlayer (futur)'],
-    description: '⭐ Sticky aside navigation avec scroll-spy via IntersectionObserver. Numérotation auto (01, 02…), check icon sur items `completed`, active state coloré (tone-aware), hover translate-x, smooth scroll au clic avec offset configurable.',
+    description: "Sommaire d'un long contenu, qui suit le défilement (IntersectionObserver) : titre 13/600 ink-600, entrées de 44 px en 16 ink-600 numérotées (« 01 », 13/600 tabulaire) ; l'entrée active passe sur le fond du ton au cran 50, libellé 800 en 600 ; une étape terminée prend une coche. Défilement doux au clic, avec un décalage réglable (`scrollOffset`). Quatre tons ; c'est la page qui le rend collant.",
     keywords: ['toc', 'table-of-contents', 'sommaire', 'navigation', 'sticky', 'scroll-spy', 'sidebar'],
     render: () => (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
         <div>
-          <p className="text-caption font-semibold text-ink-600 mb-3">Tone warm (default)</p>
+          <p className="text-caption font-semibold text-ink-600 mb-3">Ton warm</p>
           <TableOfContents
             tone="warm"
             items={[
@@ -4360,7 +4354,7 @@ const COMPONENTS: ComponentEntry[] = [
           />
         </div>
         <div>
-          <p className="text-caption font-semibold text-ink-600 mb-3">Tone brand</p>
+          <p className="text-caption font-semibold text-ink-600 mb-3">Ton brand (le défaut), titre remplacé</p>
           <TableOfContents
             tone="brand"
             title="Chapitres"
@@ -4381,7 +4375,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'forms/FilterBar.tsx',
     cssBase: 'Tailwind (no BEM)',
     usedBy: ['LearningPaths (glass variant in hero Search)', 'Veille (filter type drawer)', 'Recherche (4 types sticky)', 'Notifications (à venir)', 'Listings n-1 (Actus/Tutoriels/Dossiers à venir)'],
-    description: '⭐ Refactored Tailwind — barre de filtre horizontale avec pills clickables. Supporte multi-select / single-select, count badges, clear-all, 4 tons, 2 variantes (solid/glass), 2 surfaces (tinted/plain), 2 sizes (sm/md). Pour toolbar inline (Search filtersSlot) ou standalone entre hero et listing. Glass variant idéal pour héros gradients.',
+    description: "Barre de filtres en pastilles, pour une barre d'outils (dans le `filtersSlot` de Search) ou entre un hero et une liste : choix multiple ou unique, compteurs, « Tout effacer », quatre tons, variantes solid · glass · glass-inverse, surfaces tinted · plain, tailles sm et md. ⚠️ Hors de la passe du 24/09 : son libellé et son bouton « Effacer » sont encore en 11/700 capitales.",
     keywords: ['filter', 'pills', 'chips', 'toolbar', 'multi-select', 'count', 'clear-all', 'glass'],
     render: () => {
       const FilterBarDemo: React.FC = () => {
@@ -4392,7 +4386,7 @@ const COMPONENTS: ComponentEntry[] = [
         return (
           <div className="flex flex-col gap-stack-lg">
             <div>
-              <p className="text-caption font-semibold text-ink-600 mb-3">Single-select · brand · tinted · solid</p>
+              <p className="text-caption font-semibold text-ink-600 mb-3">Choix unique · brand · tinted · solid</p>
               <FilterBar
                 surface="tinted"
                 tone="brand"
@@ -4412,7 +4406,7 @@ const COMPONENTS: ComponentEntry[] = [
             </div>
 
             <div>
-              <p className="text-caption font-semibold text-ink-600 mb-3">Multi-select · warm · plain · with icons</p>
+              <p className="text-caption font-semibold text-ink-600 mb-3">Choix multiple · warm · plain · avec icônes</p>
               <FilterBar
                 tone="warm"
                 label="Filtrer"
@@ -4428,7 +4422,7 @@ const COMPONENTS: ComponentEntry[] = [
             </div>
 
             <div>
-              <p className="text-caption font-semibold text-ink-600 mb-3">Multi-select · sun · size sm</p>
+              <p className="text-caption font-semibold text-ink-600 mb-3">Choix multiple · sun · taille sm</p>
               <FilterBar
                 tone="sun"
                 size="sm"
@@ -4444,7 +4438,7 @@ const COMPONENTS: ComponentEntry[] = [
             </div>
 
             <div className="rounded-xl p-stack-lg bg-gradient-to-r from-primary-700 to-primary-800">
-              <p className="text-caption font-semibold text-white mb-3">Glass variant · on gradient hero</p>
+              <p className="text-caption font-semibold text-white mb-3">Variante glass · sur un hero en dégradé</p>
               <FilterBar
                 tone="brand"
                 variant="glass"
@@ -4472,7 +4466,7 @@ const COMPONENTS: ComponentEntry[] = [
     cssBase: '.tls-spinner / .tls-spinner--{size} / .tls-spinner--{tone}',
     showcaseOnly: false,
     usedBy: ['Recherche'],
-    description: 'Indicateur de chargement animé. Tailles : sm (20px), md (32px), lg (48px). Tones : brand (teal), warm (orange), muted (gris). Utilisé dans Recherche comme trailing slot du SearchInput pendant le debounce.',
+    description: "Indicateur de chargement : 20 · 32 · 48 px ; tons brand · warm · sun · muted · inverse ; `role=\"status\"`, et le libellé (« Chargement… » par défaut) reste réservé aux lecteurs d'écran. Dans la Recherche, en `trailing` du champ pendant l'attente.",
     keywords: ['spinner', 'loading', 'loader', 'indicator', 'async', 'wait'],
     render: () => (
       <div className="vstack gap-stack-lg">
@@ -4482,7 +4476,7 @@ const COMPONENTS: ComponentEntry[] = [
           <Spinner size="lg" />
         </div>
         <div className="hstack items-center gap-stack-lg">
-          <Spinner size="md" tone="brand" label="Chargement..." />
+          <Spinner size="md" tone="brand" label="Chargement…" />
           <Spinner size="md" tone="warm" />
           <Spinner size="md" tone="muted" />
         </div>
@@ -4603,13 +4597,13 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/ViewerHeader.tsx',
     cssBase: 'Tailwind (no BEM)',
     usedBy: ['Positionnement', 'AstucesViewer', 'FlashcardsViewer', 'LessonPlayer', '(target) VideoViewer, ComplementaryContentViewer, VideoReels, JournalDetail'],
-    description: 'Sticky toolbar pour pages viewer / reader plein écran. Back btn (gauche) + Title eyebrow/subtitle (centré) + counter "X/Y" + prev/next chevrons + close X (droite). Glass-light backdrop-blur, responsive (back label hidden mobile, title truncate). Phase 14.2a : tone-aware (primary/warm/sun), progress prop optionnelle (barre 0-100 sous le header), touch targets ≥ 44 px.',
-    keywords: ['viewer', 'reader', 'toolbar', 'header', 'prev-next', 'navigation', 'back', 'close', 'sticky', 'glass'],
+    description: "La barre des lecteurs plein écran (flashcards, astuces, positionnement) : Retour à gauche, le titre, un compteur « 3 / 12 », précédent, suivant et fermer (Button iconOnly ghost de 44 px). Titre en 16/600 ink-900, dans un `<p>` par défaut : `titleAs=\"h1\"` en fait le titre de la page quand le lecteur n'en a pas d'autre, et `titleId` l'expose à `aria-labelledby` (deux props ajoutées le 24/09). Une seule ligne de méta en 13 ink-600 : le surtitre en 600, « · », le sous-titre. Compteur 13/600 tabulaire, valeur au cran 800 du ton ; barre de progression optionnelle de 4 px. Aligné à gauche sous 640 px, centré au-delà ; tons primary · warm · sun.",
+    keywords: ['viewer', 'lecteur', 'reader', 'toolbar', 'header', 'titleAs', 'titleId', 'prev-next', 'navigation', 'back', 'close', 'sticky'],
     render: () => (
       <div className="flex flex-col gap-stack-lg">
         {/* Pattern 1 — Viewer with prev/next + counter (FlashcardsViewer style) */}
         <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-semibold text-ink-600 m-0">Viewer avec navigation séquentielle (Flashcards / Astuces)</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Lecteur à navigation séquentielle (Flashcards, Astuces)</p>
           <div className="rounded-xl overflow-hidden border border-ink-200 bg-ink-50">
             <ViewerHeader
               sticky={false}
@@ -4623,13 +4617,13 @@ const COMPONENTS: ComponentEntry[] = [
               onNext={() => {}}
               onClose={() => {}}
             />
-            <div className="p-section text-center text-ink-600 text-caption">— Contenu viewer ici —</div>
+            <div className="p-section text-center text-ink-600 text-caption">Contenu du lecteur</div>
           </div>
         </div>
 
         {/* Pattern 2 — Viewer simple title-only (VideoViewer style) */}
         <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-semibold text-ink-600 m-0">Viewer simple back + title + close (Video / Article)</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Lecteur simple : retour, titre et méta, fermer (vidéo, article)</p>
           <div className="rounded-xl overflow-hidden border border-ink-200 bg-ink-50">
             <ViewerHeader
               sticky={false}
@@ -4640,13 +4634,13 @@ const COMPONENTS: ComponentEntry[] = [
               subtitle="Publié le 30 avril 2026 par Sophie Martin"
               onClose={() => {}}
             />
-            <div className="p-section text-center text-ink-600 text-caption">— Contenu viewer ici —</div>
+            <div className="p-section text-center text-ink-600 text-caption">Contenu du lecteur</div>
           </div>
         </div>
 
         {/* Pattern 3 — Disabled boundaries (first/last item) */}
         <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-semibold text-ink-600 m-0">Disabled state aux bornes (premier / dernier item)</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Aux bornes : précédent désactivé sur le premier élément</p>
           <div className="rounded-xl overflow-hidden border border-ink-200 bg-ink-50">
             <ViewerHeader
               sticky={false}
@@ -4659,7 +4653,7 @@ const COMPONENTS: ComponentEntry[] = [
               onNext={() => {}}
               disablePrev
             />
-            <div className="p-stack text-center text-ink-600 text-caption">— prev disabled —</div>
+            <div className="p-stack text-center text-ink-600 text-caption">Premier élément : pas de précédent</div>
           </div>
         </div>
       </div>
@@ -4668,9 +4662,9 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'HeaderNav',
     codeName: 'patterns/HeaderNav.tsx',
+    showcaseOnly: true,
     cssBase: 'Tailwind (no BEM)',
-    usedBy: ['Onboarding (questionnaire)', 'Positionnement', 'OnboardingTutorial'],
-    description: 'Header sticky pour flows multi-étapes (onboarding, questionnaire, configurateur). Back button pill (gauche) + barre de progression optionnelle (centre, avec label) + bouton Enregistrer (droite). Glass-light backdrop-blur. Responsive : progress label hidden mobile.',
+    description: "En-tête collant des parcours en plusieurs étapes (onboarding, questionnaire) : Retour à gauche ; au centre, la progression — « Progression » en 13, l'étape en 13/600 au cran 800, une barre de 6 px, le pourcentage en 13/600 tabulaire ; Enregistrer (Button sm) à droite. Verre clair ; « Progression » se masque sous 640 px.",
     keywords: ['header', 'nav', 'sticky', 'back', 'save', 'progress', 'onboarding', 'wizard', 'glass', 'multi-step'],
     render: () => (
       <div className="flex flex-col gap-stack-lg">
@@ -4702,33 +4696,33 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ViewerOverlay',
     codeName: 'patterns/ViewerOverlay.tsx',
+    showcaseOnly: true,
     cssBase: 'Tailwind (no BEM)',
-    usedBy: ['LessonPlayer', 'AstucesViewer', 'FlashcardsViewer', 'VideoTutorial', 'VideoViewer', 'ComplementaryContentViewer'],
-    description: 'Wrapper full-screen standardisé pour les pages viewer immersives. Header sticky glass + barre de progression + footer prev/next + slot children. 5 tones (light/brand/warm/sun/dark). Keyboard: Esc → close, ArrowLeft/Right → prev/next. Safe-area mobile.',
+    description: "Ancienne enveloppe plein écran des lecteurs — en-tête, progression, pied précédent / suivant, Échap et flèches —, remplacée par ViewerHeader : plus aucune page ne l'emploie. Titre en h1 16/600, sous-titre 13 ink-600, boutons du pied à 44 px ; cinq tons (light · brand · warm · sun · dark). L'aperçu en reprend la structure avec les composants du système.",
     keywords: ['viewer', 'overlay', 'fullscreen', 'immersive', 'player', 'reader', 'tone', 'progress', 'prev', 'next'],
     render: () => (
       <div className="flex flex-col gap-stack-xs">
-        <p className="text-caption text-ink-600 m-0">Aperçu tronqué — composant wrapper full-screen utilisé dans les pages viewer. children = contenu immersif (Flashcard, VideoPlayer, LessonContent…).</p>
+        {/* Aperçu refait avec les composants du système : la maquette posait des
+            boutons faits main à 32 px en ink-400 (3,01:1) et des pilules en 500. */}
+        <p className="text-caption text-ink-600">Aperçu tronqué : l'enveloppe est plein écran, son contenu (`children`) est le lecteur lui-même.</p>
         <div className="rounded-2xl overflow-hidden border border-ink-200 bg-white min-h-[260px] flex flex-col">
-          <div className="flex items-center justify-between px-stack-md py-3 bg-white/85 backdrop-blur-glass-light border-b border-ink-200">
-            <button className="inline-flex items-center gap-stack-2xs text-caption text-ink-600 font-medium bg-ink-50 border border-ink-200 rounded-pill px-3 py-1.5">
-              <ArrowLeft size={14} /> Retour
-            </button>
-            <div className="flex-1 text-center">
-              <p className="m-0 text-caption text-ink-600">Carte 3 sur 12</p>
-              <p className="m-0 text-body font-bold text-ink-900 truncate">Boucle de feedback OKR</p>
+          <div className="flex items-center justify-between gap-stack-xs px-stack-md py-stack-xs bg-white/85 backdrop-blur-glass-light border-b border-ink-200">
+            <Button emphasis="ghost" tone="neutral" size="sm" leadingIcon={<ArrowLeft />}>Retour</Button>
+            <div className="flex-1 min-w-0 text-center">
+              <p className="text-body font-semibold text-ink-900 truncate">Boucle de feedback OKR</p>
+              <p className="text-caption text-ink-600">Carte 3 sur 12</p>
             </div>
-            <div className="flex items-center gap-tight">
-              <button className="w-8 h-8 rounded-pill flex items-center justify-center text-ink-400 hover:bg-ink-100 border-0 cursor-pointer"><ArrowLeft size={16} /></button>
-              <button className="w-8 h-8 rounded-pill flex items-center justify-center text-ink-400 hover:bg-ink-100 border-0 cursor-pointer"><ArrowRight size={16} /></button>
+            <div className="flex items-center gap-stack-3xs">
+              <Button iconOnly emphasis="ghost" tone="neutral" aria-label="Précédent"><ArrowLeft /></Button>
+              <Button iconOnly emphasis="ghost" tone="neutral" aria-label="Suivant"><ArrowRight /></Button>
             </div>
           </div>
-          <div className="h-1 bg-ink-100"><div className="h-full bg-gradient-to-r from-primary-500 to-primary-700" style={{ width: '25%' }} /></div>
-          <div className="flex-1 flex items-center justify-center p-section text-ink-600 text-caption">— children slot (LessonPlayer / Flashcard / VideoPlayer…) —</div>
-          <div className="px-stack-md py-3 border-t border-ink-200 bg-white flex items-center justify-between">
-            <button className="inline-flex items-center gap-stack-2xs text-caption font-medium text-ink-600 px-3 py-stack-xs rounded-pill hover:bg-ink-50 border border-ink-200 cursor-pointer"><ArrowLeft size={14} /> Précédent</button>
-            <span className="text-caption text-ink-600">3 / 12</span>
-            <button className="inline-flex items-center gap-stack-2xs text-caption font-medium text-primary-700 px-3 py-stack-xs rounded-pill hover:bg-primary-50 border border-primary-200 cursor-pointer">Suivant <ArrowRight size={14} /></button>
+          <ProgressBar value={25} size="xs" valueLabel={false} aria-label="Progression du lecteur" />
+          <div className="flex-1 flex items-center justify-center p-section text-caption text-ink-600">Le contenu du lecteur</div>
+          <div className="px-stack-md py-stack-xs border-t border-ink-200 bg-white flex items-center justify-between">
+            <Button emphasis="soft" tone="neutral" size="sm" leadingIcon={<ArrowLeft />}>Précédent</Button>
+            <span className="text-caption text-ink-600 tabular-nums">3 / 12</span>
+            <Button emphasis="soft" size="sm" trailingIcon={<ArrowRight />}>Suivant</Button>
           </div>
         </div>
       </div>
@@ -4748,8 +4742,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/FormLayout.tsx',
     cssBase: 'Tailwind (no BEM)',
     showcaseOnly: true,
-    usedBy: ['Account', 'Profile (edit)'],
-    description: 'Wrapper de formulaire structuré avec sections titrées. Titre + description globaux, sections avec champs `label + helpText + error + input slot`. Boutons submit/cancel intégrés. Isomorphe : chaque `input` est un slot React → compatible avec Input, Select, Switch, etc.',
+    description: "Formulaire en sections : titre h2 28 et description, puis des sections en h3 20 ; chaque champ a son libellé 16/600, son aide 13 ink-600 et son erreur 13 danger-fg. Carte au rayon 20, padding 24, 32 px entre les blocs ; Annuler et Enregistrer en fin. Chaque `input` est un emplacement : Input, Select, Switch…",
     keywords: ['form', 'layout', 'section', 'field', 'label', 'help', 'error', 'submit', 'cancel'],
     render: () => (
       <FormLayout
@@ -5136,10 +5129,10 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'VeilleHeroFilterChips',
     codeName: 'patterns/VeilleHeroFilterChips.tsx',
+    showcaseOnly: true,
     cssBase: 'Tailwind (no BEM)',
-    description: 'Barre de filtres glass pour le hero éditorial Veille. Compose FilterChip(variant="glass") : chips type de contenu + toggle Sauvegardés (Bookmark) + séparateur vertical + lien Réinitialiser + compteur résultats à droite. Conçu pour surfaces sombres/dégradées.',
+    description: "La barre de filtres du hero de la Veille, sur fond sombre : des FilterChip glass md (44 px, 16/600) pour les types de contenu et la bascule « Sauvegardés », puis « Réinitialiser » et le nombre de résultats en 13 blanc.",
     keywords: ['veille', 'filter', 'chips', 'hero', 'glass', 'bookmark', 'saved', 'editorial', 'reset', 'count'],
-    usedBy: ['Veille'],
     render: () => {
       const [active, setActive] = React.useState('all');
       const [savedActive, setSavedActive] = React.useState(false);
@@ -5316,7 +5309,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'ui/MessageBubble.tsx',
     cssBase: 'Tailwind',
     usedBy: ['ChatInterface', 'Messages'],
-    description: '⭐ Bulle de message réutilisable pour chats et messagerie. 2 variants : `user` (aligné droite) et `assistant` (aligné gauche + avatar). 2 contextes : `chatbot` (fond soft primary-100/ink-50, radius 2xl) et `messaging` (filled primary-500/white, radius xl + shadow). Fonctionnalités AI chatbot : score de confiance (< 0.6 → banner warning), privacy block, citations de sources pills, feedback thumbs-up/down. Messagerie : read receipt `showReadReceipt`, nom expéditeur, slot `children` pour pièces jointes. Markdown léger (**bold**, newlines). ⚠️ Similaire à `PromptCard` — lui est une card standalone cliquable, MessageBubble est un élément de thread.',
+    description: "Une bulle de message, pour l'assistant IA et la messagerie ; texte 16/26, horodatage 13 ink-600 tabulaire. Côté utilisateur : primary-100 (chatbot) ou primary-700 à texte blanc (messagerie) ; côté assistant : ink-50 et avatar. Pour l'IA : « Confiance limitée » sous 0,6, blocage de confidentialité, sources citées, retour « Utile ? ». Pour la messagerie : nom de l'expéditeur, accusé de lecture, pièces jointes en `children`. Un élément de fil ; PromptCard, elle, est une carte autonome.",
     keywords: ['message', 'bubble', 'chat', 'chatbot', 'messaging', 'assistant', 'user', 'conversation', 'coaching'],
     render: () => (
       <div className="flex flex-col gap-section max-w-2xl">
@@ -5382,7 +5375,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/ConversationalChat.tsx',
     cssBase: 'Tailwind',
     usedBy: ['ChatInterface', 'Onboarding', 'OnboardingUnified', 'OnboardingQuestionnaireConversational'],
-    description: '⭐ Wrapper de fil de conversation complet — liste scrollable de `MessageBubble` + indicateur de frappe animé (3 dots bounce) + auto-scroll-to-bottom (`useRef + useEffect`). Props : `messages: ChatMessage[]`, `isTyping`, `onFeedback`, `emptyState`, `className` (pour contraindre la hauteur). État vide affiché si 0 messages. Encapsule un `<Card>` avec overflow-y-auto. ⚠️ `animationDelay` via `style={{}}` (exception légitime — pas d\'utility Tailwind pour animation-delay sur keyframes).',
+    description: "Fil de conversation complet : une coque en verre (rayon 20), un titre 16/600, le journal des messages (`role=\"log\"`, 8 px entre deux, défilement automatique vers le bas), les bulles de l'IA — blanches, avatar de 32 px, texte 16, le **gras** en 600 au cran 800 — et de l'utilisateur — secondary-700, texte blanc. Props : `messages` (ai · user · typing · inline), `title`, `footer`. Dans l'onboarding et l'assistant.",
     keywords: ['chat', 'conversation', 'thread', 'messages', 'typing', 'auto-scroll', 'chatbot', 'feed'],
     render: () => (
       <ConversationalChat
@@ -5445,7 +5438,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'ui/TlsLogo.tsx',
     cssBase: 'Tailwind (TlsLogo + League Spartan)',
     usedBy: [],
-    description: '⭐ Lockup logo — icône TlsLogo + wordmark « The Learning Society » (font-display League Spartan ExtraBold, teal). 4 layouts via prop `layout` : horizontal · vertical · vertical-3 · horizontal-3. Miroir 1-pour-1 du component set Figma `TlsLogoLockup`. Props : `layout`, `iconSize`, `variant` (icône), `wordmarkTone` (primary/ink/white).',
+    description: "Le logo et son nom : l'icône TlsLogo et le mot « The Learning Society » en League Spartan 800, au teal de la marque. Un logotype — ni l'échelle typographique ni le seuil de contraste ne s'y appliquent. Quatre dispositions (`layout`) : horizontal · vertical · vertical-3 · horizontal-3, miroir du composant Figma. Props : `layout`, `iconSize`, `variant` (de l'icône), `wordmarkTone` (primary · ink · white).",
     keywords: ['logo', 'lockup', 'wordmark', 'brand', 'tls', 'league spartan', 'horizontal', 'vertical'],
     render: () => (
       <div className="flex flex-col gap-section p-stack rounded-xl bg-white border border-ink-200">
@@ -5599,7 +5592,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'FloatingNavButton',
     codeName: 'FloatingNavButton.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: '⭐ Speed-dial FAB flottant fixed bottom-right/left. Configurable : `actions[]` (label/icon/onClick/tone) + `tone` (FAB) + `position` + `icon`/`closeIcon`. Migré Tailwind + DS (Phase 10). **Retiré de App.tsx prod** — réactivable pour futur chatbot, quick contact, help shortcut. Click main FAB → expand actions vertical stack avec animation filterIn. ⚠️ Pas de similar — composant unique floating speed-dial.',
+    description: "Bouton flottant à actions (speed-dial) : 56 px, au cran 700 du ton (sun : accent-400 et encre), qui déplie des actions de 48 px — libellé 16/600, filet au cran 200 du ton. Il se place au-dessus de la BottomNav sous 768 px. `actions`, `tone`, `position`, `icon` et `closeIcon`. Dans l'app, il sert de raccourci de développement vers la vitrine et l'index des pages.",
     keywords: ['floating', 'fab', 'speed-dial', 'quick-actions', 'chatbot', 'contact', 'help', 'fixed'],
     render: () => (
       <div className="relative h-[280px] rounded-2xl border border-ink-200 bg-gradient-page-ambient overflow-hidden">
@@ -5611,7 +5604,7 @@ const COMPONENTS: ComponentEntry[] = [
           <FloatingNavButton
             tone="primary"
             actions={[
-              { label: 'Ask AI', icon: <SparklesIcon size={18} />, onClick: () => alert('AI chat'), tone: 'primary' },
+              { label: "Demander à l'IA", icon: <SparklesIcon size={18} />, onClick: () => alert('Assistant IA'), tone: 'primary' },
               { label: 'Contact', icon: <MessageSquare size={18} />, onClick: () => alert('Contact'), tone: 'warm' },
               { label: 'Aide', icon: <BookOpen size={18} />, onClick: () => alert('Help'), tone: 'sun' },
             ]}
@@ -5820,7 +5813,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/AuthShell.tsx',
     cssBase: 'AuthShell (branded glass dark auth layout)',
     usedBy: ['Login', 'Signup', 'ForgotPassword', 'ResetPassword', 'VerifyEmail', 'MagicLink'],
-    description: 'Layout auth full-bleed branded glass dark (gradient teal + blobs ambient). Famille complète de sub-components: AuthField (input + icon + error), AuthPasswordField (eye toggle intégré), AuthPrimaryButton + AuthGhostButton, AuthCheckbox (peer/sr-only glass), AuthDivider, AuthSocialButton, AuthInlineLink, AuthSuccess.',
+    description: "La coque des pages d'authentification, sur un dégradé primary-700 → 900 : carte en verre (rayon 14, 480 px), en-tête en h1 au pas h2 (28) blanc et sous-titre 16. La famille Auth* est la primitive de cette surface : AuthField (Input glass lg, 52 px, libellé 16/600 blanc), AuthPasswordField (bascule de visibilité), AuthPrimaryButton et AuthGhostButton (52 px, 16/700, rayon 14), AuthSocialButton, AuthCheckbox (20 px, calée sur la première ligne), AuthDivider (13/400), AuthInlineLink, AuthSuccess. Réservée à la surface glass-dark : ne pas l'employer ailleurs.",
     keywords: ['auth', 'login', 'signup', 'shell', 'glass-dark', 'AuthField', 'AuthPasswordField', 'AuthPrimaryButton', 'AuthGhostButton', 'AuthCheckbox', 'form', 'aside'],
     render: () => <AuthShellDemo />,
   },
@@ -5903,8 +5896,9 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Divider',
     codeName: 'ui/Divider.tsx',
+    showcaseOnly: true,
     cssBase: '.divider / .divider--vertical / .divider--labeled / .divider--sm/md/lg',
-    description: 'Séparateur horizontal ou vertical. Label centré avec var(--text-soft). Spacings: sm/md/lg via classes CSS. Ligne: var(--border).',
+    description: "Séparateur horizontal ou vertical : un filet de 1 px en dégradé (transparent → ink-200 → transparent). Avec `label`, le libellé se pose au milieu en 13/600 ink-600, en casse normale — il était en capitales espacées —, à 8 px de chaque côté. Marges `spacing` de 8 · 16 · 32 px.",
     keywords: ['divider', 'separator', 'hr', 'section', 'label', 'horizontal', 'vertical', 'css'],
     render: () => (
       <div className="flex flex-col gap-stack">
@@ -6009,8 +6003,8 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'AITransparencyLabel',
     codeName: 'ui/AITransparencyLabel.tsx',
     cssBase: 'AITransparencyLabel',
-    description: 'Label "IA" transversal pour marquer tout contenu généré, recommandé ou assisté par l\'IA. 3 variants × 2 sizes. AI Act / Module #13bis. Usage : items recommandés, suggestions coach, chatbot.',
-    keywords: ['ai', 'ia', 'transparency', 'label', 'badge', 'generated', 'recommended', 'ai act', 'gdpr'],
+    description: "Étiquette « IA » transversale, sur tout contenu généré, recommandé ou assisté par l'IA : sm en 11/500 avec une étincelle de 10 px, md en 13/500 avec une de 12. Trois variantes — recommended (info), generated (warning), assisted (ink). Sur une recommandation, dans une suggestion de coach, dans l'assistant. Module 13 bis.",
+    keywords: ['ai', 'ia', 'transparency', 'transparence', 'label', 'étiquette', 'generated', 'recommended', 'assisted', 'rgpd'],
     showcaseOnly: false,
     usedBy: ['PerplexityContentDetail', 'ItemRecommendations', 'ChatInterface', 'CoachLearnerProfile'],
     render: () => (
@@ -6069,24 +6063,24 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'AtrophieIndicator',
     codeName: 'ui/AtrophieIndicator.tsx',
     cssBase: 'AtrophieIndicator',
-    description: 'Indicateur de dégradation Dreyfus. Rien affiché si inactif ≤ 90j. Warning orange si 91–180j (pulsant). Danger si > 180j. Module #5 Gamification — badges compétences.',
+    description: "Signale qu'un niveau Dreyfus s'érode faute de pratique : rien jusqu'à 90 jours d'inactivité, un avertissement de 91 à 180, un danger au-delà. Pastille en 500 : sm en 11 avec une icône de 12, md en 13 avec une de 16 ; le libellé (« Inactif depuis 120j ») est masquable. Fixe : plus de pulsation depuis le 24/09 (arbitrage n°16, pas de mouvement permanent pour dire un état).",
     keywords: ['atrophie', 'dreyfus', 'inactif', 'badge', 'competence', 'degradation', 'warning', 'gamification'],
     showcaseOnly: false,
     usedBy: ['Gamification', 'CoachEngagement'],
     render: () => (
       <div className="flex flex-col gap-stack">
         <div className="flex flex-wrap gap-stack-xs items-center">
-          <span className="text-caption text-ink-600">≤ 90j :</span>
-          <span className="text-caption text-ink-600 italic">(rien affiché)</span>
+          <span className="text-caption text-ink-600">Jusqu’à 90 jours :</span>
+          <span className="text-caption text-ink-600 italic">(rien n’est affiché)</span>
           <AtrophieIndicator daysSinceActivity={45} />
         </div>
         <div className="flex flex-wrap gap-stack-xs items-center">
-          <span className="text-caption text-ink-600">91–180j :</span>
+          <span className="text-caption text-ink-600">De 91 à 180 jours :</span>
           <AtrophieIndicator daysSinceActivity={94} currentLevel={3} size="sm" />
           <AtrophieIndicator daysSinceActivity={130} currentLevel={2} size="md" />
         </div>
         <div className="flex flex-wrap gap-stack-xs items-center">
-          <span className="text-caption text-ink-600">&gt; 180j (critique) :</span>
+          <span className="text-caption text-ink-600">Au-delà de 180 jours :</span>
           <AtrophieIndicator daysSinceActivity={210} currentLevel={4} size="sm" />
           <AtrophieIndicator daysSinceActivity={365} size="md" />
         </div>
@@ -6215,17 +6209,17 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'OptionGrid',
     codeName: 'patterns/OptionGrid.tsx',
+    showcaseOnly: true,
     cssBase: 'OptionGrid',
-    description: 'Grille d\'options sélectionnables (icon + label) — single ou multi-select. Tone-aware (brand/warm/sun), 3 layouts (icon-top, icon-left, text-only), responsive 2 → N cols. Remplace les grilles ad-hoc role/secteur/rythme dans Onboarding.',
+    description: "Grille d'options à choisir, une ou plusieurs : options de 44 px au moins, rayon 14, libellé 16/600 ; la description (13 ink-600) ne s'affiche qu'en icon-left et text-only. Trois dispositions (icon-top · icon-left · text-only), trois tons ; deux colonnes, trois dès 512 px de conteneur.",
     keywords: ['select', 'options', 'cards', 'pick', 'choice', 'role', 'sector', 'onboarding', 'radio', 'checkbox'],
-    usedBy: ['Onboarding'],
     render: () => {
       const [role, setRole] = React.useState('Manager');
       const [skills, setSkills] = React.useState<string[]>(['Leadership']);
       return (
         <div className="flex flex-col gap-section max-w-2xl">
           <div className="flex flex-col gap-stack">
-            <span className="text-caption font-semibold text-ink-600">Single-select · tone warm · icon-top</span>
+            <span className="text-caption font-semibold text-ink-600">Choix unique · ton warm · icon-top</span>
             <OptionGrid
               tone="warm"
               value={role}
@@ -6242,7 +6236,7 @@ const COMPONENTS: ComponentEntry[] = [
             />
           </div>
           <div className="flex flex-col gap-stack">
-            <span className="text-caption font-semibold text-ink-600">Multi-select · tone brand · text-only</span>
+            <span className="text-caption font-semibold text-ink-600">Choix multiple · ton brand · text-only</span>
             <OptionGrid
               multi
               tone="brand"
@@ -6266,7 +6260,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'DreyfusLevelSelector',
     codeName: 'ui/DreyfusLevelSelector.tsx',
     cssBase: 'DreyfusLevelSelector',
-    description: 'Sélecteur 5-niveaux Dreyfus (Novice → Expert) pour positionnement compétences. Responsive 1 → 5 cols (fix le pb cramped tablet de la v1). Tone-aware. Levels customisables via prop. Module #4 Phase 14.1.',
+    description: "Choix d'un niveau Dreyfus parmi cinq, pour un positionnement : options de 44 px au moins, filet 2 px (au cran 700 une fois choisie, fond 50), chiffre en League Spartan 20/700 au cran 800, libellé 16/600, description 13 ink-600. Une à cinq colonnes selon la largeur ; `radiogroup` navigable aux flèches ; niveaux remplaçables (`levels`).",
     keywords: ['dreyfus', 'level', 'positionnement', 'competence', 'likert', 'self-assessment', 'questionnaire', 'novice', 'expert'],
     usedBy: ['OnboardingQuestionnaire'],
     render: () => {
@@ -6285,7 +6279,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'DreyfusSlider',
     codeName: 'ui/DreyfusSlider.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: 'Sélecteur Dreyfus compact en piste horizontale (D1–D5). Distinct de DreyfusLevelSelector (grille de cartes pour questionnaires). Nœuds 44px tactiles + connecteurs remplis à gauche de la sélection + labels sous la piste (centrés). Tone-aware brand/warm/sun. Utilise les DREYFUS_LABELS canoniques (Cahier #02 Passeport).',
+    description: "Choix d'un niveau Dreyfus sur une piste horizontale (D1 à D5), plus compact que DreyfusLevelSelector : piste de 10 px, curseur de 28 px, un `<input type=\"range\">` invisible pour le clavier ; libellés en 13/600 ink-600 sous la piste, l'actif au cran 800 du ton sans changer de graisse ; description en 13. Tons brand · warm · sun ; libellés canoniques (DREYFUS_LABELS, cahier 02).",
     keywords: ['dreyfus', 'slider', 'level', 'positionnement', 'competence', 'track', 'horizontal', 'compact', 'touch'],
     usedBy: ['Positionnement'],
     render: () => {
@@ -6750,10 +6744,10 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'PaginatedList',
     codeName: 'ui/PaginatedList.tsx',
+    showcaseOnly: true,
     cssBase: 'Tailwind (no BEM)',
     subCategory: 'List composites',
-    usedBy: ['LearningPaths', 'Notifications', 'Veille'],
-    description: 'Wrapper de pagination pour n\'importe quel contenu. Props : **items**, **renderItem** (callback), **pageSize** (défaut 10), **itemLabel**. Affiche prev/next + numéros de pages (5 autour de la courante). Contrôles adaptatifs mobile (n/N). Stateful React interne.',
+    description: "Pagination d'une liste quelconque : `items`, `renderItem`, `pageSize` (10), `itemLabel`. Boutons ronds de 36 px aux numéros 13/700 tabulaires, plage « 1–10 / 42 » en 13 ink-600, contrôles réduits (n / N) sur mobile. Elle double `ui/Pagination`, qui tient l'échelle des contrôles.",
     keywords: ['pagination', 'pages', 'liste', 'navigation', 'next', 'prev', 'parcours'],
     render: () => {
       const ITEMS = Array.from({ length: 23 }, (_, i) => ({ id: String(i + 1), title: `Parcours ${i + 1}`, category: i % 3 === 0 ? 'Leadership' : i % 3 === 1 ? 'IA & Data' : 'Communication' }));
@@ -6777,10 +6771,10 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'FilteredList',
     codeName: 'ui/FilteredList.tsx',
+    showcaseOnly: true,
     cssBase: 'Tailwind (no BEM)',
     subCategory: 'List composites',
-    usedBy: ['LearningPaths', 'Help', 'EnterpriseMembers'],
-    description: 'Wrapper de filtrage textuel avec input de recherche. Props : **filterFn** (callback booléen), **renderItem**, **placeholder**, **emptyLabel**, **showCount**, **itemLabel**. Input avec icône Search + bouton Clear. `useDeferredValue` pour éviter les lag sur grandes listes.',
+    description: "Liste filtrée par une recherche : un champ (fait main, 40 px), un compteur en 13 ink-600, un message vide en 16 italique. `filterFn`, `renderItem`, `placeholder`, `emptyLabel`, `showCount`, `itemLabel` ; `useDeferredValue` évite les à-coups sur une longue liste.",
     keywords: ['filtre', 'recherche', 'search', 'liste', 'filter', 'query', 'input'],
     render: () => {
       const ITEMS = [
@@ -6906,10 +6900,10 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'FilterableCardGrid',
     codeName: 'ui/FilterableCardGrid.tsx',
+    showcaseOnly: true,
     cssBase: 'Tailwind (no BEM)',
     subCategory: 'List composites',
-    usedBy: ['LearningPaths', 'Veille', 'EnterpriseMembers', 'Components'],
-    description: 'Grille de cards filtrable avec barre de recherche, chips de catégorie, et toggle grille/liste. Props : **filterFn** (optionnel), **categories** + **categoryFn** (filtres par catégorie), **columns** (2/3/4), **allowLayoutToggle**, **renderCard(item, index, layout)** (callback — layout passé pour adapter le rendu). `useDeferredValue` pour la perf. Distinct de `patterns/CardGrid` (layout pur).',
+    description: "Grille de cartes filtrable : une recherche, les catégories en FilterChip md, une bascule grille / liste (32 px, faite main), deux à quatre colonnes en requête de conteneur. `filterFn`, `categories` et `categoryFn`, `columns`, `allowLayoutToggle`, `renderCard(item, index, layout)`. Distincte de CardGrid, qui ne fait que la mise en page.",
     keywords: ['grid', 'grille', 'cards', 'filtre', 'catégories', 'layout', 'search', 'toggle'],
     render: () => {
       type Resource = { id: string; title: string; cat: string; author: string };
@@ -6961,7 +6955,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/AuthShell.tsx',
     cssBase: 'AuthBackLink (auth back-navigation link)',
     usedBy: ['MagicLink', 'VerifyEmail'],
-    description: 'Lien de retour "← label" pour les pages auth sur fond glass-dark. Texte blanc/75 avec flèche ArrowLeft Lucide. Hover → blanc 100%. Part de la famille Auth* (glass-dark only — ne pas utiliser sur fond clair). Exposé comme named export depuis AuthShell.tsx.',
+    description: "Lien de retour « ← libellé » des pages d'authentification : 16/600 blanc, flèche de 16. De la famille Auth*, pour la surface glass-dark seulement ; exporté par AuthShell.tsx.",
     keywords: ['auth', 'back', 'link', 'retour', 'connexion', 'glass-dark', 'AuthShell', 'navigation'],
     render: () => (
       <div className="bg-primary-800 p-section rounded-2xl">
@@ -6975,7 +6969,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'MoodSelector',
     codeName: 'ui/MoodSelector.tsx',
     cssBase: 'MoodSelector',
-    description: 'Sélecteur de niveau d\'humeur pour le journal (5 niveaux : very-sad → very-happy). Emoji + label par niveau, highlight actif bg-primary-100/border-primary-500. API : `value: MoodLevel` + `onChange`. Mobile-first flex wrap.',
+    description: "L'humeur du jour pour le journal, en cinq niveaux : des boutons de 44 px au moins, une icône Lucide de 28 et un libellé en 13/600 ; le niveau choisi passe sur fond primary-100, filet 2 px au cran 700. `value` et `onChange`.",
     keywords: ['mood', 'journal', 'humeur', 'emoji', 'selector', 'feeling', 'MoodLevel'],
     usedBy: ['JournalNewEntry'],
     render: () => {
@@ -7013,7 +7007,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'JournalChatCompose',
     codeName: 'ui/JournalChatCompose.tsx',
     cssBase: 'JournalChatCompose',
-    description: 'Barre de composition style chat pour démarrer une entrée journal. Bulle Apple Messages (queue bas-gauche), textarea h-auto, emoji ✍️, bouton "Continuer", hint ⌘+Entrée. Utilisé en haut de la page Journal pour le quick-compose.',
+    description: "La saisie rapide du journal, en bulle (Card au rayon 20, avec une queue) : une zone de texte à 16, un Button soft md « Continuer », une aide en 13 ink-600 et le raccourci ⌘ ou Ctrl + Entrée. En haut de la page Journal.",
     keywords: ['journal', 'compose', 'chat', 'textarea', 'quick-entry', 'speech-bubble', 'send'],
     usedBy: ['Journal'],
     render: () => {
@@ -7033,10 +7027,10 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'StructuredQuestionAccordion',
     codeName: 'ui/StructuredQuestionAccordion.tsx',
+    showcaseOnly: true,
     cssBase: 'StructuredQuestionAccordion',
-    description: 'Accordéon de questions structurantes pour le journal (EDRA-R template ou questions génériques). Gère l\'état open/closed en interne. `answers` contrôlé (Record<string, string>). Chaque item : titre + description + textarea h-auto min-h-[96px] (contourne piège #10). Préfixe label configurable.',
+    description: "Questions de réflexion du journal (gabarit EDRA-R ou questions libres), en accordéon : en-têtes de 44 px — question 16/600, consigne 13 ink-600 —, chevron de 18 ; le panneau ouvert, sur ink-50, porte une zone de réponse blanche à 16, filet ink-400, 96 px au moins. `answers` est contrôlé.",
     keywords: ['accordion', 'journal', 'EDRA-R', 'structured', 'questions', 'textarea', 'collapsible'],
-    usedBy: ['JournalNewEntry'],
     render: () => {
       const [answers, setAnswers] = React.useState<Record<string, string>>({});
       return (
@@ -7407,12 +7401,12 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'Tooltip',
     codeName: 'ui/Tooltip.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: "Infobulle au survol et au focus clavier. 4 cotes, 2 variantes, delai reglable. L'enfant doit etre un unique element capable de recevoir un ref.",
+    description: "Infobulle au survol et au focus clavier : 13/400 blanc sur ink-900 (variante brand : primary-700), 220 px au plus avec retour à la ligne, rayon 10, flèche. Quatre côtés, deux variantes, délai réglable (400 ms par défaut). On peut la survoler ; Échap la ferme. L'enfant doit être un élément unique capable de recevoir un ref.",
     keywords: ['tooltip', 'infobulle', 'hover', 'focus', 'aide', 'side'],
     render: () => (
       <div className="flex flex-wrap items-center gap-section py-stack-lg">
         <Tooltip content="Infobulle au-dessus"><Button emphasis="outline" size="sm">top</Button></Tooltip>
-        <Tooltip content="A droite" side="right"><Button emphasis="outline" size="sm">right</Button></Tooltip>
+        <Tooltip content="À droite" side="right"><Button emphasis="outline" size="sm">right</Button></Tooltip>
         <Tooltip content="En dessous" side="bottom"><Button emphasis="outline" size="sm">bottom</Button></Tooltip>
         <Tooltip content="Variante brand" variant="brand"><Button emphasis="outline" size="sm">brand</Button></Tooltip>
       </div>
@@ -7470,7 +7464,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'SelectableOptionCard',
     codeName: 'patterns/SelectableOptionCard.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: "Carte-option d'un choix exclusif : icone, libelle, description, etat selectionne. Utilisee dans l'onboarding et le questionnaire de positionnement.",
+    description: "Carte-option d'un choix exclusif : icône, libellé, description, état sélectionné. Dans l'onboarding et le questionnaire de positionnement.",
     keywords: ['option', 'card', 'selection', 'choix', 'onboarding', 'radio', 'positionnement'],
     render: () => <SelectableOptionCardDemo />,
   },
@@ -7606,12 +7600,12 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'BottomNav',
     codeName: 'layout/BottomNav.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: "Barre de navigation mobile, en position fixe en bas d'ecran. Porte `md:hidden` : elle ne s'affiche QUE sous 768px, et disparait des que la sidebar prend le relais. L'apercu ci-dessous la contient dans un cadre — sans quoi sa position fixe la collerait au bas de la fenetre.",
+    description: "La navigation mobile, fixée en bas : cinq onglets (les `labelCourt` de la navigation principale) sur une rangée de 56 px, icône de 20 et libellé en 13/600 dans les deux états — primary-700 actif, ink-600 sinon ; l'icône active se pose dans une pastille primary-100. `md:hidden` : elle disparaît dès 768 px, où la Sidebar prend le relais. L'aperçu la contient dans un cadre, sans quoi sa position fixe la collerait au bas de la fenêtre.",
     keywords: ['bottom', 'nav', 'mobile', 'tabbar', 'fixed', 'responsive', 'md:hidden'],
     render: () => (
       <div className="flex flex-col gap-stack-xs">
         <p className="m-0 text-caption text-ink-600">
-          Cadre de 380px — la barre n&apos;apparait qu&apos;en dessous de 768px de large.
+          Cadre de 380 px : la barre n&apos;apparaît que sous 768 px de large.
         </p>
         <div className="relative h-40 w-full max-w-[380px] overflow-hidden rounded-2xl border border-ink-200 bg-ink-50 [transform:translate(0)]">
           <BottomNav />
@@ -7649,7 +7643,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'SkeletonGroup',
     codeName: 'patterns/SkeletonTemplates.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: "Repete un gabarit de squelette N fois, en liste ou en grille. A preferer a une boucle manuelle : le layout de chargement reste aligne sur celui du contenu qu'il remplace.",
+    description: "Répète un gabarit de squelette N fois, en liste ou en grille (deux à quatre colonnes). À préférer à une boucle écrite à la main : la mise en page du chargement reste alignée sur celle du contenu qu'elle remplace.",
     keywords: ['skeleton', 'chargement', 'loading', 'placeholder', 'groupe', 'grille'],
     render: () => (
       <div className="flex flex-col gap-stack">
@@ -7682,7 +7676,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'ActivityItemSkeleton',
     codeName: 'patterns/SkeletonTemplates.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: "Squelette d'une ligne de fil d'activite : pastille, titre, meta.",
+    description: "Squelette d'une rangée de fil d'activité : pastille, titre, méta.",
     keywords: ['skeleton', 'activite', 'feed', 'timeline', 'chargement'],
     render: () => (
       <div className="flex flex-col gap-stack-xs">
@@ -7696,7 +7690,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'ResumeLessonSkeleton',
     codeName: 'patterns/SkeletonTemplates.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: "Squelette de la carte « Reprendre ta lecon » du Dashboard. C'est la premiere chose que voit l'apprenant : son etat de chargement merite d'epouser la forme finale.",
+    description: "Squelette de la carte « Reprendre ta leçon » du tableau de bord. C'est la première chose que voit l'apprenant : son état de chargement mérite d'épouser la forme finale.",
     keywords: ['skeleton', 'reprendre', 'lecon', 'dashboard', 'hero', 'chargement'],
     render: () => <ResumeLessonSkeleton />,
   },
@@ -7724,14 +7718,15 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'CorrectionStatusBar',
     codeName: 'learning/CorrectionStatusBar.tsx',
+    showcaseOnly: true,
     cssBase: 'Tailwind (no BEM)',
-    description: "Bandeau d'etat d'une correction : en attente, en cours, validee ou refusee. Affiche la competence visee, l'XP accorde et le numero d'iteration. L'etat n'est jamais porte par la seule couleur — icone et libelle l'accompagnent.",
+    description: "Bandeau d'état d'une correction : StatusBadge, compétence en 16/600, « +N XP » en 16/600 accent-800, « Itération N » en 13 ink-600. L'état n'est jamais porté par la seule couleur : icône et libellé l'accompagnent. ⚠️ L'XP relève de ce que l'arbitrage n°18 retire de l'app apprenant ; la démo ne le montre plus.",
     keywords: ['correction', 'statut', 'jac', 'validation', 'xp', 'iteration', 'bandeau'],
     render: () => (
       <div className="flex flex-col gap-stack-xs">
         <CorrectionStatusBar status="pending" competenceLabel="Concevoir une séquence" />
         <CorrectionStatusBar status="in-progress" competenceLabel="Concevoir une séquence" iterationCount={2} />
-        <CorrectionStatusBar status="completed" competenceLabel="Concevoir une séquence" xpAwarded={120} />
+        <CorrectionStatusBar status="completed" competenceLabel="Concevoir une séquence" />
         <CorrectionStatusBar status="failed" competenceLabel="Concevoir une séquence" iterationCount={3} />
       </div>
     ),
@@ -7740,7 +7735,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'ReaderContextStrip',
     codeName: 'patterns/ReaderContextStrip.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: "Bandeau contextuel des surfaces de lecture : retour, titre de l'article, actions. Il apparait au scroll une fois le titre depasse (`scrollThreshold`), pour garder le contexte sans encombrer l'ouverture.",
+    description: "Bande de contexte des pages de lecture (Dossier, Actus de la semaine, Magazine) : Retour (44 px, 13/600), le titre de l'article en 16/600 ink-900, aligné à gauche, et un emplacement `trailing` — les pages y posent l'anneau de lecture. Collante, 56 px de haut ; elle apparaît en fondu passé 100 px de défilement (`scrollThreshold`).",
     keywords: ['reader', 'lecture', 'article', 'sticky', 'contexte', 'retour', 'scroll'],
     render: () => (
       <div className="rounded-xl border border-ink-200 overflow-hidden">
@@ -7773,7 +7768,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'CoachCardGrid',
     codeName: 'patterns/CoachCardGrid.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: "Grille de coachs avec filtres integres par specialite et par disponibilite, plus les etats de chargement et vide. Evite de recabler ce trio sur chaque page de coaching.",
+    description: "Grille de coachs avec ses filtres (spécialité, disponibilité) et ses états de chargement et vide : évite de recâbler ce trio sur chaque page de coaching.",
     keywords: ['coach', 'grille', 'grid', 'filtre', 'disponibilite', 'specialite', 'empty'],
     render: () => (
       <CoachCardGrid
@@ -7789,7 +7784,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'LearningPathGrid',
     codeName: 'patterns/LearningPathGrid.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: "Grille de parcours, avec filtre par statut, progression et deroule optionnel des lecons. Etats de chargement et vide inclus.",
+    description: "Grille de parcours, avec un filtre par statut, la progression et le déroulé optionnel des leçons ; états de chargement et vide inclus.",
     keywords: ['parcours', 'grille', 'grid', 'progression', 'statut', 'lecons', 'filtre'],
     render: () => (
       <LearningPathGrid
@@ -7805,7 +7800,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'ResourceCardGrid',
     codeName: 'patterns/ResourceCardGrid.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: "Grille de ressources heterogenes (fiche, video, gabarit, article). Trois variantes de rendu, tone-aware, avec etats de chargement et vide.",
+    description: "Grille de ressources hétérogènes (fiche, vidéo, gabarit, article) : trois variantes de rendu, les tons, les états de chargement et vide.",
     keywords: ['ressource', 'grille', 'grid', 'bibliotheque', 'document', 'video', 'tone'],
     render: () => (
       <ResourceCardGrid
@@ -7823,7 +7818,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'ChartWithExport',
     codeName: 'charts/ChartWithExport.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: "Enveloppe un graphique et lui ajoute l'export PNG et CSV. Passer `data` pour que le CSV parte des donnees plutot que d'une capture.",
+    description: "Enveloppe un graphique et lui ajoute ses exports, alignés à droite et 16 px au-dessus : PNG toujours, PDF si un `title` est fourni, CSV si `data` l'est — le CSV part alors des données, pas d'une capture.",
     keywords: ['chart', 'export', 'png', 'csv', 'graphique', 'telechargement'],
     render: () => (
       <ChartWithExport
@@ -7843,8 +7838,9 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ChartDetailModal',
     codeName: 'charts/ChartDetailModal.tsx',
+    showcaseOnly: true,
     cssBase: 'Tailwind (no BEM)',
-    description: "Ouvre un graphique en plein ecran, avec ses actions. Pour les surfaces d'analyse ou la vignette ne suffit pas a lire la donnee.",
+    description: "Ouvre un graphique en grand, dans un panneau au rayon 24 (90 % de la hauteur au plus) : titre en h2 au pas h3 (20/700), sous-titre 16 ink-700, le graphique, puis des Button md. ⚠️ Ce n'est pas encore un vrai dialogue : ni `role=\"dialog\"`, ni piège de focus.",
     keywords: ['chart', 'modal', 'detail', 'plein ecran', 'analytics', 'zoom'],
     render: () => <ChartDetailModalDemo />,
   },
@@ -7860,7 +7856,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'AuthSuccess',
     codeName: 'patterns/AuthShell.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: "Etat de succes des pages d'authentification, sur fond glass-dark : icone, titre, description. Reserve a la famille Auth* — ne pas l'employer ailleurs dans l'app.",
+    description: "État de réussite des pages d'authentification, sur la surface glass-dark : pastille de 56 px, titre h3 20/700 blanc, description 16 blanc (44 caractères au plus). Réservé à la famille Auth* — ne pas l'employer ailleurs dans l'app.",
     keywords: ['auth', 'succes', 'confirmation', 'glass-dark', 'email', 'inscription'],
     render: () => (
       <div className="rounded-2xl bg-gradient-to-br from-primary-800 to-brand-navy p-section">
