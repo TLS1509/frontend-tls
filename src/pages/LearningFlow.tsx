@@ -12,11 +12,12 @@
  */
 
 import React from 'react';
-import { BookOpen, Search, Play, Brain, Trophy, Target } from 'lucide-react';
+import { BookOpen, Search, Play, Brain, Trophy, Target, Check } from 'lucide-react';
 import { PageShell } from '../components/layout';
 import { Button } from '../components/core/Button';
 import { Card } from '../components/core/Card';
 import { SectionHeader } from '../components/patterns/SectionHeader';
+import { PageHero } from '../components/patterns/EditorialHero';
 
 interface FlowStep {
   id: string;
@@ -72,115 +73,102 @@ const LEARNING_FLOW: FlowStep[] = [
   },
 ];
 
+const PRINCIPES: { terme: string; texte: string }[] = [
+  { terme: 'Progressive disclosure', texte: 'Révéler les fonctionnalités au fur et à mesure du parcours' },
+  { terme: 'Micro-content', texte: 'Leçons courtes, astuces pratiques, flashcards pour la rétention' },
+  { terme: 'Motivation', texte: "Badges, points XP, leaderboard pour gamifier l'apprentissage" },
+  { terme: 'Application réelle', texte: 'Projets, missions et évaluations pour valider les compétences' },
+];
+
+/* Passe typographique du 24/09. La page doublait la gouttière de l'app (un
+   `px-4 … lg:px-10` dans PageShell) et centrait sa colonne : son contenu partait
+   100 px à droite de celui des autres pages. Elle prend PageShell tel quel,
+   l'en-tête PageHero (h1 36, chapô 18 ink-700, surtitre 13/600 — il était en
+   capitales 11 px), et deux sections h2 28 : les étapes (h3 20, textes 16
+   ink-700 au lieu du cran 500) et les principes. */
 export const LearningFlow: React.FC = () => {
   return (
     <PageShell>
-      <div className="px-4 sm:px-6 lg:px-10 flex-1">
-        <div className="max-w-4xl mx-auto flex flex-col gap-section-lg py-stack-lg">
 
-          {/* ── Header ────────────────────────────────────────────── */}
-          <div className="flex flex-col gap-stack-xs">
-            <span className="inline-flex items-center gap-stack-2xs text-micro font-bold text-ink-600 uppercase tracking-[0.08em] w-max">
-              <BookOpen size={14} aria-hidden />
-              Documentation
-            </span>
-            <h1 className="font-display text-h2 font-bold text-ink-900 tracking-headline">
-              Learning App Flow
-            </h1>
-            <p className="m-0 font-body text-body text-ink-500 max-w-2xl">
-              Parcours complet d'un apprenant : de la découverte à l'accomplissement. Chaque étape du flow correspond à des écrans et des interactions spécifiques.
-            </p>
-          </div>
+      <PageHero
+        tone="flat"
+        eyebrow={{ icon: <BookOpen size={14} aria-hidden="true" />, label: 'Documentation' }}
+        title="Learning App Flow"
+        summary="Parcours complet d'un apprenant : de la découverte à l'accomplissement. Chaque étape du flow correspond à des écrans et des interactions spécifiques."
+      />
 
-          {/* ── Flow Steps ────────────────────────────────────────── */}
-          <div className="flex flex-col gap-stack-lg">
-            {LEARNING_FLOW.map((step, idx) => (
-              <div key={step.id} className="flex gap-stack items-start">
-                {/* ── Vertical connector ── */}
-                {idx < LEARNING_FLOW.length - 1 && (
-                  <div className="relative w-12 flex flex-col items-center">
-                    <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary-100 to-primary-50 border border-primary-200 flex items-center justify-center text-primary-600 shrink-0">
-                      {step.icon}
-                    </div>
-                    <div className="w-1 flex-1 bg-gradient-to-b from-primary-300 to-primary-100 my-2" />
+      {/* ── Flow Steps ────────────────────────────────────────── */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader title="Les six étapes" />
+        <ol className="flex flex-col gap-stack-lg">
+          {LEARNING_FLOW.map((step, idx) => (
+            <li key={step.id} className="flex gap-stack items-start">
+              {/* ── Vertical connector ── */}
+              {idx < LEARNING_FLOW.length - 1 && (
+                <div className="relative w-12 self-stretch flex flex-col items-center">
+                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary-100 to-primary-50 border border-primary-200 flex items-center justify-center text-primary-600 shrink-0">
+                    {step.icon}
                   </div>
-                )}
-
-                {/* ── Last step (no connector) ── */}
-                {idx === LEARNING_FLOW.length - 1 && (
-                  <div className="w-12 flex items-center justify-center">
-                    <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-success-base to-primary-100 border border-success-base/50 flex items-center justify-center text-white shrink-0">
-                      {step.icon}
-                    </div>
-                  </div>
-                )}
-
-                {/* ── Content ── */}
-                <div className="flex-1 flex flex-col gap-stack-xs pt-1">
-                  <div className="flex items-start justify-between gap-stack">
-                    <div className="flex flex-col gap-tight flex-1">
-                      <h2 className="font-display text-h3 font-bold text-ink-900">
-                        {idx + 1}. {step.title}
-                      </h2>
-                      <p className="m-0 font-body text-body text-ink-500">
-                        {step.description}
-                      </p>
-                    </div>
-                  </div>
-                  {step.route && (
-                    <div className="mt-1">
-                      <Button
-                        emphasis="soft" tone="warm"
-                        size="sm"
-                        leadingIcon={<BookOpen size={14} />}
-                      >
-                        Voir l'écran: {step.route}
-                      </Button>
-                    </div>
-                  )}
+                  <div className="w-1 flex-1 bg-gradient-to-b from-primary-300 to-primary-100 my-2" />
                 </div>
+              )}
+
+              {/* ── Last step (no connector) ── */}
+              {idx === LEARNING_FLOW.length - 1 && (
+                <div className="w-12 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-success-base to-primary-100 border border-success-base/50 flex items-center justify-center text-white shrink-0">
+                    {step.icon}
+                  </div>
+                </div>
+              )}
+
+              {/* ── Content — titre centré sur la pastille (48 − 26) / 2 = 11,
+                  texte à 8, action à 12. ── */}
+              <div className="flex-1 flex flex-col gap-stack-sm pt-[11px]">
+                <div className="flex flex-col gap-stack-xs">
+                  <h3 className="font-display text-h3 text-ink-900">
+                    <span className="tabular-nums">{idx + 1}.</span> {step.title}
+                  </h3>
+                  <p className="font-body text-body text-ink-700 max-w-prose">
+                    {step.description}
+                  </p>
+                </div>
+                {step.route && (
+                  <div>
+                    <Button
+                      emphasis="soft" tone="warm"
+                      size="sm"
+                      leadingIcon={<BookOpen size={14} />}
+                    >
+                      Voir l'écran{' '}: {step.route}
+                    </Button>
+                  </div>
+                )}
               </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      {/* ── Key Principles — le titre de section vit hors de la carte ──── */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader title="Principes clés du flow" />
+        <Card variant="feature" className="p-6 border border-primary-200 bg-primary-50">
+          <ul className="flex flex-col gap-stack-xs">
+            {PRINCIPES.map(({ terme, texte }) => (
+              <li key={terme} className="flex items-start gap-stack-xs">
+                {/* La coche (Lucide, elle était un caractère ✓ sur un pas
+                    inexistant) se cale sur la première ligne : (26 − 16) / 2. */}
+                <Check size={16} strokeWidth={2.5} className="shrink-0 mt-[5px] text-primary-700" aria-hidden="true" />
+                <span className="font-body text-body text-ink-700">
+                  <strong className="font-semibold text-ink-900">{terme}{' '}:</strong> {texte}
+                </span>
+              </li>
             ))}
-          </div>
+          </ul>
+        </Card>
+      </section>
 
-          {/* ── Key Principles ────────────────────────────────────── */}
-          <Card variant="feature" className="p-6 border border-primary-200 bg-primary-50">
-            <SectionHeader
-              title="Principes clés du flow"
-              size="sm"
-              variant="minimal"
-              className="mb-stack"
-            />
-            <ul className="m-0 p-0 list-none flex flex-col gap-stack-xs">
-              <li className="flex items-start gap-stack-xs">
-                <span className="text-h6 font-bold text-primary-600 mt-px">✓</span>
-                <span className="font-body text-body text-ink-700">
-                  <strong>Progressive disclosure:</strong> Révéler les fonctionnalités au fur et à mesure du parcours
-                </span>
-              </li>
-              <li className="flex items-start gap-stack-xs">
-                <span className="text-h6 font-bold text-primary-600 mt-px">✓</span>
-                <span className="font-body text-body text-ink-700">
-                  <strong>Micro-content:</strong> Leçons courtes, astuces pratiques, flashcards pour la rétention
-                </span>
-              </li>
-              <li className="flex items-start gap-stack-xs">
-                <span className="text-h6 font-bold text-primary-600 mt-px">✓</span>
-                <span className="font-body text-body text-ink-700">
-                  <strong>Motivation:</strong> Badges, points XP, leaderboard pour gamifier l'apprentissage
-                </span>
-              </li>
-              <li className="flex items-start gap-stack-xs">
-                <span className="text-h6 font-bold text-primary-600 mt-px">✓</span>
-                <span className="font-body text-body text-ink-700">
-                  <strong>Application réelle:</strong> Projets, missions et évaluations pour valider les compétences
-                </span>
-              </li>
-            </ul>
-          </Card>
-
-        </div>
-      </div>
     </PageShell>
   );
 };
