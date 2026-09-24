@@ -1,6 +1,7 @@
 import React from 'react';
 import type { LucideIcon } from 'lucide-react';
 import { IconChip, type IconChipSize, type IconChipTone } from '../ui/IconChip';
+import { Button, type ButtonProps } from '../core/Button';
 
 /**
  * SectionHeader — Canonical section-level heading within a page.
@@ -45,6 +46,17 @@ import { IconChip, type IconChipSize, type IconChipTone } from '../ui/IconChip';
  *   `SegmentedControl`, sur `/leaderboard`). La règle mesure la place réelle,
  *   pas la fenêtre : elle joue aussi dans une colonne étroite du bureau (les
  *   colonnes de 326 px du tableau de bord à 1024).
+ *
+ * ── Un `ghost` dans l'action se cale sur le bord (2026-09-24) ─────────────
+ *   Un `Button` passé en `action` reçoit `flush="both"` : s'il rend un
+ *   `ghost` (« Tout voir », « Ajouter »), son LIBELLÉ tombe sur le bord droit
+ *   de l'en-tête quand il est à côté du titre, et sur le bord gauche — celui
+ *   du titre — quand il passe dessous. Il gardait son padding : décalé de
+ *   16 px du bord dans les deux dispositions (mesuré sur neuf pages). Un
+ *   `soft` ou un `outline` montrent leur boîte, c'est elle qui s'aligne : la
+ *   prop est sans effet sur eux. Un appelant qui passe son propre `flush` le
+ *   garde. La boîte déborde de l'en-tête d'autant ; son fond n'apparaît qu'au
+ *   survol.
  *
  * ── Niveau de titre : prop `as` (h2 | h3 | h4), défaut h2 ─────────────────
  * Indépendant de `size` (2026-09-24). Le composant émettait TOUJOURS un <h2>,
@@ -316,7 +328,14 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
     .filter(Boolean)
     .join(' ');
 
-  const actionNode = action && <div className="shrink-0 flex items-center gap-stack-xs">{action}</div>;
+  /* Un `Button` seul dans l'action se cale sur le bord, des deux côtés : à
+     droite quand il est à côté du titre, à gauche quand il passe dessous (voir
+     l'en-tête du fichier). `Button` n'applique le calage qu'à un `ghost`. */
+  const actionCalee =
+    React.isValidElement<ButtonProps>(action) && action.type === Button && action.props.flush === undefined
+      ? React.cloneElement(action, { flush: 'both' })
+      : action;
+  const actionNode = action && <div className="shrink-0 flex items-center gap-stack-xs">{actionCalee}</div>;
 
   if (variant === 'minimal') {
     /* Le sous-titre vivait EN LIGNE après un « · », et disparaissait sous
