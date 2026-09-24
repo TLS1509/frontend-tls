@@ -6,7 +6,7 @@ import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { FilterChip } from '../components/ui/FilterChip';
 import { EmptyState } from '../components/ui/EmptyState';
-import { Container } from '../components/layout';
+import { Container, PageShell } from '../components/layout';
 
 // ─── Mock data ─────────────────────────────────────────────────────────────────
 
@@ -119,8 +119,13 @@ export default function ChatHistoryPanel() {
 
   const filtered = CONVERSATIONS.filter((c) => c.filter.includes(activeFilter));
 
+  /* `/assistant` est rendu pleine largeur par AppLayout (App.tsx), qui ne lui
+     donne donc pas la gouttière commune : le titre passait sous la barre
+     latérale et, à 375 px, le chat débordait (audit du 23/09). La page la
+     reprend elle-même, avec la même largeur et le même rythme que les autres. */
   return (
-    <div className="flex flex-col gap-section">
+    <Container width="wide">
+    <PageShell width="wide">
       <EditorialHero
         eyebrow={{ label: 'Assistant IA', icon: <Sparkles size={14} /> }}
         title="Historique des conversations"
@@ -128,7 +133,7 @@ export default function ChatHistoryPanel() {
         tone="flat"
       />
 
-      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
+      <div className="flex flex-col gap-section">
 
         {/* Filter bar */}
         <div className="flex items-center gap-stack-xs flex-wrap">
@@ -170,7 +175,8 @@ export default function ChatHistoryPanel() {
             </Button>
           </div>
         )}
-      </Container>
-    </div>
+      </div>
+    </PageShell>
+    </Container>
   );
 }

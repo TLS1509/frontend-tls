@@ -10,7 +10,7 @@ import { AITransparencyLabel } from '../components/ui/AITransparencyLabel';
 import { useChatStore, MOCK_CHAT_SESSION_ID } from '../stores/persistence';
 import { simulateRAGResponse, CHAT_SUGGESTIONS, PRIVACY_BLOCKLIST } from '../data/chatbot';
 import type { ChatMessage, ChatFeedback, ChatSourceCitation } from '../types/learning';
-import { Container } from '../components/layout';
+import { Container, PageShell } from '../components/layout';
 
 function formatTime(): string {
   const d = new Date();
@@ -46,6 +46,47 @@ function SourceChip({ source }: { source: ChatSourceCitation }) {
     : inner;
 }
 
+// ─── Markdown des réponses ───────────────────────────────────────────────────
+/* Les réponses arrivent en Markdown léger (gras, puces « • » ou « - », listes
+   numérotées, paragraphes séparés par une ligne vide). Elles s'affichaient
+   brutes, astérisques et puces en ligne compris. Pas de bibliothèque : ce
+   sous-ensemble suffit, et rien n'est injecté en HTML. */
+
+function renderInline(text: string): React.ReactNode {
+  return text.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
+    part.startsWith('**') && part.endsWith('**') && part.length > 4
+      ? <strong key={i} className="font-semibold">{part.slice(2, -2)}</strong>
+      : <React.Fragment key={i}>{part}</React.Fragment>,
+  );
+}
+
+const BULLET = /^\s*(?:•|-|\*)\s+/;
+const NUMBERED = /^\s*\d+[.)]\s+/;
+
+function renderMarkdown(text: string): React.ReactNode {
+  return text
+    .split(/\n\s*\n/)
+    .map((block) => block.split('\n').filter((l) => l.trim() !== ''))
+    .filter((lines) => lines.length > 0)
+    .map((lines, i) => {
+      if (lines.every((l) => BULLET.test(l))) {
+        return (
+          <ul key={i} className="list-disc pl-5 flex flex-col gap-tight">
+            {lines.map((l, j) => <li key={j}>{renderInline(l.replace(BULLET, ''))}</li>)}
+          </ul>
+        );
+      }
+      if (lines.every((l) => NUMBERED.test(l))) {
+        return (
+          <ol key={i} className="list-decimal pl-5 flex flex-col gap-tight">
+            {lines.map((l, j) => <li key={j}>{renderInline(l.replace(NUMBERED, ''))}</li>)}
+          </ol>
+        );
+      }
+      return <p key={i}>{renderInline(lines.join(' '))}</p>;
+    });
+}
+
 function buildAiContent(m: ChatMessage): React.ReactNode {
   if (m.privacyBlocked) {
     return (
@@ -65,7 +106,7 @@ function buildAiContent(m: ChatMessage): React.ReactNode {
 
   return (
     <div className="flex flex-col gap-tight">
-      <p className="text-body-sm text-ink-900">{m.content}</p>
+      <div className="flex flex-col gap-stack-xs text-body-sm text-ink-900">{renderMarkdown(m.content)}</div>
       <div className="flex flex-wrap items-center gap-tight pt-tight border-t border-primary-100 mt-1">
         <AITransparencyLabel variant="generated" size="sm" />
         {m.confidenceScore !== undefined && (
@@ -151,8 +192,13 @@ export default function ChatInterface() {
     chatStore.updateFeedback(MOCK_CHAT_SESSION_ID, messageId, { messageId, rating });
   };
 
+  /* `/assistant` est rendu pleine largeur par AppLayout (App.tsx), qui ne lui
+     donne donc pas la gouttière commune : le titre passait sous la barre
+     latérale et, à 375 px, le chat débordait (audit du 23/09). La page la
+     reprend elle-même, avec la même largeur et le même rythme que les autres. */
   return (
-    <div className="flex flex-col gap-section">
+    <Container width="wide">
+    <PageShell width="wide">
       <EditorialHero
         eyebrow={{ label: 'Assistant IA', icon: <Sparkles size={14} /> }}
         title="Votre assistant personnel"
@@ -163,11 +209,14 @@ export default function ChatInterface() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
+      <div className="flex flex-col gap-section">
         <div className="flex flex-col lg:flex-row gap-section items-start">
 
           {/* ── Chat area ──────────────────────────────────────────────── */}
-          <div className="flex-1 min-w-0 flex flex-col gap-stack">
+          {/* `w-full` : sous lg, la rangée passe en colonne `items-start`, où la
+              zone prenait sa largeur de contenu (champ + bouton) et sortait de
+              l'écran à 375 px. En rangée, `flex-1` reprend la main. */}
+          <div className="w-full flex-1 min-w-0 flex flex-col gap-stack">
 
             {/* Message list */}
             <ConversationalChat
@@ -193,7 +242,7 @@ export default function ChatInterface() {
                   rows={2}
                   placeholder="Posez votre question à l'assistant…"
                   disabled={isTyping}
-                  className="flex-1 resize-none rounded-lg border border-ink-200 bg-white px-3 py-2.5 text-body-sm text-ink-900 placeholder:text-ink-500 focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100 transition-all duration-base h-auto min-h-[64px] disabled:opacity-disabled disabled:cursor-not-allowed"
+                  className="flex-1 min-w-0 resize-none rounded-lg border border-ink-200 bg-white px-3 py-2.5 text-body-sm text-ink-900 placeholder:text-ink-500 focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100 transition-all duration-base h-auto min-h-[64px] disabled:opacity-disabled disabled:cursor-not-allowed"
                 />
                 <Button
                   emphasis="soft"
@@ -258,7 +307,8 @@ export default function ChatInterface() {
             </Card>
           </aside>
         </div>
-      </Container>
-    </div>
+      </div>
+    </PageShell>
+    </Container>
   );
 }
