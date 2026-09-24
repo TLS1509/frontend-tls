@@ -656,21 +656,32 @@
 
   /* ── Couleurs sémantiques — synced with --tls-{success,danger,warning,info}-*
      Convention :
-       *-bg   : surface tintée légère pour Alert/Badge fond
-       *-fg   : texte foncé contrasté (titres, icônes, borders fortes)
-       *-base : couleur "moyenne" pour dots, fills, accents subtils
-     Pour les overlays diffus (border-left-3 sur cards, glow d'état),
-     utiliser color-mix() ou rgba sur la base — voir design-tokens.css. */
+       *-bg     : surface tintée légère pour Alert/Badge fond
+       *-fg     : texte foncé contrasté (titres, icônes, borders fortes)
+       *-base   : couleur "moyenne" pour dots, fills, accents subtils
+       *-border : filet clair d'une surface d'état (la base à 25-30 %)
+
+     ⚠️ Les quatre `*-border` sont déclarés ici depuis le 2026-09-24. Ils ne
+     vivaient que dans design-tokens.css (`--tls-*-border`) : les 9 classes
+     `border-{success,danger,info,warning}-border` du produit ne généraient
+     donc RIEN, et le filet prenait `currentColor` — le texte de l'état.
+     Mesuré sur /passeport et /masterclass/1/replay : un trait brun #2f1c13
+     (warning-fg) ou brique #8F2A0E (danger-fg) autour d'étiquettes qui
+     devaient avoir un filet clair. Valeurs reprises telles quelles de
+     design-tokens.css, qui les aliase désormais (piège n°3 : une seule
+     définition par token). */
 
   /* Success — muted teal-green (NOT bright #22C55E green) */
   --color-success-bg:   #E8F2F0;
   --color-success-fg:   #335A56;
   --color-success-base: #9DBEBA;
+  --color-success-border: rgba(157, 190, 186, 0.30);
 
   /* Danger — soft coral (NOT bright #EF4444 red) */
   --color-danger-bg:    #FEF4F0;
   --color-danger-fg:    #8F2A0E;
   --color-danger-base:  #F28559;
+  --color-danger-border: rgba(242, 133, 89, 0.25);
   /* Danger button — saturated terracotta for destructive actions.
      Distinct from soft coral (danger-base, alerts/badges) and from secondary
      orange (hue 25°). These two tokens are the ONLY charter-compliant fills
@@ -682,11 +693,13 @@
   --color-warning-bg:   #FFF9EE;
   --color-warning-fg:   #2f1c13;  /* dark editorial brown — AAA on all yellow surfaces */
   --color-warning-base: #F8B044;
+  --color-warning-border: rgba(248, 176, 68, 0.30);
 
   /* Info — synced with TLS Primary (teal) */
   --color-info-bg:      #E8F4F7;
   --color-info-fg:      #1F3E45;
   --color-info-base:    #55A1B4;
+  --color-info-border:  rgba(85, 161, 180, 0.25);
 
   /* Brown — dark warm brown for editorial typography & warning-fg */
   --color-brown-editorial: #2f1c13;  /* AAA everywhere — also used as warning-fg */

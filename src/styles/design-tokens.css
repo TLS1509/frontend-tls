@@ -129,23 +129,23 @@
   /* Success — muted teal-green */
   --tls-success-light:    rgba(157, 190, 186, 0.08);  /* idle / lesson overlay */
   --tls-success-light-bg: rgba(157, 190, 186, 0.18);  /* completed element bg */
-  --tls-success-border:   rgba(157, 190, 186, 0.30);  /* completion-state border */
+  --tls-success-border:   var(--color-success-border);  /* completion-state border — valeur dans @theme (24/09) */
 
   /* Warning — TLS Yellow base */
   --tls-warning-fg:     var(--color-warning-fg);  /* = #2f1c13 dark editorial brown */
   --tls-warning-light:  rgba(248, 176, 68, 0.08);
-  --tls-warning-border: rgba(248, 176, 68, 0.30);
+  --tls-warning-border: var(--color-warning-border);
 
   /* Danger — soft coral */
   --tls-danger-light:   rgba(242, 133, 89, 0.06);   /* idle error overlay */
-  --tls-danger-border:  rgba(242, 133, 89, 0.25);   /* error-state border */
+  --tls-danger-border:  var(--color-danger-border);  /* error-state border */
   /* Danger button — saturated fills (source de vérité = index.css @theme) */
   --tls-danger-strong:  var(--color-danger-strong);
   --tls-danger-deep:    var(--color-danger-deep);
 
   /* Info — TLS Primary teal */
   --tls-info-light:     rgba(85, 161, 180, 0.08);
-  --tls-info-border:    rgba(85, 161, 180, 0.25);
+  --tls-info-border:    var(--color-info-border);
 
   /* ---------- ROLES (what to reach for in components) ---------- */
   --bg:             var(--tls-ink-25);
