@@ -41,8 +41,9 @@ const TONE_DOT: Record<StepTutorialTone, string> = {
 /* La pastille de l'étape est un `IconChip` (arbitrage n°3, 2026-09-24). Elle
    était faite main : 56 px au rayon 20 — hors de l'échelle de la pastille
    d'icône (24 · 32 · 40 · 48) — et son glyphe au cran 600 (500 pour l'or :
-   2,0:1 sur accent-50, sous le 3:1 d'un objet graphique). `IconChip` le porte
-   au cran 800. `primary` s'y appelle `brand`. */
+   2,20:1 sur accent-50, sous le 3:1 d'un objet graphique ; 3,26 et 3,65 pour
+   le teal et l'orange). `IconChip` le porte au cran 800 (6,31 · 9,49 · 7,64).
+   `primary` s'y appelle `brand`. */
 const TONE_CHIP: Record<StepTutorialTone, IconChipTone> = {
   primary: 'brand',
   warm: 'warm',
