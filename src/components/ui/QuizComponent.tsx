@@ -156,7 +156,7 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({
        ne porte pas de texte, doctrine § 2). La couleur de réussite reste sur
        le chiffre : elle dit un état. */
     return (
-      <div className="bg-white rounded-lg border border-ink-200 p-stack-lg text-center max-w-2xl mx-auto flex flex-col items-center">
+      <div className="bg-white rounded-lg border border-ink-200 p-stack-lg text-center max-w-2xl flex flex-col items-center">
         <div
           className={[
             'inline-flex items-center justify-center w-20 h-20 rounded-pill',
@@ -196,8 +196,13 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({
     );
   }
 
+  /* Calé à gauche (2026-09-24) : un `mx-auto` le centrait dans sa colonne,
+     sur un autre axe que le titre de sa section (doctrine § 4, un seul bord
+     gauche par page). La leçon l'enfermait dans une boîte de sa largeur pour
+     le neutraliser. Le composant garde sa largeur de lecture (`max-w-2xl`) ;
+     c'est la page qui le centre si elle le veut. */
   return (
-    <div className="bg-white rounded-lg border border-ink-200 p-stack-lg max-w-2xl mx-auto">
+    <div className="bg-white rounded-lg border border-ink-200 p-stack-lg max-w-2xl">
       <div className="mb-stack-md">
         <div className="flex items-center justify-between mb-2">
           <span className="text-caption font-semibold text-ink-600 tabular-nums">

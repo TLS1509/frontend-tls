@@ -1502,13 +1502,11 @@ export const LessonPlayer: React.FC = () => {
       options: q.options.map(o => o.label),
       correct: q.options.findIndex(o => o.id === q.correct),
     }));
-    /* La section a son titre, comme les autres ; la carte du quiz prend le
-       bord gauche du texte (dans une boîte de sa largeur, son `mx-auto` ne la
-       centre plus : elle flottait au milieu, sur un autre axe que le titre). */
+    /* La section a son titre, comme les autres ; la carte du quiz part du
+       même bord gauche (le composant ne se centre plus lui-même). */
     return (
       <div>
       <h2 className={SECTION_TITLE}>Quiz</h2>
-      <div className="max-w-2xl">
       <QuizComponent
         questions={quizQuestions}
         onComplete={(results) => {
@@ -1552,7 +1550,6 @@ export const LessonPlayer: React.FC = () => {
           });
         }}
       />
-      </div>
       </div>
     );
   };
