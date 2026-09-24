@@ -390,6 +390,101 @@ et 12 sont écrits à leur place dans ce fichier.
   `ink-900`, `primary-900`. Une famille « nuit » ne sera ouverte qu'avec la
   décision du mode sombre.
 
+## Typographie, texte et rythme — la cible (2026-09-24)
+
+Écrite après les arbitrages n°20-21 et la demande de Chloé du 24/09 : « tout ce
+qui est texte et typo, alignement, espace », pour une hiérarchie qui se lit et
+un traitement de l'information plus travaillé. **C'est la cible** : la passe
+typographique l'applique ; tout code neuf la suit dès maintenant. Mesures :
+`npm run check:typo` et `npm run check:rythme`.
+
+### 1. L'échelle (app) — sept pas, chacun avec un rôle
+
+| Pas | Taille / interligne | Graisse | Famille | Rôle |
+|---|---|---|---|---|
+| `h1` | 36 / 44 | 700 | League Spartan | le titre de la page, **un seul** |
+| `h2` | 28 / 36 | 700 | League Spartan | titre de section (posé sur la page, hors carte) |
+| `h3` | **20 / 26** | 700 | League Spartan | titre de bloc : carte, rangée forte, sous-section |
+| `lede` | 18 / 28 | 400 | Nunito | chapô sous un h1 ou un h2 (ex-`body-lg`) |
+| `body` | **16 / 26** | 400 · 600 | Nunito | **tout le texte qu'on lit** : paragraphes, descriptions, libellés de rangée |
+| `caption` | 13 / 20 | 400 · 600 | Nunito | méta, aide sous un champ, légende, date |
+| `micro` | 11 / 18 | 700, capitales | Nunito | étiquettes **uniquement** (`Badge`) |
+| `stat-value` | 32 → 44 | 700 | League Spartan | chiffres mis en avant (`StatCard`) |
+
+- **Plus de 15, 14, 12, 10 px dans l'app.** `body-sm` fusionne dans `body`
+  (arbitrage n°20), l'ancien `h3` 24 disparaît et l'ancien `h4` 20 devient `h3`
+  (arbitrage n°21). Un texte de 14 ou 12 px est soit une légende (13), soit du
+  corps (16).
+- **Les rapports** 36 → 28 → 20 → 16 → 13 (1,29 · 1,40 · 1,25 · 1,23) : chaque
+  pas se voit. Deux pas voisins ne se suivent jamais pour dire deux rangs.
+- **Le site** garde sa couche d'affiche (`hero`, `section`, `title`, `feature`,
+  800 permis) ; en dessous, il suit la même échelle.
+
+### 2. Graisse et couleur disent le rôle, pas la décoration
+
+- **Graisses** : 400 le texte · 600 l'emphase dans le corps (nom dans une rangée,
+  libellé de champ, valeur) · 700 les titres, `Badge`, `Button` · 500 réservé aux
+  puces (`Chip`, `MetaPill`). Jamais 800/900 dans l'app.
+- **Couleurs du texte, par rôle** : `ink-900` titres et texte principal ·
+  `ink-700` texte secondaire long (description sous un titre) · `ink-600` méta,
+  légende, aide · `ink-500` **placeholders seulement**. Une couleur de marque ne
+  porte du texte qu'au cran 800 (lien, valeur de marque), jamais pour « faire
+  joli » un titre.
+
+### 3. Le paragraphe
+
+- **Largeur de lecture** : tout texte de plus de deux lignes est plafonné à
+  `max-w-prose` (≈ 65 caractères). Une description sur toute la largeur d'une
+  carte de 1 100 px ne se lit pas.
+- **Entre deux paragraphes** : une ligne (16 px). Pas de paragraphe coupé en
+  cartes, pas de paragraphe par carte.
+- **Alignement à gauche**, jamais justifié. Centré seulement pour deux lignes au
+  plus (état vide, confirmation courte).
+- Chiffres dans les tableaux et colonnes : `tabular-nums`, alignés à droite.
+
+### 4. L'alignement
+
+- **Un seul bord gauche par page** : le h1, les sections et leur contenu partent
+  de la même ligne. Pas de contenu centré sous un titre calé à gauche.
+- **Icône et texte** : sur une ligne, centrés ; sur plusieurs lignes, l'icône
+  s'aligne sur le **centre de la première ligne** (le motif de `SectionHeader`),
+  jamais au milieu du bloc.
+- **Étiquette et valeur** sur une même ligne : alignées sur la ligne de base.
+
+### 5. Le rythme — l'espace dit à quoi une chose appartient
+
+Loi de proximité : **ce qui va ensemble est proche, ce qui se sépare est loin**,
+et chaque niveau d'écart est nettement plus grand que le précédent. Cinq niveaux,
+sur les tokens existants :
+
+| Relation | Espace | Token |
+|---|---|---|
+| dans une ligne (icône ↔ texte, étiquette ↔ valeur) | 4–8 | `gap-stack-3xs` · `gap-stack-xs` |
+| dans un groupe (titre ↔ sous-titre, libellé ↔ champ, titre ↔ texte d'une carte) | 4–8 | `gap-stack-3xs` · `gap-stack-xs` |
+| entre éléments d'un même ensemble (rangées, champs d'un formulaire, cartes d'une grille) | 12–16 | `gap-stack-sm` · `gap-stack` |
+| titre de section ↔ son contenu | 16 | `gap-stack` |
+| entre sections | **48** | `gap-page` |
+
+- **Rapport 3:1 au-dessus d'un titre de section** : 48 au-dessus, 16 en dessous
+  (la fiche « Rythme des titres » de la vitrine). `check-rythme` signale sous
+  1,5:1.
+- **Anatomie d'une carte** : surtitre ou méta → titre 4 · titre → texte 8 ·
+  texte → méta 12 · contenu → actions 20 (dense) / 24 (canon). Padding 24
+  (dense 20, arbitrage n°4).
+- `gap-tight` (2 px) ne sépare que deux lignes d'un même énoncé (titre sur deux
+  lignes + sa méta collée) ; jamais deux blocs.
+
+### 6. Le traitement de l'information
+
+- **Un titre par section, hors de la carte** ; la carte n'enveloppe qu'un objet
+  autonome (arbitrage n°5 pour les collections).
+- **h1 → h2 → h3 sans saut** : le niveau suit la structure, la taille suit le
+  niveau.
+- **Ouvrir une page par une phrase, pas par des chiffres** : la phrase d'état
+  (« 3 corrections à traiter ») remplace le bandeau de KPI (DESIGN.md §11).
+- **La donnée chuchote, l'état crie** : `MetaPill` / texte `caption` pour les
+  données, `Badge` pour les états (arbitrages n°14-15).
+
 ## Arbitrages de l'audit UX/UI — tranchés le 2026-09-24 (n°18 à 23)
 
 Tranchés par Chloé sur le banc `/_arbitrages`. **Décidés, pas encore appliqués**
