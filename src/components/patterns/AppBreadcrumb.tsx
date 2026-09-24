@@ -186,9 +186,6 @@ const ROUTE_MAP: Array<{
   },
   { test: /^\/settings\/?$/, build: () => [{ label: 'Paramètres' }] },
 
-  // Recherche
-  { test: /^\/search\/?$/, build: () => [{ label: 'Recherche' }] },
-
   // Positionnement (test diagnostique avant parcours)
   {
     test: /^\/learning-paths\/([^/]+)\/positionnement\/?$/,

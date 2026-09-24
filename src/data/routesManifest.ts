@@ -397,7 +397,7 @@ export const ROUTES: RouteEntry[] = [
     "component": "Coaching",
     "section": "coaching",
     "audience": "apprenant",
-    "inbound": 16,
+    "inbound": 15,
     "linkedFrom": [
       "components/patterns/AppBreadcrumb.tsx",
       "components/patterns/EmptyDashboardState.tsx",
@@ -867,10 +867,8 @@ export const ROUTES: RouteEntry[] = [
     "component": "Navigate",
     "section": "leaderboard",
     "audience": "apprenant",
-    "inbound": 1,
-    "linkedFrom": [
-      "pages/Components.tsx"
-    ]
+    "inbound": 0,
+    "linkedFrom": []
   },
   {
     "path": "/learning-flow",
@@ -885,7 +883,7 @@ export const ROUTES: RouteEntry[] = [
     "component": "LearningPaths",
     "section": "learning-paths",
     "audience": "apprenant",
-    "inbound": 18,
+    "inbound": 17,
     "linkedFrom": [
       "components/marketing/FooterMinimal.tsx",
       "components/patterns/AppBreadcrumb.tsx",
@@ -897,7 +895,7 @@ export const ROUTES: RouteEntry[] = [
     "component": "LearningPathDetail",
     "section": "learning-paths",
     "audience": "apprenant",
-    "inbound": 18,
+    "inbound": 17,
     "linkedFrom": [
       "components/marketing/FooterMinimal.tsx",
       "components/patterns/AppBreadcrumb.tsx",
@@ -909,7 +907,7 @@ export const ROUTES: RouteEntry[] = [
     "component": "Positionnement",
     "section": "learning-paths",
     "audience": "apprenant",
-    "inbound": 18,
+    "inbound": 17,
     "linkedFrom": [
       "components/marketing/FooterMinimal.tsx",
       "components/patterns/AppBreadcrumb.tsx",
@@ -921,7 +919,7 @@ export const ROUTES: RouteEntry[] = [
     "component": "LessonPlayer",
     "section": "learning-paths",
     "audience": "apprenant",
-    "inbound": 18,
+    "inbound": 17,
     "linkedFrom": [
       "components/marketing/FooterMinimal.tsx",
       "components/patterns/AppBreadcrumb.tsx",
@@ -1428,7 +1426,7 @@ export const ROUTES: RouteEntry[] = [
     "component": "Veille",
     "section": "veille",
     "audience": "apprenant",
-    "inbound": 18,
+    "inbound": 17,
     "linkedFrom": [
       "components/patterns/AppBreadcrumb.tsx",
       "components/patterns/VeilleFormatShortcutCards.tsx",
@@ -1440,10 +1438,9 @@ export const ROUTES: RouteEntry[] = [
     "component": "ArticleDetail",
     "section": "veille",
     "audience": "apprenant",
-    "inbound": 3,
+    "inbound": 2,
     "linkedFrom": [
       "pages/Components.tsx",
-      "pages/Recherche.tsx",
       "pages/WeeklyNewsDetail.tsx"
     ]
   },
@@ -1521,11 +1518,11 @@ export const ROUTES: RouteEntry[] = [
     "component": "VideoTutorial",
     "section": "veille",
     "audience": "apprenant",
-    "inbound": 5,
+    "inbound": 4,
     "linkedFrom": [
       "pages/ArticleDetail.tsx",
       "pages/Components.tsx",
-      "pages/Recherche.tsx"
+      "pages/WeeklyNewsDetail.tsx"
     ]
   },
   {

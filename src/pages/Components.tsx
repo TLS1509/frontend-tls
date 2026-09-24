@@ -3133,7 +3133,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'CardGrid',
     codeName: 'patterns/CardGrid.tsx',
-    usedBy: ['Recherche', 'Veille', 'LearningPaths', 'Coaching'],
+    usedBy: ['Veille', 'LearningPaths', 'Coaching'],
     description: "Grille réutilisable, en requête de conteneur : elle compte ses colonnes sur la largeur de sa boîte, pas sur la fenêtre. Dispositions compact · default · feature · square-tiles · tiles ; écart de 8 · 16 · 24 · 32 px (24 par défaut) ; `autoFit`.",
     keywords: ['grid', 'layout', 'responsive', 'columns', 'cards'],
     render: () => (
@@ -4388,7 +4388,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'FilterBar',
     codeName: 'forms/FilterBar.tsx',
-    usedBy: ['Help (sm, « Sujets populaires »)', 'Messages (sm)', 'Recherche'],
+    usedBy: ['Help (sm, « Sujets populaires »)', 'Messages (sm)'],
     description: "Barre de filtres en pastilles, pour une barre d'outils (dans le `filtersSlot` de Search) ou entre un hero et une liste : choix multiple ou unique, compteurs, « Effacer », quatre tons, variantes solid · glass · glass-inverse, surfaces tinted · plain, tailles sm et md. Le nom du groupe (`label`) a la voix d'un libellé de champ : 16/600, casse normale, ink-900 — blanc sur les variantes verre ; il était en étiquette, 11 px capitales ink-500, la voix d'un Badge. « Effacer » parle la voix de la barre depuis le 24/09 : un Button neutre, icône X, qui n'apparaît qu'avec une sélection — `link` en 13 dans la barre sm (pastilles de 28 px) : sans boîte, il ne la fait pas grandir ; `ghost` en 16 dans la barre md, à la hauteur des pastilles (44 px) ; `ghost onDark`, blanc, sur les variantes verre, le `link` n'ayant pas de version sur fond sombre. C'était un bouton fait main en 11/700 ink-500, plus faible que les filtres qu'il efface. ⚠️ En verre sm, ce ghost de 36 px fait passer la barre de 28 à 36 px dès qu'un filtre est actif (la démo sur le hero le montre ; aucune page n'emploie cette variante).",
     keywords: ['filter', 'pills', 'chips', 'toolbar', 'multi-select', 'count', 'clear-all', 'glass', 'label', 'groupe', 'Effacer', 'link', 'ghost', 'onDark'],
     render: () => {
@@ -4477,9 +4477,8 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Spinner',
     codeName: 'ui/Spinner.tsx',
-    showcaseOnly: false,
-    usedBy: ['Recherche'],
-    description: "Indicateur de chargement : 20 · 32 · 48 px ; tons brand · warm · sun · muted · inverse ; `role=\"status\"`, et le libellé (« Chargement… » par défaut) reste réservé aux lecteurs d'écran. Dans la Recherche, en `trailing` du champ pendant l'attente.",
+    showcaseOnly: true,
+    description: "Indicateur de chargement : 20 · 32 · 48 px ; tons brand · warm · sun · muted · inverse ; `role=\"status\"`, et le libellé (« Chargement… » par défaut) reste réservé aux lecteurs d'écran. Son seul consommateur, la page Recherche (sans route), est supprimé le 24/09 : vitrine seulement.",
     keywords: ['spinner', 'loading', 'loader', 'indicator', 'async', 'wait'],
     render: () => (
       <div className="vstack gap-stack-lg">

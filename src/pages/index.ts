@@ -12,7 +12,6 @@ export { Profile } from './Profile';
 export { LearningPaths } from './LearningPaths';
 export { LearningPathDetail } from './LearningPathDetail';
 export { Positionnement } from './Positionnement';
-export { Recherche } from './Recherche';
 export { Billing } from './Billing';
 export { SubscriptionPayment } from './SubscriptionPayment';
 export { VerifyEmail } from './VerifyEmail';
