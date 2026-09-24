@@ -5,7 +5,17 @@ export interface ResourceListItemProps {
   icon?: React.ReactNode;
   /** Main label — truncated when too long */
   label: string;
-  /** Optional secondary badge (e.g. file type) */
+  /**
+   * Une DONNÉE sur la ressource (type de fichier, taille, durée) : rendue en
+   * légende 13 px ink-600 après le libellé. La donnée chuchote, l'état crie
+   * (doctrine § 6) : « PDF » n'est pas un état, il n'a rien à faire dans un Badge.
+   */
+  meta?: React.ReactNode;
+  /**
+   * @deprecated Depuis le 2026-09-24 — utiliser `meta`. Le nom invitait à
+   * poser un `Badge` sur une donnée. Rendu tel quel, sans style, tant qu'une
+   * page le passe ; ignoré quand `meta` est présent.
+   */
   badge?: React.ReactNode;
   /** Optional action slot rendered on the right (e.g. a Download button) */
   action?: React.ReactNode;
@@ -17,6 +27,7 @@ export interface ResourceListItemProps {
 export const ResourceListItem: React.FC<ResourceListItemProps> = ({
   icon,
   label,
+  meta,
   badge,
   action,
   onClick,
@@ -31,17 +42,20 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
     className,
   ].filter(Boolean).join(' ');
 
+  /* Des <span> seulement : la rangée devient un <button> quand elle est
+     cliquable, et un bouton n'admet que du contenu phrasé (il portait deux
+     <div>). Les classes d'affichage donnent le même rendu. */
   const inner = (
     <>
       {/* Libellé de rangée 16/600 ink-900 (passe typographique du
           2026-09-24) : c'était une légende de 13 px, plus petite que le bouton
           « Télécharger » posé à côté — le nom du document passait après l'action. */}
-      <div className="flex items-center gap-stack-xs min-w-0">
+      <span className="flex items-center gap-stack-xs min-w-0">
         {icon && <span className="text-ink-600 shrink-0 inline-flex">{icon}</span>}
         <span className="text-body font-semibold text-ink-900 truncate">{label}</span>
-        {badge}
-      </div>
-      {action && <div className="shrink-0">{action}</div>}
+        {meta != null ? <span className="shrink-0 text-caption text-ink-600">{meta}</span> : badge}
+      </span>
+      {action && <span className="shrink-0">{action}</span>}
     </>
   );
 
