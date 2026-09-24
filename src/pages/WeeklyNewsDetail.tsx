@@ -25,7 +25,6 @@ import { Badge } from '../components/ui/Badge';
 import { MetaPill } from '../components/ui/MetaPill';
 import { PageShell } from '../components/layout';
 import { EditorialLayout } from '../components/patterns/EditorialLayout';
-import { SectionCard } from '../components/patterns/SectionCard';
 import { RelatedItemList } from '../components/patterns/RelatedItemList';
 import { IntroCallout } from '../components/patterns/IntroCallout';
 import { ReaderContextStrip } from '../components/patterns/ReaderContextStrip';
@@ -106,25 +105,27 @@ export const WeeklyNewsDetail: React.FC = () => {
         }
       />
 
-      <div ref={articleRef} className="max-w-page mx-auto px-stack sm:px-stack-lg lg:px-section-lg py-section">
+      {/* Un seul bord gauche : celui de la page (la gouttière de l'app). Ce
+          conteneur en ajoutait une seconde, de 40 px. */}
+      <div ref={articleRef} className="py-section">
         <EditorialLayout
           main={
             <div className="flex flex-col gap-section">
 
-              {/* Hero éditorial */}
-              <header className="flex flex-col gap-stack">
-                {/* Eyebrow */}
+              {/* Hero éditorial — étiquettes → 8 → h1 → 12 → méta (ink-600 ;
+                  elle était au cran 500 des placeholders). */}
+              <header className="flex flex-col">
                 <div className="flex items-center gap-stack-xs flex-wrap">
                   <MetaPill icon={<TrendingUp />} text={ACTU.week} tone="primary" />
                   <MetaPill text={ACTU.category} />
                   <Badge variant="danger">{ACTU.priority}</Badge>
                 </div>
 
-                <h1 className="font-display text-h1 font-bold text-ink-900 tracking-tight">
+                <h1 className="mt-stack-xs font-display text-h1 text-ink-900 text-balance">
                   {ACTU.title}
                 </h1>
 
-                <div className="flex items-center gap-stack font-body text-caption text-ink-500 flex-wrap border-b border-ink-100 pb-stack">
+                <div className="mt-stack-sm flex items-center gap-stack font-body text-caption text-ink-600 flex-wrap border-b border-ink-100 pb-stack">
                   <span className="inline-flex items-center gap-stack-2xs">
                     <CalendarDays size={14} /> {ACTU.date}
                   </span>
@@ -144,14 +145,16 @@ export const WeeklyNewsDetail: React.FC = () => {
                 Visuel / illustration principale
               </div>
 
-              {/* Body sections */}
-              <div className="flex flex-col gap-stack-lg">
+              {/* Body sections — trois sections : h2 28 (il était à 20),
+                  16 avant le texte, 48 entre elles ; le texte principal en
+                  ink-900 sur la largeur de lecture. */}
+              <div className="flex flex-col gap-page">
                 {ACTU.body.map((section, i) => (
-                  <section key={i} className="flex flex-col gap-stack-xs">
-                    <h2 className="font-display text-h3 font-bold text-ink-900 tracking-tight">
+                  <section key={i} className="flex flex-col gap-stack">
+                    <h2 className="font-display text-h2 text-ink-900">
                       {section.heading}
                     </h2>
-                    <p className="m-0 font-body text-body text-ink-700">
+                    <p className="font-body text-body text-ink-900 max-w-prose">
                       {section.text}
                     </p>
                   </section>
@@ -180,14 +183,17 @@ export const WeeklyNewsDetail: React.FC = () => {
             </div>
           }
           aside={
-            <SectionCard title="À lire aussi" titleIcon={<TrendingUp size={16} />}>
+            /* Un libellé au-dessus de la liste, comme l'article : la carte
+               titrée en h3 contenait elle-même des cartes. */
+            <div className="flex flex-col gap-stack-sm">
+              <p className="font-body text-caption font-semibold text-ink-600">À lire aussi</p>
               <RelatedItemList
                 items={RELATED.map((r) => ({
                   ...r,
                   onClick: () => navigate(r.href),
                 }))}
               />
-            </SectionCard>
+            </div>
           }
         />
       </div>

@@ -19,14 +19,14 @@ import {
   ArrowRight,
   CalendarDays,
   FileText,
-  ArrowLeft,
   Bookmark,
   Share2,
   CheckCircle2,
 } from 'lucide-react';
 import { Button } from '../components/core/Button';
 import { EditorialLayout } from '../components/patterns/EditorialLayout';
-import { SectionCard } from '../components/patterns/SectionCard';
+import { Card } from '../components/core/Card';
+import { ReaderContextStrip } from '../components/patterns/ReaderContextStrip';
 import { PageShell } from '../components/layout';
 
 /* ─── Data ───────────────────────────────────────────────────────────────── */
@@ -54,10 +54,13 @@ const SUMMARY_POINTS = [
   'Outils & ressources inclus',
 ];
 
-const ENTRY_TONE: Record<'brand' | 'warm' | 'sun', { num: string; hover: string }> = {
-  brand: { num: 'text-primary-600',   hover: 'hover:bg-primary-50' },
-  warm:  { num: 'text-secondary-600', hover: 'hover:bg-secondary-50' },
-  sun:   { num: 'text-accent-700',    hover: 'hover:bg-accent-50' },
+/* Le numéro d'un article est une seule encre (primary-800, une valeur de
+   marque au cran 800) : il alternait teal, orange et or sans rien dire, au
+   cran 600 qui ne porte pas de texte. Le survol garde le ton de l'article. */
+const ENTRY_TONE: Record<'brand' | 'warm' | 'sun', { hover: string }> = {
+  brand: { hover: 'hover:bg-primary-50' },
+  warm:  { hover: 'hover:bg-secondary-50' },
+  sun:   { hover: 'hover:bg-accent-50' },
 };
 
 /* ─── Component ──────────────────────────────────────────────────────────── */
@@ -68,41 +71,44 @@ export const Magazine: React.FC = () => {
   const saved = useBookmarksStore((s) => s.ids.includes(bookmarkKey));
   const toggleBookmark = useBookmarksStore((s) => s.toggle);
 
+  /* Passe typographique du 24/09 — une page, deux sections :
+     · la barre de lecture est ReaderContextStrip (elle était un PageShell dont
+       la `flex-col` empilait « Retour » et les boutons hors de la barre) ;
+     · le numéro ouvre sur un héros sombre à gouttière (le texte touchait le
+       bord du bandeau), au pas de l'app : surtitre 13/600, h1 36 (il montait à
+       64), chapô 18 et méta 13 en blanc plein (ils étaient à 75 et 70 %) ;
+     · « Synthèse exécutive » et « Sommaire » sont les deux sections de la page,
+       en h2 28 au-dessus de leur contenu — elles étaient deux cartes titrées
+       en h3, et la page sautait du h1 au h3. */
   return (
     <PageShell width="page" noPadTop={true} className="bg-surface">
-      {/* Sticky glass header */}
-      <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100">
-        <PageShell width="page" noPadTop className="!h-14 !py-0 !gap-0 flex items-center justify-between gap-stack-xs">
-          <Button
-            emphasis="outline"
-            size="sm"
-            leadingIcon={<ArrowLeft size={14} />}
-            onClick={() => navigate('/veille')}
-          >
-            Retour à la veille
-          </Button>
-
+      <ReaderContextStrip
+        title="L'IA au cœur de la formation"
+        onBack={() => navigate('/veille')}
+        backLabel="Retour à la veille"
+        trailing={
           <div className="flex items-center gap-stack-xs">
-            <Button emphasis="soft" size="sm" leadingIcon={<Download size={14} />} className="hidden sm:inline-flex">
+            <Button emphasis="soft" size="sm" leadingIcon={<Download size={14} />} className="max-sm:hidden">
               Télécharger le PDF
             </Button>
             <Button
               emphasis={saved ? 'soft' : 'outline'}
               iconOnly
+              size="sm"
               aria-label={saved ? 'Retirer le marque-page' : 'Ajouter aux marque-pages'}
               onClick={() => toggleBookmark(bookmarkKey)}
             >
               <Bookmark size={14} fill={saved ? 'currentColor' : 'none'} />
             </Button>
-            <Button emphasis="outline" iconOnly aria-label="Partager">
+            <Button emphasis="outline" iconOnly size="sm" aria-label="Partager">
               <Share2 size={14} />
             </Button>
           </div>
-        </PageShell>
-      </div>
+        }
+      />
 
-      {/* Full-bleed dark hero */}
-      <section className="relative bg-gradient-to-br from-ink-900 via-primary-900 to-ink-800 overflow-hidden">
+      {/* Héros du numéro — surtitre → 8 → h1 → 12 → chapô → 16 → méta. */}
+      <section className="relative rounded-xl bg-gradient-to-br from-ink-900 via-primary-900 to-ink-800 overflow-hidden">
         {/* Decorative radial blobs : colored ambient — primary-300 et secondary-300,
             au rgb près ; carrés, donc l'ellipse de `bg-radial` est un cercle */}
         <div
@@ -114,111 +120,117 @@ export const Magazine: React.FC = () => {
           className="absolute -bottom-16 -left-16 w-[350px] h-[350px] rounded-pill opacity-20 pointer-events-none bg-radial from-secondary-300/60 to-transparent to-70%"
         />
 
-        <PageShell width="page" className="relative py-section sm:py-page flex flex-col gap-stack-lg">
-          {/* Eyebrow */}
-          <span className="inline-flex items-center gap-stack-xs self-start px-3 py-1.5 rounded-pill bg-white/10 border border-white/20 text-white font-body text-micro font-bold uppercase tracking-widest backdrop-blur-glass-light">
-            <BookOpen size={14} />
-            Magazine TLS · Édition Printemps 2026
-          </span>
+        <div className="relative px-stack-lg py-section sm:px-section sm:py-page flex flex-col">
+          <p className="inline-flex items-center gap-stack-2xs self-start font-body text-caption font-semibold text-white">
+            <BookOpen size={14} aria-hidden="true" />
+            Magazine TLS · Édition printemps 2026
+          </p>
 
-          <h1 className="font-display text-h1 sm:text-[3.25rem] lg:text-[4rem] text-white leading-[1.05] tracking-tight max-w-content">
+          <h1 className="mt-stack-xs font-display text-h1 text-white max-w-content text-balance">
             L'IA au cœur de la formation
           </h1>
 
-          <p className="m-0 font-body text-body-lg text-white/75 max-w-2xl">
+          <p className="mt-stack-sm font-body text-body-lg text-white max-w-prose">
             56 pages de recherches, portraits, analyses et tendances pour transformer vos
             pratiques pédagogiques en 2026.
           </p>
 
-          <div className="flex items-center gap-stack flex-wrap font-body text-caption text-white/70">
+          <div className="mt-stack flex items-center gap-stack flex-wrap font-body text-caption text-white tabular-nums">
             <span className="inline-flex items-center gap-stack-2xs">
-              <CalendarDays size={14} /> Avril 2026
+              <CalendarDays size={14} aria-hidden="true" /> Avril 2026
             </span>
-            <span aria-hidden className="text-white/30">·</span>
+            <span aria-hidden className="text-white/60">·</span>
             <span className="inline-flex items-center gap-stack-2xs">
-              <FileText size={14} /> 56 pages
+              <FileText size={14} aria-hidden="true" /> 56 pages
             </span>
-            <span aria-hidden className="text-white/30">·</span>
+            <span aria-hidden className="text-white/60">·</span>
             <span className="inline-flex items-center gap-stack-2xs">
-              <Download size={14} /> 1 240 téléchargements
+              <Download size={14} aria-hidden="true" /> 1 240 téléchargements
             </span>
           </div>
-        </PageShell>
+        </div>
       </section>
 
       {/* Body : Editorial layout aside-left (Synthèse) + Sommaire main */}
-      <PageShell width="page">
-        <EditorialLayout
-          asideFirst
-          aside={
-            <SectionCard
-              titleIcon={<FileText size={18} />}
-              title="Synthèse exécutive"
-              description="Lecture rapide"
-              actions={
-                <Button emphasis="soft" size="sm" leadingIcon={<Download size={14} />}>
-                  Télécharger le PDF
-                </Button>
-              }
-            >
-              <p className="m-0 font-body text-body text-ink-700">
+      <EditorialLayout
+        asideFirst
+        aside={
+          <section className="flex flex-col gap-stack" aria-labelledby="magazine-synthese">
+            <div className="flex flex-col gap-stack-3xs">
+              <h2 id="magazine-synthese" className="font-display text-h2 text-ink-900">Synthèse exécutive</h2>
+              <p className="font-body text-caption text-ink-600">Lecture rapide</p>
+            </div>
+            <Card className="flex flex-col gap-stack">
+              <p className="font-body text-body text-ink-900">
                 Ce numéro explore comment l'IA générative transforme concrètement le métier de
                 formateur : de la conception des contenus à la personnalisation des parcours.
                 Nos experts dressent un panorama complet des pratiques émergentes, soutenu par
                 des données terrain et des témoignages de formateurs pionniers.
               </p>
 
-              <ul className="m-0 p-0 list-none flex flex-col gap-stack-xs mt-stack">
+              <ul className="flex flex-col gap-stack-xs">
                 {SUMMARY_POINTS.map((point, i) => (
-                  <li key={i} className="flex items-center gap-stack-xs font-body text-body text-ink-800">
-                    <CheckCircle2 size={14} className="text-primary-600 shrink-0" />
+                  <li key={i} className="flex items-start gap-stack-xs font-body text-body text-ink-900">
+                    {/* Calée sur la 1re ligne : (26 − 16) / 2. */}
+                    <CheckCircle2 size={16} className="text-primary-700 shrink-0 mt-[5px]" aria-hidden="true" />
                     {point}
                   </li>
                 ))}
               </ul>
-            </SectionCard>
-          }
-          main={
-            <SectionCard
-              titleIcon={<BookOpen size={18} />}
-              title="Sommaire du magazine"
-              description="6 articles · 56 pages"
-            >
-              <div className="-mx-stack-md -mb-stack-md sm:-mx-6 sm:-mb-stack-lg">
-                {SOMMAIRE.map((item, index) => {
-                  const tone = ENTRY_TONE[item.tone];
-                  return (
+
+              <div className="pt-stack border-t border-ink-100">
+                <Button emphasis="soft" size="sm" leadingIcon={<Download size={14} />}>
+                  Télécharger le PDF
+                </Button>
+              </div>
+            </Card>
+          </section>
+        }
+        main={
+          <section className="flex flex-col gap-stack" aria-labelledby="magazine-sommaire">
+            <div className="flex flex-col gap-stack-3xs">
+              <h2 id="magazine-sommaire" className="font-display text-h2 text-ink-900">Sommaire</h2>
+              <p className="font-body text-caption text-ink-600 tabular-nums">6 articles · 56 pages</p>
+            </div>
+            {/* Des rangées dans une carte, sans marges négatives : la carte
+                n'a pas de padding, chaque rangée porte le sien. */}
+            {/* Une liste ordonnée : c'est elle qui dit le rang aux lecteurs
+                d'écran ; le numéro affiché est son dessin (aria-hidden). */}
+            <Card as="ol" className="flex flex-col gap-0 p-0 overflow-hidden divide-y divide-ink-100">
+              {SOMMAIRE.map((item) => {
+                const tone = ENTRY_TONE[item.tone];
+                return (
+                  <li key={item.num}>
                     <button
-                      key={item.num}
                       type="button"
                       onClick={() => navigate('/veille/magazine-article/1')}
                       className={[
                         'w-full flex items-start gap-stack px-stack-md sm:px-stack-lg py-stack text-left cursor-pointer transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-primary-500',
                         tone.hover,
-                        index < SOMMAIRE.length - 1 ? 'border-b border-ink-100' : '',
-                        '!h-auto !overflow-visible !items-start !font-normal',
                       ].join(' ')}
                     >
-                      <span className={`font-display text-h2 leading-none min-w-[40px] shrink-0 tabular-nums ${tone.num}`}>
+                      {/* Le numéro, sur la ligne du titre : son interligne est
+                          ramené à sa taille pour que les deux partagent le haut. */}
+                      <span aria-hidden="true" className="font-display text-h2 leading-none min-w-[40px] shrink-0 tabular-nums text-primary-800">
                         {item.num}
                       </span>
-                      <div className="flex-1 min-w-0">
-                        <p className="m-0 font-body text-body font-semibold text-ink-900 leading-snug">
+                      <span className="flex-1 min-w-0 flex flex-col gap-stack-3xs">
+                        <span className="font-body text-body font-semibold text-ink-900 leading-snug">
                           {item.title}
-                        </p>
-                        <span className="font-body text-caption text-ink-500 italic mt-1 inline-block">
+                        </span>
+                        <span className="font-body text-caption text-ink-600 italic tabular-nums">
                           {item.pages}
                         </span>
-                      </div>
-                      <ArrowRight size={14} className="text-ink-600 shrink-0 mt-1.5" />
+                      </span>
+                      <ArrowRight size={14} className="text-ink-600 shrink-0 mt-1.5" aria-hidden="true" />
                     </button>
-                  );
-                })}
-              </div>
-            </SectionCard>
-          }
-        />
-      </PageShell>
+                  </li>
+                );
+              })}
+            </Card>
+          </section>
+        }
+      />
     </PageShell>
   );
 };

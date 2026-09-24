@@ -18,7 +18,6 @@ import React, { useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useBookmarksStore, useReadingProgressSync } from '../stores/persistence';
 import {
-  ArrowLeft,
   Bookmark,
   Share2,
   CalendarDays,
@@ -28,12 +27,12 @@ import {
   Newspaper,
 } from 'lucide-react';
 import { Button } from '../components/core/Button';
-import { Badge } from '../components/ui/Badge';
 import { MetaPill } from '../components/ui/MetaPill';
 import { EditorialLayout } from '../components/patterns/EditorialLayout';
 import { RelatedItemList } from '../components/patterns/RelatedItemList';
 import { AuthorStrip } from '../components/patterns/AuthorStrip';
 import { IntroCallout } from '../components/patterns/IntroCallout';
+import { ReaderContextStrip } from '../components/patterns/ReaderContextStrip';
 import { PageShell } from '../components/layout';
 import {
   ReadingProgressBar,
@@ -120,39 +119,45 @@ const RELATED = [
 
 const ContentBlockRenderer: React.FC<{ block: ContentBlock }> = ({ block }) => {
   switch (block.type) {
+    /* Intertitre : une section de l'article, h2 28 (il était à 20). 48 au-
+       dessus (16 du flux + 32), 16 en dessous : il se lit avec son texte. */
     case 'heading':
       return (
-        <h2 className="mt-stack font-display text-h3 font-bold text-ink-900 tracking-tight">
+        <h2 className="mt-section font-display text-h2 text-ink-900">
           {block.text}
         </h2>
       );
+    /* Le texte de l'article est le texte principal : ink-900 (il était au
+       cran 700, celui des descriptions). */
     case 'paragraph':
       return (
-        <p className="m-0 font-body text-body text-ink-700">
+        <p className="font-body text-body text-ink-900">
           {block.text}
         </p>
       );
+    /* Citation : padding 20 / 24, jamais sous le rayon (20) ; la source en
+       légende ink-600, sans le « : » resté d'un tiret remplacé. */
     case 'quote':
       return (
-        <figure className="m-0 my-stack px-stack-md sm:px-6 py-stack bg-primary-50 rounded-xl">
-          <blockquote className="m-0 font-body italic text-body-lg text-primary-800">
+        <figure className="my-stack px-stack-lg py-stack-md bg-primary-50 rounded-xl flex flex-col gap-stack-xs">
+          <blockquote className="font-body italic text-body-lg text-primary-800">
             « {block.text} »
           </blockquote>
           {block.attribution && (
-            <figcaption className="mt-stack-xs font-body text-caption text-ink-500">
-              : {block.attribution}
+            <figcaption className="font-body text-caption text-ink-600">
+              {block.attribution}
             </figcaption>
           )}
         </figure>
       );
     case 'image':
       return (
-        <figure className="m-0 my-stack flex flex-col gap-stack-xs">
+        <figure className="my-stack flex flex-col gap-stack-xs">
           <div className="aspect-video w-full rounded-lg bg-gradient-to-br from-primary-50 via-white to-secondary-50 border border-ink-100 flex items-center justify-center font-body text-caption text-ink-600 text-center px-stack">
             {block.placeholder}
           </div>
           {block.caption && (
-            <figcaption className="font-body text-caption text-ink-500 italic text-center">
+            <figcaption className="font-body text-caption text-ink-600 italic text-center">
               {block.caption}
             </figcaption>
           )}
@@ -191,45 +196,48 @@ export const ArticleDetail: React.FC = () => {
       {/* Top reading progress bar : fixed */}
       <ReadingProgressBar targetRef={articleRef} tone="brand" />
 
-      {/* Sticky glass header */}
-      <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100">
-        <PageShell width="medium" noPadTop className="!h-14 !py-0 !gap-0 flex items-center justify-between gap-stack-xs">
-          <button
-            type="button"
-            onClick={() => navigate('/veille')}
-            className="inline-flex items-center gap-stack-2xs font-body text-caption font-semibold text-ink-700 hover:text-primary-700 bg-transparent border-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
-          >
-            <ArrowLeft size={14} /> Retour à la veille
-          </button>
-
+      {/* Barre de lecture : ReaderContextStrip, comme l'article du magazine,
+          l'actu hebdo et le dossier. Elle était un PageShell dont la
+          `flex-col` battait le `flex` de la page : « Retour » et les trois
+          boutons s'empilaient et débordaient des 56 px de la barre. */}
+      <ReaderContextStrip
+        title={ARTICLE.title}
+        onBack={() => navigate('/veille')}
+        backLabel="Retour à la veille"
+        containerWidth="medium"
+        trailing={
           <div className="flex items-center gap-stack-xs">
             <ReadingProgressRing targetRef={articleRef} tone="brand" size={32} />
             <Button
               emphasis={bookmarked ? 'soft' : 'outline'}
               iconOnly
+              size="sm"
               aria-label={bookmarked ? 'Retirer le marque-page' : 'Ajouter aux marque-pages'}
               onClick={() => toggleBookmark(bookmarkKey)}
             >
               <Bookmark size={14} fill={bookmarked ? 'currentColor' : 'none'} />
             </Button>
-            <Button emphasis="outline" iconOnly aria-label="Partager">
+            <Button emphasis="outline" iconOnly size="sm" aria-label="Partager">
               <Share2 size={14} />
             </Button>
           </div>
-        </PageShell>
-      </div>
+        }
+      />
 
-      <PageShell width="medium" noPadTop={true}>
+      {/* La marge haute par défaut de PageShell : l'en-tête était collé à la
+          barre (16 au-dessus du h1, 32 en dessous). */}
+      <PageShell width="medium">
         <div ref={articleRef} className="flex flex-col gap-section">
-        {/* Breadcrumb + eyebrow + h1 + excerpt */}
-        <header className="flex flex-col gap-stack max-w-prose">
+        {/* En-tête : la source (donnée, MetaPill) → 8 → h1 36 → 12 → chapô 18
+            ink-700 (il était au cran 600 de la méta). */}
+        <header className="flex flex-col max-w-prose">
           <MetaPill icon={<Newspaper />} text={sourceLabel} tone="primary" className="self-start" />
 
-          <h1 className="font-display text-h1 font-bold text-ink-900 tracking-tight">
+          <h1 className="mt-stack-xs font-display text-h1 text-ink-900">
             {ARTICLE.title}
           </h1>
 
-          <p className="m-0 font-body text-body-lg text-ink-600">
+          <p className="mt-stack-sm font-body text-body-lg text-ink-700">
             {ARTICLE.excerpt}
           </p>
         </header>
@@ -253,7 +261,7 @@ export const ArticleDetail: React.FC = () => {
             <article className="flex flex-col gap-stack max-w-prose">
               {/* Featured image */}
               <figure className="m-0">
-                <div className="aspect-video w-full rounded-xl bg-gradient-to-br from-primary-100 via-primary-50 to-secondary-100 border border-ink-100 flex items-center justify-center font-body text-body text-ink-500">
+                <div className="aspect-video w-full rounded-xl bg-gradient-to-br from-primary-100 via-primary-50 to-secondary-100 border border-ink-100 flex items-center justify-center font-body text-body text-ink-700">
                   Image principale de l'article
                 </div>
               </figure>
@@ -270,19 +278,17 @@ export const ArticleDetail: React.FC = () => {
                 ))}
               </div>
 
-              {/* Tags */}
-              <div className="flex flex-col gap-stack-xs pt-section border-t border-ink-100">
-                <span className="inline-flex items-center gap-stack-2xs font-body text-micro font-bold uppercase tracking-wider text-ink-500">
-                  <TagIcon size={14} /> Tags
-                </span>
+              {/* Tags — un libellé de groupe (13/600 ink-600, il était en
+                  capitales 11 px au cran 500) et des données en MetaPill (les
+                  puces faites main étaient en 11/600, avec un curseur de lien
+                  sans lien). */}
+              <div className="mt-stack flex flex-col gap-stack-xs pt-section border-t border-ink-100">
+                <p className="inline-flex items-center gap-stack-2xs font-body text-caption font-semibold text-ink-600">
+                  <TagIcon size={14} aria-hidden="true" /> Tags
+                </p>
                 <div className="flex flex-wrap gap-stack-xs">
                   {ARTICLE.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="inline-flex items-center px-2.5 py-1 rounded-pill bg-ink-50 border border-ink-200 font-body text-micro font-semibold text-ink-700 hover:bg-ink-100 transition-colors cursor-pointer"
-                    >
-                      {tag}
-                    </span>
+                    <MetaPill key={tag} text={tag} tone="neutral" />
                   ))}
                 </div>
               </div>
@@ -304,8 +310,10 @@ export const ArticleDetail: React.FC = () => {
             </article>
           }
           aside={
-            <div className="flex flex-col gap-stack-lg">
-              <Badge variant="brand">À découvrir aussi</Badge>
+            /* Le titre de l'encart est un libellé (13/600 ink-600) : un Badge
+               dit un état, pas le nom d'un bloc. */
+            <div className="flex flex-col gap-stack-sm">
+              <p className="font-body text-caption font-semibold text-ink-600">À découvrir aussi</p>
               <RelatedItemList
                 items={RELATED.map((r) => ({
                   id: r.id,
