@@ -127,9 +127,42 @@ export const CompetencyRadar: React.FC<CompetencyRadarProps> = ({
     return () => ro.disconnect();
   }, []);
 
+  /* La largeur RÉELLE des libellés — mesurée depuis le 2026-09-24.
+     La géométrie partait d'une chasse moyenne (6,7 px par caractère à 13 px) ;
+     un libellé plus large que la moyenne sortait du SVG, qui le rognait :
+     « Communication » mesure 91 px pour 87 estimés, et /manager/cohort
+     affichait « Communicatior » (radar `sm`, à 375 comme à 1440). Après le
+     premier rendu, on mesure chaque ligne dans la police calculée du libellé
+     (canvas `measureText`), et on recommence quand les polices ont fini de
+     charger. L'estimation ne sert plus qu'au tout premier rendu. */
+  const [largeursMesurees, setLargeursMesurees] = useState<number[] | null>(null);
+  const [policesPretes, setPolicesPretes] = useState(false);
+  useLayoutEffect(() => {
+    let actif = true;
+    document.fonts?.ready.then(() => { if (actif) setPolicesPretes(true); });
+    return () => { actif = false; };
+  }, []);
+  useLayoutEffect(() => {
+    const texte = boite.current?.querySelector('svg text');
+    const ctx = texte && document.createElement('canvas').getContext('2d');
+    if (!texte || !ctx) return;
+    const cs = getComputedStyle(texte);
+    // Graisse du libellé, pas celle d'un numéro (600 en mode numéroté).
+    ctx.font = `400 ${cs.fontSize} ${cs.fontFamily}`;
+    const mesures = axes
+      .slice(0, n)
+      .map((a) => Math.max(...coupeLibelle(a.label, LIGNE_MAX).map((ligne) => ctx.measureText(ligne).width)));
+    setLargeursMesurees((avant) =>
+      avant && avant.length === mesures.length && avant.every((v, i) => Math.abs(v - mesures[i]) < 0.5) ? avant : mesures,
+    );
+  }, [axes, n, policesPretes]);
+
   const geo = useMemo(() => {
     const libelles = axes.slice(0, n).map((a) => coupeLibelle(a.label, LIGNE_MAX));
-    const largeurs = libelles.map((l) => Math.max(...l.map((ligne) => ligne.length)) * CHASSE_CAPTION);
+    const largeurs =
+      largeursMesurees?.length === libelles.length
+        ? largeursMesurees
+        : libelles.map((l) => Math.max(...l.map((ligne) => ligne.length)) * CHASSE_CAPTION);
     // Avant la première mesure : la place du dessin nominal et de ses libellés.
     const W = largeurDispo ?? SIZE_PX[size] + 2 * Math.max(0, ...largeurs);
 
@@ -171,7 +204,7 @@ export const CompetencyRadar: React.FC<CompetencyRadarProps> = ({
     const minY = Math.min(-rayon, ...blocs.map((b) => b.y0)) - 4;
     const maxY = Math.max(rayon, ...blocs.map((b) => b.y1)) + 4;
     return { rayon, numerote, blocs, minX, minY, largeur: maxX - minX, hauteur: maxY - minY };
-  }, [axes, n, angles, size, rayonNominal, largeurDispo, showLabels]);
+  }, [axes, n, angles, size, rayonNominal, largeurDispo, showLabels, largeursMesurees]);
 
   const maxR = geo.rayon;
 
