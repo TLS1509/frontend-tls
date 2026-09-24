@@ -107,9 +107,11 @@ export const JournalDetail: React.FC = () => {
             icon={<PenLine size={32} />}
             title="Cette entrée n'existe plus"
             description="Elle a peut-être été supprimée, ou le lien est incomplet. Ton journal, lui, est intact."
+            /* Seule issue de l'écran, donc son action principale : l'aplat
+               (arbitrage n°19). */
             actions={
               <Button
-                emphasis="outline"
+                emphasis="solid"
                 size="md"
                 leadingIcon={<ArrowLeft size={14} />}
                 onClick={() => navigate('/journal')}
@@ -139,8 +141,11 @@ export const JournalDetail: React.FC = () => {
           « Retour au journal » sortait par le haut de l'écran. */}
       <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100">
         <div className="max-w-medium mx-auto w-full h-14 flex flex-row items-center justify-between gap-stack-xs">
+          {/* Retour : tertiaire, `ghost` neutre. « Nouvelle entrée » garde son
+              `soft` : l'aplat est l'appel du bas de page (arbitrage n°19). */}
           <Button
-            emphasis="outline"
+            emphasis="ghost"
+            tone="neutral"
             size="sm"
             leadingIcon={<ArrowLeft size={14} />}
             onClick={() => navigate('/journal')}
@@ -299,8 +304,12 @@ export const JournalDetail: React.FC = () => {
               Capturez vos observations pendant qu'elles sont fraîches.
             </p>
           </div>
+          {/* L'action principale de la page, sur un fond au cran 700 : l'aplat
+              `onDark`, verre clair à encre foncée (arbitrage n°19). Le `soft`
+              neutre est la pastille des cartes teintées claires, pas celle
+              d'un fond sombre. */}
           <Button
-            emphasis="soft" tone="neutral"
+            emphasis="solid" onDark
             size="md"
             leadingIcon={<PenLine size={14} />}
             onClick={() => navigate('/journal/new-entry')}

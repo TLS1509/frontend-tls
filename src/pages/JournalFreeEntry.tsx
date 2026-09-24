@@ -127,9 +127,13 @@ export const JournalFreeEntry: React.FC = () => {
           sortait de l'écran (bord droit mesuré à 452 px). La plume remplace
           l'étincelle, réservée aux fonctions d'IA. */}
       <div className="flex items-center justify-between gap-stack-xs px-stack sm:px-section py-stack border-b border-ink-200 sticky top-0 bg-white z-sticky">
+        {/* Hiérarchie (arbitrage n°19) : « Publier », toujours visible dans la
+            barre collante, est le seul aplat ; Retour et Brouillon sont des
+            `ghost` neutres. Les trois boutons étaient en `soft`, dont deux
+            orange et un teal : deux tons, aucun niveau. */}
         <div className="flex items-center gap-stack-xs min-w-0">
           <Button
-            emphasis="soft" tone="warm"
+            emphasis="ghost" tone="neutral"
             size="sm"
             leadingIcon={<ArrowLeft size={14} />}
             onClick={() => navigate('/journal')}
@@ -142,10 +146,10 @@ export const JournalFreeEntry: React.FC = () => {
           </div>
         </div>
         <div className="flex gap-stack-xs shrink-0">
-          <Button emphasis="soft" tone="warm" size="sm" leadingIcon={<Save size={14} />}>
+          <Button emphasis="ghost" tone="neutral" size="sm" leadingIcon={<Save size={14} />}>
             Brouillon
           </Button>
-          <Button size="sm" leadingIcon={<Send size={14} />} onClick={buildAndSaveEntry}>
+          <Button emphasis="solid" size="sm" leadingIcon={<Send size={14} />} onClick={buildAndSaveEntry}>
             Publier
           </Button>
         </div>
@@ -282,9 +286,11 @@ export const JournalFreeEntry: React.FC = () => {
 
           {/* Bottom actions — elles passent à la ligne à 375 px : « Sauvegarder
               en brouillon » sortait de l'écran (bord droit à 459 px). */}
+          {/* Le même couple qu'en haut, un cran plus bas : l'aplat reste à
+              « Publier » dans la barre collante (un seul par écran). */}
           <div className="flex flex-wrap gap-stack-xs">
-            <Button leadingIcon={<Send size={14} />} onClick={buildAndSaveEntry}>Publier l'entrée</Button>
-            <Button emphasis="soft" tone="warm" leadingIcon={<Save size={14} />} onClick={buildAndSaveEntry}>
+            <Button emphasis="soft" leadingIcon={<Send size={14} />} onClick={buildAndSaveEntry}>Publier l'entrée</Button>
+            <Button emphasis="ghost" tone="neutral" leadingIcon={<Save size={14} />} onClick={buildAndSaveEntry}>
               Sauvegarder en brouillon
             </Button>
           </div>

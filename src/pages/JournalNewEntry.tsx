@@ -276,7 +276,8 @@ export const JournalNewEntry: React.FC = () => {
       {/* Sticky top bar */}
       <header className="flex items-center px-4 sm:px-6 py-stack border-b border-ink-200 bg-white sticky top-0 z-sticky gap-stack-xs">
         <Button
-          emphasis="outline"
+          emphasis="ghost"
+          tone="neutral"
           size="sm"
           iconOnly
           aria-label="Retour au journal"
@@ -316,7 +317,10 @@ export const JournalNewEntry: React.FC = () => {
               </span>
             )}
           </span>
-          <Button leadingIcon={<Save size={14} />} size="sm" onClick={handlePublish}>
+          {/* L'envoi du formulaire, l'action principale : l'aplat (arbitrage
+              n°19). Il n'avait pas de niveau écrit et prenait le `soft` du
+              `variant` déprécié par défaut. */}
+          <Button emphasis="solid" leadingIcon={<Save size={14} />} size="sm" onClick={handlePublish}>
             Publier
           </Button>
         </div>
