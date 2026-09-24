@@ -84,7 +84,7 @@ export default function CoachHeatmap() {
 
         {stuckCount > 0 && (
           /* `Alert` et non un bandeau fait main (dont le filet
-             `border-warning-border` n'existe pas dans @theme). Le titre dit
+             `border-warning-border` n'existait pas encore dans @theme — déclaré le 24/09). Le titre dit
              l'état, le texte l'explique à 16 px — il était à 13, en légende,
              pour une phrase qu'on lit. */
           <Alert

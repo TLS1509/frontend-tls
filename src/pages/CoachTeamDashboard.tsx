@@ -126,7 +126,7 @@ export default function CoachTeamDashboard() {
 
         {alertCount > 0 && (
           /* `Alert` et non un bandeau fait main (dont le filet
-             `border-warning-border` n'existe pas dans @theme). */
+             `border-warning-border` n'existait pas encore dans @theme — déclaré le 24/09). */
           <Alert
             variant="warning"
             actions={

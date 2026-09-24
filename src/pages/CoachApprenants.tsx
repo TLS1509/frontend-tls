@@ -76,7 +76,7 @@ export default function CoachApprenants() {
 
         {stuckCount > 0 && (
           /* `Alert` et non un bandeau fait main : celui-ci posait
-             `border-warning-border`, une couleur qui n'existe pas dans @theme —
+             `border-warning-border`, une couleur qui n'existait pas encore dans @theme (déclarée le 24/09) —
              le filet prenait la couleur du texte, un trait sombre plus lourd
              que tous les contours de la page. */
           <Alert variant="warning">

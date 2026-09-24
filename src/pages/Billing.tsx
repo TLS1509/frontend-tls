@@ -230,7 +230,7 @@ const SubscriptionTab: React.FC<{
         title="Annuler l'abonnement"
         subtitle={`Vous conserverez l'accès ${tierConfig.name} jusqu'à la fin de la période en cours.`}
       />
-      {/* Le filet était `border-danger-border`, un jeton qui n'existe pas :
+      {/* Le filet était `border-danger-border`, un jeton qui n'existait pas encore (déclaré le 24/09) :
           peint à la couleur du texte, c'était le trait sombre de la carte. */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-stack p-stack-lg rounded-xl bg-danger-bg/40 border border-danger-base/40">
         <div className="flex items-start gap-stack-sm">
