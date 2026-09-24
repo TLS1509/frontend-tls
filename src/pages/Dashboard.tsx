@@ -204,7 +204,13 @@ export const Dashboard: React.FC = () => {
     return raw.charAt(0).toUpperCase() + raw.slice(1);
   }, []);
 
-  const firstName = user?.name?.split(' ')[0] ?? 'toi';
+  // Le prénom saisi à l'onboarding prime sur le nom du compte (« Dev User »
+  // en local) : seulement une fois l'onboarding fait, sinon le profil ne
+  // porte que son prénom de démo.
+  const firstName =
+    (profile?.isOnboarded && profile.firstName?.trim()) ||
+    user?.name?.split(' ')[0] ||
+    'toi';
 
   return (
     <div className="relative min-h-[100dvh]" data-page-title="Tableau de bord">
