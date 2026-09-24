@@ -15,15 +15,25 @@ export interface AchievementBadgeProps {
 }
 
 const SIZE_PADDING: Record<'sm' | 'md' | 'lg', string> = {
-  sm: 'p-4',
-  md: 'p-6',
-  lg: 'p-8',
+  sm: 'p-stack',
+  md: 'p-stack-lg',
+  lg: 'p-section',
 };
 
 const ICON_CIRCLE: Record<'sm' | 'md' | 'lg', string> = {
-  sm: 'w-[60px] h-[60px] mb-stack',
-  md: 'w-[100px] h-[100px] mb-stack-lg',
-  lg: 'w-[140px] h-[140px] mb-section',
+  sm: 'w-[60px] h-[60px]',
+  md: 'w-[100px] h-[100px]',
+  lg: 'w-[140px] h-[140px]',
+};
+
+/* Le rythme vertical est tenu par la carte (piège n°12), plus par des marges
+   posées sur chaque enfant — l'`h3`, qui suivait la pastille, ajoutait en
+   plus sa marge de titre (0,75em) : 31 à 47 px entre la pastille et le titre.
+   Pastille → texte et texte → action : le même pas, qui grandit avec la carte. */
+const SIZE_GAP: Record<'sm' | 'md' | 'lg', string> = {
+  sm: 'gap-stack',
+  md: 'gap-stack-lg',
+  lg: 'gap-section',
 };
 
 const ICON_INNER_PX: Record<'sm' | 'md' | 'lg', number> = { sm: 28, md: 48, lg: 64 };
@@ -42,10 +52,11 @@ const COLOR_BORDER: Record<AchievementBadgeColor, string> = {
   success: 'border-success-base',
 };
 
+/* Texte de marque au cran 800 (doctrine, § 2). */
 const COLOR_TEXT: Record<AchievementBadgeColor, string> = {
-  primary: 'text-primary-700',
-  warm:    'text-secondary-700',
-  sun:     'text-accent-700',
+  primary: 'text-primary-800',
+  warm:    'text-secondary-800',
+  sun:     'text-accent-800',
   success: 'text-success-fg',
 };
 
@@ -71,8 +82,9 @@ export const AchievementBadge: React.FC<AchievementBadgeProps> = ({
   const innerIconSize = ICON_INNER_PX[size];
 
   const cardClasses = [
-    'bg-white rounded-lg border-2 text-center transition-all duration-300',
+    'flex flex-col items-center bg-white rounded-lg border-2 text-center transition-all duration-300',
     SIZE_PADDING[size],
+    SIZE_GAP[size],
     isLocked ? 'border-ink-200 opacity-60 scale-95' : COLOR_BORDER[color],
   ].join(' ');
 
@@ -100,32 +112,33 @@ export const AchievementBadge: React.FC<AchievementBadgeProps> = ({
         )}
       </div>
 
-      <h3 className="mb-2 text-h3 font-display text-ink-900">{title}</h3>
+      {/* Titre → texte 8 · texte → méta 12 (anatomie de carte, doctrine § 5). */}
+      <div className="flex flex-col items-center gap-stack-sm">
+        <div className="flex flex-col gap-stack-xs">
+          <h3 className="text-h3 font-display text-ink-900">{title}</h3>
+          {description && (
+            <p className="m-0 text-body text-ink-700">{description}</p>
+          )}
+        </div>
 
-      {description && (
-        <p className="m-0 mb-stack text-body text-ink-500">{description}</p>
-      )}
-
-      <p
-        className={[
-          'm-0 text-caption font-medium',
-          isLocked ? 'text-ink-500' : COLOR_TEXT[color],
-          onShare && !isLocked ? 'mb-stack' : '',
-        ]
-          .filter(Boolean)
-          .join(' ')}
-      >
-        {isLocked
-          ? 'Complete prerequisites to unlock'
-          : `Unlocked ${unlockedDate ? `on ${unlockedDate}` : 'today'}`}
-      </p>
+        <p
+          className={[
+            'm-0 text-caption',
+            isLocked ? 'text-ink-600' : COLOR_TEXT[color],
+          ].join(' ')}
+        >
+          {isLocked
+            ? 'Complete prerequisites to unlock'
+            : `Unlocked ${unlockedDate ? `on ${unlockedDate}` : 'today'}`}
+        </p>
+      </div>
 
       {onShare && !isLocked && (
         <button
           type="button"
           onClick={onShare}
           className={[
-            'mt-stack px-stack-md py-3 min-h-touch text-white border-0 rounded-md text-caption font-semibold cursor-pointer transition-all',
+            'px-stack-md py-3 min-h-touch text-white border-0 rounded-md text-caption font-bold cursor-pointer transition-all',
             'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
             COLOR_BTN[color],
           ].join(' ')}

@@ -1,4 +1,6 @@
 import React from 'react';
+import { Sprout, Zap, Flame, Trophy } from 'lucide-react';
+import { MetaPill, type MetaPillTone } from './MetaPill';
 
 export type MasteryLevel = 'beginner' | 'intermediate' | 'advanced' | 'expert';
 
@@ -9,11 +11,15 @@ export interface MasteryBadgeProps extends React.HTMLAttributes<HTMLDivElement> 
   progress?: number;
 }
 
-const LEVEL_DEFAULTS: Record<MasteryLevel, { icon: string; label: string }> = {
-  beginner:     { icon: '🌱', label: 'Débutant' },
-  intermediate: { icon: '⚡', label: 'Intermédiaire' },
-  advanced:     { icon: '🔥', label: 'Avancé' },
-  expert:       { icon: '🏆', label: 'Expert' },
+/* Icônes Lucide — elles remplacent quatre emojis (pousse, éclair, flamme,
+   trophée ; passe du 2026-09-24). Un emoji porte sa propre couleur et son
+   propre dessin, que la palette ne règle pas ; le glyphe prend ici la couleur
+   du niveau. */
+const LEVEL_DEFAULTS: Record<MasteryLevel, { icon: React.ReactNode; label: string }> = {
+  beginner:     { icon: <Sprout strokeWidth={1.75} />, label: 'Débutant' },
+  intermediate: { icon: <Zap strokeWidth={1.75} />,    label: 'Intermédiaire' },
+  advanced:     { icon: <Flame strokeWidth={1.75} />,  label: 'Avancé' },
+  expert:       { icon: <Trophy strokeWidth={1.75} />, label: 'Expert' },
 };
 
 const LEVEL_RING: Record<MasteryLevel, string> = {
@@ -30,18 +36,23 @@ const LEVEL_BG: Record<MasteryLevel, string> = {
   expert:       'bg-gradient-to-br from-accent-50 to-white shadow-md',
 };
 
-const LEVEL_LABEL: Record<MasteryLevel, string> = {
+/* Couleur du glyphe central (un objet graphique : 3:1 suffit). */
+const LEVEL_ICON: Record<MasteryLevel, string> = {
   beginner:     'text-success-fg',
   intermediate: 'text-primary-700',
   advanced:     'text-secondary-700',
   expert:       'text-accent-700',
 };
 
-const LEVEL_LABEL_BG: Record<MasteryLevel, string> = {
-  beginner:     'bg-success-bg border-success-base/20',
-  intermediate: 'bg-primary-50 border-primary-200',
-  advanced:     'bg-secondary-50 border-secondary-200',
-  expert:       'bg-accent-50 border-accent-200',
+/* Le libellé est une DONNÉE — le nom de la compétence (« Prompt
+   Engineering »), ou le niveau par défaut : MetaPill, pas une étiquette en
+   capitales (arbitrages n°14 et 15). Il était fait main, en 700 et en
+   capitales espacées : il criait plus fort que l'anneau qu'il légende. */
+const LEVEL_PILL_TONE: Record<MasteryLevel, MetaPillTone> = {
+  beginner:     'success',
+  intermediate: 'primary',
+  advanced:     'warm',
+  expert:       'sun',
 };
 
 export const MasteryBadge: React.FC<MasteryBadgeProps> = ({
@@ -58,7 +69,7 @@ export const MasteryBadge: React.FC<MasteryBadgeProps> = ({
   const circumference = 2 * Math.PI * radius;
   const dashOffset = circumference - (pct / 100) * circumference;
 
-  const classes = ['inline-flex flex-col items-center gap-2.5', className]
+  const classes = ['inline-flex flex-col items-center gap-stack-xs', className]
     .filter(Boolean)
     .join(' ');
 
@@ -94,22 +105,17 @@ export const MasteryBadge: React.FC<MasteryBadgeProps> = ({
         </svg>
         <div
           className={[
-            'absolute inset-2 rounded-pill inline-flex items-center justify-center text-3xl',
+            'absolute inset-2 rounded-pill inline-flex items-center justify-center',
             LEVEL_BG[level],
+            LEVEL_ICON[level],
           ].join(' ')}
         >
-          {icon ?? defaults.icon}
+          <span className="inline-flex items-center justify-center icon-2xl [&>svg]:w-full [&>svg]:h-full" aria-hidden="true">
+            {icon ?? defaults.icon}
+          </span>
         </div>
       </div>
-      <span
-        className={[
-          'inline-flex items-center px-3 py-1 rounded-pill text-caption font-bold uppercase tracking-wider border',
-          LEVEL_LABEL[level],
-          LEVEL_LABEL_BG[level],
-        ].join(' ')}
-      >
-        {label ?? defaults.label}
-      </span>
+      <MetaPill text={label ?? defaults.label} tone={LEVEL_PILL_TONE[level]} size="md" />
     </div>
   );
 };

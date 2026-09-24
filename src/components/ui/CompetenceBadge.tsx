@@ -36,8 +36,11 @@ export const CompetenceBadge: React.FC<CompetenceBadgeProps> = ({
   className = '',
   ...rest
 }) => {
+  /* Libellé en 600, pastille en 700 — passe typographique du 2026-09-24.
+     Le niveau est la valeur (l'emphase du corps, 600) ; 700 est la graisse des
+     titres et des étiquettes, et 800 n'existe plus dans l'app. */
   const classes = [
-    'inline-flex items-center gap-stack-xs pl-1.5 pr-3.5 py-1 rounded-pill text-body font-bold font-body',
+    'inline-flex items-center gap-stack-xs pl-1.5 pr-3.5 py-1 rounded-pill text-body font-semibold font-body',
     LEVEL_BADGE_CLASSES[level],
     className,
   ]
@@ -48,7 +51,7 @@ export const CompetenceBadge: React.FC<CompetenceBadgeProps> = ({
     <span className={classes} {...rest}>
       <span
         className={[
-          'w-6 h-6 rounded-pill inline-flex items-center justify-center text-caption font-extrabold shrink-0',
+          'w-6 h-6 rounded-pill inline-flex items-center justify-center text-caption font-bold tabular-nums shrink-0',
           LEVEL_DOT_CLASSES[level],
         ].join(' ')}
         aria-hidden="true"

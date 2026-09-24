@@ -153,7 +153,9 @@ const STATUS_LABELS: Record<StatusBadgeStatus, string> = {
 };
 
 const STATUS_CLASSES: Record<StatusBadgeStatus, string> = {
-  locked:        'bg-ink-100 text-ink-500 border-ink-200',
+  // ink-600 et non ink-500 : un état verrouillé reste un texte lisible (ink-500
+  // est réservé aux textes indicatifs, et tombait près de 4,5:1 sur ink-100).
+  locked:        'bg-ink-100 text-ink-600 border-ink-200',
   available:     'bg-primary-50 text-primary-800 border-primary-200',
   'in-progress': 'bg-primary-100 text-primary-800 border-primary-300 shadow-brand-xs',
   completed:     'bg-success-bg text-success-fg border-success-base/30',
@@ -187,8 +189,13 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
   const iconSize = STATUS_ICON_SIZE[size];
   const label = STATUS_LABELS[status];
 
+  /* Le registre de Badge — capitales, 700, `tracking-label` (2026-09-24).
+     StatusBadge dit un ÉTAT, comme Badge, mais parlait en 600 et en casse
+     normale — le registre d'une donnée — donc « En cours » se lisait comme
+     une pastille de méta à côté d'un « EN COURS » de Badge. Sans libellé,
+     rien ne change : l'icône seule. */
   const classes = [
-    'inline-flex items-center justify-center font-semibold border rounded-pill whitespace-nowrap',
+    'inline-flex items-center justify-center font-bold uppercase tracking-label border rounded-pill whitespace-nowrap',
     STATUS_SIZE_CLASSES[size],
     STATUS_CLASSES[status],
     !showLabel && 'aspect-square px-0',

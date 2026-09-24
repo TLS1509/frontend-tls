@@ -35,15 +35,26 @@ const getInitials = (name?: string, initials?: string): string => {
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 };
 
+/* Initiales en 600, pas en 700 — passe typographique du 2026-09-24.
+   700 est la graisse des titres, de Badge et de Button ; deux lettres dans une
+   pastille sont une identité, pas un titre. */
 const BASE =
-  'relative inline-flex items-center justify-center font-body font-bold overflow-visible shrink-0 select-none';
+  'relative inline-flex items-center justify-center font-body font-semibold overflow-visible shrink-0 select-none';
 
+/* Les initiales suivent la pastille, en restant sur l'échelle de l'app
+   (11 · 13 · 16 · 20 · 28). Elles prenaient 12, 14, 18 et 26 px — quatre
+   tailles hors échelle, dont celle de l'avatar de la Sidebar, donc un écart sur
+   chaque page. Rapport police/côté : 0,46 · 0,41 · 0,40 · 0,36 · 0,35 — il
+   décroît avec la taille, comme il le doit : de grandes lettres demandent
+   moins de corps relatif pour peser autant.
+   ⚠️ `text-h3` et `text-h2` ne donnent ici qu'une taille : la graisse reste
+   celle de BASE (600) et la famille celle du corps. */
 const SIZE_CLASSES: Record<AvatarSize, string> = {
-  xs: 'w-6 h-6 text-micro',
-  sm: 'w-8 h-8 text-xs',
-  md: 'w-10 h-10 text-sm',
-  lg: 'w-14 h-14 text-lg',
-  xl: 'w-20 h-20 text-[26px]',
+  xs: 'w-6 h-6 text-micro',     // 24 → 11
+  sm: 'w-8 h-8 text-caption',   // 32 → 13
+  md: 'w-10 h-10 text-body',    // 40 → 16
+  lg: 'w-14 h-14 text-h3',      // 56 → 20
+  xl: 'w-20 h-20 text-h2',      // 80 → 28
 };
 
 const TINT_CLASSES: Record<AvatarTint, string> = {
@@ -124,7 +135,7 @@ export const Avatar: React.FC<AvatarProps> = ({
       )}
       {level !== undefined && (
         <span
-          className={`absolute flex items-center justify-center px-1 rounded-pill bg-gradient-to-br from-primary-700 to-primary-800 text-white font-body font-extrabold leading-none ring-2 ring-white pointer-events-none whitespace-nowrap z-[2] shadow-brand-xs ${LEVEL_BASE_SIZE_CLASSES[size]}`}
+          className={`absolute flex items-center justify-center px-1 rounded-pill bg-gradient-to-br from-primary-700 to-primary-800 text-white font-body font-bold leading-none tabular-nums ring-2 ring-white pointer-events-none whitespace-nowrap z-[2] shadow-brand-xs ${LEVEL_BASE_SIZE_CLASSES[size]}`}
           aria-hidden="true"
         >
           {level}
@@ -176,7 +187,7 @@ export const AvatarGroup: React.FC<AvatarGroupProps> = ({
       {overflow > 0 && (
         <span
           className={[
-            'relative inline-flex items-center justify-center font-body font-bold overflow-visible shrink-0 select-none rounded-pill ring-2 ring-white bg-ink-100 text-ink-700',
+            'relative inline-flex items-center justify-center font-body font-semibold tabular-nums overflow-visible shrink-0 select-none rounded-pill ring-2 ring-white bg-ink-100 text-ink-700',
             SIZE_CLASSES[size ?? 'md'],
           ].join(' ')}
           aria-label={`${overflow} autres`}

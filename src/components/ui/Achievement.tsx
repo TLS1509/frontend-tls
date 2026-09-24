@@ -15,16 +15,21 @@ interface AchievementProps {
   className?: string;
 }
 
+/* Padding : jamais sous le rayon de la carte (20) — 20 en dense, 24 au
+   canon (arbitrage n°4). Les crans 12 et 16 pinçaient le coin de 40 et 20 %. */
 const SIZE_CLASSES: Record<'sm' | 'md' | 'lg', string> = {
-  sm: 'p-3 gap-stack-xs',
-  md: 'p-4 gap-stack',
-  lg: 'p-stack-md gap-stack',
+  sm: 'p-stack-md gap-stack-sm',
+  md: 'p-stack-md gap-stack',
+  lg: 'p-stack-lg gap-stack',
 };
 
+/* La pastille dimensionne le GLYPHE (une icône Lucide), plus une taille de
+   police : `text-xl/2xl/3xl` ne servaient qu'à grossir des emojis, hors de
+   l'échelle typographique (passe du 2026-09-24). */
 const BADGE_SIZE: Record<'sm' | 'md' | 'lg', string> = {
-  sm: 'w-12 h-12 text-xl',
-  md: 'w-16 h-16 text-2xl',
-  lg: 'w-20 h-20 text-3xl',
+  sm: 'w-12 h-12 [&>svg]:w-6 [&>svg]:h-6',
+  md: 'w-16 h-16 [&>svg]:w-8 [&>svg]:h-8',
+  lg: 'w-20 h-20 [&>svg]:w-10 [&>svg]:h-10',
 };
 
 const VARIANT_CARD: Record<'unlocked' | 'locked' | 'in-progress', string> = {
@@ -110,26 +115,28 @@ export const Achievement: React.FC<AchievementProps> = ({
         )}
       </div>
 
+      {/* Vignette compacte : libellé 16/600 (pas un titre de carte à 20/700),
+          texte 16/400 ink-700, méta 13. Titre → texte 4 ; texte → méta 8/12. */}
       <div className="flex-1 min-w-0">
-        <h3 className="text-body font-bold text-ink-900 truncate leading-snug">{title}</h3>
-        <p className="m-0 mt-0.5 text-body text-ink-500 line-clamp-2">{description}</p>
+        <p className="m-0 text-body font-semibold text-ink-900 truncate">{title}</p>
+        <p className="m-0 mt-stack-3xs text-body text-ink-700 line-clamp-2">{description}</p>
 
         {variant === 'in-progress' && progress !== undefined && (
-          <div className="flex items-center gap-stack-xs mt-2.5">
+          <div className="flex items-center gap-stack-xs mt-stack-sm">
             <div className="flex-1 h-1.5 bg-ink-100 rounded-pill overflow-hidden shadow-inner">
               <div
                 className="h-full bg-gradient-to-r from-primary-500 to-primary-700 rounded-pill transition-[width] duration-500"
                 style={{ width: `${progressPercent}%` }}
               />
             </div>
-            <span className="text-caption font-bold text-primary-700 min-w-[3.5rem] text-right tabular-nums">
+            <span className="text-caption font-semibold text-primary-800 min-w-[3.5rem] text-right tabular-nums">
               {progress} / {maxProgress}
             </span>
           </div>
         )}
 
         {variant === 'unlocked' && unlockedAt && (
-          <p className="m-0 mt-1.5 text-caption text-accent-700 font-semibold inline-flex items-center gap-tight">
+          <p className="m-0 mt-stack-xs text-caption text-accent-800 inline-flex items-center gap-stack-3xs">
             <Sparkles size={14} fill="currentColor" />
             Débloqué {unlockedAt}
           </p>

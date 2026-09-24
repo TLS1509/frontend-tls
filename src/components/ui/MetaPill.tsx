@@ -93,7 +93,7 @@ const ICONE_PASTILLE_BASE =
 const ICONE_PASTILLE_CRAN: Record<MetaPillSize, string> = {
   sm: 'icon-2xs',  // avec micro (11)
   md: 'icon-2xs',  // avec caption (13)
-  lg: 'icon-xs',   // avec body-sm (15)
+  lg: 'icon-xs',   // avec body (16)
 };
 
 /* Taille par défaut : `sm` — décidé le 2026-09-14.
