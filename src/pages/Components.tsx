@@ -178,7 +178,7 @@ import { PageHeader } from '../components/patterns/PageHeader';
 import { ViewerHeader } from '../components/patterns/ViewerHeader';
 import { QuickActionButton } from '../components/ui/QuickActionButton';
 import { Divider } from '../components/ui/Divider';
-import { Bell, MessageSquare, BookOpen, Calendar, GraduationCap, Clock3, Flame, Trophy, Zap, Users, Lightbulb, CheckCircle2, LayoutDashboard, Map as MapIcon, PenLine, Video, Sparkles as SparklesIcon, UserRound as UserIcon, Settings2, Target, BarChart3, LogOut, Mail, Layers, Palette, FolderTree, LayoutTemplate, Star, SlidersHorizontal, ArrowLeft, ArrowRight, TrendingUp, FolderOpen, User, Bookmark, Check, CheckCheck, ChevronUp, CirclePlus } from 'lucide-react';
+import { Bell, MessageSquare, BookOpen, Calendar, GraduationCap, Clock3, Flame, Trophy, Zap, Users, Lightbulb, CheckCircle2, LayoutDashboard, Map as MapIcon, PenLine, Video, Sparkles as SparklesIcon, UserRound as UserIcon, Settings2, Target, BarChart3, LogOut, Mail, Layers, Palette, FolderTree, LayoutTemplate, Star, SlidersHorizontal, ArrowLeft, ArrowRight, TrendingUp, FolderOpen, User, Bookmark, Check, CheckCheck, ChevronUp, CirclePlus, Lock } from 'lucide-react';
 import { SidebarUserCard } from '../components/layout/Sidebar';
 import { ConsentBanner } from '../components/patterns/ConsentBanner';
 import { CompetencyRadar } from '../components/ui/CompetencyRadar';
@@ -1139,7 +1139,7 @@ const ModalDemo: React.FC = () => {
           </>
         }
       >
-        <p className="m-0 text-ink-600 text-body">
+        <p className="m-0 text-ink-700 text-body">
           Voulez-vous vraiment supprimer cet élément ? Cette action est irréversible et toutes les données associées seront perdues.
         </p>
       </Modal>
@@ -1245,7 +1245,7 @@ const SidebarDemo: React.FC = () => {
           ))}
         </Sidebar>
         <div className="flex-1 p-stack-lg bg-gradient-to-br from-ink-50 to-white overflow-hidden rounded-r-xl">
-          <p className="text-body text-ink-600">Active : <strong className="text-ink-900">{items.find(i => i.id === active)?.label}</strong></p>
+          <p className="text-body text-ink-700">Active : <strong className="text-ink-900">{items.find(i => i.id === active)?.label}</strong></p>
           <p className="text-caption text-ink-600 mt-1">Cliquer sur la carte utilisateur en bas → dropdown glass à droite. Mobile : drawer + hamburger (md:)</p>
         </div>
       </div>
@@ -1561,7 +1561,7 @@ const COMPONENTS: ComponentEntry[] = [
         >
           <div className="rounded-lg border border-ink-200 bg-ink-50 py-stack">
             <div className="bg-white px-4 py-stack sm:px-6 lg:px-10">
-              <p className="m-0 font-body text-body text-ink-600">
+              <p className="m-0 font-body text-body text-ink-700">
                 La zone blanche est le contenu ; le liseré gris, la gouttière. Elle passe de 16 px sur mobile
                 à 24 px sur tablette et 40 px sur grand écran — redimensionnez pour la voir bouger.
               </p>
@@ -1669,7 +1669,7 @@ const COMPONENTS: ComponentEntry[] = [
                   </div>
                 ))}
               </div>
-              <p className="m-0 font-body text-body text-ink-600">
+              <p className="m-0 font-body text-body text-ink-700">
                 L'argument écarté en connaissance de cause : le rayon d'une pilule vaut la moitié de sa
                 hauteur, donc sa silhouette ne dépend pas de la longueur du label. C'est vrai — mais ce
                 que ça achète, une constance que personne ne perçoit, coûte l'accord entre le CTA et la
@@ -2627,8 +2627,8 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'Badge',
     codeName: 'ui/Badge.tsx',
     cssBase: 'Tailwind',
-    description: 'Famille Badge unifiée — 3 exports : Badge (semantic), StatusBadge (état leçon), TrendingBadge (social proof). Tout dans Badge.tsx ; StatusBadge.tsx et TrendingBadge.tsx sont des re-exports. **Properties** : variant (7 : brand/neutral/warm/sun/success/danger/info) · size (3 : sm/md/lg) · dot (2 : true/false — colored indicator dot)',
-    keywords: ['status', 'label', 'tag', 'brand', 'warm', 'sun', 'success', 'danger', 'trending', 'popular', 'new', 'locked', 'completed', 'state'],
+    description: "L'état qui crie : 11 px en capitales, graisse 700, serrage positif (`tracking-label`), bordure, pilule. Sept variantes (brand · neutral · warm · sun · success · danger · info) ; trois tailles — compact et normal font 20 px (padding 8 ou 10), large 26 px en 13 ; un point `dot` fixe (arbitrage n°16 : pas de mouvement permanent pour dire un état). StatusBadge, dans le même fichier, dit les cinq états d'une leçon avec leur icône — Verrouillé, Disponible, En cours, Terminé, Échoué — au même corps de 11 px. Une donnée n'est pas un état : catégorie, type ou durée vont en MetaPill (arbitrages n°14-15).",
+    keywords: ['status', 'état', 'label', 'brand', 'warm', 'sun', 'success', 'danger', 'info', 'dot', 'compact', 'normal', 'large', 'locked', 'completed', 'statusbadge'],
     usedBy: ['LessonCard', 'ParcoursCard', 'VeilleCardFeed', 'Dashboard'],
     render: () => (
       <div className="flex flex-col gap-stack-lg">
@@ -2673,7 +2673,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'Avatar',
     codeName: 'Avatar.tsx',
     cssBase: '.avatar',
-    description: 'User representation: image or initials. Stable hash-based tint. Status dot + AvatarGroup.',
+    description: "La personne : photo ou initiales, en rond — le carré sert aux organisations. Cinq tailles, 24 · 32 · 40 · 56 · 80 px, initiales en 600 au pas correspondant (11 · 13 · 16 · 20 · 28). Teinte stable tirée du nom (brand · warm · sun · ink), point de statut (online · busy · away). AvatarGroup les empile avec un chevauchement de 10 px et un « +N » au-delà de `max`. La pastille `level` existe encore, mais l'arbitrage n°18 (plus de niveaux d'XP dans l'app apprenant) la tient hors des écrans neufs : elle n'est plus montrée ici.",
     keywords: ['user', 'profile', 'initials', 'image', 'status', 'online', 'group'],
     render: () => (
       <div className="flex flex-col gap-stack">
@@ -2697,8 +2697,6 @@ const COMPONENTS: ComponentEntry[] = [
           <Avatar name="Org Acme" shape="square" tint="brand" size="sm" />
           <Avatar name="Org TLS" shape="square" tint="warm" />
           <Avatar name="Org Sun" shape="square" tint="sun" size="lg" />
-          <Avatar name="Léa K" tint="brand" level={12} />
-          <Avatar name="Marc D" tint="warm" size="lg" level={47} />
           <AvatarGroup max={3} size="sm">
             <Avatar name="Jeanne D" />
             <Avatar name="Paul M" />
@@ -2716,7 +2714,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'EmptyState',
     codeName: 'EmptyState.tsx',
     cssBase: '.empty',
-    description: 'First contact / no results / server error. Always actionable — never a dead end.',
+    description: "Premier contact, aucun résultat, erreur : il laisse toujours une issue. Pastille de 80 px, titre h3 20, 8 px, texte 16 ink-700 à la largeur de lecture, 24 px, actions. Bordure en pointillés, rayon 20 ; tons default · warm · danger.",
     keywords: ['empty', 'no results', 'placeholder', 'illustration'],
     render: () => (
       <div className="grid-2">
@@ -2996,17 +2994,17 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'ui/StatCard.tsx',
     cssBase: '.stat-card',
     usedBy: ['Dashboard (hero pre-Phase 10)', 'LearningPaths (Phase 10 KPI row)', 'Coaching', 'Journal', 'Notifications'],
-    description: 'Prominent metric card. Display number + micro label + optional delta + icon. 5 variants (default / elevated / brand / warm / sun) · 3 sizes (sm/md/lg) · square mode for grid layouts.',
-    keywords: ['metric', 'kpi', 'stat', 'dashboard', 'square', 'size'],
+    description: "Un chiffre mis en avant, en carte : pastille d'icône, 12 px, la valeur en League Spartan 700 — 28 en sm, `stat-value` (32 → 44) en md, `stat-value-lg` (40 → 56) en lg —, 4 px, puis le libellé en légende 13/600 ink-600 (ce n'est plus un micro-libellé en capitales). Unité en 13 sur la ligne de base ; delta en 13/600, coloré selon `polarity` (ajoutée le 24/09 : une baisse peut être une bonne nouvelle). Tons neutral · brand · warm · sun sur quatre surfaces, ou les variantes héritées ; `square` pour les grilles. Rayon 20, padding 20 (24 en lg).",
+    keywords: ['metric', 'kpi', 'stat', 'chiffre', 'valeur', 'dashboard', 'square', 'size', 'polarity', 'delta'],
     render: () => (
       <div className="flex flex-col gap-stack-lg">
         {/* Variants with icons */}
         <div className="grid grid-cols-2 gap-stack">
           <StatCard icon={<BookOpen size={20} />} label="Parcours complétés" value={12} sub="/24" delta="+3 ce mois" deltaDirection="up" />
           <StatCard variant="elevated" icon={<Clock3 size={20} />} label="Heures d'apprentissage" value="48" sub="h" />
-          <StatCard variant="warm" icon={<Flame size={20} />} label="Série actuelle" value={7} sub="jours" delta="Record personnel" deltaDirection="up" />
+          <StatCard variant="warm" icon={<Calendar size={20} />} label="Semaines actives" value={3} sub="/ 4" delta="+1 ce mois" deltaDirection="up" />
           <StatCard variant="brand" icon={<Trophy size={20} />} label="Progression moyenne" value={78} sub="%" />
-          <StatCard variant="sun" icon={<Zap size={20} />} label="Points XP" value="2 450" delta="+180" deltaDirection="up" />
+          <StatCard variant="sun" icon={<CheckCircle2 size={20} />} label="Compétences validées" value={5} delta="+2" deltaDirection="up" />
         </div>
         {/* Sizes */}
         <div className="grid grid-cols-3 gap-stack items-start">
@@ -3016,10 +3014,10 @@ const COMPONENTS: ComponentEntry[] = [
         </div>
         {/* Square grid */}
         <div className="grid grid-cols-4 gap-stack">
-          <StatCard square size="sm" label="Streak" value={7} sub="j" />
+          <StatCard square size="sm" label="Semaines" value={3} sub="/ 4" />
           <StatCard square variant="elevated" label="Score" value={94} sub="%" />
-          <StatCard square variant="warm" label="Série" value={12} />
-          <StatCard square size="lg" variant="brand" label="XP" value="1.2k" />
+          <StatCard square variant="warm" label="Sessions" value={12} />
+          <StatCard square size="lg" variant="brand" label="Leçons" value={42} />
         </div>
       </div>
     ),
@@ -3028,12 +3026,12 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'ProgressBar',
     codeName: 'ProgressBar.tsx',
     cssBase: '.progress',
-    description: 'Linear progress tracking. Sizes sm/md/lg. Fills: brand, warm, gradient. **ProgressRing** : anneau SVG circulaire (sizes 48–100px) disponible via import séparé — utilisé dans profil, badges compétences, ReadingProgressRing dans les headers éditoriaux.',
+    description: "Barre de progression : libellé en légende 13/600 ink-600, valeur en Nunito 13/600 tabulaire au cran 800 (« 72 % »), sur la même ligne de base, 8 px au-dessus d'une piste de 2 · 4 · 8 · 14 px (xs · sm · md · lg). Remplissages brand · warm · sun · success · danger · gradient ; disposition stacked (défaut) ou inline. La barre est nommée pour les lecteurs d'écran. Son pendant circulaire est ProgressRing.",
     keywords: ['progress', 'linear', 'bar', 'percentage', 'ring', 'circle', 'circular', 'svg'],
     render: () => (
       <div className="flex flex-col gap-stack">
         <ProgressBar label="Module 3 · Design systems" value={72} />
-        <ProgressBar label="Série hebdo" value={40} fill="warm" />
+        <ProgressBar label="Objectif de la semaine" value={40} fill="warm" />
         <ProgressBar label="Gradient fill" value={60} fill="gradient" size="lg" />
         <ProgressBar value={25} size="sm" valueLabel={false} />
       </div>
@@ -3096,7 +3094,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'ActivityItem',
     codeName: 'ActivityItem.tsx',
     cssBase: '.tls-activity-item / .tls-activity-item--lesson/achievement/coach/journal',
-    description: 'Ligne d\'activité timeline. Dot coloré par type + connecteur entre items. Types: lesson/achievement/coach/journal. Hover: surface-muted.',
+    description: "Rangée d'un fil d'activité : pastille ronde de 36 px teintée par type (lesson · achievement · coach · journal), rail vertical entre deux rangées ; titre 16/600 et heure 13 ink-600 sur la même ligne de base, description 16 ink-700 sur deux lignes.",
     keywords: ['activity', 'feed', 'timeline', 'history', 'notification', 'dot', 'type'],
     render: () => (
       <div className="py-stack-xs px-stack bg-white border border-ink-200 rounded-lg">
@@ -3113,17 +3111,17 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/CardGrid.tsx',
     cssBase: 'Tailwind (patterns/CardGrid.tsx)',
     usedBy: ['Recherche', 'Veille', 'LearningPaths', 'Coaching'],
-    description: 'Grid responsive réutilisable. Layouts: compact (2 col), default (3 col), feature (4 col), autoFit. Breakpoints automatiques mobile/tablette/desktop.',
+    description: "Grille réutilisable, en requête de conteneur : elle compte ses colonnes sur la largeur de sa boîte, pas sur la fenêtre. Dispositions compact · default · feature · square-tiles · tiles ; écart de 8 · 16 · 24 · 32 px (24 par défaut) ; `autoFit`.",
     keywords: ['grid', 'layout', 'responsive', 'columns', 'cards'],
     render: () => (
       <div className="flex flex-col gap-stack">
-        <p className="m-0 text-caption font-semibold text-ink-600">layout="default" (3 col)</p>
+        <p className="m-0 text-caption font-semibold text-ink-600">layout="default"</p>
         <CardGrid layout="default" gapSize="sm">
           {['Module A', 'Module B', 'Module C'].map((t) => (
             <div key={t} className="p-3 bg-primary-50 rounded-lg text-caption text-primary-800 font-semibold border border-primary-100">{t}</div>
           ))}
         </CardGrid>
-        <p className="m-0 text-caption font-semibold text-ink-600">layout="feature" (4 col)</p>
+        <p className="m-0 text-caption font-semibold text-ink-600">layout="feature"</p>
         <CardGrid layout="feature" gapSize="sm">
           {['Actu', 'Tutoriel', 'Dossier', 'Mag'].map((t) => (
             <div key={t} className="p-3 bg-secondary-50 rounded-lg text-caption text-secondary-700 font-semibold border border-secondary-100">{t}</div>
@@ -3137,7 +3135,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/InlineProgress.tsx',
     cssBase: '.inline-progress',
     usedBy: ['Positionnement', 'ParcoursCard', 'LearningPathDetail'],
-    description: 'Barre de progression embarquée dans les cartes et listes. Tones: primary / warm / sun. Sizes: sm / md. Label en % optionnel.',
+    description: "Alias déprécié de `<ProgressBar layout=\"inline\">` : la barre et sa valeur (13/600) sur une ligne. Tons primary · warm · sun, tailles sm et md.",
     keywords: ['progress', 'inline', 'bar', 'percent', 'completion'],
     render: () => (
       <div className="flex flex-col gap-stack-xs max-w-md">
@@ -3159,28 +3157,27 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'ui/MetaPillGroup.tsx',
     cssBase: 'Tailwind (no BEM)',
     usedBy: ['ParcoursCard', 'LearningPathDetail', 'Dashboard', 'Journal'],
-    description: 'Collection de MetaPill avec 7 tones (default/primary/warm/sun/brand/glass/glass-dark). Layouts horizontal/vertical. 3 sizes (sm/md/lg). Variants glass = frosted effect pour overlays sur surfaces tintées ou gradients saturés.',
+    description: "Groupe de MetaPill, la ligne de données des cartes. Il porte SON propre défaut de taille, sm, et le passe à chaque pastille : changer celui de MetaPill seul ne descend pas jusqu'aux cartes. Disposition horizontale ou verticale ; écart de 8 (`gap` sm et md) ou 16 (lg). Tons par pastille, dont glass et glass-dark pour les surfaces teintées ou saturées.",
     keywords: ['pill', 'chip', 'tag', 'meta', 'group', 'tone', 'glass', 'frosted'],
     render: () => (
       <div className="flex flex-col gap-stack-lg">
         {/* Tones — light bg */}
         <div className="flex flex-col gap-stack-xs p-stack rounded-xl bg-white border border-ink-200">
-          <p className="text-caption font-semibold text-ink-600 m-0">Tones</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Tons · à la taille par défaut, sm</p>
           <MetaPillGroup
             items={[
-              { text: 'Default' },
+              { text: 'Neutral' },
               { text: 'Primary', tone: 'primary' },
               { text: 'Warm', tone: 'warm' },
               { text: 'Sun', tone: 'sun' },
               { text: 'Brand', tone: 'brand' },
             ]}
-            size="md"
           />
         </div>
 
         {/* Sizes */}
         <div className="flex flex-col gap-stack-xs p-stack rounded-xl bg-white border border-ink-200">
-          <p className="text-caption font-semibold text-ink-600 m-0">Sizes (tone primary)</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Tailles · sm 24 · md 30 · lg 44</p>
           <MetaPillGroup
             items={[
               { text: 'Small', tone: 'primary' },
@@ -3209,27 +3206,25 @@ const COMPONENTS: ComponentEntry[] = [
 
         {/* Glass variant — on tinted backdrop */}
         <div className="flex flex-col gap-stack-xs p-stack rounded-xl bg-gradient-to-br from-primary-50 via-primary-100 to-primary-50 border border-primary-200">
-          <p className="text-caption font-semibold text-ink-600 m-0">Glass (frosted on light tinted bg)</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Glass · sur fond teinté clair</p>
           <MetaPillGroup
             items={[
               { text: '6 semaines', tone: 'glass' },
               { text: '12 leçons', tone: 'glass' },
               { text: 'Marie Dubois', tone: 'glass' },
             ]}
-            size="md"
           />
         </div>
 
         {/* Glass-dark variant — on saturated dark bg */}
         <div className="flex flex-col gap-stack-xs p-stack rounded-xl bg-gradient-to-br from-primary-700 to-primary-800 border border-primary-700">
-          <p className="text-caption font-semibold text-white m-0">Glass-dark (frosted on saturated gradient — heroes)</p>
+          <p className="text-caption font-semibold text-white m-0">Glass-dark · sur un dégradé saturé (heros)</p>
           <MetaPillGroup
             items={[
               { text: '6 semaines', tone: 'glass-dark' },
               { text: '12 leçons', tone: 'glass-dark' },
-              { text: 'débutant', tone: 'glass-dark' },
+              { text: 'Débutant', tone: 'glass-dark' },
             ]}
-            size="md"
           />
         </div>
       </div>
@@ -3302,7 +3297,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'Toast + useToast',
     codeName: 'Toast.tsx / useToast.ts',
     cssBase: '.toast / .toast__icon--*',
-    description: 'Notification toast avec hook useToast(). 4 variantes: success / info / warning / danger. Auto-dismiss configurable, dismissible, slot action.',
+    description: "Notification passagère, avec le hook useToast() : quatre variantes, texte 16 (13 au-delà de 90 caractères), titre 16/600, icône de 20, action et fermeture, disparition automatique réglable ; de 320 à 440 px de large.",
     keywords: ['toast', 'notification', 'alert', 'feedback', 'success', 'error', 'warning'],
     render: () => <ToastDemo />,
   },
@@ -3327,16 +3322,18 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'Medal',
     codeName: 'Medal.tsx',
     cssBase: '.medal',
-    description: 'Médaille de réussite: cercle avec anneau en pointillés intérieur. Warm gradient = déverrouillé, Brand deep = spécial/rare, Ink gray = verrouillé.',
+    description: "Médaille ronde, sans texte : 72 · 120 · 160 px, glyphe à 44 % du diamètre (Trophy par défaut, via la prop `icon`), `label` en nom accessible. Variantes default (dégradé orange → or), brand (radial teal), locked (gris), gold · silver · bronze.",
     keywords: ['medal', 'badge', 'achievement', 'reward', 'locked', 'unlocked'],
     render: () => (
       <div className="flex gap-stack items-center flex-wrap">
-        <Medal size="lg" variant="default">🏆</Medal>
-        <Medal size="lg" variant="brand">⚡</Medal>
-        <Medal size="lg" variant="locked">🔒</Medal>
-        <Medal size="md" variant="default">🎯</Medal>
-        <Medal size="md" variant="brand">🌟</Medal>
-        <Medal size="sm" variant="default">✨</Medal>
+        {/* L'icône passe par `icon` : les émojis donnés en enfants étaient
+            ignorés, et les six médailles montraient toutes le trophée. */}
+        <Medal size="lg" variant="default" label="Premier parcours" />
+        <Medal size="lg" variant="brand" icon={<Zap />} label="Pratique régulière" />
+        <Medal size="lg" variant="locked" icon={<Lock />} label="Verrouillée" />
+        <Medal size="md" variant="default" icon={<Target />} label="Objectif atteint" />
+        <Medal size="md" variant="brand" icon={<Star />} label="Compétence validée" />
+        <Medal size="sm" variant="default" icon={<CheckCircle2 />} label="Étape franchie" />
       </div>
     ),
   },
@@ -3345,7 +3342,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'CompetenceBadge.tsx',
     cssBase: '.comp-badge',
     showcaseOnly: true,
-    description: '4 niveaux de compétence (Dreyfus 1-4) avec palette TLS claire : Niveau 1 = ink-100 (découverte), Niveau 2 = primary-50 (pratique), Niveau 3 = secondary-50 (maîtrise), Niveau 4 = success-base (expert). Inline badge pour passeport compétences et listes coach.',
+    description: "Niveau de compétence en pastille de 36 px : libellé 16/600 précédé d'une pastille ronde de 24 px qui porte le chiffre (13/700) au cran 700. Quatre niveaux — Découverte, Pratique, Maîtrise, Expert : les trois premiers en dégradé du 50 au 100 (teal, orange, or), le quatrième en radial sombre à texte blanc.",
     keywords: ['competence', 'dreyfus', 'level', 'badge', 'proficiency', 'skill'],
     render: () => (
       <div className="flex gap-stack-xs flex-wrap">
@@ -3361,7 +3358,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'MasteryBadge.tsx',
     cssBase: '.mastery-badge',
     showcaseOnly: true,
-    description: '5 niveaux de maîtrise (Novice → Expert) avec représentation de la taxonomie de Bloom. Progression visuelle par couleur du clair au vif.',
+    description: "Maîtrise d'une compétence en quatre niveaux — débutant, intermédiaire, avancé, expert : un anneau de progression de 96 px au cran 500 du niveau, un glyphe Lucide au centre (Sprout, Zap, Flame, Trophy) et, 8 px dessous, le libellé en MetaPill md.",
     keywords: ['mastery', 'skill', 'bloom', 'taxonomy', 'level', 'novice', 'expert'],
     render: () => (
       <div className="flex gap-stack flex-wrap">
@@ -3376,13 +3373,14 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'Achievement',
     codeName: 'Achievement.tsx',
     cssBase: '.achievement',
-    description: 'Composant de récompense/achievement (card). **Properties** : variant (3 : unlocked/locked/in-progress) · size (3 : sm/md/lg). Icon + title + description + state-specific footer (date unlock / lock reason / progress bar).',
+    description: "Vignette de réussite : pastille d'icône (48 · 64 · 80 px), titre 16/600, description 16 ink-700 sur deux lignes, puis selon l'état la date de déblocage (13, accent-800) ou une barre de 6 px et « n / max » (13/600). Trois états — unlocked · in-progress · locked (opacité 70 %) — et trois tailles ; rayon 20.",
     keywords: ['achievement', 'badge', 'unlocked', 'locked', 'milestone', 'reward', 'size', 'variant'],
     render: () => (
       <div className="flex gap-stack flex-wrap">
-        <Achievement icon="🏆" title="Pionnier IA" description="Premier parcours terminé" unlockedAt="15 janv. 2024" variant="unlocked" size="md" />
-        <Achievement icon="⚡" title="Streak Master" description="7 jours consécutifs" progress={7} maxProgress={10} variant="in-progress" size="md" />
-        <Achievement icon="🌟" title="Mentor" description="Aidez 5 collègues" variant="locked" size="md" />
+        {/* Pas de série quotidienne (arbitrage n°18) : un rythme hebdomadaire. */}
+        <Achievement icon={<Trophy />} title="Premier parcours" description="Un parcours terminé de bout en bout" unlockedAt="15 janv. 2026" variant="unlocked" size="md" />
+        <Achievement icon={<Calendar />} title="Régularité" description="Actif 3 semaines sur les 4 dernières" progress={3} maxProgress={4} variant="in-progress" size="md" />
+        <Achievement icon={<Users />} title="Mentor" description="Accompagner 5 collègues" variant="locked" size="md" />
       </div>
     ),
   },
@@ -3391,7 +3389,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'ui/AchievementBadge.tsx',
     cssBase: 'Tailwind (no BEM)',
     usedBy: ['DashboardAchievements', 'BadgeGallery', 'BadgeDetail', 'ProfileBadgesCompetences', 'PasseportJac', 'Gamification'],
-    description: 'Carte badge d\'accomplissement standalone. 4 colors (primary/warm/sun/success) × 3 sizes (sm/md/lg). Cercle icône gradient + titre + description + date de déverrouillage + bouton partage. État `isLocked` avec opacité réduite et icône cadenas.',
+    description: "Carte de badge obtenu, centrée : disque en dégradé (60 · 100 · 140 px), titre h3 20/700, description 16 ink-700, date en légende 13. Quatre couleurs (primary · warm · sun · success) × trois tailles ; état `isLocked` (opacité réduite, cadenas) ; bouton de partage optionnel (`onShare`).",
     keywords: ['achievement', 'badge', 'unlock', 'locked', 'share', 'reward', 'milestone', 'color', 'standalone'],
     render: () => (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-stack">
@@ -3405,8 +3403,8 @@ const COMPONENTS: ComponentEntry[] = [
         />
         <AchievementBadge
           icon={<Flame size={48} className="text-white" />}
-          title="Streak Master"
-          description="14 jours d'apprentissage consécutifs"
+          title="Régularité"
+          description="Actif 3 semaines sur les 4 dernières"
           unlockedDate="28 mars 2026"
           color="warm"
           size="md"
@@ -3435,7 +3433,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'ui/JacCard.tsx',
     cssBase: 'Tailwind (no BEM)',
     usedBy: ['PasseportJac'],
-    description: 'Deux variants de card Jalons & Certifications (Cahier #02 + #11). `JacCardPending` : validation en cours (badge "En revue" + Relancer CTA). `JacCardNextJalon` : prochain jalon à atteindre (requirements list + ProgressBar + Préparer CTA).',
+    description: "Deux cartes du Passeport, Jalons et certifications (cahiers 02 et 11). JacCardPending : une validation en cours — libellé 16/600, méta 13 ink-600, Badge « En revue » et un Button outline sm « Relancer ». JacCardNextJalon : le prochain jalon — libellé 16/600 et niveau en MetaPill, exigences en 16 ink-700, ProgressBar sm et Button soft sm « Préparer ».",
     keywords: ['jac', 'jalon', 'certification', 'dreyfus', 'validation', 'passeport', 'pending', 'progress'],
     render: () => (
       <div className="flex flex-col gap-stack max-w-xl">
@@ -3462,7 +3460,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'Stepper',
     codeName: 'Stepper.tsx',
     cssBase: '.stepper / .stepper__step',
-    description: '**Stepper** : indicateur d\'étapes séquentiel horizontal/vertical — états done/current/upcoming. Utilisé dans onboarding, wizards. **Steps** : checklist séquentielle d\'étapes (done/current/upcoming) — différent du stepper car vertical avec descriptions longues.',
+    description: "Stepper : des étapes numérotées, en ligne ou en colonne — rond de 40 px, chiffre en Nunito 13/600 tabulaire ; l'étape en cours en 600 ink-900, les autres en 400 ; libellé en légende 13 à l'horizontale, 16 avec une description 13 à la verticale. Steps : une liste d'étapes à cocher — pastille de 36 px, titre 16, description 13 ink-600, 24 px entre deux étapes ; une étape faite est barrée, une étape verrouillée estompée.",
     keywords: ['stepper', 'steps', 'progress', 'wizard', 'onboarding', 'sequence', 'checklist', 'task', 'sequential'],
     usedBy: ['OnboardingQuestionnaire', 'SubscriptionPayment', 'OnboardingTutorial', 'OnboardingSuccess'],
     render: () => {
@@ -3508,9 +3506,9 @@ const COMPONENTS: ComponentEntry[] = [
           <TabsWithContent
             variant="underline"
             tabs={[
-              { id: 'overview', label: 'Vue d\'ensemble', content: <div className="py-stack text-body text-ink-600">Description du parcours, objectifs pédagogiques et durée estimée.</div> },
-              { id: 'lessons', label: 'Leçons', badge: 8, content: <div className="py-stack text-body text-ink-600">Liste des 8 leçons avec état de progression pour chacune.</div> },
-              { id: 'resources', label: 'Ressources', content: <div className="py-stack text-body text-ink-600">Ressources complémentaires et liens utiles.</div> },
+              { id: 'overview', label: 'Vue d\'ensemble', content: <div className="py-stack text-body text-ink-700">Description du parcours, objectifs pédagogiques et durée estimée.</div> },
+              { id: 'lessons', label: 'Leçons', badge: 8, content: <div className="py-stack text-body text-ink-700">Liste des 8 leçons avec état de progression pour chacune.</div> },
+              { id: 'resources', label: 'Ressources', content: <div className="py-stack text-body text-ink-700">Ressources complémentaires et liens utiles.</div> },
             ]}
           />
         </div>
@@ -3519,9 +3517,9 @@ const COMPONENTS: ComponentEntry[] = [
           <TabsWithContent
             variant="pill"
             tabs={[
-              { id: 'all', label: 'Tout', content: <div className="py-3 text-body text-ink-600">Tous les éléments combinés.</div> },
-              { id: 'coaching', label: 'Coaching', content: <div className="py-3 text-body text-ink-600">Sessions de coaching planifiées.</div> },
-              { id: 'notes', label: 'Notes', content: <div className="py-3 text-body text-ink-600">Vos notes de session.</div> },
+              { id: 'all', label: 'Tout', content: <div className="py-3 text-body text-ink-700">Tous les éléments combinés.</div> },
+              { id: 'coaching', label: 'Coaching', content: <div className="py-3 text-body text-ink-700">Sessions de coaching planifiées.</div> },
+              { id: 'notes', label: 'Notes', content: <div className="py-3 text-body text-ink-700">Vos notes de session.</div> },
             ]}
           />
         </div>
@@ -3530,9 +3528,9 @@ const COMPONENTS: ComponentEntry[] = [
           <TabsWithContent
             variant="boxed"
             tabs={[
-              { id: 'profile', label: 'Profil', content: <div className="py-stack text-body text-ink-600">Données de profil et compétences.</div> },
-              { id: 'account', label: 'Compte', content: <div className="py-stack text-body text-ink-600">Informations de compte et sécurité.</div> },
-              { id: 'settings', label: 'Paramètres', content: <div className="py-stack text-body text-ink-600">Préférences et notifications.</div> },
+              { id: 'profile', label: 'Profil', content: <div className="py-stack text-body text-ink-700">Données de profil et compétences.</div> },
+              { id: 'account', label: 'Compte', content: <div className="py-stack text-body text-ink-700">Informations de compte et sécurité.</div> },
+              { id: 'settings', label: 'Paramètres', content: <div className="py-stack text-body text-ink-700">Préférences et notifications.</div> },
             ]}
           />
         </div>
@@ -3545,7 +3543,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'Alert',
     codeName: 'Alert.tsx',
     cssBase: '.alert / .alert--*',
-    description: 'Message contextuel persistant ancré dans la page. 4 variantes sémantiques: info, success, warning, danger. Patterns: banner (défaut) et inline (compact).',
+    description: "Message persistant ancré dans la page. Quatre variantes (info · success · warning · danger), chacune colore tout son texte. banner, le défaut : texte 16, titre 16/600, 4 px, icône de 20 calée sur la première ligne, actions et fermeture optionnelles. inline : texte 13, icône de 16, sans titre ni actions. Rôle live alert (danger, warning) ou status (success).",
     keywords: ['alert', 'message', 'warning', 'error', 'success', 'info', 'danger', 'banner', 'inline'],
     render: () => (
       <div className="flex flex-col gap-stack">
@@ -3585,11 +3583,11 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'InlineWin',
     codeName: 'ui/Celebration.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: 'Bandeau compact in-flow pour célébration discrète (lesson terminée, milestone intermédiaire). Différent de CelebrationModal qui est interruptif.',
+    description: "Célébration discrète, dans le flux (leçon terminée, étape franchie) : pastille ronde de 40 px, titre 16/600 ink-900, description en légende 13 ink-600. À l'inverse de CelebrationModal, elle n'interrompt pas.",
     keywords: ['inline-win', 'win', 'compact', 'banner', 'achievement'],
     render: () => (
       <InlineWin
-        title="Lesson terminée !"
+        title="Leçon terminée"
         description="Continuez sur votre lancée — il vous reste 3 leçons dans ce module."
       />
     ),
@@ -3765,7 +3763,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'MetaPill',
     codeName: 'MetaPill.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: 'Pilule de métadonnée unique. 10 tones : neutral/primary/warm/sun/brand + success/danger/info (sémantiques) + glass/glass-dark. Clickable → vrai `<button>` (WCAG). 3 tailles sm/md/lg.',
+    description: "La donnée qui chuchote : 11 px en 500, casse normale — le registre opposé à Badge. Taille par défaut sm (24 px) ; md 30 px en 13, lg 44 px en 16. Dix tons : neutral (et son alias déprécié default), primary, warm, sun, brand, success, danger, info, glass, glass-dark. Avec `onClick`, elle rend un vrai `<button>`. Une catégorie ou un type de contenu est une donnée : MetaPill, jamais Badge (arbitrages n°14-15).",
     keywords: ['pill', 'meta', 'chip', 'tag', 'tone', 'primary', 'warm', 'sun', 'brand', 'success', 'danger', 'info'],
     render: () => (
       <div className="flex flex-col gap-stack">
@@ -3782,9 +3780,9 @@ const COMPONENTS: ComponentEntry[] = [
           <MetaPill text="Info" tone="info" />
         </div>
         <div className="hstack flex-wrap">
-          <MetaPill text="Small" size="sm" tone="primary" />
-          <MetaPill text="Medium" size="md" tone="primary" />
-          <MetaPill text="Large" size="lg" tone="primary" />
+          <MetaPill text="sm · 24 px" size="sm" tone="primary" />
+          <MetaPill text="md · 30 px" size="md" tone="primary" />
+          <MetaPill text="lg · 44 px" size="lg" tone="primary" />
           <MetaPill text="Cliquable" tone="warm" onClick={() => {}} />
         </div>
       </div>
@@ -3795,7 +3793,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'MetaItem.tsx',
     cssBase: '.tls-meta-item / .tls-meta-item--sm / .tls-meta-item--brand/warm',
     showcaseOnly: true,
-    description: 'Paire label/valeur pour les métadonnées structurées. Sizes: sm/md. Tones: muted (défaut)/brand/warm. Icon optionnel dans le label.',
+    description: "Paire étiquette / valeur d'une donnée structurée : l'étiquette en légende 13 ink-600 au-dessus, 4 px, puis la valeur en 600 — 13 en sm, 16 en md —, ink-900 ou au cran 800 du ton (brand, warm). Icône optionnelle dans l'étiquette.",
     keywords: ['meta', 'item', 'label', 'value', 'pair', 'data', 'detail', 'size', 'tone'],
     render: () => (
       <div className="vstack max-w-[360px]">
@@ -3811,7 +3809,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'UserInfo.tsx',
     cssBase: '.tls-user-info / .tls-user-info--sm|md|lg',
     showcaseOnly: true,
-    description: 'Bloc identité utilisateur compact: avatar + nom + rôle + status dot optionnel. Tailles: sm/md/lg. Statuts: online/offline/away.',
+    description: "Bloc identité compact : avatar, nom, rôle, point de statut optionnel. Nom en 16/600 ink-900 (sm, md) ou en titre 20/700 (lg) ; rôle en légende 13 ink-600 (16 en lg) ; avatar de 32 · 40 · 56 px. Statuts online · offline · away.",
     keywords: ['user', 'info', 'avatar', 'name', 'role', 'identity', 'author', 'status', 'online'],
     render: () => (
       <div className="vstack max-w-[320px]">
@@ -3826,7 +3824,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'ui/ProfileCard.tsx',
     cssBase: 'Tailwind (no BEM) — Avatar + MetaPillGroup + Button',
     usedBy: ['Coaching'],
-    description: 'Carte profil DS pour coach/expert/user. Compose <Avatar size="xl"> + <MetaPillGroup tone> + <Button>. 3 variants (default/compact/featured) × 3 tones (primary/warm/sun) × 2 alignments (center/left). Props : avatar/initials, name, role, avatarBadge (overlay slot), rating (Stars + value + count), specialties (pills), contacts (email/phone/linkedin/twitter/website), bio, cta. Featured variant = bordure 2px tone + gradient bg.',
+    description: "Carte de profil (coach, expert) : Avatar xl, nom en titre h3 20, rôle en légende 13 ink-600, note (étoiles, valeur 13/600), spécialités en MetaPillGroup sm, contacts, bio 16 ink-700 alignée à gauche, action en Button soft. Variantes default · compact · featured (filet 2 px du ton) · horizontal, trois tons, alignement centré ou à gauche.",
     keywords: ['profile', 'card', 'user', 'coach', 'avatar', 'rating', 'specialties', 'tone', 'featured', 'a11y'],
     render: () => (
       <div className="grid grid-cols-1 md:grid-cols-3 gap-stack-lg">
@@ -3972,7 +3970,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/ParcoursCard.tsx',
     cssBase: 'Tailwind (no BEM) — Card variant="tinted" tone={tone}',
     usedBy: ['LearningPaths', 'Dashboard'],
-    description: 'Carte de parcours pour catalogues / hubs. Surface tinted gradient (via Card variant="tinted"). 3 tones (primary teal / warm orange / sun yellow). Titre h3 sans truncate + tooltip natif. MetaPills (durée + leçons). Description line-clamp-5 + tooltip natif si plus long. InlineProgress + CTA pill tone-aware (label dynamique selon status). Padding p-section uniform (32px), gap-stack interne (16px), grid gap-section recommandé (32px). Alignement inter-cards via min-h sur description + flex-1 spacer (progress + CTA toujours en bas). Hover: translateY(-4px) + shadow-lg + radial glow tone-aware. Focus-visible outline tone-aware. A11y: role=button, aria-label, tabIndex, native title tooltips.',
+    description: "Carte de parcours pour les catalogues : surface teintée (Card tinted) ou `outline`, trois tons. Titre h3 20 ink-900, 8 px, durée et leçons en MetaPillGroup sm, 12 px, description 16 ink-700 sur cinq lignes au plus ; en bas de carte, la progression (InlineProgress md) puis l'action de 44 px, libellé 16/700 selon l'état. Rayon 20, padding 24 ; halo radial au survol, sans soulèvement.",
     keywords: ['parcours', 'learning path', 'progress', 'tinted', 'tone', 'cta', 'glass', 'glow', 'hover', 'a11y'],
     render: () => (
       <CardGrid layout="default" gapSize="lg">
@@ -4017,7 +4015,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'learning/SessionCard.tsx',
     cssBase: 'Tailwind (no BEM)',
     usedBy: ['Coaching', 'Dashboard'],
-    description: 'Card de session coaching (passée ou planifiée). 4 surfaces × 3 tones (primary/warm/sun). **Tone-aware action buttons** (Phase 19 fix) : boutons Questionnaire/Compte-rendu adaptent leur bg/border/shadow au tone de la card (`ACTION_BTN_TONES[tone]`). **Hover border tone-aware** : card surface `card` ajoute `hover:border-primary/secondary/accent-200` selon tone. Footer divider ton-aware. Surfaces glass/frosted pour overlays colorés.',
+    description: "Carte de session de coaching, planifiée ou terminée. État en Badge (« Planifiée », « Terminée »), date en légende 13, titre h3 20, le coach (Avatar sm, nom 16/600, rôle 13), description 16 ink-700 sur deux lignes ; sous un filet, les actions (questionnaire, compte rendu, note) et un Button soft sm. Rayon 20, padding 24. Surfaces card · tinted · glass · frosted · outline, trois tons ; une session terminée reste blanche.",
     keywords: ['session', 'coaching', 'meeting', 'past', 'planned', 'surface', 'tinted', 'glass', 'frosted'],
     render: () => (
       <div className="flex flex-col gap-stack">
@@ -4090,12 +4088,12 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'ResourceCard',
     codeName: 'ResourceCard.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: 'Carte de ressource avec icône, type, titre, description, durée, catégorie, CTA. Variantes: default, minimal, with-badge. Tones: primary/warm/sun. **Usage cible Phase 10** : ressources complémentaires de fin d\'étape sur LearningPathDetail (PDF, vidéos externes, liens utiles après les leçons).',
+    description: "Carte de ressource : icône et type (MetaPill sm), titre h3 20, description 16 ink-700, puis sous un filet la catégorie (MetaPill) et la durée (13 ink-600), avec l'action. Rayon 20, padding 24 (20 en `minimal`) ; `badge` pose un vrai Badge en haut à droite ; `href` en fait un lien. Tons primary · warm · sun. Pour les ressources complémentaires d'une fin d'étape.",
     keywords: ['resource', 'card', 'document', 'article', 'tutorial', 'link', 'badge', 'tone', 'complementary', 'learning-path'],
     render: () => (
       <div className="grid-2">
         <ResourceCard
-          resourceType="TUTORIEL"
+          resourceType="Tutoriel"
           title="Introduction au Prompt Engineering"
           description="Maîtrisez l'art de formuler des requêtes efficaces pour l'IA générative."
           duration="45 min"
@@ -4106,7 +4104,7 @@ const COMPONENTS: ComponentEntry[] = [
         />
         <ResourceCard
           variant="with-badge"
-          resourceType="DOSSIER"
+          resourceType="Dossier"
           title="IA & Marché du Travail 2026"
           description="Analyse complète des impacts de l'IA sur les métiers et compétences."
           duration="20 min"
@@ -4142,7 +4140,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'GoalProgress',
     codeName: 'GoalProgress.tsx',
     cssBase: 'GoalProgress (inline styles)',
-    description: 'Suivi de progression vers un objectif d\'apprentissage: nom, %, temps restant, indicateur on-track/retard. Tones: primary/warm/success/danger.',
+    description: "Suivi d'un objectif : l'objectif en 16/600, une piste de 6 ou 8 px, puis « n % complété » et le temps restant (13 en sm, 16 en md), et un message en 13 si l'objectif est en retard ou atteint. Tons primary · warm · success · danger — forcé à danger en retard, à success à 100 %.",
     keywords: ['goal', 'progress', 'target', 'deadline', 'on-track', 'learning'],
     usedBy: ['Passeport', 'PasseportObjectifs'],
     render: () => (
@@ -4157,7 +4155,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'QuizComponent',
     codeName: 'QuizComponent.tsx',
     cssBase: 'QuizComponent (inline styles)',
-    description: 'Quiz interactif multi-questions avec navigation prev/next, barre de progression, résultats finaux avec score et pourcentage.',
+    description: "Quiz à plusieurs questions : « Question n sur N » et pourcentage en 13/600, barre de 6 px, question en h3 20, options en rangées de 16, degré de confiance après chaque réponse (`askConfidence`) ; à la fin, le score en `stat-value` et une phrase en 16 ink-700.",
     keywords: ['quiz', 'question', 'answer', 'test', 'assessment', 'score', 'interactive'],
     render: () => (
       <QuizComponent
@@ -4175,7 +4173,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'ActivityFeed',
     codeName: 'patterns/ActivityFeed.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: 'Feed d\'activités chronologique. Lucide icons par type, Avatar pour actor, 3 layouts (timeline / list / cards) — `list` = rangées dans une carte, le layout d\'un fil (arbitrage n°5) ; `cards` gardé pour compatibilité. groupByDate optionnel. Empty state + load more.',
+    description: "Fil d'activité chronologique : icônes Lucide par type, acteur en Avatar, trois dispositions — timeline, list (des rangées dans UNE carte, la disposition d'un fil, arbitrage n°5) et cards, gardée pour compatibilité. Titre 16/600 et heure 13 sur la ligne de base, description 16 ink-700 ; regroupement par date (libellé 13/600), état vide, « Voir plus ».",
     keywords: ['activity', 'feed', 'timeline', 'history', 'events', 'chronological', 'notification'],
     render: () => {
       const items = [
@@ -4188,11 +4186,11 @@ const COMPONENTS: ComponentEntry[] = [
       return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
           <div>
-            <p className="text-caption font-semibold text-ink-600 mb-3">Layout: timeline + groupByDate</p>
+            <p className="text-caption font-semibold text-ink-600 mb-3">timeline, groupée par date</p>
             <ActivityFeed items={items} layout="timeline" groupByDate />
           </div>
           <div>
-            <p className="text-caption font-semibold text-ink-600 mb-3">Layout: list</p>
+            <p className="text-caption font-semibold text-ink-600 mb-3">list — des rangées dans une carte</p>
             <ActivityFeed items={items.slice(0, 3)} layout="list" />
           </div>
         </div>
@@ -4205,7 +4203,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/ActivityTimeline.tsx',
     cssBase: 'Tailwind (no BEM)',
     usedBy: ['Dashboard', 'Journal', 'Passeport', 'Coaching'],
-    description: 'Timeline verticale d\'activités avec connecteur et dot tonal. 5 tones (primary/warm/sun/success/warning). Statuts : completed / pending / in-progress (pulse animé). Différent d\'ActivityFeed : plus compact, pensé pour les flux séquentiels (historique linéaire).',
+    description: "Chronologie verticale : pastille ronde de 40 px au dégradé du ton (ou point de 12 px sans icône) et connecteur ; titre 16/600 et date 13 ink-600 sur la ligne de base, description 16 ink-700, 24 px entre les étapes. Cinq tons, trois statuts (completed · pending · in-progress). Plus compacte qu'ActivityFeed, pour un historique linéaire.",
     keywords: ['timeline', 'activity', 'events', 'vertical', 'connector', 'tone', 'status', 'dot', 'chronological'],
     render: () => (
       <ActivityTimeline
@@ -4284,7 +4282,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/KeyFindingCard.tsx',
     cssBase: 'Tailwind (no BEM)',
     usedBy: ['Dossier (Tier 2)', 'MagazineArticle (Tier 2)'],
-    description: '⭐ Glass card horizontale pour "points clés / insights / data findings". Icon-bubble gradient tone-aware + title + description ou metric (big value + label). Layout `horizontal` (default) ou `stacked`.',
+    description: "Point clé d'un dossier : pastille d'icône de 48 px, titre h3 20, un chiffre au pas h2 (28, au cran 800) avec sa légende 13, et une description 16 ink-700. Disposition horizontale — le texte se cale sur la première ligne de la pastille — ou empilée ; cinq tons ; surface en verre.",
     keywords: ['key', 'finding', 'insight', 'data', 'metric', 'glass', 'icon-bubble'],
     render: () => (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
@@ -4530,7 +4528,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'ui/NotificationBadge.tsx',
     cssBase: '.notif-badge / .notif-badge--{tone}',
     showcaseOnly: true,
-    description: 'Badge numérique superposé sur un enfant (icône, avatar). Tones : danger, brand, warm. Max configurable (99 par défaut).',
+    description: "Compteur posé sur un enfant (icône, avatar) : pastille de 16 px en 11/700 tabulaire, blanc sur le cran 700 (ou danger-strong), liseré blanc. Tons danger · brand · warm ; « 99+ » au-delà de `max` (99) ; rien à zéro.",
     keywords: ['notification', 'badge', 'count', 'overlay', 'indicator', 'unread'],
     render: () => (
       <div className="hstack gap-section items-center flex-wrap">
@@ -4595,7 +4593,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'SkillBar',
     codeName: 'ui/SkillBar.tsx',
     cssBase: 'SkillBar (tokens inline)',
-    description: 'Barre de progression de compétence. Tones : brand (teal), warm (orange), sun (jaune). Affichage du pourcentage optionnel. Transition CSS animée.',
+    description: "Barre d'une compétence : libellé 16/600 ink-900, valeur en League Spartan 16/700 tabulaire au cran 800 (« 95 % »), 8 px, piste de 8 px. Tons brand · warm · sun ; valeur masquable (`showValue`).",
     keywords: ['skill', 'bar', 'progress', 'competency', 'percentage', 'profile', 'level'],
     render: () => (
       <div className="vstack gap-stack-xs max-w-[480px]">
@@ -4812,7 +4810,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'PageCard',
     codeName: 'patterns/PageCard.tsx',
     cssBase: 'PageCard (featured card)',
-    description: 'Tuile composite (thumbnail ou icône, titre, description, status dot animé, badge, CTA hover) pour annuaires de pages, galeries de fonctionnalités. Grille via PageCardGrid (1-4 colonnes responsives).',
+    description: "Tuile d'annuaire de pages : vignette ou icône, état (point fixe et libellé 13/600), Badge compact, titre h3, description 16 ink-700, étiquette en MetaPill ; flèche au survol. En grille par PageCardGrid (une à quatre colonnes).",
     keywords: ['card', 'page', 'featured', 'image', 'content', 'thumbnail', 'directory'],
     render: () => (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-stack">
@@ -4856,7 +4854,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/VeilleCardFeed.tsx (exports VeilleCard + VeilleCardListItem + FeaturedSpotlight)',
     cssBase: 'Tailwind (no BEM)',
     usedBy: ['Veille (via VeilleCardFeed)'],
-    description: '⭐ Card éditoriale Veille — **3 sub-composants** exposés depuis VeilleCardFeed : (1) `<VeilleCard>` vertical avec top stripe tone-aware + badge + title + summary + footer auteur/durée + bookmark (pour grid). (2) `<VeilleCardListItem>` horizontal avec icon bubble gradient + content + actions side (pour list). (3) `<FeaturedSpotlight>` hero card horizontal (cover gradient + icon 96px + CTA glass). 3 tones (brand/warm/sun) × 3 surfaces (card/tinted/glass).',
+    description: "La Veille, trois objets exportés par VeilleCardFeed. VeilleCard (grille) : couverture de 160 px avec le type en MetaPill, méta en 13 ink-600, titre h3 20 sur deux lignes, résumé 16 ink-700, lien « Lire » au cran 800. VeilleCardListItem (liste) : couverture à gauche, titre de 16 à 20 selon la largeur de sa boîte, Badge « Nouveau » devant. FeaturedSpotlight (« À la une ») : grand format, titre h2 28, Button soft. Trois tons par élément.",
     keywords: ['veille', 'card', 'editorial', 'article', 'tutoriel', 'dossier', 'magazine', 'vertical', 'horizontal', 'featured', 'spotlight'],
     render: () => {
       const sampleItem = { id: 'demo-1', typeLabel: 'Actu', TypeIcon: TrendingUp, tone: 'brand' as const, title: "IA générative en formation : où en sommes-nous en 2026 ?", summary: "Tour d'horizon des nouveaux usages de l'IA dans les parcours de formation, des cas concrets et des limites.", category: 'IA & Pédagogie', author: 'TLS', publishedAt: "Aujourd'hui", readTime: '6 min' };
@@ -4916,7 +4914,7 @@ const COMPONENTS: ComponentEntry[] = [
                 <span className="font-body text-caption font-semibold text-ink-600">{item.category} · {item.publishedAt}</span>
                 <h3 className="font-display text-h3 font-bold text-ink-900">{item.title}</h3>
                 <span className="font-body text-caption text-ink-600"><User size={12} className="inline mr-0.5" /> {item.author} · ⏱ {item.readTime}</span>
-                <p className="m-0 font-body text-body text-ink-600">{item.summary}</p>
+                <p className="m-0 font-body text-body text-ink-700">{item.summary}</p>
                 <footer className="flex justify-between items-center pt-stack-xs border-t border-ink-100"><span className="text-caption font-bold text-accent-700">Lire →</span></footer>
               </div>
             </article>
@@ -4989,9 +4987,9 @@ const COMPONENTS: ComponentEntry[] = [
 
           {(() => {
             const hzItems = [
-              { typeLabel: 'Actu', Icon: TrendingUp, gradFrom: 'from-primary-400', gradTo: 'to-primary-700', toneText: 'text-primary-700', toneBg: 'bg-primary-50', toneBorder: 'border-primary-200', category: 'IA & Pédagogie', title: "IA générative en formation : où en sommes-nous en 2026 ?", summary: "Tour d'horizon des nouveaux usages de l'IA.", author: 'The Learning Society', publishedAt: "Aujourd'hui", readTime: '6 min' },
-              { typeLabel: 'Tutoriel', Icon: Video, gradFrom: 'from-secondary-400', gradTo: 'to-secondary-700', toneText: 'text-secondary-700', toneBg: 'bg-secondary-50', toneBorder: 'border-secondary-200', category: 'Prompt Engineering', title: 'Construire un prompt structuré en 5 étapes', summary: 'Une vidéo pas à pas pour formaliser ses prompts.', author: 'Marie Dubois', publishedAt: 'Hier', readTime: '12 min' },
-              { typeLabel: 'Dossier', Icon: FolderOpen, gradFrom: 'from-accent-300', gradTo: 'to-accent-600', toneText: 'text-accent-700', toneBg: 'bg-accent-50', toneBorder: 'border-accent-200', category: 'Management', title: "Transformation IA des parcours de formation", summary: "Synthèse approfondie sur les dispositifs de formation en Europe.", author: 'McKinsey', publishedAt: 'Il y a 3 jours', readTime: '22 min' },
+              { typeLabel: 'Actu', Icon: TrendingUp, gradFrom: 'from-primary-400', gradTo: 'to-primary-700', toneText: 'text-primary-800', toneBg: 'bg-primary-50', toneBorder: 'border-primary-200', category: 'IA & Pédagogie', title: "IA générative en formation : où en sommes-nous en 2026 ?", summary: "Tour d'horizon des nouveaux usages de l'IA.", author: 'The Learning Society', publishedAt: "Aujourd'hui", readTime: '6 min' },
+              { typeLabel: 'Tutoriel', Icon: Video, gradFrom: 'from-secondary-400', gradTo: 'to-secondary-700', toneText: 'text-secondary-800', toneBg: 'bg-secondary-50', toneBorder: 'border-secondary-200', category: 'Prompt Engineering', title: 'Construire un prompt structuré en 5 étapes', summary: 'Une vidéo pas à pas pour formaliser ses prompts.', author: 'Marie Dubois', publishedAt: 'Hier', readTime: '12 min' },
+              { typeLabel: 'Dossier', Icon: FolderOpen, gradFrom: 'from-accent-300', gradTo: 'to-accent-600', toneText: 'text-accent-800', toneBg: 'bg-accent-50', toneBorder: 'border-accent-200', category: 'Management', title: "Transformation IA des parcours de formation", summary: "Synthèse approfondie sur les dispositifs de formation en Europe.", author: 'McKinsey', publishedAt: 'Il y a 3 jours', readTime: '22 min' },
             ];
             return (
         <div className="flex flex-col gap-section">
@@ -5104,7 +5102,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/VeilleCardFeed.tsx',
     cssBase: 'Tailwind (no BEM)',
     usedBy: ['Veille'],
-    description: 'Feed éditorial de cartes Veille — pattern v2 Phase 10. **Featured spotlight** (1 item flag `featured: true` → hero horizontal en haut) + **2 layouts** : `grid` (cards verticales 1/2/3 cols, DEFAULT) ou `list` (cards horizontales denses). 3 surfaces (card/tinted/glass), 3 tones par item (brand/warm/sun). Save button bookmark configurable. Loading + empty states.',
+    description: "Fil éditorial de la Veille : un élément `featured` passe en tête (FeaturedSpotlight), puis deux dispositions — grid, le défaut, en cartes verticales, ou list, en rangées denses. Bouton d'enregistrement, états de chargement et vide.",
     keywords: ['veille', 'feed', 'news', 'content', 'editorial', 'cards', 'spotlight', 'featured', 'article', 'tutoriel', 'dossier', 'magazine', 'tone', 'grid', 'list', 'horizontal'],
     render: () => {
       const sampleItems = [
@@ -5116,12 +5114,12 @@ const COMPONENTS: ComponentEntry[] = [
       return (
         <div className="flex flex-col gap-section">
           <div className="flex flex-col gap-stack">
-            <p className="text-caption font-semibold text-ink-600 m-0">Layout <code className="text-caption bg-ink-50 px-1.5 py-0.5 rounded">list</code> (DEFAULT) · cards horizontales denses</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">Disposition <code className="text-caption bg-ink-50 px-1.5 py-0.5 rounded">list</code> · rangées denses</p>
             <VeilleCardFeed items={sampleItems.slice(1)} layout="list" savedIds={new Set(['3'])} onItemClick={() => {}} onToggleSave={() => {}} />
           </div>
 
           <div className="flex flex-col gap-stack">
-            <p className="text-caption font-semibold text-ink-600 m-0">Layout <code className="text-caption bg-ink-50 px-1.5 py-0.5 rounded">grid</code> · cards verticales (à définir)</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">Disposition <code className="text-caption bg-ink-50 px-1.5 py-0.5 rounded">grid</code>, le défaut · cartes verticales</p>
             <VeilleCardFeed items={sampleItems} savedIds={new Set(['3'])} onItemClick={() => {}} onToggleSave={() => {}} />
           </div>
         </div>
@@ -5134,15 +5132,19 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'VeilleFormatShortcutCards',
     codeName: 'patterns/VeilleFormatShortcutCards.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: 'Grille 2×2 (mobile) → 4-col (sm+) de cartes de navigation vers les formats éditoriaux Veille. Variant dark (glass sur gradient, défaut) ou light (surface claire). Icône + label + description courte + flèche révélée au hover. Répond à `onClick` par card.',
+    description: "Raccourcis vers les formats éditoriaux de la Veille : deux colonnes, quatre dès 768 px ; chaque carte, un bouton au rayon 14, porte une pastille d'icône, un libellé 16/600 et un sous-titre 13, et navigue par `href`. Surface light par défaut ; la variante dark, pour un dégradé, est marquée legacy.",
     keywords: ['veille', 'format', 'shortcut', 'navigation', 'cards', 'editorial', 'magazine', 'newsletter', 'glass', 'dark'],
     usedBy: ['Veille'],
     render: () => (
       <div className="flex flex-col gap-section">
         <div className="flex flex-col gap-stack">
-          <span className="text-caption font-semibold text-ink-600">Variant dark (défaut — sur dégradé)</span>
-          <div className="p-stack-lg rounded-xl" style={{ background: 'linear-gradient(150deg, #2F5F6A 0%, #55A1B4 100%)' }}>
+          {/* La démo annonçait « dark par défaut » sans passer `surface` : elle
+              rendait des cartes claires aux icônes pâles. Et un dégradé qui
+              descend au cran 500 ne porte pas de texte blanc. */}
+          <span className="text-caption font-semibold text-ink-600">surface="dark" · legacy, sur un dégradé au cran 700 ou plus</span>
+          <div className="p-stack-lg rounded-xl bg-gradient-to-br from-primary-800 to-primary-700">
             <VeilleFormatShortcutCards
+              surface="dark"
               cards={[
                 { icon: <BookOpen  size={16} strokeWidth={2} className="text-primary-200" />,   title: 'Magazine TLS', subtitle: 'Mensuel · analyses',     href: '/veille/magazine' },
                 { icon: <TrendingUp size={16} strokeWidth={2} className="text-secondary-200" />, title: 'Actu hebdo',   subtitle: 'Chaque vendredi',        href: '/veille/weekly-newsletter' },
@@ -5153,7 +5155,7 @@ const COMPONENTS: ComponentEntry[] = [
           </div>
         </div>
         <div className="flex flex-col gap-stack">
-          <span className="text-caption font-semibold text-ink-600">Défaut (sans surcharge)</span>
+          <span className="text-caption font-semibold text-ink-600">Par défaut · surface light</span>
           <VeilleFormatShortcutCards />
         </div>
       </div>
@@ -5200,7 +5202,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'LearningItemCard',
     codeName: 'learning/LearningItemCard.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: 'Card pour un item du LearningSpace (9 types: astuces, flashcard, ressource, guide, vidéo, micro-learning, mission, masterclass). 9 ItemTypes → 5 tones (brand/warm/sun/success/danger). 3 états: accessible (CTA "Accéder"), complété (badge CheckCircle2 vert -top-2 -left-2 + CTA "Revoir"), locked (opacity-60, lock row enrichi avec raison+message, CTA disabled). Layout 6 zones: badge+DURATION_PILL+level+bubble / titre+desc / theme tag / lock row conditionnel / progress bar 3px conditionnel / CTA full-width. DURATION_PILL = plus proéminent (bg-ink-100 border-ink-200 text-ink-700 semibold) vs META_PILL (bg-ink-50 text-ink-500). Props: isCompleted?, progress? (0-100), onClick wired via resolveItemRoute() dans LearningSpace.',
+    description: "Carte d'un contenu de l'Espace Apprentissage (neuf types, dont astuces, flashcard, ressource, guide, vidéo, mission, masterclass). Type en MetaPill et durée en 13, libellé 16/600 sur deux lignes, description 16 ink-700, niveau Dreyfus (« D3 ») et thème en MetaPill, puis l'action (Button sm). Trois états : accessible, complété, verrouillé (opacité 60 %, raison du verrou). Rayon 20, padding 20 puis 24 dès 640 px.",
     keywords: ['learning', 'item', 'card', 'astuces', 'flashcard', 'mission', 'video', 'locked', 'completed', 'progress', 'tone', 'badge', 'dreyfus'],
     usedBy: ['LearningSpace'],
     toneAware: true,
@@ -5232,7 +5234,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'EditorialCard',
     codeName: 'learning/ArticleCard.tsx · learning/VideoCard.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: 'Card éditoriale multi-format. **ArticleCard** : actu / tutoriel / dossier — icon bubble tone-aware + eyebrow + title + summary + footer. **VideoCard** : vidéo thumbnail tone-aware + play overlay + duration badge. 3–4 tones (primary/warm/sun/brand). Wrapper sur `<Card variant="feature">`.',
+    description: "Carte éditoriale, deux formats. ArticleCard (actu, tutoriel, dossier) : icône, type en MetaPill et date, catégorie en surtitre 13/600, titre h3 20, résumé 16 ink-700, puis l'auteur et la durée en MetaPill et un Button sm « Lire ». VideoCard : vignette 16:9 au dégradé du ton avec la durée, catégorie en MetaPill, titre h3, « Par … » en 13, et un Button « Regarder ».",
     keywords: ['article', 'editorial', 'actu', 'tutoriel', 'dossier', 'magazine', 'bookmark', 'tone', 'video', 'thumbnail', 'play'],
     render: () => (
       <div className="flex flex-col gap-section">
@@ -5303,7 +5305,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'NewsletterSignupCard',
     codeName: 'patterns/NewsletterSignupCard.tsx',
     cssBase: 'Tailwind',
-    description: "Bandeau full-bleed newsletter — fond primary-900, headline display + formulaire email inline + lien dernière édition optionnel. Pattern propre à la Veille. Pas de card shell ni de border accent.",
+    description: "Bandeau pleine largeur d'inscription à la newsletter, sur primary-900 : surtitre 13/600, titre h2 28, texte 16, tout en blanc plein, puis le formulaire (Input md et Button soft) et une note en 13. Propre à la Veille ; pas de coque de carte.",
     keywords: ['newsletter', 'signup', 'email', 'subscription', 'veille', 'editorial', 'band', 'full-bleed'],
     render: () => (
       <NewsletterSignupCard
@@ -5318,7 +5320,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'learning/PromptCard.tsx',
     cssBase: 'Tailwind (chat bubble pattern)',
     usedBy: ['Dashboard'],
-    description: '⭐ Card chat-bubble (Apple Messages style) pour les prompts d\'invitation à l\'action sur le Dashboard. Icon + label eyebrow + text body + speech bubble tail + hover tinted bg. 7 variants BadgeVariant (brand/warm/sun/info/neutral/success/danger). 2 sizes : `default` (compact grid) ou `featured` (hero dashboard).',
+    description: "Invitation à écrire, en bulle — la construction canonique : rayon 20, filet 1 px, queue, aucune ombre. En default : étiquette en MetaPill, icône, texte 16 ink-700 et « Réfléchir → » en 13/600. En featured : grande icône et question en 20, puis 28. Le `variant` (les sept tons de Badge) teinte l'étiquette et le survol.",
     keywords: ['prompt', 'chat-bubble', 'speech', 'invitation', 'cta', 'dashboard'],
     render: () => (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-stack max-w-content">
@@ -5440,14 +5442,13 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'learning/RankingCard.tsx',
     cssBase: 'Tailwind',
     usedBy: ['Leaderboard'],
-    description: '⭐ Card de classement (podium / leaderboard) — rank number en bubble gradient (or/argent/bronze pour top 3) + nom + points + streak flame badge optionnel. ⚠️ **Pas de similar existing** dans le DS — composant spécifique gamification leaderboard. Could be merged with ProfileCard avec variant="rank" futur, mais APIs très différentes.',
+    description: "Rangée de classement : rang en pastille de 48 px (médaille sur le podium), nom 16/600, points en 13/600, et une action. ⚠️ L'arbitrage n°18 (« Reconnaissances ») retire de l'app apprenant le classement nominatif et la série quotidienne : ce composant ne sert plus de modèle à un écran neuf. La démo n'affiche plus de série.",
     keywords: ['ranking', 'leaderboard', 'podium', 'rank', 'gamification', 'streak'],
     render: () => (
       <div className="flex flex-col gap-stack max-w-md">
-        <RankingCard rank={1} name="Sophie Martin" points={2840} streak={12} variant="sun" onViewProfile={() => {}} />
-        <RankingCard rank={2} name="Marc Dubois" points={2650} streak={8} onViewProfile={() => {}} />
-        <RankingCard rank={3} name="Léa Petit" points={2410} streak={5} onViewProfile={() => {}} />
-        <RankingCard rank={42} name="Chloé Mimault" points={1280} streak={7} variant="brand" onViewProfile={() => {}} />
+        <RankingCard rank={1} name="Sophie Martin" points={2840} variant="sun" onViewProfile={() => {}} />
+        <RankingCard rank={2} name="Marc Dubois" points={2650} onViewProfile={() => {}} />
+        <RankingCard rank={3} name="Léa Petit" points={2410} onViewProfile={() => {}} />
       </div>
     ),
   },
@@ -5516,7 +5517,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/Flashcard.tsx',
     cssBase: 'Tailwind (3D transform)',
     usedBy: ['FlashcardsViewer'],
-    description: '⭐ Card flip 3D (front/back) pour apprentissage actif — révision flashcards. Click → animation 3D flip horizontale. ⚠️ Pas de similar dans le DS.',
+    description: "Carte recto verso pour la révision, retournée d'un clic (rotation 3D) : contenu au chapô 18/28 en 600 (16 sous 640 px), indication en 13 ink-600 en italique. Recto teal, verso orange ; rayon 20. Sa mise en forme vit dans une feuille BEM à part, Flashcard.css.",
     keywords: ['flashcard', 'flip', '3d', 'revision', 'learning', 'memorization'],
     render: () => (
       <div className="max-w-md">
@@ -5532,7 +5533,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/QuizQuestionCard.tsx',
     cssBase: 'Tailwind',
     usedBy: ['Positionnement'],
-    description: '⭐ Card question quiz avec options multiples (A/B/C/D), feedback correct/incorrect, numérotation N/M. State management : selectedId + answered + showCorrectAnswer. ⚠️ Pas de similar — composant spécifique quiz/évaluation.',
+    description: "Question de quiz en carte : pastille de numéro et « sur N » (13), question en h3 20/700, 8 px, réponses en rangées de 16 — lettre dans un rond de 32 px calé sur la première ligne —, puis le retour correct ou incorrect en 16. Rayon 14, padding 24.",
     keywords: ['quiz', 'question', 'qcm', 'options', 'evaluation', 'assessment'],
     render: () => (
       <div className="max-w-2xl">
@@ -5558,7 +5559,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'DataTable',
     codeName: 'patterns/DataTable.tsx',
     cssBase: 'Tailwind',
-    description: '⭐ Tableau de données générique — colonnes sortables, alignements, rows custom. Pour vues admin / analytics / liste structurée. ⚠️ Pas de similar — composant unique pour tabular data.',
+    description: "Tableau de données : en-têtes 13/600 ink-600 en casse normale — la colonne triée passe en ink-900 —, cellules à 16 avec un retrait de 16 × 12, chiffres alignés à droite en tabulaire. Tri par colonne (`onSort`, le parent trie ; `sortValue` depuis le 23/09), rangées cliquables, pagination (deux Button sm et « Page n sur N »), états de chargement et vide. Pour comparer ou trier une collection (arbitrage n°5).",
     keywords: ['table', 'data', 'grid', 'admin', 'analytics', 'sort'],
     render: () => (
       <DataTable
@@ -5599,7 +5600,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'learning/ProjectCard.tsx',
     cssBase: 'Tailwind',
     usedBy: ['Project (page existante)'],
-    description: '⭐ Card projet collaboratif — title + description + status pill + progress bar + tasks + deadline + team avatars. **Status-aware fill** (Phase 19 fix) : `warm` pour planning, `brand` pour in-progress, `success` pour completed. **Avatars status-aware** : secondary-100/700 (planning) / primary-100/700 (in-progress) / success-bg/fg (completed). ProgressBar + Badge + Avatar tous cohérents avec le statut.',
+    description: "Carte de projet : titre h3 et Badge d'état (En préparation, En cours, Terminé), description 16 ink-700, méta 13 (tâches, échéance), ProgressBar sm, l'équipe, puis un Button soft pleine largeur. Le remplissage de la barre et les avatars suivent l'état.",
     keywords: ['project', 'collaborative', 'team', 'tasks', 'progress', 'deadline'],
     render: () => (
       <div className="max-w-2xl">
@@ -5663,7 +5664,7 @@ const COMPONENTS: ComponentEntry[] = [
           <AmbientBlobs position="absolute" intensity="normal" />
           <div className="relative z-base p-stack-lg flex flex-col items-center justify-center h-full text-center">
             <p className="m-0 font-display text-h3 font-bold text-ink-900">bg-gradient-page-ambient (DEFAULT)</p>
-            <p className="m-0 mt-stack-xs font-body text-body text-ink-600 max-w-prose">
+            <p className="m-0 mt-stack-xs font-body text-body text-ink-700 max-w-prose">
               Teal-50 → white → yellow-50 + 3 blobs flottants (float 20s).
             </p>
           </div>
@@ -5767,14 +5768,14 @@ const COMPONENTS: ComponentEntry[] = [
         staticAside
         main={
           <SectionCard title="Contenu principal">
-            <p className="m-0 text-body text-ink-600">
+            <p className="m-0 text-body text-ink-700">
               La colonne principale prend ~1.4fr de l'espace disponible. Elle peut contenir n'importe quel contenu : SectionCard, formulaires, listes, médias.
             </p>
           </SectionCard>
         }
         aside={
           <SectionCard title="Aside">
-            <p className="m-0 text-body text-ink-600">
+            <p className="m-0 text-body text-ink-700">
               L'aside prend ~0.8fr et devient sticky sur desktop (top: 96px). Sur mobile, le layout passe en single-column.
             </p>
           </SectionCard>
@@ -5816,12 +5817,12 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/RelatedItemList.tsx',
     cssBase: 'RelatedItemList (cross-link list)',
     usedBy: ['MagazineArticle', 'Newsletter', 'WeeklyNewsDetail', 'CoachingBookingFlow', 'PreCoachingQuestionnaireResponse'],
-    description: 'Liste verticale d\'items associés (related/recommended). Items avec titre + description + meta optionnel + icon optionnel. Items cliquables (href ou onClick) avec chevron animé au hover. Utilisé dans les asides éditoriaux.',
+    description: "Liste d'éléments liés, pour les colonnes éditoriales : pastille d'icône, méta 13 ink-600 au-dessus du titre (16/600), description 16 ink-700 sur deux lignes, 8 px entre deux éléments. Un élément devient un lien avec `href`, un bouton avec `onClick` ; chevron au survol.",
     keywords: ['related', 'list', 'cross-link', 'recommendations', 'editorial', 'aside'],
     render: () => (
       <div className="flex flex-col gap-section">
         <div>
-          <p className="text-caption text-ink-600 mb-stack-xs font-semibold">onClick → &lt;button&gt;</p>
+          <p className="text-caption text-ink-600 mb-stack-xs font-semibold">onClick → un bouton</p>
           <RelatedItemList
             items={[
               { id: '1', title: 'Interview expert', description: 'Vision 2027', meta: 'Interview', onClick: () => {} },
@@ -5830,7 +5831,7 @@ const COMPONENTS: ComponentEntry[] = [
           />
         </div>
         <div>
-          <p className="text-caption text-ink-600 mb-stack-xs font-semibold">href → &lt;a&gt; anchor (dans l'app via useNavigate)</p>
+          <p className="text-caption text-ink-600 mb-stack-xs font-semibold">href → un lien</p>
           <RelatedItemList
             items={[
               { id: '4', title: 'Webinaire replay', description: 'IA & pédagogie : retour d\'expérience', meta: 'Vidéo', onClick: () => {} },
@@ -5839,7 +5840,7 @@ const COMPONENTS: ComponentEntry[] = [
           />
         </div>
         <div>
-          <p className="text-caption text-ink-600 mb-stack-xs font-semibold">Sans interaction (display-only)</p>
+          <p className="text-caption text-ink-600 mb-stack-xs font-semibold">Sans interaction</p>
           <RelatedItemList
             items={[
               { id: '6', title: 'Sans lien interactif', description: 'Item purement displayonly (pas de href ni onClick)', meta: 'Lecture' },
@@ -5961,7 +5962,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'ConsentBanner',
     codeName: 'patterns/ConsentBanner.tsx',
     cssBase: 'ConsentBanner',
-    description: 'Bandeau GDPR cookie consent. Position fixed bottom. 3 catégories (nécessaires/analytiques/marketing). Panneau "Personnaliser" expandable. Tous rôles. Module #13bis.',
+    description: "Bandeau de consentement aux cookies, fixé en bas : titre 16/600, texte 16, trois boutons sm (Personnaliser, Tout refuser, Tout accepter). Le panneau « Personnaliser » déplie les catégories — nécessaires, analytiques, marketing — en réglages à interrupteur. Module 13 bis, RGPD.",
     keywords: ['consent', 'gdpr', 'rgpd', 'cookies', 'privacy', 'banner', 'compliance', 'ai act'],
     showcaseOnly: false,
     usedBy: [],
@@ -5970,7 +5971,7 @@ const COMPONENTS: ComponentEntry[] = [
         <p className="p-stack text-caption text-ink-600 italic">ConsentBanner — position fixed bottom dans l'app réelle. Démo statique ci-dessous :</p>
         <div className="relative bg-white/95 border-t border-ink-100 shadow-lg p-stack">
           <div className="flex flex-col md:flex-row md:items-center gap-stack-xs">
-            <div className="flex-1 text-body text-ink-600">
+            <div className="flex-1 text-body text-ink-700">
               <span className="font-semibold text-ink-900">The Learning Society respecte votre vie privée</span>
               {' — '}Nous utilisons des cookies pour améliorer votre expérience.
             </div>
@@ -6159,7 +6160,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'CorrectionCard',
     codeName: 'ui/CorrectionCard.tsx',
     cssBase: 'CorrectionCard',
-    description: 'Carte de travail soumis à corriger. Statut (pending/in-review/corrected/rejected), excerpt, feedback count, actions. Module #4 Coaching — corrections inbox.',
+    description: "Carte d'un travail à corriger : l'apprenant (Avatar sm, nom 16/600, date 13) et l'état en Badge, l'exercice en titre h3 sur deux lignes, la compétence en MetaPill, un extrait en 16 italique ink-700, puis deux Button sm. Statuts pending · in-review · corrected · rejected ; surface card ou tinted. Module 4, Coaching.",
     keywords: ['correction', 'coaching', 'travail', 'feedback', 'corrigé', 'apprenant', 'inbox'],
     usedBy: ['CoachingCorrections', 'CoachCorrectionsQueue', 'CoachCorrectionInterface'],
     render: () => (
@@ -6348,7 +6349,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'CongratulationsCard',
     codeName: 'patterns/CongratulationsCard.tsx',
     cssBase: 'CongratulationsCard',
-    description: 'Bloc de célébration de milestone (fin onboarding / parcours / module). Icône large + badge + heading + summary + XP reward optionnel. 4 tones (brand/warm/sun/success).',
+    description: "Bloc de fin d'étape (onboarding, parcours, module) : grande pastille d'icône, Badge large, titre h1 36 et chapô 18/28 ink-700 à 12 px. Le bloc XP optionnel (« +n XP », niveau, barre) relève de ce que l'arbitrage n°18 retire de l'app apprenant : il n'est plus montré ici.",
     keywords: ['congratulations', 'success', 'celebration', 'milestone', 'completion', 'reward', 'xp', 'onboarding'],
     usedBy: ['OnboardingSuccess'],
     render: () => (
@@ -6358,7 +6359,6 @@ const COMPONENTS: ComponentEntry[] = [
           badgeLabel="Profil complété !"
           title="Bienvenue sur The Learning Society"
           summary="Ton profil est configuré et ton passeport de compétences est prêt. Tu peux maintenant commencer ton parcours."
-          xp={{ earned: 150, current: 150, max: 500, levelLabel: 'Onboarding terminé' }}
         />
       </div>
     ),
@@ -6367,7 +6367,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'NextStepsGrid',
     codeName: 'patterns/NextStepsGrid.tsx',
     cssBase: 'NextStepsGrid',
-    description: 'Grille d\'action cards "et maintenant ?" — chaque card a icon tone-tinted + title + desc + CTA flèche. Tone par-item (mix brand/warm/sun pour varier les next paths). Responsive 1 → 3 cols.',
+    description: "Grille « Et maintenant ? » : une carte-bouton par piste (padding 24), pastille d'icône de 48 px teintée, titre h3 20, description 16 ink-700, action en 13/600 au cran 800 du ton. Ton par carte, pour varier les pistes ; une à trois colonnes.",
     keywords: ['next steps', 'actions', 'cta', 'cards', 'onboarding success', 'guide', 'next'],
     usedBy: ['OnboardingSuccess', 'EmptyDashboardState'],
     render: () => (
@@ -6386,7 +6386,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'EmptyDashboardState',
     codeName: 'patterns/EmptyDashboardState.tsx',
     cssBase: 'EmptyDashboardState',
-    description: 'Variante "cold-start" du Dashboard pour les apprenants qui viennent juste de terminer l\'onboarding. Remplace le Dashboard avec mock data par un welcome + NextStepsGrid des 3 actions canoniques.',
+    description: "Tableau de bord du premier jour, juste après l'onboarding : un titre h2 28 et une phrase 16 ink-700, puis une carte dominante — MetaPill « Premier pas », titre 20, texte 16, action — et la NextStepsGrid des pistes suivantes, en deux colonnes.",
     keywords: ['empty', 'cold start', 'first time', 'dashboard', 'welcome', 'onboarding', 'new user'],
     usedBy: ['Dashboard'],
     render: () => (
@@ -6401,7 +6401,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'ProgressDots',
     codeName: 'ui/ProgressDots.tsx',
     cssBase: 'ProgressDots',
-    description: 'Atom carousel/wizard progress indicator. Active dot widened (~3× width) pour communiquer la position. 3 tailles (xs/sm/md) · tone-aware (primary/warm/sun) · onSelect optionnel rend les dots cliquables. Remplace 3 implémentations ad-hoc (LessonPlayer tabs, AstucesViewer dots, FlashcardsViewer dots).',
+    description: "Points de progression d'un carrousel ou d'un assistant : le point actif s'allonge (16 · 24 · 32 px) pour dire la position. Tailles xs · sm · md (6 · 8 · 10 px), trois tons ; `onSelect` rend les points cliquables.",
     keywords: ['progress', 'dots', 'carousel', 'wizard', 'indicator', 'pagination'],
     usedBy: ['LessonNavigation', 'AstucesViewer', 'FlashcardsViewer', 'LessonPlayer'],
     render: () => {
@@ -6430,7 +6430,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'FlipCard',
     codeName: 'patterns/FlipCard.tsx',
     cssBase: 'FlipCard',
-    description: 'Carte 3D à retournement (flip). Front : image de fond + icône emoji + catégorie pill + titre. Verso : gradient tone-aware + contenu + détails optionnels. Mécanique CSS 3D : perspective 1500px, preserve-3d, rotateY(180deg), backfaceVisibility. Tone-aware (border + gradient).',
+    description: "Carte à retourner (rotation 3D). Au recto, une photo voilée, une bulle d'icône, la catégorie en MetaPill md, le titre (20, puis 28 dès 640 px) et une indication en 13/600 ; au verso, un dégradé au cran 700 du ton, la réponse en chapô 18/28 et le détail en 16. Tons primary · warm · sun ; hauteur réglable (380 par défaut).",
     keywords: ['flip', 'card', 'flashcard', '3d', 'rotate', 'learning', 'tone'],
     usedBy: ['FlashcardsViewer'],
     render: () => {
@@ -6453,12 +6453,12 @@ const COMPONENTS: ComponentEntry[] = [
           <FlipCard
             front={{
               image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1080&q=80',
-              icon: '🎯',
-              category: 'PROMPT ENGINEERING',
+              icon: <Target className="icon-xl" />,
+              category: 'Prompt engineering',
               title: 'Les 4 Piliers du Prompt',
             }}
             back={{
-              content: 'RÔLE — CONTEXTE — INSTRUCTION — FORMAT',
+              content: 'Rôle, contexte, instruction, format',
               details: 'Ces 4 éléments structurent un prompt clair pour obtenir les meilleurs résultats.',
             }}
             isFlipped={flipped}
@@ -6478,7 +6478,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'BehavioralTileGrid',
     codeName: 'patterns/BehavioralTileGrid.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: 'Grille auto-fit responsive de tuiles de piliers comportementaux / compétences. 4 palettes ton cycliques (primary/warm/sun/primary-alt). Chaque tuile : indicateur décoratif accentué + titre + description + pills optionnelles. Utilisé dans LessonPlayer (section Engagement) pour présenter les dimensions comportementales d\'une compétence, et dans le flow Onboarding (positionnement conversationnel) pour capturer le niveau Dreyfus via tuiles comportementales plutôt que labels 1-5 visibles.',
+    description: "Grille des piliers d'une compétence (auto-fit, 240 px au moins par tuile) : titre de section en h2 28, puis pour chaque tuile une pastille décorative de 40 px, 16 px, un titre h3 20, 8 px, la description 16 ink-700, 12 px, les étiquettes. Quatre fonds cycliques. Dans LessonPlayer (section Engagement) et dans le positionnement de l'onboarding.",
     keywords: ['behavioral', 'tile', 'grid', 'pillar', 'competence', 'engagement', 'lesson', 'viewer', 'auto-fit'],
     usedBy: ['LessonPlayer', 'OnboardingUnified', 'OnboardingQuestionnaireConversational'],
     render: () => (
@@ -6514,7 +6514,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'LessonNavigation',
     codeName: 'patterns/LessonNavigation.tsx',
     cssBase: 'LessonNavigation',
-    description: 'Footer molecule unifié pour LessonPlayer + 4 viewers. Layout : [Précédent] · dots · [Suivant / Terminer]. Tone-aware (primary/warm/sun), responsive (labels masqués mobile, dots gardés), disabled aux bornes. Quand `onFinish` fourni ET current === total → bouton suivant devient "Terminer" avec ✓.',
+    description: "Pied de navigation des lecteurs : [Précédent] · points · [Suivant ou Terminer]. Boutons soft md (44 px, 16/700), libellés masqués sous 640 px (icône seule avec son nom accessible), points ProgressDots sm. Au dernier écran, avec `onFinish`, « Suivant » devient « Terminer ».",
     keywords: ['navigation', 'lesson', 'prev', 'next', 'finish', 'footer', 'viewer'],
     usedBy: ['LessonPlayer', 'AstucesViewer', 'FlashcardsViewer'],
     render: () => {
@@ -6543,13 +6543,13 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'learning/AstucesCard.tsx',
     cssBase: 'AstucesCard (tip scroll-story card)',
     usedBy: ['AstucesViewer'],
-    description: 'Card "Astuce" pour le viewer scroll-story. Affiche un numéro, badge catégorie, image pleine largeur, titre, description et liste d\'exemples. Border colorée tone-aware (primary-400/secondary-400/accent-400). Ombre jaune-ambrée par défaut (sun tone). Tone-aware (primary/warm/sun).',
+    description: "Astuce du lecteur en défilement : numéro dans un carré de 40 px, catégorie en MetaPill, image, titre (20, puis 28 dès 640 px) ink-900, description 16 ink-700, exemples en rangées à 16 px. Filet 2 px au cran 400 du ton ; ton sun par défaut.",
     keywords: ['astuce', 'tip', 'viewer', 'scroll-story', 'card', 'learning', 'tone-aware', 'example'],
     render: () => (
       <div className="max-w-xl mx-auto">
         <AstucesCard
           number={1}
-          badge="ASTUCE PRODUCTIVITÉ"
+          badge="Productivité"
           image="https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=600&q=80"
           title="Raccourcis Clavier"
           description="Gagnez du temps avec les raccourcis essentiels pour naviguer rapidement dans l'application."
@@ -6565,7 +6565,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'learning/ResourceListItem.tsx',
     cssBase: 'ResourceListItem (resource row)',
     usedBy: ['MasterclassReplay', 'AtelierPresentiel'],
-    description: 'Ligne de ressource complémentaire : icône + label + badge optionnel + action slot. Se rend en `<button>` si `onClick` fourni, sinon `<div>`. Utilisé dans les sidebars "Matériaux" et "Ressources" des viewers masterclass et atelier.',
+    description: "Rangée de ressource complémentaire : icône, libellé 16/600 ink-900, badge et action à droite ; fond ink-50, rayon 14, padding 16. Rendue en `<button>` avec `onClick`, en `<div>` sinon. Dans les colonnes « Matériaux » et « Ressources » des lecteurs de masterclass et d'atelier.",
     keywords: ['resource', 'list', 'item', 'download', 'file', 'material', 'sidebar'],
     render: () => (
       <div className="flex flex-col gap-stack-xs max-w-sm">
@@ -6592,7 +6592,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/EtapeAccordion.tsx',
     cssBase: 'EtapeAccordion (step accordion)',
     usedBy: ['CourseDetail', 'LearningPathDetail'],
-    description: 'Accordéon d\'étape de parcours. Deux variants : `default` (liste compacte bordée, CourseDetail) et `panel` (grande card padded, LearningPathDetail). Prop `header` pour un slot custom (remplace title/duration). Prop `locked` : désactive le clic et masque le chevron (locked items = non-interactifs). Le `bodyClassName` contrôle le style du wrapper contenu.',
+    description: "Accordéon d'une étape de parcours : en-tête avec le titre en 16/600, 4 px, la durée en légende 13 ink-600, et un chevron de 20. Deux variantes : default (liste compacte bordée, CourseDetail) et panel (grande carte, LearningPathDetail). `header` remplace le titre et la durée ; `locked` désactive le clic et masque le chevron ; `bodyClassName` règle l'enveloppe du contenu.",
     keywords: ['accordion', 'step', 'etape', 'parcours', 'programme', 'expand', 'collapse', 'locked', 'lesson'],
     render: () => {
       const [open1, setOpen1] = React.useState(true);
@@ -6607,7 +6607,7 @@ const COMPONENTS: ComponentEntry[] = [
             className="mb-0"
             bodyClassName="px-stack pb-stack"
           >
-            <p className="text-body text-ink-600 pt-2 m-0">Contenu de l'étape — leçons, exercices, ressources.</p>
+            <p className="text-body text-ink-700 pt-2 m-0">Contenu de l'étape — leçons, exercices, ressources.</p>
           </EtapeAccordion>
           <EtapeAccordion
             title="Devenir prompt designer"
@@ -6617,7 +6617,7 @@ const COMPONENTS: ComponentEntry[] = [
             locked
             className="mb-0"
           >
-            <p className="text-body text-ink-600 pt-2 m-0">Contenu verrouillé</p>
+            <p className="text-body text-ink-700 pt-2 m-0">Contenu verrouillé</p>
           </EtapeAccordion>
         </div>
       );
@@ -6749,7 +6749,7 @@ const COMPONENTS: ComponentEntry[] = [
     cssBase: 'Tailwind (no BEM)',
     subCategory: 'List composites',
     usedBy: ['CoachEnterpriseDashboard', 'Leaderboard', 'Analytics'],
-    description: 'Table de données sémantique (`<table>`). Columns déclaratives via `ColumnDef<T>` (header + accessor + align + width). Props : **striped** (bandes alternées), **onRowClick** (hover tinted + cursor-pointer), **emptyLabel**, **caption**. Wrapper scrollable horizontal sur mobile.',
+    description: "Table sémantique à colonnes déclaratives (`ColumnDef` : en-tête, accesseur, alignement, largeur). En-têtes 13/600 ink-600 en casse normale, cellules 16 × 12, chiffres tabulaires, filets ink-100. Options : `striped`, `onRowClick`, `emptyLabel`, `caption` (13 ink-600). Défilement horizontal sur mobile.",
     keywords: ['table', 'données', 'colonnes', 'lignes', 'rows', 'sort', 'striped', 'data'],
     render: () => {
       type User = { id: string; name: string; role: string; score: number; status: string };
@@ -6770,11 +6770,11 @@ const COMPONENTS: ComponentEntry[] = [
       ];
       return (
         <div className="flex flex-col gap-section">
-          <p className="text-caption font-semibold text-ink-600 m-0">Default</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Par défaut</p>
           <SimpleTable columns={columns} rows={data} keyExtractor={(r) => r.id} />
-          <p className="text-caption font-semibold text-ink-600 m-0">Striped + clickable</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Rayée, rangées cliquables</p>
           <SimpleTable columns={columns} rows={data} keyExtractor={(r) => r.id} striped onRowClick={() => {}} />
-          <p className="text-caption font-semibold text-ink-600 m-0">Empty state</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Vide</p>
           <SimpleTable columns={columns} rows={[]} keyExtractor={(r) => r.id} emptyLabel="Aucun membre dans cette équipe" />
         </div>
       );
@@ -6851,7 +6851,7 @@ const COMPONENTS: ComponentEntry[] = [
     cssBase: 'Tailwind (no BEM)',
     subCategory: 'Form groups',
     usedBy: ['Onboarding', 'BookingModal', 'MultiStepForm'],
-    description: 'Indicateur de progression par étapes. Props : **steps** (`{ label, description? }[]`), **currentStep** (0-based index), **orientation** (`horizontal` | `vertical`), **tone** (primary/warm/sun). Bubble numérotée → ✓ check à la complétion. Connecteur animé entre les étapes.',
+    description: "Indicateur d'étapes d'un formulaire : pastilles de 32 px (chiffre 13/600 tabulaire), l'active au cran 700, les faites avec une coche. À l'horizontale, libellé 13/600 et description en 13 ; à la verticale, libellé 16/600 et description 13. L'étape active est au cran 800 du ton. Trois tons.",
     keywords: ['steps', 'étapes', 'onboarding', 'progression', 'wizard', 'checkout', 'stepper'],
     render: () => {
       const STEPS = [
@@ -6863,7 +6863,7 @@ const COMPONENTS: ComponentEntry[] = [
       return (
         <div className="flex flex-col gap-section">
           <div>
-            <p className="text-caption font-semibold text-ink-600 m-0 mb-3">Horizontal — step 2/4</p>
+            <p className="text-caption font-semibold text-ink-600 m-0 mb-3">Horizontal — étape 3 sur 4</p>
             <StepIndicator steps={STEPS} currentStep={2} orientation="horizontal" tone="primary" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-stack">
@@ -7022,7 +7022,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'JournalBubbleCard',
     codeName: 'cards/JournalBubbleCard.tsx',
     cssBase: 'JournalBubbleCard',
-    description: 'Bulle Apple Messages pour afficher les entrées journal dans la liste. Surface tintée par type, queue speech-bubble bas-droite, badge type pill, actions glass-light. 7 types : guided / free / learning / coaching / insight / questionnaire / compte-rendu.',
+    description: "Entrée du journal en bulle, la construction canonique de la famille bulle : rayon 20, filet 1 px, queue en bas à droite, padding 24, aucune ombre. Titre h3 20, date 13, type en pastille 13/500, extrait 16 ink-700, puis « Lire » (Button soft neutral) et « Continuer » (ghost). Sept types, chacun sa surface teintée.",
     keywords: ['journal', 'bubble', 'chat', 'entry', 'apple-messages', 'speech-bubble', 'glass-light', 'JournalBubbleType'],
     usedBy: ['Journal'],
     render: () => (
@@ -7379,7 +7379,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'ViewerProgressTrail',
     codeName: 'patterns/ViewerProgressTrail.tsx',
     cssBase: 'viewer-progress',
-    description: 'Progress indicator for step-by-step viewers (Astuces, Flashcards). Two display styles: dots (discrete steps) and bar (continuous percentage). Tone-aware colors (primary/warm/sun). Completion visual with gradient effect. Full a11y support: role="progressbar", aria-valuenow/valuemin/valuemax.',
+    description: "Progression d'un lecteur pas à pas (Astuces, Flashcards) : des points (8 px, 12 pour le courant) ou une barre de 6 px, trois tons. Sans texte ; `role=\"progressbar\"` et ses valeurs.",
     keywords: ['progress', 'viewer', 'steps', 'indicator', 'astuces', 'flashcards', 'lessonplayer'],
     usedBy: ['AstucesViewer', 'FlashcardsViewer'],
     toneAware: true,
@@ -7484,17 +7484,17 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'SettingsRow',
     codeName: 'patterns/SettingsRow.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: "Ligne de reglage : icone, libelle, description, et le controle a droite. `danger` pour les actions irreversibles. Brique des pages Compte, Facturation et Confidentialite.",
+    description: "Rangée de réglage : pastille d'icône (IconChip md), libellé 16/600 ink-900 (danger-fg si `danger`), 4 px, description 16 ink-700 à la largeur de lecture, et le contrôle à droite. SettingsToggleRow, dans le même fichier, y pose un Switch. Brique des pages Compte, Facturation et Confidentialité.",
     keywords: ['settings', 'reglage', 'row', 'compte', 'preferences', 'toggle', 'danger'],
     render: () => (
       <div className="flex flex-col rounded-xl border border-ink-200 bg-white divide-y divide-ink-100">
-        <SettingsRow icon={<Bell size={18} />} label="Notifications par e-mail" description="Un resume hebdomadaire, jamais le week-end">
+        <SettingsRow icon={<Bell size={18} />} label="Notifications par e-mail" description="Un résumé hebdomadaire, jamais le week-end">
           <Switch defaultChecked />
         </SettingsRow>
-        <SettingsRow icon={<Target size={18} />} label="Objectif hebdomadaire" description="Nombre de sessions visees">
+        <SettingsRow icon={<Target size={18} />} label="Objectif hebdomadaire" description="Nombre de sessions visées">
           <Badge variant="brand">3 sessions</Badge>
         </SettingsRow>
-        <SettingsRow icon={<LogOut size={18} />} label="Supprimer le compte" description="Action irreversible" danger>
+        <SettingsRow icon={<LogOut size={18} />} label="Supprimer le compte" description="Action irréversible" danger>
           <Button emphasis="solid" tone="danger" size="sm">Supprimer</Button>
         </SettingsRow>
       </div>
@@ -7698,7 +7698,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'StatCardSkeleton',
     codeName: 'patterns/SkeletonTemplates.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: "Squelette de StatCard. Reprend ses proportions exactes pour que le passage au contenu reel ne decale rien.",
+    description: "Squelette de StatCard : une pastille, la valeur et le libellé en blocs gris. ⚠️ Il ne reprend plus exactement les proportions de la carte (rayon 14 contre 20, padding 24 contre 20) : le passage au contenu réel décale légèrement.",
     keywords: ['skeleton', 'statcard', 'kpi', 'chargement', 'shimmer'],
     render: () => (
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-stack">
@@ -7742,7 +7742,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'CoachRow',
     codeName: 'patterns/CoachRow.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: "Ligne compacte d'identification du coach : initiales, nom, role, et un bouton de contact optionnel. Pour les en-tetes de session et les fils de correction, la ou une ProfileCard prendrait trop de place.",
+    description: "Rangée compacte qui identifie le coach : Avatar sm, nom 16/600, rôle en légende 13 ink-600 à 2 px, et un Button soft « Message » optionnel. Pour les en-têtes de session et les fils de correction, là où une ProfileCard prendrait trop de place.",
     keywords: ['coach', 'row', 'ligne', 'contact', 'session', 'identite', 'message'],
     render: () => (
       <div className="flex flex-col gap-stack">
