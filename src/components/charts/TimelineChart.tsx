@@ -31,29 +31,15 @@ const TYPE_LABEL: Record<EventType, string> = {
   achievement: 'Réussite',
 };
 
-/* Surface de la carte : fond au cran 50 et filet complet au 200. Plus de barre
- * d'accent à gauche (`border-l-4`) : c'est un tell proscrit, et sa couleur était
- * fabriquée par `'bg-primary-500'.replace('bg-', '#')` — une valeur CSS
- * invalide, donc la barre n'a jamais eu la couleur voulue. Le type se lit à la
- * pastille du rail et à l'étiquette ci-dessous. */
-const TYPE_SURFACE: Record<EventType, string> = {
-  lesson: 'bg-primary-50 border-primary-200',
-  session: 'bg-secondary-50 border-secondary-200',
-  badge: 'bg-accent-50 border-accent-200',
-  milestone: 'bg-success-bg border-success-base',
-  achievement: 'bg-accent-50 border-accent-200',
-};
-
-/* Texte de l'étiquette de type : cran 800 ou `-fg`, ≥ 4,5:1 sur le blanc de la
- * pastille. Les anciens `text-accent-600` / `text-secondary-700` n'y étaient pas
- * tous, et `bg-warm-100` / `bg-sun-100` n'existent pas dans l'échelle. */
-const TYPE_TEXT: Record<EventType, string> = {
-  lesson: 'text-primary-800',
-  session: 'text-secondary-800',
-  badge: 'text-accent-800',
-  milestone: 'text-success-fg',
-  achievement: 'text-accent-800',
-};
+/* Un événement n'est PLUS une carte — révisé le 2026-09-24.
+ * Chaque événement était une boîte bordée au fond teinté de son type (cran 50,
+ * filet 200, rayon 14, padding 16). Posée dans la carte de sa section, au
+ * Passeport, la frise rendait cinq cartes dans une carte, en quatre teintes :
+ * une carte dans une carte, et l'effet « sapin de Noël » de DESIGN.md § 11. La
+ * frise est une collection : ses événements sont des rangées dans UNE carte,
+ * celle de la page (arbitrage n°5). Le type se lit à la pastille du rail et à
+ * sa légende ; le texte part du rail, sans boîte.
+ * (La barre d'accent `border-l-4` d'avant la boîte reste proscrite.) */
 
 const DOT_COLORS: Record<EventType, string> = {
   lesson: 'bg-primary-500',
@@ -63,25 +49,20 @@ const DOT_COLORS: Record<EventType, string> = {
   achievement: 'bg-accent-500',
 };
 
-/* Survol, seulement quand l'événement est cliquable : le filet se ferme d'un cran
- * (règle carte du 2026-09-16, ni ombre ni soulèvement). */
-const TYPE_HOVER_BORDER: Record<EventType, string> = {
-  lesson: 'hover:border-primary-300',
-  session: 'hover:border-secondary-300',
-  badge: 'hover:border-accent-300',
-  milestone: 'hover:border-success-vivid',
-  achievement: 'hover:border-accent-300',
-};
+/* Cliquable : aucune boîte au repos ; au survol, un fond ink-50 qui déborde de
+ * 8 px (marge négative = padding), pour que le texte ne bouge pas. Ni ombre ni
+ * soulèvement (règle carte du 2026-09-16). */
+const EVENEMENT_CLIQUABLE =
+  'w-full cursor-pointer text-left rounded-lg -m-stack-xs p-stack-xs hover:bg-ink-50 transition-colors';
 
 const FOCUS_RING =
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-900 focus-visible:ring-offset-2 focus-visible:ring-offset-white';
 
-/* Le type d'événement est une DONNÉE : il chuchote, au registre de `MetaPill`
- * (casse normale, graisse 500), pas à celui d'un état. */
+/* Le type d'événement est une DONNÉE : il chuchote, en légende (13, ink-600),
+ * sa couleur portée par la seule pastille. C'était une pilule blanche au texte
+ * teinté, qui ne se lisait comme pilule que sur le fond teinté de la boîte. */
 const TypeTag: React.FC<{ type: EventType }> = ({ type }) => (
-  <span
-    className={`inline-flex items-center gap-stack-3xs rounded-pill bg-white px-2 py-0.5 text-caption font-medium ${TYPE_TEXT[type]}`}
-  >
+  <span className="inline-flex items-center gap-stack-2xs text-caption text-ink-600">
     <span aria-hidden="true" className={`size-2 shrink-0 rounded-pill ${DOT_COLORS[type]}`} />
     {TYPE_LABEL[type]}
   </span>
@@ -126,21 +107,14 @@ export const TimelineChart: React.FC<TimelineChartProps> = ({
 
   const interactive = Boolean(onEventClick);
 
-  const cardClasses = (type: EventType, base: string) =>
-    [
-      base,
-      'border',
-      TYPE_SURFACE[type],
-      interactive ? `w-full cursor-pointer text-left transition-colors ${TYPE_HOVER_BORDER[type]} ${FOCUS_RING}` : '',
-    ]
-      .filter(Boolean)
-      .join(' ');
+  const evenementClasses = (base: string) =>
+    [base, interactive ? `${EVENEMENT_CLIQUABLE} ${FOCUS_RING}` : ''].filter(Boolean).join(' ');
 
   if (layout === 'horizontal') {
     return (
       <ol aria-label={ariaLabel} className={`flex gap-stack overflow-x-auto pb-4 ${className}`}>
         {displayEvents.map((event) => {
-          const Card = interactive ? 'button' : 'div';
+          const Evenement = interactive ? 'button' : 'div';
           return (
             <li key={event.id} className="flex flex-col items-center gap-stack-xs flex-shrink-0 w-40">
               <time dateTime={event.date} className="text-caption text-ink-600 font-semibold tabular-nums">
@@ -149,16 +123,16 @@ export const TimelineChart: React.FC<TimelineChartProps> = ({
 
               <span aria-hidden="true" className={`size-4 rounded-pill ${DOT_COLORS[event.type]}`} />
 
-              <Card
+              <Evenement
                 {...(interactive ? { type: 'button' as const, onClick: () => onEventClick?.(event) } : {})}
-                className={cardClasses(event.type, 'flex flex-col items-center gap-stack-3xs p-2.5 rounded-md text-center')}
+                className={evenementClasses('flex flex-col items-center gap-stack-3xs text-center')}
               >
                 <span className="text-body font-semibold text-ink-900 line-clamp-2">{event.label}</span>
                 {event.description && (
                   <span className="text-caption text-ink-700 line-clamp-2">{event.description}</span>
                 )}
                 <TypeTag type={event.type} />
-              </Card>
+              </Evenement>
             </li>
           );
         })}
@@ -170,38 +144,38 @@ export const TimelineChart: React.FC<TimelineChartProps> = ({
   return (
     <ol aria-label={ariaLabel} className={`flex flex-col gap-stack-lg ${className}`}>
       {displayEvents.map((event, idx) => {
-        const Card = interactive ? 'button' : 'div';
+        const Evenement = interactive ? 'button' : 'div';
         return (
           <li key={event.id} className="flex gap-stack">
-            {/* Rail : date + pastille + trait vers l'événement suivant */}
-            <div className="flex flex-col items-center gap-stack-xs">
+            {/* Rail : date + pastille + trait jusqu'au bas de la rangée. `pt-1`
+                cale la ligne de base de la date (13/20) sur celle du titre
+                (16/26) : 4 px d'écart entre les deux. */}
+            <div className="flex flex-col items-center gap-stack-xs pt-1">
               {/* 96 px : à 80, « 20 mars 2026 » se coupait sur deux lignes. */}
               <time dateTime={event.date} className="text-caption text-ink-600 font-semibold tabular-nums w-24 text-right">
                 {formatDate(event.date, true)}
               </time>
               <span aria-hidden="true" className={`size-4 rounded-pill ring-4 ring-white ${DOT_COLORS[event.type]}`} />
-              {idx < displayEvents.length - 1 && <span aria-hidden="true" className="w-0.5 h-16 bg-ink-200" />}
+              {idx < displayEvents.length - 1 && <span aria-hidden="true" className="w-0.5 flex-1 min-h-8 bg-ink-200" />}
             </div>
 
-            <div className="flex-1 mt-1">
-              <Card
+            <div className="flex-1 min-w-0">
+              <Evenement
                 {...(interactive ? { type: 'button' as const, onClick: () => onEventClick?.(event) } : {})}
-                className={cardClasses(event.type, 'block p-4 rounded-lg')}
+                className={evenementClasses('flex items-start gap-stack-xs')}
               >
-                <span className="flex items-start gap-stack-xs">
-                  {event.icon && <span className="flex-shrink-0 mt-1">{event.icon}</span>}
-                  <span className="flex flex-1 flex-col items-start gap-stack-3xs">
-                    <span className="text-body font-semibold text-ink-900">{event.label}</span>
-                    {event.description && (
-                      <span className="text-body text-ink-700">{event.description}</span>
-                    )}
-                    {/* Texte → méta : 12 (4 de gap + 8), l'anatomie de carte. */}
-                    <span className="mt-stack-xs">
-                      <TypeTag type={event.type} />
-                    </span>
+                {event.icon && <span className="flex-shrink-0 mt-1">{event.icon}</span>}
+                <span className="flex flex-1 flex-col items-start gap-stack-3xs">
+                  <span className="text-body font-semibold text-ink-900">{event.label}</span>
+                  {event.description && (
+                    <span className="text-body text-ink-700 max-w-prose">{event.description}</span>
+                  )}
+                  {/* Texte → méta : 12 (4 de gap + 8), l'anatomie de carte. */}
+                  <span className="mt-stack-xs">
+                    <TypeTag type={event.type} />
                   </span>
                 </span>
-              </Card>
+              </Evenement>
             </div>
           </li>
         );
