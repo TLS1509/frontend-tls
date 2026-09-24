@@ -65,7 +65,7 @@ const MOCK_REPORTS: Record<string, SessionReport> = {
     coach: {
       name: 'Sophie Marchand',
       initials: 'SM',
-      speciality: 'Coach certifiée: Leadership & Développement managérial',
+      speciality: 'Coach certifiée en leadership et développement managérial',
       rating: 5,
     },
     takeaways: [

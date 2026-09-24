@@ -14,8 +14,8 @@ export const PreCoachingQuestionnaireResponse: React.FC = () => {
   return (
     <Container width="medium" className="py-section flex flex-col gap-section">
       <EditorialHero
-        eyebrow={{ icon: <Sparkles size={14} />, label: 'Coaching prep' }}
-        title="Questionnaire Response"
+        eyebrow={{ icon: <Sparkles size={14} />, label: 'Préparation du coaching' }}
+        title="Ton questionnaire de préparation"
         summary="Vue de restitution des réponses envoyées au coach, utilisées pour personnaliser ta prochaine session."
         meta={[
           { icon: <CalendarDays size={14} />, label: 'Session prévue mardi 14:30' },

@@ -64,7 +64,7 @@ const CorrectionDetailLearner: React.FC = () => {
       <EditorialHero
         eyebrow={{ label: 'Coaching · Ma correction' }}
         title={correction.exerciseTitle}
-        summary={`Soumis le ${formatDate(correction.submittedAt)} · Iteration ${correction.iterationCount + 1}`}
+        summary={`Soumis le ${formatDate(correction.submittedAt)} · Itération ${correction.iterationCount + 1}`}
         tone="flat"
         trailing={
           <Button emphasis="outline" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate('/coaching/corrections')}>

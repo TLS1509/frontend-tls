@@ -64,7 +64,7 @@ export const CoachingBookingFlow: React.FC = () => {
     <Container width="medium" className="py-section flex flex-col gap-section">
       <EditorialHero
         eyebrow={{ icon: <Sparkles size={14} />, label: 'Coaching personnalisé' }}
-        title="Coaching Booking Flow"
+        title="Réserve ta session"
         summary="Réservation de session coaching : créneau, contexte, validation et questionnaire pré-session."
       />
 
@@ -92,13 +92,13 @@ export const CoachingBookingFlow: React.FC = () => {
                 {
                   id: 'slot-1',
                   title: 'Lundi 09:00',
-                  description: 'Coach : Sophie Marchand',
+                  description: 'Avec Sophie Marchand',
                   onClick: () => setSelectedSlot('slot-1'),
                 },
                 {
                   id: 'slot-2',
                   title: 'Mardi 14:30',
-                  description: 'Coach : Sophie Marchand',
+                  description: 'Avec Sophie Marchand',
                   onClick: () => setSelectedSlot('slot-2'),
                 },
               ]}

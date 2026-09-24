@@ -23,7 +23,7 @@ const STEPS = [
   {
     id: 'objectifs',
     step: 'ÉTAPE 1',
-    label: 'VOS OBJECTIFS',
+    label: 'TES OBJECTIFS',
     icon: <Target size={20} />,
     question: 'Quels sont tes objectifs principaux pour cette session de coaching ?',
     placeholder: 'Décris en détail tes attentes et ce que tu souhaites accomplir...',
@@ -31,7 +31,7 @@ const STEPS = [
   {
     id: 'defis',
     step: 'ÉTAPE 2',
-    label: 'VOS DÉFIS',
+    label: 'TES DÉFIS',
     icon: <Lightbulb size={20} />,
     question: 'Quels défis ou obstacles rencontres-tu actuellement ?',
     placeholder: 'Partage les difficultés que tu rencontres dans ton parcours...',

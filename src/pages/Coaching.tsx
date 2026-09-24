@@ -70,7 +70,7 @@ interface UpcomingSession {
 const INITIAL_UPCOMING: UpcomingSession = {
   title: 'Session de coaching IA',
   dateLabel: 'Mardi 30 avril 2026',
-  hourLabel: '14:00 - 15:00',
+  hourLabel: '14:00 – 15:00',
 };
 
 
@@ -97,9 +97,9 @@ export const Coaching: React.FC = () => {
     if (!active) return null;
     const d = new Date(active.scheduledAt);
     return {
-      title: active.theme ?? `Session coaching: ${active.coachName}`,
+      title: active.theme ?? `Session avec ${active.coachName}`,
       dateLabel: d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }),
-      hourLabel: `${d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}: ${new Date(d.getTime() + active.durationMinutes * 60_000).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}`,
+      hourLabel: `${d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })} – ${new Date(d.getTime() + active.durationMinutes * 60_000).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}`,
     };
   }, [storeSessions]);
 
@@ -132,7 +132,7 @@ export const Coaching: React.FC = () => {
       .filter((s) => s.status === 'completed')
       .map((s) => ({
         id: s.id,
-        title: s.theme ?? `Session coaching: ${s.coachName}`,
+        title: s.theme ?? `Session avec ${s.coachName}`,
         coachName: s.coachName,
         description: s.coachSpeciality ?? '',
         dateLabel: new Date(s.scheduledAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }),
