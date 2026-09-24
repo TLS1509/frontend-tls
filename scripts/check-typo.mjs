@@ -6,6 +6,7 @@
  *   node scripts/check-typo.mjs                   # routes de l'app (sans le site)
  *   node scripts/check-typo.mjs --route /passeport --detail
  *   node scripts/check-typo.mjs --site            # avec /website/*
+ *   node scripts/check-typo.mjs --params          # + routes à paramètre (:id → 1)
  *   node scripts/check-typo.mjs --json <fichier>  # tout le relevé, pour analyse
  *
  * Né le 2026-09-24, avec les arbitrages n°20 (texte courant à 16 px) et n°21
@@ -95,7 +96,7 @@ const sonde = (echelle) => {
 };
 
 const unique = arg('--route');
-const routes = unique ? [unique] : routesStatiques({ site: process.argv.includes('--site') });
+const routes = unique ? [unique] : routesStatiques({ site: process.argv.includes('--site'), params: process.argv.includes('--params') });
 const res = await parcourir(routes, `(${sonde.toString()})(${JSON.stringify(ECHELLE)})`, {});
 
 // Recensement global : taille × graisse × famille.

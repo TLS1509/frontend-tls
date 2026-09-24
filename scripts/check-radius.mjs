@@ -102,7 +102,7 @@ const sonde = () => {
 };
 
 const unique = arg('--route');
-const routes = unique ? [unique] : routesStatiques({ site: !process.argv.includes('--app') });
+const routes = unique ? [unique] : routesStatiques({ site: !process.argv.includes('--app'), params: process.argv.includes('--params') });
 const largeur = Number(arg('--largeur') ?? 1440);
 
 const res = await parcourir(routes, sonde, { largeur });

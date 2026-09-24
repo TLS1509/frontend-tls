@@ -6,6 +6,7 @@
  *   node scripts/check-rythme.mjs                # routes de l'app
  *   node scripts/check-rythme.mjs --route /passeport --detail
  *   node scripts/check-rythme.mjs --route /passeport --tout   # chaque titre mesuré
+ *   node scripts/check-rythme.mjs --params       # + routes à paramètre (:id → 1)
  *
  * Né le 2026-09-24. Un titre appartient à ce qu'il introduit : l'espace AU-DESSUS
  * d'un titre doit être nettement plus grand que l'espace EN DESSOUS (loi de
@@ -103,7 +104,7 @@ const sonde = () => {
 };
 
 const unique = arg('--route');
-const routes = unique ? [unique] : routesStatiques({ site: process.argv.includes('--site') });
+const routes = unique ? [unique] : routesStatiques({ site: process.argv.includes('--site'), params: process.argv.includes('--params') });
 const res = await parcourir(routes, sonde, {});
 
 const gaps = {};
