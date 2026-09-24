@@ -39,7 +39,7 @@ const mapLegacyColor = (color?: BadgeVariant | 'primary'): BadgeVariant => {
 };
 
 const BASE =
-  'inline-flex items-center gap-tight rounded-pill font-body font-bold uppercase leading-tight whitespace-nowrap border';
+  'inline-flex items-center gap-stack-3xs rounded-pill font-body font-bold uppercase leading-tight whitespace-nowrap border';
 
 /* Un seul serrage, pris au token `--tracking-label`. Les trois valeurs
    arbitraires précédentes — 0,06 · 0,05 · 0,04 — n'étaient pas une courbe :
