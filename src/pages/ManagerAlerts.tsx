@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
-import { Bell, Plus, Trash2, CheckCircle2, AlertTriangle } from 'lucide-react';
-import { EditorialHero } from '../components/patterns/EditorialHero';
-import { SectionCard } from '../components/patterns/SectionCard';
+import { Plus, CheckCircle2 } from 'lucide-react';
+import { PageHero } from '../components/patterns/EditorialHero';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
+import { StatCard } from '../components/ui/StatCard';
 import { FormGroup } from '../components/core/FormGroup';
 import { Input } from '../components/core/Input';
 import { Select } from '../components/core/Select';
 import { DataTable, type DataTableColumn } from '../components/patterns/DataTable';
 import { Alert } from '../components/ui/Alert';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
 
@@ -60,7 +61,7 @@ const TABLE_COLUMNS: DataTableColumn[] = [
   { key: 'trigger', label: 'Déclencheur', sortable: false },
   { key: 'recipients', label: 'Destinataires', sortable: false },
   { key: 'status', label: 'Statut', sortable: true, sortValue: (r) => r.statusTri as string },
-  { key: 'triggerCount', label: 'Déclenchements', sortable: true, sortValue: (r) => r.triggerCountTri as number },
+  { key: 'triggerCount', label: 'Déclenchements', sortable: true, align: 'right', sortValue: (r) => r.triggerCountTri as number },
 ];
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -82,14 +83,19 @@ export default function ManagerAlerts() {
         {a.status === 'active' ? 'Active' : 'En pause'}
       </Badge>
     ),
-    triggerCount: <span className="text-body font-semibold text-ink-900">{a.triggerCount}</span>,
+    triggerCount: <span className="font-semibold text-ink-900 tabular-nums">{a.triggerCount}</span>,
   }));
 
+  /* Passe typographique du 2026-09-24 : une seule coque (`PageShell`, un seul
+     bord gauche) ; les compteurs faits main — chiffre centré en teal, légende
+     au gris des placeholders — prennent `StatCard`, comme les autres pages de
+     l'espace manager ; les titres de section sont des h2 posés hors des
+     cartes, et la table n'est plus une carte dans une carte. */
   return (
-    <div className="flex flex-col gap-section">
-      <EditorialHero
-        eyebrow="Manager · Configuration"
-        title="Alertes & Notifications"
+    <PageShell width="page">
+      <PageHero
+        eyebrow="Espace Manager"
+        title="Alertes et notifications"
         summary="Configurez les alertes automatiques pour suivre l'engagement de votre équipe et anticiper les situations à risque."
         tone="flat"
         trailing={
@@ -99,28 +105,19 @@ export default function ManagerAlerts() {
         }
       />
 
-      <Container width="page" padding={false} className="px-stack md:px-section flex flex-col gap-section">
+      {/* Chiffres */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
+        <StatCard label="Alertes configurées" value={ALERTS.length} size="sm" />
+        <StatCard label="Alertes actives" value={activeCount} size="sm" />
+        <StatCard label="Déclenchements ce mois" value={totalTriggers} size="sm" />
+      </div>
 
-        {/* Summary */}
-        <div className="grid grid-cols-3 gap-stack">
-          <Card variant="tinted" tone="primary" className="flex flex-col items-center justify-center py-stack-md gap-tight">
-            <span className="text-h2 font-display font-bold text-primary-700">{ALERTS.length}</span>
-            <span className="text-caption text-ink-500">Alertes configurées</span>
-          </Card>
-          <Card variant="tinted" tone="primary" className="flex flex-col items-center justify-center py-stack-md gap-tight">
-            <span className="text-h2 font-display font-bold text-primary-700">{activeCount}</span>
-            <span className="text-caption text-ink-500">Alertes actives</span>
-          </Card>
-          <Card variant="tinted" tone="primary" className="flex flex-col items-center justify-center py-stack-md gap-tight">
-            <span className="text-h2 font-display font-bold text-primary-700">{totalTriggers}</span>
-            <span className="text-caption text-ink-500">Déclenchements ce mois</span>
-          </Card>
-        </div>
-
-        {/* New alert form */}
-        {showNewForm && (
-          <SectionCard title="Nouvelle alerte" titleIcon={<Plus size={18} />}>
-            <Alert variant="info" className="mb-stack">
+      {/* New alert form */}
+      {showNewForm && (
+        <section className="flex flex-col gap-stack">
+          <SectionHeader title="Nouvelle alerte" />
+          <Card className="flex flex-col gap-stack-lg">
+            <Alert variant="info">
               Les alertes sont envoyées par email aux destinataires configurés.
             </Alert>
             <div className="grid md:grid-cols-2 gap-stack">
@@ -129,7 +126,7 @@ export default function ManagerAlerts() {
                   id="alert-name"
                   value={newAlertName}
                   onChange={(e) => setNewAlertName(e.target.value)}
-                  placeholder="Ex: Inactivité prolongée"
+                  placeholder="Ex. : Inactivité prolongée"
                 />
               </FormGroup>
               <FormGroup label="Condition de déclenchement" id="alert-trigger">
@@ -138,7 +135,7 @@ export default function ManagerAlerts() {
                   <option value="inactivity-7">Inactif depuis 7 jours</option>
                   <option value="inactivity-14">Inactif depuis 14 jours</option>
                   <option value="no-dreyfus-30">Pas de progression Dreyfus 30 jours</option>
-                  <option value="credits-low">Crédits coaching &lt; 10%</option>
+                  <option value="credits-low">Crédits coaching &lt; 10 %</option>
                   <option value="badge-earned">Badge compétence obtenu</option>
                   <option value="session-missed">Session coaching manquée</option>
                 </Select>
@@ -159,7 +156,7 @@ export default function ManagerAlerts() {
                 </Select>
               </FormGroup>
             </div>
-            <div className="flex gap-stack-xs mt-stack">
+            <div className="flex flex-wrap gap-stack-xs">
               <Button emphasis="soft" size="md" leadingIcon={<CheckCircle2 size={16} />}>
                 Créer l'alerte
               </Button>
@@ -167,18 +164,18 @@ export default function ManagerAlerts() {
                 Annuler
               </Button>
             </div>
-          </SectionCard>
-        )}
+          </Card>
+        </section>
+      )}
 
-        {/* Alerts table */}
-        <SectionCard title="Alertes configurées" titleIcon={<Bell size={18} />}>
-          <DataTable
-            columns={TABLE_COLUMNS}
-            rows={tableRows}
-          />
-        </SectionCard>
-
-      </Container>
-    </div>
+      {/* Alerts table — `DataTable` porte sa propre coque. */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader title="Alertes configurées" />
+        <DataTable
+          columns={TABLE_COLUMNS}
+          rows={tableRows}
+        />
+      </section>
+    </PageShell>
   );
 }
