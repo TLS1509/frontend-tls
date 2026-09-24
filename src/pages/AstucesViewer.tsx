@@ -15,11 +15,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { ChevronRight, Home } from 'lucide-react';
+import { Home } from 'lucide-react';
 import { ViewerHeader } from '../components/patterns/ViewerHeader';
 import { LessonNavigation } from '../components/patterns/LessonNavigation';
 import { ViewerProgressTrail } from '../components/patterns/ViewerProgressTrail';
 import { AstucesCard } from '../components/learning/AstucesCard';
+import { Breadcrumb } from '../components/ui/Breadcrumb';
 import { CompletionModal } from '../components/modals';
 import { useLessonContext, resolveAfterLessonRoute } from '../lib/lesson-context';
 import { useLessonProgressStore } from '../stores/persistence';
@@ -40,12 +41,12 @@ const ASTUCES: Astuce[] = [
   {
     id: 1,
     number: 1,
-    title: 'Raccourcis Clavier',
+    title: 'Raccourcis clavier',
     description:
       "Gagnez du temps avec les raccourcis essentiels pour naviguer rapidement dans l'application et optimiser votre workflow quotidien.",
     image:
       'https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=1080&q=80',
-    badge: 'ASTUCE PRODUCTIVITÉ',
+    badge: 'Productivité',
     examples: [
       'Ctrl+Shift+P : Ouvrir la palette de commandes',
       'Ctrl+K : Recherche rapide de fichiers',
@@ -60,7 +61,7 @@ const ASTUCES: Astuce[] = [
       'Structurez vos projets avec une nomenclature claire et cohérente pour retrouver vos documents facilement et collaborer efficacement.',
     image:
       'https://images.unsplash.com/photo-1568667256549-094345857637?auto=format&fit=crop&w=1080&q=80',
-    badge: 'ASTUCE ORGANISATION',
+    badge: 'Organisation',
     examples: [
       'Utilisez des dossiers par projet ou client',
       'Nommez vos fichiers avec dates (YYYY-MM-DD)',
@@ -75,7 +76,7 @@ const ASTUCES: Astuce[] = [
       "Créez des templates réutilisables et des workflows automatisés pour gagner en efficacité et réduire les tâches répétitives.",
     image:
       'https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1080&q=80',
-    badge: 'ASTUCE AUTOMATION',
+    badge: 'Automatisation',
     examples: [
       'Créez des templates pour vos documents récurrents',
       "Utilisez des outils d'automatisation (Zapier, Make)",
@@ -90,7 +91,7 @@ const ASTUCES: Astuce[] = [
       'Utilisez les outils de partage et commentaires pour travailler efficacement avec votre équipe et maintenir une communication fluide.',
     image:
       'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1080&q=80',
-    badge: 'ASTUCE COLLABORATION',
+    badge: 'Collaboration',
     examples: [
       'Utilisez les commentaires pour donner du feedback',
       'Partagez vos documents avec des permissions adaptées',
@@ -182,13 +183,15 @@ export const AstucesViewer: React.FC = () => {
       aria-modal="true"
       aria-labelledby="astuces-title"
     >
-      {/* ── Header (sticky, no shrink) ────────────────────────────────── */}
+      {/* ── Header (sticky, no shrink) ────────────────────────────────────
+          Passe typographique du 24/09 : la barre ne porte plus le titre (elle
+          le tenait en h1 à 16 px, précédé d'un émoji 💡 et doublé par le
+          surtitre « Astuces pratiques ») mais une seule ligne de méta, 13 px.
+          Le titre de l'écran est le h1 du contenu, et c'est lui qui nomme la
+          boîte de dialogue (`astuces-title`). */}
       <ViewerHeader
-        titleAs="h1"
-        titleId="astuces-title"
         tone={tone}
         eyebrow="Astuces pratiques"
-        title={lessonCtx ? lessonCtx.lesson.title : '💡 Astuces Pratiques'}
         subtitle={lessonCtx ? `Leçon ${lessonCtx.lesson.index} / ${lessonCtx.lesson.total}` : undefined}
         current={currentIndex + 1}
         total={total}
@@ -197,36 +200,38 @@ export const AstucesViewer: React.FC = () => {
         className="shrink-0"
       />
 
-      {/* ── Breadcrumb navigation (clickable) ──────────────────────────── */}
+      {/* ── Breadcrumb navigation (clickable) — le composant du système :
+          13 px, liens en 400, page courante en 600. Il était fait main en
+          11 px et 500. ─────────────────────────────────────────────────── */}
       {lessonCtx && (
-        <div className="shrink-0 px-4 sm:px-6 lg:px-10 py-1 flex items-center gap-stack-3xs text-micro text-ink-600 font-medium">
-          <button
-            type="button"
-            onClick={() => navigate(`/learning-paths/${lessonCtx.parcoursId}`)}
-            className="inline-flex items-center gap-stack-3xs hover:text-primary-700 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
-          >
-            <Home size={14} aria-hidden />
-            {MOCK_PARCOURS_DATA[lessonCtx.parcoursId]?.title || 'Parcours'}
-          </button>
-          <ChevronRight size={14} aria-hidden className="opacity-50" />
-          <button
-            type="button"
-            onClick={() => navigate(`/learning-paths/${lessonCtx.parcoursId}/lessons/${lessonCtx.lesson.id}`)}
-            className="hover:text-primary-700 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
-          >
-            {lessonCtx.lesson.title}
-          </button>
-          <ChevronRight size={14} aria-hidden className="opacity-50" />
-          <span className="text-ink-500">Astuce {currentIndex + 1}/{total}</span>
+        <div className="shrink-0 px-4 sm:px-6 lg:px-10 py-1">
+          <Breadcrumb
+            variant="nav"
+            items={[
+              { label: MOCK_PARCOURS_DATA[lessonCtx.parcoursId]?.title || 'Parcours', icon: <Home size={14} /> },
+              { label: lessonCtx.lesson.title },
+              { label: `Astuce ${currentIndex + 1}/${total}` },
+            ]}
+            onNavigate={(i) => {
+              if (i === 0) navigate(`/learning-paths/${lessonCtx.parcoursId}`);
+              else if (i === 1) navigate(`/learning-paths/${lessonCtx.parcoursId}/lessons/${lessonCtx.lesson.id}`);
+            }}
+          />
         </div>
       )}
 
-      {/* ── Content container (grows, no scroll) ──────────────────────── */}
-      <div className="flex-1 flex flex-col min-h-0 px-4 sm:px-6 lg:px-10 py-2 gap-stack-xs overflow-hidden">
-        <div className="max-w-4xl mx-auto flex flex-col gap-stack-xs w-full">
+      {/* ── Content container — il défile si l'écran est trop court : centrée
+          dans une zone `overflow-hidden`, la carte perdait son haut (la
+          pastille numérotée) et son bas à 375 px. ────────────────────────── */}
+      <div className="flex-1 flex flex-col min-h-0 px-4 sm:px-6 lg:px-10 pt-section pb-stack overflow-x-hidden overflow-y-auto">
+        <div className="max-w-4xl mx-auto flex flex-col gap-stack w-full">
 
-          {/* ── Progress trail dots ──────────────────────────────────────── */}
-          <div className="flex justify-center">
+          {/* ── Titre de l'écran : h1 36, centré (une ou deux lignes) sur
+              l'axe de la carte ; les points d'avancement lui sont collés. ── */}
+          <div className="flex flex-col items-center gap-stack-sm">
+            <h1 id="astuces-title" className="font-display text-h1 text-ink-900 text-center text-balance">
+              {lessonCtx ? lessonCtx.lesson.title : 'Astuces pratiques'}
+            </h1>
             <ViewerProgressTrail
               current={currentIndex}
               total={total}
@@ -236,7 +241,10 @@ export const AstucesViewer: React.FC = () => {
           </div>
 
           {/* ── Main card with slide transition (height-constrained) ──── */}
-          <div className="overflow-hidden flex-1 flex items-center justify-center min-h-0">
+          {/* La zone de glissement laisse passer la pastille numérotée, qui
+              dépasse de la carte de 16 px en haut et de 8 à gauche sous 640 px :
+              elle était rognée. */}
+          <div className="overflow-x-hidden pt-stack -mx-2 px-2">
             <AnimatePresence mode="wait" custom={direction}>
               <motion.div
                 key={currentIndex}
@@ -285,7 +293,7 @@ export const AstucesViewer: React.FC = () => {
 
       <CompletionModal
         isOpen={showCompletion}
-        itemTitle={lessonCtx?.lesson.title ?? 'Astuces Pratiques'}
+        itemTitle={lessonCtx?.lesson.title ?? 'Astuces pratiques'}
         xpEarned={50}
         onClose={() => {
           setShowCompletion(false);

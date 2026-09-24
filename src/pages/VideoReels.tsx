@@ -182,6 +182,11 @@ const REELS: Reel[] = [
   },
 ];
 
+/* Espaces insécables du français : avant « : » et entre un nombre et ce
+   qu'il compte. Sans eux, le titre à 36 px cassait « Prompt tips : 3 /
+   techniques ». */
+const insecable = (t: string) => t.replace(/ :/g, '\u00A0:').replace(/(\d) /g, '$1\u00A0');
+
 /* ─── Bouton action latéral ──────────────────────────────────────────────── */
 
 interface ActionBtnProps {
@@ -208,7 +213,7 @@ const ActionBtn: React.FC<ActionBtnProps> = ({ onClick, liked, saved, label, chi
         {children}
       </button>
       {label && (
-        <span className="font-body text-caption text-white/70 font-semibold tracking-wider">
+        <span className="font-body text-caption text-white/85 font-semibold tabular-nums">
           {label}
         </span>
       )}
@@ -275,8 +280,10 @@ export const VideoReels: React.FC = () => {
         ].join(' ')}
       />
 
-      {/* ── Barre haute flottante ─────────────────────────────────── */}
-      <div className="fixed top-0 left-0 right-0 z-sticky px-stack-lg py-stack-md flex items-center justify-between gap-stack bg-gradient-to-b from-black/65 to-transparent">
+      {/* ── Barre haute flottante ─────────────────────────────────────────
+          Ancrée sur la page, plus sur la fenêtre : en `fixed left-0`, elle
+          passait sous la barre latérale et « Retour » recouvrait le logo. */}
+      <div className="absolute top-0 left-0 right-0 z-sticky px-stack-lg py-stack-md flex items-center justify-between gap-stack bg-gradient-to-b from-black/65 to-transparent">
 
         <button
           onClick={() => navigate('/veille')}
@@ -345,27 +352,31 @@ export const VideoReels: React.FC = () => {
           <div className="absolute top-0 left-0 right-0 px-stack-lg pt-16 pb-section bg-gradient-to-b from-black/65 to-transparent z-10">
             <div className="flex items-center gap-stack-xs mb-stack-xs">
               <span className="inline-flex items-center justify-center">{video.icon}</span>
+              {/* La catégorie est une donnée : une puce (500, pilule sous 28 px),
+                  plus une étiquette en gras. */}
               <span
                 className={[
-                  'font-body text-caption font-bold px-2 py-0.5 rounded-md backdrop-blur-glass-light',
+                  'font-body text-caption font-medium px-2 py-0.5 rounded-pill backdrop-blur-glass-light',
                   TONE_CHIP[video.tone],
                 ].join(' ')}
               >
                 {video.category}
               </span>
-              <span className="ml-auto flex items-center gap-tight font-body text-caption text-white/70">
-                <Clock size={14} />
+              <span className="ml-auto flex items-center gap-stack-3xs font-body text-caption text-white/85 tabular-nums">
+                <Clock size={14} aria-hidden="true" />
                 {video.duration}
               </span>
             </div>
-            <h2 className="font-display text-h3 font-bold text-white/95">
-              {video.title}
-            </h2>
+            {/* Le titre de la vidéo est celui de l'écran : h1 36, en blanc plein
+                (la page n'avait pas de h1 ; il était un h2 à 20 en blanc/95). */}
+            <h1 className="font-display text-h1 text-white text-balance">
+              {insecable(video.title)}
+            </h1>
           </div>
 
           {/* Overlay bas : instructeur + description */}
           <div className="absolute bottom-0 left-0 right-0 px-stack-lg pt-section pb-16 bg-gradient-to-t from-black/85 to-transparent z-10">
-            <div className="flex items-center gap-stack-xs mb-3">
+            <div className="flex items-center gap-stack-sm mb-stack-sm">
               {/* Avatar : gradient tone-aware via tokens */}
               <div
                 className={[
@@ -375,17 +386,17 @@ export const VideoReels: React.FC = () => {
               >
                 {video.instructorInitials}
               </div>
-              <div>
-                <div className="font-body text-body font-semibold text-white/95">
+              <div className="flex flex-col gap-tight">
+                <p className="font-body text-body font-semibold text-white">
                   {video.instructor}
-                </div>
-                <div className="flex items-center gap-tight font-body text-caption text-white/70 mt-0.5">
-                  <Eye size={14} />
+                </p>
+                <p className="flex items-center gap-stack-3xs font-body text-caption text-white/85 tabular-nums">
+                  <Eye size={14} aria-hidden="true" />
                   {video.views} vues
-                </div>
+                </p>
               </div>
             </div>
-            <p className="font-body text-body text-white/85 m-0">
+            <p className="font-body text-body text-white max-w-prose">
               {video.description}
             </p>
           </div>
@@ -417,10 +428,12 @@ export const VideoReels: React.FC = () => {
         </div>
       </div>
 
-      {/* ── Compteur bas de page ─────────────────────────────────── */}
-      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-sticky flex items-center gap-stack-xs">
-        <div className="px-stack-md py-stack-xs rounded-lg bg-black/65 backdrop-blur-glass-light border border-white/10 font-body text-caption font-semibold flex gap-stack-xs">
-          <strong className="text-white">{currentIndex + 1}</strong>
+      {/* ── Compteur bas de page — centré sur la vidéo (la page), plus sur la
+          fenêtre : il tombait 135 px à gauche de l'axe du reel. ────────── */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-sticky flex items-center gap-stack-xs">
+        <div className="px-stack-md py-stack-xs rounded-lg bg-black/65 backdrop-blur-glass-light border border-white/10 font-body text-caption font-semibold tabular-nums flex gap-stack-xs">
+          {/* 700 explicite : `strong` vaut « bolder », soit 900 dans un bloc à 600. */}
+          <strong className="font-bold text-white">{currentIndex + 1}</strong>
           <span className="text-white/70">/</span>
           <span className="text-white/70">{filtered.length}</span>
         </div>

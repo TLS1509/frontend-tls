@@ -13,13 +13,12 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/core/Button';
 import { Card } from '../components/core/Card';
-import { Badge } from '../components/ui/Badge';
-import { MetaPill } from '../components/ui/MetaPill';
-import { ExternalLink, BookOpen, Video, FileText, Wrench, Clock, ArrowRight, Library } from 'lucide-react';
+import { MetaPill, type MetaPillTone } from '../components/ui/MetaPill';
+import { ExternalLink, BookOpen, Video, FileText, Wrench, Clock, ArrowRight } from 'lucide-react';
 import { ViewerHeader } from '../components/patterns/ViewerHeader';
 import { Container } from '../components/layout';
 import { useLessonContext } from '../lib/lesson-context';
-import { CARD_HOVER, TONE_BG_700, TONE_HERO_GRADIENT } from '../lib/tone-classes';
+import { TONE_BG_700 } from '../lib/tone-classes';
 import type { PageTone } from '../lib/tone-classes';
 
 interface ComplementaryResource {
@@ -35,7 +34,7 @@ interface ComplementaryResource {
 const RESOURCES: ComplementaryResource[] = [
   {
     id: 1,
-    title: 'Deep Work: Focus et concentration',
+    title: 'Deep Work : focus et concentration',
     description: "Un guide complet sur la création d'un environnement propice au travail profond et à la concentration.",
     type: 'article',
     duration: '8 min de lecture',
@@ -53,7 +52,7 @@ const RESOURCES: ComplementaryResource[] = [
   },
   {
     id: 3,
-    title: "Template: Plan de motivation d'équipe",
+    title: "Template : plan de motivation d'équipe",
     description: "Un template réutilisable pour planifier et suivre les initiatives de motivation en équipe.",
     type: 'guide',
     url: '#',
@@ -61,7 +60,7 @@ const RESOURCES: ComplementaryResource[] = [
   },
   {
     id: 4,
-    title: 'Outil: Diagnostic SCARF interactif',
+    title: 'Outil : diagnostic SCARF interactif',
     description: "Outil d'auto-diagnostic pour évaluer les dimensions SCARF dans votre environnement de travail.",
     type: 'tool',
     duration: '5-10 min',
@@ -103,7 +102,8 @@ const getResourceBadge = (type: string) => {
   }
 };
 
-const TYPE_BADGE_VARIANT: Record<string, 'brand' | 'warm' | 'sun' | 'success' | 'danger' | 'info'> = {
+/* Le type est une DONNÉE : MetaPill (arbitrage n°14), plus Badge. */
+const TYPE_PILL_TONE: Record<string, MetaPillTone> = {
   article: 'brand',
   video:   'warm',
   tool:    'sun',
@@ -123,87 +123,92 @@ export const ComplementaryContentViewer: React.FC = () => {
     }
   };
 
+  const stats = [
+    { label: 'Articles', count: RESOURCES.filter(r => r.type === 'article').length },
+    { label: 'Vidéos',   count: RESOURCES.filter(r => r.type === 'video').length },
+    { label: 'Guides',   count: RESOURCES.filter(r => r.type === 'guide').length },
+    { label: 'Outils',   count: RESOURCES.filter(r => r.type === 'tool').length },
+  ].filter(st => st.count > 0);
+
+  /* Passe typographique du 24/09. Le titre était dit trois fois (surtitre de
+     la barre, titre de la barre, h1 à 20 px avec une pastille dégradée) : la
+     barre garde une ligne de méta, le contenu un h1 36 et son chapô. Les
+     quatre ressources sont des rangées dans UNE carte (arbitrage n°5), leur
+     titre un h3 20 (il était en 16/600, un titre qui s'ignore), leur type une
+     MetaPill et leurs mots-clés une légende (tous deux en Badge capitales),
+     leur description en ink-700 (elle était au cran 500). */
   return (
     <div
       className={['fixed inset-0 z-modal overflow-y-auto', TONE_GRADIENT_BG[tone]].join(' ')}
       role="dialog"
       aria-modal="true"
-      aria-label="Contenus complémentaires"
+      aria-labelledby="complementaires-titre"
     >
       <ViewerHeader
         tone={tone}
         eyebrow="Ressources complémentaires"
-        title={lessonCtx ? lessonCtx.lesson.title : 'Contenus complémentaires'}
-        subtitle={`${RESOURCES.length} ressources pour approfondir`}
+        subtitle={lessonCtx ? lessonCtx.lesson.title : `${RESOURCES.length} ressources`}
         onClose={handleClose}
       />
 
-      <div className="py-stack-lg px-4 sm:px-6 lg:px-10">
-        <Container width="medium" padding={false} className="flex flex-col gap-stack-lg">
+      {/* 48 au-dessus de l'en-tête, 32 entre lui et la liste : l'en-tête se
+          lit avec ce qu'il ouvre (rapport 1,5), pas avec la barre. */}
+      <div className="pt-page pb-section md:pb-section-lg px-4 sm:px-6 lg:px-10">
+        <Container width="medium" padding={false} className="flex flex-col gap-section">
 
-          {/* ── Title block ─────────────────────────────────────── */}
-          <header className="flex items-center gap-stack">
-            <div
-              className={[
-                'w-10 h-10 rounded-xl inline-flex items-center justify-center shadow-sm',
-                TONE_HERO_GRADIENT[tone],
-              ].join(' ')}
-            >
-              <Library size={20} className="text-white" />
-            </div>
-            <h1 className="font-display text-h3 font-bold text-ink-900">
-              Ressources complémentaires
+          {/* ── En-tête de l'écran ──────────────────────────────── */}
+          <header className="flex flex-col gap-stack-sm">
+            <h1 id="complementaires-titre" className="font-display text-h1 text-ink-900">
+              Pour aller plus loin
             </h1>
+            <p className="font-body text-body-lg text-ink-700 max-w-prose">
+              {RESOURCES.length} ressources pour approfondir la leçon : articles, vidéos, guides et outils.
+            </p>
           </header>
 
-          {/* ── Main 2-column grid ──────────────────────────────── */}
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-section">
+          {/* ── Les ressources : le titre (h2) au-dessus des deux colonnes,
+              pour que la liste et son encart partent de la même ligne. ── */}
+          <div className="flex flex-col gap-stack">
+          <h2 id="complementaires-liste" className="font-display text-h2 text-ink-900">Les ressources</h2>
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-section items-start">
 
             {/* Resources list */}
-            <div className="flex flex-col gap-stack">
-              {RESOURCES.map((resource) => (
-                <Card
-                  key={resource.id}
-                  className={`transition-colors duration-base ${CARD_HOVER[tone]}`}
-                >
-                  <div className="flex gap-stack">
-                    {/* Icon bubble */}
+            <section aria-labelledby="complementaires-liste">
+              <Card as="ul" className="flex flex-col gap-0 p-0 divide-y divide-ink-100">
+                {RESOURCES.map((resource) => (
+                  <li key={resource.id} className="flex gap-stack p-stack-lg">
+                    {/* Pastille 40 au rayon 10 (arbitrage n°3) ; elle faisait 56. */}
                     <div
                       className={[
-                        'w-14 h-14 rounded-xl flex items-center justify-center shrink-0',
+                        'w-10 h-10 rounded-md flex items-center justify-center shrink-0',
                         TONE_BG_700[tone],
                       ].join(' ')}
                     >
                       <span className="text-white">{getResourceIcon(resource.type)}</span>
                     </div>
 
-                    {/* Content */}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-start gap-stack-xs mb-stack-xs">
-                        <h3 className="font-display text-body font-semibold text-ink-900 flex-1 leading-snug">
-                          {resource.title}
-                        </h3>
-                        <Badge variant={TYPE_BADGE_VARIANT[resource.type] ?? 'neutral'}>
-                          {getResourceBadge(resource.type)}
-                        </Badge>
-                      </div>
+                    {/* Titre → 8 → texte → 12 → méta → 20 → action. Le titre se
+                        centre sur la pastille : (40 − 26) / 2 = 7. */}
+                    <div className="flex-1 min-w-0 flex flex-col mt-[7px]">
+                      <h3 className="font-display text-h3 text-ink-900">
+                        {resource.title}
+                      </h3>
 
-                      <p className="font-body text-body text-ink-500 m-0 mb-stack-xs">
+                      <p className="mt-stack-xs font-body text-body text-ink-700 max-w-prose">
                         {resource.description}
                       </p>
 
-                      <div className="flex gap-stack-xs items-center flex-wrap">
+                      <div className="mt-stack-sm flex gap-x-stack-xs gap-y-stack-3xs items-center flex-wrap">
+                        <MetaPill text={getResourceBadge(resource.type)} tone={TYPE_PILL_TONE[resource.type] ?? 'neutral'} />
                         {resource.duration && (
-                          <MetaPill icon={<Clock size={14} />} text={resource.duration} tone="brand" size="sm" />
+                          <MetaPill icon={<Clock size={14} />} text={resource.duration} tone="neutral" />
                         )}
-                        <div className="flex gap-stack-xs flex-wrap">
-                          {resource.tags.map((tag) => (
-                            <Badge key={tag} variant="info">{tag}</Badge>
-                          ))}
-                        </div>
+                        <span className="font-body text-caption text-ink-600">
+                          {resource.tags.join(' · ')}
+                        </span>
                       </div>
 
-                      <div className="mt-3">
+                      <div className="mt-stack-md">
                         <Button
                           emphasis="outline"
                           size="sm"
@@ -214,46 +219,44 @@ export const ComplementaryContentViewer: React.FC = () => {
                         </Button>
                       </div>
                     </div>
-                  </div>
-                </Card>
-              ))}
-            </div>
+                  </li>
+                ))}
+              </Card>
+            </section>
 
-            {/* Sidebar */}
-            <div className="flex flex-col gap-stack">
+            {/* Sidebar — deux petits blocs d'appoint : un libellé de groupe
+                (13/600 ink-600) plutôt qu'un h4 en 16/600, et des rangées
+                séparées par un filet plutôt que des tuiles grises à libellé au
+                cran 500. */}
+            <aside className="flex flex-col gap-stack" aria-label="Autour de ces ressources">
 
               {/* Quick Stats */}
-              <Card>
-                <h4 className="font-display text-body font-semibold text-ink-900 mb-3">
+              <Card className="flex flex-col gap-stack-xs">
+                <p className="font-body text-caption font-semibold text-ink-600">
                   Ressources disponibles
-                </h4>
-                <div className="flex flex-col gap-stack-xs">
-                  {[
-                    { label: 'Articles', count: RESOURCES.filter(r => r.type === 'article').length },
-                    { label: 'Vidéos',   count: RESOURCES.filter(r => r.type === 'video').length },
-                    { label: 'Guides',   count: RESOURCES.filter(r => r.type === 'guide').length },
-                    { label: 'Outils',   count: RESOURCES.filter(r => r.type === 'tool').length },
-                  ].filter(s => s.count > 0).map((stat) => (
-                    <div key={stat.label} className="flex justify-between items-center p-stack-xs bg-ink-50 rounded-md">
-                      <span className="font-body text-body text-ink-500">{stat.label}</span>
-                      <span className="font-body text-body font-semibold text-ink-900">{stat.count}</span>
+                </p>
+                <dl className="divide-y divide-ink-100">
+                  {stats.map((stat) => (
+                    <div key={stat.label} className="flex justify-between items-baseline py-stack-xs">
+                      <dt className="font-body text-body text-ink-700">{stat.label}</dt>
+                      <dd className="font-body text-body font-semibold text-ink-900 tabular-nums">{stat.count}</dd>
                     </div>
                   ))}
-                </div>
+                </dl>
               </Card>
 
               {/* Related Topics */}
-              <Card>
-                <h4 className="font-display text-body font-semibold text-ink-900 mb-3">
+              <Card className="flex flex-col gap-stack-sm">
+                <p className="font-body text-caption font-semibold text-ink-600">
                   Sujets connexes
-                </h4>
+                </p>
                 <div className="flex flex-col gap-stack-xs">
                   {RELATED_TOPICS.map((topic) => (
                     <button
                       key={topic}
                       type="button"
                       onClick={() => {}}
-                      className="w-full min-h-touch px-3 py-stack-xs border border-ink-100 rounded-md bg-white text-ink-900 cursor-pointer font-body text-body text-left transition-colors duration-base hover:bg-ink-50 flex justify-between items-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                      className="w-full min-h-touch px-3 py-stack-xs border border-ink-100 rounded-lg bg-white text-ink-900 cursor-pointer font-body text-body text-left transition-colors duration-base hover:bg-ink-50 flex justify-between items-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                     >
                       <span>{topic}</span>
                       <ArrowRight size={14} className="text-ink-600 shrink-0" />
@@ -261,7 +264,8 @@ export const ComplementaryContentViewer: React.FC = () => {
                   ))}
                 </div>
               </Card>
-            </div>
+            </aside>
+          </div>
           </div>
         </Container>
       </div>
