@@ -521,7 +521,11 @@ partout : chaque ligne dit la règle à suivre dès maintenant dans le code neuf
   devient le `lg`. Les étiquettes (Badge, MetaPill, Chip) gardent leur échelle,
   sous le seuil de 28 px.
 - **n°23 · Voix : « vous » pour le pilotage** (manager, entreprise, admin, CLO),
-  « tu » pour l'apprenant et le coach. Conforme à PRODUCT.md.
+  « tu » pour l'apprenant. Conforme à PRODUCT.md (§ Voice), qui met aussi en
+  « vous » l'espace du coach, les pages d'auth et le site ; en cas de doute,
+  « vous ». *(Corrigé le 24/09 : cette ligne disait « tu pour le coach » — le
+  code vouvoie déjà le coach dans son espace, les pages `Coach*` ; seules les
+  pages `Coaching*`, vues par l'apprenant, tutoient.)*
 
 **Ouverts** : n°24 (Parcours et Espace Apprentissage : deux entrées ou une
 entrée « Ressources ») et n°25 (onboarding en chat ou formulaire progressif).
