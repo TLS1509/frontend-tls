@@ -38,7 +38,7 @@ const ROLE_TILES: Array<{ id: UserRole; label: string; icon: React.ComponentType
 ];
 
 const INTRO_LINES = [
-  'Salut ! 👋 Je suis ton assistant IA de The Learning Society.',
+  'Bonjour, je suis ton assistant IA de The Learning Society.',
   'Je vais te poser quelques questions pour créer ton profil personnalisé.',
 ];
 
@@ -150,18 +150,26 @@ export const OnboardingUnified: React.FC = () => {
     ]);
   }, []);
 
-  useEffect(() => {
-    return () => cancelTimers(stateRef.current.timersRef);
-  }, []);
-
-  // Initial greeting on mount
+  // Initial greeting on mount.
+  // Le nettoyage annule les minuteries ET vide le fil : en mode strict, React
+  // monte l'effet deux fois, et la bulle « … » du premier passage restait en
+  // tête du fil pour toujours (audit du 23/09).
+  // La saisie du prénom n'apparaît qu'une fois la question entièrement
+  // écrite : active plus tôt, une réponse rapide s'affichait AU-DESSUS de la
+  // question qui finissait de s'écrire.
   useEffect(() => {
     appendAiSequence(INTRO_LINES, msgCounter, stateRef.current, setMessages, () => {
       // Cancel previous timers, start fresh batch — but counter keeps incrementing
       stateRef.current = { timersRef: [] };
-      setStep('name');
-      streamLine('Commençons — quel est ton prénom ?', msgCounter, stateRef.current, setMessages, () => {});
+      streamLine('Commençons — quel est ton prénom ?', msgCounter, stateRef.current, setMessages, () => {
+        setStep('name');
+      });
     });
+    return () => {
+      cancelTimers(stateRef.current.timersRef);
+      stateRef.current = { timersRef: [] };
+      setMessages([]);
+    };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -175,15 +183,17 @@ export const OnboardingUnified: React.FC = () => {
     setFirstName(name);
     setNameInput('');
 
-    const ack = `Enchanté, ${name} ! 😊`;
+    const ack = `Enchanté, ${name}.`;
     setTimeout(() => {
       stateRef.current = { timersRef: [] };
       streamLine(ack, msgCounter, stateRef.current, setMessages, () => {
         setTimeout(() => {
-          setLoading(false);
-          setStep('role');
           stateRef.current = { timersRef: [] };
-          streamLine("Quel est ton rôle dans l'organisation ?", msgCounter, stateRef.current, setMessages, () => {});
+          // Les tuiles de rôle n'arrivent qu'une fois la question écrite.
+          streamLine("Quel est ton rôle dans l'organisation ?", msgCounter, stateRef.current, setMessages, () => {
+            setStep('role');
+            setLoading(false);
+          });
         }, 600);
       });
     }, 300);
@@ -198,7 +208,7 @@ export const OnboardingUnified: React.FC = () => {
     const userMsgId = `m-${msgCounter.current++}`;
     setMessages((prev) => [...prev, { id: userMsgId, type: 'user', content: `Je suis ${roleLabel}` }]);
 
-    const ack = `Super, tu es ${roleLabel}. On va vraiment pouvoir t'adapter un parcours !`;
+    const ack = `Super, tu es ${roleLabel}. On va vraiment pouvoir t'adapter un parcours.`;
     setTimeout(() => {
       stateRef.current = { timersRef: [] };
       streamLine(ack, msgCounter, stateRef.current, setMessages, () => {
@@ -211,13 +221,18 @@ export const OnboardingUnified: React.FC = () => {
           ];
           appendAiSequence(transitionLines, msgCounter, stateRef.current, setMessages, () => {
             setTimeout(() => {
-              setLoading(false);
-              setStep('questionnaire');
               setQuestionIdx(0);
               stateRef.current = { timersRef: [] };
               const firstQ = questions[0];
+              // Les tuiles de réponse n'arrivent qu'une fois la question écrite.
+              const showTiles = () => {
+                setStep('questionnaire');
+                setLoading(false);
+              };
               if (firstQ) {
-                streamLine(firstQ.q, msgCounter, stateRef.current, setMessages, () => {});
+                streamLine(firstQ.q, msgCounter, stateRef.current, setMessages, showTiles);
+              } else {
+                showTiles();
               }
             }, 800);
           });

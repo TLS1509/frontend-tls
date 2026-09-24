@@ -375,7 +375,7 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
           {isClosed ? (
             <>
               <p className="font-body text-body-sm text-ink-700">
-                C'est terminé {firstName || ''} ! Ton Passeport de compétences est initialisé.
+                C'est terminé{firstName ? `, ${firstName}` : ''}. Ton Passeport de compétences est initialisé.
               </p>
               <p className="font-body text-body-sm text-ink-500">
                 {requiresPayment

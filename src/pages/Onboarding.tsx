@@ -41,7 +41,7 @@ const ROLE_TILES: Array<{ id: UserRole; label: string; icon: React.ComponentType
 /* ─── AI message builders (stub — to be replaced by Mistral in Phase 16.12bis) ──── */
 function buildGreeting(): string[] {
   return [
-    'Salut 👋 Je suis ton assistant IA de The Learning Society.',
+    'Bonjour, je suis ton assistant IA de The Learning Society.',
     'Je vais te poser quelques questions pour créer un profil personnalisé.',
   ];
 }
@@ -55,7 +55,7 @@ function buildRoleQuestion(): string {
 }
 
 function buildAckName(firstName: string): string {
-  return `Enchanté, ${firstName} ! 😊`;
+  return `Enchanté, ${firstName}.`;
 }
 
 function buildAckRole(role: UserRole): string {
