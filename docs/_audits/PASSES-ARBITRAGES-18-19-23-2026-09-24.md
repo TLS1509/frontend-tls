@@ -95,10 +95,12 @@ Sur le même état :
    - Un D1 en mérite-t-il un ?
 2. **Certifications de parcours et badges « plateforme »** : 2 et 5, ils ne s'affichent plus. Faut-il les garder sous une autre forme ?
 3. **Le bloc « Connecter un wallet »** (Credly, Badgr) était une maquette sans action. Faut-il le rétablir ?
-4. **Vues coach et manager**, laissées en l'état. Les remplacer demanderait de nouvelles données :
-   - `CoachEngagement` : série, badges et XP par semaine ;
-   - `AnalyticsDashboard` : classement nominatif et courbe d'XP cumulée ;
-   - `CoachDashboard` : score d'engagement calculé depuis la série.
+4. ✅ **Vues coach et manager : tranché par Chloé le 24/09.** Le coach et le manager n'ont pas besoin de ces vues : on les retire, sans remplaçant (`cf491e57`, `9711679b`).
+   - `CoachEngagement` : série, badges de la semaine et XP hebdomadaire retirés ; restent la tendance et l'atrophie ;
+   - `AnalyticsDashboard` : classement nominatif, podium « Les trois premiers » et courbe d'XP cumulée retirés ; la liste des apprenants passe à l'ordre alphabétique ;
+   - `CoachDashboard` : l'onglet « Matrice de performance » est retiré, son axe vertical étant le score d'engagement calculé depuis la série ;
+   - fiche apprenant côté coach : « Badge débloqué : Explorateur » sort du fil.
+   - Restent : le « Classement des équipes » de `/enterprise` (des équipes rangées par niveau Dreyfus moyen, pas des personnes) et les « Badges Dreyfus obtenus » de `/enterprise/dashboard` (des niveaux validés, donc des Reconnaissances). La couche de données garde `streak`, `totalXp`, `avgStreak` et `xpEarned`.
 5. **Notifications** :
    - aucun réglage de « week-end silencieux » n'existe ;
    - le résumé d'activité est passé de quotidien à hebdomadaire par défaut : à confirmer.

@@ -509,6 +509,9 @@ de l'XP, de la série et du classement — bilan : `docs/_audits/PASSES-ARBITRAG
   des Open Badges adossés aux niveaux **validés** et un rythme hebdomadaire calme
   (« actif 3 semaines sur les 4 dernières »), sans compte à rebours. Aucun XP
   n'est jamais affiché à côté d'un niveau Dreyfus (PRODUCT.md : JAC = zéro XP).
+  **Étendu aux vues coach et manager le 24/09** (Chloé : elles n'en ont pas
+  besoin) : ni série, ni XP, ni classement nominatif, ni score calculé depuis la
+  série, et rien à la place.
 - **n°19 · Un seul `solid` par écran = l'action principale.** `soft` devient
   l'action de contexte (dans une carte, une rangée), `ghost` le tertiaire,
   `outline` est réservé aux paires Annuler / Confirmer. Remplace la règle du
