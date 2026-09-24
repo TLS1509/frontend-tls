@@ -3985,13 +3985,16 @@ const COMPONENTS: ComponentEntry[] = [
         {/* ─── iconStyle × tone ───
             Dans CardGrid square-tiles, plus un `grid-cols-3` : à 375, trois
             colonnes laissaient 54 px à la tuile « Bubble · sun », moins que sa
-            bulle de 48 et ses 2 × 12 de padding. */}
+            bulle et son padding. Au cran sm : dans la vitrine à 375, deux
+            colonnes font 86 px, et la bulle md (48) y pinçait le coin de la
+            tuile (retrait 19 × 17 sous un rayon de 20) ; la bulle sm (40)
+            laisse 23 px. Les trois crans de la bulle sont montrés dessous. */}
         <div className="flex flex-col gap-stack">
-          <p className="text-caption font-semibold text-ink-600 m-0">iconStyle (plain · filled · bubble) × ton (brand · warm · sun) · md</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">iconStyle (plain · filled · bubble) × ton (brand · warm · sun) · sm</p>
           <CardGrid layout="square-tiles" gapSize="md">
-            <IconFeatureCard square tone="brand" iconStyle="plain" icon={<MessageSquare size={32} strokeWidth={1.75} />} title="Plain · brand" onClick={() => {}} />
-            <IconFeatureCard square tone="warm" iconStyle="filled" icon={<Flame size={32} />} title="Filled · warm" onClick={() => {}} />
-            <IconFeatureCard square tone="sun" iconStyle="bubble" icon={<Star size={20} strokeWidth={1.75} />} title="Bubble · sun" onClick={() => {}} />
+            <IconFeatureCard square tone="brand" iconStyle="plain" iconSize="sm" icon={<MessageSquare size={24} strokeWidth={1.75} />} title="Plain · brand" onClick={() => {}} />
+            <IconFeatureCard square tone="warm" iconStyle="filled" iconSize="sm" icon={<Flame size={24} />} title="Filled · warm" onClick={() => {}} />
+            <IconFeatureCard square tone="sun" iconStyle="bubble" iconSize="sm" icon={<Star strokeWidth={1.75} />} title="Bubble · sun" onClick={() => {}} />
           </CardGrid>
         </div>
 
