@@ -373,15 +373,12 @@ const makeFeedItems = (navigate: ReturnType<typeof useNavigate>) => [
     actionLabel: 'Lire',
     onActionClick: () => navigate('/veille'),
   },
-  {
-    id: 'feed-4',
-    type: 'achievement' as const,
-    title: 'Badge "Pionnier IA" à portée',
-    description: 'Tu as complété 40 % du parcours Devenir prompt designer : continue sur ta lancée pour débloquer le badge.',
-    timestamp: new Date(Date.now() - 2 * 86400000),
-    actionLabel: 'Continuer',
-    onActionClick: () => navigate('/learning-paths/1'),
-  },
+  /* Le quatrième élément, « Badge "Pionnier IA" à portée… continue sur ta
+     lancée pour débloquer le badge », est sorti avec l'arbitrage n°18 : un
+     badge de complétion de contenu, poussé comme une récompense à arracher.
+     Ce qui se célèbre désormais, ce sont les niveaux validés, dans la
+     section Reconnaissances du profil. La reprise du parcours a déjà sa
+     carte, en tête de page. */
 ];
 
 export default Dashboard;
