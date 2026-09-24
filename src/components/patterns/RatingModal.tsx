@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Star } from 'lucide-react';
 import { Button } from '../core/Button';
+import { Input } from '../core/Input';
 
 export interface RatingModalProps {
   title?: string;
@@ -118,20 +119,23 @@ export const RatingModal: React.FC<RatingModalProps> = ({
         </div>
       </div>
 
-      <div className="flex flex-col gap-stack-xs">
-        <label htmlFor="rating-feedback" className="text-body font-semibold text-ink-900">
-          Commentaire <span className="text-ink-600 font-normal">(optionnel)</span>
-        </label>
-        <textarea
-          id="rating-feedback"
-          className="w-full px-4 py-3 h-auto min-h-[100px] rounded-lg border border-ink-300 bg-white text-body text-ink-900 placeholder:text-ink-500 focus:border-primary-400 focus:outline-none focus:shadow-brand-sm transition-all resize-y disabled:bg-ink-50 disabled:cursor-not-allowed"
-          placeholder="Partagez vos impressions, suggestions ou retours…"
-          value={feedback}
-          onChange={(e) => setFeedback(e.target.value)}
-          disabled={isSubmitting}
-          rows={4}
-        />
-      </div>
+      {/* Le champ du système (2026-09-24) : `Input multiline`. La zone de
+          texte était faite main, au filet ink-300 — 1,47:1 sur le blanc de la
+          modale, sous le 3:1 d'un contrôle (SC 1.4.11) ; on ne voyait pas où
+          écrire. Elle prend le filet de la famille champ (ink-400, 3,01:1,
+          arbitrage n°7), son rayon, son padding et son focus (primary-500 et
+          halo, à la place d'une ombre teintée et d'un filet primary-400 à
+          2,37:1). Le libellé et son « (optionnel) » ne changent pas. */}
+      <Input
+        multiline
+        rows={4}
+        id="rating-feedback"
+        label={<>Commentaire <span className="text-ink-600 font-normal">(optionnel)</span></>}
+        placeholder="Partagez vos impressions, suggestions ou retours…"
+        value={feedback}
+        onChange={(e) => setFeedback(e.target.value)}
+        disabled={isSubmitting}
+      />
 
       {/* Un formulaire (arbitrage n°19) : « Envoyer mon avis » est le
           `solid`, Annuler un `outline` neutre (ils étaient en `soft` warm et
