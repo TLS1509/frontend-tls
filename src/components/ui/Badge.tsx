@@ -162,9 +162,13 @@ const STATUS_CLASSES: Record<StatusBadgeStatus, string> = {
   failed:        'bg-danger-bg text-danger-fg border-danger-base/30',
 };
 
+/* Les deux crans parlent au corps des étiquettes (11 px) : en capitales et en
+   700, le 13 px du cran `md` criait plus fort que tous les Badge de l'app —
+   un état n'a qu'un registre. Le cran ne règle plus que le padding et
+   l'icône ; sans libellé, la pastille md passe de 30 à 28 px. */
 const STATUS_SIZE_CLASSES: Record<'sm' | 'md', string> = {
   sm: 'text-micro px-1.5 py-0.5 gap-tight',
-  md: 'text-caption px-2 py-1 gap-stack-2xs',
+  md: 'text-micro px-2 py-1 gap-stack-2xs',
 };
 
 const STATUS_ICON_SIZE: Record<'sm' | 'md', number> = { sm: 10, md: 12 };
