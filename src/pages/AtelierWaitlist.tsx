@@ -22,9 +22,14 @@ export default function AtelierWaitlist() {
   const navigate = useNavigate();
   const eventsStore = useEventsStore();
 
+  // Le store ne se remplit qu'au premier appel d'un getter. On lisait
+  // `ateliers` avant tout appel : la liste était vide, et la page affichait son
+  // texte de repli, « L'atelier "Atelier complet" est complet » (audit du
+  // 23/09). On amorce donc le store, puis on lit son état à jour.
+  eventsStore.getAtelierEnrollment(MOCK_USER_ID, '__seed__');
+  const ateliers = useEventsStore.getState().ateliers;
   const atelierId = id ?? 'at-002';
-  const atelier = eventsStore.ateliers.find((a) => a.id === atelierId)
-    ?? eventsStore.ateliers[1];
+  const atelier = ateliers.find((a) => a.id === atelierId) ?? ateliers[1];
   const enrollment = atelier
     ? eventsStore.getAtelierEnrollment(MOCK_USER_ID, atelier.id)
     : undefined;
@@ -46,8 +51,8 @@ export default function AtelierWaitlist() {
         </h1>
 
         <p className="text-body-sm text-ink-500">
-          L'atelier "{atelier?.title ?? 'Atelier complet'}" est complet.
-          Tu as été ajouté(e) à la liste d'attente.
+          {atelier ? <>L'atelier « {atelier.title} » est complet.</> : <>Cet atelier est complet.</>}
+          {' '}Tu as été ajouté(e) à la liste d'attente.
         </p>
 
         {/* Info card */}
