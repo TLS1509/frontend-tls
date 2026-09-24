@@ -49,7 +49,13 @@ export const CorrectionStatusBar: React.FC<CorrectionStatusBarProps> = ({
 
   return (
     <div className={`flex flex-wrap items-center gap-stack-xs ${className}`}>
-      <StatusBadge status={etat.icone} label={etat.libelle} />
+      {/* Le mot de l'état s'affiche (2026-09-24). La pastille ne montrait que
+          l'icône, le mot n'était que son nom accessible : à l'œil, un état
+          ne se lisait qu'à la couleur et au dessin — un cercle vide pour
+          « en attente », une flèche de lecture pour « en cours de révision »,
+          deux icônes qu'on ne devine pas. La couleur n'est jamais le seul
+          vecteur du sens (PRODUCT.md, Accessibilité). */}
+      <StatusBadge status={etat.icone} label={etat.libelle} showLabel />
 
       {/* Valeur 16/600 ink-900 · méta 13 ink-600 · texte de marque au cran 800
           (passe typographique du 2026-09-24). */}

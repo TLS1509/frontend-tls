@@ -231,8 +231,20 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
     .filter(Boolean)
     .join(' ');
 
+  /* Pas de `role="status"` (2026-09-24). Ce rôle fait d'un élément une ZONE
+     VIVANTE (`aria-live="polite"` implicite) : un lecteur d'écran annonce ce
+     qui y change. Posé sur chaque badge, il transformait une liste de leçons
+     en autant de zones qui parlent — 12 sur la vitrine des atomes, 4 sur celle
+     de l'apprentissage. Un badge ne se met pas à jour pour qu'on l'entende :
+     il se lit à son tour, comme le texte qui l'entoure.
+     Sans libellé, la pastille n'est qu'une icône : elle devient une image
+     nommée (`role="img"`, le motif d'`IconChip`) — un `aria-label` sur un
+     `span` sans rôle n'est pas garanti. Avec libellé, le mot se lit tel
+     quel, l'icône est décorative. */
+  const a11y = showLabel ? {} : { role: 'img' as const, 'aria-label': label };
+
   return (
-    <span className={classes} role="status" aria-label={label}>
+    <span className={classes} {...a11y}>
       <StatusIcon status={status} size={iconSize} />
       {showLabel && <span>{label}</span>}
     </span>
