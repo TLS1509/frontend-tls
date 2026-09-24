@@ -55,6 +55,7 @@ import {
   TrendingUp,
   Sparkles,
   Layers3,
+  AlertTriangle,
 } from 'lucide-react';
 import {
   MOCK_PARCOURS_DATA,
@@ -207,6 +208,14 @@ export const LearningPathDetail: React.FC = () => {
 
   const firstLessonId = parcours.etapes[0]?.lecons[0]?.id ?? '1';
 
+  /* La leçon que l'apprenant reprend : la première non faite, dans la première
+     étape ouverte et non validée. C'est elle, et elle seule, qui porte « En
+     cours » dans le plan, et c'est elle qu'ouvre le bouton du hero (la leçon se
+     rouvre d'elle-même à la section sauvegardée). */
+  const currentStep = parcours.etapes.find((e: Etape) => e.unlocked && !e.completed);
+  const currentLesson = currentStep?.lecons.find((l: Lecon) => !l.completed);
+  const hasStarted = completedLessons > 0;
+
   const relatedParcours = Object.values(MOCK_PARCOURS_DATA)
     .filter((p) => p.id !== parcours.id)
     .slice(0, 3);
@@ -263,8 +272,31 @@ export const LearningPathDetail: React.FC = () => {
             progressLabel={`${completedLessons} / ${totalLessons} leçons complétées`}
             trailing={
               progressPct === 0 && !positioned ? (
-                <Button emphasis="solid" onDark onClick={() => setShowPositionnement(true)}>
-                  🎯 Se positionner &amp; commencer
+                <Button
+                  emphasis="solid"
+                  onDark
+                  leadingIcon={<Target size={16} />}
+                  onClick={() => setShowPositionnement(true)}
+                >
+                  Se positionner et commencer
+                </Button>
+              ) : currentLesson ? (
+                /* Un parcours en cours n'avait aucun bouton dans son hero : il
+                   fallait descendre jusqu'au module, le déplier et viser une
+                   rangée (audit du 23/09). */
+                <Button
+                  emphasis="solid"
+                  onDark
+                  leadingIcon={<Play size={16} />}
+                  className="max-w-full"
+                  onClick={() =>
+                    navigate(`/learning-paths/${parcours.id}/lessons/${currentLesson.id}`)
+                  }
+                >
+                  {/* Un titre long se coupe au lieu de sortir du hero à 375 px. */}
+                  <span className="min-w-0 truncate">
+                    {hasStarted ? 'Reprendre' : 'Commencer'} : {currentLesson.title}
+                  </span>
                 </Button>
               ) : undefined
             }
@@ -330,7 +362,7 @@ export const LearningPathDetail: React.FC = () => {
                     <IconFeatureCard
                       icon={<Lightbulb size={20} />}
                       title="Astuces"
-                      description="Conseils pratiques tone-aware, format carousel."
+                      description="Des conseils courts, à appliquer dès ta prochaine journée."
                       tone="sun"
                       surface="tinted"
                       iconStyle="bubble"
@@ -341,7 +373,7 @@ export const LearningPathDetail: React.FC = () => {
                     <IconFeatureCard
                       icon={<Layers3 size={20} />}
                       title="Flashcards"
-                      description="Mémorisation active recto-verso, swipe & flip."
+                      description="Des cartes question-réponse pour retenir l'essentiel."
                       tone="brand"
                       surface="tinted"
                       iconStyle="bubble"
@@ -414,16 +446,24 @@ export const LearningPathDetail: React.FC = () => {
                       </div>
 
                       <div className="flex-1 min-w-0">
+                        {/* Trois états réels une fois l'étape ouverte. « En cours »
+                            disait seulement « déverrouillée et pas finie » : une
+                            étape à 0/3 l'affichait (audit du 23/09). */}
                         <div className="mb-2 flex items-center gap-stack-xs">
                           {!etape.unlocked ? (
-                            <Badge variant="neutral">VERROUILLÉ</Badge>
+                            <Badge variant="neutral">Verrouillé</Badge>
                           ) : etape.completed ? (
-                            <Badge variant="success">VALIDÉ</Badge>
+                            <Badge variant="success">Validé</Badge>
+                          ) : etape.lecons.some((l: Lecon) => l.completed) ||
+                            (hasStarted && etape.id === currentStep?.id) ? (
+                            <Badge variant="brand">En cours</Badge>
                           ) : (
-                            <Badge variant="brand">EN COURS</Badge>
+                            <Badge variant="neutral">À venir</Badge>
                           )}
                           {etape.progression_mode === 'FLEXIBLE' && !etape.completed && idx > 0 && !parcours.etapes[idx - 1]?.completed && (
-                            <Badge variant="info" size="compact">⚠️ Accès souple</Badge>
+                            <Badge variant="info" size="compact">
+                              <AlertTriangle size={12} aria-hidden="true" /> Accès souple
+                            </Badge>
                           )}
                         </div>
 
@@ -472,8 +512,9 @@ export const LearningPathDetail: React.FC = () => {
                           className={`flex flex-col gap-stack-xs ${carouselItems.length > 0 && idx === 0 ? 'mb-stack-lg' : ''}`}
                         >
                           {etape.lecons.map((lecon: Lecon) => {
-                            const firstIncomplete = etape.lecons.findIndex((l: Lecon) => !l.completed);
-                            const isCurrent = !lecon.completed && etape.lecons.indexOf(lecon) === firstIncomplete;
+                            // Une seule leçon « en cours » dans tout le parcours,
+                            // pas la première non faite de chaque étape ouverte.
+                            const isCurrent = lecon.id === currentLesson?.id;
 
                             const rowBg = lecon.completed
                               ? 'bg-success-bg border-success-base/20'
@@ -515,7 +556,7 @@ export const LearningPathDetail: React.FC = () => {
                                   </div>
                                 </div>
 
-                                {isCurrent && (
+                                {isCurrent && hasStarted && (
                                   <div className="shrink-0">
                                     <Badge variant="brand">En cours</Badge>
                                   </div>
