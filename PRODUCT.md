@@ -1,5 +1,27 @@
 # Product
 
+> **État au 2026-09-24 — à lire avant le reste.** Ce document date de mai 2026.
+> Sa doctrine de design (North Star, mécanisme, cadence, voix, principes,
+> accessibilité) reste la référence. Sa partie stratégique a été rattrapée par la
+> réunion du 31/08 et par le journal des décisions (05/09 et 18/09) :
+> - le **lancement de la Learning App et du site vitrine est arrêté** ; leur
+>   planning sera révisé après le projet Agents (FACTS-CANON D12). Un MVP est en
+>   ligne depuis janvier et quatre clients bêta l'utilisent (C8) ;
+> - la Learning App est un **outil d'ancrage offert**, pas un pilier de revenus
+>   (D11) : 6 mois d'accès offerts avec tout achat des piliers 2 et 3 (D19) ;
+> - **quatre piliers** : Tech · Upskilling · Studio · Transverse (D14) ; le mot
+>   « conseil » est abandonné pour « **studio** » (D8) ; l'offre **STRIDE est
+>   gelée**, cible 2028 (D10) — la méthode reste, comme preuve de méthode ;
+> - le **Match** est spécifié, pas livré : il s'écrit **au futur** (D5).
+>
+> **Où vit ce qui fait foi** : les faits datés dans
+> [`docs/_canon/FACTS-CANON.md`](./docs/_canon/FACTS-CANON.md) ; les décisions dans le
+> [journal des décisions](https://app.notion.com/p/3d2cdd696db68130b58edc100798cad2)
+> (Notion) ; le périmètre produit (les 7 fonctionnalités cœur) dans la
+> [Single Source of Truth](https://app.notion.com/p/3abcdd696db68091a136eaf308c3b1df),
+> dont le calendrier est périmé. En cas d'écart avec ce document, ce sont eux qui
+> font foi.
+
 ## Register
 
 product
@@ -73,7 +95,7 @@ L'usage typique d'un apprenant entreprise n'est PAS quotidien. C'est :
 
 Conséquences design non-négociables :
 
-- **Pas de streak quotidien punitif type Duolingo.** Le streak TLS est hebdomadaire et tolère 1-2 jours off (cf. cahier 05 : seuils 3j / 7j / 30j configurables, pas 365j-no-break).
+- **Ni série, ni XP, ni classement nominatif** (arbitrage n°18, 2026-09-24, option « Reconnaissances »). L'engagement se montre en **rythme hebdomadaire calme** (« actif 3 semaines sur les 4 dernières »), sans compte à rebours ; ce qui se célèbre, ce sont des **niveaux validés**, en Open Badges. *(Remplace « le streak TLS est hebdomadaire et tolère 1-2 jours off », hérité du cahier 05.)*
 - **Le dashboard apprenant ouvre sur l'ACTION du jour, pas sur l'historique.** Le journal de la semaine est secondaire, pas hero.
 - **Les notifications sont silencieuses le weekend par défaut** (configurable par apprenant). Pas de relance dimanche 22h.
 - **La pause-reprise est first-class.** Le système doit retrouver l'apprenant exactement où il était : brouillon journal sauvegardé, position dans le lesson player, étape de mission en cours. Zéro re-onboarding après absence.
@@ -87,7 +109,7 @@ Boucle structurante : **Learn → Do → Match.**
 
 - **Learn** — parcours adaptatifs personnalisés par IA, calibrés sur le Passeport individuel (positionnement Mistral conversationnel + niveaux Dreyfus 1-5 + référentiel H.S.O).
 - **Do** — Projects SBO et Missions Apprenantes (AFEST). Travail client réel validé par JAC (Jalon d'Application Critique). Preuve de compétence, pas case complétée.
-- **Match** — le Passeport devient source de vérité organisationnelle. IA matche talents-projets, prédit skill gaps, alerte atrophie, recommande trajectoires.
+- **Match** — le Passeport **deviendra** la source de vérité organisationnelle : l'IA **matchera** talents et projets, **anticipera** les skill gaps, **recommandera** des trajectoires. *(Brique spécifiée, non livrée : au futur partout — FACTS-CANON D5. L'atrophie à 90 jours, elle, fait partie du Passeport de compétences.)*
 
 Le moat = **fusion IA + ingénierie pédagogique**.
 
@@ -95,9 +117,9 @@ Le moat = **fusion IA + ingénierie pédagogique**.
 - Pure-consulting (Mercer, Deloitte, McKinsey) — manquent la plateforme.
 - Pure-AI-matching (Skill Muse, Degreed, EightFold, Gloat) — manquent le SBO operating model.
 
-TLS combine les trois et embed le consulting IP (méthodologie STRIDE — S'orienter / Tester / Réaliser / Intégrer / Déployer / Évoluer ; templates SBO ; référentiel H.S.O) dans la plateforme elle-même. Le Wiki public Notion expose une partie de cette IP sans login — anti-Cornerstone closed, anti-McKinsey paywalled.
+TLS combine les trois et loge sa méthode dans la plateforme elle-même : la méthodologie STRIDE (S'orienter / Tester / Réaliser / Intégrer / Déployer / Évoluer), les templates SBO, le référentiel H.S.O. Le Wiki public Notion expose une partie de cette IP sans login — anti-Cornerstone closed, anti-McKinsey paywalled. *(Depuis le 31/08, l'**offre** STRIDE est gelée, cible 2028 (D10) ; la **méthode** reste, et la page du site est devenue une page de méthode (C7b). Le savoir-faire se vend désormais sous le nom de « studio » (D8).)*
 
-Vision 2031 (cf. Notion Roadmap 5 ans) : « The Operating System for Skills-Based Organizations ». ARR cible 5-6 M€ en Phase 3 via SaaS + Marketplace experts + Data licensing + Partnerships.
+Vision 2031 (cf. Notion Roadmap 5 ans) : « The Operating System for Skills-Based Organizations ». ARR cible 5-6 M€ en Phase 3 via SaaS + Marketplace experts + Data licensing + Partnerships. ⚠️ **Non revalidé depuis le 31/08** : D11 fait de la Learning App un outil d'ancrage offert (~40 k€ visés sur l'année), pas un pilier de revenus. Ne pas citer ce chiffre.
 
 ## Brand Personality — internal alignment
 
@@ -176,8 +198,8 @@ WCAG 2.2 AA visé sur 100 % des surfaces. AAA cibles sur :
 Le seul minimum normatif est **24×24 px** (WCAG 2.2 AA, SC 2.5.8) ; les 44×44 px
 viennent de AAA et des Apple HIG. Utility `min-h-touch` (44 px) sur les actions
 principales. *(Corrigé le 2026-07-28 : cette ligne imposait « 44 px minimum sur
-tout interactif », un absolu que 518 usages de `size="sm"` — 32 px, conforme AA —
-contredisent. Un seuil que le code dément se fait ignorer en entier, y compris sa
+tout interactif », un absolu que 518 usages de `size="sm"` — 32 px à l'époque,
+36 depuis l'arbitrage n°22 du 24/09, conformes AA — contredisaient. Un seuil que le code dément se fait ignorer en entier, y compris sa
 partie juste. Détail dans `CLAUDE.md`.)* `prefers-reduced-motion` honoré sur chaque animation, y compris primitives framer-motion du site marketing. Couleur jamais seul vecteur de sens — icône + label sur chaque état sémantique (success/danger/warning/info). Français primary ; i18n-ready pour EN, ES, potentiellement DE (expansion européenne phase 3).
 
 Compliance GDPR + AI Act intégrée au design (cf. cahier 13bis) : consent management, DSAR self-service, RTBF (suppression compte), AI transparency label sur chaque output IA, override mechanism sur recommandations IA destinées aux humains, bias monitoring sur décisions matching.
