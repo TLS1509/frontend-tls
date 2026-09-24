@@ -953,6 +953,10 @@ const ChartDetailModalDemo: React.FC = () => {
         onClose={() => setOpen(false)}
         title="Progression par compétence"
         subtitle="Douze dernières semaines"
+        actions={[
+          { label: 'Exporter en CSV', onClick: () => {} },
+          { label: 'Ouvrir le Passeport', onClick: () => {} },
+        ]}
       >
         <div className="flex items-end gap-stack-xs h-40">
           {[38, 52, 47, 63, 71, 58, 80].map((h, i) => (
@@ -5650,20 +5654,21 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'DataTable',
     codeName: 'patterns/DataTable.tsx',
     cssBase: 'Tailwind',
-    description: "Tableau de données : en-têtes 13/600 ink-600 en casse normale — la colonne triée passe en ink-900 —, cellules à 16 avec un retrait de 16 × 12, chiffres alignés à droite en tabulaire. Tri par colonne (`onSort`, le parent trie ; `sortValue` depuis le 23/09), rangées cliquables, pagination (deux Button sm et « Page n sur N »), états de chargement et vide. Pour comparer ou trier une collection (arbitrage n°5).",
-    keywords: ['table', 'data', 'grid', 'admin', 'analytics', 'sort'],
+    description: "Tableau de données : en-têtes 13/600 ink-600 en casse normale — la colonne triée passe en ink-900 —, cellules à 16 avec un retrait de 16 × 12, chiffres alignés à droite en tabulaire. Une table plus large que l'écran défile ; chaque colonne peut garder une largeur (`width`) ou une largeur minimale (`minWidth`, 24/09) — sans elle, l'algorithme des tables la ramène au mot le plus long de son en-tête : à 375, les URL des webhooks tombaient à 91 px, coupées tous les 7 caractères. Tri par colonne (`onSort`, le parent trie ; `sortValue` depuis le 23/09), rangées cliquables, pagination (deux Button sm et « Page n sur N »), états de chargement et vide. Pour comparer ou trier une collection (arbitrage n°5).",
+    keywords: ['table', 'data', 'grid', 'admin', 'analytics', 'sort', 'minWidth', 'width', 'colonne'],
     render: () => (
       <DataTable
         columns={[
           { key: 'name', label: 'Nom', sortable: true },
-          { key: 'role', label: 'Rôle' },
+          /* `minWidth` : à 375, la table défile au lieu de couper l'adresse. */
+          { key: 'email', label: 'E-mail', minWidth: '14rem' },
           { key: 'progress', label: 'Progression', align: 'right' },
           { key: 'last', label: 'Dernière activité', align: 'right' },
         ]}
         rows={[
-          { id: '1', name: 'Sophie Martin', role: 'Coach', progress: '92%', last: "Aujourd'hui" },
-          { id: '2', name: 'Marc Dubois', role: 'Apprenant', progress: '67%', last: 'Hier' },
-          { id: '3', name: 'Léa Petit', role: 'Apprenant', progress: '45%', last: 'Il y a 3 jours' },
+          { id: '1', name: 'Sophie Martin', email: 'sophie.martin@exemple.fr', progress: '92 %', last: "Aujourd'hui" },
+          { id: '2', name: 'Marc Dubois', email: 'marc.dubois@exemple.fr', progress: '67 %', last: 'Hier' },
+          { id: '3', name: 'Léa Petit', email: 'lea.petit@exemple.fr', progress: '45 %', last: 'Il y a 3 jours' },
         ]}
       />
     ),
@@ -7236,22 +7241,38 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'BarChart',
     codeName: 'charts/BarChart.tsx',
     cssBase: 'BarChart',
-    description: "Barres de comparaison — classement d'équipes, cohortes, distribution de scores. Horizontales par défaut (`layout`), catégories sur l'axe vertical, qui prend 35 % de la largeur (72 à 282 px) et coupe les libellés trop longs. Une série (`dataKey`) ou plusieurs (`series`, avec légende) ; clic sur une barre ; hauteurs de 250 · 350 · 450 px. Socle commun (chartTheme.ts) : graduations et titres d'axe en 13/400 ink-600 tabulaires, info-bulle blanche au rayon 14 (titre 13/600, valeurs 13 ink-700), légende en 13 ink-700, nombres et pourcentages à la française ; `role=\"img\"` et `ariaLabel`.",
+    description: "Barres de comparaison — classement d'équipes, cohortes, distribution de scores. Horizontales par défaut (`layout`), catégories sur l'axe vertical, qui prend 35 % de la largeur (72 à 282 px) et coupe les libellés trop longs. L'axe des valeurs est gradué rond (`axeRond` de chartTheme.ts, 24/09) : des pas de 1, 2, 2,5 ou 5 × 10ⁿ, trois à six intervalles, jamais de pas décimal sur des entiers — il découpait le domaine exact, 0 · 0.95 · 1.9 · 2.85 · 3.8 ; graduations et info-bulle écrivent les nombres à la française (`nombreFr`). Une série (`dataKey`) ou plusieurs (`series`, avec légende) ; clic sur une barre ; hauteurs de 250 · 350 · 450 px. Socle commun (chartTheme.ts) : graduations et titres d'axe en 13/400 ink-600 tabulaires, info-bulle blanche au rayon 14 (titre 13/600, valeurs 13 ink-700), légende en 13 ink-700, nombres et pourcentages à la française ; `role=\"img\"` et `ariaLabel`.",
     keywords: ['bar', 'chart', 'rankings', 'comparison', 'analytics', 'dashboard'],
     usedBy: ['Enterprise', 'Analytics'],
     render: () => (
-      <BarChart
-        data={[
-          { label: 'Équipe Lyon', score: 82 },
-          { label: 'Équipe Nantes', score: 76 },
-          { label: 'Équipe Paris', score: 89 },
-          { label: 'Équipe Lille', score: 71 },
-          { label: 'Équipe Bordeaux', score: 85 },
-        ]}
-        dataKey="score"
-        size="md"
-        onBarClick={() => {}}
-      />
+      <div className="flex flex-col gap-section">
+        <BarChart
+          data={[
+            { label: 'Équipe Lyon', score: 82 },
+            { label: 'Équipe Nantes', score: 76 },
+            { label: 'Équipe Paris', score: 89 },
+            { label: 'Équipe Lille', score: 71 },
+            { label: 'Équipe Bordeaux', score: 85 },
+          ]}
+          dataKey="score"
+          size="md"
+          onBarClick={() => {}}
+        />
+        {/* Un maximum décimal (3,8) : l'axe se gradue 0 · 1 · 2 · 3 · 4, et
+            l'info-bulle écrit « 3,8 ». */}
+        <div className="flex flex-col gap-stack-xs">
+          <p className="text-caption font-semibold text-ink-600">Niveau Dreyfus moyen par équipe · un maximum de 3,8, un axe rond</p>
+          <BarChart
+            data={[
+              { label: 'Équipe Lyon', niveau: 3.8 },
+              { label: 'Équipe Nantes', niveau: 2.6 },
+              { label: 'Équipe Paris', niveau: 3.1 },
+            ]}
+            dataKey="niveau"
+            size="sm"
+          />
+        </div>
+      </div>
     ),
   },
 
@@ -7327,7 +7348,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'ScatterChart',
     codeName: 'charts/ScatterChart.tsx',
     cssBase: 'ScatterChart',
-    description: "Nuage de points ou bulles, pour une corrélation : positionnement des apprenants, compétence contre engagement. Info-bulle propre — le libellé du point en 13/600, puis « axe : valeur » en 13 ink-700, arrondi à l'entier ; taille des bulles par `z` (`bubbleScale`) ; domaines réglables ; clic sur un point. ⚠️ `xAxisLabel` et `yAxisLabel` ne sont pas encore dessinés sur les axes. Socle commun (chartTheme.ts) : graduations et titres d'axe en 13/400 ink-600 tabulaires, info-bulle blanche au rayon 14 (titre 13/600, valeurs 13 ink-700), légende en 13 ink-700, nombres et pourcentages à la française ; `role=\"img\"` et `ariaLabel`.",
+    description: "Nuage de points ou bulles, pour une corrélation : positionnement des apprenants, compétence contre engagement. Info-bulle propre — le libellé du point en 13/600, puis « axe : valeur » en 13 ink-700, arrondi à l'entier ; taille des bulles par `z` (`bubbleScale`) ; domaines réglables ; clic sur un point. `xAxisLabel` et `yAxisLabel` sont dessinés depuis le 24/09, avec l'habillage de ComposedChart — le titre vertical à gauche des graduations, l'horizontal dessous, dans un axe porté à 52 px pour que la légende ne le recouvre pas ; ils n'alimentaient que l'info-bulle et le nom accessible. Socle commun (chartTheme.ts) : graduations et titres d'axe en 13/400 ink-600 tabulaires, info-bulle blanche au rayon 14 (titre 13/600, valeurs 13 ink-700), légende en 13 ink-700, nombres et pourcentages à la française ; `role=\"img\"` et `ariaLabel`.",
     keywords: ['scatter', 'bubble', 'chart', 'correlation', 'positioning', 'analytics'],
     usedBy: ['Coach'],
     render: () => (
@@ -7349,8 +7370,8 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'ComposedChart',
     codeName: 'charts/ComposedChart.tsx',
     cssBase: 'ComposedChart',
-    description: "Barres et courbe sur un même graphique, pour deux mesures liées (nombre d'activités et score moyen, volume et qualité). Barres à 70 % d'opacité, courbes de 2 px ; double axe en option (`dualAxis`), titres d'axe verticaux en 13 ink-600 — à nommer : leurs défauts, « Value » et « Score », sont en anglais. Socle commun (chartTheme.ts) : graduations et titres d'axe en 13/400 ink-600 tabulaires, info-bulle blanche au rayon 14 (titre 13/600, valeurs 13 ink-700), légende en 13 ink-700, nombres et pourcentages à la française ; `role=\"img\"` et `ariaLabel`.",
-    keywords: ['composed', 'bar', 'line', 'hybrid', 'dual-axis', 'analytics'],
+    description: "Barres et courbe sur un même graphique, pour deux mesures liées (nombre d'activités et score moyen, volume et qualité). Barres à 70 % d'opacité, courbes de 2 px ; double axe en option (`dualAxis`) ; une série passe sur l'axe droit par `yAxisId: 'right'` — sans lui, elle reste à gauche et l'axe droit, dessiné, reste vide. Titres d'axe verticaux en 13 ink-600, à nommer : leurs défauts sont « Valeur » (« Value » jusqu'au 24/09) et « Score ». Socle commun (chartTheme.ts) : graduations et titres d'axe en 13/400 ink-600 tabulaires, info-bulle blanche au rayon 14 (titre 13/600, valeurs 13 ink-700), légende en 13 ink-700, nombres et pourcentages à la française ; `role=\"img\"` et `ariaLabel`.",
+    keywords: ['composed', 'bar', 'line', 'hybrid', 'dual-axis', 'yAxisId', 'analytics'],
     usedBy: ['Analytics'],
     render: () => (
       <ComposedChart
@@ -7361,7 +7382,9 @@ const COMPONENTS: ComponentEntry[] = [
         ]}
         series={[
           { key: 'count', label: 'Activités', type: 'bar' },
-          { key: 'avgScore', label: 'Score moyen', type: 'line' },
+          /* Sans `yAxisId: 'right'`, la courbe restait sur l'axe gauche et
+             l'axe droit de la démo restait vide. */
+          { key: 'avgScore', label: 'Score moyen', type: 'line', yAxisId: 'right' },
         ]}
         dualAxis
         leftAxisLabel="Activités"
@@ -7398,9 +7421,9 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'ChartContainer',
     codeName: 'charts/ChartContainer.tsx',
     cssBase: 'ChartContainer',
-    description: "L'enveloppe commune des graphiques : un fond blanc, un filet ink-100, le rayon 14, un padding de 16, le contenu centré. Elle n'expose que `children` et `className` — ni titre ni taille : un titre se pose au-dessus, par la page.",
-    keywords: ['chart', 'container', 'wrapper', 'consistent', 'styling', 'analytics'],
-    usedBy: ['Passeport', 'Enterprise', 'Analytics', 'Coach'],
+    description: "La carte qui porte un graphique posé seul dans une section. Elle passe par Card depuis le 24/09 — rayon 20, padding 24, filet ink-200 —, le contenu centré ; c'était une carte faite main au rayon 14, padding 16, filet ink-100, un troisième gabarit de carte. Le padding dépasse le rayon : ce qu'elle contient garde sa forme (règle des coins imbriqués). Elle ne se pose jamais dans une carte — ce serait une carte dans une carte : dans une carte, poser le graphique directement. Elle n'expose que `children` et `className`, ni titre ni taille : un titre se pose au-dessus, par la page.",
+    keywords: ['chart', 'container', 'wrapper', 'card', 'carte', 'consistent', 'styling', 'analytics'],
+    usedBy: ['CoachDashboard'],
     // ChartContainer n'expose que children + className (pas de title/size)
     render: () => (
       <ChartContainer>
@@ -7421,20 +7444,24 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'TimelineChart',
     codeName: 'charts/TimelineChart.tsx',
     cssBase: 'TimelineChart',
-    description: "Chronologie du parcours d'un apprenant — leçons, sessions, badges, jalons —, du plus récent au plus ancien, dans une liste ordonnée. Dates à la française (« 20 mars 2026 ») en 13/600 ink-600 tabulaire sur une colonne de 96 px ; en vertical, cartes au cran 50 du type (titre 16/600, description 16 ink-700), 24 px entre deux événements ; en horizontal, colonnes de 160 px et description en 13. Le type s'écrit dans une pastille 13/500. `maxEvents`, clic sur un événement.",
-    keywords: ['timeline', 'journey', 'events', 'learner', 'progression', 'milestones', 'vertical', 'horizontal'],
-    usedBy: ['Passeport', 'Coach', 'Analytics'],
+    description: "Chronologie du parcours d'un apprenant — leçons, sessions, badges, jalons —, du plus récent au plus ancien, dans une liste ordonnée. Une collection : ses événements sont des rangées dans la carte de la section, sans boîte (arbitrage n°5) — chacun était une carte au fond teinté de son type, cinq cartes dans une carte au Passeport. Sur le rail, la date à la française (« 20 mars 2026 ») en 13/600 ink-600 tabulaire sur 96 px, calée sur la ligne de base du titre, une pastille de 16 px à la couleur du type et un trait ink-200 jusqu'au bas de la rangée ; puis le titre 16/600, la description 16 ink-700 à la largeur de lecture et le type en légende 13 ink-600, après une pastille de 8 px ; 24 px entre deux événements. Cliquable (`onEventClick`), un événement devient un vrai `<button>`, au survol ink-50 qui déborde de 8 px sans bouger le texte. En horizontal, colonnes de 160 px et description en 13. `maxEvents`.",
+    keywords: ['timeline', 'journey', 'events', 'learner', 'progression', 'milestones', 'vertical', 'horizontal', 'collection', 'rangées'],
+    usedBy: ['Passeport'],
     render: () => (
-      <TimelineChart
-        data={[
-          { id: '1', date: '2026-06-29', label: 'Leçon 1 : les fondamentaux du leadership', type: 'lesson', description: 'Terminée en 45 minutes', tone: 'primary' },
-          { id: '2', date: '2026-06-27', label: 'Badge obtenu : Leadership D3', type: 'badge', tone: 'sun' },
-          { id: '3', date: '2026-06-25', label: 'Session de coaching', type: 'session', description: 'En tête-à-tête avec Sarah', tone: 'warm' },
-          { id: '4', date: '2026-06-20', label: 'Jalon : deuxième semaine terminée', type: 'milestone', tone: 'success' },
-        ]}
-        layout="vertical"
-        maxEvents={10}
-      />
+      /* Posée comme au Passeport : des rangées dans la carte de la section. */
+      <Card className="max-w-2xl">
+        <TimelineChart
+          data={[
+            { id: '1', date: '2026-06-29', label: 'Leçon 1 : les fondamentaux du leadership', type: 'lesson', description: 'Terminée en 45 minutes' },
+            { id: '2', date: '2026-06-27', label: 'Badge obtenu : Leadership D3', type: 'badge' },
+            { id: '3', date: '2026-06-25', label: 'Session de coaching', type: 'session', description: 'En tête-à-tête avec Sarah' },
+            { id: '4', date: '2026-06-20', label: 'Jalon : deuxième semaine terminée', type: 'milestone' },
+          ]}
+          layout="vertical"
+          maxEvents={10}
+          onEventClick={() => {}}
+        />
+      </Card>
     ),
   },
 
@@ -7442,7 +7469,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'GaugeChart',
     codeName: 'charts/GaugeChart.tsx',
     cssBase: 'GaugeChart',
-    description: "Jauge circulaire d'une progression (de 0 à 100 %, ou une échelle Dreyfus de 0 à 5, toujours affichée en pourcentage). La valeur prend le pas des titres — 20, 28 ou 36 px en 700, tabulaire, au cran 800 du ton — selon la taille (SVG de 100 · 140 · 200 px) : au centre de l'anneau en arc, sous le dessin en aiguille et en segments. Le libellé et l'objectif (« Objectif : 90 % ») s'écrivent dessous en 13 ink-600 — sauf en aiguille, qui n'écrit pas l'objectif. Cinq tons ; `target` pour un objectif.",
+    description: "Jauge circulaire d'une progression (de 0 à 100 %, ou une échelle Dreyfus de 0 à 5, toujours affichée en pourcentage). La valeur prend le pas des titres — 20, 28 ou 36 px en 700, tabulaire, au cran 800 du ton — selon la taille (SVG de 100 · 140 · 200 px) : au centre de l'anneau en arc, sous le dessin en aiguille et en segments. Le libellé et l'objectif (« Objectif : 90 % ») s'écrivent dessous en 13 ink-600 — sauf en aiguille, qui n'écrit pas l'objectif. En segments, chaque anneau se remplit à sa propre valeur : jusqu'au 24/09, les deux anneaux intérieurs calculaient leur trait sur la circonférence de l'anneau extérieur, et une progression au-delà de 70 % se dessinait pleine. Cinq tons ; `target` pour un objectif.",
     keywords: ['gauge', 'progress', 'circular', 'indicator', 'goal', 'achievement', 'needle', 'arc'],
     usedBy: ['Passeport', 'Dashboard', 'Analytics'],
     render: () => (
@@ -7458,9 +7485,9 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'ChartExportButton',
     codeName: 'charts/ChartExportButton.tsx',
     cssBase: 'ChartExportButton',
-    description: "Boutons d'export d'un graphique : PNG, PDF et CSV (ce dernier si `data` est fourni). compact, le défaut : des Button sm soft, un ton par format (PNG brand, PDF warm, CSV sun) ; full : des Button md. Erreur en 13 danger-fg. ⚠️ Ses libellés d'aide (« Export as PNG »…) sont encore en anglais, et la variante full aligne trois `solid` là où l'arbitrage n°19 n'en veut qu'un par écran.",
-    keywords: ['export', 'download', 'csv', 'pdf', 'png', 'chart', 'analytics', 'report'],
-    usedBy: ['Passeport', 'Enterprise', 'Analytics', 'Coach'],
+    description: "Boutons d'export d'un graphique : PNG, PDF et CSV (ce dernier si `data` est fourni), un ton par format (PNG brand, PDF warm, CSV sun). Exporter est un outil, jamais l'action principale d'un écran (arbitrage n°19) : compact, le défaut, posé dans l'en-tête d'un graphique, aligne des Button sm ghost libellés « PNG », « PDF », « CSV » ; full, un bloc d'export autonome, des Button md soft « Exporter en PNG »… En français depuis le 24/09 : info-bulle « Exporter le graphique en PNG » (« les données en CSV »), nom accessible qui contient le libellé visible (WCAG 2.5.3), et une erreur en 13 danger-fg qui dit quel export a échoué — le détail technique reste dans la console.",
+    keywords: ['export', 'download', 'csv', 'pdf', 'png', 'chart', 'analytics', 'report', 'exporter'],
+    usedBy: ['ChartWithExport (Passeport, CoachEnterpriseDashboard)'],
     render: () => (
       <div className="space-y-4">
         <div>
@@ -8000,8 +8027,8 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'charts/ChartDetailModal.tsx',
     showcaseOnly: true,
     cssBase: 'Tailwind (no BEM)',
-    description: "Ouvre un graphique en grand, dans un panneau au rayon 24 (90 % de la hauteur au plus) : titre en h2 au pas h3 (20/700), sous-titre 16 ink-700, le graphique, puis des Button md. ⚠️ Ce n'est pas encore un vrai dialogue : ni `role=\"dialog\"`, ni piège de focus.",
-    keywords: ['chart', 'modal', 'detail', 'plein ecran', 'analytics', 'zoom'],
+    description: "Ouvre un graphique en grand, dans un panneau au rayon 24 (90 % de la hauteur au plus), en-tête et pied collants : titre h2 au pas h3 (20/700), sous-titre 16 ink-700, le graphique, puis les actions en Button md — la dernière, l'action que la modale sert, en solid ; les autres en ghost (arbitrage n°19). Un vrai dialogue depuis le 24/09, par `useDialog` comme les modales de `modals/` : nommé par son titre, focus d'entrée sur « Fermer », Tab et Maj+Tab piégés, Échap, focus rendu au déclencheur ; le voile n'est plus un faux bouton, seulement une zone de clic.",
+    keywords: ['chart', 'modal', 'detail', 'plein ecran', 'analytics', 'zoom', 'dialog', 'focus', 'useDialog'],
     render: () => <ChartDetailModalDemo />,
   },
   {
