@@ -75,14 +75,17 @@ export default function CoachingSessionDetail() {
           { label: <Badge variant="info" size="compact">{isPlanned ? 'Confirmée' : 'Terminée'}</Badge> },
         ]}
         tone="flat"
+        /* Arbitrage n°19 : « Rejoindre » est l'action principale d'une
+           session à venir, le seul `solid` ; le calendrier est un outil
+           (`ghost` neutre). Une session passée n'a pas d'action principale. */
         trailing={
           <div className="flex flex-wrap items-center gap-stack-xs">
             {isPlanned && (
-              <Button emphasis="soft" size="md" leadingIcon={<Video size={16} />}>
+              <Button emphasis="solid" tone="brand" size="md" leadingIcon={<Video size={16} />}>
                 Rejoindre la session
               </Button>
             )}
-            <Button emphasis="outline" size="md" leadingIcon={<Download size={16} />}>
+            <Button emphasis="ghost" tone="neutral" size="md" leadingIcon={<Download size={16} />}>
               Ajouter au calendrier
             </Button>
           </div>
@@ -156,12 +159,15 @@ export default function CoachingSessionDetail() {
         </section>
       )}
 
-      {/* Actions — plus de `pb-section` : PageShell porte l'air du bas. */}
+      {/* Actions — plus de `pb-section` : PageShell porte l'air du bas.
+          Contacter le coach, l'action seconde, en `soft` ; annuler la session,
+          une action destructive posée dans la page, en `ghost` danger
+          (arbitrage n°19) — elle était un `outline` recoloré à la main. */}
       <div className="flex flex-wrap items-center gap-stack-xs">
-        <Button emphasis="outline" size="md" leadingIcon={<MessageSquare size={16} />}>
+        <Button emphasis="soft" tone="brand" size="md" leadingIcon={<MessageSquare size={16} />}>
           Contacter le coach
         </Button>
-        <Button emphasis="outline" size="md" className="text-danger-fg hover:bg-danger-bg">
+        <Button emphasis="ghost" tone="danger" size="md">
           Annuler la session
         </Button>
       </div>

@@ -83,12 +83,16 @@ const ItemRecommendations: React.FC = () => {
                     </div>
                   </figure>
 
+                  {/* L'action de la carte (Découvrir) en `soft` ; écarter une
+                      recommandation est un outil, en `ghost` neutre
+                      (arbitrage n°19). */}
                   <div className="mt-stack-lg flex flex-wrap items-center gap-stack-xs">
-                    <Button emphasis="soft" size="sm" trailingIcon={<ArrowRight className="w-4 h-4" />}>
+                    <Button emphasis="soft" tone="brand" size="sm" trailingIcon={<ArrowRight className="w-4 h-4" />}>
                       Découvrir
                     </Button>
                     <Button
-                      emphasis="outline"
+                      emphasis="ghost"
+                      tone="neutral"
                       size="sm"
                       leadingIcon={<EyeOff className="w-4 h-4" />}
                       onClick={() => coachingStore.dismissRecommendation(MOCK_USER_ID, r.id)}

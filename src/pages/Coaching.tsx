@@ -249,6 +249,8 @@ export const Coaching: React.FC = () => {
                 </p>
               </div>
               <Button
+                emphasis="solid"
+                tone="brand"
                 leadingIcon={<Calendar size={16} />}
                 onClick={() => setShowBooking(true)}
                 size="lg"
@@ -303,9 +305,15 @@ export const Coaching: React.FC = () => {
                     />
                   </div>
 
-                  {/* Actions : 1 action primaire + secondaires compactes (calendrier en icon-button). */}
+                  {/* Actions : « Rejoindre » est l'action principale de l'écran,
+                      son seul `solid` (arbitrage n°19) ; le calendrier est un
+                      outil et « Reprogrammer » une action d'exception : deux
+                      `ghost`. « Reprogrammer » était un `outline` qui ne formait
+                      aucune paire Annuler / Confirmer. */}
                   <div className="flex flex-wrap items-center gap-stack-xs">
                     <Button
+                      emphasis="solid"
+                      tone="brand"
                       size="lg"
                       leadingIcon={<Video size={14} />}
                       className="flex-1 min-w-[180px] sm:flex-none"
@@ -321,7 +329,7 @@ export const Coaching: React.FC = () => {
                       onClick={handleDownloadCalendarInvite}
                       aria-label="Ajouter au calendrier (.ics)"
                     />
-                    <Button emphasis="outline" size="lg" onClick={() => setShowCancel(true)}>
+                    <Button emphasis="ghost" tone="brand" size="lg" onClick={() => setShowCancel(true)}>
                       Reprogrammer
                     </Button>
                   </div>
@@ -344,8 +352,12 @@ export const Coaching: React.FC = () => {
                       Réserve un créneau 1:1 de 60 minutes pour avancer sur tes cas réels.
                     </p>
                   </div>
+                  {/* Réserver, l'action principale (`solid`) ; échanger avec le
+                      coach, l'action seconde (`soft`). */}
                   <div className="flex flex-wrap gap-stack-xs justify-center items-center">
                     <Button
+                      emphasis="solid"
+                      tone="brand"
                       leadingIcon={<Calendar size={16} />}
                       onClick={() => setShowBooking(true)}
                       size="lg"
@@ -353,7 +365,8 @@ export const Coaching: React.FC = () => {
                       Réserver une session
                     </Button>
                     <Button
-                      emphasis="outline"
+                      emphasis="soft"
+                      tone="brand"
                       size="lg"
                       leadingIcon={<MessageCircle size={16} />}
                       onClick={() => navigate('/messages')}

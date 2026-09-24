@@ -177,7 +177,7 @@ export const CoachingCompteRendu: React.FC = () => {
       <EditorialHero
         tone="flat"
         trailing={
-          <Button emphasis="outline" size="md" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate(-1)}>
+          <Button emphasis="ghost" tone="neutral" size="md" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate(-1)}>
             Retour
           </Button>
         }
@@ -305,9 +305,13 @@ export const CoachingCompteRendu: React.FC = () => {
             </div>
           </SectionCard>
 
+          {/* Arbitrage n°19 : prolonger la séance dans le journal est l'action
+              principale du compte rendu (le seul `solid`) ; la liste des
+              comptes rendus est un renvoi (`ghost`). */}
           <div className="flex flex-col gap-stack-xs">
             <Button
-              emphasis="soft" tone="warm"
+              emphasis="solid"
+              tone="warm"
               fullWidth
               leadingIcon={<PlusCircle size={16} />}
               onClick={() => navigate(`/journal/new-entry?type=compte-rendu&sessionId=${report.id}`)}
@@ -316,7 +320,8 @@ export const CoachingCompteRendu: React.FC = () => {
             </Button>
 
             <Button
-              emphasis="outline"
+              emphasis="ghost"
+              tone="brand"
               fullWidth
               leadingIcon={<BookOpen size={16} />}
               onClick={() => navigate('/journal')}

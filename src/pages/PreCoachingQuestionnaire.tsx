@@ -88,7 +88,7 @@ export const PreCoachingQuestionnaire: React.FC = () => {
         title="Prépare ta session"
         summary="Réponds à ces 3 questions pour une session sur-mesure."
         trailing={
-          <Button emphasis="outline" size="md" leadingIcon={<ChevronLeft size={16} />} onClick={() => navigate('/coaching')}>
+          <Button emphasis="ghost" tone="neutral" size="md" leadingIcon={<ChevronLeft size={16} />} onClick={() => navigate('/coaching')}>
             Retour
           </Button>
         }
@@ -119,9 +119,12 @@ export const PreCoachingQuestionnaire: React.FC = () => {
         ))}
       </div>
 
+      {/* L'envoi du formulaire est l'action principale de l'écran : son seul
+          `solid` (arbitrage n°19). Le retour, en haut, est un `ghost`. */}
       <div>
         <Button
-          emphasis="soft"
+          emphasis="solid"
+          tone="brand"
           size="lg"
           leadingIcon={<Send size={16} />}
           disabled={!isComplete}

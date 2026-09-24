@@ -53,11 +53,15 @@ export const PreCoachingQuestionnaireResponse: React.FC = () => {
                 ))}
               </dl>
             </Card>
+            {/* Une page de restitution : pas d'action principale, donc pas de
+                `solid` (arbitrage n°19). Modifier, l'action des réponses, en
+                `soft` au ton de la page ; le retour en `ghost` neutre. Les deux
+                boutons avaient le même poids, en deux tons. */}
             <div className="flex flex-wrap items-center gap-stack-xs">
-              <Button emphasis="soft" tone="warm" onClick={() => navigate('/coaching/pre-questionnaire')}>
+              <Button emphasis="soft" tone="brand" onClick={() => navigate('/coaching/pre-questionnaire')}>
                 Modifier mes réponses
               </Button>
-              <Button onClick={() => navigate('/coaching')}>Retour coaching</Button>
+              <Button emphasis="ghost" tone="neutral" onClick={() => navigate('/coaching')}>Retour coaching</Button>
             </div>
           </section>
         }

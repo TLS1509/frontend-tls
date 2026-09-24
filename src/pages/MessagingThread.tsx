@@ -97,9 +97,12 @@ const MessagingThread: React.FC = () => {
           ))}
         </div>
 
+        {/* Envoyer : l'action principale de la conversation, son seul
+            `solid` ; joindre et l'emoji sont des outils, en `ghost` neutre
+            (arbitrage n°19). */}
         <Card className="p-stack-xs flex items-end gap-stack-xs">
-          <Button emphasis="outline" iconOnly leadingIcon={<Paperclip className="w-4 h-4" />} aria-label="Joindre" />
-          <Button emphasis="outline" iconOnly leadingIcon={<Smile className="w-4 h-4" />} aria-label="Emoji" />
+          <Button emphasis="ghost" tone="neutral" iconOnly leadingIcon={<Paperclip className="w-4 h-4" />} aria-label="Joindre" />
+          <Button emphasis="ghost" tone="neutral" iconOnly leadingIcon={<Smile className="w-4 h-4" />} aria-label="Emoji" />
           <textarea
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
@@ -114,7 +117,7 @@ const MessagingThread: React.FC = () => {
             className="flex-1 h-auto min-h-[44px] max-h-32 resize-none p-stack-xs border-0 focus:outline-2 focus:outline-offset-2 focus:outline-primary-500 text-body placeholder:text-ink-500"
             rows={1}
           />
-          <Button emphasis="soft" leadingIcon={<Send className="w-4 h-4" />} onClick={send} disabled={!draft.trim()}>
+          <Button emphasis="solid" tone="brand" leadingIcon={<Send className="w-4 h-4" />} onClick={send} disabled={!draft.trim()}>
             Envoyer
           </Button>
         </Card>

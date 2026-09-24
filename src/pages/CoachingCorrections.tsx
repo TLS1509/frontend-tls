@@ -119,7 +119,9 @@ const LearnerCorrectionCard: React.FC<LearnerCorrection & { onOpen: () => void }
           <MessageSquare size={14} aria-hidden />
           Itération {iterationCount + 1}
         </p>
-        <Button emphasis="outline" size="sm" trailingIcon={<ChevronRight size={14} />} onClick={onOpen}>
+        {/* L'action de la carte : `soft` (arbitrage n°19 ; `outline` est
+            réservé à Annuler). */}
+        <Button emphasis="soft" tone="brand" size="sm" trailingIcon={<ChevronRight size={14} />} onClick={onOpen}>
           {status === 'waiting' ? 'Voir ma soumission' : 'Lire le retour'}
         </Button>
       </div>

@@ -48,8 +48,10 @@ const CorrectionDetailLearner: React.FC = () => {
           title="Correction introuvable"
           summary="Cette correction n'existe pas."
           tone="flat"
+          /* Seule sortie de l'écran, donc son action principale : `solid`
+             (arbitrage n°19). */
           trailing={
-            <Button emphasis="outline" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/coaching/corrections')}>
+            <Button emphasis="solid" tone="brand" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/coaching/corrections')}>
               Retour aux corrections
             </Button>
           }
@@ -84,7 +86,7 @@ const CorrectionDetailLearner: React.FC = () => {
         ]}
         tone="flat"
         trailing={
-          <Button emphasis="outline" size="md" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/coaching/corrections')}>
+          <Button emphasis="ghost" tone="neutral" size="md" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/coaching/corrections')}>
             Retour aux corrections
           </Button>
         }
@@ -137,10 +139,15 @@ const CorrectionDetailLearner: React.FC = () => {
           </Alert>
         )}
 
+        {/* Une action principale selon l'état (arbitrage n°19) : resoumettre
+            quand le retour appelle une version, sinon répondre au coach. La
+            seconde est en `soft`, « Marquer comme lue » en `ghost`. Les trois
+            boutons avaient le même poids en trois tons. */}
         <div className="flex flex-wrap gap-stack-xs">
           {canResubmit && (
             <Button
-              emphasis="soft"
+              emphasis="solid"
+              tone="brand"
               size="lg"
               leadingIcon={<RotateCcw size={16} />}
               aria-label="Resoumettre une nouvelle version de l'exercice"
@@ -150,7 +157,8 @@ const CorrectionDetailLearner: React.FC = () => {
           )}
           {hasFeedback && (
             <Button
-              emphasis="soft" tone="warm"
+              emphasis={canResubmit ? 'soft' : 'solid'}
+              tone="brand"
               size="lg"
               leadingIcon={<Send size={16} />}
               aria-label="Répondre au feedback du coach"
@@ -160,7 +168,8 @@ const CorrectionDetailLearner: React.FC = () => {
           )}
           {correction.status !== 'completed' && (
             <Button
-              emphasis="outline"
+              emphasis="ghost"
+              tone="brand"
               size="lg"
               leadingIcon={<CheckCircle2 size={16} />}
               onClick={() => store.updateCorrection(MOCK_USER_ID, correction.id, { status: 'completed' })}

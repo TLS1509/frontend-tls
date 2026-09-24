@@ -218,9 +218,12 @@ export default function CoachProfileView() {
             <Badge variant="success">Disponible</Badge>
           </Card>
 
-          {/* CTAs */}
+          {/* CTAs — réserver est l'action principale de la page (« réserve ta
+              prochaine session »), son seul `solid` ; le message reste
+              l'action seconde, en `soft` (arbitrage n°19). Les deux avaient le
+              même poids. */}
           <div className="flex flex-col gap-stack-xs">
-            <Button emphasis="soft" tone="warm" size="md" fullWidth leadingIcon={<Calendar size={16} />}>
+            <Button emphasis="solid" tone="warm" size="md" fullWidth leadingIcon={<Calendar size={16} />}>
               Réserver une session
             </Button>
             <Button emphasis="soft" tone="warm" size="md" fullWidth leadingIcon={<MessageCircle size={16} />}>

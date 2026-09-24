@@ -102,15 +102,21 @@ export const CoachingBookingFlow: React.FC = () => {
                   },
                 ]}
               />
+              {/* Confirmer : l'action principale, le seul `solid` (arbitrage
+                  n°19). « Voir tous les créneaux » est un renvoi : `ghost`, au
+                  ton de la page — il était orange, au même poids que
+                  Confirmer. */}
               <div className="flex flex-wrap items-center gap-stack-xs">
                 <Button
+                  emphasis="solid"
+                  tone="brand"
                   onClick={handleConfirm}
                   loading={isConfirming}
                   leadingIcon={<Coins size={14} />}
                 >
                   Confirmer (1 crédit Classic)
                 </Button>
-                <Button emphasis="soft" tone="warm">Voir tous les créneaux</Button>
+                <Button emphasis="ghost" tone="brand">Voir tous les créneaux</Button>
               </div>
             </Card>
           </section>
