@@ -139,6 +139,13 @@ export type StatusBadgeStatus =
 
 export interface StatusBadgeProps {
   status: StatusBadgeStatus;
+  /**
+   * Le mot d'un autre domaine qui emprunte l'icône d'un état de leçon — une
+   * correction « En attente de correction » sur l'icône `available`. Il sert
+   * de nom accessible (et de libellé avec `showLabel`). Défaut : le libellé de
+   * l'état (« Verrouillé », « Disponible »…).
+   */
+  label?: string;
   showLabel?: boolean;
   size?: 'sm' | 'md';
   className?: string;
@@ -186,12 +193,13 @@ const StatusIcon: React.FC<{ status: StatusBadgeStatus; size: number }> = ({ sta
 
 export const StatusBadge: React.FC<StatusBadgeProps> = ({
   status,
+  label: libelle,
   showLabel = false,
   size = 'md',
   className = '',
 }) => {
   const iconSize = STATUS_ICON_SIZE[size];
-  const label = STATUS_LABELS[status];
+  const label = libelle ?? STATUS_LABELS[status];
 
   /* Le registre de Badge — capitales, 700, `tracking-label` (2026-09-24).
      StatusBadge dit un ÉTAT, comme Badge, mais parlait en 600 et en casse
