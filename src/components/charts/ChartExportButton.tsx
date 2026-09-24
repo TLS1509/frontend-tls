@@ -35,13 +35,18 @@ export const ChartExportButton: React.FC<ChartExportButtonProps> = ({
 
   const filename = customFilename || generateFilename('chart');
 
+  /* L'erreur affichée est une phrase, en français, qui dit quel export a
+     échoué (2026-09-24). Elle recopiait `err.message` — le message technique,
+     en anglais, de ChartExportUtils (« Failed to export PNG: … ») — ou
+     « Export failed ». Le détail reste dans la console, où les utilitaires
+     l'écrivent déjà. */
   const handleExportPng = async () => {
     try {
       setLoading('png');
       setError(null);
       await exportChartPng(chartId, filename);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Export failed');
+    } catch {
+      setError("L'export PNG a échoué.");
     } finally {
       setLoading(null);
     }
@@ -52,8 +57,8 @@ export const ChartExportButton: React.FC<ChartExportButtonProps> = ({
       setLoading('pdf');
       setError(null);
       await exportChartPdf(chartId, filename, { title, subtitle, data });
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Export failed');
+    } catch {
+      setError("L'export PDF a échoué.");
     } finally {
       setLoading(null);
     }
@@ -63,10 +68,10 @@ export const ChartExportButton: React.FC<ChartExportButtonProps> = ({
     try {
       setLoading('csv');
       setError(null);
-      if (!data) throw new Error('No data available for CSV export');
+      if (!data) throw new Error('Aucune donnée à exporter');
       exportChartCsv(data, filename);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Export failed');
+    } catch {
+      setError("L'export CSV a échoué : aucune donnée à exporter.");
     } finally {
       setLoading(null);
     }
@@ -85,17 +90,28 @@ export const ChartExportButton: React.FC<ChartExportButtonProps> = ({
      chargement, qui était bricolé en changeant le libellé.
 
      Les trois tons portent un sens : PNG est l'image, PDF le document, CSV la
-     donnée. On les garde. */
+     donnée. On les garde.
+
+     Libellés en français depuis le 2026-09-24 (« Export as PNG »…). Le nom
+     accessible reprend le libellé visible de la variante `full` et contient
+     celui de la variante `compact` (WCAG 2.5.3, le libellé dans le nom) ; l'info-
+     bulle dit ce qu'on exporte, le graphique ou ses données.
+
+     Niveau — arbitrage n°19 : exporter est un OUTIL, jamais l'action
+     principale d'un écran. `compact`, posé dans l'en-tête d'un graphique, est
+     en `ghost` (il était en `soft` : six boutons colorés sur le Passeport pour
+     deux graphiques) ; `full`, un bloc d'export autonome, garde un contour en
+     `soft`. La variante `full` alignait TROIS `solid`. */
   const boutons = [
     { actif: showPng, cle: 'png' as const, tone: 'brand' as const,
-      Icone: Download,     court: 'PNG', long: 'Export PNG', action: handleExportPng,
-      titre: 'Export as PNG', aria: 'Export chart as PNG' },
+      Icone: Download,     court: 'PNG', long: 'Exporter en PNG', action: handleExportPng,
+      titre: 'Exporter le graphique en PNG' },
     { actif: showPdf, cle: 'pdf' as const, tone: 'warm' as const,
-      Icone: DownloadCloud, court: 'PDF', long: 'Export PDF', action: handleExportPdf,
-      titre: 'Export as PDF', aria: 'Export chart as PDF' },
+      Icone: DownloadCloud, court: 'PDF', long: 'Exporter en PDF', action: handleExportPdf,
+      titre: 'Exporter le graphique en PDF' },
     { actif: showCsv && Boolean(data), cle: 'csv' as const, tone: 'sun' as const,
-      Icone: FileJson,     court: 'CSV', long: 'Export CSV', action: handleExportCsv,
-      titre: 'Export as CSV', aria: 'Export data as CSV' },
+      Icone: FileJson,     court: 'CSV', long: 'Exporter en CSV', action: handleExportCsv,
+      titre: 'Exporter les données en CSV' },
   ];
 
   const compact = variant === 'compact';
@@ -106,14 +122,14 @@ export const ChartExportButton: React.FC<ChartExportButtonProps> = ({
       <Button
         key={b.cle}
         size={compact ? 'sm' : 'md'}
-        emphasis={compact ? 'soft' : 'solid'}
+        emphasis={compact ? 'ghost' : 'soft'}
         tone={b.tone}
         onClick={b.action}
         disabled={loading !== null}
         loading={loading === b.cle}
         leadingIcon={<b.Icone />}
         title={b.titre}
-        aria-label={b.aria}
+        aria-label={b.long}
       >
         {compact ? b.court : b.long}
       </Button>

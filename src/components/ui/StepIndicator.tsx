@@ -19,13 +19,13 @@ export interface StepIndicatorProps {
 }
 
 const TONE_ACTIVE: Record<string, string> = {
-  primary: 'bg-primary-600 text-white',
-  warm:    'bg-secondary-500 text-white',
+  primary: 'bg-primary-700 text-white',
+  warm:    'bg-secondary-700 text-white',
   sun:     'bg-accent-400 text-ink-900',
 };
 
 const TONE_COMPLETED: Record<string, string> = {
-  primary: 'bg-primary-100 text-primary-700',
+  primary: 'bg-primary-100 text-primary-800',
   warm:    'bg-secondary-50 text-secondary-600',
   sun:     'bg-accent-50 text-accent-500',
 };
@@ -36,10 +36,11 @@ const TONE_CONNECTOR_DONE: Record<string, string> = {
   sun:     'bg-accent-300',
 };
 
+// Texte de marque : cran 800 (doctrine § 2).
 const TONE_LABEL_ACTIVE: Record<string, string> = {
-  primary: 'text-primary-700',
-  warm:    'text-secondary-600',
-  sun:     'text-accent-500',
+  primary: 'text-primary-800',
+  warm:    'text-secondary-800',
+  sun:     'text-accent-800',
 };
 
 function getStatus(index: number, currentStep: number): StepStatus {
@@ -68,10 +69,10 @@ export const StepIndicator: React.FC<StepIndicatorProps> = ({
                 {/* Bubble */}
                 <div
                   className={[
-                    'inline-flex items-center justify-center w-8 h-8 rounded-pill shrink-0 text-caption font-bold transition-all duration-base',
+                    'inline-flex items-center justify-center w-8 h-8 rounded-pill shrink-0 text-caption font-semibold tabular-nums transition-all duration-base',
                     status === 'active'    ? TONE_ACTIVE[tone] : '',
                     status === 'completed' ? TONE_COMPLETED[tone] : '',
-                    status === 'upcoming'  ? 'bg-ink-100 text-ink-400' : '',
+                    status === 'upcoming'  ? 'bg-ink-100 text-ink-600' : '',
                   ].filter(Boolean).join(' ')}
                 >
                   {status === 'completed' ? <Check size={14} strokeWidth={2.5} /> : i + 1}
@@ -87,20 +88,21 @@ export const StepIndicator: React.FC<StepIndicatorProps> = ({
                 )}
               </div>
 
-              {/* Text */}
-              <div className={['pb-stack-md', isLast ? '' : ''].join(' ')}>
+              {/* Text — (32 − 26) / 2 = 3 : la première ligne se centre sur la
+                  pastille. Libellé 16/600 · 4 · description en légende ink-600. */}
+              <div className="pb-stack-md pt-[3px] flex flex-col gap-stack-3xs">
                 <p
                   className={[
-                    'text-body-sm font-semibold m-0 transition-colors duration-base',
+                    'text-body font-semibold transition-colors duration-base',
                     status === 'active' ? TONE_LABEL_ACTIVE[tone] : '',
                     status === 'completed' ? 'text-ink-600' : '',
-                    status === 'upcoming' ? 'text-ink-400' : '',
+                    status === 'upcoming' ? 'text-ink-600' : '',
                   ].filter(Boolean).join(' ')}
                 >
                   {step.label}
                 </p>
                 {step.description && (
-                  <p className="text-caption text-ink-500 m-0 mt-0.5">{step.description}</p>
+                  <p className="text-caption text-ink-600">{step.description}</p>
                 )}
               </div>
             </li>
@@ -140,28 +142,30 @@ export const StepIndicator: React.FC<StepIndicatorProps> = ({
             {/* Bubble */}
             <div
               className={[
-                'relative z-base inline-flex items-center justify-center w-8 h-8 rounded-pill shrink-0 text-caption font-bold transition-all duration-base',
+                'relative z-base inline-flex items-center justify-center w-8 h-8 rounded-pill shrink-0 text-caption font-semibold tabular-nums transition-all duration-base',
                 status === 'active'    ? TONE_ACTIVE[tone] : '',
                 status === 'completed' ? TONE_COMPLETED[tone] : '',
-                status === 'upcoming'  ? 'bg-ink-100 text-ink-400' : '',
+                status === 'upcoming'  ? 'bg-ink-100 text-ink-600' : '',
               ].filter(Boolean).join(' ')}
             >
               {status === 'completed' ? <Check size={14} strokeWidth={2.5} /> : i + 1}
             </div>
 
             {/* Label */}
+            {/* Libellé en légende 13 (il était à 11 px, le registre des
+                étiquettes), 8 px sous la pastille ; description 4 px dessous. */}
             <p
               className={[
-                'text-micro font-semibold text-center mt-2 m-0 px-1 transition-colors duration-base',
+                'text-caption font-semibold text-center mt-stack-xs px-1 transition-colors duration-base',
                 status === 'active' ? TONE_LABEL_ACTIVE[tone] : '',
                 status === 'completed' ? 'text-ink-600' : '',
-                status === 'upcoming' ? 'text-ink-400' : '',
+                status === 'upcoming' ? 'text-ink-600' : '',
               ].filter(Boolean).join(' ')}
             >
               {step.label}
             </p>
             {step.description && (
-              <p className="text-micro text-ink-500 text-center m-0 mt-0.5 px-1 hidden sm:block">
+              <p className="text-caption text-ink-600 text-center mt-stack-3xs px-1 hidden sm:block">
                 {step.description}
               </p>
             )}

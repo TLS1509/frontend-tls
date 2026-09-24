@@ -22,7 +22,7 @@ import {
   AuthDivider,
   AuthInlineLink,
 } from '../components/patterns/AuthShell';
-import { Wand2, Mail, RefreshCcw, Sparkles, ShieldCheck, Zap } from 'lucide-react';
+import { Wand2, Mail, RefreshCcw, Send, ShieldCheck, Zap } from 'lucide-react';
 
 export const MagicLink: React.FC = () => {
   const navigate = useNavigate();
@@ -60,29 +60,29 @@ export const MagicLink: React.FC = () => {
         !sent ? (
           <form className="flex flex-col gap-stack" onSubmit={handleSubmit}>
             {/* Mini-pitch trust */}
-            <div className="flex flex-col gap-stack-xs p-stack rounded-lg bg-white/8 border border-white/15 backdrop-blur-glass-light">
-              <div className="flex items-start gap-2.5">
+            <div className="flex flex-col gap-stack-xs p-stack rounded-lg bg-ink-900/20 border border-white/20">
+              <div className="flex items-start gap-stack-sm">
                 <span className="shrink-0 inline-flex items-center justify-center w-7 h-7 rounded-lg bg-white/15 text-white">
                   <Zap size={14} />
                 </span>
-                <div>
-                  <p className="m-0 font-body text-body-sm font-semibold text-white">
+                <div className="flex flex-col gap-stack-3xs">
+                  <p className="font-body text-body font-semibold text-white">
                     Plus rapide
                   </p>
-                  <p className="m-0 font-body text-caption text-white/65 leading-snug">
+                  <p className="font-body text-caption text-white">
                     Connexion en 2 clics sans mot de passe à retenir.
                   </p>
                 </div>
               </div>
-              <div className="flex items-start gap-2.5">
+              <div className="flex items-start gap-stack-sm">
                 <span className="shrink-0 inline-flex items-center justify-center w-7 h-7 rounded-lg bg-white/15 text-white">
                   <ShieldCheck size={14} />
                 </span>
-                <div>
-                  <p className="m-0 font-body text-body-sm font-semibold text-white">
+                <div className="flex flex-col gap-stack-3xs">
+                  <p className="font-body text-body font-semibold text-white">
                     Plus sûr
                   </p>
-                  <p className="m-0 font-body text-caption text-white/65 leading-snug">
+                  <p className="font-body text-caption text-white">
                     Lien à usage unique, expirant après 15 minutes.
                   </p>
                 </div>
@@ -100,14 +100,14 @@ export const MagicLink: React.FC = () => {
               autoComplete="email"
             />
 
-            <div className="flex flex-col gap-stack-xs">
-              <AuthPrimaryButton type="submit">
-                <span className="inline-flex items-center gap-stack-xs">
-                  <Sparkles size={16} />
-                  Envoyer le lien magique
-                </span>
-              </AuthPrimaryButton>
-            </div>
+            {/* `Send`, plus `Sparkles` : l'étincelle est réservée aux fonctions
+                d'IA (DESIGN.md § 10.3), et un lien de connexion n'en est pas une. */}
+            <AuthPrimaryButton type="submit" className="mt-stack-xs">
+              <span className="inline-flex items-center gap-stack-xs">
+                <Send size={16} aria-hidden="true" />
+                Envoyer le lien magique
+              </span>
+            </AuthPrimaryButton>
 
             <AuthDivider>ou</AuthDivider>
 
@@ -115,14 +115,14 @@ export const MagicLink: React.FC = () => {
               Se connecter avec mot de passe
             </AuthGhostButton>
 
-            <p className="m-0 font-body text-caption text-white/60 text-center leading-relaxed">
+            <p className="font-body text-body text-white text-center">
               Pas encore de compte ? <AuthInlineLink onClick={() => navigate('/auth/signup')}>Créer un compte</AuthInlineLink>
             </p>
           </form>
         ) : (
           <AuthSuccess
             icon={<Mail size={32} />}
-            title="Lien envoyé !"
+            title="Lien envoyé"
             description={
               <>
                 Un lien magique a été envoyé à <strong className="text-white">{email}</strong>. Cliquez dessus pour vous connecter. Le lien expire dans 15 minutes.
@@ -141,7 +141,7 @@ export const MagicLink: React.FC = () => {
               </AuthGhostButton>
             </div>
 
-            <p className="m-0 mt-stack font-body text-caption text-white/60 text-center leading-relaxed">
+            <p className="m-0 mt-stack font-body text-caption text-white text-center">
               Email non reçu ? Vérifiez vos spams ou <AuthInlineLink onClick={() => navigate('/help')}>contactez le support</AuthInlineLink>.
             </p>
           </AuthSuccess>

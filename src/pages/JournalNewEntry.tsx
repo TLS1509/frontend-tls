@@ -13,7 +13,7 @@ import { getCompetenceById } from '../data/competencies';
 import { EDRA_R_QUESTIONS, GENERIC_STRUCTURED_QUESTIONS } from '../data/journal';
 import {
   ArrowLeft,
-  Sparkles,
+  PenLine,
   BookOpen,
   Briefcase,
   Target,
@@ -51,36 +51,42 @@ interface TypeConfig {
   bodyPlaceholder: string;
 }
 
+/* `borderSelected` est au cran 700 (23/09) : le filet est ce qui marque la
+   sélection, donc un contour de composant — 3:1 (WCAG 1.4.11). Au 500, il
+   mesurait 2,94 (teal), 2,64 (orange) et 2,31 (or) sur le blanc de la carte.
+   Au 700 : 5,02 · 6,31 · 4,88 — la doctrine du filet (CLAUDE.md). */
 const TYPE_CONFIG: Record<EntryType, TypeConfig> = {
   'reflexion-libre': {
     label: 'Réflexion Libre',
-    icon: <Sparkles size={28} strokeWidth={1.5} />,
+    /* La plume de la liste du journal (`lib/journal-types`, « Libre ») :
+       l'étincelle est le marqueur des fonctions d'IA (DESIGN.md § 10). */
+    icon: <PenLine size={28} strokeWidth={1.5} />,
     iconSelected: 'text-primary-500',
-    borderSelected: 'border-primary-500',
-    checkBg: 'bg-primary-500',
-    questionClass: 'text-primary-600',
+    borderSelected: 'border-primary-700',
+    checkBg: 'bg-primary-600',
+    questionClass: 'text-primary-800',
     writingBg: '',
     question: "Qu'est-ce qui occupe mon esprit aujourd'hui ?",
-    bodyPlaceholder: 'Écrivez librement vos pensées, réflexions, découvertes du jour...',
+    bodyPlaceholder: 'Écris librement tes pensées, réflexions, découvertes du jour...',
   },
   'apprentissage': {
     label: 'Apprentissage',
     icon: <BookOpen size={28} strokeWidth={1.5} />,
     iconSelected: 'text-primary-500',
-    borderSelected: 'border-primary-500',
-    checkBg: 'bg-primary-500',
-    questionClass: 'text-primary-600',
+    borderSelected: 'border-primary-700',
+    checkBg: 'bg-primary-600',
+    questionClass: 'text-primary-800',
     writingBg: 'bg-gradient-to-br from-white to-primary-50',
-    question: 'Quelle idée vais-je retenir de ma dernière leçon — et pourquoi ?',
+    question: 'Quelle idée vais-je retenir de ma dernière leçon, et pourquoi ?',
     bodyPlaceholder: "Décris ce que tu as découvert, compris ou expérimenté dans tes leçons / parcours / projets / lectures veille...",
   },
   'pratique-pro': {
     label: 'Pratique pro',
     icon: <Briefcase size={28} strokeWidth={1.5} />,
     iconSelected: 'text-secondary-500',
-    borderSelected: 'border-secondary-500',
-    checkBg: 'bg-secondary-500',
-    questionClass: 'text-secondary-600',
+    borderSelected: 'border-secondary-700',
+    checkBg: 'bg-secondary-600',
+    questionClass: 'text-secondary-800',
     writingBg: 'bg-gradient-to-br from-white to-secondary-50',
     question: 'Comment vais-je activer cet apprentissage dans mon travail cette semaine ?',
     bodyPlaceholder: 'Note les actions concrètes, les changements de posture, les expérimentations à mener avec ton équipe...',
@@ -89,9 +95,9 @@ const TYPE_CONFIG: Record<EntryType, TypeConfig> = {
     label: 'Coaching',
     icon: <Target size={28} strokeWidth={1.5} />,
     iconSelected: 'text-accent-700',
-    borderSelected: 'border-accent-500',
-    checkBg: 'bg-accent-500',
-    questionClass: 'text-accent-700',
+    borderSelected: 'border-accent-700',
+    checkBg: 'bg-accent-700',
+    questionClass: 'text-accent-800',
     writingBg: 'bg-gradient-to-br from-white to-accent-50',
     question: 'Quelle question veux-tu apporter à ta prochaine session ?',
     bodyPlaceholder: 'Prépare ta prochaine session OU note ce que tu retiens de la dernière : prises de conscience, actions à mener, objectifs clarifiés...',
@@ -100,12 +106,12 @@ const TYPE_CONFIG: Record<EntryType, TypeConfig> = {
     label: 'Moment Eurêka',
     icon: <Lightbulb size={28} strokeWidth={1.5} />,
     iconSelected: 'text-primary-500',
-    borderSelected: 'border-primary-500',
-    checkBg: 'bg-primary-500',
-    questionClass: 'text-primary-600',
+    borderSelected: 'border-primary-700',
+    checkBg: 'bg-primary-600',
+    questionClass: 'text-primary-800',
     writingBg: '',
     question: "Quelle idée m'a illuminé ?",
-    bodyPlaceholder: "Capturez cette idée brillante avant qu'elle ne s'envole...",
+    bodyPlaceholder: "Capture cette idée brillante avant qu'elle ne s'envole...",
   },
 };
 
@@ -143,8 +149,14 @@ export const JournalNewEntry: React.FC = () => {
   const linkedCompetenceId = searchParams.get('competenceId') ?? undefined;
 
   const [selectedType, setSelectedType] = useState<EntryType>(initialType);
-  const [title, setTitle] = useState('');
-  const [body, setBody] = useState('');
+  // Reprise : le brouillon persisté (store) pré-remplit la page. Il est posé
+  // soit par cette page elle-même (sauvegarde auto), soit par le compositeur
+  // de /journal (« Continuer l'entrée »), qui le perdait auparavant.
+  const savedDraft = useJournalStore.getState().draft;
+  const setDraft = useJournalStore((s) => s.setDraft);
+  const clearDraft = useJournalStore((s) => s.clearDraft);
+  const [title, setTitle] = useState(savedDraft?.title ?? '');
+  const [body, setBody] = useState(savedDraft?.body ?? '');
   const [mood, setMood] = useState<MoodLevel>('neutral');
   const [structuredAnswers, setStructuredAnswers] = useState<Record<string, string>>({});
   const [expandedQuestions, setExpandedQuestions] = useState<Set<string>>(new Set());
@@ -177,7 +189,9 @@ export const JournalNewEntry: React.FC = () => {
       setAutoSaveStatus('saving');
 
       autoSaveTimeoutRef.current = window.setTimeout(() => {
-        // Simulate save (in real app, would call an API)
+        // Sauvegarde RÉELLE dans le store persisté : « Enregistré » ne ment
+        // plus (l'ancienne version simulait et n'écrivait rien).
+        setDraft({ title, body });
         setAutoSaveStatus('saved');
         // Clear "saved" indicator after 2s
         setTimeout(() => setAutoSaveStatus('idle'), 2000);
@@ -189,7 +203,7 @@ export const JournalNewEntry: React.FC = () => {
         clearTimeout(autoSaveTimeoutRef.current);
       }
     };
-  }, [title, body, mood, structuredAnswers, isDraft]);
+  }, [title, body, mood, structuredAnswers, isDraft, setDraft]);
 
   const toggleQuestion = (questionId: string) => {
     const newExpanded = new Set(expandedQuestions);
@@ -209,7 +223,7 @@ export const JournalNewEntry: React.FC = () => {
   const toast = useToastContext();
   const handlePublish = () => {
     if (!title.trim() && !body.trim()) {
-      toast.warning('Ajoutez un titre ou du contenu avant de publier', 'Brouillon vide');
+      toast.warning('Ajoute un titre ou du contenu avant de publier', 'Brouillon vide');
       return;
     }
     const now = new Date().toISOString();
@@ -234,6 +248,7 @@ export const JournalNewEntry: React.FC = () => {
       updatedAt: now,
     };
     journalStore.addEntry(entry);
+    clearDraft();
     // Boucle Journal → Passeport : une réflexion rattachée à une compétence y dépose une
     // preuve LÉGÈRE. Jusqu'ici le lien était à sens unique — l'entrée pointait la
     // compétence, la compétence ne le savait pas. Aucun niveau affirmé (`assertedLevel`
@@ -251,7 +266,7 @@ export const JournalNewEntry: React.FC = () => {
         occurredAt: now,
       });
     }
-    toast.success('Votre entrée a été publiée dans votre journal', 'Entrée enregistrée');
+    toast.success('Ton entrée a été publiée dans ton journal', 'Entrée enregistrée');
     setTimeout(() => navigate('/journal'), 800);
   };
 
@@ -261,7 +276,8 @@ export const JournalNewEntry: React.FC = () => {
       {/* Sticky top bar */}
       <header className="flex items-center px-4 sm:px-6 py-stack border-b border-ink-200 bg-white sticky top-0 z-sticky gap-stack-xs">
         <Button
-          emphasis="outline"
+          emphasis="ghost"
+          tone="neutral"
           size="sm"
           iconOnly
           aria-label="Retour au journal"
@@ -273,42 +289,59 @@ export const JournalNewEntry: React.FC = () => {
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-stack-xs">
-            <div className="font-body text-body font-bold text-ink-900">Nouvelle entrée</div>
+            <div className="font-body text-body font-semibold text-ink-900">Nouvelle entrée</div>
             {isDraft && <Badge variant="sun" size="compact">Brouillon</Badge>}
           </div>
-          <div className="flex items-center gap-tight text-ink-500 font-body text-caption">
-            <Clock size={14} />
+          <div className="flex items-center gap-stack-3xs text-ink-600 font-body text-caption">
+            <Clock size={14} aria-hidden="true" />
             {TODAY}
           </div>
         </div>
 
-        <span className="font-body text-caption text-ink-500 font-medium shrink-0">
+        <span className="font-body text-caption text-ink-600 tabular-nums shrink-0">
           {wordCount} mot{wordCount !== 1 ? 's' : ''}
         </span>
 
         <div className="flex items-center gap-stack-xs shrink-0">
-          {autoSaveStatus === 'saving' && (
-            <span className="text-caption text-ink-600 font-medium">Sauvegarde...</span>
-          )}
-          {autoSaveStatus === 'saved' && (
-            <div className="flex items-center gap-tight text-caption text-success-base font-medium">
-              <CheckCheck size={14} />
-              Enregistré
-            </div>
-          )}
-          <Button leadingIcon={<Save size={14} />} size="sm" onClick={handlePublish}>
+          {/* Région live permanente : l'état de sauvegarde est annoncé aux
+              lecteurs d'écran (WCAG 4.1.3). « Enregistré » passe de success-base
+              (2,0:1) à success-fg. */}
+          <span role="status" aria-live="polite" className="contents">
+            {autoSaveStatus === 'saving' && (
+              <span className="text-caption text-ink-600">Sauvegarde…</span>
+            )}
+            {autoSaveStatus === 'saved' && (
+              <span className="flex items-center gap-stack-3xs text-caption text-success-fg font-semibold">
+                <CheckCheck size={14} aria-hidden />
+                Enregistré
+              </span>
+            )}
+          </span>
+          {/* L'envoi du formulaire, l'action principale : l'aplat (arbitrage
+              n°19). Il n'avait pas de niveau écrit et prenait le `soft` du
+              `variant` déprécié par défaut. */}
+          <Button emphasis="solid" leadingIcon={<Save size={14} />} size="sm" onClick={handlePublish}>
             Publier
           </Button>
         </div>
       </header>
 
+      {/* Les groupes du formulaire se suivent à 32 (le `gap` de la coque) :
+          chacun y ajoutait sa propre marge basse, 24 ou 32 — jusqu'à 64 px
+          entre deux groupes (piège n°12). Dans un groupe, le libellé est à
+          8 px de son champ (doctrine § 5), il en était à 16. */}
       <PageShell width="content" className="relative z-base gap-section flex-1 py-section" noPadTop>
 
+        {/* La page n'a pas de titre visible au-dessus du formulaire : le champ
+            de titre en tient lieu. Le h1 reste pour les lecteurs d'écran, avec
+            le pas d'un h1 (il rendait 16/400). */}
+        <h1 className="sr-only font-display text-h1">Nouvelle entrée de journal</h1>
+
         {/* Type selector */}
-        <div className="mb-stack-lg">
-          <div className="flex items-center gap-stack-xs mb-stack">
-            <Wand2 size={16} className="text-primary-500" />
-            <span className="font-body text-body-sm font-semibold text-ink-900">Type d'entrée</span>
+        <div className="flex flex-col gap-stack-xs">
+          <div className="flex items-center gap-stack-xs">
+            <Wand2 size={16} className="text-primary-500" aria-hidden="true" />
+            <span className="font-body text-body font-semibold text-ink-900">Type d'entrée</span>
           </div>
 
           <div className="grid grid-cols-4 gap-stack max-sm:grid-cols-2">
@@ -322,7 +355,7 @@ export const JournalNewEntry: React.FC = () => {
                   aria-pressed={isSelected}
                   onClick={() => setSelectedType(type)}
                   className={[
-                    'flex flex-col items-start gap-stack-xs p-4 rounded-lg bg-white border cursor-pointer relative transition-all duration-200 text-left font-body focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+                    'flex flex-col items-start gap-stack-xs p-stack rounded-lg bg-white border cursor-pointer relative transition-all duration-200 text-left font-body focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                     isSelected
                       ? `${tc.borderSelected} shadow-sm`
                       : 'border-ink-200 shadow-xs hover:border-ink-400',
@@ -338,7 +371,8 @@ export const JournalNewEntry: React.FC = () => {
                     {tc.icon}
                   </span>
 
-                  <span className={`font-body text-body-sm leading-snug ${isSelected ? 'font-semibold text-ink-900' : 'font-medium text-ink-500'}`}>
+                  {/* Non choisi : ink-700 (ink-500 est réservé aux placeholders). */}
+                  <span className={`font-body text-body ${isSelected ? 'font-semibold text-ink-900' : 'text-ink-700'}`}>
                     {tc.label}
                   </span>
                 </button>
@@ -348,31 +382,34 @@ export const JournalNewEntry: React.FC = () => {
         </div>
 
         {/* Mood selector — uses DS MoodSelector (aria-pressed, min-h-touch built in) */}
-        <div className="mb-section">
-          <div className="flex items-center gap-stack-xs mb-stack">
-            <Smile size={18} className="text-primary-500" />
-            <span className="font-body text-body-sm font-semibold text-ink-900">Comment vous sentez-vous ?</span>
+        <div className="flex flex-col gap-stack-xs">
+          <div className="flex items-center gap-stack-xs">
+            <Smile size={18} className="text-primary-500" aria-hidden="true" />
+            <span className="font-body text-body font-semibold text-ink-900">Comment te sens-tu ?</span>
           </div>
           <MoodSelector value={mood} onChange={setMood} />
         </div>
 
-        {/* Inspiration button */}
-        <div className="mb-section">
-          <button
-            type="button"
-            onClick={handleInspirationClick}
-            className="inline-flex items-center gap-stack-xs px-4 py-2 rounded-lg bg-secondary-50 border border-secondary-200 text-secondary-600 font-body text-body-sm font-bold cursor-pointer hover:bg-secondary-100 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-500"
-          >
-            <Sparkles size={14} />
-            Besoin d'inspiration ?
-          </button>
-        </div>
+        {/* Inspiration — le composant `Button` (le bouton fait main n'en avait
+            ni la hauteur ni le focus). Il déplie les questions ci-dessous : il
+            en prend l'ampoule. L'étincelle marque les fonctions d'IA, et aucune
+            n'intervient ici. */}
+        <Button
+          emphasis="soft"
+          tone="warm"
+          size="md"
+          leadingIcon={<Lightbulb size={16} />}
+          onClick={handleInspirationClick}
+          className="self-start"
+        >
+          Besoin d'inspiration ?
+        </Button>
 
         {/* Structured questions (collapsible) */}
-        <div className="mb-section">
-          <div className="flex items-center gap-stack-xs mb-stack">
-            <Lightbulb size={18} className="text-primary-500" />
-            <span className="font-body text-body-sm font-semibold text-ink-900">
+        <div className="flex flex-col gap-stack-xs">
+          <div className="flex items-center gap-stack-xs">
+            <Lightbulb size={18} className="text-primary-500" aria-hidden="true" />
+            <span className="font-body text-body font-semibold text-ink-900">
               {selectedType === 'apprentissage' || selectedType === 'pratique-pro'
                 ? 'Template EDRA-R (optionnel)'
                 : 'Questions structurantes (optionnel)'}
@@ -386,12 +423,13 @@ export const JournalNewEntry: React.FC = () => {
                 <div key={q.id} className="border border-ink-200 rounded-lg overflow-hidden">
                   <button
                     type="button"
+                    aria-expanded={isExpanded}
                     onClick={() => toggleQuestion(q.id)}
-                    className="w-full flex items-center justify-between gap-stack-xs px-4 py-3 bg-white hover:bg-ink-50 transition-colors text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                    className="w-full flex items-center justify-between gap-stack-xs px-stack py-stack-sm bg-white hover:bg-ink-50 transition-colors text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                   >
-                    <div className="flex-1 min-w-0">
-                      <p className="font-body text-body-sm font-semibold text-ink-900">{q.title}</p>
-                      {!isExpanded && <p className="text-caption text-ink-500">{q.description}</p>}
+                    <div className="flex-1 min-w-0 flex flex-col gap-stack-3xs">
+                      <p className="font-body text-body font-semibold text-ink-900">{q.title}</p>
+                      {!isExpanded && <p className="text-caption text-ink-600">{q.description}</p>}
                     </div>
                     <ChevronDown
                       size={18}
@@ -400,14 +438,15 @@ export const JournalNewEntry: React.FC = () => {
                   </button>
 
                   {isExpanded && (
-                    <div className="px-4 py-stack bg-ink-50 border-t border-ink-200">
-                      <p className="text-caption text-ink-600 mb-3">{q.description}</p>
+                    <div className="flex flex-col gap-stack-xs px-stack py-stack bg-ink-50 border-t border-ink-200">
+                      <p className="text-caption text-ink-600">{q.description}</p>
                       <textarea
                         value={structuredAnswers[q.id] || ''}
                         onChange={(e) => setStructuredAnswers({ ...structuredAnswers, [q.id]: e.target.value })}
                         placeholder={q.placeholder}
+                        aria-label={q.title}
                         rows={4}
-                        className="w-full border border-ink-200 rounded-lg p-3 font-body text-body text-ink-900 placeholder:text-ink-500 resize-none focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:border-transparent"
+                        className="w-full border border-ink-400 rounded-lg p-stack-sm bg-white font-body text-body text-ink-900 placeholder:text-ink-500 resize-none focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:border-transparent"
                       />
                     </div>
                   )}
@@ -418,38 +457,46 @@ export const JournalNewEntry: React.FC = () => {
         </div>
 
         {/* Writing area */}
-        <div className={`border border-ink-200 rounded-xl p-7 ${cfg.writingBg || 'bg-white'}`}>
+        {/* Zone d'écriture — padding 24, le canon d'une carte (28 n'était pas
+            dans l'échelle). La question est une surtitre de légende (13/600)
+            au-dessus de sa phrase ; le titre de l'entrée s'écrit au pas d'un
+            h2 (28, League Spartan) : il deviendra le titre de la page de
+            lecture. Il était à 24 px en Nunito, hors de l'échelle. */}
+        <div className={`border border-ink-200 rounded-xl p-stack-lg ${cfg.writingBg || 'bg-white'}`}>
 
           {/* Reflection question */}
-          <div className="mb-stack-lg">
-            <p className="m-0 mb-1 font-body text-caption text-ink-500 font-medium">
+          <div className="flex flex-col gap-stack-3xs mb-stack-lg">
+            <p className="font-body text-caption font-semibold text-ink-600">
               Question de réflexion
             </p>
-            <p className={`m-0 font-body text-body font-semibold leading-snug ${cfg.questionClass}`}>
+            <p className={`font-body text-body font-semibold ${cfg.questionClass}`}>
               {cfg.question}
             </p>
           </div>
 
-          <hr className="border-ink-200 mb-stack-md" />
+          <hr className="border-ink-200 mb-stack" />
 
-          {/* Title input */}
+          {/* Title input — nom accessible explicite (le placeholder n'en est pas
+              un) et placeholder en ink-500 (4,99:1 ; ink-300 mesurait 1,47). */}
           <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="Donnez un titre à votre entrée..."
-            className="w-full border-0 outline-none bg-transparent text-2xl font-semibold text-ink-900 font-body mb-3 h-auto block placeholder:text-ink-300"
+            aria-label="Titre de l'entrée"
+            placeholder="Donne un titre à ton entrée…"
+            className="w-full border-0 outline-none bg-transparent font-display text-h2 text-ink-900 mb-stack h-auto block placeholder:text-ink-500"
           />
 
-          <hr className="border-ink-200 mb-stack-md" />
+          <hr className="border-ink-200 mb-stack" />
 
           {/* Body textarea */}
           <textarea
             value={body}
             onChange={(e) => setBody(e.target.value)}
+            aria-label="Contenu de l'entrée"
             placeholder={cfg.bodyPlaceholder}
             rows={12}
-            className="w-full border-0 outline-none bg-transparent font-body text-body text-ink-900 resize-none h-auto block placeholder:text-ink-300"
+            className="w-full border-0 outline-none bg-transparent font-body text-body text-ink-900 resize-none h-auto block placeholder:text-ink-500"
           />
         </div>
       </PageShell>

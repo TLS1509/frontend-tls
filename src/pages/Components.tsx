@@ -13,8 +13,11 @@
  *   - Real-time search across components, tokens, CSS classes
  *   - Category filter
  *
- * Naming convention: React component name  ↔  CSS class base (from spec.cssBase)
- *   e.g. <Button> → .btn        <Alert> → .alert        <CompetenceBadge> → .comp-badge
+ * Chaque fiche porte le chemin de son fichier (`codeName`, depuis src/components/),
+ * en puce à copier. Elle ne cite plus de classe CSS : le champ `cssBase` a été
+ * retiré le 2026-09-24. La migration BEM → Tailwind est terminée, et il citait
+ * des classes (`.btn`, `.card`, `.tabs`…) qui n'existaient plus dans aucune
+ * feuille, ou répétait « Tailwind (no BEM) » sur plus de quatre-vingts fiches.
  */
 
 import React, { useEffect, useMemo, useState } from 'react';
@@ -24,7 +27,6 @@ import {
   BookingModal,
   ConfirmModal,
   SuccessModal,
-  StreakCelebrationModal,
   SessionFeedbackModal,
   CancelSessionModal,
   VideoPlayerModal,
@@ -61,10 +63,6 @@ import {
   StatCard,
   ProgressBar,
   ProgressRing,
-  Medal,
-  CompetenceBadge,
-  MasteryBadge,
-  Achievement,
   FilterChip,
   Steps,
   InlineWin,
@@ -74,7 +72,6 @@ import {
   Tabs,
   Stepper,
   Breadcrumb,
-  Pagination,
   DropdownMenu,
   DropdownItem,
   DropdownLabel,
@@ -102,28 +99,28 @@ import { CompetencyMatrix } from '../components/ui/CompetencyMatrix';
 import { GoalProgress } from '../components/ui/GoalProgress';
 import { QuizComponent } from '../components/ui/QuizComponent';
 import { ActivityFeed } from '../components/patterns/ActivityFeed';
-// (DashboardHero deprecated → use HeroSection variant="gradient" instead)
+// (DashboardHero deprecated → use PageHero tone="brand" instead)
 import { CardGrid } from '../components/patterns/CardGrid';
 import { CoachCardGrid } from '../components/patterns/CoachCardGrid';
-import { HeroSection } from '../components/patterns/HeroSection';
 import { InlineProgress } from '../components/patterns/InlineProgress';
 import { LearningPathGrid } from '../components/patterns/LearningPathGrid';
-// (LearningPathHeader deprecated → use HeroSection variant="gradient" with size="lg" showBackButton progress)
+// (LearningPathHeader deprecated → use PageHero with backLink + progress)
 import { MultiStepForm } from '../components/patterns/MultiStepForm';
 import { PageCard } from '../components/patterns/PageCard';
 import { ResumeLessonCard } from '../components/patterns/ResumeLessonCard';
 import { SessionCard } from '../components/learning/SessionCard';
 import { ArticleCard } from '../components/learning/ArticleCard';
 import { PromptCard } from '../components/learning/PromptCard';
-import { VideoCard } from '../components/learning/VideoCard';
 import { MoodSelector } from '../components/ui/MoodSelector';
 import type { MoodLevel } from '../components/ui/MoodSelector';
 import { JournalChatCompose } from '../components/ui/JournalChatCompose';
 import { StructuredQuestionAccordion } from '../components/ui/StructuredQuestionAccordion';
 import { WritingPromptsAside } from '../components/patterns/WritingPromptsAside';
 import { JournalBubbleCard } from '../components/cards/JournalBubbleCard';
+import { NotificationCard } from '../components/cards/NotificationCard';
+import { ActionCardGrid } from '../components/patterns/ActionCardGrid';
+import { StepCard } from '../components/learning/StepCard';
 import type { JournalBubbleType } from '../components/cards/JournalBubbleCard';
-import { RankingCard } from '../components/learning/RankingCard';
 import { TlsLogo, TlsLogoLockup } from '../components/ui/TlsLogo';
 import { Flashcard } from '../components/patterns/Flashcard';
 import { QuizQuestionCard } from '../components/patterns/QuizQuestionCard';
@@ -170,7 +167,6 @@ import { EditorialQuoteCallout } from '../components/patterns/EditorialQuoteCall
 import { ReadingProgressBar, ReadingProgressRing } from '../components/patterns/ReadingProgress';
 import { TableOfContents } from '../components/patterns/TableOfContents';
 import { FilterBar } from '../components/forms/FilterBar';
-import { Spinner } from '../components/ui/Spinner';
 import { StatusBadge } from '../components/ui/StatusBadge';
 import { NotificationBadge } from '../components/ui/NotificationBadge';
 // KPICard deprecated → use StatCard directly
@@ -180,7 +176,7 @@ import { PageHeader } from '../components/patterns/PageHeader';
 import { ViewerHeader } from '../components/patterns/ViewerHeader';
 import { QuickActionButton } from '../components/ui/QuickActionButton';
 import { Divider } from '../components/ui/Divider';
-import { Bell, MessageSquare, BookOpen, Calendar, GraduationCap, Clock3, Flame, Trophy, Zap, Users, Lightbulb, CheckCircle2, LayoutDashboard, Map as MapIcon, PenLine, Video, Sparkles as SparklesIcon, UserRound as UserIcon, Settings2, Target, BarChart3, LogOut, Mail, Layers, Palette, FolderTree, LayoutTemplate, Star, SlidersHorizontal, ArrowLeft, ArrowRight, TrendingUp, FolderOpen, User, Bookmark, Check, CheckCheck } from 'lucide-react';
+import { Bell, MessageSquare, BookOpen, Calendar, GraduationCap, Clock3, Flame, Trophy, Zap, Users, Lightbulb, CheckCircle2, LayoutDashboard, Map as MapIcon, PenLine, Video, Sparkles as SparklesIcon, UserRound as UserIcon, Settings2, Target, BarChart3, LogOut, Mail, Layers, Palette, FolderTree, LayoutTemplate, Star, SlidersHorizontal, ArrowLeft, ArrowRight, TrendingUp, FolderOpen, User, Bookmark, Check, CheckCheck, ChevronUp, CirclePlus, BookOpenText } from 'lucide-react';
 import { SidebarUserCard } from '../components/layout/Sidebar';
 import { ConsentBanner } from '../components/patterns/ConsentBanner';
 import { CompetencyRadar } from '../components/ui/CompetencyRadar';
@@ -200,14 +196,12 @@ import { ProgressDots } from '../components/ui/ProgressDots';
 import { SelectCheckboxFloating } from '../components/ui/SelectCheckboxFloating';
 import { CoachRow } from '../components/patterns/CoachRow';
 import { ReaderContextStrip } from '../components/patterns/ReaderContextStrip';
-import { CorrectionStatusBar } from '../components/learning/CorrectionStatusBar';
 import { ErrorPage } from '../components/patterns/ErrorPage';
 import { CompletionModal } from '../components/modals/CompletionModal';
 import { AuthSuccess } from '../components/patterns/AuthShell';
 import {
   ParcoursCardSkeleton,
   NotificationRowSkeleton,
-  EditorialCardSkeleton,
   StatCardSkeleton,
   ActivityItemSkeleton,
   ResumeLessonSkeleton,
@@ -234,21 +228,19 @@ import { AstucesCard } from '../components/learning/AstucesCard';
 import { ResourceListItem } from '../components/learning/ResourceListItem';
 import { EtapeAccordion } from '../components/patterns/EtapeAccordion';
 import { AuthBackLink } from '../components/patterns/AuthShell';
-import { Briefcase, HeartHandshake, FileText } from 'lucide-react';
-import { Plus, Heart, Home, Trophy as TrophyIcon, Settings, Trash2, Pencil } from 'lucide-react';
+import { Briefcase, HeartHandshake, FileText, Award } from 'lucide-react';
+import { Plus, Heart, Home, Trophy as TrophyIcon, Settings, Trash2, Pencil, Maximize2, Download, Globe } from 'lucide-react';
 import { FloatLabel } from '../components/core/FloatLabel';
 import { Chip } from '../components/ui/Chip';
+import { IconChip } from '../components/ui/IconChip';
 import { Tooltip } from '../components/ui/Tooltip';
 import { Kbd } from '../components/ui/Kbd';
-import { SegmentedControl } from '../components/ui/SegmentedControl';
 import { SettingsRow } from '../components/patterns/SettingsRow';
 import { SelectableOptionCard } from '../components/patterns/SelectableOptionCard';
 import { RadioGroup } from '../components/ui/RadioGroup';
 import { CheckboxGroup } from '../components/ui/CheckboxGroup';
 import { FormSection } from '../components/ui/FormSection';
 import { InputGroup } from '../components/ui/InputGroup';
-import { SimpleTable } from '../components/ui/SimpleTable';
-import { PaginatedList } from '../components/ui/PaginatedList';
 import { FilteredList } from '../components/ui/FilteredList';
 import { StepIndicator } from '../components/ui/StepIndicator';
 import { ModalForm } from '../components/ui/ModalForm';
@@ -259,10 +251,8 @@ import {
   LineChart,
   AreaChart,
   PieChart,
-  ScatterChart,
   ComposedChart,
   HeatmapChart,
-  ChartContainer,
   ChartWithExport,
   ChartDetailModal,
   TimelineChart,
@@ -294,9 +284,6 @@ type SubCategory = SubCategory_;
 interface ComponentEntry {
   name: string;              // React name: Button
   codeName: string;          // File: Button.tsx
-  /** Classe CSS de base, ex. `.btn`. Absente pour les fiches de convention :
-      elles décrivent une règle, pas un composant, donc aucune classe ne la porte. */
-  cssBase?: string;
   subCategory?: SubCategory; // optional inline sub-category (used when entry is not in REMAP)
   description: string;
   keywords: string[];        // extra searchable terms
@@ -647,67 +634,56 @@ const PAGE_TEMPLATES: PageTemplate[] = [
   {
     id: 'profile',
     name: 'Profil utilisateur',
-    description: 'Hero glass avec avatar gradient + initiales, online dot, meta chips, intérêts pills. Stats row 4 KPI avec tls-kpi-icon colorés. Onglets (Vue d\'ensemble / Activité / Badges / Compétences).',
+    description: "Sous la navigation du compte, un en-tête d'identité sans hero : avatar aux initiales, nom en h1, rôle, coordonnées en légende ; Modifier en soft, Partager en ghost. Trois onglets soulignés : Vue d'ensemble, Activité, Compétences — il n'y a plus d'onglet Badges. La vue d'ensemble : trois chiffres (dont les niveaux validés), À propos, Cette semaine, puis la section « Reconnaissances » (#reconnaissances, où mènent les six anciennes routes de gamification) : les Open Badges des niveaux validés en rangées dans une carte — compétence, niveau Dreyfus, qui l'a validé et quand —, et le rythme des quatre dernières semaines, sans série ni XP (arbitrage n°18). Compétences : la matrice Dreyfus.",
     path: '/profile',
     family: 'Compte',
     color: 'var(--tls-primary-600)',
     bg: 'var(--tls-primary-50)',
-    tags: ['glass hero', 'avatar', 'kpi icons', 'tabs', 'badges', 'skills'],
+    tags: ['identity header', 'tabs', 'reconnaissances', 'open badges', 'weekly rhythm', 'competency matrix'],
     icon: '👤',
   },
   {
     id: 'messages',
     name: 'Messagerie',
-    description: 'Split layout: liste de threads avec avatars initiales colorés, dots non-lus, filter pills (Tous/Coaching/Équipe/Support), recherche. Panneau conversation avec empty-state illustré.',
+    description: "Deux volets : la liste des conversations — nombre de non-lus, recherche, filtres en pastilles (Tous · Coach · Support · Favoris), rangées avec avatar, compteur de non-lus et étoile de favori — puis le fil de la conversation. Sous 768 px, l'un ou l'autre, le mobile s'ouvrant sur la liste. Un état vide quand aucun fil ne correspond au filtre ou à la recherche.",
     path: '/messages',
     family: 'Communauté',
     color: 'var(--tls-primary-600)',
     bg: 'var(--tls-primary-50)',
-    tags: ['split layout', 'avatar stack', 'unread dots', 'filter pills', 'empty state'],
+    tags: ['split layout', 'search', 'filter bar', 'avatar', 'unread count', 'empty state'],
     icon: '💬',
   },
   {
     id: 'collaboration',
     name: 'Collaboration',
-    description: 'Glass hero éditorial, KPI row 3 colonnes (Layers/ListChecks/CheckCircle2), cartes projet avec badge statut inline, barre de progression + %, meta chips, stack avatars équipe superposés.',
+    description: "Un en-tête éditorial à plat, dont les deux actions (Nouveau projet, Inviter) sont en soft : une page de consultation, sans aplat (arbitrage n°19). Puis la section « Projets en cours », en h2 avec son compte en méta, et une grille de ProjectCard : statut en Badge, progression, tâches, échéance, avatars de l'équipe.",
     path: '/collaboration',
     family: 'Communauté',
     color: 'var(--tls-primary-600)',
     bg: 'var(--tls-primary-50)',
-    tags: ['glass hero', 'kpi icons', 'project cards', 'avatar stack', 'progress'],
+    tags: ['editorial hero', 'section header', 'project cards', 'avatar stack', 'progress'],
     icon: '🤝',
-  },
-  {
-    id: 'leaderboard',
-    name: 'Leaderboard',
-    description: 'Podium or/argent/bronze avec gradients, emojis médailles, cercle initiales 48px, badge points, streak flame pill, hover translateY(-3px). KPI row Flame/TrendingUp/Users.',
-    path: '/leaderboard',
-    family: 'Communauté',
-    color: 'var(--tls-yellow-600)',
-    bg: 'rgba(248,176,68,0.08)',
-    tags: ['podium', 'gold silver bronze', 'gamification', 'streak', 'kpi icons'],
-    icon: '🏆',
   },
   {
     id: 'notifications',
     name: 'Notifications',
-    description: 'Cards avec bordure gauche 4px colorée par type (info/warm/success), icône bulle tone-aware 36×36, badge unread count live dans le hero, filter pills 4 catégories, bouton "Tout lire".',
+    description: "Notifications en rangées (NotificationCard row) dans une carte : pastille d'icône au ton du type, non-lus sur fond teinté avec un point, nombre de non-lus sous le titre, filtres en pastilles (Toutes · Non lues · Messages · Formations · Coaching), « Tout marquer comme lu » et les préférences en ghost neutre : un fil qu'on lit, sans aplat (arbitrage n°19).",
     path: '/notifications',
     family: 'Compte',
     color: 'var(--tls-primary-600)',
     bg: 'var(--tls-primary-50)',
-    tags: ['notification cards', 'colored border', 'unread badge', 'filter pills', 'tone system'],
+    tags: ['notification rows', 'unread dot', 'filter pills', 'tone system', 'ghost tools'],
     icon: '🔔',
   },
   {
     id: 'account',
     name: 'Mon compte',
-    description: 'AccountFamilyNav (5 destinations), tabs Général/Sécurité, section Interface avec switch toggles (animations/contraste/nav compacte/dark mode), zone de danger liée aux vrais flows RGPD. Ex-Settings.tsx fusionné ici (Phase 24).',
+    description: "AccountFamilyNav (5 destinations), onglets Général / Sécurité, zone de danger liée aux vrais parcours RGPD. La carte « Interface » et ses interrupteurs factices ont été retirés le 24/09. Ex-Settings.tsx fusionné ici (Phase 24).",
     path: '/account',
     family: 'Compte',
     color: 'var(--tls-primary-600)',
     bg: 'var(--tls-primary-50)',
-    tags: ['account family nav', 'tabs', 'toggles', 'settings rows', 'select'],
+    tags: ['account family nav', 'tabs', 'settings rows', 'select', 'danger zone'],
     icon: '⚙️',
   },
 ];
@@ -722,8 +698,8 @@ const PositionnementModalDemo: React.FC = () => {
   const [open, setOpen] = useState(false);
   return (
     <div className="flex flex-col gap-stack-xs items-start">
-      <Button onClick={() => setOpen(true)}>🎯 Se positionner</Button>
-      <p className="m-0 text-caption text-ink-500">
+      <Button onClick={() => setOpen(true)} leadingIcon={<Target />}>Se positionner</Button>
+      <p className="m-0 text-caption text-ink-600">
         S'ouvre avant de démarrer un parcours. 3 questions, 5 niveaux.
       </p>
       <PositionnementModal isOpen={open} onClose={() => setOpen(false)} courseTitle="Maîtrise des données" />
@@ -735,14 +711,14 @@ const BookingModalDemo: React.FC = () => {
   const [open, setOpen] = useState(false);
   return (
     <div className="flex flex-col gap-stack-xs items-start">
-      <Button onClick={() => setOpen(true)}>📅 Réserver une session</Button>
-      <p className="m-0 text-caption text-ink-500">
+      <Button onClick={() => setOpen(true)} leadingIcon={<Calendar />}>Réserver une session</Button>
+      <p className="m-0 text-caption text-ink-600">
         Calendrier interactif + créneaux disponibles + confirmation 2 étapes.
       </p>
       <BookingModal
         isOpen={open}
         onClose={() => setOpen(false)}
-        onBookingConfirmed={({ date, time }) => { alert(`Session réservée le ${date} à ${time}`); setOpen(false); }}
+        onBookingConfirmed={() => setOpen(false)}
         coachName="Sophie Martin"
         coachInitials="SM"
       />
@@ -757,7 +733,7 @@ const ConfirmModalDemo: React.FC = () => {
     <div className="flex flex-col gap-stack-xs items-start">
       <div className="flex gap-stack-xs flex-wrap">
         {(['info', 'success', 'warning', 'danger'] as const).map((v) => (
-          <Button key={v} size="sm" variant={variant === v ? 'primary' : 'secondary'} onClick={() => { setVariant(v); setOpen(true); }}>
+          <Button key={v} size="sm" emphasis={variant === v ? 'soft' : 'ghost'} tone="neutral" onClick={() => { setVariant(v); setOpen(true); }}>
             {v}
           </Button>
         ))}
@@ -779,18 +755,8 @@ const SuccessModalDemo: React.FC = () => {
   const [open, setOpen] = useState(false);
   return (
     <div className="flex gap-stack-xs items-start">
-      <Button onClick={() => setOpen(true)}>🎉 Afficher Success</Button>
+      <Button onClick={() => setOpen(true)} leadingIcon={<CheckCircle2 />}>Afficher la réussite</Button>
       <SuccessModal isOpen={open} onClose={() => setOpen(false)} title="Module complété !" message="Vous avez terminé le module avec succès. Continuez sur votre lancée !" buttonText="Continuer" />
-    </div>
-  );
-};
-
-const StreakCelebrationModalDemo: React.FC = () => {
-  const [open, setOpen] = useState(false);
-  return (
-    <div className="flex gap-stack-xs items-start">
-      <Button onClick={() => setOpen(true)}>🔥 Streak !</Button>
-      <StreakCelebrationModal isOpen={open} onClose={() => setOpen(false)} streakCount={14} milestone={14} encouragement="14 jours consécutifs — vous êtes en feu !" />
     </div>
   );
 };
@@ -799,7 +765,7 @@ const SessionFeedbackModalDemo: React.FC = () => {
   const [open, setOpen] = useState(false);
   return (
     <div className="flex gap-stack-xs items-start">
-      <Button onClick={() => setOpen(true)}>⭐ Donner un avis</Button>
+      <Button onClick={() => setOpen(true)} leadingIcon={<Star />}>Donner un avis</Button>
       <SessionFeedbackModal
         isOpen={open}
         onClose={() => setOpen(false)}
@@ -814,7 +780,7 @@ const CancelSessionModalDemo: React.FC = () => {
   const [showBooking, setShowBooking] = useState(false);
   return (
     <div className="flex gap-stack-xs items-start flex-wrap">
-      <Button emphasis="soft" tone="warm" onClick={() => setOpen(true)}>❌ Annuler une session</Button>
+      <Button emphasis="soft" tone="warm" onClick={() => setOpen(true)}>Annuler une session</Button>
       <CancelSessionModal
         isOpen={open}
         onClose={() => setOpen(false)}
@@ -838,50 +804,20 @@ const VideoPlayerModalDemo: React.FC = () => {
   const [open, setOpen] = useState(false);
   return (
     <div className="flex gap-stack-xs items-start">
-      <Button onClick={() => setOpen(true)}>▶ Lancer une vidéo</Button>
+      <Button onClick={() => setOpen(true)} leadingIcon={<Video />}>Lancer une vidéo</Button>
       <VideoPlayerModal
         isOpen={open}
         onClose={() => setOpen(false)}
         title="Introduction au Prompt Engineering"
         duration="12:34"
         instructor="Sophie Martin"
-        description="Découvrez les fondamentaux du prompt engineering."
+        description="Les fondamentaux du prompt engineering, et comment structurer une demande."
       />
     </div>
   );
 };
 
 /* ── Démos phase 4 : composants qui ont besoin d'un état local ───────────── */
-
-const SegmentedControlDemo: React.FC = () => {
-  const [vue, setVue] = useState<'liste' | 'grille' | 'calendrier'>('liste');
-  const [periode, setPeriode] = useState<'7j' | '30j' | '90j'>('30j');
-  return (
-    <div className="flex flex-col gap-stack">
-      <SegmentedControl
-        options={[
-          { value: 'liste', label: 'Liste' },
-          { value: 'grille', label: 'Grille' },
-          { value: 'calendrier', label: 'Calendrier' },
-        ]}
-        value={vue}
-        onChange={setVue}
-      />
-      <SegmentedControl
-        size="sm"
-        tone="warm"
-        options={[
-          { value: '7j', label: '7 jours' },
-          { value: '30j', label: '30 jours' },
-          { value: '90j', label: '90 jours' },
-        ]}
-        value={periode}
-        onChange={setPeriode}
-      />
-      <p className="m-0 text-caption text-ink-500">Vue : {vue} · Période : {periode}</p>
-    </div>
-  );
-};
 
 const SelectableOptionCardDemo: React.FC = () => {
   const [choix, setChoix] = useState('coach');
@@ -964,6 +900,10 @@ const ChartDetailModalDemo: React.FC = () => {
         onClose={() => setOpen(false)}
         title="Progression par compétence"
         subtitle="Douze dernières semaines"
+        actions={[
+          { label: 'Exporter en CSV', onClick: () => {} },
+          { label: 'Ouvrir le Passeport', onClick: () => {} },
+        ]}
       >
         <div className="flex items-end gap-stack-xs h-40">
           {[38, 52, 47, 63, 71, 58, 80].map((h, i) => (
@@ -975,19 +915,24 @@ const ChartDetailModalDemo: React.FC = () => {
   );
 };
 
+/* Les deux configurations de la modale : seule (« Retour à l'espace »), ou
+   avec le contenu suivant (« Suivant » et « Retour »). Plus d'XP : la prop
+   `xpEarned` est retirée du composant (arbitrage n°18). */
 const CompletionModalDemo2: React.FC = () => {
-  const [open, setOpen] = useState(false);
+  const [ouverte, setOuverte] = useState<'seule' | 'suite' | null>(null);
+  const fermer = () => setOuverte(null);
   return (
-    <>
-      <Button emphasis="outline" size="sm" onClick={() => setOpen(true)}>Voir la modale</Button>
+    <div className="flex flex-wrap gap-stack-xs">
+      <Button emphasis="outline" size="sm" onClick={() => setOuverte('seule')}>Fin d'un parcours</Button>
+      <Button emphasis="outline" size="sm" onClick={() => setOuverte('suite')}>Avec un contenu suivant</Button>
       <CompletionModal
-        isOpen={open}
-        onClose={() => setOpen(false)}
+        isOpen={ouverte !== null}
+        onClose={fermer}
         itemTitle="Concevoir une séquence pédagogique"
-        xpEarned={120}
-        onNext={() => setOpen(false)}
+        nextItem={ouverte === 'suite' ? { title: 'Flashcards : les quatre piliers du prompt', type: 'Flashcards', duration: '5 min' } : undefined}
+        onNext={fermer}
       />
-    </>
+    </div>
   );
 };
 
@@ -1015,23 +960,41 @@ const ToastDemo: React.FC = () => {
 const TabsDemo: React.FC = () => {
   const [active1, setActive1] = useState('tab1');
   const [active2, setActive2] = useState('a');
+  const [active3, setActive3] = useState('vue');
   return (
     <div className="flex flex-col gap-stack-lg">
       <div>
-        <p className="m-0 mb-3 text-caption font-semibold text-ink-500 uppercase">Pill (défaut)</p>
+        <p className="mb-stack-xs text-caption font-semibold text-ink-600">Pill (défaut) · rail au rayon 14, onglet au rayon 10</p>
+        {/* Des icônes Lucide, pas des émojis : l'onglet a un emplacement pour elles. */}
         <Tabs
           items={[
-            { id: 'tab1', label: '📚 Étapes' },
-            { id: 'tab2', label: '🎯 Projet' },
-            { id: 'tab3', label: '📊 Stats' },
+            { id: 'tab1', label: 'Étapes', icon: <Layers /> },
+            { id: 'tab2', label: 'Projet', icon: <Target /> },
+            { id: 'tab3', label: 'Statistiques', icon: <BarChart3 /> },
           ]}
           value={active1}
           onChange={setActive1}
           variant="pill"
         />
       </div>
+      {/* Quatre onglets dans 280 px : le rail défile, les libellés restent
+          sur une ligne (à 375, c'était un onglet hors de l'écran). */}
+      <div className="max-w-[280px]">
+        <p className="mb-stack-xs text-caption font-semibold text-ink-600">Pill dans un cadre de 280 px · la liste défile</p>
+        <Tabs
+          items={[
+            { id: 'vue', label: 'Vue d’ensemble' },
+            { id: 'competences', label: 'Compétences' },
+            { id: 'top', label: 'Top progresseurs' },
+            { id: 'alertes', label: 'Alertes' },
+          ]}
+          value={active3}
+          onChange={setActive3}
+          variant="pill"
+        />
+      </div>
       <div>
-        <p className="m-0 mb-3 text-caption font-semibold text-ink-500 uppercase">Underline</p>
+        <p className="mb-stack-xs text-caption font-semibold text-ink-600">Underline</p>
         <Tabs
           items={[
             { id: 'a', label: 'Général' },
@@ -1041,6 +1004,19 @@ const TabsDemo: React.FC = () => {
           value={active2}
           onChange={setActive2}
           variant="underline"
+        />
+      </div>
+      <div>
+        <p className="mb-stack-xs text-caption font-semibold text-ink-600">Boxed</p>
+        <Tabs
+          items={[
+            { id: 'a', label: 'Général' },
+            { id: 'b', label: 'Sécurité' },
+            { id: 'c', label: 'Notifications' },
+          ]}
+          value={active2}
+          onChange={setActive2}
+          variant="boxed"
         />
       </div>
     </div>
@@ -1055,7 +1031,7 @@ const FilterChipDemo: React.FC = () => {
     <div className="flex flex-col gap-stack-lg">
       {/* Default surface */}
       <div className="flex flex-col gap-stack-xs">
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Default surface · single-select + reset</p>
+        <p className="text-caption font-semibold text-ink-600 m-0">md, le défaut · 44 px · choix unique et réinitialisation</p>
         <div className="flex gap-stack-xs flex-wrap">
           {TOPICS.map((label, i) => {
             const key = i === 0 ? 'all' : label.toLowerCase();
@@ -1069,7 +1045,7 @@ const FilterChipDemo: React.FC = () => {
 
       {/* Default with count badges */}
       <div className="flex flex-col gap-stack-xs">
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Default · avec count badges</p>
+        <p className="text-caption font-semibold text-ink-600 m-0">Avec compteurs</p>
         <div className="flex gap-stack-xs flex-wrap">
           <FilterChip label="En cours" active count={3} onClick={() => {}} />
           <FilterChip label="Terminés" count={1} onClick={() => {}} />
@@ -1077,10 +1053,20 @@ const FilterChipDemo: React.FC = () => {
         </div>
       </div>
 
+      {/* sm : pour une barre dense, à côté d'un Search sm */}
+      <div className="flex flex-col gap-stack-xs">
+        <p className="text-caption font-semibold text-ink-600 m-0">sm · 28 px, pour une barre dense</p>
+        <div className="flex gap-stack-xs flex-wrap">
+          {TOPICS.slice(0, 4).map((label, i) => (
+            <FilterChip key={label} size="sm" label={label} active={i === 1} onClick={() => {}} />
+          ))}
+        </div>
+      </div>
+
       {/* Glass variant */}
       <div className="flex flex-col gap-stack-xs">
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Glass variant · sur fond coloré</p>
-        <div className="bg-gradient-to-r from-primary-500 to-primary-700 rounded-xl px-stack py-stack-md flex gap-stack-xs flex-wrap">
+        <p className="text-caption font-semibold text-ink-600 m-0">Variante glass · sur fond coloré</p>
+        <div className="bg-gradient-to-r from-primary-700 to-primary-800 rounded-xl px-stack py-stack-md flex gap-stack-xs flex-wrap">
           {TOPICS.map((label, i) => {
             const key = i === 0 ? 'tous' : label.toLowerCase();
             return (
@@ -1098,8 +1084,8 @@ const FilterChipDemo: React.FC = () => {
 
       {/* Glass with count badges */}
       <div className="flex flex-col gap-stack-xs">
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Glass · avec count badges</p>
-        <div className="bg-gradient-to-r from-secondary-500 to-secondary-700 rounded-xl px-stack py-stack-md flex gap-stack-xs flex-wrap">
+        <p className="text-caption font-semibold text-ink-600 m-0">Glass · avec compteurs</p>
+        <div className="bg-gradient-to-r from-secondary-700 to-secondary-800 rounded-xl px-stack py-stack-md flex gap-stack-xs flex-wrap">
           <FilterChip label="Non lus" variant="glass" active count={3} onClick={() => {}} />
           <FilterChip label="Mentions" variant="glass" count={7} onClick={() => {}} />
           <FilterChip label="Invitations" variant="glass" onClick={() => {}} />
@@ -1113,7 +1099,7 @@ const ModalDemo: React.FC = () => {
   const [open, setOpen] = useState(false);
   return (
     <div className="flex gap-stack-xs items-start">
-      <Button onClick={() => setOpen(true)}>Ouvrir Modal</Button>
+      <Button onClick={() => setOpen(true)}>Ouvrir la modale</Button>
       <Modal
         open={open}
         onClose={() => setOpen(false)}
@@ -1121,12 +1107,13 @@ const ModalDemo: React.FC = () => {
         description="Cette opération ne peut pas être annulée."
         actions={
           <>
-            <Button emphasis="soft" tone="warm" onClick={() => setOpen(false)}>Annuler</Button>
-            <Button emphasis="soft" onClick={() => setOpen(false)}>Confirmer</Button>
+            {/* La paire Annuler / Confirmer : outline, puis l'action principale en solid (arbitrage n°19). */}
+            <Button emphasis="outline" tone="neutral" onClick={() => setOpen(false)}>Annuler</Button>
+            <Button emphasis="solid" tone="danger" onClick={() => setOpen(false)}>Supprimer</Button>
           </>
         }
       >
-        <p className="m-0 text-ink-600 text-body-sm">
+        <p className="m-0 text-ink-700 text-body">
           Voulez-vous vraiment supprimer cet élément ? Cette action est irréversible et toutes les données associées seront perdues.
         </p>
       </Modal>
@@ -1134,11 +1121,40 @@ const ModalDemo: React.FC = () => {
   );
 };
 
-const PaginationDemo: React.FC = () => {
-  const [page, setPage] = useState(3);
+/* NotificationCard cliquable : la rangée est un vrai <button>. La légende dit
+   ce qui a été ouvert, pour qu'on voie qu'Entrée et Espace l'activent. */
+const NotificationCardClicDemo: React.FC = () => {
+  const [ouverte, setOuverte] = useState<string | null>(null);
+  const [lues, setLues] = useState<string[]>([]);
+  const notifications = [
+    { id: 'correction', tone: 'brand' as const, icon: <CheckCircle2 size={18} />, title: 'Correction reçue', body: 'Sophie Martin a corrigé ton exercice « Concevoir une séquence ».', time: 'Il y a 20 min' },
+    { id: 'message', tone: 'warm' as const, icon: <MessageSquare size={18} />, title: 'Nouveau message', body: 'Marc Dubois : « On garde jeudi pour le point d’étape ? »', time: 'Il y a 1 h' },
+  ];
   return (
-    <div className="flex flex-col gap-stack">
-      <Pagination page={page} totalPages={12} onChange={setPage} info={`Page ${page} sur 12`} />
+    <div className="flex flex-col gap-stack-xs">
+      <Card className="p-0 overflow-hidden">
+        <ul className="flex flex-col divide-y divide-ink-100">
+          {notifications.map((n) => (
+            <li key={n.id}>
+              <NotificationCard
+                variant="row"
+                tone={n.tone}
+                icon={n.icon}
+                title={n.title}
+                body={n.body}
+                time={n.time}
+                unread={!lues.includes(n.id)}
+                onClick={() => { setOuverte(n.title); setLues((l) => [...l, n.id]); }}
+                onMarkRead={() => setLues((l) => [...l, n.id])}
+                onDelete={() => {}}
+              />
+            </li>
+          ))}
+        </ul>
+      </Card>
+      <p className="font-body text-caption text-ink-600" aria-live="polite">
+        {ouverte ? `Ouverte : « ${ouverte} »` : 'Aucune notification ouverte.'}
+      </p>
     </div>
   );
 };
@@ -1153,12 +1169,12 @@ const CelebrationModalDemo: React.FC = () => {
       <CelebrationModal
         isOpen={open}
         onClose={() => setOpen(false)}
-        title="Parcours complété !"
-        description="Félicitations ! Vous avez terminé le parcours Prompt Engineering avec 92% de réussite."
+        title="Parcours terminé"
+        description="Tu as terminé le parcours Prompt engineering avec 92 % de réussite."
         actions={
           <>
-            <Button emphasis="soft" tone="warm" onClick={() => setOpen(false)}>Voir mon badge</Button>
-            <Button emphasis="outline" onClick={() => setOpen(false)}>Partager</Button>
+            <Button emphasis="solid" tone="warm" onClick={() => setOpen(false)}>Voir mon badge</Button>
+            <Button emphasis="ghost" onClick={() => setOpen(false)}>Partager</Button>
           </>
         }
       />
@@ -1171,25 +1187,25 @@ const SidebarDemo: React.FC = () => {
   const [active, setActive] = useState('dashboard');
   const [menuOpen, setMenuOpen] = useState(false);
   const items = [
-    { id: 'dashboard', label: 'Tableau de bord', icon: <LayoutDashboard size={18} /> },
-    { id: 'paths',     label: 'Parcours',         icon: <MapIcon size={18} />, count: '3' },
-    { id: 'journal',   label: 'Journal de bord',  icon: <PenLine size={18} /> },
-    { id: 'coaching',  label: 'Coaching',         icon: <Video size={18} /> },
-    { id: 'veille',    label: 'Veille',           icon: <SparklesIcon size={18} /> },
+    /* Les icônes de NAVIGATION_PRINCIPALE (src/config/navigation.ts) : la démo
+       montrait Video et Sparkles, que l'app n'emploie pas ici. */
+    { id: 'dashboard', label: 'Tableau de bord', icon: <LayoutDashboard /> },
+    { id: 'paths',     label: 'Parcours',         icon: <MapIcon />, count: '3' },
+    { id: 'journal',   label: 'Journal de bord',  icon: <PenLine /> },
+    { id: 'coaching',  label: 'Coaching',         icon: <GraduationCap /> },
+    { id: 'veille',    label: 'Veille',           icon: <BookOpenText /> },
+    { id: 'espace',    label: 'Espace Apprentissage', icon: <Layers /> },
   ];
   return (
     <div className="flex flex-col gap-stack-xs">
-      <div className="flex items-center gap-stack-xs text-caption text-ink-500">
-        <button
-          type="button"
-          onClick={() => setCollapsed(p => !p)}
-          className="px-3 py-1 rounded-pill bg-primary-50 text-primary-700 font-semibold border border-primary-200 hover:bg-primary-100"
-        >
-          {collapsed ? 'Étendre' : 'Réduire'}
-        </button>
-        <span>← cliquer pour basculer collapsed/expanded</span>
+      <div className="flex items-center gap-stack-xs text-caption text-ink-600">
+        <Button emphasis="soft" size="sm" onClick={() => setCollapsed(p => !p)}>
+          {collapsed ? 'Déplier' : 'Replier'}
+        </Button>
+        <span>La barre passe de 260 à 72 px.</span>
       </div>
-      <div className="h-[480px] rounded-xl border border-ink-200 flex bg-white relative">
+      {/* Un écran, pas une carte : coins droits, comme la fenêtre où vit la barre. */}
+      <div className="h-[480px] border border-ink-200 flex bg-white relative">
         {/* Glass dropdown — floats to the right of the sidebar */}
         {menuOpen && (
           <DropdownMenu
@@ -1231,9 +1247,9 @@ const SidebarDemo: React.FC = () => {
             />
           ))}
         </Sidebar>
-        <div className="flex-1 p-stack-lg bg-gradient-to-br from-ink-50 to-white overflow-hidden rounded-r-xl">
-          <p className="text-body-sm text-ink-500">Active : <strong className="text-ink-900">{items.find(i => i.id === active)?.label}</strong></p>
-          <p className="text-caption text-ink-400 mt-1">Cliquer sur la carte utilisateur en bas → dropdown glass à droite. Mobile : drawer + hamburger (md:)</p>
+        <div className="flex-1 p-stack-lg bg-gradient-to-br from-ink-50 to-white overflow-hidden">
+          <p className="text-body text-ink-700">Active : <strong className="text-ink-900">{items.find(i => i.id === active)?.label}</strong></p>
+          <p className="text-caption text-ink-600 mt-1">La carte utilisateur, en bas, ouvre le menu du compte. Sous 768 px, la barre devient un tiroir.</p>
         </div>
       </div>
     </div>
@@ -1257,9 +1273,9 @@ const MultiStepFormDemo: React.FC = () => {
         showStepIndicators
       >
         <div className="p-stack bg-ink-50 rounded-lg">
-          {step === 1 && <p>Étape 1: Informations personnelles</p>}
-          {step === 2 && <p>Étape 2: Préférences d\'apprentissage</p>}
-          {step === 3 && <p>Étape 3: Vérification et confirmation</p>}
+          {step === 1 && <p>Étape 1 : informations personnelles</p>}
+          {step === 2 && <p>Étape 2 : préférences d'apprentissage</p>}
+          {step === 3 && <p>Étape 3 : vérification et confirmation</p>}
         </div>
       </MultiStepForm>
     </div>
@@ -1313,7 +1329,7 @@ const AuthShellDemo: React.FC = () => {
             <AuthSocialButton icon={<AuthGoogleIcon />}>Google</AuthSocialButton>
             <AuthSocialButton icon={<AuthLinkedinIcon />}>LinkedIn</AuthSocialButton>
           </div>
-          <p className="text-center text-body-sm text-white/75 m-0 mt-1">
+          <p className="text-center text-body text-white m-0 mt-1">
             Déjà inscrit ?{' '}
             <AuthInlineLink onClick={() => {}}>Se connecter</AuthInlineLink>
           </p>
@@ -1345,10 +1361,13 @@ const ShowcaseBloc: React.FC<{
      « à trancher » qu'elle habillait. Une vitrine montre ce que le système FAIT ;
      elle ne demande pas ce qu'il devrait faire. Ce qui reste ouvert vit sur la
      page d'arbitrages, qui sait enregistrer une réponse — la vitrine, non. */
+  /* Titre de sous-section à 20 (doctrine § 1 : le h3 est aussi le titre d'une
+     sous-section), note en texte secondaire long : 16 ink-700 à la largeur de
+     lecture, 8 px sous le titre. */
   <section className="flex flex-col gap-stack">
-    <div className="flex flex-col gap-tight">
-      <h4 className="font-display text-h4 text-ink-900">{titre}</h4>
-      {note && <p className="m-0 font-body text-body-sm text-ink-600 max-w-[65ch]">{note}</p>}
+    <div className="flex flex-col gap-stack-xs">
+      <h4 className="font-display text-h3 text-ink-900">{titre}</h4>
+      {note && <p className="font-body text-body text-ink-700 max-w-prose">{note}</p>}
     </div>
     {children}
   </section>
@@ -1409,35 +1428,66 @@ const COMPONENTS: ComponentEntry[] = [
 
   {
     name: 'Rythme des titres',
-    codeName: 'convention — aucun fichier propriétaire',
+    codeName: 'convention — PageShell · base CSS des titres',
     description:
-      "Un titre appartient à ce qui le suit, pas à ce qui le précède. L'espace au-dessus doit donc valoir trois à quatre fois celui d'en dessous. L'app applique aujourd'hui un ratio de 1:1 sur 302 piles verticales.",
-    keywords: ['rythme', 'titre', 'heading', 'proximité', 'gap', 'espacement', 'vertical'],
+      "Un titre appartient à ce qui le suit, pas à ce qui le précède. D'où le rapport de 3:1 autour d'un titre de section : 48 px au-dessus, 16 en dessous (doctrine § 5). Le 09/09, l'app appliquait un rapport de 1:1 sur 302 piles verticales.",
+    keywords: ['rythme', 'titre', 'heading', 'proximité', 'gap', 'espacement', 'vertical', '48', 'check-rythme', 'pageshell'],
     render: () => (
       <div className="flex flex-col gap-section">
         <ShowcaseBloc
-          titre="Ce que fait l'app aujourd'hui"
-          note="La règle du repo veut qu'un composant ne porte jamais son propre margin — c'est le parent qui possède le rythme, via gap (piège n°12). Correct, mais un gap est par construction symétrique : il donne exactement autant d'air au-dessus du titre qu'en dessous. Le titre flotte alors entre deux blocs au lieu d'appartenir au sien. Compté dans src/pages : 228 piles en gap-stack (16 px), 43 en gap-section, 26 en gap-stack-lg. Aucune n'applique d'asymétrie."
+          titre="Ce que faisait l'app le 9 septembre"
+          note="La règle du repo veut qu'un composant ne porte jamais son propre margin — c'est le parent qui possède le rythme, via gap (piège n°12). Correct, mais un gap est par construction symétrique : il donne exactement autant d'air au-dessus du titre qu'en dessous. Le titre flottait alors entre deux blocs au lieu d'appartenir au sien. Compté ce jour-là dans src/pages : 228 piles en gap-stack (16 px), 43 en gap-section, 26 en gap-stack-lg, aucune asymétrie."
         >
           <div className="grid gap-stack sm:grid-cols-2">
             <div className="rounded-lg border border-ink-200 p-stack">
-              <p className="m-0 mb-stack-xs text-micro font-bold uppercase tracking-wider text-ink-500">Constaté — gap-stack uniforme</p>
+              <p className="mb-stack-xs text-caption font-semibold text-ink-600">Constaté le 09/09 — gap-stack uniforme</p>
               <div className="flex flex-col gap-stack rounded-md bg-ink-50 p-stack">
-                <p className="m-0 font-body text-body-sm text-ink-600">Fin du bloc précédent.</p>
-                <h5 className="m-0 font-display text-h4 text-ink-900">Un titre de section</h5>
-                <p className="m-0 font-body text-body-sm text-ink-600">Le texte qui lui appartient.</p>
+                <p className="font-body text-body text-ink-700">Fin du bloc précédent.</p>
+                <p className="font-display text-h2 text-ink-900">Un titre de section</p>
+                <p className="font-body text-body text-ink-700">Le texte qui lui appartient.</p>
               </div>
-              <p className="m-0 mt-stack-xs text-micro text-ink-500 tabular-nums">16 px dessus · 16 px dessous — ratio 1,0</p>
+              <p className="mt-stack-xs text-caption text-ink-600 tabular-nums">16 px dessus · 16 px dessous — rapport 1,0</p>
             </div>
             <div className="rounded-lg border border-primary-200 bg-primary-50/30 p-stack">
-              <p className="m-0 mb-stack-xs text-micro font-bold uppercase tracking-wider text-primary-700">Proposé — règle de proximité</p>
+              <p className="mb-stack-xs text-caption font-semibold text-primary-800">La règle — 48 dessus, 16 dessous</p>
               <div className="rounded-md bg-white p-stack">
-                <p className="m-0 font-body text-body-sm text-ink-600">Fin du bloc précédent.</p>
-                <h5 className="mt-section mb-stack-xs font-display text-h4 text-ink-900">Un titre de section</h5>
-                <p className="m-0 font-body text-body-sm text-ink-600">Le texte qui lui appartient.</p>
+                <p className="font-body text-body text-ink-700">Fin du bloc précédent.</p>
+                <p className="mt-page mb-stack font-display text-h2 text-ink-900">Un titre de section</p>
+                <p className="font-body text-body text-ink-700">Le texte qui lui appartient.</p>
               </div>
-              <p className="m-0 mt-stack-xs text-micro text-primary-700 tabular-nums">32 px dessus · 8 px dessous — ratio 4,0</p>
+              <p className="mt-stack-xs text-caption text-primary-800 tabular-nums">48 px dessus · 16 px dessous — rapport 3,0</p>
             </div>
+          </div>
+        </ShowcaseBloc>
+
+        <ShowcaseBloc
+          titre="Ce qui la porte aujourd'hui"
+          note="Trois mécanismes, sans marge sur aucun composant. PageShell pose 48 px entre deux sections par défaut depuis le 24/09 — il en posait 32, soit un rapport de 2:1. Un titre de section est séparé de son contenu par gap-stack, 16 px. Et la base CSS donne 0,75 em au-dessus de tout h2 à h4 qui n'ouvre pas son conteneur (21 px pour un h2 de 28), ce qui creuse l'écart même sous un gap symétrique. `npm run check:rythme` signale tout titre de section sous 1,5:1."
+        >
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[420px] border-collapse font-body text-body">
+              <thead>
+                <tr className="border-b border-ink-200 text-left">
+                  <th className="py-2 pr-stack text-caption font-semibold text-ink-600">Relation</th>
+                  <th className="py-2 pr-stack text-right text-caption font-semibold text-ink-600">Espace</th>
+                  <th className="py-2 text-caption font-semibold text-ink-600">Token</th>
+                </tr>
+              </thead>
+              <tbody className="text-ink-700">
+                {([
+                  ['Dans une ligne, dans un groupe', '4 – 8', 'gap-stack-3xs · gap-stack-xs'],
+                  ['Entre éléments d’un même ensemble', '12 – 16', 'gap-stack-sm · gap-stack'],
+                  ['Titre de section → son contenu', '16', 'gap-stack'],
+                  ['Entre deux sections', '48', 'gap-page'],
+                ] as const).map(([rel, px, tok]) => (
+                  <tr key={rel} className="border-b border-ink-100">
+                    <td className="py-2 pr-stack">{rel}</td>
+                    <td className="py-2 pr-stack text-right tabular-nums">{px}</td>
+                    <td className="py-2"><code className="font-mono text-caption">{tok}</code></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </ShowcaseBloc>
       </div>
@@ -1463,9 +1513,9 @@ const COMPONENTS: ComponentEntry[] = [
               ['section', 32], ['section-lg', 40], ['page', 48],
             ] as const).map(([nom, px]) => (
               <div key={nom} className="flex items-center gap-stack">
-                <code className="w-28 shrink-0 font-mono text-micro text-ink-600">{nom}</code>
+                <code className="w-28 shrink-0 font-mono text-caption text-ink-600">{nom}</code>
                 <div className="h-3 rounded-xs bg-primary-500" style={{ width: `${px * 3}px` }} />
-                <span className="font-mono text-micro text-ink-500 tabular-nums">{px} px</span>
+                <span className="font-mono text-caption text-ink-600 tabular-nums">{px} px</span>
               </div>
             ))}
           </div>
@@ -1476,15 +1526,15 @@ const COMPONENTS: ComponentEntry[] = [
           note="181 gouttières numériques rendent exactement la même valeur qu'un token existant. Les remplacer ne change pas un pixel à l'écran ; c'est une conversion mécanique, pas un arbitrage."
         >
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[420px] border-collapse font-body text-body-sm">
+            <table className="w-full min-w-[420px] border-collapse font-body text-body">
               <thead>
                 <tr className="border-b border-ink-200 text-left">
-                  <th className="py-2 pr-stack font-bold text-ink-700">Écrit</th>
-                  <th className="py-2 pr-stack font-bold text-ink-700">Équivaut à</th>
-                  <th className="py-2 text-right font-bold text-ink-700">Usages</th>
+                  <th className="py-2 pr-stack text-caption font-semibold text-ink-600">Écrit</th>
+                  <th className="py-2 pr-stack text-caption font-semibold text-ink-600">Équivaut à</th>
+                  <th className="py-2 text-right text-caption font-semibold text-ink-600">Usages</th>
                 </tr>
               </thead>
-              <tbody className="text-ink-600">
+              <tbody className="text-ink-700">
                 {([['gap-0.5', 'gap-tight', 53], ['gap-stack-xs', 'gap-stack-xs', 94], ['gap-stack', 'gap-stack', 17], ['gap-stack-lg', 'gap-stack-lg', 15], ['gap-8', 'gap-section', 2]] as const).map(([a, b, n]) => (
                   <tr key={a} className="border-b border-ink-100">
                     <td className="py-2 pr-stack"><code className="font-mono text-caption">{a}</code></td>
@@ -1504,7 +1554,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'Padding',
     codeName: 'convention — p-* et les surfaces',
     description:
-      "L'inverse exact des gouttières : 778 paddings sémantiques contre 2 450 numériques, soit 24 % d'adoption. Et le padding intérieur d'une carte prend cinq valeurs différentes selon la carte.",
+      "L'inverse exact des gouttières : 778 paddings sémantiques contre 2 450 numériques, soit 24 % d'adoption. Le padding intérieur d'une carte, lui, est tranché (arbitrage n°4 du 23/09, padding de carte) : 24 px au canon, 20 en unique dérogation dense — jamais sous le rayon de 20.",
     keywords: ['padding', 'espacement', 'carte', 'surface', 'gouttière de page'],
     render: () => (
       <div className="flex flex-col gap-section">
@@ -1514,7 +1564,7 @@ const COMPONENTS: ComponentEntry[] = [
         >
           <div className="rounded-lg border border-ink-200 bg-ink-50 py-stack">
             <div className="bg-white px-4 py-stack sm:px-6 lg:px-10">
-              <p className="m-0 font-body text-body-sm text-ink-600">
+              <p className="m-0 font-body text-body text-ink-700">
                 La zone blanche est le contenu ; le liseré gris, la gouttière. Elle passe de 16 px sur mobile
                 à 24 px sur tablette et 40 px sur grand écran — redimensionnez pour la voir bouger.
               </p>
@@ -1527,27 +1577,28 @@ const COMPONENTS: ComponentEntry[] = [
 
   {
     name: 'Centrage',
-    codeName: 'vérifié au navigateur, 2026-09-09',
+    codeName: 'vérifié au navigateur le 2026-09-09, remesuré le 2026-09-24',
     description:
-      "Mesuré plutôt que supposé : le centrage géométrique est juste partout où on l'a sondé. Le texte d'un bouton dérive de 0,65 px de son centre optique, et les glyphes en pastille sont à 0,00 px. Ce n'est donc pas là que se joue l'impression de flottement.",
+      "Mesuré plutôt que supposé : le centrage géométrique est juste partout où on l'a sondé. Le label d'un bouton md (16 px, 700) dérive de 0,70 px de son centre optique, et les glyphes en pastille sont à 0,00 px. Ce n'est donc pas là que se joue l'impression de flottement.",
     keywords: ['centrage', 'alignement', 'optique', 'baseline', 'capitale'],
     render: () => (
       <div className="flex flex-col gap-section">
         <ShowcaseBloc
           titre="Ce qui a été mesuré"
-          note="Un centrage vertical par items-center centre la boîte de ligne, pas la hauteur de capitale — et les deux ne coïncident que si les métriques de la fonte s'y prêtent. Celles de Nunito s'y prêtent : sur un bouton md de 44 px, la ligne de base tombe à 28 px du haut, la capitale mesure 10,69 px, donc son milieu est à 22,65 px pour un centre géométrique à 22. L'écart de 0,65 px est invisible. Rien à corriger, et c'est utile de le savoir : la prochaine fois qu'un bloc paraîtra mal centré, il faudra chercher ailleurs."
+          note="Un centrage vertical par items-center centre la boîte de ligne, pas la hauteur de capitale — et les deux ne coïncident que si les métriques de la fonte s'y prêtent. Celles de Nunito s'y prêtent : sur un bouton md de 44 px, avec son label à 16 px depuis le 24/09, la ligne de base tombe à 27 px du haut, la capitale mesure 11,41 px, donc son milieu est à 21,30 px pour un centre géométrique à 22. L'écart de 0,70 px est invisible. Rien à corriger, et c'est utile de le savoir : la prochaine fois qu'un bloc paraîtra mal centré, il faudra chercher ailleurs."
         >
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[460px] border-collapse font-body text-body-sm">
-              <tbody className="text-ink-600">
+            <table className="w-full min-w-[460px] border-collapse font-body text-body">
+              <tbody className="text-ink-700">
                 {([
                   ['Bouton md, hauteur', '44,00 px'],
-                  ['Ligne de base, depuis le haut', '28,00 px'],
-                  ['Hauteur de capitale', '10,69 px'],
+                  ['Label', '16 px · 700'],
+                  ['Ligne de base, depuis le haut', '27,00 px'],
+                  ['Hauteur de capitale', '11,41 px'],
                   ['Centre géométrique', '22,00 px'],
-                  ['Milieu de la capitale', '22,65 px'],
-                  ['Dérive optique', '0,65 px — sous le seuil du visible'],
-                  ['Glyphe dans une pastille de 40 px', '0,00 px sur les deux axes'],
+                  ['Milieu de la capitale', '21,30 px'],
+                  ['Dérive optique', '0,70 px — sous le seuil du visible'],
+                  ['Glyphe dans une pastille de 40 px (09/09)', '0,00 px sur les deux axes'],
                 ] as const).map(([k, v]) => (
                   <tr key={k} className="border-b border-ink-100">
                     <td className="py-2 pr-stack">{k}</td>
@@ -1566,17 +1617,17 @@ const COMPONENTS: ComponentEntry[] = [
           <div className="flex flex-wrap items-center gap-stack">
             <div className="flex flex-col items-start gap-stack-xs">
               <Button>Texte seul</Button>
-              <span className="font-mono text-micro text-ink-500">20 / 20 — symétrique</span>
+              <span className="font-mono text-caption text-ink-600">20 / 20 — symétrique</span>
             </div>
             <div className="flex flex-col items-start gap-stack-xs">
               <Button leadingIcon={I.plus}>Icône à gauche</Button>
-              <span className="font-mono text-micro text-ink-500">20 / 20 — l’icône pèse moins</span>
+              <span className="font-mono text-caption text-ink-600">20 / 20 — l’icône pèse moins</span>
             </div>
             <div className="flex flex-col items-start gap-stack-xs">
               <span className="inline-flex [&>button]:pl-4">
                 <Button leadingIcon={I.plus}>Icône à gauche</Button>
               </span>
-              <span className="font-mono text-micro text-secondary-700">16 / 20 — compensé</span>
+              <span className="font-mono text-caption text-secondary-700">16 / 20 — compensé</span>
             </div>
           </div>
         </ShowcaseBloc>
@@ -1586,12 +1637,13 @@ const COMPONENTS: ComponentEntry[] = [
 
 {
     name: 'Les rayons, et ce qui va ensemble',
-    codeName: 'R3 · R4 — tranchées le 14/09/2026',
+    codeName: 'R3 (la règle du seuil) · R4 (les champs à 14) — tranchées le 14/09/2026',
     description:
-      "La règle est celle du seuil. Sous 28 px de haut, pilule et rayon 14 sont indiscernables — le navigateur plafonne à la moitié de la hauteur : la pilule reste, elle ne coûte rien. Au-dessus, le rayon devient une déclaration et prend l'échelle : le bouton est passé à 14 (R3), le bouton-icône garde son cercle, et la famille champ a suivi le même jour (R4) — elle est à 36-52 px de haut, donc toujours au-dessus du seuil.",
+      "La règle est celle du seuil (R3). Sous 28 px de haut, pilule et rayon 14 sont indiscernables — le navigateur plafonne le rayon à la moitié de la hauteur : la pilule y reste, elle ne coûte rien. Au-dessus, le rayon devient une déclaration et prend l'échelle étagée : 14 pour ce qui se presse ou se remplit (Button, FilterChip md et la famille champ, R4), 20 pour les cartes, 24 pour les surcouches. Le bouton-icône garde son cercle.",
     keywords: ['rayon', 'radius', 'pilule', 'bouton', 'badge', 'carte', 'champ', 'input', 'cohérence'],
     render: () => {
-      const coque = 'flex flex-col rounded-lg border border-ink-200 bg-white p-stack-lg min-w-0';
+      /* Une carte au canon : 20 px (étage conteneur), padding 24. */
+      const coque = 'flex flex-col rounded-xl border border-ink-200 bg-white p-stack-lg min-w-0';
       const metas = [{ icon: <Clock3 />, text: '45 min' }, { icon: <Calendar />, text: 'Jeudi 18' }];
       return (
         <div className="flex flex-col gap-section">
@@ -1606,20 +1658,21 @@ const COMPONENTS: ComponentEntry[] = [
               </p>
               <div className="grid gap-stack [grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr))]">
                 {([
-                  ['Badge · MetaPill · Chip · FilterChip', 'pilule', "Étage étiquette. Sous le seuil par construction (20 · 24 · 28 px) : la pilule y rend la même forme que 14 — la garder ne coûte rien et c'est la convention du petit label."],
-                  ['Button', 'rounded-lg (14)', "Étage interactif. Au-dessus du seuil sur ses quatre tailles. ⚠️ Cette fiche disait « prend le rayon de la Card qui le contient » — faux depuis que la Card est passée à 20 le 16/09. Le bouton NE suit PAS : plus l'élément est grand, plus son rayon l'est, et des rayons imbriqués doivent être apparentés, pas identiques."],
+                  ['Badge · MetaPill · Chip sm · FilterChip sm', 'pilule', "Étage étiquette. Sous le seuil ou à lui : Badge 20, MetaPill et Chip sm 24, Badge large 26, FilterChip sm 28. La pilule y rend la même forme que 14 — la garder ne coûte rien, et c'est la convention du petit label."],
+                  ['Button · FilterChip md', 'rounded-lg (14)', "Étage interactif. Le bouton a trois tailles, 36 · 44 · 52 (arbitrage n°22 : une hauteur commune aux contrôles d'une même ligne), toutes au-dessus du seuil ; le FilterChip md fait 44. Le bouton NE suit PAS la carte, passée à 20 le 16/09 : plus l'élément est grand, plus son rayon l'est, et des rayons imbriqués doivent être apparentés, pas identiques."],
                   ['Famille champ', 'rounded-lg (14)', "Étage interactif. R4, même jour : Input · Select · Combobox · Search. 36 à 52 px de haut, donc toujours au-dessus du seuil. Le composant disait 10 sans l'avoir justifié."],
                   ['Card · StatCard · rangées de liste', 'rounded-xl (20) · 14 pour les rangées', "Étage conteneur, le plus grand — décidé le 16/09. R1 l'avait posée à 14 le 09/09 ; à l'usage 14 se lisait comme un rectangle, et Figma était resté à 20 (nœud Card 1111:46, lié à radius-xl). Une rangée de liste reste à l'étage interactif, donc 14."],
+                  ['Modal · tiroirs · feuilles', 'rounded-2xl (24)', "Étage surcouche (arbitrage n°2 du 23/09, le rayon des surcouches) : plus l'objet est haut dans l'empilement, plus il est rond. Son padding de 24 égale le rayon, donc ses boutons restent des formes fixes."],
                   ['Button iconOnly', 'pilule → cercle', "Exception écrite. Carré, donc la pilule y donne un cercle parfait — ne pas « uniformiser »."],
                 ] as const).map(([fam, val, pourquoi]) => (
                   <div key={fam} className="flex flex-col gap-stack-2xs rounded-lg border border-ink-200 bg-white p-stack">
-                    <span className="font-display text-h5 text-ink-900">{fam}</span>
-                    <span className="font-mono text-caption text-primary-700">{val}</span>
-                    <span className="font-body text-caption text-ink-600">{pourquoi}</span>
+                    <span className="font-body text-body font-semibold text-ink-900">{fam}</span>
+                    <span className="font-mono text-caption text-primary-800">{val}</span>
+                    <span className="font-body text-body text-ink-700">{pourquoi}</span>
                   </div>
                 ))}
               </div>
-              <p className="m-0 font-body text-body-sm text-ink-600">
+              <p className="m-0 font-body text-body text-ink-700">
                 L'argument écarté en connaissance de cause : le rayon d'une pilule vaut la moitié de sa
                 hauteur, donc sa silhouette ne dépend pas de la longueur du label. C'est vrai — mais ce
                 que ça achète, une constance que personne ne perçoit, coûte l'accord entre le CTA et la
@@ -1642,10 +1695,10 @@ const COMPONENTS: ComponentEntry[] = [
                   <span className={`inline-flex items-center ${cls} border border-secondary-200 bg-secondary-50 px-2.5 py-0.5 font-body text-micro font-bold uppercase tracking-label text-secondary-700`}>
                     À venir
                   </span>
-                  <span className="font-mono text-micro text-ink-500">{nom}</span>
+                  <span className="font-mono text-caption text-ink-600">{nom}</span>
                 </div>
               ))}
-              <span className="font-mono text-micro text-ink-500 self-center">24 px de haut · plafond à 12 : les deux premières sont identiques, la troisième passe dessous</span>
+              <span className="font-mono text-caption text-ink-600 self-center">24 px de haut · plafond à 12 : les deux premières sont identiques, la troisième passe dessous</span>
             </div>
           </ShowcaseBloc>
 
@@ -1663,7 +1716,7 @@ const COMPONENTS: ComponentEntry[] = [
                   <span className={`inline-flex ${surcharge}`}>
                     <Button leadingIcon={<Plus />}>Rejoindre</Button>
                   </span>
-                  <span className="font-mono text-micro text-ink-500">{nom}</span>
+                  <span className="font-mono text-caption text-ink-600">{nom}</span>
                 </div>
               ))}
             </div>
@@ -1676,7 +1729,7 @@ const COMPONENTS: ComponentEntry[] = [
             <div className="grid gap-stack-lg [grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr))]">
               {([
                 ['[&_button]:rounded-pill', 'CTA en pilule (avant R3)'],
-                ['', 'CTA au rayon de la carte — retenu'],
+                ['', 'CTA à 14 dans une carte à 20 — retenu'],
                 ['[&_button]:rounded-md', 'CTA à 10 px'],
               ] as const).map(([surcharge, nom]) => (
                 <div key={nom} className="flex flex-col gap-stack-xs">
@@ -1685,17 +1738,17 @@ const COMPONENTS: ComponentEntry[] = [
                       <MetaPillGroup items={metas} />
                       <Badge variant="warm" className="shrink-0">À venir</Badge>
                     </div>
-                    <div className="mt-stack flex items-center justify-between gap-stack">
+                    <div className="mt-stack-3xs flex items-center justify-between gap-stack">
                       <div className="min-w-0">
-                        <h4 className="font-display text-h4 text-ink-900">Session de coaching</h4>
-                        <p className="m-0 mt-1 font-body text-body-sm text-ink-600">
+                        <h4 className="font-display text-h3 text-ink-900">Session de coaching</h4>
+                        <p className="mt-stack-xs font-body text-body text-ink-700">
                           Préparer le lancement du parcours Neuro-éducation.
                         </p>
                       </div>
                       <Button size="sm" className="shrink-0">Rejoindre</Button>
                     </div>
                   </div>
-                  <span className="font-mono text-micro text-ink-500">{nom}</span>
+                  <span className="font-mono text-caption text-ink-600">{nom}</span>
                 </div>
               ))}
             </div>
@@ -1711,16 +1764,19 @@ const COMPONENTS: ComponentEntry[] = [
                 ['Après — une seule', 'rounded-lg', 'Le formulaire se lit comme un objet, pas comme deux familles empilées.'],
               ] as const).map(([titre, rayon, dit]) => (
                 <div key={titre} className="flex flex-col gap-stack-xs">
-                  <span className="font-display text-h5 text-ink-900">{titre}</span>
+                  <span className="font-body text-body font-semibold text-ink-900">{titre}</span>
+                  {/* Champ fait main exprès : il montre l'avant et l'après d'un
+                      rayon. Hauteur et filet sont ceux de la famille champ
+                      d'aujourd'hui — 52 px au cran lg, filet ink-400. */}
                   <input
                     readOnly
                     value="Jeanne Dupont"
                     aria-label={`Champ de démonstration — ${rayon}`}
-                    className={`w-full h-12 px-4 ${rayon} border border-ink-300 bg-white font-body text-body-sm text-ink-900`}
+                    className={`w-full h-13 px-4 ${rayon} border border-ink-400 bg-white font-body text-body text-ink-900`}
                   />
                   <Button emphasis="soft" size="lg" fullWidth>Envoyer le message</Button>
-                  <span className="font-mono text-micro text-ink-500">champ 48 px · bouton 48 px · {rayon === 'rounded-md' ? '10 contre 14' : '14 et 14'}</span>
-                  <span className="font-body text-caption text-ink-600">{dit}</span>
+                  <span className="font-mono text-caption text-ink-600">champ 52 px · bouton 52 px · {rayon === 'rounded-md' ? '10 contre 14' : '14 et 14'}</span>
+                  <span className="font-body text-body text-ink-700">{dit}</span>
                 </div>
               ))}
             </div>
@@ -1731,24 +1787,25 @@ const COMPONENTS: ComponentEntry[] = [
             note="Mesuré au navigateur. Au-dessus de 28 px seulement, la classe choisie change quelque chose."
           >
             <div className="defiler">
-              <table className="w-full min-w-[400px] border-collapse font-body text-body-sm">
+              <table className="w-full min-w-[400px] border-collapse font-body text-body">
                 <thead>
                   <tr className="border-b border-ink-200 text-left">
-                    <th className="py-2 pr-stack font-bold text-ink-700">hauteur</th>
-                    <th className="py-2 pr-stack text-right font-bold text-ink-700">rayon 14 rendu</th>
-                    <th className="py-2 pr-stack text-right font-bold text-ink-700">pilule rendue</th>
-                    <th className="py-2 font-bold text-ink-700">ce qu’on voit</th>
+                    <th className="py-2 pr-stack text-caption font-semibold text-ink-600">hauteur</th>
+                    <th className="py-2 pr-stack text-right text-caption font-semibold text-ink-600">rayon 14 rendu</th>
+                    <th className="py-2 pr-stack text-right text-caption font-semibold text-ink-600">pilule rendue</th>
+                    <th className="py-2 text-caption font-semibold text-ink-600">ce qu’on voit</th>
                   </tr>
                 </thead>
-                <tbody className="text-ink-600">
+                <tbody className="text-ink-700">
                   {([
-                    ['18 px · Badge compact', '9', '9', 'rien'],
-                    ['20 px · Badge normal', '10', '10', 'rien'],
+                    ['20 px · Badge compact et normal', '10', '10', 'rien'],
+                    ['24 px · MetaPill · Chip sm', '12', '12', 'rien'],
                     ['26 px · Badge large', '13', '13', 'rien'],
-                    ['28 px · le seuil', '14', '14', 'rien'],
-                    ['30 px · MetaPill md', '14', '15', '1 px'],
-                    ['32 px · Button sm', '14', '16', '2 px'],
-                    ['44 px · Button md', '14', '22', '8 px'],
+                    ['28 px · le seuil · FilterChip sm', '14', '14', 'rien'],
+                    ['30 px · Chip md · MetaPill md', '14', '15', '1 px'],
+                    ['36 px · Button sm · champ sm', '14', '18', '4 px'],
+                    ['44 px · Button md · FilterChip md', '14', '22', '8 px'],
+                    ['52 px · Button lg · champ lg', '14', '26', '12 px'],
                   ] as const).map(([h, a, b, v]) => (
                     <tr key={h} className={`border-b border-ink-100 ${v === 'rien' ? '' : 'text-ink-900'}`}>
                       <td className="py-2 pr-stack">{h}</td>
@@ -1768,9 +1825,9 @@ const COMPONENTS: ComponentEntry[] = [
 
   {
     name: 'Disposition des cartes',
-    codeName: 'décision ouverte — arbitrage n°8',
+    codeName: 'décision ouverte — où poser l’état, la donnée et l’action',
     description:
-      "Les cinq dispositions candidates, montées avec les VRAIS composants : Badge pour l'état, MetaPillGroup pour les données, Button pour le CTA. Même contenu partout — seule la place change.",
+      "Les dispositions candidates, montées avec les VRAIS composants : Badge pour l'état, MetaPillGroup pour les données, Button pour l'action. Même contenu et mêmes espaces partout — ceux de l'anatomie de carte du 24/09 ; seule la place change.",
     keywords: ['carte', 'disposition', 'statut', 'méta', 'cta', 'anatomie', 'layout'],
     render: () => {
       const metas = [
@@ -1779,15 +1836,15 @@ const COMPONENTS: ComponentEntry[] = [
       ];
       const titre = 'Session de coaching';
       const texte = 'Préparer le lancement du parcours Neuro-éducation avec Pierre-Armand.';
-      /* Une carte de démonstration : le canon du 09/09 — rayon 14, padding 24,
-         bordure ink-200, aucune ombre. */
-      const coque = 'flex flex-col rounded-lg border border-ink-200 bg-white p-stack-lg min-w-0';
+      /* Une carte de démonstration au canon : rayon 20 (étage conteneur, depuis
+         le 16/09 — elle était à 14), padding 24, bordure ink-200, aucune ombre. */
+      const coque = 'flex flex-col rounded-xl border border-ink-200 bg-white p-stack-lg min-w-0';
 
       return (
         <div className="flex flex-col gap-section">
           <ShowcaseBloc
             titre="Cinq dispositions, mêmes composants"
-            note="L'ordre vertical et les espaces viennent de l'arbitrage n°7 : 8 px sous le badge, 4 sous le titre, 16 avant les métas, 16 avant le CTA. Ce qui change d'une carte à l'autre, c'est uniquement OÙ se posent l'état, les données et l'action."
+            note="Les espaces sont ceux de l'anatomie de carte (doctrine § 5, 24/09) : ligne du haut → titre 4 px, titre → texte 8, texte → données 12, contenu → action 24. Le texte est à 16 px ink-700, le titre en h3 20. Ce qui change d'une carte à l'autre, c'est uniquement OÙ se posent l'état, les données et l'action."
           >
             <div className="grid gap-stack-lg [grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr))]">
 
@@ -1795,12 +1852,12 @@ const COMPONENTS: ComponentEntry[] = [
               <div className="flex flex-col gap-stack-xs">
                 <div className={coque}>
                   <Badge variant="warm" className="self-start">À venir</Badge>
-                  <h4 className="mt-stack-xs font-display text-h4 text-ink-900">{titre}</h4>
-                  <p className="m-0 mt-1 font-body text-body-sm text-ink-600">{texte}</p>
-                  <MetaPillGroup items={metas} className="mt-stack" />
-                  <Button size="sm" className="mt-stack self-start">Rejoindre</Button>
+                  <h4 className="mt-stack-3xs font-display text-h3 text-ink-900">{titre}</h4>
+                  <p className="mt-stack-xs font-body text-body text-ink-700">{texte}</p>
+                  <MetaPillGroup items={metas} className="mt-stack-sm" />
+                  <Button size="sm" className="mt-stack-lg self-start">Rejoindre</Button>
                 </div>
-                <span className="text-micro font-mono text-ink-500"><b>A</b> · empilé, le statut ouvre</span>
+                <span className="text-caption font-mono text-ink-600"><b>A</b> · empilé, le statut ouvre</span>
               </div>
 
               {/* B — barre de tête */}
@@ -1813,41 +1870,41 @@ const COMPONENTS: ComponentEntry[] = [
                     <MetaPillGroup items={metas} />
                     <Badge variant="warm" className="shrink-0">À venir</Badge>
                   </div>
-                  <h4 className="mt-stack font-display text-h4 text-ink-900">{titre}</h4>
-                  <p className="m-0 mt-1 font-body text-body-sm text-ink-600">{texte}</p>
-                  <Button size="sm" className="mt-stack self-start">Rejoindre</Button>
+                  <h4 className="mt-stack-3xs font-display text-h3 text-ink-900">{titre}</h4>
+                  <p className="mt-stack-xs font-body text-body text-ink-700">{texte}</p>
+                  <Button size="sm" className="mt-stack-lg self-start">Rejoindre</Button>
                 </div>
-                <span className="text-micro font-mono text-ink-500"><b>B</b> · métas à gauche, statut à droite</span>
+                <span className="text-caption font-mono text-ink-600"><b>B</b> · métas à gauche, statut à droite</span>
               </div>
 
               {/* C — statut en coin */}
               <div className="flex flex-col gap-stack-xs">
                 <div className={coque}>
                   <div className="flex items-start justify-between gap-stack-xs">
-                    <h4 className="font-display text-h4 text-ink-900">{titre}</h4>
+                    <h4 className="font-display text-h3 text-ink-900">{titre}</h4>
                     <Badge variant="warm" className="shrink-0 mt-0.5">À venir</Badge>
                   </div>
-                  <p className="m-0 mt-1 font-body text-body-sm text-ink-600">{texte}</p>
-                  <MetaPillGroup items={metas} className="mt-stack" />
-                  <Button size="sm" className="mt-stack self-start">Rejoindre</Button>
+                  <p className="mt-stack-xs font-body text-body text-ink-700">{texte}</p>
+                  <MetaPillGroup items={metas} className="mt-stack-sm" />
+                  <Button size="sm" className="mt-stack-lg self-start">Rejoindre</Button>
                 </div>
-                <span className="text-micro font-mono text-ink-500"><b>C</b> · le statut annote le titre</span>
+                <span className="text-caption font-mono text-ink-600"><b>C</b> · le statut annote le titre</span>
               </div>
 
               {/* D — pied de carte */}
               <div className="flex flex-col gap-stack-xs">
                 <div className={coque}>
                   <div className="flex items-start justify-between gap-stack-xs">
-                    <h4 className="font-display text-h4 text-ink-900">{titre}</h4>
+                    <h4 className="font-display text-h3 text-ink-900">{titre}</h4>
                     <Badge variant="warm" className="shrink-0 mt-0.5">À venir</Badge>
                   </div>
-                  <p className="m-0 mt-1 font-body text-body-sm text-ink-600">{texte}</p>
-                  <div className="mt-stack pt-stack border-t border-ink-200 flex items-center justify-between gap-stack-xs">
+                  <p className="mt-stack-xs font-body text-body text-ink-700">{texte}</p>
+                  <div className="mt-stack-lg pt-stack border-t border-ink-200 flex items-center justify-between gap-stack-xs">
                     <MetaPillGroup items={metas} />
                     <Button size="sm" className="shrink-0">Rejoindre</Button>
                   </div>
                 </div>
-                <span className="text-micro font-mono text-ink-500"><b>D</b> · métas et CTA sur une ligne, sous un filet</span>
+                <span className="text-caption font-mono text-ink-600"><b>D</b> · métas et CTA sur une ligne, sous un filet</span>
               </div>
 
               {/* F — le CTA sur la MÊME LIGNE que le bloc de texte */}
@@ -1859,15 +1916,15 @@ const COMPONENTS: ComponentEntry[] = [
                     <Badge variant="warm" className="shrink-0">À venir</Badge>
                   </div>
                   {/* Corps : le texte à gauche, l'action à droite, centrée sur lui */}
-                  <div className="mt-stack flex items-center justify-between gap-stack">
+                  <div className="mt-stack-3xs flex items-center justify-between gap-stack">
                     <div className="min-w-0">
-                      <h4 className="font-display text-h4 text-ink-900">{titre}</h4>
-                      <p className="m-0 mt-1 font-body text-body-sm text-ink-600">{texte}</p>
+                      <h4 className="font-display text-h3 text-ink-900">{titre}</h4>
+                      <p className="mt-stack-xs font-body text-body text-ink-700">{texte}</p>
                     </div>
                     <Button size="sm" className="shrink-0">Rejoindre</Button>
                   </div>
                 </div>
-                <span className="text-micro font-mono text-secondary-700"><b>F</b> · métas à gauche, statut à droite, CTA centré sur le bloc de texte</span>
+                <span className="text-caption font-mono text-secondary-800"><b>F</b> · métas à gauche, statut à droite, CTA centré sur le bloc de texte</span>
               </div>
 
               {/* E — celle décrite le 10/09 */}
@@ -1877,13 +1934,13 @@ const COMPONENTS: ComponentEntry[] = [
                     <Badge variant="warm">À venir</Badge>
                     <MetaPillGroup items={metas} className="justify-end" />
                   </div>
-                  <h4 className="mt-stack font-display text-h3 text-ink-900">{titre}</h4>
-                  <p className="m-0 mt-1 font-body text-body-sm text-ink-600">{texte}</p>
-                  <div className="mt-stack flex justify-end">
+                  <h4 className="mt-stack-3xs font-display text-h3 text-ink-900">{titre}</h4>
+                  <p className="mt-stack-xs font-body text-body text-ink-700">{texte}</p>
+                  <div className="mt-stack-lg flex justify-end">
                     <Button size="sm">Rejoindre</Button>
                   </div>
                 </div>
-                <span className="text-micro font-mono text-primary-700"><b>E</b> · statut à gauche, métas à droite, titre en h3, CTA aligné au texte</span>
+                <span className="text-caption font-mono text-primary-800"><b>E</b> · statut à gauche, métas à droite, titre en h3, CTA aligné au texte</span>
               </div>
             </div>
           </ShowcaseBloc>
@@ -1896,7 +1953,7 @@ const COMPONENTS: ComponentEntry[] = [
               <Badge variant="warm">état</Badge>
               <MetaPillGroup items={[{ icon: <Clock3 />, text: 'donnée' }]} />
               <Button size="sm">action</Button>
-              <span className="font-mono text-micro text-ink-500">les trois primitives, telles que le produit les rend</span>
+              <span className="font-mono text-caption text-ink-600">les trois primitives, telles que le produit les rend</span>
             </div>
           </ShowcaseBloc>
         </div>
@@ -1908,14 +1965,14 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'La famille des pastilles',
     codeName: 'ui/Badge.tsx · ui/Chip.tsx',
     description:
-      "Deux registres, et il faut les distinguer d'un coup d'œil : Badge dit un ÉTAT, MetaPill dit une DONNÉE. Le système déclare neuf enveloppes sur une seule primitive ; deux portent 327 des 351 usages.",
+      "Deux registres, et il faut les distinguer d'un coup d'œil : Badge dit un ÉTAT, MetaPill dit une DONNÉE. La famille est passée de neuf enveloppes à six le 10/09 : Badge, FilterChip, MetaPill et MetaPillGroup, StatusBadge, et Chip, la primitive interne.",
     keywords: ['badge', 'pastille', 'chip', 'pill', 'meta', 'statut', 'tag', 'filtre'],
     render: () => (
       <div className="flex flex-col gap-section">
 
         <ShowcaseBloc
           titre="Deux registres, deux traitements"
-          note="La différence n'est pas décorative : elle dit au lecteur ce qu'il regarde avant qu'il ait lu. Un état crie — capitales, graisse 700, serrage positif, bordure. Une donnée chuchote — casse normale, graisse 500. Confondre les deux, c'est ce qui rend une carte illisible : on ne sait plus ce qui est un fait et ce qui est un statut."
+          note="La différence n'est pas décorative : elle dit au lecteur ce qu'il regarde avant qu'il ait lu. Un état crie — 11 px en capitales, graisse 700, serrage positif, bordure. Une donnée chuchote — 11 px en casse normale, graisse 500. À hauteur voisine (Badge 20 px, MetaPill 24), c'est le registre qui les sépare, pas la taille. Confondre les deux, c'est ce qui rend une carte illisible : on ne sait plus ce qui est un fait et ce qui est un statut."
         >
           <div className="flex flex-wrap items-start gap-section">
             <div className="flex flex-col items-start gap-stack-xs">
@@ -1924,7 +1981,7 @@ const COMPONENTS: ComponentEntry[] = [
                 <Badge variant="success">Terminé</Badge>
                 <Badge variant="danger">En retard</Badge>
               </div>
-              <span className="text-micro text-ink-500 font-mono">Badge — l’état · 264 usages</span>
+              <span className="text-caption text-ink-600 font-mono">Badge — l’état · 11 px · 700 · capitales</span>
             </div>
             <div className="flex flex-col items-start gap-stack-xs">
               <MetaPillGroup
@@ -1934,7 +1991,7 @@ const COMPONENTS: ComponentEntry[] = [
                   { text: 'Intermédiaire' },
                 ]}
               />
-              <span className="text-micro text-ink-500 font-mono">MetaPill — la donnée · 16 usages</span>
+              <span className="text-caption text-ink-600 font-mono">MetaPill — la donnée · 11 px · 500</span>
             </div>
           </div>
         </ShowcaseBloc>
@@ -1944,10 +2001,14 @@ const COMPONENTS: ComponentEntry[] = [
           note="Chip — donc MetaPill, Tag, FilterChip — portait les MÊMES noms pour des hauteurs différentes : un Badge « md » mesurait 20 px quand un Chip « md » en fait 30. On comparait deux échelles qui ne parlent pas de la même chose, et l’écart se lisait comme un défaut d’alignement alors qu’il est voulu. Des noms propres à la famille lèvent la confusion sans toucher aux hauteurs."
         >
           <div className="flex flex-wrap items-end gap-stack">
-            {(['compact', 'normal', 'large'] as const).map((t) => (
+            {([
+              ['compact', '20 px · padding 8'],
+              ['normal', '20 px · padding 10 · le défaut'],
+              ['large', '26 px · 13 px'],
+            ] as const).map(([t, mesure]) => (
               <div key={t} className="flex flex-col items-start gap-stack-2xs">
                 <Badge variant="brand" size={t}>Nouveau</Badge>
-                <span className="text-micro text-ink-500 font-mono">{t}</span>
+                <span className="text-caption text-ink-600 font-mono">{t} · {mesure}</span>
               </div>
             ))}
           </div>
@@ -1955,28 +2016,26 @@ const COMPONENTS: ComponentEntry[] = [
 
         <ShowcaseBloc
           titre="Ce que la famille compte vraiment"
-          note="Neuf enveloppes déclarées, deux réellement employées. Le CLAUDE.md disait « ne pas fusionner, APIs fondamentalement différentes » — écrit en supposant qu’elles servaient toutes. Quatre composants pour neuf usages cumulés, c’est du vocabulaire, pas des API."
+          note="Relevé le 24/09 : appels JSX dans src/, hors vitrine et labo. Le CLAUDE.md disait « ne pas fusionner, APIs fondamentalement différentes » — écrit en supposant que les neuf enveloppes servaient. Tag, Pill et TrendingBadge n’avaient aucun usage produit : ils ont été supprimés le 10/09. Les « Tag » qu’on croyait leurs étaient l’icône Lucide du même nom."
         >
           <div className="defiler">
-            <table className="w-full min-w-[420px] border-collapse font-body text-body-sm">
+            <table className="w-full min-w-[420px] border-collapse font-body text-body">
               <thead>
                 <tr className="border-b border-ink-200 text-left">
-                  <th className="py-2 pr-stack font-bold text-ink-700">composant</th>
-                  <th className="py-2 pr-stack text-right font-bold text-ink-700">usages</th>
-                  <th className="py-2 font-bold text-ink-700">verdict</th>
+                  <th className="py-2 pr-stack text-caption font-semibold text-ink-600">composant</th>
+                  <th className="py-2 pr-stack text-right text-caption font-semibold text-ink-600">appels</th>
+                  <th className="py-2 text-caption font-semibold text-ink-600">rôle</th>
                 </tr>
               </thead>
-              <tbody className="text-ink-600">
+              <tbody className="text-ink-700">
                 {([
-                  ['Badge', 264, 'à garder — le registre de l’état'],
-                  ['FilterChip', 63, 'à garder — le filtre interactif'],
-                  ['MetaPillGroup', 10, 'à garder — le registre de la donnée'],
-                  ['MetaPill', 6, 'idem, employé par le groupe'],
-                  ['Tag', 7, 'à fondre dans FilterChip'],
-                  ['Chip', 5, 'primitive interne — les 5 usages publics sont dans le DevPanel'],
-                  ['StatusBadge', 1, 'à fondre dans Badge'],
-                  ['Pill', 1, 'à fondre dans Badge'],
-                  ['TrendingBadge', 0, 'à retirer'],
+                  ['Badge', 244, 'l’état'],
+                  ['MetaPill', 68, 'la donnée'],
+                  ['FilterChip', 66, 'le filtre — un contrôle de 44 px en md'],
+                  ['MetaPillGroup', 14, 'les données d’une carte (défaut sm)'],
+                  ['Chip', 4, 'primitive interne : les enveloppes prennent ses tokens, ses seuls appels directs sont dans le DevPanel'],
+                  ['StatusBadge', 1, 'les cinq états d’une leçon, avec leur icône — du vocabulaire de domaine'],
+                  ['Tag · Pill · TrendingBadge', 0, 'supprimés le 10/09'],
                 ] as const).map(([n, u, v]) => (
                   <tr key={n} className="border-b border-ink-100">
                     <td className="py-2 pr-stack"><code className="font-mono text-caption">{n}</code></td>
@@ -2001,9 +2060,9 @@ const COMPONENTS: ComponentEntry[] = [
             ] as const).map(([quoi, avant, apres]) => (
               <div key={quoi} className="flex flex-wrap items-baseline gap-stack-xs text-caption">
                 <span className="w-24 shrink-0 font-bold text-ink-700">{quoi}</span>
-                <code className="font-mono text-micro text-ink-500 line-through">{avant}</code>
-                <span className="text-ink-400">→</span>
-                <code className="font-mono text-micro text-primary-700">{apres}</code>
+                <code className="font-mono text-caption text-ink-600 line-through">{avant}</code>
+                <span className="text-ink-600">→</span>
+                <code className="font-mono text-caption text-primary-700">{apres}</code>
               </div>
             ))}
           </div>
@@ -2016,7 +2075,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: "Échelle d'icônes",
     codeName: '--icon-size-* · index.css',
     description:
-      "Tranché le 2026-09-09 : tout est ramené sur l'échelle, et l'échelle a été étendue aux deux bouts. Elle comptait cinq crans quand le code en posait vingt-sept ; 851 des 1 904 tailles écrites à la main tombaient hors échelle. Il reste zéro écart.",
+      "Tranché le 2026-09-09 : tout est ramené sur l'échelle, étendue aux deux bouts — neuf crans de 14 à 48 px. Elle en comptait cinq quand le code posait vingt-sept tailles ; 851 des 1 904 tailles écrites à la main tombaient hors échelle. Il en restait 12 au recomptage du 17/09 (check-handmade).",
     keywords: ['icône', 'icon', 'taille', 'lucide', 'échelle', 'alignement'],
     render: () => (
       <div className="flex flex-col gap-section">
@@ -2026,21 +2085,19 @@ const COMPONENTS: ComponentEntry[] = [
         >
           <div className="flex flex-col gap-stack">
             {([
-              ['xs', 'text-caption', '16 px · caption 13'],
-              ['sm', 'text-body-sm', '18 px · body-sm 15'],
-              ['md', 'text-body', '20 px · body 16'],
-              ['lg', 'text-body-lg', '24 px · body-lg 18'],
-              ['xl', 'text-h4', '28 px · h4 20'],
+              ['xs', 'text-caption font-body', '16 px · légende 13 · bouton sm'],
+              ['sm', 'text-body font-body', '18 px · corps 16 · bouton md'],
+              ['md', 'text-body font-body', '20 px · corps 16 · bouton lg'],
+              ['lg', 'text-body-lg font-body', '24 px · chapô 18'],
+              ['xl', 'text-h3 font-display', '28 px · titre h3 20'],
             ] as const).map(([cran, texte, meta]) => (
               <div key={cran} className="flex items-center gap-stack">
-                <code className="w-20 shrink-0 font-mono text-micro text-ink-600">icon-{cran}</code>
-                <span className={`icon-${cran} inline-flex shrink-0 items-center justify-center text-primary-600 [&>svg]:w-full [&>svg]:h-full`}>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                    <circle cx="12" cy="12" r="9" /><path d="M12 8v8M8 12h8" />
-                  </svg>
+                <code className="w-20 shrink-0 font-mono text-caption text-ink-600">icon-{cran}</code>
+                <span className={`icon-${cran} inline-flex shrink-0 items-center justify-center text-primary-700 [&>svg]:w-full [&>svg]:h-full`}>
+                  <CirclePlus strokeWidth={2} aria-hidden />
                 </span>
-                <span className={`${texte} font-body text-ink-800`}>Étiquette</span>
-                <span className="ml-auto font-mono text-micro text-ink-500 tabular-nums">{meta}</span>
+                <span className={`${texte} text-ink-800`}>Étiquette</span>
+                <span className="ml-auto font-mono text-caption text-ink-600 tabular-nums">{meta}</span>
               </div>
             ))}
           </div>
@@ -2053,28 +2110,26 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Button',
     codeName: 'core/Button.tsx',
-    cssBase: '.btn',
     description:
-      "Le déclencheur d'une action. Forme pilule, graisse 700, un seul bouton principal par écran. Treize variantes, quatre tailles. Cette fiche est aussi la surface d'arbitrage du remplissage de marque — la seule décision de bouton encore ouverte.",
-    keywords: ['cta', 'action', 'primary', 'secondary', 'accent', 'ghost', 'outline', 'destructive', 'link', 'glass', 'taille', 'contraste', 'wcag', 'icône', 'tracking'],
+      "Le déclencheur d'une action. Son API est une grille : `emphasis` (solid · soft · outline · ghost · link) dit combien il insiste, `tone` (brand · warm · sun · danger · neutral) de quelle couleur. Trois tailles, 36 · 44 · 52, celles des champs d'une même ligne (arbitrage n°22) ; rayon 14, graisse 700. Un seul `solid` par écran, pour l'action principale (arbitrage n°19) : le bouton expose son niveau au DOM (`data-emphasis`), que la sonde `check:boutons` compte écran par écran. `flush` (start · end · both) cale le libellé d'un `ghost` sur le bord du texte qu'il suit, d'une marge négative égale au padding de la taille ; la prop est sans effet sur les autres niveaux et sur `iconOnly`. Les treize `variant` historiques et l'ancien cran `xl` restent acceptés, comme alias dépréciés.",
+    keywords: ['cta', 'action', 'emphasis', 'tone', 'solid', 'soft', 'outline', 'ghost', 'link', 'onDark', 'iconOnly', 'primary', 'destructive', 'glass', 'taille', '36', '44', '52', 'contraste', 'wcag', 'icône', 'data-emphasis', 'cible', 'tactile', 'flush', 'calage', 'bord', 'marge négative'],
     render: () => (
       <div className="flex flex-col gap-section">
 
-        {/* ─── 1 · LES QUATRE TAILLES ─────────────────────────────────────── */}
+        {/* ─── 1 · LES TROIS TAILLES ──────────────────────────────────────── */}
         <ShowcaseBloc
-          titre="Les quatre tailles"
-          note="Le défaut est md, à 44 px : la cible tactile recommandée par Apple et Material. sm reste à 32 px parce qu'il vit dans les tableaux de bord denses — 227 des 522 boutons de l'app — mais un pseudo-élément déborde de 6 px en haut et en bas, ce qui porte sa zone tactile à 44 px sans toucher au rendu. La cible dépasse le visuel : c'est ainsi que font les deux systèmes."
+          titre="Les trois tailles"
+          note="Le défaut est md, à 44 px : la cible tactile recommandée par Apple et Material. Les trois crans sont ceux des champs (Input, Select, Search) : un bouton et un champ posés sur la même ligne ont la même hauteur (arbitrage n°22 du 24/09). sm, à 36 px, sert les rangées denses ; un pseudo-élément déborde de 4 px en haut et en bas et porte sa zone tactile à 44 sans toucher au rendu — sur les quatre côtés pour le bouton-icône sm, dont la cible restait à 36 × 36 jusqu'au 24/09. Un bouton que la page positionne (`absolute`, la croix d'une modale) ancre lui-même ce pseudo-élément. Son label reste à 13 : essayé à 16 dans trois rangées réelles, l'action pesait plus que le nom qu'elle sert. `xl` n'existe plus — il rend `lg`."
         >
           <div className="flex flex-wrap items-end gap-stack">
             {([
-              ['sm', 'Small', '32 px · texte 13 · cible 44'],
-              ['md', 'Medium', '44 px · texte 15 · le défaut'],
-              ['lg', 'Large', '48 px · texte 16'],
-              ['xl', 'Extra large', '52 px · texte 19'],
+              ['sm', 'Petit', '36 px · label 13 · icône 16 · cible 44'],
+              ['md', 'Moyen', '44 px · label 16 · icône 18 · le défaut'],
+              ['lg', 'Grand', '52 px · label 16 · icône 20'],
             ] as const).map(([size, label, meta]) => (
               <div key={size} className="flex flex-col items-start gap-stack-xs">
                 <Button size={size} leadingIcon={I.plus}>{label}</Button>
-                <span className="text-micro text-ink-500 font-body tabular-nums">{meta}</span>
+                <span className="text-caption text-ink-600 font-body tabular-nums">{meta}</span>
               </div>
             ))}
           </div>
@@ -2083,19 +2138,19 @@ const COMPONENTS: ComponentEntry[] = [
         {/* ─── 2 · LA GRILLE : NIVEAU × TON ───────────────────────────────── */}
         <ShowcaseBloc
           titre="La grille — cinq niveaux, cinq tons"
-          note="L'API publique depuis le 2026-09-17. `emphasis` dit COMBIEN le bouton insiste, `tone` dit de quelle couleur. Les treize `variant` historiques restent supportés mais ne sont plus que des alias vers une case : `primary` = soft/brand, `ghost` = outline/brand, `glass` = solid + onDark. Le contrat de contraste est attaché au NIVEAU, pas à un nom — c'est ce qui a manqué le jour où la bascule a déplacé un niveau sous un nom, et où le site marketing a perdu ses aplats sans qu'une ligne du site ne change."
+          note="L'API publique depuis le 17/09. Depuis le 24/09 (arbitrage n°19, un seul solid par écran), chaque niveau a un rôle : `solid` l'action principale, une par écran ; `soft` l'action de contexte, dans une carte ou une rangée ; `ghost` le tertiaire ; `outline` les paires Annuler / Confirmer. Les treize `variant` historiques ne sont plus que des alias vers une case : `primary` = soft/brand, `ghost` = outline/brand, `glass` = solid + onDark. Le contrat de contraste est attaché au NIVEAU, pas à un nom — c'est ce qui a manqué le jour où la bascule a déplacé un niveau sous un nom, et où le site marketing a perdu ses aplats sans qu'une ligne du site ne change."
         >
           <div className="flex flex-col gap-stack-lg">
             {([
-              ['solid',   'Aplat du ton au cran 700, label blanc. Le premier cran qui porte du blanc à 4,5:1 : 5,02 · 6,31 · 4,88 · 5,15. Le site marketing, le destructif.'],
-              ['soft',    'Fond du ton au cran 50 opaque, label 800, filet 700. Le niveau principal de l’app depuis la bascule — et le mieux contrasté du système (6,31 · 9,49 · 7,64).'],
-              ['outline', 'Filet sans fond. Le niveau secondaire.'],
-              ['ghost',   'Ni fond ni filet au repos. Le fond n’arrive qu’au survol.'],
-              ['link',    'Pas de boîte du tout.'],
+              ['solid',   'Aplat du ton au cran 700, label blanc, survol au 800. Le premier cran qui porte du blanc à 4,5:1 : 5,02 · 6,31 · 4,88 · 5,15. L’action principale, une par écran au plus — la page, ou la modale ouverte : « Reprendre » à l’accueil, l’envoi d’un formulaire, Confirmer dans une modale (danger pour une suppression). Un écran de consultation peut n’en avoir aucun.'],
+              ['soft',    'Fond du ton au cran 50, opaque ; label 800, filet 700. L’action de contexte — celle d’une carte, d’une rangée, d’un panneau — et l’outil qui a besoin d’un contour ; le mieux contrasté du système (6,31 · 9,49 · 7,64).'],
+              ['outline', 'Filet 700 sans fond, label 800. Réservé aux paires Annuler / Confirmer : Annuler en outline neutre, Confirmer en solid.'],
+              ['ghost',   'Label 800, ni fond ni filet au repos ; le fond n’arrive qu’au survol. Le tertiaire — « Plus tard », « Voir tout », Précédent — et les outils : exporter, paginer, réinitialiser un filtre.'],
+              ['link',    'Ni fond ni filet : label 800 souligné, survol au 900.'],
             ] as const).map(([emphasis, note]) => (
               <div key={emphasis} className="flex flex-col gap-stack-xs">
                 <div className="flex items-baseline gap-stack-xs">
-                  <code className="font-mono text-caption font-bold text-ink-900">{emphasis}</code>
+                  <code className="font-mono text-caption font-semibold text-ink-900">{emphasis}</code>
                   <span className="font-body text-caption text-ink-600">{note}</span>
                 </div>
                 <div className="hstack">
@@ -2108,20 +2163,18 @@ const COMPONENTS: ComponentEntry[] = [
           </div>
         </ShowcaseBloc>
 
-        {/* ─── 3 · L'ARBITRAGE : LE REMPLISSAGE DE MARQUE ─────────────────── */}
-
-        {/* ─── 4 · LES ICÔNES ─────────────────────────────────────────────── */}
+        {/* ─── 3 · LES ICÔNES ─────────────────────────────────────────────── */}
         <ShowcaseBloc
           titre="Les icônes suivent la taille du bouton"
-          note="Corrigé le 2026-09-09. La boîte de l'icône valait 1em d'un font-size de 1,05em, et le glyphe gardait sa taille propre — presque toujours 16 px. En dessous de lg la boîte était plus étroite que le glyphe : flex-shrink mordait sur la largeur et pas sur la hauteur, donc un cercle devenait un ovale. Sur sm, l'écrasement mesurait 2,35 px. Désormais la boîte vient de l'échelle --icon-size-*, appariée à la police du label, et le SVG remplit la boîte : carré par construction."
+          note="Corrigé le 2026-09-09. La boîte de l'icône valait 1em d'un font-size de 1,05em, et le glyphe gardait sa taille propre — presque toujours 16 px. En dessous de lg la boîte était plus étroite que le glyphe : flex-shrink mordait sur la largeur et pas sur la hauteur, donc un cercle devenait un ovale. Sur sm, l'écrasement mesurait 2,35 px. Désormais la boîte vient de l'échelle --icon-size-*, appariée à la police du label, et le SVG remplit la boîte : carré par construction. En iconOnly, un seul glyphe est rendu — le premier fourni : l'enfant, puis l'icône de tête, puis celle de queue. Passé par `leadingIcon`, il était suivi d'une boîte vide destinée aux enfants, et le gap de 8 px le décalait de 12 px à gauche du centre (24/09)."
         >
           <div className="flex flex-wrap items-end gap-stack">
             {([
-              ['sm', '16 px'], ['md', '18 px'], ['lg', '20 px'], ['xl', '24 px'],
+              ['sm', '16 px'], ['md', '18 px'], ['lg', '20 px'],
             ] as const).map(([size, px]) => (
               <div key={size} className="flex flex-col items-start gap-stack-xs">
                 <Button size={size} leadingIcon={I.plus} trailingIcon={I.arrow}>Étiquette</Button>
-                <span className="text-micro text-ink-500 font-body tabular-nums">icône {px}</span>
+                <span className="text-caption text-ink-600 font-body tabular-nums">icône {px}</span>
               </div>
             ))}
             <div className="flex flex-col items-start gap-stack-xs">
@@ -2130,15 +2183,15 @@ const COMPONENTS: ComponentEntry[] = [
                 <Button iconOnly aria-label="Ajouter" size="md" emphasis="soft" tone="warm">{I.plus}</Button>
                 <Button iconOnly aria-label="Ajouter" size="lg" emphasis="outline">{I.plus}</Button>
               </div>
-              <span className="text-micro text-ink-500 font-body">iconOnly, même boîte</span>
+              <span className="text-caption text-ink-600 font-body">iconOnly : un cercle de 36, 44 ou 52, cible de 44 au moins, un seul glyphe centré</span>
             </div>
           </div>
         </ShowcaseBloc>
 
-        {/* ─── 5 · ÉTATS ET RETOUR AU CLIC ────────────────────────────────── */}
+        {/* ─── 4 · ÉTATS ET RETOUR AU CLIC ────────────────────────────────── */}
         <ShowcaseBloc
           titre="Les états, et le retour au clic"
-          note="À l'enfoncement, le bouton descend à 97 % en 80 ms. Le survol n'existe pas au doigt : sur mobile, cet enfoncement est le seul retour que reçoit l'utilisateur, et une transition qui traîne ne se lit plus comme un appui. Sous prefers-reduced-motion, l'échelle ne bouge pas."
+          note="À l'enfoncement, le bouton descend à 97 % en 80 ms. Le survol n'existe pas au doigt : sur mobile, cet enfoncement est le seul retour que reçoit l'utilisateur, et une transition qui traîne ne se lit plus comme un appui. Sous prefers-reduced-motion, l'échelle ne bouge pas. Le lien (`link`) ne prend de sa taille que le corps du libellé, 13 ou 16 : ni hauteur ni padding, il part du bord de sa colonne — son `p-0` perdait contre le padding de la taille, et le décalait de 16 px."
         >
           <div className="hstack">
             <Button>Au repos</Button>
@@ -2149,30 +2202,49 @@ const COMPONENTS: ComponentEntry[] = [
           </div>
         </ShowcaseBloc>
 
-        {/* ─── 6 · LA SURFACE ─────────────────────────────────────────────── */}
+        {/* ─── 5 · LA SURFACE ─────────────────────────────────────────────── */}
         <ShowcaseBloc
           titre="La surface décide — `onDark`"
           note="Le verre n'est plus un nom de variante mais une affirmation sur le fond, et une affirmation se vérifie. Sur `onDark`, les niveaux s'expriment en blanc ; le ton n'entre pas, puisque c'est la surface qui donne la couleur. Ce qui a été mesuré le 17/09 : 26 boutons « verre » vivaient sur un hero CLAIR — du blanc sur du blanc, 1,03 de contraste, et c'était l'action principale de vingt pages. Le nom `glass` décrivait une matière, donc rien ne pouvait vérifier la surface. Le niveau `solid` lui-même se contredisait : un voile blanc sous un texte blanc ne passait AA que sur ink-900, et mesurait 2,31 sur un hero teal."
         >
           <div className="flex flex-col gap-stack">
             <div className="rounded-lg bg-gradient-to-br from-primary-800 via-primary-700 to-secondary-700 p-stack flex flex-wrap items-center gap-stack-xs">
-              <span className="font-body text-caption font-bold text-white mr-2">Fond saturé — cran 700 ou plus sombre</span>
+              <span className="font-body text-caption font-semibold text-white mr-2">Fond saturé — cran 700 ou plus sombre</span>
               <Button emphasis="solid" onDark leadingIcon={I.plus}>solid</Button>
               <Button emphasis="outline" onDark>outline</Button>
               <Button emphasis="ghost" onDark trailingIcon={I.arrow}>ghost</Button>
             </div>
             <div className="rounded-lg bg-secondary-50 border border-secondary-100 p-stack flex flex-wrap items-center gap-stack-xs">
-              <span className="font-body text-caption font-bold text-secondary-800 mr-2">Carte teintée</span>
+              <span className="font-body text-caption font-semibold text-secondary-800 mr-2">Carte teintée</span>
               <Button emphasis="soft" tone="neutral" leadingIcon={I.plus}>soft neutral</Button>
               <Button emphasis="ghost" tone="neutral" trailingIcon={I.arrow}>ghost neutral</Button>
               <Button emphasis="soft" tone="warm" leadingIcon={I.plus}>soft warm</Button>
             </div>
             <div className="rounded-lg bg-white border border-ink-200 p-stack flex flex-wrap items-center gap-stack-xs">
-              <span className="font-body text-caption font-bold text-ink-600 mr-2">Fond blanc</span>
+              <span className="font-body text-caption font-semibold text-ink-600 mr-2">Fond blanc</span>
               <Button emphasis="soft" leadingIcon={I.plus}>soft</Button>
               <Button emphasis="outline">outline</Button>
               <Button emphasis="ghost" trailingIcon={I.arrow}>ghost</Button>
             </div>
+          </div>
+        </ShowcaseBloc>
+
+        {/* ─── 6 · LE CALAGE D'UN GHOST ───────────────────────────────────── */}
+        <ShowcaseBloc
+          titre="Un ghost calé sur le bord du texte — `flush`"
+          note="Au repos, un ghost n'a ni fond ni filet : ce qu'on voit, c'est son libellé, et son padding le décale de 16, 20 ou 24 px (sm, md, lg) du texte qu'il suit. `flush` pose une marge négative égale à ce padding : `start` en début de rangée, sous un titre ou un paragraphe (Précédent, Retour) ; `end` en bout de rangée ; `both` pour une place qui change de côté selon la largeur, celle que SectionHeader donne à son action. La boîte déborde d'autant, et son fond n'apparaît qu'au survol. La prop est sans effet sur solid, soft, outline, link et iconOnly : on peut la poser sur un bouton dont le niveau change avec l'état. Elle remplace les `-ml-stack-md` que les pages écrivaient à la main (24/09)."
+        >
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack">
+            {([
+              [undefined, 'Sans flush : le libellé part 20 px à droite du texte.'],
+              ['start', 'Avec flush="start" : le libellé tombe sur le bord du texte.'],
+            ] as const).map(([flush, legende]) => (
+              <div key={legende} className="flex flex-col items-start gap-stack-xs rounded-xl border border-ink-200 bg-white p-stack-lg">
+                <p className="font-body text-body text-ink-700 max-w-prose">Le libellé d'un ghost se voit seul : c'est lui qui doit s'aligner sur le texte au-dessus.</p>
+                <Button emphasis="ghost" tone="neutral" flush={flush} leadingIcon={<ArrowLeft />}>Précédent</Button>
+                <span className="font-body text-caption text-ink-600">{legende}</span>
+              </div>
+            ))}
           </div>
         </ShowcaseBloc>
       </div>
@@ -2181,10 +2253,9 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'QuickActionButton',
     codeName: 'ui/QuickActionButton.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    usedBy: ['Coaching'],
-    description: 'Action button compact card-shaped. Icon bubble tone-aware + label + subtitle optionnel + chevron right (anime au hover). 4 tones (primary/warm/sun/accent). Disabled state. À utiliser pour shortcuts / outils / quick links / tile-style CTA dans une section. Plus compact que IconFeatureCard/ActionCard, plus visuel qu\'un Button standard.',
-    keywords: ['quick', 'action', 'button', 'card', 'icon', 'tone', 'chevron', 'shortcut', 'tile'],
+    showcaseOnly: true,
+    description: "Raccourci en forme de carte compacte, mais un bouton : rayon 14, l'étage interactif — il portait le rayon d'une carte, 20, et sa pastille tombait hors de la règle des coins imbriqués. Pastille IconChip md (40 px, rayon 10, glyphe au cran 800 ; au cran 100 sur la surface tinted, où le cran 50 se fondait dans le bouton), libellé 16/700, sous-titre optionnel en légende 13 ink-600, chevron à droite ; padding 16 × 12, environ 66 px de haut (76 avec sous-titre). Quatre tons — primary, warm, sun, et accent qui recopie sun — sur quatre surfaces (card · tinted · glass · frosted), état désactivé. Aucun appel produit : la page Coaching, qu'il citait, ne l'emploie pas.",
+    keywords: ['quick', 'action', 'raccourci', 'button', 'card', 'icon', 'tone', 'chevron', 'shortcut', 'tile', 'surface'],
     render: () => (
       <div className="flex flex-col gap-stack-xs max-w-[420px]">
         <QuickActionButton
@@ -2208,11 +2279,20 @@ const COMPONENTS: ComponentEntry[] = [
           subtitle="Vos entrées liées au coaching"
           onClick={() => {}}
         />
+        {/* Sur la surface tinted, la pastille monte au cran 100 (arbitrage n°10). */}
         <QuickActionButton
           tone="primary"
-          icon={<SparklesIcon size={18} />}
-          label="Action disabled"
-          subtitle="Désactivé par défaut"
+          surface="tinted"
+          icon={<Target size={18} />}
+          label="Mes objectifs"
+          subtitle="Surface tinted, pastille au cran 100"
+          onClick={() => {}}
+        />
+        <QuickActionButton
+          tone="primary"
+          icon={<Settings2 size={18} />}
+          label="Action désactivée"
+          subtitle="Indisponible pour l'instant"
           disabled
           onClick={() => {}}
         />
@@ -2224,10 +2304,9 @@ const COMPONENTS: ComponentEntry[] = [
     // Toggles (Checkbox/Radio/Switch) sets distincts, OK. Checkbox indeterminate non re-vérifié.
     // Note: Glass surface ignores status prop (by design). Checkbox indeterminate partial.
     name: 'Input',
-    codeName: 'Input.tsx',
-    cssBase: '.input / .field / .check / .radio / .switch',
-    description: 'Form field. Label always above. Includes Checkbox, Radio, Switch sub-components.',
-    keywords: ['form', 'text', 'checkbox', 'radio', 'switch', 'textarea'],
+    codeName: 'core/Input.tsx',
+    description: "Champ de saisie, libellé toujours au-dessus. Trois tailles, 36 · 44 · 52 (défaut md), les mêmes que Button ; on saisit à 16 px à toutes les tailles — sous 16, iOS Safari zoome la page au focus. Rayon 14, filet ink-400 (arbitrage n°7, le filet de la famille champ). Libellé 16/600 ink-900, aide 13 ink-600, erreur 13 danger-fg annoncée (`role=alert`), 8 px entre libellé, champ et message. Statuts default · success · error, surface light ou glass, icônes de tête et de queue (16 · 18 · 20). Désactivé : fond ink-50 et encre ink-500 — blanc/8 en verre ; jusqu'au 24/09, le fond et l'encre du repos gagnaient, et un champ désactivé ne se lisait pas comme tel. En `multiline`, le cadre suit sa zone de texte : il restait à 96 px, le texte débordait dessous et la poignée de redimensionnement flottait hors du filet. Le fichier exporte aussi Checkbox, Radio et Switch : libellé 16/400, contrôle de 20 px calé sur la première ligne du libellé, état coché au cran 700 (arbitrage n°9).",
+    keywords: ['form', 'champ', 'saisie', 'text', 'label', 'hint', 'error', 'checkbox', 'radio', 'switch', 'textarea', 'multiline', 'disabled', 'désactivé', '36', '44', '52'],
     render: () => (
       <div className="vstack max-w-[480px]">
         <Input
@@ -2258,6 +2337,13 @@ const COMPONENTS: ComponentEntry[] = [
           rows={3}
           placeholder="Écrivez ici…"
         />
+        <Input
+          label="Identifiant"
+          id="demo-disabled"
+          hint="Attribué par votre organisation"
+          defaultValue="jeanne.dupont"
+          disabled
+        />
         <div className="hstack items-center">
           <Checkbox label="Me tenir informée" defaultChecked />
           <Checkbox label="Indéterminé" indeterminate />
@@ -2265,20 +2351,24 @@ const COMPONENTS: ComponentEntry[] = [
           <Radio name="demo-r" label="Option B" />
           <Switch label="Notifications" defaultChecked />
         </div>
+        {/* Sur deux lignes, la case se cale sur la PREMIÈRE ligne du libellé,
+            pas sur le milieu du bloc (doctrine § 4). */}
+        <div className="max-w-[320px]">
+          <Checkbox label="Recevoir chaque lundi le résumé de mes parcours, de mes sessions et de la veille" />
+        </div>
         <div className="hstack">
-          <Input size="sm" placeholder="Small" />
-          <Input size="md" placeholder="Medium" />
-          <Input size="lg" placeholder="Large" />
+          <Input size="sm" placeholder="sm · 36 px" />
+          <Input size="md" placeholder="md · 44 px" />
+          <Input size="lg" placeholder="lg · 52 px" />
         </div>
       </div>
     ),
   },
   {
     name: 'Select',
-    codeName: 'Select.tsx',
-    cssBase: '.field / .input (select wrapper)',
-    description: 'Native dropdown with chevron icon. Sizes sm/md/lg, status default/success/error.',
-    keywords: ['form', 'dropdown', 'select', 'options'],
+    codeName: 'core/Select.tsx',
+    description: "Menu natif du navigateur, habillé comme Input : mêmes hauteurs (36 · 44 · 52), même rayon 14, même filet ink-400, même texte à 16, mêmes rôles de libellé, d'aide et d'erreur. Chevron de 16 · 18 · 20. Statuts default · success · error ; désactivé, fond ink-50 et encre ink-500, comme Input. Pour une liste longue ou à filtrer, Combobox.",
+    keywords: ['form', 'dropdown', 'select', 'options', 'menu', 'champ', 'disabled', 'désactivé', '36', '44', '52'],
     render: () => (
       <div className="vstack max-w-[480px]">
         <Select
@@ -2311,10 +2401,18 @@ const COMPONENTS: ComponentEntry[] = [
           ]}
           defaultValue="a"
         />
+        <Select
+          label="Désactivé"
+          disabled
+          options={[
+            { value: 'fr', label: 'Français' },
+          ]}
+          defaultValue="fr"
+        />
         <div className="hstack">
-          <Select size="sm" placeholder="Small" options={[{ value: 'a', label: 'A' }]} />
-          <Select size="md" placeholder="Medium" options={[{ value: 'a', label: 'A' }]} />
-          <Select size="lg" placeholder="Large" options={[{ value: 'a', label: 'A' }]} />
+          <Select size="sm" placeholder="sm · 36 px" options={[{ value: 'a', label: 'A' }]} />
+          <Select size="md" placeholder="md · 44 px" options={[{ value: 'a', label: 'A' }]} />
+          <Select size="lg" placeholder="lg · 52 px" options={[{ value: 'a', label: 'A' }]} />
         </div>
       </div>
     ),
@@ -2323,9 +2421,8 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Combobox',
     codeName: 'ui/Combobox.tsx',
-    cssBase: 'combobox',
     description:
-      'Searchable single-select: <input> that filters a dropdown list. Keyboard nav (↑ ↓ Enter Esc Tab), selected state with Check icon. Sizes sm/md/lg, status default/success/error. Follows Select visual pattern.',
+      "Sélection unique avec recherche : le champ filtre la liste pendant la frappe. Clavier ↑ ↓ Entrée Échap Tab. Même champ que Select — 36 · 44 · 52, texte 16, rayon 14, filet ink-400. Liste en panneau au rayon 14, options à 16 ; l'option choisie passe en 600 au cran 800, avec une coche. Statuts default · success · error ; désactivé, fond ink-50 et encre ink-500, comme Input et Select.",
     keywords: ['combobox', 'autocomplete', 'searchable', 'select', 'dropdown', 'filter', 'keyboard', 'typeahead'],
     showcaseOnly: true,
     render: () => {
@@ -2357,7 +2454,7 @@ const COMPONENTS: ComponentEntry[] = [
             onChange={setVal2}
           />
           <Combobox
-            label="Status error"
+            label="En erreur"
             error="Ce champ est requis"
             status="error"
             required
@@ -2380,9 +2477,8 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'QualitativeRating',
     codeName: 'ui/QualitativeRating.tsx',
-    cssBase: 'qualitative-rating',
     description:
-      'Labelled pill selector for qualitative feedback. A row of text pills (default: 5-level À améliorer→Excellent). Distinct from numeric star rating. Tone-aware (primary/warm/sun), sizes sm/md, wrap optional.',
+      "Échelle qualitative : une rangée d'options libellées — par défaut cinq niveaux, d'« À améliorer » à « Excellent » — distincte d'une note chiffrée. Palier interactif : rayon 14, 36 px en sm et 44 en md, libellés 13 ou 16 en 600. L'option choisie prend un dégradé 700 → 800 à libellé blanc (primary, warm) ; sun reste en accent-400 à encre ink-900. Libellé, aide et erreur comme Input ; retour à la ligne (`wrap`) activé par défaut.",
     keywords: ['rating', 'qualitative', 'feedback', 'pills', 'satisfaction', 'evaluation', 'survey', 'scale'],
     showcaseOnly: true,
     render: () => {
@@ -2393,25 +2489,25 @@ const COMPONENTS: ComponentEntry[] = [
       return (
         <div className="flex flex-col gap-stack max-w-2xl">
           <QualitativeRating
-            label="Tone primary (aucune sélection)"
+            label="Ton primary · aucune sélection"
             tone="primary"
             value={primary}
             onChange={setPrimary}
           />
           <QualitativeRating
-            label="Tone warm · Très bien présélectionné"
+            label="Ton warm · « Très bien » présélectionné"
             tone="warm"
             value={warm}
             onChange={setWarm}
           />
           <QualitativeRating
-            label="Tone sun"
+            label="Ton sun"
             tone="sun"
             value={sun}
             onChange={setSun}
           />
           <QualitativeRating
-            label="Taille sm"
+            label="Taille sm · 36 px"
             size="sm"
             value={sm}
             onChange={setSm}
@@ -2439,9 +2535,8 @@ const COMPONENTS: ComponentEntry[] = [
   },
   {
     name: 'FormGroup',
-    codeName: 'FormGroup.tsx',
-    cssBase: '.form-group',
-    description: 'Wrapper combining label + control + hint/error. Layouts: vertical (default) and horizontal.',
+    codeName: 'core/FormGroup.tsx',
+    description: "Enveloppe libellé + contrôle + aide ou erreur, pour un contrôle qui n'a pas les siens. Libellé 16/600 ink-900 — il ne passe plus au rouge en erreur —, astérisque danger-fg, aide 13 ink-600, erreur 13 danger-fg ; 8 px entre chaque. Disposition verticale (défaut) ou horizontale dès 640 px, le libellé sur 150 px au moins.",
     keywords: ['form', 'label', 'wrapper', 'layout', 'hint', 'error'],
     render: () => (
       <div className="flex flex-col gap-stack max-w-[520px]">
@@ -2470,98 +2565,61 @@ const COMPONENTS: ComponentEntry[] = [
     // Phase 1 P0 (2026-06-30, vérifié): Figma Card 1111:46 + Card/Glass 1111:63 = tous les
     // variants code présents; tinted déjà tone-split (primary/warm/sun/brand). Rien ne manquait.
     name: 'Card',
-    codeName: 'Card.tsx',
-    cssBase: '.card',
-    description: 'Main content unit. 13 variants: default, feature, elevated, interactive, glass, glass-brand, glass-warm, glass-dark, minimal, bordered, muted, sunken, tinted. Tone-aware hover sur variant interactive.',
-    keywords: ['container', 'surface', 'feature', 'elevated', 'interactive', 'glass', 'minimal', 'tinted', 'tone'],
+    codeName: 'core/Card.tsx',
+    description: "L'unité de contenu autonome — une collection, elle, se rend en rangées dans UNE carte (arbitrage n°5). Rayon 20 à toutes les tailles ; padding 24 au canon (md), 20 en dense (sm), 12 en xs, 32 en lg. Anatomie par les props : surtitre `eyebrow` 13/600 ink-600, 4 px, titre h3 20/26, 8 px, `description` 16 ink-700 à la largeur de lecture, 12 px, pied `footer` en 13 ink-600 sous un filet ; icône en tête. Onze variantes : default, feature et elevated (blanches, identiques), interactive, minimal, ink, tinted, glass, glass-brand, glass-warm, glass-dark. Sur les deux cartes sombres, ink et glass-dark, tout le texte passe au blanc depuis le 24/09 — par les props comme par les sous-composants, qui lisent la surface par un contexte fourni par Card ; le titre d'une carte ink se lisait à 1,00:1. glass-dark part du cran 700, le premier qui porte du blanc. Aucune ombre ; au survol, le filet fonce et le fond se teinte, sans soulèvement. CardEyebrow, CardTitle, CardDesc et CardFooter portent les mêmes classes pour une composition libre, mais posés en frères le titre garde sa marge de base — 23 px sous le surtitre au lieu de 4 : préférer les props.",
+    keywords: ['container', 'surface', 'carte', 'eyebrow', 'title', 'description', 'footer', 'anatomie', 'padding', 'feature', 'interactive', 'glass', 'minimal', 'ink', 'tinted', 'tone'],
     render: () => (
-      <div className="flex flex-col gap-stack-lg">
-        <div className="grid grid-cols-2 gap-stack">
-          <Card>
-            <CardEyebrow>DEFAULT</CardEyebrow>
-            <CardTitle>Card par défaut</CardTitle>
-            <CardDesc>Bordure fine, pas d'ombre. Contenu groupé lisiblement.</CardDesc>
-          </Card>
-          <Card variant="feature">
-            <CardEyebrow>FEATURE</CardEyebrow>
-            <CardTitle>Carte mise en avant</CardTitle>
-            <CardDesc>Ombre douce, padding généreux, pas de bordure.</CardDesc>
-            <CardFooter>
-              <span className="text-caption text-ink-500">il y a 3 min</span>
-              <Button size="sm" emphasis="outline">Voir</Button>
-            </CardFooter>
-          </Card>
-          <Card variant="elevated">
-            <CardEyebrow>ELEVATED</CardEyebrow>
-            <CardTitle>Carte élevée</CardTitle>
-            <CardDesc>Ombre moyenne, profondeur accentuée.</CardDesc>
-          </Card>
-          <Card variant="minimal">
-            <CardEyebrow>MINIMAL</CardEyebrow>
-            <CardTitle>Carte minimale</CardTitle>
-            <CardDesc>Transparent + bordure légère, hover discret.</CardDesc>
-          </Card>
-        </div>
-        {/* Interactive tone-aware */}
-        <div className="grid grid-cols-3 gap-stack">
-          <Card variant="interactive" onClick={() => {}}>
-            <CardEyebrow>INTERACTIVE</CardEyebrow>
-            <CardTitle>Hover ↑</CardTitle>
-            <CardDesc>Lift + border primary au hover.</CardDesc>
-          </Card>
-          <Card variant="interactive" tone="warm" onClick={() => {}}>
-            <CardEyebrow>INTERACTIVE · WARM</CardEyebrow>
-            <CardTitle>Hover ↑</CardTitle>
-            <CardDesc>Border + shadow orange au hover.</CardDesc>
-          </Card>
-          <Card variant="interactive" tone="sun" onClick={() => {}}>
-            <CardEyebrow>INTERACTIVE · SUN</CardEyebrow>
-            <CardTitle>Hover ↑</CardTitle>
-            <CardDesc>Border + shadow jaune au hover.</CardDesc>
-          </Card>
-        </div>
-        {/* Tinted */}
-        <div className="grid grid-cols-3 gap-stack">
-          <Card variant="tinted" tone="primary">
-            <CardEyebrow>TINTED · PRIMARY</CardEyebrow>
-            <CardTitle>Gradient teal</CardTitle>
-            <CardDesc>from-primary-50/95 to-primary-100/60.</CardDesc>
-          </Card>
-          <Card variant="tinted" tone="warm">
-            <CardEyebrow>TINTED · WARM</CardEyebrow>
-            <CardTitle>Gradient orange</CardTitle>
-            <CardDesc>from-secondary-50/95 to-secondary-100/60.</CardDesc>
-          </Card>
-          <Card variant="tinted" tone="sun">
-            <CardEyebrow>TINTED · SUN</CardEyebrow>
-            <CardTitle>Gradient jaune</CardTitle>
-            <CardDesc>from-accent-50/95 to-accent-100/60.</CardDesc>
-          </Card>
-        </div>
-        {/* Glass family */}
-        <div className="grid grid-cols-3 gap-stack">
-          <div className="rounded-xl bg-gradient-to-br from-primary-100 to-primary-200 p-1">
-            <Card variant="glass">
-              <CardEyebrow>GLASS</CardEyebrow>
-              <CardTitle>Frosted</CardTitle>
-              <CardDesc>Sur fond coloré uniquement.</CardDesc>
-            </Card>
+      <div className="flex flex-col gap-section">
+        <ShowcaseBloc
+          titre="L'anatomie, par les props"
+          note="Posés par `eyebrow`, `title`, `description` et `footer`, les éléments prennent les espaces de l'anatomie : 4 px sous le surtitre, 8 sous le titre, 12 avant le pied. La carte dense (size sm) garde la même anatomie avec 20 px de padding — sa seule dérogation (arbitrage n°4)."
+        >
+          <div className="grid gap-stack [grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr))]">
+            <Card
+              eyebrow="Parcours"
+              title="Concevoir une séquence"
+              description="Structurer un parcours qui tient debout, de l'objectif à l'évaluation."
+              footer={<><span>6 leçons · 45 min</span><Button emphasis="soft" size="sm">Ouvrir</Button></>}
+            />
+            <Card
+              size="sm"
+              eyebrow="Dense · padding 20"
+              title="Évaluer la pratique"
+              description="Distinguer la complétion de la maîtrise."
+            />
           </div>
-          <div className="rounded-xl bg-gradient-to-br from-primary-400 to-primary-600 p-1">
-            <Card variant="glass-brand">
-              <CardEyebrow>GLASS BRAND</CardEyebrow>
-              <CardTitle>Teal glass</CardTitle>
-              <CardDesc>Overlay primaire.</CardDesc>
-            </Card>
+        </ShowcaseBloc>
+
+        <ShowcaseBloc
+          titre="Les variantes"
+          note="Aucune ne porte d'ombre depuis le 09/09 : le filet suffit. interactive se teinte au survol selon son ton ; tinted prend le dégradé du ton ; les verres ne se posent que sur un fond coloré. Les deux cartes sombres, ink et glass-dark, écrivent tout leur texte en blanc — surtitre, titre, description, pied —, et glass-dark part du cran 700 : il partait du 500, où le blanc mesure 2,94:1."
+        >
+          <div className="flex flex-col gap-stack">
+            <div className="grid gap-stack [grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr))]">
+              <Card title="default" description="Filet ink-200, fond blanc." />
+              <Card variant="feature" title="feature" description="Blanche, sans filet." />
+              <Card variant="minimal" title="minimal" description="Transparente, filet ink-200." />
+              <Card variant="interactive" onClick={() => {}} title="interactive" description="Survolez : le filet et le fond changent." />
+            </div>
+            <div className="grid gap-stack [grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr))]">
+              <Card variant="tinted" tone="primary" title="tinted · primary" description="Dégradé du 100 au 50." />
+              <Card variant="tinted" tone="warm" title="tinted · warm" description="Dégradé du 100 au 50." />
+              <Card variant="tinted" tone="sun" title="tinted · sun" description="Dégradé du 100 au 50." />
+            </div>
+            <div className="grid gap-stack [grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr))]">
+              <div className="rounded-2xl bg-gradient-to-br from-primary-100 to-primary-200 p-1">
+                <Card variant="glass" title="glass" description="Verre clair, sur un fond coloré." />
+              </div>
+              <div className="rounded-2xl bg-gradient-to-br from-primary-50 to-white p-1">
+                <Card variant="glass-brand" title="glass-brand" description="Voile teal, sur un fond clair." />
+              </div>
+              <div className="rounded-2xl bg-gradient-to-br from-primary-800 to-primary-900 p-1">
+                <Card variant="glass-dark" eyebrow="Sombre" title="glass-dark" description="Du cran 700 au 900, texte blanc." />
+              </div>
+              <Card variant="ink" eyebrow="Sombre" title="ink" description="Fond ink-900, texte blanc." />
+            </div>
           </div>
-          <div className="rounded-xl bg-gradient-to-br from-primary-800 to-primary-900 p-1">
-            <Card variant="glass-dark">
-              <CardEyebrow>GLASS DARK</CardEyebrow>
-              <CardTitle>Dark ocean</CardTitle>
-              <CardDesc>Sur fond sombre.</CardDesc>
-            </Card>
-          </div>
-        </div>
+        </ShowcaseBloc>
       </div>
     ),
   },
@@ -2570,15 +2628,14 @@ const COMPONENTS: ComponentEntry[] = [
     // (clés de variantes incohérentes) → réparés (Badge +dot=false, TrendingBadge +hasCount=false).
     name: 'Badge',
     codeName: 'ui/Badge.tsx',
-    cssBase: 'Tailwind',
-    description: 'Famille Badge unifiée — 3 exports : Badge (semantic), StatusBadge (état leçon), TrendingBadge (social proof). Tout dans Badge.tsx ; StatusBadge.tsx et TrendingBadge.tsx sont des re-exports. **Properties** : variant (7 : brand/neutral/warm/sun/success/danger/info) · size (3 : sm/md/lg) · dot (2 : true/false — colored indicator dot)',
-    keywords: ['status', 'label', 'tag', 'brand', 'warm', 'sun', 'success', 'danger', 'trending', 'popular', 'new', 'locked', 'completed', 'state'],
-    usedBy: ['LessonCard', 'ParcoursCard', 'VeilleCardFeed', 'Dashboard'],
+    description: "L'état qui crie : 11 px en capitales, graisse 700, serrage positif (`tracking-label`), bordure, pilule. Sept variantes (brand · neutral · warm · sun · success · danger · info) ; trois tailles, toutes au corps de 11 — compact et normal font 20 px (padding 8 ou 10), large 24 px (padding 12). Jusqu'au 24/09, large parlait en 13, plus fort que tous les états de l'app. Un point `dot` fixe, à 4 px de son libellé (arbitrage n°16 : pas de mouvement permanent pour dire un état). StatusBadge, dans le même fichier, dit les cinq états d'une leçon avec leur icône — Verrouillé, Disponible, En cours, Terminé, Échoué — au même corps de 11 px ; sa prop `label` prête l'icône d'un état à un autre domaine, avec son propre mot — nom accessible, et libellé visible avec `showLabel` : « En attente de correction » sur l'icône « Disponible ». Son seul emploi, CorrectionStatusBar, est supprimé le 24/09 (aucun usage produit) : StatusBadge n'a plus de consommateur, et reste pour le vocabulaire des états de leçon. StatusBadge ne porte plus `role=\"status\"` (24/09) : ce rôle fait d'un élément une zone vivante, qu'un lecteur d'écran annonce à chaque changement, et une liste de leçons devenait autant de zones qui parlent. Sans libellé, la pastille est une image nommée (`role=\"img\"` et son `aria-label`, le motif d'IconChip) ; avec libellé, le mot se lit tel quel et l'icône est décorative. Une donnée n'est pas un état : catégorie, type ou durée vont en MetaPill (arbitrages n°14-15).",
+    keywords: ['status', 'état', 'label', 'brand', 'warm', 'sun', 'success', 'danger', 'info', 'dot', 'compact', 'normal', 'large', 'locked', 'completed', 'statusbadge', 'showLabel', '24', 'role', 'img', 'aria-live', 'accessibilité'],
+    usedBy: ['VeilleCardFeed', 'ResumeLessonCard', 'LearningPathDetail', 'LessonPlayer', 'et 71 autres fichiers : 13 composants, 58 pages (24/09)', 'StatusBadge : aucun (CorrectionStatusBar, son seul consommateur, supprimé le 24/09)'],
     render: () => (
       <div className="flex flex-col gap-stack-lg">
         {/* Badge — sémantique */}
         <div className="flex flex-col gap-stack-xs">
-          <span className="font-body text-micro font-bold uppercase tracking-widest text-ink-400">Badge — sémantique</span>
+          <span className="font-body text-caption font-semibold text-ink-600">Badge — sémantique</span>
           <div className="hstack flex-wrap">
             <Badge variant="brand">Brand</Badge>
             <Badge variant="neutral">Neutral</Badge>
@@ -2591,9 +2648,19 @@ const COMPONENTS: ComponentEntry[] = [
             <Badge variant="danger" dot>Offline</Badge>
           </div>
         </div>
+        {/* Trois tailles, un seul corps : 11 px. */}
+        <div className="flex flex-col gap-stack-xs">
+          <span className="font-body text-caption font-semibold text-ink-600">Tailles — compact 20 · normal 20 · large 24, toutes en 11</span>
+          <div className="hstack flex-wrap items-center">
+            <Badge variant="brand" size="compact">Compact</Badge>
+            <Badge variant="brand">Normal</Badge>
+            <Badge variant="brand" size="large">Large</Badge>
+            <Badge variant="success" size="large" dot>Profil complété</Badge>
+          </div>
+        </div>
         {/* StatusBadge — état leçon */}
         <div className="flex flex-col gap-stack-xs">
-          <span className="font-body text-micro font-bold uppercase tracking-widest text-ink-400">StatusBadge — état leçon</span>
+          <span className="font-body text-caption font-semibold text-ink-600">StatusBadge — état leçon</span>
           <div className="hstack flex-wrap gap-stack-xs">
             <StatusBadge status="locked" />
             <StatusBadge status="available" />
@@ -2608,6 +2675,11 @@ const COMPONENTS: ComponentEntry[] = [
             <StatusBadge status="completed" showLabel />
             <StatusBadge status="failed" showLabel />
           </div>
+          {/* `label` : l'icône d'un état de leçon, le mot d'un autre domaine. */}
+          <div className="hstack flex-wrap gap-stack-xs">
+            <StatusBadge status="available" label="En attente de correction" showLabel />
+            <StatusBadge status="in-progress" label="En cours de révision" showLabel />
+          </div>
         </div>
       </div>
     ),
@@ -2615,9 +2687,8 @@ const COMPONENTS: ComponentEntry[] = [
   {
     // Phase 1 P0 (2026-06-30, vérifié): Avatar set 1115:97 conforme code (sizes/tints/shapes/statuses).
     name: 'Avatar',
-    codeName: 'Avatar.tsx',
-    cssBase: '.avatar',
-    description: 'User representation: image or initials. Stable hash-based tint. Status dot + AvatarGroup.',
+    codeName: 'ui/Avatar.tsx',
+    description: "La personne : photo ou initiales, en rond — le carré sert aux organisations. Cinq tailles, 24 · 32 · 40 · 56 · 80 px, initiales en 600 au pas correspondant (11 · 13 · 16 · 20 · 28). Teinte stable tirée du nom (brand · warm · sun · ink), point de statut (online · busy · away). AvatarGroup les empile avec un chevauchement de 10 px et un « +N » au-delà de `max`. La pastille `level` existe encore, mais l'arbitrage n°18 (plus de niveaux d'XP dans l'app apprenant) la tient hors des écrans neufs : elle n'est plus montrée ici.",
     keywords: ['user', 'profile', 'initials', 'image', 'status', 'online', 'group'],
     render: () => (
       <div className="flex flex-col gap-stack">
@@ -2641,8 +2712,6 @@ const COMPONENTS: ComponentEntry[] = [
           <Avatar name="Org Acme" shape="square" tint="brand" size="sm" />
           <Avatar name="Org TLS" shape="square" tint="warm" />
           <Avatar name="Org Sun" shape="square" tint="sun" size="lg" />
-          <Avatar name="Léa K" tint="brand" level={12} />
-          <Avatar name="Marc D" tint="warm" size="lg" level={47} />
           <AvatarGroup max={3} size="sm">
             <Avatar name="Jeanne D" />
             <Avatar name="Paul M" />
@@ -2658,9 +2727,8 @@ const COMPONENTS: ComponentEntry[] = [
   /* ---- PATTERNS --------------------------------------------------------- */
   {
     name: 'EmptyState',
-    codeName: 'EmptyState.tsx',
-    cssBase: '.empty',
-    description: 'First contact / no results / server error. Always actionable — never a dead end.',
+    codeName: 'ui/EmptyState.tsx',
+    description: "Premier contact, aucun résultat, erreur : il laisse toujours une issue. Pastille de 80 px, titre h3 20, 8 px, texte 16 ink-700 à la largeur de lecture, 24 px, actions. Bordure en pointillés, rayon 20 ; tons default · warm · danger.",
     keywords: ['empty', 'no results', 'placeholder', 'illustration'],
     render: () => (
       <div className="grid-2">
@@ -2680,53 +2748,56 @@ const COMPONENTS: ComponentEntry[] = [
   },
   {
     name: 'Skeleton',
-    codeName: 'Skeleton.tsx',
-    cssBase: '.skeleton',
-    description: 'Placeholder shimmer matching expected content shape. Use for 1–3s loads.',
-    keywords: ['loading', 'placeholder', 'shimmer'],
+    codeName: 'ui/Skeleton.tsx',
+    description: "Bloc de chargement qui épouse la forme du contenu attendu, pour une attente d'une à trois secondes. Une ligne prend la hauteur de ligne de son pas (`1lh`) et ne peint, au milieu, qu'une barre au corps de ce pas, là où seraient les lettres : text 26/16, caption 20/13, title 26/20, heading 36/28 — caption et heading sont nés le 24/09, quand les lignes à 14 et 24 px ont rejoint l'échelle. stat pose la valeur d'une StatCard au corps de `stat-value` (32 → 44). Les lignes d'un paragraphe se posent sans gap, comme les vraies. block 120 px au rayon 14, circle, card 160 px au rayon 20, button 44 px au rayon 14, celui d'un Button md (arbitrage n°22). `width` et `height` ; masqué aux lecteurs d'écran.",
+    keywords: ['loading', 'placeholder', 'shimmer', 'chargement', 'caption', 'heading', 'stat', '1lh'],
     render: () => (
-      <div className="vstack max-w-[420px]">
-        <div className="hstack items-center">
+      <div className="flex flex-col gap-stack-lg max-w-[420px]">
+        {/* Une rangée : titre de bloc puis sa méta, sans gap — la hauteur de
+            ligne de chaque pas donne l'écart. */}
+        <div className="flex items-start gap-stack-sm">
           <Skeleton variant="circle" width={40} height={40} />
-          <div className="vstack flex-1 gap-stack-xs">
+          <div className="flex flex-1 flex-col">
             <Skeleton variant="title" />
-            <Skeleton variant="text" width="80%" />
+            <Skeleton variant="caption" width="40%" />
           </div>
         </div>
+        {/* Un titre de section et son paragraphe. */}
+        <div className="flex flex-col">
+          <Skeleton variant="heading" />
+          <Skeleton variant="text" />
+          <Skeleton variant="text" />
+          <Skeleton variant="text" width="70%" />
+        </div>
+        <Skeleton variant="stat" />
         <Skeleton variant="block" />
-        <Skeleton variant="text" />
-        <Skeleton variant="text" width="70%" />
+        <div className="flex gap-stack-xs">
+          <Skeleton variant="button" />
+          <Skeleton variant="button" />
+        </div>
       </div>
     ),
   },
   {
     name: 'SkeletonTemplates',
     codeName: 'patterns/SkeletonTemplates.tsx',
-    cssBase: 'Tailwind (no BEM)',
     usedBy: ['Notifications', 'LearningPaths', 'Dashboard', 'Veille', 'Journal'],
-    description: 'Templates shimmer pré-construits correspondant aux silhouettes des cards principales. Évite la duplication de placeholders. Templates disponibles : `ParcoursCardSkeleton`, `NotificationRowSkeleton`, `EditorialCardSkeleton`, `ResumeLessonSkeleton`, `ActivityItemSkeleton`. `SkeletonGrid` : wrap N templates dans une grille responsive.',
+    description: "Gabarits de chargement prêts à l'emploi, à la silhouette des cartes principales : ParcoursCardSkeleton, NotificationRowSkeleton, ResumeLessonSkeleton, ActivityItemSkeleton, StatCardSkeleton. SkeletonGroup en répète un en liste ou en grille. Ils évitent de refaire des placeholders à chaque page. EditorialCardSkeleton est supprimé le 24/09 : son seul lecteur produit était la page Recherche.",
     keywords: ['skeleton', 'loading', 'placeholder', 'shimmer', 'template', 'grid', 'card'],
     render: () => (
       <div className="flex flex-col gap-stack-lg">
         <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">ParcoursCardSkeleton</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">ParcoursCardSkeleton</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack">
             <ParcoursCardSkeleton />
             <ParcoursCardSkeleton />
           </div>
         </div>
         <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">NotificationRowSkeleton</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">NotificationRowSkeleton</p>
           <div className="flex flex-col gap-stack-xs">
             <NotificationRowSkeleton />
             <NotificationRowSkeleton />
-          </div>
-        </div>
-        <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">EditorialCardSkeleton</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack">
-            <EditorialCardSkeleton />
-            <EditorialCardSkeleton />
           </div>
         </div>
       </div>
@@ -2734,10 +2805,9 @@ const COMPONENTS: ComponentEntry[] = [
   },
   {
     name: 'Search',
-    codeName: 'Search.tsx',
-    cssBase: 'Tailwind (no BEM)',
+    codeName: 'ui/Search.tsx',
     usedBy: ['LearningPaths', 'Veille', 'Journal', 'LearningSpace'],
-    description: 'Search bar composable. 2 variants (default = blanc+bordure, comme Input · glass = fonds colorés/gradients) × 3 sizes (sm 32 / md 40 / lg 48). Props: shortcut, leadingIcon, trailing, filtersSlot, suggestions, isLoading, onSuggestionSelect. (filled + ghost retirés 2026-06-30 — doublons de default.)',
+    description: "Barre de recherche composable, de la famille champ : 36 · 44 · 52 (défaut md), texte à 16, rayon 14 à toutes les tailles. Deux variantes : default — blanc, filet ink-400, comme Input — et glass, pour les fonds colorés. Emplacements : raccourci clavier, icône de tête, `trailing`, `filtersSlot` pour des FilterChip en ligne ; suggestions asynchrones (`isLoading`, `onSuggestionSelect`). SearchWithSuggestions en est la variante à panneau de suggestions typées — celle de cette vitrine.",
     keywords: ['find', 'query', 'filter', 'search', 'input', 'glass', 'trailing', 'suggestions', 'autocomplete', 'async'],
     render: () => {
       const [searchVal, setSearchVal] = React.useState('');
@@ -2759,24 +2829,24 @@ const COMPONENTS: ComponentEntry[] = [
 
           {/* ── Variants ────────────────────────────────────────────── */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Variants</p>
-            <Search placeholder="default — blanc + bordure (pages app)" shortcut="⌘K" />
-            <div className="bg-gradient-to-r from-primary-500 to-primary-700 p-stack rounded-xl">
+            <p className="text-caption font-semibold text-ink-600 m-0">Variantes</p>
+            <Search placeholder="default — blanc et filet ink-400" shortcut="⌘K" />
+            <div className="bg-gradient-to-r from-primary-700 to-primary-800 p-stack-lg rounded-xl">
               <Search variant="glass" placeholder="glass — sur fond coloré / hero…" shortcut="⌘K" />
             </div>
           </div>
 
           {/* ── Sizes ────────────────────────────────────────────── */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Sizes</p>
-            <Search size="sm" placeholder="sm — compact (32px)" />
-            <Search size="md" placeholder="md — standard (40px)" />
-            <Search size="lg" placeholder="lg — large (48px)" shortcut="⌘K" />
+            <p className="text-caption font-semibold text-ink-600 m-0">Tailles · 36 · 44 · 52</p>
+            <Search size="sm" placeholder="sm — 36 px" />
+            <Search size="md" placeholder="md — 44 px, le défaut" />
+            <Search size="lg" placeholder="lg — 52 px" shortcut="⌘K" />
           </div>
 
           {/* ── Suggestions (async) ───────────────────────────── */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Suggestions · async + loading state</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">Suggestions · asynchrones, avec état de chargement</p>
             <Search
               variant="default"
               placeholder='Tape "react" pour suggestions…'
@@ -2799,26 +2869,23 @@ const COMPONENTS: ComponentEntry[] = [
 
           {/* ── trailing slot ───────────────────────────────────────────── */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">trailing slot · filter button avec badge</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">trailing · un bouton-icône de filtres</p>
             <Search
               variant="default"
               placeholder="Rechercher avec filtres…"
+              /* Un bouton du système, pas un bouton fait main : l'ancienne
+                 démo posait un compteur à 10 px, sous le plancher de l'échelle. */
               trailing={
-                <button
-                  type="button"
-                  className="relative inline-flex items-center justify-center w-9 h-9 rounded-md bg-white border border-ink-200 text-ink-600 hover:bg-ink-50 hover:border-ink-300 cursor-pointer"
-                  aria-label="Filtres"
-                >
-                  <SlidersHorizontal size={16} />
-                  <span className="absolute -top-1 -right-1 inline-flex items-center justify-center w-4 h-4 rounded-pill bg-accent-400 text-white text-[10px] font-bold border border-white">2</span>
-                </button>
+                <Button iconOnly size="sm" emphasis="ghost" tone="neutral" aria-label="Filtres">
+                  <SlidersHorizontal />
+                </Button>
               }
             />
           </div>
 
           {/* ── filtersSlot (FilterChip inline) ──────────────────────── */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">filtersSlot · FilterChip inline dans le wrapper</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">filtersSlot · des FilterChip dans la barre</p>
             <Search
               value={filterQuery}
               onChange={(e) => setFilterQuery(e.target.value)}
@@ -2836,8 +2903,8 @@ const COMPONENTS: ComponentEntry[] = [
 
           {/* ── Glass + FilterBar (pattern hero gradient) ────────────────────── */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">glass + FilterBar · pattern hero gradient (LearningPaths)</p>
-            <div className="bg-gradient-to-r from-primary-500 to-primary-700 p-stack-lg rounded-xl">
+            <p className="text-caption font-semibold text-ink-600 m-0">glass + FilterBar · sur un hero en dégradé (Parcours)</p>
+            <div className="bg-gradient-to-r from-primary-700 to-primary-800 p-stack-lg rounded-xl">
               <Search
                 size="sm"
                 variant="glass"
@@ -2858,7 +2925,7 @@ const COMPONENTS: ComponentEntry[] = [
                       size="sm"
                       surface="plain"
                     />
-                    <span className="font-body text-caption text-white/70 ml-auto">3 sur 6</span>
+                    <span className="font-body text-caption text-white ml-auto">3 sur 6</span>
                   </div>
                 }
               />
@@ -2872,10 +2939,9 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'SearchFilters',
     codeName: 'patterns/SearchFilters.tsx',
-    cssBase: 'Tailwind (no BEM)',
     usedBy: ['Journal', 'Veille', 'LearningPaths', 'LearningSpace'],
     description:
-      "Composite search + filtres canonique. Orchestre Search + FilterChip + SelectCheckbox : déclare un tableau `filters` (axes) et le composant choisit le contrôle (chips si ≤ chipThreshold options, dropdown checklist sinon, 1 chip si toggle). 2 layouts : `inline` (filtersSlot toujours visible) · `panel` (bouton filtre + badge count → panneau dépliable, pattern Journal). Reset auto, tone-aware.",
+      "Recherche et filtres, en un composant. Il orchestre Search, FilterChip et SelectCheckbox : on déclare des axes (`filters`) et il choisit le contrôle — des pastilles jusqu'à `chipThreshold` options (6), une liste à cocher au-delà, une seule pastille pour une bascule. Les pastilles suivent la taille du champ : sm (28 px) avec un Search sm, md (44 px) sinon. Deux dispositions : `inline`, filtres toujours visibles ; `panel`, un bouton de filtres avec compteur qui déplie un panneau où chaque groupe est nommé comme un champ (16/600 ink-900). Réinitialisation automatique (Button sm ghost neutre, un outil), trois tons.",
     keywords: ['search', 'filter', 'filtre', 'recherche', 'composite', 'panel', 'chips', 'checklist', 'toggle', 'facets'],
     render: () => {
       const [q1, setQ1] = React.useState('');
@@ -2898,7 +2964,7 @@ const COMPONENTS: ComponentEntry[] = [
         <div className="flex flex-col gap-section max-w-2xl">
           {/* Inline — 1-2 axes peu d'options */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">layout="inline" · chips + toggle (Veille / Parcours)</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">layout="inline" · pastilles et bascule (Veille, Parcours)</p>
             <SearchFilters
               query={q1}
               onQueryChange={setQ1}
@@ -2912,7 +2978,7 @@ const COMPONENTS: ComponentEntry[] = [
 
           {/* Panel — 2+ axes, dont un à beaucoup d'options → dropdown auto */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">layout="panel" · groupes labellisés + auto chips/checklist (Journal / Espace App.)</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">layout="panel" · groupes nommés, pastilles ou liste à cocher selon le nombre d'options (Journal, Espace Apprentissage)</p>
             <SearchFilters
               layout="panel"
               query={q2}
@@ -2941,19 +3007,18 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'StatCard',
     codeName: 'ui/StatCard.tsx',
-    cssBase: '.stat-card',
-    usedBy: ['Dashboard (hero pre-Phase 10)', 'LearningPaths (Phase 10 KPI row)', 'Coaching', 'Journal', 'Notifications'],
-    description: 'Prominent metric card. Display number + micro label + optional delta + icon. 5 variants (default / elevated / brand / warm / sun) · 3 sizes (sm/md/lg) · square mode for grid layouts.',
-    keywords: ['metric', 'kpi', 'stat', 'dashboard', 'square', 'size'],
+    usedBy: ['CoachAnalytics', 'EnterpriseAnalyticsDashboard', 'PasseportRoadmap', 'et 30 autres pages (24/09)'],
+    description: "Un chiffre mis en avant, en carte : pastille d'icône, 12 px, la valeur en League Spartan 700 — 28 en sm, `stat-value` (32 → 44) en md, `stat-value-lg` (40 → 56) en lg —, 4 px, puis le libellé en légende 13/600 ink-600 (ce n'est plus un micro-libellé en capitales). Unité en 13 sur la ligne de base ; delta en 13/600, coloré selon `polarity` (ajoutée le 24/09 : une baisse peut être une bonne nouvelle). Tons neutral · brand · warm · sun sur quatre surfaces, ou les variantes héritées ; `square` pour les grilles. Rayon 20, padding 20 (24 en lg). La pastille est l'IconChip du système depuis le 24/09 (arbitrage n°3) : 32 · 40 · 48 px de sm à lg, au rayon 10 · 10 · 14, glyphe au cran 800. Sur une surface teintée du ton (tinted, glass, frosted et les variantes héritées brand · warm · sun), elle monte au cran 100, pour ne pas prendre le fond exact de la carte (arbitrage n°10) ; le neutre est ink-100, glyphe ink-700, sans filet. Elle était faite main : 36 · 44 · 48 px au rayon 20 de la carte, un galet presque rond, et en neutre un fond ink-50 qui n'existait que par son filet (1,05:1).",
+    keywords: ['metric', 'kpi', 'stat', 'chiffre', 'valeur', 'dashboard', 'square', 'size', 'polarity', 'delta', 'IconChip', 'pastille'],
     render: () => (
       <div className="flex flex-col gap-stack-lg">
         {/* Variants with icons */}
         <div className="grid grid-cols-2 gap-stack">
           <StatCard icon={<BookOpen size={20} />} label="Parcours complétés" value={12} sub="/24" delta="+3 ce mois" deltaDirection="up" />
           <StatCard variant="elevated" icon={<Clock3 size={20} />} label="Heures d'apprentissage" value="48" sub="h" />
-          <StatCard variant="warm" icon={<Flame size={20} />} label="Série actuelle" value={7} sub="jours" delta="Record personnel" deltaDirection="up" />
+          <StatCard variant="warm" icon={<Calendar size={20} />} label="Semaines actives" value={3} sub="/ 4" delta="+1 ce mois" deltaDirection="up" />
           <StatCard variant="brand" icon={<Trophy size={20} />} label="Progression moyenne" value={78} sub="%" />
-          <StatCard variant="sun" icon={<Zap size={20} />} label="Points XP" value="2 450" delta="+180" deltaDirection="up" />
+          <StatCard variant="sun" icon={<CheckCircle2 size={20} />} label="Compétences validées" value={5} delta="+2" deltaDirection="up" />
         </div>
         {/* Sizes */}
         <div className="grid grid-cols-3 gap-stack items-start">
@@ -2963,24 +3028,23 @@ const COMPONENTS: ComponentEntry[] = [
         </div>
         {/* Square grid */}
         <div className="grid grid-cols-4 gap-stack">
-          <StatCard square size="sm" label="Streak" value={7} sub="j" />
+          <StatCard square size="sm" label="Semaines" value={3} sub="/ 4" />
           <StatCard square variant="elevated" label="Score" value={94} sub="%" />
-          <StatCard square variant="warm" label="Série" value={12} />
-          <StatCard square size="lg" variant="brand" label="XP" value="1.2k" />
+          <StatCard square variant="warm" label="Sessions" value={12} />
+          <StatCard square size="lg" variant="brand" label="Leçons" value={42} />
         </div>
       </div>
     ),
   },
   {
     name: 'ProgressBar',
-    codeName: 'ProgressBar.tsx',
-    cssBase: '.progress',
-    description: 'Linear progress tracking. Sizes sm/md/lg. Fills: brand, warm, gradient. **ProgressRing** : anneau SVG circulaire (sizes 48–100px) disponible via import séparé — utilisé dans profil, badges compétences, ReadingProgressRing dans les headers éditoriaux.',
+    codeName: 'ui/ProgressBar.tsx',
+    description: "Barre de progression : libellé en légende 13/600 ink-600, valeur en Nunito 13/600 tabulaire au cran 800 (« 72 % »), sur la même ligne de base, 8 px au-dessus d'une piste de 2 · 4 · 8 · 14 px (xs · sm · md · lg). Remplissages brand · warm · sun · success · danger · gradient ; disposition stacked (défaut) ou inline. La barre est nommée pour les lecteurs d'écran. Son pendant circulaire est ProgressRing.",
     keywords: ['progress', 'linear', 'bar', 'percentage', 'ring', 'circle', 'circular', 'svg'],
     render: () => (
       <div className="flex flex-col gap-stack">
         <ProgressBar label="Module 3 · Design systems" value={72} />
-        <ProgressBar label="Série hebdo" value={40} fill="warm" />
+        <ProgressBar label="Objectif de la semaine" value={40} fill="warm" />
         <ProgressBar label="Gradient fill" value={60} fill="gradient" size="lg" />
         <ProgressBar value={25} size="sm" valueLabel={false} />
       </div>
@@ -2990,16 +3054,15 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ProgressRing',
     codeName: 'ui/ProgressRing.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    usedBy: ['Profile', 'CompetencyRadar', 'ReadingProgressRing'],
-    description: 'Anneau SVG circulaire de progression (0–100). 5 tones (brand/warm/sun/success/danger). Gradient interne + halo glow optionnel. Animate 0→value au mount. Slots `label` (centré) et `valueLabel`. Sizes arbitraires via prop `size`, `thickness`.',
-    keywords: ['progress', 'ring', 'circle', 'circular', 'svg', 'donut', 'percentage', 'glow', 'tone'],
+    showcaseOnly: true,
+    description: "Anneau SVG de progression (0–100). 5 tons (brand/warm/sun/success/danger), dégradé interne et halo optionnel (`glow`), animation de 0 à la valeur au montage. La valeur prend un pas de l'échelle selon le diamètre : dès 160 px `stat-value`, dès 112 le h2 (28), dès 80 le h3 (20), dès 64 le corps (16/600), en dessous la légende (13/600) — elle était à `size / 4,5` px, hors échelle. `label` s'affiche sous la valeur en légende 13/600 ink-600 : on lui passe du texte simple. `size` (défaut 120) et `thickness` sont libres.",
+    keywords: ['progress', 'ring', 'circle', 'circular', 'svg', 'donut', 'percentage', 'glow', 'tone', 'anneau', 'progression'],
     render: () => (
       <div className="flex gap-stack-lg flex-wrap items-center py-stack-xs">
-        <ProgressRing value={78} tone="brand" label={<span className="text-micro font-bold text-primary-700">PARCOURS</span>} />
-        <ProgressRing value={54} tone="warm" label={<span className="text-micro font-bold text-secondary-700">COACHING</span>} />
-        <ProgressRing value={92} tone="sun" label={<span className="text-micro font-bold text-accent-700">BADGES</span>} />
-        <ProgressRing value={33} tone="success" label={<span className="text-micro font-bold text-success-fg">CERTIF</span>} />
+        <ProgressRing value={78} tone="brand" label="Parcours" />
+        <ProgressRing value={54} tone="warm" label="Coaching" />
+        <ProgressRing value={92} tone="sun" label="Badges" />
+        <ProgressRing value={33} tone="success" label="Certification" />
         <ProgressRing value={20} tone="danger" size={80} thickness={8} />
         <ProgressRing value={65} tone="brand" size={60} thickness={6} glow={false} />
       </div>
@@ -3009,9 +3072,8 @@ const COMPONENTS: ComponentEntry[] = [
   /* ---- CONTENT & DISPLAY ------------------------------------------------ */
   {
     name: 'ActionCard',
-    codeName: 'ActionCard.tsx',
-    cssBase: '.tls-action-card / .tls-action-card--brand/warm/sun',
-    description: 'Carte action horizontale: icône colorée + titre + description + CTA. Tones: brand/warm/sun. Hover: translateY(-3px) + shadow-md.',
+    codeName: 'ui/ActionCard.tsx',
+    description: "Carte d'action horizontale : pastille de 56 px au dégradé du ton, titre h3 20, 8 px, description 16 ink-700, et l'action à droite. La colonne de texte descend de 15 px pour centrer la première ligne sur la pastille. Tons brand · warm · sun · neutral ; surfaces card · tinted · glass · frosted ; `onClick` fait de la carte un bouton. Au survol : le filet et le fond, sans soulèvement (passe motion du 17/09).",
     keywords: ['action', 'card', 'icon', 'cta', 'tone', 'brand', 'warm', 'sun', 'quick-action'],
     render: () => (
       <div className="flex flex-col gap-stack">
@@ -3041,9 +3103,8 @@ const COMPONENTS: ComponentEntry[] = [
   },
   {
     name: 'ActivityItem',
-    codeName: 'ActivityItem.tsx',
-    cssBase: '.tls-activity-item / .tls-activity-item--lesson/achievement/coach/journal',
-    description: 'Ligne d\'activité timeline. Dot coloré par type + connecteur entre items. Types: lesson/achievement/coach/journal. Hover: surface-muted.',
+    codeName: 'ui/ActivityItem.tsx',
+    description: "Rangée d'un fil d'activité : pastille ronde de 36 px teintée par type (lesson · achievement · coach · journal), rail vertical entre deux rangées ; titre 16/600 et heure 13 ink-600 sur la même ligne de base, description 16 ink-700 sur deux lignes.",
     keywords: ['activity', 'feed', 'timeline', 'history', 'notification', 'dot', 'type'],
     render: () => (
       <div className="py-stack-xs px-stack bg-white border border-ink-200 rounded-lg">
@@ -3058,33 +3119,50 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'CardGrid',
     codeName: 'patterns/CardGrid.tsx',
-    cssBase: 'Tailwind (patterns/CardGrid.tsx)',
-    usedBy: ['Recherche', 'Veille', 'LearningPaths', 'Coaching'],
-    description: 'Grid responsive réutilisable. Layouts: compact (2 col), default (3 col), feature (4 col), autoFit. Breakpoints automatiques mobile/tablette/desktop.',
+    usedBy: ['Veille', 'LearningPaths', 'Coaching'],
+    description: "Grille réutilisable, en requête de conteneur : elle compte ses colonnes sur la largeur de sa boîte, pas sur la fenêtre. Dispositions compact · default · feature · square-tiles · tiles ; écart de 8 · 16 · 24 · 32 px (24 par défaut) ; `autoFit`.",
     keywords: ['grid', 'layout', 'responsive', 'columns', 'cards'],
     render: () => (
       <div className="flex flex-col gap-stack">
-        <p className="m-0 text-micro font-bold text-ink-500 uppercase tracking-[0.06em]">layout="default" (3 col)</p>
+        <p className="m-0 text-caption font-semibold text-ink-600">layout="default"</p>
         <CardGrid layout="default" gapSize="sm">
           {['Module A', 'Module B', 'Module C'].map((t) => (
-            <div key={t} className="p-3 bg-primary-50 rounded-lg text-caption text-primary-700 font-semibold border border-primary-100">{t}</div>
+            <div key={t} className="p-3 bg-primary-50 rounded-lg text-caption text-primary-800 font-semibold border border-primary-100">{t}</div>
           ))}
         </CardGrid>
-        <p className="m-0 text-micro font-bold text-ink-500 uppercase tracking-[0.06em]">layout="feature" (4 col)</p>
+        <p className="m-0 text-caption font-semibold text-ink-600">layout="feature"</p>
         <CardGrid layout="feature" gapSize="sm">
           {['Actu', 'Tutoriel', 'Dossier', 'Mag'].map((t) => (
-            <div key={t} className="p-3 bg-secondary-50 rounded-lg text-caption text-secondary-600 font-semibold border border-secondary-100">{t}</div>
+            <div key={t} className="p-3 bg-secondary-50 rounded-lg text-caption text-secondary-700 font-semibold border border-secondary-100">{t}</div>
           ))}
         </CardGrid>
       </div>
     ),
   },
   {
+    // Fiche ajoutée le 2026-09-24 : le composant était classé au registre sans fiche.
+    name: 'ActionCardGrid',
+    codeName: 'patterns/ActionCardGrid.tsx',
+    showcaseOnly: true,
+    description: "Grille de tuiles d'action centrées : pastille IconChip lg (48 px, brand), titre h3 20, description 16 ink-700 équilibrée (`text-balance`), flèche de 16 en haut à droite. Tuile blanche au filet ink-200, rayon 14, padding 24 ; au survol, le filet fonce et le fond se teinte (CARD_HOVER), la pastille grossit de 10 % — pas en mouvement réduit — et la flèche avance. Chaque tuile est un `div role=\"button\"` qu'Entrée et Espace activent. Dispositions `2-col` · `3-col` (défaut) · `4-col` · `auto-fit` (220 px au moins) ; écarts sm 8 · md 16 · lg 24 ; `onItemClick`. Aucun appel produit.",
+    keywords: ['action', 'grid', 'grille', 'tuiles', 'tiles', 'raccourcis', 'IconChip', 'centré'],
+    render: () => (
+      <ActionCardGrid
+        layout="3-col"
+        items={[
+          { id: 'parcours', icon: <MapIcon />, title: 'Reprendre un parcours', description: 'Là où tu t’étais arrêté.' },
+          { id: 'journal', icon: <PenLine />, title: 'Écrire au journal', description: 'Une pensée, une question.' },
+          { id: 'coaching', icon: <GraduationCap />, title: 'Réserver un coach', description: 'Un créneau cette semaine.' },
+        ]}
+        onItemClick={() => {}}
+      />
+    ),
+  },
+  {
     name: 'InlineProgress',
     codeName: 'patterns/InlineProgress.tsx',
-    cssBase: '.inline-progress',
     usedBy: ['Positionnement', 'ParcoursCard', 'LearningPathDetail'],
-    description: 'Barre de progression embarquée dans les cartes et listes. Tones: primary / warm / sun. Sizes: sm / md. Label en % optionnel.',
+    description: "Alias déprécié de `<ProgressBar layout=\"inline\">` : la barre et sa valeur (13/600) sur une ligne. Tons primary · warm · sun, tailles sm et md.",
     keywords: ['progress', 'inline', 'bar', 'percent', 'completion'],
     render: () => (
       <div className="flex flex-col gap-stack-xs max-w-md">
@@ -3104,79 +3182,75 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'MetaPillGroup',
     codeName: 'ui/MetaPillGroup.tsx',
-    cssBase: 'Tailwind (no BEM)',
     usedBy: ['ParcoursCard', 'LearningPathDetail', 'Dashboard', 'Journal'],
-    description: 'Collection de MetaPill avec 7 tones (default/primary/warm/sun/brand/glass/glass-dark). Layouts horizontal/vertical. 3 sizes (sm/md/lg). Variants glass = frosted effect pour overlays sur surfaces tintées ou gradients saturés.',
+    description: "Groupe de MetaPill, la ligne de données des cartes. Il porte SON propre défaut de taille, sm, et le passe à chaque pastille : changer celui de MetaPill seul ne descend pas jusqu'aux cartes. Le rayon suit la taille passée — pilule en sm, 14 en md et lg. Disposition horizontale ou verticale ; écart de 8 (`gap` sm et md) ou 16 (lg). Tons par pastille, dont glass et glass-dark pour les surfaces teintées ou saturées.",
     keywords: ['pill', 'chip', 'tag', 'meta', 'group', 'tone', 'glass', 'frosted'],
     render: () => (
       <div className="flex flex-col gap-stack-lg">
         {/* Tones — light bg */}
-        <div className="flex flex-col gap-stack-xs p-stack rounded-xl bg-white border border-ink-200">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Tones</p>
+        <div className="flex flex-col gap-stack-xs p-stack-md rounded-xl bg-white border border-ink-200">
+          <p className="text-caption font-semibold text-ink-600 m-0">Tons · à la taille par défaut, sm</p>
           <MetaPillGroup
             items={[
-              { text: 'Default' },
+              { text: 'Neutral' },
               { text: 'Primary', tone: 'primary' },
               { text: 'Warm', tone: 'warm' },
               { text: 'Sun', tone: 'sun' },
               { text: 'Brand', tone: 'brand' },
             ]}
-            size="md"
           />
         </div>
 
         {/* Sizes */}
-        <div className="flex flex-col gap-stack-xs p-stack rounded-xl bg-white border border-ink-200">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Sizes (tone primary)</p>
+        <div className="flex flex-col gap-stack-xs p-stack-md rounded-xl bg-white border border-ink-200">
+          <p className="text-caption font-semibold text-ink-600 m-0">Tailles · sm 24 · md 30 · lg 44</p>
           <MetaPillGroup
             items={[
-              { text: 'Small', tone: 'primary' },
-              { text: 'Medium', tone: 'primary' },
-              { text: 'Large', tone: 'primary' },
+              { text: 'sm · pilule', tone: 'primary' },
+              { text: '6 semaines', tone: 'primary' },
+              { text: '12 leçons', tone: 'primary' },
             ]}
             size="sm"
           />
           <MetaPillGroup
             items={[
-              { text: 'Small', tone: 'primary' },
-              { text: 'Medium', tone: 'primary' },
-              { text: 'Large', tone: 'primary' },
+              { text: 'md · rayon 14', tone: 'primary' },
+              { text: '6 semaines', tone: 'primary' },
+              { text: '12 leçons', tone: 'primary' },
             ]}
             size="md"
           />
           <MetaPillGroup
             items={[
-              { text: 'Small', tone: 'primary' },
-              { text: 'Medium', tone: 'primary' },
-              { text: 'Large', tone: 'primary' },
+              { text: 'lg · rayon 14', tone: 'primary' },
+              { text: '6 semaines', tone: 'primary' },
+              { text: '12 leçons', tone: 'primary' },
             ]}
             size="lg"
           />
         </div>
 
         {/* Glass variant — on tinted backdrop */}
-        <div className="flex flex-col gap-stack-xs p-stack rounded-xl bg-gradient-to-br from-primary-50 via-primary-100 to-primary-50 border border-primary-200">
-          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">Glass (frosted on light tinted bg)</p>
+        <div className="flex flex-col gap-stack-xs p-stack-md rounded-xl bg-gradient-to-br from-primary-50 via-primary-100 to-primary-50 border border-primary-200">
+          <p className="text-caption font-semibold text-ink-600 m-0">Glass · sur fond teinté clair</p>
           <MetaPillGroup
             items={[
               { text: '6 semaines', tone: 'glass' },
               { text: '12 leçons', tone: 'glass' },
               { text: 'Marie Dubois', tone: 'glass' },
             ]}
-            size="md"
           />
         </div>
 
         {/* Glass-dark variant — on saturated dark bg */}
-        <div className="flex flex-col gap-stack-xs p-stack rounded-xl bg-gradient-to-br from-primary-500 via-primary-600 to-primary-700 border border-primary-700">
-          <p className="text-caption font-bold uppercase tracking-wider text-white/85 m-0">Glass-dark (frosted on saturated gradient — heroes)</p>
+        <div className="flex flex-col gap-stack-xs p-stack-md rounded-xl bg-gradient-to-br from-primary-700 to-primary-800 border border-primary-700">
+          <p className="text-caption font-semibold text-white m-0">Glass-dark · sur un dégradé saturé (heros)</p>
           <MetaPillGroup
             items={[
               { text: '6 semaines', tone: 'glass-dark' },
               { text: '12 leçons', tone: 'glass-dark' },
-              { text: 'débutant', tone: 'glass-dark' },
+              { text: 'Débutant', tone: 'glass-dark' },
             ]}
-            size="md"
           />
         </div>
       </div>
@@ -3186,9 +3260,8 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Sidebar',
     codeName: 'layout/Sidebar.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: 'Primary app navigation — flat list (no group labels), active state via teal gradient pill, collapsible (icons only), responsive mobile drawer with backdrop. Bottom user card with optional dropdown trigger.',
-    keywords: ['sidebar', 'nav', 'menu', 'shell', 'collapsible', 'drawer'],
+    description: "La navigation principale de l'app : 260 px de large dès 768 px (72 px repliée), un tiroir de 280 px en dessous. Les six entrées viennent de la liste unique de `src/config/navigation.ts` ; rangées de 48 px au rayon 14, libellé 16/600 ink-700, icône de 20, 8 px entre deux entrées. L'entrée active est en texte blanc sur un voile primary-700 → 800 ; les compteurs sont des pastilles de 20 px. En bas, la carte utilisateur (nom 16/600, e-mail 13) ouvre le menu du compte. Fermé, le tiroir mobile est `inert` et `aria-hidden` : hors du clavier et des technologies d'assistance, qui lisaient ses libellés hors écran.",
+    keywords: ['sidebar', 'nav', 'navigation', 'menu', 'shell', 'collapsible', 'drawer', 'tiroir', '260'],
     render: () => <SidebarDemo />,
   },
 
@@ -3196,33 +3269,30 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'PositionnementModal',
     codeName: 'modals/PositionnementModal.tsx',
-    cssBase: '—',
-    description: 'Auto-évaluation des compétences apprenant avant de démarrer un parcours. 5 niveaux, barre de progression, écran de succès.',
-    keywords: ['modal', 'positioning', 'competence', 'assessment', 'level', 'self-eval'],
+    description: "Auto-évaluation des compétences de l'apprenant avant de démarrer un parcours : cinq niveaux par question, une barre de progression, un écran de succès. « Suivant » — « Valider » à la dernière question — est le solid de la modale (arbitrage n°19). Dialogue `useDialog`, comme Modal : focus piégé, Échap, et la page derrière inerte pendant l'ouverture.",
+    keywords: ['modal', 'positioning', 'competence', 'assessment', 'level', 'self-eval', 'useDialog', 'inert'],
     render: () => <PositionnementModalDemo />,
   },
   {
     name: 'BookingModal',
     codeName: 'modals/BookingModal.tsx',
-    cssBase: '—',
-    description: 'Réservation de session coaching en 2 étapes : sélection date/heure via calendrier + confirmation.',
-    keywords: ['modal', 'booking', 'calendar', 'coaching', 'slot', 'time', 'reservation'],
+    description: "Réservation d'une session de coaching en deux étapes, trois quand la session est payante : date et heure au calendrier, paiement, confirmation. Au pied, l'étape suivante est le solid (« Continuer », « Payer », « Réserver la session ») ; le retour et les flèches de mois du calendrier sont en ghost neutre (arbitrage n°19). Dialogue `useDialog`, comme Modal : focus piégé, Échap, et la page derrière inerte pendant l'ouverture.",
+    keywords: ['modal', 'booking', 'calendar', 'coaching', 'slot', 'time', 'reservation', 'useDialog', 'inert'],
     render: () => <BookingModalDemo />,
   },
   {
     name: 'Dialog Modals',
     codeName: 'modals/ConfirmModal.tsx · modals/SuccessModal.tsx · modals/CancelSessionModal.tsx',
-    cssBase: '—',
     usedBy: ['Billing', 'SubscriptionPayment'],
-    description: 'Famille de dialogs de confirmation et feedback. **ConfirmModal** : 4 variantes info/success/warning/danger. **SuccessModal** : célébration check animé + ring pulsé. **CancelSessionModal** : annulation/reprogrammation session coaching avec sélection motif.',
-    keywords: ['modal', 'confirm', 'dialog', 'alert', 'danger', 'warning', 'info', 'success', 'cancel', 'session'],
+    description: "Trois dialogues bâtis sur le même tronc, texte centré : pastille d'icône, titre en h2 au pas h3 (20/700), 8 px, message 16 ink-700, 24 px, actions — un seul solid par modale (arbitrage n°19). ConfirmModal : quatre variantes (info · success · warning · danger) ; Annuler en outline neutre, Confirmer en solid au ton de la variante (brand pour info et success, sun pour warning, danger). SuccessModal : une réussite, avec une coche ; « Continuer », l'unique action, en solid. CancelSessionModal : annuler ou reprogrammer une session, avec le choix d'un motif ; « Confirmer l'annulation » en solid danger, posé en premier, sous le motif dont il dépend, « Reprogrammer plutôt » en ghost. Les trois passent par `useDialog`, comme Modal : focus piégé, Échap, et la page derrière inerte pendant l'ouverture.",
+    keywords: ['modal', 'confirm', 'dialog', 'alert', 'danger', 'warning', 'info', 'success', 'cancel', 'session', 'useDialog', 'inert'],
     render: () => (
       <div className="flex flex-col gap-section">
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">ConfirmModal — confirmation générique</p>
+        <p className="text-caption font-semibold text-ink-600 m-0">ConfirmModal — confirmation générique</p>
         <ConfirmModalDemo />
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mt-stack">SuccessModal — célébration check animé</p>
+        <p className="text-caption font-semibold text-ink-600 m-0 mt-stack">SuccessModal — célébration check animé</p>
         <SuccessModalDemo />
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mt-stack">CancelSessionModal — annulation / reprogrammation</p>
+        <p className="text-caption font-semibold text-ink-600 m-0 mt-stack">CancelSessionModal — annulation / reprogrammation</p>
         <CancelSessionModalDemo />
       </div>
     ),
@@ -3230,146 +3300,81 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'SessionFeedbackModal',
     codeName: 'modals/SessionFeedbackModal.tsx',
-    cssBase: '—',
-    description: 'Notation étoiles + commentaire. Feedback post-session coaching ou fin de leçon.',
-    keywords: ['modal', 'feedback', 'rating', 'stars', 'review', 'comment', 'session'],
+    description: "Notation en étoiles et commentaire, après une session de coaching ou en fin de leçon. L'envoi, « Envoyer mon avis », est le solid de la modale, au ton sun (arbitrage n°19). Dialogue `useDialog`, comme Modal : focus piégé, Échap, et la page derrière inerte pendant l'ouverture.",
+    keywords: ['modal', 'feedback', 'rating', 'stars', 'review', 'comment', 'session', 'useDialog', 'inert'],
     render: () => <SessionFeedbackModalDemo />,
   },
   {
     name: 'VideoPlayerModal',
     codeName: 'modals/VideoPlayerModal.tsx',
-    cssBase: '—',
-    description: 'Lecteur vidéo plein écran pour tutoriels, leçons vidéo et contenu Veille.',
-    keywords: ['modal', 'video', 'player', 'media', 'fullscreen', 'veille', 'tutorial'],
+    description: "Lecteur vidéo en modale, pour les tutoriels, les leçons vidéo et la Veille : panneau ink-950 de 860 px au plus, au rayon 24 ; la vidéo et sa barre de lecture, puis un bandeau blanc — le titre en h2 au pas h3 (20/700), l'auteur et la durée en 13, la description en 16. Dialogue `useDialog`, comme Modal : focus piégé, Échap, et la page derrière inerte pendant l'ouverture. ⚠️ L'invite « Cliquez pour lancer la vidéo » et la description par défaut vouvoient, sur des surfaces qui tutoient l'apprenant (arbitrage n°23).",
+    keywords: ['modal', 'video', 'player', 'media', 'fullscreen', 'veille', 'tutorial', 'useDialog', 'inert'],
     render: () => <VideoPlayerModalDemo />,
   },
 
   /* ---- LEARNING SYSTEM COMPONENTS ----------------------------------------- */
   {
     name: 'Toast + useToast',
-    codeName: 'Toast.tsx / useToast.ts',
-    cssBase: '.toast / .toast__icon--*',
-    description: 'Notification toast avec hook useToast(). 4 variantes: success / info / warning / danger. Auto-dismiss configurable, dismissible, slot action.',
+    codeName: 'ui/Toast.tsx · hooks/useToast.ts',
+    description: "Notification passagère, avec le hook useToast() : quatre variantes, texte 16 (13 au-delà de 90 caractères), titre 16/600, icône de 20, action et fermeture, disparition automatique réglable ; de 320 à 440 px de large.",
     keywords: ['toast', 'notification', 'alert', 'feedback', 'success', 'error', 'warning'],
     render: () => <ToastDemo />,
   },
   {
     name: 'Tabs',
-    codeName: 'Tabs.tsx',
-    cssBase: '.tabs / .tab / .tab--active',
-    description: 'Navigation par onglets. Variante pill (défaut) ou underline. 2–5 onglets, aria-selected + keyboard navigation. Utilisé dans Account, Profile, LearningPathDetail.',
-    keywords: ['tab', 'navigation', 'pill', 'underline', 'switch'],
+    codeName: 'ui/Tabs.tsx',
+    description: "Navigation par onglets, de deux à cinq, avec `aria-selected` et la navigation au clavier. Onglets de 44 px, libellé 16/600 aux deux états (ink-700 au repos), icône de 18. Trois variantes : pill (défaut) — un rail au rayon 14 où l'onglet actif, au rayon 10, se détache en blanc ; underline — trait de 2 px au cran 700 sous un libellé 800 ; boxed — onglets séparés, l'actif en dégradé 700 → 800. pill et underline défilent horizontalement dans leur rail, sans barre visible, et leurs onglets ne se compriment pas : à 375 px, quatre pages avaient un onglet en pastille hors de l'écran, hors d'atteinte, jusqu'au 24/09. L'onglet actif est ramené dans le cadre. Compteur optionnel. `getTabPanelProps` relie un onglet à son panneau.",
+    keywords: ['tab', 'onglet', 'navigation', 'pill', 'underline', 'boxed', 'switch', '44', 'scroll', 'défilement', 'overflow'],
     render: () => <TabsDemo />,
   },
   {
     name: 'FilterChip',
-    codeName: 'FilterChip.tsx',
-    cssBase: 'Tailwind (no BEM)',
+    codeName: 'ui/FilterChip.tsx',
     usedBy: ['LearningPaths', 'Veille', 'Journal', 'Notifications'],
-    description: 'Chip de filtrage toggle avec état actif. 3 variants: default (fond solid), glass (glassmorphism sur gradient bg), reset (clear action). Count badge optionnel. Accessibilité: aria-pressed + focus ring WCAG AA.',
-    keywords: ['filter', 'chip', 'tag', 'select', 'active', 'glass', 'toggle', 'count'],
+    description: "Pastille de filtre à bascule (`aria-pressed`). En md, le défaut, c'est un contrôle de la ligne : 44 px, libellé 16/600, rayon 14 (arbitrage n°22, la hauteur commune des contrôles). En sm, 28 px et 13/600. Actif : filet 700 et libellé 800, sans changer de graisse. Variantes default · glass (sur fond coloré) · reset ; compteur optionnel ; icône de 18 (md) ou 14 (sm).",
+    keywords: ['filter', 'filtre', 'chip', 'pastille', 'select', 'active', 'glass', 'toggle', 'count', 'compteur', '44'],
     render: () => <FilterChipDemo />,
-  },
-  {
-    name: 'Medal',
-    codeName: 'Medal.tsx',
-    cssBase: '.medal',
-    description: 'Médaille de réussite: cercle avec anneau en pointillés intérieur. Warm gradient = déverrouillé, Brand deep = spécial/rare, Ink gray = verrouillé.',
-    keywords: ['medal', 'badge', 'achievement', 'reward', 'locked', 'unlocked'],
-    render: () => (
-      <div className="flex gap-stack items-center flex-wrap">
-        <Medal size="lg" variant="default">🏆</Medal>
-        <Medal size="lg" variant="brand">⚡</Medal>
-        <Medal size="lg" variant="locked">🔒</Medal>
-        <Medal size="md" variant="default">🎯</Medal>
-        <Medal size="md" variant="brand">🌟</Medal>
-        <Medal size="sm" variant="default">✨</Medal>
-      </div>
-    ),
-  },
-  {
-    name: 'CompetenceBadge',
-    codeName: 'CompetenceBadge.tsx',
-    cssBase: '.comp-badge',
-    showcaseOnly: true,
-    description: '4 niveaux de compétence (Dreyfus 1-4) avec palette TLS claire : Niveau 1 = ink-100 (découverte), Niveau 2 = primary-50 (pratique), Niveau 3 = secondary-50 (maîtrise), Niveau 4 = success-base (expert). Inline badge pour passeport compétences et listes coach.',
-    keywords: ['competence', 'dreyfus', 'level', 'badge', 'proficiency', 'skill'],
-    render: () => (
-      <div className="flex gap-stack-xs flex-wrap">
-        <CompetenceBadge level={1} label="Sensibilisé" />
-        <CompetenceBadge level={2} label="Pratiquant" />
-        <CompetenceBadge level={3} label="Autonome" />
-        <CompetenceBadge level={4} label="Expert" />
-      </div>
-    ),
-  },
-  {
-    name: 'MasteryBadge',
-    codeName: 'MasteryBadge.tsx',
-    cssBase: '.mastery-badge',
-    showcaseOnly: true,
-    description: '5 niveaux de maîtrise (Novice → Expert) avec représentation de la taxonomie de Bloom. Progression visuelle par couleur du clair au vif.',
-    keywords: ['mastery', 'skill', 'bloom', 'taxonomy', 'level', 'novice', 'expert'],
-    render: () => (
-      <div className="flex gap-stack flex-wrap">
-        <MasteryBadge level="beginner" label="Découverte" progress={30} />
-        <MasteryBadge level="intermediate" label="Prompt Engineering" progress={65} />
-        <MasteryBadge level="advanced" label="IA Générative" progress={80} />
-        <MasteryBadge level="expert" label="Design System" progress={100} />
-      </div>
-    ),
-  },
-  {
-    name: 'Achievement',
-    codeName: 'Achievement.tsx',
-    cssBase: '.achievement',
-    description: 'Composant de récompense/achievement (card). **Properties** : variant (3 : unlocked/locked/in-progress) · size (3 : sm/md/lg). Icon + title + description + state-specific footer (date unlock / lock reason / progress bar).',
-    keywords: ['achievement', 'badge', 'unlocked', 'locked', 'milestone', 'reward', 'size', 'variant'],
-    render: () => (
-      <div className="flex gap-stack flex-wrap">
-        <Achievement icon="🏆" title="Pionnier IA" description="Premier parcours terminé" unlockedAt="15 janv. 2024" variant="unlocked" size="md" />
-        <Achievement icon="⚡" title="Streak Master" description="7 jours consécutifs" progress={7} maxProgress={10} variant="in-progress" size="md" />
-        <Achievement icon="🌟" title="Mentor" description="Aidez 5 collègues" variant="locked" size="md" />
-      </div>
-    ),
   },
   {
     name: 'AchievementBadge',
     codeName: 'ui/AchievementBadge.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    usedBy: ['DashboardAchievements', 'BadgeGallery', 'BadgeDetail', 'ProfileBadgesCompetences', 'PasseportJac', 'Gamification'],
-    description: 'Carte badge d\'accomplissement standalone. 4 colors (primary/warm/sun/success) × 3 sizes (sm/md/lg). Cercle icône gradient + titre + description + date de déverrouillage + bouton partage. État `isLocked` avec opacité réduite et icône cadenas.',
-    keywords: ['achievement', 'badge', 'unlock', 'locked', 'share', 'reward', 'milestone', 'color', 'standalone'],
+    usedBy: ['BadgeDetail (lg)', 'PasseportJac (sm)'],
+    description: "Carte d'un Open Badge, adossé à un niveau Dreyfus validé : disque en dégradé (60 · 100 · 140 px), titre h3 20/700 — le niveau, « D3 · Compétent » —, description 16 ink-700 — la compétence —, puis « Obtenu le 3 mai 2026 » en légende 13 au cran 800 du ton. Le composant formate lui-même une date ISO, en français ; toute autre chaîne passe telle quelle, et sans date il dit « Obtenu », sans en inventer une. Avec une description, la carte se cale à gauche, médaille comprise ; sans, titre et date sont courts et elle reste centrée (le centré se limite à deux lignes). Verrouillée (`isLocked`) : estompée, « S'obtient une fois les prérequis validés » — le détail d'un niveau pas encore validé. Bouton « Partager » optionnel (`onShare`). Quatre couleurs (primary · warm · sun · success) × trois tailles. Rien du jeu : ni points, ni rareté, ni pulsation (arbitrage n°16), et plus d'étincelle au bord du disque depuis le 24/09 — l'étincelle signale une fonction IA, jamais un badge obtenu (DESIGN.md §10, arbitrage n°18). ⚠️ Le cadenas de l'état verrouillé est posé au bord du disque, dont l'`overflow-hidden` le rogne.",
+    keywords: ['achievement', 'badge', 'open badge', 'niveau', 'dreyfus', 'validé', 'unlock', 'locked', 'share', 'partager', 'color', 'standalone', 'date', 'iso', 'obtenu'],
     render: () => (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-stack">
+        {/* Des niveaux validés, comme les pages les passent (BadgeDetail,
+            PasseportJac) : le niveau en titre, la compétence en description,
+            une date ISO que le composant écrit en français. */}
         <AchievementBadge
-          icon={<Trophy size={48} className="text-white" />}
-          title="Pionnier IA"
-          description="Premier parcours terminé avec succès"
-          unlockedDate="15 janv. 2026"
+          icon={<Award size={48} className="text-white" />}
+          title="D3 · Compétent"
+          description="Leadership"
+          unlockedDate="2026-05-03"
           color="primary"
           size="md"
+          onShare={() => {}}
         />
+        {/* Sans description : titre et date, courts, restent centrés. */}
         <AchievementBadge
-          icon={<Flame size={48} className="text-white" />}
-          title="Streak Master"
-          description="14 jours d'apprentissage consécutifs"
-          unlockedDate="28 mars 2026"
+          icon={<Award size={48} className="text-white" />}
+          title="D2 · Apprenant"
+          unlockedDate="2026-03-28"
           color="warm"
           size="md"
         />
         <AchievementBadge
-          icon={<Star size={48} className="text-white" />}
-          title="Expert Certifié"
-          description="Niveau Expert validé en Leadership"
-          unlockedDate="3 mai 2026"
+          icon={<Award size={48} className="text-white" />}
+          title="D4 · Expert"
+          description="Communication"
+          unlockedDate="2026-06-12"
           color="sun"
           size="md"
         />
         <AchievementBadge
-          icon={<CheckCircle2 size={48} className="text-white" />}
-          title="Mentor"
-          description="Débloque quand vous aidez 5 collègues"
+          icon={<Award size={48} className="text-white" />}
+          title="D4 · Expert"
+          description="Leadership"
           isLocked
           color="success"
           size="md"
@@ -3380,10 +3385,9 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'JacCard',
     codeName: 'ui/JacCard.tsx',
-    cssBase: 'Tailwind (no BEM)',
     usedBy: ['PasseportJac'],
-    description: 'Deux variants de card Jalons & Certifications (Cahier #02 + #11). `JacCardPending` : validation en cours (badge "En revue" + Relancer CTA). `JacCardNextJalon` : prochain jalon à atteindre (requirements list + ProgressBar + Préparer CTA).',
-    keywords: ['jac', 'jalon', 'certification', 'dreyfus', 'validation', 'passeport', 'pending', 'progress'],
+    description: "Deux cartes du Passeport, Jalons et certifications (cahiers 02 et 11). JacCardPending : une validation en cours — libellé 16/600, méta 13 ink-600, Badge « En revue » et un Button soft sm « Relancer ». JacCardNextJalon : le prochain jalon — libellé 16/600, puis le niveau en MetaPill, seulement si le titre ne le dit pas déjà : « Communication : Niveau D4 » le porte, et la pastille ne le répète plus depuis le 24/09 ; exigences en 16 ink-700, ProgressBar sm et un Button soft sm « Préparer ».",
+    keywords: ['jac', 'jalon', 'certification', 'dreyfus', 'validation', 'passeport', 'pending', 'progress', 'niveau', 'MetaPill'],
     render: () => (
       <div className="flex flex-col gap-stack max-w-xl">
         <JacCardPending
@@ -3394,6 +3398,7 @@ const COMPONENTS: ComponentEntry[] = [
           submittedDaysAgo={3}
           waitingFor="Coach"
         />
+        {/* Le titre porte déjà « D4 » : pas de pastille. */}
         <JacCardNextJalon
           id="demo-n1"
           title="Communication : Niveau D4"
@@ -3402,14 +3407,22 @@ const COMPONENTS: ComponentEntry[] = [
           requirements={['2 présentations stratégiques', '1 session mentoring', '1 évaluation coach']}
           progress={60}
         />
+        {/* Le titre ne dit pas le niveau : la pastille le donne, une fois. */}
+        <JacCardNextJalon
+          id="demo-n2"
+          title="Animer une rétrospective d'équipe"
+          competence="Facilitation"
+          dreyfusLevel="D3"
+          requirements={['1 rétrospective animée', '1 retour du manager']}
+          progress={25}
+        />
       </div>
     ),
   },
   {
     name: 'Stepper',
-    codeName: 'Stepper.tsx',
-    cssBase: '.stepper / .stepper__step',
-    description: '**Stepper** : indicateur d\'étapes séquentiel horizontal/vertical — états done/current/upcoming. Utilisé dans onboarding, wizards. **Steps** : checklist séquentielle d\'étapes (done/current/upcoming) — différent du stepper car vertical avec descriptions longues.',
+    codeName: 'ui/Stepper.tsx',
+    description: "Stepper : des étapes numérotées, en ligne ou en colonne — rond de 40 px, chiffre en Nunito 13/600 tabulaire ; l'étape en cours en 600 ink-900, les autres en 400 ; libellé en légende 13 à l'horizontale, 16 avec une description 13 à la verticale. Steps : une liste d'étapes à cocher — pastille de 36 px, titre 16, description 13 ink-600, 24 px entre deux étapes ; une étape faite est barrée, une étape verrouillée estompée.",
     keywords: ['stepper', 'steps', 'progress', 'wizard', 'onboarding', 'sequence', 'checklist', 'task', 'sequential'],
     usedBy: ['OnboardingQuestionnaire', 'SubscriptionPayment', 'OnboardingTutorial', 'OnboardingSuccess'],
     render: () => {
@@ -3421,12 +3434,12 @@ const COMPONENTS: ComponentEntry[] = [
       ];
       return (
         <div className="flex flex-col gap-section">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Stepper — indicateur horizontal / vertical</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Stepper — indicateur horizontal / vertical</p>
           <div className="flex flex-col gap-stack-lg">
             <Stepper items={steps} orientation="horizontal" />
             <Stepper items={steps} orientation="vertical" />
           </div>
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mt-stack">Steps — checklist séquentielle verticale</p>
+          <p className="text-caption font-semibold text-ink-600 m-0 mt-stack">Steps — checklist séquentielle verticale</p>
           <Steps
             items={[
               { title: 'Créer votre compte', description: 'Email + mot de passe sécurisé', state: 'done' },
@@ -3444,42 +3457,41 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'TabsWithContent',
     codeName: 'patterns/TabsWithContent.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    usedBy: ['LearningPathDetail', 'Profile', 'Coaching', 'Account'],
-    description: 'Tabs avec gestion de contenu intégrée (state actif + rendu du panel). 3 variants : **underline** (ligne sous onglet actif), **boxed** (onglet plein sur fond blanc), **pill** (toggle pill sur ink-100). Badge numérique optionnel, disabled support, onTabChange callback.',
+    showcaseOnly: true,
+    description: "Onglets qui portent aussi leur contenu (onglet actif et panneau). Onglets en 16/600 (ink-600 au repos), de 46 à 48 px de haut, compteur 13/600 tabulaire, 16 px entre la liste et le panneau. Trois variantes : underline (trait primary-600, libellé 800), boxed (onglet actif en dégradé 700 → 800), pill (onglet actif blanc sur ink-100). Onglets désactivables, `onTabChange`.",
     keywords: ['tabs', 'tabbed', 'content', 'panel', 'underline', 'pill', 'boxed', 'nav', 'switch', 'state'],
     render: () => (
       <div className="flex flex-col gap-section">
         <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">variant="underline" (défaut)</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">variant="underline" (défaut)</p>
           <TabsWithContent
             variant="underline"
             tabs={[
-              { id: 'overview', label: 'Vue d\'ensemble', content: <div className="py-stack text-body text-ink-600">Description du parcours, objectifs pédagogiques et durée estimée.</div> },
-              { id: 'lessons', label: 'Leçons', badge: 8, content: <div className="py-stack text-body text-ink-600">Liste des 8 leçons avec état de progression pour chacune.</div> },
-              { id: 'resources', label: 'Ressources', content: <div className="py-stack text-body text-ink-600">Ressources complémentaires et liens utiles.</div> },
+              { id: 'overview', label: 'Vue d\'ensemble', content: <div className="py-stack text-body text-ink-700">Description du parcours, objectifs pédagogiques et durée estimée.</div> },
+              { id: 'lessons', label: 'Leçons', badge: 8, content: <div className="py-stack text-body text-ink-700">Liste des 8 leçons avec état de progression pour chacune.</div> },
+              { id: 'resources', label: 'Ressources', content: <div className="py-stack text-body text-ink-700">Ressources complémentaires et liens utiles.</div> },
             ]}
           />
         </div>
         <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">variant="pill"</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">variant="pill"</p>
           <TabsWithContent
             variant="pill"
             tabs={[
-              { id: 'all', label: 'Tout', content: <div className="py-3 text-body text-ink-600">Tous les éléments combinés.</div> },
-              { id: 'coaching', label: 'Coaching', content: <div className="py-3 text-body text-ink-600">Sessions de coaching planifiées.</div> },
-              { id: 'notes', label: 'Notes', content: <div className="py-3 text-body text-ink-600">Vos notes de session.</div> },
+              { id: 'all', label: 'Tout', content: <div className="py-3 text-body text-ink-700">Tous les éléments combinés.</div> },
+              { id: 'coaching', label: 'Coaching', content: <div className="py-3 text-body text-ink-700">Sessions de coaching planifiées.</div> },
+              { id: 'notes', label: 'Notes', content: <div className="py-3 text-body text-ink-700">Vos notes de session.</div> },
             ]}
           />
         </div>
         <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">variant="boxed"</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">variant="boxed"</p>
           <TabsWithContent
             variant="boxed"
             tabs={[
-              { id: 'profile', label: 'Profil', content: <div className="py-stack text-body text-ink-600">Données de profil et compétences.</div> },
-              { id: 'account', label: 'Compte', content: <div className="py-stack text-body text-ink-600">Informations de compte et sécurité.</div> },
-              { id: 'settings', label: 'Paramètres', content: <div className="py-stack text-body text-ink-600">Préférences et notifications.</div> },
+              { id: 'profile', label: 'Profil', content: <div className="py-stack text-body text-ink-700">Données de profil et compétences.</div> },
+              { id: 'account', label: 'Compte', content: <div className="py-stack text-body text-ink-700">Informations de compte et sécurité.</div> },
+              { id: 'settings', label: 'Paramètres', content: <div className="py-stack text-body text-ink-700">Préférences et notifications.</div> },
             ]}
           />
         </div>
@@ -3490,9 +3502,8 @@ const COMPONENTS: ComponentEntry[] = [
   /* ---- FEEDBACK --------------------------------------------------------- */
   {
     name: 'Alert',
-    codeName: 'Alert.tsx',
-    cssBase: '.alert / .alert--*',
-    description: 'Message contextuel persistant ancré dans la page. 4 variantes sémantiques: info, success, warning, danger. Patterns: banner (défaut) et inline (compact).',
+    codeName: 'ui/Alert.tsx',
+    description: "Message persistant ancré dans la page. Quatre variantes (info · success · warning · danger), chacune colore tout son texte. banner, le défaut : texte 16, titre 16/600, 4 px, icône de 20 calée sur la première ligne, actions et fermeture optionnelles. inline : texte 13, icône de 16, sans titre ni actions. Rôle live alert (danger, warning) ou status (success).",
     keywords: ['alert', 'message', 'warning', 'error', 'success', 'info', 'danger', 'banner', 'inline'],
     render: () => (
       <div className="flex flex-col gap-stack">
@@ -3513,30 +3524,27 @@ const COMPONENTS: ComponentEntry[] = [
   },
   {
     name: 'Modal',
-    codeName: 'Modal.tsx',
-    cssBase: '.modal / .modal-scrim',
-    description: 'Dialog bloquant pour décisions critiques. Scrim + blur en arrière-plan. Fermeture via Escape, bouton close, ou clic scrim. Slots: title, description, actions, body.',
-    keywords: ['modal', 'dialog', 'overlay', 'popup', 'scrim', 'interrupt'],
+    codeName: 'ui/Modal.tsx',
+    description: "Dialogue bloquant, pour une décision : voile, boîte au rayon 24 (étage surcouche), 480 px au plus, padding 24 puis 32. Titre en h2 au pas h3 (20/700), 8 px, description 16 ink-700, 16 px, le corps en 16, puis les actions à 24 px du contenu, alignées à droite, Confirmer en dernier. Une modale ouverte est un écran à elle seule (arbitrage n°19) : un seul solid, l'action qu'elle sert — en danger pour confirmer une suppression —, Annuler en outline neutre quand il forme la paire, le reste en ghost. Fermeture par Échap, par le bouton-icône ou par un clic sur le voile. Le comportement vient de `useDialog`, partagé par toutes les modales de `modals/` et par ChartDetailModal : le focus entre dans la modale et y reste (Tab et Maj+Tab), il revient au déclencheur à la fermeture ; et depuis le 24/09, tout le reste du document est inerte pendant l'ouverture (`inert` : ni focus, ni clic, ni lecteur d'écran). Seules les régions vivantes restent actives, pour qu'un toast s'annonce encore. Avant, un lecteur d'écran parcourait la page derrière, et `check:boutons` y comptait un second solid.",
+    keywords: ['modal', 'dialog', 'overlay', 'popup', 'scrim', 'interrupt', 'useDialog', 'inert', 'focus', 'aria-modal'],
     render: () => <ModalDemo />,
   },
   {
     name: 'CelebrationModal',
     codeName: 'modals/CelebrationModal.tsx',
-    cssBase: 'Tailwind + modals.css animations',
     showcaseOnly: true,
-    description: 'Modal de célébration pour milestones (parcours complété, badge débloqué). **CelebrationModal** : confetti + badge + message court. **StreakCelebrationModal** : variante streak (particules feu, streak count, stats semaines/XP).',
-    keywords: ['celebration', 'modal', 'milestone', 'achievement', 'parcours', 'badge', 'reward', 'streak', 'flame'],
+    description: "Célébration d'un jalon (parcours terminé, badge obtenu) : pastille de 80 px, titre en h2 au pas h3 (20/700) ink-900, description 16 ink-700, puis les actions, passées par la page — un seul solid, l'action que la modale sert (« Voir mon badge »), le reste en ghost (arbitrage n°19). Dialogue `useDialog`, comme Modal : focus piégé, Échap, et la page derrière inerte pendant l'ouverture. ⚠️ Ses quatre étincelles scintillent en boucle autour du panneau : un mouvement permanent (arbitrage n°16) et une étincelle qui ne signale aucune IA (DESIGN.md §10) ; `hideSparkles` les retire.",
+    keywords: ['celebration', 'modal', 'milestone', 'achievement', 'parcours', 'badge', 'reward', 'useDialog', 'inert', 'hideSparkles'],
     render: () => <CelebrationModalDemo />,
   },
   {
     name: 'InlineWin',
     codeName: 'ui/Celebration.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: 'Bandeau compact in-flow pour célébration discrète (lesson terminée, milestone intermédiaire). Différent de CelebrationModal qui est interruptif.',
+    description: "Célébration discrète, dans le flux (leçon terminée, étape franchie) : pastille ronde de 40 px, titre 16/600 ink-900, description en légende 13 ink-600. À l'inverse de CelebrationModal, elle n'interrompt pas.",
     keywords: ['inline-win', 'win', 'compact', 'banner', 'achievement'],
     render: () => (
       <InlineWin
-        title="Lesson terminée !"
+        title="Leçon terminée"
         description="Continuez sur votre lancée — il vous reste 3 leçons dans ce module."
       />
     ),
@@ -3546,13 +3554,12 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Breadcrumb',
     codeName: 'ui/Breadcrumb.tsx (canonical)',
-    cssBase: '.breadcrumb / .breadcrumb__current / .breadcrumb--sticky',
-    description: 'Fil d\'Ariane unifié. variant="simple" (anchors + séparateur texte) ou variant="nav" (boutons + ChevronRight + pill highlight + ellipsis collapse + icônes).',
+    description: "Fil d'Ariane, en légende 13 partout. variant=\"simple\" (défaut) : liens ink-600, page courante ink-900 en 600, séparateur texte, `sticky` optionnel. variant=\"nav\" : boutons, chevrons, icônes, page courante sur fond primary-50, repli en ellipse au-delà de `maxVisible`, `onNavigate`. L'ancien BreadcrumbNav a été supprimé : `<Breadcrumb variant=\"nav\">` le remplace.",
     keywords: ['breadcrumb', 'navigation', 'path', 'hierarchy', 'ariane', 'sticky', 'nav'],
     render: () => (
       <div className="flex flex-col gap-stack-lg">
         <div>
-          <div className="text-caption text-ink-500 mb-stack-xs uppercase tracking-wider">variant="simple" (anchors)</div>
+          <div className="text-caption text-ink-600 mb-stack-xs">variant="simple" (anchors)</div>
           <Breadcrumb
             items={[
               { label: 'Accueil', href: '#' },
@@ -3573,7 +3580,7 @@ const COMPONENTS: ComponentEntry[] = [
         </div>
 
         <div>
-          <div className="text-caption text-ink-500 mb-stack-xs uppercase tracking-wider">variant="nav" (boutons + icônes + ChevronRight)</div>
+          <div className="text-caption text-ink-600 mb-stack-xs">variant="nav" (boutons + icônes + ChevronRight)</div>
           <Breadcrumb
             variant="nav"
             items={[
@@ -3595,7 +3602,7 @@ const COMPONENTS: ComponentEntry[] = [
             onNavigate={(i) => console.log('navigate', i)}
             className="mt-stack-xs"
           />
-          <div className="text-micro text-ink-400 mt-1">↑ maxVisible=3 → ellipsis automatique</div>
+          <div className="text-caption text-ink-600 mt-1">↑ maxVisible=3 → ellipsis automatique</div>
         </div>
 
         <div className="bg-ink-50 rounded-md overflow-hidden">
@@ -3607,7 +3614,7 @@ const COMPONENTS: ComponentEntry[] = [
               { label: 'Article courant' },
             ]}
           />
-          <div className="p-stack text-caption text-ink-500">sticky — blur + border-bottom</div>
+          <div className="p-stack text-caption text-ink-600">sticky — blur + border-bottom</div>
         </div>
       </div>
     ),
@@ -3615,30 +3622,23 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'AppBreadcrumb',
     codeName: 'patterns/AppBreadcrumb.tsx',
-    cssBase: 'Tailwind (no BEM)',
     usedBy: ['AppLayout (global)', 'LearningPathDetail', 'ArticleDetail', 'VeilleContent'],
-    description: 'Fil d\'Ariane auto-généré depuis `useLocation`. Rendu si ≥ 2 segments seulement (évite "Accueil > Parcours" sur les hubs top-level). Includes bouton Retour sur mobile. Routes mappées statiquement pour des labels humainement lisibles.',
+    description: "Le fil d'Ariane de l'app, généré depuis l'URL (`useLocation`) et monté pour toute l'app ; il s'affiche à partir de deux segments. Barre de 44 px au moins, en légende 13 : les parents en 400 ink-600, la page courante en 600 ink-900 (`aria-current`), des chevrons de 14. Un bouton Retour de 44 px sous 640 px, un bouton Accueil au-delà, tous deux en ghost neutre.",
     keywords: ['breadcrumb', 'auto', 'location', 'path', 'navigation', 'back', 'layout', 'route'],
     render: () => (
       <div className="flex flex-col gap-stack-xs p-stack bg-ink-50 rounded-xl border border-ink-200">
-        <p className="text-caption text-ink-400 m-0 italic">Simulation — rendu réel disponible dans toute page routée avec ≥ 2 segments (ex. /learning-paths/1, /veille/article/1)</p>
-        <div className="flex items-center gap-stack-2xs text-caption text-ink-500">
-          <span className="inline-flex items-center gap-tight text-primary-600 hover:text-primary-700 cursor-pointer font-medium">
-            <BookOpen size={13} /> Parcours
-          </span>
-          <span className="text-ink-300">›</span>
-          <span className="text-ink-900 font-semibold">Prompt Engineering Avancé</span>
-        </div>
+        <p className="text-caption text-ink-600 italic">Simulation, par Breadcrumb : le vrai fil se lit sur toute page à deux segments ou plus (/learning-paths/1, /veille/article/1).</p>
+        {/* La maquette faite main posait un séparateur ink-300 (1,39:1) et un lien en 500. */}
+        <Breadcrumb items={[{ label: 'Parcours', href: '#' }, { label: 'Prompt engineering avancé' }]} />
       </div>
     ),
   },
   {
     name: 'AccountFamilyNav',
     codeName: 'patterns/AccountFamilyNav.tsx',
-    cssBase: 'Tailwind (no BEM)',
     usedBy: ['Profile', 'Account', 'Billing'],
-    description: 'Sub-navigation pour les pages "compte" (Profil / Mon compte / Facturation / Paramètres). Pills scrollables avec label + description courte du rôle de chaque page. Clarifie la séparation des responsabilités.',
-    keywords: ['account', 'profile', 'settings', 'nav', 'sub-navigation', 'billing', 'tabs', 'secondary'],
+    description: "La navigation des pages du compte : cinq destinations — Profil, Mon compte, Confidentialité, Notifications, Facturation —, chacune avec sa pastille d'icône (IconChip sm), son libellé 16/600 et une description en 13 ink-600. La grille compte ses colonnes sur sa propre largeur (requête de conteneur) : une, deux dès 448 px, trois dès 672 px. L'onglet actif est blanc sur le rail ink-50.",
+    keywords: ['account', 'compte', 'profile', 'settings', 'nav', 'sub-navigation', 'billing', 'confidentialité', 'notifications', 'container query'],
     render: () => (
       <div className="flex flex-col gap-stack">
         <AccountFamilyNav active="profile" />
@@ -3648,27 +3648,16 @@ const COMPONENTS: ComponentEntry[] = [
     ),
   },
   {
-    name: 'Pagination',
-    codeName: 'Pagination.tsx',
-    cssBase: '.pager / .pager__dots / .pager-info',
-    showcaseOnly: false,
-    usedBy: ['Leaderboard'],
-    description: 'Navigation numérotée pour longues listes. Points de troncature automatiques. Boutons prev/next. Info texte optionnel.',
-    keywords: ['pagination', 'pages', 'nav', 'numbered', 'prev', 'next'],
-    render: () => <PaginationDemo />,
-  },
-  {
     name: 'DropdownMenu',
     codeName: 'ui/DropdownMenu.tsx',
-    cssBase: 'Tailwind (no BEM)',
     usedBy: ['App (Sidebar user menu)'],
-    description: 'Menu d\'actions / navigation contextuelle. 2 variants : solid (border + shadow) ou glass (backdrop-blur + ring + soft shadow brand). Sub-composants : DropdownLabel (section header), DropdownItem (avec icon + shortcut kbd + badge demo/pro/new/beta + danger state), DropdownSeparator. Le consommateur gère ouverture/fermeture, positionnement + outside-click + keyboard. Utilisé dans la Sidebar pour le user menu.',
+    description: "Menu d'actions ou de navigation contextuelle. Deux variantes : solid (filet et ombre) ou glass (flou, anneau, ombre de marque). DropdownItem : rangée de 44 px, libellé 16/400 ink-900, icône de 18, raccourci clavier, badge demo · pro · new · beta, état danger. DropdownLabel : titre de groupe en 13/600 ink-600, casse normale. DropdownSeparator. Le consommateur gère l'ouverture, la position et le clic extérieur ; le menu prend le focus à l'ouverture (`autoFocus`) et le rend au déclencheur (`returnFocusTo`). C'est le menu du compte, dans la Sidebar.",
     keywords: ['dropdown', 'menu', 'actions', 'navigation', 'user-menu', 'popover', 'glass', 'a11y'],
     render: () => (
       <div className="flex flex-wrap gap-section items-start">
         {/* Variant solid — actions context menu */}
         <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Solid · actions context</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Solid · menu d'actions</p>
           {/* autoFocus={false} : cette démo est rendue OUVERTE en permanence. Avec le
     défaut du composant (autoFocus), elle prend le focus au montage et le
     navigateur scrolle pour l'amener à l'écran — la catégorie Navigation
@@ -3685,17 +3674,18 @@ const COMPONENTS: ComponentEntry[] = [
 
         {/* Variant glass — user menu (vrai pattern utilisé dans Sidebar) */}
         <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Glass · user menu (Sidebar)</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Glass · menu du compte (Sidebar)</p>
           <div className="relative bg-gradient-to-br from-primary-50 to-primary-100/40 p-section rounded-2xl">
             <DropdownMenu variant="glass" autoFocus={false} style={{ position: 'static', minWidth: 260 }}>
+              {/* Les entrées du vrai menu (App.tsx) : plus de « Leaderboard »,
+                  retiré avec le classement (arbitrage n°18). */}
               <DropdownItem icon={<UserIcon size={16} />}>Mon Profil</DropdownItem>
-              <DropdownItem icon={<Settings2 size={16} />}>Paramètres</DropdownItem>
-              <DropdownItem icon={<Bell size={16} />}>Notifications</DropdownItem>
-              <DropdownItem icon={<Target size={16} />} badge="demo">Positionnement</DropdownItem>
+              <DropdownItem icon={<Settings2 size={16} />}>Mon compte</DropdownItem>
+              <DropdownItem icon={<Bell size={16} />} badge="3">Notifications</DropdownItem>
+              <DropdownItem icon={<Target size={16} />} badge="demo">Onboarding</DropdownItem>
               <DropdownItem icon={<BarChart3 size={16} />} badge="pro">Espace Entreprise</DropdownItem>
               <DropdownSeparator />
               <DropdownLabel>Communauté</DropdownLabel>
-              <DropdownItem icon={<Trophy size={16} />}>Leaderboard</DropdownItem>
               <DropdownItem icon={<Users size={16} />}>Collaboration</DropdownItem>
               <DropdownItem icon={<MessageSquare size={16} />}>Messages</DropdownItem>
               <DropdownSeparator />
@@ -3710,9 +3700,8 @@ const COMPONENTS: ComponentEntry[] = [
   /* ---- CONTENT (additional) --------------------------------------------- */
   {
     name: 'MetaPill',
-    codeName: 'MetaPill.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: 'Pilule de métadonnée unique. 10 tones : neutral/primary/warm/sun/brand + success/danger/info (sémantiques) + glass/glass-dark. Clickable → vrai `<button>` (WCAG). 3 tailles sm/md/lg.',
+    codeName: 'ui/MetaPill.tsx',
+    description: "La donnée qui chuchote : 11 px en 500, casse normale — le registre opposé à Badge. Taille par défaut sm (24 px, en pilule) ; md 30 px en 13 et lg 44 px en 16, au rayon 14 — au-dessus de 28 px, le rayon d'un contrôle (règle du seuil, `CHIP_RAYON`). Dix tons : neutral (et son alias déprécié default), primary, warm, sun, brand, success, danger, info, glass, glass-dark. Avec `onClick`, elle rend un vrai `<button>`. Une catégorie ou un type de contenu est une donnée : MetaPill, jamais Badge (arbitrages n°14-15).",
     keywords: ['pill', 'meta', 'chip', 'tag', 'tone', 'primary', 'warm', 'sun', 'brand', 'success', 'danger', 'info'],
     render: () => (
       <div className="flex flex-col gap-stack">
@@ -3729,9 +3718,9 @@ const COMPONENTS: ComponentEntry[] = [
           <MetaPill text="Info" tone="info" />
         </div>
         <div className="hstack flex-wrap">
-          <MetaPill text="Small" size="sm" tone="primary" />
-          <MetaPill text="Medium" size="md" tone="primary" />
-          <MetaPill text="Large" size="lg" tone="primary" />
+          <MetaPill text="sm · 24 px, pilule" size="sm" tone="primary" />
+          <MetaPill text="md · 30 px, rayon 14" size="md" tone="primary" />
+          <MetaPill text="lg · 44 px, rayon 14" size="lg" tone="primary" />
           <MetaPill text="Cliquable" tone="warm" onClick={() => {}} />
         </div>
       </div>
@@ -3739,10 +3728,9 @@ const COMPONENTS: ComponentEntry[] = [
   },
   {
     name: 'MetaItem',
-    codeName: 'MetaItem.tsx',
-    cssBase: '.tls-meta-item / .tls-meta-item--sm / .tls-meta-item--brand/warm',
+    codeName: 'ui/MetaItem.tsx',
     showcaseOnly: true,
-    description: 'Paire label/valeur pour les métadonnées structurées. Sizes: sm/md. Tones: muted (défaut)/brand/warm. Icon optionnel dans le label.',
+    description: "Paire étiquette / valeur d'une donnée structurée : l'étiquette en légende 13 ink-600 au-dessus, 4 px, puis la valeur en 600 — 13 en sm, 16 en md —, ink-900 ou au cran 800 du ton (brand, warm). Icône optionnelle dans l'étiquette.",
     keywords: ['meta', 'item', 'label', 'value', 'pair', 'data', 'detail', 'size', 'tone'],
     render: () => (
       <div className="vstack max-w-[360px]">
@@ -3755,10 +3743,9 @@ const COMPONENTS: ComponentEntry[] = [
   },
   {
     name: 'UserInfo',
-    codeName: 'UserInfo.tsx',
-    cssBase: '.tls-user-info / .tls-user-info--sm|md|lg',
+    codeName: 'ui/UserInfo.tsx',
     showcaseOnly: true,
-    description: 'Bloc identité utilisateur compact: avatar + nom + rôle + status dot optionnel. Tailles: sm/md/lg. Statuts: online/offline/away.',
+    description: "Bloc identité compact : avatar, nom, rôle, point de statut optionnel. Nom en 16/600 ink-900 (sm, md) ou en titre 20/700 (lg) ; rôle en légende 13 ink-600 (16 en lg) ; avatar de 32 · 40 · 56 px. Statuts online · offline · away.",
     keywords: ['user', 'info', 'avatar', 'name', 'role', 'identity', 'author', 'status', 'online'],
     render: () => (
       <div className="vstack max-w-[320px]">
@@ -3771,9 +3758,8 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ProfileCard',
     codeName: 'ui/ProfileCard.tsx',
-    cssBase: 'Tailwind (no BEM) — Avatar + MetaPillGroup + Button',
-    usedBy: ['Coaching'],
-    description: 'Carte profil DS pour coach/expert/user. Compose <Avatar size="xl"> + <MetaPillGroup tone> + <Button>. 3 variants (default/compact/featured) × 3 tones (primary/warm/sun) × 2 alignments (center/left). Props : avatar/initials, name, role, avatarBadge (overlay slot), rating (Stars + value + count), specialties (pills), contacts (email/phone/linkedin/twitter/website), bio, cta. Featured variant = bordure 2px tone + gradient bg.',
+    usedBy: ['CoachCardGrid', 'CoachProfileView', 'CoachTeamDashboard', 'CoachAnalytics'],
+    description: "Carte de profil (coach, expert) : Avatar xl, nom en titre h3 20, rôle en légende 13 ink-600, note (étoiles, valeur 13/600), spécialités en MetaPillGroup sm, contacts, bio 16 ink-700 alignée à gauche, action en Button soft. Variantes default · compact · featured (filet 2 px du ton) · horizontal, trois tons, alignement centré ou à gauche.",
     keywords: ['profile', 'card', 'user', 'coach', 'avatar', 'rating', 'specialties', 'tone', 'featured', 'a11y'],
     render: () => (
       <div className="grid grid-cols-1 md:grid-cols-3 gap-stack-lg">
@@ -3825,58 +3811,80 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'IconFeatureCard',
     codeName: 'ui/IconFeatureCard.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: 'Tile card carré-arrondi (button-shape). Icônes Lucide stroke 1.75. Auto-layout CENTERED (padding visuel égal 4 côtés). Variants : `iconStyle` (plain/filled/bubble) × `iconSize` (xs/sm/md/lg/xl) × `tone` (brand/warm/sun) × `surface` (card/tinted/glass/frosted) × `square` boolean + mode display/button via présence de `onClick`. Description optionnelle. Title et padding scalent automatiquement avec iconSize. ⚠️ Utiliser dans `<CardGrid layout="square-tiles">` (patterns/CardGrid) pour les cards square (≥4 items).',
-    keywords: ['feature', 'icon', 'card', 'tile', 'button', 'plain', 'filled', 'bubble', 'tone', 'quick action', 'shortcut', 'glass', 'frosted', 'tinted', 'surface', 'square', 'responsive', 'centered'],
+    usedBy: ['Coaching', 'LearningPathDetail'],
+    description: "Tuile à icône, contenu centré : l'icône (plain · filled · bubble), le titre, une description optionnelle. L'échelle des titres suit `iconSize` : xs et sm → 16/700 en League Spartan, md, lg et xl → h3 20/700 ; description 16 ink-700. La bulle (`bubble`) est un IconChip depuis le 24/09 (arbitrage n°3) : un carré au rayon proportionnel, 32 · 40 · 48 px de xs à md, lg et xl s'arrêtant à 48, glyphe au cran 800 — au cran 100 sur la surface tinted (arbitrage n°10). Elle était faite main, au rayon 20 à toutes les tailles, donc ronde à 32 et 40, et son glyphe au cran 500 mesurait 1,60 à 2,62:1 ; il mesure 5,79 à 9,49. Tons brand · warm · sun × surfaces card · tinted · glass · frosted ; `square` pour une tuile carrée ; `onClick` en fait un bouton. Toujours dans `<CardGrid layout=\"square-tiles\">` (deux colonnes au moins) : une tuile plus étroite que sa bulle et son padding ne la contient pas.",
+    keywords: ['feature', 'icon', 'card', 'tile', 'button', 'plain', 'filled', 'bubble', 'tone', 'quick action', 'shortcut', 'glass', 'frosted', 'tinted', 'surface', 'square', 'responsive', 'centered', 'IconChip', 'square-tiles'],
     render: () => (
       <div className="flex flex-col gap-section">
 
         {/* ─── Usage canonique : CardGrid square-tiles + iconSize md (default) ─── */}
         <div className="flex flex-col gap-stack">
-          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">⭐ Pattern canonique · <code className="text-caption bg-ink-50 px-1.5 py-0.5 rounded">&lt;CardGrid layout="square-tiles"&gt;</code> · iconSize <strong>md</strong> (default · 32px)</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Le motif canonique · <code className="text-caption bg-ink-50 px-1.5 py-0.5 rounded">&lt;CardGrid layout="square-tiles"&gt;</code> · iconSize md (défaut · 32 px)</p>
           <CardGrid layout="square-tiles" gapSize="md">
             <IconFeatureCard square tone="brand" iconStyle="plain" icon={<MessageSquare size={32} strokeWidth={1.75} />} title="Coaching" onClick={() => {}} />
             <IconFeatureCard square tone="warm" iconStyle="plain" icon={<MapIcon size={32} strokeWidth={1.75} />} title="Parcours" onClick={() => {}} />
             <IconFeatureCard square tone="sun" iconStyle="plain" icon={<PenLine size={32} strokeWidth={1.75} />} title="Journal" onClick={() => {}} />
-            <IconFeatureCard square tone="brand" iconStyle="plain" icon={<SparklesIcon size={32} strokeWidth={1.75} />} title="Veille" onClick={() => {}} />
+            <IconFeatureCard square tone="brand" iconStyle="plain" icon={<BookOpenText size={32} strokeWidth={1.75} />} title="Veille" onClick={() => {}} />
           </CardGrid>
         </div>
 
         {/* ─── Version sm (compact tiles) ─── */}
         <div className="flex flex-col gap-stack">
-          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">Variante compacte · iconSize <strong>sm</strong> (24px) — pour zones denses (sidebar, hero overlays)</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Variante compacte · iconSize sm (24 px) — pour les zones denses</p>
           <CardGrid layout="square-tiles" gapSize="md">
             <IconFeatureCard square tone="brand" iconStyle="plain" iconSize="sm" icon={<MessageSquare size={24} strokeWidth={1.75} />} title="Coaching" onClick={() => {}} />
             <IconFeatureCard square tone="warm" iconStyle="plain" iconSize="sm" icon={<MapIcon size={24} strokeWidth={1.75} />} title="Parcours" onClick={() => {}} />
             <IconFeatureCard square tone="sun" iconStyle="plain" iconSize="sm" icon={<PenLine size={24} strokeWidth={1.75} />} title="Journal" onClick={() => {}} />
-            <IconFeatureCard square tone="brand" iconStyle="plain" iconSize="sm" icon={<SparklesIcon size={24} strokeWidth={1.75} />} title="Veille" onClick={() => {}} />
+            <IconFeatureCard square tone="brand" iconStyle="plain" iconSize="sm" icon={<BookOpenText size={24} strokeWidth={1.75} />} title="Veille" onClick={() => {}} />
           </CardGrid>
         </div>
 
         {/* ─── Avec description optionnelle ─── */}
         <div className="flex flex-col gap-stack">
-          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">Avec description (feature cards landing/marketing) · md</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Avec description · md</p>
           <CardGrid layout="square-tiles" gapSize="md">
             <IconFeatureCard tone="brand" iconStyle="plain" icon={<MessageSquare size={32} strokeWidth={1.75} />} title="Coaching" description="Sessions 1:1 personnalisées" onClick={() => {}} />
-            <IconFeatureCard tone="warm" iconStyle="plain" icon={<MapIcon size={32} strokeWidth={1.75} />} title="Parcours" description="Apprenez à votre rythme" onClick={() => {}} />
-            <IconFeatureCard tone="sun" iconStyle="plain" icon={<PenLine size={32} strokeWidth={1.75} />} title="Journal" description="Notez vos réflexions" onClick={() => {}} />
-            <IconFeatureCard tone="brand" iconStyle="plain" icon={<SparklesIcon size={32} strokeWidth={1.75} />} title="Veille" description="Actualités curées" onClick={() => {}} />
+            <IconFeatureCard tone="warm" iconStyle="plain" icon={<MapIcon size={32} strokeWidth={1.75} />} title="Parcours" description="Apprends à ton rythme" onClick={() => {}} />
+            <IconFeatureCard tone="sun" iconStyle="plain" icon={<PenLine size={32} strokeWidth={1.75} />} title="Journal" description="Note tes réflexions" onClick={() => {}} />
+            <IconFeatureCard tone="brand" iconStyle="plain" icon={<BookOpenText size={32} strokeWidth={1.75} />} title="Veille" description="Actualités choisies" onClick={() => {}} />
           </CardGrid>
         </div>
 
-        {/* ─── iconStyle × tone (matrice compacte 3×3) ─── */}
+        {/* ─── iconStyle × tone ───
+            Dans CardGrid square-tiles, plus un `grid-cols-3` : à 375, trois
+            colonnes laissaient 54 px à la tuile « Bubble · sun », moins que sa
+            bulle et son padding. Au cran sm : dans la vitrine à 375, deux
+            colonnes font 86 px, et la bulle md (48) y pinçait le coin de la
+            tuile (retrait 19 × 17 sous un rayon de 20) ; la bulle sm (40)
+            laisse 23 px. Les trois crans de la bulle sont montrés dessous. */}
         <div className="flex flex-col gap-stack">
-          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">iconStyle (plain / filled / bubble) × tone (brand / warm / sun) · md</p>
-          <div className="grid grid-cols-3 gap-stack">
-            <IconFeatureCard square tone="brand" iconStyle="plain" icon={<MessageSquare size={32} strokeWidth={1.75} />} title="Plain · brand" onClick={() => {}} />
-            <IconFeatureCard square tone="warm" iconStyle="filled" icon={<Flame size={32} />} title="Filled · warm" onClick={() => {}} />
-            <IconFeatureCard square tone="sun" iconStyle="bubble" icon={<Star size={20} strokeWidth={1.75} />} title="Bubble · sun" onClick={() => {}} />
+          <p className="text-caption font-semibold text-ink-600 m-0">iconStyle (plain · filled · bubble) × ton (brand · warm · sun) · sm</p>
+          <CardGrid layout="square-tiles" gapSize="md">
+            <IconFeatureCard square tone="brand" iconStyle="plain" iconSize="sm" icon={<MessageSquare size={24} strokeWidth={1.75} />} title="Plain · brand" onClick={() => {}} />
+            <IconFeatureCard square tone="warm" iconStyle="filled" iconSize="sm" icon={<Flame size={24} />} title="Filled · warm" onClick={() => {}} />
+            <IconFeatureCard square tone="sun" iconStyle="bubble" iconSize="sm" icon={<Star strokeWidth={1.75} />} title="Bubble · sun" onClick={() => {}} />
+          </CardGrid>
+        </div>
+
+        {/* ─── La bulle : un IconChip, à trois crans ─── */}
+        <div className="flex flex-col gap-stack">
+          <p className="text-caption font-semibold text-ink-600 m-0">bubble · un IconChip de 32, 40 puis 48 px ; lg et xl s'arrêtent à 48</p>
+          <div className="flex flex-wrap gap-stack items-start">
+            {([
+              ['xs', 'w-[100px]'],
+              ['sm', 'w-[120px]'],
+              ['md', 'w-[140px]'],
+              ['lg', 'w-[160px]'],
+              ['xl', 'w-[180px]'],
+            ] as const).map(([iconSize, largeur]) => (
+              <IconFeatureCard key={iconSize} tone="brand" iconStyle="bubble" iconSize={iconSize} icon={<MessageSquare strokeWidth={1.75} />} title={iconSize} onClick={() => {}} className={largeur} />
+            ))}
           </div>
         </div>
 
         {/* ─── iconSize ─── */}
         <div className="flex flex-col gap-stack">
-          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">iconSize · xs 20 / sm 24 / md 32 (default) / lg 40 / xl 48 — title scale automatiquement</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">iconSize · xs 20 · sm 24 · md 32 (défaut) · lg 40 · xl 48 — le titre passe de 16 à 20 dès md</p>
           <div className="flex flex-wrap gap-stack items-start">
             <IconFeatureCard tone="brand" iconStyle="plain" iconSize="xs" icon={<MessageSquare size={20} strokeWidth={1.75} />} title="xs" onClick={() => {}} className="w-[100px]" />
             <IconFeatureCard tone="brand" iconStyle="plain" iconSize="sm" icon={<MessageSquare size={24} strokeWidth={1.75} />} title="sm" onClick={() => {}} className="w-[120px]" />
@@ -3888,27 +3896,27 @@ const COMPONENTS: ComponentEntry[] = [
 
         {/* ─── surface (4 variants) ─── */}
         <div className="flex flex-col gap-stack">
-          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">surface · card / tinted / glass / frosted</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">surface · card / tinted / glass / frosted</p>
           {/* card + tinted sur fond clair */}
           <div className="flex flex-wrap gap-stack">
             <IconFeatureCard square surface="card" tone="brand" iconStyle="plain" iconSize="md" icon={<MessageSquare size={32} strokeWidth={1.75} />} title="card" onClick={() => {}} className="w-[140px]" />
             <IconFeatureCard square surface="tinted" tone="warm" iconStyle="bubble" iconSize="md" icon={<MapIcon size={22} strokeWidth={1.75} />} title="tinted" onClick={() => {}} className="w-[140px]" />
           </div>
           {/* glass + frosted sur fond gradient */}
-          <div className="rounded-2xl bg-gradient-to-br from-primary-500 via-primary-600 to-secondary-500 p-stack">
+          <div className="rounded-2xl bg-gradient-to-br from-primary-700 via-primary-800 to-secondary-700 p-stack-lg">
             <div className="flex flex-wrap gap-stack">
-              <IconFeatureCard square surface="glass" tone="brand" iconStyle="plain" iconSize="md" icon={<SparklesIcon size={32} strokeWidth={1.75} className="text-white" />} title="glass" onClick={() => {}} className="w-[140px] [&_h3]:text-white" />
-              <IconFeatureCard square surface="frosted" tone="sun" iconStyle="plain" iconSize="md" icon={<Star size={32} strokeWidth={1.75} className="text-white" />} title="frosted" onClick={() => {}} className="w-[140px] [&_h3]:text-white" />
+              <IconFeatureCard square surface="glass" tone="brand" iconStyle="plain" iconSize="md" icon={<Layers size={32} strokeWidth={1.75} />} title="glass" onClick={() => {}} className="w-[140px]" />
+              <IconFeatureCard square surface="frosted" tone="sun" iconStyle="plain" iconSize="md" icon={<Star size={32} strokeWidth={1.75} />} title="frosted" onClick={() => {}} className="w-[140px]" />
             </div>
           </div>
         </div>
 
         {/* ─── description optionnelle (sans / avec) ─── */}
         <div className="flex flex-col gap-stack">
-          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">description · optionnelle (sans = pure tile · avec = feature card)</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">description optionnelle — sans, une tuile ; avec, une carte</p>
           <div className="flex flex-wrap gap-stack items-start">
             <IconFeatureCard square tone="warm" iconStyle="plain" iconSize="md" icon={<Trophy size={32} strokeWidth={1.75} />} title="Sans desc" onClick={() => {}} className="w-[140px]" />
-            <IconFeatureCard tone="warm" iconStyle="plain" iconSize="md" icon={<Trophy size={32} strokeWidth={1.75} />} title="Avec desc" description="12 badges cette année" onClick={() => {}} className="w-[180px]" />
+            <IconFeatureCard tone="warm" iconStyle="plain" iconSize="md" icon={<Trophy size={32} strokeWidth={1.75} />} title="Avec desc" description="3 niveaux validés cette année" onClick={() => {}} className="w-[180px]" />
           </div>
         </div>
       </div>
@@ -3917,9 +3925,8 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ParcoursCard',
     codeName: 'patterns/ParcoursCard.tsx',
-    cssBase: 'Tailwind (no BEM) — Card variant="tinted" tone={tone}',
     usedBy: ['LearningPaths', 'Dashboard'],
-    description: 'Carte de parcours pour catalogues / hubs. Surface tinted gradient (via Card variant="tinted"). 3 tones (primary teal / warm orange / sun yellow). Titre h3 sans truncate + tooltip natif. MetaPills (durée + leçons). Description line-clamp-5 + tooltip natif si plus long. InlineProgress + CTA pill tone-aware (label dynamique selon status). Padding p-section uniform (32px), gap-stack interne (16px), grid gap-section recommandé (32px). Alignement inter-cards via min-h sur description + flex-1 spacer (progress + CTA toujours en bas). Hover: translateY(-4px) + shadow-lg + radial glow tone-aware. Focus-visible outline tone-aware. A11y: role=button, aria-label, tabIndex, native title tooltips.',
+    description: "Carte de parcours pour les catalogues : surface teintée (Card tinted) ou `outline`, trois tons. Titre h3 20 ink-900, 8 px, durée et leçons en MetaPillGroup sm, 12 px, description 16 ink-700 sur cinq lignes au plus ; en bas de carte, la progression (InlineProgress md) puis l'action de 44 px, libellé 16/700 selon l'état. Rayon 20, padding 24 ; halo radial au survol, sans soulèvement.",
     keywords: ['parcours', 'learning path', 'progress', 'tinted', 'tone', 'cta', 'glass', 'glow', 'hover', 'a11y'],
     render: () => (
       <CardGrid layout="default" gapSize="lg">
@@ -3962,13 +3969,12 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'SessionCard',
     codeName: 'learning/SessionCard.tsx',
-    cssBase: 'Tailwind (no BEM)',
     usedBy: ['Coaching', 'Dashboard'],
-    description: 'Card de session coaching (passée ou planifiée). 4 surfaces × 3 tones (primary/warm/sun). **Tone-aware action buttons** (Phase 19 fix) : boutons Questionnaire/Compte-rendu adaptent leur bg/border/shadow au tone de la card (`ACTION_BTN_TONES[tone]`). **Hover border tone-aware** : card surface `card` ajoute `hover:border-primary/secondary/accent-200` selon tone. Footer divider ton-aware. Surfaces glass/frosted pour overlays colorés.',
+    description: "Carte de session de coaching, planifiée ou terminée. État en Badge (« Planifiée », « Terminée »), date en légende 13, titre h3 20, le coach (Avatar sm, nom 16/600, rôle 13), description 16 ink-700 sur deux lignes ; sous un filet, les actions (questionnaire, compte rendu, note) et un Button soft sm. Rayon 20, padding 24. Surfaces card · tinted · glass · frosted · outline, trois tons ; une session terminée reste blanche.",
     keywords: ['session', 'coaching', 'meeting', 'past', 'planned', 'surface', 'tinted', 'glass', 'frosted'],
     render: () => (
       <div className="flex flex-col gap-stack">
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Surfaces · card (default) / tinted primary / tinted warm</p>
+        <p className="text-caption font-semibold text-ink-600 m-0">Surfaces · card (default) / tinted primary / tinted warm</p>
         <div className="flex flex-col gap-stack">
           <SessionCard
             title="Stratégie d'implémentation IA"
@@ -4009,8 +4015,8 @@ const COMPONENTS: ComponentEntry[] = [
           />
         </div>
 
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mt-stack">Surfaces · glass / frosted (sur fond coloré pour visualiser le blur)</p>
-        <div className="rounded-2xl bg-gradient-to-br from-primary-500 via-primary-600 to-secondary-500 p-stack flex flex-col gap-stack">
+        <p className="text-caption font-semibold text-ink-600 m-0 mt-stack">Surfaces · glass / frosted (sur fond coloré pour visualiser le blur)</p>
+        <div className="rounded-2xl bg-gradient-to-br from-primary-700 via-primary-800 to-secondary-700 p-stack-lg flex flex-col gap-stack">
           <SessionCard
             surface="glass"
             title="Session glass"
@@ -4035,14 +4041,13 @@ const COMPONENTS: ComponentEntry[] = [
   },
   {
     name: 'ResourceCard',
-    codeName: 'ResourceCard.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: 'Carte de ressource avec icône, type, titre, description, durée, catégorie, CTA. Variantes: default, minimal, with-badge. Tones: primary/warm/sun. **Usage cible Phase 10** : ressources complémentaires de fin d\'étape sur LearningPathDetail (PDF, vidéos externes, liens utiles après les leçons).',
+    codeName: 'ui/ResourceCard.tsx',
+    description: "Carte de ressource : icône et type (MetaPill sm), titre h3 20, description 16 ink-700, puis sous un filet la catégorie (MetaPill) et la durée (13 ink-600), avec l'action. Rayon 20, padding 24 (20 en `minimal`) ; `badge` pose un vrai Badge en haut à droite ; `href` en fait un lien. Tons primary · warm · sun. Pour les ressources complémentaires d'une fin d'étape.",
     keywords: ['resource', 'card', 'document', 'article', 'tutorial', 'link', 'badge', 'tone', 'complementary', 'learning-path'],
     render: () => (
       <div className="grid-2">
         <ResourceCard
-          resourceType="TUTORIEL"
+          resourceType="Tutoriel"
           title="Introduction au Prompt Engineering"
           description="Maîtrisez l'art de formuler des requêtes efficaces pour l'IA générative."
           duration="45 min"
@@ -4053,7 +4058,7 @@ const COMPONENTS: ComponentEntry[] = [
         />
         <ResourceCard
           variant="with-badge"
-          resourceType="DOSSIER"
+          resourceType="Dossier"
           title="IA & Marché du Travail 2026"
           description="Analyse complète des impacts de l'IA sur les métiers et compétences."
           duration="20 min"
@@ -4070,11 +4075,12 @@ const COMPONENTS: ComponentEntry[] = [
   /* ---- LEARNING (additional) -------------------------------------------- */
   {
     name: 'CompetencyMatrix',
-    codeName: 'CompetencyMatrix.tsx',
-    cssBase: 'CompetencyMatrix (table + inline styles)',
-    description: 'Tableau de compétences multi-dimensions. Niveaux 1–5 (Novice → Expert) avec icônes par niveau et code couleur par compétence.',
-    keywords: ['competency', 'matrix', 'skills', 'levels', 'table', 'assessment'],
+    codeName: 'ui/CompetencyMatrix.tsx',
+    description: "Tableau de compétences sur les cinq niveaux Dreyfus — Novice, Apprenant, Compétent, Expert, Maître —, pris à la source unique `DREYFUS_LABELS` depuis le 24/09 : ils étaient en anglais, et sur une autre échelle. En-têtes 13/600 ink-600 avec une icône par niveau, colonne « Compétence », noms 16/600 ink-900, cellules rondes de 40 px au filet 2 px, pleines une fois le niveau atteint (cran 700 ; l'or au 400, à l'encre accent-900), infobulle « Pas encore atteint » sinon. Les cellules se lisent, elles ne s'activent pas : depuis le 24/09, ni curseur main ni agrandissement au survol (40 → 44 px), les deux promesses d'un contrôle qu'aucune action ne tenait — ni gestionnaire, ni rôle, ni tabindex. Couleur par compétence ; `maxLevel`, `labels`, `onSkillHover` (branché nulle part). Aucune marge extérieure : elle portait un `mt-stack-lg` que le profil devait annuler. ⚠️ Une cellule ne dit son niveau que par l'infobulle `title` : rien pour un lecteur d'écran.",
+    keywords: ['competency', 'matrix', 'skills', 'levels', 'table', 'assessment', 'dreyfus', 'DREYFUS_LABELS', 'lecture', 'non interactif'],
+    usedBy: ['Profile (onglet Compétences)'],
     render: () => (
+      /* Les libellés par défaut sont ceux du Passeport : la démo n'en passe plus. */
       <CompetencyMatrix
         skills={[
           { name: 'Prompt Engineering', level: 4 },
@@ -4087,11 +4093,10 @@ const COMPONENTS: ComponentEntry[] = [
   },
   {
     name: 'GoalProgress',
-    codeName: 'GoalProgress.tsx',
-    cssBase: 'GoalProgress (inline styles)',
-    description: 'Suivi de progression vers un objectif d\'apprentissage: nom, %, temps restant, indicateur on-track/retard. Tones: primary/warm/success/danger.',
-    keywords: ['goal', 'progress', 'target', 'deadline', 'on-track', 'learning'],
-    usedBy: ['Passeport', 'PasseportObjectifs'],
+    codeName: 'ui/GoalProgress.tsx',
+    description: "Suivi d'un objectif : l'objectif en 16/600, une piste de 6 ou 8 px, puis « n % complété » et le temps restant (13 en sm, 16 en md). Un état qui mérite un signe en porte un, à droite de l'objectif : la coche d'un objectif atteint, l'alerte d'un retard ; « dans les temps » n'en a pas. Sous la piste, un message en 13 : « En retard sur l'échéance prévue », ou « Objectif atteint. Quel est le prochain ? », avec la même icône. Depuis le 24/09, plus d'étincelle — elle décorait « dans les temps » et « Objectif atteint », quand elle signale une fonction IA (DESIGN.md §10) — et le retard ne dit plus « Retard sur le calendrier — augmentez le rythme » : il poussait à accélérer, vouvoyait et portait un tiret cadratin. Tons primary · warm · success · danger — forcé à danger en retard, à success à 100 %.",
+    keywords: ['goal', 'progress', 'target', 'deadline', 'on-track', 'learning', 'objectif', 'retard', 'échéance'],
+    usedBy: ['Passeport'],
     render: () => (
       <div className="flex flex-col gap-stack">
         <GoalProgress goal="Terminer le parcours Leadership" percentComplete={72} daysRemaining={8} isOnTrack={true} tone="primary" />
@@ -4102,10 +4107,10 @@ const COMPONENTS: ComponentEntry[] = [
   },
   {
     name: 'QuizComponent',
-    codeName: 'QuizComponent.tsx',
-    cssBase: 'QuizComponent (inline styles)',
-    description: 'Quiz interactif multi-questions avec navigation prev/next, barre de progression, résultats finaux avec score et pourcentage.',
-    keywords: ['quiz', 'question', 'answer', 'test', 'assessment', 'score', 'interactive'],
+    codeName: 'ui/QuizComponent.tsx',
+    usedBy: ['LessonPlayer'],
+    description: "Quiz à plusieurs questions, dans une carte au rayon 20 (l'étage conteneur ; elle était au rayon 14 d'un bouton), padding 24, calée à gauche de sa colonne à la largeur de lecture (672 px) : elle se centrait elle-même, sur un autre axe que le titre de sa section. « Question n sur N » et pourcentage en 13/600, barre de 6 px, question en h3 20, options en rangées de 16. Après chaque réponse, le degré de confiance (`askConfidence`) : « Pas sûr », « Plutôt sûr », « Certain », trois réponses de même poids en Button soft neutre. Au pied, « Précédent » en ghost neutre, calé sur le bord du texte (`flush`), et « Suivant », puis « Valider », en soft brand : avancer est l'action de la carte, et la leçon garde son solid (arbitrage n°19) ; ces boutons étaient des aplats faits main. À la fin, « Quiz terminé » en h3 20 (un h2 dessiné à 20 jusqu'au 24/09), le score en `stat-value`, une phrase en 16 ink-700 et « Refaire le quiz » en soft brand.",
+    keywords: ['quiz', 'question', 'answer', 'test', 'assessment', 'score', 'interactive', 'aligné', 'gauche', 'confiance', 'calibration', 'soft', 'flush'],
     render: () => (
       <QuizComponent
         questions={[
@@ -4119,140 +4124,42 @@ const COMPONENTS: ComponentEntry[] = [
 
   /* ---- PATTERNS (additional) -------------------------------------------- */
   {
-    name: 'HeroSection',
-    codeName: 'patterns/HeroSection.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    usedBy: ['LearningPathDetail', 'Coaching'],
-    description: 'Hero canonique (absorbe DashboardHero + LearningPathHeader). 4 variants × 5 tones × 3 sizes. Props clés : showBackButton+onBack, progress+progressLabel, metadata (pills), kpis (grid KPI), actions, eyebrow. → Pour hero éditorial text-focused sans stats, utiliser EditorialHero.',
-    keywords: ['hero', 'section', 'header', 'gradient', 'glass', 'media', 'minimal', 'variants', 'dashboard', 'learning path', 'kpi', 'progress'],
-    render: () => (
-      <div className="flex flex-col gap-stack-lg">
-        {/* DNA 1 : LearningPath archetype — back btn + progress + metadata pills + KPIs (gradient saturé) */}
-        <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">
-            Archetype « LearningPath » — gradient · lg · back btn · progress · metadata · KPIs
-          </p>
-          <HeroSection
-            variant="gradient"
-            tone="primary"
-            size="lg"
-            showBackButton
-            onBack={() => {}}
-            eyebrow="Leadership"
-            title="Fondamentaux du Leadership"
-            description="Apprenez les principes essentiels du leadership moderne et développez vos compétences de management."
-            metadata={[
-              { icon: <GraduationCap size={14} />, text: 'Marie Dubois' },
-              { icon: <Clock3 size={14} />, text: '6 semaines' },
-              { icon: <BookOpen size={14} />, text: '12 leçons' },
-            ]}
-            progress={65}
-            progressLabel="8 / 12 leçons complétées"
-          />
-        </div>
-
-        {/* DNA 2 : Dashboard archetype — gradient + KPIs grid + dual CTA (white primary / glass ghost) */}
-        <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">
-            Archetype « Dashboard » — gradient · KPIs grid · dual CTA
-          </p>
-          <HeroSection
-            variant="gradient"
-            tone="warm"
-            eyebrow="Bienvenue"
-            title="Bonjour Jeanne"
-            description="Vous avez progressé de 12% cette semaine — continuez sur votre lancée."
-            kpis={[
-              { icon: <BookOpen size={20} />, value: 12, label: 'Cours complétés' },
-              { icon: <Trophy size={20} />, value: '2 450', label: 'Points XP' },
-              { icon: <Flame size={20} />, value: '7j', label: 'Série actuelle' },
-            ]}
-            actions={
-              <>
-                <button type="button" className="inline-flex items-center gap-stack-xs px-stack-lg py-2.5 rounded-pill bg-white text-ink-900 font-semibold cursor-pointer hover:-translate-y-0.5 transition-all shadow-md">
-                  Continuer mon parcours
-                </button>
-                <button type="button" className="inline-flex items-center gap-stack-xs px-stack-lg py-2.5 rounded-pill bg-white/15 text-white border border-white/30 font-semibold cursor-pointer hover:bg-white/25 backdrop-blur-sm transition-all">
-                  Explorer
-                </button>
-              </>
-            }
-          />
-        </div>
-
-        {/* DNA 3 : Glass archetype — frosted glass + texte sombre (pour pages secondaires) */}
-        <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">
-            Archetype « Glass » — glass · texte sombre (pages secondaires)
-          </p>
-          <HeroSection
-            variant="glass"
-            tone="primary"
-            icon={GraduationCap}
-            eyebrow="Mon apprentissage"
-            title="Mes Parcours"
-            description="Reprenez là où vous vous êtes arrêté(e) et explorez vos prochaines étapes."
-            size="md"
-          />
-        </div>
-
-        {/* DNA 4 : Minimal archetype — soft bg + outline (utility pages) */}
-        <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">
-            Archetype « Minimal » — soft bg · outline (pages utilitaires)
-          </p>
-          <HeroSection
-            variant="minimal"
-            tone="sun"
-            icon={Lightbulb}
-            eyebrow="Tip"
-            title="Coaching 1-to-1"
-            description="Sessions personnalisées avec des experts certifiés."
-            size="sm"
-          />
-        </div>
-
-        {/* DNA 5 : Media archetype — gradient + sparkles décoratives (celebration) */}
-        <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">
-            Archetype « Media » — gradient · sparkles décoratives (milestones / celebrations)
-          </p>
-          <HeroSection
-            variant="media"
-            tone="warm"
-            icon={Trophy}
-            eyebrow="Milestone"
-            title="Parcours complété"
-            description="Félicitations ! Continuez votre lancée avec le prochain parcours recommandé."
-            align="center"
-          />
-        </div>
-      </div>
-    ),
-  },
-  {
     name: 'ActivityFeed',
     codeName: 'patterns/ActivityFeed.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: 'Feed d\'activités chronologique. Lucide icons par type, Avatar pour actor, 2 layouts (timeline / cards), groupByDate optionnel. Empty state + load more.',
-    keywords: ['activity', 'feed', 'timeline', 'history', 'events', 'chronological', 'notification'],
+    usedBy: ['Dashboard', 'CoachLearnerProfile'],
+    description: "Fil d'activité chronologique : icônes Lucide par type, acteur en Avatar, trois dispositions — timeline, list (des rangées dans UNE carte, la disposition d'un fil, arbitrage n°5) et cards, gardée pour compatibilité. Titre 16/600 et heure 13 sur la ligne de base, description 16 ink-700 plafonnée à la largeur de lecture — au tableau de bord, elle courait sur 1 002 px ; regroupement par date (libellé 13/600), « Voir plus ». L'état vide tutoie l'apprenant, dont le fil vit sur le tableau de bord (arbitrage n°23) : « Aucune activité pour le moment », puis « Tes prochaines activités apparaîtront ici dès que tu commenceras à apprendre. » — il vouvoyait. Une surface qui vouvoie, ou qui montre le fil d'un autre (la fiche apprenant du coach), passe les siens par `emptyMessage` et `emptyDescription` (24/09).",
+    keywords: ['activity', 'feed', 'timeline', 'history', 'events', 'chronological', 'notification', 'empty', 'état vide', 'emptyDescription', 'emptyMessage', 'tu'],
     render: () => {
+      /* Des faits calmes (arbitrage n°18) : un niveau validé, pas un « badge
+         débloqué ». */
       const items = [
-        { id: '1', type: 'complete' as const, title: 'Leçon terminée', description: 'Module 3 — Prompt Engineering avancé', timestamp: new Date(Date.now() - 7200000) },
-        { id: '2', type: 'achievement' as const, title: 'Badge débloqué', description: 'Pionnier IA — Premier badge obtenu', timestamp: new Date(Date.now() - 86400000) },
-        { id: '3', type: 'feedback' as const, title: 'Feedback reçu', description: 'Sophie Martin a commenté votre session', timestamp: new Date(Date.now() - 172800000), actor: { name: 'Sophie Martin' }, actionLabel: 'Voir', onActionClick: () => {} },
-        { id: '4', type: 'progress' as const, title: 'Objectif atteint', description: '5 leçons complétées cette semaine', timestamp: new Date(Date.now() - 86400000 * 5) },
-        { id: '5', type: 'start' as const, title: 'Nouveau parcours commencé', description: 'Leadership & Communication', timestamp: new Date(Date.now() - 86400000 * 10) },
+        { id: '1', type: 'complete' as const, title: 'Leçon terminée', description: 'Module 3, Prompt engineering avancé', timestamp: new Date(Date.now() - 7200000) },
+        { id: '2', type: 'achievement' as const, title: 'Niveau validé', description: 'Leadership, niveau D3, validé par Sophie Martin', timestamp: new Date(Date.now() - 86400000) },
+        { id: '3', type: 'feedback' as const, title: 'Retour reçu', description: 'Sophie Martin a commenté ta session', timestamp: new Date(Date.now() - 172800000), actor: { name: 'Sophie Martin' }, actionLabel: 'Voir', onActionClick: () => {} },
+        { id: '4', type: 'progress' as const, title: 'Objectif atteint', description: '5 leçons terminées cette semaine', timestamp: new Date(Date.now() - 86400000 * 5) },
+        { id: '5', type: 'start' as const, title: 'Nouveau parcours commencé', description: 'Leadership et communication', timestamp: new Date(Date.now() - 86400000 * 10) },
       ];
       return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
-          <div>
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">Layout: timeline + groupByDate</p>
-            <ActivityFeed items={items} layout="timeline" groupByDate />
+        <div className="flex flex-col gap-section">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
+            <div>
+              <p className="text-caption font-semibold text-ink-600 mb-3">timeline, groupée par date</p>
+              <ActivityFeed items={items} layout="timeline" groupByDate />
+            </div>
+            <div>
+              <p className="text-caption font-semibold text-ink-600 mb-3">list — des rangées dans une carte</p>
+              <ActivityFeed items={items.slice(0, 3)} layout="list" />
+            </div>
           </div>
-          <div>
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">Layout: cards</p>
-            <ActivityFeed items={items.slice(0, 3)} layout="cards" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
+            <div>
+              <p className="text-caption font-semibold text-ink-600 mb-3">Vide · la voix de l'apprenant, par défaut</p>
+              <ActivityFeed items={[]} />
+            </div>
+            <div>
+              <p className="text-caption font-semibold text-ink-600 mb-3">Vide · le fil d'un autre, `emptyDescription`</p>
+              <ActivityFeed items={[]} emptyMessage="Aucune activité récente" emptyDescription="Les activités de Camille apparaîtront ici dès qu'elle reprendra son parcours." />
+            </div>
           </div>
         </div>
       );
@@ -4262,9 +4169,8 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ActivityTimeline',
     codeName: 'patterns/ActivityTimeline.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    usedBy: ['Dashboard', 'Journal', 'Passeport', 'Coaching'],
-    description: 'Timeline verticale d\'activités avec connecteur et dot tonal. 5 tones (primary/warm/sun/success/warning). Statuts : completed / pending / in-progress (pulse animé). Différent d\'ActivityFeed : plus compact, pensé pour les flux séquentiels (historique linéaire).',
+    showcaseOnly: true,
+    description: "Chronologie verticale : pastille ronde de 40 px au dégradé du ton (ou point de 12 px sans icône) et connecteur ; titre 16/600 et date 13 ink-600 sur la ligne de base, description 16 ink-700, 24 px entre les étapes. Cinq tons (primary · warm · sun · success · warning), trois statuts : completed et in-progress — pastille pleine —, pending — pointillés, titre en ink-600. Un jalon en cours ne pulse plus (arbitrage n°16, pas de mouvement permanent pour dire un état) : il se lit à sa place, entre les faits et les « à venir », et à son titre. Plus compacte qu'ActivityFeed, pour un historique linéaire. Aucun appel produit : les quatre pages que la fiche citait ne l'emploient pas.",
     keywords: ['timeline', 'activity', 'events', 'vertical', 'connector', 'tone', 'status', 'dot', 'chronological'],
     render: () => (
       <ActivityTimeline
@@ -4282,32 +4188,31 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'AuthorStrip',
     codeName: 'patterns/AuthorStrip.tsx',
-    cssBase: 'Tailwind (no BEM)',
     usedBy: ['ArticleDetail (Tier 2)', 'MagazineArticle (Tier 2)', 'JournalDetail (Tier 2)', 'EditorialQuoteCallout signature'],
-    description: '⭐ Inline author meta strip — avatar + nom + rôle + meta (date, readTime). 2 variants : `compact` (1 ligne) et `expanded` (2 lignes avec rôle visible et meta wrapping). Réutilisable pour toutes les pages éditoriales.',
+    description: "La signature d'un contenu éditorial : avatar, nom 16/600 ink-900 et, en compact, le rôle sur la même ligne (« · Rôle », 13 ink-600) ; dessous, à 2 px, la méta en 13 ink-600 — date, durée — séparée par « · ». `expanded` passe le rôle sur sa propre ligne, avec un avatar plus grand.",
     keywords: ['author', 'byline', 'meta', 'avatar', 'editorial', 'article', 'strip'],
     render: () => (
       <div className="flex flex-col gap-stack-lg">
         <div>
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">Compact (default)</p>
+          <p className="text-caption font-semibold text-ink-600 mb-3">compact, le défaut</p>
           <AuthorStrip
             name="Marie Dubois"
             role="Senior Editor TLS"
             meta={[
-              { icon: <Calendar size={12} />, text: '12 mai 2026' },
-              { icon: <Clock3 size={12} />,    text: '6 min de lecture' },
+              { icon: <Calendar size={14} />, text: '12 mai 2026' },
+              { icon: <Clock3 size={14} />,    text: '6 min de lecture' },
             ]}
           />
         </div>
         <div>
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">Expanded</p>
+          <p className="text-caption font-semibold text-ink-600 mb-3">expanded</p>
           <AuthorStrip
             variant="expanded"
             name="Pierre Leclerc"
             role="Lead Pédagogie · The Learning Society"
             meta={[
-              { icon: <Calendar size={12} />, text: '8 mai 2026' },
-              { icon: <Clock3 size={12} />,    text: '12 min de lecture' },
+              { icon: <Calendar size={14} />, text: '8 mai 2026' },
+              { icon: <Clock3 size={14} />,    text: '12 min de lecture' },
             ]}
           />
         </div>
@@ -4317,9 +4222,8 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'IntroCallout',
     codeName: 'patterns/IntroCallout.tsx',
-    cssBase: 'Tailwind (no BEM)',
     usedBy: ['ArticleDetail (Tier 2)', 'MagazineArticle (Tier 2)', 'Dossier (Tier 2)'],
-    description: '⭐ Lead paragraph card glass tone-aware avec gradient accent bar à gauche. Optionnel : eyebrow + icon Quote. 4 tons (brand/warm/sun/neutral). Utilisé en haut d\'un article long sous le hero.',
+    description: "Le chapô d'un article long, en encart sous le hero : surtitre optionnel 13/600 ink-600, 8 px, texte au chapô 18/28 ink-900 à la largeur de lecture ; en option, une pastille ronde de 40 px avec un guillemet (`withQuoteIcon`). Rayon 14, padding 20 puis 24. Quatre tons (brand · warm · sun · neutral). La barre d'accent à gauche a été retirée le 24/09.",
     keywords: ['intro', 'callout', 'lead', 'paragraph', 'editorial', 'thesis', 'glass'],
     render: () => (
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-stack-lg">
@@ -4341,9 +4245,8 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'KeyFindingCard',
     codeName: 'patterns/KeyFindingCard.tsx',
-    cssBase: 'Tailwind (no BEM)',
     usedBy: ['Dossier (Tier 2)', 'MagazineArticle (Tier 2)'],
-    description: '⭐ Glass card horizontale pour "points clés / insights / data findings". Icon-bubble gradient tone-aware + title + description ou metric (big value + label). Layout `horizontal` (default) ou `stacked`.',
+    description: "Point clé d'un dossier : pastille d'icône de 48 px, titre h3 20, un chiffre au pas h2 (28, au cran 800) avec sa légende 13, et une description 16 ink-700. Disposition horizontale — le texte se cale sur la première ligne de la pastille — ou empilée ; cinq tons ; surface en verre.",
     keywords: ['key', 'finding', 'insight', 'data', 'metric', 'glass', 'icon-bubble'],
     render: () => (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
@@ -4380,9 +4283,8 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'EditorialQuoteCallout',
     codeName: 'patterns/EditorialQuoteCallout.tsx',
-    cssBase: 'Tailwind (no BEM)',
     usedBy: ['WeeklyNewsletter édito (Tier 2)', 'Magazine foreword (Tier 2)', 'Dossier intro thèse (Tier 2)'],
-    description: '⭐ Pattern signature : grand guillemet décoratif 3rem en icon-bubble tinted + texte italique multi-paragraphes + signature optionnelle (via AuthorStrip). Pour intros éditoriales hebdo, foreword magazine, intro dossier.',
+    description: "Citation éditoriale signée (édito hebdomadaire, avant-propos, thèse d'un dossier) : pastille de 56 puis 64 px avec un guillemet de 28, surtitre 13/600 ink-600, 16 px, citation en Nunito italique 18/28 ink-900 à la largeur de lecture, sur plusieurs paragraphes, 16 px, signature par AuthorStrip. Padding 24, 32 puis 40 selon la largeur.",
     keywords: ['quote', 'editorial', 'callout', 'foreword', 'intro', 'italic', 'signature'],
     render: () => (
       <EditorialQuoteCallout
@@ -4398,14 +4300,13 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ReadingProgress',
     codeName: 'patterns/ReadingProgress.tsx',
-    cssBase: 'Tailwind (no BEM)',
     usedBy: ['ArticleDetail (Tier 2)', 'MagazineArticle (Tier 2)', 'Dossier (Tier 2)', 'LessonPlayer (futur)'],
-    description: '⭐ 2 sub-composants pilotés par le hook `useReadingProgress(targetRef?)` : (1) `<ReadingProgressBar>` fixed top + gradient tone-aware, (2) `<ReadingProgressRing>` SVG circular 40px avec label %. Passer un ref article pour mesurer le scroll précis ou omettre pour le document entier.',
+    description: "Deux indicateurs pilotés par `useReadingProgress(ref?)`, de 0 à 100. ReadingProgressBar : un filet en haut de fenêtre (`fixed`), au dégradé du ton, de 2 px par défaut. ReadingProgressRing : un anneau de 44 px par défaut (trait de 3) ; le pourcentage — 13/600 tabulaire au cran 800 — ne s'écrit qu'à partir de 44 px, et les pages l'emploient à 32 : la valeur n'y est donnée qu'aux lecteurs d'écran. Quatre tons.",
     keywords: ['reading', 'progress', 'scroll', 'indicator', 'bar', 'ring', 'circular', 'article'],
     render: () => (
       <div className="flex flex-col gap-stack-lg">
         <div>
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">ReadingProgressBar — tones (relative position pour la démo)</p>
+          <p className="text-caption font-semibold text-ink-600 mb-3">ReadingProgressBar — trois tons, posés dans la page pour la démo</p>
           <div className="flex flex-col gap-stack-xs">
             <div className="relative h-6 bg-ink-50 rounded-md overflow-hidden">
               <ReadingProgressBar tone="brand" fixed={false} height={6} className="absolute inset-0" />
@@ -4417,10 +4318,10 @@ const COMPONENTS: ComponentEntry[] = [
               <ReadingProgressBar tone="sun" fixed={false} height={6} className="absolute inset-0" />
             </div>
           </div>
-          <p className="text-micro text-ink-400 mt-stack-xs">Note : en usage normal, `fixed=true` (défaut) ancre la barre au top du viewport.</p>
+          <p className="text-caption text-ink-600 mt-stack-xs">En usage normal, `fixed` (le défaut) ancre la barre en haut de la fenêtre.</p>
         </div>
         <div>
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">ReadingProgressRing — 4 tones</p>
+          <p className="text-caption font-semibold text-ink-600 mb-3">ReadingProgressRing — quatre tons à 44 px, puis 56 px</p>
           <div className="flex items-center gap-stack-lg">
             <ReadingProgressRing tone="brand" />
             <ReadingProgressRing tone="warm" />
@@ -4435,14 +4336,13 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'TableOfContents',
     codeName: 'patterns/TableOfContents.tsx',
-    cssBase: 'Tailwind (no BEM)',
     usedBy: ['Dossier (Tier 2)', 'LessonPlayer (futur)'],
-    description: '⭐ Sticky aside navigation avec scroll-spy via IntersectionObserver. Numérotation auto (01, 02…), check icon sur items `completed`, active state coloré (tone-aware), hover translate-x, smooth scroll au clic avec offset configurable.',
+    description: "Sommaire d'un long contenu, qui suit le défilement (IntersectionObserver) : titre 13/600 ink-600, entrées de 44 px en 16 ink-600 numérotées (« 01 », 13/600 tabulaire) ; l'entrée active passe sur le fond du ton au cran 50, libellé 800 en 600 ; une étape terminée prend une coche. Défilement doux au clic, avec un décalage réglable (`scrollOffset`). Quatre tons ; c'est la page qui le rend collant.",
     keywords: ['toc', 'table-of-contents', 'sommaire', 'navigation', 'sticky', 'scroll-spy', 'sidebar'],
     render: () => (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
         <div>
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">Tone warm (default)</p>
+          <p className="text-caption font-semibold text-ink-600 mb-3">Ton warm</p>
           <TableOfContents
             tone="warm"
             items={[
@@ -4455,7 +4355,7 @@ const COMPONENTS: ComponentEntry[] = [
           />
         </div>
         <div>
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">Tone brand</p>
+          <p className="text-caption font-semibold text-ink-600 mb-3">Ton brand (le défaut), titre remplacé</p>
           <TableOfContents
             tone="brand"
             title="Chapitres"
@@ -4474,20 +4374,19 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'FilterBar',
     codeName: 'forms/FilterBar.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    usedBy: ['LearningPaths (glass variant in hero Search)', 'Veille (filter type drawer)', 'Recherche (4 types sticky)', 'Notifications (à venir)', 'Listings n-1 (Actus/Tutoriels/Dossiers à venir)'],
-    description: '⭐ Refactored Tailwind — barre de filtre horizontale avec pills clickables. Supporte multi-select / single-select, count badges, clear-all, 4 tons, 2 variantes (solid/glass), 2 surfaces (tinted/plain), 2 sizes (sm/md). Pour toolbar inline (Search filtersSlot) ou standalone entre hero et listing. Glass variant idéal pour héros gradients.',
-    keywords: ['filter', 'pills', 'chips', 'toolbar', 'multi-select', 'count', 'clear-all', 'glass'],
+    usedBy: ['Help (sm, « Sujets populaires »)', 'Messages (sm)'],
+    description: "Barre de filtres en pastilles, pour une barre d'outils (dans le `filtersSlot` de Search) ou entre un hero et une liste : choix multiple ou unique, compteurs, « Effacer », quatre tons, variantes solid · glass · glass-inverse, surfaces tinted · plain, tailles sm et md. Le nom du groupe (`label`) a la voix d'un libellé de champ : 16/600, casse normale, ink-900 — blanc sur les variantes verre ; il était en étiquette, 11 px capitales ink-500, la voix d'un Badge. « Effacer » parle la voix de la barre depuis le 24/09 : un Button neutre, icône X, qui n'apparaît qu'avec une sélection — `link` en 13 dans la barre sm (pastilles de 28 px) : sans boîte, il ne la fait pas grandir ; `ghost` en 16 dans la barre md, à la hauteur des pastilles (44 px) ; `ghost onDark`, blanc, sur les variantes verre, le `link` n'ayant pas de version sur fond sombre. C'était un bouton fait main en 11/700 ink-500, plus faible que les filtres qu'il efface. ⚠️ En verre sm, ce ghost de 36 px fait passer la barre de 28 à 36 px dès qu'un filtre est actif (la démo sur le hero le montre ; aucune page n'emploie cette variante).",
+    keywords: ['filter', 'pills', 'chips', 'toolbar', 'multi-select', 'count', 'clear-all', 'glass', 'label', 'groupe', 'Effacer', 'link', 'ghost', 'onDark'],
     render: () => {
       const FilterBarDemo: React.FC = () => {
         const [s1, setS1] = useState<string[]>(['all']);
         const [s2, setS2] = useState<string[]>(['unread', 'mention']);
-        const [s3, setS3] = useState<string[]>([]);
+        const [s3, setS3] = useState<string[]>(['int']);
         const [s4, setS4] = useState<string[]>(['en cours']);
         return (
           <div className="flex flex-col gap-stack-lg">
             <div>
-              <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">Single-select · brand · tinted · solid</p>
+              <p className="text-caption font-semibold text-ink-600 mb-3">Choix unique · brand · tinted · solid</p>
               <FilterBar
                 surface="tinted"
                 tone="brand"
@@ -4507,7 +4406,7 @@ const COMPONENTS: ComponentEntry[] = [
             </div>
 
             <div>
-              <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">Multi-select · warm · plain · with icons</p>
+              <p className="text-caption font-semibold text-ink-600 mb-3">Choix multiple · warm · plain · avec icônes · md : « Effacer » en ghost 16</p>
               <FilterBar
                 tone="warm"
                 label="Filtrer"
@@ -4523,7 +4422,7 @@ const COMPONENTS: ComponentEntry[] = [
             </div>
 
             <div>
-              <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">Multi-select · sun · size sm</p>
+              <p className="text-caption font-semibold text-ink-600 mb-3">Choix multiple · sun · taille sm : « Effacer » en lien 13</p>
               <FilterBar
                 tone="sun"
                 size="sm"
@@ -4538,8 +4437,8 @@ const COMPONENTS: ComponentEntry[] = [
               />
             </div>
 
-            <div className="rounded-xl p-stack-lg bg-gradient-to-r from-primary-500 to-primary-700">
-              <p className="text-caption font-bold uppercase tracking-wider text-white mb-3">Glass variant · on gradient hero</p>
+            <div className="rounded-xl p-stack-lg bg-gradient-to-r from-primary-700 to-primary-800">
+              <p className="text-caption font-semibold text-white mb-3">Variante glass · sur un hero en dégradé : « Effacer » en ghost onDark</p>
               <FilterBar
                 tone="brand"
                 variant="glass"
@@ -4562,34 +4461,10 @@ const COMPONENTS: ComponentEntry[] = [
 
   /* ---- FEEDBACK & STATUS -------------------------------------------------- */
   {
-    name: 'Spinner',
-    codeName: 'ui/Spinner.tsx',
-    cssBase: '.tls-spinner / .tls-spinner--{size} / .tls-spinner--{tone}',
-    showcaseOnly: false,
-    usedBy: ['Recherche'],
-    description: 'Indicateur de chargement animé. Tailles : sm (20px), md (32px), lg (48px). Tones : brand (teal), warm (orange), muted (gris). Utilisé dans Recherche comme trailing slot du SearchInput pendant le debounce.',
-    keywords: ['spinner', 'loading', 'loader', 'indicator', 'async', 'wait'],
-    render: () => (
-      <div className="vstack gap-stack-lg">
-        <div className="hstack items-center gap-stack-lg">
-          <Spinner size="sm" />
-          <Spinner size="md" />
-          <Spinner size="lg" />
-        </div>
-        <div className="hstack items-center gap-stack-lg">
-          <Spinner size="md" tone="brand" label="Chargement..." />
-          <Spinner size="md" tone="warm" />
-          <Spinner size="md" tone="muted" />
-        </div>
-      </div>
-    ),
-  },
-  {
     name: 'NotificationBadge',
     codeName: 'ui/NotificationBadge.tsx',
-    cssBase: '.notif-badge / .notif-badge--{tone}',
     showcaseOnly: true,
-    description: 'Badge numérique superposé sur un enfant (icône, avatar). Tones : danger, brand, warm. Max configurable (99 par défaut).',
+    description: "Compteur posé sur un enfant (icône, avatar) : pastille de 16 px en 11/700 tabulaire, blanc sur le cran 700 (ou danger-strong), liseré blanc. Tons danger · brand · warm ; « 99+ » au-delà de `max` (99) ; rien à zéro.",
     keywords: ['notification', 'badge', 'count', 'overlay', 'indicator', 'unread'],
     render: () => (
       <div className="hstack gap-section items-center flex-wrap">
@@ -4606,47 +4481,63 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'SectionHeader',
     codeName: 'patterns/SectionHeader.tsx',
-    cssBase: 'SectionHeader (canonical section heading)',
-    usedBy: ['LearningPathDetail', 'Dashboard', 'Journal'],
-    description: 'En-tête de section CANONIQUE. 5 variants (default tinted bubble / solid filled bubble / minimal stroke inline / accent vertical bar / underline) × 4 sizes (xs h5 → lg h2) × 5 tones (primary/warm/sun/accent/neutral). Sub-title, action slot, divider optionnel. ⚠️ Ne pas mettre mb-* sur le wrapper — le parent contrôle le rythme vertical via gap-*.',
-    keywords: ['section', 'header', 'title', 'icon', 'h2', 'h3', 'h4', 'action', 'divider', 'variants', 'sizes', 'filled', 'stroke', 'tinted', 'solid', 'minimal', 'accent', 'underline', 'canonical'],
+    usedBy: ['Dashboard', 'Journal', 'LearningPathDetail', 'et 86 autres pages (24/09)'],
+    description: "L'en-tête de section canonique : titre, sous-titre, méta, action, pastille d'icône optionnelle. Le niveau se choisit par `as` (h2 par défaut, h3, h4), indépendamment de la taille. Tailles : md, le défaut, et lg → titre h2 28/36 ; sm et xs → titre h3 20/26. La pastille est un IconChip (arbitrage n°3) : 32 · 32 · 40 · 48 px de xs à lg, au rayon proportionnel, glyphe au cran 800 ; la première ligne du titre se centre sur elle. Sous-titre 16 ink-700 à la largeur de lecture et méta en légende 13 ink-600, chacun à 4 px. L'en-tête est une rangée qui se replie : le titre réclame 16rem à côté de l'action, sinon l'action passe dessous, à 8 px, calée à gauche — la règle mesure la place réelle, pas la fenêtre. Un `Button` passé en action reçoit `flush=\"both\"`, sauf s'il porte le sien : un ghost y cale son libellé sur le bord droit de l'en-tête à côté du titre, sur le bord gauche du titre quand il passe dessous ; un soft ou un outline gardent leur boîte alignée. Variantes default · minimal · underline ; cinq tons, `accent` rejoignant `sun`. `solid` est déprécié et rend la même pastille que default ; `iconClassName` est retiré, `compact` déprécié (= sm). Aucune marge extérieure : la page pose 48 px au-dessus et 16 en dessous.",
+    keywords: ['section', 'header', 'titre', 'title', 'icon', 'IconChip', 'pastille', 'h2', 'h3', 'h4', 'as', 'meta', 'subtitle', 'action', 'wrap', 'replie', '16rem', 'divider', 'variants', 'sizes', 'solid', 'minimal', 'underline', 'canonical', 'flush', 'ghost', 'Tout voir'],
     render: () => (
       <div className="flex flex-col gap-section">
-        {/* Variants showcase (size md, tone primary) */}
+        {/* Tailles : de lg à xs, pour que les niveaux ne sautent pas (h2, h2, h3, h3). */}
         <div className="flex flex-col gap-stack p-stack-md rounded-xl bg-ink-50/50 border border-ink-200">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">5 variants · size md · tone primary</p>
-          <SectionHeader variant="default" icon={Calendar} title="Default — tinted bubble" subtitle="bg-{tone}-50 + tone icon (legacy)" />
-          <SectionHeader variant="solid" icon={Calendar} title="Solid — filled bubble" subtitle="bg-gradient {tone}-500→700 + white icon (strong CTA)" />
-          <SectionHeader variant="minimal" icon={Calendar} title="Minimal — stroke inline" subtitle="No bubble, premium/airy" />
-          <SectionHeader variant="accent" icon={Calendar} title="Accent — vertical bar" subtitle="Tone-colored bar before title" />
-          <SectionHeader variant="underline" icon={Calendar} title="Underline — accent line" subtitle="Subtle tone underline under title" />
+          <p className="text-caption font-semibold text-ink-600">Quatre tailles · variante default · ton warm</p>
+          <SectionHeader size="lg" tone="warm" icon={Calendar} title="lg · h2 28, pastille 48" />
+          <SectionHeader size="md" tone="warm" icon={Calendar} title="md · h2 28, pastille 40 — le défaut" />
+          <SectionHeader size="sm" tone="warm" icon={Calendar} title="sm · h3 20, pastille 32" as="h3" />
+          <SectionHeader size="xs" tone="warm" icon={Calendar} title="xs · h3 20, pastille 32, serré" as="h3" />
         </div>
 
-        {/* Sizes showcase (variant solid, tone warm) */}
-        <div className="flex flex-col gap-stack p-stack-md rounded-xl bg-secondary-50/30 border border-secondary-200">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">4 sizes · variant solid · tone warm</p>
-          <SectionHeader size="xs" variant="solid" tone="warm" icon={Calendar} title="Size xs — h5" />
-          <SectionHeader size="sm" variant="solid" tone="warm" icon={Calendar} title="Size sm — h4" />
-          <SectionHeader size="md" variant="solid" tone="warm" icon={Calendar} title="Size md — h3 (default)" />
-          <SectionHeader size="lg" variant="solid" tone="warm" icon={Calendar} title="Size lg — h2" />
-        </div>
-
-        {/* Tones showcase (variant default, size md) */}
+        {/* Variantes (taille md, ton primary) */}
         <div className="flex flex-col gap-stack p-stack-md rounded-xl bg-ink-50/50 border border-ink-200">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">5 tones · variant default</p>
-          <SectionHeader variant="default" tone="primary" icon={Calendar} title="Tone primary (teal)" />
-          <SectionHeader variant="default" tone="warm" icon={Calendar} title="Tone warm (orange)" />
-          <SectionHeader variant="default" tone="sun" icon={Calendar} title="Tone sun (yellow)" />
-          <SectionHeader variant="default" tone="accent" icon={Calendar} title="Tone accent" />
-          <SectionHeader variant="default" tone="neutral" icon={Calendar} title="Tone neutral (ink)" />
+          <p className="text-caption font-semibold text-ink-600">Trois variantes · taille md · ton primary</p>
+          <SectionHeader variant="default" icon={Calendar} title="default — la pastille IconChip" subtitle="Fond du ton au cran 50, glyphe au 800." />
+          <SectionHeader variant="minimal" icon={Calendar} title="minimal — icône seule" subtitle="Sans pastille." />
+          <SectionHeader variant="underline" icon={Calendar} title="underline — trait sous le titre" subtitle="Un trait du ton, sous la première ligne." />
         </div>
 
-        {/* Real usage examples */}
+        {/* Tons (variante default, taille sm) */}
+        <div className="flex flex-col gap-stack p-stack-md rounded-xl bg-ink-50/50 border border-ink-200">
+          <p className="text-caption font-semibold text-ink-600">Cinq tons · variante default · taille sm</p>
+          <SectionHeader size="sm" as="h3" variant="default" tone="primary" icon={Calendar} title="primary" />
+          <SectionHeader size="sm" as="h3" variant="default" tone="warm" icon={Calendar} title="warm" />
+          <SectionHeader size="sm" as="h3" variant="default" tone="sun" icon={Calendar} title="sun" />
+          <SectionHeader size="sm" as="h3" variant="default" tone="accent" icon={Calendar} title="accent" />
+          <SectionHeader size="sm" as="h3" variant="default" tone="neutral" icon={Calendar} title="neutral" />
+        </div>
+
+        {/* En situation : sous-titre, méta, action */}
         <div className="flex flex-col gap-stack">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Usage examples</p>
-          <SectionHeader icon={Calendar} title="Prochaine session" subtitle="Votre prochain rendez-vous de coaching" action={<button className="text-caption text-primary-600 hover:underline">Voir tout →</button>} />
-          <SectionHeader icon="⚡" title="Actions rapides" subtitle="ReactNode/emoji icon supporté" />
-          <SectionHeader title="Sans icône" subtitle="Section minimale" divider />
+          <p className="text-caption font-semibold text-ink-600">En situation · sous-titre, méta et action · le libellé du ghost « Voir tout » tombe sur le bord droit</p>
+          <SectionHeader
+            icon={BookOpen}
+            title="Mes parcours"
+            subtitle="Ceux que tu as commencés, du plus récent au plus ancien."
+            meta="3 en cours · 1 terminé"
+            action={<Button emphasis="ghost" size="sm" trailingIcon={<ArrowRight />}>Voir tout</Button>}
+          />
+          <SectionHeader title="Sans icône, avec un filet" subtitle="La variante la plus sobre." divider />
+        </div>
+
+        {/* Le repli : la colonne ne laisse pas 16rem au titre à côté de
+            l'action, qui passe dessous. Même composant, même props. */}
+        <div className="flex flex-col gap-stack">
+          <p className="text-caption font-semibold text-ink-600">Dans une colonne de 320 px · l'action passe sous le titre, son libellé calé sur le bord gauche</p>
+          <div className="max-w-[320px]">
+            <SectionHeader
+              icon={BookOpen}
+              title="Mes parcours"
+              meta="3 en cours · 1 terminé"
+              action={<Button emphasis="ghost" size="sm" trailingIcon={<ArrowRight />}>Voir tout</Button>}
+            />
+          </div>
         </div>
       </div>
     ),
@@ -4654,8 +4545,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'SkillBar',
     codeName: 'ui/SkillBar.tsx',
-    cssBase: 'SkillBar (tokens inline)',
-    description: 'Barre de progression de compétence. Tones : brand (teal), warm (orange), sun (jaune). Affichage du pourcentage optionnel. Transition CSS animée.',
+    description: "Barre d'une compétence : libellé 16/600 ink-900, valeur en League Spartan 16/700 tabulaire au cran 800 (« 95 % »), 8 px, piste de 8 px. Tons brand · warm · sun ; valeur masquable (`showValue`).",
     keywords: ['skill', 'bar', 'progress', 'competency', 'percentage', 'profile', 'level'],
     render: () => (
       <div className="vstack gap-stack-xs max-w-[480px]">
@@ -4669,23 +4559,30 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'PageHeader',
     codeName: 'patterns/PageHeader.tsx',
-    cssBase: 'PageHeader (canonical page-level header)',
-    showcaseOnly: true,
-    description: 'En-tête de page CANONIQUE. Eyebrow chip avec icône, titre h1 responsive (clamp), description, actions. Variants: default | tight. Align: left | center.',
-    keywords: ['page', 'header', 'eyebrow', 'title', 'description', 'actions', 'h1', 'canonical'],
+    usedBy: ['OnboardingQuestionnaire', 'OnboardingTutorial', 'OnboardingPreview', 'SubscriptionPayment'],
+    description: "En-tête de page utilitaire, sans hero : surtitre 13/600 ink-600 avec son icône, 8 px, h1 36/44/700, 12 px, chapô 18/28 ink-700 à la largeur de lecture ; actions à droite, ou dessous en `align=\"center\"`. Aucune marge extérieure depuis le 24/09 (piège n°12) : l'espace sous lui appartient au parent — 48 px entre les blocs d'un PageShell, ou `gap-section` (32) quand l'en-tête et son contenu forment un bloc, comme dans l'onboarding. Il portait 40 px (32 en `tight`) qui s'ajoutaient au gap de la coque ; `variant` est déprécié et sans effet. Quatre écrans d'onboarding et de souscription l'emploient ; les pages principales ouvrent par PageHero.",
+    keywords: ['page', 'header', 'eyebrow', 'title', 'description', 'actions', 'h1', 'align', 'center', 'marge', 'canonical'],
     render: () => (
-      <div className="vstack gap-section">
+      <div className="flex flex-col gap-page">
+        {/* L'en-tête et son contenu forment un bloc : les 32 px viennent du
+            parent (`gap-section`). Le composant n'en pose plus aucun. Entre
+            les deux démos, 48 : plus loin que l'en-tête ne l'est de son contenu. */}
+        <div className="flex flex-col gap-section">
+          <PageHeader
+            eyebrow={{ icon: <GraduationCap size={14} />, text: 'Mon parcours' }}
+            title="Fondamentaux du Leadership"
+            description="Apprenez les principes essentiels du leadership moderne et développez votre style unique."
+            actions={<><Button emphasis="ghost" size="sm">Partager</Button><Button emphasis="solid" size="sm">Continuer</Button></>}
+          />
+          <p className="rounded-xl border border-dashed border-primary-300 bg-primary-50/40 p-stack-lg text-body text-ink-700">
+            Le contenu de la page. Les 32 px au-dessus appartiennent au parent (<code className="font-mono text-caption">gap-section</code>), pas à l’en-tête.
+          </p>
+        </div>
         <PageHeader
-          eyebrow={{ icon: <GraduationCap size={14} />, text: 'Mon parcours' }}
-          title="Fondamentaux du Leadership"
-          description="Apprenez les principes essentiels du leadership moderne et développez votre style unique."
-          actions={<><Button emphasis="soft" tone="warm" size="sm">Partager</Button><Button emphasis="soft" size="sm">Continuer</Button></>}
-        />
-        <PageHeader title="Tableau de bord" description="Bienvenue, retrouvez votre progression." />
-        <PageHeader
-          variant="tight"
-          title="Réglages"
-          description="Compact (variant=tight) pour les pages secondaires."
+          align="center"
+          title="Bienvenue dans ton espace"
+          description={'align="center" : le titre et le chapô se centrent, les actions passent dessous.'}
+          actions={<Button emphasis="soft" size="sm">Commencer</Button>}
         />
       </div>
     ),
@@ -4693,53 +4590,82 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ViewerHeader',
     codeName: 'patterns/ViewerHeader.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    usedBy: ['Positionnement', 'AstucesViewer', 'FlashcardsViewer', 'LessonPlayer', '(target) VideoViewer, ComplementaryContentViewer, VideoReels, JournalDetail'],
-    description: 'Sticky toolbar pour pages viewer / reader plein écran. Back btn (gauche) + Title eyebrow/subtitle (centré) + counter "X/Y" + prev/next chevrons + close X (droite). Glass-light backdrop-blur, responsive (back label hidden mobile, title truncate). Phase 14.2a : tone-aware (primary/warm/sun), progress prop optionnelle (barre 0-100 sous le header), touch targets ≥ 44 px.',
-    keywords: ['viewer', 'reader', 'toolbar', 'header', 'prev-next', 'navigation', 'back', 'close', 'sticky', 'glass'],
+    usedBy: ['LessonPlayer', 'FlashcardsViewer', 'AstucesViewer', 'VideoViewer', 'ComplementaryContentViewer', 'Positionnement'],
+    description: "La barre des lecteurs plein écran : leçon, flashcards, astuces, vidéo, ressources complémentaires, positionnement. Retour à gauche, un Button ghost neutre comme ses voisins : dès 640 px, le libellé en sm (13/700, cible tactile de 44) — en 16/700 il pèserait plus que le titre —, en dessous l'icône seule, un cercle de 44. Au centre, le titre en 16/600 ink-900 et une seule ligne de méta en 13 ink-600 (le surtitre en 600 ink-700, « · », le sous-titre) ; à droite un emplacement `trailing`, le compteur « 3 / 12 » en 13/600 tabulaire (valeur au cran 800 du ton), puis précédent, suivant et fermer (Button iconOnly ghost de 44 px). Barre de progression optionnelle de 4 px. La barre ne nomme pas l'écran : son titre est un `<p>`, et le h1 à 36 vit dans le contenu. La couverture d'une leçon l'affiche ; ses autres sections le gardent pour le seul plan du document (`sr-only`). `titleAs=\"h1\"` reste une échappatoire pour un écran sans autre titre, que check-typo relève — aucune page ne s'en sert ; `titleId` expose le titre à `aria-labelledby`. Pas de `role=\"banner\"` (retiré le 24/09) : la barre vit dans le `<main>` des lecteurs, et le seul bandeau d'une page est celui de la coque. Aligné à gauche sous 640 px, centré au-delà ; le ton (primary · warm · sun) colore le compteur et la progression.",
+    keywords: ['viewer', 'lecteur', 'reader', 'toolbar', 'header', 'titleAs', 'titleId', 'trailing', 'h1', 'prev-next', 'navigation', 'back', 'retour', 'close', 'sticky', 'banner', 'landmark'],
     render: () => (
       <div className="flex flex-col gap-stack-lg">
-        {/* Pattern 1 — Viewer with prev/next + counter (FlashcardsViewer style) */}
+        {/* Leçon (LessonPlayer) : la barre porte titre et méta, la couverture
+            porte le h1. Le h1 est simulé par un paragraphe au pas h1 : la
+            vitrine a déjà le sien, et un second fausserait son plan. */}
         <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Viewer avec navigation séquentielle (Flashcards / Astuces)</p>
-          <div className="rounded-xl overflow-hidden border border-ink-200 bg-ink-50">
+          <p className="text-caption font-semibold text-ink-600">Leçon : la barre porte le titre et la méta, la couverture porte le h1</p>
+          <div className="rounded-xl overflow-hidden border border-ink-200 bg-white">
             <ViewerHeader
               sticky={false}
+              tone="warm"
               backLabel="Retour"
               onBack={() => {}}
-              eyebrow="Module 2"
-              title="Carte 3 — Boucle de feedback OKR"
-              current={3}
+              title="Donner un feedback qui fait progresser"
+              eyebrow="Étape 2 · Le feedback"
+              subtitle="12 min"
+              current={1}
+              total={6}
+              progress={17}
+              onClose={() => {}}
+            />
+            <div className="flex flex-col gap-stack-sm p-stack-lg sm:p-section">
+              <p className="font-display text-h1 text-ink-900 text-balance">Donner un feedback qui fait progresser</p>
+              <p className="font-body text-body-lg text-ink-700 max-w-prose">Décrire un fait, en dire l’effet, proposer une suite : trois gestes pour qu’un retour serve à celui qui le reçoit.</p>
+            </div>
+          </div>
+          <p className="text-caption text-ink-600 max-w-prose">Dans la page, le titre de la couverture est le <code className="font-mono text-caption">h1</code> de l’écran ; ici un paragraphe, la vitrine ayant déjà le sien. Dans les autres sections, il ne reste que dans le plan du document.</p>
+        </div>
+
+        {/* Flashcards et astuces : pas de titre dans la barre, une ligne de
+            méta seulement ; le h1 centré nomme le jeu. */}
+        <div className="flex flex-col gap-stack-xs">
+          <p className="text-caption font-semibold text-ink-600">Flashcards, astuces : une ligne de méta dans la barre, le h1 centré nomme le jeu</p>
+          <div className="rounded-xl overflow-hidden border border-ink-200 bg-white">
+            <ViewerHeader
+              sticky={false}
+              tone="primary"
+              eyebrow="Flashcards"
+              subtitle="4 / 12 comprises"
+              current={5}
               total={12}
-              onPrev={() => {}}
-              onNext={() => {}}
+              progress={42}
               onClose={() => {}}
             />
-            <div className="p-section text-center text-ink-500 text-caption">— Contenu viewer ici —</div>
+            <div className="p-stack-lg sm:p-section">
+              <p className="font-display text-h1 text-ink-900 text-center text-balance">Boucle de feedback OKR</p>
+            </div>
           </div>
         </div>
 
-        {/* Pattern 2 — Viewer simple title-only (VideoViewer style) */}
+        {/* Vidéo : l'emplacement `trailing` reçoit une action de plus. */}
         <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Viewer simple back + title + close (Video / Article)</p>
-          <div className="rounded-xl overflow-hidden border border-ink-200 bg-ink-50">
+          <p className="text-caption font-semibold text-ink-600">Vidéo : une action de plus dans l’emplacement <code className="font-mono text-caption">trailing</code></p>
+          <div className="rounded-xl overflow-hidden border border-ink-200 bg-white">
             <ViewerHeader
               sticky={false}
-              backLabel="Retour"
-              onBack={() => {}}
-              eyebrow="Vidéo · 6 min"
+              eyebrow="Vidéo · Veille"
               title="Tendance Leadership 2026 — replay de la conférence"
-              subtitle="Publié le 30 avril 2026 par Sophie Martin"
               onClose={() => {}}
+              trailing={
+                <Button iconOnly emphasis="ghost" tone="neutral" aria-label="Plein écran">
+                  <Maximize2 />
+                </Button>
+              }
             />
-            <div className="p-section text-center text-ink-500 text-caption">— Contenu viewer ici —</div>
           </div>
         </div>
 
-        {/* Pattern 3 — Disabled boundaries (first/last item) */}
+        {/* Précédent / suivant : dans l'API, désactivés aux bornes — mais
+            aucun lecteur ne s'en sert aujourd'hui. */}
         <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Disabled state aux bornes (premier / dernier item)</p>
-          <div className="rounded-xl overflow-hidden border border-ink-200 bg-ink-50">
+          <p className="text-caption font-semibold text-ink-600">Précédent et suivant, désactivés aux bornes</p>
+          <div className="rounded-xl overflow-hidden border border-ink-200 bg-white">
             <ViewerHeader
               sticky={false}
               backLabel="Retour"
@@ -4751,8 +4677,8 @@ const COMPONENTS: ComponentEntry[] = [
               onNext={() => {}}
               disablePrev
             />
-            <div className="p-stack text-center text-ink-500 text-caption">— prev disabled —</div>
           </div>
+          <p className="text-caption text-ink-600 max-w-prose">Dans l’API, mais aucun lecteur ne s’en sert aujourd’hui : leur navigation vit dans le pied de page (LessonNavigation).</p>
         </div>
       </div>
     ),
@@ -4760,14 +4686,13 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'HeaderNav',
     codeName: 'patterns/HeaderNav.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    usedBy: ['Onboarding (questionnaire)', 'Positionnement', 'OnboardingTutorial'],
-    description: 'Header sticky pour flows multi-étapes (onboarding, questionnaire, configurateur). Back button pill (gauche) + barre de progression optionnelle (centre, avec label) + bouton Enregistrer (droite). Glass-light backdrop-blur. Responsive : progress label hidden mobile.',
+    showcaseOnly: true,
+    description: "En-tête collant des parcours en plusieurs étapes (onboarding, questionnaire) : Retour à gauche ; au centre, la progression — « Progression » en 13, l'étape en 13/600 au cran 800, une barre de 6 px, le pourcentage en 13/600 tabulaire ; Enregistrer (Button sm soft) à droite. Verre clair ; « Progression » se masque sous 640 px.",
     keywords: ['header', 'nav', 'sticky', 'back', 'save', 'progress', 'onboarding', 'wizard', 'glass', 'multi-step'],
     render: () => (
       <div className="flex flex-col gap-stack-lg">
         <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Avec progression + Enregistrer</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Avec progression + Enregistrer</p>
           <div className="rounded-xl overflow-hidden border border-ink-200">
             <HeaderNav
               backLabel="Quitter le questionnaire"
@@ -4779,7 +4704,7 @@ const COMPONENTS: ComponentEntry[] = [
           </div>
         </div>
         <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Simple back only</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Simple back only</p>
           <div className="rounded-xl overflow-hidden border border-ink-200">
             <HeaderNav
               backLabel="Retour"
@@ -4794,33 +4719,32 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ViewerOverlay',
     codeName: 'patterns/ViewerOverlay.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    usedBy: ['LessonPlayer', 'AstucesViewer', 'FlashcardsViewer', 'VideoTutorial', 'VideoViewer', 'ComplementaryContentViewer'],
-    description: 'Wrapper full-screen standardisé pour les pages viewer immersives. Header sticky glass + barre de progression + footer prev/next + slot children. 5 tones (light/brand/warm/sun/dark). Keyboard: Esc → close, ArrowLeft/Right → prev/next. Safe-area mobile.',
+    showcaseOnly: true,
+    description: "Ancienne enveloppe plein écran des lecteurs — en-tête, progression, pied précédent / suivant, Échap et flèches —, remplacée par ViewerHeader : plus aucune page ne l'emploie. Titre en h1 16/600, sous-titre 13 ink-600, boutons du pied à 44 px ; cinq tons (light · brand · warm · sun · dark). L'aperçu en reprend la structure avec les composants du système.",
     keywords: ['viewer', 'overlay', 'fullscreen', 'immersive', 'player', 'reader', 'tone', 'progress', 'prev', 'next'],
     render: () => (
       <div className="flex flex-col gap-stack-xs">
-        <p className="text-caption text-ink-400 m-0">Aperçu tronqué — composant wrapper full-screen utilisé dans les pages viewer. children = contenu immersif (Flashcard, VideoPlayer, LessonContent…).</p>
+        {/* Aperçu refait avec les composants du système : la maquette posait des
+            boutons faits main à 32 px en ink-400 (3,01:1) et des pilules en 500. */}
+        <p className="text-caption text-ink-600">Aperçu tronqué : l'enveloppe est plein écran, son contenu (`children`) est le lecteur lui-même.</p>
         <div className="rounded-2xl overflow-hidden border border-ink-200 bg-white min-h-[260px] flex flex-col">
-          <div className="flex items-center justify-between px-stack-md py-3 bg-white/85 backdrop-blur-glass-light border-b border-ink-200">
-            <button className="inline-flex items-center gap-stack-2xs text-caption text-ink-600 font-medium bg-ink-50 border border-ink-200 rounded-pill px-3 py-1.5">
-              <ArrowLeft size={14} /> Retour
-            </button>
-            <div className="flex-1 text-center">
-              <p className="m-0 text-caption text-ink-500">Carte 3 sur 12</p>
-              <p className="m-0 text-body-sm font-bold text-ink-900 truncate">Boucle de feedback OKR</p>
+          <div className="flex items-center justify-between gap-stack-xs px-stack-md py-stack-xs bg-white/85 backdrop-blur-glass-light border-b border-ink-200">
+            <Button emphasis="ghost" tone="neutral" size="sm" leadingIcon={<ArrowLeft />}>Retour</Button>
+            <div className="flex-1 min-w-0 text-center">
+              <p className="text-body font-semibold text-ink-900 truncate">Boucle de feedback OKR</p>
+              <p className="text-caption text-ink-600">Carte 3 sur 12</p>
             </div>
-            <div className="flex items-center gap-tight">
-              <button className="w-8 h-8 rounded-pill flex items-center justify-center text-ink-400 hover:bg-ink-100 border-0 cursor-pointer"><ArrowLeft size={16} /></button>
-              <button className="w-8 h-8 rounded-pill flex items-center justify-center text-ink-400 hover:bg-ink-100 border-0 cursor-pointer"><ArrowRight size={16} /></button>
+            <div className="flex items-center gap-stack-3xs">
+              <Button iconOnly emphasis="ghost" tone="neutral" aria-label="Précédent"><ArrowLeft /></Button>
+              <Button iconOnly emphasis="ghost" tone="neutral" aria-label="Suivant"><ArrowRight /></Button>
             </div>
           </div>
-          <div className="h-1 bg-ink-100"><div className="h-full bg-gradient-to-r from-primary-500 to-primary-700" style={{ width: '25%' }} /></div>
-          <div className="flex-1 flex items-center justify-center p-section text-ink-400 text-caption">— children slot (LessonPlayer / Flashcard / VideoPlayer…) —</div>
-          <div className="px-stack-md py-3 border-t border-ink-200 bg-white flex items-center justify-between">
-            <button className="inline-flex items-center gap-stack-2xs text-caption font-medium text-ink-600 px-3 py-stack-xs rounded-pill hover:bg-ink-50 border border-ink-200 cursor-pointer"><ArrowLeft size={14} /> Précédent</button>
-            <span className="text-caption text-ink-500">3 / 12</span>
-            <button className="inline-flex items-center gap-stack-2xs text-caption font-medium text-primary-700 px-3 py-stack-xs rounded-pill hover:bg-primary-50 border border-primary-200 cursor-pointer">Suivant <ArrowRight size={14} /></button>
+          <ProgressBar value={25} size="xs" valueLabel={false} aria-label="Progression du lecteur" />
+          <div className="flex-1 flex items-center justify-center p-section text-caption text-ink-600">Le contenu du lecteur</div>
+          <div className="px-stack-md py-stack-xs border-t border-ink-200 bg-white flex items-center justify-between">
+            <Button emphasis="soft" tone="neutral" size="sm" leadingIcon={<ArrowLeft />}>Précédent</Button>
+            <span className="text-caption text-ink-600 tabular-nums">3 / 12</span>
+            <Button emphasis="soft" size="sm" trailingIcon={<ArrowRight />}>Suivant</Button>
           </div>
         </div>
       </div>
@@ -4829,19 +4753,16 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'MultiStepForm',
     codeName: 'patterns/MultiStepForm.tsx',
-    cssBase: 'MultiStepForm (form progress)',
     showcaseOnly: true,
-    description: 'Wrapper de formulaire séquentiel: stepper visuel (numéros + labels + état done/active/upcoming), slot enfant pour le contenu de l\'étape, boutons Précédent/Suivant et validation par étape. À utiliser pour onboarding ou wizards de configuration.',
+    description: "Formulaire en plusieurs étapes : barre de progression et compteur « Étape X / Y » (13/600), pastilles d'étape de 40 px — faite, en cours, à venir — avec leur titre en légende 13/600 ; puis l'étape dans une carte, sa description en 16 ink-700 à la largeur de lecture, et les boutons : Précédent en ghost neutre, Suivant en solid (arbitrage n°19). Pour l'onboarding ou un assistant de configuration.",
     keywords: ['form', 'multi-step', 'progress', 'navigation', 'wizard'],
     render: () => <MultiStepFormDemo />,
   },
   {
     name: 'FormLayout',
     codeName: 'patterns/FormLayout.tsx',
-    cssBase: 'Tailwind (no BEM)',
     showcaseOnly: true,
-    usedBy: ['Account', 'Profile (edit)'],
-    description: 'Wrapper de formulaire structuré avec sections titrées. Titre + description globaux, sections avec champs `label + helpText + error + input slot`. Boutons submit/cancel intégrés. Isomorphe : chaque `input` est un slot React → compatible avec Input, Select, Switch, etc.',
+    description: "Formulaire en sections : titre h2 28 et description, puis des sections en h3 20 ; chaque champ a son libellé 16/600, son aide 13 ink-600 et son erreur 13 danger-fg. Carte au rayon 20, padding 24, 32 px entre les blocs ; en fin, Annuler en outline neutre et Enregistrer en solid (arbitrage n°19). Chaque `input` est un emplacement : Input, Select, Switch…",
     keywords: ['form', 'layout', 'section', 'field', 'label', 'help', 'error', 'submit', 'cancel'],
     render: () => (
       <FormLayout
@@ -4871,8 +4792,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'PageCard',
     codeName: 'patterns/PageCard.tsx',
-    cssBase: 'PageCard (featured card)',
-    description: 'Tuile composite (thumbnail ou icône, titre, description, status dot animé, badge, CTA hover) pour annuaires de pages, galeries de fonctionnalités. Grille via PageCardGrid (1-4 colonnes responsives).',
+    description: "Tuile d'annuaire de pages : vignette ou icône, état (point fixe et libellé 13/600), Badge compact, titre h3, description 16 ink-700, étiquette en MetaPill ; flèche au survol. En grille par PageCardGrid (une à quatre colonnes).",
     keywords: ['card', 'page', 'featured', 'image', 'content', 'thumbnail', 'directory'],
     render: () => (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-stack">
@@ -4914,9 +4834,8 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'VeilleCard',
     codeName: 'patterns/VeilleCardFeed.tsx (exports VeilleCard + VeilleCardListItem + FeaturedSpotlight)',
-    cssBase: 'Tailwind (no BEM)',
     usedBy: ['Veille (via VeilleCardFeed)'],
-    description: '⭐ Card éditoriale Veille — **3 sub-composants** exposés depuis VeilleCardFeed : (1) `<VeilleCard>` vertical avec top stripe tone-aware + badge + title + summary + footer auteur/durée + bookmark (pour grid). (2) `<VeilleCardListItem>` horizontal avec icon bubble gradient + content + actions side (pour list). (3) `<FeaturedSpotlight>` hero card horizontal (cover gradient + icon 96px + CTA glass). 3 tones (brand/warm/sun) × 3 surfaces (card/tinted/glass).',
+    description: "La Veille, trois objets exportés par VeilleCardFeed. VeilleCard (grille) : couverture de 160 px avec le type en MetaPill, méta en 13 ink-600, titre h3 20 sur deux lignes, résumé 16 ink-700, lien « Lire » au cran 800. VeilleCardListItem (liste) : couverture à gauche, titre de 16 à 20 selon la largeur de sa boîte, Badge « Nouveau » devant. FeaturedSpotlight (« À la une ») : grand format, titre h2 28, Button soft. L'enregistrement est un Button icône soft neutre, soft brand une fois enregistré — ghost dans la liste. Trois tons par élément.",
     keywords: ['veille', 'card', 'editorial', 'article', 'tutoriel', 'dossier', 'magazine', 'vertical', 'horizontal', 'featured', 'spotlight'],
     render: () => {
       const sampleItem = { id: 'demo-1', typeLabel: 'Actu', TypeIcon: TrendingUp, tone: 'brand' as const, title: "IA générative en formation : où en sommes-nous en 2026 ?", summary: "Tour d'horizon des nouveaux usages de l'IA dans les parcours de formation, des cas concrets et des limites.", category: 'IA & Pédagogie', author: 'TLS', publishedAt: "Aujourd'hui", readTime: '6 min' };
@@ -4926,7 +4845,7 @@ const COMPONENTS: ComponentEntry[] = [
         <div className="flex flex-col gap-section">
           {/* 1 — VeilleCard (vertical, grid mode) */}
           <div className="flex flex-col gap-stack">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">1 · <code className="text-micro bg-ink-50 px-1.5 py-0.5 rounded">&lt;VeilleCard&gt;</code> — vertical (grid mode)</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">1 · <code className="text-caption bg-ink-50 px-1.5 py-0.5 rounded">&lt;VeilleCard&gt;</code> — vertical (grid mode)</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-stack-lg">
               <VeilleCard item={sampleItem} surface="card" isSaved={false} showSaveButton={true} onToggleSave={() => {}} onClick={() => {}} />
               <VeilleCard item={tutoItem} surface="card" isSaved={true} showSaveButton={true} onToggleSave={() => {}} onClick={() => {}} />
@@ -4936,7 +4855,7 @@ const COMPONENTS: ComponentEntry[] = [
 
           {/* 2 — VeilleCardListItem (horizontal, list mode) */}
           <div className="flex flex-col gap-stack">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">2 · <code className="text-micro bg-ink-50 px-1.5 py-0.5 rounded">&lt;VeilleCardListItem&gt;</code> — horizontal (list mode)</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">2 · <code className="text-caption bg-ink-50 px-1.5 py-0.5 rounded">&lt;VeilleCardListItem&gt;</code> — horizontal (list mode)</p>
             <div className="flex flex-col gap-stack">
               <VeilleCardListItem item={sampleItem} surface="card" isSaved={false} showSaveButton={true} onToggleSave={() => {}} onClick={() => {}} />
               <VeilleCardListItem item={tutoItem} surface="card" isSaved={true} showSaveButton={true} onToggleSave={() => {}} onClick={() => {}} />
@@ -4946,7 +4865,7 @@ const COMPONENTS: ComponentEntry[] = [
 
           {/* 3 — FeaturedSpotlight (hero horizontal) */}
           <div className="flex flex-col gap-stack">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">3 · <code className="text-micro bg-ink-50 px-1.5 py-0.5 rounded">&lt;FeaturedSpotlight&gt;</code> — hero "À la une"</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">3 · <code className="text-caption bg-ink-50 px-1.5 py-0.5 rounded">&lt;FeaturedSpotlight&gt;</code> — hero "À la une"</p>
             <FeaturedSpotlight item={{ ...sampleItem, featured: true }} isSaved={false} showSaveButton={true} onToggleSave={() => {}} onClick={() => {}} />
           </div>
         </div>
@@ -4956,8 +4875,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'VeilleCard — design proposals',
     codeName: '(mockups visuels — verticaux grid + horizontaux list)',
-    cssBase: 'Tailwind',
-    description: '7 proposals de design VeilleCard : **4 verticaux** pour vue grid (A cover, C tinted, D overlay, L glass) + **3 horizontaux** pour vue list (HZ-1 split image, HZ-2 tinted row, HZ-3 compact inbox). Badge catégorie overlaid en top glassy sur les images.',
+    description: "Maquettes, pas un composant : les sept pistes explorées pour VeilleCard — quatre verticales pour la grille (A couverture, C teintée, D surimpression, L verre) et trois horizontales pour la liste (HZ-1 image à gauche, HZ-2 rangée teintée, HZ-3 boîte de réception). Leur texte suit l'échelle du 24/09 : titres h3 20, méta 13, étiquettes 11 ; le soulèvement au survol a été retiré (passe motion du 17/09).",
     keywords: ['veille', 'card', 'vertical', 'horizontal', 'grid', 'list', 'cover', 'tinted', 'overlay', 'glass', 'compact'],
     render: () => {
       const item = { typeLabel: 'Dossier', category: 'Management', title: "Transformation IA des parcours de formation", summary: "Synthèse approfondie sur l'impact de l'IA sur les dispositifs de formation professionnelle en Europe.", author: 'McKinsey', publishedAt: 'Il y a 3 jours', readTime: '22 min' };
@@ -4966,17 +4884,17 @@ const COMPONENTS: ComponentEntry[] = [
 
           {/* Design A — Cover dominant (current) */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">A · Cover dominant (current default)</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">A · Cover dominant (current default)</p>
             <article className="flex flex-col rounded-2xl bg-white border border-ink-200 overflow-hidden">
               <div className="relative h-32 bg-gradient-to-br from-accent-300 via-accent-500 to-secondary-500">
                 <div className="absolute inset-0 flex items-center justify-center"><FolderOpen size={56} strokeWidth={1.25} className="text-white/95" /></div>
                 <span className="absolute top-3 left-3 inline-flex items-center gap-tight px-2.5 py-1 rounded-pill bg-white/95 backdrop-blur-glass-light text-micro font-bold uppercase text-ink-900 shadow-sm"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
               </div>
               <div className="flex flex-col gap-stack-xs p-stack-md">
-                <span className="font-body text-micro font-semibold uppercase tracking-wider text-ink-500">{item.category} · {item.publishedAt}</span>
-                <h3 className="font-display text-h4 font-bold text-ink-900 leading-tight">{item.title}</h3>
-                <span className="font-body text-caption text-ink-500"><User size={12} className="inline mr-0.5" /> {item.author} · ⏱ {item.readTime}</span>
-                <p className="m-0 font-body text-body-sm text-ink-600 leading-relaxed">{item.summary}</p>
+                <span className="font-body text-caption font-semibold text-ink-600">{item.category} · {item.publishedAt}</span>
+                <h3 className="font-display text-h3 font-bold text-ink-900">{item.title}</h3>
+                <span className="font-body text-caption text-ink-600"><User size={12} className="inline mr-0.5" /> {item.author} · ⏱ {item.readTime}</span>
+                <p className="m-0 font-body text-body text-ink-700">{item.summary}</p>
                 <footer className="flex justify-between items-center pt-stack-xs border-t border-ink-100"><span className="text-caption font-bold text-accent-700">Lire →</span></footer>
               </div>
             </article>
@@ -4984,32 +4902,34 @@ const COMPONENTS: ComponentEntry[] = [
 
           {/* Design C — Tinted full bg */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">C · Tinted full bg · couleur tone-aware en arrière-plan complet</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">C · Tinted full bg · couleur tone-aware en arrière-plan complet</p>
             <article className="flex flex-col rounded-2xl bg-accent-50/70 border border-accent-100 p-stack-md gap-stack-xs hover:bg-accent-50">
               <div className="flex items-center justify-between">
                 <span className="inline-flex items-center gap-stack-2xs px-2.5 py-1 rounded-pill bg-white/90 text-accent-700 border border-accent-200 text-micro font-bold uppercase tracking-wider"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
-                <button className="w-8 h-8 rounded-pill bg-white/70 text-ink-500 hover:text-ink-900 flex items-center justify-center"><Bookmark size={14} /></button>
+                <button className="w-8 h-8 rounded-pill bg-white/70 text-ink-600 hover:text-ink-900 flex items-center justify-center"><Bookmark size={14} /></button>
               </div>
-              <span className="font-body text-micro font-semibold uppercase tracking-wider text-accent-700">{item.category} · {item.publishedAt}</span>
-              <h3 className="font-display text-h4 font-bold text-ink-900 leading-tight">{item.title}</h3>
-              <span className="font-body text-caption text-ink-500"><User size={12} className="inline mr-0.5" /> {item.author} · ⏱ {item.readTime}</span>
-              <p className="m-0 font-body text-body-sm text-ink-700 leading-relaxed">{item.summary}</p>
+              <span className="font-body text-caption font-semibold text-ink-600">{item.category} · {item.publishedAt}</span>
+              <h3 className="font-display text-h3 font-bold text-ink-900">{item.title}</h3>
+              <span className="font-body text-caption text-ink-600"><User size={12} className="inline mr-0.5" /> {item.author} · ⏱ {item.readTime}</span>
+              <p className="m-0 font-body text-body text-ink-700">{item.summary}</p>
               <footer className="flex justify-between items-center pt-stack-xs border-t border-white/60"><span className="text-caption font-bold text-accent-700">Lire →</span></footer>
             </article>
           </div>
 
           {/* Design D — Magazine portrait avec title overlay */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">D · Magazine portrait · cover large + title en overlay bottom</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">D · Magazine portrait · cover large + title en overlay bottom</p>
             <article className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-accent-300 via-accent-500 to-secondary-600 h-[280px]">
               <div className="absolute inset-0 flex items-center justify-center opacity-90"><FolderOpen size={84} strokeWidth={1} className="text-white" /></div>
               {/* Gradient overlay bottom for readability */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+              {/* Voile ink-950, pas un noir hors palette (arbitrage n°17), et assez dense
+                  sous le texte : à black/30, la méta blanche tombait à 3,64:1 à 375 px. */}
+              <div className="absolute inset-0 bg-gradient-to-t from-ink-950/90 via-ink-950/70 to-transparent" />
               <span className="absolute top-3 left-3 inline-flex items-center gap-tight px-2.5 py-1 rounded-pill bg-white/95 backdrop-blur-glass-light text-micro font-bold uppercase text-ink-900 shadow-sm"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
               <div className="absolute inset-x-0 bottom-0 p-stack-md text-white flex flex-col gap-tight">
-                <span className="font-body text-micro font-semibold uppercase tracking-wider text-white/80">{item.category} · {item.publishedAt}</span>
-                <h3 className="font-display text-h4 font-bold leading-tight text-white">{item.title}</h3>
-                <div className="flex justify-between items-center text-caption text-white/90 mt-tight">
+                <span className="font-body text-caption font-semibold text-white">{item.category} · {item.publishedAt}</span>
+                <h3 className="font-display text-h3 font-bold text-white">{item.title}</h3>
+                <div className="flex justify-between items-center text-caption text-white mt-tight">
                   <span><User size={12} className="inline" /> {item.author} · ⏱ {item.readTime}</span>
                   <span className="font-bold">Lire →</span>
                 </div>
@@ -5019,21 +4939,21 @@ const COMPONENTS: ComponentEntry[] = [
 
           {/* L — Glass overlay full photo (Apple News style) */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">L · Glass overlay · photo plein cover + panel glass content au bottom (Apple News style)</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">L · Glass overlay · photo plein cover + panel glass content au bottom (Apple News style)</p>
             <article className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-primary-400 via-accent-500 to-secondary-600 h-[300px] cursor-pointer group">
               <div className="absolute inset-0 flex items-center justify-center opacity-90">
                 <FolderOpen size={96} strokeWidth={0.9} className="text-white/85" />
               </div>
-              <span className="absolute top-3 left-3 inline-flex items-center gap-tight px-2.5 py-1 rounded-pill bg-white/25 backdrop-blur-glass-medium text-white text-micro font-bold uppercase border border-white/30">
+              <span className="absolute top-3 left-3 inline-flex items-center gap-tight px-2.5 py-1 rounded-pill bg-white/90 backdrop-blur-glass-medium text-ink-900 text-micro font-bold uppercase border border-white/30">
                 <FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}
               </span>
-              <button className="absolute top-3 right-3 inline-flex items-center justify-center w-9 h-9 rounded-pill bg-white/25 text-white backdrop-blur-glass-medium border border-white/30 hover:bg-white/40">
+              <button className="absolute top-3 right-3 inline-flex items-center justify-center w-9 h-9 rounded-pill bg-white/90 text-ink-900 backdrop-blur-glass-medium border border-white/30 hover:bg-white">
                 <Bookmark size={15} />
               </button>
-              <div className="absolute inset-x-3 bottom-3 rounded-xl bg-white/85 backdrop-blur-glass-heavy border border-white/60 p-stack flex flex-col gap-tight shadow-lg">
-                <span className="font-body text-micro font-bold uppercase tracking-wider text-primary-700">{item.category} · {item.publishedAt}</span>
-                <h3 className="font-display text-body-lg font-bold text-ink-900">{item.title}</h3>
-                <div className="flex items-center gap-stack-xs mt-1 font-body text-micro text-ink-600">
+              <div className="absolute inset-x-3 bottom-3 rounded-lg bg-white/85 backdrop-blur-glass-heavy border border-white/60 p-stack flex flex-col gap-tight shadow-lg">
+                <span className="font-body text-caption font-semibold text-ink-600">{item.category} · {item.publishedAt}</span>
+                <h3 className="font-display text-h3 text-ink-900">{item.title}</h3>
+                <div className="flex items-center gap-stack-xs mt-1 font-body text-caption text-ink-600">
                   <User size={11} className="inline shrink-0" /><span>{item.author}</span>
                   <span aria-hidden>·</span>
                   <span>⏱ {item.readTime}</span>
@@ -5044,39 +4964,39 @@ const COMPONENTS: ComponentEntry[] = [
 
           {/* ── SECTION HORIZONTALES (LIST) ─── */}
           <div className="border-t border-ink-100 pt-section">
-            <p className="text-body-sm font-bold text-ink-700 mb-section-lg">Designs horizontaux · vue liste</p>
+            <p className="text-body font-bold text-ink-700 mb-section-lg">Designs horizontaux · vue liste</p>
           </div>
 
           {(() => {
             const hzItems = [
-              { typeLabel: 'Actu', Icon: TrendingUp, gradFrom: 'from-primary-400', gradTo: 'to-primary-700', toneText: 'text-primary-700', toneBg: 'bg-primary-50', toneBorder: 'border-primary-200', category: 'IA & Pédagogie', title: "IA générative en formation : où en sommes-nous en 2026 ?", summary: "Tour d'horizon des nouveaux usages de l'IA.", author: 'The Learning Society', publishedAt: "Aujourd'hui", readTime: '6 min' },
-              { typeLabel: 'Tutoriel', Icon: Video, gradFrom: 'from-secondary-400', gradTo: 'to-secondary-700', toneText: 'text-secondary-600', toneBg: 'bg-secondary-50', toneBorder: 'border-secondary-200', category: 'Prompt Engineering', title: 'Construire un prompt structuré en 5 étapes', summary: 'Une vidéo pas à pas pour formaliser ses prompts.', author: 'Marie Dubois', publishedAt: 'Hier', readTime: '12 min' },
-              { typeLabel: 'Dossier', Icon: FolderOpen, gradFrom: 'from-accent-300', gradTo: 'to-accent-600', toneText: 'text-accent-700', toneBg: 'bg-accent-50', toneBorder: 'border-accent-200', category: 'Management', title: "Transformation IA des parcours de formation", summary: "Synthèse approfondie sur les dispositifs de formation en Europe.", author: 'McKinsey', publishedAt: 'Il y a 3 jours', readTime: '22 min' },
+              { typeLabel: 'Actu', Icon: TrendingUp, gradFrom: 'from-primary-400', gradTo: 'to-primary-700', toneText: 'text-primary-800', toneBg: 'bg-primary-50', toneBorder: 'border-primary-200', category: 'IA & Pédagogie', title: "IA générative en formation : où en sommes-nous en 2026 ?", summary: "Tour d'horizon des nouveaux usages de l'IA.", author: 'The Learning Society', publishedAt: "Aujourd'hui", readTime: '6 min' },
+              { typeLabel: 'Tutoriel', Icon: Video, gradFrom: 'from-secondary-400', gradTo: 'to-secondary-700', toneText: 'text-secondary-800', toneBg: 'bg-secondary-50', toneBorder: 'border-secondary-200', category: 'Prompt Engineering', title: 'Construire un prompt structuré en 5 étapes', summary: 'Une vidéo pas à pas pour formaliser ses prompts.', author: 'Marie Dubois', publishedAt: 'Hier', readTime: '12 min' },
+              { typeLabel: 'Dossier', Icon: FolderOpen, gradFrom: 'from-accent-300', gradTo: 'to-accent-600', toneText: 'text-accent-800', toneBg: 'bg-accent-50', toneBorder: 'border-accent-200', category: 'Management', title: "Transformation IA des parcours de formation", summary: "Synthèse approfondie sur les dispositifs de formation en Europe.", author: 'McKinsey', publishedAt: 'Il y a 3 jours', readTime: '22 min' },
             ];
             return (
         <div className="flex flex-col gap-section">
 
           {/* HZ-1 — Badge sur l'image, meta sous le titre */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">HZ-1 · Badge catégorie sur l'image · meta sous le titre</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">HZ-1 · Badge catégorie sur l'image · meta sous le titre</p>
             <div className="flex flex-col gap-stack-xs max-w-content">
               {hzItems.map((it, idx) => (
-                <article key={idx} className="grid grid-cols-[100px_1fr] sm:grid-cols-[120px_1fr] rounded-2xl bg-white border border-ink-200 overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group">
+                <article key={idx} className="grid grid-cols-[100px_1fr] sm:grid-cols-[120px_1fr] rounded-2xl bg-white border border-ink-200 overflow-hidden hover:border-ink-300 transition-colors cursor-pointer group">
                   {/* Image avec badge en overlay bottom */}
                   <div className={`relative bg-gradient-to-br ${it.gradFrom} via-current ${it.gradTo} flex items-center justify-center min-h-[108px] overflow-hidden`}>
                     <div className="absolute inset-0 opacity-25" style={{ backgroundImage: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.5) 0%, transparent 60%)' }} aria-hidden />
                     <it.Icon size={38} strokeWidth={1.25} className="text-white/90 group-hover:scale-110 transition-transform duration-base" />
                     {/* Badge catégorie — sur l'image en haut, glassy */}
                     <span className="absolute top-2 left-0 right-0 flex justify-center">
-                      <span className="inline-flex items-center gap-tight px-2.5 py-1 rounded-pill bg-white/25 backdrop-blur-glass-medium border border-white/40 text-[10px] font-bold uppercase tracking-wide text-white shadow-sm">
+                      <span className="inline-flex items-center gap-tight px-2.5 py-1 rounded-pill bg-white/90 backdrop-blur-glass-medium border border-white/40 text-micro font-bold uppercase tracking-label text-ink-900 shadow-sm">
                         <it.Icon size={9} strokeWidth={2.5} /> {it.typeLabel}
                       </span>
                     </span>
                   </div>
                   {/* Content : titre → meta → summary */}
                   <div className="flex flex-col justify-center gap-tight p-stack">
-                    <h3 className="font-display text-body-sm font-bold text-ink-900 line-clamp-2">{it.title}</h3>
-                    <div className="flex items-center gap-stack-2xs font-body text-micro text-ink-400 flex-wrap">
+                    <h3 className="font-display text-body font-bold text-ink-900 line-clamp-2">{it.title}</h3>
+                    <div className="flex items-center gap-stack-2xs font-body text-caption text-ink-600 flex-wrap">
                       <User size={10} className="shrink-0" />
                       <span>{it.author}</span>
                       <span aria-hidden>·</span>
@@ -5086,7 +5006,7 @@ const COMPONENTS: ComponentEntry[] = [
                       <span aria-hidden>·</span>
                       <span>⏱ {it.readTime}</span>
                     </div>
-                    <p className="m-0 font-body text-caption text-ink-500 line-clamp-1 hidden sm:block">{it.summary}</p>
+                    <p className="m-0 font-body text-caption text-ink-600 line-clamp-1 hidden sm:block">{it.summary}</p>
                   </div>
                 </article>
               ))}
@@ -5095,7 +5015,7 @@ const COMPONENTS: ComponentEntry[] = [
 
           {/* HZ-2 — Tinted row avec badge sur zone icône */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">HZ-2 · Tinted row · icône + badge catégorie · meta sous titre</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">HZ-2 · Tinted row · icône + badge catégorie · meta sous titre</p>
             <div className="flex flex-col gap-stack-xs max-w-content">
               {hzItems.map((it, idx) => (
                 <article key={idx} className={`flex items-center gap-0 rounded-xl ${it.toneBg} border ${it.toneBorder} hover:brightness-95 cursor-pointer transition-all overflow-hidden`}>
@@ -5104,12 +5024,12 @@ const COMPONENTS: ComponentEntry[] = [
                     <div className={`inline-flex items-center justify-center w-9 h-9 rounded-lg bg-white/80 ${it.toneText} shadow-xs`}>
                       <it.Icon size={17} strokeWidth={1.75} />
                     </div>
-                    <span className={`font-body text-[9px] font-black uppercase tracking-wider ${it.toneText} opacity-70`}>{it.typeLabel}</span>
+                    <span className={`font-body text-caption font-semibold ${it.toneText}`}>{it.typeLabel}</span>
                   </div>
                   {/* Content */}
                   <div className="flex-1 min-w-0 flex flex-col gap-tight px-stack py-3">
-                    <h3 className="font-display text-body-sm font-bold text-ink-900 line-clamp-1">{it.title}</h3>
-                    <div className="flex items-center gap-stack-2xs font-body text-micro text-ink-500 flex-wrap">
+                    <h3 className="font-display text-body font-bold text-ink-900 line-clamp-1">{it.title}</h3>
+                    <div className="flex items-center gap-stack-2xs font-body text-caption text-ink-600 flex-wrap">
                       <User size={10} className="shrink-0" />
                       <span>{it.author}</span>
                       <span aria-hidden>·</span>
@@ -5126,7 +5046,7 @@ const COMPONENTS: ComponentEntry[] = [
 
           {/* HZ-3 — Compact inbox (ultra-dense, 1 ligne) */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">HZ-3 · Compact inbox · badge icône + titre + meta 1 ligne · bookmark</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">HZ-3 · Compact inbox · badge icône + titre + meta 1 ligne · bookmark</p>
             <div className="flex flex-col rounded-2xl bg-white border border-ink-200 overflow-hidden divide-y divide-ink-100 max-w-content">
               {hzItems.map((it, idx) => (
                 <article key={idx} className="flex items-center gap-stack-xs px-stack py-3 hover:bg-ink-50 cursor-pointer transition-colors group">
@@ -5135,17 +5055,17 @@ const COMPONENTS: ComponentEntry[] = [
                     <span className={`inline-flex items-center justify-center w-9 h-9 rounded-xl ${it.toneBg} ${it.toneText}`}>
                       <it.Icon size={16} strokeWidth={2} />
                     </span>
-                    <span className={`font-body text-[8px] font-black uppercase tracking-wider ${it.toneText}`}>{it.typeLabel}</span>
+                    <span className={`font-body text-caption font-semibold ${it.toneText}`}>{it.typeLabel}</span>
                   </div>
                   {/* Title + meta */}
                   <div className="flex-1 min-w-0 flex flex-col gap-tight">
-                    <h4 className="font-display text-body-sm font-bold text-ink-900 truncate group-hover:text-primary-700 transition-colors">{it.title}</h4>
-                    <p className="m-0 font-body text-micro text-ink-400 truncate">
+                    <h4 className="font-display text-body font-bold text-ink-900 truncate group-hover:text-primary-700 transition-colors">{it.title}</h4>
+                    <p className="m-0 font-body text-caption text-ink-600 truncate">
                       <User size={9} className="inline mr-0.5" />{it.author} · {it.publishedAt} · ⏱ {it.readTime}
                     </p>
                   </div>
                   <button className="text-ink-300 hover:text-primary-600 shrink-0 transition-colors"><Bookmark size={14} /></button>
-                  <ArrowRight size={13} className="text-ink-300 group-hover:text-ink-600 shrink-0 group-hover:translate-x-0.5 transition-all" />
+                  <ArrowRight size={13} className="text-ink-300 group-hover:text-ink-600 shrink-0 transition-colors" />
                 </article>
               ))}
             </div>
@@ -5162,9 +5082,8 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'VeilleCardFeed',
     codeName: 'patterns/VeilleCardFeed.tsx',
-    cssBase: 'Tailwind (no BEM)',
     usedBy: ['Veille'],
-    description: 'Feed éditorial de cartes Veille — pattern v2 Phase 10. **Featured spotlight** (1 item flag `featured: true` → hero horizontal en haut) + **2 layouts** : `grid` (cards verticales 1/2/3 cols, DEFAULT) ou `list` (cards horizontales denses). 3 surfaces (card/tinted/glass), 3 tones par item (brand/warm/sun). Save button bookmark configurable. Loading + empty states.',
+    description: "Fil éditorial de la Veille : un élément `featured` passe en tête (FeaturedSpotlight), puis deux dispositions — grid, le défaut, en cartes verticales, ou list, en rangées denses. Bouton d'enregistrement en soft neutre, soft brand une fois l'élément enregistré (ghost dans la liste) ; flèches du carrousel en soft neutre. États de chargement et vide.",
     keywords: ['veille', 'feed', 'news', 'content', 'editorial', 'cards', 'spotlight', 'featured', 'article', 'tutoriel', 'dossier', 'magazine', 'tone', 'grid', 'list', 'horizontal'],
     render: () => {
       const sampleItems = [
@@ -5176,12 +5095,12 @@ const COMPONENTS: ComponentEntry[] = [
       return (
         <div className="flex flex-col gap-section">
           <div className="flex flex-col gap-stack">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">Layout <code className="text-micro bg-ink-50 px-1.5 py-0.5 rounded">list</code> (DEFAULT) · cards horizontales denses</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">Disposition <code className="text-caption bg-ink-50 px-1.5 py-0.5 rounded">list</code> · rangées denses</p>
             <VeilleCardFeed items={sampleItems.slice(1)} layout="list" savedIds={new Set(['3'])} onItemClick={() => {}} onToggleSave={() => {}} />
           </div>
 
           <div className="flex flex-col gap-stack">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">Layout <code className="text-micro bg-ink-50 px-1.5 py-0.5 rounded">grid</code> · cards verticales (à définir)</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">Disposition <code className="text-caption bg-ink-50 px-1.5 py-0.5 rounded">grid</code>, le défaut · cartes verticales</p>
             <VeilleCardFeed items={sampleItems} savedIds={new Set(['3'])} onItemClick={() => {}} onToggleSave={() => {}} />
           </div>
         </div>
@@ -5193,16 +5112,19 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'VeilleFormatShortcutCards',
     codeName: 'patterns/VeilleFormatShortcutCards.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: 'Grille 2×2 (mobile) → 4-col (sm+) de cartes de navigation vers les formats éditoriaux Veille. Variant dark (glass sur gradient, défaut) ou light (surface claire). Icône + label + description courte + flèche révélée au hover. Répond à `onClick` par card.',
+    description: "Raccourcis vers les formats éditoriaux de la Veille : deux colonnes, quatre dès 768 px ; chaque carte, un bouton au rayon 14, porte une pastille d'icône, un libellé 16/600 et un sous-titre 13, et navigue par `href`. Surface light par défaut ; la variante dark, pour un dégradé, est marquée legacy.",
     keywords: ['veille', 'format', 'shortcut', 'navigation', 'cards', 'editorial', 'magazine', 'newsletter', 'glass', 'dark'],
     usedBy: ['Veille'],
     render: () => (
       <div className="flex flex-col gap-section">
         <div className="flex flex-col gap-stack">
-          <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">Variant dark (défaut — sur dégradé)</span>
-          <div className="p-stack-lg rounded-xl" style={{ background: 'linear-gradient(150deg, #2F5F6A 0%, #55A1B4 100%)' }}>
+          {/* La démo annonçait « dark par défaut » sans passer `surface` : elle
+              rendait des cartes claires aux icônes pâles. Et un dégradé qui
+              descend au cran 500 ne porte pas de texte blanc. */}
+          <span className="text-caption font-semibold text-ink-600">surface="dark" · legacy, sur un dégradé au cran 700 ou plus</span>
+          <div className="p-stack-lg rounded-xl bg-gradient-to-br from-primary-800 to-primary-700">
             <VeilleFormatShortcutCards
+              surface="dark"
               cards={[
                 { icon: <BookOpen  size={16} strokeWidth={2} className="text-primary-200" />,   title: 'Magazine TLS', subtitle: 'Mensuel · analyses',     href: '/veille/magazine' },
                 { icon: <TrendingUp size={16} strokeWidth={2} className="text-secondary-200" />, title: 'Actu hebdo',   subtitle: 'Chaque vendredi',        href: '/veille/weekly-newsletter' },
@@ -5213,7 +5135,7 @@ const COMPONENTS: ComponentEntry[] = [
           </div>
         </div>
         <div className="flex flex-col gap-stack">
-          <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">Défaut (sans surcharge)</span>
+          <span className="text-caption font-semibold text-ink-600">Par défaut · surface light</span>
           <VeilleFormatShortcutCards />
         </div>
       </div>
@@ -5224,16 +5146,15 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'VeilleHeroFilterChips',
     codeName: 'patterns/VeilleHeroFilterChips.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: 'Barre de filtres glass pour le hero éditorial Veille. Compose FilterChip(variant="glass") : chips type de contenu + toggle Sauvegardés (Bookmark) + séparateur vertical + lien Réinitialiser + compteur résultats à droite. Conçu pour surfaces sombres/dégradées.',
+    showcaseOnly: true,
+    description: "La barre de filtres du hero de la Veille, sur fond sombre : des FilterChip glass md (44 px, 16/600) pour les types de contenu et la bascule « Sauvegardés », puis « Réinitialiser » et le nombre de résultats en 13 blanc.",
     keywords: ['veille', 'filter', 'chips', 'hero', 'glass', 'bookmark', 'saved', 'editorial', 'reset', 'count'],
-    usedBy: ['Veille'],
     render: () => {
       const [active, setActive] = React.useState('all');
       const [savedActive, setSavedActive] = React.useState(false);
       const hasFilter = active !== 'all' || savedActive;
       return (
-        <div className="p-stack-lg rounded-xl" style={{ background: 'linear-gradient(150deg, #2F5F6A 0%, #55A1B4 100%)' }}>
+        <div className="p-stack-lg rounded-xl bg-gradient-to-br from-primary-800 to-primary-700">
           <VeilleHeroFilterChips
             filters={[
               { id: 'all',      label: 'Tout' },
@@ -5259,26 +5180,25 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'LearningItemCard',
     codeName: 'learning/LearningItemCard.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: 'Card pour un item du LearningSpace (9 types: astuces, flashcard, ressource, guide, vidéo, micro-learning, mission, masterclass). 9 ItemTypes → 5 tones (brand/warm/sun/success/danger). 3 états: accessible (CTA "Accéder"), complété (badge CheckCircle2 vert -top-2 -left-2 + CTA "Revoir"), locked (opacity-60, lock row enrichi avec raison+message, CTA disabled). Layout 6 zones: badge+DURATION_PILL+level+bubble / titre+desc / theme tag / lock row conditionnel / progress bar 3px conditionnel / CTA full-width. DURATION_PILL = plus proéminent (bg-ink-100 border-ink-200 text-ink-700 semibold) vs META_PILL (bg-ink-50 text-ink-500). Props: isCompleted?, progress? (0-100), onClick wired via resolveItemRoute() dans LearningSpace.',
+    description: "Carte d'un contenu de l'Espace Apprentissage (neuf types, dont astuces, flashcard, ressource, guide, vidéo, mission, masterclass). Type en MetaPill et durée en 13, libellé 16/600 sur deux lignes, description 16 ink-700, niveau Dreyfus (« D3 ») et thème en MetaPill, puis l'action, un Button sm soft pleine largeur. Trois états : accessible, complété, verrouillé (opacité 60 %, raison du verrou). Rayon 20, padding 20 puis 24 dès 640 px.",
     keywords: ['learning', 'item', 'card', 'astuces', 'flashcard', 'mission', 'video', 'locked', 'completed', 'progress', 'tone', 'badge', 'dreyfus'],
     usedBy: ['LearningSpace'],
     toneAware: true,
     render: () => (
       <div className="flex flex-col gap-section">
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Accessible — brand / warm / sun</p>
+        <p className="text-caption font-semibold text-ink-600 m-0">Accessible — brand / warm / sun</p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-stack">
           <LearningItemCard id="1" type="video_conc" title="Maîtriser la rétroaction constructive" description="Comprendre les mécanismes du feedback pour progresser efficacement." duration="15 min" dreyfusLevel={3} theme="Communication" isAccessible={true} onClick={() => {}} />
           <LearningItemCard id="2" type="mission" title="Conduire un entretien de recrutement" description="Structurer et mener un entretien professionnel pour évaluer les compétences." duration="45 min" dreyfusLevel={4} theme="Management" isAccessible={true} onClick={() => {}} />
           <LearningItemCard id="3" type="astuces" title="5 astuces pour mémoriser durablement" description="Des techniques cognitives éprouvées pour ancrer les apprentissages sur le long terme." duration="10 min" dreyfusLevel={2} theme="Pédagogie" isAccessible={true} onClick={() => {}} />
         </div>
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mt-section">Complété + En cours (progress bar)</p>
+        <p className="text-caption font-semibold text-ink-600 m-0 mt-section">Complété + En cours (progress bar)</p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-stack">
           <LearningItemCard id="c1" type="astuces" title="5 astuces pour mémoriser durablement" description="Des techniques cognitives éprouvées pour ancrer les apprentissages sur le long terme." duration="10 min" dreyfusLevel={2} theme="Pédagogie" isAccessible={true} isCompleted={true} onClick={() => {}} />
           <LearningItemCard id="c2" type="guide" title="Guide de feedback 360°" description="Concevoir et déployer un dispositif de feedback multi-sources." duration="30 min" dreyfusLevel={3} theme="RH" isAccessible={true} progress={65} onClick={() => {}} />
           <LearningItemCard id="c3" type="ressource" title="Boîte à outils facilitation" description="Templates et fiches pratiques pour faciliter des ateliers en présentiel ou distanciel." duration="20 min" dreyfusLevel={2} theme="Facilitation" isAccessible={true} progress={25} onClick={() => {}} />
         </div>
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mt-section">Locked states — tier / prerequisite</p>
+        <p className="text-caption font-semibold text-ink-600 m-0 mt-section">Locked states — tier / prerequisite</p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-stack">
           <LearningItemCard id="4" type="masterclass" title="Stratégie de changement organisationnel" description="Piloter la transformation avec méthode et embarquer les équipes." duration="2h" dreyfusLevel={5} theme="Leadership" isAccessible={false} denialReason="tier" denialMessage="Disponible avec l'abonnement Pro" onClick={() => {}} />
           <LearningItemCard id="5" type="guide" title="Guide de feedback 360°" description="Concevoir et déployer un dispositif de feedback multi-sources." duration="30 min" dreyfusLevel={3} theme="RH" isAccessible={false} denialReason="prerequisite" denialMessage="Complète d'abord les astuces de base" onClick={() => {}} />
@@ -5287,16 +5207,55 @@ const COMPONENTS: ComponentEntry[] = [
       </div>
     ),
   },
+  {
+    // Fiche ajoutée le 2026-09-24 : le composant était classé au registre sans fiche.
+    name: 'StepCard',
+    codeName: 'learning/StepCard.tsx',
+    showcaseOnly: true,
+    usedBy: ['LearningPathGrid'],
+    description: "Carte d'une étape de parcours : une pastille de 56 px au rayon 24 porte le numéro en 20/700 — une coche une fois l'étape terminée, un cadenas si elle est verrouillée ; à côté, l'état en Badge (À commencer · En cours · Terminée · Verrouillée), le titre h3 20 à 4 px, le nombre de leçons en légende 13. Puis la description 16 ink-700 à la largeur de lecture, une barre de 6 px et son pourcentage en 13/600 tabulaire, enfin « Voir les leçons », qui déplie la liste : rangées au rayon 14, titre 16/600, durée en 13, coche sur fond success une fois vue. Carte blanche au rayon 20, padding 24, filet de 2 px à la couleur de l'état. Verrouillée, un voile blanc flouté et la mention « Étape verrouillée » la recouvrent. Contrôlée (`isExpanded`, `onToggleExpand`) ou autonome. Elle ne vit que dans LearningPathGrid, que seule la vitrine emploie.",
+    keywords: ['step', 'étape', 'parcours', 'card', 'leçons', 'progression', 'statut', 'locked', 'verrouillée'],
+    render: () => (
+      <div className="grid gap-stack [grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr))]">
+        <StepCard
+          stepNumber={1}
+          status="completed"
+          title="Poser le cadre"
+          lessonCount={3}
+          progress={100}
+        />
+        <StepCard
+          stepNumber={2}
+          status="in-progress"
+          title="Concevoir une séquence"
+          description="Structurer un parcours qui tient debout, de l’objectif à l’évaluation."
+          lessonCount={4}
+          progress={50}
+          lessonsGrid={[
+            { id: 'l1', title: 'Les objectifs observables', duration: '12 min', completed: true },
+            { id: 'l2', title: 'La progression des activités', duration: '15 min', completed: true },
+            { id: 'l3', title: 'Évaluer la pratique', duration: '10 min' },
+            { id: 'l4', title: 'La séquence complète', duration: '20 min' },
+          ]}
+        />
+        <StepCard
+          stepNumber={3}
+          status="locked"
+          title="Animer une session"
+          lessonCount={5}
+        />
+      </div>
+    ),
+  },
 
   {
     name: 'EditorialCard',
-    codeName: 'learning/ArticleCard.tsx · learning/VideoCard.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: 'Card éditoriale multi-format. **ArticleCard** : actu / tutoriel / dossier — icon bubble tone-aware + eyebrow + title + summary + footer. **VideoCard** : vidéo thumbnail tone-aware + play overlay + duration badge. 3–4 tones (primary/warm/sun/brand). Wrapper sur `<Card variant="feature">`.',
-    keywords: ['article', 'editorial', 'actu', 'tutoriel', 'dossier', 'magazine', 'bookmark', 'tone', 'video', 'thumbnail', 'play'],
+    codeName: 'learning/ArticleCard.tsx',
+    description: "Carte éditoriale ArticleCard (actu, tutoriel, dossier) : icône, type en MetaPill et date, catégorie en surtitre 13/600, titre h3 20, résumé 16 ink-700, puis l'auteur et la durée en MetaPill et un Button sm soft « Lire ». L'enregistrement est un bouton-icône ghost, soft une fois enregistré. Son format vidéo, VideoCard, est supprimé le 24/09 : son seul lecteur produit était la page Recherche, partie le même jour.",
+    keywords: ['article', 'editorial', 'actu', 'tutoriel', 'dossier', 'magazine', 'bookmark', 'tone'],
     render: () => (
       <div className="flex flex-col gap-section">
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">ArticleCard — actu / tutoriel / dossier</p>
+        <p className="text-caption font-semibold text-ink-600 m-0">ArticleCard — actu / tutoriel / dossier</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
           <ArticleCard
             itemId="a1"
@@ -5333,37 +5292,13 @@ const COMPONENTS: ComponentEntry[] = [
             onRead={() => {}}
           />
         </div>
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mt-stack">VideoCard — vidéos standalone</p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack-lg max-w-content">
-          <VideoCard
-            title="Construire un prompt structuré en 5 étapes"
-            category="Prompt Engineering"
-            duration="12 min"
-            author="Marie Dubois"
-            tone="primary"
-            isSaved={false}
-            onClick={() => {}}
-            onSave={() => {}}
-          />
-          <VideoCard
-            title="L'IA générative en entreprise"
-            category="IA & Innovation"
-            duration="18 min"
-            author="Pierre Leclerc"
-            tone="warm"
-            isSaved={true}
-            onClick={() => {}}
-            onSave={() => {}}
-          />
-        </div>
       </div>
     ),
   },
   {
     name: 'NewsletterSignupCard',
     codeName: 'patterns/NewsletterSignupCard.tsx',
-    cssBase: 'Tailwind',
-    description: "Bandeau full-bleed newsletter — fond primary-900, headline display + formulaire email inline + lien dernière édition optionnel. Pattern propre à la Veille. Pas de card shell ni de border accent.",
+    description: "Bandeau pleine largeur d'inscription à la newsletter, sur primary-900 : surtitre 13/600, titre h2 28, texte 16, tout en blanc plein, puis le formulaire (Input md et Button md, soft par défaut ; `ctaEmphasis=\"solid\"` en fait le verre clair `onDark`, le solid d'un fond sombre) et une note en 13 ; « Voir la dernière édition » en ghost `onDark`. Propre à la Veille ; pas de coque de carte.",
     keywords: ['newsletter', 'signup', 'email', 'subscription', 'veille', 'editorial', 'band', 'full-bleed'],
     render: () => (
       <NewsletterSignupCard
@@ -5376,9 +5311,8 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'PromptCard',
     codeName: 'learning/PromptCard.tsx',
-    cssBase: 'Tailwind (chat bubble pattern)',
     usedBy: ['Dashboard'],
-    description: '⭐ Card chat-bubble (Apple Messages style) pour les prompts d\'invitation à l\'action sur le Dashboard. Icon + label eyebrow + text body + speech bubble tail + hover tinted bg. 7 variants BadgeVariant (brand/warm/sun/info/neutral/success/danger). 2 sizes : `default` (compact grid) ou `featured` (hero dashboard).',
+    description: "Invitation à écrire, en bulle — la construction canonique : rayon 20, filet 1 px, queue, aucune ombre. En default : étiquette en MetaPill, icône, texte 16 ink-700 et « Réfléchir → » en 13/600. En featured : grande icône et question en 20, puis 28. Le `variant` (les sept tons de Badge) teinte l'étiquette et le survol.",
     keywords: ['prompt', 'chat-bubble', 'speech', 'invitation', 'cta', 'dashboard'],
     render: () => (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-stack max-w-content">
@@ -5402,15 +5336,14 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'MessageBubble',
     codeName: 'ui/MessageBubble.tsx',
-    cssBase: 'Tailwind',
     usedBy: ['ChatInterface', 'Messages'],
-    description: '⭐ Bulle de message réutilisable pour chats et messagerie. 2 variants : `user` (aligné droite) et `assistant` (aligné gauche + avatar). 2 contextes : `chatbot` (fond soft primary-100/ink-50, radius 2xl) et `messaging` (filled primary-500/white, radius xl + shadow). Fonctionnalités AI chatbot : score de confiance (< 0.6 → banner warning), privacy block, citations de sources pills, feedback thumbs-up/down. Messagerie : read receipt `showReadReceipt`, nom expéditeur, slot `children` pour pièces jointes. Markdown léger (**bold**, newlines). ⚠️ Similaire à `PromptCard` — lui est une card standalone cliquable, MessageBubble est un élément de thread.',
+    description: "Une bulle de message, pour l'assistant IA et la messagerie ; texte 16/26, horodatage 13 ink-600 tabulaire. Côté utilisateur : primary-100 (chatbot) ou primary-700 à texte blanc (messagerie) ; côté assistant : ink-50 et avatar. Pour l'IA : « Confiance limitée » sous 0,6, blocage de confidentialité, sources citées, retour « Utile ? ». Pour la messagerie : nom de l'expéditeur, accusé de lecture, pièces jointes en `children`. Un élément de fil ; PromptCard, elle, est une carte autonome.",
     keywords: ['message', 'bubble', 'chat', 'chatbot', 'messaging', 'assistant', 'user', 'conversation', 'coaching'],
     render: () => (
       <div className="flex flex-col gap-section max-w-2xl">
         <div>
-          <p className="text-caption font-semibold text-ink-500 mb-stack-xs">Contexte : chatbot</p>
-          <div className="flex flex-col gap-stack p-stack bg-ink-50 rounded-xl border border-ink-200">
+          <p className="text-caption font-semibold text-ink-600 mb-stack-xs">Contexte : chatbot</p>
+          <div className="flex flex-col gap-stack p-stack-lg bg-ink-50 rounded-xl border border-ink-200">
             <MessageBubble
               variant="user"
               content="Comment développer mes compétences en leadership ?"
@@ -5442,8 +5375,8 @@ const COMPONENTS: ComponentEntry[] = [
           </div>
         </div>
         <div>
-          <p className="text-caption font-semibold text-ink-500 mb-stack-xs">Contexte : messaging (coaching)</p>
-          <div className="flex flex-col gap-stack p-stack bg-white rounded-xl border border-ink-200">
+          <p className="text-caption font-semibold text-ink-600 mb-stack-xs">Contexte : messaging (coaching)</p>
+          <div className="flex flex-col gap-stack p-stack-lg bg-white rounded-xl border border-ink-200">
             <MessageBubble
               variant="user"
               content="Bonjour ! J'ai une question sur notre prochaine session de coaching."
@@ -5468,9 +5401,8 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ConversationalChat',
     codeName: 'patterns/ConversationalChat.tsx',
-    cssBase: 'Tailwind',
     usedBy: ['ChatInterface', 'Onboarding', 'OnboardingUnified', 'OnboardingQuestionnaireConversational'],
-    description: '⭐ Wrapper de fil de conversation complet — liste scrollable de `MessageBubble` + indicateur de frappe animé (3 dots bounce) + auto-scroll-to-bottom (`useRef + useEffect`). Props : `messages: ChatMessage[]`, `isTyping`, `onFeedback`, `emptyState`, `className` (pour contraindre la hauteur). État vide affiché si 0 messages. Encapsule un `<Card>` avec overflow-y-auto. ⚠️ `animationDelay` via `style={{}}` (exception légitime — pas d\'utility Tailwind pour animation-delay sur keyframes).',
+    description: "Fil de conversation complet : une coque en verre (rayon 20), un titre 16/600, le journal des messages (`role=\"log\"`, 8 px entre deux, défilement automatique vers le bas), les bulles de l'IA — blanches, avatar de 32 px, texte 16, le **gras** en 600 au cran 800 — et de l'utilisateur — secondary-700, texte blanc. Props : `messages` (ai · user · typing · inline), `title`, `footer`. Dans l'onboarding et l'assistant.",
     keywords: ['chat', 'conversation', 'thread', 'messages', 'typing', 'auto-scroll', 'chatbot', 'feed'],
     render: () => (
       <ConversationalChat
@@ -5496,33 +5428,16 @@ const COMPONENTS: ComponentEntry[] = [
     ),
   },
   {
-    name: 'RankingCard',
-    codeName: 'learning/RankingCard.tsx',
-    cssBase: 'Tailwind',
-    usedBy: ['Leaderboard'],
-    description: '⭐ Card de classement (podium / leaderboard) — rank number en bubble gradient (or/argent/bronze pour top 3) + nom + points + streak flame badge optionnel. ⚠️ **Pas de similar existing** dans le DS — composant spécifique gamification leaderboard. Could be merged with ProfileCard avec variant="rank" futur, mais APIs très différentes.',
-    keywords: ['ranking', 'leaderboard', 'podium', 'rank', 'gamification', 'streak'],
-    render: () => (
-      <div className="flex flex-col gap-stack max-w-md">
-        <RankingCard rank={1} name="Sophie Martin" points={2840} streak={12} variant="sun" onViewProfile={() => {}} />
-        <RankingCard rank={2} name="Marc Dubois" points={2650} streak={8} onViewProfile={() => {}} />
-        <RankingCard rank={3} name="Léa Petit" points={2410} streak={5} onViewProfile={() => {}} />
-        <RankingCard rank={42} name="Chloé Mimault" points={1280} streak={7} variant="brand" onViewProfile={() => {}} />
-      </div>
-    ),
-  },
-  {
     name: 'TlsLogo',
     codeName: 'ui/TlsLogo.tsx',
-    cssBase: 'Tailwind (SVG inline)',
     usedBy: ['Sidebar', 'AuthShell', 'Onboarding', 'OnboardingUnified', 'OnboardingQuestionnaire', 'OnboardingQuestionnaireConversational', 'SubscriptionPayment', 'OnboardingTutorial', 'OnboardingSuccess'],
     description: '⭐ Logo officiel The Learning Society — SVG inline avec wordmark + mark. Atom critique réutilisé app-wide (sidebar header + auth pages + brand bar de tout le flow onboarding). ⚠️ **Pas de similar** — composant unique.',
     keywords: ['logo', 'brand', 'mark', 'wordmark', 'tls'],
     render: () => (
-      <div className="flex flex-col gap-stack p-stack rounded-xl bg-white border border-ink-200 max-w-md">
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Sur fond blanc</p>
+      <div className="flex flex-col gap-stack p-stack-lg rounded-xl bg-white border border-ink-200 max-w-md">
+        <p className="text-caption font-semibold text-ink-600 m-0">Sur fond blanc</p>
         <TlsLogo />
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mt-stack">Sur fond brand (gradient)</p>
+        <p className="text-caption font-semibold text-ink-600 m-0 mt-stack">Sur fond brand (gradient)</p>
         <div className="p-stack rounded-lg bg-gradient-brand-deep">
           <TlsLogo />
         </div>
@@ -5532,34 +5447,35 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'TlsLogoLockup',
     codeName: 'ui/TlsLogo.tsx',
-    cssBase: 'Tailwind (TlsLogo + League Spartan)',
-    usedBy: [],
-    description: '⭐ Lockup logo — icône TlsLogo + wordmark « The Learning Society » (font-display League Spartan ExtraBold, teal). 4 layouts via prop `layout` : horizontal · vertical · vertical-3 · horizontal-3. Miroir 1-pour-1 du component set Figma `TlsLogoLockup`. Props : `layout`, `iconSize`, `variant` (icône), `wordmarkTone` (primary/ink/white).',
-    keywords: ['logo', 'lockup', 'wordmark', 'brand', 'tls', 'league spartan', 'horizontal', 'vertical'],
+    showcaseOnly: true,
+    description: "Le logo et son nom : l'icône TlsLogo et le mot « The Learning Society » en League Spartan 800, au teal de la marque. Un logotype — ni l'échelle typographique ni le seuil de contraste ne s'y appliquent (WCAG 1.4.3 l'exempte) : le mot-symbole porte `data-logotype` depuis le 24/09, et check-contrast comme check-typo l'ignorent — ils le relevaient à 2,87:1 et en graisse 800 hors échelle. Quatre dispositions (`layout`) : horizontal · vertical · vertical-3 · horizontal-3, miroir du composant Figma. Props : `layout`, `iconSize`, `variant` (de l'icône), `wordmarkTone` (primary · ink · white).",
+    keywords: ['logo', 'lockup', 'wordmark', 'brand', 'tls', 'league spartan', 'horizontal', 'vertical', 'logotype', 'data-logotype'],
     render: () => (
-      <div className="flex flex-col gap-section p-stack rounded-xl bg-white border border-ink-200">
+      /* Padding 20 sous le rayon 20 : à 375, la tuile blanche du bas passait à
+         17 px du coin et pinçait (check-radius). */
+      <div className="flex flex-col gap-section p-stack-md rounded-xl bg-white border border-ink-200">
         <div className="flex flex-wrap items-center gap-section">
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">horizontal</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">horizontal</p>
             <TlsLogoLockup layout="horizontal" iconSize={44} />
           </div>
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">horizontal-3</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">horizontal-3</p>
             <TlsLogoLockup layout="horizontal-3" iconSize={56} />
           </div>
         </div>
         <div className="flex flex-wrap items-start gap-section">
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">vertical</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">vertical</p>
             <TlsLogoLockup layout="vertical" iconSize={64} />
           </div>
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">vertical-3</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">vertical-3</p>
             <TlsLogoLockup layout="vertical-3" iconSize={64} />
           </div>
         </div>
         <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">wordmark ink · sur fond brand (white)</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">wordmark ink · sur fond brand (white)</p>
           <div className="flex flex-wrap items-center gap-section">
             <TlsLogoLockup layout="horizontal" iconSize={40} wordmarkTone="ink" />
             <div className="p-stack rounded-lg bg-gradient-brand-deep">
@@ -5574,15 +5490,14 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Flashcard',
     codeName: 'patterns/Flashcard.tsx',
-    cssBase: 'Tailwind (3D transform)',
     usedBy: ['FlashcardsViewer'],
-    description: '⭐ Card flip 3D (front/back) pour apprentissage actif — révision flashcards. Click → animation 3D flip horizontale. ⚠️ Pas de similar dans le DS.',
+    description: "Carte recto verso pour la révision, retournée d'un clic (rotation 3D) : contenu au chapô 18/28 en 600 (16 sous 640 px), indication en 13 ink-600 en italique. Recto teal, verso orange ; rayon 20. Sa mise en forme vit dans une feuille BEM à part, Flashcard.css.",
     keywords: ['flashcard', 'flip', '3d', 'revision', 'learning', 'memorization'],
     render: () => (
       <div className="max-w-md">
         <Flashcard
-          front={<div className="flex items-center justify-center h-full p-stack-lg"><p className="text-h3 font-bold text-ink-900 text-center m-0">Qu&apos;est-ce que le leadership transformationnel ?</p></div>}
-          back={<div className="flex items-center justify-center h-full p-stack-lg"><p className="text-body text-ink-700 text-center m-0 leading-relaxed">Style de leadership qui inspire et motive les collaborateurs à dépasser leurs intérêts personnels pour le bien collectif.</p></div>}
+          front={<div className="flex items-center justify-center h-full p-stack-lg"><p className="font-display text-h3 font-bold text-ink-900 text-center m-0">Qu&apos;est-ce que le leadership transformationnel ?</p></div>}
+          back={<div className="flex items-center justify-center h-full p-stack-lg"><p className="text-body text-ink-700 text-center m-0">Style de leadership qui inspire et motive les collaborateurs à dépasser leurs intérêts personnels pour le bien collectif.</p></div>}
         />
       </div>
     ),
@@ -5590,9 +5505,8 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'QuizQuestionCard',
     codeName: 'patterns/QuizQuestionCard.tsx',
-    cssBase: 'Tailwind',
     usedBy: ['Positionnement'],
-    description: '⭐ Card question quiz avec options multiples (A/B/C/D), feedback correct/incorrect, numérotation N/M. State management : selectedId + answered + showCorrectAnswer. ⚠️ Pas de similar — composant spécifique quiz/évaluation.',
+    description: "Question de quiz en carte : pastille de numéro et « sur N » (13), question en h3 20/700, 8 px, réponses en rangées de 16 — lettre dans un rond de 32 px calé sur la première ligne —, puis le retour correct ou incorrect en 16. Rayon 14, padding 24.",
     keywords: ['quiz', 'question', 'qcm', 'options', 'evaluation', 'assessment'],
     render: () => (
       <div className="max-w-2xl">
@@ -5617,21 +5531,21 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'DataTable',
     codeName: 'patterns/DataTable.tsx',
-    cssBase: 'Tailwind',
-    description: '⭐ Tableau de données générique — colonnes sortables, alignements, rows custom. Pour vues admin / analytics / liste structurée. ⚠️ Pas de similar — composant unique pour tabular data.',
-    keywords: ['table', 'data', 'grid', 'admin', 'analytics', 'sort'],
+    description: "Tableau de données : en-têtes 13/600 ink-600 en casse normale — la colonne triée passe en ink-900 —, cellules à 16 avec un retrait de 16 × 12, chiffres alignés à droite en tabulaire. Une table plus large que l'écran défile ; chaque colonne peut garder une largeur (`width`) ou une largeur minimale (`minWidth`, 24/09) — sans elle, l'algorithme des tables la ramène au mot le plus long de son en-tête : à 375, les URL des webhooks tombaient à 91 px, coupées tous les 7 caractères. Tri par colonne (`onSort`, le parent trie ; `sortValue` depuis le 23/09), rangées cliquables, pagination (Précédent et Suivant en Button sm ghost neutre — des outils, arbitrage n°19 —, et « Page n sur N »), états de chargement et vide. Pour comparer ou trier une collection (arbitrage n°5).",
+    keywords: ['table', 'data', 'grid', 'admin', 'analytics', 'sort', 'minWidth', 'width', 'colonne'],
     render: () => (
       <DataTable
         columns={[
           { key: 'name', label: 'Nom', sortable: true },
-          { key: 'role', label: 'Rôle' },
+          /* `minWidth` : à 375, la table défile au lieu de couper l'adresse. */
+          { key: 'email', label: 'E-mail', minWidth: '14rem' },
           { key: 'progress', label: 'Progression', align: 'right' },
           { key: 'last', label: 'Dernière activité', align: 'right' },
         ]}
         rows={[
-          { id: '1', name: 'Sophie Martin', role: 'Coach', progress: '92%', last: "Aujourd'hui" },
-          { id: '2', name: 'Marc Dubois', role: 'Apprenant', progress: '67%', last: 'Hier' },
-          { id: '3', name: 'Léa Petit', role: 'Apprenant', progress: '45%', last: 'Il y a 3 jours' },
+          { id: '1', name: 'Sophie Martin', email: 'sophie.martin@exemple.fr', progress: '92 %', last: "Aujourd'hui" },
+          { id: '2', name: 'Marc Dubois', email: 'marc.dubois@exemple.fr', progress: '67 %', last: 'Hier' },
+          { id: '3', name: 'Léa Petit', email: 'lea.petit@exemple.fr', progress: '45 %', last: 'Il y a 3 jours' },
         ]}
       />
     ),
@@ -5640,14 +5554,14 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'RatingModal',
     codeName: 'patterns/RatingModal.tsx',
-    cssBase: 'Tailwind',
-    description: '⭐ Pattern de rating étoiles (1-5) avec feedback textuel. Pour évaluation session / leçon / contenu. ⚠️ Pas de similar — pattern unique. Note : pas vraiment un modal (pas de isOpen overlay), c\'est un form rating inline à wrapper dans un Modal DS si besoin.',
-    keywords: ['rating', 'stars', 'feedback', 'review', 'evaluation'],
+    showcaseOnly: true,
+    description: "Notation en cinq étoiles avec un commentaire, pour une session, une leçon ou un contenu. Malgré son nom, ce n'est pas un dialogue — ni rôle, ni voile, ni piège de focus — mais un panneau au rayon 24 à poser dans un Modal : titre h2 au pas du titre de dialogue, 20/26/700, comme Modal (il était au pas d'une section de page, 28/36), description 16 ink-700, étoiles de 56 px, sens de la note en pastille 13, puis le commentaire, et Annuler en outline neutre et « Envoyer mon avis » en solid (arbitrage n°19). Le commentaire est le champ du système depuis le 24/09 : `Input multiline`, quatre lignes, libellé « Commentaire (optionnel) », filet ink-400 de la famille champ (3,01:1, arbitrage n°7) et son focus, filet primary-500 et halo. La zone de texte était faite main, au filet ink-300 : 1,47:1 sur le blanc du panneau, sous le 3:1 d'un contrôle (SC 1.4.11) ; on ne voyait pas où écrire. Hors d'un Modal, il n'y a ni voile ni page inerte. ⚠️ L'aide du champ (« Partagez vos impressions… ») et les textes par défaut vouvoient, sans prop de voix : posé sur une surface de l'apprenant, qui tutoie, il mêlerait les deux. La démo vouvoie donc.",
+    keywords: ['rating', 'stars', 'feedback', 'review', 'evaluation', 'Input', 'multiline', 'commentaire'],
     render: () => (
       <div className="max-w-md">
         <RatingModal
-          title="Note cette session"
-          description="Comment évalues-tu cette session de coaching avec Sophie ?"
+          title="Notez cette session"
+          description="Comment évaluez-vous cette session de coaching avec Sophie ?"
           onSubmit={() => {}}
           onCancel={() => {}}
         />
@@ -5657,9 +5571,8 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ProjectCard',
     codeName: 'learning/ProjectCard.tsx',
-    cssBase: 'Tailwind',
     usedBy: ['Project (page existante)'],
-    description: '⭐ Card projet collaboratif — title + description + status pill + progress bar + tasks + deadline + team avatars. **Status-aware fill** (Phase 19 fix) : `warm` pour planning, `brand` pour in-progress, `success` pour completed. **Avatars status-aware** : secondary-100/700 (planning) / primary-100/700 (in-progress) / success-bg/fg (completed). ProgressBar + Badge + Avatar tous cohérents avec le statut.',
+    description: "Carte de projet : titre h3 et Badge d'état (En préparation, En cours, Terminé), description 16 ink-700, méta 13 (tâches, échéance), ProgressBar sm, l'équipe, puis un Button soft pleine largeur. Le remplissage de la barre et les avatars suivent l'état.",
     keywords: ['project', 'collaborative', 'team', 'tasks', 'progress', 'deadline'],
     render: () => (
       <div className="max-w-2xl">
@@ -5686,8 +5599,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'FloatingNavButton',
     codeName: 'FloatingNavButton.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: '⭐ Speed-dial FAB flottant fixed bottom-right/left. Configurable : `actions[]` (label/icon/onClick/tone) + `tone` (FAB) + `position` + `icon`/`closeIcon`. Migré Tailwind + DS (Phase 10). **Retiré de App.tsx prod** — réactivable pour futur chatbot, quick contact, help shortcut. Click main FAB → expand actions vertical stack avec animation filterIn. ⚠️ Pas de similar — composant unique floating speed-dial.',
+    description: "Bouton flottant à actions (speed-dial) : 56 px, au cran 700 du ton (sun : accent-400 et encre), qui déplie des actions de 48 px — libellé 16/600, filet au cran 200 du ton. Ouvert, il montre `closeIcon`, une croix, sans rotation : jusqu'au 24/09, la croix tournait aussi de 45° et se relisait « + », le même signe que fermé. Il se place au-dessus de la BottomNav sous 768 px. `actions`, `tone`, `position`, `icon` et `closeIcon`. Dans l'app, il sert de raccourci de développement vers la vitrine et l'index des pages.",
     keywords: ['floating', 'fab', 'speed-dial', 'quick-actions', 'chatbot', 'contact', 'help', 'fixed'],
     render: () => (
       <div className="relative h-[280px] rounded-2xl border border-ink-200 bg-gradient-page-ambient overflow-hidden">
@@ -5699,9 +5611,9 @@ const COMPONENTS: ComponentEntry[] = [
           <FloatingNavButton
             tone="primary"
             actions={[
-              { label: 'Ask AI', icon: <SparklesIcon size={18} />, onClick: () => alert('AI chat'), tone: 'primary' },
-              { label: 'Contact', icon: <MessageSquare size={18} />, onClick: () => alert('Contact'), tone: 'warm' },
-              { label: 'Aide', icon: <BookOpen size={18} />, onClick: () => alert('Help'), tone: 'sun' },
+              { label: "Demander à l'IA", icon: <SparklesIcon size={18} />, onClick: () => {}, tone: 'primary' },
+              { label: 'Contact', icon: <MessageSquare size={18} />, onClick: () => {}, tone: 'warm' },
+              { label: 'Aide', icon: <BookOpen size={18} />, onClick: () => {}, tone: 'sun' },
             ]}
             className="!static"
           />
@@ -5712,7 +5624,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'AmbientBlobs',
     codeName: 'patterns/AmbientBlobs.tsx',
-    cssBase: 'Tailwind + @keyframes float (index.css)',
     usedBy: ['Coaching'],
     description: 'Fond ambient TLS avec 3 blobs flottants (primary teal / warm orange / sun yellow). Pattern décoratif full-page : 3 cercles très flous (blur 80px) qui dérivent lentement (animation float 20s, staggered delays). Position fixed (default) ou absolute, pointer-events-none. 3 intensities : subtle (0.10) / normal (0.15 default) / vivid (0.25). À combiner avec l\'utility token DS `bg-gradient-page-ambient` (teal-50 → white → yellow-50) pour fond premium TLS. Variants : `-warm` (orange) et `-sun` (orange→yellow).',
     keywords: ['blob', 'ambient', 'background', 'decorative', 'gradient', 'float', 'fixed', 'overlay', 'blur'],
@@ -5723,7 +5634,7 @@ const COMPONENTS: ComponentEntry[] = [
           <AmbientBlobs position="absolute" intensity="normal" />
           <div className="relative z-base p-stack-lg flex flex-col items-center justify-center h-full text-center">
             <p className="m-0 font-display text-h3 font-bold text-ink-900">bg-gradient-page-ambient (DEFAULT)</p>
-            <p className="m-0 mt-stack-xs font-body text-body text-ink-600 max-w-prose">
+            <p className="m-0 mt-stack-xs font-body text-body text-ink-700 max-w-prose">
               Teal-50 → white → yellow-50 + 3 blobs flottants (float 20s).
             </p>
           </div>
@@ -5734,27 +5645,30 @@ const COMPONENTS: ComponentEntry[] = [
           <div className="relative h-[180px] overflow-hidden rounded-xl bg-gradient-page-ambient-warm border border-ink-200">
             <AmbientBlobs position="absolute" intensity="subtle" />
             <div className="relative z-base p-stack flex flex-col items-center justify-center h-full text-center">
-              <p className="m-0 font-display text-body-sm font-bold text-ink-900">bg-gradient-page-ambient-warm</p>
+              <p className="m-0 font-display text-body font-bold text-ink-900">bg-gradient-page-ambient-warm</p>
               <p className="m-0 mt-tight font-body text-caption text-ink-600">Teal → white → orange</p>
             </div>
           </div>
           <div className="relative h-[180px] overflow-hidden rounded-xl bg-gradient-page-ambient-sun border border-ink-200">
             <AmbientBlobs position="absolute" intensity="subtle" />
             <div className="relative z-base p-stack flex flex-col items-center justify-center h-full text-center">
-              <p className="m-0 font-display text-body-sm font-bold text-ink-900">bg-gradient-page-ambient-sun</p>
+              <p className="m-0 font-display text-body font-bold text-ink-900">bg-gradient-page-ambient-sun</p>
               <p className="m-0 mt-tight font-body text-caption text-ink-600">Orange → white → yellow</p>
             </div>
           </div>
         </div>
 
         {/* Brand deep + soft pastels (gradients tokens additionnels) */}
-        <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0 mt-stack">Hero & soft pastels — autres gradients tokens DS</p>
+        <p className="text-caption font-semibold text-ink-600 m-0 mt-stack">Hero & soft pastels — autres gradients tokens DS</p>
 
-        {/* Brand deep (saturated 90°) */}
-        <div className="relative h-[140px] overflow-hidden rounded-xl bg-gradient-brand-deep border border-ink-200">
-          <div className="relative z-base p-stack flex flex-col items-center justify-center h-full text-center">
-            <p className="m-0 font-display text-body font-bold text-white">bg-gradient-brand-deep</p>
-            <p className="m-0 mt-tight font-body text-caption text-white/80 font-mono">90deg · brand-navy #164267 → primary-500 #55a1b4</p>
+        {/* Brand deep (saturated 90°) — le libellé sous la nuance, pas dessus :
+            du blanc n'y passe que côté navy, et le bout primary-500 le porte à
+            2,94:1 (à 375 px, le libellé replié y débordait : 3,98:1). */}
+        <div className="flex flex-col gap-stack-xs">
+          <div aria-hidden className="h-[140px] rounded-xl bg-gradient-brand-deep border border-ink-200" />
+          <div>
+            <p className="m-0 font-display text-body font-bold text-ink-900">bg-gradient-brand-deep</p>
+            <p className="m-0 mt-tight font-mono text-caption text-ink-600">90deg · brand-navy #164267 → primary-500 #55a1b4</p>
           </div>
         </div>
 
@@ -5762,34 +5676,34 @@ const COMPONENTS: ComponentEntry[] = [
         <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
           <div className="relative h-[180px] overflow-hidden rounded-xl bg-gradient-soft-pastel border border-ink-200">
             <div className="relative z-base p-stack flex flex-col items-center justify-center h-full text-center">
-              <p className="m-0 font-display text-body-sm font-bold text-ink-900">bg-gradient-soft-pastel</p>
-              <p className="m-0 mt-tight font-body text-micro text-ink-600 font-mono">135° · cyan #f0f9ff → mist #f8fbfd → cream #fefaf5</p>
+              <p className="m-0 font-display text-body font-bold text-ink-900">bg-gradient-soft-pastel</p>
+              <p className="m-0 mt-tight font-body text-caption text-ink-600 font-mono">135° · cyan #f0f9ff → mist #f8fbfd → cream #fefaf5</p>
             </div>
           </div>
           <div className="relative h-[180px] overflow-hidden rounded-xl bg-gradient-soft-duo border border-ink-200">
             <div className="relative z-base p-stack flex flex-col items-center justify-center h-full text-center">
-              <p className="m-0 font-display text-body-sm font-bold text-ink-900">bg-gradient-soft-duo</p>
-              <p className="m-0 mt-tight font-body text-micro text-ink-600 font-mono">135° · cyan #f0f9ff → mist #f8fbfd → cream #fefaf5</p>
+              <p className="m-0 font-display text-body font-bold text-ink-900">bg-gradient-soft-duo</p>
+              <p className="m-0 mt-tight font-body text-caption text-ink-600 font-mono">135° · cyan #f0f9ff → mist #f8fbfd → cream #fefaf5</p>
             </div>
           </div>
         </div>
 
         {/* Equivalence — utility class vs Tailwind native composition */}
-        <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0 mt-stack">⚖️ Équivalence — utility DS vs Tailwind natif composé</p>
+        <p className="text-caption font-semibold text-ink-600 m-0 mt-stack">⚖️ Équivalence — utility DS vs Tailwind natif composé</p>
         <p className="text-caption text-ink-600 m-0">
-          Les couleurs sont définies en <code className="text-micro bg-ink-50 px-1.5 py-0.5 rounded">@theme</code> → Tailwind v4 expose <code className="text-micro bg-ink-50 px-1.5 py-0.5 rounded">from-X</code>/<code className="text-micro bg-ink-50 px-1.5 py-0.5 rounded">via-X</code>/<code className="text-micro bg-ink-50 px-1.5 py-0.5 rounded">to-X</code> automatiquement. Les 2 versions ci-dessous rendent <strong>identiquement</strong> :
+          Les couleurs sont définies en <code className="text-caption bg-ink-50 px-1.5 py-0.5 rounded">@theme</code> → Tailwind v4 expose <code className="text-caption bg-ink-50 px-1.5 py-0.5 rounded">from-X</code>/<code className="text-caption bg-ink-50 px-1.5 py-0.5 rounded">via-X</code>/<code className="text-caption bg-ink-50 px-1.5 py-0.5 rounded">to-X</code> automatiquement. Les 2 versions ci-dessous rendent <strong>identiquement</strong> :
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
           <div className="relative h-[140px] overflow-hidden rounded-xl bg-gradient-page-ambient border border-ink-200">
             <div className="relative z-base p-3 h-full flex flex-col items-center justify-center text-center">
               <p className="m-0 font-mono text-caption text-ink-700"><strong>Utility DS</strong></p>
-              <code className="m-0 mt-tight text-micro text-ink-900 bg-white/60 px-2 py-1 rounded">bg-gradient-page-ambient</code>
+              <code className="m-0 mt-tight text-caption text-ink-900 bg-white/60 px-2 py-1 rounded">bg-gradient-page-ambient</code>
             </div>
           </div>
           <div className="relative h-[140px] overflow-hidden rounded-xl bg-gradient-to-br from-primary-50 via-white to-accent-50 border border-ink-200">
             <div className="relative z-base p-3 h-full flex flex-col items-center justify-center text-center">
               <p className="m-0 font-mono text-caption text-ink-700"><strong>Tailwind composé</strong></p>
-              <code className="m-0 mt-tight text-micro text-ink-900 bg-white/60 px-2 py-1 rounded">bg-gradient-to-br from-primary-50 via-white to-accent-50</code>
+              <code className="m-0 mt-tight text-caption text-ink-900 bg-white/60 px-2 py-1 rounded">bg-gradient-to-br from-primary-50 via-white to-accent-50</code>
             </div>
           </div>
         </div>
@@ -5799,9 +5713,8 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'EditorialHero',
     codeName: 'patterns/EditorialHero.tsx',
-    cssBase: 'EditorialHero (glass hero band)',
     usedBy: ['Dashboard', 'Journal', 'LearningPaths', 'ArticleDetail', 'MagazineArticle', 'Newsletter', 'WeeklyNewsDetail', 'Project', 'CoachingBookingFlow', 'PreCoachingQuestionnaireResponse', 'Account'],
-    description: 'Bandeau hero éditorial plein-largeur. Tone-aware (default / brand / warm / sun) : default = teinte primary légère + texte ink ; brand = gradient primary-500→700 saturé + texte blanc (Dashboard/Journal) ; warm = gradient secondary saturé + texte blanc (LearningPaths) ; sun = gradient accent. Trailing slot pour KPIs/CTAs.',
+    description: "Alias exact de PageHero, gardé pour les surfaces réellement éditoriales (Magazine, Veille, Articles) : même anatomie — surtitre 13/600, h1 36/44, chapô 18/28, méta 13 —, mêmes tons. Les tons saturés sont au cran 700 → 800 depuis le 23/09 : le 500 ne porte pas de texte blanc.",
     keywords: ['hero', 'editorial', 'banner', 'page-header', 'tone-aware', 'brand', 'warm', 'sun', 'glass'],
     render: () => (
       <EditorialHero
@@ -5818,23 +5731,22 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'EditorialLayout',
     codeName: 'patterns/EditorialLayout.tsx',
-    cssBase: 'EditorialLayout (2-col main + sticky aside)',
     usedBy: ['ArticleDetail', 'MagazineArticle', 'Newsletter', 'WeeklyNewsDetail', 'Project', 'CoachingBookingFlow', 'PreCoachingQuestionnaireResponse'],
-    description: 'Layout 2 colonnes (main 1.4fr + aside 0.8fr) avec aside sticky sur desktop, stack sur mobile. Slot main + slot aside. Option `asideFirst` pour inverser, `staticAside` pour désactiver le sticky.',
+    description: "Deux colonnes : le contenu (1,4 fr) et une colonne latérale (0,8 fr, 280 px au moins), 24 px entre elles dès 768 px ; la colonne latérale colle à 96 px du haut sur grand écran, et tout passe en une colonne sur mobile. `asideFirst` inverse l'ordre, `staticAside` désactive le collage.",
     keywords: ['layout', 'editorial', 'sidebar', 'sticky', 'aside', '2-column', 'content'],
     render: () => (
       <EditorialLayout
         staticAside
         main={
           <SectionCard title="Contenu principal">
-            <p className="m-0 text-body-sm text-ink-500">
+            <p className="m-0 text-body text-ink-700">
               La colonne principale prend ~1.4fr de l'espace disponible. Elle peut contenir n'importe quel contenu : SectionCard, formulaires, listes, médias.
             </p>
           </SectionCard>
         }
         aside={
           <SectionCard title="Aside">
-            <p className="m-0 text-body-sm text-ink-500">
+            <p className="m-0 text-body text-ink-700">
               L'aside prend ~0.8fr et devient sticky sur desktop (top: 96px). Sur mobile, le layout passe en single-column.
             </p>
           </SectionCard>
@@ -5845,25 +5757,18 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'SectionCard',
     codeName: 'patterns/SectionCard.tsx',
-    cssBase: 'SectionCard (titled content card)',
     usedBy: ['ArticleDetail', 'MagazineArticle', 'Newsletter', 'WeeklyNewsDetail', 'Project', 'CoachingBookingFlow', 'PreCoachingQuestionnaireResponse', 'ResetPassword', 'Billing', 'SubscriptionPayment', 'Positionnement', 'OnboardingQuestionnaire'],
-    description: 'Carte de section avec header (titre + icône + description + headerAction), body (children) et footer actions séparé par une bordure. Tone configurable (passé à Card). Utilisé pour structurer les pages éditoriales et content.',
-    keywords: ['section', 'card', 'titled', 'content', 'editorial', 'layout'],
+    description: "Carte de section : titre h3 20 (son icône calée sur la première ligne), 8 px, description 16 ink-700, action d'en-tête en haut à droite ; 16 px, le contenu ; puis 12 px, un filet, 12 px, les actions. C'est une Card md : padding 24, rayon 20. `titleAs` (h2 | h3, défaut h3, ajouté le 24/09) règle le niveau du titre, pas sa taille : `h2` quand la carte est elle-même la section, posée sous le h1 sans titre au-dessus d'elle — sinon le plan saute de h1 à h3. Si le bloc se lit comme une section de la page, la doctrine préfère un SectionHeader posé sur la page, au-dessus d'une Card. Pour découper une page éditoriale ou un formulaire en blocs.",
+    keywords: ['section', 'card', 'titled', 'content', 'editorial', 'layout', 'titleAs', 'h2', 'h3', 'niveau'],
     render: () => (
       <SectionCard
         title="À retenir"
         titleIcon={<CheckCircle2 size={18} className="text-primary-600" />}
         description="Points essentiels à mémoriser pour cette section."
-        headerAction={<span className="text-caption text-ink-500">3 items</span>}
-        actions={
-          <>
-            <button type="button" className="inline-flex items-center gap-tight text-body-sm text-primary-600 hover:text-primary-700 underline bg-transparent border-0 p-0 cursor-pointer">
-              Voir tout
-            </button>
-          </>
-        }
+        headerAction={<span className="text-caption text-ink-600">3 éléments</span>}
+        actions={<Button emphasis="link">Voir tout</Button>}
       >
-        <ul className="m-0 pl-4 flex flex-col gap-stack-xs text-body-sm text-ink-700 list-disc">
+        <ul className="m-0 pl-4 flex flex-col gap-stack-xs text-body text-ink-700 list-disc">
           <li>Premier point essentiel à retenir.</li>
           <li>Deuxième point avec une explication détaillée.</li>
           <li>Troisième point pour clore la section.</li>
@@ -5874,14 +5779,13 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'RelatedItemList',
     codeName: 'patterns/RelatedItemList.tsx',
-    cssBase: 'RelatedItemList (cross-link list)',
     usedBy: ['MagazineArticle', 'Newsletter', 'WeeklyNewsDetail', 'CoachingBookingFlow', 'PreCoachingQuestionnaireResponse'],
-    description: 'Liste verticale d\'items associés (related/recommended). Items avec titre + description + meta optionnel + icon optionnel. Items cliquables (href ou onClick) avec chevron animé au hover. Utilisé dans les asides éditoriaux.',
+    description: "Liste d'éléments liés, pour les colonnes éditoriales : pastille d'icône, méta 13 ink-600 au-dessus du titre (16/600), description 16 ink-700 sur deux lignes, 8 px entre deux éléments. Un élément devient un lien avec `href`, un bouton avec `onClick` ; chevron au survol.",
     keywords: ['related', 'list', 'cross-link', 'recommendations', 'editorial', 'aside'],
     render: () => (
       <div className="flex flex-col gap-section">
         <div>
-          <p className="text-caption text-ink-500 mb-stack-xs uppercase tracking-wider font-semibold">onClick → &lt;button&gt;</p>
+          <p className="text-caption text-ink-600 mb-stack-xs font-semibold">onClick → un bouton</p>
           <RelatedItemList
             items={[
               { id: '1', title: 'Interview expert', description: 'Vision 2027', meta: 'Interview', onClick: () => {} },
@@ -5890,7 +5794,7 @@ const COMPONENTS: ComponentEntry[] = [
           />
         </div>
         <div>
-          <p className="text-caption text-ink-500 mb-stack-xs uppercase tracking-wider font-semibold">href → &lt;a&gt; anchor (dans l'app via useNavigate)</p>
+          <p className="text-caption text-ink-600 mb-stack-xs font-semibold">href → un lien</p>
           <RelatedItemList
             items={[
               { id: '4', title: 'Webinaire replay', description: 'IA & pédagogie : retour d\'expérience', meta: 'Vidéo', onClick: () => {} },
@@ -5899,7 +5803,7 @@ const COMPONENTS: ComponentEntry[] = [
           />
         </div>
         <div>
-          <p className="text-caption text-ink-500 mb-stack-xs uppercase tracking-wider font-semibold">Sans interaction (display-only)</p>
+          <p className="text-caption text-ink-600 mb-stack-xs font-semibold">Sans interaction</p>
           <RelatedItemList
             items={[
               { id: '6', title: 'Sans lien interactif', description: 'Item purement displayonly (pas de href ni onClick)', meta: 'Lecture' },
@@ -5912,25 +5816,24 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'AuthShell',
     codeName: 'patterns/AuthShell.tsx',
-    cssBase: 'AuthShell (branded glass dark auth layout)',
     usedBy: ['Login', 'Signup', 'ForgotPassword', 'ResetPassword', 'VerifyEmail', 'MagicLink'],
-    description: 'Layout auth full-bleed branded glass dark (gradient teal + blobs ambient). Famille complète de sub-components: AuthField (input + icon + error), AuthPasswordField (eye toggle intégré), AuthPrimaryButton + AuthGhostButton, AuthCheckbox (peer/sr-only glass), AuthDivider, AuthSocialButton, AuthInlineLink, AuthSuccess.',
-    keywords: ['auth', 'login', 'signup', 'shell', 'glass-dark', 'AuthField', 'AuthPasswordField', 'AuthPrimaryButton', 'AuthGhostButton', 'AuthCheckbox', 'form', 'aside'],
+    description: "La coque des pages d'authentification, sur un dégradé primary-700 → 900 où trois halos d'ambiance au cran 700 donnent la profondeur sans éclaircir ce que le texte blanc a besoin de sombre : carte en verre de 480 px au rayon 20 (l'étage conteneur), voile blanc à 5 % — il était à 10 %, et ramenait le blanc à 4,12:1 sur le haut du dégradé —, filet blanc/20 ; en-tête en h1 36/44/700 blanc et sous-titre 16. L'encart `aside` prend le même rayon 20. La famille Auth* est la primitive de cette surface : AuthField (Input glass lg, 52 px, libellé 16/600 blanc), AuthPasswordField (bascule de visibilité), AuthPrimaryButton, AuthGhostButton et AuthSocialButton (52 px, 16/700, rayon 14), AuthCheckbox (20 px, calée sur la première ligne), AuthDivider (13/400), AuthInlineLink, AuthSuccess. La coque n'a qu'un aplat : AuthPrimaryButton, blanc plein à encre ink-900, l'action principale (arbitrage n°19). Depuis le 24/09, les boutons de fournisseur (Google, LinkedIn) partagent le niveau contour d'AuthGhostButton : fond transparent, filet et libellé blancs — ils portaient le même blanc plein que l'action principale, qui ne s'en distinguait plus que par son ombre. Le filet est à blanc/70, le contrat de `Button onDark outline` : à blanc/30 il mesurait 1,88 à 2,01:1 contre la coque, sous le 3:1 d'un contour (SC 1.4.11) ; il tient désormais 3,6 à 4,4:1. Au survol, le fond fonce d'un voile primary-900 et le filet se ferme au blanc plein : un voile blanc faisait tomber le libellé sous 4,5:1. Réservée à la surface glass-dark : ne pas l'employer ailleurs.",
+    keywords: ['auth', 'login', 'signup', 'shell', 'glass-dark', 'AuthField', 'AuthPasswordField', 'AuthPrimaryButton', 'AuthGhostButton', 'AuthSocialButton', 'AuthCheckbox', 'form', 'aside', 'Google', 'LinkedIn', 'contour', 'fournisseur'],
     render: () => <AuthShellDemo />,
   },
   {
     name: 'ResumeLessonCard',
     codeName: 'patterns/ResumeLessonCard.tsx',
-    cssBase: 'ResumeLessonCard (dashboard hero card)',
     usedBy: ['Dashboard'],
-    description: 'Card hero "Reprendre ta leçon" pour le Dashboard learner-centric. Glass tone-aware (warm/primary/sun) avec eyebrow "Étape X sur Y", titre h1 du parcours, description contextuelle, meta pills (niveau/durée/leçons), progress bar large + CTA pill arrondi. Hero-sized (p-stack-lg/8/10 responsive), radial glow au hover.',
+    description: "La carte « Reprendre ta leçon » du tableau de bord : pastille de 48 px, Badge « En cours » et étape en 13, titre du parcours en h2 au pas h3 (20, puis 28 quand la carte dépasse 512 px), « Prochaine leçon » en 16, données en MetaPillGroup sm ; en pied, la progression en 13 sur une barre de 6 px et le Button md « Reprendre », en solid au ton de la carte — l'exception à la règle des cartes (arbitrage n°19) : c'est l'action principale de l'accueil. Fond blanc, rayon 20, padding 24. `description` est dépréciée : elle n'est plus rendue.",
     keywords: ['resume', 'reprendre', 'parcours', 'lesson', 'leçon', 'dashboard', 'continue', 'hero'],
     render: () => (
       <ResumeLessonCard
         id="demo-1"
-        eyebrow="Étape 2 sur 5"
         parcoursTitle="Devenir prompt designer"
-        description="Applications pratiques — Apprends à structurer tes prompts pour des cas concrets de formation. Plus que 8 minutes pour terminer la prochaine leçon."
+        nextLessonTitle="Structurer un prompt pour un cas de formation"
+        currentStep={2}
+        totalSteps={5}
         progress={40}
         tone="warm"
         duration="3h restantes"
@@ -5940,10 +5843,63 @@ const COMPONENTS: ComponentEntry[] = [
     ),
   },
   {
+    name: 'IconChip',
+    codeName: 'ui/IconChip.tsx',
+    description: "Pastille d'icône : un carré teinté qui porte un glyphe Lucide. Rayon PROPORTIONNEL (arbitrage n°3 du 23/09) — 24 px rounded-sm (6) · 32 et 40 px rounded-md (10) · 48 px rounded-lg (14). Le rond reste réservé aux personnes (Avatar). Fond cran 50 / -bg, glyphe cran 800 / -fg : 6,31 à 10,21:1. Décorative (aria-hidden) sauf si `label` est passé. Une pastille qu'on presse n'en est pas une : c'est un Button iconOnly. Sur une carte de MÊME teinte (primary-50, secondary-50, accent-50, ink-100), passer surface=\"tinted\" : le fond monte au cran 100, sinon la pastille se confond avec la carte (arbitrage n°10 du 23/09).",
+    keywords: ['icon', 'chip', 'pastille', 'bubble', 'glyph', 'tone', 'brand', 'warm', 'sun', 'neutral', 'success', 'danger', 'info', 'decoration', 'surface', 'tinted'],
+    render: () => (
+      <div className="flex flex-col gap-stack">
+        <div className="hstack flex-wrap items-end">
+          <IconChip size="xs"><Target /></IconChip>
+          <IconChip size="sm"><Target /></IconChip>
+          <IconChip size="md"><Target /></IconChip>
+          <IconChip size="lg"><Target /></IconChip>
+          <span className="text-caption text-ink-600 font-mono">xs 24 · sm 32 · md 40 · lg 48</span>
+        </div>
+        <div className="hstack flex-wrap">
+          <IconChip size="md" tone="brand"><BookOpen /></IconChip>
+          <IconChip size="md" tone="warm"><Flame /></IconChip>
+          <IconChip size="md" tone="sun"><Trophy /></IconChip>
+          <IconChip size="md" tone="neutral"><Settings2 /></IconChip>
+          <IconChip size="md" tone="success"><CheckCircle2 /></IconChip>
+          <IconChip size="md" tone="danger"><Trash2 /></IconChip>
+          <IconChip size="md" tone="info"><Lightbulb /></IconChip>
+        </div>
+        <div className="flex items-center gap-stack-sm">
+          <IconChip tone="warm"><Calendar /></IconChip>
+          <span className="text-body text-ink-900">Prochaine session : jeudi 14 h</span>
+        </div>
+        {/* Arbitrage n°10 (23/09) : sur une carte de même teinte, le cran 50
+            se confond avec la carte (1,00:1) — surface="tinted" monte au 100. */}
+        <div className="grid gap-stack sm:grid-cols-3">
+          {/* Surface faite main, volontairement : `<Card tone>` hors variante
+              `tinted` rend aujourd'hui blanc (bg-white gagne sur bg-primary-50). */}
+          {([
+            ['brand', 'bg-primary-50 border-primary-200', <BookOpen key="i" />, 'Carte primary-50'],
+            ['warm', 'bg-secondary-50 border-secondary-200', <Flame key="i" />, 'Carte secondary-50'],
+            ['sun', 'bg-accent-50 border-accent-200', <Trophy key="i" />, 'Carte accent-50'],
+          ] as const).map(([chipTone, surfaceClasses, icon, label]) => (
+            <div key={chipTone} className={['flex flex-col gap-stack-sm rounded-xl border p-stack-lg', surfaceClasses].join(' ')}>
+              <span className="text-caption text-ink-700 font-mono">{label}</span>
+              <div className="flex items-center gap-stack-sm">
+                <IconChip size="md" tone={chipTone}>{icon}</IconChip>
+                <span className="text-body text-ink-700">défaut : cran 50, se fond</span>
+              </div>
+              <div className="flex items-center gap-stack-sm">
+                <IconChip size="md" tone={chipTone} surface="tinted">{icon}</IconChip>
+                <span className="text-body text-ink-900">surface="tinted" : cran 100</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    ),
+  },
+  {
     name: 'Divider',
     codeName: 'ui/Divider.tsx',
-    cssBase: '.divider / .divider--vertical / .divider--labeled / .divider--sm/md/lg',
-    description: 'Séparateur horizontal ou vertical. Label centré avec var(--text-soft). Spacings: sm/md/lg via classes CSS. Ligne: var(--border).',
+    showcaseOnly: true,
+    description: "Séparateur horizontal ou vertical : un filet de 1 px en dégradé (transparent → ink-200 → transparent). Avec `label`, le libellé se pose au milieu en 13/600 ink-600, en casse normale — il était en capitales espacées —, à 8 px de chaque côté. Marges `spacing` de 8 · 16 · 32 px.",
     keywords: ['divider', 'separator', 'hr', 'section', 'label', 'horizontal', 'vertical', 'css'],
     render: () => (
       <div className="flex flex-col gap-stack">
@@ -5951,11 +5907,11 @@ const COMPONENTS: ComponentEntry[] = [
         <Divider label="ou" />
         <Divider label="Compétences" spacing="lg" />
         <div className="flex items-center gap-stack h-20">
-          <span className="text-body-sm">Section A</span>
+          <span className="text-body">Section A</span>
           <Divider orientation="vertical" />
-          <span className="text-body-sm">Section B</span>
+          <span className="text-body">Section B</span>
           <Divider orientation="vertical" />
-          <span className="text-body-sm">Section C</span>
+          <span className="text-body">Section C</span>
         </div>
       </div>
     ),
@@ -5966,27 +5922,19 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ConsentBanner',
     codeName: 'patterns/ConsentBanner.tsx',
-    cssBase: 'ConsentBanner',
-    description: 'Bandeau GDPR cookie consent. Position fixed bottom. 3 catégories (nécessaires/analytiques/marketing). Panneau "Personnaliser" expandable. Tous rôles. Module #13bis.',
-    keywords: ['consent', 'gdpr', 'rgpd', 'cookies', 'privacy', 'banner', 'compliance', 'ai act'],
-    showcaseOnly: false,
-    usedBy: [],
+    description: "Bandeau de consentement aux cookies, fixé en bas : titre 16/600, texte 16, trois boutons sm. « Tout refuser » et « Tout accepter » ont le même poids — soft brand l'un et l'autre, et aucun solid sur le bandeau : la CNIL exige que refuser soit aussi simple et aussi visible qu'accepter. C'est l'exception écrite à l'arbitrage n°19 ; « Tout refuser » était en soft warm, un orange d'avertissement face au teal de l'acceptation. « Personnaliser », en ghost, déplie les catégories — nécessaires, analytiques, marketing — en réglages à interrupteur, et « Enregistrer mes préférences » garde le même soft. Module 13 bis, RGPD.",
+    keywords: ['consent', 'gdpr', 'rgpd', 'cookies', 'privacy', 'banner', 'compliance', 'cnil', 'ai act'],
+    usedBy: ['ProfilePrivacy'],
     render: () => (
-      <div className="relative min-h-[120px] border border-ink-100 rounded-lg overflow-hidden bg-ink-50">
-        <p className="p-stack text-caption text-ink-400 italic">ConsentBanner — position fixed bottom dans l'app réelle. Démo statique ci-dessous :</p>
-        <div className="relative bg-white/95 border-t border-ink-100 shadow-lg p-stack">
-          <div className="flex flex-col md:flex-row md:items-center gap-stack-xs">
-            <div className="flex-1 text-body-sm text-ink-600">
-              <span className="font-semibold text-ink-900">The Learning Society respecte votre vie privée</span>
-              {' — '}Nous utilisons des cookies pour améliorer votre expérience.
-            </div>
-            <div className="flex flex-col sm:flex-row gap-stack-xs shrink-0">
-              <button className="px-3 py-1.5 text-caption rounded-md border border-ink-200 text-ink-600 hover:bg-ink-50">Personnaliser</button>
-              <button className="px-3 py-1.5 text-caption rounded-md border border-ink-200 text-ink-700 hover:bg-ink-100">Tout refuser</button>
-              <button className="px-3 py-1.5 text-caption rounded-pill bg-primary-600 text-white hover:bg-primary-700">Tout accepter</button>
-            </div>
-          </div>
-        </div>
+      /* Le vrai composant, plus une copie de ses boutons : la démo les
+         refaisait à la main, et avait gardé « Tout refuser » en orange quand
+         le composant est passé au même poids que « Tout accepter ». Fixé en
+         bas dans l'app ; `!static` le pose dans la fiche. */
+      /* Sans cadre arrondi : dans l'app, c'est une barre pleine largeur, et à
+         375 un cadre au rayon 20 pinçait le bouton du bas (check-radius). */
+      <div className="flex flex-col gap-stack-xs">
+        <p className="text-caption font-semibold text-ink-600">Fixé en bas de l'écran dans l'app · posé ici dans le flux</p>
+        <ConsentBanner className="!static" onAcceptAll={() => {}} onRejectAll={() => {}} onCustomize={() => {}} />
       </div>
     ),
   },
@@ -5996,8 +5944,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'CompetencyRadar',
     codeName: 'ui/CompetencyRadar.tsx',
-    cssBase: 'CompetencyRadar',
-    description: 'Radar SVG 6 axes Dreyfus (1–5). Polygone niveau actuel (bleu) + objectif cible (orange, dashed). Légende intégrée. Clic sur axe → drill-down. 3 tailles. Modules #2 Passeport · #3 Profil · #6 Enterprise · #10 Analytics · #11 Projects.',
+    description: "Radar Dreyfus de 1 à 5, six axes au plus : niveau actuel et objectif. Il mesure sa boîte et réduit son rayon pour que les libellés — 13/400 ink-600 à toutes les tailles — y tiennent, jusqu'à 375 px. Depuis le 24/09, chaque ligne de libellé est mesurée dans sa police calculée (canvas `measureText`), après le premier rendu puis au chargement des polices : partie d'une chasse moyenne, l'estimation laissait sortir du dessin un mot plus large que la moyenne (« Communicatior », rogné, sur /manager/cohort). Sous 48 px de rayon, les pointes sont numérotées (13/600) et les libellés passent dans une liste en 13 ink-700 sous le dessin. Libellés cliquables au clavier (`onAxisClick`) ; légende en 13 ink-700 et « Échelle Dreyfus 1–5 ». Tailles de 200 · 320 · 480 px.",
     keywords: ['radar', 'compétences', 'dreyfus', 'skills', 'passeport', 'svg', 'chart', 'hso'],
     showcaseOnly: false,
     usedBy: ['Passeport', 'CoachDashboard', 'ManagerCohort', 'PasseportHistorique'],
@@ -6005,7 +5952,7 @@ const COMPONENTS: ComponentEntry[] = [
       <div className="flex flex-col gap-section items-center">
         <div className="flex flex-wrap gap-section justify-center items-start">
           <div className="flex flex-col items-center gap-stack-xs">
-            <span className="text-caption text-ink-500">sm — sans cible</span>
+            <span className="text-caption text-ink-600">sm — sans objectif</span>
             <CompetencyRadar
               size="sm"
               axes={[
@@ -6020,7 +5967,7 @@ const COMPONENTS: ComponentEntry[] = [
             />
           </div>
           <div className="flex flex-col items-center gap-stack-xs">
-            <span className="text-caption text-ink-500">md — avec objectifs cibles</span>
+            <span className="text-caption text-ink-600">md — avec les objectifs</span>
             <CompetencyRadar
               size="md"
               axes={[
@@ -6035,7 +5982,7 @@ const COMPONENTS: ComponentEntry[] = [
             />
           </div>
         </div>
-        <p className="text-caption text-ink-400 text-center max-w-prose">Clic sur les labels d'axes → drill-down (console.log). Échelle Dreyfus 1–5.</p>
+        <p className="text-caption text-ink-600 text-center max-w-prose">Un clic sur un libellé d'axe ouvre le détail de la compétence (ici, la console). Échelle Dreyfus de 1 à 5.</p>
       </div>
     ),
   },
@@ -6045,9 +5992,8 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'AITransparencyLabel',
     codeName: 'ui/AITransparencyLabel.tsx',
-    cssBase: 'AITransparencyLabel',
-    description: 'Label "IA" transversal pour marquer tout contenu généré, recommandé ou assisté par l\'IA. 3 variants × 2 sizes. AI Act / Module #13bis. Usage : items recommandés, suggestions coach, chatbot.',
-    keywords: ['ai', 'ia', 'transparency', 'label', 'badge', 'generated', 'recommended', 'ai act', 'gdpr'],
+    description: "Étiquette « IA » transversale, sur tout contenu généré, recommandé ou assisté par l'IA : sm, 24 px de haut en 11/500, sous le seuil de 28 px, donc en pilule ; md, 30 px en 13/500, au-dessus, donc au rayon 14 (règle du seuil). Une étincelle de 14 px aux deux tailles, le plancher de l'échelle d'icônes (elle était à 10 et 12), à 4 px du mot. Trois variantes — recommended (info), generated (warning), assisted (ink) — sur le fond de leur état et son filet clair (`--color-*-border`). Sur une recommandation, dans une suggestion de coach, dans l'assistant. Module 13 bis.",
+    keywords: ['ai', 'ia', 'transparency', 'transparence', 'label', 'étiquette', 'generated', 'recommended', 'assisted', 'rgpd'],
     showcaseOnly: false,
     usedBy: ['PerplexityContentDetail', 'ItemRecommendations', 'ChatInterface', 'CoachLearnerProfile'],
     render: () => (
@@ -6065,10 +6011,10 @@ const COMPONENTS: ComponentEntry[] = [
         <div className="flex items-start gap-stack-xs p-stack bg-ink-50 rounded-lg">
           <div className="flex flex-col gap-stack-xs">
             <div className="flex items-center gap-stack-xs">
-              <span className="text-body-sm font-semibold text-ink-900">Prompt Engineering avancé</span>
+              <span className="text-body font-semibold text-ink-900">Prompt Engineering avancé</span>
               <AITransparencyLabel variant="recommended" size="sm" />
             </div>
-            <p className="text-caption text-ink-500">Exemple d'usage en contexte — label inline sur une recommandation IA</p>
+            <p className="text-caption text-ink-600">Exemple d'usage en contexte — label inline sur une recommandation IA</p>
           </div>
         </div>
       </div>
@@ -6078,23 +6024,40 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'AIOverrideButton',
     codeName: 'ui/AIOverrideButton.tsx',
-    cssBase: 'AIOverrideButton',
-    description: 'Bouton "Rejeter cette recommandation" pour Coach/Admin. Peut ouvrir un textarea inline pour collecter la raison du rejet. Module #13bis — transversal IA.',
-    keywords: ['ai', 'ia', 'override', 'reject', 'button', 'coach', 'admin', 'feedback'],
+    description: "« Rejeter cette recommandation » : l'apprenant, son coach ou son manager écarte ce que l'IA propose. Un Button ghost neutre (sm par défaut) précédé d'une icône — un outil, jamais l'action principale (arbitrage n°19). Avec `requireReason`, il déplie une zone de texte — libellé « Raison du rejet (optionnel) » 16/600, filet ink-400 — et deux actions sm : « Annuler » en ghost et « Confirmer le rejet » en soft warm, la page gardant son solid. L'aide de la zone de texte parle la voix de la page (`voix`, 24/09) : « Expliquez pourquoi vous rejetez… » par défaut, le cas ambigu selon PRODUCT.md, et « Explique pourquoi tu rejettes… » avec `voix=\"tu\"`, que passent les pages de l'apprenant (Passeport, confidentialité du profil). Les libellés, à l'infinitif ou nominaux, valent dans les deux voix. Transversal IA (module 13 bis).",
+    keywords: ['ai', 'ia', 'override', 'reject', 'button', 'coach', 'admin', 'feedback', 'voix', 'tu', 'vous', 'apprenant'],
     showcaseOnly: false,
-    usedBy: ['CoachLearnerProfile'],
+    usedBy: ['CoachLearnerProfile', 'PasseportRoadmap (voix « tu »)', 'ProfilePrivacy (voix « tu »)'],
     render: () => (
       <div className="flex flex-col gap-stack">
         <div className="flex flex-wrap gap-stack-xs items-center">
           <AIOverrideButton onOverride={(r) => console.log('Override:', r)} />
-          <AIOverrideButton label="Override suggestion" size="md" onOverride={(r) => console.log('Override:', r)} />
+          <AIOverrideButton label="Écarter la suggestion" size="md" onOverride={(r) => console.log('Override:', r)} />
         </div>
-        <div className="border border-ink-100 rounded-lg p-stack flex flex-col gap-stack-xs">
-          <p className="text-caption text-ink-500 font-medium">Avec raison obligatoire (requireReason=true) :</p>
-          <AIOverrideButton
-            requireReason
-            onOverride={(r) => console.log('Override with reason:', r)}
-          />
+        {/* Les deux voix, dépliées au clic : l'aide de la zone de texte change. */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
+          <div className="border border-ink-100 rounded-lg p-stack flex flex-col gap-stack-xs">
+            <p className="text-caption font-semibold text-ink-600">requireReason · voix « vous », le défaut (coach, manager)</p>
+            {/* Un bloc autour : replié, le bouton garde sa largeur ; déplié,
+                le champ prend celle du cadre. */}
+            <div>
+              <AIOverrideButton
+                requireReason
+                onOverride={(r) => console.log('Override with reason:', r)}
+              />
+            </div>
+          </div>
+          <div className="border border-ink-100 rounded-lg p-stack flex flex-col gap-stack-xs">
+            <p className="text-caption font-semibold text-ink-600">requireReason · voix="tu" (pages de l'apprenant)</p>
+            <div>
+              <AIOverrideButton
+                requireReason
+                voix="tu"
+                label="Ignorer"
+                onOverride={(r) => console.log('Override with reason:', r)}
+              />
+            </div>
+          </div>
         </div>
       </div>
     ),
@@ -6105,30 +6068,29 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'AtrophieIndicator',
     codeName: 'ui/AtrophieIndicator.tsx',
-    cssBase: 'AtrophieIndicator',
-    description: 'Indicateur de dégradation Dreyfus. Rien affiché si inactif ≤ 90j. Warning orange si 91–180j (pulsant). Danger si > 180j. Module #5 Gamification — badges compétences.',
-    keywords: ['atrophie', 'dreyfus', 'inactif', 'badge', 'competence', 'degradation', 'warning', 'gamification'],
+    description: "Signale qu'un niveau Dreyfus s'érode faute de pratique : rien jusqu'à 90 jours d'inactivité, un avertissement de 91 à 180, un danger au-delà. Pastille en 500 : sm en 11 avec une icône de 12, md en 13 avec une de 16 ; le libellé (« Inactif depuis 120j ») est masquable. Fixe : plus de pulsation depuis le 24/09 (arbitrage n°16, pas de mouvement permanent pour dire un état).",
+    keywords: ['atrophie', 'dreyfus', 'inactif', 'badge', 'competence', 'degradation', 'warning', 'passeport', '90 jours'],
     showcaseOnly: false,
-    usedBy: ['Gamification', 'CoachEngagement'],
+    usedBy: ['Passeport', 'PasseportCompetenceDetail', 'CoachEngagement', 'AlerteStagnation', 'FicheApprenantAnalytics', 'ManagerCohort', 'ApprenantsTable (coach)'],
     render: () => (
       <div className="flex flex-col gap-stack">
         <div className="flex flex-wrap gap-stack-xs items-center">
-          <span className="text-caption text-ink-400">≤ 90j :</span>
-          <span className="text-caption text-ink-300 italic">(rien affiché)</span>
+          <span className="text-caption text-ink-600">Jusqu’à 90 jours :</span>
+          <span className="text-caption text-ink-600 italic">(rien n’est affiché)</span>
           <AtrophieIndicator daysSinceActivity={45} />
         </div>
         <div className="flex flex-wrap gap-stack-xs items-center">
-          <span className="text-caption text-ink-400">91–180j :</span>
+          <span className="text-caption text-ink-600">De 91 à 180 jours :</span>
           <AtrophieIndicator daysSinceActivity={94} currentLevel={3} size="sm" />
           <AtrophieIndicator daysSinceActivity={130} currentLevel={2} size="md" />
         </div>
         <div className="flex flex-wrap gap-stack-xs items-center">
-          <span className="text-caption text-ink-400">&gt; 180j (critique) :</span>
+          <span className="text-caption text-ink-600">Au-delà de 180 jours :</span>
           <AtrophieIndicator daysSinceActivity={210} currentLevel={4} size="sm" />
           <AtrophieIndicator daysSinceActivity={365} size="md" />
         </div>
         <div className="flex flex-wrap gap-stack-xs items-center">
-          <span className="text-caption text-ink-400">Sans label :</span>
+          <span className="text-caption text-ink-600">Sans label :</span>
           <AtrophieIndicator daysSinceActivity={100} showLabel={false} />
           <AtrophieIndicator daysSinceActivity={200} showLabel={false} />
         </div>
@@ -6140,8 +6102,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'HeatmapGrid',
     codeName: 'ui/HeatmapGrid.tsx',
-    cssBase: 'HeatmapGrid',
-    description: 'Grille compétences × apprenants avec codes couleur Dreyfus 1–5. Sticky header. Responsive overflow-x. Module #2 Passeport / #10 Analytics.',
+    description: "Grille compétences × apprenants aux niveaux Dreyfus : en-têtes 13/600 ink-600 en casse normale, colonne des noms collante (initiales, nom 16/600), cellules de 40 px au rayon 10 en 13/600 tabulaire, de « — » à D1…D5, le niveau 5 en primary-700 à texte blanc ; légende en 13, de « Novice » à « Expert ». Défilement horizontal sur mobile ; clic sur une cellule. Modules 2 (Passeport) et 10 (Analytics).",
     keywords: ['heatmap', 'competence', 'dreyfus', 'grille', 'coach', 'apprenant', 'niveau', 'radar'],
     usedBy: ['CoachHeatmap', 'FicheApprenantAnalytics'],
     render: () => (
@@ -6162,8 +6123,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'CorrectionCard',
     codeName: 'ui/CorrectionCard.tsx',
-    cssBase: 'CorrectionCard',
-    description: 'Carte de travail soumis à corriger. Statut (pending/in-review/corrected/rejected), excerpt, feedback count, actions. Module #4 Coaching — corrections inbox.',
+    description: "Carte d'un travail à corriger : l'apprenant (Avatar sm, nom 16/600, date 13) et l'état en Badge, l'exercice en titre h3 sur deux lignes, la compétence en MetaPill, un extrait en 16 italique ink-700, puis deux Button sm : « Assigner » en ghost, « Corriger » (« Voir » une fois corrigé) en soft, l'action de la carte. Statuts pending · in-review · corrected · rejected ; surface card ou tinted. Module 4, Coaching.",
     keywords: ['correction', 'coaching', 'travail', 'feedback', 'corrigé', 'apprenant', 'inbox'],
     usedBy: ['CoachingCorrections', 'CoachCorrectionsQueue', 'CoachCorrectionInterface'],
     render: () => (
@@ -6213,56 +6173,60 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'StepTutorial',
     codeName: 'patterns/StepTutorial.tsx',
-    cssBase: 'StepTutorial',
-    description: 'Wizard step-by-step pour tutoriaux guidés. Progress dots tone-aware. Prev/Next/Terminer DS. Skip link. Contrôlé (externalStep) ou autonome (state interne). Module #3 Onboarding.',
-    keywords: ['tutorial', 'wizard', 'onboarding', 'step', 'étape', 'guide', 'tour', 'progression'],
+    description: "Tutoriel guidé pas à pas, dans une carte en verre clair : filet de progression, image optionnelle, compteur « 1 / 3 » en Badge, puis la pastille de l'étape — un IconChip lg depuis le 24/09 : 48 px au rayon 14, glyphe au cran 800 ; elle était faite main, 56 px au rayon 20, glyphe au 600 — dont le centre tient la première ligne du titre, un h2 à 28/36 (il suit le h1 de l'écran d'onboarding), et la description 16 ink-700. Sous la carte, une rangée : « Précédent » en ghost neutre, calé sur le bord de la carte (`flush`), les points de progression, puis « Suivant », « Compris » à la dernière étape, en solid au ton de la page (arbitrage n°19), tous en Button md ; « Passer le tutoriel » en 13. Sous 28rem de tutoriel (requête de conteneur), les points s'effacent : le compteur et le filet disent déjà l'étape, et à 375 px « Suivant » sortait de l'écran de 24 px. Le CTA facultatif d'une étape est en soft. Contrôlé (`currentStep`) ou autonome ; trois tons. Module 3, Onboarding. ⚠️ La carte est encore au rayon 14, celui d'un bouton, et non au 20 d'un conteneur.",
+    keywords: ['tutorial', 'wizard', 'onboarding', 'step', 'étape', 'guide', 'tour', 'progression', 'IconChip', 'flush', 'container', '28rem'],
     usedBy: ['OnboardingTutorial'],
-    render: () => (
-      <div className="max-w-lg mx-auto">
-        <StepTutorial
-          tone="primary"
-          onComplete={() => {}}
-          onSkip={() => {}}
-          steps={[
-            {
-              id: 'parcours',
-              title: 'Découvre tes parcours',
-              description: 'Explore les parcours de formation adaptés à ton profil Dreyfus. Chaque parcours contient des leçons, des exercices pratiques et des ressources complémentaires.',
-              icon: <BookOpen size={22} />,
-            },
-            {
-              id: 'coaching',
-              title: 'Réserve ton coach',
-              description: 'Tu as accès à des sessions de coaching individualisé. Ton coach t\'accompagne dans ta progression et corrige tes travaux pratiques.',
-              icon: <GraduationCap size={22} />,
-            },
-            {
-              id: 'passeport',
-              title: 'Suis ton Passeport Compétences',
-              description: 'Ton radar de compétences H.S.O. évolue au fil de tes activités. Définis tes objectifs et observe ta progression Dreyfus en temps réel.',
-              icon: <Target size={22} />,
-            },
-          ]}
-        />
-      </div>
-    ),
+    render: () => {
+      const etapes = [
+        {
+          id: 'parcours',
+          title: 'Découvre tes parcours',
+          description: 'Explore les parcours adaptés à ton profil. Chacun contient des leçons, des exercices pratiques corrigés par ton coach et des ressources complémentaires.',
+          icon: <BookOpen />,
+        },
+        {
+          id: 'coaching',
+          title: 'Réserve ton coach',
+          description: 'Ton coach t\'accompagne dans ta progression : sessions individuelles, correction de tes exercices, échanges par la messagerie.',
+          icon: <GraduationCap />,
+        },
+        {
+          id: 'passeport',
+          title: 'Suis ton Passeport',
+          description: 'Ton Passeport situe chaque compétence sur l\'échelle Dreyfus, de D1 Novice à D5 Maître. Un niveau y est validé par ton coach ou ton manager, sur preuves de ta pratique.',
+          icon: <Target />,
+        },
+      ];
+      return (
+        <div className="flex flex-col gap-section">
+          <div className="max-w-lg">
+            <StepTutorial tone="primary" onComplete={() => {}} onSkip={() => {}} steps={etapes} />
+          </div>
+          {/* Le seuil est celui du tutoriel, pas de la fenêtre : dans une
+              colonne étroite, les points s'effacent aussi sur le bureau. */}
+          <div className="flex flex-col gap-stack-xs max-w-[360px]">
+            <p className="text-caption font-semibold text-ink-600">Dans une colonne de 360 px · sous 28rem, les points de progression s'effacent</p>
+            <StepTutorial tone="warm" onComplete={() => {}} steps={etapes} />
+          </div>
+        </div>
+      );
+    },
   },
 
   // ─── Phase 14.1 — Première expérience flow ──────────────────────────────────
   {
     name: 'OptionGrid',
     codeName: 'patterns/OptionGrid.tsx',
-    cssBase: 'OptionGrid',
-    description: 'Grille d\'options sélectionnables (icon + label) — single ou multi-select. Tone-aware (brand/warm/sun), 3 layouts (icon-top, icon-left, text-only), responsive 2 → N cols. Remplace les grilles ad-hoc role/secteur/rythme dans Onboarding.',
+    showcaseOnly: true,
+    description: "Grille d'options à choisir, une ou plusieurs : options de 44 px au moins, rayon 14, libellé 16/600 ; la description (13 ink-600) ne s'affiche qu'en icon-left et text-only. Trois dispositions (icon-top · icon-left · text-only), trois tons ; deux colonnes, trois dès 512 px de conteneur.",
     keywords: ['select', 'options', 'cards', 'pick', 'choice', 'role', 'sector', 'onboarding', 'radio', 'checkbox'],
-    usedBy: ['Onboarding'],
     render: () => {
       const [role, setRole] = React.useState('Manager');
       const [skills, setSkills] = React.useState<string[]>(['Leadership']);
       return (
         <div className="flex flex-col gap-section max-w-2xl">
           <div className="flex flex-col gap-stack">
-            <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">Single-select · tone warm · icon-top</span>
+            <span className="text-caption font-semibold text-ink-600">Choix unique · ton warm · icon-top</span>
             <OptionGrid
               tone="warm"
               value={role}
@@ -6279,7 +6243,7 @@ const COMPONENTS: ComponentEntry[] = [
             />
           </div>
           <div className="flex flex-col gap-stack">
-            <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">Multi-select · tone brand · text-only</span>
+            <span className="text-caption font-semibold text-ink-600">Choix multiple · ton brand · text-only</span>
             <OptionGrid
               multi
               tone="brand"
@@ -6302,15 +6266,14 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'DreyfusLevelSelector',
     codeName: 'ui/DreyfusLevelSelector.tsx',
-    cssBase: 'DreyfusLevelSelector',
-    description: 'Sélecteur 5-niveaux Dreyfus (Novice → Expert) pour positionnement compétences. Responsive 1 → 5 cols (fix le pb cramped tablet de la v1). Tone-aware. Levels customisables via prop. Module #4 Phase 14.1.',
+    description: "Choix d'un niveau Dreyfus parmi cinq, pour un positionnement : options de 44 px au moins, filet 2 px (au cran 700 une fois choisie, fond 50), chiffre en League Spartan 20/700 au cran 800, libellé 16/600, description 13 ink-600. Une à cinq colonnes selon la largeur ; `radiogroup` navigable aux flèches ; niveaux remplaçables (`levels`).",
     keywords: ['dreyfus', 'level', 'positionnement', 'competence', 'likert', 'self-assessment', 'questionnaire', 'novice', 'expert'],
     usedBy: ['OnboardingQuestionnaire'],
     render: () => {
       const [level, setLevel] = React.useState<number | undefined>(3);
       return (
         <div className="flex flex-col gap-stack max-w-content">
-          <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">Tone warm · niveau 3 sélectionné</span>
+          <span className="text-caption font-semibold text-ink-600">Tone warm · niveau 3 sélectionné</span>
           <DreyfusLevelSelector tone="warm" value={level} onChange={setLevel} />
         </div>
       );
@@ -6321,27 +6284,32 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'DreyfusSlider',
     codeName: 'ui/DreyfusSlider.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: 'Sélecteur Dreyfus compact en piste horizontale (D1–D5). Distinct de DreyfusLevelSelector (grille de cartes pour questionnaires). Nœuds 44px tactiles + connecteurs remplis à gauche de la sélection + labels sous la piste (centrés). Tone-aware brand/warm/sun. Utilise les DREYFUS_LABELS canoniques (Cahier #02 Passeport).',
-    keywords: ['dreyfus', 'slider', 'level', 'positionnement', 'competence', 'track', 'horizontal', 'compact', 'touch'],
-    usedBy: ['Positionnement'],
+    description: "Choix d'un niveau Dreyfus sur une piste horizontale (D1 à D5), plus compact que DreyfusLevelSelector : piste de 10 px, curseur de 28 px, un `<input type=\"range\">` invisible pour le clavier, et un cran cliquable par niveau ; libellés en 13/600 ink-600 sous la piste, l'actif au cran 800 du ton sans changer de graisse ; description en 13. Chaque cran tombe sous son libellé depuis le 24/09 : la piste va du centre de la première colonne de libellés au centre de la dernière (une demi-colonne de marge de chaque côté), et les crans sont centrés sur elle. Elle occupait toute la rangée : ses crans tombaient à 0, 25, 50, 75 et 100 % quand les libellés sont centrés à 10, 30, 50, 70 et 90 % — jusqu'à 67 px d'écart à 1440 —, et ils pendaient 10 px sous la piste. Sous 24rem de rangée (requête de conteneur), les mots cèdent la place à leur code, D1…D5, au lieu de se chevaucher ; le mot reste lu par les lecteurs d'écran, et la description sous la piste redonne le nom du niveau choisi. Tons brand · warm · sun ; libellés canoniques (DREYFUS_LABELS, cahier 02).",
+    keywords: ['dreyfus', 'slider', 'level', 'positionnement', 'competence', 'track', 'horizontal', 'compact', 'touch', 'container', 'abréviation', 'D1', 'cran', 'aligné'],
+    usedBy: ['CoachCorrectionInterface'],
     render: () => {
       const [v1, setV1] = React.useState<number | undefined>(undefined);
       const [v2, setV2] = React.useState<number | undefined>(3);
       const [v3, setV3] = React.useState<number | undefined>(2);
+      const [v4, setV4] = React.useState<number | undefined>(4);
       return (
         <div className="flex flex-col gap-section max-w-xl">
           <div className="flex flex-col gap-stack">
-            <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">Tone brand · rien sélectionné</span>
+            <span className="text-caption font-semibold text-ink-600">Tone brand · rien sélectionné</span>
             <DreyfusSlider value={v1} onChange={(n) => setV1(n)} tone="brand" />
           </div>
           <div className="flex flex-col gap-stack">
-            <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">Tone warm · D3 sélectionné</span>
+            <span className="text-caption font-semibold text-ink-600">Tone warm · D3 sélectionné</span>
             <DreyfusSlider value={v2} onChange={(n) => setV2(n)} tone="warm" />
           </div>
           <div className="flex flex-col gap-stack">
-            <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">Tone sun · D2 sélectionné</span>
+            <span className="text-caption font-semibold text-ink-600">Tone sun · D2 sélectionné</span>
             <DreyfusSlider value={v3} onChange={(n) => setV3(n)} tone="sun" />
+          </div>
+          {/* Sous 24rem de rangée, D1…D5 : c'est la place qui décide, pas la fenêtre. */}
+          <div className="flex flex-col gap-stack max-w-[280px]">
+            <span className="text-caption font-semibold text-ink-600">Dans une colonne de 280 px · D1…D5</span>
+            <DreyfusSlider value={v4} onChange={(n) => setV4(n)} tone="brand" />
           </div>
         </div>
       );
@@ -6351,18 +6319,16 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'CongratulationsCard',
     codeName: 'patterns/CongratulationsCard.tsx',
-    cssBase: 'CongratulationsCard',
-    description: 'Bloc de célébration de milestone (fin onboarding / parcours / module). Icône large + badge + heading + summary + XP reward optionnel. 4 tones (brand/warm/sun/success).',
-    keywords: ['congratulations', 'success', 'celebration', 'milestone', 'completion', 'reward', 'xp', 'onboarding'],
+    description: "Bloc de fin d'étape (onboarding, parcours, module), centré : pastille ronde de 80 px au cran 50 du ton, Badge large, titre h1 36 et chapô 18/28 ink-700 à 12 px, 24 px entre les blocs. Il célèbre calmement l'étape franchie, rien d'autre : depuis l'arbitrage n°18, le bloc de récompense (« +150 XP », « Niveau 1 · 150 / 500 XP », jauge, étincelle décorative) est retiré avec sa prop `xp`. Pas de « ! » non plus, dans le Badge comme dans le titre (PRODUCT.md, règles de copie). Tons brand · warm · sun · success.",
+    keywords: ['congratulations', 'success', 'celebration', 'milestone', 'completion', 'onboarding', 'calme'],
     usedBy: ['OnboardingSuccess'],
     render: () => (
       <div className="flex flex-col items-center max-w-xl mx-auto">
         <CongratulationsCard
           tone="brand"
-          badgeLabel="Profil complété !"
+          badgeLabel="Profil complété"
           title="Bienvenue sur The Learning Society"
           summary="Ton profil est configuré et ton passeport de compétences est prêt. Tu peux maintenant commencer ton parcours."
-          xp={{ earned: 150, current: 150, max: 500, levelLabel: 'Onboarding terminé' }}
         />
       </div>
     ),
@@ -6370,8 +6336,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'NextStepsGrid',
     codeName: 'patterns/NextStepsGrid.tsx',
-    cssBase: 'NextStepsGrid',
-    description: 'Grille d\'action cards "et maintenant ?" — chaque card a icon tone-tinted + title + desc + CTA flèche. Tone par-item (mix brand/warm/sun pour varier les next paths). Responsive 1 → 3 cols.',
+    description: "Grille « Et maintenant ? » : une carte-bouton par piste (padding 24), pastille d'icône de 48 px teintée, titre h3 20, description 16 ink-700, action en 13/600 au cran 800 du ton. Ton par carte, pour varier les pistes ; une à trois colonnes.",
     keywords: ['next steps', 'actions', 'cta', 'cards', 'onboarding success', 'guide', 'next'],
     usedBy: ['OnboardingSuccess', 'EmptyDashboardState'],
     render: () => (
@@ -6389,8 +6354,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'EmptyDashboardState',
     codeName: 'patterns/EmptyDashboardState.tsx',
-    cssBase: 'EmptyDashboardState',
-    description: 'Variante "cold-start" du Dashboard pour les apprenants qui viennent juste de terminer l\'onboarding. Remplace le Dashboard avec mock data par un welcome + NextStepsGrid des 3 actions canoniques.',
+    description: "Tableau de bord du premier jour, juste après l'onboarding : un titre h2 28 et une phrase 16 ink-700, puis une carte dominante — MetaPill « Premier pas », titre 20, texte 16, et son action en solid warm, l'action principale de l'écran — et la NextStepsGrid des pistes suivantes, en deux colonnes.",
     keywords: ['empty', 'cold start', 'first time', 'dashboard', 'welcome', 'onboarding', 'new user'],
     usedBy: ['Dashboard'],
     render: () => (
@@ -6404,8 +6368,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ProgressDots',
     codeName: 'ui/ProgressDots.tsx',
-    cssBase: 'ProgressDots',
-    description: 'Atom carousel/wizard progress indicator. Active dot widened (~3× width) pour communiquer la position. 3 tailles (xs/sm/md) · tone-aware (primary/warm/sun) · onSelect optionnel rend les dots cliquables. Remplace 3 implémentations ad-hoc (LessonPlayer tabs, AstucesViewer dots, FlashcardsViewer dots).',
+    description: "Points de progression d'un carrousel ou d'un assistant : le point actif s'allonge (16 · 24 · 32 px) pour dire la position. Tailles xs · sm · md (6 · 8 · 10 px), trois tons ; `onSelect` rend les points cliquables.",
     keywords: ['progress', 'dots', 'carousel', 'wizard', 'indicator', 'pagination'],
     usedBy: ['LessonNavigation', 'AstucesViewer', 'FlashcardsViewer', 'LessonPlayer'],
     render: () => {
@@ -6415,15 +6378,15 @@ const COMPONENTS: ComponentEntry[] = [
       return (
         <div className="flex flex-col gap-stack max-w-xl">
           <div className="flex items-center gap-stack">
-            <span className="text-caption text-ink-500 w-24">Primary · md</span>
+            <span className="text-caption text-ink-600 w-24">Primary · md</span>
             <ProgressDots total={5} current={primaryIdx} tone="primary" size="md" onSelect={setPrimaryIdx} />
           </div>
           <div className="flex items-center gap-stack">
-            <span className="text-caption text-ink-500 w-24">Warm · sm</span>
+            <span className="text-caption text-ink-600 w-24">Warm · sm</span>
             <ProgressDots total={5} current={warmIdx} tone="warm" size="sm" onSelect={setWarmIdx} />
           </div>
           <div className="flex items-center gap-stack">
-            <span className="text-caption text-ink-500 w-24">Sun · xs</span>
+            <span className="text-caption text-ink-600 w-24">Sun · xs</span>
             <ProgressDots total={7} current={sunIdx} tone="sun" size="xs" onSelect={setSunIdx} />
           </div>
         </div>
@@ -6433,44 +6396,43 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'FlipCard',
     codeName: 'patterns/FlipCard.tsx',
-    cssBase: 'FlipCard',
-    description: 'Carte 3D à retournement (flip). Front : image de fond + icône emoji + catégorie pill + titre. Verso : gradient tone-aware + contenu + détails optionnels. Mécanique CSS 3D : perspective 1500px, preserve-3d, rotateY(180deg), backfaceVisibility. Tone-aware (border + gradient).',
-    keywords: ['flip', 'card', 'flashcard', '3d', 'rotate', 'learning', 'tone'],
+    description: "Carte à retourner (rotation 3D), dont chaque face est un `<button>` : tout son contenu est phrasé, en `<span>`, sans élément de titre. Au recto, une photo voilée, une bulle d'icône, la catégorie en MetaPill md, le titre en 20/26/700 à toutes les largeurs et l'indication « Retourne la carte » en 13/600, sur un voile blanc (elle disait « Cliquez pour voir la réponse » : elle vouvoyait l'apprenant et ne valait que pour la souris) ; au verso, un dégradé au cran 700 du ton, la réponse en chapô 18/28 et le détail en 16. Chaque face est nommée par son contenu, la question au recto, la réponse au verso : les deux portaient `aria-label=\"Retourner la flashcard\"`, et un lecteur d'écran n'entendait jamais ni l'une ni l'autre. La face cachée sort du clavier et de l'arbre d'accessibilité ; retourner la carte depuis une face fait passer le focus sur l'autre, et Entrée la retourne encore. Tons primary · warm · sun ; hauteur réglable (380 par défaut).",
+    keywords: ['flip', 'card', 'flashcard', '3d', 'rotate', 'learning', 'tone', 'button', 'accessibilité', 'nom accessible', 'focus', 'Retourne la carte'],
     usedBy: ['FlashcardsViewer'],
     render: () => {
       const [flipped, setFlipped] = React.useState(false);
       const [tone, setTone] = React.useState<'primary' | 'warm' | 'sun'>('primary');
       return (
-        <div className="flex flex-col gap-stack max-w-2xl mx-auto">
-          <div className="flex gap-stack-xs justify-center">
+        <div className="flex flex-col items-start gap-stack max-w-2xl">
+          {/* Le choix du ton s'applique tout de suite : des FilterChip sm, pas
+              des pastilles faites main (SegmentedControl, qui tenait ce rôle,
+              est supprimé le 24/09 faute d'usage produit). */}
+          <div role="group" aria-label="Ton de la carte" className="flex flex-wrap gap-stack-2xs">
             {(['primary', 'warm', 'sun'] as const).map((t) => (
-              <button
-                key={t}
-                type="button"
-                onClick={() => setTone(t)}
-                className={`px-3 py-1.5 rounded-pill text-caption font-semibold transition-colors ${tone === t ? 'bg-primary-500 text-white' : 'bg-ink-100 text-ink-700 hover:bg-ink-200'}`}
-              >
-                {t}
-              </button>
+              <FilterChip key={t} size="sm" label={t} active={tone === t} onClick={() => setTone(t)} />
             ))}
           </div>
-          <FlipCard
-            front={{
-              image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1080&q=80',
-              icon: '🎯',
-              category: 'PROMPT ENGINEERING',
-              title: 'Les 4 Piliers du Prompt',
-            }}
-            back={{
-              content: 'RÔLE — CONTEXTE — INSTRUCTION — FORMAT',
-              details: 'Ces 4 éléments structurent un prompt clair pour obtenir les meilleurs résultats.',
-            }}
-            isFlipped={flipped}
-            onFlip={() => setFlipped((f) => !f)}
-            tone={tone}
-          />
-          <p className="text-center font-body text-caption text-ink-500">
-            {flipped ? 'Verso visible — cliquer pour retourner' : 'Recto — cliquer pour voir la réponse'}
+          {/* La carte se centre elle-même jusqu'à 560 px : le cadre prend sa
+              largeur, pour qu'elle parte du même bord que la bascule. */}
+          <div className="w-full max-w-[560px]">
+            <FlipCard
+              front={{
+                image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1080&q=80',
+                icon: <Target className="icon-xl" />,
+                category: 'Prompt engineering',
+                title: 'Les 4 Piliers du Prompt',
+              }}
+              back={{
+                content: 'Rôle, contexte, instruction, format',
+                details: 'Ces 4 éléments structurent un prompt clair pour obtenir les meilleurs résultats.',
+              }}
+              isFlipped={flipped}
+              onFlip={() => setFlipped((f) => !f)}
+              tone={tone}
+            />
+          </div>
+          <p className="font-body text-caption text-ink-600">
+            {flipped ? 'Verso visible : un clic, Entrée ou Espace ramène le recto.' : 'Recto visible : un clic, Entrée ou Espace retourne la carte.'}
           </p>
         </div>
       );
@@ -6481,8 +6443,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'BehavioralTileGrid',
     codeName: 'patterns/BehavioralTileGrid.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: 'Grille auto-fit responsive de tuiles de piliers comportementaux / compétences. 4 palettes ton cycliques (primary/warm/sun/primary-alt). Chaque tuile : indicateur décoratif accentué + titre + description + pills optionnelles. Utilisé dans LessonPlayer (section Engagement) pour présenter les dimensions comportementales d\'une compétence, et dans le flow Onboarding (positionnement conversationnel) pour capturer le niveau Dreyfus via tuiles comportementales plutôt que labels 1-5 visibles.',
+    description: "Grille des piliers d'une compétence (auto-fit, 240 px au moins par tuile) : titre de section en h2 28, puis pour chaque tuile une pastille décorative de 40 px, 16 px, un titre h3 20, 8 px, la description 16 ink-700, 12 px, les étiquettes. Quatre fonds cycliques. Dans LessonPlayer (section Engagement) et dans le positionnement de l'onboarding.",
     keywords: ['behavioral', 'tile', 'grid', 'pillar', 'competence', 'engagement', 'lesson', 'viewer', 'auto-fit'],
     usedBy: ['LessonPlayer', 'OnboardingUnified', 'OnboardingQuestionnaireConversational'],
     render: () => (
@@ -6517,22 +6478,21 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'LessonNavigation',
     codeName: 'patterns/LessonNavigation.tsx',
-    cssBase: 'LessonNavigation',
-    description: 'Footer molecule unifié pour LessonPlayer + 4 viewers. Layout : [Précédent] · dots · [Suivant / Terminer]. Tone-aware (primary/warm/sun), responsive (labels masqués mobile, dots gardés), disabled aux bornes. Quand `onFinish` fourni ET current === total → bouton suivant devient "Terminer" avec ✓.',
+    description: "Pied de navigation des lecteurs : [Précédent] · points · [Suivant ou Terminer]. Boutons md (44 px, 16/700) : Suivant en solid au ton de la page, l'action principale du lecteur, Précédent en ghost neutre (arbitrage n°19) ; libellés masqués sous 640 px (icône seule avec son nom accessible), points ProgressDots sm. Au dernier écran, avec `onFinish`, « Suivant » devient « Terminer ».",
     keywords: ['navigation', 'lesson', 'prev', 'next', 'finish', 'footer', 'viewer'],
     usedBy: ['LessonPlayer', 'AstucesViewer', 'FlashcardsViewer'],
     render: () => {
       const [pos, setPos] = React.useState(3);
       const total = 7;
       return (
-        <div className="max-w-2xl mx-auto p-stack-md rounded-2xl bg-white shadow-sm border border-ink-100">
+        <div className="max-w-2xl p-stack-lg rounded-xl bg-white border border-ink-200">
           <LessonNavigation
             tone="primary"
             current={pos}
             total={total}
             onPrev={() => setPos((p) => Math.max(1, p - 1))}
             onNext={() => setPos((p) => Math.min(total, p + 1))}
-            onFinish={() => alert('Leçon terminée !')}
+            onFinish={() => setPos(1)}
             onDotSelect={(idx) => setPos(idx + 1)}
           />
         </div>
@@ -6545,15 +6505,14 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'AstucesCard',
     codeName: 'learning/AstucesCard.tsx',
-    cssBase: 'AstucesCard (tip scroll-story card)',
     usedBy: ['AstucesViewer'],
-    description: 'Card "Astuce" pour le viewer scroll-story. Affiche un numéro, badge catégorie, image pleine largeur, titre, description et liste d\'exemples. Border colorée tone-aware (primary-400/secondary-400/accent-400). Ombre jaune-ambrée par défaut (sun tone). Tone-aware (primary/warm/sun).',
+    description: "Astuce du lecteur en défilement : numéro dans un carré de 40 px, catégorie en MetaPill, image, titre (20, puis 28 dès 640 px) ink-900, description 16 ink-700, exemples en rangées à 16 px. Filet 2 px au cran 400 du ton ; ton sun par défaut.",
     keywords: ['astuce', 'tip', 'viewer', 'scroll-story', 'card', 'learning', 'tone-aware', 'example'],
     render: () => (
       <div className="max-w-xl mx-auto">
         <AstucesCard
           number={1}
-          badge="ASTUCE PRODUCTIVITÉ"
+          badge="Productivité"
           image="https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=600&q=80"
           title="Raccourcis Clavier"
           description="Gagnez du temps avec les raccourcis essentiels pour naviguer rapidement dans l'application."
@@ -6567,36 +6526,51 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ResourceListItem',
     codeName: 'learning/ResourceListItem.tsx',
-    cssBase: 'ResourceListItem (resource row)',
     usedBy: ['MasterclassReplay', 'AtelierPresentiel'],
-    description: 'Ligne de ressource complémentaire : icône + label + badge optionnel + action slot. Se rend en `<button>` si `onClick` fourni, sinon `<div>`. Utilisé dans les sidebars "Matériaux" et "Ressources" des viewers masterclass et atelier.',
-    keywords: ['resource', 'list', 'item', 'download', 'file', 'material', 'sidebar'],
-    render: () => (
-      <div className="flex flex-col gap-stack-xs max-w-sm">
-        <ResourceListItem
-          icon={<FileText size={14} />}
-          label="Support de l'atelier"
-          badge={<Badge variant="neutral" size="compact">PDF</Badge>}
-          action={<Button emphasis="outline" size="sm">Télécharger</Button>}
-        />
-        <ResourceListItem
-          icon={<Video size={14} />}
-          label="Replay vidéo de la session"
-          onClick={() => {}}
-        />
-        <ResourceListItem
-          label="Fiche mémo stress & récupération"
-        />
-      </div>
-    ),
+    description: "Rangée de ressource complémentaire : icône, libellé 16/600 ink-900, puis `meta` — une donnée sur la ressource (type, poids, durée), en légende 13 ink-600 —, et l'action à droite ; fond ink-50, rayon 14, padding 16. La rangée mesure sa propre largeur (`@container`, 24/09) : au-dessus de 20rem de contenu (`@xs`), une ligne, le libellé abrégé et la méta à sa suite sur la ligne de base ; en dessous (une rangée de moins de 352 px), la méta passe sous le libellé, et le libellé se coupe sur deux lignes avant de s'abréger — dans une colonne étroite, la méta ne cédait rien et le nom disparaissait (« Supp… » à 375 px). Les rangées d'une liste ont la même largeur : elles basculent ensemble. L'icône se centre sur la première ligne. `badge` est déprécié depuis le 24/09 : son nom invitait à poser une donnée dans un Badge, réservé aux états (la donnée chuchote, l'état crie). Rendue en `<button>` avec `onClick` — son intérieur n'est fait que de `<span>`, le seul contenu qu'un bouton admet —, en `<div>` sinon. Dans les colonnes « Matériaux » et « Ressources » des lecteurs de masterclass et d'atelier.",
+    keywords: ['resource', 'list', 'item', 'download', 'file', 'material', 'sidebar', 'meta', 'donnée', 'container', '@xs', 'colonne étroite'],
+    render: () => {
+      const rangees = (
+        <>
+          <ResourceListItem
+            icon={<FileText size={16} />}
+            label="Support de l'atelier"
+            meta="PDF"
+            action={<Button emphasis="soft" iconOnly leadingIcon={<Download />} aria-label="Télécharger le support de l'atelier" />}
+          />
+          <ResourceListItem
+            icon={<Video size={16} />}
+            label="Replay vidéo de la session"
+            meta="45 min"
+            onClick={() => {}}
+          />
+          <ResourceListItem
+            label="Fiche mémo stress & récupération"
+          />
+        </>
+      );
+      return (
+        <div className="flex flex-wrap items-start gap-section">
+          <div className="flex flex-col gap-stack-xs w-full max-w-sm">
+            <p className="text-caption font-semibold text-ink-600">Colonne de 384 px · une ligne, la méta à la suite</p>
+            {rangees}
+          </div>
+          {/* Sous 20rem de contenu, la méta descend : c'est la rangée qui
+              mesure sa place, pas la fenêtre. */}
+          <div className="flex flex-col gap-stack-xs w-full max-w-[260px]">
+            <p className="text-caption font-semibold text-ink-600">Colonne de 260 px · la méta sous le libellé</p>
+            {rangees}
+          </div>
+        </div>
+      );
+    },
   },
 
   {
     name: 'EtapeAccordion',
     codeName: 'patterns/EtapeAccordion.tsx',
-    cssBase: 'EtapeAccordion (step accordion)',
     usedBy: ['CourseDetail', 'LearningPathDetail'],
-    description: 'Accordéon d\'étape de parcours. Deux variants : `default` (liste compacte bordée, CourseDetail) et `panel` (grande card padded, LearningPathDetail). Prop `header` pour un slot custom (remplace title/duration). Prop `locked` : désactive le clic et masque le chevron (locked items = non-interactifs). Le `bodyClassName` contrôle le style du wrapper contenu.',
+    description: "Accordéon d'une étape de parcours : en-tête avec le titre en 16/600, 4 px, la durée en légende 13 ink-600, et un chevron de 20. Deux variantes : default (liste compacte bordée, CourseDetail) et panel (grande carte, LearningPathDetail). `header` remplace le titre et la durée ; `locked` désactive le clic et masque le chevron ; `bodyClassName` règle l'enveloppe du contenu.",
     keywords: ['accordion', 'step', 'etape', 'parcours', 'programme', 'expand', 'collapse', 'locked', 'lesson'],
     render: () => {
       const [open1, setOpen1] = React.useState(true);
@@ -6611,7 +6585,7 @@ const COMPONENTS: ComponentEntry[] = [
             className="mb-0"
             bodyClassName="px-stack pb-stack"
           >
-            <p className="text-body-sm text-ink-600 pt-2 m-0">Contenu de l'étape — leçons, exercices, ressources.</p>
+            <p className="text-body text-ink-700 pt-2 m-0">Contenu de l'étape — leçons, exercices, ressources.</p>
           </EtapeAccordion>
           <EtapeAccordion
             title="Devenir prompt designer"
@@ -6621,7 +6595,7 @@ const COMPONENTS: ComponentEntry[] = [
             locked
             className="mb-0"
           >
-            <p className="text-body-sm text-ink-600 pt-2 m-0">Contenu verrouillé</p>
+            <p className="text-body text-ink-700 pt-2 m-0">Contenu verrouillé</p>
           </EtapeAccordion>
         </div>
       );
@@ -6632,10 +6606,9 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'RadioGroup',
     codeName: 'ui/RadioGroup.tsx',
-    cssBase: 'Tailwind (no BEM)',
     subCategory: 'Form groups',
     usedBy: ['Onboarding', 'Positionnement', 'SessionFeedback'],
-    description: 'Groupe de boutons radio avec sémantique fieldset/legend. 2 variants : **default** (inline radio) · **card** (sélection carte). 3 orientations : vertical · horizontal. Tone-aware (primary/warm/sun). Props : name, options (value/label/description/disabled), value, onChange, error, hint, required.',
+    description: "Groupe de boutons radio, en fieldset et legend. Légende 16/600 ink-900 ; options en 16/600 avec leur description en légende 13 ink-600, 12 px entre deux options ; indicateur de 20 px calé sur la première ligne, coché au cran 700. Variantes default et card (carte cochée : filet 400, fond 50), orientation verticale ou horizontale, trois tons. Aide et erreur comme Input.",
     keywords: ['radio', 'group', 'form', 'select', 'choice', 'fieldset', 'card', 'tone'],
     render: () => {
       const [v1, setV1] = React.useState('intermediate');
@@ -6657,7 +6630,7 @@ const COMPONENTS: ComponentEntry[] = [
             <RadioGroup name="mode" label="Mode d'apprentissage" value={v2} onChange={setV2} options={opts2} orientation="horizontal" hint="Certaines options nécessitent un abonnement" />
           </div>
           <div>
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-stack">Variant card — tone primary / warm / sun</p>
+            <p className="text-caption font-semibold text-ink-600 mb-stack">Variant card — tone primary / warm / sun</p>
             <div className="flex flex-col gap-stack">
               <RadioGroup name="goal" label="Objectif" variant="card" tone="primary" value={v1} onChange={setV1} options={opts1.slice(0,2)} orientation="horizontal" />
               <RadioGroup name="goalw" label="Ton warm" variant="card" tone="warm" value="coaching" onChange={() => {}} options={opts2.slice(0,2)} orientation="horizontal" />
@@ -6671,10 +6644,9 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'CheckboxGroup',
     codeName: 'ui/CheckboxGroup.tsx',
-    cssBase: 'Tailwind (no BEM)',
     subCategory: 'Form groups',
     usedBy: ['Onboarding', 'FilterBar', 'Account'],
-    description: 'Groupe de cases à cocher multi-sélection avec sémantique fieldset/legend. 2 variants : **default** (inline checkbox) · **card** (case carte). Tone-aware (primary/warm/sun). value: string[] — tableau des valeurs cochées. Props identiques à RadioGroup sauf onChange retourne string[].',
+    description: "Cases à cocher en groupe, en fieldset et legend ; `value` est un tableau. Même anatomie que RadioGroup : légende 16/600, options en 16/600 et description 13 ink-600, indicateur de 20 px calé sur la première ligne, coché au cran 700 avec une coche. Variantes default et card, orientation verticale ou horizontale, trois tons.",
     keywords: ['checkbox', 'group', 'multi', 'select', 'form', 'fieldset', 'card', 'tone'],
     render: () => {
       const [vals, setVals] = React.useState<string[]>(['newsletter', 'badges']);
@@ -6692,7 +6664,7 @@ const COMPONENTS: ComponentEntry[] = [
             <CheckboxGroup name="notifsh" label="Horizontal" value={vals} onChange={setVals} options={optsSmall} orientation="horizontal" hint={`${vals.length} sélectionnée(s)`} />
           </div>
           <div>
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-stack">Variant card — tone primary</p>
+            <p className="text-caption font-semibold text-ink-600 mb-stack">Variant card — tone primary</p>
             <CheckboxGroup name="notifsc" label="Préférences" variant="card" tone="primary" value={vals} onChange={setVals} options={optsSmall} orientation="horizontal" />
           </div>
         </div>
@@ -6703,10 +6675,9 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'FormSection',
     codeName: 'ui/FormSection.tsx',
-    cssBase: 'Tailwind (no BEM)',
     subCategory: 'Form groups',
     usedBy: ['Account', 'Profile'],
-    description: 'Section de formulaire avec titre, description et séparateur. Optionnellement rétractable (collapsible) avec animation. Props : title, description, titleIcon, collapsible (default false), defaultExpanded (default true). Conteneur sémantique <section>.',
+    description: "Section de formulaire : pastille d'icône (IconChip sm), titre h3 20/700, description 16 ink-700 à la largeur de lecture et à 8 px sous le titre, puis un filet. Rétractable en option (`collapsible`, `defaultExpanded`), par un bouton-icône. Élément `<section>`.",
     keywords: ['form', 'section', 'group', 'title', 'collapsible', 'accordion', 'settings'],
     render: () => (
       <div className="flex flex-col gap-section max-w-lg">
@@ -6724,21 +6695,20 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'InputGroup',
     codeName: 'ui/InputGroup.tsx',
-    cssBase: 'Tailwind (no BEM)',
     subCategory: 'Form groups',
     usedBy: ['Account', 'Profile', 'Onboarding'],
-    description: 'Wrapper de disposition pour groupes d\'inputs. 3 layouts : **vertical** (stack), **horizontal** (row), **grid** (colonnes). Prop columns (2/3/4) en mode grid. Label + hint + error de groupe partagés. Mobile-first : grid collapse à 1 colonne.',
+    description: "Disposition d'un groupe de champs : vertical (16 px entre les champs), horizontal (12 px, alignés par le bas) ou grille de 2 à 4 colonnes (16 px), une seule colonne sous 640 px. Libellé de groupe 16/600, aide et erreur partagées.",
     keywords: ['input', 'group', 'layout', 'form', 'grid', 'horizontal', 'vertical', 'columns'],
     render: () => (
       <div className="flex flex-col gap-section">
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Grid 2 cols</p>
+        <p className="text-caption font-semibold text-ink-600 m-0">Grille · 2 colonnes</p>
         <InputGroup label="Adresse postale" layout="grid" columns={2}>
           <Input label="Rue" placeholder="12 rue de la Paix" />
           <Input label="Code postal" placeholder="75001" />
           <Input label="Ville" placeholder="Paris" />
           <Input label="Pays" placeholder="France" />
         </InputGroup>
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Horizontal (row)</p>
+        <p className="text-caption font-semibold text-ink-600 m-0">Horizontal</p>
         <InputGroup layout="horizontal">
           <Input label="Prénom" placeholder="Marie" />
           <Input label="Nom" placeholder="Dupont" />
@@ -6748,76 +6718,11 @@ const COMPONENTS: ComponentEntry[] = [
   },
 
   {
-    name: 'SimpleTable',
-    codeName: 'ui/SimpleTable.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    subCategory: 'List composites',
-    usedBy: ['CoachEnterpriseDashboard', 'Leaderboard', 'Analytics'],
-    description: 'Table de données sémantique (`<table>`). Columns déclaratives via `ColumnDef<T>` (header + accessor + align + width). Props : **striped** (bandes alternées), **onRowClick** (hover tinted + cursor-pointer), **emptyLabel**, **caption**. Wrapper scrollable horizontal sur mobile.',
-    keywords: ['table', 'données', 'colonnes', 'lignes', 'rows', 'sort', 'striped', 'data'],
-    render: () => {
-      type User = { id: string; name: string; role: string; score: number; status: string };
-      const data: User[] = [
-        { id: '1', name: 'Marie Dupont', role: 'Apprenante', score: 94, status: 'Actif' },
-        { id: '2', name: 'Jean Martin', role: 'Manager', score: 78, status: 'Actif' },
-        { id: '3', name: 'Sophie Bernard', role: 'Apprenante', score: 61, status: 'Inactif' },
-        { id: '4', name: 'Lucas Petit', role: 'Coach', score: 87, status: 'Actif' },
-      ];
-      const columns = [
-        { key: 'name', header: 'Nom', accessor: (r: User) => <span className="font-semibold">{r.name}</span> },
-        { key: 'role', header: 'Rôle', accessor: (r: User) => r.role },
-        { key: 'score', header: 'Score', accessor: (r: User) => `${r.score} pts`, align: 'center' as const },
-        { key: 'status', header: 'Statut', accessor: (r: User) => (
-          <span className={`inline-flex items-center px-2 py-0.5 rounded-pill text-micro font-semibold ${r.status === 'Actif' ? 'bg-success-bg text-success-fg' : 'bg-ink-100 text-ink-500'}`}>{r.status}</span>
-        )},
-      ];
-      return (
-        <div className="flex flex-col gap-section">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Default</p>
-          <SimpleTable columns={columns} rows={data} keyExtractor={(r) => r.id} />
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Striped + clickable</p>
-          <SimpleTable columns={columns} rows={data} keyExtractor={(r) => r.id} striped onRowClick={() => {}} />
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Empty state</p>
-          <SimpleTable columns={columns} rows={[]} keyExtractor={(r) => r.id} emptyLabel="Aucun membre dans cette équipe" />
-        </div>
-      );
-    },
-  },
-
-  {
-    name: 'PaginatedList',
-    codeName: 'ui/PaginatedList.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    subCategory: 'List composites',
-    usedBy: ['LearningPaths', 'Notifications', 'Veille'],
-    description: 'Wrapper de pagination pour n\'importe quel contenu. Props : **items**, **renderItem** (callback), **pageSize** (défaut 10), **itemLabel**. Affiche prev/next + numéros de pages (5 autour de la courante). Contrôles adaptatifs mobile (n/N). Stateful React interne.',
-    keywords: ['pagination', 'pages', 'liste', 'navigation', 'next', 'prev', 'parcours'],
-    render: () => {
-      const ITEMS = Array.from({ length: 23 }, (_, i) => ({ id: String(i + 1), title: `Parcours ${i + 1}`, category: i % 3 === 0 ? 'Leadership' : i % 3 === 1 ? 'IA & Data' : 'Communication' }));
-      return (
-        <PaginatedList
-          items={ITEMS}
-          pageSize={5}
-          itemLabel="parcours"
-          renderItem={(item) => (
-            <div key={item.id} className="flex items-center justify-between px-stack py-3 border-b border-ink-100 last:border-0 hover:bg-ink-50 rounded-lg transition-colors">
-              <span className="font-semibold text-ink-900">{item.title}</span>
-              <span className="text-caption text-ink-500">{item.category}</span>
-            </div>
-          )}
-          listClassName="border border-ink-200 rounded-xl overflow-hidden"
-        />
-      );
-    },
-  },
-
-  {
     name: 'FilteredList',
     codeName: 'ui/FilteredList.tsx',
-    cssBase: 'Tailwind (no BEM)',
+    showcaseOnly: true,
     subCategory: 'List composites',
-    usedBy: ['LearningPaths', 'Help', 'EnterpriseMembers'],
-    description: 'Wrapper de filtrage textuel avec input de recherche. Props : **filterFn** (callback booléen), **renderItem**, **placeholder**, **emptyLabel**, **showCount**, **itemLabel**. Input avec icône Search + bouton Clear. `useDeferredValue` pour éviter les lag sur grandes listes.',
+    description: "Liste filtrée par une recherche : un champ (fait main, 40 px), un compteur en 13 ink-600, un message vide en 16 italique. `filterFn`, `renderItem`, `placeholder`, `emptyLabel`, `showCount`, `itemLabel` ; `useDeferredValue` évite les à-coups sur une longue liste.",
     keywords: ['filtre', 'recherche', 'search', 'liste', 'filter', 'query', 'input'],
     render: () => {
       const ITEMS = [
@@ -6838,7 +6743,7 @@ const COMPONENTS: ComponentEntry[] = [
           renderItem={(item) => (
             <div key={item.id} className="flex items-center justify-between px-stack py-3 border-b border-ink-100 last:border-0 hover:bg-ink-50 rounded-lg transition-colors">
               <span className="font-semibold text-ink-900">{item.title}</span>
-              <span className="text-caption text-primary-600 font-medium">{item.cat}</span>
+              <span className="text-caption text-ink-600">{item.cat}</span>
             </div>
           )}
           listClassName="border border-ink-200 rounded-xl overflow-hidden"
@@ -6851,10 +6756,9 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'StepIndicator',
     codeName: 'ui/StepIndicator.tsx',
-    cssBase: 'Tailwind (no BEM)',
+    showcaseOnly: true,
     subCategory: 'Form groups',
-    usedBy: ['Onboarding', 'BookingModal', 'MultiStepForm'],
-    description: 'Indicateur de progression par étapes. Props : **steps** (`{ label, description? }[]`), **currentStep** (0-based index), **orientation** (`horizontal` | `vertical`), **tone** (primary/warm/sun). Bubble numérotée → ✓ check à la complétion. Connecteur animé entre les étapes.',
+    description: "Indicateur d'étapes d'un formulaire : pastilles de 32 px (chiffre 13/600 tabulaire), l'active au cran 700, les faites avec une coche. À l'horizontale, libellé 13/600 et description en 13 ; à la verticale, libellé 16/600 et description 13. L'étape active est au cran 800 du ton. Trois tons.",
     keywords: ['steps', 'étapes', 'onboarding', 'progression', 'wizard', 'checkout', 'stepper'],
     render: () => {
       const STEPS = [
@@ -6866,20 +6770,20 @@ const COMPONENTS: ComponentEntry[] = [
       return (
         <div className="flex flex-col gap-section">
           <div>
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mb-3">Horizontal — step 2/4</p>
+            <p className="text-caption font-semibold text-ink-600 m-0 mb-3">Horizontal — étape 3 sur 4</p>
             <StepIndicator steps={STEPS} currentStep={2} orientation="horizontal" tone="primary" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-stack">
             <div>
-              <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mb-3">Vertical — primary</p>
+              <p className="text-caption font-semibold text-ink-600 m-0 mb-3">Vertical — primary</p>
               <StepIndicator steps={STEPS} currentStep={1} orientation="vertical" tone="primary" />
             </div>
             <div>
-              <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mb-3">Vertical — warm</p>
+              <p className="text-caption font-semibold text-ink-600 m-0 mb-3">Vertical — warm</p>
               <StepIndicator steps={STEPS} currentStep={2} orientation="vertical" tone="warm" />
             </div>
             <div>
-              <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mb-3">Vertical — sun</p>
+              <p className="text-caption font-semibold text-ink-600 m-0 mb-3">Vertical — sun</p>
               <StepIndicator steps={STEPS} currentStep={3} orientation="vertical" tone="sun" />
             </div>
           </div>
@@ -6891,11 +6795,10 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ModalForm',
     codeName: 'ui/ModalForm.tsx',
-    cssBase: 'Tailwind (no BEM)',
+    showcaseOnly: true,
     subCategory: 'Form groups',
-    usedBy: ['BookingModal', 'ConfirmDeleteModal', 'ProfileEdit'],
-    description: 'Modal formulaire native `<dialog>` avec header titre + description, zone body scrollable, footer Cancel/Submit. Props : **open**, **onClose**, **onSubmit**, **title**, **submitLabel**, **submitting** (spinner), **destructiveLabel** + **onDestructive** (bouton destructif gauche), **size** (xs/sm/md/lg). Fermeture sur backdrop click ou touche Esc.',
-    keywords: ['modal', 'dialog', 'form', 'formulaire', 'popup', 'overlay', 'submit'],
+    description: "Formulaire en dialogue natif (`<dialog>` ouvert par `showModal()`) au rayon 24 : en-tête — titre en h2 au pas h3 (20/700), description 16 ink-700 —, corps (24 · 20 · 16), puis les actions à 24 px, toutes en Button sm : l'action destructive à gauche, en ghost danger calé sur le bord du texte (`flush`) — en solid danger quand il n'y a pas de soumission —, Annuler en outline neutre et la soumission en solid à droite (arbitrage n°19). Le pied passe à la ligne quand ses actions ne tiennent pas (24/09) : la paire Annuler / soumission descend et reste calée à droite, dans l'ordre du clavier ; « Supprimer le compte », Annuler et Enregistrer demandent 356 px quand la boîte sm en offre 334, et débordaient de 7 px à 375. Largeur xs 320 · sm 384 · md 448 · lg 512 ; fermeture par le voile ou Échap. Dialogue modal du navigateur : le reste du document est inerte tant qu'il est ouvert (vérifié : un bouton de la page ne prend plus le focus). Il est nommé par son titre (`aria-labelledby`) et décrit par sa description (`aria-describedby`), sur des identifiants `useId`.",
+    keywords: ['modal', 'dialog', 'form', 'formulaire', 'popup', 'overlay', 'submit', 'aria-labelledby', 'nom accessible', 'flush', 'wrap', 'showModal', 'inert'],
     render: () => {
       const [open, setOpen] = React.useState(false);
       const [submitting, setSubmitting] = React.useState(false);
@@ -6906,13 +6809,9 @@ const COMPONENTS: ComponentEntry[] = [
       };
       return (
         <div className="flex flex-wrap gap-stack">
-          <button
-            type="button"
-            onClick={() => setOpen(true)}
-            className="inline-flex items-center px-stack py-stack-xs rounded-pill bg-primary-600 text-white text-body-sm font-semibold hover:bg-primary-700 transition-colors"
-          >
-            Ouvrir ModalForm
-          </button>
+          <Button emphasis="solid" size="sm" onClick={() => setOpen(true)}>
+            Ouvrir le formulaire
+          </Button>
           <ModalForm
             open={open}
             onClose={() => setOpen(false)}
@@ -6925,18 +6824,19 @@ const COMPONENTS: ComponentEntry[] = [
             onDestructive={() => setOpen(false)}
             size="sm"
           >
-            <div className="flex flex-col gap-stack-xs">
-              <label className="text-body-sm font-semibold text-ink-900">Prénom</label>
-              <input className="w-full h-10 px-3 rounded-lg border border-ink-200 text-body-sm focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100" defaultValue="Marie" />
-            </div>
-            <div className="flex flex-col gap-stack-xs">
-              <label className="text-body-sm font-semibold text-ink-900">Rôle</label>
-              <select className="w-full h-10 px-3 rounded-lg border border-ink-200 text-body-sm focus:outline-none focus:border-primary-400 h-auto min-h-[44px] appearance-none bg-white">
-                <option>Apprenante</option>
-                <option>Manager</option>
-                <option>Coach</option>
-              </select>
-            </div>
+            {/* Les champs du système, pas des imitations : la démo posait un
+                <input> fait main à 40 px, filet ink-200 (1,5:1). */}
+            <Input label="Prénom" id="modalform-prenom" defaultValue="Marie" />
+            <Select
+              label="Rôle"
+              id="modalform-role"
+              options={[
+                { value: 'apprenante', label: 'Apprenante' },
+                { value: 'manager', label: 'Manager' },
+                { value: 'coach', label: 'Coach' },
+              ]}
+              defaultValue="apprenante"
+            />
           </ModalForm>
         </div>
       );
@@ -6946,10 +6846,9 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'FilterableCardGrid',
     codeName: 'ui/FilterableCardGrid.tsx',
-    cssBase: 'Tailwind (no BEM)',
+    showcaseOnly: true,
     subCategory: 'List composites',
-    usedBy: ['LearningPaths', 'Veille', 'EnterpriseMembers', 'Components'],
-    description: 'Grille de cards filtrable avec barre de recherche, chips de catégorie, et toggle grille/liste. Props : **filterFn** (optionnel), **categories** + **categoryFn** (filtres par catégorie), **columns** (2/3/4), **allowLayoutToggle**, **renderCard(item, index, layout)** (callback — layout passé pour adapter le rendu). `useDeferredValue` pour la perf. Distinct de `patterns/CardGrid` (layout pur).',
+    description: "Grille de cartes filtrable : une recherche, les catégories en FilterChip md, une bascule grille / liste (32 px, faite main), deux à quatre colonnes en requête de conteneur. `filterFn`, `categories` et `categoryFn`, `columns`, `allowLayoutToggle`, `renderCard(item, index, layout)`. Distincte de CardGrid, qui ne fait que la mise en page.",
     keywords: ['grid', 'grille', 'cards', 'filtre', 'catégories', 'layout', 'search', 'toggle'],
     render: () => {
       type Resource = { id: string; title: string; cat: string; author: string };
@@ -6976,17 +6875,18 @@ const COMPONENTS: ComponentEntry[] = [
           renderCard={(item, _, layout) =>
             layout === 'grid' ? (
               <div key={item.id} className="flex flex-col gap-stack-xs p-stack rounded-xl border border-ink-200 bg-white hover:border-primary-300 hover:shadow-sm transition-all">
-                <span className="inline-flex self-start px-2 py-0.5 rounded-pill bg-primary-50 text-primary-700 text-micro font-semibold">{item.cat}</span>
-                <p className="font-semibold text-ink-900 text-body-sm m-0">{item.title}</p>
-                <p className="text-caption text-ink-500 m-0">{item.author}</p>
+                {/* La catégorie est une donnée : MetaPill (arbitrages n°14-15). */}
+                <MetaPill text={item.cat} tone="primary" className="self-start" />
+                <p className="font-semibold text-ink-900 text-body">{item.title}</p>
+                <p className="text-caption text-ink-600">{item.author}</p>
               </div>
             ) : (
               <div key={item.id} className="flex items-center justify-between px-stack py-3 rounded-xl border border-ink-200 bg-white hover:border-primary-300 transition-all">
                 <div className="flex items-center gap-stack-xs">
-                  <span className="inline-flex px-2 py-0.5 rounded-pill bg-primary-50 text-primary-700 text-micro font-semibold shrink-0">{item.cat}</span>
-                  <p className="font-semibold text-ink-900 text-body-sm m-0">{item.title}</p>
+                  <MetaPill text={item.cat} tone="primary" className="shrink-0" />
+                  <p className="font-semibold text-ink-900 text-body">{item.title}</p>
                 </div>
-                <p className="text-caption text-ink-500 m-0 shrink-0 ml-3">{item.author}</p>
+                <p className="text-caption text-ink-600 m-0 shrink-0 ml-3">{item.author}</p>
               </div>
             )
           }
@@ -6998,9 +6898,8 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'AuthBackLink',
     codeName: 'patterns/AuthShell.tsx',
-    cssBase: 'AuthBackLink (auth back-navigation link)',
     usedBy: ['MagicLink', 'VerifyEmail'],
-    description: 'Lien de retour "← label" pour les pages auth sur fond glass-dark. Texte blanc/75 avec flèche ArrowLeft Lucide. Hover → blanc 100%. Part de la famille Auth* (glass-dark only — ne pas utiliser sur fond clair). Exposé comme named export depuis AuthShell.tsx.',
+    description: "Lien de retour « ← libellé » des pages d'authentification : 16/600 blanc, flèche de 16. De la famille Auth*, pour la surface glass-dark seulement ; exporté par AuthShell.tsx.",
     keywords: ['auth', 'back', 'link', 'retour', 'connexion', 'glass-dark', 'AuthShell', 'navigation'],
     render: () => (
       <div className="bg-primary-800 p-section rounded-2xl">
@@ -7013,9 +6912,8 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'MoodSelector',
     codeName: 'ui/MoodSelector.tsx',
-    cssBase: 'MoodSelector',
-    description: 'Sélecteur de niveau d\'humeur pour le journal (5 niveaux : very-sad → very-happy). Emoji + label par niveau, highlight actif bg-primary-100/border-primary-500. API : `value: MoodLevel` + `onChange`. Mobile-first flex wrap.',
-    keywords: ['mood', 'journal', 'humeur', 'emoji', 'selector', 'feeling', 'MoodLevel'],
+    description: "L'humeur du jour pour le journal, sur une échelle symétrique de cinq niveaux — Très difficile · Difficile · Neutre · Bien · Excellent —, que les visages Lucide suivent d'un cran à l'autre : colère, moue, bouche droite, sourire, rire. Chaque libellé dit la valeur qu'il enregistre : jusqu'au 24/09, ils étaient décalés d'un cran (« Neutre » enregistrait `sad`, et l'éditeur s'ouvrait sur « Bien »). Des boutons de 44 px au moins (`aria-pressed`), une icône de 28 et un libellé en 13/600 ; le niveau choisi passe sur fond primary-100, filet 2 px au cran 700. La table `HUMEURS` est exportée : la page de lecture d'une entrée la relit. `value` et `onChange`.",
+    keywords: ['mood', 'journal', 'humeur', 'emoji', 'selector', 'feeling', 'MoodLevel', 'HUMEURS', 'échelle'],
     usedBy: ['JournalNewEntry'],
     render: () => {
       const [mood, setMood] = React.useState<MoodLevel>('neutral');
@@ -7026,8 +6924,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'JournalBubbleCard',
     codeName: 'cards/JournalBubbleCard.tsx',
-    cssBase: 'JournalBubbleCard',
-    description: 'Bulle Apple Messages pour afficher les entrées journal dans la liste. Surface tintée par type, queue speech-bubble bas-droite, badge type pill, actions glass-light. 7 types : guided / free / learning / coaching / insight / questionnaire / compte-rendu.',
+    description: "Entrée du journal en bulle, la construction canonique de la famille bulle : rayon 20, filet 1 px, queue en bas à droite, padding 24, aucune ombre. Titre h3 20, date 13, type en pastille 13/500, extrait 16 ink-700, puis « Lire » (Button soft neutral) et « Continuer » (ghost). Sept types, chacun sa surface teintée.",
     keywords: ['journal', 'bubble', 'chat', 'entry', 'apple-messages', 'speech-bubble', 'glass-light', 'JournalBubbleType'],
     usedBy: ['Journal'],
     render: () => (
@@ -7049,11 +6946,82 @@ const COMPONENTS: ComponentEntry[] = [
   },
 
   {
+    // Fiche ajoutée le 2026-09-24 : le composant était classé au registre sans fiche.
+    name: 'NotificationCard',
+    codeName: 'cards/NotificationCard.tsx',
+    usedBy: ['Notifications'],
+    description: "Une notification, sous deux formes (`variant`). `row`, celle de la page Notifications : une rangée sans rayon ni filet, posée dans UNE carte qui clippe ses coins et sépare par `divide-y` (arbitrage n°5, une collection se rend en rangées) ; retrait 20 puis 24 dès 640 px. `card`, le défaut : un item isolé qui porte sa coque, rayon 20, padding 12 (16 à l'horizontale dès 640 px). Pastille de 40 px carrée arrondie (`rounded-md`, 10 — elle était ronde ; arbitrage n°3), au cran 100 du ton ; titre 16/600 ink-900 sur une ligne, texte 16 ink-700 sur deux au plus, méta 13 ink-600 (`meta`, puis l'heure), 4 px entre chaque, la première ligne centrée sur la pastille. Non lue : un fond du ton au cran 50 et un point de 6 px, sans changer la graisse. « Marquer comme lu » et « Supprimer » en Button iconOnly sm ghost neutre, qui n'apparaissent qu'au survol ou au focus dès 640 px et restent visibles en dessous. Cinq tons (brand · warm · sun · success · neutral). Avec `onClick`, la notification s'ouvre (24/09) : pastille, titre, texte et méta vivent dans un vrai `<button>`, en `<span>` seulement, qu'Entrée et Espace activent — c'était un `div role=\"button\"` sans clavier, qui contenait les deux boutons d'action. Son pseudo-élément couvre la rangée : un clic dans le padding ouvre, un clic sur Supprimer n'ouvre pas, les actions restant ses sœurs. Focus : l'anneau bicolore des cartes sur l'item isolé, un anneau ink-900 intérieur sur la rangée, que la carte parente rogne. « Non lu » est un texte masqué, lu avec le titre. `meta` passe alors dans le bouton : elle doit rester non interactive.",
+    keywords: ['notification', 'feed', 'row', 'rangée', 'unread', 'non lu', 'tone', 'actions', 'collection', 'onClick', 'button', 'clavier', 'focus'],
+    render: () => (
+      <div className="flex flex-col gap-section max-w-2xl">
+        <div className="flex flex-col gap-stack-xs">
+          <p className="text-caption font-semibold text-ink-600">variant="row" · des rangées dans une carte, comme sur la page Notifications</p>
+          <Card className="p-0 overflow-hidden">
+            <ul className="flex flex-col divide-y divide-ink-100">
+              <li>
+                <NotificationCard
+                  variant="row"
+                  tone="warm"
+                  icon={<Calendar size={18} />}
+                  title="Session demain à 14 h"
+                  body="Coaching avec Sophie Martin : prépare tes deux questions."
+                  time="Il y a 3 h"
+                  unread
+                  onMarkRead={() => {}}
+                  onDelete={() => {}}
+                />
+              </li>
+              <li>
+                <NotificationCard
+                  variant="row"
+                  tone="sun"
+                  icon={<Trophy size={18} />}
+                  title="Niveau validé"
+                  body="Ton coach a validé le niveau D3 en Leadership."
+                  meta={<MetaPill text="Leadership" tone="sun" />}
+                  time="Lundi"
+                  onDelete={() => {}}
+                />
+              </li>
+              <li>
+                <NotificationCard
+                  variant="row"
+                  tone="neutral"
+                  icon={<Settings size={18} />}
+                  title="Nouvelles conditions d’utilisation"
+                  time="12 sept."
+                  onDelete={() => {}}
+                />
+              </li>
+            </ul>
+          </Card>
+        </div>
+        <div className="flex flex-col gap-stack-xs">
+          <p className="text-caption font-semibold text-ink-600">onClick · la rangée devient un bouton, qu'Entrée et Espace ouvrent</p>
+          <NotificationCardClicDemo />
+        </div>
+        <div className="flex flex-col gap-stack-xs">
+          <p className="text-caption font-semibold text-ink-600">variant="card" · un item isolé, qui porte sa coque</p>
+          <NotificationCard
+            tone="success"
+            icon={<CheckCircle2 size={18} />}
+            title="Leçon terminée"
+            body="Tu as terminé « Prompt engineering avancé »."
+            time="Il y a 2 h"
+            unread
+            onMarkRead={() => {}}
+            onDelete={() => {}}
+          />
+        </div>
+      </div>
+    ),
+  },
+
+  {
     name: 'JournalChatCompose',
     codeName: 'ui/JournalChatCompose.tsx',
-    cssBase: 'JournalChatCompose',
-    description: 'Barre de composition style chat pour démarrer une entrée journal. Bulle Apple Messages (queue bas-gauche), textarea h-auto, emoji ✍️, bouton "Continuer", hint ⌘+Entrée. Utilisé en haut de la page Journal pour le quick-compose.',
-    keywords: ['journal', 'compose', 'chat', 'textarea', 'quick-entry', 'speech-bubble', 'send'],
+    description: "La saisie rapide du journal, en bulle (Card au rayon 20, filet primary-100, queue en bas à gauche) : le repère d'écriture — l'icône PenLine, 20 px au cran 700, centrée dans une boîte de 44, la hauteur du bouton ; c'était l'émoji ✍️, dont le dessin change d'un système à l'autre —, une zone de texte à 16, le Button md « Continuer » en solid — l'envoi, l'action principale de la saisie (arbitrage n°19) —, puis une aide en 13 ink-600 et le raccourci ⌘ ou Ctrl + Entrée. La zone de texte n'a ni filet ni contour, c'est la bulle qui fait le champ : depuis le 24/09, quand elle prend le focus au clavier, la bulle prend celui de la famille champ (Input) — filet primary-500 et halo de 2 px à 20 %, la queue suivant le filet. Rien ne changeait avant (filet primary-100, 1,16:1 contre la page). Limité à la zone de texte (`has-[textarea:focus-visible]`) : « Continuer » garde son propre anneau, et la bulle ne s'allume pas pour lui. En haut de la page Journal.",
+    keywords: ['journal', 'compose', 'chat', 'textarea', 'quick-entry', 'speech-bubble', 'send', 'PenLine', 'focus', 'focus-visible', 'has'],
     usedBy: ['Journal'],
     render: () => {
       const [value, setValue] = React.useState('');
@@ -7072,10 +7040,9 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'StructuredQuestionAccordion',
     codeName: 'ui/StructuredQuestionAccordion.tsx',
-    cssBase: 'StructuredQuestionAccordion',
-    description: 'Accordéon de questions structurantes pour le journal (EDRA-R template ou questions génériques). Gère l\'état open/closed en interne. `answers` contrôlé (Record<string, string>). Chaque item : titre + description + textarea h-auto min-h-[96px] (contourne piège #10). Préfixe label configurable.',
+    showcaseOnly: true,
+    description: "Questions de réflexion du journal (gabarit EDRA-R ou questions libres), en accordéon : en-têtes de 44 px — question 16/600, consigne 13 ink-600 —, chevron de 18 ; le panneau ouvert, sur ink-50, porte une zone de réponse blanche à 16, filet ink-400, 96 px au moins. `answers` est contrôlé.",
     keywords: ['accordion', 'journal', 'EDRA-R', 'structured', 'questions', 'textarea', 'collapsible'],
-    usedBy: ['JournalNewEntry'],
     render: () => {
       const [answers, setAnswers] = React.useState<Record<string, string>>({});
       return (
@@ -7098,10 +7065,9 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'WritingPromptsAside',
     codeName: 'patterns/WritingPromptsAside.tsx',
-    cssBase: 'WritingPromptsAside',
-    description: 'Panel de 3 prompts de réflexion journal (Apprentissage / Pratique pro / Coaching). SectionHeader minimal sun + grille 1/2/3 col de PromptCards + lien "Ouvrir mon journal". Défauts canoniques TLS inclus. `prompts` override optionnel. `onNavigate` + `onOpenJournal` callbacks.',
+    showcaseOnly: true,
+    description: "Trois invitations à écrire dans le journal (apprentissage, pratique, coaching) : un SectionHeader minimal au ton sun (titre h2 28 et sous-titre 16), une grille de PromptCard sur une à trois colonnes, puis le lien « Ouvrir mon journal » (16/600, cran 800). `prompts` remplace les défauts ; `onNavigate` et `onOpenJournal` branchent la navigation.",
     keywords: ['journal', 'prompts', 'aside', 'writing', 'reflection', 'PromptCard', 'SectionHeader', 'dashboard'],
-    usedBy: ['Dashboard'],
     render: () => (
       <WritingPromptsAside
         onNavigate={() => {}}
@@ -7114,19 +7080,18 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'RadarChart',
     codeName: 'charts/RadarChart.tsx',
-    cssBase: 'RadarChart',
-    description: 'Dreyfus competency assessment — radar chart showing current vs. target skill levels across 6 axes. Hover to highlight axis, click axis to drill down. USAGE: Passeport detail, coach profiling, skill assessments. See CHARTS-SYSTEM.md for API.',
-    keywords: ['radar', 'chart', 'competency', 'dreyfus', 'analytics', 'passeport'],
+    description: "Radar des compétences : niveau actuel contre objectif, sur six axes au plus. Libellés d'axe en 13 ink-600, coupés à 14 caractères par ligne et posés au-dessus et au-dessous des pointes ; graduations de 1 à 5 en 13 ; « Niveau actuel » en aplat primary-500 à 35 %, « Objectif cible » en pointillés secondary-500 ; une légende unique en 13 ink-700. Clic sur un axe (`onAxisClick`) ; tailles de 250 · 350 · 450 px. Socle commun (chartTheme.ts) : graduations et titres d'axe en 13/400 ink-600 tabulaires, info-bulle blanche au rayon 14 (titre 13/600, valeurs 13 ink-700), légende en 13 ink-700, nombres et pourcentages à la française ; `role=\"img\"` et `ariaLabel`.",
+    keywords: ['radar', 'chart', 'graphique', 'competency', 'compétence', 'dreyfus', 'analytics', 'passeport'],
     usedBy: ['Passeport', 'Coach'],
     render: () => (
       <RadarChart
         data={[
           { label: 'Leadership', current: 3, target: 5 },
           { label: 'Communication', current: 4, target: 5 },
-          { label: 'Technical', current: 2, target: 4 },
-          { label: 'Problem Solving', current: 3, target: 5 },
-          { label: 'Collaboration', current: 4, target: 4 },
-          { label: 'Strategic Thinking', current: 2, target: 4 },
+          { label: 'Technique', current: 2, target: 4 },
+          { label: 'Résolution de problèmes', current: 3, target: 5 },
+          { label: 'Coopération', current: 4, target: 4 },
+          { label: 'Vision stratégique', current: 2, target: 4 },
         ]}
         size="md"
         onAxisClick={() => {}}
@@ -7137,42 +7102,56 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'BarChart',
     codeName: 'charts/BarChart.tsx',
-    cssBase: 'BarChart',
-    description: 'Vertical or horizontal bar rankings for comparisons. USAGE: Team rankings, cohort comparisons, score distributions. PROPS: layout (vertical/horizontal), dataKey, size (sm/md/lg), onBarClick. See CHARTS-SYSTEM.md.',
+    description: "Barres de comparaison — classement d'équipes, cohortes, distribution de scores. Horizontales par défaut (`layout`), catégories sur l'axe vertical, qui prend 35 % de la largeur (72 à 282 px) et coupe les libellés trop longs. L'axe des valeurs est gradué rond (`axeRond` de chartTheme.ts, 24/09) : des pas de 1, 2, 2,5 ou 5 × 10ⁿ, trois à six intervalles, jamais de pas décimal sur des entiers — il découpait le domaine exact, 0 · 0.95 · 1.9 · 2.85 · 3.8 ; graduations et info-bulle écrivent les nombres à la française (`nombreFr`). Une série (`dataKey`) ou plusieurs (`series`, avec légende) ; clic sur une barre ; hauteurs de 250 · 350 · 450 px. Socle commun (chartTheme.ts) : graduations et titres d'axe en 13/400 ink-600 tabulaires, info-bulle blanche au rayon 14 (titre 13/600, valeurs 13 ink-700), légende en 13 ink-700, nombres et pourcentages à la française ; `role=\"img\"` et `ariaLabel`.",
     keywords: ['bar', 'chart', 'rankings', 'comparison', 'analytics', 'dashboard'],
     usedBy: ['Enterprise', 'Analytics'],
     render: () => (
-      <BarChart
-        data={[
-          { label: 'Team A', score: 82 },
-          { label: 'Team B', score: 76 },
-          { label: 'Team C', score: 89 },
-          { label: 'Team D', score: 71 },
-          { label: 'Team E', score: 85 },
-        ]}
-        dataKey="score"
-        size="md"
-        onBarClick={() => {}}
-      />
+      <div className="flex flex-col gap-section">
+        <BarChart
+          data={[
+            { label: 'Équipe Lyon', score: 82 },
+            { label: 'Équipe Nantes', score: 76 },
+            { label: 'Équipe Paris', score: 89 },
+            { label: 'Équipe Lille', score: 71 },
+            { label: 'Équipe Bordeaux', score: 85 },
+          ]}
+          dataKey="score"
+          size="md"
+          onBarClick={() => {}}
+        />
+        {/* Un maximum décimal (3,8) : l'axe se gradue 0 · 1 · 2 · 3 · 4, et
+            l'info-bulle écrit « 3,8 ». */}
+        <div className="flex flex-col gap-stack-xs">
+          <p className="text-caption font-semibold text-ink-600">Niveau Dreyfus moyen par équipe · un maximum de 3,8, un axe rond</p>
+          <BarChart
+            data={[
+              { label: 'Équipe Lyon', niveau: 3.8 },
+              { label: 'Équipe Nantes', niveau: 2.6 },
+              { label: 'Équipe Paris', niveau: 3.1 },
+            ]}
+            dataKey="niveau"
+            size="sm"
+          />
+        </div>
+      </div>
     ),
   },
 
   {
     name: 'LineChart',
     codeName: 'charts/LineChart.tsx',
-    cssBase: 'LineChart',
-    description: 'Single or multi-line trend visualization over time. USAGE: Engagement tracking, XP progression, performance trends. PROPS: series, smooth, showDots, size (sm/md/lg), onPointClick. See CHARTS-SYSTEM.md.',
+    description: "Courbe d'une ou plusieurs tendances dans le temps (engagement, progression). Trait de 2 px, point actif de 5 px ; courbe lissée (`smooth`) et points (`showDots`) par défaut ; pas de légende pour une série seule ; clic sur un point. Socle commun (chartTheme.ts) : graduations et titres d'axe en 13/400 ink-600 tabulaires, info-bulle blanche au rayon 14 (titre 13/600, valeurs 13 ink-700), légende en 13 ink-700, nombres et pourcentages à la française ; `role=\"img\"` et `ariaLabel`.",
     keywords: ['line', 'chart', 'trend', 'progression', 'analytics', 'timeline'],
     usedBy: ['Analytics'],
     render: () => (
       <LineChart
         data={[
-          { label: 'Week 1', xp: 200 },
-          { label: 'Week 2', xp: 350 },
-          { label: 'Week 3', xp: 600 },
-          { label: 'Week 4', xp: 800 },
+          { label: 'Semaine 1', lecons: 2 },
+          { label: 'Semaine 2', lecons: 4 },
+          { label: 'Semaine 3', lecons: 3 },
+          { label: 'Semaine 4', lecons: 6 },
         ]}
-        dataKey="xp"
+        dataKey="lecons"
         size="md"
         smooth
         showDots
@@ -7183,19 +7162,18 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'AreaChart',
     codeName: 'charts/AreaChart.tsx',
-    cssBase: 'AreaChart',
-    description: 'Single or stacked area chart with gradient fills. USAGE: Cumulative metrics, time allocation, engagement trends. PROPS: series, stacked, smooth, size. Gradient fills auto-bindés aux tokens TLS. See CHARTS-SYSTEM.md.',
+    description: "Aires simples ou empilées (`stacked`, le défaut) : des cumuls, une répartition du temps, l'engagement. Remplissage en dégradé vertical, de 80 à 10 % d'opacité ; courbes lissées. Socle commun (chartTheme.ts) : graduations et titres d'axe en 13/400 ink-600 tabulaires, info-bulle blanche au rayon 14 (titre 13/600, valeurs 13 ink-700), légende en 13 ink-700, nombres et pourcentages à la française ; `role=\"img\"` et `ariaLabel`.",
     keywords: ['area', 'chart', 'cumulative', 'stacked', 'analytics', 'allocation'],
     usedBy: ['Analytics', 'Passeport'],
     render: () => (
       <AreaChart
         data={[
-          { label: 'Jan', lessons: 12, coaching: 3 },
-          { label: 'Feb', lessons: 18, coaching: 5 },
-          { label: 'Mar', lessons: 22, coaching: 8 },
+          { label: 'Janv.', lessons: 12, coaching: 3 },
+          { label: 'Févr.', lessons: 18, coaching: 5 },
+          { label: 'Mars', lessons: 22, coaching: 8 },
         ]}
         series={[
-          { key: 'lessons', label: 'Lessons' },
+          { key: 'lessons', label: 'Leçons' },
           { key: 'coaching', label: 'Coaching' },
         ]}
         stacked
@@ -7207,16 +7185,15 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'PieChart',
     codeName: 'charts/PieChart.tsx',
-    cssBase: 'PieChart',
-    description: 'Pie or donut chart for composition and breakdown. USAGE: Completion rates, category distribution, training progress. PROPS: mode (pie/donut), showLabels, size (sm/md/lg), onSliceClick. See CHARTS-SYSTEM.md.',
+    description: "Secteurs ou anneau (`donut`) pour une composition : taux d'achèvement, répartition par catégorie. Parts triées de la plus grande à la plus petite ; étiquettes en 13/600 ink-700 (« 37 % »), info-bulle « 1 234 (37,5 %) », légende avec valeur et pourcentage ; rayons de 70 · 100 · 130 px ; clic sur une part. Socle commun (chartTheme.ts) : graduations et titres d'axe en 13/400 ink-600 tabulaires, info-bulle blanche au rayon 14 (titre 13/600, valeurs 13 ink-700), légende en 13 ink-700, nombres et pourcentages à la française ; `role=\"img\"` et `ariaLabel`.",
     keywords: ['pie', 'donut', 'chart', 'composition', 'distribution', 'analytics'],
     usedBy: ['Formateur'],
     render: () => (
       <PieChart
         data={[
-          { label: 'Completed', value: 45 },
-          { label: 'In Progress', value: 30 },
-          { label: 'Not Started', value: 25 },
+          { label: 'Terminés', value: 45 },
+          { label: 'En cours', value: 30 },
+          { label: 'Pas commencés', value: 25 },
         ]}
         donut
         showLabels
@@ -7226,46 +7203,27 @@ const COMPONENTS: ComponentEntry[] = [
   },
 
   {
-    name: 'ScatterChart',
-    codeName: 'charts/ScatterChart.tsx',
-    cssBase: 'ScatterChart',
-    description: 'Scatter or bubble chart for correlation analysis. USAGE: Learner positioning, performance matrix, skill vs. engagement. PROPS: bubble (true/false), bubbleScale, showQuadrants, size. See CHARTS-SYSTEM.md.',
-    keywords: ['scatter', 'bubble', 'chart', 'correlation', 'positioning', 'analytics'],
-    usedBy: ['Coach'],
-    render: () => (
-      <ScatterChart
-        data={[
-          { label: 'Alice', x: 85, y: 90, z: 50 },
-          { label: 'Bob', x: 72, y: 78, z: 40 },
-          { label: 'Carol', x: 91, y: 88, z: 60 },
-        ]}
-        xAxisLabel="Skill Level"
-        yAxisLabel="Engagement"
-        bubbleScale={2}
-        size="md"
-      />
-    ),
-  },
-
-  {
     name: 'ComposedChart',
     codeName: 'charts/ComposedChart.tsx',
-    cssBase: 'ComposedChart',
-    description: 'Composite bar + line chart for dual-metric analysis. USAGE: Activity count + performance score, volume + quality trends. PROPS: series (key, label, type), dualAxis, size (sm/md/lg). See CHARTS-SYSTEM.md.',
-    keywords: ['composed', 'bar', 'line', 'hybrid', 'dual-axis', 'analytics'],
+    description: "Barres et courbe sur un même graphique, pour deux mesures liées (nombre d'activités et score moyen, volume et qualité). Barres à 70 % d'opacité, courbes de 2 px ; double axe en option (`dualAxis`) ; une série passe sur l'axe droit par `yAxisId: 'right'` — sans lui, elle reste à gauche et l'axe droit, dessiné, reste vide. Titres d'axe verticaux en 13 ink-600, à nommer : leurs défauts sont « Valeur » (« Value » jusqu'au 24/09) et « Score ». Socle commun (chartTheme.ts) : graduations et titres d'axe en 13/400 ink-600 tabulaires, info-bulle blanche au rayon 14 (titre 13/600, valeurs 13 ink-700), légende en 13 ink-700, nombres et pourcentages à la française ; `role=\"img\"` et `ariaLabel`.",
+    keywords: ['composed', 'bar', 'line', 'hybrid', 'dual-axis', 'yAxisId', 'analytics'],
     usedBy: ['Analytics'],
     render: () => (
       <ComposedChart
         data={[
-          { label: 'Week 1', count: 15, avgScore: 78 },
-          { label: 'Week 2', count: 22, avgScore: 82 },
-          { label: 'Week 3', count: 18, avgScore: 85 },
+          { label: 'Semaine 1', count: 15, avgScore: 78 },
+          { label: 'Semaine 2', count: 22, avgScore: 82 },
+          { label: 'Semaine 3', count: 18, avgScore: 85 },
         ]}
         series={[
-          { key: 'count', label: 'Activities', type: 'bar' },
-          { key: 'avgScore', label: 'Avg Score', type: 'line' },
+          { key: 'count', label: 'Activités', type: 'bar' },
+          /* Sans `yAxisId: 'right'`, la courbe restait sur l'axe gauche et
+             l'axe droit de la démo restait vide. */
+          { key: 'avgScore', label: 'Score moyen', type: 'line', yAxisId: 'right' },
         ]}
         dualAxis
+        leftAxisLabel="Activités"
+        rightAxisLabel="Score moyen"
         size="md"
       />
     ),
@@ -7274,8 +7232,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'HeatmapChart',
     codeName: 'charts/HeatmapChart.tsx',
-    cssBase: 'HeatmapChart',
-    description: 'Custom grid matrix with Red→Yellow→Green gradient scale (danger-base → accent-400 → success-base). USAGE: Team skills matrix, learner progress grid, competency heatmap. PROPS: gridSize, maxValue, showValues, onCellClick. See CHARTS-SYSTEM.md.',
+    description: "Matrice colorée (compétences × équipes, progression d'une cohorte) : cellules de 48 px dont le fond va du corail à la sauge en passant par l'ambre ; valeur en 13/600 ink-900 tabulaire — un niveau « D3 » sur une échelle de 5, un pourcentage au-delà ; libellés de ligne en 13 ink-600, de colonne tournés à −45° ; légende en 13 ink-700. `minValue`, `maxValue`, `showValues`, clic sur une cellule.",
     keywords: ['heatmap', 'grid', 'matrix', 'skills', 'competency', 'analytics'],
     usedBy: ['Enterprise'],
     render: () => (
@@ -7283,8 +7240,8 @@ const COMPONENTS: ComponentEntry[] = [
         data={[
           { x: 'Alice', y: 'Leadership', value: 3 },
           { x: 'Alice', y: 'Communication', value: 4 },
-          { x: 'Bob', y: 'Leadership', value: 2 },
-          { x: 'Bob', y: 'Communication', value: 5 },
+          { x: 'Bruno', y: 'Leadership', value: 2 },
+          { x: 'Bruno', y: 'Communication', value: 5 },
         ]}
         maxValue={5}
         cellSize={50}
@@ -7295,61 +7252,40 @@ const COMPONENTS: ComponentEntry[] = [
   },
 
   {
-    name: 'ChartContainer',
-    codeName: 'charts/ChartContainer.tsx',
-    cssBase: 'ChartContainer',
-    description: 'Wrapper component for consistent chart styling. Provides shadow-card, rounded corners, padding (p-stack), mobile-first responsive sizing. USAGE: Wrap any chart (RadarChart, BarChart, etc.). Supports title, description, size variants.',
-    keywords: ['chart', 'container', 'wrapper', 'consistent', 'styling', 'analytics'],
-    usedBy: ['Passeport', 'Enterprise', 'Analytics', 'Coach'],
-    // ChartContainer n'expose que children + className (pas de title/size)
-    render: () => (
-      <ChartContainer>
-        <LineChart
-          data={[
-            { label: 'Q1', value: 2.5 },
-            { label: 'Q2', value: 3.2 },
-            { label: 'Q3', value: 3.8 },
-          ]}
-          dataKey="value"
-          size="sm"
-        />
-      </ChartContainer>
-    ),
-  },
-
-  {
     name: 'TimelineChart',
     codeName: 'charts/TimelineChart.tsx',
-    cssBase: 'TimelineChart',
-    description: 'Vertical or horizontal timeline for displaying learner journey events (lessons, sessions, badges, milestones). USAGE: Passeport learner journey, Coach activity log. PROPS: data, layout, maxEvents, onEventClick. Type-aware colors, responsive mobile-first.',
-    keywords: ['timeline', 'journey', 'events', 'learner', 'progression', 'milestones', 'vertical', 'horizontal'],
-    usedBy: ['Passeport', 'Coach', 'Analytics'],
+    description: "Chronologie du parcours d'un apprenant — leçons, sessions, badges, jalons —, du plus récent au plus ancien, dans une liste ordonnée. Une collection : ses événements sont des rangées dans la carte de la section, sans boîte (arbitrage n°5) — chacun était une carte au fond teinté de son type, cinq cartes dans une carte au Passeport. Sur le rail, la date à la française (« 20 mars 2026 ») en 13/600 ink-600 tabulaire sur 96 px, calée sur la ligne de base du titre, une pastille de 16 px à la couleur du type et un trait ink-200 jusqu'au bas de la rangée ; puis le titre 16/600, la description 16 ink-700 à la largeur de lecture et le type en légende 13 ink-600, après une pastille de 8 px ; 24 px entre deux événements. Cliquable (`onEventClick`), un événement devient un vrai `<button>`, au survol ink-50 qui déborde de 8 px sans bouger le texte. En horizontal, colonnes de 160 px et description en 13. `maxEvents`.",
+    keywords: ['timeline', 'journey', 'events', 'learner', 'progression', 'milestones', 'vertical', 'horizontal', 'collection', 'rangées'],
+    usedBy: ['Passeport'],
     render: () => (
-      <TimelineChart
-        data={[
-          { id: '1', date: '2026-06-29', label: 'Lesson 1: Leadership Foundations', type: 'lesson', description: 'Completed in 45 minutes', tone: 'primary' },
-          { id: '2', date: '2026-06-27', label: 'Badge Earned: Leadership D3', type: 'badge', tone: 'sun' },
-          { id: '3', date: '2026-06-25', label: 'Coaching Session', type: 'session', description: '1-on-1 with Sarah', tone: 'warm' },
-          { id: '4', date: '2026-06-20', label: 'Milestone: Week 2 Complete', type: 'milestone', tone: 'success' },
-        ]}
-        layout="vertical"
-        maxEvents={10}
-      />
+      /* Posée comme au Passeport : des rangées dans la carte de la section. */
+      <Card className="max-w-2xl">
+        <TimelineChart
+          data={[
+            { id: '1', date: '2026-06-29', label: 'Leçon 1 : les fondamentaux du leadership', type: 'lesson', description: 'Terminée en 45 minutes' },
+            { id: '2', date: '2026-06-27', label: 'Badge obtenu : Leadership D3', type: 'badge' },
+            { id: '3', date: '2026-06-25', label: 'Session de coaching', type: 'session', description: 'En tête-à-tête avec Sarah' },
+            { id: '4', date: '2026-06-20', label: 'Jalon : deuxième semaine terminée', type: 'milestone' },
+          ]}
+          layout="vertical"
+          maxEvents={10}
+          onEventClick={() => {}}
+        />
+      </Card>
     ),
   },
 
   {
     name: 'GaugeChart',
     codeName: 'charts/GaugeChart.tsx',
-    cssBase: 'GaugeChart',
-    description: 'Circular progress indicator (0-100% or 0-5 Dreyfus scale). Variants: arc (default), needle, segment. USAGE: Dashboard KPIs, competency progress, goal tracking. PROPS: current, max, label, tone, variant, size. Tone-aware colors, size variants (sm/md/lg).',
+    description: "Jauge circulaire d'une progression (de 0 à 100 %, ou une échelle Dreyfus de 0 à 5, toujours affichée en pourcentage). La valeur prend le pas des titres — 20, 28 ou 36 px en 700, tabulaire, au cran 800 du ton — selon la taille (SVG de 100 · 140 · 200 px) : au centre de l'anneau en arc, sous le dessin en aiguille et en segments. Le libellé et l'objectif (« Objectif : 90 % ») s'écrivent dessous en 13 ink-600 — sauf en aiguille, qui n'écrit pas l'objectif. En segments, chaque anneau se remplit à sa propre valeur : jusqu'au 24/09, les deux anneaux intérieurs calculaient leur trait sur la circonférence de l'anneau extérieur, et une progression au-delà de 70 % se dessinait pleine. Cinq tons ; `target` pour un objectif.",
     keywords: ['gauge', 'progress', 'circular', 'indicator', 'goal', 'achievement', 'needle', 'arc'],
     usedBy: ['Passeport', 'Dashboard', 'Analytics'],
     render: () => (
       <div className="flex gap-stack-lg flex-wrap">
-        <GaugeChart current={68} max={100} label="Passeport Progress" tone="primary" variant="arc" size="md" showPercentage />
-        <GaugeChart current={3.4} max={5} label="Leadership Level" tone="warm" variant="needle" size="md" target={4.5} />
-        <GaugeChart current={75} max={100} label="Weekly Goal" tone="sun" variant="segment" size="sm" target={90} />
+        <GaugeChart current={68} max={100} label="Passeport complété" tone="primary" variant="arc" size="md" showPercentage />
+        <GaugeChart current={3.4} max={5} label="Niveau en leadership" tone="warm" variant="needle" size="md" target={4.5} />
+        <GaugeChart current={75} max={100} label="Objectif de la semaine" tone="sun" variant="segment" size="sm" target={90} />
       </div>
     ),
   },
@@ -7357,22 +7293,21 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ChartExportButton',
     codeName: 'charts/ChartExportButton.tsx',
-    cssBase: 'ChartExportButton',
-    description: 'Reusable export button component for charts. Provides PNG (html2canvas), PDF (jsPDF), CSV (papaparse) export options. USAGE: Wrap in any chart dashboard. PROPS: chartId, filename, data, showPdf, showPng, showCsv, variant. Compact or full button layout.',
-    keywords: ['export', 'download', 'csv', 'pdf', 'png', 'chart', 'analytics', 'report'],
-    usedBy: ['Passeport', 'Enterprise', 'Analytics', 'Coach'],
+    description: "Boutons d'export d'un graphique : PNG, PDF et CSV (ce dernier si `data` est fourni), un ton par format (PNG brand, PDF warm, CSV sun). Exporter est un outil, jamais l'action principale d'un écran (arbitrage n°19) : compact, le défaut, posé dans l'en-tête d'un graphique, aligne des Button sm ghost libellés « PNG », « PDF », « CSV » ; full, un bloc d'export autonome, des Button md soft « Exporter en PNG »… En français depuis le 24/09 : info-bulle « Exporter le graphique en PNG » (« les données en CSV »), nom accessible qui contient le libellé visible (WCAG 2.5.3), et une erreur en 13 danger-fg qui dit quel export a échoué — le détail technique reste dans la console.",
+    keywords: ['export', 'download', 'csv', 'pdf', 'png', 'chart', 'analytics', 'report', 'exporter'],
+    usedBy: ['ChartWithExport (Passeport, CoachEnterpriseDashboard)'],
     render: () => (
       <div className="space-y-4">
         <div>
-          <p className="text-caption text-ink-600 mb-2">Compact (default):</p>
+          <p className="text-caption text-ink-600 mb-2">compact, le défaut</p>
           <ChartExportButton chartId="chart-demo" filename="chart-export" variant="compact" />
         </div>
         <div>
-          <p className="text-caption text-ink-600 mb-2">Full:</p>
+          <p className="text-caption text-ink-600 mb-2">full</p>
           <ChartExportButton
             chartId="chart-demo"
             filename="report-export"
-            data={[{ label: 'Q1', value: 100 }, { label: 'Q2', value: 150 }]}
+            data={[{ label: 'T1', value: 100 }, { label: 'T2', value: 150 }]}
             variant="full"
           />
         </div>
@@ -7383,8 +7318,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ViewerProgressTrail',
     codeName: 'patterns/ViewerProgressTrail.tsx',
-    cssBase: 'viewer-progress',
-    description: 'Progress indicator for step-by-step viewers (Astuces, Flashcards). Two display styles: dots (discrete steps) and bar (continuous percentage). Tone-aware colors (primary/warm/sun). Completion visual with gradient effect. Full a11y support: role="progressbar", aria-valuenow/valuemin/valuemax.',
+    description: "Progression d'un lecteur pas à pas (Astuces, Flashcards) : des points (8 px, 12 pour le courant) ou une barre de 6 px, trois tons. Sans texte ; `role=\"progressbar\"` et ses valeurs.",
     keywords: ['progress', 'viewer', 'steps', 'indicator', 'astuces', 'flashcards', 'lessonplayer'],
     usedBy: ['AstucesViewer', 'FlashcardsViewer'],
     toneAware: true,
@@ -7416,10 +7350,9 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Chip',
     codeName: 'ui/Chip.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: "Primitive interne des quatre pills du DS (Pill, MetaPill, Tag, FilterChip). Elle owne les style tokens partagés et le helper `resolveChipClasses`. 3 tailles × 5 tones × surfaces solid / glass. Les quatre wrappers publics gardent leurs API spécialisées — ne pas les fusionner.",
-    keywords: ['chip', 'pill', 'primitive', 'tone', 'glass', 'surface', 'tag', 'filter'],
-    usedBy: ['Pill', 'MetaPill', 'Tag', 'FilterChip'],
+    description: "Primitive interne de la famille des pastilles : elle porte les tokens partagés — `CHIP_BASE_SANS_RAYON`, `CHIP_RAYON`, `CHIP_SIZE`, tons, surfaces — et le helper `resolveChipClasses`, que MetaPill et FilterChip consomment. Trois tailles — sm 24 px en 11/500, md 30 px en 13/500, lg 44 px en 16/500 — dont le rayon suit la hauteur (`CHIP_RAYON`, règle du seuil) : pilule en sm, 14 en md et lg. À 44 px, la pilule rendait 22 à côté d'un champ et d'un bouton de même hauteur à 14. `CHIP_BASE`, la base avec pilule, reste exporté mais déprécié, sans consommateur. Cinq tons, surfaces solid et glass. Pill et Tag ont été supprimés le 10/09 ; ses seuls appels directs sont dans le DevPanel. Dans une page, passer par MetaPill (la donnée) ou FilterChip (le filtre).",
+    keywords: ['chip', 'pill', 'pastille', 'primitive', 'tone', 'glass', 'surface', 'filter', 'meta', 'rayon', 'CHIP_RAYON', 'seuil'],
+    usedBy: ['MetaPill', 'FilterChip', 'DevPanel'],
     render: () => (
       <div className="flex flex-col gap-stack">
         <div className="flex flex-wrap items-center gap-stack-xs">
@@ -7430,12 +7363,12 @@ const COMPONENTS: ComponentEntry[] = [
           <Chip tone="brand">brand</Chip>
         </div>
         <div className="flex flex-wrap items-center gap-stack-xs">
-          <Chip size="sm" tone="primary">sm</Chip>
-          <Chip size="md" tone="primary">md</Chip>
-          <Chip size="lg" tone="primary">lg</Chip>
+          <Chip size="sm" tone="primary">sm · 24 px, pilule</Chip>
+          <Chip size="md" tone="primary">md · 30 px, rayon 14</Chip>
+          <Chip size="lg" tone="primary">lg · 44 px, rayon 14</Chip>
         </div>
         <div className="flex flex-wrap items-center gap-stack-xs">
-          <Chip tone="primary" leadingIcon={<Target size={13} />}>avec icone</Chip>
+          <Chip tone="primary" leadingIcon={<Target size={14} />}>avec icône</Chip>
           <Chip tone="warm" active>actif</Chip>
           <Chip tone="neutral" asButton onClick={() => {}}>cliquable</Chip>
         </div>
@@ -7445,13 +7378,12 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Tooltip',
     codeName: 'ui/Tooltip.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: "Infobulle au survol et au focus clavier. 4 cotes, 2 variantes, delai reglable. L'enfant doit etre un unique element capable de recevoir un ref.",
+    description: "Infobulle au survol et au focus clavier : 13/400 blanc sur ink-900 (variante brand : primary-700), 220 px au plus avec retour à la ligne, rayon 10, flèche. Quatre côtés, deux variantes, délai réglable (400 ms par défaut). On peut la survoler ; Échap la ferme. L'enfant doit être un élément unique capable de recevoir un ref.",
     keywords: ['tooltip', 'infobulle', 'hover', 'focus', 'aide', 'side'],
     render: () => (
       <div className="flex flex-wrap items-center gap-section py-stack-lg">
         <Tooltip content="Infobulle au-dessus"><Button emphasis="outline" size="sm">top</Button></Tooltip>
-        <Tooltip content="A droite" side="right"><Button emphasis="outline" size="sm">right</Button></Tooltip>
+        <Tooltip content="À droite" side="right"><Button emphasis="outline" size="sm">right</Button></Tooltip>
         <Tooltip content="En dessous" side="bottom"><Button emphasis="outline" size="sm">bottom</Button></Tooltip>
         <Tooltip content="Variante brand" variant="brand"><Button emphasis="outline" size="sm">brand</Button></Tooltip>
       </div>
@@ -7460,8 +7392,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Kbd',
     codeName: 'ui/Kbd.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: 'Touche de clavier. Passer `keys` pour un raccourci compose — le composant intercale les separateurs.',
+    description: "Touche de clavier, en mono : sm à 11 px (environ 17 px de haut), md à 13 (environ 23 px), rayon 6. Variantes default et glass. Passer `keys` pour un raccourci composé : le composant intercale les « + ».",
     keywords: ['kbd', 'clavier', 'raccourci', 'shortcut', 'touche'],
     render: () => (
       <div className="flex flex-col gap-stack">
@@ -7478,28 +7409,32 @@ const COMPONENTS: ComponentEntry[] = [
     ),
   },
   {
-    name: 'SegmentedControl',
-    codeName: 'ui/SegmentedControl.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: "Bascule entre 2 a 4 vues exclusives. A preferer aux onglets quand il n'y a pas de contenu a titrer, et aux boutons radio quand le choix est immediat. 3 tailles × 3 tones.",
-    keywords: ['segmented', 'control', 'toggle', 'vue', 'bascule', 'filtre', 'tabs'],
-    render: () => <SegmentedControlDemo />,
-  },
-  {
     name: 'SettingsRow',
     codeName: 'patterns/SettingsRow.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: "Ligne de reglage : icone, libelle, description, et le controle a droite. `danger` pour les actions irreversibles. Brique des pages Compte, Facturation et Confidentialite.",
-    keywords: ['settings', 'reglage', 'row', 'compte', 'preferences', 'toggle', 'danger'],
+    description: "Rangée de réglage : pastille d'icône (IconChip md), libellé 16/600 ink-900 (danger-fg si `danger`), 4 px, description 16 ink-700 à la largeur de lecture, et le contrôle à droite. Le texte et le contrôle forment une rangée qui se replie : le texte réclame 12rem à côté du contrôle, sinon celui-ci descend de 12 px, dans la colonne du texte, la pastille restant la marque de la rangée — à 375 px, « Langue de l'interface » n'avait que 45 px à côté d'un Select, un mot par ligne. La règle mesure la place réelle, et suit la largeur du contrôle. SettingsToggleRow, dans le même fichier, y pose un Switch. Brique des pages Compte, Facturation et Confidentialité.",
+    keywords: ['settings', 'reglage', 'row', 'compte', 'preferences', 'toggle', 'danger', 'wrap', 'replie', 'select'],
+    /* Les rangées dans UNE carte (arbitrage n°5), et la carte porte le padding :
+       SettingsRow n'en a pas à l'horizontale. */
     render: () => (
-      <div className="flex flex-col rounded-xl border border-ink-200 bg-white divide-y divide-ink-100">
-        <SettingsRow icon={<Bell size={18} />} label="Notifications par e-mail" description="Un resume hebdomadaire, jamais le week-end">
+      <div className="flex flex-col rounded-xl border border-ink-200 bg-white divide-y divide-ink-100 p-stack-lg">
+        <SettingsRow icon={<Bell size={18} />} label="Notifications par e-mail" description="Un résumé hebdomadaire, jamais le week-end">
           <Switch defaultChecked />
         </SettingsRow>
-        <SettingsRow icon={<Target size={18} />} label="Objectif hebdomadaire" description="Nombre de sessions visees">
-          <Badge variant="brand">3 sessions</Badge>
+        {/* Un Select : quand il ne laisse plus 12rem au texte, il passe
+            dessous (à 375, ou dans une colonne étroite). La valeur était un
+            Badge — une donnée dans la voix d'un état. */}
+        <SettingsRow icon={<Globe size={18} />} label="Langue de l'interface" description="Celle des menus, des e-mails et des notifications">
+          <Select
+            aria-label="Langue de l'interface"
+            size="sm"
+            options={[
+              { value: 'fr', label: 'Français' },
+              { value: 'en', label: 'English' },
+            ]}
+            defaultValue="fr"
+          />
         </SettingsRow>
-        <SettingsRow icon={<LogOut size={18} />} label="Supprimer le compte" description="Action irreversible" danger>
+        <SettingsRow icon={<LogOut size={18} />} label="Supprimer le compte" description="Action irréversible" danger>
           <Button emphasis="solid" tone="danger" size="sm">Supprimer</Button>
         </SettingsRow>
       </div>
@@ -7508,26 +7443,24 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'SelectableOptionCard',
     codeName: 'patterns/SelectableOptionCard.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: "Carte-option d'un choix exclusif : icone, libelle, description, etat selectionne. Utilisee dans l'onboarding et le questionnaire de positionnement.",
+    description: "Carte-option d'un choix exclusif : icône, libellé, description, état sélectionné. Dans l'onboarding et le questionnaire de positionnement.",
     keywords: ['option', 'card', 'selection', 'choix', 'onboarding', 'radio', 'positionnement'],
     render: () => <SelectableOptionCardDemo />,
   },
   {
     name: 'FloatLabel',
     codeName: 'core/FloatLabel.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: "Enveloppe un champ pour faire flotter son libelle au focus ou des qu'il est rempli. Gere `required`, `hint` et `error`.",
+    description: "Enveloppe un Input (md, sans libellé) et pose le libellé dans le champ : au repos, il tient lieu de placeholder (16/400 ink-500) ; au focus ou une fois rempli, il se lève en 13/600 ink-700 contre le bord gauche. Seule sa couleur s'anime. Gère `required`, `hint` (13 ink-600) et `error` (13 danger-fg, qui passe aussi le champ en erreur).",
     keywords: ['float', 'label', 'input', 'formulaire', 'flottant', 'hint', 'error'],
     render: () => (
       <div className="flex flex-col gap-stack max-w-md">
         <FloatLabel label="Adresse e-mail" required>
           <Input type="email" defaultValue="chloe@thelearningsociety.fr" />
         </FloatLabel>
-        <FloatLabel label="Intitule du poste" hint="Tel qu'il apparait dans votre organisation">
+        <FloatLabel label="Intitulé du poste" hint="Tel qu'il apparaît dans votre organisation">
           <Input />
         </FloatLabel>
-        <FloatLabel label="Code d'acces" error="Ce code n'est plus valide">
+        <FloatLabel label="Code d'accès" error="Ce code n'est plus valide">
           <Input defaultValue="TLS-2024" />
         </FloatLabel>
       </div>
@@ -7538,15 +7471,15 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'PageShell',
     codeName: 'layout/PageShell.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: "Conteneur canonique des pages principales : largeur, padding responsive et rythme vertical en une seule prop. `width=\"page\"` est le defaut de l'app. Evite de recopier `px-4 sm:px-6 lg:px-10` sur chaque page.",
+    description: "Le conteneur canonique des pages principales : largeur (`width`, page par défaut, 1 152 px), marges verticales (32 · 40 · 48 selon la largeur) et rythme entre sections (`gap`, 48 par défaut depuis le 24/09 — il en posait 32). Pas de padding horizontal : la gouttière vient de la mise en page. `noPadTop` retire la marge du haut. Une disposition (`grid`, `flex`…), une direction (`flex-row`…) ou un `gap-*` passés en `className` remplacent ceux de la base depuis le 24/09 — les règles OWN_* de Card, pour les classes sans préfixe : avant, l'ordre d'émission de Tailwind tranchait, et les barres collantes du journal et de la newsletter s'empilaient.",
     keywords: ['shell', 'page', 'layout', 'conteneur', 'largeur', 'padding', 'rythme'],
     render: () => (
       <div className="rounded-xl border border-dashed border-primary-300 bg-primary-50/40">
+        {/* gap="stack" pour la démo ; le défaut entre deux sections est 48 (gap="page"). */}
         <PageShell width="content" gap="stack">
-          <div className="rounded-lg bg-white border border-ink-200 p-stack text-body-sm">Bloc 1</div>
-          <div className="rounded-lg bg-white border border-ink-200 p-stack text-body-sm">Bloc 2</div>
-          <div className="rounded-lg bg-white border border-ink-200 p-stack text-body-sm">Bloc 3</div>
+          <div className="rounded-lg bg-white border border-ink-200 p-stack text-body">Bloc 1</div>
+          <div className="rounded-lg bg-white border border-ink-200 p-stack text-body">Bloc 2</div>
+          <div className="rounded-lg bg-white border border-ink-200 p-stack text-body">Bloc 3</div>
         </PageShell>
       </div>
     ),
@@ -7554,8 +7487,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Container',
     codeName: 'layout/Container.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: "Contrainte de largeur seule, sans rythme vertical. Six paliers : prose (65ch, lecture longue), content, medium, page (defaut app), wide, full.",
+    description: "Contrainte de largeur seule, sans rythme vertical, avec la gouttière de page (16 · 24 · 40 px selon la largeur). Six paliers : prose (65 caractères, la lecture longue), content 768, medium 1 024, page 1 152 (le défaut de l'app), wide 1 280, full.",
     keywords: ['container', 'largeur', 'prose', 'max-width', 'lecture', 'centrage'],
     render: () => (
       <div className="flex flex-col gap-stack-xs">
@@ -7572,13 +7504,13 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Grid',
     codeName: 'layout/Grid.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: "Grille 2D. Soit un nombre de colonnes fixe (`cols`), soit une grille auto-responsive via `min` — qui rend `repeat(auto-fit, minmax(min, 1fr))` et evite d'ecrire des breakpoints.",
+    showcaseOnly: true,
+    description: "Grille à deux dimensions : un nombre de colonnes fixe (`cols`, 1 à 6), ou une grille qui s'adapte seule via `min` (240 px par défaut) — elle rend `repeat(auto-fit, minmax(min, 1fr))` et dispense d'écrire des seuils. Écart par défaut : 16.",
     keywords: ['grid', 'grille', 'colonnes', 'auto-fit', 'minmax', 'responsive'],
     render: () => (
       <div className="flex flex-col gap-stack">
         <div>
-          <p className="m-0 mb-stack-xs text-caption text-ink-500">cols=&#123;3&#125;</p>
+          <p className="m-0 mb-stack-xs text-caption text-ink-600">cols=&#123;3&#125;</p>
           <Grid cols={3} gap="stack-xs">
             {[1, 2, 3, 4, 5, 6].map((n) => (
               <div key={n} className="rounded-md bg-ink-50 border border-ink-200 py-3 text-center text-caption">{n}</div>
@@ -7586,7 +7518,7 @@ const COMPONENTS: ComponentEntry[] = [
           </Grid>
         </div>
         <div>
-          <p className="m-0 mb-stack-xs text-caption text-ink-500">min=&quot;180px&quot; — s&apos;adapte sans breakpoint</p>
+          <p className="m-0 mb-stack-xs text-caption text-ink-600">min=&quot;180px&quot; — s&apos;adapte sans breakpoint</p>
           <Grid min="180px" gap="stack-xs">
             {['A', 'B', 'C', 'D'].map((n) => (
               <div key={n} className="rounded-md bg-primary-50 border border-primary-200 py-3 text-center text-caption">{n}</div>
@@ -7599,14 +7531,14 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Stack',
     codeName: 'layout/Stack.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: "Empilement vertical avec un espacement semantique. Le parent possede le rythme — c'est ce qui evite le double-spacing du piege n°12 de CLAUDE.md, ou un enfant ajoute son propre `mb-*` par-dessus le `gap` du parent.",
+    showcaseOnly: true,
+    description: "Empilement vertical à écart sémantique (16 par défaut). Le parent possède le rythme : c'est ce qui évite le double espacement du piège n°12, où un enfant ajoute son `mb-*` au `gap` du parent.",
     keywords: ['stack', 'vertical', 'gap', 'espacement', 'rythme', 'flex-col'],
     render: () => (
       <div className="flex gap-section">
         {(['stack-xs', 'stack', 'stack-lg'] as const).map((g) => (
           <div key={g} className="flex-1">
-            <p className="m-0 mb-stack-xs text-caption text-ink-500">gap=&quot;{g}&quot;</p>
+            <p className="m-0 mb-stack-xs text-caption text-ink-600">gap=&quot;{g}&quot;</p>
             <Stack gap={g}>
               <div className="rounded-md bg-ink-50 border border-ink-200 py-2 text-center text-caption">A</div>
               <div className="rounded-md bg-ink-50 border border-ink-200 py-2 text-center text-caption">B</div>
@@ -7620,8 +7552,8 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Cluster',
     codeName: 'layout/Cluster.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: "Groupe horizontal qui passe a la ligne. Pour les rangees de chips, de boutons ou de metadonnees. `justify=\"between\"` pour pousser le dernier element a droite.",
+    showcaseOnly: true,
+    description: "Groupe horizontal qui passe à la ligne, pour les rangées de pastilles, de boutons ou de données ; écart de 8 par défaut. `justify=\"between\"` pousse le dernier élément à droite.",
     keywords: ['cluster', 'horizontal', 'wrap', 'chips', 'boutons', 'inline', 'align'],
     render: () => (
       <div className="flex flex-col gap-stack">
@@ -7631,7 +7563,7 @@ const COMPONENTS: ComponentEntry[] = [
           ))}
         </Cluster>
         <Cluster gap="stack-xs" justify="between" align="center" className="rounded-lg border border-ink-200 bg-white px-stack py-stack-xs">
-          <span className="text-body-sm font-semibold">justify=&quot;between&quot;</span>
+          <span className="text-body font-semibold">justify=&quot;between&quot;</span>
           <Button size="sm" emphasis="outline">Action</Button>
         </Cluster>
       </div>
@@ -7640,13 +7572,12 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'BottomNav',
     codeName: 'layout/BottomNav.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: "Barre de navigation mobile, en position fixe en bas d'ecran. Porte `md:hidden` : elle ne s'affiche QUE sous 768px, et disparait des que la sidebar prend le relais. L'apercu ci-dessous la contient dans un cadre — sans quoi sa position fixe la collerait au bas de la fenetre.",
+    description: "La navigation mobile, fixée en bas : cinq onglets (les `labelCourt` de la navigation principale) sur une rangée de 56 px, icône de 20 et libellé en 13/600 dans les deux états — primary-700 actif, ink-600 sinon ; l'icône active se pose dans une pastille primary-100. `md:hidden` : elle disparaît dès 768 px, où la Sidebar prend le relais. L'aperçu la contient dans un cadre, sans quoi sa position fixe la collerait au bas de la fenêtre.",
     keywords: ['bottom', 'nav', 'mobile', 'tabbar', 'fixed', 'responsive', 'md:hidden'],
     render: () => (
       <div className="flex flex-col gap-stack-xs">
-        <p className="m-0 text-caption text-ink-500">
-          Cadre de 380px — la barre n&apos;apparait qu&apos;en dessous de 768px de large.
+        <p className="m-0 text-caption text-ink-600">
+          Cadre de 380 px : la barre n&apos;apparaît que sous 768 px de large.
         </p>
         <div className="relative h-40 w-full max-w-[380px] overflow-hidden rounded-2xl border border-ink-200 bg-ink-50 [transform:translate(0)]">
           <BottomNav />
@@ -7657,14 +7588,14 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'PageHero',
     codeName: 'patterns/EditorialHero.tsx (export canonique)',
-    cssBase: 'Tailwind (no BEM)',
-    description: "Hero universel d'ouverture de page, et le plus consomme de l'app. 5 tones : `flat`, `default`, `brand` (gradient sature, texte blanc — Dashboard et Journal), `warm`, `sun`. `EditorialHero` en est un alias retrocompatible, reserve aux surfaces reellement editoriales (Magazine, Veille, Articles). Tout nouvel usage passe par `PageHero`.",
-    keywords: ['hero', 'page', 'ouverture', 'tone', 'brand', 'eyebrow', 'editorial', 'titre'],
+    description: "Le hero d'ouverture de page, universel (plus de cent pages). Anatomie : lien retour optionnel (pastille 13/700), 24 px — le retour mène ailleurs, il se tient à l'écart du titre —, surtitre 13/600 — il dit le lieu, en ink-600 et sans capitales —, 8 px, h1 36/44/700, 12 px, chapô 18/28 à la largeur de lecture (ink-700), 12 px, méta en 13, puis la progression (16 px) et `trailing` (24 px). Cinq tons : flat — sans fond ni padding, le choix des pages de l'app —, default (dégradé primary-50), brand, warm et sun (dégradés du cran 700 au 800, texte blanc plein). Les tons colorés sont au rayon 20, l'étage conteneur — ils étaient à 14, le rayon d'un bouton ; leur padding, 32 ou 24 en `compact`, reste au-dessus du rayon, donc leur contenu garde sa forme. Aucune marge extérieure : c'est PageShell qui pose 48 px avant la suite. `EditorialHero` en est l'alias, réservé aux surfaces éditoriales.",
+    keywords: ['hero', 'page', 'ouverture', 'h1', 'chapô', 'surtitre', 'tone', 'flat', 'brand', 'eyebrow', 'editorial', 'titre', 'retour', 'backLink', 'rayon'],
     usedBy: ['Dashboard', 'Journal', 'Passeport', 'Coaching', '100+ pages'],
     render: () => (
       <div className="flex flex-col gap-stack">
         <PageHero
           tone="brand"
+          backLink={{ label: 'Mes parcours', onClick: () => {} }}
           eyebrow={{ icon: <Target size={12} />, label: 'Parcours en cours' }}
           title="Concevoir une expérience d'apprentissage"
           summary="Cinq compétences, douze jalons de pratique. Le Passeport valide, pas la complétion."
@@ -7683,17 +7614,16 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'SkeletonGroup',
     codeName: 'patterns/SkeletonTemplates.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: "Repete un gabarit de squelette N fois, en liste ou en grille. A preferer a une boucle manuelle : le layout de chargement reste aligne sur celui du contenu qu'il remplace.",
+    description: "Répète un gabarit de squelette N fois, en liste ou en grille (deux à quatre colonnes). À préférer à une boucle écrite à la main : la mise en page du chargement reste alignée sur celle du contenu qu'elle remplace.",
     keywords: ['skeleton', 'chargement', 'loading', 'placeholder', 'groupe', 'grille'],
     render: () => (
       <div className="flex flex-col gap-stack">
         <div>
-          <p className="m-0 mb-stack-xs text-caption text-ink-500">layout=&quot;list&quot;</p>
+          <p className="m-0 mb-stack-xs text-caption text-ink-600">layout=&quot;list&quot;</p>
           <SkeletonGroup count={2} template={ActivityItemSkeleton} layout="list" />
         </div>
         <div>
-          <p className="m-0 mb-stack-xs text-caption text-ink-500">layout=&quot;grid-3&quot;</p>
+          <p className="m-0 mb-stack-xs text-caption text-ink-600">layout=&quot;grid-3&quot;</p>
           <SkeletonGroup count={3} template={StatCardSkeleton} layout="grid-3" />
         </div>
       </div>
@@ -7702,12 +7632,12 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'StatCardSkeleton',
     codeName: 'patterns/SkeletonTemplates.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: "Squelette de StatCard. Reprend ses proportions exactes pour que le passage au contenu reel ne decale rien.",
-    keywords: ['skeleton', 'statcard', 'kpi', 'chargement', 'shimmer'],
+    description: "Squelette de StatCard, à l'anatomie de la carte md depuis le 24/09 : rayon 20, padding 20, filet ink-200, pastille de 44, 12 px, la valeur au corps de `stat-value`, 4 px, le libellé en légende. Il a la hauteur de la carte réelle — 165 px à 1440 — : le contenu le remplace sans que la page saute. Il était au rayon 14, au padding 24, avec une pastille ronde et des blocs de 32 et 12 px.",
+    keywords: ['skeleton', 'statcard', 'kpi', 'chargement', 'shimmer', 'stat'],
     render: () => (
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-stack">
-        <StatCardSkeleton />
+      /* La carte et son squelette côte à côte : même rayon, même padding, même hauteur. */
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack items-start">
+        <StatCard icon={<BookOpen size={20} />} label="Parcours complétés" value={12} sub="/24" />
         <StatCardSkeleton />
         <StatCardSkeleton />
       </div>
@@ -7716,8 +7646,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ActivityItemSkeleton',
     codeName: 'patterns/SkeletonTemplates.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: "Squelette d'une ligne de fil d'activite : pastille, titre, meta.",
+    description: "Squelette d'une rangée de fil d'activité : pastille, titre, méta.",
     keywords: ['skeleton', 'activite', 'feed', 'timeline', 'chargement'],
     render: () => (
       <div className="flex flex-col gap-stack-xs">
@@ -7730,24 +7659,21 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ResumeLessonSkeleton',
     codeName: 'patterns/SkeletonTemplates.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: "Squelette de la carte « Reprendre ta lecon » du Dashboard. C'est la premiere chose que voit l'apprenant : son etat de chargement merite d'epouser la forme finale.",
+    description: "Squelette de la carte « Reprendre ta leçon » du tableau de bord. C'est la première chose que voit l'apprenant : son état de chargement mérite d'épouser la forme finale.",
     keywords: ['skeleton', 'reprendre', 'lecon', 'dashboard', 'hero', 'chargement'],
     render: () => <ResumeLessonSkeleton />,
   },
   {
     name: 'SelectCheckboxFloating',
     codeName: 'ui/SelectCheckboxFloating.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: "Selection multiple a libelle flottant. Meme role que SelectCheckbox, dans un formulaire ou les champs portent deja un label flottant.",
+    description: "Sélection multiple posée dans un formulaire, sans menu : le nom du groupe en 16/600 ink-900, puis les options en rangées de 44 px au rayon 14, case et libellé 16/400 ; l'option choisie passe sur fond primary-50, filet 700. Même rôle que SelectCheckbox.",
     keywords: ['select', 'checkbox', 'multiple', 'flottant', 'float', 'label', 'filtre'],
     render: () => <SelectCheckboxFloatingDemo />,
   },
   {
     name: 'CoachRow',
     codeName: 'patterns/CoachRow.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: "Ligne compacte d'identification du coach : initiales, nom, role, et un bouton de contact optionnel. Pour les en-tetes de session et les fils de correction, la ou une ProfileCard prendrait trop de place.",
+    description: "Rangée compacte qui identifie le coach : Avatar sm, nom 16/600, rôle en légende 13 ink-600 à 2 px, et un Button soft « Message » optionnel. Pour les en-têtes de session et les fils de correction, là où une ProfileCard prendrait trop de place.",
     keywords: ['coach', 'row', 'ligne', 'contact', 'session', 'identite', 'message'],
     render: () => (
       <div className="flex flex-col gap-stack">
@@ -7757,25 +7683,9 @@ const COMPONENTS: ComponentEntry[] = [
     ),
   },
   {
-    name: 'CorrectionStatusBar',
-    codeName: 'learning/CorrectionStatusBar.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: "Bandeau d'etat d'une correction : en attente, en cours, validee ou refusee. Affiche la competence visee, l'XP accorde et le numero d'iteration. L'etat n'est jamais porte par la seule couleur — icone et libelle l'accompagnent.",
-    keywords: ['correction', 'statut', 'jac', 'validation', 'xp', 'iteration', 'bandeau'],
-    render: () => (
-      <div className="flex flex-col gap-stack-xs">
-        <CorrectionStatusBar status="pending" competenceLabel="Concevoir une séquence" />
-        <CorrectionStatusBar status="in-progress" competenceLabel="Concevoir une séquence" iterationCount={2} />
-        <CorrectionStatusBar status="completed" competenceLabel="Concevoir une séquence" xpAwarded={120} />
-        <CorrectionStatusBar status="failed" competenceLabel="Concevoir une séquence" iterationCount={3} />
-      </div>
-    ),
-  },
-  {
     name: 'ReaderContextStrip',
     codeName: 'patterns/ReaderContextStrip.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: "Bandeau contextuel des surfaces de lecture : retour, titre de l'article, actions. Il apparait au scroll une fois le titre depasse (`scrollThreshold`), pour garder le contexte sans encombrer l'ouverture.",
+    description: "Bande de contexte des pages de lecture (Dossier, Actus de la semaine, Magazine) : Retour (44 px, 13/600), le titre de l'article en 16/600 ink-900, aligné à gauche, et un emplacement `trailing` — les pages y posent l'anneau de lecture. Collante, 56 px de haut ; elle apparaît en fondu passé 100 px de défilement (`scrollThreshold`).",
     keywords: ['reader', 'lecture', 'article', 'sticky', 'contexte', 'retour', 'scroll'],
     render: () => (
       <div className="rounded-xl border border-ink-200 overflow-hidden">
@@ -7786,8 +7696,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ErrorPage',
     codeName: 'patterns/ErrorPage.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: "Pattern canonique des pages d'erreur : code, titre, description, pistes de sortie et actions. Deux tones, `default` et `danger`. Le principe : ne jamais laisser l'utilisateur sans issue — chaque erreur propose au moins un chemin.",
+    description: "La page d'erreur canonique, centrée : surtitre 13/600, code en très grand (80 à 144 px, masqué aux lecteurs d'écran), pastille de 96 px, h1 36/44, chapô 18/28 ink-700, encart optionnel, pistes de sortie en tuiles (titre 20/700, texte 16 ink-700) et actions. Tons default · danger · neutral (ajouté le 24/09). Le principe : ne jamais laisser l'utilisateur sans issue.",
     keywords: ['erreur', '404', '500', 'error', 'page', 'fallback', 'suggestions'],
     usedBy: ['Error404', 'Error500', 'MarketingError404'],
     render: () => (
@@ -7807,8 +7716,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'CoachCardGrid',
     codeName: 'patterns/CoachCardGrid.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: "Grille de coachs avec filtres integres par specialite et par disponibilite, plus les etats de chargement et vide. Evite de recabler ce trio sur chaque page de coaching.",
+    description: "Grille de coachs avec ses filtres (spécialité, disponibilité) et ses états de chargement et vide : évite de recâbler ce trio sur chaque page de coaching.",
     keywords: ['coach', 'grille', 'grid', 'filtre', 'disponibilite', 'specialite', 'empty'],
     render: () => (
       <CoachCardGrid
@@ -7823,8 +7731,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'LearningPathGrid',
     codeName: 'patterns/LearningPathGrid.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: "Grille de parcours, avec filtre par statut, progression et deroule optionnel des lecons. Etats de chargement et vide inclus.",
+    description: "Grille de parcours, avec un filtre par statut, la progression et le déroulé optionnel des leçons ; états de chargement et vide inclus.",
     keywords: ['parcours', 'grille', 'grid', 'progression', 'statut', 'lecons', 'filtre'],
     render: () => (
       <LearningPathGrid
@@ -7839,8 +7746,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ResourceCardGrid',
     codeName: 'patterns/ResourceCardGrid.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: "Grille de ressources heterogenes (fiche, video, gabarit, article). Trois variantes de rendu, tone-aware, avec etats de chargement et vide.",
+    description: "Grille de ressources hétérogènes (fiche, vidéo, gabarit, article) : trois variantes de rendu, les tons, les états de chargement et vide.",
     keywords: ['ressource', 'grille', 'grid', 'bibliotheque', 'document', 'video', 'tone'],
     render: () => (
       <ResourceCardGrid
@@ -7857,8 +7763,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ChartWithExport',
     codeName: 'charts/ChartWithExport.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: "Enveloppe un graphique et lui ajoute l'export PNG et CSV. Passer `data` pour que le CSV parte des donnees plutot que d'une capture.",
+    description: "Enveloppe un graphique et lui ajoute ses exports, alignés à droite et 16 px au-dessus : PNG toujours, PDF si un `title` est fourni, CSV si `data` l'est — le CSV part alors des données, pas d'une capture.",
     keywords: ['chart', 'export', 'png', 'csv', 'graphique', 'telechargement'],
     render: () => (
       <ChartWithExport
@@ -7878,24 +7783,23 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ChartDetailModal',
     codeName: 'charts/ChartDetailModal.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: "Ouvre un graphique en plein ecran, avec ses actions. Pour les surfaces d'analyse ou la vignette ne suffit pas a lire la donnee.",
-    keywords: ['chart', 'modal', 'detail', 'plein ecran', 'analytics', 'zoom'],
+    showcaseOnly: true,
+    description: "Ouvre un graphique en grand, dans un panneau au rayon 24 (90 % de la hauteur au plus), en-tête et pied collants : titre h2 au pas h3 (20/700), sous-titre 16 ink-700, le graphique, puis les actions en Button md — la dernière, l'action que la modale sert, en solid brand ; les autres en ghost neutre (arbitrage n°19), `emphasis` et `tone` restant surchargeables. Un vrai dialogue depuis le 24/09, par `useDialog` comme les modales de `modals/` : nommé par son titre, focus d'entrée sur « Fermer », Tab et Maj+Tab piégés, Échap, focus rendu au déclencheur, et la page derrière inerte pendant l'ouverture ; le voile n'est plus un faux bouton, seulement une zone de clic (`aria-hidden`, laissé tel quel par l'inertie).",
+    keywords: ['chart', 'modal', 'detail', 'plein ecran', 'analytics', 'zoom', 'dialog', 'focus', 'useDialog', 'inert'],
     render: () => <ChartDetailModalDemo />,
   },
   {
     name: 'CompletionModal',
     codeName: 'modals/CompletionModal.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: "Modale de fin de lecon ou de module : titre, XP gagne, et l'etape suivante. Ton calme par doctrine — pas de confetti par defaut, pas de « ! » dans la copy.",
-    keywords: ['completion', 'modal', 'fin', 'lecon', 'xp', 'suite', 'celebration'],
+    usedBy: ['AstucesViewer', 'FlashcardsViewer'],
+    description: "Fin d'un contenu des lecteurs (astuces, flashcards) : elle dit calmement ce qui s'est passé, puis propose la suite. Un bandeau au dégradé 700 → 800 — pastille, « Étape validée » en h2 au pas h3 (20), titre de l'élément et description en 16, tout en blanc —, puis, s'il y en a un, le contenu suivant en carte (« Continuer avec » en 13/600, titre 16/600, type et durée en 13) et des Button md : Suivant en solid, Retour en ghost ; seul, « Retour à l'espace » est le solid (arbitrage n°19), à 24 px du bandeau comme du bas. Plus d'XP (arbitrage n°18) : l'encart doré « +50 XP gagnés » et son étincelle décorative sont retirés , et la prop `xpEarned` avec eux (24/09 : plus aucun appel ne la passait). Pas de confettis, pas de « ! ». Dialogue `useDialog`, comme Modal : focus piégé, Échap, et la page derrière inerte pendant l'ouverture.",
+    keywords: ['completion', 'modal', 'fin', 'lecon', 'suite', 'celebration', 'étape validée', 'useDialog', 'inert'],
     render: () => <CompletionModalDemo2 />,
   },
   {
     name: 'AuthSuccess',
     codeName: 'patterns/AuthShell.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: "Etat de succes des pages d'authentification, sur fond glass-dark : icone, titre, description. Reserve a la famille Auth* — ne pas l'employer ailleurs dans l'app.",
+    description: "État de réussite des pages d'authentification, sur la surface glass-dark : pastille de 56 px, titre h3 20/700 blanc, description 16 blanc (44 caractères au plus). Réservé à la famille Auth* — ne pas l'employer ailleurs dans l'app.",
     keywords: ['auth', 'succes', 'confirmation', 'glass-dark', 'email', 'inscription'],
     render: () => (
       <div className="rounded-2xl bg-gradient-to-br from-primary-800 to-brand-navy p-section">
@@ -7910,16 +7814,14 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'SelectCheckbox',
     codeName: 'ui/SelectCheckbox.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: "Selection multiple en menu deroulant, avec un resume des choix dans le declencheur. Brique des barres de filtres.",
+    description: "Sélection multiple en menu déroulant, avec le résumé des choix dans le déclencheur : un contrôle de 44 px au rayon 14, libellé 16/600, filet 700 et libellé 800 une fois actif. Les options sont des Checkbox du système. Brique des barres de filtres.",
     keywords: ['select', 'checkbox', 'multiple', 'filtre', 'dropdown', 'menu'],
     render: () => <SelectCheckboxDemo />,
   },
   {
     name: 'SelectCheckboxCategory',
     codeName: 'ui/SelectCheckboxCategory.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    description: "Variante hierarchique : categories et sous-categories, en selection unique qui retourne la categorie parente. Pour les filtres a deux niveaux.",
+    description: "Variante hiérarchique : catégories et sous-catégories, en sélection unique (pastille radio au cran 700) qui retourne la catégorie parente. Pour les filtres à deux niveaux.",
     keywords: ['select', 'categorie', 'hierarchie', 'sous-categorie', 'filtre', 'arbre'],
     render: () => <SelectCheckboxDemo />,
   },
@@ -8013,19 +7915,27 @@ const SEMANTIC_TOKENS: TokenEntry[] = [
   { name: 'success-base', cssVar: '--color-success-base', value: '#9DBEBA', group: 'Sémantique', type: 'color' },
   { name: 'success-bg', cssVar: '--color-success-bg', value: '#E8F2F0', group: 'Sémantique', type: 'color' },
   { name: 'success-fg', cssVar: '--color-success-fg', value: '#335A56', group: 'Sémantique', type: 'color' },
+  // Les quatre filets d'état (7576e78a, 24/09) : ils ne vivaient que dans
+  // design-tokens.css, et les classes `border-*-border` ne généraient rien — le
+  // filet prenait `currentColor`, le texte de l'état. La vignette les pose sur
+  // le fond de leur état, là où ils servent.
+  { name: 'success-border', cssVar: '--color-success-border', value: 'rgba(157, 190, 186, 0.30) — le filet clair d’une surface success', group: 'Sémantique', type: 'color' },
   { name: 'success-vivid', cssVar: '--color-success-vivid', value: '#347572', group: 'Sémantique', type: 'color' },
   { name: 'success-bright', cssVar: '--color-success-bright', value: '#228B55', group: 'Sémantique', type: 'color' },
   { name: 'warning-base', cssVar: '--color-warning-base', value: '#F8B044', group: 'Sémantique', type: 'color' },
   { name: 'warning-bg', cssVar: '--color-warning-bg', value: '#FFF9EE', group: 'Sémantique', type: 'color' },
   { name: 'warning-fg', cssVar: '--color-warning-fg', value: '#2f1c13', group: 'Sémantique', type: 'color' },
+  { name: 'warning-border', cssVar: '--color-warning-border', value: 'rgba(248, 176, 68, 0.30) — le filet clair d’une surface warning', group: 'Sémantique', type: 'color' },
   { name: 'danger-base', cssVar: '--color-danger-base', value: '#F28559', group: 'Sémantique', type: 'color' },
   { name: 'danger-bg', cssVar: '--color-danger-bg', value: '#FEF4F0', group: 'Sémantique', type: 'color' },
   { name: 'danger-fg', cssVar: '--color-danger-fg', value: '#8F2A0E', group: 'Sémantique', type: 'color' },
+  { name: 'danger-border', cssVar: '--color-danger-border', value: 'rgba(242, 133, 89, 0.25) — le filet clair d’une surface danger', group: 'Sémantique', type: 'color' },
   { name: 'danger-strong', cssVar: '--color-danger-strong', value: '#C0432A', group: 'Sémantique', type: 'color' },
   { name: 'danger-deep', cssVar: '--color-danger-deep', value: '#9B2F1B', group: 'Sémantique', type: 'color' },
   { name: 'info-base', cssVar: '--color-info-base', value: '#55A1B4', group: 'Sémantique', type: 'color' },
   { name: 'info-bg', cssVar: '--color-info-bg', value: '#E8F4F7', group: 'Sémantique', type: 'color' },
   { name: 'info-fg', cssVar: '--color-info-fg', value: '#1F3E45', group: 'Sémantique', type: 'color' },
+  { name: 'info-border', cssVar: '--color-info-border', value: 'rgba(85, 161, 180, 0.25) — le filet clair d’une surface info', group: 'Sémantique', type: 'color' },
   { name: 'brown-editorial', cssVar: '--color-brown-editorial', value: '#2f1c13', group: 'Sémantique', type: 'color' },
 ];
 
@@ -8065,15 +7975,18 @@ const SURFACE_TOKENS: TokenEntry[] = [
    ratait le seuil des 18,66 px du « grand texte » WCAG, donc exigeait 4,5:1 au
    lieu de 3:1), h4 18→20 px (il collisionnait avec body-lg, deux noms pour la
    même taille), et l'interligne de micro 16→18 px. `display-xl`, `display-lg` et
-   `h5` ont été retirés : zéro usage. */
+   `h5` ont été retirés : zéro usage.
+
+   Le 2026-09-24 (arbitrages n°20 et 21) : le h3 de 24 px sort de l'échelle et
+   l'ancien h4 de 20 devient le h3 ; `body-sm` (15) fond dans `body` (16). Les
+   spécimens de la vitrine se dessinent depuis la variable (Swatch), pas depuis
+   la chaîne `value`, qui ne sert plus qu'à l'affichage et à la recherche. */
 const TYPOGRAPHY_TOKENS: TokenEntry[] = [
   { name: 'h1', cssVar: '--text-h1', value: '36 px · 44 · 700 · -0.03em', group: 'Typographie — échelle produit', type: 'typography' },
   { name: 'h2', cssVar: '--text-h2', value: '28 px · 36 · 700 · -0.025em', group: 'Typographie — échelle produit', type: 'typography' },
-  { name: 'h3', cssVar: '--text-h3', value: '24 px · 32 · 700 · -0.025em', group: 'Typographie — échelle produit', type: 'typography' },
-  { name: 'h4', cssVar: '--text-h4', value: '20 px · 28 · 700 · -0.02em', group: 'Typographie — échelle produit', type: 'typography' },
+  { name: 'h3', cssVar: '--text-h3', value: '20 px · 26 · 700 · -0.02em — titre de bloc (arbitrage n°21 : 28 puis 20)', group: 'Typographie — échelle produit', type: 'typography' },
   { name: 'body-lg', cssVar: '--text-body-lg', value: '18 px · 28', group: 'Typographie — échelle produit', type: 'typography' },
-  { name: 'body', cssVar: '--text-body', value: '16 px · 24', group: 'Typographie — échelle produit', type: 'typography' },
-  { name: 'body-sm', cssVar: '--text-body-sm', value: '15 px · 24 — le corps de l’app', group: 'Typographie — échelle produit', type: 'typography' },
+  { name: 'body', cssVar: '--text-body', value: '16 px · 26 — tout le texte qu’on lit (arbitrage n°20)', group: 'Typographie — échelle produit', type: 'typography' },
   { name: 'caption', cssVar: '--text-caption', value: '13 px · 20', group: 'Typographie — échelle produit', type: 'typography' },
   { name: 'micro', cssVar: '--text-micro', value: '11 px · 18', group: 'Typographie — échelle produit', type: 'typography' },
 ];
@@ -8094,8 +8007,8 @@ const EDITORIAL_TYPE_TOKENS: TokenEntry[] = [
    titres lâches et le petit texte illisible. */
 const TRACKING_TOKENS: TokenEntry[] = [
   { name: 'tracking-display', cssVar: '--tracking-display', value: '-0.03em — h1, hero', group: 'Serrage (tracking)', type: 'typography' },
-  { name: 'tracking-headline', cssVar: '--tracking-headline', value: '-0.025em — h2, h3', group: 'Serrage (tracking)', type: 'typography' },
-  { name: 'tracking-snug', cssVar: '--tracking-snug', value: '-0.02em — h4', group: 'Serrage (tracking)', type: 'typography' },
+  { name: 'tracking-headline', cssVar: '--tracking-headline', value: '-0.025em — h2', group: 'Serrage (tracking)', type: 'typography' },
+  { name: 'tracking-snug', cssVar: '--tracking-snug', value: '-0.02em — h3 (et h4, qui n’a plus de pas à lui)', group: 'Serrage (tracking)', type: 'typography' },
   { name: 'tracking-label', cssVar: '--tracking-label', value: '+0.05em — le seul positif : étiquettes en capitales', group: 'Serrage (tracking)', type: 'typography' },
 ];
 
@@ -8139,10 +8052,10 @@ const RADIUS_TOKENS: TokenEntry[] = [
   { name: 'xs', cssVar: '--radius-xs', value: '4 px', group: 'Rayons', type: 'radius' },
   { name: 'sm', cssVar: '--radius-sm', value: '6 px', group: 'Rayons', type: 'radius' },
   { name: 'md', cssVar: '--radius-md', value: '10 px', group: 'Rayons', type: 'radius' },
-  { name: 'lg', cssVar: '--radius-lg', value: '14 px — le rayon des cartes', group: 'Rayons', type: 'radius' },
-  { name: 'xl', cssVar: '--radius-xl', value: '20 px', group: 'Rayons', type: 'radius' },
-  { name: '2xl', cssVar: '--radius-2xl', value: '24 px', group: 'Rayons', type: 'radius' },
-  { name: 'pill', cssVar: '--radius-pill', value: '999 px — boutons, badges', group: 'Rayons', type: 'radius' },
+  { name: 'lg', cssVar: '--radius-lg', value: '14 px — étage interactif : boutons, champs, rangées', group: 'Rayons', type: 'radius' },
+  { name: 'xl', cssVar: '--radius-xl', value: '20 px — étage conteneur : cartes', group: 'Rayons', type: 'radius' },
+  { name: '2xl', cssVar: '--radius-2xl', value: '24 px — étage surcouche : modales, tiroirs', group: 'Rayons', type: 'radius' },
+  { name: 'pill', cssVar: '--radius-pill', value: '999 px — étiquettes sous 28 px, bouton icône', group: 'Rayons', type: 'radius' },
 ];
 
 /* Depuis la passe de sobriété du 2026-09-09, les cartes n'ont plus d'ombre : la
@@ -8179,9 +8092,9 @@ const SHADOW_TOKENS: TokenEntry[] = [
 const ICON_TOKENS: TokenEntry[] = [
   { name: '2xs', cssVar: '--icon-size-2xs', value: '14 px — méta-données, pastilles, chevrons · 770 usages', group: 'Icônes — interface', type: 'icon' },
   { name: 'xs', cssVar: '--icon-size-xs', value: '16 px — avec caption (13 px) · bouton sm', group: 'Icônes — interface', type: 'icon' },
-  { name: 'sm', cssVar: '--icon-size-sm', value: '18 px — avec body-sm (15 px) · bouton md', group: 'Icônes — interface', type: 'icon' },
+  { name: 'sm', cssVar: '--icon-size-sm', value: '18 px — avec le corps (16 px) · bouton md', group: 'Icônes — interface', type: 'icon' },
   { name: 'md', cssVar: '--icon-size-md', value: '20 px — avec body (16 px) · bouton lg', group: 'Icônes — interface', type: 'icon' },
-  { name: 'lg', cssVar: '--icon-size-lg', value: '24 px — avec body-lg (18 px) · bouton xl', group: 'Icônes — interface', type: 'icon' },
+  { name: 'lg', cssVar: '--icon-size-lg', value: '24 px — avec le chapô (18 px)', group: 'Icônes — interface', type: 'icon' },
   { name: 'xl', cssVar: '--icon-size-xl', value: '28 px — le plus grand cran d’interface', group: 'Icônes — interface', type: 'icon' },
   { name: '2xl', cssVar: '--icon-size-2xl', value: '32 px — vignettes, en-têtes de carte', group: 'Icônes — affichage', type: 'icon' },
   { name: '3xl', cssVar: '--icon-size-3xl', value: '40 px — états vides', group: 'Icônes — affichage', type: 'icon' },
@@ -8334,6 +8247,10 @@ function useLiveTokenValue(cssVar: string | undefined, fallback: string): string
 const Swatch: React.FC<{ t: TokenEntry }> = ({ t }) => {
   const liveValue = useLiveTokenValue(t.cssVar, t.value);
   if (t.type === 'color' || t.type === 'role') {
+    /* Un filet d'état (`--color-success-border`…) est translucide : peint en
+       aplat sur du blanc, il ne dit rien. On le montre en filet, épaissi pour
+       qu'il se lise, sur le fond de son état (`--color-success-bg`…). */
+    const filetEtat = t.type === 'color' && /^--color-(success|warning|danger|info)-border$/.test(t.cssVar);
     return (
       <div className="token-card">
         <div
@@ -8342,9 +8259,12 @@ const Swatch: React.FC<{ t: TokenEntry }> = ({ t }) => {
             // liveValue, jamais t.value : les échelles en dur de COLOR_TOKENS
             // avaient dérivé (l'échelle ink y était encore teintée teal) et la
             // vitrine montrait des gris que l'app ne rend nulle part.
-            background: t.type === 'role' && t.cssVar.startsWith('--border')
+            background: filetEtat
+              ? `var(${t.cssVar.replace('-border', '-bg')})`
+              : t.type === 'role' && t.cssVar.startsWith('--border')
               ? `linear-gradient(45deg, transparent 49%, ${liveValue} 49%, ${liveValue} 51%, transparent 51%)`
               : liveValue,
+            boxShadow: filetEtat ? `inset 0 0 0 4px ${liveValue}` : undefined,
             border: t.cssVar.includes('surface') || liveValue.toUpperCase() === '#FFFFFF' ? '1px solid var(--border)' : undefined,
           }}
         />
@@ -8431,21 +8351,41 @@ const Swatch: React.FC<{ t: TokenEntry }> = ({ t }) => {
   }
 
   if (t.type === 'typography') {
-    const isDisplay = t.group === 'Display';
-    const fontSize = isDisplay ? '2rem' : t.value.split(' ')[0];
+    /* Le spécimen se dessine depuis la VARIABLE, comme les couleurs et les
+       ombres. Il lisait la taille dans la chaîne `value` (« 36 px · 44… ») et
+       passait « 36 » sans unité : le navigateur l'ignorait, et les vingt et un
+       spécimens rendaient à 16 px, les titres en graisse 600 — mesuré au
+       navigateur le 2026-09-24. `tracking-label` tombait, lui, à 0,8 px
+       (« +0.05em » lu comme une taille). La table était juste ; son rendu ne
+       montrait aucune échelle.
+       Spécimen décoratif (aria-hidden) : la valeur lisible est dans la méta. */
+    const DISPLAY = ['h1', 'h2', 'h3', 'hero', 'section', 'title', 'feature', 'stat-value', 'stat-value-lg'];
+    const GRAND = ['h1', 'hero', 'section', 'title', 'stat-value', 'stat-value-lg'];
+    let style: React.CSSProperties;
+    let specimen = 'Aa Éé Öö 1234';
+    if (t.group === 'Familles') {
+      style = { fontFamily: `var(${t.cssVar})`, fontSize: 'var(--text-h3)' };
+    } else if (t.group === 'Serrage (tracking)') {
+      style = t.name === 'tracking-label'
+        ? { fontFamily: 'var(--font-body)', fontSize: 'var(--text-micro)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: `var(${t.cssVar})` }
+        : { fontFamily: 'var(--font-display)', fontSize: 'var(--text-h2)', fontWeight: 700, letterSpacing: `var(${t.cssVar})` };
+      specimen = t.name === 'tracking-label' ? 'À venir' : 'Parcours';
+    } else {
+      const display = DISPLAY.includes(t.name);
+      if (GRAND.includes(t.name)) specimen = 'Aa 12';
+      style = {
+        fontFamily: display ? 'var(--font-display)' : 'var(--font-body)',
+        fontSize: `var(${t.cssVar})`,
+        lineHeight: `var(${t.cssVar}--line-height, 1.2)`,
+        fontWeight: `var(${t.cssVar}--font-weight, ${display ? 700 : 400})` as React.CSSProperties['fontWeight'],
+        letterSpacing: `var(${t.cssVar}--letter-spacing, normal)`,
+        ...(t.name === 'micro' ? { fontWeight: 700, textTransform: 'uppercase' as const, letterSpacing: 'var(--tracking-label)' } : {}),
+      };
+    }
     return (
       <div className="token-card token-card--wide">
-        <div
-          className="token-card__typography"
-          style={{
-            fontFamily: t.name.startsWith('display') || t.name.startsWith('h')
-              ? 'League Spartan, sans-serif'
-              : 'Nunito, sans-serif',
-            fontSize,
-            fontWeight: t.name.startsWith('h') || t.name.startsWith('display') ? 600 : 400,
-          }}
-        >
-          Aa Éé Öö 1234
+        <div aria-hidden className="token-card__typography" style={style}>
+          {specimen}
         </div>
         <div className="token-card__meta">
           <p className="token-card__name">{t.name}</p>
@@ -8561,7 +8501,7 @@ const Swatch: React.FC<{ t: TokenEntry }> = ({ t }) => {
           }}
         >
           <div className={`absolute inset-2 rounded-md bg-white/40 backdrop-blur-${suffix} flex items-center justify-center`}>
-            <span className="text-micro font-bold text-white drop-shadow">{t.value}</span>
+            <span className="text-caption font-semibold text-ink-900">{t.value}</span>
           </div>
         </div>
         <div className="token-card__meta">
@@ -8587,7 +8527,7 @@ const Swatch: React.FC<{ t: TokenEntry }> = ({ t }) => {
       <div className="token-card">
         <div className="h-[72px] rounded-md bg-ink-100/30 p-3 flex items-center justify-center">
           <div className={`${bgClass} w-full h-full rounded-sm border border-ink-200 shadow-xs flex items-center justify-center`}>
-            <span className="text-micro font-mono text-ink-600">{t.name}</span>
+            <span className="text-caption font-mono text-ink-600">{t.name}</span>
           </div>
         </div>
         <div className="token-card__meta">
@@ -8607,18 +8547,16 @@ const Swatch: React.FC<{ t: TokenEntry }> = ({ t }) => {
        corrigé dans Button le 2026-09-09. */
     const box = `icon-${t.name}`;
     const paired: Record<string, string> = {
-      '2xs': 'text-micro', xs: 'text-caption', sm: 'text-body-sm', md: 'text-body',
-      lg: 'text-body-lg', xl: 'text-h4', '2xl': 'text-h4', '3xl': 'text-h3', '4xl': 'text-h3',
+      '2xs': 'text-micro font-body', xs: 'text-caption font-body', sm: 'text-body font-body', md: 'text-body font-body',
+      lg: 'text-body-lg font-body', xl: 'text-h3 font-display', '2xl': 'text-h3 font-display', '3xl': 'text-h3 font-display', '4xl': 'text-h3 font-display',
     };
     return (
       <div className="token-card">
         <div className="h-[88px] rounded-md bg-ink-50 flex items-center justify-center gap-stack-xs">
-          <span className={`${box} inline-flex items-center justify-center bg-primary-100 rounded-xs text-primary-700 [&>svg]:w-full [&>svg]:h-full`}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-              <circle cx="12" cy="12" r="9" /><path d="M12 8v8M8 12h8" />
-            </svg>
+          <span className={`${box} inline-flex items-center justify-center bg-primary-100 rounded-xs text-primary-800 [&>svg]:w-full [&>svg]:h-full`}>
+            <CirclePlus strokeWidth={2} aria-hidden />
           </span>
-          <span className={`${paired[t.name] ?? 'text-body'} font-body text-ink-700`}>Étiquette</span>
+          <span className={`${paired[t.name] ?? 'text-body font-body'} text-ink-700`}>Étiquette</span>
         </div>
         <div className="token-card__meta">
           <p className="token-card__name">icon-{t.name}</p>
@@ -8636,7 +8574,7 @@ const Swatch: React.FC<{ t: TokenEntry }> = ({ t }) => {
     return (
       <div className="token-card">
         <div className="h-[88px] rounded-md bg-ink-50 flex items-center justify-center">
-          <div className={`${sizeClass} rounded-md bg-primary-500 flex items-center justify-center text-white text-micro font-bold tabular-nums`}>
+          <div className={`${sizeClass} rounded-md bg-primary-700 flex items-center justify-center text-white text-caption font-semibold tabular-nums`}>
             {t.name === 'touch-lg' ? '48' : '44'}
           </div>
         </div>
@@ -8657,7 +8595,7 @@ const Swatch: React.FC<{ t: TokenEntry }> = ({ t }) => {
         <div className="h-[72px] rounded-md bg-ink-50 flex items-center justify-center relative overflow-hidden">
           <div className="absolute left-4 top-4 w-12 h-12 rounded-md bg-primary-300/medium" />
           <div className="absolute left-7 top-7 w-12 h-12 rounded-md bg-primary-500/overlay" />
-          <span className="relative font-display font-bold text-h4 text-white tabular-nums drop-shadow">{z}</span>
+          <span className="relative font-display text-h3 text-ink-900 tabular-nums">{z}</span>
         </div>
         <div className="token-card__meta">
           <p className="token-card__name">{t.name}</p>
@@ -8771,7 +8709,7 @@ class ComponentPreviewErrorBoundary extends React.Component<
       return (
         <div className="p-stack bg-danger-bg text-danger-fg border border-danger-base rounded-md">
           <p className="font-bold">Render Error</p>
-          <p className="text-sm font-mono">{this.state.error?.message || 'Unknown error'}</p>
+          <p className="text-caption font-mono">{this.state.error?.message || 'Unknown error'}</p>
         </div>
       );
     }
@@ -8810,7 +8748,7 @@ const Components: React.FC = () => {
     return componentsWithMeta.filter((c) => {
       if (!q) return true;
       const haystack = [
-        c.name, c.codeName, c.cssBase ?? '', c.description, c._meta.category, c._meta.subCategory, ...c.keywords,
+        c.name, c.codeName, c.description, c._meta.category, c._meta.subCategory, ...c.keywords,
       ].join(' ').toLowerCase();
       return haystack.includes(q);
     });
@@ -8841,7 +8779,10 @@ const Components: React.FC = () => {
   }, [q, activeSlug, isSearching]);
 
   const pagesByFamily = useMemo(() => {
-    const order = ['Core', 'Journal', 'Veille', 'Coaching'];
+    /* « Compte » et « Communauté » manquaient à cet ordre depuis le 01/05 :
+       leurs cinq fiches (profil, notifications, compte, messagerie,
+       collaboration) étaient comptées dans la nav et jamais rendues. */
+    const order = ['Core', 'Journal', 'Veille', 'Coaching', 'Compte', 'Communauté'];
     const map = new Map<string, PageTemplate[]>();
     filteredPages.forEach((p) => {
       if (!map.has(p.family)) map.set(p.family, []);
@@ -8986,15 +8927,19 @@ const Components: React.FC = () => {
 
   return (
     <div className="ds-showcase">
-      {/* -------------------------------- HERO (EditorialHero brand) ---------- */}
-      <EditorialHero
+      {/* -------------------------------- HERO (PageHero flat) ---------------- */}
+      {/* Le surtitre portait Sparkles, que DESIGN.md § 10.3 réserve aux
+          fonctions d'IA. La puce `<code>` était blanche sur blanc (1,00:1) :
+          un reste du temps où ce hero était sur fond teal. Elle prend le
+          traitement des valeurs de la vitrine, encre sur ink-50. */}
+      <PageHero
         tone="flat"
-        eyebrow={{ icon: <SparklesIcon size={12} />, label: `Design System · v1.0.0 · ${lastUpdated}` }}
+        eyebrow={{ icon: <Layers size={14} />, label: `Design System · v1.0.0 · ${lastUpdated}` }}
         title="Components"
         summary={
           <>
             Source :{' '}
-            <code className="font-mono text-[0.92em] bg-white/15 text-white px-1.5 py-0.5 rounded-sm border border-white/20">
+            <code className="font-mono text-body text-ink-900 bg-ink-50 px-1.5 py-0.5 rounded-sm border border-ink-200">
               src/components/
             </code>{' '}
             — bibliothèque vivante de {COMPONENTS.length} composants React et {ALL_TOKENS.length} tokens,
@@ -9083,22 +9028,30 @@ const Components: React.FC = () => {
                       className="inline-flex items-center gap-tight rounded-pill border border-ink-200 bg-white px-3 py-1 text-caption font-semibold text-ink-600 transition-colors duration-fast ease-standard hover:border-primary-300 hover:bg-primary-50 hover:text-primary-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                     >
                       {subCat}
-                      <span className="text-ink-400 font-normal">{list.length}</span>
+                      <span className="text-ink-600 font-normal">{list.length}</span>
                     </a>
                   ))}
                 </nav>
               )}
 
               {subGroups.map(([subCat, list]) => (
-                <div key={subCat} className="flex flex-col gap-stack">
+                /* 48 px au-dessus d'un titre de sous-catégorie (16 de la
+                   section + 32 ici), 25 en dessous : le titre appartient aux
+                   fiches qu'il annonce (doctrine § 5, rapport ≥ 1,5 — check-rythme).
+                   Le `mt-stack-lg first:mt-0` posé sur le titre ne jouait jamais :
+                   le titre est toujours le premier enfant de ce groupe, et il
+                   n'avait que les 16 de la section au-dessus de lui. */
+                <div key={subCat} className={['flex flex-col gap-stack', subGroups.length > 1 ? 'mt-section' : ''].filter(Boolean).join(' ')}>
                   {/* Sub-category header (skip if "Other" or single-sub category) */}
                   {subGroups.length > 1 && (
                     <div
                       id={`sub-${componentSlug(subCat)}`}
-                      className="flex items-baseline gap-stack-xs mt-stack-lg first:mt-0 pb-2 border-b border-ink-100 scroll-mt-20"
+                      className="flex items-baseline gap-stack-xs pb-2 border-b border-ink-100 scroll-mt-20"
                     >
-                      <h3 className="font-display text-h4 font-semibold text-ink-700">{subCat}</h3>
-                      <span className="text-caption text-ink-500">{list.length}</span>
+                      {/* Un titre, donc 700 et ink-900 : il était en 600 ink-700,
+                          plus pâle que les noms de fiche qu'il annonce. */}
+                      <h3 className="font-display text-h3 text-ink-900">{subCat}</h3>
+                      <span className="text-caption text-ink-600 tabular-nums">{list.length}</span>
                     </div>
                   )}
 
@@ -9113,26 +9066,25 @@ const Components: React.FC = () => {
                           <div>
                             <div className="flex items-center gap-stack-xs flex-wrap">
                               <h3 className="ds-component__name">{c.name}</h3>
+                              {/* Un état, donc un Badge : la pastille était refaite
+                                  à la main, avec son propre serrage. */}
                               {c.showcaseOnly && (
-                                <span
-                                  className="inline-flex items-center gap-tight px-2 py-0.5 rounded-pill bg-accent-50 text-accent-800 border border-accent-200 text-micro font-bold uppercase tracking-wider"
-                                  title="Disponible dans le Design System mais pas (encore) consommé par une page de l'app"
-                                >
-                                  Showcase only
+                                <span title="Disponible dans le Design System mais pas (encore) consommé par une page de l'app">
+                                  <Badge variant="sun" size="compact">Vitrine seulement</Badge>
                                 </span>
                               )}
                             </div>
                             <p className="ds-component__desc">{c.description}</p>
+                            {/* Une méta : légende 13, 12 px sous la description. */}
                             {c.usedBy && c.usedBy.length > 0 && (
-                              <p className="m-0 mt-1 text-micro text-ink-500">
-                                <span className="font-bold uppercase tracking-wider mr-1.5">Used by:</span>
+                              <p className="mt-stack-sm max-w-prose text-caption text-ink-600">
+                                <span className="font-semibold">Utilisé par :</span>{' '}
                                 {c.usedBy.join(' · ')}
                               </p>
                             )}
                           </div>
                           <div className="ds-component__chips">
                             <CopyChip text={c.codeName} label={`‹${c.codeName}›`} />
-                            {c.cssBase && <CopyChip text={c.cssBase} label={c.cssBase} />}
                             {/* La catégorie EST un badge : elle passe par le composant, pas par un
      CSS maison. Avant, `.ds-component__cat` la dessinait à la main avec
      un rayon de 6 px et 25 px de haut, à côté d'un CopyChip à 10 px et
@@ -9162,63 +9114,40 @@ const Components: React.FC = () => {
               </div>
               <div className="grid gap-stack [grid-template-columns:repeat(auto-fill,minmax(320px,1fr))]">
                 {pages.map((p) => (
+                  /* L'anatomie des cartes (doctrine § 5) : surtitre 13/600 → 4 →
+                     titre h3 20 → texte 16 ink-700 → méta → action. Le nom était
+                     en 800 (graisse du site), la famille en capitales 11 px à la
+                     couleur de sa famille (2,47 à 3,72:1), les étiquettes en
+                     pastilles faites main, et le bouton, fait main lui aussi,
+                     posait du blanc sur un cran 600 (2,64 à 3,98:1). */
                   <div
                     key={p.id}
-                    className="bg-white border border-ink-200 rounded-xl overflow-hidden flex flex-col"
+                    className="flex flex-col overflow-hidden rounded-xl border border-ink-200 bg-white"
                   >
-                    {/* Color header */}
                     <div
-                      className="flex items-center gap-stack-xs border-b border-ink-200"
-                      style={{ background: p.bg, padding: 'var(--s-5) var(--s-5) var(--s-4)' }}
+                      className="flex items-center gap-stack-sm border-b border-ink-200 px-stack-lg pt-stack-md pb-stack"
+                      style={{ background: p.bg }}
                     >
-                      <span className="text-h2 leading-none">{p.icon}</span>
-                      <div>
-                        <div
-                          className="text-micro font-bold uppercase mb-1"
-                          style={{ color: p.color, letterSpacing: '0.07em' }}
-                        >
-                          {p.family}
-                        </div>
-                        <div className="text-body font-extrabold text-ink-900">
-                          {p.name}
-                        </div>
+                      <span aria-hidden className="text-h2 leading-none">{p.icon}</span>
+                      <div className="min-w-0">
+                        <p className="text-caption font-semibold text-ink-600">{p.family}</p>
+                        <h3 className="mt-stack-3xs font-display text-h3 text-ink-900">{p.name}</h3>
                       </div>
                     </div>
 
-                    {/* Body */}
-                    <div className="flex-1 flex flex-col gap-stack-xs" style={{ padding: 'var(--s-4) var(--s-5)' }}>
-                      <p className="text-body-sm text-ink-500 m-0 leading-relaxed">
-                        {p.description}
-                      </p>
-
-                      {/* Tags */}
-                      <div className="flex flex-wrap" style={{ gap: 'var(--s-1-5)' }}>
-                        {p.tags.map((tag) => (
-                          <span
-                            key={tag}
-                            className="bg-ink-50 border border-ink-200 rounded-pill text-micro font-semibold text-ink-500"
-                            style={{ padding: 'var(--chip-padding-xs)' }}
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-
-                      {/* Navigate button */}
-                      <button
-                        type="button"
+                    <div className="flex flex-1 flex-col gap-stack-sm px-stack-lg pt-stack pb-stack-lg">
+                      <p className="max-w-prose text-body text-ink-700">{p.description}</p>
+                      <MetaPillGroup items={p.tags.map((tag) => ({ text: tag }))} />
+                      <Button
+                        emphasis="soft"
+                        size="sm"
+                        fullWidth
+                        className="mt-auto"
+                        trailingIcon={<ArrowRight />}
                         onClick={() => navigate(p.path)}
-                        className="mt-auto inline-flex items-center justify-center rounded-pill border-none text-white font-bold text-body-sm cursor-pointer font-body w-full transition-opacity duration-150"
-                        style={{
-                          gap: 'var(--s-1-5)',
-                          padding: 'var(--s-2) var(--s-4-5)',
-                          background: p.color,
-                        }}
-                        onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.85')}
-                        onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
                       >
-                        Ouvrir la page →
-                      </button>
+                        Ouvrir la page
+                      </Button>
                     </div>
                   </div>
                 ))}
@@ -9258,11 +9187,12 @@ const Components: React.FC = () => {
           type="button"
           onClick={scrollToTop}
           aria-label="Retour en haut de page"
-          className="fixed bottom-28 right-10 z-toast w-12 h-12 rounded-pill bg-primary-600 text-white shadow-lg flex items-center justify-center cursor-pointer transition-all duration-base hover:bg-primary-700 hover:-translate-y-0.5 hover:shadow-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+          /* Cran 700 et survol qui fonce (règle du bouton solid) ; plus de
+             soulèvement au survol (passe motion du 17/09) ; Lucide plutôt
+             qu'un SVG écrit à la main. */
+          className="fixed bottom-28 right-10 z-toast w-12 h-12 rounded-pill bg-primary-700 text-white shadow-lg flex items-center justify-center cursor-pointer transition-colors duration-base hover:bg-primary-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <polyline points="18 15 12 9 6 15" />
-          </svg>
+          <ChevronUp className="icon-md" strokeWidth={2.5} aria-hidden />
         </button>
       )}
 
@@ -9284,7 +9214,8 @@ const PAGE_STYLES = `
     padding: var(--s-8) var(--s-6);
     display: flex;
     flex-direction: column;
-    gap: var(--s-10);
+    /* 48 entre deux sections (doctrine § 5) — c'était 40. */
+    gap: var(--spacing-page);
   }
   .ds-hero {
     padding: var(--s-10) var(--s-8);
@@ -9344,17 +9275,23 @@ const PAGE_STYLES = `
     background: var(--tls-primary-600); color: #fff; border-color: var(--tls-primary-600);
   }
 
-  .ds-section { display: flex; flex-direction: column; gap: var(--s-5); }
+  /* 16 entre un titre de section et son contenu (doctrine § 5) — c'était 20. */
+  .ds-section { display: flex; flex-direction: column; gap: var(--s-4); }
   .ds-section__head {
     display: flex; align-items: baseline; justify-content: space-between;
     padding-bottom: var(--s-3); border-bottom: 1px solid var(--border);
   }
+  /* Un titre de section est un h2 : 28/36, 700. Il était au pas du h1 (36)
+     et en graisse 400 — le reset de Tailwind rend la graisse héritée, et rien
+     ici ne la reposait. Deux pas de trop pour un intitulé de catégorie, sous
+     le vrai h1 de la page. */
   .ds-section__title {
-    font-family: 'League Spartan', sans-serif; font-size: var(--text-h1);
-    margin: 0; color: var(--text);
+    font-family: var(--font-display); font-size: var(--text-h2);
+    line-height: 1.2857; letter-spacing: var(--tracking-headline);
+    font-weight: 700; margin: 0; color: var(--text);
   }
   .ds-section__count {
-    font-size: var(--text-caption); color: var(--text-muted); font-weight: 500;
+    font-size: var(--text-caption); color: var(--text-muted); font-weight: 400;
   }
 
   .ds-component-list { display: flex; flex-direction: column; gap: var(--s-6); }
@@ -9377,9 +9314,12 @@ const PAGE_STYLES = `
     font-family: 'League Spartan', sans-serif; font-size: var(--text-h3);
     font-weight: 700; margin: 0; color: var(--text);
   }
+  /* Texte secondaire long sous un titre : 16 px ink-700, largeur de lecture,
+     8 px sous le titre (doctrine § 2, 3 et 5). Il était en ink-600, la
+     couleur de la méta, sur 70 caractères et à 4 px. */
   .ds-component__desc {
-    margin: 4px 0 0; color: var(--text-muted); font-size: var(--text-body-sm);
-    max-width: 70ch;
+    margin: var(--s-2) 0 0; color: var(--color-ink-700); font-size: var(--text-body);
+    max-width: var(--container-prose);
   }
   .ds-component__chips { display: flex; gap: var(--s-1-5); align-items: center; flex-wrap: wrap; }
 
@@ -9410,14 +9350,17 @@ const PAGE_STYLES = `
     transition: all var(--dur-2) var(--ease-standard);
   }
   .copy-chip:hover { border-color: var(--tls-primary-300); color: var(--tls-primary-800); }
-  .copy-chip__state { font-size: 10px; color: var(--text-soft); }
+  /* 10 px hors échelle, en ink-500 (placeholders seulement) : 581 textes de
+     la vitrine sous le plancher de 11 px. Il suit désormais le corps du chip. */
+  .copy-chip__state { font-size: inherit; color: var(--text-muted); }
   .copy-chip code { font: inherit; background: none; padding: 0; }
 
   /* Token grids */
   .ds-token-group { display: flex; flex-direction: column; gap: var(--s-3); margin-top: var(--s-5); }
   .ds-token-group__title {
-    font-family: 'League Spartan', sans-serif;
-    font-size: var(--text-h4); margin: 0; color: var(--text);
+    font-family: var(--font-display);
+    font-size: var(--text-h3); line-height: 1.3; letter-spacing: var(--tracking-snug);
+    font-weight: 700; margin: 0; color: var(--text);
   }
   .ds-token-grid {
     display: grid; gap: var(--s-3);
@@ -9451,7 +9394,7 @@ const PAGE_STYLES = `
   @keyframes motion-slide { from { transform: translateX(-30px); } to { transform: translateX(30px); } }
   .token-card__typography {
     padding: var(--s-4); background: var(--surface-muted); border-radius: var(--r-md);
-    color: var(--text);
+    color: var(--text); overflow: hidden;
     display: flex; align-items: center; justify-content: center;
     min-height: 72px;
   }

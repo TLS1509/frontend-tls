@@ -75,7 +75,19 @@ d'en déplacer le sens.
 | Activité | infini |
 | Table d'admin | numéroté + sélecteur de taille de page |
 
-C'est le seul arbitrage écrit sur ce choix ; `Pagination.tsx` n'a aucun JSDoc.
+C'est le seul arbitrage écrit sur ce choix, et il vaut toujours. Le numéroté
+passe aujourd'hui par la pagination intégrée de `DataTable` (tables) ; aucun
+composant ne pagine plus une liste.
+
+> `Pagination` supprimé le 24/09/2026 (aucun usage produit : son seul
+> consommateur, le classement, était parti avec l'arbitrage n°18 sur la
+> gamification). À recréer depuis l'historique git si le besoin revient
+> (dernier état : commit `6dcf672e`, `src/components/ui/Pagination.tsx`).
+>
+> `PaginatedList` supprimé le même jour (aucun usage produit : créé en juin
+> pour la vitrine, aucune page ne l'a jamais importé). À recréer depuis
+> l'historique git si un catalogue en liste doit être numéroté (dernier état :
+> commit `43da89bb`, `src/components/ui/PaginatedList.tsx`).
 
 ### Règles à une phrase
 
@@ -83,8 +95,8 @@ C'est le seul arbitrage écrit sur ce choix ; `Pagination.tsx` n'a aucun JSDoc.
 |---|---|
 | **Avatar** | *« Tint assignment must be stable (hash of name). Never random. »* |
 | **EmptyState** | *« Every empty state must have a primary CTA. No dead ends. »* |
-| **Medal** | *« Warm gradient = achievement unlocked. Brand deep = special/rare. Ink gray = locked. »* |
-| **CompetenceBadge** | *« Color = level. Stable assignment, never decorative. »* |
+| **Medal** | Supprimé le 24/09/2026 (aucun usage produit, et l'arbitrage n°18 retire la gamification de l'app apprenant) — à recréer depuis l'historique git si le besoin revient (commit `616d637f`). Sa règle était : *« Warm gradient = achievement unlocked. Brand deep = special/rare. Ink gray = locked. »* |
+| **CompetenceBadge** | Supprimé le 24/09/2026 (aucun usage produit) — à recréer depuis l'historique git si le besoin revient (commit `4dd194ea`). Sa règle vaut pour tout affichage de niveau : *« Color = level. Stable assignment, never decorative. »* |
 | **Celebration** | *« Rare = precious. Celebrate real milestones only (module completion, streak, first badge). Never gratuitous micro-interactions. »* |
 | **Tabs** | *« 2–5 tabs max. No nesting. No multi-select (that's a filter). »* |
 | **Stepper** | *« Stepper = named sequential steps. Progress bar = continuous percentage. >5 steps → split into phases. »* |

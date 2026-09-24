@@ -52,7 +52,7 @@ Elles conditionnent ce qu'on peut outiller, et surtout ce qu'on ne peut pas enco
 
 **Priorité déclarée par Chloé, 2026-07-23.**
 
-### Objectifs ✅ [`MARKETING-LINKEDIN.md` §2](../marketing/MARKETING-LINKEDIN.md)
+### Objectifs ✅ [`MARKETING-LINKEDIN.md` §2](../_archive/corpus-marketing-IA-juin-2026/MARKETING-LINKEDIN.md) *(archivé)*
 
 | Horizon | Abonnés LinkedIn | Objectif business |
 |---|---|---|
@@ -162,7 +162,7 @@ Learning App.
 
 **Priorité déclarée par Chloé.**
 
-### Objectifs ✅ [`INDEX.md`](../INDEX.md) · [`PHASE-16-GAP-ANALYSIS.md`](../PHASE-16-GAP-ANALYSIS.md) · CDC
+### Objectifs ✅ [`INDEX.md`](../INDEX.md) · `PHASE-16-GAP-ANALYSIS.md` *(supprimé, historique git)* · CDC
 
 Aligner le front-office React sur les 16 cahiers de spécification. État actuel : 4 cahiers ✅,
 9 en 🟡 (50-90 %), 3 en 🔴. Le cahier 02 (Passeport) verrouille les cahiers 01, 05, 07, 11 et 13.
@@ -361,7 +361,7 @@ ce sens — l'analyse initiale surestimait le conflit.
 > existent déjà**, écrites en mars-avril et jamais activées — dont deux qui résolvent des
 > problèmes majeurs. Écrire de nouvelles skills avant d'activer celles-là reviendrait à répéter
 > l'erreur qu'on vient de diagnostiquer. Voir
-> [`NOTION-WORKSPACE-AUDIT.md` §9](NOTION-WORKSPACE-AUDIT.md).
+> [`NOTION-WORKSPACE-AUDIT.md` §9](NOTION-WORKSPACE-AUDIT-2026-07-24.md).
 
 ### Étape 0 — activer l'existant (aucune écriture)
 

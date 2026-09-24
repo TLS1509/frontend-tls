@@ -33,10 +33,12 @@ const TONE_CHECKED_CARD: Record<RadioGroupTone, string> = {
   sun:     'border-accent-400 bg-accent-50 shadow-sun-sm',
 };
 
+/* État coché au cran 700 pour les trois tons — arbitrage n°9 du 23/09 (au
+   500 : 2,94:1 sur blanc, sous le 3:1 d'un contrôle). Même règle que `Radio`. */
 const TONE_INDICATOR: Record<RadioGroupTone, string> = {
-  primary: 'bg-primary-500 border-primary-500',
-  warm:    'bg-secondary-500 border-secondary-500',
-  sun:     'bg-accent-400 border-accent-400',
+  primary: 'bg-primary-700 border-primary-700',
+  warm:    'bg-secondary-700 border-secondary-700',
+  sun:     'bg-accent-700 border-accent-700',
 };
 
 const TONE_FOCUS: Record<RadioGroupTone, string> = {
@@ -46,8 +48,8 @@ const TONE_FOCUS: Record<RadioGroupTone, string> = {
 };
 
 const TONE_CHECK_ICON: Record<RadioGroupTone, string> = {
-  primary: 'text-primary-600',
-  warm:    'text-secondary-600',
+  primary: 'text-primary-700',
+  warm:    'text-secondary-700',
   sun:     'text-accent-700',
 };
 
@@ -74,7 +76,7 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
       aria-describedby={error || hint ? `${groupId}-message` : undefined}
     >
       {label && (
-        <legend className="text-body-sm font-semibold text-ink-900 mb-1">
+        <legend className="text-body font-semibold text-ink-900 mb-stack-xs">
           {label}
           {required && <span className="text-danger-fg ml-0.5" aria-hidden="true">*</span>}
         </legend>
@@ -82,13 +84,15 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
 
       <div
         className={[
+          // Options d'un même champ : 12 entre elles (doctrine, « éléments
+          // d'un même ensemble ») ; le 8 était l'écart libellé → champ.
           isCard
             ? orientation === 'horizontal'
-              ? 'grid grid-cols-2 gap-stack-xs'
-              : 'flex flex-col gap-stack-xs'
+              ? 'grid grid-cols-2 gap-stack-sm'
+              : 'flex flex-col gap-stack-sm'
             : orientation === 'horizontal'
               ? 'flex flex-wrap gap-x-stack-lg gap-y-stack-sm'
-              : 'flex flex-col gap-stack-xs',
+              : 'flex flex-col gap-stack-sm',
         ].join(' ')}
         role="radiogroup"
       >
@@ -101,7 +105,7 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
               <label
                 key={option.value}
                 className={[
-                  'relative flex items-start gap-stack-xs p-4 rounded-lg border-2 cursor-pointer',
+                  'relative flex items-start gap-stack-xs p-stack rounded-lg border-2 cursor-pointer',
                   'transition-[border-color,background-color,box-shadow] duration-base ease-standard select-none',
                   isChecked
                     ? TONE_CHECKED_CARD[tone]
@@ -126,11 +130,11 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
                 <span
                   aria-hidden="true"
                   className={[
-                    'mt-0.5 w-5 h-5 shrink-0 rounded-pill border-2 flex items-center justify-center',
+                    'mt-0.75 w-5 h-5 shrink-0 rounded-pill border-2 flex items-center justify-center',
                     'transition-[border-color,background-color] duration-base ease-standard',
                     isChecked
                       ? TONE_INDICATOR[tone]
-                      : 'border-ink-300 bg-white',
+                      : 'border-ink-400 bg-white',
                   ].join(' ')}
                 >
                   {isChecked && (
@@ -138,12 +142,12 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
                   )}
                 </span>
 
-                <div className="flex flex-col gap-0.5 min-w-0">
-                  <span className="text-body-sm font-semibold text-ink-900 leading-snug">
+                <div className="flex flex-col gap-stack-3xs min-w-0">
+                  <span className="text-body font-semibold text-ink-900">
                     {option.label}
                   </span>
                   {option.description && (
-                    <span className="text-caption text-ink-500 leading-relaxed">
+                    <span className="text-caption text-ink-600">
                       {option.description}
                     </span>
                   )}
@@ -184,25 +188,29 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
 
               <span
                 aria-hidden="true"
+                /* Le fond blanc ne vit QUE dans l'état vide : posé dans la base, il
+                   battait le `bg-*-700` de l'état coché (même spécificité, ordre
+                   d'émission — piège n°6), et un radio coché ne rendait qu'un
+                   anneau, son point blanc perdu sur du blanc. */
                 className={[
-                  'mt-0.5 w-5 h-5 shrink-0 rounded-pill border-2 bg-white flex items-center justify-center',
+                  'mt-0.75 w-5 h-5 shrink-0 rounded-pill border-2 flex items-center justify-center',
                   'transition-[border-color,background-color] duration-base ease-standard',
                   'peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-primary-500',
-                  isChecked ? TONE_INDICATOR[tone] : 'border-ink-300',
+                  isChecked ? TONE_INDICATOR[tone] : 'border-ink-400 bg-white',
                 ].join(' ')}
               >
                 {isChecked && <span className="w-2 h-2 rounded-pill bg-white" />}
               </span>
 
               {(option.label || option.description) && (
-                <div className="flex flex-col gap-0.5">
+                <div className="flex flex-col gap-stack-3xs">
                   {option.label && (
-                    <span className="text-body-sm font-semibold text-ink-900 leading-snug">
+                    <span className="text-body font-semibold text-ink-900">
                       {option.label}
                     </span>
                   )}
                   {option.description && (
-                    <span className="text-caption text-ink-500">{option.description}</span>
+                    <span className="text-caption text-ink-600">{option.description}</span>
                   )}
                 </div>
               )}
@@ -214,7 +222,7 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
       {(error || hint) && (
         <p
           id={`${groupId}-message`}
-          className={error ? 'text-caption text-danger-fg flex items-center gap-tight' : 'text-caption text-ink-500'}
+          className={error ? 'text-caption text-danger-fg flex items-center gap-tight' : 'text-caption text-ink-600'}
           role={error ? 'alert' : undefined}
         >
           {error || hint}

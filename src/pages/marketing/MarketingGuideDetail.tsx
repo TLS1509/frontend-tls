@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
 import { Input } from '../../components/core/Input';
+import { MetaPill } from '../../components/ui/MetaPill';
 import { PageShell } from '../../components/layout';
 import { FadeInWhenVisible } from '../../components/marketing/motion';
 import { SEOHead } from './components/SEOHead';
@@ -72,7 +73,7 @@ export const MarketingGuideDetail: React.FC = () => {
           <FadeInWhenVisible direction="up">
             <Link
               to="/website/resources"
-              className="inline-flex items-center gap-stack-2xs self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+              className="inline-flex items-center gap-stack-2xs self-start text-ink-700 hover:text-ink-900 font-body text-body font-semibold transition-colors duration-fast group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
             >
               <ArrowLeft size={16} className="transition-transform duration-base group-hover:-translate-x-1" />
               Retour aux ressources
@@ -81,9 +82,7 @@ export const MarketingGuideDetail: React.FC = () => {
 
           <FadeInWhenVisible direction="up" delay={0.05}>
             <div className="flex items-center gap-stack flex-wrap">
-              <span className="inline-flex items-center px-3 py-1 rounded-pill border bg-secondary-50 text-secondary-700 border-secondary-100 font-body text-caption font-bold uppercase tracking-wider">
-                <FileText size={14} className="mr-1.5" /> Guide {guide.format}
-              </span>
+              <MetaPill icon={<FileText />} text={`Guide ${guide.format}`} tone="warm" />
               <span className="font-body text-caption text-ink-600">
                 {guide.pageCount} pages · {guide.date}
               </span>
@@ -120,7 +119,7 @@ export const MarketingGuideDetail: React.FC = () => {
                 {guide.highlights.map((h, i) => (
                   <li key={i} className="flex items-start gap-stack-xs">
                     <CheckCircle2 size={18} className="text-secondary-500 shrink-0 mt-0.5" />
-                    <span className="font-body text-body-sm text-ink-700">{h}</span>
+                    <span className="font-body text-body text-ink-700">{h}</span>
                   </li>
                 ))}
               </ul>

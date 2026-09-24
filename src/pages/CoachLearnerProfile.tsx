@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { BookOpen, Activity, Calendar, FileText, Plus, ArrowLeft, Sparkles, ShieldOff, ShieldCheck, Check } from 'lucide-react';
+import { Plus, ArrowLeft, ShieldOff, ShieldCheck, Check } from 'lucide-react';
 import EditorialHero from '../components/patterns/EditorialHero';
-import SectionCard from '../components/patterns/SectionCard';
+import { SectionHeader } from '../components/patterns/SectionHeader';
+import { Card } from '../components/core/Card';
 import ActivityFeed from '../components/patterns/ActivityFeed';
 import Avatar from '../components/ui/Avatar';
 import Badge from '../components/ui/Badge';
+import { MetaPill } from '../components/ui/MetaPill';
 import Button from '../components/core/Button';
 import { AITransparencyLabel } from '../components/ui/AITransparencyLabel';
 import { AIOverrideButton } from '../components/ui/AIOverrideButton';
@@ -27,12 +29,17 @@ const FALLBACK_LEARNER = {
 
 const DREYFUS_LEVELS: DreyfusLevel[] = [1, 2, 3, 4, 5];
 
+/* Les leçons terminées ne portent plus leur gain (« +80 XP », « +60 XP ») :
+   l'arbitrage n°18 retire l'XP, et la ligne dit déjà ce qui s'est passé. Le
+   « Badge débloqué : Explorateur » (badge de plateforme, sans niveau validé)
+   est sorti du fil le 24/09 : Chloé a tranché, le coach n'a pas besoin de la
+   gamification. Un niveau validé, lui, se lit dans « Progression Dreyfus par
+   compétence », plus haut. */
 const ACTIVITY_ITEMS: ActivityFeedItem[] = [
   {
     id: 'a1',
     type: 'complete',
     title: 'Leçon terminée : Gestion du temps',
-    description: '+80 XP',
     timestamp: new Date('2026-05-13T09:00:00'),
     tone: 'success',
   },
@@ -45,18 +52,9 @@ const ACTIVITY_ITEMS: ActivityFeedItem[] = [
     tone: 'primary',
   },
   {
-    id: 'a3',
-    type: 'achievement',
-    title: 'Badge débloqué : Explorateur',
-    description: 'Accès à 3 domaines de compétences',
-    timestamp: new Date('2026-05-11T11:00:00'),
-    tone: 'sun',
-  },
-  {
     id: 'a4',
     type: 'complete',
     title: 'Leçon terminée : Feedback constructif',
-    description: '+60 XP',
     timestamp: new Date('2026-05-10T16:00:00'),
     tone: 'success',
   },
@@ -217,68 +215,80 @@ export default function CoachLearnerProfile() {
 
   return (
     <PageShell width="page" noPadTop className="pt-6 md:pt-8 lg:pt-10">
+      {/* Le titre est la personne (« Fiche : » était un reste de libellé) ; le
+          chapô dit son rôle. La carte d'identité ne répète plus ni le nom (en h2
+          de 20 px) ni le rôle : elle garde ce qu'elle ajoute — l'avatar, le
+          niveau, l'état et le contact. */}
+      {/* Une fiche de consultation : aucune action ne vaut pour tout l'écran,
+          donc aucun `solid` (arbitrage n°19). Chaque action appartient à sa
+          rangée (valider un niveau, appliquer une recommandation) ou à son
+          bloc (les notes) ; le retour est un `ghost` neutre, calé sur le bord
+          du texte (`flush="start"` rattrape son padding). */}
       <EditorialHero
         eyebrow="Coach · Apprenant"
-        title={`Fiche : ${learner.name}`}
-        summary={`Suivi personnalisé de ${learner.name}. Historique des sessions, progression Dreyfus et notes pour accompagner sa progression.`}
+        title={learner.name}
+        summary={learner.role}
         tone="flat"
         trailing={
           <Button
-            emphasis="outline"
+            emphasis="ghost"
+            tone="neutral"
             size="md"
             leadingIcon={<ArrowLeft size={16} />}
             onClick={() => navigate('/coach/apprenants')}
+            flush="start"
           >
             Retour aux apprenants
           </Button>
         }
       />
 
-      <div className="flex flex-col gap-section">
-        {/* Header apprenant */}
-        <div className="flex items-center gap-stack-lg bg-white border border-ink-100 rounded-lg p-stack-lg">
-          <Avatar
-            initials={learner.initials}
-            name={learner.name}
-            size="xl"
-            tint="warm"
-          />
-          <div className="flex flex-col gap-tight flex-1 min-w-0">
-            <h2 className="text-h3 font-display font-bold text-ink-900">{learner.name}</h2>
-            <p className="text-body-sm text-ink-500">{learner.role} · {learner.email}</p>
-            <div className="flex flex-wrap items-center gap-stack-xs mt-1">
-              <Badge variant="info">{learner.level}</Badge>
-              <Badge variant={STATUS_BADGE_VARIANT[learner.status]}>{STATUS_BADGE_LABEL[learner.status]}</Badge>
-            </div>
+      <Card className="flex flex-wrap items-center gap-x-stack-lg gap-y-stack">
+        <Avatar
+          initials={learner.initials}
+          name={learner.name}
+          size="xl"
+          tint="warm"
+        />
+        <div className="flex flex-col gap-stack-xs min-w-0">
+          <div className="flex flex-wrap items-center gap-stack-xs">
+            <MetaPill text={learner.level} tone="primary" />
+            <Badge variant={STATUS_BADGE_VARIANT[learner.status]}>{STATUS_BADGE_LABEL[learner.status]}</Badge>
           </div>
+          <p className="text-caption text-ink-600">{learner.email}</p>
         </div>
+      </Card>
 
-        {/* Validation Dreyfus par compétence — coach / manager */}
-        <SectionCard
+      {/* Validation Dreyfus par compétence — coach / manager. Une section de la
+          page : titre h2 hors de la carte, la phrase qui la cadre en sous-titre
+          (16 ink-700, largeur de lecture). */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader
           title="Progression Dreyfus par compétence"
-          titleIcon={<BookOpen size={18} />}
-          description="Valide le niveau atteint par l'apprenant. Une validation coach/manager est une décision humaine : elle écrit le niveau validé et signe une preuve certifiante au Passeport (AI Act art. 22)."
-        >
-          {competencies.length === 0 ? (
-            <p className="text-body-sm text-ink-500 m-0">
-              Aucune compétence évaluée dans le Passeport de {learner.name} pour l'instant.
-            </p>
-          ) : (
-            <div className="flex flex-col divide-y divide-ink-100">
+          subtitle="Validez le niveau atteint par l'apprenant. Une validation coach/manager est une décision humaine : elle écrit le niveau validé et signe une preuve certifiante au Passeport (AI Act art. 22)."
+          size="md"
+        />
+        {competencies.length === 0 ? (
+          <p className="text-body text-ink-600">
+            Aucune compétence évaluée dans le Passeport de {learner.name} pour l'instant.
+          </p>
+        ) : (
+          <Card className="p-0">
+            <ul className="flex flex-col divide-y divide-ink-100">
               {competencies.map((lc) => {
                 const level = competencyLevel(lc);
                 const validated = isValidatedLevel(lc);
                 const compLabel = getCompetenceById(lc.competenceId)?.label ?? lc.competenceId;
                 const isOpen = validating === lc.competenceId;
                 return (
-                  <div key={lc.competenceId} className="flex flex-col gap-stack-xs py-stack">
-                    <div className="flex items-center justify-between gap-stack">
-                      <div className="flex flex-col gap-tight min-w-0">
-                        <span className="text-body-sm font-semibold text-ink-800">{compLabel}</span>
-                        <div className="flex items-center gap-stack-xs">
-                          <span className="inline-flex items-center px-2 py-0.5 text-micro font-semibold rounded-pill bg-primary-50 text-primary-800">
-                            D{level} · {DREYFUS_LABELS[level]}
-                          </span>
+                  <li key={lc.competenceId} className="flex flex-col gap-stack px-stack-md sm:px-stack-lg py-stack">
+                    <div className="flex flex-wrap items-center justify-between gap-stack">
+                      {/* La compétence 16/600, puis son niveau — une donnée,
+                          en MetaPill — et l'état de la validation, en Badge. */}
+                      <div className="flex flex-col gap-stack-3xs min-w-0">
+                        <span className="text-body font-semibold text-ink-900">{compLabel}</span>
+                        <div className="flex flex-wrap items-center gap-stack-xs">
+                          <MetaPill text={`D${level} · ${DREYFUS_LABELS[level]}`} tone="primary" />
                           {validated ? (
                             <Badge variant="success" size="compact">Validé</Badge>
                           ) : (
@@ -286,10 +296,12 @@ export default function CoachLearnerProfile() {
                           )}
                         </div>
                       </div>
+                      {/* Valider : l'action de la rangée (`soft`). Une fois le
+                          niveau validé, revalider devient discret (`ghost`). */}
                       {!isOpen && (
                         <Button
-                          emphasis={validated ? 'outline' : 'soft'}
-                    tone={validated ? 'brand' : 'warm'}
+                          emphasis={validated ? 'ghost' : 'soft'}
+                          tone={validated ? 'brand' : 'warm'}
                           size="sm"
                           leadingIcon={<ShieldCheck size={14} />}
                           onClick={() => openValidation(lc.competenceId, level)}
@@ -300,10 +312,14 @@ export default function CoachLearnerProfile() {
                     </div>
 
                     {isOpen && (
+                      /* Le panneau de validation : libellés 16/600 ink-900 (ceux
+                         d'un champ), 8 px entre un libellé et son contrôle, 16
+                         entre deux groupes. Les boutons de niveau passent à 44 px
+                         (arbitrage n°22) ; ils en faisaient 40. */
                       <div className="flex flex-col gap-stack p-stack rounded-lg border border-primary-100 bg-primary-50">
-                        <div className="flex flex-col gap-tight">
-                          <span className="text-caption font-semibold text-ink-700">Niveau Dreyfus validé</span>
-                          <div className="flex gap-tight">
+                        <div className="flex flex-col gap-stack-xs">
+                          <span className="text-body font-semibold text-ink-900" id={`niveau-${lc.competenceId}`}>Niveau Dreyfus validé</span>
+                          <div className="flex gap-stack-3xs" role="group" aria-labelledby={`niveau-${lc.competenceId}`}>
                             {DREYFUS_LEVELS.map((lvl) => (
                               <button
                                 key={lvl}
@@ -311,104 +327,112 @@ export default function CoachLearnerProfile() {
                                 onClick={() => setPickedLevel(lvl)}
                                 aria-pressed={pickedLevel === lvl}
                                 className={[
-                                  'flex-1 h-10 rounded-lg text-body-sm font-semibold border transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+                                  'flex-1 h-11 rounded-lg text-body font-semibold tabular-nums border transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                                   pickedLevel === lvl
-                                    ? 'bg-primary-600 text-white border-primary-600'
-                                    : 'bg-white text-ink-600 border-ink-200 hover:border-primary-300',
+                                    ? 'bg-primary-700 text-white border-primary-700'
+                                    : 'bg-white text-ink-700 border-ink-200 hover:border-primary-300',
                                 ].join(' ')}
                               >
                                 D{lvl}
                               </button>
                             ))}
                           </div>
-                          <span className="text-micro text-ink-500">{DREYFUS_LABELS[pickedLevel]}</span>
+                          <span className="text-caption text-ink-600">{DREYFUS_LABELS[pickedLevel]}</span>
                         </div>
-                        <div className="flex flex-col gap-tight">
-                          <label className="text-caption font-semibold text-ink-700" htmlFor={`rationale-${lc.competenceId}`}>
+                        <div className="flex flex-col gap-stack-xs">
+                          <label className="text-body font-semibold text-ink-900" htmlFor={`rationale-${lc.competenceId}`}>
                             Motif / rubrique <span className="text-danger-fg">*</span>
                           </label>
                           <textarea
                             id={`rationale-${lc.competenceId}`}
-                            className="w-full h-auto min-h-[72px] rounded-lg border border-ink-200 bg-white px-3 py-2 text-body-sm text-ink-900 font-body placeholder:text-ink-500 focus:outline-none focus:border-primary-500 transition-colors resize-none"
+                            className="w-full h-auto min-h-[72px] rounded-lg border border-ink-200 bg-white px-3 py-2 text-body text-ink-900 font-body placeholder:text-ink-500 focus:outline-none focus:border-primary-500 transition-colors resize-none"
                             placeholder="Sur quelle preuve observable repose cette validation ? (mise en situation, livrable, JAC…)"
                             value={rationale}
                             onChange={(e) => setRationale(e.target.value)}
                             rows={2}
                           />
                         </div>
-                        <div className="flex items-center justify-end gap-stack-xs">
-                          <Button emphasis="outline" size="sm" onClick={() => setValidating(null)}>
-                            Annuler
-                          </Button>
-                          <Button
-                            emphasis="soft"
-                            size="sm"
-                            leadingIcon={<Check size={14} />}
-                            disabled={!rationale.trim()}
-                            onClick={() => submitValidation(lc.competenceId)}
-                          >
-                            Valider D{pickedLevel}
-                          </Button>
+                        <div className="flex flex-wrap items-center justify-between gap-stack-sm">
+                          <p className="text-caption text-ink-600 max-w-prose">
+                            Validé par {MOCK_COACH.name} · une preuve certifiante est ajoutée au Passeport de l'apprenant.
+                          </p>
+                          {/* Une confirmation dépliée dans la page lui laisse
+                              son `solid` : Valider en `soft`, Annuler en
+                              `ghost` (convention d'AIOverrideButton). */}
+                          <div className="flex items-center gap-stack-xs">
+                            <Button emphasis="ghost" tone="neutral" size="sm" onClick={() => setValidating(null)}>
+                              Annuler
+                            </Button>
+                            <Button
+                              emphasis="soft"
+                              tone="brand"
+                              size="sm"
+                              leadingIcon={<Check size={14} />}
+                              disabled={!rationale.trim()}
+                              onClick={() => submitValidation(lc.competenceId)}
+                            >
+                              Valider D{pickedLevel}
+                            </Button>
+                          </div>
                         </div>
-                        <p className="text-micro text-ink-600 m-0">
-                          Validé par {MOCK_COACH.name} · une preuve certifiante est ajoutée au Passeport de l'apprenant.
-                        </p>
                       </div>
                     )}
-                  </div>
+                  </li>
                 );
               })}
-            </div>
-          )}
-        </SectionCard>
-
-        {/* Recommandations IA — gated sur le consentement IA de l'apprenant (RGPD / AI Act) */}
-        {!aiRecoAllowed && (
-          <SectionCard
-            title="Recommandations IA"
-            titleIcon={<Sparkles size={18} />}
-            description="Suggestions générées par l'analyse comportementale."
-          >
-            <div className="flex items-start gap-stack-xs p-stack rounded-lg border border-ink-100 bg-ink-50">
-              <ShieldOff size={18} className="text-ink-600 mt-0.5 shrink-0" />
-              <p className="text-body-sm text-ink-600">
-                {learner.name} a désactivé les recommandations IA dans ses préférences de
-                confidentialité. Aucune suggestion automatique n'est générée pour cet apprenant.
-              </p>
-            </div>
-          </SectionCard>
+            </ul>
+          </Card>
         )}
-        {aiRecoAllowed && activeRecs.length > 0 && (
-          <SectionCard
+      </section>
+
+      {/* Recommandations IA — gated sur le consentement IA de l'apprenant (RGPD / AI Act) */}
+      {!aiRecoAllowed && (
+        <section className="flex flex-col gap-stack">
+          <SectionHeader
             title="Recommandations IA"
-            titleIcon={<Sparkles size={18} />}
-            description="Suggestions générées par l'analyse comportementale. Tu peux les appliquer ou les rejeter avec un motif."
-            headerAction={<AITransparencyLabel variant="recommended" size="sm" />}
-          >
-            <div className="flex flex-col gap-stack-xs">
+            subtitle="Suggestions générées par l'analyse comportementale."
+            size="md"
+          />
+          <div className="flex items-start gap-stack-xs p-stack rounded-lg border border-ink-100 bg-ink-50">
+            <span className="shrink-0 inline-flex items-center h-lh text-body text-ink-600" aria-hidden="true">
+              <ShieldOff size={18} />
+            </span>
+            <p className="text-body text-ink-700 max-w-prose">
+              {learner.name} a désactivé les recommandations IA dans ses préférences de
+              confidentialité. Aucune suggestion automatique n'est générée pour cet apprenant.
+            </p>
+          </div>
+        </section>
+      )}
+      {aiRecoAllowed && activeRecs.length > 0 && (
+        /* Trois recommandations : des rangées dans une carte (plus trois
+           cartes bordées dans une carte). Le motif se lit — 16 ink-700, il
+           était en légende ink-500. La confiance est une donnée : « Confiance
+           87 % » en légende, chiffre en tabulaire ; sa pastille posait des
+           couleurs `*-border` absentes de @theme. */
+        <section className="flex flex-col gap-stack">
+          <SectionHeader
+            title="Recommandations IA"
+            subtitle="Suggestions générées par l'analyse comportementale. Vous pouvez les appliquer ou les rejeter avec un motif."
+            size="md"
+            action={<AITransparencyLabel variant="recommended" size="sm" />}
+          />
+          <Card className="p-0">
+            <ul className="flex flex-col divide-y divide-ink-100">
               {activeRecs.map((rec) => {
                 const pct = Math.round(rec.confidence * 100);
-                const confCls =
-                  pct >= 80
-                    ? 'text-success-fg bg-success-bg border-success-border'
-                    : pct >= 60
-                      ? 'text-info-fg bg-info-bg border-info-border'
-                      : 'text-warning-fg bg-warning-bg border-warning-border';
                 return (
-                  <div
-                    key={rec.id}
-                    className="flex flex-col gap-tight p-stack rounded-lg border border-ink-100 bg-white"
-                  >
-                    <div className="flex items-start justify-between gap-stack">
-                      <div className="flex flex-col gap-tight flex-1 min-w-0">
-                        <span className="text-body-sm font-semibold text-ink-900">{rec.title}</span>
-                        <p className="text-caption text-ink-500">{rec.rationale}</p>
+                  <li key={rec.id} className="flex flex-col gap-stack px-stack-md sm:px-stack-lg py-stack">
+                    <div className="flex flex-col gap-stack-xs">
+                      <div className="flex flex-wrap items-baseline justify-between gap-x-stack gap-y-stack-3xs">
+                        <span className="text-body font-semibold text-ink-900">{rec.title}</span>
+                        <span className="text-caption text-ink-600 shrink-0">
+                          Confiance <span className="font-semibold text-ink-900 tabular-nums">{pct}&nbsp;%</span>
+                        </span>
                       </div>
-                      <span className={`inline-flex items-center text-micro font-medium px-1.5 py-0.5 rounded-xs border shrink-0 ${confCls}`}>
-                        {pct}%
-                      </span>
+                      <p className="text-body text-ink-700 max-w-prose">{rec.rationale}</p>
                     </div>
-                    <div className="flex items-center justify-between pt-tight border-t border-ink-100 mt-1">
+                    <div className="flex items-center justify-between gap-stack">
                       <Button
                         emphasis="soft"
                         size="sm"
@@ -423,34 +447,30 @@ export default function CoachLearnerProfile() {
                         size="sm"
                       />
                     </div>
-                  </div>
+                  </li>
                 );
               })}
-            </div>
-          </SectionCard>
-        )}
+            </ul>
+          </Card>
+        </section>
+      )}
 
-        {/* Activité récente */}
-        <SectionCard
-          title="Activité récente"
-          titleIcon={<Activity size={18} />}
-          description="Les 5 dernières actions enregistrées"
-        >
-          <ActivityFeed items={ACTIVITY_ITEMS} layout="timeline" timeFormat="relative" />
-        </SectionCard>
+      {/* Activité récente : le fil porte ses propres rangées bordées — pas de
+          carte autour (une carte dans une carte). */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader title="Activité récente" meta={`Les ${ACTIVITY_ITEMS.length} dernières actions enregistrées`} size="md" />
+        <ActivityFeed items={ACTIVITY_ITEMS} layout="timeline" timeFormat="relative" />
+      </section>
 
-        {/* Sessions coaching */}
-        <SectionCard
-          title="Sessions coaching"
-          titleIcon={<Calendar size={18} />}
-          description="Historique et prochaines sessions planifiées"
-        >
+      <section className="flex flex-col gap-stack">
+        <SectionHeader title="Sessions coaching" subtitle="Historique et prochaines sessions planifiées." size="md" />
+        <Card className="p-0">
           <ul className="flex flex-col divide-y divide-ink-100">
             {SESSIONS.map((session) => (
-              <li key={session.id} className="flex items-center gap-stack py-3">
+              <li key={session.id} className="flex items-center gap-stack px-stack-md sm:px-stack-lg py-stack-sm">
                 <div className="flex flex-col gap-tight flex-1 min-w-0">
-                  <span className="text-body-sm font-semibold text-ink-900">{session.subject}</span>
-                  <span className="text-caption text-ink-500">{session.date}</span>
+                  <span className="text-body font-semibold text-ink-900">{session.subject}</span>
+                  <span className="text-caption text-ink-600 tabular-nums">{session.date}</span>
                 </div>
                 <Badge variant={SESSION_BADGE_VARIANT[session.status]}>
                   {SESSION_BADGE_LABEL[session.status]}
@@ -458,40 +478,44 @@ export default function CoachLearnerProfile() {
               </li>
             ))}
           </ul>
-        </SectionCard>
+        </Card>
+      </section>
 
-        {/* Notes coach */}
-        <SectionCard
+      <section className="flex flex-col gap-stack">
+        <SectionHeader
           title="Notes coach"
-          titleIcon={<FileText size={18} />}
-          description="Tes observations et points de suivi : visibles uniquement par toi"
-          actions={
+          subtitle="Vos observations et points de suivi : visibles uniquement par vous."
+          size="md"
+        />
+        <Card className="flex flex-col gap-stack">
+          <textarea
+            aria-label="Note sur l'apprenant"
+            className="w-full h-auto min-h-[120px] rounded-lg border border-ink-200 bg-ink-50 px-3.5 py-3 text-body text-ink-900 font-body placeholder:text-ink-500 focus:outline-none focus:border-primary-500 focus:bg-white transition-colors resize-none"
+            placeholder="Écrivez ici vos observations sur l'apprenant, les points à travailler, les avancées notables…"
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
+            rows={5}
+          />
+          {/* Enregistrer, l'action du bloc, en `soft` ; « Ajouter une note »,
+              qui vide le champ, en `ghost`. */}
+          <div className="flex flex-wrap items-center justify-end gap-stack-xs">
             <Button
-              emphasis="soft"
+              emphasis="ghost"
+              tone="brand"
               size="sm"
               leadingIcon={<Plus size={14} />}
               onClick={() => setNote('')}
             >
               Ajouter une note
             </Button>
-          }
-        >
-          <textarea
-            className="w-full h-auto min-h-[120px] rounded-lg border border-ink-200 bg-ink-50 px-3.5 py-3 text-body-sm text-ink-900 font-body placeholder:text-ink-500 focus:outline-none focus:border-primary-500 focus:bg-white transition-colors resize-none"
-            placeholder="Écris ici tes observations sur l'apprenant, les points à travailler, les avancées notables…"
-            value={note}
-            onChange={(e) => setNote(e.target.value)}
-            rows={5}
-          />
-          {note && (
-            <div className="flex justify-end mt-stack">
-              <Button emphasis="soft" size="sm" leadingIcon={<Plus size={14} />}>
+            {note && (
+              <Button emphasis="soft" tone="brand" size="sm" leadingIcon={<Plus size={14} />}>
                 Enregistrer la note
               </Button>
-            </div>
-          )}
-        </SectionCard>
-      </div>
+            )}
+          </div>
+        </Card>
+      </section>
     </PageShell>
   );
 }

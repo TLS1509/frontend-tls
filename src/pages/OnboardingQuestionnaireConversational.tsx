@@ -246,9 +246,13 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
     ? (getCompetenceById(currentQ.competenceId)?.label ?? currentQ.competenceId)
     : '';
 
+  /* Arbitrage n°19 : la fin du positionnement mène à l'étape suivante, c'est
+     l'action principale de l'écran (solid). Pendant l'échange, c'est l'envoi
+     d'une réponse libre ; les tuiles de réponse sont des choix, pas des
+     boutons d'action. */
   const finishButton = (
     <Button
-      emphasis="soft" tone="warm"
+      emphasis="solid" tone="warm"
       size="lg"
       trailingIcon={<ArrowRight size={16} />}
       onClick={() => onComplete(answers, {})}
@@ -266,10 +270,10 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
   // bubble — no separate footer input zone needed.
   if (variant === 'a') {
     const title = (
-      <div className="flex flex-col gap-0.5">
+      <div className="flex flex-col gap-stack-xs">
         <div className="flex items-baseline justify-between gap-stack-xs">
-          <span className="text-body-sm font-semibold text-ink-700">Positionnement</span>
-          <span className="text-caption text-ink-500 tabular-nums">
+          <span className="text-body font-semibold text-ink-900">Positionnement</span>
+          <span className="text-caption text-ink-600 tabular-nums">
             {isClosed ? total : Math.min(currentIdx + 1, total)} / {total}
           </span>
         </div>
@@ -285,7 +289,7 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
             type: 'inline',
             content: (
               <div className="ml-10 mt-1 mb-1">
-                <p className="text-micro text-ink-500 mb-1.5 select-none">
+                <p className="text-caption text-ink-600 mb-stack-xs select-none">
                   Choisis une proposition ou réponds librement ci-dessous ↓
                 </p>
                 <BehavioralTileGrid
@@ -322,10 +326,10 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
           placeholder="Réponds librement… (Entrée pour envoyer)"
           rows={1}
           disabled={transitioning}
-          className="flex-1 resize-none rounded-lg border border-ink-200 bg-white px-3 py-2.5 text-body-sm text-ink-900 placeholder:text-ink-500 focus:outline-none focus:ring-2 focus:ring-secondary-300 focus:border-secondary-400 transition-all duration-base disabled:opacity-disabled max-h-24 overflow-y-auto"
+          className="flex-1 resize-none rounded-lg border border-ink-400 bg-white px-3 py-2.5 text-body text-ink-900 placeholder:text-ink-500 focus:outline-none focus:ring-2 focus:ring-secondary-300 focus:border-secondary-400 transition-all duration-base disabled:opacity-disabled max-h-24 overflow-y-auto"
         />
         <Button
-          emphasis="soft" tone="warm"
+          emphasis="solid" tone="warm"
           size="md"
           iconOnly
           trailingIcon={<Send size={16} />}
@@ -354,7 +358,7 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
         {/* Progress strip */}
         <div className="flex items-center gap-stack-xs">
           <ProgressBar value={progressPct} max={100} fill="warm" size="sm" valueLabel={false} className="flex-1" />
-          <span className="text-caption text-ink-500 tabular-nums shrink-0">
+          <span className="text-caption text-ink-600 tabular-nums shrink-0">
             {isClosed ? total : currentIdx + 1} / {total}
           </span>
         </div>
@@ -362,22 +366,22 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
         {/* Question card — key forces fade-in animation on question change */}
         <div
           key={`q-${currentIdx}-${isClosed}`}
-          className="rounded-lg bg-white/80 backdrop-blur-glass-medium border border-white/60 px-6 py-stack-lg animate-in fade-in slide-in-from-bottom-2 duration-300 flex flex-col gap-stack-xs"
+          className="rounded-xl bg-white/80 backdrop-blur-glass-medium border border-white/60 p-stack-lg animate-in fade-in slide-in-from-bottom-2 duration-300 flex flex-col gap-stack-xs"
         >
           {/* AI identity */}
           <div className="flex items-center gap-stack-xs">
             <span className="inline-flex items-center justify-center w-7 h-7 rounded-pill bg-white border border-primary-100 shadow-xs">
               <TlsLogo size={24} withBubble={false} variant="primary" />
             </span>
-            <span className="text-caption font-semibold text-primary-600">Assistant TLS</span>
+            <span className="text-caption font-semibold text-ink-700">Assistant TLS</span>
           </div>
 
           {isClosed ? (
             <>
-              <p className="font-body text-body-sm text-ink-700">
-                C'est terminé {firstName || ''} ! Ton Passeport de compétences est initialisé.
+              <p className="font-body text-body text-ink-700">
+                C'est terminé{firstName ? `, ${firstName}` : ''}. Ton Passeport de compétences est initialisé.
               </p>
-              <p className="font-body text-body-sm text-ink-500">
+              <p className="font-body text-body text-ink-700">
                 {requiresPayment
                   ? 'Prochaine étape : choisir ta formule pour démarrer.'
                   : 'Prochaine étape : un tour rapide de la plateforme.'}
@@ -385,12 +389,14 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
             </>
           ) : (
             <>
+              {/* Surtitre 13 / 600 ink-600 (il était en capitales orange), puis la
+                  question au pas du titre de bloc (elle était en graisse 500). */}
               {competencyLabel && (
-                <p className="font-body text-caption font-semibold uppercase tracking-wider text-secondary-500">
+                <p className="font-body text-caption font-semibold text-ink-600">
                   {competencyLabel}
                 </p>
               )}
-              <p className="font-body text-body font-medium text-ink-900">
+              <p className="font-display text-h3 text-ink-900 text-balance">
                 {currentQ?.q}
               </p>
             </>
@@ -444,10 +450,10 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
       >
         {isClosed ? (
           <>
-            <p className="font-display text-h2 font-extrabold tracking-display text-ink-900 leading-tight">
-              C'est tout !
+            <p className="font-display text-h2 text-ink-900">
+              C'est tout.
             </p>
-            <p className="font-body text-body text-ink-500">
+            <p className="font-body text-body text-ink-700">
               Ton Passeport de compétences est initialisé.
               {requiresPayment
                 ? ' Prochaine étape : choisir ta formule.'
@@ -456,10 +462,10 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
           </>
         ) : (
           <>
-            <span className="font-body text-caption font-semibold uppercase tracking-wider text-secondary-500">
+            <span className="font-body text-caption font-semibold text-ink-600">
               {competencyLabel && `${competencyLabel} · `}Question {currentIdx + 1} sur {total}
             </span>
-            <p className="font-display text-h3 font-bold tracking-headline text-ink-900">
+            <p className="font-display text-h3 text-ink-900 text-balance">
               {currentQ?.q}
             </p>
           </>

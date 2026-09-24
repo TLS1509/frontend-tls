@@ -1,14 +1,15 @@
 import React from 'react';
-import { Award, Clock, Target, CheckCircle2, FileText } from 'lucide-react';
+import { Award, Target, CheckCircle2, FileText } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
-import { SectionCard } from '../components/patterns/SectionCard';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
+import { MetaPill } from '../components/ui/MetaPill';
 import { Alert } from '../components/ui/Alert';
 import { AchievementBadge } from '../components/ui/AchievementBadge';
 import { JacCardPending, JacCardNextJalon } from '../components/ui/JacCard';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
 
@@ -120,111 +121,98 @@ const CERT_ICONS: Record<string, React.ReactNode> = {
   'Tech & Outils': <Target />,
 };
 
-const CERT_COLORS: Array<'primary' | 'warm' | 'sun' | 'success'> = [
-  'primary',
-  'warm',
-  'success',
-];
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function PasseportJac() {
   return (
-    <div className="flex flex-col">
-      {/* Hero */}
+    /* Un seul conteneur pour l'en-tête et le corps. Le titre était calé à
+       gauche de la page (x 300 à 1440) et le corps recentré dans une colonne
+       de 768 px (x 482) : deux bords gauches. Et l'en-tête, hors de toute
+       coque, collait au haut de l'écran (surtitre à 8 px). */
+    <PageShell width="content">
       <EditorialHero
         tone="flat"
         eyebrow={{ label: 'Passeport · JAC' }}
-        title="Jalons & Certifications"
+        title="Jalons d'Application Critique"
         summary="Valide officiellement tes niveaux Dreyfus auprès de ton entreprise et obtiens tes certifications."
-        trailing={
-          <Badge variant="success" size="large">
-            3 certifications obtenues
-          </Badge>
-        }
+        /* Un compte est une donnée : il chuchote dans la méta de l'en-tête. Il
+           criait en Badge capitales, à la place d'une action. */
+        meta={[{ icon: <Award size={14} aria-hidden="true" />, label: '3 certifications obtenues' }]}
       />
 
-      {/* Body */}
-      <Container width="content" padding={false} className="px-stack py-section flex flex-col gap-section">
+      {/* Info banner */}
+      <Alert
+        variant="info"
+        title="Validation par ton manager et ton coach"
+      >
+        Les JAC sont validés par ton manager et ton coach. Une fois certifié, ton badge Dreyfus
+        est officiel et exportable.
+      </Alert>
 
-        {/* Info banner */}
-        <Alert
-          variant="info"
-          title="Validation par ton manager et ton coach"
-        >
-          Les JAC sont validés par ton manager et ton coach. Une fois certifié, ton badge Dreyfus
-          est officiel et exportable.
-        </Alert>
-
-        {/* Certifications obtenues */}
-        <SectionCard
-          title="Certifications obtenues"
-          titleIcon={<Award size={18} />}
-        >
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
-            {CERTIFICATIONS.map((cert, i) => (
-              <Card
-                key={cert.id}
-                variant="tinted"
-                tone="primary"
-                className="p-stack flex flex-col gap-stack-xs"
-              >
-                <div className="flex justify-center">
-                  <AchievementBadge
-                    title={cert.dreyfusLevel}
-                    description={cert.competence}
-                    icon={CERT_ICONS[cert.competence] ?? <Award />}
-                    unlockedDate={cert.validatedAt}
-                    color={CERT_COLORS[i % CERT_COLORS.length]}
-                    size="sm"
-                  />
+      {/* Certifications obtenues — le titre de section sort de la carte (h2
+          28) ; il reste deux niveaux (la carte du certificat, et son badge)
+          au lieu de trois. Une seule couleur : le certificat du milieu était
+          orange et les autres teal, sans que rien ne le justifie. */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader title="Certifications obtenues" />
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
+          {CERTIFICATIONS.map((cert) => (
+            <Card
+              key={cert.id}
+              variant="tinted"
+              tone="primary"
+              className="p-stack-md flex flex-col items-center gap-stack-sm text-center"
+            >
+              <AchievementBadge
+                title={cert.dreyfusLevel}
+                description={cert.competence}
+                icon={CERT_ICONS[cert.competence] ?? <Award />}
+                unlockedDate={cert.validatedAt}
+                color="primary"
+                size="sm"
+              />
+              <div className="flex flex-col items-center gap-stack-xs">
+                <p className="text-body font-semibold text-ink-900">{cert.title}</p>
+                {/* L'état crie (Certifié), les valideurs chuchotent. */}
+                <div className="flex flex-wrap items-center justify-center gap-stack-3xs">
+                  <Badge variant="success" size="compact">Certifié</Badge>
+                  {cert.validatedBy.map((v) => (
+                    <MetaPill key={v} text={v} tone="neutral" />
+                  ))}
                 </div>
-                <div className="flex flex-col gap-tight">
-                  <p className="m-0 font-display font-semibold text-body-sm text-ink-900 text-center">
-                    {cert.title}
-                  </p>
-                  <div className="flex items-center justify-center gap-stack-xs">
-                    <Badge variant="success" size="compact">Certifié</Badge>
-                    {cert.validatedBy.map((v) => (
-                      <Badge key={v} variant="neutral" size="compact">{v}</Badge>
-                    ))}
-                  </div>
-                </div>
-                <div className="flex justify-center pt-tight">
-                  <Button emphasis="outline" size="sm" trailingIcon={<FileText size={14} />}>
-                    Voir le certificat
-                  </Button>
-                </div>
-              </Card>
-            ))}
-          </div>
-        </SectionCard>
+              </div>
+              {/* L'action de la carte : `soft` (n°19, `outline` est réservé à
+                  Annuler). `neutral`, la pastille blanche des cartes teintées :
+                  en `brand`, son fond au cran 50 se fondait dans la carte et le
+                  bouton se lisait comme un contour. */}
+              <Button emphasis="soft" tone="neutral" size="sm" trailingIcon={<FileText size={14} />} className="mt-stack-3xs">
+                Voir le certificat
+              </Button>
+            </Card>
+          ))}
+        </div>
+      </section>
 
-        {/* En attente de validation */}
-        <SectionCard
-          title="En attente de validation"
-          titleIcon={<Clock size={18} />}
-        >
-          <div className="flex flex-col gap-stack">
-            {PENDING_VALIDATIONS.map((item) => (
-              <JacCardPending key={item.id} {...item} />
-            ))}
-          </div>
-        </SectionCard>
+      {/* En attente de validation */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader title="En attente de validation" />
+        <div className="flex flex-col gap-stack-sm">
+          {PENDING_VALIDATIONS.map((item) => (
+            <JacCardPending key={item.id} {...item} />
+          ))}
+        </div>
+      </section>
 
-        {/* Prochains jalons */}
-        <SectionCard
-          title="Prochains jalons"
-          titleIcon={<Target size={18} />}
-        >
-          <div className="flex flex-col gap-stack">
-            {NEXT_JALONS.map((jalon) => (
-              <JacCardNextJalon key={jalon.id} {...jalon} />
-            ))}
-          </div>
-        </SectionCard>
-
-      </Container>
-    </div>
+      {/* Prochains jalons */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader title="Prochains jalons" />
+        <div className="flex flex-col gap-stack-sm">
+          {NEXT_JALONS.map((jalon) => (
+            <JacCardNextJalon key={jalon.id} {...jalon} />
+          ))}
+        </div>
+      </section>
+    </PageShell>
   );
 }

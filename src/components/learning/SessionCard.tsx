@@ -17,6 +17,7 @@ import React from 'react';
 import { Button } from '../core/Button';
 import { CardTitle, CardDesc } from '../core/Card';
 import { Avatar } from '../ui/Avatar';
+import { Badge, type BadgeVariant } from '../ui/Badge';
 import { CalendarClock, FileText, ClipboardList, Notebook, Check, ArrowRight } from 'lucide-react';
 import { CARD_HOVER } from '../../lib/tone-classes';
 
@@ -45,8 +46,12 @@ export interface SessionCardProps {
 }
 
 /* ─── Ghost action (discret — icône + label, pas de bordure lourde) ─────────── */
+/* Libellé en 600 : 500 est réservé aux puces (passe typographique du
+   2026-09-24). Pas 700 comme Button — ces trois actions sont tertiaires et
+   restent en retrait du « Voir la session » ; leur place dans la hiérarchie
+   des boutons est l'affaire de l'arbitrage n°19. */
 const GHOST_ACTION =
-  'inline-flex items-center gap-stack-2xs px-2.5 py-1.5 rounded-lg text-caption font-body font-medium ' +
+  'inline-flex items-center gap-stack-2xs px-2.5 py-1.5 rounded-lg text-caption font-body font-semibold ' +
   'text-ink-600 bg-transparent border-0 cursor-pointer whitespace-nowrap ' +
   'transition-colors duration-fast ease-emphasis hover:bg-ink-50 hover:text-ink-900 ' +
   'focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-500';
@@ -77,10 +82,12 @@ const FOCUS_TONE: Record<SessionCardTone, string> = {
   sun:     'focus-visible:outline-accent-500',
 };
 
-/* Status : point + label. planned = accent info, completed = check success muted. */
-const STATUS: Record<'planned' | 'completed', { label: string; chip: string }> = {
-  planned:   { label: 'Planifiée', chip: 'bg-info-bg text-info-fg' },
-  completed: { label: 'Terminée',  chip: 'bg-ink-100 text-ink-500' },
+/* Statut : le vrai `Badge` (un état). planned = info avec son point,
+   completed = neutre avec une coche. C'était une imitation faite main — et
+   « Terminée » y tombait en ink-500 sur ink-100. */
+const STATUS: Record<'planned' | 'completed', { label: string; variant: BadgeVariant }> = {
+  planned:   { label: 'Planifiée', variant: 'info' },
+  completed: { label: 'Terminée',  variant: 'neutral' },
 };
 
 const BASE =
@@ -137,30 +144,35 @@ export const SessionCard: React.FC<SessionCardProps> = ({
 
   return (
     <div className={classes}>
-      {/* Header : status chip + date (pill) → titre → coach */}
-      <div className="flex flex-col gap-stack-xs">
-        {/* Rôle status + date — une ligne, meta neutre */}
-        <div className="flex items-center gap-stack-2xs flex-wrap">
-          <span className={`inline-flex items-center gap-stack-3xs rounded-pill pl-1.5 pr-2 py-0.5 text-micro font-bold uppercase tracking-label ${st.chip}`}>
-            {isCompleted
-              ? <Check size={14} strokeWidth={2.5} aria-hidden />
-              : <span className="w-1.5 h-1.5 rounded-pill bg-current" aria-hidden />}
-            {st.label}
-          </span>
-          <span className="inline-flex items-center gap-stack-3xs text-caption text-ink-500 font-medium">
-            <CalendarClock size={14} className="text-ink-400 shrink-0" aria-hidden />
-            {dateLabel}{durationLabel ? ` · ${durationLabel}` : ''}
-          </span>
+      {/* Anatomie (passe typographique du 2026-09-24) :
+            état + date → titre 4 · titre → coach 12 · → texte 16 · → actions 24.
+          Le `mt-stack-3xs` du titre remplace la marge de base des titres
+          (0,75em), faite pour séparer des sections, pas pour coller un titre à
+          son surtitre : ils étaient à 23 px l'un de l'autre. */}
+      <div className="flex flex-col gap-stack-sm">
+        <div className="flex flex-col">
+          {/* Rôle status + date — une ligne, meta neutre */}
+          <div className="flex items-center gap-stack-xs flex-wrap">
+            <Badge variant={st.variant} dot={!isCompleted} className="shrink-0">
+              {isCompleted && <Check size={14} strokeWidth={2.5} aria-hidden />}
+              {st.label}
+            </Badge>
+            <span className="inline-flex items-center gap-stack-3xs text-caption text-ink-600">
+              <CalendarClock size={14} className="text-ink-500 shrink-0" aria-hidden />
+              {dateLabel}{durationLabel ? ` · ${durationLabel}` : ''}
+            </span>
+          </div>
+
+          <CardTitle className="mt-stack-3xs">{title}</CardTitle>
         </div>
 
-        <CardTitle className={isCompleted ? 'text-ink-800' : ''}>{title}</CardTitle>
-
-        {/* Coach — avatar + nom (+ rôle) */}
-        <div className="flex items-center gap-2.5 pt-0.5">
+        {/* Coach — avatar + nom (+ rôle). L'avatar se cale sur la première
+            ligne : le texte descend de 2 px (2 + 13 = 15, contre 16). */}
+        <div className="flex items-start gap-stack-sm">
           <Avatar size="sm" name={coachName} shape="circle" />
-          <div className="min-w-0">
-            <p className="m-0 text-body-sm font-semibold text-ink-900 truncate">{coachName}</p>
-            {coachRole && <p className="m-0 text-caption text-ink-500 truncate">{coachRole}</p>}
+          <div className="min-w-0 flex flex-col gap-tight pt-tight">
+            <p className="m-0 text-body font-semibold text-ink-900 truncate">{coachName}</p>
+            {coachRole && <p className="m-0 text-caption text-ink-600 truncate">{coachRole}</p>}
           </div>
         </div>
       </div>
@@ -169,7 +181,7 @@ export const SessionCard: React.FC<SessionCardProps> = ({
       <CardDesc className="line-clamp-2">{description}</CardDesc>
 
       {(questionnaire || report || onOpen) && (
-        <div className="flex flex-wrap items-center gap-stack-3xs pt-3 border-t border-ink-100">
+        <div className="flex flex-wrap items-center gap-stack-3xs mt-stack-xs pt-stack-sm border-t border-ink-100">
           {questionnaire && (
             <button type="button" className={GHOST_ACTION} onClick={onViewQuestionnaire}>
               <ClipboardList size={14} className="text-ink-400" aria-hidden />

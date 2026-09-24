@@ -38,26 +38,47 @@ export interface SelectProps
 const FIELD_BASE = 'flex flex-col gap-stack-xs font-body';
 
 const CONTROL_BASE =
-  'inline-flex items-center gap-stack-xs w-full bg-white border text-ink-900 font-body transition-[border-color,box-shadow] duration-150';
+  'inline-flex items-center gap-stack-xs w-full border font-body transition-[border-color,box-shadow] duration-150';
 
 /* R4 — le rayon de la famille champ, hors de BASE (une seule classe par appel).
    Raisonnement complet dans `core/Input.tsx`. */
 const RAYON = 'rounded-lg';
 
+/* 36 · 44 · 52 (arbitrage n°22) et 16 px de texte à toutes les tailles : la
+   valeur choisie est du texte saisi, et Safari iOS zoome au focus sous 16 px.
+   Padding et icône : ceux de `core/Input.tsx`, dont la famille champ suit
+   l'échelle (12 · 16 · 20 ; chevron 16 · 18 · 20). */
 const SIZE_CLASSES: Record<SelectSize, string> = {
-  sm: 'h-9 px-3 text-caption',
-  md: 'h-11 px-3.5 text-body-sm',
-  lg: 'h-13 px-4 text-body',
+  sm: 'h-9 px-stack-sm text-body',
+  md: 'h-touch px-stack text-body',
+  lg: 'h-13 px-stack-md text-body',
+};
+
+const ICON_SIZE: Record<SelectSize, string> = {
+  sm: '[&>svg]:size-4',
+  md: '[&>svg]:size-4.5',
+  lg: '[&>svg]:size-5',
 };
 
 const STATUS_CLASSES: Record<SelectStatus, string> = {
-  default: 'border-ink-300 focus-within:border-primary-500 focus-within:ring-2 focus-within:ring-primary-500/20',
+  // Filet à ink-400 — arbitrage n°7 du 2026-09-23 : 3,01:1 sur blanc (WCAG 1.4.11
+  // exige 3:1), 2,68:1 sur carte teintée (sous le seuil, choix assumé). ink-300
+  // mesurait 1,47:1 : un champ blanc sur fond blanc n'existait pas.
+  default: 'border-ink-400 focus-within:border-primary-500 focus-within:ring-2 focus-within:ring-primary-500/20',
   success: 'border-success-base focus-within:ring-2 focus-within:ring-success-base/35',
   error: 'border-danger-base focus-within:ring-2 focus-within:ring-danger-base/35',
 };
 
-const DISABLED_CLASSES =
-  'bg-ink-50 text-ink-500 cursor-not-allowed';
+/* Fond et encre : une table d'états, UNE entrée posée par appel (24/09).
+   Ils vivaient dans CONTROL_BASE (`bg-white text-ink-900`) et l'état
+   désactivé ajoutait `bg-ink-50 text-ink-500` : deux classes par propriété,
+   même spécificité, l'ordre d'émission de Tailwind tranche (piège n°6) — le
+   champ désactivé restait blanc, en ink-900. L'erreur et le succès ne
+   touchent que le filet (STATUS_CLASSES). */
+const ETAT_CLASSES = {
+  repos: 'bg-white text-ink-900',
+  desactive: 'bg-ink-50 text-ink-500 cursor-not-allowed',
+} as const;
 
 const NATIVE_SELECT =
   'flex-1 bg-transparent outline-none border-0 p-0 min-w-0 font-body text-inherit appearance-none cursor-pointer disabled:cursor-not-allowed focus:outline-none focus:shadow-none focus:bg-transparent focus-visible:outline-none';
@@ -87,7 +108,7 @@ export const Select: React.FC<SelectProps> = ({
     RAYON,
     SIZE_CLASSES[size],
     STATUS_CLASSES[status],
-    disabled && DISABLED_CLASSES,
+    disabled ? ETAT_CLASSES.desactive : ETAT_CLASSES.repos,
   ]
     .filter(Boolean)
     .join(' ');
@@ -96,7 +117,7 @@ export const Select: React.FC<SelectProps> = ({
     <div className={containerClasses}>
       {label && (
         <label
-          className="text-body-sm font-semibold text-ink-900"
+          className="text-body font-semibold text-ink-900"
           htmlFor={fieldId}
         >
           {label}
@@ -132,10 +153,10 @@ export const Select: React.FC<SelectProps> = ({
         </select>
         {showIcon && (
           <span
-            className="inline-flex items-center justify-center shrink-0 text-ink-500 pointer-events-none"
+            className={`inline-flex items-center justify-center shrink-0 text-ink-500 pointer-events-none ${ICON_SIZE[size]}`}
             aria-hidden="true"
           >
-            <ChevronDown size={16} />
+            <ChevronDown />
           </span>
         )}
       </span>
@@ -146,7 +167,7 @@ export const Select: React.FC<SelectProps> = ({
           className={
             error
               ? 'text-caption text-danger-fg flex items-center gap-tight'
-              : 'text-caption text-ink-500'
+              : 'text-caption text-ink-600'
           }
           role={error ? 'alert' : undefined}
         >

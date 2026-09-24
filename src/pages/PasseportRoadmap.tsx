@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Map, Sparkles, CheckCircle2, Circle, Clock, Target, ChevronRight } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
-import { SectionCard } from '../components/patterns/SectionCard';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
+import { MetaPill } from '../components/ui/MetaPill';
 import { StatCard } from '../components/ui/StatCard';
 import { AITransparencyLabel } from '../components/ui/AITransparencyLabel';
+import { AIOverrideButton } from '../components/ui/AIOverrideButton';
+import { usePrivacyStore } from '../stores/persistence';
+import { MOCK_USER_ID } from '../data/passeport';
 import { PageShell } from '../components/layout';
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
@@ -102,7 +106,9 @@ const AI_SUGGESTIONS: AISuggestion[] = [
     conseil: 'Consolide ton analyse avant de viser le D4',
     competence: 'Analyse',
     detail:
-      'Tu es à 62 % du jalon Analyse D3. Deux exercices supplémentaires cette semaine suffiraient pour déclencher la validation.',
+      // La validation d'un jalon est une décision humaine (coach ou manager) :
+      // aucune quantité d'exercices ne la « déclenche ».
+      'Tu es à 62 % du jalon Analyse D3. Deux exercices de plus cette semaine te donneraient de quoi présenter ce jalon à ton coach, qui décide de sa validation.',
   },
   {
     id: 's2',
@@ -155,6 +161,26 @@ const JALON_BADGE_LABEL: Record<JalonStatus, string> = {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function PasseportRoadmap() {
+  // Rejet d'une suggestion IA (PRODUCT.md : chaque recommandation d'IA se
+  // rejette). Même motif que la fiche apprenant du coach : on masque la
+  // suggestion et on trace la décision humaine dans le journal IA persisté.
+  const [dismissed, setDismissed] = useState<Set<string>>(new Set());
+  const logAIDecision = usePrivacyStore((st) => st.logAIDecision);
+  const ignorer = (s: AISuggestion, reason?: string) => {
+    setDismissed((prev) => new Set([...prev, s.id]));
+    logAIDecision({
+      id: `aidec-${s.id}-${Date.now()}`,
+      userId: MOCK_USER_ID,
+      actorId: MOCK_USER_ID,
+      type: 'ai_override',
+      recId: s.id,
+      recLabel: s.conseil,
+      reason,
+      timestamp: new Date().toISOString(),
+    });
+  };
+  const suggestions = AI_SUGGESTIONS.filter((s) => !dismissed.has(s.id));
+
   return (
     <PageShell width="wide" noPadTop={false}>
       {/* Hero */}
@@ -163,9 +189,11 @@ export default function PasseportRoadmap() {
         eyebrow={{ label: 'Passeport · Roadmap' }}
         title="Ma Roadmap Compétences"
         summary="Visualise ta trajectoire de progression vers tes objectifs Dreyfus."
+        /* Une page de consultation : pas d'aplat (arbitrage n°19). Modifier
+           les objectifs est l'action de contexte de la feuille de route. */
         trailing={
           <div className="flex items-center gap-stack-xs flex-wrap">
-            <Button emphasis="outline" size="sm">
+            <Button emphasis="soft" size="sm">
               Modifier les objectifs
             </Button>
             <Button emphasis="ghost" size="sm">
@@ -208,79 +236,93 @@ export default function PasseportRoadmap() {
           />
         </div>
 
-        {/* Timeline roadmap */}
-        <SectionCard
-          title="Parcours vers D4"
-          titleIcon={<Map size={18} />}
-        >
-          <div className="relative flex flex-col">
-            {JALONS.map((jalon, index) => {
-              const cfg = JALON_STATUS_CONFIG[jalon.status];
-              const isLast = index === JALONS.length - 1;
+        {/* Parcours vers D4 — titre de section (h2 28) sur la page ; la frise
+            dans une carte. Chaque étape : son nom en corps 16/600 (il était en
+            League Spartan 16/600, ni titre ni corps), son état en Badge, sa
+            description en ink-700 (ink-500 est la couleur des placeholders).
+            Le Badge de niveau (« D3 ») répétait le titre de l'étape : retiré. */}
+        <section className="flex flex-col gap-stack">
+          <SectionHeader title="Parcours vers D4" />
+          <Card>
+            <ol className="relative flex flex-col">
+              {JALONS.map((jalon, index) => {
+                const cfg = JALON_STATUS_CONFIG[jalon.status];
+                const isLast = index === JALONS.length - 1;
 
-              return (
-                <div key={jalon.id} className="relative flex gap-stack">
-                  {/* Vertical line + dot */}
-                  <div className="flex flex-col items-center shrink-0 w-7">
-                    <div
-                      className={[
-                        'w-5 h-5 rounded-pill border-2 shrink-0 z-base',
-                        cfg.dotClass,
-                      ].join(' ')}
-                    />
-                    {!isLast && (
-                      <div className={['flex-1 w-0.5 border-l-2 mt-1', cfg.lineClass].join(' ')} />
-                    )}
-                  </div>
-
-                  {/* Content */}
-                  <div className={['flex flex-col gap-tight pb-stack', isLast ? '' : ''].join(' ')}>
-                    <div className="flex items-center gap-stack-xs flex-wrap">
-                      <span className="font-display font-semibold text-body-sm text-ink-900">
-                        {jalon.title}
-                      </span>
-                      <Badge variant={cfg.badgeVariant} size="compact">
-                        {JALON_BADGE_LABEL[jalon.status]}
-                      </Badge>
-                      <Badge variant="neutral" size="compact">
-                        {jalon.dreyfusLevel}
-                      </Badge>
+                return (
+                  <li key={jalon.id} className="relative flex gap-stack">
+                    {/* Pastille (20) centrée sur la première ligne (26) : 3 px. */}
+                    <div className="flex flex-col items-center shrink-0 w-7">
+                      <div
+                        className={[
+                          'w-5 h-5 mt-[3px] rounded-pill border-2 shrink-0 z-base',
+                          cfg.dotClass,
+                        ].join(' ')}
+                      />
+                      {!isLast && (
+                        <div className={['flex-1 w-0.5 border-l-2 mt-1', cfg.lineClass].join(' ')} />
+                      )}
                     </div>
-                    <p className="m-0 text-body-sm text-ink-500">{jalon.description}</p>
-                    <div className="flex items-center gap-stack-xs text-caption text-ink-600">
-                      <Clock size={14} aria-hidden />
-                      <span>Cible : {jalon.targetDate}</span>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </SectionCard>
 
-        {/* IA suggestions */}
-        <SectionCard
-          title="Suggestions IA"
-          titleIcon={<Sparkles size={18} />}
-          headerAction={<AITransparencyLabel variant="recommended" size="sm" />}
-        >
-          <div className="flex flex-col gap-stack">
-            {AI_SUGGESTIONS.map((s) => (
-              <Card key={s.id} variant="tinted" tone="primary" className="p-stack flex flex-col gap-tight">
+                    <div className={['flex flex-col gap-stack-3xs min-w-0', isLast ? '' : 'pb-stack-lg'].join(' ')}>
+                      <div className="flex items-center gap-stack-xs flex-wrap">
+                        <span className="text-body font-semibold text-ink-900">
+                          {jalon.title}
+                        </span>
+                        <Badge variant={cfg.badgeVariant} size="compact">
+                          {JALON_BADGE_LABEL[jalon.status]}
+                        </Badge>
+                      </div>
+                      <p className="text-body text-ink-700 max-w-prose">{jalon.description}</p>
+                      <div className="flex items-center gap-stack-3xs text-caption text-ink-600 tabular-nums">
+                        <Clock size={14} aria-hidden />
+                        <span>Cible : {jalon.targetDate}</span>
+                      </div>
+                    </div>
+                  </li>
+                );
+              })}
+            </ol>
+          </Card>
+        </section>
+
+        {/* Suggestions IA — l'étincelle et l'étiquette « Recommandé par l'IA »
+            restent (DESIGN.md § 10) ; les suggestions sont des objets qu'on
+            accepte ou rejette une à une : des cartes, sans carte autour. La
+            compétence est une donnée (MetaPill), le conseil un texte à lire
+            (ink-700, largeur de lecture). */}
+        <section className="flex flex-col gap-stack">
+          <SectionHeader
+            title="Suggestions IA"
+            icon={Sparkles}
+            variant="minimal"
+            action={<AITransparencyLabel variant="recommended" size="sm" />}
+          />
+          <div className="flex flex-col gap-stack-sm">
+            {suggestions.length === 0 && (
+              <p className="text-body text-ink-700">
+                Tu as ignoré toutes les suggestions de cette page.
+              </p>
+            )}
+            {suggestions.map((s) => (
+              <Card key={s.id} variant="tinted" tone="primary" className="flex flex-col gap-stack-xs">
                 <div className="flex items-start justify-between gap-stack-xs flex-wrap">
-                  <p className="m-0 font-semibold text-body-sm text-ink-900 flex-1">{s.conseil}</p>
-                  <Badge variant="brand" size="compact">{s.competence}</Badge>
+                  <p className="text-body font-semibold text-ink-900 flex-1 min-w-0">{s.conseil}</p>
+                  <MetaPill text={s.competence} tone="primary" className="shrink-0" />
                 </div>
-                <p className="m-0 text-body-sm text-ink-500">{s.detail}</p>
-                <div className="flex justify-end">
-                  <Button emphasis="outline" size="sm" trailingIcon={<ChevronRight size={14} />}>
+                <p className="text-body text-ink-700 max-w-prose">{s.detail}</p>
+                <div className="mt-stack-sm flex justify-end gap-stack-xs flex-wrap">
+                  <AIOverrideButton label="Ignorer" onOverride={(reason) => ignorer(s, reason)} size="sm" voix="tu" />
+                  {/* L'action de la carte (`soft`), en pastille blanche sur
+                      la carte teintée (`neutral`). */}
+                  <Button emphasis="soft" tone="neutral" size="sm" trailingIcon={<ChevronRight size={14} />}>
                     Explorer
                   </Button>
                 </div>
               </Card>
             ))}
           </div>
-        </SectionCard>
+        </section>
     </PageShell>
   );
 }

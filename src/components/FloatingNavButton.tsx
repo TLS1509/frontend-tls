@@ -48,10 +48,12 @@ export interface FloatingNavButtonProps {
 }
 
 const TONE_BG: Record<FloatingNavTone, string> = {
-  primary: 'bg-primary-600 hover:bg-primary-500 text-white shadow-brand-md',
-  warm:    'bg-secondary-500 hover:bg-secondary-400 text-white shadow-warm-md',
+  primary: 'bg-primary-700 hover:bg-primary-800 text-white shadow-brand-md',
+  warm:    'bg-secondary-700 hover:bg-secondary-800 text-white shadow-warm-md',
   sun:     'bg-accent-400 hover:bg-accent-300 text-ink-900 shadow-sun-sm',
-  brand:   'bg-gradient-to-br from-primary-500 to-primary-700 hover:from-primary-400 hover:to-primary-600 text-white shadow-lg',
+  // Icône seule : 3:1 à l'arrêt clair, donc 600 (3,66 ; le 500 mesurait 2,94).
+  // Le survol FONCE, comme Button solid — il éclaircissait jusqu'au 400 (2,44).
+  brand:   'bg-gradient-to-br from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white shadow-lg',
 };
 
 const TONE_ACTION_BG: Record<FloatingNavTone, string> = {
@@ -110,7 +112,7 @@ export const FloatingNavButton: React.FC<FloatingNavButtonProps> = ({
                 <span className="inline-flex items-center justify-center w-6 h-6 shrink-0">
                   {action.icon}
                 </span>
-                <span className="font-body text-body-sm font-semibold whitespace-nowrap">
+                <span className="font-body text-body font-semibold whitespace-nowrap">
                   {action.label}
                 </span>
               </button>
@@ -133,7 +135,12 @@ export const FloatingNavButton: React.FC<FloatingNavButtonProps> = ({
           TONE_BG[tone],
         ].join(' ')}
       >
-        <span className={['inline-flex transition-[transform] duration-base ease-emphasis', isOpen ? 'rotate-45' : ''].join(' ')}>
+        {/* Une icône par état, sans rotation — corrigé le 2026-09-24. Le span
+            tournait de 45° à l'ouverture, héritage d'un « + » qui pivotait pour
+            faire une croix ; mais l'icône est AUSSI remplacée par `closeIcon`
+            (une croix) : la croix tournée se relisait « + », et le bouton
+            ouvert affichait le même signe que fermé. */}
+        <span className="inline-flex">
           {isOpen ? closeIcon : icon}
         </span>
       </button>

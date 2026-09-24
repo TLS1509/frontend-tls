@@ -26,10 +26,9 @@ import {
   BookOpen,
 } from 'lucide-react';
 import { Button } from '../components/core/Button';
-import { Badge } from '../components/ui/Badge';
+import { MetaPill } from '../components/ui/MetaPill';
 import { EditorialLayout } from '../components/patterns/EditorialLayout';
 import { RelatedItemList } from '../components/patterns/RelatedItemList';
-import { SectionCard } from '../components/patterns/SectionCard';
 import { AuthorStrip } from '../components/patterns/AuthorStrip';
 import { IntroCallout } from '../components/patterns/IntroCallout';
 import { ReaderContextStrip } from '../components/patterns/ReaderContextStrip';
@@ -58,8 +57,8 @@ const ARTICLE = {
 };
 
 const PARAGRAPHS = [
-  "Depuis 2023, la chaîne de production des contenus de formation s'est radicalement transformée. Là où il fallait six semaines pour concevoir un module complet : analyse de besoin, scénarisation, story-board, production multimédia, tests : il faut désormais huit jours en moyenne dans les organisations qui ont structuré leur usage de l'IA générative.",
-  "Le gain ne se mesure pas qu'en vitesse. La qualité progresse aussi : paradoxalement. Les outils IA fournissent une première version exploitable très rapidement, ce qui laisse plus de temps à l'ingénieur pédagogique pour la pédagogie elle-même : tester, retravailler les exemples, affiner les exercices, soigner les transitions.",
+  "Depuis 2023, la chaîne de production des contenus de formation s'est radicalement transformée. Là où il fallait six semaines pour concevoir un module complet (analyse de besoin, scénarisation, story-board, production multimédia, tests), il faut désormais huit jours en moyenne dans les organisations qui ont structuré leur usage de l'IA générative.",
+  "Le gain ne se mesure pas qu'en vitesse. La qualité progresse aussi, paradoxalement. Les outils IA fournissent une première version exploitable très rapidement, ce qui laisse plus de temps à l'ingénieur pédagogique pour la pédagogie elle-même : tester, retravailler les exemples, affiner les exercices, soigner les transitions.",
   "Cette redistribution du temps de travail révèle une transformation plus profonde : le métier d'ingénieur pédagogique cesse d'être un métier de production pour devenir un métier de curation, de coaching et de design. L'IA est l'outil ; la valeur humaine se déplace vers les zones où elle est irremplaçable.",
 ];
 
@@ -93,38 +92,46 @@ export const MagazineArticle: React.FC = () => {
         trailing={
           <>
             <ReadingProgressRing targetRef={articleRef} tone="brand" size={32} />
+            {/* Outils de lecture : `ghost` neutre, le marque-page en `soft` une
+                fois posé, comme les favoris de la Veille (arbitrage n°19 ; ils
+                étaient en `outline`, réservé à Annuler). Son nom disait
+                « Bookmark » : il dit ce qu'il fait, comme sur les autres
+                pages de la veille. L'article se lit : pas d'aplat. */}
             <Button
-              emphasis={bookmarked ? 'soft' : 'outline'}
+              emphasis={bookmarked ? 'soft' : 'ghost'}
+              tone={bookmarked ? 'brand' : 'neutral'}
               iconOnly
-              aria-label="Bookmark"
+              aria-label={bookmarked ? 'Retirer le marque-page' : 'Ajouter aux marque-pages'}
               onClick={() => toggleBookmark(bookmarkKey)}
             >
               <Bookmark size={14} fill={bookmarked ? 'currentColor' : 'none'} />
             </Button>
-            <Button emphasis="outline" iconOnly aria-label="Partager">
+            <Button emphasis="ghost" tone="neutral" iconOnly aria-label="Partager">
               <Share2 size={14} />
             </Button>
           </>
         }
       />
 
+      {/* Marge haute par défaut de PageShell : l'en-tête collait à la barre
+          (16 au-dessus du titre comme en dessous). */}
       <PageShell
         ref={articleRef}
         width="medium"
-        className="relative z-base py-section gap-section flex-1"
-        noPadTop
+        className="relative z-base gap-section flex-1"
       >
-        {/* Hero */}
-        <header className="flex flex-col gap-stack max-w-prose">
-          <span className="inline-flex items-center gap-stack-2xs self-start px-2.5 py-1 rounded-pill border-2 border-primary-300 bg-primary-50/30 text-micro font-bold uppercase tracking-wider text-primary-700">
-            <BookOpen size={14} /> {ARTICLE.category} · {ARTICLE.pages}
-          </span>
+        {/* Hero — rubrique (MetaPill) → 8 → h1 → 12 → chapô. Le titre prend le
+            pas de l'app, 36 à l'encre (il était à 48, interligne et approche
+            forcés, en teal : une couleur de marque ne décore pas un titre) ;
+            le chapô passe au cran 700. */}
+        <header className="flex flex-col max-w-prose">
+          <MetaPill icon={<BookOpen />} text={`${ARTICLE.category} · ${ARTICLE.pages}`} tone="primary" className="self-start" />
 
-          <h1 className="font-display text-h1 sm:text-[3rem] leading-[1.05] tracking-display text-primary-700">
+          <h1 className="mt-stack-xs font-display text-h1 text-ink-900 text-balance">
             {ARTICLE.title}
           </h1>
 
-          <p className="m-0 font-body text-body-lg text-ink-600 leading-relaxed">
+          <p className="mt-stack-sm font-body text-body-lg text-ink-700">
             {ARTICLE.excerpt}
           </p>
         </header>
@@ -147,7 +154,7 @@ export const MagazineArticle: React.FC = () => {
             <article className="flex flex-col gap-stack max-w-prose">
               {/* Featured image */}
               <figure className="m-0">
-                <div className="aspect-video w-full rounded-xl bg-gradient-to-br from-primary-100 via-secondary-50 to-primary-200 border border-ink-100 flex items-center justify-center font-body text-body-sm text-ink-500">
+                <div className="aspect-video w-full rounded-xl bg-gradient-to-br from-primary-100 via-secondary-50 to-primary-200 border border-ink-100 flex items-center justify-center font-body text-body text-ink-700">
                   Image principale : schéma de transformation
                 </div>
               </figure>
@@ -156,70 +163,72 @@ export const MagazineArticle: React.FC = () => {
               <IntroCallout tone="brand" eyebrow="À retenir" withQuoteIcon>
                 Trois ans après les premiers POC, l'IA générative est devenue un outil structurant
                 de l'ingénierie pédagogique. Plus qu'un accélérateur, elle redessine la chaîne de
-                valeur du métier : et déplace la valeur humaine vers la curation et le design.
+                valeur du métier, et déplace la valeur humaine vers la curation et le design.
               </IntroCallout>
 
               {/* Body paragraphs */}
               <div className="flex flex-col gap-stack">
+                {/* Le texte de l'article est le texte principal : ink-900. */}
                 {PARAGRAPHS.map((p, i) => (
-                  <p key={i} className="m-0 font-body text-body text-ink-700 leading-relaxed">
+                  <p key={i} className="font-body text-body text-ink-900">
                     {p}
                   </p>
                 ))}
 
-                {/* Inline quote */}
-                <figure className="m-0 my-stack px-stack-md sm:px-6 py-stack bg-primary-50 rounded-xl">
-                  <blockquote className="m-0 font-body italic text-body-lg text-primary-800 leading-relaxed">
+                {/* Inline quote — la légende passe au cran 600 : au 500 sur le
+                    fond primary-50, elle mesurait 4,44:1 (sous AA). Padding
+                    20 / 24, jamais sous le rayon ; plus de « : » en tête. */}
+                <figure className="my-stack px-stack-lg py-stack-md bg-primary-50 rounded-xl flex flex-col gap-stack-xs">
+                  <blockquote className="font-body italic text-body-lg text-primary-800">
                     « Le métier d'ingénieur pédagogique cesse d'être un métier de production
                     pour devenir un métier de curation, de coaching et de design. »
                   </blockquote>
-                  <figcaption className="mt-stack-xs font-body text-caption text-ink-500">
-                    : Pierre Leclerc, Lead Pédagogie TLS
+                  <figcaption className="font-body text-caption text-ink-600">
+                    Pierre Leclerc, Lead Pédagogie TLS
                   </figcaption>
                 </figure>
 
-                <h2 className="mt-stack-lg font-display text-h3 font-bold text-ink-900 leading-tight tracking-tight">
+                {/* Intertitre h2 28 (il était à 20) : 48 au-dessus, 16 dessous. */}
+                <h2 className="mt-section font-display text-h2 text-ink-900">
                   Une chaîne de valeur reconfigurée
                 </h2>
-                <p className="m-0 font-body text-body text-ink-700 leading-relaxed">
+                <p className="font-body text-body text-ink-900">
                   Concrètement, sur les 8 jours d'une production typique 2026, l'IA prend en charge
                   environ 60 % du temps de scénarisation initiale, 40 % du story-board et 30 % de la
-                  production multimédia. Le reste : l'essentiel : reste un travail humain et expert :
+                  production multimédia. Le reste, l'essentiel, reste un travail humain et expert :
                   l'analyse de besoin, le choix pédagogique, l'animation, l'évaluation.
                 </p>
               </div>
 
-              {/* Tags */}
-              <div className="flex flex-col gap-stack-xs pt-section border-t border-ink-100">
-                <span className="inline-flex items-center gap-stack-2xs font-body text-micro font-bold uppercase tracking-wider text-ink-500">
-                  <TagIcon size={14} /> Tags
-                </span>
+              {/* Tags — libellé de groupe (13/600 ink-600) et données en
+                  MetaPill, comme l'article de la veille. */}
+              <div className="mt-stack flex flex-col gap-stack-xs pt-section border-t border-ink-100">
+                <p className="inline-flex items-center gap-stack-2xs font-body text-caption font-semibold text-ink-600">
+                  <TagIcon size={14} aria-hidden="true" /> Tags
+                </p>
                 <div className="flex flex-wrap gap-stack-xs">
                   {ARTICLE.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="inline-flex items-center px-2.5 py-1 rounded-pill bg-ink-50 border border-ink-200 font-body text-micro font-semibold text-ink-700 hover:bg-ink-100 transition-colors cursor-pointer"
-                    >
-                      #{tag.toLowerCase().replace(/\s+/g, '-')}
-                    </span>
+                    <MetaPill key={tag} text={tag} tone="neutral" />
                   ))}
                 </div>
               </div>
             </article>
           }
           aside={
-            <div className="flex flex-col gap-stack-lg">
-              <Badge variant="brand">Dans cette édition</Badge>
-              <SectionCard title="Continuer la lecture" titleIcon={<BookOpen size={16} />}>
-                <RelatedItemList
-                  items={RELATED_ENTRIES.map((r) => ({
-                    id: r.id,
-                    title: r.title,
-                    meta: r.meta,
-                    onClick: () => navigate('/veille/magazine-article/1'),
-                  }))}
-                />
-              </SectionCard>
+            /* L'encart dit une fois ce qu'il est : un libellé (13/600 ink-600)
+               au-dessus de la liste. Il le disait deux fois — un Badge (le
+               registre des états) puis une carte titrée en h3 — et ce h3 sautait
+               un niveau dans le plan de la page. */
+            <div className="flex flex-col gap-stack-sm">
+              <p className="font-body text-caption font-semibold text-ink-600">Dans cette édition</p>
+              <RelatedItemList
+                items={RELATED_ENTRIES.map((r) => ({
+                  id: r.id,
+                  title: r.title,
+                  meta: r.meta,
+                  onClick: () => navigate('/veille/magazine-article/1'),
+                }))}
+              />
             </div>
           }
         />

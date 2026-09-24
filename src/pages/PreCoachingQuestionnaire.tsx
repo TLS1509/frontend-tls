@@ -1,7 +1,7 @@
 /**
  * Pre-Coaching Questionnaire
  *
- * "Préparez votre session" : 3 vertical steps with icon + card + textarea
+ * "Prépare ta session" : 3 vertical steps with icon + card + textarea
  */
 
 import React, { useState } from 'react';
@@ -15,33 +15,38 @@ import {
 } from 'lucide-react';
 import { useToastContext } from '../contexts/ToastContext';
 import { Button } from '../components/core/Button';
+import { Card } from '../components/core/Card';
+import { EditorialHero } from '../components/patterns/EditorialHero';
+import { PageShell } from '../components/layout';
 
 /* ─── Step config ────────────────────────────────────────────────────────── */
 
+/* Surtitre en casse normale (« Étape 1 · Tes objectifs ») : les capitales
+   teal étaient le registre d'une étiquette, posé au-dessus de chaque carte. */
 const STEPS = [
   {
     id: 'objectifs',
-    step: 'ÉTAPE 1',
-    label: 'VOS OBJECTIFS',
+    step: 'Étape 1',
+    label: 'Tes objectifs',
     icon: <Target size={20} />,
-    question: 'Quels sont vos objectifs principaux pour cette session de coaching ?',
-    placeholder: 'Décrivez en détail vos attentes et ce que vous souhaitez accomplir...',
+    question: 'Quels sont tes objectifs principaux pour cette session de coaching ?',
+    placeholder: 'Décris en détail tes attentes et ce que tu souhaites accomplir...',
   },
   {
     id: 'defis',
-    step: 'ÉTAPE 2',
-    label: 'VOS DÉFIS',
+    step: 'Étape 2',
+    label: 'Tes défis',
     icon: <Lightbulb size={20} />,
-    question: 'Quels défis ou obstacles rencontrez-vous actuellement ?',
-    placeholder: 'Partagez les difficultés que vous rencontrez dans votre parcours...',
+    question: 'Quels défis ou obstacles rencontres-tu actuellement ?',
+    placeholder: 'Partage les difficultés que tu rencontres dans ton parcours...',
   },
   {
     id: 'sujets',
-    step: 'ÉTAPE 3',
-    label: 'SUJETS PRIORITAIRES',
+    step: 'Étape 3',
+    label: 'Sujets prioritaires',
     icon: <Compass size={20} />,
-    question: 'Y a-t-il des sujets spécifiques que vous aimeriez aborder ?',
-    placeholder: 'Listez les thématiques prioritaires que vous souhaitez traiter...',
+    question: 'Y a-t-il des sujets spécifiques que tu aimerais aborder ?',
+    placeholder: 'Liste les thématiques prioritaires que tu souhaites traiter...',
   },
 ];
 
@@ -63,83 +68,74 @@ export const PreCoachingQuestionnaire: React.FC = () => {
 
   const handleSubmit = () => {
     if (!isComplete) {
-      toast.warning('Renseignez au moins une réponse avant d\'envoyer', 'Formulaire incomplet');
+      toast.warning('Renseigne au moins une réponse avant d\'envoyer', 'Formulaire incomplet');
       return;
     }
-    toast.success('Vos réponses ont été transmises à votre coach', 'Questionnaire envoyé');
+    toast.success('Tes réponses ont été transmises à ton coach', 'Questionnaire envoyé');
     setTimeout(() => navigate('/coaching/pre-questionnaire/response'), 800);
   };
 
   return (
-    <div className="min-h-[100dvh] bg-surface font-body py-section px-stack-lg">
-      <div className="max-w-[640px] mx-auto">
-
-        {/* ─ Back button ─────────────────────────────────────────────── */}
-        <div className="mb-section">
-          <Button
-            emphasis="soft" tone="warm"
-            size="sm"
-            leadingIcon={<ChevronLeft size={14} />}
-            onClick={() => navigate('/coaching')}
-          >
+    /* Un seul bord gauche : le retour, le titre, le chapô, les questions et
+       l'envoi partent de la même ligne. Le titre et le chapô étaient centrés
+       au-dessus de cartes calées à gauche, elles-mêmes décalées par une
+       pastille d'icône posée hors de la carte (deux bords gauches). Et la page
+       peignait un fond blanc (`bg-surface`) qui s'arrêtait à la colonne. */
+    <PageShell width="content" noPadTop className="pt-6 md:pt-8 lg:pt-10">
+      <EditorialHero
+        tone="flat"
+        eyebrow="Coaching · Préparation"
+        title="Prépare ta session"
+        summary="Réponds à ces 3 questions pour une session sur-mesure."
+        trailing={
+          /* `ghost` calé sur le bord du texte : `flush="start"` rattrape son
+             padding. */
+          <Button emphasis="ghost" tone="neutral" size="md" leadingIcon={<ChevronLeft size={16} />} onClick={() => navigate('/coaching')} flush="start">
             Retour
           </Button>
-        </div>
+        }
+      />
 
-        {/* ─ Header ──────────────────────────────────────────────────── */}
-        <div className="text-center mb-section-lg">
-          <h1 className="font-display text-h1 text-ink-900 mb-stack-xs tracking-tight">
-            Préparez votre session
-          </h1>
-          <p className="font-body text-body text-ink-500 m-0">
-            Répondez à ces 3 questions pour une session sur-mesure
-          </p>
-        </div>
-
-        {/* ─ Steps ───────────────────────────────────────────────────── */}
-        <div className="flex flex-col gap-stack-lg">
-          {STEPS.map((step) => (
-            <div key={step.id} className="flex gap-stack items-start">
-
-              {/* Circle icon */}
-              <div className="w-12 h-12 rounded-pill bg-ink-50 border border-ink-200 text-ink-600 flex items-center justify-center shrink-0 mt-stack">
-                {step.icon}
-              </div>
-
-              {/* Card */}
-              <div className="flex-1 bg-white border border-ink-200 rounded-lg p-stack-lg">
-                <p className="font-body text-caption font-medium text-primary-600 m-0 mb-1">
-                  {step.step} • {step.label}
-                </p>
-                <p className="font-body text-body font-bold text-ink-900 leading-snug m-0 mb-stack">
-                  {step.question}
-                </p>
-                <textarea
-                  rows={5}
-                  value={answers[step.id]}
-                  onChange={(e) => setAnswer(step.id, e.target.value)}
-                  placeholder={step.placeholder}
-                  className="w-full h-auto py-stack px-stack rounded-lg border border-ink-200 bg-ink-50 text-ink-900 font-body text-body-sm leading-[1.65] resize-y outline-none transition-colors duration-200 focus:border-primary-400 focus:bg-white placeholder:text-ink-500"
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* ─ Submit button ────────────────────────────────────────────── */}
-        <div className="text-center mt-section-lg">
-          <Button
-            emphasis="soft"
-            size="lg"
-            leadingIcon={<Send size={16} />}
-            disabled={!isComplete}
-            onClick={handleSubmit}
-          >
-            Envoyer mes réponses
-          </Button>
-        </div>
-
+      {/* Chaque question est une carte : son étape en légende 600 ink-600,
+          4 px, la question en libellé 16/600 ink-900 (celui d'un champ), 8 px,
+          puis la zone de réponse. 16 px entre deux questions : les trois
+          forment un seul formulaire. */}
+      <div className="flex flex-col gap-stack">
+        {STEPS.map((step) => (
+          <Card key={step.id} className="flex flex-col gap-0">
+            <p className="font-body text-caption font-semibold text-ink-600">
+              {step.step} · {step.label}
+            </p>
+            <label htmlFor={`question-${step.id}`} className="mt-stack-3xs font-body text-body font-semibold text-ink-900">
+              {step.question}
+            </label>
+            <textarea
+              id={`question-${step.id}`}
+              rows={5}
+              value={answers[step.id]}
+              onChange={(e) => setAnswer(step.id, e.target.value)}
+              placeholder={step.placeholder}
+              className="mt-stack-xs w-full h-auto py-stack px-stack rounded-lg border border-ink-200 bg-ink-50 text-ink-900 font-body text-body resize-y outline-none transition-colors duration-200 focus:border-primary-400 focus:bg-white placeholder:text-ink-500"
+            />
+          </Card>
+        ))}
       </div>
-    </div>
+
+      {/* L'envoi du formulaire est l'action principale de l'écran : son seul
+          `solid` (arbitrage n°19). Le retour, en haut, est un `ghost`. */}
+      <div>
+        <Button
+          emphasis="solid"
+          tone="brand"
+          size="lg"
+          leadingIcon={<Send size={16} />}
+          disabled={!isComplete}
+          onClick={handleSubmit}
+        >
+          Envoyer mes réponses
+        </Button>
+      </div>
+    </PageShell>
   );
 };
+

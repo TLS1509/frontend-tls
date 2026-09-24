@@ -49,17 +49,17 @@ const Sample: React.FC<{ v: Variant }> = ({ v }) => (
         {v.id}
       </span>
       <div className="flex flex-col">
-        <h2 className="font-display text-h4 font-bold text-ink-900 tracking-headline">{v.name}</h2>
+        <h2 className="font-display text-h3 font-bold text-ink-900 tracking-headline">{v.name}</h2>
         <p className="m-0 text-caption text-ink-500">{v.desc}</p>
       </div>
     </div>
 
     {/* Titre + corps témoin (test lisibilité sur le fond) */}
     <div className="flex flex-col gap-2 max-w-[46ch]">
-      <h3 className="font-display text-h3 font-bold text-ink-900 tracking-headline leading-tight">
+      <h3 className="font-display text-h3 font-bold text-ink-900 tracking-headline">
         Mes objectifs de progression
       </h3>
-      <p className="m-0 text-body-sm text-ink-600 leading-relaxed">
+      <p className="m-0 text-body text-ink-600">
         Le corps de texte se lit-il bien sur ce fond ? Contraste, confort, et sensation
         générale de la texture au repos comme au scroll.
       </p>
@@ -71,9 +71,9 @@ const Sample: React.FC<{ v: Variant }> = ({ v }) => (
         <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-primary-100 text-primary-600">
           <Sparkles size={16} />
         </span>
-        <span className="font-display text-body-sm font-bold text-ink-900">Card blanche solide</span>
+        <span className="font-display text-body font-bold text-ink-900">Card blanche solide</span>
       </div>
-      <p className="m-0 text-caption text-ink-500 leading-snug">
+      <p className="m-0 text-caption text-ink-500">
         Les cartes de l'app restent blanches — vérifier qu'elles se détachent bien du fond.
       </p>
       <div className="flex items-center gap-1.5 pt-1">
@@ -88,8 +88,8 @@ const Sample: React.FC<{ v: Variant }> = ({ v }) => (
 
     {/* Card teintée (surface active) */}
     <div className="rounded-lg bg-gradient-to-br from-primary-50 to-white border border-primary-200/70 shadow-brand-sm p-stack flex flex-col gap-1">
-      <span className="font-display text-body-sm font-bold text-ink-900">Card teintée (surface active)</span>
-      <p className="m-0 text-caption text-ink-600 leading-snug">
+      <span className="font-display text-body font-bold text-ink-900">Card teintée (surface active)</span>
+      <p className="m-0 text-caption text-ink-600">
         Une surface teintée sur le fond texturé — cohérence des deux lavis.
       </p>
     </div>
@@ -99,7 +99,7 @@ const Sample: React.FC<{ v: Variant }> = ({ v }) => (
 export const BgLab: React.FC = () => (
   <div className="min-h-[100dvh] w-full bg-white">
     <header className="px-6 sm:px-8 py-stack-md border-b border-ink-100 bg-white sticky top-0 z-10">
-      <h1 className="font-display text-h4 font-bold text-ink-900 tracking-headline">
+      <h1 className="font-display text-h3 font-bold text-ink-900 tracking-headline">
         Fond d'app — test de texture
       </h1>
       <p className="m-0 text-caption text-ink-500 mt-0.5">

@@ -97,8 +97,8 @@ const Hero: React.FC = () => {
                 <span className="font-display text-section text-ink-900 tabular-nums leading-none">
                   {d.valeur}
                 </span>
-                <span className="font-body text-body-sm font-bold text-secondary-700">{d.role}</span>
-                <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">{d.detail}</p>
+                <span className="font-body text-body font-bold text-secondary-700">{d.role}</span>
+                <p className="font-body text-body text-ink-600 m-0">{d.detail}</p>
               </li>
             ))}
           </ul>
@@ -154,12 +154,12 @@ const Livrables: React.FC = () => (
           <FadeInWhenVisible key={l.titre} delay={i * 0.06}>
             <li className="grid grid-cols-1 md:grid-cols-12 gap-group md:gap-flow border-t border-ink-200 py-flow">
               <div className="md:col-span-5 flex items-start gap-stack">
-                <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary-100 text-primary-700">
+                <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary-100 text-primary-800">
                   {l.icon}
                 </span>
                 <h3 className="font-display text-title text-ink-900 [text-wrap:balance]">{l.titre}</h3>
               </div>
-              <p className="md:col-span-7 font-body text-body text-ink-600 leading-relaxed m-0">
+              <p className="md:col-span-7 font-body text-body text-ink-600 m-0">
                 {l.detail}
               </p>
             </li>
@@ -195,7 +195,7 @@ const SurMesure: React.FC = () => (
               décide quelles données sortent de votre système et lesquelles
               n'en sortent jamais.
             </p>
-            <p className="font-body text-body text-ink-600 leading-relaxed m-0">
+            <p className="font-body text-body text-ink-600 m-0">
               La question se tranche au cadrage, avec votre DSI si vous en avez
               une, et elle se tranche par cas d'usage — pas une fois pour
               toutes. C'est le genre d'arbitrage qu'un gabarit ne peut pas
@@ -229,7 +229,7 @@ const Perimetre: React.FC = () => (
         <FadeInWhenVisible>
           <div className="flex flex-col gap-group">
             <h3 className="font-display text-feature text-primary-800">Il outille</h3>
-            <p className="font-body text-body text-ink-600 leading-relaxed m-0">
+            <p className="font-body text-body text-ink-600 m-0">
               Le Sprint part de vos processus tels qu'ils sont et leur donne un
               outil qui les tient. Quatre mois plus tard, vos équipes
               travaillent dans un système qui leur ressemble, et elles savent le
@@ -240,7 +240,7 @@ const Perimetre: React.FC = () => (
         <FadeInWhenVisible delay={0.08}>
           <div className="flex flex-col gap-group">
             <h3 className="font-display text-feature text-ink-900">Il ne transforme pas</h3>
-            <p className="font-body text-body text-ink-600 leading-relaxed m-0">
+            <p className="font-body text-body text-ink-600 m-0">
               Si la question est de revoir votre modèle de compétences, vos
               référentiels et votre gouvernance, c'est un autre chantier — celui
               que décrit{' '}
@@ -273,7 +273,7 @@ const CtaFinal: React.FC = () => (
           <h2 className="font-display text-section text-ink-900 [text-wrap:balance]">
             Les premiers Sprints démarrent en janvier 2027.
           </h2>
-          <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-[62ch] [text-wrap:pretty]">
+          <p className="font-body text-body-lg text-ink-600 m-0 max-w-[62ch] [text-wrap:pretty]">
             Le cadrage, lui, se fait avant : c'est là qu'on regarde votre
             périmètre, qu'on vérifie que le format convient, et qu'on vous dit
             franchement si ce n'est pas le cas.

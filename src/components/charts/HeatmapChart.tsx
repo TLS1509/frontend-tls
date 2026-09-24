@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { CHASSE_CAPTION } from './chartTheme';
 
 export interface HeatmapDataPoint {
   x: string;      // column label (learner name, skill, etc.)
@@ -18,6 +19,8 @@ export interface HeatmapChartProps {
   showValues?: boolean;
   /** Callback on cell click */
   onCellClick?: (data: HeatmapDataPoint) => void;
+  /** Nom accessible de la grille. */
+  ariaLabel?: string;
   /** Additional CSS */
   className?: string;
 }
@@ -36,6 +39,7 @@ export const HeatmapChart: React.FC<HeatmapChartProps> = ({
   cellSize = 48,
   showValues = true,
   onCellClick,
+  ariaLabel = 'Carte de chaleur',
   className = '',
 }) => {
   const { xLabels, yLabels, grid } = useMemo(() => {
@@ -59,6 +63,16 @@ export const HeatmapChart: React.FC<HeatmapChartProps> = ({
     return { xLabels, yLabels, grid };
   }, [data]);
 
+  /* Hauteur de l'en-tête des colonnes, calculée sur le plus long libellé. Tourné
+     de 45° autour de son pied, un libellé de largeur l monte de 0,71 × (l/2 + 20)
+     au-dessus de son point d'ancrage ; l'en-tête faisait 40 px et le conteneur
+     (`overflow-x-auto`) coupait tout ce qui dépassait — mesuré le 2026-09-24 sur
+     /enterprise : « Communicat… », « Leadershi… », « Techniqu… ». */
+  const hauteurEntete = useMemo(() => {
+    const plusLong = Math.max(0, ...xLabels.map((x) => x.length)) * CHASSE_CAPTION;
+    return Math.max(40, Math.ceil(20 + Math.SQRT1_2 * (plusLong / 2 + 20)));
+  }, [xLabels]);
+
   // Color gradient function: 0=red, 0.5=yellow, 1=green
   const getColor = (value: number): string => {
     const normalized = (value - minValue) / (maxValue - minValue);
@@ -81,13 +95,14 @@ export const HeatmapChart: React.FC<HeatmapChartProps> = ({
     }
   };
 
-  const getLabelColor = (value: number): string => {
-    const normalized = (value - minValue) / (maxValue - minValue);
-    return normalized > 0.5 ? '#1a1a1a' : '#ffffff';
-  };
+  // Toute l'échelle est claire (corail #F28559 → ambre #F8B044 → sauge #9DBEBA) :
+  // le blanc y tombait à 1,86–2,54:1 sous la moitié basse, l'encre y passe partout
+  // (≥ 5,7:1). Une seule couleur de label, donc : `text-ink-900` sur la cellule.
 
   return (
-    <div className={`w-full overflow-x-auto ${className}`}>
+    // Groupe nommé plutôt que role="img" : la grille contient de vrais boutons,
+    // qu'une image masquerait aux technologies d'assistance.
+    <div role="group" aria-label={ariaLabel} className={`w-full overflow-x-auto ${className}`}>
       <div className="inline-block">
         {/* X-axis labels */}
         <div className="flex">
@@ -95,10 +110,10 @@ export const HeatmapChart: React.FC<HeatmapChartProps> = ({
           {xLabels.map((x) => (
             <div
               key={x}
-              className="text-caption font-semibold text-center text-ink-700"
+              className="text-caption text-center text-ink-600"
               style={{
                 width: cellSize,
-                height: 40,
+                height: hauteurEntete,
                 display: 'flex',
                 alignItems: 'flex-end',
                 justifyContent: 'center',
@@ -118,7 +133,7 @@ export const HeatmapChart: React.FC<HeatmapChartProps> = ({
           <div key={y} className="flex">
             {/* Y label */}
             <div
-              className="text-caption font-semibold text-ink-700 flex items-center justify-end pr-3"
+              className="text-caption text-ink-600 flex items-center justify-end pr-3"
               style={{
                 width: 100,
                 height: cellSize,
@@ -145,26 +160,27 @@ export const HeatmapChart: React.FC<HeatmapChartProps> = ({
                     const dataPoint = data.find((d) => d.x === x && d.y === y);
                     if (dataPoint) onCellClick?.(dataPoint);
                   }}
-                  className="border border-ink-200 hover:border-primary-400 transition-all"
+                  /* Valeur de cellule : 13 px (`caption`) et chiffres tabulaires —
+                     elle était à 12 px en style en ligne, hors échelle, et la
+                     colonne des « D3 » ne s'alignait pas d'une ligne à l'autre.
+                     Encre, filet et mise en page passent en classes : le style en
+                     ligne ne garde que ce qui se calcule (taille, fond). Le filet
+                     en ligne battait aussi `hover:border-primary-400`, qui ne
+                     s'est jamais vu. */
+                  className={[
+                    'flex items-center justify-center p-0 border hover:border-primary-400 transition-all text-caption tabular-nums',
+                    hasValue ? 'border-black/10 text-ink-900 font-semibold cursor-pointer' : 'border-ink-200 text-ink-600 font-normal cursor-default',
+                  ].join(' ')}
                   style={{
                     width: cellSize,
                     height: cellSize,
                     backgroundColor: cellColor,
-                    color: hasValue ? getLabelColor(value!) : '#9ca3af',
-                    fontSize: '12px',
-                    fontWeight: hasValue ? '600' : '400',
-                    cursor: hasValue ? 'pointer' : 'default',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: 0,
-                    border: hasValue ? '1px solid rgba(0,0,0,0.1)' : '1px solid #e5e7eb',
                   }}
                   disabled={!hasValue}
                 >
                   {hasValue && showValues && (
                     <span title={`${value}`}>
-                      {typeof value === 'number' && value <= 5 ? `D${value}` : `${Math.round(value as number)}%`}
+                      {typeof value === 'number' && value <= 5 ? `D${value}` : `${Math.round(value as number)}\u202F%`}
                     </span>
                   )}
                 </button>
@@ -175,18 +191,20 @@ export const HeatmapChart: React.FC<HeatmapChartProps> = ({
       </div>
 
       {/* Legend */}
-      <div className="mt-stack flex items-center gap-stack-xs text-caption text-ink-600">
-        <span className="font-semibold">Légende:</span>
-        <div className="flex items-center gap-stack-3xs">
-          <div style={{ width: 20, height: 20, backgroundColor: getColor(minValue), border: '1px solid #ccc' }} />
+      {/* Légende : 13 px, ink-700 (cible des graphiques). Les pastilles gardent
+          leur couleur calculée en style, leur filet passe au token. */}
+      <div className="mt-stack flex items-center gap-stack text-caption text-ink-700 tabular-nums">
+        <span className="font-semibold">Légende :</span>
+        <div className="flex items-center gap-stack-xs">
+          <div className="size-5 border border-ink-300" style={{ backgroundColor: getColor(minValue) }} />
           <span>{minValue}</span>
         </div>
-        <div className="flex items-center gap-stack-3xs">
-          <div style={{ width: 20, height: 20, backgroundColor: getColor((minValue + maxValue) / 2), border: '1px solid #ccc' }} />
+        <div className="flex items-center gap-stack-xs">
+          <div className="size-5 border border-ink-300" style={{ backgroundColor: getColor((minValue + maxValue) / 2) }} />
           <span>{Math.round((minValue + maxValue) / 2)}</span>
         </div>
-        <div className="flex items-center gap-stack-3xs">
-          <div style={{ width: 20, height: 20, backgroundColor: getColor(maxValue), border: '1px solid #ccc' }} />
+        <div className="flex items-center gap-stack-xs">
+          <div className="size-5 border border-ink-300" style={{ backgroundColor: getColor(maxValue) }} />
           <span>{maxValue}</span>
         </div>
       </div>

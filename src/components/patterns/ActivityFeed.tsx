@@ -18,6 +18,8 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import { Avatar } from '../ui/Avatar';
+import { IconChip } from '../ui/IconChip';
+import { Card } from '../core/Card';
 
 /**
  * ActivityFeed — chronological list of user activities.
@@ -27,7 +29,12 @@ import { Avatar } from '../ui/Avatar';
  *   - Avatar component for actor cards
  *   - Smaller, gradient timeline rail
  *   - Optional date grouping (groupByDate)
- *   - 2 layouts: timeline (default) | cards
+ *   - 3 layouts: timeline (default) | list | cards
+ *
+ * `list` — rangées dans UNE carte, séparées par un filet (arbitrage n°5 du
+ * 23/09 : une collection se lit en rangées, pas en pile de cartes). C'est le
+ * layout d'un fil qu'on parcourt. `cards` (une carte par activité) reste
+ * pour compatibilité ; ne pas l'utiliser pour un nouveau fil.
  */
 
 export type ActivityType =
@@ -48,7 +55,7 @@ export type ActivityType =
   | 'coaching';
 
 export type ActivityTone = 'primary' | 'warm' | 'sun' | 'success' | 'danger';
-export type ActivityLayout = 'timeline' | 'cards';
+export type ActivityLayout = 'timeline' | 'list' | 'cards';
 
 export interface ActivityFeedItem {
   id: string;
@@ -72,14 +79,26 @@ export type ActivityItem = ActivityFeedItem;
 
 export interface ActivityFeedProps {
   items: ActivityFeedItem[];
-  /** Layout: 'timeline' (default, vertical rail) or 'cards' (separated cards). */
+  /**
+   * Layout: 'timeline' (default, vertical rail), 'list' (rows in one card —
+   * the one to use for a feed) or 'cards' (one card per item, kept for
+   * compatibility).
+   */
   layout?: ActivityLayout;
   /** Group items by relative date (Today / Yesterday / This week / Earlier). */
   groupByDate?: boolean;
   itemsPerPage?: number;
   timeFormat?: 'relative' | 'absolute';
   isLoading?: boolean;
+  /** Titre de l'état vide. */
   emptyMessage?: string;
+  /**
+   * Phrase sous le titre de l'état vide. Le défaut s'adresse à l'apprenant, en
+   * « tu » : le fil vit sur son tableau de bord et sa fiche compétence
+   * (arbitrage n°23). Sur une surface qui vouvoie ou qui montre le fil d'un
+   * autre (la fiche apprenant du coach), passer la sienne.
+   */
+  emptyDescription?: string;
   onLoadMore?: () => void;
   hasMore?: boolean;
   className?: string;
@@ -142,7 +161,7 @@ const TONE_HOVER_BG: Record<ActivityTone, string> = {
 };
 
 const TONE_ACTION: Record<ActivityTone, string> = {
-  primary: 'bg-primary-50 text-primary-700 border-primary-200 hover:bg-primary-100',
+  primary: 'bg-primary-50 text-primary-800 border-primary-200 hover:bg-primary-100',
   warm:    'bg-secondary-50 text-secondary-700 border-secondary-200 hover:bg-secondary-100',
   sun:     'bg-accent-50 text-accent-800 border-accent-200 hover:bg-accent-100',
   success: 'bg-success-bg text-success-fg border-success-base/30 hover:bg-success-base/20',
@@ -207,10 +226,14 @@ const ActivityRow: React.FC<{
   return (
     <article
       className={[
-        'group/item relative flex items-start gap-stack-xs rounded-lg transition-[background-color,border-color,box-shadow] duration-fast ease-standard',
-        layout === 'cards'
-          ? 'p-4 bg-white border border-ink-100 hover:border-ink-200'
-          : 'p-3 bg-white border border-ink-100 hover:border-ink-200',
+        'group/item relative flex items-start gap-stack-xs',
+        /* En `list`, la rangée n'a ni coque ni fond : la carte parente porte le
+           coin, et le retrait (20 puis 24 px) ne descend jamais sous son rayon. */
+        layout === 'list'
+          ? 'px-stack-md sm:px-stack-lg py-stack'
+          : layout === 'cards'
+            ? 'p-4 rounded-lg bg-white border border-ink-100 hover:border-ink-200 transition-[background-color,border-color,box-shadow] duration-fast ease-standard'
+            : 'p-3 rounded-lg bg-white border border-ink-100 hover:border-ink-200 transition-[background-color,border-color,box-shadow] duration-fast ease-standard',
       ].join(' ')}
     >
       {/* Icon + optional rail */}
@@ -224,20 +247,30 @@ const ActivityRow: React.FC<{
         )}
       </div>
 
-      <div className="flex-1 min-w-0 pt-1 pb-1">
-        <header className="flex items-start justify-between gap-stack-xs flex-wrap">
-          <h3 className="text-body-sm font-semibold text-ink-900 leading-snug">{item.title}</h3>
-          <time className="text-micro text-ink-600 font-medium whitespace-nowrap shrink-0 mt-0.5 tabular-nums">
+      {/* Anatomie de rangée (passe typographique du 2026-09-24) : titre 16/600
+          ink-900 · texte 16/400 ink-700, deux lignes au plus · méta 13/400
+          ink-600 sur la ligne de base du titre. Le retrait du haut recentre la
+          première ligne (26 px) sur la pastille : 4 + 13 = 17 pour une pastille
+          de 36 (fil), 6 + 13 = 19 pour 40 (liste, cartes) — à 1 px près.
+          Le titre n'est plus un `h3` : un libellé de rangée en Nunito 600 n'est
+          pas un titre, et le `h3` de base lui donnait League Spartan. */}
+      <div className={['flex-1 min-w-0 pb-stack-3xs', layout === 'timeline' ? 'pt-stack-3xs' : 'pt-stack-2xs'].join(' ')}>
+        <header className="flex items-baseline justify-between gap-stack-xs flex-wrap">
+          <p className="m-0 text-body font-semibold text-ink-900">{item.title}</p>
+          <time className="text-caption text-ink-600 whitespace-nowrap shrink-0 tabular-nums">
             {formatTimestamp(item.timestamp, timeFormat)}
           </time>
         </header>
 
+        {/* Largeur de lecture (2026-09-24) : la rangée occupe toute la colonne,
+            et la description courait sur 1 000 px au tableau de bord (des
+            lignes de 780 px, une centaine de caractères). */}
         {item.description && (
-          <p className="m-0 mt-1 text-caption text-ink-600 leading-relaxed">{item.description}</p>
+          <p className="m-0 mt-stack-3xs text-body text-ink-700 line-clamp-2 max-w-prose">{item.description}</p>
         )}
 
         {(item.actor || (item.actionLabel && item.onActionClick)) && (
-          <div className="flex items-center gap-stack-xs mt-2 flex-wrap">
+          <div className="flex items-center gap-stack-xs mt-stack-xs flex-wrap">
             {item.actor && (
               <span className="inline-flex items-center gap-stack-2xs">
                 <Avatar
@@ -246,14 +279,14 @@ const ActivityRow: React.FC<{
                   src={item.actor.avatar}
                   shape="circle"
                 />
-                <span className="text-caption text-ink-600 font-medium">{item.actor.name}</span>
+                <span className="text-caption text-ink-600">{item.actor.name}</span>
               </span>
             )}
             {item.actionLabel && item.onActionClick && (
               <button
                 type="button"
                 onClick={item.onActionClick}
-                className="inline-flex items-center min-h-6 py-1 -my-1 gap-stack-3xs text-caption font-semibold text-primary-700 hover:text-primary-800 cursor-pointer transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                className="inline-flex items-center min-h-6 py-1 -my-1 gap-stack-3xs text-caption font-semibold text-primary-800 hover:text-primary-900 cursor-pointer transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
               >
                 {item.actionLabel}
                 <ArrowRight size={14} strokeWidth={2.5} aria-hidden="true" />
@@ -276,6 +309,7 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
   timeFormat = 'relative',
   isLoading = false,
   emptyMessage = 'Aucune activité pour le moment',
+  emptyDescription = 'Tes prochaines activités apparaîtront ici dès que tu commenceras à apprendre.',
   onLoadMore,
   hasMore = false,
   className = '',
@@ -298,7 +332,7 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
       <div className={['flex items-center justify-center p-12', className].filter(Boolean).join(' ')}>
         <div className="flex flex-col items-center gap-stack-xs text-ink-500">
           <Loader2 className="w-8 h-8 animate-spin text-primary-500" strokeWidth={2.5} />
-          <p className="m-0 text-body-sm font-medium">Chargement des activités…</p>
+          <p className="m-0 text-body text-ink-600">Chargement des activités…</p>
         </div>
       </div>
     );
@@ -315,11 +349,11 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
           .join(' ')}
       >
         <div className="flex flex-col items-center gap-stack-xs text-ink-500 text-center">
-          <span className="inline-flex items-center justify-center w-14 h-14 rounded-lg bg-white border border-ink-200 text-ink-600">
-            <Inbox size={24} strokeWidth={2} />
-          </span>
-          <p className="m-0 text-body-sm font-medium text-ink-700">{emptyMessage}</p>
-          <p className="m-0 text-caption text-ink-600 max-w-[280px]">Vos prochaines activités apparaîtront ici dès que vous commencerez à apprendre.</p>
+          <IconChip size="lg" tone="neutral">
+            <Inbox strokeWidth={2} />
+          </IconChip>
+          <p className="m-0 text-body font-semibold text-ink-900">{emptyMessage}</p>
+          <p className="m-0 text-body text-ink-700 max-w-sm">{emptyDescription}</p>
         </div>
       </div>
     );
@@ -341,22 +375,41 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
     <div className={['relative', className].filter(Boolean).join(' ')}>
       {buckets.map((bucket, bIdx) => (
         <div key={bucket.label ?? bIdx} className={bIdx > 0 ? 'mt-stack-lg' : ''}>
+          {/* Libellé de groupe (« Aujourd'hui », « Hier ») : 13/600 ink-600, en
+              casse normale — l'en-tête de table, pas un surtitre en capitales. */}
           {bucket.label && (
-            <p className="m-0 mb-3 text-caption font-bold uppercase tracking-[0.08em] text-ink-500">
+            <p className="m-0 mb-stack-sm text-caption font-semibold text-ink-600">
               {bucket.label}
             </p>
           )}
-          <div className={layout === 'cards' ? 'flex flex-col gap-stack-xs' : 'flex flex-col gap-tight'}>
-            {bucket.items.map((item, idx) => (
-              <ActivityRow
-                key={item.id}
-                item={item}
-                layout={layout}
-                isLast={idx === bucket.items.length - 1}
-                timeFormat={timeFormat}
-              />
-            ))}
-          </div>
+          {layout === 'list' ? (
+            <Card className="p-0">
+              <ul className="flex flex-col divide-y divide-ink-100">
+                {bucket.items.map((item, idx) => (
+                  <li key={item.id}>
+                    <ActivityRow
+                      item={item}
+                      layout={layout}
+                      isLast={idx === bucket.items.length - 1}
+                      timeFormat={timeFormat}
+                    />
+                  </li>
+                ))}
+              </ul>
+            </Card>
+          ) : (
+            <div className={layout === 'cards' ? 'flex flex-col gap-stack-xs' : 'flex flex-col gap-tight'}>
+              {bucket.items.map((item, idx) => (
+                <ActivityRow
+                  key={item.id}
+                  item={item}
+                  layout={layout}
+                  isLast={idx === bucket.items.length - 1}
+                  timeFormat={timeFormat}
+                />
+              ))}
+            </div>
+          )}
         </div>
       ))}
 
@@ -365,7 +418,7 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
           <button
             type="button"
             onClick={handleLoadMore}
-            className="inline-flex items-center gap-stack-xs px-stack-md py-2.5 rounded-lg border border-ink-200 bg-white text-body-sm font-bold text-ink-700 cursor-pointer hover:bg-ink-50 hover:border-primary-300 hover:shadow-sm transition-[background-color,border-color,box-shadow] duration-base ease-emphasis focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+            className="inline-flex items-center gap-stack-xs px-stack-md py-2.5 rounded-lg border border-ink-200 bg-white text-body font-bold text-ink-700 cursor-pointer hover:bg-ink-50 hover:border-primary-300 hover:shadow-sm transition-[background-color,border-color,box-shadow] duration-base ease-emphasis focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           >
             Voir plus d’activités
             <ArrowRight size={14} strokeWidth={2.25} />

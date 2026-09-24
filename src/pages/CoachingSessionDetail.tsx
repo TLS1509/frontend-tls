@@ -1,14 +1,14 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { Calendar, Video, FileText, MessageSquare, Download, ChevronRight, Clock } from 'lucide-react';
+import { Calendar, Video, FileText, MessageSquare, Download, Clock } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
-import { SectionCard } from '../components/patterns/SectionCard';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { Avatar } from '../components/ui/Avatar';
 import { SessionCard } from '../components/learning/SessionCard';
-import { Container, PageShell } from '../components/layout';
+import { PageShell } from '../components/layout';
 import { useCoachingStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
 
@@ -31,6 +31,12 @@ function formatScheduledAt(iso: string) {
   return { day: day.charAt(0).toUpperCase() + day.slice(1), time: `${time} – ${endTime}` };
 }
 
+/** Le type de session, tel que l'apprenant le lit (« classic » était l'enum brute). */
+const SESSION_TYPE_LABEL: Record<string, string> = {
+  classic: 'Session Classic',
+  special: 'Session spéciale',
+};
+
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function CoachingSessionDetail() {
@@ -50,137 +56,122 @@ export default function CoachingSessionDetail() {
   const previousSessions = sessions.filter((s) => s.id !== session.id && s.status === 'completed');
 
   return (
-    <PageShell width="page" className="pt-6 md:pt-8 lg:pt-10 relative z-base gap-section" noPadTop>
+    /* 48 px entre l'en-tête et chaque section (le `gap-section` posé ici
+       mettait 32). */
+    <PageShell width="page" className="pt-6 md:pt-8 lg:pt-10 relative z-base" noPadTop>
+      {/* Le titre est le thème de la session ; le surtitre dit le lieu, sans
+          identifiant technique (« Session #session-1 »). Coach, date, heure,
+          format et état sont des données : la ligne de méta de l'en-tête. Les
+          trois tuiles « COACH / DATE & HEURE / FORMAT » (libellés en
+          capitales) répétaient cette ligne mot pour mot : elles s'y fondent. */}
       <EditorialHero
-        eyebrow={`Coaching · Session #${session.id}`}
-        title={`Session coaching : ${session.theme ?? 'Développement managérial'}`}
-        summary={`${day} · ${time} · Visioconférence`}
+        eyebrow="Coaching · Session"
+        title={session.theme ?? 'Développement managérial'}
+        meta={[
+          { icon: <Avatar name={session.coachName} initials={coachInitials} size="xs" />, label: `Avec ${session.coachName}` },
+          { icon: <Calendar size={14} aria-hidden="true" />, label: day },
+          { icon: <Clock size={14} aria-hidden="true" />, label: time },
+          { icon: <Video size={14} aria-hidden="true" />, label: 'Visioconférence' },
+          { label: <Badge variant="info" size="compact">{isPlanned ? 'Confirmée' : 'Terminée'}</Badge> },
+        ]}
         tone="flat"
+        /* Arbitrage n°19 : « Rejoindre » est l'action principale d'une
+           session à venir, le seul `solid` ; le calendrier est un outil
+           (`ghost` neutre). Une session passée n'a pas d'action principale. */
         trailing={
-          <div className="flex items-center gap-stack-xs">
+          <div className="flex flex-wrap items-center gap-stack-xs">
             {isPlanned && (
-              <Button emphasis="soft" size="md" leadingIcon={<Video size={16} />}>
+              <Button emphasis="solid" tone="brand" size="md" leadingIcon={<Video size={16} />}>
                 Rejoindre la session
               </Button>
             )}
-            <Button emphasis="outline" size="md" leadingIcon={<Download size={16} />}>
+            {/* Seul, pour une session passée, il se cale sur le bord du texte
+                (`flush="start"` rattrape le padding du ghost). */}
+            <Button emphasis="ghost" tone="neutral" size="md" leadingIcon={<Download size={16} />} flush={isPlanned ? undefined : 'start'}>
               Ajouter au calendrier
             </Button>
           </div>
         }
       />
 
-      <div className="flex flex-col gap-section">
-
-        {/* Info cards row */}
-        <div className="grid md:grid-cols-3 gap-stack">
-          {/* Coach */}
-          <Card variant="default" className="flex items-center gap-stack p-stack-md">
-            <Avatar name={session.coachName} initials={coachInitials} size="lg" />
-            <div className="flex flex-col gap-tight">
-              <span className="text-caption text-ink-600 uppercase tracking-wide">Coach</span>
-              <span className="text-body-sm font-semibold text-ink-900">{session.coachName}</span>
-              <span className="text-caption text-ink-500">{session.coachSpeciality ?? 'Leadership · Communication'}</span>
-            </div>
-          </Card>
-
-          {/* Date & Time */}
-          <Card variant="default" className="flex items-center gap-stack p-stack-md">
-            <div className="w-10 h-10 rounded-xl bg-secondary-50 flex items-center justify-center shrink-0">
-              <Calendar size={20} className="text-secondary-500" />
-            </div>
-            <div className="flex flex-col gap-tight">
-              <span className="text-caption text-ink-600 uppercase tracking-wide">Date & heure</span>
-              <span className="text-body-sm font-semibold text-ink-900">{day}</span>
-              <span className="text-caption text-ink-500">{time}</span>
-            </div>
-          </Card>
-
-          {/* Format */}
-          <Card variant="default" className="flex items-center gap-stack p-stack-md">
-            <div className="w-10 h-10 rounded-xl bg-secondary-50 flex items-center justify-center shrink-0">
-              <Video size={20} className="text-secondary-500" />
-            </div>
-            <div className="flex flex-col gap-tight">
-              <span className="text-caption text-ink-600 uppercase tracking-wide">Format</span>
-              <span className="text-body-sm font-semibold text-ink-900">Visioconférence</span>
-              <Badge variant="info" size="compact">
-                {isPlanned ? 'Confirmée' : 'Terminée'}
-              </Badge>
-            </div>
-          </Card>
-        </div>
-
-        {/* Objectives */}
-        <SectionCard
-          title="Objectifs de la session"
-          titleIcon={<FileText size={18} />}
-        >
-          <ul className="flex flex-col gap-stack-xs">
-            {DEFAULT_OBJECTIVES.map((obj, i) => (
-              <li key={i} className="flex items-start gap-stack">
-                <span className="inline-flex items-center justify-center w-6 h-6 rounded-pill bg-secondary-50 text-secondary-600 text-caption font-bold shrink-0">
+      {/* Objectifs : une liste à lire, pas un objet — plus de carte autour.
+          Texte 16 ink-900 ; le numéro se cale sur la première ligne. */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader title="Objectifs de la session" size="md" />
+        <ol className="flex flex-col gap-stack-sm max-w-prose">
+          {DEFAULT_OBJECTIVES.map((obj, i) => (
+            <li key={i} className="flex items-start gap-stack-sm">
+              <span className="shrink-0 inline-flex items-center h-lh text-body">
+                <span className="inline-flex items-center justify-center w-6 h-6 rounded-pill bg-secondary-50 text-secondary-800 text-caption font-bold tabular-nums">
                   {i + 1}
                 </span>
-                <span className="text-body-sm text-ink-700">{obj}</span>
-              </li>
-            ))}
-          </ul>
-        </SectionCard>
+              </span>
+              <span className="text-body text-ink-900">{obj}</span>
+            </li>
+          ))}
+        </ol>
+      </section>
 
-        {/* Preparation */}
-        <SectionCard
+      {/* Préparation : l'état « À faire avant la session » monte à côté du
+          titre (il était sous le bouton, après un filet). */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader
           title="Préparation recommandée"
-          titleIcon={<ChevronRight size={18} />}
-          actions={
-            <Badge variant="sun" size="compact">À faire avant la session</Badge>
-          }
-        >
-          <p className="text-body-sm text-ink-600">
+          size="md"
+          action={<Badge variant="sun" size="compact">À faire avant la session</Badge>}
+        />
+        <Card className="flex flex-col items-start gap-stack-lg">
+          <p className="text-body text-ink-700 max-w-prose">
             Avant la session, prends 10 minutes pour noter tes succès récents, les situations difficiles rencontrées, et les questions que tu souhaites aborder avec ton coach.
           </p>
-          <div className="mt-stack flex gap-stack-xs">
-            <Button
-              emphasis="soft" tone="warm"
-              size="md"
-              leadingIcon={<FileText size={16} />}
-            >
-              Compléter le questionnaire
-            </Button>
+          <Button
+            emphasis="soft" tone="warm"
+            size="md"
+            leadingIcon={<FileText size={16} />}
+          >
+            Répondre au questionnaire
+          </Button>
+        </Card>
+      </section>
+
+      {/* Sessions précédentes : chaque session est déjà une carte — plus de
+          carte de section autour (double filet, double padding). */}
+      {previousSessions.length > 0 && (
+        <section className="flex flex-col gap-stack">
+          <SectionHeader
+            title="Sessions précédentes"
+            meta={`${previousSessions.length} session${previousSessions.length > 1 ? 's' : ''} avec ${session.coachName}`}
+            size="md"
+          />
+          <div className="flex flex-col gap-stack-sm">
+            {previousSessions.map((prev) => (
+              <SessionCard
+                key={prev.id}
+                title={prev.theme ?? `Session coaching`}
+                description={`${SESSION_TYPE_LABEL[prev.type] ?? prev.type} · ${prev.durationMinutes} min`}
+                coachName={session.coachName}
+                dateLabel={new Date(prev.scheduledAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}
+                status={/* SessionCard n'expose que 'planned' | 'completed' */ prev.status === 'completed' ? 'completed' : 'planned'}
+                surface="card"
+                report={true}
+                onViewReport={() => {}}
+              />
+            ))}
           </div>
-        </SectionCard>
+        </section>
+      )}
 
-        {/* Previous sessions */}
-        {previousSessions.length > 0 && (
-          <SectionCard title="Sessions précédentes" titleIcon={<Clock size={18} />}>
-            <div className="flex flex-col gap-stack-xs">
-              {previousSessions.map((prev) => (
-                <SessionCard
-                  key={prev.id}
-                  title={prev.theme ?? `Session coaching`}
-                  description={`${prev.type} · ${prev.durationMinutes} min`}
-                  coachName={session.coachName}
-                  dateLabel={new Date(prev.scheduledAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}
-                  status={/* SessionCard n'expose que 'planned' | 'completed' */ prev.status === 'completed' ? 'completed' : 'planned'}
-                  surface="card"
-                  report={true}
-                  onViewReport={() => {}}
-                />
-              ))}
-            </div>
-          </SectionCard>
-        )}
-
-        {/* Actions */}
-        <div className="flex items-center gap-stack-xs pb-section">
-          <Button emphasis="outline" size="md" leadingIcon={<MessageSquare size={16} />}>
-            Contacter le coach
-          </Button>
-          <Button emphasis="outline" size="md" className="text-danger-fg hover:bg-danger-bg">
-            Annuler la session
-          </Button>
-        </div>
-
+      {/* Actions — plus de `pb-section` : PageShell porte l'air du bas.
+          Contacter le coach, l'action seconde, en `soft` ; annuler la session,
+          une action destructive posée dans la page, en `ghost` danger
+          (arbitrage n°19) — elle était un `outline` recoloré à la main. */}
+      <div className="flex flex-wrap items-center gap-stack-xs">
+        <Button emphasis="soft" tone="brand" size="md" leadingIcon={<MessageSquare size={16} />}>
+          Contacter le coach
+        </Button>
+        <Button emphasis="ghost" tone="danger" size="md">
+          Annuler la session
+        </Button>
       </div>
     </PageShell>
   );

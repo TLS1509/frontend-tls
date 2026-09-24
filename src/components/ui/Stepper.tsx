@@ -15,19 +15,23 @@ export interface StepperProps extends React.HTMLAttributes<HTMLOListElement> {
   orientation?: StepperOrientation;
 }
 
+// Numéro d'étape : un chiffre sous 16 px — Nunito 600, tabulaire (doctrine § 1).
 const CIRCLE_BASE =
-  'relative z-10 inline-flex items-center justify-center w-10 h-10 rounded-pill border-2 font-body font-bold text-caption shrink-0 transition-[background-color,border-color,box-shadow,transform] duration-base ease-emphasis';
+  'relative z-10 inline-flex items-center justify-center w-10 h-10 rounded-pill border-2 font-body font-semibold tabular-nums text-caption shrink-0 transition-[background-color,border-color,box-shadow,transform] duration-base ease-emphasis';
 
 const CIRCLE_STATE: Record<StepperState, string> = {
-  done:     'bg-success-base border-success-base text-white shadow-sm',
+  done:     'bg-success-vivid border-success-vivid text-white shadow-sm',
   current:  'bg-white border-primary-600 text-primary-700 shadow-brand-sm ring-4 ring-primary-100 scale-110',
-  upcoming: 'bg-white border-ink-200 text-ink-400',
+  upcoming: 'bg-white border-ink-200 text-ink-600',
 };
 
+/* Libellés : l'étape courante en emphase (600, ink-900), les autres en texte
+   (400). À venir en ink-600 — ink-500 est réservé aux placeholders, et 500
+   aux puces. */
 const LABEL_STATE: Record<StepperState, string> = {
-  done:     'text-success-base font-semibold',
-  current:  'text-ink-900 font-bold',
-  upcoming: 'text-ink-500 font-medium',
+  done:     'text-success-fg',
+  current:  'text-ink-900 font-semibold',
+  upcoming: 'text-ink-600',
 };
 
 const LINE_STATE: Record<StepperState, string> = {
@@ -76,18 +80,22 @@ export const Stepper: React.FC<StepperProps> = ({
             </div>
 
             {isVertical ? (
-              <div className="pt-2 flex-1 min-w-0">
-                <p className={`m-0 text-body-sm leading-snug ${LABEL_STATE[item.state]}`}>
+              /* (40 − 26) / 2 = 7 : la première ligne du libellé se centre sur
+                 le rond (doctrine § 4). */
+              <div className="pt-[7px] flex-1 min-w-0 flex flex-col gap-stack-3xs">
+                <p className={`text-body ${LABEL_STATE[item.state]}`}>
                   {item.label}
                 </p>
                 {item.description && (
-                  <p className="m-0 mt-0.5 text-caption text-ink-500 leading-relaxed">
+                  <p className="text-caption text-ink-600">
                     {item.description}
                   </p>
                 )}
               </div>
             ) : (
-              <p className={`m-0 text-[11px] sm:text-caption break-words ${LABEL_STATE[item.state]}`}>
+              /* Légende 13 à toutes les largeurs : elle tombait à 11 px sur
+                 mobile, le registre des étiquettes (`Badge`). */
+              <p className={`text-caption break-words ${LABEL_STATE[item.state]}`}>
                 {item.label}
               </p>
             )}

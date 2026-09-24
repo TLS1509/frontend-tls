@@ -1,20 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { HelpCircle, Play, Clock } from 'lucide-react';
-import { EditorialHero } from '../components/patterns/EditorialHero';
+import { Play } from 'lucide-react';
+import { PageHero } from '../components/patterns/EditorialHero';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
-import { Badge } from '../components/ui/Badge';
-import { FilterChip } from '../components/ui/FilterChip';
 import { useHelpcenterStore } from '../stores/persistence';
-import { Container } from '../components/layout';
-
-const FILTERS = [
-  { id: 'all', label: 'Tous' },
-];
+import { PageShell } from '../components/layout';
 
 export default function HelpTutorials() {
-  const [activeFilter, setActiveFilter] = useState('all');
   const navigate = useNavigate();
   const store = useHelpcenterStore();
   const tutorials = store.getTutorials();
@@ -25,65 +19,58 @@ export default function HelpTutorials() {
     return `${m} min`;
   };
 
+  /* Passe typographique du 2026-09-24 : une seule coque (l'en-tête collait au
+     haut de la fenêtre) ; le filtre « Tous », seul et sans alternative, est
+     retiré ; la grille a son titre de section (la page sautait du h1 aux h3
+     des cartes) ; le nombre d'étapes et la durée sont une ligne de méta sous
+     le titre (« 3 ÉTAPES » était un Badge qui serrait le titre sur deux
+     lignes) ; la description passe à ink-700 et l'action à 24 du contenu. */
   return (
-    <div className="flex flex-col gap-section">
-      <EditorialHero
-        eyebrow={{ icon: <HelpCircle size={14} />, label: 'Aide · Tutoriels' }}
+    <PageShell width="page">
+      <PageHero
+        eyebrow="Centre d'aide"
         title="Tutoriels"
-        summary="Apprenez à utiliser toutes les fonctionnalités de la plateforme avec nos guides pas-à-pas."
+        summary="Apprenez à utiliser toutes les fonctionnalités de la plateforme avec nos guides pas à pas."
         tone="flat"
       />
 
-      <Container width="page" padding={false} className="px-stack flex flex-col gap-section pb-page">
-        <div className="flex flex-wrap gap-stack-xs">
-          {FILTERS.map((f) => (
-            <FilterChip
-              key={f.id}
-              label={f.label}
-              active={activeFilter === f.id}
-              onClick={() => setActiveFilter(f.id)}
-            />
-          ))}
-        </div>
-
+      <section className="flex flex-col gap-stack">
+        <SectionHeader title="Tous les tutoriels" meta={`${tutorials.length} tutoriels`} />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-stack">
           {tutorials.map((tutorial) => {
             const duration = formatDuration(tutorial.videoDurationSeconds);
             const stepCount = tutorial.sections.length;
             return (
-              <Card key={tutorial.id} className="flex flex-col h-full">
-                <div className="flex flex-col gap-stack flex-1">
-                  <div className="flex items-start justify-between gap-stack-xs">
-                    <h3 className="font-display text-h4 text-ink-900 leading-snug">
+              <Card key={tutorial.id} className="flex flex-col gap-stack-lg h-full">
+                <div className="flex flex-col gap-stack-xs flex-1">
+                  <div className="flex flex-col gap-stack-3xs">
+                    <h3 className="font-display text-h3 text-ink-900">
                       {tutorial.title}
                     </h3>
-                    <Badge variant="brand">{stepCount} étapes</Badge>
+                    <p className="text-caption text-ink-600">
+                      {stepCount} étapes{duration ? ` · ${duration}` : ''}
+                    </p>
                   </div>
-                  <p className="text-body-sm text-ink-600 m-0 flex-1">
+                  <p className="text-body text-ink-700">
                     {tutorial.description}
                   </p>
-                  <div className="flex items-center justify-between gap-stack-xs pt-stack-xs border-t border-ink-100">
-                    {duration && (
-                      <span className="flex items-center gap-tight text-caption text-ink-500">
-                        <Clock size={14} />
-                        {duration}
-                      </span>
-                    )}
-                    <Button
-                      emphasis="soft"
-                      size="sm"
-                      leadingIcon={<Play size={14} />}
-                      onClick={() => navigate(`/help/tutorials/${tutorial.id}/step/1`)}
-                    >
-                      Démarrer
-                    </Button>
-                  </div>
+                </div>
+                <div>
+                  <Button
+                    emphasis="soft"
+                    size="sm"
+                    leadingIcon={<Play size={14} />}
+                    aria-label={`Démarrer le tutoriel : ${tutorial.title}`}
+                    onClick={() => navigate(`/help/tutorials/${tutorial.id}/step/1`)}
+                  >
+                    Démarrer
+                  </Button>
                 </div>
               </Card>
             );
           })}
         </div>
-      </Container>
-    </div>
+      </section>
+    </PageShell>
   );
 }

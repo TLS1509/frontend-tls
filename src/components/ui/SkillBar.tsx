@@ -16,10 +16,11 @@ const FILL_TONE_CLASSES: Record<SkillTone, string> = {
   sun:   'bg-gradient-to-r from-accent-300 to-accent-500',
 };
 
+// Texte de marque au cran 800 (doctrine § 2).
 const VALUE_TONE_CLASSES: Record<SkillTone, string> = {
-  brand: 'text-primary-700',
-  warm:  'text-secondary-700',
-  sun:   'text-accent-700',
+  brand: 'text-primary-800',
+  warm:  'text-secondary-800',
+  sun:   'text-accent-800',
 };
 
 export const SkillBar: React.FC<SkillBarProps> = ({
@@ -33,13 +34,13 @@ export const SkillBar: React.FC<SkillBarProps> = ({
 
   return (
     <div className={`flex flex-col gap-stack-xs ${className}`}>
-      <div className="flex justify-between items-baseline text-body-sm">
+      <div className="flex justify-between items-baseline text-body">
         <span className="font-semibold text-ink-900">{label}</span>
         {showValue && (
           <span
             className={`font-display font-bold tabular-nums ${VALUE_TONE_CLASSES[tone]}`}
           >
-            {clampedValue}%
+            {clampedValue}&nbsp;%
           </span>
         )}
       </div>

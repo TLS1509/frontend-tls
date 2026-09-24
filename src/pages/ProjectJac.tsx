@@ -5,15 +5,18 @@ import {
 } from 'lucide-react';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
+import { MetaPill } from '../components/ui/MetaPill';
+import { Card } from '../components/core/Card';
+import { EmptyState } from '../components/ui/EmptyState';
 import { EditorialHero } from '../components/patterns/EditorialHero';
-import { SectionCard } from '../components/patterns/SectionCard';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { Avatar } from '../components/ui/Avatar';
 import FormGroup from '../components/core/FormGroup';
 import { useProjectsStore } from '../stores/persistence';
 import type { JacStatus, DreyfusRubricScore } from '../types/projects';
 import type { DreyfusLevel } from '../types/learning';
 import { DREYFUS_LABELS } from '../data/competencies';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 
 const MOCK_EXPERT_ID = 'expert-jean-marc';
 
@@ -96,30 +99,38 @@ const JacValidationForm: React.FC<{
     onClose();
   };
 
+  /* Rythme du formulaire : 24 entre ses groupes (32 avant, l'écart entre deux
+     sections de page). Les intitulés de groupe sont des légendes 13/600 en
+     casse normale (ils étaient en capitales espacées ink-500) ; les champs
+     prennent le filet des champs (ink-400) et un texte saisi à 16 (sous 16,
+     iOS zoome au focus). Les boutons de décision passent au rayon des
+     contrôles (14) et à leur hauteur (44). */
   return (
-    <div className="flex flex-col gap-section p-stack bg-ink-50 rounded-lg border border-ink-200">
-      <div>
-        <p className="text-body-sm font-semibold text-ink-900 m-0">
+    <div className="flex flex-col gap-stack-lg p-stack-md bg-ink-50 rounded-xl border border-ink-200">
+      <div className="flex flex-col gap-stack-3xs">
+        <p className="text-body font-semibold text-ink-900">
           Validation JAC : {collaboratorName}
         </p>
-        <p className="text-caption text-ink-500 m-0">{competencyName}</p>
+        <p className="text-caption text-ink-600">{competencyName}</p>
       </div>
 
       {/* Rubric scoring */}
-      <div className="flex flex-col gap-stack">
-        <p className="text-caption font-semibold text-ink-600 uppercase tracking-wide m-0">Grille d'évaluation Dreyfus</p>
+      <div className="flex flex-col gap-stack-sm">
+        <p className="text-caption font-semibold text-ink-600">Grille d'évaluation Dreyfus</p>
         {rubric.map((row, idx) => (
           <div key={idx} className="flex flex-col gap-stack-xs p-stack bg-white rounded-lg border border-ink-100">
-            <p className="text-body-sm font-semibold text-ink-900 m-0">{row.criterion}</p>
+            <p className="text-body font-semibold text-ink-900">{row.criterion}</p>
             <div className="flex flex-wrap gap-stack-2xs">
               {([1, 2, 3, 4, 5] as DreyfusLevel[]).map((level) => (
                 <button
                   key={level}
+                  type="button"
+                  aria-pressed={row.score === level}
                   onClick={() => handleScoreChange(idx, level)}
-                  className={`px-3 py-1 rounded-pill text-caption font-bold transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
+                  className={`px-3 py-1 rounded-pill text-caption font-medium transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                     row.score === level
-                      ? 'bg-primary-600 text-white'
-                      : 'bg-ink-100 text-ink-600 hover:bg-primary-50 hover:text-primary-700'
+                      ? 'bg-primary-700 text-white'
+                      : 'bg-ink-100 text-ink-700 hover:bg-primary-50 hover:text-primary-800'
                   }`}
                 >
                   D{level} · {DREYFUS_LABELS[level]}
@@ -129,32 +140,37 @@ const JacValidationForm: React.FC<{
             <textarea
               rows={2}
               placeholder="Commentaire (optionnel)"
+              aria-label={`Commentaire : ${row.criterion}`}
               value={row.comment}
               onChange={(e) => handleCommentChange(idx, e.target.value)}
-              className="w-full p-stack-xs rounded-lg border border-ink-200 font-body text-caption focus:outline-none focus:ring-1 focus:ring-primary-500 h-auto min-h-[52px]"
+              className="w-full p-stack-sm rounded-lg border border-ink-400 font-body text-body placeholder:text-ink-500 focus:outline-none focus:ring-1 focus:ring-primary-500 h-auto min-h-[52px]"
             />
           </div>
         ))}
       </div>
 
-      {/* Niveau validé — pré-rempli depuis la moyenne rubrique, l'expert décide (art. 22) */}
-      <div className="flex flex-col gap-stack-xs p-3 bg-primary-50 rounded-lg">
-        <div className="flex items-center gap-stack-xs">
-          <Target size={16} className="text-primary-600 shrink-0" />
-          <p className="text-caption font-semibold text-primary-800 m-0">
+      {/* Niveau validé — pré-rempli depuis la moyenne rubrique, l'expert décide
+          (art. 22). La précision est en encre de marque au cran 800 (le 700
+          mesure 4,48 sur primary-50). */}
+      <div className="flex flex-col gap-stack-xs px-stack py-stack-sm bg-primary-50 rounded-lg">
+        <div className="flex items-start gap-stack-xs">
+          <Target size={16} className="text-primary-700 shrink-0 mt-0.5" aria-hidden="true" />
+          <p className="text-caption font-semibold text-primary-800">
             Niveau Dreyfus validé{' '}
-            <span className="font-normal text-primary-700">· pré-rempli D{averageLevel} (moyenne rubrique) — ajuste si besoin</span>
+            <span className="font-normal">· pré-rempli D{averageLevel} (moyenne rubrique), ajustez si besoin</span>
           </p>
         </div>
         <div className="flex flex-wrap gap-stack-2xs">
           {([1, 2, 3, 4, 5] as DreyfusLevel[]).map((level) => (
             <button
               key={level}
+              type="button"
+              aria-pressed={effectiveLevel === level}
               onClick={() => setLevelOverride(level)}
-              className={`px-3 py-1 rounded-pill text-caption font-bold transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
+              className={`px-3 py-1 rounded-pill text-caption font-medium transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                 effectiveLevel === level
-                  ? 'bg-primary-600 text-white'
-                  : 'bg-white text-ink-600 hover:bg-primary-100 hover:text-primary-700'
+                  ? 'bg-primary-700 text-white'
+                  : 'bg-white text-ink-700 hover:bg-primary-100 hover:text-primary-800'
               }`}
             >
               D{level} · {DREYFUS_LABELS[level]}
@@ -170,26 +186,28 @@ const JacValidationForm: React.FC<{
           placeholder="Synthèse de l'évaluation, axes d'amélioration..."
           value={globalFeedback}
           onChange={(e) => setGlobalFeedback(e.target.value)}
-          className="w-full p-3 rounded-lg border border-ink-200 font-body text-body-sm focus:outline-none focus:ring-2 focus:ring-primary-500 h-auto min-h-[88px]"
+          className="w-full p-stack-sm rounded-lg border border-ink-400 font-body text-body placeholder:text-ink-500 focus:outline-none focus:ring-2 focus:ring-primary-500 h-auto min-h-[88px]"
         />
       </FormGroup>
 
       {/* Decision */}
       <div className="flex flex-col gap-stack-xs">
-        <p className="text-caption font-semibold text-ink-600 m-0">Décision</p>
+        <p className="text-caption font-semibold text-ink-600">Décision</p>
         <div className="flex gap-stack-xs flex-wrap">
           {(['approved', 'rework_submitted', 'rejected'] as const).map((d) => (
             <button
               key={d}
+              type="button"
+              aria-pressed={decision === d}
               onClick={() => setDecision(d)}
-              className={`px-stack py-stack-xs rounded-pill text-body-sm font-bold transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
+              className={`h-11 px-stack rounded-lg text-body font-bold transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                 decision === d
                   ? d === 'approved'
-                    ? 'bg-success-base text-white'
+                    ? 'bg-success-vivid text-white'
                     : d === 'rejected'
-                    ? 'bg-danger-base text-white'
+                    ? 'bg-danger-strong text-white'
                     : 'bg-info-base text-white'
-                  : 'bg-ink-100 text-ink-600 hover:bg-ink-200'
+                  : 'bg-ink-100 text-ink-700 hover:bg-ink-200'
               }`}
             >
               {d === 'approved' ? 'Valider' : d === 'rework_submitted' ? 'À retravailler' : 'Refuser'}
@@ -198,9 +216,12 @@ const JacValidationForm: React.FC<{
         </div>
       </div>
 
+      {/* Paire Annuler / Confirmer (arbitrage n°19). La page n'a pas d'autre
+          aplat : quand la grille est dépliée, l'évaluation est l'action pour
+          laquelle l'écran existe. Un seul formulaire s'ouvre à la fois. */}
       <div className="flex gap-stack-xs justify-end">
-        <Button emphasis="outline" size="sm" onClick={onClose}>Annuler</Button>
-        <Button emphasis="soft" size="sm" onClick={handleSubmit}>
+        <Button emphasis="outline" tone="neutral" size="sm" onClick={onClose}>Annuler</Button>
+        <Button emphasis="solid" size="sm" onClick={handleSubmit}>
           Confirmer l'évaluation
         </Button>
       </div>
@@ -227,158 +248,157 @@ export const ProjectJac: React.FC = () => {
     setExpandedJacId((prev) => (prev === jacId ? null : jacId));
   };
 
+  /* L'en-tête d'un JAC (dépliable) : un vrai bouton, qui dit son état. Une
+     fonction de rendu, pas un composant défini ici : recréé à chaque rendu,
+     il se remonterait et le focus clavier serait perdu au dépliage. */
+  const renderRowHeader = (jac: typeof jacs[number], tint: 'brand' | 'warm', children: React.ReactNode) => (
+    <button
+      type="button"
+      aria-expanded={expandedJacId === jac.id}
+      onClick={() => toggleExpand(jac.id)}
+      className="w-full flex items-center gap-stack px-stack-lg py-stack text-left cursor-pointer hover:bg-ink-50 transition-colors focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-500"
+    >
+      <Avatar initials={jac.collaboratorInitials} size="md" tint={tint} />
+      <div className="flex-1 min-w-0 flex flex-col gap-stack-3xs">
+        <p className="text-body font-semibold text-ink-900">{jac.collaboratorName}</p>
+        <p className="text-caption text-ink-600">{children}</p>
+      </div>
+      <div className="flex items-center gap-stack-xs shrink-0">
+        <Badge variant={JAC_STATUS_VARIANTS[jac.status]}>
+          <span className="inline-flex items-center gap-stack-3xs">
+            {JAC_STATUS_ICONS[jac.status]}
+            {JAC_STATUS_LABELS[jac.status]}
+          </span>
+        </Badge>
+        {expandedJacId === jac.id ? <ChevronUp size={16} className="text-ink-600" /> : <ChevronDown size={16} className="text-ink-600" />}
+      </div>
+    </button>
+  );
+
   return (
-    <Container width="medium" className="py-section flex flex-col gap-section">
-      <div>
-        <Button emphasis="outline" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(`/project/${projectId}`)}>
-          Retour au projet
-        </Button>
+    /* `PageShell` : le `Container` ajoutait sa propre gouttière à celle de la
+       page (tout le contenu était décalé de 40 px). */
+    <PageShell width="medium">
+      {/* Le retour et l'en-tête forment un groupe : 24 entre eux. */}
+      <div className="flex flex-col gap-stack-lg">
+        <div>
+          <Button emphasis="ghost" tone="neutral" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(`/project/${projectId}`)}>
+            Retour au projet
+          </Button>
+        </div>
+
+        <EditorialHero
+          eyebrow={{ label: 'Projet · JAC' }}
+          title="Jalons d'Application Critique"
+          summary="Évaluations Dreyfus par compétence. Validez les JAC soumis par les collaborateurs."
+          tone="flat"
+          meta={[
+            { icon: <Clock size={14} />, label: `${pendingJacs.length} en attente` },
+            { icon: <CheckCircle2 size={14} />, label: `${doneJacs.length} traités` },
+          ]}
+        />
       </div>
 
-      <EditorialHero
-        eyebrow={{ label: 'Projet · JAC' }}
-        title="Jalons d'Application Critique"
-        summary="Évaluations Dreyfus par compétence. Validez les JAC soumis par les collaborateurs."
-        tone="flat"
-        meta={[
-          { icon: <Clock size={14} />, label: `${pendingJacs.length} en attente` },
-          { icon: <CheckCircle2 size={14} />, label: `${doneJacs.length} traités` },
-        ]}
-      />
-
-      {/* JACs en attente */}
+      {/* Deux sections : leur titre (h2 28) sur la page, le compte en méta ;
+          les JAC en rangées dépliables dans une carte (ils étaient des boîtes
+          dans une carte). */}
       {pendingJacs.length > 0 && (
-        <SectionCard
-          title="JAC en attente de validation"
-          titleIcon={<Clock size={18} />}
-          description={`${pendingJacs.length} JAC à évaluer`}
-        >
-          <div className="flex flex-col gap-stack-xs">
-            {pendingJacs.map((jac) => (
-              <div key={jac.id} className="rounded-lg border border-ink-200 overflow-hidden">
-                <div
-                  className="flex items-center gap-stack p-stack cursor-pointer hover:bg-ink-50 transition-all"
-                  onClick={() => toggleExpand(jac.id)}
-                >
-                  <Avatar initials={jac.collaboratorInitials} size="md" tint="brand" />
-                  <div className="flex-1 min-w-0">
-                    <p className="text-body-sm font-semibold text-ink-900 m-0">{jac.collaboratorName}</p>
-                    <p className="text-caption text-ink-500 m-0">{jac.competencyName} · soumis le {formatDate(jac.createdAt)}</p>
-                  </div>
-                  <div className="flex items-center gap-stack-xs shrink-0">
-                    <Badge variant={JAC_STATUS_VARIANTS[jac.status]}>
-                      <span className="inline-flex items-center gap-tight">
-                        {JAC_STATUS_ICONS[jac.status]}
-                        {JAC_STATUS_LABELS[jac.status]}
-                      </span>
-                    </Badge>
-                    {expandedJacId === jac.id ? <ChevronUp size={16} className="text-ink-400" /> : <ChevronDown size={16} className="text-ink-400" />}
-                  </div>
-                </div>
+        <section className="flex flex-col gap-stack">
+          <SectionHeader title="JAC en attente de validation" meta={`${pendingJacs.length} JAC à évaluer`} />
+          <Card className="p-0 overflow-hidden">
+            <ul className="divide-y divide-ink-100">
+              {pendingJacs.map((jac) => (
+                <li key={jac.id}>
+                  {renderRowHeader(jac, 'brand', <>{jac.competencyName} · soumis le {formatDate(jac.createdAt)}</>)}
 
-                {expandedJacId === jac.id && (
-                  <div className="px-stack pb-stack flex flex-col gap-stack border-t border-ink-100 pt-stack">
-                    <div className="flex items-center gap-stack-xs text-caption text-ink-600">
-                      <Avatar initials={jac.expertInitials} size="sm" />
-                      <span>Expert assigné : {jac.expertName}</span>
+                  {expandedJacId === jac.id && (
+                    <div className="px-stack-lg pb-stack-lg pt-stack flex flex-col gap-stack border-t border-ink-100">
+                      <div className="flex items-center gap-stack-xs text-caption text-ink-600">
+                        <Avatar initials={jac.expertInitials} size="sm" />
+                        <span>Expert assigné : {jac.expertName}</span>
+                      </div>
+
+                      {validatingJacId === jac.id ? (
+                        <JacValidationForm
+                          jacId={jac.id}
+                          collaboratorName={jac.collaboratorName}
+                          competencyName={jac.competencyName}
+                          onClose={() => setValidatingJacId(null)}
+                        />
+                      ) : (
+                        <Button
+                          emphasis="soft"
+                          size="sm"
+                          leadingIcon={<Target size={14} />}
+                          onClick={() => setValidatingJacId(jac.id)}
+                          className="self-start"
+                        >
+                          Évaluer ce JAC
+                        </Button>
+                      )}
                     </div>
-
-                    {validatingJacId === jac.id ? (
-                      <JacValidationForm
-                        jacId={jac.id}
-                        collaboratorName={jac.collaboratorName}
-                        competencyName={jac.competencyName}
-                        onClose={() => setValidatingJacId(null)}
-                      />
-                    ) : (
-                      <Button
-                        emphasis="soft"
-                        size="sm"
-                        leadingIcon={<Target size={14} />}
-                        onClick={() => setValidatingJacId(jac.id)}
-                      >
-                        Évaluer ce JAC
-                      </Button>
-                    )}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </SectionCard>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </Card>
+        </section>
       )}
 
-      {/* JACs traités */}
       {doneJacs.length > 0 && (
-        <SectionCard
-          title="JAC traités"
-          titleIcon={<CheckCircle2 size={18} />}
-          description={`${doneJacs.length} JAC évalués`}
-        >
-          <div className="flex flex-col gap-stack-xs">
-            {doneJacs.map((jac) => (
-              <div key={jac.id} className="rounded-lg border border-ink-100 overflow-hidden">
-                <div
-                  className="flex items-center gap-stack p-stack cursor-pointer hover:bg-ink-50 transition-all"
-                  onClick={() => toggleExpand(jac.id)}
-                >
-                  <Avatar initials={jac.collaboratorInitials} size="md" tint={jac.status === 'approved' ? 'brand' : 'warm'} />
-                  <div className="flex-1 min-w-0">
-                    <p className="text-body-sm font-semibold text-ink-900 m-0">{jac.collaboratorName}</p>
-                    <p className="text-caption text-ink-500 m-0">
-                      {jac.competencyName}
-                      {jac.dreyfusLevelAchieved && ` · D${jac.dreyfusLevelAchieved} : ${DREYFUS_LABELS[jac.dreyfusLevelAchieved]}`}
-                      {jac.validatedAt && ` · validé le ${formatDate(jac.validatedAt)}`}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-stack-xs shrink-0">
-                    <Badge variant={JAC_STATUS_VARIANTS[jac.status]}>
-                      <span className="inline-flex items-center gap-tight">
-                        {JAC_STATUS_ICONS[jac.status]}
-                        {JAC_STATUS_LABELS[jac.status]}
-                      </span>
-                    </Badge>
-                    {expandedJacId === jac.id ? <ChevronUp size={16} className="text-ink-400" /> : <ChevronDown size={16} className="text-ink-400" />}
-                  </div>
-                </div>
+        <section className="flex flex-col gap-stack">
+          <SectionHeader title="JAC traités" meta={`${doneJacs.length} JAC évalués`} />
+          <Card className="p-0 overflow-hidden">
+            <ul className="divide-y divide-ink-100">
+              {doneJacs.map((jac) => (
+                <li key={jac.id}>
+                  {renderRowHeader(jac, jac.status === 'approved' ? 'brand' : 'warm', <>
+                    {jac.competencyName}
+                    {jac.dreyfusLevelAchieved && ` · D${jac.dreyfusLevelAchieved} : ${DREYFUS_LABELS[jac.dreyfusLevelAchieved]}`}
+                    {jac.validatedAt && ` · validé le ${formatDate(jac.validatedAt)}`}
+                  </>)}
 
-                {expandedJacId === jac.id && (
-                  <div className="px-stack pb-stack flex flex-col gap-stack border-t border-ink-100 pt-stack">
-                    {jac.rubricScores && jac.rubricScores.length > 0 && (
-                      <div className="flex flex-col gap-stack-xs">
-                        <p className="text-caption font-semibold text-ink-500 uppercase tracking-wide m-0">Grille Dreyfus</p>
-                        {jac.rubricScores.map((rs, idx) => (
-                          <div key={idx} className="flex items-start justify-between gap-stack p-3 bg-ink-50 rounded-lg">
-                            <span className="text-body-sm text-ink-700 flex-1">{rs.criterion}</span>
-                            <div className="flex flex-col items-end gap-tight shrink-0">
-                              <Badge variant="brand">D{rs.score} · {DREYFUS_LABELS[rs.score]}</Badge>
-                              {rs.comment && <span className="text-caption text-ink-500 text-right">{rs.comment}</span>}
+                  {expandedJacId === jac.id && (
+                    <div className="px-stack-lg pb-stack-lg pt-stack flex flex-col gap-stack border-t border-ink-100">
+                      {jac.rubricScores && jac.rubricScores.length > 0 && (
+                        <div className="flex flex-col gap-stack-xs">
+                          {/* Intitulé en légende 13/600, casse normale (il était
+                              en capitales ink-500). Le score est une donnée :
+                              MetaPill. */}
+                          <p className="text-caption font-semibold text-ink-600">Grille Dreyfus</p>
+                          {jac.rubricScores.map((rs, idx) => (
+                            <div key={idx} className="flex items-start justify-between gap-stack px-stack py-stack-sm bg-ink-50 rounded-lg">
+                              <span className="text-body text-ink-900 flex-1">{rs.criterion}</span>
+                              <div className="flex flex-col items-end gap-stack-3xs shrink-0">
+                                <MetaPill text={`D${rs.score} · ${DREYFUS_LABELS[rs.score]}`} tone="primary" />
+                                {rs.comment && <span className="text-caption text-ink-600 text-right">{rs.comment}</span>}
+                              </div>
                             </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                    {jac.expertFeedback && (
-                      <div className="p-3 bg-success-bg rounded-lg">
-                        <p className="text-caption font-semibold text-success-fg m-0 mb-1">Feedback expert</p>
-                        <p className="text-body-sm text-ink-700 m-0 italic">"{jac.expertFeedback}"</p>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </SectionCard>
+                          ))}
+                        </div>
+                      )}
+                      {jac.expertFeedback && (
+                        <div className="flex flex-col gap-stack-3xs px-stack py-stack-sm bg-success-bg rounded-lg">
+                          <p className="text-caption font-semibold text-success-fg">Feedback expert</p>
+                          <p className="font-body text-body text-ink-700 italic max-w-prose">"{jac.expertFeedback}"</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </Card>
+        </section>
       )}
 
       {jacs.length === 0 && (
-        <div className="flex flex-col items-center justify-center py-section gap-stack text-center">
-          <Target size={40} className="text-ink-300" />
-          <p className="text-body-sm text-ink-500 m-0">Aucun JAC soumis pour ce projet.</p>
-        </div>
+        <EmptyState
+          icon={<Target size={32} />}
+          title="Aucun JAC soumis pour ce projet."
+        />
       )}
-    </Container>
+    </PageShell>
   );
 };
 

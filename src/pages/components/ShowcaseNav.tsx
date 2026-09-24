@@ -19,15 +19,17 @@ export interface ShowcaseNavProps {
 }
 
 const LINK_BASE =
-  'inline-flex shrink-0 items-center gap-stack-xs px-3 py-1.5 rounded-pill text-body-sm font-semibold whitespace-nowrap ' +
+  'inline-flex shrink-0 items-center gap-stack-xs px-3 py-1.5 rounded-pill text-body font-semibold whitespace-nowrap ' +
   'transition-colors duration-fast ease-standard ' +
   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
 
 const LINK_IDLE = 'text-ink-600 hover:bg-primary-50 hover:text-primary-700';
-const LINK_ACTIVE = 'bg-primary-600 text-white hover:bg-primary-700';
+const LINK_ACTIVE = 'bg-primary-700 text-white hover:bg-primary-800';
 
 const COUNT_IDLE = 'text-ink-600';
-const COUNT_ACTIVE = 'text-white/75';
+/* Blanc plein : sur le cran 700, un blanc à 75 % tombait à 3,6:1 pour un
+   compteur de 13 px (doctrine : pas de transparence sur du texte blanc). */
+const COUNT_ACTIVE = 'text-white';
 
 export const ShowcaseNav: React.FC<ShowcaseNavProps> = ({ counts, activeSlug }) => {
   /**

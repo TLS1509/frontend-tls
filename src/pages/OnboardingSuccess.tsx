@@ -10,16 +10,31 @@ import { CongratulationsCard } from '../components/patterns/CongratulationsCard'
 import { NextStepsGrid } from '../components/patterns/NextStepsGrid';
 import type { NextStepItem } from '../components/patterns/NextStepsGrid';
 import { buildOnboardingStepperItems } from '../lib/onboarding-steps';
-import { useOnboardingStore } from '../stores/persistence';
+import { useOnboardingStore, useUserProfileStore } from '../stores/persistence';
 
 export default function OnboardingSuccess() {
   const navigate = useNavigate();
   const onboardingStore = useOnboardingStore();
+  const profileStore = useUserProfileStore();
 
   // Mark final step on mount so subsequent visits know onboarding is fully done.
+  // Pose aussi `isOnboarded` sur le profil : sans lui, le tableau de bord
+  // n'atteignait jamais son démarrage à froid (`EmptyDashboardState`) et
+  // ouvrait sur l'historique fictif d'un autre (audit du 23/09). À la
+  // première fin d'onboarding seulement, le compteur de visites repart de
+  // zéro : c'est ce qui fait de la prochaine visite la première.
   React.useEffect(() => {
     onboardingStore.markStepComplete('success');
     onboardingStore.goToStep('success');
+    const profil = profileStore.get();
+    if (!profil.isOnboarded) {
+      profileStore.patch({
+        isOnboarded: true,
+        dashboardVisitCount: 0,
+        onboardingStep: 'completed',
+        completedAt: new Date().toISOString(),
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -59,7 +74,10 @@ export default function OnboardingSuccess() {
       <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-sun" aria-hidden />
       <AmbientBlobs intensity="normal" />
 
-      <PageShell width="page" className="relative z-base gap-section-lg max-w-3xl pb-page" noPadTop>
+      {/* Gouttière standard : PageShell la délègue au <main> d'AppLayout, et
+          cette page est rendue hors de la coque — elle touchait le bord à 375 px. */}
+      <div className="px-4 sm:px-6 lg:px-10">
+      <PageShell width="content" className="relative z-base">
 
         {/* ── Brand bar ── */}
         <div className="flex items-center justify-center">
@@ -72,25 +90,29 @@ export default function OnboardingSuccess() {
 
         <CongratulationsCard
           tone="brand"
-          badgeLabel="Profil complété !"
+          badgeLabel="Profil complété"
           title="Bienvenue sur The Learning Society"
           summary="Ton profil est configuré et ton passeport de compétences est prêt. Tu peux maintenant commencer ton parcours d'apprentissage personnalisé."
-          xp={{ earned: 150, current: 150, max: 500, levelLabel: 'Onboarding terminé' }}
         />
 
+        {/* « Par où commencer ? » est une section : h2 à 28 (il était à 20, la
+            taille d'un titre de carte). */}
         <section className="w-full flex flex-col gap-stack">
-          <h2 className="text-h3 font-display text-ink-900 text-center">
+          <h2 className="font-display text-h2 text-ink-900 text-center">
             Par où commencer ?
           </h2>
           <NextStepsGrid items={nextSteps} columns={3} />
         </section>
 
         <div className="flex flex-col items-center gap-stack w-full sm:w-auto">
+          {/* L'action principale de l'écran de fin (arbitrage n°19) ; le
+              tutoriel reste un lien. */}
           <Button
-            emphasis="soft"
+            emphasis="solid"
+            tone="brand"
             size="lg"
             trailingIcon={<ArrowRight size={18} />}
-            onClick={() => navigate('/dashboard?firstTime=1')}
+            onClick={() => navigate('/dashboard')}
             className="w-full sm:w-auto min-w-max"
           >
             Accéder à mon tableau de bord
@@ -104,6 +126,7 @@ export default function OnboardingSuccess() {
           </button>
         </div>
       </PageShell>
+      </div>
     </main>
   );
 }

@@ -1,12 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { X, Sparkles, Star, Trophy } from 'lucide-react';
+import { useDialog } from '../../hooks/useDialog';
+import { Button } from '../core/Button';
 
 /**
  * CelebrationModal — generic milestone celebration modal.
  *
  * Replaces the inline `Celebration` UI component (deleted) with a proper
  * modal-style celebration that follows the same animation/scrim language
- * as the rest of `src/components/modals/` (BookingModal, StreakCelebrationModal,
+ * as the rest of `src/components/modals/` (BookingModal, CompletionModal,
  * SuccessModal, etc.).
  *
  * Design:
@@ -27,7 +29,11 @@ export interface CelebrationModalProps {
   icon?: React.ReactNode;
   title: React.ReactNode;
   description?: React.ReactNode;
-  /** Action buttons (typically <Button> from the DS). */
+  /**
+   * Actions, en `Button`. La modale est un écran à elle seule (arbitrage
+   * n°19) : un seul `solid`, l'action qu'elle sert (« Continuer ») ; le reste
+   * en `ghost` (« Plus tard »).
+   */
   actions?: React.ReactNode;
   /** Hide the corner sparkles. */
   hideSparkles?: boolean;
@@ -68,15 +74,8 @@ export const CelebrationModal: React.FC<CelebrationModalProps> = ({
   hideSparkles = false,
   hideClose = false,
 }) => {
-  // Close on Escape
-  useEffect(() => {
-    if (!isOpen) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
-    document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
-  }, [isOpen, onClose]);
+  // Comportement de dialogue partagé (APG) : focus entrant, Tab piégé, Échap, focus rendu.
+  const dialog = useDialog<HTMLDivElement>(isOpen, onClose);
 
   if (!isOpen) return null;
 
@@ -84,6 +83,8 @@ export const CelebrationModal: React.FC<CelebrationModalProps> = ({
     <div
       className="fixed inset-0 z-modal flex items-center justify-center p-4 bg-black/45 backdrop-blur-sm animate-modal-bd-in"
       onClick={onClose}
+      ref={dialog.ref}
+      tabIndex={-1}
       role="dialog"
       aria-modal="true"
       aria-labelledby="celebration-modal-title"
@@ -101,31 +102,39 @@ export const CelebrationModal: React.FC<CelebrationModalProps> = ({
         {!hideSparkles && <CornerSparkles />}
 
         {!hideClose && (
-          <button
-            type="button"
+          <Button
+            iconOnly
+            size="sm"
+            emphasis="ghost"
+            tone="neutral"
             onClick={onClose}
             aria-label="Fermer"
-            className="absolute top-4 right-4 z-10 inline-flex items-center justify-center w-8 h-8 rounded-pill bg-white/70 border border-ink-200 text-ink-500 hover:bg-white hover:text-ink-700 transition-colors cursor-pointer"
+            className="absolute top-4 right-4 z-10"
           >
-            <X size={16} strokeWidth={2.5} />
-          </button>
+            <X strokeWidth={2.5} />
+          </Button>
         )}
 
         {/* Icon bubble */}
-        <div className="relative inline-flex items-center justify-center w-20 h-20 rounded-2xl mb-stack-md bg-gradient-to-br from-secondary-400 via-secondary-500 to-accent-500 text-white shadow-warm-md ring-4 ring-white/60">
+        <div className="relative inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-secondary-600 via-secondary-700 to-accent-700 text-white shadow-warm-md ring-4 ring-white/60">
           {icon ?? <Trophy size={32} strokeWidth={2} fill="currentColor" />}
         </div>
 
-        {/* Title — solid color + weight emphasis (anti-pattern: avoid bg-clip-text gradients) */}
+        {/* Titre h2 au pas du bloc (20/26/700), encre ink-900 · 8 · texte
+            16 ink-700 centré et court · 24 · actions. Il était au pas du h1
+            (36 px) en secondary-700 : la page qui l'ouvre a déjà son h1, et
+            une célébration TLS est calme (DESIGN.md § 11 : un badge se
+            débloque sans point d'exclamation et sans confetti). */}
         <h2
           id="celebration-modal-title"
-          className="relative mb-3 font-display text-h1 tracking-display text-secondary-700"
+          /* Écart icône → titre écrit SUR le titre : un `mt-*` bat la marge de base des titres (0,75em), qui sinon s'ajoutait à celle de l'icône (31 px au lieu de 16). */
+          className="relative mt-stack-md font-display text-h3 text-ink-900 text-balance"
         >
           {title}
         </h2>
 
         {description && (
-          <p className="relative m-0 mx-auto mb-stack-lg max-w-[400px] text-body-lg text-ink-700">
+          <p className="relative mt-stack-xs mx-auto mb-stack-lg max-w-prose font-body text-body text-ink-700 text-balance">
             {description}
           </p>
         )}

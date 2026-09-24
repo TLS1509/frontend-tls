@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Cookie, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { Button } from '../core/Button';
+import { Switch } from '../core/Input';
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -49,37 +50,23 @@ const DEFAULT_CATEGORIES: ConsentCategory[] = [
 
 // ─── Toggle Component ─────────────────────────────────────────────────────────
 
+/* L'interrupteur du système (arbitrage n°9, Material 3). Celui-ci était fait
+   main : rail ink-300 sans filet (1,5:1 contre la page), allumé en primary-600,
+   et sans role="switch". Le nom accessible passe par aria-label : la catégorie
+   est déjà écrite à côté. */
 const Toggle: React.FC<{
   checked: boolean;
   disabled?: boolean;
   onChange: (val: boolean) => void;
   label: string;
 }> = ({ checked, disabled = false, onChange, label }) => (
-  <label className="relative inline-flex items-center cursor-pointer shrink-0">
-    <input
-      type="checkbox"
-      className="peer sr-only"
-      checked={checked}
-      disabled={disabled}
-      onChange={(e) => onChange(e.target.checked)}
-      aria-label={label}
-    />
-    <span
-      aria-hidden
-      className={[
-        'w-9 h-5 rounded-pill transition-colors duration-base',
-        'after:content-[\'\'] after:absolute after:top-[2px] after:left-[2px]',
-        'after:w-4 after:h-4 after:rounded-pill after:bg-white after:shadow-sm',
-        'after:transition-transform after:duration-base',
-        'peer-checked:after:translate-x-4',
-        disabled
-          ? 'bg-ink-200 cursor-not-allowed'
-          : checked
-            ? 'bg-primary-600'
-            : 'bg-ink-300',
-      ].filter(Boolean).join(' ')}
-    />
-  </label>
+  <Switch
+    checked={checked}
+    disabled={disabled}
+    onChange={(e) => onChange(e.target.checked)}
+    aria-label={label}
+    className="shrink-0"
+  />
 );
 
 // ─── ConsentBanner ───────────────────────────────────────────────────────────
@@ -125,14 +112,14 @@ export const ConsentBanner: React.FC<ConsentBannerProps> = ({
           <div className="flex items-start gap-stack-xs flex-1 min-w-0">
             <Cookie className="shrink-0 mt-0.5 text-primary-500" size={18} />
             <div className="flex flex-col gap-tight">
-              <p className="text-body-sm font-semibold text-ink-900">
+              <p className="text-body font-semibold text-ink-900">
                 {companyName} respecte votre vie privée
               </p>
-              <p className="text-body-sm text-ink-600">
+              <p className="text-body text-ink-600">
                 Nous utilisons des cookies pour améliorer votre expérience, analyser notre trafic et personnaliser les contenus.{' '}
                 <button
                   onClick={() => setShowCustomize((v) => !v)}
-                  className="text-primary-600 underline underline-offset-2 hover:text-primary-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded-xs"
+                  className="text-primary-800 underline underline-offset-2 hover:text-primary-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded-xs"
                 >
                   En savoir plus
                 </button>
@@ -140,20 +127,27 @@ export const ConsentBanner: React.FC<ConsentBannerProps> = ({
             </div>
           </div>
 
-          {/* Action buttons */}
+          {/* Action buttons — une EXCEPTION à l'arbitrage n°19, écrite :
+              « Tout refuser » et « Tout accepter » gardent le même poids, niveau
+              ET ton (`soft` brand), parce que la CNIL exige que refuser soit
+              aussi simple et aussi visible qu'accepter. Ce n'est pas une paire
+              Annuler / Confirmer, et aucun des deux n'est l'action principale :
+              le bandeau ne pose pas de `solid`. « Tout refuser » était en
+              `soft` warm — un orange d'avertissement face au teal de
+              l'acceptation. « Personnaliser » ouvre le panneau : `ghost`. */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs shrink-0">
             <Button
-              emphasis="outline"
+              emphasis="ghost"
               size="sm"
               onClick={() => setShowCustomize((v) => !v)}
               trailingIcon={showCustomize ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
             >
               Personnaliser
             </Button>
-            <Button emphasis="soft" tone="warm" size="sm" onClick={onRejectAll}>
+            <Button emphasis="soft" tone="brand" size="sm" onClick={onRejectAll}>
               Tout refuser
             </Button>
-            <Button emphasis="soft" size="sm" onClick={onAcceptAll}>
+            <Button emphasis="soft" tone="brand" size="sm" onClick={onAcceptAll}>
               Tout accepter
             </Button>
           </div>
@@ -161,11 +155,15 @@ export const ConsentBanner: React.FC<ConsentBannerProps> = ({
 
         {/* Customize panel */}
         {showCustomize && (
-          <div className="mt-stack pt-stack border-t border-ink-100 flex flex-col gap-stack-xs">
-            <p className="text-caption text-ink-500 font-medium uppercase tracking-wide">
+          /* Titre du panneau : 16 / 600 ink-900, le libellé d'un groupe de
+             réglages — l'ancien surtitre en capitales grises (13, ink-500) était
+             un « eyebrow », et ink-500 est réservé aux placeholders. Réglages
+             espacés de 12 : des éléments d'un même ensemble, pas un bloc. */
+          <div className="mt-stack pt-stack border-t border-ink-100 flex flex-col gap-stack-sm">
+            <p className="text-body font-semibold text-ink-900">
               Gérer mes préférences
             </p>
-            <div className="flex flex-col gap-stack-xs">
+            <div className="flex flex-col gap-stack-sm">
               {categories.map((cat) => (
                 <div key={cat.id} className="flex items-start gap-stack-xs">
                   <Toggle
@@ -175,19 +173,21 @@ export const ConsentBanner: React.FC<ConsentBannerProps> = ({
                     label={cat.label}
                   />
                   <div className="flex flex-col gap-tight flex-1">
-                    <span className="text-body-sm font-semibold text-ink-900">
+                    <span className="text-body font-semibold text-ink-900">
                       {cat.label}
                       {cat.required && (
-                        <span className="ml-1 text-micro text-ink-600 font-normal">(obligatoire)</span>
+                        <span className="ml-1 text-caption font-normal text-ink-600">(obligatoire)</span>
                       )}
                     </span>
-                    <span className="text-caption text-ink-500">{cat.description}</span>
+                    <span className="text-caption text-ink-600">{cat.description}</span>
                   </div>
                 </div>
               ))}
             </div>
-            <div className="flex justify-end mt-2">
-              <Button emphasis="soft" size="sm" onClick={handleSaveCustom}>
+            {/* Enregistrer ses choix : le même poids que les deux autres
+                (`soft`), pour ne pas pousser un chemin plutôt qu'un autre. */}
+            <div className="flex justify-end mt-stack-xs">
+              <Button emphasis="soft" tone="brand" size="sm" onClick={handleSaveCustom}>
                 Enregistrer mes préférences
               </Button>
             </div>

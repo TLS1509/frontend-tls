@@ -1,6 +1,7 @@
 import React from 'react';
 import {
-  CHIP_BASE,
+  CHIP_BASE_SANS_RAYON,
+  CHIP_RAYON,
   CHIP_SIZE,
   CHIP_TONE_SOLID,
   CHIP_SURFACE_MAP,
@@ -66,8 +67,10 @@ function resolveSurface(tone: MetaPillTone): string {
     case 'glass':
       return CHIP_SURFACE_MAP['glass-tinted'];
     case 'glass-dark':
-      // softer alphas than Pill's full dark variant
-      return 'bg-white/15 text-white border-white/25 backdrop-blur-glass-light shadow-xs';
+      /* Voile SOMBRE sous le blanc — corrigé le 2026-09-23. Il était blanc/15 :
+         un voile clair sous un texte clair, 3,75 sur l'arrêt 700 d'un hero.
+         ink-900/20 : 6,17. Contrat : hero au cran 700 ou plus sombre. */
+      return 'bg-ink-900/20 text-white border-white/30 backdrop-blur-glass-light shadow-xs';
     default:
       return CHIP_TONE_SOLID.neutral;
   }
@@ -86,12 +89,12 @@ const ICONE_PASTILLE_BASE =
   'inline-flex items-center justify-center shrink-0 [&>svg]:w-full [&>svg]:h-full';
 
 /* Le cran suit la TAILLE de la pastille, pas une valeur unique : Chip rend
-   `text-micro` en sm, `text-caption` en md, `text-body-sm` en lg — et
+   `text-micro` en sm, `text-caption` en md, `text-body` en lg — et
    l'appariement de src/lib/icon-pairing.ts leur donne 14, 14 et 16. */
 const ICONE_PASTILLE_CRAN: Record<MetaPillSize, string> = {
   sm: 'icon-2xs',  // avec micro (11)
   md: 'icon-2xs',  // avec caption (13)
-  lg: 'icon-xs',   // avec body-sm (15)
+  lg: 'icon-xs',   // avec body (16)
 };
 
 /* Taille par défaut : `sm` — décidé le 2026-09-14.
@@ -121,8 +124,11 @@ export const MetaPill: React.FC<MetaPillProps> = ({
 }) => {
   const interactive = !!onClick;
 
+  // Rayon de la taille (règle du seuil) : pilule en `sm`, 14 px en `md` (30)
+  // et `lg` (44) — voir CHIP_RAYON.
   const classes = [
-    CHIP_BASE,
+    CHIP_BASE_SANS_RAYON,
+    CHIP_RAYON[size],
     CHIP_SIZE[size],
     resolveSurface(tone),
     ICON_OPACITY,

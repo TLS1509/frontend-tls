@@ -73,10 +73,11 @@ const THUMB_GLOW: Record<DreyfusSliderTone, string> = {
   sun:   'shadow-[0_0_0_6px_rgba(248,176,68,0.18),0_4px_12px_-2px_rgba(248,176,68,0.45)]',
 };
 
+// Libellé du niveau choisi à l'encre de marque au cran 800 (doctrine).
 const TICK_ACTIVE: Record<DreyfusSliderTone, string> = {
-  brand: 'text-primary-700',
-  warm:  'text-secondary-700',
-  sun:   'text-accent-700',
+  brand: 'text-primary-800',
+  warm:  'text-secondary-800',
+  sun:   'text-accent-800',
 };
 
 // ─── Variant backgrounds (track unfilled portion) ────────────────────────────
@@ -128,78 +129,111 @@ export const DreyfusSlider: React.FC<DreyfusSliderProps> = ({
 
   return (
     <div className={['flex flex-col gap-stack-xs', className].filter(Boolean).join(' ')}>
-      {/* Track + thumb */}
-      <div className="relative px-3 py-3">
-        <div className={trackClasses} role="presentation">
-          <div className={filledTrackClasses} style={{ width: `${pct}%` }} aria-hidden="true" />
-          <div className={thumbClasses} style={{ left: `${pct}%` }} aria-hidden="true" />
+      {/* Piste + crans (2026-09-24). La piste va du CENTRE de la première
+          colonne de libellés au centre de la dernière : sa marge vaut une
+          demi-colonne, 50 / n % de la rangée (valeur calculée, `levels` est
+          une prop). Elle occupait toute la rangée, donc ses crans tombaient à
+          0 · 25 · 50 · 75 · 100 % quand les libellés, cinq colonnes égales,
+          sont centrés à 10 · 30 · 50 · 70 · 90 % : jusqu'à 67 px d'écart à
+          1440 (27 à 375) entre un cran et son mot.
+          Les crans vivent sur un calque posé exactement sur la piste, et sont
+          centrés sur son axe : leur calque n'avait pas de hauteur, ils
+          pendaient 10 px sous la piste, quand le curseur, lui, est centré. */}
+      <div className="px-3 py-3">
+        <div className="relative" style={{ marginInline: `${50 / levels.length}%` }}>
+          <div className={trackClasses} role="presentation">
+            <div className={filledTrackClasses} style={{ width: `${pct}%` }} aria-hidden="true" />
+            <div className={thumbClasses} style={{ left: `${pct}%` }} aria-hidden="true" />
 
-          {/* Hidden native range for keyboard a11y */}
-          <input
-            type="range"
-            min={1}
-            max={levels.length}
-            step={1}
-            value={current || 1}
-            onChange={(e) => onChange(Number(e.target.value))}
-            aria-label={ariaLabel}
-            aria-valuemin={1}
-            aria-valuemax={levels.length}
-            aria-valuenow={isSet ? current : undefined}
-            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-500 rounded-pill"
-          />
-        </div>
+            {/* Hidden native range for keyboard a11y */}
+            <input
+              type="range"
+              min={1}
+              max={levels.length}
+              step={1}
+              value={current || 1}
+              onChange={(e) => onChange(Number(e.target.value))}
+              aria-label={ariaLabel}
+              aria-valuemin={1}
+              aria-valuemax={levels.length}
+              aria-valuenow={isSet ? current : undefined}
+              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-500 rounded-pill"
+            />
+          </div>
 
-        {/* Tick buttons (click to set discrete value) */}
-        <div className="absolute inset-x-3 top-1/2 -translate-y-1/2 flex justify-between pointer-events-none">
-          {levels.map((lv, idx) => {
-            const tickPct = (idx / (levels.length - 1)) * 100;
-            const isActive = isSet && current === lv.v;
-            const isPast = isSet && current > lv.v;
-            return (
-              <button
-                key={lv.v}
-                type="button"
-                onClick={() => onChange(lv.v)}
-                style={{ left: `${tickPct}%` }}
-                aria-label={`Niveau ${lv.v} — ${lv.label}`}
-                aria-pressed={isActive}
-                className={[
-                  'absolute -translate-x-1/2 w-5 h-5 rounded-pill pointer-events-auto cursor-pointer',
-                  'flex items-center justify-center transition-all duration-base',
-                  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
-                  isActive
-                    ? 'opacity-0'
-                    : isPast
-                    ? `${TRACK_FILL[tone]} opacity-60 hover:opacity-100 scale-100 hover:scale-110`
-                    : 'bg-white border border-ink-300 hover:border-primary-400 scale-100 hover:scale-110',
-                ].join(' ')}
-              >
-                {!isPast && !isActive && (
-                  <span className="text-micro font-bold text-ink-500">{lv.v}</span>
-                )}
-              </button>
-            );
-          })}
+          {/* Tick buttons (click to set discrete value) */}
+          <div className="absolute inset-0 pointer-events-none">
+            {levels.map((lv, idx) => {
+              const tickPct = (idx / (levels.length - 1)) * 100;
+              const isActive = isSet && current === lv.v;
+              const isPast = isSet && current > lv.v;
+              return (
+                <button
+                  key={lv.v}
+                  type="button"
+                  onClick={() => onChange(lv.v)}
+                  style={{ left: `${tickPct}%` }}
+                  aria-label={`Niveau ${lv.v} — ${lv.label}`}
+                  aria-pressed={isActive}
+                  className={[
+                    'absolute top-1/2 -translate-x-1/2 -translate-y-1/2 w-5 h-5 rounded-pill pointer-events-auto cursor-pointer',
+                    'flex items-center justify-center transition-all duration-base',
+                    'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+                    isActive
+                      ? 'opacity-0'
+                      : isPast
+                      ? `${TRACK_FILL[tone]} opacity-60 hover:opacity-100 scale-100 hover:scale-110`
+                      : 'bg-white border border-ink-300 hover:border-primary-400 scale-100 hover:scale-110',
+                  ].join(' ')}
+                >
+                  {!isPast && !isActive && (
+                    <span className="text-micro font-bold text-ink-600">{lv.v}</span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
 
-      {/* Labels under each tick */}
+      {/* Labels under each tick.
+          Sous 24rem de rangée, les mots cèdent la place à leur code D1…D5
+          (2026-09-24) : à 375 px, la colonne d'un niveau fait 54 px (34 dans
+          la vitrine) et « Compétent » en demande 65 — « Apprenant » et
+          « Compétent » se chevauchaient de 11 px. Le code est l'abréviation
+          que l'app emploie partout (« Niveau D4 »), et la ligne de
+          description, sous le curseur, redonne le nom du niveau choisi. Le
+          mot reste lu par les lecteurs d'écran dans les deux cas.
+          La rangée est le conteneur mesuré (deux boîtes : les libellés
+          répondent à SA largeur, doctrine « Requêtes de conteneur »). */}
       {showLabels && (
-        <div className="flex justify-between px-3">
+        <div className="@container flex justify-between px-3">
           {levels.map((lv) => {
             const isActive = isSet && current === lv.v;
             return (
               <div
                 key={lv.v}
                 className={[
-                  'flex flex-col items-center gap-0.5 w-1/5 text-center min-w-0',
-                  'transition-all duration-base',
-                  isActive ? `${TICK_ACTIVE[tone]} font-bold scale-105` : 'text-ink-500',
+                  // Colonnes égales (`flex-1`), quel que soit le nombre de niveaux :
+                  // la marge de la piste en dépend.
+                  'flex flex-col items-center gap-stack-3xs flex-1 text-center min-w-0',
+                  'transition-colors duration-base',
+                  // Le niveau choisi se dit par l'encre de marque, à graisse égale
+                  // (600) : le gras et le `scale-105` faisaient bouger le mot.
+                  isActive ? TICK_ACTIVE[tone] : 'text-ink-600',
                 ].join(' ')}
               >
                 {lv.icon && <span aria-hidden="true" className="inline-flex items-center justify-center">{lv.icon}</span>}
-                <span className="text-micro sm:text-caption font-semibold">{lv.label}</span>
+                {/* 13 px à toutes les largeurs : le `micro` (11) de l'écran étroit
+                    est le pas des étiquettes en capitales, pas d'un libellé. */}
+                {/* Le mot, toujours lu ; les deux formes visibles, masquées aux
+                    lecteurs d'écran. Pas de `sr-only @sm:not-sr-only` : le
+                    `.sr-only` hors couche d'index.css bat `not-sr-only`. */}
+                <span className="text-caption font-semibold break-words">
+                  <span className="sr-only">{lv.label}</span>
+                  <span aria-hidden="true" className="@sm:hidden">D{lv.v}</span>
+                  <span aria-hidden="true" className="hidden @sm:inline">{lv.label}</span>
+                </span>
               </div>
             );
           })}

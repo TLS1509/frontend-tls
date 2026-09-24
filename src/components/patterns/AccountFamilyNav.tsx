@@ -25,6 +25,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { UserRound, KeyRound, ShieldCheck, BellRing, CreditCard } from 'lucide-react';
+import { IconChip } from '../ui/IconChip';
 
 export type AccountFamilyPage = 'profile' | 'account' | 'privacy' | 'notifications' | 'billing';
 
@@ -81,55 +82,70 @@ export const AccountFamilyNav: React.FC<AccountFamilyNavProps> = ({
   active,
   className = '',
 }) => {
+  /* ─── Mise en page — révisée le 2026-09-24 (passe typographique) ───────────
+   *
+   * Cinq colonnes dès 1024 px de FENÊTRE : or la nav vit dans une colonne de
+   * 768 px, donc chaque onglet faisait 144 px. Mesuré sur les cinq pages : la
+   * description (11 px) passait sur quatre lignes et « Confidentialité », à
+   * 16 px, débordait sur l'onglet voisin. À 13 px, elle en aurait pris cinq.
+   *
+   * La grille répond donc à la largeur de SA boîte (requête de conteneur, deux
+   * boîtes : la `nav` est le conteneur, la grille y répond) : une colonne, puis
+   * deux dès 448 px, trois dès 672 px. Au plus étroit des trois colonnes
+   * (684 px, fenêtre de 1024), un onglet garde 146 px de texte : mesuré de 320
+   * à 1440 px de fenêtre, aucune description ne dépasse deux lignes.
+   */
   return (
-    <nav
-      aria-label="Navigation compte"
-      className={[
-        'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-stack-xs p-2 rounded-xl bg-ink-50 border border-ink-100',
-        className,
-      ].join(' ')}
-    >
-      {ITEMS.map((item) => {
-        const isActive = item.id === active;
-        return (
-          <Link
-            key={item.id}
-            to={item.href}
-            aria-current={isActive ? 'page' : undefined}
-            className={[
-              'group flex items-start gap-stack-xs p-3 rounded-lg transition-all duration-base',
-              isActive
-                ? 'bg-white shadow-sm cursor-default'
-                : 'hover:bg-white/70 hover:shadow-xs',
-            ].join(' ')}
-          >
-            <span
-              aria-hidden
+    <nav aria-label="Navigation compte" className={['@container', className].filter(Boolean).join(' ')}>
+      <div
+        className={[
+          // Coins imbriqués : nav 20, retrait 6 (+1 de bordure) → liens à 14, concentriques.
+          'grid grid-cols-1 @md:grid-cols-2 @2xl:grid-cols-3 gap-stack-xs p-stack-2xs rounded-xl bg-ink-50 border border-ink-100',
+        ].join(' ')}
+      >
+        {ITEMS.map((item) => {
+          const isActive = item.id === active;
+          return (
+            <Link
+              key={item.id}
+              to={item.href}
+              aria-current={isActive ? 'page' : undefined}
               className={[
-                'shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-lg',
+                // Lien 14, retrait 16 ≥ 14 : la pastille (14) est une forme fixe.
+                'group flex items-start gap-stack-xs p-stack rounded-lg transition-all duration-base',
                 isActive
-                  ? 'bg-primary-100 text-primary-700'
-                  : 'bg-ink-100 text-ink-600 group-hover:bg-ink-200 group-hover:text-ink-800',
+                  ? 'bg-white shadow-sm cursor-default'
+                  : 'hover:bg-white/70 hover:shadow-xs',
               ].join(' ')}
             >
-              <item.Icon size={16} />
-            </span>
-            <div className="flex flex-col min-w-0">
-              <span
-                className={[
-                  'font-body text-body-sm',
-                  isActive ? 'font-bold text-ink-900' : 'font-semibold text-ink-700',
-                ].join(' ')}
-              >
-                {item.label}
+              {/* Pastille au cran `sm` d'IconChip (32, rayon 10) : elle était à
+                  36 px et rayon 14, hors de l'échelle des pastilles. */}
+              <IconChip size="sm" tone={isActive ? 'brand' : 'neutral'}>
+                <item.Icon />
+              </IconChip>
+              {/* `pt-tight` (2) : le centre de la première ligne (2 + 26/2 = 15)
+                  tombe à 1 px de celui de la pastille (16) — il en était à 5
+                  quand la pastille faisait 36 et le texte partait du haut. */}
+              <span className="flex flex-col gap-stack-3xs min-w-0 pt-tight">
+                {/* 16/600 dans les deux états : la sélection se dit par le fond
+                    blanc, l'ombre, la pastille et l'encre — pas par une graisse
+                    qui élargirait le mot. */}
+                <span
+                  className={[
+                    'font-body text-body font-semibold',
+                    isActive ? 'text-ink-900' : 'text-ink-700',
+                  ].join(' ')}
+                >
+                  {item.label}
+                </span>
+                <span className="font-body text-caption text-ink-600">
+                  {item.description}
+                </span>
               </span>
-              <span className="font-body text-micro text-ink-500 mt-0.5">
-                {item.description}
-              </span>
-            </div>
-          </Link>
-        );
-      })}
+            </Link>
+          );
+        })}
+      </div>
     </nav>
   );
 };

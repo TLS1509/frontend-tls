@@ -35,7 +35,7 @@ export const MultiStepForm: React.FC<MultiStepFormProps> = ({
   const step = steps[currentStep - 1];
 
   return (
-    <div className="flex flex-col gap-7">
+    <div className="flex flex-col gap-stack-lg">
       {showProgressBar && (
         <div className="flex items-center gap-stack">
           <div className="flex-1 h-2 rounded-pill bg-ink-100 overflow-hidden shadow-inner">
@@ -44,7 +44,7 @@ export const MultiStepForm: React.FC<MultiStepFormProps> = ({
               style={{ width: `${progress}%` }}
             />
           </div>
-          <span className="text-caption font-bold text-primary-700 whitespace-nowrap min-w-[3.5rem] text-right">
+          <span className="text-caption font-semibold text-ink-700 tabular-nums whitespace-nowrap min-w-[3.5rem] text-right">
             {currentStep} / {steps.length}
           </span>
         </div>
@@ -82,11 +82,11 @@ export const MultiStepForm: React.FC<MultiStepFormProps> = ({
 
                 <div
                   className={[
-                    'relative inline-flex items-center justify-center w-10 h-10 rounded-pill font-bold text-body-sm transition-all duration-200',
+                    'relative inline-flex items-center justify-center w-10 h-10 rounded-pill font-bold text-body transition-all duration-200',
                     isCompleted
                       ? 'bg-gradient-to-br from-success-base to-success-fg text-white shadow-md ring-4 ring-success-bg'
                       : isActive
-                      ? 'bg-gradient-to-br from-primary-500 to-primary-700 text-white shadow-brand-sm ring-4 ring-primary-100 scale-110'
+                      ? 'bg-gradient-to-br from-primary-700 to-primary-800 text-white shadow-brand-sm ring-4 ring-primary-100 scale-110' // numéro à 15 px : 700 → 800, 5,02 au pire (500 : 2,94)
                       : 'bg-white text-ink-600 ring-2 ring-ink-200',
                   ].join(' ')}
                 >
@@ -97,7 +97,7 @@ export const MultiStepForm: React.FC<MultiStepFormProps> = ({
                   <span
                     className={[
                       'block text-caption font-semibold',
-                      isActive ? 'text-ink-900' : isCompleted ? 'text-success-fg' : 'text-ink-500',
+                      isActive ? 'text-ink-900' : isCompleted ? 'text-success-fg' : 'text-ink-600',
                     ].join(' ')}
                   >
                     {s.title}
@@ -111,15 +111,23 @@ export const MultiStepForm: React.FC<MultiStepFormProps> = ({
 
       <Card>
         {step && (
-          <div className="mb-stack-lg pb-stack-lg border-b border-ink-200">
-            <span className="inline-block text-caption font-medium text-primary-600 mb-2">
-              Étape {step.id} / {steps.length}
-            </span>
-            <h2 className="mb-2 font-display text-h2 font-bold text-ink-900 leading-tight">
+          /* En-tête d'étape : titre → texte 8 (anatomie de carte, doctrine §5),
+             description au rôle « texte secondaire long » (ink-700), plafonnée
+             en largeur. Le compteur « Étape 2 / 4 » ne s'affiche que sans barre
+             de progression : la barre l'écrit déjà juste au-dessus (« 2 / 4 »),
+             et les pastilles d'étape nomment chaque étape — trois fois le même
+             fait. Quand il s'affiche, il colle à son titre (méta → titre 4). */
+          <div className="flex flex-col mb-stack-lg pb-stack-lg border-b border-ink-200">
+            {!showProgressBar && (
+              <span className="text-caption font-semibold text-ink-600">
+                Étape {step.id} / {steps.length}
+              </span>
+            )}
+            <h2 className={`${showProgressBar ? '' : 'mt-stack-3xs '}font-display text-h2 text-ink-900`}>
               {step.title}
             </h2>
             {step.description && (
-              <p className="m-0 text-body text-ink-500">{step.description}</p>
+              <p className="mt-stack-xs text-body text-ink-700 max-w-prose">{step.description}</p>
             )}
           </div>
         )}
@@ -127,12 +135,15 @@ export const MultiStepForm: React.FC<MultiStepFormProps> = ({
         {children || step?.content}
       </Card>
 
+      {/* Arbitrage n°19 : l'étape suivante est l'action principale de
+          l'écran (`solid`), le retour un `ghost`. Ils étaient en `soft`
+          warm et en `soft` brand (par le `variant` déprécié implicite). */}
       <div className="flex justify-between gap-stack-xs">
-        <Button onClick={onBack} disabled={currentStep === 1} emphasis="soft" tone="warm">
+        <Button onClick={onBack} disabled={currentStep === 1} emphasis="ghost" tone="neutral">
           ← Précédent
         </Button>
-        <Button onClick={onNext} disabled={currentStep === steps.length}>
-          {currentStep === steps.length ? 'Terminer' : 'Suivant'} →
+        <Button emphasis="solid" onClick={onNext} disabled={currentStep === steps.length}>
+          {currentStep === steps.length ? 'Valider' : 'Suivant'} →
         </Button>
       </div>
     </div>

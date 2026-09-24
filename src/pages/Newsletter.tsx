@@ -9,18 +9,16 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   ArrowRight,
-  ArrowLeft,
-  BellRing,
   Mail,
   Newspaper,
-  Calendar,
 } from 'lucide-react';
 import { Button } from '../components/core/Button';
 import { FormGroup } from '../components/core/FormGroup';
 import { Input } from '../components/core/Input';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { EditorialLayout } from '../components/patterns/EditorialLayout';
-import { SectionCard } from '../components/patterns/SectionCard';
+import { Card } from '../components/core/Card';
+import { ReaderContextStrip } from '../components/patterns/ReaderContextStrip';
 import { RelatedItemList } from '../components/patterns/RelatedItemList';
 import { PageShell } from '../components/layout';
 
@@ -34,58 +32,66 @@ const ARCHIVES = [
 export const Newsletter: React.FC = () => {
   const navigate = useNavigate();
 
+  /* Passe typographique du 24/09 : la barre est ReaderContextStrip (elle
+     était un PageShell dont la `flex-col` empilait ses deux actions hors de
+     la barre) ; les trois blocs sont les sections de la page, un h2 28 posé
+     au-dessus de leur carte — ils étaient trois cartes titrées en h3, avec
+     une icône chacune, et la page sautait du h1 au h3. */
   return (
     <PageShell width="page" noPadTop={true}>
-      {/* Sticky glass header */}
-      <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100">
-        <PageShell width="page" noPadTop className="!h-14 !py-0 !gap-0 flex items-center justify-between gap-stack-xs">
-          <button
-            type="button"
-            onClick={() => navigate('/veille')}
-            className="inline-flex items-center gap-stack-2xs font-body text-caption font-semibold text-ink-700 hover:text-primary-700 bg-transparent border-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
-          >
-            <ArrowLeft size={14} /> Retour à la veille
-          </button>
-          <Button emphasis="soft" size="sm" trailingIcon={<ArrowRight size={14} />} onClick={() => navigate('/veille/weekly-newsletter')}>
+      <ReaderContextStrip
+        title="Newsletter TLS"
+        onBack={() => navigate('/veille')}
+        backLabel="Retour à la veille"
+        trailing={
+          /* Un raccourci de la barre : `ghost` (arbitrage n°19). La page sert
+             à régler l'abonnement ; l'aplat est l'envoi du formulaire. */
+          <Button emphasis="ghost" size="sm" trailingIcon={<ArrowRight size={14} />} onClick={() => navigate('/veille/weekly-newsletter')}>
             Voir la dernière édition
           </Button>
-        </PageShell>
-      </div>
+        }
+      />
 
-      <div className="flex flex-col gap-section">
-        <EditorialHero
-          eyebrow={{ icon: <Newspaper size={14} />, label: 'Abonnement Veille' }}
-          title="Newsletter TLS"
-          summary="Préférences d'abonnement, archives des éditions et accès rapide à la dernière sélection hebdo."
-        />
+      <EditorialHero
+        eyebrow={{ icon: <Newspaper size={14} />, label: 'Abonnement Veille' }}
+        title="Newsletter TLS"
+        summary="Préférences d'abonnement, archives des éditions et accès rapide à la dernière sélection hebdo."
+      />
 
-        <EditorialLayout
-          main={
-            <>
-              <SectionCard
-                title="Préférences d'abonnement"
-                titleIcon={<Mail size={18} className="text-primary-600" />}
-                description="Vous pouvez vous désinscrire à tout moment depuis n'importe quel email reçu."
-              >
-                <div className="flex flex-col gap-stack">
-                  <FormGroup label="Adresse email" id="newsletter-email">
-                    <Input id="newsletter-email" type="email" placeholder="vous@entreprise.com" />
-                  </FormGroup>
-                  <FormGroup label="Fréquence" id="newsletter-freq">
-                    <Input id="newsletter-freq" type="text" defaultValue="Hebdomadaire (chaque lundi)" readOnly />
-                  </FormGroup>
-                  <Button emphasis="soft" className="self-start" leadingIcon={<Mail size={14} />}>
-                    Mettre à jour mes préférences
-                  </Button>
-                </div>
-              </SectionCard>
+      <EditorialLayout
+        main={
+          <div className="flex flex-col gap-page">
+            <section className="flex flex-col gap-stack" aria-labelledby="newsletter-preferences">
+              <div className="flex flex-col gap-stack-3xs">
+                <h2 id="newsletter-preferences" className="font-display text-h2 text-ink-900">Préférences d'abonnement</h2>
+                <p className="font-body text-body text-ink-700 max-w-prose">
+                  Vous pouvez vous désinscrire à tout moment depuis n'importe quel email reçu.
+                </p>
+              </div>
+              <Card className="flex flex-col gap-stack">
+                <FormGroup label="Adresse email" id="newsletter-email">
+                  <Input id="newsletter-email" type="email" placeholder="prenom.nom@entreprise.fr" />
+                </FormGroup>
+                <FormGroup label="Fréquence" id="newsletter-freq">
+                  <Input id="newsletter-freq" type="text" defaultValue="Hebdomadaire (chaque lundi)" readOnly />
+                </FormGroup>
+                {/* L'envoi du formulaire, l'action principale de la page :
+                    le seul `solid` (arbitrage n°19). */}
+                <Button emphasis="solid" className="self-start mt-stack-xs" leadingIcon={<Mail size={14} />}>
+                  Mettre à jour mes préférences
+                </Button>
+              </Card>
+            </section>
 
-              <SectionCard
-                title="Dernière édition publiée"
-                titleIcon={<Calendar size={18} className="text-primary-600" />}
-                description="Édition de la semaine #17 : Lundi 28 avril 2026"
-              >
-                <p className="m-0 font-body text-body-sm text-ink-600">
+            <section className="flex flex-col gap-stack" aria-labelledby="newsletter-derniere">
+              <div className="flex flex-col gap-stack-3xs">
+                <h2 id="newsletter-derniere" className="font-display text-h2 text-ink-900">Dernière édition publiée</h2>
+                {/* Une donnée : légende 13 ink-600 (« Semaine #17 : Lundi… » :
+                    reste d'un tiret remplacé). */}
+                <p className="font-body text-caption text-ink-600">Semaine #17 · lundi 28 avril 2026</p>
+              </div>
+              <Card className="flex flex-col items-start gap-stack-lg">
+                <p className="font-body text-body text-ink-700 max-w-prose">
                   Consultez la dernière synthèse hebdomadaire pour capter les tendances utiles en
                   quelques minutes. Vidéo de la semaine, articles à la une et sélection courte
                   curée par l'équipe éditoriale.
@@ -94,28 +100,28 @@ export const Newsletter: React.FC = () => {
                   emphasis="soft"
                   trailingIcon={<ArrowRight size={14} />}
                   onClick={() => navigate('/veille/weekly-newsletter')}
-                  className="self-start mt-stack"
                 >
                   Ouvrir l'édition #17
                 </Button>
-              </SectionCard>
-            </>
-          }
-          aside={
-            <SectionCard title="Archives récentes" titleIcon={<BellRing size={16} className="text-primary-600" />}>
-              <RelatedItemList
-                items={ARCHIVES.map((a) => ({
-                  id: a.id,
-                  title: a.title,
-                  description: a.description,
-                  meta: a.meta,
-                  onClick: () => navigate('/veille/weekly-newsletter'),
-                }))}
-              />
-            </SectionCard>
-          }
-        />
-      </div>
+              </Card>
+            </section>
+          </div>
+        }
+        aside={
+          <section className="flex flex-col gap-stack" aria-labelledby="newsletter-archives">
+            <h2 id="newsletter-archives" className="font-display text-h2 text-ink-900">Archives récentes</h2>
+            <RelatedItemList
+              items={ARCHIVES.map((a) => ({
+                id: a.id,
+                title: a.title,
+                description: a.description,
+                meta: a.meta,
+                onClick: () => navigate('/veille/weekly-newsletter'),
+              }))}
+            />
+          </section>
+        }
+      />
     </PageShell>
   );
 };

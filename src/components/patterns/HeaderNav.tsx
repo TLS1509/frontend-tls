@@ -27,7 +27,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
     <div className="sticky top-0 z-sticky px-stack-md py-3 bg-white/85 backdrop-blur-glass-light border-b border-ink-200 flex items-center justify-between gap-stack">
       <button
         onClick={onBack}
-        className="inline-flex items-center gap-stack-xs bg-ink-50 hover:bg-white border border-ink-200 hover:border-ink-300 rounded-lg pl-2 pr-3.5 py-1.5 cursor-pointer text-ink-700 hover:text-ink-900 font-medium text-caption transition-all hover:-translate-x-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+        className="inline-flex items-center gap-stack-xs bg-ink-50 hover:bg-white border border-ink-200 hover:border-ink-300 rounded-lg pl-2 pr-3.5 py-1.5 cursor-pointer text-ink-700 hover:text-ink-900 font-bold text-caption transition-all hover:-translate-x-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
       >
         <ChevronLeft size={16} />
         {backLabel}
@@ -36,11 +36,14 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
       <div className="flex items-center gap-stack flex-1 justify-end">
         {showProgressBar && progress !== undefined && (
           <div className="flex items-center gap-2.5 max-w-[280px] flex-1">
-            <span className="text-caption text-ink-500 font-medium whitespace-nowrap hidden sm:inline">
+            {/* Méta en 13 : 400 et ink-600 pour le mot, 600 pour la valeur, et
+                la couleur de marque au cran 800 (2026-09-24). Le 500 est celui
+                des puces, l'ink-500 celui des placeholders. */}
+            <span className="text-caption text-ink-600 whitespace-nowrap hidden sm:inline">
               Progression
             </span>
             {progressLabel && (
-              <span className="text-caption font-bold text-primary-700 whitespace-nowrap">
+              <span className="text-caption font-semibold text-primary-800 whitespace-nowrap">
                 {progressLabel}
               </span>
             )}
@@ -50,8 +53,8 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
                 style={{ width: `${progress}%` }}
               />
             </div>
-            <span className="text-caption font-bold text-ink-900 whitespace-nowrap">
-              {Math.round(progress)}%
+            <span className="text-caption font-semibold text-ink-900 tabular-nums whitespace-nowrap">
+              {`${Math.round(progress)}\u202F%`}
             </span>
           </div>
         )}
@@ -63,8 +66,11 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
           </span>
         )}
 
+        {/* Enregistrer, dans la barre : un outil avec contour, `soft` (arbitrage
+            n°19). Écrit sur les deux axes ; il l'était par le `variant`
+            déprécié implicite. */}
         {onSave && (
-          <Button onClick={onSave} disabled={isSaving} size="sm">
+          <Button emphasis="soft" onClick={onSave} disabled={isSaving} size="sm">
             <Save size={14} />
             {isSaving ? 'Enregistrement…' : 'Enregistrer'}
           </Button>

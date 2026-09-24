@@ -164,12 +164,12 @@ const Section: React.FC<{
   <section id={id} className="scroll-mt-24 flex flex-col gap-stack">
     <header className="flex flex-col gap-tight">
       <h2 className="flex items-center gap-stack-xs text-h3 font-bold tracking-headline text-ink-900">
-        <span className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-primary-50 text-primary-700 shrink-0">
+        <span className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-primary-50 text-primary-800 shrink-0">
           {icon}
         </span>
         {title}
       </h2>
-      <p className="text-body-sm text-ink-600 m-0 max-w-prose">{intro}</p>
+      <p className="text-body text-ink-600 m-0 max-w-prose">{intro}</p>
     </header>
     {children}
   </section>
@@ -273,7 +273,7 @@ const WEIGHT_DIVERGENCE: WeightRow[] = [
   { role: '<h2>', token: 700, usage: [{ w: 800, pct: 42 }, { w: 700, pct: 39 }, { w: 600, pct: 10 }] },
   { role: 'text-h2', token: 700, usage: [{ w: 700, pct: 64 }, { w: 800, pct: 27 }] },
   { role: 'text-h3', token: 600, usage: [{ w: 700, pct: 70 }, { w: 800, pct: 17 }, { w: 600, pct: 8 }] },
-  { role: 'text-h4', token: 600, usage: [{ w: 700, pct: 60 }, { w: 600, pct: 25 }, { w: 800, pct: 9 }] },
+  { role: 'text-h3', token: 600, usage: [{ w: 700, pct: 60 }, { w: 600, pct: 25 }, { w: 800, pct: 9 }] },
   { role: 'text-caption', token: null, usage: [{ w: 700, pct: 21 }, { w: 600, pct: 19 }, { w: 500, pct: 6 }] },
 ];
 
@@ -367,7 +367,7 @@ const MiniCard: React.FC<{ radius: string }> = ({ radius }) => (
     <span className="inline-flex items-center gap-1 self-start rounded-pill bg-secondary-50 px-2 py-0.5 text-micro font-bold uppercase tracking-[0.06em] text-secondary-700">
       En cours
     </span>
-    <p className="text-body-sm font-bold text-ink-900 m-0">Devenir prompt designer</p>
+    <p className="text-body font-bold text-ink-900 m-0">Devenir prompt designer</p>
     <p className="text-caption text-ink-500 m-0">Étape 2 sur 5</p>
   </div>
 );
@@ -775,7 +775,7 @@ const CardVariantRow: React.FC<{ v: CardVar; uses: number; surface: 'blanc' | 's
       </div>
       <div ref={ref} className={['rounded-lg p-2 inline-flex', surface === 'blanc' ? 'bg-white' : 'bg-primary-900'].join(' ')}>
         <Card variant={v} tone={v === 'tinted' ? 'primary' : undefined} size="sm" className="w-40">
-          <span data-card-title className={v === 'glass-dark' ? 'text-white font-bold text-body-sm' : 'text-ink-900 font-bold text-body-sm'}>
+          <span data-card-title className={v === 'glass-dark' ? 'text-white font-bold text-body' : 'text-ink-900 font-bold text-body'}>
             Titre de card
           </span>
           <span className={v === 'glass-dark' ? 'text-white/80 text-caption' : 'text-ink-500 text-caption'}>Étape 2 sur 5</span>
@@ -837,7 +837,7 @@ const BUTTON_OPTIONS: Record<string, BtnCase[]> = {
 
 const FakeButton: React.FC<{ bg: string; fg: string; children: React.ReactNode }> = ({ bg, fg, children }) => (
   <span
-    className="inline-flex items-center justify-center h-11 px-stack-md rounded-pill font-body font-semibold text-body-sm shrink-0"
+    className="inline-flex items-center justify-center h-11 px-stack-md rounded-pill font-body font-semibold text-body shrink-0"
     style={{ backgroundColor: bg, color: fg }}
   >
     {children}
@@ -1219,7 +1219,7 @@ const RampeArbitrage: React.FC<{ tick: number }> = ({ tick }) => {
               >
                 Ne formez plus pour former.
               </p>
-              <p className="font-body text-body leading-relaxed m-0" style={{ color: corps }}>
+              <p className="font-body text-body m-0" style={{ color: corps }}>
                 {PARAGRAPHE}
               </p>
               <div className="flex flex-wrap items-center gap-2 pt-1">
@@ -1282,7 +1282,7 @@ const EncreArbitrage: React.FC<{ tick: number }> = ({ tick }) => {
                     >
                       Ne formez plus pour former.
                     </p>
-                    <p className="font-body text-body leading-relaxed m-0" style={{ color: corps }}>
+                    <p className="font-body text-body m-0" style={{ color: corps }}>
                       {PARAGRAPHE}
                     </p>
                     <div className="flex flex-wrap items-center gap-2 pt-1">
@@ -1338,7 +1338,7 @@ const RayonArbitrage: React.FC<{ tick: number }> = ({ tick }) => {
             <div className="flex flex-col gap-4 pt-2">
               {/* bouton plein */}
               <span
-                className="inline-flex items-center justify-center px-6 py-3 font-body text-body-sm font-bold w-fit"
+                className="inline-flex items-center justify-center px-6 py-3 font-body text-body font-bold w-fit"
                 style={{
                   borderRadius: rad,
                   backgroundColor: tokens['--color-primary-700'],
@@ -1358,13 +1358,13 @@ const RayonArbitrage: React.FC<{ tick: number }> = ({ tick }) => {
                 }}
               >
                 <p
-                  className="font-display text-h4 font-bold m-0"
+                  className="font-display text-h3 font-bold m-0"
                   style={{ color: tokens['--color-ink-900'] }}
                 >
                   Accompagnement STRIDE
                 </p>
                 <p
-                  className="font-body text-body-sm leading-relaxed m-0"
+                  className="font-body text-body m-0"
                   style={{ color: tokens['--color-ink-600'] }}
                 >
                   La méthode en six étapes pour cadrer votre transition, avec un livrable à chaque
@@ -1487,7 +1487,7 @@ const BtnSpecimen: React.FC<{
   rayon: string;
 }> = ({ texte, fond, label, bordure, rayon }) => (
   <span
-    className="inline-flex items-center justify-center px-stack-md h-11 font-body text-body-sm font-semibold whitespace-nowrap"
+    className="inline-flex items-center justify-center px-stack-md h-11 font-body text-body font-semibold whitespace-nowrap"
     style={{
       borderRadius: rayon,
       backgroundColor: fond ?? 'transparent',
@@ -1651,7 +1651,7 @@ const DECISIONS: Decision[] = [
     question: 'Le token déclare 600. Le code écrit 700. Qui gagne ?',
     evidence: [
       'text-h3 : 700 sur 87 sites (70 %) · 600 sur 13 (10 %)',
-      'text-h4 : 700 sur 98 sites (67 %) · 600 sur 28 (19 %)',
+      'text-h3 : 700 sur 98 sites (67 %) · 600 sur 28 (19 %)',
       'Aligner le token sur l’usage = 0 fichier à toucher. L’inverse = ~185 sites.',
     ],
     options: [
@@ -1701,7 +1701,7 @@ const DECISIONS: Decision[] = [
         ].map(([n, w, use]) => (
           <div key={n as string} className="flex items-baseline gap-stack-xs">
             <code className="text-micro text-primary-800 w-32 shrink-0">--weight-{n}</code>
-            <span className="text-body-sm text-ink-900 w-28 shrink-0" style={{ fontWeight: w as number }}>
+            <span className="text-body text-ink-900 w-28 shrink-0" style={{ fontWeight: w as number }}>
               Reprends
             </span>
             <span className="text-micro text-ink-500">{use}</span>
@@ -1923,13 +1923,13 @@ const DecisionPanel: React.FC<{ onJump: (id: string) => void }> = ({ onJump }) =
     <section id="decisions" className="scroll-mt-24 flex flex-col gap-stack">
       <header className="flex flex-col gap-tight">
         <h2 className="flex items-center gap-stack-xs text-h3 font-bold tracking-headline text-ink-900">
-          <span className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-primary-50 text-primary-700 shrink-0">
+          <span className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-primary-50 text-primary-800 shrink-0">
             <ListChecks size={18} strokeWidth={2} />
           </span>
           Décisions à trancher
-          <span className="text-body-sm font-normal text-ink-500 tabular-nums">{done} / {DECISIONS.length}</span>
+          <span className="text-body font-normal text-ink-500 tabular-nums">{done} / {DECISIONS.length}</span>
         </h2>
-        <p className="text-body-sm text-ink-600 m-0 max-w-prose">
+        <p className="text-body text-ink-600 m-0 max-w-prose">
           Rangées par dépendance, pas par importance. Chaque option porte ce que la mesure établit —
           jamais une opinion. Les choix sont mémorisés localement.
         </p>
@@ -1956,7 +1956,7 @@ const DecisionPanel: React.FC<{ onJump: (id: string) => void }> = ({ onJump }) =
                   {chosen ? '✓' : d.n}
                 </span>
                 <span className="flex-1 min-w-0">
-                  <span className="text-body-sm font-semibold text-ink-900">{d.title}</span>
+                  <span className="text-body font-semibold text-ink-900">{d.title}</span>
                   {d.blocks && !chosen && (
                     <span className="ml-1.5 text-micro font-bold text-danger-fg">{d.blocks}</span>
                   )}
@@ -1974,7 +1974,7 @@ const DecisionPanel: React.FC<{ onJump: (id: string) => void }> = ({ onJump }) =
 
               {isOpen && (
                 <div className="px-4 pb-4 pl-11 flex flex-col gap-stack-xs">
-                  <p className="text-body-sm font-semibold text-ink-800 m-0">{d.question}</p>
+                  <p className="text-body font-semibold text-ink-800 m-0">{d.question}</p>
                   <ul className="flex flex-col gap-0.5 m-0 pl-4 list-disc">
                     {d.evidence.map((e, i) => (
                       <li key={i} className="text-caption text-ink-600">{e}</li>
@@ -2109,12 +2109,12 @@ const Atelier: React.FC = () => {
     <section id="atelier" className="scroll-mt-24 flex flex-col gap-stack">
       <header className="flex flex-col gap-tight">
         <h2 className="flex items-center gap-stack-xs text-h3 font-bold tracking-headline text-ink-900">
-          <span className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-primary-50 text-primary-700 shrink-0">
+          <span className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-primary-50 text-primary-800 shrink-0">
             <FlaskConical size={18} strokeWidth={2} />
           </span>
           Atelier — composer et tester
         </h2>
-        <p className="text-body-sm text-ink-600 m-0 max-w-prose">
+        <p className="text-body text-ink-600 m-0 max-w-prose">
           Choisis un fond, un texte, une bordure, pour chaque état. Le contraste se
           recalcule en direct sur les vrais tokens. Aucune valeur codée : tout est lu à l'exécution.
         </p>
@@ -2421,7 +2421,7 @@ const DesignLab: React.FC = () => {
       {/* ── En-tête sticky ──────────────────────────────────────────────── */}
       <header className="sticky top-0 z-sticky border-b border-ink-200 bg-white/90 backdrop-blur-glass-medium">
         <div className="mx-auto max-w-page px-4 sm:px-6 py-2 flex items-center gap-stack-xs">
-          <h1 className="text-body-sm font-bold tracking-snug text-ink-900 shrink-0 mr-1">Design Lab</h1>
+          <h1 className="text-body font-bold tracking-snug text-ink-900 shrink-0 mr-1">Design Lab</h1>
 
           {/* Une seule ligne qui défile — 13 onglets ne doivent pas wrapper en
               un pavé qui mange le sticky. `-mx-1 px-1` pour que le focus ring ne
@@ -2674,7 +2674,7 @@ const DesignLab: React.FC = () => {
                 >
                   Prochaine session
                 </h4>
-                <p className="text-caption text-ink-500 m-0 leading-snug">
+                <p className="text-caption text-ink-500 m-0">
                   Cette semaine · 14:30 · 45 min · Visio
                 </p>
                 <div className="flex gap-stack-xs mt-stack-xs text-micro tabular-nums">
@@ -2777,7 +2777,7 @@ const DesignLab: React.FC = () => {
               {WEIGHT_ROLES.map((r) => (
                 <li key={r.name} className="flex items-baseline gap-stack-xs border-b border-ink-100 last:border-b-0 pb-1.5">
                   <code className="text-caption font-bold text-primary-800 w-40 shrink-0">--weight-{r.name}</code>
-                  <span className="text-body-sm text-ink-900 w-12 shrink-0 tabular-nums" style={{ fontWeight: r.w }}>
+                  <span className="text-body text-ink-900 w-12 shrink-0 tabular-nums" style={{ fontWeight: r.w }}>
                     {r.w}
                   </span>
                   <span className="text-caption text-ink-600 flex-1 min-w-0">{r.forWhat}</span>
@@ -2876,7 +2876,7 @@ const DesignLab: React.FC = () => {
           {FIX_GROUPS.map((g) => (
             <div key={g.name} className="flex flex-col gap-stack-xs">
               <div className="flex items-baseline gap-stack-xs flex-wrap">
-                <code className="text-body-sm font-bold text-ink-900">{g.name}</code>
+                <code className="text-body font-bold text-ink-900">{g.name}</code>
                 <span className="text-micro text-ink-500 tabular-nums">{g.uses} usages</span>
                 <span className="text-caption text-ink-600">— {g.note}</span>
               </div>
@@ -2897,7 +2897,7 @@ const DesignLab: React.FC = () => {
                       return (
                         <div key={s.s} className="flex flex-col gap-1 items-start">
                           <span
-                            className="inline-flex items-center justify-center h-touch px-stack-md rounded-pill font-body text-body-sm font-semibold"
+                            className="inline-flex items-center justify-center h-touch px-stack-md rounded-pill font-body text-body font-semibold"
                             style={{
                               background: s.bg,
                               color: s.tx,
@@ -3086,10 +3086,10 @@ const DesignLab: React.FC = () => {
           </p>
 
           {/* ── Encre minimale par rôle typo × fond ──────────────────────── */}
-          <h3 className="text-h4 font-bold tracking-snug text-ink-900 mt-stack">
+          <h3 className="text-h3 font-bold tracking-snug text-ink-900 mt-stack">
             Encre minimale par rôle typographique
           </h3>
-          <p className="text-body-sm text-ink-600 m-0 max-w-prose">
+          <p className="text-body text-ink-600 m-0 max-w-prose">
             Le seuil dépend de la taille <em>et</em> de la graisse : WCAG relâche à 3,0 pour le « grand texte »
             (≥ 24 px, ou ≥ 18,66 px en ≥ 700). L'encre autorisée change donc selon le rôle — calculé à l'exécution.
           </p>
@@ -3174,7 +3174,7 @@ const DesignLab: React.FC = () => {
         >
           <EncreArbitrage tick={tick} />
 
-          <h3 className="font-display text-h4 font-bold tracking-snug text-ink-900 pt-stack">
+          <h3 className="font-display text-h3 font-bold tracking-snug text-ink-900 pt-stack">
             Et la rampe elle-même ? — vos deux questions du 30/07
           </h3>
           <div className="rounded-xl border border-primary-200 bg-primary-50 p-4 flex flex-col gap-stack-xs">
@@ -3362,7 +3362,7 @@ const DesignLab: React.FC = () => {
 
         {/* ── Rappel Button réel ───────────────────────────────────────── */}
         <section className="flex flex-col gap-stack">
-          <h2 className="text-h4 font-bold tracking-snug text-ink-900">Composant Button réel, pour repère</h2>
+          <h2 className="text-h3 font-bold tracking-snug text-ink-900">Composant Button réel, pour repère</h2>
           <div className="flex flex-wrap items-center gap-stack rounded-xl border border-ink-200 bg-white p-4">
             <Button emphasis="soft">Primary</Button>
             <Button emphasis="soft" tone="warm">Secondary</Button>

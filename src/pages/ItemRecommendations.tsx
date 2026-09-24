@@ -1,21 +1,29 @@
 import React from 'react';
 import { Lightbulb, BookOpen, Video, ArrowRight, EyeOff } from 'lucide-react';
 import EditorialHero from '../components/patterns/EditorialHero';
-import SectionCard from '../components/patterns/SectionCard';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
-import { Badge } from '../components/ui/Badge';
+import { MetaPill } from '../components/ui/MetaPill';
 import { Avatar } from '../components/ui/Avatar';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 import { useCoachingStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
+import { MOCK_COACH } from '../data/coaching';
 import type { CoachRecommendationType } from '../types/learning';
 
-const TYPE_ICON: Record<CoachRecommendationType, typeof BookOpen> = {
-  article: BookOpen,
-  video: Video,
-  lesson: Lightbulb,
+/* Le type de contenu est une donnée (arbitrages n°14-15) : une MetaPill avec
+   son icône, plus une pastille d'icône de 48 px qui ouvrait un second bord
+   gauche dans chaque carte. */
+const TYPE: Record<CoachRecommendationType, { icon: typeof BookOpen; label: string }> = {
+  article: { icon: BookOpen, label: 'Article' },
+  video: { icon: Video, label: 'Vidéo' },
+  lesson: { icon: Lightbulb, label: 'Leçon' },
 };
+
+/* Le coach qui recommande : celui des données, plus un prénom écrit en dur
+   (« Marie ») à côté de l'avatar d'une autre personne. */
+const COACH_PRENOM = MOCK_COACH.name.split(' ')[0];
 
 const ItemRecommendations: React.FC = () => {
   const coachingStore = useCoachingStore();
@@ -24,79 +32,81 @@ const ItemRecommendations: React.FC = () => {
     .filter((r) => !r.dismissed);
 
   return (
-    <div className="min-h-[100dvh] bg-surface">
+    /* Un seul bord gauche : l'en-tête et la liste vivent dans la même colonne
+       (la liste était centrée, 180 px à droite du titre), et la page n'a plus
+       de fond blanc arrêté à 900 px. Un seul en-tête de section : « 3
+       recommandations actives » puis « À consulter en priorité » se suivaient. */
+    <PageShell width="content" noPadTop className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
         eyebrow="Coaching · Recommandations"
         title="Tes recommandations du coach"
-        summary="Items sélectionnés spécifiquement pour toi par Marie"
+        summary={`Contenus sélectionnés spécifiquement pour toi par ${COACH_PRENOM}.`}
         tone="flat"
       />
 
-      <Container width="content" padding={false} className="px-stack py-section flex flex-col gap-section">
-        <div className="flex items-center justify-between gap-stack">
-          <div>
-            <div className="text-h4 font-semibold">{recommendations.length} recommandation{recommendations.length > 1 ? 's' : ''} active{recommendations.length > 1 ? 's' : ''}</div>
-            <div className="text-caption text-ink-500 mt-1">Mises à jour au fil de tes sessions de coaching</div>
-          </div>
-        </div>
+      <section className="flex flex-col gap-stack">
+        <SectionHeader
+          title="À consulter en priorité"
+          subtitle="Triés par pertinence pour tes objectifs en cours."
+          meta={`${recommendations.length} recommandation${recommendations.length > 1 ? 's' : ''} active${recommendations.length > 1 ? 's' : ''} · mises à jour au fil de tes sessions`}
+          size="md"
+        />
 
         {recommendations.length === 0 ? (
-          <SectionCard title="À consulter en priorité" description="Triés par pertinence pour tes objectifs en cours">
-            <p className="text-body-sm text-ink-500">
-              Aucune recommandation active. Tu as masqué toutes les suggestions de ton coach — elles
-              reviendront au fil de tes prochaines sessions.
-            </p>
-          </SectionCard>
+          <p className="text-body text-ink-700 max-w-prose">
+            Aucune recommandation active. Tu as masqué toutes les suggestions de ton coach : elles
+            reviendront au fil de tes prochaines sessions.
+          </p>
         ) : (
-        <SectionCard title="À consulter en priorité" description="Triés par pertinence pour tes objectifs en cours">
-          <div className="flex flex-col gap-stack">
+          /* Chaque recommandation est un objet qu'on choisit : une carte, sans
+             carte de section autour. Anatomie : méta (type, compétence, durée,
+             date) → 4 → titre h3 20 → 12 → le mot du coach → 24 → actions. */
+          <div className="flex flex-col gap-stack-sm">
             {recommendations.map((r) => {
-              const Icon = TYPE_ICON[r.type];
+              const type = TYPE[r.type];
+              const Icon = type.icon;
               return (
-                <Card key={r.id} className="p-stack-lg">
-                  <div className="flex items-start gap-stack">
-                    <div className="w-12 h-12 rounded-lg bg-primary-50 flex items-center justify-center shrink-0">
-                      <Icon className="w-6 h-6 text-primary-600" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-stack-xs mb-stack-xs flex-wrap">
-                        <Badge variant="brand">{r.competence}</Badge>
-                        <Badge variant="neutral">{r.duration}</Badge>
-                        <span className="text-caption text-ink-500">{r.date}</span>
-                      </div>
-                      <h3 className="text-h4 mb-stack-xs">{r.title}</h3>
+                <Card key={r.id} className="flex flex-col gap-0">
+                  <div className="flex items-center gap-stack-xs flex-wrap">
+                    <MetaPill icon={<Icon />} text={type.label} tone="primary" />
+                    <MetaPill text={r.competence} />
+                    <MetaPill text={r.duration} />
+                    <span className="text-caption text-ink-600">{r.date}</span>
+                  </div>
+                  <h3 className="mt-stack-3xs font-display text-h3 text-ink-900">{r.title}</h3>
 
-                      <div className="flex items-start gap-stack-xs p-3 rounded-lg bg-secondary-50/70 mb-stack">
-                        <Avatar initials={r.coachInitials} size="sm" />
-                        <div className="flex-1">
-                          <div className="text-caption text-ink-500 mb-1">Marie écrit :</div>
-                          <p className="text-body-sm italic text-ink-700">{r.reason}</p>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-stack-xs">
-                        <Button emphasis="soft" size="sm" trailingIcon={<ArrowRight className="w-4 h-4" />}>
-                          Découvrir
-                        </Button>
-                        <Button
-                          emphasis="outline"
-                          size="sm"
-                          leadingIcon={<EyeOff className="w-4 h-4" />}
-                          onClick={() => coachingStore.dismissRecommendation(MOCK_USER_ID, r.id)}
-                        >
-                          Masquer
-                        </Button>
-                      </div>
+                  <figure className="mt-stack-sm flex items-start gap-stack-xs p-stack-sm rounded-lg bg-secondary-50/70">
+                    <Avatar initials={r.coachInitials} size="sm" />
+                    <div className="flex-1 flex flex-col gap-stack-3xs min-w-0">
+                      <figcaption className="text-caption font-semibold text-ink-600">{COACH_PRENOM} écrit :</figcaption>
+                      <blockquote className="text-body italic text-ink-700 max-w-prose">{r.reason}</blockquote>
                     </div>
+                  </figure>
+
+                  {/* L'action de la carte (Découvrir) en `soft` ; écarter une
+                      recommandation est un outil, en `ghost` neutre
+                      (arbitrage n°19). */}
+                  <div className="mt-stack-lg flex flex-wrap items-center gap-stack-xs">
+                    <Button emphasis="soft" tone="brand" size="sm" trailingIcon={<ArrowRight className="w-4 h-4" />}>
+                      Découvrir
+                    </Button>
+                    <Button
+                      emphasis="ghost"
+                      tone="neutral"
+                      size="sm"
+                      leadingIcon={<EyeOff className="w-4 h-4" />}
+                      onClick={() => coachingStore.dismissRecommendation(MOCK_USER_ID, r.id)}
+                    >
+                      Masquer
+                    </Button>
                   </div>
                 </Card>
               );
             })}
           </div>
-        </SectionCard>
         )}
-      </Container>
-    </div>
+      </section>
+    </PageShell>
   );
 };
 

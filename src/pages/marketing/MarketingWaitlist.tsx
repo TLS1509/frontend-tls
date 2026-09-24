@@ -28,6 +28,7 @@ import {
   FadeInWhenVisible,
   } from '../../components/marketing/motion';
 import { SEOHead } from './components/SEOHead';
+import { Badge } from '../../components/ui/Badge';
 
 /* ─── Data ──────────────────────────────────────────────────────────────────── */
 
@@ -87,8 +88,8 @@ const CheckboxField: React.FC<{
       {checked && <Check size={14} className="text-white" strokeWidth={2.5} />}
     </span>
     <div className="flex flex-col gap-tight">
-      <span className="font-body text-body-sm font-semibold text-ink-900 leading-snug">{label}</span>
-      <span className="font-body text-caption text-ink-500 leading-relaxed">{description}</span>
+      <span className="font-body text-body font-semibold text-ink-900 leading-snug">{label}</span>
+      <span className="font-body text-caption text-ink-500">{description}</span>
     </div>
   </label>
 );
@@ -177,13 +178,16 @@ export const MarketingWaitlist: React.FC = () => {
             >
               {/* Urgency pill */}
               <motion.div variants={itemVariants}>
-                <span className="inline-flex items-center gap-stack-xs px-3.5 py-1.5 rounded-pill bg-secondary-50 border border-secondary-200 font-body text-caption font-semibold text-secondary-600">
+                {/* État de l'offre → Badge warm. Le label était en secondary-600,
+                    qui échoue AA en texte ; le point pulsant (motion du site) est
+                    gardé en enfant plutôt que via `dot`, qui est statique. */}
+                <Badge variant="warm" size="large">
                   <span
                     aria-hidden
                     className="w-2 h-2 rounded-pill bg-secondary-500 animate-pulse"
                   />
                   Bêta · Accès anticipé · Places limitées
-                </span>
+                </Badge>
               </motion.div>
 
               {/* H1 */}
@@ -194,7 +198,7 @@ export const MarketingWaitlist: React.FC = () => {
                 <span className="block">
                   équipes à l'IA.
                 </span>
-                <span className="block text-accent-400">
+                <span className="block text-accent-700">
                   Accès anticipé.
                 </span>
               </h1>
@@ -221,7 +225,7 @@ export const MarketingWaitlist: React.FC = () => {
                   <li key={b.label} className="flex items-start gap-stack-sm">
                     {b.icon}
                     <div>
-                      <span className="font-body text-body-sm font-semibold text-ink-800 block">
+                      <span className="font-body text-body font-semibold text-ink-800 block">
                         {b.label}
                       </span>
                       <span className="font-body text-caption text-ink-500">
@@ -272,10 +276,10 @@ export const MarketingWaitlist: React.FC = () => {
                       >
                         {/* Card heading */}
                         <div className="flex flex-col gap-stack-3xs">
-                          <h2 className="font-display font-bold text-ink-900 text-h4">
+                          <h2 className="font-display font-bold text-ink-900 text-h3">
                             Rejoindre la liste
                           </h2>
-                          <p className="font-body text-body-sm text-ink-500 m-0">
+                          <p className="font-body text-body text-ink-500 m-0">
                             Accès anticipé · Aucun engagement
                           </p>
                         </div>
@@ -302,7 +306,7 @@ export const MarketingWaitlist: React.FC = () => {
                               value={firstName}
                               onChange={(e) => setFirstName(e.target.value)}
                               placeholder="Votre prénom"
-                              className="h-11 px-4 rounded-lg bg-white border border-ink-200 text-ink-900 placeholder:text-ink-500 font-body text-body-sm focus:outline-none focus:border-primary-400 focus:shadow-sm transition-all shadow-xs"
+                              className="h-11 px-4 rounded-lg bg-white border border-ink-200 text-ink-900 placeholder:text-ink-500 font-body text-body focus:outline-none focus:border-primary-400 focus:shadow-sm transition-all shadow-xs"
                             />
                           </div>
 
@@ -313,7 +317,7 @@ export const MarketingWaitlist: React.FC = () => {
                               className="font-body text-caption font-semibold text-ink-700"
                             >
                               Email professionnel{' '}
-                              <span className="text-secondary-500" aria-hidden>*</span>
+                              <span className="text-secondary-700" aria-hidden>*</span>
                             </label>
                             <input
                               id="wl-email"
@@ -329,7 +333,7 @@ export const MarketingWaitlist: React.FC = () => {
                               aria-describedby={emailError ? 'wl-email-error' : undefined}
                               aria-invalid={emailError}
                               className={[
-                                'h-11 px-4 rounded-lg bg-white border font-body text-body-sm text-ink-900',
+                                'h-11 px-4 rounded-lg bg-white border font-body text-body text-ink-900',
                                 'placeholder:text-ink-500 focus:outline-none transition-all shadow-xs',
                                 emailError
                                   ? 'border-danger-base focus:border-danger-base'
@@ -397,7 +401,7 @@ export const MarketingWaitlist: React.FC = () => {
                           <button
                             type="submit"
                             disabled={submitting}
-                            className="group w-full inline-flex items-center justify-between h-12 pl-6 pr-2 rounded-lg bg-secondary-500 hover:bg-secondary-600 disabled:opacity-60 disabled:cursor-not-allowed text-white font-body font-bold text-body shadow-warm-sm active:scale-[0.98] transition-[background-color,transform,opacity] duration-base ease-emphasis focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white mt-1"
+                            className="group w-full inline-flex items-center justify-between h-12 pl-6 pr-2 rounded-lg bg-secondary-700 hover:bg-secondary-800 disabled:opacity-60 disabled:cursor-not-allowed text-white font-body font-bold text-body shadow-warm-sm active:scale-[0.98] transition-[background-color,transform,opacity] duration-base ease-emphasis focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white mt-1"
                           >
                             <span>{submitting ? 'Inscription en cours…' : 'Rejoindre la liste'}</span>
                             {!submitting && (
@@ -414,11 +418,11 @@ export const MarketingWaitlist: React.FC = () => {
                           )}
 
                           {/* RGPD micro-note */}
-                          <p className="font-body text-micro text-ink-600 text-center m-0 leading-relaxed">
+                          <p className="font-body text-micro text-ink-600 text-center m-0">
                             En envoyant ce formulaire, vous acceptez notre{' '}
                             <Link
                               to="/website/politique-confidentialite"
-                              className="text-primary-600 hover:text-primary-800 underline underline-offset-2 transition-colors"
+                              className="text-primary-700 hover:text-primary-800 underline underline-offset-2 transition-colors"
                             >
                               politique de confidentialité
                             </Link>
@@ -447,10 +451,10 @@ export const MarketingWaitlist: React.FC = () => {
                         </div>
 
                         <div className="flex flex-col gap-stack-xs">
-                          <h2 className="font-display font-bold text-ink-900 text-h4">
+                          <h2 className="font-display font-bold text-ink-900 text-h3">
                             {firstName ? `Parfait, ${firstName} !` : 'C’est noté !'}
                           </h2>
-                          <p className="font-body text-body-sm text-ink-600 m-0 max-w-xs mx-auto">
+                          <p className="font-body text-body text-ink-600 m-0 max-w-xs mx-auto">
                             {successMessage}
                           </p>
                         </div>
@@ -458,7 +462,7 @@ export const MarketingWaitlist: React.FC = () => {
                         <div className="flex flex-col items-center gap-stack-xs pt-1">
                           <Link
                             to="/website/learning-app"
-                            className="inline-flex items-center gap-stack-xs font-body text-caption font-semibold text-primary-600 hover:text-primary-800 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+                            className="inline-flex items-center gap-stack-xs font-body text-caption font-semibold text-primary-700 hover:text-primary-800 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
                           >
                             Découvrir la Learning App
                             <ArrowRight size={14} />
@@ -486,7 +490,7 @@ export const MarketingWaitlist: React.FC = () => {
       <FadeInWhenVisible className="w-full px-6 md:px-10 py-16 md:py-20 bg-white">
         <div className="max-w-page mx-auto">
           <div className="text-center mb-10">
-            <p className="font-body text-caption font-semibold text-primary-500 uppercase tracking-widest mb-2">
+            <p className="font-body text-caption font-semibold text-primary-700 uppercase tracking-widest mb-2">
               La plateforme
             </p>
             <h2 className="font-display font-bold text-ink-900 text-h2 tracking-headline">
@@ -503,14 +507,14 @@ export const MarketingWaitlist: React.FC = () => {
               {
                 tone: 'bg-primary-50 border-primary-100',
                 eyebrow: 'Learn',
-                eyebrowColor: 'text-primary-600',
+                eyebrowColor: 'text-primary-800',
                 title: 'Parcours adaptatifs',
                 desc: 'Modules IA contextualisés à votre secteur, progression Dreyfus, restitution immédiate.',
               },
               {
                 tone: 'bg-secondary-50 border-secondary-100',
                 eyebrow: 'Do',
-                eyebrowColor: 'text-secondary-600',
+                eyebrowColor: 'text-secondary-700',
                 title: 'Coaching humain 1:1',
                 // « un coach certifié » retiré le 29/07 : aucune certification
                 // de coach n'est documentée côté TLS, et le canon interdit les
@@ -520,7 +524,7 @@ export const MarketingWaitlist: React.FC = () => {
               {
                 tone: 'bg-accent-50 border-accent-200',
                 eyebrow: 'Match',
-                eyebrowColor: 'text-accent-500',
+                eyebrowColor: 'text-accent-700',
                 title: 'Passeport de Compétences',
                 desc: 'Preuves vérifiables, Open Badge, visibles par votre employeur et votre réseau.',
               },
@@ -529,13 +533,13 @@ export const MarketingWaitlist: React.FC = () => {
                 key={card.eyebrow}
                 className={`rounded-xl border p-6 flex flex-col gap-stack-sm ${card.tone}`}
               >
-                <span className={`font-display font-bold text-body-sm uppercase tracking-widest ${card.eyebrowColor}`}>
+                <span className={`font-display font-bold text-body uppercase tracking-widest ${card.eyebrowColor}`}>
                   {card.eyebrow}
                 </span>
-                <h3 className="font-display font-bold text-ink-900 text-h4 tracking-snug">
+                <h3 className="font-display font-bold text-ink-900 text-h3 tracking-snug">
                   {card.title}
                 </h3>
-                <p className="font-body text-body-sm text-ink-600 m-0">
+                <p className="font-body text-body text-ink-600 m-0">
                   {card.desc}
                 </p>
               </div>

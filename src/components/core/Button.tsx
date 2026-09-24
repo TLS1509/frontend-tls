@@ -39,7 +39,7 @@ import { Link } from 'react-router-dom';
  * ═══ LE CONTRAT DE CHAQUE NIVEAU ══════════════════════════════════════════
  *
  * Chaque contrat est mesuré au navigateur (canvas 1×1, fonds composés ancêtre
- * par ancêtre — jamais de regex sur `rgba()`, cf. CLAUDE.md piège n°6 ter).
+ * par ancêtre — jamais de regex sur `rgba()`, cf. piège n°6 ter, .claude/rules/pieges-tailwind.md).
  *
  *   solid   — aplat du ton au cran 700, label blanc. Le cran 700 est le
  *             PREMIER qui porte du blanc à 4,5:1 : brand 5,02 · warm 6,31 ·
@@ -111,12 +111,27 @@ export type ButtonVariant =
   | 'glass-sun'
   | 'link';
 
+/**
+ * Trois hauteurs, celles de tout ce qui se pose sur une même ligne (arbitrage
+ * n°22 du 2026-09-24) : sm 36 · md 44 · lg 52 — comme Input, Select, Combobox,
+ * Search et FilterChip.
+ *
+ * `xl` est DÉPRÉCIÉ : il rend exactement `lg`. L'ancien `xl` (52 px) est
+ * devenu le `lg` ; garder le nom évite de casser la dizaine d'appels du site.
+ * Ne plus l'employer.
+ */
 export type ButtonSize = 'sm' | 'md' | 'lg' | 'xl';
+
+/** Les trois tailles réelles ; `xl` est ramené sur `lg`. */
+type TailleRendue = Exclude<ButtonSize, 'xl'>;
+const tailleRendue = (size: ButtonSize): TailleRendue => (size === 'xl' ? 'lg' : size);
 
 /** Combien le bouton insiste. Du plus fort au plus discret. */
 export type ButtonEmphasis = 'solid' | 'soft' | 'outline' | 'ghost' | 'link';
 /** De quelle couleur il insiste. */
 export type ButtonTone = 'brand' | 'warm' | 'sun' | 'danger' | 'neutral';
+/** Le bord sur lequel un `ghost` cale son libellé (voir `flush`). */
+export type ButtonFlush = 'start' | 'end' | 'both';
 
 export interface ButtonProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
@@ -142,6 +157,28 @@ export interface ButtonProps
   loading?: boolean;
   /** Stretch to full container width */
   fullWidth?: boolean;
+  /**
+   * Cale le LIBELLÉ d'un `ghost` sur le bord du texte qu'il suit, au lieu de
+   * sa boîte (2026-09-24). Au repos, un `ghost` n'a ni fond ni filet : ce qu'on
+   * voit, c'est son libellé, et son padding le décale de 16 · 20 · 24 px
+   * (sm · md · lg) du bord du texte. Une marge négative de la même valeur le
+   * ramène ; la boîte déborde d'autant, et son fond n'y apparaît qu'au survol.
+   *
+   *   start — en début de rangée, sous un titre ou un paragraphe (« Précédent »,
+   *           « Retour », l'action seule d'une rangée) ;
+   *   end   — en bout de rangée, calé sur le bord droit ;
+   *   both  — les deux : une place qui change de côté selon la largeur
+   *           (l'emplacement d'action de `SectionHeader`, à droite du titre ou
+   *           dessous).
+   *
+   * Sans effet sur les autres niveaux — `solid`, `soft` et `outline` montrent
+   * leur boîte, c'est elle qui s'aligne ; `link` n'a pas de padding — ni sur
+   * `iconOnly`. On peut donc le poser sur un bouton dont le niveau change avec
+   * l'état : il ne s'applique que lorsqu'il rend un `ghost`.
+   * Ne pas l'associer à une marge horizontale passée en `className` (même
+   * propriété, même spécificité : l'ordre d'émission trancherait, piège n°6).
+   */
+  flush?: ButtonFlush;
   /** HTML button type (button | submit | reset) */
   type?: 'button' | 'submit' | 'reset';
   /**
@@ -198,7 +235,9 @@ export interface ButtonProps
    défaut. Et la graisse 700 aggrave le cumul, puisqu'elle élargit les lettres.
 
    La graisse ne change aucun seuil de contraste avant 18,66 px, où WCAG classe
-   le label en « grand texte » (seuil 3,0 au lieu de 4,5) — seul `xl` en profite.
+   le label en « grand texte » (seuil 3,0 au lieu de 4,5). Seul l'ancien `xl`
+   (19 px) y arrivait ; depuis qu'il rend `lg` (n°22), tous les labels sont du
+   texte normal et visent 4,5 — ce que les niveaux au cran 700 tiennent.
    Ne pas remettre `tracking-tight` ici : s'il devait revenir pour les grandes
    tailles, sa place est dans SIZE_CLASSES, jamais dans BASE. */
 /* Rayon : 14 px (`rounded-lg`) — décidé le 2026-09-14 (R3).
@@ -231,7 +270,7 @@ const BASE = 'inline-flex items-center justify-center gap-stack-xs font-body fon
 /* Le rayon vit HORS de BASE, et c'est délibéré : deux classes de rayon dans la
    même liste ont la même spécificité (0,1,0), donc c'est l'ordre d'émission de
    Tailwind qui trancherait, pas l'ordre du `className` — le piège n°6 de
-   CLAUDE.md, déjà rencontré sur la couleur de bordure d'`Input`. Une seule
+   .claude/rules/pieges-tailwind.md, déjà rencontré sur la couleur de bordure d'`Input`. Une seule
    classe de rayon est posée par appel, jamais deux. */
 const RAYON = 'rounded-lg';
 const RAYON_CERCLE = 'rounded-pill';
@@ -253,8 +292,14 @@ const RAYON_CERCLE = 'rounded-pill';
    s'apprêtait à le presser. Foncer le porte de 5,02 à 7,08. */
 const EMPHASIS_TONE: Record<ButtonEmphasis, Record<ButtonTone, string>> = {
   /* ── solid — l'aplat. Le cran 700 est le premier à porter du blanc à 4,5:1.
-        Réservé au site marketing (36 appels), au destructif et au verre onDark :
-        l'app, elle, n'a plus d'aplat depuis le 17/09. */
+        ⚠️ Mis à jour le 2026-09-24 — arbitrage n°19 : c'est L'ACTION
+        PRINCIPALE DE L'ÉCRAN, et il y en a une au plus par écran (la page, ou
+        la modale, le tiroir, la boîte de dialogue ouverts). « Reprendre » sur
+        l'accueil, l'envoi d'un formulaire, Confirmer dans une modale — `danger`
+        pour confirmer une suppression. Un écran de pure consultation peut n'en
+        avoir aucun. La règle du 17/09 (« l'app n'a plus d'aplat ») est
+        remplacée : sa faille était que `soft` et `outline` ne différaient que
+        d'un fond au cran 50, invisible sur une carte teintée. */
   solid: {
     brand:   'bg-primary-700 text-white shadow-sm hover:bg-primary-800 hover:shadow-brand-md active:bg-primary-800 active:shadow-sm',
     warm:    'bg-secondary-700 text-white shadow-sm hover:bg-secondary-800 hover:shadow-warm-md active:bg-secondary-800 active:shadow-sm',
@@ -262,10 +307,14 @@ const EMPHASIS_TONE: Record<ButtonEmphasis, Record<ButtonTone, string>> = {
     danger:  'bg-danger-strong text-white shadow-sm hover:bg-danger-deep hover:shadow-danger-md active:bg-danger-deep active:shadow-sm',
     neutral: 'bg-ink-900 text-white shadow-sm hover:bg-ink-800 active:bg-ink-900 active:shadow-sm',
   },
-  /* ── soft — le fond doux. C'est le niveau PRINCIPAL de l'app depuis la
-        bascule. Fond opaque au cran 50, label 800, filet 600 — le filet monte
-        au 700 sur l'or, seule famille dont le 600 rate le seuil de contour
-        (2,89 contre les 3,0 de WCAG 1.4.11 ; le 700 donne 4,88).
+  /* ── soft — le fond doux. L'action DE CONTEXTE (arbitrage n°19) : celle
+        d'une carte, d'une rangée, d'un panneau ; et l'outil qui a besoin d'un
+        contour. Fond opaque au cran 50, label 800, filet 700 pour les trois
+        tons. ⚠️ Corrigé le 24/09 : ce commentaire disait « filet 600, 700 sur
+        l'or seulement » — l'état du 10/09. Le 600 tenait sur le blanc
+        (3,66 · 3,98) mais tombait sous le 3:1 d'un contour sur une carte au
+        cran 100 (teal 2,99, or 2,49) : depuis le 17/09, les trois sont au 700
+        (tableau dans l'en-tête du fichier).
         `neutral` est la pastille blanche givrée posée sur une carte teintée :
         elle recouvre vraiment, donc elle garde son flou. */
   soft: {
@@ -283,7 +332,9 @@ const EMPHASIS_TONE: Record<ButtonEmphasis, Record<ButtonTone, string>> = {
        boutons se lisaient comme du texte gras, pas comme des boutons. */
     neutral: 'bg-white/80 text-ink-900 border border-ink-500 backdrop-blur-glass-light shadow-sm hover:bg-white hover:border-ink-600 active:bg-white',
   },
-  /* ── outline — le filet sans fond. C'est le niveau secondaire. */
+  /* ── outline — le filet sans fond. RÉSERVÉ aux paires Annuler / Confirmer
+        (arbitrage n°19) : Annuler en `outline`, Confirmer en `solid`. Ailleurs,
+        un bouton secondaire est `soft` (contexte) ou `ghost` (tertiaire). */
   outline: {
     brand:   'bg-transparent text-primary-800 border border-primary-700 shadow-xs hover:bg-primary-50 hover:border-primary-800 hover:shadow-sm active:bg-primary-100 active:border-primary-800',
     warm:    'bg-transparent text-secondary-800 border border-secondary-700 shadow-xs hover:bg-secondary-50 hover:border-secondary-800 hover:shadow-warm-sm active:bg-secondary-100 active:border-secondary-800',
@@ -292,7 +343,8 @@ const EMPHASIS_TONE: Record<ButtonEmphasis, Record<ButtonTone, string>> = {
     neutral: 'bg-transparent text-ink-700 border border-ink-500 shadow-xs hover:bg-ink-50 hover:border-ink-600 hover:shadow-sm active:bg-ink-100 active:border-ink-600',
   },
   /* ── ghost — ni fond ni filet au repos. Le niveau le plus discret qui reste
-        une boîte ; le fond n'apparaît qu'au survol. */
+        une boîte ; le fond n'apparaît qu'au survol. Le tertiaire (« Plus
+        tard », « Voir tout », Précédent) et les outils (arbitrage n°19). */
   ghost: {
     brand:   'bg-transparent text-primary-800 hover:bg-primary-50 active:bg-primary-100',
     warm:    'bg-transparent text-secondary-800 hover:bg-secondary-50 active:bg-secondary-100',
@@ -323,7 +375,8 @@ const EMPHASIS_TONE: Record<ButtonEmphasis, Record<ButtonTone, string>> = {
 const ON_DARK: Partial<Record<ButtonEmphasis, string>> = {
   /* ⚠️ `solid` est un VERRE CLAIR À ENCRE FONCÉE, et c'est une correction, pas
      un goût. Il portait `bg-white/20 text-white` — un voile blanc SOUS du texte
-     blanc, c'est-à-dire les deux clairs à la fois. CLAUDE.md nomme déjà cette
+     blanc, c'est-à-dire les deux clairs à la fois.
+     .claude/rules/doctrine-design.md nomme déjà cette
      contradiction pour le compteur de la nav : « un voile blanc éclaircit le
      fond, alors que du texte blanc réclame du sombre ».
 
@@ -376,50 +429,80 @@ const VARIANT_ALIAS: Record<
   link:                 { emphasis: 'link',    tone: 'brand'   },
 };
 
-/* Cibles tactiles — revues le 2026-09-09.
-   `sm` mesure 32 px de haut et compte 227 des 522 boutons : il vit dans les
-   tableaux de bord denses (ManagerCohort, CoachDashboard, Webhooks…), où le
-   passer à 44 px visuels casserait les mises en page.
+/* Hauteurs — arbitrage n°22 du 2026-09-24 : 36 · 44 · 52.
+   Une seule échelle pour tout ce qui se pose sur une même ligne. Avant, le
+   bouton comptait quatre crans (32 · 44 · 48 · 52) quand le champ en comptait
+   trois (36 · 44 · 52) : un `Button sm` à côté d'un `Input sm` dépassait de
+   4 px de chaque côté, un `lg` à côté d'un champ `lg` manquait de 4 px. Le
+   `sm` monte à 36, l'ancien `xl` (52) devient le `lg`, et `xl` n'est plus
+   qu'un alias déprécié (voir `ButtonSize`).
 
-   La réponse n'est pas d'agrandir le bouton mais **d'étendre sa cible** : le
-   pseudo-élément porte la zone tactile à 44 px sans toucher au rendu. C'est ce
-   que font iOS et Material — la cible déborde le visuel. Le bouton reste dense,
-   le doigt ne rate plus.
+   Cible tactile — revue le 2026-09-09, gardée le 24/09. `sm` vit dans les
+   rangées denses (tableaux coach et manager, Webhooks…) : la réponse n'est pas
+   d'agrandir le bouton mais d'ÉTENDRE SA CIBLE. Le pseudo-élément porte la
+   zone tactile à 44 px sans toucher au rendu, comme iOS et Material.
+   (44 − 36) ÷ 2 = 4 px de débord vertical, soit `-inset-y-1` (il en fallait 6
+   quand le bouton faisait 32 px).
 
-   (44 − 32) ÷ 2 = 6 px de débord vertical, soit `-inset-y-1.5`.
-   `xl` passe de 56 à 52 px : à 19 px de police en graisse 700, le label franchit
-   le seuil des 18,66 px et bascule en « grand texte » au sens WCAG — son
-   exigence de contraste tombe de 4,5 à 3,0, ce qui rouvre le cran 600 des
-   couleurs de marque en label blanc. */
-/* Le padding horizontal, mesuré contre la hauteur du cran (passe du 17/09).
-
-   L'invariant qui parle n'est ni padH/hauteur (0,438 → 0,538, il dérive) ni
-   padH/padV (2,33 · 2,00 · 2,18 · 2,48, il n'a pas d'ordre) mais le rapport du
-   padding à la POLICE du label — l'air qu'on laisse à la lettre :
+   Padding horizontal — l'invariant est le rapport du padding à la POLICE du
+   label (passe du 17/09), pas à la hauteur, qui dérive :
 
      cran  hauteur  police  padH   padH/police
-     sm      32       13     14       1,08   ← l'intrus
-     md      44       15     20       1,33
-     lg      48       16     24       1,50
-     xl      52       19     28       1,47
+     sm      36       13     16       1,23
+     md      44       16     20       1,25
+     lg      52       16     24       1,50
 
-   `sm` était le seul sous 1,2, et c'est le cran le plus employé du produit
-   (227 boutons sur 574). Même forme de défaut que le serrage de septembre : la
-   taille la plus vue encaissait l'écart. Il passe à 16 — 1,23, et un rapport à
-   la hauteur de 0,50, exactement celui de `lg`. 16 est en plus DANS l'échelle
-   d'espacement, ce que 14 n'était pas.
+   Le `px-7` (28, hors échelle) de l'ancien `xl` disparaît avec lui : son
+   label à 19 px n'existe plus, la police de `lg` est celle de `md`.
 
-   ⚠️ `xl` garde 28 px, hors échelle, et c'est délibéré. Les deux crans voisins
-   disponibles l'abîment : 24 donnerait 1,26 quand `lg` est à 1,50 — le plus
-   grand bouton paraîtrait plus serré que celui d'en dessous — et 32 monterait à
-   1,68 et 0,62 de la hauteur. Deux usages, un écart argumenté : mieux vaut une
-   exception écrite qu'un douzième cran d'échelle pour dix boutons. */
-const SIZE_CLASSES: Record<ButtonSize, string> = {
-  sm: 'h-8 px-stack text-caption relative after:absolute after:content-[""] after:inset-x-0 after:-inset-y-1.5',
-  md: 'h-touch px-stack-md text-body-sm',
-  lg: 'h-12 px-stack-lg text-body',
-  xl: 'h-13 px-7 text-[1.1875rem]',
+   Libellé de `sm` : 13 px, choisi à l'œil le 24/09 contre 16 (padding 20)
+   dans trois rangées réelles — le tableau de `/enterprise/webhooks` (« Tester ·
+   Modifier »), la table de `/coach/apprenants` (« Profil ») et l'en-tête de la
+   carte « Webhooks configurés » (« Ajouter »). À 16 en graisse 700, le bouton
+   devenait le texte le plus lourd de la rangée, plus appuyé que le nom de la
+   personne qu'il sert ; la colonne Actions prenait 35 px aux autres, et
+   « Ajouter » disputait le titre de sa carte. À 13, il reste une action de la
+   rangée, pas son titre. Aucun texte SAISI n'est à 13 : la règle des 16 px
+   (zoom d'iOS au focus) vise les champs, pas les libellés. */
+const SIZE_CLASSES: Record<TailleRendue, string> = {
+  sm: 'h-9 px-stack text-caption',
+  md: 'h-touch px-stack-md text-body',
+  lg: 'h-13 px-stack-lg text-body',
 };
+
+/* Un `link` n'a pas de boîte : il ne prend de sa taille que le CORPS du
+   libellé — ni hauteur, ni padding (24/09). Il recevait SIZE_CLASSES comme
+   les autres niveaux, et son `p-0` perdait contre `px-stack` (les deux
+   posent le padding horizontal, même spécificité, ordre d'émission) : un
+   lien « Voir détails » de /enterprise/alertes/inactivite démarrait 16 px
+   à droite de sa colonne. */
+const SIZE_TEXT: Record<TailleRendue, string> = {
+  sm: 'text-caption',
+  md: 'text-body',
+  lg: 'text-body',
+};
+
+/* Cible tactile de `sm` : le bouton fait 36 px, un pseudo-élément déborde de
+   4 px pour porter la cible à 44 (règle TLS : 44 sur les actions, WCAG 2.5.8
+   n'en exige que 24). En hauteur seulement pour un bouton à libellé ; sur les
+   quatre côtés pour le bouton-icône, carré de 36 — il n'en avait AUCUNE jusqu'au
+   24/09 (cible mesurée à 36 × 36 sur /api-docs). Le lien `sm` la garde : ses
+   20 px de haut passent à 28. */
+const CIBLE_SM = 'relative after:absolute after:content-[""] after:inset-x-0 after:-inset-y-1';
+const CIBLE_SM_CARREE = 'relative after:absolute after:content-[""] after:-inset-1';
+
+/* ⚠️ Un bouton que la page positionne elle-même (la croix `absolute top-4
+   right-4` d'une modale, un bouton `fixed` ou `sticky`) est déjà un bloc
+   positionné : le pseudo-élément de la cible s'y ancre sans `relative`. Et ce
+   `relative` BATTAIT la position de la page — même propriété, même
+   spécificité, c'est l'ordre d'émission qui tranche (piège n°6). Mesuré le
+   24/09 sur /coaching : la croix de fermeture des modales rendait
+   `position: relative` et tombait dans le flux, en haut à gauche, au-dessus
+   du contenu qu'elle poussait vers le bas. Seules les classes sans préfixe
+   sont lues (comme les OWN_* de `Card`). */
+const POSITION_PROPRE = /(?:^|\s)(?:absolute|fixed|sticky)(?:\s|$)/;
+const cibleSm = (cible: string, className: string): string =>
+  POSITION_PROPRE.test(className) ? cible.replace(/^relative /, '') : cible;
 
 /* L'icône suit la taille du bouton, et c'est le SVG qui se plie à la boîte.
 
@@ -448,11 +531,28 @@ const SIZE_CLASSES: Record<ButtonSize, string> = {
    utilities, **zéro consommateur**. C'est son premier usage. */
 const ICON_BOX = 'inline-flex items-center justify-center shrink-0 [&>svg]:w-full [&>svg]:h-full';
 
-const ICON_SIZE_CLASSES: Record<ButtonSize, string> = {
-  sm: 'icon-xs', // 16 px pour un label de 13 px — rapport 1,23
-  md: 'icon-sm', // 18 px pour 15 px — 1,20
-  lg: 'icon-md', // 20 px pour 16 px — 1,25
-  xl: 'icon-lg', // 24 px pour 19 px — 1,26
+const ICON_SIZE_CLASSES: Record<TailleRendue, string> = {
+  sm: 'icon-xs', // 16 px pour un label de 13 px
+  md: 'icon-sm', // 18 px pour 16 px
+  lg: 'icon-md', // 20 px pour 16 px, dans un bouton de 52
+};
+
+/* Le bouton-icône est carré : sa largeur reprend la hauteur du cran. */
+const ICON_ONLY_WIDTH: Record<TailleRendue, string> = {
+  sm: 'w-9',
+  md: 'w-touch',
+  lg: 'w-13',
+};
+
+/* Calage du libellé d'un `ghost` sur le bord du texte (prop `flush`) : la
+   marge négative vaut EXACTEMENT le padding horizontal du cran (SIZE_CLASSES :
+   px-stack · px-stack-md · px-stack-lg). Si l'un change, l'autre suit.
+   Avant la prop, trois tranches de pages l'écrivaient à la main
+   (`-ml-stack-md`, `-ml-stack-lg` selon la taille), chacune à retrouver. */
+const FLUSH: Record<ButtonFlush, Record<TailleRendue, string>> = {
+  start: { sm: '-ml-stack', md: '-ml-stack-md', lg: '-ml-stack-lg' },
+  end:   { sm: '-mr-stack', md: '-mr-stack-md', lg: '-mr-stack-lg' },
+  both:  { sm: '-mx-stack', md: '-mx-stack-md', lg: '-mx-stack-lg' },
 };
 
 /* ────────────────── Résolution : deux axes, ou un alias ──────────────────── */
@@ -482,8 +582,8 @@ const resolveClasses = (
  *
  * Ces affordances ont donc besoin de l'APPARENCE seule. Sans cette fonction,
  * elles la recopiaient à la main — et manquaient chaque décision : la graisse
- * 700 du 09/09, le filet au cran 600 du 10/09, la cible tactile. Elles la
- * prennent maintenant à la source.
+ * 700 du 09/09, le filet des boutons doux (fermé au 600 le 10/09, au 700 depuis
+ * le 17/09), la cible tactile. Elles la prennent maintenant à la source.
  *
  * ⚠️ À n'employer que sur un élément NON interactif, à l'intérieur d'un parent
  * qui porte déjà l'interaction. Pour tout le reste, c'est `<Button>`.
@@ -509,7 +609,8 @@ export function buttonClasses({
     BASE,
     RAYON,
     resolveClasses(variant, emphasis, tone, onDark),
-    SIZE_CLASSES[size],
+    (emphasis ?? VARIANT_ALIAS[variant].emphasis) === 'link' ? SIZE_TEXT[tailleRendue(size)] : SIZE_CLASSES[tailleRendue(size)],
+    tailleRendue(size) === 'sm' && cibleSm(CIBLE_SM, className),
     fullWidth && 'w-full',
     className,
   ]
@@ -528,6 +629,7 @@ export const Button: React.FC<ButtonProps> = ({
   trailingIcon,
   loading = false,
   fullWidth = false,
+  flush,
   type = 'button',
   disabled,
   className = '',
@@ -540,13 +642,21 @@ export const Button: React.FC<ButtonProps> = ({
   onClick,
   ...rest
 }) => {
+  const taille = tailleRendue(size);
+  // Le niveau RENDU, alias résolu, exposé au DOM : la règle « un seul `solid`
+  // par écran » (arbitrage n°19) se vérifie au rendu, pas dans le source — un
+  // `variant="destructive"` est un `solid` sans jamais l'écrire.
+  const niveau = emphasis ?? VARIANT_ALIAS[variant].emphasis;
   const classes = [
     BASE,
     // Le bouton-icône est carré : la pilule y rend un cercle parfait.
     iconOnly ? RAYON_CERCLE : RAYON,
     resolveClasses(variant, emphasis, tone, onDark),
-    !iconOnly && SIZE_CLASSES[size],
-    iconOnly && `${size === 'sm' ? 'w-8' : size === 'lg' ? 'w-12' : size === 'xl' ? 'w-14' : 'w-touch'} aspect-square`,
+    !iconOnly && (niveau === 'link' ? SIZE_TEXT[taille] : SIZE_CLASSES[taille]),
+    iconOnly && `${ICON_ONLY_WIDTH[taille]} aspect-square`,
+    taille === 'sm' && cibleSm(iconOnly ? CIBLE_SM_CARREE : CIBLE_SM, className),
+    // Seul le `ghost` a un padding sans boîte visible : c'est lui qu'on cale.
+    flush && niveau === 'ghost' && !iconOnly && FLUSH[flush][taille],
     fullWidth && 'w-full',
     className,
   ]
@@ -554,7 +664,7 @@ export const Button: React.FC<ButtonProps> = ({
     .join(' ');
 
   // Spinner icon (replaces leadingIcon when loading)
-  const iconBox = `${ICON_BOX} ${ICON_SIZE_CLASSES[size]}`;
+  const iconBox = `${ICON_BOX} ${ICON_SIZE_CLASSES[taille]}`;
 
   const spinner = (
     <span
@@ -568,16 +678,24 @@ export const Button: React.FC<ButtonProps> = ({
     </span>
   );
 
-  const content = (
+  /* En `iconOnly`, UN glyphe, dans UNE boîte — corrigé le 2026-09-24.
+     Le glyphe arrivait par `children`, mais 23 appels le passent par
+     `leadingIcon` (ou `trailingIcon`) sans enfant : le bouton rendait alors la
+     boîte de l'icône de tête ET une boîte vide pour `children`, séparées par le
+     `gap` de 8 px. Centrées ensemble, elles décalaient l'icône de 12 px vers la
+     gauche dans son cercle (mesuré sur /api-docs, « Copier », et sur les
+     factures de /account/billing). On prend donc le premier glyphe fourni, et
+     on ne rend que lui. */
+  const glyphe = iconOnly ? children ?? leadingIcon ?? trailingIcon : null;
+
+  const content = iconOnly ? (
+    loading ? spinner : <span className={iconBox}>{glyphe}</span>
+  ) : (
     <>
       {loading
         ? spinner
         : leadingIcon && <span className={iconBox}>{leadingIcon}</span>}
-      {!iconOnly && children}
-      {/* En `iconOnly`, le glyphe arrive par `children` : il passe donc par la
-          même boîte, sinon lui seul garderait une taille fixe pendant que le
-          bouton change de taille autour de lui. */}
-      {iconOnly && !loading && <span className={iconBox}>{children}</span>}
+      {children}
       {trailingIcon && <span className={iconBox}>{trailingIcon}</span>}
     </>
   );
@@ -590,6 +708,7 @@ export const Button: React.FC<ButtonProps> = ({
     const linkRest = rest as Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href' | 'target' | 'rel' | 'onClick'>;
     const sharedProps = {
       className: classes,
+      'data-emphasis': niveau,
       target,
       rel,
       'aria-disabled': isDisabled || undefined,
@@ -616,6 +735,7 @@ export const Button: React.FC<ButtonProps> = ({
     <button
       type={type}
       className={classes}
+      data-emphasis={niveau}
       disabled={disabled || loading}
       aria-busy={loading || undefined}
       aria-disabled={disabled || loading || undefined}

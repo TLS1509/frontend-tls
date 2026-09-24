@@ -1,4 +1,5 @@
 import React from 'react';
+import { AlertCircle } from 'lucide-react';
 import { Button } from '../core/Button';
 
 export interface FormField {
@@ -41,7 +42,9 @@ export const FormLayout: React.FC<FormLayoutProps> = ({
   return (
     <form
       className={[
-        'flex flex-col gap-section bg-white border border-ink-200 rounded-lg p-8',
+        // Conteneur : rayon 20 et padding 24, le canon de la carte (rayons
+        // étagés, arbitrage n°4) — il portait le 14 d'un bouton et 32 de padding.
+        'flex flex-col gap-section bg-white border border-ink-200 rounded-xl p-stack-lg',
         className,
       ]
         .filter(Boolean)
@@ -49,8 +52,8 @@ export const FormLayout: React.FC<FormLayoutProps> = ({
     >
       {(title || description) && (
         <div className="flex flex-col gap-stack-xs pb-stack-lg border-b border-ink-200">
-          {title && <h2 className="text-h2 font-display font-bold text-ink-900 leading-tight text-balance">{title}</h2>}
-          {description && <p className="m-0 text-body text-ink-500 max-w-[640px]">{description}</p>}
+          {title && <h2 className="text-h2 font-display text-ink-900 text-balance">{title}</h2>}
+          {description && <p className="text-body text-ink-700 max-w-prose">{description}</p>}
         </div>
       )}
 
@@ -58,7 +61,7 @@ export const FormLayout: React.FC<FormLayoutProps> = ({
         {sections.map((section, sectionIdx) => (
           <div key={sectionIdx} className="flex flex-col gap-stack">
             {section.title && (
-              <h3 className="text-h4 font-display text-ink-900 pb-2 border-b border-ink-100">
+              <h3 className="text-h3 font-display text-ink-900 pb-stack-xs border-b border-ink-100">
                 {section.title}
               </h3>
             )}
@@ -68,11 +71,11 @@ export const FormLayout: React.FC<FormLayoutProps> = ({
                 <div key={field.name} className="flex flex-col gap-stack-xs">
                   <label
                     htmlFor={field.name}
-                    className="inline-flex items-center text-body-sm font-semibold text-ink-900"
+                    className="inline-flex items-center text-body font-semibold text-ink-900"
                   >
                     {field.label}
                     {field.required && (
-                      <span className="text-danger-base ml-1" aria-label="Champ obligatoire">
+                      <span className="text-danger-fg ml-0.5" aria-label="Champ obligatoire">
                         *
                       </span>
                     )}
@@ -80,14 +83,17 @@ export const FormLayout: React.FC<FormLayoutProps> = ({
 
                   <div>{field.input}</div>
 
+                  {/* Erreur : 13 / 400 en danger-fg, icône Lucide de 14 alignée sur
+                      la ligne (le glyphe texte ⚠ suivait la police). Aide : 13 /
+                      400, ink-600. */}
                   {field.error && (
-                    <p className="m-0 inline-flex items-center gap-tight text-caption font-medium text-danger-fg">
-                      <span aria-hidden="true">⚠</span>
+                    <p className="inline-flex items-center gap-stack-3xs text-caption text-danger-fg">
+                      <AlertCircle size={14} aria-hidden="true" className="shrink-0" />
                       {field.error}
                     </p>
                   )}
                   {field.helpText && !field.error && (
-                    <p className="m-0 text-caption text-ink-500 leading-relaxed">{field.helpText}</p>
+                    <p className="text-caption text-ink-600">{field.helpText}</p>
                   )}
                 </div>
               ))}
@@ -96,15 +102,18 @@ export const FormLayout: React.FC<FormLayoutProps> = ({
         ))}
       </div>
 
+      {/* La paire d'un formulaire (arbitrage n°19) : l'envoi est le `solid`,
+          Annuler un `outline` neutre. Ils étaient en `soft` warm et `soft`
+          brand — deux boutons de même poids, séparés par leur seule couleur. */}
       {(onSubmit || onCancel) && (
         <div className="flex justify-end gap-stack-xs pt-stack-lg border-t border-ink-200">
           {onCancel && (
-            <Button emphasis="soft" tone="warm" onClick={onCancel} disabled={isSubmitting}>
+            <Button emphasis="outline" tone="neutral" onClick={onCancel} disabled={isSubmitting}>
               {cancelLabel}
             </Button>
           )}
           {onSubmit && (
-            <Button emphasis="soft" onClick={onSubmit} disabled={isSubmitting}>
+            <Button emphasis="solid" onClick={onSubmit} disabled={isSubmitting}>
               {isSubmitting ? 'Envoi…' : submitLabel}
             </Button>
           )}

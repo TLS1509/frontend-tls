@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { X, AlertTriangle, CalendarX, RefreshCcw, ChevronDown } from 'lucide-react';
+import { X, AlertTriangle, CalendarX, RefreshCcw, ChevronDown, CheckCircle2 } from 'lucide-react';
 import { Button } from '../core/Button';
+import { IconChip } from '../ui/IconChip';
+import { useDialog } from '../../hooks/useDialog';
 
 /**
  * CancelSessionModal — Annulation ou reprogrammation d'une session de coaching
@@ -32,6 +34,8 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
   sessionTitle = 'Session de coaching IA',
   sessionDate = 'Mardi 30 avril 2026 — 14h00',
 }) => {
+  // Comportement de dialogue partagé (APG) : focus entrant, Tab piégé, Échap, focus rendu.
+  const dialog = useDialog<HTMLDivElement>(isOpen, onClose);
   const [reason, setReason] = useState('');
   const [step, setStep] = useState<'confirm' | 'done'>('confirm');
 
@@ -54,16 +58,13 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
     onClose();
   };
 
-  const CONFIRM_BTN_BASE = 'w-full py-3.5 px-4 rounded-xl border-[1.5px] flex items-center justify-center gap-stack-xs font-bold text-body-sm transition-all font-body';
-  const CONFIRM_BTN_ENABLED = 'border-secondary-500/40 bg-secondary-500/8 text-secondary-700 cursor-pointer hover:bg-secondary-500/14';
-  const CONFIRM_BTN_DISABLED = 'border-ink-200 bg-ink-50 text-ink-600 opacity-50 cursor-not-allowed';
-
   return (
     <div
       className="fixed inset-0 flex items-center justify-center p-4 z-modal backdrop-blur bg-black/45 animate-cso-bd-in"
       onClick={handleClose}
     >
       <div
+        ref={dialog.ref} role="dialog" aria-modal="true" aria-labelledby={dialog.titleId} tabIndex={-1}
         onClick={(e) => e.stopPropagation()}
         className="relative w-full max-w-[460px] bg-white rounded-2xl border border-ink-200 shadow-xl overflow-hidden p-8 animate-cso-in"
       >
@@ -71,48 +72,49 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
         <div className="absolute -top-[60px] left-1/2 -translate-x-1/2 w-[200px] h-[200px] rounded-pill bg-[radial-gradient(circle,rgba(237,132,58,0.18)_0%,transparent_70%)] blur-[30px] pointer-events-none" />
 
         {/* Close */}
-        <button
-          onClick={handleClose}
-          className="absolute top-4 right-4 w-8 h-8 rounded-pill bg-ink-50 border-0 flex items-center justify-center cursor-pointer text-ink-600 hover:bg-ink-200 transition-all z-10 p-0"
-          aria-label="Fermer"
-        >
-          <X size={14} />
-        </button>
+        <Button iconOnly size="sm" emphasis="ghost" tone="neutral" onClick={handleClose} aria-label="Fermer" className="absolute top-4 right-4 z-10">
+          <X />
+        </Button>
 
         {step === 'confirm' ? (
           <>
             {/* Warning icon */}
-            <div className="relative w-14 h-14 rounded-xl bg-gradient-to-br from-secondary-500/15 to-secondary-500/6 border border-secondary-500/25 flex items-center justify-center mx-auto mb-stack">
-              <AlertTriangle size={24} className="text-secondary-600" />
+            <div className="flex justify-center">
+              <IconChip size="lg" tone="warm">
+                <AlertTriangle />
+              </IconChip>
             </div>
 
-            <h2 className="text-h3 text-ink-900 text-center mb-2">
+            {/* Titre h2 20/26/700 · 8 · message 16 ink-700, centré et court.
+                Écart icône → titre écrit SUR le titre : un `mt-*` bat la marge de base des titres (0,75em), qui sinon s'ajoutait à celle de l'icône (31 px au lieu de 16). */}
+            <h2 id={dialog.titleId} className="mt-stack font-display text-h3 text-ink-900 text-center text-balance">
               Annuler la session ?
             </h2>
-            <p className="text-body-sm text-ink-600 text-center mb-stack-md">
+            <p className="mt-stack-xs font-body text-body text-ink-700 text-center text-balance mb-stack-md">
               Cette action est irréversible. Vous pouvez aussi reprogrammer plutôt qu'annuler.
             </p>
 
-            {/* Session summary */}
-            <div className="px-4 py-3 rounded-xl bg-ink-50 border border-ink-200 mb-stack-md">
-              <p className="text-body-sm font-bold text-ink-900 mb-0.5">
+            {/* Session summary — libellé de rangée 16/600 · 4 · date en
+                légende (elle était en 11 px, le registre des étiquettes). */}
+            <div className="px-4 py-3 rounded-xl bg-ink-50 border border-ink-200 mb-stack-md flex flex-col gap-stack-3xs">
+              <p className="font-body text-body font-semibold text-ink-900">
                 {sessionTitle}
               </p>
-              <p className="text-micro text-ink-600 flex items-center gap-tight">
+              <p className="font-body text-caption text-ink-600">
                 📅 {sessionDate}
               </p>
             </div>
 
             {/* Reason dropdown */}
             <div className="mb-stack-lg">
-              <label className="block mb-2 text-body-sm font-semibold text-ink-900">
-                Motif d'annulation <span className="text-secondary-600">*</span>
+              <label className="block mb-2 text-body font-semibold text-ink-900">
+                Motif d'annulation <span className="text-secondary-700">*</span>
               </label>
               <div className="relative">
                 <select
                   value={reason}
                   onChange={(e) => setReason(e.target.value)}
-                  className={`w-full pl-3 pr-10 py-2.5 h-auto min-h-[44px] rounded-lg border-[1.5px] border-ink-200 bg-ink-50 text-body-sm font-body outline-none cursor-pointer transition-colors box-border appearance-none focus:border-secondary-400 ${reason ? 'text-ink-900' : 'text-ink-600'}`}
+                  className={`w-full pl-3 pr-10 py-2.5 h-auto min-h-[44px] rounded-lg border-[1.5px] border-ink-200 bg-ink-50 text-body font-body outline-none cursor-pointer transition-colors box-border appearance-none focus:border-secondary-400 ${reason ? 'text-ink-900' : 'text-ink-600'}`}
                 >
                   <option value="">Sélectionnez un motif…</option>
                   {REASONS.map((r) => (
@@ -123,37 +125,49 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
               </div>
             </div>
 
-            {/* Action buttons */}
+            {/* Actions (arbitrage n°19) — la modale sert l'annulation : son
+                `solid` est « Confirmer l'annulation », au ton `danger` comme
+                tout Confirmer de suppression, posé juste sous le motif dont il
+                dépend. « Reprogrammer plutôt » est l'autre chemin, en `ghost`.
+                C'était l'inverse : la reprogrammation portait le niveau
+                principal et la confirmation était un bouton fait main, orange
+                pâle — la modale poussait vers ce qu'on n'était pas venu faire. */}
             <div className="flex flex-col gap-stack-xs">
-              {/* Reschedule (primary action) */}
               <Button
-                emphasis="soft"
+                emphasis="solid"
+                tone="danger"
                 size="lg"
                 fullWidth
-                leadingIcon={<RefreshCcw size={14} />}
+                leadingIcon={<CalendarX />}
+                onClick={handleCancel}
+                disabled={!reason}
+              >
+                Confirmer l'annulation
+              </Button>
+              <Button
+                emphasis="ghost"
+                size="lg"
+                fullWidth
+                leadingIcon={<RefreshCcw />}
                 onClick={() => { onReschedule(); handleClose(); }}
               >
                 Reprogrammer plutôt
               </Button>
-
-              {/* Cancel (destructive secondary) */}
-              <button
-                onClick={handleCancel}
-                disabled={!reason}
-                className={`${CONFIRM_BTN_BASE} ${reason ? CONFIRM_BTN_ENABLED : CONFIRM_BTN_DISABLED}`}
-              >
-                <CalendarX size={14} /> Confirmer l'annulation
-              </button>
             </div>
           </>
         ) : (
-          /* Done state */
-          <div className="text-center py-stack-lg animate-[csoFadeIn_0.4s_ease_both]">
-            <div className="text-[3rem] mb-3">✅</div>
-            <h3 className="text-h4 font-bold text-ink-900 mb-2">
+          /* Done state — pastille d'icône du système au lieu d'un émoji de
+             48 px (`text-[3rem]`, hors échelle) ; le titre reste un h2 et
+             reprend l'id du dialogue : c'est lui qui le nomme désormais (il
+             était en h3, sans h2 au-dessus, et le dialogue perdait son nom). */
+          <div className="flex flex-col items-center gap-stack-xs text-center py-stack-lg animate-[csoFadeIn_0.4s_ease_both]">
+            <IconChip size="lg" tone="success">
+              <CheckCircle2 />
+            </IconChip>
+            <h2 id={dialog.titleId} className="mt-stack-xs font-display text-h3 text-ink-900">
               Session annulée
-            </h3>
-            <p className="text-body-sm text-ink-600">
+            </h2>
+            <p className="font-body text-body text-ink-700 text-balance">
               Vous pouvez réserver une nouvelle session quand vous le souhaitez.
             </p>
           </div>

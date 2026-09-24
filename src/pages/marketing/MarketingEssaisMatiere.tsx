@@ -256,8 +256,8 @@ const AlignementImparfait: React.FC = () => (
           className="rounded-lg border border-ink-200 bg-white p-stack-lg"
         >
           <span className="font-body text-caption font-bold tracking-label text-ink-500 uppercase">{e.k}</span>
-          <h3 className="mt-stack-xs font-display text-h4 text-ink-900">{e.n}</h3>
-          <p className="mt-stack-xs font-body text-body-sm text-ink-600 m-0">{e.d}</p>
+          <h3 className="mt-stack-xs font-display text-h3 text-ink-900">{e.n}</h3>
+          <p className="mt-stack-xs font-body text-body text-ink-600 m-0">{e.d}</p>
         </motion.div>
       ))}
     </div>
@@ -295,8 +295,8 @@ const LiquidGlass: React.FC = () => (
                        shadow-[inset_0_1px_0_rgba(255,255,255,.95),0_16px_38px_rgba(48,34,20,.2)]"
           >
             <span className="font-body text-caption font-bold tracking-label uppercase text-ink-600">{e.k}</span>
-            <h3 className="mt-stack-xs font-display text-h4 text-ink-900">{e.n}</h3>
-            <p className="mt-stack-xs font-body text-body-sm text-ink-700 m-0">{e.d}</p>
+            <h3 className="mt-stack-xs font-display text-h3 text-ink-900">{e.n}</h3>
+            <p className="mt-stack-xs font-body text-body text-ink-700 m-0">{e.d}</p>
           </div>
         ))}
       </div>
@@ -384,7 +384,7 @@ const MarkV4: React.FC = () => {
         <Button emphasis="outline" size="sm" onClick={() => setRejoue((n) => n + 1)}>
           Rejouer l’arrivée
         </Button>
-        <p className="font-body text-body-sm text-ink-600 m-0 max-w-xl">
+        <p className="font-body text-body text-ink-600 m-0 max-w-xl">
           Les trois arrivent séparés et se recouvrent. <strong className="text-ink-900">Regarde
           le 16 px</strong> : c’est lui qui décide, pas le grand.
         </p>
@@ -450,7 +450,7 @@ const MatiereArchive: React.FC = () => (
       </figcaption>
     </figure>
 
-    <p className="font-body text-body-sm text-ink-600 m-0 max-w-3xl">
+    <p className="font-body text-body text-ink-600 m-0 max-w-3xl">
       <strong className="text-ink-900">Source</strong> — <em>Autumn Landscape with a Flock of
       Turkeys</em>, Jean-François Millet, 1872-73. The Metropolitan Museum of Art,
       Open Access, domaine public. Aucune attribution n’est exigée ; on la porte quand même.
@@ -521,15 +521,15 @@ const PiliersArchive: React.FC = () => (
             <span className="font-body text-caption font-bold tracking-label uppercase text-secondary-700">
               {p.k}
             </span>
-            <h4 className="mt-stack-xs font-display text-h4 text-ink-900 leading-tight">{p.oeuvre}</h4>
+            <h4 className="mt-stack-xs font-display text-h3 text-ink-900">{p.oeuvre}</h4>
             <p className="mt-stack-xs font-body text-caption text-ink-500 m-0">{p.qui}</p>
-            <p className="mt-stack font-body text-body-sm text-ink-600 m-0">{p.dit}</p>
+            <p className="mt-stack font-body text-body text-ink-600 m-0">{p.dit}</p>
           </figcaption>
         </figure>
       ))}
     </div>
 
-    <p className="font-body text-body-sm text-ink-600 m-0 max-w-3xl">
+    <p className="font-body text-body text-ink-600 m-0 max-w-3xl">
       <strong className="text-ink-900">Ce que ça ouvre.</strong> Trois images, une seule main —
       celle du domaine public, du XVI<sup>e</sup> au XVIII<sup>e</sup>. Elles ne se ressemblent pas
       mais elles viennent du même monde : l’observation, le relevé, l’instrument. C’est le registre
@@ -637,7 +637,7 @@ export const MarketingEssaisMatiere: React.FC = () => (
             <h2 className="font-display text-title text-ink-900">{e.n}</h2>
             <span className="font-body text-caption text-ink-500">{e.src}</span>
           </div>
-          <p className="mt-stack-xs font-body text-body-sm text-ink-600 m-0 max-w-2xl">{e.note}</p>
+          <p className="mt-stack-xs font-body text-body text-ink-600 m-0 max-w-2xl">{e.note}</p>
           <p className="mt-stack-xs font-body text-caption text-ink-500 m-0 max-w-2xl">
             <span className="font-bold tracking-label uppercase text-primary-700">Mouvement</span>
             {' · '}{e.motion}

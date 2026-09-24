@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, Calendar, Lock } from 'lucide-react';
 import EditorialHero from '../components/patterns/EditorialHero';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
+import { MetaPill } from '../components/ui/MetaPill';
 import { FilterChip } from '../components/ui/FilterChip';
 import { Avatar } from '../components/ui/Avatar';
 import { ProgressBar } from '../components/ui/ProgressBar';
@@ -70,8 +72,17 @@ const ProjectsList: React.FC = () => {
     return failed;
   };
 
+  /* Le titre de la collection nomme ce qu'elle montre : « Tous les projets »,
+     ou les filtres actifs. */
+  const STATUS_FILTER_LABEL: Record<ProjectStatus, string> = { planned: 'Planifiés', active: 'En cours', completed: 'Terminés', archived: 'Archivés' };
+  const collectionTitle = [
+    filterStatus !== 'all' ? STATUS_FILTER_LABEL[filterStatus] : null,
+    filterType !== 'all' ? TYPE_LABELS[filterType] : null,
+  ].filter(Boolean).join(' · ') || 'Tous les projets';
+
   return (
-    <div className="min-h-[100dvh] bg-surface">
+    /* L'en-tête entre dans la coque : il collait au haut de l'écran. */
+    <PageShell width="page">
       <EditorialHero
         eyebrow={{ label: 'Projets · Mes missions' }}
         title="Tous mes projets"
@@ -84,9 +95,15 @@ const ProjectsList: React.FC = () => {
         }
       />
 
-      <PageShell width="page">
-
-        <div className="flex flex-col gap-tight">
+      {/* La collection a son titre (h2) : la page passait du h1 aux h3 des
+          cartes. Le compte est une donnée (méta). Les deux rangées de filtres
+          se suivent à 8 (elles étaient à 2), la grille les suit à 16. */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader
+          title={collectionTitle}
+          meta={`${filtered.length} projet${filtered.length > 1 ? 's' : ''}`}
+        />
+        <div className="flex flex-col gap-stack-xs">
           <div className="flex flex-wrap gap-stack-xs">
             <FilterChip label="Tous statuts" active={filterStatus === 'all'} onClick={() => setFilterStatus('all')} />
             <FilterChip label="En cours" active={filterStatus === 'active'} onClick={() => setFilterStatus('active')} />
@@ -109,26 +126,26 @@ const ProjectsList: React.FC = () => {
               const progress = getProjectProgress(p.id);
               const gatingFails = getGatingBadge(p.id);
               const tasks = store.getTasks(p.id);
-
               return (
+                /* Anatomie de carte : le type (une donnée, MetaPill) et
+                   l'état (Badge) au-dessus du titre à 4 ; puis 16 entre les
+                   blocs ; la méta du bas en ink-600 (elle était en ink-500). */
                 <Card
                   key={p.id}
-                  className="p-stack-lg cursor-pointer hover:border-primary-300 transition-all"
+                  className="p-stack-lg flex flex-col gap-stack cursor-pointer hover:border-primary-300 transition-all"
                   onClick={() => nav(`/project/${p.id}`)}
                 >
-                  <div className="flex items-start justify-between gap-stack mb-stack">
-                    <div className="flex-1">
-                      <div className="flex flex-wrap gap-stack-2xs mb-1.5">
-                        <Badge variant={TYPE_VARIANTS[p.type]}>{TYPE_LABELS[p.type]}</Badge>
-                        <Badge variant={STATUS_VARIANTS[p.status]}>{STATUS_LABELS[p.status]}</Badge>
-                      </div>
-                      <h3 className="text-h4 text-ink-900">{p.title}</h3>
+                  <div className="flex flex-col gap-stack-3xs">
+                    <div className="flex flex-wrap items-center gap-stack-2xs">
+                      <MetaPill text={TYPE_LABELS[p.type]} tone={TYPE_VARIANTS[p.type]} />
+                      <Badge variant={STATUS_VARIANTS[p.status]}>{STATUS_LABELS[p.status]}</Badge>
                     </div>
+                    <h3 className="font-display text-h3 text-ink-900">{p.title}</h3>
                   </div>
 
                   {gatingFails && gatingFails.length > 0 && (
-                    <div className="flex items-start gap-stack-xs p-stack rounded-lg bg-warning-bg border border-warning-base/30 mb-stack text-caption text-warning-fg">
-                      <Lock size={14} className="mt-0.5 shrink-0" />
+                    <div className="flex items-start gap-stack-xs p-stack rounded-lg bg-warning-bg border border-warning-base/30 text-caption text-warning-fg">
+                      <Lock size={14} className="mt-[3px] shrink-0" aria-hidden="true" />
                       <span>
                         Pré-requis non atteints :{' '}
                         {gatingFails.map((f) => `${f.competencyName} (D${f.current} → D${f.required} requis)`).join(', ')}
@@ -136,21 +153,21 @@ const ProjectsList: React.FC = () => {
                     </div>
                   )}
 
-                  <div className="mb-stack">
-                    <div className="flex justify-between text-caption text-ink-500 mb-1">
+                  <div className="flex flex-col gap-stack-xs">
+                    <div className="flex justify-between gap-stack text-caption text-ink-600 tabular-nums">
                       <span>Progression ({tasks.filter((t) => t.status === 'approved').length}/{tasks.length} tâches)</span>
                       <span>{progress}%</span>
                     </div>
                     <ProgressBar value={progress} fill="brand" size="sm" valueLabel={false} />
                   </div>
 
-                  <div className="flex items-center justify-between text-caption text-ink-500">
-                    <div className="flex items-center gap-stack-2xs">
+                  <div className="flex items-center justify-between gap-stack text-caption text-ink-600">
+                    <div className="flex items-center gap-stack-xs">
                       <Avatar initials={p.expertInitials} size="sm" tint="brand" />
                       <span>{p.expertName}</span>
                     </div>
-                    <div className="flex items-center gap-tight">
-                      <Calendar size={14} />
+                    <div className="flex items-center gap-stack-3xs tabular-nums">
+                      <Calendar size={14} aria-hidden="true" />
                       {new Date(p.endDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}
                     </div>
                   </div>
@@ -159,8 +176,8 @@ const ProjectsList: React.FC = () => {
             })}
           </div>
         )}
-      </PageShell>
-    </div>
+      </section>
+    </PageShell>
   );
 };
 

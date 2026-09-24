@@ -3,7 +3,7 @@
 > **2026-07-23.** Propositions pour le cahier 13bis, à partir du texte existant et des recherches
 > juridiques rassemblées dans [`REGLEMENTAIRE-ET-SBO.md`](REGLEMENTAIRE-ET-SBO.md).
 > ⚠️ **Proposition, pas spécification.** Le cahier
-> [`13bis_GDPR_AI_Act_Security.md`](../CDC/13bis_GDPR_AI_Act_Security.md) reste source de vérité
+> [`13bis_GDPR_AI_Act_Security.md`](../CDC/13bis_GDPR_AI_Act_Security/CAHIER.md) reste source de vérité
 > et n'est pas modifié.
 > ⚠️ **Je ne suis pas juriste.** Ce document prépare une revue par un conseil.
 

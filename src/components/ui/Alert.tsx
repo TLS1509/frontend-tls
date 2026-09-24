@@ -37,9 +37,12 @@ const ICON_BY_VARIANT: Record<AlertVariant, React.ComponentType<{ size?: number;
 const BASE =
   'flex gap-stack-xs rounded-lg border backdrop-blur-sm animate-alert-slide';
 
+/* Le texte d'une bannière est du texte courant (16/26) ; l'alerte en ligne,
+   compacte, est une aide (légende 13/20). L'interligne est celui du pas : le
+   `leading-normal` d'avant l'écrasait (24 px au lieu de 26). */
 const PATTERN_CLASSES: Record<AlertPattern, string> = {
-  banner: 'items-start py-stack px-stack-md text-body-sm leading-normal',
-  inline: 'items-center py-2 px-3 text-caption leading-normal',
+  banner: 'items-start py-stack px-stack-md text-body',
+  inline: 'items-center py-2 px-3 text-caption',
 };
 
 const VARIANT_CLASSES: Record<AlertVariant, string> = {
@@ -54,6 +57,20 @@ const ICON_TONE_CLASSES: Record<AlertVariant, string> = {
   success: 'text-success-base',
   warning: 'text-accent-400',
   danger:  'text-danger-base',
+};
+
+/* Rôle live par variante (audit du 23/09 : `role="alert"` était posé sur les
+   quatre, alors que 15 des 20 usages sont des `info` statiques — chaque info
+   interrompait le lecteur d'écran comme une erreur).
+   - danger / warning → `alert` : il faut l'entendre tout de suite ;
+   - success          → `status` : confirmation, annoncée sans couper ;
+   - info             → aucun rôle live : un texte de page, lu à son tour.
+   L'appelant peut toujours surcharger avec `role` (les props sont étalées après). */
+const ROLE_BY_VARIANT: Record<AlertVariant, 'alert' | 'status' | undefined> = {
+  danger:  'alert',
+  warning: 'alert',
+  success: 'status',
+  info:    undefined,
 };
 
 const ICON_SIZE_BY_PATTERN: Record<AlertPattern, number> = {
@@ -83,27 +100,30 @@ export const Alert: React.FC<AlertProps> = ({
 
   const IconComponent = ICON_BY_VARIANT[resolvedVariant];
   const iconSize = ICON_SIZE_BY_PATTERN[pattern];
-  // Banner with potentially multi-line content → align icon with first line via mt-0.5
-  // Inline (single line) → parent items-center handles it, no margin needed
+  // Une ligne de haut (`h-lh`) : l'icône se centre sur la PREMIÈRE ligne du
+  // texte, quelle que soit sa longueur (doctrine § 4). L'ancien `mt-px`
+  // visait un interligne de 22 px qui n'existe plus.
   const iconWrapperClasses = [
-    'shrink-0',
+    'shrink-0 inline-flex items-center h-lh',
     ICON_TONE_CLASSES[resolvedVariant],
-    pattern === 'banner' && 'mt-px',
   ]
     .filter(Boolean)
     .join(' ');
 
   return (
-    <div className={classes} role="alert" {...rest}>
+    <div className={classes} role={ROLE_BY_VARIANT[resolvedVariant]} {...rest}>
       <span className={iconWrapperClasses} aria-hidden="true">
         {icon ?? <IconComponent size={iconSize} strokeWidth={2} aria-hidden />}
       </span>
 
-      <div className="flex-1 flex flex-col gap-tight min-w-0">
+      {/* Titre 16/600 (une emphase du corps, pas un titre de section : 700
+          et `leading-tight` en faisaient un titre de 20 px de ligne), 4 px,
+          puis le texte, plafonné à la largeur de lecture. */}
+      <div className="flex-1 flex flex-col gap-stack-3xs min-w-0">
         {title && pattern === 'banner' && (
-          <p className="font-body font-bold m-0 leading-tight">{title}</p>
+          <p className="font-body font-semibold">{title}</p>
         )}
-        {children && <p className="m-0">{children}</p>}
+        {children && <p className="max-w-prose">{children}</p>}
       </div>
 
       {actions && pattern === 'banner' && (

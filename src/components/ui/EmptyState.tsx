@@ -33,8 +33,15 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   actions,
   className = '',
 }) => {
+  /* Anatomie (passe typographique du 2026-09-24) : icône · 16 · titre h3
+     20/26/700 · 8 · texte 16/26 ink-700 · 24 · actions. Centré : c'est le
+     seul cas où la doctrine l'admet (§ 3, état vide) — et seulement pour deux
+     lignes au plus. D'où `max-w-prose` (65 caractères) plutôt que les 440 px
+     d'avant (≈ 50 caractères), qui faisaient passer à la ligne plus tôt, et
+     `text-balance`, qui équilibre les deux lignes. Padding sur l'échelle
+     (48 / 24 : `py-14`, 56 px, n'en était pas un pas). */
   const containerClasses = [
-    'flex flex-col items-center text-center px-6 py-14 gap-stack rounded-xl bg-ink-50/40 border border-dashed border-ink-200',
+    'flex flex-col items-center text-center px-stack-lg py-page gap-stack rounded-xl bg-ink-50/40 border border-dashed border-ink-200',
     className,
   ]
     .filter(Boolean)
@@ -51,16 +58,16 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
       <span className={iconWrapperClasses} aria-hidden="true">
         {icon ?? <Search size={32} strokeWidth={1.75} />}
       </span>
-      <div className="flex flex-col gap-stack-xs max-w-[440px]">
-        <h3 className="font-display text-h3 font-bold text-ink-900 text-balance">
+      <div className="flex flex-col items-center gap-stack-xs max-w-prose">
+        <h3 className="font-display text-h3 text-ink-900 text-balance">
           {title}
         </h3>
         {description && (
-          <p className="text-body-sm text-ink-500 m-0">{description}</p>
+          <p className="font-body text-body text-ink-700 text-balance">{description}</p>
         )}
       </div>
       {actions && (
-        <div className="flex items-center justify-center gap-stack-xs flex-wrap mt-2">{actions}</div>
+        <div className="flex items-center justify-center gap-stack-xs flex-wrap mt-stack-xs">{actions}</div>
       )}
     </div>
   );

@@ -6,35 +6,33 @@
  * Structure :
  *  1. ReadingProgressBar + sticky glass header (back + ring + new entry)
  *  2. Breadcrumb + hero compact (eyebrow + h1 + AuthorStrip avec date/readTime)
- *  3. IntroCallout (mood + résumé)
- *  4. 3 KeyFindingCard (Observation / Analyse / Actions)
- *  5. Engagements checklist
- *  6. Tags
+ *  3. Corps de l'entrée (le texte écrit par l'apprenant)
+ *  4. Une KeyFindingCard par réponse structurée (EDRA-R ou génériques), s'il y en a
+ *  5. Tags
  *  7. Entry navigation prev/next
  *  8. New entry CTA brand gradient
  */
 
-import React, { useRef, useState, useMemo } from 'react';
+import React, { useRef, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useJournalStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
+import { EDRA_R_QUESTIONS, GENERIC_STRUCTURED_QUESTIONS } from '../data/journal';
+import { JOURNAL_TYPES } from '../lib/journal-types';
+import type { JournalEntryType } from '../types/learning';
 import {
   ArrowLeft,
   ArrowRight,
   CalendarDays,
   Clock3,
   Tag as TagIcon,
-  Sparkles,
-  Target,
-  Eye,
-  Lightbulb,
-  CheckCircle2,
   PenLine,
 } from 'lucide-react';
+import { HUMEURS } from '../components/ui/MoodSelector';
 import { Button } from '../components/core/Button';
-import { Badge } from '../components/ui/Badge';
-import { KeyFindingCard } from '../components/patterns/KeyFindingCard';
-import { AuthorStrip } from '../components/patterns/AuthorStrip';
+import { MetaPill } from '../components/ui/MetaPill';
+import { MetaPillGroup } from '../components/ui/MetaPillGroup';
+import { EmptyState } from '../components/ui/EmptyState';
 import { PageShell } from '../components/layout';
 import {
   ReadingProgressBar,
@@ -44,45 +42,39 @@ import { CARD_HOVER_NEUTRE } from '../lib/tone-classes';
 
 /* ─── Data ───────────────────────────────────────────────────────────────── */
 
-const ENTRY = {
-  date: '25 avril 2026',
-  week: 'Semaine 14',
-  category: 'Leadership',
-  mood: '💡',
-  moodLabel: 'Inspiré',
-  readTime: '7 min',
-  title: "Leadership et écoute active: ce que j'ai appris cette semaine",
-  tags: ['Leadership', 'Communication', 'Équipe', 'Management'],
-  author: { name: 'Vous', role: 'Auteur' },
+/* Tout ce que la page affiche vient de l'entrée du store. Avant le 2026-09-24,
+   seuls le titre et les tags en venaient : le corps, les sections, la date,
+   l'humeur, la catégorie et une liste d'engagements étaient des constantes, si
+   bien que « Échec sur le pitch produit » s'affichait avec le texte d'une autre
+   entrée — et avec des engagements que l'apprenant n'avait jamais écrits. */
+
+/* Libellé du type : le vocabulaire de la liste du journal (`lib/journal-types`),
+   pour que la pastille soit celle de la carte sur laquelle on vient de cliquer.
+   Même correspondance que `SPEC_TO_DISPLAY` dans Journal.tsx. */
+const TYPE_LABEL: Record<JournalEntryType, string> = {
+  'reflexion-libre':  JOURNAL_TYPES.free.label,
+  'apprentissage':    JOURNAL_TYPES.learning.label,
+  'pratique-pro':     JOURNAL_TYPES.guided.label,
+  'session-coaching': JOURNAL_TYPES.coaching.label,
+  'moment-eureka':    JOURNAL_TYPES.insight.label,
 };
 
-const SECTIONS = [
-  {
-    icon: <Eye size={20} />,
-    tone: 'brand' as const,
-    title: 'Observation',
-    text: "Cette semaine, j'ai observé une tension récurrente dans les échanges entre deux membres de l'équipe lors de nos stand-ups quotidiens. En creusant un peu, j'ai réalisé que la source n'était pas un désaccord sur les tâches, mais une attente non formulée sur la façon dont les décisions sont prises.",
-  },
-  {
-    icon: <Lightbulb size={20} />,
-    tone: 'warm' as const,
-    title: 'Analyse',
-    text: "En relisant le module sur la communication non-violente, j'ai fait le lien avec ce que je vivais : les besoins non exprimés créent des frustrations qui s'accumulent. La clé n'est pas de résoudre le conflit une fois qu'il éclate, mais de créer des rituels d'expression des besoins en amont.",
-  },
-  {
-    icon: <Target size={20} />,
-    tone: 'success' as const,
-    title: 'Actions à mettre en place',
-    text: "Trois actions concrètes : (1) Organiser un 1:1 avec chacun des deux membres concernés. (2) Proposer un format de rétro bi-mensuel de 30 min. (3) Modifier l'animation du stand-up : laisser 2 minutes pour les 'signaux faibles'.",
-  },
-];
+/* Humeur : la table du sélecteur de l'éditeur (`HUMEURS`, MoodSelector), pour
+   qu'on relise l'humeur qu'on a choisie — une seule source depuis le
+   2026-09-24 ; la copie qui vivait ici reproduisait le décalage d'un cran. */
 
-const TODOS = [
-  { done: false, text: '1:1 avec Pierre: jeudi 14h' },
-  { done: false, text: '1:1 avec Amélie: vendredi 10h' },
-  { done: false, text: "Proposer format rétro au reste de l'équipe: lundi" },
-  { done: false, text: 'Modifier template stand-up pour inclure "signaux faibles"' },
-];
+/* Questions structurées : le titre de chaque réponse est celui de la question
+   posée dans l'éditeur (EDRA-R ou questions génériques). */
+const QUESTION_TITLE: Record<string, string> = Object.fromEntries(
+  [...EDRA_R_QUESTIONS, ...GENERIC_STRUCTURED_QUESTIONS].map((q) => [q.id, q.title]),
+);
+
+const formatDate = (iso: string) =>
+  new Date(iso).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+
+/* Même calcul que la carte de la liste (Journal.tsx). */
+const readingTime = (text: string) =>
+  `${Math.max(1, Math.ceil(text.split(/\s+/).filter(Boolean).length / 200))} min`;
 
 /* ─── Component ──────────────────────────────────────────────────────────── */
 
@@ -92,7 +84,7 @@ export const JournalDetail: React.FC = () => {
   const journalStore = useJournalStore();
   const articleRef = useRef<HTMLDivElement>(null);
 
-  // Derive display fields from store entry if available, else fall back to ENTRY mock
+  // L'entrée affichée : celle de l'URL, sinon la plus récente.
   const storeEntry = useMemo(() => {
     const entries = journalStore.getEntries(MOCK_USER_ID);
     return id ? entries.find((e) => e.id === id) : entries[0];
@@ -107,28 +99,53 @@ export const JournalDetail: React.FC = () => {
     };
   }, [id, journalStore.entries]);
 
-  const displayEntry = storeEntry
-    ? {
-        ...ENTRY,
-        title: storeEntry.title,
-        tags: storeEntry.tags ?? ENTRY.tags,
-      }
-    : ENTRY;
+  if (!storeEntry) {
+    return (
+      <div className="min-h-[100dvh] bg-surface">
+        <PageShell width="medium" className="py-section">
+          <EmptyState
+            icon={<PenLine size={32} />}
+            title="Cette entrée n'existe plus"
+            description="Elle a peut-être été supprimée, ou le lien est incomplet. Ton journal, lui, est intact."
+            /* Seule issue de l'écran, donc son action principale : l'aplat
+               (arbitrage n°19). */
+            actions={
+              <Button
+                emphasis="solid"
+                size="md"
+                leadingIcon={<ArrowLeft size={14} />}
+                onClick={() => navigate('/journal')}
+              >
+                Retour au journal
+              </Button>
+            }
+          />
+        </PageShell>
+      </div>
+    );
+  }
 
-  const [todos, setTodos] = useState(TODOS);
-
-  const toggleTodo = (i: number) =>
-    setTodos((prev) => prev.map((t, idx) => (idx === i ? { ...t, done: !t.done } : t)));
+  const mood = HUMEURS[storeEntry.mood];
+  const answers = Object.entries(storeEntry.structuredAnswers ?? {}).filter(
+    ([, text]) => text.trim().length > 0,
+  );
+  const fullText = [storeEntry.body, ...answers.map(([, text]) => text)].join(' ');
+  const tags = storeEntry.tags ?? [];
 
   return (
     <div className="min-h-[100dvh] bg-surface">
       <ReadingProgressBar targetRef={articleRef} tone="brand" />
 
-      {/* Sticky glass header */}
+      {/* Barre collante : une rangée. Elle passait par `PageShell`, dont la base
+          porte `flex-col` — les deux groupes s'empilaient dans 56 px de haut, et
+          « Retour au journal » sortait par le haut de l'écran. */}
       <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100">
-        <PageShell width="medium" className="h-14 flex items-center justify-between gap-stack-xs" noPadTop>
+        <div className="max-w-medium mx-auto w-full h-14 flex flex-row items-center justify-between gap-stack-xs">
+          {/* Retour : tertiaire, `ghost` neutre. « Nouvelle entrée » garde son
+              `soft` : l'aplat est l'appel du bas de page (arbitrage n°19). */}
           <Button
-            emphasis="outline"
+            emphasis="ghost"
+            tone="neutral"
             size="sm"
             leadingIcon={<ArrowLeft size={14} />}
             onClick={() => navigate('/journal')}
@@ -136,7 +153,11 @@ export const JournalDetail: React.FC = () => {
             Retour au journal
           </Button>
           <div className="flex items-center gap-stack-xs">
-            <ReadingProgressRing targetRef={articleRef} tone="brand" size={32} />
+            {/* À 375 px, l'anneau cède sa place : la rangée faisait 356 px
+                pour 343 (la barre de progression, en haut, dit la même chose). */}
+            <span className="hidden sm:inline-flex">
+              <ReadingProgressRing targetRef={articleRef} tone="brand" size={32} />
+            </span>
             <Button
               emphasis="soft"
               size="sm"
@@ -146,129 +167,107 @@ export const JournalDetail: React.FC = () => {
               Nouvelle entrée
             </Button>
           </div>
-        </PageShell>
+        </div>
       </div>
 
+      {/* Le haut de page est celui de la coque (48 à 1440) : l'en-tête se lit
+          avec le texte qu'il ouvre, à 32 en dessous — et non plus à 57, filet
+          compris, sous 32 seulement au-dessus. */}
       <PageShell
         ref={articleRef}
         width="medium"
-        className="relative z-base py-section gap-section flex-1"
-        noPadTop
+        gap="section"
+        className="relative z-base flex-1"
       >
 
-        {/* Hero éditorial */}
-        <header className="flex flex-col gap-stack">
-          {/* Eyebrow chips */}
+        {/* En-tête de lecture — l'anatomie de `PageHero` : surtitre → 8 → h1
+            → 12 → méta. Le h1 était à 16 px de ses pastilles et à 32 de sa
+            date, derrière une bande « Vous · Auteur » avec un avatar : le
+            gabarit d'un article de blog sur un carnet personnel. La date et
+            la durée de lecture restent, en légende. L'étincelle, réservée aux
+            fonctions d'IA, quitte la pastille « Journal de bord ». */}
+        <header className="flex flex-col">
           <div className="flex items-center gap-stack-xs flex-wrap">
-            <span className="inline-flex items-center gap-stack-2xs px-2.5 py-1 rounded-pill bg-primary-100 text-primary-700 text-micro font-bold uppercase tracking-wider">
-              <Sparkles size={14} /> Journal de bord
-            </span>
-            <Badge variant="brand">{displayEntry.category}</Badge>
-            <span className="inline-flex items-center gap-stack-2xs px-2.5 py-1 rounded-pill bg-ink-100 text-ink-700 text-micro font-semibold">
-              {displayEntry.mood} {displayEntry.moodLabel}
-            </span>
+            <MetaPill text="Journal de bord" tone="primary" />
+            {/* Le type est une donnée, pas un état : MetaPill (arbitrages n°14-15). */}
+            <MetaPill text={TYPE_LABEL[storeEntry.type]} />
+            {mood && <MetaPill icon={<mood.Icone />} text={mood.label} />}
           </div>
 
-          <h1 className="font-display text-h1 font-bold text-ink-900 tracking-tight">
-            {displayEntry.title}
+          <h1 className="mt-stack-xs font-display text-h1 text-ink-900 text-balance">
+            {storeEntry.title}
           </h1>
 
-          <div className="pt-stack pb-stack-lg border-b border-ink-100">
-            <AuthorStrip
-              variant="compact"
-              name={displayEntry.author.name}
-              role={displayEntry.author.role}
-              meta={[
-                { icon: <CalendarDays size={14} />, text: displayEntry.date },
-                { icon: <Clock3 size={14} />,       text: displayEntry.readTime },
-              ]}
-            />
-          </div>
+          <p className="mt-stack-sm flex flex-wrap items-center gap-x-stack-sm gap-y-stack-3xs text-caption text-ink-600">
+            <span className="inline-flex items-center gap-stack-3xs">
+              <CalendarDays size={14} aria-hidden="true" />
+              <time dateTime={storeEntry.createdAt}>{formatDate(storeEntry.createdAt)}</time>
+            </span>
+            <span className="inline-flex items-center gap-stack-3xs">
+              <Clock3 size={14} aria-hidden="true" />
+              {readingTime(fullText)} de lecture
+            </span>
+          </p>
         </header>
 
-        {/* Sections: 3 KeyFindingCard */}
-        <section className="flex flex-col gap-stack">
-          {SECTIONS.map((s, i) => (
-            <KeyFindingCard
-              key={i}
-              icon={s.icon}
-              tone={s.tone}
-              title={s.title}
-              description={s.text}
-            />
-          ))}
-        </section>
-
-        {/* Engagements (todos) */}
-        <section className="rounded-lg border border-ink-100 bg-white p-stack-md sm:p-stack-lg flex flex-col gap-stack">
-          <h2 className="font-display text-body font-bold text-ink-900 flex items-center gap-stack-xs tracking-tight">
-            <CheckCircle2 size={16} className="text-primary-600" />
-            Engagements pour la semaine prochaine
-          </h2>
-          <ul className="m-0 p-0 list-none flex flex-col">
-            {todos.map((item, i) => (
-              <li key={i} className={i < todos.length - 1 ? 'border-b border-ink-100' : ''}>
-                <button
-                  type="button"
-                  onClick={() => toggleTodo(i)}
-                  className="w-full flex items-center gap-stack-xs py-3 bg-transparent border-0 cursor-pointer text-left !h-auto !overflow-visible !items-center !font-normal focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
-                >
-                  <span
-                    aria-hidden
-                    className={[
-                      'shrink-0 w-5 h-5 inline-flex items-center justify-center rounded-pill border-2 transition-colors duration-base',
-                      item.done
-                        ? 'bg-primary-600 border-primary-600 text-white'
-                        : 'bg-white border-ink-300',
-                    ].join(' ')}
-                  >
-                    {item.done && <CheckCircle2 size={14} strokeWidth={3} />}
-                  </span>
-                  <span
-                    className={[
-                      'font-body text-body-sm',
-                      item.done ? 'text-ink-600 line-through' : 'text-ink-800',
-                    ].join(' ')}
-                  >
-                    {item.text}
-                  </span>
-                </button>
-              </li>
-            ))}
-          </ul>
-        </section>
-
-        {/* Tags */}
-        <div className="flex flex-col gap-stack-xs pt-stack border-t border-ink-100">
-          <span className="inline-flex items-center gap-stack-2xs font-body text-caption font-medium text-ink-500">
-            <TagIcon size={14} /> Tags
-          </span>
-          <div className="flex flex-wrap gap-stack-xs">
-            {displayEntry.tags.map((tag) => (
-              <span
-                key={tag}
-                className="inline-flex items-center px-2.5 py-1 rounded-pill bg-ink-50 border border-ink-200 font-body text-micro font-semibold text-ink-700"
-              >
-                {tag}
-              </span>
+        {/* Corps de l'entrée : le texte tel que l'apprenant l'a écrit, à la
+            largeur de lecture (65 caractères) — il courait sur 1 000 px — et
+            en encre principale. Une ligne entre deux paragraphes. */}
+        {storeEntry.body.trim().length > 0 && (
+          <div className="flex flex-col gap-stack max-w-prose">
+            {storeEntry.body.split(/\n{2,}/).map((para, i) => (
+              <p key={i} className="font-body text-body text-ink-900 whitespace-pre-line">
+                {para}
+              </p>
             ))}
           </div>
-        </div>
+        )}
 
-        {/* Entry navigation prev/next */}
+        {/* Réponses aux questions structurées : la question, puis la réponse,
+            dans le fil du texte. Chacune vivait dans sa propre carte avec une
+            pastille ronde — un paragraphe par carte, ce que la doctrine exclut
+            (§ 3). La question est l'intitulé de sa réponse (16/600, 4 px) ; la
+            réponse, le texte de l'apprenant, reste en encre principale ; 24
+            entre deux réponses. */}
+        {answers.length > 0 && (
+          <dl className="flex flex-col gap-stack-lg max-w-prose">
+            {answers.map(([questionId, text]) => (
+              <div key={questionId} className="flex flex-col gap-stack-3xs">
+                <dt className="font-body text-body font-semibold text-ink-900">
+                  {QUESTION_TITLE[questionId] ?? questionId}
+                </dt>
+                <dd className="font-body text-body text-ink-900 whitespace-pre-line">{text}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
+
+        {/* Tags */}
+        {tags.length > 0 && (
+          <div className="flex flex-col gap-stack-xs pt-stack border-t border-ink-100">
+            <span className="inline-flex items-center gap-stack-3xs font-body text-caption font-semibold text-ink-600">
+              <TagIcon size={14} aria-hidden="true" /> Tags
+            </span>
+            <MetaPillGroup items={tags.map((tag) => ({ text: tag }))} />
+          </div>
+        )}
+
+        {/* Entry navigation prev/next — le sens (« Entrée précédente ») est une
+            légende 13 : il était en étiquette 11 capitales ink-500, le registre
+            des seuls Badge. */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack-xs">
           {prevEntry ? (
             <button
               type="button"
-              onClick={() => navigate(`/journal/entry/${prevEntry.id}`)}
+              onClick={() => navigate(`/journal/detail/${prevEntry.id}`)}
               className={`flex items-center gap-stack-xs p-stack rounded-lg border border-ink-100 bg-white ${CARD_HOVER_NEUTRE} transition-colors duration-base cursor-pointer text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500`}
             >
               <ArrowLeft size={16} className="text-ink-600 shrink-0" />
-              <div className="flex-1 min-w-0">
-                <div className="font-body text-micro font-bold text-ink-500 uppercase tracking-wider mb-1">
+              <div className="flex-1 min-w-0 flex flex-col gap-stack-3xs">
+                <div className="font-body text-caption text-ink-600">
                   Entrée précédente
                 </div>
-                <div className="font-body text-body-sm font-semibold text-ink-900 truncate">
+                <div className="font-body text-body font-semibold text-ink-900 truncate">
                   {prevEntry.title}
                 </div>
               </div>
@@ -277,14 +276,14 @@ export const JournalDetail: React.FC = () => {
           {nextEntry ? (
             <button
               type="button"
-              onClick={() => navigate(`/journal/entry/${nextEntry.id}`)}
+              onClick={() => navigate(`/journal/detail/${nextEntry.id}`)}
               className={`flex items-center justify-end gap-stack-xs p-stack rounded-lg border border-ink-100 bg-white ${CARD_HOVER_NEUTRE} transition-colors duration-base cursor-pointer text-right focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500`}
             >
-              <div className="flex-1 min-w-0">
-                <div className="font-body text-micro font-bold text-ink-500 uppercase tracking-wider mb-1">
+              <div className="flex-1 min-w-0 flex flex-col gap-stack-3xs">
+                <div className="font-body text-caption text-ink-600">
                   Entrée suivante
                 </div>
-                <div className="font-body text-body-sm font-semibold text-ink-900 truncate">
+                <div className="font-body text-body font-semibold text-ink-900 truncate">
                   {nextEntry.title}
                 </div>
               </div>
@@ -293,18 +292,24 @@ export const JournalDetail: React.FC = () => {
           ) : <div />}
         </div>
 
-        {/* New entry CTA */}
-        <section className="rounded-xl bg-gradient-to-br from-primary-600 to-primary-700 p-stack-lg sm:p-section flex flex-col sm:flex-row sm:items-center gap-stack-lg text-white">
-          <div className="flex-1">
-            <h3 className="font-display text-h4 font-bold mb-1">
-              Qu'avez-vous appris cette semaine ?
-            </h3>
-            <p className="m-0 font-body text-body-sm text-white/85">
-              Capturez vos observations pendant qu'elles sont fraîches.
+        {/* New entry CTA — un encart d'appel, pas une section du texte : son
+            intitulé garde la taille d'un titre de bloc (20) sans entrer dans le
+            plan de la page (il sautait du h1 au h3). Titre → phrase 4. */}
+        <aside aria-label="Nouvelle entrée" className="rounded-xl bg-gradient-to-br from-primary-700 to-primary-800 p-stack-lg sm:p-section flex flex-col sm:flex-row sm:items-center gap-stack-lg text-white">
+          <div className="flex-1 flex flex-col gap-stack-3xs">
+            <p className="font-display text-h3 text-white text-balance">
+              Qu'as-tu appris cette semaine ?
+            </p>
+            <p className="font-body text-body text-white max-w-prose">
+              Capture tes observations pendant qu'elles sont fraîches.
             </p>
           </div>
+          {/* L'action principale de la page, sur un fond au cran 700 : l'aplat
+              `onDark`, verre clair à encre foncée (arbitrage n°19). Le `soft`
+              neutre est la pastille des cartes teintées claires, pas celle
+              d'un fond sombre. */}
           <Button
-            emphasis="soft" tone="neutral"
+            emphasis="solid" onDark
             size="md"
             leadingIcon={<PenLine size={14} />}
             onClick={() => navigate('/journal/new-entry')}
@@ -312,7 +317,7 @@ export const JournalDetail: React.FC = () => {
           >
             Nouvelle entrée
           </Button>
-        </section>
+        </aside>
       </PageShell>
     </div>
   );

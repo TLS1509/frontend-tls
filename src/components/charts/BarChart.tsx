@@ -11,6 +11,7 @@ import {
   ResponsiveContainer,
   Cell,
 } from 'recharts';
+import { CHART_AXIS, CHART_AXE_VALEURS, CHART_TOOLTIP, CHART_LEGEND, axeRond, decrireSeries, nombreFr } from './chartTheme';
 
 export interface BarChartDataPoint {
   label: string;
@@ -45,6 +46,8 @@ export interface BarChartProps {
   showExport?: boolean;
   /** Export filename prefix */
   exportFilename?: string;
+  /** Nom accessible. Par défaut, décrit le type et les valeurs de chaque série. */
+  ariaLabel?: string;
   /** Additional CSS */
   className?: string;
   /** Chart element ID for exports */
@@ -68,6 +71,31 @@ const COLOR_PALETTE = [
   COLORS.warning,
 ];
 
+/* Place des libellés en barres horizontales — proportionnelle à la largeur
+   du graphique (2026-09-24). Elle valait 290 px fixes : 150 de marge gauche
+   + 140 d'axe. Sur un conteneur de ~260 px (une carte à 375 px de fenêtre),
+   la zone de tracé tombait à zéro et TOUTES les barres disparaissaient —
+   /enterprise/dashboard et /manager/views/builder n'affichaient que leurs
+   libellés. La marge servait de débord aux libellés longs, ancrés à droite
+   sur l'axe : on la verse donc dans l'axe lui-même, et on tronque le
+   libellé à la place disponible (la bulle d'info garde le texte entier).
+   Au-dessus de ~810 px de large, le rendu est celui d'avant : axe à 290 px. */
+const LIBELLES_MAX = 282; // + 8 de marge = les 290 d'avant
+const LIBELLES_MIN = 72;
+const LIBELLES_PART = 0.35;
+const MARGE_DROITE_MAX = 30;
+/* Largeur moyenne d'un caractère de graduation (`caption`, 13 px, Nunito) —
+   sert à tronquer sans mesurer chaque libellé. Sous-estimer ferait déborder.
+   Mesurée le 2026-09-24 sur les libellés réels de cinq tableaux de bord : de
+   6,0 (« Direction Générale ») à 6,7 px (« Support & Ops ») ; 6,8 garde une
+   marge — la valeur précédente, 7,5, valait pour l'ancien corps de 14 px. */
+const CHASSE_MOYENNE = 6.8;
+
+const tronquer = (texte: string, largeur: number): string => {
+  const max = Math.max(4, Math.floor(largeur / CHASSE_MOYENNE));
+  return texte.length > max ? `${texte.slice(0, max - 1).trimEnd()}…` : texte;
+};
+
 /**
  * BarChart — horizontal/vertical bar comparisons
  * Useful for: learner rankings, team comparisons, category breakdowns
@@ -84,6 +112,7 @@ export const BarChart: React.FC<BarChartProps> = ({
   exportFilename = 'bar-chart',
   className = '',
   chartId = 'bar-chart',
+  ariaLabel,
 }) => {
   const heightMap = { sm: 250, md: 350, lg: 450 };
   const height = heightMap[size];
@@ -91,8 +120,25 @@ export const BarChart: React.FC<BarChartProps> = ({
 
   const isVertical = layout === 'horizontal'; // default recharts naming
 
+  // Largeur réelle du graphique, remontée par ResponsiveContainer. 0 tant
+  // qu'elle n'est pas connue : on part alors sur le rendu large.
+  const [largeur, setLargeur] = React.useState(0);
+  const libelles = largeur
+    ? Math.round(Math.min(LIBELLES_MAX, Math.max(LIBELLES_MIN, largeur * LIBELLES_PART)))
+    : LIBELLES_MAX;
+  // Marge droite : 30 comme avant, ramenée à 12 sous 480 px, où chaque pixel
+  // de zone de tracé compte.
+  const margeDroite = largeur && largeur < 480 ? 12 : MARGE_DROITE_MAX;
+
+  // Domaine et graduations ronds sur les valeurs réellement tracées.
+  const axeValeurs = React.useMemo(() => {
+    const cles = series ? series.map((s) => s.key) : [dataKey ?? 'value'];
+    const valeurs = data.flatMap((d) => cles.map((k) => d[k])).filter((v): v is number => typeof v === 'number');
+    return { ...CHART_AXE_VALEURS, ...axeRond(valeurs) };
+  }, [data, series, dataKey]);
+
   return (
-    <div className={`w-full space-y-4 ${className}`}>
+    <div className={`w-full space-y-stack ${className}`}>
       {showExport && (
         <div className="flex justify-end">
           <div id={`${chartId}-export`}>
@@ -103,37 +149,48 @@ export const BarChart: React.FC<BarChartProps> = ({
       <motion.div
         className="w-full"
         id={chartId}
+        role="img"
+        aria-label={
+          ariaLabel ??
+          decrireSeries('Graphique en barres', data, series ?? [{ key: dataKey ?? 'value', label: 'Valeur' }])
+        }
         initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
         animate={prefersReducedMotion ? false : { opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
       >
-      <ResponsiveContainer width="100%" height={height}>
+      <ResponsiveContainer width="100%" height={height} onResize={(w) => setLargeur(w)}>
         <RechartsBarChart
+          accessibilityLayer={false}
           data={data}
           layout={isVertical ? 'vertical' : 'horizontal'}
-          margin={{ top: 20, right: 30, bottom: 20, left: isVertical ? 150 : 30 }}
+          margin={{ top: 20, right: margeDroite, bottom: 20, left: isVertical ? 8 : margeDroite }}
         >
           <CartesianGrid strokeDasharray="3 3" stroke="currentColor" className="text-ink-200" />
-          <XAxis type={isVertical ? 'number' : 'category'} stroke="currentColor" className="text-body-sm text-ink-600" />
+          {/* En barres verticales, l'axe des catégories est X : sans `dataKey`, il
+              écrivait l'index du point (0, 1, 2…) au lieu de son libellé. */}
+          {/* L'axe des valeurs prend un domaine et des graduations ronds, écrits
+              à la française (`axeRond`, `CHART_AXE_VALEURS`) : il graduait
+              0 · 0.95 · 1.9 · 2.85 · 3.8 pour un maximum de 3,8. L'axe des
+              catégories garde ses libellés. */}
+          <XAxis
+            type={isVertical ? 'number' : 'category'}
+            dataKey={isVertical ? undefined : 'label'}
+            {...(isVertical ? axeValeurs : CHART_AXIS)}
+          />
           <YAxis
             type={isVertical ? 'category' : 'number'}
             dataKey={isVertical ? 'label' : undefined}
-            stroke="currentColor"
-            className="text-body-sm text-ink-600"
-            width={isVertical ? 140 : undefined}
+            {...(isVertical
+              ? { ...CHART_AXIS, tickFormatter: (v: string) => tronquer(String(v), libelles - 12) }
+              : axeValeurs)}
+            width={isVertical ? libelles : undefined}
           />
-          <Tooltip
-            contentStyle={{
-              backgroundColor: '#ffffff',
-              border: '1px solid #e5e7eb',
-              borderRadius: '8px',
-              padding: '8px 12px',
-              fontSize: '13px',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-            }}
-            labelStyle={{ color: '#1a1a1a' }}
-          />
-          {showLegend && <Legend wrapperStyle={{ paddingTop: '20px' }} />}
+          {/* Les valeurs de l'info-bulle, comme celles de l'axe : « 3,8 », pas « 3.8 ». */}
+          <Tooltip {...CHART_TOOLTIP} formatter={(v) => nombreFr(v)} />
+          {/* Une série seule n'a pas de légende : elle affichait le nom de sa clé
+              (« value », « m0 »), en anglais, sous un graphique que le titre de sa
+              carte nomme déjà. Son nom, « Valeur », reste dans l'info-bulle. */}
+          {showLegend && series && <Legend {...CHART_LEGEND} />}
 
           {series ? (
             series.map((s, idx) => (
@@ -149,6 +206,7 @@ export const BarChart: React.FC<BarChartProps> = ({
           ) : (
             <Bar
               dataKey={dataKey}
+              name="Valeur"
               fill={COLORS.primary}
               onClick={(_, index) => onBarClick?.(data[index], index)}
               style={{ cursor: onBarClick ? 'pointer' : 'default' }}

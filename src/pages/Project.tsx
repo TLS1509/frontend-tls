@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
-  Target, CheckCircle2, Clock3, FolderKanban, Sparkles, Award,
+  Target, CheckCircle2, Clock3, FolderKanban, Award,
   ArrowLeft, Users, Calendar, TrendingUp, Lock, ChevronRight,
 } from 'lucide-react';
 import { Button } from '../components/core/Button';
 import { Card } from '../components/core/Card';
 import { Badge } from '../components/ui/Badge';
+import { MetaPill } from '../components/ui/MetaPill';
+import { Alert } from '../components/ui/Alert';
 import { EditorialHero } from '../components/patterns/EditorialHero';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { EditorialLayout } from '../components/patterns/EditorialLayout';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { Avatar } from '../components/ui/Avatar';
@@ -16,7 +19,7 @@ import { StatCard } from '../components/ui/StatCard';
 import { EtapeAccordion } from '../components/patterns/EtapeAccordion';
 import { useProjectsStore } from '../stores/persistence';
 import type { ProjectType, ProjectStatus, TaskStatus } from '../types/projects';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 
 const MOCK_USER_ID = 'user-demo';
 
@@ -65,12 +68,13 @@ export const Project: React.FC = () => {
 
   if (!project) {
     return (
-      <Container width="page" padding={false} className="px-stack py-section flex flex-col gap-section">
+      <PageShell width="page">
         <EditorialHero title="Projet introuvable" summary="Ce projet n'existe pas." tone="flat" />
-        <Button emphasis="outline" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/projects')}>
+        {/* Seule issue de l'écran : son action principale, l'aplat (n°19). */}
+        <Button emphasis="solid" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/projects')} className="self-start">
           Retour aux projets
         </Button>
-      </Container>
+      </PageShell>
     );
   }
 
@@ -82,46 +86,52 @@ export const Project: React.FC = () => {
     new Date(iso).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' });
 
   return (
-    <Container width="medium" className="py-section flex flex-col gap-section">
-      <div>
-        <Button emphasis="outline" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate('/projects')}>
-          Retour aux projets
-        </Button>
+    /* `PageShell` : le `Container` ajoutait sa propre gouttière (40 px à
+       1440) à celle de la page — tout le projet était décalé vers la droite. */
+    <PageShell width="medium">
+      {/* Le retour et l'en-tête forment un groupe : 24 entre eux. */}
+      <div className="flex flex-col gap-stack-lg">
+        {/* Le retour est tertiaire : `ghost` neutre (arbitrage n°19). La page
+            est un hub sans aplat : chaque action appartient à sa tâche. */}
+        <div>
+          <Button emphasis="ghost" tone="neutral" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate('/projects')}>
+            Retour aux projets
+          </Button>
+        </div>
+
+        <EditorialHero
+          eyebrow={{ icon: <Award size={14} />, label: `Projet ${TYPE_LABELS[project.type]}` }}
+          title={project.title}
+          summary={project.description}
+          tone="flat"
+          trailing={
+            <Badge variant={project.status === 'active' ? 'success' : project.status === 'planned' ? 'info' : 'neutral'}>
+              {STATUS_LABELS[project.status]}
+            </Badge>
+          }
+          meta={[
+            { icon: <Calendar size={14} />, label: `${formatDate(project.startDate)} → ${formatDate(project.endDate)}` },
+            /* L'étincelle marque les fonctions d'IA : ici, une progression. */
+            { icon: <TrendingUp size={14} />, label: `${project.passeportEnrichmentCount} enrichissements attendus` },
+          ]}
+        />
       </div>
 
-      <EditorialHero
-        eyebrow={{ icon: <Award size={14} />, label: `Projet ${TYPE_LABELS[project.type]}` }}
-        title={project.title}
-        summary={project.description}
-        tone="flat"
-        trailing={
-          <Badge variant={project.status === 'active' ? 'success' : project.status === 'planned' ? 'info' : 'neutral'}>
-            {STATUS_LABELS[project.status]}
-          </Badge>
-        }
-        meta={[
-          { icon: <Calendar size={14} />, label: `${formatDate(project.startDate)} → ${formatDate(project.endDate)}` },
-          { icon: <Sparkles size={14} />, label: `${project.passeportEnrichmentCount} enrichissements attendus` },
-        ]}
-      />
-
+      {/* L'alerte du système (elle était faite main, avec une liste indentée
+          sans puces) ; les écarts se lisent en corps 16. */}
       {gatingFails.length > 0 && (
-        <div className="flex items-start gap-stack-xs p-stack rounded-lg bg-warning-bg border border-warning-base/30">
-          <Lock size={16} className="text-warning-fg mt-0.5 shrink-0" />
-          <div>
-            <p className="text-body-sm font-semibold text-warning-fg m-0 mb-1">Pré-requis Dreyfus non atteints</p>
-            <ul className="m-0 pl-4 flex flex-col gap-tight">
-              {gatingFails.map((f) => (
-                <li key={f.competencyId} className="text-caption text-warning-fg">
-                  {f.competencyName} : vous êtes D{f.current}, niveau D{f.required}+ requis
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+        <Alert variant="warning" icon={<Lock size={18} />} title="Pré-requis Dreyfus non atteints">
+          <ul className="list-disc pl-5 flex flex-col gap-stack-3xs">
+            {gatingFails.map((f) => (
+              <li key={f.competencyId}>
+                {f.competencyName} : tu es D{f.current}, niveau D{f.required}+ requis
+              </li>
+            ))}
+          </ul>
+        </Alert>
       )}
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-stack-xs">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
         <StatCard label="Tâches validées" value={`${completedTasks}/${tasks.length}`} icon={<CheckCircle2 size={20} />} variant="brand" />
         <StatCard label="JAC validés" value={`${validatedJacs}/${jacs.length}`} icon={<Target size={20} />} variant="warm" />
         <StatCard label="Enrichissements" value={enrichments.length} icon={<TrendingUp size={20} />} variant="default" />
@@ -130,12 +140,15 @@ export const Project: React.FC = () => {
 
       <EditorialLayout
         main={
-          <div className="flex flex-col gap-section">
-            <SectionCard
-              title="Tâches du projet"
-              titleIcon={<FolderKanban size={18} />}
-              description={`${tasks.length} tâches · ${completedTasks} validées`}
-            >
+          /* Les sections de la colonne principale : titre (h2 28) sur la
+             page, le compte en méta ; les tâches sont des accordéons, sans
+             carte autour d'eux. */
+          <div className="flex flex-col gap-page">
+            <section className="flex flex-col gap-stack">
+              <SectionHeader
+                title="Tâches du projet"
+                meta={`${tasks.length} tâches · ${completedTasks} validées`}
+              />
               <div className="flex flex-col gap-stack-xs">
                 {tasks.map((task) => (
                   <EtapeAccordion
@@ -145,9 +158,9 @@ export const Project: React.FC = () => {
                     onToggle={() => setOpenTask(openTask === task.id ? null : task.id)}
                     header={
                       <div className="flex items-center gap-stack min-w-0 flex-1">
-                        <div className="flex-1 min-w-0">
-                          <p className="text-body-sm font-semibold text-ink-900 m-0 truncate">{task.title}</p>
-                          <p className="text-caption text-ink-600 m-0 mt-0.5">
+                        <div className="flex-1 min-w-0 flex flex-col gap-stack-3xs">
+                          <p className="text-body font-semibold text-ink-900 truncate">{task.title}</p>
+                          <p className="text-caption text-ink-600 tabular-nums">
                             D{task.dreyfusLevelRequired}+ · {task.estimatedHours}h
                           </p>
                         </div>
@@ -160,12 +173,14 @@ export const Project: React.FC = () => {
                       </div>
                     }
                   >
-                    <div className="px-4 py-stack flex flex-col gap-stack border-t border-ink-100">
-                      <p className="text-body-sm text-ink-600 m-0">{task.description}</p>
+                    {/* Description et critères : le contenu de la tâche, en corps
+                        ink-700 (ils étaient en ink-600 et en légende ink-500). */}
+                    <div className="px-stack py-stack flex flex-col gap-stack border-t border-ink-100">
+                      <p className="text-body text-ink-700 max-w-prose">{task.description}</p>
                       {task.successCriteria.length > 0 && (
-                        <ul className="m-0 pl-4 flex flex-col gap-tight">
+                        <ul className="list-disc pl-5 flex flex-col gap-stack-3xs text-body text-ink-700">
                           {task.successCriteria.map((c, i) => (
-                            <li key={i} className="text-caption text-ink-500">{c.criterion}</li>
+                            <li key={i}>{c.criterion}</li>
                           ))}
                         </ul>
                       )}
@@ -190,65 +205,75 @@ export const Project: React.FC = () => {
                   </EtapeAccordion>
                 ))}
               </div>
-            </SectionCard>
+            </section>
 
             {enrichments.length > 0 && (
-              <SectionCard title="Enrichissements Passeport" titleIcon={<TrendingUp size={18} />}>
-                <div className="flex flex-col gap-stack-xs">
-                  {enrichments.slice(0, 5).map((e) => (
-                    <div key={e.id} className="flex items-center gap-stack p-3 rounded-lg bg-success-bg">
-                      <Avatar initials={e.collaboratorInitials} size="sm" tint="brand" />
-                      <div className="flex-1 min-w-0">
-                        <p className="text-body-sm font-semibold text-ink-900 m-0">
-                          {e.collaboratorName} : {e.competencyName}
-                        </p>
-                        <p className="text-caption text-success-fg m-0">
-                          D{e.oldDreyfusLevel} → D{e.newDreyfusLevel} · validé par {e.verifiedByName}
-                        </p>
-                      </div>
-                      <Badge variant="success">+{e.newDreyfusLevel - e.oldDreyfusLevel}</Badge>
-                    </div>
-                  ))}
-                </div>
-              </SectionCard>
+              <section className="flex flex-col gap-stack">
+                <SectionHeader title="Enrichissements Passeport" />
+                <Card className="p-0 overflow-hidden">
+                  <ul className="divide-y divide-ink-100">
+                    {enrichments.slice(0, 5).map((e) => (
+                      <li key={e.id} className="flex items-center gap-stack px-stack-lg py-stack">
+                        <Avatar initials={e.collaboratorInitials} size="sm" tint="brand" />
+                        <div className="flex-1 min-w-0 flex flex-col gap-stack-3xs">
+                          <p className="text-body font-semibold text-ink-900">
+                            {e.collaboratorName} : {e.competencyName}
+                          </p>
+                          <p className="text-caption text-ink-600">
+                            D{e.oldDreyfusLevel} → D{e.newDreyfusLevel} · validé par {e.verifiedByName}
+                          </p>
+                        </div>
+                        {/* Un écart de niveau est une donnée : MetaPill. */}
+                        <MetaPill text={`+${e.newDreyfusLevel - e.oldDreyfusLevel}`} tone="success" className="shrink-0 tabular-nums" />
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
+              </section>
             )}
           </div>
         }
         aside={
-          <div className="flex flex-col gap-section">
-            <SectionCard title="Expert mentor" titleIcon={<Users size={14} />}>
-              <div className="flex items-center gap-stack">
+          /* Colonne latérale : des blocs (h3 20), après les sections de la
+             colonne principale. Les libellés en corps, les niveaux requis en
+             MetaPill (des données), 8 entre deux boutons (2 avant). */
+          <div className="flex flex-col gap-stack-lg">
+            <SectionCard title="Expert mentor" titleIcon={<Users size={16} />}>
+              <div className="flex items-center gap-stack-sm">
                 <Avatar initials={project.expertInitials} size="md" tint="brand" />
-                <div>
-                  <p className="text-body-sm font-semibold text-ink-900 m-0">{project.expertName}</p>
-                  <p className="text-caption text-ink-500 m-0">Mentor TLS</p>
+                <div className="flex flex-col gap-stack-3xs">
+                  <p className="text-body font-semibold text-ink-900">{project.expertName}</p>
+                  <p className="text-caption text-ink-600">Mentor TLS</p>
                 </div>
               </div>
             </SectionCard>
 
-            <SectionCard title="Compétences requises" titleIcon={<Target size={14} />}>
+            <SectionCard title="Compétences requises" titleIcon={<Target size={16} />}>
               <div className="flex flex-col gap-stack-xs">
                 {project.skillProfile.map((req) => (
                   <div key={req.competencyId} className="flex items-center justify-between gap-stack-xs">
-                    <span className="text-caption text-ink-700">{req.competencyName}</span>
-                    <Badge variant="brand">D{req.dreyfusLevelRequired}+</Badge>
+                    <span className="text-body text-ink-900">{req.competencyName}</span>
+                    <MetaPill text={`D${req.dreyfusLevelRequired}+`} tone="primary" className="shrink-0" />
                   </div>
                 ))}
               </div>
             </SectionCard>
 
-            <SectionCard title="Pages du projet" titleIcon={<FolderKanban size={14} />}>
-              <div className="flex flex-col gap-tight">
-                <Button emphasis="soft" tone="warm" size="sm" fullWidth onClick={() => navigate(`/project/${project.id}/team`)}>
+            {/* Une sous-navigation : des liens vers les pages voisines, donc
+                des `ghost` (arbitrage n°19). C'étaient quatre `soft` orange
+                empilés, le bloc le plus bruyant de la page. */}
+            <SectionCard title="Pages du projet" titleIcon={<FolderKanban size={16} />}>
+              <div className="flex flex-col gap-stack-xs">
+                <Button emphasis="ghost" size="sm" fullWidth onClick={() => navigate(`/project/${project.id}/team`)}>
                   Équipe
                 </Button>
-                <Button emphasis="soft" tone="warm" size="sm" fullWidth onClick={() => navigate(`/project/${project.id}/skill-gaps`)}>
+                <Button emphasis="ghost" size="sm" fullWidth onClick={() => navigate(`/project/${project.id}/skill-gaps`)}>
                   Lacunes compétences
                 </Button>
-                <Button emphasis="soft" tone="warm" size="sm" fullWidth onClick={() => navigate(`/project/${project.id}/passeport`)}>
+                <Button emphasis="ghost" size="sm" fullWidth onClick={() => navigate(`/project/${project.id}/passeport`)}>
                   Feed Passeport
                 </Button>
-                <Button emphasis="soft" tone="warm" size="sm" fullWidth onClick={() => navigate(`/project/${project.id}/jac`)}>
+                <Button emphasis="ghost" size="sm" fullWidth onClick={() => navigate(`/project/${project.id}/jac`)}>
                   JAC
                 </Button>
               </div>
@@ -256,7 +281,7 @@ export const Project: React.FC = () => {
           </div>
         }
       />
-    </Container>
+    </PageShell>
   );
 };
 

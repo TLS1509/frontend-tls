@@ -14,10 +14,14 @@ export interface InputGroupProps {
   className?: string;
 }
 
+/* Champs successifs : 16 en colonne, 12 côte à côte, 16 en grille — les
+   écarts « entre éléments d'un même ensemble » de la doctrine (12–16). Le 8
+   d'avant était celui du libellé à son champ : deux champs voisins s'y
+   lisaient comme un seul. */
 const LAYOUT_CLASSES: Record<InputGroupLayout, string> = {
   vertical:   'flex flex-col gap-stack',
-  horizontal: 'flex flex-row flex-wrap gap-stack-xs items-end',
-  grid:       'grid gap-stack-xs',
+  horizontal: 'flex flex-row flex-wrap gap-stack-sm items-end',
+  grid:       'grid gap-stack',
 };
 
 const COLUMNS_CLASSES: Record<InputGroupColumns, string> = {
@@ -51,7 +55,7 @@ export const InputGroup: React.FC<InputGroupProps> = ({
       aria-describedby={error || hint ? `${groupId}-message` : undefined}
     >
       {label && (
-        <span className="text-body-sm font-semibold text-ink-900">
+        <span className="text-body font-semibold text-ink-900">
           {label}
           {required && (
             <span className="text-danger-fg ml-0.5" aria-hidden="true">*</span>
@@ -69,7 +73,7 @@ export const InputGroup: React.FC<InputGroupProps> = ({
           className={
             error
               ? 'text-caption text-danger-fg flex items-center gap-tight'
-              : 'text-caption text-ink-500'
+              : 'text-caption text-ink-600'
           }
           role={error ? 'alert' : undefined}
         >

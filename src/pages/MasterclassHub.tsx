@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Video, Calendar, Clock, Users, Play, CheckCircle } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { PageShell } from '../components/layout';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
@@ -40,6 +41,13 @@ export default function MasterclassHub() {
     return true;
   });
 
+  const filtreLabel: Record<Filter, string> = {
+    all: 'Toutes les masterclasses',
+    upcoming: 'Masterclasses à venir',
+    replay: 'Replays disponibles',
+    enrolled: 'Mes inscriptions',
+  };
+
   return (
     <PageShell width="page" noPadTop={true} className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
@@ -49,19 +57,24 @@ export default function MasterclassHub() {
         summary="Accède aux sessions live avec des experts de l'industrie. Format 90 min. Questions live. Replay illimité."
       />
 
-      <div className="flex flex-col gap-section">
-
-        {/* Filters */}
-        <div className="flex items-center gap-stack-xs flex-wrap">
+      {/* Une section h2 entre le h1 et les titres de carte (h3) : ils
+          suivaient directement le h1. Les filtres appartiennent à la grille
+          qu'ils filtrent, sous son titre ; le compte passe en méta. */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader
+          title={filtreLabel[activeFilter]}
+          meta={`${filtered.length} masterclass${filtered.length > 1 ? 'es' : ''}`}
+          size="md"
+        />
+        <div className="flex items-center gap-stack-xs flex-wrap" role="group" aria-label="Filtrer les masterclasses">
           <FilterChip label="Toutes" active={activeFilter === 'all'} onClick={() => setActiveFilter('all')} />
           <FilterChip label="À venir" active={activeFilter === 'upcoming'} onClick={() => setActiveFilter('upcoming')} />
           <FilterChip label="Replays" active={activeFilter === 'replay'} onClick={() => setActiveFilter('replay')} />
           <FilterChip label={`Mes inscriptions (${enrolledCount})`} active={activeFilter === 'enrolled'} onClick={() => setActiveFilter('enrolled')} />
         </div>
 
-        {/* Grid */}
         {filtered.length === 0 ? (
-          <p className="text-body-sm text-ink-600 py-section text-center">Aucune masterclass dans cette catégorie.</p>
+          <p className="text-body text-ink-600 py-section text-center">Aucune masterclass dans cette catégorie.</p>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-stack">
             {filtered.map((mc) => {
@@ -71,7 +84,7 @@ export default function MasterclassHub() {
               const isFull = mc.maxParticipants !== null && mc.enrolledCount >= mc.maxParticipants;
 
               return (
-                <Card key={mc.id} variant="default" className="flex flex-col gap-stack p-0 overflow-hidden">
+                <Card key={mc.id} variant="default" className="flex flex-col p-0 overflow-hidden">
                   <div className="bg-primary-100 h-44 flex items-center justify-center relative">
                     <Video size={40} className="text-primary-400" />
                     {hasReplay && (
@@ -81,7 +94,11 @@ export default function MasterclassHub() {
                     )}
                   </div>
 
-                  <div className="p-stack flex flex-col gap-tight flex-1">
+                  {/* Anatomie de carte (doctrine § 5), padding dense 20 : les
+                      états → 4 → le titre h3 20 → 8 → l'expert → 12 → date,
+                      durée, places (légende ink-600) → 24 → l'action. Tout
+                      était à 2 px (`gap-tight`) sous un titre à 16/600. */}
+                  <div className="p-stack-md flex flex-col flex-1">
                     <div className="flex items-center gap-stack-xs flex-wrap">
                       {isCompleted ? (
                         <Badge variant="success">Terminée</Badge>
@@ -98,41 +115,46 @@ export default function MasterclassHub() {
                       )}
                     </div>
 
-                    <h3 className="text-body font-semibold text-ink-900">{mc.title}</h3>
+                    <h3 className="mt-stack-3xs font-display text-h3 text-ink-900">{mc.title}</h3>
 
-                    <div className="flex items-center gap-stack-xs mt-tight">
+                    <div className="mt-stack-xs flex items-center gap-stack-xs">
                       <Avatar initials={mc.expertInitials} size="sm" />
                       <div className="flex flex-col min-w-0">
-                        <span className="text-caption font-semibold text-ink-700 truncate">{mc.expertName}</span>
-                        <span className="text-caption text-ink-500 truncate">{mc.expertTitle}</span>
+                        <span className="text-caption font-semibold text-ink-900 truncate">{mc.expertName}</span>
+                        <span className="text-caption text-ink-600 truncate">{mc.expertTitle}</span>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-stack-xs mt-tight">
-                      <Calendar size={14} className="text-ink-600 shrink-0" />
-                      <span className="text-caption text-ink-500">{formatDate(mc.scheduledAt)}</span>
-                      <Clock size={14} className="text-ink-600 shrink-0 ml-stack-xs" />
-                      <span className="text-caption text-ink-500">{mc.durationMinutes} min</span>
+                    <div className="mt-stack-sm flex flex-col gap-stack-3xs text-caption text-ink-600">
+                      <p className="flex items-center gap-stack-2xs flex-wrap text-caption">
+                        <Calendar size={14} className="shrink-0" aria-hidden="true" />
+                        <span>{formatDate(mc.scheduledAt)}</span>
+                        <Clock size={14} className="shrink-0 ml-stack-xs" aria-hidden="true" />
+                        <span className="tabular-nums">{mc.durationMinutes} min</span>
+                      </p>
+                      {mc.maxParticipants && (
+                        <p className="flex items-center gap-stack-2xs text-caption">
+                          <Users size={14} className="shrink-0" aria-hidden="true" />
+                          <span className="tabular-nums">{mc.enrolledCount} / {mc.maxParticipants} inscrits</span>
+                        </p>
+                      )}
                     </div>
 
-                    {mc.maxParticipants && (
-                      <div className="flex items-center gap-stack-2xs text-caption text-ink-500">
-                        <Users size={14} className="shrink-0" />
-                        <span>{mc.enrolledCount} / {mc.maxParticipants} inscrits</span>
-                      </div>
-                    )}
-
-                    <div className="mt-auto pt-tight">
+                    {/* L'action de la carte en `soft` ; un état (bouton
+                        désactivé) en `ghost` neutre, qui ne se lit pas comme
+                        une action. Un catalogue n'a pas d'action principale :
+                        pas de `solid` (arbitrage n°19). */}
+                    <div className="mt-auto pt-stack-lg">
                       {hasReplay ? (
-                        <Button emphasis="outline" size="sm" fullWidth leadingIcon={<Play size={14} />}>
+                        <Button emphasis="soft" tone="brand" size="sm" fullWidth leadingIcon={<Play size={14} />}>
                           Voir le replay
                         </Button>
                       ) : enrollment ? (
-                        <Button emphasis="outline" size="sm" fullWidth disabled>
+                        <Button emphasis="ghost" tone="neutral" size="sm" fullWidth disabled>
                           Déjà inscrit(e)
                         </Button>
                       ) : isFull ? (
-                        <Button emphasis="outline" size="sm" fullWidth disabled>
+                        <Button emphasis="ghost" tone="neutral" size="sm" fullWidth disabled>
                           Complet
                         </Button>
                       ) : (
@@ -152,7 +174,7 @@ export default function MasterclassHub() {
             })}
           </div>
         )}
-      </div>
+      </section>
     </PageShell>
   );
 }

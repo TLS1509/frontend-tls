@@ -78,7 +78,7 @@ export const MarketingWebinaireDetail: React.FC = () => {
           <FadeInWhenVisible direction="up">
             <Link
               to="/website/resources"
-              className="inline-flex items-center gap-stack-2xs self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+              className="inline-flex items-center gap-stack-2xs self-start text-ink-700 hover:text-ink-900 font-body text-body font-semibold transition-colors duration-fast group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
             >
               <ArrowLeft size={16} className="transition-transform duration-base group-hover:-translate-x-1" />
               Retour aux ressources
@@ -136,7 +136,7 @@ export const MarketingWebinaireDetail: React.FC = () => {
                 {webinaire.agenda.map((item, i) => (
                   <li key={i} className="flex items-start gap-stack-xs">
                     <span aria-hidden className="mt-2 h-1.5 w-1.5 shrink-0 rounded-pill bg-primary-500" />
-                    <span className="font-body text-body-sm text-ink-700">{item}</span>
+                    <span className="font-body text-body text-ink-700">{item}</span>
                   </li>
                 ))}
               </ul>
@@ -165,7 +165,7 @@ export const MarketingWebinaireDetail: React.FC = () => {
                       onSubmit={handleSubmit}
                       className="flex flex-col gap-stack"
                     >
-                      <div className="inline-flex w-12 h-12 items-center justify-center rounded-xl bg-primary-50 text-primary-700">
+                      <div className="inline-flex w-12 h-12 items-center justify-center rounded-xl bg-primary-50 text-primary-800">
                         <CalendarCheck size={20} />
                       </div>
                       <div className="flex flex-col gap-tight">
@@ -226,12 +226,12 @@ export const MarketingWebinaireDetail: React.FC = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="Lire le replay (nouvel onglet)"
-                      className="w-16 h-16 rounded-pill bg-primary-500 shadow-[0_0_0_12px_rgba(85,161,180,0.20)] flex items-center justify-center transition-transform duration-base hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/70"
+                      className="w-16 h-16 rounded-pill bg-primary-600 shadow-[0_0_0_12px_rgba(85,161,180,0.20)] flex items-center justify-center transition-transform duration-base hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/70"
                     >
                       <Play size={24} className="ml-1 fill-white text-white" />
                     </a>
                   ) : (
-                    <div aria-label="Replay à venir" className="flex flex-col items-center gap-stack-xs text-white/70">
+                    <div aria-label="Replay à venir" className="flex flex-col items-center gap-stack-xs text-white">
                       <div className="w-16 h-16 rounded-pill bg-white/10 border border-white/20 flex items-center justify-center">
                         <Play size={24} className="ml-1 text-white/50" />
                       </div>

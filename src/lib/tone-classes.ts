@@ -33,11 +33,13 @@ export const PAGE_TONE_TO_BUTTON: Record<PageTone, ButtonTone> = {
   sun:     'sun',
 };
 
-/** Accent text color per tone */
+/** Accent text color per tone — lisible (4,5:1) sur blanc ET sur le -50 du ton.
+    Teal 800 et non 700 : 700 fait 4,48 sur primary-50. Les crans 400-600 sont
+    des remplissages, pas des encres. */
 export const TONE_TEXT: Record<PageTone, string> = {
-  primary: 'text-primary-500',
-  warm:    'text-secondary-500',
-  sun:     'text-accent-400',
+  primary: 'text-primary-800',
+  warm:    'text-secondary-700',
+  sun:     'text-accent-700',
 };
 
 /** Subtle tinted background (50-level) per tone */
@@ -54,11 +56,14 @@ export const TONE_BORDER_200: Record<PageTone, string> = {
   sun:     'border-accent-200',
 };
 
-/** Saturated background (500 / accent-400) per tone */
-export const TONE_BG_500: Record<PageTone, string> = {
-  primary: 'bg-primary-500',
-  warm:    'bg-secondary-500',
-  sun:     'bg-accent-400',
+/** Fond plein qui PORTE du blanc (numéros, étiquettes, pastilles d'icône) : cran
+ * 700, le seul où le blanc passe 4,5:1 dans les trois tons (5,02 · 6,31 · 4,88).
+ * Remplace TONE_BG_500 (2026-09-23) : tous ses consommateurs y posaient du blanc,
+ * à 2,94 · 2,64 · 1,86. */
+export const TONE_BG_700: Record<PageTone, string> = {
+  primary: 'bg-primary-700',
+  warm:    'bg-secondary-700',
+  sun:     'bg-accent-700',
 };
 
 /** Saturated border (500 / accent-400) per tone */
@@ -73,9 +78,11 @@ export const TONE_BORDER_500: Record<PageTone, string> = {
  * Use on section headers, project banners, decorative backgrounds.
  */
 export const TONE_HERO_GRADIENT: Record<PageTone, string> = {
-  primary: 'bg-gradient-to-br from-primary-500 to-secondary-500',
-  warm:    'bg-gradient-to-br from-secondary-500 to-accent-400',
-  sun:     'bg-gradient-to-br from-accent-400 to-primary-500',
+  // Tous les consommateurs y posent du blanc : dégradé entre crans 700 (arbitrage
+  // n°8), arrêt le plus clair à 4,88 (or). Au 400/500 : 1,86 à 2,94.
+  primary: 'bg-gradient-to-br from-primary-700 to-secondary-700',
+  warm:    'bg-gradient-to-br from-secondary-700 to-accent-700',
+  sun:     'bg-gradient-to-br from-accent-700 to-primary-700',
 };
 
 /**
@@ -176,11 +183,11 @@ export const CARD_PROGRESS_FILL: Record<CardTone, 'brand' | 'warm' | 'sun'> = {
 /** Action button tone classes (for footer buttons, action rows) */
 export const ACTION_BTN_TONES: Record<PageTone, Record<'primary' | 'secondary', string>> = {
   primary: {
-    primary: 'bg-primary-500 hover:bg-primary-600 text-white',
-    secondary: 'bg-primary-50 hover:bg-primary-100 text-primary-700 border border-primary-200'
+    primary: 'bg-primary-700 hover:bg-primary-800 text-white',
+    secondary: 'bg-primary-50 hover:bg-primary-100 text-primary-800 border border-primary-200'
   },
   warm: {
-    primary: 'bg-secondary-500 hover:bg-secondary-600 text-white',
+    primary: 'bg-secondary-700 hover:bg-secondary-800 text-white',
     secondary: 'bg-secondary-50 hover:bg-secondary-100 text-secondary-700 border border-secondary-200'
   },
   sun: {

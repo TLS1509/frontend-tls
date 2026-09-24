@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Save, BarChart3, LineChart as LineChartIcon, PieChart as PieChartIcon, Table2, Trash2 } from 'lucide-react';
-import EditorialHero from '../components/patterns/EditorialHero';
+import PageHero from '../components/patterns/EditorialHero';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import SectionCard from '../components/patterns/SectionCard';
 import { SelectableOptionCard } from '../components/patterns/SelectableOptionCard';
 import { DataTable } from '../components/patterns/DataTable';
@@ -9,21 +10,25 @@ import { Button } from '../components/core/Button';
 import { FormGroup } from '../components/core/FormGroup';
 import { Input } from '../components/core/Input';
 import { Select } from '../components/core/Select';
-import { Badge } from '../components/ui/Badge';
 import { FilterChip } from '../components/ui/FilterChip';
 import { BarChart, type BarChartDataPoint } from '../components/charts/BarChart';
 import { LineChart } from '../components/charts/LineChart';
 import { PieChart } from '../components/charts/PieChart';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 
+/* Arbitrage n°18 : l'XP et la série sortent aussi des métriques proposées au
+   manager — « XP gagnés / semaine » devient les leçons terminées (l'activité
+   réelle), « Streak moyen » le rythme hebdomadaire, et « Badges débloqués »
+   les Open Badges, adossés à des niveaux validés. Les valeurs de l'aperçu
+   restent des valeurs de démonstration (mockValue). */
 const METRICS = [
   'Taux complétion parcours',
   'Niveau Dreyfus moyen',
-  'XP gagnés / semaine',
-  'Badges débloqués',
+  'Leçons terminées / semaine',
+  'Open Badges obtenus',
   'Sessions coaching',
   'JAC validés',
-  'Streak moyen',
+  'Semaines actives sur 4 (moyenne)',
   'Budget consommé',
 ];
 
@@ -42,6 +47,13 @@ const GROUP_LABELS: Record<string, string[]> = {
 };
 
 const SERIES_COLORS = ['#55A1B4', '#ED843A', '#9DBEBA', '#F8B044'];
+
+const DATE_RANGE_LABEL: Record<string, string> = {
+  '7d': '7 derniers jours',
+  '30d': '30 derniers jours',
+  '90d': '3 derniers mois',
+  '1y': '12 derniers mois',
+};
 
 /** Génère une valeur pseudo-stable (pas Math.random) à partir des index groupe/métrique. */
 function mockValue(groupIdx: number, metricIdx: number): number {
@@ -88,21 +100,28 @@ const ManagerViewsBuilder: React.FC = () => {
     color: SERIES_COLORS[groupIdx % SERIES_COLORS.length],
   }));
 
+  /* Passe typographique du 2026-09-24 : plus d'aplat `bg-surface` (il
+     s'arrêtait net à x≈1400 et au pied de page) ; une seule coque ; chaque
+     colonne s'ouvre sur son titre de section (h2), les étapes restent des
+     blocs (h3 dans leur carte). Les métriques choisies étaient écrites trois
+     fois (pastilles, « 2 MÉTRIQUES » et une rangée de `Badge` sous le
+     graphique) : elles vivent dans les pastilles et dans la légende. */
   return (
-    <div className="min-h-[100dvh] bg-surface">
-      <EditorialHero
-        eyebrow="Manager · Custom Views Builder"
-        title="Crée ta vue analytique sur mesure"
-        summary="Sélectionne tes métriques, choisis ton type de graphique, sauvegarde et partage"
+    <PageShell width="wide">
+      <PageHero
+        eyebrow="Espace Manager · Vues personnalisées"
+        title="Créez votre vue analytique sur mesure"
+        summary="Sélectionnez vos métriques, choisissez votre type de graphique, puis sauvegardez et partagez la vue."
         tone="flat"
       />
 
-      <Container width="page" padding={false} className="px-stack py-section grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-section">
+      <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] gap-x-section gap-y-page items-start">
         {/* Builder Panel */}
-        <div className="flex flex-col gap-stack">
+        <section className="flex flex-col gap-stack">
+          <SectionHeader title="Paramètres" />
           <SectionCard title="1. Nom de la vue">
             <FormGroup label="Titre">
-              <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Ex: Performance Q2 par département" />
+              <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Ex. : Performance T2 par département" />
             </FormGroup>
           </SectionCard>
 
@@ -115,7 +134,7 @@ const ManagerViewsBuilder: React.FC = () => {
           </SectionCard>
 
           <SectionCard title="3. Filtres">
-            <div className="flex flex-col gap-stack-xs">
+            <div className="flex flex-col gap-stack">
               <FormGroup label="Plage de dates">
                 <Select value={dateRange} onChange={(e) => setDateRange(e.target.value)}>
                   <option value="7d">7 derniers jours</option>
@@ -150,53 +169,49 @@ const ManagerViewsBuilder: React.FC = () => {
             </div>
           </SectionCard>
 
-          <div className="flex gap-stack-xs">
-            <Button emphasis="soft" leadingIcon={<Save className="w-4 h-4" />} fullWidth>Sauvegarder</Button>
-            <Button emphasis="outline" iconOnly leadingIcon={<Trash2 className="w-4 h-4" />} aria-label="Supprimer" />
+          {/* Arbitrage n°19 : sauvegarder la vue est l'action principale ;
+              supprimer, destructif sur une page, passe en ghost danger. */}
+          <div className="flex gap-stack-xs mt-stack-xs">
+            <Button emphasis="solid" tone="brand" leadingIcon={<Save className="w-4 h-4" />} fullWidth>Sauvegarder</Button>
+            <Button emphasis="ghost" tone="danger" iconOnly leadingIcon={<Trash2 className="w-4 h-4" />} aria-label="Supprimer" />
           </div>
-        </div>
+        </section>
 
         {/* Preview Panel */}
-        <Card className="p-stack-lg sticky top-stack h-fit">
-          <div className="flex items-center justify-between mb-stack">
-            <div>
-              <div className="text-caption text-ink-500">Aperçu en direct</div>
-              <h3 className="text-h3">{name}</h3>
+        <section className="flex flex-col gap-stack lg:sticky lg:top-stack">
+          <SectionHeader title="Aperçu en direct" />
+          <Card className="flex flex-col gap-stack">
+            {/* Anatomie de carte : titre 20, méta 13 juste dessous. */}
+            <div className="flex flex-col gap-stack-3xs">
+              <h3 className="font-display text-h3 text-ink-900">{name}</h3>
+              <p className="text-caption text-ink-600">
+                {selectedMetrics.length === 1 ? `${selectedMetrics[0]} · ` : ''}
+                Groupé par {groupBy} · {DATE_RANGE_LABEL[dateRange] ?? dateRange}
+              </p>
             </div>
-            <Badge variant="info">{selectedMetrics.length} métriques</Badge>
-          </div>
 
-          <div className="mb-stack-xs text-caption text-ink-600">
-            groupé par {groupBy} · {dateRange}
-          </div>
-
-          {chartType === 'bar' && (
-            <BarChart data={chartData} dataKey="m0" series={series.length > 1 ? series : undefined} showLegend={series.length > 1} size="sm" />
-          )}
-          {chartType === 'line' && (
-            <LineChart data={chartData} dataKey="m0" series={series.length > 1 ? series : undefined} showLegend={series.length > 1} size="sm" />
-          )}
-          {chartType === 'pie' && (
-            <PieChart data={pieData} size="sm" showLegend showLabels />
-          )}
-          {chartType === 'table' && (
-            <DataTable
-              columns={[
-                { key: 'label', label: groupBy.charAt(0).toUpperCase() + groupBy.slice(1), align: 'left' },
-                ...previewMetrics.map((metric, i) => ({ key: `m${i}`, label: metric, align: 'right' as const })),
-              ]}
-              rows={chartData}
-            />
-          )}
-
-          <div className="mt-stack flex flex-wrap gap-tight">
-            {selectedMetrics.map((m) => (
-              <Badge key={m} variant="brand">{m}</Badge>
-            ))}
-          </div>
-        </Card>
-      </Container>
-    </div>
+            {chartType === 'bar' && (
+              <BarChart data={chartData} dataKey="m0" series={series.length > 1 ? series : undefined} showLegend={series.length > 1} size="sm" />
+            )}
+            {chartType === 'line' && (
+              <LineChart data={chartData} dataKey="m0" series={series.length > 1 ? series : undefined} showLegend={series.length > 1} size="sm" />
+            )}
+            {chartType === 'pie' && (
+              <PieChart data={pieData} size="sm" showLegend showLabels />
+            )}
+            {chartType === 'table' && (
+              <DataTable
+                columns={[
+                  { key: 'label', label: groupBy.charAt(0).toUpperCase() + groupBy.slice(1), align: 'left' },
+                  ...previewMetrics.map((metric, i) => ({ key: `m${i}`, label: metric, align: 'right' as const })),
+                ]}
+                rows={chartData}
+              />
+            )}
+          </Card>
+        </section>
+      </div>
+    </PageShell>
   );
 };
 

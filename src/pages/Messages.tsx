@@ -14,6 +14,10 @@ import {
   Pencil,
   ArrowLeft,
   MessageSquarePlus,
+  BookOpen,
+  FolderKanban,
+  Target,
+  MessageCircle,
 } from 'lucide-react';
 import { MessageBubble } from '../components/ui/MessageBubble';
 import { Search as SearchInput } from '../components/ui/Search';
@@ -21,6 +25,8 @@ import { FilterBar } from '../components/forms/FilterBar';
 import { Avatar } from '../components/ui/Avatar';
 import { Button } from '../components/core/Button';
 import { EmptyState } from '../components/ui/EmptyState';
+import { MetaPill } from '../components/ui/MetaPill';
+import { Kbd } from '../components/ui/Kbd';
 
 type FilterType = 'all' | 'coach' | 'support' | 'starred';
 type MessageRole = 'user' | 'coach' | 'support';
@@ -62,7 +68,7 @@ const INITIAL_CONVERSATIONS: Conversation[] = [
     participantName: 'Sophie Martin',
     participantInitials: 'SM',
     participantRole: 'coach',
-    lastMessage: "Excellent travail sur votre projet final ! J'ai quelques suggestions…",
+    lastMessage: "Excellent travail sur ton projet final ! J'ai quelques suggestions…",
     lastMessageTime: 'Il y a 5 min',
     unreadCount: 2,
     isStarred: true,
@@ -70,7 +76,7 @@ const INITIAL_CONVERSATIONS: Conversation[] = [
     messages: [
       {
         id: 'm1', senderId: 'coach1', senderName: 'Sophie Martin', role: 'coach',
-        content: "Bonjour ! J'ai examiné votre projet final sur le chatbot IA. C'est un excellent travail ! 🎉",
+        content: "Bonjour ! J'ai examiné ton projet final sur le chatbot IA. C'est un excellent travail ! 🎉",
         timestamp: "Aujourd'hui à 14:30", isRead: true,
       },
       {
@@ -80,7 +86,7 @@ const INITIAL_CONVERSATIONS: Conversation[] = [
       },
       {
         id: 'm3', senderId: 'coach1', senderName: 'Sophie Martin', role: 'coach',
-        content: "Excellent travail ! J'ai quelques suggestions pour améliorer la gestion du contexte dans les conversations longues. Souhaitez-vous qu'on en discute lors de notre prochain coaching ?",
+        content: "Excellent travail ! J'ai quelques suggestions pour améliorer la gestion du contexte dans les conversations longues. Souhaites-tu qu'on en discute lors de notre prochain coaching ?",
         timestamp: "Aujourd'hui à 14:50", isRead: false,
         attachments: [{ type: 'file', name: 'Feedback_Projet_Final.pdf', size: '245 KB' }],
       },
@@ -96,7 +102,7 @@ const INITIAL_CONVERSATIONS: Conversation[] = [
     participantName: 'Marc Dubois',
     participantInitials: 'MD',
     participantRole: 'coach',
-    lastMessage: 'La correction de votre exercice sur les prompts est disponible',
+    lastMessage: 'La correction de ton exercice sur les prompts est disponible',
     lastMessageTime: 'Il y a 2h',
     unreadCount: 1,
     isStarred: false,
@@ -104,7 +110,7 @@ const INITIAL_CONVERSATIONS: Conversation[] = [
     messages: [
       {
         id: 'm5', senderId: 'coach2', senderName: 'Marc Dubois', role: 'coach',
-        content: "Bonjour ! La correction de votre exercice sur les prompts est maintenant disponible. Vous avez obtenu 18/20 : très bon travail !",
+        content: "Bonjour ! La correction de ton exercice sur les prompts est maintenant disponible. Tu as obtenu 18/20 : très bon travail !",
         timestamp: "Aujourd'hui à 13:15", isRead: false,
       },
     ],
@@ -114,14 +120,14 @@ const INITIAL_CONVERSATIONS: Conversation[] = [
     participantName: 'Support TLS',
     participantInitials: 'ST',
     participantRole: 'support',
-    lastMessage: 'Votre problème de connexion a été résolu',
+    lastMessage: 'Ton problème de connexion a été résolu',
     lastMessageTime: 'Hier',
     unreadCount: 0,
     isStarred: false,
     messages: [
       {
         id: 'm6', senderId: 'support1', senderName: 'Support TLS', role: 'support',
-        content: "Bonjour, votre problème de connexion a été résolu. N'hésitez pas si vous avez d'autres questions !",
+        content: "Bonjour, ton problème de connexion a été résolu. N'hésite pas si tu as d'autres questions !",
         timestamp: 'Hier à 16:45', isRead: true,
       },
     ],
@@ -146,14 +152,12 @@ const INITIAL_CONVERSATIONS: Conversation[] = [
   },
 ];
 
-const AVATAR_CLASSES: Record<'coach' | 'support' | 'admin', string> = {
-  coach:   'bg-primary-50 text-primary-700 border border-primary-200',
-  support: 'bg-success-bg text-success-fg',
-  admin:   'bg-accent-50 text-accent-700',
-};
-
-const CONTEXT_ICONS: Record<ContextType, string> = {
-  lesson: '📚', project: '🗂️', coaching: '🎯', general: '💬',
+/* Glyphes Lucide, plus des émojis (un tell listé par la doctrine). */
+const CONTEXT_ICONS: Record<ContextType, React.ReactNode> = {
+  lesson: <BookOpen size={14} aria-hidden="true" />,
+  project: <FolderKanban size={14} aria-hidden="true" />,
+  coaching: <Target size={14} aria-hidden="true" />,
+  general: <MessageCircle size={14} aria-hidden="true" />,
 };
 
 const FILTERS: { id: FilterType; label: string }[] = [
@@ -165,7 +169,12 @@ const FILTERS: { id: FilterType; label: string }[] = [
 
 export const Messages: React.FC = () => {
   const [conversations, setConversations] = useState<Conversation[]>(INITIAL_CONVERSATIONS);
-  const [selectedId, setSelectedId]       = useState<string | null>('1');
+  // Sous 768 px, la liste et le fil ne tiennent pas côte à côte (le fil était
+  // comprimé à ~15 px, le champ de saisie hors écran) : on affiche l'un OU
+  // l'autre, et le mobile s'ouvre sur la liste plutôt que sur un fil.
+  const [selectedId, setSelectedId]       = useState<string | null>(() =>
+    typeof window !== 'undefined' && window.matchMedia('(min-width: 768px)').matches ? '1' : null,
+  );
   const [filterType, setFilterType]       = useState<FilterType>('all');
   const [searchQuery, setSearchQuery]     = useState('');
   const [messageInput, setMessageInput]   = useState('');
@@ -228,17 +237,21 @@ export const Messages: React.FC = () => {
     <div className="min-h-[100dvh] flex bg-ink-50 font-body overflow-hidden">
 
       {/* Left Panel: Conversation list */}
-      <div className="w-[360px] min-w-[280px] shrink-0 flex flex-col border-r border-ink-200 bg-white overflow-hidden">
+      <div className={`${currentConversation ? 'hidden md:flex' : 'flex'} w-full md:w-[360px] md:min-w-[280px] shrink-0 flex-col md:border-r border-ink-200 bg-white overflow-hidden`}>
 
         {/* Header */}
         <div className="px-stack-md pt-stack-md pb-stack border-b border-ink-200 bg-white">
+          {/* Le titre de la page : un h1 à 36, comme le grand titre d'une
+              messagerie. La page n'en avait aucun ; « Messages » était un h2
+              à 20, serré par `tracking-tight`. Le compteur est une étiquette
+              (11/700). */}
           <div className="flex items-center justify-between mb-stack">
             <div className="flex items-center gap-stack-xs">
-              <h2 className="font-display text-h3 text-ink-900 tracking-tight">
+              <h1 className="font-display text-h1 text-ink-900">
                 Messages
-              </h2>
+              </h1>
               {totalUnread > 0 && (
-                <span className="inline-flex items-center justify-center min-w-[20px] h-5 rounded-pill bg-primary-500 text-white font-body text-[11px] font-bold px-1.5">
+                <span className="inline-flex items-center justify-center min-w-[20px] h-5 rounded-pill bg-primary-700 text-white font-body text-micro font-bold px-1.5 tabular-nums">
                   {totalUnread}
                 </span>
               )}
@@ -255,7 +268,7 @@ export const Messages: React.FC = () => {
             placeholder="Rechercher une conversation…"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            wrapperClassName="mb-3"
+            wrapperClassName="mb-stack-sm"
           />
 
           {/* Filter pills */}
@@ -270,7 +283,7 @@ export const Messages: React.FC = () => {
         </div>
 
         {/* Conversation items */}
-        <div className="flex-1 overflow-y-auto p-stack-xs">
+        <div className="flex-1 overflow-y-auto p-stack-xs flex flex-col gap-stack-3xs">
           {filteredConversations.length === 0 ? (
             <EmptyState
               icon={<MessageSquare size={28} />}
@@ -280,65 +293,96 @@ export const Messages: React.FC = () => {
           ) : (
             filteredConversations.map((conv) => {
               const isSelected = conv.id === selectedId;
+              // La rangée n'est plus un <button> englobant : l'étoile y était un
+              // <button> imbriqué (HTML invalide, erreur React « cannot be a
+              // descendant of <button> », audit du 23/09). Deux boutons frères :
+              // la zone nom/aperçu ouvre la conversation, l'étoile bascule le
+              // favori. L'étoile est posée en absolu, et le bouton principal lui
+              // réserve sa place à droite (`pr-11`).
               return (
-                <button
+                <div
                   key={conv.id}
-                  type="button"
-                  onClick={() => handleSelectConversation(conv.id)}
                   data-selected={isSelected}
                   className={[
-                    'flex items-start gap-stack-xs w-full p-3 rounded-lg text-left cursor-pointer mb-0.5 transition-all duration-100 font-body',
-                    'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+                    'relative rounded-lg border transition-all duration-100',
                     isSelected
-                      ? 'bg-primary-50 shadow-xs border border-primary-200'
-                      : 'bg-transparent hover:bg-ink-50 border border-transparent',
+                      ? 'bg-primary-50 shadow-xs border-primary-200'
+                      : 'bg-transparent hover:bg-ink-50 border-transparent',
                   ].join(' ')}
                 >
-                  {/* Avatar */}
-                  <Avatar
-                    name={conv.participantName}
-                    initials={conv.participantInitials}
-                    size="md"
-                    tint={conv.participantRole === 'coach' ? 'brand' : conv.participantRole === 'support' ? 'warm' : 'ink'}
-                  />
+                  <button
+                    type="button"
+                    onClick={() => handleSelectConversation(conv.id)}
+                    aria-current={isSelected ? 'true' : undefined}
+                    className="flex items-start gap-stack-sm w-full p-stack-sm pr-11 rounded-lg bg-transparent border-0 text-left cursor-pointer font-body focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                  >
+                    {/* Avatar */}
+                    <Avatar
+                      name={conv.participantName}
+                      initials={conv.participantInitials}
+                      size="md"
+                      tint={conv.participantRole === 'coach' ? 'brand' : conv.participantRole === 'support' ? 'warm' : 'ink'}
+                    />
 
-                  {/* Content */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-tight mb-0.5">
-                      <span className={`font-body text-body-sm flex-1 overflow-hidden text-ellipsis whitespace-nowrap text-ink-900 ${conv.unreadCount > 0 ? 'font-bold' : 'font-semibold'}`}>
-                        {conv.participantName}
-                      </span>
-                      <button
-                        type="button"
-                        onClick={(e) => handleToggleStar(e, conv.id)}
-                        className="bg-transparent border-0 cursor-pointer p-0.5 shrink-0 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-500 rounded-sm"
-                      >
-                        <Star
-                          size={14}
-                          className={conv.isStarred ? 'text-accent-400 fill-accent-400' : 'text-ink-300 fill-transparent'}
-                        />
-                      </button>
-                      {conv.unreadCount > 0 && (
-                        <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] rounded-pill bg-primary-500 text-white font-body text-micro font-bold px-1 shrink-0">
-                          {conv.unreadCount}
+                    {/* Content — nom (16/600 ; 700 est le poids des titres,
+                        le compteur dit déjà « non lu ») → contexte → aperçu →
+                        heure, à 4 d'écart. Le contexte et l'heure passent de
+                        11 px à la légende 13 ; l'aperçu lu, d'ink-500 (la
+                        couleur des placeholders) à ink-600. */}
+                    <div className="flex-1 min-w-0 flex flex-col gap-stack-3xs">
+                      <div className="flex items-center gap-stack-xs">
+                        <span className="font-body text-body font-semibold flex-1 overflow-hidden text-ellipsis whitespace-nowrap text-ink-900">
+                          {conv.participantName}
                         </span>
+                        {conv.unreadCount > 0 && (
+                          <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] rounded-pill bg-primary-700 text-white font-body text-micro font-bold px-1 shrink-0 tabular-nums">
+                            {conv.unreadCount}
+                          </span>
+                        )}
+                      </div>
+
+                      {conv.context && (
+                        <p className="flex items-center gap-stack-3xs font-body text-caption text-primary-800 font-semibold">
+                          {CONTEXT_ICONS[conv.context.type]}
+                          <span className="overflow-hidden text-ellipsis whitespace-nowrap">{conv.context.title}</span>
+                        </p>
                       )}
-                    </div>
 
-                    {conv.context && (
-                      <p className="m-0 mb-0.5 font-body text-[11px] text-primary-600 font-semibold">
-                        {CONTEXT_ICONS[conv.context.type]} {conv.context.title}
+                      <p className={`font-body text-caption overflow-hidden text-ellipsis whitespace-nowrap ${conv.unreadCount > 0 ? 'text-ink-900 font-semibold' : 'text-ink-600'}`}>
+                        {conv.lastMessage}
                       </p>
-                    )}
+                      <span className="font-body text-caption text-ink-600 flex items-center gap-stack-3xs">
+                        <Clock3 size={14} aria-hidden="true" /> {conv.lastMessageTime}
+                      </span>
+                    </div>
+                  </button>
 
-                    <p className={`m-0 mb-0.5 font-body text-caption overflow-hidden text-ellipsis whitespace-nowrap ${conv.unreadCount > 0 ? 'text-ink-900 font-semibold' : 'text-ink-500 font-normal'}`}>
-                      {conv.lastMessage}
-                    </p>
-                    <span className="font-body text-micro text-ink-600 flex items-center gap-tight">
-                      <Clock3 size={14} /> {conv.lastMessageTime}
-                    </span>
-                  </div>
-                </button>
+                  {/* Libellé fixe + `aria-pressed` : l'état se lit sur le
+                      « enfoncé », pas dans le nom (APG Button, bouton bascule —
+                      un nom qui change en même temps que l'état se contredit :
+                      « Retirer des favoris, enfoncé »). 32 × 32, au-dessus des
+                      24 px de WCAG 2.5.8. Positionné par un <span> : le cran
+                      `sm` de Button porte déjà `relative` (pour sa cible
+                      tactile), et deux `position` sur un élément, c'est l'ordre
+                      d'émission de Tailwind qui tranche. */}
+                  <span className="absolute top-1.5 right-1.5 inline-flex">
+                    <Button
+                      emphasis="ghost"
+                      tone="neutral"
+                      size="sm"
+                      iconOnly
+                      aria-label="Marquer comme favori"
+                      aria-pressed={conv.isStarred}
+                      onClick={(e) => handleToggleStar(e, conv.id)}
+                    >
+                      <Star
+                        size={14}
+                        aria-hidden
+                        className={conv.isStarred ? 'text-accent-400 fill-accent-400' : 'text-ink-300 fill-transparent'}
+                      />
+                    </Button>
+                  </span>
+                </div>
               );
             })
           )}
@@ -347,33 +391,46 @@ export const Messages: React.FC = () => {
 
       {/* Right Panel: Message thread */}
       {currentConversation ? (
-        <div className="flex-1 flex flex-col overflow-hidden">
+        <div className="flex-1 min-w-0 flex flex-col overflow-hidden">
 
           {/* Thread header */}
           <div className="px-stack-md py-stack border-b border-ink-200 bg-white flex items-center gap-stack-xs">
-            <Button emphasis="soft" tone="warm" iconOnly aria-label="Retour" className="shrink-0" onClick={() => setSelectedId(null)}>
+            {/* Retour et pièce jointe sont des outils du fil : `ghost` neutre.
+                Ils étaient deux pastilles orange face à un envoi teal, deux
+                tons pour la même chrome (arbitrage n°19). */}
+            <Button emphasis="ghost" tone="neutral" iconOnly aria-label="Retour" className="shrink-0" onClick={() => setSelectedId(null)}>
               <ArrowLeft size={14} />
             </Button>
 
-            <div className={`w-10 h-10 rounded-pill flex items-center justify-center text-[13px] font-extrabold shrink-0 ${AVATAR_CLASSES[currentConversation.participantRole]}`}>
-              {currentConversation.participantInitials}
-            </div>
+            {/* L'avatar du système (initiales en 600 ; elles étaient en 800,
+                à 13 px écrits en dur). Le nom de l'interlocuteur est le titre
+                du fil, pas une section de la page : 16/600, comme le titre
+                d'un lecteur (`ViewerHeader`) — c'était un h3 à 16/700 sous un
+                h1 absent. Son rôle est une légende ink-600, sans émoji ; le
+                contexte, une donnée (MetaPill). */}
+            <Avatar
+              name={currentConversation.participantName}
+              initials={currentConversation.participantInitials}
+              size="md"
+              tint={currentConversation.participantRole === 'coach' ? 'brand' : currentConversation.participantRole === 'support' ? 'warm' : 'ink'}
+            />
 
-            <div className="flex-1 min-w-0">
-              <h3 className="font-body text-body-sm font-bold text-ink-900">
+            <div className="flex-1 min-w-0 flex flex-col gap-stack-3xs">
+              <p className="font-body text-body font-semibold text-ink-900 truncate">
                 {currentConversation.participantName}
-              </h3>
-              <p className="m-0 font-body text-micro text-ink-500">
-                {currentConversation.participantRole === 'coach' ? '🎓 Coach IA' : '💬 Support'}
+              </p>
+              <p className="font-body text-caption text-ink-600">
+                {currentConversation.participantRole === 'coach' ? 'Coach IA' : 'Support'}
               </p>
             </div>
 
-            {currentConversation.context && (
-              <div className="px-2.5 py-1 rounded-pill bg-primary-50 border border-primary-100 shrink-0">
-                <span className="font-body text-micro text-primary-700 font-semibold">
-                  {CONTEXT_ICONS[currentConversation.context.type]} {currentConversation.context.title}
-                </span>
-              </div>
+            {currentConversation.context?.title && (
+              <MetaPill
+                icon={CONTEXT_ICONS[currentConversation.context.type]}
+                text={currentConversation.context.title}
+                tone="primary"
+                className="shrink-0 max-sm:hidden"
+              />
             )}
           </div>
 
@@ -406,18 +463,22 @@ export const Messages: React.FC = () => {
                           key={i}
                           className={`flex items-center gap-stack-xs px-3 py-stack-xs rounded-lg ${isUser ? 'bg-white/10' : 'bg-ink-50'}`}
                         >
-                          <div className={`w-[30px] h-[30px] rounded-md flex items-center justify-center shrink-0 ${isUser ? 'bg-white/20' : 'bg-primary-50'}`}>
+                          {/* Rangée 14, retrait 12 → rayon concentrique 2 : `rounded-xs` (4). */}
+                          <div className={`w-[30px] h-[30px] rounded-xs flex items-center justify-center shrink-0 ${isUser ? 'bg-white/20' : 'bg-primary-50'}`}>
                             {att.type === 'image'
                               ? <ImageIcon size={14} className={isUser ? 'text-white' : 'text-primary-500'} />
                               : <File size={14} className={isUser ? 'text-white' : 'text-primary-500'} />
                             }
                           </div>
                           <div className="flex-1 min-w-0">
-                            <p className={`m-0 font-body text-caption font-semibold overflow-hidden text-ellipsis whitespace-nowrap ${isUser ? 'text-white' : 'text-ink-900'}`}>
+                            <p className={`font-body text-caption font-semibold overflow-hidden text-ellipsis whitespace-nowrap ${isUser ? 'text-white' : 'text-ink-900'}`}>
                               {att.name}
                             </p>
+                            {/* La taille est une légende 13 (elle était à 11) ; en
+                                blanc plein sur la bulle sombre : la transparence
+                                faisait tomber le contraste. */}
                             {att.size && (
-                              <p className={`m-0 font-body text-micro ${isUser ? 'text-white/70' : 'text-ink-600'}`}>
+                              <p className={`font-body text-caption tabular-nums ${isUser ? 'text-white' : 'text-ink-600'}`}>
                                 {att.size}
                               </p>
                             )}
@@ -435,7 +496,7 @@ export const Messages: React.FC = () => {
           {/* Compose bar */}
           <div className="px-stack-md py-stack border-t border-ink-200 bg-white">
             <div className="flex items-end gap-stack-xs">
-              <Button emphasis="soft" tone="warm" iconOnly aria-label="Pièce jointe" className="shrink-0">
+              <Button emphasis="ghost" tone="neutral" iconOnly aria-label="Pièce jointe" className="shrink-0">
                 <Paperclip size={14} />
               </Button>
 
@@ -443,13 +504,15 @@ export const Messages: React.FC = () => {
                 value={messageInput}
                 onChange={(e) => setMessageInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Écrivez votre message… (Entrée pour envoyer)"
+                placeholder="Écris ton message… (Entrée pour envoyer)"
                 rows={1}
-                className="flex-1 px-3 py-stack-xs rounded-lg border border-ink-200 bg-ink-50 text-ink-900 font-body text-body-sm resize-none outline-none h-auto min-h-[38px] max-h-[120px] transition-colors focus:border-primary-400 focus:bg-white placeholder:text-ink-500"
+                aria-label="Ton message"
+                className="flex-1 px-stack-sm py-2 rounded-lg border border-ink-400 bg-ink-50 text-ink-900 font-body text-body resize-none outline-none h-auto min-h-11 max-h-[120px] transition-colors focus:border-primary-700 focus:bg-white placeholder:text-ink-500"
               />
 
+              {/* L'envoi, l'action principale d'un fil ouvert : l'aplat. */}
               <Button
-                emphasis="soft"
+                emphasis="solid"
                 iconOnly
                 aria-label="Envoyer"
                 className="shrink-0"
@@ -460,26 +523,33 @@ export const Messages: React.FC = () => {
               </Button>
             </div>
 
-            <p className="m-0 mt-stack-xs font-body text-[11px] text-ink-600 text-center">
-              <kbd className="px-1.5 py-px rounded-xs bg-ink-50 border border-ink-200 text-micro">Entrée</kbd> pour envoyer &nbsp;·&nbsp;
-              <kbd className="px-1.5 py-px rounded-xs bg-ink-50 border border-ink-200 text-micro">Shift+Entrée</kbd> pour un saut de ligne
+            {/* Aide sous un champ : légende 13 ink-600 (elle était à 11 px),
+                les touches en `Kbd`. */}
+            <p className="mt-stack-xs font-body text-caption text-ink-600 text-center">
+              <Kbd size="sm">Entrée</Kbd> pour envoyer &nbsp;·&nbsp;
+              <Kbd size="sm">Shift+Entrée</Kbd> pour un saut de ligne
             </p>
           </div>
         </div>
       ) : (
         /* Empty state */
-        <div className="flex-1 flex items-center justify-center bg-ink-50">
+        <div className="hidden md:flex flex-1 items-center justify-center bg-ink-50">
           <div className="text-center max-w-xs px-stack-lg">
             <div className="w-[72px] h-[72px] rounded-pill bg-primary-50 border border-primary-100 flex items-center justify-center mx-auto mb-stack text-primary-400">
               <MessageSquarePlus size={28} />
             </div>
-            <h3 className="mb-stack-xs font-display text-h4 font-bold text-ink-900">
-              Sélectionnez une conversation
-            </h3>
-            <p className="m-0 mb-stack font-body text-caption text-ink-500 leading-relaxed">
-              Choisissez un fil dans la liste pour démarrer ou continuer la conversation.
+            {/* Un message d'attente, pas une section : l'intitulé garde la
+                taille d'un titre de bloc sans entrer dans le plan de la page ;
+                la phrase passe en corps ink-700 (légende ink-500 avant). */}
+            <p className="mb-stack-xs font-display text-h3 text-ink-900 text-balance">
+              Sélectionne une conversation
             </p>
-            <Button emphasis="soft" tone="warm" fullWidth leadingIcon={<Pencil size={14} />}>
+            <p className="mb-stack font-body text-body text-ink-700">
+              Choisis un fil dans la liste pour démarrer ou continuer la conversation.
+            </p>
+            {/* Sans fil ouvert, il n'y a rien à envoyer : écrire un nouveau
+                message devient l'action principale, donc l'aplat. */}
+            <Button emphasis="solid" fullWidth leadingIcon={<Pencil size={14} />}>
               Nouveau message
             </Button>
           </div>

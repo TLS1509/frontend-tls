@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import { Button } from '../core/Button';
+import { Badge } from '../ui/Badge';
+import { IconChip, type IconChipTone } from '../ui/IconChip';
 import { PAGE_TONE_TO_BUTTON } from '../../lib/tone-classes';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -36,10 +38,16 @@ const TONE_DOT: Record<StepTutorialTone, string> = {
   sun: 'bg-accent-400',
 };
 
-const TONE_ICON_BG: Record<StepTutorialTone, string> = {
-  primary: 'bg-primary-50 text-primary-600',
-  warm: 'bg-secondary-50 text-secondary-600',
-  sun: 'bg-accent-50 text-accent-500',
+/* La pastille de l'étape est un `IconChip` (arbitrage n°3, 2026-09-24). Elle
+   était faite main : 56 px au rayon 20 — hors de l'échelle de la pastille
+   d'icône (24 · 32 · 40 · 48) — et son glyphe au cran 600 (500 pour l'or :
+   2,20:1 sur accent-50, sous le 3:1 d'un objet graphique ; 3,26 et 3,65 pour
+   le teal et l'orange). `IconChip` le porte au cran 800 : teal 6,31, orange
+   9,49, or 7,64. `primary` s'y appelle `brand`. */
+const TONE_CHIP: Record<StepTutorialTone, IconChipTone> = {
+  primary: 'brand',
+  warm: 'warm',
+  sun: 'sun',
 };
 
 // ─── StepTutorial ─────────────────────────────────────────────────────────────
@@ -78,8 +86,11 @@ export const StepTutorial: React.FC<StepTutorialProps> = ({
 
   if (!step) return null;
 
+  /* `@container` : la rangée de navigation répond à la largeur du tutoriel,
+     pas à celle de la fenêtre (deux boîtes : le conteneur ici, la requête sur
+     les points de progression, plus bas). */
   return (
-    <div className={['flex flex-col gap-section', className].filter(Boolean).join(' ')}>
+    <div className={['@container flex flex-col gap-section', className].filter(Boolean).join(' ')}>
       {/* Card — glass surface matching the onboarding shell */}
       <div className="rounded-lg bg-white/75 backdrop-blur-glass-medium border border-white/60 shadow-card overflow-hidden">
 
@@ -103,43 +114,69 @@ export const StepTutorial: React.FC<StepTutorialProps> = ({
           </div>
         )}
 
-        <div className="p-7 sm:p-8 flex flex-col gap-stack-lg">
+        {/* Anatomie (passe typographique du 2026-09-24) : compteur · 12 ·
+            icône | (titre h3 · 8 · description 16 ink-700) · 24 · action.
+            La description vit dans la colonne du titre, comme dans
+            `SectionHeader` : sous l'icône de 56 px, elle tombait à 23 px du
+            titre — plus loin que le titre ne l'était du compteur. Padding
+            24 / 32 (le `p-7`, 28 px, n'était pas un pas). */}
+        <div className="p-stack-lg sm:p-section flex flex-col">
           {/* Step badge */}
-          <span className="inline-flex self-start items-center gap-stack-2xs px-2.5 py-1 rounded-pill bg-ink-100/70 font-body text-micro font-bold uppercase tracking-wider text-ink-500 select-none">
+          <Badge variant="neutral" className="self-start select-none">
             {activeStep + 1} / {steps.length}
-          </span>
+          </Badge>
 
-          {/* Icon + title */}
-          <div className="flex items-start gap-stack">
+          {/* Icône | texte — le texte descend de (48 − 36) / 2 = 6 px pour
+              centrer la PREMIÈRE ligne du titre sur la pastille (doctrine § 4 ;
+              c'était 10 px pour l'ancienne bulle de 56).
+              Titre d'étape : un h2 à 28 (2026-09-24). C'était un h2 dessiné à
+              20, le pas d'un titre de carte : le niveau disait « section », la
+              taille disait « bloc ». Posé sous le h1 de la page (onboarding),
+              il nomme le contenu principal — c'est un h2, et la taille suit
+              le niveau (doctrine § 6). */}
+          <div className="mt-stack-sm flex items-start gap-stack">
             {step.icon && (
-              <div className={['w-14 h-14 rounded-xl flex items-center justify-center shrink-0', TONE_ICON_BG[tone]].join(' ')}>
+              <IconChip size="lg" tone={TONE_CHIP[tone]}>
                 {step.icon}
-              </div>
+              </IconChip>
             )}
-            <h2 className="text-h3 font-display font-bold tracking-headline text-ink-900 mt-1 text-balance">
-              {step.title}
-            </h2>
+            <div className={['flex flex-col gap-stack-xs min-w-0', step.icon ? 'mt-1.5' : ''].filter(Boolean).join(' ')}>
+              <h2 className="font-display text-h2 text-ink-900 text-balance">
+                {step.title}
+              </h2>
+              <p className="font-body text-body text-ink-700 max-w-prose">
+                {step.description}
+              </p>
+            </div>
           </div>
 
-          {/* Description */}
-          <p className="text-body text-ink-600">
-            {step.description}
-          </p>
-
-          {/* Optional CTA */}
+          {/* Optional CTA — une action de contexte, dans l'étape : `soft` au
+              ton du tutoriel (arbitrage n°19 ; elle était en `outline`,
+              réservé à Annuler). « Suivant » garde le `solid`. */}
           {step.cta && step.onCta && (
-            <Button emphasis="outline" size="md" onClick={step.onCta} className="self-start">
+            <Button emphasis="soft" tone={PAGE_TONE_TO_BUTTON[tone]} size="md" onClick={step.onCta} className="self-start mt-stack-lg">
               {step.cta}
             </Button>
           )}
         </div>
       </div>
 
-      {/* Navigation */}
-      <div className="flex items-center justify-between">
+      {/* Navigation — arbitrage n°19 : « Suivant / Compris » est l'action
+          principale de l'écran (`solid`), « Précédent » un `ghost`. Ils
+          étaient en `soft` et en `outline`.
+          « Précédent » ouvre la rangée : son libellé se cale sur le bord de la
+          carte (`flush`). À 375, la rangée débordait de 24 px — « Précédent »
+          (141), les points (104) et « Suivant » (122) pour 343 de place, sans
+          aucun écart entre eux. Sous 28rem de tutoriel, les points
+          s'effacent : le compteur « n / N » et la barre du haut de la carte
+          disent déjà où on en est. Au-dessus, 16 px les séparent des
+          boutons. */}
+      <div className="flex items-center justify-between gap-stack">
         <Button
-          emphasis="outline"
+          emphasis="ghost"
+          tone="neutral"
           size="md"
+          flush="start"
           leadingIcon={<ChevronLeft size={16} />}
           onClick={handlePrev}
           disabled={isFirst}
@@ -148,7 +185,7 @@ export const StepTutorial: React.FC<StepTutorialProps> = ({
         </Button>
 
         {/* Progress dots */}
-        <div className="flex items-center gap-stack-xs" role="tablist" aria-label="Progression du tutoriel">
+        <div className="@max-md:hidden flex items-center gap-stack-xs" role="tablist" aria-label="Progression du tutoriel">
           {steps.map((s, idx) => (
             <div
               key={s.id}
@@ -168,13 +205,13 @@ export const StepTutorial: React.FC<StepTutorialProps> = ({
         </div>
 
         <Button
-          emphasis="soft"
+          emphasis="solid"
           tone={PAGE_TONE_TO_BUTTON[tone]}
           size="md"
           trailingIcon={isLast ? <Check size={16} /> : <ChevronRight size={16} />}
           onClick={handleNext}
         >
-          {isLast ? 'Terminer' : 'Suivant'}
+          {isLast ? 'Compris' : 'Suivant'}
         </Button>
       </div>
 
@@ -184,7 +221,7 @@ export const StepTutorial: React.FC<StepTutorialProps> = ({
           <button
             type="button"
             onClick={onSkip}
-            className="text-caption text-ink-600 hover:text-ink-600 underline underline-offset-2 transition-colors duration-fast min-h-touch px-2 py-2 rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+            className="text-caption text-ink-600 hover:text-ink-900 underline underline-offset-2 transition-colors duration-fast min-h-touch px-2 py-2 rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           >
             Passer le tutoriel
           </button>

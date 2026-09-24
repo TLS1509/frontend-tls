@@ -15,6 +15,7 @@ import {
   BookmarkCheck,
 } from "lucide-react";
 import { Button } from "../components/core/Button";
+import { MetaPill } from "../components/ui/MetaPill";
 
 /* ─── Data ────────────────────────────────────────────────────────────────── */
 
@@ -37,7 +38,7 @@ const TUTORIALS: Record<string, {
   chapitres: typeof CHAPITRES;
 }> = {
   "2": {
-    category: "PROMPT ENGINEERING",
+    category: "Prompt engineering",
     title: "Construire un prompt structuré en 5 étapes",
     description:
       "Séquence pratique orientée exécution : cadrage, exemples, validation et itération sur des cas réels de formation.",
@@ -46,7 +47,7 @@ const TUTORIALS: Record<string, {
     chapitres: CHAPITRES,
   },
   "6": {
-    category: "IA EN FORMATION",
+    category: "IA en formation",
     title: "Maîtriser l'IA pour la Formation Professionnelle",
     description:
       "Comment intégrer l'intelligence artificielle dans vos parcours de formation pour maximiser l'engagement et les résultats d'apprentissage.",
@@ -81,47 +82,52 @@ export const VideoTutorial: React.FC = () => {
 
       {/* ─ Sticky glass header ────────────────────────────────────── */}
       <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100 flex items-center justify-between px-stack-lg h-14">
-        <Button emphasis="outline" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate('/veille')}>
+        {/* Revenir et enregistrer sont des outils de barre : `ghost`, le
+            favori en `soft` une fois posé, comme dans la Veille (arbitrage
+            n°19 ; ils étaient en `outline`, réservé à Annuler). L'action
+            principale de l'écran est la lecture de la vidéo. */}
+        <Button emphasis="ghost" tone="neutral" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate('/veille')}>
           Retour
         </Button>
-        <button
-          type="button"
+        <Button
+          iconOnly
+          size="sm"
+          emphasis={saved ? 'soft' : 'ghost'}
+          tone={saved ? 'brand' : 'neutral'}
           onClick={() => setSaved(!saved)}
-          className={[
-            'inline-flex items-center justify-center w-9 h-9 rounded-pill border cursor-pointer transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
-            saved
-              ? 'border-primary-300 text-primary-500 bg-primary-50'
-              : 'border-ink-200 text-ink-600 bg-transparent hover:bg-ink-50',
-          ].join(' ')}
+          aria-label={saved ? 'Retirer des favoris' : 'Enregistrer'}
+          aria-pressed={saved}
         >
-          {saved ? <BookmarkCheck size={16} /> : <Bookmark size={16} />}
-        </button>
+          {saved ? <BookmarkCheck /> : <Bookmark />}
+        </Button>
       </div>
 
-      {/* ─ Main 2-column layout ───────────────────────────────────── */}
-      <div className="flex-1 grid grid-cols-[1fr_300px] min-h-0">
+      {/* ─ Main 2-column layout — une colonne sous 1024 px : à 375, la
+          colonne de 300 px des chapitres laissait 75 px au titre (six lignes)
+          et coupait les chapitres. ───────────────────────────────────────── */}
+      <div className="flex-1 grid grid-cols-1 lg:grid-cols-[1fr_300px] min-h-0">
 
         {/* ── Left column : title + description + video ─────────── */}
-        <div className="flex flex-col border-r border-ink-200">
+        <div className="flex flex-col lg:border-r border-ink-200">
 
-          {/* Header info */}
-          <div className="px-section py-stack-lg pb-stack-md">
-            <h1 className="font-display text-h1 text-ink-900 mb-3 leading-[1.15] tracking-tight">
+          {/* Header info — h1 → 12 → chapô 18 ink-700 (la description était à
+              16 au cran 500) → 12 → méta 13 ink-600. L'interligne et
+              l'approche du titre sont ceux du token (ils étaient forcés). */}
+          <div className="px-stack sm:px-section py-stack-lg flex flex-col gap-stack-sm">
+            <h1 className="font-display text-h1 text-ink-900">
               {tuto.title}
             </h1>
-            <p className="font-body text-body text-ink-500 m-0 mb-stack max-w-[640px]">
+            <p className="font-body text-body-lg text-ink-700 max-w-prose">
               {tuto.description}
             </p>
             <div className="flex items-center gap-stack-xs flex-wrap">
-              <span className="inline-flex items-center px-3 py-1 rounded-pill bg-primary-50 border border-primary-200 text-primary-700 font-body text-micro font-extrabold tracking-wider">
-                {tuto.category}
-              </span>
-              <span className="inline-flex items-center gap-tight font-body text-caption text-ink-500">
-                <Clock size={14} />
+              <MetaPill text={tuto.category} tone="primary" />
+              <span className="inline-flex items-center gap-stack-3xs font-body text-caption text-ink-600 tabular-nums">
+                <Clock size={14} aria-hidden="true" />
                 {tuto.duration}
               </span>
-              <span className="inline-flex items-center gap-tight font-body text-caption text-ink-500">
-                <User size={14} />
+              <span className="inline-flex items-center gap-stack-3xs font-body text-caption text-ink-600">
+                <User size={14} aria-hidden="true" />
                 {tuto.author}
               </span>
             </div>
@@ -154,7 +160,7 @@ export const VideoTutorial: React.FC = () => {
                 'relative z-[1] w-[72px] h-[72px] rounded-pill border-0 flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70',
                 playing
                   ? 'bg-white/20'
-                  : 'bg-primary-500 shadow-[0_0_0_12px_rgba(85,161,180,0.20)]',
+                  : 'bg-primary-600 shadow-[0_0_0_12px_rgba(85,161,180,0.20)]',
               ].join(' ')}
             >
               {playing ? (
@@ -168,20 +174,22 @@ export const VideoTutorial: React.FC = () => {
             </button>
 
             {/* Duration badge */}
-            <div className="absolute bottom-4 right-5 bg-black/45 backdrop-blur-sm text-white font-body text-caption font-bold px-2.5 py-[3px] rounded-md">
+            <div className="absolute bottom-4 right-5 bg-black/45 backdrop-blur-sm text-white font-body text-caption font-semibold tabular-nums px-2.5 py-[3px] rounded-pill">
               {tuto.duration}
             </div>
           </div>
         </div>
 
         {/* ── Right sidebar : Chapitres ─────────────────────────── */}
-        <div className="flex flex-col bg-ink-50">
+        <nav className="flex flex-col bg-ink-50" aria-label="Chapitres de la vidéo">
 
-          {/* Chapitres header */}
+          {/* Chapitres header — le libellé commun des encarts (13/600
+              ink-600) ; il était en 800, capitales très espacées. La liste est
+              une navigation nommée : le libellé n'a pas à être un titre. */}
           <div className="px-stack-md pt-stack-md pb-3 border-b border-ink-200">
-            <span className="font-body text-caption font-extrabold text-ink-900 uppercase tracking-widest">
+            <p className="font-body text-caption font-semibold text-ink-600">
               Chapitres
-            </span>
+            </p>
           </div>
 
           {/* Chapter list */}
@@ -193,29 +201,36 @@ export const VideoTutorial: React.FC = () => {
                   key={i}
                   type="button"
                   onClick={() => { setActiveChapter(i); setPlaying(true); }}
+                  /* Chapitre : le libellé est du texte qu'on lit — 16 (il était
+                     à 13, au cran 500 hors lecture) ; 600 pour le chapitre en
+                     cours. L'horodatage est une légende tabulaire, calée sur la
+                     ligne de base du libellé. Plus de barre d'accent de 3 px à
+                     gauche (DESIGN §11) : le fond blanc et l'icône disent le
+                     chapitre en cours. */
                   className={[
-                    'flex items-start gap-stack-xs w-full px-stack-md py-3 border-0 border-l-[3px] cursor-pointer text-left font-body transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-primary-500',
+                    'flex items-baseline gap-stack-xs w-full px-stack-md py-3 border-0 cursor-pointer text-left font-body transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-primary-500',
                     isActive
-                      ? 'bg-white border-l-primary-500'
-                      : 'bg-transparent border-l-transparent hover:bg-ink-100',
+                      ? 'bg-white'
+                      : 'bg-transparent hover:bg-ink-100',
                   ].join(' ')}
                 >
                   <span className={[
-                    'font-body text-caption font-bold min-w-[36px] mt-px shrink-0 tabular-nums',
-                    isActive ? 'text-primary-600' : 'text-ink-600',
+                    'font-body text-caption font-semibold min-w-[40px] shrink-0 tabular-nums',
+                    isActive ? 'text-primary-800' : 'text-ink-600',
                   ].join(' ')}>
                     {ch.time}
                   </span>
                   <span className={[
-                    'font-body text-caption leading-snug',
-                    isActive ? 'font-bold text-ink-900' : 'font-medium text-ink-500',
+                    'font-body text-body',
+                    isActive ? 'font-semibold text-ink-900' : 'text-ink-700',
                   ].join(' ')}>
                     {ch.label}
                   </span>
                   {isActive && (
                     <Play
                       size={14}
-                      className="shrink-0 mt-[2px] ml-auto fill-primary-500 text-primary-500"
+                      aria-hidden="true"
+                      className="shrink-0 self-center ml-auto fill-primary-700 text-primary-700"
                     />
                   )}
                 </button>
@@ -228,12 +243,12 @@ export const VideoTutorial: React.FC = () => {
             <button
               type="button"
               onClick={() => navigate("/veille")}
-              className="inline-flex items-center gap-stack-2xs bg-transparent border-0 text-ink-500 font-body text-caption font-semibold cursor-pointer p-0 hover:text-primary-600 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+              className="inline-flex items-center gap-stack-2xs bg-transparent border-0 text-ink-600 font-body text-caption font-semibold cursor-pointer p-0 hover:text-primary-800 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
             >
-              <ArrowLeft size={14} /> Retour veille
+              <ArrowLeft size={14} aria-hidden="true" /> Retour à la veille
             </button>
           </div>
-        </div>
+        </nav>
       </div>
     </div>
   );

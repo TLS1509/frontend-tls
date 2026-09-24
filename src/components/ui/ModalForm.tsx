@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useId, useRef } from 'react';
 import { X } from 'lucide-react';
 import { Button } from '../core/Button';
 
@@ -44,6 +44,12 @@ export const ModalForm: React.FC<ModalFormProps> = ({
 }) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const firstFocusRef = useRef<HTMLButtonElement>(null);
+  /* Le dialogue se nomme par son titre, et se décrit par sa description
+     (2026-09-24). Un <dialog> n'emprunte pas son nom à son contenu : sans
+     `aria-labelledby`, Chromium lui calculait un nom vide, et un lecteur
+     d'écran annonçait « dialogue » sans dire lequel. */
+  const titreId = useId();
+  const descriptionId = useId();
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -65,6 +71,8 @@ export const ModalForm: React.FC<ModalFormProps> = ({
   return (
     <dialog
       ref={dialogRef}
+      aria-labelledby={titreId}
+      aria-describedby={description ? descriptionId : undefined}
       onClick={handleDialogClick}
       onClose={onClose}
       className={[
@@ -85,12 +93,13 @@ export const ModalForm: React.FC<ModalFormProps> = ({
         noValidate
         className="flex flex-col"
       >
-        {/* Header */}
-        <div className="flex items-start justify-between gap-stack-xs px-6 pt-stack-md pb-stack border-b border-ink-100">
-          <div>
-            <h2 className="text-h4 font-display font-bold text-ink-900">{title}</h2>
+        {/* Header — titre h2 au pas du bloc (20/26/700) · 8 · description
+            16 ink-700 (elle était en ink-500, la couleur des placeholders). */}
+        <div className="flex items-start justify-between gap-stack-xs px-stack-lg pt-stack-md pb-stack border-b border-ink-100">
+          <div className="flex flex-col gap-stack-xs min-w-0">
+            <h2 id={titreId} className="font-display text-h3 text-ink-900 text-balance">{title}</h2>
             {description && (
-              <p className="text-body-sm text-ink-500 m-0 mt-1">{description}</p>
+              <p id={descriptionId} className="font-body text-body text-ink-700 max-w-prose">{description}</p>
             )}
           </div>
           <button
@@ -105,32 +114,49 @@ export const ModalForm: React.FC<ModalFormProps> = ({
         </div>
 
         {/* Body */}
-        <div className="px-6 py-stack-md flex flex-col gap-stack">
+        <div className="px-stack-lg py-stack-md flex flex-col gap-stack">
           {children}
         </div>
 
-        {/* Footer */}
-        <div className="flex items-center justify-between gap-stack-xs px-6 pb-stack-md pt-2">
+        {/* Footer — les actions à 24 px du contenu (20 du corps + 4).
+            Arbitrage n°19, un formulaire dans une modale : la soumission est
+            le `solid`, Annuler un `outline` neutre. L'action destructive,
+            seconde, passe en `ghost` danger — elle était en `solid` danger,
+            à côté d'une soumission en `soft` : le bouton le plus fort de la
+            modale était celui qu'on n'était pas venu presser. Sans
+            soumission, la modale ne sert plus que la suppression : elle
+            reprend le `solid` danger.
+            Le pied passe à la ligne quand ses actions ne tiennent pas
+            (2026-09-24) : « Supprimer le compte », Annuler et Enregistrer
+            demandent 356 px quand la boîte `sm` en offre 334. Il débordait —
+            de 7 px hors de l'écran à 375 px, et sur le padding droit (3 px du
+            bord) à 1440. La paire Annuler / soumission descend alors d'une
+            ligne et reste calée à droite (`ml-auto`) ; l'ordre visuel reste
+            celui du clavier. Le `ghost` destructif, seul en début de ligne,
+            cale son libellé sur le bord du texte (`flush="start"`) : son
+            padding le décalait de 16 px du champ au-dessus de lui. */}
+        <div className="flex flex-wrap items-center justify-between gap-stack-xs px-stack-lg pb-stack-md pt-stack-3xs">
           <div>
             {destructiveLabel && onDestructive && (
               <Button
                 type="button"
-                emphasis="solid" tone="danger"
+                emphasis={onSubmit ? 'ghost' : 'solid'} tone="danger"
                 size="sm"
+                flush="start"
                 onClick={onDestructive}
               >
                 {destructiveLabel}
               </Button>
             )}
           </div>
-          <div className="flex items-center gap-stack-xs">
-            <Button type="button" emphasis="outline" size="sm" onClick={onClose}>
+          <div className="flex flex-wrap items-center justify-end gap-stack-xs ml-auto">
+            <Button type="button" emphasis="outline" tone="neutral" size="sm" onClick={onClose}>
               Annuler
             </Button>
             {onSubmit && (
               <Button
                 type="submit"
-                emphasis="soft"
+                emphasis="solid"
                 size="sm"
                 loading={submitting}
                 disabled={submitting}

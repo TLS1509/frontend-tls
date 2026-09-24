@@ -9,9 +9,9 @@ export interface NotificationBadgeProps {
 }
 
 const TONE_CLASSES: Record<'danger' | 'brand' | 'warm', string> = {
-  danger: 'bg-danger-base text-white',
-  brand:  'bg-primary-600 text-white',
-  warm:   'bg-secondary-500 text-white',
+  danger: 'bg-danger-strong text-white',
+  brand:  'bg-primary-700 text-white',
+  warm:   'bg-secondary-700 text-white',
 };
 
 export const NotificationBadge: React.FC<NotificationBadgeProps> = ({

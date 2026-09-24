@@ -13,6 +13,7 @@
 import React, { useRef, useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/core/Card';
+import { Button } from '../components/core/Button';
 import { MetaPill } from '../components/ui/MetaPill';
 import {
   Play, Pause, Volume2, VolumeX, Maximize2, FileText,
@@ -33,7 +34,7 @@ interface VideoData {
 
 const VIDEO_DATA: VideoData = {
   id: 'video-1',
-  title: 'Motivation et Engagement: Les fondamentaux',
+  title: 'Motivation et engagement : les fondamentaux',
   instructor: 'Marie Dubois',
   duration: '24 min',
   description:
@@ -121,20 +122,18 @@ export const VideoViewer: React.FC = () => {
 
   return (
     <div className="min-h-[100dvh] flex flex-col bg-white">
+      {/* La barre garde le titre (p 16/600) : le lecteur occupe le premier
+          écran et le h1 vit dessous. La formatrice et la durée ne sont dites
+          qu'une fois, en méta sous le h1. */}
       <ViewerHeader
         tone="primary"
         eyebrow="Vidéo · Veille"
         title={VIDEO_DATA.title}
-        subtitle={`${VIDEO_DATA.instructor} · ${VIDEO_DATA.duration}`}
         onClose={() => navigate(-1)}
         trailing={
-          <button
-            type="button"
-            aria-label="Plein écran"
-            className="inline-flex items-center justify-center min-w-touch min-h-touch w-11 h-11 rounded-pill bg-ink-50 hover:bg-ink-100 text-ink-700 transition-colors"
-          >
-            <Maximize2 size={16} />
-          </button>
+          <Button iconOnly emphasis="ghost" tone="neutral" aria-label="Plein écran">
+            <Maximize2 />
+          </Button>
         }
       />
 
@@ -159,7 +158,7 @@ export const VideoViewer: React.FC = () => {
               aria-label="Lire la vidéo"
               className="absolute inset-0 flex items-center justify-center bg-black/20 group"
             >
-              <span className="min-w-touch min-h-touch w-20 h-20 rounded-pill bg-primary-500 text-white flex items-center justify-center transition-transform duration-base group-hover:scale-110 focus-visible:outline-none">
+              <span className="min-w-touch min-h-touch w-20 h-20 rounded-pill bg-primary-700 text-white flex items-center justify-center transition-transform duration-base group-hover:scale-110 focus-visible:outline-none">
                 <Play size={32} className="ml-1" />
               </span>
             </button>
@@ -219,72 +218,76 @@ export const VideoViewer: React.FC = () => {
 
       {/* ── Content Section ─────────────────────────────────────── */}
       <PageShell width="medium" className="relative z-base flex-1 bg-white py-section gap-section grid grid-cols-1 lg:grid-cols-[1fr_320px]" noPadTop>
-        {/* Main content */}
-        <div className="flex flex-col gap-stack">
+        {/* Main content — passe typographique du 24/09 : le h1 prend son pas
+            (36 ; il était à 20, la taille d'un titre de carte), la description
+            devient le chapô (18 ink-700 ; elle était à 16 au cran 500), la méta
+            suit à 12. La transcription se lit en ink-700 sur la largeur de
+            lecture, à l'interligne de son pas (26 ; il était forcé à 1,8). */}
+        <div className="flex flex-col gap-section">
 
-            {/* Title and metadata */}
-            <div>
-              <h1 className="font-display text-h3 text-ink-900 mb-stack-xs">
-                {VIDEO_DATA.title}
-              </h1>
-              <div className="flex gap-stack-xs items-center flex-wrap mt-3">
-                <MetaPill icon={<User size={14} />} text={VIDEO_DATA.instructor} tone="brand" size="sm" />
-                <MetaPill icon={<Clock size={14} />} text={VIDEO_DATA.duration} tone="brand" size="sm" />
-              </div>
-            </div>
-
-            {/* Description */}
-            <p className="font-body text-body-sm text-ink-500 m-0">
+          <header className="flex flex-col gap-stack-sm">
+            <h1 className="font-display text-h1 text-ink-900">
+              {VIDEO_DATA.title}
+            </h1>
+            <p className="font-body text-body-lg text-ink-700 max-w-prose">
               {VIDEO_DATA.description}
             </p>
+            <div className="flex gap-stack-xs items-center flex-wrap">
+              <MetaPill icon={<User size={14} />} text={VIDEO_DATA.instructor} tone="brand" size="sm" />
+              <MetaPill icon={<Clock size={14} />} text={VIDEO_DATA.duration} tone="brand" size="sm" />
+            </div>
+          </header>
 
-            {/* Transcript toggle */}
-            <Card>
-              <button
-                type="button"
-                onClick={() => setShowTranscript(!showTranscript)}
-                className="w-full min-h-touch px-3 py-stack-xs border-0 bg-transparent cursor-pointer flex items-center justify-between font-body text-body-sm font-semibold text-ink-900 hover:text-primary-700 transition-colors"
-              >
-                <div className="flex items-center gap-stack-xs">
-                  <FileText size={16} />
-                  {showTranscript ? 'Masquer' : 'Afficher'} la transcription
-                </div>
-                {showTranscript ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-              </button>
+          {/* Transcript toggle */}
+          <Card>
+            <button
+              type="button"
+              onClick={() => setShowTranscript(!showTranscript)}
+              aria-expanded={showTranscript}
+              className="w-full min-h-touch px-3 py-stack-xs border-0 bg-transparent cursor-pointer flex items-center justify-between font-body text-body font-semibold text-ink-900 hover:text-primary-800 transition-colors"
+            >
+              <span className="flex items-center gap-stack-xs">
+                <FileText size={16} aria-hidden="true" />
+                {showTranscript ? 'Masquer' : 'Afficher'} la transcription
+              </span>
+              {showTranscript ? <ChevronUp size={16} aria-hidden="true" /> : <ChevronDown size={16} aria-hidden="true" />}
+            </button>
 
-              {showTranscript && (
-                <div className="px-3 pb-3 pt-0 border-t border-ink-100 font-body text-body-sm text-ink-500 leading-[1.8] max-h-[400px] overflow-y-auto whitespace-pre-line">
-                  {VIDEO_DATA.transcript}
-                </div>
-              )}
-            </Card>
-          </div>
-
-          {/* Sidebar : related videos */}
-          <div className="flex flex-col gap-stack">
-            <Card>
-              <h4 className="font-display text-body font-semibold text-ink-900 mb-3">
-                Vidéos connexes
-              </h4>
-              <div className="flex flex-col gap-stack-xs">
-                {VIDEO_DATA.relatedVideos.map((video) => (
-                  <button
-                    key={video.id}
-                    type="button"
-                    onClick={() => {}}
-                    className="w-full min-h-touch px-3 py-stack-xs border border-ink-100 rounded-md bg-white cursor-pointer text-left transition-colors duration-base hover:bg-ink-50 hover:border-primary-200"
-                  >
-                    <div className="font-body text-body-sm font-medium text-ink-900 mb-1 leading-snug">
-                      {video.title}
-                    </div>
-                    <div className="font-body text-caption text-ink-500 flex items-center gap-tight">
-                      <Clock size={14} /> {video.duration}
-                    </div>
-                  </button>
-                ))}
+            {showTranscript && (
+              <div className="px-3 pt-stack pb-3 border-t border-ink-100 font-body text-body text-ink-700 max-w-prose max-h-[400px] overflow-y-auto whitespace-pre-line">
+                {VIDEO_DATA.transcript}
               </div>
-            </Card>
-          </div>
+            )}
+          </Card>
+        </div>
+
+        {/* Sidebar : related videos — un libellé de groupe (13/600 ink-600)
+            plutôt qu'un h4 en 16/600 ; le nom de la vidéo à 16/600 (il était
+            en 500, la graisse des puces), sa durée en méta ink-600. */}
+        <aside className="flex flex-col gap-stack" aria-label="Vidéos connexes">
+          <Card className="flex flex-col gap-stack-sm">
+            <p className="font-body text-caption font-semibold text-ink-600">
+              Vidéos connexes
+            </p>
+            <div className="flex flex-col gap-stack-xs">
+              {VIDEO_DATA.relatedVideos.map((video) => (
+                <button
+                  key={video.id}
+                  type="button"
+                  onClick={() => {}}
+                  className="w-full min-h-touch px-3 py-stack-xs flex flex-col gap-tight border border-ink-100 rounded-lg bg-white cursor-pointer text-left transition-colors duration-base hover:bg-ink-50 hover:border-primary-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                >
+                  <span className="font-body text-body font-semibold text-ink-900">
+                    {video.title}
+                  </span>
+                  <span className="font-body text-caption text-ink-600 flex items-center gap-stack-3xs">
+                    <Clock size={14} aria-hidden="true" /> {video.duration}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </Card>
+        </aside>
       </PageShell>
     </div>
   );

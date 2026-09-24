@@ -39,15 +39,30 @@ const mapLegacyColor = (color?: BadgeVariant | 'primary'): BadgeVariant => {
 };
 
 const BASE =
-  'inline-flex items-center gap-tight rounded-pill font-body font-bold uppercase leading-tight whitespace-nowrap border';
+  'inline-flex items-center gap-stack-3xs rounded-pill font-body font-bold uppercase leading-tight whitespace-nowrap border';
 
 /* Un seul serrage, pris au token `--tracking-label`. Les trois valeurs
    arbitraires précédentes — 0,06 · 0,05 · 0,04 — n'étaient pas une courbe :
-   les deux premières s'appliquaient au MÊME corps de 11 px. */
+   les deux premières s'appliquaient au MÊME corps de 11 px.
+
+   Hauteurs mesurées au navigateur le 2026-09-24 (le `leading-tight` de la
+   base donne une ligne de 13,75 px au corps de 11) :
+     compact   19,75 px   padding 2 / 8
+     normal    19,75 px   padding 2 / 10 — le défaut
+     large     23,75 px   padding 4 / 12
+   Les commentaires annonçaient ~18 · ~20 · ~28 : `compact` n'est pas plus bas
+   que `normal`, seulement plus étroit.
+
+   `large` parlait en 13 px capitales, jusqu'au 2026-09-24 : il criait plus
+   fort que tous les états de l'app, quand un état n'a qu'un registre (voir
+   StatusBadge, ramené au même corps). Il garde son padding, pas son corps.
+   Deux appels : le badge de l'écran de fin d'onboarding (CongratulationsCard)
+   et l'offre de la liste d'attente du site. Sous 28 px, il reste une
+   pilule. */
 const SIZE_CLASSES: Record<BadgeSize, string> = {
-  compact: 'text-micro px-2 py-0.5 tracking-label',   // ~18 px
-  normal:  'text-micro px-2.5 py-0.5 tracking-label', // ~20 px — le défaut
-  large:   'text-caption px-3 py-1 tracking-label',   // ~28 px
+  compact: 'text-micro px-2 py-0.5 tracking-label',   // 19,75 px
+  normal:  'text-micro px-2.5 py-0.5 tracking-label', // 19,75 px — le défaut
+  large:   'text-micro px-3 py-1 tracking-label',     // 23,75 px
 };
 
 const VARIANT_CLASSES: Record<BadgeVariant, string> = {
@@ -70,6 +85,24 @@ const DOT_CLASSES: Record<BadgeVariant, string> = {
   info:     'bg-info-base',
 };
 
+/* Largeur : le badge épouse son texte, où qu'on le pose (2026-09-24).
+   `inline-flex` ne suffit pas : dans un parent `flex-col`, l'`align-items:
+   stretch` par défaut l'étirait sur toute la colonne — « À VENIR · 2 JUIL. »
+   sur 479 px au récap d'atelier, « 342 / 400 INSCRITS » sur 739 px au détail
+   d'événement. `w-fit` et non `self-start` : ce dernier aurait aussi remonté
+   le badge en haut de toutes les rangées `items-center`, où il est aligné sur
+   le titre. Une largeur rend le `stretch` inopérant sans toucher l'axe
+   vertical ; dans une grille, elle neutralise de même le `justify-items`.
+   Si la page déclare sa propre largeur (`w-*`, `flex-1`, `grow`,
+   `self-stretch`), on la lui laisse — deux classes de largeur sur le même
+   élément, c'est l'ordre d'émission de Tailwind qui tranche (piège n°6). */
+const OWN_WIDTH = /(^|\s)([a-z0-9]+:)*(w-|flex-1|grow|self-stretch)/;
+
+/* Pas de mouvement permanent sur un état (arbitrage n°16) : le mot porte
+   l'information, un badge ne pulse pas. Les classes `animate-*` passées par
+   la page sont donc ignorées — le point `dot` est fixe. */
+const ANIMATION = /^([a-z0-9-]+:)*animate-/;
+
 export const Badge: React.FC<BadgeProps> = ({
   variant,
   color,
@@ -81,7 +114,17 @@ export const Badge: React.FC<BadgeProps> = ({
   ...rest
 }) => {
   const resolvedVariant: BadgeVariant = variant ?? mapLegacyColor(color);
-  const classes = [BASE, SIZE_CLASSES[size], VARIANT_CLASSES[resolvedVariant], className]
+  const pageClasses = className
+    .split(/\s+/)
+    .filter((c) => c && !ANIMATION.test(c))
+    .join(' ');
+  const classes = [
+    BASE,
+    OWN_WIDTH.test(pageClasses) ? '' : 'w-fit',
+    SIZE_CLASSES[size],
+    VARIANT_CLASSES[resolvedVariant],
+    pageClasses,
+  ]
     .filter(Boolean)
     .join(' ');
 
@@ -111,6 +154,13 @@ export type StatusBadgeStatus =
 
 export interface StatusBadgeProps {
   status: StatusBadgeStatus;
+  /**
+   * Le mot d'un autre domaine qui emprunte l'icône d'un état de leçon — une
+   * correction « En attente de correction » sur l'icône `available`. Il sert
+   * de nom accessible (et de libellé avec `showLabel`). Défaut : le libellé de
+   * l'état (« Verrouillé », « Disponible »…).
+   */
+  label?: string;
   showLabel?: boolean;
   size?: 'sm' | 'md';
   className?: string;
@@ -125,16 +175,22 @@ const STATUS_LABELS: Record<StatusBadgeStatus, string> = {
 };
 
 const STATUS_CLASSES: Record<StatusBadgeStatus, string> = {
-  locked:        'bg-ink-100 text-ink-500 border-ink-200',
-  available:     'bg-primary-50 text-primary-700 border-primary-200',
+  // ink-600 et non ink-500 : un état verrouillé reste un texte lisible (ink-500
+  // est réservé aux textes indicatifs, et tombait près de 4,5:1 sur ink-100).
+  locked:        'bg-ink-100 text-ink-600 border-ink-200',
+  available:     'bg-primary-50 text-primary-800 border-primary-200',
   'in-progress': 'bg-primary-100 text-primary-800 border-primary-300 shadow-brand-xs',
   completed:     'bg-success-bg text-success-fg border-success-base/30',
   failed:        'bg-danger-bg text-danger-fg border-danger-base/30',
 };
 
+/* Les deux crans parlent au corps des étiquettes (11 px) : en capitales et en
+   700, le 13 px du cran `md` criait plus fort que tous les Badge de l'app —
+   un état n'a qu'un registre. Le cran ne règle plus que le padding et
+   l'icône ; sans libellé, la pastille md passe de 30 à 28 px. */
 const STATUS_SIZE_CLASSES: Record<'sm' | 'md', string> = {
   sm: 'text-micro px-1.5 py-0.5 gap-tight',
-  md: 'text-caption px-2 py-1 gap-stack-2xs',
+  md: 'text-micro px-2 py-1 gap-stack-2xs',
 };
 
 const STATUS_ICON_SIZE: Record<'sm' | 'md', number> = { sm: 10, md: 12 };
@@ -152,15 +208,21 @@ const StatusIcon: React.FC<{ status: StatusBadgeStatus; size: number }> = ({ sta
 
 export const StatusBadge: React.FC<StatusBadgeProps> = ({
   status,
+  label: libelle,
   showLabel = false,
   size = 'md',
   className = '',
 }) => {
   const iconSize = STATUS_ICON_SIZE[size];
-  const label = STATUS_LABELS[status];
+  const label = libelle ?? STATUS_LABELS[status];
 
+  /* Le registre de Badge — capitales, 700, `tracking-label` (2026-09-24).
+     StatusBadge dit un ÉTAT, comme Badge, mais parlait en 600 et en casse
+     normale — le registre d'une donnée — donc « En cours » se lisait comme
+     une pastille de méta à côté d'un « EN COURS » de Badge. Sans libellé,
+     rien ne change : l'icône seule. */
   const classes = [
-    'inline-flex items-center justify-center font-semibold border rounded-pill whitespace-nowrap',
+    'inline-flex items-center justify-center font-bold uppercase tracking-label border rounded-pill whitespace-nowrap',
     STATUS_SIZE_CLASSES[size],
     STATUS_CLASSES[status],
     !showLabel && 'aspect-square px-0',
@@ -169,8 +231,20 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
     .filter(Boolean)
     .join(' ');
 
+  /* Pas de `role="status"` (2026-09-24). Ce rôle fait d'un élément une ZONE
+     VIVANTE (`aria-live="polite"` implicite) : un lecteur d'écran annonce ce
+     qui y change. Posé sur chaque badge, il transformait une liste de leçons
+     en autant de zones qui parlent — 12 sur la vitrine des atomes, 4 sur celle
+     de l'apprentissage. Un badge ne se met pas à jour pour qu'on l'entende :
+     il se lit à son tour, comme le texte qui l'entoure.
+     Sans libellé, la pastille n'est qu'une icône : elle devient une image
+     nommée (`role="img"`, le motif d'`IconChip`) — un `aria-label` sur un
+     `span` sans rôle n'est pas garanti. Avec libellé, le mot se lit tel
+     quel, l'icône est décorative. */
+  const a11y = showLabel ? {} : { role: 'img' as const, 'aria-label': label };
+
   return (
-    <span className={classes} role="status" aria-label={label}>
+    <span className={classes} {...a11y}>
       <StatusIcon status={status} size={iconSize} />
       {showLabel && <span>{label}</span>}
     </span>
@@ -187,4 +261,8 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
    Badge mais encode les cinq états d'une leçon — verrouillée, disponible, en
    cours, terminée, échouée — avec leur icône. C'est du vocabulaire de domaine,
    dont l'app aura besoin quand le corpus de formation arrivera. Le retirer pour
-   économiser un usage échangerait un concept contre des lignes. */
+   économiser un usage échangerait un concept contre des lignes.
+
+   2026-09-24 : ce consommateur unique, CorrectionStatusBar, est supprimé
+   (aucun usage produit). StatusBadge n'en a plus aucun ; la raison ci-dessus
+   ne dépendait pas de lui. */

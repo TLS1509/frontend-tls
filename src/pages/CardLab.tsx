@@ -24,7 +24,7 @@ const TYPE_META: Record<SampleType, { tone: Tone; label: string; icon: React.Rea
 const ICON_BUBBLE: Record<Tone, string> = {
   brand: 'bg-primary-100 text-primary-600',
   warm:  'bg-secondary-100 text-secondary-600',
-  sun:   'bg-accent-100 text-accent-700',
+  sun:   'bg-accent-100 text-accent-800',
 };
 const COVER_GRAD: Record<Tone, string> = {
   brand: 'bg-gradient-to-br from-primary-100 to-primary-50 text-primary-600',
@@ -75,7 +75,7 @@ const MetaPill: React.FC<{ children: React.ReactNode; icon?: React.ReactNode }> 
 );
 
 /* Base structurelle SANS couleur de bordure — chaque direction compose sa propre
-   largeur/couleur de bordure pour éviter la collision BASE vs STATUS (CLAUDE.md piège #6). */
+   largeur/couleur de bordure pour éviter la collision BASE vs STATUS (piège n°6, .claude/rules/pieges-tailwind.md). */
 const CARD_SHARED =
   'group relative text-left w-full flex flex-col rounded-2xl bg-white shadow-card ' +
   'transition-[transform,box-shadow,border-color] duration-base ease-emphasis cursor-pointer ' +
@@ -104,7 +104,7 @@ const CardA: React.FC<{ item: Item }> = ({ item }) => {
         {done && <span className="ml-auto inline-flex items-center gap-1 text-micro font-semibold text-success-fg"><Check size={14} /> Fait</span>}
       </div>
       <h3 className="font-display text-body-lg font-bold leading-snug text-ink-900 line-clamp-2 tracking-tight">{item.title}</h3>
-      <p className="m-0 text-caption text-ink-500 leading-snug line-clamp-2">{item.desc}</p>
+      <p className="m-0 text-caption text-ink-500 line-clamp-2">{item.desc}</p>
       {locked ? (
         <span className="mt-1 inline-flex items-center gap-1.5 text-caption text-ink-500"><Lock size={14} /> Upgrade requis</span>
       ) : (
@@ -137,7 +137,7 @@ const CardB: React.FC<{ item: Item }> = ({ item }) => {
       <div className="flex flex-col gap-1.5 p-4">
         <span className={`text-micro font-bold uppercase tracking-[0.05em] ${ACCENT_TEXT[m.tone]}`}>{m.label}</span>
         <h3 className="font-display text-body-lg font-bold leading-snug text-ink-900 line-clamp-2 tracking-tight">{item.title}</h3>
-        <p className="m-0 text-caption text-ink-500 leading-snug line-clamp-2">{item.desc}</p>
+        <p className="m-0 text-caption text-ink-500 line-clamp-2">{item.desc}</p>
         {locked ? (
           <span className="mt-1 inline-flex items-center gap-1.5 text-caption text-ink-500"><Lock size={14} /> Upgrade requis</span>
         ) : (
@@ -171,7 +171,7 @@ const CardC: React.FC<{ item: Item }> = ({ item }) => {
           <h3 className="mt-0.5 font-display text-body-lg font-bold leading-snug text-ink-900 line-clamp-2 tracking-tight">{item.title}</h3>
         </div>
       </div>
-      <p className="m-0 text-caption text-ink-500 leading-snug line-clamp-2">{item.desc}</p>
+      <p className="m-0 text-caption text-ink-500 line-clamp-2">{item.desc}</p>
       <div className="mt-1 flex items-center gap-1.5 pt-2.5 border-t border-ink-100">
         {locked ? (
           <span className="inline-flex items-center gap-1.5 text-caption text-ink-500"><Lock size={14} /> Upgrade requis</span>
@@ -208,7 +208,7 @@ const CardD: React.FC<{ item: Item }> = ({ item }) => {
         {done && <span className="ml-auto inline-flex items-center gap-1 text-micro font-semibold text-success-fg"><Check size={14} /> Fait</span>}
       </div>
       <h3 className="font-display text-body-lg font-bold leading-snug text-ink-900 line-clamp-2 tracking-tight">{item.title}</h3>
-      <p className="m-0 text-caption text-ink-500 leading-snug line-clamp-2">{item.desc}</p>
+      <p className="m-0 text-caption text-ink-500 line-clamp-2">{item.desc}</p>
       {locked ? (
         <span className="mt-1 inline-flex items-center gap-1.5 text-caption text-ink-500"><Lock size={14} /> Upgrade requis</span>
       ) : (
@@ -232,7 +232,7 @@ const DIRECTIONS = [
 export const CardLab: React.FC = () => (
   <div className="min-h-[100dvh] w-full bg-gradient-page-ambient">
     <header className="px-6 sm:px-8 py-stack-md border-b border-ink-100 bg-white/80 backdrop-blur-glass-light sticky top-0 z-10">
-      <h1 className="font-display text-h4 font-bold text-ink-900 tracking-headline">Card ressource unifiée — 3 directions</h1>
+      <h1 className="font-display text-h3 font-bold text-ink-900 tracking-headline">Card ressource unifiée — 3 directions</h1>
       <p className="m-0 text-caption text-ink-500 mt-0.5">
         Remplace LearningItemCard + ResourceCard · grammaire meta unifiée · niveau en mots · tappable · contenu + états réels.
       </p>
@@ -244,7 +244,7 @@ export const CardLab: React.FC = () => (
           <div className="flex items-baseline gap-2">
             <span className="inline-flex items-center justify-center w-7 h-7 rounded-pill bg-ink-900 text-white text-caption font-bold">{id}</span>
             <div>
-              <h2 className="font-display text-h4 font-bold text-ink-900 tracking-headline">{name}</h2>
+              <h2 className="font-display text-h3 font-bold text-ink-900 tracking-headline">{name}</h2>
               <p className="m-0 text-caption text-ink-500">{desc}</p>
             </div>
           </div>

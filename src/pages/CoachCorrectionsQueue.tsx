@@ -1,7 +1,8 @@
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CheckCircle2, AlertTriangle } from 'lucide-react';
+import { CheckCircle2 } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { CorrectionCard } from '../components/ui/CorrectionCard';
 import { StatCard } from '../components/ui/StatCard';
 import { EmptyState } from '../components/ui/EmptyState';
@@ -70,55 +71,56 @@ export default function CoachCorrectionsQueue() {
   const currentItems = buckets[activeTab === 'pending' ? 'pending' : activeTab === 'in-review' ? 'inReview' : 'completed'];
   const urgentCount = buckets.pending.length;
 
+  const tabLabel = TABS.find((t) => t.id === activeTab)?.label ?? '';
+
   return (
+    /* 48 px entre l'en-tête, les chiffres et la file ; 32 entre les onglets et
+       leur panneau. Le badge « 3 en attente » du hero est retiré : un compte en
+       registre d'état, qui répétait la tuile « En attente » juste dessous. */
     <PageShell width="page" noPadTop className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
         eyebrow="Coach · Corrections"
-        title="File de Corrections"
-        summary="Gère les exercices soumis par tes apprenants. Corrige, commente et suis la progression de chacun."
+        title="File de corrections"
+        summary="Gérez les exercices soumis par vos apprenants. Corrigez, commentez et suivez la progression de chacun."
         tone="flat"
-        trailing={
-          urgentCount > 0 ? (
-            <div className="flex items-center gap-stack-xs bg-white/20 backdrop-blur-sm px-3 py-stack-xs rounded-lg border border-white/30">
-              <AlertTriangle size={16} className="text-white" />
-              <span className="text-body-sm text-white font-semibold">{urgentCount} en attente</span>
-            </div>
-          ) : undefined
-        }
       />
 
+      <div className="grid grid-cols-3 gap-stack">
+        <StatCard
+          value={buckets.pending.length}
+          label="En attente"
+          variant="warm"
+          size="sm"
+          delta={buckets.pending.length > 0 ? 'Action requise' : 'RAS'}
+          deltaDirection={buckets.pending.length > 0 ? 'down' : 'up'}
+        />
+        <StatCard value={buckets.inReview.length} label="En cours de correction" size="sm" />
+        <StatCard
+          value={buckets.completed.length}
+          label="Corrigés cette semaine"
+          variant="brand"
+          size="sm"
+          delta="↑ vs sem. dernière"
+          deltaDirection="up"
+        />
+      </div>
+
       <div className="flex flex-col gap-section">
-
-        {/* KPI row */}
-        <div className="grid grid-cols-3 gap-stack">
-          <StatCard
-            value={buckets.pending.length}
-            label="En attente"
-            variant="warm"
-            size="sm"
-            delta={buckets.pending.length > 0 ? 'Action requise' : 'RAS'}
-            deltaDirection={buckets.pending.length > 0 ? 'down' : 'up'}
-          />
-          <StatCard value={buckets.inReview.length} label="En cours de correction" size="sm" />
-          <StatCard
-            value={buckets.completed.length}
-            label="Corrigés cette semaine"
-            variant="brand"
-            size="sm"
-            delta="↑ vs sem. dernière"
-            deltaDirection="up"
-          />
-        </div>
-
-        {/* Tabs */}
         <Tabs
           items={TABS}
           value={activeTab}
           onChange={(id) => setActiveTab(id as 'pending' | 'in-review' | 'completed')}
         />
 
-        {/* Queue */}
-        <div className="flex flex-col gap-stack-xs">
+        {/* Le panneau a son titre h2 : les cartes portent des h3 (le titre de
+            l'exercice), qui suivaient directement le h1. Le compte passe en
+            méta ; 12 px entre deux cartes d'une même file (8 avant). */}
+        <section className="flex flex-col gap-stack">
+          <SectionHeader
+            title={tabLabel}
+            meta={`${currentItems.length} exercice${currentItems.length > 1 ? 's' : ''}`}
+            size="md"
+          />
           {currentItems.length === 0 ? (
             <EmptyState
               icon={<CheckCircle2 size={32} />}
@@ -126,30 +128,31 @@ export default function CoachCorrectionsQueue() {
               description={activeTab === 'pending' ? 'Tous les exercices ont été traités.' : 'Aucun exercice pour le moment.'}
             />
           ) : (
-            currentItems.map((c) => {
-              const learner = getApprenantById(c.learnerId);
-              const competence = c.competenceId ? getCompetenceById(c.competenceId) : undefined;
-              return (
-                <CorrectionCard
-                  key={c.id}
-                  id={c.id}
-                  apprenantName={learner?.name ?? c.learnerId}
-                  apprenantInitials={learner?.initials ?? c.learnerId.slice(0, 2).toUpperCase()}
-                  exerciceTitle={c.exerciseTitle}
-                  competence={competence?.label ?? c.competenceId ?? ''}
-                  submittedAt={submittedAtLabel(c.submittedAt)}
-                  status={(bucketOf(c.status) === 'completed' ? 'corrected' : bucketOf(c.status)) as 'pending' | 'in-review' | 'corrected'}
-                  excerpt={c.submittedContent.slice(0, 220)}
-                  feedbackCount={c.iterationCount}
-                  surface={activeTab === 'pending' ? 'tinted' : 'card'}
-                  onOpen={() => navigate(`/coach/correction/${c.id}`)}
-                  onAssign={activeTab === 'pending' ? () => navigate(`/coach/correction/${c.id}`) : undefined}
-                />
-              );
-            })
+            <div className="flex flex-col gap-stack-sm">
+              {currentItems.map((c) => {
+                const learner = getApprenantById(c.learnerId);
+                const competence = c.competenceId ? getCompetenceById(c.competenceId) : undefined;
+                return (
+                  <CorrectionCard
+                    key={c.id}
+                    id={c.id}
+                    apprenantName={learner?.name ?? c.learnerId}
+                    apprenantInitials={learner?.initials ?? c.learnerId.slice(0, 2).toUpperCase()}
+                    exerciceTitle={c.exerciseTitle}
+                    competence={competence?.label ?? c.competenceId ?? ''}
+                    submittedAt={submittedAtLabel(c.submittedAt)}
+                    status={(bucketOf(c.status) === 'completed' ? 'corrected' : bucketOf(c.status)) as 'pending' | 'in-review' | 'corrected'}
+                    excerpt={c.submittedContent.slice(0, 220)}
+                    feedbackCount={c.iterationCount}
+                    surface={activeTab === 'pending' ? 'tinted' : 'card'}
+                    onOpen={() => navigate(`/coach/correction/${c.id}`)}
+                    onAssign={activeTab === 'pending' ? () => navigate(`/coach/correction/${c.id}`) : undefined}
+                  />
+                );
+              })}
+            </div>
           )}
-        </div>
-
+        </section>
       </div>
     </PageShell>
   );

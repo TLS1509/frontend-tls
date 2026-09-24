@@ -16,6 +16,7 @@ import React from 'react';
 import { Button } from '../core/Button';
 import { ArrowRight, Play, Target } from 'lucide-react';
 import { MetaPillGroup, type MetaPillItem } from '../ui/MetaPillGroup';
+import { Badge, type BadgeVariant } from '../ui/Badge';
 
 export type ResumeLessonTone = 'primary' | 'warm' | 'sun';
 
@@ -49,16 +50,20 @@ const CARD_BORDER: Record<ResumeLessonTone, string> = {
 };
 
 const ICON_BUBBLE: Record<ResumeLessonTone, string> = {
-  primary: 'bg-gradient-to-br from-primary-400 to-primary-600 text-white shadow-brand-sm',
-  warm:    'bg-gradient-to-br from-secondary-400 to-secondary-500 text-white shadow-warm-sm',
+  // Pastille d'icône : 3:1 à l'arrêt le plus clair — 600 pour le teal et l'orange,
+  // 700 pour l'or (le blanc y mesure 3,66 · 3,98 · 4,88).
+  primary: 'bg-gradient-to-br from-primary-600 to-primary-700 text-white shadow-brand-sm',
+  warm:    'bg-gradient-to-br from-secondary-600 to-secondary-700 text-white shadow-warm-sm',
   sun:     'bg-gradient-to-br from-accent-300 to-accent-500 text-accent-900 shadow-sun-sm',
 };
 
-/** Status chip "En cours" — echoes accent (c'est l'état de la card). */
-const STATUS_CHIP: Record<ResumeLessonTone, string> = {
-  primary: 'bg-primary-100 text-primary-700',
-  warm:    'bg-secondary-100 text-secondary-700',
-  sun:     'bg-accent-100 text-accent-800',
+/** « En cours » — l'état de la carte : le vrai `Badge`, au ton de l'accent.
+    C'était une imitation faite main, avec un point qui pulsait en continu
+    (arbitrage n°16 : pas de mouvement permanent pour dire un état). */
+const STATUS_BADGE: Record<ResumeLessonTone, BadgeVariant> = {
+  primary: 'brand',
+  warm:    'warm',
+  sun:     'sun',
 };
 
 const PROGRESS_FILL: Record<ResumeLessonTone, string> = {
@@ -121,7 +126,7 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
         cran `@lg` (512 px) se déclenche à 560 px de carte. Mesuré : la carte du
         tableau de bord fait 596 px, soit 548 de contenu — elle garde donc sa
         mise en ligne, ce qu'un seuil à `@xl` (576) lui aurait retiré. */
-        '@container group relative flex flex-col gap-stack-md rounded-xl border bg-white p-stack-lg cursor-pointer',
+        '@container group relative flex flex-col gap-stack-lg rounded-xl border bg-white p-stack-lg cursor-pointer',
         ' transition-[transform,box-shadow,border-color] duration-base ease-emphasis',
         '',
         'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
@@ -142,49 +147,51 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
           <Play size={20} fill="currentColor" strokeWidth={0} className="translate-x-px" />
         </span>
 
-        <div className="flex-1 min-w-0 flex flex-col gap-stack-xs">
-          {/* Rôle 1 — status badge (coloré) + step context (texte discret) */}
-          <div className="flex items-center gap-stack-xs flex-wrap">
-            <span
-              className={[
-                'inline-flex items-center gap-stack-3xs rounded-pill px-2 py-[3px] shrink-0',
-                // `tracking-label` vaut exactement 0,05em : la valeur était recopiée
-                // en dur, donc détachée. `leading-tight` aligne la boîte de ligne sur
-                // celle de <Badge> — sans elle, `--text-micro--line-height` (18 px)
-                // donnait une pastille de 24 px là où le composant en fait 19,75.
-                'text-micro font-bold uppercase tracking-label',
-                STATUS_CHIP[tone],
-              ].join(' ')}
-            >
-              <span className="w-1.5 h-1.5 rounded-pill bg-current animate-pulse" aria-hidden />
-              En cours
-            </span>
-            {stepText && (
-              <span className="font-body text-caption text-ink-500 font-medium">
-                {stepText}
-              </span>
+        {/* Anatomie (passe typographique du 2026-09-24) :
+              état + étape → titre 4 · titre → prochaine leçon 8 · → méta 12.
+            Le titre reste un h2 — la carte vit sous le h1 de la page — et
+            prend le pas de son niveau : 20 px dans une colonne étroite, 28 dès
+            que la carte a la place (`@lg`). Il était à 20,8 puis 24,8 px, deux
+            tailles hors échelle, avec un interligne et un tracking écrits à
+            côté du pas. Le `mt-stack-3xs` explicite remplace la marge de base
+            des titres (0,75em = 21 px), faite pour séparer des sections. */}
+        <div className="flex-1 min-w-0 flex flex-col gap-stack-sm">
+          <div className="flex flex-col gap-stack-xs">
+            <div className="flex flex-col">
+              {/* Rôle 1 — l'état (Badge) + le contexte d'étape (méta) */}
+              <div className="flex items-center gap-stack-xs flex-wrap">
+                <Badge variant={STATUS_BADGE[tone]} dot className="shrink-0">En cours</Badge>
+                {stepText && (
+                  <span className="font-body text-caption text-ink-600">
+                    {stepText}
+                  </span>
+                )}
+              </div>
+
+              {/* Rôle 2 — titre héros */}
+              <h2 id={`resume-${id}-titre`} className="mt-stack-3xs font-display text-h3 @lg:text-h2 text-ink-900 text-balance">
+                {parcoursTitle}
+              </h2>
+            </div>
+
+            {/* Prochaine leçon — l'icône tient dans une boîte haute d'une ligne
+                (`h-lh`) : elle se centre sur la première ligne, pas sur le bloc. */}
+            {nextLessonTitle && (
+              <p className="flex items-start gap-stack-2xs font-body text-body text-ink-700 m-0">
+                <span className="inline-flex items-center h-lh shrink-0 text-ink-600" aria-hidden>
+                  <Target size={16} strokeWidth={2} />
+                </span>
+                <span className="min-w-0">
+                  <span className="text-ink-600">Prochaine leçon · </span>
+                  <span className="font-semibold text-ink-900">{nextLessonTitle}</span>
+                </span>
+              </p>
             )}
           </div>
 
-          {/* Rôle 2 — titre héros */}
-          <h2 id={`resume-${id}-titre`} className="font-display font-bold leading-[1.1] tracking-headline text-ink-900 text-[1.3rem] @lg:text-[1.55rem] text-balance">
-            {parcoursTitle}
-          </h2>
-
-          {/* Prochaine leçon */}
-          {nextLessonTitle && (
-            <p className="flex items-start gap-stack-2xs font-body text-body-sm text-ink-500 m-0 leading-snug">
-              <Target size={14} strokeWidth={2} className="shrink-0 mt-0.5 text-ink-400" aria-hidden />
-              <span className="min-w-0">
-                <span className="text-ink-600">Prochaine leçon · </span>
-                <span className="font-medium text-ink-700">{nextLessonTitle}</span>
-              </span>
-            </p>
-          )}
-
           {/* Rôle 3 — meta pills NEUTRES (faits) */}
           {metaItems.length > 0 && (
-            <MetaPillGroup items={metaItems} size="sm" className="mt-0.5" />
+            <MetaPillGroup items={metaItems} size="sm" />
           )}
         </div>
       </div>
@@ -192,11 +199,14 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
       {/* ── Footer : progression + CTA (mobile stack → desktop row) ──────── */}
       <div className="flex flex-col @lg:flex-row @lg:items-center gap-stack-sm @lg:gap-stack-md">
         <div className="flex-1 flex flex-col gap-stack-2xs">
-          <div className="flex items-center justify-between gap-stack-xs">
-            <span className="text-micro font-semibold uppercase tracking-[0.06em] text-ink-600">
+          {/* Étiquette et valeur sur la même ligne de base : légende 13 ink-600,
+              valeur 13/600 ink-900. L'étiquette était en capitales espacées
+              (11 px) — le registre de Badge, pour un simple libellé. */}
+          <div className="flex items-baseline justify-between gap-stack-xs">
+            <span className="text-caption text-ink-600">
               Progression
             </span>
-            <span className="text-caption font-bold text-ink-600 tabular-nums">{clamped}%</span>
+            <span className="text-caption font-semibold text-ink-900 tabular-nums">{clamped}&nbsp;%</span>
           </div>
           <div
             className="h-1.5 w-full rounded-pill bg-ink-100 overflow-hidden"
@@ -213,13 +223,17 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
           </div>
         </div>
 
-        {/* Le CTA refaisait à la main ce que <Button emphasis="soft"> rend déjà,
-            à 44 px près — il était à 44 par chance, pas par token. La map
-            CTA_CLASSES est remplacée par le ton : les trois entrées reproduisaient
-            primary / secondary / accent, c'est-à-dire brand / warm / sun. */}
+        {/* « Reprendre » est l'action principale de l'accueil (arbitrage n°19,
+            qui la cite en exemple) : le `solid` de l'écran, au ton de la carte.
+            C'est la seule carte à CTA qui naît `solid` — son unique consommateur,
+            le tableau de bord, en fait son action dominante ; les autres cartes
+            portent une action de contexte (`soft`).
+            Le CTA refaisait à la main ce que <Button> rend déjà, à 44 px près —
+            il était à 44 par chance, pas par token. La map CTA_CLASSES est
+            remplacée par le ton : brand / warm / sun. */}
         <Button
           size="md"
-          emphasis="soft"
+          emphasis="solid"
           tone={tone === 'primary' ? 'brand' : tone}
           onClick={(e) => { e.stopPropagation(); onClick?.(id); }}
           aria-label={ctaLabel}

@@ -56,24 +56,25 @@
   box-shadow: var(--shadow-lg);
 }
 
-/* Content */
+/* Content — sur l'échelle de l'app (passe typographique du 2026-09-24).
+   Les trois variables lues ici (`--text-lg`, `--text-xs`, `--text-md`) et les
+   deux couleurs (`--text-primary`, `--text-secondary`) n'étaient pas des
+   tokens TLS : les deux premières retombaient sur les défauts de Tailwind
+   (18 et 12 px), les autres n'existaient nulle part. Le contenu prend le
+   chapô (18/28), l'indice la légende (13/20, ink-600 plein — l'opacité à 0,7
+   le faisait passer sous 4,5:1). */
 .flashcard__content {
-  font-size: var(--text-lg);
+  font-size: var(--text-body-lg);
+  line-height: var(--text-body-lg--line-height);
   font-weight: 600;
-  color: var(--text-primary);
-  line-height: 1.5;
+  color: var(--color-ink-900);
 }
 
 .flashcard__hint {
-  font-size: var(--text-xs);
-  color: var(--text-secondary);
+  font-size: var(--text-caption);
+  line-height: var(--text-caption--line-height);
+  color: var(--color-ink-600);
   font-style: italic;
-  opacity: 0.7;
-  transition: opacity var(--dur-1);
-}
-
-.flashcard:hover .flashcard__hint {
-  opacity: 1;
 }
 
 /* Responsive */
@@ -88,6 +89,7 @@
   }
 
   .flashcard__content {
-    font-size: var(--text-md);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
   }
 }

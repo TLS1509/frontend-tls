@@ -2,7 +2,8 @@
  * OnboardingUnified — Single chat-driven flow (steps 1 + 2 combined).
  *
  * CDC #03 Variant A: firstName + role + Dreyfus positioning in one conversational thread.
- * Steps: greeting → name → role → transition → questionnaire → done → /onboarding/payment
+ * Steps: greeting → name → role → transition → questionnaire → done
+ *        → /onboarding/payment (compte individuel) ou /onboarding/tutorial (compte invité)
  */
 
 import React, { useEffect, useRef, useState } from 'react';
@@ -16,6 +17,7 @@ import { TlsLogo } from '../components/ui/TlsLogo';
 import { AmbientBlobs } from '../components/patterns/AmbientBlobs';
 import { useUserProfileStore, useOnboardingStore } from '../stores/persistence';
 import { getBehavioralTiles } from '../lib/behavioral-tiles';
+import { getOnboardingMacroSteps } from '../lib/onboarding-steps';
 import type { BehavioralTileSet } from '../lib/behavioral-tiles';
 import { buildAcknowledgment, buildClosing } from '../lib/mistral-questionnaire-stub';
 import type { OnboardingQuestion } from '../lib/onboarding-questionnaire';
@@ -38,7 +40,7 @@ const ROLE_TILES: Array<{ id: UserRole; label: string; icon: React.ComponentType
 ];
 
 const INTRO_LINES = [
-  'Salut ! 👋 Je suis ton assistant IA de The Learning Society.',
+  'Bonjour, je suis ton assistant IA de The Learning Society.',
   'Je vais te poser quelques questions pour créer ton profil personnalisé.',
 ];
 
@@ -124,6 +126,12 @@ export const OnboardingUnified: React.FC = () => {
   const stateRef = useRef<StreamingState>({ timersRef: [] });
   const profile = useUserProfileStore();
   const onboarding = useOnboardingStore();
+  // Un compte invité (salarié d'une entreprise cliente) ne passe pas par le
+  // paiement : `onboarding-steps.ts` le prévoyait, ce flux l'ignorait et
+  // envoyait tout le monde sur la grille tarifaire (audit du 23/09).
+  const paiementRequis = onboarding.requiresPayment();
+  const suite = paiementRequis ? '/onboarding/payment' : '/onboarding/tutorial';
+  const totalEtapes = getOnboardingMacroSteps(onboarding.accountType).length;
 
   const [questions, setQuestions] = useState<LocalQuestion[]>([]);
 
@@ -150,18 +158,26 @@ export const OnboardingUnified: React.FC = () => {
     ]);
   }, []);
 
-  useEffect(() => {
-    return () => cancelTimers(stateRef.current.timersRef);
-  }, []);
-
-  // Initial greeting on mount
+  // Initial greeting on mount.
+  // Le nettoyage annule les minuteries ET vide le fil : en mode strict, React
+  // monte l'effet deux fois, et la bulle « … » du premier passage restait en
+  // tête du fil pour toujours (audit du 23/09).
+  // La saisie du prénom n'apparaît qu'une fois la question entièrement
+  // écrite : active plus tôt, une réponse rapide s'affichait AU-DESSUS de la
+  // question qui finissait de s'écrire.
   useEffect(() => {
     appendAiSequence(INTRO_LINES, msgCounter, stateRef.current, setMessages, () => {
       // Cancel previous timers, start fresh batch — but counter keeps incrementing
       stateRef.current = { timersRef: [] };
-      setStep('name');
-      streamLine('Commençons — quel est ton prénom ?', msgCounter, stateRef.current, setMessages, () => {});
+      streamLine('Commençons — quel est ton prénom ?', msgCounter, stateRef.current, setMessages, () => {
+        setStep('name');
+      });
     });
+    return () => {
+      cancelTimers(stateRef.current.timersRef);
+      stateRef.current = { timersRef: [] };
+      setMessages([]);
+    };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -175,15 +191,17 @@ export const OnboardingUnified: React.FC = () => {
     setFirstName(name);
     setNameInput('');
 
-    const ack = `Enchanté, ${name} ! 😊`;
+    const ack = `Enchanté, ${name}.`;
     setTimeout(() => {
       stateRef.current = { timersRef: [] };
       streamLine(ack, msgCounter, stateRef.current, setMessages, () => {
         setTimeout(() => {
-          setLoading(false);
-          setStep('role');
           stateRef.current = { timersRef: [] };
-          streamLine("Quel est ton rôle dans l'organisation ?", msgCounter, stateRef.current, setMessages, () => {});
+          // Les tuiles de rôle n'arrivent qu'une fois la question écrite.
+          streamLine("Quel est ton rôle dans l'organisation ?", msgCounter, stateRef.current, setMessages, () => {
+            setStep('role');
+            setLoading(false);
+          });
         }, 600);
       });
     }, 300);
@@ -198,7 +216,7 @@ export const OnboardingUnified: React.FC = () => {
     const userMsgId = `m-${msgCounter.current++}`;
     setMessages((prev) => [...prev, { id: userMsgId, type: 'user', content: `Je suis ${roleLabel}` }]);
 
-    const ack = `Super, tu es ${roleLabel}. On va vraiment pouvoir t'adapter un parcours !`;
+    const ack = `Super, tu es ${roleLabel}. On va vraiment pouvoir t'adapter un parcours.`;
     setTimeout(() => {
       stateRef.current = { timersRef: [] };
       streamLine(ack, msgCounter, stateRef.current, setMessages, () => {
@@ -211,13 +229,18 @@ export const OnboardingUnified: React.FC = () => {
           ];
           appendAiSequence(transitionLines, msgCounter, stateRef.current, setMessages, () => {
             setTimeout(() => {
-              setLoading(false);
-              setStep('questionnaire');
               setQuestionIdx(0);
               stateRef.current = { timersRef: [] };
               const firstQ = questions[0];
+              // Les tuiles de réponse n'arrivent qu'une fois la question écrite.
+              const showTiles = () => {
+                setStep('questionnaire');
+                setLoading(false);
+              };
               if (firstQ) {
-                streamLine(firstQ.q, msgCounter, stateRef.current, setMessages, () => {});
+                streamLine(firstQ.q, msgCounter, stateRef.current, setMessages, showTiles);
+              } else {
+                showTiles();
               }
             }, 800);
           });
@@ -254,15 +277,17 @@ export const OnboardingUnified: React.FC = () => {
       stateRef.current = { timersRef: [] };
       streamLine(ackLine, msgCounter, stateRef.current, setMessages, () => {
         setTimeout(() => {
-          const closingLines = buildClosing(firstName, true);
+          const closingLines = buildClosing(firstName, paiementRequis);
           stateRef.current = { timersRef: [] };
           appendAiSequence(closingLines, msgCounter, stateRef.current, setMessages, () => {
             setTimeout(() => {
               setStep('done');
               profile.patch({ firstName, role: selectedRole! });
+              onboarding.patch({ firstName, role: selectedRole });
               onboarding.markStepComplete('profile');
               onboarding.markStepComplete('questionnaire');
-              setTimeout(() => navigate('/onboarding/payment'), 1200);
+              onboarding.goToStep(paiementRequis ? 'payment' : 'tutorial');
+              setTimeout(() => navigate(suite), 1200);
             }, 800);
           });
         }, 600);
@@ -274,11 +299,19 @@ export const OnboardingUnified: React.FC = () => {
     <div className="relative flex min-h-[100dvh] w-screen flex-col overflow-hidden bg-gradient-to-br from-primary-50 to-accent-50">
       <AmbientBlobs />
 
+      {/* Passe typographique du 2026-09-24 (arbitrage n°25 ouvert : la forme
+          du chat ne bouge pas) : la page n'avait aucun h1 — l'onglet et les
+          lecteurs d'écran n'avaient pas de titre ; l'étape en méta ink-600 ;
+          plus de pulsation permanente sur « Chargement » (arbitrage n°16) ;
+          les tuiles de rôle sur 2 puis 3 colonnes sous 768 px (cinq tuiles de
+          60 px à 375, « Apprenant » touchait les bords). */}
+      <h1 className="sr-only font-display text-h1">Faisons connaissance</h1>
+
       {/* Header */}
       <div className="relative z-10 flex items-center justify-between border-b border-primary-100 bg-white/40 px-6 py-stack backdrop-blur-glass-light">
         <TlsLogo variant="primary" size={32} />
-        <div className="text-caption text-ink-500">
-          Étape {step === 'greeting' || step === 'name' || step === 'role' || step === 'transition' ? '1' : '2'} / 5
+        <div className="text-caption text-ink-600 tabular-nums">
+          Étape {step === 'greeting' || step === 'name' || step === 'role' || step === 'transition' ? '1' : '2'} sur {totalEtapes}
         </div>
       </div>
 
@@ -293,7 +326,7 @@ export const OnboardingUnified: React.FC = () => {
       <div className="relative z-10 border-t border-primary-100 bg-white/40 px-6 py-stack backdrop-blur-glass-light">
         {(step === 'greeting' || step === 'transition') && (
           <div className="flex justify-center">
-            <p className="animate-pulse text-body-sm text-ink-500">Chargement...</p>
+            <p className="text-body text-ink-600">Chargement…</p>
           </div>
         )}
 
@@ -310,7 +343,10 @@ export const OnboardingUnified: React.FC = () => {
               className="flex-1"
               autoFocus
             />
+            {/* L'envoi de la réponse est l'action de l'étape (arbitrage n°19). */}
             <Button
+              emphasis="solid"
+              tone="brand"
               size="md"
               onClick={handleNameSubmit}
               disabled={!nameInput.trim() || loading}
@@ -322,7 +358,7 @@ export const OnboardingUnified: React.FC = () => {
         )}
 
         {step === 'role' && (
-          <div className="grid grid-cols-5 gap-stack-xs">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-stack-xs">
             {ROLE_TILES.map((tile) => {
               const Icon = tile.icon;
               return (
@@ -330,7 +366,7 @@ export const OnboardingUnified: React.FC = () => {
                   key={tile.id}
                   onClick={() => handleRoleSelect(tile.id)}
                   disabled={loading || selectedRole !== null}
-                  className={`flex flex-col items-center gap-tight rounded-lg border-2 px-3 py-2 transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
+                  className={`flex flex-col items-center gap-stack-3xs rounded-lg border-2 px-3 py-2 transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                     selectedRole === tile.id
                       ? 'border-primary-500 bg-primary-50'
                       : 'border-primary-100 hover:border-primary-300 hover:bg-primary-50'
@@ -354,10 +390,14 @@ export const OnboardingUnified: React.FC = () => {
 
         {step === 'done' && (
           <div className="flex flex-col items-center gap-stack">
-            <p className="text-body text-ink-600">Passons à la sélection de ton plan...</p>
+            <p className="text-body text-ink-700">
+              {paiementRequis ? 'Passons à la sélection de ton plan…' : 'Passons à un tour rapide de la plateforme…'}
+            </p>
             <Button
+              emphasis="solid"
+              tone="brand"
               size="lg"
-              onClick={() => navigate('/onboarding/payment')}
+              onClick={() => navigate(suite)}
               leadingIcon={<ArrowRight size={18} />}
             >
               Continuer

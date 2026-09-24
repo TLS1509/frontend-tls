@@ -34,9 +34,11 @@ export const FormGroup: React.FC<FormGroupProps> = ({
     .filter(Boolean)
     .join(' ');
 
+  /* Libellé : 16 / 600, ink-900 — y compris en erreur. Le filet du champ et
+     le message en `danger-fg` disent l'erreur ; un libellé rouge ferait lire
+     le NOM du champ comme fautif, et doublerait le signal. */
   const labelClasses = [
-    'text-body-sm font-semibold flex items-center gap-tight',
-    hasError ? 'text-danger-fg' : 'text-ink-900',
+    'text-body font-semibold text-ink-900 flex items-center gap-tight',
     layout === 'horizontal' && 'sm:shrink-0 sm:min-w-[150px]',
   ]
     .filter(Boolean)
@@ -62,7 +64,7 @@ export const FormGroup: React.FC<FormGroupProps> = ({
             {error}
           </p>
         ) : hint ? (
-          <p className="text-caption text-ink-500">{hint}</p>
+          <p className="text-caption text-ink-600">{hint}</p>
         ) : null}
       </div>
     </div>

@@ -74,7 +74,7 @@ const Hero: React.FC = () => {
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           className="flex max-w-4xl flex-col gap-flow"
         >
-          <p className="flex items-center gap-stack-xs font-body text-body-sm font-bold text-primary-800 m-0">
+          <p className="flex items-center gap-stack-xs font-body text-body font-bold text-primary-800 m-0">
             <span aria-hidden className="h-px w-10 bg-secondary-500" />
             Studio expert en Skills-Based Organization
           </p>
@@ -201,12 +201,12 @@ const Moteur: React.FC = () => (
         {ETAPES.map((e, i) => (
           <FadeInWhenVisible key={e.verbe} delay={i * 0.08} direction="up">
             <li className="flex flex-col gap-group">
-              <span className="font-body text-caption font-bold tabular-nums text-primary-500">
+              <span className="font-body text-caption font-bold tabular-nums text-primary-700">
                 {e.num}
               </span>
               <h3 className="font-display text-title text-ink-900">
                 {e.verbe}
-                <span className="block font-body text-body-sm font-bold text-secondary-600 mt-1">
+                <span className="block font-body text-body font-bold text-secondary-700 mt-1">
                   {e.sousTitre}
                 </span>
               </h3>
@@ -295,17 +295,17 @@ const Ecosysteme: React.FC = () => (
                 className="group grid grid-cols-1 md:grid-cols-12 gap-group md:gap-flow py-flow rounded-xl transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-500"
               >
                 <div className="md:col-span-5 flex flex-col gap-rule">
-                  <span className="font-body text-caption font-bold text-secondary-600">
+                  <span className="font-body text-caption font-bold text-secondary-700">
                     {o.role}
                   </span>
                   <h3 className="font-display text-title text-ink-900 transition-colors duration-base group-hover:text-primary-700">
                     {o.title}
                   </h3>
                 </div>
-                <p className="md:col-span-5 font-body text-body text-ink-600 leading-relaxed m-0">
+                <p className="md:col-span-5 font-body text-body text-ink-600 m-0">
                   {o.desc}
                 </p>
-                <span className="md:col-span-2 flex items-start md:justify-end font-body text-body-sm font-semibold text-primary-700">
+                <span className="md:col-span-2 flex items-start md:justify-end font-body text-body font-semibold text-primary-700">
                   <span className="inline-flex items-center gap-stack-2xs">
                     {o.cta}
                     <ArrowRight
@@ -333,13 +333,13 @@ const Ecosysteme: React.FC = () => (
             <h3 className="font-display text-title text-ink-900 [text-wrap:balance]">
               Ce qui a été appris ne se perd pas.
             </h3>
-            <p className="font-body text-body text-ink-600 leading-relaxed m-0">
+            <p className="font-body text-body text-ink-600 m-0">
               Veille continue, apprentissage par l'action et Passeport de
               compétences vivant : la Learning App ancre les compétences
               acquises et les rend mesurables dans la durée.
             </p>
           </div>
-          <span className="inline-flex shrink-0 items-center gap-stack-2xs font-body text-body-sm font-semibold text-primary-700">
+          <span className="inline-flex shrink-0 items-center gap-stack-2xs font-body text-body font-semibold text-primary-800">
             Découvrir la Learning App
             <ArrowRight size={16} className="transition-transform duration-base group-hover:translate-x-1" />
           </span>
@@ -387,7 +387,7 @@ const Reassurance: React.FC = () => (
             <h3 className="font-display text-feature text-ink-900">
               Partenaire stratégique de C-Campus
             </h3>
-            <p className="font-body text-body text-ink-600 leading-relaxed m-0">
+            <p className="font-body text-body text-ink-600 m-0">
               Référence française de l'ingénierie de formation et de l'AFEST,
               C-Campus certifie les dispositifs que nous concevons ensemble.
             </p>
@@ -456,7 +456,7 @@ const DoubleCta: React.FC = () => {
                       Planifier un échange de 30 min
                     </Button>
                   </div>
-                  <p className="font-body text-body-sm text-white/75 m-0">
+                  <p className="font-body text-body text-white/75 m-0">
                     Pas encore prêt ?{' '}
                     <Link
                       to="/website/diagnostic"
@@ -475,7 +475,7 @@ const DoubleCta: React.FC = () => {
                   <h3 className="font-display text-feature text-white">
                     Restez en veille.
                   </h3>
-                  <p className="font-body text-body text-white/70 leading-relaxed m-0">
+                  <p className="font-body text-body text-white/70 m-0">
                     Abonnez-vous à La Vigie IA pour recevoir nos meilleures
                     analyses sur l'IA, les compétences et le futur du travail.
                   </p>

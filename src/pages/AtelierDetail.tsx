@@ -1,8 +1,8 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { ClipboardList, Info, Calendar, Clock, MapPin, Users, Video } from 'lucide-react';
+import { Calendar, Video } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
-import { SectionCard } from '../components/patterns/SectionCard';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { PageShell } from '../components/layout';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
@@ -38,97 +38,118 @@ const INFOS: InfoItem[] = [
   { label: 'Mode', value: 'Distanciel (Google Meet)' },
   { label: 'Niveau requis', value: 'D2 et plus' },
   { label: 'Matériel', value: 'Papier + stylo recommandés' },
+  /* Les deux seules informations propres à la bande de méta qui fermait la
+     page (elle répétait sinon date, heure et mode). */
+  { label: 'Participants', value: '12 au maximum' },
+  { label: 'Lien de connexion', value: 'Envoyé 24 h avant la session' },
 ];
+
+/* Fin de la session : passé ce moment, l'atelier est terminé et l'on n'y
+   réserve plus de place. La page proposait « Réserver ma place » sur une date
+   passée (audit du 23/09). À remplacer par la donnée du store quand la page y
+   sera branchée. */
+const FIN_SESSION = new Date('2026-06-18T13:00:00+02:00');
 
 // ─── AtelierDetail ────────────────────────────────────────────────────────────
 
 export default function AtelierDetail() {
-  const { id } = useParams<{ id: string }>();
-  void id;
+  const { id = '1' } = useParams<{ id: string }>();
+  const estTermine = Date.now() > FIN_SESSION.getTime();
 
   return (
     <PageShell width="medium" noPadTop={true} className="pt-6 md:pt-8 lg:pt-10">
+      {/* Ton `flat`, comme les autres pages de l'app (l'en-tête était une
+          carte teintée). Date, heure, mode et durée sont des données : la
+          ligne de méta, en légende — ils étaient des pastilles d'état en
+          capitales. Seul « Terminé », un état, reste un Badge. */}
       <EditorialHero
-        eyebrow="Ateliers · Détail"
+        tone="flat"
+        eyebrow="Ateliers"
         title="Atelier Feedback 360°"
         summary="Pratique le feedback constructif en situation réelle. Jeux de rôle + débriefing collectif."
-        trailing={
-          <div className="flex gap-stack-xs flex-wrap">
-            <Badge variant="info" size="normal">18 juin 2026 · 10h00</Badge>
-            <Badge variant="neutral" size="normal">Distanciel · 3h</Badge>
-          </div>
-        }
+        meta={[
+          ...(estTermine ? [{ label: <Badge variant="neutral" size="normal">Terminé</Badge> }] : []),
+          { icon: <Calendar size={14} aria-hidden="true" />, label: '18 juin 2026 · 10h00' },
+          { icon: <Video size={14} aria-hidden="true" />, label: 'Distanciel · 3h' },
+        ]}
       />
 
-      <div className="flex flex-col gap-section">
-        {/* Coach card */}
-        <Card variant="tinted" className="flex flex-col sm:flex-row items-start sm:items-center gap-section p-stack-lg">
+      {/* Quatre temps à 48 px : le coach, le programme, les infos pratiques,
+          l'inscription. Chaque section a son titre h2 hors de la carte (le
+          coach était un h3 posé juste sous le h1). */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader title="Ton coach" size="md" />
+        <Card className="flex flex-col sm:flex-row items-start sm:items-center gap-stack">
           <Avatar name="Sophie Martin" initials="SM" size="xl" />
-          <div className="flex flex-col gap-tight">
-            <h3 className="text-h3 font-display font-bold text-ink-900">Sophie Martin</h3>
-            <p className="text-body-sm text-ink-500">Coach certifiée ICF · Spécialité Communication</p>
-            <p className="text-caption text-ink-600">Animation de +120 ateliers. Approche pratique et bienveillante.</p>
+          <div className="flex flex-col gap-stack-xs">
+            <div className="flex flex-col gap-tight">
+              <p className="text-body font-semibold text-ink-900">Sophie Martin</p>
+              <p className="text-caption text-ink-600">Coach certifiée ICF · Spécialité Communication</p>
+            </div>
+            <p className="text-body text-ink-700 max-w-prose">Animation de +120 ateliers. Approche pratique et bienveillante.</p>
           </div>
         </Card>
+      </section>
 
-        {/* Programme */}
-        <SectionCard
-          title="Programme de l'atelier"
-          titleIcon={<ClipboardList size={18} />}
-        >
-          <div className="flex flex-col gap-stack-xs">
+      {/* Programme : l'heure en chiffres tabulaires (elle était une pastille
+          d'état), l'étape en 16 ink-900, la durée alignée à droite. */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader title="Programme de l'atelier" meta={`${PROGRAMME.length} temps · 10h00 – 12h30`} size="md" />
+        <Card className="p-0">
+          <ol className="flex flex-col divide-y divide-ink-100">
             {PROGRAMME.map((item, idx) => (
-              <div key={idx} className="flex items-center gap-stack flex-wrap">
-                <Badge variant="info" size="compact">{item.time}</Badge>
-                <span className="text-body-sm text-ink-700 flex-1">{item.label}</span>
-                <span className="text-caption text-ink-600">{item.duration}</span>
-              </div>
+              <li key={idx} className="flex items-baseline gap-stack px-stack-md sm:px-stack-lg py-stack-sm">
+                <span className="w-14 shrink-0 text-caption font-semibold text-ink-600 tabular-nums">{item.time}</span>
+                <span className="text-body text-ink-900 flex-1">{item.label}</span>
+                <span className="text-caption text-ink-600 tabular-nums text-right">{item.duration}</span>
+              </li>
             ))}
-          </div>
-        </SectionCard>
+          </ol>
+        </Card>
+      </section>
 
-        {/* Infos pratiques */}
-        <SectionCard
-          title="Infos pratiques"
-          titleIcon={<Info size={18} />}
-        >
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack">
+      {/* Infos pratiques : libellés en légende 600 ink-600, en casse normale
+          (ils étaient en capitales ink-500), valeurs en 16 ink-900. */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader title="Infos pratiques" size="md" />
+        <Card>
+          <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-stack-lg gap-y-stack">
             {INFOS.map((info, idx) => (
               <div key={idx} className="flex flex-col gap-tight">
-                <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">{info.label}</span>
-                <span className="text-body-sm text-ink-800">{info.value}</span>
+                <dt className="text-caption font-semibold text-ink-600">{info.label}</dt>
+                <dd className="text-body text-ink-900">{info.value}</dd>
               </div>
             ))}
-          </div>
-        </SectionCard>
-
-        {/* Inscription CTA */}
-        <Card variant="default" className="p-stack-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-section">
-          <div className="flex flex-col gap-tight w-full sm:flex-1">
-            <span className="text-body font-semibold text-ink-900">7 / 12 places disponibles</span>
-            <ProgressBar value={58} fill="warm" size="md" valueLabel={false} />
-            <span className="text-caption text-ink-600">Clôture des inscriptions : 17 juin à 18h00</span>
-          </div>
-          <div className="flex flex-col gap-tight items-stretch sm:items-end shrink-0">
-            <Button emphasis="soft" size="lg">Réserver ma place</Button>
-            <span className="text-micro text-ink-600 text-center">Annulation gratuite jusqu'à J-2</span>
-          </div>
+          </dl>
         </Card>
+      </section>
 
-        {/* Infos mode */}
-        <div className="flex items-center gap-stack text-caption text-ink-500">
-          <Video size={14} className="text-ink-600" />
-          <span>Session sur Google Meet : lien envoyé 24h avant la session</span>
-          <Users size={14} className="text-ink-600 ml-stack-xs" />
-          <span>Max 12 participants</span>
-          <MapPin size={14} className="text-ink-600 ml-stack-xs" />
-          <span>Distanciel</span>
-          <Calendar size={14} className="text-ink-600 ml-stack-xs" />
-          <span>18 juin 2026</span>
-          <Clock size={14} className="text-ink-600 ml-stack-xs" />
-          <span>10h00 – 13h00</span>
+      {/* Inscription CTA — ou, la date passée, l'état terminé. Dans les deux
+          cas, c'est l'action principale de la page, son seul `solid`
+          (arbitrage n°19). */}
+      {estTermine ? (
+        <Card variant="default" className="p-stack-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-stack">
+          <div className="flex flex-col gap-stack-3xs w-full sm:flex-1">
+            <p className="text-body font-semibold text-ink-900">Cet atelier est terminé</p>
+            <p className="text-caption text-ink-600">Les réservations sont closes.</p>
+          </div>
+          <Button emphasis="solid" tone="brand" size="lg" className="shrink-0" to={`/ateliers/${id}/recap`}>
+            Voir le récapitulatif
+          </Button>
+        </Card>
+      ) : (
+      <Card variant="default" className="p-stack-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-stack">
+        <div className="flex flex-col gap-stack-xs w-full sm:flex-1">
+          <p className="text-body font-semibold text-ink-900 tabular-nums">7 / 12 places disponibles</p>
+          <ProgressBar value={58} fill="warm" size="md" valueLabel={false} />
+          <p className="text-caption text-ink-600">Clôture des inscriptions : 17 juin à 18h00</p>
         </div>
-      </div>
+        <div className="flex flex-col gap-stack-xs items-stretch sm:items-end shrink-0">
+          <Button emphasis="solid" tone="brand" size="lg">Réserver ma place</Button>
+          <p className="text-caption text-ink-600 text-center">Annulation gratuite jusqu'à J-2</p>
+        </div>
+      </Card>
+      )}
     </PageShell>
   );
 }

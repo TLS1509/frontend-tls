@@ -71,32 +71,79 @@ const CONTROL_BASE =
    Le rayon vit HORS de CONTROL_BASE, comme dans `Button.tsx`, et pour la même
    raison : deux classes de rayon dans la même liste ont la même spécificité
    (0,1,0), donc c'est l'ordre d'émission de Tailwind qui trancherait, pas
-   l'ordre du `className` — piège n°6 de CLAUDE.md. Une seule par appel. */
+   l'ordre du `className` — piège n°6 de .claude/rules/pieges-tailwind.md. Une seule par appel. */
 const RAYON = 'rounded-lg';
 
-// Light surface (default)
-const CONTROL_LIGHT = 'bg-white text-ink-900';
+/* Fond et encre : une table d'états par surface, UNE entrée posée par appel
+   (24/09). Le fond et l'encre du repos vivaient dans CONTROL_LIGHT /
+   CONTROL_GLASS, et l'état désactivé ajoutait les siens : deux classes par
+   propriété, même spécificité, c'est l'ordre d'émission de Tailwind qui
+   tranche (piège n°6). Mesuré en montant le composant : désactivé, le champ
+   clair restait blanc en ink-900, et le champ de verre gardait son fond
+   blanc/15 (seule son encre passait à blanc/40). L'erreur et le succès ne
+   touchent que le filet (STATUS_CLASSES). */
+const ETAT_LIGHT = {
+  repos: 'bg-white text-ink-900',
+  desactive: 'bg-ink-50 text-ink-500 cursor-not-allowed hover:border-ink-300',
+} as const;
+
+const ETAT_GLASS = {
+  repos: 'bg-white/15 text-white hover:border-white/35',
+  desactive: 'bg-white/8 text-white/40 cursor-not-allowed hover:border-white/20',
+} as const;
 
 const STATUS_CLASSES: Record<InputStatus, string> = {
-  default: 'border-ink-300 focus-within:border-primary-500 focus-within:ring-2 focus-within:ring-primary-500/20',
+  // Filet à ink-400 — arbitrage n°7 du 2026-09-23 : 3,01:1 sur blanc (WCAG 1.4.11
+  // exige 3:1), 2,68:1 sur carte teintée (sous le seuil, choix assumé). ink-300
+  // mesurait 1,47:1 : un champ blanc sur fond blanc n'existait pas.
+  default: 'border-ink-400 focus-within:border-primary-500 focus-within:ring-2 focus-within:ring-primary-500/20',
   success: 'border-success-base focus-within:ring-2 focus-within:ring-success-base/35',
   error: 'border-danger-base focus-within:ring-2 focus-within:ring-danger-base/35',
 };
 
-const DISABLED_LIGHT = 'bg-ink-50 text-ink-500 cursor-not-allowed hover:border-ink-300';
-
 // Glass surface — for dark backgrounds (auth shell, modals on dark)
 const CONTROL_GLASS =
-  'bg-white/15 backdrop-blur-glass-medium text-white ' +
-  'border-white/25 hover:border-white/35 ' +
+  'backdrop-blur-glass-medium border-white/25 ' +
   'focus-within:border-white/50 focus-within:ring-2 focus-within:ring-white/20';
 
-const DISABLED_GLASS = 'bg-white/8 text-white/40 cursor-not-allowed hover:border-white/20';
+/* Hauteurs 36 · 44 · 52 — l'échelle commune de l'arbitrage n°22, celle du
+   bouton : un champ et son bouton posés sur une même ligne ont la même taille.
 
+   ⚠️ Le texte SAISI est à 16 px aux trois tailles, `sm` compris. En dessous,
+   Safari sur iOS zoome sur la page au focus et ne la rend pas : l'ancien
+   `sm` en `text-caption` (13) le déclenchait sur la recherche de /veille.
+   La taille se lit donc à la hauteur et au padding, jamais à la police.
+
+   Padding horizontal sur l'échelle d'espacement (12 · 16 · 20), commun à la
+   famille champ — Select, Combobox et Search le reprennent : leurs textes et
+   leurs icônes partent de la même verticale dans un formulaire. */
 const SIZE_CLASSES: Record<InputSize, string> = {
-  sm: 'h-9 px-3 text-caption',
-  md: 'h-touch px-3.5 text-body-sm',
-  lg: 'h-13 px-4 text-body',
+  sm: 'px-stack-sm text-body',
+  md: 'px-stack text-body',
+  lg: 'px-stack-md text-body',
+};
+
+/* La hauteur fixe ne vaut que pour UNE ligne — sortie de SIZE_CLASSES le
+   2026-09-24. En multiligne, le cadre portait `h-touch` ET `h-auto` : deux
+   classes de hauteur de même spécificité, c'est l'ordre d'émission de
+   Tailwind qui tranche (piège n°6), et `h-touch` gagnait. Le cadre restait
+   à 96 px (`min-h-24`) quand la zone de texte en faisait 156 : mesuré sur
+   /help/tickets/new (6 lignes), 73 px de texte hors du cadre, et la poignée
+   de redimensionnement dessinée sous le filet. Une seule classe de hauteur
+   par appel, et aucune en multiligne : le cadre suit sa zone de texte. */
+const SIZE_HEIGHT: Record<InputSize, string> = {
+  sm: 'h-9',
+  md: 'h-touch',
+  lg: 'h-13',
+};
+
+/* Icônes : 16 en `sm`, 18 en `md`, 20 en `lg` — le glyphe direct est plié à
+   sa boîte, quelle que soit la taille passée par l'appelant (même motif que
+   `Button`). Centrées sur la ligne du texte saisi. */
+const ICON_SIZE: Record<InputSize, string> = {
+  sm: '[&>svg]:size-4',
+  md: '[&>svg]:size-4.5',
+  lg: '[&>svg]:size-5',
 };
 
 const TEXTAREA_EXTRA = 'min-h-24 py-3 items-start';
@@ -133,26 +180,30 @@ export const Input: React.FC<InputProps> = ({
     CONTROL_BASE,
     RAYON,
     SIZE_CLASSES[size],
-    isGlass ? CONTROL_GLASS : CONTROL_LIGHT,
+    !multiline && SIZE_HEIGHT[size],
+    isGlass && CONTROL_GLASS,
     !isGlass && STATUS_CLASSES[status],
     multiline && TEXTAREA_EXTRA,
-    multiline && 'h-auto',
-    disabled && (isGlass ? DISABLED_GLASS : DISABLED_LIGHT),
+    (isGlass ? ETAT_GLASS : ETAT_LIGHT)[disabled ? 'desactive' : 'repos'],
   ]
     .filter(Boolean)
     .join(' ');
 
   const labelClasses = isGlass
-    ? 'text-body-sm font-semibold text-white'
-    : 'text-body-sm font-semibold text-ink-900';
+    ? 'text-body font-semibold text-white'
+    : 'text-body font-semibold text-ink-900';
 
   const nativeFieldClasses = isGlass ? NATIVE_FIELD_GLASS : NATIVE_FIELD_LIGHT;
 
-  const iconClasses = isGlass
-    ? 'inline-flex items-center justify-center shrink-0 text-white/60 text-base'
-    : 'inline-flex items-center justify-center shrink-0 text-ink-500 text-base';
+  const iconClasses = [
+    'inline-flex items-center justify-center shrink-0',
+    ICON_SIZE[size],
+    isGlass ? 'text-white/60' : 'text-ink-500',
+  ].join(' ');
 
-  const hintClasses = isGlass ? 'text-caption text-white/60' : 'text-caption text-ink-500';
+  // Aide sous le champ : 13 / 400, ink-600 (doctrine, rôle « méta, aide »).
+  // ink-500 est réservé aux placeholders.
+  const hintClasses = isGlass ? 'text-caption text-white/75' : 'text-caption text-ink-600';
   const errorClasses = isGlass
     ? 'text-caption text-danger-base flex items-center gap-tight'
     : 'text-caption text-danger-fg flex items-center gap-tight';
@@ -218,18 +269,27 @@ export const Input: React.FC<InputProps> = ({
 // CHECKBOX
 // ============================================================================
 
+/* Case, radio et interrupteur s'alignent sur le CENTRE DE LA PREMIÈRE LIGNE
+   de leur libellé (doctrine §4) : `items-start`, et un retrait qui centre la
+   boîte dans l'interligne de 26 px — 3 px pour la case et le radio (20 px),
+   1 px pour l'interrupteur (24). Sur une ligne, le rendu est celui de
+   `items-center` ; sur deux, la boîte ne glisse plus au milieu du bloc.
+   Sans libellé, pas de retrait : la boîte seule se centre chez son parent. */
 const TOGGLE_LABEL =
-  'relative inline-flex items-center gap-stack-xs cursor-pointer font-body text-body-sm text-ink-900 select-none';
+  'relative inline-flex items-start gap-stack-xs cursor-pointer font-body text-body text-ink-900 select-none';
+
+const RETRAIT_BOITE = 'mt-0.75';
+const RETRAIT_RAIL = 'mt-px';
 
 const CHECKBOX_BOX =
-  "inline-flex items-center justify-center w-5 h-5 shrink-0 bg-white border-2 border-ink-300 rounded-sm transition-colors " +
-  "peer-checked:bg-primary-500 peer-checked:border-primary-500 " +
-  "peer-indeterminate:bg-primary-200 peer-indeterminate:border-primary-400 " +
+  "inline-flex items-center justify-center w-5 h-5 shrink-0 bg-white border-2 border-ink-400 rounded-sm transition-colors " +
+  "peer-checked:bg-primary-700 peer-checked:border-primary-700 " +
+  "peer-indeterminate:bg-primary-700 peer-indeterminate:border-primary-700 " +
   "peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-primary-500 " +
   "peer-disabled:bg-ink-50 peer-disabled:border-ink-200 peer-disabled:cursor-not-allowed " +
-  "after:content-[''] after:text-white after:font-bold after:text-[12px] after:leading-none after:opacity-0 " +
+  "after:content-[''] after:text-white after:font-bold after:text-caption after:leading-none after:opacity-0 " +
   "peer-checked:after:content-['✓'] peer-checked:after:opacity-100 " +
-  "peer-indeterminate:after:content-['−'] peer-indeterminate:after:text-primary-700 peer-indeterminate:after:opacity-100";
+  "peer-indeterminate:after:content-['−'] peer-indeterminate:after:opacity-100";
 
 export interface CheckboxProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'size'> {
@@ -256,7 +316,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
   return (
     <label className={[TOGGLE_LABEL, className].filter(Boolean).join(' ')}>
       <input ref={ref} id={fieldId} type="checkbox" className="peer sr-only" {...rest} />
-      <span aria-hidden="true" className={CHECKBOX_BOX} />
+      <span aria-hidden="true" className={label ? `${CHECKBOX_BOX} ${RETRAIT_BOITE}` : CHECKBOX_BOX} />
       {label && <span>{label}</span>}
     </label>
   );
@@ -272,11 +332,11 @@ export interface RadioProps
 }
 
 const RADIO_BOX =
-  "inline-flex items-center justify-center w-5 h-5 shrink-0 bg-white border-2 border-ink-300 rounded-pill transition-colors " +
-  "peer-checked:border-primary-500 " +
+  "inline-flex items-center justify-center w-5 h-5 shrink-0 bg-white border-2 border-ink-400 rounded-pill transition-colors " +
+  "peer-checked:border-primary-700 " +
   "peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-primary-500 " +
   "peer-disabled:bg-ink-50 peer-disabled:border-ink-200 peer-disabled:cursor-not-allowed " +
-  "after:content-[''] after:w-2 after:h-2 after:rounded-pill after:bg-primary-500 after:opacity-0 " +
+  "after:content-[''] after:w-2 after:h-2 after:rounded-pill after:bg-primary-700 after:opacity-0 " +
   "peer-checked:after:opacity-100";
 
 export const Radio: React.FC<RadioProps> = ({
@@ -290,7 +350,7 @@ export const Radio: React.FC<RadioProps> = ({
   return (
     <label className={[TOGGLE_LABEL, className].filter(Boolean).join(' ')}>
       <input id={fieldId} type="radio" className="peer sr-only" {...rest} />
-      <span aria-hidden="true" className={RADIO_BOX} />
+      <span aria-hidden="true" className={label ? `${RADIO_BOX} ${RETRAIT_BOITE}` : RADIO_BOX} />
       {label && <span>{label}</span>}
     </label>
   );
@@ -305,13 +365,19 @@ export interface SwitchProps
   label?: React.ReactNode;
 }
 
+/* Interrupteur façon Material 3 (arbitrage n°9, 2026-09-23). Éteint, le rail
+   n'est PAS rempli : quasi blanc, cerné d'un filet 2 px ink-400 (3:1 sur blanc,
+   WCAG 1.4.11), avec un petit rond gris. Allumé, le rail se remplit au cran 700
+   (5,02:1 — le 500 d'avant ne faisait que 2,94) et le rond grossit en blanc.
+   Le rail plein ink-400 d'avant se lisait comme une masse sombre. Coches et
+   radios suivent : leur état coché est au cran 700 pour la même raison. */
 const SWITCH_TRACK =
-  "relative inline-block w-11 h-6 rounded-xl bg-ink-300 shrink-0 transition-colors " +
-  "peer-checked:bg-primary-500 " +
+  "relative inline-block w-11 h-6 rounded-pill bg-ink-50 border-2 border-ink-400 shrink-0 transition-colors " +
+  "peer-checked:bg-primary-700 peer-checked:border-primary-700 " +
   "peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-primary-500 " +
-  "peer-disabled:bg-ink-50 peer-disabled:cursor-not-allowed " +
-  "after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:w-5 after:h-5 after:rounded-pill after:bg-white after:transition-transform " +
-  "peer-checked:after:translate-x-5";
+  "peer-disabled:bg-ink-50 peer-disabled:border-ink-200 peer-disabled:cursor-not-allowed peer-disabled:after:bg-ink-200 " +
+  "after:content-[''] after:absolute after:top-1 after:left-1 after:w-3 after:h-3 after:rounded-pill after:bg-ink-500 after:transition-all " +
+  "peer-checked:after:top-0.5 peer-checked:after:left-0.5 peer-checked:after:w-4 peer-checked:after:h-4 peer-checked:after:bg-white peer-checked:after:translate-x-5";
 
 export const Switch: React.FC<SwitchProps> = ({
   label,
@@ -330,7 +396,7 @@ export const Switch: React.FC<SwitchProps> = ({
         className="peer sr-only"
         {...rest}
       />
-      <span aria-hidden="true" className={SWITCH_TRACK} />
+      <span aria-hidden="true" className={label ? `${SWITCH_TRACK} ${RETRAIT_RAIL}` : SWITCH_TRACK} />
       {label && <span>{label}</span>}
     </label>
   );

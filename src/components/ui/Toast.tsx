@@ -7,6 +7,7 @@ import { Info, CheckCircle2, AlertTriangle, XCircle, X } from 'lucide-react';
  * (design-system/spec.json supprimé le 2026-07-22 : jamais importé, périmé.)
  *
  * Transient confirmation, non-blocking. 4–6s display, bottom-right, max 3 stacked.
+ * Sans rôle live propre : l'annonce passe par ToastContainer (voir ce fichier).
  * Variants: success/info/warning/danger.
  * Design aligned with Alert: tinted gradient bg, variant-colored border + icon,
  * no circular icon background.
@@ -52,6 +53,11 @@ export interface ToastProps
   icon?: React.ReactNode;
 }
 
+/* Au-delà de cette longueur, le message passe en légende (13 px) : un toast
+   reste une confirmation, pas un paragraphe (passe typographique du
+   2026-09-24 : « texte 13 ou 16 selon la longueur »). */
+const LONG_MESSAGE = 90;
+
 export const Toast: React.FC<ToastProps> = ({
   variant = 'info',
   title,
@@ -67,9 +73,11 @@ export const Toast: React.FC<ToastProps> = ({
 }) => {
   const IconComponent = ICON_BY_VARIANT[variant];
 
+  const isLongMessage = typeof children === 'string' && children.length > LONG_MESSAGE;
+
   const classes = [
     'flex items-start gap-stack-xs rounded-lg border backdrop-blur-sm shadow-lg',
-    'min-w-[320px] max-w-[440px] py-3 px-4 font-body text-body-sm leading-normal',
+    'min-w-[320px] max-w-[440px] py-stack-sm px-stack font-body text-body',
     VARIANT_CLASSES[variant],
     dismissing
       ? 'animate-[toast-out_0.2s_ease_both]'
@@ -80,19 +88,26 @@ export const Toast: React.FC<ToastProps> = ({
     .join(' ');
 
   return (
-    <div className={classes} role="status" aria-live="polite" {...rest}>
-      <span className={`shrink-0 mt-px ${ICON_TONE[variant]}`} aria-hidden="true">
+    // Pas de rôle live ici : c'est la région PERMANENTE de ToastContainer qui
+    // annonce. Un rôle sur chaque toast, monté en même temps que son message,
+    // imbriquait deux régions et n'était souvent pas annoncé du tout.
+    <div className={classes} {...rest}>
+      {/* Icône centrée sur la première ligne (`h-lh`). */}
+      <span className={`shrink-0 inline-flex items-center h-lh ${ICON_TONE[variant]}`} aria-hidden="true">
         {icon ?? <IconComponent size={20} strokeWidth={2} />}
       </span>
-      <div className="flex-1 flex flex-col gap-0.5 min-w-0">
-        {title && <p className="font-bold m-0 leading-tight">{title}</p>}
-        {children && <p className="m-0 opacity-90">{children}</p>}
+      {/* Titre 16/600 · 4 px · message 16, ou 13 s'il est long. L'`opacity-90`
+          du message est retirée : la hiérarchie passe par la taille et la
+          graisse, pas par une encre délavée. */}
+      <div className="flex-1 flex flex-col gap-stack-3xs min-w-0">
+        {title && <p className="font-semibold">{title}</p>}
+        {children && <p className={isLongMessage ? 'text-caption' : ''}>{children}</p>}
       </div>
       {actionLabel && (
         <button
           type="button"
           onClick={onAction}
-          className="shrink-0 self-center bg-transparent border-0 text-current font-semibold text-caption cursor-pointer px-2.5 py-1.5 min-h-touch rounded-md transition-all hover:bg-black/[0.06] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
+          className="shrink-0 self-center bg-transparent border-0 text-current font-bold text-caption cursor-pointer px-2.5 py-1.5 min-h-touch rounded-lg transition-all hover:bg-black/[0.06] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
         >
           {actionLabel}
         </button>

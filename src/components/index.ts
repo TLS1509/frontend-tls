@@ -73,18 +73,9 @@ export type {
   SearchFilterOption,
 } from './patterns/SearchFilters';
 
-export { Pagination } from './ui/Pagination';
-export type { PaginationProps } from './ui/Pagination';
-
 /* ============================================================================
  * UI — Learning
  * ============================================================================ */
-export { Medal } from './ui/Medal';
-export type { MedalProps, MedalSize, MedalVariant } from './ui/Medal';
-
-export { CompetenceBadge, LEVEL_LABELS } from './ui/CompetenceBadge';
-export type { CompetenceBadgeProps, CompetenceLevel } from './ui/CompetenceBadge';
-
 export { StatCard } from './ui/StatCard';
 export type {
   StatCardProps,
@@ -165,9 +156,6 @@ export type {
 /* ============================================================================
  * UI — Utilities & New Components
  * ============================================================================ */
-export { Spinner } from './ui/Spinner';
-export type { SpinnerProps } from './ui/Spinner';
-
 export { NotificationBadge } from './ui/NotificationBadge';
 export type { NotificationBadgeProps } from './ui/NotificationBadge';
 
@@ -185,18 +173,17 @@ export type { SelectCheckboxFloatingProps, SelectCheckboxFloatingOption } from '
 /* ============================================================================
  * Legacy UI Components (pre-spec, kept for backward compatibility)
  * ============================================================================ */
-export { Achievement } from './ui/Achievement';
 export { ActionCard } from './ui/ActionCard';
 // GlassCard deprecated → use <Card variant="glass|glass-brand|glass-warm|glass-dark">
 // SurfaceCard deprecated → use <Card variant="default|elevated|glass|bordered|muted|sunken">
 
 export { MetaPill } from './ui/MetaPill';
+export { IconChip } from './ui/IconChip';
+export type { IconChipProps, IconChipSize, IconChipTone, IconChipSurface } from './ui/IconChip';
 export { MetaItem } from './ui/MetaItem';
 export { ActivityItem } from './ui/ActivityItem';
 export { IconFeatureCard } from './ui/IconFeatureCard';
 export { UserInfo } from './ui/UserInfo';
-export { MasteryBadge } from './ui/MasteryBadge';
-export type { MasteryBadgeProps } from './ui/MasteryBadge';
 // BackgroundBlobs supprimé (Phase 10) — utiliser AmbientBlobs (patterns/AmbientBlobs)
 export { GoalProgress } from './ui/GoalProgress';
 export type { GoalProgressProps } from './ui/GoalProgress';
@@ -312,7 +299,7 @@ export { DreyfusLevelSelector, DEFAULT_DREYFUS_LEVELS } from './ui/DreyfusLevelS
 export type { DreyfusLevelSelectorProps, DreyfusLevel, DreyfusLevelSelectorTone } from './ui/DreyfusLevelSelector';
 
 export { CongratulationsCard } from './patterns/CongratulationsCard';
-export type { CongratulationsCardProps, CongratulationsCardTone, CongratulationsCardXp } from './patterns/CongratulationsCard';
+export type { CongratulationsCardProps, CongratulationsCardTone } from './patterns/CongratulationsCard';
 
 export { NextStepsGrid } from './patterns/NextStepsGrid';
 export type { NextStepsGridProps, NextStepItem, NextStepTone } from './patterns/NextStepsGrid';

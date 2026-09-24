@@ -3,7 +3,7 @@
  */
 
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
   AuthShell,
   AuthDivider,
@@ -20,8 +20,12 @@ import { Mail, UserRound } from 'lucide-react';
 
 export const Signup: React.FC = () => {
   const navigate = useNavigate();
+  // L'e-mail saisi sur /inscription arrive par l'état du routeur : on le
+  // reprend pour ne pas le faire retaper.
+  const location = useLocation();
+  const emailTransmis = (location.state as { email?: unknown } | null)?.email;
   const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(typeof emailTransmis === 'string' ? emailTransmis : '');
   const [password, setPassword] = useState('');
   const [acceptTerms, setAcceptTerms] = useState(false);
 
@@ -33,14 +37,17 @@ export const Signup: React.FC = () => {
 
   return (
     <AuthShell
-      brand={{ subtitle: 'Crée ton compte pour démarrer ta formation' }}
+      /* Passe typographique du 2026-09-24 : le h1 dit la tâche ; le mot de
+         passe a un placeholder qui dit la règle (« •••••••• » en blanc se
+         lisait comme un champ déjà rempli) ; l'action à 24 px des champs. */
+      brand={{ title: 'Créer un compte', subtitle: 'Quelques informations pour démarrer votre formation' }}
       form={
         <form className="flex flex-col gap-stack" onSubmit={handleSubmit}>
           <AuthField
             label="Nom complet"
             icon={<UserRound size={18} />}
             type="text"
-            placeholder="Ton nom"
+            placeholder="Votre nom"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
             required
@@ -50,7 +57,7 @@ export const Signup: React.FC = () => {
             label="Adresse email"
             icon={<Mail size={18} />}
             type="email"
-            placeholder="toi@entreprise.com"
+            placeholder="vous@entreprise.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -58,7 +65,7 @@ export const Signup: React.FC = () => {
 
           <AuthPasswordField
             label="Mot de passe"
-            placeholder="••••••••"
+            placeholder="12 caractères minimum"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -71,19 +78,19 @@ export const Signup: React.FC = () => {
             label={
               <>
                 J'accepte les{' '}
-
-                <a href="#" className="text-white underline underline-offset-4 hover:text-white/85 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-white/60 rounded-sm">
+                {/* Nouvel onglet : le formulaire en cours ne doit pas se perdre. */}
+                <a href="/website/cgv-cgu" target="_blank" rel="noopener noreferrer" className="text-white underline underline-offset-4 hover:text-white/85 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-white/60 rounded-sm">
                   conditions d'utilisation
                 </a>{' '}
                 et la{' '}
-                <a href="#" className="text-white underline underline-offset-4 hover:text-white/85 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-white/60 rounded-sm">
+                <a href="/website/politique-confidentialite" target="_blank" rel="noopener noreferrer" className="text-white underline underline-offset-4 hover:text-white/85 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-white/60 rounded-sm">
                   politique de confidentialité
                 </a>
               </>
             }
           />
 
-          <AuthPrimaryButton type="submit" disabled={!acceptTerms}>
+          <AuthPrimaryButton type="submit" disabled={!acceptTerms} className="mt-stack-xs">
             Créer mon compte
           </AuthPrimaryButton>
 
@@ -95,7 +102,7 @@ export const Signup: React.FC = () => {
           </div>
 
           {/* Footer link */}
-          <p className="text-center text-body-sm text-white/75 m-0 mt-1">
+          <p className="text-center text-body text-white m-0 mt-1">
             Déjà inscrit ?{' '}
             <AuthInlineLink onClick={() => navigate('/auth/login')}>
               Se connecter

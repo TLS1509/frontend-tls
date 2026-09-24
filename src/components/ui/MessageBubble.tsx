@@ -6,6 +6,8 @@ import {
   AlertTriangle,
   ShieldOff,
   CheckCheck,
+  Check,
+  X,
 } from 'lucide-react';
 import { Avatar } from './Avatar';
 import type { AvatarTint } from './Avatar';
@@ -69,7 +71,9 @@ function renderContent(text: string): React.ReactNode {
     if (line === '') return <br key={i} />;
     const parts = line.split(/(\*\*[^*]+\*\*)/g);
     return (
-      <p key={i} className="m-0 mb-0.5 last:mb-0 leading-relaxed">
+      /* Le pas `body` (16/26) porte l'interligne : le `leading-relaxed` écrit
+         à côté valait exactement 26 px, il ne faisait que doubler le token. */
+      <p key={i} className="m-0 mb-tight last:mb-0">
         {parts.map((part, j) =>
           part.startsWith('**') && part.endsWith('**') ? (
             <strong key={j}>{part.slice(2, -2)}</strong>
@@ -116,17 +120,17 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
       <div className={`flex flex-col items-end gap-stack-xs ${className}`}>
         <div
           className={[
-            'px-4 py-3 text-body-sm',
+            'px-4 py-3 text-body',
             isChatbot
               ? 'max-w-[75%] bg-primary-100 text-primary-900 rounded-xl rounded-br-sm'
-              : 'max-w-[68%] bg-primary-500 text-white rounded-xl rounded-br-xs shadow-md',
+              : 'max-w-[68%] bg-primary-700 text-white rounded-xl rounded-br-xs shadow-md',
           ].join(' ')}
         >
           {renderContent(content)}
           {children}
         </div>
         <div className="flex items-center gap-tight px-1">
-          <span className="text-micro text-ink-600">{timestamp}</span>
+          <span className="text-caption text-ink-600 tabular-nums">{timestamp}</span>
           {showReadReceipt && (
             <CheckCheck size={14} className="text-primary-400" />
           )}
@@ -149,7 +153,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
 
       <div className="flex flex-col gap-stack-xs flex-1 min-w-0">
         {senderName && (
-          <span className="text-micro text-ink-500 font-semibold pl-1">
+          <span className="text-caption text-ink-600 font-semibold pl-1">
             {senderName}
           </span>
         )}
@@ -157,7 +161,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
         {/* Bubble */}
         <div
           className={[
-            'px-4 py-3 text-body-sm',
+            'px-4 py-3 text-body',
             isChatbot
               ? 'max-w-[82%] rounded-lg rounded-bl-sm'
               : 'max-w-[68%] rounded-lg rounded-bl-xs shadow-xs',
@@ -194,14 +198,17 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
 
         {/* Timestamp + source citation pills */}
         <div className="flex items-start gap-stack-xs pl-1 flex-wrap">
-          <span className="text-micro text-ink-600 shrink-0">{timestamp}</span>
+          <span className="text-caption text-ink-600 shrink-0 tabular-nums">{timestamp}</span>
 
           {isChatbot && sourcesCited && sourcesCited.length > 0 && (
+            /* Pastille faite main, et c'est voulu : elle porte un LIEN, et
+               MetaPill n'a que deux rendus (span, ou <button> avec onClick) — pas
+               d'<a>. Label au cran 800 : le 700 mesurait 4,48 à 11 px. */
             <div className="flex flex-wrap gap-tight">
               {sourcesCited.map((src) => (
                 <span
                   key={src.sourceId}
-                  className="inline-flex items-center gap-tight text-micro bg-primary-50 text-primary-700 border border-primary-200 rounded-pill px-2 py-0.5"
+                  className="inline-flex items-center gap-tight text-micro font-medium bg-primary-50 text-primary-800 border border-primary-200 rounded-pill px-2 py-0.5"
                 >
                   {src.url ? (
                     <a
@@ -224,23 +231,25 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
         {isChatbot && !isPrivacyBlocked && (
           <div className="flex items-center gap-stack-xs pl-1">
             {hasFeedback ? (
-              <span className="text-micro text-ink-500">
-                {feedback?.rating === 'yes' ? '✓ Utile' : '✗ Pas utile'} —
-                merci pour ton retour
+              <span className="inline-flex items-center gap-stack-3xs text-caption text-ink-600">
+                {feedback?.rating === 'yes'
+                  ? <><Check size={14} aria-hidden /> Utile</>
+                  : <><X size={14} aria-hidden /> Pas utile</>}
+                {' '}· merci pour ton retour
               </span>
             ) : (
               <>
-                <span className="text-micro text-ink-600">Utile ?</span>
+                <span className="text-caption text-ink-600">Utile ?</span>
                 <button
                   onClick={() => messageId && onFeedback?.(messageId, 'yes')}
-                  className="inline-flex items-center gap-tight text-micro text-success-fg hover:text-success-base transition-colors duration-fast px-1.5 py-0.5 rounded-sm hover:bg-success-bg"
+                  className="inline-flex items-center gap-tight text-caption text-success-fg transition-colors duration-fast px-1.5 py-0.5 rounded-sm hover:bg-success-bg"
                   aria-label="Marquer comme utile"
                 >
                   <ThumbsUp size={14} /> Oui
                 </button>
                 <button
                   onClick={() => messageId && onFeedback?.(messageId, 'no')}
-                  className="inline-flex items-center gap-tight text-micro text-danger-fg hover:text-danger-base transition-colors duration-fast px-1.5 py-0.5 rounded-sm hover:bg-danger-bg"
+                  className="inline-flex items-center gap-tight text-caption text-danger-fg hover:text-danger-base transition-colors duration-fast px-1.5 py-0.5 rounded-sm hover:bg-danger-bg"
                   aria-label="Marquer comme pas utile"
                 >
                   <ThumbsDown size={14} /> Non

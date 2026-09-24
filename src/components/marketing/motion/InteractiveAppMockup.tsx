@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence, MotionConfig } from 'framer-motion';
-import { BookOpen, MessageSquare, NotebookPen, Compass, Sparkles } from 'lucide-react';
+import { BookOpen, MessageSquare, NotebookPen, Compass, Award, MousePointerClick } from 'lucide-react';
 import { TlsLogo } from '../../ui/TlsLogo';
+import { MetaPill } from '../../ui/MetaPill';
 
 type TabKey = 'parcours' | 'coaching' | 'journal' | 'veille';
 
@@ -27,9 +28,9 @@ const panelMotion = {
 
 const ParcoursPanel: React.FC = () => (
   <motion.div {...panelMotion} className="flex flex-col gap-stack-xs">
-    <div className="rounded-xl bg-gradient-to-br from-secondary-500 to-secondary-600 p-4 text-white">
+    <div className="rounded-xl bg-gradient-to-br from-secondary-700 to-secondary-800 p-4 text-white">
       <span className="text-caption opacity-80 font-semibold uppercase tracking-wider">Étape 4 sur 7</span>
-      <p className="font-display text-h4 font-bold m-0 mt-1">Devenir prompt designer</p>
+      <p className="font-display text-h3 font-bold m-0 mt-1">Devenir prompt designer</p>
       <div className="mt-3 h-1.5 bg-white/30 rounded-pill overflow-hidden">
         <motion.div
           initial={{ width: '0%' }}
@@ -44,19 +45,24 @@ const ParcoursPanel: React.FC = () => (
         initial={{ scale: 0.85, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ delay: 0.45, type: 'spring', stiffness: 260, damping: 18 }}
-        className="rounded-lg bg-primary-50 border border-primary-100 p-3 flex flex-col gap-0.5"
+        className="rounded-lg bg-primary-50 border border-primary-100 p-3 flex flex-col gap-tight"
       >
-        <span className="text-caption font-bold text-primary-700 uppercase">XP gagnés</span>
-        <span className="font-display text-h4 font-bold text-ink-900 tabular-nums">+340</span>
+        {/* Libellé de donnée : légende 13/600 à l'encre de marque au cran 800
+            (6,31:1 sur primary-50). La maquette montre le produit tel qu'il
+            est depuis l'arbitrage n°18 : elle affichait « XP gagnés +340 »
+            et « Streak 12 j », que l'app n'a plus. Elle montre un niveau
+            validé et le rythme hebdomadaire. */}
+        <span className="text-caption font-semibold text-primary-800">Niveau validé</span>
+        <span className="font-display text-h3 font-bold text-ink-900 tabular-nums">D3</span>
       </motion.div>
       <motion.div
         initial={{ scale: 0.85, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ delay: 0.6, type: 'spring', stiffness: 260, damping: 18 }}
-        className="rounded-lg bg-accent-50 border border-accent-100 p-3 flex flex-col gap-0.5"
+        className="rounded-lg bg-accent-50 border border-accent-100 p-3 flex flex-col gap-tight"
       >
-        <span className="text-caption font-bold text-warning-fg uppercase">Streak</span>
-        <span className="font-display text-h4 font-bold text-ink-900 tabular-nums">12 j</span>
+        <span className="text-caption font-semibold text-warning-fg">Semaines actives</span>
+        <span className="font-display text-h3 font-bold text-ink-900 tabular-nums">3 sur 4</span>
       </motion.div>
     </div>
     <motion.div
@@ -65,9 +71,11 @@ const ParcoursPanel: React.FC = () => (
       transition={{ delay: 0.75 }}
       className="rounded-lg bg-gradient-to-br from-accent-50 to-accent-100/40 border border-accent-200 p-3 flex items-center gap-stack-xs"
     >
-      <Sparkles size={16} className="text-warning-fg shrink-0" />
+      {/* Un Open Badge adossé à un niveau validé, dit calmement : plus de
+          « Nouveau badge débloqué » sous une étincelle (réservée à l'IA). */}
+      <Award size={16} className="text-warning-fg shrink-0" aria-hidden="true" />
       <span className="font-body text-caption font-semibold text-ink-800">
-        Nouveau badge débloqué <span className="font-bold">Prompt Apprenti</span>
+        Open Badge obtenu <span className="font-bold">Prompting · D3</span>
       </span>
     </motion.div>
   </motion.div>
@@ -82,7 +90,7 @@ const CoachingPanel: React.FC = () => (
       className="flex justify-start"
     >
       <div className="rounded-lg rounded-bl-md bg-ink-100 px-3 py-2 max-w-[85%]">
-        <p className="font-body text-body-sm text-ink-900 m-0">
+        <p className="font-body text-body text-ink-900 m-0">
           Bravo pour ta soumission Marie ! J'ai trois retours détaillés à partager.
         </p>
       </div>
@@ -93,8 +101,8 @@ const CoachingPanel: React.FC = () => (
       transition={{ delay: 0.4 }}
       className="flex justify-end"
     >
-      <div className="rounded-lg rounded-br-md bg-primary-500 text-white px-3 py-2 max-w-[85%]">
-        <p className="font-body text-body-sm m-0">Merci Sarah, je relis ce soir 🙏</p>
+      <div className="rounded-lg rounded-br-md bg-primary-700 text-white px-3 py-2 max-w-[85%]">
+        <p className="font-body text-body m-0">Merci Sarah, je relis ce soir 🙏</p>
       </div>
     </motion.div>
     <motion.div
@@ -103,11 +111,11 @@ const CoachingPanel: React.FC = () => (
       transition={{ delay: 0.7 }}
       className="rounded-lg bg-white border border-ink-200 p-3 flex items-center gap-stack-xs mt-2 shadow-xs"
     >
-      <div className="w-10 h-10 rounded-pill bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white font-bold">
+      <div className="w-10 h-10 rounded-pill bg-gradient-to-br from-primary-700 to-primary-800 flex items-center justify-center text-white font-bold">
         S
       </div>
       <div className="flex-1 min-w-0">
-        <p className="font-body font-bold text-body-sm text-ink-900 m-0 truncate">Session avec Sarah</p>
+        <p className="font-body font-bold text-body text-ink-900 m-0 truncate">Session avec Sarah</p>
         <p className="font-body text-caption text-ink-500 m-0 truncate">Mardi 14:30 · Visio</p>
       </div>
       <motion.span
@@ -127,13 +135,13 @@ const JournalPanel: React.FC = () => (
     <div className="rounded-lg bg-gradient-to-br from-accent-50 to-secondary-50 p-4 border border-accent-200">
       <span className="text-caption font-bold text-warning-fg uppercase tracking-wider">Aujourd'hui</span>
       <p className="font-display text-body font-semibold font-bold text-ink-900 m-0 mt-1">3 insights après ma session</p>
-      <p className="font-body text-body-sm text-ink-700 m-0 mt-2 line-clamp-2">
+      <p className="font-body text-body text-ink-700 m-0 mt-2 line-clamp-2">
         J'ai compris que mes apprenants ont besoin de respiration entre les modules denses. La prochaine cohorte sera plus rythmée.
       </p>
     </div>
     <div className="grid grid-cols-3 gap-stack-xs">
       {[
-        { label: 'Insight', tone: 'bg-primary-50 text-primary-700 border-primary-100' },
+        { label: 'Insight', tone: 'bg-primary-50 text-primary-800 border-primary-100' },
         { label: 'Question', tone: 'bg-secondary-50 text-secondary-700 border-secondary-100' },
         { label: 'Action', tone: 'bg-accent-50 text-warning-fg border-accent-100' },
       ].map(({ label, tone }, i) => (
@@ -165,10 +173,8 @@ const VeillePanel: React.FC = () => (
         transition={{ delay: i * 0.12 }}
         className="rounded-lg bg-white border border-ink-200 p-3 flex flex-col gap-tight"
       >
-        <span className="inline-flex items-center self-start px-2 py-0.5 rounded-pill bg-primary-50 text-primary-700 text-micro font-bold uppercase">
-          {item.tag}
-        </span>
-        <p className="font-body font-bold text-body-sm text-ink-900 m-0">{item.title}</p>
+        <MetaPill text={item.tag} tone="primary" className="self-start" />
+        <p className="font-body font-bold text-body text-ink-900 m-0">{item.title}</p>
         <p className="font-body text-caption text-ink-500 m-0">{item.src}</p>
       </motion.div>
     ))}
@@ -225,14 +231,14 @@ export const InteractiveAppMockup: React.FC<Props> = ({
             <span className="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-white shadow-xs text-primary-600">
               {activeTab?.icon}
             </span>
-            <span className="font-display font-bold text-body-sm text-ink-900">{activeTab?.label}</span>
+            <span className="font-display font-bold text-body text-ink-900">{activeTab?.label}</span>
           </div>
         ) : (
           <>
             {/* mockup header */}
             <div className="flex items-center gap-stack-xs pb-3 border-b border-ink-100">
               <TlsLogo size={20} />
-              <span className="font-display font-bold text-body-sm text-ink-900">Learning App</span>
+              <span className="font-display font-bold text-body text-ink-900">Learning App</span>
               <div className="ml-auto flex gap-tight">
                 <span className="w-2 h-2 rounded-pill bg-ink-200" />
                 <span className="w-2 h-2 rounded-pill bg-ink-200" />
@@ -290,8 +296,8 @@ export const InteractiveAppMockup: React.FC<Props> = ({
         {/* hint — full variant only, since compact has no tab-switcher to hint at */}
         {!compact && (
           <div className="pt-2 border-t border-ink-100 flex items-center justify-center gap-stack-2xs">
-            <Sparkles size={14} className="text-warning-fg" />
-            <span className="font-body text-caption text-ink-500">Clique sur les onglets pour explorer</span>
+            <MousePointerClick size={14} className="text-warning-fg" aria-hidden="true" />
+            <span className="font-body text-caption text-ink-600">Clique sur les onglets pour explorer</span>
           </div>
         )}
       </div>

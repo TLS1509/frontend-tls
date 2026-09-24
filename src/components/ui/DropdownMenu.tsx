@@ -16,18 +16,23 @@
  *   - ArrowDown / ArrowUp navigation between focusable items
  *   - Home / End jump to first / last
  *   - Escape calls onClose (if provided)
- *   - Focus returns to `returnFocusTo` element on close
+ *   - Activating an item calls onClose too (APG Menu Button)
+ *   - Focus returns to the trigger on close — Escape, item, click outside
+ *     (audit du 23/09 : il tombait sur <body>). Cible : `returnFocusTo` si
+ *     fourni, sinon l'élément qui avait le focus à l'ouverture du menu.
+ *   - Le déclencheur porte `aria-haspopup="menu"` + `aria-expanded` : c'est au
+ *     parent de les poser, il possède le bouton.
  *
  * Used by : App.tsx (Sidebar user menu — variant="glass")
  */
 
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useCallback } from 'react';
 
 export type DropdownMenuVariant = 'solid' | 'glass';
 
 export interface DropdownMenuProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: DropdownMenuVariant;
-  /** Called when user presses Escape — caller should toggle their open state. */
+  /** Called on Escape, Tab and item activation — caller should toggle their open state. */
   onClose?: () => void;
   /** Auto-focus first item when menu opens (default: true). */
   autoFocus?: boolean;
@@ -36,7 +41,7 @@ export interface DropdownMenuProps extends React.HTMLAttributes<HTMLDivElement> 
 }
 
 const MENU_BASE =
-  'min-w-[220px] p-1.5 rounded-xl flex flex-col gap-0.5 font-body animate-[dd-slide-up_0.2s_ease-out] outline-none';
+  'min-w-[220px] p-1.5 rounded-xl flex flex-col gap-tight font-body animate-[dd-slide-up_0.2s_ease-out] outline-none';
 
 const MENU_VARIANTS: Record<DropdownMenuVariant, string> = {
   solid:
@@ -58,9 +63,38 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
   returnFocusTo,
   className = '',
   children,
+  onClick,
   ...rest
 }) => {
   const menuRef = useRef<HTMLDivElement>(null);
+
+  // Retour du focus au déclencheur (APG Menu Button). On mémorise, AVANT de
+  // prendre le focus, l'élément qui l'avait : c'est le bouton d'ouverture quand
+  // le menu s'ouvre au clavier (et au clic dans Chrome et Firefox).
+  // `useLayoutEffect` et pas `useEffect` : son nettoyage s'exécute AVANT que
+  // React retire le menu du DOM, donc on sait encore si le focus y était.
+  // Après retrait, il serait déjà sur <body> et on ne saurait plus rien.
+  const returnFocusRef = useRef(returnFocusTo);
+  returnFocusRef.current = returnFocusTo;
+  useLayoutEffect(() => {
+    const menu = menuRef.current;
+    const opener = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    return () => {
+      const target =
+        returnFocusRef.current?.current ??
+        (opener && opener !== document.body && opener.isConnected ? opener : null);
+      if (!target) return;
+      const active = document.activeElement;
+      // On ne vole pas le focus : seulement s'il était dans le menu, ou perdu.
+      if (active && active !== document.body && !menu?.contains(active)) return;
+      target.focus();
+      // Clic dehors sur une zone non focalisable : le navigateur remet le focus
+      // sur <body> APRÈS nous (action par défaut du mousedown). On repasse.
+      window.setTimeout(() => {
+        if (document.activeElement === document.body && target.isConnected) target.focus();
+      }, 0);
+    };
+  }, []);
 
   // Focus first item on mount
   useEffect(() => {
@@ -101,12 +135,8 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
         }
         case 'Escape': {
           e.preventDefault();
+          // Le retour du focus au déclencheur se fait au démontage (ci-dessus).
           onClose?.();
-          // Return focus to trigger after close
-          if (returnFocusTo?.current) {
-            // Slight delay to allow re-render before refocusing
-            window.setTimeout(() => returnFocusTo.current?.focus(), 0);
-          }
           break;
         }
         case 'Tab': {
@@ -116,7 +146,18 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
         }
       }
     },
-    [onClose, returnFocusTo],
+    [onClose],
+  );
+
+  // Choisir un item ferme le menu (APG Menu Button) ; le focus revient alors au
+  // déclencheur par le même chemin. Le onClick de l'item s'exécute d'abord.
+  const handleClick = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      const item = (e.target as HTMLElement).closest('[role="menuitem"]');
+      onClick?.(e);
+      if (item && menuRef.current?.contains(item) && !item.hasAttribute('disabled')) onClose?.();
+    },
+    [onClose, onClick],
   );
 
   return (
@@ -126,6 +167,7 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
       role="menu"
       aria-orientation="vertical"
       onKeyDown={handleKeyDown}
+      onClick={handleClick}
       tabIndex={-1}
       {...rest}
     >
@@ -145,7 +187,10 @@ export const DropdownLabel: React.FC<React.HTMLAttributes<HTMLParagraphElement>>
 }) => (
   <p
     className={[
-      'font-mono text-micro font-bold uppercase tracking-wider text-ink-500 px-2.5 pt-2 pb-1 m-0',
+      // Titre de groupe : 13 / 600, ink-600, en casse normale — une légende de
+      // groupe, pas une étiquette. Le `micro` en capitales et en chasse fixe
+      // est réservé au `Badge` (doctrine, échelle typographique).
+      'text-caption font-semibold text-ink-600 px-3 pt-2 pb-1',
       className,
     ]
       .filter(Boolean)
@@ -171,8 +216,12 @@ export interface DropdownItemProps extends React.ButtonHTMLAttributes<HTMLButton
   danger?: boolean;
 }
 
+/* Item : 16 / 400 — un menu est une liste d'options qu'on lit, sa graisse est
+   celle du texte (500 est réservé aux puces). 44 px de haut, le `md` de
+   l'échelle commune : `py-2` et l'interligne de 26 donnent 42, le plancher
+   `min-h-touch` complète (il en rendait 46 avec `py-2.5`). */
 const ITEM_BASE =
-  'group relative flex items-center gap-2.5 w-full px-3 py-2.5 min-h-touch bg-transparent border-0 rounded-md text-body-sm font-medium cursor-pointer text-left transition-all ' +
+  'group relative flex items-center gap-stack-xs w-full px-3 py-2 min-h-touch bg-transparent border-0 rounded-md text-body cursor-pointer text-left transition-all ' +
   'focus-visible:outline-2 focus-visible:outline-offset-[-2px]';
 
 const ITEM_DEFAULT =
@@ -182,10 +231,13 @@ const ITEM_DANGER =
   'text-danger-fg hover:bg-danger-bg focus-visible:outline-danger-base focus:bg-danger-bg';
 
 const BADGE_CLASSES: Record<DropdownItemBadge, string> = {
-  demo: 'bg-gradient-to-br from-secondary-400 to-secondary-600 text-white',
-  pro:  'bg-gradient-to-br from-secondary-500 to-secondary-700 text-white',
-  new:  'bg-gradient-to-br from-success-base to-success-fg text-white',
-  beta: 'bg-gradient-to-br from-primary-400 to-primary-600 text-white',
+  // Libellés à 11 px : 4,5:1 à l'arrêt le plus clair, donc 700 au minimum
+  // (partis du 400/500, ils mesuraient 2,44 à 2,64). PRO descend d'un cran de
+  // plus pour rester distinct de DEMO.
+  demo: 'bg-gradient-to-br from-secondary-700 to-secondary-800 text-white',
+  pro:  'bg-gradient-to-br from-secondary-800 to-secondary-900 text-white',
+  new:  'bg-gradient-to-br from-success-vivid to-success-fg text-white',
+  beta: 'bg-gradient-to-br from-primary-700 to-primary-800 text-white',
 };
 
 const BADGE_LABELS: Record<DropdownItemBadge, string> = {
@@ -217,7 +269,7 @@ export const DropdownItem: React.FC<DropdownItemProps> = ({
       {icon && (
         <span
           className={[
-            'inline-flex items-center justify-center w-4 h-4 shrink-0 transition-transform group-hover:scale-110',
+            'inline-flex items-center justify-center size-4.5 shrink-0 [&>svg]:size-full transition-transform group-hover:scale-110',
             danger ? 'text-danger-base' : 'text-ink-500 group-hover:text-primary-600',
           ].join(' ')}
         >
@@ -228,7 +280,7 @@ export const DropdownItem: React.FC<DropdownItemProps> = ({
       {badge != null && isBuiltinBadge && (
         <span
           className={[
-            'inline-flex items-center justify-center px-2 py-0.5 rounded-pill text-micro font-extrabold tracking-wider shadow-sm shrink-0',
+            'inline-flex items-center justify-center px-2 py-0.5 rounded-pill text-micro font-bold tracking-label shadow-sm shrink-0',
             BADGE_CLASSES[badge as DropdownItemBadge],
           ].join(' ')}
         >
@@ -239,7 +291,7 @@ export const DropdownItem: React.FC<DropdownItemProps> = ({
         <span className="shrink-0">{badge}</span>
       )}
       {shortcut && (
-        <kbd className="font-mono text-[11px] px-1.5 py-0.5 bg-primary-50 text-ink-500 rounded-sm border border-primary-200 whitespace-nowrap transition-all">
+        <kbd className="font-mono text-micro px-1.5 py-0.5 bg-primary-50 text-ink-600 rounded-sm border border-primary-200 whitespace-nowrap transition-all">
           {shortcut}
         </kbd>
       )}

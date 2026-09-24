@@ -8,24 +8,24 @@
  *  1. Check hasCompleted (skip if already done)
  *  2. ViewerHeader sticky (back vers /learning-paths/:id)
  *  3. InlineProgress (X / Y compétences)
- *  4. DreyfusLevelSelector centré (1 question par compétence)
+ *  4. La compétence en h2 + DreyfusLevelSelector (1 question par compétence)
  *  5. Footer nav : Précédent + Suivant
- *  6. État final : SectionCard avec résumé + CTA "Commencer le parcours"
+ *  6. État final : h1, niveau moyen et compétences en rangées + CTA "Commencer le parcours"
  *
  * Route : /learning-paths/:id/positionnement
  */
 
 import React, { useState, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, CheckCircle } from 'lucide-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { Button } from '../components/core/Button';
-import { Badge } from '../components/ui/Badge';
+import { Card } from '../components/core/Card';
+import { MetaPill } from '../components/ui/MetaPill';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { DreyfusLevelSelector } from '../components/ui/DreyfusLevelSelector';
 import { ViewerHeader } from '../components/patterns/ViewerHeader';
-import { SectionCard } from '../components/patterns/SectionCard';
 import { useToastContext } from '../contexts/ToastContext';
-import { getFirstLessonId, getParcoursCompetenceIds } from '../data/learningPaths';
+import { getFirstLessonId, getParcoursCompetenceIds, MOCK_PARCOURS_DATA } from '../data/learningPaths';
 import { getCompetenceById, DREYFUS_LABELS } from '../data/competencies';
 import { usePositioningStore } from '../stores/persistence';
 import type { DreyfusLevel, PositioningAnswer } from '../types/learning';
@@ -56,6 +56,10 @@ export const Positionnement: React.FC = () => {
     [competenceIds]
   );
 
+  /* Le nom du parcours tient la barre du lecteur ; le titre de l'écran vit
+     dans le contenu, en h1 (passe typographique du 24/09). */
+  const parcoursTitle = MOCK_PARCOURS_DATA[id]?.title ?? 'Parcours';
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, DreyfusLevel>>({});
   const [isFinished, setIsFinished] = useState(false);
@@ -73,7 +77,7 @@ export const Positionnement: React.FC = () => {
 
   const handleNext = () => {
     if (!currentAnswer) {
-      toast.warning('Choisissez un niveau avant de continuer', 'Niveau requis');
+      toast.warning('Choisis un niveau avant de continuer', 'Niveau requis');
       return;
     }
     if (isLast) {
@@ -111,53 +115,80 @@ export const Positionnement: React.FC = () => {
       Object.values(answers).reduce((a, b) => a + b, 0) / Object.values(answers).length
     );
 
+    /* L'écran de résultats, retravaillé le 24/09 : un h1 dans le contenu (la
+       barre le portait, à 16 px) ; le niveau moyen comme une valeur (League
+       Spartan au cran 800 : il était au 600, 3,66:1) ; les compétences en
+       rangées, leur niveau en MetaPill (une donnée — elles étaient en Badge
+       capitales). Le tout calé à gauche : le paragraphe centré courait sur
+       deux lignes et demie. */
     return (
       <div className="min-h-[100dvh] bg-gradient-page-ambient flex flex-col">
         <ViewerHeader
           onBack={() => navigate(`/learning-paths/${id}`)}
           backLabel="Retour au parcours"
           eyebrow="Positionnement"
-          title="Résultats"
+          title={parcoursTitle}
         />
 
-        <main className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-10 py-section">
-          <div className="w-full max-w-2xl flex flex-col gap-section">
-            <SectionCard
-              tone="brand"
-              titleIcon={<CheckCircle size={20} />}
-              title="Positionnement complété"
-              description="Voici votre niveau moyen Dreyfus. Le parcours s'adapte à votre profil."
-            >
-              <div className="flex flex-col items-center gap-stack text-center py-stack">
-                <div className="flex items-baseline gap-stack-xs">
-                  <span className="text-h1 font-display font-bold text-primary-600">D{avgLevel}</span>
-                  <span className="text-body-sm text-ink-600">{DREYFUS_LABELS[avgLevel as DreyfusLevel]}</span>
-                </div>
-                <p className="m-0 font-body text-body-sm text-ink-700 max-w-prose">
-                  Nous avons évalué vos {total} compétences clés. Le contenu du parcours s'adapte à
-                  votre progression.
+        <div className="flex-1 px-4 sm:px-6 lg:px-10 py-section md:py-section-lg">
+          <div className="w-full max-w-2xl mx-auto flex flex-col gap-section">
+            <header className="flex flex-col gap-stack-sm">
+              <h1 className="font-display text-h1 text-ink-900">
+                Ton positionnement est enregistré
+              </h1>
+              <p className="font-body text-body-lg text-ink-700 max-w-prose">
+                Nous avons évalué tes {total} compétences clés. Le contenu du parcours
+                s'adapte à ta progression.
+              </p>
+            </header>
+
+            <Card className="flex flex-col gap-stack-lg">
+              {/* La valeur et son libellé, sur la même ligne de base. */}
+              <div className="flex flex-col gap-stack-3xs">
+                <p className="font-body text-caption font-semibold text-ink-600">Niveau moyen</p>
+                <p className="flex items-baseline gap-stack-xs">
+                  <span className="font-display text-h1 text-primary-800 tabular-nums">D{avgLevel}</span>
+                  <span className="font-body text-body-lg text-ink-900">
+                    {DREYFUS_LABELS[avgLevel as DreyfusLevel]}
+                  </span>
                 </p>
               </div>
 
-              <div className="flex flex-col gap-stack-xs p-stack bg-primary-50 rounded-lg border border-primary-200">
-                <p className="text-caption font-semibold text-primary-700">Compétences positionnées :</p>
-                <div className="flex flex-wrap gap-stack-xs">
+              {/* Deux parties de la même carte, deux libellés de même voix
+                  (13/600 ink-600) : « Niveau moyen » et celui-ci. */}
+              <div className="flex flex-col gap-stack-3xs pt-stack-lg border-t border-ink-100">
+                <p className="font-body text-caption font-semibold text-ink-600">Compétences positionnées</p>
+                <ul className="divide-y divide-ink-100">
                   {Object.entries(answers).map(([compId, level]) => {
                     const comp = getCompetenceById(compId);
                     return (
-                      <Badge key={compId} variant="brand" size="compact">
-                        {comp?.label ?? compId} : D{level}
-                      </Badge>
+                      <li key={compId} className="flex items-center justify-between gap-stack py-stack-sm">
+                        <span className="font-body text-body text-ink-900">{comp?.label ?? compId}</span>
+                        <MetaPill
+                          tone="brand"
+                          text={`D${level} · ${DREYFUS_LABELS[level as DreyfusLevel]}`}
+                          className="shrink-0"
+                        />
+                      </li>
                     );
                   })}
-                </div>
+                </ul>
               </div>
-            </SectionCard>
+            </Card>
 
-            <div className="flex flex-col sm:flex-row gap-stack justify-center">
+            {/* « Commencer le parcours » est l'aplat de l'écran (arbitrage
+                n°19). « Refaire » efface les réponses : un `ghost` neutre,
+                comme « Réinitialiser » — il était en `outline`, réservé à
+                Annuler dans une paire. Côte à côte (dès 640 px), le ghost
+                ouvre la rangée et se cale sur le bord du texte
+                (`sm:-ml-stack-md`) ; empilés, les deux boutons prennent la
+                largeur. */}
+            <div className="flex flex-col-reverse sm:flex-row gap-stack sm:justify-between">
               <Button
-                emphasis="outline"
+                emphasis="ghost"
+                tone="neutral"
                 size="md"
+                className="sm:-ml-stack-md"
                 onClick={() => {
                   setCurrentIndex(0);
                   setIsFinished(false);
@@ -167,7 +198,7 @@ export const Positionnement: React.FC = () => {
                 Refaire le positionnement
               </Button>
               <Button
-                emphasis="soft"
+                emphasis="solid"
                 size="md"
                 trailingIcon={<ArrowRight size={14} />}
                 onClick={handleStartPath}
@@ -176,72 +207,112 @@ export const Positionnement: React.FC = () => {
               </Button>
             </div>
           </div>
-        </main>
+        </div>
       </div>
     );
   }
 
   /* ── Questionnaire ─────────────────────────────────────────────────── */
+  /* Retravaillé le 24/09 : le titre de l'écran est un h1 dans le contenu (la
+     barre du lecteur le portait en h1 à 16 px, check-typo le relevait) ; la
+     compétence évaluée est la question, posée sur la page en h2 28 avec sa
+     description — elle était un h3 20 dans une carte vitrée qui contenait
+     elle-même cinq cartes. Le compteur de la barre disparaît : il doublait
+     « Compétence 1 sur 3 » et sa jauge. */
   return (
     <div className="min-h-[100dvh] bg-surface flex flex-col">
       <ViewerHeader
         onBack={() => navigate(`/learning-paths/${id}`)}
         backLabel="Retour au parcours"
         eyebrow="Positionnement"
-        title="Évaluons votre niveau"
-        current={currentIndex + 1}
-        total={total}
+        title={parcoursTitle}
       />
 
-      <main className="flex-1 px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
-        <div className="max-w-3xl w-full mx-auto flex flex-col gap-section">
+      <div className="flex-1 px-4 sm:px-6 lg:px-10 py-section md:py-section-lg">
+        <div className="max-w-3xl w-full mx-auto flex flex-col gap-page">
 
-          {/* Progress */}
-          <div className="flex flex-col gap-tight">
-            <div className="flex items-baseline justify-between font-body text-caption text-ink-500">
-              <span>Compétence {currentIndex + 1} sur {total}</span>
-              <span className="font-bold text-primary-700 tabular-nums">{progressPct}%</span>
+          {/* En-tête de l'écran : titre, chapô, puis l'avancement (12 sous le
+              chapô ; 16 entre les deux groupes). */}
+          <header className="flex flex-col gap-stack">
+            <div className="flex flex-col gap-stack-sm">
+              <h1 className="font-display text-h1 text-ink-900">Évaluons ton niveau</h1>
+              <p className="font-body text-body-lg text-ink-700 max-w-prose">
+                Pour chaque compétence du parcours, choisis le niveau qui te décrit aujourd'hui.
+              </p>
             </div>
-            <ProgressBar value={progressPct} max={100} fill="brand" size="md" valueLabel={false} />
-          </div>
+            <div className="flex flex-col gap-stack-xs">
+              <div className="flex items-baseline justify-between font-body text-caption text-ink-600">
+                <span className="tabular-nums">Compétence {currentIndex + 1} sur {total}</span>
+                <span className="font-semibold text-primary-800 tabular-nums">{progressPct}{' '}%</span>
+              </div>
+              <ProgressBar value={progressPct} max={100} fill="brand" size="md" valueLabel={false} />
+            </div>
+          </header>
 
-          {/* Question — uses canonical DS components */}
-          <SectionCard
-            title={currentQuestion.competenceLabel}
-            description={currentQuestion.competenceDescription}
-            className="!bg-white/70 backdrop-blur-glass-medium border border-white/60 shadow-lg"
-          >
+          {/* La question : la compétence (h2), sa description, les cinq niveaux,
+              puis les actions à 24. */}
+          <section className="flex flex-col gap-stack" aria-labelledby="positionnement-competence">
+            <div className="flex flex-col gap-stack-3xs">
+              <h2 id="positionnement-competence" className="font-display text-h2 text-ink-900">
+                {currentQuestion.competenceLabel}
+              </h2>
+              {currentQuestion.competenceDescription && (
+                <p className="font-body text-body text-ink-700 max-w-prose">
+                  {currentQuestion.competenceDescription}
+                </p>
+              )}
+            </div>
+
             <DreyfusLevelSelector
               tone="brand"
               value={currentAnswer ?? undefined}
               onChange={(lv) => handleSelect(lv as DreyfusLevel)}
               aria-label={`Niveau Dreyfus pour ${currentQuestion.competenceLabel}`}
             />
-          </SectionCard>
 
-          {/* Footer nav */}
-          <div className="flex items-center justify-between gap-stack">
-            <Button
-              emphasis="soft" tone="warm"
-              size="md"
-              leadingIcon={<ArrowLeft size={14} />}
-              onClick={handlePrev}
-              disabled={isFirst}
-            >
-              Précédent
-            </Button>
+            {/* Footer nav — à 24 de la question. Sous 640 px les deux actions
+                s'empilent sur toute la largeur, la suivante d'abord avec sa
+                raison dessous : côte à côte, « Compétence suivante » sortait de
+                l'écran de 30 px à 375. Avancer est l'aplat de l'écran,
+                « Précédent » un `ghost` neutre, comme dans les lecteurs
+                (arbitrage n°19) : les deux étaient en `soft`, de deux tons.
+                Côte à côte, il se cale sur le bord du texte (`sm:-ml-stack-md`). */}
+            <div className="mt-stack-xs flex flex-col-reverse gap-stack-sm sm:flex-row sm:items-start sm:justify-between">
+              <Button
+                emphasis="ghost" tone="neutral"
+                size="md"
+                className="sm:-ml-stack-md"
+                leadingIcon={<ArrowLeft size={14} />}
+                onClick={handlePrev}
+                disabled={isFirst}
+              >
+                Précédent
+              </Button>
 
-            <Button
-              emphasis="soft"
-              size="md"
-              trailingIcon={<ArrowRight size={14} />}
-              onClick={handleNext}
-            >
-              {isLast ? 'Voir les résultats' : 'Compétence suivante'}
-            </Button>
-          </div>
+              {/* Désactivé tant qu'aucun niveau n'est choisi : actif, il laissait
+                  croire qu'on pouvait passer, puis répondait par un toast. La
+                  raison est écrite sous le bouton plutôt que devinée. */}
+              <div className="flex flex-col gap-stack-xs sm:items-end">
+                <Button
+                  emphasis="solid"
+                  size="md"
+                  trailingIcon={<ArrowRight size={14} />}
+                  onClick={handleNext}
+                  disabled={!currentAnswer}
+                  aria-describedby={!currentAnswer ? 'positionnement-requis' : undefined}
+                >
+                  {isLast ? 'Voir les résultats' : 'Compétence suivante'}
+                </Button>
+                {!currentAnswer && (
+                  <p id="positionnement-requis" className="font-body text-caption text-ink-600 sm:text-right">
+                    Choisis un niveau pour continuer.
+                  </p>
+                )}
+              </div>
+            </div>
+          </section>
         </div>
-      </main>
+      </div>
     </div>
   );
 };

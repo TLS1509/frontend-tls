@@ -14,11 +14,14 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Check, ChevronRight, Home, Zap, Target, FolderOpen, Brain, RefreshCw } from 'lucide-react';
+import { Check, Home, Zap, Target, FolderOpen, Brain, RefreshCw } from 'lucide-react';
 import { ViewerHeader } from '../components/patterns/ViewerHeader';
 import { LessonNavigation } from '../components/patterns/LessonNavigation';
 import { ViewerProgressTrail } from '../components/patterns/ViewerProgressTrail';
 import { FlipCard } from '../components/patterns/FlipCard';
+import { Button } from '../components/core/Button';
+import { MetaPill } from '../components/ui/MetaPill';
+import { Breadcrumb } from '../components/ui/Breadcrumb';
 import { CompletionModal } from '../components/modals';
 import { useLessonContext, resolveAfterLessonRoute } from '../lib/lesson-context';
 import { useLessonProgressStore, useCardReviewStore, usePasseportStore, type CardRating } from '../stores/persistence';
@@ -49,23 +52,23 @@ const FLASHCARDS: Flashcard[] = [
     id: 1,
     competenceId: 'tech_tools',
     front: {
-      title: 'Raccourcis Clavier Essentiels',
-      category: 'PRODUCTIVITÉ',
+      title: 'Raccourcis clavier essentiels',
+      category: 'Productivité',
       icon: <Zap size={28} strokeWidth={1.75} className="text-white" />,
       image: 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=1080&q=80',
     },
     back: {
       content:
         'Ctrl+Shift+P : Ouvrir la palette de commandes • Ctrl+K : Recherche rapide • Alt+Tab : Naviguer entre fenêtres',
-      details: 'Maîtriser ces raccourcis vous fera gagner des heures chaque semaine.',
+      details: 'Maîtriser ces raccourcis te fera gagner des heures chaque semaine.',
     },
   },
   {
     id: 2,
     competenceId: 'ai_tools',
     front: {
-      title: 'Les 4 Piliers du Prompt',
-      category: 'PROMPT ENGINEERING',
+      title: 'Les 4 piliers du prompt',
+      category: 'Prompt engineering',
       icon: <Target size={28} strokeWidth={1.75} className="text-white" />,
       image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1080&q=80',
     },
@@ -78,39 +81,39 @@ const FLASHCARDS: Flashcard[] = [
   {
     id: 3,
     front: {
-      title: 'Organisation de Fichiers',
-      category: 'ORGANISATION',
+      title: 'Organisation de fichiers',
+      category: 'Organisation',
       icon: <FolderOpen size={28} strokeWidth={1.75} className="text-white" />,
       image: 'https://images.unsplash.com/photo-1568667256549-094345857637?auto=format&fit=crop&w=1080&q=80',
     },
     back: {
-      content: 'Utilisez une nomenclature cohérente : YYYY-MM-DD_Projet_Version',
-      details: "Une bonne organisation vous fait gagner 30% de temps sur la recherche de documents.",
+      content: 'Utilise une nomenclature cohérente : YYYY-MM-DD_Projet_Version',
+      details: "Une bonne organisation te fait gagner 30% de temps sur la recherche de documents.",
     },
   },
   {
     id: 4,
     front: {
-      title: 'Few-Shot Learning',
-      category: 'IA & APPRENTISSAGE',
+      title: 'Few-shot learning',
+      category: 'IA et apprentissage',
       icon: <Brain size={28} strokeWidth={1.75} className="text-white" />,
       image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1080&q=80',
     },
     back: {
-      content: "Donnez 2-3 exemples à l'IA avant votre vraie question pour de meilleurs résultats.",
+      content: "Donne 2-3 exemples à l'IA avant ta vraie question pour de meilleurs résultats.",
       details: 'Cette technique améliore la précision des réponses de 40% en moyenne.',
     },
   },
   {
     id: 5,
     front: {
-      title: 'Itération de Prompts',
-      category: 'OPTIMISATION',
+      title: 'Itération de prompts',
+      category: 'Optimisation',
       icon: <RefreshCw size={28} strokeWidth={1.75} className="text-white" />,
       image: 'https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1080&q=80',
     },
     back: {
-      content: 'Testez → Analysez → Affinez → Répétez',
+      content: 'Teste → Analyse → Affine → Répète',
       details:
         "L'itération est la clé pour obtenir des prompts parfaits. Chaque version améliore le résultat.",
     },
@@ -251,11 +254,13 @@ export const FlashcardsViewer: React.FC = () => {
       aria-modal="true"
       aria-label="Flashcards d'apprentissage"
     >
-      {/* ── Header (sticky, no shrink) ────────────────────────────────── */}
+      {/* ── Header (sticky, no shrink) ────────────────────────────────────
+          Passe typographique du 24/09 : la barre ne porte plus le titre (elle
+          le tenait en h1 à 16 px) mais une seule ligne de méta, 13 px ; le
+          titre de l'écran est le h1 du contenu. */}
       <ViewerHeader
         tone={tone}
         eyebrow="Flashcards"
-        title={lessonCtx ? lessonCtx.lesson.title : "Flashcards d'apprentissage"}
         subtitle={`${completedCards.length} / ${total} comprises`}
         current={currentCardIndex + 1}
         total={total}
@@ -264,34 +269,40 @@ export const FlashcardsViewer: React.FC = () => {
         className="shrink-0"
       />
 
-      {/* ── Breadcrumb navigation (clickable) ──────────────────────────── */}
+      {/* ── Breadcrumb navigation (clickable) — le composant du système :
+          13 px, liens en 400, page courante en 600. Il était fait main en
+          11 px et 500. ─────────────────────────────────────────────────── */}
       {lessonCtx && (
-        <div className="shrink-0 px-4 sm:px-6 lg:px-10 py-1 flex items-center gap-stack-3xs text-micro text-ink-600 font-medium border-b border-ink-100/50">
-          <button
-            type="button"
-            onClick={() => navigate(`/learning-paths/${lessonCtx.parcoursId}`)}
-            className="inline-flex items-center gap-stack-3xs hover:text-primary-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
-          >
-            <Home size={14} aria-hidden />
-            {MOCK_PARCOURS_DATA[lessonCtx.parcoursId]?.title || 'Parcours'}
-          </button>
-          <ChevronRight size={14} aria-hidden className="opacity-50" />
-          <button
-            type="button"
-            onClick={() => navigate(`/learning-paths/${lessonCtx.parcoursId}/lessons/${lessonCtx.lesson.id}`)}
-            className="hover:text-primary-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
-          >
-            {lessonCtx.lesson.title}
-          </button>
-          <ChevronRight size={14} aria-hidden className="opacity-50" />
-          <span className="text-ink-500">Flashcard {currentCardIndex + 1}/{total}</span>
+        <div className="shrink-0 px-4 sm:px-6 lg:px-10 py-1 border-b border-ink-100/50">
+          <Breadcrumb
+            variant="nav"
+            items={[
+              { label: MOCK_PARCOURS_DATA[lessonCtx.parcoursId]?.title || 'Parcours', icon: <Home size={14} /> },
+              { label: lessonCtx.lesson.title },
+              { label: `Flashcard ${currentCardIndex + 1}/${total}` },
+            ]}
+            onNavigate={(i) => {
+              if (i === 0) navigate(`/learning-paths/${lessonCtx.parcoursId}`);
+              else if (i === 1) navigate(`/learning-paths/${lessonCtx.parcoursId}/lessons/${lessonCtx.lesson.id}`);
+            }}
+          />
         </div>
       )}
 
-      {/* ── Content container (grows, no scroll) ──────────────────────── */}
-      <div className="flex-1 flex flex-col min-h-0 px-4 sm:px-6 lg:px-10 py-2 gap-stack-xs overflow-hidden">
-        <div className="max-w-3xl mx-auto flex flex-col gap-stack-xs w-full">
+      {/* ── Content container — il défile si l'écran est trop court, plutôt
+          que de rogner la notation qui apparaît sous la carte. ──────────── */}
+      <div className="flex-1 flex flex-col min-h-0 px-4 sm:px-6 lg:px-10 pt-section pb-stack overflow-y-auto">
+        <div className="max-w-3xl mx-auto flex flex-col gap-stack w-full">
 
+          {/* ── Titre de l'écran : h1 36, centré (une ou deux lignes) sur l'axe
+              de la carte qu'il nomme ; 32 au-dessus, 16 en dessous — il se lit
+              avec le jeu de cartes, pas avec la barre. ───────────────────── */}
+          <h1 className="font-display text-h1 text-ink-900 text-center text-balance">
+            {lessonCtx ? lessonCtx.lesson.title : "Flashcards d'apprentissage"}
+          </h1>
+
+          {/* ── Avancement : la jauge et les vignettes forment un groupe (8) ── */}
+          <div className="flex flex-col gap-stack-xs">
           {/* ── Progress bar ──────────────────────────────────────────── */}
           <ViewerProgressTrail
             current={currentCardIndex}
@@ -336,13 +347,12 @@ export const FlashcardsViewer: React.FC = () => {
               );
             })}
           </div>
+          </div>
 
           {/* ── Compteur SRS : cartes dues aujourd'hui ── */}
           {dueToday > 0 && (
             <div className="flex justify-center">
-              <span className="inline-flex items-center gap-stack-2xs rounded-pill bg-primary-50 border border-primary-100 px-3 py-1 text-caption font-semibold text-primary-800">
-                <Brain size={14} aria-hidden /> {dueToday} à réviser aujourd'hui
-              </span>
+              <MetaPill icon={<Brain aria-hidden />} text={`${dueToday} à réviser aujourd'hui`} tone="primary" />
             </div>
           )}
 
@@ -357,34 +367,43 @@ export const FlashcardsViewer: React.FC = () => {
             />
           </div>
 
-          {/* ── Rating SRS (répétition espacée) — n'apparaît qu'après le flip ── */}
+          {/* ── Rating SRS (répétition espacée) — n'apparaît qu'après le flip.
+              La question est ce qu'on lit d'abord : 16/600 ink-900 (elle était
+              en étiquette 11 px au cran 500). Les deux réponses ont l'échelle
+              d'un bouton `md` (44 px, 16/700 — elles étaient à 13). ─────── */}
           {isFlipped && (
-            <div className="flex flex-col items-center gap-stack-xs pb-stack" aria-live="polite">
+            <div className="flex flex-col items-center gap-stack-sm pb-stack" aria-live="polite">
               {lastScheduled != null ? (
-                <p className="inline-flex items-center gap-stack-2xs text-caption font-semibold text-success-fg" role="status">
-                  <Check size={14} /> Noté — prochaine révision dans {lastScheduled}{' '}
+                <p className="inline-flex items-center gap-stack-2xs text-body font-semibold text-success-fg" role="status">
+                  <Check size={16} aria-hidden="true" /> Noté : prochaine révision dans {lastScheduled}{'\u00A0'}
                   {lastScheduled > 1 ? 'jours' : 'jour'}.
                 </p>
               ) : (
                 <>
-                  <p className="text-micro text-ink-500">Tu la savais&nbsp;?</p>
+                  <p className="font-body text-body font-semibold text-ink-900">Tu la savais&nbsp;?</p>
+                  {/* Les deux réponses ont le MÊME poids, niveau et ton (`soft`
+                      brand), comme les deux choix du bandeau de consentement :
+                      l'auto-évaluation doit rester honnête, et « À revoir » ne
+                      coûte pas plus à presser que « Je le savais » (PRODUCT.md :
+                      l'erreur n'est jamais punitive). « Je le savais » était un
+                      aplat fait main (success-vivid), un second `solid` à côté
+                      de « Suivant » que la sonde ne voyait pas ; « À revoir »
+                      un filet ink-200 à 1,2:1. Arbitrage n°19. */}
                   <div className="flex items-center gap-stack-sm">
-                    <button
-                      type="button"
+                    <Button
+                      emphasis="soft"
+                      leadingIcon={<RefreshCw />}
                       onClick={() => handleRate('again')}
-                      className="inline-flex items-center gap-stack-2xs min-h-touch px-4 py-2.5 rounded-lg bg-white text-ink-700 border border-ink-200 font-body text-caption font-semibold hover:bg-ink-50 hover:border-ink-300 active:scale-95 transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                     >
-                      <RefreshCw size={14} />
                       À revoir
-                    </button>
-                    <button
-                      type="button"
+                    </Button>
+                    <Button
+                      emphasis="soft"
+                      leadingIcon={<Check />}
                       onClick={() => handleRate('known')}
-                      className="inline-flex items-center gap-stack-2xs min-h-touch px-4 py-2.5 rounded-lg bg-success-base text-white font-body text-caption font-semibold shadow-[0_2px_8px_rgba(157,190,186,0.3)] hover:bg-success-fg active:scale-95 transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-success-base"
                     >
-                      <Check size={14} />
                       Je le savais
-                    </button>
+                    </Button>
                   </div>
                 </>
               )}
@@ -405,7 +424,7 @@ export const FlashcardsViewer: React.FC = () => {
             onNext={handleNext}
             onFinish={handleFinish}
             onDotSelect={(idx) => goToCard(idx)}
-            finishLabel="Terminer les flashcards"
+            finishLabel="Valider les flashcards"
           />
         </div>
       </div>
@@ -413,7 +432,6 @@ export const FlashcardsViewer: React.FC = () => {
       <CompletionModal
         isOpen={showCompletion}
         itemTitle={lessonCtx?.lesson.title ?? 'Flashcards d\'apprentissage'}
-        xpEarned={50}
         onClose={() => {
           setShowCompletion(false);
           navigate(resolveAfterLessonRoute(lessonCtx));

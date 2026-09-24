@@ -55,20 +55,26 @@ export const DEFAULT_QUALITATIVE_OPTIONS: QualitativeRatingOption[] = [
 
 /* ─── Style maps ────────────────────────────────────────────────────────────── */
 
+/* Rayon 14 : à 36 et 44 px, ces options sont des contrôles au-dessus du seuil
+   de 28 px (R3), comme `FilterChip` — la pilule n'y est plus un accident de
+   plafonnement. Posé ici une seule fois (piège n°6). */
 const PILL_BASE =
-  'inline-flex items-center justify-center gap-stack-2xs rounded-pill ' +
+  'inline-flex items-center justify-center gap-stack-2xs rounded-lg ' +
   'font-body font-semibold select-none cursor-pointer ' +
   'border transition-[background-color,border-color,box-shadow,transform] duration-base ease-emphasis ' +
   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
 
+/* 36 · 44 — l'échelle commune de l'arbitrage n°22 (elles étaient à 32 et
+   40, entre deux crans). Libellés du bouton de même cran : 13 et 16. */
 const SIZE_CLASSES: Record<QualitativeRatingSize, string> = {
-  sm: 'h-8 px-3 text-caption',
-  md: 'h-10 px-4 text-body-sm',
+  sm: 'h-9 px-stack-sm text-caption',
+  md: 'h-touch px-stack text-body',
 };
 
 const SELECTED_CLASSES: Record<QualitativeRatingTone, string> = {
-  primary: 'bg-gradient-to-r from-primary-500 to-primary-700 text-white border-transparent shadow-sm',
-  warm:    'bg-gradient-to-r from-secondary-500 to-secondary-600 text-white border-transparent shadow-sm',
+  // Libellé à 13-15 px : 700 → 800, blanc à 5,02 (teal) et 6,31 (orange) au pire.
+  primary: 'bg-gradient-to-r from-primary-700 to-primary-800 text-white border-transparent shadow-sm',
+  warm:    'bg-gradient-to-r from-secondary-700 to-secondary-800 text-white border-transparent shadow-sm',
   // Yellow: skip gradient (contrast issue with white text) → flat amber + dark text
   sun:     'bg-accent-400 text-ink-900 border-transparent shadow-sm',
 };
@@ -95,10 +101,10 @@ export const QualitativeRating: React.FC<QualitativeRatingProps> = ({
   return (
     <div className={['flex flex-col gap-stack-xs font-body', className].filter(Boolean).join(' ')}>
       {label && (
-        <span className="text-body-sm font-semibold text-ink-900">
+        <span className="text-body font-semibold text-ink-900">
           {label}
           {required && (
-            <span className="text-danger-base ml-0.5" aria-hidden="true">
+            <span className="text-danger-fg ml-0.5" aria-hidden="true">
               *
             </span>
           )}
@@ -148,7 +154,7 @@ export const QualitativeRating: React.FC<QualitativeRatingProps> = ({
         <p
           role={error ? 'alert' : undefined}
           className={
-            error ? 'text-caption text-danger-fg' : 'text-caption text-ink-500'
+            error ? 'text-caption text-danger-fg' : 'text-caption text-ink-600'
           }
         >
           {error ?? hint}

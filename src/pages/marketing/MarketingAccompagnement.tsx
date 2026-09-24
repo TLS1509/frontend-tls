@@ -180,12 +180,12 @@ const DoublePiege: React.FC = () => (
           {PIEGES.map((p, i) => (
             <FadeInWhenVisible key={p.title} delay={i * 0.08}>
               <div className="flex items-start gap-stack-lg border-t border-ink-200 py-flow first:border-t-0 first:pt-0">
-                <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-100 text-primary-700">
+                <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-100 text-primary-800">
                   {p.icon}
                 </span>
                 <div className="flex flex-col gap-group">
                   <h3 className="font-display text-feature text-ink-900">{p.title}</h3>
-                  <p className="font-body text-body text-ink-600 leading-relaxed m-0 max-w-xl">{p.detail}</p>
+                  <p className="font-body text-body text-ink-600 m-0 max-w-xl">{p.detail}</p>
                 </div>
               </div>
             </FadeInWhenVisible>
@@ -296,7 +296,7 @@ const Methodologie: React.FC = () => (
                       {String(i + 1).padStart(2, '0')} · {e.phase}
                     </span>
                   </div>
-                  <p className="col-span-2 @3xl:col-span-1 font-body text-body text-ink-600 leading-relaxed m-0">
+                  <p className="col-span-2 @3xl:col-span-1 font-body text-body text-ink-600 m-0">
                     {e.livrable}
                   </p>
                 </FadeInWhenVisible>
@@ -362,11 +362,11 @@ const PourQui: React.FC = () => (
         {PROFILS.map((p, i) => (
           <FadeInWhenVisible key={p.title} delay={i * 0.06} direction="up">
             <li className="flex h-full flex-col gap-group">
-              <span className="inline-flex h-11 w-11 items-center justify-center rounded-pill bg-primary-100 text-primary-700">
+              <span className="inline-flex h-11 w-11 items-center justify-center rounded-pill bg-primary-100 text-primary-800">
                 {p.icon}
               </span>
               <h3 className="font-display text-feature text-ink-900">{p.title}</h3>
-              <p className="font-body text-body text-ink-600 leading-relaxed m-0">{p.detail}</p>
+              <p className="font-body text-body text-ink-600 m-0">{p.detail}</p>
             </li>
           </FadeInWhenVisible>
         ))}

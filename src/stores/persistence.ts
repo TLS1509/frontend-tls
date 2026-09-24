@@ -1044,8 +1044,22 @@ export const useGamificationStore = create<GamificationState>()(
 
 // ─── Store #10 — Journal (Cahier #07) ────────────────────────────────────────
 
+/** Brouillon d'entrée en cours — un seul à la fois. Il vit ICI, dans le store
+ *  persisté, et jamais dans l'URL : un journal est intime, et une URL finit
+ *  dans l'historique, les journaux serveur et les en-têtes Referer (audit du
+ *  23/09 : le texte partait en clair dans `?draft=`). C'est aussi ce qui rend
+ *  la pause-reprise réelle (PRODUCT.md : « brouillon journal sauvegardé »). */
+export interface JournalDraft {
+  title: string;
+  body: string;
+  updatedAt: string;
+}
+
 interface JournalState {
   entries: Record<string, JournalEntry[]>;
+  draft: JournalDraft | null;
+  setDraft: (draft: Omit<JournalDraft, 'updatedAt'>) => void;
+  clearDraft: () => void;
   getEntries: (userId: string) => JournalEntry[];
   addEntry: (entry: JournalEntry) => void;
   updateEntry: (userId: string, id: string, updates: Partial<JournalEntry>) => void;
@@ -1057,6 +1071,12 @@ export const useJournalStore = create<JournalState>()(
   persist(
     (set, get) => ({
       entries: {},
+      draft: null,
+
+      setDraft: (draft) =>
+        set({ draft: draft.title.trim() || draft.body.trim() ? { ...draft, updatedAt: new Date().toISOString() } : null }),
+
+      clearDraft: () => set({ draft: null }),
 
       getEntries: (userId) => {
         const existing = get().entries[userId];

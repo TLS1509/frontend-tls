@@ -28,7 +28,7 @@ import type { DreyfusLevel } from '../types/learning';
 export function buildGreeting(firstName: string, totalQuestions: number): string[] {
   const name = firstName.trim() || 'à toi';
   return [
-    `Bonjour ${name} ! Je vais te poser ${totalQuestions} questions pour calibrer ton parcours. Réponds librement, ou choisis parmi les propositions si tu préfères aller vite.`,
+    `Bonjour ${name}. Je vais te poser ${totalQuestions} questions pour calibrer ton parcours. Réponds librement, ou choisis parmi les propositions si tu préfères aller vite.`,
   ];
 }
 
@@ -77,7 +77,7 @@ const ACK_BY_LEVEL: Record<DreyfusLevel, string[]> = {
     "Solide. On va viser la posture d'expert.",
   ],
   5: [
-    "Wow, Expert ! Tu pourrais former d'autres apprenants sur cette compétence.",
+    "Expert. Tu pourrais former d'autres apprenants sur cette compétence.",
     "Niveau Expert — on te proposera des défis à la hauteur, voire un rôle de mentor.",
     "Magnifique. Tu peux contribuer à enrichir notre communauté sur ce sujet.",
   ],
@@ -97,7 +97,7 @@ export function buildAcknowledgment(level: DreyfusLevel, hasElaboration: boolean
 export function buildClosing(firstName: string, accountTypeRequiresPayment: boolean): string[] {
   const name = firstName.trim() || 'toi';
   return [
-    `C'est terminé ${name} ! 🎉 J'ai noté tous tes niveaux Dreyfus.`,
+    `C'est terminé, ${name}. J'ai noté tous tes niveaux Dreyfus.`,
     `Ton **Passeport de compétences** est maintenant initialisé. Tu pourras le faire évoluer à tout moment depuis ton espace.`,
     accountTypeRequiresPayment
       ? `Prochaine étape : choisir ta formule pour démarrer.`

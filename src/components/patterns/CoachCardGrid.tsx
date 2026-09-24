@@ -2,6 +2,9 @@ import React from 'react';
 import { GRID_CONTAINER, GRID_COLS_CONTENT } from '../../lib/grid-columns';
 import { Users } from 'lucide-react';
 import { ProfileCard } from '../ui/ProfileCard';
+import { IconChip } from '../ui/IconChip';
+import { Badge } from '../ui/Badge';
+import { MetaPillGroup } from '../ui/MetaPillGroup';
 import type { ProfileCardVariant } from '../ui/ProfileCard';
 
 export interface CoachItem {
@@ -58,7 +61,7 @@ export const CoachCardGrid: React.FC<CoachCardGridProps> = ({
       <div className={['flex items-center justify-center p-12', className].filter(Boolean).join(' ')}>
         <div className="flex flex-col items-center gap-stack-xs text-ink-500">
           <div className="w-10 h-10 rounded-pill border-[3px] border-ink-200 border-t-primary-500 animate-spin" />
-          <p className="m-0 text-body-sm font-medium">Chargement des coachs…</p>
+          <p className="m-0 text-body text-ink-600">Chargement des coachs…</p>
         </div>
       </div>
     );
@@ -68,10 +71,10 @@ export const CoachCardGrid: React.FC<CoachCardGridProps> = ({
     return (
       <div className={['flex items-center justify-center p-12 rounded-lg bg-ink-50/50 border border-dashed border-ink-200', className].filter(Boolean).join(' ')}>
         <div className="flex flex-col items-center gap-stack-xs text-ink-500 text-center">
-          <span className="inline-flex items-center justify-center w-14 h-14 rounded-lg bg-white border border-ink-200 text-ink-600">
-            <Users size={24} strokeWidth={2} />
-          </span>
-          <p className="m-0 text-body-sm font-medium">{emptyMessage}</p>
+          <IconChip size="lg" tone="neutral">
+            <Users strokeWidth={2} />
+          </IconChip>
+          <p className="m-0 text-body font-semibold text-ink-900">{emptyMessage}</p>
         </div>
       </div>
     );
@@ -119,35 +122,16 @@ export const CoachCardGrid: React.FC<CoachCardGridProps> = ({
           </div>
 
           {coach.specialties && coach.specialties.length > 0 && (
-            <div className="flex flex-wrap gap-stack-2xs justify-center px-2">
-              {coach.specialties.map((specialty) => (
-                <span
-                  key={specialty}
-                  className="inline-flex items-center px-2.5 py-1 rounded-pill bg-primary-50 text-primary-700 text-micro font-semibold border border-primary-100"
-                >
-                  {specialty}
-                </span>
-              ))}
-            </div>
+            <MetaPillGroup
+              className="justify-center px-2"
+              items={coach.specialties.map((specialty) => ({ text: specialty, tone: 'primary' as const }))}
+            />
           )}
 
           {coach.availability !== undefined && (
-            <div
-              className={[
-                'inline-flex items-center justify-center gap-stack-xs text-caption font-semibold mx-auto px-3 py-1 rounded-pill',
-                coach.availability
-                  ? 'text-success-fg bg-success-bg border border-success-base/20'
-                  : 'text-ink-500 bg-ink-50 border border-ink-200',
-              ].join(' ')}
-            >
-              <span
-                className={[
-                  'w-2 h-2 rounded-pill',
-                  coach.availability ? 'bg-success-base shadow-[0_0_8px_rgba(51,90,86,0.6)] animate-pulse' : 'bg-ink-300',
-                ].join(' ')}
-              />
+            <Badge variant={coach.availability ? 'success' : 'neutral'} dot className="mx-auto">
               {coach.availability ? 'Disponible' : 'Non disponible'}
-            </div>
+            </Badge>
           )}
         </div>
       ))}

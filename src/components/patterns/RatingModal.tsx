@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Star } from 'lucide-react';
 import { Button } from '../core/Button';
+import { Input } from '../core/Input';
 
 export interface RatingModalProps {
   title?: string;
@@ -21,9 +22,9 @@ const RATING_LABELS: Record<number, string> = {
 
 const RATING_COLORS: Record<number, string> = {
   1: 'text-danger-fg bg-danger-bg border-danger-base/30',
-  2: 'text-secondary-700 bg-secondary-50 border-secondary-200',
-  3: 'text-accent-700 bg-accent-50 border-accent-200',
-  4: 'text-primary-700 bg-primary-50 border-primary-200',
+  2: 'text-secondary-800 bg-secondary-50 border-secondary-200',
+  3: 'text-accent-800 bg-accent-50 border-accent-200',
+  4: 'text-primary-800 bg-primary-50 border-primary-200',
   5: 'text-success-fg bg-success-bg border-success-base/30',
 };
 
@@ -48,20 +49,25 @@ export const RatingModal: React.FC<RatingModalProps> = ({
   return (
     <div
       className={[
-        'flex flex-col gap-stack-lg bg-white border border-ink-200 rounded-2xl p-8 max-w-[520px] mx-auto shadow-xl',
+        'flex flex-col gap-stack-lg bg-white border border-ink-200 rounded-2xl p-section max-w-[520px] mx-auto shadow-xl',
         className,
       ]
         .filter(Boolean)
         .join(' ')}
     >
-      <div className="text-center">
+      {/* Titre → texte 8 ; la description passe de ink-500 (réservé aux
+          textes indicatifs) à ink-700, le texte secondaire qu'on lit.
+          Le titre prend celui de `Modal` (2026-09-24) : un h2 au pas du titre
+          de bloc, 20/26/700. Il était au pas de la section (28/36) — un
+          dialogue est un bloc posé sur la page, pas une section de page. */}
+      <div className="flex flex-col gap-stack-xs text-center">
         {title && (
-          <h2 className="mb-2 font-display text-h2 font-bold text-ink-900 leading-tight text-balance">
+          <h2 className="font-display text-h3 text-ink-900 text-balance">
             {title}
           </h2>
         )}
         {description && (
-          <p className="m-0 text-body-sm text-ink-500">{description}</p>
+          <p className="m-0 text-body text-ink-700">{description}</p>
         )}
       </div>
 
@@ -101,7 +107,9 @@ export const RatingModal: React.FC<RatingModalProps> = ({
           {displayRating > 0 && (
             <span
               className={[
-                'inline-flex items-center px-4 py-1 rounded-pill text-caption font-bold border transition-colors',
+                /* Le sens de la note est une donnée : le registre de MetaPill
+                   (13/500), plus 700. */
+                'inline-flex items-center px-4 py-1 rounded-pill text-caption font-medium border transition-colors',
                 RATING_COLORS[displayRating],
               ].join(' ')}
             >
@@ -111,29 +119,35 @@ export const RatingModal: React.FC<RatingModalProps> = ({
         </div>
       </div>
 
-      <div className="flex flex-col gap-stack-xs">
-        <label htmlFor="rating-feedback" className="text-body-sm font-semibold text-ink-900">
-          Commentaire <span className="text-ink-600 font-normal">(optionnel)</span>
-        </label>
-        <textarea
-          id="rating-feedback"
-          className="w-full px-4 py-3 h-auto min-h-[100px] rounded-lg border border-ink-300 bg-white text-body-sm text-ink-900 placeholder:text-ink-500 focus:border-primary-400 focus:outline-none focus:shadow-brand-sm transition-all resize-y disabled:bg-ink-50 disabled:cursor-not-allowed"
-          placeholder="Partagez vos impressions, suggestions ou retours…"
-          value={feedback}
-          onChange={(e) => setFeedback(e.target.value)}
-          disabled={isSubmitting}
-          rows={4}
-        />
-      </div>
+      {/* Le champ du système (2026-09-24) : `Input multiline`. La zone de
+          texte était faite main, au filet ink-300 — 1,47:1 sur le blanc de la
+          modale, sous le 3:1 d'un contrôle (SC 1.4.11) ; on ne voyait pas où
+          écrire. Elle prend le filet de la famille champ (ink-400, 3,01:1,
+          arbitrage n°7), son rayon, son padding et son focus (primary-500 et
+          halo, à la place d'une ombre teintée et d'un filet primary-400 à
+          2,37:1). Le libellé et son « (optionnel) » ne changent pas. */}
+      <Input
+        multiline
+        rows={4}
+        id="rating-feedback"
+        label={<>Commentaire <span className="text-ink-600 font-normal">(optionnel)</span></>}
+        placeholder="Partagez vos impressions, suggestions ou retours…"
+        value={feedback}
+        onChange={(e) => setFeedback(e.target.value)}
+        disabled={isSubmitting}
+      />
 
+      {/* Un formulaire (arbitrage n°19) : « Envoyer mon avis » est le
+          `solid`, Annuler un `outline` neutre (ils étaient en `soft` warm et
+          `soft` brand). */}
       <div className="flex justify-end gap-stack-xs pt-1">
         {onCancel && (
-          <Button emphasis="soft" tone="warm" onClick={onCancel} disabled={isSubmitting}>
+          <Button emphasis="outline" tone="neutral" onClick={onCancel} disabled={isSubmitting}>
             Annuler
           </Button>
         )}
         <Button
-          emphasis="soft"
+          emphasis="solid"
           onClick={handleSubmit}
           disabled={rating === 0 || isSubmitting}
         >

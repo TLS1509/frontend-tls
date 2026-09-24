@@ -16,9 +16,14 @@ const VARIANT_CLASSES: Record<KbdVariant, string> = {
   glass:   'bg-white/15 text-white/80 border-white/20',
 };
 
+/* `md` était à 11 px écrits en dur — le même corps que `sm`, qui passe par le
+   pas `micro`. Deux tailles pour un seul rendu : `md` prend désormais le pas
+   au-dessus, `caption` (13). `leading-none` reste : la boîte d'une touche est
+   sa hauteur de glyphe plus son padding, elle se pose dans une ligne de
+   texte sans l'agrandir. */
 const SIZE_CLASSES: Record<KbdSize, string> = {
   sm: 'text-micro px-1.5 py-0.5',
-  md: 'text-[11px] px-2 py-1',
+  md: 'text-caption px-2 py-1',
 };
 
 export const Kbd: React.FC<KbdProps> = ({
@@ -35,11 +40,11 @@ export const Kbd: React.FC<KbdProps> = ({
 
   if (keys && keys.length > 0) {
     return (
-      <span className="inline-flex items-center gap-0.5" aria-label={keys.join('+')}>
+      <span className="inline-flex items-center gap-tight" aria-label={keys.join('+')}>
         {keys.map((key, i) => (
           <React.Fragment key={key}>
             {i > 0 && (
-              <span className="text-ink-500 text-micro mx-0.5" aria-hidden>+</span>
+              <span className="text-ink-600 text-micro mx-0.5" aria-hidden>+</span>
             )}
             <kbd className={classes} {...rest}>{key}</kbd>
           </React.Fragment>

@@ -24,7 +24,7 @@ const SCORE_CLASSES: Record<number, string> = {
   2: 'bg-warning-bg text-warning-fg',
   3: 'bg-info-bg text-info-fg',
   4: 'bg-success-bg text-success-fg',
-  5: 'bg-primary-600 text-white',
+  5: 'bg-primary-700 text-white',
 };
 
 const SCORE_LABEL: Record<number, string> = {
@@ -62,15 +62,16 @@ export const HeatmapGrid: React.FC<HeatmapGridProps> = ({
           <thead>
             <tr>
               {/* Empty corner cell */}
-              <th className="sticky left-0 z-base bg-white px-4 py-3 text-left min-w-[160px] border-b border-r border-ink-100">
-                <span className="text-caption font-semibold text-ink-600 uppercase tracking-wide">
+              <th className="sticky left-0 z-base bg-white px-stack py-stack-sm text-left min-w-[160px] border-b border-r border-ink-100">
+                {/* En-tête 13/600 ink-600 en casse normale, comme les axes à côté. */}
+                <span className="text-caption font-semibold text-ink-600">
                   Apprenant
                 </span>
               </th>
               {axes.map((axis) => (
                 <th
                   key={axis}
-                  className="px-3 py-3 text-center border-b border-ink-100 min-w-[80px]"
+                  className="px-stack-sm py-stack-sm text-center border-b border-ink-100 min-w-[80px]"
                 >
                   <span className="text-caption font-semibold text-ink-600 block whitespace-normal max-w-[80px]">
                     {axis}
@@ -88,14 +89,14 @@ export const HeatmapGrid: React.FC<HeatmapGridProps> = ({
                 className="hover:bg-ink-50 transition-colors duration-fast"
               >
                 {/* Sticky name cell */}
-                <td className="sticky left-0 z-base bg-white px-4 py-3 border-b border-r border-ink-100">
+                <td className="sticky left-0 z-base bg-white px-stack py-stack-sm border-b border-r border-ink-100">
                   <div className="flex items-center gap-stack-xs">
                     {row.initials && (
-                      <span className="inline-flex items-center justify-center w-7 h-7 rounded-pill bg-primary-100 text-primary-700 text-micro font-bold shrink-0">
+                      <span className="inline-flex items-center justify-center w-7 h-7 rounded-pill bg-primary-100 text-primary-800 text-micro font-semibold shrink-0">
                         {row.initials}
                       </span>
                     )}
-                    <span className="text-body-sm font-medium text-ink-900 whitespace-nowrap">
+                    <span className="text-body font-semibold text-ink-900 whitespace-nowrap">
                       {row.name}
                     </span>
                   </div>
@@ -111,7 +112,7 @@ export const HeatmapGrid: React.FC<HeatmapGridProps> = ({
                   return (
                     <td
                       key={colIdx}
-                      className="px-3 py-3 border-b border-ink-100 text-center"
+                      className="px-stack-sm py-stack-sm border-b border-ink-100 text-center"
                     >
                       <button
                         type="button"
@@ -119,7 +120,9 @@ export const HeatmapGrid: React.FC<HeatmapGridProps> = ({
                         disabled={!isClickable}
                         title={`${row.name} — ${axes[colIdx]} : ${LEGEND[clampedScore]?.label ?? '—'}`}
                         className={[
-                          'inline-flex items-center justify-center w-10 h-10 rounded-md text-micro font-bold transition-all duration-fast mx-auto',
+                          /* Valeur de cellule : 13/600, chiffres tabulaires. Elle était en
+                             11/700, le registre des étiquettes (Badge). */
+                          'inline-flex items-center justify-center w-10 h-10 rounded-md text-caption font-semibold tabular-nums transition-all duration-fast mx-auto',
                           'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                           colorClass,
                           isClickable ? 'cursor-pointer hover:scale-110 hover:shadow-md' : 'cursor-default',
@@ -141,10 +144,10 @@ export const HeatmapGrid: React.FC<HeatmapGridProps> = ({
         <div className="flex flex-wrap gap-stack-xs">
           {LEGEND.map(({ score, label }) => (
             <div key={score} className="flex items-center gap-tight">
-              <span className={['inline-flex items-center justify-center w-6 h-6 rounded text-micro font-bold', SCORE_CLASSES[score]].join(' ')}>
+              <span className={['inline-flex items-center justify-center w-6 h-6 rounded text-caption font-semibold tabular-nums', SCORE_CLASSES[score]].join(' ')}>
                 {SCORE_LABEL[score]}
               </span>
-              <span className="text-caption text-ink-500">{label}</span>
+              <span className="text-caption text-ink-600">{label}</span>
             </div>
           ))}
         </div>

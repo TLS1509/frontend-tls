@@ -158,11 +158,11 @@ const Framework: React.FC = () => (
         {STRIDE_PHASES.map((s, i) => (
           <FadeInWhenVisible key={s.lettre} delay={i * 0.04} direction="up">
             <li className="flex h-full items-center gap-stack rounded-lg border border-ink-200 bg-white p-stack-lg">
-              <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary-700 font-display text-h4 font-extrabold text-white">
+              <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary-700 font-display text-h3 font-extrabold text-white">
                 {s.lettre}
               </span>
               <div className="flex flex-col gap-tight">
-                <h3 className="font-display text-h4 text-ink-900 leading-tight">{s.verbe}</h3>
+                <h3 className="font-display text-h3 text-ink-900">{s.verbe}</h3>
                 <span className="font-body text-caption text-ink-500 italic">{s.experience}</span>
               </div>
             </li>
@@ -214,7 +214,7 @@ const Manifeste: React.FC = () => (
   <section className="relative bg-ink-900 text-white">
     <div className="max-w-wide mx-auto px-4 sm:px-6 lg:px-10 py-16 sm:py-20 lg:py-28 flex flex-col gap-section-lg">
       <FadeInWhenVisible>
-        <h2 className="font-display font-extrabold leading-[1.06] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)] max-w-3xl">
+        <h2 className="font-display font-extrabold leading-[1.06] tracking-tight [text-wrap:balance] text-[clamp(2rem,4.2vw,3.25rem)] max-w-3xl text-white">
           Quatre règles d'or : ce que The Learning Society{' '}
           <span className="text-accent-400">refuse</span>.
         </h2>
@@ -228,8 +228,8 @@ const Manifeste: React.FC = () => (
                 <Ban size={20} />
               </span>
               <div className="flex flex-col gap-stack-3xs">
-                <h3 className="font-display text-h4 font-bold text-white">{r.title}</h3>
-                <p className="font-body text-body-sm text-white/70 m-0">{r.detail}</p>
+                <h3 className="font-display text-h3 font-bold text-white">{r.title}</h3>
+                <p className="font-body text-body text-white/70 m-0">{r.detail}</p>
               </div>
             </div>
           </FadeInWhenVisible>
@@ -247,7 +247,7 @@ const AllerPlusLoin: React.FC = () => (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
         <FadeInWhenVisible direction="up">
           <div className="flex h-full flex-col gap-stack rounded-lg bg-primary-50 p-section">
-            <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary-100 text-primary-700">
+            <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary-100 text-primary-800">
               <Radar size={20} />
             </span>
             <h3 className="font-display text-h3 font-bold text-ink-900">La Vigie IA</h3>

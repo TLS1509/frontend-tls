@@ -131,15 +131,6 @@
   ]
  },
  {
-  "from": "ui/Pagination.tsx",
-  "names": [
-   "Pagination"
-  ],
-  "cards": [
-   "Pagination"
-  ]
- },
- {
   "from": "ui/Tabs.tsx",
   "names": [
    "Tabs"

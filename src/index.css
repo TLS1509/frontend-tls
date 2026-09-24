@@ -96,7 +96,7 @@
   --color-ink-200: #e5e7eb;
   --color-ink-300: #d1d5db;
   --color-ink-400: #8d95a6;  /* 3,01 sur blanc — désactivé et bordures, jamais du texte */
-  --color-ink-500: #667082;  /* 4,99 — texte secondaire, passe sur tous les fonds */
+  --color-ink-500: #667082;  /* 4,99 sur blanc — texte secondaire. ⚠️ Pas sur une surface teintée : 4,45 sur primary-50 (mesuré 2026-09-23) → ink-600 là. */
   --color-ink-600: #4c5466;  /* 7,59 — texte secondaire sûr */
   --color-ink-700: #394050;  /* 10,38 — texte appuyé */
   --color-ink-800: #2e3442;  /* 12,46 — texte fort. Passe sous ink-900, c'est voulu */
@@ -206,18 +206,16 @@
   --text-h2--line-height: 2.25rem;
   --text-h2--font-weight: 700;
   --text-h2--letter-spacing: -0.025em;
-  --text-h3: 1.5rem;              /* 24px — T5. À 22 px, h3 ratait le seuil WCAG
-                                     « grand texte » de League Spartan (22,4 px). */
-  --text-h3--line-height: 1.875rem;/* 30px — ratio 1,25 */
-  --text-h3--font-weight: 700;    /* T2 — le token suit l'usage : 72 % des h3
-                                     portaient déjà un font-bold local */
-  --text-h3--letter-spacing: -0.025em;
-  --text-h4: 1.25rem;             /* 20px — T7. Sort de la collision avec
-                                     body-lg (18 px) et remet l'interligne sur
-                                     la grille. Ratio 1,400, entre h3 et body-lg. */
-  --text-h4--line-height: 1.625rem;/* 26px — ratio 1,30 */
-  --text-h4--font-weight: 700;    /* T2 */
-  --text-h4--letter-spacing: -0.02em;
+  /* ⚠️ Arbitrage n°21 (2026-09-24) : sous le h1, deux titres seulement, 28 puis 20.
+     L'ancien h3 (24 px) sortait de l'échelle : 28 / 24 / 20 à 700 dans la même
+     famille, trois rangs à 4 px d'écart, se lisaient mal quand ils se suivaient.
+     L'ancien h4 (20/26) DEVIENT le h3 ; ses 163 usages ont été renommés
+     `text-h3`. 20 px en gras reste du « grand texte » WCAG (≥ 18,66 px gras).
+     Échelle de l'app : 36 → 28 → 20 → 16 → 13 (rapports 1,29 · 1,40 · 1,25 · 1,23). */
+  --text-h3: 1.25rem;             /* 20px */
+  --text-h3--line-height: 1.625rem;/* 26px — ratio 1,30 */
+  --text-h3--font-weight: 700;
+  --text-h3--letter-spacing: -0.02em;
   /* h5 retiré le 2026-09-09 (T3) — il faisait exactement la taille de body
      (16 px) et seule la graisse les distinguait. Ses 19 usages sont passés à
      `text-body font-semibold`, qui dit la même chose sans un cran d'échelle. */
@@ -227,8 +225,11 @@
   --text-body-lg--line-height: 1.75rem; /* 28px — ratio 1,56 · vote NON suivi, voir plus haut */
   --text-body: 1rem;
   --text-body--line-height: 1.625rem;   /* 26px — ratio 1,62 */
-  --text-body-sm: 0.9375rem;
-  --text-body-sm--line-height: 1.5rem;  /* 24px — ratio 1,60 · vote NON suivi, voir plus haut */
+  /* `body-sm` (15) retiré le 2026-09-24 — arbitrage n°20 : le texte courant est
+     à 16 px partout. 15 et 16 étaient à 1 px l'un de l'autre, un écart que l'œil
+     ne distingue pas ; ses 860 usages sont passés à `text-body`. La hiérarchie
+     entre un libellé et sa description passe par la graisse et la couleur
+     (600 ink-900 / 400 ink-700), plus par un pixel. */
   --text-caption: 0.8125rem;
   --text-caption--line-height: 1.25rem;
   --text-micro: 0.6875rem;
@@ -248,9 +249,9 @@
      posé, Card.tsx bascule sur les ombres colorées (--shadow-brand|warm|sun-*)
      via les maps CARD_SHADOW_*. Une valeur ambrée par défaut entrerait en
      collision avec le tone `warm`, dont l'ambre est précisément la couleur.
-     ⚠️ Le commentaire précédent annonçait un "amber wash" : périmé. Le Figma
-     (effect styles shadow/card*) et CLAUDE.md décrivent encore l'ambre — c'est
-     eux qui doivent être corrigés, pas ces valeurs. */
+     ⚠️ Le commentaire précédent annonçait un "amber wash" : périmé. Si le Figma
+     (effect styles shadow/card*) décrit encore l'ambre, c'est lui qu'il faut
+     corriger, pas ces valeurs — la doctrine (.claude/rules/doctrine-design.md) dit neutre. */
   --shadow-card:       0 1px 3px rgba(0, 0, 0, 0.07), 0 1px 2px rgba(0, 0, 0, 0.04);
   --shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.10), 0 2px 6px rgba(0, 0, 0, 0.06);
   --shadow-card-lift:  0 8px 24px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.07);
@@ -294,12 +295,17 @@
        disabled  50%  → disabled UI elements (existing token, kept)
        overlay   70%  → strong scrim (modal backdrop with content focus)
   */
-  --opacity-faint:    0.05;
-  --opacity-soft:     0.10;
-  --opacity-tinted:   0.15;
-  --opacity-medium:   0.30;
-  --opacity-disabled: 0.5;
-  --opacity-overlay:  0.70;
+  /* En POURCENTAGES, pas en fractions (corrigé le 2026-09-23) : le modificateur
+     `/medium` se compile en `color-mix(in oklab, … 0.30, transparent)`, et
+     color-mix exige un pourcentage. À 0.30 la déclaration était invalide et la
+     couleur tombait à transparent — mesuré sur `bg-primary-500/overlay`.
+     `opacity: 50%` reste valide pour `opacity-disabled`. */
+  --opacity-faint:    5%;
+  --opacity-soft:     10%;
+  --opacity-tinted:   15%;
+  --opacity-medium:   30%;
+  --opacity-disabled: 50%;
+  --opacity-overlay:  70%;
 
   /* ── z-index ── SEMANTIC LAYERING SCALE
      Tailwind v4 auto-generates utilities `z-{name}` :
@@ -635,10 +641,10 @@
      La règle mesurée : **le cran d'icône vaut à peu près le CORPS du texte**.
      Table complète et raisonnement : src/lib/icon-pairing.ts. */
   --icon-size-2xs: 14px; /* va avec caption (13) et micro (11) */
-  --icon-size-xs: 16px;  /* va avec body-sm (15) et body (16) */
-  --icon-size-sm: 18px;  /* va avec body-lg (18) */
-  --icon-size-md: 20px;  /* va avec h4 (20) */
-  --icon-size-lg: 24px;  /* va avec h3 (24) */
+  --icon-size-xs: 16px;  /* va avec body (16) */
+  --icon-size-sm: 18px;  /* va avec le chapô, body-lg (18) */
+  --icon-size-md: 20px;  /* va avec h3 (20) — l'ancien h4, arbitrage n°21 */
+  --icon-size-lg: 24px;  /* plus de pas de texte à 24 depuis le 24/09 : glyphe de l'IconChip lg (48) */
   --icon-size-xl: 28px;  /* va avec h2 (28) — le plus grand cran d'interface */
   --icon-size-2xl: 32px; /* registre affichage — vignettes, en-têtes de carte */
   --icon-size-3xl: 40px; /* états vides */
@@ -650,21 +656,32 @@
 
   /* ── Couleurs sémantiques — synced with --tls-{success,danger,warning,info}-*
      Convention :
-       *-bg   : surface tintée légère pour Alert/Badge fond
-       *-fg   : texte foncé contrasté (titres, icônes, borders fortes)
-       *-base : couleur "moyenne" pour dots, fills, accents subtils
-     Pour les overlays diffus (border-left-3 sur cards, glow d'état),
-     utiliser color-mix() ou rgba sur la base — voir design-tokens.css. */
+       *-bg     : surface tintée légère pour Alert/Badge fond
+       *-fg     : texte foncé contrasté (titres, icônes, borders fortes)
+       *-base   : couleur "moyenne" pour dots, fills, accents subtils
+       *-border : filet clair d'une surface d'état (la base à 25-30 %)
+
+     ⚠️ Les quatre `*-border` sont déclarés ici depuis le 2026-09-24. Ils ne
+     vivaient que dans design-tokens.css (`--tls-*-border`) : les 9 classes
+     `border-{success,danger,info,warning}-border` du produit ne généraient
+     donc RIEN, et le filet prenait `currentColor` — le texte de l'état.
+     Mesuré sur /passeport et /masterclass/1/replay : un trait brun #2f1c13
+     (warning-fg) ou brique #8F2A0E (danger-fg) autour d'étiquettes qui
+     devaient avoir un filet clair. Valeurs reprises telles quelles de
+     design-tokens.css, qui les aliase désormais (piège n°3 : une seule
+     définition par token). */
 
   /* Success — muted teal-green (NOT bright #22C55E green) */
   --color-success-bg:   #E8F2F0;
   --color-success-fg:   #335A56;
   --color-success-base: #9DBEBA;
+  --color-success-border: rgba(157, 190, 186, 0.30);
 
   /* Danger — soft coral (NOT bright #EF4444 red) */
   --color-danger-bg:    #FEF4F0;
   --color-danger-fg:    #8F2A0E;
   --color-danger-base:  #F28559;
+  --color-danger-border: rgba(242, 133, 89, 0.25);
   /* Danger button — saturated terracotta for destructive actions.
      Distinct from soft coral (danger-base, alerts/badges) and from secondary
      orange (hue 25°). These two tokens are the ONLY charter-compliant fills
@@ -676,11 +693,13 @@
   --color-warning-bg:   #FFF9EE;
   --color-warning-fg:   #2f1c13;  /* dark editorial brown — AAA on all yellow surfaces */
   --color-warning-base: #F8B044;
+  --color-warning-border: rgba(248, 176, 68, 0.30);
 
   /* Info — synced with TLS Primary (teal) */
   --color-info-bg:      #E8F4F7;
   --color-info-fg:      #1F3E45;
   --color-info-base:    #55A1B4;
+  --color-info-border:  rgba(85, 161, 180, 0.25);
 
   /* Brown — dark warm brown for editorial typography & warning-fg */
   --color-brown-editorial: #2f1c13;  /* AAA everywhere — also used as warning-fg */
@@ -1211,75 +1230,27 @@
   min-height: 100vh;
 }
 
-/* ============================================
-   UTILITY CLASSES
-   ============================================ */
-
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
-}
+/* `.sr-only` : plus de définition maison ici (retirée le 2026-09-24). Posée
+   HORS de toute couche, elle battait le `not-sr-only` de Tailwind, qui vit dans
+   `@layer utilities` : le lien « Aller au contenu » du site restait à 1 × 1 px
+   au focus (échec WCAG 2.4.7), et `DreyfusSlider` devait contourner. Tailwind
+   génère la même utility, dans sa couche, et ses variantes fonctionnent. */
 
 /* ============================================
-   TAILWIND v4 SHADOW FIX (statique + hover)
+   OMBRES ET TRACKING : générés par Tailwind depuis @theme
    ─────────────────────────────────────────────
-   Tailwind v4 utility shadow utilise un système --tw-shadow complexe qui ne
-   se cumule pas correctement avec nos custom shadows du @theme + design-tokens.
-   On force box-shadow direct via var(--shadow-X) pour un rendu fiable.
+   Jusqu'au 2026-09-23, ce bloc réécrivait les ~40 `shadow-*` / `hover:shadow-*`
+   en `box-shadow: var(--shadow-X)` PLAT. Motif d'origine : Tailwind v4 ne
+   composait pas nos ombres. C'est faux depuis 4.2 (mesuré dans le CSS livré :
+   Tailwind génère `.shadow-sm` depuis `--shadow-sm` avec la chaîne
+   `--tw-ring-shadow`). Notre réécriture, émise après, écrasait cette chaîne :
+   tout `ring-*` posé avec une ombre maison disparaissait (piège n°6 bis,
+   23 chaînes dans 14 fichiers). Même motif pour `tracking-display` et
+   `tracking-headline`, figés en dur alors que Tailwind les lit dans
+   `--tracking-*` : changer le token n'avait aucun effet.
+   Ne pas rétablir ces classes : modifier le token dans @theme suffit.
    ============================================ */
 @layer utilities {
-  .shadow-xs { box-shadow: var(--shadow-xs); }
-  .shadow-sm { box-shadow: var(--shadow-sm); }
-  .shadow-md { box-shadow: var(--shadow-md); }
-  .shadow-lg { box-shadow: var(--shadow-lg); }
-  .shadow-xl { box-shadow: var(--shadow-xl); }
-  .shadow-brand-xs { box-shadow: var(--shadow-brand-xs); }
-  .shadow-brand-sm { box-shadow: var(--shadow-brand-sm); }
-  .shadow-brand-md { box-shadow: var(--shadow-brand-md); }
-  .shadow-warm-xs { box-shadow: var(--shadow-warm-xs); }
-  .shadow-warm-sm { box-shadow: var(--shadow-warm-sm); }
-  .shadow-warm-md { box-shadow: var(--shadow-warm-md); }
-  .shadow-sun-xs { box-shadow: var(--shadow-sun-xs); }
-  .shadow-sun-sm { box-shadow: var(--shadow-sun-sm); }
-  .shadow-sun-md { box-shadow: var(--shadow-sun-md); }
-  /* Warm-tinted card shadows (Phase 19.D) */
-  .shadow-card       { box-shadow: var(--shadow-card); }
-  .shadow-card-hover { box-shadow: var(--shadow-card-hover); }
-  .shadow-card-lift  { box-shadow: var(--shadow-card-lift); }
-  .hover\:shadow-xs:hover { box-shadow: var(--shadow-xs); }
-  .hover\:shadow-sm:hover { box-shadow: var(--shadow-sm); }
-  .hover\:shadow-md:hover { box-shadow: var(--shadow-md); }
-  .hover\:shadow-lg:hover { box-shadow: var(--shadow-lg); }
-  .hover\:shadow-xl:hover { box-shadow: var(--shadow-xl); }
-  .hover\:shadow-brand-xs:hover { box-shadow: var(--shadow-brand-xs); }
-  .hover\:shadow-brand-sm:hover { box-shadow: var(--shadow-brand-sm); }
-  .hover\:shadow-brand-md:hover { box-shadow: var(--shadow-brand-md); }
-  .hover\:shadow-warm-xs:hover { box-shadow: var(--shadow-warm-xs); }
-  .hover\:shadow-warm-sm:hover { box-shadow: var(--shadow-warm-sm); }
-  .hover\:shadow-warm-md:hover { box-shadow: var(--shadow-warm-md); }
-  .hover\:shadow-sun-xs:hover { box-shadow: var(--shadow-sun-xs); }
-  .hover\:shadow-sun-sm:hover { box-shadow: var(--shadow-sun-sm); }
-  .hover\:shadow-sun-md:hover { box-shadow: var(--shadow-sun-md); }
-  .shadow-danger-md { box-shadow: var(--shadow-danger-md); }
-  .hover\:shadow-danger-md:hover { box-shadow: var(--shadow-danger-md); }
-  .shadow-success-xs { box-shadow: var(--shadow-success-xs); }
-  .shadow-success-sm { box-shadow: var(--shadow-success-sm); }
-  .hover\:shadow-success-xs:hover { box-shadow: var(--shadow-success-xs); }
-  .hover\:shadow-success-sm:hover { box-shadow: var(--shadow-success-sm); }
-  .hover\:shadow-card:hover       { box-shadow: var(--shadow-card); }
-  .hover\:shadow-card-hover:hover { box-shadow: var(--shadow-card-hover); }
-  .hover\:shadow-card-lift:hover  { box-shadow: var(--shadow-card-lift); }
-  /* Display-level typography tracking (Phase 19.D gap #1)
-     Use on League Spartan at ≥2rem sizes for premium tightness */
-  .tracking-display { letter-spacing: -0.03em; }
-  .tracking-headline { letter-spacing: -0.025em; }
 
   /* Ease utilities — @theme --ease-* not auto-generated by Tailwind v4 (same pattern as shadow-*) */
   .ease-standard   { transition-timing-function: var(--ease-standard); }
@@ -1297,7 +1268,7 @@
 
   /* Variante `active:` — ajoutée le 2026-09-09.
      Tailwind v4 ne génère pas les utilities `duration-*` depuis @theme (piège
-     n°2 de CLAUDE.md), et il ne génère pas davantage leurs variantes d'état.
+     n°2 de .claude/rules/pieges-tailwind.md), et il ne génère pas davantage leurs variantes d'état.
      Il faut donc écrire `active:duration-instant` à la main, comme la classe
      de base. Sert au retour tactile du bouton : l'enfoncement doit répondre en
      80 ms, pas en 150 — un press qui traîne ne se lit pas comme un press. */

@@ -29,7 +29,7 @@ import {
   TONE_TEXT,
   TONE_BG_50,
   TONE_BORDER_200,
-  TONE_BG_500,
+  TONE_BG_700,
   TONE_BORDER_500,
   TONE_HERO_GRADIENT,
 } from '../lib/tone-classes';
@@ -55,6 +55,8 @@ import {
   TrendingUp,
   Sparkles,
   Layers3,
+  AlertTriangle,
+  Info,
 } from 'lucide-react';
 import {
   MOCK_PARCOURS_DATA,
@@ -182,9 +184,11 @@ export const LearningPathDetail: React.FC = () => {
 
   if (!parcours) {
     return (
-      <div className="p-12 text-center">
-        <p className="text-ink-500 mb-stack">Parcours introuvable.</p>
-        <Button onClick={() => navigate('/learning-paths')}>Retour aux parcours</Button>
+      <div className="p-12 flex flex-col items-center gap-stack text-center">
+        <p className="text-body text-ink-700">Parcours introuvable.</p>
+        {/* La seule issue de l'écran, donc son action principale (arbitrage
+            n°19) ; elle passait par le `variant` implicite, déprécié. */}
+        <Button emphasis="solid" onClick={() => navigate('/learning-paths')}>Retour aux parcours</Button>
       </div>
     );
   }
@@ -207,6 +211,18 @@ export const LearningPathDetail: React.FC = () => {
 
   const firstLessonId = parcours.etapes[0]?.lecons[0]?.id ?? '1';
 
+  /* La leçon que l'apprenant reprend : la première non faite, dans la première
+     étape ouverte et non validée. C'est elle, et elle seule, qui porte « En
+     cours » dans le plan, et c'est elle qu'ouvre le bouton du hero (la leçon se
+     rouvre d'elle-même à la section sauvegardée). */
+  const currentStep = parcours.etapes.find((e: Etape) => e.unlocked && !e.completed);
+  const currentLesson = currentStep?.lecons.find((l: Lecon) => !l.completed);
+  const hasStarted = completedLessons > 0;
+  /* Le hero porte l'action principale (se positionner, commencer, reprendre)
+     tant qu'il en a une ; un parcours terminé n'en a plus, et c'est alors le
+     projet final qui la prend (arbitrage n°19 : un seul `solid` par écran). */
+  const heroPorteLAction = (progressPct === 0 && !positioned) || Boolean(currentLesson);
+
   const relatedParcours = Object.values(MOCK_PARCOURS_DATA)
     .filter((p) => p.id !== parcours.id)
     .slice(0, 3);
@@ -215,14 +231,14 @@ export const LearningPathDetail: React.FC = () => {
     {
       Icon: Target,
       label: 'Compétences opérationnelles',
-      desc: 'Des méthodes applicables immédiatement dans votre contexte professionnel.',
+      desc: 'Des méthodes applicables immédiatement dans ton contexte professionnel.',
       classes: `${TONE_BG_50[tone]} ${TONE_BORDER_200[tone]}`,
       iconColor: TONE_TEXT[tone],
     },
     {
       Icon: Lightbulb,
       label: 'Insights & prise de conscience',
-      desc: 'Comprendre vos patterns, identifier vos angles morts, renforcer votre posture.',
+      desc: 'Comprendre tes patterns, identifier tes angles morts, renforcer ta posture.',
       classes: 'bg-accent-100 border-accent-300',
       iconColor: 'text-accent-700',
     },
@@ -236,7 +252,7 @@ export const LearningPathDetail: React.FC = () => {
     {
       Icon: TrendingUp,
       label: 'Progression mesurable',
-      desc: 'Évaluez vos acquis via le quiz de positionnement et le projet final.',
+      desc: 'Évalue tes acquis via le quiz de positionnement et le projet final.',
       classes: 'bg-success-bg border-success-base/30',
       iconColor: 'text-success-fg',
     },
@@ -244,7 +260,9 @@ export const LearningPathDetail: React.FC = () => {
 
   return (
     <>
-      <PageShell width="page" noPadTop className="relative z-[2] gap-section pt-6 md:pt-8 lg:pt-10">
+      {/* La marge haute et le rythme par défaut de PageShell : 48 entre les
+          sections (la page les écrasait à 32, avec sa propre marge haute). */}
+      <PageShell width="page" className="relative z-[2]">
 
           {/* Hero — PageHero tone-aware (Phase 19.B-2026-05-26 : migré depuis HeroSection) */}
           <PageHero
@@ -263,8 +281,31 @@ export const LearningPathDetail: React.FC = () => {
             progressLabel={`${completedLessons} / ${totalLessons} leçons complétées`}
             trailing={
               progressPct === 0 && !positioned ? (
-                <Button emphasis="solid" onDark onClick={() => setShowPositionnement(true)}>
-                  🎯 Se positionner &amp; commencer
+                <Button
+                  emphasis="solid"
+                  onDark
+                  leadingIcon={<Target size={16} />}
+                  onClick={() => setShowPositionnement(true)}
+                >
+                  Se positionner et commencer
+                </Button>
+              ) : currentLesson ? (
+                /* Un parcours en cours n'avait aucun bouton dans son hero : il
+                   fallait descendre jusqu'au module, le déplier et viser une
+                   rangée (audit du 23/09). */
+                <Button
+                  emphasis="solid"
+                  onDark
+                  leadingIcon={<Play size={16} />}
+                  className="max-w-full"
+                  onClick={() =>
+                    navigate(`/learning-paths/${parcours.id}/lessons/${currentLesson.id}`)
+                  }
+                >
+                  {/* Un titre long se coupe au lieu de sortir du hero à 375 px. */}
+                  <span className="min-w-0 truncate">
+                    {hasStarted ? 'Reprendre' : 'Commencer'} : {currentLesson.title}
+                  </span>
                 </Button>
               ) : undefined
             }
@@ -272,445 +313,515 @@ export const LearningPathDetail: React.FC = () => {
 
           {/* Objectifs */}
           <section className="flex flex-col gap-stack">
-            <SectionHeader
-              variant="default"
-              size="md"
-              tone={tone}
-              icon={<Target size={20} />}
-              title="Ce que vous allez acquérir"
-            />
-            <div className="grid gap-stack grid-cols-[repeat(auto-fit,minmax(220px,1fr))]">
+            {/* Titre de section sans pastille : la taille dit le niveau, et les
+                trois sections de la page se lisent de la même façon. */}
+            <SectionHeader title="Ce que tu vas acquérir" />
+            {/* Quatre promesses : une liste, pas quatre sections. Le libellé est
+                celui d'une tuile compacte (16/600, comme LearningItemCard) ; la
+                description passe du cran 500 des placeholders à ink-700, 8 px
+                sous lui au lieu de 2. */}
+            <ul className="grid gap-stack grid-cols-[repeat(auto-fit,minmax(220px,1fr))]">
               {OBJECTIFS.map(({ Icon, label, desc, classes, iconColor }) => (
-                <div
+                <li
                   key={label}
-                  className={`p-stack rounded-xl border flex flex-col gap-stack-xs ${classes}`}
+                  className={`p-stack-lg rounded-xl border flex flex-col gap-stack-sm ${classes}`}
                 >
                   <div className="w-10 h-10 rounded-md bg-white/50 flex items-center justify-center shrink-0">
                     <Icon size={20} className={iconColor} />
                   </div>
-                  <div className="flex flex-col gap-tight">
-                    <h3 className="font-display text-body font-bold text-ink-900">
+                  <div className="flex flex-col gap-stack-xs">
+                    <p className="font-body text-body font-semibold text-ink-900">
                       {label}
-                    </h3>
-                    <p className="m-0 text-body-sm text-ink-500">{desc}</p>
+                    </p>
+                    <p className="text-body text-ink-700">{desc}</p>
                   </div>
-                </div>
+                </li>
               ))}
-            </div>
+            </ul>
           </section>
 
-          {/* Tab nav — DS Tabs pill */}
-          <Tabs
-            fullWidth
-            variant="pill"
-            value={activeTab}
-            onChange={(id) => setActiveTab(id as 'steps' | 'project')}
-            items={[
-              { id: 'steps',   label: 'Étapes du parcours', icon: <BookOpen size={14} /> },
-              { id: 'project', label: 'Projet final',       icon: <Award size={14} /> },
-            ] as TabItem[]}
-          />
+          {/* ── Le programme ─────────────────────────────────────────────────
+              Les onglets appartiennent à une section qui a son titre (h2). Sans
+              lui, les modules (h3) tombaient dans le plan du document sous
+              « Outils pour mieux apprendre », qui était le seul h2 du panneau. */}
+          <section className="flex flex-col gap-stack">
+            <SectionHeader title="Le programme" />
 
-          {/* Steps */}
-          {activeTab === 'steps' && (
-            <div className="flex flex-col gap-stack-lg">
+            {/* Tab nav — DS Tabs pill */}
+            <Tabs
+              fullWidth
+              variant="pill"
+              value={activeTab}
+              onChange={(id) => setActiveTab(id as 'steps' | 'project')}
+              items={[
+                { id: 'steps',   label: 'Étapes du parcours', icon: <BookOpen size={14} /> },
+                { id: 'project', label: 'Projet final',       icon: <Award size={14} /> },
+              ] as TabItem[]}
+            />
 
-              {/* ── Outils d'apprentissage : accès direct aux 3 viewers ─── */}
-              {parcours.etapes.length > 0 && (
-                <section aria-label="Outils pour mieux apprendre" className="flex flex-col gap-stack">
-                  <SectionHeader
-                    variant="default"
-                    size="sm"
-                    tone={tone}
-                    icon={<Sparkles size={16} />}
-                    title="Outils pour mieux apprendre"
-                    action={<span className="font-body text-caption text-ink-500">Accessible à tout moment</span>}
-                  />
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack-xs">
-                    <IconFeatureCard
-                      icon={<Lightbulb size={20} />}
-                      title="Astuces"
-                      description="Conseils pratiques tone-aware, format carousel."
-                      tone="sun"
-                      surface="tinted"
-                      iconStyle="bubble"
-                      iconSize="sm"
-                      onClick={() => navigate(`/lesson/${firstLessonId}/astuces`)}
-                      aria-label="Ouvrir les astuces de la formation"
+            {/* Steps */}
+            {/* 24 px entre les onglets et leur contenu (8 de plus que le
+                rythme de la section) : le premier titre du panneau se lit avec
+                ce qui le suit, pas avec les onglets. */}
+            {activeTab === 'steps' && (
+              <div className="mt-stack-xs flex flex-col gap-stack-lg">
+
+                {/* ── Outils d'apprentissage : accès direct aux 3 viewers ───────
+                    Un bloc du programme : h3 20. « Accessible à tout moment » est
+                    une donnée sur le bloc, pas une action : elle passe en méta sous
+                    le titre (13 ink-600, elle était au cran 500 et poussait le
+                    titre sur trois lignes à 375 px). Plus d'icône Sparkles : elle
+                    marque une fonction IA (DESIGN §10.3), et ces outils n'en sont
+                    pas. */}
+                {parcours.etapes.length > 0 && (
+                  <section aria-label="Outils pour mieux apprendre" className="flex flex-col gap-stack">
+                    <SectionHeader
+                      size="sm"
+                      as="h3"
+                      title="Outils pour mieux apprendre"
+                      meta="Accessible à tout moment"
                     />
-                    <IconFeatureCard
-                      icon={<Layers3 size={20} />}
-                      title="Flashcards"
-                      description="Mémorisation active recto-verso, swipe & flip."
-                      tone="brand"
-                      surface="tinted"
-                      iconStyle="bubble"
-                      iconSize="sm"
-                      onClick={() => navigate(`/lesson/${firstLessonId}/flashcards`)}
-                      aria-label="Ouvrir les flashcards de la formation"
-                    />
-                    <IconFeatureCard
-                      icon={<BookOpen size={20} />}
-                      title="Bonus"
-                      description="Articles, guides, templates et podcasts liés."
-                      tone="warm"
-                      surface="tinted"
-                      iconStyle="bubble"
-                      iconSize="sm"
-                      onClick={() => navigate(`/lesson/${firstLessonId}/complementary`)}
-                      aria-label="Ouvrir le contenu complémentaire"
-                    />
-                  </div>
-                </section>
-              )}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack-xs">
+                      <IconFeatureCard
+                        icon={<Lightbulb size={20} />}
+                        title="Astuces"
+                        description="Des conseils courts, à appliquer dès ta prochaine journée."
+                        tone="sun"
+                        surface="tinted"
+                        iconStyle="bubble"
+                        iconSize="sm"
+                        onClick={() => navigate(`/lesson/${firstLessonId}/astuces`)}
+                        aria-label="Ouvrir les astuces de la formation"
+                      />
+                      <IconFeatureCard
+                        icon={<Layers3 size={20} />}
+                        title="Flashcards"
+                        description="Des cartes question-réponse pour retenir l'essentiel."
+                        tone="brand"
+                        surface="tinted"
+                        iconStyle="bubble"
+                        iconSize="sm"
+                        onClick={() => navigate(`/lesson/${firstLessonId}/flashcards`)}
+                        aria-label="Ouvrir les flashcards de la formation"
+                      />
+                      <IconFeatureCard
+                        icon={<BookOpen size={20} />}
+                        title="Bonus"
+                        description="Articles, guides, templates et podcasts liés."
+                        tone="warm"
+                        surface="tinted"
+                        iconStyle="bubble"
+                        iconSize="sm"
+                        onClick={() => navigate(`/lesson/${firstLessonId}/complementary`)}
+                        aria-label="Ouvrir le contenu complémentaire"
+                      />
+                    </div>
+                  </section>
+                )}
 
-              {parcours.etapes.map((etape: Etape, idx: number) => {
-                const isOpen = expandedSteps.includes(etape.id);
-                const stepPct = etape.progress.percentage;
+                {/* Les étapes : une liste ordonnée, 16 px entre deux modules
+                    (éléments d'un même ensemble) — elles étaient à 24. */}
+                <ol className="flex flex-col gap-stack">
+                  {parcours.etapes.map((etape: Etape, idx: number) => {
+                    const isOpen = expandedSteps.includes(etape.id);
+                    const stepPct = etape.progress.percentage;
 
-                const stepBorderClass = !etape.unlocked
-                  ? 'border-ink-200'
-                  : etape.completed
-                  ? 'border-success-base/40'
-                  : TONE_BORDER_200[tone];
+                    const stepBorderClass = !etape.unlocked
+                      ? 'border-ink-200'
+                      : etape.completed
+                      ? 'border-success-base/40'
+                      : TONE_BORDER_200[tone];
 
-                const badgeBgClass = !etape.unlocked
-                  ? 'bg-ink-200'
-                  : etape.completed
-                  ? 'bg-success-base'
-                  : TONE_BG_500[tone];
+                    // La pastille porte un cadenas, une coche ou le numéro : chaque fond
+                    // choisit son encre (blanc sur ink-200 mesurait 1,3, sur success-base 2,00).
+                    const badgeBgClass = !etape.unlocked
+                      ? 'bg-ink-200 text-ink-600'
+                      : etape.completed
+                      ? 'bg-success-vivid text-white'
+                      : `${TONE_BG_700[tone]} text-white`;
 
-                return (
-                  <div
-                    key={etape.id}
-                    className={[
-                      'rounded-xl border-2 overflow-hidden transition-colors',
-                      etape.unlocked ? 'bg-white' : 'bg-ink-50',
-                      stepBorderClass,
-                    ].join(' ')}
-                  >
-                    <button
-                      onClick={() => toggleStep(etape.id)}
-                      className="w-full flex items-start gap-stack p-6 bg-transparent border-0 cursor-pointer text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-lg"
-                    >
-                      <div
+                    return (
+                      <li
+                        key={etape.id}
                         className={[
-                          'w-16 h-16 rounded-xl shrink-0 flex items-center justify-center text-white',
-                          badgeBgClass,
-                          etape.unlocked && !etape.completed ? 'shadow-md' : '',
+                          'rounded-xl border-2 overflow-hidden transition-colors',
+                          etape.unlocked ? 'bg-white' : 'bg-ink-50',
+                          stepBorderClass,
                         ].join(' ')}
                       >
-                        {!etape.unlocked ? (
-                          <Lock size={20} />
-                        ) : etape.completed ? (
-                          <CheckCircle2 size={24} />
-                        ) : (
-                          <span className="font-display font-bold text-h2 leading-none">
-                            {idx + 1}
-                          </span>
-                        )}
-                      </div>
-
-                      <div className="flex-1 min-w-0">
-                        <div className="mb-2 flex items-center gap-stack-xs">
-                          {!etape.unlocked ? (
-                            <Badge variant="neutral">VERROUILLÉ</Badge>
-                          ) : etape.completed ? (
-                            <Badge variant="success">VALIDÉ</Badge>
-                          ) : (
-                            <Badge variant="brand">EN COURS</Badge>
-                          )}
-                          {etape.progression_mode === 'FLEXIBLE' && !etape.completed && idx > 0 && !parcours.etapes[idx - 1]?.completed && (
-                            <Badge variant="info" size="compact">⚠️ Accès souple</Badge>
-                          )}
-                        </div>
-
-                        <h3
+                        {/* L'en-tête porte le fond de sa carte : c'est lui qui a
+                            le padding, et la surface va avec (même rendu). */}
+                        <button
+                          onClick={() => toggleStep(etape.id)}
                           className={[
-                            'font-display text-h3 font-bold mb-stack-xs leading-tight',
-                            etape.unlocked ? 'text-ink-900' : 'text-ink-500',
+                            'w-full flex items-start gap-stack p-6 border-0 cursor-pointer text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-lg',
+                            etape.unlocked ? 'bg-white' : 'bg-ink-50',
                           ].join(' ')}
                         >
-                          {etape.title}
-                        </h3>
-
-                        <MetaPillGroup
-                          items={[
-                            { icon: <BookOpen size={14} />, text: `${etape.lecons.length} leçons` },
-                            { icon: <Clock3 size={14} />, text: etape.duration },
-                            ...(etape.unlocked && !etape.completed
-                              ? [
-                                  {
-                                    icon: <Target size={14} />,
-                                    text: `${etape.progress.completed}/${etape.progress.total} complétées`,
-                                  },
-                                ]
-                              : []),
-                          ]}
-                          size="sm"
-                        />
-
-                        {etape.unlocked && !etape.completed && stepPct > 0 && (
-                          <div className="mt-stack-xs">
-                            <InlineProgress value={stepPct} tone={tone as any} showLabel={false} size="sm" />
+                          {/* La pastille numérotée passe de 64 à 48 px (échelle des
+                              pastilles, rayon 14) et son chiffre de 28 à 20 : il était
+                              plus gros que le titre du module qu'il numérote. */}
+                          <div
+                            className={[
+                              'w-12 h-12 rounded-lg shrink-0 flex items-center justify-center',
+                              badgeBgClass,
+                            ].join(' ')}
+                          >
+                            {!etape.unlocked ? (
+                              <Lock size={20} />
+                            ) : etape.completed ? (
+                              <CheckCircle2 size={24} />
+                            ) : (
+                              <span className="font-display text-h3 tabular-nums">
+                                {idx + 1}
+                              </span>
+                            )}
                           </div>
-                        )}
-                      </div>
 
-                      {etape.unlocked && (
-                        <div className="shrink-0 text-ink-500 pt-2">
-                          {isOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-                        </div>
-                      )}
-                    </button>
+                          {/* Anatomie de carte : état → 4 → titre → 8 → méta → 12 →
+                              progression. */}
+                          <div className="flex-1 min-w-0 flex flex-col">
+                            {/* Trois états réels une fois l'étape ouverte. « En cours »
+                                disait seulement « déverrouillée et pas finie » : une
+                                étape à 0/3 l'affichait (audit du 23/09). */}
+                            <div className="mb-stack-3xs flex items-center gap-stack-xs">
+                              {!etape.unlocked ? (
+                                <Badge variant="neutral">Verrouillé</Badge>
+                              ) : etape.completed ? (
+                                <Badge variant="success">Validé</Badge>
+                              ) : etape.lecons.some((l: Lecon) => l.completed) ||
+                                (hasStarted && etape.id === currentStep?.id) ? (
+                                <Badge variant="brand">En cours</Badge>
+                              ) : (
+                                <Badge variant="neutral">À venir</Badge>
+                              )}
+                              {etape.progression_mode === 'FLEXIBLE' && !etape.completed && idx > 0 && !parcours.etapes[idx - 1]?.completed && (
+                                <Badge variant="info" size="compact">
+                                  <AlertTriangle size={12} aria-hidden="true" /> Accès souple
+                                </Badge>
+                              )}
+                            </div>
 
-                    {isOpen && etape.unlocked && (
-                      <div className="border-t border-ink-200 px-6 pt-stack pb-stack-lg">
-                        <div
-                          className={`flex flex-col gap-stack-xs ${carouselItems.length > 0 && idx === 0 ? 'mb-stack-lg' : ''}`}
-                        >
-                          {etape.lecons.map((lecon: Lecon) => {
-                            const firstIncomplete = etape.lecons.findIndex((l: Lecon) => !l.completed);
-                            const isCurrent = !lecon.completed && etape.lecons.indexOf(lecon) === firstIncomplete;
+                            {/* Verrouillé : ink-600, lisible (ink-500 est le cran des
+                                placeholders) — le cadenas et l'état disent le reste. */}
+                            <h3
+                              className={[
+                                'font-display text-h3 mb-stack-xs',
+                                etape.unlocked ? 'text-ink-900' : 'text-ink-600',
+                              ].join(' ')}
+                            >
+                              {etape.title}
+                            </h3>
 
-                            const rowBg = lecon.completed
-                              ? 'bg-success-bg border-success-base/20'
-                              : isCurrent
-                              ? `${TONE_BG_50[tone]} ${TONE_BORDER_200[tone]}`
-                              : 'bg-ink-50 border-transparent';
+                            <MetaPillGroup
+                              items={[
+                                { icon: <BookOpen size={14} />, text: `${etape.lecons.length} leçons` },
+                                { icon: <Clock3 size={14} />, text: etape.duration },
+                                ...(etape.unlocked && !etape.completed
+                                  ? [
+                                      {
+                                        icon: <Target size={14} />,
+                                        text: `${etape.progress.completed}/${etape.progress.total} complétées`,
+                                      },
+                                    ]
+                                  : []),
+                              ]}
+                              size="sm"
+                            />
 
-                            const iconBg = lecon.completed
-                              ? 'bg-success-base/20 text-success-fg'
-                              : isCurrent
-                              ? `${TONE_BG_500[tone]} text-white`
-                              : 'bg-ink-100 text-ink-500';
+                            {etape.unlocked && !etape.completed && stepPct > 0 && (
+                              <div className="mt-stack-sm">
+                                <InlineProgress value={stepPct} tone={tone as any} showLabel={false} size="sm" />
+                              </div>
+                            )}
+                          </div>
 
-                            return (
-                              <button
-                                key={lecon.id}
-                                type="button"
-                                onClick={() =>
-                                  navigate(`/learning-paths/${parcours.id}/lessons/${lecon.id}`)
-                                }
-                                className={`flex items-center gap-stack-xs px-4 py-3 rounded-xl border cursor-pointer transition-colors hover:bg-white text-left bg-transparent border-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${rowBg}`}
-                              >
-                                <div
-                                  className={`w-9 h-9 rounded-lg shrink-0 flex items-center justify-center ${iconBg}`}
-                                >
-                                  {lecon.completed ? <CheckCircle2 size={16} /> : <Play size={14} />}
-                                </div>
+                          {/* Le chevron se centre sur la pastille (48 px). */}
+                          {etape.unlocked && (
+                            <div className="shrink-0 h-12 flex items-center text-ink-600">
+                              {isOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                            </div>
+                          )}
+                        </button>
 
-                                <div className="flex-1 min-w-0">
-                                  <div
-                                    className={`text-body-sm leading-snug truncate text-ink-900 ${
-                                      isCurrent ? 'font-semibold' : 'font-normal'
-                                    }`}
-                                  >
-                                    {lecon.number}. {lecon.title}
-                                  </div>
-                                  <div className="flex items-center gap-tight text-caption text-ink-500 mt-0.5">
-                                    <Clock3 size={14} /> {lecon.duration}
-                                  </div>
-                                </div>
+                        {isOpen && etape.unlocked && (
+                          <div className="border-t border-ink-200 px-6 pt-stack pb-stack-lg">
+                            <div
+                              className={`flex flex-col gap-stack-xs ${carouselItems.length > 0 && idx === 0 ? 'mb-stack-lg' : ''}`}
+                            >
+                              {etape.lecons.map((lecon: Lecon) => {
+                                // Une seule leçon « en cours » dans tout le parcours,
+                                // pas la première non faite de chaque étape ouverte.
+                                const isCurrent = lecon.id === currentLesson?.id;
 
-                                {isCurrent && (
-                                  <div className="shrink-0">
-                                    <Badge variant="brand">En cours</Badge>
-                                  </div>
-                                )}
-                              </button>
-                            );
-                          })}
-                        </div>
+                                const rowBg = lecon.completed
+                                  ? 'bg-success-bg border-success-base/20'
+                                  : isCurrent
+                                  ? `${TONE_BG_50[tone]} ${TONE_BORDER_200[tone]}`
+                                  : 'bg-ink-50 border-transparent';
 
-                        {idx === 0 && carouselItems.length > 0 && (
-                          <div className="flex flex-col gap-stack-xs">
-                            <p className="text-caption font-bold uppercase tracking-wider text-ink-500">
-                              Ressources complémentaires
-                            </p>
-                            <CardGrid layout="default" autoFit gapSize="md">
-                              {carouselItems.map((item: ComplementaryItem) => {
-                                const Icon = RESOURCE_ICON[item.kind];
-                                const resourceHref =
-                                  item.kind === 'video'
-                                    ? `/veille/video/${item.id}`
-                                    : `/lesson/${item.id}/complementary`;
+                                const iconBg = lecon.completed
+                                  ? 'bg-success-base/20 text-success-fg'
+                                  : isCurrent
+                                  ? `${TONE_BG_700[tone]} text-white`
+                                  : 'bg-ink-100 text-ink-500';
+
                                 return (
-                                  <ResourceCard
-                                    key={item.id}
-                                    icon={<Icon size={20} />}
-                                    resourceType={RESOURCE_LABEL[item.kind]}
-                                    title={item.title}
-                                    duration={item.duration}
-                                    tone={item.tone}
-                                    cta={{ label: 'Ouvrir', onClick: () => navigate(resourceHref) }}
-                                  />
+                                  <button
+                                    key={lecon.id}
+                                    type="button"
+                                    onClick={() =>
+                                      navigate(`/learning-paths/${parcours.id}/lessons/${lecon.id}`)
+                                    }
+                                    className={`flex items-center gap-stack-sm px-4 py-3 rounded-lg border cursor-pointer transition-colors hover:bg-white text-left bg-transparent border-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${rowBg}`}
+                                  >
+                                    {/* Rangée de liste : rayon 14 (étage interactif), il
+                                        était à 20 comme une carte. 36 px de pastille,
+                                        rayon 10 (arbitrage n°3). */}
+                                    <div
+                                      className={`w-9 h-9 rounded-md shrink-0 flex items-center justify-center ${iconBg}`}
+                                    >
+                                      {lecon.completed ? <CheckCircle2 size={16} /> : <Play size={14} />}
+                                    </div>
+
+                                    {/* Titre de la leçon et sa durée collée (un même
+                                        énoncé, 2 px) ; la durée est une méta : 13
+                                        ink-600, elle était au cran 500. */}
+                                    <div className="flex-1 min-w-0 flex flex-col gap-tight">
+                                      <p
+                                        className={`text-body truncate text-ink-900 ${
+                                          isCurrent ? 'font-semibold' : 'font-normal'
+                                        }`}
+                                      >
+                                        <span className="tabular-nums">{lecon.number}.</span> {lecon.title}
+                                      </p>
+                                      <p className="flex items-center gap-stack-3xs text-caption text-ink-600">
+                                        <Clock3 size={14} aria-hidden="true" /> {lecon.duration}
+                                      </p>
+                                    </div>
+
+                                    {isCurrent && hasStarted && (
+                                      <div className="shrink-0">
+                                        <Badge variant="brand">En cours</Badge>
+                                      </div>
+                                    )}
+                                  </button>
                                 );
                               })}
-                            </CardGrid>
+                            </div>
+
+                            {idx === 0 && carouselItems.length > 0 && (
+                              <div className="flex flex-col gap-stack-xs">
+                                {/* Un libellé de groupe, pas un surtitre en capitales
+                                    espacées au cran 500 : 13/600 ink-600. */}
+                                <p className="text-caption font-semibold text-ink-600">
+                                  Ressources complémentaires
+                                </p>
+                                <CardGrid layout="default" autoFit gapSize="md">
+                                  {carouselItems.map((item: ComplementaryItem) => {
+                                    const Icon = RESOURCE_ICON[item.kind];
+                                    const resourceHref =
+                                      item.kind === 'video'
+                                        ? `/veille/video/${item.id}`
+                                        : `/lesson/${item.id}/complementary`;
+                                    return (
+                                      <ResourceCard
+                                        key={item.id}
+                                        icon={<Icon size={20} />}
+                                        resourceType={RESOURCE_LABEL[item.kind]}
+                                        title={item.title}
+                                        duration={item.duration}
+                                        tone={item.tone}
+                                        cta={{ label: 'Ouvrir', onClick: () => navigate(resourceHref) }}
+                                      />
+                                    );
+                                  })}
+                                </CardGrid>
+                              </div>
+                            )}
                           </div>
                         )}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          )}
+                      </li>
+                    );
+                  })}
+                </ol>
+              </div>
+            )}
 
-          {/* Project tab */}
-          {activeTab === 'project' && parcours.finalProject && (
-            <div className="flex flex-col gap-section">
-              {/* Project hero */}
-              <div
-                className={`text-center text-white p-stack-lg rounded-xl ${TONE_HERO_GRADIENT[tone]}`}
-              >
-                <div className="w-20 h-20 rounded-xl bg-white/15 backdrop-blur-sm mx-auto mb-stack-lg flex items-center justify-center">
-                  <Award size={32} />
+            {/* Project tab — un panneau du programme : ses blocs sont des h3,
+                24 px entre eux (32 avant, plus que l'écart entre deux modules). */}
+            {activeTab === 'project' && parcours.finalProject && (
+              <div className="mt-stack-xs flex flex-col gap-stack-lg">
+                {/* Project hero — calé à gauche : la description court sur
+                    plusieurs lignes, et un texte centré ne se lit que sur deux.
+                    Titre h3 20 (un bloc du programme, il était un h2 28), texte
+                    16, pastille 48 au rayon 14. */}
+                <div
+                  className={`flex flex-col gap-stack-sm text-white p-stack-lg rounded-xl ${TONE_HERO_GRADIENT[tone]}`}
+                >
+                  <div className="w-12 h-12 rounded-lg bg-white/15 backdrop-blur-sm flex items-center justify-center">
+                    <Award size={24} aria-hidden="true" />
+                  </div>
+                  <div className="flex flex-col gap-stack-xs">
+                    <h3 className="font-display text-h3">
+                      {parcours.finalProject.title}
+                    </h3>
+                    <p className="text-body max-w-prose">
+                      {parcours.finalProject.description}
+                    </p>
+                  </div>
+
+                  <MetaPillGroup
+                    items={[
+                      { icon: <Clock3 size={14} />, text: '80 minutes' },
+                      { icon: <Target size={14} />, text: '5 étapes' },
+                      { icon: <Award size={14} />, text: 'Badge certifiant' },
+                    ]}
+                    layout="horizontal"
+                    gap="md"
+                  />
                 </div>
-                <h2 className="font-display text-h2 font-bold mb-3">
-                  {parcours.finalProject.title}
-                </h2>
-                <p className="text-body-lg m-0 mb-section opacity-90 max-w-[720px] mx-auto">
-                  {parcours.finalProject.description}
-                </p>
 
-                <MetaPillGroup
-                  items={[
-                    { icon: <Clock3 size={14} />, text: '80 minutes' },
-                    { icon: <Target size={14} />, text: '5 étapes' },
-                    { icon: <Award size={14} />, text: 'Badge certifiant' },
-                  ]}
-                  layout="horizontal"
-                  gap="md"
-                />
-              </div>
-
-              {/* Project details grid */}
-              <div className="grid gap-stack grid-cols-[repeat(auto-fit,minmax(200px,1fr))]">
-                {[
-                  { label: 'Complexité', value: 'Avancé', desc: 'Nécessite les connaissances des 5 étapes précédentes' },
-                  { label: 'Format', value: 'Multi-étape', desc: 'Répondez à 5 questions structurées' },
-                  { label: 'Résultat', value: 'Plan concret', desc: 'Document exportable et partageable' },
-                ].map(({ label, value, desc }) => (
-                  <div
-                    key={label}
-                    className={`p-6 rounded-xl border ${TONE_BG_50[tone]} ${TONE_BORDER_200[tone]}`}
-                  >
-                    <div className={`text-caption font-bold uppercase mb-2 ${TONE_TEXT[tone]}`}>
-                      {label}
-                    </div>
-                    <div className="text-h3 font-bold text-ink-900 mb-2">{value}</div>
-                    <p className="text-caption text-ink-500 m-0 leading-snug">{desc}</p>
-                  </div>
-                ))}
-              </div>
-
-              {/* Project steps */}
-              <section aria-label="Étapes du projet" className="flex flex-col gap-stack">
-                <SectionHeader
-                  variant="minimal"
-                  size="sm"
-                  tone="neutral"
-                  title="Étapes du projet"
-                />
-                <div className="flex flex-col gap-stack-xs">
+                {/* Project details — trois paires libellé / valeur : le libellé
+                    chuchote (13/600 ink-600 ; il était en capitales au ton de
+                    marque), la valeur porte le poids, la phrase se lit à 16 ink-700
+                    (elle était à 13 au cran 500). */}
+                <dl className="grid gap-stack grid-cols-[repeat(auto-fit,minmax(200px,1fr))]">
                   {[
-                    { num: 1, title: 'Contexte', desc: 'Analysez votre situation actuelle' },
-                    { num: 2, title: 'Conception', desc: 'Créez 3-5 prompts clés avec RCIF' },
-                    { num: 3, title: 'Tests', desc: 'Testez et améliorez vos prompts' },
-                    { num: 4, title: 'Déploiement', desc: "Planifiez l'intégration pratique" },
-                    { num: 5, title: 'Réflexion', desc: 'Capitalisez sur vos apprentissages' },
-                  ].map((step) => (
+                    { label: 'Complexité', value: 'Avancé', desc: 'Nécessite les connaissances des 5 étapes précédentes' },
+                    { label: 'Format', value: 'Multi-étape', desc: 'Réponds à 5 questions structurées' },
+                    { label: 'Résultat', value: 'Plan concret', desc: 'Document exportable et partageable' },
+                  ].map(({ label, value, desc }) => (
                     <div
-                      key={step.num}
-                      className="flex gap-stack items-start p-stack rounded-xl bg-ink-50 border border-ink-200"
+                      key={label}
+                      className={`flex flex-col p-stack-lg rounded-xl border ${TONE_BG_50[tone]} ${TONE_BORDER_200[tone]}`}
                     >
-                      <div
-                        className={`w-11 h-11 rounded-lg text-white flex items-center justify-center font-bold text-h4 shrink-0 ${TONE_BG_500[tone]}`}
-                      >
-                        {step.num}
-                      </div>
-                      <div className="flex-1">
-                        <div className="text-body font-semibold text-ink-900 mb-1">
-                          {step.title}
-                        </div>
-                        <div className="text-caption text-ink-500">{step.desc}</div>
-                      </div>
+                      <dt className="text-caption font-semibold text-ink-600">
+                        {label}
+                      </dt>
+                      <dd className="mt-stack-3xs font-display text-h3 text-ink-900">{value}</dd>
+                      <dd className="mt-stack-xs text-body text-ink-700">{desc}</dd>
                     </div>
                   ))}
-                </div>
-              </section>
+                </dl>
 
-              {/* Prerequisites */}
-              <div className="p-stack-lg rounded-xl bg-primary-50 border border-primary-200">
-                <div className="flex gap-stack-xs items-start">
-                  <div className="w-8 h-8 rounded-lg bg-primary-100 text-primary-600 flex items-center justify-center font-bold shrink-0">
-                    ℹ️
-                  </div>
-                  <div className="flex-1">
-                    <div className="text-h4 font-bold text-ink-900 mb-2">Avant de commencer</div>
-                    <ul className="m-0 pl-stack-md text-body-sm text-ink-500 leading-relaxed">
-                      <li>Complétez les 5 étapes du parcours de formation</li>
-                      <li>Maîtrisez la méthode ROLE-CONTEXT-TASK (RCT)</li>
-                      <li>Ayez identifié vos cas d'usage prioritaires</li>
-                      <li>Prévoyez 80 minutes sans interruption</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
-              {/* CTA */}
-              <div
-                className={`p-8 rounded-xl bg-white border-2 text-center ${TONE_BORDER_500[tone]}`}
-              >
-                <h3 className="text-h4 font-bold text-ink-900 mb-2">
-                  Prêt à passer à l'action ?
-                </h3>
-                <p className="text-body text-ink-500 m-0 mb-stack-lg">
-                  Créez votre plan d'intégration de l'IA en 5 étapes structurées
-                </p>
-
-                <div className="mb-stack-lg flex items-center gap-stack justify-center">
-                  <div className="text-caption text-ink-500">Déverrouillé après étape 5</div>
-                  <div className="flex items-center gap-stack-xs">
-                    {[1, 2, 3, 4, 5].map((i) => {
-                      const reached = i <= completedLessons / (totalLessons / 5);
-                      return (
+                {/* Project steps — cinq étapes d'un même type : des rangées dans
+                    UNE carte (arbitrage n°5), plus cinq cartes empilées. */}
+                <section aria-label="Étapes du projet" className="flex flex-col gap-stack">
+                  <SectionHeader
+                    variant="minimal"
+                    size="sm"
+                    as="h3"
+                    tone="neutral"
+                    title="Étapes du projet"
+                  />
+                  <ol className="rounded-xl border border-ink-200 bg-white divide-y divide-ink-100">
+                    {[
+                      { num: 1, title: 'Contexte', desc: 'Analyse ta situation actuelle' },
+                      { num: 2, title: 'Conception', desc: 'Crée 3-5 prompts clés avec RCIF' },
+                      { num: 3, title: 'Tests', desc: 'Teste et améliore tes prompts' },
+                      { num: 4, title: 'Déploiement', desc: "Planifie l'intégration pratique" },
+                      { num: 5, title: 'Réflexion', desc: 'Capitalise sur tes apprentissages' },
+                    ].map((step) => (
+                      <li
+                        key={step.num}
+                        className="flex gap-stack items-start px-stack-lg py-stack"
+                      >
+                        {/* Pastille 40 au rayon 10 ; le chiffre en League Spartan
+                            (il était en Nunito gras 20, un titre qui s'ignore). */}
                         <div
-                          key={i}
-                          className={[
-                            'w-6 h-6 rounded-pill flex items-center justify-center text-caption font-semibold',
-                            reached ? `${TONE_BG_500[tone]} text-white` : 'bg-ink-200 text-ink-500',
-                          ].join(' ')}
+                          className={`w-10 h-10 rounded-md text-white flex items-center justify-center font-display text-h3 tabular-nums shrink-0 ${TONE_BG_700[tone]}`}
                         >
-                          {i}
+                          {step.num}
                         </div>
-                      );
-                    })}
+                        <div className="flex-1 flex flex-col gap-stack-3xs">
+                          <p className="text-body font-semibold text-ink-900">
+                            {step.title}
+                          </p>
+                          <p className="text-body text-ink-700">{step.desc}</p>
+                        </div>
+                      </li>
+                    ))}
+                  </ol>
+                </section>
+
+                {/* Prerequisites — un vrai titre de bloc (h3), la liste à puces
+                    qu'elle prétendait être (les puces avaient disparu avec le
+                    reset), en ink-700 ; l'émoji ℹ️ devient l'icône Lucide, calée
+                    sur la première ligne du titre. */}
+                <div className="p-stack-lg rounded-xl bg-primary-50 border border-primary-200">
+                  <div className="flex gap-stack-sm items-start">
+                    <div className="w-8 h-8 rounded-md bg-primary-100 text-primary-800 flex items-center justify-center shrink-0">
+                      <Info size={16} aria-hidden="true" />
+                    </div>
+                    <div className="flex-1 flex flex-col gap-stack-xs mt-[3px]">
+                      <h3 className="font-display text-h3 text-ink-900">Avant de commencer</h3>
+                      <ul className="list-disc pl-stack-md text-body text-ink-700 max-w-prose">
+                        <li>Valide les 5 étapes du parcours de formation</li>
+                        <li>Maîtrise la méthode ROLE-CONTEXT-TASK (RCT)</li>
+                        <li>Aie identifié tes cas d'usage prioritaires</li>
+                        <li>Prévois 80 minutes sans interruption</li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
 
-                <Button
-                  onClick={() => navigate(`/project/${parcours.id}`)}
-                  className="min-w-[280px]"
+                {/* CTA — deux lignes centrées au plus : le titre (League Spartan,
+                    il était en Nunito gras) et sa phrase en ink-700. */}
+                <div
+                  className={`flex flex-col items-center gap-stack-lg p-8 rounded-xl bg-white border-2 text-center ${TONE_BORDER_500[tone]}`}
                 >
-                  {parcours.finalProject.ctaText}
-                </Button>
-              </div>
-            </div>
-          )}
+                  <div className="flex flex-col gap-stack-xs">
+                    <h3 className="font-display text-h3 text-ink-900">
+                      Prêt à passer à l'action ?
+                    </h3>
+                    <p className="text-body text-ink-700">
+                      Crée ton plan d'intégration de l'IA en 5 étapes structurées
+                    </p>
+                  </div>
 
-          {/* Parcours similaires */}
+                  <div className="flex flex-wrap items-center gap-stack justify-center">
+                    <p className="text-caption text-ink-600">Déverrouillé après l'étape 5</p>
+                    <div className="flex items-center gap-stack-xs">
+                      {[1, 2, 3, 4, 5].map((i) => {
+                        const reached = i <= completedLessons / (totalLessons / 5);
+                        return (
+                          <div
+                            key={i}
+                            className={[
+                              'w-6 h-6 rounded-pill flex items-center justify-center text-caption font-semibold tabular-nums',
+                              reached ? `${TONE_BG_700[tone]} text-white` : 'bg-ink-200 text-ink-700',
+                            ].join(' ')}
+                          >
+                            {i}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* L'action du panneau : `soft` tant que le hero porte
+                      l'aplat de l'écran (arbitrage n°19) ; `solid` une fois
+                      le parcours terminé, quand le projet final devient la
+                      suite. Elle passait par le `variant` implicite. */}
+                  <Button
+                    emphasis={heroPorteLAction ? 'soft' : 'solid'}
+                    onClick={() => navigate(`/project/${parcours.id}`)}
+                    className="min-w-[280px]"
+                  >
+                    {parcours.finalProject.ctaText}
+                  </Button>
+                </div>
+              </div>
+            )}
+          </section>
+
+          {/* Parcours similaires — une section de la page : h2 28 (il était à
+              20). Les titres de section de la page n'ont plus de pastille ni
+              d'icône : la taille dit le niveau. */}
           {relatedParcours.length > 0 && (
             <section aria-label="Parcours similaires" className="flex flex-col gap-stack">
-              <SectionHeader
-                variant="minimal"
-                size="sm"
-                tone="neutral"
-                icon={<GraduationCap size={16} />}
-                title="Parcours similaires"
-              />
+              <SectionHeader title="Parcours similaires" />
               <RelatedItemList
                 items={relatedParcours.map((p) => ({
                   id: p.id,

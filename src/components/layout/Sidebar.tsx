@@ -1,6 +1,7 @@
 import React from 'react';
 import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown, X } from 'lucide-react';
 import { TlsLogo } from '../ui/TlsLogo';
+import { Button } from '../core/Button';
 
 /**
  * Sidebar — primary app navigation.
@@ -24,6 +25,10 @@ export interface SidebarProps extends Omit<React.HTMLAttributes<HTMLElement>, 'c
   children?: React.ReactNode;
   /** Mobile drawer open state (controlled). Hidden by default on mobile. */
   mobileOpen?: boolean;
+  /** Vrai sous 768 px : la barre devient un tiroir. Fermé, il est `inert` —
+   *  sinon ses 7 liens restaient dans l'ordre de tabulation, hors écran à
+   *  −268 px (WCAG 2.4.7 / 2.4.11, audit du 23/09). */
+  isMobile?: boolean;
   onMobileClose?: () => void;
 }
 
@@ -45,13 +50,26 @@ export const Sidebar: React.FC<SidebarProps> = ({
   userCard,
   children,
   mobileOpen = false,
+  isMobile = false,
   onMobileClose,
   className = '',
   ...rest
 }) => {
-  // Width progressive : 220px tablet (768-1023), 260px desktop (1024+).
-  // Sur mobile drawer, la classe `max-md:w-[280px]` override prend le dessus.
-  const widthClasses = collapsed ? 'w-[72px]' : 'w-[220px] lg:w-[260px]';
+  /* Une seule largeur dépliée, 260 px, dès 768 px — révisé le 2026-09-24.
+     La tablette avait 220 px. Avec des entrées à 16 px (arbitrage n°20), le
+     libellé le plus long, « Espace Apprentissage », mesure 162 px ; la rangée
+     de 220 ne lui en laissait que 133 et le coupait (« Espace Appren… »). À
+     260, il en a 173. Sur mobile, le tiroir garde `max-md:w-[280px]`. */
+  const widthClasses = collapsed ? 'w-[72px]' : 'w-[260px]';
+
+  // Tiroir ouvert : Échap le ferme (motif APG Dialog). Le retour du focus au
+  // bouton d'ouverture est géré par le parent, qui possède ce bouton.
+  React.useEffect(() => {
+    if (!isMobile || !mobileOpen) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onMobileClose?.(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isMobile, mobileOpen, onMobileClose]);
 
   return (
     <>
@@ -77,7 +95,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
         ]
           .filter(Boolean)
           .join(' ')}
+        id="navigation-principale"
         aria-label="Navigation principale"
+        inert={isMobile && !mobileOpen ? true : undefined}
+        /* Fermé, le tiroir est aussi `aria-hidden` (24/09) : `inert` le retire
+           déjà du clavier et des technologies d'assistance dans les navigateurs
+           actuels ; l'attribut le dit en plus aux outils qui ne lisent pas
+           `inert` — la sonde de contraste mesurait son libellé « Coaching »,
+           hors écran à −280 px, à 1,0–1,8:1 à 375. */
+        aria-hidden={isMobile && !mobileOpen ? true : undefined}
         {...rest}
       >
         {/* Brand row + mobile close button.
@@ -94,14 +120,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <div className={['shrink-0', collapsed ? 'mx-auto' : 'pl-3.5'].filter(Boolean).join(' ')}>{brand ?? <DefaultBrand collapsed={collapsed} />}</div>
           {/* Mobile-only close button — visible quand drawer ouvert sur viewport < 768px */}
           {onMobileClose && (
-            <button
-              type="button"
+            <Button
+              iconOnly
+              size="sm"
+              emphasis="ghost"
+              tone="neutral"
               onClick={onMobileClose}
               aria-label="Fermer la navigation"
-              className="md:hidden shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-pill bg-ink-50 hover:bg-ink-100 text-ink-700 hover:text-ink-900 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+              className="md:hidden shrink-0"
             >
-              <X size={18} strokeWidth={2.25} />
-            </button>
+              <X strokeWidth={2.25} />
+            </Button>
           )}
         </div>
 
@@ -123,7 +152,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
         )}
 
         {/* Navigation */}
-        <nav className={['flex-1 flex flex-col gap-tight overflow-y-auto', collapsed ? 'px-2' : 'px-3'].join(' ')}>
+        {/* 8 px entre deux entrées (`gap-stack-xs`), et non plus 2 : `gap-tight`
+            ne sépare que deux lignes d'un même énoncé, jamais deux rangées — les
+            fonds de survol et de sélection s'y touchaient presque. */}
+        <nav className={['flex-1 flex flex-col gap-stack-xs overflow-y-auto', collapsed ? 'px-2' : 'px-3'].join(' ')}>
           {children}
         </nav>
 
@@ -169,7 +201,7 @@ const formatCount = (count: React.ReactNode): React.ReactNode => {
 };
 
 const NAV_BASE =
-  'group/nav relative isolate flex items-center font-body font-semibold text-body-sm no-underline transition-[background-color,color,padding] duration-fast ease-standard cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
+  'group/nav relative isolate flex items-center font-body font-semibold text-body no-underline transition-[background-color,color,padding] duration-fast ease-standard cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
 
 /* Un seul rayon pour les deux états — resserré le 2026-09-14.
 
@@ -264,9 +296,13 @@ export const NavItem: React.FC<NavItemProps> = ({
       {...rest}
     >
       <span aria-hidden className={`${NAV_VOILE} ${active ? 'opacity-100' : 'opacity-0'}`} />
+      {/* Boîte de 24 (elle règle le centrage du rail replié), glyphe au cran
+          `icon-md` (20) : le cran apparié au corps de 16 px du libellé. Il était
+          à 22, hors échelle. Rangée en `items-center` : l'icône est centrée sur
+          la ligne du libellé. */}
       {icon && (
-        <span className="inline-flex items-center justify-center shrink-0 w-6 h-6 [&>svg]:w-[22px] [&>svg]:h-[22px]">
-          {icon}
+        <span className="inline-flex items-center justify-center shrink-0 w-6 h-6">
+          <span className="inline-flex icon-md [&>svg]:w-full [&>svg]:h-full">{icon}</span>
         </span>
       )}
       {/* Monté en permanence : un démontage conditionnel fait disparaître le mot
@@ -373,7 +409,7 @@ export const SidebarUserCard: React.FC<SidebarUserCardProps> = ({
              dépliée (235×66) qui, elle, est à 14.
              Ici le padding vaut 0 mais le contenu est centré : ce rayon ne
              pinçait rien, c'est une question de vocabulaire, pas de coin. */
-          'relative flex items-center justify-center w-12 h-12 mx-auto rounded-lg bg-primary-100 text-primary-700 hover:bg-primary-200 transition-[background-color] duration-fast ease-standard focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 cursor-pointer border-0 p-0',
+          'relative flex items-center justify-center w-12 h-12 mx-auto rounded-lg bg-primary-100 text-primary-800 hover:bg-primary-200 transition-[background-color] duration-fast ease-standard focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 cursor-pointer border-0 p-0',
           menuOpen && 'ring-2 ring-primary-300',
           className,
         ]
@@ -411,8 +447,10 @@ export const SidebarUserCard: React.FC<SidebarUserCardProps> = ({
     >
       <span className="shrink-0">{avatarWithBadge}</span>
       <span className="flex-1 min-w-0 text-left">
-        <span className="block text-body-sm font-bold text-ink-900 truncate">{name}</span>
-        {subtitle && <span className="block text-caption text-ink-500 truncate">{subtitle}</span>}
+        {/* Nom : un nom dans une rangée, donc 16/600 — pas un titre. E-mail :
+            méta, 13 en ink-600 (ink-500 est réservé aux placeholders). */}
+        <span className="block text-body font-semibold text-ink-900 truncate">{name}</span>
+        {subtitle && <span className="block text-caption text-ink-600 truncate">{subtitle}</span>}
       </span>
       <span className="shrink-0 text-ink-600">
         {menuOpen ? <ChevronDown size={16} strokeWidth={2.5} /> : <ChevronUp size={16} strokeWidth={2.5} />}

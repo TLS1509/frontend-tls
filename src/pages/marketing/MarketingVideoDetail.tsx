@@ -19,6 +19,7 @@ import {
   ListVideo,
 } from 'lucide-react';
 import { PageShell } from '../../components/layout';
+import { MetaPill } from '../../components/ui/MetaPill';
 import { FadeInWhenVisible } from '../../components/marketing/motion';
 import { SEOHead } from './components/SEOHead';
 import { findVideo, getRelatedVideos } from '../../data/marketingVideos';
@@ -49,7 +50,7 @@ export const MarketingVideoDetail: React.FC = () => {
           <FadeInWhenVisible direction="up">
             <Link
               to="/website/resources"
-              className="inline-flex items-center gap-stack-2xs self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+              className="inline-flex items-center gap-stack-2xs self-start text-ink-700 hover:text-ink-900 font-body text-body font-semibold transition-colors duration-fast group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
             >
               <ArrowLeft size={16} className="transition-transform duration-base group-hover:-translate-x-1" />
               Retour aux ressources
@@ -58,9 +59,7 @@ export const MarketingVideoDetail: React.FC = () => {
 
           <FadeInWhenVisible direction="up" delay={0.05}>
             <div className="flex items-center gap-stack flex-wrap">
-              <span className="inline-flex items-center px-3 py-1 rounded-pill border bg-primary-50 text-primary-700 border-primary-100 font-body text-caption font-bold uppercase tracking-wider">
-                <Play size={14} className="mr-1.5" /> Vidéo
-              </span>
+              <MetaPill icon={<Play />} text="Vidéo" tone="primary" />
               <span className="inline-flex items-center gap-stack-2xs font-body text-caption text-ink-600">
                 <Calendar size={14} /> {video.date}
               </span>
@@ -105,14 +104,14 @@ export const MarketingVideoDetail: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Lire la vidéo (nouvel onglet)"
-                className="relative z-[1] w-20 h-20 rounded-pill bg-primary-500 shadow-[0_0_0_14px_rgba(85,161,180,0.20)] flex items-center justify-center transition-transform duration-base hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/70"
+                className="relative z-[1] w-20 h-20 rounded-pill bg-primary-600 shadow-[0_0_0_14px_rgba(85,161,180,0.20)] flex items-center justify-center transition-transform duration-base hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/70"
               >
                 <Play size={28} className="ml-1 fill-white text-white" />
               </a>
             ) : (
               <div
                 aria-label="Vidéo à venir"
-                className="relative z-[1] flex flex-col items-center gap-stack-xs text-white/70"
+                className="relative z-[1] flex flex-col items-center gap-stack-xs text-white"
               >
                 <div className="w-20 h-20 rounded-pill bg-white/10 border border-white/20 flex items-center justify-center">
                   <Play size={28} className="ml-1 text-white/50" />
@@ -134,10 +133,10 @@ export const MarketingVideoDetail: React.FC = () => {
             <ul className="flex flex-col gap-tight m-0 p-0 list-none">
               {video.chapters.map((ch, i) => (
                 <li key={i} className="flex items-center gap-stack-xs py-1.5 border-b border-ink-100 last:border-b-0">
-                  <span className="font-body text-caption font-bold text-primary-600 tabular-nums w-12 shrink-0">
+                  <span className="font-body text-caption font-bold text-primary-700 tabular-nums w-12 shrink-0">
                     {ch.time}
                   </span>
-                  <span className="font-body text-body-sm text-ink-700">{ch.label}</span>
+                  <span className="font-body text-body text-ink-700">{ch.label}</span>
                 </li>
               ))}
             </ul>

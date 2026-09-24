@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, Save, Target } from 'lucide-react';
 import SectionCard from '../components/patterns/SectionCard';
+import { PageHeader } from '../components/patterns/PageHeader';
 import { Button } from '../components/core/Button';
 import { Stepper } from '../components/ui/Stepper';
 import { AmbientBlobs } from '../components/patterns/AmbientBlobs';
@@ -48,7 +49,7 @@ const VariantSwitcher: React.FC<{
           'rounded-pill px-3 py-1 text-caption font-bold transition-all duration-200 min-h-[32px]',
           'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
           current === v
-            ? 'bg-secondary-500 text-white shadow-sm'
+            ? 'bg-secondary-700 text-white shadow-sm'
             : 'text-ink-500 hover:text-ink-900 hover:bg-ink-50',
         ].join(' ')}
       >
@@ -127,7 +128,10 @@ const OnboardingQuestionnaire: React.FC = () => {
       <main className="relative min-h-[100dvh] overflow-x-hidden">
         <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-warm" aria-hidden />
         <AmbientBlobs intensity="subtle" />
-        <PageShell width="page" className="relative z-base gap-section-lg max-w-3xl" noPadTop>
+        {/* Gouttière standard : PageShell la délègue au <main> d'AppLayout, et
+            cette page est rendue hors de la coque — elle touchait le bord à 375 px. */}
+        <div className="px-4 sm:px-6 lg:px-10">
+        <PageShell width="content" className="relative z-base">
 
           {/* Brand bar */}
           <div className="flex items-center justify-between">
@@ -136,7 +140,7 @@ const OnboardingQuestionnaire: React.FC = () => {
               <TlsLogo size={36} variant="color" withBubble />
             </a>
             <div className="w-20 flex justify-end">
-              <button onClick={() => navigate('/dashboard')} className="font-body text-caption text-ink-500 hover:text-ink-900 transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm min-h-touch flex items-center">
+              <button onClick={() => navigate('/dashboard')} className="font-body text-caption text-ink-600 hover:text-ink-900 transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm min-h-touch flex items-center">
                 Passer
               </button>
             </div>
@@ -144,32 +148,36 @@ const OnboardingQuestionnaire: React.FC = () => {
 
           <Stepper items={buildOnboardingStepperItems('positionnement', onboardingStore.accountType)} orientation="horizontal" />
 
-          <header className="flex flex-col gap-tight text-center">
-            <p className="m-0 inline-flex items-center justify-center gap-stack-xs font-body text-caption font-semibold uppercase tracking-wider text-secondary-600">
-              <Target size={14} aria-hidden="true" />
-              Positionnement
-            </p>
-            <h1 className="font-display text-h2 tracking-display text-ink-900 leading-tight">
-              Évaluons ton niveau de départ
-            </h1>
-            <p className="m-0 font-body text-body text-ink-500">
-              {total} compétences à évaluer — réponds en tapant sur une proposition.
-            </p>
-          </header>
+          {/* L'en-tête et la conversation forment un bloc : 48 au-dessus (depuis
+              le stepper), 32 en dessous (le `gap` de ce bloc) — le
+              titre appartient à ce qu'il introduit. `PageHeader` centré porte
+              l'anatomie : surtitre 13 / 600 ink-600 (il était en capitales
+              orange), h1 à 36 (il était à 28), chapô 18 ink-700 (16 ink-500). */}
+          <div className="flex flex-col gap-section">
+            <PageHeader
+              align="center"
+              variant="tight"
+              eyebrow={{ icon: <Target size={14} aria-hidden="true" />, text: 'Positionnement' }}
+              title="Évaluons ton niveau de départ"
+              description={`${total} compétences à évaluer : réponds en tapant sur une proposition.`}
+            />
 
-          {/* key={qVariant} forces a clean remount when the variant changes */}
-          <OnboardingQuestionnaireConversational
-            key={qVariant}
-            questions={QUESTIONS}
-            firstName={onboardingStore.firstName}
-            requiresPayment={onboardingStore.requiresPayment()}
-            variant={qVariant}
-            onComplete={(ans, elab) => persistAndContinue(ans, elab)}
-          />
+            {/* key={qVariant} forces a clean remount when the variant changes */}
+            <OnboardingQuestionnaireConversational
+              key={qVariant}
+              questions={QUESTIONS}
+              firstName={onboardingStore.firstName}
+              requiresPayment={onboardingStore.requiresPayment()}
+              variant={qVariant}
+              onComplete={(ans, elab) => persistAndContinue(ans, elab)}
+            />
+          </div>
         </PageShell>
+        </div>
 
-        {/* Variant switcher — fixed bottom-right */}
-        <VariantSwitcher current={qVariant} onChange={setQVariant} />
+        {/* Sélecteur de variante — outil de labo, DEV seulement : en production
+            il recouvrait le bouton d'envoi du chat (audit du 23/09). */}
+        {import.meta.env.DEV && <VariantSwitcher current={qVariant} onChange={setQVariant} />}
       </main>
     );
   }
@@ -199,7 +207,10 @@ const OnboardingQuestionnaire: React.FC = () => {
     <main className="relative min-h-[100dvh] overflow-x-hidden">
       <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-warm" aria-hidden />
       <AmbientBlobs intensity="subtle" />
-      <PageShell width="page" className="relative z-base gap-section-lg max-w-3xl" noPadTop>
+      {/* Gouttière standard : PageShell la délègue au <main> d'AppLayout, et
+          cette page est rendue hors de la coque — elle touchait le bord à 375 px. */}
+      <div className="px-4 sm:px-6 lg:px-10">
+      <PageShell width="content" className="relative z-base">
 
         {/* Brand bar */}
         <div className="flex items-center justify-between">
@@ -208,7 +219,7 @@ const OnboardingQuestionnaire: React.FC = () => {
             <TlsLogo size={36} variant="color" withBubble />
           </a>
           <div className="w-20 flex justify-end">
-            <button onClick={() => navigate('/dashboard')} className="font-body text-caption text-ink-500 hover:text-ink-900 transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm min-h-touch flex items-center">
+            <button onClick={() => navigate('/dashboard')} className="font-body text-caption text-ink-600 hover:text-ink-900 transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm min-h-touch flex items-center">
               Passer
             </button>
           </div>
@@ -216,27 +227,28 @@ const OnboardingQuestionnaire: React.FC = () => {
 
         <Stepper items={buildOnboardingStepperItems('positionnement', onboardingStore.accountType)} orientation="horizontal" />
 
-        <header className="flex flex-col gap-tight text-center">
-          <p className="m-0 inline-flex items-center justify-center gap-stack-xs font-body text-caption font-semibold uppercase tracking-wider text-secondary-600">
-            <Target size={14} aria-hidden="true" />
-            Positionnement Dreyfus
-          </p>
-          <h1 className="font-display text-h2 tracking-display text-ink-900 leading-tight">
-            Évaluons ton niveau de départ
-          </h1>
-          <p className="m-0 font-body text-body text-ink-500">
-            {total} questions pour adapter ton parcours. Tu pourras ajuster ces niveaux à tout moment depuis ton Passeport.
-          </p>
-        </header>
+        {/* L'en-tête et le formulaire : un bloc (32 sous l'en-tête, le `gap` de
+            ce bloc) ; dans le formulaire, progression, question et
+            navigation à 24. */}
+        <div className="flex flex-col gap-section">
+        <PageHeader
+          align="center"
+          variant="tight"
+          eyebrow={{ icon: <Target size={14} aria-hidden="true" />, text: 'Positionnement Dreyfus' }}
+          title="Évaluons ton niveau de départ"
+          description={`${total} questions pour adapter ton parcours. Tu pourras ajuster ces niveaux à tout moment depuis ton Passeport.`}
+        />
 
+        <div className="flex flex-col gap-stack-lg">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-stack">
-          <div className="flex-1 flex flex-col gap-tight">
-            <ProgressBar value={progress} max={100} fill="warm" size="md" valueLabel={false} />
-            <div className="text-caption text-ink-500">
+          <div className="flex-1 flex flex-col gap-stack-xs">
+            <ProgressBar value={progress} max={100} fill="warm" size="md" valueLabel={false} aria-label="Progression du positionnement" />
+            <div className="text-caption text-ink-600">
               Question {currentQ + 1} sur {total} · {Object.keys(answers).length} répondue{Object.keys(answers).length > 1 ? 's' : ''}
             </div>
           </div>
-          <Button emphasis="outline" size="sm" leadingIcon={<Save className="w-4 h-4" />} className="sm:flex-none w-full sm:w-auto">
+          {/* Un outil (garder sa progression) : ghost (arbitrage n°19). */}
+          <Button emphasis="ghost" tone="warm" size="sm" leadingIcon={<Save className="w-4 h-4" />} className="sm:flex-none w-full sm:w-auto">
             Sauvegarder
           </Button>
         </div>
@@ -250,8 +262,10 @@ const OnboardingQuestionnaire: React.FC = () => {
         </SectionCard>
 
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-stack-xs sm:gap-stack">
+          {/* Un pas à pas : avancer est l'aplat, reculer un ghost neutre (le
+              motif des lecteurs, arbitrage n°19). */}
           <Button
-            emphasis="soft" tone="warm"
+            emphasis="ghost" tone="neutral"
             leadingIcon={<ChevronLeft className="w-4 h-4" />}
             onClick={handlePrev}
             disabled={currentQ === 0}
@@ -261,7 +275,7 @@ const OnboardingQuestionnaire: React.FC = () => {
           </Button>
 
           <Button
-            emphasis="soft" tone="warm"
+            emphasis="solid" tone="warm"
             trailingIcon={<ChevronRight className="w-4 h-4" />}
             onClick={handleNext}
             disabled={!selected}
@@ -274,7 +288,10 @@ const OnboardingQuestionnaire: React.FC = () => {
               : 'Continuer vers le tutoriel'}
           </Button>
         </div>
+        </div>
+        </div>
       </PageShell>
+      </div>
     </main>
   );
 };

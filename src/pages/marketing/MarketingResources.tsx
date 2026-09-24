@@ -59,7 +59,7 @@ interface ResourceItem {
 }
 
 const CATEGORY_BADGE: Record<string, string> = {
-  IA: 'bg-primary-50 text-primary-700 border-primary-100',
+  IA: 'bg-primary-50 text-primary-800 border-primary-100',
   Pédagogie: 'bg-secondary-50 text-secondary-700 border-secondary-100',
   Outils: 'bg-accent-50 text-warning-fg border-accent-100',
   Innovation: 'bg-ink-100 text-ink-700 border-ink-200',
@@ -67,10 +67,10 @@ const CATEGORY_BADGE: Record<string, string> = {
 };
 
 const TYPE_BADGE_TONE: Record<ContentType, string> = {
-  article: 'bg-primary-50 text-primary-700 border-primary-100',
+  article: 'bg-primary-50 text-primary-800 border-primary-100',
   dossier: 'bg-secondary-50 text-secondary-700 border-secondary-100',
   guide: 'bg-accent-50 text-warning-fg border-accent-100',
-  tutorial: 'bg-primary-50 text-primary-700 border-primary-100',
+  tutorial: 'bg-primary-50 text-primary-800 border-primary-100',
   webinaire: 'bg-success-bg text-success-fg border-success-base/30',
 };
 
@@ -221,7 +221,7 @@ const FeaturedCard: React.FC<{ item: ResourceItem }> = ({ item }) => {
             </p>
           </div>
 
-          <div className="flex items-center gap-tight font-body text-caption font-bold text-primary-700 pt-stack border-t border-ink-200/40">
+          <div className="flex items-center gap-tight font-body text-caption font-bold text-primary-800 pt-stack border-t border-ink-200/40">
             {TYPE_CTA_LABEL[item.type]}
             <ArrowRight
               size={14}
@@ -351,7 +351,7 @@ export const MarketingResources: React.FC = () => {
         <h1 className="font-display text-h2 font-bold text-ink-900 tracking-headline">
           Magazine &amp; Ressources
         </h1>
-        <p className="m-0 font-body text-body-sm text-ink-500 max-w-2xl">
+        <p className="m-0 font-body text-body text-ink-500 max-w-2xl">
           Articles, dossiers, guides, vidéos et webinaires : tout le contenu TLS au même endroit.
         </p>
       </div>
@@ -375,16 +375,16 @@ export const MarketingResources: React.FC = () => {
                   key={type.id}
                   type="button"
                   onClick={() => setSelectedType(type.id)}
-                  className={`inline-flex items-center gap-stack-2xs px-4 h-10 rounded-pill font-body text-body-sm font-bold transition-all duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
+                  className={`inline-flex items-center gap-stack-2xs px-4 h-10 rounded-pill font-body text-body font-bold transition-all duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                     selectedType === type.id
-                      ? 'bg-primary-500 text-white shadow-sm'
+                      ? 'bg-primary-700 text-white shadow-sm'
                       : 'bg-ink-50 text-ink-700 hover:bg-ink-100 border border-ink-200'
                   }`}
                 >
                   {type.Icon && <type.Icon size={14} />}
                   <span>{type.label}</span>
                   <span className={`inline-flex items-center justify-center w-5 h-5 rounded-pill text-caption font-bold ${
-                    selectedType === type.id ? 'bg-white/20' : 'bg-ink-200 text-ink-700'
+                    selectedType === type.id ? 'bg-white/90 text-primary-800' : 'bg-ink-200 text-ink-700'
                   }`}>
                     {type.count}
                   </span>
@@ -468,7 +468,7 @@ export const MarketingResources: React.FC = () => {
                 {sending ? 'Envoi en cours…' : "S'abonner"}
               </Button>
             </form>
-            <p className="font-body text-caption text-ink-500">
+            <p className="font-body text-caption text-ink-600">
               Sans spam. Désinscrivez-vous à tout moment.
             </p>
           </FadeInWhenVisible>

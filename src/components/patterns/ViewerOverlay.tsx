@@ -159,10 +159,14 @@ export const ViewerOverlay: React.FC<ViewerOverlayProps> = ({
           <X size={18} strokeWidth={2.25} />
         </button>
 
+        {/* Même typographie que `ViewerHeader` (2026-09-24) : titre 16/600,
+            méta 13 en ink-600. Il y avait deux barres de lecteur et deux
+            typographies — 16/700 League Spartan ici, 20/700 là-bas — et la
+            méta tombait à 11 px sur mobile. */}
         <div className="flex-1 min-w-0">
           <h1
             className={[
-              'font-display text-body-sm sm:text-body font-bold truncate',
+              'font-body text-body font-semibold truncate',
               isDark ? 'text-white' : 'text-ink-900',
             ].join(' ')}
           >
@@ -171,8 +175,8 @@ export const ViewerOverlay: React.FC<ViewerOverlayProps> = ({
           {subtitle && (
             <p
               className={[
-                'm-0 font-body text-micro sm:text-caption truncate',
-                isDark ? 'text-white/70' : 'text-ink-500',
+                'font-body text-caption truncate',
+                isDark ? 'text-white/80' : 'text-ink-600',
               ].join(' ')}
             >
               {subtitle}
@@ -231,7 +235,7 @@ export const ViewerOverlay: React.FC<ViewerOverlayProps> = ({
             disabled={!onPrev}
             aria-label="Précédent"
             className={[
-              'inline-flex items-center gap-stack-2xs px-3 py-2 min-h-touch rounded-lg font-body text-caption font-semibold cursor-pointer transition-colors duration-base',
+              'inline-flex items-center gap-stack-2xs px-3 py-2 min-h-touch rounded-lg font-body text-caption font-bold cursor-pointer transition-colors duration-base',
               'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
               isDark
                 ? 'text-white/85 hover:bg-white/10 disabled:text-white/30 disabled:cursor-not-allowed'
@@ -244,8 +248,8 @@ export const ViewerOverlay: React.FC<ViewerOverlayProps> = ({
 
           <span
             className={[
-              'font-body text-caption font-medium tabular-nums',
-              isDark ? 'text-white/70' : 'text-ink-500',
+              'font-body text-caption tabular-nums',
+              isDark ? 'text-white/80' : 'text-ink-600',
             ].join(' ')}
           >
             {footerLabel ??
@@ -260,7 +264,7 @@ export const ViewerOverlay: React.FC<ViewerOverlayProps> = ({
             disabled={!onNext}
             aria-label="Suivant"
             className={[
-              'inline-flex items-center gap-stack-2xs px-3 py-2 min-h-touch rounded-lg font-body text-caption font-semibold cursor-pointer transition-colors duration-base',
+              'inline-flex items-center gap-stack-2xs px-3 py-2 min-h-touch rounded-lg font-body text-caption font-bold cursor-pointer transition-colors duration-base',
               'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
               isDark
                 ? 'text-white/85 hover:bg-white/10 disabled:text-white/30 disabled:cursor-not-allowed'

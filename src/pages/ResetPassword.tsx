@@ -46,14 +46,14 @@ export const ResetPassword: React.FC = () => {
     <AuthShell
       brand={{
         icon: <ShieldCheck size={24} strokeWidth={1.75} className="text-white" />,
-        title: 'Réinitialiser ton mot de passe',
-        subtitle: 'Choisis un mot de passe robuste',
+        title: 'Réinitialiser votre mot de passe',
+        subtitle: 'Choisissez un mot de passe robuste',
       }}
       form={
         <form className="flex flex-col gap-stack" onSubmit={handleSubmit}>
           <AuthPasswordField
             label="Nouveau mot de passe"
-            placeholder="••••••••••••"
+            placeholder="12 caractères minimum"
             value={password}
             onChange={(e) => handlePasswordChange(e.target.value)}
             required
@@ -61,14 +61,14 @@ export const ResetPassword: React.FC = () => {
 
           <AuthPasswordField
             label="Confirmer le mot de passe"
-            placeholder="••••••••••••"
+            placeholder="Le même mot de passe"
             value={confirmPassword}
             onChange={(e) => handleConfirmPasswordChange(e.target.value)}
             error={confirmHasError ? 'Les mots de passe ne correspondent pas' : undefined}
             required
           />
 
-          <div className="flex flex-col gap-stack-xs">
+          <div className="flex flex-col gap-stack-xs mt-stack-xs">
             <AuthPrimaryButton type="submit">Mettre à jour</AuthPrimaryButton>
             <AuthGhostButton onClick={() => navigate('/auth/login')}>
               Retour connexion
@@ -77,14 +77,16 @@ export const ResetPassword: React.FC = () => {
         </form>
       }
       aside={
+        /* « Règles recommandées » nomme la liste : un libellé 16 / 600, pas un
+           h4 (la page sautait du h1 au h4, en graisse 600). */
         <div className="flex flex-col gap-stack-xs">
           <div className="flex items-center gap-stack-xs">
-            <CheckCircle2 size={18} className="text-white/85" />
-            <h4 className="font-display text-body font-semibold text-white">
+            <CheckCircle2 size={18} className="text-white" aria-hidden="true" />
+            <p className="font-body text-body font-semibold text-white">
               Règles recommandées
-            </h4>
+            </p>
           </div>
-          <ul className="m-0 pl-4 flex flex-col gap-stack-2xs text-body-sm text-white/75 list-disc">
+          <ul className="m-0 pl-4 flex flex-col gap-stack-2xs text-body text-white list-disc">
             <li>Au moins 12 caractères.</li>
             <li>Mélanger lettres, chiffres et symboles.</li>
             <li>Éviter les mots évidents ou personnels.</li>

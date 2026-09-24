@@ -102,7 +102,7 @@ export const MarketingVigie: React.FC = () => {
               <span className="text-primary-700">8h</span>
               <span aria-hidden className="text-ink-200">/</span>
               <span className="text-primary-700">5 min</span>
-              <span className="font-body text-body-sm font-normal text-ink-500">un mardi sur deux</span>
+              <span className="font-body text-body font-normal text-ink-500">un mardi sur deux</span>
             </p>
 
             <h1 className="font-display text-hero text-ink-900 [text-wrap:balance] max-w-3xl">
@@ -176,7 +176,7 @@ export const MarketingVigie: React.FC = () => {
               <h2 className="font-display text-section text-ink-900 [text-wrap:balance]">
                 Trois rubriques, à chaque numéro.
               </h2>
-              <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 [text-wrap:pretty]">
+              <p className="font-body text-body-lg text-ink-600 m-0 [text-wrap:pretty]">
                 Le format ne change pas : vous savez toujours ce que vous allez
                 lire, et en combien de temps.
               </p>
@@ -188,14 +188,14 @@ export const MarketingVigie: React.FC = () => {
               <FadeInWhenVisible key={r.titre} delay={i * 0.06}>
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-stack lg:gap-flow items-start border-t border-ink-200/70 py-section first:border-t-0">
                   <div className="lg:col-span-5 flex items-start gap-stack">
-                    <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-100 text-primary-700">
+                    <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-100 text-primary-800">
                       {r.icon}
                     </span>
-                    <h3 className="font-display text-h3 font-bold text-ink-900 leading-tight [text-wrap:balance]">
+                    <h3 className="font-display text-h3 font-bold text-ink-900 [text-wrap:balance]">
                       {r.titre}
                     </h3>
                   </div>
-                  <p className="lg:col-span-7 font-body text-body text-ink-600 leading-relaxed m-0 max-w-2xl">
+                  <p className="lg:col-span-7 font-body text-body text-ink-600 m-0 max-w-2xl">
                     {r.detail}
                   </p>
                 </div>

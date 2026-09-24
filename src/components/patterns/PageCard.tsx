@@ -10,6 +10,10 @@ import { GRID_CONTAINER, GRID_COLS_CONTENT } from '../../lib/grid-columns';
 import { CARD_HOVER } from '../../lib/tone-classes';
 import { ArrowRight, FileText, Loader2 } from 'lucide-react';
 import type { CardTone } from '../core/Card';
+import { IconChip } from '../ui/IconChip';
+import { MetaPill } from '../ui/MetaPill';
+import { Badge } from '../ui/Badge';
+import type { BadgeVariant } from '../ui/Badge';
 
 export type PageCardStatus = 'active' | 'coming-soon' | 'beta' | 'archived';
 export type PageCardBadgeVariant = 'primary' | 'warm' | 'sun' | 'success' | 'danger';
@@ -58,15 +62,17 @@ const STATUS_TEXT: Record<PageCardStatus, string> = {
   active:        'text-success-fg',
   'coming-soon': 'text-accent-700',
   beta:          'text-primary-700',
-  archived:      'text-ink-500',
+  archived:      'text-ink-600',
 };
 
-const BADGE_CLASSES: Record<PageCardBadgeVariant, string> = {
-  primary: 'bg-primary-50 text-primary-700 border-primary-200',
-  warm:    'bg-secondary-50 text-secondary-700 border-secondary-200',
-  sun:     'bg-accent-50 text-accent-800 border-accent-200',
-  success: 'bg-success-bg text-success-fg border-success-base/30',
-  danger:  'bg-danger-bg text-danger-fg border-danger-base/30',
+/* Le badge fait main (11 px capitales, `tracking-wider`) devient le `Badge` du
+   système : même registre, un seul endroit où il se règle. */
+const BADGE_VARIANT: Record<PageCardBadgeVariant, BadgeVariant> = {
+  primary: 'brand',
+  warm:    'warm',
+  sun:     'sun',
+  success: 'success',
+  danger:  'danger',
 };
 
 /* Colonnage : src/lib/grid-columns.ts — source unique, en largeur de conteneur. */
@@ -95,8 +101,18 @@ export const PageCard: React.FC<{ item: PageCardItem; showThumbnail?: boolean }>
 }) => {
   const tone: NonNullable<PageCardItem['tone']> = item.tone || 'primary';
 
+  /* Dans un <button> (carte cliquable sans lien), des <span> seulement : le
+     bouton n'admet que du contenu phrasé — il portait des <div>, un <h3> et un
+     <p> (2026-09-24). Chaque bloc garde ses classes : les enveloppes sont en
+     flex, ou éléments d'une colonne flex, donc des blocs. Le lien et la carte
+     simple gardent leurs éléments. */
+  const enBouton = !item.href && Boolean(item.onClick);
+  const Bloc = enBouton ? 'span' : 'div';
+  const Titre = enBouton ? 'span' : 'h3';
+  const Texte = enBouton ? 'span' : 'p';
+
   const card = (
-    <div
+    <Bloc
       className={[
         'group relative flex flex-col overflow-hidden bg-white border border-ink-200 rounded-lg transition-all duration-base',
         CARD_HOVER[tone],
@@ -104,18 +120,18 @@ export const PageCard: React.FC<{ item: PageCardItem; showThumbnail?: boolean }>
     >
       {/* Thumbnail */}
       {showThumbnail && item.thumbnail && (
-        <div className="relative w-full aspect-[16/10] overflow-hidden bg-ink-50">
+        <Bloc className="relative w-full aspect-[16/10] overflow-hidden bg-ink-50">
           <img
             src={item.thumbnail}
             alt=""
             className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
-        </div>
+        </Bloc>
       )}
 
       {/* Status + Badge row */}
       {(item.status || item.badge) && (
-        <div className="flex items-center gap-stack-xs px-stack-md pt-stack flex-wrap">
+        <Bloc className="flex items-center gap-stack-xs px-stack-md pt-stack flex-wrap">
           {item.status && (
             <span
               className={[
@@ -125,59 +141,53 @@ export const PageCard: React.FC<{ item: PageCardItem; showThumbnail?: boolean }>
             >
               <span
                 aria-hidden="true"
+                /* Point FIXE : pas de mouvement permanent pour dire un état
+                   (arbitrage n°16) — le mot porte l'information. */
                 className={[
                   'inline-block w-2 h-2 rounded-pill',
                   STATUS_DOT[item.status],
-                  item.status === 'active' ? 'animate-pulse' : '',
                 ].join(' ')}
               />
               {STATUS_LABEL[item.status]}
             </span>
           )}
           {item.badge && (
-            <span
-              className={[
-                'inline-flex items-center px-2 py-0.5 rounded-pill border text-micro font-bold uppercase tracking-wider',
-                BADGE_CLASSES[item.badge.variant || 'primary'],
-              ].join(' ')}
-            >
+            <Badge variant={BADGE_VARIANT[item.badge.variant || 'primary']} size="compact">
               {item.badge.label}
-            </span>
+            </Badge>
           )}
-        </div>
+        </Bloc>
       )}
 
       {/* Icon (when no thumbnail) */}
       {!item.thumbnail && item.icon && (
-        <div className="px-stack-md pt-stack-md">
+        <Bloc className="px-stack-md pt-stack-md">
           <span className={`inline-flex items-center justify-center w-12 h-12 rounded-xl ${TONE_ICON_BUBBLE[tone]}`}>
             {item.icon}
           </span>
-        </div>
+        </Bloc>
       )}
 
-      {/* Content */}
-      <div className="flex-1 flex flex-col gap-stack-xs px-stack-md py-stack">
-        <h3 className="font-display text-h4 text-ink-900 leading-tight">
+      {/* Content — titre h3 · 8 · description 16 ink-700 · 12 · méta */}
+      <Bloc className="flex-1 flex flex-col gap-stack-xs px-stack-md py-stack">
+        <Titre className="font-display text-h3 text-ink-900">
           {item.title}
-        </h3>
+        </Titre>
         {item.description && (
-          <p className="font-body text-body-sm text-ink-500 m-0">
+          <Texte className="font-body text-body text-ink-700 max-w-prose">
             {item.description}
-          </p>
+          </Texte>
         )}
         {item.tag && (
-          <span className="inline-flex self-start mt-1 px-2 py-0.5 rounded-pill bg-ink-50 text-ink-600 text-micro font-medium">
-            {item.tag}
-          </span>
+          <MetaPill text={item.tag} className="self-start mt-stack-3xs" />
         )}
-      </div>
+      </Bloc>
 
       {/* Hover arrow */}
-      <div className={`flex items-center justify-end px-stack-md pb-stack opacity-0 -translate-x-2 transition-all duration-base group-hover:opacity-100 group-hover:translate-x-0 ${TONE_ARROW[tone]}`}>
+      <Bloc className={`flex items-center justify-end px-stack-md pb-stack opacity-0 -translate-x-2 transition-all duration-base group-hover:opacity-100 group-hover:translate-x-0 ${TONE_ARROW[tone]}`}>
         <ArrowRight size={18} strokeWidth={2.25} />
-      </div>
-    </div>
+      </Bloc>
+    </Bloc>
   );
 
   if (item.href) {
@@ -214,9 +224,9 @@ export const PageCardGrid: React.FC<PageCardGridProps> = ({
   if (isLoading) {
     return (
       <div className={['flex items-center justify-center p-12', className].filter(Boolean).join(' ')}>
-        <div className="flex flex-col items-center gap-stack-xs text-ink-500">
+        <div className="flex flex-col items-center gap-stack-xs text-ink-600">
           <Loader2 className="w-8 h-8 animate-spin text-primary-500" strokeWidth={2.5} />
-          <p className="m-0 text-body-sm font-medium">Chargement…</p>
+          <p className="text-body">Chargement…</p>
         </div>
       </div>
     );
@@ -232,11 +242,11 @@ export const PageCardGrid: React.FC<PageCardGridProps> = ({
           .filter(Boolean)
           .join(' ')}
       >
-        <div className="flex flex-col items-center gap-stack-xs text-ink-500 text-center">
-          <span className="inline-flex items-center justify-center w-14 h-14 rounded-lg bg-white border border-ink-200 text-ink-600">
-            <FileText size={24} strokeWidth={2} />
-          </span>
-          <p className="m-0 text-body-sm font-medium text-ink-700">{emptyMessage}</p>
+        <div className="flex flex-col items-center gap-stack-xs text-ink-600 text-center">
+          <IconChip size="lg" tone="neutral">
+            <FileText strokeWidth={2} />
+          </IconChip>
+          <p className="text-body text-ink-700">{emptyMessage}</p>
         </div>
       </div>
     );

@@ -1,10 +1,11 @@
 import React, { useMemo, useState } from 'react';
-import { Target, Plus, CheckCircle2, Clock, ChevronRight, Trash2, Pencil, PlayCircle } from 'lucide-react';
+import { Target, Plus, Clock, ChevronRight, Trash2, Pencil, PlayCircle } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
-import { SectionCard } from '../components/patterns/SectionCard';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
-import { Badge } from '../components/ui/Badge';
+import { MetaPill } from '../components/ui/MetaPill';
+import { StatCard } from '../components/ui/StatCard';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { EmptyState } from '../components/ui/EmptyState';
 import { Modal } from '../components/ui/Modal';
@@ -15,7 +16,7 @@ import { usePasseportStore } from '../stores/persistence';
 import { COMPETENCES, getCompetenceById, domainLabel, competencyLevel } from '../data/competencies';
 import { MOCK_USER_ID } from '../data/passeport';
 import type { CompetencyObjective, DreyfusLevel } from '../types/learning';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 
 type ModalState = null | { mode: 'create' } | { mode: 'edit'; id: string };
 
@@ -140,98 +141,102 @@ export default function PasseportObjectifs() {
   };
 
   return (
-    <div className="flex flex-col gap-section">
+    /* Un seul conteneur : l'en-tête collait au haut de l'écran et le corps
+       partait 32 px plus à droite que le titre (`px-section`). */
+    <PageShell width="wide">
       <EditorialHero
         eyebrow="Passeport · Objectifs"
         title="Mes Objectifs de Progression"
         summary="Définis des objectifs Dreyfus mesurables et suis leur avancement. Chaque objectif génère un plan d'action personnalisé."
         tone="flat"
+        /* L'action principale de la page (arbitrage n°19) : le seul aplat. */
         trailing={
-          <Button emphasis="soft" size="md" leadingIcon={<Plus size={16} />} onClick={openCreate}>
+          <Button emphasis="solid" size="md" leadingIcon={<Plus size={16} />} onClick={openCreate}>
             Nouvel objectif
           </Button>
         }
       />
 
-      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
+      {/* Chiffres : `StatCard`, calés à gauche comme le reste de la page. Les
+          tuiles faites main centraient la valeur au-dessus d'un libellé
+          ink-500 (la couleur des seuls placeholders). */}
+      <div className="grid grid-cols-3 gap-stack">
+        <StatCard label="Objectifs actifs" value={activeGoals.length} variant="brand" size="sm" />
+        <StatCard
+          label="Progression moy."
+          value={`${Math.round(activeGoals.reduce((acc, g) => acc + g.progressPct, 0) / Math.max(activeGoals.length, 1))}%`}
+          variant="brand"
+          size="sm"
+        />
+        <StatCard label="En attente" value={draftGoals.length} variant="brand" size="sm" />
+      </div>
 
-        {/* Summary row */}
-        <div className="grid grid-cols-3 gap-stack">
-          <Card variant="tinted" tone="primary" className="flex flex-col items-center justify-center py-stack-lg gap-tight">
-            <span className="text-h2 font-display font-bold text-primary-700">{activeGoals.length}</span>
-            <span className="text-caption text-ink-500 text-center">Objectifs actifs</span>
-          </Card>
-          <Card variant="tinted" tone="primary" className="flex flex-col items-center justify-center py-stack-lg gap-tight">
-            <span className="text-h2 font-display font-bold text-primary-700">
-              {Math.round(activeGoals.reduce((acc, g) => acc + g.progressPct, 0) / Math.max(activeGoals.length, 1))}%
-            </span>
-            <span className="text-caption text-ink-500 text-center">Progression moy.</span>
-          </Card>
-          <Card variant="tinted" tone="primary" className="flex flex-col items-center justify-center py-stack-lg gap-tight">
-            <span className="text-h2 font-display font-bold text-primary-700">{draftGoals.length}</span>
-            <span className="text-caption text-ink-500 text-center">En attente</span>
-          </Card>
-        </div>
-
-        {/* Active goals */}
-        <SectionCard
+      {/* Objectifs actifs — le titre de section (h2 28) sur la page, l'action
+          qui ajoute à la liste à côté de lui ; les objectifs en rangées dans
+          une carte, plus en boîtes dans une carte. */}
+      <section className="flex flex-col gap-stack">
+        {/* « Ajouter » double « Nouvel objectif » (l'aplat de l'en-tête) : un
+            raccourci discret, `ghost`. */}
+        <SectionHeader
           title="Objectifs actifs"
-          titleIcon={<Target size={18} />}
-          actions={
-            <Button emphasis="outline" size="sm" leadingIcon={<Plus size={14} />} onClick={openCreate}>
+          action={
+            <Button emphasis="ghost" size="sm" leadingIcon={<Plus size={14} />} onClick={openCreate}>
               Ajouter
             </Button>
           }
-        >
-          {activeGoals.length === 0 ? (
-            <EmptyState
-              icon={<Target size={32} />}
-              title="Aucun objectif actif"
-              description="Définis ton premier objectif de progression Dreyfus."
-              actions={<Button emphasis="soft" size="md" onClick={openCreate}>Créer un objectif</Button>}
-            />
-          ) : (
-            <div className="flex flex-col gap-stack-xs">
+        />
+        {activeGoals.length === 0 ? (
+          <EmptyState
+            icon={<Target size={32} />}
+            title="Aucun objectif actif"
+            description="Définis ton premier objectif de progression Dreyfus."
+            actions={<Button emphasis="soft" size="md" onClick={openCreate}>Créer un objectif</Button>}
+          />
+        ) : (
+          <Card className="p-0 overflow-hidden">
+            <ul className="divide-y divide-ink-100">
               {activeGoals.map((g) => {
                 const comp = getCompetenceById(g.competenceId);
                 const isSelected = g.id === selectedId;
                 return (
-                  <div
+                  <li
                     key={g.id}
                     className={[
-                      'w-full p-stack rounded-lg border transition-all duration-base',
-                      isSelected
-                        ? 'bg-primary-50 border-primary-200 shadow-sm'
-                        : 'bg-white border-ink-100 hover:border-ink-200',
+                      'flex flex-col gap-stack px-stack-lg py-stack-md transition-colors duration-base',
+                      isSelected ? 'bg-primary-50' : 'bg-white',
                     ].join(' ')}
                   >
                     <button
                       type="button"
+                      aria-expanded={isSelected}
                       onClick={() => setSelectedId(isSelected ? null : g.id)}
-                      className="w-full text-left bg-transparent border-0 p-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-lg"
+                      className="w-full text-left bg-transparent border-0 p-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-lg flex flex-col gap-stack-sm"
                     >
-                      <div className="flex items-start justify-between gap-stack-xs mb-3">
-                        <div className="flex flex-col gap-tight">
-                          <span className="text-body-sm font-semibold text-ink-900">
+                      <div className="flex items-start justify-between gap-stack">
+                        <div className="flex flex-col items-start gap-stack-3xs min-w-0">
+                          <span className="text-body font-semibold text-ink-900">
                             {comp?.label ?? g.competenceId}
                           </span>
-                          <span className="inline-flex items-center gap-tight text-caption text-primary-700 bg-primary-50 px-2 py-0.5 rounded-pill w-fit font-medium">
-                            {comp ? domainLabel(comp.domain) : g.competenceId}
-                          </span>
+                          <MetaPill text={comp ? domainLabel(comp.domain) : g.competenceId} tone="primary" />
                         </div>
-                        <div className="flex items-center gap-stack-xs shrink-0">
-                          <Badge variant="neutral" size="compact">D{g.startLevel}→D{g.targetLevel}</Badge>
-                          <span className="text-caption text-ink-600 flex items-center gap-tight">
-                            <Clock size={14} />
+                        {/* Le trajet de niveau et l'échéance sont des données : légende,
+                            chiffres tabulaires. Le trajet était un Badge. */}
+                        <div className="flex flex-col items-end gap-stack-3xs shrink-0 text-caption text-ink-600 tabular-nums">
+                          <span className="font-semibold text-ink-900">D{g.startLevel} → D{g.targetLevel}</span>
+                          <span className="flex items-center gap-stack-3xs">
+                            <Clock size={14} aria-hidden="true" />
                             {new Date(g.deadline).toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' })}
                           </span>
                         </div>
                       </div>
                       <ProgressBar value={g.progressPct} fill="brand" size="sm" showLabel />
                     </button>
-                    <div className="mt-stack flex items-center justify-end gap-stack-xs">
+                    {/* Deux outils de la rangée : `ghost` (n°19). Supprimer
+                        prend le ton `danger` : il avait le poids de Modifier. */}
+                    <div className="flex items-center justify-end gap-stack-xs">
                       <Button
-                        emphasis="outline"
+                        emphasis="ghost"
+                        tone="neutral"
                         size="sm"
                         leadingIcon={<Pencil size={14} />}
                         onClick={(e) => {
@@ -242,7 +247,8 @@ export default function PasseportObjectifs() {
                         Modifier
                       </Button>
                       <Button
-                        emphasis="outline"
+                        emphasis="ghost"
+                        tone="danger"
                         size="sm"
                         leadingIcon={<Trash2 size={14} />}
                         onClick={(e) => {
@@ -253,63 +259,66 @@ export default function PasseportObjectifs() {
                         Supprimer
                       </Button>
                     </div>
-                  </div>
+                  </li>
                 );
               })}
-            </div>
-          )}
-        </SectionCard>
+            </ul>
+          </Card>
+        )}
+      </section>
 
-        {/* Selected goal milestones */}
-        {goal && goal.milestones.length > 0 && (
-          <SectionCard
-            title={`Jalons : ${getCompetenceById(goal.competenceId)?.label ?? goal.competenceId}`}
-            titleIcon={<CheckCircle2 size={18} />}
-          >
-            <div className="flex flex-col gap-stack-xs">
+      {/* Selected goal milestones */}
+      {goal && goal.milestones.length > 0 && (
+        <section className="flex flex-col gap-stack">
+          <SectionHeader title={`Jalons : ${getCompetenceById(goal.competenceId)?.label ?? goal.competenceId}`} />
+          <Card className="p-0 overflow-hidden">
+            <ol className="divide-y divide-ink-100">
               {goal.milestones.map((m, idx) => (
-                <div
+                <li
                   key={m.id}
                   className={[
-                    'flex items-center gap-stack p-3 rounded-lg border',
-                    m.done ? 'bg-success-bg border-success-border' : 'bg-white border-ink-100',
+                    'flex items-center gap-stack px-stack-lg py-stack-sm',
+                    m.done ? 'bg-success-bg' : 'bg-white',
                   ].join(' ')}
                 >
                   <span className={[
-                    'inline-flex items-center justify-center w-6 h-6 rounded-pill text-micro font-bold shrink-0',
-                    m.done ? 'bg-success-base text-white' : 'bg-ink-100 text-ink-600',
+                    'inline-flex items-center justify-center w-6 h-6 rounded-pill text-caption font-bold tabular-nums shrink-0',
+                    m.done ? 'bg-success-vivid text-white' : 'bg-ink-100 text-ink-700',
                   ].join(' ')}>
                     {m.done ? '✓' : idx + 1}
                   </span>
-                  <span className={['text-body-sm', m.done ? 'text-success-fg line-through' : 'text-ink-800'].join(' ')}>
+                  <span className={['text-body', m.done ? 'text-success-fg line-through' : 'text-ink-900'].join(' ')}>
                     {m.label}
                   </span>
-                </div>
+                </li>
               ))}
-            </div>
-            <div className="mt-stack">
-              <Button emphasis="soft" size="md" leadingIcon={<ChevronRight size={16} />}>
-                Voir le plan d'action complet
-              </Button>
-            </div>
-          </SectionCard>
-        )}
+            </ol>
+          </Card>
+          <Button emphasis="ghost" size="md" leadingIcon={<ChevronRight size={16} />} className="self-start">
+            Voir le plan d'action complet
+          </Button>
+        </section>
+      )}
 
-        {/* Draft goals */}
-        {draftGoals.length > 0 && (
-          <SectionCard title="En attente de planification" titleIcon={<Clock size={18} />}>
-            <div className="flex flex-col gap-stack-xs">
+      {/* Draft goals */}
+      {draftGoals.length > 0 && (
+        <section className="flex flex-col gap-stack">
+          <SectionHeader title="En attente de planification" />
+          <Card className="p-0 overflow-hidden">
+            <ul className="divide-y divide-ink-100">
               {draftGoals.map((g) => {
                 const comp = getCompetenceById(g.competenceId);
                 return (
-                  <Card key={g.id} variant="default" className="flex items-center justify-between px-stack py-3">
-                    <div className="flex flex-col gap-tight">
-                      <span className="text-body-sm font-medium text-ink-900">{comp?.label ?? g.competenceId}</span>
-                      <span className="text-caption text-ink-600">{comp?.subdomain ?? (comp ? domainLabel(comp.domain) : '')} · D{g.startLevel}→D{g.targetLevel}</span>
+                  <li key={g.id} className="flex flex-wrap items-center justify-between gap-stack px-stack-lg py-stack">
+                    <div className="flex flex-col gap-stack-3xs min-w-0">
+                      <span className="text-body font-semibold text-ink-900">{comp?.label ?? g.competenceId}</span>
+                      <span className="text-caption text-ink-600 tabular-nums">{comp?.subdomain ?? (comp ? domainLabel(comp.domain) : '')} · D{g.startLevel} → D{g.targetLevel}</span>
                     </div>
-                    <div className="flex items-center gap-stack-xs">
+                    {/* L'action de la rangée, `soft` : planifier le brouillon.
+                        Modifier est un outil, `ghost` comme plus haut. */}
+                    <div className="flex flex-wrap items-center gap-stack-xs">
                       <Button
-                        emphasis="outline"
+                        emphasis="soft"
                         size="sm"
                         leadingIcon={<PlayCircle size={14} />}
                         onClick={() => handlePlan(g)}
@@ -317,30 +326,32 @@ export default function PasseportObjectifs() {
                         Planifier
                       </Button>
                       <Button
-                        emphasis="outline"
+                        emphasis="ghost"
+                        tone="neutral"
                         size="sm"
                         leadingIcon={<Pencil size={14} />}
                         onClick={() => openEdit(g.id)}
                       >
                         Modifier
                       </Button>
+                      {/* Glyphe d'un contrôle : 3:1 au moins (WCAG 1.4.11). En
+                          ink-300 il mesurait 1,47:1. */}
                       <button
                         type="button"
                         onClick={() => handleDelete(g.id)}
                         aria-label="Supprimer"
-                        className="min-h-touch inline-flex items-center justify-center px-2 text-ink-300 hover:text-danger-fg transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-danger-base rounded-sm"
+                        className="min-h-touch inline-flex items-center justify-center px-2 text-ink-600 hover:text-danger-fg transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-danger-base rounded-sm"
                       >
-                        <Trash2 size={14} />
+                        <Trash2 size={16} />
                       </button>
                     </div>
-                  </Card>
+                  </li>
                 );
               })}
-            </div>
-          </SectionCard>
-        )}
-
-      </Container>
+            </ul>
+          </Card>
+        </section>
+      )}
 
       {/* Create / Edit modal */}
       <Modal
@@ -348,10 +359,12 @@ export default function PasseportObjectifs() {
         onClose={closeModal}
         title={modalState?.mode === 'edit' ? "Modifier l'objectif" : 'Nouvel objectif de progression'}
         description="Définis une compétence cible, le niveau Dreyfus visé et une échéance."
+        /* La modale est un écran : Annuler en `outline` neutre, Confirmer en
+           `solid` (arbitrage n°19). */
         actions={
           <div className="flex items-center justify-end gap-stack-xs w-full">
-            <Button emphasis="outline" size="md" onClick={closeModal}>Annuler</Button>
-            <Button emphasis="soft" size="md" onClick={handleSubmit}>
+            <Button emphasis="outline" tone="neutral" size="md" onClick={closeModal}>Annuler</Button>
+            <Button emphasis="solid" size="md" onClick={handleSubmit}>
               {modalState?.mode === 'edit' ? 'Enregistrer' : "Créer l'objectif"}
             </Button>
           </div>
@@ -391,6 +404,6 @@ export default function PasseportObjectifs() {
           </FormGroup>
         </div>
       </Modal>
-    </div>
+    </PageShell>
   );
 }

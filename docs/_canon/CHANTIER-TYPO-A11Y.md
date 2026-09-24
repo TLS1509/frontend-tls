@@ -29,7 +29,7 @@ marquées « à trancher » appartiennent à Chloé.
 Vérifier ce qui rend **réellement** dans `dist/assets/*.css`, jamais dans un seul
 fichier source. En cas de divergence, **c'est le composant React qui tranche.**
 
-Détail complet : [`AUDIT-DESIGN-2026-07-22.md`](AUDIT-DESIGN-2026-07-22.md).
+Détail complet : [`AUDIT-DESIGN-2026-07-22.md`](../_audits/AUDIT-DESIGN-2026-07-22.md).
 
 ---
 
@@ -317,6 +317,11 @@ refaire le jour où le sujet sera rouvert :
 > que le chantier soit ouvert, la correction minimale est de **ne plus écouter
 > `prefers-color-scheme`** (une règle `@media` dans `dark-mode-tokens.css:13`) —
 > pas de refaire le thème.
+>
+> ✅ **Sans objet depuis le 2026-07-28** (commit `3a96df6`) : `dark-mode-tokens.css`
+> et `hooks/useTheme.ts` ont été supprimés. Plus aucune règle
+> `prefers-color-scheme: dark` ni `data-theme` dans `src/` (vérifié le 2026-09-23) —
+> le demi-état décrit ci-dessus ne peut plus se déclencher.
 
 ---
 

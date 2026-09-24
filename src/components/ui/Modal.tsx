@@ -1,5 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useDialog } from '../../hooks/useDialog';
 import { X } from 'lucide-react';
+import { Button } from '../core/Button';
 
 /**
  * Modal — Valeurs : src/index.css (@theme) et src/styles/design-tokens.css.
@@ -15,7 +17,13 @@ export interface ModalProps {
   onClose: () => void;
   title?: React.ReactNode;
   description?: React.ReactNode;
-  /** Footer actions (usually Button components) */
+  /**
+   * Actions du pied, en `Button`. Une modale ouverte est un écran à elle
+   * seule (arbitrage n°19) : exactement un `solid`, l'action qu'elle sert
+   * (Confirmer, Envoyer, Enregistrer) — `solid` + `danger` pour confirmer une
+   * suppression ; Annuler en `outline` neutre quand il forme la paire ; tout
+   * le reste en `ghost`. Posées à droite, Confirmer en dernier.
+   */
   actions?: React.ReactNode;
   closeOnScrim?: boolean;
   showClose?: boolean;
@@ -34,21 +42,21 @@ export const Modal: React.FC<ModalProps> = ({
   children,
   className = '',
 }) => {
-  useEffect(() => {
-    if (!open) return;
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
-    document.addEventListener('keydown', handleKey);
-    return () => document.removeEventListener('keydown', handleKey);
-  }, [open, onClose]);
+  // Focus entrant, Tab piégé, Échap, focus rendu (APG) — la modale ne gérait
+  // qu'Échap, et laissait le focus sur la page derrière.
+  const dialog = useDialog<HTMLDivElement>(open, onClose);
 
   if (!open) return null;
 
+  /* Anatomie (passe typographique du 2026-09-24) : titre h2 au pas du titre
+     de bloc (20/26/700 — une modale est un bloc posé sur la page, pas une
+     page) · 8 · description 16 ink-700 · 16 · corps 16 · 24 · actions.
+     Le titre était au pas de la section (28 px), avec un interligne réécrit
+     à 1,15 ; les actions à 28 px du corps (16 + 12). */
   const dialogClasses = [
     // Mobile-first: 16px gutter via parent p-4 (scrim) + full width; desktop: 480px cap
     'relative bg-white rounded-2xl shadow-xl w-full sm:max-w-[480px]',
-    'p-6 sm:p-8 flex flex-col gap-stack max-h-[90vh] overflow-y-auto',
+    'p-stack-lg sm:p-section flex flex-col gap-stack max-h-[90vh] overflow-y-auto',
     'animate-[modal-scale-in-flat_0.25s_cubic-bezier(0.34,1.56,0.64,1)_both]',
     className,
   ].filter(Boolean).join(' ');
@@ -60,32 +68,40 @@ export const Modal: React.FC<ModalProps> = ({
     >
       <div
         className={dialogClasses}
+        ref={dialog.ref}
+        tabIndex={-1}
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
-        aria-labelledby={title ? 'modal-title' : undefined}
+        aria-labelledby={title ? dialog.titleId : undefined}
       >
         {(title || description || showClose) && (
           <div className="grid grid-cols-[1fr_auto] gap-stack-xs items-start">
-            <div className="flex-1 min-w-0">
+            <div className="flex-1 min-w-0 flex flex-col gap-stack-xs">
               {title && (
-                <p id="modal-title" className="font-display text-h2 font-semibold tracking-tight leading-[1.15] text-ink-900 mb-2">
+                /* Un vrai titre (h2) à id unique : l'ancien `p#modal-title`
+                   n'était pas un titre et son id fixe collisionnait dès que
+                   deux modales coexistaient. */
+                <h2 id={dialog.titleId} className="font-display text-h3 text-ink-900 text-balance">
                   {title}
-                </p>
+                </h2>
               )}
               {description && (
-                <p className="text-body text-ink-600 m-0">{description}</p>
+                <p className="font-body text-body text-ink-700 max-w-prose">{description}</p>
               )}
             </div>
             {showClose && (
-              <button
-                type="button"
+              <Button
+                iconOnly
+                size="sm"
+                emphasis="ghost"
+                tone="neutral"
                 onClick={onClose}
                 aria-label="Fermer"
-                className="row-span-2 col-start-2 w-8 h-8 rounded-md bg-ink-50 border-0 text-ink-600 cursor-pointer inline-flex items-center justify-center transition-colors hover:bg-ink-100 hover:text-ink-900 p-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                className="row-span-2 col-start-2"
               >
-                <X size={18} />
-              </button>
+                <X />
+              </Button>
             )}
           </div>
         )}
@@ -95,7 +111,7 @@ export const Modal: React.FC<ModalProps> = ({
         )}
 
         {actions && (
-          <div className="flex justify-end gap-stack-xs mt-3">{actions}</div>
+          <div className="flex justify-end gap-stack-xs mt-stack-xs">{actions}</div>
         )}
       </div>
     </div>

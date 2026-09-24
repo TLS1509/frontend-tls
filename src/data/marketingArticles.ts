@@ -2172,15 +2172,11 @@ export const ARTICLES: Article[] = [
       { type: 'h2', text: 'Comment C-Campus certifie les acquis' },
       {
         type: 'p',
-        text: "C-Campus est l'organisme partenaire de The Learning Society pour la certification de la formation « Formateur Augmenté par l'IA ». Ce partenariat existe précisément parce que la certification demandait un tiers externe qualifié, avec des processus d'évaluation établis.",
+        text: "Une certification qui prouve demande un tiers externe qualifié, avec des processus d'évaluation établis. C'est le rôle de C-Campus, organisme certifié Qualiopi, qui délivre ses propres Open Badges.",
       },
       {
         type: 'p',
-        text: "Le processus de certification comprend : des évaluations formatives tout au long des 7 modules, une évaluation sommative sur livrables produits par le participant (pas seulement un QCM), une validation par un expert avant délivrance du badge, et la publication des critères sur le registre des badges C-Campus.",
-      },
-      {
-        type: 'p',
-        text: "La prise en charge OPCO est possible selon votre secteur. Contactez-nous pour vérifier votre éligibilité avant inscription.",
+        text: "Le processus de certification comprend : des évaluations formatives tout au long du parcours, une évaluation sommative sur livrables produits par le participant (pas seulement un QCM), une validation par un expert avant délivrance du badge, et la publication des critères sur le registre des badges C-Campus.",
       },
       { type: 'h2', text: 'Construire son passeport : la démarche concrète' },
       {

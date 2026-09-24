@@ -154,7 +154,7 @@ export const SkillMapSection: React.FC = () => {
   return (
     <section
       ref={ref}
-      className="relative isolate overflow-hidden bg-gradient-to-b from-primary-900 via-[#1B3B47] to-[#111820] py-page"
+      className="relative isolate overflow-hidden bg-gradient-to-b from-primary-900 via-primary-900 to-ink-950 py-page"
       aria-labelledby="skillmap-title"
     >
       {/* Seams : adoucissent les coupures nettes entre cette section et ses
@@ -206,7 +206,7 @@ export const SkillMapSection: React.FC = () => {
           initial={initial}
           animate={animate}
           variants={fadeUp(0.22)}
-          className="mx-auto mt-stack max-w-[52ch] font-body text-body leading-relaxed text-primary-200/75"
+          className="mx-auto mt-stack max-w-[52ch] font-body text-body text-primary-200/75"
         >
           Une boucle d'apprentissage complète, de la théorie à la preuve
           concrète de compétence.
@@ -399,7 +399,7 @@ export const SkillMapSection: React.FC = () => {
           {CAPTIONS.map((c) => (
             <div key={c.title} className="flex flex-col gap-tight text-center md:text-left">
               <p className="font-display text-body font-bold text-white m-0">{c.title}</p>
-              <p className="font-body text-body-sm text-primary-200/70 leading-relaxed m-0">{c.body}</p>
+              <p className="font-body text-body text-primary-200/70 m-0">{c.body}</p>
             </div>
           ))}
         </div>

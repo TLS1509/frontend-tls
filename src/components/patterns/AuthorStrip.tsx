@@ -66,25 +66,30 @@ export const AuthorStrip: React.FC<AuthorStripProps> = ({
         shape="circle"
       />
 
-      <div className="min-w-0 flex-1 flex flex-col gap-0.5">
+      {/* Nom 16/600 (un nom dans une rangée, pas un titre), rôle et méta en
+          13, ink-600 (2026-09-24). Ils étaient à 11 px en ink-500 : la ligne
+          « Lead Pédagogie · Avril 2026 · 14 min de lecture » d'un article ne se
+          lisait pas. `gap-tight` reste entre le nom et sa méta : deux lignes
+          d'un même énoncé, le seul emploi que la doctrine lui laisse. */}
+      <div className="min-w-0 flex-1 flex flex-col gap-tight">
         <div className="flex items-baseline gap-stack-xs flex-wrap min-w-0">
-          <span className="font-body text-body-sm font-bold text-ink-900 truncate">
+          <span className="font-body text-body font-semibold text-ink-900 truncate">
             {name}
           </span>
           {role && variant === 'compact' && (
-            <span className="font-body text-micro text-ink-500 truncate">
+            <span className="font-body text-caption text-ink-600 truncate">
               · {role}
             </span>
           )}
         </div>
 
         {(role && variant === 'expanded') || (meta && meta.length > 0) ? (
-          <div className="flex items-center gap-x-stack-xs gap-y-0.5 flex-wrap font-body text-micro text-ink-500">
+          <div className="flex items-center gap-x-stack-xs gap-y-tight flex-wrap font-body text-caption text-ink-600">
             {role && variant === 'expanded' && <span>{role}</span>}
             {role && variant === 'expanded' && meta && meta.length > 0 && <span aria-hidden>·</span>}
             {meta?.map((m, i) => (
               <React.Fragment key={i}>
-                <span className="inline-flex items-center gap-tight">
+                <span className="inline-flex items-center gap-stack-3xs">
                   {m.icon}
                   {m.text}
                 </span>

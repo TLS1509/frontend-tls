@@ -53,22 +53,27 @@ interface OptionGridMultiProps extends OptionGridBaseProps {
 
 export type OptionGridProps = OptionGridSingleProps | OptionGridMultiProps;
 
+/* Option choisie : filet au cran 700 — arbitrage n°9, l'état choisi d'un
+   contrôle est au 700. C'est le filet qui dit « choisi » : au 500 il mesurait
+   2,94:1 sur blanc (l'or au 400, moins encore), sous le 3:1 d'un contrôle. */
 const TONE_SELECTED: Record<OptionGridTone, string> = {
-  brand: 'bg-primary-50 border-primary-500 shadow-brand-sm',
-  warm:  'bg-secondary-50 border-secondary-500 shadow-sm',
-  sun:   'bg-accent-50 border-accent-400 shadow-sm',
+  brand: 'bg-primary-50 border-primary-700 shadow-brand-sm',
+  warm:  'bg-secondary-50 border-secondary-700 shadow-sm',
+  sun:   'bg-accent-50 border-accent-700 shadow-sm',
 };
 
 const TONE_ICON_BG_SELECTED: Record<OptionGridTone, string> = {
-  brand: 'bg-primary-500 text-white',
-  warm:  'bg-secondary-500 text-white',
-  sun:   'bg-accent-400 text-white',
+  brand: 'bg-primary-700 text-white',
+  warm:  'bg-secondary-700 text-white',
+  sun:   'bg-accent-700 text-white',
 };
 
+/* Libellé choisi à l'encre de marque au cran 800 : le 700 mesurait 4,48 sur
+   le fond primary-50 de l'option — sous le 4,5 du texte courant. */
 const TONE_LABEL_SELECTED: Record<OptionGridTone, string> = {
-  brand: 'text-primary-700',
-  warm:  'text-secondary-700',
-  sun:   'text-accent-700',
+  brand: 'text-primary-800',
+  warm:  'text-secondary-800',
+  sun:   'text-accent-800',
 };
 
 const TONE_HOVER: Record<OptionGridTone, string> = {
@@ -101,7 +106,7 @@ export const OptionGrid: React.FC<OptionGridProps> = (props) => {
 
   const mobileCols = columns === 1 ? 'grid-cols-1' : 'grid-cols-2';
 
-  const baseGrid = ['grid gap-2.5', mobileCols, COLS_DESKTOP[columns], className]
+  const baseGrid = ['grid gap-stack-sm', mobileCols, COLS_DESKTOP[columns], className]
     .filter(Boolean)
     .join(' ');
 
@@ -116,7 +121,7 @@ export const OptionGrid: React.FC<OptionGridProps> = (props) => {
           layout === 'icon-left'
             ? 'flex items-center gap-stack-xs px-4 py-3 text-left'
             : layout === 'text-only'
-            ? 'flex flex-col gap-tight px-stack-md py-stack text-left'
+            ? 'flex flex-col gap-stack-3xs px-stack-md py-stack text-left'
             : 'flex flex-col items-center justify-center gap-stack-xs px-3 py-stack text-center',
           selected ? TONE_SELECTED[tone] : `border-ink-200 ${TONE_HOVER[tone]}`,
           'focus-visible:outline-2 focus-visible:outline-offset-2',
@@ -127,15 +132,20 @@ export const OptionGrid: React.FC<OptionGridProps> = (props) => {
             : 'focus-visible:outline-accent-400',
         ].join(' ');
 
+        /* Pastille d'icône de 40 px : `rounded-md` (10), l'étage proportionnel
+           de l'arbitrage n°3 (32/40 → 10). Le 20 des cartes la rendait ronde. */
         const iconWrapClasses = [
-          'inline-flex items-center justify-center rounded-xl shrink-0 transition-colors duration-base',
+          'inline-flex items-center justify-center rounded-md shrink-0 transition-colors duration-base',
           layout === 'icon-left' ? 'w-10 h-10' : 'w-10 h-10',
           selected ? TONE_ICON_BG_SELECTED[tone] : 'bg-ink-100 text-ink-600',
         ].join(' ');
 
+        /* Libellé : 16 / 600 dans les trois dispositions — c'est le contenu de
+           l'option, pas une légende (le 13 est le pas de la méta). L'interligne
+           est celui du pas : le `leading-tight` serrait des libellés de deux
+           lignes jusqu'à les coller. */
         const labelClasses = [
-          'font-body font-semibold leading-tight',
-          layout === 'text-only' ? 'text-body' : 'text-caption',
+          'font-body font-semibold text-body',
           selected ? TONE_LABEL_SELECTED[tone] : 'text-ink-900',
         ].join(' ');
 
@@ -152,7 +162,7 @@ export const OptionGrid: React.FC<OptionGridProps> = (props) => {
             {(Icon || emoji) && layout !== 'text-only' && (
               <span className={iconWrapClasses}>
                 {emoji ? (
-                  <span aria-hidden="true" className="text-[20px] leading-none">{emoji}</span>
+                  <span aria-hidden="true" className="text-h3">{emoji}</span>
                 ) : Icon ? (
                   <Icon size={18} />
                 ) : null}
@@ -160,10 +170,10 @@ export const OptionGrid: React.FC<OptionGridProps> = (props) => {
             )}
 
             {layout === 'icon-left' || layout === 'text-only' ? (
-              <span className="flex flex-col gap-tight min-w-0">
+              <span className="flex flex-col gap-stack-3xs min-w-0">
                 <span className={labelClasses}>{label}</span>
                 {description && (
-                  <span className="font-body text-caption text-ink-500 leading-relaxed">
+                  <span className="font-body text-caption text-ink-600">
                     {description}
                   </span>
                 )}

@@ -57,7 +57,7 @@ export const SelectCheckboxCategory: React.FC<SelectCheckboxCategoryProps> = ({
           onClick={() => setIsOpen(!isOpen)}
           className={`
             w-full px-4 py-3 bg-white rounded-lg
-            text-body-sm font-medium text-ink-900
+            text-body text-ink-900
             border border-ink-100
             shadow-[inset_0_1px_1px_white/15]
             flex items-center justify-between gap-stack-xs
@@ -96,7 +96,7 @@ export const SelectCheckboxCategory: React.FC<SelectCheckboxCategoryProps> = ({
             >
               {/* Header */}
               <div className="px-4 py-3 border-b border-ink-100">
-                <p className="text-micro font-bold uppercase tracking-[0.15em] text-ink-500">
+                <p className="text-caption font-semibold text-ink-600">
                   Catégories
                 </p>
               </div>
@@ -129,31 +129,33 @@ export const SelectCheckboxCategory: React.FC<SelectCheckboxCategoryProps> = ({
                           }
                         `}
                       >
-                        <div className="flex items-center gap-stack-xs flex-1">
+                        {/* Des <span> : un <button> n'admet que du contenu
+                            phrasé (il portait deux <div>, 2026-09-24). */}
+                        <span className="flex items-center gap-stack-xs flex-1">
                           {/* Radio dot */}
-                          <div
+                          <span
                             className={`
                               w-5 h-5 rounded-pill border-2 flex items-center justify-center
                               transition-all duration-200 ease-[cubic-bezier(0.32,0.72,0,1)]
                               ${
                                 isSelected
-                                  ? 'bg-primary-500 border-primary-500'
-                                  : 'border-ink-300 bg-white'
+                                  ? 'bg-primary-700 border-primary-700'
+                                  : 'border-ink-400 bg-white'
                               }
                             `}
                           >
                             {isSelected && (
                               <span className="w-2 h-2 bg-white rounded-pill" />
                             )}
-                          </div>
+                          </span>
                           <span
-                            className={`text-body-sm transition-all duration-200 ${
-                              isSelected ? 'text-ink-900 font-semibold' : 'text-ink-600'
+                            className={`text-body transition-colors duration-200 ${
+                              isSelected ? 'text-ink-900' : 'text-ink-700'
                             }`}
                           >
                             {cat.label}
                           </span>
-                        </div>
+                        </span>
 
                         {/* Expand arrow for subcategories */}
                         {cat.subcategories && cat.subcategories.length > 0 && (
@@ -188,7 +190,7 @@ export const SelectCheckboxCategory: React.FC<SelectCheckboxCategoryProps> = ({
                               }}
                               style={{ animationDelay: `${300 + subIdx * 20}ms` }}
                               className={`
-                                w-full text-left px-3 py-2 rounded-lg text-body-sm
+                                w-full text-left px-3 py-2 rounded-lg text-body
                                 transition-all duration-200 ease-[cubic-bezier(0.32,0.72,0,1)]
                                 animate-in fade-in slide-in-from-left-1
                                 hover:bg-primary-50 hover:text-primary-700
@@ -211,7 +213,7 @@ export const SelectCheckboxCategory: React.FC<SelectCheckboxCategoryProps> = ({
                     onChange('all');
                     setIsOpen(false);
                   }}
-                  className="w-full px-3 py-2 text-body-sm text-ink-600 hover:text-ink-900 font-medium rounded-lg hover:bg-ink-100 transition-all duration-200"
+                  className="w-full px-3 py-2 text-body font-semibold text-ink-700 hover:text-ink-900 rounded-lg hover:bg-ink-100 transition-all duration-200"
                 >
                   Voir tous
                 </button>

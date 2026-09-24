@@ -40,11 +40,13 @@ const TONE_BUBBLE: Record<NextStepTone, string> = {
   neutral: 'bg-ink-100 text-ink-700',
 };
 
+/* Le lien d'action est du texte de marque : cran 800 (doctrine § 2) ; le
+   survol fonce d'un cran, il n'éclaircit pas. */
 const TONE_CTA: Record<NextStepTone, string> = {
-  brand:   'text-primary-700 group-hover:text-primary-800',
-  warm:    'text-secondary-700 group-hover:text-secondary-800',
-  sun:     'text-accent-700 group-hover:text-accent-800',
-  neutral: 'text-ink-900 group-hover:text-primary-700',
+  brand:   'text-primary-800 group-hover:text-primary-900',
+  warm:    'text-secondary-800 group-hover:text-secondary-900',
+  sun:     'text-accent-800 group-hover:text-accent-900',
+  neutral: 'text-ink-900 group-hover:text-primary-800',
 };
 
 /* Survol : filet fermé d'un cran + fond très léger (règle du 2026-09-16,
@@ -89,7 +91,7 @@ export const NextStepsGrid: React.FC<NextStepsGridProps> = ({
       {items.map((step) => {
         const tone = step.tone ?? 'brand';
         const cardClasses = [
-          'group flex flex-col gap-stack p-6 bg-white rounded-lg border border-ink-100',
+          'group flex flex-col gap-stack p-stack-lg bg-white rounded-lg border border-ink-100',
           'min-h-touch transition-all duration-base text-left cursor-pointer',
           TONE_HOVER_BORDER[tone],
           'focus-visible:outline-2 focus-visible:outline-offset-2',
@@ -110,18 +112,24 @@ export const NextStepsGrid: React.FC<NextStepsGridProps> = ({
               {step.icon}
             </span>
 
-            <div className="flex flex-col gap-tight flex-1">
-              <h3 className="text-body font-semibold text-ink-900 leading-snug">
+            {/* Anatomie d'une carte (passe typographique du 2026-09-24) :
+                titre h3 20/700 · 8 · description 16 ink-700 · 16 · action.
+                Le titre était un 16/600 à `leading-snug` (le registre d'un
+                libellé de rangée) : trois cartes d'étape lues comme une liste.
+                Dans un <button>, le titre est un <span> — un <h3> n'est pas un
+                contenu valide de bouton. */}
+            <span className="flex flex-col gap-stack-xs flex-1">
+              <span className="font-display text-h3 text-ink-900">
                 {step.title}
-              </h3>
-              <p className="text-body-sm text-ink-500 m-0">
+              </span>
+              <span className="font-body text-body text-ink-700">
                 {step.description}
-              </p>
-            </div>
+              </span>
+            </span>
 
             <span
               className={[
-                'text-caption font-semibold inline-flex items-center gap-tight transition-all duration-fast',
+                'text-caption font-semibold inline-flex items-center gap-stack-3xs transition-all duration-fast',
                 'group-hover:gap-stack-xs',
                 TONE_CTA[tone],
               ].join(' ')}

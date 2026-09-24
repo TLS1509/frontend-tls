@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { X, Send, Sparkles, Star } from 'lucide-react';
+import { X, Send, CheckCircle2, Star } from 'lucide-react';
+import { IconChip } from '../ui/IconChip';
+import { useDialog } from '../../hooks/useDialog';
+import { Button } from '../core/Button';
 
 /**
  * SessionFeedbackModal — Notation étoiles + commentaire
@@ -12,6 +15,13 @@ interface SessionFeedbackModalProps {
   onSubmit: (rating: number, comment: string) => void;
   title?: string;
   subtitle?: string;
+  /**
+   * Pictogramme de tête. Par défaut une validation neutre (`CheckCircle2`) :
+   * la modale clôt une leçon ou une session. Elle affichait `Sparkles`, que la
+   * doctrine (DESIGN.md §10.3) réserve aux fonctions d'IA — or aucune IA
+   * n'intervient ici (2026-09-24).
+   */
+  icon?: React.ReactNode;
 }
 
 const RATING_LABELS: Record<number, string> = {
@@ -26,9 +36,12 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
   isOpen,
   onClose,
   onSubmit,
-  title = 'Votre avis compte',
-  subtitle = 'Comment évaluez-vous cette session ?',
+  title = 'Ton avis compte',
+  subtitle = 'Comment évalues-tu cette session ?',
+  icon,
 }) => {
+  // Comportement de dialogue partagé (APG) : focus entrant, Tab piégé, Échap, focus rendu.
+  const dialog = useDialog<HTMLDivElement>(isOpen, onClose);
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
   const [comment, setComment] = useState('');
@@ -54,16 +67,13 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
     onClose();
   };
 
-  const SUBMIT_BASE = 'w-full p-4 rounded-xl border-0 flex items-center justify-center gap-stack-xs font-bold text-body cursor-pointer transition-all';
-  const SUBMIT_ENABLED = 'modal-submit-enabled text-white';
-  const SUBMIT_DISABLED = 'bg-ink-200 text-ink-600 opacity-50 cursor-not-allowed';
-
   return (
     <div
       className="fixed inset-0 flex items-center justify-center p-4 z-modal backdrop-blur bg-black/40 animate-fb-bd-in"
       onClick={handleClose}
     >
       <div
+        ref={dialog.ref} role="dialog" aria-modal="true" aria-labelledby={dialog.titleId} tabIndex={-1}
         onClick={(e) => e.stopPropagation()}
         className="relative w-full max-w-[500px] bg-white rounded-2xl border border-ink-200 shadow-xl overflow-hidden p-8 animate-fb-in"
       >
@@ -71,26 +81,24 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
         <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-60 h-60 rounded-pill bg-[radial-gradient(circle,rgba(248,176,68,0.25)_0%,transparent_70%)] blur-[40px] pointer-events-none" />
 
         {/* Close */}
-        <button
-          onClick={handleClose}
-          className="absolute top-4 right-4 w-8 h-8 rounded-pill bg-ink-50 border-0 flex items-center justify-center cursor-pointer text-ink-600 hover:bg-ink-200 transition-all z-10 p-0"
-          aria-label="Fermer"
-        >
-          <X size={14} />
-        </button>
+        <Button iconOnly size="sm" emphasis="ghost" tone="neutral" onClick={handleClose} aria-label="Fermer" className="absolute top-4 right-4 z-10">
+          <X />
+        </Button>
 
         {!submitted ? (
           <>
             {/* Icon badge */}
-            <div className="relative w-[60px] h-[60px] rounded-lg bg-gradient-to-br from-accent-400/20 to-accent-400/8 border border-accent-400/25 flex items-center justify-center mx-auto mb-stack">
-              <Sparkles size={28} className="text-accent-600" />
+            <div className="relative w-[60px] h-[60px] rounded-lg bg-gradient-to-br from-accent-400/20 to-accent-400/8 border border-accent-400/25 flex items-center justify-center mx-auto">
+              {icon ?? <CheckCircle2 size={28} className="text-accent-600" />}
             </div>
 
             {/* Title */}
-            <h2 className="text-h3 text-ink-900 text-center mb-2">
+            {/* Titre h2 20/26/700 · 8 · sous-titre 16 ink-700, centré.
+                Écart icône → titre écrit SUR le titre : un `mt-*` bat la marge de base des titres (0,75em), qui sinon s'ajoutait à celle de l'icône (31 px au lieu de 16). */}
+            <h2 id={dialog.titleId} className="mt-stack font-display text-h3 text-ink-900 text-center text-balance">
               {title}
             </h2>
-            <p className="text-body text-ink-600 text-center mb-stack-lg">
+            <p className="mt-stack-xs font-body text-body text-ink-700 text-center text-balance mb-stack-lg">
               {subtitle}
             </p>
 
@@ -128,7 +136,7 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
             {/* Rating label — conditional, compact */}
             {display > 0 && (
               <div className="flex justify-center mb-stack">
-                <div className="px-4 py-1.5 rounded-lg modal-amber-badge text-body-sm font-bold text-accent-600">
+                <div className="px-4 py-1.5 rounded-lg modal-amber-badge text-body font-semibold text-accent-800">
                   {RATING_LABELS[display]}
                 </div>
               </div>
@@ -136,36 +144,48 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
 
             {/* Comment */}
             <div className="mb-stack-md">
-              <label className="block mb-2 text-body-sm font-semibold text-ink-900">
+              <label className="block mb-2 text-body font-semibold text-ink-900">
                 Commentaire <span className="font-normal text-ink-600">(optionnel)</span>
               </label>
               <textarea
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
-                placeholder="Partagez votre expérience…"
+                placeholder="Partage ton expérience…"
                 rows={4}
-                className="w-full box-border p-3 rounded-lg border-[1.5px] border-ink-200 bg-ink-50 text-ink-900 text-body-sm resize-y transition-colors font-body h-auto min-h-[120px] focus:outline-none focus:border-accent-400 focus:bg-white"
+                className="w-full box-border p-3 rounded-lg border-[1.5px] border-ink-200 bg-ink-50 text-ink-900 text-body resize-y transition-colors font-body h-auto min-h-[120px] focus:outline-none focus:border-accent-400 focus:bg-white"
               />
             </div>
 
-            {/* Submit */}
-            <button
+            {/* Envoi : le `solid` de la modale (arbitrage n°19), au ton or de
+                la modale. Il était fait main (`.modal-submit-enabled`, un
+                dégradé 700 → 800 sous un rayon de carte, 20 px) : `Button`
+                porte le même cran 700, son rayon, son anneau de focus et son
+                état désactivé. */}
+            <Button
+              emphasis="solid"
+              tone="sun"
+              size="lg"
+              fullWidth
+              leadingIcon={<Send />}
               onClick={handleSubmit}
               disabled={!canSubmit}
-              className={`${SUBMIT_BASE} ${canSubmit ? SUBMIT_ENABLED : SUBMIT_DISABLED}`}
             >
-              <Send size={16} /> Envoyer mon avis
-            </button>
+              Envoyer mon avis
+            </Button>
           </>
         ) : (
-          /* Submitted confirmation */
-          <div className="text-center py-stack-lg animate-[fbFadeIn_0.4s_ease_both]">
-            <div className="text-[3.5rem] mb-3">🌟</div>
-            <h3 className="text-h4 font-bold text-ink-900 mb-2">
-              Merci pour votre retour !
-            </h3>
-            <p className="text-body text-ink-600">
-              Votre avis nous aide à améliorer l'expérience.
+          /* Submitted confirmation — pastille d'icône au lieu d'un émoji de
+             56 px (`text-[3.5rem]`, hors échelle) ; le titre est le h2 qui
+             nomme désormais le dialogue (il était en h3, sans h2). */
+          <div className="flex flex-col items-center gap-stack-xs text-center py-stack-lg animate-[fbFadeIn_0.4s_ease_both]">
+            <IconChip size="lg" tone="sun">
+              <Star />
+            </IconChip>
+            <h2 id={dialog.titleId} className="mt-stack-xs font-display text-h3 text-ink-900">
+              Merci pour ton retour.
+            </h2>
+            <p className="font-body text-body text-ink-700 text-balance">
+              Ton avis nous aide à améliorer l'expérience.
             </p>
           </div>
         )}

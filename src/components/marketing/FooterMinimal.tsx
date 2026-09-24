@@ -43,7 +43,7 @@ export const FooterMinimal: React.FC<FooterMinimalProps> = ({
           <div className="flex flex-col gap-stack">
             <div>
               <h2 className="text-body font-semibold text-ink-900">{companyName}</h2>
-              <p className="text-body-sm text-ink-600 mt-tight">
+              <p className="text-body text-ink-600 mt-tight">
                 Plateforme EdTech pour le développement des compétences.
               </p>
             </div>
@@ -70,7 +70,7 @@ export const FooterMinimal: React.FC<FooterMinimalProps> = ({
           {/* Main links column */}
           {links.length > 0 && (
             <div className="flex flex-col gap-stack">
-              <h3 className="text-body-sm font-semibold text-ink-900 uppercase tracking-widest">
+              <h3 className="text-body font-semibold text-ink-900 uppercase tracking-widest">
                 Ressources
               </h3>
               <nav className="flex flex-col gap-stack-xs">
@@ -81,7 +81,7 @@ export const FooterMinimal: React.FC<FooterMinimalProps> = ({
                         href={link.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-stack-2xs text-body-sm text-primary-600 hover:text-primary-700 underline underline-offset-4 transition-colors duration-200"
+                        className="inline-flex items-center gap-stack-2xs text-body text-primary-700 hover:text-primary-800 underline underline-offset-4 transition-colors duration-200"
                       >
                         {link.label}
                         <ExternalLink size={14} className="opacity-60" />
@@ -89,7 +89,7 @@ export const FooterMinimal: React.FC<FooterMinimalProps> = ({
                     ) : (
                       <Link
                         to={link.href}
-                        className="inline-flex items-center gap-stack-2xs text-body-sm text-primary-600 hover:text-primary-700 underline underline-offset-4 transition-colors duration-200"
+                        className="inline-flex items-center gap-stack-2xs text-body text-primary-700 hover:text-primary-800 underline underline-offset-4 transition-colors duration-200"
                       >
                         {link.label}
                       </Link>
@@ -103,7 +103,7 @@ export const FooterMinimal: React.FC<FooterMinimalProps> = ({
           {/* Legal links column */}
           {legalLinks.length > 0 && (
             <div className="flex flex-col gap-stack">
-              <h3 className="text-body-sm font-semibold text-ink-900 uppercase tracking-widest">
+              <h3 className="text-body font-semibold text-ink-900 uppercase tracking-widest">
                 Légal
               </h3>
               <nav className="flex flex-col gap-stack-xs">
@@ -111,7 +111,7 @@ export const FooterMinimal: React.FC<FooterMinimalProps> = ({
                   <Link
                     key={link.href}
                     to={link.href}
-                    className="text-body-sm text-primary-600 hover:text-primary-700 underline underline-offset-4 transition-colors duration-200"
+                    className="text-body text-primary-700 hover:text-primary-800 underline underline-offset-4 transition-colors duration-200"
                   >
                     {link.label}
                   </Link>
@@ -135,7 +135,7 @@ export const FooterMinimal: React.FC<FooterMinimalProps> = ({
           {/* Contact link */}
           <a
             href="mailto:contact@thelearningsociety.fr"
-            className="inline-flex items-center gap-stack-2xs text-caption text-primary-600 hover:text-primary-700 underline underline-offset-4 transition-colors duration-200"
+            className="inline-flex items-center gap-stack-2xs text-caption text-primary-700 hover:text-primary-800 underline underline-offset-4 transition-colors duration-200"
           >
             <Mail size={14} />
             contact@thelearningsociety.fr

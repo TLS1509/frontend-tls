@@ -29,6 +29,11 @@ export type CardVariant =
   | 'glass-warm'
   | 'glass-dark'
   | 'minimal'
+  /** Surface sombre opaque — lecteurs vidéo, blocs de code. Texte blanc à 15,8:1
+      sur ink-900. Remplace les `className="bg-ink-900"` qui PERDAIENT contre le
+      `bg-white` de `default` (même spécificité, ordre d'émission : piège n°6) —
+      six pages rendaient du texte blanc sur blanc, 1,00:1 (audit du 23/09). */
+  | 'ink'
   // Retirés le 2026-07-24 : `bordered`, `muted`, `sunken` — 0 usage dans tout src/.
   /** Tinted gradient — REQUIRES the `tone` prop to render properly.
       Used as the surface for ParcoursCard / learning hubs. */
@@ -70,7 +75,7 @@ export interface CardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 't
 // so a Card with role="button" doesn't get clipped to a 40px tall
 // mini-button. Padding/border-radius/display are already set by BASE +
 // SIZE_CLASSES in @layer utilities and beat the @layer components rule.
-// See CLAUDE.md piège #8.
+// See piège n°8 in .claude/rules/pieges-tailwind.md.
 // [&[role=button]]:h-auto neutralizes the BEM rule in components-modern.css
 // that sets height:40px on every [role="button"] element (piège #8).
 // We intentionally do NOT add overflow-visible here so that cards with
@@ -112,7 +117,7 @@ export interface CardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 't
 
    ⚠️ `Button` est à `rounded-lg` (14) depuis R3, au motif qu'il « s'accorde à la
    Card qui le porte ». Cette justification tombe avec ce changement : à revoir. */
-const BASE = 'flex flex-col rounded-xl text-ink-900 font-body text-body-sm transition-all duration-200 motion-reduce:transition-none [&[role=button]]:h-auto [&[role=button]]:font-normal [&[role=button]]:items-stretch';
+const BASE = 'rounded-xl text-ink-900 font-body text-body transition-all duration-200 motion-reduce:transition-none [&[role=button]]:h-auto [&[role=button]]:font-normal [&[role=button]]:items-stretch';
 
 const VARIANT_CLASSES: Record<CardVariant, string> = {
   // Shadows are tone-aware — applied dynamically via TONE_SHADOW_* maps below.
@@ -127,12 +132,16 @@ const VARIANT_CLASSES: Record<CardVariant, string> = {
   glass:       'backdrop-blur-glass-medium backdrop-saturate-[180%] bg-gradient-to-br from-white/88 to-white/65 border border-white/75 shadow-[0_2px_12px_rgba(0,0,0,0.06),inset_0_1px_0_rgba(255,255,255,0.9)] hover:shadow-md',
   'glass-brand': 'backdrop-blur-glass-medium backdrop-saturate-[180%] bg-gradient-to-br from-primary-500/[30%] to-primary-500/[12%] border border-primary-500/35 shadow-[0_2px_12px_rgba(45,90,102,0.12),inset_0_1px_0_rgba(255,255,255,0.4)] hover:shadow-brand-sm',
   'glass-warm':  'backdrop-blur-glass-medium backdrop-saturate-[180%] bg-gradient-to-br from-secondary-100/88 to-secondary-50/70 border border-secondary-200/65 shadow-[0_2px_12px_rgba(180,80,20,0.08),inset_0_1px_0_rgba(255,255,255,0.85)] hover:shadow-warm-sm',
-  // 2026-07-24 : les 4 hex codés en dur remplacés par les tokens primary
-  // (500/800/900 — valeurs identiques vérifiées). Le gradient suit désormais
-  // toute évolution de la palette. Arbitrary property car un radial-gradient
-  // inline n'accepte pas de classe Tailwind.
-  'glass-dark':  'backdrop-blur-glass-medium backdrop-saturate-[180%] [background:radial-gradient(circle_at_0%_0%,var(--color-primary-500)_0%,var(--color-primary-800)_60%,var(--color-primary-900)_100%)] border border-white/20 shadow-lg hover:shadow-xl text-white/95',
+  // 2026-07-24 : les 4 hex codés en dur remplacés par les tokens primary.
+  // Arbitrary property car un radial-gradient inline n'accepte pas de classe
+  // Tailwind. ⚠️ 2026-09-24 : le coin haut gauche part du cran 700, plus du 500.
+  // Au 500, aucun texte ne tenait sur la carte : le blanc y mesure 2,94:1, et
+  // l'encre sombre des titres, lisible dans ce coin, tombait à 1,5:1 dans le
+  // 800 et le 900 du reste de la surface. Le 700 est le premier cran qui porte
+  // du blanc (5,02:1) — c'est le contrat `onDark` du bouton.
+  'glass-dark':  'backdrop-blur-glass-medium backdrop-saturate-[180%] [background:radial-gradient(circle_at_0%_0%,var(--color-primary-700)_0%,var(--color-primary-800)_60%,var(--color-primary-900)_100%)] border border-white/20 shadow-lg hover:shadow-xl text-white',
   minimal:  'bg-transparent border border-ink-200 hover:bg-ink-50 hover:border-ink-300',
+  ink:      'bg-ink-900 border border-ink-800 text-white',
   // bordered / muted / sunken retirés le 2026-07-24 (0 usage). Si un besoin
   // resurgit : bordered = border-2 primary-200 ; muted = bg-ink-50 ; sunken = bg-ink-100.
   // `tinted` provides only the border + shadow defaults — the actual gradient
@@ -155,11 +164,13 @@ const TONE_GRADIENT_BG_CLASSES: Record<CardTone, string> = {
 
 /* Le padding intérieur — doctrine du 2026-09-09, géométrie corrigée le 17/09.
 
-   **24 px est le canon** (`md`, le défaut : 195 des 197 appels du produit le
-   prennent sans rien dire — recompté le 17/09). **16 px est la seule
-   dérogation**, pour les surfaces denses. Pas de troisième valeur.
+   **24 px est le canon** (`md`, le défaut). **20 px est la seule dérogation**,
+   pour les surfaces denses — tranché le 2026-09-23 (arbitrage n°4) : à 20, le
+   padding égale le rayon, le coin cesse de pincer ; l'ancien argument pour
+   16 (« 20 n'existe pas dans l'échelle ») était faux, `stack-md` existe.
+   Pas de troisième valeur.
 
-   La règle géométrique (CLAUDE.md § padding) : **le padding ne descend pas sous
+   La règle géométrique (.claude/rules/doctrine-design.md § Padding intérieur) : **le padding ne descend pas sous
    le rayon**. Le point serré bascule à P = R exactement — dès que le padding
    atteint le rayon, le coin cesse d'être le point le plus proche du contenu et
    ne pince plus DU TOUT. Au rayon 20 : 24 px ne pince pas ; 16 px pince de
@@ -175,32 +186,66 @@ const TONE_GRADIENT_BG_CLASSES: Record<CardTone, string> = {
    Les 90 cartes faites main ont été ramenées sur ces deux valeurs le 09/09 :
    17 conversions de vocabulaire à pixel constant, 32 convergences depuis 12, 20
    et 32 px. */
-const SIZE_CLASSES: Record<CardSize, string> = {
-  xs: 'p-3 gap-stack-xs',
-  sm: 'p-stack gap-stack-xs',      // 16 px — dense
-  md: 'p-stack-lg gap-stack-xs',   // 24 px — le canon
-  lg: 'p-section gap-stack',       // 32 px — éditorial
+const SIZE_PADDING: Record<CardSize, string> = {
+  xs: 'p-3',
+  sm: 'p-stack-md',   // 20 px — dense (arbitrage n°4 du 23/09 : padding = rayon, le coin ne pince plus)
+  md: 'p-stack-lg',   // 24 px — le canon
+  lg: 'p-section',    // 32 px — éditorial
 };
+
+const SIZE_GAP: Record<CardSize, string> = {
+  xs: 'gap-stack-xs',
+  sm: 'gap-stack-xs',
+  md: 'gap-stack-xs',
+  lg: 'gap-stack',
+};
+
+/* Un `p-*` passé en `className` REMPLACE le padding de la taille — il ne
+   s'y ajoute pas. Avant le 2026-09-23, les deux classes coexistaient et c'est
+   l'ordre d'émission de Tailwind qui tranchait (piège n°6) : `p-stack` et `p-0`
+   perdaient contre `p-stack-lg` et rendaient 24 px, `p-stack-md` gagnait. 71
+   appels demandaient une marge qu'ils n'obtenaient pas — la dérogation dense à
+   16 px n'existait nulle part à l'écran (audit du 23/09, volets 3 et 4).
+   Seul un `p-` NU est détecté : un `px-`/`py-`/`pt-`… ou un `md:p-` n'efface
+   pas le padding de base (propriétés distinctes ou variante émise après).
+   Préférer `size="sm"` à `className="p-stack"` : le nom dit l'intention. */
+const OWN_PADDING = /(?:^|\s)p-\S+/;
+
+/* Même principe pour la disposition : une carte est une colonne (`flex
+   flex-col`) SAUF si `className` déclare la sienne. Avant le 2026-09-23, BASE
+   posait toujours `flex-col`, et une page qui écrivait `flex items-center
+   gap-stack` pour faire une rangée n'ajoutait que `flex` — déjà là. Rien ne
+   disait « rangée », la direction restait `column` : 35 cartes pensées en
+   rangée s'empilaient — mesuré à 1 440 px, 192 px de haut au lieu de 92 pour
+   la ligne du classement, 202 au lieu de 86 pour un endpoint d'ApiDocs.
+   - Une disposition déclarée (`flex`, `grid`, `block`…) retire les deux : la
+     page a dit ce qu'elle voulait, `flex` seul redevient une rangée, comme
+     partout ailleurs en CSS.
+   - Une direction déclarée seule (`flex-row`, `flex-col-reverse`…) ne retire
+     que `flex-col` : la carte reste flex.
+   Comme pour le padding, seules les classes NUES comptent : un `md:flex-row`
+   s'ajoute à la colonne de base, il ne la remplace pas en dessous de `md`.
+   Une page qui veut une colonne l'écrit : `flex flex-col …`. */
+const OWN_DISPLAY = /(?:^|\s)(?:flex|inline-flex|grid|inline-grid|block|inline-block|inline|contents|hidden|table)(?=\s|$)/;
+const OWN_DIRECTION = /(?:^|\s)flex-(?:row|col)(?:-reverse)?(?=\s|$)/;
+
+/* Et pour l'espacement : un `gap-*` passé en `className` REMPLACE celui de la
+   taille (SIZE_GAP). Avant le 2026-09-23, les deux coexistaient et l'ordre
+   d'émission tranchait (piège n°6) — alphabétique entre tokens nommés :
+   `gap-stack`, `gap-stack-md`, `gap-section` sortent AVANT `gap-stack-xs` et
+   perdaient donc toujours contre lui ; `gap-tight`, émis après, gagnait. 50
+   cartes demandaient 16 ou 32 px et en recevaient 8 — RankingCard, SectionCard
+   et ses 229 appels compris (mesuré au navigateur le 23/09).
+   `gap-x-*` et `gap-y-*` comptent aussi : n'en déclarer qu'un met l'autre axe
+   à 0, pas au défaut de la taille. Comme pour le padding, seules les classes
+   NUES comptent — un `md:gap-*` s'ajoute au gap de base. */
+const OWN_GAP = /(?:^|\s)gap-\S+/;
 
 const TONE_BG_CLASSES: Record<CardTone, string> = {
   primary: 'bg-primary-50 border-primary-200',
   warm: 'bg-secondary-50 border-secondary-200',
   sun: 'bg-accent-50 border-accent-200',
   brand: 'bg-primary-50 border-primary-200',
-};
-
-const TONE_TITLE_CLASSES: Record<CardTone, string> = {
-  primary: 'text-primary-900',
-  warm: 'text-secondary-900',
-  sun: 'text-accent-900',
-  brand: 'text-primary-900',
-};
-
-const TONE_EYEBROW_CLASSES: Record<CardTone, string> = {
-  primary: 'text-primary-500',
-  warm: 'text-secondary-600',
-  sun: 'text-accent-600',
-  brand: 'text-primary-600',
 };
 
 // When variant="interactive" (or interactive=true) is combined with a tone,
@@ -225,19 +270,54 @@ const INTERACTIVE_EXTRA = 'cursor-pointer';
 // blanc à l'intérieur, ink-900 à l'extérieur — au moins un contraste toujours.
 const CLICKABLE = 'cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-900 focus-visible:ring-offset-2 focus-visible:ring-offset-white';
 
-const TITLE_SIZE: Record<CardSize, string> = {
-  xs: 'text-body font-semibold',
-  sm: 'text-body font-semibold',
-  md: 'text-h4',
-  lg: 'text-h3',
+/* ── Anatomie du contenu par props — passe typographique du 2026-09-24 ────────
+   Une seule anatomie, quelle que soit la taille (la taille ne règle que le
+   padding) :
+     surtitre   légende 13/600, ink-600 — le lieu ou le type, sans capitales
+     → titre     4
+     titre      h3 20/26/700, ink-900 (le token porte tout)
+     → texte     8
+     texte      16/26, ink-700, largeur de lecture
+     → méta     12 (filet compris)
+     méta       légende 13, ink-600
+   Avant : surtitre en mono 11 px capitales (le registre du `Badge`), titre
+   forcé à 600 sur un token qui déclare 700, titre des tailles denses au corps
+   du texte (16 px), description 13 px en `sm`, et un titre teinté au cran 900
+   « pour faire joli ». Aucune couleur de marque ne porte un titre (doctrine
+   § 2). ⚠️ Aucun des 192 appels de `<Card>` n'emploie ces props au
+   2026-09-24 : elles décrivent l'anatomie de référence. Ce sont les sous-
+   composants ci-dessous (`CardEyebrow`, `CardTitle`, `CardDesc`,
+   `CardFooter`) qui la portent dans le produit, via ArticleCard et
+   SessionCard.
+
+   L'encre suit la surface (2026-09-24). Les quatre rôles étaient figés en
+   ink : sur `glass-dark` et `ink`, le titre mesurait 1,00:1 (ink-900 sur
+   ink-900) et le texte 1,37:1. Sur une surface sombre, TOUT le texte passe au
+   blanc : au cran 700 du dégradé, c'est la seule encre qui tienne 4,5:1 — un
+   blanc à 85 % y tombe à 4,15, le primary-100 à 4,11. La hiérarchie y est
+   portée par la taille et la graisse, pas par un gris. Les sous-composants
+   lisent la surface par contexte : ils ne savent pas sur quelle carte on les
+   pose. */
+type EncreCarte = 'claire' | 'sombre';
+
+const VARIANTES_SOMBRES: ReadonlySet<CardVariant> = new Set<CardVariant>(['glass-dark', 'ink']);
+
+const ANATOMIE: Record<EncreCarte, { eyebrow: string; title: string; desc: string; footer: string }> = {
+  claire: {
+    eyebrow: 'font-body text-caption font-semibold text-ink-600',
+    title: 'font-display text-h3 text-ink-900',
+    desc: 'font-body text-body text-ink-700 max-w-prose',
+    footer: 'flex items-center justify-between gap-stack-xs mt-stack-3xs pt-stack-sm border-t border-ink-200 text-caption text-ink-600',
+  },
+  sombre: {
+    eyebrow: 'font-body text-caption font-semibold text-white',
+    title: 'font-display text-h3 text-white',
+    desc: 'font-body text-body text-white max-w-prose',
+    footer: 'flex items-center justify-between gap-stack-xs mt-stack-3xs pt-stack-sm border-t border-white/20 text-caption text-white',
+  },
 };
 
-const DESC_SIZE: Record<CardSize, string> = {
-  xs: 'text-caption',
-  sm: 'text-caption',
-  md: 'text-body-sm',
-  lg: 'text-body',
-};
+const EncreCarteContext = React.createContext<EncreCarte>('claire');
 
 const ICON_SIZE: Record<CardSize, string> = {
   xs: '[&>svg]:w-6 [&>svg]:h-6',
@@ -279,10 +359,14 @@ export const Card: React.FC<CardProps> = ({
   const isInteractive = variant === 'interactive' || interactive;
   const toneInteractiveClasses = isInteractive && tone ? TONE_INTERACTIVE_HOVER[tone] : '';
 
+  const ownDisplay = OWN_DISPLAY.test(className);
   const classes = [
+    !ownDisplay && 'flex',
+    !ownDisplay && !OWN_DIRECTION.test(className) && 'flex-col',
     BASE,
     VARIANT_CLASSES[variant],
-    SIZE_CLASSES[size],
+    !OWN_PADDING.test(className) && SIZE_PADDING[size],
+    !OWN_GAP.test(className) && SIZE_GAP[size],
     toneBgClasses,
     toneInteractiveClasses,
     interactive && variant !== 'interactive' && INTERACTIVE_EXTRA,
@@ -293,14 +377,14 @@ export const Card: React.FC<CardProps> = ({
     .join(' ');
 
   const hasPropsContent = eyebrow || title || description || footer || icon;
+  const encre: EncreCarte = VARIANTES_SOMBRES.has(variant) ? 'sombre' : 'claire';
+  const anatomie = ANATOMIE[encre];
 
-  const eyebrowClass = `font-mono text-micro font-bold uppercase tracking-[0.08em] ${tone ? TONE_EYEBROW_CLASSES[tone] : 'text-ink-500'}`;
-  // tracking-display for large/medium titles (≥h3 = 1.375rem) for premium tightness
-  const titleClass = `m-0 p-0 font-display ${TITLE_SIZE[size]} font-semibold leading-tight ${size === 'lg' ? 'tracking-display' : size === 'md' ? 'tracking-headline' : 'tracking-tight'} ${tone ? TONE_TITLE_CLASSES[tone] : 'text-ink-900'}`;
-  const descriptionClass = `m-0 p-0 ${DESC_SIZE[size]} leading-normal text-ink-600`;
-  const footerClass = 'flex items-center justify-between gap-stack-xs mt-2 pt-2 border-t border-ink-200 text-caption text-ink-600';
-  const iconClass = `flex items-center justify-center shrink-0 mb-2 ${ICON_SIZE[size]} [&>svg]:text-current`;
-  const headerClass = 'flex flex-col gap-tight mb-1';
+  // Le gap de la carte (8 px, 16 en `lg`) sépare icône, en-tête, texte et
+  // pied ; les écarts qui s'en écartent sont écrits sur la partie : icône →
+  // en-tête 16 (8 + mb-stack-xs), texte → méta 12 (8 + mt-stack-3xs),
+  // surtitre → titre 4.
+  const iconClass = `flex items-center justify-center shrink-0 mb-stack-xs ${ICON_SIZE[size]} [&>svg]:text-current`;
 
   return React.createElement(
     as as string,
@@ -318,21 +402,26 @@ export const Card: React.FC<CardProps> = ({
         : undefined,
       ...rest,
     },
-    hasPropsContent ? (
-      <>
-        {icon && <div className={iconClass}>{icon}</div>}
-        {(eyebrow || title) && (
-          <div className={headerClass}>
-            {eyebrow && <div className={eyebrowClass}>{eyebrow}</div>}
-            {title && <h3 className={titleClass}>{title}</h3>}
-          </div>
-        )}
-        {description && <p className={descriptionClass}>{description}</p>}
-        {footer && <div className={footerClass}>{footer}</div>}
-      </>
-    ) : (
-      children
-    )
+    <EncreCarteContext.Provider value={encre}>
+      {hasPropsContent ? (
+        <>
+          {icon && <div className={iconClass}>{icon}</div>}
+          {(eyebrow || title) && (
+            <div className="flex flex-col">
+              {eyebrow && <p className={anatomie.eyebrow}>{eyebrow}</p>}
+              {/* `mt-stack-3xs` sous un surtitre : il bat la marge de base des
+                  titres (0,75em), faite pour séparer des sections, pas pour
+                  coller un titre à son surtitre. */}
+              {title && <h3 className={[anatomie.title, eyebrow ? 'mt-stack-3xs' : ''].filter(Boolean).join(' ')}>{title}</h3>}
+            </div>
+          )}
+          {description && <p className={anatomie.desc}>{description}</p>}
+          {footer && <div className={anatomie.footer}>{footer}</div>}
+        </>
+      ) : (
+        children
+      )}
+    </EncreCarteContext.Provider>
   );
 };
 
@@ -340,47 +429,46 @@ export const Card: React.FC<CardProps> = ({
  * LEGACY EXPORTS (deprecated, kept for backward compatibility)
  * Prefer Card props: <Card title="..." description="..." />
  */
+/* Mêmes classes que l'anatomie par props (voir plus haut) — une seule source.
+   L'encre vient de la carte qui les porte (contexte), claire par défaut. */
 export const CardEyebrow: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   className = '',
   ...rest
-}) => (
-  <div
-    className={`font-mono text-micro font-bold uppercase tracking-[0.08em] text-ink-500 ${className}`}
-    {...rest}
-  />
-);
+}) => {
+  const encre = React.useContext(EncreCarteContext);
+  return <div className={`${ANATOMIE[encre].eyebrow} ${className}`} {...rest} />;
+};
 
 export const CardTitle: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({
   className = '',
   ...rest
-}) => (
-  <h3
-    /* Pas de graisse écrite ici : le token `text-h4` déclare déjà 700, et la poser
-       à côté ne peut que le contredire — c'était le cas, à 600, sur la primitive
-       même qui sert de référence aux cartes. Corrigé le 2026-09-10. */
-    className={`p-0 font-display text-h4 leading-tight tracking-headline text-ink-900 ${className}`}
-    {...rest}
-  />
-);
+}) => {
+  const encre = React.useContext(EncreCarteContext);
+  return (
+    <h3
+      /* Ni graisse, ni interligne, ni tracking écrits ici : le token `text-h3`
+         déclare 700, 26 px et -0,02em. Les écrire à côté ne peut que les
+         contredire — c'était le cas (600, puis `leading-tight` : 25 px). */
+      className={`${ANATOMIE[encre].title} ${className}`}
+      {...rest}
+    />
+  );
+};
 
 export const CardDesc: React.FC<React.HTMLAttributes<HTMLParagraphElement>> = ({
   className = '',
   ...rest
-}) => (
-  <p
-    className={`m-0 p-0 text-body-sm leading-normal text-ink-600 ${className}`}
-    {...rest}
-  />
-);
+}) => {
+  const encre = React.useContext(EncreCarteContext);
+  return <p className={`${ANATOMIE[encre].desc} ${className}`} {...rest} />;
+};
 
 export const CardFooter: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   className = '',
   ...rest
-}) => (
-  <div
-    className={`flex items-center justify-between gap-stack-xs mt-2 pt-2 border-t border-ink-200 text-caption text-ink-600 ${className}`}
-    {...rest}
-  />
-);
+}) => {
+  const encre = React.useContext(EncreCarteContext);
+  return <div className={`${ANATOMIE[encre].footer} ${className}`} {...rest} />;
+};
 
 export default Card;

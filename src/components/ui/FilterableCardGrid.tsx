@@ -1,6 +1,7 @@
 import React, { useState, useDeferredValue } from 'react';
 import { GRID_COLS_CONTENT } from '../../lib/grid-columns';
 import { Search, X, LayoutGrid, List } from 'lucide-react';
+import { FilterChip } from './FilterChip';
 
 export type FilterableCardGridLayout = 'grid' | 'list';
 export type FilterableCardGridColumns = 2 | 3 | 4;
@@ -67,7 +68,7 @@ export function FilterableCardGrid<T>({
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder={searchPlaceholder}
-                className="w-full h-10 pl-9 pr-9 rounded-lg border border-ink-200 bg-white text-body-sm font-body text-ink-900 placeholder:text-ink-500 transition-all duration-base focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100"
+                className="w-full h-10 pl-9 pr-9 rounded-lg border border-ink-200 bg-white text-body font-body text-ink-900 placeholder:text-ink-500 transition-all duration-base focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100"
               />
               {query && (
                 <button type="button" onClick={() => setQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-600 hover:text-ink-700 transition-colors" aria-label="Effacer">
@@ -91,23 +92,24 @@ export function FilterableCardGrid<T>({
 
       {categories && categories.length > 0 && (
         <div className="flex items-center gap-stack-xs flex-wrap">
-          <button type="button" onClick={() => setActiveCategory(null)} className={['inline-flex items-center px-3 py-1.5 rounded-pill text-caption font-bold transition-all duration-fast focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-500', activeCategory === null ? 'bg-primary-600 text-white' : 'bg-ink-100 text-ink-600 hover:bg-ink-200'].join(' ')}>
-            Tout
-          </button>
+          <FilterChip label="Tout" active={activeCategory === null} onClick={() => setActiveCategory(null)} />
           {categories.map((cat) => (
-            <button key={cat} type="button" onClick={() => setActiveCategory(cat === activeCategory ? null : cat)} className={['inline-flex items-center px-3 py-1.5 rounded-pill text-caption font-bold transition-all duration-fast focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-500', activeCategory === cat ? 'bg-primary-600 text-white' : 'bg-ink-100 text-ink-600 hover:bg-ink-200'].join(' ')}>
-              {cat}
-            </button>
+            <FilterChip
+              key={cat}
+              label={cat}
+              active={activeCategory === cat}
+              onClick={() => setActiveCategory(cat === activeCategory ? null : cat)}
+            />
           ))}
         </div>
       )}
 
       {(normalised || activeCategory) && (
-        <p className="text-caption text-ink-500 -mt-2">{filtered.length} résultat{filtered.length !== 1 ? 's' : ''}</p>
+        <p className="text-caption text-ink-600 tabular-nums -mt-2">{filtered.length} résultat{filtered.length !== 1 ? 's' : ''}</p>
       )}
 
       {filtered.length === 0 ? (
-        <p className="text-body-sm text-ink-600 italic py-section text-center">{emptyLabel}</p>
+        <p className="text-body text-ink-600 italic py-section text-center">{emptyLabel}</p>
       ) : layout === 'grid' ? (
         <div className={['grid gap-stack', GRID_COLS[columns]].join(' ')}>
           {filtered.map((item, i) => renderCard(item, i, 'grid'))}

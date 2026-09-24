@@ -9,7 +9,6 @@ import {
   AuthSuccess,
   AuthField,
   AuthPrimaryButton,
-  AuthGhostButton,
 } from '../components/patterns/AuthShell';
 import { MailCheck, CheckCircle2, Mail } from 'lucide-react';
 
@@ -29,7 +28,7 @@ export const ForgotPassword: React.FC = () => {
       brand={{
         icon: <MailCheck size={24} strokeWidth={1.75} className="text-white" />,
         title: 'Mot de passe oublié',
-        subtitle: 'Réinitialise ton accès en quelques étapes sécurisées',
+        subtitle: 'Réinitialisez votre accès en quelques étapes sécurisées',
       }}
       backLink={{ label: 'Retour à la connexion', onClick: () => navigate('/auth/login') }}
       form={
@@ -45,17 +44,14 @@ export const ForgotPassword: React.FC = () => {
               required
             />
 
-            <div className="flex flex-col gap-stack-xs">
-              <AuthPrimaryButton type="submit">Envoyer le lien</AuthPrimaryButton>
-              <AuthGhostButton onClick={() => navigate('/auth/login')}>
-                Retour connexion
-              </AuthGhostButton>
-            </div>
+            {/* Un seul retour : le lien « Retour à la connexion » au-dessus de
+                la carte. Le bouton « Retour connexion » menait au même endroit. */}
+            <AuthPrimaryButton type="submit" className="mt-stack-xs">Envoyer le lien</AuthPrimaryButton>
           </form>
         ) : (
           <AuthSuccess
             icon={<CheckCircle2 size={32} />}
-            title="Email envoyé !"
+            title="Email envoyé"
             description="Un lien de réinitialisation a été envoyé sur votre adresse email. Vérifiez votre boîte de réception et vos spams si besoin."
           >
             <AuthPrimaryButton type="button" onClick={() => navigate('/auth/login')}>

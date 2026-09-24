@@ -213,7 +213,7 @@ paliers certifiants. Invariant maintenu : l'auto-déclaration n'écrit jamais le
 > biais cognitifs & neurosciences · UX/UI · conformité (SDT/éthique · RGPD) · faisabilité technique**.
 > ⚠️ Propositions à trancher en métier. Rien n'est engagé.
 > Deuxième d'une série (un document par défaut). Suppose la colonne de preuve du défaut 1
-> ([`SOLUTIONS-01-PREUVE`](SOLUTIONS-01-PREUVE.md)) comme socle.
+> ([Défaut 1, ci-dessus](#défaut-1--la-colonne-vertébrale-de-la-preuve--options-de-conception)) comme socle.
 
 ---
 
@@ -693,7 +693,7 @@ symptôme d'une validation automatique.
 passeport s'écrit *parce qu'*un humain a signé une rubrique scorée : la « mise à jour » **est**
 l'attestation, un acte humain, journalisé comme un enregistrement à la `PasseportEnrichment`
 (`sourceType: coach_validation` / `jac_validation`). C'est le même objet que la colonne vertébrale
-de la preuve du [défaut 1](SOLUTIONS-01-PREUVE.md) — la validation coach *est* un `EvidenceRef`. Un
+de la preuve du [défaut 1](#défaut-1--la-colonne-vertébrale-de-la-preuve--options-de-conception) — la validation coach *est* un `EvidenceRef`. Un
 seul chantier data sert les deux défauts.
 
 ### Pourquoi c'est le bon arbitrage
@@ -763,7 +763,7 @@ juriste : ce document renforce une défense, il ne la garantit pas — l'AIPD et
 
 > **2026-07-24.** Étude de solutions pour le défaut IA le plus insidieux de la Learning App
 > (voir [`REVUE-TRANSVERSALE-CDC`](REVUE-TRANSVERSALE-CDC.md), défaut 4 ; cahiers
-> [`12_Chatbot`](../CDC/12_Chatbot_IA_et_QAR.md) et [`12bis_IA_Framework`](../CDC/12bis_IA_Features_Framework.md)).
+> [`12_Chatbot`](../CDC/12_Chatbot_IA_QAR/CAHIER.md) et [`12bis_IA_Framework`](../CDC/12bis_IA_Features_Framework/CAHIER.md)).
 > Trois options, chacune évaluée sous six lentilles : **apprenance · instructional design ·
 > biais cognitifs & neurosciences · UX/UI · conformité · faisabilité technique**.
 > ⚠️ Propositions à trancher en métier. Rien n'est engagé.

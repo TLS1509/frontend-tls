@@ -8,6 +8,10 @@ import { useState, useCallback } from 'react';
  *   success('Sauvegardé !');
  *
  * Wire up <ToastContainer toasts={toasts} onRemove={removeToast} /> anywhere in your tree.
+ *
+ * La fermeture automatique (`duration`) est tenue par ToastContainer, pas par
+ * ce hook : c'est lui qui voit le survol et le focus, et qui suspend la
+ * minuterie pendant qu'on lit (WCAG 2.2.1).
  */
 
 export type ToastType = 'success' | 'error' | 'warning' | 'info';
@@ -39,11 +43,6 @@ export const useToast = (): UseToastReturn => {
     (type: ToastType, message: string, title?: string, duration = 4000) => {
       const id = uid();
       setToasts((prev) => [...prev.slice(-4), { id, type, message, title, duration }]);
-      if (duration > 0) {
-        setTimeout(() => {
-          setToasts((prev) => prev.filter((t) => t.id !== id));
-        }, duration);
-      }
     },
     [],
   );

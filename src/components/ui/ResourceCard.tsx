@@ -2,6 +2,8 @@ import React from 'react';
 import { Clock, ChevronRight } from 'lucide-react';
 import { CARD_HOVER } from '../../lib/tone-classes';
 import type { CardTone, CardBadgeConfig } from '../core/Card';
+import { MetaPill, type MetaPillTone } from './MetaPill';
+import { Badge, type BadgeVariant } from './Badge';
 
 export type ResourceCardVariant = 'default' | 'minimal' | 'with-badge';
 export type ResourceCardIconSize = 'sm' | 'md' | 'lg';
@@ -36,12 +38,23 @@ const TONE_BG: Record<string, string> = {
   default: 'bg-gradient-to-br from-primary-50 to-white border-primary-200',
 };
 
+/* Texte et icône d'accent : cran 800 pour les trois tons (doctrine § 2 — une
+   couleur de marque ne porte du texte qu'au 800). */
 const TONE_ACCENT_TEXT: Record<string, string> = {
-  primary: 'text-primary-500',
-  brand:   'text-primary-600',
-  warm:    'text-secondary-500',
-  sun:     'text-accent-500',
-  default: 'text-primary-500',
+  primary: 'text-primary-800',
+  brand:   'text-primary-800',
+  warm:    'text-secondary-800',
+  sun:     'text-accent-800',
+  default: 'text-primary-800',
+};
+
+/* Le type de ressource est une DONNÉE : MetaPill au ton de la carte. */
+const TONE_PILL: Record<string, MetaPillTone> = {
+  primary: 'primary',
+  brand:   'primary',
+  warm:    'warm',
+  sun:     'sun',
+  default: 'primary',
 };
 
 const TONE_CTA_HOVER: Record<string, string> = {
@@ -58,12 +71,13 @@ const ICON_SIZE: Record<ResourceCardIconSize, string> = {
   lg: 'w-12 h-12',
 };
 
-const BADGE_VARIANT: Record<string, string> = {
-  primary: 'bg-primary-50 text-primary-800',
-  warm:    'bg-secondary-50 text-secondary-700',
-  sun:     'bg-accent-50 text-accent-700',
-  success: 'bg-success-bg text-success-fg',
-  danger:  'bg-danger-bg text-danger-fg',
+/* `badge` dit un ÉTAT (« Nouveau ») : le vrai Badge, plus son imitation. */
+const BADGE_VARIANT: Record<string, BadgeVariant> = {
+  primary: 'brand',
+  warm:    'warm',
+  sun:     'sun',
+  success: 'success',
+  danger:  'danger',
 };
 
 const BADGE_POSITION: Record<string, string> = {
@@ -90,10 +104,14 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
   const accentText = TONE_ACCENT_TEXT[tone] ?? TONE_ACCENT_TEXT.primary;
   const ctaHover = TONE_CTA_HOVER[tone] ?? TONE_CTA_HOVER.primary;
 
-  const padding = variant === 'minimal' ? 'p-4' : 'p-6';
+  /* Padding jamais sous le rayon (20) : 20 en dense, 24 au canon (arbitrage n°4). */
+  const padding = variant === 'minimal' ? 'p-stack-md' : 'p-stack-lg';
+  const pillTone = TONE_PILL[tone] ?? TONE_PILL.primary;
 
+  /* Anatomie (passe typographique du 2026-09-24) : en-tête (icône + type) →
+     titre 12 · titre → texte 8 · contenu → pied 24, filet compris. */
   const classes = [
-    'relative border rounded-xl flex flex-col gap-stack transition-colors duration-base ease-emphasis no-underline text-inherit',
+    'relative border rounded-xl flex flex-col gap-stack-sm transition-colors duration-base ease-emphasis no-underline text-inherit',
     CARD_HOVER[tone],
     'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
     toneBg,
@@ -106,28 +124,20 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
   const content = (
     <>
       {badge && (
-        <span
-          className={[
-            // La prop s'appelle `badge` : vocabulaire Badge — 11 px, graisse 700,
-            // capitales, `tracking-label`. Elle rendait 13 px sans capitales, donc
-            // 28 px de haut au lieu de 24, et se lisait comme une pastille.
-            'absolute z-10 px-2.5 py-0.5 rounded-pill text-micro font-bold uppercase tracking-label whitespace-nowrap',
-            BADGE_VARIANT[badge.variant ?? 'primary'],
-            BADGE_POSITION[badge.position || 'top-right'],
-          ]
-            .filter(Boolean)
-            .join(' ')}
+        <Badge
+          variant={BADGE_VARIANT[badge.variant ?? 'primary'] ?? 'brand'}
+          className={['absolute z-10', BADGE_POSITION[badge.position || 'top-right']].join(' ')}
         >
           {badge.label}
-        </span>
+        </Badge>
       )}
 
       {(icon || resourceType) && (
-        <div className="flex items-center gap-stack-xs">
+        <div className="flex items-center gap-stack-sm">
           {icon && (
             <div
               className={[
-                'shrink-0 inline-flex items-center justify-center text-2xl',
+                'shrink-0 inline-flex items-center justify-center',
                 ICON_SIZE[iconSize],
                 accentText,
               ].join(' ')}
@@ -135,34 +145,28 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
               {icon}
             </div>
           )}
-          {resourceType && (
-            <span className={`text-caption font-bold uppercase tracking-wider ${accentText}`}>
-              {resourceType}
-            </span>
-          )}
+          {/* Le type (« Guide », « Vidéo ») était en capitales 700 : le
+              registre qui crie, pour une donnée qui chuchote (n°15). */}
+          {resourceType && <MetaPill text={resourceType} tone={pillTone} />}
         </div>
       )}
 
       <div className="flex flex-col gap-stack-xs">
-        <h3 className="text-h4 leading-snug text-ink-900">{title}</h3>
+        <h3 className="text-h3 text-ink-900">{title}</h3>
         {variant !== 'minimal' && description && (
-          <p className="m-0 text-body-sm text-ink-500">{description}</p>
+          <p className="m-0 text-body text-ink-700">{description}</p>
         )}
       </div>
 
       {variant !== 'minimal' && (duration || category || cta) && (
-        <footer className="flex items-center justify-between gap-stack-xs mt-2 pt-3 border-t border-ink-200">
+        <footer className="flex items-center justify-between gap-stack-xs mt-stack-sm pt-stack-sm border-t border-ink-200">
           <div className="flex items-center gap-stack-xs flex-wrap">
-            {/* Capitales et graisse : c'est un BADGE, pas une méta. Vocabulaire
-                Badge — pilule, 11 px, graisse 700, `tracking-label`. Il était en
-                `rounded-sm` (6 px), `text-caption` (13) et graisse 600. */}
-            {category && (
-              <span className="text-micro font-bold uppercase tracking-label text-ink-700 px-2.5 py-0.5 bg-ink-50 border border-ink-200 rounded-pill">
-                {category}
-              </span>
-            )}
+            {/* Une catégorie est une DONNÉE : MetaPill, même registre que la durée
+                posée à côté (arbitrage n°14, 2026-09-23). Elle était en Badge
+                — capitales, 700 — et pesait plus lourd que le titre. */}
+            {category && <MetaPill text={category} tone="neutral" />}
             {duration && (
-              <span className="inline-flex items-center gap-tight text-caption text-ink-500">
+              <span className="inline-flex items-center gap-stack-3xs text-caption text-ink-600">
                 <Clock size={14} strokeWidth={2} className="opacity-70" />
                 {duration}
               </span>
@@ -174,7 +178,7 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
               onClick={cta.onClick}
               className={[
                 'inline-flex items-center gap-stack-xs px-3 py-2 bg-transparent border-0 rounded-md',
-                'text-body-sm font-semibold cursor-pointer whitespace-nowrap transition-[background-color] duration-fast ease-emphasis',
+                'text-body font-bold cursor-pointer whitespace-nowrap transition-[background-color] duration-fast ease-emphasis',
                 'focus-visible:outline-2 focus-visible:outline-offset-2',
                 accentText,
                 ctaHover,

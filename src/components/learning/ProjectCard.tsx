@@ -47,7 +47,7 @@ const STATUS_PROGRESS_FILL: Record<ProjectCardProps['status'], ProgressFill> = {
 
 const STATUS_AVATAR: Record<ProjectCardProps['status'], string> = {
   planning:     'bg-secondary-100 text-secondary-700',
-  'in-progress': 'bg-primary-100 text-primary-700',
+  'in-progress': 'bg-primary-100 text-primary-800',
   completed:    'bg-success-bg text-success-fg',
 };
 
@@ -65,64 +65,73 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
 }) => {
   return (
     <Card
-      className={['group flex flex-col gap-stack transition-all duration-slow ease-emphasis', className]
+      className={['group flex flex-col gap-stack-lg transition-all duration-slow ease-emphasis', className]
         .filter(Boolean)
         .join(' ')}
     >
-      <div className="flex items-start justify-between gap-stack-xs">
-        <h3 className="text-h4 font-display text-ink-900 leading-snug flex-1">
-          {title}
-        </h3>
-        <Badge variant={STATUS_VARIANT[status]}>{STATUS_LABEL[status]}</Badge>
-      </div>
+      {/* Anatomie (passe typographique du 2026-09-24) : titre → texte 8 ·
+          texte → méta 12 · contenu → action 24. Le tout était à 16 px d'écart,
+          du titre au bouton : rien ne disait ce qui allait ensemble. */}
+      <div className="flex flex-col gap-stack-sm">
+        <div className="flex flex-col gap-stack-xs">
+          <div className="flex items-start justify-between gap-stack-xs">
+            <h3 className="text-h3 font-display text-ink-900 flex-1">
+              {title}
+            </h3>
+            <Badge variant={STATUS_VARIANT[status]}>{STATUS_LABEL[status]}</Badge>
+          </div>
 
-      <p className="m-0 text-body-sm text-ink-500 line-clamp-2">{description}</p>
+          <p className="m-0 text-body text-ink-700 line-clamp-2">{description}</p>
+        </div>
 
-      <div className="flex flex-wrap items-center gap-stack text-caption text-ink-500">
-        <span className="inline-flex items-center gap-stack-3xs">
-          <CheckCircle2 size={14} className="text-success-base" />
-          <span className="font-semibold text-ink-700">{completedTasks}</span>
-          <span>/ {totalTasks} tâches</span>
-        </span>
-        {deadline && (
+        <div className="flex flex-wrap items-center gap-stack text-caption text-ink-600">
           <span className="inline-flex items-center gap-stack-3xs">
-            <CalendarDays size={14} className="text-ink-600" />
-            {deadline}
+            <CheckCircle2 size={14} className="text-success-base" />
+            <span className="font-semibold text-ink-900 tabular-nums">{completedTasks}</span>
+            <span>/ {totalTasks} tâches</span>
           </span>
-        )}
-        <span className="inline-flex items-center gap-stack-3xs">
-          <Users size={14} className="text-ink-600" />
-          {teamMembers.length} membres
-        </span>
-      </div>
-
-      <div>
-        <ProgressBar value={progress} fill={STATUS_PROGRESS_FILL[status]} size="sm" showLabel={true} />
-      </div>
-
-      {teamMembers.length > 0 && (
-        <div className="flex flex-wrap gap-stack-3xs">
-          {teamMembers.slice(0, 4).map((member) => (
-            <span
-              key={member.id}
-              className="inline-flex items-center gap-stack-3xs px-2.5 py-1 rounded-pill bg-ink-50 border border-ink-200 text-caption text-ink-700 font-medium"
-            >
-              <span className={`inline-flex items-center justify-center w-5 h-5 rounded-pill text-micro font-bold ${STATUS_AVATAR[status]}`}>
-                {member.name.charAt(0)}
-              </span>
-              {member.name}
-            </span>
-          ))}
-          {teamMembers.length > 4 && (
-            <span className="inline-flex items-center px-2.5 py-1 rounded-pill bg-ink-100 text-caption text-ink-600 font-semibold">
-              +{teamMembers.length - 4}
+          {deadline && (
+            <span className="inline-flex items-center gap-stack-3xs">
+              <CalendarDays size={14} className="text-ink-600" />
+              {deadline}
             </span>
           )}
+          <span className="inline-flex items-center gap-stack-3xs">
+            <Users size={14} className="text-ink-600" />
+            {teamMembers.length} membres
+          </span>
         </div>
-      )}
 
+        <div>
+          <ProgressBar value={progress} fill={STATUS_PROGRESS_FILL[status]} size="sm" showLabel={true} />
+        </div>
+
+        {teamMembers.length > 0 && (
+          <div className="flex flex-wrap gap-stack-3xs">
+            {teamMembers.slice(0, 4).map((member) => (
+              <span
+                key={member.id}
+                className="inline-flex items-center gap-stack-3xs px-2.5 py-1 rounded-pill bg-ink-50 border border-ink-200 text-caption text-ink-700 font-medium"
+              >
+                <span className={`inline-flex items-center justify-center w-5 h-5 rounded-pill text-micro font-semibold ${STATUS_AVATAR[status]}`}>
+                  {member.name.charAt(0)}
+                </span>
+                {member.name}
+              </span>
+            ))}
+            {teamMembers.length > 4 && (
+              <span className="inline-flex items-center px-2.5 py-1 rounded-pill bg-ink-100 text-caption text-ink-600 font-medium tabular-nums">
+                +{teamMembers.length - 4}
+              </span>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* L'action de la carte : `soft`, écrit (arbitrage n°19). Il l'était
+          déjà par le `variant` déprécié implicite (`primary`). */}
       {onViewProject && (
-        <Button onClick={onViewProject} fullWidth>
+        <Button emphasis="soft" onClick={onViewProject} fullWidth>
           Voir le projet
           <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
         </Button>

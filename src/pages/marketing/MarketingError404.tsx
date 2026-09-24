@@ -64,7 +64,7 @@ export const MarketingError404: React.FC = () => {
         <motion.p
           initial={{ y: 14 }} animate={{ y: 0 }}
           transition={{ delay: 0.05, duration: 0.5 }}
-          className="font-mono text-caption font-bold uppercase tracking-[0.3em] text-primary-400 inline-flex items-center gap-stack-xs mb-stack"
+          className="font-mono text-caption font-bold uppercase tracking-[0.3em] text-primary-700 inline-flex items-center gap-stack-xs mb-stack"
         >
           <Compass size={14} /> Page introuvable
         </motion.p>
@@ -115,7 +115,7 @@ export const MarketingError404: React.FC = () => {
             >
               <Link
                 to={s.href}
-                className="inline-flex items-center gap-stack-xs px-4 py-2.5 rounded-lg bg-white border border-ink-200 text-ink-700 font-body text-body-sm font-bold hover:border-primary-300 hover:text-primary-700 hover:shadow-sm transition-all min-h-touch focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 shadow-xs"
+                className="inline-flex items-center gap-stack-xs px-4 py-2.5 rounded-lg bg-white border border-ink-200 text-ink-700 font-body text-body font-bold hover:border-primary-300 hover:text-primary-700 hover:shadow-sm transition-all min-h-touch focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 shadow-xs"
               >
                 <span className="text-primary-400">{s.icon}</span>
                 {s.label}

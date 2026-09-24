@@ -7,7 +7,7 @@ import { Input } from '../core/Input';
  * AuthShell — full-bleed branded auth layout.
  *
  * Visual:
- *   - Page bg : deep teal gradient (primary-600 → primary-800)
+ *   - Page bg : deep teal gradient (primary-700 → primary-900)
  *   - Ambient diffuse blobs (blur-ambient)
  *   - Centered glass Card (max-w-[480px]) on dark — `bg-white/10` + `backdrop-blur-glass-medium`
  *   - Branded header inside card : icon bubble + brand title + subtitle (all white)
@@ -41,6 +41,37 @@ import { Input } from '../core/Input';
    trancherait (piège n°6). Même motif que `Button.tsx` et `core/Input.tsx`. */
 const RAYON_BOUTON = 'rounded-lg';
 
+/* Hauteur et libellé des trois boutons Auth — arbitrage n°22 (2026-09-24).
+   Ils faisaient 48 px sous des champs de 52 (`AuthField` = `Input lg`) : la
+   colonne alternait deux hauteurs pour deux objets qu'on lit comme jumeaux.
+   Ils prennent le `lg` de l'échelle commune, 52, et le libellé du `Button`
+   de même cran : 16 / 700, padding 24. Leur 600 était une deuxième graisse
+   de bouton dans l'app. */
+const TAILLE_BOUTON = 'h-13 px-stack-lg text-body font-bold';
+
+/* Le niveau « contour » de la famille Auth — les deux boutons secondaires,
+   `AuthGhostButton` et `AuthSocialButton`, le partagent (2026-09-24).
+
+   Hiérarchie (arbitrage n°19) : sur la coque, UN aplat — `AuthPrimaryButton`,
+   blanc plein, l'action principale. Tout le reste recule d'un cran. Les boutons
+   Google et LinkedIn portaient le même fond blanc plein : sur /auth/login et
+   /auth/signup, trois boutons pleins, et l'action principale ne se distinguait
+   plus que par son ombre.
+
+   Filet blanc à 70 %, et non 30 % : c'est le contrat de `Button onDark
+   outline`, et il est mesuré. Le contour d'un composant doit tenir 3:1 contre
+   ce qui l'entoure (SC 1.4.11). Mesuré aux pixels sur la coque, le 24/09 :
+   blanc/30 → 2,01:1 à 1440 px, 1,88:1 à 375 (la coque s'éclaircit en haut à
+   375) ; blanc/70 → 3,7 à 4,3:1. On a changé la teinte, pas l'épaisseur.
+
+   Le survol FONCE, il n'éclaircit pas — même règle que l'aplat de `Button`.
+   Un voile blanc sous un libellé blanc le fait tomber : mesuré de 375 à
+   1440 px, `hover:bg-white/15` (celui de `Button onDark`) donnait 3,80 à
+   4,91:1, et l'ancien `white/10` de ce bouton 4,2 à 5,0 — sous 4,5 dès que
+   la coque s'éclaircit. Le survol assombrit donc d'un voile primary-900 et
+   ferme le filet au blanc plein : le libellé y gagne. */
+const NIVEAU_CONTOUR = 'bg-transparent text-white border border-white/70 cursor-pointer transition-all hover:bg-primary-900/30 hover:border-white active:bg-primary-900/40';
+
 export interface AuthShellProps {
   /** Form content (inputs + buttons). Wrapped in a glass dark Card automatically. */
   form: React.ReactNode;
@@ -69,7 +100,7 @@ export interface AuthShellProps {
  * Apply with `<Input className={AUTH_INPUT_CLASSES} ... />` or directly on raw inputs.
  */
 export const AUTH_INPUT_CLASSES =
-  'bg-white/10 backdrop-blur-glass-light border border-white/20 text-white placeholder:text-white/55 ' +
+  'bg-white/10 backdrop-blur-glass-light border border-white/20 text-white placeholder:text-white/75 ' +
   'focus:border-white/40 focus:bg-white/15 focus:ring-2 focus:ring-white/20 ' +
   'hover:border-white/30';
 
@@ -104,24 +135,36 @@ export const AuthShell: React.FC<AuthShellProps> = ({
       className={[
         // Full-bleed page background : deep teal gradient
         'relative min-h-[100dvh] overflow-hidden',
-        'bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800',
+        // Fond du 700 au 900 (24/09) : il partait du 600, où le blanc ne tient que
+        // 3,66:1 — libellés et aides tombaient à 3,97. Texte blanc = cran ≥ 700
+        // (arbitrage n°8) ; la hiérarchie passe par la taille et la graisse.
+        'bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900',
         className,
       ]
         .filter(Boolean)
         .join(' ')}
     >
-      {/* Diffuse ambient blobs — large + heavily blurred for depth */}
+      {/* Diffuse ambient blobs — large + heavily blurred for depth.
+          Au cran 700 (2026-09-24). Ils étaient au 400, 300 et 500 : des halos
+          CLAIRS qui passent sous le formulaire et éclaircissent ce que le texte
+          blanc a besoin de sombre. Mesuré aux pixels, à l'écran, texte effacé,
+          sur les 6 pages d'auth : 38 textes sous 4,5:1 à 375 px (pire 3,26),
+          24 à 768, 19 à 1024, 13 à 1280 — seul 1440 passait. Au 700 : 0 à
+          toutes les largeurs (pire 4,57 à 375). Aucune position ne les sort de
+          la colonne du formulaire sous 1440 : le plus grand fait 640 px, le
+          troisième est centré. Ils gardent un reflet sur le bas du dégradé
+          (800 → 900), là où le texte ne vit pas. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute top-[10%] -left-40 w-[640px] h-[640px] rounded-pill bg-primary-400/25 blur-ambient"
+        className="pointer-events-none absolute top-[10%] -left-40 w-[640px] h-[640px] rounded-pill bg-primary-700/25 blur-ambient"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute bottom-[5%] -right-32 w-[560px] h-[560px] rounded-pill bg-primary-300/20 blur-ambient"
+        className="pointer-events-none absolute bottom-[5%] -right-32 w-[560px] h-[560px] rounded-pill bg-primary-700/20 blur-ambient"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute top-1/2 left-1/3 w-[400px] h-[400px] rounded-pill bg-primary-500/15 blur-ambient -translate-x-1/2 -translate-y-1/2"
+        className="pointer-events-none absolute top-1/2 left-1/3 w-[400px] h-[400px] rounded-pill bg-primary-700/15 blur-ambient -translate-x-1/2 -translate-y-1/2"
       />
 
       {/* Centered content */}
@@ -133,11 +176,14 @@ export const AuthShell: React.FC<AuthShellProps> = ({
             <AuthBackLink label={backLink.label} onClick={backLink.onClick} />
           )}
 
-          {/* Glass dark Card */}
+          {/* Glass dark Card — rayon conteneur, 20 (2026-09-24) : elle était à 14,
+              le rayon des boutons qu'elle contient. Son padding (32 / 40) reste
+              au-dessus de 20 : champs et boutons gardent leur forme (règle des
+              coins imbriqués, régime « forme fixe »). */}
           <section
             className={[
-              'relative rounded-lg px-8 py-10 sm:px-10 sm:py-12',
-              'bg-white/10 backdrop-blur-glass-medium',
+              'relative rounded-xl px-8 py-10 sm:px-10 sm:py-12',
+              'bg-white/5 backdrop-blur-glass-medium',
               'border border-white/20',
               'shadow-[0_20px_60px_-15px_rgba(0,0,0,0.30)]',
               'flex flex-col gap-stack-lg',
@@ -146,7 +192,7 @@ export const AuthShell: React.FC<AuthShellProps> = ({
             {/* Inner highlight on top edge for glass premium feel */}
             <span
               aria-hidden="true"
-              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent rounded-t-lg"
+              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent rounded-t-xl"
             />
 
             {/* Branding */}
@@ -155,11 +201,14 @@ export const AuthShell: React.FC<AuthShellProps> = ({
                 <span className="inline-flex items-center justify-center w-16 h-16 rounded-pill bg-white/15 backdrop-blur-glass-light border border-white/25 shadow-sm">
                   {brandContent.icon}
                 </span>
-                <h1 className="font-display text-h2 font-bold text-white tracking-tight text-balance">
+                {/* Le titre de la page : h1 à 36, sur le jeton (2026-09-24). Il était
+                    dessiné en h2 (28) avec un `font-bold` et un `tracking-tight`
+                    que le jeton porte déjà — le second écrasait le -0,03em du h1. */}
+                <h1 className="font-display text-h1 text-white text-balance">
                   {brandContent.title}
                 </h1>
                 {brandContent.subtitle && (
-                  <p className="font-body text-body-sm text-white/75 m-0">
+                  <p className="font-body text-body text-white m-0">
                     {brandContent.subtitle}
                   </p>
                 )}
@@ -172,13 +221,13 @@ export const AuthShell: React.FC<AuthShellProps> = ({
 
           {/* Optional aside content (e.g. recommendations on ResetPassword) */}
           {aside && (
-            <aside className="rounded-lg px-6 py-stack-md bg-white/8 backdrop-blur-glass-light border border-white/15 text-white/85">
+            <aside className="rounded-xl px-6 py-stack-md bg-white/8 backdrop-blur-glass-light border border-white/15 text-white">
               {aside}
             </aside>
           )}
 
           {/* Footer */}
-          <p className="text-center text-caption text-white/60 m-0">
+          <p className="text-center text-caption text-white m-0">
             {footer ?? defaultFooter}
           </p>
         </div>
@@ -208,11 +257,11 @@ export const AuthBackLink: React.FC<AuthBackLinkProps> = ({ label, onClick, clas
     className={[
       'inline-flex items-center gap-stack-2xs self-start',
       'bg-transparent border-0 p-0 cursor-pointer',
-      'text-body-sm font-medium text-white/90 hover:text-white transition-colors',
+      'text-body font-semibold text-white hover:text-white transition-colors',
       className,
     ].filter(Boolean).join(' ')}
   >
-    <ArrowLeft size={14} />
+    <ArrowLeft size={16} />
     {label}
   </button>
 );
@@ -227,7 +276,12 @@ export const AuthDivider: React.FC<AuthDividerProps> = ({
 }) => (
   <div className="flex items-center gap-stack-xs my-1">
     <span aria-hidden className="h-px flex-1 bg-white/20" />
-    <p className="m-0 text-micro text-white/70 uppercase tracking-wider font-semibold whitespace-nowrap">
+    {/* 13 / 400 en casse normale : une légende entre deux groupes. Le `micro`
+        en capitales est le registre du `Badge` (doctrine, échelle). Blanc plein,
+        le maximum que le texte puisse donner : même ainsi, 4,4:1 mesuré le 24/09
+        — c'est le fond de la coque (dégradé parti de primary-600) qui manque
+        d'encre, pas ce libellé. */}
+    <p className="text-caption text-white whitespace-nowrap">
       {children}
     </p>
     <span aria-hidden className="h-px flex-1 bg-white/20" />
@@ -239,8 +293,9 @@ export interface AuthSocialButtonProps extends React.ButtonHTMLAttributes<HTMLBu
 }
 
 /**
- * Social provider button (Google, LinkedIn, etc.) — white card on glass dark.
- * Pass `icon` (provider logo) + label as children.
+ * Social provider button (Google, LinkedIn, etc.) — contour blanc sur la coque,
+ * le niveau d'`AuthGhostButton` (`NIVEAU_CONTOUR`) : une autre façon d'entrer,
+ * pas l'action principale. Pass `icon` (provider logo) + label as children.
  */
 export const AuthSocialButton: React.FC<AuthSocialButtonProps> = ({
   icon,
@@ -251,13 +306,11 @@ export const AuthSocialButton: React.FC<AuthSocialButtonProps> = ({
   <button
     type="button"
     className={[
-      'inline-flex items-center justify-center gap-stack-xs h-12 px-4',
+      'inline-flex items-center justify-center gap-stack-xs',
+      TAILLE_BOUTON,
       RAYON_BOUTON,
-      'bg-white text-ink-900 text-body-sm font-semibold cursor-pointer transition-all',
-      /* Soulèvement retiré le 2026-09-17 — même motif que S1 sur Button.tsx :
-         il datait l'interface, déplaçait le contenu sous le curseur et
-         n'existait pas sur mobile. L'ombre reste (canon bouton). */
-      'hover:bg-ink-50 hover:shadow-md',
+      /* Il était en blanc plein, comme l'aplat — voir `NIVEAU_CONTOUR`. */
+      NIVEAU_CONTOUR,
       'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white',
       className,
     ]
@@ -286,7 +339,7 @@ export const AuthSuccess: React.FC<AuthSuccessProps> = ({ icon, title, descripti
     <div className="flex flex-col gap-stack-xs">
       <h3 className="font-display text-h3 font-bold text-white">{title}</h3>
       {description && (
-        <p className="m-0 text-body-sm text-white/75 max-w-[44ch]">{description}</p>
+        <p className="m-0 text-body text-white max-w-[44ch]">{description}</p>
       )}
     </div>
     {children && <div className="mt-2 w-full">{children}</div>}
@@ -304,7 +357,7 @@ export const AuthInlineLink: React.FC<React.ButtonHTMLAttributes<HTMLButtonEleme
   <button
     type="button"
     className={[
-      'bg-transparent border-0 p-0 cursor-pointer text-body-sm font-semibold text-white underline-offset-4 hover:underline transition-colors',
+      'bg-transparent border-0 p-0 cursor-pointer text-body font-semibold text-white underline-offset-4 hover:underline transition-colors',
       className,
     ]
       .filter(Boolean)
@@ -350,7 +403,7 @@ export const AuthFeature: React.FC<AuthFeatureProps> = ({
       {icon}
       {title}
     </h4>
-    {description && <p className="m-0 text-body-sm text-white/75">{description}</p>}
+    {description && <p className="m-0 text-body text-white">{description}</p>}
   </div>
 );
 
@@ -414,15 +467,15 @@ export const AuthPasswordField: React.FC<AuthPasswordFieldProps> = ({
       label={label}
       placeholder={placeholder}
       type={show ? 'text' : 'password'}
-      icon={showLockIcon ? <Lock size={18} /> : undefined}
+      icon={showLockIcon ? <Lock size={20} /> : undefined}
       trailing={
         <button
           type="button"
           onClick={() => setShow((s) => !s)}
           aria-label={show ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
-          className="bg-transparent border-0 p-1 cursor-pointer text-white/85 hover:text-white transition-colors inline-flex items-center justify-center"
+          className="bg-transparent border-0 p-1 cursor-pointer text-white hover:text-white transition-colors inline-flex items-center justify-center"
         >
-          {show ? <EyeOff size={18} /> : <Eye size={18} />}
+          {show ? <EyeOff size={20} /> : <Eye size={20} />}
         </button>
       }
       {...rest}
@@ -442,9 +495,10 @@ export const AuthPrimaryButton: React.FC<React.ButtonHTMLAttributes<HTMLButtonEl
 }) => (
   <button
     className={[
-      'inline-flex items-center justify-center gap-stack-xs w-full h-12 px-4',
+      'inline-flex items-center justify-center gap-stack-xs w-full',
+      TAILLE_BOUTON,
       RAYON_BOUTON,
-      'bg-white text-ink-900 text-body font-semibold cursor-pointer transition-all',
+      'bg-white text-ink-900 cursor-pointer transition-all',
       'shadow-md hover:bg-ink-50 hover:shadow-lg',
       'disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-md',
       'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white',
@@ -460,7 +514,8 @@ export const AuthPrimaryButton: React.FC<React.ButtonHTMLAttributes<HTMLButtonEl
 
 /**
  * AuthGhostButton — outlined white-border button on dark for secondary actions
- * (e.g. "Retour connexion" next to a primary CTA).
+ * (e.g. "Retour connexion" next to a primary CTA). Niveau `NIVEAU_CONTOUR`,
+ * partagé avec `AuthSocialButton`.
  */
 export const AuthGhostButton: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({
   children,
@@ -470,10 +525,10 @@ export const AuthGhostButton: React.FC<React.ButtonHTMLAttributes<HTMLButtonElem
   <button
     type="button"
     className={[
-      'inline-flex items-center justify-center gap-stack-xs w-full h-12 px-4',
+      'inline-flex items-center justify-center gap-stack-xs w-full',
+      TAILLE_BOUTON,
       RAYON_BOUTON,
-      'bg-transparent text-white border border-white/30 text-body font-semibold cursor-pointer transition-all',
-      'hover:bg-white/10 hover:border-white/50',
+      NIVEAU_CONTOUR,
       'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white',
       className,
     ]
@@ -523,9 +578,9 @@ export const AuthCheckbox: React.FC<AuthCheckboxProps> = ({
     />
     <span
       aria-hidden
-      className="mt-0.5 inline-flex items-center justify-center w-5 h-5 shrink-0 rounded-sm border-2 border-white/40 bg-white/10 transition-all peer-checked:bg-white peer-checked:border-white after:content-['✓'] after:text-primary-700 after:font-bold after:text-[13px] after:opacity-0 peer-checked:after:opacity-100"
+      className="mt-0.75 inline-flex items-center justify-center w-5 h-5 shrink-0 rounded-sm border-2 border-white/40 bg-white/10 transition-all peer-checked:bg-white peer-checked:border-white after:content-['✓'] after:text-primary-700 after:font-bold after:text-caption after:opacity-0 peer-checked:after:opacity-100"
     />
-    <span className="text-body-sm text-white/85 leading-snug">{label}</span>
+    <span className="text-body text-white">{label}</span>
   </label>
 );
 

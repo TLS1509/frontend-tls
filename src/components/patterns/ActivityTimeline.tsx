@@ -19,11 +19,13 @@ export interface ActivityTimelineProps {
 }
 
 const TONE_DOT: Record<TimelineTone, string> = {
-  primary: 'bg-gradient-to-br from-primary-400 to-primary-600 text-white shadow-brand-sm ring-primary-100',
-  warm:    'bg-gradient-to-br from-secondary-400 to-secondary-600 text-white shadow-md ring-secondary-100',
+  // Pastille d'icône : 3:1 à l'arrêt le plus clair — 600 pour le teal et l'orange,
+  // 700 pour l'or (le blanc y mesure 3,66 · 3,98 · 4,88).
+  primary: 'bg-gradient-to-br from-primary-600 to-primary-700 text-white shadow-brand-sm ring-primary-100',
+  warm:    'bg-gradient-to-br from-secondary-600 to-secondary-700 text-white shadow-md ring-secondary-100',
   sun:     'bg-gradient-to-br from-accent-300 to-accent-500 text-accent-900 shadow-md ring-accent-100',
   success: 'bg-gradient-to-br from-success-base to-success-fg text-white shadow-md ring-success-bg',
-  warning: 'bg-gradient-to-br from-accent-400 to-accent-600 text-white shadow-md ring-accent-100',
+  warning: 'bg-gradient-to-br from-accent-700 to-accent-800 text-white shadow-md ring-accent-100',
 };
 
 export const ActivityTimeline: React.FC<ActivityTimelineProps> = ({
@@ -37,8 +39,11 @@ export const ActivityTimeline: React.FC<ActivityTimelineProps> = ({
         {items.map((item, index) => {
           const tone = item.tone || 'primary';
           const isLast = index >= items.length - 1;
+          /* Un jalon « en cours » ne pulse plus (2026-09-24) : pas de mouvement
+             permanent pour dire un état (arbitrage n°16) — il se lit à sa
+             pastille pleine, entre les jalons faits et ceux « à venir »
+             (pointillés), et à son titre. */
           const isPending = item.status === 'pending';
-          const isInProgress = item.status === 'in-progress';
 
           return (
             <li key={item.id} className="group relative flex items-start gap-stack">
@@ -57,7 +62,6 @@ export const ActivityTimeline: React.FC<ActivityTimelineProps> = ({
                       isPending
                         ? 'bg-white text-ink-600 ring-ink-100 border-2 border-dashed border-ink-300'
                         : TONE_DOT[tone],
-                      isInProgress ? 'animate-pulse' : '',
                     ]
                       .filter(Boolean)
                       .join(' ')}
@@ -70,7 +74,6 @@ export const ActivityTimeline: React.FC<ActivityTimelineProps> = ({
                     className={[
                       'w-3 h-3 rounded-pill ring-4 mt-3.5 ml-3.5',
                       isPending ? 'bg-white border-2 border-ink-300 ring-ink-100' : TONE_DOT[tone],
-                      isInProgress ? 'animate-pulse' : '',
                     ]
                       .filter(Boolean)
                       .join(' ')}
@@ -78,23 +81,29 @@ export const ActivityTimeline: React.FC<ActivityTimelineProps> = ({
                 )}
               </div>
 
-              <div className="flex-1 min-w-0 pb-1">
+              {/* Rangée de fil (passe typographique du 2026-09-24) : titre 16/600,
+                  texte 16/400 ink-700, date 13/400 ink-600 sur la ligne de base.
+                  `pt-stack-2xs` recentre la première ligne sur la pastille de
+                  40 px (6 + 13 = 19, contre 20) — le point de 12 px, posé à 14,
+                  a le même centre. Un jalon « à venir » passe à ink-600, pas
+                  ink-500 : ce cran est réservé aux textes indicatifs. */}
+              <div className="flex-1 min-w-0 pt-stack-2xs pb-stack-3xs">
                 <div className="flex items-baseline justify-between gap-stack-xs flex-wrap">
-                  <h3
+                  <p
                     className={[
-                      'text-body-sm font-semibold leading-snug',
-                      isPending ? 'text-ink-500' : 'text-ink-900',
+                      'm-0 text-body font-semibold',
+                      isPending ? 'text-ink-600' : 'text-ink-900',
                     ].join(' ')}
                   >
                     {item.title}
-                  </h3>
-                  <time className="text-micro text-ink-600 font-medium whitespace-nowrap">
+                  </p>
+                  <time className="text-caption text-ink-600 whitespace-nowrap tabular-nums">
                     {item.timestamp}
                   </time>
                 </div>
 
                 {item.description && (
-                  <p className="m-0 mt-1 text-caption text-ink-500 leading-relaxed">
+                  <p className="m-0 mt-stack-3xs text-body text-ink-700">
                     {item.description}
                   </p>
                 )}

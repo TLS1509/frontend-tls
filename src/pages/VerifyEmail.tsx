@@ -56,38 +56,42 @@ export const VerifyEmail: React.FC = () => {
     <AuthShell
       brand={{
         icon: <MailCheck size={24} strokeWidth={1.75} className="text-white" />,
-        title: 'Vérifie ton email',
-        subtitle: 'Une dernière étape pour activer ton compte',
+        title: 'Vérifiez votre email',
+        subtitle: 'Une dernière étape pour activer votre compte',
       }}
       backLink={{ label: 'Retour à la connexion', onClick: () => navigate('/auth/login') }}
       form={
         !verified ? (
           <div className="flex flex-col gap-stack">
             {/* Inbox visual */}
-            <div className="flex flex-col items-center gap-stack-xs p-stack-lg rounded-lg bg-white/10 border border-white/20 backdrop-blur-glass-light">
-              <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white/15 border border-white/25 text-white">
+            <div className="flex flex-col items-center gap-stack-xs p-stack-lg rounded-lg bg-ink-900/20 border border-white/20">
+              <div className="inline-flex items-center justify-center w-14 h-14 rounded-lg bg-white/15 border border-white/25 text-white">
                 <Inbox size={24} strokeWidth={1.75} />
               </div>
-              <div className="flex flex-col items-center text-center gap-tight">
-                <p className="m-0 font-body text-body-sm text-white/70">
+              <div className="flex flex-col items-center text-center gap-stack-3xs">
+                <p className="font-body text-body text-white">
                   Lien envoyé à
                 </p>
-                <p className="m-0 font-display text-body font-semibold text-white">
+                <p className="font-body text-body font-semibold text-white">
                   {email}
                 </p>
               </div>
             </div>
 
-            <p className="m-0 font-body text-body-sm text-white/75 text-center">
-              Clique sur le lien de confirmation reçu dans ta boîte de réception pour activer ton compte.
-              Vérifie aussi tes spams si besoin.
+            {/* Centré, donc deux lignes au plus (doctrine § 3) : il en faisait
+                trois. Même sens, moins de mots. */}
+            <p className="font-body text-body text-white text-center">
+              Cliquez sur le lien reçu pour activer votre compte. Pensez à vérifier vos spams.
             </p>
 
             <div className="flex flex-col gap-stack-xs">
-              {/* Demo button : would not exist in prod; simulates clicking the email link */}
-              <AuthPrimaryButton onClick={handleSimulateClick}>
-                Simuler la vérification (démo)
-              </AuthPrimaryButton>
+              {/* Bouton de démo : simule le clic sur le lien reçu. DEV seulement —
+                  en production, c'est le lien de l'e-mail qui vérifie. */}
+              {import.meta.env.DEV && (
+                <AuthPrimaryButton onClick={handleSimulateClick}>
+                  Simuler la vérification (démo)
+                </AuthPrimaryButton>
+              )}
 
               <AuthGhostButton onClick={handleResend} disabled={cooldown > 0}>
                 <span className="inline-flex items-center gap-stack-xs">
@@ -97,15 +101,15 @@ export const VerifyEmail: React.FC = () => {
               </AuthGhostButton>
             </div>
 
-            <p className="m-0 font-body text-caption text-white/60 text-center leading-relaxed">
+            <p className="font-body text-body text-white text-center">
               Mauvaise adresse email ? <AuthInlineLink onClick={() => navigate('/auth/signup')}>Modifier l'inscription</AuthInlineLink>
             </p>
           </div>
         ) : (
           <AuthSuccess
             icon={<CheckCircle2 size={32} />}
-            title="Email vérifié !"
-            description="Ton compte est actif. Continue ton inscription en choisissant ta formule d'abonnement."
+            title="Email vérifié"
+            description="Votre compte est actif. Poursuivez votre inscription en choisissant votre formule d'abonnement."
           >
             <div className="flex flex-col gap-stack-xs">
               <AuthPrimaryButton onClick={handleContinue}>

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight, BarChart2, Flame, Rocket, Sparkles, Sprout, Star, Target, X } from 'lucide-react';
 import { Button } from '../core/Button';
+import { IconChip } from '../ui/IconChip';
 import { CARD_HOVER_NEUTRE } from '../../lib/tone-classes';
+import { useDialog } from '../../hooks/useDialog';
 
 /**
  * PositionnementModal — Auto-évaluation des compétences avant un parcours
@@ -24,6 +26,10 @@ interface Level {
   color: string;
   colorLight: string;
   glowColor: string;
+  /** Couleur du libellé une fois le niveau choisi. `color` reste le filet et
+      le halo : c'est un remplissage, il ne passe pas en texte (1,52 à 2,63:1
+      sur la carte teintée). Ces crans passent 4,5:1 sur le même fond. */
+  textClass: string;
 }
 
 interface PositionnementModalProps {
@@ -41,29 +47,29 @@ const DEFAULT_QUESTIONS: Question[] = [
   {
     id: 1,
     title: 'Maîtrise des outils numériques',
-    description: 'Comment évaluez-vous votre niveau actuel ?',
+    description: 'Comment évalues-tu ton niveau actuel ?',
     competenceKey: 'outils_numeriques',
   },
   {
     id: 2,
     title: 'Analyse de données',
-    description: 'Quelle est votre aisance avec les statistiques ?',
+    description: 'Quelle est ton aisance avec les statistiques ?',
     competenceKey: 'analyse_donnees',
   },
   {
     id: 3,
     title: 'Communication digitale',
-    description: 'Comment vous situez-vous en communication en ligne ?',
+    description: 'Comment te situes-tu en communication en ligne ?',
     competenceKey: 'communication_digitale',
   },
 ];
 
 const LEVELS: Level[] = [
-  { id: 'debutant',      icon: <Sprout size={40} strokeWidth={1.5} />, label: 'Débutant',      description: 'Je découvre',      value: 1, color: '#FFC15A', colorLight: 'rgba(255,193,90,0.12)',  glowColor: 'rgba(255,193,90,0.35)' },
-  { id: 'novice',        icon: <Flame size={40} strokeWidth={1.5} />,  label: 'Novice',        description: 'Bases acquises',   value: 2, color: '#F8B044', colorLight: 'rgba(248,176,68,0.12)',  glowColor: 'rgba(248,176,68,0.35)' },
-  { id: 'intermediaire', icon: <Target size={40} strokeWidth={1.5} />, label: 'Intermédiaire', description: 'Autonome',         value: 3, color: '#f49a76', colorLight: 'rgba(244,154,118,0.12)', glowColor: 'rgba(244,154,118,0.35)' },
-  { id: 'avance',        icon: <Rocket size={40} strokeWidth={1.5} />, label: 'Avancé',        description: "Très à l'aise",   value: 4, color: '#55A1B4', colorLight: 'rgba(85,161,180,0.12)',  glowColor: 'rgba(85,161,180,0.35)' },
-  { id: 'expert',        icon: <Star size={40} strokeWidth={1.5} />,   label: 'Expert',        description: 'Maîtrise totale',  value: 5, color: '#9dbeba', colorLight: 'rgba(157,190,186,0.12)', glowColor: 'rgba(157,190,186,0.35)' },
+  { id: 'debutant',      icon: <Sprout size={40} strokeWidth={1.5} />, label: 'Débutant',      description: 'Je découvre',      value: 1, textClass: 'text-accent-700',    color: '#FFC15A', colorLight: 'rgba(255,193,90,0.12)',  glowColor: 'rgba(255,193,90,0.35)' },
+  { id: 'novice',        icon: <Flame size={40} strokeWidth={1.5} />,  label: 'Novice',        description: 'Bases acquises',   value: 2, textClass: 'text-accent-800',    color: '#F8B044', colorLight: 'rgba(248,176,68,0.12)',  glowColor: 'rgba(248,176,68,0.35)' },
+  { id: 'intermediaire', icon: <Target size={40} strokeWidth={1.5} />, label: 'Intermédiaire', description: 'Autonome',         value: 3, textClass: 'text-secondary-700', color: '#f49a76', colorLight: 'rgba(244,154,118,0.12)', glowColor: 'rgba(244,154,118,0.35)' },
+  { id: 'avance',        icon: <Rocket size={40} strokeWidth={1.5} />, label: 'Avancé',        description: "Très à l'aise",   value: 4, textClass: 'text-primary-800',   color: '#55A1B4', colorLight: 'rgba(85,161,180,0.12)',  glowColor: 'rgba(85,161,180,0.35)' },
+  { id: 'expert',        icon: <Star size={40} strokeWidth={1.5} />,   label: 'Expert',        description: 'Maîtrise totale',  value: 5, textClass: 'text-success-fg',    color: '#9dbeba', colorLight: 'rgba(157,190,186,0.12)', glowColor: 'rgba(157,190,186,0.35)' },
 ];
 
 const SUCCESS_FEATURES = [
@@ -82,6 +88,8 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
   onStartCourse,
   onPositionnementComplete,
 }) => {
+  // Comportement de dialogue partagé (APG) : focus entrant, Tab piégé, Échap, focus rendu.
+  const dialog = useDialog<HTMLDivElement>(isOpen, onClose);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [responses, setResponses] = useState<Record<number, string>>({});
   const [selectedLevel, setSelectedLevel] = useState<string | null>(null);
@@ -139,31 +147,30 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
     >
       {/* Modal container */}
       <div
+        ref={dialog.ref} role="dialog" aria-modal="true" aria-labelledby={dialog.titleId} tabIndex={-1}
         onClick={(e) => e.stopPropagation()}
         className="relative w-full max-w-[880px] bg-gradient-to-br from-primary-50 to-accent-50/95 rounded-2xl border border-ink-200 shadow-modal overflow-hidden animate-modal-in"
       >
         {/* Close */}
-        <button
-          onClick={onClose}
-          className="absolute top-5 right-5 w-9 h-9 rounded-pill bg-white border border-ink-200 flex items-center justify-center cursor-pointer text-ink-600 hover:bg-danger-bg hover:text-danger-fg transition-all z-10 p-0"
-          aria-label="Fermer"
-        >
-          <X size={16} />
-        </button>
+        <Button iconOnly size="sm" emphasis="ghost" tone="neutral" onClick={onClose} aria-label="Fermer" className="absolute top-5 right-5 z-10">
+          <X />
+        </Button>
 
         <div className="p-8">
           {!isCompleted ? (
             <>
               {/* Header + progress */}
               <div className="mb-stack-lg">
-                <p className="text-caption font-semibold text-primary-600 uppercase tracking-[0.06em] mb-1">
+                {/* Surtitre : le lieu, en légende 13/600 ink-600 — il était en
+                    capitales espacées primary-700. */}
+                <p className="text-caption font-semibold text-ink-600 mb-stack-3xs">
                   {courseTitle}
                 </p>
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-caption text-ink-600">
+                  <span className="text-caption text-ink-600 tabular-nums">
                     Question {currentIndex + 1} / {questions.length}
                   </span>
-                  <span className="text-caption font-bold text-primary-600">
+                  <span className="text-caption font-semibold text-primary-800 tabular-nums">
                     {Math.round(progress)}%
                   </span>
                 </div>
@@ -177,10 +184,10 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
 
               {/* Question card */}
               <div className="bg-white rounded-xl p-stack-lg shadow-md mb-stack-lg border border-ink-200">
-                <h2 className="text-h3 text-ink-900 leading-snug mb-2">
+                <h2 id={dialog.titleId} className="font-display text-h3 text-ink-900 text-balance">
                   {currentQuestion.title}
                 </h2>
-                <p className="text-body text-ink-600">
+                <p className="mt-stack-xs font-body text-body text-ink-700">
                   {currentQuestion.description}
                 </p>
               </div>
@@ -213,12 +220,11 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
                     >
                       <span className="inline-flex items-center justify-center">{level.icon}</span>
                       <span
-                        className="text-caption font-bold text-center text-ink-900"
-                        style={{ color: isSelected ? level.color : undefined }}
+                        className={`text-caption font-semibold text-center ${isSelected ? level.textClass : 'text-ink-900'}`}
                       >
                         {level.label}
                       </span>
-                      <span className="text-micro text-ink-600 text-center">
+                      <span className="text-caption text-ink-600 text-center">
                         {level.description}
                       </span>
                     </button>
@@ -226,16 +232,17 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
                 })}
               </div>
 
-              {/* Next button */}
+              {/* Suivant : l'action principale d'un parcours pas à pas, donc le
+                  `solid` de la modale (arbitrage n°19). */}
               <div className="flex justify-end">
                 <Button
-                  emphasis="soft"
+                  emphasis="solid"
                   size="lg"
                   disabled={!canProceed}
                   trailingIcon={<ArrowRight size={18} />}
                   onClick={handleNext}
                 >
-                  {isLastQuestion ? 'Terminer' : 'Suivant'}
+                  {isLastQuestion ? 'Valider' : 'Suivant'}
                 </Button>
               </div>
             </>
@@ -243,38 +250,37 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
             /* Success screen */
             <div className="flex flex-col gap-stack animate-modal-in">
               <div className="bg-white rounded-xl p-stack-lg border border-primary-500/20 shadow-lg text-center">
-                <div className="inline-flex gap-stack-xs mb-stack-md p-3 rounded-xl bg-ink-50">
+                <div className="inline-flex gap-stack-xs p-3 rounded-xl bg-ink-50">
                   {([<Target size={20} strokeWidth={1.75} />, <Star size={20} strokeWidth={1.75} />, <Rocket size={20} strokeWidth={1.75} />] as React.ReactNode[]).map((icon, i) => (
-                    <div
-                      key={i}
-                      className="w-11 h-11 rounded-lg bg-primary-100 flex items-center justify-center text-primary-600"
-                    >
+                    <IconChip key={i} size="lg" tone="brand">
                       {icon}
-                    </div>
+                    </IconChip>
                   ))}
                 </div>
-                <h3 className="text-h3 text-ink-900 mb-2">Votre profil est prêt !</h3>
-                <p className="text-body text-ink-600 mb-stack-lg">
-                  Le parcours va maintenant s'adapter à votre niveau.
+                {/* h2 et id du dialogue : c'est lui qui le nomme une fois les
+                    questions passées (il était en h3, sans h2 au-dessus). */}
+                <h2 id={dialog.titleId} className="mt-stack-md font-display text-h3 text-ink-900">Ton profil est prêt.</h2>
+                <p className="mt-stack-xs font-body text-body text-ink-700 mb-stack-lg">
+                  Le parcours va maintenant s'adapter à ton niveau.
                 </p>
 
                 <div className="grid grid-cols-3 gap-stack-xs mb-stack-md">
                   {SUCCESS_FEATURES.map((f, i) => (
                     <div key={i} className={`p-4 rounded-lg bg-ink-50 border ${f.borderClass}`}>
                       <div className="inline-flex items-center justify-center mb-2 text-ink-700">{f.icon}</div>
-                      <p className="text-caption font-semibold text-ink-900 leading-snug">{f.label}</p>
+                      <p className="text-caption font-semibold text-ink-900">{f.label}</p>
                     </div>
                   ))}
                 </div>
 
                 <div className="flex gap-stack-xs p-stack rounded-lg bg-primary-50 border border-primary-500/20 text-left">
-                  <div className="shrink-0 w-9 h-9 rounded-md bg-primary-500 flex items-center justify-center">
+                  <div className="shrink-0 w-9 h-9 rounded-md bg-primary-600 flex items-center justify-center">
                     <Sparkles size={18} className="text-white" />
                   </div>
                   <div>
-                    <p className="text-caption font-bold text-primary-600 mb-1">🔮 Prochainement : Adaptive Learning</p>
-                    <p className="text-caption text-ink-600 leading-relaxed">
-                      Votre <strong>Passport de Compétences</strong> personnalisera le contenu en fonction de votre progression.
+                    <p className="text-caption font-semibold text-primary-800 mb-stack-3xs">🔮 Prochainement : Adaptive Learning</p>
+                    <p className="text-caption text-ink-600">
+                      Ton <strong>Passport de Compétences</strong> personnalisera le contenu en fonction de ta progression.
                     </p>
                   </div>
                 </div>
@@ -282,7 +288,7 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
 
               <div className="text-center p-3 rounded-lg bg-primary-500/6 animate-pulse">
                 <p className="text-caption text-ink-600">
-                  Redirection vers votre parcours dans quelques instants… 🎓
+                  Redirection vers ton parcours dans quelques instants… 🎓
                 </p>
               </div>
             </div>

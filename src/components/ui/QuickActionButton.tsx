@@ -21,12 +21,13 @@
 
 import React from 'react';
 import { ChevronRight } from 'lucide-react';
+import { IconChip, type IconChipTone, type IconChipSurface } from './IconChip';
 
 export type QuickActionTone = 'primary' | 'warm' | 'sun' | 'accent';
 export type QuickActionSurface = 'card' | 'tinted' | 'glass' | 'frosted';
 
 export interface QuickActionButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {
-  /** Lucide icon node (size 18-20 recommended). */
+  /** Icône Lucide. Sa taille propre est ignorée : la pastille (IconChip md) la met à 20 px. */
   icon: React.ReactNode;
   /** Main label — 1 line, bold. */
   label: string;
@@ -38,18 +39,22 @@ export interface QuickActionButtonProps extends Omit<React.ButtonHTMLAttributes<
   surface?: QuickActionSurface;
 }
 
-const TONE_BUBBLE: Record<QuickActionTone, string> = {
-  primary: 'bg-primary-50 text-primary-600 group-hover:bg-primary-100',
-  warm:    'bg-secondary-50 text-secondary-600 group-hover:bg-secondary-100',
-  sun:     'bg-accent-50 text-accent-700 group-hover:bg-accent-100',
-  accent:  'bg-accent-50 text-accent-700 group-hover:bg-accent-100',
+/* La pastille est un `IconChip` md (40 px, `rounded-md`) depuis le 2026-09-24 —
+   arbitrage n°3 : elle était faite main, à 14 px de rayon, glyphe au cran 600.
+   Sur la surface `tinted` (voile du cran 50), elle monte au cran 100 pour ne
+   pas se fondre dans le bouton (arbitrage n°10). */
+const TONE_PASTILLE: Record<QuickActionTone, IconChipTone> = {
+  primary: 'brand',
+  warm:    'warm',
+  sun:     'sun',
+  accent:  'sun',
 };
 
-const TONE_BORDER: Record<QuickActionTone, string> = {
-  primary: 'border-primary-100 hover:border-primary-300',
-  warm:    'border-secondary-100 hover:border-secondary-300',
-  sun:     'border-accent-200 hover:border-accent-400',
-  accent:  'border-accent-200 hover:border-accent-400',
+const SURFACE_PASTILLE: Record<QuickActionSurface, IconChipSurface> = {
+  card:    'default',
+  tinted:  'tinted',
+  glass:   'default',
+  frosted: 'default',
 };
 
 const TONE_CHEVRON: Record<QuickActionTone, string> = {
@@ -93,8 +98,14 @@ const SURFACE_TONE: Record<QuickActionSurface, Record<QuickActionTone, string>> 
   },
 };
 
+/* Rayon de contrôle, 14 px (`rounded-lg`) — corrigé le 2026-09-24. Il portait
+   le rayon d'une carte (20) : c'est un bouton, l'étage interactif de l'échelle
+   (doctrine § Rayons). À 20, la pastille posée à 17 × 18 px du coin tombait
+   dans le régime concentrique et aurait dû s'arrondir à 2 px — 4 coins hors
+   règle sur la vitrine. À 14, le retrait dépasse le rayon : la pastille garde
+   le sien (forme fixe). */
 const BASE =
-  'group flex items-center gap-stack-xs w-full px-4 py-3 rounded-xl border text-left cursor-pointer transition-[background-color,border-color,box-shadow,transform] duration-base ease-emphasis hover:shadow-sm active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-disabled disabled:cursor-not-allowed disabled:hover:shadow-none';
+  'group flex items-center gap-stack-xs w-full px-stack py-stack-sm rounded-lg border text-left cursor-pointer transition-[background-color,border-color,box-shadow,transform] duration-base ease-emphasis hover:shadow-sm active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-disabled disabled:cursor-not-allowed disabled:hover:shadow-none';
 
 export const QuickActionButton: React.FC<QuickActionButtonProps> = ({
   icon,
@@ -115,24 +126,18 @@ export const QuickActionButton: React.FC<QuickActionButtonProps> = ({
 
   return (
     <button type="button" className={classes} disabled={disabled} {...rest}>
-      {/* Icon bubble */}
-      <span
-        aria-hidden="true"
-        className={[
-          'inline-flex items-center justify-center w-10 h-10 rounded-lg shrink-0 transition-[background-color] duration-fast ease-emphasis',
-          TONE_BUBBLE[tone],
-        ].join(' ')}
-      >
+      <IconChip size="md" tone={TONE_PASTILLE[tone]} surface={SURFACE_PASTILLE[surface]}>
         {icon}
-      </span>
+      </IconChip>
 
-      {/* Label + optional subtitle */}
-      <span className="flex-1 min-w-0 flex flex-col gap-tight">
-        <span className="font-display text-body-sm font-bold text-ink-900 truncate">
+      {/* Label + optional subtitle — libellé 16/700, 4 px, sous-titre en
+          légende ink-600 (la méta : ink-500 est réservé aux placeholders). */}
+      <span className="flex-1 min-w-0 flex flex-col gap-stack-3xs">
+        <span className="font-display text-body font-bold text-ink-900 truncate">
           {label}
         </span>
         {subtitle && (
-          <span className="font-body text-caption text-ink-500 leading-snug truncate">
+          <span className="font-body text-caption text-ink-600 truncate">
             {subtitle}
           </span>
         )}

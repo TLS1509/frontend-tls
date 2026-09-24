@@ -45,11 +45,13 @@ export const BottomNav: React.FC = () => {
               aria-current={active ? 'page' : undefined}
               aria-label={label}
               className={[
-                'flex-1 flex flex-col items-center justify-center gap-tight',
+                // Icône ↔ libellé : 4 px, un écart « dans le groupe ». `gap-tight`
+                // (2) ne sépare que deux lignes d'un même énoncé.
+                'flex-1 flex flex-col items-center justify-center gap-stack-3xs',
                 'min-h-touch cursor-pointer transition-colors duration-fast',
                 'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                 // primary-600 sur blanc = 3,66:1 — sous les 4,5 exigés pour un
-                // label de 11 px (SC 1.4.3). 700 donne 5,02. Corrigé le 2026-09-16.
+                // label de 13 px (SC 1.4.3). 700 donne 5,02. Corrigé le 2026-09-16.
                 active ? 'text-primary-700' : 'text-ink-600 hover:text-ink-600',
               ].join(' ')}
             >
@@ -65,12 +67,14 @@ export const BottomNav: React.FC = () => {
                   aria-hidden="true"
                 />
               </span>
-              <span
-                className={[
-                  'font-body text-micro',
-                  active ? 'font-semibold' : 'font-normal',
-                ].join(' ')}
-              >
+              {/* 13/600 dans les deux états — révisé le 2026-09-24. Le libellé
+                  était à 11 px, le pas réservé aux étiquettes de `Badge`, et
+                  changeait de graisse à la sélection : le mot s'élargissait au
+                  toucher. L'état actif se dit par la pastille derrière l'icône,
+                  le trait plus épais et la couleur — pas par la graisse. Le plus
+                  long, « Coaching », fait 55 px pour un onglet de 75 (64 à 320 px
+                  de large) : mesuré le 2026-09-24. */}
+              <span className="font-body text-caption font-semibold">
                 {label}
               </span>
             </button>

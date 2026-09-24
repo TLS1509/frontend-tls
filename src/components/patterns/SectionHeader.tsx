@@ -1,81 +1,151 @@
 import React from 'react';
 import type { LucideIcon } from 'lucide-react';
+import { IconChip, type IconChipSize, type IconChipTone } from '../ui/IconChip';
+import { Button, type ButtonProps } from '../core/Button';
 
 /**
  * SectionHeader — Canonical section-level heading within a page.
  *
- * ── 5 variants (controls icon style) ──────────────────────────────────────
- *   - `default`   : icon in **soft tinted bubble** (bg-{tone}-50 + tone icon)
- *   - `solid`     : icon in **saturated tone bubble** (bg-{tone}-500 + white icon) — strong CTA
+ * ── 3 variants (controls icon style) ──────────────────────────────────────
+ *   - `default`   : icône dans une pastille `IconChip` (fond du ton au cran 50,
+ *                   glyphe au cran 800)
  *   - `minimal`   : **stroke-only icon** inline with title (no bubble) — premium/airy
- *   - `accent`    : **tone-colored vertical bar** before title + stroke icon optional
  *   - `underline` : title with **accent underline** + stroke icon optional
+ *   ⚠️ `solid` est déprécié depuis le 2026-09-24 et rend la même pastille que
+ *   `default`. C'était une pastille faite main (dégradé saturé, glyphe blanc,
+ *   ombre teintée) : l'arbitrage n°3 fait d'`IconChip` LA pastille d'icône, et
+ *   `solid` n'avait aucun usage produit.
+ *   ⚠️ `accent` (barre verticale colorée avant le titre) a été retirée le
+ *   2026-09-24 : zéro usage produit, et c'est le premier tell « AI slop » de la
+ *   doctrine (pas de barre d'accent à gauche).
  *
- * ── 4 sizes (controls heading + bubble) ───────────────────────────────────
- *   - `xs` : h5 (1.25rem) + 32px bubble — tight inline sections
- *   - `sm` : h4 (1.125rem) + 36px bubble — secondary sections
- *   - `md` : h3 (1.375rem) + 44px bubble — DEFAULT, main page sections
- *   - `lg` : h2 (1.75rem) + 56px bubble — page-level group titles
+ * ── La pastille : `IconChip` (arbitrage n°3, 2026-09-24) ──────────────────
+ *   Elle était faite main — 32 · 36 · 44 · 56 px, rayons 14 · 14 · 20 · 24 —
+ *   hors de l'échelle de la pastille d'icône. Et le glyphe du ton `sun`
+ *   (accent-600 sur accent-50) mesurait 2,76:1, sous le 3:1 d'un objet
+ *   graphique (WCAG 1.4.11). `IconChip` porte le glyphe au cran 800 : 6,31 à
+ *   9,49:1 selon le ton. `accent` y rejoint `sun` (même famille, l'or).
+ *
+ * ── 4 sizes — rangées sur l'échelle (passe typographique du 2026-09-24) ─────
+ *   L'échelle de l'app n'a que deux titres sous le h1 : la SECTION (h2, 28/36)
+ *   et le BLOC (h3, 20/26). `size` choisit l'un des deux, plus la pastille :
+ *   - `lg` : section 28 px + pastille 48 — titres de groupe au niveau de la page
+ *   - `md` : section 28 px + pastille 40 — DEFAULT, sections principales
+ *   - `sm` : bloc 20 px + pastille 32 — sous-sections
+ *   - `xs` : bloc 20 px + pastille 32, écart serré (8 au lieu de 12) — sections serrées
+ *   Avant, `md` rendait 20 px (le h3 depuis l'arbitrage n°21) : les sections
+ *   d'une page avaient la taille d'un titre de carte. Et `xs` était à 16 px,
+ *   un titre au corps du texte, hors de l'échelle des titres.
+ *
+ * ── L'action passe SOUS le titre quand la place manque (2026-09-24) ───────
+ *   L'en-tête est une rangée qui se replie (`flex-wrap`). Le bloc du titre
+ *   réclame au moins 16rem (256 px) à côté de l'action ; en dessous, l'action
+ *   descend à 8 px sous lui, calée à gauche. Avant, elle ne se repliait
+ *   jamais : à 375 px, dix titres de 28 px se cassaient sur deux lignes à côté
+ *   d'un bouton, et quatre débordaient (« Classement » comprimé à 45 px sous un
+ *   `SegmentedControl`, sur `/leaderboard`). La règle mesure la place réelle,
+ *   pas la fenêtre : elle joue aussi dans une colonne étroite du bureau (les
+ *   colonnes de 326 px du tableau de bord à 1024).
+ *
+ * ── Un `ghost` dans l'action se cale sur le bord (2026-09-24) ─────────────
+ *   Un `Button` passé en `action` reçoit `flush="both"` : s'il rend un
+ *   `ghost` (« Tout voir », « Ajouter »), son LIBELLÉ tombe sur le bord droit
+ *   de l'en-tête quand il est à côté du titre, et sur le bord gauche — celui
+ *   du titre — quand il passe dessous. Il gardait son padding : décalé de
+ *   16 px du bord dans les deux dispositions (mesuré sur neuf pages). Un
+ *   `soft` ou un `outline` montrent leur boîte, c'est elle qui s'aligne : la
+ *   prop est sans effet sur eux. Un appelant qui passe son propre `flush` le
+ *   garde. La boîte déborde de l'en-tête d'autant ; son fond n'apparaît qu'au
+ *   survol.
+ *
+ * ── Niveau de titre : prop `as` (h2 | h3 | h4), défaut h2 ─────────────────
+ * Indépendant de `size` (2026-09-24). Le composant émettait TOUJOURS un <h2>,
+ * y compris pour une section `xs` posée dans une carte sous un autre h2 : le
+ * plan du document était faux pour les lecteurs d'écran. La taille dit
+ * l'importance visuelle, `as` dit la place dans le plan — ce sont deux
+ * questions, et seule la page connaît la réponse à la seconde. Pour un bloc
+ * (`sm`, `xs`) sous une section, passer `as="h3"`.
+ *
+ * ── Sous-titre et méta ────────────────────────────────────────────────────
+ *   - `subtitle` : une phrase qui décrit la section — 16/26, ink-700,
+ *     plafonnée à `max-w-prose`, 4 px sous le titre.
+ *   - `meta` : une DONNÉE (« 12 apprenants », « 3 en attente ») — légende
+ *     13/20, ink-600. La donnée chuchote (doctrine § 6) : un compte posé en
+ *     `subtitle` prend la voix d'une description.
+ *
+ * ── Rythme — ce que la PAGE doit poser ────────────────────────────────────
+ * Le composant ne pose aucune marge externe (piège n°12). La doctrine demande
+ * un rapport de 3:1 autour d'un titre de section : **48 px au-dessus**
+ * (`gap-page` entre sections) et **16 px en dessous** (`gap-stack` entre
+ * l'en-tête et son contenu). `check-rythme` signale sous 1,5:1.
+ *
+ *   <PageShell>                                   // 48 px entre sections
+ *     <section className="flex flex-col gap-stack">  // 16 px titre → contenu
+ *       <SectionHeader title="…" />
+ *       …
+ *
+ * Graisse : 700 pour toutes les variantes (arbitrage n°12, un seul poids de
+ * titre dans l'app). L'interligne et le tracking sont ceux du token — rien
+ * n'est écrit à côté (`leading-tight` et `tracking-*` retirés le 2026-09-24).
  *
  * `compact` (deprecated alias) maps to `size="sm"` for backward compat.
  *
  * ── Tone (primary | warm | sun | accent | neutral) ────────────────────────
- * Drives icon color, bar gradient, underline color, and (for solid) bubble bg.
+ * Drives the chip tone, the inline icon color and the underline color.
  */
 
-export type SectionHeaderVariant = 'default' | 'solid' | 'minimal' | 'accent' | 'underline';
+export type SectionHeaderVariant =
+  | 'default'
+  /** @deprecated Rend la pastille `IconChip` de `default` depuis le 2026-09-24. */
+  | 'solid'
+  | 'minimal'
+  | 'underline';
+export type SectionHeaderLevel = 'h2' | 'h3' | 'h4';
 export type SectionHeaderTone = 'primary' | 'warm' | 'sun' | 'accent' | 'neutral';
 export type SectionHeaderSize = 'xs' | 'sm' | 'md' | 'lg';
 
 export interface SectionHeaderProps {
   icon?: LucideIcon | React.ReactNode;
   title: string;
+  /** Une phrase qui décrit la section — 16 px, ink-700. */
   subtitle?: string;
+  /** Une donnée sur la section (compte, statut chiffré) — légende 13 px, ink-600. */
+  meta?: React.ReactNode;
   action?: React.ReactNode;
   divider?: boolean;
-  /** Visual size — controls heading level (h2/h3/h4/h5) + bubble + glyph. Default `md`. */
+  /** Section (`md`, `lg` : 28 px) ou bloc (`sm`, `xs` : 20 px), plus la pastille. Default `md`. Does NOT set the heading level: see `as`. */
   size?: SectionHeaderSize;
+  /** Heading level in the document outline. Default `h2`. Independent of `size`. */
+  as?: SectionHeaderLevel;
   /** @deprecated Use `size="sm"`. Alias kept for backward compat. */
   compact?: boolean;
   variant?: SectionHeaderVariant;
   tone?: SectionHeaderTone;
   className?: string;
-  /** Override icon color class (e.g. "text-primary-600"). Used by `default` variant only. */
-  iconClassName?: string;
 }
 
 // ── Tone maps ────────────────────────────────────────────────────────────────
 
+/* Icône nue des variantes `minimal` et `underline` (objet graphique, WCAG
+   1.4.11 : 3:1). L'or monte au 700 : l'accent-600 mesurait 2,89 sur blanc,
+   le 700 mesure 4,88 (4,65 sur accent-50). Le teal et l'orange passent au 600
+   (3,66 · 3,98 sur blanc). */
 const TONE_ICON: Record<SectionHeaderTone, string> = {
   primary: 'text-primary-600',
   warm:    'text-secondary-600',
-  sun:     'text-accent-600',
+  sun:     'text-accent-700',
   accent:  'text-accent-700',
   neutral: 'text-ink-700',
 };
 
-const TONE_BUBBLE_BG: Record<SectionHeaderTone, string> = {
-  primary: 'bg-primary-50',
-  warm:    'bg-secondary-50',
-  sun:     'bg-accent-50',
-  accent:  'bg-accent-50',
-  neutral: 'bg-ink-50',
-};
-
-const TONE_SOLID_BG: Record<SectionHeaderTone, string> = {
-  primary: 'bg-gradient-to-br from-primary-500 to-primary-700 text-white shadow-brand-sm',
-  warm:    'bg-gradient-to-br from-secondary-500 to-secondary-700 text-white shadow-warm-sm',
-  sun:     'bg-gradient-to-br from-accent-400 to-accent-600 text-accent-900 shadow-sun-sm',
-  accent:  'bg-gradient-to-br from-accent-500 to-accent-700 text-white shadow-sun-sm',
-  neutral: 'bg-gradient-to-br from-ink-700 to-ink-900 text-white shadow-sm',
-};
-
-const TONE_BAR: Record<SectionHeaderTone, string> = {
-  primary: 'bg-gradient-to-b from-primary-400 to-primary-600',
-  warm:    'bg-gradient-to-b from-secondary-400 to-secondary-600',
-  sun:     'bg-gradient-to-b from-accent-300 to-accent-500',
-  accent:  'bg-gradient-to-b from-accent-400 to-accent-600',
-  neutral: 'bg-gradient-to-b from-ink-300 to-ink-500',
+/* La pastille parle le vocabulaire d'IconChip : `primary` s'y appelle `brand`,
+   et `accent` rejoint `sun` (la même famille, l'or). */
+const TONE_CHIP: Record<SectionHeaderTone, IconChipTone> = {
+  primary: 'brand',
+  warm:    'warm',
+  sun:     'sun',
+  accent:  'sun',
+  neutral: 'neutral',
 };
 
 const TONE_UNDERLINE: Record<SectionHeaderTone, string> = {
@@ -88,63 +158,46 @@ const TONE_UNDERLINE: Record<SectionHeaderTone, string> = {
 
 // ── Size maps ────────────────────────────────────────────────────────────────
 
+/* Deux pas seulement : la section (h2, 28/36) et le bloc (h3, 20/26). Le token
+   porte la taille, l'interligne, la graisse (700) et le tracking. */
 const SIZE_TITLE: Record<SectionHeaderSize, string> = {
-  xs: 'text-body font-semibold',
-  sm: 'text-h4',
-  md: 'text-h3',
+  xs: 'text-h3',
+  sm: 'text-h3',
+  md: 'text-h2',
   lg: 'text-h2',
 };
 
-// tracking-display (-0.03em) for lg, tracking-headline (-0.025em) for md/sm,
-// tracking-tight (Tailwind default -0.025em) for xs. Phase 19.D typography tightening.
-const SIZE_TRACKING: Record<SectionHeaderSize, string> = {
-  xs: 'tracking-tight',
-  sm: 'tracking-headline',
-  md: 'tracking-headline',
-  lg: 'tracking-display',
-};
-
-const SIZE_BUBBLE: Record<SectionHeaderSize, string> = {
-  xs: 'w-8 h-8',
-  sm: 'w-9 h-9',
-  md: 'w-11 h-11',
-  lg: 'w-14 h-14',
-};
-
-const SIZE_BUBBLE_RADIUS: Record<SectionHeaderSize, string> = {
-  xs: 'rounded-lg',
-  sm: 'rounded-lg',
-  md: 'rounded-xl',
-  lg: 'rounded-2xl',
+/* La pastille prend le cran d'IconChip le plus proche SOUS l'ancienne bulle
+   (32 · 36 · 44 · 56 → 32 · 32 · 40 · 48) : le titre de bloc (h3) garde une
+   pastille de 32, la section (h2) en prend 40, le titre de groupe 48. */
+const SIZE_CHIP: Record<SectionHeaderSize, IconChipSize> = {
+  xs: 'sm',
+  sm: 'sm',
+  md: 'md',
+  lg: 'lg',
 };
 
 /* Le décalage qui aligne la PREMIÈRE LIGNE du titre sur le centre de la pastille.
 
-   La pastille est toujours plus haute que la ligne du titre — 44 px contre 30 en
-   taille `md`. Les centrer l'un sur l'autre demande donc de descendre le TEXTE de
-   la moitié de l'écart, et non de remonter la pastille : une marge négative sur
-   la pastille la ferait déborder au-dessus de l'en-tête.
+   La pastille est toujours plus haute que la ligne du titre. Les centrer l'un
+   sur l'autre demande donc de descendre le TEXTE de la moitié de l'écart, et
+   non de remonter la pastille : une marge négative sur la pastille la ferait
+   déborder au-dessus de l'en-tête. Recalculé le 2026-09-24 sur les crans
+   d'IconChip et les interlignes du token :
 
      taille   ligne   pastille   décalage
-     xs        20        32         6
-     sm        25        36         5.5 → 6
-     md        30        44         7
-     lg        35        56        10.5 → 10
+     xs        26        32         3
+     sm        26        32         3
+     md        36        40         2
+     lg        36        48         6
 
    Quand le titre passe sur deux lignes, le bloc entier descend d'autant, mais sa
    première ligne reste centrée sur la pastille : c'est tout l'objet. */
 const SIZE_TITLE_OFFSET: Record<SectionHeaderSize, string> = {
-  xs: 'mt-1.5',   //  6 px
-  sm: 'mt-1.5',   //  6 px
-  md: 'mt-[7px]',
-  lg: 'mt-2.5',   // 10 px
-};
-
-const SIZE_GLYPH: Record<SectionHeaderSize, number> = {
-  xs: 16,
-  sm: 18,
-  md: 22,
-  lg: 28,
+  xs: 'mt-[3px]',
+  sm: 'mt-[3px]',
+  md: 'mt-0.5',   // 2 px
+  lg: 'mt-1.5',   // 6 px
 };
 
 const SIZE_INLINE_GLYPH: Record<SectionHeaderSize, number> = {
@@ -154,32 +207,31 @@ const SIZE_INLINE_GLYPH: Record<SectionHeaderSize, number> = {
   lg: 24,
 };
 
+/* Même règle pour l'icône nue des variantes `minimal` et `underline` : son
+   centre sur celui de la première ligne — (ligne − glyphe) / 2. */
+const SIZE_INLINE_OFFSET: Record<SectionHeaderSize, string> = {
+  xs: 'mt-1.5',   // (26 − 14) / 2 = 6
+  sm: 'mt-[5px]', // (26 − 16) / 2 = 5
+  md: 'mt-2',     // (36 − 20) / 2 = 8
+  lg: 'mt-1.5',   // (36 − 24) / 2 = 6
+};
+
+/* Écart pastille ↔ titre : il grandit avec la pastille. */
 const SIZE_GAP: Record<SectionHeaderSize, string> = {
   xs: 'gap-stack-xs',
-  sm: 'gap-2.5',
-  md: 'gap-stack-xs',
+  sm: 'gap-stack-sm',
+  md: 'gap-stack-sm',
   lg: 'gap-stack',
 };
 
-/**
- * SectionHeader does NOT apply its own bottom margin — the parent layout
- * (e.g. `<section className="flex flex-col gap-stack">`) controls vertical spacing.
- * This avoids the double-spacing trap (mb on header + gap on parent).
- *
- * If you need a bottom margin, pass it via `className` (e.g. `className="mb-stack"`).
- */
-const SIZE_MARGIN: Record<SectionHeaderSize, string> = {
-  xs: '',
-  sm: '',
-  md: '',
-  lg: '',
-};
-
-const SIZE_BAR_WIDTH: Record<SectionHeaderSize, string> = {
-  xs: 'w-0.5',
-  sm: 'w-1',
-  md: 'w-1',
-  lg: 'w-1.5',
+/* Filet de séparation : 12 px d'air sous un bloc, 16 sous une section. Écrit en
+   entier — l'ancien `pb-${…}` interpolé n'existait que parce que `pb-3` et
+   `pb-4` traînaient ailleurs dans le code (Tailwind ne compile que le littéral). */
+const SIZE_DIVIDER: Record<SectionHeaderSize, string> = {
+  xs: 'pb-stack-sm border-b border-ink-200',
+  sm: 'pb-stack-sm border-b border-ink-200',
+  md: 'pb-stack border-b border-ink-200',
+  lg: 'pb-stack border-b border-ink-200',
 };
 
 const SIZE_UNDERLINE_HEIGHT: Record<SectionHeaderSize, string> = {
@@ -196,12 +248,13 @@ const SIZE_UNDERLINE_WIDTH: Record<SectionHeaderSize, string> = {
   lg: 'w-[48px]',
 };
 
-const SIZE_EMOJI_TEXT: Record<SectionHeaderSize, string> = {
-  xs: 'text-base',
-  sm: 'text-lg',
-  md: 'text-2xl',
-  lg: 'text-3xl',
-};
+/* Le bloc du titre réclame au moins 16rem à côté de l'action, sinon l'action
+   passe dessous (voir l'en-tête du fichier). `grow` + `basis-64` plutôt que
+   `flex-1` + `basis-64` : les deux derniers écrivent tous deux `flex-basis`,
+   et c'est l'ordre d'émission de Tailwind qui trancherait (piège n°6).
+   16rem reproduit, aux cinq largeurs mesurées, ce que faisait l'enveloppant
+   local du tableau de bord (colonnes de 534 · 454 · 326 · 460 · 343 px). */
+const TITLE_SIDE = 'grow basis-64 min-w-0';
 
 // ── Component ────────────────────────────────────────────────────────────────
 
@@ -209,6 +262,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
   icon,
   title,
   subtitle,
+  meta,
   action,
   divider = false,
   size: sizeProp,
@@ -216,105 +270,87 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
   variant = 'default',
   tone = 'primary',
   className = '',
-  iconClassName,
+  as: Heading = 'h2',
 }) => {
   // Resolve size: `compact` (deprecated) → 'sm', else use `size` prop, default 'md'
   const size: SectionHeaderSize = sizeProp ?? (compact ? 'sm' : 'md');
 
-  const titleSize = SIZE_TITLE[size];
-  const titleTracking = SIZE_TRACKING[size];
-  const bubbleSize = SIZE_BUBBLE[size];
-  const bubbleRadius = SIZE_BUBBLE_RADIUS[size];
-  const glyphSize = SIZE_GLYPH[size];
-  const inlineGlyphSize = SIZE_INLINE_GLYPH[size];
-  const gap = SIZE_GAP[size];
-  const margin = SIZE_MARGIN[size];
+  const titleClasses = ['font-display text-ink-900 text-balance', SIZE_TITLE[size]].join(' ');
 
   // ── Icon rendering ─────────────────────────────────────────────────────────
-  const renderBubbleIcon = (style: 'tinted' | 'solid') => {
+  /* La pastille est un IconChip : il porte la forme (carré au rayon
+     proportionnel), le fond (cran 50) et l'encre (cran 800). Le glyphe remplit
+     la boîte du cran, quelle que soit la taille passée à l'icône. */
+  const renderChipIcon = () => {
     if (!icon) return null;
-    const iconColor = iconClassName ?? TONE_ICON[tone];
-    const bubbleClasses = [
-      'inline-flex items-center justify-center shrink-0',
-      bubbleSize,
-      bubbleRadius,
-      style === 'solid' ? TONE_SOLID_BG[tone] : `${TONE_BUBBLE_BG[tone]} ${iconColor}`,
-    ].join(' ');
-
-    if (React.isValidElement(icon) || typeof icon === 'string' || typeof icon === 'number') {
-      return (
-        <span className={[bubbleClasses, 'leading-none', SIZE_EMOJI_TEXT[size]].join(' ')} aria-hidden="true">
-          {icon}
-        </span>
-      );
-    }
-    const Icon = icon as LucideIcon;
+    const glyph = React.isValidElement(icon) || typeof icon === 'string' || typeof icon === 'number'
+      ? icon
+      : React.createElement(icon as LucideIcon, { strokeWidth: 2 });
     return (
-      <span className={bubbleClasses}>
-        <Icon size={glyphSize} strokeWidth={style === 'solid' ? 2.25 : 2} />
-      </span>
+      <IconChip size={SIZE_CHIP[size]} tone={TONE_CHIP[tone]}>
+        {glyph}
+      </IconChip>
     );
   };
 
   const renderInlineIcon = () => {
     if (!icon) return null;
-    const colorClass = TONE_ICON[tone];
+    const classes = ['shrink-0 inline-flex items-center', TONE_ICON[tone], SIZE_INLINE_OFFSET[size]].join(' ');
     if (React.isValidElement(icon) || typeof icon === 'string' || typeof icon === 'number') {
-      return <span className={['shrink-0 inline-flex items-center', colorClass].join(' ')} aria-hidden="true">{icon}</span>;
+      return <span className={classes} aria-hidden="true">{icon}</span>;
     }
     const Icon = icon as LucideIcon;
     return (
-      <span className={['shrink-0 inline-flex items-center', colorClass].join(' ')} aria-hidden="true">
-        <Icon size={inlineGlyphSize} strokeWidth={2} />
+      <span className={classes} aria-hidden="true">
+        <Icon size={SIZE_INLINE_GLYPH[size]} strokeWidth={2} />
       </span>
     );
   };
 
+  /* Sous-titre (phrase) et méta (donnée), empilés sous le titre à 4 px : ils
+     appartiennent au titre (doctrine § 5, « dans un groupe : 4–8 »). */
+  const renderSecondary = () => (
+    <>
+      {subtitle && <p className="font-body text-body text-ink-700 max-w-prose">{subtitle}</p>}
+      {meta && <p className="font-body text-caption text-ink-600">{meta}</p>}
+    </>
+  );
+
   // ── Layout ─────────────────────────────────────────────────────────────────
+  /* Une rangée qui se replie : 16 entre le titre et l'action quand ils sont
+     côte à côte, 8 quand l'action passe dessous (elle appartient à l'en-tête,
+     doctrine § 5 « dans un groupe : 4–8 »). */
   const wrapperBase = [
-    'flex items-center justify-between gap-stack',
-    margin,
-    divider ? `pb-${size === 'xs' || size === 'sm' ? '3' : '4'} border-b border-ink-200` : '',
+    'flex flex-wrap items-center justify-between gap-x-stack gap-y-stack-xs',
+    divider ? SIZE_DIVIDER[size] : '',
     className,
   ]
     .filter(Boolean)
     .join(' ');
 
-  if (variant === 'minimal') {
-    return (
-      <div className={wrapperBase}>
-        <div className={['flex items-center flex-1 min-w-0', gap].join(' ')}>
-          {renderInlineIcon()}
-          <h2 className={['font-display font-semibold text-ink-900 leading-tight text-balance', titleTracking, titleSize].join(' ')}>
-            {title}
-          </h2>
-          {subtitle && (
-            <span className="hidden sm:inline-flex text-body-sm text-ink-500 font-body before:content-['·'] before:mx-2 before:text-ink-300">
-              {subtitle}
-            </span>
-          )}
-        </div>
-        {action && <div className="shrink-0 flex items-center gap-stack-xs">{action}</div>}
-      </div>
-    );
-  }
+  /* Un `Button` seul dans l'action se cale sur le bord, des deux côtés : à
+     droite quand il est à côté du titre, à gauche quand il passe dessous (voir
+     l'en-tête du fichier). `Button` n'applique le calage qu'à un `ghost`. */
+  const actionCalee =
+    React.isValidElement<ButtonProps>(action) && action.type === Button && action.props.flush === undefined
+      ? React.cloneElement(action, { flush: 'both' })
+      : action;
+  const actionNode = action && <div className="shrink-0 flex items-center gap-stack-xs">{actionCalee}</div>;
 
-  if (variant === 'accent') {
+  if (variant === 'minimal') {
+    /* Le sous-titre vivait EN LIGNE après un « · », et disparaissait sous
+       640 px (`hidden sm:inline-flex`) : une information que le mobile ne
+       recevait pas. Il passe sous le titre, à toutes les largeurs. */
     return (
       <div className={wrapperBase}>
-        <div className="flex items-stretch gap-stack-xs flex-1 min-w-0">
-          <span aria-hidden="true" className={['shrink-0 rounded-pill', SIZE_BAR_WIDTH[size], TONE_BAR[tone]].join(' ')} />
-          <div className="flex flex-col flex-1 min-w-0 justify-center gap-tight">
-            <div className="flex items-center gap-stack-xs">
-              {renderInlineIcon()}
-              <h2 className={['font-display font-semibold text-ink-900 leading-tight text-balance', titleTracking, titleSize].join(' ')}>
-                {title}
-              </h2>
-            </div>
-            {subtitle && <p className="font-body text-body-sm text-ink-500 leading-snug m-0">{subtitle}</p>}
+        <div className={`flex items-start gap-stack-xs ${TITLE_SIDE}`}>
+          {renderInlineIcon()}
+          <div className="flex flex-col gap-stack-3xs min-w-0">
+            <Heading className={titleClasses}>{title}</Heading>
+            {renderSecondary()}
           </div>
         </div>
-        {action && <div className="shrink-0 flex items-center gap-stack-xs">{action}</div>}
+        {actionNode}
       </div>
     );
   }
@@ -322,89 +358,54 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
   if (variant === 'underline') {
     return (
       <div className={wrapperBase}>
-        <div className="flex items-end gap-stack-xs flex-1 min-w-0">
+        <div className={`flex items-start gap-stack-xs ${TITLE_SIDE}`}>
           {renderInlineIcon()}
-          <div className="flex flex-col flex-1 min-w-0">
-            <h2 className={['relative inline-flex items-baseline font-display font-semibold text-ink-900 leading-tight text-balance', titleTracking, titleSize].join(' ')}>
+          {/* 8 px et non 4 : le trait déborde de 2 px sous le titre. */}
+          <div className="flex flex-col gap-stack-xs min-w-0">
+            <Heading className={titleClasses}>
               <span className="relative">
                 {title}
                 <span aria-hidden="true" className={['absolute left-0 -bottom-0.5 rounded-pill', SIZE_UNDERLINE_HEIGHT[size], SIZE_UNDERLINE_WIDTH[size], TONE_UNDERLINE[tone]].join(' ')} />
               </span>
-            </h2>
-            {subtitle && <p className="font-body text-body-sm text-ink-500 leading-snug m-0 mt-tight">{subtitle}</p>}
+            </Heading>
+            {renderSecondary()}
           </div>
         </div>
-        {action && <div className="shrink-0 flex items-center gap-stack-xs">{action}</div>}
+        {actionNode}
       </div>
     );
   }
 
-  // ── default | solid (icon bubble) ──────────────────────────────────────────
-  // La grille aligne le centre de la pastille sur le centre de la PREMIÈRE LIGNE
-  // du titre, et pose le chapô sous le titre — jamais sous l'icône. Rétabli le
-  // 2026-09-10 : ce commentaire décrivait l'intention, le code faisait autre chose.
-  const bubbleStyle: 'tinted' | 'solid' = variant === 'solid' ? 'solid' : 'tinted';
-
+  // ── default | solid (déprécié) : la pastille IconChip ─────────────────────
   if (!icon) {
-    // No icon — simple stack layout
     return (
       <div className={wrapperBase}>
-        <div className="flex flex-col flex-1 min-w-0 gap-0.5">
-          <h2 className={['font-display font-bold text-ink-900 leading-tight text-balance', titleSize].join(' ')}>
-            {title}
-          </h2>
-          {subtitle && (
-            <p className="font-body text-body-sm text-ink-500 leading-snug m-0">{subtitle}</p>
-          )}
+        <div className={`flex flex-col gap-stack-3xs ${TITLE_SIDE}`}>
+          <Heading className={titleClasses}>{title}</Heading>
+          {renderSecondary()}
         </div>
-        {action && <div className="shrink-0 flex items-center gap-stack-xs">{action}</div>}
+        {actionNode}
       </div>
     );
   }
 
   return (
     <div className={wrapperBase}>
-      {/* Grille à deux colonnes : pastille | (titre puis chapô).
-
-         Le compromis qui vivait ici — « l'icône s'aligne sur le centre du BLOC
-         plutôt que sur la première ligne, priorité au spacing » — n'en était pas
-         un : on peut tenir les deux. Il coûtait 11,3 px de décalage dès qu'un
-         chapô était présent, à toutes les tailles. La pastille ne désignait plus
-         le titre, elle flottait entre le titre et le chapô.
-
-         La grille place la pastille et le titre sur la MÊME rangée, et le chapô
-         sur la suivante, dans la colonne du titre — donc jamais sous l'icône.
-         `items-start` fige la pastille en haut ; le titre descend du décalage qui
-         recentre sa première ligne sur elle. Le chapô reste collé au titre par
-         `gap-tight`, ce que l'ancien commentaire craignait de perdre. */}
-      <div
-        className={[
-          'grid grid-cols-[auto_minmax(0,1fr)] items-start flex-1 min-w-0',
-          gap,
-        ].join(' ')}
-      >
-        {/* Pastille — rangée 1, colonne 1 */}
-        {renderBubbleIcon(bubbleStyle)}
-
-        {/* Titre — rangée 1, colonne 2 */}
-        <h2
-          className={[
-            'font-display font-bold text-ink-900 leading-tight text-balance',
-            titleSize,
-            SIZE_TITLE_OFFSET[size],
-          ].join(' ')}
-        >
-          {title}
-        </h2>
-
-        {/* Chapô — rangée 2, colonne 2 : sous le titre, jamais sous l'icône */}
-        {subtitle && (
-          <p className="col-start-2 mt-tight font-body text-body-sm text-ink-500 leading-snug m-0">
-            {subtitle}
-          </p>
-        )}
+      {/* Pastille | (titre, puis sous-titre et méta). La pastille est figée en
+          haut (`items-start`) ; le bloc de texte descend du décalage qui centre
+          sa PREMIÈRE ligne sur elle (motif de référence de la doctrine § 4).
+          Le sous-titre vit dans la colonne du titre — jamais sous l'icône —
+          et suit le titre à 4 px quelle que soit la hauteur de la pastille :
+          quand il vivait sur une seconde rangée de grille, l'écart titre →
+          sous-titre valait 17 px en `md`, le reste de la pastille compris. */}
+      <div className={['flex items-start', TITLE_SIDE, SIZE_GAP[size]].join(' ')}>
+        {renderChipIcon()}
+        <div className={['flex flex-col gap-stack-3xs min-w-0', SIZE_TITLE_OFFSET[size]].join(' ')}>
+          <Heading className={titleClasses}>{title}</Heading>
+          {renderSecondary()}
+        </div>
       </div>
-      {action && <div className="shrink-0 flex items-center gap-stack-xs">{action}</div>}
+      {actionNode}
     </div>
   );
 };

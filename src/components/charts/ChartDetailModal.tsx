@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { Button } from '../core/Button';
 import type { ButtonEmphasis, ButtonTone } from '../core/Button';
+import { useDialog } from '../../hooks/useDialog';
 
 interface ChartDetailModalProps {
   isOpen: boolean;
@@ -10,6 +11,13 @@ interface ChartDetailModalProps {
   title: string;
   subtitle?: string;
   children: React.ReactNode;
+  /**
+   * Actions du pied, de gauche à droite. Par défaut (arbitrage n°19 : un seul
+   * `solid` par écran, et une modale en est un) : la DERNIÈRE est l'action que
+   * la modale sert, en `solid` brand ; les autres sont en `ghost` neutre.
+   * `emphasis` et `tone` restent surchargeables — une paire Annuler / Confirmer
+   * passe Annuler en `outline`.
+   */
   actions?: Array<{
     label: string;
     onClick: () => void;
@@ -22,7 +30,14 @@ interface ChartDetailModalProps {
 /**
  * ChartDetailModal — Reusable drill-down modal for chart interactions
  * Used by: all charts (click handler) for detail views
- * Features: focus trap, keyboard dismiss (Esc), backdrop click, scrollable content
+ *
+ * Un vrai dialogue depuis le 2026-09-24. Il annonçait un piège de focus qu'il
+ * n'avait pas : ni `role="dialog"`, ni nom, le focus restait sur le bouton qui
+ * l'ouvrait, et Tab sortait vers la page derrière le voile (le bouton « Retour
+ * en haut de page », puis les raccourcis développeur). Le comportement vient
+ * de `useDialog`, comme les neuf modales de `modals/` : focus entrant, Tab
+ * piégé, Échap, focus rendu à la fermeture. Le voile n'est plus un faux bouton
+ * focalisable : un clic dessus ferme, le clavier passe par Échap ou « Fermer ».
  */
 export const ChartDetailModal: React.FC<ChartDetailModalProps> = ({
   isOpen,
@@ -39,19 +54,8 @@ export const ChartDetailModal: React.FC<ChartDetailModalProps> = ({
     lg: 'max-w-lg',
   };
 
-  // Handle Escape key
-  useEffect(() => {
-    if (!isOpen) return;
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose]);
+  // Focus entrant, Tab piégé, Échap, focus rendu (motif Dialog de l'APG).
+  const dialog = useDialog<HTMLDivElement>(isOpen, onClose);
 
   // Lock body scroll when modal is open
   useEffect(() => {
@@ -75,14 +79,7 @@ export const ChartDetailModal: React.FC<ChartDetailModalProps> = ({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={onClose}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                onClose();
-              }
-            }}
-            aria-label="Close modal"
+            aria-hidden="true"
           />
 
           {/* Modal */}
@@ -94,7 +91,12 @@ export const ChartDetailModal: React.FC<ChartDetailModalProps> = ({
             transition={{ duration: 0.2 }}
           >
             <motion.div
-              className={`bg-white rounded-2xl shadow-lg max-h-[90vh] overflow-y-auto pointer-events-auto w-full ${sizeClasses[size]}`}
+              ref={dialog.ref}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby={dialog.titleId}
+              tabIndex={-1}
+              className={`bg-white rounded-2xl shadow-lg max-h-[90vh] overflow-y-auto pointer-events-auto w-full focus:outline-none ${sizeClasses[size]}`}
               initial={{ scale: 0.95, opacity: 0, y: 10 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.95, opacity: 0, y: 10 }}
@@ -102,44 +104,46 @@ export const ChartDetailModal: React.FC<ChartDetailModalProps> = ({
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header */}
-              <div className="sticky top-0 bg-white border-b border-ink-200 p-6 flex items-start justify-between">
-                <div className="flex-1">
-                  <h2 className="text-h3 font-bold text-ink-900">{title}</h2>
+              <div className="sticky top-0 bg-white border-b border-ink-200 p-stack-lg flex items-start justify-between gap-stack-xs">
+                {/* Titre de modale au pas h3, en League Spartan comme celui de
+                    `Modal` : sans `font-display`, il tombait en Nunito gras. */}
+                <div className="flex-1 flex flex-col gap-stack-3xs">
+                  <h2 id={dialog.titleId} className="font-display text-h3 text-ink-900">{title}</h2>
                   {subtitle && (
-                    <p className="text-body-sm text-ink-600 mt-1">{subtitle}</p>
+                    <p className="text-body text-ink-700 max-w-prose">{subtitle}</p>
                   )}
                 </div>
-                <button
-                  onClick={onClose}
-                  className="ml-4 p-2 text-ink-600 hover:text-ink-900 hover:bg-ink-100 rounded-lg transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
-                  aria-label="Close modal"
-                >
-                  <X size={24} />
-                </button>
+                {/* Même fermeture que `Modal` : un Button icône, en français. */}
+                <Button iconOnly size="sm" emphasis="ghost" tone="neutral" onClick={onClose} aria-label="Fermer">
+                  <X />
+                </Button>
               </div>
 
               {/* Content */}
-              <div className="p-6">
+              <div className="p-stack-lg">
                 {children}
               </div>
 
               {/* Footer (if actions provided) */}
               {actions && actions.length > 0 && (
-                <div className="sticky bottom-0 bg-white border-t border-ink-200 p-6 flex items-center justify-end gap-stack-sm">
-                  {actions.map((action, idx) => (
-                    <Button
-                      key={idx}
-                      emphasis={action.emphasis ?? 'soft'}
-                      tone={action.tone ?? 'warm'}
-                      size="md"
-                      onClick={() => {
-                        action.onClick();
-                        onClose();
-                      }}
-                    >
-                      {action.label}
-                    </Button>
-                  ))}
+                <div className="sticky bottom-0 bg-white border-t border-ink-200 p-stack-lg flex items-center justify-end gap-stack-sm">
+                  {actions.map((action, idx) => {
+                    const principale = idx === actions.length - 1;
+                    return (
+                      <Button
+                        key={idx}
+                        emphasis={action.emphasis ?? (principale ? 'solid' : 'ghost')}
+                        tone={action.tone ?? (principale ? 'brand' : 'neutral')}
+                        size="md"
+                        onClick={() => {
+                          action.onClick();
+                          onClose();
+                        }}
+                      >
+                        {action.label}
+                      </Button>
+                    );
+                  })}
                 </div>
               )}
             </motion.div>

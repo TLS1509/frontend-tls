@@ -7,8 +7,8 @@
  * Each tile shows:
  *  - A tinted accent square indicator (decoration)
  *  - Title (bold)
- *  - Description (body-sm)
- *  - Optional tag pills (micro text, tone-tinted)
+ *  - Description (body, ink-700)
+ *  - Optional tag pills (registre MetaPill : 11/500, tone-tinted)
  *
  * Tile tones cycle through 4 built-in palette entries (primary, warm, sun, primary-alt)
  * to create natural visual variety without requiring per-tile configuration.
@@ -53,7 +53,7 @@ const TILE_PALETTES: TilePalette[] = [
     card:      'bg-primary-50 border-primary-100',
     accentBg:  'bg-primary-500/20',
     accentDot: 'bg-primary-500',
-    tag:       'bg-primary-100 text-primary-700',
+    tag:       'bg-primary-100 text-primary-800',
   },
   {
     card:      'bg-secondary-50 border-secondary-100',
@@ -65,13 +65,13 @@ const TILE_PALETTES: TilePalette[] = [
     card:      'bg-accent-50 border-accent-100',
     accentBg:  'bg-accent-500/20',
     accentDot: 'bg-accent-500',
-    tag:       'bg-accent-100 text-accent-700',
+    tag:       'bg-accent-100 text-accent-800',
   },
   {
     card:      'bg-primary-50 border-primary-100',
     accentBg:  'bg-primary-400/20',
     accentDot: 'bg-primary-400',
-    tag:       'bg-primary-100 text-primary-600',
+    tag:       'bg-primary-100 text-primary-800',
   },
 ];
 
@@ -85,27 +85,28 @@ export const BehavioralTileGrid: React.FC<BehavioralTileGridProps> = ({
   <div className={['flex flex-col gap-stack', className].filter(Boolean).join(' ')}>
 
     {heading && (
-      <h2 className="font-display text-h2 font-bold text-ink-900 leading-[1.15] text-balance">
+      <h2 className="font-display text-h2 text-ink-900 text-balance">
         {heading}
       </h2>
     )}
 
     {/* auto-fit grid so any number of tiles fills the row naturally */}
-    <div
-      className="grid gap-stack"
-      style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))' }}
-    >
+    <div className="grid gap-stack [grid-template-columns:repeat(auto-fit,minmax(240px,1fr))]">
       {tiles.map((tile, i) => {
         const p = TILE_PALETTES[i % TILE_PALETTES.length];
         return (
+          /* Anatomie (passe typographique du 2026-09-24) : pastille → titre 16 ·
+             titre → texte 8 · texte → étiquettes 12. Le titre suivait la
+             pastille avec sa marge de base (0,75em) EN PLUS de `mb-stack` :
+             31 px, pour un titre qui appartient à ce qu'il surmonte. */
           <div
             key={tile.title}
-            className={['rounded-lg p-6 border', p.card].join(' ')}
+            className={['flex flex-col rounded-lg p-stack-lg border', p.card].join(' ')}
           >
             {/* Accent indicator */}
             <div
               className={[
-                'w-10 h-10 rounded-md flex items-center justify-center mb-stack',
+                'w-10 h-10 rounded-md flex items-center justify-center',
                 p.accentBg,
               ].join(' ')}
               aria-hidden
@@ -114,23 +115,23 @@ export const BehavioralTileGrid: React.FC<BehavioralTileGridProps> = ({
             </div>
 
             {/* Title */}
-            <h3 className="mb-2 font-display text-h4 font-bold text-ink-900">
+            <h3 className="mt-stack font-display text-h3 text-ink-900">
               {tile.title}
             </h3>
 
             {/* Description */}
-            <p className="m-0 mb-3 font-body text-body-sm text-ink-500">
+            <p className="m-0 mt-stack-xs font-body text-body text-ink-700">
               {tile.description}
             </p>
 
             {/* Tags */}
             {tile.tags && tile.tags.length > 0 && (
-              <div className="flex flex-wrap gap-tight">
+              <div className="flex flex-wrap gap-tight mt-stack-sm">
                 {tile.tags.map((tag) => (
                   <span
                     key={tag}
                     className={[
-                      'text-micro px-2 py-0.5 rounded-pill font-semibold',
+                      'text-micro px-2 py-0.5 rounded-pill font-medium',
                       p.tag,
                     ].join(' ')}
                   >

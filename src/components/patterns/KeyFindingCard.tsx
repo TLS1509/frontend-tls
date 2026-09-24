@@ -42,12 +42,13 @@ const ICON_BUBBLE: Record<KeyFindingTone, string> = {
   neutral: 'bg-gradient-to-br from-ink-100 to-ink-200 text-ink-700',
 };
 
+/* Le chiffre est une valeur de marque : cran 800 (doctrine § 2). */
 const METRIC_TEXT: Record<KeyFindingTone, string> = {
-  brand:   'text-primary-700',
-  warm:    'text-secondary-700',
-  sun:     'text-accent-700',
+  brand:   'text-primary-800',
+  warm:    'text-secondary-800',
+  sun:     'text-accent-800',
   success: 'text-success-fg',
-  neutral: 'text-ink-700',
+  neutral: 'text-ink-800',
 };
 
 export const KeyFindingCard: React.FC<KeyFindingCardProps> = ({
@@ -61,11 +62,16 @@ export const KeyFindingCard: React.FC<KeyFindingCardProps> = ({
 }) => {
   const isStacked = layout === 'stacked';
 
+  /* Anatomie (passe typographique du 2026-09-24) : titre h3 20/700 (il était au
+     corps du texte, 16 px) · 8 px · chiffre h2 28 + légende · 8 px ·
+     description 16 ink-700. En disposition horizontale, le bloc de texte
+     descend de 11 px pour que la PREMIÈRE ligne du titre (26) se centre sur
+     la pastille (48) — doctrine § 4. */
   return (
     <div
       className={[
         'group relative rounded-lg bg-white/70 backdrop-blur-glass-light border border-ink-100',
-        'p-stack-md sm:p-6 shadow-xs hover:shadow-sm transition-all duration-base',
+        'p-stack-md sm:p-stack-lg shadow-xs hover:shadow-sm transition-all duration-base',
         'flex gap-stack',
         isStacked ? 'flex-col items-start' : 'items-start',
         className,
@@ -82,26 +88,27 @@ export const KeyFindingCard: React.FC<KeyFindingCardProps> = ({
         {icon}
       </span>
 
-      <div className="flex-1 min-w-0 flex flex-col gap-tight">
-        <h3 className="font-display text-body font-bold text-ink-900">
+      <div className={['flex-1 min-w-0 flex flex-col gap-stack-xs', isStacked ? '' : 'mt-[11px]'].filter(Boolean).join(' ')}>
+        <h3 className="font-display text-h3 text-ink-900">
           {title}
         </h3>
 
         {metric ? (
-          <div className="flex items-baseline gap-stack-xs mt-1">
-            <span className={`font-display text-h2 font-extrabold leading-none ${METRIC_TEXT[tone]}`}>
+          <p className="flex flex-wrap items-baseline gap-x-stack-xs gap-y-stack-3xs">
+            {/* Chiffre ≥ 16 px : League Spartan, sur l'échelle (h2 28). */}
+            <span className={`font-display text-h2 leading-none tabular-nums ${METRIC_TEXT[tone]}`}>
               {metric.value}
             </span>
             {metric.label && (
-              <span className="font-body text-caption text-ink-500">
+              <span className="font-body text-caption text-ink-600">
                 {metric.label}
               </span>
             )}
-          </div>
+          </p>
         ) : null}
 
         {description && (
-          <p className="m-0 font-body text-body-sm text-ink-600">
+          <p className="font-body text-body text-ink-700 max-w-prose">
             {description}
           </p>
         )}

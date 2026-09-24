@@ -11,9 +11,9 @@ import { SectionHeader } from '../components/patterns/SectionHeader';
 import { JournalBubbleCard } from '../components/cards/JournalBubbleCard';
 import type { JournalBubbleType } from '../components/cards/JournalBubbleCard';
 import { JournalChatCompose } from '../components/ui/JournalChatCompose';
+import { Button } from '../components/core/Button';
 import { PageShell } from '../components/layout';
 import {
-  PenSquare,
   Sparkles,
   X,
 } from 'lucide-react';
@@ -48,6 +48,17 @@ const SPEC_TO_DISPLAY: Record<JournalEntryType, JournalBubbleType> = {
   'moment-eureka':    'insight',
 };
 
+/* Sens inverse, pour les tuiles de format : l'éditeur (`JournalNewEntry`)
+   n'accepte en `?type=` que les types du domaine. Les tuiles envoyaient
+   `guided|free|insight|learning` et retombaient toutes sur « Réflexion libre ». */
+const DISPLAY_TO_SPEC: Partial<Record<JournalBubbleType, JournalEntryType>> = {
+  free:     'reflexion-libre',
+  learning: 'apprentissage',
+  guided:   'pratique-pro',
+  coaching: 'session-coaching',
+  insight:  'moment-eureka',
+};
+
 /* ─── Filter config ──────────────────────────────────────────────────────── */
 
 const TYPE_FILTERS: { key: TypeFilter; label: string; icon?: React.ReactNode }[] = [
@@ -76,6 +87,7 @@ const PERIOD_MS: Record<PeriodFilter, number> = {
 export const Journal: React.FC = () => {
   const navigate = useNavigate();
   const journalStore = useJournalStore();
+  const setJournalDraft = useJournalStore((s) => s.setDraft);
   const [typeFilter,   setTypeFilter]   = useState<TypeFilter>('all');
   const [periodFilter, setPeriodFilter] = useState<PeriodFilter>('all');
   const [searchQuery,  setSearchQuery]  = useState('');
@@ -140,17 +152,16 @@ export const Journal: React.FC = () => {
   };
 
   const handleComposeSubmit = () => {
+    // Le texte passe par le store persisté, jamais par l'URL (voir JournalDraft).
     if (composeText.trim().length > 0) {
-      // Pass text via query param (URLEncoded): picked up by NewEntry page
-      navigate(`/journal/new-entry?type=free&draft=${encodeURIComponent(composeText)}`);
-    } else {
-      navigate('/journal/new-entry?type=free');
+      setJournalDraft({ title: '', body: composeText });
     }
+    navigate('/journal/new-entry?type=reflexion-libre');
   };
 
   return (
     <div className="relative min-h-[100dvh] bg-gradient-page-ambient flex flex-col">
-      <PageShell width="page" noPadTop className="relative z-[2] pt-6 md:pt-8 lg:pt-10">
+      <PageShell width="page" className="relative z-[2]">
 
         {/* Hero: EditorialHero sun — Journal = espace de réflexion/or */}
         <EditorialHero
@@ -162,119 +173,136 @@ export const Journal: React.FC = () => {
         {/* ⭐ Compose new entry: section engageante avec :
             (1) chat-style prompt input qui ouvre NewEntry en mode 'free' avec draft pré-rempli
             (2) 4 emoji buttons (types user-initiables) pour démarrer un format spécifique */}
-        <section aria-label="Nouvelle entrée" className="flex flex-col gap-stack-lg">
+        {/* Deux sections : écrire, puis relire. Titre → contenu à 16 (le
+            rapport 3:1 avec les 48 entre sections) ; il était à 24. */}
+        <section aria-label="Nouvelle entrée" className="flex flex-col gap-stack">
+          {/* Sans pastille d'icône : elle décalait ce titre de 52 px par
+              rapport à « Mes entrées » — deux sections, deux bords. */}
           <SectionHeader
-            variant="default"
-            size="md"
-            tone="primary"
-            icon={<PenSquare size={20} />}
             title="Quoi écrire aujourd'hui ?"
             subtitle="Démarre une entrée libre ou choisis un format guidé"
           />
 
-          {/* Chat-style prompt card */}
-          <JournalChatCompose
-            value={composeText}
-            onChange={setComposeText}
-            onSubmit={handleComposeSubmit}
-          />
+          <div className="flex flex-col gap-stack-lg">
+            {/* Chat-style prompt card */}
+            <JournalChatCompose
+              value={composeText}
+              onChange={setComposeText}
+              onSubmit={handleComposeSubmit}
+            />
 
-          {/* Or pick a guided format: 4 emoji buttons */}
-          <div className="flex flex-col gap-stack-xs">
-            <span className="font-body text-caption text-ink-500">Ou choisis un format guidé :</span>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-stack">
-              {COMPOSE_TYPES.map((t) => (
-                <button
-                  key={t.type}
-                  type="button"
-                  onClick={() => navigate(`/journal/new-entry?type=${t.type}`)}
-                  className={[
-                    'group flex flex-col items-center justify-center gap-tight p-stack rounded-xl border-2 text-center cursor-pointer',
-                    'transition-colors duration-base',
-                    'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
-                    TONE_BG[t.tone],
-                  ].join(' ')}
-                >
-                  <span className={['transition-transform group-hover:scale-110', TONE_ICON[t.tone]].join(' ')} aria-hidden="true">{t.icon}</span>
-                  <span className="font-display text-body-sm font-bold text-ink-900">{t.label}</span>
-                  <span className="font-body text-caption text-ink-600">{t.subtitle}</span>
-                </button>
-              ))}
+            {/* Or pick a guided format: 4 emoji buttons */}
+            <div className="flex flex-col gap-stack-xs">
+              <span className="font-body text-caption font-semibold text-ink-600">Ou choisis un format guidé</span>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-stack">
+                {COMPOSE_TYPES.map((t) => (
+                  <button
+                    key={t.type}
+                    type="button"
+                    onClick={() => navigate(`/journal/new-entry?type=${DISPLAY_TO_SPEC[t.type] ?? 'reflexion-libre'}`)}
+                    className={[
+                      'group flex flex-col items-center justify-center p-stack rounded-xl border-2 text-center cursor-pointer',
+                      'transition-colors duration-base',
+                      'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+                      TONE_BG[t.tone],
+                    ].join(' ')}
+                  >
+                    {/* Icône → nom 8, nom → phrase 4. Le nom d'une tuile est un
+                        libellé (Nunito 16/600), pas un titre en League Spartan. */}
+                    <span className={['transition-transform group-hover:scale-110', TONE_ICON[t.tone]].join(' ')} aria-hidden="true">{t.icon}</span>
+                    <span className="mt-stack-xs font-body text-body font-semibold text-ink-900">{t.label}</span>
+                    <span className="mt-stack-3xs font-body text-caption text-ink-600">{t.subtitle}</span>
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Toolbar: SearchFilters panel (Période + Type d'entrée) */}
-        <SearchFilters
-          layout="panel"
-          query={searchQuery}
-          onQueryChange={setSearchQuery}
-          placeholder="Rechercher titre, thème, tag…"
-          aria-label="Rechercher dans le journal"
-          onReset={() => { setTypeFilter('all'); setPeriodFilter('all'); setSearchQuery(''); }}
-          filters={[
-            {
-              id: 'period',
-              label: 'Période',
-              multi: false,
-              options: PERIOD_FILTERS.filter((f) => f.key !== 'all').map((f) => ({ id: f.key, label: f.label })),
-              selected: periodFilter === 'all' ? [] : [periodFilter],
-              onChange: (ids) => setPeriodFilter((ids[0] as PeriodFilter) ?? 'all'),
-            },
-            {
-              id: 'type',
-              label: "Type d'entrée",
-              multi: false,
-              control: 'chips',
-              options: TYPE_FILTERS.filter((f) => f.key !== 'all').map((f) => ({ id: f.key, label: f.label, icon: f.icon })),
-              selected: typeFilter === 'all' ? [] : [typeFilter],
-              onChange: (ids) => setTypeFilter((ids[0] as TypeFilter) ?? 'all'),
-            },
-          ]}
-        />
-
-        {/* Active filter result count */}
-        {hasActiveFilter && (
-          <div className="flex items-center justify-between px-stack-md py-3 bg-primary-50 border border-primary-100 rounded-lg">
-            <span className="font-body text-body-sm text-primary-700 font-medium">
-              {filteredEntries.length} entrée{filteredEntries.length > 1 ? 's' : ''} trouvée{filteredEntries.length > 1 ? 's' : ''}
-            </span>
-            <button
-              onClick={() => { setTypeFilter('all'); setPeriodFilter('all'); setSearchQuery(''); }}
-              className="inline-flex items-center gap-tight font-body text-caption text-primary-600 hover:text-primary-700 font-semibold bg-transparent border-0 cursor-pointer transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
-            >
-              <X size={14} /> Réinitialiser
-            </button>
-          </div>
-        )}
-
-        {/* Entries */}
-        {filteredEntries.length === 0 ? (
-          <EmptyState
-            icon={<Sparkles size={32} />}
-            title="Aucune entrée trouvée"
-            description="Élargis ta recherche ou crée une nouvelle entrée depuis les formats ci-dessus."
+        {/* Mes entrées — la liste avait perdu son titre. Le compte est une
+            donnée (méta, 13 ink-600) ; quand un filtre est actif, il dit ce
+            qu'il reste et le bouton qui efface se pose à côté du titre. Le
+            bandeau teinté qui portait ce compte (primary-700 sur primary-50,
+            4,48:1) disparaît dans l'en-tête. */}
+        <section aria-label="Mes entrées" className="flex flex-col gap-stack">
+          <SectionHeader
+            title="Mes entrées"
+            meta={
+              hasActiveFilter
+                ? `${filteredEntries.length} entrée${filteredEntries.length > 1 ? 's' : ''} trouvée${filteredEntries.length > 1 ? 's' : ''}`
+                : `${ENTRIES.length} entrée${ENTRIES.length > 1 ? 's' : ''}`
+            }
+            action={
+              hasActiveFilter ? (
+                <Button
+                  emphasis="ghost"
+                  size="sm"
+                  leadingIcon={<X size={14} />}
+                  onClick={() => { setTypeFilter('all'); setPeriodFilter('all'); setSearchQuery(''); }}
+                >
+                  Réinitialiser
+                </Button>
+              ) : undefined
+            }
           />
-        ) : (
-          <div className="flex flex-col gap-stack">
-            {filteredEntries.map((entry) => (
-              <JournalBubbleCard
-                key={entry.id}
-                type={entry.type}
-                title={entry.title}
-                excerpt={entry.excerpt}
-                date={`${entry.date} · ${entry.readingTime}`}
-                onRead={() => navigate(`/journal/detail/${entry.id}`)}
-                onContinue={() => navigate(`/journal/detail/${entry.id}`)}
-                onCoachingAction={
-                  entry.type === 'questionnaire' ? () => navigate('/coaching/pre-questionnaire')
-                  : entry.type === 'compte-rendu' ? () => navigate('/coaching/compte-rendu/1')
-                  : undefined
-                }
-              />
-            ))}
-          </div>
-        )}
+
+          {/* Toolbar: SearchFilters panel (Période + Type d'entrée) */}
+          <SearchFilters
+            layout="panel"
+            query={searchQuery}
+            onQueryChange={setSearchQuery}
+            placeholder="Rechercher titre, thème, tag…"
+            aria-label="Rechercher dans le journal"
+            onReset={() => { setTypeFilter('all'); setPeriodFilter('all'); setSearchQuery(''); }}
+            filters={[
+              {
+                id: 'period',
+                label: 'Période',
+                multi: false,
+                options: PERIOD_FILTERS.filter((f) => f.key !== 'all').map((f) => ({ id: f.key, label: f.label })),
+                selected: periodFilter === 'all' ? [] : [periodFilter],
+                onChange: (ids) => setPeriodFilter((ids[0] as PeriodFilter) ?? 'all'),
+              },
+              {
+                id: 'type',
+                label: "Type d'entrée",
+                multi: false,
+                control: 'chips',
+                options: TYPE_FILTERS.filter((f) => f.key !== 'all').map((f) => ({ id: f.key, label: f.label, icon: f.icon })),
+                selected: typeFilter === 'all' ? [] : [typeFilter],
+                onChange: (ids) => setTypeFilter((ids[0] as TypeFilter) ?? 'all'),
+              },
+            ]}
+          />
+
+          {/* Entries */}
+          {filteredEntries.length === 0 ? (
+            <EmptyState
+              icon={<Sparkles size={32} />}
+              title="Aucune entrée trouvée"
+              description="Élargis ta recherche ou crée une nouvelle entrée depuis les formats ci-dessus."
+            />
+          ) : (
+            <div className="flex flex-col gap-stack">
+              {filteredEntries.map((entry) => (
+                <JournalBubbleCard
+                  key={entry.id}
+                  type={entry.type}
+                  title={entry.title}
+                  excerpt={entry.excerpt}
+                  date={`${entry.date} · ${entry.readingTime}`}
+                  onRead={() => navigate(`/journal/detail/${entry.id}`)}
+                  onContinue={() => navigate(`/journal/detail/${entry.id}`)}
+                  onCoachingAction={
+                    entry.type === 'questionnaire' ? () => navigate('/coaching/pre-questionnaire')
+                    : entry.type === 'compte-rendu' ? () => navigate('/coaching/compte-rendu/1')
+                    : undefined
+                  }
+                />
+              ))}
+            </div>
+          )}
+        </section>
       </PageShell>
     </div>
   );

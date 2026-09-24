@@ -23,8 +23,10 @@ souvenir. C'est le motif de l'archivage de `DESIGN-IMPECCABLE.md` (voir plus bas
 
 | Besoin | Doc | Chargé ? |
 |---|---|---|
-| Règles strictes, tokens, pièges Tailwind, gate de build | [`CLAUDE.md`](./CLAUDE.md) | ✅ instructions projet |
-| Stratégie produit, North Star, voix, anti-références | [`PRODUCT.md`](./PRODUCT.md) | ✅ par la skill |
+| Règles strictes, familles de composants, gate de build | [`CLAUDE.md`](./CLAUDE.md) | ✅ instructions projet |
+| Pièges Tailwind / cascade CSS | [`.claude/rules/pieges-tailwind.md`](./.claude/rules/pieges-tailwind.md) | ✅ dès qu'un fichier de `src/` est touché |
+| Doctrine rayons, bouton, conteneurs, cartes | [`.claude/rules/doctrine-design.md`](./.claude/rules/doctrine-design.md) | ✅ dès qu'un fichier de `src/` est touché |
+| Produit : état au 24/09, périmètre (repris de la SSOT), voix, cadence — **resserré le 24/09 à ce qui est validé** (la version de mai, générée par IA, est archivée) | [`PRODUCT.md`](./PRODUCT.md) | ✅ par la skill |
 | **Composition d'interface** (ce doc) | — | ✅ par la skill |
 | Doctrine longue : altitudes, transparence IA, grammaire de pratique | [`docs/_archive/DESIGN-IMPECCABLE.md`](./docs/_archive/DESIGN-IMPECCABLE.md) | ⛔ **archivé le 2026-09-09** — ses décisions vivantes sont §10 et §11 ci-dessous |
 | **Valeurs** des tokens | `src/index.css`, bloc `@theme` | **le code fait foi** |
@@ -51,7 +53,7 @@ dériverait ; c'est exactement ce qui est arrivé au design system parallèle de
 |---|---:|---|---|
 | **`src/index.css`** | 1048 | Bloc `@theme` = **tous les tokens**, les `@keyframes`, et les utilities que Tailwind v4 ne génère pas (`shadow-*`, `ease-*`, `duration-*`, `bg-gradient-*`) | ✅ **source de vérité unique** |
 | `src/styles/globals.css` | 159 | Reset et sélecteurs d'élément, tout en `@layer base`. Importe les deux CSS ci-dessous | ✅ |
-| `src/styles/design-tokens.css` | 622 | Alias legacy `--tls-*` pour le BEM résiduel. **Ne doit rien définir de neuf** | ⚠️ contient encore 9 doublons (voir CLAUDE.md, piège #3) |
+| `src/styles/design-tokens.css` | 622 | Alias legacy `--tls-*` pour le BEM résiduel. **Ne doit rien définir de neuf** | ✅ plus aucun doublon avec `@theme` depuis le 17/09 (piège n°3, `.claude/rules/pieges-tailwind.md`) |
 | `src/components/modals/modals.css` | 387 | Pseudo-éléments et animations de modale | ✅ |
 | `src/components/patterns/Flashcard.css` | 93 | Retournement 3D — impossible en utilities | ✅ |
 
@@ -160,9 +162,15 @@ tout rayon à la moitié de la plus petite dimension — **`rounded-full` et
 `rounded-pill` rendent donc exactement pareil**. La préférence tient au
 vocabulaire, pas au rendu : `rounded-pill` est le token TLS.
 
-**L'échelle est étagée** — étiquette en pilule, interactif à 14, conteneur à 20.
+**L'échelle est étagée** — étiquette en pilule, interactif à 14, conteneur à 20,
+surcouche (modales, tiroirs) à 24, pastille d'icône proportionnelle (6 · 10 · 14).
+**Padding de carte** : 24 au canon, 20 en dense (arbitrage n°4 du 23/09).
+**Collections** : rangées dans une carte, table quand on trie (arbitrage n°5).
+**Coins imbriqués (23/09)** : près d'un coin, rayon intérieur = rayon extérieur −
+retrait ; si le retrait dépasse le rayon extérieur, l'élément garde le rayon de
+son étage. On corrige le retrait avant le rayon.
 La règle complète, avec le seuil des 28 px et la géométrie du padding, vit dans
-`CLAUDE.md` § Rayons, qui fait foi.
+`.claude/rules/doctrine-design.md` § Rayons, qui fait foi.
 
 **Ombres** — échelle neutre `xs→xl`, plus les teintées `shadow-brand-*`,
 `shadow-warm-*`, `shadow-sun-*`. Les cards sans `tone` prennent la neutre, celles
@@ -209,7 +217,7 @@ de composants réels. Voir le détail en fin de doc.
  7. CARDS              contenu unique · KPI · communication · learning · éditorial
  8. LISTS & FEEDS      grilles · fils chronologiques · listes · tableaux
  9. FORMS              formulaires composites (MultiStepForm, FormLayout)
-10. LEARNING           gamification TLS (Medal, Quiz, Flashcard, CompetencyMatrix)
+10. LEARNING           gamification TLS (AchievementBadge, Quiz, Flashcard, CompetencyMatrix)
 11. MODALS             base · booking · confirm/status · célébrations · média
 12. AUTH FAMILY        AuthShell + sous-composants (spécification glass-dark)
 13. PAGES & TEMPLATES  aperçus au niveau route
@@ -348,8 +356,9 @@ foi. En résumé :
   `interactive`, `glass`, `glass-brand`, `glass-warm`, `glass-dark`, `minimal`,
   `tinted`). `bordered`, `muted` et `sunken` ont été retirés le 2026-07-24, sans
   aucun usage. Tous les wrappers dérivés ont été supprimés.
-- **Heroes** — deux patterns : `HeroSection` (actionnable) et `PageHero`
-  (éditorial, alias `EditorialHero`).
+- **Heroes** — un seul pattern : `PageHero` (alias `EditorialHero` pour les
+  surfaces éditoriales). `HeroSection` a été supprimé le 2026-09-23 : déprécié
+  depuis le 2026-05-26, il ne vivait plus que dans la vitrine.
 
 ---
 
@@ -389,8 +398,10 @@ n'est pas dérivable du code : c'est une décision.
 ## 7. Responsive et accessibilité
 
 **Mobile d'abord.** Colonne unique par défaut. Points de rupture `md` 768 ·
-`lg` 1024 · `xl` 1280. Sidebar en tiroir sous 768 px, en ligne à 220 px sur
-tablette, 260 px sur desktop avec repli possible.
+`lg` 1024 · `xl` 1280. Sidebar en tiroir (280 px) sous 768 px, en ligne à
+260 px dès 768 px, repliable à 72 px. *(Révisé le 2026-09-24 : la tablette
+avait 220 px, où les entrées à 16 px de l'arbitrage n°20 se coupaient —
+« Espace Apprentissage » demande 162 px et n'en avait que 133.)*
 
 **Verre.** `backdrop-blur-glass-{light|medium|heavy}` (8 / 16 / 24 px), plus
 `backdrop-blur-ambient` (60 px) pour les halos de fond — attention, celui-ci n'a
@@ -683,14 +694,25 @@ silence. Résultat mesuré : le CTA principal de la page d'accueil marketing, qu
 déclare pourtant `emphasis="solid"`, rendait le teinté de l'app. Le site avait
 perdu ses aplats sans qu'une ligne du site ne change.
 
-**Deux surfaces, deux usages du même système.** Le site garde l'aplat (`solid`,
-reconstruit au cran 700, blanc à 5,02) ; l'app prend le teinté (`soft`, 6,31).
-Ce n'est pas une divergence de design system — c'est le même niveau choisi
-différemment selon le registre : la conversion d'un côté, la durée de l'autre.
+**Un seul `solid` par écran, et c'est l'action principale (arbitrage n°19,
+2026-09-24).** `soft` porte l'action de contexte (dans une carte, une rangée),
+`ghost` le tertiaire, `outline` est réservé à Annuler dans une paire Annuler /
+Confirmer (en `neutral`). Une modale est un écran : un `solid`, l'action qu'elle
+sert. Un écran de pure lecture peut n'en avoir aucun. Exception écrite : le
+bandeau de consentement, où « Tout refuser » et « Tout accepter » gardent le même
+poids (CNIL). Vérifié par `npm run check:boutons` (`Button` expose son niveau
+rendu en `data-emphasis`).
+
+*Ce que ça remplace* : la règle du 17/09 faisait du teinté (`soft`, 6,31) le
+niveau principal de l'app, et de l'aplat (`solid`, cran 700, blanc à 5,02)
+celui du site. Sa faille, relevée par l'audit du 23/09 : `soft` et `outline` ne
+différaient que d'un fond au cran 50, qui disparaît sur une carte de même
+teinte — l'œil ne trouvait plus l'action principale. Le site et l'app suivent
+désormais la même règle.
 
 **Le contrat de contraste appartient au niveau.** Filet au cran 700, label au
 800 : un bouton se pose aussi sur une carte teintée, et un seuil mesuré sur du
-blanc n'est pas un seuil. Le détail chiffré vit dans `CLAUDE.md`, qui fait foi.
+blanc n'est pas un seuil. Le détail chiffré vit dans `.claude/rules/doctrine-design.md`, qui fait foi.
 
 **`onDark` est une affirmation sur la surface, donc vérifiable.** C'est tout
 l'intérêt du renommage : le mot `glass` désignait une matière, et on pouvait la
@@ -701,29 +723,21 @@ sur des heros clairs — blanc sur blanc, action principale de vingt pages.
 
 ### Le bouton — graisse, tailles, seuils
 
-| Taille | Police | Hauteur | Padding H | Usages |
-|---|---|---|---|---:|
-| `sm` | 13 px | 32 px | **16** | **227** |
-| `md` *(défaut)* | 15 px | 44 px | 20 | 214 |
-| `lg` | 16 px | 48 px | 24 | 71 |
-| `xl` | 19 px | **52 px** | 28 | 10 |
+⚠️ **Mis à jour le 2026-09-24 — arbitrage n°22 : trois tailles alignées sur les
+champs d'une même ligne (36 · 44 · 52).** L'ancienne table (32 · 44 · 48 · 52,
+quatre crans) est périmée ; la table vivante est dans
+`.claude/rules/doctrine-design.md`, section « Le bouton ».
+
+| Taille | Police | Hauteur | Padding H |
+|---|---|---|---|
+| `sm` | 13 px | **36 px** (cible tactile 44) | 16 |
+| `md` *(défaut)* | 16 px | 44 px | 20 |
+| `lg` | 16 px | **52 px** | 24 |
 
 **Graisse : 700 sur toutes les tailles** (décidé le 09/09). Aucun tracking.
-
-**Le padding horizontal se juge au rapport à la POLICE** (1,23 · 1,33 · 1,50 ·
-1,47), pas à la hauteur, qui dérive de 0,438 à 0,538. `sm` était le seul cran
-sous 1,2 — et le plus employé ; il est passé de 14 à 16 le 17/09.
-
-⚠️ **Deux points ouverts sur cette table :**
-
-- **`sm` fait 32 px de haut et compte 227 usages.** C'est au-dessus du minimum
-  normatif de WCAG 2.2 (24 px) mais en dessous des 44 px que la règle TLS impose
-  aux **actions principales**. À auditer : combien de ces 227 portent une action
-  principale plutôt qu'une action secondaire dans une zone dense ?
-- **`xl` fait 18 px, et il manque 0,66 px** pour que la graisse 700 le fasse
-  basculer en « grand texte » au sens WCAG (seuil 18,66 px). À **19 px**, son seuil
-  de contraste tomberait de 4,5 à 3,0 — ce qui rendrait le cran 600 des couleurs de
-  marque utilisable avec un label blanc. Un pixel qui change la palette disponible.
+`xl` n'existe plus (alias déprécié de `lg`). Les deux points ouverts de
+l'ancienne table sont clos : `sm` est monté à 36 px, et le cran `xl` à 19 px a
+disparu avec lui.
 
 ### Deux interdits que le code ne respecte pas encore
 
@@ -732,7 +746,7 @@ Ils sont ici parce qu'ils sont **mesurés**, pas supposés :
 | Règle | État au 2026-09-09 |
 |---|---|
 | `ink-400` ne porte pas de texte | ⚠️ **355 usages**, dont **241 fautifs** — les 114 autres sont légitimes (états désactivés, glyphes décoratifs) ou hors produit. Depuis la reconstruction de la rampe, `ink-400` vaut 3,01 : utilisable en bordure, toujours pas en texte |
-| Texte blanc sur `primary-600` | ✅ **Résolu le 2026-09-17.** L'app n'a plus d'aplat depuis la bascule (son niveau principal est `soft`, à 6,31), et le site marketing a vu son aplat reconstruit au **cran 700** — le premier qui porte du blanc à 4,5:1. Plus aucun bouton du produit ne s'appuie sur `primary-600` pour du texte |
+| Texte blanc sur `primary-600` | ✅ **Résolu le 2026-09-17.** L'aplat (`solid`) est au **cran 700** — le premier qui porte du blanc à 4,5:1 — sur le site comme dans l'app, où il marque l'action principale de chaque écran depuis l'arbitrage n°19 (24/09). Plus aucun bouton du produit ne s'appuie sur `primary-600` pour du texte |
 
 ---
 
@@ -784,10 +798,10 @@ Ils sont ici parce qu'ils sont **mesurés**, pas supposés :
 | # | Décision | Choix | État |
 |---|---|---|---|
 ⚠️⚠️ **ATTENTION — les codes R1–R4 de ce tableau ne sont PAS ceux de
-`CLAUDE.md`.** Les deux fichiers ont numéroté leurs décisions de rayon
+`.claude/rules/doctrine-design.md` § Rayons.** Les deux fichiers ont numéroté leurs décisions de rayon
 séparément, et les numéros se contredisent :
 
-| code | ici, dans DESIGN.md | dans CLAUDE.md, qui fait foi |
+| code | ici, dans DESIGN.md | dans `.claude/rules/doctrine-design.md`, qui fait foi |
 |---|---|---|
 | R1 | « le rayon de référence : 14, 20 ou 24 » | le rayon de la carte — 14 le 09/09, **renversé à 20 le 16/09** |
 | R2 | les `rounded-3xl` sans token | les `rounded-2xl` (24) sur des conteneurs — **encore ouverte** |
@@ -805,9 +819,9 @@ lignes sont conservées pour l'archive, pas pour être suivies.
 
 | # | Question | Pourquoi elle compte |
 |---|---|---|
-| ~~**R1**~~ | ~~Le rayon de référence : 14, 20 ou 24 px~~ | ✅ **Tranchée deux fois** — 14 px le 09/09, puis **20 px le 16/09** après mesure. L'échelle est étagée : étiquette en pilule, interactif à 14, conteneur à 20. Voir `CLAUDE.md` § Rayons |
+| ~~**R1**~~ | ~~Le rayon de référence : 14, 20 ou 24 px~~ | ✅ **Tranchée deux fois** — 14 px le 09/09, puis **20 px le 16/09** après mesure. L'échelle est étagée : étiquette en pilule, interactif à 14, conteneur à 20. Voir `.claude/rules/doctrine-design.md` § Rayons |
 | ~~**B1**~~ | ~~La typographie du bouton *(posée le 09/09)*~~ | ✅ **Faite le 09/09** — `tracking-tight` a quitté la `BASE` de `Button.tsx` ; il n'en reste qu'un commentaire interdisant de l'y remettre. *(Le chiffre « 522 boutons » a vieilli : 593 au 17/09.)* |
-| ~~C3~~ | ~~Rempli ou outline pour les boutons de marque~~ | ✅ **Tranchée le 2026-09-17, et les deux surfaces ne répondent pas pareil** : le site garde l'aplat (`emphasis="solid"`, reconstruit au cran 700), l'app prend le teinté (`emphasis="soft"`). Ce n'est pas une divergence de système mais un usage différent du même niveau — le registre du site est la conversion, celui de l'app la durée |
+| ~~C3~~ | ~~Rempli ou outline pour les boutons de marque~~ | ✅ **Tranchée le 2026-09-17, puis révisée le 2026-09-24 (arbitrage n°19)** : un seul `solid` par écran (cran 700), l'action principale, sur le site comme dans l'app ; `soft` pour le contexte, `ghost` pour le tertiaire, `outline` pour Annuler. La réponse du 17/09 (« l'app prend le teinté ») est remplacée : `soft` et `outline` se confondaient sur une carte teintée |
 | ~~A2~~ | ~~Le bouton primaire de l'app mesure 3,66~~ | ✅ **Résolue le 2026-09-17.** Le niveau `soft` mesure 6,31, l'aplat du site 5,02. Le cran 600 ne porte plus de texte nulle part |
 | A3 | ~~Doctrine light-only~~ → **le dark mode est reporté, pas exclu** | à refaire proprement |
 
@@ -817,5 +831,5 @@ lignes sont conservées pour l'archive, pas pour être suivies.
 La synchronisation Notion du design system (elle n'est plus tenue), le catalogue
 de pages par tier (statut figé à une phase révolue), les inventaires de patterns
 avec compteurs d'usage (ils périment à chaque commit), l'historique des phases 10
-à 18, et la liste des pièges Tailwind — qui vit dans `CLAUDE.md`, seul endroit où
+à 18, et la liste des pièges Tailwind — qui vit dans `.claude/rules/pieges-tailwind.md`, seul endroit où
 elle est maintenue.

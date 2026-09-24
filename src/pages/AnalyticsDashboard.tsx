@@ -1,19 +1,12 @@
 import React, { useState, useMemo } from 'react';
 import {
-  BarChart3,
   Download,
   RefreshCw,
-  TrendingUp,
-  Users,
-  Award,
-  Flame,
-  Clock,
   AlertCircle,
   CheckCircle,
-  Eye,
 } from 'lucide-react';
-import { EditorialHero } from '../components/patterns/EditorialHero';
-import { SectionCard } from '../components/patterns/SectionCard';
+import { PageHero } from '../components/patterns/EditorialHero';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
@@ -23,40 +16,12 @@ import { FilterChip } from '../components/ui/FilterChip';
 import { Tabs } from '../components/ui/Tabs';
 import { DataTable } from '../components/patterns/DataTable';
 import { PageShell } from '../components/layout';
-import { LineChart } from '../components/charts/LineChart';
 import { ComposedChart } from '../components/charts/ComposedChart';
 import { AreaChart } from '../components/charts/AreaChart';
 import { PieChart } from '../components/charts/PieChart';
-import { ChartContainer } from '../components/charts/ChartContainer';
 import { MOCK_LEARNER_PROFILES, MOCK_COACH_TEAM_STATS } from '../data/analytics';
 
 // ─── Mock Data Generation ────────────────────────────────────────────────────
-
-/**
- * Generate 12 weeks of XP progression data
- */
-const generateXpProgressionData = () => {
-  const data = [];
-  const startDate = new Date();
-  startDate.setDate(startDate.getDate() - 84); // 12 weeks back
-
-  for (let i = 0; i < 12; i++) {
-    const weekStart = new Date(startDate);
-    weekStart.setDate(weekStart.getDate() + i * 7);
-    const weekLabel = `W${i + 1}`;
-
-    // Generate cumulative XP for top 4 learners
-    const baseXpPerWeek = [280, 260, 140, 75];
-    data.push({
-      label: weekLabel,
-      'Nadia Ferreira': Math.round(280 * (i + 1) + Math.random() * 50),
-      'Camille Durand': Math.round(260 * (i + 1) + Math.random() * 60),
-      'Sophie Martin': Math.round(140 * (i + 1) + Math.random() * 30),
-      'Pierre Bernard': Math.round(75 * (i + 1) + Math.random() * 15),
-    });
-  }
-  return data;
-};
 
 /**
  * Generate 12 weeks of activity vs performance data
@@ -68,7 +33,7 @@ const generateActivityPerformanceData = () => {
 
   for (let i = 0; i < 12; i++) {
     data.push({
-      label: `W${i + 1}`,
+      label: `S${i + 1}`,
       'Actions': activities[i],
       'Taux réussite': scores[i],
     });
@@ -83,7 +48,7 @@ const generateLearningHoursData = () => {
   const data = [];
   for (let i = 0; i < 12; i++) {
     data.push({
-      label: `W${i + 1}`,
+      label: `S${i + 1}`,
       'Leçons': Math.round(40 + Math.random() * 20),
       'Coaching': Math.round(20 + Math.random() * 15),
       'Autoformation': Math.round(15 + Math.random() * 10),
@@ -95,15 +60,28 @@ const generateLearningHoursData = () => {
 /**
  * Generate learner status distribution
  */
+const STATUS_LABEL: Record<string, string> = {
+  'on-track': 'Sur la bonne voie',
+  'at-risk': 'À risque',
+  stuck: 'Bloqué',
+};
+
+const dreyfusFr = (n: number) => n.toFixed(1).replace('.', ',');
+
+/* Un groupe de pastilles se nomme comme un champ : 16 / 600 ink-900. */
+const FILTER_GROUP_LABEL = 'font-body text-body font-semibold text-ink-900';
+
 const generateLearnerStatusData = () => {
   const onTrack = MOCK_LEARNER_PROFILES.filter((l) => l.status === 'on-track').length;
   const atRisk = MOCK_LEARNER_PROFILES.filter((l) => l.status === 'at-risk').length;
   const stuck = MOCK_LEARNER_PROFILES.filter((l) => l.status === 'stuck').length;
 
+  // En français, et la couleur suit la gravité : « Bloqué », le plus grave,
+  // était en ambre et « À risque » en corail (audit du 23/09).
   return [
-    { label: 'On track', value: onTrack, color: '#9DBEBA' },
-    { label: 'At risk', value: atRisk, color: '#F28559' },
-    { label: 'Stuck', value: stuck, color: '#F8B044' },
+    { label: 'Sur la bonne voie', value: onTrack, color: '#9DBEBA' },
+    { label: 'À risque', value: atRisk, color: '#F8B044' },
+    { label: 'Bloqué', value: stuck, color: '#F28559' },
   ];
 };
 
@@ -112,46 +90,27 @@ const generateLearnerStatusData = () => {
 export default function AnalyticsDashboard() {
   const [activeTab, setActiveTab] = useState('overview');
   const [activePeriod, setActivePeriod] = useState('month');
-  const [sortByLearners, setSortByLearners] = useState<'xp' | 'streak' | 'level'>('xp');
 
   // Memoized data generation
-  const xpProgressionData = useMemo(() => generateXpProgressionData(), []);
   const activityPerformanceData = useMemo(() => generateActivityPerformanceData(), []);
   const learningHoursData = useMemo(() => generateLearningHoursData(), []);
   const learnerStatusData = useMemo(() => generateLearnerStatusData(), []);
 
-  // Sort learners based on selected metric
-  const sortedLearners = useMemo(() => {
-    const sorted = [...MOCK_LEARNER_PROFILES];
-    if (sortByLearners === 'xp') {
-      sorted.sort((a, b) => b.totalXp - a.totalXp);
-    } else if (sortByLearners === 'streak') {
-      sorted.sort((a, b) => b.streak - a.streak);
-    } else {
-      sorted.sort((a, b) => b.dreyfusAvg - a.dreyfusAvg);
-    }
-    return sorted;
-  }, [sortByLearners]);
+  /* Arbitrage n°18, étendu au pilotage le 24/09 : plus de classement nominatif.
+     Le rang, l'XP total, la série, le tri par XP ou par série et le podium
+     « Les trois premiers » sortent, sans remplaçant (Chloé : le coach et le
+     manager n'en ont pas besoin). Reste la liste des apprenants, par ordre
+     alphabétique : l'ordre qui ne se lit pas comme un rang. */
+  const learners = useMemo(
+    () => [...MOCK_LEARNER_PROFILES].sort((a, b) => a.name.localeCompare(b.name, 'fr')),
+    [],
+  );
 
-  // Learner ranking table rows
-  const learnerTableRows = sortedLearners.map((learner, idx) => ({
-    rank: idx + 1,
-    name: learner.name,
-    level: (
-      <Badge
-        variant={learner.dreyfusAvg >= 4 ? 'success' : learner.dreyfusAvg >= 3 ? 'info' : 'danger'}
-        size="compact"
-      >
-        D{learner.dreyfusAvg.toFixed(1)}
-      </Badge>
-    ),
-    xp: <span className="font-semibold text-primary-700">{learner.totalXp}</span>,
-    streak: (
-      <div className="flex items-center gap-stack-3xs">
-        <Flame size={14} className="text-secondary-500" />
-        <span className="font-semibold">{learner.streak}</span>
-      </div>
-    ),
+  // Rangées de la table — des chiffres en encre, alignés à droite ; le
+  // niveau est une donnée (plus un `Badge` coloré selon un seuil non écrit).
+  const learnerTableRows = learners.map((learner) => ({
+    name: <span className="font-semibold text-ink-900">{learner.name}</span>,
+    level: <span className="tabular-nums text-ink-900">{dreyfusFr(learner.dreyfusAvg)}</span>,
     status: (
       <Badge
         variant={
@@ -163,23 +122,20 @@ export default function AnalyticsDashboard() {
         }
         size="compact"
       >
-        {learner.status === 'on-track' ? 'On track' : learner.status === 'at-risk' ? 'At risk' : 'Stuck'}
+        {STATUS_LABEL[learner.status]}
       </Badge>
     ),
     progress: (
-      <div className="flex items-center gap-stack-xs">
-        <ProgressBar value={learner.progressPercent} fill="brand" size="sm" />
-        <span className="text-caption text-ink-600 w-10 text-right">{learner.progressPercent}%</span>
+      <div className="flex items-center gap-stack-xs min-w-[8rem]">
+        <ProgressBar value={learner.progressPercent} fill="brand" size="sm" valueLabel={false} className="flex-1" aria-label={`Progression de ${learner.name}`} />
+        <span className="text-caption text-ink-600 w-10 text-right tabular-nums whitespace-nowrap">{learner.progressPercent}{'\u00a0'}%</span>
       </div>
     ),
   }));
 
   const learnerTableColumns = [
-    { key: 'rank', label: 'Rang', sortable: false },
     { key: 'name', label: 'Apprenant', sortable: false },
-    { key: 'level', label: 'Niveau', sortable: false },
-    { key: 'xp', label: 'XP total', sortable: false },
-    { key: 'streak', label: 'Streak', sortable: false },
+    { key: 'level', label: 'Niveau', sortable: false, align: 'right' as const },
     { key: 'status', label: 'Statut', sortable: false },
     { key: 'progress', label: 'Progression', sortable: false },
   ];
@@ -194,73 +150,92 @@ export default function AnalyticsDashboard() {
     { name: 'Coopération', adoption: 6, avgLevel: 3.1 },
   ];
 
+  const statusCounts = [
+    { key: 'on-track', label: 'Sur la bonne voie', icon: <CheckCircle size={20} className="text-success-fg" aria-hidden="true" /> },
+    { key: 'at-risk', label: 'À risque', icon: <AlertCircle size={20} className="text-accent-800" aria-hidden="true" /> },
+    { key: 'stuck', label: 'Bloqués', icon: <AlertCircle size={20} className="text-danger-fg" aria-hidden="true" /> },
+  ].map((s) => ({ ...s, count: MOCK_LEARNER_PROFILES.filter((l) => l.status === s.key).length }));
+
+  /* Passe typographique du 2026-09-24 :
+     - en-tête `flat` au padding de `PageShell` (il était une carte de verre
+       collée au haut de la fenêtre, seule de son espèce dans la tranche) ;
+     - chaque graphique est une section à h2, dans UNE carte (il était dans une
+       `SectionCard` puis dans un `ChartContainer` : deux coques) ;
+     - légendes et axes en français (S1…S12, « Sur la bonne voie ») ;
+     - les chiffres en encre : le teal et l'orange ne disent pas qu'un
+       chiffre compte plus ; le titre « Compétences en retard » était en
+       `warning-base` (#F8B044), illisible sur fond clair. */
   return (
-    <PageShell width="wide" noPadTop>
-      <EditorialHero
-        eyebrow="Analytics · Dashboard"
+    <PageShell width="wide">
+      <PageHero
+        eyebrow="Analyses"
         title="Tableau de bord d'analyse"
-        summary="Visualisation complète des KPIs d'engagement, progression Dreyfus, et utilisation des ressources d'apprentissage."
-        tone="default"
+        summary="Engagement, progression Dreyfus et usage des ressources d'apprentissage de l'équipe."
+        tone="flat"
         trailing={
-          <div className="flex items-center gap-stack-xs">
-            <Button emphasis="outline" size="md" leadingIcon={<Download size={16} />}>
+          /* Deux outils, pas d'action principale : une page de consultation
+             n'a pas de `solid` (arbitrage n°19). */
+          <div className="flex flex-wrap items-center gap-stack-xs">
+            <Button emphasis="ghost" tone="brand" size="md" leadingIcon={<Download size={16} />}>
               Exporter
             </Button>
-            <Button emphasis="soft" tone="warm" size="md" leadingIcon={<RefreshCw size={16} />}>
+            <Button emphasis="ghost" tone="brand" size="md" leadingIcon={<RefreshCw size={16} />}>
               Actualiser
             </Button>
           </div>
         }
       />
 
-      <div className="flex flex-col gap-section">
-
-        {/* Period Filter */}
-        <div className="flex flex-wrap gap-stack-xs">
-          {['week', 'month', 'quarter', 'year'].map((p) => (
-            <FilterChip
-              key={p}
-              label={p === 'week' ? 'Semaine' : p === 'month' ? 'Mois' : p === 'quarter' ? 'Trimestre' : 'Année'}
-              active={activePeriod === p}
-              onClick={() => setActivePeriod(p)}
-            />
-          ))}
+      {/* La période et les chiffres qu'elle règle : un bloc. */}
+      <div className="flex flex-col gap-stack-lg">
+        <div className="flex flex-col gap-stack-xs" role="group" aria-labelledby="analyse-filtre-periode">
+          <span id="analyse-filtre-periode" className={FILTER_GROUP_LABEL}>Période</span>
+          <div className="flex flex-wrap gap-stack-xs">
+            {['week', 'month', 'quarter', 'year'].map((p) => (
+              <FilterChip
+                key={p}
+                label={p === 'week' ? 'Semaine' : p === 'month' ? 'Mois' : p === 'quarter' ? 'Trimestre' : 'Année'}
+                active={activePeriod === p}
+                onClick={() => setActivePeriod(p)}
+              />
+            ))}
+          </div>
         </div>
 
-        {/* Main KPI Cards */}
+        {/* Main KPI Cards — un seul ton. */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
           <StatCard
             value={MOCK_COACH_TEAM_STATS.totalLearners.toString()}
             label="Apprenants"
             delta="Inscrits"
-            variant="brand"
             size="md"
           />
           <StatCard
             value={MOCK_COACH_TEAM_STATS.activeLearners.toString()}
             label="Actifs"
-            delta={`↑ 2 vs semaine`}
+            delta="↑ 2 vs semaine dernière"
             deltaDirection="up"
-            variant="sun"
             size="md"
           />
           <StatCard
-            value={`${MOCK_COACH_TEAM_STATS.avgDreyfus}`}
-            label="Dreyfus moyen"
+            value={dreyfusFr(MOCK_COACH_TEAM_STATS.avgDreyfus)}
+            sub="/ 5"
+            label="Niveau Dreyfus moyen"
             delta="Tendance stable"
-            variant="brand"
             size="md"
           />
           <StatCard
-            value={`${Math.round((MOCK_COACH_TEAM_STATS.activeLearners / MOCK_COACH_TEAM_STATS.totalLearners) * 100)}%`}
-            label="Taux engagement"
-            delta="↑ 5% vs mois"
+            value={`${Math.round((MOCK_COACH_TEAM_STATS.activeLearners / MOCK_COACH_TEAM_STATS.totalLearners) * 100)}`}
+            sub="%"
+            label="Taux d'engagement"
+            delta={'↑ 5\u00a0% vs mois dernier'}
             deltaDirection="up"
-            variant="warm"
             size="md"
           />
         </div>
+      </div>
 
+      <div className="flex flex-col gap-stack-lg">
         {/* Tab Navigation */}
         <Tabs
           items={[
@@ -270,34 +245,17 @@ export default function AnalyticsDashboard() {
           ]}
           value={activeTab}
           onChange={setActiveTab}
+          label="Vues du tableau de bord"
         />
 
         {/* OVERVIEW TAB ─────────────────────────────────────────────────────────── */}
         {activeTab === 'overview' && (
-          <div className="flex flex-col gap-section">
-
-            {/* XP Progression Chart */}
-            <SectionCard title="Progression XP cumulatif (12 semaines)" titleIcon={<TrendingUp size={18} />}>
-              <ChartContainer>
-                <LineChart
-                  data={xpProgressionData}
-                  series={[
-                    { key: 'Nadia Ferreira', label: 'Nadia Ferreira', color: '#55A1B4', strokeWidth: 3 },
-                    { key: 'Camille Durand', label: 'Camille Durand', color: '#ED843A', strokeWidth: 3 },
-                    { key: 'Sophie Martin', label: 'Sophie Martin', color: '#F8B044', strokeWidth: 2 },
-                    { key: 'Pierre Bernard', label: 'Pierre Bernard', color: '#9DBEBA', strokeWidth: 2, strokeDasharray: '5 5' },
-                  ]}
-                  size="lg"
-                  showLegend
-                  smooth
-                  showDots
-                />
-              </ChartContainer>
-            </SectionCard>
+          <div className="flex flex-col gap-page">
 
             {/* Activity vs Performance Composed Chart */}
-            <SectionCard title="Activité vs Taux de réussite" titleIcon={<BarChart3 size={18} />}>
-              <ChartContainer>
+            <section className="flex flex-col gap-stack">
+              <SectionHeader title="Activité et taux de réussite" meta="12 dernières semaines" />
+              <Card>
                 <ComposedChart
                   data={activityPerformanceData}
                   series={[
@@ -310,12 +268,13 @@ export default function AnalyticsDashboard() {
                   leftAxisLabel="Actions"
                   rightAxisLabel="Taux (%)"
                 />
-              </ChartContainer>
-            </SectionCard>
+              </Card>
+            </section>
 
             {/* Learning Hours Distribution Area Chart */}
-            <SectionCard title="Répartition des heures d'apprentissage" titleIcon={<Clock size={18} />}>
-              <ChartContainer>
+            <section className="flex flex-col gap-stack">
+              <SectionHeader title="Répartition des heures d'apprentissage" meta="Heures par semaine, 12 dernières semaines" />
+              <Card>
                 <AreaChart
                   data={learningHoursData}
                   series={[
@@ -329,165 +288,107 @@ export default function AnalyticsDashboard() {
                   smooth
                   fillOpacity={0.6}
                 />
-              </ChartContainer>
-            </SectionCard>
+              </Card>
+            </section>
 
-            {/* Learner Status Distribution Pie Chart */}
-            <div className="grid md:grid-cols-2 gap-section">
-              <SectionCard title="Distribution des statuts apprenants" titleIcon={<Users size={18} />}>
-                <div className="flex justify-center w-full">
+            {/* Learner Status Distribution */}
+            <section className="flex flex-col gap-stack">
+              <SectionHeader title="Statut des apprenants" meta={`${MOCK_LEARNER_PROFILES.length} apprenants`} />
+              <div className="grid md:grid-cols-2 gap-stack items-start">
+                <Card className="flex justify-center">
                   <PieChart
                     data={learnerStatusData}
                     size="sm"
                     showLegend
                     showLabels
                   />
-                </div>
-              </SectionCard>
-
-              {/* Status Summary Cards */}
-              <div className="flex flex-col gap-stack">
-                <Card className="flex items-start gap-stack p-stack md:p-stack-lg">
-                  <div className="p-2 rounded-md bg-success-bg">
-                    <CheckCircle size={20} className="text-success-fg" />
-                  </div>
-                  <div>
-                    <div className="text-h4 font-bold text-ink-900">{MOCK_LEARNER_PROFILES.filter(l => l.status === 'on-track').length}</div>
-                    <div className="text-body-sm text-ink-600">Sur la bonne voie</div>
-                  </div>
                 </Card>
 
-                <Card className="flex items-start gap-stack p-stack md:p-stack-lg">
-                  <div className="p-2 rounded-md bg-warning-bg">
-                    <AlertCircle size={20} className="text-warning-fg" />
-                  </div>
-                  <div>
-                    <div className="text-h4 font-bold text-ink-900">{MOCK_LEARNER_PROFILES.filter(l => l.status === 'at-risk').length}</div>
-                    <div className="text-body-sm text-ink-600">À risque</div>
-                  </div>
-                </Card>
-
-                <Card className="flex items-start gap-stack p-stack md:p-stack-lg">
-                  <div className="p-2 rounded-md bg-danger-bg">
-                    <AlertCircle size={20} className="text-danger-fg" />
-                  </div>
-                  <div>
-                    <div className="text-h4 font-bold text-ink-900">{MOCK_LEARNER_PROFILES.filter(l => l.status === 'stuck').length}</div>
-                    <div className="text-body-sm text-ink-600">Bloqués</div>
-                  </div>
+                {/* Les trois comptes : des rangées dans une carte. */}
+                <Card className="p-0">
+                  <ul className="flex flex-col divide-y divide-ink-100" aria-label="Apprenants par statut">
+                    {statusCounts.map((s) => (
+                      <li key={s.key} className="flex items-center gap-stack px-stack-md sm:px-stack-lg py-stack">
+                        <span className="shrink-0 inline-flex">{s.icon}</span>
+                        <span className="flex-1 text-body text-ink-900">{s.label}</span>
+                        <span className="text-body font-semibold text-ink-900 tabular-nums">{s.count}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </Card>
               </div>
-            </div>
+            </section>
 
           </div>
         )}
 
         {/* LEARNERS TAB ─────────────────────────────────────────────────────────── */}
         {activeTab === 'learners' && (
-          <div className="flex flex-col gap-section">
+          <div className="flex flex-col gap-page">
 
-            {/* Sorting Controls */}
-            <div className="flex gap-stack-xs flex-wrap">
-              <span className="text-body-sm text-ink-600 font-medium">Trier par :</span>
-              {(['xp', 'streak', 'level'] as const).map((metric) => (
-                <FilterChip
-                  key={metric}
-                  label={metric === 'xp' ? 'Total XP' : metric === 'streak' ? 'Streak' : 'Niveau'}
-                  active={sortByLearners === metric}
-                  onClick={() => setSortByLearners(metric)}
-                />
-              ))}
-            </div>
-
-            {/* Learner Rankings Table */}
-            <SectionCard title="Classement des apprenants" titleIcon={<Award size={18} />}>
+            <section className="flex flex-col gap-stack">
+              <SectionHeader title="Apprenants" meta={`${learners.length} apprenants`} />
               <DataTable columns={learnerTableColumns} rows={learnerTableRows} />
-            </SectionCard>
-
-            {/* Top Performers Cards */}
-            <div>
-              <div className="text-h3 font-bold text-ink-900 mb-stack">Meilleurs performants</div>
-              <div className="grid md:grid-cols-3 gap-stack">
-                {sortedLearners.slice(0, 3).map((learner, idx) => (
-                  <Card key={learner.userId} className="flex flex-col gap-stack p-stack md:p-stack-lg">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <div className="text-caption text-ink-500 font-semibold">#{idx + 1}</div>
-                        <div className="text-body-lg font-bold text-ink-900">{learner.name}</div>
-                        <div className="text-body-sm text-ink-600">{learner.role}</div>
-                      </div>
-                      <Badge variant="success" size="compact">D{learner.dreyfusAvg.toFixed(1)}</Badge>
-                    </div>
-                    <div className="flex gap-stack">
-                      <div>
-                        <div className="text-caption text-ink-500">XP</div>
-                        <div className="text-h3 font-bold text-primary-700">{learner.totalXp}</div>
-                      </div>
-                      <div>
-                        <div className="text-caption text-ink-500">Streak</div>
-                        <div className="text-h3 font-bold text-secondary-500">{learner.streak}</div>
-                      </div>
-                    </div>
-                    <ProgressBar value={learner.progressPercent} fill="brand" size="md" />
-                  </Card>
-                ))}
-              </div>
-            </div>
+            </section>
 
           </div>
         )}
 
         {/* COMPETENCIES TAB ────────────────────────────────────────────────────── */}
         {activeTab === 'competencies' && (
-          <div className="flex flex-col gap-section">
+          <div className="flex flex-col gap-page">
 
-            {/* Competency Distribution Table */}
-            <SectionCard title="Adoption et progression des compétences" titleIcon={<TrendingUp size={18} />}>
-              <div className="flex flex-col gap-stack">
-                {competencies.map((comp) => (
-                  <div key={comp.name} className="flex items-center gap-stack">
-                    <div className="w-36 shrink-0">
-                      <span className="text-body-sm font-semibold text-ink-700">{comp.name}</span>
-                    </div>
-                    <div className="flex-1">
-                      <ProgressBar value={Math.round((comp.avgLevel / 5) * 100)} fill="brand" size="md" />
-                    </div>
-                    <div className="flex items-center gap-stack-xs w-48">
-                      <span className="text-caption text-ink-600">{comp.adoption} apprenants</span>
-                      <Badge variant="info" size="compact">D{comp.avgLevel.toFixed(1)}</Badge>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </SectionCard>
+            {/* Competency Distribution */}
+            <section className="flex flex-col gap-stack">
+              <SectionHeader title="Adoption et progression des compétences" meta="Niveau Dreyfus moyen et nombre d'apprenants" />
+              <Card>
+                <ul className="flex flex-col gap-stack" aria-label="Compétences">
+                  {competencies.map((comp) => (
+                    <li key={comp.name} className="flex flex-col gap-stack-3xs sm:flex-row sm:items-center sm:gap-stack">
+                      <span className="sm:w-40 sm:shrink-0 text-body font-semibold text-ink-900">{comp.name}</span>
+                      <ProgressBar
+                        value={comp.avgLevel}
+                        max={5}
+                        fill="brand"
+                        size="md"
+                        layout="inline"
+                        valueLabel={`${dreyfusFr(comp.avgLevel)} / 5`}
+                        aria-label={`${comp.name} : niveau moyen`}
+                        className="flex-1"
+                      />
+                      <span className="sm:w-28 sm:shrink-0 sm:text-right text-caption text-ink-600 tabular-nums whitespace-nowrap">{comp.adoption} apprenants</span>
+                    </li>
+                  ))}
+                </ul>
+              </Card>
+            </section>
 
             {/* Competency Health Cards */}
-            <div>
-              <div className="text-h3 font-bold text-ink-900 mb-stack">Santé des compétences</div>
+            <section className="flex flex-col gap-stack">
+              <SectionHeader title="Santé des compétences" />
               <div className="grid md:grid-cols-2 gap-stack">
-                <Card className="flex flex-col gap-stack p-stack md:p-stack-lg bg-success-bg/30 border border-success-base/20">
-                  <div className="flex items-center gap-stack-xs">
-                    <CheckCircle size={20} className="text-success-base" />
-                    <div className="text-body-lg font-bold text-success-base">Compétences saines</div>
-                  </div>
-                  <div className="text-h3 font-bold text-ink-900">Leadership, Communication</div>
-                  <div className="text-body-sm text-ink-600">&gt; 70% d'adoption, niveau D3+</div>
+                <Card className="flex flex-col gap-stack-xs bg-success-bg/30 border border-success-base/20">
+                  <h3 className="flex items-start gap-stack-xs font-display text-h3 text-ink-900">
+                    <span className="shrink-0 inline-flex items-center h-lh" aria-hidden="true"><CheckCircle size={20} className="text-success-fg" /></span>
+                    Compétences saines
+                  </h3>
+                  <p className="text-body font-semibold text-ink-900">Leadership, Communication</p>
+                  <p className="text-body text-ink-700">Plus de 70{'\u00a0'}% d'adoption, niveau D3 et au-delà.</p>
                 </Card>
 
-                <Card className="flex flex-col gap-stack p-stack md:p-stack-lg bg-warning-bg/30 border border-warning-base/20">
-                  <div className="flex items-center gap-stack-xs">
-                    <AlertCircle size={20} className="text-warning-base" />
-                    <div className="text-body-lg font-bold text-warning-base">Compétences en retard</div>
-                  </div>
-                  <div className="text-h3 font-bold text-ink-900">Créativité, Analyse</div>
-                  <div className="text-body-sm text-ink-600">{'<'} 50% d'adoption, focus d'accompagnement requis</div>
+                <Card className="flex flex-col gap-stack-xs bg-warning-bg/30 border border-warning-base/20">
+                  <h3 className="flex items-start gap-stack-xs font-display text-h3 text-ink-900">
+                    <span className="shrink-0 inline-flex items-center h-lh" aria-hidden="true"><AlertCircle size={20} className="text-accent-800" /></span>
+                    Compétences en retard
+                  </h3>
+                  <p className="text-body font-semibold text-ink-900">Créativité, Analyse</p>
+                  <p className="text-body text-ink-700">Moins de 50{'\u00a0'}% d'adoption : un accompagnement ciblé est à prévoir.</p>
                 </Card>
               </div>
-            </div>
+            </section>
 
           </div>
         )}
-
       </div>
     </PageShell>
   );

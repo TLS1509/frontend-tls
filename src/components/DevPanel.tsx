@@ -52,7 +52,7 @@ const Chip: React.FC<ChipProps> = ({ active, accent, disabled, onClick, children
       'focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-500',
       'disabled:opacity-40 disabled:cursor-not-allowed',
       active && accent  ? 'bg-accent-400 text-ink-900' :
-      active            ? 'bg-primary-600 text-white' :
+      active            ? 'bg-primary-700 text-white' :
                           'bg-white/[0.07] text-ink-400 hover:bg-white/[0.12] hover:text-white',
     ].filter(Boolean).join(' ')}
   >
@@ -99,8 +99,13 @@ export const DevPanel: React.FC = () => {
   };
 
   return (
-    /* Mobile: remonté au-dessus de la BottomNav (bottom-24). Desktop: après la sidebar (220/260px). */
-    <div className="fixed bottom-24 left-4 md:bottom-6 md:left-[236px] lg:left-[276px] z-tooltip flex flex-col items-start gap-stack-xs">
+    /* Bureau : ancré au bord DROIT, à gauche du bouton « + » (56 px à right-6 :
+       on se pose à right-24, soit 16 px d'écart). Il vivait à gauche, calé sur
+       la largeur de la barre dépliée : il recouvrait « Déconnexion » dans le
+       menu utilisateur ouvert, et flottait au milieu du contenu barre repliée
+       (audit du 23/09). Mobile : pas de barre latérale, il reste à gauche,
+       remonté au-dessus de la BottomNav (bottom-24). */
+    <div className="fixed bottom-24 left-4 md:left-auto md:right-24 md:bottom-6 z-tooltip flex flex-col items-start md:items-end gap-stack-xs">
 
       {/* Panel */}
       {isOpen && (

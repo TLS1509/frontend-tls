@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckCircle, XCircle, Sparkles } from 'lucide-react';
+import { CheckCircle, XCircle } from 'lucide-react';
 
 export interface QuizOption {
   id: string;
@@ -37,29 +37,33 @@ export const QuizQuestionCard: React.FC<QuizQuestionCardProps> = ({
   return (
     <div
       className={[
-        'flex flex-col gap-stack-lg bg-white border border-ink-200 rounded-lg p-7',
+        'flex flex-col gap-stack-lg bg-white border border-ink-200 rounded-lg p-stack-lg',
         className,
       ]
         .filter(Boolean)
         .join(' ')}
     >
-      <div>
+      {/* Compteur → question 8 (passe typographique du 2026-09-24). La
+          question est le titre de la carte : h3 20/700, l'interligne de son pas
+          — c'était un h2 au corps d'un h3, et le `leading-snug` doublait le
+          token. La marge de base des titres (0,75em) cède à `mt-stack-xs`. */}
+      <div className="flex flex-col">
         {questionNumber && totalQuestions && (
-          <div className="flex items-center gap-stack-xs mb-3">
-            <span className="inline-flex items-center justify-center w-7 h-7 rounded-pill bg-primary-50 text-primary-700 text-caption font-bold">
+          <div className="flex items-center gap-stack-xs">
+            <span className="inline-flex items-center justify-center w-7 h-7 rounded-pill bg-primary-50 text-primary-800 text-caption font-bold tabular-nums">
               {questionNumber}
             </span>
-            <span className="text-caption text-ink-500 font-medium">
+            <span className="text-caption text-ink-600 tabular-nums">
               sur {totalQuestions}
             </span>
           </div>
         )}
-        <h2 className="text-h3 font-display font-bold text-ink-900 leading-snug text-balance">
+        <h3 className={['text-h3 font-display text-ink-900 text-balance', questionNumber && totalQuestions ? 'mt-stack-xs' : ''].join(' ')}>
           {question}
-        </h2>
+        </h3>
       </div>
 
-      <div className="flex flex-col gap-2.5" role="radiogroup">
+      <div className="flex flex-col gap-stack-sm" role="radiogroup">
         {options.map((option, idx) => {
           const isSelected = selectedId === option.id;
           const isCorrect = option.isCorrect;
@@ -71,20 +75,23 @@ export const QuizQuestionCard: React.FC<QuizQuestionCardProps> = ({
           let letterBg = 'bg-ink-100 text-ink-700';
           if (showCorrect) {
             optionClasses = 'border-success-base bg-success-bg shadow-sm';
-            letterBg = 'bg-success-base text-white';
+            letterBg = 'bg-success-vivid text-white';
           } else if (showIncorrect) {
             optionClasses = 'border-danger-base bg-danger-bg';
-            letterBg = 'bg-danger-base text-white';
+            letterBg = 'bg-danger-strong text-white';
           } else if (isSelected) {
             optionClasses = 'border-primary-500 bg-primary-50 shadow-brand-xs';
-            letterBg = 'bg-primary-500 text-white';
+            letterBg = 'bg-primary-700 text-white';
           }
 
           return (
             <button
               key={option.id}
               className={[
-                'group flex items-center gap-stack px-stack-md py-stack rounded-lg border-2 cursor-pointer transition-all text-left',
+                /* `items-start` + boîtes `h-lh` : la lettre et l'icône de résultat
+                   se centrent sur la PREMIÈRE ligne de la réponse, pas sur le
+                   bloc, quand la réponse tient sur deux lignes. */
+                'group flex items-start gap-stack px-stack-md py-stack rounded-lg border-2 cursor-pointer transition-all text-left text-body',
                 'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                 'disabled:cursor-not-allowed disabled:opacity-60',
                 optionClasses,
@@ -94,21 +101,27 @@ export const QuizQuestionCard: React.FC<QuizQuestionCardProps> = ({
               aria-pressed={isSelected}
               role="radio"
             >
-              <span
-                className={[
-                  'inline-flex items-center justify-center w-8 h-8 rounded-pill font-display font-bold text-body-sm transition-colors shrink-0',
-                  letterBg,
-                ].join(' ')}
-              >
-                {optionLetter}
+              <span className="flex items-center h-lh shrink-0">
+                <span
+                  className={[
+                    'inline-flex items-center justify-center w-8 h-8 rounded-pill font-display font-bold text-body transition-colors',
+                    letterBg,
+                  ].join(' ')}
+                >
+                  {optionLetter}
+                </span>
               </span>
-              <span className="flex-1 text-body font-medium text-ink-900">{option.label}</span>
+              <span className="flex-1 text-body text-ink-900">{option.label}</span>
 
               {answered && showCorrect && (
-                <CheckCircle size={20} className="text-success-base shrink-0" aria-label="Correct" />
+                <span className="flex items-center h-lh shrink-0">
+                  <CheckCircle size={20} className="text-success-base" aria-label="Correct" />
+                </span>
               )}
               {answered && showIncorrect && (
-                <XCircle size={20} className="text-danger-base shrink-0" aria-label="Incorrect" />
+                <span className="flex items-center h-lh shrink-0">
+                  <XCircle size={20} className="text-danger-base" aria-label="Incorrect" />
+                </span>
               )}
             </button>
           );
@@ -118,18 +131,20 @@ export const QuizQuestionCard: React.FC<QuizQuestionCardProps> = ({
       {answered && (
         <div
           className={[
-            'flex items-start gap-stack-xs p-4 rounded-lg text-body-sm',
+            'flex items-start gap-stack-xs p-4 rounded-lg text-body',
             isCorrectAnswer
               ? 'bg-gradient-to-br from-success-bg to-white border border-success-base/30 text-success-fg'
               : 'bg-gradient-to-br from-danger-bg to-white border border-danger-base/30 text-danger-fg',
           ].join(' ')}
         >
-          <span className="shrink-0 mt-0.5">
-            {isCorrectAnswer ? <Sparkles size={18} /> : <XCircle size={18} />}
+          {/* Une validation, pas une étincelle : Sparkles est réservé aux
+              fonctions d'IA (DESIGN.md § 10). */}
+          <span className="flex items-center h-lh shrink-0">
+            {isCorrectAnswer ? <CheckCircle size={18} /> : <XCircle size={18} />}
           </span>
-          <span className="font-medium">
+          <span className="font-semibold">
             {isCorrectAnswer
-              ? 'Excellent ! Bonne réponse.'
+              ? 'Bonne réponse.'
               : 'Incorrect. Consultez la bonne réponse ci-dessus pour comprendre.'}
           </span>
         </div>

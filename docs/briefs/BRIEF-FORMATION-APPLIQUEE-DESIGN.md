@@ -1,12 +1,12 @@
 # Feuille de route — se former en tranchant les décisions de rayon et de registre
 
 **Écrite le 2026-09-14.** Elle croise les missions *Appliquer* des cours UX/UI
-([`chloe/application/cours/`](../../chloe/application/cours/)) avec les décisions
+([`docs/learning/application/cours/`](../learning/application/cours/)) avec les décisions
 de design encore ouvertes dans `src/`. Trois séances de ~1 h : 30 min de cours,
 30 min de chantier réel.
 
 > ⏳ **Ce document a une date de péremption : il meurt quand R2 est tranchée.**
-> C'est la raison pour laquelle il vit ici et non dans `chloe/`, dont le README
+> C'est la raison pour laquelle il vit ici et non dans `docs/learning/`, dont le README
 > interdit l'accumulation de plans — *« un plan périmé se lit comme un plan en
 > cours »*.
 
@@ -49,7 +49,7 @@ détecteur dit *où regarder* ; c'est toi qui décides entre migrer l'élément 
 
 ## Séance 1 · R2 — les 157 rayons à 24 px
 
-**Le cours** (30 min) — [UXUI-C1](../../chloe/application/cours/UXUI-C1-Socle-visuel-typo-couleur-contraste-espacement.md),
+**Le cours** (30 min) — [UXUI-C1](../learning/application/cours/UXUI-C1-Socle-visuel-typo-couleur-contraste-espacement.md),
 Partie 4 (espacement, rayons). Corrigée le 2026-09-14 : elle porte maintenant la
 vraie échelle et la raison du 14 px.
 
@@ -78,7 +78,7 @@ au même endroit et dans la même forme que R1 et R3. Une décision qui n'est pa
 
 ## Séance 2 · Les deux registres — Badge crie, MetaPill chuchote
 
-**Le cours** (30 min) — [UXUI-C2, les 4C](../../chloe/application/cours/UXUI-C2-Les-4C.md),
+**Le cours** (30 min) — [UXUI-C2, les 4C](../learning/application/cours/UXUI-C2-Les-4C.md),
 en insistant sur le **C de Contraste** : *« when everything is bold, nothing is
 bold »*, et un seul primaire par écran.
 
@@ -102,7 +102,7 @@ justement à sortir du goût.
 
 ## Séance 3 · Le drift — 264 cartes et 494 interlignes
 
-**Le cours** (30 min) — [UXUI-C3, tokens & design system](../../chloe/application/cours/UXUI-C3-Design-tokens-et-design-system.md).
+**Le cours** (30 min) — [UXUI-C3, tokens & design system](../learning/application/cours/UXUI-C3-Design-tokens-et-design-system.md).
 C'est le mode d'emploi conceptuel de `check-handmade.mjs` : un concept, une
 valeur, un endroit ; toute redéfinition est un **alias** ; et `getComputedStyle`
 dit la vérité, pas le code lu.
@@ -130,7 +130,7 @@ unique. Tu empirerais le drift.
 qui rend désormais un **vrai `<button>`** depuis la Phase 19.A, donc les sept
 états s'appliquent pour de bon.
 
-**Le cours** — [UXUI-C5](../../chloe/application/cours/UXUI-C5-Interaction-etats-micro-interactions.md).
+**Le cours** — [UXUI-C5](../learning/application/cours/UXUI-C5-Interaction-etats-micro-interactions.md).
 **La mission** — les 7 états d'un composant : défaut · survol · actif · **focus** ·
 désactivé · chargement · erreur/succès. Les deux qu'on oublie sont focus et
 chargement.
@@ -140,7 +140,7 @@ chargement.
 ## Ce que cette feuille de route ne fait PAS
 
 Le **balayage de contraste P0** de
-[`chloe/application/AUDIT-UXUI-APP-ET-SITE.md`](../../chloe/application/AUDIT-UXUI-APP-ET-SITE.md)
+[`docs/learning/application/AUDIT-UXUI-APP-ET-SITE.md`](../learning/application/AUDIT-UXUI-APP-ET-SITE.md)
 est un autre chantier, avec un autre critère (taille réelle + fond réel). Ne pas
 mélanger : une passe qui traite le rayon *et* la couleur en même temps produit un
 diff qu'on ne peut plus relire.
@@ -158,7 +158,7 @@ produit qui a bougé. Corrigées à la source, avec journal :
 | M01 + C1 | « Padding minimal des cartes 20 px » | **24 px au canon, 16 px en dense** — et la règle est le rapport padding/rayon (≥ ~1,4) |
 | M01 | Tokens `--space-1 … --space-12` | N'existent pas sous ce nom : échelle Tailwind + `--spacing-stack*` sémantiques |
 | M02, M04, C3, audit | « > 90 composants (≈ 51 `ui` + 40 `patterns`) » | **212 fichiers, ≈ 254 composants** (85 `ui` + 89 `patterns`) |
-| `chloe/README.md` | `UX-UI-BOOTCAMP.md` « encore actif » | Périmé (échéance 31/07/2026, état des lieux démenti) — marqué en tête du fichier |
+| `docs/learning/README.md` | `UX-UI-BOOTCAMP.md` « encore actif » | Périmé (échéance 31/07/2026, état des lieux démenti) — marqué en tête du fichier |
 
 Ce qui était **juste et le reste** : la règle de contraste (`primary-700` = 5,02:1
 comme plancher pour du texte teal, teal de marque décoratif). Les cours et

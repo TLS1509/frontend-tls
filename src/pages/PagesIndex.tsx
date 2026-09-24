@@ -24,6 +24,7 @@ import {
   Network, ListTree, Rows3, Search, ArrowUpRight, ChevronRight, X, Unlink,
 } from 'lucide-react';
 import { ROUTES, type RouteAudience, type RouteEntry } from '../data/routesManifest';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 
 /* ─────────────────────────────── Publics ────────────────────────────────── */
 
@@ -83,7 +84,7 @@ const TreeBranch: React.FC<{ node: TreeNode; depth: number; onGo: (p: string) =>
             type="button"
             onClick={() => setOpen((o) => !o)}
             aria-expanded={open}
-            className="inline-flex items-center justify-center w-6 h-6 shrink-0 rounded-sm text-ink-500 hover:bg-ink-100 hover:text-ink-800 transition-colors duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+            className="inline-flex items-center justify-center w-6 h-6 shrink-0 rounded-sm text-ink-600 hover:bg-ink-100 hover:text-ink-800 transition-colors duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           >
             <ChevronRight size={14} strokeWidth={2.4} className={open ? 'rotate-90 transition-transform duration-fast' : 'transition-transform duration-fast'} />
             <span className="sr-only">{open ? 'Replier' : 'Déplier'} {node.segment}</span>
@@ -102,7 +103,7 @@ const TreeBranch: React.FC<{ node: TreeNode; depth: number; onGo: (p: string) =>
           >
             <span className="font-mono text-caption text-ink-900 group-hover:text-primary-800 truncate">/{node.segment}</span>
             {node.route.component && (
-              <span className="text-micro text-ink-500 truncate hidden sm:inline">{node.route.component}</span>
+              <span className="text-caption text-ink-600 truncate hidden sm:inline">{node.route.component}</span>
             )}
             {node.route.inbound === 0 && (
               <Unlink size={14} strokeWidth={2.4} className="shrink-0 text-danger-fg" aria-label="aucun lien entrant" />
@@ -114,7 +115,7 @@ const TreeBranch: React.FC<{ node: TreeNode; depth: number; onGo: (p: string) =>
         )}
 
         {kids.length > 0 && (
-          <span className="text-micro text-ink-500 tabular-nums shrink-0">{total}</span>
+          <span className="text-caption text-ink-600 tabular-nums shrink-0">{total}</span>
         )}
       </div>
 
@@ -173,19 +174,31 @@ export const PagesIndex: React.FC = () => {
 
   const go = (p: string) => navigate(p);
 
-  return (
-    <div className="min-h-[100dvh] bg-ink-25">
-      {/* ── En-tête + contrôles ─────────────────────────────────────────── */}
-      <header className="sticky top-0 z-sticky border-b border-ink-200 bg-white/92 backdrop-blur-glass-medium">
-        <div className="mx-auto max-w-page px-4 sm:px-6 py-3 flex flex-col gap-stack-xs">
-          <div className="flex flex-wrap items-baseline gap-stack-xs">
-            <h1 className="text-h4 font-bold tracking-snug text-ink-900">Carte de l'application</h1>
-            <p className="text-caption text-ink-500 m-0">
-              <span className="tabular-nums font-semibold text-ink-700">{ROUTES.length}</span> routes, lues depuis{' '}
-              <code className="text-micro">App.tsx</code>
-            </p>
-          </div>
+  /* Passe typographique du 2026-09-24 :
+     - le titre sort du bandeau collant : h1 à 36 et son chapô (il était à 20,
+       la taille d'un titre de carte) ; le bandeau ne garde que les contrôles ;
+     - la vue Schéma a son titre de section, et ses cartes un titre h3 à 20
+       (des h2 à 16), l'anatomie de carte (rayon 20, padding 24) ;
+     - plus de `text-micro` (11 px, réservé au Badge) pour du texte : légende
+       13, au cran ink-600 (ink-500 est celui des placeholders) ;
+     - le `<main>` imbriqué redevient un `div` : la coque de l'app porte déjà
+       le seul `<main>` de la page. */
+  const CHIP = 'inline-flex items-center gap-stack-2xs rounded-pill border px-2.5 h-8 text-caption font-semibold transition-colors duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
 
+  return (
+    <div className="flex flex-col">
+      {/* ── Titre ─────────────────────────────────────────────────────── */}
+      <div className="mx-auto w-full max-w-page px-4 sm:px-6 pt-section md:pt-section-lg lg:pt-page pb-section flex flex-col gap-stack-sm">
+        <h1 className="font-display text-h1 text-ink-900">Carte de l'application</h1>
+        <p className="font-body text-body-lg text-ink-700 max-w-prose">
+          <span className="tabular-nums font-semibold text-ink-900">{ROUTES.length}</span> routes, lues depuis{' '}
+          <code className="font-mono text-body">App.tsx</code>.
+        </p>
+      </div>
+
+      {/* ── Contrôles (collants) ──────────────────────────────────────── */}
+      <div className="sticky top-0 z-sticky border-y border-ink-200 bg-white/92 backdrop-blur-glass-medium">
+        <div className="mx-auto max-w-page px-4 sm:px-6 py-stack-sm flex flex-col gap-stack-sm">
           <div className="flex flex-wrap items-center gap-stack-xs">
             {/* Bascule de vue */}
             <div role="tablist" aria-label="Mode d'affichage" className="inline-flex items-center gap-stack-3xs rounded-pill bg-ink-100 p-1">
@@ -209,14 +222,14 @@ export const PagesIndex: React.FC = () => {
 
             {/* Recherche */}
             <div className="relative flex-1 min-w-[200px]">
-              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-400 pointer-events-none" aria-hidden />
+              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-600 pointer-events-none" aria-hidden />
               <input
                 type="search"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Filtrer par chemin ou composant…"
                 aria-label="Filtrer les routes"
-                className="w-full h-11 pl-9 pr-3 rounded-lg border border-ink-200 bg-white text-body-sm text-ink-900 placeholder:text-ink-500 focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/15 transition-colors duration-fast"
+                className="w-full h-11 pl-9 pr-3 rounded-lg border border-ink-400 bg-white text-body text-ink-900 placeholder:text-ink-500 focus:outline-none focus:border-primary-700 focus:ring-2 focus:ring-primary-500/15 transition-colors duration-fast"
               />
             </div>
           </div>
@@ -233,13 +246,13 @@ export const PagesIndex: React.FC = () => {
                   aria-pressed={active}
                   onClick={() => setAudFilter(active ? null : a.key)}
                   className={[
-                    'inline-flex items-center gap-stack-2xs rounded-pill border px-2.5 h-8 text-micro font-semibold transition-colors duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
-                    active ? a.chip : 'border-ink-200 bg-white text-ink-600 hover:border-ink-300 hover:text-ink-900',
+                    CHIP,
+                    active ? a.chip : 'border-ink-200 bg-white text-ink-700 hover:border-ink-300 hover:text-ink-900',
                   ].join(' ')}
                 >
                   <span className={`w-1.5 h-1.5 rounded-pill ${a.dot}`} aria-hidden />
                   {a.label}
-                  <span className="tabular-nums text-ink-500">{n}</span>
+                  <span className="tabular-nums font-normal text-ink-600">{n}</span>
                 </button>
               );
             })}
@@ -251,42 +264,41 @@ export const PagesIndex: React.FC = () => {
               onClick={() => setOrphansOnly((o) => !o)}
               title="Routes vers lesquelles aucun lien ne pointe dans le code"
               className={[
-                'inline-flex items-center gap-stack-2xs rounded-pill border px-2.5 h-8 text-micro font-semibold transition-colors duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+                CHIP,
                 orphansOnly
                   ? 'border-danger-base bg-danger-bg text-danger-fg'
-                  : 'border-ink-200 bg-white text-ink-600 hover:border-ink-300 hover:text-ink-900',
+                  : 'border-ink-200 bg-white text-ink-700 hover:border-ink-300 hover:text-ink-900',
               ].join(' ')}
             >
               <Unlink size={14} strokeWidth={2.4} />
               Sans lien entrant
-              <span className="tabular-nums text-ink-500">{orphanTotal}</span>
+              <span className="tabular-nums font-normal text-ink-600">{orphanTotal}</span>
             </button>
 
             {(audFilter || query || orphansOnly) && (
               <button
                 type="button"
                 onClick={() => { setAudFilter(null); setQuery(''); setOrphansOnly(false); }}
-                className="inline-flex items-center gap-stack-3xs rounded-pill px-2.5 h-8 text-micro font-semibold text-ink-600 hover:bg-ink-100 hover:text-ink-900 transition-colors duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                className="inline-flex items-center gap-stack-3xs rounded-pill px-2.5 h-8 text-caption font-semibold text-ink-700 hover:bg-ink-100 hover:text-ink-900 transition-colors duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
               >
                 <X size={14} strokeWidth={2.5} /> Tout afficher
               </button>
             )}
           </div>
         </div>
-      </header>
+      </div>
 
-      <main className="mx-auto max-w-page px-4 sm:px-6 py-section">
+      <div className="mx-auto w-full max-w-page px-4 sm:px-6 pt-section pb-section md:pb-section-lg lg:pb-page flex flex-col gap-section">
         {filtered.length === 0 ? (
-          <p className="text-body-sm text-ink-600">Aucune route ne correspond à « {query} ».</p>
+          <p className="text-body text-ink-700">Aucune route ne correspond à «{'\u00a0'}{query}{'\u00a0'}».</p>
         ) : view === 'schema' ? (
           /* ── SCHÉMA : la surface par public ─────────────────────────── */
-          <div className="flex flex-col gap-section">
-            <p className="text-body-sm text-ink-600 m-0 max-w-prose">
-              Chaque bloc est un public ; chaque puce une section d'URL. La barre mesure la part de routes{' '}
-              <strong className="font-bold text-ink-900">réellement atteignables</strong> — celles vers lesquelles un
-              lien pointe quelque part dans le code. Le reste n'existe qu'en tapant l'URL.
-            </p>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-stack-lg">
+          <section className="flex flex-col gap-stack">
+            <SectionHeader
+              title="Surface par public"
+              subtitle="Chaque bloc est un public, chaque puce une section d'URL. La barre mesure la part de routes réellement atteignables : celles vers lesquelles un lien pointe quelque part dans le code. Le reste n'existe qu'en tapant l'URL."
+            />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-stack">
               {AUDIENCES.map((a) => {
                 const sections = byAudience.get(a.key);
                 if (!sections) return null;
@@ -297,28 +309,38 @@ export const PagesIndex: React.FC = () => {
                 const pct = total ? Math.round((linked / total) * 100) : 0;
                 const ordered = [...sections.entries()].sort((x, y) => y[1] - x[1]);
                 return (
-                  <section key={a.key} className="rounded-lg border border-ink-200 bg-white p-4 flex flex-col gap-stack-xs">
-                    <div className="flex items-baseline gap-stack-xs">
-                      <span className={`w-2 h-2 rounded-pill shrink-0 ${a.dot}`} aria-hidden />
-                      <h2 className="text-body-sm font-bold text-ink-900">{a.label}</h2>
-                      <span className="text-micro text-ink-500">{a.hint}</span>
-                      <span className="ml-auto text-caption font-bold text-ink-700 tabular-nums">{total}</span>
-                    </div>
-
-                    {/* Part atteignable — une barre, pas une stat card */}
-                    <div className="flex items-center gap-stack-xs">
-                      <div
-                        className="flex-1 h-1.5 rounded-pill bg-danger-bg overflow-hidden"
-                        role="img"
-                        aria-label={`${linked} routes sur ${total} ont un lien entrant`}
-                      >
-                        <div className={`h-full rounded-pill ${a.dot}`} style={{ width: `${pct}%` }} />
+                  /* Anatomie de carte : titre 20 et sa méta à 4, barre à 12,
+                     sections à 16. */
+                  <section key={a.key} className="rounded-xl border border-ink-200 bg-white p-stack-lg flex flex-col gap-stack">
+                    <div className="flex flex-col gap-stack-sm">
+                      <div className="flex items-start gap-stack-xs">
+                        {/* Une ligne de haut : le point se centre sur la première
+                            ligne du titre. */}
+                        <span className="shrink-0 inline-flex items-center text-h3 h-lh" aria-hidden>
+                          <span className={`w-2 h-2 rounded-pill ${a.dot}`} />
+                        </span>
+                        <div className="flex flex-col gap-stack-3xs min-w-0">
+                          <h3 className="font-display text-h3 text-ink-900">{a.label}</h3>
+                          <span className="text-caption text-ink-600">{a.hint}</span>
+                        </div>
+                        <span className="ml-auto text-h3 font-display text-ink-900 tabular-nums">{total}</span>
                       </div>
-                      <span className="text-micro tabular-nums shrink-0">
-                        <span className="font-bold text-ink-800">{linked}</span>
-                        <span className="text-ink-500"> liées</span>
-                        {orphans > 0 && <span className="text-danger-fg font-bold"> · {orphans} sans lien</span>}
-                      </span>
+
+                      {/* Part atteignable — une barre, pas une stat card */}
+                      <div className="flex items-center gap-stack-xs">
+                        <div
+                          className="flex-1 h-1.5 rounded-pill bg-danger-bg overflow-hidden"
+                          role="img"
+                          aria-label={`${linked} routes sur ${total} ont un lien entrant`}
+                        >
+                          <div className={`h-full rounded-pill ${a.dot}`} style={{ width: `${pct}%` }} />
+                        </div>
+                        <span className="text-caption tabular-nums shrink-0">
+                          <span className="font-semibold text-ink-900">{linked}</span>
+                          <span className="text-ink-600"> liées</span>
+                          {orphans > 0 && <span className="text-danger-fg font-semibold"> · {orphans} sans lien</span>}
+                        </span>
+                      </div>
                     </div>
 
                     <div className="flex flex-wrap gap-stack-2xs">
@@ -332,7 +354,7 @@ export const PagesIndex: React.FC = () => {
                             onClick={() => { setQuery(`/${sec}`); setView('list'); }}
                             title={secOrphans ? `${secOrphans} route(s) sans lien entrant` : 'toutes liées'}
                             className={[
-                              'inline-flex items-center gap-stack-2xs rounded-pill border px-2.5 h-8 font-mono text-micro transition-colors duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+                              'inline-flex items-center gap-stack-2xs rounded-pill border px-2.5 h-8 font-mono text-caption transition-colors duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                               allOrphan
                                 ? 'border-danger-base/40 bg-danger-bg text-danger-fg'
                                 : 'border-ink-200 bg-ink-25 text-ink-800 hover:border-primary-300 hover:bg-primary-50',
@@ -340,7 +362,7 @@ export const PagesIndex: React.FC = () => {
                           >
                             {allOrphan && <Unlink size={14} strokeWidth={2.4} aria-hidden />}
                             /{sec}
-                            <span className="tabular-nums font-body font-bold text-ink-500">{n}</span>
+                            <span className="tabular-nums font-body font-semibold text-ink-600">{n}</span>
                           </button>
                         );
                       })}
@@ -349,10 +371,10 @@ export const PagesIndex: React.FC = () => {
                 );
               })}
             </div>
-          </div>
+          </section>
         ) : view === 'tree' ? (
           /* ── ARBORESCENCE ──────────────────────────────────────────── */
-          <div className="rounded-lg border border-ink-200 bg-white p-stack">
+          <div className="rounded-xl border border-ink-200 bg-white p-stack-lg">
             <ul className="list-none m-0 p-0">
               {[...tree.children.values()]
                 .sort((a, b) => a.segment.localeCompare(b.segment))
@@ -364,11 +386,11 @@ export const PagesIndex: React.FC = () => {
           <div className="overflow-x-auto rounded-xl border border-ink-200 bg-white">
             <table className="w-full border-collapse text-caption">
               <thead>
-                <tr className="border-b border-ink-200">
-                  <th scope="col" className="text-left px-4 py-2.5 font-bold text-ink-900">Route</th>
-                  <th scope="col" className="text-left px-4 py-2.5 font-bold text-ink-900 hidden sm:table-cell">Composant</th>
-                  <th scope="col" className="text-left px-4 py-2.5 font-bold text-ink-900 hidden md:table-cell">Public</th>
-                  <th scope="col" className="text-left px-4 py-2.5 font-bold text-ink-900 whitespace-nowrap">Liens entrants</th>
+                <tr className="border-b border-ink-200 bg-ink-50">
+                  <th scope="col" className="text-left px-4 py-2.5 font-semibold text-ink-700">Route</th>
+                  <th scope="col" className="text-left px-4 py-2.5 font-semibold text-ink-700 hidden sm:table-cell">Composant</th>
+                  <th scope="col" className="text-left px-4 py-2.5 font-semibold text-ink-700 hidden md:table-cell">Public</th>
+                  <th scope="col" className="text-left px-4 py-2.5 font-semibold text-ink-700 whitespace-nowrap">Liens entrants</th>
                   <th scope="col" className="px-4 py-2.5"><span className="sr-only">Ouvrir</span></th>
                 </tr>
               </thead>
@@ -376,22 +398,22 @@ export const PagesIndex: React.FC = () => {
                 {filtered.map((r) => (
                   <tr key={r.path} className="border-b border-ink-100 last:border-b-0 hover:bg-primary-50/50 transition-colors duration-fast">
                     <th scope="row" className="text-left px-4 py-2 font-mono font-normal text-ink-900 whitespace-nowrap">{r.path}</th>
-                    <td className="px-4 py-2 text-ink-600 hidden sm:table-cell">{r.component ?? '—'}</td>
+                    <td className="px-4 py-2 text-ink-700 hidden sm:table-cell">{r.component ?? '–'}</td>
                     <td className="px-4 py-2 hidden md:table-cell">
-                      <span className="inline-flex items-center gap-stack-2xs text-ink-600">
+                      <span className="inline-flex items-center gap-stack-2xs text-ink-700">
                         <span className={`w-1.5 h-1.5 rounded-pill ${AUD[r.audience].dot}`} aria-hidden />
                         {AUD[r.audience].label}
                       </span>
                     </td>
                     <td className="px-4 py-2">
                       {r.inbound === 0 ? (
-                        <span className="inline-flex items-center gap-stack-3xs rounded-pill bg-danger-bg px-2 py-0.5 text-micro font-bold text-danger-fg">
+                        <span className="inline-flex items-center gap-stack-3xs rounded-pill bg-danger-bg px-2 py-0.5 text-caption font-semibold text-danger-fg">
                           <Unlink size={14} strokeWidth={2.4} /> aucun
                         </span>
                       ) : (
                         <span className="inline-flex items-baseline gap-stack-2xs">
-                          <span className="text-caption font-bold text-ink-800 tabular-nums">{r.inbound}</span>
-                          <span className="text-micro text-ink-500 truncate max-w-[14rem] hidden lg:inline">
+                          <span className="text-caption font-semibold text-ink-900 tabular-nums">{r.inbound}</span>
+                          <span className="text-caption text-ink-600 truncate max-w-[14rem] hidden lg:inline">
                             {r.linkedFrom.join(', ')}
                           </span>
                         </span>
@@ -401,7 +423,7 @@ export const PagesIndex: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => go(r.path)}
-                        className="inline-flex items-center gap-stack-3xs rounded-pill px-2.5 h-8 text-micro font-semibold text-primary-800 hover:bg-primary-100 transition-colors duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                        className="inline-flex items-center gap-stack-3xs rounded-pill px-2.5 h-8 text-caption font-semibold text-primary-800 hover:bg-primary-100 transition-colors duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                       >
                         Ouvrir <ArrowUpRight size={14} />
                       </button>
@@ -413,12 +435,12 @@ export const PagesIndex: React.FC = () => {
           </div>
         )}
 
-        <p className="text-micro text-ink-500 mt-section m-0">
-          Données générées depuis <code>src/App.tsx</code> — régénérer avec{' '}
-          <code>node scripts/gen-routes-manifest.mjs</code> après tout ajout ou retrait de route.
-          Les routes à paramètre (<code>:id</code>) s'ouvrent telles quelles et peuvent afficher un état vide.
+        <p className="text-caption text-ink-600 max-w-prose">
+          Données générées depuis <code className="font-mono">src/App.tsx</code>. Régénérer avec{' '}
+          <code className="font-mono">node scripts/gen-routes-manifest.mjs</code> après tout ajout ou retrait de route.
+          Les routes à paramètre (<code className="font-mono">:id</code>) s'ouvrent telles quelles et peuvent afficher un état vide.
         </p>
-      </main>
+      </div>
     </div>
   );
 };

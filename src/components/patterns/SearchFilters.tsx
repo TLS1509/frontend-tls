@@ -83,6 +83,17 @@ const isToggle = (a: SearchFilterAxis): a is ToggleFilterAxis => a.kind === 'tog
 /** Search size → FilterChip size (FilterChip has no `lg`). */
 const CHIP_SIZE: Record<SearchSize, FilterChipSize> = { sm: 'sm', md: 'md', lg: 'md' };
 
+/* Le bouton de filtres du mode `panel` est tiré à 4 px du bord du champ, dans
+   les trois tailles : hauteur = champ − 8 (36 → 28, 44 → 36, 52 → 44), retrait
+   droit = padding du champ − 4. Coins imbriqués : 14 − 4 = 10, `rounded-md`.
+   Depuis que `Search` porte sa hauteur dans sa rangée (n°22), le bouton y tient
+   sans marges verticales négatives. */
+const TOGGLE_SIZE: Record<SearchSize, string> = {
+  sm: 'h-7 w-7 -mr-stack-xs',
+  md: 'h-9 w-9 -mr-stack-sm',
+  lg: 'h-11 w-11 -mr-stack',
+};
+
 export const SearchFilters: React.FC<SearchFiltersProps> = ({
   query,
   onQueryChange,
@@ -185,9 +196,12 @@ export const SearchFilters: React.FC<SearchFiltersProps> = ({
     ));
   };
 
+  /* Réinitialiser : un outil tertiaire, en `ghost` neutre (arbitrage n°19).
+     Il était en `soft` warm — une pastille orange au même poids que l'action
+     d'une carte. */
   const resetButton = (
     <Button
-      emphasis="soft" tone="warm"
+      emphasis="ghost" tone="neutral"
       size="sm"
       leadingIcon={<RotateCcw size={14} />}
       onClick={reset}
@@ -218,16 +232,17 @@ export const SearchFilters: React.FC<SearchFiltersProps> = ({
                   activeCount > 0 ? ` (${activeCount} actif${activeCount > 1 ? 's' : ''})` : ''
                 }`}
                 className={[
-                  'relative inline-flex items-center justify-center min-h-touch w-10 rounded-md border cursor-pointer transition-all',
+                  'relative inline-flex items-center justify-center rounded-md border cursor-pointer transition-all',
+                  TOGGLE_SIZE[size],
                   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                   panelOpen || activeCount > 0
-                    ? 'bg-primary-500 border-primary-500 text-white hover:bg-primary-600'
+                    ? 'bg-primary-700 border-primary-700 text-white hover:bg-primary-800'
                     : 'bg-white border-ink-200 text-ink-600 hover:bg-ink-50 hover:border-ink-300',
                 ].join(' ')}
               >
                 <SlidersHorizontal size={16} strokeWidth={2.25} />
                 {activeCount > 0 && !panelOpen && (
-                  <span className="absolute -top-1 -right-1 inline-flex items-center justify-center w-4 h-4 rounded-pill bg-accent-500 text-white text-micro font-bold border border-white">
+                  <span className="absolute -top-1 -right-1 inline-flex items-center justify-center w-4 h-4 rounded-pill bg-accent-700 text-white text-micro font-bold border border-white">
                     {activeCount}
                   </span>
                 )}
@@ -238,8 +253,13 @@ export const SearchFilters: React.FC<SearchFiltersProps> = ({
 
         {panelOpen && (
           <div
+            /* Groupes espacés de 16 (24 côte à côte), libellé → pastilles 8 :
+               avec 8 partout, « Type d'entrée » était aussi près des pastilles
+               du groupe précédent que des siennes. Padding 20 = rayon 20 : les
+               pastilles des coins passent en « forme fixe » (règle des coins
+               imbriqués) — à 10, le coin pinçait. */
             className={[
-              'flex flex-wrap items-center gap-stack-xs p-2.5 rounded-xl',
+              'flex flex-wrap items-start gap-x-stack-lg gap-y-stack p-stack-md rounded-xl',
               'bg-white/70 backdrop-blur-glass-light border border-white/60',
               'shadow-[0_8px_24px_-8px_rgba(85,161,180,0.18)]',
               'animate-[filterIn_0.18s_ease]',
@@ -247,8 +267,12 @@ export const SearchFilters: React.FC<SearchFiltersProps> = ({
           >
             {filters.map((axis) => (
               <div key={axis.id} className="flex flex-col gap-stack-xs">
+                {/* Un groupe de pastilles est un champ à choix multiples : son nom
+                    prend la voix d'un libellé de champ, 16 / 600 ink-900 (comme la
+                    légende de `CheckboxGroup`). En légende 13 px, il pesait moins
+                    que les pastilles (16 / 600) qu'il nomme. */}
                 {!isDropdownAxis(axis) && (
-                  <span className="font-body text-caption font-medium text-ink-500">{axis.label}</span>
+                  <span className="font-body text-body font-semibold text-ink-900">{axis.label}</span>
                 )}
                 <div
                   className="flex flex-wrap items-center gap-stack-xs"
@@ -259,7 +283,7 @@ export const SearchFilters: React.FC<SearchFiltersProps> = ({
                 </div>
               </div>
             ))}
-            {hasActive && <div className="ml-auto">{resetButton}</div>}
+            {hasActive && <div className="ml-auto self-end">{resetButton}</div>}
           </div>
         )}
       </div>

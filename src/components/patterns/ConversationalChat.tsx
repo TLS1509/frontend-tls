@@ -37,7 +37,9 @@ function renderInlineMarkdown(text: string): React.ReactNode {
   const parts = text.split(/(\*\*[^*]+\*\*)/g);
   return parts.map((p, i) => {
     if (p.startsWith('**') && p.endsWith('**')) {
-      return <strong key={i} className="font-semibold text-primary-700">{p.slice(2, -2)}</strong>;
+      // Emphase de marque au cran 800 : une couleur de marque ne porte du texte
+      // qu'à ce cran (doctrine, rôle des couleurs). Elle était au 700.
+      return <strong key={i} className="font-semibold text-primary-800">{p.slice(2, -2)}</strong>;
     }
     return <React.Fragment key={i}>{p}</React.Fragment>;
   });
@@ -56,7 +58,7 @@ const AiBubble: React.FC<{ children: React.ReactNode }> = ({ children }) => (
     <span className="shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-pill bg-white border border-primary-200 shadow-sm">
       <TlsLogo size={28} withBubble={false} variant="primary" />
     </span>
-    <div className="rounded-lg rounded-bl-md bg-white/90 backdrop-blur-glass-light border border-primary-100 px-4 py-3 text-body-sm text-ink-900 shadow-sm">
+    <div className="rounded-lg rounded-bl-md bg-white/90 backdrop-blur-glass-light border border-primary-100 px-4 py-3 text-body text-ink-900 shadow-sm">
       {children}
     </div>
   </div>
@@ -64,7 +66,7 @@ const AiBubble: React.FC<{ children: React.ReactNode }> = ({ children }) => (
 
 const UserBubble: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <div className="flex items-end justify-end gap-stack-xs max-w-[88%] sm:max-w-[78%] ml-auto animate-in fade-in slide-in-from-bottom-1 duration-300">
-    <div className="rounded-lg rounded-br-md bg-secondary-500 text-white px-4 py-3 text-body-sm shadow-sm">
+    <div className="rounded-lg rounded-br-md bg-secondary-700 text-white px-4 py-3 text-body shadow-sm">
       {children}
     </div>
   </div>
@@ -102,7 +104,7 @@ export const ConversationalChat: React.FC<ConversationalChatProps> = ({
       aria-label="Conversation d'onboarding"
     >
       {title && (
-        <header className="shrink-0 px-stack-md py-3 border-b border-white/50 bg-white/40 backdrop-blur-glass-light text-body-sm font-semibold text-ink-700">
+        <header className="shrink-0 px-stack-md py-3 border-b border-white/50 bg-white/40 backdrop-blur-glass-light text-body font-semibold text-ink-900">
           {title}
         </header>
       )}

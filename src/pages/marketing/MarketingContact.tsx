@@ -35,7 +35,7 @@ const QUICK_LINKS = [
     label: 'Notre méthode STRIDE',
     href: '/website/methode',
     desc: 'Comment on travaille',
-    tone: 'bg-primary-50 text-primary-700 border-primary-100',
+    tone: 'bg-primary-50 text-primary-800 border-primary-100',
   },
   {
     icon: <Briefcase size={20} />,
@@ -157,7 +157,7 @@ export const MarketingContact: React.FC = () => {
 
             {/* Interactive subject selector — visible above fold */}
             <div className="flex flex-col items-center gap-stack">
-              <p className="font-body text-body-sm text-ink-500 m-0">
+              <p className="font-body text-body text-ink-500 m-0">
                 Pour mieux vous orienter, quel est votre sujet ?
               </p>
               <div className="flex flex-wrap justify-center gap-stack-xs">
@@ -168,7 +168,7 @@ export const MarketingContact: React.FC = () => {
                       key={s}
                       type="button"
                       onClick={() => setForm({ ...form, subject: s })}
-                      className={`relative inline-flex items-center px-4 py-2 rounded-pill font-body text-body-sm font-bold transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 min-h-touch ${
+                      className={`relative inline-flex items-center px-4 py-2 rounded-pill font-body text-body font-bold transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 min-h-touch ${
                         isActive
                           ? 'text-white'
                           : 'text-ink-700 hover:text-ink-900 bg-ink-50 hover:bg-ink-100 border border-ink-200'
@@ -177,7 +177,7 @@ export const MarketingContact: React.FC = () => {
                       {isActive && (
                         <motion.span
                           layoutId="contact-hero-subject-bg"
-                          className="absolute inset-0 rounded-pill bg-gradient-to-r from-primary-500 to-primary-600 shadow-sm"
+                          className="absolute inset-0 rounded-pill bg-gradient-to-r from-primary-700 to-primary-800 shadow-sm"
                           transition={pillSpring}
                         />
                       )}
@@ -224,7 +224,7 @@ export const MarketingContact: React.FC = () => {
                   transition={reduced ? { duration: 0.15 } : { type: 'spring', stiffness: 260, damping: 20 }}
                   className="flex flex-col items-center text-center gap-stack-lg py-stack-lg"
                 >
-                  <div className="w-20 h-20 rounded-pill bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center shadow-xl">
+                  <div className="w-20 h-20 rounded-pill bg-gradient-to-br from-primary-600 to-primary-700 flex items-center justify-center shadow-xl">
                     <CheckCircle2 size={40} className="text-white" />
                   </div>
                   <div className="flex flex-col gap-stack">
@@ -288,7 +288,7 @@ export const MarketingContact: React.FC = () => {
 
                   {/* Subject pills — pré-rempli depuis le sélecteur du hero, modifiable ici */}
                   <div className="flex flex-col gap-stack-xs">
-                    <label className="font-body text-body-sm font-semibold text-ink-900">
+                    <label className="font-body text-body font-semibold text-ink-900">
                       Sujet
                     </label>
                     <p className="font-body text-caption text-ink-500 m-0 -mt-1">
@@ -309,7 +309,7 @@ export const MarketingContact: React.FC = () => {
                             {isActive && (
                               <motion.span
                                 layoutId="contact-subject-bg"
-                                className="absolute inset-0 rounded-pill bg-gradient-to-r from-primary-500 to-primary-600 shadow-sm"
+                                className="absolute inset-0 rounded-pill bg-gradient-to-r from-primary-700 to-primary-800 shadow-sm"
                                 transition={pillSpring}
                               />
                             )}
@@ -322,7 +322,7 @@ export const MarketingContact: React.FC = () => {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
                     <div className="flex flex-col gap-stack-xs">
-                      <label htmlFor="ct-name" className="font-body text-body-sm font-semibold text-ink-900">
+                      <label htmlFor="ct-name" className="font-body text-body font-semibold text-ink-900">
                         Prénom et nom *
                       </label>
                       {/* `name` + `autoComplete` ajoutés le 2026-07-29. Sans eux,
@@ -356,7 +356,7 @@ export const MarketingContact: React.FC = () => {
                       )}
                     </div>
                     <div className="flex flex-col gap-stack-xs">
-                      <label htmlFor="ct-email" className="font-body text-body-sm font-semibold text-ink-900">
+                      <label htmlFor="ct-email" className="font-body text-body font-semibold text-ink-900">
                         Email pro *
                       </label>
                       {/* `spellCheck={false}` : un correcteur orthographique
@@ -393,7 +393,7 @@ export const MarketingContact: React.FC = () => {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
                     <div className="flex flex-col gap-stack-xs">
-                      <label htmlFor="ct-org" className="font-body text-body-sm font-semibold text-ink-900">
+                      <label htmlFor="ct-org" className="font-body text-body font-semibold text-ink-900">
                         Organisation
                       </label>
                       <input
@@ -408,7 +408,7 @@ export const MarketingContact: React.FC = () => {
                       />
                     </div>
                     <div className="flex flex-col gap-stack-xs">
-                      <label htmlFor="ct-phone" className="font-body text-body-sm font-semibold text-ink-900">
+                      <label htmlFor="ct-phone" className="font-body text-body font-semibold text-ink-900">
                         Téléphone <span className="text-ink-600 font-normal">(optionnel)</span>
                       </label>
                       <input
@@ -425,7 +425,7 @@ export const MarketingContact: React.FC = () => {
                   </div>
 
                   <div className="flex flex-col gap-stack-xs">
-                    <label htmlFor="ct-message" className="font-body text-body-sm font-semibold text-ink-900">
+                    <label htmlFor="ct-message" className="font-body text-body font-semibold text-ink-900">
                       Votre message *
                     </label>
                     {/* Rejoué le 2026-09-14, comme ce commentaire le prévoyait.
@@ -484,7 +484,7 @@ export const MarketingContact: React.FC = () => {
                         peer-checked:after:opacity-100 flex items-center justify-center"
                     />
                     <div className="flex flex-col gap-tight">
-                      <span className="font-body text-body-sm font-semibold text-ink-900 leading-snug">
+                      <span className="font-body text-body font-semibold text-ink-900 leading-snug">
                         Recevoir La Vigie IA
                       </span>
                       {/* Corrigé le 29/07 : la case annonçait « nos ressources et
@@ -493,14 +493,14 @@ export const MarketingContact: React.FC = () => {
                           page Vigie, le hub Ressources et le bas d'article
                           disent tous « un mardi sur deux ». Deux fréquences pour
                           la même liste, c'est une promesse d'abonnement fausse. */}
-                      <span className="font-body text-caption text-ink-500 leading-relaxed">
+                      <span className="font-body text-caption text-ink-500">
                         Un mardi sur deux, à 8h : un workflow pédagogique autopsié, une fiche Out-skill, un crash-test terrain. Cinq minutes. Résiliable en un clic.
                       </span>
                     </div>
                   </label>
 
                   {submitError && (
-                    <div className="flex items-start gap-stack-xs px-4 py-3 rounded-lg bg-danger-bg border border-danger-base/30 text-danger-fg font-body text-body-sm" role="alert">
+                    <div className="flex items-start gap-stack-xs px-4 py-3 rounded-lg bg-danger-bg border border-danger-base/30 text-danger-fg font-body text-body" role="alert">
                       <AlertCircle size={16} className="shrink-0 mt-0.5" />
                       {submitError}
                     </div>
@@ -513,7 +513,7 @@ export const MarketingContact: React.FC = () => {
                         <Lock size={14} className="text-ink-600 shrink-0" />
                         Données confidentielles · RGPD
                       </span>
-                      <span className="text-ink-300 text-caption">·</span>
+                      <span aria-hidden className="text-ink-500 text-caption">·</span>
                       <span className="inline-flex items-center gap-stack-3xs font-body text-caption text-ink-500">
                         <MapPin size={14} className="text-ink-600 shrink-0" />
                         Équipe basée à Paris
@@ -555,14 +555,14 @@ export const MarketingContact: React.FC = () => {
                   « Choisissez votre créneau dans notre agenda ». */}
               <div className="relative overflow-hidden rounded-lg bg-primary-50 border border-primary-200 p-stack-lg flex flex-col gap-stack-lg">
                 <div className="flex flex-col gap-stack">
-                  <span className="inline-flex items-center gap-stack-2xs px-2.5 py-1 rounded-pill bg-white border border-primary-200 text-accent-400 text-caption font-bold w-fit">
+                  <span className="inline-flex items-center gap-stack-2xs px-2.5 py-1 rounded-pill bg-white border border-primary-200 text-accent-700 text-caption font-bold w-fit">
                     <Sparkles size={14} />
                     Plus rapide
                   </span>
-                  <h3 className="font-display text-h3 text-ink-900 leading-tight">
+                  <h3 className="font-display text-h3 text-ink-900">
                     Un échange de 30 min
                   </h3>
-                  <p className="font-body text-body-sm text-ink-600 m-0 leading-relaxed">
+                  <p className="font-body text-body text-ink-600 m-0">
                     Dites-nous vos disponibilités, nous vous proposons un créneau
                     sous 48 h ouvrées.
                   </p>
@@ -588,14 +588,14 @@ export const MarketingContact: React.FC = () => {
                     href="mailto:contact@thelearningsociety.fr"
                     className="flex items-start gap-stack p-stack rounded-lg hover:bg-primary-50/50 transition-colors duration-fast group"
                   >
-                    <span className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-primary-50 text-primary-700 border border-primary-100 shrink-0">
+                    <span className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-primary-50 text-primary-800 border border-primary-100 shrink-0">
                       <Mail size={18} />
                     </span>
                     <div className="flex flex-col gap-tight min-w-0">
                       <span className="font-body text-caption font-bold text-ink-500">
                         Email
                       </span>
-                      <span className="font-body text-body-sm font-semibold text-ink-900 group-hover:text-primary-700 transition-colors truncate">
+                      <span className="font-body text-body font-semibold text-ink-900 group-hover:text-primary-700 transition-colors truncate">
                         contact@thelearningsociety.fr
                       </span>
                     </div>
@@ -606,14 +606,14 @@ export const MarketingContact: React.FC = () => {
                     rel="noopener noreferrer"
                     className="flex items-start gap-stack p-stack rounded-lg hover:bg-primary-50/50 transition-colors duration-fast group"
                   >
-                    <span className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-primary-50 text-primary-700 border border-primary-100 shrink-0">
+                    <span className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-primary-50 text-primary-800 border border-primary-100 shrink-0">
                       <ExternalLink size={18} />
                     </span>
                     <div className="flex flex-col gap-tight min-w-0">
                       <span className="font-body text-caption font-bold text-ink-500">
                         LinkedIn
                       </span>
-                      <span className="font-body text-body-sm font-semibold text-ink-900 group-hover:text-primary-700 transition-colors">
+                      <span className="font-body text-body font-semibold text-ink-900 group-hover:text-primary-700 transition-colors">
                         @thelearningsociety
                       </span>
                     </div>
@@ -626,7 +626,7 @@ export const MarketingContact: React.FC = () => {
                       <span className="font-body text-caption font-bold text-ink-500">
                         Bureau
                       </span>
-                      <span className="font-body text-body-sm font-semibold text-ink-900">
+                      <span className="font-body text-body font-semibold text-ink-900">
                         Paris, France
                       </span>
                     </div>
@@ -654,7 +654,7 @@ export const MarketingContact: React.FC = () => {
                         {q.icon}
                       </span>
                       <div className="flex flex-col gap-tight min-w-0 flex-1">
-                        <span className="font-body text-body-sm font-bold text-ink-900 group-hover:text-primary-700 transition-colors">
+                        <span className="font-body text-body font-bold text-ink-900 group-hover:text-primary-700 transition-colors">
                           {q.label}
                         </span>
                         <span className="font-body text-caption text-ink-500">{q.desc}</span>

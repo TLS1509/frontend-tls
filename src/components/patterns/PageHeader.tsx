@@ -1,15 +1,28 @@
 import React from 'react';
 
 /**
- * PageHeader — Canonical page-level header.
+ * PageHeader — en-tête utilitaire de page (Réglages, Facturation, Confidentialité).
  *
  * Replaces both PageHeader and PageHeaderSimple (deprecated).
  *
- * - Optional eyebrow chip with icon
- * - Title (h1) — responsive clamp
- * - Optional description (max 600px)
+ * - Optional eyebrow (surtitre) with icon
+ * - Title (h1) — 36/44/700, l'échelle de l'app
+ * - Optional description — chapô 18/28, ink-700, largeur de lecture
  * - Optional actions slot (right side)
- * - Variant: 'default' | 'tight' (less spacing)
+ * - Variant: 'default' | 'tight' — @deprecated, sans effet depuis le 2026-09-24
+ *
+ * Même anatomie que `PageHero` (passe typographique du 2026-09-24) :
+ *   surtitre → titre 8 · titre → chapô 12.
+ *
+ * ⚠️ Aucune marge externe (2026-09-24, piège n°12). Le composant portait
+ * l'espace SOUS lui (40, ou 32 en `tight`), « exception écrite » du piège :
+ * posé dans un `PageShell`, cette marge s'ajoutait au `gap` de la coque (48),
+ * soit 80 à 88 px sous le titre — c'est pourquoi /notifications gardait un
+ * en-tête fait main. L'espace appartient désormais au parent : 48 entre les
+ * blocs d'un `PageShell`, ou `gap-section` (32) quand l'en-tête et son contenu
+ * forment un bloc, comme sur les écrans d'onboarding.
+ * Le titre était en `font-extrabold` (800, réservé au site) sur un
+ * `clamp(30px, 3.5vw, 44px)` hors échelle, et le chapô en ink-500 à 16 px.
  *
  * Use SectionHeader for section-level headings within a page.
  */
@@ -24,6 +37,10 @@ export interface PageHeaderProps {
   title: string;
   description?: string;
   actions?: React.ReactNode;
+  /**
+   * @deprecated Sans effet depuis le 2026-09-24 : le composant ne pose plus de
+   * marge sous lui. L'espace appartient au parent (`gap-section`, 32 px).
+   */
   variant?: 'default' | 'tight';
   align?: 'left' | 'center';
   className?: string;
@@ -34,70 +51,51 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
   title,
   description,
   actions,
-  variant = 'default',
   align = 'left',
   className = '',
 }) => {
   const isCenter = align === 'center';
-  const tight = variant === 'tight';
 
   const wrapperClasses = [
     'flex gap-stack-lg flex-wrap',
     isCenter ? 'flex-col items-center text-center' : 'justify-between items-start',
-    tight ? 'mb-stack-lg' : 'mb-10',
     className,
   ]
     .filter(Boolean)
     .join(' ');
 
-  const contentClasses = [
-    'flex flex-col',
-    tight ? 'gap-stack-2xs' : 'gap-stack-xs',
-    isCenter ? 'items-center max-w-[760px]' : 'min-w-0 flex-1',
-  ].join(' ');
-
   return (
     <div className={wrapperClasses}>
-      <div className={contentClasses}>
-        {eyebrow && (
-          <div className="inline-flex items-center gap-stack-2xs self-start text-caption font-bold uppercase tracking-[0.1em] text-primary-700 px-2.5 py-1 rounded-pill bg-primary-50 border border-primary-100">
-            {eyebrow.icon && (
-              <span className="inline-flex items-center text-current">{eyebrow.icon}</span>
-            )}
-            {eyebrow.text}
-          </div>
-        )}
+      <div className={['flex flex-col', isCenter ? 'items-center max-w-content' : 'min-w-0 flex-1'].join(' ')}>
+        <div className={['flex flex-col gap-stack-xs', isCenter ? 'items-center' : ''].filter(Boolean).join(' ')}>
+          {eyebrow && (
+            /* Le surtitre dit OÙ l'on est : une légende discrète, 13/600 ink-600,
+               sans capitales ni pastille. Il était en MetaPill teal — une
+               donnée posée comme un objet, qui tirait l'œil avant le titre. */
+            <p className="inline-flex items-center gap-stack-2xs text-caption font-semibold text-ink-600">
+              {eyebrow.icon}
+              {eyebrow.text}
+            </p>
+          )}
 
-        <h1
-          className={[
-            'font-display font-extrabold text-ink-900 leading-[1.1] tracking-tight',
-            tight ? 'text-h2' : 'text-[clamp(1.875rem,3.5vw,2.75rem)]',
-          ].join(' ')}
-        >
-          {title}
-        </h1>
+          <h1 className="font-display text-h1 text-ink-900 text-balance">
+            {title}
+          </h1>
+        </div>
 
         {description && (
-          <p
-            className={[
-              'm-0 text-ink-500 leading-relaxed max-w-[640px]',
-              tight ? 'text-body-sm' : 'text-body',
-              isCenter ? 'text-center mx-auto' : '',
-            ]
-              .filter(Boolean)
-              .join(' ')}
-          >
+          <p className="mt-stack-sm font-body text-body-lg text-ink-700 max-w-prose">
             {description}
           </p>
         )}
       </div>
 
       {actions && !isCenter && (
-        <div className="flex flex-wrap gap-2.5 items-center shrink-0 pt-1">{actions}</div>
+        <div className="flex flex-wrap gap-stack-xs items-center shrink-0 pt-1">{actions}</div>
       )}
 
       {actions && isCenter && (
-        <div className="flex flex-wrap gap-2.5 items-center justify-center mt-2">{actions}</div>
+        <div className="flex flex-wrap gap-stack-xs items-center justify-center">{actions}</div>
       )}
     </div>
   );

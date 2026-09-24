@@ -8,7 +8,9 @@
  *    le chain complet "Home > Parent > Enfant" pour offrir un retour rapide.
  *
  * Font-size : text-caption (13px) pour lisibilité — chevré au-dessus du
- * text-micro (11px) qui était trop petit.
+ * text-micro (11px) qui était trop petit. Liens parents en 400 ink-600 (le 500
+ * est réservé aux puces), page courante en 600 ink-900 : le rang se lit à la
+ * graisse et à l'encre (2026-09-24).
  *
  * Intégré dans `AppLayout` au-dessus du `<main>` (sauf si la page a son
  * propre fil d'Ariane comme les éditoriaux Veille).
@@ -17,6 +19,7 @@
 import React from 'react';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { ChevronRight, Home, ArrowLeft } from 'lucide-react';
+import { Button } from '../core/Button';
 
 type Crumb = { label: string; href?: string };
 
@@ -163,6 +166,16 @@ const ROUTE_MAP: Array<{
 
   // Account family
   { test: /^\/profile\/?$/, build: () => [{ label: 'Profil' }] },
+  // Détail d'un Open Badge : il revient à la section Reconnaissances du profil
+  // (arbitrage n°18 ; les routes de gamification y redirigent).
+  {
+    test: /^\/gamification\/badge\//,
+    build: () => [
+      { label: 'Profil', href: '/profile' },
+      { label: 'Reconnaissances', href: '/profile#reconnaissances' },
+      { label: 'Open Badge' },
+    ],
+  },
   { test: /^\/account\/?$/, build: () => [{ label: 'Mon compte' }] },
   {
     test: /^\/account\/billing\/?$/,
@@ -172,9 +185,6 @@ const ROUTE_MAP: Array<{
     ],
   },
   { test: /^\/settings\/?$/, build: () => [{ label: 'Paramètres' }] },
-
-  // Recherche
-  { test: /^\/search\/?$/, build: () => [{ label: 'Recherche' }] },
 
   // Positionnement (test diagnostique avant parcours)
   {
@@ -188,7 +198,6 @@ const ROUTE_MAP: Array<{
   // Communauté
   { test: /^\/notifications\/?$/, build: () => [{ label: 'Notifications' }] },
   { test: /^\/messages\/?$/, build: () => [{ label: 'Messages' }] },
-  { test: /^\/leaderboard\/?$/, build: () => [{ label: 'Leaderboard' }] },
   { test: /^\/collaboration\/?$/, build: () => [{ label: 'Collaboration' }] },
 
   // Entreprise / Help / Onboarding
@@ -254,26 +263,26 @@ export const AppBreadcrumb: React.FC<AppBreadcrumbProps> = ({
         className,
       ].join(' ')}
     >
-      {/* Back button (mobile-first) — touche 44x44 = WCAG SC 2.5.5, pill light bg, focus-visible */}
+      {/* Back button (mobile-first) — touche 44x44 = WCAG SC 2.5.5, focus-visible.
+          Un outil de navigation : `ghost`, comme l'accueil à côté et le retour
+          des lecteurs (arbitrage n°19 ; il était en `outline`). */}
       {parentHref && (
-        <button
-          type="button"
+        <Button
+          iconOnly
+          emphasis="ghost"
+          tone="neutral"
           onClick={() => navigate(parentHref)}
           aria-label={`Retour à ${parentCrumb.label}`}
-          className="sm:hidden inline-flex items-center justify-center w-11 h-11 rounded-pill bg-ink-50 border border-ink-200 text-ink-800 hover:bg-primary-50 hover:border-primary-300 hover:text-primary-700 active:scale-95 transition-all duration-base shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+          className="sm:hidden shrink-0"
         >
-          <ArrowLeft size={18} strokeWidth={2.25} />
-        </button>
+          <ArrowLeft strokeWidth={2.25} />
+        </Button>
       )}
 
       {/* Home icon — caché sur mobile (back button suffit), pill button sur desktop */}
-      <Link
-        to="/"
-        className="max-sm:hidden inline-flex items-center justify-center w-8 h-8 rounded-pill text-ink-500 hover:bg-ink-100 hover:text-primary-700 transition-colors duration-base shrink-0"
-        aria-label="Accueil"
-      >
-        <Home size={14} aria-hidden />
-      </Link>
+      <Button iconOnly size="sm" emphasis="ghost" tone="neutral" to="/" aria-label="Accueil" className="max-sm:hidden shrink-0">
+        <Home aria-hidden />
+      </Button>
 
       {/* Crumb chain — always visible */}
       {crumbs.map((crumb, i) => {
@@ -295,7 +304,7 @@ export const AppBreadcrumb: React.FC<AppBreadcrumbProps> = ({
             {crumb.href && !isLast ? (
               <Link
                 to={crumb.href}
-                className="inline-flex items-center px-2 py-1 -my-1 -mx-1 rounded-md text-ink-600 hover:bg-ink-100 hover:text-primary-700 transition-colors duration-base truncate font-medium"
+                className="inline-flex items-center px-2 py-1 -my-1 -mx-1 rounded-md text-ink-600 hover:bg-ink-100 hover:text-primary-800 transition-colors duration-base truncate"
               >
                 {crumb.label}
               </Link>

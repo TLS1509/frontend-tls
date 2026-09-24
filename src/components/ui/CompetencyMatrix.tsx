@@ -1,5 +1,6 @@
 import React from 'react';
 import { Lightbulb, Brain, Rocket, Zap, Crown } from 'lucide-react';
+import { DREYFUS_LABELS } from '../../data/competencies';
 
 export type SkillColor = 'primary' | 'warm' | 'sun' | 'success';
 
@@ -16,15 +17,19 @@ export interface CompetencyMatrixProps {
   onSkillHover?: (skill: SkillEntry | null) => void;
 }
 
-const DEFAULT_LABELS = ['', 'Novice', 'Beginner', 'Intermediate', 'Advanced', 'Expert'];
+/* Libellés Dreyfus, depuis la source unique (`data/competencies.ts`,
+   DREYFUS_LABELS) — 2026-09-24. Ils étaient en anglais et sur une autre
+   échelle (« Beginner », « Intermediate », « Advanced ») : la matrice ne
+   parlait pas la langue du Passeport. Index 0 vide : les niveaux partent de 1. */
+const DEFAULT_LABELS = ['', DREYFUS_LABELS[1], DREYFUS_LABELS[2], DREYFUS_LABELS[3], DREYFUS_LABELS[4], DREYFUS_LABELS[5]];
 const ICON_COMPONENTS = [null, Lightbulb, Brain, Rocket, Zap, Crown];
 const COLOR_KEYS: SkillColor[] = ['primary', 'warm', 'sun', 'success'];
 
 const SKILL_BG_ACTIVE: Record<SkillColor, string> = {
-  primary: 'bg-primary-500 border-primary-500 text-white',
-  warm:    'bg-secondary-500 border-secondary-500 text-white',
+  primary: 'bg-primary-700 border-primary-700 text-white',
+  warm:    'bg-secondary-700 border-secondary-700 text-white',
   sun:     'bg-accent-400 border-accent-400 text-accent-900',
-  success: 'bg-success-base border-success-base text-white',
+  success: 'bg-success-vivid border-success-vivid text-white',
 };
 
 const CELL_INACTIVE = 'bg-ink-50 border-ink-200 text-ink-400';
@@ -40,20 +45,24 @@ export const CompetencyMatrix: React.FC<CompetencyMatrixProps> = ({
     colorAssignment[skill.name] = skill.color || COLOR_KEYS[idx % COLOR_KEYS.length];
   });
 
+  /* Aucune marge externe (piège n°12) : elle portait un `mt-stack-lg` que la
+     page du profil devait annuler (`[&>*]:mt-0`). C'est le parent qui pose le
+     rythme. */
   return (
-    <div className="overflow-x-auto mt-stack-lg">
+    <div className="overflow-x-auto">
       <table className="w-full border-collapse font-body">
         <thead>
           <tr>
-            <th className="p-4 text-left text-caption font-semibold text-ink-900 border-b-2 border-ink-200">
-              Skill
+            {/* En-têtes 13/600 ink-600 (passe typographique du 2026-09-24). */}
+            <th className="p-4 text-left text-caption font-semibold text-ink-600 border-b-2 border-ink-200">
+              Compétence
             </th>
             {labels.slice(1).map((level, idx) => {
               const IconComponent = ICON_COMPONENTS[idx + 1];
               return (
                 <th
                   key={level}
-                  className="p-4 text-center text-micro font-medium text-ink-500 border-b-2 border-ink-200 whitespace-nowrap"
+                  className="p-4 text-center text-caption font-semibold text-ink-600 border-b-2 border-ink-200 whitespace-nowrap"
                 >
                   {IconComponent && <IconComponent size={18} className="inline-block mr-1 -mt-0.5" />}
                   {level}
@@ -70,20 +79,25 @@ export const CompetencyMatrix: React.FC<CompetencyMatrixProps> = ({
               onMouseEnter={() => onSkillHover?.(skill)}
               onMouseLeave={() => onSkillHover?.(null)}
             >
-              <td className="p-4 text-body-sm font-semibold text-ink-900">{skill.name}</td>
+              <td className="p-4 text-body font-semibold text-ink-900">{skill.name}</td>
               {Array.from({ length: maxLevel }).map((_, levelIdx) => {
                 const lvl = levelIdx + 1;
                 const isAchieved = lvl <= skill.level;
                 const Icon = ICON_COMPONENTS[lvl];
                 const color = colorAssignment[skill.name];
 
+                /* Une cellule se LIT, elle ne s'active pas (2026-09-24) : aucun
+                   gestionnaire, ni rôle ni tabindex, rien au clavier. Elle
+                   portait pourtant les deux promesses d'un contrôle — le
+                   curseur main et un agrandissement de 40 à 44 px au survol.
+                   Retirés : un signe d'interaction sans interaction est une
+                   impasse. L'infobulle `title` reste, c'est une lecture. */
                 return (
                   <td key={lvl} className="p-4 text-center">
                     <div
-                      title={isAchieved ? labels[lvl] : 'Not yet achieved'}
+                      title={isAchieved ? labels[lvl] : 'Pas encore atteint'}
                       className={[
-                        'w-10 h-10 mx-auto rounded-pill inline-flex items-center justify-center border-2 cursor-pointer transition-transform',
-                        'hover:scale-110',
+                        'w-10 h-10 mx-auto rounded-pill inline-flex items-center justify-center border-2',
                         isAchieved ? SKILL_BG_ACTIVE[color] : CELL_INACTIVE,
                       ].join(' ')}
                     >

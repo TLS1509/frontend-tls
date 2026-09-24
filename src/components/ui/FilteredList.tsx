@@ -49,7 +49,7 @@ export function FilteredList<T>({
           placeholder={placeholder}
           className={[
             'w-full h-10 pl-9 pr-9 rounded-lg border border-ink-200 bg-white',
-            'text-body-sm font-body text-ink-900 placeholder:text-ink-500',
+            'text-body font-body text-ink-900 placeholder:text-ink-500',
             'transition-all duration-base',
             'focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100',
           ].join(' ')}
@@ -68,14 +68,14 @@ export function FilteredList<T>({
 
       {/* Count */}
       {showCount && normalised && (
-        <p className="text-caption text-ink-500 -mt-2">
+        <p className="text-caption text-ink-600 tabular-nums -mt-2">
           {filtered.length} {itemLabel}
         </p>
       )}
 
       {/* Results */}
       {filtered.length === 0 ? (
-        <p className="text-body-sm text-ink-600 italic py-stack-lg text-center">{emptyLabel}</p>
+        <p className="text-body text-ink-600 italic py-stack-lg text-center">{emptyLabel}</p>
       ) : (
         <div className={listClassName}>
           {filtered.map((item, i) => renderItem(item, i))}

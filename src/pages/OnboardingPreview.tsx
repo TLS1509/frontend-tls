@@ -11,6 +11,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowRight, Check, ChevronLeft, ChevronRight, Send, Sparkles } from 'lucide-react';
 import { Button } from '../components/core/Button';
+import { IconChip } from '../components/ui/IconChip';
+import { PageHeader } from '../components/patterns/PageHeader';
 import { AmbientBlobs } from '../components/patterns/AmbientBlobs';
 import { ConversationalChat } from '../components/patterns/ConversationalChat';
 import type { ChatMessage } from '../components/patterns/ConversationalChat';
@@ -95,7 +97,7 @@ function VariantA({ onDone }: { onDone: () => void }) {
 
   useEffect(() => {
     seq(
-      ["Bonjour ! Pour personnaliser ton expérience, je vais te poser quelques questions rapides."],
+      ["Bonjour. Pour personnaliser ton expérience, je vais te poser quelques questions rapides."],
       () => seq(["Commençons par ton prénom ?"], () => setPhase('name'))
     );
     return cancel;
@@ -139,7 +141,7 @@ function VariantA({ onDone }: { onDone: () => void }) {
     seq(
       [
         `Excellent ${firstName} ! Profil créé.`,
-        `Je vais maintenant évaluer tes compétences sur **${selectedGoals.length + 2} axes** liés à tes objectifs. C'est parti !`,
+        `Je vais maintenant évaluer tes compétences sur **${selectedGoals.length + 2} axes** liés à tes objectifs. On commence.`,
       ],
       () => { setPhase('done'); setTransitioning(false); }
     );
@@ -162,7 +164,7 @@ function VariantA({ onDone }: { onDone: () => void }) {
             key={r.id}
             onClick={() => selectRole(r.id)}
             disabled={transitioning}
-            className="px-3 py-2 rounded-lg border border-ink-200 bg-white/90 text-body-sm text-ink-800 font-medium hover:border-secondary-400 hover:bg-secondary-50 active:scale-95 transition-all duration-150 disabled:opacity-50"
+            className="px-3 py-2 rounded-lg border border-ink-200 bg-white/90 text-body text-ink-800 font-semibold hover:border-secondary-400 hover:bg-secondary-50 active:scale-95 transition-all duration-150 disabled:opacity-50"
           >
             {r.emoji} {r.label}
           </button>
@@ -185,9 +187,9 @@ function VariantA({ onDone }: { onDone: () => void }) {
                 onClick={() => toggleGoal(g.id)}
                 disabled={transitioning}
                 className={[
-                  'px-3 py-2 rounded-lg border text-body-sm font-medium transition-all duration-150 active:scale-95',
+                  'px-3 py-2 rounded-lg border text-body font-semibold transition-all duration-150 active:scale-95',
                   on
-                    ? 'bg-secondary-500 border-secondary-500 text-white'
+                    ? 'bg-secondary-700 border-secondary-700 text-white'
                     : 'bg-white/90 border-ink-200 text-ink-800 hover:border-secondary-400 hover:bg-secondary-50',
                 ].join(' ')}
               >
@@ -201,7 +203,7 @@ function VariantA({ onDone }: { onDone: () => void }) {
           <button
             onClick={confirmGoals}
             disabled={transitioning}
-            className="self-start mt-1 px-4 py-2 rounded-lg bg-secondary-500 text-white text-body-sm font-semibold hover:bg-secondary-600 transition-all duration-150 disabled:opacity-50"
+            className="self-start mt-1 px-4 py-2 rounded-lg bg-secondary-700 text-white text-body font-semibold hover:bg-secondary-800 transition-all duration-150 disabled:opacity-50"
           >
             Valider mes objectifs →
           </button>
@@ -218,14 +220,14 @@ function VariantA({ onDone }: { onDone: () => void }) {
 
   const chatTitle = (
     <div className="flex items-center justify-between">
-      <span className="text-body-sm font-semibold text-ink-700">Configuration de ton profil</span>
-      <span className="text-caption text-secondary-600 font-semibold">Guide IA</span>
+      <span className="text-body font-semibold text-ink-900">Configuration de ton profil</span>
+      <span className="text-caption text-ink-600 font-semibold">Guide IA</span>
     </div>
   );
 
   const footer = phase === 'done' ? (
     <div className="flex justify-end">
-      <Button emphasis="soft" tone="warm" size="lg" trailingIcon={<ArrowRight size={16} />} onClick={onDone}>
+      <Button emphasis="solid" tone="warm" size="lg" trailingIcon={<ArrowRight size={16} />} onClick={onDone}>
         Commencer le positionnement
       </Button>
     </div>
@@ -237,10 +239,10 @@ function VariantA({ onDone }: { onDone: () => void }) {
         onChange={e => setTextValue(e.target.value)}
         onKeyDown={e => { if (e.key === 'Enter') sendName(); }}
         placeholder="Ton prénom…"
-        className="flex-1 rounded-lg border border-ink-200 bg-white px-3 py-2.5 text-body-sm text-ink-900 placeholder:text-ink-500 focus:outline-none focus:ring-2 focus:ring-secondary-300 transition-all"
+        className="flex-1 rounded-lg border border-ink-400 bg-white px-3 py-2.5 text-body text-ink-900 placeholder:text-ink-500 focus:outline-none focus:ring-2 focus:ring-secondary-300 transition-all"
       />
       <Button
-        emphasis="soft" tone="warm" size="md" iconOnly
+        emphasis="solid" tone="warm" size="md" iconOnly
         trailingIcon={<Send size={16} />}
         aria-label="Envoyer"
         disabled={!textValue.trim()}
@@ -249,7 +251,7 @@ function VariantA({ onDone }: { onDone: () => void }) {
       />
     </div>
   ) : (
-    <p className="text-caption text-ink-400 text-center py-0.5 select-none">
+    <p className="text-caption text-ink-600 text-center py-0.5 select-none">
       {phase === 'role' ? 'Sélectionne ton rôle ci-dessus' :
        phase === 'goals' ? 'Sélectionne tes objectifs ci-dessus' : ''}
     </p>
@@ -303,8 +305,8 @@ function VariantB({ onDone }: { onDone: () => void }) {
   const nGoals = selectedGoals.length;
   const goalSuffix = nGoals > 1 ? 's' : '';
   const goalHint = nGoals > 0
-    ? `${nGoals} objectif${goalSuffix} selectionne${goalSuffix} sur 3`
-    : "Jusqu'a 3 objectifs";
+    ? `${nGoals} objectif${goalSuffix} sélectionné${goalSuffix} sur 3`
+    : "Jusqu'à 3 objectifs";
 
   return (
     <div
@@ -318,10 +320,10 @@ function VariantB({ onDone }: { onDone: () => void }) {
       {step === 0 && (
         <>
           <div className="text-center flex flex-col gap-stack max-w-md w-full">
-            <p className="font-body text-caption font-semibold uppercase tracking-wider text-secondary-600 m-0">
+            <p className="font-body text-caption font-semibold text-ink-600">
               Bienvenue sur TLS
             </p>
-            <h2 className="font-display text-h1 tracking-display text-ink-900">
+            <h2 className="font-display text-h2 text-ink-900 text-balance">
               Ton prénom ?
             </h2>
           </div>
@@ -336,7 +338,7 @@ function VariantB({ onDone }: { onDone: () => void }) {
               className="w-full rounded-lg border-2 border-ink-200 bg-white/80 px-stack-md py-stack text-body-lg text-ink-900 placeholder:text-ink-500 focus:outline-none focus:border-secondary-400 transition-colors duration-base text-center font-body"
             />
             <Button
-              emphasis="soft" tone="warm" size="lg"
+              emphasis="solid" tone="warm" size="lg"
               trailingIcon={<ArrowRight size={16} />}
               onClick={advance}
               disabled={!firstName.trim()}
@@ -352,13 +354,13 @@ function VariantB({ onDone }: { onDone: () => void }) {
       {step === 1 && (
         <>
           <div className="text-center flex flex-col gap-stack max-w-lg w-full">
-            <p className="font-body text-caption font-semibold uppercase tracking-wider text-secondary-600 m-0">
+            <p className="font-body text-caption font-semibold text-ink-600">
               1 / 2
             </p>
-            <h2 className="font-display text-h1 tracking-display text-ink-900">
+            <h2 className="font-display text-h2 text-ink-900 text-balance">
               {firstName ? `${firstName}, quel est ton rôle ?` : 'Quel est ton rôle ?'}
             </h2>
-            <p className="font-body text-body-sm text-ink-500 m-0">Appuie pour continuer →</p>
+            <p className="font-body text-body text-ink-700">Appuie pour continuer →</p>
           </div>
           <div className="grid grid-cols-3 gap-stack-xs w-full max-w-lg">
             {ROLES.map(r => (
@@ -368,12 +370,12 @@ function VariantB({ onDone }: { onDone: () => void }) {
                 className={[
                   tileBase,
                   selectedRole === r.id
-                    ? 'bg-secondary-500 border-secondary-500 text-white shadow-card scale-[1.02]'
+                    ? 'bg-secondary-700 border-secondary-700 text-white shadow-card scale-[1.02]'
                     : 'bg-white/85 border-white/60 text-ink-800 hover:border-secondary-300 hover:bg-secondary-50/85',
                 ].join(' ')}
               >
-                <span className="text-2xl">{r.emoji}</span>
-                <span className="font-body text-body-sm font-semibold">{r.label}</span>
+                <span className="text-h3">{r.emoji}</span>
+                <span className="font-body text-body font-semibold">{r.label}</span>
               </button>
             ))}
           </div>
@@ -384,13 +386,13 @@ function VariantB({ onDone }: { onDone: () => void }) {
       {step === 2 && (
         <>
           <div className="text-center flex flex-col gap-stack max-w-lg w-full">
-            <p className="font-body text-caption font-semibold uppercase tracking-wider text-secondary-600 m-0">
+            <p className="font-body text-caption font-semibold text-ink-600">
               2 / 2
             </p>
-            <h2 className="font-display text-h1 tracking-display text-ink-900">
+            <h2 className="font-display text-h2 text-ink-900 text-balance">
               Tes priorités ?
             </h2>
-            <p className="font-body text-body-sm text-ink-500 m-0">{goalHint}</p>
+            <p className="font-body text-body text-ink-700">{goalHint}</p>
           </div>
           <div className="grid grid-cols-3 gap-stack-xs w-full max-w-lg">
             {GOALS.map(g => {
@@ -402,7 +404,7 @@ function VariantB({ onDone }: { onDone: () => void }) {
                   className={[
                     tileBase, 'relative',
                     on
-                      ? 'bg-secondary-500 border-secondary-500 text-white shadow-card'
+                      ? 'bg-secondary-700 border-secondary-700 text-white shadow-card'
                       : 'bg-white/85 border-white/60 text-ink-800 hover:border-secondary-300 hover:bg-secondary-50/85',
                   ].join(' ')}
                 >
@@ -411,14 +413,14 @@ function VariantB({ onDone }: { onDone: () => void }) {
                       <Check size={14} className="text-white" />
                     </span>
                   )}
-                  <span className="text-xl">{g.emoji}</span>
-                  <span className="font-body text-caption font-semibold text-center leading-snug">{g.label}</span>
+                  <span className="text-h3">{g.emoji}</span>
+                  <span className="font-body text-caption font-semibold text-center">{g.label}</span>
                 </button>
               );
             })}
           </div>
           <Button
-            emphasis="soft" tone="warm" size="lg"
+            emphasis="solid" tone="warm" size="lg"
             trailingIcon={<ArrowRight size={16} />}
             onClick={onDone}
             disabled={selectedGoals.length === 0}
@@ -511,28 +513,28 @@ function VariantC({ onDone }: { onDone: () => void }) {
         {/* Step 0 — Identity */}
         {substep === 0 && (
           <>
-            <div className="flex flex-col gap-tight">
-              <h2 className="font-display text-h2 text-ink-900 leading-tight">
+            <div className="flex flex-col gap-stack-xs">
+              <h2 className="font-display text-h2 text-ink-900">
                 Dis-nous qui tu es
               </h2>
-              <p className="font-body text-body text-ink-500 m-0">
+              <p className="font-body text-body text-ink-700">
                 Quelques informations pour personnaliser ton parcours.
               </p>
             </div>
 
             <div className="flex flex-col gap-stack-xs">
-              <label className="font-body text-body-sm font-semibold text-ink-900">Ton prénom</label>
+              <label className="font-body text-body font-semibold text-ink-900">Ton prénom</label>
               <input
                 autoFocus
                 placeholder="Sophie…"
                 value={firstName}
                 onChange={e => setFirstName(e.target.value)}
-                className="rounded-lg border border-ink-200 bg-white px-4 py-3 text-body-sm text-ink-900 placeholder:text-ink-500 focus:outline-none focus:border-secondary-400 transition-colors duration-base"
+                className="rounded-lg border border-ink-200 bg-white px-4 py-3 text-body text-ink-900 placeholder:text-ink-500 focus:outline-none focus:border-secondary-400 transition-colors duration-base"
               />
             </div>
 
             <div className="flex flex-col gap-stack-xs">
-              <label className="font-body text-body-sm font-semibold text-ink-900">
+              <label className="font-body text-body font-semibold text-ink-900">
                 Ton rôle
                 {!firstName.trim() && (
                   <span className="ml-2 font-normal text-caption text-ink-600">(remplis ton prénom d'abord)</span>
@@ -549,18 +551,18 @@ function VariantC({ onDone }: { onDone: () => void }) {
                       className={[
                         tileBase,
                         on
-                          ? 'bg-secondary-500 border-secondary-500 text-white shadow-sm'
+                          ? 'bg-secondary-700 border-secondary-700 text-white shadow-sm'
                           : 'bg-white border-ink-100 text-ink-800 hover:border-secondary-300 hover:bg-secondary-50/40 disabled:opacity-40',
                       ].join(' ')}
                     >
-                      <span className="text-lg shrink-0">{r.emoji}</span>
-                      <span className="font-body text-body-sm font-medium">{r.label}</span>
+                      <span className="text-body-lg shrink-0">{r.emoji}</span>
+                      <span className="font-body text-body font-semibold">{r.label}</span>
                     </button>
                   );
                 })}
               </div>
               {selectedRole && firstName.trim() && (
-                <p className="text-caption text-secondary-700 font-semibold m-0">
+                <p className="text-caption text-ink-700 font-semibold">
                   ✓ Rôle sélectionné — passage automatique en cours…
                 </p>
               )}
@@ -571,11 +573,11 @@ function VariantC({ onDone }: { onDone: () => void }) {
         {/* Step 1 — Goals */}
         {substep === 1 && (
           <>
-            <div className="flex flex-col gap-tight">
+            <div className="flex flex-col gap-stack-xs">
               <h2 className="font-display text-h2 text-ink-900">
                 Tes objectifs d'apprentissage
               </h2>
-              <p className="font-body text-body text-ink-500 m-0">
+              <p className="font-body text-body text-ink-700">
                 Sélectionne tout ce qui te correspond — plusieurs choix possibles.
               </p>
             </div>
@@ -590,12 +592,12 @@ function VariantC({ onDone }: { onDone: () => void }) {
                     className={[
                       tileBase, 'relative',
                       on
-                        ? 'bg-secondary-500 border-secondary-500 text-white shadow-sm'
+                        ? 'bg-secondary-700 border-secondary-700 text-white shadow-sm'
                         : 'bg-white border-ink-100 text-ink-800 hover:border-secondary-300 hover:bg-secondary-50/40',
                     ].join(' ')}
                   >
-                    <span className="text-lg shrink-0">{g.emoji}</span>
-                    <span className="font-body text-body-sm font-medium leading-snug">{g.label}</span>
+                    <span className="text-body-lg shrink-0">{g.emoji}</span>
+                    <span className="font-body text-body font-semibold">{g.label}</span>
                     {on && <Check size={14} className="absolute top-2 right-2 opacity-80" />}
                   </button>
                 );
@@ -603,7 +605,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
             </div>
 
             {selectedGoals.length > 0 && (
-              <p className="text-caption text-secondary-700 font-semibold m-0">
+              <p className="text-caption text-ink-700 font-semibold">
                 {selectedGoals.length} objectif{selectedGoals.length > 1 ? 's' : ''} sélectionné{selectedGoals.length > 1 ? 's' : ''}
               </p>
             )}
@@ -613,32 +615,32 @@ function VariantC({ onDone }: { onDone: () => void }) {
         {/* Step 2 — Confirmation */}
         {substep === 2 && (
           <>
-            <div className="flex flex-col gap-tight">
-              <h2 className="font-display text-h2 text-ink-900 leading-tight">
-                {firstName ? `Parfait, ${firstName} !` : 'Ton profil est prêt !'}
+            <div className="flex flex-col gap-stack-xs">
+              <h2 className="font-display text-h2 text-ink-900">
+                {firstName ? `${firstName}, ton profil est prêt` : 'Ton profil est prêt'}
               </h2>
-              <p className="font-body text-body text-ink-500 m-0">
+              <p className="font-body text-body text-ink-700">
                 Voici un résumé avant de démarrer le positionnement.
               </p>
             </div>
 
             <div className="rounded-xl border border-ink-100 bg-ink-50 overflow-hidden">
               {[
-                { key: 'Rôle',      val: ROLES.find(r => r.id === selectedRole)?.label ?? '—' },
-                { key: 'Objectifs', val: selectedGoals.length > 0 ? selectedGoals.join(', ') : '—' },
+                { key: 'Rôle',      val: ROLES.find(r => r.id === selectedRole)?.label ?? '–' },
+                { key: 'Objectifs', val: selectedGoals.length > 0 ? selectedGoals.join(', ') : '–' },
               ].map(row => (
                 <div key={row.key} className="flex justify-between items-center gap-stack px-stack-md py-3 border-b border-ink-100 last:border-b-0">
-                  <span className="font-body text-body-sm font-semibold text-ink-500">{row.key}</span>
-                  <span className="font-body text-body-sm text-ink-900 text-right">{row.val}</span>
+                  <span className="font-body text-body font-semibold text-ink-600">{row.key}</span>
+                  <span className="font-body text-body text-ink-900 text-right">{row.val}</span>
                 </div>
               ))}
             </div>
 
             <div className="rounded-lg border border-secondary-200 bg-gradient-to-br from-secondary-50 to-white p-stack flex items-start gap-stack-xs">
               <Sparkles size={18} className="text-secondary-500 shrink-0 mt-0.5" />
-              <div className="flex flex-col gap-0.5">
-                <span className="font-body text-body-sm font-bold text-ink-900">Parcours recommandé</span>
-                <p className="font-body text-body-sm text-ink-500 m-0">{aiSuggestion}</p>
+              <div className="flex flex-col gap-stack-xs">
+                <span className="font-body text-body font-semibold text-ink-900">Parcours recommandé</span>
+                <p className="font-body text-body text-ink-700">{aiSuggestion}</p>
               </div>
             </div>
           </>
@@ -651,7 +653,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
           <span />
         ) : (
           <Button
-            emphasis="soft" tone="warm" size="sm"
+            emphasis="ghost" tone="neutral" size="sm"
             leadingIcon={<ChevronLeft size={14} />}
             onClick={() => setSubstep(s => Math.max(0, s - 1) as CSubstep)}
             className="sm:flex-none flex-1"
@@ -661,12 +663,12 @@ function VariantC({ onDone }: { onDone: () => void }) {
         )}
 
         <div className="flex items-center gap-stack-xs flex-1 sm:flex-none justify-between sm:justify-end">
-          <span className="font-body text-caption text-ink-400 tabular-nums hidden sm:inline select-none">
+          <span className="font-body text-caption text-ink-600 tabular-nums hidden sm:inline select-none">
             {substep + 1} / {LABELS.length}
           </span>
           {substep < 2 ? (
             <Button
-              emphasis="soft" tone="warm"
+              emphasis="solid" tone="warm"
               trailingIcon={<ChevronRight size={14} />}
               onClick={() => setSubstep(s => Math.min(2, s + 1) as CSubstep)}
               disabled={substep === 0 ? !canNext0 : !canNext1}
@@ -676,7 +678,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
             </Button>
           ) : (
             <Button
-              emphasis="soft" tone="warm"
+              emphasis="solid" tone="warm"
               trailingIcon={<ArrowRight size={16} />}
               onClick={onDone}
               className="flex-1 sm:flex-none"
@@ -706,7 +708,7 @@ const VariantSwitcher: React.FC<{ current: Variant; onChange: (v: Variant) => vo
     role="group"
     aria-label="Changer de variante"
   >
-    <span className="text-micro text-ink-400 px-2 shrink-0 select-none font-body">Variante</span>
+    <span className="text-caption text-ink-600 px-2 shrink-0 select-none font-body">Variante</span>
     {(['a', 'b', 'c'] as Variant[]).map(v => (
       <button
         key={v}
@@ -718,8 +720,8 @@ const VariantSwitcher: React.FC<{ current: Variant; onChange: (v: Variant) => vo
           'rounded-pill px-3 py-1 text-caption font-semibold transition-all duration-200 min-h-[32px] font-body',
           'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
           current === v
-            ? 'bg-secondary-500 text-white shadow-sm'
-            : 'text-ink-500 hover:text-ink-900 hover:bg-ink-50',
+            ? 'bg-secondary-700 text-white shadow-sm'
+            : 'text-ink-700 hover:text-ink-900 hover:bg-ink-50',
         ].join(' ')}
       >
         {VARIANT_META[v].label}
@@ -742,7 +744,13 @@ export default function OnboardingPreview() {
       <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-warm" aria-hidden />
       <AmbientBlobs intensity="subtle" />
 
-      <div className="relative z-base max-w-3xl mx-auto w-full px-4 sm:px-6 lg:px-10 pt-section pb-section flex flex-col gap-section-lg">
+      {/* Arbitrage n°19 (24/09) : dans chaque variante, avancer est l'aplat
+          (solid) et revenir un ghost ; la forme des variantes ne change pas.
+          Passe typographique du 2026-09-24 (banc de l'arbitrage n°25, ouvert :
+          aucune variante ne change de forme). En-tête `PageHeader` centré —
+          surtitre 13 / 600 ink-600 (il était en capitales orange), h1 à 36 (28),
+          chapô 18 ink-700 — groupé avec la variante (32 dessous, 48 au-dessus). */}
+      <div className="relative z-base max-w-3xl mx-auto w-full px-4 sm:px-6 lg:px-10 pt-section md:pt-section-lg lg:pt-page pb-section flex flex-col gap-page">
 
         {/* Brand bar */}
         <div className="flex items-center justify-between">
@@ -751,35 +759,31 @@ export default function OnboardingPreview() {
             <TlsLogo size={36} variant="color" withBubble />
           </a>
           <div className="w-24 flex justify-end">
-            <a href="/onboarding" className="font-body text-caption text-ink-500 hover:text-ink-900 transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm min-h-touch flex items-center">
+            <a href="/onboarding" className="font-body text-caption text-ink-600 hover:text-ink-900 transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm min-h-touch flex items-center">
               Flux réel →
             </a>
           </div>
         </div>
 
-        {/* Preview header */}
-        <header className="flex flex-col gap-tight text-center">
-          <p className="m-0 inline-flex items-center justify-center gap-stack-xs font-body text-caption font-semibold uppercase tracking-wider text-secondary-600">
-            <Sparkles size={14} aria-hidden />
-            Comparatif — Variante {variant.toUpperCase()}
-          </p>
-          <h1 className="font-display text-h2 tracking-display text-ink-900 leading-tight">
-            {VARIANT_META[variant].label}
-          </h1>
-          <p className="m-0 font-body text-body text-ink-500">
-            {VARIANT_META[variant].desc}
-          </p>
-        </header>
+        {/* Preview header + variante : un bloc (32 sous l'en-tête) */}
+        <div className="flex flex-col gap-section">
+        <PageHeader
+          align="center"
+          variant="tight"
+          eyebrow={{ icon: <Sparkles size={14} aria-hidden />, text: `Comparatif · variante ${variant.toUpperCase()}` }}
+          title={VARIANT_META[variant].label}
+          description={VARIANT_META[variant].desc}
+        />
 
         {done ? (
-          <div className="rounded-lg bg-white/75 border border-white/60 p-stack-lg text-center flex flex-col items-center gap-stack">
-            <div className="w-14 h-14 rounded-xl bg-success-bg flex items-center justify-center">
-              <Check size={28} className="text-success-fg" />
-            </div>
-            <p className="font-display text-h3 font-bold text-ink-900 m-0">
-              Profil complété !
+          <div className="rounded-xl bg-white/75 border border-white/60 p-stack-lg text-center flex flex-col items-center gap-stack">
+            <IconChip size="lg" tone="success">
+              <Check />
+            </IconChip>
+            <p className="font-display text-h3 text-ink-900">
+              Profil complété
             </p>
-            <p className="font-body text-body-sm text-ink-500 m-0">
+            <p className="font-body text-body text-ink-700">
               → En production : transition vers <code className="bg-ink-100 px-1.5 py-0.5 rounded text-primary-700">/onboarding/questionnaire</code>
             </p>
             <Button emphasis="soft" tone="warm" onClick={() => setDone(false)}>
@@ -794,11 +798,12 @@ export default function OnboardingPreview() {
             {variant === 'c' && <VariantC onDone={handleDone} />}
           </div>
         )}
+        </div>
 
         {/* Progress bar — shows where we are in overall onboarding */}
-        <div className="flex flex-col gap-tight">
-          <div className="flex justify-between text-caption text-ink-600">
-            <span>Étape 1 / 4 — Profil</span>
+        <div className="flex flex-col gap-stack-xs">
+          <div className="flex justify-between gap-stack text-caption text-ink-600">
+            <span>Étape 1 sur 4 · Profil</span>
             <span>Positionnement, Paiement, Tutoriel →</span>
           </div>
           <ProgressBar value={25} max={100} fill="warm" size="sm" valueLabel={false} />

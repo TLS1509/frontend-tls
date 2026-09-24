@@ -37,7 +37,6 @@ import {
   BarChart3,
   LogOut,
   Menu,
-  Trophy,
   MessageSquare,
   Users,
   Palette,
@@ -81,7 +80,6 @@ import {
   VerifyEmail,
   MagicLink,
   Passeport,
-  Gamification,
   CoachDashboard,
   ManagerEnterprise,
   ManagerCohort,
@@ -97,7 +95,6 @@ import {
   CoachCorrectionInterface,
   CoachApprenants,
   BadgeDetail,
-  ProfileBadgesCompetences,
   ManagerAlerts,
   ManagerExport,
   DashboardCompetenceDetail,
@@ -145,9 +142,6 @@ import {
   ProjectSkillGaps,
   ProjectTask,
   ProjectTeam,
-  BadgeGallery,
-  XPDashboard,
-  DashboardAchievements,
   NotificationPreferences,
   // Phase 16 — Sitemap gap pages (17 from FO_SCREENS_CONSOLIDATION)
   PerplexityContentDetail,
@@ -160,7 +154,6 @@ import {
   ItemRecommendations,
   PasseportHistorique,
   PurchaseCredits,
-  StreakDetail,
   CoachEngagement,
   CoachEnterpriseDashboard,
   ManagerViewsBuilder,
@@ -174,7 +167,6 @@ import {
   ForgotPassword,
   Notifications,
   Messages,
-  Leaderboard,
   Veille,
   Journal,
   ArticleDetail,
@@ -212,7 +204,6 @@ import {
 } from './pages';
 import ChatInterface from './pages/ChatInterface';
 import ChatHistoryPanel from './pages/ChatHistoryPanel';
-import OpenBadgesSection from './pages/OpenBadgesSection';
 import CoachProfileView from './pages/CoachProfileView';
 import WebhooksManagement from './pages/WebhooksManagement';
 import OnboardingPreview from './pages/OnboardingPreview';
@@ -222,6 +213,7 @@ import { PagesIndex } from './pages/PagesIndex';
 import BgLab from './pages/BgLab';
 import CardLab from './pages/CardLab';
 import DesignLab from './pages/DesignLab';
+import ArbitragesLab from './pages/ArbitragesLab';
 import { FloatingNavButton } from './components/FloatingNavButton';
 import { DevPanel } from './components/DevPanel';
 // Marketing site
@@ -281,6 +273,13 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches
   );
   const userMenuRef = React.useRef<HTMLDivElement>(null);
+  // Tiroir mobile : à la fermeture, le focus revient au bouton qui l'a ouvert.
+  const menuButtonRef = React.useRef<HTMLButtonElement>(null);
+  const wasMobileOpen = React.useRef(false);
+  React.useEffect(() => {
+    if (wasMobileOpen.current && !isMobileOpen && isMobile) menuButtonRef.current?.focus();
+    wasMobileOpen.current = isMobileOpen;
+  }, [isMobileOpen, isMobile]);
   // Hover-peek timers — 200ms hover-in delay (avoid accidental open),
   // 400ms hover-out delay (allow re-cross into sidebar without closing).
   const hoverOpenTimer = React.useRef<number | null>(null);
@@ -363,7 +362,10 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         }}
         onMouseEnter={scheduleHoverOpen}
         onMouseLeave={scheduleHoverClose}
+        ref={menuButtonRef}
         aria-label="Ouvrir la navigation"
+        aria-expanded={isMobileOpen}
+        aria-controls="navigation-principale"
         className="md:hidden fixed top-2 left-2 z-dropdown inline-flex items-center justify-center w-touch h-touch rounded-pill bg-white border border-ink-200 shadow-md text-ink-700 hover:bg-primary-50 transition-colors"
       >
         <Menu size={18} />
@@ -371,50 +373,12 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
       {/* Sidebar — wrapped in a sticky container so it pins on scroll (desktop only). */}
       <div className="sticky top-0 h-[100dvh] z-sticky max-md:static max-md:h-auto max-md:z-auto relative flex-shrink-0" ref={userMenuRef}>
-      {/* Dropdown menu — floats to the right of the sidebar (glass), anchored to user card */}
-      {isUserMenuOpen && user && (
-        <DropdownMenu
-          variant="glass"
-          onClose={() => setIsUserMenuOpen(false)}
-          className="absolute bottom-3 left-full ml-3 z-dropdown min-w-[260px] max-md:left-auto max-md:right-3 max-md:bottom-[80px] max-md:ml-0"
-        >
-          <DropdownItem icon={<UserRound size={16} />} onClick={goTo('/profile')}>Mon Profil</DropdownItem>
-          <DropdownItem icon={<KeyRound size={16} />} onClick={goTo('/account')}>Mon compte</DropdownItem>
-          <DropdownItem
-            icon={<Bell size={16} />}
-            badge={unreadNotifications > 0 ? String(unreadNotifications) : undefined}
-            onClick={goTo('/notifications')}
-          >
-            Notifications
-          </DropdownItem>
-          <DropdownItem icon={<Target size={16} />} badge="demo" onClick={goTo('/onboarding')}>Onboarding</DropdownItem>
-          <DropdownItem icon={<BarChart3 size={16} />} badge="pro" onClick={goTo('/enterprise')}>Espace Entreprise</DropdownItem>
-          <DropdownSeparator />
-          <DropdownLabel>Communauté</DropdownLabel>
-          <DropdownItem icon={<Trophy size={16} />} onClick={goTo('/leaderboard')}>Leaderboard</DropdownItem>
-          <DropdownItem icon={<Users size={16} />} onClick={goTo('/collaboration')}>Collaboration</DropdownItem>
-          <DropdownItem icon={<MessageSquare size={16} />} onClick={goTo('/messages')}>Messages</DropdownItem>
-          <DropdownSeparator />
-          <DropdownItem icon={<HelpCircle size={16} />} onClick={goTo('/help')}>Centre d'aide</DropdownItem>
-          <DropdownSeparator />
-          <DropdownItem
-            icon={<LogOut size={16} />}
-            danger
-            onClick={() => {
-              logout();
-              window.location.href = 'http://localhost:8888/app/wp-login.php';
-            }}
-          >
-            Déconnexion
-          </DropdownItem>
-        </DropdownMenu>
-      )}
-
       <Sidebar
         className="h-full"
         collapsed={collapsed}
         onToggleCollapse={isMobile ? undefined : () => setIsSidebarCollapsed((p) => !p)}
         mobileOpen={isMobileOpen}
+        isMobile={isMobile}
         onMobileClose={() => setIsMobileOpen(false)}
         onMouseEnter={isMobile ? clearHoverTimers : undefined}
         onMouseLeave={isMobile ? scheduleHoverClose : undefined}
@@ -425,7 +389,6 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 <Avatar
                   initials={user.name?.charAt(0).toUpperCase()}
                   size="md"
-                  shape="square"
                   tint="brand"
                 />
               }
@@ -451,13 +414,56 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
               onClick={goTo(entree.href)}
               icon={<Icone size={18} />}
               label={entree.label}
-              count={entree.id === 'parcours' ? '3' : undefined}
               active={entreeActive(entree, location.pathname)}
               collapsed={collapsed}
             />
           );
         })}
       </Sidebar>
+
+      {/* Menu utilisateur — flotte à droite de la barre (verre), ancré sur la carte.
+          Sur mobile, il s'ouvre DEPUIS le tiroir : il doit donc vivre dans la
+          même couche que lui (z-modal) et être rendu APRÈS lui dans le DOM,
+          pour peindre au-dessus à z-index égal. Il était en z-dropdown (30)
+          sous un tiroir en z-50 : Profil, Compte, Notifications, Aide et
+          Déconnexion étaient inatteignables à 375 px (audit du 23/09). */}
+      {isUserMenuOpen && user && (
+        <DropdownMenu
+          variant="glass"
+          aria-label="Menu utilisateur"
+          onClose={() => setIsUserMenuOpen(false)}
+          className="absolute bottom-3 left-full ml-3 z-dropdown min-w-[260px] max-md:fixed max-md:z-modal max-md:left-auto max-md:right-3 max-md:bottom-[80px] max-md:ml-0"
+        >
+          <DropdownItem icon={<UserRound size={16} />} onClick={goTo('/profile')}>Mon Profil</DropdownItem>
+          <DropdownItem icon={<KeyRound size={16} />} onClick={goTo('/account')}>Mon compte</DropdownItem>
+          <DropdownItem
+            icon={<Bell size={16} />}
+            badge={unreadNotifications > 0 ? String(unreadNotifications) : undefined}
+            onClick={goTo('/notifications')}
+          >
+            Notifications
+          </DropdownItem>
+          <DropdownItem icon={<Target size={16} />} badge="demo" onClick={goTo('/onboarding')}>Onboarding</DropdownItem>
+          <DropdownItem icon={<BarChart3 size={16} />} badge="pro" onClick={goTo('/enterprise')}>Espace Entreprise</DropdownItem>
+          <DropdownSeparator />
+          <DropdownLabel>Communauté</DropdownLabel>
+          <DropdownItem icon={<Users size={16} />} onClick={goTo('/collaboration')}>Collaboration</DropdownItem>
+          <DropdownItem icon={<MessageSquare size={16} />} onClick={goTo('/messages')}>Messages</DropdownItem>
+          <DropdownSeparator />
+          <DropdownItem icon={<HelpCircle size={16} />} onClick={goTo('/help')}>Centre d'aide</DropdownItem>
+          <DropdownSeparator />
+          <DropdownItem
+            icon={<LogOut size={16} />}
+            danger
+            onClick={() => {
+              logout();
+              window.location.href = 'http://localhost:8888/app/wp-login.php';
+            }}
+          >
+            Déconnexion
+          </DropdownItem>
+        </DropdownMenu>
+      )}
       </div>
 
       {/* Main content area */}
@@ -481,23 +487,27 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         </main>
 
         <footer className="px-6 py-4 text-caption text-ink-500 text-center">
-          © {new Date().getFullYear()} The Learning Society. All rights reserved.
+          © {new Date().getFullYear()} The Learning Society. Tous droits réservés.
         </footer>
       </div>
 
       {/* BottomNav — primary mobile navigation (< md). Replaces hamburger for Tier 1 pages. */}
       <BottomNav />
 
-      {/* FloatingNavButton — DEV shortcut pour accès rapide /components + /pages-index.
-          À remplacer par un chatbot / agent / FAQ widget en prod ultérieurement. */}
-      <FloatingNavButton
-        tone="brand"
-        ariaLabel="Raccourcis développeur"
-        actions={[
-          { label: 'Design System', icon: <Palette size={18} />,       onClick: () => navigate('/components'),  tone: 'primary' },
-          { label: 'Pages Index',   icon: <BookOpenText size={18} />,  onClick: () => navigate('/pages-index'), tone: 'warm' },
-        ]}
-      />
+      {/* FloatingNavButton — raccourci DÉVELOPPEUR (/components, /pages-index).
+          Gardé derrière DEV comme le DevPanel : rendu sans condition, il
+          sortait en production et recouvrait le contenu aligné à droite
+          (audit du 23/09). À remplacer par un vrai widget s'il en faut un. */}
+      {import.meta.env.DEV && (
+        <FloatingNavButton
+          tone="brand"
+          ariaLabel="Raccourcis développeur"
+          actions={[
+            { label: 'Design System', icon: <Palette size={18} />,       onClick: () => navigate('/components'),  tone: 'primary' },
+            { label: 'Pages Index',   icon: <BookOpenText size={18} />,  onClick: () => navigate('/pages-index'), tone: 'warm' },
+          ]}
+        />
+      )}
       {import.meta.env.DEV && <DevPanel />}
     </div>
   );
@@ -506,6 +516,37 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 /**
  * Main App Component with Routing
  */
+/**
+ * Un titre de document par vue (WCAG 2.4.2) : toutes les routes s'appelaient
+ * « The Learning Society ». Le titre est lu dans le h1 rendu plutôt que
+ * recopié dans une table : il suit la page quand elle change, et une page
+ * sans h1 le signale en gardant le titre générique. Les pages chargées en
+ * différé sont attendues jusqu'à 2 s.
+ */
+const DocumentTitle: React.FC = () => {
+  const { pathname } = useLocation();
+  React.useEffect(() => {
+    const BASE = 'The Learning Society';
+    let done = false;
+    const apply = () => {
+      // Une page peut imposer son nom quand son h1 est une salutation
+      // (« Bonjour Dev ») : attribut `data-page-title` sur sa racine.
+      const named = document.querySelector('[data-page-title]')?.getAttribute('data-page-title');
+      const h1 = document.querySelector('main h1, h1');
+      const text = named || h1?.textContent?.trim();
+      if (text) { document.title = `${text} · ${BASE}`; done = true; }
+      return done;
+    };
+    document.title = BASE;
+    if (apply()) return;
+    const obs = new MutationObserver(() => { if (apply()) obs.disconnect(); });
+    obs.observe(document.body, { childList: true, subtree: true });
+    const t = window.setTimeout(() => obs.disconnect(), 2000);
+    return () => { obs.disconnect(); window.clearTimeout(t); };
+  }, [pathname]);
+  return null;
+};
+
 function App() {
   const { loading, isAuthenticated } = useAuth();
 
@@ -526,6 +567,7 @@ function App() {
     <Router>
       <ToastProvider>
       <ScrollToTop />
+      <DocumentTitle />
       <Routes>
         {/* ── Marketing site (public — no auth required) ── */}
         {/* Banc de comparaison des menus (29/07). Hors <MarketingLayout> à
@@ -598,6 +640,8 @@ function App() {
             scrollIntoView sans pouvoir scroller (scrollHeight === clientHeight), ce qui
             neutralise silencieusement les ancres. DesignLab gère son propre plein écran. */}
         <Route path="/_design-lab" element={<DesignLab />} />
+        {/* Banc des décisions de l'audit du 23/09 — à supprimer une fois tranchées. */}
+        <Route path="/_arbitrages" element={<ArbitragesLab />} />
 
         {/* ── Landing page inscription — public, plein écran ── */}
         <Route path="/inscription" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><AppLanding /></div>} />
@@ -631,6 +675,20 @@ function App() {
                   <Route path="/" element={<Dashboard />} />
                   <Route path="/dashboard" element={<Dashboard />} />
                   <Route path="/profile" element={<Profile />} />
+                  {/* Arbitrage n°18 (2026-09-24, « Reconnaissances ») : plus de
+                      série, d'XP ni de classement nominatif dans l'app apprenant.
+                      Les six routes de gamification deviennent la section
+                      « Reconnaissances » du profil, et les deux listes de badges
+                      du profil s'y fondent (sans doublon). Seul le détail d'un
+                      Open Badge garde sa page, /gamification/badge/:id. */}
+                  <Route path="/gamification" element={<Navigate to="/profile#reconnaissances" replace />} />
+                  <Route path="/gamification/badges" element={<Navigate to="/profile#reconnaissances" replace />} />
+                  <Route path="/gamification/xp" element={<Navigate to="/profile#reconnaissances" replace />} />
+                  <Route path="/gamification/streaks" element={<Navigate to="/profile#reconnaissances" replace />} />
+                  <Route path="/leaderboard" element={<Navigate to="/profile#reconnaissances" replace />} />
+                  <Route path="/dashboard/achievements" element={<Navigate to="/profile#reconnaissances" replace />} />
+                  <Route path="/profile/badges/competences" element={<Navigate to="/profile#reconnaissances" replace />} />
+                  <Route path="/profile/open-badges" element={<Navigate to="/profile#reconnaissances" replace />} />
                   <Route path="/settings" element={<Navigate to="/account" replace />} />
                   <Route path="/components" element={<Suspense fallback={<ShowcaseFallback />}><Components /></Suspense>} />
                   <Route path="/components/:categorySlug" element={<Suspense fallback={<ShowcaseFallback />}><Components /></Suspense>} />
@@ -644,7 +702,6 @@ function App() {
                   <Route path="/pages-index" element={<PagesIndex />} />
                   <Route path="/notifications" element={<Notifications />} />
                   <Route path="/messages" element={<Messages />} />
-                  <Route path="/leaderboard" element={<Leaderboard />} />
                   <Route path="/veille" element={<Veille />} />
                   <Route path="/veille/article/:id" element={<ArticleDetail />} />
                   <Route path="/veille/dossier/:id" element={<Dossier />} />
@@ -671,7 +728,6 @@ function App() {
                   <Route path="/account/billing" element={<Billing />} />
                   {/* Phase 11 — MVP pages */}
                   <Route path="/passeport" element={<Passeport />} />
-                  <Route path="/gamification" element={<Gamification />} />
                   <Route path="/coach/dashboard" element={<CoachDashboard />} />
                   <Route path="/manager/enterprise" element={<ManagerEnterprise />} />
                   <Route path="/manager/cohort" element={<ManagerCohort />} />
@@ -685,7 +741,6 @@ function App() {
                   <Route path="/coach/correction/:id" element={<CoachCorrectionInterface />} />
                   <Route path="/coach/apprenants" element={<CoachApprenants />} />
                   <Route path="/gamification/badge/:id" element={<BadgeDetail />} />
-                  <Route path="/profile/badges/competences" element={<ProfileBadgesCompetences />} />
                   <Route path="/manager/alerts" element={<ManagerAlerts />} />
                   <Route path="/manager/export" element={<ManagerExport />} />
                   <Route path="/dashboard/competence/:id" element={<DashboardCompetenceDetail />} />
@@ -734,9 +789,6 @@ function App() {
                   <Route path="/project/:id/skill-gaps" element={<ProjectSkillGaps />} />
                   <Route path="/project/:id/task/:taskId" element={<ProjectTask />} />
                   <Route path="/project/:id/team" element={<ProjectTeam />} />
-                  <Route path="/gamification/badges" element={<BadgeGallery />} />
-                  <Route path="/gamification/xp" element={<XPDashboard />} />
-                  <Route path="/dashboard/achievements" element={<DashboardAchievements />} />
                   <Route path="/notifications/preferences" element={<NotificationPreferences />} />
                   {/* Phase 16 — Sitemap gap pages (P0 + P1 from FO_SCREENS_CONSOLIDATION) */}
                   <Route path="/veille/perplexity/:id" element={<PerplexityContentDetail />} />
@@ -749,7 +801,6 @@ function App() {
                   <Route path="/passeport/historique" element={<PasseportHistorique />} />
                   <Route path="/account/billing/credits/buy" element={<PurchaseCredits />} />
                   <Route path="/profile/credits/buy" element={<Navigate to="/account/billing/credits/buy" replace />} />
-                  <Route path="/gamification/streaks" element={<StreakDetail />} />
                   <Route path="/coach/engagement" element={<CoachEngagement />} />
                   <Route path="/coach/enterprise-dashboard" element={<CoachEnterpriseDashboard />} />
                   <Route path="/manager/views/builder" element={<ManagerViewsBuilder />} />
@@ -766,7 +817,6 @@ function App() {
                   <Route path="/veille/video/:id" element={<VideoViewer />} />
                   <Route path="/assistant" element={<ChatInterface />} />
                   <Route path="/assistant/history" element={<ChatHistoryPanel />} />
-                  <Route path="/profile/open-badges" element={<OpenBadgesSection />} />
                   <Route path="/profile/credits" element={<Navigate to="/account/billing" replace />} />
                   <Route path="/coaching/coach/:id" element={<CoachProfileView />} />
                   <Route path="/enterprise/webhooks" element={<WebhooksManagement />} />

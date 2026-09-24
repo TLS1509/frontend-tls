@@ -1,6 +1,6 @@
 import React from 'react';
 import { buttonClasses } from '../core/Button';
-import { Badge } from '../ui/Badge';
+import { MetaPill } from '../ui/MetaPill';
 import { ArrowRight } from 'lucide-react';
 import type { BadgeVariant } from '../ui/Badge';
 
@@ -45,11 +45,11 @@ const VARIANT_HOVER_BG: Record<BadgeVariant, string> = {
  * CTA hover text color matches the variant's accent color.
  */
 const VARIANT_CTA_HOVER: Record<BadgeVariant, string> = {
-  brand:   'group-hover:text-primary-700',
-  info:    'group-hover:text-primary-700',
-  warm:    'group-hover:text-secondary-700',
-  sun:     'group-hover:text-accent-700',
-  neutral: 'group-hover:text-ink-700',
+  brand:   'group-hover:text-primary-800',
+  info:    'group-hover:text-primary-800',
+  warm:    'group-hover:text-secondary-800',
+  sun:     'group-hover:text-accent-800',
+  neutral: 'group-hover:text-ink-900',
   success: 'group-hover:text-success-fg',
   danger:  'group-hover:text-danger-fg',
 };
@@ -119,7 +119,7 @@ export const PromptCard: React.FC<PromptCardProps> = ({
   const hoverBg = VARIANT_HOVER_BG[variant] ?? VARIANT_HOVER_BG.info;
   const restBorder = VARIANT_BORDER[variant] ?? VARIANT_BORDER.info;
   const hoverBorder = VARIANT_HOVER_BORDER[variant] ?? VARIANT_HOVER_BORDER.info;
-  const ctaHover = VARIANT_CTA_HOVER[variant] ?? 'group-hover:text-primary-700';
+  const ctaHover = VARIANT_CTA_HOVER[variant] ?? 'group-hover:text-primary-800';
   // Default: bubble visible on compact, hidden on featured (the featured layout is too wide for a bubble)
   const showBubble = bubble ?? size === 'default';
 
@@ -142,7 +142,7 @@ export const PromptCard: React.FC<PromptCardProps> = ({
              et ce padding décale de toute façon les seuils des descendants :
              `@xl` (576 px de contenu) se déclenche ici à 624 px de bulle. */
           '@container',
-          'flex flex-col @xl:flex-row items-stretch @xl:items-center gap-stack @xl:gap-7',
+          'flex flex-col @xl:flex-row items-stretch @xl:items-center gap-stack @xl:gap-stack-lg',
           'p-stack-lg',
           restBorder,
           hoverBorder,
@@ -160,11 +160,13 @@ export const PromptCard: React.FC<PromptCardProps> = ({
           {icon}
         </div>
 
-        <div className="flex-1 flex flex-col gap-2.5 min-w-0">
-          <Badge variant={variant} className="self-start">
-            {label}
-          </Badge>
-          <p className="m-0 font-display text-h3 @xl:text-h2 font-semibold text-ink-900 leading-snug text-balance">
+        {/* Le type de réflexion (« Apprentissage », « Coaching ») est une
+            DONNÉE : MetaPill, pas Badge (arbitrage n°15). La question passe en
+            700, la seule graisse de titre de l'app, et reprend l'interligne de
+            son pas (passe typographique du 2026-09-24). */}
+        <div className="flex-1 flex flex-col items-start gap-stack-xs min-w-0">
+          <MetaPill text={label} tone={variant} />
+          <p className="m-0 font-display text-h3 @xl:text-h2 font-bold text-ink-900 text-balance">
             {text}
           </p>
         </div>
@@ -203,15 +205,15 @@ export const PromptCard: React.FC<PromptCardProps> = ({
       tabIndex={0}
       role="button"
     >
-      <Badge variant={variant}>{label}</Badge>
+      <MetaPill text={label} tone={variant} />
 
       <div className="inline-flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
         {icon}
       </div>
 
-      <p className="m-0 text-body-sm text-ink-600 text-balance">{text}</p>
+      <p className="m-0 text-body text-ink-700 text-balance">{text}</p>
 
-      <div className={['inline-flex items-center gap-tight text-caption font-semibold text-ink-500 transition-colors', ctaHover].join(' ')}>
+      <div className={['inline-flex items-center gap-tight text-caption font-semibold text-ink-600 transition-colors', ctaHover].join(' ')}>
         {ctaLabel ?? 'Réfléchir'}
         <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
       </div>

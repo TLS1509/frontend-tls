@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Users, BarChart3, CheckCircle2, AlertTriangle, ChevronRight } from 'lucide-react';
-import { EditorialHero } from '../components/patterns/EditorialHero';
-import { SectionCard } from '../components/patterns/SectionCard';
+import { ChevronRight } from 'lucide-react';
+import { PageHero } from '../components/patterns/EditorialHero';
 import { SectionHeader } from '../components/patterns/SectionHeader';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
@@ -13,15 +12,17 @@ import { Avatar } from '../components/ui/Avatar';
 import { Tabs } from '../components/ui/Tabs';
 import { CompetencyRadar } from '../components/ui/CompetencyRadar';
 import { AtrophieIndicator } from '../components/ui/AtrophieIndicator';
-import { Container } from '../components/layout';
+import { DataTable, type DataTableColumn } from '../components/patterns/DataTable';
+import { PageShell } from '../components/layout';
 
 // ─── Mock data ─────────────────────────────────────────────────────────────────
 
+/* Chiffres à la française : espace insécable avant « % », virgule décimale. */
 const TEAM_STATS = [
   { label: 'Membres actifs', value: '14 / 14', delta: '', deltaDirection: 'up' as const },
-  { label: 'Taux complétion', value: '68%', delta: '+8%', deltaDirection: 'up' as const },
-  { label: 'JAC validés', value: '73%', delta: '+3%', deltaDirection: 'up' as const },
-  { label: 'Couverture compétences', value: '4/6', delta: '', deltaDirection: 'up' as const },
+  { label: 'Taux de complétion', value: '68\u00a0%', delta: '+8\u00a0%', deltaDirection: 'up' as const },
+  { label: 'JAC validés', value: '73\u00a0%', delta: '+3\u00a0%', deltaDirection: 'up' as const },
+  { label: 'Couverture des compétences', value: '4 / 6', delta: '', deltaDirection: 'up' as const },
 ];
 
 // `slug` → id apprenant (data/apprenants.ts) : ouvre la fiche réelle & validable
@@ -55,6 +56,32 @@ const PROJECT_STATUS_STYLE = {
   'at-risk': { label: 'À risque', variant: 'danger' as const },
 };
 
+/* Des membres qu'on compare sur la complétion, les JAC et le niveau : une
+   table triable (arbitrage n°5 du 23/09). Les valeurs de tri voyagent dans la
+   rangée sous des clés que la table n'affiche pas. */
+const MEMBER_COLUMNS: DataTableColumn[] = [
+  { key: 'name', label: 'Membre', sortable: true, sortValue: (r) => r._name as string },
+  { key: 'activity', label: 'Activité', sortable: true, sortValue: (r) => r._days as number },
+  { key: 'completion', label: 'Complétion', sortable: true, sortValue: (r) => r._completion as number },
+  { key: 'jac', label: 'JAC', sortable: true, align: 'right', sortValue: (r) => r._jac as number },
+  { key: 'dreyfus', label: 'Dreyfus', sortable: true, align: 'right', sortValue: (r) => r._dreyfus as number },
+  { key: 'action', label: 'Fiche', align: 'right' },
+];
+
+/* Rangée dans la carte : retrait 20 puis 24 px, jamais sous le rayon (20) de
+   la carte — au coin, le contenu reste dans le régime « forme fixe ». */
+const ROW = 'flex flex-col sm:flex-row sm:items-center gap-stack-xs sm:gap-section px-stack-md sm:px-stack-lg py-stack';
+
+/* Une rangée dans une carte au padding canon : le filet entre deux rangées,
+   16 px de part et d'autre, rien au-dessus de la première ni sous la dernière. */
+const LIST_ROW = 'py-stack first:pt-0 last:pb-0';
+
+/* « 2026-09-01 » → « 1 septembre 2026 » : une date se lit, elle ne se décode pas. */
+const dateFr = (iso: string) =>
+  new Date(`${iso}T00:00:00`).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+
+const dreyfusFr = (n: number) => n.toFixed(1).replace('.', ',');
+
 const TABS = [
   { id: 'overview', label: 'Vue d\'ensemble' },
   { id: 'members', label: 'Membres' },
@@ -63,169 +90,219 @@ const TABS = [
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
+/* Passe typographique du 2026-09-24 :
+   - une seule coque (`PageShell`) : l'en-tête et le contenu partent du même
+     bord gauche, et l'en-tête ne colle plus au haut de la fenêtre ;
+   - les titres de section sont des h2 à 28 posés HORS des cartes (ils étaient
+     des h3 à 20 dans des `SectionCard`, et la page sautait du h1 au h3) ;
+   - la donnée chuchote : les comptes vont dans `meta` (13, ink-600) ;
+   - une barre, une valeur : « 82 % » était écrit deux fois par rangée.
+   Arbitrage n°19 : une page de consultation, sans `solid`. « Tous les
+   membres » et « Tous les projets » sont des « Voir tout » (ghost) ; ouvrir
+   une fiche ou un projet est l'action de sa rangée (soft). */
 export default function ManagerCohort() {
   const [activeTab, setActiveTab] = useState('overview');
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col gap-section">
-      <EditorialHero
+    <PageShell width="wide">
+      <PageHero
         eyebrow="Espace Manager · Équipe Tech"
-        title="Dashboard Cohorte"
-        summary="Progression de l'équipe, suivi des projets, performance JAC et couverture des compétences."
+        title="Ma cohorte"
+        summary="Progression de l'équipe, suivi des projets, JAC validés et couverture des compétences."
         tone="flat"
       />
 
-      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
+      {/* Chiffres de l'équipe */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-stack">
+        {TEAM_STATS.map((s, i) => (
+          <StatCard
+            key={i}
+            label={s.label}
+            value={s.value}
+            delta={s.delta || undefined}
+            deltaDirection={s.deltaDirection}
+            size="sm"
+          />
+        ))}
+      </div>
 
-        {/* Team KPIs */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-stack">
-          {TEAM_STATS.map((s, i) => (
-            <StatCard
-              key={i}
-              label={s.label}
-              value={s.value}
-              delta={s.delta || undefined}
-              deltaDirection={s.deltaDirection}
-              size="sm"
-            />
-          ))}
-        </div>
-
-        <Tabs items={TABS} value={activeTab} onChange={setActiveTab} variant="underline" />
+      {/* Les onglets et leur panneau forment un bloc : 24 px entre eux, 48 au-dessus. */}
+      <div className="flex flex-col gap-stack-lg">
+        <Tabs items={TABS} value={activeTab} onChange={setActiveTab} variant="underline" label="Vues de la cohorte" />
 
         {/* Overview tab */}
         {activeTab === 'overview' && (
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-section items-start">
-            <div className="flex flex-col gap-section">
-              {/* Recent activity */}
-              <SectionCard
-                title="Performance équipe"
-                titleIcon={<BarChart3 size={20} />}
-              >
-                <div className="flex flex-col gap-stack">
-                  {TEAM_MEMBERS.slice(0, 3).map((m) => (
-                    <div key={m.id} className="flex items-center gap-stack-xs">
-                      <Avatar initials={m.initials} size="sm" />
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-stack-xs mb-1">
-                          <span className="text-caption font-semibold text-ink-800">{m.name}</span>
-                          <AtrophieIndicator daysSinceActivity={m.daysSinceActivity} size="sm" showLabel={false} />
+          <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_320px] gap-x-section gap-y-page items-start">
+            <div className="flex flex-col gap-page">
+              <section className="flex flex-col gap-stack">
+                <SectionHeader
+                  title="Performance de l'équipe"
+                  action={
+                    <Button emphasis="ghost" tone="brand" size="sm" trailingIcon={<ChevronRight size={14} />} onClick={() => setActiveTab('members')}>
+                      Tous les membres
+                    </Button>
+                  }
+                />
+                <Card>
+                  <ul className="flex flex-col divide-y divide-ink-100" aria-label="Performance de l'équipe">
+                    {TEAM_MEMBERS.slice(0, 3).map((m) => (
+                      <li key={m.id} className={`flex items-center gap-stack-sm ${LIST_ROW}`}>
+                        <Avatar initials={m.initials} size="sm" />
+                        <div className="flex-1 min-w-0 flex flex-col gap-stack-3xs">
+                          <div className="flex items-baseline justify-between gap-stack-xs">
+                            <span className="inline-flex items-center gap-stack-xs min-w-0">
+                              <span className="text-body font-semibold text-ink-900 truncate">{m.name}</span>
+                              <AtrophieIndicator daysSinceActivity={m.daysSinceActivity} size="sm" showLabel={false} />
+                            </span>
+                            <span className="shrink-0 text-caption text-ink-600 tabular-nums">Dreyfus {dreyfusFr(m.dreyfus)}</span>
+                          </div>
+                          <ProgressBar value={m.completion} fill="brand" size="sm" layout="inline" aria-label={`Complétion de ${m.name}`} />
                         </div>
-                        <ProgressBar value={m.completion} fill="brand" size="sm" showLabel label={`${m.completion}%`} />
-                      </div>
-                      <span className="text-caption text-ink-600 shrink-0">D{m.dreyfus.toFixed(1)}</span>
-                    </div>
-                  ))}
-                  <Button emphasis="outline" size="sm" trailingIcon={<ChevronRight size={14} />} onClick={() => setActiveTab('members')}>
-                    Voir tous les membres
-                  </Button>
-                </div>
-              </SectionCard>
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
+              </section>
 
-              {/* Projects */}
-              <SectionCard
-                title="Projets en cours"
-                titleIcon={<CheckCircle2 size={20} />}
-                headerAction={<Button emphasis="outline" size="sm" onClick={() => setActiveTab('projects')}>Tout voir</Button>}
-              >
-                <div className="flex flex-col gap-stack">
-                  {PROJECTS.map((p) => {
-                    const s = PROJECT_STATUS_STYLE[p.status as keyof typeof PROJECT_STATUS_STYLE];
-                    return (
-                      <Card key={p.id} className="p-3 flex flex-col gap-stack-xs">
-                        <div className="flex items-center justify-between gap-stack-xs">
-                          <span className="text-body-sm font-semibold text-ink-900">{p.title}</span>
-                          <Badge variant={s.variant} size="compact">{s.label}</Badge>
-                        </div>
-                        <div className="flex gap-stack-xs text-caption text-ink-600">
-                          <span>{p.type}</span>
-                          <span>·</span>
-                          <span>{p.members} membres</span>
-                          <span>·</span>
-                          <span>Échéance {p.dueDate}</span>
-                        </div>
-                        <ProgressBar value={p.progress} fill="brand" size="sm" showLabel label={`${p.progress}%`} />
-                      </Card>
-                    );
-                  })}
-                </div>
-              </SectionCard>
+              <section className="flex flex-col gap-stack">
+                <SectionHeader
+                  title="Projets en cours"
+                  meta={`${PROJECTS.length} projets`}
+                  action={
+                    <Button emphasis="ghost" tone="brand" size="sm" trailingIcon={<ChevronRight size={14} />} onClick={() => setActiveTab('projects')}>
+                      Tous les projets
+                    </Button>
+                  }
+                />
+                {/* Des rangées dans une carte, pas des cartes dans la carte. */}
+                <Card>
+                  <ul className="flex flex-col divide-y divide-ink-100" aria-label="Projets en cours">
+                    {PROJECTS.map((p) => {
+                      const s = PROJECT_STATUS_STYLE[p.status as keyof typeof PROJECT_STATUS_STYLE];
+                      return (
+                        <li key={p.id} className={`flex flex-col gap-stack-xs ${LIST_ROW}`}>
+                          <div className="flex flex-col gap-stack-3xs">
+                            <div className="flex items-baseline justify-between gap-stack-xs">
+                              <span className="text-body font-semibold text-ink-900">{p.title}</span>
+                              <Badge variant={s.variant} size="compact" className="shrink-0">{s.label}</Badge>
+                            </div>
+                            <p className="text-caption text-ink-600">
+                              {p.type} · {p.members} membres · Échéance le {dateFr(p.dueDate)}
+                            </p>
+                          </div>
+                          <ProgressBar value={p.progress} fill="brand" size="sm" layout="inline" aria-label={`Avancement de ${p.title}`} />
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </Card>
+              </section>
             </div>
 
-            {/* Team radar */}
-            <div className="sticky top-4">
-              <SectionCard
-                title="Radar équipe"
-                description="Moyenne Dreyfus · 14 membres"
-              >
+            {/* Le radar : une section à part entière, son titre en tête de colonne. */}
+            <section className="flex flex-col gap-stack lg:sticky lg:top-stack">
+              <SectionHeader title="Radar de l'équipe" meta="Moyenne Dreyfus · 14 membres" />
+              <Card>
                 <CompetencyRadar axes={TEAM_RADAR} size="sm" showLegend />
-              </SectionCard>
-            </div>
+              </Card>
+            </section>
           </div>
         )}
 
         {/* Members tab */}
         {activeTab === 'members' && (
-          <div className="flex flex-col gap-stack">
-            <SectionHeader title="Membres de la cohorte" subtitle={`${TEAM_MEMBERS.length} membres · Équipe Tech`} icon={<Users size={20} />} tone="primary" />
-            {TEAM_MEMBERS.map((m) => (
-              <Card key={m.id} className="p-stack flex items-start gap-stack">
-                <Avatar initials={m.initials} size="md" />
-                <div className="flex-1 min-w-0 flex flex-col gap-stack-xs">
-                  <div className="flex items-center gap-stack-xs flex-wrap">
-                    <span className="text-body-sm font-semibold text-ink-900">{m.name}</span>
-                    <span className="text-caption text-ink-600">{m.role}</span>
-                    <AtrophieIndicator daysSinceActivity={m.daysSinceActivity} size="sm" showLabel />
-                  </div>
-                  <div className="grid grid-cols-3 gap-stack-xs text-caption text-ink-500">
-                    <span>Complétion : <strong className="text-ink-800">{m.completion}%</strong></span>
-                    <span>JAC : <strong className="text-ink-800">{m.jac}%</strong></span>
-                    <span>Dreyfus : <strong className="text-ink-800">{m.dreyfus}</strong></span>
-                  </div>
-                  <ProgressBar value={m.completion} fill="brand" size="sm" />
-                </div>
-                <Button
-                  emphasis="outline"
-                  size="sm"
-                  trailingIcon={<ChevronRight size={14} />}
-                  onClick={() => navigate(`/coach/apprenant/${m.slug}`)}
-                >
-                  Fiche
-                </Button>
-              </Card>
-            ))}
-          </div>
+          <section className="flex flex-col gap-stack">
+            <SectionHeader title="Membres de la cohorte" meta={`${TEAM_MEMBERS.length} membres · Équipe Tech`} />
+            <DataTable
+              columns={MEMBER_COLUMNS}
+              pageSize={Math.max(TEAM_MEMBERS.length, 1)}
+              rows={TEAM_MEMBERS.map((m) => ({
+                _name: m.name,
+                _days: m.daysSinceActivity,
+                _completion: m.completion,
+                _jac: m.jac,
+                _dreyfus: m.dreyfus,
+                name: (
+                  <span className="flex items-center gap-stack-sm min-w-0">
+                    <Avatar initials={m.initials} size="sm" />
+                    <span className="flex flex-col min-w-0">
+                      <span className="font-semibold text-ink-900 truncate">{m.name}</span>
+                      <span className="text-caption text-ink-600 truncate">{m.role}</span>
+                    </span>
+                  </span>
+                ),
+                activity: (
+                  <span className="inline-flex items-center gap-stack-xs whitespace-nowrap">
+                    <span className="tabular-nums text-ink-700">il y a {m.daysSinceActivity} j</span>
+                    <AtrophieIndicator daysSinceActivity={m.daysSinceActivity} size="sm" showLabel={false} />
+                  </span>
+                ),
+                completion: (
+                  <span className="flex items-center gap-stack-xs min-w-[7rem]">
+                    <ProgressBar value={m.completion} fill="brand" size="sm" valueLabel={false} className="flex-1" aria-label={`Complétion de ${m.name}`} />
+                    <span className="tabular-nums text-ink-700 w-10 text-right whitespace-nowrap">{m.completion}{'\u00a0'}%</span>
+                  </span>
+                ),
+                jac: <span className="tabular-nums text-ink-700 whitespace-nowrap">{m.jac}{'\u00a0'}%</span>,
+                dreyfus: <span className="tabular-nums text-ink-900">{dreyfusFr(m.dreyfus)}</span>,
+                action: (
+                  <Button
+                    emphasis="soft"
+                    tone="brand"
+                    size="sm"
+                    trailingIcon={<ChevronRight size={14} />}
+                    aria-label={`Fiche de ${m.name}`}
+                    onClick={() => navigate(`/coach/apprenant/${m.slug}`)}
+                  >
+                    Fiche
+                  </Button>
+                ),
+              }))}
+            />
+          </section>
         )}
 
         {/* Projects tab */}
         {activeTab === 'projects' && (
-          <div className="flex flex-col gap-stack">
-            <SectionHeader title="Projets de la cohorte" icon={<CheckCircle2 size={20} />} tone="primary" />
-            {PROJECTS.map((p) => {
-              const s = PROJECT_STATUS_STYLE[p.status as keyof typeof PROJECT_STATUS_STYLE];
-              return (
-                <Card key={p.id} className="p-stack flex flex-col gap-stack-xs">
-                  <div className="flex items-center justify-between gap-stack-xs">
-                    <div>
-                      <p className="text-body-sm font-semibold text-ink-900">{p.title}</p>
-                      <p className="text-caption text-ink-600">{p.type} · {p.members} membres · Échéance {p.dueDate}</p>
-                    </div>
-                    <Badge variant={s.variant} size="compact">{s.label}</Badge>
-                  </div>
-                  <ProgressBar value={p.progress} fill="brand" size="md" showLabel label={`${p.progress}% complété`} />
-                  <div className="flex justify-end">
-                    <Button emphasis="outline" size="sm" trailingIcon={<ChevronRight size={14} />}>
-                      Voir le projet
-                    </Button>
-                  </div>
-                </Card>
-              );
-            })}
-          </div>
+          <section className="flex flex-col gap-stack">
+            <SectionHeader title="Projets de la cohorte" meta={`${PROJECTS.length} projets`} />
+            {/* Des projets qu'on parcourt : des rangées dans UNE carte, pas une
+                pile de cartes (arbitrage n°5 du 23/09). */}
+            <Card className="p-0">
+              <ul className="flex flex-col divide-y divide-ink-100" aria-label="Projets de la cohorte">
+                {PROJECTS.map((p) => {
+                  const s = PROJECT_STATUS_STYLE[p.status as keyof typeof PROJECT_STATUS_STYLE];
+                  return (
+                    <li key={p.id} className={ROW}>
+                      <div className="flex-1 min-w-0 flex flex-col gap-stack-3xs">
+                        <div className="flex items-center gap-stack-xs flex-wrap">
+                          <span className="text-body font-semibold text-ink-900">{p.title}</span>
+                          <Badge variant={s.variant} size="compact">{s.label}</Badge>
+                        </div>
+                        <p className="text-caption text-ink-600">{p.type} · {p.members} membres · Échéance le {dateFr(p.dueDate)}</p>
+                      </div>
+                      <div className="w-full sm:w-48 shrink-0">
+                        <ProgressBar value={p.progress} fill="brand" size="sm" layout="inline" aria-label={`Avancement de ${p.title}`} />
+                      </div>
+                      <Button
+                        emphasis="soft"
+                        tone="brand"
+                        size="sm"
+                        className="shrink-0 self-start sm:self-auto"
+                        trailingIcon={<ChevronRight size={14} />}
+                        aria-label={`Voir le projet : ${p.title}`}
+                      >
+                        Voir le projet
+                      </Button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </Card>
+          </section>
         )}
-
-      </Container>
-    </div>
+      </div>
+    </PageShell>
   );
 }

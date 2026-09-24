@@ -91,13 +91,13 @@
      index.css) matches both. Previously these carried their own literals (#252B37…), which diverged
      from what the BEM cascade served. NB : #252B37 n'a jamais été « teal-tinted »
      — il est à 264° en OKLCH, le teal de marque à 216°. Et index.css ne vaut pas
-     #1a1a1a : c'est #252B37. Voir CLAUDE.md « Pièges ».
+     #1a1a1a : c'est #252B37. Voir .claude/rules/pieges-tailwind.md, piège n°3.
      --tls-ink-25 has no @theme equivalent — kept as a neutral literal. */
   --tls-ink-0:   var(--color-ink-0);
   /* Les 12 tokens sémantiques --tls-success/warning/danger/info-* ont été
      SUPPRIMÉS le 2026-07-28 : ils dupliquaient les mêmes valeurs que le bloc
      @theme de src/index.css. Un token défini à deux endroits finit par diverger
-     (cf. CLAUDE.md piège n°3). Source unique désormais : @theme.
+     (cf. .claude/rules/pieges-tailwind.md, piège n°3). Source unique désormais : @theme.
      Utiliser var(--color-success-base) etc., ou les classes Tailwind. */
   --tls-ink-25:  #FAFBFC;
   --tls-ink-50:  var(--color-ink-50);
@@ -129,23 +129,23 @@
   /* Success — muted teal-green */
   --tls-success-light:    rgba(157, 190, 186, 0.08);  /* idle / lesson overlay */
   --tls-success-light-bg: rgba(157, 190, 186, 0.18);  /* completed element bg */
-  --tls-success-border:   rgba(157, 190, 186, 0.30);  /* completion-state border */
+  --tls-success-border:   var(--color-success-border);  /* completion-state border — valeur dans @theme (24/09) */
 
   /* Warning — TLS Yellow base */
   --tls-warning-fg:     var(--color-warning-fg);  /* = #2f1c13 dark editorial brown */
   --tls-warning-light:  rgba(248, 176, 68, 0.08);
-  --tls-warning-border: rgba(248, 176, 68, 0.30);
+  --tls-warning-border: var(--color-warning-border);
 
   /* Danger — soft coral */
   --tls-danger-light:   rgba(242, 133, 89, 0.06);   /* idle error overlay */
-  --tls-danger-border:  rgba(242, 133, 89, 0.25);   /* error-state border */
+  --tls-danger-border:  var(--color-danger-border);  /* error-state border */
   /* Danger button — saturated fills (source de vérité = index.css @theme) */
   --tls-danger-strong:  var(--color-danger-strong);
   --tls-danger-deep:    var(--color-danger-deep);
 
   /* Info — TLS Primary teal */
   --tls-info-light:     rgba(85, 161, 180, 0.08);
-  --tls-info-border:    rgba(85, 161, 180, 0.25);
+  --tls-info-border:    var(--color-info-border);
 
   /* ---------- ROLES (what to reach for in components) ---------- */
   --bg:             var(--tls-ink-25);
@@ -184,7 +184,7 @@
   --t-h4: 1.125rem;   /* 18 */
   --t-body-lg: 1.125rem; /* 18 */
   --t-body: 1rem;        /* 16 */
-  --t-body-sm: 0.9375rem; /* 15 */
+  --t-body-sm: 1rem;      /* 16 — aligné sur l'arbitrage n°20 (24/09) : plus de corps à 15 */
   --t-caption: 0.8125rem; /* 13 */
   --t-micro: 0.6875rem;   /* 11 */
 

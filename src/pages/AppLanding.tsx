@@ -21,10 +21,10 @@ import {
   Brain,
   BadgeCheck,
   Users,
-  MousePointerClick,
 } from 'lucide-react';
 import { TlsLogo } from '../components/ui/TlsLogo';
 import { Button } from '../components/core/Button';
+import { IconChip } from '../components/ui/IconChip';
 import { CARD_HOVER } from '../lib/tone-classes';
 import {
   MeshGradientBg,
@@ -97,7 +97,7 @@ const STEPS: Step[] = [
   {
     number: '02',
     title: 'Commencez votre parcours',
-    description: 'Leçons courtes, exercices pratiques, coaching 1:1 — tout aligné sur vos objectifs réels.',
+    description: 'Leçons courtes, exercices pratiques, coaching 1:1, tout aligné sur vos objectifs réels.',
   },
   {
     number: '03',
@@ -118,20 +118,20 @@ const TRUST: Trust[] = [
 const FEATURE_TONE: Record<FeatureCard['tone'], { card: string; icon: string; eyebrow: string; bullet: string }> = {
   brand: {
     card: 'bg-primary-50 border border-primary-200',
-    icon: 'bg-primary-100 text-primary-700',
-    eyebrow: 'text-primary-600',
+    icon: 'bg-primary-100 text-primary-800',
+    eyebrow: 'text-primary-800',
     bullet: 'text-primary-500',
   },
   warm: {
     card: 'bg-secondary-50 border border-secondary-200',
     icon: 'bg-secondary-100 text-secondary-600',
-    eyebrow: 'text-secondary-600',
+    eyebrow: 'text-secondary-700',
     bullet: 'text-secondary-500',
   },
   sun: {
     card: 'bg-accent-50 border border-accent-200',
     icon: 'bg-accent-100 text-accent-500',
-    eyebrow: 'text-accent-500',
+    eyebrow: 'text-accent-700',
     bullet: 'text-accent-400',
   },
 };
@@ -150,7 +150,7 @@ const Pill: React.FC<{ children: React.ReactNode; className?: string }> = ({ chi
  * tone="warm" : orange sur fond clair (hero). tone="gold" : jaune TLS sur fond sombre (CTA section).
  */
 const LANDING_CTA_TONE = {
-  warm: { btn: 'bg-secondary-500 hover:bg-secondary-600 shadow-warm-md text-white', icon: 'bg-white/20', focus: 'focus-visible:outline-white' },
+  warm: { btn: 'bg-secondary-700 hover:bg-secondary-800 shadow-warm-md text-white', icon: 'bg-white/20', focus: 'focus-visible:outline-white' },
   gold: { btn: 'bg-accent-400 hover:bg-accent-500 shadow-sun-sm text-ink-900', icon: 'bg-ink-900/10', focus: 'focus-visible:outline-accent-400' },
 } as const;
 
@@ -194,7 +194,9 @@ const AppLanding: React.FC = () => {
   const handleSignup = (e: React.FormEvent, emailVal: string) => {
     e.preventDefault();
     if (!emailVal.trim()) return;
-    navigate(`/auth/signup?email=${encodeURIComponent(emailVal.trim())}`);
+    // L'e-mail passe par l'état du routeur, pas par l'URL : une donnée
+    // personnelle n'a rien à faire dans l'historique ni dans les journaux.
+    navigate('/auth/signup', { state: { email: emailVal.trim() } });
   };
 
   // Hero stagger
@@ -217,14 +219,14 @@ const AppLanding: React.FC = () => {
       <nav className="fixed top-0 left-0 right-0 z-sticky h-14 flex items-center justify-between px-6 md:px-10 bg-white/80 backdrop-blur-glass-light border-b border-ink-100">
         <Link to="/website" className="flex items-center gap-stack-xs">
           <TlsLogo variant="primary" className="h-7 w-7" />
-          <span className="font-display font-bold text-body-sm text-ink-900 tracking-snug hidden sm:inline">
+          <span className="font-display font-bold text-body text-ink-900 tracking-snug hidden sm:inline">
             The Learning Society
           </span>
         </Link>
         <div className="flex items-center gap-stack-sm">
           <Link
             to="/auth/login"
-            className="font-body text-body-sm text-ink-600 hover:text-ink-900 transition-colors hidden sm:inline"
+            className="font-body text-body text-ink-700 hover:text-ink-900 transition-colors"
           >
             Se connecter
           </Link>
@@ -248,36 +250,43 @@ const AppLanding: React.FC = () => {
             initial={reduce ? false : 'hidden'}
             animate={reduce ? false : 'show'}
           >
+            {/* Surtitre, titre et chapô forment un groupe (8, puis 12 — l'anatomie
+                de PageHero) ; les preuves suivent à 32. Tout était espacé à 24 :
+                le titre flottait à égale distance de ce qu'il introduit. */}
+            <div className="flex flex-col">
             <motion.div variants={heroItem}>
-              <Pill className="bg-primary-50 text-primary-700 border border-primary-200 self-start">
+              <Pill className="bg-primary-50 text-primary-800 border border-primary-200 self-start">
                 <Sparkles size={14} />
                 Skills-Based Organisation
               </Pill>
             </motion.div>
 
             {/* H1 — KineticHeadline par ligne (masque qui se lève). Plain <h1> : coupe
-                la propagation de variants du container parent, KineticHeadline gère sa propre révélation. */}
-            <h1
-              className="font-display font-extrabold text-ink-900 leading-[0.92] tracking-display"
-              style={{ fontSize: 'clamp(2.25rem, 5vw, 3.75rem)' }}
-            >
+                la propagation de variants du container parent, KineticHeadline gère sa propre révélation.
+                Passe typographique du 2026-09-24 : l'affiche d'une page d'acquisition
+                prend la couche d'affiche du système (`text-section`, 32 → 52 px, son
+                interligne et son serrage) au lieu d'un `style={{ fontSize: clamp(36 → 60) }}`
+                et d'un interligne arbitraire à 0,92 ; en 700 (`font-bold`), pas en 800 :
+                l'app n'a qu'un poids de titre (arbitrage n°12). */}
+            <h1 className="mt-stack-xs font-display text-section font-bold text-ink-900">
               <span className="block"><KineticHeadline text="Formez-vous." delay={0.1} /></span>
               <span className="block"><KineticHeadline text="Pratiquez." delay={0.22} /></span>
-              <span className="block text-accent-400"><KineticHeadline text="Validez." delay={0.34} /></span>
+              <span className="block text-accent-700"><KineticHeadline text="Validez." delay={0.34} /></span>
             </h1>
 
             <motion.p
               variants={heroItem}
-              className="font-body text-body-lg text-ink-600 m-0 max-w-md"
+              className="mt-stack-sm font-body text-body-lg text-ink-700 max-w-md"
             >
               Alignez vos compétences réelles et vos projets. L'IA amplifie, l'humain accompagne.
             </motion.p>
+            </div>
 
             {/* Preuves qualitatives (zéro métrique inventée) */}
             <motion.div variants={heroItem} className="flex flex-wrap gap-x-stack-md gap-y-stack-xs pt-2">
               {TRUST.map(({ icon, label }) => (
-                <div key={label} className="flex items-center gap-stack-2xs text-ink-500 font-body text-body-sm">
-                  <span className="text-primary-500">{icon}</span>
+                <div key={label} className="flex items-center gap-stack-2xs text-ink-700 font-body text-body">
+                  <span className="text-primary-700" aria-hidden="true">{icon}</span>
                   {label}
                 </div>
               ))}
@@ -294,10 +303,12 @@ const AppLanding: React.FC = () => {
             {/* Outer tray */}
             <div className="bg-white border border-primary-100 rounded-xl p-2 shadow-brand-md">
               {/* Inner core */}
-              <div className="bg-primary-50/60 border border-primary-100 rounded-[18px] p-6 md:p-7 flex flex-col gap-stack-md">
+              {/* Coin intérieur concentrique : 20 (plateau) − 8 (retrait) − 1 (filet)
+                  ≈ 10, et non 18 ; padding 24, le canon d'une carte. */}
+              <div className="bg-primary-50/60 border border-primary-100 rounded-md p-stack-lg flex flex-col gap-stack-md">
                 <div className="flex flex-col gap-stack-3xs">
-                  <span className="font-display font-bold text-ink-900 text-h4 m-0">Commencer gratuitement</span>
-                  <span className="font-body text-body-sm text-ink-500">Accès complet · Aucune carte requise</span>
+                  <span className="font-display text-h3 text-ink-900">Commencer gratuitement</span>
+                  <span className="font-body text-body text-ink-700">Accès complet · Aucune carte requise</span>
                 </div>
 
                 <form onSubmit={(e) => handleSignup(e, email)} className="flex flex-col gap-stack-sm">
@@ -308,26 +319,26 @@ const AppLanding: React.FC = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="votre@email.com"
                     aria-label="Adresse email"
-                    className="h-12 px-4 rounded-lg bg-white border border-ink-200 text-ink-900 placeholder:text-ink-500 font-body text-body-sm focus:outline-none focus:border-primary-400 transition-all shadow-xs"
+                    className="h-12 px-4 rounded-lg bg-white border border-ink-400 text-ink-900 placeholder:text-ink-500 font-body text-body focus:outline-none focus:border-primary-400 transition-all shadow-xs"
                   />
                   <LandingCta fullWidth>Créer mon compte</LandingCta>
                 </form>
 
-                <p className="font-body text-micro text-ink-600 text-center m-0">
+                <p className="font-body text-caption text-ink-600 text-center">
                   Déjà inscrit ?{' '}
-                  <Link to="/auth/login" className="text-primary-600 hover:text-primary-800 underline underline-offset-2 transition-colors">
+                  <Link to="/auth/login" className="text-primary-800 hover:no-underline underline underline-offset-2 transition-colors">
                     Se connecter
                   </Link>
                 </p>
 
                 {/* Trust signals — postures défendables uniquement */}
-                <div className="flex items-center gap-stack-sm pt-3 border-t border-ink-100">
+                <div className="flex flex-wrap items-center gap-x-stack-sm gap-y-stack-3xs pt-stack-sm border-t border-ink-100">
                   {[
                     { icon: <BadgeCheck size={14} />, label: 'RGPD conforme' },
                     { icon: <Brain size={14} />, label: 'IA éthique' },
                     { icon: <Users size={14} />, label: 'Coaching humain' },
                   ].map(({ icon, label }) => (
-                    <div key={label} className="flex items-center gap-stack-3xs text-ink-500 font-body text-micro">
+                    <div key={label} className="flex items-center gap-stack-3xs text-ink-600 font-body text-caption">
                       {icon}
                       <span>{label}</span>
                     </div>
@@ -340,19 +351,19 @@ const AppLanding: React.FC = () => {
       </section>
 
       {/* ── LE SYSTÈME QUI SE MONTRE (mockup live) ── */}
-      <section className="relative py-section-lg px-6 md:px-10 bg-ink-50 overflow-hidden">
+      {/* Sections (passe typographique du 2026-09-24) : 48 au-dessus d'un titre
+          de section, 24 en dessous ; plus de surtitre décoratif au-dessus de
+          chaque titre (le tell nommé par la doctrine) ; h2 au pas du token (sans
+          graisse ni serrage écrits à côté), chapô 18 ink-700. */}
+      <section className="relative py-page px-6 md:px-10 bg-ink-50 overflow-hidden">
         <div className="relative z-10 max-w-page mx-auto flex flex-col gap-stack-lg">
           <FadeInWhenVisible direction="up">
-            <div className="flex flex-col gap-tight text-center max-w-xl mx-auto">
-              <span className="inline-flex items-center justify-center gap-stack-2xs font-body text-caption font-semibold text-primary-600">
-                <MousePointerClick size={14} />
-                Essayez, c'est interactif
-              </span>
-              <h2 className="font-display font-bold text-ink-900 text-h2 tracking-headline">
+            <div className="flex flex-col gap-stack-sm text-center max-w-xl mx-auto">
+              <h2 className="font-display text-h2 text-ink-900 text-balance">
                 <KineticHeadline text="Voyez la plateforme en action" />
               </h2>
-              <p className="font-body text-body text-ink-600 m-0">
-                Parcours, coaching, journal, veille — explorez chaque espace sans créer de compte.
+              <p className="font-body text-body-lg text-ink-700">
+                Parcours, coaching, journal, veille : explorez chaque espace sans créer de compte.
               </p>
             </div>
           </FadeInWhenVisible>
@@ -364,24 +375,21 @@ const AppLanding: React.FC = () => {
       </section>
 
       {/* ── 3 ESPACES ── */}
-      <section className="py-section-lg px-6 md:px-10 bg-white">
-        <div className="max-w-page mx-auto flex flex-col gap-section">
+      <section className="py-page px-6 md:px-10 bg-white">
+        <div className="max-w-page mx-auto flex flex-col gap-stack-lg">
 
           <FadeInWhenVisible direction="up">
-            <div className="flex flex-col gap-tight text-center max-w-xl mx-auto">
-              <span className="font-body text-caption font-semibold text-primary-600">
-                Une plateforme, trois espaces
-              </span>
-              <h2 className="font-display font-bold text-ink-900 text-h2 tracking-headline text-balance">
+            <div className="flex flex-col gap-stack-sm text-center max-w-xl mx-auto">
+              <h2 className="font-display text-h2 text-ink-900 text-balance">
                 Tout ce dont vos équipes ont besoin
               </h2>
-              <p className="font-body text-body text-ink-600 m-0">
-                Formation · Accompagnement · Validation — alignés sur vos projets réels.
+              <p className="font-body text-body-lg text-ink-700">
+                Formation, accompagnement et validation, alignés sur vos projets réels.
               </p>
             </div>
           </FadeInWhenVisible>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-stack-lg">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-stack">
             {FEATURES.map((feat, i) => {
               const tones = FEATURE_TONE[feat.tone];
               return (
@@ -389,24 +397,29 @@ const AppLanding: React.FC = () => {
                   <div
                     className={`group h-full flex flex-col gap-stack p-6 rounded-xl transition-colors duration-base ease-emphasis ${tones.card} ${CARD_HOVER[feat.tone]}`}
                   >
-                    <div className={`w-11 h-11 rounded-xl flex items-center justify-center transition-transform duration-base ease-emphasis group-hover:scale-105 ${tones.icon}`}>
+                    <div className={`w-11 h-11 rounded-lg flex items-center justify-center transition-transform duration-base ease-emphasis group-hover:scale-105 ${tones.icon}`}>
                       {feat.icon}
                     </div>
                     <div className="flex flex-col gap-stack-3xs">
-                      <span className={`font-body text-caption font-semibold uppercase tracking-wider ${tones.eyebrow}`}>
+                      {/* Surtitre de carte : 13 / 600 ink-600, en casse normale (il
+                          était en capitales espacées, à la couleur du ton). */}
+                      <span className="font-body text-caption font-semibold text-ink-600">
                         {feat.eyebrow}
                       </span>
-                      <h3 className="font-display font-bold text-ink-900 text-h4 leading-snug">
+                      <h3 className="font-display text-h3 text-ink-900">
                         {feat.title}
                       </h3>
                     </div>
-                    <p className="font-body text-body-sm text-ink-600 m-0 flex-1">
+                    <p className="font-body text-body text-ink-700 flex-1">
                       {feat.description}
                     </p>
                     <ul className="flex flex-col gap-stack-xs m-0 p-0 list-none">
                       {feat.items.map((item) => (
                         <li key={item} className="flex items-start gap-stack-xs font-body text-caption text-ink-700">
-                          <Check size={14} className={`mt-0.5 shrink-0 ${tones.bullet}`} />
+                          {/* Une ligne de haut : la coche se centre sur la première ligne. */}
+                          <span className={`shrink-0 inline-flex items-center h-lh ${tones.bullet}`} aria-hidden="true">
+                            <Check size={14} />
+                          </span>
                           {item}
                         </li>
                       ))}
@@ -420,21 +433,18 @@ const AppLanding: React.FC = () => {
       </section>
 
       {/* ── COMMENT ÇA MARCHE ── */}
-      <section className="py-section-lg px-6 md:px-10 bg-ink-50">
+      <section className="py-page px-6 md:px-10 bg-ink-50">
         <div className="max-w-page mx-auto flex flex-col gap-section">
 
           <FadeInWhenVisible direction="up">
-            <div className="flex flex-col gap-tight text-center max-w-xl mx-auto">
-              <span className="font-body text-caption font-semibold text-primary-600">
-                Simple à démarrer
-              </span>
-              <h2 className="font-display font-bold text-ink-900 text-h2 tracking-headline text-balance">
+            <div className="flex flex-col text-center max-w-xl mx-auto">
+              <h2 className="font-display text-h2 text-ink-900 text-balance">
                 De l'inscription aux premiers résultats
               </h2>
             </div>
           </FadeInWhenVisible>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-section relative">
             {/* Connector line (desktop) */}
             <div
               aria-hidden
@@ -444,13 +454,15 @@ const AppLanding: React.FC = () => {
               <FadeInWhenVisible key={step.number} direction="up" delay={i * 0.12} className="relative z-[1]">
                 <div className="flex flex-col items-center text-center gap-stack">
                   <div className="w-16 h-16 rounded-pill bg-white border-2 border-primary-200 flex items-center justify-center shadow-sm">
-                    <span className="font-display font-bold text-primary-600 text-h4 m-0 leading-none tabular-nums">
+                    {/* Un chiffre d'étape est en Nunito tabulaire (doctrine, « Progression
+                        et étapes ») ; en League Spartan, il se lisait comme un titre. */}
+                    <span className="font-body font-semibold text-primary-800 text-body-lg tabular-nums">
                       {step.number}
                     </span>
                   </div>
                   <div className="flex flex-col gap-stack-3xs">
-                    <h3 className="font-display font-bold text-ink-900 text-h4">{step.title}</h3>
-                    <p className="font-body text-body-sm text-ink-600 m-0 max-w-xs mx-auto">
+                    <h3 className="font-display text-h3 text-ink-900">{step.title}</h3>
+                    <p className="font-body text-body text-ink-700 max-w-xs mx-auto">
                       {step.description}
                     </p>
                   </div>
@@ -462,20 +474,16 @@ const AppLanding: React.FC = () => {
       </section>
 
       {/* ── SBO POSITIONING STRIP ── */}
-      <section className="py-section px-6 md:px-10 bg-white border-y border-ink-100">
-        <div className="max-w-page mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+      {/* Bande SBO : son titre est une section (h2 à 28, il était dessiné à 20) ;
+          le surtitre en capitales redisait la pastille du hero. */}
+      <section className="py-page px-6 md:px-10 bg-white border-y border-ink-100">
+        <div className="max-w-page mx-auto flex flex-col md:flex-row items-center justify-between gap-section">
           <FadeInWhenVisible direction="left" className="max-w-lg">
-            <div className="flex flex-col gap-stack-xs">
-              <div className="flex items-center gap-stack-xs">
-                <Brain size={20} className="text-primary-500 shrink-0" />
-                <span className="font-body text-caption font-semibold text-primary-600 uppercase tracking-wider">
-                  Skills-Based Organisation
-                </span>
-              </div>
-              <h2 className="font-display font-bold text-ink-900 text-h3 tracking-headline text-balance">
+            <div className="flex flex-col gap-stack-sm">
+              <h2 className="font-display text-h2 text-ink-900 text-balance">
                 Apprendre, appliquer, prouver : la boucle Learn → Do → Match
               </h2>
-              <p className="font-body text-body text-ink-600 m-0">
+              <p className="font-body text-body text-ink-700 max-w-prose">
                 Vos équipes progressent sur des projets réels, vos RH obtiennent des données compétences fiables, votre organisation alloue mieux les talents.
               </p>
             </div>
@@ -489,10 +497,10 @@ const AppLanding: React.FC = () => {
                 'Coaching humain + IA éthique',
               ].map((item) => (
                 <div key={item} className="flex items-center gap-stack-xs">
-                  <div className="w-5 h-5 rounded-pill bg-primary-100 flex items-center justify-center shrink-0">
-                    <Check size={14} className="text-primary-600" />
-                  </div>
-                  <span className="font-body text-body-sm text-ink-700">{item}</span>
+                  <IconChip size="xs" tone="brand">
+                    <Check />
+                  </IconChip>
+                  <span className="font-body text-body text-ink-700">{item}</span>
                 </div>
               ))}
             </div>
@@ -505,16 +513,17 @@ const AppLanding: React.FC = () => {
         <MeshGradientBg tone="brand" intensity="subtle" />
         <NoiseTexture opacity={0.04} />
 
+        {/* Sur fond sombre : texte en blanc plein, la hiérarchie par la taille
+            (règle des heros sombres, arbitrage n°8) ; plus de surtitre. */}
         <div className="relative z-10 max-w-lg mx-auto flex flex-col items-center gap-stack-lg text-center">
-          <span className="font-body text-caption font-semibold text-white/55">
-            Prêt à commencer ?
-          </span>
-          <h2 className="font-display text-white text-h2 tracking-headline leading-tight text-balance">
-            Formez-vous sur vos projets réels, pas sur des vidéos
-          </h2>
-          <p className="font-body text-body text-white/75 m-0">
-            Accès complet pour démarrer. Aucune carte de crédit.
-          </p>
+          <div className="flex flex-col items-center gap-stack-sm">
+            <h2 className="font-display text-white text-h2 text-balance">
+              Formez-vous sur vos projets réels, pas sur des vidéos
+            </h2>
+            <p className="font-body text-body-lg text-white">
+              Accès complet pour démarrer. Aucune carte de crédit.
+            </p>
+          </div>
 
           <form onSubmit={(e) => handleSignup(e, emailBottom)} className="w-full flex flex-col sm:flex-row items-center gap-stack-sm max-w-md">
             <input
@@ -524,14 +533,14 @@ const AppLanding: React.FC = () => {
               onChange={(e) => setEmailBottom(e.target.value)}
               placeholder="votre@email.com"
               aria-label="Adresse email"
-              className="flex-1 w-full h-12 px-4 rounded-lg bg-white/8 border border-white/20 text-white placeholder:text-white/40 font-body text-body-sm focus:outline-none focus:bg-white/12 focus:border-white/40 transition-all"
+              className="flex-1 w-full h-12 px-4 rounded-lg bg-white/8 border border-white/40 text-white placeholder:text-white/75 font-body text-body focus:outline-none focus:bg-white/12 focus:border-white/40 transition-all"
             />
             <MagneticButton strength={12}>
               <LandingCta tone="gold">Créer mon compte</LandingCta>
             </MagneticButton>
           </form>
 
-          <p className="font-body text-micro text-white/55 m-0">
+          <p className="font-body text-caption text-white">
             En créant un compte, vous acceptez nos{' '}
             <Link to="/website/cgv-cgu" className="underline underline-offset-2 hover:text-white transition-colors">
               CGU
@@ -546,20 +555,20 @@ const AppLanding: React.FC = () => {
 
       {/* ── FOOTER MINIMAL ── */}
       <footer className="py-6 px-6 md:px-10 bg-ink-950 flex flex-col sm:flex-row items-center justify-between gap-stack">
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-stack-xs">
           <TlsLogo variant="light" className="h-5 w-5" />
-          <span className="font-body text-caption text-white/50">
+          <span className="font-body text-caption text-white/80">
             © {new Date().getFullYear()} The Learning Society
           </span>
         </div>
         <div className="flex items-center gap-stack-md">
-          <Link to="/website/mentions-legales" className="font-body text-caption text-white/50 hover:text-white transition-colors">
+          <Link to="/website/mentions-legales" className="font-body text-caption text-white/80 hover:text-white transition-colors">
             Mentions légales
           </Link>
-          <Link to="/website/politique-confidentialite" className="font-body text-caption text-white/50 hover:text-white transition-colors">
+          <Link to="/website/politique-confidentialite" className="font-body text-caption text-white/80 hover:text-white transition-colors">
             Confidentialité
           </Link>
-          <Link to="/website/contact" className="font-body text-caption text-white/50 hover:text-white transition-colors">
+          <Link to="/website/contact" className="font-body text-caption text-white/80 hover:text-white transition-colors">
             Contact
           </Link>
         </div>

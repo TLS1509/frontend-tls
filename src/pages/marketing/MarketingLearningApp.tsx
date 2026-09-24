@@ -34,6 +34,7 @@ import {
   Users,
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
+import { MetaPill } from '../../components/ui/MetaPill';
 import {
   FadeInWhenVisible,
   InteractiveAppMockup,
@@ -71,7 +72,7 @@ const Hero: React.FC = () => {
                 <span className={i === 3 ? 'text-primary-700' : undefined}>{j}</span>
               </li>
             ))}
-            <li className="font-body text-body-sm text-ink-500 ps-stack-xs">
+            <li className="font-body text-body text-ink-500 ps-stack-xs">
               la reprise espacée, jusqu'à la bascule des 90 jours
             </li>
           </ol>
@@ -131,7 +132,7 @@ const Probleme: React.FC = () => (
               <div className="border-t border-ink-200 py-stack-lg first:border-t-0">
                 <div className="flex flex-col gap-stack-xs">
                   <h3 className="font-display text-feature text-ink-900">{c.title}</h3>
-                  <p className="font-body text-body text-ink-600 leading-relaxed m-0 max-w-xl">{c.detail}</p>
+                  <p className="font-body text-body text-ink-600 m-0 max-w-xl">{c.detail}</p>
                 </div>
               </div>
             </FadeInWhenVisible>
@@ -177,7 +178,7 @@ const Moteur: React.FC = () => (
           <FadeInWhenVisible key={e.verbe} delay={i * 0.07} direction="up">
             <div className="flex h-full flex-col gap-stack border-t-2 border-primary-200 pt-stack-lg">
               <div className="flex items-baseline gap-stack-xs">
-                <span className="font-display text-h1 font-extrabold text-primary-300 leading-none">{e.num}</span>
+                <span className="font-display text-h1 font-extrabold text-primary-700 leading-none">{e.num}</span>
                 <h3 className="font-display text-h2 text-ink-900 leading-none">{e.verbe}</h3>
               </div>
               <p className="font-body text-body text-ink-600 m-0">{e.detail}</p>
@@ -436,17 +437,17 @@ const Bibliotheque: React.FC = () => {
               <caption className="sr-only">Matrice d'évaluation : échelle Dreyfus D1 à D5</caption>
               <thead>
                 <tr className="bg-primary-50">
-                  <th scope="col" className="px-stack-md py-3 font-display text-body-sm font-bold text-ink-900">Niveau</th>
-                  <th scope="col" className="px-stack-md py-3 font-display text-body-sm font-bold text-ink-900">Statut</th>
-                  <th scope="col" className="px-stack-md py-3 font-display text-body-sm font-bold text-ink-900">Critère d'observation</th>
+                  <th scope="col" className="px-stack-md py-3 font-display text-body font-bold text-ink-900">Niveau</th>
+                  <th scope="col" className="px-stack-md py-3 font-display text-body font-bold text-ink-900">Statut</th>
+                  <th scope="col" className="px-stack-md py-3 font-display text-body font-bold text-ink-900">Critère d'observation</th>
                 </tr>
               </thead>
               <tbody>
                 {DREYFUS.map((d) => (
                   <tr key={d.niveau} className="border-t border-ink-100">
-                    <td className="px-stack-md py-3 font-body text-body-sm font-bold text-primary-800 whitespace-nowrap">{d.niveau}</td>
-                    <td className="px-stack-md py-3 font-body text-body-sm text-ink-700 whitespace-nowrap">{d.statut}</td>
-                    <td className="px-stack-md py-3 font-body text-body-sm text-ink-600">{d.critere}</td>
+                    <td className="px-stack-md py-3 font-body text-body font-bold text-primary-800 whitespace-nowrap">{d.niveau}</td>
+                    <td className="px-stack-md py-3 font-body text-body text-ink-700 whitespace-nowrap">{d.statut}</td>
+                    <td className="px-stack-md py-3 font-body text-body text-ink-600">{d.critere}</td>
                   </tr>
                 ))}
               </tbody>
@@ -461,7 +462,7 @@ const Bibliotheque: React.FC = () => {
               <h3 className="font-display text-h3 font-bold text-ink-900">
                 Explorez une brique de compétence.
               </h3>
-              <p className="font-body text-body-sm text-ink-600 m-0">
+              <p className="font-body text-body text-ink-600 m-0">
                 Choisissez une compétence et un niveau : la fiche montre les
                 preuves attendues et le parcours qui y mène.
               </p>
@@ -474,7 +475,7 @@ const Bibliotheque: React.FC = () => {
                   type="button"
                   onClick={() => setFicheIdx(i)}
                   aria-pressed={i === ficheIdx}
-                  className={`min-h-touch rounded-pill px-4 py-2 font-body text-body-sm font-bold transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
+                  className={`min-h-touch rounded-pill px-4 py-2 font-body text-body font-bold transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                     i === ficheIdx
                       ? 'bg-primary-700 text-white'
                       : 'bg-white text-ink-700 hover:bg-primary-100 ring-1 ring-ink-200'
@@ -488,12 +489,10 @@ const Bibliotheque: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-stack-lg items-start">
               <div className="lg:col-span-7 flex flex-col gap-stack rounded-lg border border-ink-200 bg-white p-stack-lg">
                 <div className="flex flex-wrap items-center gap-stack-xs">
-                  <span className="rounded-pill bg-primary-100 px-3 py-1 font-body text-caption font-bold text-primary-800">
-                    {fiche.type}
-                  </span>
+                  <MetaPill text={fiche.type} tone="primary" />
                   <span className="font-body text-caption text-ink-500">{fiche.domaine}</span>
                 </div>
-                <h4 className="font-display text-h4 text-ink-900 leading-tight">
+                <h4 className="font-display text-h3 text-ink-900">
                   {fiche.competence}
                 </h4>
                 <div className="flex flex-wrap gap-stack-xs" role="group" aria-label="Choisir un niveau Dreyfus">
@@ -503,7 +502,7 @@ const Bibliotheque: React.FC = () => {
                       type="button"
                       onClick={() => setNiveau(n)}
                       aria-pressed={n === niveau}
-                      className={`min-h-touch rounded-pill px-4 py-1.5 font-body text-body-sm font-bold transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
+                      className={`min-h-touch rounded-pill px-4 py-1.5 font-body text-body font-bold transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                         n === niveau
                           ? 'bg-ink-900 text-white'
                           : 'bg-ink-50 text-ink-700 hover:bg-ink-100'
@@ -525,14 +524,14 @@ const Bibliotheque: React.FC = () => {
               <div className="lg:col-span-5 flex flex-col gap-stack">
                 <div className="flex items-start gap-stack rounded-lg border border-ink-200 bg-white p-stack-lg">
                   <CalendarClock size={20} className="text-primary-700 shrink-0 mt-0.5" />
-                  <p className="font-body text-body-sm text-ink-700 m-0">
+                  <p className="font-body text-body text-ink-700 m-0">
                     <span className="font-bold text-ink-900">Parcours lié : </span>
                     {fiche.parcours}
                   </p>
                 </div>
                 <div className="flex items-start gap-stack rounded-lg border border-ink-200 bg-white p-stack-lg">
                   <BadgeCheck size={20} className="text-primary-700 shrink-0 mt-0.5" />
-                  <p className="font-body text-body-sm text-ink-700 m-0">
+                  <p className="font-body text-body text-ink-700 m-0">
                     <span className="font-bold text-ink-900">Reconnaissance : </span>
                     chaque niveau validé génère un Open Badge et incrémente le
                     Passeport ainsi que la heatmap d'équipe.
@@ -556,7 +555,7 @@ const ActifStrategique: React.FC = () => (
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-flow items-start">
         <div className="lg:col-span-7 flex flex-col gap-stack-lg">
           <FadeInWhenVisible>
-            <h2 className="font-display text-section text-white [text-wrap:balance]">
+            <h2 className="font-display text-section text-ink-900 [text-wrap:balance]">
               Un actif de compétences qui prend de la valeur{' '}
               <span className="text-primary-700">à mesure que vous l'utilisez</span>.
             </h2>
@@ -577,7 +576,7 @@ const ActifStrategique: React.FC = () => (
             <h3 className="font-display text-feature text-ink-900">
               Du Skills-Based au Matching Projets
             </h3>
-            <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">
+            <p className="font-body text-body text-ink-600 m-0">
               La maturité IA de votre organisation commence par une donnée de
               compétences propre et vivante. C'est exactement ce que la
               Learning App construit, jour après jour.

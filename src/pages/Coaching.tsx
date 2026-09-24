@@ -25,7 +25,6 @@ import type { UserPlan } from '../components/modals/BookingModal';
 import { Card } from '../components/core/Card';
 import { Avatar } from '../components/ui/Avatar';
 import { MetaPillGroup } from '../components/ui/MetaPillGroup';
-import { MetaPill } from '../components/ui/MetaPill';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionHeader } from '../components/patterns/SectionHeader';
 import { IconFeatureCard } from '../components/ui/IconFeatureCard';
@@ -70,7 +69,7 @@ interface UpcomingSession {
 const INITIAL_UPCOMING: UpcomingSession = {
   title: 'Session de coaching IA',
   dateLabel: 'Mardi 30 avril 2026',
-  hourLabel: '14:00 - 15:00',
+  hourLabel: '14:00 – 15:00',
 };
 
 
@@ -97,9 +96,9 @@ export const Coaching: React.FC = () => {
     if (!active) return null;
     const d = new Date(active.scheduledAt);
     return {
-      title: active.theme ?? `Session coaching: ${active.coachName}`,
+      title: active.theme ?? `Session avec ${active.coachName}`,
       dateLabel: d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }),
-      hourLabel: `${d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}: ${new Date(d.getTime() + active.durationMinutes * 60_000).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}`,
+      hourLabel: `${d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })} – ${new Date(d.getTime() + active.durationMinutes * 60_000).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}`,
     };
   }, [storeSessions]);
 
@@ -132,7 +131,7 @@ export const Coaching: React.FC = () => {
       .filter((s) => s.status === 'completed')
       .map((s) => ({
         id: s.id,
-        title: s.theme ?? `Session coaching: ${s.coachName}`,
+        title: s.theme ?? `Session avec ${s.coachName}`,
         coachName: s.coachName,
         description: s.coachSpeciality ?? '',
         dateLabel: new Date(s.scheduledAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }),
@@ -146,6 +145,9 @@ export const Coaching: React.FC = () => {
   /* Tiles outils: section content (plus dans le hero trailing).
      Surface tinted tone-aware (brand/warm/sun) sur fond clair, icône md (32px). */
   const outilsTiles = (
+    /* Un seul ton pour les trois outils : trois teintes (teal, orange, jaune)
+       à poids égal, c'est l'effet « sapin de Noël » que DESIGN.md §11
+       interdit. L'icône et le titre suffisent à les distinguer. */
     <div className="grid grid-cols-2 sm:grid-cols-3 gap-stack max-w-[640px]">
       <IconFeatureCard
         surface="tinted"
@@ -158,7 +160,7 @@ export const Coaching: React.FC = () => {
       />
       <IconFeatureCard
         surface="tinted"
-        tone="warm"
+        tone="brand"
         iconStyle="plain"
         iconSize="md"
         icon={<FileText size={32} strokeWidth={1.75} />}
@@ -167,7 +169,7 @@ export const Coaching: React.FC = () => {
       />
       <IconFeatureCard
         surface="tinted"
-        tone="sun"
+        tone="brand"
         iconStyle="plain"
         iconSize="md"
         icon={<PenLine size={32} strokeWidth={1.75} />}
@@ -221,188 +223,183 @@ export const Coaching: React.FC = () => {
           <EditorialHero
             tone="flat"
             title="Coaching 1:1"
-            summary="Accompagnement individuel pour accélérer la mise en pratique sur vos cas réels."
+            summary="Accompagnement individuel pour accélérer la mise en pratique sur tes cas réels."
           />
 
 
-          {/* (Section coach strip supprimée: intégré DANS la session card upcoming pour
-              le state coach + session. Pas de section dédiée quand pas de coach assigné
-              ni quand pas de session : l'empty state action zone suffit.) */}
-
           {/* PRIMARY ACTION ZONE: 3 cases :
-              - pas coach           → empty state "Demander un coach"
-              - coach + pas session → empty state "Réserver une session"
-              - coach + session     → upcoming session card */}
+              - pas coach           → empty state "Démarre ton accompagnement"
+              - coach + pas session → section « Prochaine session », état vide
+              - coach + session     → section « Prochaine session », carte de la session
+              Passe typographique du 24/09 : « Prochaine session » était un
+              surtitre teal 500 DANS la carte, au-dessus d'un h2 rendu à 20 px.
+              Il devient le titre de la section (h2 28, hors de la carte) ; la
+              session est le titre de la carte (h3 20). */}
           {!coachAssigned ? (
-            <Card variant="tinted" tone="primary" className="!p-0 !gap-0">
-              <div className="p-section lg:p-section-lg flex flex-col items-center text-center gap-stack-lg">
-                <span className="inline-flex items-center justify-center w-16 h-16 rounded-pill bg-white/70 backdrop-blur-glass-light text-primary-500 shadow-sm">
-                  <CalendarPlus size={28} strokeWidth={1.75} />
-                </span>
-                <div className="flex flex-col gap-tight max-w-[520px]">
-                  <h2 className="font-display text-h2 font-bold text-ink-900 tracking-headline">
-                    Démarrez votre accompagnement
-                  </h2>
-                  <p className="m-0 font-body text-body text-ink-600 mt-stack-xs">
-                    Réservez votre première session 1:1. Un coach vous sera attribué selon vos objectifs.
-                  </p>
-                </div>
-                <Button
-                  leadingIcon={<Calendar size={16} />}
-                  onClick={() => setShowBooking(true)}
-                  size="lg"
-                >
-                  Réserver une session
-                </Button>
+            <Card variant="tinted" tone="primary" className="p-section lg:p-section-lg flex flex-col items-center text-center gap-stack-lg">
+              <span className="inline-flex items-center justify-center w-16 h-16 rounded-pill bg-white/70 backdrop-blur-glass-light text-primary-500 shadow-sm">
+                <CalendarPlus size={28} strokeWidth={1.75} />
+              </span>
+              <div className="flex flex-col gap-stack-xs max-w-[520px]">
+                <h2 className="font-display text-h2 text-ink-900">
+                  Démarre ton accompagnement
+                </h2>
+                <p className="font-body text-body text-ink-700">
+                  Réserve ta première session 1:1. Un coach te sera attribué selon tes objectifs.
+                </p>
               </div>
-            </Card>
-          ) : hasUpcoming ? (
-            <Card
-              variant="tinted"
-              tone="primary"
-              className="!p-0 !gap-0"
-            >
-              <div className="p-stack-lg lg:p-section flex flex-col gap-stack-lg">
-                <div className="flex flex-wrap items-start justify-between gap-stack-xs">
-                  <div className="flex flex-col gap-tight min-w-0">
-                    <p className="m-0 font-body text-caption font-medium text-primary-700">
-                      Prochaine session
-                    </p>
-                    <h2 className="font-display text-h3 font-bold text-ink-900 tracking-headline">
-                      {upcoming!.title}
-                    </h2>
-                  </div>
-                  <Badge variant="success">Confirmée</Badge>
-                </div>
-
-                {/* Meta : quand / où — pills glass sur le fond teinté (bon usage du glass). */}
-                <MetaPillGroup
-                  items={[
-                    { icon: <Calendar size={14} />, text: upcoming!.dateLabel },
-                    { icon: <Clock3 size={14} />, text: upcoming!.hourLabel },
-                    { icon: <Video size={14} />, text: 'Lien visio actif', tone: 'primary' },
-                  ]}
-                  layout="horizontal"
-                  gap="sm"
-                />
-
-                {/* Coach row : avatar + name + role + Message en icon-button (charge réduite). */}
-                <div className="flex items-center gap-stack-xs p-stack rounded-xl bg-white/60 backdrop-blur-glass-light border border-white/60">
-                  <Avatar initials="SM" size="sm" tint="brand" />
-                  <div className="flex flex-col min-w-0 flex-1">
-                    <span className="font-display text-body-sm font-bold text-ink-900 truncate">
-                      {coach.name}
-                    </span>
-                    <span className="font-body text-caption text-ink-600 truncate">
-                      {coach.role}
-                    </span>
-                  </div>
-                  <Button
-                    emphasis="ghost"
-                    size="md"
-                    iconOnly
-                    leadingIcon={<MessageCircle size={16} />}
-                    onClick={() => navigate('/messages')}
-                    aria-label={`Envoyer un message à ${coach.name}`}
-                  />
-                </div>
-
-                {/* Actions : 1 action primaire + secondaires compactes (calendrier en icon-button). */}
-                <div className="flex flex-wrap items-center gap-stack-xs">
-                  <Button
-                    size="lg"
-                    leadingIcon={<Video size={14} />}
-                    className="flex-1 min-w-[180px] sm:flex-none"
-                    aria-label="Rejoindre la session de coaching"
-                  >
-                    Rejoindre la session
-                  </Button>
-                  <Button
-                    size="lg"
-                    emphasis="ghost"
-                    iconOnly
-                    leadingIcon={<Download size={16} />}
-                    onClick={handleDownloadCalendarInvite}
-                    aria-label="Ajouter au calendrier (.ics)"
-                  />
-                  <Button emphasis="outline" size="lg" onClick={() => setShowCancel(true)}>
-                    Reprogrammer
-                  </Button>
-                </div>
-              </div>
+              <Button
+                emphasis="solid"
+                tone="brand"
+                leadingIcon={<Calendar size={16} />}
+                onClick={() => setShowBooking(true)}
+                size="lg"
+              >
+                Réserver une session
+              </Button>
             </Card>
           ) : (
-            // Empty state: no session scheduled, prompt to book
-            <Card
-              variant="tinted"
-              tone="primary"
-              className="!p-0 !gap-0"
-            >
-              <div className="p-section lg:p-section-lg flex flex-col items-center text-center gap-stack-lg">
-                <span className="inline-flex items-center justify-center w-16 h-16 rounded-pill bg-white/70 backdrop-blur-glass-light text-primary-500 shadow-sm">
-                  <CalendarPlus size={28} strokeWidth={1.75} />
-                </span>
-                <div className="flex flex-col gap-tight max-w-[520px]">
-                  <p className="m-0 font-body text-caption font-medium text-primary-700">
-                    Aucune session programmée
-                  </p>
-                  <h2 className="font-display text-h2 font-bold text-ink-900 tracking-headline">
-                    Prêt(e) pour une nouvelle session ?
-                  </h2>
-                  <p className="m-0 font-body text-body text-ink-600 mt-stack-xs">
-                    Réservez un créneau 1:1 de 60 minutes pour avancer sur vos cas réels.
-                  </p>
-                </div>
-                <div className="flex flex-wrap gap-stack-xs justify-center items-center">
-                  <Button
-                    leadingIcon={<Calendar size={16} />}
-                    onClick={() => setShowBooking(true)}
-                    size="lg"
-                  >
-                    Réserver une session
-                  </Button>
-                  <Button
-                    emphasis="outline"
-                    size="lg"
-                    leadingIcon={<MessageCircle size={16} />}
-                    onClick={() => navigate('/messages')}
-                    aria-label={`Envoyer un message à ${coach.name}`}
-                  >
-                    Échanger avec {coach.name.split(' ')[0]}
-                  </Button>
-                </div>
-              </div>
-            </Card>
+            <section className="flex flex-col gap-stack">
+              <SectionHeader title="Prochaine session" size="md" />
+              {hasUpcoming ? (
+                <Card variant="tinted" tone="primary" className="p-stack-lg lg:p-section flex flex-col gap-stack-lg">
+                  <div className="flex flex-col gap-stack-sm">
+                    <div className="flex flex-wrap items-start justify-between gap-stack-xs">
+                      <h3 className="font-display text-h3 text-ink-900 min-w-0">
+                        {upcoming!.title}
+                      </h3>
+                      <Badge variant="success">Confirmée</Badge>
+                    </div>
+
+                    {/* Quand et où : des données, en MetaPill, 12 px sous le titre. */}
+                    <MetaPillGroup
+                      items={[
+                        { icon: <Calendar size={14} />, text: upcoming!.dateLabel },
+                        { icon: <Clock3 size={14} />, text: upcoming!.hourLabel },
+                        { icon: <Video size={14} />, text: 'Lien visio actif', tone: 'primary' },
+                      ]}
+                      layout="horizontal"
+                      gap="sm"
+                    />
+                  </div>
+
+                  {/* Le coach : nom 16/600 (il était en League Spartan gras,
+                      la voix d'un titre), rôle en légende. */}
+                  <div className="flex items-center gap-stack-sm p-stack rounded-xl bg-white/60 backdrop-blur-glass-light border border-white/60">
+                    <Avatar initials="SM" size="sm" tint="brand" />
+                    <div className="flex flex-col gap-tight min-w-0 flex-1">
+                      <span className="font-body text-body font-semibold text-ink-900 truncate">
+                        {coach.name}
+                      </span>
+                      <span className="font-body text-caption text-ink-600 truncate">
+                        {coach.role}
+                      </span>
+                    </div>
+                    <Button
+                      emphasis="ghost"
+                      size="md"
+                      iconOnly
+                      leadingIcon={<MessageCircle size={16} />}
+                      onClick={() => navigate('/messages')}
+                      aria-label={`Envoyer un message à ${coach.name}`}
+                    />
+                  </div>
+
+                  {/* Actions : « Rejoindre » est l'action principale de l'écran,
+                      son seul `solid` (arbitrage n°19) ; le calendrier est un
+                      outil et « Reprogrammer » une action d'exception : deux
+                      `ghost`. « Reprogrammer » était un `outline` qui ne formait
+                      aucune paire Annuler / Confirmer. */}
+                  <div className="flex flex-wrap items-center gap-stack-xs">
+                    <Button
+                      emphasis="solid"
+                      tone="brand"
+                      size="lg"
+                      leadingIcon={<Video size={14} />}
+                      className="flex-1 min-w-[180px] sm:flex-none"
+                      aria-label="Rejoindre la session de coaching"
+                    >
+                      Rejoindre la session
+                    </Button>
+                    <Button
+                      size="lg"
+                      emphasis="ghost"
+                      iconOnly
+                      leadingIcon={<Download size={16} />}
+                      onClick={handleDownloadCalendarInvite}
+                      aria-label="Ajouter au calendrier (.ics)"
+                    />
+                    <Button emphasis="ghost" tone="brand" size="lg" onClick={() => setShowCancel(true)}>
+                      Reprogrammer
+                    </Button>
+                  </div>
+                </Card>
+              ) : (
+                // Empty state: no session scheduled, prompt to book
+                <Card variant="tinted" tone="primary" className="p-section lg:p-section-lg flex flex-col items-center text-center gap-stack-lg">
+                  <span className="inline-flex items-center justify-center w-16 h-16 rounded-pill bg-white/70 backdrop-blur-glass-light text-primary-500 shadow-sm">
+                    <CalendarPlus size={28} strokeWidth={1.75} />
+                  </span>
+                  {/* État (légende 600 ink-600) → 4 → titre h3 → 8 → texte 16 ink-700. */}
+                  <div className="flex flex-col max-w-[520px]">
+                    <p className="font-body text-caption font-semibold text-ink-600">
+                      Aucune session programmée
+                    </p>
+                    <h3 className="mt-stack-3xs font-display text-h3 text-ink-900">
+                      Prêt(e) pour une nouvelle session ?
+                    </h3>
+                    <p className="mt-stack-xs font-body text-body text-ink-700">
+                      Réserve un créneau 1:1 de 60 minutes pour avancer sur tes cas réels.
+                    </p>
+                  </div>
+                  {/* Réserver, l'action principale (`solid`) ; échanger avec le
+                      coach, l'action seconde (`soft`). */}
+                  <div className="flex flex-wrap gap-stack-xs justify-center items-center">
+                    <Button
+                      emphasis="solid"
+                      tone="brand"
+                      leadingIcon={<Calendar size={16} />}
+                      onClick={() => setShowBooking(true)}
+                      size="lg"
+                    >
+                      Réserver une session
+                    </Button>
+                    <Button
+                      emphasis="soft"
+                      tone="brand"
+                      size="lg"
+                      leadingIcon={<MessageCircle size={16} />}
+                      onClick={() => navigate('/messages')}
+                      aria-label={`Envoyer un message à ${coach.name}`}
+                    >
+                      Échanger avec {coach.name.split(' ')[0]}
+                    </Button>
+                  </div>
+                </Card>
+              )}
+            </section>
           )}
 
-          {/* OUTILS: Préparer / Compte-rendu / Réflexions
-              IconFeatureCard tinted tone-aware (brand/warm/sun) en contenu page. */}
+          {/* OUTILS : titre de section sans pastille d'icône — il part du même
+              bord que le h1 et que les tuiles. */}
           <section aria-label="Outils de coaching" className="flex flex-col gap-stack">
             <SectionHeader
-              variant="default"
               size="md"
-              tone="primary"
-              icon={<ClipboardList size={20} />}
               title="Mes outils"
-              subtitle="Accédez à vos préparations, comptes-rendus et réflexions"
+              subtitle="Accède à tes préparations, comptes-rendus et réflexions."
             />
             {outilsTiles}
           </section>
 
-          {/* Past sessions */}
-          <section aria-label="Sessions passées" className="flex flex-col gap-stack-lg">
+          {/* Sessions passées : le compte est une donnée sur la section — il
+              passe en méta (il était une pastille à droite, que le bouton
+              flottant recouvrait). 16 px entre le titre et les sessions (24). */}
+          <section aria-label="Sessions passées" className="flex flex-col gap-stack">
             <SectionHeader
-              variant="default"
               size="md"
-              tone="primary"
               title="Sessions passées"
-              subtitle="Historique complet de vos sessions de coaching"
-              action={
-                <MetaPill
-                  text={`${sessions.length} session${sessions.length > 1 ? 's' : ''}`}
-                  tone="primary"
-                />
-              }
+              subtitle="Historique complet de tes sessions de coaching."
+              meta={`${sessions.length} session${sessions.length > 1 ? 's' : ''}`}
             />
 
             <div className="flex flex-col gap-stack">
@@ -420,9 +417,10 @@ export const Coaching: React.FC = () => {
                   questionnaire={session.questionnaire}
                   report={session.report}
                   journal={session.journal}
-                  onViewQuestionnaire={session.questionnaire ? () => navigate('/coaching/pre-questionnaire') : undefined}
+                  /* Session passée : on relit la réponse envoyée, pas le formulaire vierge. */
+                  onViewQuestionnaire={session.questionnaire ? () => navigate('/coaching/pre-questionnaire/response') : undefined}
                   onViewReport={session.report ? () => navigate(`/coaching/compte-rendu/${session.id}`) : undefined}
-                  onOpen={() => {}}
+                  onOpen={() => navigate(`/coaching/session/${session.id}`)}
                 />
               ))}
             </div>
@@ -481,19 +479,19 @@ export const Coaching: React.FC = () => {
           console.log('⭐ Avis:', rating, comment);
           setShowFeedback(false);
         }}
-        title="Votre avis sur la session"
-        subtitle="Comment évaluez-vous cette session de coaching ?"
+        title="Ton avis sur la session"
+        subtitle="Comment évalues-tu cette session de coaching ?"
       />
 
       {/* SuccessModal: confirmation booking */}
       <SuccessModal
         isOpen={showBookingSuccess}
         onClose={() => setShowBookingSuccess(false)}
-        title="Session réservée !"
+        title="Session réservée"
         message={
           displayedUpcoming
-            ? `Votre session est confirmée le ${displayedUpcoming.dateLabel} à ${displayedUpcoming.hourLabel}. Un lien visio vous sera envoyé par email.`
-            : 'Votre session a été réservée avec succès.'
+            ? `Ta session est confirmée le ${displayedUpcoming.dateLabel} à ${displayedUpcoming.hourLabel}. Un lien visio te sera envoyé par email.`
+            : 'Ta session a été réservée avec succès.'
         }
       />
 
@@ -502,7 +500,7 @@ export const Coaching: React.FC = () => {
         isOpen={showCancelSuccess}
         onClose={() => setShowCancelSuccess(false)}
         title="Session annulée"
-        message="Votre session a bien été annulée. Vous pouvez réserver un nouveau créneau quand vous le souhaitez."
+        message="Ta session a bien été annulée. Tu peux réserver un nouveau créneau quand tu le souhaites."
       />
     </>
   );

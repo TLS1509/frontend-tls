@@ -1,7 +1,10 @@
 /**
  * IntroCallout — lead paragraph card for editorial pages.
  *
- * Glass card tone-aware avec gradient border-left subtil + paragraphe d'intro.
+ * Carte teintée tone-aware + paragraphe d'intro. La surface teintée suffit à
+ * la détacher du corps : la barre d'accent verticale de 6 px qui la bordait à
+ * gauche a été retirée le 2026-09-24 — c'est le premier tell « AI slop » de la
+ * doctrine (pas de barre d'accent `border-left`).
  * Utilisé en haut d'un article long (sous le hero, avant le body) pour donner
  * le contexte / thèse principale.
  *
@@ -25,7 +28,7 @@ export interface IntroCalloutProps {
   children: React.ReactNode;
   /** Optional eyebrow line (small uppercase label above the content). */
   eyebrow?: string;
-  /** Show quote icon in left border (default: false). */
+  /** Show quote icon before the content (default: false). */
   withQuoteIcon?: boolean;
   className?: string;
 }
@@ -37,24 +40,10 @@ const SURFACE: Record<IntroCalloutTone, string> = {
   neutral: 'bg-white/70 border-ink-200 backdrop-blur-glass-light',
 };
 
-const ACCENT: Record<IntroCalloutTone, string> = {
-  brand:   'bg-gradient-to-b from-primary-400 to-primary-600',
-  warm:    'bg-gradient-to-b from-secondary-400 to-secondary-600',
-  sun:     'bg-gradient-to-b from-accent-300 to-accent-500',
-  neutral: 'bg-gradient-to-b from-ink-300 to-ink-500',
-};
-
-const EYEBROW: Record<IntroCalloutTone, string> = {
-  brand:   'text-primary-700',
-  warm:    'text-secondary-700',
-  sun:     'text-accent-700',
-  neutral: 'text-ink-600',
-};
-
 const ICON_BG: Record<IntroCalloutTone, string> = {
-  brand:   'bg-primary-100 text-primary-700',
+  brand:   'bg-primary-100 text-primary-800',
   warm:    'bg-secondary-100 text-secondary-700',
-  sun:     'bg-accent-100 text-accent-700',
+  sun:     'bg-accent-100 text-accent-800',
   neutral: 'bg-ink-100 text-ink-600',
 };
 
@@ -68,21 +57,11 @@ export const IntroCallout: React.FC<IntroCalloutProps> = ({
   return (
     <div
       className={[
-        'relative rounded-lg border p-stack-md sm:p-6 pl-6 sm:pl-7',
-        'overflow-hidden',
+        'relative rounded-lg border p-stack-md sm:p-stack-lg',
         SURFACE[tone],
         className,
       ].join(' ')}
     >
-      {/* Left gradient accent bar */}
-      <span
-        aria-hidden
-        className={[
-          'absolute left-0 top-0 bottom-0 w-1.5',
-          ACCENT[tone],
-        ].join(' ')}
-      />
-
       <div className="flex items-start gap-stack">
         {withQuoteIcon && (
           <span
@@ -96,18 +75,21 @@ export const IntroCallout: React.FC<IntroCalloutProps> = ({
           </span>
         )}
 
-        <div className="flex-1 min-w-0 flex flex-col gap-stack-xs">
+        {/* Surtitre en légende 13/600 ink-600 (le lieu, sans couleur de
+            marque), puis le chapô : 18/28, l'encre du texte principal,
+            plafonné à la largeur de lecture. Avec l'icône, le bloc descend
+            pour que sa PREMIÈRE ligne se centre sur elle (doctrine § 4) :
+            (40 − 20) / 2 sous un surtitre, (40 − 28) / 2 sur le chapô. */}
+        <div className={[
+          'flex-1 min-w-0 flex flex-col gap-stack-xs',
+          withQuoteIcon ? (eyebrow ? 'mt-2.5' : 'mt-1.5') : '',
+        ].filter(Boolean).join(' ')}>
           {eyebrow && (
-            <span
-              className={[
-                'inline-flex font-body text-caption font-medium',
-                EYEBROW[tone],
-              ].join(' ')}
-            >
+            <p className="font-body text-caption font-semibold text-ink-600">
               {eyebrow}
-            </span>
+            </p>
           )}
-          <div className="font-body text-body-lg text-ink-800">
+          <div className="font-body text-body-lg text-ink-900 max-w-prose [&_p+p]:mt-stack">
             {children}
           </div>
         </div>

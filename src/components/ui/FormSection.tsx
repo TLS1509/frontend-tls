@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
+import { Button } from '../core/Button';
+import { IconChip } from './IconChip';
 
 export interface FormSectionProps {
   title: string;
@@ -28,41 +30,45 @@ export const FormSection: React.FC<FormSectionProps> = ({
       className={['flex flex-col gap-stack font-body', className].filter(Boolean).join(' ')}
     >
       {/* Header */}
-      <div className="flex flex-col gap-tight pb-stack border-b border-ink-100">
+      {/* Titre → description : 8 (un groupe). Description au rôle « texte
+          secondaire long » (ink-700), plafonnée à la largeur de lecture. */}
+      <div className="flex flex-col gap-stack-xs pb-stack border-b border-ink-100">
         <div className="flex items-center justify-between gap-stack-xs">
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-stack-xs">
             {titleIcon && (
-              <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-primary-50 text-primary-600 shrink-0">
+              <IconChip size="sm" tone="brand">
                 {titleIcon}
-              </span>
+              </IconChip>
             )}
-            <h3 className="text-h4 font-display text-ink-900">
+            <h3 className="text-h3 font-display text-ink-900">
               {title}
             </h3>
           </div>
 
           {collapsible && (
-            <button
-              type="button"
+            <Button
+              iconOnly
+              size="sm"
+              emphasis="ghost"
+              tone="neutral"
               aria-expanded={expanded}
               aria-controls={sectionId}
               onClick={() => setExpanded(!expanded)}
-              className="inline-flex items-center justify-center w-8 h-8 rounded-lg text-ink-500 hover:bg-ink-50 hover:text-ink-700 transition-colors duration-base shrink-0"
+              className="shrink-0"
               aria-label={expanded ? 'Réduire la section' : 'Développer la section'}
             >
               <ChevronDown
-                size={18}
                 className={[
                   'transition-transform duration-base ease-standard',
                   expanded ? 'rotate-180' : 'rotate-0',
                 ].join(' ')}
               />
-            </button>
+            </Button>
           )}
         </div>
 
         {description && (
-          <p className="text-body-sm text-ink-500 m-0">
+          <p className="text-body text-ink-700 max-w-prose">
             {description}
           </p>
         )}

@@ -1,9 +1,9 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, CheckCircle2, Send, RotateCcw, Clock, RefreshCw } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, Send, RotateCcw, Clock } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { PageShell } from '../components/layout';
-import { SectionCard } from '../components/patterns/SectionCard';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
@@ -43,11 +43,19 @@ const CorrectionDetailLearner: React.FC = () => {
 
   if (!correction) {
     return (
-      <PageShell>
-        <EditorialHero title="Correction introuvable" summary="Cette correction n'existe pas." tone="flat" />
-        <Button emphasis="outline" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/coaching')}>
-          Retour au coaching
-        </Button>
+      <PageShell noPadTop className="pt-6 md:pt-8 lg:pt-10">
+        <EditorialHero
+          title="Correction introuvable"
+          summary="Cette correction n'existe pas."
+          tone="flat"
+          /* Seule sortie de l'écran, donc son action principale : `solid`
+             (arbitrage n°19). */
+          trailing={
+            <Button emphasis="solid" tone="brand" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/coaching/corrections')}>
+              Retour aux corrections
+            </Button>
+          }
+        />
       </PageShell>
     );
   }
@@ -60,76 +68,89 @@ const CorrectionDetailLearner: React.FC = () => {
   const canResubmit = correction.status === 'coach-feedback' || correction.status === 'learner-response';
 
   return (
-    <div className="min-h-[100dvh] bg-surface">
+    /* PageShell enveloppe la page : l'en-tête vivait au-dessus (surtitre collé
+       au bord) et un fond `bg-surface` blanc s'arrêtait à 900 px. L'état, la
+       date, l'itération et la compétence forment la ligne de méta de l'en-tête
+       — l'itération était dite deux fois, la barre d'état collait au bouton
+       Retour, et la compétence (une donnée) était une pastille d'état. */
+    <PageShell noPadTop className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
-        eyebrow={{ label: 'Coaching · Ma correction' }}
+        eyebrow="Coaching · Ma correction"
         title={correction.exerciseTitle}
-        summary={`Soumis le ${formatDate(correction.submittedAt)} · Iteration ${correction.iterationCount + 1}`}
+        meta={[
+          { label: <Badge variant={STATUS_VARIANTS[correction.status]}>{STATUS_LABELS[correction.status]}</Badge> },
+          { icon: <Clock size={14} aria-hidden="true" />, label: `Soumis le ${formatDate(correction.submittedAt)}` },
+          { label: `Itération ${correction.iterationCount + 1}` },
+          ...(competence ? [{ label: competence.label }] : []),
+          // Plus de « +120 XP » : l'arbitrage n°18 retire l'XP de l'app
+          // apprenant. La donnée reste dans la correction, elle ne s'affiche plus.
+        ]}
         tone="flat"
+        /* Le retour, `ghost` neutre calé sur le bord du texte
+           (`flush="start"` rattrape son padding). */
         trailing={
-          <Button emphasis="outline" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate('/coaching')}>
-            Retour
+          <Button emphasis="ghost" tone="neutral" size="md" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/coaching/corrections')} flush="start">
+            Retour aux corrections
           </Button>
         }
       />
 
-      <PageShell noPadTop>
+      {/* Ta soumission → le retour du coach → ta réponse : trois sections h2
+          (elles étaient des h3 de 20 px dans des cartes), le texte à la
+          largeur de lecture, en ink-900 — c'est ce qu'on lit. */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader title="Ta soumission" size="md" />
+        <Card>
+          <p className="text-body text-ink-900 max-w-prose">{correction.submittedContent}</p>
+        </Card>
+      </section>
 
-        {/* Status bar */}
-        <div className="flex flex-wrap items-center gap-stack-xs">
-          <Badge variant={STATUS_VARIANTS[correction.status]}>
-            <span className="inline-flex items-center gap-tight">
-              {correction.status === 'pending' && <Clock size={14} />}
-              {correction.status === 'coach-feedback' && <CheckCircle2 size={14} />}
-              {correction.status === 'learner-response' && <RefreshCw size={14} />}
-              {correction.status === 'completed' && <CheckCircle2 size={14} />}
-              {STATUS_LABELS[correction.status]}
-            </span>
-          </Badge>
-          {competence && <Badge variant="brand">{competence.label}</Badge>}
-          {correction.xpAwarded && <Badge variant="success">+{correction.xpAwarded} XP</Badge>}
-          <span className="text-caption text-ink-600">Itération {correction.iterationCount + 1}</span>
-        </div>
-
-        {/* Learner submission */}
-        <SectionCard title="Ta soumission" titleIcon={<Send size={18} />}>
-          <p className="text-body text-ink-700 m-0">{correction.submittedContent}</p>
-        </SectionCard>
-
-        {/* Coach feedback */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader title="Retour de ton coach" size="md" />
         {hasFeedback ? (
-          <Card className="p-stack-lg flex items-start gap-stack">
-            <Avatar initials={MOCK_COACH_INITIALS} size="md" tint="brand" />
-            <div className="flex-1">
-              <div className="text-caption text-ink-500 mb-1">{MOCK_COACH_NAME} : Feedback</div>
-              <p className="text-body text-ink-700 m-0">{correction.coachFeedback}</p>
-            </div>
+          /* L'auteur en 16/600 avec son avatar, puis le retour à 8 px — il
+             était annoncé par une légende ink-500 « Sophie Marchand : Feedback ». */
+          <Card className="flex flex-col gap-stack-xs">
+            <p className="flex items-center gap-stack-xs text-body font-semibold text-ink-900">
+              <Avatar initials={MOCK_COACH_INITIALS} size="sm" tint="brand" />
+              {MOCK_COACH_NAME}
+            </p>
+            <p className="text-body text-ink-900 max-w-prose">{correction.coachFeedback}</p>
           </Card>
         ) : (
           <Alert variant="info" title="En attente de feedback">
             Ton coach n'a pas encore corrigé cet exercice. Tu seras notifié dès que le feedback sera disponible.
           </Alert>
         )}
+      </section>
 
-        {/* Learner response */}
-        {correction.learnerResponse && (
-          <SectionCard title="Ta réponse au coach">
-            <p className="text-body text-ink-700 m-0">{correction.learnerResponse}</p>
-          </SectionCard>
-        )}
+      {correction.learnerResponse && (
+        <section className="flex flex-col gap-stack">
+          <SectionHeader title="Ta réponse au coach" size="md" />
+          <Card>
+            <p className="text-body text-ink-900 max-w-prose">{correction.learnerResponse}</p>
+          </Card>
+        </section>
+      )}
 
-        {/* Resubmit prompt */}
+      {/* La suite : l'invitation à resoumettre et les actions forment un
+          groupe (16 px), pas deux blocs à 48. */}
+      <div className="flex flex-col gap-stack">
         {canResubmit && hasFeedback && (
           <Alert variant="info" title="Tu peux resoumettre">
             Si tu souhaites améliorer ton travail suite au feedback, tu peux soumettre une nouvelle version. Le coach sera notifié automatiquement.
           </Alert>
         )}
 
-        {/* CTAs */}
+        {/* Une action principale selon l'état (arbitrage n°19) : resoumettre
+            quand le retour appelle une version, sinon répondre au coach. La
+            seconde est en `soft`, « Marquer comme lue » en `ghost`. Les trois
+            boutons avaient le même poids en trois tons. */}
         <div className="flex flex-wrap gap-stack-xs">
           {canResubmit && (
             <Button
-              emphasis="soft"
+              emphasis="solid"
+              tone="brand"
               size="lg"
               leadingIcon={<RotateCcw size={16} />}
               aria-label="Resoumettre une nouvelle version de l'exercice"
@@ -139,7 +160,8 @@ const CorrectionDetailLearner: React.FC = () => {
           )}
           {hasFeedback && (
             <Button
-              emphasis="soft" tone="warm"
+              emphasis={canResubmit ? 'soft' : 'solid'}
+              tone="brand"
               size="lg"
               leadingIcon={<Send size={16} />}
               aria-label="Répondre au feedback du coach"
@@ -149,7 +171,12 @@ const CorrectionDetailLearner: React.FC = () => {
           )}
           {correction.status !== 'completed' && (
             <Button
-              emphasis="outline"
+              emphasis="ghost"
+              tone="brand"
+              size="lg"
+              /* Seul bouton de la rangée (en attente du coach) : calé sur le
+                 bord du texte, `flush="start"` rattrape son padding. */
+              flush={canResubmit || hasFeedback ? undefined : 'start'}
               leadingIcon={<CheckCircle2 size={16} />}
               onClick={() => store.updateCorrection(MOCK_USER_ID, correction.id, { status: 'completed' })}
             >
@@ -157,9 +184,8 @@ const CorrectionDetailLearner: React.FC = () => {
             </Button>
           )}
         </div>
-
-      </PageShell>
-    </div>
+      </div>
+    </PageShell>
   );
 };
 

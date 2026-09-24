@@ -1,10 +1,12 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Clock, Bell } from 'lucide-react';
+import { Bell, Check } from 'lucide-react';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { Alert } from '../components/ui/Alert';
+import { EditorialHero } from '../components/patterns/EditorialHero';
+import { PageShell } from '../components/layout';
 import { useEventsStore } from '../stores/persistence';
 
 const MOCK_USER_ID = 'user-demo';
@@ -22,9 +24,14 @@ export default function AtelierWaitlist() {
   const navigate = useNavigate();
   const eventsStore = useEventsStore();
 
+  // Le store ne se remplit qu'au premier appel d'un getter. On lisait
+  // `ateliers` avant tout appel : la liste était vide, et la page affichait son
+  // texte de repli, « L'atelier "Atelier complet" est complet » (audit du
+  // 23/09). On amorce donc le store, puis on lit son état à jour.
+  eventsStore.getAtelierEnrollment(MOCK_USER_ID, '__seed__');
+  const ateliers = useEventsStore.getState().ateliers;
   const atelierId = id ?? 'at-002';
-  const atelier = eventsStore.ateliers.find((a) => a.id === atelierId)
-    ?? eventsStore.ateliers[1];
+  const atelier = ateliers.find((a) => a.id === atelierId) ?? ateliers[1];
   const enrollment = atelier
     ? eventsStore.getAtelierEnrollment(MOCK_USER_ID, atelier.id)
     : undefined;
@@ -32,75 +39,76 @@ export default function AtelierWaitlist() {
   const waitlistPosition = enrollment?.waitlistPosition ?? 1;
 
   return (
-    <div className="min-h-[100dvh] flex items-center justify-center bg-secondary-50 px-stack py-page">
-      <div className="w-full max-w-md flex flex-col items-center gap-section text-center">
-        {/* Icon */}
-        <div className="w-16 h-16 rounded-pill bg-secondary-100 flex items-center justify-center">
-          <Clock size={32} className="text-secondary-600" />
-        </div>
+    /* L'ouverture de toutes les pages, calée à gauche : l'écran était centré
+       sur un fond `secondary-50` qui s'arrêtait à la colonne, avec un h1 à
+       28 px, une grosse icône et une pastille « Liste d'attente » qui
+       répétait le titre. Le centré ne vaut que pour deux lignes au plus
+       (doctrine § 3) ; ici suivent une fiche, une alerte et deux actions. */
+    <PageShell width="content" noPadTop gap="section" className="pt-6 md:pt-8 lg:pt-10">
+      <EditorialHero
+        tone="flat"
+        eyebrow="Ateliers · Liste d'attente"
+        title="Tu es sur la liste d'attente"
+        summary={
+          <>
+            {atelier ? <>L'atelier «&nbsp;{atelier.title}&nbsp;» est complet.</> : <>Cet atelier est complet.</>}
+            {' '}Tu as été ajouté(e) à la liste d'attente.
+          </>
+        }
+      />
 
-        <Badge variant="sun" size="normal">Liste d'attente</Badge>
-
-        <h1 className="text-h2 font-display font-bold text-ink-900">
-          Tu es sur la liste d'attente
-        </h1>
-
-        <p className="text-body-sm text-ink-500">
-          L'atelier "{atelier?.title ?? 'Atelier complet'}" est complet.
-          Tu as été ajouté(e) à la liste d'attente.
-        </p>
-
-        {/* Info card */}
-        <Card variant="tinted" tone="warm" className="w-full p-stack-lg flex flex-col gap-stack">
-          <div className="flex items-center justify-between">
-            <span className="text-body-sm text-ink-600">Ta position</span>
-            <Badge variant="sun" size="normal">
-              <span className="text-h3 font-bold">#{waitlistPosition}</span>
-            </Badge>
+      {/* La fiche : libellé 16 ink-700 à gauche, valeur 16/600 ink-900 à
+          droite, sur la même ligne de base. La position, l'information clé,
+          prend le pas du titre de bloc — elle était enfermée dans une pastille
+          d'état. */}
+      <Card variant="tinted" tone="warm" className="flex flex-col gap-stack">
+        <dl className="flex flex-col gap-stack">
+          <div className="flex items-baseline justify-between gap-stack">
+            <dt className="text-body text-ink-700">Ta position</dt>
+            <dd className="font-display text-h3 text-ink-900 tabular-nums">#{waitlistPosition}</dd>
           </div>
-
-          <div className="flex items-center justify-between">
-            <span className="text-body-sm text-ink-600">Notification manager</span>
-            <Badge variant="success" size="compact">Envoyée ✓</Badge>
+          <div className="flex items-center justify-between gap-stack">
+            <dt className="text-body text-ink-700">Notification manager</dt>
+            <dd><Badge variant="success" size="compact"><Check size={12} aria-hidden="true" /> Envoyée</Badge></dd>
           </div>
-
           {atelier && (
-            <div className="flex items-center justify-between">
-              <span className="text-body-sm text-ink-600">Session</span>
-              <span className="text-body-sm font-semibold text-ink-900">
-                {formatDate(atelier.scheduledAt)}
-              </span>
+            <div className="flex items-baseline justify-between gap-stack">
+              <dt className="text-body text-ink-700">Session</dt>
+              <dd className="text-body font-semibold text-ink-900">{formatDate(atelier.scheduledAt)}</dd>
             </div>
           )}
-
           {atelier && (
-            <div className="flex items-center justify-between">
-              <span className="text-body-sm text-ink-600">Inscrits / Capacité</span>
-              <span className="text-body-sm font-semibold text-ink-900">
+            <div className="flex items-baseline justify-between gap-stack">
+              <dt className="text-body text-ink-700">Inscrits / Capacité</dt>
+              <dd className="text-body font-semibold text-ink-900 tabular-nums">
                 {atelier.enrolledCount} / {atelier.maxParticipants}
-              </span>
+              </dd>
             </div>
           )}
-        </Card>
+        </dl>
+      </Card>
 
-        <Alert variant="info" icon={<Bell size={16} />} className="w-full text-left">
+      <div className="flex flex-col gap-stack">
+        <Alert variant="info" icon={<Bell size={16} />}>
           Tu seras notifié(e) par email si une place se libère. Le manager a été informé de ta demande pour validation budgétaire.
         </Alert>
 
-        <div className="flex flex-col gap-tight w-full">
-          <Button emphasis="soft" size="lg" fullWidth onClick={() => navigate('/ateliers')}>
+        {/* La suite proposée est l'action principale de l'écran, son seul
+            `solid` ; le retour est un `ghost` neutre (arbitrage n°19). */}
+        <div className="flex flex-wrap items-center gap-stack-xs">
+          <Button emphasis="solid" tone="brand" size="lg" onClick={() => navigate('/ateliers')}>
             Voir les autres ateliers disponibles
           </Button>
           <Button
-            emphasis="outline"
-            size="md"
-            fullWidth
+            emphasis="ghost"
+            tone="neutral"
+            size="lg"
             onClick={() => navigate(-1)}
           >
             Retour
           </Button>
         </div>
       </div>
-    </div>
+    </PageShell>
   );
 }

@@ -1,9 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import {
-  ClipboardList,
-  Info,
-  Users,
   MapPin,
   Calendar,
   Clock,
@@ -11,7 +8,7 @@ import {
   Globe,
 } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
-import { SectionCard } from '../components/patterns/SectionCard';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { PageShell } from '../components/layout';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
@@ -56,121 +53,155 @@ const SPEAKERS = [
 ];
 
 const INFO_GRID = [
-  { icon: <Calendar size={14} />, label: 'Date', value: '20 juin 2026' },
-  { icon: <Clock size={14} />, label: 'Heure', value: '14h00 – 17h00' },
-  { icon: <Clock size={14} />, label: 'Durée', value: '3 heures' },
-  { icon: <Video size={14} />, label: 'Format', value: 'Distanciel (Zoom)' },
-  { icon: <Globe size={14} />, label: 'Accès', value: 'Lien envoyé 24h avant' },
-  { icon: <MapPin size={14} />, label: 'Langue', value: 'Français' },
+  { icon: <Calendar size={16} />, label: 'Date', value: '20 juin 2026' },
+  { icon: <Clock size={16} />, label: 'Heure', value: '14h00 – 17h00' },
+  { icon: <Clock size={16} />, label: 'Durée', value: '3 heures' },
+  { icon: <Video size={16} />, label: 'Format', value: 'Distanciel (Zoom)' },
+  { icon: <Globe size={16} />, label: 'Accès', value: 'Lien envoyé 24h avant' },
+  { icon: <MapPin size={16} />, label: 'Langue', value: 'Français' },
 ];
 
+/* Fin de l'événement : passé ce moment, il est terminé et l'on ne s'y inscrit
+   plus. La page proposait « S'inscrire gratuitement » sur une date passée
+   (audit du 23/09). À remplacer par la donnée du store quand la page y sera
+   branchée. */
+const FIN_EVENEMENT = new Date('2026-06-20T17:00:00+02:00');
+
 export default function EvenementDetail() {
-  useParams<{ id: string }>();
+  const { id = EVENT.id } = useParams<{ id: string }>();
+  const estTermine = Date.now() > FIN_EVENEMENT.getTime();
 
   const pct = Math.round((EVENT.registered / EVENT.capacity) * 100);
 
   return (
     <PageShell width="medium" noPadTop={true} className="pt-6 md:pt-8 lg:pt-10">
+      {/* Date, heure, mode, durée et prix sont des données : la ligne de méta,
+          en légende — ils étaient quatre pastilles d'état en grand format.
+          « Terminé » reste un Badge. */}
       <EditorialHero
         tone="flat"
-        eyebrow={{ label: 'Événements · Détail' }}
+        eyebrow={{ label: 'Événements' }}
         title={EVENT.title}
         summary={EVENT.subtitle}
-        trailing={
-          <div className="flex flex-wrap gap-stack-xs items-center">
-            <Badge variant="sun" size="large">{EVENT.date} · {EVENT.time}</Badge>
-            <Badge variant="info" size="large">{EVENT.mode} · {EVENT.duration}</Badge>
-            <Badge variant="neutral" size="large">{EVENT.price}</Badge>
-          </div>
-        }
+        meta={[
+          ...(estTermine ? [{ label: <Badge variant="neutral" size="normal">Terminé</Badge> }] : []),
+          { icon: <Calendar size={14} aria-hidden="true" />, label: `${EVENT.date} · ${EVENT.time}` },
+          { icon: <Video size={14} aria-hidden="true" />, label: `${EVENT.mode} · ${EVENT.duration}` },
+          { label: EVENT.price },
+        ]}
       />
 
-      <div className="flex flex-col gap-section">
-        {/* Organizer */}
-        <Card variant="tinted" tone="sun" className="flex items-center gap-section p-stack-lg">
+      {/* Quatre sections h2 à 48 px (l'organisateur était un h3 posé sous le
+          h1, les autres des h3 dans des cartes). */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader title="Organisateur" size="md" />
+        <Card variant="tinted" tone="sun" className="flex items-start gap-stack">
           <Avatar name={EVENT.organizer.name} initials={EVENT.organizer.initials} size="lg" />
-          <div className="flex flex-col gap-tight">
-            <h3 className="text-h3 font-bold text-ink-900">{EVENT.organizer.name}</h3>
-            <p className="text-body-sm text-ink-500 m-0">{EVENT.organizer.role}</p>
-            <p className="text-caption text-ink-600 m-0">{EVENT.organizer.description}</p>
+          <div className="flex flex-col gap-stack-xs min-w-0">
+            <div className="flex flex-col gap-tight">
+              <p className="text-body font-semibold text-ink-900">{EVENT.organizer.name}</p>
+              <p className="text-caption text-ink-600">{EVENT.organizer.role}</p>
+            </div>
+            <p className="text-body text-ink-700 max-w-prose">{EVENT.organizer.description}</p>
           </div>
         </Card>
+      </section>
 
-        {/* Programme */}
-        <SectionCard
-          title="Programme"
-          titleIcon={<ClipboardList size={18} />}
-        >
-          {PROGRAMME.map((item, idx) => (
-            <div key={idx} className="flex gap-section items-start py-stack-xs border-b border-ink-100 last:border-0">
-              <span className="text-caption font-mono font-bold text-primary-600 shrink-0 w-12">
-                {item.time}
-              </span>
-              <div className="flex flex-col gap-tight min-w-0">
-                <p className="text-body-sm font-semibold text-ink-900 m-0">{item.title}</p>
-                <p className="text-caption text-ink-500 m-0">{item.speaker}</p>
-              </div>
-            </div>
-          ))}
-        </SectionCard>
-
-        {/* Informations pratiques */}
-        <SectionCard
-          title="Informations pratiques"
-          titleIcon={<Info size={18} />}
-        >
-          <div className="grid grid-cols-2 gap-stack">
-            {INFO_GRID.map((item, idx) => (
-              <div key={idx} className="flex items-center gap-stack-xs">
-                <span className="text-primary-500 shrink-0">{item.icon}</span>
+      {/* Programme : l'heure en légende 600 tabulaire — elle était en police
+          mono teal 700, hors du système typographique. */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader title="Programme" meta={`${PROGRAMME.length} temps · 14h00 – 17h00`} size="md" />
+        <Card className="p-0">
+          <ol className="flex flex-col divide-y divide-ink-100">
+            {PROGRAMME.map((item, idx) => (
+              <li key={idx} className="flex gap-stack items-baseline px-stack-md sm:px-stack-lg py-stack-sm">
+                <span className="w-14 shrink-0 text-caption font-semibold text-ink-600 tabular-nums">
+                  {item.time}
+                </span>
                 <div className="flex flex-col gap-tight min-w-0">
-                  <span className="text-micro font-bold uppercase tracking-wider text-ink-600">{item.label}</span>
-                  <span className="text-body-sm text-ink-900">{item.value}</span>
+                  <p className="text-body font-semibold text-ink-900">{item.title}</p>
+                  <p className="text-caption text-ink-600">{item.speaker}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </Card>
+      </section>
+
+      {/* Informations pratiques : libellés en légende 600 ink-600, en casse
+          normale — ils étaient au pas des étiquettes (11 px capitales) ;
+          icône calée sur la ligne du libellé ; une colonne à 375 px. */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader title="Informations pratiques" size="md" />
+        <Card>
+          <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-stack-lg gap-y-stack">
+            {INFO_GRID.map((item, idx) => (
+              <div key={idx} className="flex items-start gap-stack-xs">
+                <span className="shrink-0 inline-flex items-center h-lh text-caption text-ink-600" aria-hidden="true">{item.icon}</span>
+                <div className="flex flex-col gap-tight min-w-0">
+                  <dt className="text-caption font-semibold text-ink-600">{item.label}</dt>
+                  <dd className="text-body text-ink-900">{item.value}</dd>
                 </div>
               </div>
             ))}
-          </div>
-        </SectionCard>
-
-        {/* Speakers */}
-        <SectionCard
-          title="Intervenants"
-          titleIcon={<Users size={18} />}
-        >
-          {SPEAKERS.map((sp, idx) => (
-            <div key={idx} className="flex items-center gap-stack-xs py-stack-xs border-b border-ink-100 last:border-0">
-              <Avatar name={sp.name} size="md" />
-              <div className="flex flex-col gap-tight min-w-0">
-                <p className="text-body-sm font-semibold text-ink-900 m-0">{sp.name}</p>
-                <p className="text-caption text-ink-500 m-0">{sp.title} · {sp.company}</p>
-              </div>
-            </div>
-          ))}
-        </SectionCard>
-
-        {/* Inscription */}
-        <Card variant="default" className="p-stack-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-section">
-          <div className="flex flex-col gap-tight flex-1">
-            <Badge variant="success">{EVENT.registered} / {EVENT.capacity} inscrits</Badge>
-            <ProgressBar
-              value={pct}
-              fill="brand"
-              size="sm"
-              valueLabel={false}
-              className="max-w-xs"
-            />
-            <p className="text-caption text-ink-600 m-0">
-              Inscription gratuite · Lien de connexion envoyé 24h avant
-            </p>
-          </div>
-          <div className="flex flex-col gap-tight items-end shrink-0">
-            <Button emphasis="soft" size="lg">
-              S'inscrire gratuitement
-            </Button>
-            <p className="text-micro text-ink-600 m-0">Annulation possible jusqu'à J-1</p>
-          </div>
+          </dl>
         </Card>
-      </div>
+      </section>
+
+      <section className="flex flex-col gap-stack">
+        <SectionHeader title="Intervenants" meta={`${SPEAKERS.length} intervenants`} size="md" />
+        <Card className="p-0">
+          <ul className="flex flex-col divide-y divide-ink-100">
+            {SPEAKERS.map((sp, idx) => (
+              <li key={idx} className="flex items-center gap-stack-sm px-stack-md sm:px-stack-lg py-stack-sm">
+                <Avatar name={sp.name} size="md" />
+                <div className="flex flex-col gap-tight min-w-0">
+                  <p className="text-body font-semibold text-ink-900">{sp.name}</p>
+                  <p className="text-caption text-ink-600">{sp.title} · {sp.company}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </Card>
+      </section>
+
+      {/* Inscription — ou, la date passée, l'état terminé. Les inscrits sont
+          une donnée (légende 600, chiffres tabulaires), plus une pastille.
+          Dans les deux cas, l'action principale de la page, son seul
+          `solid` (arbitrage n°19). */}
+      {estTermine ? (
+        <Card variant="default" className="p-stack-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-stack">
+          <div className="flex flex-col gap-stack-3xs flex-1">
+            <p className="text-body font-semibold text-ink-900">Cet événement est terminé</p>
+            <p className="text-caption text-ink-600">Les inscriptions sont closes.</p>
+          </div>
+          <Button emphasis="solid" tone="brand" size="lg" className="shrink-0" to={`/evenements/${id}/recap`}>
+            Voir le récapitulatif
+          </Button>
+        </Card>
+      ) : (
+      <Card variant="default" className="p-stack-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-stack">
+        <div className="flex flex-col gap-stack-xs flex-1">
+          <p className="text-body font-semibold text-ink-900 tabular-nums">{EVENT.registered} / {EVENT.capacity} inscrits</p>
+          <ProgressBar
+            value={pct}
+            fill="brand"
+            size="sm"
+            valueLabel={false}
+            className="max-w-xs"
+          />
+          <p className="text-caption text-ink-600">
+            Inscription gratuite · Lien de connexion envoyé 24h avant
+          </p>
+        </div>
+        <div className="flex flex-col gap-stack-xs items-end shrink-0">
+          <Button emphasis="solid" tone="brand" size="lg">
+            S'inscrire gratuitement
+          </Button>
+          <p className="text-caption text-ink-600">Annulation possible jusqu'à J-1</p>
+        </div>
+      </Card>
+      )}
     </PageShell>
   );
 }

@@ -74,7 +74,7 @@ export const JOURNAL_TYPES: Record<JournalTypeKey, JournalTypeMeta> = {
   guided: {
     label: 'Guidé',
     Icon: Compass,
-    badge: 'bg-primary-100 text-primary-700 border border-primary-200',
+    badge: 'bg-primary-100 text-primary-800 border border-primary-200',
     surface: 'bg-primary-50/70 border-primary-100 hover:border-primary-200 hover:bg-primary-50',
     tail: 'bg-primary-50/70 border-primary-100',
   },
@@ -102,14 +102,14 @@ export const JOURNAL_TYPES: Record<JournalTypeKey, JournalTypeMeta> = {
   insight: {
     label: 'Insight',
     Icon: Lightbulb,
-    badge: 'bg-accent-100 text-accent-700 border border-accent-200',
+    badge: 'bg-accent-100 text-accent-800 border border-accent-200',
     surface: 'bg-accent-50/70 border-accent-100 hover:border-accent-200 hover:bg-accent-50',
     tail: 'bg-accent-50/70 border-accent-100',
   },
   questionnaire: {
     label: 'Questionnaire',
     Icon: ClipboardList,
-    badge: 'bg-primary-100 text-primary-700 border border-primary-200',
+    badge: 'bg-primary-100 text-primary-800 border border-primary-200',
     surface: 'bg-primary-50/70 border-primary-100 hover:border-primary-200 hover:bg-primary-50',
     tail: 'bg-primary-50/70 border-primary-100',
   },

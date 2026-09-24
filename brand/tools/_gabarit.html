@@ -230,7 +230,7 @@ function bloc(nom, desc, entrees){
 {
   const s = $('#couleurs');
   s.append(el('h2', null, 'Les quatre rampes'),
-           el('p','sous','Dix crans par famille. Le chiffre est la clarté : 50 est le plus clair, 900 le plus dense.'));
+           el('p','sous','Dix crans par famille — l’orange a en plus un 650, l’encre un 0 et un 950. Le chiffre est la clarté : 50 est le plus clair, 900 le plus dense.'));
   for (const fam of ['primary','secondary','accent','ink']){
     const [nom, desc] = TLS.legendes[fam];
     s.append(bloc(nom + '  ·  ' + fam, desc, TLS.rampes[fam]));
@@ -247,20 +247,25 @@ function bloc(nom, desc, entrees){
 {
   const s = $('#typo');
   s.append(el('h2', null, 'L’échelle'),
-           el('p','sous','Rendue dans les vraies polices, aux vraies tailles, avec le tracking gradué du système. League Spartan pour les titres, Nunito pour le texte.'));
+           el('p','sous','Rendue dans les vraies polices, aux vraies tailles et aux vrais interlignes, avec le tracking gradué du système. Chaque pas porte le nom de son rôle : on choisit un pas en se demandant ce qu’est le texte, pas quelle taille il doit avoir. League Spartan pour les titres, Nunito pour le texte.'));
   TLS.echelle.forEach(p => {
     const rang = el('div','pas');
-    const estTitre = /^(hero|h[1-4])$/.test(p.cle);
+    const estTitre = /^(hero|h[1-3]|stat-value)$/.test(p.cle);
     const meta = el('div','pas-meta');
-    meta.innerHTML = `<b>${p.libelle}</b>--text-${p.cle}<br>${p.taille}` +
+    const px = (v) => (/^[\d.]+rem$/.test(v) ? `${parseFloat(v) * 16} px` : v);
+    meta.innerHTML = `<b>${p.libelle}</b>--text-${p.cle}<br>${px(p.taille)}` +
+      (p.lh ? ` · interligne ${px(p.lh)}` : '') +
       (p.ls ? `<br>tracking ${p.ls}` : '') + (p.fw ? `<br>graisse ${p.fw}` : '') +
       (p.note ? `<br>${p.note}` : '');
-    const demo = el('div', 'pas-demo' + (estTitre ? '' : ' corps'), 'The Learning Society');
+    const demo = el('div', 'pas-demo' + (estTitre ? '' : ' corps'), p.cle === 'stat-value' ? '1 284' : 'The Learning Society');
     demo.style.fontSize = p.taille;
+    if (p.lh) demo.style.lineHeight = p.lh;
     if (p.ls) demo.style.letterSpacing = p.ls;
     demo.style.fontWeight = p.fw || (estTitre ? 700 : 400);
     rang.append(meta, demo); s.append(rang);
   });
+  s.append(el('h2', null, 'Le rythme'),
+    el('p','sous','L’espace dit la hiérarchie autant que la taille. Un titre appartient à ce qu’il introduit : 48 px au-dessus d’un titre de section, 16 en dessous — le rapport 3:1. Dans un groupe, 4 à 8 ; entre les éléments d’un ensemble, 12 à 16. Dans une carte : surtitre → 4 → titre → 8 → texte → 12 → méta, et les actions à 24 du contenu.'));
   s.append(el('h2', null, 'Le piège de l’italique'),
     el('p','sous','League Spartan n’a aucune face italique : un « italic » sur la police de titre produit un faux-italique synthétique, penché par calcul. Pour de l’italique, passer en Nunito, qui en a une vraie.'));
   const cmp = el('div','pas');
@@ -321,7 +326,7 @@ function bloc(nom, desc, entrees){
 {
   const s = $('#espace');
   s.append(el('h2', null, 'L’échelle d’empilement'),
-    el('p','sous','Dix crans : 2 · 4 · 6 · 8 · 12 · 16 · 24 · 32 · 40 · 48 px. Les barres sont à l’échelle réelle — c’est la seule façon de voir un espacement. Les noms sont sémantiques parce que la doctrine porte sur des intentions, pas sur des nombres : on écrit `gap-stack`, pas `gap-4`.'));
+    el('p','sous','Onze crans : 2 · 4 · 6 · 8 · 12 · 16 · 20 · 24 · 32 · 40 · 48 px. Les barres sont à l’échelle réelle — c’est la seule façon de voir un espacement. Les noms sont sémantiques parce que la doctrine porte sur des intentions, pas sur des nombres : on écrit `gap-stack`, pas `gap-4`.'));
 
   const grille = el('div');
   TLS.espacements.forEach(([cle, rem, px, note]) => {
@@ -338,8 +343,8 @@ function bloc(nom, desc, entrees){
   });
   s.append(grille);
 
-  s.append(el('h2', null, 'Les deux crans ajoutés le 16 septembre'),
-    el('p','sous','Une valeur massivement contournée accuse l’échelle, pas ceux qui la contournent. `gap-1` (4 px) comptait 50 usages et n’avait aucun équivalent — `tight` vaut 2 px, et un renommage naïf les aurait tous divisés par deux. `gap-3` (12 px) en comptait 26, entre `stack-xs` (8) et `stack` (16). 401 gouttières ont rejoint l’échelle le même jour. Le 20 px n’a PAS de cran : huit usages, trop peu pour un token, ils se calent sur 16 ou 24.'));
+  s.append(el('h2', null, 'Les trois crans ajoutés le 16 septembre'),
+    el('p','sous','Une valeur massivement contournée accuse l’échelle, pas ceux qui la contournent. `gap-1` (4 px) comptait 50 usages et n’avait aucun équivalent — `tight` vaut 2 px, et un renommage naïf les aurait tous divisés par deux. `gap-3` (12 px) en comptait 26, entre `stack-xs` (8) et `stack` (16). 401 gouttières ont rejoint l’échelle le même jour. Le 20 px a suivi sous le nom `stack-md` : 139 utilitaires au pas de 5 le valaient déjà en numérique, tous migrés le 17/09.'));
 
   if (TLS.fluides && TLS.fluides.length){
     s.append(el('h2', null, 'Le rythme éditorial'),

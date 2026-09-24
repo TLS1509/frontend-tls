@@ -190,7 +190,7 @@ const ScoreRing: React.FC<{ score: number; ringClass: string }> = ({ score, ring
       </svg>
       <div className="absolute inset-0 flex items-baseline justify-center pt-12">
         <span className="font-display text-h1 font-extrabold text-ink-900 leading-none">{display}</span>
-        <span className="font-body text-body-sm font-bold text-ink-500">%</span>
+        <span className="font-body text-body font-bold text-ink-500">%</span>
       </div>
     </div>
   );
@@ -341,7 +341,7 @@ export const MarketingDiagnostic: React.FC = () => {
                     </li>
                   ))}
                 </ul>
-                <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
+                <p className="font-body text-body-lg text-ink-600 m-0 max-w-2xl">
                   Choisissez le diagnostic adapté à votre enjeu.
                 </p>
               </div>
@@ -362,12 +362,12 @@ export const MarketingDiagnostic: React.FC = () => {
                           <span className="font-body text-caption font-bold text-ink-500">{b.cible}</span>
                         </div>
                         <h2 className="font-display text-h3 font-bold text-ink-900">{b.label}</h2>
-                        <p className="font-body text-body-sm text-ink-600 m-0">{b.pitch}</p>
+                        <p className="font-body text-body text-ink-600 m-0">{b.pitch}</p>
                         <ul className="flex flex-col gap-stack-xs m-0 p-0 list-none">
                           {b.bullets.map((bullet) => (
                             <li key={bullet} className="flex items-center gap-stack-xs">
                               <CheckCircle2 size={14} className={`${b.accent.text} shrink-0`} />
-                              <span className="font-body text-body-sm text-ink-700">{bullet}</span>
+                              <span className="font-body text-body text-ink-700">{bullet}</span>
                             </li>
                           ))}
                         </ul>
@@ -435,7 +435,7 @@ export const MarketingDiagnostic: React.FC = () => {
                       >
                         {LETTRES[vi]}
                       </span>
-                      <span className="font-body text-body leading-snug">{opt}</span>
+                      <span className="font-body text-body">{opt}</span>
                     </button>
                   );
                 })}
@@ -461,7 +461,7 @@ export const MarketingDiagnostic: React.FC = () => {
                 {bank.icon}
                 Diagnostic {bank.label}
               </span>
-              <h2 className="font-display text-h2 text-ink-900 leading-tight [text-wrap:balance]">
+              <h2 className="font-display text-h2 text-ink-900 [text-wrap:balance]">
                 Deux dernières questions, en toute liberté.
               </h2>
               <p className="font-body text-body text-ink-600 m-0">
@@ -525,14 +525,14 @@ export const MarketingDiagnostic: React.FC = () => {
 
               <div className="flex flex-col gap-stack-lg rounded-lg bg-primary-50 p-stack-lg sm:p-section">
                 <div className="flex items-start gap-stack">
-                  <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-100 text-primary-700">
+                  <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-100 text-primary-800">
                     <Lock size={20} />
                   </span>
                   <div className="flex flex-col gap-stack-xs">
-                    <h3 className="font-display text-h4 text-ink-900 leading-tight">
+                    <h3 className="font-display text-h3 text-ink-900">
                       Débloquez votre rapport d'analyse complet.
                     </h3>
-                    <p className="font-body text-body-sm text-ink-600 m-0">
+                    <p className="font-body text-body text-ink-600 m-0">
                       Recevez le détail de vos 8 réponses, votre profil de
                       maturité commenté et l'accès à un débriefing offert avec
                       un fondateur.
@@ -543,29 +543,29 @@ export const MarketingDiagnostic: React.FC = () => {
                 <form onSubmit={submitLead} className="flex flex-col gap-stack" noValidate>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack">
                     <div className="flex flex-col gap-stack-2xs">
-                      <label htmlFor="lead-firstname" className="font-body text-body-sm font-bold text-ink-900">Prénom *</label>
+                      <label htmlFor="lead-firstname" className="font-body text-body font-bold text-ink-900">Prénom *</label>
                       <input id="lead-firstname" type="text" required value={lead.firstName}
                         onChange={(e) => setLead((l) => ({ ...l, firstName: e.target.value }))} className={inputCls} />
                     </div>
                     <div className="flex flex-col gap-stack-2xs">
-                      <label htmlFor="lead-lastname" className="font-body text-body-sm font-bold text-ink-900">Nom *</label>
+                      <label htmlFor="lead-lastname" className="font-body text-body font-bold text-ink-900">Nom *</label>
                       <input id="lead-lastname" type="text" required value={lead.lastName}
                         onChange={(e) => setLead((l) => ({ ...l, lastName: e.target.value }))} className={inputCls} />
                     </div>
                   </div>
                   <div className="flex flex-col gap-stack-2xs">
-                    <label htmlFor="lead-email" className="font-body text-body-sm font-bold text-ink-900">Email professionnel *</label>
+                    <label htmlFor="lead-email" className="font-body text-body font-bold text-ink-900">Email professionnel *</label>
                     <input id="lead-email" type="email" required value={lead.email}
                       onChange={(e) => setLead((l) => ({ ...l, email: e.target.value }))} className={inputCls} />
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack">
                     <div className="flex flex-col gap-stack-2xs">
-                      <label htmlFor="lead-role" className="font-body text-body-sm font-bold text-ink-900">Fonction *</label>
+                      <label htmlFor="lead-role" className="font-body text-body font-bold text-ink-900">Fonction *</label>
                       <input id="lead-role" type="text" required value={lead.role}
                         onChange={(e) => setLead((l) => ({ ...l, role: e.target.value }))} className={inputCls} />
                     </div>
                     <div className="flex flex-col gap-stack-2xs">
-                      <label htmlFor="lead-size" className="font-body text-body-sm font-bold text-ink-900">Taille d'entreprise *</label>
+                      <label htmlFor="lead-size" className="font-body text-body font-bold text-ink-900">Taille d'entreprise *</label>
                       <div className="relative">
                         <select
                           id="lead-size"
@@ -584,7 +584,7 @@ export const MarketingDiagnostic: React.FC = () => {
                     </div>
                   </div>
                   {leadError && (
-                    <p role="alert" className="font-body text-body-sm font-bold text-danger-strong m-0">{leadError}</p>
+                    <p role="alert" className="font-body text-body font-bold text-danger-strong m-0">{leadError}</p>
                   )}
                   <div className="pt-stack-xs">
                     <Button type="submit" emphasis="solid" tone="brand" size="lg" fullWidth disabled={sending} trailingIcon={<ArrowRight size={18} />}>
@@ -623,17 +623,17 @@ export const MarketingDiagnostic: React.FC = () => {
               </div>
 
               <div className="flex flex-col gap-stack">
-                <h3 className="font-display text-h4 font-bold text-ink-900">Récapitulatif de vos réponses</h3>
+                <h3 className="font-display text-h3 font-bold text-ink-900">Récapitulatif de vos réponses</h3>
                 <ol className="flex flex-col m-0 p-0 list-none">
                   {bank.questions.map((q, i) => {
                     const a = answers[i];
                     if (a === null || a === undefined) return null;
                     return (
                       <li key={q.title} className="flex flex-col gap-stack-3xs border-t border-ink-200/70 py-stack first:border-t-0">
-                        <span className="font-body text-body-sm font-bold text-ink-900">
+                        <span className="font-body text-body font-bold text-ink-900">
                           {i + 1}. {q.title}
                         </span>
-                        <span className="flex items-baseline gap-stack-xs font-body text-body-sm text-ink-600">
+                        <span className="flex items-baseline gap-stack-xs font-body text-body text-ink-600">
                           <span className={`shrink-0 rounded-pill px-2 py-0.5 font-body text-micro font-extrabold ${bank.accent.badge}`}>
                             {LETTRES[a]} · {a} pt{a > 1 ? 's' : ''}
                           </span>
@@ -646,17 +646,17 @@ export const MarketingDiagnostic: React.FC = () => {
               </div>
 
               <div className="flex flex-col gap-stack">
-                <h3 className="font-display text-h4 font-bold text-ink-900">Vos réponses libres</h3>
+                <h3 className="font-display text-h3 font-bold text-ink-900">Vos réponses libres</h3>
                 {bank.openQuestions.map((q, i) => (
                   <div key={q} className="flex flex-col gap-stack-3xs border-t border-ink-200/70 py-stack first:border-t-0">
-                    <span className="font-body text-body-sm font-bold text-ink-900">{q}</span>
-                    <span className="font-body text-body-sm text-ink-600">{openAnswers[i] || 'Non renseigné.'}</span>
+                    <span className="font-body text-body font-bold text-ink-900">{q}</span>
+                    <span className="font-body text-body text-ink-600">{openAnswers[i] || 'Non renseigné.'}</span>
                   </div>
                 ))}
               </div>
 
               <div className="flex flex-col gap-stack rounded-lg bg-primary-50 p-stack-lg">
-                <h3 className="font-display text-h4 font-bold text-ink-900">Envie d'aller plus loin ?</h3>
+                <h3 className="font-display text-h3 font-bold text-ink-900">Envie d'aller plus loin ?</h3>
                 <p className="font-body text-body text-ink-700 m-0">
                   Réservez 15 minutes avec un fondateur pour décrypter vos
                   résultats et identifier vos priorités d'action.

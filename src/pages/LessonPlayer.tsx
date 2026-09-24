@@ -12,7 +12,9 @@
 import React, { useEffect, useState } from 'react';
 import { useLessonProgressStore, usePasseportStore } from '../stores/persistence';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Button } from '../components/core/Button';
+import { Button, buttonClasses } from '../components/core/Button';
+import { Input } from '../components/core/Input';
+import { Badge } from '../components/ui/Badge';
 import { SessionFeedbackModal } from '../components/modals';
 import { QuizComponent } from '../components/ui/QuizComponent';
 import { ViewerHeader } from '../components/patterns/ViewerHeader';
@@ -37,11 +39,19 @@ import {
   Cpu,
   Globe,
   Link2,
+  AlertTriangle,
 } from 'lucide-react';
 import { resolveLessonContext, getToneFromLevel, getLessonCompetenceIds } from '../data/learningPaths';
+import { PAGE_TONE_TO_BUTTON } from '../lib/tone-classes';
 import { getCompetenceById } from '../data/competencies';
 import { MOCK_USER_ID } from '../data/passeport';
 import { BehavioralTileGrid } from '../components/patterns/BehavioralTileGrid';
+
+/* L'apparence d'un bouton `soft` neutre pour les sélecteurs de fichier des
+   blocs média à brancher : le <label> porte l'interaction, la pastille n'en
+   est que le dessin (`buttonClasses`). Elle imitait à la main un `outline`
+   (filet ink-300 à 1,47:1), niveau réservé à Annuler (arbitrage n°19). */
+const CHOISIR_UN_FICHIER = buttonClasses({ emphasis: 'soft', tone: 'neutral', size: 'sm' });
 
 /* ─── Section definitions (EDRAC model) ─────────────────────────────────── */
 
@@ -242,7 +252,7 @@ interface LessonData {
 const LESSON_DATA: Record<string, LessonData> = {
   /* ─── UXUI-M04 · Design Systems & Component Libraries ──────────────────────
      Tranche verticale du 2026-09-14 : premier module réel du corpus
-     (`chloe/modules-corriges-2026-07-23/3-UX-UI-Product-Management/UXUI-M04-Design-Systems.md`)
+     (`docs/learning/modules-corriges-2026-07-23/3-UX-UI-Product-Management/UXUI-M04-Design-Systems.md`)
      porté dans le player, pour juger le design sur du texte qui n'a pas été
      calibré pour lui.
 
@@ -648,7 +658,7 @@ const LESSON_DATA: Record<string, LessonData> = {
     duration: '50 min',
     intro: {
       heading: 'Bienvenue dans cette leçon',
-      description: 'Cette leçon explore les mécanismes de la motivation intrinsèque et extrinsèque, et vous donne les outils pour créer les conditions d\'un engagement durable dans votre équipe.',
+      description: 'Cette leçon explore les mécanismes de la motivation intrinsèque et extrinsèque, et te donne les outils pour créer les conditions d\'un engagement durable dans ton équipe.',
       objectives: [
         'Comprendre les mécanismes psychologiques de la motivation intrinsèque et extrinsèque',
         'Identifier les leviers d\'engagement adaptés à chaque profil de collaborateur',
@@ -707,16 +717,16 @@ const LESSON_DATA: Record<string, LessonData> = {
       ],
     },
     reflechir: {
-      heading: 'Analysez votre équipe',
+      heading: 'Analyse ton équipe',
       questions: [
-        'Quels sont les 3 principaux facteurs de motivation dans votre équipe actuellement ?',
-        'Y a-t-il des collaborateurs dont vous ne connaissez pas bien les motivations profondes ? Comment pourriez-vous le découvrir ?',
-        'Comment créer plus d\'opportunités de progrès visible pour votre équipe cette semaine ?',
+        'Quels sont les 3 principaux facteurs de motivation dans ton équipe actuellement ?',
+        'Y a-t-il des collaborateurs dont tu ne connais pas bien les motivations profondes ? Comment pourrais-tu le découvrir ?',
+        'Comment créer plus d\'opportunités de progrès visible pour ton équipe cette semaine ?',
       ],
     },
     appliquer: {
-      heading: 'Créez votre plan d\'action',
-      instruction: 'Définissez un objectif précis lié à la motivation de votre équipe et identifiez 3 actions concrètes que vous pouvez mettre en place dès cette semaine.',
+      heading: 'Crée ton plan d\'action',
+      instruction: 'Définis un objectif précis lié à la motivation de ton équipe et identifie 3 actions concrètes que tu peux mettre en place dès cette semaine.',
     },
     conclusion: {
       heading: 'Récapitulatif et prochaines étapes',
@@ -727,30 +737,30 @@ const LESSON_DATA: Record<string, LessonData> = {
         'Chaque collaborateur a un profil motivationnel unique : il faut s\'adapter',
       ],
       nextSteps: [
-        'Planifiez un 1:1 avec chaque membre de votre équipe pour découvrir ses motivations',
-        'Identifiez une tâche actuelle que vous pouvez rendre plus autonome',
-        'Passez à la section Transfert pour ancrer ces apprentissages dans votre contexte réel',
-        'Créez un rituel hebdomadaire de reconnaissance des contributions',
+        'Planifie un 1:1 avec chaque membre de ton équipe pour découvrir ses motivations',
+        'Identifie une tâche actuelle que tu peux rendre plus autonome',
+        'Passe à la section Transfert pour ancrer ces apprentissages dans ton contexte réel',
+        'Crée un rituel hebdomadaire de reconnaissance des contributions',
       ],
     },
     transfert: {
-      heading: 'Transférer dans votre contexte',
-      intro: 'Le transfert est la phase la plus importante : comment allez-vous appliquer ces apprentissages dans votre situation professionnelle réelle, dès cette semaine ?',
+      heading: 'Transférer dans ton contexte',
+      intro: 'Le transfert est la phase la plus importante : comment vas-tu appliquer ces apprentissages dans ta situation professionnelle réelle, dès cette semaine ?',
       scenarios: [
         {
-          title: 'Avec votre équipe',
-          context: 'Choisissez un collaborateur dont vous ne connaissez pas bien les motivations profondes. Planifiez un entretien informel de 15 min cette semaine pour découvrir ce qui le motive vraiment.',
+          title: 'Avec ton équipe',
+          context: 'Choisis un collaborateur dont tu ne connais pas bien les motivations profondes. Planifie un entretien informel de 15 min cette semaine pour découvrir ce qui le motive vraiment.',
         },
         {
-          title: 'Dans votre management quotidien',
-          context: 'Identifiez une tâche que vous attribuez de façon directive. Reformulez la consigne pour laisser le collaborateur choisir comment l\'accomplir (autonomie sur les moyens).',
+          title: 'Dans ton management quotidien',
+          context: 'Identifie une tâche que tu attribues de façon directive. Reformule la consigne pour laisser le collaborateur choisir comment l\'accomplir (autonomie sur les moyens).',
         },
         {
           title: 'Sur le long terme',
-          context: 'Mettez en place un rituel mensuel de reconnaissance explicite : non monétaire. Partagez un impact concret que chaque personne a eu sur les résultats de l\'équipe.',
+          context: 'Mets en place un rituel mensuel de reconnaissance explicite : non monétaire. Partage un impact concret que chaque personne a eu sur les résultats de l\'équipe.',
         },
       ],
-      commitmentPrompt: 'Décrivez une situation précise où vous allez appliquer ces apprentissages cette semaine. Soyez spécifique : qui, quand, comment.',
+      commitmentPrompt: 'Décris une situation précise où tu vas appliquer ces apprentissages cette semaine. Sois spécifique : qui, quand, comment.',
     },
   },
 
@@ -759,12 +769,12 @@ const LESSON_DATA: Record<string, LessonData> = {
     duration: '2h',
     intro: {
       heading: 'Bienvenue dans le Bootcamp',
-      description: 'Cette première leçon pose les fondations conceptuelles de votre parcours de 12 semaines. Vous allez comprendre ce qu\'est un Design System, pourquoi c\'est le fil conducteur de tout ce qu\'on construit ensemble, et créer votre premier artefact concret : un token spreadsheet.',
+      description: 'Cette première leçon pose les fondations conceptuelles de ton parcours de 12 semaines. Tu vas comprendre ce qu\'est un Design System, pourquoi c\'est le fil conducteur de tout ce qu\'on construit ensemble, et créer ton premier artefact concret : un token spreadsheet.',
       objectives: [
         'Comprendre la structure d\'un design system : tokens, composants, documentation',
         'Identifier le flux Figma → CSS custom properties → Tailwind utilities dans le projet TLS',
-        'Créer votre premier token spreadsheet (couleurs, typo, spacing)',
-        'Vous situer dans UX-UI-BOOTCAMP.md et le plan Semaine 1',
+        'Créer ton premier token spreadsheet (couleurs, typo, spacing)',
+        'Te situer dans UX-UI-BOOTCAMP.md et le plan Semaine 1',
       ],
       blocks: [
         {
@@ -1091,11 +1101,11 @@ const LESSON_DATA: Record<string, LessonData> = {
       ],
     },
     reflechir: {
-      heading: 'Analysez le Design System TLS existant',
+      heading: 'Analyse le Design System TLS existant',
       questions: [
-        'Ouvrez src/styles/ dans le projet. Quels fichiers de tokens trouvez-vous ? Quelle est la différence entre --color-primary-500 et --color-ink-900 dans leur usage ?',
-        'Naviguez dans src/components/core/Button.tsx. Comment le composant utilise-t-il les tokens ? Que se passerait-il visuellement si vous changiez --color-primary-500 ?',
-        'En 2-3 phrases : qu\'est-ce qui changerait dans votre workflow si la parité Figma↔code était à 100% dans le projet TLS ?',
+        'Ouvre src/styles/ dans le projet. Quels fichiers de tokens trouves-tu ? Quelle est la différence entre --color-primary-500 et --color-ink-900 dans leur usage ?',
+        'Navigue dans src/components/core/Button.tsx. Comment le composant utilise-t-il les tokens ? Que se passerait-il visuellement si tu changeais --color-primary-500 ?',
+        'En 2-3 phrases : qu\'est-ce qui changerait dans ton workflow si la parité Figma↔code était à 100% dans le projet TLS ?',
       ],
       blocks: [
         {
@@ -1107,8 +1117,8 @@ const LESSON_DATA: Record<string, LessonData> = {
       ],
     },
     appliquer: {
-      heading: 'Créer votre token spreadsheet',
-      instruction: 'Ouvrez un nouveau fichier (Notion, Google Sheets, ou un .md dans docs/). Créez 3 colonnes : Token Name | Valeur | Usage. Listez minimum 10 tokens du projet TLS (ouvrez src/styles/tokens.css ou équivalent). Incluez : 3 couleurs primary, 2 couleurs ink, 2 tokens de typo, 2 tokens de spacing, 1 token de shadow. Ce spreadsheet est votre référence pour toute la Semaine 1.',
+      heading: 'Créer ton token spreadsheet',
+      instruction: 'Ouvre un nouveau fichier (Notion, Google Sheets, ou un .md dans docs/). Crée 3 colonnes : Token Name | Valeur | Usage. Liste au minimum 10 tokens du projet TLS (ouvre src/styles/tokens.css ou équivalent). Inclus : 3 couleurs primary, 2 couleurs ink, 2 tokens de typo, 2 tokens de spacing, 1 token de shadow. Ce spreadsheet est ta référence pour toute la Semaine 1.',
     },
     conclusion: {
       heading: 'Fondamentaux posés : prêt pour la suite',
@@ -1116,32 +1126,32 @@ const LESSON_DATA: Record<string, LessonData> = {
         'Un design system = tokens + composants + documentation. Les trois doivent être alignés pour fonctionner.',
         'Le flux TLS : Figma variables → CSS custom properties (--color-*) → Tailwind utilities (text-primary-500)',
         'Les tokens sont le DNA du design : changer un token = changer l\'apparence partout, en une seule modification',
-        'Votre token spreadsheet est le premier artefact du bootcamp : il sera réutilisé toute la Semaine 1',
+        'Ton token spreadsheet est le premier artefact du bootcamp : il sera réutilisé toute la Semaine 1',
       ],
       nextSteps: [
-        'Compléter votre token spreadsheet (min. 10 tokens) avant la Leçon 2',
+        'Compléter ton token spreadsheet (min. 10 tokens) avant la Leçon 2',
         'Lire docs/learning/UX-UI-BOOTCAMP.md : section Semaine 1 en entier',
         'Leçon 2 : Figma Design System Setup : créer les variables dans Figma et binder aux composants',
       ],
     },
     transfert: {
       heading: 'Appliquer dans le projet TLS maintenant',
-      intro: 'Ce que vous venez d\'apprendre existe déjà dans le code. Le transfert commence aujourd\'hui : pas la semaine prochaine. Voici 3 actions concrètes dans le vrai projet.',
+      intro: 'Ce que tu viens d\'apprendre existe déjà dans le code. Le transfert commence aujourd\'hui : pas la semaine prochaine. Voici 3 actions concrètes dans le vrai projet.',
       scenarios: [
         {
           title: 'Dans src/styles/tokens.css',
-          context: 'Ouvrez le fichier de tokens TLS. Localisez --color-primary-500. Changez temporairement sa valeur (ex: rouge #e53e3e), observez l\'impact en live sur une page, puis rétablissez (git checkout). C\'est la preuve vivante qu\'un token = un impact global.',
+          context: 'Ouvre le fichier de tokens TLS. Localise --color-primary-500. Change temporairement sa valeur (ex: rouge #e53e3e), observe l\'impact en live sur une page, puis rétablis-la (git checkout). C\'est la preuve vivante qu\'un token = un impact global.',
         },
         {
           title: 'Dans Figma TLS (fichier LccBZ1...)',
-          context: 'Ouvrez le fichier Figma TLS. Cherchez la page Foundations. Comparez les variables Figma avec vos tokens CSS. Notez les écarts dans votre token spreadsheet : cette liste devient votre backlog Semaine 1 pour la parité Figma↔code.',
+          context: 'Ouvre le fichier Figma TLS. Cherche la page Foundations. Compare les variables Figma avec tes tokens CSS. Note les écarts dans ton token spreadsheet : cette liste devient ton backlog Semaine 1 pour la parité Figma↔code.',
         },
         {
           title: 'Avant la Leçon 2',
-          context: 'Arrivez avec votre token spreadsheet complété (10+ tokens) et les écarts Figma↔code identifiés. La Leçon 2 part directement de ce travail pour configurer les variables Figma et les binder aux composants existants.',
+          context: 'Arrive avec ton token spreadsheet complété (10+ tokens) et les écarts Figma↔code identifiés. La Leçon 2 part directement de ce travail pour configurer les variables Figma et les binder aux composants existants.',
         },
       ],
-      commitmentPrompt: 'Décrivez en une phrase le premier changement concret que vous allez explorer dans tokens.css ou Figma après cette leçon : et pourquoi ce choix.',
+      commitmentPrompt: 'Décris en une phrase le premier changement concret que tu vas explorer dans tokens.css ou Figma après cette leçon : et pourquoi ce choix.',
       blocks: [
         {
           type: 'annotation' as const,
@@ -1159,12 +1169,12 @@ const DEFAULT_LESSON_DATA: LessonData = {
   duration: '45 min',
   intro: {
     heading: 'Bienvenue dans cette leçon',
-    description: 'Cette leçon vous guidera à travers les concepts fondamentaux du module.',
+    description: 'Cette leçon te guidera à travers les concepts fondamentaux du module.',
     objectives: [
       'Comprendre les concepts fondamentaux présentés dans cette leçon',
-      'Identifier les opportunités d\'application dans votre contexte professionnel',
+      'Identifier les opportunités d\'application dans ton contexte professionnel',
       'Mettre en pratique avec les exercices proposés',
-      'Consolider vos apprentissages avec les ressources complémentaires',
+      'Consolider tes apprentissages avec les ressources complémentaires',
     ],
   },
   engagement: {
@@ -1206,54 +1216,58 @@ const DEFAULT_LESSON_DATA: LessonData = {
     ],
   },
   reflechir: {
-    heading: 'Prenez le temps de réfléchir',
+    heading: 'Prends le temps de réfléchir',
     questions: [
-      'Quels aspects de cette leçon résonnent le plus avec votre expérience actuelle ?',
-      'Comment allez-vous appliquer ces concepts dès la semaine prochaine ?',
-      'Quels obstacles anticipez-vous et comment les surmonter ?',
+      'Quels aspects de cette leçon résonnent le plus avec ton expérience actuelle ?',
+      'Comment vas-tu appliquer ces concepts dès la semaine prochaine ?',
+      'Quels obstacles anticipes-tu et comment les surmonter ?',
     ],
   },
   appliquer: {
-    heading: 'Créez votre plan d\'action',
-    instruction: 'Définissez un objectif SMART et 3 actions concrètes à mettre en œuvre dans les prochains jours.',
+    heading: 'Crée ton plan d\'action',
+    instruction: 'Définis un objectif SMART et 3 actions concrètes à mettre en œuvre dans les prochains jours.',
   },
   conclusion: {
     heading: 'Récapitulatif et prochaines étapes',
     keyPoints: [
       'La pratique régulière est plus efficace que les sessions intensives espacées',
-      'Connectez chaque concept à une situation réelle que vous avez vécue',
-      'Le partage avec vos pairs accélère l\'ancrage mémoriel',
+      'Connecte chaque concept à une situation réelle que tu as vécue',
+      'Le partage avec tes pairs accélère l\'ancrage mémoriel',
     ],
     nextSteps: [
-      'Identifiez une situation concrète où appliquer ce que vous avez appris',
-      'Partagez 1 insight avec un collègue de confiance',
-      'Passez à la prochaine leçon pour approfondir le sujet',
+      'Identifie une situation concrète où appliquer ce que tu as appris',
+      'Partage 1 insight avec un collègue de confiance',
+      'Passe à la prochaine leçon pour approfondir le sujet',
     ],
   },
   transfert: {
-    heading: 'Transférer dans votre contexte',
-    intro: 'La maîtrise s\'acquiert en dehors de la formation. Comment allez-vous appliquer ces apprentissages dans votre situation réelle ?',
+    heading: 'Transférer dans ton contexte',
+    intro: 'La maîtrise s\'acquiert en dehors de la formation. Comment vas-tu appliquer ces apprentissages dans ta situation réelle ?',
     scenarios: [
       {
         title: 'Application immédiate',
-        context: 'Identifiez une situation concrète cette semaine où vous pourrez mettre en pratique ce que vous venez d\'apprendre.',
+        context: 'Identifie une situation concrète cette semaine où tu pourras mettre en pratique ce que tu viens d\'apprendre.',
       },
       {
         title: 'Partage avec un pair',
-        context: 'Expliquez un concept clé de cette leçon à un collègue. Enseigner accélère l\'ancrage mémoriel (effet protégé).',
+        context: 'Explique un concept clé de cette leçon à un collègue. Enseigner accélère l\'ancrage mémoriel (effet protégé).',
       },
       {
         title: 'Itération',
-        context: 'Notez ce qui a fonctionné et ce qui n\'a pas marché lors de votre première application. Ajustez et recommencez.',
+        context: 'Note ce qui a fonctionné et ce qui n\'a pas marché lors de ta première application. Ajuste et recommence.',
       },
     ],
-    commitmentPrompt: 'Décrivez précisément comment et où vous allez appliquer ces apprentissages dans les 7 prochains jours.',
+    commitmentPrompt: 'Décris précisément comment et où tu vas appliquer ces apprentissages dans les 7 prochains jours.',
   },
 };
 
 /* ─── Section title shared class ────────────────────────────────────────── */
 
-const SECTION_TITLE = 'font-display text-h2 font-bold text-ink-900 m-0 mb-stack-lg leading-[1.15] text-balance';
+/* Titre de section : h2 28 à son pas (interligne du token — il était forcé à
+   1,15 — et 700 du token, sans `font-bold` à côté). 16 px avant le contenu
+   qu'il introduit. Premier enfant de la carte : la marge de base des titres
+   ne s'y applique pas. */
+const SECTION_TITLE = 'font-display text-h2 text-ink-900 text-balance mb-stack';
 
 /* ─── Component ──────────────────────────────────────────────────────────── */
 
@@ -1331,38 +1345,43 @@ export const LessonPlayer: React.FC = () => {
     }
   };
 
+  /* Fermer ramène au détail du parcours, jamais à la leçon suivante : le ✕
+     avançait l'apprenant quand il voulait sortir (audit du 23/09). La position
+     n'a rien à faire ici, elle est déjà persistée à chaque changement de
+     section (`setSectionInStore`, plus haut) : on la retrouve en revenant. */
   const handleClose = () => {
-    // If a next lesson exists in this parcours, go straight to it; otherwise back to the path hub.
-    if (ctx?.nextLesson) {
-      navigate(`/learning-paths/${ctx.nextLesson.pathId}/lessons/${ctx.nextLesson.lessonId}`);
-    } else {
-      navigate(`/learning-paths/${pathId}`);
-    }
+    navigate(`/learning-paths/${pathId}`);
   };
 
   /* ── Section renderers ──────────────────────────────────────────────── */
 
+  /* L'introduction est la couverture de la leçon : son titre est le h1 de
+     l'écran (36), la description son chapô (18 ink-700 ; elle était à 16 au
+     cran 500). Les objectifs sont une section (h2 28, sans icône) et une
+     liste : plus des tuiles grises pleines qui ressemblaient à des boutons. */
   const renderIntroduction = () => (
-    <div>
-      <h2 className={SECTION_TITLE}>{displayTitle}</h2>
-      <p className="font-body text-body text-ink-500 mb-stack-lg">
-        {lessonData.intro.description}
-      </p>
-      <div className="flex items-center gap-stack-xs mb-stack-md">
-        <Target size={20} className="text-primary-500" />
-        <h3 className="font-display text-h4 font-bold text-ink-900">
+    <div className="flex flex-col gap-section">
+      <header className="flex flex-col gap-stack-sm">
+        <h1 className="font-display text-h1 text-ink-900 text-balance">{displayTitle}</h1>
+        <p className="font-body text-body-lg text-ink-700">
+          {lessonData.intro.description}
+        </p>
+      </header>
+      <section className="flex flex-col gap-stack">
+        <h2 className="font-display text-h2 text-ink-900">
           Objectifs d&apos;apprentissage
-        </h3>
-      </div>
-      <div className="flex flex-col gap-stack-xs mt-section">
-        {lessonData.intro.objectives.map((obj, i) => (
-          <div key={i} className="flex items-center gap-stack-xs p-stack bg-ink-50 rounded-lg">
-            {/* Target (goal), not a check — these are objectives to reach, not items already done. */}
-            <Target size={18} className="text-primary-400 shrink-0" />
-            <span className="font-body text-body">{obj}</span>
-          </div>
-        ))}
-      </div>
+        </h2>
+        <ul className="flex flex-col gap-stack-sm">
+          {lessonData.intro.objectives.map((obj, i) => (
+            <li key={i} className="flex items-start gap-stack-sm">
+              {/* Target (goal), not a check — these are objectives to reach,
+                  not items already done. Calée sur la 1re ligne : (26 − 18) / 2. */}
+              <Target size={18} className="text-primary-700 shrink-0 mt-1" aria-hidden="true" />
+              <span className="font-body text-body text-ink-900">{obj}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
       {lessonData.intro.blocks?.map((block, i) => renderContentBlock(block, i))}
     </div>
   );
@@ -1382,35 +1401,42 @@ export const LessonPlayer: React.FC = () => {
     return (
       <div>
         <h2 className={SECTION_TITLE}>{d.heading}</h2>
-        <div className="rounded-lg p-stack-lg mb-stack-md bg-danger-base/[0.06] border-2 border-danger-base/25">
-          <div className="mb-3">
-            <span className="inline-flex items-center gap-tight bg-danger-base text-white px-3 py-1 rounded-lg text-caption font-bold">
-              <XCircle size={14} /> {d.bad.label}
-            </span>
+        {/* Deux encadrés au même dessin : l'état (Badge) → 12 → titre h3 →
+            8 → texte ink-700 (il était au cran 500) → 12 → les points, 8 entre
+            eux, chaque icône calée sur la première ligne du point. */}
+        <div className="rounded-lg p-stack-lg mb-stack flex flex-col gap-stack-sm bg-danger-base/[0.06] border-2 border-danger-base/25">
+          <Badge variant="danger" className="self-start">
+            <XCircle size={14} aria-hidden="true" /> {d.bad.label}
+          </Badge>
+          <div className="flex flex-col gap-stack-xs">
+            <h3 className="font-display text-h3 text-ink-900">{d.bad.title}</h3>
+            <p className="font-body text-body text-ink-700">{d.bad.description}</p>
           </div>
-          <h3 className="mb-1 font-display text-h4 font-bold text-ink-900">{d.bad.title}</h3>
-          <p className="m-0 mb-stack font-body text-body-sm text-ink-500">{d.bad.description}</p>
-          {d.bad.points.map((p, i) => (
-            <div key={i} className="flex items-center gap-stack-xs mb-stack-xs">
-              <span className="text-lg">⚠️</span>
-              <span className="font-body text-body-sm">{p}</span>
-            </div>
-          ))}
+          <ul className="flex flex-col gap-stack-xs">
+            {d.bad.points.map((p, i) => (
+              <li key={i} className="flex items-start gap-stack-xs">
+                <AlertTriangle size={16} className="text-danger-fg shrink-0 mt-[5px]" aria-hidden="true" />
+                <span className="font-body text-body text-ink-900">{p}</span>
+              </li>
+            ))}
+          </ul>
         </div>
-        <div className="rounded-lg p-stack-lg bg-success-base/[0.08] border-2 border-success-base/30">
-          <div className="mb-3">
-            <span className="inline-flex items-center gap-tight bg-success-base text-white px-3 py-1 rounded-lg text-caption font-bold">
-              <CheckCircle2 size={14} /> {d.good.label}
-            </span>
+        <div className="rounded-lg p-stack-lg flex flex-col gap-stack-sm bg-success-base/[0.08] border-2 border-success-base/30">
+          <Badge variant="success" className="self-start">
+            <CheckCircle2 size={14} aria-hidden="true" /> {d.good.label}
+          </Badge>
+          <div className="flex flex-col gap-stack-xs">
+            <h3 className="font-display text-h3 text-ink-900">{d.good.title}</h3>
+            <p className="font-body text-body text-ink-700">{d.good.description}</p>
           </div>
-          <h3 className="mb-1 font-display text-h4 font-bold text-ink-900">{d.good.title}</h3>
-          <p className="m-0 mb-stack font-body text-body-sm text-ink-500">{d.good.description}</p>
-          {d.good.points.map((p, i) => (
-            <div key={i} className="flex items-center gap-stack-xs mb-stack-xs">
-              <CheckCircle2 size={16} className="text-success-base shrink-0" />
-              <span className="font-body text-body-sm">{p}</span>
-            </div>
-          ))}
+          <ul className="flex flex-col gap-stack-xs">
+            {d.good.points.map((p, i) => (
+              <li key={i} className="flex items-start gap-stack-xs">
+                <CheckCircle2 size={16} className="text-success-fg shrink-0 mt-[5px]" aria-hidden="true" />
+                <span className="font-body text-body text-ink-900">{p}</span>
+              </li>
+            ))}
+          </ul>
         </div>
         {d.blocks?.map((block, i) => renderContentBlock(block, i))}
 
@@ -1453,22 +1479,34 @@ export const LessonPlayer: React.FC = () => {
               <div className="px-stack-md pb-2">
                 {step.blocks.map((block, i) => renderContentBlock(block, i))}
               </div>
-              {/* Prev / Next */}
+              {/* Prev / Next — un pas à pas DANS la section : il laisse l'aplat
+                  à l'écran, la flèche « Section suivante » (arbitrage n°19,
+                  comme la confirmation dépliée d'AIOverrideButton). « Suivant »
+                  en `soft`, « Précédent » en `ghost` neutre, calé sur le bord
+                  de « Étape n / N » (`flush="start"` rattrape son padding). Les
+                  deux étaient faits main : un aplat primary-700 que la sonde
+                  ne voyait pas, et un filet ink-200 à 1,2:1. */}
               <div className="flex items-center justify-between px-stack py-3 border-t border-ink-100">
-                <button
+                <Button
+                  emphasis="ghost"
+                  tone="neutral"
+                  size="sm"
+                  flush="start"
+                  leadingIcon={<ChevronLeft />}
                   onClick={() => setDecouvrirStep((s) => Math.max(0, s - 1))}
                   disabled={decouvrirStep === 0}
-                  className="inline-flex items-center gap-stack-2xs px-3 py-1.5 rounded-lg font-body text-caption font-semibold text-ink-700 bg-white border border-ink-200 disabled:opacity-disabled disabled:cursor-not-allowed hover:bg-ink-50 transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                 >
-                  <ChevronLeft size={14} /> Précédent
-                </button>
-                <button
+                  Précédent
+                </Button>
+                <Button
+                  emphasis="soft"
+                  size="sm"
+                  trailingIcon={<ChevronRight />}
                   onClick={() => setDecouvrirStep((s) => Math.min(total - 1, s + 1))}
                   disabled={decouvrirStep === total - 1}
-                  className="inline-flex items-center gap-stack-2xs px-3 py-1.5 rounded-lg font-body text-caption font-semibold text-white bg-primary-600 disabled:opacity-disabled disabled:cursor-not-allowed hover:bg-primary-700 transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                 >
-                  Suivant <ChevronRight size={14} />
-                </button>
+                  Suivant
+                </Button>
               </div>
             </div>
           );
@@ -1483,7 +1521,11 @@ export const LessonPlayer: React.FC = () => {
       options: q.options.map(o => o.label),
       correct: q.options.findIndex(o => o.id === q.correct),
     }));
+    /* La section a son titre, comme les autres ; la carte du quiz part du
+       même bord gauche (le composant ne se centre plus lui-même). */
     return (
+      <div>
+      <h2 className={SECTION_TITLE}>Quiz</h2>
       <QuizComponent
         questions={quizQuestions}
         onComplete={(results) => {
@@ -1527,24 +1569,28 @@ export const LessonPlayer: React.FC = () => {
           });
         }}
       />
+      </div>
     );
   };
 
   const renderReflechir = () => (
     <div>
       <h2 className={SECTION_TITLE}>{lessonData.reflechir.heading}</h2>
+      {/* Chaque question est le LIBELLÉ de son champ (16/600, relié au champ),
+          plus un h3 en Nunito : un titre qui s'ignore. */}
       {lessonData.reflechir.questions.map((question, i) => (
-        <div key={i} className="bg-ink-50 rounded-lg p-stack-md mb-stack-md">
-          <h3 className="font-body text-body font-semibold text-ink-900">{question}</h3>
+        <div key={i} className="bg-ink-50 rounded-lg p-stack-md mb-stack flex flex-col gap-stack-xs">
+          <label htmlFor={`reflexion-q${i}`} className="font-body text-body font-semibold text-ink-900">{question}</label>
           <textarea
-            className="w-full h-auto min-h-[96px] p-stack mt-3 font-body text-body-sm text-ink-900 bg-white border border-ink-200 rounded-lg resize-y transition-colors duration-150 focus:outline-none focus:border-primary-400 focus:ring-3 focus:ring-primary-100 focus:shadow-none"
+            id={`reflexion-q${i}`}
+            className="w-full h-auto min-h-[96px] p-stack font-body text-body text-ink-900 bg-white border border-ink-200 rounded-lg resize-y transition-colors duration-150 focus:outline-none focus:border-primary-400 focus:ring-3 focus:ring-primary-100 focus:shadow-none"
             value={reflections[`q${i}`] ?? ''}
             onChange={(e) => {
               const key = `q${i}`;
               setReflections((prev) => ({ ...prev, [key]: e.target.value }));
               setReflectionInStore(lessonId, key, e.target.value);
             }}
-            placeholder="Écrivez votre réflexion ici…"
+            placeholder="Écris ta réflexion ici…"
           />
         </div>
       ))}
@@ -1562,25 +1608,26 @@ export const LessonPlayer: React.FC = () => {
       </div>
       <div className="flex flex-col gap-stack">
         {[
-          { key: 'objectif' as const, label: 'Objectif', placeholder: 'Ex: Améliorer l\'engagement de mon équipe de 20% en 30 jours' },
+          { key: 'objectif' as const, label: 'Objectif', placeholder: 'Ex. : améliorer l\'engagement de mon équipe de 20 % en 30 jours' },
           { key: 'action1' as const, label: 'Action 1', placeholder: 'Première action concrète à mettre en place dès demain' },
           { key: 'action2' as const, label: 'Action 2', placeholder: 'Deuxième action complémentaire cette semaine' },
           { key: 'action3' as const, label: 'Action 3', placeholder: 'Troisième action pour ancrer le changement' },
         ].map(({ key, label, placeholder }) => (
-          <div key={key}>
-            <label className="block font-body text-caption font-semibold text-ink-900 mb-stack-xs">{label}</label>
-            <input
-              type="text"
-              className="w-full h-auto p-stack rounded-lg border border-ink-200 font-body text-body-sm text-ink-900 bg-white transition-colors duration-150 focus:outline-none focus:border-primary-400 focus:ring-3 focus:ring-primary-100 focus:shadow-none"
-              value={actionPlan[key]}
-              onChange={(e) => {
-                const next = { ...actionPlan, [key]: e.target.value };
-                setActionPlan(next);
-                setActionPlanInStore(lessonId, next);
-              }}
-              placeholder={placeholder}
-            />
-          </div>
+          /* Le champ du système (passe typographique du 24/09) : libellé 16/600
+             relié au champ, 52 px de haut (échelle 36 · 44 · 52, arbitrage
+             n°22). Les champs faits main faisaient 58 px, libellé à 13. */
+          <Input
+            key={key}
+            size="lg"
+            label={label}
+            value={actionPlan[key]}
+            onChange={(e) => {
+              const next = { ...actionPlan, [key]: e.target.value };
+              setActionPlan(next);
+              setActionPlanInStore(lessonId, next);
+            }}
+            placeholder={placeholder}
+          />
         ))}
       </div>
       {lessonData.appliquer.blocks?.map((block, i) => renderContentBlock(block, i))}
@@ -1590,30 +1637,39 @@ export const LessonPlayer: React.FC = () => {
   const renderConclusion = () => (
     <div>
       <h2 className={SECTION_TITLE}>{lessonData.conclusion.heading}</h2>
-      <div className="flex items-center gap-stack-xs mb-stack">
-        <CheckCircle2 size={18} className="text-success-base" />
-        <h3 className="font-display text-h4 font-bold text-ink-900">Points clés à retenir</h3>
+      {/* Deux blocs (h3 20, l'icône calée sur la ligne du titre), 32 entre
+          eux. Les « prochaines étapes » ne sont pas des liens : plus de survol
+          qui glissait et changeait de filet comme sur un bouton. */}
+      <div className="flex flex-col gap-stack mb-section">
+        <h3 className="flex items-center gap-stack-xs font-display text-h3 text-ink-900">
+          <CheckCircle2 size={18} className="text-success-fg shrink-0" aria-hidden="true" />
+          Points clés à retenir
+        </h3>
+        <ol className="flex flex-col gap-stack-sm">
+          {lessonData.conclusion.keyPoints.map((point, i) => (
+            <li key={i} className="flex items-start gap-stack-sm p-stack bg-ink-50 rounded-lg">
+              <span className="w-7 h-7 rounded-pill bg-success-vivid text-white font-body text-caption font-bold tabular-nums flex items-center justify-center shrink-0 -mt-px">
+                {i + 1}
+              </span>
+              <span className="font-body text-body text-ink-900">{point}</span>
+            </li>
+          ))}
+        </ol>
       </div>
-      <div className="mb-section">
-        {lessonData.conclusion.keyPoints.map((point, i) => (
-          <div key={i} className="flex items-center gap-stack-xs p-stack bg-ink-50 rounded-lg mb-3">
-            <div className="w-7 h-7 rounded-pill bg-success-base text-white font-display text-caption font-bold flex items-center justify-center shrink-0">
-              {i + 1}
-            </div>
-            <span className="font-body text-body-sm">{point}</span>
-          </div>
-        ))}
+      <div className="flex flex-col gap-stack">
+        <h3 className="flex items-center gap-stack-xs font-display text-h3 text-ink-900">
+          <Zap size={18} className="text-primary-700 shrink-0" aria-hidden="true" />
+          Prochaines étapes
+        </h3>
+        <ul className="flex flex-col gap-stack-sm">
+          {lessonData.conclusion.nextSteps.map((step, i) => (
+            <li key={i} className="flex items-start gap-stack-xs p-stack bg-white rounded-lg border border-ink-200">
+              <ChevronRight size={18} className="text-primary-700 shrink-0 mt-1" aria-hidden="true" />
+              <span className="font-body text-body text-ink-900">{step}</span>
+            </li>
+          ))}
+        </ul>
       </div>
-      <div className="flex items-center gap-stack-xs mb-stack">
-        <Zap size={18} className="text-primary-500" />
-        <h3 className="font-display text-h4 font-bold text-ink-900">Prochaines étapes</h3>
-      </div>
-      {lessonData.conclusion.nextSteps.map((step, i) => (
-        <div key={i} className="flex items-center gap-stack-xs p-stack bg-white rounded-lg border border-ink-200 mb-3 transition-all duration-200 hover:translate-x-1 hover:border-primary-400">
-          <ChevronRight size={18} className="text-primary-500 shrink-0" />
-          <span className="font-body text-body-sm">{step}</span>
-        </div>
-      ))}
       {lessonData.conclusion.blocks?.map((block, i) => renderContentBlock(block, i))}
     </div>
   );
@@ -1627,25 +1683,32 @@ export const LessonPlayer: React.FC = () => {
           <p className="m-0 font-body text-body text-ink-700">{t.intro}</p>
         </div>
         <div className="flex flex-col gap-stack mb-section">
+          {/* Scénarios : titre h3 → 8 → contexte ink-700 (il était au cran de
+              la méta) ; la pastille se cale sur la ligne du titre. Pas de
+              survol : ce ne sont pas des liens. */}
           {t.scenarios.map((scenario, i) => (
-            <div key={i} className="flex gap-stack p-stack-lg bg-white border border-ink-200 rounded-lg hover:border-primary-300 transition-colors duration-200">
-              <div className="w-8 h-8 rounded-pill bg-primary-500 text-white font-display text-caption font-bold flex items-center justify-center shrink-0 mt-0.5">
+            <div key={i} className="flex gap-stack p-stack-lg bg-white border border-ink-200 rounded-lg">
+              <div className="w-8 h-8 rounded-pill bg-primary-700 text-white font-body text-caption font-bold tabular-nums flex items-center justify-center shrink-0 -mt-[3px]">
                 {i + 1}
               </div>
-              <div>
-                <h3 className="mb-1.5 font-display text-h4 font-bold text-ink-900">{scenario.title}</h3>
-                <p className="m-0 font-body text-body-sm text-ink-600">{scenario.context}</p>
+              <div className="flex flex-col gap-stack-xs">
+                <h3 className="font-display text-h3 text-ink-900">{scenario.title}</h3>
+                <p className="font-body text-body text-ink-700">{scenario.context}</p>
               </div>
             </div>
           ))}
         </div>
         <div>
-          <label className="block font-body text-caption font-semibold text-ink-900 mb-stack-xs">
+          {/* Libellé de champ 16/600 (il était à 13) ; la consigne en ink-700
+              (elle était au cran des placeholders), reliée au champ. */}
+          <label htmlFor="engagement-transfert" className="block font-body text-body font-semibold text-ink-900 mb-stack-3xs">
             Mon engagement de transfert
           </label>
-          <p className="font-body text-body-sm text-ink-500 mb-3">{t.commitmentPrompt}</p>
+          <p id="engagement-transfert-consigne" className="font-body text-body text-ink-700 mb-stack-sm">{t.commitmentPrompt}</p>
           <textarea
-            className="w-full min-h-[120px] p-stack font-body text-body-sm text-ink-900 bg-white border border-ink-200 rounded-lg resize-y transition-colors duration-150 focus:outline-none focus:border-primary-400 focus:ring-3 focus:ring-primary-100 focus:shadow-none"
+            id="engagement-transfert"
+            aria-describedby="engagement-transfert-consigne"
+            className="w-full min-h-[120px] p-stack font-body text-body text-ink-900 bg-white border border-ink-200 rounded-lg resize-y transition-colors duration-150 focus:outline-none focus:border-primary-400 focus:ring-3 focus:ring-primary-100 focus:shadow-none"
             value={reflections['transfert'] ?? ''}
             onChange={(e) => {
               setReflections((prev) => ({ ...prev, transfert: e.target.value }));
@@ -1662,8 +1725,8 @@ export const LessonPlayer: React.FC = () => {
   /* ── ContentBlock renderer ────────────────────────────────────────────── */
 
   const SCHEMA_COLOR_MAP: Record<string, { card: string; num: string }> = {
-    primary:   { card: 'bg-primary-50 border-primary-200',   num: 'bg-primary-500 text-white' },
-    secondary: { card: 'bg-secondary-50 border-secondary-500/30', num: 'bg-secondary-500 text-white' },
+    primary:   { card: 'bg-primary-50 border-primary-200',   num: 'bg-primary-700 text-white' },
+    secondary: { card: 'bg-secondary-50 border-secondary-500/30', num: 'bg-secondary-700 text-white' },
     accent:    { card: 'bg-accent-50 border-accent-400/50',  num: 'bg-accent-400 text-ink-900' },
     neutral:   { card: 'bg-ink-50 border-ink-200',           num: 'bg-ink-300 text-ink-700' },
   };
@@ -1691,7 +1754,7 @@ export const LessonPlayer: React.FC = () => {
           <p
             key={key}
             className={`${mb} max-w-prose font-body ${
-              block.lead ? 'text-body-lg text-ink-700' : 'text-body text-ink-800'
+              block.lead ? 'text-body-lg text-ink-700' : 'text-body text-ink-900'
             }`}
           >
             {block.text}
@@ -1705,7 +1768,7 @@ export const LessonPlayer: React.FC = () => {
         const HEADING_CLASSES: Record<2 | 3 | 4, string> = {
           2: 'font-display text-h2 text-ink-900 text-balance',
           3: 'font-display text-h3 text-ink-900 text-balance',
-          4: 'font-display text-h4 text-ink-900 text-balance',
+          4: 'font-display text-h3 text-ink-900 text-balance',
         };
         const cls = `mb-stack-xs max-w-prose ${HEADING_CLASSES[block.level]}`;
         if (block.level === 2) return <h2 key={key} className={cls}>{block.text}</h2>;
@@ -1718,7 +1781,7 @@ export const LessonPlayer: React.FC = () => {
           <li key={i} className="pl-1">{item}</li>
         ));
         const listClasses =
-          'max-w-prose font-body text-body text-ink-800 flex flex-col gap-stack-xs pl-stack-md marker:text-primary-600';
+          'max-w-prose font-body text-body text-ink-900 flex flex-col gap-stack-xs pl-stack-md marker:text-primary-700';
         return (
           <div key={key} className={mb}>
             {block.ordered ? (
@@ -1756,10 +1819,11 @@ export const LessonPlayer: React.FC = () => {
           sun:     'bg-accent-50 border-accent-400/35',
           neutral: 'bg-ink-50 border-ink-200',
         };
+        /* Une couleur de marque ne porte du texte qu'au cran 800. */
         const CALLOUT_TITLE: Record<string, string> = {
           primary: 'text-primary-800',
-          warm:    'text-secondary-700',
-          sun:     'text-accent-700',
+          warm:    'text-secondary-800',
+          sun:     'text-accent-800',
           neutral: 'text-ink-900',
         };
         return (
@@ -1768,11 +1832,11 @@ export const LessonPlayer: React.FC = () => {
             className={`${mb} max-w-prose border rounded-lg p-stack-lg flex flex-col gap-stack-xs ${CALLOUT_TONES[block.tone]}`}
           >
             {block.title && (
-              <p className={`font-display text-body font-semibold ${CALLOUT_TITLE[block.tone]}`}>
+              <p className={`font-body text-body font-semibold ${CALLOUT_TITLE[block.tone]}`}>
                 {block.title}
               </p>
             )}
-            <p className="font-body text-body-sm text-ink-800">{block.text}</p>
+            <p className="font-body text-body text-ink-900">{block.text}</p>
           </div>
         );
       }
@@ -1793,7 +1857,7 @@ export const LessonPlayer: React.FC = () => {
             ) : (
               <div className={`w-full ${arClass} rounded-xl border-2 border-dashed border-ink-300 bg-ink-100 flex flex-col items-center justify-center gap-stack-xs`}>
                 <ImageIcon size={32} className="text-ink-400" />
-                <span className="font-body text-body-sm text-ink-500 text-center px-stack">
+                <span className="font-body text-body text-ink-500 text-center px-stack">
                   Image à connecter · Unsplash / Backoffice
                 </span>
                 <label className="cursor-pointer">
@@ -1806,14 +1870,14 @@ export const LessonPlayer: React.FC = () => {
                       if (file) setUploadedSrcs((prev) => ({ ...prev, [index]: URL.createObjectURL(file) }));
                     }}
                   />
-                  <span className="inline-flex items-center gap-stack-2xs bg-white border border-ink-300 text-ink-700 hover:bg-ink-50 transition-colors duration-150 px-3 py-1.5 rounded-lg font-body text-caption font-semibold">
+                  <span className={CHOISIR_UN_FICHIER}>
                     <ImageIcon size={14} /> Choisir un fichier
                   </span>
                 </label>
               </div>
             )}
             {block.caption && (
-              <p className="m-0 mt-stack-xs font-body text-caption text-ink-500 text-center italic">{block.caption}</p>
+              <p className="mt-stack-xs font-body text-caption text-ink-600 text-center italic">{block.caption}</p>
             )}
           </div>
         );
@@ -1833,7 +1897,7 @@ export const LessonPlayer: React.FC = () => {
                 <div className="w-14 h-14 rounded-pill bg-ink-200 flex items-center justify-center">
                   <Play size={24} className="text-ink-600 ml-1" />
                 </div>
-                <span className="font-body text-body-sm text-ink-500">Vidéo à brancher</span>
+                <span className="font-body text-body text-ink-500">Vidéo à brancher</span>
                 <label className="cursor-pointer">
                   <input
                     type="file"
@@ -1844,14 +1908,14 @@ export const LessonPlayer: React.FC = () => {
                       if (file) setUploadedSrcs((prev) => ({ ...prev, [index]: URL.createObjectURL(file) }));
                     }}
                   />
-                  <span className="inline-flex items-center gap-stack-2xs bg-white border border-ink-300 text-ink-700 hover:bg-ink-50 transition-colors duration-150 px-3 py-1.5 rounded-lg font-body text-caption font-semibold">
+                  <span className={CHOISIR_UN_FICHIER}>
                     <Play size={14} /> Choisir une vidéo
                   </span>
                 </label>
               </div>
             )}
             {block.caption && (
-              <p className="m-0 mt-stack-xs font-body text-caption text-ink-500 text-center italic">{block.caption}</p>
+              <p className="mt-stack-xs font-body text-caption text-ink-600 text-center italic">{block.caption}</p>
             )}
           </div>
         );
@@ -1866,7 +1930,7 @@ export const LessonPlayer: React.FC = () => {
             ) : (
               <div className="w-full aspect-video rounded-xl border-2 border-dashed border-ink-300 bg-ink-100 flex flex-col items-center justify-center gap-stack-xs">
                 <ImageIcon size={32} className="text-ink-400" />
-                <span className="font-body text-body-sm text-ink-500">GIF à connecter</span>
+                <span className="font-body text-body text-ink-500">GIF à connecter</span>
                 <label className="cursor-pointer">
                   <input
                     type="file"
@@ -1877,14 +1941,14 @@ export const LessonPlayer: React.FC = () => {
                       if (file) setUploadedSrcs((prev) => ({ ...prev, [index]: URL.createObjectURL(file) }));
                     }}
                   />
-                  <span className="inline-flex items-center gap-stack-2xs bg-white border border-ink-300 text-ink-700 hover:bg-ink-50 transition-colors duration-150 px-3 py-1.5 rounded-lg font-body text-caption font-semibold">
+                  <span className={CHOISIR_UN_FICHIER}>
                     <ImageIcon size={14} /> Choisir un GIF
                   </span>
                 </label>
               </div>
             )}
             {block.caption && (
-              <p className="m-0 mt-stack-xs font-body text-caption text-ink-500 text-center italic">{block.caption}</p>
+              <p className="mt-stack-xs font-body text-caption text-ink-600 text-center italic">{block.caption}</p>
             )}
           </div>
         );
@@ -1895,13 +1959,13 @@ export const LessonPlayer: React.FC = () => {
           const max = Math.max(...block.data.map(d => d.value), 1);
           return (
             <div key={key} className={`bg-white border border-ink-100 rounded-xl ${compact ? 'p-3' : 'p-stack-md'} ${mb}`}>
-              {block.title && <h4 className={`mb-3 font-display font-bold text-ink-900 ${compact ? 'text-body-sm' : 'text-h4'}`}>{block.title}</h4>}
+              {block.title && <h4 className={`mb-3 font-display text-ink-900 ${compact ? 'text-body font-bold' : 'text-h3'}`}>{block.title}</h4>}
               <div className="flex flex-col gap-stack-xs">
                 {block.data.map((item, i) => (
                   <div key={i}>
                     <div className="flex justify-between mb-1.5">
-                      <span className="font-body text-body-sm text-ink-700">{item.label}</span>
-                      <span className="font-body text-caption font-semibold text-ink-900">{item.value}</span>
+                      <span className="font-body text-body text-ink-700">{item.label}</span>
+                      <span className="font-body text-caption font-semibold text-ink-900 tabular-nums">{item.value}</span>
                     </div>
                     <div className="h-2.5 bg-ink-100 rounded-pill overflow-hidden">
                       <div
@@ -1923,7 +1987,7 @@ export const LessonPlayer: React.FC = () => {
           const svgSize = compact ? 80 : 120;
           return (
             <div key={key} className={`bg-white border border-ink-100 rounded-xl ${compact ? 'p-3' : 'p-stack-md'} ${mb}`}>
-              {block.title && <h4 className={`mb-3 font-display font-bold text-ink-900 ${compact ? 'text-body-sm' : 'text-h4'}`}>{block.title}</h4>}
+              {block.title && <h4 className={`mb-3 font-display text-ink-900 ${compact ? 'text-body font-bold' : 'text-h3'}`}>{block.title}</h4>}
               <div className={`flex flex-col ${compact ? 'gap-stack-xs' : 'sm:flex-row items-center gap-stack-lg'}`}>
                 <svg width={svgSize} height={svgSize} viewBox="0 0 100 100" className="shrink-0 mx-auto" aria-hidden="true">
                   <circle cx="50" cy="50" r={r} fill="none" stroke="var(--color-ink-100)" strokeWidth="10" />
@@ -1947,8 +2011,8 @@ export const LessonPlayer: React.FC = () => {
                     <div key={i} className="flex items-center gap-stack-xs">
                       <span className="w-3 h-3 rounded-pill shrink-0"
                         style={{ background: item.color ?? CHART_PALETTE[i % CHART_PALETTE.length] }} />
-                      <span className="font-body text-body-sm text-ink-700 flex-1">{item.label}</span>
-                      <span className="font-body text-caption font-semibold text-ink-900">{item.value}</span>
+                      <span className="font-body text-body text-ink-700 flex-1">{item.label}</span>
+                      <span className="font-body text-caption font-semibold text-ink-900 tabular-nums">{item.value}</span>
                     </div>
                   ))}
                 </div>
@@ -1969,7 +2033,7 @@ export const LessonPlayer: React.FC = () => {
           }).join(' ');
           return (
             <div key={key} className={`bg-white border border-ink-100 rounded-xl ${compact ? 'p-3' : 'p-stack-md'} ${mb} overflow-hidden`}>
-              {block.title && <h4 className={`mb-3 font-display font-bold text-ink-900 ${compact ? 'text-body-sm' : 'text-h4'}`}>{block.title}</h4>}
+              {block.title && <h4 className={`mb-3 font-display text-ink-900 ${compact ? 'text-body font-bold' : 'text-h3'}`}>{block.title}</h4>}
               <svg viewBox={`0 0 ${W} ${H}`} className="w-full" aria-hidden="true">
                 <polyline points={pts} fill="none" stroke="var(--color-primary-500)"
                   strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
@@ -1981,7 +2045,7 @@ export const LessonPlayer: React.FC = () => {
               </svg>
               <div className="flex mt-stack-xs">
                 {block.data.map((item, i) => (
-                  <span key={i} className="font-body text-micro text-ink-500 text-center flex-1 truncate px-1">{item.label}</span>
+                  <span key={i} className="font-body text-caption text-ink-600 text-center flex-1 truncate px-1">{item.label}</span>
                 ))}
               </div>
             </div>
@@ -1994,13 +2058,13 @@ export const LessonPlayer: React.FC = () => {
         const layout = block.layout ?? 'vertical';
         const getColors = (c?: string) => SCHEMA_COLOR_MAP[c ?? 'primary'] ?? SCHEMA_COLOR_MAP['primary'];
         const itemPad = compact ? 'p-stack-xs' : 'p-3';
-        const labelCls = compact ? 'font-body text-caption font-semibold text-ink-900' : 'font-body text-body-sm font-semibold text-ink-900';
-        const descCls = compact ? 'font-body text-micro text-ink-500' : 'font-body text-caption text-ink-500';
+        const labelCls = compact ? 'font-body text-caption font-semibold text-ink-900' : 'font-body text-body font-semibold text-ink-900';
+        const descCls = 'font-body text-caption text-ink-600';
 
         if (layout === 'horizontal') {
           return (
             <div key={key} className={mb}>
-              {block.title && <h4 className={`mb-3 font-display font-bold text-ink-900 ${compact ? 'text-body-sm' : 'text-h4'}`}>{block.title}</h4>}
+              {block.title && <h4 className={`mb-3 font-display text-ink-900 ${compact ? 'text-body font-bold' : 'text-h3'}`}>{block.title}</h4>}
               <div className="flex flex-wrap items-stretch gap-stack-2xs">
                 {block.items.map((item, i) => {
                   const { card, num } = getColors(item.color);
@@ -2008,7 +2072,7 @@ export const LessonPlayer: React.FC = () => {
                     <React.Fragment key={i}>
                       <div className={`flex flex-col gap-tight ${itemPad} rounded-lg border flex-1 min-w-[72px] ${card}`}>
                         {item.num !== undefined && (
-                          <span className={`w-5 h-5 rounded-pill flex items-center justify-center font-display text-micro font-bold shrink-0 ${num}`}>
+                          <span className={`w-5 h-5 rounded-pill flex items-center justify-center font-body text-caption font-bold tabular-nums shrink-0 ${num}`}>
                             {item.num}
                           </span>
                         )}
@@ -2031,14 +2095,14 @@ export const LessonPlayer: React.FC = () => {
         if (layout === 'flow') {
           return (
             <div key={key} className={mb}>
-              {block.title && <h4 className={`mb-3 font-display font-bold text-ink-900 ${compact ? 'text-body-sm' : 'text-h4'}`}>{block.title}</h4>}
+              {block.title && <h4 className={`mb-3 font-display text-ink-900 ${compact ? 'text-body font-bold' : 'text-h3'}`}>{block.title}</h4>}
               <div className={`grid gap-stack-xs ${compact ? 'grid-cols-1' : 'grid-cols-2 sm:grid-cols-3'}`}>
                 {block.items.map((item, i) => {
                   const { card, num } = getColors(item.color);
                   return (
                     <div key={i} className={`flex flex-col gap-tight ${itemPad} rounded-lg border ${card}`}>
                       {item.num !== undefined && (
-                        <span className={`w-5 h-5 rounded-pill flex items-center justify-center font-display text-micro font-bold mb-0.5 ${num}`}>
+                        <span className={`w-5 h-5 rounded-pill flex items-center justify-center font-body text-caption font-bold tabular-nums mb-0.5 ${num}`}>
                           {item.num}
                         </span>
                       )}
@@ -2055,19 +2119,19 @@ export const LessonPlayer: React.FC = () => {
         // vertical (default)
         return (
           <div key={key} className={`flex flex-col ${compact ? 'gap-stack-2xs' : 'gap-stack-xs'} ${mb}`}>
-            {block.title && <h4 className={`font-display font-bold text-ink-900 ${compact ? 'text-body-sm' : 'text-h4'}`}>{block.title}</h4>}
+            {block.title && <h4 className={`font-display text-ink-900 ${compact ? 'text-body font-bold' : 'text-h3'}`}>{block.title}</h4>}
             {block.items.map((item, i) => {
               const { card, num } = getColors(item.color);
               return (
                 <div key={i} className={`flex items-start gap-stack-xs ${itemPad} rounded-lg border ${card}`}>
                   {item.num !== undefined && (
-                    <span className={`w-6 h-6 rounded-pill flex items-center justify-center font-display text-caption font-bold shrink-0 mt-0.5 ${num}`}>
+                    <span className={`w-6 h-6 rounded-pill flex items-center justify-center font-body text-caption font-bold tabular-nums shrink-0 mt-0.5 ${num}`}>
                       {item.num}
                     </span>
                   )}
                   <div>
                     <p className={`m-0 ${labelCls}`}>{item.label}</p>
-                    <p className="m-0 mt-0.5 font-body text-caption text-ink-500">{item.desc}</p>
+                    <p className="mt-0.5 font-body text-caption text-ink-600">{item.desc}</p>
                   </div>
                 </div>
               );
@@ -2083,13 +2147,13 @@ export const LessonPlayer: React.FC = () => {
               <Cpu size={20} className="text-primary-600" />
             </div>
             <div className="flex-1">
-              {block.title && <h4 className="mb-1 font-display text-h4 font-bold text-ink-900">{block.title}</h4>}
+              {block.title && <h4 className="mb-stack-xs font-display text-h3 text-ink-900">{block.title}</h4>}
               {block.description && (
-                <p className="m-0 mb-3 font-body text-body-sm text-ink-600">{block.description}</p>
+                <p className="mb-stack-sm font-body text-body text-ink-700">{block.description}</p>
               )}
-              <span className="inline-flex items-center gap-stack-2xs bg-primary-100 text-primary-700 px-3 py-1 rounded-pill font-body text-caption font-semibold">
-                <Cpu size={14} /> Module interactif · Bientôt disponible
-              </span>
+              <Badge variant="brand">
+                <Cpu size={14} aria-hidden /> Module interactif · Bientôt disponible
+              </Badge>
             </div>
           </div>
         );
@@ -2101,17 +2165,17 @@ export const LessonPlayer: React.FC = () => {
           <div key={key} className={`bg-secondary-50 border border-secondary-500/30 rounded-xl ${compact ? 'p-3' : 'p-stack-md'} ${mb}`}>
             <div className="flex items-center gap-stack-xs mb-3">
               <BookOpen size={16} className="text-secondary-600 shrink-0" />
-              <span className="font-body text-caption font-semibold text-secondary-600">Lié au Journal</span>
+              <span className="font-body text-caption font-semibold text-secondary-800">Lié au Journal</span>
             </div>
-            <p className="m-0 mb-3 font-body text-body-sm font-semibold text-ink-900">{block.prompt}</p>
+            <p className="m-0 mb-3 font-body text-body font-semibold text-ink-900">{block.prompt}</p>
             <textarea
-              className="w-full h-auto min-h-[96px] p-stack font-body text-body-sm text-ink-900 bg-white border border-secondary-500/30 rounded-lg resize-y transition-colors duration-150 focus:outline-none focus:border-secondary-500 focus:ring-3 focus:ring-secondary-50 focus:shadow-none"
+              className="w-full h-auto min-h-[96px] p-stack font-body text-body text-ink-900 bg-white border border-secondary-500/30 rounded-lg resize-y transition-colors duration-150 focus:outline-none focus:border-secondary-500 focus:ring-3 focus:ring-secondary-50 focus:shadow-none"
               value={annotValue}
               onChange={(e) => {
                 setReflections((prev) => ({ ...prev, [block.journalKey]: e.target.value }));
                 setReflectionInStore(lessonId, block.journalKey, e.target.value);
               }}
-              placeholder={block.placeholder ?? 'Écrivez votre réflexion ici…'}
+              placeholder={block.placeholder ?? 'Écris ta réflexion ici…'}
             />
           </div>
         );
@@ -2172,7 +2236,7 @@ export const LessonPlayer: React.FC = () => {
         return (
           <div key={key} className={mb}>
             {block.title && (
-              <h4 className={`mb-3 font-display font-bold text-ink-900 ${compact ? 'text-body-sm' : 'text-h4'}`}>{block.title}</h4>
+              <h4 className={`mb-3 font-display text-ink-900 ${compact ? 'text-body font-bold' : 'text-h3'}`}>{block.title}</h4>
             )}
             {resolvedUrl ? (
               <div className={`w-full ${arClass} rounded-xl overflow-hidden border border-ink-200 shadow-sm`}>
@@ -2189,15 +2253,20 @@ export const LessonPlayer: React.FC = () => {
               <div className="rounded-lg border-2 border-dashed border-ink-300 bg-ink-50 p-stack-lg">
                 <div className="flex items-center gap-stack-xs mb-stack">
                   <Globe size={18} className="text-ink-600 shrink-0" />
-                  <span className="font-body text-body-sm font-semibold text-ink-700">
+                  <span className="font-body text-body font-semibold text-ink-700">
                     {block.provider ? PROVIDER_LABELS[block.provider] : 'Embed externe'}
                   </span>
                   <span className="ml-auto font-body text-caption text-ink-600">YouTube · Vimeo · Loom · Canva · Slides · Figma</span>
                 </div>
+                {/* « Charger » est l'action de ce panneau : `soft`, pas un
+                    second aplat à côté de la flèche « Section suivante »
+                    (arbitrage n°19) ; il était fait main, en primary-700. Le
+                    champ passe à 36 px, la hauteur du bouton `sm` voisin
+                    (échelle commune, arbitrage n°22). */}
                 <div className="flex gap-stack-xs">
                   <input
                     type="url"
-                    className="flex-1 h-10 px-3 font-body text-body-sm text-ink-900 bg-white border border-ink-200 rounded-lg focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100"
+                    className="flex-1 h-9 px-3 font-body text-body text-ink-900 bg-white border border-ink-200 rounded-lg focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100"
                     placeholder="YouTube, Vimeo, Loom, Canva, Google Slides, Figma…"
                     value={embedInputs[index] ?? ''}
                     onChange={(e) => setEmbedInputs((prev) => ({ ...prev, [index]: e.target.value }))}
@@ -2207,16 +2276,19 @@ export const LessonPlayer: React.FC = () => {
                       }
                     }}
                   />
-                  <button
+                  <Button
+                    emphasis="soft"
+                    size="sm"
+                    leadingIcon={<Link2 />}
+                    className="shrink-0"
                     onClick={() => {
                       if (embedInputs[index]) {
                         setEmbeddedUrls((prev) => ({ ...prev, [index]: normalizeEmbedUrl(embedInputs[index]) }));
                       }
                     }}
-                    className="inline-flex items-center gap-stack-2xs px-stack h-10 bg-primary-600 text-white rounded-lg font-body text-caption font-semibold hover:bg-primary-700 transition-colors duration-150 shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                   >
-                    <Link2 size={14} /> Charger
-                  </button>
+                    Charger
+                  </Button>
                 </div>
                 {resolvedUrl === undefined && embeddedUrls[index] && (
                   <p className="m-0 mt-stack-xs font-body text-caption text-danger-fg">URL invalide ou non supportée</p>
@@ -2224,7 +2296,7 @@ export const LessonPlayer: React.FC = () => {
               </div>
             )}
             {block.caption && (
-              <p className="m-0 mt-stack-xs font-body text-caption text-ink-500 text-center italic">{block.caption}</p>
+              <p className="mt-stack-xs font-body text-caption text-ink-600 text-center italic">{block.caption}</p>
             )}
             {resolvedUrl && (
               <div className="flex justify-end mt-1">
@@ -2260,7 +2332,7 @@ export const LessonPlayer: React.FC = () => {
               </div>
             </div>
             {block.caption && (
-              <p className="m-0 mt-stack-xs font-body text-caption text-ink-500 text-center italic">{block.caption}</p>
+              <p className="mt-stack-xs font-body text-caption text-ink-600 text-center italic">{block.caption}</p>
             )}
           </div>
         );
@@ -2273,16 +2345,16 @@ export const LessonPlayer: React.FC = () => {
           full: 'col-span-3',
         };
         const CELL_TONE: Record<string, { bg: string; label: string }> = {
-          primary:   { bg: 'bg-primary-50 border-primary-200',        label: 'text-primary-700' },
-          secondary: { bg: 'bg-secondary-50 border-secondary-500/20', label: 'text-secondary-600' },
-          accent:    { bg: 'bg-accent-50 border-accent-400/30',       label: 'text-accent-500' },
-          neutral:   { bg: 'bg-ink-50 border-ink-200',                label: 'text-ink-500' },
+          primary:   { bg: 'bg-primary-50 border-primary-200',        label: 'text-primary-800' },
+          secondary: { bg: 'bg-secondary-50 border-secondary-500/20', label: 'text-secondary-800' },
+          accent:    { bg: 'bg-accent-50 border-accent-400/30',       label: 'text-accent-800' },
+          neutral:   { bg: 'bg-ink-50 border-ink-200',                label: 'text-ink-600' },
           dark:      { bg: 'bg-ink-900 border-ink-800',               label: 'text-ink-300' },
         };
         return (
           <div key={key} className={mb}>
             {block.title && (
-              <h4 className="mb-3 font-display text-h4 font-bold text-ink-900">{block.title}</h4>
+              <h4 className="mb-3 font-display text-h3 text-ink-900">{block.title}</h4>
             )}
             <div className="grid grid-cols-3 gap-stack-xs auto-rows-min">
               {block.cells.map((cell, ci) => {
@@ -2301,7 +2373,7 @@ export const LessonPlayer: React.FC = () => {
               })}
             </div>
             {block.caption && (
-              <p className="m-0 mt-stack-xs font-body text-caption text-ink-500 text-center italic">{block.caption}</p>
+              <p className="mt-stack-xs font-body text-caption text-ink-600 text-center italic">{block.caption}</p>
             )}
           </div>
         );
@@ -2312,7 +2384,7 @@ export const LessonPlayer: React.FC = () => {
           <div key={key} className="mb-stack-lg overflow-x-auto rounded-xl border border-ink-200">
             {block.title && (
               <div className="px-stack py-3 bg-ink-50 border-b border-ink-200">
-                <h4 className="font-display text-h4 font-bold text-ink-900">{block.title}</h4>
+                <h4 className="font-display text-h3 text-ink-900">{block.title}</h4>
               </div>
             )}
             <table className="w-full border-collapse">
@@ -2321,8 +2393,8 @@ export const LessonPlayer: React.FC = () => {
                   {block.headers.map((h, i) => (
                     <th
                       key={i}
-                      className={`px-stack py-3 text-left font-display text-caption font-bold whitespace-nowrap ${
-                        block.highlightCol === i ? 'text-primary-700 bg-primary-50' : 'text-ink-700'
+                      className={`px-stack py-3 text-left font-body text-caption font-semibold whitespace-nowrap ${
+                        block.highlightCol === i ? 'text-primary-800 bg-primary-50' : 'text-ink-700'
                       }`}
                     >
                       {h}
@@ -2336,9 +2408,9 @@ export const LessonPlayer: React.FC = () => {
                     {row.map((cell, ci) => (
                       <td
                         key={ci}
-                        className={`px-stack py-3 font-body text-body-sm ${
+                        className={`px-stack py-3 font-body text-body ${
                           ci === 0 ? 'font-semibold text-ink-900' : 'text-ink-700'
-                        } ${block.highlightCol === ci ? 'font-semibold text-primary-700' : ''}`}
+                        } ${block.highlightCol === ci ? 'font-semibold text-primary-800' : ''}`}
                       >
                         {String(cell)}
                       </td>
@@ -2349,7 +2421,7 @@ export const LessonPlayer: React.FC = () => {
             </table>
             {block.caption && (
               <div className="px-stack py-stack-xs bg-ink-50 border-t border-ink-200">
-                <p className="m-0 font-body text-caption text-ink-500 italic">{block.caption}</p>
+                <p className="font-body text-caption text-ink-600 italic">{block.caption}</p>
               </div>
             )}
           </div>
@@ -2393,48 +2465,26 @@ export const LessonPlayer: React.FC = () => {
         aria-modal="true"
         aria-label={`Leçon : ${displayTitle}`}
       >
-        {/* HEADER — compact single row */}
-        <header className="shrink-0 bg-white/95 backdrop-blur-glass-light border-b border-ink-100">
-          <div className="flex items-center gap-stack-xs px-stack h-11">
-            <button
-              onClick={() => navigate(-1)}
-              className="inline-flex items-center gap-tight text-ink-500 hover:text-ink-900 transition-colors duration-150 font-body text-caption shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
-              aria-label="Retour"
-            >
-              <ChevronLeft size={14} />
-              <span className="hidden sm:inline">Retour</span>
-            </button>
-            <div className="flex-1 min-w-0 flex flex-col items-center">
-              {ctx?.step && (
-                <span className="font-body text-micro text-ink-600 uppercase tracking-wider mb-0.5 truncate max-w-full">
-                  {ctx.step.title}
-                </span>
-              )}
-              <span className="font-display text-body-sm font-bold text-ink-900 truncate max-w-full">
-                {displayTitle}
-              </span>
-            </div>
-            <div className="flex items-center gap-stack-xs shrink-0">
-              <span className="font-body text-caption text-ink-600 hidden sm:inline">
-                <Clock3 size={14} className="inline mr-1 -mt-0.5" />{displayDuration}
-              </span>
-              <span className="font-body text-caption font-semibold text-ink-500">
-                {currentIndex + 1}<span className="text-ink-300"> / </span>{SECTIONS.length}
-              </span>
-              <button
-                onClick={handleClose}
-                className="w-7 h-7 rounded-pill flex items-center justify-center text-ink-600 hover:text-ink-900 hover:bg-ink-100 transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
-                aria-label="Fermer"
-              >
-                <XCircle size={16} />
-              </button>
-            </div>
-          </div>
-          {/* Progress line */}
-          <div className="h-0.5 bg-ink-100">
-            <div className="h-full bg-accent-400 transition-all duration-slow" style={{ width: `${progress}%` }} />
-          </div>
-        </header>
+        {/* HEADER — `ViewerHeader`, comme les autres lecteurs (passe
+            typographique du 24/09). La barre faite main mettait le titre en
+            League Spartan 16/700, l'étape au-dessus en capitales 11 px, le
+            compteur au cran 500 et « Retour » au cran 500 à 13 px ; elle a
+            désormais un titre 16/600 et une seule ligne de méta à 13 px
+            (l'étape · la durée). */}
+        <ViewerHeader
+          tone={tone}
+          onBack={() => navigate(-1)}
+          backLabel="Retour"
+          title={displayTitle}
+          eyebrow={ctx?.step?.title}
+          subtitle={displayDuration}
+          current={currentIndex + 1}
+          total={SECTIONS.length}
+          progress={progress}
+          onClose={handleClose}
+          sticky={false}
+          className="shrink-0"
+        />
 
         {/* SECTION NAV — compact pills */}
         <nav
@@ -2450,13 +2500,15 @@ export const LessonPlayer: React.FC = () => {
               const isDone = completedSections.has(index) && !isActive;
               const Icon = section.icon;
               return (
+                /* Onglets de section à 13 px (ils étaient en étiquette 11 px) :
+                   600 pour la section courante, 500 pour les autres. */
                 <button
                   key={section.id}
                   className={[
-                    'inline-flex items-center gap-stack-2xs px-3 py-1.5 rounded-lg border-none font-body text-micro cursor-pointer transition-all duration-200 whitespace-nowrap relative focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+                    'inline-flex items-center gap-stack-2xs px-3 py-1.5 rounded-lg border-none font-body text-caption cursor-pointer transition-all duration-200 whitespace-nowrap relative focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                     isActive
-                      ? 'bg-primary-500 text-white font-bold shadow-sm'
-                      : 'bg-ink-50 text-ink-600 font-medium hover:bg-ink-100',
+                      ? 'bg-primary-700 text-white font-semibold shadow-sm'
+                      : 'bg-ink-50 text-ink-700 font-medium hover:bg-ink-100',
                   ].join(' ')}
                   onClick={() => goTo(index)}
                   aria-current={isActive ? 'step' : undefined}
@@ -2473,50 +2525,110 @@ export const LessonPlayer: React.FC = () => {
         </nav>
 
         {/* CONTENT — scrollable, padded bottom for progress dots */}
-        <div className="flex-1 overflow-y-auto flex flex-col items-center px-stack sm:px-stack-lg lg:px-section pt-stack-lg pb-16">
+        {/* pb-24 sous md : la barre du bas y porte aussi les flèches. */}
+        <div className="flex-1 overflow-y-auto flex flex-col items-center px-stack sm:px-stack-lg lg:px-section pt-stack-lg pb-24 md:pb-16">
+          {/* Carte de contenu au canon carte (rayon 20, filet, sans ombre — S2).
+              Texte courant plafonné à 65-75 caractères : dans 820 px utiles, les
+              paragraphes montaient à 133 caractères par ligne (audit du 23/09),
+              sur la surface où PRODUCT.md vise l'AAA. */}
+          {/* Le h1 de l'écran : l'introduction l'affiche (c'est la couverture
+              de la leçon) ; les autres sections s'ouvrent sur leur h2, et le
+              titre de la leçon, déjà dans la barre, reste le h1 du plan du
+              document sans se répéter à l'écran. */}
+          {currentSection.id !== 'introduction' && (
+            <h1 className="sr-only">{displayTitle}</h1>
+          )}
           <div
-            className="lp-card-anim bg-white rounded-lg p-stack-lg sm:p-section-lg shadow-md w-full max-w-[900px]"
+            className="lp-card-anim bg-white rounded-xl border border-ink-200 p-stack-lg sm:p-section-lg w-full max-w-[900px] [&_p]:max-w-prose [&_li]:max-w-prose [&_h3]:max-w-prose"
             key={currentSection.id}
           >
             {SECTION_RENDERERS[currentSection.id]()}
           </div>
         </div>
 
-        {/* SIDE ARROWS — fixed, vertically centered */}
-        <button
+        {/* SIDE ARROWS — fixed, vertically centered. Masquées sous md : à 375 px
+            elles couvraient la colonne de texte (x 12-56 et 319-363 pour un texte
+            de 40 à 327) ; sur mobile elles vivent dans la barre du bas. */}
+        {/* `max-md:hidden` et non `hidden md:flex` : le `inline-flex` de Button
+            et `hidden` sont deux display de même spécificité, c'est l'ordre
+            d'émission qui trancherait. Une variante passe toujours après. */}
+        {/* Avancer est l'action principale du lecteur : la flèche suivante est
+            le `solid` de l'écran, au ton du parcours ; la précédente un `ghost`
+            neutre (arbitrage n°19, comme « Suivant » / « Précédent » de
+            LessonNavigation). Les deux étaient la même pastille givrée. */}
+        <Button
+          iconOnly
+          emphasis="ghost"
+          tone="neutral"
           onClick={handlePrev}
           disabled={isFirst}
-          className="fixed left-3 top-1/2 -translate-y-1/2 z-[51] w-11 h-11 rounded-pill bg-white border border-ink-200 shadow-md flex items-center justify-center text-ink-600 hover:bg-ink-50 hover:border-ink-300 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+          className="max-md:hidden fixed left-3 top-1/2 -translate-y-1/2 z-[51]"
           aria-label="Section précédente"
         >
-          <ChevronLeft size={18} />
-        </button>
-        <button
+          <ChevronLeft />
+        </Button>
+        <Button
+          iconOnly
+          emphasis="solid"
+          tone={PAGE_TONE_TO_BUTTON[tone]}
           onClick={handleNext}
-          disabled={false}
-          className="fixed right-3 top-1/2 -translate-y-1/2 z-[51] w-11 h-11 rounded-pill bg-white border border-ink-200 shadow-md flex items-center justify-center text-ink-600 hover:bg-ink-50 hover:border-ink-300 transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
-          aria-label={isLast ? 'Terminer la leçon' : 'Section suivante'}
+          className="max-md:hidden fixed right-3 top-1/2 -translate-y-1/2 z-[51]"
+          aria-label={isLast ? 'Valider la leçon' : 'Section suivante'}
         >
-          <ChevronRight size={18} />
-        </button>
+          <ChevronRight />
+        </Button>
 
         {/* BOTTOM PROGRESS — fixed, centered */}
         <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[51] flex items-center gap-stack-2xs px-3 py-stack-xs bg-white/80 backdrop-blur-sm rounded-pill shadow-sm border border-ink-100">
-          {SECTIONS.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => goTo(i)}
-              aria-label={`Aller à ${SECTIONS[i].title}`}
-              className={[
-                'rounded-pill transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
-                i === currentIndex
-                  ? 'w-5 h-2 bg-accent-400'
-                  : completedSections.has(i)
-                  ? 'w-2 h-2 bg-accent-400/50 hover:bg-accent-400/80'
-                  : 'w-2 h-2 bg-ink-300 hover:bg-ink-400',
-              ].join(' ')}
-            />
-          ))}
+          <Button
+            iconOnly
+            emphasis="ghost"
+            tone="neutral"
+            onClick={handlePrev}
+            disabled={isFirst}
+            className="md:hidden -my-stack-xs -ml-2"
+            aria-label="Section précédente"
+          >
+            <ChevronLeft />
+          </Button>
+          {/* Le point garde son dessin (8 px, 20 px pour le courant), mais le
+              bouton qui le porte fait 24 px de haut et au moins 24 de large :
+              WCAG 2.2, SC 2.5.8. Un pseudo-élément débordant n'aurait pas suffi,
+              les cibles de deux points voisins (14 px d'axe à axe) se seraient
+              chevauchées. Le pas passe donc à 24 px, sans espacement en plus. */}
+          <div className="flex items-center">
+            {SECTIONS.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => goTo(i)}
+                aria-label={`Aller à ${SECTIONS[i].title}`}
+                aria-current={i === currentIndex ? 'step' : undefined}
+                className="group inline-flex items-center justify-center h-6 min-w-6 px-2 rounded-pill cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-primary-500"
+              >
+                <span
+                  aria-hidden="true"
+                  className={[
+                    'block rounded-pill transition-all duration-200',
+                    i === currentIndex
+                      ? 'w-5 h-2 bg-accent-400'
+                      : completedSections.has(i)
+                      ? 'w-2 h-2 bg-accent-400/50 group-hover:bg-accent-400/80'
+                      : 'w-2 h-2 bg-ink-300 group-hover:bg-ink-400',
+                  ].join(' ')}
+                />
+              </button>
+            ))}
+          </div>
+          <Button
+            iconOnly
+            emphasis="solid"
+            tone={PAGE_TONE_TO_BUTTON[tone]}
+            onClick={handleNext}
+            className="md:hidden -my-stack-xs -mr-2"
+            aria-label={isLast ? 'Valider la leçon' : 'Section suivante'}
+          >
+            <ChevronRight />
+          </Button>
         </div>
 
         {/* ─ Session Feedback Modal ─────────────────────────────────── */}
@@ -2531,7 +2643,7 @@ export const LessonPlayer: React.FC = () => {
             navigate(`/learning-paths/${pathId}`);
           }}
           title={displayTitle}
-          subtitle={`Leçon complétée · ${displayDuration}`}
+          subtitle={`Leçon validée · ${displayDuration}`}
         />
       </div>
     </>

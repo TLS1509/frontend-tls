@@ -70,12 +70,20 @@ export const ActionCard: React.FC<ActionCardProps> = ({
   className = '',
 }) => {
   const clickable = Boolean(onClick);
+  const TitleTag = clickable ? 'span' : 'h3';
+  const DescTag = clickable ? 'span' : 'p';
 
+  /* Anatomie (passe typographique du 2026-09-24) : pastille 56 · titre h3
+     20/700 · 8 px · description 16 ink-700, largeur de lecture. La pastille
+     et le texte ne sont plus centrés l'un sur l'autre (`items-center`) : sur
+     deux lignes et plus, l'icône s'aligne sur la PREMIÈRE ligne du titre
+     (doctrine § 4) — le texte descend de (56 − 26) / 2 = 15 px. L'action,
+     elle, reste centrée sur la rangée. */
   const classes = [
-    'group flex items-center gap-stack p-6 rounded-xl transition-all duration-base min-h-touch',
+    'group flex items-start gap-stack p-stack-lg rounded-xl transition-all duration-base min-h-touch',
     SURFACE_TONE[surface][tone],
     clickable &&
-      'cursor-pointer text-left w-full !h-auto !overflow-visible !items-center !font-normal focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+      'cursor-pointer text-left w-full !h-auto !overflow-visible !font-normal focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
     className,
   ]
     .filter(Boolean)
@@ -86,7 +94,9 @@ export const ActionCard: React.FC<ActionCardProps> = ({
       {icon && (
         <div
           className={[
-            'shrink-0 w-14 h-14 inline-flex items-center justify-center rounded-xl text-3xl transition-transform duration-base',
+            /* `text-h2` : la taille d'un émoji passé en icône, prise sur
+               l'échelle (il était en `text-3xl`, 30 px, hors échelle). */
+            'shrink-0 w-14 h-14 inline-flex items-center justify-center rounded-xl text-h2 transition-transform duration-base',
             'group-hover:scale-[1.08]',
             TONE_ICON[tone],
           ].join(' ')}
@@ -94,11 +104,13 @@ export const ActionCard: React.FC<ActionCardProps> = ({
           {icon}
         </div>
       )}
-      <div className="flex-1 min-w-0">
-        <h3 className="mb-stack-xs text-h4 font-display text-ink-900">{title}</h3>
-        {description && <p className="m-0 text-body-sm text-ink-500">{description}</p>}
+      <div className={['flex-1 min-w-0 flex flex-col gap-stack-xs', icon ? 'mt-[15px]' : ''].filter(Boolean).join(' ')}>
+        {/* Dans un <button>, pas de titre : le contenu d'un bouton est du
+            texte courant (HTML), un <h3> y est invalide. Même style. */}
+        <TitleTag className="block font-display text-h3 text-ink-900">{title}</TitleTag>
+        {description && <DescTag className="block font-body text-body text-ink-700 max-w-prose">{description}</DescTag>}
       </div>
-      {action && <div className="shrink-0">{action}</div>}
+      {action && <div className="shrink-0 self-center">{action}</div>}
     </>
   );
 

@@ -23,9 +23,11 @@ interface ActivityItemProps {
 
 const TYPE_GRADIENT: Record<ActivityItemType, string> = {
   default:     'bg-gradient-to-br from-ink-300 to-ink-500 text-white',
-  lesson:      'bg-gradient-to-br from-primary-400 to-primary-600 text-white',
+  // Pastille d'icône : 3:1 à l'arrêt le plus clair — 600 pour le teal et l'orange,
+  // 700 pour l'or (le blanc y mesure 3,66 · 3,98 · 4,88).
+  lesson:      'bg-gradient-to-br from-primary-600 to-primary-700 text-white',
   achievement: 'bg-gradient-to-br from-accent-300 to-accent-500 text-accent-900',
-  coach:       'bg-gradient-to-br from-secondary-400 to-secondary-600 text-white',
+  coach:       'bg-gradient-to-br from-secondary-600 to-secondary-700 text-white',
   journal:     'bg-gradient-to-br from-success-base to-success-fg text-white',
 };
 
@@ -74,17 +76,24 @@ export const ActivityItem: React.FC<ActivityItemProps> = ({
         )}
       </div>
 
-      <div className="flex-1 min-w-0 pt-1 pb-1">
-        <header className="flex items-start justify-between gap-stack-xs flex-wrap">
-          <h4 className="text-body-sm font-semibold text-ink-900 leading-snug">{title}</h4>
+      {/* Anatomie de rangée (passe typographique du 2026-09-24) :
+          titre 16/600 ink-900 · texte 16/400 ink-700, deux lignes au plus ·
+          méta 13/400 ink-600, sur la ligne de base du titre.
+          Le `pt-stack-3xs` recentre la première ligne (26 px) sur la pastille
+          (36 px) : 4 + 13 = 17, contre 18 — à 1 px près.
+          Le titre n'est plus un `h4` : un libellé de rangée n'est pas un titre
+          de section, et un h4 en Nunito 600 contredisait l'échelle des titres. */}
+      <div className="flex-1 min-w-0 pt-stack-3xs pb-stack-3xs">
+        <header className="flex items-baseline justify-between gap-stack-xs flex-wrap">
+          <p className="m-0 text-body font-semibold text-ink-900">{title}</p>
           {timestamp && (
-            <time className="text-micro text-ink-600 font-medium whitespace-nowrap shrink-0 mt-0.5 tabular-nums">
+            <time className="text-caption text-ink-600 whitespace-nowrap shrink-0 tabular-nums">
               {timestamp}
             </time>
           )}
         </header>
         {description && (
-          <p className="m-0 mt-1 text-caption text-ink-600 leading-relaxed">{description}</p>
+          <p className="m-0 mt-stack-3xs text-body text-ink-700 line-clamp-2">{description}</p>
         )}
       </div>
     </article>

@@ -8,11 +8,11 @@ Suivi et historique : `docs/_audits/SYNC-CLAUDE-DESIGN-2026-09-16.md`.
 
 | Fichier | Rôle |
 |---|---|
-| `entries.json` | Les 28 cartes **écrites à la main** : fichier source, exports, cartes. Leur aperçu est dans `gen_previews.py` (ou `apercus-manuels/`), leur fiche d'usage est rédigée dans l'artefact. |
-| `showcase.mjs` | L'inventaire de la **vitrine** `/components` : lit le tableau `COMPONENTS` de `src/pages/Components.tsx` (AST TypeScript) et le classement de `src/pages/components/registry.ts`. Chaque fiche qui n'est ni une convention ni une carte écrite à la main devient une carte (163 au 17/09). Sortie : `out/showcase.json`. |
+| `entries.json` | Les 27 cartes **écrites à la main** : fichier source, exports, cartes. Leur aperçu est dans `gen_previews.py` (ou `apercus-manuels/`), leur fiche d'usage est rédigée dans l'artefact. |
+| `showcase.mjs` | L'inventaire de la **vitrine** `/components` : lit le tableau `COMPONENTS` de `src/pages/Components.tsx` (AST TypeScript) et le classement de `src/pages/components/registry.ts`. Chaque fiche qui n'est ni une convention ni une carte écrite à la main devient une carte (163 au 17/09, 154 au 24/09). Sortie : `out/showcase.json`. |
 | `build.mjs` | `bundle.js` (esbuild, un seul script classique, React lu sur `window`) : les cartes écrites à la main, les composants homonymes de la vitrine, et `Showcase` (le rendu de chaque fiche, `COMPONENTS` étant exposé à la compilation sans toucher au fichier). `jspdf` et `html2canvas` sont neutralisés. `bundle.css` : la vraie feuille de l'app, Tailwind v4 sur tout `src/`. |
 | `build-react.mjs` | React et ReactDOM **de l'app** (19.x) en scripts classiques pour `components/lib/`. À relancer seulement si la version de React change. |
-| `gen_previews.py` | Les `preview.html` : exemples choisis pour les 28 cartes (Button et Card dans `apercus-manuels/`), et pour les fiches de la vitrine un aperçu qui rejoue `Showcase[nom]` dans un routeur mémoire. |
+| `gen_previews.py` | Les `preview.html` : exemples choisis pour les 27 cartes (Button et Card dans `apercus-manuels/`), et pour les fiches de la vitrine un aperçu qui rejoue `Showcase[nom]` dans un routeur mémoire. |
 | `dts.mjs` | Les types émis par `tsc` : un `<Nom>.d.ts` par carte écrite à la main, un seul `components/index.d.ts` pour la vitrine. |
 | `render-check.mjs` | Le rendu de contrôle : imite le cadre d'aperçu de Claude Design, sort une capture et les erreurs JS par composant. Avec `FIX_HEIGHTS=1` (défaut de `npm run check`), écrit la hauteur mesurée dans le marqueur de chaque aperçu. |
 
@@ -37,7 +37,9 @@ Suivi et historique : `docs/_audits/SYNC-CLAUDE-DESIGN-2026-09-16.md`.
 
 4. **Catalogue** : les fichiers `api/`, `tokens.css` et `manifest.json` sont écrits par la page de l'artefact au premier enregistrement fait dedans. Ne jamais les écrire à la main. Un enregistrement demande une vraie modification dans la page (une note d'usage modifiée puis rétablie suffit). La page réécrit alors aussi `tokens.json` à sa façon (elle retire `name` et `meta`).
 
-5. **Plafond** : un système Claude Design tient en 512 fichiers, catalogue généré compris. Au 17/09 : 459 fichiers propres (191 cartes). Chaque carte de vitrine en coûte deux (aperçu + fiche `api/` générée), chaque carte écrite à la main quatre. Il reste la place d'une vingtaine de cartes de vitrine.
+5. **Plafond** : le type Design System annonçait 512 fichiers, catalogue généré compris ; sa version du 24/09 (`SKILL.md` de l'artefact) en annonce 1 008. Au 24/09 : 181 cartes (27 écrites à la main, 154 de vitrine). Chaque carte de vitrine coûte deux fichiers (aperçu + fiche `api/` générée), chaque carte écrite à la main quatre.
+
+6. **Sous-titres** : une carte de vitrine prend la première phrase de sa description si elle tient en 90 signes, sinon sa première proposition (avant « : » ou « — »), sinon la phrase coupée au dernier mot (`sous_titre` dans `gen_previews.py`). Ne jamais retomber sur la sous-catégorie : au 24/09, les descriptions allongées par les passes de la vitrine faisaient afficher « Form fields » à 125 cartes sur 154.
 
 ## Pièges connus
 

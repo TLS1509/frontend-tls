@@ -4,7 +4,7 @@
  * Source : les <Route> de src/App.tsx.
  * Régénérer :  node scripts/gen-routes-manifest.mjs
  *
- * 180 routes au moment de la génération.
+ * 185 routes au moment de la génération.
  */
 
 export type RouteAudience = 'apprenant' | 'coach' | 'manager' | 'entreprise' | 'marketing' | 'systeme';
@@ -24,6 +24,14 @@ export interface RouteEntry {
 }
 
 export const ROUTES: RouteEntry[] = [
+  {
+    "path": "/_arbitrages",
+    "component": "ArbitragesLab",
+    "section": "_arbitrages",
+    "audience": "apprenant",
+    "inbound": 0,
+    "linkedFrom": []
+  },
   {
     "path": "/_bg-lab",
     "component": "BgLab",
@@ -127,8 +135,9 @@ export const ROUTES: RouteEntry[] = [
     "component": "AtelierHub",
     "section": "ateliers",
     "audience": "apprenant",
-    "inbound": 1,
+    "inbound": 2,
     "linkedFrom": [
+      "pages/AtelierDetail.tsx",
       "pages/AtelierWaitlist.tsx"
     ]
   },
@@ -137,8 +146,9 @@ export const ROUTES: RouteEntry[] = [
     "component": "AtelierDetail",
     "section": "ateliers",
     "audience": "apprenant",
-    "inbound": 1,
+    "inbound": 2,
     "linkedFrom": [
+      "pages/AtelierDetail.tsx",
       "pages/AtelierWaitlist.tsx"
     ]
   },
@@ -147,8 +157,9 @@ export const ROUTES: RouteEntry[] = [
     "component": "AtelierLive",
     "section": "ateliers",
     "audience": "apprenant",
-    "inbound": 1,
+    "inbound": 2,
     "linkedFrom": [
+      "pages/AtelierDetail.tsx",
       "pages/AtelierWaitlist.tsx"
     ]
   },
@@ -157,8 +168,9 @@ export const ROUTES: RouteEntry[] = [
     "component": "AtelierPresentiel",
     "section": "ateliers",
     "audience": "apprenant",
-    "inbound": 1,
+    "inbound": 2,
     "linkedFrom": [
+      "pages/AtelierDetail.tsx",
       "pages/AtelierWaitlist.tsx"
     ]
   },
@@ -167,8 +179,9 @@ export const ROUTES: RouteEntry[] = [
     "component": "AtelierRecap",
     "section": "ateliers",
     "audience": "apprenant",
-    "inbound": 1,
+    "inbound": 2,
     "linkedFrom": [
+      "pages/AtelierDetail.tsx",
       "pages/AtelierWaitlist.tsx"
     ]
   },
@@ -177,8 +190,9 @@ export const ROUTES: RouteEntry[] = [
     "component": "AtelierWaitlist",
     "section": "ateliers",
     "audience": "apprenant",
-    "inbound": 1,
+    "inbound": 2,
     "linkedFrom": [
+      "pages/AtelierDetail.tsx",
       "pages/AtelierWaitlist.tsx"
     ]
   },
@@ -263,7 +277,7 @@ export const ROUTES: RouteEntry[] = [
     "component": "CoachLearnerProfile",
     "section": "coach",
     "audience": "coach",
-    "inbound": 6,
+    "inbound": 5,
     "linkedFrom": [
       "pages/CoachApprenants.tsx",
       "pages/CoachDashboard.tsx",
@@ -275,7 +289,7 @@ export const ROUTES: RouteEntry[] = [
     "component": "FicheApprenantAnalytics",
     "section": "coach",
     "audience": "coach",
-    "inbound": 6,
+    "inbound": 5,
     "linkedFrom": [
       "pages/CoachApprenants.tsx",
       "pages/CoachDashboard.tsx",
@@ -287,9 +301,10 @@ export const ROUTES: RouteEntry[] = [
     "component": "CoachApprenants",
     "section": "coach",
     "audience": "coach",
-    "inbound": 1,
+    "inbound": 2,
     "linkedFrom": [
-      "pages/CoachLearnerProfile.tsx"
+      "pages/CoachLearnerProfile.tsx",
+      "pages/FicheApprenantAnalytics.tsx"
     ]
   },
   {
@@ -382,11 +397,11 @@ export const ROUTES: RouteEntry[] = [
     "component": "Coaching",
     "section": "coaching",
     "audience": "apprenant",
-    "inbound": 16,
+    "inbound": 15,
     "linkedFrom": [
-      "App.tsx",
-      "components/layout/BottomNav.tsx",
-      "components/patterns/AppBreadcrumb.tsx"
+      "components/patterns/AppBreadcrumb.tsx",
+      "components/patterns/EmptyDashboardState.tsx",
+      "config/navigation.ts"
     ]
   },
   {
@@ -422,16 +437,20 @@ export const ROUTES: RouteEntry[] = [
     "component": "CorrectionDetailLearner",
     "section": "coaching",
     "audience": "apprenant",
-    "inbound": 0,
-    "linkedFrom": []
+    "inbound": 1,
+    "linkedFrom": [
+      "pages/CoachingCorrections.tsx"
+    ]
   },
   {
     "path": "/coaching/corrections",
     "component": "CoachingCorrections",
     "section": "coaching",
     "audience": "apprenant",
-    "inbound": 0,
-    "linkedFrom": []
+    "inbound": 1,
+    "linkedFrom": [
+      "pages/CorrectionDetailLearner.tsx"
+    ]
   },
   {
     "path": "/coaching/messages/:coachId",
@@ -458,8 +477,9 @@ export const ROUTES: RouteEntry[] = [
     "component": "PreCoachingQuestionnaireResponse",
     "section": "coaching",
     "audience": "apprenant",
-    "inbound": 1,
+    "inbound": 2,
     "linkedFrom": [
+      "pages/Coaching.tsx",
       "pages/PreCoachingQuestionnaire.tsx"
     ]
   },
@@ -476,8 +496,10 @@ export const ROUTES: RouteEntry[] = [
     "component": "CoachingSessionDetail",
     "section": "coaching",
     "audience": "apprenant",
-    "inbound": 0,
-    "linkedFrom": []
+    "inbound": 1,
+    "linkedFrom": [
+      "pages/Coaching.tsx"
+    ]
   },
   {
     "path": "/collaboration",
@@ -492,12 +514,26 @@ export const ROUTES: RouteEntry[] = [
   },
   {
     "path": "/components",
-    "component": "Components",
+    "component": "Suspense",
     "section": "components",
     "audience": "systeme",
-    "inbound": 1,
+    "inbound": 3,
     "linkedFrom": [
-      "App.tsx"
+      "App.tsx",
+      "pages/Components.tsx",
+      "pages/components/ShowcaseNav.tsx"
+    ]
+  },
+  {
+    "path": "/components/:categorySlug",
+    "component": "Suspense",
+    "section": "components",
+    "audience": "systeme",
+    "inbound": 3,
+    "linkedFrom": [
+      "App.tsx",
+      "pages/Components.tsx",
+      "pages/components/ShowcaseNav.tsx"
     ]
   },
   {
@@ -522,7 +558,7 @@ export const ROUTES: RouteEntry[] = [
   },
   {
     "path": "/dashboard/achievements",
-    "component": "DashboardAchievements",
+    "component": "Navigate",
     "section": "dashboard",
     "audience": "apprenant",
     "inbound": 0,
@@ -599,43 +635,49 @@ export const ROUTES: RouteEntry[] = [
     "component": "EvenementHub",
     "section": "evenements",
     "audience": "apprenant",
-    "inbound": 0,
-    "linkedFrom": []
+    "inbound": 1,
+    "linkedFrom": [
+      "pages/EvenementDetail.tsx"
+    ]
   },
   {
     "path": "/evenements/:id",
     "component": "EvenementDetail",
     "section": "evenements",
     "audience": "apprenant",
-    "inbound": 0,
-    "linkedFrom": []
+    "inbound": 1,
+    "linkedFrom": [
+      "pages/EvenementDetail.tsx"
+    ]
   },
   {
     "path": "/evenements/:id/live",
     "component": "EvenementLive",
     "section": "evenements",
     "audience": "apprenant",
-    "inbound": 0,
-    "linkedFrom": []
+    "inbound": 1,
+    "linkedFrom": [
+      "pages/EvenementDetail.tsx"
+    ]
   },
   {
     "path": "/evenements/:id/recap",
     "component": "EvenementRecap",
     "section": "evenements",
     "audience": "apprenant",
-    "inbound": 0,
-    "linkedFrom": []
+    "inbound": 1,
+    "linkedFrom": [
+      "pages/EvenementDetail.tsx"
+    ]
   },
   {
     "path": "/gamification",
-    "component": "Gamification",
+    "component": "Navigate",
     "section": "gamification",
     "audience": "apprenant",
-    "inbound": 3,
+    "inbound": 1,
     "linkedFrom": [
-      "pages/BadgeDetail.tsx",
-      "pages/DashboardAchievements.tsx",
-      "pages/ProfileBadgesCompetences.tsx"
+      "pages/Profile.tsx"
     ]
   },
   {
@@ -643,27 +685,22 @@ export const ROUTES: RouteEntry[] = [
     "component": "BadgeDetail",
     "section": "gamification",
     "audience": "apprenant",
-    "inbound": 3,
+    "inbound": 1,
     "linkedFrom": [
-      "pages/BadgeDetail.tsx",
-      "pages/DashboardAchievements.tsx",
-      "pages/ProfileBadgesCompetences.tsx"
+      "pages/Profile.tsx"
     ]
   },
   {
     "path": "/gamification/badges",
-    "component": "BadgeGallery",
+    "component": "Navigate",
     "section": "gamification",
     "audience": "apprenant",
-    "inbound": 2,
-    "linkedFrom": [
-      "pages/BadgeDetail.tsx",
-      "pages/DashboardAchievements.tsx"
-    ]
+    "inbound": 0,
+    "linkedFrom": []
   },
   {
     "path": "/gamification/streaks",
-    "component": "StreakDetail",
+    "component": "Navigate",
     "section": "gamification",
     "audience": "apprenant",
     "inbound": 0,
@@ -671,7 +708,7 @@ export const ROUTES: RouteEntry[] = [
   },
   {
     "path": "/gamification/xp",
-    "component": "XPDashboard",
+    "component": "Navigate",
     "section": "gamification",
     "audience": "apprenant",
     "inbound": 0,
@@ -682,11 +719,11 @@ export const ROUTES: RouteEntry[] = [
     "component": "Help",
     "section": "help",
     "audience": "apprenant",
-    "inbound": 8,
+    "inbound": 10,
     "linkedFrom": [
       "App.tsx",
-      "pages/HelpArticle.tsx",
-      "pages/HelpSearch.tsx"
+      "pages/Error404.tsx",
+      "pages/HelpArticle.tsx"
     ]
   },
   {
@@ -747,8 +784,9 @@ export const ROUTES: RouteEntry[] = [
     "component": "HelpTutorials",
     "section": "help",
     "audience": "apprenant",
-    "inbound": 1,
+    "inbound": 2,
     "linkedFrom": [
+      "pages/HelpTutorialStep.tsx",
       "pages/HelpTutorials.tsx"
     ]
   },
@@ -757,8 +795,9 @@ export const ROUTES: RouteEntry[] = [
     "component": "HelpTutorialStep",
     "section": "help",
     "audience": "apprenant",
-    "inbound": 1,
+    "inbound": 2,
     "linkedFrom": [
+      "pages/HelpTutorialStep.tsx",
       "pages/HelpTutorials.tsx"
     ]
   },
@@ -775,10 +814,11 @@ export const ROUTES: RouteEntry[] = [
     "component": "Journal",
     "section": "journal",
     "audience": "apprenant",
-    "inbound": 15,
+    "inbound": 14,
     "linkedFrom": [
-      "App.tsx",
       "components/cards/JournalBubbleCard.tsx",
+      "components/patterns/AppBreadcrumb.tsx",
+      "components/patterns/WritingPromptsAside.tsx"
     ]
   },
   {
@@ -786,7 +826,7 @@ export const ROUTES: RouteEntry[] = [
     "component": "JournalDetail",
     "section": "journal",
     "audience": "apprenant",
-    "inbound": 3,
+    "inbound": 5,
     "linkedFrom": [
       "components/cards/JournalBubbleCard.tsx",
       "pages/Components.tsx",
@@ -824,15 +864,11 @@ export const ROUTES: RouteEntry[] = [
   },
   {
     "path": "/leaderboard",
-    "component": "Leaderboard",
+    "component": "Navigate",
     "section": "leaderboard",
     "audience": "apprenant",
-    "inbound": 3,
-    "linkedFrom": [
-      "App.tsx",
-      "pages/Components.tsx",
-      "pages/DashboardAchievements.tsx"
-    ]
+    "inbound": 0,
+    "linkedFrom": []
   },
   {
     "path": "/learning-flow",
@@ -847,11 +883,11 @@ export const ROUTES: RouteEntry[] = [
     "component": "LearningPaths",
     "section": "learning-paths",
     "audience": "apprenant",
-    "inbound": 19,
+    "inbound": 17,
     "linkedFrom": [
-      "App.tsx",
-      "components/layout/BottomNav.tsx",
-      "components/marketing/FooterMinimal.tsx"
+      "components/marketing/FooterMinimal.tsx",
+      "components/patterns/AppBreadcrumb.tsx",
+      "components/patterns/EmptyDashboardState.tsx"
     ]
   },
   {
@@ -859,11 +895,11 @@ export const ROUTES: RouteEntry[] = [
     "component": "LearningPathDetail",
     "section": "learning-paths",
     "audience": "apprenant",
-    "inbound": 19,
+    "inbound": 17,
     "linkedFrom": [
-      "App.tsx",
-      "components/layout/BottomNav.tsx",
-      "components/marketing/FooterMinimal.tsx"
+      "components/marketing/FooterMinimal.tsx",
+      "components/patterns/AppBreadcrumb.tsx",
+      "components/patterns/EmptyDashboardState.tsx"
     ]
   },
   {
@@ -871,11 +907,11 @@ export const ROUTES: RouteEntry[] = [
     "component": "Positionnement",
     "section": "learning-paths",
     "audience": "apprenant",
-    "inbound": 19,
+    "inbound": 17,
     "linkedFrom": [
-      "App.tsx",
-      "components/layout/BottomNav.tsx",
-      "components/marketing/FooterMinimal.tsx"
+      "components/marketing/FooterMinimal.tsx",
+      "components/patterns/AppBreadcrumb.tsx",
+      "components/patterns/EmptyDashboardState.tsx"
     ]
   },
   {
@@ -883,11 +919,11 @@ export const ROUTES: RouteEntry[] = [
     "component": "LessonPlayer",
     "section": "learning-paths",
     "audience": "apprenant",
-    "inbound": 19,
+    "inbound": 17,
     "linkedFrom": [
-      "App.tsx",
-      "components/layout/BottomNav.tsx",
-      "components/marketing/FooterMinimal.tsx"
+      "components/marketing/FooterMinimal.tsx",
+      "components/patterns/AppBreadcrumb.tsx",
+      "components/patterns/EmptyDashboardState.tsx"
     ]
   },
   {
@@ -897,8 +933,8 @@ export const ROUTES: RouteEntry[] = [
     "audience": "apprenant",
     "inbound": 3,
     "linkedFrom": [
-      "App.tsx",
       "components/modals/CompletionModal.tsx",
+      "config/navigation.ts",
       "pages/LearningFlow.tsx"
     ]
   },
@@ -1078,7 +1114,7 @@ export const ROUTES: RouteEntry[] = [
     "component": "OnboardingUnified",
     "section": "onboarding",
     "audience": "apprenant",
-    "inbound": 10,
+    "inbound": 9,
     "linkedFrom": [
       "App.tsx",
       "components/patterns/AppBreadcrumb.tsx",
@@ -1106,10 +1142,9 @@ export const ROUTES: RouteEntry[] = [
     "component": "SubscriptionPayment",
     "section": "onboarding",
     "audience": "apprenant",
-    "inbound": 2,
+    "inbound": 1,
     "linkedFrom": [
-      "pages/OnboardingQuestionnaire.tsx",
-      "pages/OnboardingUnified.tsx"
+      "pages/OnboardingQuestionnaire.tsx"
     ]
   },
   {
@@ -1159,11 +1194,11 @@ export const ROUTES: RouteEntry[] = [
     "component": "Passeport",
     "section": "passeport",
     "audience": "apprenant",
-    "inbound": 4,
+    "inbound": 6,
     "linkedFrom": [
       "components/patterns/EmptyDashboardState.tsx",
-      "pages/OnboardingSuccess.tsx",
-      "pages/Passeport.tsx"
+      "pages/BadgeDetail.tsx",
+      "pages/OnboardingSuccess.tsx"
     ]
   },
   {
@@ -1171,8 +1206,9 @@ export const ROUTES: RouteEntry[] = [
     "component": "PasseportCompetenceDetail",
     "section": "passeport",
     "audience": "apprenant",
-    "inbound": 1,
+    "inbound": 2,
     "linkedFrom": [
+      "pages/BadgeDetail.tsx",
       "pages/Passeport.tsx"
     ]
   },
@@ -1213,23 +1249,20 @@ export const ROUTES: RouteEntry[] = [
     "component": "Profile",
     "section": "profile",
     "audience": "apprenant",
-    "inbound": 7,
+    "inbound": 6,
     "linkedFrom": [
       "App.tsx",
       "components/patterns/AccountFamilyNav.tsx",
-      "pages/Account.tsx"
+      "components/patterns/AppBreadcrumb.tsx"
     ]
   },
   {
     "path": "/profile/badges/competences",
-    "component": "ProfileBadgesCompetences",
+    "component": "Navigate",
     "section": "profile",
     "audience": "apprenant",
-    "inbound": 2,
-    "linkedFrom": [
-      "pages/BadgeDetail.tsx",
-      "pages/Leaderboard.tsx"
-    ]
+    "inbound": 0,
+    "linkedFrom": []
   },
   {
     "path": "/profile/consent",
@@ -1257,7 +1290,7 @@ export const ROUTES: RouteEntry[] = [
   },
   {
     "path": "/profile/open-badges",
-    "component": "OpenBadgesSection",
+    "component": "Navigate",
     "section": "profile",
     "audience": "apprenant",
     "inbound": 0,
@@ -1393,11 +1426,11 @@ export const ROUTES: RouteEntry[] = [
     "component": "Veille",
     "section": "veille",
     "audience": "apprenant",
-    "inbound": 18,
+    "inbound": 17,
     "linkedFrom": [
-      "App.tsx",
-      "components/layout/BottomNav.tsx",
-      "components/patterns/AppBreadcrumb.tsx"
+      "components/patterns/AppBreadcrumb.tsx",
+      "components/patterns/VeilleFormatShortcutCards.tsx",
+      "config/navigation.ts"
     ]
   },
   {
@@ -1405,10 +1438,9 @@ export const ROUTES: RouteEntry[] = [
     "component": "ArticleDetail",
     "section": "veille",
     "audience": "apprenant",
-    "inbound": 3,
+    "inbound": 2,
     "linkedFrom": [
       "pages/Components.tsx",
-      "pages/Recherche.tsx",
       "pages/WeeklyNewsDetail.tsx"
     ]
   },
@@ -1486,11 +1518,11 @@ export const ROUTES: RouteEntry[] = [
     "component": "VideoTutorial",
     "section": "veille",
     "audience": "apprenant",
-    "inbound": 5,
+    "inbound": 4,
     "linkedFrom": [
       "pages/ArticleDetail.tsx",
       "pages/Components.tsx",
-      "pages/Recherche.tsx"
+      "pages/WeeklyNewsDetail.tsx"
     ]
   },
   {
@@ -1530,12 +1562,28 @@ export const ROUTES: RouteEntry[] = [
     "component": "MarketingLayout",
     "section": "website",
     "audience": "marketing",
-    "inbound": 27,
+    "inbound": 31,
     "linkedFrom": [
       "components/marketing/FooterMinimal.tsx",
       "pages/AppLanding.tsx",
-      "pages/marketing/MarketingAccompagnement.tsx"
+      "pages/Signup.tsx"
     ]
+  },
+  {
+    "path": "/website/_essais-matiere",
+    "component": "MarketingEssaisMatiere",
+    "section": "website",
+    "audience": "marketing",
+    "inbound": 0,
+    "linkedFrom": []
+  },
+  {
+    "path": "/website/_menu-lab",
+    "component": "MenuLab",
+    "section": "website",
+    "audience": "marketing",
+    "inbound": 0,
+    "linkedFrom": []
   },
   {
     "path": "/website/_v2-jardin",
@@ -1550,11 +1598,11 @@ export const ROUTES: RouteEntry[] = [
     "component": "MarketingAccompagnement",
     "section": "website",
     "audience": "marketing",
-    "inbound": 8,
+    "inbound": 10,
     "linkedFrom": [
       "pages/marketing/MarketingArticleDetail.tsx",
-      "pages/marketing/MarketingContact.tsx",
-      "pages/marketing/MarketingDiagnostic.tsx"
+      "pages/marketing/MarketingDiagnostic.tsx",
+      "pages/marketing/MarketingDossierDetail.tsx"
     ]
   },
   {
@@ -1562,11 +1610,11 @@ export const ROUTES: RouteEntry[] = [
     "component": "MarketingCgvCgu",
     "section": "website",
     "audience": "marketing",
-    "inbound": 3,
+    "inbound": 5,
     "linkedFrom": [
       "components/marketing/FooterMinimal.tsx",
       "pages/AppLanding.tsx",
-      "pages/marketing/components/MarketingFooter.tsx"
+      "pages/Signup.tsx"
     ]
   },
   {
@@ -1589,7 +1637,7 @@ export const ROUTES: RouteEntry[] = [
     "linkedFrom": [
       "pages/AppLanding.tsx",
       "pages/marketing/MarketingAccompagnement.tsx",
-      "pages/marketing/MarketingDiagnostic.tsx"
+      "pages/marketing/MarketingEquipe.tsx"
     ]
   },
   {
@@ -1597,11 +1645,11 @@ export const ROUTES: RouteEntry[] = [
     "component": "MarketingDiagnostic",
     "section": "website",
     "audience": "marketing",
-    "inbound": 5,
+    "inbound": 8,
     "linkedFrom": [
       "pages/marketing/MarketingEquipe.tsx",
-      "pages/marketing/MarketingHome.tsx",
-      "pages/marketing/MarketingLearningApp.tsx"
+      "pages/marketing/MarketingEssaisMatiere.tsx",
+      "pages/marketing/MarketingHome.tsx"
     ]
   },
   {
@@ -1659,11 +1707,11 @@ export const ROUTES: RouteEntry[] = [
     "component": "MarketingLearningApp",
     "section": "website",
     "audience": "marketing",
-    "inbound": 12,
+    "inbound": 11,
     "linkedFrom": [
-      "pages/marketing/MarketingAccompagnement.tsx",
       "pages/marketing/MarketingArticleDetail.tsx",
-      "pages/marketing/MarketingContact.tsx"
+      "pages/marketing/MarketingContact.tsx",
+      "pages/marketing/MarketingDossierDetail.tsx"
     ]
   },
   {
@@ -1679,7 +1727,7 @@ export const ROUTES: RouteEntry[] = [
   },
   {
     "path": "/website/magazine/:slug",
-    "component": "MarketingArticleDetail",
+    "component": "SlugRedirect",
     "section": "website",
     "audience": "marketing",
     "inbound": 2,
@@ -1705,7 +1753,7 @@ export const ROUTES: RouteEntry[] = [
     "component": "MarketingMethode",
     "section": "website",
     "audience": "marketing",
-    "inbound": 5,
+    "inbound": 4,
     "linkedFrom": [
       "pages/marketing/MarketingAccompagnement.tsx",
       "pages/marketing/MarketingContact.tsx",
@@ -1717,11 +1765,11 @@ export const ROUTES: RouteEntry[] = [
     "component": "MarketingPolitiqueConfidentialite",
     "section": "website",
     "audience": "marketing",
-    "inbound": 4,
+    "inbound": 5,
     "linkedFrom": [
       "components/marketing/FooterMinimal.tsx",
       "pages/AppLanding.tsx",
-      "pages/marketing/MarketingWaitlist.tsx"
+      "pages/Signup.tsx"
     ]
   },
   {
@@ -1729,7 +1777,7 @@ export const ROUTES: RouteEntry[] = [
     "component": "MarketingResources",
     "section": "website",
     "audience": "marketing",
-    "inbound": 10,
+    "inbound": 11,
     "linkedFrom": [
       "pages/marketing/MarketingArticleDetail.tsx",
       "pages/marketing/MarketingDossierDetail.tsx",
@@ -1741,7 +1789,7 @@ export const ROUTES: RouteEntry[] = [
     "component": "MarketingArticleDetail",
     "section": "website",
     "audience": "marketing",
-    "inbound": 10,
+    "inbound": 11,
     "linkedFrom": [
       "pages/marketing/MarketingArticleDetail.tsx",
       "pages/marketing/MarketingDossierDetail.tsx",
@@ -1750,7 +1798,15 @@ export const ROUTES: RouteEntry[] = [
   },
   {
     "path": "/website/ressources",
-    "component": "MarketingResources",
+    "component": "Navigate",
+    "section": "website",
+    "audience": "marketing",
+    "inbound": 0,
+    "linkedFrom": []
+  },
+  {
+    "path": "/website/sprint",
+    "component": "MarketingSprint",
     "section": "website",
     "audience": "marketing",
     "inbound": 0,
@@ -1761,10 +1817,11 @@ export const ROUTES: RouteEntry[] = [
     "component": "MarketingStudio",
     "section": "website",
     "audience": "marketing",
-    "inbound": 2,
+    "inbound": 4,
     "linkedFrom": [
-      "pages/marketing/components/MarketingFooter.tsx",
-      "pages/marketing/components/MarketingHeader.tsx"
+      "pages/marketing/MarketingSprint.tsx",
+      "pages/marketing/_prototypes/MenuLab.tsx",
+      "pages/marketing/components/MarketingFooter.tsx"
     ]
   },
   {
@@ -1780,10 +1837,11 @@ export const ROUTES: RouteEntry[] = [
     "component": "MarketingUpskilling",
     "section": "website",
     "audience": "marketing",
-    "inbound": 2,
+    "inbound": 5,
     "linkedFrom": [
-      "pages/marketing/components/MarketingFooter.tsx",
-      "pages/marketing/components/MarketingHeader.tsx"
+      "pages/marketing/MarketingAccompagnement.tsx",
+      "pages/marketing/MarketingContact.tsx",
+      "pages/marketing/_prototypes/MenuLab.tsx"
     ]
   },
   {
@@ -1802,11 +1860,11 @@ export const ROUTES: RouteEntry[] = [
     "component": "MarketingVigie",
     "section": "website",
     "audience": "marketing",
-    "inbound": 4,
+    "inbound": 5,
     "linkedFrom": [
       "pages/marketing/MarketingHome.tsx",
       "pages/marketing/MarketingMethode.tsx",
-      "pages/marketing/components/MarketingFooter.tsx"
+      "pages/marketing/components/ContentConversion.tsx"
     ]
   },
   {

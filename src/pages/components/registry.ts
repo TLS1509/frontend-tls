@@ -62,7 +62,7 @@ export const CATEGORY_ORDER: Category[] = [
 export const SUBCATEGORY_ORDER: Record<Category, string[]> = {
   Foundations: ['Rythme & alignement', 'Design Tokens', 'Layout Primitives', 'Backgrounds'],
   Atoms: ['Form fields', 'Surfaces', 'Identity', 'Status badges', 'Chips & Pills', 'Indicators', 'Decoration'],
-  Composites: ['Group wrappers', 'Form groups', 'List composites'],
+  Composites: ['Group wrappers', 'Form groups'],
   'Headers & Sections': ['Heroes', 'Page headers', 'Section headers', 'Section wrappers', 'Section patterns'],
   Feedback: ['Status messages', 'Empty/zero states', 'Celebrations', 'GDPR & Compliance'],
   Navigation: ['Primary nav (app shell)', 'Contextual menus', 'Secondary nav', 'Floating actions'],
@@ -71,7 +71,7 @@ export const SUBCATEGORY_ORDER: Record<Category, string[]> = {
   'Lists & Feeds': ['Grids', 'Feeds (chronological)', 'Lists (vertical)', 'Tables'],
   Forms: ['Composite forms', 'Inputs'],
   Learning: ['Achievements', 'Competence', 'Goals & progress', 'Quiz & flashcards', 'Viewer content', 'Compétences'],
-  'Data Visualization': ['Competency charts', 'Distribution charts', 'Trend charts', 'Composition charts', 'Correlation charts', 'Composite charts', 'Matrix charts', 'Timeline & Events', 'Progress & Gauges', 'Chart utilities'],
+  'Data Visualization': ['Competency charts', 'Distribution charts', 'Trend charts', 'Composition charts', 'Composite charts', 'Matrix charts', 'Timeline & Events', 'Progress & Gauges', 'Chart utilities'],
   Modals: ['Base', 'Booking flow', 'Confirm/Status', 'Celebrations', 'Media', 'Onboarding'],
   'Auth Family': ['Shell & layout'],
   'Pages & Templates': ['États d\'erreur'],
@@ -85,8 +85,19 @@ export const SUBCATEGORY_ORDER: Record<Category, string[]> = {
  * comme absents alors qu'ils sont bien à l'écran.
  */
 export const COVERED_BY: Record<string, string> = {
+  /* Montrés dans la fiche d'un autre (2026-09-24) : ils étaient classés
+     comme s'ils avaient une fiche à leur nom, et n'en avaient pas.
+     (Ne pas écrire ici le nom de la table du classement : le contrôle de
+     couverture la repère par une expression régulière, qui s'arrêterait
+     sur ce commentaire.) */
+  Checkbox: 'Input',
+  Radio: 'Input',
+  Switch: 'Input',
+  AvatarGroup: 'Avatar',
+  Toast: 'Toast + useToast',
+  SidebarUserCard: 'Sidebar',
+  NavItem: 'Sidebar',
   ArticleCard: 'EditorialCard',
-  VideoCard: 'EditorialCard',
   StatusBadge: 'Badge',
   Steps: 'Stepper',
   SearchWithSuggestions: 'Search',
@@ -94,7 +105,6 @@ export const COVERED_BY: Record<string, string> = {
   ConfirmModal: 'Modal',
   SuccessModal: 'Modal',
   CancelSessionModal: 'Modal',
-  StreakCelebrationModal: 'Modal',
   AuthCheckbox: 'AuthShell',
   AuthDivider: 'AuthShell',
   AuthField: 'AuthShell',
@@ -105,7 +115,6 @@ export const COVERED_BY: Record<string, string> = {
   AuthPasswordField: 'AuthShell',
   AuthPrimaryButton: 'AuthShell',
   AuthSocialButton: 'AuthShell',
-  EditorialCardSkeleton: 'SkeletonTemplates',
   NotificationRowSkeleton: 'SkeletonTemplates',
   ParcoursCardSkeleton: 'SkeletonTemplates',
 };
@@ -120,6 +129,7 @@ export const NOT_SHOWCASED: Record<string, string> = {
   ScrollToTop: 'effet de navigation, retourne null',
   DevPanel: 'outil de développement, pas un composant du DS',
   AuthFeature: '@deprecated, aucun consommateur — ne pas encourager son usage',
+  ApprenantsTable: 'composition métier du coach sur DataTable (colonnes et tri) — la table elle-même est en vitrine',
 };
 
 export interface CatalogMeta {
@@ -170,7 +180,6 @@ export const CATALOG: Record<string, CatalogMeta> = {
   ResumeLessonSkeleton:   { category: 'Feedback', subCategory: 'Status messages' },
   SelectCheckboxFloating: { category: 'Search & Filters', subCategory: 'Filter controls' },
   CoachRow:               { category: 'Lists & Feeds', subCategory: 'Lists (vertical)' },
-  CorrectionStatusBar:    { category: 'Learning', subCategory: 'Competence' },
   ReaderContextStrip:     { category: 'Headers & Sections', subCategory: 'Page headers' },
   ErrorPage:              { category: 'Pages & Templates', subCategory: 'États d\'erreur' },
   CoachCardGrid:          { category: 'Lists & Feeds', subCategory: 'Grids' },
@@ -207,7 +216,6 @@ export const CATALOG: Record<string, CatalogMeta> = {
   Chip:                 { category: 'Atoms', subCategory: 'Chips & Pills' },
   Tooltip:              { category: 'Feedback', subCategory: 'Status messages' },
   Kbd:                  { category: 'Atoms', subCategory: 'Indicators' },
-  SegmentedControl:     { category: 'Navigation', subCategory: 'Secondary nav' },
   SettingsRow:          { category: 'Lists & Feeds', subCategory: 'Lists (vertical)' },
   SelectableOptionCard: { category: 'Cards', subCategory: 'Generic' },
   FloatLabel:           { category: 'Atoms', subCategory: 'Form fields' },
@@ -217,9 +225,7 @@ export const CATALOG: Record<string, CatalogMeta> = {
   Button:               { category: 'Atoms', subCategory: 'Form fields' },
   QuickActionButton:    { category: 'Atoms', subCategory: 'Form fields' },
   Input:                { category: 'Atoms', subCategory: 'Form fields' },
-  Checkbox:             { category: 'Atoms', subCategory: 'Form fields' },
-  Radio:                { category: 'Atoms', subCategory: 'Form fields' },
-  Switch:               { category: 'Atoms', subCategory: 'Form fields' },
+  // Checkbox, Radio, Switch : montrés dans la fiche Input (COVERED_BY)
   Select:               { category: 'Atoms', subCategory: 'Form fields' },
   Combobox:             { category: 'Search & Filters', subCategory: 'Search' },
   QualitativeRating:    { category: 'Atoms', subCategory: 'Form fields' },
@@ -251,27 +257,24 @@ export const CATALOG: Record<string, CatalogMeta> = {
   ProgressRing:         { category: 'Atoms', subCategory: 'Indicators' },
   Skeleton:             { category: 'Atoms', subCategory: 'Indicators' },
   SkeletonTemplates:    { category: 'Atoms', subCategory: 'Indicators' },
-  Spinner:              { category: 'Atoms', subCategory: 'Indicators' },
 
   // Decoration
   Divider:              { category: 'Atoms', subCategory: 'Decoration' },
+  IconChip:             { category: 'Atoms', subCategory: 'Decoration' },
   // BackgroundBlobs supprimé (Phase 10) — legacy remplacé par AmbientBlobs (patterns/)
 
   // ── COMPOSITES ────────────────────────────────────────────────────────
-  AvatarGroup:          { category: 'Composites', subCategory: 'Group wrappers' },
+  // AvatarGroup : montré dans la fiche Avatar (COVERED_BY)
   MetaPillGroup:        { category: 'Composites', subCategory: 'Group wrappers' },
   // Tabs et Breadcrumb classés en Navigation (cf. ci-dessous)
   Stepper:              { category: 'Composites', subCategory: 'Group wrappers' },
   // Steps supprimé — fusionné dans Stepper entry
-  Pagination:           { category: 'Composites', subCategory: 'Group wrappers' },
   // Phase 19 — Form composites
   RadioGroup:           { category: 'Composites', subCategory: 'Form groups' },
   CheckboxGroup:        { category: 'Composites', subCategory: 'Form groups' },
   FormSection:          { category: 'Composites', subCategory: 'Form groups' },
   InputGroup:           { category: 'Composites', subCategory: 'Form groups' },
-  // Phase 19 Tier 2 — List composites
-  SimpleTable:          { category: 'Composites', subCategory: 'List composites' },
-  PaginatedList:        { category: 'Composites', subCategory: 'List composites' },
+  // Phase 19 Tier 2 — List composites (PaginatedList supprimé le 2026-09-24, sans usage produit)
   FilteredList:         { category: 'Search & Filters', subCategory: 'Filter composites' },
   // Phase 19 Tier 3 — Form/Step/Grid composites
   StepIndicator:        { category: 'Composites', subCategory: 'Form groups' },
@@ -279,7 +282,7 @@ export const CATALOG: Record<string, CatalogMeta> = {
   FilterableCardGrid:   { category: 'Search & Filters', subCategory: 'Filter composites' },
 
   // ── HEADERS & SECTIONS ────────────────────────────────────────────────
-  HeroSection:          { category: 'Headers & Sections', subCategory: 'Heroes' },
+  // HeroSection supprimé le 2026-09-23 — déprécié depuis 19.B, aucun consommateur hors vitrine ; PageHero couvre tout
   EditorialHero:        { category: 'Headers & Sections', subCategory: 'Heroes' },
   // 'PageHero archetypes' supprimé — proposals non encore implémentées
   AmbientBlobs:         { category: 'Foundations', subCategory: 'Backgrounds' },
@@ -305,14 +308,13 @@ export const CATALOG: Record<string, CatalogMeta> = {
   // ── FEEDBACK ──────────────────────────────────────────────────────────
   Alert:                { category: 'Feedback', subCategory: 'Status messages' },
   'Toast + useToast':   { category: 'Feedback', subCategory: 'Status messages' },
-  Toast:                { category: 'Feedback', subCategory: 'Status messages' },
   EmptyState:           { category: 'Feedback', subCategory: 'Empty/zero states' },
-  Celebration:          { category: 'Feedback', subCategory: 'Celebrations' },
+  // « Celebration » retiré le 2026-09-24 : aucun composant ne porte ce nom.
+  // `ui/Celebration.tsx` n'exporte qu'InlineWin, qui a sa fiche.
 
   // ── NAVIGATION ────────────────────────────────────────────────────────
   Sidebar:              { category: 'Navigation', subCategory: 'Primary nav (app shell)' },
-  SidebarUserCard:      { category: 'Navigation', subCategory: 'Primary nav (app shell)' },
-  NavItem:              { category: 'Navigation', subCategory: 'Primary nav (app shell)' },
+  // SidebarUserCard, NavItem : montrés dans la fiche Sidebar (COVERED_BY)
   DropdownMenu:         { category: 'Navigation', subCategory: 'Contextual menus' },
   Breadcrumb:           { category: 'Navigation', subCategory: 'Secondary nav' },
   Tabs:                 { category: 'Navigation', subCategory: 'Secondary nav' },
@@ -355,12 +357,12 @@ export const CATALOG: Record<string, CatalogMeta> = {
 
   // Editorial content
   EditorialCard:        { category: 'Cards', subCategory: 'Editorial content' },
-  // VideoCard supprimé — fusionné dans EditorialCard
+  // VideoCard supprimé le 2026-09-24 : son seul lecteur produit était la page Recherche
 
   // Domain
   SessionCard:          { category: 'Cards', subCategory: 'Domain (coaching/project)' },
   ProjectCard:          { category: 'Cards', subCategory: 'Domain (coaching/project)' },
-  RankingCard:          { category: 'Cards', subCategory: 'Domain (coaching/project)' },
+  // RankingCard retiré le 2026-09-24 : le classement nominatif a quitté l'app (arbitrage n°18).
 
   // Activity
   ActivityItem:         { category: 'Cards', subCategory: 'Activity' },
@@ -385,11 +387,7 @@ export const CATALOG: Record<string, CatalogMeta> = {
   FilterBar:            { category: 'Search & Filters', subCategory: 'Filter controls' },
 
   // ── LEARNING (gamification & pedagogy specific to TLS) ────────────────
-  Medal:                { category: 'Learning', subCategory: 'Achievements' },
-  Achievement:          { category: 'Learning', subCategory: 'Achievements' },
   AchievementBadge:     { category: 'Learning', subCategory: 'Achievements' },
-  CompetenceBadge:      { category: 'Learning', subCategory: 'Competence' },
-  MasteryBadge:         { category: 'Learning', subCategory: 'Competence' },
   CompetencyMatrix:     { category: 'Learning', subCategory: 'Competence' },
   GoalProgress:         { category: 'Learning', subCategory: 'Goals & progress' },
   SkillBar:             { category: 'Learning', subCategory: 'Goals & progress' },
@@ -407,7 +405,6 @@ export const CATALOG: Record<string, CatalogMeta> = {
   // CancelSessionModal supprimé — fusionné dans 'Dialog Modals'
   SessionFeedbackModal: { category: 'Modals', subCategory: 'Confirm/Status' },
   CelebrationModal:     { category: 'Modals', subCategory: 'Celebrations' },
-  // StreakCelebrationModal supprimé — mentionné dans CelebrationModal description
   VideoPlayerModal:     { category: 'Modals', subCategory: 'Media' },
   RatingModal:          { category: 'Modals', subCategory: 'Confirm/Status' },
 
@@ -448,8 +445,8 @@ export const CATALOG: Record<string, CatalogMeta> = {
   VeilleFormatShortcutCards: { category: 'Cards',      subCategory: 'Editorial content' },
   VeilleHeroFilterChips:  { category: 'Search & Filters', subCategory: 'Filter controls' },
 
-  // ── HEADERS & SECTIONS — extras ───────────────────────────────────────
-  'Card subcomponents': { category: 'Atoms', subCategory: 'Surfaces' },
+  // 'Card subcomponents' retiré le 2026-09-24 : une étiquette sans fiche.
+  // CardEyebrow, CardTitle, CardDesc, CardFooter sont décrits dans la fiche Card.
 
   // ── DATA VISUALIZATION — Charts & Analytics (Phase 20+) ──────────────────
   RadarChart:           { category: 'Data Visualization', subCategory: 'Competency charts' },
@@ -457,12 +454,10 @@ export const CATALOG: Record<string, CatalogMeta> = {
   LineChart:            { category: 'Data Visualization', subCategory: 'Trend charts' },
   AreaChart:            { category: 'Data Visualization', subCategory: 'Trend charts' },
   PieChart:             { category: 'Data Visualization', subCategory: 'Composition charts' },
-  ScatterChart:         { category: 'Data Visualization', subCategory: 'Correlation charts' },
   ComposedChart:        { category: 'Data Visualization', subCategory: 'Composite charts' },
   HeatmapChart:         { category: 'Data Visualization', subCategory: 'Matrix charts' },
   TimelineChart:        { category: 'Data Visualization', subCategory: 'Timeline & Events' },
   GaugeChart:           { category: 'Data Visualization', subCategory: 'Progress & Gauges' },
-  ChartContainer:       { category: 'Data Visualization', subCategory: 'Chart utilities' },
   ChartExportButton:    { category: 'Data Visualization', subCategory: 'Chart utilities' },
 };
 

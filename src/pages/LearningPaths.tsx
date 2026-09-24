@@ -16,13 +16,13 @@ import {
   RotateCcw,
 } from 'lucide-react';
 import { SearchFilters } from '../components/patterns/SearchFilters';
-import { StatCard } from '../components/ui/StatCard';
 import { EmptyState } from '../components/ui/EmptyState';
 import { BookOpen, Clock3, Trophy, Flame } from 'lucide-react';
 import { ParcoursCard } from '../components/patterns/ParcoursCard';
 import type { ParcoursTone, ParcoursStatus } from '../components/patterns/ParcoursCard';
 import { CardGrid } from '../components/patterns/CardGrid';
-import { EditorialHero } from '../components/patterns/EditorialHero';
+import { PageHero } from '../components/patterns/EditorialHero';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { Button } from '../components/core/Button';
 import { PageShell } from '../components/layout';
 import { useLessonProgressStore } from '../stores/persistence';
@@ -108,70 +108,81 @@ export const LearningPaths: React.FC = () => {
 
   const handleCardClick = (id: string) => navigate(`/learning-paths/${id}`);
 
-  return (
-    <PageShell width="page" gap="stack" noPadTop={false} className="relative bg-gradient-page-ambient">
+  /* Le compte est une donnée : il chuchote en méta sous le titre de la
+     collection (13, ink-600). Il vivait dans le champ de recherche, au cran
+     500 réservé aux placeholders. */
+  const compte = filteredParcours.length === total
+    ? `${total} parcours`
+    : `${filteredParcours.length} sur ${total} parcours`;
 
-        {/* Hero épuré : titre + summary (recherche/filtres déplacés au-dessus de la grille) */}
-        <EditorialHero
+  return (
+    /* 48 px entre l'en-tête de page et la collection (défaut de PageShell) :
+       tout était à 16, et le champ de recherche collait au chapô comme s'il en
+       était la suite. */
+    <PageShell width="page" className="relative bg-gradient-page-ambient">
+
+        <PageHero
           tone="flat"
-          title="Mes Parcours"
+          title="Mes parcours"
           summary="Explore tes parcours de formation et suis ta progression au fil des leçons."
         />
 
-        {/* Recherche + filtres (SearchFilters inline) — surface claire, au-dessus de la grille */}
-        <SearchFilters
-          query={query}
-          onQueryChange={setQuery}
-          placeholder="Rechercher un parcours…"
-          aria-label="Rechercher un parcours"
-          onReset={resetFilters}
-          filters={[
-            {
-              id: 'status',
-              label: 'Statut',
-              options: STATUS_FILTERS.map((f) => ({ id: f.id, label: f.label, count: counts[f.id] })),
-              selected: Array.from(selectedStatuses),
-              onChange: (ids) => setSelectedStatuses(new Set(ids as ParcoursStatus[])),
-            },
-          ]}
-          trailing={
-            <span className="font-body text-caption text-ink-500 tabular-nums">
-              {filteredParcours.length} sur {total}
-            </span>
-          }
-        />
+        {/* La collection a son titre (h2) : la page passait du h1 aux h3 des
+            cartes. Titre → outils → grille, 16 px entre chaque. */}
+        <section className="flex flex-col gap-stack">
+          <SectionHeader title="Tous les parcours" meta={compte} />
 
-        {/* Grid */}
-        {filteredParcours.length === 0 ? (
-          <EmptyState
-            tone="warm"
-            icon={<Sparkles size={32} />}
-            title="Aucun parcours trouvé"
-            description="Aucun parcours ne correspond à tes filtres pour le moment."
-            actions={
-              <Button emphasis="soft" tone="warm" size="sm" leadingIcon={<RotateCcw size={14} />} onClick={resetFilters}>
-                Réinitialiser les filtres
-              </Button>
-            }
+          <SearchFilters
+            query={query}
+            onQueryChange={setQuery}
+            placeholder="Rechercher un parcours…"
+            aria-label="Rechercher un parcours"
+            onReset={resetFilters}
+            filters={[
+              {
+                id: 'status',
+                label: 'Statut',
+                options: STATUS_FILTERS.map((f) => ({ id: f.id, label: f.label, count: counts[f.id] })),
+                selected: Array.from(selectedStatuses),
+                onChange: (ids) => setSelectedStatuses(new Set(ids as ParcoursStatus[])),
+              },
+            ]}
           />
-        ) : (
-          <CardGrid layout="default" gapSize="lg" aria-label="Liste des parcours">
-            {filteredParcours.map((parcours, index) => (
-              <ParcoursCard
-                key={parcours.id}
-                id={parcours.id}
-                title={parcours.title}
-                description={parcours.description}
-                progress={parcours.progress}
-                status={parcours.status}
-                tone={TONES[index % TONES.length]}
-                onClick={handleCardClick}
-                duration={parcours.duration}
-                lessons={parcours.lessons}
-              />
-            ))}
-          </CardGrid>
-        )}
+
+          {/* Grid */}
+          {filteredParcours.length === 0 ? (
+            <EmptyState
+              tone="warm"
+              icon={<Sparkles size={32} />}
+              title="Aucun parcours trouvé"
+              description="Aucun parcours ne correspond à tes filtres pour le moment."
+              actions={
+                <Button emphasis="soft" tone="warm" size="sm" leadingIcon={<RotateCcw size={14} />} onClick={resetFilters}>
+                  Réinitialiser les filtres
+                </Button>
+              }
+            />
+          ) : (
+            /* 16 entre les cartes d'une même grille (doctrine § 5) : à 32, elles
+               s'écartaient presque autant que deux sections. */
+            <CardGrid layout="default" gapSize="stack" aria-label="Liste des parcours">
+              {filteredParcours.map((parcours, index) => (
+                <ParcoursCard
+                  key={parcours.id}
+                  id={parcours.id}
+                  title={parcours.title}
+                  description={parcours.description}
+                  progress={parcours.progress}
+                  status={parcours.status}
+                  tone={TONES[index % TONES.length]}
+                  onClick={handleCardClick}
+                  duration={parcours.duration}
+                  lessons={parcours.lessons}
+                />
+              ))}
+            </CardGrid>
+          )}
+        </section>
     </PageShell>
   );
 };

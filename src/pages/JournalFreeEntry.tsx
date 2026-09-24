@@ -8,6 +8,7 @@ import { useJournalStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
 import type { JournalEntryType, JournalMoodLevel } from '../types/learning';
 import { Button } from '../components/core/Button';
+import { FilterChip } from '../components/ui/FilterChip';
 import { Container } from '../components/layout';
 import {
   ArrowLeft,
@@ -15,7 +16,6 @@ import {
   Save,
   Send,
   CalendarDays,
-  Sparkles,
   Lightbulb,
   Target,
   Eye,
@@ -47,9 +47,9 @@ const MOODS: { icon: React.ReactNode; label: string }[] = [
 ];
 
 const PROMPTS = [
-  { icon: <Eye size={14} />,       label: 'Observation',     hint: "Qu'avez-vous observé cette semaine ?" },
-  { icon: <Lightbulb size={14} />, label: 'Prise de recul',  hint: "Qu'est-ce que cela vous apprend ?" },
-  { icon: <Target size={14} />,    label: 'Action',          hint: "Que voulez-vous faire différemment ?" },
+  { icon: <Eye size={14} />,       label: 'Observation',     hint: "Qu'as-tu observé cette semaine ?" },
+  { icon: <Lightbulb size={14} />, label: 'Prise de recul',  hint: "Qu'est-ce que cela t'apprend ?" },
+  { icon: <Target size={14} />,    label: 'Action',          hint: "Que veux-tu faire différemment ?" },
 ];
 
 const TIPS = [
@@ -123,142 +123,150 @@ export const JournalFreeEntry: React.FC = () => {
   return (
     <div className="min-h-[100dvh] bg-surface font-body flex flex-col">
 
-      {/* Top bar */}
-      <div className="flex items-center justify-between px-section py-stack border-b border-ink-200 sticky top-0 bg-white z-sticky">
-        <div className="flex items-center gap-stack-xs">
+      {/* Top bar — à 375 px, le nom de la page cède sa place : « Publier »
+          sortait de l'écran (bord droit mesuré à 452 px). La plume remplace
+          l'étincelle, réservée aux fonctions d'IA. */}
+      <div className="flex items-center justify-between gap-stack-xs px-stack sm:px-section py-stack border-b border-ink-200 sticky top-0 bg-white z-sticky">
+        {/* Hiérarchie (arbitrage n°19) : « Publier », toujours visible dans la
+            barre collante, est le seul aplat ; Retour et Brouillon sont des
+            `ghost` neutres. Les trois boutons étaient en `soft`, dont deux
+            orange et un teal : deux tons, aucun niveau. */}
+        <div className="flex items-center gap-stack-xs min-w-0">
           <Button
-            emphasis="soft" tone="warm"
+            emphasis="ghost" tone="neutral"
             size="sm"
             leadingIcon={<ArrowLeft size={14} />}
             onClick={() => navigate('/journal')}
           >
             Retour
           </Button>
-          <div className="flex items-center gap-stack-xs">
-            <Sparkles size={16} className="text-primary-500" />
-            <span className="font-body text-body font-bold text-ink-900">Nouvelle entrée libre</span>
+          <div className="hidden sm:flex items-center gap-stack-xs min-w-0">
+            <PenLine size={16} className="text-primary-500 shrink-0" aria-hidden="true" />
+            <span className="font-body text-body font-semibold text-ink-900 truncate">Nouvelle entrée libre</span>
           </div>
         </div>
-        <div className="flex gap-stack-xs">
-          <Button emphasis="soft" tone="warm" size="sm" leadingIcon={<Save size={14} />}>
+        <div className="flex gap-stack-xs shrink-0">
+          <Button emphasis="ghost" tone="neutral" size="sm" leadingIcon={<Save size={14} />}>
             Brouillon
           </Button>
-          <Button size="sm" leadingIcon={<Send size={14} />} onClick={buildAndSaveEntry}>
+          <Button emphasis="solid" size="sm" leadingIcon={<Send size={14} />} onClick={buildAndSaveEntry}>
             Publier
           </Button>
         </div>
       </div>
 
       {/* Two-column layout */}
-      <Container width="medium" padding={false} className="flex-1 px-section py-stack-lg grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-section items-start">
+      <Container width="medium" padding={false} className="flex-1 px-stack sm:px-section py-stack-lg grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-section items-start">
 
-        {/* Main editor */}
-        <div>
-          {/* Date chip */}
-          <div className="flex items-center gap-stack-2xs mb-stack text-ink-500 font-body text-body-sm">
-            <CalendarDays size={14} />
-            <span>{new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+        {/* Main editor — les groupes du formulaire se suivent à 24, le
+            libellé est à 8 de son champ. Les libellés étaient des étiquettes
+            11 px capitales ink-500 (le registre du Badge, la couleur des
+            placeholders) : ce sont des libellés de champ, 16/600 ink-900,
+            comme dans l'éditeur principal. */}
+        <div className="flex flex-col gap-stack-lg min-w-0">
+          {/* La page n'avait aucun h1 : le champ de titre en tient lieu à l'écran. */}
+          <h1 className="sr-only font-display text-h1">Nouvelle entrée libre</h1>
+
+          <div className="flex flex-col gap-stack-xs">
+            {/* Date */}
+            <div className="flex items-center gap-stack-3xs text-ink-600 font-body text-caption">
+              <CalendarDays size={14} aria-hidden="true" />
+              <span>{new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+            </div>
+
+            {/* Title input — au pas d'un h2 (28, 700) : il était à 30 px en
+                graisse 900, avec un placeholder ink-200 (illisible). */}
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              aria-label="Titre de l'entrée"
+              placeholder="Titre de ton entrée..."
+              className="w-full border-0 outline-none font-display text-h2 text-ink-900 bg-transparent h-auto block placeholder:text-ink-500"
+            />
           </div>
 
-          {/* Title input */}
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Titre de votre entrée..."
-            className="w-full border-0 outline-none text-3xl font-black text-ink-900 font-display bg-transparent mb-stack-md tracking-tight h-auto block placeholder:text-ink-200"
-          />
-
-          {/* Category selector */}
-          <div className="mb-stack">
-            <div className="font-body text-micro font-bold text-ink-500 uppercase tracking-widest mb-stack-xs">
+          {/* Category selector — FilterChip (les puces faites main, en 13/700,
+              laissaient les choix inactifs en ink-500). */}
+          <div className="flex flex-col gap-stack-xs">
+            <div className="font-body text-body font-semibold text-ink-900">
               Catégorie
             </div>
             <div className="flex gap-stack-xs flex-wrap">
               {CATEGORIES.map((cat) => {
                 const active = selectedCategory === cat.id;
                 return (
-                  <button
+                  <FilterChip
                     key={cat.id}
-                    type="button"
+                    size="sm"
+                    label={cat.label}
+                    icon={cat.icon}
+                    active={active}
                     onClick={() => setSelectedCategory(active ? null : cat.id)}
-                    className={[
-                      'inline-flex items-center gap-stack-2xs px-3 py-1.5 rounded-pill border cursor-pointer font-body text-caption font-bold transition-all duration-150',
-                      'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
-                      active
-                        ? 'border-primary-400 bg-primary-50 text-primary-700'
-                        : 'border-ink-200 bg-transparent text-ink-500 hover:border-ink-400',
-                    ].join(' ')}
-                  >
-                    <span>{cat.icon}</span> {cat.label}
-                  </button>
+                  />
                 );
               })}
             </div>
           </div>
 
           {/* Mood selector */}
-          <div className="mb-stack-md">
-            <div className="font-body text-micro font-bold text-ink-500 uppercase tracking-widest mb-stack-xs">
-              Comment vous sentez-vous ?
+          <div className="flex flex-col gap-stack-xs">
+            <div className="font-body text-body font-semibold text-ink-900">
+              Comment te sens-tu ?
             </div>
             <div className="flex gap-stack-xs flex-wrap">
               {MOODS.map((mood) => {
                 const active = selectedMood === mood.label;
                 return (
-                  <button
+                  <FilterChip
                     key={mood.label}
-                    type="button"
+                    size="sm"
+                    label={mood.label}
+                    icon={mood.icon}
+                    active={active}
                     onClick={() => setSelectedMood(active ? null : mood.label)}
-                    className={[
-                      'inline-flex items-center gap-tight px-3 py-1.5 rounded-pill border cursor-pointer font-body text-micro font-bold transition-all duration-150',
-                      'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
-                      active
-                        ? 'border-primary-400 bg-primary-50 text-primary-700'
-                        : 'border-ink-200 bg-transparent text-ink-500 hover:border-ink-400',
-                    ].join(' ')}
-                  >
-                    {mood.icon} {mood.label}
-                  </button>
+                  />
                 );
               })}
             </div>
           </div>
 
-          <hr className="border-ink-200 mb-stack-md" />
+          <hr className="border-ink-200" />
 
           {/* Content textarea */}
-          <div className="relative">
+          <div className="flex flex-col gap-stack-xs">
             <textarea
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              placeholder="Commencez à écrire... Qu'avez-vous observé ? Qu'avez-vous appris ? Que voulez-vous faire différemment ?"
+              aria-label="Contenu de l'entrée"
+              placeholder="Commence à écrire... Qu'as-tu observé ? Qu'as-tu appris ? Que veux-tu faire différemment ?"
               rows={18}
-              className="w-full border-0 outline-none resize-none font-body text-body text-ink-900 bg-transparent h-auto block placeholder:text-ink-300"
+              className="w-full border-0 outline-none resize-none font-body text-body text-ink-900 bg-transparent h-auto block placeholder:text-ink-500"
             />
-            <div className="text-right font-body text-caption text-ink-600 mt-stack-xs">
+            <div className="text-right font-body text-caption text-ink-600 tabular-nums">
               {wordCount} mot{wordCount > 1 ? 's' : ''}
             </div>
           </div>
 
-          <hr className="border-ink-200 my-stack-md" />
+          <hr className="border-ink-200" />
 
           {/* Tags */}
-          <div>
-            <div className="font-body text-micro font-bold text-ink-500 uppercase tracking-widest mb-stack-xs">
+          <div className="flex flex-col gap-stack-xs">
+            <div className="font-body text-body font-semibold text-ink-900">
               Tags
             </div>
             <div className="flex gap-stack-xs flex-wrap items-center">
               {tags.map((tag) => (
                 <span
                   key={tag}
-                  className="inline-flex items-center gap-tight px-2.5 py-1 rounded-pill bg-primary-50 text-primary-700 font-body text-micro font-semibold border border-primary-200"
+                  className="inline-flex items-center gap-stack-3xs px-2.5 py-1 rounded-pill bg-primary-50 text-primary-800 font-body text-caption font-medium border border-primary-200"
                 >
                   {tag}
                   <button
                     type="button"
+                    aria-label={`Retirer le tag ${tag}`}
                     onClick={() => removeTag(tag)}
-                    className="bg-transparent border-0 cursor-pointer text-primary-400 hover:text-primary-600 p-0 text-body-sm focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-400 rounded-sm"
+                    className="bg-transparent border-0 cursor-pointer text-primary-800 hover:text-primary-900 p-0 text-body focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-400 rounded-sm"
                   >
                     ×
                   </button>
@@ -269,29 +277,35 @@ export const JournalFreeEntry: React.FC = () => {
                 value={tagInput}
                 onChange={(e) => setTagInput(e.target.value)}
                 onKeyDown={handleAddTag}
+                aria-label="Ajouter un tag"
                 placeholder="Ajouter un tag..."
-                className="border-0 outline-none font-body text-caption text-ink-700 bg-transparent min-w-[120px] h-auto"
+                className="border-0 outline-none font-body text-body text-ink-900 bg-transparent min-w-[120px] h-auto placeholder:text-ink-500"
               />
             </div>
           </div>
 
-          {/* Bottom actions */}
-          <div className="flex gap-stack-xs mt-stack-lg">
-            <Button leadingIcon={<Send size={14} />} onClick={buildAndSaveEntry}>Publier l'entrée</Button>
-            <Button emphasis="soft" tone="warm" leadingIcon={<Save size={14} />} onClick={buildAndSaveEntry}>
+          {/* Bottom actions — elles passent à la ligne à 375 px : « Sauvegarder
+              en brouillon » sortait de l'écran (bord droit à 459 px). */}
+          {/* Le même couple qu'en haut, un cran plus bas : l'aplat reste à
+              « Publier » dans la barre collante (un seul par écran). */}
+          <div className="flex flex-wrap gap-stack-xs">
+            <Button emphasis="soft" leadingIcon={<Send size={14} />} onClick={buildAndSaveEntry}>Publier l'entrée</Button>
+            <Button emphasis="ghost" tone="neutral" leadingIcon={<Save size={14} />} onClick={buildAndSaveEntry}>
               Sauvegarder en brouillon
             </Button>
           </div>
         </div>
 
-        {/* Sidebar */}
-        <aside className="sticky top-[72px] flex flex-col gap-stack">
+        {/* Sidebar — deux encarts, rayon de conteneur (20) et padding dense
+            (20). Leurs intitulés étaient en 13 px, graisse 800, capitales
+            espacées : ce sont des libellés, 16/600, avec leur icône. */}
+        <aside className="lg:sticky lg:top-[72px] flex flex-col gap-stack">
 
           {/* Writing prompts */}
-          <div className="bg-primary-50 border border-primary-200 rounded-lg p-stack px-stack-md">
-            <div className="flex items-center gap-stack-xs mb-3">
-              <PenLine size={14} className="text-primary-600" />
-              <span className="font-body text-caption font-extrabold text-primary-700 uppercase tracking-widest">
+          <div className="bg-primary-50 border border-primary-200 rounded-xl p-stack-md flex flex-col gap-stack-sm">
+            <div className="flex items-center gap-stack-xs">
+              <PenLine size={16} className="text-primary-700" aria-hidden="true" />
+              <span className="font-body text-body font-semibold text-ink-900">
                 Aide à l'écriture
               </span>
             </div>
@@ -301,14 +315,15 @@ export const JournalFreeEntry: React.FC = () => {
                   key={i}
                   type="button"
                   onClick={() => setContent(content + (content ? '\n\n' : '') + prompt.hint + '\n')}
-                  className="flex items-start gap-stack-xs p-3 rounded-lg border border-primary-100 bg-white cursor-pointer text-left font-body transition-all duration-150 hover:border-primary-300 hover:bg-primary-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                  className="flex items-start gap-stack-xs p-stack-sm rounded-lg border border-primary-100 bg-white cursor-pointer text-left font-body transition-all duration-150 hover:border-primary-300 hover:bg-primary-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                 >
-                  <span className="text-primary-500 shrink-0 mt-px">{prompt.icon}</span>
-                  <div>
-                    <div className="font-body text-micro font-bold text-primary-600 uppercase tracking-widest mb-0.5">
+                  {/* 6 px : l'icône (14) se centre sur la première ligne (26). */}
+                  <span className="text-primary-700 shrink-0 mt-1.5" aria-hidden="true">{prompt.icon}</span>
+                  <div className="flex flex-col gap-stack-3xs">
+                    <div className="font-body text-body font-semibold text-ink-900">
                       {prompt.label}
                     </div>
-                    <div className="font-body text-caption text-ink-500 leading-snug">
+                    <div className="font-body text-caption text-ink-600">
                       {prompt.hint}
                     </div>
                   </div>
@@ -318,21 +333,22 @@ export const JournalFreeEntry: React.FC = () => {
           </div>
 
           {/* Tips */}
-          <div className="bg-secondary-50 border border-secondary-200 rounded-lg p-stack px-stack-md">
-            <div className="flex items-center gap-stack-xs mb-3">
-              <Lightbulb size={14} className="text-secondary-500" />
-              <span className="font-body text-caption font-extrabold text-secondary-700 uppercase tracking-widest">
+          <div className="bg-secondary-50 border border-secondary-200 rounded-xl p-stack-md flex flex-col gap-stack-sm">
+            <div className="flex items-center gap-stack-xs">
+              <Lightbulb size={16} className="text-secondary-700" aria-hidden="true" />
+              <span className="font-body text-body font-semibold text-ink-900">
                 Aide-mémoire
               </span>
             </div>
-            <div className="flex flex-col gap-stack-xs">
+            <ul className="flex flex-col gap-stack-3xs">
               {TIPS.map((tip, i) => (
-                <div key={i} className="flex items-start gap-stack-xs">
-                  <div className="w-1.5 h-1.5 rounded-pill bg-secondary-400 shrink-0 mt-[7px]" />
-                  <span className="font-body text-caption text-ink-500 leading-relaxed">{tip}</span>
-                </div>
+                <li key={i} className="flex items-start gap-stack-xs">
+                  {/* 10 px : la puce (6) se centre sur la ligne de 26. */}
+                  <span className="w-1.5 h-1.5 rounded-pill bg-secondary-400 shrink-0 mt-2.5" aria-hidden="true" />
+                  <span className="font-body text-body text-ink-700">{tip}</span>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
 
         </aside>

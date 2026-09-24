@@ -11,7 +11,8 @@
  *  - Variants : default / compact / featured
  *  - Align : center (default — hero cards) / left (sidebar / inline)
  *
- * Used by : Coaching (assigned coach profile), Profile, Leaderboard.
+ * Used by : les vues coach (CoachCardGrid, CoachProfileView, CoachTeamDashboard,
+ *   CoachAnalytics). Le classement qui l'utilisait a été retiré (arbitrage n°18).
  */
 
 import React from 'react';
@@ -108,9 +109,9 @@ const VARIANT_PADDING: Record<ProfileCardVariant, string> = {
 };
 
 const VARIANT_NAME_SIZE: Record<ProfileCardVariant, string> = {
-  compact:    'text-h4',
-  horizontal: 'text-h4',
-  default:  'text-h4',
+  compact:    'text-h3',
+  horizontal: 'text-h3',
+  default:  'text-h3',
   featured: 'text-h3',
 };
 
@@ -120,17 +121,18 @@ const TONE_BORDER_FEATURED: Record<ProfileCardTone, string> = {
   sun:     'border-accent-200',
 };
 
+/* Couleur des icônes de contact — un glyphe, pas du texte. */
 const TONE_ROLE: Record<ProfileCardTone, string> = {
   primary: 'text-primary-700',
   warm:    'text-secondary-700',
   sun:     'text-accent-700',
 };
 
-const TONE_RATING_VALUE: Record<ProfileCardTone, string> = {
-  primary: 'text-primary-700',
-  warm:    'text-secondary-700',
-  sun:     'text-accent-700',
-};
+/* Le rôle est une MÉTA (« Expert IA & Pédagogie ») : légende 13 px ink-600.
+   Il était teinté au cran 700 en graisse 500 — une couleur de marque qui
+   « faisait joli » sur du texte (doctrine § 2 : la marque ne porte du texte
+   qu'au cran 800, et 500 est réservé aux puces). */
+const ROLE_CLASSES = 'font-body text-caption text-ink-600';
 
 /** Bg gradient for featured variant per tone */
 const TONE_FEATURED_BG: Record<ProfileCardTone, string> = {
@@ -146,7 +148,7 @@ const RatingDisplay: React.FC<{ rating: ProfileRating; tone: ProfileCardTone }> 
   const rounded = Math.round(rating.value);
   return (
     <div className="flex items-center gap-stack-xs" aria-label={`Note : ${rating.value} sur ${max}`}>
-      <div className="flex gap-0.5" aria-hidden="true">
+      <div className="flex gap-tight" aria-hidden="true">
         {Array.from({ length: max }, (_, i) => (
           <Star
             key={i}
@@ -156,11 +158,12 @@ const RatingDisplay: React.FC<{ rating: ProfileRating; tone: ProfileCardTone }> 
           />
         ))}
       </div>
-      <span className={`font-body text-caption font-bold ${TONE_RATING_VALUE[tone]}`}>
+      {/* Chiffre sous 16 px : Nunito 600, chiffres tabulaires (doctrine § 1). */}
+      <span className="font-body text-caption font-semibold tabular-nums text-ink-900">
         {rating.value.toFixed(1)}
       </span>
       {rating.count !== undefined && (
-        <span className="font-body text-caption text-ink-500">({rating.count} avis)</span>
+        <span className="font-body text-caption text-ink-600">({rating.count} avis)</span>
       )}
     </div>
   );
@@ -217,7 +220,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
             {avatarBadge && (
               <span
                 aria-hidden="true"
-                className="absolute -bottom-1 -right-1 inline-flex items-center justify-center w-6 h-6 rounded-pill bg-gradient-to-br from-accent-400 to-secondary-500 border-2 border-white shadow-sm text-white"
+                className="absolute -bottom-1 -right-1 inline-flex items-center justify-center w-6 h-6 rounded-pill bg-gradient-to-br from-accent-700 to-secondary-600 border-2 border-white shadow-sm text-white"
               >
                 {avatarBadge}
               </span>
@@ -227,12 +230,12 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 
         {/* Center block — name, role, specialties, rating */}
         <div className="flex-1 min-w-0 flex flex-col gap-stack-xs">
-          <div className="flex items-baseline flex-wrap gap-x-stack-sm gap-y-tight">
-            <h3 className={`font-display ${VARIANT_NAME_SIZE[variant]} font-bold text-ink-900`}>
+          <div className="flex items-baseline flex-wrap gap-x-stack-sm gap-y-stack-3xs">
+            <h3 className={`font-display ${VARIANT_NAME_SIZE[variant]} text-ink-900`}>
               {name}
             </h3>
             {role && (
-              <p className={`m-0 font-body text-caption font-medium ${TONE_ROLE[tone]}`}>
+              <p className={ROLE_CLASSES}>
                 {role}
               </p>
             )}
@@ -303,7 +306,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
           {avatarBadge && (
             <span
               aria-hidden="true"
-              className="absolute -bottom-1 -right-1 inline-flex items-center justify-center w-7 h-7 rounded-pill bg-gradient-to-br from-accent-400 to-secondary-500 border-2 border-white shadow-sm text-white"
+              className="absolute -bottom-1 -right-1 inline-flex items-center justify-center w-7 h-7 rounded-pill bg-gradient-to-br from-accent-700 to-secondary-600 border-2 border-white shadow-sm text-white"
             >
               {avatarBadge}
             </span>
@@ -312,12 +315,12 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
       )}
 
       {/* Name + role */}
-      <div className={`flex flex-col gap-tight ${isCentered ? 'items-center' : 'items-start'}`}>
-        <h3 className={`font-display ${VARIANT_NAME_SIZE[variant]} font-bold text-ink-900`}>
+      <div className={`flex flex-col gap-stack-3xs ${isCentered ? 'items-center' : 'items-start'}`}>
+        <h3 className={`font-display ${VARIANT_NAME_SIZE[variant]} text-ink-900`}>
           {name}
         </h3>
         {role && (
-          <p className={`m-0 font-body text-caption font-medium ${TONE_ROLE[tone]}`}>
+          <p className={ROLE_CLASSES}>
             {role}
           </p>
         )}
@@ -355,9 +358,11 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
         </div>
       )}
 
-      {/* Bio */}
+      {/* Bio — un paragraphe : ink-700, largeur de lecture, et TOUJOURS aligné
+          à gauche, même dans une carte centrée (doctrine § 3 : le centré ne
+          vaut que pour deux lignes au plus, et une bio en fait souvent plus). */}
       {bio && (
-        <p className={`m-0 font-body text-body-sm text-ink-600 ${isCentered ? 'text-center' : 'text-left'}`}>
+        <p className="self-stretch font-body text-body text-ink-700 text-left max-w-prose">
           {bio}
         </p>
       )}

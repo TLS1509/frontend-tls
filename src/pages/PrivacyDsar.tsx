@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Download, Shield, Mail, Clock, FileText, CheckCircle2 } from 'lucide-react';
 import EditorialHero from '../components/patterns/EditorialHero';
-import SectionCard from '../components/patterns/SectionCard';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Alert } from '../components/ui/Alert';
 import { Badge } from '../components/ui/Badge';
+import { MetaPill } from '../components/ui/MetaPill';
 import { PageShell } from '../components/layout';
 import { usePrivacyStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
@@ -94,7 +95,7 @@ const PrivacyDsar: React.FC = () => {
   };
 
   return (
-    <PageShell width="content" noPadTop className="pt-6 md:pt-8 lg:pt-10">
+    <PageShell width="content">
       <EditorialHero
         eyebrow="Confidentialité · RGPD Article 15"
         title="Télécharger mes données personnelles"
@@ -102,80 +103,96 @@ const PrivacyDsar: React.FC = () => {
         tone="flat"
       />
 
-      <div className="flex flex-col gap-section">
+      {/* 48 entre deux blocs (32 avant) ; les titres de section (h2 28) sur la
+          page — ils étaient des h3 à 20 dans des cartes, la page sautait du
+          h1 au h3. */}
+      <div className="flex flex-col gap-page">
         <Alert variant="info" title="Ce que dit la loi">
           L'article 15 du RGPD te donne le droit d'accéder à toutes les données personnelles te concernant. Nous t'enverrons un fichier ZIP contenant toutes ces données par email.
         </Alert>
 
-        <SectionCard
-          title="Données qui seront incluses"
-          description="Toutes ces catégories seront exportées dans un fichier ZIP structuré (JSON + CSV)"
-        >
-          <div className="flex flex-col gap-stack-xs">
-            {DATA_TYPES.map((d) => (
-              <Card key={d.id} className="p-stack flex items-center gap-stack-xs">
-                <CheckCircle2 className="w-5 h-5 text-success-fg shrink-0" />
-                <FileText className="w-5 h-5 text-primary-600 shrink-0" />
-                <div className="flex-1">
-                  <div className="font-semibold text-body-sm">{d.label}</div>
-                  <div className="text-caption text-ink-500">{d.desc}</div>
-                </div>
-                <Badge variant="neutral">{d.size}</Badge>
-              </Card>
-            ))}
-          </div>
-          <div className="mt-stack flex items-center justify-between p-3 bg-primary-50 rounded-lg">
-            <span className="text-body-sm font-semibold">Total estimé</span>
-            <Badge variant="brand">~1.1 MB</Badge>
-          </div>
-        </SectionCard>
+        <section className="flex flex-col gap-stack">
+          <SectionHeader
+            title="Données qui seront incluses"
+            subtitle="Toutes ces catégories seront exportées dans un fichier ZIP structuré (JSON + CSV)"
+          />
+          <Card className="flex flex-col gap-stack">
+            {/* Des catégories de données qu'on parcourt : des rangées dans la carte
+                de section, pas des cartes dans la carte (arbitrage n°5 du 23/09).
+                Le contenu de chaque catégorie se lit (16, ink-700 ; il était en
+                légende ink-500) ; sa taille est une donnée (MetaPill). */}
+            <ul className="flex flex-col divide-y divide-ink-100">
+              {DATA_TYPES.map((d) => (
+                <li key={d.id} className="flex items-start gap-stack-xs py-stack-sm first:pt-0">
+                  <CheckCircle2 className="w-5 h-5 text-success-fg shrink-0 mt-[3px]" aria-hidden="true" />
+                  <FileText className="w-5 h-5 text-primary-700 shrink-0 mt-[3px]" aria-hidden="true" />
+                  <div className="flex-1 min-w-0 flex flex-col gap-stack-3xs">
+                    <div className="font-semibold text-body text-ink-900">{d.label}</div>
+                    <div className="text-body text-ink-700">{d.desc}</div>
+                  </div>
+                  <MetaPill text={d.size} className="shrink-0 tabular-nums" />
+                </li>
+              ))}
+            </ul>
+            <div className="flex items-center justify-between gap-stack px-stack py-stack-sm bg-primary-50 rounded-lg">
+              <span className="text-body font-semibold text-ink-900">Total estimé</span>
+              <span className="text-body font-semibold text-primary-800 tabular-nums">~1.1 MB</span>
+            </div>
+          </Card>
+        </section>
 
         {hasPendingRequest ? (
           <Alert variant="success" title="Demande en cours">
             Nous traitons ta demande. Tu recevras un email sous 48h avec le lien de téléchargement sécurisé (valide 7 jours).
           </Alert>
         ) : (
-          <Card className="p-stack-lg flex flex-col gap-stack">
-            <div className="flex items-start gap-stack-xs">
-              <Shield className="w-6 h-6 text-primary-600 mt-1" />
-              <div>
-                <h3 className="text-h4 mb-1">Lancer ma demande</h3>
-                <p className="text-body-sm text-ink-600">
+          /* Anatomie de carte : l'icône sur la première ligne du titre, titre
+             (h3 20) → texte 8, texte → action 24 ; l'action garde sa largeur. */
+          <Card className="flex flex-col gap-stack-lg">
+            <div className="flex items-start gap-stack-sm">
+              <Shield className="w-6 h-6 text-primary-700 shrink-0 mt-px" aria-hidden="true" />
+              <div className="flex flex-col gap-stack-xs min-w-0">
+                <h3 className="font-display text-h3 text-ink-900">Lancer ma demande</h3>
+                <p className="text-body text-ink-700 max-w-prose">
                   En cliquant ci-dessous, tu déclenches le workflow officiel. Un email avec le lien de téléchargement (valide 7 jours) te sera envoyé dans un délai maximum de 30 jours (généralement sous 48h).
                 </p>
               </div>
             </div>
-            <Button emphasis="soft" size="lg" leadingIcon={<Download className="w-4 h-4" />} onClick={handleRequest} loading={submitting}>
+            {/* L'action pour laquelle la page existe : l'aplat (arbitrage n°19). */}
+            <Button emphasis="solid" size="lg" leadingIcon={<Download className="w-4 h-4" />} onClick={handleRequest} loading={submitting} className="self-start">
               Déclencher la demande DSAR
             </Button>
           </Card>
         )}
 
-        <SectionCard title="Historique de mes demandes" description="Demandes passées et statut">
+        <section className="flex flex-col gap-stack">
+          <SectionHeader title="Historique de mes demandes" subtitle="Demandes passées et statut" />
           {pastRequests.length === 0 ? (
-            <p className="text-body-sm text-ink-500">Aucune demande passée.</p>
+            <p className="text-body text-ink-700">Aucune demande passée.</p>
           ) : (
-            <div className="flex flex-col gap-stack-xs">
-              {pastRequests.map((r) => {
-                const s = STATUS_LABEL[r.status] ?? STATUS_LABEL.submitted;
-                const dateLabel = new Date(r.submittedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
-                return (
-                  <Card key={r.id} className="p-stack flex items-center gap-stack-xs">
-                    <Clock className="w-5 h-5 text-ink-500" />
-                    <div className="flex-1">
-                      <div className="font-semibold text-body-sm">Demande du {dateLabel}</div>
-                      {r.archiveSize && <div className="text-caption text-ink-500">Archive : {r.archiveSize}</div>}
-                    </div>
-                    <Badge variant={s.variant}>{s.label}</Badge>
-                    {r.status === 'completed' && (
-                      <Button emphasis="outline" size="sm" leadingIcon={<Mail className="w-4 h-4" />}>Renvoyer email</Button>
-                    )}
-                  </Card>
-                );
-              })}
-            </div>
+            <Card>
+              <ul className="flex flex-col divide-y divide-ink-100">
+                {pastRequests.map((r) => {
+                  const s = STATUS_LABEL[r.status] ?? STATUS_LABEL.submitted;
+                  const dateLabel = new Date(r.submittedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+                  return (
+                    <li key={r.id} className="flex items-center gap-stack-xs py-stack-sm first:pt-0 last:pb-0">
+                      <Clock className="w-5 h-5 text-ink-600 shrink-0" aria-hidden="true" />
+                      <div className="flex-1 min-w-0 flex flex-col gap-stack-3xs">
+                        <div className="font-semibold text-body text-ink-900">Demande du {dateLabel}</div>
+                        {r.archiveSize && <div className="text-caption text-ink-600">Archive : {r.archiveSize}</div>}
+                      </div>
+                      <Badge variant={s.variant}>{s.label}</Badge>
+                      {r.status === 'completed' && (
+                        <Button emphasis="soft" size="sm" leadingIcon={<Mail className="w-4 h-4" />}>Renvoyer email</Button>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            </Card>
           )}
-        </SectionCard>
+        </section>
       </div>
     </PageShell>
   );

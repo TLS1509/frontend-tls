@@ -523,7 +523,7 @@ travail : y relire les colonnes *L'élément précis* plutôt que de repartir de
 
 `Gloat · Eightfold · Workera · Beamery · Lattice · Sana · Maven · Reforge · Section · Linear · Mercury · Attio`
 
-## ⛔ ANTI-RÉFÉRENCES OFFICIELLES (PRODUCT.md — si tu tombes dessus → ✗ direct)
+## ⛔ ANTI-RÉFÉRENCES (issues du PRODUCT.md de mai 2026, généré par IA et archivé le 24/09 — non validées ; si tu tombes dessus → ✗ direct)
 
 - **Generic SaaS 2026** : fond cream/beige, eyebrow uppercase tracké sur chaque section, grids de cards icon+titre+texte identiques.
 - **Corporate e-learning** : stock photos « gens qui sourient devant un laptop », bleu corporate plat, ton institutionnel sans point de vue.

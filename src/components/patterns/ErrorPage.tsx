@@ -3,7 +3,9 @@ import { AlertTriangle } from 'lucide-react';
 import { motion, useReducedMotion, useMotionValue, useSpring, type Variants } from 'framer-motion';
 import { AmbientBlobs } from './AmbientBlobs';
 
-export type ErrorPageTone = 'default' | 'danger';
+/* `neutral` (2026-09-24) : une panne serveur n'est ni une faute de
+   l'utilisateur ni une alerte à crier — ton utilitaire, encre seule. */
+export type ErrorPageTone = 'default' | 'danger' | 'neutral';
 
 export type ErrorSuggestionTone = 'primary' | 'warm' | 'sun' | 'neutral';
 
@@ -49,20 +51,38 @@ export interface ErrorPageProps {
 }
 
 // Solid code color (per DESIGN-IMPECCABLE §11 — no gradient text outside marketing GradientText).
-// Emphasis comes from weight + size (font-black at clamp 6–9rem), not from chroma.
+// Emphasis comes from size (clamp 5–9rem), not from chroma — nor from weight :
+// le code était en `font-black` (900), interdit dans l'app (arbitrage n°12) ;
+// il passe au 700 des titres. Sa taille reste hors de l'échelle du texte,
+// délibérément : masqué aux lecteurs d'écran (`aria-hidden`), c'est une
+// illustration, pas un pas de lecture — comme les glyphes au-delà de 48 px
+// quittent l'échelle des icônes.
 const TONE_CODE_COLOR: Record<ErrorPageTone, string> = {
   default: 'text-primary-200',
   danger: 'text-danger-base/70',
+  neutral: 'text-ink-200',
 };
 
 const TONE_ICON_BG: Record<ErrorPageTone, string> = {
   default: 'bg-gradient-to-br from-primary-50 to-secondary-50 border-primary-200 text-primary-600',
   danger: 'bg-danger-bg border-secondary-200 text-danger-fg',
+  neutral: 'bg-ink-50 border-ink-200 text-ink-600',
 };
 
+/* Surtitre : légende 13/600, le lieu, sans capitales. En encre ink-600, sauf
+   la panne (`danger`), dont le surtitre porte l'état. */
 const TONE_EYEBROW: Record<ErrorPageTone, string> = {
-  default: 'text-primary-700',
+  default: 'text-ink-600',
   danger: 'text-danger-fg',
+  neutral: 'text-ink-600',
+};
+
+// Encart (diagnostic, statut). Or pour `default` et `danger` comme avant ;
+// encre pour `neutral`.
+const TONE_CALLOUT: Record<ErrorPageTone, string> = {
+  default: 'border-accent-200 bg-gradient-to-br from-accent-50 to-accent-50/40',
+  danger: 'border-accent-200 bg-gradient-to-br from-accent-50 to-accent-50/40',
+  neutral: 'border-ink-200 bg-ink-50',
 };
 
 const SUGGESTION_TONE_BG: Record<ErrorSuggestionTone, string> = {
@@ -168,25 +188,29 @@ const SuggestionCard: React.FC<SuggestionCardProps> = ({
       variants={suggestionVariants}
       style={magnetic ? { x: springX, y: springY } : undefined}
       className={[
-        'flex flex-col items-start gap-stack-xs p-stack-lg rounded-lg border border-ink-200 bg-white text-left',
+        'flex flex-col items-start gap-stack-sm p-stack-lg rounded-lg border border-ink-200 bg-white text-left',
         SUGGESTION_HOVER_BORDER[tone],
         'transition-colors duration-base ease-standard cursor-pointer min-h-touch focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
       ].join(' ')}
     >
-      <div
+      <span
         className={[
           'w-10 h-10 rounded-lg flex items-center justify-center shrink-0',
           SUGGESTION_TONE_BG[tone],
         ].join(' ')}
       >
         {icon}
-      </div>
-      <div className="flex flex-col gap-tight">
-        <h3 className="font-body text-body-sm font-bold text-ink-900">{title}</h3>
+      </span>
+      {/* Titre de carte (h3 20/700) et description 16 ink-700, 8 px entre eux.
+          Pas de <h3> : dans un <button>, un titre est invalide (HTML) — il
+          sautait aussi du h1 au h3 dans le plan de la page. Le titre était en
+          Nunito 16 gras, la description en légende ink-500. */}
+      <span className="flex flex-col gap-stack-xs">
+        <span className="font-display text-h3 text-ink-900">{title}</span>
         {description && (
-          <p className="font-body text-caption text-ink-500 m-0">{description}</p>
+          <span className="font-body text-body text-ink-700">{description}</span>
         )}
-      </div>
+      </span>
     </motion.button>
   );
 };
@@ -228,8 +252,15 @@ export const ErrorPage: React.FC<ErrorPageProps> = ({
     <div className={wrapperClasses}>
       {expressive && <AmbientBlobs intensity="subtle" position="absolute" />}
 
+      {/* Rythme (passe typographique du 2026-09-24) : 16 px entre les
+          éléments, 24 au-dessus du titre et au-dessus de l'action. Le titre
+          et son chapô introduisent les suggestions (« Voici par où
+          repartir ») : ils s'en tiennent à 16, et à 24 du code qui les
+          précède — un titre appartient à ce qu'il introduit. À 24 partout,
+          il flottait entre le code et les tuiles. (Le code de 80 à 144 px
+          garde en plus, sous ses chiffres, l'espace de ses jambages.) */}
       <motion.div
-        className="relative z-base w-full max-w-[960px] flex flex-col items-center text-center gap-stack-lg"
+        className="relative z-base w-full max-w-[960px] flex flex-col items-center text-center gap-stack"
         variants={containerVariants}
         initial={initialAnim}
         animate={animateAnim}
@@ -238,7 +269,7 @@ export const ErrorPage: React.FC<ErrorPageProps> = ({
           <motion.p
             variants={itemVariants}
             className={[
-              'font-body text-caption font-bold uppercase tracking-[0.06em] inline-flex items-center gap-stack-2xs m-0',
+              'font-body text-caption font-semibold inline-flex items-center gap-stack-2xs',
               TONE_EYEBROW[tone],
             ].join(' ')}
           >
@@ -250,7 +281,7 @@ export const ErrorPage: React.FC<ErrorPageProps> = ({
           <motion.div
             variants={codeVariants}
             className={[
-              'font-display font-black tracking-tight m-0',
+              'font-display font-bold tracking-display',
               TONE_CODE_COLOR[tone],
               'text-[clamp(5rem,14vw,9rem)] leading-none',
             ].join(' ')}
@@ -285,17 +316,23 @@ export const ErrorPage: React.FC<ErrorPageProps> = ({
           </motion.div>
         )}
 
-        <motion.div variants={itemVariants} className="flex flex-col gap-tight max-w-[560px]">
-          <h1 className="font-display text-h1 font-bold text-ink-900">{title}</h1>
+        {/* Titre 36/44/700 · 12 px · chapô 18/28 ink-700 : l'anatomie de
+            l'en-tête de page. Centré, et court — deux lignes au plus, que
+            `text-balance` équilibre. */}
+        <motion.div variants={itemVariants} className="mt-stack-xs flex flex-col items-center gap-stack-sm max-w-[560px]">
+          <h1 className="font-display text-h1 text-ink-900 text-balance">{title}</h1>
           {description && (
-            <p className="font-body text-body-lg text-ink-500 m-0">{description}</p>
+            <p className="font-body text-body-lg text-ink-700 text-balance">{description}</p>
           )}
         </motion.div>
 
         {callout && (
           <motion.div
             variants={itemVariants}
-            className="rounded-lg border border-accent-200 bg-gradient-to-br from-accent-50 to-accent-50/40 p-stack-lg text-left max-w-[560px] w-full flex flex-col gap-tight"
+            className={[
+              'rounded-lg border p-stack-lg text-left max-w-[560px] w-full flex flex-col gap-tight',
+              TONE_CALLOUT[tone],
+            ].join(' ')}
           >
             {callout}
           </motion.div>
@@ -313,7 +350,7 @@ export const ErrorPage: React.FC<ErrorPageProps> = ({
         )}
 
         {(primaryAction || secondaryAction) && (
-          <motion.div variants={itemVariants} className="flex flex-wrap gap-stack-xs justify-center">
+          <motion.div variants={itemVariants} className="mt-stack-xs flex flex-wrap gap-stack-xs justify-center">
             {primaryAction}
             {secondaryAction}
           </motion.div>

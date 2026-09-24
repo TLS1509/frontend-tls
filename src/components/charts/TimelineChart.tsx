@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react';
-import { Circle } from 'lucide-react';
 
 export interface TimelineEvent {
   id: string;
@@ -15,19 +14,34 @@ interface TimelineChartProps {
   data: TimelineEvent[];
   layout?: 'vertical' | 'horizontal';
   maxEvents?: number;
+  /** Rend chaque événement cliquable (un vrai <button>). Sans lui, la frise est une liste inerte. */
   onEventClick?: (event: TimelineEvent) => void;
+  /** Nom accessible de la frise. */
+  ariaLabel?: string;
   className?: string;
 }
 
-const TYPE_COLORS: Record<TimelineEvent['type'], string> = {
-  lesson: 'bg-primary-100 text-primary-700 border-primary-300',
-  session: 'bg-warm-100 text-secondary-700 border-secondary-300',
-  badge: 'bg-sun-100 text-accent-600 border-accent-300',
-  milestone: 'bg-success-bg text-success-fg border-success-base',
-  achievement: 'bg-accent-50 text-accent-600 border-accent-400',
+type EventType = TimelineEvent['type'];
+
+const TYPE_LABEL: Record<EventType, string> = {
+  lesson: 'Leçon',
+  session: 'Session',
+  badge: 'Badge',
+  milestone: 'Jalon',
+  achievement: 'Réussite',
 };
 
-const DOT_COLORS: Record<TimelineEvent['type'], string> = {
+/* Un événement n'est PLUS une carte — révisé le 2026-09-24.
+ * Chaque événement était une boîte bordée au fond teinté de son type (cran 50,
+ * filet 200, rayon 14, padding 16). Posée dans la carte de sa section, au
+ * Passeport, la frise rendait cinq cartes dans une carte, en quatre teintes :
+ * une carte dans une carte, et l'effet « sapin de Noël » de DESIGN.md § 11. La
+ * frise est une collection : ses événements sont des rangées dans UNE carte,
+ * celle de la page (arbitrage n°5). Le type se lit à la pastille du rail et à
+ * sa légende ; le texte part du rail, sans boîte.
+ * (La barre d'accent `border-l-4` d'avant la boîte reste proscrite.) */
+
+const DOT_COLORS: Record<EventType, string> = {
   lesson: 'bg-primary-500',
   session: 'bg-secondary-500',
   badge: 'bg-accent-400',
@@ -35,161 +49,138 @@ const DOT_COLORS: Record<TimelineEvent['type'], string> = {
   achievement: 'bg-accent-500',
 };
 
-/* Survol : bordure fermée d'un cran (règle du 2026-09-16 — pas d'ombre au
- * survol d'une carte). Les tons success/accent n'existent pas dans CARD_HOVER
- * (lib/tone-classes.ts) → crans inline cohérents avec TYPE_COLORS ci-dessus. */
-const TYPE_HOVER_BORDER: Record<TimelineEvent['type'], string> = {
-  lesson: 'hover:border-primary-400',
-  session: 'hover:border-secondary-400',
-  badge: 'hover:border-accent-400',
-  milestone: 'hover:border-success-vivid',
-  achievement: 'hover:border-accent-500',
-};
+/* Cliquable : aucune boîte au repos ; au survol, un fond ink-50 qui déborde de
+ * 8 px (marge négative = padding), pour que le texte ne bouge pas. Ni ombre ni
+ * soulèvement (règle carte du 2026-09-16). */
+const EVENEMENT_CLIQUABLE =
+  'w-full cursor-pointer text-left rounded-lg -m-stack-xs p-stack-xs hover:bg-ink-50 transition-colors';
 
-const TYPE_GROUP_HOVER_BORDER: Record<TimelineEvent['type'], string> = {
-  lesson: 'group-hover:border-primary-400',
-  session: 'group-hover:border-secondary-400',
-  badge: 'group-hover:border-accent-400',
-  milestone: 'group-hover:border-success-vivid',
-  achievement: 'group-hover:border-accent-500',
-};
+const FOCUS_RING =
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-900 focus-visible:ring-offset-2 focus-visible:ring-offset-white';
+
+/* Le type d'événement est une DONNÉE : il chuchote, en légende (13, ink-600),
+ * sa couleur portée par la seule pastille. C'était une pilule blanche au texte
+ * teinté, qui ne se lisait comme pilule que sur le fond teinté de la boîte. */
+const TypeTag: React.FC<{ type: EventType }> = ({ type }) => (
+  <span className="inline-flex items-center gap-stack-2xs text-caption text-ink-600">
+    <span aria-hidden="true" className={`size-2 shrink-0 rounded-pill ${DOT_COLORS[type]}`} />
+    {TYPE_LABEL[type]}
+  </span>
+);
+
+const formatDate = (iso: string, withYear: boolean) =>
+  new Date(iso).toLocaleDateString('fr-FR', {
+    month: 'short',
+    day: 'numeric',
+    ...(withYear ? { year: 'numeric' as const } : {}),
+  });
 
 /**
- * TimelineChart — Display a vertical or horizontal timeline of events
- * Shows learner journey with lessons, sessions, badges, milestones
- * Clickable events for drill-down detail views
+ * TimelineChart — frise verticale ou horizontale des événements d'un parcours
+ * (leçons, sessions, badges, jalons). Une liste ordonnée, pas une image : le
+ * contenu est du texte, un lecteur d'écran doit pouvoir le parcourir.
  */
 export const TimelineChart: React.FC<TimelineChartProps> = ({
   data,
   layout = 'vertical',
   maxEvents = 20,
   onEventClick,
+  ariaLabel = 'Chronologie du parcours',
   className = '',
 }) => {
-  const displayEvents = useMemo(() => {
-    // Sort by date descending (most recent first) then slice
-    return data
-      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-      .slice(0, maxEvents);
-  }, [data, maxEvents]);
+  const displayEvents = useMemo(
+    // Copie avant tri : `sort` muterait le tableau de la page.
+    () =>
+      [...data]
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+        .slice(0, maxEvents),
+    [data, maxEvents],
+  );
 
   if (displayEvents.length === 0) {
     return (
       <div className={`flex items-center justify-center py-12 text-center ${className}`}>
-        <div className="text-ink-500">
-          <p className="text-body">No events to display</p>
-        </div>
+        <p className="text-body text-ink-600">Aucun événement à afficher</p>
       </div>
     );
   }
+
+  const interactive = Boolean(onEventClick);
+
+  const evenementClasses = (base: string) =>
+    [base, interactive ? `${EVENEMENT_CLIQUABLE} ${FOCUS_RING}` : ''].filter(Boolean).join(' ');
 
   if (layout === 'horizontal') {
     return (
-      <div className={`flex gap-stack overflow-x-auto pb-4 ${className}`}>
-        {displayEvents.map((event, idx) => (
-          <div
-            key={event.id}
-            className="flex flex-col items-center gap-stack-xs flex-shrink-0 w-40"
-            role="button"
-            tabIndex={0}
-            onClick={() => onEventClick?.(event)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                onEventClick?.(event);
-              }
-            }}
-          >
-            {/* Date label */}
-            <span className="text-caption text-ink-500 font-semibold">
-              {new Date(event.date).toLocaleDateString('fr-FR', {
-                month: 'short',
-                day: 'numeric',
-              })}
-            </span>
+      <ol aria-label={ariaLabel} className={`flex gap-stack overflow-x-auto pb-4 ${className}`}>
+        {displayEvents.map((event) => {
+          const Evenement = interactive ? 'button' : 'div';
+          return (
+            <li key={event.id} className="flex flex-col items-center gap-stack-xs flex-shrink-0 w-40">
+              <time dateTime={event.date} className="text-caption text-ink-600 font-semibold tabular-nums">
+                {formatDate(event.date, false)}
+              </time>
 
-            {/* Dot */}
-            <div className={`w-4 h-4 rounded-pill ${DOT_COLORS[event.type]}`} />
+              <span aria-hidden="true" className={`size-4 rounded-pill ${DOT_COLORS[event.type]}`} />
 
-            {/* Event card */}
-            <div
-              className={`p-2.5 rounded-md text-center border cursor-pointer transition-colors ${TYPE_COLORS[event.type]} ${TYPE_HOVER_BORDER[event.type]}`}
-            >
-              <p className="text-caption font-semibold line-clamp-2">{event.label}</p>
-              {event.description && (
-                <p className="text-micro mt-1 opacity-75 line-clamp-2">{event.description}</p>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
+              <Evenement
+                {...(interactive ? { type: 'button' as const, onClick: () => onEventClick?.(event) } : {})}
+                className={evenementClasses('flex flex-col items-center gap-stack-3xs text-center')}
+              >
+                <span className="text-body font-semibold text-ink-900 line-clamp-2">{event.label}</span>
+                {event.description && (
+                  <span className="text-caption text-ink-700 line-clamp-2">{event.description}</span>
+                )}
+                <TypeTag type={event.type} />
+              </Evenement>
+            </li>
+          );
+        })}
+      </ol>
     );
   }
 
-  // Vertical layout (default)
+  // Vertical (défaut)
   return (
-    <div className={`flex flex-col gap-stack-lg ${className}`}>
-      {displayEvents.map((event, idx) => (
-        <div
-          key={event.id}
-          className="flex gap-stack cursor-pointer group"
-          role="button"
-          tabIndex={0}
-          onClick={() => onEventClick?.(event)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              onEventClick?.(event);
-            }
-          }}
-        >
-          {/* Timeline left side: date + dot + line */}
-          <div className="flex flex-col items-center gap-stack-xs">
-            {/* Date label */}
-            <span className="text-caption text-ink-600 font-semibold w-20 text-right">
-              {new Date(event.date).toLocaleDateString('fr-FR', {
-                month: 'short',
-                day: 'numeric',
-                year: 'numeric',
-              })}
-            </span>
-
-            {/* Dot (clickable indicator) */}
-            <div className={`w-4 h-4 rounded-pill ${DOT_COLORS[event.type]} ring-4 ring-white group-hover:ring-2 transition-all`} />
-
-            {/* Vertical line (except on last item) */}
-            {idx < displayEvents.length - 1 && (
-              <div className="w-0.5 h-16 bg-ink-200" />
-            )}
-          </div>
-
-          {/* Timeline right side: event card */}
-          <div className="flex-1 mt-1">
-            <div
-              className={`p-4 rounded-lg border-l-4 transition-all ${TYPE_COLORS[event.type]} ${TYPE_GROUP_HOVER_BORDER[event.type]}`}
-              style={{
-                borderLeftColor: DOT_COLORS[event.type].replace('bg-', '#').split(' ')[0],
-              }}
-            >
-              <div className="flex items-start gap-stack-xs">
-                {event.icon && (
-                  <div className="flex-shrink-0 mt-1">
-                    {event.icon}
-                  </div>
-                )}
-                <div className="flex-1">
-                  <p className="text-body font-semibold text-ink-900">{event.label}</p>
-                  {event.description && (
-                    <p className="text-body-sm text-ink-600 mt-1">{event.description}</p>
-                  )}
-                  <span className="inline-block mt-2 px-2 py-1 rounded text-caption font-medium bg-white/50">
-                    {event.type.charAt(0).toUpperCase() + event.type.slice(1)}
-                  </span>
-                </div>
-              </div>
+    <ol aria-label={ariaLabel} className={`flex flex-col gap-stack-lg ${className}`}>
+      {displayEvents.map((event, idx) => {
+        const Evenement = interactive ? 'button' : 'div';
+        return (
+          <li key={event.id} className="flex gap-stack">
+            {/* Rail : date + pastille + trait jusqu'au bas de la rangée. `pt-1`
+                cale la ligne de base de la date (13/20) sur celle du titre
+                (16/26) : 4 px d'écart entre les deux. */}
+            <div className="flex flex-col items-center gap-stack-xs pt-1">
+              {/* 96 px : à 80, « 20 mars 2026 » se coupait sur deux lignes. */}
+              <time dateTime={event.date} className="text-caption text-ink-600 font-semibold tabular-nums w-24 text-right">
+                {formatDate(event.date, true)}
+              </time>
+              <span aria-hidden="true" className={`size-4 rounded-pill ring-4 ring-white ${DOT_COLORS[event.type]}`} />
+              {idx < displayEvents.length - 1 && <span aria-hidden="true" className="w-0.5 flex-1 min-h-8 bg-ink-200" />}
             </div>
-          </div>
-        </div>
-      ))}
-    </div>
+
+            <div className="flex-1 min-w-0">
+              <Evenement
+                {...(interactive ? { type: 'button' as const, onClick: () => onEventClick?.(event) } : {})}
+                className={evenementClasses('flex items-start gap-stack-xs')}
+              >
+                {event.icon && <span className="flex-shrink-0 mt-1">{event.icon}</span>}
+                <span className="flex flex-1 flex-col items-start gap-stack-3xs">
+                  <span className="text-body font-semibold text-ink-900">{event.label}</span>
+                  {event.description && (
+                    <span className="text-body text-ink-700 max-w-prose">{event.description}</span>
+                  )}
+                  {/* Texte → méta : 12 (4 de gap + 8), l'anatomie de carte. */}
+                  <span className="mt-stack-xs">
+                    <TypeTag type={event.type} />
+                  </span>
+                </span>
+              </Evenement>
+            </div>
+          </li>
+        );
+      })}
+    </ol>
   );
 };
 

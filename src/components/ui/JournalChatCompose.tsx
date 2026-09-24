@@ -14,7 +14,7 @@
  */
 
 import React from 'react';
-import { Send } from 'lucide-react';
+import { PenLine, Send } from 'lucide-react';
 import { Card } from '../core/Card';
 import { Button } from '../core/Button';
 
@@ -47,26 +47,42 @@ export const JournalChatCompose: React.FC<JournalChatComposeProps> = ({
            l'étage conteneur depuis le 2026-09-17 (l'override !rounded-2xl
            donnait à cette bulle un 3e rayon dans la famille). Pas d'ombre :
            une carte n'en porte plus (S2), et celle-ci n'est pas cliquable. */
-        '!p-0 !gap-0 !overflow-visible relative',
+        '!p-0 !gap-0 !overflow-visible relative group',
         'bg-white border border-primary-100',
+        /* Le focus de la saisie se voit sur la bulle (2026-09-24). La zone de
+           texte n'a ni filet ni contour — c'est la bulle qui fait le champ —,
+           et rien ne changeait quand elle prenait le focus : mesuré au
+           clavier sur /journal, filet primary-100 au repos comme au focus
+           (1,16:1 contre la page), aucune ombre, aucun contour. La bulle prend
+           le focus de la famille champ (`Input`) : filet primary-500 et halo
+           de 2 px. Limité à la zone de texte : le bouton « Continuer » a son
+           propre anneau, la bulle ne s'allume pas pour lui. */
+        'has-[textarea:focus-visible]:border-primary-500 has-[textarea:focus-visible]:ring-2 has-[textarea:focus-visible]:ring-primary-500/20',
         className,
       ]
         .filter(Boolean)
         .join(' ')}
     >
-      {/* Speech bubble tail — bottom-left */}
+      {/* Speech bubble tail — bottom-left. Son filet suit celui de la bulle,
+          au repos comme au focus : sinon la queue resterait pâle sous une
+          bulle allumée. */}
       <span
         aria-hidden="true"
-        className="absolute -bottom-2 left-8 w-4 h-4 rotate-45 rounded-br-[4px] bg-white border-r border-b border-primary-100"
+        className="absolute -bottom-2 left-8 w-4 h-4 rotate-45 rounded-br-[4px] bg-white border-r border-b border-primary-100 group-has-[textarea:focus-visible]:border-primary-500"
       />
 
       {/* Compose row */}
       <div className="flex items-end gap-stack-xs p-4">
+        {/* Repère d'écriture : l'icône Lucide PenLine (2026-09-24), plus
+            l'émoji ✍️ — les icônes de l'app sont Lucide (pièges, « pas de SVG
+            inline custom »), un émoji change de dessin d'un système à l'autre.
+            20 px (cran `md`), à l'encre de la bulle ; centrée dans une boîte de
+            44 px, la hauteur du bouton d'envoi, sur la même ligne de base. */}
         <span
-          className="text-h2 leading-none shrink-0 select-none"
+          className="shrink-0 inline-flex items-center justify-center h-touch text-primary-700 select-none"
           aria-hidden="true"
         >
-          ✍️
+          <PenLine size={20} />
         </span>
         <div className="flex-1 min-w-0">
           <label className="sr-only" htmlFor="journal-compose">
@@ -82,8 +98,11 @@ export const JournalChatCompose: React.FC<JournalChatComposeProps> = ({
             className="w-full resize-none border-0 outline-none bg-transparent font-body text-body text-ink-900 placeholder:text-ink-500 h-auto min-h-[44px] focus:outline-none"
           />
         </div>
+        {/* L'envoi d'un formulaire, et sur le Journal — son seul consommateur —
+            l'action principale de l'écran, « Nouvelle entrée » (arbitrage
+            n°19, qui la cite en exemple) : `solid`. */}
         <Button
-          emphasis="soft"
+          emphasis="solid"
           size="md"
           onClick={onSubmit}
           aria-label="Continuer l'entrée"
@@ -94,13 +113,14 @@ export const JournalChatCompose: React.FC<JournalChatComposeProps> = ({
         </Button>
       </div>
 
-      {/* Footer hint */}
+      {/* Aide et raccourci : 13 / 400 ink-600, la voix de l'aide sous un champ
+          (ink-500 est réservé aux placeholders, le `micro` aux étiquettes). */}
       <div className="px-4 pb-3 -mt-1 flex items-center justify-between gap-stack-xs flex-wrap">
         {hint && (
-          <span className="font-body text-caption text-ink-500">{hint}</span>
+          <span className="font-body text-caption text-ink-600">{hint}</span>
         )}
-        <span className="font-body text-micro text-ink-600 hidden sm:inline ml-auto">
-          <kbd className="px-1.5 py-0.5 rounded bg-ink-50 border border-ink-200 text-ink-600 font-mono text-micro">
+        <span className="font-body text-caption text-ink-600 hidden sm:inline ml-auto">
+          <kbd className="px-1.5 py-0.5 rounded-xs bg-ink-50 border border-ink-200 text-ink-600 font-mono text-micro">
             ⌘ + Entrée
           </kbd>{' '}
           pour envoyer
