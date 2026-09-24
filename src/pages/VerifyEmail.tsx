@@ -64,12 +64,12 @@ export const VerifyEmail: React.FC = () => {
         !verified ? (
           <div className="flex flex-col gap-stack">
             {/* Inbox visual */}
-            <div className="flex flex-col items-center gap-stack-xs p-stack-lg rounded-lg bg-white/10 border border-white/20 backdrop-blur-glass-light">
+            <div className="flex flex-col items-center gap-stack-xs p-stack-lg rounded-lg bg-ink-900/20 border border-white/20">
               <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white/15 border border-white/25 text-white">
                 <Inbox size={24} strokeWidth={1.75} />
               </div>
               <div className="flex flex-col items-center text-center gap-tight">
-                <p className="m-0 font-body text-body text-white/70">
+                <p className="m-0 font-body text-body text-white">
                   Lien envoyé à
                 </p>
                 <p className="m-0 font-display text-body font-semibold text-white">
@@ -78,7 +78,7 @@ export const VerifyEmail: React.FC = () => {
               </div>
             </div>
 
-            <p className="m-0 font-body text-body text-white/75 text-center">
+            <p className="m-0 font-body text-body text-white text-center">
               Cliquez sur le lien de confirmation reçu dans votre boîte de réception pour activer votre compte.
               Vérifiez aussi vos spams si besoin.
             </p>
@@ -100,7 +100,7 @@ export const VerifyEmail: React.FC = () => {
               </AuthGhostButton>
             </div>
 
-            <p className="m-0 font-body text-caption text-white/60 text-center">
+            <p className="m-0 font-body text-caption text-white text-center">
               Mauvaise adresse email ? <AuthInlineLink onClick={() => navigate('/auth/signup')}>Modifier l'inscription</AuthInlineLink>
             </p>
           </div>

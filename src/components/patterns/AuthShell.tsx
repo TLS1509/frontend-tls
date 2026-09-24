@@ -77,7 +77,7 @@ export interface AuthShellProps {
  * Apply with `<Input className={AUTH_INPUT_CLASSES} ... />` or directly on raw inputs.
  */
 export const AUTH_INPUT_CLASSES =
-  'bg-white/10 backdrop-blur-glass-light border border-white/20 text-white placeholder:text-white/55 ' +
+  'bg-white/10 backdrop-blur-glass-light border border-white/20 text-white placeholder:text-white/75 ' +
   'focus:border-white/40 focus:bg-white/15 focus:ring-2 focus:ring-white/20 ' +
   'hover:border-white/30';
 
@@ -112,7 +112,10 @@ export const AuthShell: React.FC<AuthShellProps> = ({
       className={[
         // Full-bleed page background : deep teal gradient
         'relative min-h-[100dvh] overflow-hidden',
-        'bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800',
+        // Fond du 700 au 900 (24/09) : il partait du 600, où le blanc ne tient que
+        // 3,66:1 — libellés et aides tombaient à 3,97. Texte blanc = cran ≥ 700
+        // (arbitrage n°8) ; la hiérarchie passe par la taille et la graisse.
+        'bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900',
         className,
       ]
         .filter(Boolean)
@@ -167,7 +170,7 @@ export const AuthShell: React.FC<AuthShellProps> = ({
                   {brandContent.title}
                 </h1>
                 {brandContent.subtitle && (
-                  <p className="font-body text-body text-white/75 m-0">
+                  <p className="font-body text-body text-white m-0">
                     {brandContent.subtitle}
                   </p>
                 )}
@@ -180,13 +183,13 @@ export const AuthShell: React.FC<AuthShellProps> = ({
 
           {/* Optional aside content (e.g. recommendations on ResetPassword) */}
           {aside && (
-            <aside className="rounded-lg px-6 py-stack-md bg-white/8 backdrop-blur-glass-light border border-white/15 text-white/85">
+            <aside className="rounded-lg px-6 py-stack-md bg-white/8 backdrop-blur-glass-light border border-white/15 text-white">
               {aside}
             </aside>
           )}
 
           {/* Footer */}
-          <p className="text-center text-caption text-white/60 m-0">
+          <p className="text-center text-caption text-white m-0">
             {footer ?? defaultFooter}
           </p>
         </div>
@@ -216,7 +219,7 @@ export const AuthBackLink: React.FC<AuthBackLinkProps> = ({ label, onClick, clas
     className={[
       'inline-flex items-center gap-stack-2xs self-start',
       'bg-transparent border-0 p-0 cursor-pointer',
-      'text-body font-semibold text-white/90 hover:text-white transition-colors',
+      'text-body font-semibold text-white hover:text-white transition-colors',
       className,
     ].filter(Boolean).join(' ')}
   >
@@ -300,7 +303,7 @@ export const AuthSuccess: React.FC<AuthSuccessProps> = ({ icon, title, descripti
     <div className="flex flex-col gap-stack-xs">
       <h3 className="font-display text-h3 font-bold text-white">{title}</h3>
       {description && (
-        <p className="m-0 text-body text-white/75 max-w-[44ch]">{description}</p>
+        <p className="m-0 text-body text-white max-w-[44ch]">{description}</p>
       )}
     </div>
     {children && <div className="mt-2 w-full">{children}</div>}
@@ -364,7 +367,7 @@ export const AuthFeature: React.FC<AuthFeatureProps> = ({
       {icon}
       {title}
     </h4>
-    {description && <p className="m-0 text-body text-white/75">{description}</p>}
+    {description && <p className="m-0 text-body text-white">{description}</p>}
   </div>
 );
 
@@ -434,7 +437,7 @@ export const AuthPasswordField: React.FC<AuthPasswordFieldProps> = ({
           type="button"
           onClick={() => setShow((s) => !s)}
           aria-label={show ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
-          className="bg-transparent border-0 p-1 cursor-pointer text-white/85 hover:text-white transition-colors inline-flex items-center justify-center"
+          className="bg-transparent border-0 p-1 cursor-pointer text-white hover:text-white transition-colors inline-flex items-center justify-center"
         >
           {show ? <EyeOff size={20} /> : <Eye size={20} />}
         </button>
@@ -541,7 +544,7 @@ export const AuthCheckbox: React.FC<AuthCheckboxProps> = ({
       aria-hidden
       className="mt-0.75 inline-flex items-center justify-center w-5 h-5 shrink-0 rounded-sm border-2 border-white/40 bg-white/10 transition-all peer-checked:bg-white peer-checked:border-white after:content-['✓'] after:text-primary-700 after:font-bold after:text-caption after:opacity-0 peer-checked:after:opacity-100"
     />
-    <span className="text-body text-white/85">{label}</span>
+    <span className="text-body text-white">{label}</span>
   </label>
 );
 

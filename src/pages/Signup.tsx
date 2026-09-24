@@ -99,7 +99,7 @@ export const Signup: React.FC = () => {
           </div>
 
           {/* Footer link */}
-          <p className="text-center text-body text-white/75 m-0 mt-1">
+          <p className="text-center text-body text-white m-0 mt-1">
             Déjà inscrit ?{' '}
             <AuthInlineLink onClick={() => navigate('/auth/login')}>
               Se connecter

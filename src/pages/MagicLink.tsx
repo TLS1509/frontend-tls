@@ -60,7 +60,7 @@ export const MagicLink: React.FC = () => {
         !sent ? (
           <form className="flex flex-col gap-stack" onSubmit={handleSubmit}>
             {/* Mini-pitch trust */}
-            <div className="flex flex-col gap-stack-xs p-stack rounded-lg bg-white/8 border border-white/15 backdrop-blur-glass-light">
+            <div className="flex flex-col gap-stack-xs p-stack rounded-lg bg-ink-900/20 border border-white/20">
               <div className="flex items-start gap-2.5">
                 <span className="shrink-0 inline-flex items-center justify-center w-7 h-7 rounded-lg bg-white/15 text-white">
                   <Zap size={14} />
@@ -69,7 +69,7 @@ export const MagicLink: React.FC = () => {
                   <p className="m-0 font-body text-body font-semibold text-white">
                     Plus rapide
                   </p>
-                  <p className="m-0 font-body text-caption text-white/65">
+                  <p className="m-0 font-body text-caption text-white">
                     Connexion en 2 clics sans mot de passe à retenir.
                   </p>
                 </div>
@@ -82,7 +82,7 @@ export const MagicLink: React.FC = () => {
                   <p className="m-0 font-body text-body font-semibold text-white">
                     Plus sûr
                   </p>
-                  <p className="m-0 font-body text-caption text-white/65">
+                  <p className="m-0 font-body text-caption text-white">
                     Lien à usage unique, expirant après 15 minutes.
                   </p>
                 </div>
@@ -115,7 +115,7 @@ export const MagicLink: React.FC = () => {
               Se connecter avec mot de passe
             </AuthGhostButton>
 
-            <p className="m-0 font-body text-caption text-white/60 text-center">
+            <p className="m-0 font-body text-caption text-white text-center">
               Pas encore de compte ? <AuthInlineLink onClick={() => navigate('/auth/signup')}>Créer un compte</AuthInlineLink>
             </p>
           </form>
@@ -141,7 +141,7 @@ export const MagicLink: React.FC = () => {
               </AuthGhostButton>
             </div>
 
-            <p className="m-0 mt-stack font-body text-caption text-white/60 text-center">
+            <p className="m-0 mt-stack font-body text-caption text-white text-center">
               Email non reçu ? Vérifiez vos spams ou <AuthInlineLink onClick={() => navigate('/help')}>contactez le support</AuthInlineLink>.
             </p>
           </AuthSuccess>

@@ -79,12 +79,12 @@ export const ResetPassword: React.FC = () => {
       aside={
         <div className="flex flex-col gap-stack-xs">
           <div className="flex items-center gap-stack-xs">
-            <CheckCircle2 size={18} className="text-white/85" />
+            <CheckCircle2 size={18} className="text-white" />
             <h4 className="font-display text-body font-semibold text-white">
               Règles recommandées
             </h4>
           </div>
-          <ul className="m-0 pl-4 flex flex-col gap-stack-2xs text-body text-white/75 list-disc">
+          <ul className="m-0 pl-4 flex flex-col gap-stack-2xs text-body text-white list-disc">
             <li>Au moins 12 caractères.</li>
             <li>Mélanger lettres, chiffres et symboles.</li>
             <li>Éviter les mots évidents ou personnels.</li>
