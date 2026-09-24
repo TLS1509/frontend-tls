@@ -11,6 +11,19 @@
  *  ce qu'il contient est en <span> (2026-09-24 — il portait des <div>, des <p>
  *  et un <h2>, du HTML invalide). Les classes d'affichage donnent le rendu.
  *
+ * Accessibilité (2026-09-24) :
+ *  - chaque face se nomme par SON CONTENU — la question au recto, la réponse
+ *    au verso. Les deux portaient `aria-label="Retourner la flashcard"`, qui
+ *    remplace le contenu : un lecteur d'écran n'entendait jamais ni l'une ni
+ *    l'autre, seulement deux fois la même consigne ;
+ *  - la face cachée sort du clavier et de l'arbre (`tabIndex={-1}`,
+ *    `aria-hidden`) : on atteignait la réponse par Tab avant d'avoir retourné
+ *    la carte ;
+ *  - retourner la carte depuis une face fait passer le focus sur l'autre : le
+ *    lecteur d'écran lit la réponse, et Entrée la retourne encore. Le focus
+ *    n'est déplacé que s'il était sur la carte (un raccourci de page ne le
+ *    vole pas).
+ *
  * Mécanique :
  *  - `perspective: 1500px` sur le container (inline style — valeur calculée)
  *  - `transformStyle: preserve-3d` + `rotateY(180deg)` pour le flip
@@ -27,7 +40,7 @@
  *   />
  */
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { RotateCw } from 'lucide-react';
 import { TONE_BORDER_500, TONE_HERO_GRADIENT } from '../../lib/tone-classes';
 import type { PageTone } from '../../lib/tone-classes';
@@ -84,6 +97,18 @@ export const FlipCard: React.FC<FlipCardProps> = ({
   const gradientClass = TONE_HERO_GRADIENT[tone];
   const focusOutline = TONE_FOCUS_OUTLINE[tone];
 
+  const rectoRef = useRef<HTMLButtonElement>(null);
+  const versoRef = useRef<HTMLButtonElement>(null);
+  /* La face qui vient de se cacher avait le focus ? Il passe sur celle qui
+     apparaît. Elle ne l'a pas perdu entre-temps : `aria-hidden` et
+     `tabIndex={-1}` ne retirent pas le focus d'un élément (`inert` le ferait,
+     et le rendrait à <body> avant cet effet). */
+  useEffect(() => {
+    const visible = isFlipped ? versoRef.current : rectoRef.current;
+    const cachee = isFlipped ? rectoRef.current : versoRef.current;
+    if (cachee && document.activeElement === cachee) visible?.focus({ preventScroll: true });
+  }, [isFlipped]);
+
   const faceBase = [
     'absolute inset-0 rounded-xl overflow-hidden cursor-pointer border-[3px]',
     'shadow-[0_8px_32px_rgba(85,161,180,0.18)]',
@@ -106,9 +131,11 @@ export const FlipCard: React.FC<FlipCardProps> = ({
       >
         {/* ── Front face ─────────────────────────────────────── */}
         <button
+          ref={rectoRef}
           type="button"
           onClick={onFlip}
-          aria-label="Retourner la flashcard"
+          tabIndex={isFlipped ? -1 : undefined}
+          aria-hidden={isFlipped || undefined}
           className={faceBase}
           style={{
             backfaceVisibility: 'hidden',
@@ -158,8 +185,13 @@ export const FlipCard: React.FC<FlipCardProps> = ({
             {/* Voile CLAIR + encre foncée : blanc sur blanc/15 tombait sous 4,5 sur l'or 700. */}
             <span className="inline-flex items-center gap-stack-xs px-4 py-2 rounded-pill bg-white/90 backdrop-blur-glass-light border border-white/30">
               <RotateCw size={16} className="text-ink-900" />
+              {/* Surface apprenant : « tu » (arbitrage n°23). « Cliquez pour
+                  voir la réponse » ne valait que pour la souris ; le verbe de
+                  l'action vaut au doigt comme au clavier. « … pour voir la
+                  réponse » passait sur deux lignes à 375 : au recto d'une
+                  flashcard, la réponse est ce qu'on attend du verso. */}
               <span className="font-body text-caption font-semibold text-ink-900">
-                Cliquez pour voir la réponse
+                Retourne la carte
               </span>
             </span>
           </span>
@@ -167,9 +199,11 @@ export const FlipCard: React.FC<FlipCardProps> = ({
 
         {/* ── Back face ──────────────────────────────────────── */}
         <button
+          ref={versoRef}
           type="button"
           onClick={onFlip}
-          aria-label="Retourner la flashcard"
+          tabIndex={isFlipped ? undefined : -1}
+          aria-hidden={!isFlipped || undefined}
           className={[faceBase, gradientClass, 'p-section'].join(' ')}
           style={{
             backfaceVisibility: 'hidden',
