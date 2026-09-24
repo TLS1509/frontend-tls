@@ -55,9 +55,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
   className = '',
   ...rest
 }) => {
-  // Width progressive : 220px tablet (768-1023), 260px desktop (1024+).
-  // Sur mobile drawer, la classe `max-md:w-[280px]` override prend le dessus.
-  const widthClasses = collapsed ? 'w-[72px]' : 'w-[220px] lg:w-[260px]';
+  /* Une seule largeur dépliée, 260 px, dès 768 px — révisé le 2026-09-24.
+     La tablette avait 220 px. Avec des entrées à 16 px (arbitrage n°20), le
+     libellé le plus long, « Espace Apprentissage », mesure 162 px ; la rangée
+     de 220 ne lui en laissait que 133 et le coupait (« Espace Appren… »). À
+     260, il en a 173. Sur mobile, le tiroir garde `max-md:w-[280px]`. */
+  const widthClasses = collapsed ? 'w-[72px]' : 'w-[260px]';
 
   // Tiroir ouvert : Échap le ferme (motif APG Dialog). Le retour du focus au
   // bouton d'ouverture est géré par le parent, qui possède ce bouton.
@@ -143,7 +146,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
         )}
 
         {/* Navigation */}
-        <nav className={['flex-1 flex flex-col gap-tight overflow-y-auto', collapsed ? 'px-2' : 'px-3'].join(' ')}>
+        {/* 8 px entre deux entrées (`gap-stack-xs`), et non plus 2 : `gap-tight`
+            ne sépare que deux lignes d'un même énoncé, jamais deux rangées — les
+            fonds de survol et de sélection s'y touchaient presque. */}
+        <nav className={['flex-1 flex flex-col gap-stack-xs overflow-y-auto', collapsed ? 'px-2' : 'px-3'].join(' ')}>
           {children}
         </nav>
 
@@ -284,9 +290,13 @@ export const NavItem: React.FC<NavItemProps> = ({
       {...rest}
     >
       <span aria-hidden className={`${NAV_VOILE} ${active ? 'opacity-100' : 'opacity-0'}`} />
+      {/* Boîte de 24 (elle règle le centrage du rail replié), glyphe au cran
+          `icon-md` (20) : le cran apparié au corps de 16 px du libellé. Il était
+          à 22, hors échelle. Rangée en `items-center` : l'icône est centrée sur
+          la ligne du libellé. */}
       {icon && (
-        <span className="inline-flex items-center justify-center shrink-0 w-6 h-6 [&>svg]:w-[22px] [&>svg]:h-[22px]">
-          {icon}
+        <span className="inline-flex items-center justify-center shrink-0 w-6 h-6">
+          <span className="inline-flex icon-md [&>svg]:w-full [&>svg]:h-full">{icon}</span>
         </span>
       )}
       {/* Monté en permanence : un démontage conditionnel fait disparaître le mot
@@ -431,8 +441,10 @@ export const SidebarUserCard: React.FC<SidebarUserCardProps> = ({
     >
       <span className="shrink-0">{avatarWithBadge}</span>
       <span className="flex-1 min-w-0 text-left">
-        <span className="block text-body font-bold text-ink-900 truncate">{name}</span>
-        {subtitle && <span className="block text-caption text-ink-500 truncate">{subtitle}</span>}
+        {/* Nom : un nom dans une rangée, donc 16/600 — pas un titre. E-mail :
+            méta, 13 en ink-600 (ink-500 est réservé aux placeholders). */}
+        <span className="block text-body font-semibold text-ink-900 truncate">{name}</span>
+        {subtitle && <span className="block text-caption text-ink-600 truncate">{subtitle}</span>}
       </span>
       <span className="shrink-0 text-ink-600">
         {menuOpen ? <ChevronDown size={16} strokeWidth={2.5} /> : <ChevronUp size={16} strokeWidth={2.5} />}

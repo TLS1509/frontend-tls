@@ -8,7 +8,9 @@
  *    le chain complet "Home > Parent > Enfant" pour offrir un retour rapide.
  *
  * Font-size : text-caption (13px) pour lisibilité — chevré au-dessus du
- * text-micro (11px) qui était trop petit.
+ * text-micro (11px) qui était trop petit. Liens parents en 400 ink-600 (le 500
+ * est réservé aux puces), page courante en 600 ink-900 : le rang se lit à la
+ * graisse et à l'encre (2026-09-24).
  *
  * Intégré dans `AppLayout` au-dessus du `<main>` (sauf si la page a son
  * propre fil d'Ariane comme les éditoriaux Veille).
@@ -294,7 +296,7 @@ export const AppBreadcrumb: React.FC<AppBreadcrumbProps> = ({
             {crumb.href && !isLast ? (
               <Link
                 to={crumb.href}
-                className="inline-flex items-center px-2 py-1 -my-1 -mx-1 rounded-md text-ink-600 hover:bg-ink-100 hover:text-primary-700 transition-colors duration-base truncate font-medium"
+                className="inline-flex items-center px-2 py-1 -my-1 -mx-1 rounded-md text-ink-600 hover:bg-ink-100 hover:text-primary-800 transition-colors duration-base truncate"
               >
                 {crumb.label}
               </Link>
