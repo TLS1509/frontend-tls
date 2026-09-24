@@ -142,7 +142,6 @@ export { default as ProjectsList } from './ProjectsList';
 export { default as ItemRecommendations } from './ItemRecommendations';
 export { default as PasseportHistorique } from './PasseportHistorique';
 export { default as PurchaseCredits } from './PurchaseCredits';
-export { default as StreakDetail } from './StreakDetail';
 export { default as CoachEngagement } from './CoachEngagement';
 export { default as CoachEnterpriseDashboard } from './CoachEnterpriseDashboard';
 export { default as ManagerViewsBuilder } from './ManagerViewsBuilder';
