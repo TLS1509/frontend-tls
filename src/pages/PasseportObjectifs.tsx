@@ -149,8 +149,9 @@ export default function PasseportObjectifs() {
         title="Mes Objectifs de Progression"
         summary="Définis des objectifs Dreyfus mesurables et suis leur avancement. Chaque objectif génère un plan d'action personnalisé."
         tone="flat"
+        /* L'action principale de la page (arbitrage n°19) : le seul aplat. */
         trailing={
-          <Button emphasis="soft" size="md" leadingIcon={<Plus size={16} />} onClick={openCreate}>
+          <Button emphasis="solid" size="md" leadingIcon={<Plus size={16} />} onClick={openCreate}>
             Nouvel objectif
           </Button>
         }
@@ -174,10 +175,12 @@ export default function PasseportObjectifs() {
           qui ajoute à la liste à côté de lui ; les objectifs en rangées dans
           une carte, plus en boîtes dans une carte. */}
       <section className="flex flex-col gap-stack">
+        {/* « Ajouter » double « Nouvel objectif » (l'aplat de l'en-tête) : un
+            raccourci discret, `ghost`. */}
         <SectionHeader
           title="Objectifs actifs"
           action={
-            <Button emphasis="outline" size="sm" leadingIcon={<Plus size={14} />} onClick={openCreate}>
+            <Button emphasis="ghost" size="sm" leadingIcon={<Plus size={14} />} onClick={openCreate}>
               Ajouter
             </Button>
           }
@@ -228,9 +231,12 @@ export default function PasseportObjectifs() {
                       </div>
                       <ProgressBar value={g.progressPct} fill="brand" size="sm" showLabel />
                     </button>
+                    {/* Deux outils de la rangée : `ghost` (n°19). Supprimer
+                        prend le ton `danger` : il avait le poids de Modifier. */}
                     <div className="flex items-center justify-end gap-stack-xs">
                       <Button
-                        emphasis="outline"
+                        emphasis="ghost"
+                        tone="neutral"
                         size="sm"
                         leadingIcon={<Pencil size={14} />}
                         onClick={(e) => {
@@ -241,7 +247,8 @@ export default function PasseportObjectifs() {
                         Modifier
                       </Button>
                       <Button
-                        emphasis="outline"
+                        emphasis="ghost"
+                        tone="danger"
                         size="sm"
                         leadingIcon={<Trash2 size={14} />}
                         onClick={(e) => {
@@ -287,7 +294,7 @@ export default function PasseportObjectifs() {
               ))}
             </ol>
           </Card>
-          <Button emphasis="soft" size="md" leadingIcon={<ChevronRight size={16} />} className="self-start">
+          <Button emphasis="ghost" size="md" leadingIcon={<ChevronRight size={16} />} className="self-start">
             Voir le plan d'action complet
           </Button>
         </section>
@@ -307,9 +314,11 @@ export default function PasseportObjectifs() {
                       <span className="text-body font-semibold text-ink-900">{comp?.label ?? g.competenceId}</span>
                       <span className="text-caption text-ink-600 tabular-nums">{comp?.subdomain ?? (comp ? domainLabel(comp.domain) : '')} · D{g.startLevel} → D{g.targetLevel}</span>
                     </div>
+                    {/* L'action de la rangée, `soft` : planifier le brouillon.
+                        Modifier est un outil, `ghost` comme plus haut. */}
                     <div className="flex flex-wrap items-center gap-stack-xs">
                       <Button
-                        emphasis="outline"
+                        emphasis="soft"
                         size="sm"
                         leadingIcon={<PlayCircle size={14} />}
                         onClick={() => handlePlan(g)}
@@ -317,7 +326,8 @@ export default function PasseportObjectifs() {
                         Planifier
                       </Button>
                       <Button
-                        emphasis="outline"
+                        emphasis="ghost"
+                        tone="neutral"
                         size="sm"
                         leadingIcon={<Pencil size={14} />}
                         onClick={() => openEdit(g.id)}
@@ -349,10 +359,12 @@ export default function PasseportObjectifs() {
         onClose={closeModal}
         title={modalState?.mode === 'edit' ? "Modifier l'objectif" : 'Nouvel objectif de progression'}
         description="Définis une compétence cible, le niveau Dreyfus visé et une échéance."
+        /* La modale est un écran : Annuler en `outline` neutre, Confirmer en
+           `solid` (arbitrage n°19). */
         actions={
           <div className="flex items-center justify-end gap-stack-xs w-full">
-            <Button emphasis="outline" size="md" onClick={closeModal}>Annuler</Button>
-            <Button emphasis="soft" size="md" onClick={handleSubmit}>
+            <Button emphasis="outline" tone="neutral" size="md" onClick={closeModal}>Annuler</Button>
+            <Button emphasis="solid" size="md" onClick={handleSubmit}>
               {modalState?.mode === 'edit' ? 'Enregistrer' : "Créer l'objectif"}
             </Button>
           </div>

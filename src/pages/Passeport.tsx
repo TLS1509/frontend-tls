@@ -141,8 +141,9 @@ export default function Passeport() {
         title="Mon Passeport Compétences"
         summary="Visualise ta progression Dreyfus, définis tes objectifs et suis l'évolution de tes compétences H.S.O."
         tone="flat"
+        /* L'action principale de la page (arbitrage n°19) : le seul aplat. */
         trailing={
-          <Button emphasis="soft" size="md" leadingIcon={<Plus size={16} />} onClick={() => setActiveTab('objectifs')}>
+          <Button emphasis="solid" size="md" leadingIcon={<Plus size={16} />} onClick={() => setActiveTab('objectifs')}>
             Définir un objectif
           </Button>
         }
@@ -211,8 +212,10 @@ export default function Passeport() {
                       <span className="text-h2 font-display text-ink-900 tabular-nums">{activeObjectives.length}</span>
                       <span className="text-body text-ink-600">objectifs</span>
                     </div>
+                    {/* L'action de la carte : `soft` (n°19 — `outline` est
+                        réservé à Annuler). */}
                     <Button
-                      emphasis="outline" size="sm" trailingIcon={<ChevronRight size={14} />}
+                      emphasis="soft" size="sm" trailingIcon={<ChevronRight size={14} />}
                       className="mt-stack-xs"
                       onClick={() => setActiveTab('objectifs')}>
                       Voir les objectifs
@@ -298,7 +301,7 @@ export default function Passeport() {
               <SectionHeader
                 title="Résumé par compétence"
                 action={
-                  <Button emphasis="outline" size="sm" onClick={() => setActiveTab('competences')}>
+                  <Button emphasis="ghost" size="sm" onClick={() => setActiveTab('competences')}>
                     Tout voir
                   </Button>
                 }
@@ -501,8 +504,10 @@ export default function Passeport() {
                   </div>
                 )}
 
+                {/* L'aplat reste à « Définir un objectif », en tête de page :
+                    ici, l'action de la liste (`soft`). */}
                 <Button
-                  emphasis="outline"
+                  emphasis="soft"
                   size="md"
                   leadingIcon={<Plus size={16} />}
                   onClick={() => setShowObjectiveModal(true)}

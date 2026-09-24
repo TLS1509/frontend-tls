@@ -189,9 +189,11 @@ export default function PasseportRoadmap() {
         eyebrow={{ label: 'Passeport · Roadmap' }}
         title="Ma Roadmap Compétences"
         summary="Visualise ta trajectoire de progression vers tes objectifs Dreyfus."
+        /* Une page de consultation : pas d'aplat (arbitrage n°19). Modifier
+           les objectifs est l'action de contexte de la feuille de route. */
         trailing={
           <div className="flex items-center gap-stack-xs flex-wrap">
-            <Button emphasis="outline" size="sm">
+            <Button emphasis="soft" size="sm">
               Modifier les objectifs
             </Button>
             <Button emphasis="ghost" size="sm">
@@ -311,7 +313,9 @@ export default function PasseportRoadmap() {
                 <p className="text-body text-ink-700 max-w-prose">{s.detail}</p>
                 <div className="mt-stack-sm flex justify-end gap-stack-xs flex-wrap">
                   <AIOverrideButton label="Ignorer" onOverride={(reason) => ignorer(s, reason)} size="sm" />
-                  <Button emphasis="outline" size="sm" trailingIcon={<ChevronRight size={14} />}>
+                  {/* L'action de la carte (`soft`), en pastille blanche sur
+                      la carte teintée (`neutral`). */}
+                  <Button emphasis="soft" tone="neutral" size="sm" trailingIcon={<ChevronRight size={14} />}>
                     Explorer
                   </Button>
                 </div>

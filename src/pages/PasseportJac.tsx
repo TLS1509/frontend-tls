@@ -182,7 +182,11 @@ export default function PasseportJac() {
                   ))}
                 </div>
               </div>
-              <Button emphasis="outline" size="sm" trailingIcon={<FileText size={14} />} className="mt-stack-3xs">
+              {/* L'action de la carte : `soft` (n°19, `outline` est réservé à
+                  Annuler). `neutral`, la pastille blanche des cartes teintées :
+                  en `brand`, son fond au cran 50 se fondait dans la carte et le
+                  bouton se lisait comme un contour. */}
+              <Button emphasis="soft" tone="neutral" size="sm" trailingIcon={<FileText size={14} />} className="mt-stack-3xs">
                 Voir le certificat
               </Button>
             </Card>

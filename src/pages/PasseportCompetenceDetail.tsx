@@ -92,9 +92,12 @@ export default function PasseportCompetenceDetail() {
         title={label}
         summary={description || `Compétence du domaine ${domain} : suivi Dreyfus 1 à 5.`}
         tone="flat"
+        /* Le retour est tertiaire (`ghost` neutre) ; « Définir un objectif »,
+           une action de contexte (`soft`) : l'aplat de la page est
+           « Réfléchir sur cette compétence » (arbitrage n°19). */
         trailing={
           <div className="flex flex-wrap items-center gap-stack-xs">
-            <Button emphasis="outline" size="md" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/passeport')}>
+            <Button emphasis="ghost" tone="neutral" size="md" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/passeport')}>
               Retour
             </Button>
             <Button emphasis="soft" size="md" leadingIcon={<Target size={16} />}>
@@ -332,9 +335,11 @@ export default function PasseportCompetenceDetail() {
           Continuer ma progression
         </Button>
         {/* Boucle Passeport → Journal → Passeport : l'entrée publiée avec ce
-            `competenceId` redépose une preuve légère sur cette compétence. */}
+            `competenceId` redépose une preuve légère sur cette compétence.
+            C'est l'action principale de la page, donc son aplat (n°19) : il
+            était un `soft` orange, au même poids que son voisin sans action. */}
         <Button
-          emphasis="soft" tone="warm"
+          emphasis="solid"
           size="lg"
           leadingIcon={<PenLine size={18} />}
           onClick={() =>
