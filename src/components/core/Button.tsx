@@ -111,7 +111,20 @@ export type ButtonVariant =
   | 'glass-sun'
   | 'link';
 
+/**
+ * Trois hauteurs, celles de tout ce qui se pose sur une même ligne (arbitrage
+ * n°22 du 2026-09-24) : sm 36 · md 44 · lg 52 — comme Input, Select, Combobox,
+ * Search, SegmentedControl et FilterChip.
+ *
+ * `xl` est DÉPRÉCIÉ : il rend exactement `lg`. L'ancien `xl` (52 px) est
+ * devenu le `lg` ; garder le nom évite de casser la dizaine d'appels du site.
+ * Ne plus l'employer.
+ */
 export type ButtonSize = 'sm' | 'md' | 'lg' | 'xl';
+
+/** Les trois tailles réelles ; `xl` est ramené sur `lg`. */
+type TailleRendue = Exclude<ButtonSize, 'xl'>;
+const tailleRendue = (size: ButtonSize): TailleRendue => (size === 'xl' ? 'lg' : size);
 
 /** Combien le bouton insiste. Du plus fort au plus discret. */
 export type ButtonEmphasis = 'solid' | 'soft' | 'outline' | 'ghost' | 'link';
@@ -198,7 +211,9 @@ export interface ButtonProps
    défaut. Et la graisse 700 aggrave le cumul, puisqu'elle élargit les lettres.
 
    La graisse ne change aucun seuil de contraste avant 18,66 px, où WCAG classe
-   le label en « grand texte » (seuil 3,0 au lieu de 4,5) — seul `xl` en profite.
+   le label en « grand texte » (seuil 3,0 au lieu de 4,5). Seul l'ancien `xl`
+   (19 px) y arrivait ; depuis qu'il rend `lg` (n°22), tous les labels sont du
+   texte normal et visent 4,5 — ce que les niveaux au cran 700 tiennent.
    Ne pas remettre `tracking-tight` ici : s'il devait revenir pour les grandes
    tailles, sa place est dans SIZE_CLASSES, jamais dans BASE. */
 /* Rayon : 14 px (`rounded-lg`) — décidé le 2026-09-14 (R3).
@@ -377,49 +392,45 @@ const VARIANT_ALIAS: Record<
   link:                 { emphasis: 'link',    tone: 'brand'   },
 };
 
-/* Cibles tactiles — revues le 2026-09-09.
-   `sm` mesure 32 px de haut et compte 227 des 522 boutons : il vit dans les
-   tableaux de bord denses (ManagerCohort, CoachDashboard, Webhooks…), où le
-   passer à 44 px visuels casserait les mises en page.
+/* Hauteurs — arbitrage n°22 du 2026-09-24 : 36 · 44 · 52.
+   Une seule échelle pour tout ce qui se pose sur une même ligne. Avant, le
+   bouton comptait quatre crans (32 · 44 · 48 · 52) quand le champ en comptait
+   trois (36 · 44 · 52) : un `Button sm` à côté d'un `Input sm` dépassait de
+   4 px de chaque côté, un `lg` à côté d'un champ `lg` manquait de 4 px. Le
+   `sm` monte à 36, l'ancien `xl` (52) devient le `lg`, et `xl` n'est plus
+   qu'un alias déprécié (voir `ButtonSize`).
 
-   La réponse n'est pas d'agrandir le bouton mais **d'étendre sa cible** : le
-   pseudo-élément porte la zone tactile à 44 px sans toucher au rendu. C'est ce
-   que font iOS et Material — la cible déborde le visuel. Le bouton reste dense,
-   le doigt ne rate plus.
+   Cible tactile — revue le 2026-09-09, gardée le 24/09. `sm` vit dans les
+   rangées denses (tableaux coach et manager, Webhooks…) : la réponse n'est pas
+   d'agrandir le bouton mais d'ÉTENDRE SA CIBLE. Le pseudo-élément porte la
+   zone tactile à 44 px sans toucher au rendu, comme iOS et Material.
+   (44 − 36) ÷ 2 = 4 px de débord vertical, soit `-inset-y-1` (il en fallait 6
+   quand le bouton faisait 32 px).
 
-   (44 − 32) ÷ 2 = 6 px de débord vertical, soit `-inset-y-1.5`.
-   `xl` passe de 56 à 52 px : à 19 px de police en graisse 700, le label franchit
-   le seuil des 18,66 px et bascule en « grand texte » au sens WCAG — son
-   exigence de contraste tombe de 4,5 à 3,0, ce qui rouvre le cran 600 des
-   couleurs de marque en label blanc. */
-/* Le padding horizontal, mesuré contre la hauteur du cran (passe du 17/09).
-
-   L'invariant qui parle n'est ni padH/hauteur (0,438 → 0,538, il dérive) ni
-   padH/padV (2,33 · 2,00 · 2,18 · 2,48, il n'a pas d'ordre) mais le rapport du
-   padding à la POLICE du label — l'air qu'on laisse à la lettre :
+   Padding horizontal — l'invariant est le rapport du padding à la POLICE du
+   label (passe du 17/09), pas à la hauteur, qui dérive :
 
      cran  hauteur  police  padH   padH/police
-     sm      32       13     14       1,08   ← l'intrus
-     md      44       15     20       1,33
-     lg      48       16     24       1,50
-     xl      52       19     28       1,47
+     sm      36       13     16       1,23
+     md      44       16     20       1,25
+     lg      52       16     24       1,50
 
-   `sm` était le seul sous 1,2, et c'est le cran le plus employé du produit
-   (227 boutons sur 574). Même forme de défaut que le serrage de septembre : la
-   taille la plus vue encaissait l'écart. Il passe à 16 — 1,23, et un rapport à
-   la hauteur de 0,50, exactement celui de `lg`. 16 est en plus DANS l'échelle
-   d'espacement, ce que 14 n'était pas.
+   Le `px-7` (28, hors échelle) de l'ancien `xl` disparaît avec lui : son
+   label à 19 px n'existe plus, la police de `lg` est celle de `md`.
 
-   ⚠️ `xl` garde 28 px, hors échelle, et c'est délibéré. Les deux crans voisins
-   disponibles l'abîment : 24 donnerait 1,26 quand `lg` est à 1,50 — le plus
-   grand bouton paraîtrait plus serré que celui d'en dessous — et 32 monterait à
-   1,68 et 0,62 de la hauteur. Deux usages, un écart argumenté : mieux vaut une
-   exception écrite qu'un douzième cran d'échelle pour dix boutons. */
-const SIZE_CLASSES: Record<ButtonSize, string> = {
-  sm: 'h-8 px-stack text-caption relative after:absolute after:content-[""] after:inset-x-0 after:-inset-y-1.5',
+   Libellé de `sm` : 13 px, choisi à l'œil le 24/09 contre 16 (padding 20)
+   dans trois rangées réelles — le tableau de `/enterprise/webhooks` (« Tester ·
+   Modifier »), la table de `/coach/apprenants` (« Profil ») et l'en-tête de la
+   carte « Webhooks configurés » (« Ajouter »). À 16 en graisse 700, le bouton
+   devenait le texte le plus lourd de la rangée, plus appuyé que le nom de la
+   personne qu'il sert ; la colonne Actions prenait 35 px aux autres, et
+   « Ajouter » disputait le titre de sa carte. À 13, il reste une action de la
+   rangée, pas son titre. Aucun texte SAISI n'est à 13 : la règle des 16 px
+   (zoom d'iOS au focus) vise les champs, pas les libellés. */
+const SIZE_CLASSES: Record<TailleRendue, string> = {
+  sm: 'h-9 px-stack text-caption relative after:absolute after:content-[""] after:inset-x-0 after:-inset-y-1',
   md: 'h-touch px-stack-md text-body',
-  lg: 'h-12 px-stack-lg text-body',
-  xl: 'h-13 px-7 text-[1.1875rem]',
+  lg: 'h-13 px-stack-lg text-body',
 };
 
 /* L'icône suit la taille du bouton, et c'est le SVG qui se plie à la boîte.
@@ -449,11 +460,17 @@ const SIZE_CLASSES: Record<ButtonSize, string> = {
    utilities, **zéro consommateur**. C'est son premier usage. */
 const ICON_BOX = 'inline-flex items-center justify-center shrink-0 [&>svg]:w-full [&>svg]:h-full';
 
-const ICON_SIZE_CLASSES: Record<ButtonSize, string> = {
-  sm: 'icon-xs', // 16 px pour un label de 13 px — rapport 1,23
-  md: 'icon-sm', // 18 px pour 15 px — 1,20
-  lg: 'icon-md', // 20 px pour 16 px — 1,25
-  xl: 'icon-lg', // 24 px pour 19 px — 1,26
+const ICON_SIZE_CLASSES: Record<TailleRendue, string> = {
+  sm: 'icon-xs', // 16 px pour un label de 13 px
+  md: 'icon-sm', // 18 px pour 16 px
+  lg: 'icon-md', // 20 px pour 16 px, dans un bouton de 52
+};
+
+/* Le bouton-icône est carré : sa largeur reprend la hauteur du cran. */
+const ICON_ONLY_WIDTH: Record<TailleRendue, string> = {
+  sm: 'w-9',
+  md: 'w-touch',
+  lg: 'w-13',
 };
 
 /* ────────────────── Résolution : deux axes, ou un alias ──────────────────── */
@@ -510,7 +527,7 @@ export function buttonClasses({
     BASE,
     RAYON,
     resolveClasses(variant, emphasis, tone, onDark),
-    SIZE_CLASSES[size],
+    SIZE_CLASSES[tailleRendue(size)],
     fullWidth && 'w-full',
     className,
   ]
@@ -541,13 +558,14 @@ export const Button: React.FC<ButtonProps> = ({
   onClick,
   ...rest
 }) => {
+  const taille = tailleRendue(size);
   const classes = [
     BASE,
     // Le bouton-icône est carré : la pilule y rend un cercle parfait.
     iconOnly ? RAYON_CERCLE : RAYON,
     resolveClasses(variant, emphasis, tone, onDark),
-    !iconOnly && SIZE_CLASSES[size],
-    iconOnly && `${size === 'sm' ? 'w-8' : size === 'lg' ? 'w-12' : size === 'xl' ? 'w-14' : 'w-touch'} aspect-square`,
+    !iconOnly && SIZE_CLASSES[taille],
+    iconOnly && `${ICON_ONLY_WIDTH[taille]} aspect-square`,
     fullWidth && 'w-full',
     className,
   ]
@@ -555,7 +573,7 @@ export const Button: React.FC<ButtonProps> = ({
     .join(' ');
 
   // Spinner icon (replaces leadingIcon when loading)
-  const iconBox = `${ICON_BOX} ${ICON_SIZE_CLASSES[size]}`;
+  const iconBox = `${ICON_BOX} ${ICON_SIZE_CLASSES[taille]}`;
 
   const spinner = (
     <span

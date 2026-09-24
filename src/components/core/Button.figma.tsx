@@ -57,7 +57,11 @@ figma.connect(
     props: {
       emphasis: figma.enum('variant', EMPHASE),
       tone: figma.enum('variant', TON),
-      size: figma.enum('size', { sm: 'sm', md: 'md', lg: 'lg', xl: 'xl' }),
+      /* Arbitrage n°22 (2026-09-24) : trois hauteurs, 36 · 44 · 52. Le `xl` du
+         set Figma (52) est le `lg` du code ; `xl` n'y est plus qu'un alias
+         déprécié. Le set garde ses quatre valeurs tant que ses symboles ne sont
+         pas repeints (sm 32 → 36, lg 48 → 52). */
+      size: figma.enum('size', { sm: 'sm', md: 'md', lg: 'lg', xl: 'lg' }),
       loading: figma.enum('state', { loading: true }),
       disabled: figma.enum('state', { disabled: true }),
     },
