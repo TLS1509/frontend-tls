@@ -56,12 +56,20 @@ const sonde = () => {
     const sx = getComputedStyle(x);
     return parseFloat(sx.fontSize) <= 18 && !/spartan/i.test(sx.fontFamily) && x.getBoundingClientRect().height <= 80;
   };
-  // Conteneur « carte » : fond ou filet, rayon ≥ 12, padding ≥ 12.
+  // Conteneur « carte » : fond ou filet, rayon ≥ 12, et padding ≥ 12 — sur le
+  // conteneur lui-même OU sur son enfant qui mène au titre (révisé le 24/09).
+  // Une carte à média (`Card` en `p-0`, une couverture, puis un corps
+  // rembourré) porte son padding sur un enfant : exiger les trois sur le même
+  // élément faisait compter ses titres comme des titres de section — 4 faux
+  // positifs sur /veille/weekly-newsletter. Pas « le premier enfant » : dans
+  // ces cartes, c'est la couverture, sans padding ; c'est le corps qui compte.
+  const padding = (s) => Math.max(parseFloat(s.paddingTop), parseFloat(s.paddingLeft));
   const dansUneCarte = (el) => {
-    for (let x = el.parentElement; x && x !== document.body && x.tagName !== 'MAIN'; x = x.parentElement) {
+    for (let enfant = el, x = el.parentElement; x && x !== document.body && x.tagName !== 'MAIN'; enfant = x, x = x.parentElement) {
       const sx = getComputedStyle(x);
       const surface = (sx.backgroundColor !== 'rgba(0, 0, 0, 0)' && sx.backgroundColor !== 'transparent') || sx.backgroundImage !== 'none' || parseFloat(sx.borderTopWidth) > 0;
-      if (surface && parseFloat(sx.borderTopLeftRadius) >= 12 && Math.max(parseFloat(sx.paddingTop), parseFloat(sx.paddingLeft)) >= 12) return true;
+      if (!surface || parseFloat(sx.borderTopLeftRadius) < 12) continue;
+      if (padding(sx) >= 12 || (enfant !== el && padding(getComputedStyle(enfant)) >= 12)) return true;
     }
     return false;
   };
