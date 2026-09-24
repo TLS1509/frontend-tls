@@ -313,3 +313,74 @@ vu la dernière version ») alors que je venais de lire huit fichiers par `path`
 **Une lecture par `path` n'enregistre pas la vue** : seule la lecture pleine, à
 l'URL sans chemin, le fait. C'est déjà noté dans la mémoire du dépôt ; ça vaut
 la peine de le redire ici, parce que l'erreur se reproduit à chaque session.
+
+---
+
+## 14. Versions 36–37 — re-sync après la passe typographique et les arbitrages n°18, 19, 23 (24.09.2026)
+
+Le miroir suivait `33a4c3c` (17/09). Depuis : la passe typographique (arbitrages
+n°20 et n°21 : corps 16, h3 à 20/26, plus de h4 ni de `body-sm`), les hauteurs
+36 · 44 · 52 (n°22), un seul `solid` par écran (n°19), la voix par surface
+(n°23), « Reconnaissances » à la place de l'XP, de la série et du classement
+(n°18), et la suppression de 14 composants sans usage produit. Kit recompilé sur
+**`d6619c33`**, corrections du kit commitées en **`6d9a3c70`**.
+
+**Publié (v36), en un appel** : `bundle.js`, `bundle.css`, `index.d.ts`, les
+27 `.d.ts` écrits à la main, 178 `preview.html` (174 modifiés, 4 nouveaux :
+`IconChip`, `ActionCardGrid`, `NotificationCard`, `StepCard`), `tokens.json`,
+le brand book et 11 fiches. **Retirés** : les aperçus des 14 cartes supprimées
+(`Pagination`, `SimpleTable`, `SegmentedControl`, `PaginatedList`, `Spinner`,
+`ScatterChart`, `ChartContainer`, `CorrectionStatusBar`, `Achievement`, `Medal`,
+`CompetenceBadge`, `MasteryBadge`, `RankingCard`, `HeroSection`), plus la fiche et
+les types de `Pagination`, qui était une carte écrite à la main. **Puis l'index
+seul (v37)**, relu juste avant, `lastChange` sur `d6619c33`. **Puis un
+enregistrement dans la page** (note d'usage de `color-primary-50` modifiée puis
+rétablie) : catalogue régénéré, 181 composants au manifeste, `tokens.json`
+relu après coup et identique à ce qui avait été publié.
+
+**Rendu de contrôle : 0 erreur sur 181**, trois fois (après la recompilation,
+après le correctif des sous-titres, après celui des trois aperçus).
+
+**`tokens.json`** : h3 à 20/26 et `tracking-snug` ; `text-h4` et `text-body-sm`
+retirés ; les quatre `color-{état}-border` ajoutés (déclarés dans `@theme` le
+même jour) ; notes d'usage réalignées (`primary-600` ne remplit plus le bouton,
+`danger-strong`/`deep` = le `solid` `danger`, appariement des icônes selon
+`src/lib/icon-pairing.ts`, `radius-lg` à trois tailles de bouton, `stack-md` =
+dérogation dense). Toutes les autres valeurs ont été comparées au `@theme` :
+aucun autre écart (les `opacity-*` s'écrivent en % dans le code et en décimal
+ici, même valeur).
+
+**Brand book** : voix (n°23, la Veille en « vous »), règles de copie revalidées,
+échelle typographique en sept pas, rythme en cinq niveaux, étage surcouche
+(24) et pastille d'icône au rayon proportionnel, hiérarchie du bouton (n°19),
+collections en rangées (n°5), focus (arbitrage n°1 : l'écart assumé du contour
+`primary-500`), gamification retirée (n°18). La mention « AAA visé sur le
+lecteur, l'évaluation… » a été retirée : elle venait du PRODUCT.md généré par IA
+en mai, que PRODUCT.md ne porte plus (« WCAG 2.2 AA visé sur toutes les
+surfaces »).
+
+**Fiches** : `Button` décrit l'état actuel et porte un avertissement — **la
+couleur de l'aplat en orange et en or, et le libellé, sont en cours de retravail
+avec Chloé (arbitrages n°26 et n°27, ouverts sur le banc)**. `Card`, `Input`,
+`SectionHeader`, `StatCard`, `FilterChip`, `Modal`, `Sidebar`, `Breadcrumb`,
+`AuthShell`, `StatusBadge` : mises au code.
+
+⚠️ **Deux défauts du kit trouvés en route, corrigés en `6d9a3c70`.**
+- **125 cartes sur 154 avaient perdu leur sous-titre.** Les descriptions de la
+  vitrine se sont allongées pendant les passes du 24/09 ; au-delà de 90 signes,
+  le kit retombait sur la sous-catégorie, et 125 cartes affichaient « Form
+  fields » ou « Learning content ». Le sous-titre prend maintenant la première
+  proposition de la description.
+- **Trois aperçus écrits à la main montraient un état périmé** : `Button` avec
+  quatre tailles (dont `xl`, déprécié) et `soft` légendé « le niveau de l'app » ;
+  `SectionHeader` avec les variantes `solid` et `accent`, légendées « pastille
+  pleine » et « barre verticale » alors que l'une est dépréciée et l'autre
+  retirée ; `StatCard` avec « 7 semaines actives, Record » et une flamme, soit
+  une série. Le rendu de contrôle ne voit pas ce genre de défaut : il ne lève
+  aucune erreur quand un exemple légende une variante qui n'existe plus. Seules
+  les captures le montrent.
+
+**Non fait, à dessein** : la couverture (`Cover/preview.html`) ne porte aucun
+chiffre ni aucune règle périmée ; elle reste telle quelle. L'entrée de ce
+journal dans `docs/INDEX.md` n'est pas mise à jour : le fichier est en cours
+d'édition par une autre session.
