@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { BarChart3, TrendingUp, Calendar, Clock, MessageSquare } from 'lucide-react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { ArrowLeft, BarChart3, TrendingUp, Calendar, Clock, MessageSquare } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { Card } from '../components/core/Card';
@@ -46,6 +46,7 @@ function dreyfusLabel(level: number): string {
 
 export default function FicheApprenantAnalytics() {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [tab, setTab] = useState<'overview' | 'heatmap' | 'activity'>('overview');
 
   const analyticsStore = useAnalyticsStore();
@@ -56,10 +57,18 @@ export default function FicheApprenantAnalytics() {
   if (!learner) {
     return (
       <div className="flex flex-col gap-section">
-        <EditorialHero eyebrow="Coach · Fiche Apprenant" title="Apprenant introuvable" summary="Cet apprenant n'est pas dans votre équipe." tone="flat" />
-        <Container width="wide" padding={false} className="px-stack md:px-section">
-          <p className="text-body-sm text-ink-500">Aucune donnée pour l'identifiant : {id}</p>
-        </Container>
+        {/* Pas d'identifiant technique affiché, et toujours une sortie. */}
+        <EditorialHero
+          eyebrow="Coach · Fiche Apprenant"
+          title="Nous ne trouvons pas cet apprenant"
+          summary="Il ne fait peut-être plus partie de votre équipe, ou le lien est incomplet. Retrouvez-le depuis la liste de vos apprenants."
+          tone="flat"
+          trailing={
+            <Button emphasis="outline" size="md" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/coach/apprenants')}>
+              Retour aux apprenants
+            </Button>
+          }
+        />
       </div>
     );
   }
