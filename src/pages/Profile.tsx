@@ -20,6 +20,7 @@ import { useGamificationStore } from '../stores/persistence';
 import { getBadgeDefById } from '../data/gamification';
 import { MOCK_USER_ID } from '../data/passeport';
 import { Button } from '../components/core/Button';
+import { Card } from '../components/core/Card';
 import { MetaPillGroup } from '../components/ui/MetaPillGroup';
 import { IconChip } from '../components/ui/IconChip';
 import { SkillBar } from '../components/ui/SkillBar';
@@ -263,19 +264,19 @@ export const Profile: React.FC = () => {
               <div className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr] gap-page md:gap-stack-lg">
                 <section className="flex flex-col gap-stack min-w-0">
                   <SectionHeader title="À propos" />
-                  <div className="rounded-xl border border-ink-100 bg-white p-stack-lg flex flex-col gap-stack flex-1">
+                  <Card className="flex flex-col gap-stack flex-1">
                     <p className="font-body text-body text-ink-700 max-w-prose">
                       {USER.bio}
                     </p>
                     <MetaPillGroup
                       items={USER.interests.map((interest) => ({ text: interest }))}
                     />
-                  </div>
+                  </Card>
                 </section>
 
                 <section className="flex flex-col gap-stack min-w-0">
                   <SectionHeader title="Cette semaine" />
-                  <div className="rounded-xl border border-ink-100 bg-white p-stack-lg flex flex-col gap-stack flex-1">
+                  <Card className="flex flex-col gap-stack flex-1">
                     {WEEK_KPIS.map((k) => (
                       <div key={k.label} className="flex items-center gap-stack-sm">
                         <IconChip size="md" tone="neutral">
@@ -291,7 +292,7 @@ export const Profile: React.FC = () => {
                         </div>
                       </div>
                     ))}
-                  </div>
+                  </Card>
                 </section>
               </div>
 
@@ -305,11 +306,11 @@ export const Profile: React.FC = () => {
                     </Button>
                   }
                 />
-                <div className="rounded-xl border border-ink-100 bg-white p-stack-lg flex flex-col gap-stack-lg">
+                <Card className="flex flex-col gap-stack-lg">
                   {SKILLS.slice(0, 3).map((skill) => (
                     <SkillBar key={skill.id} label={skill.label} value={skill.value} tone={skill.tone} showValue />
                   ))}
-                </div>
+                </Card>
               </section>
             </div>
           )}
@@ -318,7 +319,7 @@ export const Profile: React.FC = () => {
             <section className="flex flex-col gap-stack">
               {/* Le compte est une donnée : la méta de l'en-tête. */}
               <SectionHeader title="Activité récente" meta={`${ACTIVITY.length} événements`} />
-              <div className="rounded-xl border border-ink-100 bg-white overflow-hidden">
+              <Card className="p-0 gap-0 overflow-hidden">
                 {ACTIVITY.map((a, idx) => (
                   <div
                     key={a.id}
@@ -347,7 +348,7 @@ export const Profile: React.FC = () => {
                     </div>
                   </div>
                 ))}
-              </div>
+              </Card>
               {/* Sur le bord gauche de la liste qu'il prolonge (il était
                   centré) ; à 24 du contenu. */}
               <Button emphasis="outline" size="sm" trailingIcon={<ArrowRight size={14} />} className="self-start mt-stack-xs">
@@ -419,20 +420,20 @@ export const Profile: React.FC = () => {
                   compensait par un padding haut réduit (16 + 24 en haut, 24 en
                   bas). On l'annule ici, en attendant que le composant la
                   retire. */}
-              <div className="rounded-xl border border-ink-100 bg-white p-stack-lg overflow-x-auto [&>*]:mt-0">
+              <Card className="overflow-x-auto [&>*]:mt-0">
                 <CompetencyMatrix skills={skillsForMatrix} />
-              </div>
+              </Card>
 
               {/* Détail SkillBar pour mobile / vue alternative — un titre de
                   bloc (h3 20) : il était un h3 à 13 px, graisse 500. */}
-              <div className="rounded-xl border border-ink-100 bg-white p-stack-lg flex flex-col gap-stack-lg">
+              <Card className="flex flex-col gap-stack-lg">
                 <h3 className="font-display text-h3 text-ink-900">
                   Vue détaillée
                 </h3>
                 {SKILLS.map((skill) => (
                   <SkillBar key={skill.id} label={skill.label} value={skill.value} tone={skill.tone} showValue />
                 ))}
-              </div>
+              </Card>
             </section>
           )}
         </div>
