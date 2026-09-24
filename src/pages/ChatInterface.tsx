@@ -193,8 +193,8 @@ export default function ChatInterface() {
     <PageShell width="wide">
       <EditorialHero
         eyebrow={{ label: 'Assistant IA', icon: <Sparkles size={14} /> }}
-        title="Votre assistant personnel"
-        summary="Posez vos questions sur vos formations, demandez de l'aide sur un concept ou explorez vos compétences."
+        title="Ton assistant personnel"
+        summary="Pose tes questions sur tes formations, demande de l'aide sur un concept ou explore tes compétences."
         tone="flat"
         trailing={
           /* Une donnée technique, pas un état : MetaPill (arbitrage n°14). */
@@ -235,7 +235,7 @@ export default function ChatInterface() {
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyDown={handleKeyDown}
                   rows={2}
-                  placeholder="Posez votre question à l'assistant…"
+                  placeholder="Pose ta question à l'assistant…"
                   disabled={isTyping}
                   className="flex-1 min-w-0 resize-none rounded-lg border border-ink-200 bg-white px-3 py-2.5 text-body text-ink-900 placeholder:text-ink-500 focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100 transition-all duration-base h-auto min-h-[64px] disabled:opacity-disabled disabled:cursor-not-allowed"
                 />
@@ -273,7 +273,7 @@ export default function ChatInterface() {
               <div className="flex flex-col gap-stack-3xs">
                 <h2 id="assistant-suggestions" className="font-display text-h2 text-ink-900">Suggestions</h2>
                 <p className="font-body text-body text-ink-700">
-                  Démarrez une conversation avec ces questions préparées.
+                  Démarre une conversation avec ces questions préparées.
                 </p>
               </div>
               <ul className="flex flex-col gap-stack-xs">

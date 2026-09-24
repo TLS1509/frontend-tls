@@ -135,7 +135,7 @@ export default function ChatHistoryPanel() {
       <EditorialHero
         eyebrow={{ label: 'Assistant IA', icon: <Sparkles size={14} /> }}
         title="Historique des conversations"
-        summary="Retrouvez toutes vos conversations avec l'assistant IA."
+        summary="Retrouve toutes tes conversations avec l'assistant IA."
         tone="flat"
         trailing={
           /* L'action de la page vit dans son en-tête : elle n'était qu'en
@@ -174,7 +174,7 @@ export default function ChatHistoryPanel() {
           <EmptyState
             icon={<MessageSquare size={32} />}
             title="Aucune conversation"
-            description="Vous n'avez pas encore de conversations pour cette période. Démarrez une nouvelle session avec l'assistant."
+            description="Tu n'as pas encore de conversations pour cette période. Démarre une nouvelle session avec l'assistant."
             actions={
               <Button emphasis="soft" size="md" leadingIcon={<Sparkles size={16} />}>
                 Nouvelle conversation
