@@ -642,9 +642,9 @@
      Table complète et raisonnement : src/lib/icon-pairing.ts. */
   --icon-size-2xs: 14px; /* va avec caption (13) et micro (11) */
   --icon-size-xs: 16px;  /* va avec body (16) */
-  --icon-size-sm: 18px;  /* va avec body-lg (18) */
-  --icon-size-md: 20px;  /* va avec h4 (20) */
-  --icon-size-lg: 24px;  /* va avec h3 (24) */
+  --icon-size-sm: 18px;  /* va avec le chapô, body-lg (18) */
+  --icon-size-md: 20px;  /* va avec h3 (20) — l'ancien h4, arbitrage n°21 */
+  --icon-size-lg: 24px;  /* plus de pas de texte à 24 depuis le 24/09 : glyphe de l'IconChip lg (48) */
   --icon-size-xl: 28px;  /* va avec h2 (28) — le plus grand cran d'interface */
   --icon-size-2xl: 32px; /* registre affichage — vignettes, en-têtes de carte */
   --icon-size-3xl: 40px; /* états vides */

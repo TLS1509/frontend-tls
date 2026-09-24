@@ -448,9 +448,13 @@ import { Star } from 'lucide-react';
 icônes sont à 10 et 12 px, en `size={n}` brut. Ce n'est pas de la triche : une
 icône de 14 dans une pastille de 18 px n'a que 2 px d'air. C'est l'échelle qui ne
 descend pas assez bas. À trancher si le motif se répète, pas à corriger au cas
-par cas. Chaque cran est apparié à un pas de l'échelle de texte
-dans un rapport d'environ 1,25 : `xs` avec `caption`, `sm` avec `body-sm`, `md`
-avec `body`, `lg` avec `body-lg`.
+par cas. Chaque cran s'apparie à un pas de texte selon
+`src/lib/icon-pairing.ts` (la source unique, mesurée) : **le cran vaut à peu près
+le corps du texte** — `caption` et `micro` → `2xs`, `body` → `xs`, chapô → `sm`,
+h3 → `md`, h2 → `xl`. *(Corrigé le 2026-09-24 : cette ligne donnait un rapport de
+1,25 — `xs` avec `caption`, `sm` avec `body-sm`… — calculé sur les tailles
+nominales, qui ignorent que l'encre d'une icône Lucide ne remplit que 20/24 de sa
+boîte ; et elle citait `body-sm`, qui n'existe plus.)*
 
 **État au 2026-09-09** : 2 066 tailles posées à la main, dont 1 037 hors
 échelle sur 27 valeurs — la plus fréquente était 14 px (357 usages), hors
