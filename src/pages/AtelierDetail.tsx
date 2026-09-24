@@ -40,11 +40,17 @@ const INFOS: InfoItem[] = [
   { label: 'Matériel', value: 'Papier + stylo recommandés' },
 ];
 
+/* Fin de la session : passé ce moment, l'atelier est terminé et l'on n'y
+   réserve plus de place. La page proposait « Réserver ma place » sur une date
+   passée (audit du 23/09). À remplacer par la donnée du store quand la page y
+   sera branchée. */
+const FIN_SESSION = new Date('2026-06-18T13:00:00+02:00');
+
 // ─── AtelierDetail ────────────────────────────────────────────────────────────
 
 export default function AtelierDetail() {
-  const { id } = useParams<{ id: string }>();
-  void id;
+  const { id = '1' } = useParams<{ id: string }>();
+  const estTermine = Date.now() > FIN_SESSION.getTime();
 
   return (
     <PageShell width="medium" noPadTop={true} className="pt-6 md:pt-8 lg:pt-10">
@@ -54,6 +60,7 @@ export default function AtelierDetail() {
         summary="Pratique le feedback constructif en situation réelle. Jeux de rôle + débriefing collectif."
         trailing={
           <div className="flex gap-stack-xs flex-wrap">
+            {estTermine && <Badge variant="neutral" size="normal">Terminé</Badge>}
             <Badge variant="info" size="normal">18 juin 2026 · 10h00</Badge>
             <Badge variant="neutral" size="normal">Distanciel · 3h</Badge>
           </div>
@@ -102,7 +109,18 @@ export default function AtelierDetail() {
           </div>
         </SectionCard>
 
-        {/* Inscription CTA */}
+        {/* Inscription CTA — ou, la date passée, l'état terminé */}
+        {estTermine ? (
+          <Card variant="default" className="p-stack-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-stack">
+            <div className="flex flex-col gap-tight w-full sm:flex-1">
+              <span className="text-body font-semibold text-ink-900">Cet atelier est terminé</span>
+              <span className="text-caption text-ink-600">Les réservations sont closes.</span>
+            </div>
+            <Button emphasis="soft" size="lg" className="shrink-0" to={`/ateliers/${id}/recap`}>
+              Voir le récapitulatif
+            </Button>
+          </Card>
+        ) : (
         <Card variant="default" className="p-stack-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-stack">
           <div className="flex flex-col gap-tight w-full sm:flex-1">
             <span className="text-body font-semibold text-ink-900">7 / 12 places disponibles</span>
@@ -114,6 +132,7 @@ export default function AtelierDetail() {
             <span className="text-micro text-ink-600 text-center">Annulation gratuite jusqu'à J-2</span>
           </div>
         </Card>
+        )}
 
         {/* Infos mode */}
         <div className="flex items-center gap-stack text-caption text-ink-500">

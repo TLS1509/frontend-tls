@@ -44,12 +44,19 @@ const RELATED = [
   { id: 3, title: 'Communication non-violente', expert: 'Sarah Leloup', status: 'REPLAY' },
 ];
 
+/* Fin de la session : passé ce moment, la masterclass est terminée et l'on ne
+   s'y inscrit plus. La page affichait « S'inscrire » sur une date passée
+   (audit du 23/09). À remplacer par la donnée du store quand la page y sera
+   branchée. */
+const FIN_SESSION = new Date('2026-06-15T15:30:00+02:00');
+
 // ─── MasterclassDetail ───────────────────────────────────────────────────────
 
 export default function MasterclassDetail() {
-  useParams<{ id: string }>();
+  const { id = '1' } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [openProg, setOpenProg] = useState<number | null>(null);
+  const estTerminee = Date.now() > FIN_SESSION.getTime();
 
   return (
     <PageShell width="medium" noPadTop={true} className="pt-6 md:pt-8 lg:pt-10">
@@ -60,6 +67,7 @@ export default function MasterclassDetail() {
         summary="Découvre comment maintenir l'engagement et la performance de tes équipes dans les périodes de turbulences."
         trailing={
           <div className="flex gap-stack-xs flex-wrap">
+            {estTerminee && <Badge variant="neutral" size="normal">Terminée</Badge>}
             <Badge variant="info" size="normal">15 juin 2026 · 14h00</Badge>
             <Badge variant="neutral" size="normal">90 min · Distanciel</Badge>
           </div>
@@ -106,7 +114,20 @@ export default function MasterclassDetail() {
                 </div>
               </SectionCard>
 
-              {/* CTA inscription */}
+              {/* CTA inscription — ou, la date passée, l'état terminé */}
+              {estTerminee ? (
+                <Card variant="tinted" tone="primary" className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-stack p-stack-lg">
+                  <div className="flex flex-col gap-tight flex-1 min-w-0">
+                    <p className="text-body-sm font-semibold text-ink-900 m-0">
+                      Cette masterclass est terminée
+                    </p>
+                    <p className="text-caption text-ink-600 m-0">Les inscriptions sont closes.</p>
+                  </div>
+                  <Button emphasis="soft" size="lg" className="shrink-0" to={`/masterclass/${id}/replay`}>
+                    Voir le replay
+                  </Button>
+                </Card>
+              ) : (
               <Card variant="tinted" tone="primary" className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-stack p-stack-lg">
                 <div className="flex flex-col gap-tight flex-1 min-w-0">
                   <p className="text-body-sm font-semibold text-ink-900 m-0">
@@ -119,6 +140,7 @@ export default function MasterclassDetail() {
                   S'inscrire à la masterclass
                 </Button>
               </Card>
+              )}
             </div>
           }
           aside={

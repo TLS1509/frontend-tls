@@ -64,8 +64,15 @@ const INFO_GRID = [
   { icon: <MapPin size={14} />, label: 'Langue', value: 'Français' },
 ];
 
+/* Fin de l'événement : passé ce moment, il est terminé et l'on ne s'y inscrit
+   plus. La page proposait « S'inscrire gratuitement » sur une date passée
+   (audit du 23/09). À remplacer par la donnée du store quand la page y sera
+   branchée. */
+const FIN_EVENEMENT = new Date('2026-06-20T17:00:00+02:00');
+
 export default function EvenementDetail() {
-  useParams<{ id: string }>();
+  const { id = EVENT.id } = useParams<{ id: string }>();
+  const estTermine = Date.now() > FIN_EVENEMENT.getTime();
 
   const pct = Math.round((EVENT.registered / EVENT.capacity) * 100);
 
@@ -78,6 +85,7 @@ export default function EvenementDetail() {
         summary={EVENT.subtitle}
         trailing={
           <div className="flex flex-wrap gap-stack-xs items-center">
+            {estTermine && <Badge variant="neutral" size="large">Terminé</Badge>}
             <Badge variant="sun" size="large">{EVENT.date} · {EVENT.time}</Badge>
             <Badge variant="info" size="large">{EVENT.mode} · {EVENT.duration}</Badge>
             <Badge variant="neutral" size="large">{EVENT.price}</Badge>
@@ -148,7 +156,18 @@ export default function EvenementDetail() {
           ))}
         </SectionCard>
 
-        {/* Inscription */}
+        {/* Inscription — ou, la date passée, l'état terminé */}
+        {estTermine ? (
+          <Card variant="default" className="p-stack-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-stack">
+            <div className="flex flex-col gap-tight flex-1">
+              <p className="text-body-sm font-semibold text-ink-900 m-0">Cet événement est terminé</p>
+              <p className="text-caption text-ink-600 m-0">Les inscriptions sont closes.</p>
+            </div>
+            <Button emphasis="soft" size="lg" className="shrink-0" to={`/evenements/${id}/recap`}>
+              Voir le récapitulatif
+            </Button>
+          </Card>
+        ) : (
         <Card variant="default" className="p-stack-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-stack">
           <div className="flex flex-col gap-tight flex-1">
             <Badge variant="success">{EVENT.registered} / {EVENT.capacity} inscrits</Badge>
@@ -170,6 +189,7 @@ export default function EvenementDetail() {
             <p className="text-micro text-ink-600 m-0">Annulation possible jusqu'à J-1</p>
           </div>
         </Card>
+        )}
       </div>
     </PageShell>
   );
