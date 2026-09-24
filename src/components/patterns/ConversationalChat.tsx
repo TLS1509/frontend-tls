@@ -37,7 +37,9 @@ function renderInlineMarkdown(text: string): React.ReactNode {
   const parts = text.split(/(\*\*[^*]+\*\*)/g);
   return parts.map((p, i) => {
     if (p.startsWith('**') && p.endsWith('**')) {
-      return <strong key={i} className="font-semibold text-primary-700">{p.slice(2, -2)}</strong>;
+      // Emphase de marque au cran 800 : une couleur de marque ne porte du texte
+      // qu'à ce cran (doctrine, rôle des couleurs). Elle était au 700.
+      return <strong key={i} className="font-semibold text-primary-800">{p.slice(2, -2)}</strong>;
     }
     return <React.Fragment key={i}>{p}</React.Fragment>;
   });
@@ -102,7 +104,7 @@ export const ConversationalChat: React.FC<ConversationalChatProps> = ({
       aria-label="Conversation d'onboarding"
     >
       {title && (
-        <header className="shrink-0 px-stack-md py-3 border-b border-white/50 bg-white/40 backdrop-blur-glass-light text-body font-semibold text-ink-700">
+        <header className="shrink-0 px-stack-md py-3 border-b border-white/50 bg-white/40 backdrop-blur-glass-light text-body font-semibold text-ink-900">
           {title}
         </header>
       )}

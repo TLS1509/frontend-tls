@@ -53,7 +53,11 @@ export const Divider: React.FC<DividerProps> = ({
           className="flex-1 h-px bg-gradient-to-r from-transparent to-ink-200"
           aria-hidden="true"
         />
-        <span className="text-caption font-bold text-ink-500 uppercase tracking-[0.12em]">
+        {/* « ou », « et »… : un mot de liaison, pas une étiquette d'état. En
+            casse normale, 13/600 ink-600 (2026-09-24) — il était en capitales
+            700 à 0,12 em d'interlettrage, en ink-500 (le cran des placeholders),
+            soit le registre criard du `Badge` pour un simple « ou ». */}
+        <span className="text-caption font-semibold text-ink-600">
           {label}
         </span>
         <div
