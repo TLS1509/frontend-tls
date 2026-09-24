@@ -47,17 +47,28 @@ export const JournalChatCompose: React.FC<JournalChatComposeProps> = ({
            l'étage conteneur depuis le 2026-09-17 (l'override !rounded-2xl
            donnait à cette bulle un 3e rayon dans la famille). Pas d'ombre :
            une carte n'en porte plus (S2), et celle-ci n'est pas cliquable. */
-        '!p-0 !gap-0 !overflow-visible relative',
+        '!p-0 !gap-0 !overflow-visible relative group',
         'bg-white border border-primary-100',
+        /* Le focus de la saisie se voit sur la bulle (2026-09-24). La zone de
+           texte n'a ni filet ni contour — c'est la bulle qui fait le champ —,
+           et rien ne changeait quand elle prenait le focus : mesuré au
+           clavier sur /journal, filet primary-100 au repos comme au focus
+           (1,16:1 contre la page), aucune ombre, aucun contour. La bulle prend
+           le focus de la famille champ (`Input`) : filet primary-500 et halo
+           de 2 px. Limité à la zone de texte : le bouton « Continuer » a son
+           propre anneau, la bulle ne s'allume pas pour lui. */
+        'has-[textarea:focus-visible]:border-primary-500 has-[textarea:focus-visible]:ring-2 has-[textarea:focus-visible]:ring-primary-500/20',
         className,
       ]
         .filter(Boolean)
         .join(' ')}
     >
-      {/* Speech bubble tail — bottom-left */}
+      {/* Speech bubble tail — bottom-left. Son filet suit celui de la bulle,
+          au repos comme au focus : sinon la queue resterait pâle sous une
+          bulle allumée. */}
       <span
         aria-hidden="true"
-        className="absolute -bottom-2 left-8 w-4 h-4 rotate-45 rounded-br-[4px] bg-white border-r border-b border-primary-100"
+        className="absolute -bottom-2 left-8 w-4 h-4 rotate-45 rounded-br-[4px] bg-white border-r border-b border-primary-100 group-has-[textarea:focus-visible]:border-primary-500"
       />
 
       {/* Compose row */}
