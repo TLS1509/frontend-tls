@@ -71,6 +71,28 @@ const COLOR_PALETTE = [
   COLORS.warning,
 ];
 
+/* Place des libellés en barres horizontales — proportionnelle à la largeur
+   du graphique (2026-09-24). Elle valait 290 px fixes : 150 de marge gauche
+   + 140 d'axe. Sur un conteneur de ~260 px (une carte à 375 px de fenêtre),
+   la zone de tracé tombait à zéro et TOUTES les barres disparaissaient —
+   /enterprise/dashboard et /manager/views/builder n'affichaient que leurs
+   libellés. La marge servait de débord aux libellés longs, ancrés à droite
+   sur l'axe : on la verse donc dans l'axe lui-même, et on tronque le
+   libellé à la place disponible (la bulle d'info garde le texte entier).
+   Au-dessus de ~810 px de large, le rendu est celui d'avant : axe à 290 px. */
+const LIBELLES_MAX = 282; // + 8 de marge = les 290 d'avant
+const LIBELLES_MIN = 72;
+const LIBELLES_PART = 0.35;
+const MARGE_DROITE_MAX = 30;
+/* Largeur moyenne d'un caractère de `text-body-sm` (14 px, Nunito) — sert à
+   tronquer sans mesurer chaque libellé. Sous-estimer ferait déborder. */
+const CHASSE_MOYENNE = 7.5;
+
+const tronquer = (texte: string, largeur: number): string => {
+  const max = Math.max(4, Math.floor(largeur / CHASSE_MOYENNE));
+  return texte.length > max ? `${texte.slice(0, max - 1).trimEnd()}…` : texte;
+};
+
 /**
  * BarChart — horizontal/vertical bar comparisons
  * Useful for: learner rankings, team comparisons, category breakdowns
@@ -95,6 +117,16 @@ export const BarChart: React.FC<BarChartProps> = ({
 
   const isVertical = layout === 'horizontal'; // default recharts naming
 
+  // Largeur réelle du graphique, remontée par ResponsiveContainer. 0 tant
+  // qu'elle n'est pas connue : on part alors sur le rendu large.
+  const [largeur, setLargeur] = React.useState(0);
+  const libelles = largeur
+    ? Math.round(Math.min(LIBELLES_MAX, Math.max(LIBELLES_MIN, largeur * LIBELLES_PART)))
+    : LIBELLES_MAX;
+  // Marge droite : 30 comme avant, ramenée à 12 sous 480 px, où chaque pixel
+  // de zone de tracé compte.
+  const margeDroite = largeur && largeur < 480 ? 12 : MARGE_DROITE_MAX;
+
   return (
     <div className={`w-full space-y-4 ${className}`}>
       {showExport && (
@@ -116,12 +148,12 @@ export const BarChart: React.FC<BarChartProps> = ({
         animate={prefersReducedMotion ? false : { opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
       >
-      <ResponsiveContainer width="100%" height={height}>
+      <ResponsiveContainer width="100%" height={height} onResize={(w) => setLargeur(w)}>
         <RechartsBarChart
           accessibilityLayer={false}
           data={data}
           layout={isVertical ? 'vertical' : 'horizontal'}
-          margin={{ top: 20, right: 30, bottom: 20, left: isVertical ? 150 : 30 }}
+          margin={{ top: 20, right: margeDroite, bottom: 20, left: isVertical ? 8 : margeDroite }}
         >
           <CartesianGrid strokeDasharray="3 3" stroke="currentColor" className="text-ink-200" />
           <XAxis type={isVertical ? 'number' : 'category'} stroke="currentColor" className="text-body-sm text-ink-600" />
@@ -130,7 +162,8 @@ export const BarChart: React.FC<BarChartProps> = ({
             dataKey={isVertical ? 'label' : undefined}
             stroke="currentColor"
             className="text-body-sm text-ink-600"
-            width={isVertical ? 140 : undefined}
+            width={isVertical ? libelles : undefined}
+            tickFormatter={isVertical ? (v: string) => tronquer(String(v), libelles - 12) : undefined}
           />
           <Tooltip {...CHART_TOOLTIP} />
           {showLegend && <Legend {...CHART_LEGEND} />}
