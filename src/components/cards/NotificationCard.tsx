@@ -168,11 +168,14 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
     >
       {/* Pastille de 40 px, le cran des rangées de fil (ActivityFeed) : à 48 —
           le cran d'une carte à titre de 20 px — elle pesait plus lourd que le
-          titre de 16 qu'elle accompagne. */}
+          titre de 16 qu'elle accompagne. Carrée arrondie, `rounded-md` (10) —
+          arbitrage n°3 : le rond est réservé aux personnes (avatars) ; elle
+          était ronde. Dans la variante `card` (rayon 20, retrait 13 et 17),
+          10 reste dans la tolérance de la règle des coins imbriqués. */}
       <div
         className={[
           'shrink-0 inline-flex items-center justify-center',
-          'w-10 h-10 rounded-pill',
+          'w-10 h-10 rounded-md',
           ICON_BUBBLE[tone],
         ].join(' ')}
         aria-hidden
