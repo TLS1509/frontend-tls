@@ -68,7 +68,7 @@ const INITIAL_CONVERSATIONS: Conversation[] = [
     participantName: 'Sophie Martin',
     participantInitials: 'SM',
     participantRole: 'coach',
-    lastMessage: "Excellent travail sur votre projet final ! J'ai quelques suggestions…",
+    lastMessage: "Excellent travail sur ton projet final ! J'ai quelques suggestions…",
     lastMessageTime: 'Il y a 5 min',
     unreadCount: 2,
     isStarred: true,
@@ -76,7 +76,7 @@ const INITIAL_CONVERSATIONS: Conversation[] = [
     messages: [
       {
         id: 'm1', senderId: 'coach1', senderName: 'Sophie Martin', role: 'coach',
-        content: "Bonjour ! J'ai examiné votre projet final sur le chatbot IA. C'est un excellent travail ! 🎉",
+        content: "Bonjour ! J'ai examiné ton projet final sur le chatbot IA. C'est un excellent travail ! 🎉",
         timestamp: "Aujourd'hui à 14:30", isRead: true,
       },
       {
@@ -86,7 +86,7 @@ const INITIAL_CONVERSATIONS: Conversation[] = [
       },
       {
         id: 'm3', senderId: 'coach1', senderName: 'Sophie Martin', role: 'coach',
-        content: "Excellent travail ! J'ai quelques suggestions pour améliorer la gestion du contexte dans les conversations longues. Souhaitez-vous qu'on en discute lors de notre prochain coaching ?",
+        content: "Excellent travail ! J'ai quelques suggestions pour améliorer la gestion du contexte dans les conversations longues. Souhaites-tu qu'on en discute lors de notre prochain coaching ?",
         timestamp: "Aujourd'hui à 14:50", isRead: false,
         attachments: [{ type: 'file', name: 'Feedback_Projet_Final.pdf', size: '245 KB' }],
       },
@@ -102,7 +102,7 @@ const INITIAL_CONVERSATIONS: Conversation[] = [
     participantName: 'Marc Dubois',
     participantInitials: 'MD',
     participantRole: 'coach',
-    lastMessage: 'La correction de votre exercice sur les prompts est disponible',
+    lastMessage: 'La correction de ton exercice sur les prompts est disponible',
     lastMessageTime: 'Il y a 2h',
     unreadCount: 1,
     isStarred: false,
@@ -110,7 +110,7 @@ const INITIAL_CONVERSATIONS: Conversation[] = [
     messages: [
       {
         id: 'm5', senderId: 'coach2', senderName: 'Marc Dubois', role: 'coach',
-        content: "Bonjour ! La correction de votre exercice sur les prompts est maintenant disponible. Vous avez obtenu 18/20 : très bon travail !",
+        content: "Bonjour ! La correction de ton exercice sur les prompts est maintenant disponible. Tu as obtenu 18/20 : très bon travail !",
         timestamp: "Aujourd'hui à 13:15", isRead: false,
       },
     ],
@@ -120,14 +120,14 @@ const INITIAL_CONVERSATIONS: Conversation[] = [
     participantName: 'Support TLS',
     participantInitials: 'ST',
     participantRole: 'support',
-    lastMessage: 'Votre problème de connexion a été résolu',
+    lastMessage: 'Ton problème de connexion a été résolu',
     lastMessageTime: 'Hier',
     unreadCount: 0,
     isStarred: false,
     messages: [
       {
         id: 'm6', senderId: 'support1', senderName: 'Support TLS', role: 'support',
-        content: "Bonjour, votre problème de connexion a été résolu. N'hésitez pas si vous avez d'autres questions !",
+        content: "Bonjour, ton problème de connexion a été résolu. N'hésite pas si tu as d'autres questions !",
         timestamp: 'Hier à 16:45', isRead: true,
       },
     ],
@@ -504,9 +504,9 @@ export const Messages: React.FC = () => {
                 value={messageInput}
                 onChange={(e) => setMessageInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Écrivez votre message… (Entrée pour envoyer)"
+                placeholder="Écris ton message… (Entrée pour envoyer)"
                 rows={1}
-                aria-label="Votre message"
+                aria-label="Ton message"
                 className="flex-1 px-stack-sm py-2 rounded-lg border border-ink-400 bg-ink-50 text-ink-900 font-body text-body resize-none outline-none h-auto min-h-11 max-h-[120px] transition-colors focus:border-primary-700 focus:bg-white placeholder:text-ink-500"
               />
 
@@ -542,10 +542,10 @@ export const Messages: React.FC = () => {
                 taille d'un titre de bloc sans entrer dans le plan de la page ;
                 la phrase passe en corps ink-700 (légende ink-500 avant). */}
             <p className="mb-stack-xs font-display text-h3 text-ink-900 text-balance">
-              Sélectionnez une conversation
+              Sélectionne une conversation
             </p>
             <p className="mb-stack font-body text-body text-ink-700">
-              Choisissez un fil dans la liste pour démarrer ou continuer la conversation.
+              Choisis un fil dans la liste pour démarrer ou continuer la conversation.
             </p>
             {/* Sans fil ouvert, il n'y a rien à envoyer : écrire un nouveau
                 message devient l'action principale, donc l'aplat. */}
