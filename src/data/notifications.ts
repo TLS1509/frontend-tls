@@ -85,9 +85,12 @@ export const MOCK_IN_APP_NOTIFICATIONS: InAppNotification[] = [
   },
 ];
 
+// Résumé d'activité hebdomadaire par défaut (arbitrage n°18 et PRODUCT.md,
+// Cadence Reality : deux ou trois séances par semaine, pas une habitude
+// quotidienne). Il était quotidien. L'apprenant peut toujours le changer.
 export const MOCK_USER_NOTIFICATION_PREFS: UserNotificationPrefs = {
   userId: MOCK_USER_ID,
-  summaryFrequency: 'daily',
+  summaryFrequency: 'weekly',
   emailTrackingDisabled: false,
   lessons: { inApp: true, email: true, whatsapp: false, push: true },
   coaching: { inApp: true, email: true, whatsapp: false, push: true },

@@ -81,7 +81,7 @@ export default function NotificationPreferences() {
           <div className="flex flex-col divide-y divide-ink-100">
             <SwitchRow id="inapp-lessons" label="Nouvelles leçons" description="Notifié quand une nouvelle leçon est disponible dans tes parcours" checked={prefs.lessons.inApp} onChange={(v) => setChannel('lessons', 'inApp', v)} />
             <SwitchRow id="inapp-coaching" label="Rappels coaching" description="Rappel 30 min avant chaque session de coaching planifiée" checked={prefs.coaching.inApp} onChange={(v) => setChannel('coaching', 'inApp', v)} />
-            <SwitchRow id="inapp-achievements" label="Badges & XP" description="Quand tu débloques un badge ou franchis un cap de progression" checked={prefs.achievements.inApp} onChange={(v) => setChannel('achievements', 'inApp', v)} />
+            <SwitchRow id="inapp-achievements" label="Reconnaissances" description="Quand un de tes niveaux est validé et que son Open Badge rejoint ton profil" checked={prefs.achievements.inApp} onChange={(v) => setChannel('achievements', 'inApp', v)} />
             <SwitchRow id="inapp-manager" label="Alertes manager" description="Notifications importantes envoyées par ton manager ou coach" checked={prefs.managerAlerts.inApp} onChange={(v) => setChannel('managerAlerts', 'inApp', v)} />
           </div>
           </Card>
@@ -97,7 +97,7 @@ export default function NotificationPreferences() {
           <div className="flex flex-col divide-y divide-ink-100">
             <SwitchRow id="push-lessons" label="Nouvelles leçons" description="Notifié quand une nouvelle leçon est disponible dans tes parcours" checked={prefs.lessons.push} onChange={(v) => setChannel('lessons', 'push', v)} />
             <SwitchRow id="push-coaching" label="Rappels coaching" description="Rappel 30 min avant chaque session de coaching planifiée" checked={prefs.coaching.push} onChange={(v) => setChannel('coaching', 'push', v)} />
-            <SwitchRow id="push-achievements" label="Badges & XP" description="Quand tu débloques un badge ou franchis un cap de progression" checked={prefs.achievements.push} onChange={(v) => setChannel('achievements', 'push', v)} />
+            <SwitchRow id="push-achievements" label="Reconnaissances" description="Quand un de tes niveaux est validé et que son Open Badge rejoint ton profil" checked={prefs.achievements.push} onChange={(v) => setChannel('achievements', 'push', v)} />
             <SwitchRow id="push-manager" label="Alertes manager" description="Notifications importantes envoyées par ton manager ou coach" checked={prefs.managerAlerts.push} onChange={(v) => setChannel('managerAlerts', 'push', v)} />
           </div>
           </Card>
