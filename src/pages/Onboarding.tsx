@@ -345,27 +345,28 @@ export const Onboarding: React.FC = () => {
             <div className="w-24 flex justify-end">
               <button
                 onClick={() => navigate('/dashboard')}
-                className="font-body text-caption text-ink-500 hover:text-ink-900 transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm min-h-touch flex items-center"
+                className="font-body text-caption text-ink-600 hover:text-ink-900 transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm min-h-touch flex items-center"
               >
                 Déjà inscrit ?
               </button>
             </div>
           </div>
 
-          {/* Header */}
-          <header className="flex flex-col gap-tight text-center">
-            <p className="m-0 inline-flex items-center justify-center gap-stack-xs font-body text-caption font-semibold uppercase tracking-wider text-secondary-700">
+          {/* Header — surtitre 13 / 600 ink-600 (il était en capitales orange
+              espacées), 8, h1 à 36 (il était à 28, la taille d'une section). */}
+          <header className="flex flex-col items-center gap-stack-xs text-center">
+            <p className="inline-flex items-center justify-center gap-stack-2xs font-body text-caption font-semibold text-ink-600">
               <Sparkles size={14} aria-hidden="true" />
               Démarrage personnalisé
             </p>
-            <h1 className="font-display text-h2 tracking-display text-ink-900">
+            <h1 className="font-display text-h1 text-ink-900">
               Bienvenue
             </h1>
           </header>
 
           {/* Chat window */}
           <ConversationalChat
-            title={<span className="font-body text-body font-semibold text-ink-700">Guide IA</span>}
+            title={<span className="font-body text-body font-semibold text-ink-900">Guide IA</span>}
             messages={messages}
             footer={footer}
             className="min-h-[62vh] max-h-[72vh]"
@@ -389,7 +390,7 @@ export const Onboarding: React.FC = () => {
               className="inline-flex items-center gap-stack-xs px-4 py-2 rounded-pill border-2 border-secondary-300 bg-white text-secondary-700 hover:bg-secondary-50 hover:border-secondary-400 transition-all duration-base disabled:opacity-disabled cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-500"
             >
               <Icon size={16} />
-              <span className="font-body text-body font-medium">{roleOption.label}</span>
+              <span className="font-body text-body font-semibold">{roleOption.label}</span>
             </button>
           );
         })}
@@ -417,7 +418,7 @@ export const Onboarding: React.FC = () => {
 
           {/* Chat window */}
           <ConversationalChat
-            title={<span className="font-body text-body font-semibold text-ink-700">Guide IA</span>}
+            title={<span className="font-body text-body font-semibold text-ink-900">Guide IA</span>}
             messages={messages}
             footer={footer}
             className="min-h-[62vh] max-h-[72vh]"
@@ -433,8 +434,11 @@ export const Onboarding: React.FC = () => {
       <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-warm" aria-hidden />
       <AmbientBlobs intensity="subtle" />
 
+      {/* Un titre pour l'onglet et les lecteurs d'écran : l'écran de transition
+          n'en avait aucun. */}
+      <h1 className="sr-only font-display text-h1">Démarrage de ton parcours</h1>
       <div className="relative z-base text-center">
-        <p className="font-body text-body text-ink-500">Redirection en cours…</p>
+        <p className="font-body text-body text-ink-600">Redirection en cours…</p>
       </div>
     </main>
   );

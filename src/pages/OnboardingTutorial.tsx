@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BookOpen, GraduationCap, Target, BarChart3, Bell, MessageSquare, Compass } from 'lucide-react';
 import { StepTutorial } from '../components/patterns/StepTutorial';
+import { PageHeader } from '../components/patterns/PageHeader';
 import { Stepper } from '../components/ui/Stepper';
 import { AmbientBlobs } from '../components/patterns/AmbientBlobs';
 import { TlsLogo } from '../components/ui/TlsLogo';
@@ -71,7 +72,7 @@ export default function OnboardingTutorial() {
       {/* Gouttière standard : PageShell la délègue au <main> d'AppLayout, et
           cette page est rendue hors de la coque — elle touchait le bord à 375 px. */}
       <div className="px-4 sm:px-6 lg:px-10">
-      <PageShell width="page" className="relative z-base gap-section-lg max-w-3xl" noPadTop>
+      <PageShell width="content" className="relative z-base">
 
         {/* ── Brand bar ── */}
         <div className="flex items-center justify-between">
@@ -84,7 +85,7 @@ export default function OnboardingTutorial() {
                 Il envoyait au tableau de bord sans marquer l'onboarding fait. */}
             <button
               onClick={() => navigate('/onboarding/success')}
-              className="font-body text-caption text-ink-500 hover:text-ink-900 transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm min-h-touch flex items-center"
+              className="font-body text-caption text-ink-600 hover:text-ink-900 transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm min-h-touch flex items-center"
             >
               Passer
             </button>
@@ -93,28 +94,30 @@ export default function OnboardingTutorial() {
 
         <Stepper items={buildOnboardingStepperItems('tutoriel', onboardingStore.accountType)} orientation="horizontal" />
 
-        <header className="flex flex-col gap-tight text-center">
-          <p className="m-0 inline-flex items-center justify-center gap-stack-xs font-body text-caption font-semibold uppercase tracking-wider text-secondary-700">
-            <Compass size={14} aria-hidden="true" />
-            Tutoriel plateforme
-          </p>
-          <h1 className="font-display text-h2 tracking-display text-ink-900">
-            Découvre la plateforme
-          </h1>
-          <p className="m-0 font-body text-body text-ink-500">
-            Un tour rapide des fonctionnalités clés pour démarrer efficacement.
-          </p>
-        </header>
+        {/* Passe typographique du 2026-09-24 : une seule largeur (768 ; `max-w-3xl`
+            perdait contre `width="page"`, la carte s'étalait sur 1 152 px), le
+            haut de page au padding de la coque ; l'en-tête et le tutoriel
+            forment un bloc (48 au-dessus, 32 dessous) ; `PageHeader` centré :
+            surtitre 13 / 600 ink-600, h1 à 36, chapô 18 ink-700. */}
+        <div className="flex flex-col">
+          <PageHeader
+            align="center"
+            variant="tight"
+            eyebrow={{ icon: <Compass size={14} aria-hidden="true" />, text: 'Tutoriel plateforme' }}
+            title="Découvre la plateforme"
+            description="Un tour rapide des fonctionnalités clés pour démarrer efficacement."
+          />
 
-        <StepTutorial
-          steps={TUTORIAL_STEPS}
-          currentStep={step}
-          tone="warm"
-          onNext={() => setStep((s) => Math.min(s + 1, TUTORIAL_STEPS.length - 1))}
-          onPrev={() => setStep((s) => Math.max(s - 1, 0))}
-          onComplete={handleDone}
-          onSkip={handleDone}
-        />
+          <StepTutorial
+            steps={TUTORIAL_STEPS}
+            currentStep={step}
+            tone="warm"
+            onNext={() => setStep((s) => Math.min(s + 1, TUTORIAL_STEPS.length - 1))}
+            onPrev={() => setStep((s) => Math.max(s - 1, 0))}
+            onComplete={handleDone}
+            onSkip={handleDone}
+          />
+        </div>
       </PageShell>
       </div>
     </main>

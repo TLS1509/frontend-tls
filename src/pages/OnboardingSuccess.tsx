@@ -77,7 +77,7 @@ export default function OnboardingSuccess() {
       {/* Gouttière standard : PageShell la délègue au <main> d'AppLayout, et
           cette page est rendue hors de la coque — elle touchait le bord à 375 px. */}
       <div className="px-4 sm:px-6 lg:px-10">
-      <PageShell width="page" className="relative z-base gap-section-lg max-w-3xl pb-page" noPadTop>
+      <PageShell width="content" className="relative z-base">
 
         {/* ── Brand bar ── */}
         <div className="flex items-center justify-center">
@@ -96,8 +96,10 @@ export default function OnboardingSuccess() {
           xp={{ earned: 150, current: 150, max: 500, levelLabel: 'Onboarding terminé' }}
         />
 
+        {/* « Par où commencer ? » est une section : h2 à 28 (il était à 20, la
+            taille d'un titre de carte). */}
         <section className="w-full flex flex-col gap-stack">
-          <h2 className="text-h3 font-display text-ink-900 text-center">
+          <h2 className="font-display text-h2 text-ink-900 text-center">
             Par où commencer ?
           </h2>
           <NextStepsGrid items={nextSteps} columns={3} />

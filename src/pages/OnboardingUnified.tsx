@@ -299,11 +299,19 @@ export const OnboardingUnified: React.FC = () => {
     <div className="relative flex min-h-[100dvh] w-screen flex-col overflow-hidden bg-gradient-to-br from-primary-50 to-accent-50">
       <AmbientBlobs />
 
+      {/* Passe typographique du 2026-09-24 (arbitrage n°25 ouvert : la forme
+          du chat ne bouge pas) : la page n'avait aucun h1 — l'onglet et les
+          lecteurs d'écran n'avaient pas de titre ; l'étape en méta ink-600 ;
+          plus de pulsation permanente sur « Chargement » (arbitrage n°16) ;
+          les tuiles de rôle sur 2 puis 3 colonnes sous 768 px (cinq tuiles de
+          60 px à 375, « Apprenant » touchait les bords). */}
+      <h1 className="sr-only font-display text-h1">Faisons connaissance</h1>
+
       {/* Header */}
       <div className="relative z-10 flex items-center justify-between border-b border-primary-100 bg-white/40 px-6 py-stack backdrop-blur-glass-light">
         <TlsLogo variant="primary" size={32} />
-        <div className="text-caption text-ink-500">
-          Étape {step === 'greeting' || step === 'name' || step === 'role' || step === 'transition' ? '1' : '2'} / {totalEtapes}
+        <div className="text-caption text-ink-600 tabular-nums">
+          Étape {step === 'greeting' || step === 'name' || step === 'role' || step === 'transition' ? '1' : '2'} sur {totalEtapes}
         </div>
       </div>
 
@@ -318,7 +326,7 @@ export const OnboardingUnified: React.FC = () => {
       <div className="relative z-10 border-t border-primary-100 bg-white/40 px-6 py-stack backdrop-blur-glass-light">
         {(step === 'greeting' || step === 'transition') && (
           <div className="flex justify-center">
-            <p className="animate-pulse text-body text-ink-500">Chargement...</p>
+            <p className="text-body text-ink-600">Chargement…</p>
           </div>
         )}
 
@@ -347,7 +355,7 @@ export const OnboardingUnified: React.FC = () => {
         )}
 
         {step === 'role' && (
-          <div className="grid grid-cols-5 gap-stack-xs">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-stack-xs">
             {ROLE_TILES.map((tile) => {
               const Icon = tile.icon;
               return (
@@ -355,7 +363,7 @@ export const OnboardingUnified: React.FC = () => {
                   key={tile.id}
                   onClick={() => handleRoleSelect(tile.id)}
                   disabled={loading || selectedRole !== null}
-                  className={`flex flex-col items-center gap-tight rounded-lg border-2 px-3 py-2 transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
+                  className={`flex flex-col items-center gap-stack-3xs rounded-lg border-2 px-3 py-2 transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                     selectedRole === tile.id
                       ? 'border-primary-500 bg-primary-50'
                       : 'border-primary-100 hover:border-primary-300 hover:bg-primary-50'
@@ -379,7 +387,7 @@ export const OnboardingUnified: React.FC = () => {
 
         {step === 'done' && (
           <div className="flex flex-col items-center gap-stack">
-            <p className="text-body text-ink-600">
+            <p className="text-body text-ink-700">
               {paiementRequis ? 'Passons à la sélection de ton plan…' : 'Passons à un tour rapide de la plateforme…'}
             </p>
             <Button
