@@ -763,8 +763,8 @@ export default function OnboardingPreview() {
           </div>
         </div>
 
-        {/* Preview header + variante : un bloc */}
-        <div className="flex flex-col">
+        {/* Preview header + variante : un bloc (32 sous l'en-tête) */}
+        <div className="flex flex-col gap-section">
         <PageHeader
           align="center"
           variant="tight"

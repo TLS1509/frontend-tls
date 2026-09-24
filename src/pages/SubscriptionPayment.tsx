@@ -221,7 +221,7 @@ export const SubscriptionPayment: React.FC = () => {
         <Stepper items={buildOnboardingStepperItems('paiement', onboardingStore.accountType)} orientation="horizontal" />
 
         {/* En-tête et choix de formule : un bloc (32 sous l'en-tête) */}
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-section">
           <PageHeader
             align="center"
             variant="tight"

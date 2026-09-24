@@ -149,11 +149,11 @@ const OnboardingQuestionnaire: React.FC = () => {
           <Stepper items={buildOnboardingStepperItems('positionnement', onboardingStore.accountType)} orientation="horizontal" />
 
           {/* L'en-tête et la conversation forment un bloc : 48 au-dessus (depuis
-              le stepper), 32 en dessous (la marge de `PageHeader` tight) — le
+              le stepper), 32 en dessous (le `gap` de ce bloc) — le
               titre appartient à ce qu'il introduit. `PageHeader` centré porte
               l'anatomie : surtitre 13 / 600 ink-600 (il était en capitales
               orange), h1 à 36 (il était à 28), chapô 18 ink-700 (16 ink-500). */}
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-section">
             <PageHeader
               align="center"
               variant="tight"
@@ -227,10 +227,10 @@ const OnboardingQuestionnaire: React.FC = () => {
 
         <Stepper items={buildOnboardingStepperItems('positionnement', onboardingStore.accountType)} orientation="horizontal" />
 
-        {/* L'en-tête et le formulaire : un bloc (32 sous l'en-tête, la marge de
-            `PageHeader` tight) ; dans le formulaire, progression, question et
+        {/* L'en-tête et le formulaire : un bloc (32 sous l'en-tête, le `gap` de
+            ce bloc) ; dans le formulaire, progression, question et
             navigation à 24. */}
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-section">
         <PageHeader
           align="center"
           variant="tight"

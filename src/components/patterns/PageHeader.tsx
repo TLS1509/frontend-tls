@@ -9,10 +9,18 @@ import React from 'react';
  * - Title (h1) — 36/44/700, l'échelle de l'app
  * - Optional description — chapô 18/28, ink-700, largeur de lecture
  * - Optional actions slot (right side)
- * - Variant: 'default' | 'tight' (moins d'air SOUS l'en-tête, même anatomie)
+ * - Variant: 'default' | 'tight' — @deprecated, sans effet depuis le 2026-09-24
  *
  * Même anatomie que `PageHero` (passe typographique du 2026-09-24) :
- *   surtitre → titre 8 · titre → chapô 12 · en-tête → contenu 40 (tight : 32).
+ *   surtitre → titre 8 · titre → chapô 12.
+ *
+ * ⚠️ Aucune marge externe (2026-09-24, piège n°12). Le composant portait
+ * l'espace SOUS lui (40, ou 32 en `tight`), « exception écrite » du piège :
+ * posé dans un `PageShell`, cette marge s'ajoutait au `gap` de la coque (48),
+ * soit 80 à 88 px sous le titre — c'est pourquoi /notifications gardait un
+ * en-tête fait main. L'espace appartient désormais au parent : 48 entre les
+ * blocs d'un `PageShell`, ou `gap-section` (32) quand l'en-tête et son contenu
+ * forment un bloc, comme sur les écrans d'onboarding.
  * Le titre était en `font-extrabold` (800, réservé au site) sur un
  * `clamp(30px, 3.5vw, 44px)` hors échelle, et le chapô en ink-500 à 16 px.
  *
@@ -29,6 +37,10 @@ export interface PageHeaderProps {
   title: string;
   description?: string;
   actions?: React.ReactNode;
+  /**
+   * @deprecated Sans effet depuis le 2026-09-24 : le composant ne pose plus de
+   * marge sous lui. L'espace appartient au parent (`gap-section`, 32 px).
+   */
   variant?: 'default' | 'tight';
   align?: 'left' | 'center';
   className?: string;
@@ -39,20 +51,14 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
   title,
   description,
   actions,
-  variant = 'default',
   align = 'left',
   className = '',
 }) => {
   const isCenter = align === 'center';
-  const tight = variant === 'tight';
 
-  /* L'espace SOUS l'en-tête est porté ici — exception écrite du piège n°12 :
-     PageHeader pose le rythme du haut de page. 40 px au défaut, 32 en `tight`
-     (la doctrine demande 32 à 48 entre l'en-tête et le contenu). */
   const wrapperClasses = [
     'flex gap-stack-lg flex-wrap',
     isCenter ? 'flex-col items-center text-center' : 'justify-between items-start',
-    tight ? 'mb-section' : 'mb-section-lg',
     className,
   ]
     .filter(Boolean)

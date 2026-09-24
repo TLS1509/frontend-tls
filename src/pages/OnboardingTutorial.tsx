@@ -99,7 +99,7 @@ export default function OnboardingTutorial() {
             haut de page au padding de la coque ; l'en-tête et le tutoriel
             forment un bloc (48 au-dessus, 32 dessous) ; `PageHeader` centré :
             surtitre 13 / 600 ink-600, h1 à 36, chapô 18 ink-700. */}
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-section">
           <PageHeader
             align="center"
             variant="tight"
