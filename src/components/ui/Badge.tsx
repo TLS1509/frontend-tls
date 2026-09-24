@@ -43,11 +43,26 @@ const BASE =
 
 /* Un seul serrage, pris au token `--tracking-label`. Les trois valeurs
    arbitraires précédentes — 0,06 · 0,05 · 0,04 — n'étaient pas une courbe :
-   les deux premières s'appliquaient au MÊME corps de 11 px. */
+   les deux premières s'appliquaient au MÊME corps de 11 px.
+
+   Hauteurs mesurées au navigateur le 2026-09-24 (le `leading-tight` de la
+   base donne une ligne de 13,75 px au corps de 11) :
+     compact   19,75 px   padding 2 / 8
+     normal    19,75 px   padding 2 / 10 — le défaut
+     large     23,75 px   padding 4 / 12
+   Les commentaires annonçaient ~18 · ~20 · ~28 : `compact` n'est pas plus bas
+   que `normal`, seulement plus étroit.
+
+   `large` parlait en 13 px capitales, jusqu'au 2026-09-24 : il criait plus
+   fort que tous les états de l'app, quand un état n'a qu'un registre (voir
+   StatusBadge, ramené au même corps). Il garde son padding, pas son corps.
+   Deux appels : le badge de l'écran de fin d'onboarding (CongratulationsCard)
+   et l'offre de la liste d'attente du site. Sous 28 px, il reste une
+   pilule. */
 const SIZE_CLASSES: Record<BadgeSize, string> = {
-  compact: 'text-micro px-2 py-0.5 tracking-label',   // ~18 px
-  normal:  'text-micro px-2.5 py-0.5 tracking-label', // ~20 px — le défaut
-  large:   'text-caption px-3 py-1 tracking-label',   // ~28 px
+  compact: 'text-micro px-2 py-0.5 tracking-label',   // 19,75 px
+  normal:  'text-micro px-2.5 py-0.5 tracking-label', // 19,75 px — le défaut
+  large:   'text-micro px-3 py-1 tracking-label',     // 23,75 px
 };
 
 const VARIANT_CLASSES: Record<BadgeVariant, string> = {
