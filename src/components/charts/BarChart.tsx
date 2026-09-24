@@ -11,7 +11,7 @@ import {
   ResponsiveContainer,
   Cell,
 } from 'recharts';
-import { CHART_AXIS, CHART_TOOLTIP, CHART_LEGEND, decrireSeries } from './chartTheme';
+import { CHART_AXIS, CHART_AXE_VALEURS, CHART_TOOLTIP, CHART_LEGEND, axeRond, decrireSeries, nombreFr } from './chartTheme';
 
 export interface BarChartDataPoint {
   label: string;
@@ -130,6 +130,13 @@ export const BarChart: React.FC<BarChartProps> = ({
   // de zone de tracé compte.
   const margeDroite = largeur && largeur < 480 ? 12 : MARGE_DROITE_MAX;
 
+  // Domaine et graduations ronds sur les valeurs réellement tracées.
+  const axeValeurs = React.useMemo(() => {
+    const cles = series ? series.map((s) => s.key) : [dataKey ?? 'value'];
+    const valeurs = data.flatMap((d) => cles.map((k) => d[k])).filter((v): v is number => typeof v === 'number');
+    return { ...CHART_AXE_VALEURS, ...axeRond(valeurs) };
+  }, [data, series, dataKey]);
+
   return (
     <div className={`w-full space-y-stack ${className}`}>
       {showExport && (
@@ -161,19 +168,25 @@ export const BarChart: React.FC<BarChartProps> = ({
           <CartesianGrid strokeDasharray="3 3" stroke="currentColor" className="text-ink-200" />
           {/* En barres verticales, l'axe des catégories est X : sans `dataKey`, il
               écrivait l'index du point (0, 1, 2…) au lieu de son libellé. */}
+          {/* L'axe des valeurs prend un domaine et des graduations ronds, écrits
+              à la française (`axeRond`, `CHART_AXE_VALEURS`) : il graduait
+              0 · 0.95 · 1.9 · 2.85 · 3.8 pour un maximum de 3,8. L'axe des
+              catégories garde ses libellés. */}
           <XAxis
             type={isVertical ? 'number' : 'category'}
             dataKey={isVertical ? undefined : 'label'}
-            {...CHART_AXIS}
+            {...(isVertical ? axeValeurs : CHART_AXIS)}
           />
           <YAxis
             type={isVertical ? 'category' : 'number'}
             dataKey={isVertical ? 'label' : undefined}
-            {...CHART_AXIS}
+            {...(isVertical
+              ? { ...CHART_AXIS, tickFormatter: (v: string) => tronquer(String(v), libelles - 12) }
+              : axeValeurs)}
             width={isVertical ? libelles : undefined}
-            tickFormatter={isVertical ? (v: string) => tronquer(String(v), libelles - 12) : undefined}
           />
-          <Tooltip {...CHART_TOOLTIP} />
+          {/* Les valeurs de l'info-bulle, comme celles de l'axe : « 3,8 », pas « 3.8 ». */}
+          <Tooltip {...CHART_TOOLTIP} formatter={(v) => nombreFr(v)} />
           {/* Une série seule n'a pas de légende : elle affichait le nom de sa clé
               (« value », « m0 »), en anglais, sous un graphique que le titre de sa
               carte nomme déjà. Son nom, « Valeur », reste dans l'info-bulle. */}

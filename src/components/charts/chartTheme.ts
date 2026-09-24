@@ -46,6 +46,68 @@ export const CHART_AXIS = {
   tick: CHART_TICK,
 };
 
+/** Un nombre à la française : virgule décimale, espace fine insécable des
+ *  milliers (« 2,5 », « 1 200 »). Pour les graduations et les info-bulles. */
+export const nombreFr = (v: unknown): string =>
+  typeof v === 'number' ? v.toLocaleString('fr-FR') : String(v ?? '');
+
+/**
+ * Axe de VALEURS (numérique) : graduations écrites à la française. À étaler
+ * sur l'axe numérique seulement, avec `axeRond(valeurs)` pour le domaine :
+ * `<YAxis {...CHART_AXE_VALEURS} {...axeRond(valeurs)} />`.
+ * `niceTicks: 'snap125'` n'est que le repli de `axeRond` (valeurs négatives).
+ */
+export const CHART_AXE_VALEURS = {
+  ...CHART_AXIS,
+  niceTicks: 'snap125' as const,
+  tickFormatter: nombreFr,
+};
+
+/**
+ * Domaine et graduations RONDS pour des valeurs positives : un pas de 1, 2,
+ * 2,5 ou 5 × 10ⁿ, de 3 à 6 intervalles (moins pour une petite échelle
+ * entière : 0 · 1 · 2), celui qui dépasse le moins le maximum — à égalité, le
+ * plus proche de 5 intervalles. Pas de pas décimal quand toutes les valeurs
+ * sont entières. Sans valeur positive, ou avec une négative : `{}`, et
+ * Recharts reprend la main (`niceTicks` de `CHART_AXE_VALEURS`).
+ *
+ * Pourquoi pas le réglage de Recharts. Son défaut (`niceTicks: 'auto'`, donc
+ * l'algorithme `'adaptive'`, ≥ 3.8) découpe le domaine EXACT en quatre :
+ * 0 · 0.95 · 1.9 · 2.85 · 3.8 pour un maximum de 3,8 (le classement des
+ * équipes de /enterprise, 24/09). Et `'snap125'`, qui arrondit le pas, garde
+ * cinq graduations coûte que coûte : un maximum de 5 — le haut de l'échelle
+ * Dreyfus — y devenait 0 · 2 · 4 · 6 · 8, et 2 350 un axe à 4 000. Ici :
+ * 3,8 → 0 · 1 · 2 · 3 · 4 ; 5 → 0…5 ; 2 350 → 0…2 500 par 500 ; 100 → par 20.
+ */
+export const axeRond = (valeurs: number[]): { ticks: number[]; domain: [number, number] } | Record<string, never> => {
+  const max = Math.max(0, ...valeurs);
+  if (!(max > 0) || valeurs.some((v) => v < 0)) return {};
+  const entiers = valeurs.every(Number.isInteger);
+  const e = 10 ** Math.floor(Math.log10(max));
+  // Rang d'un candidat : 3 intervalles au moins si possible (une petite
+  // échelle entière, 0 · 1 · 2, n'en a pas trois), puis le moindre excès,
+  // puis le nombre d'intervalles le plus proche de 5.
+  const rang = (c: { n: number; exces: number }) => [c.n >= 3 ? 0 : 1, c.exces, Math.abs(c.n - 5)];
+  let retenu: { pas: number; n: number; exces: number } | undefined;
+  for (const echelle of [e / 10, e]) {
+    for (const m of [1, 2, 2.5, 5]) {
+      const pas = m * echelle;
+      if (entiers && !Number.isInteger(pas)) continue;
+      const n = Math.ceil(max / pas - 1e-9);
+      if (n < 1 || n > 6) continue;
+      const candidat = { pas, n, exces: n * pas - max };
+      if (!retenu) { retenu = candidat; continue; }
+      const [a, b] = [rang(candidat), rang(retenu)];
+      const i = a.findIndex((v, k) => Math.abs(v - b[k]) > 1e-9);
+      if (i >= 0 && a[i] < b[i]) retenu = candidat;
+    }
+  }
+  if (!retenu) return {};
+  const { pas, n } = retenu;
+  const ticks = Array.from({ length: n + 1 }, (_, i) => Number((i * pas).toPrecision(12)));
+  return { ticks, domain: [0, ticks[n]] };
+};
+
 /** Titre d'axe (`label` de Recharts) : même corps que les graduations. Sans
  *  lui, Recharts écrit le titre en #808080 (3,95:1) au corps de la page. */
 export const CHART_AXIS_LABEL_CLASS = 'text-caption fill-ink-600';
