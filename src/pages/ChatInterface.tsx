@@ -239,8 +239,11 @@ export default function ChatInterface() {
                   disabled={isTyping}
                   className="flex-1 min-w-0 resize-none rounded-lg border border-ink-200 bg-white px-3 py-2.5 text-body text-ink-900 placeholder:text-ink-500 focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100 transition-all duration-base h-auto min-h-[64px] disabled:opacity-disabled disabled:cursor-not-allowed"
                 />
+                {/* L'envoi est l'action principale de l'écran : le seul
+                    `solid` (arbitrage n°19). Les suggestions ne font que
+                    remplir le champ. */}
                 <Button
-                  emphasis="soft"
+                  emphasis="solid"
                   size="md"
                   leadingIcon={<Send size={16} />}
                   onClick={handleSend}

@@ -103,8 +103,10 @@ function ConversationRow({ item }: { item: ConversationItem }) {
         <span className="font-body text-caption text-ink-600 tabular-nums">
           {item.messageCount} message{item.messageCount > 1 ? 's' : ''}
         </span>
+        {/* L'action de la rangée : `soft` (arbitrage n°19 ; elle était en
+            `outline`, réservé à Annuler). */}
         <Button
-          emphasis="outline"
+          emphasis="soft"
           size="sm"
           trailingIcon={<ChevronRight size={14} />}
           className="opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity duration-fast"
@@ -137,8 +139,10 @@ export default function ChatHistoryPanel() {
         tone="flat"
         trailing={
           /* L'action de la page vit dans son en-tête : elle n'était qu'en
-             bas, centrée sous la liste, sur un autre axe que le reste. */
-          <Button emphasis="soft" size="md" leadingIcon={<Sparkles size={16} />}>
+             bas, centrée sous la liste, sur un autre axe que le reste. C'est
+             l'action principale de l'écran, son seul `solid` (arbitrage
+             n°19) ; celle de l'état vide reste en `soft`. */
+          <Button emphasis="solid" size="md" leadingIcon={<Sparkles size={16} />}>
             Nouvelle conversation
           </Button>
         }
