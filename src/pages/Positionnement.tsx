@@ -220,6 +220,7 @@ export const Positionnement: React.FC = () => {
           </SectionCard>
 
           {/* Footer nav */}
+          <div className="flex flex-col gap-stack-xs">
           <div className="flex items-center justify-between gap-stack">
             <Button
               emphasis="soft" tone="warm"
@@ -231,14 +232,25 @@ export const Positionnement: React.FC = () => {
               Précédent
             </Button>
 
+            {/* Désactivé tant qu'aucun niveau n'est choisi : actif, il laissait
+                croire qu'on pouvait passer, puis répondait par un toast. La
+                raison est écrite sous le bouton plutôt que devinée. */}
             <Button
               emphasis="soft"
               size="md"
               trailingIcon={<ArrowRight size={14} />}
               onClick={handleNext}
+              disabled={!currentAnswer}
+              aria-describedby={!currentAnswer ? 'positionnement-requis' : undefined}
             >
               {isLast ? 'Voir les résultats' : 'Compétence suivante'}
             </Button>
+          </div>
+          {!currentAnswer && (
+            <p id="positionnement-requis" className="text-right font-body text-caption text-ink-600">
+              Choisis un niveau pour continuer.
+            </p>
+          )}
           </div>
         </div>
       </main>
