@@ -51,7 +51,9 @@ export const JacCardPending: React.FC<JacCardPendingProps> = ({
       </div>
       <div className="flex items-center gap-stack-xs shrink-0">
         <Badge variant="sun" size="compact">En revue</Badge>
-        <Button emphasis="outline" size="sm" trailingIcon={<ChevronRight size={14} />} onClick={onRelancer}>
+        {/* L'action de la carte : `soft` (arbitrage n°19). Elle était en
+            `outline`, réservé à Annuler. */}
+        <Button emphasis="soft" size="sm" trailingIcon={<ChevronRight size={14} />} onClick={onRelancer}>
           Relancer
         </Button>
       </div>

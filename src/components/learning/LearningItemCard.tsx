@@ -255,7 +255,11 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
       <span
         aria-hidden="true"
         className={buttonClasses({
-          variant: isAccessible ? (tone === 'brand' ? 'primary' : tone === 'warm' ? 'secondary' : 'accent') : 'secondary',
+          /* Les deux axes au lieu du `variant` déprécié, même rendu : le
+             niveau de contexte d'une carte (`soft`, arbitrage n°19), au ton
+             de l'objet — `warm` quand il est verrouillé, comme avant. */
+          emphasis: 'soft',
+          tone: isAccessible ? tone : 'warm',
           size: 'sm',
           fullWidth: true,
           /* Contenu → action : 20 en dense, 24 au canon — le padding de la carte. */

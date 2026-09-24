@@ -225,13 +225,19 @@ export const VeilleCard: React.FC<VeilleCardProps> = ({ item, surface, isSaved, 
           className="absolute top-3 left-3"
         />
 
-        {/* Bookmark top-right glass */}
+        {/* Favori, en haut à droite de la couverture. Un outil, jamais
+            l'action principale (arbitrage n°19) : `soft`. Le `soft` neutre est
+            la pastille blanche givrée à encre ink-900 — lisible sur tous les
+            crans du dégradé, ce que demandait l'arbitrage n°13 en y posant le
+            verre `onDark solid` ; une fois enregistré, le `soft` de la marque,
+            comme dans la vue liste. Six favoris `solid` sur une grille, c'était
+            six actions principales. */}
         {showSaveButton && onToggleSave && (
           <Button
             iconOnly
             size="sm"
-            onDark
-            emphasis="solid"
+            emphasis="soft"
+            tone={isSaved ? 'brand' : 'neutral'}
             onClick={(e) => { e.stopPropagation(); onToggleSave(item.id); }}
             aria-label={isSaved ? 'Retirer des favoris' : 'Enregistrer'}
             aria-pressed={isSaved}
@@ -416,11 +422,12 @@ export const FeaturedSpotlight: React.FC<FeaturedSpotlightProps> = ({ item, isSa
         <Badge variant={FEATURED_BADGE[tone]} dot className="absolute top-4 left-4">
           À la une
         </Badge>
+        {/* Favori : un outil en `soft` (voir VeilleCard). */}
         {showSaveButton && onToggleSave && (
           <Button
             iconOnly
-            onDark
-            emphasis="solid"
+            emphasis="soft"
+            tone={isSaved ? 'brand' : 'neutral'}
             onClick={(e) => { e.stopPropagation(); onToggleSave(item.id); }}
             aria-label={isSaved ? 'Retirer des favoris' : 'Enregistrer'}
             aria-pressed={isSaved}
@@ -523,11 +530,12 @@ export const FeaturedSpotlightCarousel: React.FC<FeaturedSpotlightCarouselProps>
           <Badge variant={FEATURED_BADGE[tone]} dot className="absolute top-4 left-4">
             À la une
           </Badge>
+          {/* Favori : un outil en `soft` (voir VeilleCard). */}
           {showSaveButton && onToggleSave && (
             <Button
               iconOnly
-              onDark
-              emphasis="solid"
+              emphasis="soft"
+              tone={isSaved ? 'brand' : 'neutral'}
               onClick={(e) => { e.stopPropagation(); onToggleSave(item.id); }}
               aria-label={isSaved ? 'Retirer des favoris' : 'Enregistrer'}
               aria-pressed={isSaved}
@@ -558,12 +566,14 @@ export const FeaturedSpotlightCarousel: React.FC<FeaturedSpotlightCarouselProps>
                 ))}
               </div>
 
-              {/* Arrow buttons */}
+              {/* Flèches du carrousel : des outils, en `soft` neutre — la
+                  même pastille givrée que le favori, lisible sur le dégradé
+                  (elles étaient en `solid` : deux actions principales de plus). */}
               <div className="flex items-center gap-stack-xs">
-                <Button iconOnly size="sm" onDark emphasis="solid" aria-label="Précédent" onClick={prev}>
+                <Button iconOnly size="sm" emphasis="soft" tone="neutral" aria-label="Précédent" onClick={prev}>
                   <ChevronLeft strokeWidth={2.5} />
                 </Button>
-                <Button iconOnly size="sm" onDark emphasis="solid" aria-label="Suivant" onClick={next}>
+                <Button iconOnly size="sm" emphasis="soft" tone="neutral" aria-label="Suivant" onClick={next}>
                   <ChevronRight strokeWidth={2.5} />
                 </Button>
               </div>

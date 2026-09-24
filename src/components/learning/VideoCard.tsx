@@ -89,23 +89,29 @@ export const VideoCard: React.FC<VideoCardProps> = ({
         {author && <p className="m-0 mt-stack-3xs text-caption text-ink-600">Par {author}</p>}
       </div>
 
+      {/* « Regarder » est l'action de la carte : `soft` (arbitrage n°19).
+          Le favori est un outil, comme sur ArticleCard et la Veille : glyphe
+          seul (`ghost`) tant qu'il n'est pas posé, `soft` une fois enregistré.
+          Il était en `outline` — réservé à Annuler —, recoloré à la main en
+          `text-primary-500` (2,94:1) une fois enregistré, et sans nom
+          accessible : un bouton-icône muet. */}
       <div className="flex gap-stack-xs mt-stack-xs pt-stack-sm border-t border-ink-100">
-        <Button onClick={onClick} className="flex-1 justify-center">
+        <Button emphasis="soft" onClick={onClick} className="flex-1 justify-center">
           <Play size={14} fill="currentColor" />
           Regarder
         </Button>
         <Button
-          emphasis="outline"
+          iconOnly
+          emphasis={isSaved ? 'soft' : 'ghost'}
+          tone={isSaved ? 'brand' : 'neutral'}
           onClick={(e) => {
             e.stopPropagation();
             onSave?.();
           }}
-          className={[
-            'p-2 min-w-[44px] justify-center',
-            isSaved ? 'text-primary-500 bg-primary-50' : '',
-          ].join(' ')}
+          aria-label={isSaved ? 'Retirer des favoris' : 'Enregistrer'}
+          aria-pressed={isSaved}
         >
-          {isSaved ? <BookmarkCheck size={16} /> : <Bookmark size={16} />}
+          {isSaved ? <BookmarkCheck /> : <Bookmark />}
         </Button>
       </div>
     </Card>

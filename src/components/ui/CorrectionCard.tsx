@@ -117,10 +117,13 @@ export const CorrectionCard: React.FC<CorrectionCardProps> = ({
             </>
           )}
         </div>
+        {/* Arbitrage n°19 : l'action de la carte (« Corriger », « Voir ») est
+            en `soft`, « Assigner » en `ghost`. Les deux étaient en `outline`,
+            réservé à Annuler : deux boutons de même poids, sans ordre. */}
         <div className="flex items-center gap-stack-xs">
           {onAssign && status === 'pending' && (
             <Button
-              emphasis="outline"
+              emphasis="ghost"
               size="sm"
               leadingIcon={<UserCheck size={14} />}
               onClick={onAssign}
@@ -130,7 +133,7 @@ export const CorrectionCard: React.FC<CorrectionCardProps> = ({
           )}
           {onOpen && (
             <Button
-              emphasis="outline"
+              emphasis="soft"
               size="sm"
               trailingIcon={<ChevronRight size={14} />}
               onClick={onOpen}

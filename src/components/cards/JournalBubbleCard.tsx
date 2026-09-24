@@ -111,10 +111,12 @@ export const JournalBubbleCard: React.FC<JournalBubbleCardProps> = ({
       {/* Excerpt */}
       <p className="font-body text-body text-ink-700 m-0 max-w-prose">{excerpt}</p>
 
-      {/* Coaching quick action (questionnaire / compte-rendu only) */}
+      {/* Coaching quick action (questionnaire / compte-rendu only) — une
+          action secondaire de la carte, dont « Lire » est l'action : `ghost`
+          (arbitrage n°19 ; `outline` est réservé à Annuler). */}
       {(type === 'questionnaire' || type === 'compte-rendu') && onCoachingAction && (
         <Button
-          emphasis="outline"
+          emphasis="ghost"
           size="sm"
           trailingIcon={<ArrowRight size={14} />}
           onClick={onCoachingAction}

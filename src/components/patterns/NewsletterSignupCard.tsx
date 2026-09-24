@@ -6,12 +6,21 @@ import { Input } from '../core/Input';
 export interface NewsletterSignupCardProps {
   onSubmit?: (email: string) => void;
   onSeeLastIssue?: () => void;
+  /**
+   * Niveau du bouton « S'inscrire ». Par défaut `soft` : posé dans une page,
+   * le panneau porte une action de contexte (arbitrage n°19 — un seul `solid`
+   * par écran, et c'est l'action principale de la page). `solid` pour une page
+   * dont l'inscription EST l'action principale (une page Newsletter) : il rend
+   * alors le verre clair `onDark`, le `solid` d'un fond sombre.
+   */
+  ctaEmphasis?: 'soft' | 'solid';
   className?: string;
 }
 
 export const NewsletterSignupCard: React.FC<NewsletterSignupCardProps> = ({
   onSubmit,
   onSeeLastIssue,
+  ctaEmphasis = 'soft',
   className = '',
 }) => {
   const inputId = useId();
@@ -44,14 +53,21 @@ export const NewsletterSignupCard: React.FC<NewsletterSignupCardProps> = ({
             <p className="mt-stack-sm font-body text-body text-white max-w-prose">
               Les meilleurs articles, vidéos et dossiers de la semaine — curés par notre équipe éditoriale.
             </p>
+            {/* Une action secondaire du panneau : `ghost` sur fond sombre
+                (primary-900, au-delà du cran 700 que demande le blanc). Elle
+                était en `solid` — le niveau principal, pendant que
+                l'inscription, l'action du panneau, restait en `soft`.
+                `-ml-stack` rend au libellé le bord gauche du texte : sans
+                boîte au repos, le padding du `ghost` (16 px en `sm`) le
+                décalait ; son fond de survol déborde à gauche, c'est voulu. */}
             {onSeeLastIssue && (
               <Button
                 type="button"
-                emphasis="solid" onDark
+                emphasis="ghost" onDark
                 size="sm"
                 trailingIcon={<ArrowRight size={14} />}
                 onClick={onSeeLastIssue}
-                className="self-start mt-stack-lg"
+                className="self-start mt-stack-lg -ml-stack"
               >
                 Voir la dernière édition
               </Button>
@@ -83,7 +99,7 @@ export const NewsletterSignupCard: React.FC<NewsletterSignupCardProps> = ({
                 leadingIcon={<Mail size={14} />}
                 className="flex-1 min-w-0"
               />
-              <Button type="submit" emphasis="soft" size="md">
+              <Button type="submit" emphasis={ctaEmphasis} onDark={ctaEmphasis === 'solid'} size="md">
                 S'inscrire
               </Button>
             </div>

@@ -128,8 +128,10 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         )}
       </div>
 
+      {/* L'action de la carte : `soft`, écrit (arbitrage n°19). Il l'était
+          déjà par le `variant` déprécié implicite (`primary`). */}
       {onViewProject && (
-        <Button onClick={onViewProject} fullWidth>
+        <Button emphasis="soft" onClick={onViewProject} fullWidth>
           Voir le projet
           <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
         </Button>

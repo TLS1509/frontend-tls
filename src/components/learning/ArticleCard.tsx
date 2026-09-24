@@ -48,7 +48,9 @@ const TONE_HOVER_GLOW: Record<ArticleTone, string> = {
 };
 
 /* Le ton de la carte, dans le vocabulaire de Button. Enregistré = `soft` du
-   ton (filet 700, glyphe 800) ; pas encore = `outline` neutre. */
+   ton (filet 700, glyphe 800) ; pas encore = `ghost` neutre, le glyphe seul.
+   (Il était en `outline` : ce niveau est réservé à Annuler, arbitrage n°19 —
+   un favori est un outil, pas la moitié d'une paire.) */
 const TONE_SAVE: Record<ArticleTone, 'brand' | 'warm' | 'sun'> = {
   primary: 'brand',
   warm:    'warm',
@@ -117,7 +119,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
           <Button
             iconOnly
             size="sm"
-            emphasis={isSaved ? 'soft' : 'outline'}
+            emphasis={isSaved ? 'soft' : 'ghost'}
             tone={isSaved ? TONE_SAVE[tone] : 'neutral'}
             className="shrink-0"
             onClick={(e) => {
@@ -153,10 +155,12 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
           ]}
           size="sm"
         />
+        {/* L'action de la carte : `soft` (arbitrage n°19). Elle était en
+            `outline`, réservé à Annuler. */}
         {onRead && (
           <Button
             size="sm"
-            emphasis="outline"
+            emphasis="soft"
             trailingIcon={
               <ArrowRight
                 size={14}

@@ -223,13 +223,17 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
           </div>
         </div>
 
-        {/* Le CTA refaisait à la main ce que <Button emphasis="soft"> rend déjà,
-            à 44 px près — il était à 44 par chance, pas par token. La map
-            CTA_CLASSES est remplacée par le ton : les trois entrées reproduisaient
-            primary / secondary / accent, c'est-à-dire brand / warm / sun. */}
+        {/* « Reprendre » est l'action principale de l'accueil (arbitrage n°19,
+            qui la cite en exemple) : le `solid` de l'écran, au ton de la carte.
+            C'est la seule carte à CTA qui naît `solid` — son unique consommateur,
+            le tableau de bord, en fait son action dominante ; les autres cartes
+            portent une action de contexte (`soft`).
+            Le CTA refaisait à la main ce que <Button> rend déjà, à 44 px près —
+            il était à 44 par chance, pas par token. La map CTA_CLASSES est
+            remplacée par le ton : brand / warm / sun. */}
         <Button
           size="md"
-          emphasis="soft"
+          emphasis="solid"
           tone={tone === 'primary' ? 'brand' : tone}
           onClick={(e) => { e.stopPropagation(); onClick?.(id); }}
           aria-label={ctaLabel}

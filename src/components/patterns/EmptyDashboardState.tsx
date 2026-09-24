@@ -108,8 +108,13 @@ export const EmptyDashboardState: React.FC<EmptyDashboardStateProps> = ({
           Découvre les parcours adaptés à ton profil et lance ta première leçon.
         </span>
 
-        {/* Affordance visuelle dans une carte déjà cliquable — voir PromptCard. */}
-        <span className={buttonClasses({ variant: 'glass-light', className: 'mt-stack-lg self-start' })}>
+        {/* Affordance visuelle dans une carte déjà cliquable — voir PromptCard.
+            C'est l'action dominante du tableau de bord à froid, là où
+            ResumeLessonCard porte « Reprendre » une fois un parcours lancé :
+            elle en prend le niveau, `solid`, au ton de la carte (arbitrage
+            n°19). Elle portait le `variant` déprécié `glass-light` — le
+            `soft` neutre, niveau de contexte, pour l'action qui ouvre l'app. */}
+        <span className={buttonClasses({ emphasis: 'solid', tone: 'warm', className: 'mt-stack-lg self-start' })}>
           Explorer les parcours <ArrowRight size={14} aria-hidden="true" />
         </span>
       </button>
