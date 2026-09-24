@@ -25,7 +25,8 @@
  *   parent (faux 1,00 de /website/contact) ;
  * - seuils : 4,5 ; 3 pour le grand texte (≥ 24 px, ou ≥ 18,66 px gras) et pour
  *   un glyphe seul (✓, ·) qui fonctionne comme une icône ;
- * - exclus : aria-hidden, disabled / aria-disabled (exemptés par WCAG) ;
+ * - exclus : aria-hidden, disabled / aria-disabled, logotypes `[data-logotype]`
+ *   (exemptés par WCAG 1.4.3) ;
  * - un texte recouvert par un calque peint n'est pas compté (occlusion).
  *
  * Ne couvre pas : états survol et focus, texte sur image ou canvas.
@@ -41,14 +42,36 @@ const rapport = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x, y)
    capture de sa boîte, fond = couleur la plus fréquente parmi les pixels éloignés
    de l'encre. C'est la seule mesure juste sous un halo radial, un calque voisin
    en dégradé ou un verre flouté — les cas où la remontée des parents se trompe
-   (faux 1,00 de l'item actif de la nav, faux échecs sous les halos Auth). */
+   (faux 1,00 de l'item actif de la nav, faux échecs sous les halos Auth).
+
+   La capture se fait À L'ÉCRAN, plus en pleine page (2026-09-24). `fullPage`
+   étire la fenêtre à la hauteur du document : sur une page très haute (la
+   vitrine fait 174 000 px), les éléments en `min-h-[100dvh]` et leurs halos
+   s'étirent avec elle, et les pixels capturés ne sont plus ceux qu'on voit —
+   sur /components, les libellés « Nom complet », « Adresse email », « Mot de
+   passe » de l'AuthShell mesuraient 3,42 et 3,12:1 en pleine page, 4,89:1 à
+   l'écran. On fait défiler le texte au centre de la fenêtre (`scrollIntoView`,
+   qui suit aussi les conteneurs qui défilent et les éléments fixes), on
+   termine les animations d'entrée, et on capture sa boîte rognée à la fenêtre. */
 async function verifierAuxPixels(page, res) {
   const gardes = [];
   for (const e of res.echecs) {
     const b = e.boite;
     if (b.width < 2 || b.height < 2) continue;
+    const vue = await page.evaluate((i) => {
+      const el = document.querySelector(`[data-cc-echec="${i}"]`);
+      if (!el) return null;
+      el.scrollIntoView({ block: 'center', inline: 'center', behavior: 'instant' });
+      document.getAnimations().forEach((a) => { try { a.finish(); } catch { /* animation sans fin */ } });
+      const r = el.getBoundingClientRect();
+      return { x: r.left, y: r.top, droite: r.right, bas: r.bottom, vw: innerWidth, vh: innerHeight };
+    }, e.id);
+    if (!vue) { gardes.push(e); continue; }
+    const x = Math.max(0, vue.x), y = Math.max(0, vue.y);
+    const clip = { x, y, width: Math.min(vue.droite, vue.vw) - x, height: Math.min(vue.bas, vue.vh) - y };
+    if (clip.width < 2 || clip.height < 2) { gardes.push(e); continue; }
     let png;
-    try { png = decodePng(await page.screenshot({ clip: { x: Math.max(0, b.x), y: Math.max(0, b.y), width: b.width, height: b.height }, fullPage: true })); }
+    try { png = decodePng(await page.screenshot({ clip })); }
     catch { gardes.push(e); continue; }
     const compte = new Map();
     for (let i = 0; i < png.px.length; i += png.bpp) {
@@ -94,7 +117,7 @@ const sonde = () => {
 
   const texteDirect = (el) => [...el.childNodes].filter((n) => n.nodeType === 3 && n.textContent.trim()).map((n) => n.textContent.trim()).join(' ');
   const candidat = (el) => {
-    if (!texteDirect(el) || el.closest('[aria-hidden="true"],[disabled],[aria-disabled="true"],script,style,noscript')) return false;
+    if (!texteDirect(el) || el.closest('[aria-hidden="true"],[disabled],[aria-disabled="true"],[data-logotype],script,style,noscript')) return false;
     const r = el.getBoundingClientRect();
     if (!r.width || !r.height) return false;
     const s = getComputedStyle(el);
@@ -170,11 +193,15 @@ const sonde = () => {
       const f2 = fondDepuis(dessous);
       if (f2) { const e2 = f2.map((v, i) => v * (1 - fg[3]) + fg[i] * fg[3]); cr = Math.max(cr, ratio(e2, f2)); }
     }
-    if (cr < seuil) echecs.push({
-      cr: +cr.toFixed(2), seuil, texte: texte.slice(0, 40), classe: String(el.className).slice(0, 90),
-      boite: { x: r.left + scrollX, y: r.top + scrollY, width: r.width, height: r.height },
-      encre: fg.slice(0, 3).map(Math.round),
-    });
+    if (cr < seuil) {
+      // Marqué pour que la revérification au pixel le retrouve (et le fasse défiler).
+      el.setAttribute('data-cc-echec', String(echecs.length));
+      echecs.push({
+        id: echecs.length, cr: +cr.toFixed(2), seuil, texte: texte.slice(0, 40), classe: String(el.className).slice(0, 90),
+        boite: { x: r.left + scrollX, y: r.top + scrollY, width: r.width, height: r.height },
+        encre: fg.slice(0, 3).map(Math.round),
+      });
+    }
   }
   return { mesures, echecs };
 };

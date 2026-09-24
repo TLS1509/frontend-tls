@@ -325,14 +325,20 @@ export const TlsLogoLockup: React.FC<TlsLogoLockupProps> = ({
     </span>
   );
 
+  /* `data-logotype` (24/09) : le mot-symbole est un logotype, pas du texte
+     d'interface. WCAG 1.4.3 l'exempte de contraste, et il vit hors de
+     l'échelle typographique (800, taille tirée de l'icône) : check-contrast
+     et check-typo l'ignorent sur cet attribut — ils relevaient ses 2,87:1 et
+     sa graisse 800 comme des défauts. */
   const oneLine = (fs: number) => (
-    <span className={`${wordBase} leading-none whitespace-nowrap`} style={{ fontSize: fs }}>
+    <span data-logotype="" className={`${wordBase} leading-none whitespace-nowrap`} style={{ fontSize: fs }}>
       The Learning Society
     </span>
   );
 
   const threeLine = (fs: number, align: 'left' | 'center') => (
     <span
+      data-logotype=""
       className={`${wordBase} leading-[0.92] ${align === 'center' ? 'text-center' : 'text-left'}`}
       style={{ fontSize: fs }}
     >

@@ -31,7 +31,8 @@
  * Il dresse aussi le recensement : combien de textes par taille × graisse ×
  * famille, pour voir d'un coup d'œil si la hiérarchie tient.
  *
- * Ne note pas : les tailles au sein de SVG (graphiques), le texte masqué.
+ * Ne note pas : les tailles au sein de SVG (graphiques), le texte masqué, les
+ * logotypes (`[data-logotype]`, exemptés comme en WCAG 1.4.3).
  * Sortie 0 : c'est un recensement ; `--strict` rend la sortie non nulle.
  */
 import { writeFileSync } from 'node:fs';
@@ -44,7 +45,9 @@ const sonde = (echelle) => {
   const textes = [];
   const titres = [];
   for (const el of document.querySelectorAll('body *')) {
-    if (el.closest('svg,script,style,noscript,[aria-hidden="true"]')) continue;
+    // `[data-logotype]` : un logotype (mot-symbole de TlsLogoLockup) n'est pas
+    // du texte d'interface — hors échelle et en 800 par construction.
+    if (el.closest('svg,script,style,noscript,[aria-hidden="true"],[data-logotype]')) continue;
     const direct = [...el.childNodes].filter((n) => n.nodeType === 3 && n.textContent.trim()).map((n) => n.textContent.trim()).join(' ');
     const tag = el.tagName.toLowerCase();
     const estTitre = /^h[1-6]$/.test(tag);
