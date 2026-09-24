@@ -1,7 +1,8 @@
 import React from 'react';
-import { Zap, TrendingUp, BookOpen, Trophy } from 'lucide-react';
+import { Zap, TrendingUp, Trophy } from 'lucide-react';
 import EditorialHero from '../components/patterns/EditorialHero';
-import SectionCard from '../components/patterns/SectionCard';
+import { SectionHeader } from '../components/patterns/SectionHeader';
+import { Card } from '../components/core/Card';
 import StatCard from '../components/ui/StatCard';
 import ProgressBar from '../components/ui/ProgressBar';
 import { PageShell } from '../components/layout';
@@ -28,7 +29,11 @@ export default function XPDashboard() {
   const xpProgress = Math.min(100, Math.round(((totalXP - xpCurrentLevel) / (xpNextLevel - xpCurrentLevel)) * 100));
 
   return (
-    <PageShell width="wide" noPadTop className="pt-6 md:pt-8 lg:pt-10">
+    /* Haut de page de la coque (il était réécrit à la main), 48 entre les
+       blocs, titres de section (h2 28) posés sur la page — ils étaient des h3
+       à 20 dans des cartes. Mots et ordre des blocs inchangés (arbitrage n°18
+       en cours). */
+    <PageShell width="wide">
       <EditorialHero
         eyebrow="Profil · XP"
         title="Mes Points XP"
@@ -36,7 +41,7 @@ export default function XPDashboard() {
         tone="flat"
       />
 
-      <div className="flex flex-col gap-section">
+      <div className="flex flex-col gap-page">
         {/* Stat cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
           <StatCard
@@ -66,64 +71,73 @@ export default function XPDashboard() {
           />
         </div>
 
-        {/* Progress vers niveau suivant */}
-        <SectionCard
-          title="Progression vers le Niveau 8"
-          titleIcon={<TrendingUp size={18} />}
-          description={`${totalXP} / ${xpNextLevel} XP : encore ${xpNextLevel - totalXP} XP pour passer au niveau suivant`}
-        >
-          <ProgressBar
-            value={xpProgress}
-            fill="sun"
-            size="lg"
-            label={`Niveau ${currentLevel} → Niveau ${currentLevel + 1}`}
-            valueLabel={`${xpProgress} %`}
+        {/* Progress vers niveau suivant — la ligne de chiffres est une donnée :
+            la méta de l'en-tête. */}
+        <section className="flex flex-col gap-stack">
+          <SectionHeader
+            title="Progression vers le Niveau 8"
+            meta={`${totalXP} / ${xpNextLevel} XP : encore ${xpNextLevel - totalXP} XP pour passer au niveau suivant`}
           />
-        </SectionCard>
+          <Card>
+            <ProgressBar
+              value={xpProgress}
+              fill="sun"
+              size="lg"
+              label={`Niveau ${currentLevel} → Niveau ${currentLevel + 1}`}
+              valueLabel={`${xpProgress} %`}
+            />
+          </Card>
+        </section>
 
-        {/* Historique des gains */}
-        <SectionCard
-          title="Historique des gains XP"
-          titleIcon={<Zap size={18} />}
-          description="Les dernières activités récompensées en XP"
-        >
-          <ul className="flex flex-col divide-y divide-ink-100">
-            {xpEvents.slice(0, 10).map((item) => (
-              <li key={item.id} className="flex items-center justify-between gap-stack py-3">
-                <span className="text-body text-ink-800">{item.description}</span>
-                <div className="flex items-center gap-stack-xs shrink-0">
-                  <span className="text-body font-bold text-warning-fg">+{item.xp} XP</span>
-                  <span className="text-caption text-ink-600">
-                    {new Date(item.occurredAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}
-                  </span>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </SectionCard>
+        {/* Historique des gains — le gain se met en avant par la graisse et
+            les chiffres tabulaires, plus par une couleur d'alerte. */}
+        <section className="flex flex-col gap-stack">
+          <SectionHeader
+            title="Historique des gains XP"
+            subtitle="Les dernières activités récompensées en XP"
+          />
+          <Card>
+            <ul className="flex flex-col divide-y divide-ink-100">
+              {xpEvents.slice(0, 10).map((item) => (
+                <li key={item.id} className="flex items-center justify-between gap-stack py-stack-sm first:pt-0 last:pb-0">
+                  <span className="text-body text-ink-900">{item.description}</span>
+                  <div className="flex items-baseline gap-stack-xs shrink-0">
+                    <span className="text-body font-semibold text-ink-900 tabular-nums">+{item.xp} XP</span>
+                    <span className="text-caption text-ink-600">
+                      {new Date(item.occurredAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}
+                    </span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </Card>
+        </section>
 
-        {/* XP par catégorie */}
-        <SectionCard
-          title="XP par catégorie"
-          titleIcon={<BookOpen size={18} />}
-          description="Répartition de tes points XP selon les types d'activités"
-        >
-          <div className="flex flex-col gap-stack">
-            {XP_CATEGORIES.map((cat) => (
-              <div key={cat.label} className="flex flex-col gap-tight">
-                <div className="flex items-center justify-between">
-                  <span className="text-body font-semibold text-ink-800">{cat.label}</span>
-                  <span className="text-caption text-ink-500">{cat.xp} XP</span>
+        {/* XP par catégorie — libellé en corps, valeur en légende 600 à
+            chiffres tabulaires (elle était en ink-500), 8 jusqu'à la barre. */}
+        <section className="flex flex-col gap-stack">
+          <SectionHeader
+            title="XP par catégorie"
+            subtitle="Répartition de tes points XP selon les types d'activités"
+          />
+          <Card>
+            <div className="flex flex-col gap-stack">
+              {XP_CATEGORIES.map((cat) => (
+                <div key={cat.label} className="flex flex-col gap-stack-xs">
+                  <div className="flex items-baseline justify-between gap-stack">
+                    <span className="text-body text-ink-900">{cat.label}</span>
+                    <span className="text-caption font-semibold text-ink-700 tabular-nums">{cat.xp.toLocaleString('fr-FR')} XP</span>
+                  </div>
+                  <ProgressBar
+                    value={cat.fill}
+                    fill={cat.fillColor}
+                    size="sm"
+                  />
                 </div>
-                <ProgressBar
-                  value={cat.fill}
-                  fill={cat.fillColor}
-                  size="sm"
-                />
-              </div>
-            ))}
-          </div>
-        </SectionCard>
+              ))}
+            </div>
+          </Card>
+        </section>
       </div>
     </PageShell>
   );

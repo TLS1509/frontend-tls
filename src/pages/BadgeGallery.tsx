@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { Award, Lock, Star, Flame, BookOpen, Users, Zap, Heart, Medal } from 'lucide-react';
+import { Award, Star, Flame, BookOpen, Users, Zap, Heart, Medal } from 'lucide-react';
 import EditorialHero from '../components/patterns/EditorialHero';
-import SectionCard from '../components/patterns/SectionCard';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import AchievementBadge from '../components/ui/AchievementBadge';
 import FilterChip from '../components/ui/FilterChip';
 import { useGamificationStore } from '../stores/persistence';
 import { BADGE_DEFS, getBadgeDefById } from '../data/gamification';
 import { MOCK_USER_ID } from '../data/passeport';
 import type { BadgeType } from '../types/learning';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 
 type FilterKey = 'all' | BadgeType;
 
@@ -92,8 +92,16 @@ export default function BadgeGallery() {
   const earnedIds = new Set(earnedUserBadges.map((ub) => ub.badgeId));
   const lockedToShow = LOCKED_BADGES.filter((b) => !earnedIds.has(b.id));
 
+  /* La date d'obtention arrivait au composant telle que stockée
+     (« 2026-05-08T10:00:00Z ») : elle est rendue au format français. */
+  const formatDate = (iso: string) =>
+    new Date(iso).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' });
+
   return (
-    <div className="flex flex-col gap-section">
+    /* Un seul conteneur pour l'en-tête et le corps : le titre collait au haut
+       de l'écran et le corps partait 16 px plus à droite. Mots et ordre des
+       blocs inchangés (arbitrage n°18 en cours). */
+    <PageShell width="wide">
       <EditorialHero
         eyebrow="Profil · Badges"
         title="Mes Badges"
@@ -101,8 +109,11 @@ export default function BadgeGallery() {
         tone="flat"
       />
 
-      <Container width="wide" padding={false} className="px-stack flex flex-col gap-section">
-        {/* Filters */}
+      {/* Les filtres et la grille qu'ils filtrent forment une section ; son
+          titre (h2 28, le compte compris) sort de la carte qui enveloppait des
+          cartes. */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader title={`Badges obtenus (${visibleBadges.length})`} />
         <div className="flex flex-wrap gap-stack-xs">
           {FILTERS.map((f) => (
             <FilterChip
@@ -118,52 +129,46 @@ export default function BadgeGallery() {
             />
           ))}
         </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-stack">
+          {visibleBadges.map((badge) => (
+            <AchievementBadge
+              key={badge.id}
+              title={badge.title}
+              description={badge.description}
+              icon={badge.icon}
+              unlockedDate={formatDate(badge.unlockedDate)}
+              color={badge.color}
+              size="sm"
+            />
+          ))}
+        </div>
+      </section>
 
-        {/* Badge grid */}
-        <SectionCard
-          title={`Badges obtenus (${visibleBadges.length})`}
-          titleIcon={<Award size={18} />}
-        >
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-stack">
-            {visibleBadges.map((badge) => (
-              <AchievementBadge
-                key={badge.id}
-                title={badge.title}
-                description={badge.description}
-                icon={badge.icon}
-                unlockedDate={badge.unlockedDate}
-                color={badge.color}
-                size="sm"
-              />
+      {/* Locked badges — la condition se lit sous chaque badge, en légende
+          ink-600 (ink-500 est la couleur des placeholders). */}
+      {lockedToShow.length > 0 && (
+        <section className="flex flex-col gap-stack">
+          <SectionHeader
+            title="Badges à débloquer"
+            subtitle="Continue à progresser pour obtenir ces récompenses"
+          />
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
+            {lockedToShow.map((badge) => (
+              <div key={badge.id} className="flex flex-col gap-stack-xs">
+                <AchievementBadge
+                  title={badge.title}
+                  description={badge.description}
+                  icon={badge.icon}
+                  isLocked
+                  color={badge.color}
+                  size="sm"
+                />
+                <p className="text-caption text-ink-600 text-center">{badge.condition}</p>
+              </div>
             ))}
           </div>
-        </SectionCard>
-
-        {/* Locked badges */}
-        {lockedToShow.length > 0 && (
-          <SectionCard
-            title="Badges à débloquer"
-            titleIcon={<Lock size={18} />}
-            description="Continue à progresser pour obtenir ces récompenses"
-          >
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
-              {lockedToShow.map((badge) => (
-                <div key={badge.id} className="flex flex-col gap-stack-xs">
-                  <AchievementBadge
-                    title={badge.title}
-                    description={badge.description}
-                    icon={badge.icon}
-                    isLocked
-                    color={badge.color}
-                    size="sm"
-                  />
-                  <p className="text-caption text-ink-500 text-center">{badge.condition}</p>
-                </div>
-              ))}
-            </div>
-          </SectionCard>
-        )}
-      </Container>
-    </div>
+        </section>
+      )}
+    </PageShell>
   );
 }

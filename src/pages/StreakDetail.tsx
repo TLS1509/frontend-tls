@@ -3,7 +3,7 @@ import { Flame, Target, CheckCircle2, Lock } from 'lucide-react';
 import { useGamificationStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
 import EditorialHero from '../components/patterns/EditorialHero';
-import SectionCard from '../components/patterns/SectionCard';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { Card } from '../components/core/Card';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { Badge } from '../components/ui/Badge';
@@ -43,7 +43,10 @@ const StreakDetail: React.FC = () => {
   }));
 
   return (
-    <div className="min-h-[100dvh] bg-surface">
+    /* L'en-tête entre dans la coque : il collait au haut de l'écran, au-dessus
+       d'un `PageShell` dont le haut de page était réécrit à la main. Mots et
+       ordre des blocs inchangés (arbitrage n°18 en cours). */
+    <PageShell width="wide">
       <EditorialHero
         eyebrow="Gamification · Streak"
         title={`${currentStreak} jours d'affilée`}
@@ -51,70 +54,78 @@ const StreakDetail: React.FC = () => {
         tone="flat"
       />
 
-      <PageShell width="wide" noPadTop className="pt-6 md:pt-8 lg:pt-10">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
-          <StatCard label="Streak actuel" value={`${currentStreak}j`} sub="Actif" icon={<Flame size={18} />} />
-          <StatCard label="Streak record" value={`${longest}j`} sub="Mars 2026" />
-          <StatCard label="Total jours actifs" value="142" sub="6 derniers mois" />
-          <StatCard label="Reset heure" value="00:00" sub="UTC+1 Paris" />
-        </div>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
+        <StatCard label="Streak actuel" value={`${currentStreak}j`} sub="Actif" icon={<Flame size={18} />} />
+        <StatCard label="Streak record" value={`${longest}j`} sub="Mars 2026" />
+        <StatCard label="Total jours actifs" value="142" sub="6 derniers mois" />
+        <StatCard label="Reset heure" value="00:00" sub="UTC+1 Paris" />
+      </div>
 
-        <SectionCard title="Activité des 30 derniers jours" description="Un carré = un jour. Vert = activité validée, gris = inactif">
-          <Card className="p-stack-lg">
-            <div className="grid grid-cols-7 gap-tight max-w-[280px]">
-              {DAYS.map((d) => (
-                <div
-                  key={d.day}
-                  title={`Jour ${d.day} : ${d.active ? 'Actif' : 'Inactif'}`}
-                  className={`aspect-square rounded-sm ${
-                    d.active ? 'bg-success-base' : 'bg-ink-100'
-                  }`}
-                />
-              ))}
-            </div>
-            <div className="flex items-center gap-stack-xs mt-stack text-caption text-ink-500">
-              <span className="w-3 h-3 rounded bg-ink-100" /> Inactif
-              <span className="w-3 h-3 rounded bg-success-base ml-stack-xs" /> Actif
-            </div>
-          </Card>
-        </SectionCard>
-
-        <SectionCard title="Milestones débloquées" description="Atteins ces paliers pour gagner des badges">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
-            {MILESTONES.map((m) => (
-              <Card key={m.days} className="p-stack-md flex items-center gap-stack">
-                {/* Icon bubble : replaces AchievementBadge (full card component, not suitable inline) */}
-                <div className={`w-12 h-12 rounded-pill flex items-center justify-center shrink-0 ${MILESTONE_BUBBLE[m.tone]}`}>
-                  {m.unlocked
-                    ? <CheckCircle2 className="w-6 h-6" />
-                    : <Lock className="w-5 h-5 opacity-60" />}
-                </div>
-                <div className="flex-1">
-                  <div className="font-semibold">{m.label}</div>
-                  <div className="text-caption text-ink-500 mb-stack-xs">{m.days} jours consécutifs</div>
-                  {m.unlocked ? (
-                    <Badge variant="success">Débloqué</Badge>
-                  ) : (
-                    <div className="flex items-center gap-stack-xs">
-                      <ProgressBar value={m.progress!} max={100} fill="brand" />
-                      <span className="text-caption text-ink-500 shrink-0">{currentStreak}/{m.days}</span>
-                    </div>
-                  )}
-                </div>
-              </Card>
+      {/* Titres de section (h2 28) posés sur la page ; le calendrier était
+          une carte dans une carte. */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader title="Activité des 30 derniers jours" subtitle="Un carré = un jour. Vert = activité validée, gris = inactif" />
+        <Card className="flex flex-col gap-stack">
+          <div className="grid grid-cols-7 gap-tight max-w-[280px]">
+            {DAYS.map((d) => (
+              <div
+                key={d.day}
+                title={`Jour ${d.day} : ${d.active ? 'Actif' : 'Inactif'}`}
+                className={`aspect-square rounded-sm ${
+                  d.active ? 'bg-success-base' : 'bg-ink-100'
+                }`}
+              />
             ))}
           </div>
-        </SectionCard>
-
-        <Card className="p-stack-lg bg-secondary-50/50 border-secondary-200 flex items-center gap-stack">
-          <Target className="w-10 h-10 text-secondary-600" />
-          <div className="flex-1">
-            <div className="font-semibold mb-1">Objectif du jour</div>
-            <p className="text-body text-ink-700">Valide une leçon ou écris une entrée de journal avant minuit pour maintenir ta streak.</p>
+          {/* Légende en ink-600 (ink-500 est la couleur des placeholders) ;
+              chaque pastille tient à son mot, 16 entre les deux. */}
+          <div className="flex items-center gap-stack text-caption text-ink-600">
+            <span className="inline-flex items-center gap-stack-xs"><span className="w-3 h-3 rounded-sm bg-ink-100" aria-hidden="true" /> Inactif</span>
+            <span className="inline-flex items-center gap-stack-xs"><span className="w-3 h-3 rounded-sm bg-success-base" aria-hidden="true" /> Actif</span>
           </div>
         </Card>
-      </PageShell>
-    </div>
+      </section>
+
+      {/* Paliers — des cartes qu'on regarde une à une, sans carte autour. La
+          pastille (48) prend son carré (arbitrage n°3) ; la barre de
+          progression prend la largeur de la carte : dans sa rangée, elle se
+          réduisait à 30 px, la largeur de son libellé. */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader title="Milestones débloquées" subtitle="Atteins ces paliers pour gagner des badges" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
+          {MILESTONES.map((m) => (
+            <Card key={m.days} className="p-stack-md flex flex-row items-center gap-stack">
+              {/* Icon bubble : replaces AchievementBadge (full card component, not suitable inline) */}
+              <div className={`w-12 h-12 rounded-lg flex items-center justify-center shrink-0 ${MILESTONE_BUBBLE[m.tone]}`}>
+                {m.unlocked
+                  ? <CheckCircle2 className="w-6 h-6" />
+                  : <Lock className="w-5 h-5 opacity-60" />}
+              </div>
+              <div className="flex-1 min-w-0 flex flex-col gap-stack-3xs">
+                <div className="text-body font-semibold text-ink-900">{m.label}</div>
+                <div className="text-caption text-ink-600">{m.days} jours consécutifs</div>
+                {m.unlocked ? (
+                  <Badge variant="success" className="self-start mt-stack-3xs">Débloqué</Badge>
+                ) : (
+                  <div className="flex items-end gap-stack-xs mt-stack-3xs">
+                    <ProgressBar value={m.progress!} max={100} fill="brand" className="flex-1" />
+                    <span className="text-caption text-ink-600 tabular-nums shrink-0">{currentStreak}/{m.days}</span>
+                  </div>
+                )}
+              </div>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      <Card className="p-stack-lg bg-secondary-50/50 border-secondary-200 flex flex-row items-center gap-stack">
+        <Target className="w-10 h-10 text-secondary-600 shrink-0" aria-hidden="true" />
+        <div className="flex-1 flex flex-col gap-stack-3xs">
+          <div className="text-body font-semibold text-ink-900">Objectif du jour</div>
+          <p className="text-body text-ink-700 max-w-prose">Valide une leçon ou écris une entrée de journal avant minuit pour maintenir ta streak.</p>
+        </div>
+      </Card>
+    </PageShell>
   );
 };
 

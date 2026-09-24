@@ -6,7 +6,10 @@ import { StatCard } from '../components/ui/StatCard';
 import { Pagination } from '../components/ui/Pagination';
 import { Avatar } from '../components/ui/Avatar';
 import { EditorialHero } from '../components/patterns/EditorialHero';
-import { Flame, Medal, Sparkles, Trophy, Users, Zap, Star } from 'lucide-react';
+import { SectionHeader } from '../components/patterns/SectionHeader';
+import { SegmentedControl } from '../components/ui/SegmentedControl';
+import { MetaPill, type MetaPillTone } from '../components/ui/MetaPill';
+import { Flame, Medal, Trophy, Users, Zap, Star } from 'lucide-react';
 import { useGamificationStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
 import { buildLeaderboard, type LeaderboardRow } from '../data/apprenants';
@@ -21,6 +24,7 @@ const PERIODS = [
 const PODIUM_CONFIG = [
   {
     label: '1er',
+    pillTone: 'sun' as MetaPillTone,
     rankClasses: 'bg-accent-700 text-white',
     cardClasses: 'bg-gradient-to-br from-accent-100 to-white border border-accent-300',
     avatarClasses: 'bg-accent-100 border-2 border-accent-300 text-accent-800',
@@ -30,6 +34,7 @@ const PODIUM_CONFIG = [
   },
   {
     label: '2ème',
+    pillTone: 'neutral' as MetaPillTone,
     rankClasses: 'bg-ink-600 text-white',
     cardClasses: 'bg-gradient-to-br from-ink-100 to-white border border-ink-300',
     avatarClasses: 'bg-ink-100 border-2 border-ink-300 text-ink-600',
@@ -39,6 +44,7 @@ const PODIUM_CONFIG = [
   },
   {
     label: '3ème',
+    pillTone: 'warm' as MetaPillTone,
     rankClasses: 'bg-secondary-700 text-white',
     cardClasses: 'bg-gradient-to-br from-secondary-100 to-white border border-secondary-300',
     avatarClasses: 'bg-secondary-100 border-2 border-secondary-300 text-secondary-700',
@@ -85,7 +91,9 @@ export const Leaderboard: React.FC = () => {
   );
 
   return (
-    <PageShell width="wide" noPadTop className="pt-6 md:pt-8 lg:pt-10 relative z-base">
+    /* Haut de page de la coque (il était réécrit à la main). Mots et ordre
+       des blocs inchangés (arbitrage n°18 en cours) : typographie et rythme. */
+    <PageShell width="wide" className="relative z-base">
 
         {/* ── Hero ─────────────────────────────────────────────── */}
         <EditorialHero
@@ -127,29 +135,24 @@ export const Leaderboard: React.FC = () => {
           />
         </div>
 
-        {/* Section heading + period filter */}
-        <div className="flex items-baseline justify-between gap-stack-xs flex-wrap">
-          <h2 className="font-display text-h3 font-bold text-ink-900 tracking-tight text-balance">
-            Classement
-          </h2>
-          <div className="flex gap-tight p-1 rounded-pill bg-ink-100">
-            {PERIODS.map((p) => (
-              <button
-                key={p.id}
-                type="button"
-                onClick={() => setPeriod(p.id)}
-                className={[
-                  'px-3 py-1.5 rounded-pill border-0 font-body text-caption cursor-pointer transition-colors duration-base whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-500',
-                  period === p.id
-                    ? 'bg-white text-ink-900 font-bold shadow-xs'
-                    : 'bg-transparent text-ink-600 font-medium hover:text-ink-900',
-                ].join(' ')}
-              >
-                {p.label}
-              </button>
-            ))}
-          </div>
-        </div>
+        {/* Le classement est UNE section : son titre (h2 28 — il était un h2 à
+            20, serré par `tracking-tight`) et son sélecteur de période, puis le
+            podium à 16, la suite à 24. Ils se suivaient à 48 chacun, et le
+            titre flottait entre les chiffres et le podium (54 / 56). Le
+            sélecteur fait main devient `SegmentedControl` (rail 36, rayon 14). */}
+        <section className="flex flex-col gap-stack">
+        <SectionHeader
+          title="Classement"
+          action={
+            <SegmentedControl
+              size="sm"
+              aria-label="Période du classement"
+              options={PERIODS.map((p) => ({ value: p.id, label: p.label }))}
+              value={period}
+              onChange={setPeriod}
+            />
+          }
+        />
 
         {/* Podium Cards */}
         <div className="grid grid-cols-1 gap-stack sm:grid-cols-3">
@@ -162,39 +165,34 @@ export const Leaderboard: React.FC = () => {
               >
                 {/* Rank badge + points */}
                 <div className="flex items-center justify-between">
-                  <span className={['inline-flex items-center justify-center w-10 h-10 rounded-xl font-display text-h3 leading-none', pod.rankClasses].join(' ')}>
+                  <span className={['inline-flex items-center justify-center w-10 h-10 rounded-md font-display text-h3 leading-none tabular-nums', pod.rankClasses].join(' ')}>
                     #{index + 1}
                   </span>
-                  <span className={`text-caption font-bold ${pod.badgeClasses}`}>
+                  <span className={`text-caption font-semibold tabular-nums ${pod.badgeClasses}`}>
                     {entry.points} pts
                   </span>
                 </div>
 
                 {/* Avatar + name */}
                 <div className="flex items-center gap-stack-xs">
-                  <div className={`w-12 h-12 rounded-pill flex items-center justify-center text-body font-extrabold shrink-0 ${pod.avatarClasses}`}>
+                  {/* Initiales en 600, celle de l'`Avatar` (elles étaient en 800,
+                      le registre du site). */}
+                  <div className={`w-12 h-12 rounded-pill flex items-center justify-center text-body font-semibold shrink-0 ${pod.avatarClasses}`}>
                     {entry.initials}
                   </div>
-                  <div>
-                    <p className="m-0 font-body text-body font-bold text-ink-900">{entry.name}</p>
-                    <p className="m-0 font-body text-caption text-ink-500">{pod.label} du classement</p>
+                  <div className="flex flex-col gap-stack-3xs">
+                    <p className="font-body text-body font-semibold text-ink-900">{entry.name}</p>
+                    <p className="font-body text-caption text-ink-600">{pod.label} du classement</p>
                   </div>
                 </div>
 
-                {/* Stats pills */}
+                {/* Stats pills — des données : MetaPill (24 px, la donnée
+                    chuchote). Les pastilles faites main faisaient 32 px, en
+                    13/600, au poids des actions. */}
                 <div className="flex items-center gap-stack-xs flex-wrap">
-                  <span className={`inline-flex items-center gap-stack-2xs px-3 py-1.5 rounded-pill text-caption font-semibold ${pod.pillClasses}`}>
-                    <Flame size={14} className={pod.iconClasses} />
-                    {entry.streak}j streak
-                  </span>
-                  <span className={`inline-flex items-center gap-stack-2xs px-3 py-1.5 rounded-pill text-caption font-semibold ${pod.pillClasses}`}>
-                    <Star size={14} className={pod.iconClasses} />
-                    Niv.&nbsp;{entry.level}
-                  </span>
-                  <span className={`inline-flex items-center gap-stack-2xs px-3 py-1.5 rounded-pill text-caption font-semibold ${pod.pillClasses}`}>
-                    <Zap size={14} className={pod.iconClasses} />
-                    {entry.xp.toLocaleString('fr-FR')} XP
-                  </span>
+                  <MetaPill icon={<Flame />} text={`${entry.streak}j streak`} tone={pod.pillTone} />
+                  <MetaPill icon={<Star />} text={`Niv.\u00a0${entry.level}`} tone={pod.pillTone} />
+                  <MetaPill icon={<Zap />} text={`${entry.xp.toLocaleString('fr-FR')} XP`} tone={pod.pillTone} />
                 </div>
 
                 <Button
@@ -211,22 +209,25 @@ export const Leaderboard: React.FC = () => {
           })}
         </div>
 
-        {/* Full ranking list */}
-        <div className="flex flex-col gap-stack">
+        {/* Full ranking list — 24 sous le podium (16 + 8) : deux ensembles de
+            la même section. */}
+        <div className="flex flex-col gap-stack mt-stack-xs">
           {/* Current user banner : only show if they're not on the podium */}
           {currentUserRow && currentUserRow.rank > 3 && (
             <Card variant="tinted" tone="primary" className="flex items-center gap-stack p-stack-md">
-              <div className="w-10 h-10 rounded-pill bg-gradient-to-br from-primary-700 to-secondary-700 flex items-center justify-center text-white font-extrabold text-body shrink-0">
+              <div className="w-10 h-10 rounded-pill bg-gradient-to-br from-primary-700 to-secondary-700 flex items-center justify-center text-white font-semibold text-body shrink-0">
                 {currentUserRow.initials}
               </div>
-              <div className="flex-1">
-                <div className="font-body text-body font-bold text-ink-900">{currentUserRow.name}</div>
-                <div className="font-body text-caption text-ink-600">
+              <div className="flex-1 min-w-0 flex flex-col gap-stack-3xs">
+                <div className="font-body text-body font-semibold text-ink-900">{currentUserRow.name}</div>
+                <div className="font-body text-caption text-ink-600 tabular-nums">
                   Niveau {currentUserRow.level} · {currentUserRow.xp.toLocaleString('fr-FR')} XP
                 </div>
               </div>
-              <div className="text-right">
-                <div className="font-display text-h3 text-primary-600">
+              {/* Le rang à l'encre du cran 800 (la marque ne porte de texte qu'à
+                  ce cran ; il était au 600, à 3,66:1). */}
+              <div className="text-right flex flex-col gap-stack-3xs">
+                <div className="font-display text-h3 text-primary-800 tabular-nums">
                   #{currentUserRow.rank}
                 </div>
                 <div className="font-body text-caption text-ink-600">classement</div>
@@ -259,14 +260,15 @@ export const Leaderboard: React.FC = () => {
                     <span className="hidden sm:block shrink-0">
                       <Avatar initials={entry.initials} size="sm" />
                     </span>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-body text-body font-bold text-ink-900 truncate">{entry.name}</p>
-                      {/* ink-500 fait 4,45:1 sur la rangée primary-50 de l'utilisateur : 600 là. */}
-                      <p className={`font-body text-caption truncate ${entry.isCurrentUser ? 'text-ink-600' : 'text-ink-500'}`}>
+                    {/* Nom en 600 (l'emphase du corps ; 700 est celui des titres),
+                        méta en ink-600 sur toutes les rangées. */}
+                    <div className="flex-1 min-w-0 flex flex-col gap-stack-3xs">
+                      <p className="font-body text-body font-semibold text-ink-900 truncate">{entry.name}</p>
+                      <p className="font-body text-caption text-ink-600 truncate tabular-nums">
                         Niveau {entry.level} · {entry.xp.toLocaleString('fr-FR')} XP
                       </p>
                     </div>
-                    <span className="shrink-0 font-body text-body font-bold tabular-nums text-primary-800">
+                    <span className="shrink-0 font-body text-body font-semibold tabular-nums text-primary-800">
                       {entry.points} pts
                     </span>
                     <Button
@@ -293,28 +295,33 @@ export const Leaderboard: React.FC = () => {
               page={rankPage}
               totalPages={totalRankPages}
               onChange={setRankPage}
-              info={<span className="text-caption text-ink-500">{restRanking.length} participants</span>}
+              info={<span className="text-caption text-ink-600">{restRanking.length} participants</span>}
             />
           )}
         </div>
 
+        </section>
+
         {/* Weekly goal */}
-        <Card variant="tinted" tone="primary" className="p-stack-lg flex flex-col gap-stack">
-          <div className="flex items-center gap-stack-xs">
-            <div className="w-11 h-11 rounded-xl bg-primary-100 text-primary-800 flex items-center justify-center shrink-0">
+        {/* Anatomie de carte : pastille (40, carrée) sur la première ligne du
+            titre, titre → texte 4, contenu → action 24 ; l'action garde sa
+            largeur. Le texte était en ink-500 (4,14:1 sur le fond teinté).
+            L'étincelle, réservée aux fonctions d'IA, quitte le titre. */}
+        <Card variant="tinted" tone="primary" className="p-stack-lg flex flex-col gap-stack-lg">
+          <div className="flex items-start gap-stack-sm">
+            <div className="w-10 h-10 rounded-md bg-primary-100 text-primary-800 flex items-center justify-center shrink-0">
               <Zap size={20} strokeWidth={1.8} />
             </div>
-            <div>
-              <h3 className="font-display text-h3 font-bold text-ink-900 flex items-center gap-stack-xs">
-                <Sparkles size={16} className="text-primary-500" />
+            <div className="flex flex-col gap-stack-3xs min-w-0 mt-[7px]">
+              <h3 className="font-display text-h3 text-ink-900">
                 Objectif de la semaine
               </h3>
-              <p className="m-0 font-body text-body text-ink-500">
+              <p className="font-body text-body text-ink-700 max-w-prose">
                 Valide 3 activités réflexives et 2 modules pour intégrer le top 3.
               </p>
             </div>
           </div>
-          <Button onClick={() => navigate('/learning-paths')}>Continuer mon parcours</Button>
+          <Button onClick={() => navigate('/learning-paths')} className="self-start">Continuer mon parcours</Button>
         </Card>
     </PageShell>
   );
