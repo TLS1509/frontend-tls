@@ -19,7 +19,7 @@ import { useJournalStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
 import { EDRA_R_QUESTIONS, GENERIC_STRUCTURED_QUESTIONS } from '../data/journal';
 import { JOURNAL_TYPES } from '../lib/journal-types';
-import type { JournalEntryType, JournalMoodLevel } from '../types/learning';
+import type { JournalEntryType } from '../types/learning';
 import {
   ArrowLeft,
   ArrowRight,
@@ -27,12 +27,8 @@ import {
   Clock3,
   Tag as TagIcon,
   PenLine,
-  Frown,
-  Meh,
-  Smile,
-  SmilePlus,
-  Laugh,
 } from 'lucide-react';
+import { HUMEURS } from '../components/ui/MoodSelector';
 import { Button } from '../components/core/Button';
 import { MetaPill } from '../components/ui/MetaPill';
 import { MetaPillGroup } from '../components/ui/MetaPillGroup';
@@ -63,15 +59,9 @@ const TYPE_LABEL: Record<JournalEntryType, string> = {
   'moment-eureka':    JOURNAL_TYPES.insight.label,
 };
 
-/* Humeur : mêmes libellés et mêmes glyphes que le sélecteur de l'éditeur
-   (`MoodSelector`), pour qu'on relise l'humeur qu'on a choisie. */
-const MOOD: Record<JournalMoodLevel, { label: string; icon: React.ReactNode }> = {
-  'very-sad':   { label: 'Difficile', icon: <Frown /> },
-  'sad':        { label: 'Neutre',    icon: <Meh /> },
-  'neutral':    { label: 'Bien',      icon: <Smile /> },
-  'happy':      { label: 'Très bien', icon: <SmilePlus /> },
-  'very-happy': { label: 'Excellent', icon: <Laugh /> },
-};
+/* Humeur : la table du sélecteur de l'éditeur (`HUMEURS`, MoodSelector), pour
+   qu'on relise l'humeur qu'on a choisie — une seule source depuis le
+   2026-09-24 ; la copie qui vivait ici reproduisait le décalage d'un cran. */
 
 /* Questions structurées : le titre de chaque réponse est celui de la question
    posée dans l'éditeur (EDRA-R ou questions génériques). */
@@ -133,7 +123,7 @@ export const JournalDetail: React.FC = () => {
     );
   }
 
-  const mood = MOOD[storeEntry.mood];
+  const mood = HUMEURS[storeEntry.mood];
   const answers = Object.entries(storeEntry.structuredAnswers ?? {}).filter(
     ([, text]) => text.trim().length > 0,
   );
@@ -196,7 +186,7 @@ export const JournalDetail: React.FC = () => {
             <MetaPill text="Journal de bord" tone="primary" />
             {/* Le type est une donnée, pas un état : MetaPill (arbitrages n°14-15). */}
             <MetaPill text={TYPE_LABEL[storeEntry.type]} />
-            {mood && <MetaPill icon={mood.icon} text={mood.label} />}
+            {mood && <MetaPill icon={<mood.Icone />} text={mood.label} />}
           </div>
 
           <h1 className="mt-stack-xs font-display text-h1 text-ink-900 text-balance">

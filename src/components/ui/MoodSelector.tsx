@@ -1,7 +1,7 @@
 /**
  * MoodSelector — Figma DS Journal component.
  *
- * Row of mood emoji buttons (😢 😐 🙂 😊 🤩) with label, selection highlight,
+ * Row of mood buttons (Lucide faces) with label, selection highlight,
  * and aria-pressed for accessibility.
  *
  * Usage:
@@ -9,23 +9,33 @@
  */
 
 import React from 'react';
-import { Frown, Laugh, Meh, Smile, SmilePlus } from 'lucide-react';
+import { Angry, Frown, Laugh, Meh, Smile, type LucideIcon } from 'lucide-react';
 import type { JournalMoodLevel } from '../../types/learning';
 
 /** Convenience alias — same values as JournalMoodLevel from types/learning. */
 export type MoodLevel = JournalMoodLevel;
 
-interface MoodConfig {
-  icon: React.ReactNode;
-  label: string;
-}
+/* L'échelle des humeurs — source unique, corrigée le 2026-09-24.
 
-const MOOD_CONFIG: Record<MoodLevel, MoodConfig> = {
-  'very-sad':   { icon: <Frown size={28} strokeWidth={1.75} />,    label: 'Difficile' },
-  'sad':        { icon: <Meh size={28} strokeWidth={1.75} />,      label: 'Neutre' },
-  'neutral':    { icon: <Smile size={28} strokeWidth={1.75} />,    label: 'Bien' },
-  'happy':      { icon: <SmilePlus size={28} strokeWidth={1.75} />, label: 'Très bien' },
-  'very-happy': { icon: <Laugh size={28} strokeWidth={1.75} />,    label: 'Excellent' },
+   Les libellés et les visages étaient décalés d'un cran sur les valeurs
+   enregistrées : `sad` s'affichait « Neutre », `neutral` « Bien », `happy`
+   « Très bien ». Une entrée écrite « frustré » (valeur `sad`) se relisait
+   « Neutre » sur sa page, pendant que la recherche la classait « Difficile »
+   — et une humeur choisie « Neutre » s'enregistrait `sad`. L'échelle suit
+   maintenant la valeur, symétrique comme elle : deux crans négatifs, le
+   neutre, deux positifs. Les mots sont ceux déjà employés par la recherche
+   du journal (« Très difficile », « Difficile », « Neutre », « Excellent »),
+   et « Bien » pour `happy`. Les visages montent d'un cran à l'autre : colère,
+   moue, bouche droite, sourire, rire.
+
+   La page de lecture d'une entrée (JournalDetail) lit cette table : on relit
+   l'humeur qu'on a choisie, avec le même mot et le même visage. */
+export const HUMEURS: Record<MoodLevel, { label: string; Icone: LucideIcon }> = {
+  'very-sad':   { Icone: Angry, label: 'Très difficile' },
+  'sad':        { Icone: Frown, label: 'Difficile' },
+  'neutral':    { Icone: Meh,   label: 'Neutre' },
+  'happy':      { Icone: Smile, label: 'Bien' },
+  'very-happy': { Icone: Laugh, label: 'Excellent' },
 };
 
 const MOOD_ORDER: MoodLevel[] = ['very-sad', 'sad', 'neutral', 'happy', 'very-happy'];
@@ -43,7 +53,7 @@ export const MoodSelector: React.FC<MoodSelectorProps> = ({
 }) => (
   <div className={['flex gap-stack-xs flex-wrap', className].filter(Boolean).join(' ')}>
     {MOOD_ORDER.map((level) => {
-      const cfg = MOOD_CONFIG[level];
+      const cfg = HUMEURS[level];
       const selected = value === level;
       return (
         <button
@@ -65,7 +75,7 @@ export const MoodSelector: React.FC<MoodSelectorProps> = ({
           ].join(' ')}
         >
           <span className="inline-flex items-center justify-center select-none" aria-hidden="true">
-            {cfg.icon}
+            <cfg.Icone size={28} strokeWidth={1.75} />
           </span>
           {/* Libellé de l'option : 13 / 600 aux deux états (500 est la graisse des
               puces) ; l'encre fonce d'un cran quand l'humeur est choisie. */}
