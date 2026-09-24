@@ -237,7 +237,7 @@ export const Veille: React.FC = () => {
           savedIds={savedIds}
           onToggleSave={(id) => toggleBookmark(id)}
           onItemClick={handleOpen}
-          emptyMessage="Aucun résultat. Essayez d'élargir vos filtres."
+          emptyMessage="Aucun résultat. Essaie d'élargir tes filtres."
         />
       </section>
 
@@ -260,14 +260,14 @@ export const Veille: React.FC = () => {
             Recevoir les actus veille dans ta boîte mail
           </p>
           <div className="flex items-center gap-stack-xs">
-            <label htmlFor={emailId} className="sr-only">Votre adresse e-mail</label>
+            <label htmlFor={emailId} className="sr-only">Ton adresse e-mail</label>
             <Input
               id={emailId}
               name="email"
               type="email"
               required
               size="sm"
-              placeholder="votre@email.com"
+              placeholder="prenom.nom@entreprise.fr"
               autoComplete="email"
               className="flex-1 min-w-0 @3xl:flex-none @3xl:w-56"
             />

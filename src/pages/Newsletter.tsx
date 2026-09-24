@@ -65,12 +65,12 @@ export const Newsletter: React.FC = () => {
               <div className="flex flex-col gap-stack-3xs">
                 <h2 id="newsletter-preferences" className="font-display text-h2 text-ink-900">Préférences d'abonnement</h2>
                 <p className="font-body text-body text-ink-700 max-w-prose">
-                  Vous pouvez vous désinscrire à tout moment depuis n'importe quel email reçu.
+                  Tu peux te désinscrire à tout moment depuis n'importe quel email reçu.
                 </p>
               </div>
               <Card className="flex flex-col gap-stack">
                 <FormGroup label="Adresse email" id="newsletter-email">
-                  <Input id="newsletter-email" type="email" placeholder="vous@entreprise.com" />
+                  <Input id="newsletter-email" type="email" placeholder="prenom.nom@entreprise.fr" />
                 </FormGroup>
                 <FormGroup label="Fréquence" id="newsletter-freq">
                   <Input id="newsletter-freq" type="text" defaultValue="Hebdomadaire (chaque lundi)" readOnly />
@@ -92,7 +92,7 @@ export const Newsletter: React.FC = () => {
               </div>
               <Card className="flex flex-col items-start gap-stack-lg">
                 <p className="font-body text-body text-ink-700 max-w-prose">
-                  Consultez la dernière synthèse hebdomadaire pour capter les tendances utiles en
+                  Consulte la dernière synthèse hebdomadaire pour capter les tendances utiles en
                   quelques minutes. Vidéo de la semaine, articles à la une et sélection courte
                   curée par l'équipe éditoriale.
                 </p>

@@ -289,10 +289,10 @@ export const WeeklyNewsletter: React.FC = () => {
             <Mail size={20} />
           </span>
           <h2 className="font-display text-h2 text-white">
-            Recevez les actus chaque lundi
+            Reçois les actus chaque lundi
           </h2>
           <p className="font-body text-body text-white max-w-prose">
-            La sélection hebdomadaire TLS directement dans votre boîte mail. Pas de spam,
+            La sélection hebdomadaire TLS directement dans ta boîte mail. Pas de spam,
             désinscription en 1 clic.
           </p>
           <form
@@ -308,7 +308,7 @@ export const WeeklyNewsletter: React.FC = () => {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="votre@email.com"
+              placeholder="prenom.nom@entreprise.fr"
               className="flex-1 h-11 px-stack rounded-lg border-0 bg-white/15 backdrop-blur-glass-light font-body text-body text-white placeholder:text-white/80 focus:outline-2 focus:outline-white/40"
             />
             <Button emphasis="soft" tone="warm" size="md" type="submit">
