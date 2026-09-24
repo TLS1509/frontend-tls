@@ -646,7 +646,7 @@ const PAGE_TEMPLATES: PageTemplate[] = [
   {
     id: 'profile',
     name: 'Profil utilisateur',
-    description: 'Hero glass avec avatar gradient + initiales, online dot, meta chips, intérêts pills. Stats row 4 KPI avec tls-kpi-icon colorés. Onglets (Vue d\'ensemble / Activité / Badges / Compétences).',
+    description: 'Hero glass avec avatar gradient + initiales, online dot, meta chips, intérêts pills. Onglets (Vue d\'ensemble / Activité / Badges / Compétences).',
     path: '/profile',
     family: 'Compte',
     color: 'var(--tls-primary-600)',
@@ -679,7 +679,7 @@ const PAGE_TEMPLATES: PageTemplate[] = [
   {
     id: 'leaderboard',
     name: 'Leaderboard',
-    description: 'Podium or/argent/bronze avec gradients, emojis médailles, cercle initiales 48px, badge points, streak flame pill, hover translateY(-3px). KPI row Flame/TrendingUp/Users.',
+    description: 'Podium or/argent/bronze avec gradients, emojis médailles, cercle initiales 48 px, badge points, série en pastille, rangée de chiffres. ⚠️ L’arbitrage n°18 retire de l’app apprenant le classement nominatif et la série quotidienne.',
     path: '/leaderboard',
     family: 'Communauté',
     color: 'var(--tls-yellow-600)',
@@ -690,7 +690,7 @@ const PAGE_TEMPLATES: PageTemplate[] = [
   {
     id: 'notifications',
     name: 'Notifications',
-    description: 'Cards avec bordure gauche 4px colorée par type (info/warm/success), icône bulle tone-aware 36×36, badge unread count live dans le hero, filter pills 4 catégories, bouton "Tout lire".',
+    description: "Notifications en rangées (NotificationCard row) dans une carte : pastille d'icône au ton du type, non-lus sur fond teinté avec un point, nombre de non-lus dans le hero, filtres en pastilles sur 4 catégories, bouton « Tout lire ».",
     path: '/notifications',
     family: 'Compte',
     color: 'var(--tls-primary-600)',
@@ -701,7 +701,7 @@ const PAGE_TEMPLATES: PageTemplate[] = [
   {
     id: 'account',
     name: 'Mon compte',
-    description: 'AccountFamilyNav (5 destinations), tabs Général/Sécurité, section Interface avec switch toggles (animations/contraste/nav compacte/dark mode), zone de danger liée aux vrais flows RGPD. Ex-Settings.tsx fusionné ici (Phase 24).',
+    description: "AccountFamilyNav (5 destinations), onglets Général / Sécurité, zone de danger liée aux vrais parcours RGPD. La carte « Interface » et ses interrupteurs factices ont été retirés le 24/09. Ex-Settings.tsx fusionné ici (Phase 24).",
     path: '/account',
     family: 'Compte',
     color: 'var(--tls-primary-600)',
@@ -8031,7 +8031,12 @@ const SURFACE_TOKENS: TokenEntry[] = [
    ratait le seuil des 18,66 px du « grand texte » WCAG, donc exigeait 4,5:1 au
    lieu de 3:1), h4 18→20 px (il collisionnait avec body-lg, deux noms pour la
    même taille), et l'interligne de micro 16→18 px. `display-xl`, `display-lg` et
-   `h5` ont été retirés : zéro usage. */
+   `h5` ont été retirés : zéro usage.
+
+   Le 2026-09-24 (arbitrages n°20 et 21) : le h3 de 24 px sort de l'échelle et
+   l'ancien h4 de 20 devient le h3 ; `body-sm` (15) fond dans `body` (16). Les
+   spécimens de la vitrine se dessinent depuis la variable (Swatch), pas depuis
+   la chaîne `value`, qui ne sert plus qu'à l'affichage et à la recherche. */
 const TYPOGRAPHY_TOKENS: TokenEntry[] = [
   { name: 'h1', cssVar: '--text-h1', value: '36 px · 44 · 700 · -0.03em', group: 'Typographie — échelle produit', type: 'typography' },
   { name: 'h2', cssVar: '--text-h2', value: '28 px · 36 · 700 · -0.025em', group: 'Typographie — échelle produit', type: 'typography' },

@@ -27,7 +27,9 @@ const LINK_IDLE = 'text-ink-600 hover:bg-primary-50 hover:text-primary-700';
 const LINK_ACTIVE = 'bg-primary-700 text-white hover:bg-primary-800';
 
 const COUNT_IDLE = 'text-ink-600';
-const COUNT_ACTIVE = 'text-white/75';
+/* Blanc plein : sur le cran 700, un blanc à 75 % tombait à 3,6:1 pour un
+   compteur de 13 px (doctrine : pas de transparence sur du texte blanc). */
+const COUNT_ACTIVE = 'text-white';
 
 export const ShowcaseNav: React.FC<ShowcaseNavProps> = ({ counts, activeSlug }) => {
   /**
