@@ -11,6 +11,13 @@ interface ChartDetailModalProps {
   title: string;
   subtitle?: string;
   children: React.ReactNode;
+  /**
+   * Actions du pied, de gauche à droite. Par défaut (arbitrage n°19 : un seul
+   * `solid` par écran, et une modale en est un) : la DERNIÈRE est l'action que
+   * la modale sert, en `solid` brand ; les autres sont en `ghost` neutre.
+   * `emphasis` et `tone` restent surchargeables — une paire Annuler / Confirmer
+   * passe Annuler en `outline`.
+   */
   actions?: Array<{
     label: string;
     onClick: () => void;
@@ -120,20 +127,23 @@ export const ChartDetailModal: React.FC<ChartDetailModalProps> = ({
               {/* Footer (if actions provided) */}
               {actions && actions.length > 0 && (
                 <div className="sticky bottom-0 bg-white border-t border-ink-200 p-stack-lg flex items-center justify-end gap-stack-sm">
-                  {actions.map((action, idx) => (
-                    <Button
-                      key={idx}
-                      emphasis={action.emphasis ?? 'soft'}
-                      tone={action.tone ?? 'warm'}
-                      size="md"
-                      onClick={() => {
-                        action.onClick();
-                        onClose();
-                      }}
-                    >
-                      {action.label}
-                    </Button>
-                  ))}
+                  {actions.map((action, idx) => {
+                    const principale = idx === actions.length - 1;
+                    return (
+                      <Button
+                        key={idx}
+                        emphasis={action.emphasis ?? (principale ? 'solid' : 'ghost')}
+                        tone={action.tone ?? (principale ? 'brand' : 'neutral')}
+                        size="md"
+                        onClick={() => {
+                          action.onClick();
+                          onClose();
+                        }}
+                      >
+                        {action.label}
+                      </Button>
+                    );
+                  })}
                 </div>
               )}
             </motion.div>

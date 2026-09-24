@@ -58,10 +58,6 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
     onClose();
   };
 
-  const CONFIRM_BTN_BASE = 'w-full py-3.5 px-4 rounded-xl border-[1.5px] flex items-center justify-center gap-stack-xs font-bold text-body transition-all font-body';
-  const CONFIRM_BTN_ENABLED = 'border-secondary-500/40 bg-secondary-500/8 text-secondary-700 cursor-pointer hover:bg-secondary-500/14';
-  const CONFIRM_BTN_DISABLED = 'border-ink-200 bg-ink-50 text-ink-600 opacity-50 cursor-not-allowed';
-
   return (
     <div
       className="fixed inset-0 flex items-center justify-center p-4 z-modal backdrop-blur bg-black/45 animate-cso-bd-in"
@@ -129,27 +125,34 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
               </div>
             </div>
 
-            {/* Action buttons */}
+            {/* Actions (arbitrage n°19) — la modale sert l'annulation : son
+                `solid` est « Confirmer l'annulation », au ton `danger` comme
+                tout Confirmer de suppression, posé juste sous le motif dont il
+                dépend. « Reprogrammer plutôt » est l'autre chemin, en `ghost`.
+                C'était l'inverse : la reprogrammation portait le niveau
+                principal et la confirmation était un bouton fait main, orange
+                pâle — la modale poussait vers ce qu'on n'était pas venu faire. */}
             <div className="flex flex-col gap-stack-xs">
-              {/* Reschedule (primary action) */}
               <Button
-                emphasis="soft"
+                emphasis="solid"
+                tone="danger"
                 size="lg"
                 fullWidth
-                leadingIcon={<RefreshCcw size={14} />}
+                leadingIcon={<CalendarX />}
+                onClick={handleCancel}
+                disabled={!reason}
+              >
+                Confirmer l'annulation
+              </Button>
+              <Button
+                emphasis="ghost"
+                size="lg"
+                fullWidth
+                leadingIcon={<RefreshCcw />}
                 onClick={() => { onReschedule(); handleClose(); }}
               >
                 Reprogrammer plutôt
               </Button>
-
-              {/* Cancel (destructive secondary) */}
-              <button
-                onClick={handleCancel}
-                disabled={!reason}
-                className={`${CONFIRM_BTN_BASE} ${reason ? CONFIRM_BTN_ENABLED : CONFIRM_BTN_DISABLED}`}
-              >
-                <CalendarX size={14} /> Confirmer l'annulation
-              </button>
             </div>
           </>
         ) : (

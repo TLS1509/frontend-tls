@@ -67,10 +67,6 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
     onClose();
   };
 
-  const SUBMIT_BASE = 'w-full p-4 rounded-xl border-0 flex items-center justify-center gap-stack-xs font-bold text-body cursor-pointer transition-all';
-  const SUBMIT_ENABLED = 'modal-submit-enabled text-white';
-  const SUBMIT_DISABLED = 'bg-ink-200 text-ink-600 opacity-50 cursor-not-allowed';
-
   return (
     <div
       className="fixed inset-0 flex items-center justify-center p-4 z-modal backdrop-blur bg-black/40 animate-fb-bd-in"
@@ -160,14 +156,22 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
               />
             </div>
 
-            {/* Submit */}
-            <button
+            {/* Envoi : le `solid` de la modale (arbitrage n°19), au ton or de
+                la modale. Il était fait main (`.modal-submit-enabled`, un
+                dégradé 700 → 800 sous un rayon de carte, 20 px) : `Button`
+                porte le même cran 700, son rayon, son anneau de focus et son
+                état désactivé. */}
+            <Button
+              emphasis="solid"
+              tone="sun"
+              size="lg"
+              fullWidth
+              leadingIcon={<Send />}
               onClick={handleSubmit}
               disabled={!canSubmit}
-              className={`${SUBMIT_BASE} ${canSubmit ? SUBMIT_ENABLED : SUBMIT_DISABLED}`}
             >
-              <Send size={16} /> Envoyer mon avis
-            </button>
+              Envoyer mon avis
+            </Button>
           </>
         ) : (
           /* Submitted confirmation — pastille d'icône au lieu d'un émoji de

@@ -165,19 +165,22 @@ export const CompletionModal: React.FC<CompletionModalProps> = ({
             </button>
           )}
 
-          {/* Actions — à 24 px du contenu (16 + 8). */}
+          {/* Actions — à 24 px du contenu (16 + 8). Un seul `solid`, l'action
+              que la modale sert (arbitrage n°19) : « Suivant » quand un
+              contenu suit, sinon l'unique « Retour à l'espace ». « Retour »,
+              à côté de « Suivant », referme sans rien confirmer : `ghost`. */}
           <div className="flex gap-stack-xs mt-stack-xs">
             {nextItem && onNext ? (
               <>
-                <Button emphasis="soft" tone="warm" size="md" onClick={onClose} className="flex-1">
+                <Button emphasis="ghost" tone="neutral" size="md" onClick={onClose} className="flex-1">
                   Retour
                 </Button>
-                <Button emphasis="soft" size="md" trailingIcon={<ArrowRight size={14} />} onClick={onNext} className="flex-1">
+                <Button emphasis="solid" size="md" trailingIcon={<ArrowRight />} onClick={onNext} className="flex-1">
                   Suivant
                 </Button>
               </>
             ) : (
-              <Button emphasis="soft" size="md" fullWidth onClick={onClose}>
+              <Button emphasis="solid" size="md" fullWidth onClick={onClose}>
                 Retour à l'espace
               </Button>
             )}

@@ -17,7 +17,13 @@ export interface ModalProps {
   onClose: () => void;
   title?: React.ReactNode;
   description?: React.ReactNode;
-  /** Footer actions (usually Button components) */
+  /**
+   * Actions du pied, en `Button`. Une modale ouverte est un écran à elle
+   * seule (arbitrage n°19) : exactement un `solid`, l'action qu'elle sert
+   * (Confirmer, Envoyer, Enregistrer) — `solid` + `danger` pour confirmer une
+   * suppression ; Annuler en `outline` neutre quand il forme la paire ; tout
+   * le reste en `ghost`. Posées à droite, Confirmer en dernier.
+   */
   actions?: React.ReactNode;
   closeOnScrim?: boolean;
   showClose?: boolean;

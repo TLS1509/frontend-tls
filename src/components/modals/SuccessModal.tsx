@@ -66,13 +66,18 @@ export const SuccessModal: React.FC<SuccessModalProps> = ({
           </p>
         </div>
 
-        {/* CTA */}
-        <button
+        {/* L'unique action, donc le `solid` de la modale (arbitrage n°19).
+            Il était fait main (`.modal-success-cta`, dégradé 700 → 800 et
+            rayon de carte) ; `Button` porte le même cran 700. */}
+        <Button
+          emphasis="solid"
+          size="lg"
+          fullWidth
           onClick={onClose}
-          className="w-full p-4 rounded-xl border-0 text-white font-bold text-body cursor-pointer transition-all relative z-10 modal-success-cta animate-sm-fade-up-2"
+          className="relative z-10 animate-sm-fade-up-2"
         >
           {buttonText}
-        </button>
+        </Button>
       </div>
     </div>
   );

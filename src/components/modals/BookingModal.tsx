@@ -320,10 +320,12 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 {/* Calendar */}
                 <div>
                   <div className="flex items-center justify-between mb-2">
+                    {/* Mois précédent / suivant : des outils, en `ghost`
+                        (arbitrage n°19 — `outline` est réservé à Annuler). */}
                     <Button
                       iconOnly
                       size="sm"
-                      emphasis="outline"
+                      emphasis="ghost"
                       tone="neutral"
                       onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))}
                       aria-label="Mois précédent"
@@ -336,7 +338,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     <Button
                       iconOnly
                       size="sm"
-                      emphasis="outline"
+                      emphasis="ghost"
                       tone="neutral"
                       onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))}
                       aria-label="Mois suivant"
@@ -553,26 +555,28 @@ export const BookingModal: React.FC<BookingModalProps> = ({
           )}
         </div>
 
-        {/* Footer */}
+        {/* Footer — un parcours pas à pas dans une modale (arbitrage n°19) :
+            l'étape suivante est le `solid`, le retour à l'étape précédente
+            un `ghost`. */}
         <div className="px-stack-md py-3 border-t border-ink-200 flex justify-between gap-stack-xs bg-ink-50 flex-wrap shrink-0">
           {step !== 'datetime' ? (
-            <Button emphasis="soft" tone="warm" size="sm" onClick={goBack}>
+            <Button emphasis="ghost" tone="neutral" size="sm" onClick={goBack}>
               ← Retour
             </Button>
           ) : <div />}
 
           {step === 'datetime' && (
-            <Button emphasis="soft" onClick={goNext} disabled={!canProceedDatetime}>
+            <Button emphasis="solid" onClick={goNext} disabled={!canProceedDatetime}>
               {needsPayment ? 'Continuer →' : 'Confirmer →'}
             </Button>
           )}
           {step === 'payment' && (
-            <Button emphasis="soft" onClick={goNext} disabled={!canProceedPayment} leadingIcon={<Lock size={14} />}>
+            <Button emphasis="solid" onClick={goNext} disabled={!canProceedPayment} leadingIcon={<Lock size={14} />}>
               Payer {sessionPrice} €
             </Button>
           )}
           {step === 'confirmation' && (
-            <Button emphasis="soft" onClick={handleConfirm} leadingIcon={<CheckCircle2 size={16} />}>
+            <Button emphasis="solid" onClick={handleConfirm} leadingIcon={<CheckCircle2 size={16} />}>
               Réserver la session
             </Button>
           )}

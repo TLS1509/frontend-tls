@@ -232,10 +232,11 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
                 })}
               </div>
 
-              {/* Next button */}
+              {/* Suivant : l'action principale d'un parcours pas à pas, donc le
+                  `solid` de la modale (arbitrage n°19). */}
               <div className="flex justify-end">
                 <Button
-                  emphasis="soft"
+                  emphasis="solid"
                   size="lg"
                   disabled={!canProceed}
                   trailingIcon={<ArrowRight size={18} />}

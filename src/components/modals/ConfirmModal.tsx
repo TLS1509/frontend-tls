@@ -1,7 +1,7 @@
 import React from 'react';
 import { X, AlertTriangle, CheckCircle2, Info, AlertCircle } from 'lucide-react';
 import { useDialog } from '../../hooks/useDialog';
-import { Button } from '../core/Button';
+import { Button, type ButtonTone } from '../core/Button';
 
 /**
  * ConfirmModal — Dialog de confirmation générique
@@ -36,20 +36,18 @@ const VARIANT_ICON_COLOR: Record<ConfirmVariant, string> = {
   danger: 'text-danger-fg',
 };
 
-const VARIANT_CONFIRM_BG: Record<ConfirmVariant, string> = {
-  // Libellé blanc à 15 px : l'arrêt le plus clair doit tenir 4,5:1. Partis du
-  // 400/base, ils mesuraient 1,86 à 2,54 ; au pire désormais 4,88 (or 700).
-  info: 'bg-gradient-to-br from-primary-800 to-primary-700',
-  success: 'bg-gradient-to-br from-success-fg to-success-vivid',
-  warning: 'bg-gradient-to-br from-accent-700 to-accent-800',
-  danger: 'bg-gradient-to-br from-danger-fg to-danger-strong',
-};
-
-const VARIANT_CONFIRM_SHADOW: Record<ConfirmVariant, string> = {
-  info: 'shadow-[0_4px_14px_rgba(85,161,180,0.35)] hover:shadow-[0_8px_20px_rgba(85,161,180,0.45)]',
-  success: 'shadow-[0_4px_14px_rgba(157,190,186,0.35)] hover:shadow-[0_8px_20px_rgba(157,190,186,0.45)]',
-  warning: 'shadow-[0_4px_14px_rgba(248,176,68,0.35)] hover:shadow-[0_8px_20px_rgba(248,176,68,0.45)]',
-  danger: 'shadow-[0_4px_14px_rgba(242,133,89,0.35)] hover:shadow-[0_8px_20px_rgba(242,133,89,0.45)]',
+/* Le ton du `solid` de confirmation. La modale est un écran à elle seule :
+   un seul `solid`, l'action qu'elle sert (arbitrage n°19). Les deux boutons
+   étaient faits main — dégradé et ombre colorée d'un côté, filet ink-200 de
+   l'autre (1,2:1, un contour qui ne se voyait pas) — et n'exposaient pas leur
+   niveau à la sonde. `success` prend la marque : `Button` n'a pas de ton
+   succès, et le vert d'état de TLS est un teal désaturé (en-tête du
+   fichier : « success (teal-green) »). */
+const VARIANT_CONFIRM_TONE: Record<ConfirmVariant, ButtonTone> = {
+  info: 'brand',
+  success: 'brand',
+  warning: 'sun',
+  danger: 'danger',
 };
 
 const DEFAULT_ICONS: Record<ConfirmVariant, React.ReactNode> = {
@@ -58,10 +56,6 @@ const DEFAULT_ICONS: Record<ConfirmVariant, React.ReactNode> = {
   warning: <AlertCircle size={24} />,
   danger:  <AlertTriangle size={24} />,
 };
-
-// Graisse 700 pour les deux actions : celle de `Button` (doctrine § 2). Le
-// bouton d'annulation était à 600, l'autre à 700.
-const ACTION_BTN_BASE = 'flex-1 py-3 px-4 rounded-lg text-body font-bold cursor-pointer transition-all font-body';
 
 export const ConfirmModal: React.FC<ConfirmModalProps> = ({
   isOpen,
@@ -112,20 +106,21 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
           </p>
         </div>
 
-        {/* Actions */}
+        {/* Actions — la paire Annuler / Confirmer : Annuler en `outline`
+            neutre (il n'insiste dans aucune couleur), Confirmer en `solid`. */}
         <div className="flex gap-stack-xs">
-          <button
-            onClick={onClose}
-            className={`${ACTION_BTN_BASE} border-[1.5px] border-ink-200 bg-white text-ink-900 hover:bg-ink-50`}
-          >
+          <Button emphasis="outline" tone="neutral" size="lg" onClick={onClose} className="flex-1">
             {cancelText}
-          </button>
-          <button
+          </Button>
+          <Button
+            emphasis="solid"
+            tone={VARIANT_CONFIRM_TONE[variant]}
+            size="lg"
             onClick={() => { onConfirm(); onClose(); }}
-            className={`${ACTION_BTN_BASE} border-0 text-white ${VARIANT_CONFIRM_BG[variant]} ${VARIANT_CONFIRM_SHADOW[variant]}`}
+            className="flex-1"
           >
             {confirmText}
-          </button>
+          </Button>
         </div>
       </div>
     </div>

@@ -29,7 +29,11 @@ export interface CelebrationModalProps {
   icon?: React.ReactNode;
   title: React.ReactNode;
   description?: React.ReactNode;
-  /** Action buttons (typically <Button> from the DS). */
+  /**
+   * Actions, en `Button`. La modale est un écran à elle seule (arbitrage
+   * n°19) : un seul `solid`, l'action qu'elle sert (« Continuer ») ; le reste
+   * en `ghost` (« Plus tard »).
+   */
   actions?: React.ReactNode;
   /** Hide the corner sparkles. */
   hideSparkles?: boolean;
