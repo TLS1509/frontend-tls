@@ -238,7 +238,7 @@ import { AstucesCard } from '../components/learning/AstucesCard';
 import { ResourceListItem } from '../components/learning/ResourceListItem';
 import { EtapeAccordion } from '../components/patterns/EtapeAccordion';
 import { AuthBackLink } from '../components/patterns/AuthShell';
-import { Briefcase, HeartHandshake, FileText } from 'lucide-react';
+import { Briefcase, HeartHandshake, FileText, Award } from 'lucide-react';
 import { Plus, Heart, Home, Trophy as TrophyIcon, Settings, Trash2, Pencil, Maximize2, Download, Globe } from 'lucide-react';
 import { FloatLabel } from '../components/core/FloatLabel';
 import { Chip } from '../components/ui/Chip';
@@ -649,56 +649,45 @@ const PAGE_TEMPLATES: PageTemplate[] = [
   {
     id: 'profile',
     name: 'Profil utilisateur',
-    description: 'Hero glass avec avatar gradient + initiales, online dot, meta chips, intérêts pills. Onglets (Vue d\'ensemble / Activité / Badges / Compétences).',
+    description: "Sous la navigation du compte, un en-tête d'identité sans hero : avatar aux initiales, nom en h1, rôle, coordonnées en légende ; Modifier en soft, Partager en ghost. Trois onglets soulignés : Vue d'ensemble, Activité, Compétences — il n'y a plus d'onglet Badges. La vue d'ensemble : trois chiffres (dont les niveaux validés), À propos, Cette semaine, puis la section « Reconnaissances » (#reconnaissances, où mènent les six anciennes routes de gamification) : les Open Badges des niveaux validés en rangées dans une carte — compétence, niveau Dreyfus, qui l'a validé et quand —, et le rythme des quatre dernières semaines, sans série ni XP (arbitrage n°18). Compétences : la matrice Dreyfus.",
     path: '/profile',
     family: 'Compte',
     color: 'var(--tls-primary-600)',
     bg: 'var(--tls-primary-50)',
-    tags: ['glass hero', 'avatar', 'kpi icons', 'tabs', 'badges', 'skills'],
+    tags: ['identity header', 'tabs', 'reconnaissances', 'open badges', 'weekly rhythm', 'competency matrix'],
     icon: '👤',
   },
   {
     id: 'messages',
     name: 'Messagerie',
-    description: 'Split layout: liste de threads avec avatars initiales colorés, dots non-lus, filter pills (Tous/Coaching/Équipe/Support), recherche. Panneau conversation avec empty-state illustré.',
+    description: "Deux volets : la liste des conversations — nombre de non-lus, recherche, filtres en pastilles (Tous · Coach · Support · Favoris), rangées avec avatar, compteur de non-lus et étoile de favori — puis le fil de la conversation. Sous 768 px, l'un ou l'autre, le mobile s'ouvrant sur la liste. Un état vide quand aucun fil ne correspond au filtre ou à la recherche.",
     path: '/messages',
     family: 'Communauté',
     color: 'var(--tls-primary-600)',
     bg: 'var(--tls-primary-50)',
-    tags: ['split layout', 'avatar stack', 'unread dots', 'filter pills', 'empty state'],
+    tags: ['split layout', 'search', 'filter bar', 'avatar', 'unread count', 'empty state'],
     icon: '💬',
   },
   {
     id: 'collaboration',
     name: 'Collaboration',
-    description: 'Glass hero éditorial, KPI row 3 colonnes (Layers/ListChecks/CheckCircle2), cartes projet avec badge statut inline, barre de progression + %, meta chips, stack avatars équipe superposés.',
+    description: "Un en-tête éditorial à plat, dont les deux actions (Nouveau projet, Inviter) sont en soft : une page de consultation, sans aplat (arbitrage n°19). Puis la section « Projets en cours », en h2 avec son compte en méta, et une grille de ProjectCard : statut en Badge, progression, tâches, échéance, avatars de l'équipe.",
     path: '/collaboration',
     family: 'Communauté',
     color: 'var(--tls-primary-600)',
     bg: 'var(--tls-primary-50)',
-    tags: ['glass hero', 'kpi icons', 'project cards', 'avatar stack', 'progress'],
+    tags: ['editorial hero', 'section header', 'project cards', 'avatar stack', 'progress'],
     icon: '🤝',
-  },
-  {
-    id: 'leaderboard',
-    name: 'Leaderboard',
-    description: 'Podium or/argent/bronze avec gradients, emojis médailles, cercle initiales 48 px, badge points, série en pastille, rangée de chiffres. ⚠️ L’arbitrage n°18 retire de l’app apprenant le classement nominatif et la série quotidienne.',
-    path: '/leaderboard',
-    family: 'Communauté',
-    color: 'var(--tls-yellow-600)',
-    bg: 'rgba(248,176,68,0.08)',
-    tags: ['podium', 'gold silver bronze', 'gamification', 'streak', 'kpi icons'],
-    icon: '🏆',
   },
   {
     id: 'notifications',
     name: 'Notifications',
-    description: "Notifications en rangées (NotificationCard row) dans une carte : pastille d'icône au ton du type, non-lus sur fond teinté avec un point, nombre de non-lus dans le hero, filtres en pastilles sur 4 catégories, bouton « Tout lire ».",
+    description: "Notifications en rangées (NotificationCard row) dans une carte : pastille d'icône au ton du type, non-lus sur fond teinté avec un point, nombre de non-lus sous le titre, filtres en pastilles (Toutes · Non lues · Messages · Formations · Coaching), « Tout marquer comme lu » et les préférences en ghost neutre : un fil qu'on lit, sans aplat (arbitrage n°19).",
     path: '/notifications',
     family: 'Compte',
     color: 'var(--tls-primary-600)',
     bg: 'var(--tls-primary-50)',
-    tags: ['notification cards', 'colored border', 'unread badge', 'filter pills', 'tone system'],
+    tags: ['notification rows', 'unread dot', 'filter pills', 'tone system', 'ghost tools'],
     icon: '🔔',
   },
   {
@@ -709,7 +698,7 @@ const PAGE_TEMPLATES: PageTemplate[] = [
     family: 'Compte',
     color: 'var(--tls-primary-600)',
     bg: 'var(--tls-primary-50)',
-    tags: ['account family nav', 'tabs', 'toggles', 'settings rows', 'select'],
+    tags: ['account family nav', 'tabs', 'settings rows', 'select', 'danger zone'],
     icon: '⚙️',
   },
 ];
@@ -971,19 +960,24 @@ const ChartDetailModalDemo: React.FC = () => {
   );
 };
 
+/* Les deux configurations de la modale : seule (« Retour à l'espace »), ou
+   avec le contenu suivant (« Suivant » et « Retour »). Plus de `xpEarned` :
+   la prop est sans effet depuis l'arbitrage n°18. */
 const CompletionModalDemo2: React.FC = () => {
-  const [open, setOpen] = useState(false);
+  const [ouverte, setOuverte] = useState<'seule' | 'suite' | null>(null);
+  const fermer = () => setOuverte(null);
   return (
-    <>
-      <Button emphasis="outline" size="sm" onClick={() => setOpen(true)}>Voir la modale</Button>
+    <div className="flex flex-wrap gap-stack-xs">
+      <Button emphasis="outline" size="sm" onClick={() => setOuverte('seule')}>Fin d'un parcours</Button>
+      <Button emphasis="outline" size="sm" onClick={() => setOuverte('suite')}>Avec un contenu suivant</Button>
       <CompletionModal
-        isOpen={open}
-        onClose={() => setOpen(false)}
+        isOpen={ouverte !== null}
+        onClose={fermer}
         itemTitle="Concevoir une séquence pédagogique"
-        xpEarned={120}
-        onNext={() => setOpen(false)}
+        nextItem={ouverte === 'suite' ? { title: 'Flashcards : les quatre piliers du prompt', type: 'Flashcards', duration: '5 min' } : undefined}
+        onNext={fermer}
       />
-    </>
+    </div>
   );
 };
 
@@ -3405,6 +3399,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Medal',
     codeName: 'ui/Medal.tsx',
+    showcaseOnly: true,
     description: "Médaille ronde, sans texte : 72 · 120 · 160 px, glyphe à 44 % du diamètre (Trophy par défaut, via la prop `icon`), `label` en nom accessible. Variantes default (dégradé orange → or), brand (radial teal), locked (gris), gold · silver · bronze.",
     keywords: ['medal', 'badge', 'achievement', 'reward', 'locked', 'unlocked'],
     render: () => (
@@ -3453,8 +3448,9 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Achievement',
     codeName: 'ui/Achievement.tsx',
-    description: "Vignette de réussite : pastille d'icône (48 · 64 · 80 px), titre 16/600, description 16 ink-700 sur deux lignes, puis selon l'état la date de déblocage (13, accent-800) ou une barre de 6 px et « n / max » (13/600). Trois états — unlocked · in-progress · locked (opacité 70 %) — et trois tailles ; rayon 20.",
-    keywords: ['achievement', 'badge', 'unlocked', 'locked', 'milestone', 'reward', 'size', 'variant'],
+    showcaseOnly: true,
+    description: "Vignette de réussite : pastille d'icône (48 · 64 · 80 px), titre 16/600, description 16 ink-700 sur deux lignes, puis selon l'état « Obtenu le 15 janv. 2026 » (13, accent-800) ou une barre de 6 px et « n / max » (13/600). Dite calmement depuis le 24/09 : « Obtenu le » au lieu de « Débloqué », et plus d'étincelle au coin de la pastille — l'étincelle signale une fonction IA, jamais un gain (DESIGN.md §10, arbitrage n°18). Trois états — unlocked · in-progress · locked (opacité 70 %) — et trois tailles ; rayon 20. Aucune page ne l'emploie.",
+    keywords: ['achievement', 'badge', 'unlocked', 'locked', 'milestone', 'size', 'variant', 'obtenu'],
     render: () => (
       <div className="flex gap-stack flex-wrap">
         {/* Pas de série quotidienne (arbitrage n°18) : un rythme hebdomadaire. */}
@@ -3467,42 +3463,43 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'AchievementBadge',
     codeName: 'ui/AchievementBadge.tsx',
-    usedBy: ['DashboardAchievements', 'BadgeGallery', 'BadgeDetail', 'ProfileBadgesCompetences', 'PasseportJac', 'Gamification'],
-    description: "Carte de badge obtenu : disque en dégradé (60 · 100 · 140 px), titre h3 20/700, description 16 ink-700, puis « Obtenu le 15 janv. 2026 » en légende 13 au cran 800 du ton. Le composant formate lui-même une date ISO, en français ; toute autre chaîne passe telle quelle, et sans date il dit « Obtenu », sans en inventer une. Avec une description, la carte se cale à gauche, médaille comprise ; sans, titre et date sont courts et elle reste centrée (le centré se limite à deux lignes). Verrouillée (`isLocked`) : estompée, « S'obtient une fois les prérequis validés ». Bouton « Partager » optionnel (`onShare`). Quatre couleurs (primary · warm · sun · success) × trois tailles. ⚠️ L'étincelle — fixe depuis le 24/09, elle pulsait — et le cadenas de l'état verrouillé sont posés au bord du disque, dont l'`overflow-hidden` les rogne : ni l'une ni l'autre ne se voit (1 % de l'icône dans le cercle, mesuré).",
-    keywords: ['achievement', 'badge', 'unlock', 'locked', 'share', 'partager', 'reward', 'milestone', 'color', 'standalone', 'date', 'iso', 'obtenu'],
+    usedBy: ['BadgeDetail (lg)', 'PasseportJac (sm)'],
+    description: "Carte d'un Open Badge, adossé à un niveau Dreyfus validé : disque en dégradé (60 · 100 · 140 px), titre h3 20/700 — le niveau, « D3 · Compétent » —, description 16 ink-700 — la compétence —, puis « Obtenu le 3 mai 2026 » en légende 13 au cran 800 du ton. Le composant formate lui-même une date ISO, en français ; toute autre chaîne passe telle quelle, et sans date il dit « Obtenu », sans en inventer une. Avec une description, la carte se cale à gauche, médaille comprise ; sans, titre et date sont courts et elle reste centrée (le centré se limite à deux lignes). Verrouillée (`isLocked`) : estompée, « S'obtient une fois les prérequis validés » — le détail d'un niveau pas encore validé. Bouton « Partager » optionnel (`onShare`). Quatre couleurs (primary · warm · sun · success) × trois tailles. Rien du jeu : ni points, ni rareté, ni pulsation (arbitrage n°16), et plus d'étincelle au bord du disque depuis le 24/09 — l'étincelle signale une fonction IA, jamais un badge obtenu (DESIGN.md §10, arbitrage n°18). ⚠️ Le cadenas de l'état verrouillé est posé au bord du disque, dont l'`overflow-hidden` le rogne.",
+    keywords: ['achievement', 'badge', 'open badge', 'niveau', 'dreyfus', 'validé', 'unlock', 'locked', 'share', 'partager', 'color', 'standalone', 'date', 'iso', 'obtenu'],
     render: () => (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-stack">
-        {/* Des dates ISO, comme les pages les passent : le composant les écrit
-            en français. */}
+        {/* Des niveaux validés, comme les pages les passent (BadgeDetail,
+            PasseportJac) : le niveau en titre, la compétence en description,
+            une date ISO que le composant écrit en français. */}
         <AchievementBadge
-          icon={<Trophy size={48} className="text-white" />}
-          title="Pionnier IA"
-          description="Premier parcours terminé avec succès"
-          unlockedDate="2026-01-15"
+          icon={<Award size={48} className="text-white" />}
+          title="D3 · Compétent"
+          description="Leadership"
+          unlockedDate="2026-05-03"
           color="primary"
           size="md"
+          onShare={() => {}}
         />
         {/* Sans description : titre et date, courts, restent centrés. */}
         <AchievementBadge
-          icon={<Flame size={48} className="text-white" />}
-          title="Régularité"
+          icon={<Award size={48} className="text-white" />}
+          title="D2 · Apprenant"
           unlockedDate="2026-03-28"
           color="warm"
           size="md"
         />
         <AchievementBadge
-          icon={<Star size={48} className="text-white" />}
-          title="Expert Certifié"
-          description="Niveau Expert validé en Leadership"
-          unlockedDate="2026-05-03"
+          icon={<Award size={48} className="text-white" />}
+          title="D4 · Expert"
+          description="Communication"
+          unlockedDate="2026-06-12"
           color="sun"
           size="md"
-          onShare={() => {}}
         />
         <AchievementBadge
-          icon={<CheckCircle2 size={48} className="text-white" />}
-          title="Mentor"
-          description="Débloque quand vous aidez 5 collègues"
+          icon={<Award size={48} className="text-white" />}
+          title="D4 · Expert"
+          description="Leadership"
           isLocked
           color="success"
           size="md"
@@ -3778,9 +3775,8 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Pagination',
     codeName: 'ui/Pagination.tsx',
-    showcaseOnly: false,
-    usedBy: ['Leaderboard'],
-    description: "Navigation numérotée des longues listes : boutons de 44 × 44 au rayon 14, chiffres 16/600 tabulaires, page courante en dégradé 700 → 800 à chiffre blanc. Troncature automatique autour de la page (`siblings`), précédent et suivant, et une information optionnelle en légende 13 ink-600.",
+    showcaseOnly: true,
+    description: "Navigation numérotée des longues listes : boutons de 44 × 44 au rayon 14, chiffres 16/600 tabulaires, page courante en dégradé 700 → 800 à chiffre blanc. Troncature automatique autour de la page (`siblings`), précédent et suivant, et une information optionnelle en légende 13 ink-600. Son seul consommateur, le classement, a disparu avec l'arbitrage n°18 : aucune page ne l'emploie. DataTable pagine avec ses propres boutons ghost.",
     keywords: ['pagination', 'pages', 'nav', 'numbered', 'prev', 'next'],
     render: () => <PaginationDemo />,
   },
@@ -3814,14 +3810,15 @@ const COMPONENTS: ComponentEntry[] = [
           <p className="text-caption font-semibold text-ink-600 m-0">Glass · menu du compte (Sidebar)</p>
           <div className="relative bg-gradient-to-br from-primary-50 to-primary-100/40 p-section rounded-2xl">
             <DropdownMenu variant="glass" autoFocus={false} style={{ position: 'static', minWidth: 260 }}>
+              {/* Les entrées du vrai menu (App.tsx) : plus de « Leaderboard »,
+                  retiré avec le classement (arbitrage n°18). */}
               <DropdownItem icon={<UserIcon size={16} />}>Mon Profil</DropdownItem>
-              <DropdownItem icon={<Settings2 size={16} />}>Paramètres</DropdownItem>
-              <DropdownItem icon={<Bell size={16} />}>Notifications</DropdownItem>
-              <DropdownItem icon={<Target size={16} />} badge="demo">Positionnement</DropdownItem>
+              <DropdownItem icon={<Settings2 size={16} />}>Mon compte</DropdownItem>
+              <DropdownItem icon={<Bell size={16} />} badge="3">Notifications</DropdownItem>
+              <DropdownItem icon={<Target size={16} />} badge="demo">Onboarding</DropdownItem>
               <DropdownItem icon={<BarChart3 size={16} />} badge="pro">Espace Entreprise</DropdownItem>
               <DropdownSeparator />
               <DropdownLabel>Communauté</DropdownLabel>
-              <DropdownItem icon={<Trophy size={16} />}>Leaderboard</DropdownItem>
               <DropdownItem icon={<Users size={16} />}>Collaboration</DropdownItem>
               <DropdownItem icon={<MessageSquare size={16} />}>Messages</DropdownItem>
               <DropdownSeparator />
@@ -3894,7 +3891,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ProfileCard',
     codeName: 'ui/ProfileCard.tsx',
-    usedBy: ['Coaching'],
+    usedBy: ['CoachCardGrid', 'CoachProfileView', 'CoachTeamDashboard', 'CoachAnalytics'],
     description: "Carte de profil (coach, expert) : Avatar xl, nom en titre h3 20, rôle en légende 13 ink-600, note (étoiles, valeur 13/600), spécialités en MetaPillGroup sm, contacts, bio 16 ink-700 alignée à gauche, action en Button soft. Variantes default · compact · featured (filet 2 px du ton) · horizontal, trois tons, alignement centré ou à gauche.",
     keywords: ['profile', 'card', 'user', 'coach', 'avatar', 'rating', 'specialties', 'tone', 'featured', 'a11y'],
     render: () => (
@@ -4227,9 +4224,9 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'GoalProgress',
     codeName: 'ui/GoalProgress.tsx',
-    description: "Suivi d'un objectif : l'objectif en 16/600, une piste de 6 ou 8 px, puis « n % complété » et le temps restant (13 en sm, 16 en md), et un message en 13 si l'objectif est en retard ou atteint. Tons primary · warm · success · danger — forcé à danger en retard, à success à 100 %.",
-    keywords: ['goal', 'progress', 'target', 'deadline', 'on-track', 'learning'],
-    usedBy: ['Passeport', 'PasseportObjectifs'],
+    description: "Suivi d'un objectif : l'objectif en 16/600, une piste de 6 ou 8 px, puis « n % complété » et le temps restant (13 en sm, 16 en md). Un état qui mérite un signe en porte un, à droite de l'objectif : la coche d'un objectif atteint, l'alerte d'un retard ; « dans les temps » n'en a pas. Sous la piste, un message en 13 : « En retard sur l'échéance prévue », ou « Objectif atteint. Quel est le prochain ? », avec la même icône. Depuis le 24/09, plus d'étincelle — elle décorait « dans les temps » et « Objectif atteint », quand elle signale une fonction IA (DESIGN.md §10) — et le retard ne dit plus « Retard sur le calendrier — augmentez le rythme » : il poussait à accélérer, vouvoyait et portait un tiret cadratin. Tons primary · warm · success · danger — forcé à danger en retard, à success à 100 %.",
+    keywords: ['goal', 'progress', 'target', 'deadline', 'on-track', 'learning', 'objectif', 'retard', 'échéance'],
+    usedBy: ['Passeport'],
     render: () => (
       <div className="flex flex-col gap-stack">
         <GoalProgress goal="Terminer le parcours Leadership" percentComplete={72} daysRemaining={8} isOnTrack={true} tone="primary" />
@@ -6261,9 +6258,9 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'AtrophieIndicator',
     codeName: 'ui/AtrophieIndicator.tsx',
     description: "Signale qu'un niveau Dreyfus s'érode faute de pratique : rien jusqu'à 90 jours d'inactivité, un avertissement de 91 à 180, un danger au-delà. Pastille en 500 : sm en 11 avec une icône de 12, md en 13 avec une de 16 ; le libellé (« Inactif depuis 120j ») est masquable. Fixe : plus de pulsation depuis le 24/09 (arbitrage n°16, pas de mouvement permanent pour dire un état).",
-    keywords: ['atrophie', 'dreyfus', 'inactif', 'badge', 'competence', 'degradation', 'warning', 'gamification'],
+    keywords: ['atrophie', 'dreyfus', 'inactif', 'badge', 'competence', 'degradation', 'warning', 'passeport', '90 jours'],
     showcaseOnly: false,
-    usedBy: ['Gamification', 'CoachEngagement'],
+    usedBy: ['Passeport', 'PasseportCompetenceDetail', 'CoachEngagement', 'AlerteStagnation', 'FicheApprenantAnalytics', 'ManagerCohort', 'ApprenantsTable (coach)'],
     render: () => (
       <div className="flex flex-col gap-stack">
         <div className="flex flex-wrap gap-stack-xs items-center">
@@ -6511,14 +6508,14 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'CongratulationsCard',
     codeName: 'patterns/CongratulationsCard.tsx',
-    description: "Bloc de fin d'étape (onboarding, parcours, module) : grande pastille d'icône, Badge large, titre h1 36 et chapô 18/28 ink-700 à 12 px. Le bloc XP optionnel (« +n XP », niveau, barre) relève de ce que l'arbitrage n°18 retire de l'app apprenant : il n'est plus montré ici.",
-    keywords: ['congratulations', 'success', 'celebration', 'milestone', 'completion', 'reward', 'xp', 'onboarding'],
+    description: "Bloc de fin d'étape (onboarding, parcours, module), centré : pastille ronde de 80 px au cran 50 du ton, Badge large, titre h1 36 et chapô 18/28 ink-700 à 12 px, 24 px entre les blocs. Il célèbre calmement l'étape franchie, rien d'autre : depuis l'arbitrage n°18, le bloc de récompense (« +150 XP », « Niveau 1 · 150 / 500 XP », jauge, étincelle décorative) est retiré avec sa prop `xp`. Pas de « ! » non plus, dans le Badge comme dans le titre (PRODUCT.md, règles de copie). Tons brand · warm · sun · success.",
+    keywords: ['congratulations', 'success', 'celebration', 'milestone', 'completion', 'onboarding', 'calme'],
     usedBy: ['OnboardingSuccess'],
     render: () => (
       <div className="flex flex-col items-center max-w-xl mx-auto">
         <CongratulationsCard
           tone="brand"
-          badgeLabel="Profil complété !"
+          badgeLabel="Profil complété"
           title="Bienvenue sur The Learning Society"
           summary="Ton profil est configuré et ton passeport de compétences est prêt. Tu peux maintenant commencer ton parcours."
         />
@@ -6918,7 +6915,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'SimpleTable',
     codeName: 'ui/SimpleTable.tsx',
     subCategory: 'List composites',
-    usedBy: ['CoachEnterpriseDashboard', 'Leaderboard', 'Analytics'],
+    showcaseOnly: true,
     description: "Table sémantique à colonnes déclaratives (`ColumnDef` : en-tête, accesseur, alignement, largeur). En-têtes 13/600 ink-600 en casse normale, cellules 16 × 12, chiffres tabulaires, filets ink-100. Options : `striped`, `onRowClick`, `emptyLabel`, `caption` (13 ink-600). Défilement horizontal sur mobile.",
     keywords: ['table', 'données', 'colonnes', 'lignes', 'rows', 'sort', 'striped', 'data'],
     render: () => {
@@ -6932,7 +6929,7 @@ const COMPONENTS: ComponentEntry[] = [
       const columns = [
         { key: 'name', header: 'Nom', accessor: (r: User) => <span className="font-semibold">{r.name}</span> },
         { key: 'role', header: 'Rôle', accessor: (r: User) => r.role },
-        { key: 'score', header: 'Score', accessor: (r: User) => `${r.score} pts`, align: 'center' as const },
+        { key: 'score', header: 'Progression', accessor: (r: User) => `${r.score} %`, align: 'center' as const },
         /* Un statut est un état : Badge, pas une pastille faite main. */
         { key: 'status', header: 'Statut', accessor: (r: User) => (
           <Badge variant={r.status === 'Actif' ? 'success' : 'neutral'} size="compact">{r.status}</Badge>
@@ -7714,7 +7711,8 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'SegmentedControl',
     codeName: 'ui/SegmentedControl.tsx',
-    description: "Bascule entre deux à quatre vues exclusives. À préférer aux onglets quand il n'y a pas de contenu à titrer, et aux boutons radio quand le choix s'applique tout de suite. Palier interactif : un rail au rayon 14 de 36 · 44 · 52 (défaut md), des segments au rayon 10, libellés 13 ou 16 en 600 ; le segment actif est blanc, libellé au cran 800. Trois tons (primary · warm · sun).",
+    showcaseOnly: true,
+    description: "Bascule entre deux à quatre vues exclusives. À préférer aux onglets quand il n'y a pas de contenu à titrer, et aux boutons radio quand le choix s'applique tout de suite. Palier interactif : un rail au rayon 14 de 36 · 44 · 52 (défaut md), des segments au rayon 10, libellés 13 ou 16 en 600 ; le segment actif est blanc, libellé au cran 800. Trois tons (primary · warm · sun). Son seul consommateur produit, le classement, a disparu avec l'arbitrage n°18 ; la vitrine s'en sert encore (bascule de ton de FlipCard).",
     keywords: ['segmented', 'control', 'toggle', 'vue', 'bascule', 'filtre', 'tabs'],
     render: () => <SegmentedControlDemo />,
   },
@@ -8116,8 +8114,9 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'CompletionModal',
     codeName: 'modals/CompletionModal.tsx',
-    description: "Fin de leçon ou de module : un bandeau au dégradé 700 → 800 — pastille, titre en h2 au pas h3 (20), titre de l'élément et description en 16, tout en blanc —, puis l'étape suivante en carte (13/600, titre 16/600, méta 13) et des Button md : Suivant en solid, Retour en ghost — seul, « Retour à l'espace » est le solid (arbitrage n°19). Ton calme : pas de confettis par défaut, pas de « ! ». ⚠️ Elle affiche « +50 XP » par défaut (`xpEarned`), ce que l'arbitrage n°18 retire de l'app apprenant.",
-    keywords: ['completion', 'modal', 'fin', 'lecon', 'xp', 'suite', 'celebration'],
+    usedBy: ['AstucesViewer', 'FlashcardsViewer'],
+    description: "Fin d'un contenu des lecteurs (astuces, flashcards) : elle dit calmement ce qui s'est passé, puis propose la suite. Un bandeau au dégradé 700 → 800 — pastille, « Étape validée » en h2 au pas h3 (20), titre de l'élément et description en 16, tout en blanc —, puis, s'il y en a un, le contenu suivant en carte (« Continuer avec » en 13/600, titre 16/600, type et durée en 13) et des Button md : Suivant en solid, Retour en ghost ; seul, « Retour à l'espace » est le solid (arbitrage n°19), à 24 px du bandeau comme du bas. Plus d'XP (arbitrage n°18) : l'encart doré « +50 XP gagnés » et son étincelle décorative sont retirés ; `xpEarned` reste dans l'interface, dépréciée et sans effet ; plus aucun appel ne la passe (24/09). Pas de confettis, pas de « ! ». Dialogue `useDialog`, comme Modal : focus piégé, Échap, et la page derrière inerte pendant l'ouverture.",
+    keywords: ['completion', 'modal', 'fin', 'lecon', 'suite', 'celebration', 'étape validée', 'useDialog', 'inert'],
     render: () => <CompletionModalDemo2 />,
   },
   {
@@ -9103,7 +9102,10 @@ const Components: React.FC = () => {
   }, [q, activeSlug, isSearching]);
 
   const pagesByFamily = useMemo(() => {
-    const order = ['Core', 'Journal', 'Veille', 'Coaching'];
+    /* « Compte » et « Communauté » manquaient à cet ordre depuis le 01/05 :
+       leurs cinq fiches (profil, notifications, compte, messagerie,
+       collaboration) étaient comptées dans la nav et jamais rendues. */
+    const order = ['Core', 'Journal', 'Veille', 'Coaching', 'Compte', 'Communauté'];
     const map = new Map<string, PageTemplate[]>();
     filteredPages.forEach((p) => {
       if (!map.has(p.family)) map.set(p.family, []);
