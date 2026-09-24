@@ -1,265 +1,283 @@
 import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Trophy, Calendar, Award, Share2, Lock } from 'lucide-react';
+import { Navigate, useParams } from 'react-router-dom';
+import { Award, ArrowLeft, ArrowRight, Share2, Lock } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionHeader } from '../components/patterns/SectionHeader';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
-import { Badge } from '../components/ui/Badge';
 import { MetaPill } from '../components/ui/MetaPill';
 import { EmptyState } from '../components/ui/EmptyState';
-import { ProgressBar } from '../components/ui/ProgressBar';
 import { AchievementBadge } from '../components/ui/AchievementBadge';
-import { useGamificationStore } from '../stores/persistence';
-import { BADGE_DEFS, getBadgeDefById } from '../data/gamification';
+import { useGamificationStore, usePasseportStore } from '../stores/persistence';
+import { getBadgeDefById } from '../data/gamification';
 import { MOCK_USER_ID } from '../data/passeport';
-import { getCompetenceById } from '../data/competencies';
-import type { BadgeDef } from '../types/learning';
+import { DREYFUS_LABELS, getCompetenceById, getDreyfusLevelDef } from '../data/competencies';
+import { reconnaissances } from '../lib/reconnaissances';
 import { PageShell } from '../components/layout';
 
-// ─── Display helpers ──────────────────────────────────────────────────────────
+/**
+ * Détail d'un Open Badge — arbitrage n°18 (2026-09-24, « Reconnaissances »).
+ *
+ * Un Open Badge a légitimement une page : ce qu'il atteste, qui l'émet, quand,
+ * et sur quelles preuves. Ce qu'elle ne montre plus : les points XP du badge,
+ * sa « rareté », la part des apprenants qui l'ont obtenu (une rareté de jeu),
+ * la galerie des badges voisins. Elle revient vers « Reconnaissances », la
+ * section du profil qui les liste.
+ *
+ * Seuls les badges de compétence — un couple compétence × niveau Dreyfus —
+ * sont des reconnaissances. Les anciens badges « plateforme » (séries, XP,
+ * premier parcours) et les certifications de parcours, qu'aucun niveau ne
+ * porte, renvoient à la section, comme les six routes de gamification.
+ */
 
-const BADGE_TYPE_LABEL: Record<BadgeDef['type'], string> = {
-  plateforme: 'Plateforme',
-  open_badge: 'Open Badge',
-  competence: 'Compétences',
-};
-
-const BADGE_TYPE_TONE: Record<BadgeDef['type'], 'primary' | 'warm' | 'sun'> = {
-  plateforme: 'primary',
-  open_badge: 'warm',
-  competence: 'sun',
-};
-
-const RARITY_LABEL = (xp: number): string => {
-  if (xp >= 500) return 'Rare';
-  if (xp >= 250) return 'Peu commun';
-  return 'Commun';
-};
+const RETOUR = '/profile#reconnaissances';
 
 const formatDate = (iso: string): string =>
-  new Date(iso).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' });
+  new Date(iso).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
 
-// ─── Component ────────────────────────────────────────────────────────────────
+/** Ce qui prouve une pratique (PRODUCT.md, Mechanism) : validation, JAC, mission.
+ *  Un parcours terminé n'en fait pas partie — le contenu seul ne prouve rien. */
+const TYPE_PREUVE: Record<'dreyfus-up' | 'jac' | 'mission', string> = {
+  'dreyfus-up': 'Niveau validé',
+  jac: 'JAC',
+  mission: 'Mission',
+};
+
+interface LignePreuve {
+  id: string;
+  titre: string;
+  detail: string;
+  type: string;
+  date: string;
+}
 
 export default function BadgeDetail() {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
-  const store = useGamificationStore();
-  const userBadges = store.getBadges(MOCK_USER_ID);
+  const gamification = useGamificationStore();
+  const passeport = usePasseportStore();
 
-  // Phase 16.5 #2 : resolve badge from referential + user state
   const badge = id ? getBadgeDefById(id) : undefined;
-  const userBadge = id ? userBadges.find((b) => b.badgeId === id) : undefined;
-  const earned = !!userBadge;
 
   if (!badge) {
-    /* L'état vide du système, dans la coque de la page : il tenait en une
-       ligne ink-500 au-dessus d'un bouton. */
     return (
       <PageShell width="content">
         <EmptyState
           icon={<Award size={32} />}
-          title="Badge introuvable."
-          actions={<Button onClick={() => navigate('/gamification/badges')}>Retour à la galerie</Button>}
+          title="Badge introuvable"
+          description="Tes Open Badges sont listés dans la section Reconnaissances de ton profil."
+          actions={<Button emphasis="soft" to={RETOUR}>Voir mes reconnaissances</Button>}
         />
       </PageShell>
     );
   }
 
-  // Community stats : derived from how many badges of this id exist across users.
-  // For MVP this is constant (single learner), so we use a stable mock denominator
-  // and the count of earned badges of same type as numerator.
-  const totalLearners = 1580;
-  const earnedBy = Math.max(1, Math.round(totalLearners * (badge.xpValue >= 500 ? 0.16 : 0.42)));
-  const pctEarned = Math.round((earnedBy / totalLearners) * 100);
+  if (badge.type !== 'competence' || !badge.competenceId || !badge.dreyfusLevel) {
+    return <Navigate to={RETOUR} replace />;
+  }
 
-  const tone = BADGE_TYPE_TONE[badge.type];
-  const relatedBadges = BADGE_DEFS
-    .filter((b) => b.type === badge.type && b.id !== badge.id)
-    .slice(0, 3);
+  // Lecture dans le rendu (pas d'instantané) : une validation faite par le
+  // coach apparaît ici sans rechargement.
+  const competences = passeport.getCompetencies(MOCK_USER_ID);
+  const preuves = passeport.evidence[MOCK_USER_ID] ?? [];
+  const reco = reconnaissances(gamification.getBadges(MOCK_USER_ID), competences, preuves)
+    .find((r) => r.badgeId === badge.id);
+  const obtenu = !!reco;
 
-  const competenceLabel = badge.competenceId
-    ? getCompetenceById(badge.competenceId)?.label
-    : undefined;
+  const competence = getCompetenceById(badge.competenceId)?.label ?? badge.competenceId;
+  const niveau = badge.dreyfusLevel;
+  const definition = getDreyfusLevelDef(niveau);
+  const niveauPasseport = competences.find((c) => c.competenceId === badge.competenceId)?.currentLevel;
+
+  // Les preuves de la compétence : validations humaines (dialoguées ou
+  // certifiantes) et événements de pratique du Passeport. Les traces légères
+  // (révisions, quiz) n'affirment aucun niveau : elles restent au Passeport.
+  const lignes: LignePreuve[] = [
+    ...passeport
+      .getEvidence(MOCK_USER_ID, badge.competenceId)
+      .filter((e) => e.regime !== 'light')
+      .map((e) => ({
+        id: e.id,
+        titre: e.sourceLabel,
+        detail: e.verifiedByName ? `Validé par ${e.verifiedByName}` : '',
+        type: e.assertedLevel != null ? `D${e.assertedLevel} validé` : 'Validation',
+        date: e.occurredAt,
+      })),
+    ...passeport
+      .getProgressions(MOCK_USER_ID)
+      .filter((p) => p.competenceId === badge.competenceId && p.type !== 'formation')
+      .map((p) => ({
+        id: p.id,
+        titre: p.title,
+        detail: p.detail,
+        type: TYPE_PREUVE[p.type as keyof typeof TYPE_PREUVE],
+        date: p.occurredAt,
+      })),
+  ].sort((a, b) => b.date.localeCompare(a.date));
 
   const handleShare = async () => {
     const url = window.location.href;
     if (navigator.share) {
       try {
-        await navigator.share({ title: badge.name, text: badge.description, url });
+        await navigator.share({ title: `${competence} · D${niveau}`, text: badge.description, url });
       } catch {
-        /* user cancelled */
+        /* partage annulé */
       }
     } else if (navigator.clipboard) {
       try {
         await navigator.clipboard.writeText(url);
       } catch {
-        /* clipboard unavailable */
+        /* presse-papiers indisponible */
       }
     }
   };
 
   return (
-    /* En-tête `flat` : encadré ou saturé selon le type de badge, son h1
-       partait 33 px à droite du bord des sections. Le bouton « Partager »
-       quitte `onDark` : il n'y a plus de fond sombre sous lui. Mots et ordre
-       des blocs inchangés (arbitrage n°18 en cours). */
-    <PageShell width="wide">
+    /* Une page de lecture : pas d'aplat (arbitrage n°19). Le retour est le
+       tertiaire (`ghost` neutre, un lien calé sur le bord du texte par
+       `flush`) ; partager, l'action de contexte (`soft`). La colonne
+       est celle du profil qu'on quitte (`content`) : étiquette et valeur de
+       l'émission restent à portée d'œil, au lieu de 1 000 px d'écart. */
+    <PageShell width="content">
       <EditorialHero
-        eyebrow={`Gamification · ${BADGE_TYPE_LABEL[badge.type]}`}
-        title={badge.name}
+        eyebrow={{ label: 'Reconnaissances · Open Badge', icon: <Award size={14} /> }}
+        title={competence}
         summary={badge.description}
         tone="flat"
         trailing={
           <div className="flex flex-wrap items-center gap-stack-xs">
-            <Button emphasis="soft" size="md" leadingIcon={<Share2 size={16} />} onClick={handleShare}>
-              Partager
+            <Button emphasis="ghost" tone="neutral" size="md" flush="start" leadingIcon={<ArrowLeft size={16} />} to={RETOUR}>
+              Mes reconnaissances
             </Button>
-            <Button
-              emphasis="outline"
-              size="md"
-              onClick={() => navigate('/profile/badges/competences')}
-            >
-              Voir dans mon profil
-            </Button>
+            {obtenu && (
+              <Button emphasis="soft" size="md" leadingIcon={<Share2 size={16} />} onClick={handleShare}>
+                Partager
+              </Button>
+            )}
           </div>
         }
       />
 
-        {/* Badge showcase */}
-        <div className="flex flex-col md:flex-row gap-section items-center md:items-start">
-
-          {/* Badge visual — l'obtention est dite sous le badge, en MetaPill :
-              elle criait en Badge capitales la date que le badge affiche déjà. */}
-          <div className="flex flex-col items-center gap-stack">
-            <AchievementBadge
-              title={badge.name}
-              icon={<Trophy size={48} />}
-              color={tone}
-              size="lg"
-              isLocked={!earned}
-              unlockedDate={userBadge ? formatDate(userBadge.earnedAt) : undefined}
-            />
-            {earned ? (
-              <MetaPill text={`Obtenu le ${formatDate(userBadge!.earnedAt)}`} tone="success" />
-            ) : (
-              <MetaPill icon={<Lock size={14} />} text="Pas encore obtenu" tone="neutral" />
-            )}
-          </div>
-
-          {/* Badge stats — valeur → libellé 4 ; la valeur à l'encre du cran 800
-              (la marque ne porte de texte qu'à ce cran), le libellé en légende
-              ink-600, la rareté en MetaPill (une donnée). Les blocs de la
-              colonne sont des sections : leur titre (h2 28) sur la page. */}
-          <div className="flex flex-col gap-page flex-1 w-full">
-            <div className="grid grid-cols-2 gap-stack">
-              <Card variant="tinted" tone="primary" className="flex flex-col items-center justify-center py-stack-md gap-stack-3xs">
-                <Trophy size={20} className="text-primary-700 mb-stack-3xs" aria-hidden="true" />
-                <span className="text-h3 font-display text-primary-800 tabular-nums">+{badge.xpValue} XP</span>
-                <span className="text-caption text-ink-600">
-                  {earned ? 'Points gagnés' : 'Points à gagner'}
-                </span>
-              </Card>
-              <Card variant="tinted" tone="sun" className="flex flex-col items-center justify-center py-stack-md gap-stack-3xs">
-                <Award size={20} className="text-accent-700 mb-stack-3xs" aria-hidden="true" />
-                <MetaPill text={RARITY_LABEL(badge.xpValue)} tone="sun" />
-                <span className="text-caption text-ink-600">Rareté du badge</span>
-              </Card>
-            </div>
-
-            {/* Competence link if applicable */}
-            {competenceLabel && (
-              <section className="flex flex-col gap-stack">
-                <SectionHeader title="Compétence liée" />
-                <Card className="flex flex-row items-center justify-between gap-stack">
-                  <span className="text-body text-ink-900">{competenceLabel}</span>
-                  {badge.dreyfusLevel && (
-                    <Badge variant="info" size="compact">Niveau D{badge.dreyfusLevel} requis</Badge>
-                  )}
-                </Card>
-              </section>
-            )}
-
-            {/* Community stats — l'étiquette et sa valeur sur la même ligne de
-                base, la valeur en chiffres tabulaires ; la note en légende
-                ink-600. */}
-            <section className="flex flex-col gap-stack">
-              <SectionHeader title="Dans la communauté" />
-              <Card className="flex flex-col gap-stack-xs">
-                <div className="flex items-baseline justify-between gap-stack text-body">
-                  <span className="text-ink-700">Apprenants qui l'ont obtenu</span>
-                  <span className="font-semibold text-ink-900 tabular-nums">{earnedBy} / {totalLearners}</span>
-                </div>
-                <ProgressBar value={pctEarned} fill="sun" size="md" showLabel />
-                <p className="text-caption text-ink-600">
-                  {pctEarned}% des apprenants ont obtenu ce badge {earned ? ": tu fais partie de cette communauté." : ": prochaine étape pour toi."}
-                </p>
-              </Card>
-            </section>
-          </div>
+      {/* Le badge, puis ce que son niveau atteste — la définition Dreyfus du
+          référentiel, là où la page affichait ses points et sa rareté. */}
+      <div className="flex flex-col md:flex-row gap-page md:gap-section items-start">
+        <div className="shrink-0 self-center md:self-start">
+          <AchievementBadge
+            title={`D${niveau} · ${DREYFUS_LABELS[niveau]}`}
+            icon={<Award size={48} />}
+            color="primary"
+            size="lg"
+            isLocked={!obtenu}
+            unlockedDate={reco?.obtenuLe}
+          />
         </div>
 
-        {/* Criteria — chaque critère est le contenu principal (ink-900). */}
-        <section className="flex flex-col gap-stack">
-          <SectionHeader title="Critères d'obtention" />
-          <Card>
-            <ul className="flex flex-col gap-stack-xs">
-              {badge.criteria.map((c, i) => (
-                <li key={i} className="flex items-start gap-stack-sm">
-                  <span className={`inline-flex items-center justify-center w-6 h-6 rounded-pill text-caption font-bold tabular-nums shrink-0 mt-px ${earned ? 'bg-success-bg text-success-fg' : 'bg-ink-100 text-ink-700'}`}>
-                    {earned ? '✓' : i + 1}
-                  </span>
-                  <span className="text-body text-ink-900">{c}</span>
+        <section className="flex flex-col gap-stack flex-1 min-w-0">
+          <SectionHeader title="Ce que ce niveau atteste" />
+          <Card className="flex flex-col gap-stack">
+            <p className="text-body text-ink-900 max-w-prose">{definition.criteria}</p>
+            {definition.indicators && definition.indicators.length > 0 && (
+              <ul className="flex flex-col gap-stack-xs list-disc pl-stack-lg marker:text-ink-500">
+                {definition.indicators.map((ind) => (
+                  <li key={ind} className="text-body text-ink-700 max-w-prose">{ind}</li>
+                ))}
+              </ul>
+            )}
+          </Card>
+        </section>
+      </div>
+
+      {/* L'émission : qui, quand, et le niveau que le Passeport tient. Étiquette
+          et valeur sur la même ligne de base. On ne nomme un validateur que si
+          le Passeport l'a enregistré. */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader title="Émission" />
+        <Card className="p-0 gap-0 overflow-hidden">
+          <dl className="divide-y divide-ink-100">
+            {[
+              { label: 'Émetteur', valeur: 'The Learning Society' },
+              {
+                label: 'Obtenu le',
+                valeur: reco ? formatDate(reco.obtenuLe) : 'Pas encore obtenu',
+              },
+              {
+                label: 'Validé par',
+                valeur: reco?.validation
+                  ? `${reco.validation.par}, le ${formatDate(reco.validation.le)}`
+                  : 'Non renseigné dans ton Passeport',
+              },
+              {
+                label: 'Niveau au Passeport',
+                valeur: niveauPasseport != null
+                  ? `D${niveauPasseport} · ${DREYFUS_LABELS[niveauPasseport]}, validé`
+                  : 'Pas encore validé',
+              },
+            ].map((l) => (
+              <div key={l.label} className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-x-stack gap-y-stack-3xs px-stack-lg py-stack">
+                <dt className="text-body text-ink-700">{l.label}</dt>
+                <dd className="text-body font-semibold text-ink-900 sm:text-right">{l.valeur}</dd>
+              </div>
+            ))}
+          </dl>
+        </Card>
+      </section>
+
+      {/* Les preuves : des rangées dans une carte (arbitrage n°5). */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader
+          title="Preuves"
+          subtitle="Validations et pratiques enregistrées dans ton Passeport pour cette compétence."
+          action={
+            <Button emphasis="ghost" size="sm" trailingIcon={<ArrowRight size={14} />} to={`/passeport/competence/${badge.competenceId}`}>
+              Voir au Passeport
+            </Button>
+          }
+        />
+        {lignes.length > 0 ? (
+          <Card className="p-0 gap-0 overflow-hidden">
+            <ul className="divide-y divide-ink-100">
+              {lignes.map((l) => (
+                <li key={l.id} className="flex flex-wrap items-center justify-between gap-x-stack gap-y-stack-xs px-stack-lg py-stack">
+                  <div className="flex flex-col gap-stack-3xs min-w-0">
+                    <span className="text-body font-semibold text-ink-900">{l.titre}</span>
+                    <span className="text-caption text-ink-600">
+                      {formatDate(l.date)}
+                      {l.detail ? ` · ${l.detail}` : ''}
+                    </span>
+                  </div>
+                  <MetaPill text={l.type} tone="brand" className="shrink-0" />
                 </li>
               ))}
             </ul>
           </Card>
-        </section>
-
-        {/* Related badges — des objets qu'on choisit : sans carte autour, 16
-            entre eux (ils étaient à 32). */}
-        {relatedBadges.length > 0 && (
-          <section className="flex flex-col gap-stack">
-            <SectionHeader title="Badges de la même famille" />
-            <div className="flex flex-wrap gap-stack">
-              {relatedBadges.map((rb) => {
-                const rbEarned = userBadges.some((ub) => ub.badgeId === rb.id);
-                return (
-                  <button
-                    key={rb.id}
-                    type="button"
-                    onClick={() => navigate(`/gamification/badge/${rb.id}`)}
-                    className="flex flex-col items-center gap-stack-xs bg-transparent border-0 p-0 cursor-pointer hover:opacity-80 transition-opacity focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
-                  >
-                    <AchievementBadge
-                      title={rb.name}
-                      icon={<Award size={32} />}
-                      color={BADGE_TYPE_TONE[rb.type]}
-                      size="md"
-                      isLocked={!rbEarned}
-                    />
-                    <span className="text-caption text-ink-600 text-center max-w-[100px]">{rb.name}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </section>
+        ) : (
+          <p className="text-body text-ink-700 max-w-prose">
+            Aucune preuve n'est encore enregistrée dans ton Passeport pour cette compétence.
+          </p>
         )}
+      </section>
 
-        {/* CTA — sur le bord gauche, comme le reste de la page (il était
-            centré) ; la coque pose la marge du bas. */}
-        <div className="flex">
-          <Button
-            emphasis="soft"
-            size="lg"
-            leadingIcon={<Calendar size={18} />}
-            onClick={() => navigate('/gamification/badges')}
-          >
-            Voir tous mes badges
-          </Button>
-        </div>
-
+      {/* Critères — chaque critère est le contenu principal (ink-900). */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader title="Critères d'obtention" />
+        <Card>
+          <ul className="flex flex-col gap-stack-xs">
+            {badge.criteria.map((c, i) => (
+              <li key={i} className="flex items-start gap-stack-sm">
+                <span className={`inline-flex items-center justify-center w-6 h-6 rounded-pill text-caption font-bold tabular-nums shrink-0 mt-px ${obtenu ? 'bg-success-bg text-success-fg' : 'bg-ink-100 text-ink-700'}`}>
+                  {obtenu ? '✓' : i + 1}
+                </span>
+                <span className="text-body text-ink-900">{c}</span>
+              </li>
+            ))}
+          </ul>
+          {!obtenu && (
+            <p className="mt-stack text-caption text-ink-600 inline-flex items-center gap-stack-3xs">
+              <Lock size={14} aria-hidden="true" />
+              Le badge s'obtient une fois le niveau D{niveau} validé dans ton Passeport.
+            </p>
+          )}
+        </Card>
+      </section>
     </PageShell>
   );
 }
