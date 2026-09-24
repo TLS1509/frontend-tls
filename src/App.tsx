@@ -382,46 +382,6 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
       {/* Sidebar — wrapped in a sticky container so it pins on scroll (desktop only). */}
       <div className="sticky top-0 h-[100dvh] z-sticky max-md:static max-md:h-auto max-md:z-auto relative flex-shrink-0" ref={userMenuRef}>
-      {/* Dropdown menu — floats to the right of the sidebar (glass), anchored to user card */}
-      {isUserMenuOpen && user && (
-        <DropdownMenu
-          variant="glass"
-          aria-label="Menu utilisateur"
-          onClose={() => setIsUserMenuOpen(false)}
-          className="absolute bottom-3 left-full ml-3 z-dropdown min-w-[260px] max-md:left-auto max-md:right-3 max-md:bottom-[80px] max-md:ml-0"
-        >
-          <DropdownItem icon={<UserRound size={16} />} onClick={goTo('/profile')}>Mon Profil</DropdownItem>
-          <DropdownItem icon={<KeyRound size={16} />} onClick={goTo('/account')}>Mon compte</DropdownItem>
-          <DropdownItem
-            icon={<Bell size={16} />}
-            badge={unreadNotifications > 0 ? String(unreadNotifications) : undefined}
-            onClick={goTo('/notifications')}
-          >
-            Notifications
-          </DropdownItem>
-          <DropdownItem icon={<Target size={16} />} badge="demo" onClick={goTo('/onboarding')}>Onboarding</DropdownItem>
-          <DropdownItem icon={<BarChart3 size={16} />} badge="pro" onClick={goTo('/enterprise')}>Espace Entreprise</DropdownItem>
-          <DropdownSeparator />
-          <DropdownLabel>Communauté</DropdownLabel>
-          <DropdownItem icon={<Trophy size={16} />} onClick={goTo('/leaderboard')}>Leaderboard</DropdownItem>
-          <DropdownItem icon={<Users size={16} />} onClick={goTo('/collaboration')}>Collaboration</DropdownItem>
-          <DropdownItem icon={<MessageSquare size={16} />} onClick={goTo('/messages')}>Messages</DropdownItem>
-          <DropdownSeparator />
-          <DropdownItem icon={<HelpCircle size={16} />} onClick={goTo('/help')}>Centre d'aide</DropdownItem>
-          <DropdownSeparator />
-          <DropdownItem
-            icon={<LogOut size={16} />}
-            danger
-            onClick={() => {
-              logout();
-              window.location.href = 'http://localhost:8888/app/wp-login.php';
-            }}
-          >
-            Déconnexion
-          </DropdownItem>
-        </DropdownMenu>
-      )}
-
       <Sidebar
         className="h-full"
         collapsed={collapsed}
@@ -469,6 +429,51 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           );
         })}
       </Sidebar>
+
+      {/* Menu utilisateur — flotte à droite de la barre (verre), ancré sur la carte.
+          Sur mobile, il s'ouvre DEPUIS le tiroir : il doit donc vivre dans la
+          même couche que lui (z-modal) et être rendu APRÈS lui dans le DOM,
+          pour peindre au-dessus à z-index égal. Il était en z-dropdown (30)
+          sous un tiroir en z-50 : Profil, Compte, Notifications, Aide et
+          Déconnexion étaient inatteignables à 375 px (audit du 23/09). */}
+      {isUserMenuOpen && user && (
+        <DropdownMenu
+          variant="glass"
+          aria-label="Menu utilisateur"
+          onClose={() => setIsUserMenuOpen(false)}
+          className="absolute bottom-3 left-full ml-3 z-dropdown min-w-[260px] max-md:fixed max-md:z-modal max-md:left-auto max-md:right-3 max-md:bottom-[80px] max-md:ml-0"
+        >
+          <DropdownItem icon={<UserRound size={16} />} onClick={goTo('/profile')}>Mon Profil</DropdownItem>
+          <DropdownItem icon={<KeyRound size={16} />} onClick={goTo('/account')}>Mon compte</DropdownItem>
+          <DropdownItem
+            icon={<Bell size={16} />}
+            badge={unreadNotifications > 0 ? String(unreadNotifications) : undefined}
+            onClick={goTo('/notifications')}
+          >
+            Notifications
+          </DropdownItem>
+          <DropdownItem icon={<Target size={16} />} badge="demo" onClick={goTo('/onboarding')}>Onboarding</DropdownItem>
+          <DropdownItem icon={<BarChart3 size={16} />} badge="pro" onClick={goTo('/enterprise')}>Espace Entreprise</DropdownItem>
+          <DropdownSeparator />
+          <DropdownLabel>Communauté</DropdownLabel>
+          <DropdownItem icon={<Trophy size={16} />} onClick={goTo('/leaderboard')}>Leaderboard</DropdownItem>
+          <DropdownItem icon={<Users size={16} />} onClick={goTo('/collaboration')}>Collaboration</DropdownItem>
+          <DropdownItem icon={<MessageSquare size={16} />} onClick={goTo('/messages')}>Messages</DropdownItem>
+          <DropdownSeparator />
+          <DropdownItem icon={<HelpCircle size={16} />} onClick={goTo('/help')}>Centre d'aide</DropdownItem>
+          <DropdownSeparator />
+          <DropdownItem
+            icon={<LogOut size={16} />}
+            danger
+            onClick={() => {
+              logout();
+              window.location.href = 'http://localhost:8888/app/wp-login.php';
+            }}
+          >
+            Déconnexion
+          </DropdownItem>
+        </DropdownMenu>
+      )}
       </div>
 
       {/* Main content area */}
