@@ -4485,27 +4485,26 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/SectionHeader.tsx',
     cssBase: 'SectionHeader (canonical section heading)',
     usedBy: ['LearningPathDetail', 'Dashboard', 'Journal'],
-    description: 'En-tête de section CANONIQUE. 5 variants (default tinted bubble / solid filled bubble / minimal stroke inline / accent vertical bar / underline) × 4 sizes (xs h5 → lg h2) × 5 tones (primary/warm/sun/accent/neutral). Sub-title, action slot, divider optionnel. ⚠️ Ne pas mettre mb-* sur le wrapper — le parent contrôle le rythme vertical via gap-*.',
+    description: 'En-tête de section CANONIQUE. 4 variants (default tinted bubble / solid filled bubble / minimal stroke inline / underline) × 4 sizes (xs 16 px → lg 28 px) × 5 tones (primary/warm/sun/accent/neutral). Graisse 700 partout (arbitrage n°12 : un seul poids de titre). Niveau de titre par la prop `as` (h2 par défaut, h3, h4), indépendant de la taille. Sub-title, action slot, divider optionnel. La variante `accent` (barre verticale) a été retirée le 2026-09-24 : barre d’accent à gauche = tell « AI slop », zéro usage produit. ⚠️ Ne pas mettre mb-* sur le wrapper — le parent contrôle le rythme vertical via gap-*.',
     keywords: ['section', 'header', 'title', 'icon', 'h2', 'h3', 'h4', 'action', 'divider', 'variants', 'sizes', 'filled', 'stroke', 'tinted', 'solid', 'minimal', 'accent', 'underline', 'canonical'],
     render: () => (
       <div className="flex flex-col gap-section">
         {/* Variants showcase (size md, tone primary) */}
         <div className="flex flex-col gap-stack p-stack-md rounded-xl bg-ink-50/50 border border-ink-200">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">5 variants · size md · tone primary</p>
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">4 variants · size md · tone primary</p>
           <SectionHeader variant="default" icon={Calendar} title="Default — tinted bubble" subtitle="bg-{tone}-50 + tone icon (legacy)" />
-          <SectionHeader variant="solid" icon={Calendar} title="Solid — filled bubble" subtitle="bg-gradient {tone}-500→700 + white icon (strong CTA)" />
+          <SectionHeader variant="solid" icon={Calendar} title="Solid — filled bubble" subtitle="bg-gradient {tone}-600→700 + white icon (strong CTA)" />
           <SectionHeader variant="minimal" icon={Calendar} title="Minimal — stroke inline" subtitle="No bubble, premium/airy" />
-          <SectionHeader variant="accent" icon={Calendar} title="Accent — vertical bar" subtitle="Tone-colored bar before title" />
           <SectionHeader variant="underline" icon={Calendar} title="Underline — accent line" subtitle="Subtle tone underline under title" />
         </div>
 
         {/* Sizes showcase (variant solid, tone warm) */}
         <div className="flex flex-col gap-stack p-stack-md rounded-xl bg-secondary-50/30 border border-secondary-200">
           <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">4 sizes · variant solid · tone warm</p>
-          <SectionHeader size="xs" variant="solid" tone="warm" icon={Calendar} title="Size xs — h5" />
-          <SectionHeader size="sm" variant="solid" tone="warm" icon={Calendar} title="Size sm — h4" />
-          <SectionHeader size="md" variant="solid" tone="warm" icon={Calendar} title="Size md — h3 (default)" />
-          <SectionHeader size="lg" variant="solid" tone="warm" icon={Calendar} title="Size lg — h2" />
+          <SectionHeader size="xs" variant="solid" tone="warm" icon={Calendar} title="Size xs — text-body 16" as="h4" />
+          <SectionHeader size="sm" variant="solid" tone="warm" icon={Calendar} title="Size sm — text-h4 20" as="h3" />
+          <SectionHeader size="md" variant="solid" tone="warm" icon={Calendar} title="Size md — text-h3 24 (default)" as="h3" />
+          <SectionHeader size="lg" variant="solid" tone="warm" icon={Calendar} title="Size lg — text-h2 28" />
         </div>
 
         {/* Tones showcase (variant default, size md) */}

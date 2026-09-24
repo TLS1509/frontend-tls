@@ -4,26 +4,39 @@ import type { LucideIcon } from 'lucide-react';
 /**
  * SectionHeader — Canonical section-level heading within a page.
  *
- * ── 5 variants (controls icon style) ──────────────────────────────────────
+ * ── 4 variants (controls icon style) ──────────────────────────────────────
  *   - `default`   : icon in **soft tinted bubble** (bg-{tone}-50 + tone icon)
- *   - `solid`     : icon in **saturated tone bubble** (bg-{tone}-500 + white icon) — strong CTA
+ *   - `solid`     : icon in **saturated tone bubble** (dégradé {tone}-600→700 + white icon)
  *   - `minimal`   : **stroke-only icon** inline with title (no bubble) — premium/airy
- *   - `accent`    : **tone-colored vertical bar** before title + stroke icon optional
  *   - `underline` : title with **accent underline** + stroke icon optional
+ *   ⚠️ `accent` (barre verticale colorée avant le titre) a été retirée le
+ *   2026-09-24 : zéro usage produit, et c'est le premier tell « AI slop » de la
+ *   doctrine (pas de barre d'accent à gauche).
  *
- * ── 4 sizes (controls heading + bubble) ───────────────────────────────────
- *   - `xs` : h5 (1.25rem) + 32px bubble — tight inline sections
- *   - `sm` : h4 (1.125rem) + 36px bubble — secondary sections
- *   - `md` : h3 (1.375rem) + 44px bubble — DEFAULT, main page sections
- *   - `lg` : h2 (1.75rem) + 56px bubble — page-level group titles
+ * ── 4 sizes (controls the VISUAL size + bubble) ───────────────────────────
+ *   - `xs` : text-body (16px) + 32px bubble — tight inline sections
+ *   - `sm` : text-h4 (20px) + 36px bubble — secondary sections
+ *   - `md` : text-h3 (24px) + 44px bubble — DEFAULT, main page sections
+ *   - `lg` : text-h2 (28px) + 56px bubble — page-level group titles
+ *
+ * ── Niveau de titre : prop `as` (h2 | h3 | h4), défaut h2 ─────────────────
+ * Indépendant de `size` (2026-09-24). Le composant émettait TOUJOURS un <h2>,
+ * y compris pour une section `xs` posée dans une carte sous un autre h2 : le
+ * plan du document était faux pour les lecteurs d'écran. La taille dit
+ * l'importance visuelle, `as` dit la place dans le plan — ce sont deux
+ * questions, et seule la page connaît la réponse à la seconde.
+ *
+ * Graisse : 700 pour toutes les variantes (arbitrage n°12, un seul poids de
+ * titre dans l'app). `minimal` et `underline` étaient au 600.
  *
  * `compact` (deprecated alias) maps to `size="sm"` for backward compat.
  *
  * ── Tone (primary | warm | sun | accent | neutral) ────────────────────────
- * Drives icon color, bar gradient, underline color, and (for solid) bubble bg.
+ * Drives icon color, underline color, and (for solid) bubble bg.
  */
 
-export type SectionHeaderVariant = 'default' | 'solid' | 'minimal' | 'accent' | 'underline';
+export type SectionHeaderVariant = 'default' | 'solid' | 'minimal' | 'underline';
+export type SectionHeaderLevel = 'h2' | 'h3' | 'h4';
 export type SectionHeaderTone = 'primary' | 'warm' | 'sun' | 'accent' | 'neutral';
 export type SectionHeaderSize = 'xs' | 'sm' | 'md' | 'lg';
 
@@ -33,8 +46,10 @@ export interface SectionHeaderProps {
   subtitle?: string;
   action?: React.ReactNode;
   divider?: boolean;
-  /** Visual size — controls heading level (h2/h3/h4/h5) + bubble + glyph. Default `md`. */
+  /** Visual size — text step + bubble + glyph. Default `md`. Does NOT set the heading level: see `as`. */
   size?: SectionHeaderSize;
+  /** Heading level in the document outline. Default `h2`. Independent of `size`. */
+  as?: SectionHeaderLevel;
   /** @deprecated Use `size="sm"`. Alias kept for backward compat. */
   compact?: boolean;
   variant?: SectionHeaderVariant;
@@ -72,14 +87,6 @@ const TONE_SOLID_BG: Record<SectionHeaderTone, string> = {
   neutral: 'bg-gradient-to-br from-ink-700 to-ink-900 text-white shadow-sm',
 };
 
-const TONE_BAR: Record<SectionHeaderTone, string> = {
-  primary: 'bg-gradient-to-b from-primary-400 to-primary-600',
-  warm:    'bg-gradient-to-b from-secondary-400 to-secondary-600',
-  sun:     'bg-gradient-to-b from-accent-300 to-accent-500',
-  accent:  'bg-gradient-to-b from-accent-400 to-accent-600',
-  neutral: 'bg-gradient-to-b from-ink-300 to-ink-500',
-};
-
 const TONE_UNDERLINE: Record<SectionHeaderTone, string> = {
   primary: 'bg-primary-500',
   warm:    'bg-secondary-500',
@@ -91,7 +98,7 @@ const TONE_UNDERLINE: Record<SectionHeaderTone, string> = {
 // ── Size maps ────────────────────────────────────────────────────────────────
 
 const SIZE_TITLE: Record<SectionHeaderSize, string> = {
-  xs: 'text-body font-semibold',
+  xs: 'text-body', // graisse portée par la variante (700) : un 2e poids ici se battait avec font-bold
   sm: 'text-h4',
   md: 'text-h3',
   lg: 'text-h2',
@@ -177,13 +184,6 @@ const SIZE_MARGIN: Record<SectionHeaderSize, string> = {
   lg: '',
 };
 
-const SIZE_BAR_WIDTH: Record<SectionHeaderSize, string> = {
-  xs: 'w-0.5',
-  sm: 'w-1',
-  md: 'w-1',
-  lg: 'w-1.5',
-};
-
 const SIZE_UNDERLINE_HEIGHT: Record<SectionHeaderSize, string> = {
   xs: 'h-[2px]',
   sm: 'h-[2px]',
@@ -219,6 +219,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
   tone = 'primary',
   className = '',
   iconClassName,
+  as: Heading = 'h2',
 }) => {
   // Resolve size: `compact` (deprecated) → 'sm', else use `size` prop, default 'md'
   const size: SectionHeaderSize = sizeProp ?? (compact ? 'sm' : 'md');
@@ -287,34 +288,14 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
       <div className={wrapperBase}>
         <div className={['flex items-center flex-1 min-w-0', gap].join(' ')}>
           {renderInlineIcon()}
-          <h2 className={['font-display font-semibold text-ink-900 leading-tight text-balance', titleTracking, titleSize].join(' ')}>
+          <Heading className={['font-display font-bold text-ink-900 leading-tight text-balance', titleTracking, titleSize].join(' ')}>
             {title}
-          </h2>
+          </Heading>
           {subtitle && (
             <span className="hidden sm:inline-flex text-body-sm text-ink-500 font-body before:content-['·'] before:mx-2 before:text-ink-300">
               {subtitle}
             </span>
           )}
-        </div>
-        {action && <div className="shrink-0 flex items-center gap-stack-xs">{action}</div>}
-      </div>
-    );
-  }
-
-  if (variant === 'accent') {
-    return (
-      <div className={wrapperBase}>
-        <div className="flex items-stretch gap-stack-xs flex-1 min-w-0">
-          <span aria-hidden="true" className={['shrink-0 rounded-pill', SIZE_BAR_WIDTH[size], TONE_BAR[tone]].join(' ')} />
-          <div className="flex flex-col flex-1 min-w-0 justify-center gap-tight">
-            <div className="flex items-center gap-stack-xs">
-              {renderInlineIcon()}
-              <h2 className={['font-display font-semibold text-ink-900 leading-tight text-balance', titleTracking, titleSize].join(' ')}>
-                {title}
-              </h2>
-            </div>
-            {subtitle && <p className="font-body text-body-sm text-ink-500 m-0">{subtitle}</p>}
-          </div>
         </div>
         {action && <div className="shrink-0 flex items-center gap-stack-xs">{action}</div>}
       </div>
@@ -327,12 +308,12 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
         <div className="flex items-end gap-stack-xs flex-1 min-w-0">
           {renderInlineIcon()}
           <div className="flex flex-col flex-1 min-w-0">
-            <h2 className={['relative inline-flex items-baseline font-display font-semibold text-ink-900 leading-tight text-balance', titleTracking, titleSize].join(' ')}>
+            <Heading className={['relative inline-flex items-baseline font-display font-bold text-ink-900 leading-tight text-balance', titleTracking, titleSize].join(' ')}>
               <span className="relative">
                 {title}
                 <span aria-hidden="true" className={['absolute left-0 -bottom-0.5 rounded-pill', SIZE_UNDERLINE_HEIGHT[size], SIZE_UNDERLINE_WIDTH[size], TONE_UNDERLINE[tone]].join(' ')} />
               </span>
-            </h2>
+            </Heading>
             {subtitle && <p className="font-body text-body-sm text-ink-500 m-0 mt-tight">{subtitle}</p>}
           </div>
         </div>
@@ -352,9 +333,9 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
     return (
       <div className={wrapperBase}>
         <div className="flex flex-col flex-1 min-w-0 gap-tight">
-          <h2 className={['font-display font-bold text-ink-900 leading-tight text-balance', titleSize].join(' ')}>
+          <Heading className={['font-display font-bold text-ink-900 leading-tight text-balance', titleSize].join(' ')}>
             {title}
-          </h2>
+          </Heading>
           {subtitle && (
             <p className="font-body text-body-sm text-ink-500 m-0">{subtitle}</p>
           )}
@@ -389,7 +370,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
         {renderBubbleIcon(bubbleStyle)}
 
         {/* Titre — rangée 1, colonne 2 */}
-        <h2
+        <Heading
           className={[
             'font-display font-bold text-ink-900 leading-tight text-balance',
             titleSize,
@@ -397,7 +378,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
           ].join(' ')}
         >
           {title}
-        </h2>
+        </Heading>
 
         {/* Chapô — rangée 2, colonne 2 : sous le titre, jamais sous l'icône */}
         {subtitle && (
