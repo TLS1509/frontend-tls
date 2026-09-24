@@ -13,8 +13,11 @@
  *   - Real-time search across components, tokens, CSS classes
  *   - Category filter
  *
- * Naming convention: React component name  ↔  CSS class base (from spec.cssBase)
- *   e.g. <Button> → .btn        <Alert> → .alert        <CompetenceBadge> → .comp-badge
+ * Chaque fiche porte le chemin de son fichier (`codeName`, depuis src/components/),
+ * en puce à copier. Elle ne cite plus de classe CSS : le champ `cssBase` a été
+ * retiré le 2026-09-24. La migration BEM → Tailwind est terminée, et il citait
+ * des classes (`.btn`, `.card`, `.tabs`…) qui n'existaient plus dans aucune
+ * feuille, ou répétait « Tailwind (no BEM) » sur plus de quatre-vingts fiches.
  */
 
 import React, { useEffect, useMemo, useState } from 'react';
@@ -296,9 +299,6 @@ type SubCategory = SubCategory_;
 interface ComponentEntry {
   name: string;              // React name: Button
   codeName: string;          // File: Button.tsx
-  /** Classe CSS de base, ex. `.btn`. Absente pour les fiches de convention :
-      elles décrivent une règle, pas un composant, donc aucune classe ne la porte. */
-  cssBase?: string;
   subCategory?: SubCategory; // optional inline sub-category (used when entry is not in REMAP)
   description: string;
   keywords: string[];        // extra searchable terms
@@ -2132,7 +2132,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Button',
     codeName: 'core/Button.tsx',
-    cssBase: '.btn',
     description:
       "Le déclencheur d'une action. Son API est une grille : `emphasis` (solid · soft · outline · ghost · link) dit combien il insiste, `tone` (brand · warm · sun · danger · neutral) de quelle couleur. Trois tailles, 36 · 44 · 52, celles des champs d'une même ligne (arbitrage n°22) ; rayon 14, graisse 700. Un seul `solid` par écran, pour l'action principale (arbitrage n°19) : le bouton expose son niveau au DOM (`data-emphasis`), que la sonde `check:boutons` compte écran par écran. Les treize `variant` historiques et l'ancien cran `xl` restent acceptés, comme alias dépréciés.",
     keywords: ['cta', 'action', 'emphasis', 'tone', 'solid', 'soft', 'outline', 'ghost', 'link', 'onDark', 'iconOnly', 'primary', 'destructive', 'glass', 'taille', '36', '44', '52', 'contraste', 'wcag', 'icône', 'data-emphasis', 'cible', 'tactile'],
@@ -2257,7 +2256,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'QuickActionButton',
     codeName: 'ui/QuickActionButton.tsx',
-    cssBase: 'Tailwind (no BEM)',
     showcaseOnly: true,
     description: "Raccourci en forme de carte compacte, mais un bouton : rayon 14, l'étage interactif — il portait le rayon d'une carte, 20, et sa pastille tombait hors de la règle des coins imbriqués. Pastille IconChip md (40 px, rayon 10, glyphe au cran 800 ; au cran 100 sur la surface tinted, où le cran 50 se fondait dans le bouton), libellé 16/700, sous-titre optionnel en légende 13 ink-600, chevron à droite ; padding 16 × 12, environ 66 px de haut (76 avec sous-titre). Quatre tons — primary, warm, sun, et accent qui recopie sun — sur quatre surfaces (card · tinted · glass · frosted), état désactivé. Aucun appel produit : la page Coaching, qu'il citait, ne l'emploie pas.",
     keywords: ['quick', 'action', 'raccourci', 'button', 'card', 'icon', 'tone', 'chevron', 'shortcut', 'tile', 'surface'],
@@ -2309,8 +2307,7 @@ const COMPONENTS: ComponentEntry[] = [
     // Toggles (Checkbox/Radio/Switch) sets distincts, OK. Checkbox indeterminate non re-vérifié.
     // Note: Glass surface ignores status prop (by design). Checkbox indeterminate partial.
     name: 'Input',
-    codeName: 'Input.tsx',
-    cssBase: '.input / .field / .check / .radio / .switch',
+    codeName: 'core/Input.tsx',
     description: "Champ de saisie, libellé toujours au-dessus. Trois tailles, 36 · 44 · 52 (défaut md), les mêmes que Button ; on saisit à 16 px à toutes les tailles — sous 16, iOS Safari zoome la page au focus. Rayon 14, filet ink-400 (arbitrage n°7, le filet de la famille champ). Libellé 16/600 ink-900, aide 13 ink-600, erreur 13 danger-fg annoncée (`role=alert`), 8 px entre libellé, champ et message. Statuts default · success · error, surface light ou glass, icônes de tête et de queue (16 · 18 · 20). Désactivé : fond ink-50 et encre ink-500 — blanc/8 en verre ; jusqu'au 24/09, le fond et l'encre du repos gagnaient, et un champ désactivé ne se lisait pas comme tel. En `multiline`, le cadre suit sa zone de texte : il restait à 96 px, le texte débordait dessous et la poignée de redimensionnement flottait hors du filet. Le fichier exporte aussi Checkbox, Radio et Switch : libellé 16/400, contrôle de 20 px calé sur la première ligne du libellé, état coché au cran 700 (arbitrage n°9).",
     keywords: ['form', 'champ', 'saisie', 'text', 'label', 'hint', 'error', 'checkbox', 'radio', 'switch', 'textarea', 'multiline', 'disabled', 'désactivé', '36', '44', '52'],
     render: () => (
@@ -2372,8 +2369,7 @@ const COMPONENTS: ComponentEntry[] = [
   },
   {
     name: 'Select',
-    codeName: 'Select.tsx',
-    cssBase: '.field / .input (select wrapper)',
+    codeName: 'core/Select.tsx',
     description: "Menu natif du navigateur, habillé comme Input : mêmes hauteurs (36 · 44 · 52), même rayon 14, même filet ink-400, même texte à 16, mêmes rôles de libellé, d'aide et d'erreur. Chevron de 16 · 18 · 20. Statuts default · success · error ; désactivé, fond ink-50 et encre ink-500, comme Input. Pour une liste longue ou à filtrer, Combobox.",
     keywords: ['form', 'dropdown', 'select', 'options', 'menu', 'champ', 'disabled', 'désactivé', '36', '44', '52'],
     render: () => (
@@ -2428,7 +2424,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Combobox',
     codeName: 'ui/Combobox.tsx',
-    cssBase: 'combobox',
     description:
       "Sélection unique avec recherche : le champ filtre la liste pendant la frappe. Clavier ↑ ↓ Entrée Échap Tab. Même champ que Select — 36 · 44 · 52, texte 16, rayon 14, filet ink-400. Liste en panneau au rayon 14, options à 16 ; l'option choisie passe en 600 au cran 800, avec une coche. Statuts default · success · error ; désactivé, fond ink-50 et encre ink-500, comme Input et Select.",
     keywords: ['combobox', 'autocomplete', 'searchable', 'select', 'dropdown', 'filter', 'keyboard', 'typeahead'],
@@ -2485,7 +2480,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'QualitativeRating',
     codeName: 'ui/QualitativeRating.tsx',
-    cssBase: 'qualitative-rating',
     description:
       "Échelle qualitative : une rangée d'options libellées — par défaut cinq niveaux, d'« À améliorer » à « Excellent » — distincte d'une note chiffrée. Palier interactif : rayon 14, 36 px en sm et 44 en md, libellés 13 ou 16 en 600. L'option choisie prend un dégradé 700 → 800 à libellé blanc (primary, warm) ; sun reste en accent-400 à encre ink-900. Libellé, aide et erreur comme Input ; retour à la ligne (`wrap`) activé par défaut.",
     keywords: ['rating', 'qualitative', 'feedback', 'pills', 'satisfaction', 'evaluation', 'survey', 'scale'],
@@ -2544,8 +2538,7 @@ const COMPONENTS: ComponentEntry[] = [
   },
   {
     name: 'FormGroup',
-    codeName: 'FormGroup.tsx',
-    cssBase: '.form-group',
+    codeName: 'core/FormGroup.tsx',
     description: "Enveloppe libellé + contrôle + aide ou erreur, pour un contrôle qui n'a pas les siens. Libellé 16/600 ink-900 — il ne passe plus au rouge en erreur —, astérisque danger-fg, aide 13 ink-600, erreur 13 danger-fg ; 8 px entre chaque. Disposition verticale (défaut) ou horizontale dès 640 px, le libellé sur 150 px au moins.",
     keywords: ['form', 'label', 'wrapper', 'layout', 'hint', 'error'],
     render: () => (
@@ -2576,7 +2569,6 @@ const COMPONENTS: ComponentEntry[] = [
     // variants code présents; tinted déjà tone-split (primary/warm/sun/brand). Rien ne manquait.
     name: 'Card',
     codeName: 'core/Card.tsx',
-    cssBase: '.card',
     description: "L'unité de contenu autonome — une collection, elle, se rend en rangées dans UNE carte (arbitrage n°5). Rayon 20 à toutes les tailles ; padding 24 au canon (md), 20 en dense (sm), 12 en xs, 32 en lg. Anatomie par les props : surtitre `eyebrow` 13/600 ink-600, 4 px, titre h3 20/26, 8 px, `description` 16 ink-700 à la largeur de lecture, 12 px, pied `footer` en 13 ink-600 sous un filet ; icône en tête. Onze variantes : default, feature et elevated (blanches, identiques), interactive, minimal, ink, tinted, glass, glass-brand, glass-warm, glass-dark. Sur les deux cartes sombres, ink et glass-dark, tout le texte passe au blanc depuis le 24/09 — par les props comme par les sous-composants, qui lisent la surface par un contexte fourni par Card ; le titre d'une carte ink se lisait à 1,00:1. glass-dark part du cran 700, le premier qui porte du blanc. Aucune ombre ; au survol, le filet fonce et le fond se teinte, sans soulèvement. CardEyebrow, CardTitle, CardDesc et CardFooter portent les mêmes classes pour une composition libre, mais posés en frères le titre garde sa marge de base — 23 px sous le surtitre au lieu de 4 : préférer les props.",
     keywords: ['container', 'surface', 'carte', 'eyebrow', 'title', 'description', 'footer', 'anatomie', 'padding', 'feature', 'interactive', 'glass', 'minimal', 'ink', 'tinted', 'tone'],
     render: () => (
@@ -2639,7 +2631,6 @@ const COMPONENTS: ComponentEntry[] = [
     // (clés de variantes incohérentes) → réparés (Badge +dot=false, TrendingBadge +hasCount=false).
     name: 'Badge',
     codeName: 'ui/Badge.tsx',
-    cssBase: 'Tailwind',
     description: "L'état qui crie : 11 px en capitales, graisse 700, serrage positif (`tracking-label`), bordure, pilule. Sept variantes (brand · neutral · warm · sun · success · danger · info) ; trois tailles, toutes au corps de 11 — compact et normal font 20 px (padding 8 ou 10), large 24 px (padding 12). Jusqu'au 24/09, large parlait en 13, plus fort que tous les états de l'app. Un point `dot` fixe, à 4 px de son libellé (arbitrage n°16 : pas de mouvement permanent pour dire un état). StatusBadge, dans le même fichier, dit les cinq états d'une leçon avec leur icône — Verrouillé, Disponible, En cours, Terminé, Échoué — au même corps de 11 px ; sa prop `label` prête l'icône d'un état à un autre domaine, avec son propre mot — nom accessible, et libellé visible avec `showLabel` : « En attente de correction » dans CorrectionStatusBar. Une donnée n'est pas un état : catégorie, type ou durée vont en MetaPill (arbitrages n°14-15).",
     keywords: ['status', 'état', 'label', 'brand', 'warm', 'sun', 'success', 'danger', 'info', 'dot', 'compact', 'normal', 'large', 'locked', 'completed', 'statusbadge', 'showLabel', '24'],
     usedBy: ['LessonCard', 'ParcoursCard', 'VeilleCardFeed', 'Dashboard'],
@@ -2699,8 +2690,7 @@ const COMPONENTS: ComponentEntry[] = [
   {
     // Phase 1 P0 (2026-06-30, vérifié): Avatar set 1115:97 conforme code (sizes/tints/shapes/statuses).
     name: 'Avatar',
-    codeName: 'Avatar.tsx',
-    cssBase: '.avatar',
+    codeName: 'ui/Avatar.tsx',
     description: "La personne : photo ou initiales, en rond — le carré sert aux organisations. Cinq tailles, 24 · 32 · 40 · 56 · 80 px, initiales en 600 au pas correspondant (11 · 13 · 16 · 20 · 28). Teinte stable tirée du nom (brand · warm · sun · ink), point de statut (online · busy · away). AvatarGroup les empile avec un chevauchement de 10 px et un « +N » au-delà de `max`. La pastille `level` existe encore, mais l'arbitrage n°18 (plus de niveaux d'XP dans l'app apprenant) la tient hors des écrans neufs : elle n'est plus montrée ici.",
     keywords: ['user', 'profile', 'initials', 'image', 'status', 'online', 'group'],
     render: () => (
@@ -2740,8 +2730,7 @@ const COMPONENTS: ComponentEntry[] = [
   /* ---- PATTERNS --------------------------------------------------------- */
   {
     name: 'EmptyState',
-    codeName: 'EmptyState.tsx',
-    cssBase: '.empty',
+    codeName: 'ui/EmptyState.tsx',
     description: "Premier contact, aucun résultat, erreur : il laisse toujours une issue. Pastille de 80 px, titre h3 20, 8 px, texte 16 ink-700 à la largeur de lecture, 24 px, actions. Bordure en pointillés, rayon 20 ; tons default · warm · danger.",
     keywords: ['empty', 'no results', 'placeholder', 'illustration'],
     render: () => (
@@ -2763,7 +2752,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Skeleton',
     codeName: 'ui/Skeleton.tsx',
-    cssBase: '.skeleton',
     description: "Bloc de chargement qui épouse la forme du contenu attendu, pour une attente d'une à trois secondes. Une ligne prend la hauteur de ligne de son pas (`1lh`) et ne peint, au milieu, qu'une barre au corps de ce pas, là où seraient les lettres : text 26/16, caption 20/13, title 26/20, heading 36/28 — caption et heading sont nés le 24/09, quand les lignes à 14 et 24 px ont rejoint l'échelle. stat pose la valeur d'une StatCard au corps de `stat-value` (32 → 44). Les lignes d'un paragraphe se posent sans gap, comme les vraies. block 120 px au rayon 14, circle, card 160 px au rayon 20, button 44 px au rayon 14, celui d'un Button md (arbitrage n°22). `width` et `height` ; masqué aux lecteurs d'écran.",
     keywords: ['loading', 'placeholder', 'shimmer', 'chargement', 'caption', 'heading', 'stat', '1lh'],
     render: () => (
@@ -2796,7 +2784,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'SkeletonTemplates',
     codeName: 'patterns/SkeletonTemplates.tsx',
-    cssBase: 'Tailwind (no BEM)',
     usedBy: ['Notifications', 'LearningPaths', 'Dashboard', 'Veille', 'Journal'],
     description: "Gabarits de chargement prêts à l'emploi, à la silhouette des cartes principales : ParcoursCardSkeleton, NotificationRowSkeleton, EditorialCardSkeleton, ResumeLessonSkeleton, ActivityItemSkeleton, StatCardSkeleton. SkeletonGroup en répète un en liste ou en grille. Ils évitent de refaire des placeholders à chaque page.",
     keywords: ['skeleton', 'loading', 'placeholder', 'shimmer', 'template', 'grid', 'card'],
@@ -2828,8 +2815,7 @@ const COMPONENTS: ComponentEntry[] = [
   },
   {
     name: 'Search',
-    codeName: 'Search.tsx',
-    cssBase: 'Tailwind (no BEM)',
+    codeName: 'ui/Search.tsx',
     usedBy: ['LearningPaths', 'Veille', 'Journal', 'LearningSpace'],
     description: "Barre de recherche composable, de la famille champ : 36 · 44 · 52 (défaut md), texte à 16, rayon 14 à toutes les tailles. Deux variantes : default — blanc, filet ink-400, comme Input — et glass, pour les fonds colorés. Emplacements : raccourci clavier, icône de tête, `trailing`, `filtersSlot` pour des FilterChip en ligne ; suggestions asynchrones (`isLoading`, `onSuggestionSelect`). SearchWithSuggestions en est la variante à panneau de suggestions typées — celle de cette vitrine.",
     keywords: ['find', 'query', 'filter', 'search', 'input', 'glass', 'trailing', 'suggestions', 'autocomplete', 'async'],
@@ -2963,7 +2949,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'SearchFilters',
     codeName: 'patterns/SearchFilters.tsx',
-    cssBase: 'Tailwind (no BEM)',
     usedBy: ['Journal', 'Veille', 'LearningPaths', 'LearningSpace'],
     description:
       "Recherche et filtres, en un composant. Il orchestre Search, FilterChip et SelectCheckbox : on déclare des axes (`filters`) et il choisit le contrôle — des pastilles jusqu'à `chipThreshold` options (6), une liste à cocher au-delà, une seule pastille pour une bascule. Les pastilles suivent la taille du champ : sm (28 px) avec un Search sm, md (44 px) sinon. Deux dispositions : `inline`, filtres toujours visibles ; `panel`, un bouton de filtres avec compteur qui déplie un panneau où chaque groupe est nommé comme un champ (16/600 ink-900). Réinitialisation automatique (Button sm), trois tons.",
@@ -3032,7 +3017,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'StatCard',
     codeName: 'ui/StatCard.tsx',
-    cssBase: '.stat-card',
     usedBy: ['Dashboard (hero pre-Phase 10)', 'LearningPaths (Phase 10 KPI row)', 'Coaching', 'Journal', 'Notifications'],
     description: "Un chiffre mis en avant, en carte : pastille d'icône, 12 px, la valeur en League Spartan 700 — 28 en sm, `stat-value` (32 → 44) en md, `stat-value-lg` (40 → 56) en lg —, 4 px, puis le libellé en légende 13/600 ink-600 (ce n'est plus un micro-libellé en capitales). Unité en 13 sur la ligne de base ; delta en 13/600, coloré selon `polarity` (ajoutée le 24/09 : une baisse peut être une bonne nouvelle). Tons neutral · brand · warm · sun sur quatre surfaces, ou les variantes héritées ; `square` pour les grilles. Rayon 20, padding 20 (24 en lg).",
     keywords: ['metric', 'kpi', 'stat', 'chiffre', 'valeur', 'dashboard', 'square', 'size', 'polarity', 'delta'],
@@ -3064,8 +3048,7 @@ const COMPONENTS: ComponentEntry[] = [
   },
   {
     name: 'ProgressBar',
-    codeName: 'ProgressBar.tsx',
-    cssBase: '.progress',
+    codeName: 'ui/ProgressBar.tsx',
     description: "Barre de progression : libellé en légende 13/600 ink-600, valeur en Nunito 13/600 tabulaire au cran 800 (« 72 % »), sur la même ligne de base, 8 px au-dessus d'une piste de 2 · 4 · 8 · 14 px (xs · sm · md · lg). Remplissages brand · warm · sun · success · danger · gradient ; disposition stacked (défaut) ou inline. La barre est nommée pour les lecteurs d'écran. Son pendant circulaire est ProgressRing.",
     keywords: ['progress', 'linear', 'bar', 'percentage', 'ring', 'circle', 'circular', 'svg'],
     render: () => (
@@ -3082,7 +3065,6 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'ProgressRing',
     codeName: 'ui/ProgressRing.tsx',
     showcaseOnly: true,
-    cssBase: 'Tailwind (no BEM)',
     description: "Anneau SVG de progression (0–100). 5 tons (brand/warm/sun/success/danger), dégradé interne et halo optionnel (`glow`), animation de 0 à la valeur au montage. La valeur prend un pas de l'échelle selon le diamètre : dès 160 px `stat-value`, dès 112 le h2 (28), dès 80 le h3 (20), dès 64 le corps (16/600), en dessous la légende (13/600) — elle était à `size / 4,5` px, hors échelle. `label` s'affiche sous la valeur en légende 13/600 ink-600 : on lui passe du texte simple. `size` (défaut 120) et `thickness` sont libres.",
     keywords: ['progress', 'ring', 'circle', 'circular', 'svg', 'donut', 'percentage', 'glow', 'tone', 'anneau', 'progression'],
     render: () => (
@@ -3100,8 +3082,7 @@ const COMPONENTS: ComponentEntry[] = [
   /* ---- CONTENT & DISPLAY ------------------------------------------------ */
   {
     name: 'ActionCard',
-    codeName: 'ActionCard.tsx',
-    cssBase: '.tls-action-card / .tls-action-card--brand/warm/sun',
+    codeName: 'ui/ActionCard.tsx',
     description: "Carte d'action horizontale : pastille de 56 px au dégradé du ton, titre h3 20, 8 px, description 16 ink-700, et l'action à droite. La colonne de texte descend de 15 px pour centrer la première ligne sur la pastille. Tons brand · warm · sun · neutral ; surfaces card · tinted · glass · frosted ; `onClick` fait de la carte un bouton. Au survol : le filet et le fond, sans soulèvement (passe motion du 17/09).",
     keywords: ['action', 'card', 'icon', 'cta', 'tone', 'brand', 'warm', 'sun', 'quick-action'],
     render: () => (
@@ -3132,8 +3113,7 @@ const COMPONENTS: ComponentEntry[] = [
   },
   {
     name: 'ActivityItem',
-    codeName: 'ActivityItem.tsx',
-    cssBase: '.tls-activity-item / .tls-activity-item--lesson/achievement/coach/journal',
+    codeName: 'ui/ActivityItem.tsx',
     description: "Rangée d'un fil d'activité : pastille ronde de 36 px teintée par type (lesson · achievement · coach · journal), rail vertical entre deux rangées ; titre 16/600 et heure 13 ink-600 sur la même ligne de base, description 16 ink-700 sur deux lignes.",
     keywords: ['activity', 'feed', 'timeline', 'history', 'notification', 'dot', 'type'],
     render: () => (
@@ -3149,7 +3129,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'CardGrid',
     codeName: 'patterns/CardGrid.tsx',
-    cssBase: 'Tailwind (patterns/CardGrid.tsx)',
     usedBy: ['Recherche', 'Veille', 'LearningPaths', 'Coaching'],
     description: "Grille réutilisable, en requête de conteneur : elle compte ses colonnes sur la largeur de sa boîte, pas sur la fenêtre. Dispositions compact · default · feature · square-tiles · tiles ; écart de 8 · 16 · 24 · 32 px (24 par défaut) ; `autoFit`.",
     keywords: ['grid', 'layout', 'responsive', 'columns', 'cards'],
@@ -3192,7 +3171,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'InlineProgress',
     codeName: 'patterns/InlineProgress.tsx',
-    cssBase: '.inline-progress',
     usedBy: ['Positionnement', 'ParcoursCard', 'LearningPathDetail'],
     description: "Alias déprécié de `<ProgressBar layout=\"inline\">` : la barre et sa valeur (13/600) sur une ligne. Tons primary · warm · sun, tailles sm et md.",
     keywords: ['progress', 'inline', 'bar', 'percent', 'completion'],
@@ -3214,7 +3192,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'MetaPillGroup',
     codeName: 'ui/MetaPillGroup.tsx',
-    cssBase: 'Tailwind (no BEM)',
     usedBy: ['ParcoursCard', 'LearningPathDetail', 'Dashboard', 'Journal'],
     description: "Groupe de MetaPill, la ligne de données des cartes. Il porte SON propre défaut de taille, sm, et le passe à chaque pastille : changer celui de MetaPill seul ne descend pas jusqu'aux cartes. Le rayon suit la taille passée — pilule en sm, 14 en md et lg. Disposition horizontale ou verticale ; écart de 8 (`gap` sm et md) ou 16 (lg). Tons par pastille, dont glass et glass-dark pour les surfaces teintées ou saturées.",
     keywords: ['pill', 'chip', 'tag', 'meta', 'group', 'tone', 'glass', 'frosted'],
@@ -3293,7 +3270,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Sidebar',
     codeName: 'layout/Sidebar.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "La navigation principale de l'app : 260 px de large dès 768 px (72 px repliée), un tiroir de 280 px en dessous. Les six entrées viennent de la liste unique de `src/config/navigation.ts` ; rangées de 48 px au rayon 14, libellé 16/600 ink-700, icône de 20, 8 px entre deux entrées. L'entrée active est en texte blanc sur un voile primary-700 → 800 ; les compteurs sont des pastilles de 20 px. En bas, la carte utilisateur (nom 16/600, e-mail 13) ouvre le menu du compte. Fermé, le tiroir mobile est `inert` et `aria-hidden` : hors du clavier et des technologies d'assistance, qui lisaient ses libellés hors écran.",
     keywords: ['sidebar', 'nav', 'navigation', 'menu', 'shell', 'collapsible', 'drawer', 'tiroir', '260'],
     render: () => <SidebarDemo />,
@@ -3303,7 +3279,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'PositionnementModal',
     codeName: 'modals/PositionnementModal.tsx',
-    cssBase: '—',
     description: 'Auto-évaluation des compétences apprenant avant de démarrer un parcours. 5 niveaux, barre de progression, écran de succès.',
     keywords: ['modal', 'positioning', 'competence', 'assessment', 'level', 'self-eval'],
     render: () => <PositionnementModalDemo />,
@@ -3311,7 +3286,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'BookingModal',
     codeName: 'modals/BookingModal.tsx',
-    cssBase: '—',
     description: 'Réservation de session coaching en 2 étapes : sélection date/heure via calendrier + confirmation.',
     keywords: ['modal', 'booking', 'calendar', 'coaching', 'slot', 'time', 'reservation'],
     render: () => <BookingModalDemo />,
@@ -3319,7 +3293,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Dialog Modals',
     codeName: 'modals/ConfirmModal.tsx · modals/SuccessModal.tsx · modals/CancelSessionModal.tsx',
-    cssBase: '—',
     usedBy: ['Billing', 'SubscriptionPayment'],
     description: "Trois dialogues bâtis sur le même tronc, texte centré : pastille d'icône, titre en h2 au pas h3 (20/700), 8 px, message 16 ink-700, 24 px, actions. ConfirmModal : quatre variantes (info · success · warning · danger). SuccessModal : une réussite, avec une coche. CancelSessionModal : annuler ou reprogrammer une session, avec le choix d'un motif.",
     keywords: ['modal', 'confirm', 'dialog', 'alert', 'danger', 'warning', 'info', 'success', 'cancel', 'session'],
@@ -3337,7 +3310,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'SessionFeedbackModal',
     codeName: 'modals/SessionFeedbackModal.tsx',
-    cssBase: '—',
     description: 'Notation étoiles + commentaire. Feedback post-session coaching ou fin de leçon.',
     keywords: ['modal', 'feedback', 'rating', 'stars', 'review', 'comment', 'session'],
     render: () => <SessionFeedbackModalDemo />,
@@ -3345,7 +3317,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'VideoPlayerModal',
     codeName: 'modals/VideoPlayerModal.tsx',
-    cssBase: '—',
     description: 'Lecteur vidéo plein écran pour tutoriels, leçons vidéo et contenu Veille.',
     keywords: ['modal', 'video', 'player', 'media', 'fullscreen', 'veille', 'tutorial'],
     render: () => <VideoPlayerModalDemo />,
@@ -3354,8 +3325,7 @@ const COMPONENTS: ComponentEntry[] = [
   /* ---- LEARNING SYSTEM COMPONENTS ----------------------------------------- */
   {
     name: 'Toast + useToast',
-    codeName: 'Toast.tsx / useToast.ts',
-    cssBase: '.toast / .toast__icon--*',
+    codeName: 'ui/Toast.tsx · hooks/useToast.ts',
     description: "Notification passagère, avec le hook useToast() : quatre variantes, texte 16 (13 au-delà de 90 caractères), titre 16/600, icône de 20, action et fermeture, disparition automatique réglable ; de 320 à 440 px de large.",
     keywords: ['toast', 'notification', 'alert', 'feedback', 'success', 'error', 'warning'],
     render: () => <ToastDemo />,
@@ -3363,15 +3333,13 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Tabs',
     codeName: 'ui/Tabs.tsx',
-    cssBase: '.tabs / .tab / .tab--active',
     description: "Navigation par onglets, de deux à cinq, avec `aria-selected` et la navigation au clavier. Onglets de 44 px, libellé 16/600 aux deux états (ink-700 au repos), icône de 18. Trois variantes : pill (défaut) — un rail au rayon 14 où l'onglet actif, au rayon 10, se détache en blanc ; underline — trait de 2 px au cran 700 sous un libellé 800 ; boxed — onglets séparés, l'actif en dégradé 700 → 800. pill et underline défilent horizontalement dans leur rail, sans barre visible, et leurs onglets ne se compriment pas : à 375 px, quatre pages avaient un onglet en pastille hors de l'écran, hors d'atteinte, jusqu'au 24/09. L'onglet actif est ramené dans le cadre. Compteur optionnel. `getTabPanelProps` relie un onglet à son panneau.",
     keywords: ['tab', 'onglet', 'navigation', 'pill', 'underline', 'boxed', 'switch', '44', 'scroll', 'défilement', 'overflow'],
     render: () => <TabsDemo />,
   },
   {
     name: 'FilterChip',
-    codeName: 'FilterChip.tsx',
-    cssBase: 'Tailwind (no BEM)',
+    codeName: 'ui/FilterChip.tsx',
     usedBy: ['LearningPaths', 'Veille', 'Journal', 'Notifications'],
     description: "Pastille de filtre à bascule (`aria-pressed`). En md, le défaut, c'est un contrôle de la ligne : 44 px, libellé 16/600, rayon 14 (arbitrage n°22, la hauteur commune des contrôles). En sm, 28 px et 13/600. Actif : filet 700 et libellé 800, sans changer de graisse. Variantes default · glass (sur fond coloré) · reset ; compteur optionnel ; icône de 18 (md) ou 14 (sm).",
     keywords: ['filter', 'filtre', 'chip', 'pastille', 'select', 'active', 'glass', 'toggle', 'count', 'compteur', '44'],
@@ -3379,8 +3347,7 @@ const COMPONENTS: ComponentEntry[] = [
   },
   {
     name: 'Medal',
-    codeName: 'Medal.tsx',
-    cssBase: '.medal',
+    codeName: 'ui/Medal.tsx',
     description: "Médaille ronde, sans texte : 72 · 120 · 160 px, glyphe à 44 % du diamètre (Trophy par défaut, via la prop `icon`), `label` en nom accessible. Variantes default (dégradé orange → or), brand (radial teal), locked (gris), gold · silver · bronze.",
     keywords: ['medal', 'badge', 'achievement', 'reward', 'locked', 'unlocked'],
     render: () => (
@@ -3398,8 +3365,7 @@ const COMPONENTS: ComponentEntry[] = [
   },
   {
     name: 'CompetenceBadge',
-    codeName: 'CompetenceBadge.tsx',
-    cssBase: '.comp-badge',
+    codeName: 'ui/CompetenceBadge.tsx',
     showcaseOnly: true,
     description: "Niveau de compétence en pastille de 36 px : libellé 16/600 précédé d'une pastille ronde de 24 px qui porte le chiffre (13/700) au cran 700. Quatre niveaux — Découverte, Pratique, Maîtrise, Expert : les trois premiers en dégradé du 50 au 100 (teal, orange, or), le quatrième en radial sombre à texte blanc.",
     keywords: ['competence', 'dreyfus', 'level', 'badge', 'proficiency', 'skill'],
@@ -3414,8 +3380,7 @@ const COMPONENTS: ComponentEntry[] = [
   },
   {
     name: 'MasteryBadge',
-    codeName: 'MasteryBadge.tsx',
-    cssBase: '.mastery-badge',
+    codeName: 'ui/MasteryBadge.tsx',
     showcaseOnly: true,
     description: "Maîtrise d'une compétence en quatre niveaux — débutant, intermédiaire, avancé, expert : un anneau de progression de 96 px au cran 500 du niveau, un glyphe Lucide au centre (Sprout, Zap, Flame, Trophy) et, 8 px dessous, le libellé en MetaPill md.",
     keywords: ['mastery', 'skill', 'bloom', 'taxonomy', 'level', 'novice', 'expert'],
@@ -3430,8 +3395,7 @@ const COMPONENTS: ComponentEntry[] = [
   },
   {
     name: 'Achievement',
-    codeName: 'Achievement.tsx',
-    cssBase: '.achievement',
+    codeName: 'ui/Achievement.tsx',
     description: "Vignette de réussite : pastille d'icône (48 · 64 · 80 px), titre 16/600, description 16 ink-700 sur deux lignes, puis selon l'état la date de déblocage (13, accent-800) ou une barre de 6 px et « n / max » (13/600). Trois états — unlocked · in-progress · locked (opacité 70 %) — et trois tailles ; rayon 20.",
     keywords: ['achievement', 'badge', 'unlocked', 'locked', 'milestone', 'reward', 'size', 'variant'],
     render: () => (
@@ -3446,7 +3410,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'AchievementBadge',
     codeName: 'ui/AchievementBadge.tsx',
-    cssBase: 'Tailwind (no BEM)',
     usedBy: ['DashboardAchievements', 'BadgeGallery', 'BadgeDetail', 'ProfileBadgesCompetences', 'PasseportJac', 'Gamification'],
     description: "Carte de badge obtenu : disque en dégradé (60 · 100 · 140 px), titre h3 20/700, description 16 ink-700, puis « Obtenu le 15 janv. 2026 » en légende 13 au cran 800 du ton. Le composant formate lui-même une date ISO, en français ; toute autre chaîne passe telle quelle, et sans date il dit « Obtenu », sans en inventer une. Avec une description, la carte se cale à gauche, médaille comprise ; sans, titre et date sont courts et elle reste centrée (le centré se limite à deux lignes). Verrouillée (`isLocked`) : estompée, « S'obtient une fois les prérequis validés ». Bouton « Partager » optionnel (`onShare`). Quatre couleurs (primary · warm · sun · success) × trois tailles. ⚠️ L'étincelle — fixe depuis le 24/09, elle pulsait — et le cadenas de l'état verrouillé sont posés au bord du disque, dont l'`overflow-hidden` les rogne : ni l'une ni l'autre ne se voit (1 % de l'icône dans le cercle, mesuré).",
     keywords: ['achievement', 'badge', 'unlock', 'locked', 'share', 'partager', 'reward', 'milestone', 'color', 'standalone', 'date', 'iso', 'obtenu'],
@@ -3493,7 +3456,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'JacCard',
     codeName: 'ui/JacCard.tsx',
-    cssBase: 'Tailwind (no BEM)',
     usedBy: ['PasseportJac'],
     description: "Deux cartes du Passeport, Jalons et certifications (cahiers 02 et 11). JacCardPending : une validation en cours — libellé 16/600, méta 13 ink-600, Badge « En revue » et un Button sm « Relancer ». JacCardNextJalon : le prochain jalon — libellé 16/600, puis le niveau en MetaPill, seulement si le titre ne le dit pas déjà : « Communication : Niveau D4 » le porte, et la pastille ne le répète plus depuis le 24/09 ; exigences en 16 ink-700, ProgressBar sm et un Button sm « Préparer ».",
     keywords: ['jac', 'jalon', 'certification', 'dreyfus', 'validation', 'passeport', 'pending', 'progress', 'niveau', 'MetaPill'],
@@ -3530,8 +3492,7 @@ const COMPONENTS: ComponentEntry[] = [
   },
   {
     name: 'Stepper',
-    codeName: 'Stepper.tsx',
-    cssBase: '.stepper / .stepper__step',
+    codeName: 'ui/Stepper.tsx',
     description: "Stepper : des étapes numérotées, en ligne ou en colonne — rond de 40 px, chiffre en Nunito 13/600 tabulaire ; l'étape en cours en 600 ink-900, les autres en 400 ; libellé en légende 13 à l'horizontale, 16 avec une description 13 à la verticale. Steps : une liste d'étapes à cocher — pastille de 36 px, titre 16, description 13 ink-600, 24 px entre deux étapes ; une étape faite est barrée, une étape verrouillée estompée.",
     keywords: ['stepper', 'steps', 'progress', 'wizard', 'onboarding', 'sequence', 'checklist', 'task', 'sequential'],
     usedBy: ['OnboardingQuestionnaire', 'SubscriptionPayment', 'OnboardingTutorial', 'OnboardingSuccess'],
@@ -3568,7 +3529,6 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'TabsWithContent',
     codeName: 'patterns/TabsWithContent.tsx',
     showcaseOnly: true,
-    cssBase: 'Tailwind (no BEM)',
     description: "Onglets qui portent aussi leur contenu (onglet actif et panneau). Onglets en 16/600 (ink-600 au repos), de 46 à 48 px de haut, compteur 13/600 tabulaire, 16 px entre la liste et le panneau. Trois variantes : underline (trait primary-600, libellé 800), boxed (onglet actif en dégradé 700 → 800), pill (onglet actif blanc sur ink-100). Onglets désactivables, `onTabChange`.",
     keywords: ['tabs', 'tabbed', 'content', 'panel', 'underline', 'pill', 'boxed', 'nav', 'switch', 'state'],
     render: () => (
@@ -3613,8 +3573,7 @@ const COMPONENTS: ComponentEntry[] = [
   /* ---- FEEDBACK --------------------------------------------------------- */
   {
     name: 'Alert',
-    codeName: 'Alert.tsx',
-    cssBase: '.alert / .alert--*',
+    codeName: 'ui/Alert.tsx',
     description: "Message persistant ancré dans la page. Quatre variantes (info · success · warning · danger), chacune colore tout son texte. banner, le défaut : texte 16, titre 16/600, 4 px, icône de 20 calée sur la première ligne, actions et fermeture optionnelles. inline : texte 13, icône de 16, sans titre ni actions. Rôle live alert (danger, warning) ou status (success).",
     keywords: ['alert', 'message', 'warning', 'error', 'success', 'info', 'danger', 'banner', 'inline'],
     render: () => (
@@ -3636,8 +3595,7 @@ const COMPONENTS: ComponentEntry[] = [
   },
   {
     name: 'Modal',
-    codeName: 'Modal.tsx',
-    cssBase: '.modal / .modal-scrim',
+    codeName: 'ui/Modal.tsx',
     description: "Dialogue bloquant, pour une décision : voile, boîte au rayon 24 (étage surcouche), 480 px au plus, padding 24 puis 32. Titre en h2 au pas h3 (20/700), 8 px, description 16 ink-700, 16 px, le corps en 16, puis les actions à 24 px du contenu, alignées à droite. Fermeture par Échap, par le bouton-icône ou par un clic sur le voile.",
     keywords: ['modal', 'dialog', 'overlay', 'popup', 'scrim', 'interrupt'],
     render: () => <ModalDemo />,
@@ -3645,7 +3603,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'CelebrationModal',
     codeName: 'modals/CelebrationModal.tsx',
-    cssBase: 'Tailwind + modals.css animations',
     showcaseOnly: true,
     description: "Célébration d'un jalon (parcours terminé, badge obtenu) : pastille de 80 px, titre en h2 au pas h3 (20/700) ink-900, description 16 ink-700, actions ; des étincelles animées autour, que `hideSparkles` retire.",
     keywords: ['celebration', 'modal', 'milestone', 'achievement', 'parcours', 'badge', 'reward'],
@@ -3654,7 +3611,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'InlineWin',
     codeName: 'ui/Celebration.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "Célébration discrète, dans le flux (leçon terminée, étape franchie) : pastille ronde de 40 px, titre 16/600 ink-900, description en légende 13 ink-600. À l'inverse de CelebrationModal, elle n'interrompt pas.",
     keywords: ['inline-win', 'win', 'compact', 'banner', 'achievement'],
     render: () => (
@@ -3669,7 +3625,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Breadcrumb',
     codeName: 'ui/Breadcrumb.tsx (canonical)',
-    cssBase: '.breadcrumb / .breadcrumb__current / .breadcrumb--sticky',
     description: "Fil d'Ariane, en légende 13 partout. variant=\"simple\" (défaut) : liens ink-600, page courante ink-900 en 600, séparateur texte, `sticky` optionnel. variant=\"nav\" : boutons, chevrons, icônes, page courante sur fond primary-50, repli en ellipse au-delà de `maxVisible`, `onNavigate`. L'ancien BreadcrumbNav a été supprimé : `<Breadcrumb variant=\"nav\">` le remplace.",
     keywords: ['breadcrumb', 'navigation', 'path', 'hierarchy', 'ariane', 'sticky', 'nav'],
     render: () => (
@@ -3738,7 +3693,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'AppBreadcrumb',
     codeName: 'patterns/AppBreadcrumb.tsx',
-    cssBase: 'Tailwind (no BEM)',
     usedBy: ['AppLayout (global)', 'LearningPathDetail', 'ArticleDetail', 'VeilleContent'],
     description: "Le fil d'Ariane de l'app, généré depuis l'URL (`useLocation`) et monté pour toute l'app ; il s'affiche à partir de deux segments. Barre de 44 px au moins, en légende 13 : les parents en 400 ink-600, la page courante en 600 ink-900 (`aria-current`), des chevrons de 14. Un bouton Retour de 44 px sous 640 px, un bouton Accueil au-delà.",
     keywords: ['breadcrumb', 'auto', 'location', 'path', 'navigation', 'back', 'layout', 'route'],
@@ -3753,7 +3707,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'AccountFamilyNav',
     codeName: 'patterns/AccountFamilyNav.tsx',
-    cssBase: 'Tailwind (no BEM)',
     usedBy: ['Profile', 'Account', 'Billing'],
     description: "La navigation des pages du compte : cinq destinations — Profil, Mon compte, Confidentialité, Notifications, Facturation —, chacune avec sa pastille d'icône (IconChip sm), son libellé 16/600 et une description en 13 ink-600. La grille compte ses colonnes sur sa propre largeur (requête de conteneur) : une, deux dès 448 px, trois dès 672 px. L'onglet actif est blanc sur le rail ink-50.",
     keywords: ['account', 'compte', 'profile', 'settings', 'nav', 'sub-navigation', 'billing', 'confidentialité', 'notifications', 'container query'],
@@ -3767,8 +3720,7 @@ const COMPONENTS: ComponentEntry[] = [
   },
   {
     name: 'Pagination',
-    codeName: 'Pagination.tsx',
-    cssBase: '.pager / .pager__dots / .pager-info',
+    codeName: 'ui/Pagination.tsx',
     showcaseOnly: false,
     usedBy: ['Leaderboard'],
     description: "Navigation numérotée des longues listes : boutons de 44 × 44 au rayon 14, chiffres 16/600 tabulaires, page courante en dégradé 700 → 800 à chiffre blanc. Troncature automatique autour de la page (`siblings`), précédent et suivant, et une information optionnelle en légende 13 ink-600.",
@@ -3778,7 +3730,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'DropdownMenu',
     codeName: 'ui/DropdownMenu.tsx',
-    cssBase: 'Tailwind (no BEM)',
     usedBy: ['App (Sidebar user menu)'],
     description: "Menu d'actions ou de navigation contextuelle. Deux variantes : solid (filet et ombre) ou glass (flou, anneau, ombre de marque). DropdownItem : rangée de 44 px, libellé 16/400 ink-900, icône de 18, raccourci clavier, badge demo · pro · new · beta, état danger. DropdownLabel : titre de groupe en 13/600 ink-600, casse normale. DropdownSeparator. Le consommateur gère l'ouverture, la position et le clic extérieur ; le menu prend le focus à l'ouverture (`autoFocus`) et le rend au déclencheur (`returnFocusTo`). C'est le menu du compte, dans la Sidebar.",
     keywords: ['dropdown', 'menu', 'actions', 'navigation', 'user-menu', 'popover', 'glass', 'a11y'],
@@ -3828,8 +3779,7 @@ const COMPONENTS: ComponentEntry[] = [
   /* ---- CONTENT (additional) --------------------------------------------- */
   {
     name: 'MetaPill',
-    codeName: 'MetaPill.tsx',
-    cssBase: 'Tailwind (no BEM)',
+    codeName: 'ui/MetaPill.tsx',
     description: "La donnée qui chuchote : 11 px en 500, casse normale — le registre opposé à Badge. Taille par défaut sm (24 px, en pilule) ; md 30 px en 13 et lg 44 px en 16, au rayon 14 — au-dessus de 28 px, le rayon d'un contrôle (règle du seuil, `CHIP_RAYON`). Dix tons : neutral (et son alias déprécié default), primary, warm, sun, brand, success, danger, info, glass, glass-dark. Avec `onClick`, elle rend un vrai `<button>`. Une catégorie ou un type de contenu est une donnée : MetaPill, jamais Badge (arbitrages n°14-15).",
     keywords: ['pill', 'meta', 'chip', 'tag', 'tone', 'primary', 'warm', 'sun', 'brand', 'success', 'danger', 'info'],
     render: () => (
@@ -3857,8 +3807,7 @@ const COMPONENTS: ComponentEntry[] = [
   },
   {
     name: 'MetaItem',
-    codeName: 'MetaItem.tsx',
-    cssBase: '.tls-meta-item / .tls-meta-item--sm / .tls-meta-item--brand/warm',
+    codeName: 'ui/MetaItem.tsx',
     showcaseOnly: true,
     description: "Paire étiquette / valeur d'une donnée structurée : l'étiquette en légende 13 ink-600 au-dessus, 4 px, puis la valeur en 600 — 13 en sm, 16 en md —, ink-900 ou au cran 800 du ton (brand, warm). Icône optionnelle dans l'étiquette.",
     keywords: ['meta', 'item', 'label', 'value', 'pair', 'data', 'detail', 'size', 'tone'],
@@ -3873,8 +3822,7 @@ const COMPONENTS: ComponentEntry[] = [
   },
   {
     name: 'UserInfo',
-    codeName: 'UserInfo.tsx',
-    cssBase: '.tls-user-info / .tls-user-info--sm|md|lg',
+    codeName: 'ui/UserInfo.tsx',
     showcaseOnly: true,
     description: "Bloc identité compact : avatar, nom, rôle, point de statut optionnel. Nom en 16/600 ink-900 (sm, md) ou en titre 20/700 (lg) ; rôle en légende 13 ink-600 (16 en lg) ; avatar de 32 · 40 · 56 px. Statuts online · offline · away.",
     keywords: ['user', 'info', 'avatar', 'name', 'role', 'identity', 'author', 'status', 'online'],
@@ -3889,7 +3837,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ProfileCard',
     codeName: 'ui/ProfileCard.tsx',
-    cssBase: 'Tailwind (no BEM) — Avatar + MetaPillGroup + Button',
     usedBy: ['Coaching'],
     description: "Carte de profil (coach, expert) : Avatar xl, nom en titre h3 20, rôle en légende 13 ink-600, note (étoiles, valeur 13/600), spécialités en MetaPillGroup sm, contacts, bio 16 ink-700 alignée à gauche, action en Button soft. Variantes default · compact · featured (filet 2 px du ton) · horizontal, trois tons, alignement centré ou à gauche.",
     keywords: ['profile', 'card', 'user', 'coach', 'avatar', 'rating', 'specialties', 'tone', 'featured', 'a11y'],
@@ -3943,7 +3890,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'IconFeatureCard',
     codeName: 'ui/IconFeatureCard.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "Tuile à icône, contenu centré : l'icône (plain · filled · bubble), le titre, une description optionnelle. L'échelle des titres suit `iconSize` : xs et sm → 16/700 en League Spartan, md, lg et xl → h3 20/700 ; description 16 ink-700. Tons brand · warm · sun × surfaces card · tinted · glass · frosted ; `square` pour une tuile carrée ; `onClick` en fait un bouton. À partir de quatre tuiles, la poser dans `<CardGrid layout=\"square-tiles\">`.",
     keywords: ['feature', 'icon', 'card', 'tile', 'button', 'plain', 'filled', 'bubble', 'tone', 'quick action', 'shortcut', 'glass', 'frosted', 'tinted', 'surface', 'square', 'responsive', 'centered'],
     render: () => (
@@ -4035,7 +3981,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ParcoursCard',
     codeName: 'patterns/ParcoursCard.tsx',
-    cssBase: 'Tailwind (no BEM) — Card variant="tinted" tone={tone}',
     usedBy: ['LearningPaths', 'Dashboard'],
     description: "Carte de parcours pour les catalogues : surface teintée (Card tinted) ou `outline`, trois tons. Titre h3 20 ink-900, 8 px, durée et leçons en MetaPillGroup sm, 12 px, description 16 ink-700 sur cinq lignes au plus ; en bas de carte, la progression (InlineProgress md) puis l'action de 44 px, libellé 16/700 selon l'état. Rayon 20, padding 24 ; halo radial au survol, sans soulèvement.",
     keywords: ['parcours', 'learning path', 'progress', 'tinted', 'tone', 'cta', 'glass', 'glow', 'hover', 'a11y'],
@@ -4080,7 +4025,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'SessionCard',
     codeName: 'learning/SessionCard.tsx',
-    cssBase: 'Tailwind (no BEM)',
     usedBy: ['Coaching', 'Dashboard'],
     description: "Carte de session de coaching, planifiée ou terminée. État en Badge (« Planifiée », « Terminée »), date en légende 13, titre h3 20, le coach (Avatar sm, nom 16/600, rôle 13), description 16 ink-700 sur deux lignes ; sous un filet, les actions (questionnaire, compte rendu, note) et un Button soft sm. Rayon 20, padding 24. Surfaces card · tinted · glass · frosted · outline, trois tons ; une session terminée reste blanche.",
     keywords: ['session', 'coaching', 'meeting', 'past', 'planned', 'surface', 'tinted', 'glass', 'frosted'],
@@ -4153,8 +4097,7 @@ const COMPONENTS: ComponentEntry[] = [
   },
   {
     name: 'ResourceCard',
-    codeName: 'ResourceCard.tsx',
-    cssBase: 'Tailwind (no BEM)',
+    codeName: 'ui/ResourceCard.tsx',
     description: "Carte de ressource : icône et type (MetaPill sm), titre h3 20, description 16 ink-700, puis sous un filet la catégorie (MetaPill) et la durée (13 ink-600), avec l'action. Rayon 20, padding 24 (20 en `minimal`) ; `badge` pose un vrai Badge en haut à droite ; `href` en fait un lien. Tons primary · warm · sun. Pour les ressources complémentaires d'une fin d'étape.",
     keywords: ['resource', 'card', 'document', 'article', 'tutorial', 'link', 'badge', 'tone', 'complementary', 'learning-path'],
     render: () => (
@@ -4189,7 +4132,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'CompetencyMatrix',
     codeName: 'ui/CompetencyMatrix.tsx',
-    cssBase: 'CompetencyMatrix (table + inline styles)',
     description: "Tableau de compétences sur les cinq niveaux Dreyfus — Novice, Apprenant, Compétent, Expert, Maître —, pris à la source unique `DREYFUS_LABELS` depuis le 24/09 : ils étaient en anglais, et sur une autre échelle. En-têtes 13/600 ink-600 avec une icône par niveau, colonne « Compétence », noms 16/600 ink-900, cellules rondes de 40 px au filet 2 px, pleines une fois le niveau atteint (cran 700 ; l'or au 400, à l'encre accent-900), infobulle « Pas encore atteint » sinon. Couleur par compétence ; `maxLevel`, `labels`, `onSkillHover`. Aucune marge extérieure : elle portait un `mt-stack-lg` que le profil devait annuler.",
     keywords: ['competency', 'matrix', 'skills', 'levels', 'table', 'assessment', 'dreyfus', 'DREYFUS_LABELS'],
     render: () => (
@@ -4206,8 +4148,7 @@ const COMPONENTS: ComponentEntry[] = [
   },
   {
     name: 'GoalProgress',
-    codeName: 'GoalProgress.tsx',
-    cssBase: 'GoalProgress (inline styles)',
+    codeName: 'ui/GoalProgress.tsx',
     description: "Suivi d'un objectif : l'objectif en 16/600, une piste de 6 ou 8 px, puis « n % complété » et le temps restant (13 en sm, 16 en md), et un message en 13 si l'objectif est en retard ou atteint. Tons primary · warm · success · danger — forcé à danger en retard, à success à 100 %.",
     keywords: ['goal', 'progress', 'target', 'deadline', 'on-track', 'learning'],
     usedBy: ['Passeport', 'PasseportObjectifs'],
@@ -4222,7 +4163,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'QuizComponent',
     codeName: 'ui/QuizComponent.tsx',
-    cssBase: 'QuizComponent (inline styles)',
     description: "Quiz à plusieurs questions, calé à gauche de sa colonne à la largeur de lecture (672 px) : il se centrait lui-même, sur un autre axe que le titre de sa section, et la leçon devait l'enfermer dans une boîte pour le retenir. « Question n sur N » et pourcentage en 13/600, barre de 6 px, question en h3 20, options en rangées de 16, degré de confiance après chaque réponse (`askConfidence`) ; à la fin, le score en `stat-value` et une phrase en 16 ink-700.",
     keywords: ['quiz', 'question', 'answer', 'test', 'assessment', 'score', 'interactive', 'aligné', 'gauche'],
     render: () => (
@@ -4240,7 +4180,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ActivityFeed',
     codeName: 'patterns/ActivityFeed.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "Fil d'activité chronologique : icônes Lucide par type, acteur en Avatar, trois dispositions — timeline, list (des rangées dans UNE carte, la disposition d'un fil, arbitrage n°5) et cards, gardée pour compatibilité. Titre 16/600 et heure 13 sur la ligne de base, description 16 ink-700 plafonnée à la largeur de lecture — au tableau de bord, elle courait sur 1 002 px ; regroupement par date (libellé 13/600), état vide, « Voir plus ».",
     keywords: ['activity', 'feed', 'timeline', 'history', 'events', 'chronological', 'notification'],
     render: () => {
@@ -4269,7 +4208,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ActivityTimeline',
     codeName: 'patterns/ActivityTimeline.tsx',
-    cssBase: 'Tailwind (no BEM)',
     showcaseOnly: true,
     description: "Chronologie verticale : pastille ronde de 40 px au dégradé du ton (ou point de 12 px sans icône) et connecteur ; titre 16/600 et date 13 ink-600 sur la ligne de base, description 16 ink-700, 24 px entre les étapes. Cinq tons (primary · warm · sun · success · warning), trois statuts : completed et in-progress — pastille pleine —, pending — pointillés, titre en ink-600. Un jalon en cours ne pulse plus (arbitrage n°16, pas de mouvement permanent pour dire un état) : il se lit à sa place, entre les faits et les « à venir », et à son titre. Plus compacte qu'ActivityFeed, pour un historique linéaire. Aucun appel produit : les quatre pages que la fiche citait ne l'emploient pas.",
     keywords: ['timeline', 'activity', 'events', 'vertical', 'connector', 'tone', 'status', 'dot', 'chronological'],
@@ -4289,7 +4227,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'AuthorStrip',
     codeName: 'patterns/AuthorStrip.tsx',
-    cssBase: 'Tailwind (no BEM)',
     usedBy: ['ArticleDetail (Tier 2)', 'MagazineArticle (Tier 2)', 'JournalDetail (Tier 2)', 'EditorialQuoteCallout signature'],
     description: "La signature d'un contenu éditorial : avatar, nom 16/600 ink-900 et, en compact, le rôle sur la même ligne (« · Rôle », 13 ink-600) ; dessous, à 2 px, la méta en 13 ink-600 — date, durée — séparée par « · ». `expanded` passe le rôle sur sa propre ligne, avec un avatar plus grand.",
     keywords: ['author', 'byline', 'meta', 'avatar', 'editorial', 'article', 'strip'],
@@ -4324,7 +4261,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'IntroCallout',
     codeName: 'patterns/IntroCallout.tsx',
-    cssBase: 'Tailwind (no BEM)',
     usedBy: ['ArticleDetail (Tier 2)', 'MagazineArticle (Tier 2)', 'Dossier (Tier 2)'],
     description: "Le chapô d'un article long, en encart sous le hero : surtitre optionnel 13/600 ink-600, 8 px, texte au chapô 18/28 ink-900 à la largeur de lecture ; en option, une pastille ronde de 40 px avec un guillemet (`withQuoteIcon`). Rayon 14, padding 20 puis 24. Quatre tons (brand · warm · sun · neutral). La barre d'accent à gauche a été retirée le 24/09.",
     keywords: ['intro', 'callout', 'lead', 'paragraph', 'editorial', 'thesis', 'glass'],
@@ -4348,7 +4284,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'KeyFindingCard',
     codeName: 'patterns/KeyFindingCard.tsx',
-    cssBase: 'Tailwind (no BEM)',
     usedBy: ['Dossier (Tier 2)', 'MagazineArticle (Tier 2)'],
     description: "Point clé d'un dossier : pastille d'icône de 48 px, titre h3 20, un chiffre au pas h2 (28, au cran 800) avec sa légende 13, et une description 16 ink-700. Disposition horizontale — le texte se cale sur la première ligne de la pastille — ou empilée ; cinq tons ; surface en verre.",
     keywords: ['key', 'finding', 'insight', 'data', 'metric', 'glass', 'icon-bubble'],
@@ -4387,7 +4322,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'EditorialQuoteCallout',
     codeName: 'patterns/EditorialQuoteCallout.tsx',
-    cssBase: 'Tailwind (no BEM)',
     usedBy: ['WeeklyNewsletter édito (Tier 2)', 'Magazine foreword (Tier 2)', 'Dossier intro thèse (Tier 2)'],
     description: "Citation éditoriale signée (édito hebdomadaire, avant-propos, thèse d'un dossier) : pastille de 56 puis 64 px avec un guillemet de 28, surtitre 13/600 ink-600, 16 px, citation en Nunito italique 18/28 ink-900 à la largeur de lecture, sur plusieurs paragraphes, 16 px, signature par AuthorStrip. Padding 24, 32 puis 40 selon la largeur.",
     keywords: ['quote', 'editorial', 'callout', 'foreword', 'intro', 'italic', 'signature'],
@@ -4405,7 +4339,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ReadingProgress',
     codeName: 'patterns/ReadingProgress.tsx',
-    cssBase: 'Tailwind (no BEM)',
     usedBy: ['ArticleDetail (Tier 2)', 'MagazineArticle (Tier 2)', 'Dossier (Tier 2)', 'LessonPlayer (futur)'],
     description: "Deux indicateurs pilotés par `useReadingProgress(ref?)`, de 0 à 100. ReadingProgressBar : un filet en haut de fenêtre (`fixed`), au dégradé du ton, de 2 px par défaut. ReadingProgressRing : un anneau de 44 px par défaut (trait de 3) ; le pourcentage — 13/600 tabulaire au cran 800 — ne s'écrit qu'à partir de 44 px, et les pages l'emploient à 32 : la valeur n'y est donnée qu'aux lecteurs d'écran. Quatre tons.",
     keywords: ['reading', 'progress', 'scroll', 'indicator', 'bar', 'ring', 'circular', 'article'],
@@ -4442,7 +4375,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'TableOfContents',
     codeName: 'patterns/TableOfContents.tsx',
-    cssBase: 'Tailwind (no BEM)',
     usedBy: ['Dossier (Tier 2)', 'LessonPlayer (futur)'],
     description: "Sommaire d'un long contenu, qui suit le défilement (IntersectionObserver) : titre 13/600 ink-600, entrées de 44 px en 16 ink-600 numérotées (« 01 », 13/600 tabulaire) ; l'entrée active passe sur le fond du ton au cran 50, libellé 800 en 600 ; une étape terminée prend une coche. Défilement doux au clic, avec un décalage réglable (`scrollOffset`). Quatre tons ; c'est la page qui le rend collant.",
     keywords: ['toc', 'table-of-contents', 'sommaire', 'navigation', 'sticky', 'scroll-spy', 'sidebar'],
@@ -4481,7 +4413,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'FilterBar',
     codeName: 'forms/FilterBar.tsx',
-    cssBase: 'Tailwind (no BEM)',
     usedBy: ['LearningPaths (glass variant in hero Search)', 'Veille (filter type drawer)', 'Recherche (4 types sticky)', 'Notifications (à venir)', 'Listings n-1 (Actus/Tutoriels/Dossiers à venir)'],
     description: "Barre de filtres en pastilles, pour une barre d'outils (dans le `filtersSlot` de Search) ou entre un hero et une liste : choix multiple ou unique, compteurs, « Tout effacer », quatre tons, variantes solid · glass · glass-inverse, surfaces tinted · plain, tailles sm et md. Le nom du groupe (`label`) a la voix d'un libellé de champ depuis le 24/09 : 16/600, casse normale, ink-900 — blanc sur les variantes verre ; il était en étiquette, 11 px capitales ink-500, la voix d'un Badge. ⚠️ Le bouton « Effacer », fait main, est encore en 11/700 ink-500.",
     keywords: ['filter', 'pills', 'chips', 'toolbar', 'multi-select', 'count', 'clear-all', 'glass', 'label', 'groupe'],
@@ -4571,7 +4502,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Spinner',
     codeName: 'ui/Spinner.tsx',
-    cssBase: '.tls-spinner / .tls-spinner--{size} / .tls-spinner--{tone}',
     showcaseOnly: false,
     usedBy: ['Recherche'],
     description: "Indicateur de chargement : 20 · 32 · 48 px ; tons brand · warm · sun · muted · inverse ; `role=\"status\"`, et le libellé (« Chargement… » par défaut) reste réservé aux lecteurs d'écran. Dans la Recherche, en `trailing` du champ pendant l'attente.",
@@ -4594,7 +4524,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'NotificationBadge',
     codeName: 'ui/NotificationBadge.tsx',
-    cssBase: '.notif-badge / .notif-badge--{tone}',
     showcaseOnly: true,
     description: "Compteur posé sur un enfant (icône, avatar) : pastille de 16 px en 11/700 tabulaire, blanc sur le cran 700 (ou danger-strong), liseré blanc. Tons danger · brand · warm ; « 99+ » au-delà de `max` (99) ; rien à zéro.",
     keywords: ['notification', 'badge', 'count', 'overlay', 'indicator', 'unread'],
@@ -4613,7 +4542,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'SectionHeader',
     codeName: 'patterns/SectionHeader.tsx',
-    cssBase: 'SectionHeader (canonical section heading)',
     usedBy: ['Dashboard', 'Journal', 'LearningPathDetail', 'et 94 autres pages (24/09)'],
     description: "L'en-tête de section canonique : titre, sous-titre, méta, action, pastille d'icône optionnelle. Le niveau se choisit par `as` (h2 par défaut, h3, h4), indépendamment de la taille. Tailles : md, le défaut, et lg → titre h2 28/36 ; sm et xs → titre h3 20/26. La pastille est un IconChip (arbitrage n°3) : 32 · 32 · 40 · 48 px de xs à lg, au rayon proportionnel, glyphe au cran 800 ; la première ligne du titre se centre sur elle. Sous-titre 16 ink-700 à la largeur de lecture et méta en légende 13 ink-600, chacun à 4 px. L'en-tête est une rangée qui se replie : le titre réclame 16rem à côté de l'action, sinon l'action passe dessous, à 8 px, calée à gauche — la règle mesure la place réelle, pas la fenêtre. Variantes default · minimal · underline ; cinq tons, `accent` rejoignant `sun`. `solid` est déprécié et rend la même pastille que default ; `iconClassName` est retiré, `compact` déprécié (= sm). Aucune marge extérieure : la page pose 48 px au-dessus et 16 en dessous.",
     keywords: ['section', 'header', 'titre', 'title', 'icon', 'IconChip', 'pastille', 'h2', 'h3', 'h4', 'as', 'meta', 'subtitle', 'action', 'wrap', 'replie', '16rem', 'divider', 'variants', 'sizes', 'solid', 'minimal', 'underline', 'canonical'],
@@ -4678,7 +4606,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'SkillBar',
     codeName: 'ui/SkillBar.tsx',
-    cssBase: 'SkillBar (tokens inline)',
     description: "Barre d'une compétence : libellé 16/600 ink-900, valeur en League Spartan 16/700 tabulaire au cran 800 (« 95 % »), 8 px, piste de 8 px. Tons brand · warm · sun ; valeur masquable (`showValue`).",
     keywords: ['skill', 'bar', 'progress', 'competency', 'percentage', 'profile', 'level'],
     render: () => (
@@ -4693,7 +4620,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'PageHeader',
     codeName: 'patterns/PageHeader.tsx',
-    cssBase: 'PageHeader (canonical page-level header)',
     usedBy: ['OnboardingQuestionnaire', 'OnboardingTutorial', 'OnboardingPreview', 'SubscriptionPayment'],
     description: "En-tête de page utilitaire, sans hero : surtitre 13/600 ink-600 avec son icône, 8 px, h1 36/44/700, 12 px, chapô 18/28 ink-700 à la largeur de lecture ; actions à droite, ou dessous en `align=\"center\"`. Aucune marge extérieure depuis le 24/09 (piège n°12) : l'espace sous lui appartient au parent — 48 px entre les blocs d'un PageShell, ou `gap-section` (32) quand l'en-tête et son contenu forment un bloc, comme dans l'onboarding. Il portait 40 px (32 en `tight`) qui s'ajoutaient au gap de la coque ; `variant` est déprécié et sans effet. Quatre écrans d'onboarding et de souscription l'emploient ; les pages principales ouvrent par PageHero.",
     keywords: ['page', 'header', 'eyebrow', 'title', 'description', 'actions', 'h1', 'align', 'center', 'marge', 'canonical'],
@@ -4725,7 +4651,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ViewerHeader',
     codeName: 'patterns/ViewerHeader.tsx',
-    cssBase: 'Tailwind (no BEM)',
     usedBy: ['LessonPlayer', 'FlashcardsViewer', 'AstucesViewer', 'VideoViewer', 'ComplementaryContentViewer', 'Positionnement'],
     description: "La barre des lecteurs plein écran : leçon, flashcards, astuces, vidéo, ressources complémentaires, positionnement. Retour à gauche, un Button ghost neutre comme ses voisins : dès 640 px, le libellé en sm (13/700, cible tactile de 44) — en 16/700 il pèserait plus que le titre —, en dessous l'icône seule, un cercle de 44. Au centre, le titre en 16/600 ink-900 et une seule ligne de méta en 13 ink-600 (le surtitre en 600 ink-700, « · », le sous-titre) ; à droite un emplacement `trailing`, le compteur « 3 / 12 » en 13/600 tabulaire (valeur au cran 800 du ton), puis précédent, suivant et fermer (Button iconOnly ghost de 44 px). Barre de progression optionnelle de 4 px. La barre ne nomme pas l'écran : son titre est un `<p>`, et le h1 à 36 vit dans le contenu. La couverture d'une leçon l'affiche ; ses autres sections le gardent pour le seul plan du document (`sr-only`). `titleAs=\"h1\"` reste une échappatoire pour un écran sans autre titre, que check-typo relève — aucune page ne s'en sert ; `titleId` expose le titre à `aria-labelledby`. Pas de `role=\"banner\"` (retiré le 24/09) : la barre vit dans le `<main>` des lecteurs, et le seul bandeau d'une page est celui de la coque. Aligné à gauche sous 640 px, centré au-delà ; le ton (primary · warm · sun) colore le compteur et la progression.",
     keywords: ['viewer', 'lecteur', 'reader', 'toolbar', 'header', 'titleAs', 'titleId', 'trailing', 'h1', 'prev-next', 'navigation', 'back', 'retour', 'close', 'sticky', 'banner', 'landmark'],
@@ -4823,7 +4748,6 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'HeaderNav',
     codeName: 'patterns/HeaderNav.tsx',
     showcaseOnly: true,
-    cssBase: 'Tailwind (no BEM)',
     description: "En-tête collant des parcours en plusieurs étapes (onboarding, questionnaire) : Retour à gauche ; au centre, la progression — « Progression » en 13, l'étape en 13/600 au cran 800, une barre de 6 px, le pourcentage en 13/600 tabulaire ; Enregistrer (Button sm) à droite. Verre clair ; « Progression » se masque sous 640 px.",
     keywords: ['header', 'nav', 'sticky', 'back', 'save', 'progress', 'onboarding', 'wizard', 'glass', 'multi-step'],
     render: () => (
@@ -4857,7 +4781,6 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'ViewerOverlay',
     codeName: 'patterns/ViewerOverlay.tsx',
     showcaseOnly: true,
-    cssBase: 'Tailwind (no BEM)',
     description: "Ancienne enveloppe plein écran des lecteurs — en-tête, progression, pied précédent / suivant, Échap et flèches —, remplacée par ViewerHeader : plus aucune page ne l'emploie. Titre en h1 16/600, sous-titre 13 ink-600, boutons du pied à 44 px ; cinq tons (light · brand · warm · sun · dark). L'aperçu en reprend la structure avec les composants du système.",
     keywords: ['viewer', 'overlay', 'fullscreen', 'immersive', 'player', 'reader', 'tone', 'progress', 'prev', 'next'],
     render: () => (
@@ -4891,7 +4814,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'MultiStepForm',
     codeName: 'patterns/MultiStepForm.tsx',
-    cssBase: 'MultiStepForm (form progress)',
     showcaseOnly: true,
     description: "Formulaire en plusieurs étapes : barre de progression et compteur « Étape X / Y » (13/600), pastilles d'étape de 40 px — faite, en cours, à venir — avec leur titre en légende 13/600 ; puis l'étape dans une carte, sa description en 16 ink-700 à la largeur de lecture, et les boutons Précédent / Suivant. Pour l'onboarding ou un assistant de configuration.",
     keywords: ['form', 'multi-step', 'progress', 'navigation', 'wizard'],
@@ -4900,7 +4822,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'FormLayout',
     codeName: 'patterns/FormLayout.tsx',
-    cssBase: 'Tailwind (no BEM)',
     showcaseOnly: true,
     description: "Formulaire en sections : titre h2 28 et description, puis des sections en h3 20 ; chaque champ a son libellé 16/600, son aide 13 ink-600 et son erreur 13 danger-fg. Carte au rayon 20, padding 24, 32 px entre les blocs ; Annuler et Enregistrer en fin. Chaque `input` est un emplacement : Input, Select, Switch…",
     keywords: ['form', 'layout', 'section', 'field', 'label', 'help', 'error', 'submit', 'cancel'],
@@ -4932,7 +4853,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'PageCard',
     codeName: 'patterns/PageCard.tsx',
-    cssBase: 'PageCard (featured card)',
     description: "Tuile d'annuaire de pages : vignette ou icône, état (point fixe et libellé 13/600), Badge compact, titre h3, description 16 ink-700, étiquette en MetaPill ; flèche au survol. En grille par PageCardGrid (une à quatre colonnes).",
     keywords: ['card', 'page', 'featured', 'image', 'content', 'thumbnail', 'directory'],
     render: () => (
@@ -4975,7 +4895,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'VeilleCard',
     codeName: 'patterns/VeilleCardFeed.tsx (exports VeilleCard + VeilleCardListItem + FeaturedSpotlight)',
-    cssBase: 'Tailwind (no BEM)',
     usedBy: ['Veille (via VeilleCardFeed)'],
     description: "La Veille, trois objets exportés par VeilleCardFeed. VeilleCard (grille) : couverture de 160 px avec le type en MetaPill, méta en 13 ink-600, titre h3 20 sur deux lignes, résumé 16 ink-700, lien « Lire » au cran 800. VeilleCardListItem (liste) : couverture à gauche, titre de 16 à 20 selon la largeur de sa boîte, Badge « Nouveau » devant. FeaturedSpotlight (« À la une ») : grand format, titre h2 28, Button soft. Trois tons par élément.",
     keywords: ['veille', 'card', 'editorial', 'article', 'tutoriel', 'dossier', 'magazine', 'vertical', 'horizontal', 'featured', 'spotlight'],
@@ -5017,7 +4936,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'VeilleCard — design proposals',
     codeName: '(mockups visuels — verticaux grid + horizontaux list)',
-    cssBase: 'Tailwind',
     description: "Maquettes, pas un composant : les sept pistes explorées pour VeilleCard — quatre verticales pour la grille (A couverture, C teintée, D surimpression, L verre) et trois horizontales pour la liste (HZ-1 image à gauche, HZ-2 rangée teintée, HZ-3 boîte de réception). Leur texte suit l'échelle du 24/09 : titres h3 20, méta 13, étiquettes 11 ; le soulèvement au survol a été retiré (passe motion du 17/09).",
     keywords: ['veille', 'card', 'vertical', 'horizontal', 'grid', 'list', 'cover', 'tinted', 'overlay', 'glass', 'compact'],
     render: () => {
@@ -5225,7 +5143,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'VeilleCardFeed',
     codeName: 'patterns/VeilleCardFeed.tsx',
-    cssBase: 'Tailwind (no BEM)',
     usedBy: ['Veille'],
     description: "Fil éditorial de la Veille : un élément `featured` passe en tête (FeaturedSpotlight), puis deux dispositions — grid, le défaut, en cartes verticales, ou list, en rangées denses. Bouton d'enregistrement, états de chargement et vide.",
     keywords: ['veille', 'feed', 'news', 'content', 'editorial', 'cards', 'spotlight', 'featured', 'article', 'tutoriel', 'dossier', 'magazine', 'tone', 'grid', 'list', 'horizontal'],
@@ -5256,7 +5173,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'VeilleFormatShortcutCards',
     codeName: 'patterns/VeilleFormatShortcutCards.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "Raccourcis vers les formats éditoriaux de la Veille : deux colonnes, quatre dès 768 px ; chaque carte, un bouton au rayon 14, porte une pastille d'icône, un libellé 16/600 et un sous-titre 13, et navigue par `href`. Surface light par défaut ; la variante dark, pour un dégradé, est marquée legacy.",
     keywords: ['veille', 'format', 'shortcut', 'navigation', 'cards', 'editorial', 'magazine', 'newsletter', 'glass', 'dark'],
     usedBy: ['Veille'],
@@ -5292,7 +5208,6 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'VeilleHeroFilterChips',
     codeName: 'patterns/VeilleHeroFilterChips.tsx',
     showcaseOnly: true,
-    cssBase: 'Tailwind (no BEM)',
     description: "La barre de filtres du hero de la Veille, sur fond sombre : des FilterChip glass md (44 px, 16/600) pour les types de contenu et la bascule « Sauvegardés », puis « Réinitialiser » et le nombre de résultats en 13 blanc.",
     keywords: ['veille', 'filter', 'chips', 'hero', 'glass', 'bookmark', 'saved', 'editorial', 'reset', 'count'],
     render: () => {
@@ -5326,7 +5241,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'LearningItemCard',
     codeName: 'learning/LearningItemCard.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "Carte d'un contenu de l'Espace Apprentissage (neuf types, dont astuces, flashcard, ressource, guide, vidéo, mission, masterclass). Type en MetaPill et durée en 13, libellé 16/600 sur deux lignes, description 16 ink-700, niveau Dreyfus (« D3 ») et thème en MetaPill, puis l'action (Button sm). Trois états : accessible, complété, verrouillé (opacité 60 %, raison du verrou). Rayon 20, padding 20 puis 24 dès 640 px.",
     keywords: ['learning', 'item', 'card', 'astuces', 'flashcard', 'mission', 'video', 'locked', 'completed', 'progress', 'tone', 'badge', 'dreyfus'],
     usedBy: ['LearningSpace'],
@@ -5398,7 +5312,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'EditorialCard',
     codeName: 'learning/ArticleCard.tsx · learning/VideoCard.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "Carte éditoriale, deux formats. ArticleCard (actu, tutoriel, dossier) : icône, type en MetaPill et date, catégorie en surtitre 13/600, titre h3 20, résumé 16 ink-700, puis l'auteur et la durée en MetaPill et un Button sm « Lire ». VideoCard : vignette 16:9 au dégradé du ton avec la durée, catégorie en MetaPill, titre h3, « Par … » en 13, et un Button « Regarder ».",
     keywords: ['article', 'editorial', 'actu', 'tutoriel', 'dossier', 'magazine', 'bookmark', 'tone', 'video', 'thumbnail', 'play'],
     render: () => (
@@ -5469,7 +5382,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'NewsletterSignupCard',
     codeName: 'patterns/NewsletterSignupCard.tsx',
-    cssBase: 'Tailwind',
     description: "Bandeau pleine largeur d'inscription à la newsletter, sur primary-900 : surtitre 13/600, titre h2 28, texte 16, tout en blanc plein, puis le formulaire (Input md et Button soft) et une note en 13. Propre à la Veille ; pas de coque de carte.",
     keywords: ['newsletter', 'signup', 'email', 'subscription', 'veille', 'editorial', 'band', 'full-bleed'],
     render: () => (
@@ -5483,7 +5395,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'PromptCard',
     codeName: 'learning/PromptCard.tsx',
-    cssBase: 'Tailwind (chat bubble pattern)',
     usedBy: ['Dashboard'],
     description: "Invitation à écrire, en bulle — la construction canonique : rayon 20, filet 1 px, queue, aucune ombre. En default : étiquette en MetaPill, icône, texte 16 ink-700 et « Réfléchir → » en 13/600. En featured : grande icône et question en 20, puis 28. Le `variant` (les sept tons de Badge) teinte l'étiquette et le survol.",
     keywords: ['prompt', 'chat-bubble', 'speech', 'invitation', 'cta', 'dashboard'],
@@ -5509,7 +5420,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'MessageBubble',
     codeName: 'ui/MessageBubble.tsx',
-    cssBase: 'Tailwind',
     usedBy: ['ChatInterface', 'Messages'],
     description: "Une bulle de message, pour l'assistant IA et la messagerie ; texte 16/26, horodatage 13 ink-600 tabulaire. Côté utilisateur : primary-100 (chatbot) ou primary-700 à texte blanc (messagerie) ; côté assistant : ink-50 et avatar. Pour l'IA : « Confiance limitée » sous 0,6, blocage de confidentialité, sources citées, retour « Utile ? ». Pour la messagerie : nom de l'expéditeur, accusé de lecture, pièces jointes en `children`. Un élément de fil ; PromptCard, elle, est une carte autonome.",
     keywords: ['message', 'bubble', 'chat', 'chatbot', 'messaging', 'assistant', 'user', 'conversation', 'coaching'],
@@ -5575,7 +5485,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ConversationalChat',
     codeName: 'patterns/ConversationalChat.tsx',
-    cssBase: 'Tailwind',
     usedBy: ['ChatInterface', 'Onboarding', 'OnboardingUnified', 'OnboardingQuestionnaireConversational'],
     description: "Fil de conversation complet : une coque en verre (rayon 20), un titre 16/600, le journal des messages (`role=\"log\"`, 8 px entre deux, défilement automatique vers le bas), les bulles de l'IA — blanches, avatar de 32 px, texte 16, le **gras** en 600 au cran 800 — et de l'utilisateur — secondary-700, texte blanc. Props : `messages` (ai · user · typing · inline), `title`, `footer`. Dans l'onboarding et l'assistant.",
     keywords: ['chat', 'conversation', 'thread', 'messages', 'typing', 'auto-scroll', 'chatbot', 'feed'],
@@ -5605,7 +5514,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'RankingCard',
     codeName: 'learning/RankingCard.tsx',
-    cssBase: 'Tailwind',
     usedBy: ['Leaderboard'],
     description: "Rangée de classement : rang en pastille de 48 px (médaille sur le podium), nom 16/600, points en 13/600, et une action. ⚠️ L'arbitrage n°18 (« Reconnaissances ») retire de l'app apprenant le classement nominatif et la série quotidienne : ce composant ne sert plus de modèle à un écran neuf. La démo n'affiche plus de série.",
     keywords: ['ranking', 'leaderboard', 'podium', 'rank', 'gamification', 'streak'],
@@ -5620,7 +5528,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'TlsLogo',
     codeName: 'ui/TlsLogo.tsx',
-    cssBase: 'Tailwind (SVG inline)',
     usedBy: ['Sidebar', 'AuthShell', 'Onboarding', 'OnboardingUnified', 'OnboardingQuestionnaire', 'OnboardingQuestionnaireConversational', 'SubscriptionPayment', 'OnboardingTutorial', 'OnboardingSuccess'],
     description: '⭐ Logo officiel The Learning Society — SVG inline avec wordmark + mark. Atom critique réutilisé app-wide (sidebar header + auth pages + brand bar de tout le flow onboarding). ⚠️ **Pas de similar** — composant unique.',
     keywords: ['logo', 'brand', 'mark', 'wordmark', 'tls'],
@@ -5638,7 +5545,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'TlsLogoLockup',
     codeName: 'ui/TlsLogo.tsx',
-    cssBase: 'Tailwind (TlsLogo + League Spartan)',
     showcaseOnly: true,
     description: "Le logo et son nom : l'icône TlsLogo et le mot « The Learning Society » en League Spartan 800, au teal de la marque. Un logotype — ni l'échelle typographique ni le seuil de contraste ne s'y appliquent (WCAG 1.4.3 l'exempte) : le mot-symbole porte `data-logotype` depuis le 24/09, et check-contrast comme check-typo l'ignorent — ils le relevaient à 2,87:1 et en graisse 800 hors échelle. Quatre dispositions (`layout`) : horizontal · vertical · vertical-3 · horizontal-3, miroir du composant Figma. Props : `layout`, `iconSize`, `variant` (de l'icône), `wordmarkTone` (primary · ink · white).",
     keywords: ['logo', 'lockup', 'wordmark', 'brand', 'tls', 'league spartan', 'horizontal', 'vertical', 'logotype', 'data-logotype'],
@@ -5680,7 +5586,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Flashcard',
     codeName: 'patterns/Flashcard.tsx',
-    cssBase: 'Tailwind (3D transform)',
     usedBy: ['FlashcardsViewer'],
     description: "Carte recto verso pour la révision, retournée d'un clic (rotation 3D) : contenu au chapô 18/28 en 600 (16 sous 640 px), indication en 13 ink-600 en italique. Recto teal, verso orange ; rayon 20. Sa mise en forme vit dans une feuille BEM à part, Flashcard.css.",
     keywords: ['flashcard', 'flip', '3d', 'revision', 'learning', 'memorization'],
@@ -5696,7 +5601,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'QuizQuestionCard',
     codeName: 'patterns/QuizQuestionCard.tsx',
-    cssBase: 'Tailwind',
     usedBy: ['Positionnement'],
     description: "Question de quiz en carte : pastille de numéro et « sur N » (13), question en h3 20/700, 8 px, réponses en rangées de 16 — lettre dans un rond de 32 px calé sur la première ligne —, puis le retour correct ou incorrect en 16. Rayon 14, padding 24.",
     keywords: ['quiz', 'question', 'qcm', 'options', 'evaluation', 'assessment'],
@@ -5723,7 +5627,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'DataTable',
     codeName: 'patterns/DataTable.tsx',
-    cssBase: 'Tailwind',
     description: "Tableau de données : en-têtes 13/600 ink-600 en casse normale — la colonne triée passe en ink-900 —, cellules à 16 avec un retrait de 16 × 12, chiffres alignés à droite en tabulaire. Une table plus large que l'écran défile ; chaque colonne peut garder une largeur (`width`) ou une largeur minimale (`minWidth`, 24/09) — sans elle, l'algorithme des tables la ramène au mot le plus long de son en-tête : à 375, les URL des webhooks tombaient à 91 px, coupées tous les 7 caractères. Tri par colonne (`onSort`, le parent trie ; `sortValue` depuis le 23/09), rangées cliquables, pagination (deux Button sm et « Page n sur N »), états de chargement et vide. Pour comparer ou trier une collection (arbitrage n°5).",
     keywords: ['table', 'data', 'grid', 'admin', 'analytics', 'sort', 'minWidth', 'width', 'colonne'],
     render: () => (
@@ -5748,7 +5651,6 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'RatingModal',
     codeName: 'patterns/RatingModal.tsx',
     showcaseOnly: true,
-    cssBase: 'Tailwind',
     description: "Notation en cinq étoiles avec un commentaire, pour une session, une leçon ou un contenu. Malgré son nom, ce n'est pas un dialogue — ni rôle, ni voile, ni piège de focus — mais un panneau au rayon 24 à poser dans un Modal : titre h2 au pas du titre de dialogue, 20/26/700, comme Modal (il était au pas d'une section de page, 28/36), description 16 ink-700, étoiles de 56 px, sens de la note en pastille 13, commentaire, actions.",
     keywords: ['rating', 'stars', 'feedback', 'review', 'evaluation'],
     render: () => (
@@ -5765,7 +5667,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ProjectCard',
     codeName: 'learning/ProjectCard.tsx',
-    cssBase: 'Tailwind',
     usedBy: ['Project (page existante)'],
     description: "Carte de projet : titre h3 et Badge d'état (En préparation, En cours, Terminé), description 16 ink-700, méta 13 (tâches, échéance), ProgressBar sm, l'équipe, puis un Button soft pleine largeur. Le remplissage de la barre et les avatars suivent l'état.",
     keywords: ['project', 'collaborative', 'team', 'tasks', 'progress', 'deadline'],
@@ -5794,7 +5695,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'FloatingNavButton',
     codeName: 'FloatingNavButton.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "Bouton flottant à actions (speed-dial) : 56 px, au cran 700 du ton (sun : accent-400 et encre), qui déplie des actions de 48 px — libellé 16/600, filet au cran 200 du ton. Ouvert, il montre `closeIcon`, une croix, sans rotation : jusqu'au 24/09, la croix tournait aussi de 45° et se relisait « + », le même signe que fermé. Il se place au-dessus de la BottomNav sous 768 px. `actions`, `tone`, `position`, `icon` et `closeIcon`. Dans l'app, il sert de raccourci de développement vers la vitrine et l'index des pages.",
     keywords: ['floating', 'fab', 'speed-dial', 'quick-actions', 'chatbot', 'contact', 'help', 'fixed'],
     render: () => (
@@ -5820,7 +5720,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'AmbientBlobs',
     codeName: 'patterns/AmbientBlobs.tsx',
-    cssBase: 'Tailwind + @keyframes float (index.css)',
     usedBy: ['Coaching'],
     description: 'Fond ambient TLS avec 3 blobs flottants (primary teal / warm orange / sun yellow). Pattern décoratif full-page : 3 cercles très flous (blur 80px) qui dérivent lentement (animation float 20s, staggered delays). Position fixed (default) ou absolute, pointer-events-none. 3 intensities : subtle (0.10) / normal (0.15 default) / vivid (0.25). À combiner avec l\'utility token DS `bg-gradient-page-ambient` (teal-50 → white → yellow-50) pour fond premium TLS. Variants : `-warm` (orange) et `-sun` (orange→yellow).',
     keywords: ['blob', 'ambient', 'background', 'decorative', 'gradient', 'float', 'fixed', 'overlay', 'blur'],
@@ -5910,7 +5809,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'EditorialHero',
     codeName: 'patterns/EditorialHero.tsx',
-    cssBase: 'EditorialHero (glass hero band)',
     usedBy: ['Dashboard', 'Journal', 'LearningPaths', 'ArticleDetail', 'MagazineArticle', 'Newsletter', 'WeeklyNewsDetail', 'Project', 'CoachingBookingFlow', 'PreCoachingQuestionnaireResponse', 'Account'],
     description: "Alias exact de PageHero, gardé pour les surfaces réellement éditoriales (Magazine, Veille, Articles) : même anatomie — surtitre 13/600, h1 36/44, chapô 18/28, méta 13 —, mêmes tons. Les tons saturés sont au cran 700 → 800 depuis le 23/09 : le 500 ne porte pas de texte blanc.",
     keywords: ['hero', 'editorial', 'banner', 'page-header', 'tone-aware', 'brand', 'warm', 'sun', 'glass'],
@@ -5929,7 +5827,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'EditorialLayout',
     codeName: 'patterns/EditorialLayout.tsx',
-    cssBase: 'EditorialLayout (2-col main + sticky aside)',
     usedBy: ['ArticleDetail', 'MagazineArticle', 'Newsletter', 'WeeklyNewsDetail', 'Project', 'CoachingBookingFlow', 'PreCoachingQuestionnaireResponse'],
     description: "Deux colonnes : le contenu (1,4 fr) et une colonne latérale (0,8 fr, 280 px au moins), 24 px entre elles dès 768 px ; la colonne latérale colle à 96 px du haut sur grand écran, et tout passe en une colonne sur mobile. `asideFirst` inverse l'ordre, `staticAside` désactive le collage.",
     keywords: ['layout', 'editorial', 'sidebar', 'sticky', 'aside', '2-column', 'content'],
@@ -5956,7 +5853,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'SectionCard',
     codeName: 'patterns/SectionCard.tsx',
-    cssBase: 'SectionCard (titled content card)',
     usedBy: ['ArticleDetail', 'MagazineArticle', 'Newsletter', 'WeeklyNewsDetail', 'Project', 'CoachingBookingFlow', 'PreCoachingQuestionnaireResponse', 'ResetPassword', 'Billing', 'SubscriptionPayment', 'Positionnement', 'OnboardingQuestionnaire'],
     description: "Carte de section : titre h3 20 (son icône calée sur la première ligne), 8 px, description 16 ink-700, action d'en-tête en haut à droite ; 16 px, le contenu ; puis 12 px, un filet, 12 px, les actions. C'est une Card md : padding 24, rayon 20. `titleAs` (h2 | h3, défaut h3, ajouté le 24/09) règle le niveau du titre, pas sa taille : `h2` quand la carte est elle-même la section, posée sous le h1 sans titre au-dessus d'elle — sinon le plan saute de h1 à h3. Si le bloc se lit comme une section de la page, la doctrine préfère un SectionHeader posé sur la page, au-dessus d'une Card. Pour découper une page éditoriale ou un formulaire en blocs.",
     keywords: ['section', 'card', 'titled', 'content', 'editorial', 'layout', 'titleAs', 'h2', 'h3', 'niveau'],
@@ -5979,7 +5875,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'RelatedItemList',
     codeName: 'patterns/RelatedItemList.tsx',
-    cssBase: 'RelatedItemList (cross-link list)',
     usedBy: ['MagazineArticle', 'Newsletter', 'WeeklyNewsDetail', 'CoachingBookingFlow', 'PreCoachingQuestionnaireResponse'],
     description: "Liste d'éléments liés, pour les colonnes éditoriales : pastille d'icône, méta 13 ink-600 au-dessus du titre (16/600), description 16 ink-700 sur deux lignes, 8 px entre deux éléments. Un élément devient un lien avec `href`, un bouton avec `onClick` ; chevron au survol.",
     keywords: ['related', 'list', 'cross-link', 'recommendations', 'editorial', 'aside'],
@@ -6017,7 +5912,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'AuthShell',
     codeName: 'patterns/AuthShell.tsx',
-    cssBase: 'AuthShell (branded glass dark auth layout)',
     usedBy: ['Login', 'Signup', 'ForgotPassword', 'ResetPassword', 'VerifyEmail', 'MagicLink'],
     description: "La coque des pages d'authentification, sur un dégradé primary-700 → 900 où trois halos d'ambiance au cran 700 donnent la profondeur sans éclaircir ce que le texte blanc a besoin de sombre : carte en verre de 480 px au rayon 20 (l'étage conteneur), voile blanc à 5 % — il était à 10 %, et ramenait le blanc à 4,12:1 sur le haut du dégradé —, filet blanc/20 ; en-tête en h1 36/44/700 blanc et sous-titre 16. L'encart `aside` prend le même rayon 20. La famille Auth* est la primitive de cette surface : AuthField (Input glass lg, 52 px, libellé 16/600 blanc), AuthPasswordField (bascule de visibilité), AuthPrimaryButton et AuthGhostButton (52 px, 16/700, rayon 14), AuthSocialButton, AuthCheckbox (20 px, calée sur la première ligne), AuthDivider (13/400), AuthInlineLink, AuthSuccess. Réservée à la surface glass-dark : ne pas l'employer ailleurs.",
     keywords: ['auth', 'login', 'signup', 'shell', 'glass-dark', 'AuthField', 'AuthPasswordField', 'AuthPrimaryButton', 'AuthGhostButton', 'AuthCheckbox', 'form', 'aside'],
@@ -6026,7 +5920,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ResumeLessonCard',
     codeName: 'patterns/ResumeLessonCard.tsx',
-    cssBase: 'ResumeLessonCard (dashboard hero card)',
     usedBy: ['Dashboard'],
     description: "La carte « Reprendre ta leçon » du tableau de bord : pastille de 48 px, Badge « En cours » et étape en 13, titre du parcours en h2 au pas h3 (20, puis 28 quand la carte dépasse 512 px), « Prochaine leçon » en 16, données en MetaPillGroup sm ; en pied, la progression en 13 sur une barre de 6 px et un Button md. Fond blanc, rayon 20, padding 24. `description` est dépréciée : elle n'est plus rendue.",
     keywords: ['resume', 'reprendre', 'parcours', 'lesson', 'leçon', 'dashboard', 'continue', 'hero'],
@@ -6048,7 +5941,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'IconChip',
     codeName: 'ui/IconChip.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "Pastille d'icône : un carré teinté qui porte un glyphe Lucide. Rayon PROPORTIONNEL (arbitrage n°3 du 23/09) — 24 px rounded-sm (6) · 32 et 40 px rounded-md (10) · 48 px rounded-lg (14). Le rond reste réservé aux personnes (Avatar). Fond cran 50 / -bg, glyphe cran 800 / -fg : 6,31 à 10,21:1. Décorative (aria-hidden) sauf si `label` est passé. Une pastille qu'on presse n'en est pas une : c'est un Button iconOnly. Sur une carte de MÊME teinte (primary-50, secondary-50, accent-50, ink-100), passer surface=\"tinted\" : le fond monte au cran 100, sinon la pastille se confond avec la carte (arbitrage n°10 du 23/09).",
     keywords: ['icon', 'chip', 'pastille', 'bubble', 'glyph', 'tone', 'brand', 'warm', 'sun', 'neutral', 'success', 'danger', 'info', 'decoration', 'surface', 'tinted'],
     render: () => (
@@ -6103,7 +5995,6 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'Divider',
     codeName: 'ui/Divider.tsx',
     showcaseOnly: true,
-    cssBase: '.divider / .divider--vertical / .divider--labeled / .divider--sm/md/lg',
     description: "Séparateur horizontal ou vertical : un filet de 1 px en dégradé (transparent → ink-200 → transparent). Avec `label`, le libellé se pose au milieu en 13/600 ink-600, en casse normale — il était en capitales espacées —, à 8 px de chaque côté. Marges `spacing` de 8 · 16 · 32 px.",
     keywords: ['divider', 'separator', 'hr', 'section', 'label', 'horizontal', 'vertical', 'css'],
     render: () => (
@@ -6127,7 +6018,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ConsentBanner',
     codeName: 'patterns/ConsentBanner.tsx',
-    cssBase: 'ConsentBanner',
     description: "Bandeau de consentement aux cookies, fixé en bas : titre 16/600, texte 16, trois boutons sm (Personnaliser, Tout refuser, Tout accepter). Le panneau « Personnaliser » déplie les catégories — nécessaires, analytiques, marketing — en réglages à interrupteur. Module 13 bis, RGPD.",
     keywords: ['consent', 'gdpr', 'rgpd', 'cookies', 'privacy', 'banner', 'compliance', 'ai act'],
     showcaseOnly: false,
@@ -6159,7 +6049,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'CompetencyRadar',
     codeName: 'ui/CompetencyRadar.tsx',
-    cssBase: 'CompetencyRadar',
     description: "Radar Dreyfus de 1 à 5, six axes au plus : niveau actuel et objectif. Il mesure sa boîte et réduit son rayon pour que les libellés — 13/400 ink-600 à toutes les tailles — y tiennent, jusqu'à 375 px. Depuis le 24/09, chaque ligne de libellé est mesurée dans sa police calculée (canvas `measureText`), après le premier rendu puis au chargement des polices : partie d'une chasse moyenne, l'estimation laissait sortir du dessin un mot plus large que la moyenne (« Communicatior », rogné, sur /manager/cohort). Sous 48 px de rayon, les pointes sont numérotées (13/600) et les libellés passent dans une liste en 13 ink-700 sous le dessin. Libellés cliquables au clavier (`onAxisClick`) ; légende en 13 ink-700 et « Échelle Dreyfus 1–5 ». Tailles de 200 · 320 · 480 px.",
     keywords: ['radar', 'compétences', 'dreyfus', 'skills', 'passeport', 'svg', 'chart', 'hso'],
     showcaseOnly: false,
@@ -6208,7 +6097,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'AITransparencyLabel',
     codeName: 'ui/AITransparencyLabel.tsx',
-    cssBase: 'AITransparencyLabel',
     description: "Étiquette « IA » transversale, sur tout contenu généré, recommandé ou assisté par l'IA : sm, 24 px de haut en 11/500, sous le seuil de 28 px, donc en pilule ; md, 30 px en 13/500, au-dessus, donc au rayon 14 (règle du seuil). Une étincelle de 14 px aux deux tailles, le plancher de l'échelle d'icônes (elle était à 10 et 12), à 4 px du mot. Trois variantes — recommended (info), generated (warning), assisted (ink) — sur le fond de leur état et son filet clair (`--color-*-border`). Sur une recommandation, dans une suggestion de coach, dans l'assistant. Module 13 bis.",
     keywords: ['ai', 'ia', 'transparency', 'transparence', 'label', 'étiquette', 'generated', 'recommended', 'assisted', 'rgpd'],
     showcaseOnly: false,
@@ -6241,7 +6129,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'AIOverrideButton',
     codeName: 'ui/AIOverrideButton.tsx',
-    cssBase: 'AIOverrideButton',
     description: "« Rejeter cette recommandation », pour le coach ou l'admin : un Button outline neutral (sm par défaut) précédé d'une icône. Avec `requireReason`, il déplie une zone de texte — libellé 16/600, filet ink-400 — et deux actions sm, « Annuler » et « Confirmer le rejet ». Transversal IA (module 13 bis).",
     keywords: ['ai', 'ia', 'override', 'reject', 'button', 'coach', 'admin', 'feedback'],
     showcaseOnly: false,
@@ -6268,7 +6155,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'AtrophieIndicator',
     codeName: 'ui/AtrophieIndicator.tsx',
-    cssBase: 'AtrophieIndicator',
     description: "Signale qu'un niveau Dreyfus s'érode faute de pratique : rien jusqu'à 90 jours d'inactivité, un avertissement de 91 à 180, un danger au-delà. Pastille en 500 : sm en 11 avec une icône de 12, md en 13 avec une de 16 ; le libellé (« Inactif depuis 120j ») est masquable. Fixe : plus de pulsation depuis le 24/09 (arbitrage n°16, pas de mouvement permanent pour dire un état).",
     keywords: ['atrophie', 'dreyfus', 'inactif', 'badge', 'competence', 'degradation', 'warning', 'gamification'],
     showcaseOnly: false,
@@ -6303,7 +6189,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'HeatmapGrid',
     codeName: 'ui/HeatmapGrid.tsx',
-    cssBase: 'HeatmapGrid',
     description: "Grille compétences × apprenants aux niveaux Dreyfus : en-têtes 13/600 ink-600 en casse normale, colonne des noms collante (initiales, nom 16/600), cellules de 40 px au rayon 10 en 13/600 tabulaire, de « — » à D1…D5, le niveau 5 en primary-700 à texte blanc ; légende en 13, de « Novice » à « Expert ». Défilement horizontal sur mobile ; clic sur une cellule. Modules 2 (Passeport) et 10 (Analytics).",
     keywords: ['heatmap', 'competence', 'dreyfus', 'grille', 'coach', 'apprenant', 'niveau', 'radar'],
     usedBy: ['CoachHeatmap', 'FicheApprenantAnalytics'],
@@ -6325,7 +6210,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'CorrectionCard',
     codeName: 'ui/CorrectionCard.tsx',
-    cssBase: 'CorrectionCard',
     description: "Carte d'un travail à corriger : l'apprenant (Avatar sm, nom 16/600, date 13) et l'état en Badge, l'exercice en titre h3 sur deux lignes, la compétence en MetaPill, un extrait en 16 italique ink-700, puis deux Button sm. Statuts pending · in-review · corrected · rejected ; surface card ou tinted. Module 4, Coaching.",
     keywords: ['correction', 'coaching', 'travail', 'feedback', 'corrigé', 'apprenant', 'inbox'],
     usedBy: ['CoachingCorrections', 'CoachCorrectionsQueue', 'CoachCorrectionInterface'],
@@ -6376,7 +6260,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'StepTutorial',
     codeName: 'patterns/StepTutorial.tsx',
-    cssBase: 'StepTutorial',
     description: "Tutoriel guidé pas à pas : filet de progression, image optionnelle, compteur « 1 / 3 » en Badge, puis une pastille d'icône de 56 px dont le centre tient la première ligne du titre — un h2 à 28/36 depuis le 24/09 : il suit le h1 de l'écran d'onboarding et nomme le contenu principal ; il était dessiné à 20 — et la description 16 ink-700 ; sous la carte, Précédent · Suivant · Terminer en Button md, et « Passer » en 13. Contrôlé (`currentStep`) ou autonome ; trois tons. Module 3, Onboarding.",
     keywords: ['tutorial', 'wizard', 'onboarding', 'step', 'étape', 'guide', 'tour', 'progression'],
     usedBy: ['OnboardingTutorial'],
@@ -6416,7 +6299,6 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'OptionGrid',
     codeName: 'patterns/OptionGrid.tsx',
     showcaseOnly: true,
-    cssBase: 'OptionGrid',
     description: "Grille d'options à choisir, une ou plusieurs : options de 44 px au moins, rayon 14, libellé 16/600 ; la description (13 ink-600) ne s'affiche qu'en icon-left et text-only. Trois dispositions (icon-top · icon-left · text-only), trois tons ; deux colonnes, trois dès 512 px de conteneur.",
     keywords: ['select', 'options', 'cards', 'pick', 'choice', 'role', 'sector', 'onboarding', 'radio', 'checkbox'],
     render: () => {
@@ -6465,7 +6347,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'DreyfusLevelSelector',
     codeName: 'ui/DreyfusLevelSelector.tsx',
-    cssBase: 'DreyfusLevelSelector',
     description: "Choix d'un niveau Dreyfus parmi cinq, pour un positionnement : options de 44 px au moins, filet 2 px (au cran 700 une fois choisie, fond 50), chiffre en League Spartan 20/700 au cran 800, libellé 16/600, description 13 ink-600. Une à cinq colonnes selon la largeur ; `radiogroup` navigable aux flèches ; niveaux remplaçables (`levels`).",
     keywords: ['dreyfus', 'level', 'positionnement', 'competence', 'likert', 'self-assessment', 'questionnaire', 'novice', 'expert'],
     usedBy: ['OnboardingQuestionnaire'],
@@ -6484,7 +6365,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'DreyfusSlider',
     codeName: 'ui/DreyfusSlider.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "Choix d'un niveau Dreyfus sur une piste horizontale (D1 à D5), plus compact que DreyfusLevelSelector : piste de 10 px, curseur de 28 px, un `<input type=\"range\">` invisible pour le clavier ; libellés en 13/600 ink-600 sous la piste, l'actif au cran 800 du ton sans changer de graisse ; description en 13. Sous 24rem de rangée (requête de conteneur), les mots cèdent la place à leur code, D1…D5, au lieu de se chevaucher — « Apprenant » et « Compétent » se recouvraient de 11 px à 375 ; le mot reste lu par les lecteurs d'écran, et la description sous la piste redonne le nom du niveau choisi. Tons brand · warm · sun ; libellés canoniques (DREYFUS_LABELS, cahier 02).",
     keywords: ['dreyfus', 'slider', 'level', 'positionnement', 'competence', 'track', 'horizontal', 'compact', 'touch', 'container', 'abréviation', 'D1'],
     usedBy: ['Positionnement'],
@@ -6520,7 +6400,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'CongratulationsCard',
     codeName: 'patterns/CongratulationsCard.tsx',
-    cssBase: 'CongratulationsCard',
     description: "Bloc de fin d'étape (onboarding, parcours, module) : grande pastille d'icône, Badge large, titre h1 36 et chapô 18/28 ink-700 à 12 px. Le bloc XP optionnel (« +n XP », niveau, barre) relève de ce que l'arbitrage n°18 retire de l'app apprenant : il n'est plus montré ici.",
     keywords: ['congratulations', 'success', 'celebration', 'milestone', 'completion', 'reward', 'xp', 'onboarding'],
     usedBy: ['OnboardingSuccess'],
@@ -6538,7 +6417,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'NextStepsGrid',
     codeName: 'patterns/NextStepsGrid.tsx',
-    cssBase: 'NextStepsGrid',
     description: "Grille « Et maintenant ? » : une carte-bouton par piste (padding 24), pastille d'icône de 48 px teintée, titre h3 20, description 16 ink-700, action en 13/600 au cran 800 du ton. Ton par carte, pour varier les pistes ; une à trois colonnes.",
     keywords: ['next steps', 'actions', 'cta', 'cards', 'onboarding success', 'guide', 'next'],
     usedBy: ['OnboardingSuccess', 'EmptyDashboardState'],
@@ -6557,7 +6435,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'EmptyDashboardState',
     codeName: 'patterns/EmptyDashboardState.tsx',
-    cssBase: 'EmptyDashboardState',
     description: "Tableau de bord du premier jour, juste après l'onboarding : un titre h2 28 et une phrase 16 ink-700, puis une carte dominante — MetaPill « Premier pas », titre 20, texte 16, action — et la NextStepsGrid des pistes suivantes, en deux colonnes.",
     keywords: ['empty', 'cold start', 'first time', 'dashboard', 'welcome', 'onboarding', 'new user'],
     usedBy: ['Dashboard'],
@@ -6572,7 +6449,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ProgressDots',
     codeName: 'ui/ProgressDots.tsx',
-    cssBase: 'ProgressDots',
     description: "Points de progression d'un carrousel ou d'un assistant : le point actif s'allonge (16 · 24 · 32 px) pour dire la position. Tailles xs · sm · md (6 · 8 · 10 px), trois tons ; `onSelect` rend les points cliquables.",
     keywords: ['progress', 'dots', 'carousel', 'wizard', 'indicator', 'pagination'],
     usedBy: ['LessonNavigation', 'AstucesViewer', 'FlashcardsViewer', 'LessonPlayer'],
@@ -6601,7 +6477,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'FlipCard',
     codeName: 'patterns/FlipCard.tsx',
-    cssBase: 'FlipCard',
     description: "Carte à retourner (rotation 3D), dont chaque face est un `<button>` : tout son contenu est phrasé, en `<span>`, sans élément de titre. Au recto, une photo voilée, une bulle d'icône, la catégorie en MetaPill md, le titre en 20/26/700 à toutes les largeurs — il passait à 28 dès 640 px, un titre de section pour nommer une carte — et une indication en 13/600 ; au verso, un dégradé au cran 700 du ton, la réponse en chapô 18/28 et le détail en 16. Tons primary · warm · sun ; hauteur réglable (380 par défaut).",
     keywords: ['flip', 'card', 'flashcard', '3d', 'rotate', 'learning', 'tone', 'button'],
     usedBy: ['FlashcardsViewer'],
@@ -6654,7 +6529,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'BehavioralTileGrid',
     codeName: 'patterns/BehavioralTileGrid.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "Grille des piliers d'une compétence (auto-fit, 240 px au moins par tuile) : titre de section en h2 28, puis pour chaque tuile une pastille décorative de 40 px, 16 px, un titre h3 20, 8 px, la description 16 ink-700, 12 px, les étiquettes. Quatre fonds cycliques. Dans LessonPlayer (section Engagement) et dans le positionnement de l'onboarding.",
     keywords: ['behavioral', 'tile', 'grid', 'pillar', 'competence', 'engagement', 'lesson', 'viewer', 'auto-fit'],
     usedBy: ['LessonPlayer', 'OnboardingUnified', 'OnboardingQuestionnaireConversational'],
@@ -6690,7 +6564,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'LessonNavigation',
     codeName: 'patterns/LessonNavigation.tsx',
-    cssBase: 'LessonNavigation',
     description: "Pied de navigation des lecteurs : [Précédent] · points · [Suivant ou Terminer]. Boutons soft md (44 px, 16/700), libellés masqués sous 640 px (icône seule avec son nom accessible), points ProgressDots sm. Au dernier écran, avec `onFinish`, « Suivant » devient « Terminer ».",
     keywords: ['navigation', 'lesson', 'prev', 'next', 'finish', 'footer', 'viewer'],
     usedBy: ['LessonPlayer', 'AstucesViewer', 'FlashcardsViewer'],
@@ -6718,7 +6591,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'AstucesCard',
     codeName: 'learning/AstucesCard.tsx',
-    cssBase: 'AstucesCard (tip scroll-story card)',
     usedBy: ['AstucesViewer'],
     description: "Astuce du lecteur en défilement : numéro dans un carré de 40 px, catégorie en MetaPill, image, titre (20, puis 28 dès 640 px) ink-900, description 16 ink-700, exemples en rangées à 16 px. Filet 2 px au cran 400 du ton ; ton sun par défaut.",
     keywords: ['astuce', 'tip', 'viewer', 'scroll-story', 'card', 'learning', 'tone-aware', 'example'],
@@ -6740,7 +6612,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ResourceListItem',
     codeName: 'learning/ResourceListItem.tsx',
-    cssBase: 'ResourceListItem (resource row)',
     usedBy: ['MasterclassReplay', 'AtelierPresentiel'],
     description: "Rangée de ressource complémentaire : icône, libellé 16/600 ink-900 tronqué, puis `meta` — une donnée sur la ressource (type, poids, durée), en légende 13 ink-600 —, et l'action à droite ; fond ink-50, rayon 14, padding 16. `badge` est déprécié depuis le 24/09 : son nom invitait à poser une donnée dans un Badge, réservé aux états (la donnée chuchote, l'état crie). Rendue en `<button>` avec `onClick` — son intérieur n'est fait que de `<span>`, le seul contenu qu'un bouton admet —, en `<div>` sinon. Dans les colonnes « Matériaux » et « Ressources » des lecteurs de masterclass et d'atelier.",
     keywords: ['resource', 'list', 'item', 'download', 'file', 'material', 'sidebar', 'meta', 'donnée'],
@@ -6768,7 +6639,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'EtapeAccordion',
     codeName: 'patterns/EtapeAccordion.tsx',
-    cssBase: 'EtapeAccordion (step accordion)',
     usedBy: ['CourseDetail', 'LearningPathDetail'],
     description: "Accordéon d'une étape de parcours : en-tête avec le titre en 16/600, 4 px, la durée en légende 13 ink-600, et un chevron de 20. Deux variantes : default (liste compacte bordée, CourseDetail) et panel (grande carte, LearningPathDetail). `header` remplace le titre et la durée ; `locked` désactive le clic et masque le chevron ; `bodyClassName` règle l'enveloppe du contenu.",
     keywords: ['accordion', 'step', 'etape', 'parcours', 'programme', 'expand', 'collapse', 'locked', 'lesson'],
@@ -6806,7 +6676,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'RadioGroup',
     codeName: 'ui/RadioGroup.tsx',
-    cssBase: 'Tailwind (no BEM)',
     subCategory: 'Form groups',
     usedBy: ['Onboarding', 'Positionnement', 'SessionFeedback'],
     description: "Groupe de boutons radio, en fieldset et legend. Légende 16/600 ink-900 ; options en 16/600 avec leur description en légende 13 ink-600, 12 px entre deux options ; indicateur de 20 px calé sur la première ligne, coché au cran 700. Variantes default et card (carte cochée : filet 400, fond 50), orientation verticale ou horizontale, trois tons. Aide et erreur comme Input.",
@@ -6845,7 +6714,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'CheckboxGroup',
     codeName: 'ui/CheckboxGroup.tsx',
-    cssBase: 'Tailwind (no BEM)',
     subCategory: 'Form groups',
     usedBy: ['Onboarding', 'FilterBar', 'Account'],
     description: "Cases à cocher en groupe, en fieldset et legend ; `value` est un tableau. Même anatomie que RadioGroup : légende 16/600, options en 16/600 et description 13 ink-600, indicateur de 20 px calé sur la première ligne, coché au cran 700 avec une coche. Variantes default et card, orientation verticale ou horizontale, trois tons.",
@@ -6877,7 +6745,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'FormSection',
     codeName: 'ui/FormSection.tsx',
-    cssBase: 'Tailwind (no BEM)',
     subCategory: 'Form groups',
     usedBy: ['Account', 'Profile'],
     description: "Section de formulaire : pastille d'icône (IconChip sm), titre h3 20/700, description 16 ink-700 à la largeur de lecture et à 8 px sous le titre, puis un filet. Rétractable en option (`collapsible`, `defaultExpanded`), par un bouton-icône. Élément `<section>`.",
@@ -6898,7 +6765,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'InputGroup',
     codeName: 'ui/InputGroup.tsx',
-    cssBase: 'Tailwind (no BEM)',
     subCategory: 'Form groups',
     usedBy: ['Account', 'Profile', 'Onboarding'],
     description: "Disposition d'un groupe de champs : vertical (16 px entre les champs), horizontal (12 px, alignés par le bas) ou grille de 2 à 4 colonnes (16 px), une seule colonne sous 640 px. Libellé de groupe 16/600, aide et erreur partagées.",
@@ -6924,7 +6790,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'SimpleTable',
     codeName: 'ui/SimpleTable.tsx',
-    cssBase: 'Tailwind (no BEM)',
     subCategory: 'List composites',
     usedBy: ['CoachEnterpriseDashboard', 'Leaderboard', 'Analytics'],
     description: "Table sémantique à colonnes déclaratives (`ColumnDef` : en-tête, accesseur, alignement, largeur). En-têtes 13/600 ink-600 en casse normale, cellules 16 × 12, chiffres tabulaires, filets ink-100. Options : `striped`, `onRowClick`, `emptyLabel`, `caption` (13 ink-600). Défilement horizontal sur mobile.",
@@ -6963,7 +6828,6 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'PaginatedList',
     codeName: 'ui/PaginatedList.tsx',
     showcaseOnly: true,
-    cssBase: 'Tailwind (no BEM)',
     subCategory: 'List composites',
     description: "Pagination d'une liste quelconque : `items`, `renderItem`, `pageSize` (10), `itemLabel`. Boutons ronds de 36 px aux numéros 13/700 tabulaires, plage « 1–10 / 42 » en 13 ink-600, contrôles réduits (n / N) sur mobile. Elle double `ui/Pagination`, qui tient l'échelle des contrôles.",
     keywords: ['pagination', 'pages', 'liste', 'navigation', 'next', 'prev', 'parcours'],
@@ -6990,7 +6854,6 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'FilteredList',
     codeName: 'ui/FilteredList.tsx',
     showcaseOnly: true,
-    cssBase: 'Tailwind (no BEM)',
     subCategory: 'List composites',
     description: "Liste filtrée par une recherche : un champ (fait main, 40 px), un compteur en 13 ink-600, un message vide en 16 italique. `filterFn`, `renderItem`, `placeholder`, `emptyLabel`, `showCount`, `itemLabel` ; `useDeferredValue` évite les à-coups sur une longue liste.",
     keywords: ['filtre', 'recherche', 'search', 'liste', 'filter', 'query', 'input'],
@@ -7027,7 +6890,6 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'StepIndicator',
     codeName: 'ui/StepIndicator.tsx',
     showcaseOnly: true,
-    cssBase: 'Tailwind (no BEM)',
     subCategory: 'Form groups',
     description: "Indicateur d'étapes d'un formulaire : pastilles de 32 px (chiffre 13/600 tabulaire), l'active au cran 700, les faites avec une coche. À l'horizontale, libellé 13/600 et description en 13 ; à la verticale, libellé 16/600 et description 13. L'étape active est au cran 800 du ton. Trois tons.",
     keywords: ['steps', 'étapes', 'onboarding', 'progression', 'wizard', 'checkout', 'stepper'],
@@ -7067,7 +6929,6 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'ModalForm',
     codeName: 'ui/ModalForm.tsx',
     showcaseOnly: true,
-    cssBase: 'Tailwind (no BEM)',
     subCategory: 'Form groups',
     description: "Formulaire en dialogue natif (`<dialog>`) au rayon 24 : en-tête — titre en h2 au pas h3 (20/700), description 16 ink-700 —, corps (24 · 20 · 16), puis les actions à 24 px, toutes en Button sm : l'action destructive à gauche, Annuler en outline et la soumission en soft à droite. Largeur xs 320 · sm 384 · md 448 · lg 512 ; fermeture par le voile ou Échap. Le dialogue est nommé par son titre (`aria-labelledby`) et décrit par sa description (`aria-describedby`), sur des identifiants `useId` : sans eux, un `<dialog>` n'a pas de nom, et un lecteur d'écran annonçait « dialogue » sans dire lequel.",
     keywords: ['modal', 'dialog', 'form', 'formulaire', 'popup', 'overlay', 'submit', 'aria-labelledby', 'nom accessible'],
@@ -7119,7 +6980,6 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'FilterableCardGrid',
     codeName: 'ui/FilterableCardGrid.tsx',
     showcaseOnly: true,
-    cssBase: 'Tailwind (no BEM)',
     subCategory: 'List composites',
     description: "Grille de cartes filtrable : une recherche, les catégories en FilterChip md, une bascule grille / liste (32 px, faite main), deux à quatre colonnes en requête de conteneur. `filterFn`, `categories` et `categoryFn`, `columns`, `allowLayoutToggle`, `renderCard(item, index, layout)`. Distincte de CardGrid, qui ne fait que la mise en page.",
     keywords: ['grid', 'grille', 'cards', 'filtre', 'catégories', 'layout', 'search', 'toggle'],
@@ -7171,7 +7031,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'AuthBackLink',
     codeName: 'patterns/AuthShell.tsx',
-    cssBase: 'AuthBackLink (auth back-navigation link)',
     usedBy: ['MagicLink', 'VerifyEmail'],
     description: "Lien de retour « ← libellé » des pages d'authentification : 16/600 blanc, flèche de 16. De la famille Auth*, pour la surface glass-dark seulement ; exporté par AuthShell.tsx.",
     keywords: ['auth', 'back', 'link', 'retour', 'connexion', 'glass-dark', 'AuthShell', 'navigation'],
@@ -7186,7 +7045,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'MoodSelector',
     codeName: 'ui/MoodSelector.tsx',
-    cssBase: 'MoodSelector',
     description: "L'humeur du jour pour le journal, sur une échelle symétrique de cinq niveaux — Très difficile · Difficile · Neutre · Bien · Excellent —, que les visages Lucide suivent d'un cran à l'autre : colère, moue, bouche droite, sourire, rire. Chaque libellé dit la valeur qu'il enregistre : jusqu'au 24/09, ils étaient décalés d'un cran (« Neutre » enregistrait `sad`, et l'éditeur s'ouvrait sur « Bien »). Des boutons de 44 px au moins (`aria-pressed`), une icône de 28 et un libellé en 13/600 ; le niveau choisi passe sur fond primary-100, filet 2 px au cran 700. La table `HUMEURS` est exportée : la page de lecture d'une entrée la relit. `value` et `onChange`.",
     keywords: ['mood', 'journal', 'humeur', 'emoji', 'selector', 'feeling', 'MoodLevel', 'HUMEURS', 'échelle'],
     usedBy: ['JournalNewEntry'],
@@ -7199,7 +7057,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'JournalBubbleCard',
     codeName: 'cards/JournalBubbleCard.tsx',
-    cssBase: 'JournalBubbleCard',
     description: "Entrée du journal en bulle, la construction canonique de la famille bulle : rayon 20, filet 1 px, queue en bas à droite, padding 24, aucune ombre. Titre h3 20, date 13, type en pastille 13/500, extrait 16 ink-700, puis « Lire » (Button soft neutral) et « Continuer » (ghost). Sept types, chacun sa surface teintée.",
     keywords: ['journal', 'bubble', 'chat', 'entry', 'apple-messages', 'speech-bubble', 'glass-light', 'JournalBubbleType'],
     usedBy: ['Journal'],
@@ -7292,7 +7149,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'JournalChatCompose',
     codeName: 'ui/JournalChatCompose.tsx',
-    cssBase: 'JournalChatCompose',
     description: "La saisie rapide du journal, en bulle (Card au rayon 20, filet primary-100, queue en bas à gauche) : le repère d'écriture — l'icône PenLine, 20 px au cran 700, centrée dans une boîte de 44, la hauteur du bouton ; c'était l'émoji ✍️, dont le dessin change d'un système à l'autre —, une zone de texte à 16, un Button md « Continuer », puis une aide en 13 ink-600 et le raccourci ⌘ ou Ctrl + Entrée. En haut de la page Journal.",
     keywords: ['journal', 'compose', 'chat', 'textarea', 'quick-entry', 'speech-bubble', 'send', 'PenLine'],
     usedBy: ['Journal'],
@@ -7314,7 +7170,6 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'StructuredQuestionAccordion',
     codeName: 'ui/StructuredQuestionAccordion.tsx',
     showcaseOnly: true,
-    cssBase: 'StructuredQuestionAccordion',
     description: "Questions de réflexion du journal (gabarit EDRA-R ou questions libres), en accordéon : en-têtes de 44 px — question 16/600, consigne 13 ink-600 —, chevron de 18 ; le panneau ouvert, sur ink-50, porte une zone de réponse blanche à 16, filet ink-400, 96 px au moins. `answers` est contrôlé.",
     keywords: ['accordion', 'journal', 'EDRA-R', 'structured', 'questions', 'textarea', 'collapsible'],
     render: () => {
@@ -7340,7 +7195,6 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'WritingPromptsAside',
     codeName: 'patterns/WritingPromptsAside.tsx',
     showcaseOnly: true,
-    cssBase: 'WritingPromptsAside',
     description: "Trois invitations à écrire dans le journal (apprentissage, pratique, coaching) : un SectionHeader minimal au ton sun (titre h2 28 et sous-titre 16), une grille de PromptCard sur une à trois colonnes, puis le lien « Ouvrir mon journal » (16/600, cran 800). `prompts` remplace les défauts ; `onNavigate` et `onOpenJournal` branchent la navigation.",
     keywords: ['journal', 'prompts', 'aside', 'writing', 'reflection', 'PromptCard', 'SectionHeader', 'dashboard'],
     render: () => (
@@ -7355,7 +7209,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'RadarChart',
     codeName: 'charts/RadarChart.tsx',
-    cssBase: 'RadarChart',
     description: "Radar des compétences : niveau actuel contre objectif, sur six axes au plus. Libellés d'axe en 13 ink-600, coupés à 14 caractères par ligne et posés au-dessus et au-dessous des pointes ; graduations de 1 à 5 en 13 ; « Niveau actuel » en aplat primary-500 à 35 %, « Objectif cible » en pointillés secondary-500 ; une légende unique en 13 ink-700. Clic sur un axe (`onAxisClick`) ; tailles de 250 · 350 · 450 px. Socle commun (chartTheme.ts) : graduations et titres d'axe en 13/400 ink-600 tabulaires, info-bulle blanche au rayon 14 (titre 13/600, valeurs 13 ink-700), légende en 13 ink-700, nombres et pourcentages à la française ; `role=\"img\"` et `ariaLabel`.",
     keywords: ['radar', 'chart', 'graphique', 'competency', 'compétence', 'dreyfus', 'analytics', 'passeport'],
     usedBy: ['Passeport', 'Coach'],
@@ -7378,7 +7231,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'BarChart',
     codeName: 'charts/BarChart.tsx',
-    cssBase: 'BarChart',
     description: "Barres de comparaison — classement d'équipes, cohortes, distribution de scores. Horizontales par défaut (`layout`), catégories sur l'axe vertical, qui prend 35 % de la largeur (72 à 282 px) et coupe les libellés trop longs. L'axe des valeurs est gradué rond (`axeRond` de chartTheme.ts, 24/09) : des pas de 1, 2, 2,5 ou 5 × 10ⁿ, trois à six intervalles, jamais de pas décimal sur des entiers — il découpait le domaine exact, 0 · 0.95 · 1.9 · 2.85 · 3.8 ; graduations et info-bulle écrivent les nombres à la française (`nombreFr`). Une série (`dataKey`) ou plusieurs (`series`, avec légende) ; clic sur une barre ; hauteurs de 250 · 350 · 450 px. Socle commun (chartTheme.ts) : graduations et titres d'axe en 13/400 ink-600 tabulaires, info-bulle blanche au rayon 14 (titre 13/600, valeurs 13 ink-700), légende en 13 ink-700, nombres et pourcentages à la française ; `role=\"img\"` et `ariaLabel`.",
     keywords: ['bar', 'chart', 'rankings', 'comparison', 'analytics', 'dashboard'],
     usedBy: ['Enterprise', 'Analytics'],
@@ -7417,7 +7269,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'LineChart',
     codeName: 'charts/LineChart.tsx',
-    cssBase: 'LineChart',
     description: "Courbe d'une ou plusieurs tendances dans le temps (engagement, progression). Trait de 2 px, point actif de 5 px ; courbe lissée (`smooth`) et points (`showDots`) par défaut ; pas de légende pour une série seule ; clic sur un point. Socle commun (chartTheme.ts) : graduations et titres d'axe en 13/400 ink-600 tabulaires, info-bulle blanche au rayon 14 (titre 13/600, valeurs 13 ink-700), légende en 13 ink-700, nombres et pourcentages à la française ; `role=\"img\"` et `ariaLabel`.",
     keywords: ['line', 'chart', 'trend', 'progression', 'analytics', 'timeline'],
     usedBy: ['Analytics'],
@@ -7440,7 +7291,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'AreaChart',
     codeName: 'charts/AreaChart.tsx',
-    cssBase: 'AreaChart',
     description: "Aires simples ou empilées (`stacked`, le défaut) : des cumuls, une répartition du temps, l'engagement. Remplissage en dégradé vertical, de 80 à 10 % d'opacité ; courbes lissées. Socle commun (chartTheme.ts) : graduations et titres d'axe en 13/400 ink-600 tabulaires, info-bulle blanche au rayon 14 (titre 13/600, valeurs 13 ink-700), légende en 13 ink-700, nombres et pourcentages à la française ; `role=\"img\"` et `ariaLabel`.",
     keywords: ['area', 'chart', 'cumulative', 'stacked', 'analytics', 'allocation'],
     usedBy: ['Analytics', 'Passeport'],
@@ -7464,7 +7314,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'PieChart',
     codeName: 'charts/PieChart.tsx',
-    cssBase: 'PieChart',
     description: "Secteurs ou anneau (`donut`) pour une composition : taux d'achèvement, répartition par catégorie. Parts triées de la plus grande à la plus petite ; étiquettes en 13/600 ink-700 (« 37 % »), info-bulle « 1 234 (37,5 %) », légende avec valeur et pourcentage ; rayons de 70 · 100 · 130 px ; clic sur une part. Socle commun (chartTheme.ts) : graduations et titres d'axe en 13/400 ink-600 tabulaires, info-bulle blanche au rayon 14 (titre 13/600, valeurs 13 ink-700), légende en 13 ink-700, nombres et pourcentages à la française ; `role=\"img\"` et `ariaLabel`.",
     keywords: ['pie', 'donut', 'chart', 'composition', 'distribution', 'analytics'],
     usedBy: ['Formateur'],
@@ -7485,7 +7334,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ScatterChart',
     codeName: 'charts/ScatterChart.tsx',
-    cssBase: 'ScatterChart',
     description: "Nuage de points ou bulles, pour une corrélation : positionnement des apprenants, compétence contre engagement. Info-bulle propre — le libellé du point en 13/600, puis « axe : valeur » en 13 ink-700, arrondi à l'entier ; taille des bulles par `z` (`bubbleScale`) ; domaines réglables ; clic sur un point. `xAxisLabel` et `yAxisLabel` sont dessinés depuis le 24/09, avec l'habillage de ComposedChart — le titre vertical à gauche des graduations, l'horizontal dessous, dans un axe porté à 52 px pour que la légende ne le recouvre pas ; ils n'alimentaient que l'info-bulle et le nom accessible. Socle commun (chartTheme.ts) : graduations et titres d'axe en 13/400 ink-600 tabulaires, info-bulle blanche au rayon 14 (titre 13/600, valeurs 13 ink-700), légende en 13 ink-700, nombres et pourcentages à la française ; `role=\"img\"` et `ariaLabel`.",
     keywords: ['scatter', 'bubble', 'chart', 'correlation', 'positioning', 'analytics'],
     usedBy: ['Coach'],
@@ -7507,7 +7355,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ComposedChart',
     codeName: 'charts/ComposedChart.tsx',
-    cssBase: 'ComposedChart',
     description: "Barres et courbe sur un même graphique, pour deux mesures liées (nombre d'activités et score moyen, volume et qualité). Barres à 70 % d'opacité, courbes de 2 px ; double axe en option (`dualAxis`) ; une série passe sur l'axe droit par `yAxisId: 'right'` — sans lui, elle reste à gauche et l'axe droit, dessiné, reste vide. Titres d'axe verticaux en 13 ink-600, à nommer : leurs défauts sont « Valeur » (« Value » jusqu'au 24/09) et « Score ». Socle commun (chartTheme.ts) : graduations et titres d'axe en 13/400 ink-600 tabulaires, info-bulle blanche au rayon 14 (titre 13/600, valeurs 13 ink-700), légende en 13 ink-700, nombres et pourcentages à la française ; `role=\"img\"` et `ariaLabel`.",
     keywords: ['composed', 'bar', 'line', 'hybrid', 'dual-axis', 'yAxisId', 'analytics'],
     usedBy: ['Analytics'],
@@ -7535,7 +7382,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'HeatmapChart',
     codeName: 'charts/HeatmapChart.tsx',
-    cssBase: 'HeatmapChart',
     description: "Matrice colorée (compétences × équipes, progression d'une cohorte) : cellules de 48 px dont le fond va du corail à la sauge en passant par l'ambre ; valeur en 13/600 ink-900 tabulaire — un niveau « D3 » sur une échelle de 5, un pourcentage au-delà ; libellés de ligne en 13 ink-600, de colonne tournés à −45° ; légende en 13 ink-700. `minValue`, `maxValue`, `showValues`, clic sur une cellule.",
     keywords: ['heatmap', 'grid', 'matrix', 'skills', 'competency', 'analytics'],
     usedBy: ['Enterprise'],
@@ -7558,7 +7404,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ChartContainer',
     codeName: 'charts/ChartContainer.tsx',
-    cssBase: 'ChartContainer',
     description: "La carte qui porte un graphique posé seul dans une section. Elle passe par Card depuis le 24/09 — rayon 20, padding 24, filet ink-200 —, le contenu centré ; c'était une carte faite main au rayon 14, padding 16, filet ink-100, un troisième gabarit de carte. Le padding dépasse le rayon : ce qu'elle contient garde sa forme (règle des coins imbriqués). Elle ne se pose jamais dans une carte — ce serait une carte dans une carte : dans une carte, poser le graphique directement. Elle n'expose que `children` et `className`, ni titre ni taille : un titre se pose au-dessus, par la page.",
     keywords: ['chart', 'container', 'wrapper', 'card', 'carte', 'consistent', 'styling', 'analytics'],
     usedBy: ['CoachDashboard'],
@@ -7581,7 +7426,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'TimelineChart',
     codeName: 'charts/TimelineChart.tsx',
-    cssBase: 'TimelineChart',
     description: "Chronologie du parcours d'un apprenant — leçons, sessions, badges, jalons —, du plus récent au plus ancien, dans une liste ordonnée. Une collection : ses événements sont des rangées dans la carte de la section, sans boîte (arbitrage n°5) — chacun était une carte au fond teinté de son type, cinq cartes dans une carte au Passeport. Sur le rail, la date à la française (« 20 mars 2026 ») en 13/600 ink-600 tabulaire sur 96 px, calée sur la ligne de base du titre, une pastille de 16 px à la couleur du type et un trait ink-200 jusqu'au bas de la rangée ; puis le titre 16/600, la description 16 ink-700 à la largeur de lecture et le type en légende 13 ink-600, après une pastille de 8 px ; 24 px entre deux événements. Cliquable (`onEventClick`), un événement devient un vrai `<button>`, au survol ink-50 qui déborde de 8 px sans bouger le texte. En horizontal, colonnes de 160 px et description en 13. `maxEvents`.",
     keywords: ['timeline', 'journey', 'events', 'learner', 'progression', 'milestones', 'vertical', 'horizontal', 'collection', 'rangées'],
     usedBy: ['Passeport'],
@@ -7606,7 +7450,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'GaugeChart',
     codeName: 'charts/GaugeChart.tsx',
-    cssBase: 'GaugeChart',
     description: "Jauge circulaire d'une progression (de 0 à 100 %, ou une échelle Dreyfus de 0 à 5, toujours affichée en pourcentage). La valeur prend le pas des titres — 20, 28 ou 36 px en 700, tabulaire, au cran 800 du ton — selon la taille (SVG de 100 · 140 · 200 px) : au centre de l'anneau en arc, sous le dessin en aiguille et en segments. Le libellé et l'objectif (« Objectif : 90 % ») s'écrivent dessous en 13 ink-600 — sauf en aiguille, qui n'écrit pas l'objectif. En segments, chaque anneau se remplit à sa propre valeur : jusqu'au 24/09, les deux anneaux intérieurs calculaient leur trait sur la circonférence de l'anneau extérieur, et une progression au-delà de 70 % se dessinait pleine. Cinq tons ; `target` pour un objectif.",
     keywords: ['gauge', 'progress', 'circular', 'indicator', 'goal', 'achievement', 'needle', 'arc'],
     usedBy: ['Passeport', 'Dashboard', 'Analytics'],
@@ -7622,7 +7465,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ChartExportButton',
     codeName: 'charts/ChartExportButton.tsx',
-    cssBase: 'ChartExportButton',
     description: "Boutons d'export d'un graphique : PNG, PDF et CSV (ce dernier si `data` est fourni), un ton par format (PNG brand, PDF warm, CSV sun). Exporter est un outil, jamais l'action principale d'un écran (arbitrage n°19) : compact, le défaut, posé dans l'en-tête d'un graphique, aligne des Button sm ghost libellés « PNG », « PDF », « CSV » ; full, un bloc d'export autonome, des Button md soft « Exporter en PNG »… En français depuis le 24/09 : info-bulle « Exporter le graphique en PNG » (« les données en CSV »), nom accessible qui contient le libellé visible (WCAG 2.5.3), et une erreur en 13 danger-fg qui dit quel export a échoué — le détail technique reste dans la console.",
     keywords: ['export', 'download', 'csv', 'pdf', 'png', 'chart', 'analytics', 'report', 'exporter'],
     usedBy: ['ChartWithExport (Passeport, CoachEnterpriseDashboard)'],
@@ -7648,7 +7490,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ViewerProgressTrail',
     codeName: 'patterns/ViewerProgressTrail.tsx',
-    cssBase: 'viewer-progress',
     description: "Progression d'un lecteur pas à pas (Astuces, Flashcards) : des points (8 px, 12 pour le courant) ou une barre de 6 px, trois tons. Sans texte ; `role=\"progressbar\"` et ses valeurs.",
     keywords: ['progress', 'viewer', 'steps', 'indicator', 'astuces', 'flashcards', 'lessonplayer'],
     usedBy: ['AstucesViewer', 'FlashcardsViewer'],
@@ -7681,7 +7522,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Chip',
     codeName: 'ui/Chip.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "Primitive interne de la famille des pastilles : elle porte les tokens partagés — `CHIP_BASE_SANS_RAYON`, `CHIP_RAYON`, `CHIP_SIZE`, tons, surfaces — et le helper `resolveChipClasses`, que MetaPill et FilterChip consomment. Trois tailles — sm 24 px en 11/500, md 30 px en 13/500, lg 44 px en 16/500 — dont le rayon suit la hauteur (`CHIP_RAYON`, règle du seuil) : pilule en sm, 14 en md et lg. À 44 px, la pilule rendait 22 à côté d'un champ et d'un bouton de même hauteur à 14. `CHIP_BASE`, la base avec pilule, reste exporté mais déprécié, sans consommateur. Cinq tons, surfaces solid et glass. Pill et Tag ont été supprimés le 10/09 ; ses seuls appels directs sont dans le DevPanel. Dans une page, passer par MetaPill (la donnée) ou FilterChip (le filtre).",
     keywords: ['chip', 'pill', 'pastille', 'primitive', 'tone', 'glass', 'surface', 'filter', 'meta', 'rayon', 'CHIP_RAYON', 'seuil'],
     usedBy: ['MetaPill', 'FilterChip', 'DevPanel'],
@@ -7710,7 +7550,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Tooltip',
     codeName: 'ui/Tooltip.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "Infobulle au survol et au focus clavier : 13/400 blanc sur ink-900 (variante brand : primary-700), 220 px au plus avec retour à la ligne, rayon 10, flèche. Quatre côtés, deux variantes, délai réglable (400 ms par défaut). On peut la survoler ; Échap la ferme. L'enfant doit être un élément unique capable de recevoir un ref.",
     keywords: ['tooltip', 'infobulle', 'hover', 'focus', 'aide', 'side'],
     render: () => (
@@ -7725,7 +7564,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Kbd',
     codeName: 'ui/Kbd.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "Touche de clavier, en mono : sm à 11 px (environ 17 px de haut), md à 13 (environ 23 px), rayon 6. Variantes default et glass. Passer `keys` pour un raccourci composé : le composant intercale les « + ».",
     keywords: ['kbd', 'clavier', 'raccourci', 'shortcut', 'touche'],
     render: () => (
@@ -7745,7 +7583,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'SegmentedControl',
     codeName: 'ui/SegmentedControl.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "Bascule entre deux à quatre vues exclusives. À préférer aux onglets quand il n'y a pas de contenu à titrer, et aux boutons radio quand le choix s'applique tout de suite. Palier interactif : un rail au rayon 14 de 36 · 44 · 52 (défaut md), des segments au rayon 10, libellés 13 ou 16 en 600 ; le segment actif est blanc, libellé au cran 800. Trois tons (primary · warm · sun).",
     keywords: ['segmented', 'control', 'toggle', 'vue', 'bascule', 'filtre', 'tabs'],
     render: () => <SegmentedControlDemo />,
@@ -7753,7 +7590,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'SettingsRow',
     codeName: 'patterns/SettingsRow.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "Rangée de réglage : pastille d'icône (IconChip md), libellé 16/600 ink-900 (danger-fg si `danger`), 4 px, description 16 ink-700 à la largeur de lecture, et le contrôle à droite. Le texte et le contrôle forment une rangée qui se replie : le texte réclame 12rem à côté du contrôle, sinon celui-ci descend de 12 px, dans la colonne du texte, la pastille restant la marque de la rangée — à 375 px, « Langue de l'interface » n'avait que 45 px à côté d'un Select, un mot par ligne. La règle mesure la place réelle, et suit la largeur du contrôle. SettingsToggleRow, dans le même fichier, y pose un Switch. Brique des pages Compte, Facturation et Confidentialité.",
     keywords: ['settings', 'reglage', 'row', 'compte', 'preferences', 'toggle', 'danger', 'wrap', 'replie', 'select'],
     /* Les rangées dans UNE carte (arbitrage n°5), et la carte porte le padding :
@@ -7786,7 +7622,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'SelectableOptionCard',
     codeName: 'patterns/SelectableOptionCard.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "Carte-option d'un choix exclusif : icône, libellé, description, état sélectionné. Dans l'onboarding et le questionnaire de positionnement.",
     keywords: ['option', 'card', 'selection', 'choix', 'onboarding', 'radio', 'positionnement'],
     render: () => <SelectableOptionCardDemo />,
@@ -7794,7 +7629,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'FloatLabel',
     codeName: 'core/FloatLabel.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "Enveloppe un Input (md, sans libellé) et pose le libellé dans le champ : au repos, il tient lieu de placeholder (16/400 ink-500) ; au focus ou une fois rempli, il se lève en 13/600 ink-700 contre le bord gauche. Seule sa couleur s'anime. Gère `required`, `hint` (13 ink-600) et `error` (13 danger-fg, qui passe aussi le champ en erreur).",
     keywords: ['float', 'label', 'input', 'formulaire', 'flottant', 'hint', 'error'],
     render: () => (
@@ -7816,7 +7650,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'PageShell',
     codeName: 'layout/PageShell.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "Le conteneur canonique des pages principales : largeur (`width`, page par défaut, 1 152 px), marges verticales (32 · 40 · 48 selon la largeur) et rythme entre sections (`gap`, 48 par défaut depuis le 24/09 — il en posait 32). Pas de padding horizontal : la gouttière vient de la mise en page. `noPadTop` retire la marge du haut. Une disposition (`grid`, `flex`…), une direction (`flex-row`…) ou un `gap-*` passés en `className` remplacent ceux de la base depuis le 24/09 — les règles OWN_* de Card, pour les classes sans préfixe : avant, l'ordre d'émission de Tailwind tranchait, et les barres collantes du journal et de la newsletter s'empilaient.",
     keywords: ['shell', 'page', 'layout', 'conteneur', 'largeur', 'padding', 'rythme'],
     render: () => (
@@ -7833,7 +7666,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Container',
     codeName: 'layout/Container.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "Contrainte de largeur seule, sans rythme vertical, avec la gouttière de page (16 · 24 · 40 px selon la largeur). Six paliers : prose (65 caractères, la lecture longue), content 768, medium 1 024, page 1 152 (le défaut de l'app), wide 1 280, full.",
     keywords: ['container', 'largeur', 'prose', 'max-width', 'lecture', 'centrage'],
     render: () => (
@@ -7852,7 +7684,6 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'Grid',
     codeName: 'layout/Grid.tsx',
     showcaseOnly: true,
-    cssBase: 'Tailwind (no BEM)',
     description: "Grille à deux dimensions : un nombre de colonnes fixe (`cols`, 1 à 6), ou une grille qui s'adapte seule via `min` (240 px par défaut) — elle rend `repeat(auto-fit, minmax(min, 1fr))` et dispense d'écrire des seuils. Écart par défaut : 16.",
     keywords: ['grid', 'grille', 'colonnes', 'auto-fit', 'minmax', 'responsive'],
     render: () => (
@@ -7880,7 +7711,6 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'Stack',
     codeName: 'layout/Stack.tsx',
     showcaseOnly: true,
-    cssBase: 'Tailwind (no BEM)',
     description: "Empilement vertical à écart sémantique (16 par défaut). Le parent possède le rythme : c'est ce qui évite le double espacement du piège n°12, où un enfant ajoute son `mb-*` au `gap` du parent.",
     keywords: ['stack', 'vertical', 'gap', 'espacement', 'rythme', 'flex-col'],
     render: () => (
@@ -7902,7 +7732,6 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'Cluster',
     codeName: 'layout/Cluster.tsx',
     showcaseOnly: true,
-    cssBase: 'Tailwind (no BEM)',
     description: "Groupe horizontal qui passe à la ligne, pour les rangées de pastilles, de boutons ou de données ; écart de 8 par défaut. `justify=\"between\"` pousse le dernier élément à droite.",
     keywords: ['cluster', 'horizontal', 'wrap', 'chips', 'boutons', 'inline', 'align'],
     render: () => (
@@ -7922,7 +7751,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'BottomNav',
     codeName: 'layout/BottomNav.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "La navigation mobile, fixée en bas : cinq onglets (les `labelCourt` de la navigation principale) sur une rangée de 56 px, icône de 20 et libellé en 13/600 dans les deux états — primary-700 actif, ink-600 sinon ; l'icône active se pose dans une pastille primary-100. `md:hidden` : elle disparaît dès 768 px, où la Sidebar prend le relais. L'aperçu la contient dans un cadre, sans quoi sa position fixe la collerait au bas de la fenêtre.",
     keywords: ['bottom', 'nav', 'mobile', 'tabbar', 'fixed', 'responsive', 'md:hidden'],
     render: () => (
@@ -7939,7 +7767,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'PageHero',
     codeName: 'patterns/EditorialHero.tsx (export canonique)',
-    cssBase: 'Tailwind (no BEM)',
     description: "Le hero d'ouverture de page, universel (plus de cent pages). Anatomie : lien retour optionnel (pastille 13/700), 24 px — le retour mène ailleurs, il se tient à l'écart du titre —, surtitre 13/600 — il dit le lieu, en ink-600 et sans capitales —, 8 px, h1 36/44/700, 12 px, chapô 18/28 à la largeur de lecture (ink-700), 12 px, méta en 13, puis la progression (16 px) et `trailing` (24 px). Cinq tons : flat — sans fond ni padding, le choix des pages de l'app —, default (dégradé primary-50), brand, warm et sun (dégradés du cran 700 au 800, texte blanc plein). Les tons colorés sont au rayon 20, l'étage conteneur — ils étaient à 14, le rayon d'un bouton ; leur padding, 32 ou 24 en `compact`, reste au-dessus du rayon, donc leur contenu garde sa forme. Aucune marge extérieure : c'est PageShell qui pose 48 px avant la suite. `EditorialHero` en est l'alias, réservé aux surfaces éditoriales.",
     keywords: ['hero', 'page', 'ouverture', 'h1', 'chapô', 'surtitre', 'tone', 'flat', 'brand', 'eyebrow', 'editorial', 'titre', 'retour', 'backLink', 'rayon'],
     usedBy: ['Dashboard', 'Journal', 'Passeport', 'Coaching', '100+ pages'],
@@ -7966,7 +7793,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'SkeletonGroup',
     codeName: 'patterns/SkeletonTemplates.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "Répète un gabarit de squelette N fois, en liste ou en grille (deux à quatre colonnes). À préférer à une boucle écrite à la main : la mise en page du chargement reste alignée sur celle du contenu qu'elle remplace.",
     keywords: ['skeleton', 'chargement', 'loading', 'placeholder', 'groupe', 'grille'],
     render: () => (
@@ -7985,7 +7811,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'StatCardSkeleton',
     codeName: 'patterns/SkeletonTemplates.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "Squelette de StatCard, à l'anatomie de la carte md depuis le 24/09 : rayon 20, padding 20, filet ink-200, pastille de 44, 12 px, la valeur au corps de `stat-value`, 4 px, le libellé en légende. Il a la hauteur de la carte réelle — 165 px à 1440 — : le contenu le remplace sans que la page saute. Il était au rayon 14, au padding 24, avec une pastille ronde et des blocs de 32 et 12 px.",
     keywords: ['skeleton', 'statcard', 'kpi', 'chargement', 'shimmer', 'stat'],
     render: () => (
@@ -8000,7 +7825,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ActivityItemSkeleton',
     codeName: 'patterns/SkeletonTemplates.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "Squelette d'une rangée de fil d'activité : pastille, titre, méta.",
     keywords: ['skeleton', 'activite', 'feed', 'timeline', 'chargement'],
     render: () => (
@@ -8014,7 +7838,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ResumeLessonSkeleton',
     codeName: 'patterns/SkeletonTemplates.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "Squelette de la carte « Reprendre ta leçon » du tableau de bord. C'est la première chose que voit l'apprenant : son état de chargement mérite d'épouser la forme finale.",
     keywords: ['skeleton', 'reprendre', 'lecon', 'dashboard', 'hero', 'chargement'],
     render: () => <ResumeLessonSkeleton />,
@@ -8022,7 +7845,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'SelectCheckboxFloating',
     codeName: 'ui/SelectCheckboxFloating.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "Sélection multiple posée dans un formulaire, sans menu : le nom du groupe en 16/600 ink-900, puis les options en rangées de 44 px au rayon 14, case et libellé 16/400 ; l'option choisie passe sur fond primary-50, filet 700. Même rôle que SelectCheckbox.",
     keywords: ['select', 'checkbox', 'multiple', 'flottant', 'float', 'label', 'filtre'],
     render: () => <SelectCheckboxFloatingDemo />,
@@ -8030,7 +7852,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'CoachRow',
     codeName: 'patterns/CoachRow.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "Rangée compacte qui identifie le coach : Avatar sm, nom 16/600, rôle en légende 13 ink-600 à 2 px, et un Button soft « Message » optionnel. Pour les en-têtes de session et les fils de correction, là où une ProfileCard prendrait trop de place.",
     keywords: ['coach', 'row', 'ligne', 'contact', 'session', 'identite', 'message'],
     render: () => (
@@ -8044,7 +7865,6 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'CorrectionStatusBar',
     codeName: 'learning/CorrectionStatusBar.tsx',
     showcaseOnly: true,
-    cssBase: 'Tailwind (no BEM)',
     description: "Bandeau d'état d'une correction : StatusBadge, la compétence en 16/600, « Itération N » en 13 ink-600. Une correction emprunte l'icône d'un état de leçon mais dit son propre mot, passé par la prop `label` de StatusBadge : en attente — cercle vide, « En attente de correction » ; en cours — lecture, « En cours de révision » ; terminé — coche ; échoué — croix. Jusqu'au 24/09, la correspondance était décalée d'un cran : « en attente » s'affichait avec le cadenas et se lisait « Verrouillé ». La pastille ne montre que l'icône : le mot en est le nom accessible. « +N XP » (`xpAwarded`, 16/600 accent-800) relève de ce que l'arbitrage n°18 retire de l'app apprenant ; la démo ne le montre pas.",
     keywords: ['correction', 'statut', 'jac', 'validation', 'xp', 'iteration', 'bandeau', 'StatusBadge', 'label'],
     render: () => (
@@ -8059,7 +7879,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ReaderContextStrip',
     codeName: 'patterns/ReaderContextStrip.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "Bande de contexte des pages de lecture (Dossier, Actus de la semaine, Magazine) : Retour (44 px, 13/600), le titre de l'article en 16/600 ink-900, aligné à gauche, et un emplacement `trailing` — les pages y posent l'anneau de lecture. Collante, 56 px de haut ; elle apparaît en fondu passé 100 px de défilement (`scrollThreshold`).",
     keywords: ['reader', 'lecture', 'article', 'sticky', 'contexte', 'retour', 'scroll'],
     render: () => (
@@ -8071,7 +7890,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ErrorPage',
     codeName: 'patterns/ErrorPage.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "La page d'erreur canonique, centrée : surtitre 13/600, code en très grand (80 à 144 px, masqué aux lecteurs d'écran), pastille de 96 px, h1 36/44, chapô 18/28 ink-700, encart optionnel, pistes de sortie en tuiles (titre 20/700, texte 16 ink-700) et actions. Tons default · danger · neutral (ajouté le 24/09). Le principe : ne jamais laisser l'utilisateur sans issue.",
     keywords: ['erreur', '404', '500', 'error', 'page', 'fallback', 'suggestions'],
     usedBy: ['Error404', 'Error500', 'MarketingError404'],
@@ -8092,7 +7910,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'CoachCardGrid',
     codeName: 'patterns/CoachCardGrid.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "Grille de coachs avec ses filtres (spécialité, disponibilité) et ses états de chargement et vide : évite de recâbler ce trio sur chaque page de coaching.",
     keywords: ['coach', 'grille', 'grid', 'filtre', 'disponibilite', 'specialite', 'empty'],
     render: () => (
@@ -8108,7 +7925,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'LearningPathGrid',
     codeName: 'patterns/LearningPathGrid.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "Grille de parcours, avec un filtre par statut, la progression et le déroulé optionnel des leçons ; états de chargement et vide inclus.",
     keywords: ['parcours', 'grille', 'grid', 'progression', 'statut', 'lecons', 'filtre'],
     render: () => (
@@ -8124,7 +7940,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ResourceCardGrid',
     codeName: 'patterns/ResourceCardGrid.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "Grille de ressources hétérogènes (fiche, vidéo, gabarit, article) : trois variantes de rendu, les tons, les états de chargement et vide.",
     keywords: ['ressource', 'grille', 'grid', 'bibliotheque', 'document', 'video', 'tone'],
     render: () => (
@@ -8142,7 +7957,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ChartWithExport',
     codeName: 'charts/ChartWithExport.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "Enveloppe un graphique et lui ajoute ses exports, alignés à droite et 16 px au-dessus : PNG toujours, PDF si un `title` est fourni, CSV si `data` l'est — le CSV part alors des données, pas d'une capture.",
     keywords: ['chart', 'export', 'png', 'csv', 'graphique', 'telechargement'],
     render: () => (
@@ -8164,7 +7978,6 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'ChartDetailModal',
     codeName: 'charts/ChartDetailModal.tsx',
     showcaseOnly: true,
-    cssBase: 'Tailwind (no BEM)',
     description: "Ouvre un graphique en grand, dans un panneau au rayon 24 (90 % de la hauteur au plus), en-tête et pied collants : titre h2 au pas h3 (20/700), sous-titre 16 ink-700, le graphique, puis les actions en Button md — la dernière, l'action que la modale sert, en solid ; les autres en ghost (arbitrage n°19). Un vrai dialogue depuis le 24/09, par `useDialog` comme les modales de `modals/` : nommé par son titre, focus d'entrée sur « Fermer », Tab et Maj+Tab piégés, Échap, focus rendu au déclencheur ; le voile n'est plus un faux bouton, seulement une zone de clic.",
     keywords: ['chart', 'modal', 'detail', 'plein ecran', 'analytics', 'zoom', 'dialog', 'focus', 'useDialog'],
     render: () => <ChartDetailModalDemo />,
@@ -8172,7 +7985,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'CompletionModal',
     codeName: 'modals/CompletionModal.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "Fin de leçon ou de module : un bandeau au dégradé 700 → 800 — pastille, titre en h2 au pas h3 (20), titre de l'élément et description en 16, tout en blanc —, puis l'étape suivante en carte (13/600, titre 16/600, méta 13) et des Button md. Ton calme : pas de confettis par défaut, pas de « ! ». ⚠️ Elle affiche « +50 XP » par défaut (`xpEarned`), ce que l'arbitrage n°18 retire de l'app apprenant.",
     keywords: ['completion', 'modal', 'fin', 'lecon', 'xp', 'suite', 'celebration'],
     render: () => <CompletionModalDemo2 />,
@@ -8180,7 +7992,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'AuthSuccess',
     codeName: 'patterns/AuthShell.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "État de réussite des pages d'authentification, sur la surface glass-dark : pastille de 56 px, titre h3 20/700 blanc, description 16 blanc (44 caractères au plus). Réservé à la famille Auth* — ne pas l'employer ailleurs dans l'app.",
     keywords: ['auth', 'succes', 'confirmation', 'glass-dark', 'email', 'inscription'],
     render: () => (
@@ -8196,7 +8007,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'SelectCheckbox',
     codeName: 'ui/SelectCheckbox.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "Sélection multiple en menu déroulant, avec le résumé des choix dans le déclencheur : un contrôle de 44 px au rayon 14, libellé 16/600, filet 700 et libellé 800 une fois actif. Les options sont des Checkbox du système. Brique des barres de filtres.",
     keywords: ['select', 'checkbox', 'multiple', 'filtre', 'dropdown', 'menu'],
     render: () => <SelectCheckboxDemo />,
@@ -8204,7 +8014,6 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'SelectCheckboxCategory',
     codeName: 'ui/SelectCheckboxCategory.tsx',
-    cssBase: 'Tailwind (no BEM)',
     description: "Variante hiérarchique : catégories et sous-catégories, en sélection unique (pastille radio au cran 700) qui retourne la catégorie parente. Pour les filtres à deux niveaux.",
     keywords: ['select', 'categorie', 'hierarchie', 'sous-categorie', 'filtre', 'arbre'],
     render: () => <SelectCheckboxDemo />,
@@ -9132,7 +8941,7 @@ const Components: React.FC = () => {
     return componentsWithMeta.filter((c) => {
       if (!q) return true;
       const haystack = [
-        c.name, c.codeName, c.cssBase ?? '', c.description, c._meta.category, c._meta.subCategory, ...c.keywords,
+        c.name, c.codeName, c.description, c._meta.category, c._meta.subCategory, ...c.keywords,
       ].join(' ').toLowerCase();
       return haystack.includes(q);
     });
@@ -9460,7 +9269,6 @@ const Components: React.FC = () => {
                           </div>
                           <div className="ds-component__chips">
                             <CopyChip text={c.codeName} label={`‹${c.codeName}›`} />
-                            {c.cssBase && <CopyChip text={c.cssBase} label={c.cssBase} />}
                             {/* La catégorie EST un badge : elle passe par le composant, pas par un
      CSS maison. Avant, `.ds-component__cat` la dessinait à la main avec
      un rayon de 6 px et 25 px de haut, à côté d'un CopyChip à 10 px et
