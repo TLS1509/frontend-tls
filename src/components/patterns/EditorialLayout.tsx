@@ -33,10 +33,14 @@ export const EditorialLayout: React.FC<EditorialLayoutProps> = ({
     return <div className={['flex flex-col gap-stack', className].filter(Boolean).join(' ')}>{main}</div>;
   }
 
+  /* Gouttière : 16 px dans chaque colonne (cartes d'un même ensemble, doctrine
+     § 5) mais 24 entre le contenu et l'aside à partir de `md` — deux régions,
+     pas deux cartes d'une même pile : à 16, l'aside collait au contenu comme
+     une carte de plus (passe typographique du 2026-09-24). */
   return (
     <div
       className={[
-        'grid gap-stack',
+        'grid gap-stack md:gap-x-stack-lg',
         asideFirst
           ? 'md:grid-cols-[minmax(280px,0.8fr)_minmax(0,1.4fr)]'
           : 'md:grid-cols-[minmax(0,1.4fr)_minmax(280px,0.8fr)]',

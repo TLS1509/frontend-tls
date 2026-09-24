@@ -40,13 +40,6 @@ const SURFACE: Record<IntroCalloutTone, string> = {
   neutral: 'bg-white/70 border-ink-200 backdrop-blur-glass-light',
 };
 
-const EYEBROW: Record<IntroCalloutTone, string> = {
-  brand:   'text-primary-700',
-  warm:    'text-secondary-700',
-  sun:     'text-accent-700',
-  neutral: 'text-ink-600',
-};
-
 const ICON_BG: Record<IntroCalloutTone, string> = {
   brand:   'bg-primary-100 text-primary-800',
   warm:    'bg-secondary-100 text-secondary-700',
@@ -82,18 +75,21 @@ export const IntroCallout: React.FC<IntroCalloutProps> = ({
           </span>
         )}
 
-        <div className="flex-1 min-w-0 flex flex-col gap-stack-xs">
+        {/* Surtitre en légende 13/600 ink-600 (le lieu, sans couleur de
+            marque), puis le chapô : 18/28, l'encre du texte principal,
+            plafonné à la largeur de lecture. Avec l'icône, le bloc descend
+            pour que sa PREMIÈRE ligne se centre sur elle (doctrine § 4) :
+            (40 − 20) / 2 sous un surtitre, (40 − 28) / 2 sur le chapô. */}
+        <div className={[
+          'flex-1 min-w-0 flex flex-col gap-stack-xs',
+          withQuoteIcon ? (eyebrow ? 'mt-2.5' : 'mt-1.5') : '',
+        ].filter(Boolean).join(' ')}>
           {eyebrow && (
-            <span
-              className={[
-                'inline-flex font-body text-caption font-medium',
-                EYEBROW[tone],
-              ].join(' ')}
-            >
+            <p className="font-body text-caption font-semibold text-ink-600">
               {eyebrow}
-            </span>
+            </p>
           )}
-          <div className="font-body text-body-lg text-ink-800">
+          <div className="font-body text-body-lg text-ink-900 max-w-prose [&_p+p]:mt-stack">
             {children}
           </div>
         </div>

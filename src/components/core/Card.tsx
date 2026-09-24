@@ -245,20 +245,6 @@ const TONE_BG_CLASSES: Record<CardTone, string> = {
   brand: 'bg-primary-50 border-primary-200',
 };
 
-const TONE_TITLE_CLASSES: Record<CardTone, string> = {
-  primary: 'text-primary-900',
-  warm: 'text-secondary-900',
-  sun: 'text-accent-900',
-  brand: 'text-primary-900',
-};
-
-const TONE_EYEBROW_CLASSES: Record<CardTone, string> = {
-  primary: 'text-primary-800',
-  warm: 'text-secondary-700',
-  sun: 'text-accent-700',
-  brand: 'text-primary-800',
-};
-
 // When variant="interactive" (or interactive=true) is combined with a tone,
 // override the hardcoded primary hover colors with tone-specific ones.
 const TONE_INTERACTIVE_HOVER: Record<CardTone, string> = {
@@ -281,19 +267,29 @@ const INTERACTIVE_EXTRA = 'cursor-pointer';
 // blanc à l'intérieur, ink-900 à l'extérieur — au moins un contraste toujours.
 const CLICKABLE = 'cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-900 focus-visible:ring-offset-2 focus-visible:ring-offset-white';
 
-const TITLE_SIZE: Record<CardSize, string> = {
-  xs: 'text-body font-semibold',
-  sm: 'text-body font-semibold',
-  md: 'text-h3',
-  lg: 'text-h3',
-};
-
-const DESC_SIZE: Record<CardSize, string> = {
-  xs: 'text-caption',
-  sm: 'text-caption',
-  md: 'text-body',
-  lg: 'text-body',
-};
+/* ── Anatomie du contenu par props — passe typographique du 2026-09-24 ────────
+   Une seule anatomie, quelle que soit la taille (la taille ne règle que le
+   padding) :
+     surtitre   légende 13/600, ink-600 — le lieu ou le type, sans capitales
+     → titre     4
+     titre      h3 20/26/700, ink-900 (le token porte tout)
+     → texte     8
+     texte      16/26, ink-700, largeur de lecture
+     → méta     12 (filet compris)
+     méta       légende 13, ink-600
+   Avant : surtitre en mono 11 px capitales (le registre du `Badge`), titre
+   forcé à 600 sur un token qui déclare 700, titre des tailles denses au corps
+   du texte (16 px), description 13 px en `sm`, et un titre teinté au cran 900
+   « pour faire joli ». Aucune couleur de marque ne porte un titre (doctrine
+   § 2). ⚠️ Aucun des 192 appels de `<Card>` n'emploie ces props au
+   2026-09-24 : elles décrivent l'anatomie de référence. Ce sont les sous-
+   composants ci-dessous (`CardEyebrow`, `CardTitle`, `CardDesc`,
+   `CardFooter`) qui la portent dans le produit, via ArticleCard et
+   SessionCard. */
+const EYEBROW_CLASSES = 'font-body text-caption font-semibold text-ink-600';
+const TITLE_CLASSES = 'font-display text-h3 text-ink-900';
+const DESC_CLASSES = 'font-body text-body text-ink-700 max-w-prose';
+const FOOTER_CLASSES = 'flex items-center justify-between gap-stack-xs mt-stack-3xs pt-stack-sm border-t border-ink-200 text-caption text-ink-600';
 
 const ICON_SIZE: Record<CardSize, string> = {
   xs: '[&>svg]:w-6 [&>svg]:h-6',
@@ -354,13 +350,11 @@ export const Card: React.FC<CardProps> = ({
 
   const hasPropsContent = eyebrow || title || description || footer || icon;
 
-  const eyebrowClass = `font-mono text-micro font-bold uppercase tracking-[0.08em] ${tone ? TONE_EYEBROW_CLASSES[tone] : 'text-ink-500'}`;
-  // tracking-display for large/medium titles (≥h3 = 1.375rem) for premium tightness
-  const titleClass = `m-0 p-0 font-display ${TITLE_SIZE[size]} font-semibold leading-tight ${size === 'lg' ? 'tracking-display' : size === 'md' ? 'tracking-headline' : 'tracking-tight'} ${tone ? TONE_TITLE_CLASSES[tone] : 'text-ink-900'}`;
-  const descriptionClass = `m-0 p-0 ${DESC_SIZE[size]} leading-normal text-ink-600`;
-  const footerClass = 'flex items-center justify-between gap-stack-xs mt-2 pt-2 border-t border-ink-200 text-caption text-ink-600';
-  const iconClass = `flex items-center justify-center shrink-0 mb-2 ${ICON_SIZE[size]} [&>svg]:text-current`;
-  const headerClass = 'flex flex-col gap-tight mb-1';
+  // Le gap de la carte (8 px, 16 en `lg`) sépare icône, en-tête, texte et
+  // pied ; les écarts qui s'en écartent sont écrits sur la partie : icône →
+  // en-tête 16 (8 + mb-stack-xs), texte → méta 12 (8 + mt-stack-3xs),
+  // surtitre → titre 4.
+  const iconClass = `flex items-center justify-center shrink-0 mb-stack-xs ${ICON_SIZE[size]} [&>svg]:text-current`;
 
   return React.createElement(
     as as string,
@@ -382,13 +376,16 @@ export const Card: React.FC<CardProps> = ({
       <>
         {icon && <div className={iconClass}>{icon}</div>}
         {(eyebrow || title) && (
-          <div className={headerClass}>
-            {eyebrow && <div className={eyebrowClass}>{eyebrow}</div>}
-            {title && <h3 className={titleClass}>{title}</h3>}
+          <div className="flex flex-col">
+            {eyebrow && <p className={EYEBROW_CLASSES}>{eyebrow}</p>}
+            {/* `mt-stack-3xs` sous un surtitre : il bat la marge de base des
+                titres (0,75em), faite pour séparer des sections, pas pour
+                coller un titre à son surtitre. */}
+            {title && <h3 className={[TITLE_CLASSES, eyebrow ? 'mt-stack-3xs' : ''].filter(Boolean).join(' ')}>{title}</h3>}
           </div>
         )}
-        {description && <p className={descriptionClass}>{description}</p>}
-        {footer && <div className={footerClass}>{footer}</div>}
+        {description && <p className={DESC_CLASSES}>{description}</p>}
+        {footer && <div className={FOOTER_CLASSES}>{footer}</div>}
       </>
     ) : (
       children
@@ -400,14 +397,12 @@ export const Card: React.FC<CardProps> = ({
  * LEGACY EXPORTS (deprecated, kept for backward compatibility)
  * Prefer Card props: <Card title="..." description="..." />
  */
+/* Mêmes classes que l'anatomie par props (voir plus haut) — une seule source. */
 export const CardEyebrow: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   className = '',
   ...rest
 }) => (
-  <div
-    className={`font-mono text-micro font-bold uppercase tracking-[0.08em] text-ink-500 ${className}`}
-    {...rest}
-  />
+  <div className={`${EYEBROW_CLASSES} ${className}`} {...rest} />
 );
 
 export const CardTitle: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({
@@ -415,10 +410,10 @@ export const CardTitle: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({
   ...rest
 }) => (
   <h3
-    /* Pas de graisse écrite ici : le token `text-h4` déclare déjà 700, et la poser
-       à côté ne peut que le contredire — c'était le cas, à 600, sur la primitive
-       même qui sert de référence aux cartes. Corrigé le 2026-09-10. */
-    className={`p-0 font-display text-h3 leading-tight tracking-headline text-ink-900 ${className}`}
+    /* Ni graisse, ni interligne, ni tracking écrits ici : le token `text-h3`
+       déclare 700, 26 px et -0,02em. Les écrire à côté ne peut que les
+       contredire — c'était le cas (600, puis `leading-tight` : 25 px). */
+    className={`${TITLE_CLASSES} ${className}`}
     {...rest}
   />
 );
@@ -427,20 +422,14 @@ export const CardDesc: React.FC<React.HTMLAttributes<HTMLParagraphElement>> = ({
   className = '',
   ...rest
 }) => (
-  <p
-    className={`m-0 p-0 text-body leading-normal text-ink-600 ${className}`}
-    {...rest}
-  />
+  <p className={`${DESC_CLASSES} ${className}`} {...rest} />
 );
 
 export const CardFooter: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   className = '',
   ...rest
 }) => (
-  <div
-    className={`flex items-center justify-between gap-stack-xs mt-2 pt-2 border-t border-ink-200 text-caption text-ink-600 ${className}`}
-    {...rest}
-  />
+  <div className={`${FOOTER_CLASSES} ${className}`} {...rest} />
 );
 
 export default Card;

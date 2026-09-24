@@ -12,6 +12,8 @@ import { ArrowRight, FileText, Loader2 } from 'lucide-react';
 import type { CardTone } from '../core/Card';
 import { IconChip } from '../ui/IconChip';
 import { MetaPill } from '../ui/MetaPill';
+import { Badge } from '../ui/Badge';
+import type { BadgeVariant } from '../ui/Badge';
 
 export type PageCardStatus = 'active' | 'coming-soon' | 'beta' | 'archived';
 export type PageCardBadgeVariant = 'primary' | 'warm' | 'sun' | 'success' | 'danger';
@@ -60,15 +62,17 @@ const STATUS_TEXT: Record<PageCardStatus, string> = {
   active:        'text-success-fg',
   'coming-soon': 'text-accent-700',
   beta:          'text-primary-700',
-  archived:      'text-ink-500',
+  archived:      'text-ink-600',
 };
 
-const BADGE_CLASSES: Record<PageCardBadgeVariant, string> = {
-  primary: 'bg-primary-50 text-primary-800 border-primary-200',
-  warm:    'bg-secondary-50 text-secondary-700 border-secondary-200',
-  sun:     'bg-accent-50 text-accent-800 border-accent-200',
-  success: 'bg-success-bg text-success-fg border-success-base/30',
-  danger:  'bg-danger-bg text-danger-fg border-danger-base/30',
+/* Le badge fait main (11 px capitales, `tracking-wider`) devient le `Badge` du
+   système : même registre, un seul endroit où il se règle. */
+const BADGE_VARIANT: Record<PageCardBadgeVariant, BadgeVariant> = {
+  primary: 'brand',
+  warm:    'warm',
+  sun:     'sun',
+  success: 'success',
+  danger:  'danger',
 };
 
 /* Colonnage : src/lib/grid-columns.ts — source unique, en largeur de conteneur. */
@@ -127,24 +131,20 @@ export const PageCard: React.FC<{ item: PageCardItem; showThumbnail?: boolean }>
             >
               <span
                 aria-hidden="true"
+                /* Point FIXE : pas de mouvement permanent pour dire un état
+                   (arbitrage n°16) — le mot porte l'information. */
                 className={[
                   'inline-block w-2 h-2 rounded-pill',
                   STATUS_DOT[item.status],
-                  item.status === 'active' ? 'animate-pulse' : '',
                 ].join(' ')}
               />
               {STATUS_LABEL[item.status]}
             </span>
           )}
           {item.badge && (
-            <span
-              className={[
-                'inline-flex items-center px-2 py-0.5 rounded-pill border text-micro font-bold uppercase tracking-wider',
-                BADGE_CLASSES[item.badge.variant || 'primary'],
-              ].join(' ')}
-            >
+            <Badge variant={BADGE_VARIANT[item.badge.variant || 'primary']} size="compact">
               {item.badge.label}
-            </span>
+            </Badge>
           )}
         </div>
       )}
@@ -158,18 +158,18 @@ export const PageCard: React.FC<{ item: PageCardItem; showThumbnail?: boolean }>
         </div>
       )}
 
-      {/* Content */}
+      {/* Content — titre h3 · 8 · description 16 ink-700 · 12 · méta */}
       <div className="flex-1 flex flex-col gap-stack-xs px-stack-md py-stack">
         <h3 className="font-display text-h3 text-ink-900">
           {item.title}
         </h3>
         {item.description && (
-          <p className="font-body text-body text-ink-500 m-0">
+          <p className="font-body text-body text-ink-700 max-w-prose">
             {item.description}
           </p>
         )}
         {item.tag && (
-          <MetaPill text={item.tag} className="self-start mt-1" />
+          <MetaPill text={item.tag} className="self-start mt-stack-3xs" />
         )}
       </div>
 
@@ -214,9 +214,9 @@ export const PageCardGrid: React.FC<PageCardGridProps> = ({
   if (isLoading) {
     return (
       <div className={['flex items-center justify-center p-12', className].filter(Boolean).join(' ')}>
-        <div className="flex flex-col items-center gap-stack-xs text-ink-500">
+        <div className="flex flex-col items-center gap-stack-xs text-ink-600">
           <Loader2 className="w-8 h-8 animate-spin text-primary-500" strokeWidth={2.5} />
-          <p className="m-0 text-body font-medium">Chargement…</p>
+          <p className="text-body">Chargement…</p>
         </div>
       </div>
     );
@@ -232,11 +232,11 @@ export const PageCardGrid: React.FC<PageCardGridProps> = ({
           .filter(Boolean)
           .join(' ')}
       >
-        <div className="flex flex-col items-center gap-stack-xs text-ink-500 text-center">
+        <div className="flex flex-col items-center gap-stack-xs text-ink-600 text-center">
           <IconChip size="lg" tone="neutral">
             <FileText strokeWidth={2} />
           </IconChip>
-          <p className="m-0 text-body font-medium text-ink-700">{emptyMessage}</p>
+          <p className="text-body text-ink-700">{emptyMessage}</p>
         </div>
       </div>
     );

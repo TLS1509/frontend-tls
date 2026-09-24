@@ -120,17 +120,18 @@ const TONE_BORDER_FEATURED: Record<ProfileCardTone, string> = {
   sun:     'border-accent-200',
 };
 
+/* Couleur des icônes de contact — un glyphe, pas du texte. */
 const TONE_ROLE: Record<ProfileCardTone, string> = {
   primary: 'text-primary-700',
   warm:    'text-secondary-700',
   sun:     'text-accent-700',
 };
 
-const TONE_RATING_VALUE: Record<ProfileCardTone, string> = {
-  primary: 'text-primary-700',
-  warm:    'text-secondary-700',
-  sun:     'text-accent-700',
-};
+/* Le rôle est une MÉTA (« Expert IA & Pédagogie ») : légende 13 px ink-600.
+   Il était teinté au cran 700 en graisse 500 — une couleur de marque qui
+   « faisait joli » sur du texte (doctrine § 2 : la marque ne porte du texte
+   qu'au cran 800, et 500 est réservé aux puces). */
+const ROLE_CLASSES = 'font-body text-caption text-ink-600';
 
 /** Bg gradient for featured variant per tone */
 const TONE_FEATURED_BG: Record<ProfileCardTone, string> = {
@@ -156,11 +157,12 @@ const RatingDisplay: React.FC<{ rating: ProfileRating; tone: ProfileCardTone }> 
           />
         ))}
       </div>
-      <span className={`font-body text-caption font-bold ${TONE_RATING_VALUE[tone]}`}>
+      {/* Chiffre sous 16 px : Nunito 600, chiffres tabulaires (doctrine § 1). */}
+      <span className="font-body text-caption font-semibold tabular-nums text-ink-900">
         {rating.value.toFixed(1)}
       </span>
       {rating.count !== undefined && (
-        <span className="font-body text-caption text-ink-500">({rating.count} avis)</span>
+        <span className="font-body text-caption text-ink-600">({rating.count} avis)</span>
       )}
     </div>
   );
@@ -227,12 +229,12 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 
         {/* Center block — name, role, specialties, rating */}
         <div className="flex-1 min-w-0 flex flex-col gap-stack-xs">
-          <div className="flex items-baseline flex-wrap gap-x-stack-sm gap-y-tight">
-            <h3 className={`font-display ${VARIANT_NAME_SIZE[variant]} font-bold text-ink-900`}>
+          <div className="flex items-baseline flex-wrap gap-x-stack-sm gap-y-stack-3xs">
+            <h3 className={`font-display ${VARIANT_NAME_SIZE[variant]} text-ink-900`}>
               {name}
             </h3>
             {role && (
-              <p className={`m-0 font-body text-caption font-medium ${TONE_ROLE[tone]}`}>
+              <p className={ROLE_CLASSES}>
                 {role}
               </p>
             )}
@@ -312,12 +314,12 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
       )}
 
       {/* Name + role */}
-      <div className={`flex flex-col gap-tight ${isCentered ? 'items-center' : 'items-start'}`}>
-        <h3 className={`font-display ${VARIANT_NAME_SIZE[variant]} font-bold text-ink-900`}>
+      <div className={`flex flex-col gap-stack-3xs ${isCentered ? 'items-center' : 'items-start'}`}>
+        <h3 className={`font-display ${VARIANT_NAME_SIZE[variant]} text-ink-900`}>
           {name}
         </h3>
         {role && (
-          <p className={`m-0 font-body text-caption font-medium ${TONE_ROLE[tone]}`}>
+          <p className={ROLE_CLASSES}>
             {role}
           </p>
         )}
@@ -355,9 +357,11 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
         </div>
       )}
 
-      {/* Bio */}
+      {/* Bio — un paragraphe : ink-700, largeur de lecture, et TOUJOURS aligné
+          à gauche, même dans une carte centrée (doctrine § 3 : le centré ne
+          vaut que pour deux lignes au plus, et une bio en fait souvent plus). */}
       {bio && (
-        <p className={`m-0 font-body text-body text-ink-600 ${isCentered ? 'text-center' : 'text-left'}`}>
+        <p className="self-stretch font-body text-body text-ink-700 text-left max-w-prose">
           {bio}
         </p>
       )}

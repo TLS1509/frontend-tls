@@ -92,11 +92,12 @@ export const EtapeAccordion: React.FC<EtapeAccordionProps> = ({
         locked ? HEADER_BTN_LOCKED[variant] : '',
       ].filter(Boolean).join(' ')}
     >
+      {/* Libellé de rangée (16/600) et sa durée en légende, 4 px dessous. */}
       {header ?? (
-        <span>
-          {title && <strong className="font-semibold">{title}</strong>}
+        <span className="flex flex-col gap-stack-3xs">
+          {title && <strong className="text-body font-semibold">{title}</strong>}
           {duration && (
-            <span className="block mt-1 font-body text-caption text-ink-600">{duration}</span>
+            <span className="font-body text-caption text-ink-600">{duration}</span>
           )}
         </span>
       )}

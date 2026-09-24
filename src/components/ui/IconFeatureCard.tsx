@@ -1,7 +1,7 @@
 /**
  * IconFeatureCard — Square-ish tile card with icon, title, description.
  *
- * Pattern : icon (top) + title (h4) + description (body-sm) centered.
+ * Pattern : icon (top) + title (h3 20, 16 dans les tuiles denses) + description (16) centered.
  * Aspect tile / button-shaped : padding équilibré pour ratio plus carré.
  *
  * 2 modes :
@@ -20,7 +20,7 @@
  *  - **lg** : 40px (tile large)
  *  - **xl** : 48px (large feature card — l'icône domine la card)
  *
- * Title scale avec la size : xs→body-sm · sm→body · md→h4 · lg→h3 · xl→h3
+ * Title scale avec la size : xs/sm → 16 px · md/lg/xl → h3 (20)
  *
  * 4 surfaces (aspect de fond) :
  *  - **card** (default) : bg-white + border ink-200 — neutre, surface standard
@@ -159,10 +159,22 @@ const isSurfaceSombre = (surface: IconFeatureCardSurface) =>
    pour des grids homogènes (typique des quick actions, KPI tiles, etc.). */
 /* BASE — padding ajouté via PADDING_BY_SIZE (scale avec iconSize). */
 const BASE_DISPLAY =
-  'group flex flex-col items-center justify-center text-center gap-stack-xs rounded-xl transition-colors duration-base ease-emphasis';
+  'group flex flex-col items-center justify-center text-center rounded-xl transition-colors duration-base ease-emphasis';
 
 const BASE_BUTTON =
-  'group flex flex-col items-center justify-center text-center gap-stack-xs rounded-xl transition-[border-color,background-color,transform] duration-base ease-emphasis cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-disabled disabled:cursor-not-allowed active:scale-[0.98]';
+  'group flex flex-col items-center justify-center text-center rounded-xl transition-[border-color,background-color,transform] duration-base ease-emphasis cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-disabled disabled:cursor-not-allowed active:scale-[0.98]';
+
+/* Icône → titre : 1,5 fois l'écart titre → texte, pour que le titre se lise
+   avec ce qu'il introduit (doctrine § 5) — 8 / 4 dans les tuiles denses,
+   12 / 8 au-delà. À écarts égaux (8 / 8), le titre flottait entre l'icône et
+   sa description. */
+const ICON_GAP: Record<IconFeatureCardIconSize, string> = {
+  xs: 'gap-stack-xs',
+  sm: 'gap-stack-xs',
+  md: 'gap-stack-sm',
+  lg: 'gap-stack-sm',
+  xl: 'gap-stack-sm',
+};
 
 /* Square aspect — garde l'aspect bouton-compact responsive (ratio 1:1) */
 const SQUARE_ASPECT = 'aspect-square';
@@ -178,14 +190,24 @@ const ICON_ZONE: Record<IconFeatureCardIconSize, string> = {
   xl: 'min-h-[56px]',  // bubble xl = 64px
 };
 
-/* Title size scale — plus grand quand l'icône est grande pour rythme visuel cohérent.
-   xs → body-sm (14px) · sm → body (16px) · md → h4 (20px) · lg/xl → h3 (24px). */
+/* Title size scale — sur l'échelle (passe typographique du 2026-09-24) :
+   xs/sm → 16 px (tuiles de navigation denses) · md/lg/xl → h3 20/26.
+   Titre → description : 4 px dans les tuiles denses, 8 au-delà (doctrine § 5,
+   « titre → texte 8 », resserré là où le padding l'est aussi). */
 const TITLE_SIZE: Record<IconFeatureCardIconSize, string> = {
-  xs: 'text-body',
-  sm: 'text-body',
+  xs: 'text-body font-bold',
+  sm: 'text-body font-bold',
   md: 'text-h3',
   lg: 'text-h3',
   xl: 'text-h3',
+};
+
+const TEXT_GAP: Record<IconFeatureCardIconSize, string> = {
+  xs: 'gap-stack-3xs',
+  sm: 'gap-stack-3xs',
+  md: 'gap-stack-xs',
+  lg: 'gap-stack-xs',
+  xl: 'gap-stack-xs',
 };
 
 /* Padding scale par size — ASYMÉTRIQUE pour TOUTES les sizes (px < py).
@@ -239,6 +261,7 @@ export const IconFeatureCard: React.FC<IconFeatureCardProps> = ({
 
   const classes = [
     isButton ? BASE_BUTTON : BASE_DISPLAY,
+    ICON_GAP[iconSize],
     PADDING_BY_SIZE[iconSize],
     getSurfaceClasses(surface, tone),
     square && SQUARE_ASPECT,
@@ -296,16 +319,22 @@ export const IconFeatureCard: React.FC<IconFeatureCardProps> = ({
     </div>
   );
 
+  /* Dans un <button>, le titre est un <span> : un titre n'est pas un contenu
+     valide de bouton (HTML), et il faussait le plan de la page. Même style.
+     La description est une phrase courte, centrée comme la tuile : `text-balance`
+     équilibre ses deux lignes. Au-delà de deux lignes, préférer une carte
+     alignée à gauche (doctrine § 3). */
+  const TitleTag = isButton ? 'span' : 'h3';
+  const DescTag = isButton ? 'span' : 'p';
   const body = (
     <>
       {iconNode}
-      <div className="flex flex-col gap-tight">
-        {/* Title scale avec iconSize (xs→body-sm · sm→body · md→h4 · lg/xl→h3). */}
-        <h3 className={`font-display ${TITLE_SIZE[iconSize]} font-bold leading-tight ${surSombre ? 'text-white' : 'text-ink-900'}`}>
+      <div className={['flex flex-col', TEXT_GAP[iconSize]].join(' ')}>
+        <TitleTag className={`block font-display ${TITLE_SIZE[iconSize]} text-balance ${surSombre ? 'text-white' : 'text-ink-900'}`}>
           {title}
-        </h3>
+        </TitleTag>
         {description && (
-          <p className={`m-0 font-body text-body ${surSombre ? 'text-white' : 'text-ink-500'}`}>{description}</p>
+          <DescTag className={`block font-body text-body text-balance ${surSombre ? 'text-white' : 'text-ink-700'}`}>{description}</DescTag>
         )}
       </div>
     </>

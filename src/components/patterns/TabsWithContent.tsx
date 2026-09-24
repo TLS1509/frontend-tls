@@ -19,27 +19,33 @@ export interface TabsWithContentProps {
   className?: string;
 }
 
+/* Une seule graisse, 600, pour l'onglet actif comme pour les autres (passe
+   typographique du 2026-09-24) : il passait de 500 (réservé aux puces) à 700
+   à la sélection, et le libellé s'élargissait — la rangée d'onglets bougeait
+   sous le curseur. L'onglet actif se dit par la couleur et le filet. */
 const TAB_BASE =
-  'inline-flex items-center gap-stack-xs px-4 py-2.5 bg-transparent border-0 cursor-pointer font-body text-body font-medium transition-all ' +
+  'inline-flex items-center gap-stack-xs px-4 py-2.5 bg-transparent border-0 cursor-pointer font-body text-body font-semibold transition-all ' +
   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ' +
   'disabled:cursor-not-allowed disabled:opacity-50';
 
 const VARIANT_LIST: Record<TabsVariant, string> = {
-  underline: 'flex border-b border-ink-200 gap-tight mb-1',
+  underline: 'flex border-b border-ink-200 gap-tight',
   boxed:     'flex border border-ink-200 rounded-xl overflow-hidden bg-white',
   pill:      'inline-flex items-center gap-tight p-1 bg-ink-100 rounded-pill self-start',
 };
 
+/* Onglet au repos en ink-600 (texte secondaire sûr) : ink-500 est réservé
+   aux placeholders. Actif : la marque au cran 800, comme tout texte de marque. */
 const VARIANT_TAB: Record<TabsVariant, string> = {
-  underline: 'rounded-t-md text-ink-500 hover:text-ink-900 relative -mb-px border-b-2 border-transparent hover:bg-ink-50/50',
-  boxed:     'flex-1 justify-center text-ink-500 hover:bg-ink-50 hover:text-ink-900 border-r border-ink-200 last:border-r-0',
+  underline: 'rounded-t-md text-ink-600 hover:text-ink-900 relative -mb-px border-b-2 border-transparent hover:bg-ink-50/50',
+  boxed:     'flex-1 justify-center text-ink-600 hover:bg-ink-50 hover:text-ink-900 border-r border-ink-200 last:border-r-0',
   pill:      'rounded-pill text-ink-600 hover:text-ink-900 hover:bg-white/60',
 };
 
 const VARIANT_TAB_ACTIVE: Record<TabsVariant, string> = {
-  underline: 'text-primary-700 border-b-2 border-primary-600 font-bold bg-primary-50/50',
-  boxed:     'bg-gradient-to-br from-primary-700 to-primary-800 text-white font-bold shadow-brand-sm hover:bg-primary-800 hover:text-white',
-  pill:      'bg-white text-ink-900 font-bold shadow-sm',
+  underline: 'text-primary-800 border-b-2 border-primary-600 bg-primary-50/50',
+  boxed:     'bg-gradient-to-br from-primary-700 to-primary-800 text-white shadow-brand-sm hover:bg-primary-800 hover:text-white',
+  pill:      'bg-white text-ink-900 shadow-sm',
 };
 
 export const TabsWithContent: React.FC<TabsWithContentProps> = ({
@@ -90,7 +96,10 @@ export const TabsWithContent: React.FC<TabsWithContentProps> = ({
               {tab.badge !== undefined && (
                 <span
                   className={[
-                    'inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-pill text-micro font-bold',
+                    /* Un compte est un chiffre : Nunito 600, tabulaire, en
+                       légende (il était en 11 px graisse 700, le registre du
+                       `Badge`, qui dit un état et non un nombre). */
+                    'inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-pill text-caption font-semibold tabular-nums',
                     isActive
                       ? variant === 'boxed'
                         ? 'bg-white/30 text-white'

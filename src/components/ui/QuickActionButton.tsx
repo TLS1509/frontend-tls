@@ -126,13 +126,14 @@ export const QuickActionButton: React.FC<QuickActionButtonProps> = ({
         {icon}
       </span>
 
-      {/* Label + optional subtitle */}
-      <span className="flex-1 min-w-0 flex flex-col gap-tight">
+      {/* Label + optional subtitle — libellé 16/700, 4 px, sous-titre en
+          légende ink-600 (la méta : ink-500 est réservé aux placeholders). */}
+      <span className="flex-1 min-w-0 flex flex-col gap-stack-3xs">
         <span className="font-display text-body font-bold text-ink-900 truncate">
           {label}
         </span>
         {subtitle && (
-          <span className="font-body text-caption text-ink-500 truncate">
+          <span className="font-body text-caption text-ink-600 truncate">
             {subtitle}
           </span>
         )}

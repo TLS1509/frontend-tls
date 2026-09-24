@@ -25,15 +25,23 @@ export const NewsletterSignupCard: React.FC<NewsletterSignupCardProps> = ({
       <div className="@container relative z-10 max-w-page mx-auto px-4 sm:px-6 lg:px-10 py-10 sm:py-12">
         <div className="flex flex-col @2xl:flex-row @2xl:items-center gap-section">
 
-          {/* Editorial copy */}
-          <div className="flex flex-col gap-stack flex-1 min-w-0">
-            <span className="font-body text-micro font-bold uppercase tracking-[0.2em] text-white/40">
-              Newsletter · Gratuit
-            </span>
-            <h2 className="font-display text-h2 font-bold text-white text-balance">
-              La sélection TLS,<br />chaque vendredi.
-            </h2>
-            <p className="m-0 font-body text-body text-white/60 max-w-md">
+          {/* Editorial copy — surtitre → titre 8 · titre → texte 12 ·
+              texte → action 24. Sur ce fond sombre, le texte est en blanc
+              plein : la hiérarchie passe par la taille et la graisse, pas par
+              l'opacité (le surtitre était à blanc/40, 11 px capitales
+              espacées ; le texte à blanc/60). */}
+          <div className="flex flex-col flex-1 min-w-0">
+            <div className="flex flex-col">
+              <p className="font-body text-caption font-semibold text-white">
+                Newsletter · Gratuit
+              </p>
+              {/* `mt-stack-xs` sur le titre : il bat la marge de base des
+                  titres (0,75em = 21 px), qui éloignait le surtitre. */}
+              <h2 className="mt-stack-xs font-display text-h2 text-white text-balance">
+                La sélection TLS,<br />chaque vendredi.
+              </h2>
+            </div>
+            <p className="mt-stack-sm font-body text-body text-white max-w-prose">
               Les meilleurs articles, vidéos et dossiers de la semaine — curés par notre équipe éditoriale.
             </p>
             {onSeeLastIssue && (
@@ -43,7 +51,7 @@ export const NewsletterSignupCard: React.FC<NewsletterSignupCardProps> = ({
                 size="sm"
                 trailingIcon={<ArrowRight size={14} />}
                 onClick={onSeeLastIssue}
-                className="self-start"
+                className="self-start mt-stack-lg"
               >
                 Voir la dernière édition
               </Button>
@@ -60,7 +68,7 @@ export const NewsletterSignupCard: React.FC<NewsletterSignupCardProps> = ({
               (e.currentTarget as HTMLFormElement).reset();
             }}
           >
-            <label htmlFor={inputId} className="font-body text-caption font-semibold text-white/70">
+            <label htmlFor={inputId} className="font-body text-caption font-semibold text-white">
               Votre adresse e-mail
             </label>
             <div className="flex flex-col @lg:flex-row gap-stack-xs">
@@ -79,7 +87,7 @@ export const NewsletterSignupCard: React.FC<NewsletterSignupCardProps> = ({
                 S'inscrire
               </Button>
             </div>
-            <p className="m-0 font-body text-micro text-white/40">
+            <p className="font-body text-caption text-white/80">
               Pas de spam · Désinscription en 1 clic
             </p>
           </form>

@@ -104,32 +104,36 @@ export const StepTutorial: React.FC<StepTutorialProps> = ({
           </div>
         )}
 
-        <div className="p-7 sm:p-8 flex flex-col gap-stack-lg">
+        {/* Anatomie (passe typographique du 2026-09-24) : compteur · 12 ·
+            icône + titre h3 · 8 · description 16 ink-700 · 24 · action.
+            Padding 24 / 32 (le `p-7`, 28 px, n'était pas un pas). */}
+        <div className="p-stack-lg sm:p-section flex flex-col">
           {/* Step badge */}
           <Badge variant="neutral" className="self-start select-none">
             {activeStep + 1} / {steps.length}
           </Badge>
 
-          {/* Icon + title */}
-          <div className="flex items-start gap-stack">
+          {/* Icon + title — le titre descend de (56 − 26) / 2 = 15 px pour
+              centrer sa PREMIÈRE ligne sur l'icône (doctrine § 4). */}
+          <div className="mt-stack-sm flex items-start gap-stack">
             {step.icon && (
               <div className={['w-14 h-14 rounded-xl flex items-center justify-center shrink-0', TONE_ICON_BG[tone]].join(' ')}>
                 {step.icon}
               </div>
             )}
-            <h2 className="text-h3 font-display font-bold tracking-headline text-ink-900 mt-1 text-balance">
+            <h2 className={['font-display text-h3 text-ink-900 text-balance', step.icon ? 'mt-[15px]' : ''].filter(Boolean).join(' ')}>
               {step.title}
             </h2>
           </div>
 
           {/* Description */}
-          <p className="text-body text-ink-600">
+          <p className="mt-stack-xs font-body text-body text-ink-700 max-w-prose">
             {step.description}
           </p>
 
           {/* Optional CTA */}
           {step.cta && step.onCta && (
-            <Button emphasis="outline" size="md" onClick={step.onCta} className="self-start">
+            <Button emphasis="outline" size="md" onClick={step.onCta} className="self-start mt-stack-lg">
               {step.cta}
             </Button>
           )}
@@ -185,7 +189,7 @@ export const StepTutorial: React.FC<StepTutorialProps> = ({
           <button
             type="button"
             onClick={onSkip}
-            className="text-caption text-ink-600 hover:text-ink-600 underline underline-offset-2 transition-colors duration-fast min-h-touch px-2 py-2 rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+            className="text-caption text-ink-600 hover:text-ink-900 underline underline-offset-2 transition-colors duration-fast min-h-touch px-2 py-2 rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           >
             Passer le tutoriel
           </button>

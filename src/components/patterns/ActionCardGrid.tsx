@@ -61,10 +61,15 @@ export const ActionCardGrid: React.FC<ActionCardGridProps> = ({
           <IconChip size="lg" tone="brand" className="transition-transform group-hover:scale-110 motion-reduce:group-hover:scale-100">
             {item.icon}
           </IconChip>
-          <h3 className="text-h3 font-display text-ink-900">
+          {/* Tuile centrée : titre h3 20/700, description 16 ink-700 — courte,
+              équilibrée sur deux lignes (`text-balance`). Au-delà de deux
+              lignes, une carte alignée à gauche (doctrine § 3). Icône →
+              titre 16 (8 + le `mt` du titre, qui remplace la marge de base
+              des titres : 0,75em, soit 23 px en tout). */}
+          <h3 className="mt-stack-xs font-display text-h3 text-ink-900 text-balance">
             {item.title}
           </h3>
-          <p className="m-0 text-body text-ink-500">{item.description}</p>
+          <p className="font-body text-body text-ink-700 text-balance">{item.description}</p>
           <ArrowRight
             size={16}
             className="absolute top-4 right-4 text-ink-300 group-hover:text-primary-600 group-hover:translate-x-0.5 transition-all"

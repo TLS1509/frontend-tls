@@ -108,7 +108,7 @@ export const WritingPromptsAside: React.FC<WritingPromptsAsideProps> = ({
       <button
         type="button"
         onClick={onOpenJournal}
-        className="self-start inline-flex items-center gap-stack-2xs font-body text-body font-semibold text-primary-700 hover:text-primary-800 underline-offset-4 hover:underline transition-colors bg-transparent border-0 p-0 cursor-pointer"
+        className="self-start inline-flex items-center gap-stack-2xs font-body text-body font-semibold text-primary-800 hover:text-primary-900 underline-offset-4 hover:underline transition-colors bg-transparent border-0 p-0 cursor-pointer"
       >
         Ouvrir mon journal
         <ArrowRight size={14} />

@@ -48,13 +48,6 @@ const ICON_BG: Record<EditorialQuoteTone, string> = {
   neutral: 'bg-gradient-to-br from-ink-100 to-ink-200 text-ink-700',
 };
 
-const EYEBROW: Record<EditorialQuoteTone, string> = {
-  brand:   'text-primary-700',
-  warm:    'text-secondary-700',
-  sun:     'text-accent-700',
-  neutral: 'text-ink-600',
-};
-
 export const EditorialQuoteCallout: React.FC<EditorialQuoteCalloutProps> = ({
   tone = 'brand',
   children,
@@ -66,7 +59,7 @@ export const EditorialQuoteCallout: React.FC<EditorialQuoteCalloutProps> = ({
     <figure
       className={[
         'relative rounded-lg backdrop-blur-glass-light border',
-        'p-6 sm:p-8 lg:p-10',
+        'p-stack-lg sm:p-section lg:p-section-lg',
         'flex flex-col gap-stack',
         SURFACE[tone],
         className,
@@ -86,24 +79,23 @@ export const EditorialQuoteCallout: React.FC<EditorialQuoteCalloutProps> = ({
 
         <div className="flex-1 min-w-0 flex flex-col gap-stack">
           {eyebrow && (
-            <span
-              className={[
-                'inline-flex font-body text-caption font-medium',
-                EYEBROW[tone],
-              ].join(' ')}
-            >
+            <p className="font-body text-caption font-semibold text-ink-600">
               {eyebrow}
-            </span>
+            </p>
           )}
 
-          <blockquote className="m-0 font-body italic text-body-lg sm:text-h3 text-ink-800 [&_p]:m-0 [&_p+p]:mt-stack">
+          {/* La citation : Nunito italique (le vrai italique — League Spartan
+              n'en a pas), 18/28 à toutes les largeurs, une ligne entre deux
+              paragraphes. Elle passait en `text-h3` dès 640 px — 20 px mais
+              aussi la graisse 700 du titre : un italique gras qui criait. */}
+          <blockquote className="font-body italic text-body-lg text-ink-900 max-w-prose [&_p+p]:mt-stack">
             {children}
           </blockquote>
         </div>
       </div>
 
       {signature && (
-        <figcaption className="not-italic mt-2 pl-0 sm:pl-[4.5rem]">
+        <figcaption className="not-italic pl-0 sm:pl-[4.5rem]">
           <AuthorStrip
             name={signature.name}
             role={signature.role}
