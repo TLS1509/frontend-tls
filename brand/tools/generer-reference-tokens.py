@@ -46,11 +46,20 @@ FAMILLES_SEM = {
     'warning': ('Alerte', ['warning-bg', 'warning-base', 'warning-fg']),
     'info':    ('Info',   ['info-bg', 'info-base', 'info-fg']),
 }
+# Chaque pas est nommé par son RÔLE, pas par son rang (révisé le 2026-09-24,
+# arbitrages n°20 et 21) : on choisit un pas en se demandant ce qu'est le texte.
+# `h4` et `body-sm` n'existent plus — texte courant à 16 px partout, titres 28
+# puis 20.
 ECHELLE = [
-    ('hero', 'Hero', 'clamp — 44 à 80 px'), ('h1', 'Titre 1', ''), ('h2', 'Titre 2', ''),
-    ('h3', 'Titre 3', ''), ('h4', 'Titre 4', ''), ('body-lg', 'Corps large', ''),
-    ('body', 'Corps', ''), ('body-sm', 'Corps petit', ''), ('caption', 'Légende', ''),
-    ('micro', 'Micro', ''),
+    ('hero', 'Hero', 'site seulement — clamp 44 à 80 px'),
+    ('h1', 'Titre de page', 'un seul par page'),
+    ('h2', 'Titre de section', 'posé sur la page : 48 au-dessus, 16 en dessous'),
+    ('h3', 'Titre de bloc', 'carte, modale, sous-section'),
+    ('body-lg', 'Chapô', 'sous le titre de page, ink-700'),
+    ('body', 'Texte courant', 'tout ce qu’on lit — 16 px partout (arbitrage n°20)'),
+    ('caption', 'Méta', 'dates, comptes, légendes — ink-600'),
+    ('micro', 'Étiquette d’état', 'Badge seulement, en capitales'),
+    ('stat-value', 'Chiffre clé', 'StatCard — clamp 32 à 44 px'),
 ]
 
 # L'échelle d'empilement, dans l'ordre croissant. Les deux crans ajoutés le
@@ -62,7 +71,8 @@ EMPILEMENT = [
     ('stack-2xs',  'ajouté le 09/09 — le barreau qui manquait'),
     ('stack-xs',   'la gouttière dominante du répertoire'),
     ('stack-sm',   'ajouté le 16/09 — entre stack-xs et stack'),
-    ('stack',      'le cran de référence'),
+    ('stack',      'le cran de référence — titre de section ↔ contenu'),
+    ('stack-md',   'ajouté le 16/09 — padding d’une carte dense'),
     ('stack-lg',   'padding canonique d’une carte'),
     ('section',    'entre deux blocs d’une page'),
     ('section-lg', ''),
@@ -95,6 +105,7 @@ donnees = {
     'semantiques': {f: (lib, [(k, couleurs[k], f'--color-{k}') for k in ks if k in couleurs])
                     for f, (lib, ks) in FAMILLES_SEM.items()},
     'echelle': [{'cle': c, 'libelle': l, 'note': n, 'taille': texte.get(c, ''),
+                 'lh': texte.get(c + '--line-height', ''),
                  'ls': texte.get(c + '--letter-spacing', ''), 'fw': texte.get(c + '--font-weight', '')}
                 for c, l, n in ECHELLE if c in texte],
     'espacements': [(c, espaces[c], en_px(espaces[c]), note) for c, note in EMPILEMENT if c in espaces],

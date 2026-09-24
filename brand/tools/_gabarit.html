@@ -250,13 +250,16 @@ function bloc(nom, desc, entrees){
            el('p','sous','Rendue dans les vraies polices, aux vraies tailles, avec le tracking gradué du système. League Spartan pour les titres, Nunito pour le texte.'));
   TLS.echelle.forEach(p => {
     const rang = el('div','pas');
-    const estTitre = /^(hero|h[1-4])$/.test(p.cle);
+    const estTitre = /^(hero|h[1-3]|stat-value)$/.test(p.cle);
     const meta = el('div','pas-meta');
-    meta.innerHTML = `<b>${p.libelle}</b>--text-${p.cle}<br>${p.taille}` +
+    const px = (v) => (/^[\d.]+rem$/.test(v) ? `${parseFloat(v) * 16} px` : v);
+    meta.innerHTML = `<b>${p.libelle}</b>--text-${p.cle}<br>${px(p.taille)}` +
+      (p.lh ? ` · interligne ${px(p.lh)}` : '') +
       (p.ls ? `<br>tracking ${p.ls}` : '') + (p.fw ? `<br>graisse ${p.fw}` : '') +
       (p.note ? `<br>${p.note}` : '');
-    const demo = el('div', 'pas-demo' + (estTitre ? '' : ' corps'), 'The Learning Society');
+    const demo = el('div', 'pas-demo' + (estTitre ? '' : ' corps'), p.cle === 'stat-value' ? '1 284' : 'The Learning Society');
     demo.style.fontSize = p.taille;
+    if (p.lh) demo.style.lineHeight = p.lh;
     if (p.ls) demo.style.letterSpacing = p.ls;
     demo.style.fontWeight = p.fw || (estTitre ? 700 : 400);
     rang.append(meta, demo); s.append(rang);
