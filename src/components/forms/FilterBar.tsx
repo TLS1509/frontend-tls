@@ -29,6 +29,7 @@
 import React from 'react';
 import { X } from 'lucide-react';
 import { FilterChip, type FilterChipTone } from '../ui/FilterChip';
+import { Button } from '../core/Button';
 
 export interface FilterBarOption {
   id: string;
@@ -154,19 +155,30 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             aria-hidden
             className={`hidden sm:inline-block w-px h-5 ${isGlass ? 'bg-white/30' : 'bg-ink-200'} mx-1`}
           />
-          <button
-            type="button"
+          {/* « Effacer » parle la voix de la barre (2026-09-24). Il était en
+              11/700 ink-500 — le corps des étiquettes et l'encre des
+              placeholders — à côté de pastilles en 13/600 (`sm`) ou 16/600
+              (`md`) : le seul outil de la barre en chuchotait moins que les
+              filtres qu'il efface. C'est désormais un `Button` neutre, au
+              corps de la barre :
+                · `sm` (pastilles de 28 px) → `link` 13 : sans boîte, il ne
+                  fait pas grandir la barre ; sa cible monte à 28 px ;
+                · `md` (pastilles de 44 px, arbitrage n°22) → `ghost` 16, à la
+                  hauteur des pastilles ;
+                · verre (hero ≥ 700) → `ghost` `onDark`, blanc : le `link`
+                  n'a pas de version sur fond sombre. En `sm`, ce bouton de
+                  36 px fait passer la barre de 28 à 36 px à la sélection. */}
+          <Button
+            emphasis={isGlass || size === 'md' ? 'ghost' : 'link'}
+            tone="neutral"
+            onDark={isGlass}
+            size={size}
+            leadingIcon={<X />}
             onClick={handleClear}
-            className={`inline-flex items-center gap-tight px-2.5 py-1 font-body text-micro font-bold bg-transparent border-0 cursor-pointer transition-colors duration-base rounded-pill focus-visible:outline-2 focus-visible:outline-offset-2 ${
-              isGlass
-                ? 'text-white underline-offset-2 hover:underline focus-visible:outline-white/50'
-                : 'text-ink-500 hover:text-danger-fg focus-visible:outline-primary-500'
-            }`}
             title="Effacer tous les filtres"
           >
-            <X size={14} strokeWidth={2.5} />
             Effacer
-          </button>
+          </Button>
         </>
       )}
     </div>
