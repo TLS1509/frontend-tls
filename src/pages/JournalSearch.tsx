@@ -1,15 +1,17 @@
 import React, { useState, useMemo } from 'react';
-import { Search as SearchIcon, Calendar, Smile, Frown, Meh } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Search as SearchIcon, Calendar, Smile, Frown, Meh, ChevronRight } from 'lucide-react';
 import EditorialHero from '../components/patterns/EditorialHero';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { Card } from '../components/core/Card';
 import { Input } from '../components/core/Input';
 import { FilterChip } from '../components/ui/FilterChip';
-import { Badge } from '../components/ui/Badge';
+import { MetaPill } from '../components/ui/MetaPill';
 import { EmptyState } from '../components/ui/EmptyState';
 import { useJournalStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
 import type { JournalMoodLevel } from '../types/learning';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 
 type MoodFilter = 'all' | JournalMoodLevel;
 
@@ -34,6 +36,7 @@ const TYPE_LABELS: Record<string, string> = {
 };
 
 const JournalSearch: React.FC = () => {
+  const navigate = useNavigate();
   const journalStore = useJournalStore();
   const [query, setQuery] = useState('');
   const [moodFilter, setMoodFilter] = useState<MoodFilter>('all');
@@ -55,7 +58,9 @@ const JournalSearch: React.FC = () => {
   }, [storeEntries, query, moodFilter, dateFilter, now]);
 
   return (
-    <div className="min-h-[100dvh] bg-surface">
+    /* Un seul conteneur pour l'en-tête et le corps : le titre était calé à
+       gauche de la page, le corps recentré dans sa colonne de 768 px. */
+    <PageShell width="content">
       <EditorialHero
         eyebrow="Journal · Recherche"
         title="Retrouve toutes tes entrées"
@@ -63,72 +68,92 @@ const JournalSearch: React.FC = () => {
         tone="flat"
       />
 
-      <Container width="content" padding={false} className="px-stack py-section flex flex-col gap-section">
-        <Card className="p-stack-md">
-          <Input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Rechercher dans le titre, le contenu..."
-            leadingIcon={<SearchIcon className="w-4 h-4" />}
-          />
-        </Card>
+      {/* Recherche et filtres : un seul groupe. Le champ n'a pas besoin d'une
+          carte autour de lui ; les deux rangées de filtres sont nommées comme
+          des champs (13/600 ink-600), et les émojis cèdent la place aux
+          glyphes de l'app. */}
+      <div className="flex flex-col gap-stack">
+        <Input
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Rechercher dans le titre, le contenu..."
+          aria-label="Rechercher dans le journal"
+          leadingIcon={<SearchIcon className="w-4 h-4" />}
+        />
 
-        <div className="flex flex-wrap gap-stack">
-          <div className="flex flex-wrap gap-stack-xs items-center">
-            <span className="text-caption text-ink-500">Sentiment :</span>
-            <FilterChip label="Tous"           active={moodFilter === 'all'}       onClick={() => setMoodFilter('all')} />
-            <FilterChip label="😊 Positif"     active={moodFilter === 'happy'}     onClick={() => setMoodFilter('happy')} />
-            <FilterChip label="😐 Neutre"      active={moodFilter === 'neutral'}   onClick={() => setMoodFilter('neutral')} />
-            <FilterChip label="😞 Difficile"   active={moodFilter === 'sad'}       onClick={() => setMoodFilter('sad')} />
+        <div className="flex flex-wrap gap-x-section gap-y-stack">
+          <div className="flex flex-col gap-stack-xs">
+            <span className="text-caption font-semibold text-ink-600">Sentiment</span>
+            <div className="flex flex-wrap gap-stack-xs">
+              <FilterChip label="Tous"      active={moodFilter === 'all'}     onClick={() => setMoodFilter('all')} />
+              <FilterChip label="Positif"   icon={<Smile size={16} />} active={moodFilter === 'happy'}   onClick={() => setMoodFilter('happy')} />
+              <FilterChip label="Neutre"    icon={<Meh size={16} />}   active={moodFilter === 'neutral'} onClick={() => setMoodFilter('neutral')} />
+              <FilterChip label="Difficile" icon={<Frown size={16} />} active={moodFilter === 'sad'}     onClick={() => setMoodFilter('sad')} />
+            </div>
           </div>
-          <div className="flex flex-wrap gap-stack-xs items-center">
-            <span className="text-caption text-ink-500">Période :</span>
-            <FilterChip label="Toutes"  active={dateFilter === 'all'} onClick={() => setDateFilter('all')} />
-            <FilterChip label="7j"      active={dateFilter === '7d'}  onClick={() => setDateFilter('7d')} />
-            <FilterChip label="30j"     active={dateFilter === '30d'} onClick={() => setDateFilter('30d')} />
-            <FilterChip label="3 mois"  active={dateFilter === '90d'} onClick={() => setDateFilter('90d')} />
+          <div className="flex flex-col gap-stack-xs">
+            <span className="text-caption font-semibold text-ink-600">Période</span>
+            <div className="flex flex-wrap gap-stack-xs">
+              <FilterChip label="Toutes"  active={dateFilter === 'all'} onClick={() => setDateFilter('all')} />
+              <FilterChip label="7j"      active={dateFilter === '7d'}  onClick={() => setDateFilter('7d')} />
+              <FilterChip label="30j"     active={dateFilter === '30d'} onClick={() => setDateFilter('30d')} />
+              <FilterChip label="3 mois"  active={dateFilter === '90d'} onClick={() => setDateFilter('90d')} />
+            </div>
           </div>
         </div>
+      </div>
 
-        <div className="text-caption text-ink-500">
-          {filtered.length} résultat{filtered.length > 1 ? 's' : ''} {query && <>pour "<strong>{query}</strong>"</>}
-        </div>
+      {/* Résultats — une section (h2 28) dont le compte est la méta ; les
+          entrées en rangées dans une carte (arbitrage n°5), et chaque rangée
+          ouvre son entrée : les cartes portaient un curseur de lien sans
+          mener nulle part. Type, humeur et lien sont des données : MetaPill. */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader
+          title="Résultats"
+          meta={<>{filtered.length} résultat{filtered.length > 1 ? 's' : ''}{query && <> pour « <strong className="font-semibold text-ink-900">{query}</strong> »</>}</>}
+        />
 
         {filtered.length === 0 ? (
           <EmptyState title="Aucun résultat" description="Essaie un autre terme ou ajuste les filtres" />
         ) : (
-          <div className="flex flex-col gap-stack-xs">
-            {filtered.map((e) => {
-              const cfg = MOOD_CONFIG[e.mood] ?? MOOD_CONFIG['neutral'];
-              const Icon = cfg.icon;
-              const excerpt = e.body.length > 150 ? e.body.slice(0, 150) + '…' : e.body;
-              const date = new Date(e.createdAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
-              return (
-                <Card key={e.id} className="p-stack-md cursor-pointer hover:border-primary-300 transition-all">
-                  <div className="flex items-start gap-stack">
-                    <Icon className={`w-6 h-6 ${cfg.color} shrink-0 mt-1`} />
-                    <div className="flex-1">
-                      <div className="flex items-center gap-stack-xs mb-1">
-                        <h3 className="font-semibold">{e.title}</h3>
+          <Card className="p-0 overflow-hidden">
+            <ul className="divide-y divide-ink-100">
+              {filtered.map((e) => {
+                const cfg = MOOD_CONFIG[e.mood] ?? MOOD_CONFIG['neutral'];
+                const Icon = cfg.icon;
+                const excerpt = e.body.length > 150 ? e.body.slice(0, 150) + '…' : e.body;
+                const date = new Date(e.createdAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+                return (
+                  <li key={e.id}>
+                    <button
+                      type="button"
+                      onClick={() => navigate(`/journal/detail/${e.id}`)}
+                      className="group w-full flex items-start gap-stack px-stack-lg py-stack-md text-left bg-white hover:bg-ink-50 transition-colors duration-base cursor-pointer focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-500"
+                    >
+                      {/* Glyphe 20 centré sur la première ligne (26) : 3 px. */}
+                      <Icon size={20} className={`${cfg.color} shrink-0 mt-[3px]`} aria-hidden="true" />
+                      <div className="flex-1 min-w-0 flex flex-col gap-stack-3xs">
+                        <p className="text-body font-semibold text-ink-900">{e.title}</p>
+                        <p className="text-body text-ink-700 max-w-prose">{excerpt}</p>
+                        <div className="mt-stack-xs flex items-center gap-stack-xs flex-wrap">
+                          <MetaPill text={TYPE_LABELS[e.type] ?? e.type} />
+                          <MetaPill text={cfg.label} tone="primary" />
+                          {e.linkedItemId && <MetaPill text="Item lié" tone="sun" />}
+                          <span className="flex items-center gap-stack-3xs text-caption text-ink-600">
+                            <Calendar size={14} aria-hidden="true" /> {date}
+                          </span>
+                        </div>
                       </div>
-                      <p className="text-body text-ink-600 mb-stack-xs">{excerpt}</p>
-                      <div className="flex items-center gap-stack-xs flex-wrap">
-                        <Badge variant="neutral">{TYPE_LABELS[e.type] ?? e.type}</Badge>
-                        <Badge variant="brand">{cfg.label}</Badge>
-                        {e.linkedItemId && <Badge variant="sun">Item lié</Badge>}
-                        <span className="flex items-center gap-tight text-caption text-ink-500">
-                          <Calendar className="w-3 h-3" /> {date}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </Card>
-              );
-            })}
-          </div>
+                      <ChevronRight size={18} className="text-ink-600 shrink-0 mt-1 group-hover:text-ink-900" aria-hidden="true" />
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          </Card>
         )}
-      </Container>
-    </div>
+      </section>
+    </PageShell>
   );
 };
 

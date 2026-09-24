@@ -26,11 +26,6 @@ import {
   CalendarDays,
   Clock3,
   Tag as TagIcon,
-  Sparkles,
-  Target,
-  Eye,
-  Lightbulb,
-  CheckCircle2,
   PenLine,
   Frown,
   Meh,
@@ -41,9 +36,7 @@ import {
 import { Button } from '../components/core/Button';
 import { MetaPill } from '../components/ui/MetaPill';
 import { MetaPillGroup } from '../components/ui/MetaPillGroup';
-import { KeyFindingCard, type KeyFindingTone } from '../components/patterns/KeyFindingCard';
 import { EmptyState } from '../components/ui/EmptyState';
-import { AuthorStrip } from '../components/patterns/AuthorStrip';
 import { PageShell } from '../components/layout';
 import {
   ReadingProgressBar,
@@ -85,17 +78,6 @@ const MOOD: Record<JournalMoodLevel, { label: string; icon: React.ReactNode }> =
 const QUESTION_TITLE: Record<string, string> = Object.fromEntries(
   [...EDRA_R_QUESTIONS, ...GENERIC_STRUCTURED_QUESTIONS].map((q) => [q.id, q.title]),
 );
-
-const ANSWER_STYLE: Record<string, { icon: React.ReactNode; tone: KeyFindingTone }> = {
-  experience:  { icon: <Eye size={20} />,          tone: 'brand' },
-  description: { icon: <Eye size={20} />,          tone: 'brand' },
-  reflexion:   { icon: <Lightbulb size={20} />,    tone: 'warm' },
-  action:      { icon: <Target size={20} />,       tone: 'success' },
-  resultat:    { icon: <CheckCircle2 size={20} />, tone: 'success' },
-  learning:    { icon: <Lightbulb size={20} />,    tone: 'brand' },
-  challenges:  { icon: <Eye size={20} />,          tone: 'warm' },
-  application: { icon: <Target size={20} />,       tone: 'success' },
-};
 
 const formatDate = (iso: string) =>
   new Date(iso).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -162,9 +144,11 @@ export const JournalDetail: React.FC = () => {
     <div className="min-h-[100dvh] bg-surface">
       <ReadingProgressBar targetRef={articleRef} tone="brand" />
 
-      {/* Sticky glass header */}
+      {/* Barre collante : une rangée. Elle passait par `PageShell`, dont la base
+          porte `flex-col` — les deux groupes s'empilaient dans 56 px de haut, et
+          « Retour au journal » sortait par le haut de l'écran. */}
       <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100">
-        <PageShell width="medium" className="h-14 flex items-center justify-between gap-stack-xs" noPadTop>
+        <div className="max-w-medium mx-auto w-full h-14 flex flex-row items-center justify-between gap-stack-xs">
           <Button
             emphasis="outline"
             size="sm"
@@ -174,7 +158,11 @@ export const JournalDetail: React.FC = () => {
             Retour au journal
           </Button>
           <div className="flex items-center gap-stack-xs">
-            <ReadingProgressRing targetRef={articleRef} tone="brand" size={32} />
+            {/* À 375 px, l'anneau cède sa place : la rangée faisait 356 px
+                pour 343 (la barre de progression, en haut, dit la même chose). */}
+            <span className="hidden sm:inline-flex">
+              <ReadingProgressRing targetRef={articleRef} tone="brand" size={32} />
+            </span>
             <Button
               emphasis="soft"
               size="sm"
@@ -184,83 +172,94 @@ export const JournalDetail: React.FC = () => {
               Nouvelle entrée
             </Button>
           </div>
-        </PageShell>
+        </div>
       </div>
 
+      {/* Le haut de page est celui de la coque (48 à 1440) : l'en-tête se lit
+          avec le texte qu'il ouvre, à 32 en dessous — et non plus à 57, filet
+          compris, sous 32 seulement au-dessus. */}
       <PageShell
         ref={articleRef}
         width="medium"
-        className="relative z-base py-section gap-section flex-1"
-        noPadTop
+        gap="section"
+        className="relative z-base flex-1"
       >
 
-        {/* Hero éditorial */}
-        <header className="flex flex-col gap-stack">
-          {/* Eyebrow chips */}
+        {/* En-tête de lecture — l'anatomie de `PageHero` : surtitre → 8 → h1
+            → 12 → méta. Le h1 était à 16 px de ses pastilles et à 32 de sa
+            date, derrière une bande « Vous · Auteur » avec un avatar : le
+            gabarit d'un article de blog sur un carnet personnel. La date et
+            la durée de lecture restent, en légende. L'étincelle, réservée aux
+            fonctions d'IA, quitte la pastille « Journal de bord ». */}
+        <header className="flex flex-col">
           <div className="flex items-center gap-stack-xs flex-wrap">
-            <MetaPill icon={<Sparkles />} text="Journal de bord" tone="primary" />
+            <MetaPill text="Journal de bord" tone="primary" />
             {/* Le type est une donnée, pas un état : MetaPill (arbitrages n°14-15). */}
             <MetaPill text={TYPE_LABEL[storeEntry.type]} />
             {mood && <MetaPill icon={mood.icon} text={mood.label} />}
           </div>
 
-          <h1 className="font-display text-h1 font-bold text-ink-900 tracking-tight">
+          <h1 className="mt-stack-xs font-display text-h1 text-ink-900 text-balance">
             {storeEntry.title}
           </h1>
 
-          <div className="pt-stack pb-stack-lg border-b border-ink-100">
-            <AuthorStrip
-              variant="compact"
-              name="Vous"
-              role="Auteur"
-              meta={[
-                { icon: <CalendarDays size={14} />, text: formatDate(storeEntry.createdAt) },
-                { icon: <Clock3 size={14} />,       text: readingTime(fullText) },
-              ]}
-            />
-          </div>
+          <p className="mt-stack-sm flex flex-wrap items-center gap-x-stack-sm gap-y-stack-3xs text-caption text-ink-600">
+            <span className="inline-flex items-center gap-stack-3xs">
+              <CalendarDays size={14} aria-hidden="true" />
+              <time dateTime={storeEntry.createdAt}>{formatDate(storeEntry.createdAt)}</time>
+            </span>
+            <span className="inline-flex items-center gap-stack-3xs">
+              <Clock3 size={14} aria-hidden="true" />
+              {readingTime(fullText)} de lecture
+            </span>
+          </p>
         </header>
 
-        {/* Corps de l'entrée : le texte tel que l'apprenant l'a écrit */}
+        {/* Corps de l'entrée : le texte tel que l'apprenant l'a écrit, à la
+            largeur de lecture (65 caractères) — il courait sur 1 000 px — et
+            en encre principale. Une ligne entre deux paragraphes. */}
         {storeEntry.body.trim().length > 0 && (
-          <div className="flex flex-col gap-stack">
+          <div className="flex flex-col gap-stack max-w-prose">
             {storeEntry.body.split(/\n{2,}/).map((para, i) => (
-              <p key={i} className="font-body text-body text-ink-800 whitespace-pre-line">
+              <p key={i} className="font-body text-body text-ink-900 whitespace-pre-line">
                 {para}
               </p>
             ))}
           </div>
         )}
 
-        {/* Réponses aux questions structurées, s'il y en a */}
+        {/* Réponses aux questions structurées : la question, puis la réponse,
+            dans le fil du texte. Chacune vivait dans sa propre carte avec une
+            pastille ronde — un paragraphe par carte, ce que la doctrine exclut
+            (§ 3). La question est l'intitulé de sa réponse (16/600, 4 px) ; la
+            réponse, le texte de l'apprenant, reste en encre principale ; 24
+            entre deux réponses. */}
         {answers.length > 0 && (
-          <section className="flex flex-col gap-stack">
-            {answers.map(([questionId, text]) => {
-              const style = ANSWER_STYLE[questionId] ?? { icon: <PenLine size={20} />, tone: 'neutral' as const };
-              return (
-                <KeyFindingCard
-                  key={questionId}
-                  icon={style.icon}
-                  tone={style.tone}
-                  title={QUESTION_TITLE[questionId] ?? questionId}
-                  description={text}
-                />
-              );
-            })}
-          </section>
+          <dl className="flex flex-col gap-stack-lg max-w-prose">
+            {answers.map(([questionId, text]) => (
+              <div key={questionId} className="flex flex-col gap-stack-3xs">
+                <dt className="font-body text-body font-semibold text-ink-900">
+                  {QUESTION_TITLE[questionId] ?? questionId}
+                </dt>
+                <dd className="font-body text-body text-ink-900 whitespace-pre-line">{text}</dd>
+              </div>
+            ))}
+          </dl>
         )}
 
         {/* Tags */}
         {tags.length > 0 && (
           <div className="flex flex-col gap-stack-xs pt-stack border-t border-ink-100">
-            <span className="inline-flex items-center gap-stack-2xs font-body text-caption font-medium text-ink-500">
-              <TagIcon size={14} /> Tags
+            <span className="inline-flex items-center gap-stack-3xs font-body text-caption font-semibold text-ink-600">
+              <TagIcon size={14} aria-hidden="true" /> Tags
             </span>
             <MetaPillGroup items={tags.map((tag) => ({ text: tag }))} />
           </div>
         )}
 
-        {/* Entry navigation prev/next */}
+        {/* Entry navigation prev/next — le sens (« Entrée précédente ») est une
+            légende 13 : il était en étiquette 11 capitales ink-500, le registre
+            des seuls Badge. */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack-xs">
           {prevEntry ? (
             <button
@@ -269,8 +268,8 @@ export const JournalDetail: React.FC = () => {
               className={`flex items-center gap-stack-xs p-stack rounded-lg border border-ink-100 bg-white ${CARD_HOVER_NEUTRE} transition-colors duration-base cursor-pointer text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500`}
             >
               <ArrowLeft size={16} className="text-ink-600 shrink-0" />
-              <div className="flex-1 min-w-0">
-                <div className="font-body text-micro font-bold text-ink-500 uppercase tracking-wider mb-1">
+              <div className="flex-1 min-w-0 flex flex-col gap-stack-3xs">
+                <div className="font-body text-caption text-ink-600">
                   Entrée précédente
                 </div>
                 <div className="font-body text-body font-semibold text-ink-900 truncate">
@@ -285,8 +284,8 @@ export const JournalDetail: React.FC = () => {
               onClick={() => navigate(`/journal/detail/${nextEntry.id}`)}
               className={`flex items-center justify-end gap-stack-xs p-stack rounded-lg border border-ink-100 bg-white ${CARD_HOVER_NEUTRE} transition-colors duration-base cursor-pointer text-right focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500`}
             >
-              <div className="flex-1 min-w-0">
-                <div className="font-body text-micro font-bold text-ink-500 uppercase tracking-wider mb-1">
+              <div className="flex-1 min-w-0 flex flex-col gap-stack-3xs">
+                <div className="font-body text-caption text-ink-600">
                   Entrée suivante
                 </div>
                 <div className="font-body text-body font-semibold text-ink-900 truncate">
@@ -298,13 +297,15 @@ export const JournalDetail: React.FC = () => {
           ) : <div />}
         </div>
 
-        {/* New entry CTA */}
-        <section className="rounded-xl bg-gradient-to-br from-primary-700 to-primary-800 p-stack-lg sm:p-section flex flex-col sm:flex-row sm:items-center gap-stack-lg text-white">
-          <div className="flex-1">
-            <h3 className="font-display text-h3 font-bold mb-1">
+        {/* New entry CTA — un encart d'appel, pas une section du texte : son
+            intitulé garde la taille d'un titre de bloc (20) sans entrer dans le
+            plan de la page (il sautait du h1 au h3). Titre → phrase 4. */}
+        <aside aria-label="Nouvelle entrée" className="rounded-xl bg-gradient-to-br from-primary-700 to-primary-800 p-stack-lg sm:p-section flex flex-col sm:flex-row sm:items-center gap-stack-lg text-white">
+          <div className="flex-1 flex flex-col gap-stack-3xs">
+            <p className="font-display text-h3 text-white text-balance">
               Qu'avez-vous appris cette semaine ?
-            </h3>
-            <p className="m-0 font-body text-body text-white">
+            </p>
+            <p className="font-body text-body text-white max-w-prose">
               Capturez vos observations pendant qu'elles sont fraîches.
             </p>
           </div>
@@ -317,7 +318,7 @@ export const JournalDetail: React.FC = () => {
           >
             Nouvelle entrée
           </Button>
-        </section>
+        </aside>
       </PageShell>
     </div>
   );
