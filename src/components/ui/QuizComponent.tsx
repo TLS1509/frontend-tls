@@ -33,6 +33,7 @@
 import React, { useState } from 'react';
 import { ArrowLeft, ArrowRight, RotateCcw, Check, X, PartyPopper, BarChart3 } from 'lucide-react';
 import type { QuizAnswer } from '../../stores/persistence';
+import { Button } from '../core/Button';
 
 export interface QuizQuestion {
   question: string;
@@ -70,13 +71,18 @@ const CONFIDENCE_OPTIONS: { level: ConfidenceLevel; label: string }[] = [
   { level: 3, label: 'Certain' },
 ];
 
-// Graisse 700 : celle des boutons (doctrine § 2).
-const BTN_BASE =
-  'inline-flex items-center justify-center gap-stack-xs px-stack-md py-2.5 rounded-md text-body font-bold cursor-pointer transition-[background-color,border-color,box-shadow,transform] duration-fast ease-emphasis active:scale-[0.98] ' +
-  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-400 ' +
-  'disabled:opacity-40 disabled:cursor-not-allowed';
-const BTN_PRIMARY = 'bg-primary-700 text-white hover:bg-primary-800';
-const BTN_SECONDARY = 'bg-ink-50 text-ink-900 border border-ink-200 hover:bg-ink-100';
+/* Les boutons — des `Button`, plus des aplats faits main (2026-09-24).
+   « Suivant / Valider » et « Refaire le quiz » étaient un aplat primary-700
+   écrit à la main : un second `solid` dans la section Quiz de la leçon, dont
+   la flèche « Section suivante » est déjà l'aplat, et que `check-boutons` ne
+   voyait pas. Niveau choisi selon l'arbitrage n°19 :
+     · avancer dans le quiz est l'action DE CONTEXTE de la carte (l'écran a
+       déjà son `solid`, qui mène à la section suivante) → `soft` brand ;
+     · « Précédent » est le tertiaire → `ghost` neutre, calé sur le bord du
+       texte de la carte (`flush`), comme le pas à pas de la leçon ;
+     · les trois degrés de confiance sont trois réponses de même poids : aucun
+       ne doit paraître « le bon » → `soft` neutre, identiques. Ils portaient
+       un filet ink-200 (1,2:1) sur un fond ink-50 invisible sur le blanc. */
 
 export const QuizComponent: React.FC<QuizComponentProps> = ({
   questions,
@@ -149,14 +155,19 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({
       (r, i) => r && r.confidence === 3 && r.selected !== questions[i].correct
     ).length;
 
-    /* Résultat (passe typographique du 2026-09-24) : icône · 16 · titre h2 au
+    /* Résultat (passe typographique du 2026-09-24) : icône · 16 · titre h3 au
        pas du bloc (20/26/700, ink-900) · 8 · score en `stat-value` (le chiffre
        mis en avant) · 8 · phrase 16 ink-700 · 24 · action. Le titre était au
        pas de la section et teinté ; le score au pas du h1, en primary-600 (qui
        ne porte pas de texte, doctrine § 2). La couleur de réussite reste sur
-       le chiffre : elle dit un état. */
+       le chiffre : elle dit un état.
+       Titre : un h3, pas un h2 dessiné à 20 — la section de la leçon porte le
+       h2 (« Quiz ») et la question est déjà un h3 : le niveau suit la
+       structure, la taille suit le niveau (doctrine § 6).
+       Carte : `rounded-xl` (20), l'étage conteneur — elle était à 14, le
+       rayon d'un bouton. Padding 24 ≥ 20 : le coin ne pince pas. */
     return (
-      <div className="bg-white rounded-lg border border-ink-200 p-stack-lg text-center max-w-2xl flex flex-col items-center">
+      <div className="bg-white rounded-xl border border-ink-200 p-stack-lg text-center max-w-2xl flex flex-col items-center">
         <div
           className={[
             'inline-flex items-center justify-center w-20 h-20 rounded-pill',
@@ -166,9 +177,9 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({
           {isSuccess ? <PartyPopper size={40} /> : <BarChart3 size={40} />}
         </div>
         {/* `mt-stack` écrit sur le titre : il bat la marge de base des titres. */}
-        <h2 className="mt-stack font-display text-h3 text-ink-900">
+        <h3 className="mt-stack font-display text-h3 text-ink-900">
           Quiz terminé
-        </h2>
+        </h3>
         <p
           className={[
             'mt-stack-xs font-display font-bold text-stat-value tracking-headline leading-none tabular-nums',
@@ -189,9 +200,9 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({
               : `Sur ${overconfident} questions, tu étais certain de ta réponse alors qu’elle était fausse. Ce sont les points à revoir en priorité.`}
           </p>
         )}
-        <button type="button" onClick={handleRestart} className={`mt-stack-lg ${BTN_BASE} ${BTN_PRIMARY}`}>
-          <RotateCcw size={16} /> Refaire le quiz
-        </button>
+        <Button emphasis="soft" tone="brand" size="md" leadingIcon={<RotateCcw />} onClick={handleRestart} className="mt-stack-lg">
+          Refaire le quiz
+        </Button>
       </div>
     );
   }
@@ -202,7 +213,7 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({
      le neutraliser. Le composant garde sa largeur de lecture (`max-w-2xl`) ;
      c'est la page qui le centre si elle le veut. */
   return (
-    <div className="bg-white rounded-lg border border-ink-200 p-stack-lg max-w-2xl">
+    <div className="bg-white rounded-xl border border-ink-200 p-stack-lg max-w-2xl">
       <div className="mb-stack-md">
         <div className="flex items-center justify-between mb-2">
           <span className="text-caption font-semibold text-ink-600 tabular-nums">
@@ -296,36 +307,43 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({
           </legend>
           <div className="flex flex-wrap gap-stack-xs">
             {CONFIDENCE_OPTIONS.map(({ level, label }) => (
-              <button
+              <Button
                 key={level}
-                type="button"
+                emphasis="soft"
+                tone="neutral"
+                size="md"
                 onClick={() => handleConfidence(level)}
-                className={`${BTN_BASE} ${BTN_SECONDARY} min-h-touch flex-1`}
+                className="flex-1"
               >
                 {label}
-              </button>
+              </Button>
             ))}
           </div>
         </fieldset>
       )}
 
       <div className="flex items-center justify-between gap-stack-xs">
-        <button
-          type="button"
+        <Button
+          emphasis="ghost"
+          tone="neutral"
+          size="md"
+          flush="start"
+          leadingIcon={<ArrowLeft />}
           onClick={handlePrevious}
           disabled={current === 0}
-          className={`${BTN_BASE} ${BTN_SECONDARY}`}
         >
-          <ArrowLeft size={16} /> Précédent
-        </button>
-        <button
-          type="button"
+          Précédent
+        </Button>
+        <Button
+          emphasis="soft"
+          tone="brand"
+          size="md"
+          trailingIcon={<ArrowRight />}
           onClick={handleNext}
           disabled={!isRevealed}
-          className={`${BTN_BASE} ${BTN_PRIMARY}`}
         >
-          {isLast ? 'Valider' : 'Suivant'} <ArrowRight size={16} />
-        </button>
+          {isLast ? 'Valider' : 'Suivant'}
+        </Button>
       </div>
     </div>
   );
