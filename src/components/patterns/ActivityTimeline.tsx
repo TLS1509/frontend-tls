@@ -39,8 +39,11 @@ export const ActivityTimeline: React.FC<ActivityTimelineProps> = ({
         {items.map((item, index) => {
           const tone = item.tone || 'primary';
           const isLast = index >= items.length - 1;
+          /* Un jalon « en cours » ne pulse plus (2026-09-24) : pas de mouvement
+             permanent pour dire un état (arbitrage n°16) — il se lit à sa
+             pastille pleine, entre les jalons faits et ceux « à venir »
+             (pointillés), et à son titre. */
           const isPending = item.status === 'pending';
-          const isInProgress = item.status === 'in-progress';
 
           return (
             <li key={item.id} className="group relative flex items-start gap-stack">
@@ -59,7 +62,6 @@ export const ActivityTimeline: React.FC<ActivityTimelineProps> = ({
                       isPending
                         ? 'bg-white text-ink-600 ring-ink-100 border-2 border-dashed border-ink-300'
                         : TONE_DOT[tone],
-                      isInProgress ? 'animate-pulse' : '',
                     ]
                       .filter(Boolean)
                       .join(' ')}
@@ -72,7 +74,6 @@ export const ActivityTimeline: React.FC<ActivityTimelineProps> = ({
                     className={[
                       'w-3 h-3 rounded-pill ring-4 mt-3.5 ml-3.5',
                       isPending ? 'bg-white border-2 border-ink-300 ring-ink-100' : TONE_DOT[tone],
-                      isInProgress ? 'animate-pulse' : '',
                     ]
                       .filter(Boolean)
                       .join(' ')}
