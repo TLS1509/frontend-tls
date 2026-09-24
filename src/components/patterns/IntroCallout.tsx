@@ -1,7 +1,10 @@
 /**
  * IntroCallout — lead paragraph card for editorial pages.
  *
- * Glass card tone-aware avec gradient border-left subtil + paragraphe d'intro.
+ * Carte teintée tone-aware + paragraphe d'intro. La surface teintée suffit à
+ * la détacher du corps : la barre d'accent verticale de 6 px qui la bordait à
+ * gauche a été retirée le 2026-09-24 — c'est le premier tell « AI slop » de la
+ * doctrine (pas de barre d'accent `border-left`).
  * Utilisé en haut d'un article long (sous le hero, avant le body) pour donner
  * le contexte / thèse principale.
  *
@@ -25,7 +28,7 @@ export interface IntroCalloutProps {
   children: React.ReactNode;
   /** Optional eyebrow line (small uppercase label above the content). */
   eyebrow?: string;
-  /** Show quote icon in left border (default: false). */
+  /** Show quote icon before the content (default: false). */
   withQuoteIcon?: boolean;
   className?: string;
 }
@@ -35,13 +38,6 @@ const SURFACE: Record<IntroCalloutTone, string> = {
   warm:    'bg-secondary-50/60 border-secondary-200 backdrop-blur-glass-light',
   sun:     'bg-accent-50/70 border-accent-200 backdrop-blur-glass-light',
   neutral: 'bg-white/70 border-ink-200 backdrop-blur-glass-light',
-};
-
-const ACCENT: Record<IntroCalloutTone, string> = {
-  brand:   'bg-gradient-to-b from-primary-400 to-primary-600',
-  warm:    'bg-gradient-to-b from-secondary-400 to-secondary-600',
-  sun:     'bg-gradient-to-b from-accent-300 to-accent-500',
-  neutral: 'bg-gradient-to-b from-ink-300 to-ink-500',
 };
 
 const EYEBROW: Record<IntroCalloutTone, string> = {
@@ -68,21 +64,11 @@ export const IntroCallout: React.FC<IntroCalloutProps> = ({
   return (
     <div
       className={[
-        'relative rounded-lg border p-stack-md sm:p-6 pl-6 sm:pl-7',
-        'overflow-hidden',
+        'relative rounded-lg border p-stack-md sm:p-stack-lg',
         SURFACE[tone],
         className,
       ].join(' ')}
     >
-      {/* Left gradient accent bar */}
-      <span
-        aria-hidden
-        className={[
-          'absolute left-0 top-0 bottom-0 w-1.5',
-          ACCENT[tone],
-        ].join(' ')}
-      />
-
       <div className="flex items-start gap-stack">
         {withQuoteIcon && (
           <span
