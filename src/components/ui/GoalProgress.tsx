@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckCircle2, AlertCircle, Clock, Sparkles } from 'lucide-react';
+import { CheckCircle2, AlertCircle, Clock } from 'lucide-react';
 
 export type GoalProgressTone = 'primary' | 'warm' | 'success' | 'danger';
 export type GoalProgressSize = 'sm' | 'md';
@@ -103,13 +103,14 @@ export const GoalProgress: React.FC<GoalProgressProps> = ({
           </p>
         </div>
         <div className={`shrink-0 ${STATUS_TONE_CLASSES[effectiveTone]}`}>
+          {/* Un état qui mérite un signe en porte un ; « dans les temps » n'en
+              a pas besoin. L'étincelle à 50 % qui le décorait est sortie
+              (DESIGN.md §10 : l'étincelle signale une fonction IA). */}
           {isComplete ? (
             <CheckCircle2 size={20} aria-label="Terminé" />
           ) : !isOnTrack ? (
             <AlertCircle size={20} aria-label="En retard" />
-          ) : (
-            <Sparkles size={18} aria-hidden="true" className="opacity-50" />
-          )}
+          ) : null}
         </div>
       </div>
 
@@ -144,14 +145,14 @@ export const GoalProgress: React.FC<GoalProgressProps> = ({
 
       {!isOnTrack && (
         <p className={`mt-stack-sm pt-stack-sm border-t ${effectiveTone === 'danger' ? 'border-danger-base/20' : 'border-ink-200'} text-caption text-danger-fg flex items-center gap-stack-2xs`}>
-          <AlertCircle size={14} />
-          Retard sur le calendrier — augmentez le rythme
+          <AlertCircle size={14} aria-hidden="true" />
+          En retard sur l'échéance prévue
         </p>
       )}
 
       {isComplete && (
         <p className="mt-stack-sm pt-stack-sm border-t border-success-base/20 text-caption text-success-fg flex items-center gap-stack-2xs">
-          <Sparkles size={14} />
+          <CheckCircle2 size={14} aria-hidden="true" />
           Objectif atteint. Quel est le prochain ?
         </p>
       )}

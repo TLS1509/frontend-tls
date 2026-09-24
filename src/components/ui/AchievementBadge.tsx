@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, Lock } from 'lucide-react';
+import { Lock } from 'lucide-react';
 
 export type AchievementBadgeColor = 'primary' | 'warm' | 'sun' | 'success';
 
@@ -129,14 +129,10 @@ export const AchievementBadge: React.FC<AchievementBadgeProps> = ({
         {icon && typeof icon === 'object' && 'props' in icon
           ? React.cloneElement(icon as React.ReactElement, { size: innerIconSize } as any)
           : icon}
-        {/* Plus de pulsation (arbitrage n°16 : pas de mouvement permanent
-            pour signaler un état). L'étincelle elle-même relève de
-            l'arbitrage n°18, traité par une passe dédiée. */}
-        {!isLocked && (
-          <span className="absolute -top-2 -right-2 text-white">
-            <Sparkles size={Math.round(innerIconSize * 0.5)} />
-          </span>
-        )}
+        {/* Plus de pulsation (arbitrage n°16), et plus d'étincelle au bord du
+            disque (arbitrage n°18) : l'étincelle signale une fonction IA,
+            jamais un badge obtenu (DESIGN.md §10). Rognée par l'`overflow`
+            du disque, elle n'en laissait voir qu'une encoche. */}
         {isLocked && (
           <span className="absolute -bottom-2 -right-2 inline-flex items-center justify-center w-7 h-7 rounded-pill bg-white text-ink-500 border border-ink-200">
             <Lock size={Math.round(innerIconSize * 0.4)} />

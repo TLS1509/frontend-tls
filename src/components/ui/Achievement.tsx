@@ -1,5 +1,5 @@
 import React from 'react';
-import { Lock, Sparkles } from 'lucide-react';
+import { Lock } from 'lucide-react';
 import { CARD_HOVER, CARD_HOVER_NEUTRE } from '../../lib/tone-classes';
 
 interface AchievementProps {
@@ -106,13 +106,9 @@ export const Achievement: React.FC<AchievementProps> = ({
             <Lock size={14} strokeWidth={2.5} />
           </div>
         )}
-        {variant === 'unlocked' && (
-          <Sparkles
-            size={14}
-            className="absolute -top-1 -right-1 text-accent-500 drop-shadow"
-            fill="currentColor"
-          />
-        )}
+        {/* Plus d'étincelle au coin de la pastille débloquée : l'étincelle
+            signale une fonction IA, jamais un gain (DESIGN.md §10,
+            arbitrage n°18). */}
       </div>
 
       {/* Vignette compacte : libellé 16/600 (pas un titre de carte à 20/700),
@@ -135,10 +131,11 @@ export const Achievement: React.FC<AchievementProps> = ({
           </div>
         )}
 
+        {/* Dite calmement : « Obtenu le », sans étincelle ni « Débloqué »
+            (PRODUCT.md : un badge s'affiche calmement). */}
         {variant === 'unlocked' && unlockedAt && (
-          <p className="m-0 mt-stack-xs text-caption text-accent-800 inline-flex items-center gap-stack-3xs">
-            <Sparkles size={14} fill="currentColor" />
-            Débloqué {unlockedAt}
+          <p className="m-0 mt-stack-xs text-caption text-accent-800">
+            Obtenu le {unlockedAt}
           </p>
         )}
       </div>
