@@ -68,7 +68,12 @@ export interface NotificationCardProps {
   time: string;
   /** Unread state → tinted background + dot. */
   unread?: boolean;
-  /** Optional click handler on the row (does not fire when clicking actions). */
+  /**
+   * Ouvre la notification. La rangée devient alors un vrai `<button>` (Entrée
+   * et Espace l'activent), cliquable sur toute sa surface ; les actions restent
+   * des boutons à part, hors de lui. ⚠️ `meta` est alors DANS ce bouton : il
+   * doit rester non interactif (texte, `MetaPill` sans `onClick`).
+   */
   onClick?: () => void;
   /** Action: mark as read (shown only when unread). */
   onMarkRead?: () => void;
@@ -130,6 +135,31 @@ const READ_HOVER_BG: Record<NotificationTone, string> = {
   neutral: 'hover:bg-ink-50',
 };
 
+/* ── La notification cliquable : un vrai <button> (2026-09-24) ─────────────
+   Elle était un `div role="button"` focalisable, mais sans clavier : Entrée et
+   Espace n'y faisaient rien (vérifié au navigateur, 0 activation). Et ce
+   « bouton » CONTENAIT les deux boutons d'action et sept `div`/`p` — un
+   contrôle dans un contrôle, qu'aucune technologie d'assistance ne sait lire.
+
+   Le bouton porte l'icône et le texte, en `<span>` seulement (un bouton
+   n'admet que du contenu phrasé) ; les actions restent ses sœurs. Son
+   pseudo-élément couvre toute la rangée : on clique partout, comme avant, et
+   les actions, positionnées après lui, restent au-dessus.
+   L'anneau de focus est posé sur ce pseudo-élément, donc sur la forme de la
+   rangée : l'anneau bicolore des cartes (Card, Button) pour l'item isolé ;
+   un anneau ink-900 intérieur pour la rangée, que la carte parente rogne
+   (`overflow-hidden`) — le contour global y était coupé, un trait de 2 px
+   sous la rangée. */
+const BOUTON_BASE =
+  'flex flex-1 min-w-0 items-start gap-stack-xs text-left cursor-pointer ' +
+  "after:absolute after:inset-0 after:content-[''] " +
+  'focus-visible:outline-none';
+
+const BOUTON_FOCUS: Record<NotificationCardVariant, string> = {
+  card: 'after:rounded-xl focus-visible:after:ring-2 focus-visible:after:ring-ink-900 focus-visible:after:ring-offset-2 focus-visible:after:ring-offset-white',
+  row:  'focus-visible:after:ring-2 focus-visible:after:ring-inset focus-visible:after:ring-ink-900',
+};
+
 /* ── Component ──────────────────────────────────────────────────────────── */
 
 export const NotificationCard: React.FC<NotificationCardProps> = ({
@@ -148,31 +178,18 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
 }) => {
   const clickable = !!onClick;
 
-  return (
-    <div
-      onClick={onClick}
-      role={clickable ? 'button' : undefined}
-      tabIndex={clickable ? 0 : undefined}
-      className={[
-        'group relative flex items-start gap-stack-xs transition-all duration-base',
-        SHELL[variant],
-        unread
-          ? variant === 'card' ? `${UNREAD_BG[tone]} ${UNREAD_BORDER[tone]}` : UNREAD_BG[tone]
-          : READ_HOVER_BG[tone],
-        clickable && 'cursor-pointer',
-        '!h-auto !overflow-visible !items-start !font-normal',
-        className,
-      ]
-        .filter(Boolean)
-        .join(' ')}
-    >
+  /* Des <span> seulement : quand la notification est cliquable, ce contenu vit
+     dans un <button>. Les classes d'affichage donnent le rendu des anciens
+     `div` et `p`. */
+  const contenu = (
+    <>
       {/* Pastille de 40 px, le cran des rangées de fil (ActivityFeed) : à 48 —
           le cran d'une carte à titre de 20 px — elle pesait plus lourd que le
           titre de 16 qu'elle accompagne. Carrée arrondie, `rounded-md` (10) —
           arbitrage n°3 : le rond est réservé aux personnes (avatars) ; elle
           était ronde. Dans la variante `card` (rayon 20, retrait 13 et 17),
           10 reste dans la tolérance de la règle des coins imbriqués. */}
-      <div
+      <span
         className={[
           'shrink-0 inline-flex items-center justify-center',
           'w-10 h-10 rounded-md',
@@ -181,7 +198,7 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
         aria-hidden
       >
         {icon}
-      </div>
+      </span>
 
       {/* Anatomie de rangée (passe typographique du 2026-09-24) :
           titre 16/600 ink-900 · texte 16/400 ink-700, deux lignes au plus ·
@@ -190,39 +207,74 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
           `pt-stack-2xs` recentre la première ligne sur la pastille (6 + 13 =
           19, contre 20). Le non-lu se dit par le point et le fond teinté, plus
           par la graisse : lu ou non, le titre garde son pas. */}
-      <div className="flex-1 min-w-0 flex flex-col gap-stack-3xs pt-stack-2xs">
-        {/* Title + unread dot */}
-        <div className="flex items-center gap-stack-xs min-w-0">
-          <p className="m-0 font-body text-body font-semibold text-ink-900 truncate">
+      <span className="flex-1 min-w-0 flex flex-col gap-stack-3xs pt-stack-2xs">
+        {/* Title + unread dot. « Non lu » est un texte masqué, plus un
+            `aria-label` sur un point vide, qu'aucun lecteur ne garantit. */}
+        <span className="flex items-center gap-stack-xs min-w-0">
+          <span className="font-body text-body font-semibold text-ink-900 truncate">
             {title}
-          </p>
+          </span>
           {unread && (
-            <span
-              className={`shrink-0 inline-block w-1.5 h-1.5 rounded-pill ${DOT[tone]}`}
-              aria-label="Non lu"
-            />
+            <>
+              <span
+                className={`shrink-0 inline-block w-1.5 h-1.5 rounded-pill ${DOT[tone]}`}
+                aria-hidden
+              />
+              <span className="sr-only">Non lu</span>
+            </>
           )}
-        </div>
+        </span>
 
-        {/* Body */}
+        {/* Body — `line-clamp-2` pose lui-même son affichage (`-webkit-box`) :
+            pas de `block` à côté, il le battrait (piège n°6) et le texte ne
+            serait plus coupé à deux lignes. */}
         {body && (
-          <p className="m-0 font-body text-body text-ink-700 line-clamp-2">
+          <span className="font-body text-body text-ink-700 line-clamp-2">
             {body}
-          </p>
+          </span>
         )}
 
         {/* Meta + time */}
-        <div className="flex items-center gap-stack-xs flex-wrap font-body text-caption text-ink-600">
+        <span className="flex items-center gap-stack-xs flex-wrap font-body text-caption text-ink-600">
           {meta}
           {meta && <span aria-hidden>·</span>}
           <span>{time}</span>
-        </div>
-      </div>
+        </span>
+      </span>
+    </>
+  );
 
-      {/* Actions — hover-only on desktop, always visible on mobile */}
+  return (
+    <div
+      className={[
+        'group relative flex items-start gap-stack-xs transition-all duration-base',
+        SHELL[variant],
+        unread
+          ? variant === 'card' ? `${UNREAD_BG[tone]} ${UNREAD_BORDER[tone]}` : UNREAD_BG[tone]
+          : READ_HOVER_BG[tone],
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
+    >
+      {clickable ? (
+        <button
+          type="button"
+          onClick={onClick}
+          className={`${BOUTON_BASE} ${BOUTON_FOCUS[variant]}`}
+        >
+          {contenu}
+        </button>
+      ) : (
+        <div className="flex flex-1 min-w-0 items-start gap-stack-xs">{contenu}</div>
+      )}
+
+      {/* Actions — hover-only on desktop, always visible on mobile.
+          `relative` : positionnées après le bouton, elles passent au-dessus de
+          son pseudo-élément, qui couvre la rangée. */}
       <div
         className={[
-          'shrink-0 flex items-center gap-tight',
+          'relative shrink-0 flex items-center gap-tight',
           'opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100',
           'transition-opacity duration-base',
         ].join(' ')}
