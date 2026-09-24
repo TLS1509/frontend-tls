@@ -70,7 +70,12 @@ const CONTAINER_VARIANT: Record<TabsVariant, string> = {
   // Rail de 52 px (onglet 44 + retrait 4) : au-dessus du seuil de 28 px, le rayon
   // prend l'échelle (R3) — 14 pour le rail, 14 − 4 = 10 pour l'onglet (règle des
   // coins imbriqués). Même construction que `SegmentedControl`. (24/09)
-  pill:      'inline-flex items-center gap-tight p-1 bg-ink-100 rounded-lg',
+  // Il défile dans son cadre comme `underline` (2026-09-24) : à 375 px, quatre
+  // pages avaient un onglet hors de l'écran (« Compétences » sur
+  // /analytics/dashboard, « Exemples » sur /api-docs…) et des libellés tassés
+  // sur deux lignes. Les 4 px du rail suffisent à l'anneau de focus (décalage
+  // 2 + trait 2) : le cadre qui défile ne le rogne pas.
+  pill:      'inline-flex items-center gap-tight p-1 bg-ink-100 rounded-lg max-w-full overflow-x-auto overflow-y-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden',
   underline: 'inline-flex items-center gap-tight max-w-full overflow-x-auto overflow-y-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden shadow-[inset_0_-1px_0_0] shadow-ink-200',
   boxed:     'inline-flex items-stretch border border-ink-200 rounded-lg overflow-hidden bg-white',
 };
@@ -89,7 +94,7 @@ const TAB_BASE =
 const TAB_VARIANT: Record<TabsVariant, string> = {
   // Décalage du focus par variante, pas dans TAB_BASE : deux `outline-offset`
   // sur un même élément, c'est l'ordre d'émission qui trancherait (piège n°6).
-  pill:      'px-4 py-2 rounded-md hover:text-ink-900 hover:bg-white/60 focus-visible:outline-offset-2',
+  pill:      'px-4 py-2 rounded-md shrink-0 whitespace-nowrap hover:text-ink-900 hover:bg-white/60 focus-visible:outline-offset-2',
   // py-2 + interligne 26 + `min-h-touch` = 44 px, la hauteur commune des
   // contrôles (arbitrage n°22) ; py-3 donnait 50.
   underline: 'px-3 py-2 rounded-none relative shrink-0 whitespace-nowrap hover:text-ink-900 hover:bg-ink-50/60 focus-visible:-outline-offset-2',
