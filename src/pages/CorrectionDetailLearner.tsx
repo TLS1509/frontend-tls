@@ -82,7 +82,8 @@ const CorrectionDetailLearner: React.FC = () => {
           { icon: <Clock size={14} aria-hidden="true" />, label: `Soumis le ${formatDate(correction.submittedAt)}` },
           { label: `Itération ${correction.iterationCount + 1}` },
           ...(competence ? [{ label: competence.label }] : []),
-          ...(correction.xpAwarded ? [{ label: `+${correction.xpAwarded} XP` }] : []),
+          // Plus de « +120 XP » : l'arbitrage n°18 retire l'XP de l'app
+          // apprenant. La donnée reste dans la correction, elle ne s'affiche plus.
         ]}
         tone="flat"
         /* Le retour, `ghost` neutre calé sur le bord du texte

@@ -6,25 +6,22 @@ import { SectionHeader } from '../components/patterns/SectionHeader';
 import { Tabs } from '../components/ui/Tabs';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
-import { MetaPill } from '../components/ui/MetaPill';
-import { ProgressBar } from '../components/ui/ProgressBar';
 import { SkillBar } from '../components/ui/SkillBar';
 import { CompetencyRadar } from '../components/ui/CompetencyRadar';
 import { StatCard } from '../components/ui/StatCard';
 import { ActivityFeed } from '../components/patterns/ActivityFeed';
 import { PageShell } from '../components/layout';
+import { DREYFUS_LABELS, getDreyfusLevelDef } from '../data/competencies';
+import type { DreyfusLevel } from '../types/learning';
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
 
-const COMPETENCE = {
+const COMPETENCE: { id: string; label: string; currentLevel: DreyfusLevel; targetLevel: DreyfusLevel; progress: number } = {
   id: 'leadership',
   label: 'Leadership & Management',
   currentLevel: 3,
   targetLevel: 5,
   progress: 62,
-  xp: 320,
-  nextLevelXp: 500,
-  weeklyProgress: 3,
 };
 
 const RADAR_AXES = [
@@ -45,9 +42,9 @@ const SKILLS = [
 ];
 
 const ACTIVITY_ITEMS = [
-  { id: '1', type: 'lesson' as const, title: 'Leçon : Styles de leadership situationnel', date: 'Il y a 2j', xp: 25 },
-  { id: '2', type: 'coaching' as const, title: 'Session coaching : bilan D3', date: 'La semaine dernière', xp: 100 },
-  { id: '3', type: 'parcours' as const, title: 'Exercice : Délégation et contrôle', date: 'Il y a 10j', xp: 50 },
+  { id: '1', type: 'lesson' as const, title: 'Leçon : Styles de leadership situationnel', date: 'Il y a 2j' },
+  { id: '2', type: 'coaching' as const, title: 'Session coaching : bilan D3', date: 'La semaine dernière' },
+  { id: '3', type: 'parcours' as const, title: 'Exercice : Délégation et contrôle', date: 'Il y a 10j' },
 ];
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -56,6 +53,9 @@ export default function DashboardCompetenceDetail() {
   const { id } = useParams<{ id: string }>();
   const _ = id;
   const [tab, setTab] = useState<'radar' | 'skills' | 'activity'>('radar');
+  // Le prochain cran de l'échelle, lu au référentiel Dreyfus.
+  const prochain = Math.min(5, COMPETENCE.currentLevel + 1) as DreyfusLevel;
+  const definitionProchain = getDreyfusLevelDef(prochain);
 
   /* Passe typographique du 24/09 — le rythme de PageShell (48 entre
      sections ; la page posait sa marge haute puis 32). La progression et le
@@ -63,9 +63,12 @@ export default function DashboardCompetenceDetail() {
      page sautait du h1 au h3). Les onglets sont ceux du système (ils étaient
      faits main, au cran 700 du teal et au 500) et leurs panneaux ne répètent
      plus leur nom en titre de carte. Les activités sont des rangées dans une
-     carte ; l'action finale reprend le bord gauche de la page. Le fond (le
-     niveau Dreyfus compté en XP) relève de l'arbitrage n°18, pas de cette
-     passe. */
+     carte ; l'action finale reprend le bord gauche de la page.
+     Arbitrage n°18 (24/09) : aucun XP n'est affiché à côté d'un niveau
+     Dreyfus. La tuile « 320 XP · Points gagnés », la jauge « 320 XP accumulés
+     · 180 XP restants » et les « +25 XP » des activités sont sortis ; la
+     section de progression dit ce que le prochain niveau demande, et qu'il
+     se valide humainement. */
   return (
     <PageShell width="wide">
       <EditorialHero
@@ -85,23 +88,30 @@ export default function DashboardCompetenceDetail() {
       />
 
       {/* KPI row */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-stack">
         <StatCard value={`D${COMPETENCE.currentLevel}`} label="Niveau actuel" variant="brand" size="sm" />
-        <StatCard value={`${COMPETENCE.xp} XP`} label="Points gagnés" size="sm" delta={`+${COMPETENCE.weeklyProgress * 25} cette semaine`} deltaDirection="up" />
         <StatCard value={`${COMPETENCE.progress} %`} label="Progression cible" size="sm" />
         <StatCard value={`D${COMPETENCE.targetLevel}`} label="Objectif" size="sm" />
       </div>
 
-      {/* Progression — les deux valeurs en légende tabulaire au cran 600
-          (elles étaient au 500), de part et d'autre de la jauge. */}
+      {/* Le prochain niveau : ce qu'il demande (le référentiel Dreyfus), et
+          comment il s'obtient — une validation humaine sur preuves, jamais un
+          total de points. La jauge d'XP qui tenait cette place faisait monter
+          un niveau Dreyfus avec des points (arbitrage n°18). */}
       <section className="flex flex-col gap-stack">
-        <SectionHeader title={`Progression D${COMPETENCE.currentLevel} → D${COMPETENCE.targetLevel}`} />
-        <Card className="flex flex-col gap-stack-xs">
-          <div className="flex justify-between font-body text-caption text-ink-600 tabular-nums">
-            <span>{COMPETENCE.xp} XP accumulés</span>
-            <span>{COMPETENCE.nextLevelXp - COMPETENCE.xp} XP restants</span>
-          </div>
-          <ProgressBar value={Math.round((COMPETENCE.xp / COMPETENCE.nextLevelXp) * 100)} fill="brand" size="lg" showLabel />
+        <SectionHeader
+          title={`Prochain niveau : D${prochain} · ${DREYFUS_LABELS[prochain]}`}
+          subtitle="Il se valide avec ton coach ou ton manager, sur preuves de ta pratique."
+        />
+        <Card className="flex flex-col gap-stack">
+          <p className="font-body text-body text-ink-900 max-w-prose">{definitionProchain.criteria}</p>
+          {definitionProchain.indicators && definitionProchain.indicators.length > 0 && (
+            <ul className="flex flex-col gap-stack-xs list-disc pl-stack-lg marker:text-ink-500">
+              {definitionProchain.indicators.map((ind) => (
+                <li key={ind} className="font-body text-body text-ink-700 max-w-prose">{ind}</li>
+              ))}
+            </ul>
+          )}
         </Card>
       </section>
 
@@ -135,7 +145,7 @@ export default function DashboardCompetenceDetail() {
 
           {tab === 'activity' && (
             /* Des rangées dans une carte (arbitrage n°5), plus des cartes dans
-               une carte ; le gain est une donnée (MetaPill), plus un Badge. */
+               une carte. Le « +25 XP » de chaque rangée est sorti (n°18). */
             <Card as="ul" className="flex flex-col gap-0 p-0 divide-y divide-ink-100">
               {ACTIVITY_ITEMS.map((item) => (
                 <li key={item.id} className="flex items-center justify-between gap-stack px-stack-lg py-stack">
@@ -143,10 +153,7 @@ export default function DashboardCompetenceDetail() {
                     <span className="font-body text-body font-semibold text-ink-900">{item.title}</span>
                     <span className="font-body text-caption text-ink-600">{item.date}</span>
                   </div>
-                  <div className="flex items-center gap-stack-xs">
-                    <MetaPill text={`+${item.xp} XP`} tone="success" />
-                    <ChevronRight size={16} className="text-ink-500" aria-hidden="true" />
-                  </div>
+                  <ChevronRight size={16} className="shrink-0 text-ink-500" aria-hidden="true" />
                 </li>
               ))}
             </Card>
