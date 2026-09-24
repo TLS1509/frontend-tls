@@ -1,13 +1,16 @@
 /**
  * CompletionModal — shown when a viewer item (astuces, flashcards, video, etc.)
- * is fully consumed. Celebrates completion, shows XP earned, and optionally
- * surfaces the next suggested item.
+ * is fully consumed. Dit calmement ce qui s'est passé (l'étape est validée) et
+ * propose, s'il y en a un, le contenu suivant.
+ *
+ * Arbitrage n°18 (2026-09-24) : plus d'XP dans l'app apprenant. La modale
+ * affichait « +50 XP gagnés » par défaut, avec une étincelle décorative ; le
+ * bloc est retiré, et `xpEarned` n'a plus d'effet (voir la prop).
  *
  * Usage:
  *   <CompletionModal
  *     isOpen={showCompletion}
  *     itemTitle="Raccourcis Clavier"
- *     xpEarned={50}
  *     nextItem={{ title: 'Flashcards Productivité', type: 'flashcard' }}
  *     onClose={() => navigate('/learning-space')}
  *     onNext={() => navigate(nextRoute)}
@@ -15,7 +18,7 @@
  */
 
 import React from 'react';
-import { CheckCircle2, Sparkles, ArrowRight, X, Zap } from 'lucide-react';
+import { CheckCircle2, ArrowRight, X } from 'lucide-react';
 import { Button } from '../core/Button';
 import { useDialog } from '../../hooks/useDialog';
 
@@ -30,7 +33,11 @@ export interface CompletionModalProps {
   onClose: () => void;
   /** Title of the completed item. */
   itemTitle?: string;
-  /** XP points awarded for completion. */
+  /**
+   * @deprecated Sans effet depuis l'arbitrage n°18 (2026-09-24) : l'app
+   * apprenant n'affiche plus d'XP. Gardée le temps que la vitrine cesse de la
+   * passer, puis à retirer.
+   */
   xpEarned?: number;
   /** Optional next suggested item. */
   nextItem?: CompletionNextItem;
@@ -46,7 +53,6 @@ export const CompletionModal: React.FC<CompletionModalProps> = ({
   isOpen,
   onClose,
   itemTitle,
-  xpEarned = 50,
   nextItem,
   onNext,
   title = 'Étape validée',
@@ -126,19 +132,6 @@ export const CompletionModal: React.FC<CompletionModalProps> = ({
 
         {/* ── Body ──────────────────────────────────────────────── */}
         <div className="px-section py-stack-lg flex flex-col gap-stack">
-          {/* XP badge */}
-          {xpEarned > 0 && (
-            <div className="flex items-center justify-center gap-stack-xs py-3 px-4 rounded-xl bg-accent-50 border border-accent-200">
-              <span className="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-accent-700 text-white shrink-0">
-                <Zap size={14} strokeWidth={2.5} />
-              </span>
-              <span className="font-body text-body font-semibold text-accent-800 tabular-nums">
-                +{xpEarned} XP gagnés
-              </span>
-              <Sparkles size={14} className="text-accent-500 ml-auto shrink-0" aria-hidden />
-            </div>
-          )}
-
           {/* Next item suggestion */}
           {nextItem && onNext && (
             <button
@@ -168,8 +161,11 @@ export const CompletionModal: React.FC<CompletionModalProps> = ({
           {/* Actions — à 24 px du contenu (16 + 8). Un seul `solid`, l'action
               que la modale sert (arbitrage n°19) : « Suivant » quand un
               contenu suit, sinon l'unique « Retour à l'espace ». « Retour »,
-              à côté de « Suivant », referme sans rien confirmer : `ghost`. */}
-          <div className="flex gap-stack-xs mt-stack-xs">
+              à côté de « Suivant », referme sans rien confirmer : `ghost`.
+              Seules dans le corps (plus de bloc XP au-dessus, arbitrage
+              n°18), elles n'ajoutent pas leurs 8 px au padding : 24 en haut
+              comme en bas. */}
+          <div className={['flex gap-stack-xs', nextItem && onNext ? 'mt-stack-xs' : ''].filter(Boolean).join(' ')}>
             {nextItem && onNext ? (
               <>
                 <Button emphasis="ghost" tone="neutral" size="md" onClick={onClose} className="flex-1">

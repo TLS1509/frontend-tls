@@ -432,7 +432,6 @@ export const FlashcardsViewer: React.FC = () => {
       <CompletionModal
         isOpen={showCompletion}
         itemTitle={lessonCtx?.lesson.title ?? 'Flashcards d\'apprentissage'}
-        xpEarned={50}
         onClose={() => {
           setShowCompletion(false);
           navigate(resolveAfterLessonRoute(lessonCtx));

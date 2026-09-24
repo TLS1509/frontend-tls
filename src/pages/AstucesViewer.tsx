@@ -294,7 +294,6 @@ export const AstucesViewer: React.FC = () => {
       <CompletionModal
         isOpen={showCompletion}
         itemTitle={lessonCtx?.lesson.title ?? 'Astuces pratiques'}
-        xpEarned={50}
         onClose={() => {
           setShowCompletion(false);
           navigate(resolveAfterLessonRoute(lessonCtx));
