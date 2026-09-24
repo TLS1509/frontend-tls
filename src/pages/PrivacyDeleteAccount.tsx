@@ -98,9 +98,13 @@ const PrivacyDeleteAccount: React.FC = () => {
                 placeholder="Optionnel : ta réponse nous aide à améliorer la plateforme"
               />
             </FormGroup>
+            {/* Paire Annuler / Continuer (arbitrage n°19) : Annuler en
+                `outline` neutre. Continuer ne supprime rien, il mène à
+                l'étape 2 : un aplat de marque. Le `solid` danger est réservé
+                à la confirmation de la suppression, plus bas. */}
             <div className="flex gap-stack-xs mt-stack-xs">
-              <Button emphasis="outline" fullWidth>Annuler</Button>
-              <Button emphasis="solid" tone="danger" fullWidth onClick={() => setStep(2)}>
+              <Button emphasis="outline" tone="neutral" fullWidth>Annuler</Button>
+              <Button emphasis="solid" fullWidth onClick={() => setStep(2)}>
                 Continuer →
               </Button>
             </div>
@@ -128,7 +132,7 @@ const PrivacyDeleteAccount: React.FC = () => {
               />
             </FormGroup>
             <div className="flex gap-stack-xs mt-stack-xs">
-              <Button emphasis="outline" fullWidth onClick={() => setStep(1)}>Retour</Button>
+              <Button emphasis="outline" tone="neutral" fullWidth onClick={() => setStep(1)}>Retour</Button>
               <Button emphasis="solid" tone="danger" fullWidth disabled={!canConfirm} leadingIcon={<AlertTriangle className="w-4 h-4" />} onClick={handleConfirmDeletion}>
                 Supprimer définitivement
               </Button>

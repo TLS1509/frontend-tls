@@ -158,7 +158,8 @@ const PrivacyDsar: React.FC = () => {
                 </p>
               </div>
             </div>
-            <Button emphasis="soft" size="lg" leadingIcon={<Download className="w-4 h-4" />} onClick={handleRequest} loading={submitting} className="self-start">
+            {/* L'action pour laquelle la page existe : l'aplat (arbitrage n°19). */}
+            <Button emphasis="solid" size="lg" leadingIcon={<Download className="w-4 h-4" />} onClick={handleRequest} loading={submitting} className="self-start">
               Déclencher la demande DSAR
             </Button>
           </Card>
@@ -183,7 +184,7 @@ const PrivacyDsar: React.FC = () => {
                       </div>
                       <Badge variant={s.variant}>{s.label}</Badge>
                       {r.status === 'completed' && (
-                        <Button emphasis="outline" size="sm" leadingIcon={<Mail className="w-4 h-4" />}>Renvoyer email</Button>
+                        <Button emphasis="soft" size="sm" leadingIcon={<Mail className="w-4 h-4" />}>Renvoyer email</Button>
                       )}
                     </li>
                   );

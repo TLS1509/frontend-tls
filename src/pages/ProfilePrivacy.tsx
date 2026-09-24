@@ -324,7 +324,9 @@ export default function ProfilePrivacy() {
               <span className="text-body font-semibold text-ink-900">Demande d'accès (DSAR)</span>
               <span className="text-caption text-ink-600">Exporte toutes tes données · réponse sous 30 jours (Article 15 RGPD)</span>
             </div>
-            <Button emphasis="outline" size="sm" trailingIcon={<ChevronRight size={14} />} onClick={() => navigate('/profile/privacy/dsar')}>
+            {/* L'action de la carte : `soft` (arbitrage n°19). La page n'a pas
+                d'aplat : chaque section enregistre ou ouvre la sienne. */}
+            <Button emphasis="soft" size="sm" trailingIcon={<ChevronRight size={14} />} onClick={() => navigate('/profile/privacy/dsar')}>
               Faire une demande
             </Button>
           </Card>
@@ -332,7 +334,9 @@ export default function ProfilePrivacy() {
 
         {/* Account deletion — lien vers le vrai wizard 2 étapes. Le ton
             « danger » du bouton, plutôt que des classes qui repeignaient un
-            bouton de marque. */}
+            bouton de marque. Sur une page, une action destructive n'est pas
+            l'action principale : `ghost` + `danger` (arbitrage n°19). Le
+            `solid` danger est réservé à la confirmation, à l'étape 2. */}
         <section className="flex flex-col gap-stack">
           <SectionHeader
             title="Suppression du compte"
@@ -340,7 +344,7 @@ export default function ProfilePrivacy() {
           />
           <div className="flex flex-wrap items-center gap-stack-sm">
             <Button
-              emphasis="outline"
+              emphasis="ghost"
               tone="danger"
               size="md"
               leadingIcon={<Trash2 size={16} />}

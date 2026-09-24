@@ -218,12 +218,15 @@ export const Profile: React.FC = () => {
             </div>
           </div>
 
-          {/* Actions */}
+          {/* Actions — une page de consultation, sans aplat (arbitrage n°19).
+              Modifier est l'action de contexte de l'en-tête (`soft`, au ton de
+              la page : l'orange disait « secondaire », ce que dit désormais le
+              niveau) ; Partager, un outil (`ghost` neutre). */}
           <div className="flex gap-stack-xs shrink-0 sm:self-start">
-            <Button emphasis="soft" tone="warm" size="sm" leadingIcon={<Edit3 size={14} />} onClick={() => navigate('/account')}>
+            <Button emphasis="soft" size="sm" leadingIcon={<Edit3 size={14} />} onClick={() => navigate('/account')}>
               Modifier
             </Button>
-            <Button emphasis="outline" iconOnly aria-label="Partager">
+            <Button emphasis="ghost" tone="neutral" iconOnly aria-label="Partager">
               <Share2 size={14} />
             </Button>
           </div>
@@ -301,7 +304,7 @@ export const Profile: React.FC = () => {
                 <SectionHeader
                   title="Top compétences"
                   action={
-                    <Button emphasis="outline" size="sm" trailingIcon={<ArrowRight size={14} />} onClick={() => setActiveTab('skills')}>
+                    <Button emphasis="ghost" size="sm" trailingIcon={<ArrowRight size={14} />} onClick={() => setActiveTab('skills')}>
                       Voir la matrice complète
                     </Button>
                   }
@@ -351,7 +354,7 @@ export const Profile: React.FC = () => {
               </Card>
               {/* Sur le bord gauche de la liste qu'il prolonge (il était
                   centré) ; à 24 du contenu. */}
-              <Button emphasis="outline" size="sm" trailingIcon={<ArrowRight size={14} />} className="self-start mt-stack-xs">
+              <Button emphasis="ghost" size="sm" trailingIcon={<ArrowRight size={14} />} className="self-start mt-stack-xs">
                 Voir toute l'historique
               </Button>
             </section>
