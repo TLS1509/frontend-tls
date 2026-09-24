@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { BookOpen, PenLine, User, Calendar, Smile, Frown, Meh } from 'lucide-react';
+import { BookOpen, PenLine, User, Calendar } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
@@ -84,8 +85,9 @@ const CATEGORY_VARIANT: Record<string, 'brand' | 'warm' | 'sun' | 'neutral'> = {
 };
 
 /* Rangée dans la carte : retrait 20 puis 24 px, jamais sous le rayon (20)
-   de la carte — au coin, le contenu reste dans le régime « forme fixe ». */
-const ROW = 'flex items-center gap-stack px-stack-md sm:px-stack-lg py-stack';
+   de la carte — au coin, le contenu reste dans le régime « forme fixe ».
+   20 px de haut et de bas : une entrée porte un titre, sa méta et un extrait. */
+const ROW = 'flex items-center gap-stack px-stack-md sm:px-stack-lg py-stack-md';
 
 const TAB_ITEMS = [
   { id: 'mine',     label: 'Mes entrées'        },
@@ -95,11 +97,14 @@ const TAB_ITEMS = [
 export default function CoachJournal() {
   const [tab, setTab] = useState('mine');
 
+  const entries = tab === 'mine' ? MY_ENTRIES : LEARNER_ENTRIES;
+  const tabLabel = TAB_ITEMS.find((t) => t.id === tab)?.label ?? '';
+
   return (
     <PageShell width="page" noPadTop className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
         eyebrow={{ icon: <BookOpen size={14} />, label: 'Coach · Journal' }}
-        title="Journal de Coaching"
+        title="Journal de coaching"
         summary="Consignez vos observations, bilans de session et réflexions pédagogiques."
         tone="flat"
         trailing={
@@ -109,69 +114,80 @@ export default function CoachJournal() {
         }
       />
 
-      <div className="px-stack flex flex-col gap-section pb-page">
+      {/* Plus de `px-stack` : les onglets et la liste partaient 16 px à droite
+          du titre (deux bords gauches). Ni de `pb-page` : PageShell porte déjà
+          l'air du bas de page. */}
+      <div className="flex flex-col gap-section">
         <Tabs items={TAB_ITEMS} value={tab} onChange={setTab} variant="underline" />
 
         {/* Des entrées de journal forment une collection qu'on parcourt : des
             rangées dans UNE carte, pas une pile de cartes (arbitrage n°5 du
-            23/09). Les rangées n'ont pas de fond propre : la carte porte le coin. */}
-        {tab === 'mine' && (
-          <Card className="p-0">
-            <ul className="flex flex-col divide-y divide-ink-100" aria-label="Mes entrées">
-              {MY_ENTRIES.map((entry) => (
-                <li key={entry.id} className={ROW}>
-                  <div className="flex flex-col gap-stack-2xs flex-1 min-w-0">
-                    <div className="flex items-center gap-stack-xs flex-wrap">
-                      <span className="font-display font-semibold text-body text-ink-900">{entry.title}</span>
-                      <Badge variant={CATEGORY_VARIANT[entry.category] ?? 'neutral'} size="compact">{entry.category}</Badge>
-                    </div>
-                    <span className="flex items-center gap-stack-xs text-caption text-ink-500">
-                      <Calendar size={14} />
-                      {entry.date}
-                    </span>
-                    <p className="text-body text-ink-600 line-clamp-2">{entry.excerpt}</p>
-                  </div>
-                  <Button emphasis="outline" size="sm" className="shrink-0" aria-label={`Lire : ${entry.title}`}>Lire</Button>
-                </li>
-              ))}
-            </ul>
-          </Card>
-        )}
+            23/09). Chaque entrée se lit comme un article d'index : titre h3 20,
+            méta en légende à 4 px, extrait 16 ink-700 à 8 px, plafonné à la
+            largeur de lecture. La catégorie est une donnée : elle passe dans la
+            méta, en légende — plus en pastille d'état de couleur. */}
+        <section className="flex flex-col gap-stack">
+          <SectionHeader title={tabLabel} meta={`${entries.length} entrées`} size="md" />
 
-        {tab === 'learners' && (
-          <Card className="p-0">
-            <ul className="flex flex-col divide-y divide-ink-100" aria-label="Entrées apprenants">
-              {LEARNER_ENTRIES.map((entry) => {
-                const sentiment = SENTIMENT_CONFIG[entry.sentiment];
-                return (
+          {tab === 'mine' && (
+            <Card className="p-0">
+              <ul className="flex flex-col divide-y divide-ink-100" aria-label="Mes entrées">
+                {MY_ENTRIES.map((entry) => (
                   <li key={entry.id} className={ROW}>
-                    {/* À 375 px l'avatar prenait 52 px à une colonne de texte de 139 : il
-                        n'apparaît qu'à partir de sm (le nom reste dans la ligne de méta). */}
-                    <span className="hidden sm:block shrink-0">
-                      <Avatar size="md" tint="warm">{entry.learner.initials}</Avatar>
-                    </span>
-                    <div className="flex flex-col gap-stack-2xs flex-1 min-w-0">
-                      <span className="font-display font-semibold text-body text-ink-900">{entry.title}</span>
-                      <span className="flex items-center gap-stack-xs flex-wrap text-caption text-ink-500">
-                        <span className="inline-flex items-center gap-stack-xs">
-                          <User size={14} />
-                          {entry.learner.name}
-                        </span>
-                        <span className="text-ink-300" aria-hidden="true">·</span>
-                        <span className="inline-flex items-center gap-stack-xs">
-                          <Calendar size={14} />
+                    <div className="flex flex-col flex-1 min-w-0">
+                      <h3 className="font-display text-h3 text-ink-900">{entry.title}</h3>
+                      <p className="mt-stack-3xs flex items-center gap-stack-xs flex-wrap text-caption text-ink-600">
+                        <span>{entry.category}</span>
+                        <span aria-hidden="true">·</span>
+                        <span className="inline-flex items-center gap-stack-3xs">
+                          <Calendar size={14} aria-hidden="true" />
                           {entry.date}
                         </span>
-                        <Badge variant={sentiment.variant} size="compact">{sentiment.label}</Badge>
-                      </span>
+                      </p>
+                      <p className="mt-stack-xs text-body text-ink-700 max-w-prose line-clamp-2">{entry.excerpt}</p>
                     </div>
-                    <Button emphasis="outline" size="sm" className="shrink-0" aria-label={`Voir : ${entry.title}`}>Voir</Button>
+                    <Button emphasis="outline" size="sm" className="shrink-0" aria-label={`Lire : ${entry.title}`}>Lire</Button>
                   </li>
-                );
-              })}
-            </ul>
-          </Card>
-        )}
+                ))}
+              </ul>
+            </Card>
+          )}
+
+          {tab === 'learners' && (
+            <Card className="p-0">
+              <ul className="flex flex-col divide-y divide-ink-100" aria-label="Entrées apprenants">
+                {LEARNER_ENTRIES.map((entry) => {
+                  const sentiment = SENTIMENT_CONFIG[entry.sentiment];
+                  return (
+                    <li key={entry.id} className={ROW}>
+                      {/* À 375 px l'avatar prenait 52 px à une colonne de texte de 139 : il
+                          n'apparaît qu'à partir de sm (le nom reste dans la ligne de méta). */}
+                      <span className="hidden sm:block shrink-0">
+                        <Avatar size="md" tint="warm">{entry.learner.initials}</Avatar>
+                      </span>
+                      <div className="flex flex-col flex-1 min-w-0">
+                        <h3 className="font-display text-h3 text-ink-900">{entry.title}</h3>
+                        <p className="mt-stack-3xs flex items-center gap-stack-xs flex-wrap text-caption text-ink-600">
+                          <span className="inline-flex items-center gap-stack-3xs">
+                            <User size={14} aria-hidden="true" />
+                            {entry.learner.name}
+                          </span>
+                          <span aria-hidden="true">·</span>
+                          <span className="inline-flex items-center gap-stack-3xs">
+                            <Calendar size={14} aria-hidden="true" />
+                            {entry.date}
+                          </span>
+                          <Badge variant={sentiment.variant} size="compact">{sentiment.label}</Badge>
+                        </p>
+                      </div>
+                      <Button emphasis="outline" size="sm" className="shrink-0" aria-label={`Voir : ${entry.title}`}>Voir</Button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </Card>
+          )}
+        </section>
       </div>
     </PageShell>
   );

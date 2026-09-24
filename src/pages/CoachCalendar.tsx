@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, Plus, Settings, Video, MapPin } from 'lucide-react';
 import EditorialHero from '../components/patterns/EditorialHero';
-import SectionCard from '../components/patterns/SectionCard';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
-import { Badge } from '../components/ui/Badge';
+import { MetaPillGroup } from '../components/ui/MetaPillGroup';
 import { FilterChip } from '../components/ui/FilterChip';
 import { Avatar } from '../components/ui/Avatar';
 import { PageShell } from '../components/layout';
@@ -35,6 +35,8 @@ const CoachCalendar: React.FC = () => {
   const [providerFilter, setProviderFilter] = useState<'all' | 'google' | 'outlook'>('all');
 
   return (
+    /* Deux sections à 48 px sous l'en-tête : la semaine (sa barre d'outils et
+       sa grille, 16 entre elles) et les disponibilités. */
     <PageShell width="wide" noPadTop className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
         eyebrow="Coach · Mon calendrier"
@@ -44,45 +46,53 @@ const CoachCalendar: React.FC = () => {
         trailing={<Button emphasis="soft" tone="warm" leadingIcon={<Plus className="w-4 h-4" />}>Nouvelle session</Button>}
       />
 
-      <div className="flex flex-col gap-section">
+      <section className="flex flex-col gap-stack">
+        {/* La semaine affichée est le titre de la section (h2 28) : c'était un
+            `div` au pas du titre de carte (20 px), sans niveau. Tout ce qui se
+            pose sur cette ligne fait 44 px — flèches, pastilles et bouton
+            OAuth, qui était le seul à 36 (arbitrage n°22). */}
         <div className="flex flex-wrap items-center justify-between gap-stack">
           <div className="flex items-center gap-stack-xs">
             <Button emphasis="outline" iconOnly leadingIcon={<ChevronLeft className="w-4 h-4" />} aria-label="Semaine précédente" onClick={() => setWeekOffset((w) => w - 1)} />
-            <div className="font-display text-h3">Semaine du 11 mai 2026</div>
+            <h2 className="font-display text-h2 text-ink-900">Semaine du 11 mai 2026</h2>
             <Button emphasis="outline" iconOnly leadingIcon={<ChevronRight className="w-4 h-4" />} aria-label="Semaine suivante" onClick={() => setWeekOffset((w) => w + 1)} />
           </div>
-          <div className="flex items-center gap-stack-xs">
+          <div className="flex flex-wrap items-center gap-stack-xs">
             <FilterChip label="Tous" active={providerFilter === 'all'} onClick={() => setProviderFilter('all')} />
             <FilterChip label="Google" active={providerFilter === 'google'} onClick={() => setProviderFilter('google')} />
             <FilterChip label="Outlook (V1)" active={providerFilter === 'outlook'} onClick={() => setProviderFilter('outlook')} />
-            <Button emphasis="outline" size="sm" leadingIcon={<Settings className="w-4 h-4" />}>OAuth</Button>
+            <Button emphasis="outline" leadingIcon={<Settings className="w-4 h-4" />}>OAuth</Button>
           </div>
         </div>
 
         <Card className="p-0 overflow-x-auto">
           <div className="grid grid-cols-[80px_repeat(7,_1fr)] min-w-[800px]">
             <div className="p-3 border-b border-r border-ink-200 bg-ink-50" />
+            {/* Jour 16/600, date en légende ink-600 : le jour se lit d'abord. */}
             {WEEK.map((d, i) => (
-              <div key={d} className="p-3 border-b border-ink-200 text-center font-semibold text-body">
-                {d}<span className="text-caption text-ink-500 block">{11 + i} mai</span>
+              <div key={d} className="p-3 border-b border-ink-200 text-center flex flex-col items-center gap-tight">
+                <span className="text-body font-semibold text-ink-900">{d}</span>
+                <span className="text-caption text-ink-600 tabular-nums">{11 + i} mai</span>
               </div>
             ))}
             {HOURS.map((h) => (
               <React.Fragment key={h}>
-                <div className="p-stack-xs border-r border-b border-ink-200 text-caption text-ink-500 font-mono bg-ink-50">{h}</div>
+                {/* L'heure en chiffres tabulaires Nunito : la police mono sortait
+                    du système typographique. */}
+                <div className="p-stack-xs border-r border-b border-ink-200 text-caption text-ink-600 tabular-nums bg-ink-50">{h}</div>
                 {WEEK.map((_, dayIdx) => {
                   const session = SESSIONS.find((s) => s.day === dayIdx && s.hour === h);
                   return (
                     <div key={dayIdx} className="p-1 border-b border-ink-200 min-h-[60px] group">
                       {session ? (
-                        <div className="bg-secondary-50 border border-secondary-200 rounded p-stack-xs h-full">
-                          <div className="flex items-center gap-tight mb-1">
+                        <div className="bg-secondary-50 border border-secondary-200 rounded p-stack-xs h-full flex flex-col gap-stack-3xs">
+                          <div className="flex items-center gap-stack-xs min-w-0">
                             <Avatar initials={session.initials} size="sm" />
-                            <span className="text-caption font-semibold truncate">{session.apprenant}</span>
+                            <span className="text-caption font-semibold text-ink-900 truncate">{session.apprenant}</span>
                           </div>
-                          <div className="flex items-center gap-tight text-caption text-ink-600">
-                            {session.mode === 'remote' ? <Video className="w-3 h-3" /> : <MapPin className="w-3 h-3" />}
-                            <span>{session.duration}</span>
+                          <div className="flex items-center gap-stack-3xs text-caption text-ink-600">
+                            {session.mode === 'remote' ? <Video className="w-3.5 h-3.5" aria-hidden="true" /> : <MapPin className="w-3.5 h-3.5" aria-hidden="true" />}
+                            <span className="tabular-nums">{session.duration}</span>
                           </div>
                         </div>
                       ) : (
@@ -101,15 +111,25 @@ const CoachCalendar: React.FC = () => {
             ))}
           </div>
         </Card>
+      </section>
 
-        <SectionCard title="Disponibilités configurées" description="Plages où les apprenants peuvent réserver">
-          <div className="flex flex-wrap gap-stack-xs">
-            <Badge variant="success">Lun-Ven · 9h-12h</Badge>
-            <Badge variant="success">Lun-Ven · 14h-17h</Badge>
-            <Badge variant="warm">Mer · ½ journée bloquée</Badge>
-          </div>
-        </SectionCard>
-      </div>
+      {/* Des plages horaires sont des données : MetaPill, plus des pastilles
+          d'état vertes en capitales. Trois pastilles n'ont pas besoin d'une
+          carte autour : le titre de section suffit à les rattacher. */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader
+          title="Disponibilités configurées"
+          subtitle="Plages où les apprenants peuvent réserver."
+          size="md"
+        />
+        <MetaPillGroup
+          items={[
+            { text: 'Lun-Ven · 9h-12h' },
+            { text: 'Lun-Ven · 14h-17h' },
+            { text: 'Mer · ½ journée bloquée', tone: 'warm' },
+          ]}
+        />
+      </section>
     </PageShell>
   );
 };

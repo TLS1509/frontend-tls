@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Send, ChevronLeft, BookOpen, MessageSquare, Star } from 'lucide-react';
+import { Send, ChevronLeft, BookOpen, Star } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { IconChip } from '../components/ui/IconChip';
-import { Badge } from '../components/ui/Badge';
 import { Avatar } from '../components/ui/Avatar';
 import { DreyfusSlider } from '../components/ui/DreyfusSlider';
 import { FormGroup } from '../components/core/FormGroup';
-import { Input } from '../components/core/Input';
 import { PageShell } from '../components/layout';
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
@@ -52,12 +51,30 @@ export default function CoachCorrectionInterface() {
     setSubmitted(true);
   };
 
+  /* La soumission, en paragraphes : les lignes vides ne sont plus des <br>
+     posés sous des marges — un seul écart de 16 px entre deux paragraphes
+     (doctrine § 3). */
+  const paragraphes = SUBMISSION.content.split('\n').filter((line) => line.trim());
+
   return (
-    <div className="flex flex-col gap-section">
+    /* PageShell enveloppe TOUTE la page : l'en-tête vivait au-dessus, sans
+       marge haute (le surtitre touchait le bord), et le contenu commençait
+       72 px plus bas (32 + le padding haut de PageShell). La grille à deux
+       colonnes ne s'ouvre qu'à partir de lg : `!flex-row` posait la colonne
+       des critères À CÔTÉ de la soumission à 375 px (débordement). */
+    <PageShell width="wide" noPadTop className="pt-6 md:pt-8 lg:pt-10">
+      {/* Le titre est l'exercice — ce qu'on corrige —, plus le nom de l'écran
+          (« Interface de Correction »). L'apprenant, la compétence, le niveau et
+          la date sont des données : la ligne de méta de l'en-tête, en légende.
+          La carte qui les portait en pastilles d'état disparaît avec eux. */}
       <EditorialHero
-        eyebrow={`Coach · Correction #${SUBMISSION.id}`}
-        title="Interface de Correction"
-        summary={`${SUBMISSION.exerciceTitle} : ${SUBMISSION.apprenantName}`}
+        eyebrow="Coach · Correction"
+        title={SUBMISSION.exerciceTitle}
+        meta={[
+          { icon: <Avatar name={SUBMISSION.apprenantName} initials={SUBMISSION.apprenantInitials} size="xs" />, label: SUBMISSION.apprenantName },
+          { label: `${SUBMISSION.competence} · D${SUBMISSION.dreyfusLevel} Compétent` },
+          { label: `Soumis le ${SUBMISSION.submittedAt}` },
+        ]}
         tone="flat"
         trailing={
           <Button emphasis="outline" size="md" leadingIcon={<ChevronLeft size={16} />}>
@@ -66,53 +83,42 @@ export default function CoachCorrectionInterface() {
         }
       />
 
-      <PageShell width="wide" noPadTop className="pt-6 md:pt-8 lg:pt-10 !flex-row md:grid md:grid-cols-[1fr_360px]">
-
-        {/* Main : submitted work */}
-        <div className="flex flex-col gap-section">
-
-          {/* Apprenant header */}
-          <Card variant="default" className="flex items-center gap-stack p-stack-md">
-            <Avatar name={SUBMISSION.apprenantName} initials={SUBMISSION.apprenantInitials} size="lg" />
-            <div className="flex flex-col gap-tight flex-1">
-              <span className="text-body font-semibold text-ink-900">{SUBMISSION.apprenantName}</span>
-              <div className="flex items-center gap-stack-xs">
-                <Badge variant="info" size="compact">{SUBMISSION.competence}</Badge>
-                <Badge variant="neutral" size="compact">D{SUBMISSION.dreyfusLevel} Compétent</Badge>
-                <span className="text-caption text-ink-600">Soumis le {SUBMISSION.submittedAt}</span>
+      <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_320px] gap-page lg:gap-section items-start">
+        <div className="flex flex-col gap-page min-w-0">
+          <section className="flex flex-col gap-stack">
+            <SectionHeader title="Soumission" size="md" />
+            <Card>
+              <div className="flex flex-col gap-stack max-w-prose">
+                {paragraphes.map((line, i) => (
+                  <p key={i} className="text-body text-ink-900">{line}</p>
+                ))}
               </div>
-            </div>
-          </Card>
+            </Card>
+          </section>
 
-          {/* Submitted content */}
-          <SectionCard title={SUBMISSION.exerciceTitle} titleIcon={<BookOpen size={18} />}>
-            <div className="prose prose-sm max-w-none">
-              {SUBMISSION.content.split('\n').map((line, i) => (
-                line.trim() ? (
-                  <p key={i} className="text-body text-ink-700 mb-stack-xs">{line}</p>
-                ) : <br key={i} />
-              ))}
-            </div>
-          </SectionCard>
-
-          {/* Feedback form */}
           {!submitted ? (
-            <SectionCard title="Votre feedback" titleIcon={<MessageSquare size={18} />}>
-              <div className="flex flex-col gap-stack">
+            <section className="flex flex-col gap-stack">
+              <SectionHeader title="Votre feedback" size="md" />
+              <Card className="flex flex-col gap-stack-lg">
+                {/* FormGroup + zone de texte, et non `<Input multiline>` : ce
+                    dernier pose `h-touch` et `h-auto` sur le même cadre, le
+                    premier gagne (piège n°6) et le texte déborde d'un cadre
+                    resté à 96 px. Filet `ink-400`, celui de la famille champ
+                    (arbitrage n°7) — il était à ink-200. */}
                 <FormGroup label="Commentaire général" id="feedback">
                   <textarea
                     id="feedback"
                     value={feedback}
                     onChange={(e) => setFeedback(e.target.value)}
                     rows={6}
-                    placeholder="Points forts, axes d'amélioration, conseils pratiques..."
-                    className="w-full rounded-lg border border-ink-200 px-stack py-3 text-body text-ink-900 focus:outline-none focus:border-primary-400 transition-colors duration-fast resize-none"
+                    placeholder="Points forts, axes d'amélioration, conseils pratiques…"
+                    className="w-full rounded-lg border border-ink-400 px-stack py-3 text-body text-ink-900 placeholder:text-ink-500 focus:outline-none focus:border-primary-700 transition-colors duration-fast resize-none"
                   />
                 </FormGroup>
 
-                {/* Dreyfus assessment */}
+                {/* Libellé 16/600 ink-900, comme celui d'un champ. */}
                 <div className="flex flex-col gap-stack-xs">
-                  <span className="text-body font-semibold text-ink-700">Évaluation Dreyfus</span>
+                  <span className="text-body font-semibold text-ink-900">Évaluation Dreyfus</span>
                   <DreyfusSlider
                     value={dreyfusAssessed ?? undefined}
                     onChange={setDreyfusAssessed}
@@ -128,19 +134,20 @@ export default function CoachCorrectionInterface() {
                   leadingIcon={<Send size={16} />}
                   onClick={handleSubmit}
                   disabled={!feedback.trim()}
+                  className="self-start"
                 >
                   Envoyer le feedback
                 </Button>
-              </div>
-            </SectionCard>
+              </Card>
+            </section>
           ) : (
             <Card variant="tinted" tone="warm" className="flex flex-col items-center gap-stack py-section text-center">
               <IconChip size="lg" tone="success">
                 <Send />
               </IconChip>
-              <div className="flex flex-col gap-tight">
+              <div className="flex flex-col gap-stack-3xs">
                 <p className="text-body font-semibold text-ink-900">Feedback envoyé</p>
-                <p className="text-body text-ink-500">Sophie Martin sera notifiée de votre correction.</p>
+                <p className="text-body text-ink-700">Sophie Martin sera notifiée de votre correction.</p>
               </div>
               <Button emphasis="soft" size="md">
                 Exercice suivant
@@ -149,27 +156,29 @@ export default function CoachCorrectionInterface() {
           )}
         </div>
 
-        {/* Sidebar */}
-        <div className="flex flex-col gap-section sticky top-8">
+        {/* Les repères du correcteur : deux blocs (h3) à côté du travail. Leur
+            texte se lit — 16 px, plus 13 en légende. */}
+        <aside className="flex flex-col gap-stack lg:sticky lg:top-8" aria-label="Repères de correction">
           <SectionCard title="Critères d'évaluation" titleIcon={<BookOpen size={18} />}>
-            <div className="flex flex-col gap-stack-xs">
+            <ul className="flex flex-col gap-stack-xs">
               {['Analyse du contexte', 'Démarche structurée', 'Réflexivité', 'Plan d\'action concret'].map((c) => (
-                <div key={c} className="flex items-center gap-stack-xs text-caption text-ink-600">
-                  <span className="w-1.5 h-1.5 rounded-pill bg-secondary-500 shrink-0" />
+                <li key={c} className="flex items-start gap-stack-xs text-body text-ink-700">
+                  <span className="shrink-0 inline-flex items-center h-lh" aria-hidden="true">
+                    <span className="w-1.5 h-1.5 rounded-pill bg-secondary-500" />
+                  </span>
                   {c}
-                </div>
+                </li>
               ))}
-            </div>
+            </ul>
           </SectionCard>
 
           <SectionCard title={`Progression D${SUBMISSION.dreyfusLevel}`} titleIcon={<Star size={18} />}>
-            <p className="text-caption text-ink-500">
+            <p className="text-body text-ink-700">
               D{SUBMISSION.dreyfusLevel} Compétent : planifie et adapte selon le contexte. Montre une compréhension des patterns récurrents.
             </p>
           </SectionCard>
-        </div>
-
-      </PageShell>
-    </div>
+        </aside>
+      </div>
+    </PageShell>
   );
 }
