@@ -45,9 +45,10 @@ export const AtrophieIndicator: React.FC<AtrophieIndicatorProps> = ({
 
   return (
     <span
+      /* Pas de pulsation (arbitrage n°16) : un état ne se signale pas par un
+         mouvement permanent — le mot et la couleur portent l'information. */
       className={[
         'inline-flex items-center font-medium rounded-pill shrink-0',
-        isCritical ? '' : 'animate-pulse',
         colorClasses,
         sizeClasses,
         className,

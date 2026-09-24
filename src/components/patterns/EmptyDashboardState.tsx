@@ -17,6 +17,7 @@
 
 import React from 'react';
 import { buttonClasses } from '../core/Button';
+import { MetaPill } from '../ui/MetaPill';
 import { useNavigate } from 'react-router-dom';
 import { GraduationCap, Target, ArrowRight, Play } from 'lucide-react';
 import { NextStepsGrid } from './NextStepsGrid';
@@ -61,12 +62,15 @@ export const EmptyDashboardState: React.FC<EmptyDashboardStateProps> = ({
 
   return (
     <section className={wrapperClasses} aria-label="Premiers pas">
-      {/* Orienting header — oriente, ne ré-accueille pas (le hero a déjà salué). */}
-      <div className="flex flex-col gap-tight max-w-2xl">
-        <h2 className="text-h3 font-display font-bold text-ink-900 tracking-headline text-balance">
+      {/* Orienting header — oriente, ne ré-accueille pas (le hero a déjà salué).
+          C'est un titre de SECTION (h2 28/36), avec sa phrase à 4 px (16/26
+          ink-700). Il était au pas du titre de carte (20 px), comme la carte
+          juste en dessous : deux rangs, une seule taille. */}
+      <div className="flex flex-col gap-stack-3xs">
+        <h2 className="font-display text-h2 text-ink-900 text-balance">
           Par où commencer&nbsp;?
         </h2>
-        <p className="text-body text-ink-600 m-0">
+        <p className="font-body text-body text-ink-700 max-w-prose">
           Ton profil et ton passeport sont prêts. Trois portes d&apos;entrée pour lancer ta pratique.
         </p>
       </div>
@@ -76,22 +80,36 @@ export const EmptyDashboardState: React.FC<EmptyDashboardStateProps> = ({
         type="button"
         onClick={() => navigate('/learning-paths')}
         aria-label="Démarre ton premier parcours"
-        className="group relative overflow-hidden w-full text-left rounded-lg border border-secondary-200/70 bg-gradient-to-br from-secondary-100/92 to-secondary-50/78 shadow-[inset_0_1px_0_rgba(255,255,255,0.85)] p-6 md:p-8 cursor-pointer transition-colors duration-base ease-emphasis hover:border-secondary-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-400 flex flex-col gap-3.5"
+        className="group relative overflow-hidden w-full text-left rounded-lg border border-secondary-200/70 bg-gradient-to-br from-secondary-100/92 to-secondary-50/78 shadow-[inset_0_1px_0_rgba(255,255,255,0.85)] p-stack-lg md:p-section cursor-pointer transition-colors duration-base ease-emphasis hover:border-secondary-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-400 flex flex-col"
       >
-        <span className="inline-flex self-start items-center gap-stack-2xs text-[11px] font-semibold uppercase tracking-wide px-2.5 py-1 rounded-pill bg-secondary-200/60 text-secondary-700">
-          <Play size={14} fill="currentColor" aria-hidden="true" /> Premier pas
+        {/* Anatomie (passe typographique du 2026-09-24) : type · 4 · titre h3
+            20/700 ink-900 · 8 · texte 16 ink-700 · 24 · action.
+            (méta → titre 4, comme dans l'anatomie d'une carte.)
+            - « Premier pas » est une DONNÉE sur la carte : `MetaPill`
+              (arbitrages n°14-15), plus une pastille faite main en 11 px
+              capitales, le registre du `Badge`.
+            - Le titre prend le pas du titre de carte. Il était à 27 → 34 px,
+              hors échelle, et au-dessus du titre de section qui le coiffe ;
+              la carte domine par sa surface et sa largeur, pas par sa taille
+              de texte. Encre ink-900 : la marque ne teinte pas un titre.
+            - Pas de <h3> : dans un <button>, un titre est invalide (HTML). */}
+        <MetaPill
+          text="Premier pas"
+          icon={<Play size={14} fill="currentColor" aria-hidden="true" />}
+          tone="warm"
+          className="self-start"
+        />
+
+        <span className="mt-stack-3xs font-display text-h3 text-ink-900 text-balance">
+          Démarre ton premier parcours
         </span>
 
-        <h3 className="font-display font-bold leading-[1.05] tracking-display text-balance text-[1.7rem] md:text-[2.1rem] text-secondary-800">
-          Démarre ton premier parcours
-        </h3>
-
-        <p className="font-body text-body text-ink-700 m-0 max-w-[52ch]">
+        <span className="mt-stack-xs font-body text-body text-ink-700 max-w-prose">
           Découvre les parcours adaptés à ton profil et lance ta première leçon.
-        </p>
+        </span>
 
         {/* Affordance visuelle dans une carte déjà cliquable — voir PromptCard. */}
-        <span className={buttonClasses({ variant: 'glass-light', className: 'mt-1 self-start' })}>
+        <span className={buttonClasses({ variant: 'glass-light', className: 'mt-stack-lg self-start' })}>
           Explorer les parcours <ArrowRight size={14} aria-hidden="true" />
         </span>
       </button>

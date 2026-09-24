@@ -20,14 +20,19 @@ const SIZE_GAP: Record<UserInfoSize, string> = {
   lg: 'gap-stack',
 };
 
+/* Le nom est un libellé de rangée (16/600, Nunito), pas un titre : il était
+   dans un <h4> en graisse 600, qui s'inventait une place dans le plan de la
+   page. En `lg`, il prend le pas du titre de bloc (h3 20/700, League
+   Spartan). Le rôle est une méta : légende 13 ink-600 — il descendait à
+   11 px en `sm`, le registre des étiquettes (`Badge`). */
 const NAME_SIZE: Record<UserInfoSize, string> = {
-  sm: 'text-body',
-  md: 'text-body',
-  lg: 'text-h3',
+  sm: 'font-body text-body font-semibold',
+  md: 'font-body text-body font-semibold',
+  lg: 'font-display text-h3',
 };
 
 const ROLE_SIZE: Record<UserInfoSize, string> = {
-  sm: 'text-micro',
+  sm: 'text-caption',
   md: 'text-caption',
   lg: 'text-body',
 };
@@ -72,10 +77,10 @@ export const UserInfo: React.FC<UserInfoProps> = ({
       </div>
       <div className="flex flex-col min-w-0">
         <div className="flex items-center gap-stack-xs min-w-0">
-          <h4 className={`font-semibold text-ink-900 truncate ${NAME_SIZE[size]}`}>{name}</h4>
+          <p className={`text-ink-900 truncate ${NAME_SIZE[size]}`}>{name}</p>
           {badge && <span className="shrink-0 inline-flex items-center">{badge}</span>}
         </div>
-        {role && <p className={`m-0 text-ink-500 truncate ${ROLE_SIZE[size]}`}>{role}</p>}
+        {role && <p className={`text-ink-600 truncate ${ROLE_SIZE[size]}`}>{role}</p>}
       </div>
     </div>
   );

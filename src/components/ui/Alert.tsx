@@ -37,9 +37,12 @@ const ICON_BY_VARIANT: Record<AlertVariant, React.ComponentType<{ size?: number;
 const BASE =
   'flex gap-stack-xs rounded-lg border backdrop-blur-sm animate-alert-slide';
 
+/* Le texte d'une bannière est du texte courant (16/26) ; l'alerte en ligne,
+   compacte, est une aide (légende 13/20). L'interligne est celui du pas : le
+   `leading-normal` d'avant l'écrasait (24 px au lieu de 26). */
 const PATTERN_CLASSES: Record<AlertPattern, string> = {
-  banner: 'items-start py-stack px-stack-md text-body leading-normal',
-  inline: 'items-center py-2 px-3 text-caption leading-normal',
+  banner: 'items-start py-stack px-stack-md text-body',
+  inline: 'items-center py-2 px-3 text-caption',
 };
 
 const VARIANT_CLASSES: Record<AlertVariant, string> = {
@@ -97,12 +100,12 @@ export const Alert: React.FC<AlertProps> = ({
 
   const IconComponent = ICON_BY_VARIANT[resolvedVariant];
   const iconSize = ICON_SIZE_BY_PATTERN[pattern];
-  // Banner with potentially multi-line content → align icon with first line via mt-0.5
-  // Inline (single line) → parent items-center handles it, no margin needed
+  // Une ligne de haut (`h-lh`) : l'icône se centre sur la PREMIÈRE ligne du
+  // texte, quelle que soit sa longueur (doctrine § 4). L'ancien `mt-px`
+  // visait un interligne de 22 px qui n'existe plus.
   const iconWrapperClasses = [
-    'shrink-0',
+    'shrink-0 inline-flex items-center h-lh',
     ICON_TONE_CLASSES[resolvedVariant],
-    pattern === 'banner' && 'mt-px',
   ]
     .filter(Boolean)
     .join(' ');
@@ -113,11 +116,14 @@ export const Alert: React.FC<AlertProps> = ({
         {icon ?? <IconComponent size={iconSize} strokeWidth={2} aria-hidden />}
       </span>
 
-      <div className="flex-1 flex flex-col gap-tight min-w-0">
+      {/* Titre 16/600 (une emphase du corps, pas un titre de section : 700
+          et `leading-tight` en faisaient un titre de 20 px de ligne), 4 px,
+          puis le texte, plafonné à la largeur de lecture. */}
+      <div className="flex-1 flex flex-col gap-stack-3xs min-w-0">
         {title && pattern === 'banner' && (
-          <p className="font-body font-bold m-0 leading-tight">{title}</p>
+          <p className="font-body font-semibold">{title}</p>
         )}
-        {children && <p className="m-0">{children}</p>}
+        {children && <p className="max-w-prose">{children}</p>}
       </div>
 
       {actions && pattern === 'banner' && (

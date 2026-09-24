@@ -26,9 +26,13 @@ export const InlineWin: React.FC<InlineWinProps> = ({
   className = '',
   ...rest
 }) => (
+  /* Titre 16/600 ink-900 · 4 px · description en légende ink-600. L'icône
+     s'aligne sur la PREMIÈRE ligne du titre (doctrine § 4) : le texte descend
+     de (40 − 26) / 2 = 7 px. Le titre était teinté secondary-700 en 700 — la
+     marque ne teinte pas un titre (doctrine § 2). */
   <div
     className={[
-      'flex items-center gap-stack px-stack-md py-stack rounded-lg border border-secondary-500/20',
+      'flex items-start gap-stack px-stack-md py-stack rounded-lg border border-secondary-500/20',
       'bg-gradient-to-br from-secondary-50 to-accent-50',
       className,
     ]
@@ -42,9 +46,9 @@ export const InlineWin: React.FC<InlineWinProps> = ({
     >
       {icon ?? <Star size={18} strokeWidth={2} fill="currentColor" />}
     </span>
-    <div className="flex-1 min-w-0">
-      <p className="m-0 text-body font-bold text-secondary-700">{title}</p>
-      {description && <p className="m-0 mt-0.5 text-caption text-ink-500">{description}</p>}
+    <div className="flex-1 min-w-0 mt-[7px] flex flex-col gap-stack-3xs">
+      <p className="font-body text-body font-semibold text-ink-900">{title}</p>
+      {description && <p className="font-body text-caption text-ink-600">{description}</p>}
     </div>
   </div>
 );
