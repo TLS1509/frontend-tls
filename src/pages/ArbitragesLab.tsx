@@ -26,6 +26,7 @@ import { MetaPill } from '../components/ui/MetaPill';
 import { ResourceCard } from '../components/ui/ResourceCard';
 import { Bookmark, FileText, Clock } from 'lucide-react';
 import { Compass, Target, Lightbulb } from 'lucide-react';
+import { Flame, Award, LayoutDashboard, Map as MapIcon, PenLine, GraduationCap, Newspaper, Layers, Library } from 'lucide-react';
 
 /* ─────────────────────────── Couleurs et contraste ─────────────────────────── */
 
@@ -529,6 +530,161 @@ const DarkSpecimen: React.FC<{ look: 'hex' | 'tokens' | 'nuit' }> = ({ look }) =
   );
 };
 
+/* ═════════════════ Issues de l'audit UX/UI du 23/09 (n°18 à 25) ═════════════════ */
+
+/* n°18 — Gamification : ce qu'un apprenant voit aujourd'hui, ou une page « Reconnaissances ». */
+const GamifSpecimen: React.FC<{ look: 'actuel' | 'reco' }> = ({ look }) =>
+  look === 'actuel' ? (
+    <div className="w-full rounded-xl border border-ink-200 bg-white divide-y divide-ink-100">
+      <div className="flex items-center gap-stack-sm px-stack-md py-stack-sm">
+        <IconChip tone="warm" size="md"><Flame /></IconChip>
+        <div className="flex-1"><p className="m-0 text-body-sm font-semibold text-ink-900">18 jours de série</p><p className="m-0 text-caption text-ink-600">Écris une entrée avant minuit pour la garder</p></div>
+      </div>
+      <div className="flex items-center gap-stack-sm px-stack-md py-stack-sm">
+        <IconChip tone="sun" size="md"><Award /></IconChip>
+        <div className="flex-1"><p className="m-0 text-body-sm font-semibold text-ink-900">1 400 XP · Niveau 12</p><p className="m-0 text-caption text-ink-600">180 XP avant D4 en Leadership</p></div>
+      </div>
+      {[['1', 'Léa Martin', '2 340 XP'], ['2', 'Tom Bernard', '2 110 XP'], ['11', 'Toi', '1 400 XP']].map(([r, n, x]) => (
+        <div key={r} className="flex items-center gap-stack-sm px-stack-md py-stack-xs text-body-sm">
+          <span className="w-8 font-display font-bold text-ink-600">#{r}</span><span className="flex-1 text-ink-900">{n}</span><span className="text-ink-600">{x}</span>
+        </div>
+      ))}
+    </div>
+  ) : (
+    <div className="w-full rounded-xl border border-ink-200 bg-white p-stack-md flex flex-col gap-stack-sm">
+      <p className="m-0 font-display text-h4 text-ink-900">Reconnaissances</p>
+      {[['Leadership', 'D3 · Compétent', 'validé le 12 mars par Sophie'], ['Communication', 'D3 · Compétent', 'validé le 2 février par ton manager']].map(([c, l, w]) => (
+        <div key={c} className="flex items-center gap-stack-sm">
+          <IconChip tone="brand" size="md"><Award /></IconChip>
+          <div className="flex-1"><p className="m-0 text-body-sm font-semibold text-ink-900">{c} · {l}</p><p className="m-0 text-caption text-ink-600">Open Badge {w}</p></div>
+        </div>
+      ))}
+      <div className="flex items-center gap-stack-xs pt-stack-xs border-t border-ink-100">
+        {[1, 1, 1, 0].map((on, i) => <span key={i} className={`w-3 h-3 rounded-sm ${on ? 'bg-primary-700' : 'bg-ink-200'}`} />)}
+        <span className="text-caption text-ink-700 ml-stack-2xs">Actif 3 semaines sur les 4 dernières</span>
+      </div>
+    </div>
+  );
+
+/* n°19 — Hiérarchie du bouton : trois actions de rang différent, sur blanc et sur carte teintée. */
+type BtnLook = 'soft' | 'solid' | 'soft100';
+const BtnRow: React.FC<{ look: BtnLook; tinted: boolean }> = ({ look, tinted }) => (
+  <div className="flex flex-wrap items-center gap-stack-xs">
+    {look === 'solid' ? (
+      <Button emphasis="solid" tone="brand" size="md">Reprendre</Button>
+    ) : (
+      <Button emphasis="soft" tone="brand" size="md" className={look === 'soft100' && tinted ? '!bg-primary-100' : ''}>Reprendre</Button>
+    )}
+    <Button emphasis={look === 'solid' ? 'soft' : 'outline'} tone="brand" size="md">Voir le parcours</Button>
+    <Button emphasis="ghost" tone="neutral" size="md">Plus tard</Button>
+  </div>
+);
+const ButtonHierSpecimen: React.FC<{ look: BtnLook }> = ({ look }) => (
+  <div className="w-full flex flex-col gap-stack-xs">
+    <div className="rounded-xl border border-ink-200 bg-white p-stack-md flex flex-col gap-stack-xs">
+      <span className="text-caption text-ink-600">Sur blanc</span><BtnRow look={look} tinted={false} />
+    </div>
+    <div className="rounded-xl border border-primary-100 bg-primary-50 p-stack-md flex flex-col gap-stack-xs">
+      <span className="text-caption text-ink-700">Sur carte teintée</span><BtnRow look={look} tinted />
+    </div>
+  </div>
+);
+
+/* n°20 — Corps de texte : une seule taille, 16 ou 15. */
+const BodySizeSpecimen: React.FC<{ size: 'body' | 'body-sm' }> = ({ size }) => (
+  <div className="w-full rounded-xl border border-ink-200 bg-white p-stack-md flex flex-col gap-stack-xs">
+    <p className="m-0 font-display text-h4 text-ink-900">Déléguer sans perdre le fil</p>
+    <p className={`m-0 text-ink-800 ${size === 'body' ? 'text-body' : 'text-body-sm'}`}>
+      Ce que tu gardes, ce que tu confies, et comment suivre sans tout reprendre. Trois situations tirées de ton équipe, puis une mise en pratique avec ta coach.
+    </p>
+    <p className="m-0 text-caption text-ink-600">12 min · Leadership</p>
+  </div>
+);
+
+/* n°21 — Titres intermédiaires : 28 / 24 / 20, ou 28 / 20. */
+const HeadingScaleSpecimen: React.FC<{ look: 'trois' | 'deux' }> = ({ look }) => (
+  <div className="w-full rounded-xl border border-ink-200 bg-white p-stack-md flex flex-col gap-stack-sm">
+    <p className="m-0 font-display text-h2 text-ink-900">Ton Passeport</p>
+    {look === 'trois' && <p className="m-0 font-display text-h3 text-ink-900">Compétences validées</p>}
+    <p className="m-0 font-display text-h4 text-ink-900">{look === 'trois' ? 'Leadership' : 'Compétences validées'}</p>
+    {look === 'deux' && <p className="m-0 text-body-sm font-semibold text-ink-900">Leadership</p>}
+    <p className="m-0 text-body-sm text-ink-700">Validé D3 par Sophie le 12 mars, sur la mission « Réorganiser le planning ».</p>
+  </div>
+);
+
+/* n°22 — Hauteur des contrôles : un champ et un bouton posés sur la même ligne. */
+const ControlHeightSpecimen: React.FC<{ look: 'actuel' | 'commun' }> = ({ look }) => (
+  <div className="w-full rounded-xl border border-ink-200 bg-white p-stack-md flex flex-col gap-stack-sm">
+    <span className="text-caption text-ink-600">Taille sm</span>
+    <div className="flex items-center gap-stack-xs">
+      <div className="flex-1"><Input size="sm" placeholder="Rechercher un apprenant" aria-label="Rechercher" /></div>
+      <Button emphasis="outline" tone="brand" size="sm" className={look === 'commun' ? '!h-9' : ''}>Filtrer</Button>
+    </div>
+    <span className="text-caption text-ink-600">Taille md</span>
+    <div className="flex items-center gap-stack-xs">
+      <div className="flex-1"><Input size="md" placeholder="Rechercher un apprenant" aria-label="Rechercher" /></div>
+      <Button emphasis="outline" tone="brand" size="md">Filtrer</Button>
+    </div>
+  </div>
+);
+
+/* n°23 — Voix des pages de pilotage. */
+const VoiceSpecimen: React.FC<{ v: 'tu' | 'vous' }> = ({ v }) => (
+  <div className="w-full rounded-xl border border-ink-200 bg-white p-stack-md flex flex-col gap-stack-xs">
+    <p className="m-0 font-display text-h4 text-ink-900">Ma cohorte</p>
+    <p className="m-0 text-body-sm text-ink-700">{v === 'tu' ? '3 personnes demandent ton attention cette semaine.' : '3 personnes demandent votre attention cette semaine.'}</p>
+    <div className="flex items-center gap-stack-sm pt-stack-xs border-t border-ink-100">
+      <span className="flex-1 text-body-sm text-ink-900">Camille Rousseau · inactive depuis 21 jours</span>
+      <Button emphasis="soft" tone="brand" size="sm">Relancer</Button>
+    </div>
+    <p className="m-0 text-caption text-ink-600">{v === 'tu' ? 'Tu peux exporter la cohorte en CSV depuis Exports.' : 'Vous pouvez exporter la cohorte en CSV depuis Exports.'}</p>
+  </div>
+);
+
+/* n°24 — Parcours et Espace Apprentissage dans la navigation apprenant. */
+const NAV_ACTUEL = [
+  [LayoutDashboard, 'Tableau de bord'], [MapIcon, 'Parcours'], [PenLine, 'Journal de bord'], [GraduationCap, 'Coaching'], [Newspaper, 'Veille'], [Layers, 'Espace Apprentissage'],
+] as const;
+const NAV_RESSOURCES = [
+  [LayoutDashboard, 'Tableau de bord'], [MapIcon, 'Parcours'], [PenLine, 'Journal de bord'], [GraduationCap, 'Coaching'], [Library, 'Ressources'],
+] as const;
+const NavSpecimen: React.FC<{ look: 'actuel' | 'ressources' }> = ({ look }) => (
+  <div className="w-full rounded-xl border border-ink-200 bg-primary-50 p-stack-xs flex flex-col gap-tight">
+    {(look === 'actuel' ? NAV_ACTUEL : NAV_RESSOURCES).map(([Icon, label]) => (
+      <span key={label} className="flex items-center gap-stack-xs rounded-lg px-stack-sm py-stack-xs text-body-sm text-ink-800">
+        <Icon size={18} aria-hidden />{label}
+      </span>
+    ))}
+    {look === 'ressources' && <span className="px-stack-sm pb-stack-2xs text-caption text-ink-600">Ressources = Espace Apprentissage + Veille, deux onglets d'une même page</span>}
+  </div>
+);
+
+/* n°25 — Onboarding : le chat actuel, ou un formulaire progressif. */
+const OnboardingSpecimen: React.FC<{ look: 'chat' | 'form' }> = ({ look }) =>
+  look === 'chat' ? (
+    <div className="w-full rounded-xl border border-ink-200 bg-white p-stack-md flex flex-col gap-stack-xs">
+      <span className="self-start max-w-[80%] rounded-xl bg-ink-100 px-stack-sm py-stack-xs text-body-sm text-ink-900">Enchanté, Claire. Qu'aimerais-tu pratiquer ce trimestre ?</span>
+      <span className="self-end max-w-[80%] rounded-xl bg-primary-700 px-stack-sm py-stack-xs text-body-sm text-white">Déléguer davantage</span>
+      <span className="self-start max-w-[80%] rounded-xl bg-ink-100 px-stack-sm py-stack-xs text-body-sm text-ink-900">Compris. Et à quel rythme ?</span>
+      <div className="flex flex-wrap gap-stack-xs pt-stack-2xs">
+        {['2 sessions / semaine', '3 sessions / semaine'].map((o) => <span key={o} className="rounded-pill border border-ink-300 px-stack-sm py-stack-3xs text-caption text-ink-800">{o}</span>)}
+      </div>
+    </div>
+  ) : (
+    <div className="w-full rounded-xl border border-ink-200 bg-white p-stack-md flex flex-col gap-stack-sm">
+      <span className="text-caption text-ink-600">Étape 2 sur 3</span>
+      <p className="m-0 font-display text-h4 text-ink-900">Qu'aimerais-tu pratiquer ce trimestre ?</p>
+      <div className="rounded-lg border border-ink-200 divide-y divide-ink-100">
+        {['Déléguer davantage', 'Donner du feedback', 'Conduire le changement'].map((o, i) => (
+          <span key={o} className={`flex items-center gap-stack-xs px-stack-sm py-stack-xs text-body-sm ${i === 0 ? 'bg-primary-50 text-ink-900 font-semibold' : 'text-ink-800'}`}>
+            <span className={`w-4 h-4 rounded-pill border-2 ${i === 0 ? 'border-primary-700 bg-primary-700' : 'border-ink-400'}`} aria-hidden />{o}
+          </span>
+        ))}
+      </div>
+      <Button emphasis="solid" tone="brand" size="md" className="self-end">Continuer</Button>
+    </div>
+  );
+
 /* ─────────────────────────────── La page ─────────────────────────────── */
 
 export default function ArbitragesLab() {
@@ -731,7 +887,83 @@ export default function ArbitragesLab() {
     ],
   });
 
-  const all = [...DECISIONS, ...VALIDATIONS];
+  const AUDIT: Omit<DecisionProps, 'choice' | 'setChoice'>[] = [
+    {
+      id: 'gamification', n: 18, title: 'La couche de gamification',
+      question: 'Garde-t-on séries, XP et classement, ou une page « Reconnaissances » adossée aux niveaux validés ?',
+      context: <p>PRODUCT.md exclut la série quotidienne et le classement nominatif (anti-référence Duolingo, « le CLO ne présente pas ça à son comex »), et veut « JAC = zéro XP ». L'app a pourtant 6 routes de gamification, une série « avant minuit » qui vise le journal, et de l'XP qui fait monter un niveau Dreyfus.</p>,
+      options: [
+        { letter: 'A', label: 'Garder', facts: ['Série quotidienne, XP, niveaux, classement', 'Contredit 4 règles écrites de PRODUCT.md'], children: <GamifSpecimen look="actuel" /> },
+        { letter: 'B', label: 'Reconnaissances', recommended: true, facts: ['Open Badges adossés aux niveaux VALIDÉS', 'Rythme hebdomadaire calme, sans compte à rebours', 'Plus de classement ni d’XP : 6 routes deviennent une section du profil'], children: <GamifSpecimen look="reco" /> },
+      ],
+    },
+    {
+      id: 'hierarchie-bouton', n: 19, title: 'La hiérarchie du bouton',
+      question: 'Quel niveau porte l’action principale d’un écran ?',
+      context: <p>Depuis le 17/09, le principal est <code>soft</code> et le secondaire <code>outline</code> : 410 boutons. Ils ne diffèrent que d'un fond au cran 50, qui disparaît sur une carte de même teinte. Trois vrais <code>Button</code> par option : principal, secondaire, tertiaire.</p>,
+      options: [
+        { letter: 'A', label: 'soft principal (actuel)', facts: ['Principal et secondaire presque identiques', 'Identiques sur carte teintée'], children: <ButtonHierSpecimen look="soft" /> },
+        { letter: 'B', label: 'Un seul solid par écran', recommended: true, facts: [`solid au 700 : ${fmt(ratio('#ffffff', p700))}:1`, 'soft = action de contexte, ghost = tertiaire', 'L’œil trouve l’action en un regard'], children: <ButtonHierSpecimen look="solid" /> },
+        { letter: 'C', label: 'soft au cran 100 sur teinte', facts: ['Garde soft principal', 'Répare seulement le cas carte teintée', 'Sur blanc, l’écart reste faible'], children: <ButtonHierSpecimen look="soft100" /> },
+      ],
+    },
+    {
+      id: 'corps-texte', n: 20, title: 'La taille du texte courant',
+      question: 'Une seule taille de corps : 16 ou 15 px ?',
+      context: <p><code>body</code> (16) et <code>body-sm</code> (15) sont à 1 px l'un de l'autre, un écart indiscernable. L'app lit surtout en 15 (637 usages contre 162) ; le registre visé est éditorial.</p>,
+      options: [
+        { letter: 'A', label: '16 px partout', recommended: true, facts: ['Registre éditorial, lecture plus confortable', 'Tout le texte courant grandit de 1 px'], children: <BodySizeSpecimen size="body" /> },
+        { letter: 'B', label: '15 px partout', facts: ['Rendu actuel de la plupart des pages', 'Plus dense'], children: <BodySizeSpecimen size="body-sm" /> },
+      ],
+    },
+    {
+      id: 'titres-intermediaires', n: 21, title: 'Les titres intermédiaires',
+      question: 'Trois titres sous le h1 (28 / 24 / 20), ou deux (28 / 20) ?',
+      context: <p>Trois titres en 700, même famille, à 4 px d'écart : quand ils se suivent, le rang se lit mal. 20 px en gras est déjà du « grand texte » au sens de WCAG.</p>,
+      options: [
+        { letter: 'A', label: '28 / 24 / 20 (actuel)', facts: ['99 titres h3 à 24 px', 'Rapports 1,17 et 1,20 : proches'], children: <HeadingScaleSpecimen look="trois" /> },
+        { letter: 'B', label: '28 / 20', recommended: true, facts: ['Échelle 36 → 28 → 20 → 16 → 13', 'Chaque pas se voit (≥ 1,23)'], children: <HeadingScaleSpecimen look="deux" /> },
+      ],
+    },
+    {
+      id: 'hauteur-controles', n: 22, title: 'La hauteur des contrôles',
+      question: 'Boutons et champs posés sur une même ligne partagent-ils une échelle de hauteur ?',
+      context: <p>Aujourd'hui <code>md</code> vaut 30, 36, 40 ou 44 px selon le composant, et un <code>Button sm</code> (32) ne s'aligne pas sur un <code>Input sm</code> (36). 200 boutons sur 543 sont en <code>sm</code>. Le 32 est une décision écrite.</p>,
+      options: [
+        { letter: 'A', label: 'Garder le bouton sm à 32', facts: ['32 contre 36 sur la même ligne', 'Cible tactile portée à 44 par pseudo-élément'], children: <ControlHeightSpecimen look="actuel" /> },
+        { letter: 'B', label: 'Échelle commune 36 / 44 / 52', recommended: true, facts: ['Même hauteur pour boutons, champs, sélecteurs', 'Le bouton sm passe de 32 à 36'], children: <ControlHeightSpecimen look="commun" /> },
+      ],
+    },
+    {
+      id: 'voix-pilotage', n: 23, title: 'La voix des pages de pilotage',
+      question: 'Tu ou vous pour le manager, l’entreprise et l’admin ?',
+      context: <p>La mémoire du projet dit « tu dans l'app ». PRODUCT.md dit « vous » pour manager, admin et CLO. Les pages de pilotage vouvoient aujourd'hui.</p>,
+      options: [
+        { letter: 'A', label: 'Tu partout dans l’app', facts: ['Une seule voix produit', 'Le CLO est tutoyé'], children: <VoiceSpecimen v="tu" /> },
+        { letter: 'B', label: 'Vous pour le pilotage', recommended: true, facts: ['Conforme à PRODUCT.md', 'Tu reste la voix de l’apprenant'], children: <VoiceSpecimen v="vous" /> },
+      ],
+    },
+    {
+      id: 'ressources', n: 24, title: 'Parcours et Espace Apprentissage',
+      question: 'Deux entrées de navigation, ou une entrée « Ressources » ?',
+      context: <p>« Espace Apprentissage » s'intitule « Explorez nos ressources » ; sa différence avec « Parcours » ne se lit pas, et il n'est pas dans la barre du bas. La Veille est une troisième source de contenu.</p>,
+      options: [
+        { letter: 'A', label: 'Deux entrées (actuel)', facts: ['6 entrées', 'Parcours, Espace Apprentissage et Veille séparés'], children: <NavSpecimen look="actuel" /> },
+        { letter: 'B', label: 'Une entrée « Ressources »', recommended: true, facts: ['5 entrées', 'Ressources = Espace Apprentissage + Veille', 'Libère une place pour le Passeport (refonte 1)'], children: <NavSpecimen look="ressources" /> },
+      ],
+    },
+    {
+      id: 'onboarding-forme', n: 25, title: 'La forme de l’onboarding',
+      question: 'Le premier contact : un chat, ou un formulaire progressif ?',
+      context: <p>Le chat actuel affiche la réponse au-dessus de la question, porte un avatar et des emojis que DESIGN.md §11 exclut, et affirme un niveau après un seul clic. Les deux options posent les mêmes questions.</p>,
+      options: [
+        { letter: 'A', label: 'Chat (réparé)', facts: ['Conversationnel', 'Fil pleine largeur à cadrer', 'Pas d’avatar ni d’emoji'], children: <OnboardingSpecimen look="chat" /> },
+        { letter: 'B', label: 'Formulaire progressif', recommended: true, facts: ['Une question à la fois, réponses en rangées', 'Étape visible, retour possible', 'Même coque que le reste de l’entrée'], children: <OnboardingSpecimen look="form" /> },
+      ],
+    },
+  ];
+
+  const all = [...AUDIT, ...DECISIONS, ...VALIDATIONS];
   const summary = all
     .map((d) => {
       const c = choices[d.id];
@@ -752,7 +984,7 @@ export default function ArbitragesLab() {
         <header className="flex flex-col gap-stack max-w-prose">
           <h1 className="font-display text-h1 text-ink-900">Arbitrages du design system</h1>
           <p className="text-body text-ink-700">
-            Six décisions ouvertes par l'audit du 23/09, puis deux correctifs à valider. Chaque option est rendue avec les vrais composants ; les contrastes sont calculés en direct sur les tokens. Choisis, puis copie tes choix dans la conversation.
+            Huit décisions ouvertes par l'audit UX/UI du 23/09 (n°18 à 25), puis les dix-sept déjà tranchées, gardées pour mémoire. Chaque option est rendue avec les vrais composants ; les contrastes sont calculés en direct sur les tokens. Choisis, puis copie tes choix dans la conversation.
           </p>
           <nav aria-label="Décisions" className="flex flex-wrap gap-stack-xs">
             {all.map((d) => (
@@ -764,10 +996,15 @@ export default function ArbitragesLab() {
           </nav>
         </header>
 
-        {DECISIONS.map((d) => <Decision key={d.id} {...d} choice={choices[d.id]} setChoice={setChoice} />)}
+        {AUDIT.map((d) => <Decision key={d.id} {...d} choice={choices[d.id]} setChoice={setChoice} />)}
 
         <div className="border-t border-ink-200 pt-section flex flex-col gap-section">
-          <h2 className="font-display text-h2 text-ink-900">À valider</h2>
+          <h2 className="font-display text-h2 text-ink-900">Déjà tranchées (23/09)</h2>
+          {DECISIONS.map((d) => <Decision key={d.id} {...d} choice={choices[d.id]} setChoice={setChoice} />)}
+        </div>
+
+        <div className="border-t border-ink-200 pt-section flex flex-col gap-section">
+          <h2 className="font-display text-h2 text-ink-900">Déjà tranchées (suite)</h2>
           {VALIDATIONS.map((d) => <Decision key={d.id} {...d} choice={choices[d.id]} setChoice={setChoice} />)}
         </div>
 
