@@ -127,10 +127,25 @@
 
   /* Comme les titres : le paragraphe HÉRITE sa couleur. `var(--text)` battait
      le texte d'une Alert (primary-800, warning-fg…) et le `text-white` d'une
-     bulle de message (ink-900 sur primary-700 : 2,83:1) — 2026-09-23. */
+     bulle de message (ink-900 sur primary-700 : 2,83:1) — 2026-09-23.
+
+     Et il hérite aussi son CORPS et son INTERLIGNE — 2026-09-24. La base
+     posait `font-size: var(--text-body); line-height: 1.55` : une règle
+     d'élément bat l'héritage (piège n°16), donc un <p> sans classe ignorait
+     le pas de son conteneur. L'Alert `inline` rendait à 16 au lieu de 13 ;
+     les <p> d'une Alert, d'une bulle de message ou d'une réponse de
+     l'assistant avaient 24,8 d'interligne au lieu des 26 de `text-body` que
+     leur conteneur déclare ; deux chapôs en `text-body-lg` rendaient à 16.
+     Mesuré avant de trancher, en simulant la règle au navigateur sur les 175
+     routes, chaque <p> suivi par identité : 3 361 <p> visibles à 1440 ; hors
+     vitrine, 51 changent (47 à 375) — 47 de 16/24,8 à 16/26, 4 de 16/24,8 à
+     18/28 (l'édito de /veille/weekly-newsletter, l'intro de /website/methode).
+     Aucun <p> de texte courant ne passe sous 16 : les seuls qui descendent à
+     13 sont les quatre Alert `inline` de la vitrine, et c'est leur pas.
+     Un <p> nu hors de tout pas hérite de `body` : 16 px, interligne 1,55. */
   p {
-    font-size: var(--text-body);
-    line-height: 1.55;
+    font-size: inherit;
+    line-height: inherit;
     color: inherit;
     margin: 0;
   }

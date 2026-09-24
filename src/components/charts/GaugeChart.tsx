@@ -120,8 +120,9 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
   const valeur = `${Math.round(percentage)}\u202F%`;
   const valueClasses = `font-display tabular-nums ${VALUE_SIZE[size]} ${TONE_TEXT[tone]}`;
 
-  /* Le corps est posé sur chaque <p> : la base (`globals.css`) donne 16 px à
-     tout paragraphe, et cette règle d'élément bat l'héritage du conteneur. */
+  /* Le corps est posé sur chaque <p>. (La base de `globals.css` donnait 16 px
+     à tout paragraphe jusqu'au 2026-09-24 ; il hérite désormais, mais le pas
+     écrit sur l'élément reste la règle.) */
   const legende = (label || targetPercentage !== null) && (
     <div className="flex flex-col items-center gap-stack-3xs text-center">
       {label && <p className="text-caption text-ink-600">{label}</p>}

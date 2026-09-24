@@ -135,9 +135,10 @@ export const CHART_TOOLTIP: {
     lineHeight: 'var(--text-caption--line-height)',
     boxShadow: 'var(--shadow-md)',
   },
-  /* Le titre est un <p> : la base (`globals.css`) pose `p { font-size: body }`,
-     qui bat l'héritage. Sans corps explicite, le titre de l'info-bulle passait
-     à 16 px au-dessus de valeurs à 13 — mesuré le 2026-09-24. */
+  /* Le titre est un <p>. La base (`globals.css`) posait `p { font-size: body }`,
+     qui battait l'héritage : sans corps explicite, le titre de l'info-bulle
+     passait à 16 px au-dessus de valeurs à 13 — mesuré le 2026-09-24. Le <p>
+     hérite désormais de son conteneur ; le corps reste écrit, il ne coûte rien. */
   labelStyle: {
     color: 'var(--color-ink-900)',
     fontSize: 'var(--text-caption)',
