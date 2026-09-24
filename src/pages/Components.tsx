@@ -1007,12 +1007,13 @@ const TabsDemo: React.FC = () => {
   return (
     <div className="flex flex-col gap-stack-lg">
       <div>
-        <p className="m-0 mb-3 text-caption font-semibold text-ink-600">Pill (défaut)</p>
+        <p className="mb-stack-xs text-caption font-semibold text-ink-600">Pill (défaut) · rail au rayon 14, onglet au rayon 10</p>
+        {/* Des icônes Lucide, pas des émojis : l'onglet a un emplacement pour elles. */}
         <Tabs
           items={[
-            { id: 'tab1', label: '📚 Étapes' },
-            { id: 'tab2', label: '🎯 Projet' },
-            { id: 'tab3', label: '📊 Stats' },
+            { id: 'tab1', label: 'Étapes', icon: <Layers /> },
+            { id: 'tab2', label: 'Projet', icon: <Target /> },
+            { id: 'tab3', label: 'Statistiques', icon: <BarChart3 /> },
           ]}
           value={active1}
           onChange={setActive1}
@@ -1020,7 +1021,7 @@ const TabsDemo: React.FC = () => {
         />
       </div>
       <div>
-        <p className="m-0 mb-3 text-caption font-semibold text-ink-600">Underline</p>
+        <p className="mb-stack-xs text-caption font-semibold text-ink-600">Underline</p>
         <Tabs
           items={[
             { id: 'a', label: 'Général' },
@@ -1030,6 +1031,19 @@ const TabsDemo: React.FC = () => {
           value={active2}
           onChange={setActive2}
           variant="underline"
+        />
+      </div>
+      <div>
+        <p className="mb-stack-xs text-caption font-semibold text-ink-600">Boxed</p>
+        <Tabs
+          items={[
+            { id: 'a', label: 'Général' },
+            { id: 'b', label: 'Sécurité' },
+            { id: 'c', label: 'Notifications' },
+          ]}
+          value={active2}
+          onChange={setActive2}
+          variant="boxed"
         />
       </div>
     </div>
@@ -1044,7 +1058,7 @@ const FilterChipDemo: React.FC = () => {
     <div className="flex flex-col gap-stack-lg">
       {/* Default surface */}
       <div className="flex flex-col gap-stack-xs">
-        <p className="text-caption font-semibold text-ink-600 m-0">Default surface · single-select + reset</p>
+        <p className="text-caption font-semibold text-ink-600 m-0">md, le défaut · 44 px · choix unique et réinitialisation</p>
         <div className="flex gap-stack-xs flex-wrap">
           {TOPICS.map((label, i) => {
             const key = i === 0 ? 'all' : label.toLowerCase();
@@ -1058,7 +1072,7 @@ const FilterChipDemo: React.FC = () => {
 
       {/* Default with count badges */}
       <div className="flex flex-col gap-stack-xs">
-        <p className="text-caption font-semibold text-ink-600 m-0">Default · avec count badges</p>
+        <p className="text-caption font-semibold text-ink-600 m-0">Avec compteurs</p>
         <div className="flex gap-stack-xs flex-wrap">
           <FilterChip label="En cours" active count={3} onClick={() => {}} />
           <FilterChip label="Terminés" count={1} onClick={() => {}} />
@@ -1066,9 +1080,19 @@ const FilterChipDemo: React.FC = () => {
         </div>
       </div>
 
+      {/* sm : pour une barre dense, à côté d'un Search sm */}
+      <div className="flex flex-col gap-stack-xs">
+        <p className="text-caption font-semibold text-ink-600 m-0">sm · 28 px, pour une barre dense</p>
+        <div className="flex gap-stack-xs flex-wrap">
+          {TOPICS.slice(0, 4).map((label, i) => (
+            <FilterChip key={label} size="sm" label={label} active={i === 1} onClick={() => {}} />
+          ))}
+        </div>
+      </div>
+
       {/* Glass variant */}
       <div className="flex flex-col gap-stack-xs">
-        <p className="text-caption font-semibold text-ink-600 m-0">Glass variant · sur fond coloré</p>
+        <p className="text-caption font-semibold text-ink-600 m-0">Variante glass · sur fond coloré</p>
         <div className="bg-gradient-to-r from-primary-700 to-primary-800 rounded-xl px-stack py-stack-md flex gap-stack-xs flex-wrap">
           {TOPICS.map((label, i) => {
             const key = i === 0 ? 'tous' : label.toLowerCase();
@@ -1087,7 +1111,7 @@ const FilterChipDemo: React.FC = () => {
 
       {/* Glass with count badges */}
       <div className="flex flex-col gap-stack-xs">
-        <p className="text-caption font-semibold text-ink-600 m-0">Glass · avec count badges</p>
+        <p className="text-caption font-semibold text-ink-600 m-0">Glass · avec compteurs</p>
         <div className="bg-gradient-to-r from-secondary-700 to-secondary-800 rounded-xl px-stack py-stack-md flex gap-stack-xs flex-wrap">
           <FilterChip label="Non lus" variant="glass" active count={3} onClick={() => {}} />
           <FilterChip label="Mentions" variant="glass" count={7} onClick={() => {}} />
@@ -1246,9 +1270,9 @@ const MultiStepFormDemo: React.FC = () => {
         showStepIndicators
       >
         <div className="p-stack bg-ink-50 rounded-lg">
-          {step === 1 && <p>Étape 1: Informations personnelles</p>}
-          {step === 2 && <p>Étape 2: Préférences d\'apprentissage</p>}
-          {step === 3 && <p>Étape 3: Vérification et confirmation</p>}
+          {step === 1 && <p>Étape 1 : informations personnelles</p>}
+          {step === 2 && <p>Étape 2 : préférences d'apprentissage</p>}
+          {step === 3 && <p>Étape 3 : vérification et confirmation</p>}
         </div>
       </MultiStepForm>
     </div>
@@ -2085,22 +2109,21 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'core/Button.tsx',
     cssBase: '.btn',
     description:
-      "Le déclencheur d'une action. Forme pilule, graisse 700, un seul bouton principal par écran. Treize variantes, quatre tailles. Cette fiche est aussi la surface d'arbitrage du remplissage de marque — la seule décision de bouton encore ouverte.",
-    keywords: ['cta', 'action', 'primary', 'secondary', 'accent', 'ghost', 'outline', 'destructive', 'link', 'glass', 'taille', 'contraste', 'wcag', 'icône', 'tracking'],
+      "Le déclencheur d'une action. Son API est une grille : `emphasis` (solid · soft · outline · ghost · link) dit combien il insiste, `tone` (brand · warm · sun · danger · neutral) de quelle couleur. Trois tailles, 36 · 44 · 52, celles des champs d'une même ligne (arbitrage n°22) ; rayon 14, graisse 700. Un seul `solid` par écran, pour l'action principale (arbitrage n°19). Les treize `variant` historiques et l'ancien cran `xl` restent acceptés, comme alias dépréciés.",
+    keywords: ['cta', 'action', 'emphasis', 'tone', 'solid', 'soft', 'outline', 'ghost', 'link', 'onDark', 'iconOnly', 'primary', 'destructive', 'glass', 'taille', '36', '44', '52', 'contraste', 'wcag', 'icône'],
     render: () => (
       <div className="flex flex-col gap-section">
 
-        {/* ─── 1 · LES QUATRE TAILLES ─────────────────────────────────────── */}
+        {/* ─── 1 · LES TROIS TAILLES ──────────────────────────────────────── */}
         <ShowcaseBloc
-          titre="Les quatre tailles"
-          note="Le défaut est md, à 44 px : la cible tactile recommandée par Apple et Material. sm reste à 32 px parce qu'il vit dans les tableaux de bord denses — 227 des 522 boutons de l'app — mais un pseudo-élément déborde de 6 px en haut et en bas, ce qui porte sa zone tactile à 44 px sans toucher au rendu. La cible dépasse le visuel : c'est ainsi que font les deux systèmes."
+          titre="Les trois tailles"
+          note="Le défaut est md, à 44 px : la cible tactile recommandée par Apple et Material. Les trois crans sont ceux des champs (Input, Select, Search) : un bouton et un champ posés sur la même ligne ont la même hauteur (arbitrage n°22 du 24/09). sm, à 36 px, sert les rangées denses ; un pseudo-élément déborde de 4 px en haut et en bas et porte sa zone tactile à 44 sans toucher au rendu. Son label reste à 13 : essayé à 16 dans trois rangées réelles, l'action pesait plus que le nom qu'elle sert. `xl` n'existe plus — il rend `lg`."
         >
           <div className="flex flex-wrap items-end gap-stack">
             {([
-              ['sm', 'Small', '32 px · texte 13 · cible 44'],
-              ['md', 'Medium', '44 px · texte 15 · le défaut'],
-              ['lg', 'Large', '48 px · texte 16'],
-              ['xl', 'Extra large', '52 px · texte 19'],
+              ['sm', 'Petit', '36 px · label 13 · icône 16 · cible 44'],
+              ['md', 'Moyen', '44 px · label 16 · icône 18 · le défaut'],
+              ['lg', 'Grand', '52 px · label 16 · icône 20'],
             ] as const).map(([size, label, meta]) => (
               <div key={size} className="flex flex-col items-start gap-stack-xs">
                 <Button size={size} leadingIcon={I.plus}>{label}</Button>
@@ -2113,19 +2136,19 @@ const COMPONENTS: ComponentEntry[] = [
         {/* ─── 2 · LA GRILLE : NIVEAU × TON ───────────────────────────────── */}
         <ShowcaseBloc
           titre="La grille — cinq niveaux, cinq tons"
-          note="L'API publique depuis le 2026-09-17. `emphasis` dit COMBIEN le bouton insiste, `tone` dit de quelle couleur. Les treize `variant` historiques restent supportés mais ne sont plus que des alias vers une case : `primary` = soft/brand, `ghost` = outline/brand, `glass` = solid + onDark. Le contrat de contraste est attaché au NIVEAU, pas à un nom — c'est ce qui a manqué le jour où la bascule a déplacé un niveau sous un nom, et où le site marketing a perdu ses aplats sans qu'une ligne du site ne change."
+          note="L'API publique depuis le 17/09. Depuis le 24/09 (arbitrage n°19, un seul solid par écran), chaque niveau a un rôle : `solid` l'action principale, une par écran ; `soft` l'action de contexte, dans une carte ou une rangée ; `ghost` le tertiaire ; `outline` les paires Annuler / Confirmer. Les treize `variant` historiques ne sont plus que des alias vers une case : `primary` = soft/brand, `ghost` = outline/brand, `glass` = solid + onDark. Le contrat de contraste est attaché au NIVEAU, pas à un nom — c'est ce qui a manqué le jour où la bascule a déplacé un niveau sous un nom, et où le site marketing a perdu ses aplats sans qu'une ligne du site ne change."
         >
           <div className="flex flex-col gap-stack-lg">
             {([
-              ['solid',   'Aplat du ton au cran 700, label blanc. Le premier cran qui porte du blanc à 4,5:1 : 5,02 · 6,31 · 4,88 · 5,15. Le site marketing, le destructif.'],
-              ['soft',    'Fond du ton au cran 50 opaque, label 800, filet 700. Le niveau principal de l’app depuis la bascule — et le mieux contrasté du système (6,31 · 9,49 · 7,64).'],
-              ['outline', 'Filet sans fond. Le niveau secondaire.'],
-              ['ghost',   'Ni fond ni filet au repos. Le fond n’arrive qu’au survol.'],
-              ['link',    'Pas de boîte du tout.'],
+              ['solid',   'Aplat du ton au cran 700, label blanc, survol au 800. Le premier cran qui porte du blanc à 4,5:1 : 5,02 · 6,31 · 4,88 · 5,15. L’action principale — une par écran.'],
+              ['soft',    'Fond du ton au cran 50, opaque ; label 800, filet 700. L’action de contexte, dans une carte ou une rangée — et le mieux contrasté du système (6,31 · 9,49 · 7,64).'],
+              ['outline', 'Filet 700 sans fond, label 800. Réservé aux paires Annuler / Confirmer.'],
+              ['ghost',   'Label 800, ni fond ni filet au repos ; le fond n’arrive qu’au survol. L’action tertiaire.'],
+              ['link',    'Ni fond ni filet : label 800 souligné, survol au 900.'],
             ] as const).map(([emphasis, note]) => (
               <div key={emphasis} className="flex flex-col gap-stack-xs">
                 <div className="flex items-baseline gap-stack-xs">
-                  <code className="font-mono text-caption font-bold text-ink-900">{emphasis}</code>
+                  <code className="font-mono text-caption font-semibold text-ink-900">{emphasis}</code>
                   <span className="font-body text-caption text-ink-600">{note}</span>
                 </div>
                 <div className="hstack">
@@ -2138,16 +2161,14 @@ const COMPONENTS: ComponentEntry[] = [
           </div>
         </ShowcaseBloc>
 
-        {/* ─── 3 · L'ARBITRAGE : LE REMPLISSAGE DE MARQUE ─────────────────── */}
-
-        {/* ─── 4 · LES ICÔNES ─────────────────────────────────────────────── */}
+        {/* ─── 3 · LES ICÔNES ─────────────────────────────────────────────── */}
         <ShowcaseBloc
           titre="Les icônes suivent la taille du bouton"
           note="Corrigé le 2026-09-09. La boîte de l'icône valait 1em d'un font-size de 1,05em, et le glyphe gardait sa taille propre — presque toujours 16 px. En dessous de lg la boîte était plus étroite que le glyphe : flex-shrink mordait sur la largeur et pas sur la hauteur, donc un cercle devenait un ovale. Sur sm, l'écrasement mesurait 2,35 px. Désormais la boîte vient de l'échelle --icon-size-*, appariée à la police du label, et le SVG remplit la boîte : carré par construction."
         >
           <div className="flex flex-wrap items-end gap-stack">
             {([
-              ['sm', '16 px'], ['md', '18 px'], ['lg', '20 px'], ['xl', '24 px'],
+              ['sm', '16 px'], ['md', '18 px'], ['lg', '20 px'],
             ] as const).map(([size, px]) => (
               <div key={size} className="flex flex-col items-start gap-stack-xs">
                 <Button size={size} leadingIcon={I.plus} trailingIcon={I.arrow}>Étiquette</Button>
@@ -2160,12 +2181,12 @@ const COMPONENTS: ComponentEntry[] = [
                 <Button iconOnly aria-label="Ajouter" size="md" emphasis="soft" tone="warm">{I.plus}</Button>
                 <Button iconOnly aria-label="Ajouter" size="lg" emphasis="outline">{I.plus}</Button>
               </div>
-              <span className="text-caption text-ink-600 font-body">iconOnly, même boîte</span>
+              <span className="text-caption text-ink-600 font-body">iconOnly : un cercle de 36, 44 ou 52</span>
             </div>
           </div>
         </ShowcaseBloc>
 
-        {/* ─── 5 · ÉTATS ET RETOUR AU CLIC ────────────────────────────────── */}
+        {/* ─── 4 · ÉTATS ET RETOUR AU CLIC ────────────────────────────────── */}
         <ShowcaseBloc
           titre="Les états, et le retour au clic"
           note="À l'enfoncement, le bouton descend à 97 % en 80 ms. Le survol n'existe pas au doigt : sur mobile, cet enfoncement est le seul retour que reçoit l'utilisateur, et une transition qui traîne ne se lit plus comme un appui. Sous prefers-reduced-motion, l'échelle ne bouge pas."
@@ -2179,26 +2200,26 @@ const COMPONENTS: ComponentEntry[] = [
           </div>
         </ShowcaseBloc>
 
-        {/* ─── 6 · LA SURFACE ─────────────────────────────────────────────── */}
+        {/* ─── 5 · LA SURFACE ─────────────────────────────────────────────── */}
         <ShowcaseBloc
           titre="La surface décide — `onDark`"
           note="Le verre n'est plus un nom de variante mais une affirmation sur le fond, et une affirmation se vérifie. Sur `onDark`, les niveaux s'expriment en blanc ; le ton n'entre pas, puisque c'est la surface qui donne la couleur. Ce qui a été mesuré le 17/09 : 26 boutons « verre » vivaient sur un hero CLAIR — du blanc sur du blanc, 1,03 de contraste, et c'était l'action principale de vingt pages. Le nom `glass` décrivait une matière, donc rien ne pouvait vérifier la surface. Le niveau `solid` lui-même se contredisait : un voile blanc sous un texte blanc ne passait AA que sur ink-900, et mesurait 2,31 sur un hero teal."
         >
           <div className="flex flex-col gap-stack">
             <div className="rounded-lg bg-gradient-to-br from-primary-800 via-primary-700 to-secondary-700 p-stack flex flex-wrap items-center gap-stack-xs">
-              <span className="font-body text-caption font-bold text-white mr-2">Fond saturé — cran 700 ou plus sombre</span>
+              <span className="font-body text-caption font-semibold text-white mr-2">Fond saturé — cran 700 ou plus sombre</span>
               <Button emphasis="solid" onDark leadingIcon={I.plus}>solid</Button>
               <Button emphasis="outline" onDark>outline</Button>
               <Button emphasis="ghost" onDark trailingIcon={I.arrow}>ghost</Button>
             </div>
             <div className="rounded-lg bg-secondary-50 border border-secondary-100 p-stack flex flex-wrap items-center gap-stack-xs">
-              <span className="font-body text-caption font-bold text-secondary-800 mr-2">Carte teintée</span>
+              <span className="font-body text-caption font-semibold text-secondary-800 mr-2">Carte teintée</span>
               <Button emphasis="soft" tone="neutral" leadingIcon={I.plus}>soft neutral</Button>
               <Button emphasis="ghost" tone="neutral" trailingIcon={I.arrow}>ghost neutral</Button>
               <Button emphasis="soft" tone="warm" leadingIcon={I.plus}>soft warm</Button>
             </div>
             <div className="rounded-lg bg-white border border-ink-200 p-stack flex flex-wrap items-center gap-stack-xs">
-              <span className="font-body text-caption font-bold text-ink-600 mr-2">Fond blanc</span>
+              <span className="font-body text-caption font-semibold text-ink-600 mr-2">Fond blanc</span>
               <Button emphasis="soft" leadingIcon={I.plus}>soft</Button>
               <Button emphasis="outline">outline</Button>
               <Button emphasis="ghost" trailingIcon={I.arrow}>ghost</Button>
@@ -2213,8 +2234,8 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'ui/QuickActionButton.tsx',
     cssBase: 'Tailwind (no BEM)',
     usedBy: ['Coaching'],
-    description: 'Action button compact card-shaped. Icon bubble tone-aware + label + subtitle optionnel + chevron right (anime au hover). 4 tones (primary/warm/sun/accent). Disabled state. À utiliser pour shortcuts / outils / quick links / tile-style CTA dans une section. Plus compact que IconFeatureCard/ActionCard, plus visuel qu\'un Button standard.',
-    keywords: ['quick', 'action', 'button', 'card', 'icon', 'tone', 'chevron', 'shortcut', 'tile'],
+    description: "Raccourci en forme de carte compacte : pastille d'icône teintée, libellé 16/700, sous-titre optionnel en légende 13 ink-600, chevron à droite. Rayon 20, environ 66 px de haut (76 avec sous-titre). Quatre tons — primary, warm, sun, et accent qui recopie sun — sur quatre surfaces (card · tinted · glass · frosted), état désactivé. Pour les raccourcis et outils d'une section : plus compact qu'IconFeatureCard ou ActionCard, plus visuel qu'un Button.",
+    keywords: ['quick', 'action', 'raccourci', 'button', 'card', 'icon', 'tone', 'chevron', 'shortcut', 'tile', 'surface'],
     render: () => (
       <div className="flex flex-col gap-stack-xs max-w-[420px]">
         <QuickActionButton
@@ -2256,8 +2277,8 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'Input',
     codeName: 'Input.tsx',
     cssBase: '.input / .field / .check / .radio / .switch',
-    description: 'Form field. Label always above. Includes Checkbox, Radio, Switch sub-components.',
-    keywords: ['form', 'text', 'checkbox', 'radio', 'switch', 'textarea'],
+    description: "Champ de saisie, libellé toujours au-dessus. Trois tailles, 36 · 44 · 52 (défaut md), les mêmes que Button ; on saisit à 16 px à toutes les tailles — sous 16, iOS Safari zoome la page au focus. Rayon 14, filet ink-400 (arbitrage n°7, le filet de la famille champ). Libellé 16/600 ink-900, aide 13 ink-600, erreur 13 danger-fg annoncée (`role=alert`), 8 px entre libellé, champ et message. Statuts default · success · error, surface light ou glass, icônes de tête et de queue (16 · 18 · 20), `multiline`. Le fichier exporte aussi Checkbox, Radio et Switch : libellé 16/400, contrôle de 20 px calé sur la première ligne du libellé, état coché au cran 700 (arbitrage n°9).",
+    keywords: ['form', 'champ', 'saisie', 'text', 'label', 'hint', 'error', 'checkbox', 'radio', 'switch', 'textarea', '36', '44', '52'],
     render: () => (
       <div className="vstack max-w-[480px]">
         <Input
@@ -2295,10 +2316,15 @@ const COMPONENTS: ComponentEntry[] = [
           <Radio name="demo-r" label="Option B" />
           <Switch label="Notifications" defaultChecked />
         </div>
+        {/* Sur deux lignes, la case se cale sur la PREMIÈRE ligne du libellé,
+            pas sur le milieu du bloc (doctrine § 4). */}
+        <div className="max-w-[320px]">
+          <Checkbox label="Recevoir chaque lundi le résumé de mes parcours, de mes sessions et de la veille" />
+        </div>
         <div className="hstack">
-          <Input size="sm" placeholder="Small" />
-          <Input size="md" placeholder="Medium" />
-          <Input size="lg" placeholder="Large" />
+          <Input size="sm" placeholder="sm · 36 px" />
+          <Input size="md" placeholder="md · 44 px" />
+          <Input size="lg" placeholder="lg · 52 px" />
         </div>
       </div>
     ),
@@ -2307,8 +2333,8 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'Select',
     codeName: 'Select.tsx',
     cssBase: '.field / .input (select wrapper)',
-    description: 'Native dropdown with chevron icon. Sizes sm/md/lg, status default/success/error.',
-    keywords: ['form', 'dropdown', 'select', 'options'],
+    description: "Menu natif du navigateur, habillé comme Input : mêmes hauteurs (36 · 44 · 52), même rayon 14, même filet ink-400, même texte à 16, mêmes rôles de libellé, d'aide et d'erreur. Chevron de 16 · 18 · 20. Statuts default · success · error. Pour une liste longue ou à filtrer, Combobox.",
+    keywords: ['form', 'dropdown', 'select', 'options', 'menu', 'champ', '36', '44', '52'],
     render: () => (
       <div className="vstack max-w-[480px]">
         <Select
@@ -2342,9 +2368,9 @@ const COMPONENTS: ComponentEntry[] = [
           defaultValue="a"
         />
         <div className="hstack">
-          <Select size="sm" placeholder="Small" options={[{ value: 'a', label: 'A' }]} />
-          <Select size="md" placeholder="Medium" options={[{ value: 'a', label: 'A' }]} />
-          <Select size="lg" placeholder="Large" options={[{ value: 'a', label: 'A' }]} />
+          <Select size="sm" placeholder="sm · 36 px" options={[{ value: 'a', label: 'A' }]} />
+          <Select size="md" placeholder="md · 44 px" options={[{ value: 'a', label: 'A' }]} />
+          <Select size="lg" placeholder="lg · 52 px" options={[{ value: 'a', label: 'A' }]} />
         </div>
       </div>
     ),
@@ -2355,7 +2381,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'ui/Combobox.tsx',
     cssBase: 'combobox',
     description:
-      'Searchable single-select: <input> that filters a dropdown list. Keyboard nav (↑ ↓ Enter Esc Tab), selected state with Check icon. Sizes sm/md/lg, status default/success/error. Follows Select visual pattern.',
+      "Sélection unique avec recherche : le champ filtre la liste pendant la frappe. Clavier ↑ ↓ Entrée Échap Tab. Même champ que Select — 36 · 44 · 52, texte 16, rayon 14, filet ink-400. Liste en panneau au rayon 14, options à 16 ; l'option choisie passe en 600 au cran 800, avec une coche. Statuts default · success · error, état désactivé.",
     keywords: ['combobox', 'autocomplete', 'searchable', 'select', 'dropdown', 'filter', 'keyboard', 'typeahead'],
     showcaseOnly: true,
     render: () => {
@@ -2387,7 +2413,7 @@ const COMPONENTS: ComponentEntry[] = [
             onChange={setVal2}
           />
           <Combobox
-            label="Status error"
+            label="En erreur"
             error="Ce champ est requis"
             status="error"
             required
@@ -2412,7 +2438,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'ui/QualitativeRating.tsx',
     cssBase: 'qualitative-rating',
     description:
-      'Labelled pill selector for qualitative feedback. A row of text pills (default: 5-level À améliorer→Excellent). Distinct from numeric star rating. Tone-aware (primary/warm/sun), sizes sm/md, wrap optional.',
+      "Échelle qualitative : une rangée d'options libellées — par défaut cinq niveaux, d'« À améliorer » à « Excellent » — distincte d'une note chiffrée. Palier interactif : rayon 14, 36 px en sm et 44 en md, libellés 13 ou 16 en 600. L'option choisie prend un dégradé 700 → 800 à libellé blanc (primary, warm) ; sun reste en accent-400 à encre ink-900. Libellé, aide et erreur comme Input ; retour à la ligne (`wrap`) activé par défaut.",
     keywords: ['rating', 'qualitative', 'feedback', 'pills', 'satisfaction', 'evaluation', 'survey', 'scale'],
     showcaseOnly: true,
     render: () => {
@@ -2423,25 +2449,25 @@ const COMPONENTS: ComponentEntry[] = [
       return (
         <div className="flex flex-col gap-stack max-w-2xl">
           <QualitativeRating
-            label="Tone primary (aucune sélection)"
+            label="Ton primary · aucune sélection"
             tone="primary"
             value={primary}
             onChange={setPrimary}
           />
           <QualitativeRating
-            label="Tone warm · Très bien présélectionné"
+            label="Ton warm · « Très bien » présélectionné"
             tone="warm"
             value={warm}
             onChange={setWarm}
           />
           <QualitativeRating
-            label="Tone sun"
+            label="Ton sun"
             tone="sun"
             value={sun}
             onChange={setSun}
           />
           <QualitativeRating
-            label="Taille sm"
+            label="Taille sm · 36 px"
             size="sm"
             value={sm}
             onChange={setSm}
@@ -2471,7 +2497,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'FormGroup',
     codeName: 'FormGroup.tsx',
     cssBase: '.form-group',
-    description: 'Wrapper combining label + control + hint/error. Layouts: vertical (default) and horizontal.',
+    description: "Enveloppe libellé + contrôle + aide ou erreur, pour un contrôle qui n'a pas les siens. Libellé 16/600 ink-900 — il ne passe plus au rouge en erreur —, astérisque danger-fg, aide 13 ink-600, erreur 13 danger-fg ; 8 px entre chaque. Disposition verticale (défaut) ou horizontale dès 640 px, le libellé sur 150 px au moins.",
     keywords: ['form', 'label', 'wrapper', 'layout', 'hint', 'error'],
     render: () => (
       <div className="flex flex-col gap-stack max-w-[520px]">
@@ -2767,7 +2793,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'Search.tsx',
     cssBase: 'Tailwind (no BEM)',
     usedBy: ['LearningPaths', 'Veille', 'Journal', 'LearningSpace'],
-    description: 'Search bar composable. 2 variants (default = blanc+bordure, comme Input · glass = fonds colorés/gradients) × 3 sizes (sm 32 / md 40 / lg 48). Props: shortcut, leadingIcon, trailing, filtersSlot, suggestions, isLoading, onSuggestionSelect. (filled + ghost retirés 2026-06-30 — doublons de default.)',
+    description: "Barre de recherche composable, de la famille champ : 36 · 44 · 52 (défaut md), texte à 16, rayon 14 à toutes les tailles. Deux variantes : default — blanc, filet ink-400, comme Input — et glass, pour les fonds colorés. Emplacements : raccourci clavier, icône de tête, `trailing`, `filtersSlot` pour des FilterChip en ligne ; suggestions asynchrones (`isLoading`, `onSuggestionSelect`). SearchWithSuggestions en est la variante à panneau de suggestions typées — celle de cette vitrine.",
     keywords: ['find', 'query', 'filter', 'search', 'input', 'glass', 'trailing', 'suggestions', 'autocomplete', 'async'],
     render: () => {
       const [searchVal, setSearchVal] = React.useState('');
@@ -2789,8 +2815,8 @@ const COMPONENTS: ComponentEntry[] = [
 
           {/* ── Variants ────────────────────────────────────────────── */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-semibold text-ink-600 m-0">Variants</p>
-            <Search placeholder="default — blanc + bordure (pages app)" shortcut="⌘K" />
+            <p className="text-caption font-semibold text-ink-600 m-0">Variantes</p>
+            <Search placeholder="default — blanc et filet ink-400" shortcut="⌘K" />
             <div className="bg-gradient-to-r from-primary-700 to-primary-800 p-stack rounded-xl">
               <Search variant="glass" placeholder="glass — sur fond coloré / hero…" shortcut="⌘K" />
             </div>
@@ -2798,15 +2824,15 @@ const COMPONENTS: ComponentEntry[] = [
 
           {/* ── Sizes ────────────────────────────────────────────── */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-semibold text-ink-600 m-0">Sizes</p>
-            <Search size="sm" placeholder="sm — compact (32px)" />
-            <Search size="md" placeholder="md — standard (40px)" />
-            <Search size="lg" placeholder="lg — large (48px)" shortcut="⌘K" />
+            <p className="text-caption font-semibold text-ink-600 m-0">Tailles · 36 · 44 · 52</p>
+            <Search size="sm" placeholder="sm — 36 px" />
+            <Search size="md" placeholder="md — 44 px, le défaut" />
+            <Search size="lg" placeholder="lg — 52 px" shortcut="⌘K" />
           </div>
 
           {/* ── Suggestions (async) ───────────────────────────── */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-semibold text-ink-600 m-0">Suggestions · async + loading state</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">Suggestions · asynchrones, avec état de chargement</p>
             <Search
               variant="default"
               placeholder='Tape "react" pour suggestions…'
@@ -2829,26 +2855,23 @@ const COMPONENTS: ComponentEntry[] = [
 
           {/* ── trailing slot ───────────────────────────────────────────── */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-semibold text-ink-600 m-0">trailing slot · filter button avec badge</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">trailing · un bouton-icône de filtres</p>
             <Search
               variant="default"
               placeholder="Rechercher avec filtres…"
+              /* Un bouton du système, pas un bouton fait main : l'ancienne
+                 démo posait un compteur à 10 px, sous le plancher de l'échelle. */
               trailing={
-                <button
-                  type="button"
-                  className="relative inline-flex items-center justify-center w-9 h-9 rounded-md bg-white border border-ink-200 text-ink-600 hover:bg-ink-50 hover:border-ink-300 cursor-pointer"
-                  aria-label="Filtres"
-                >
-                  <SlidersHorizontal size={16} />
-                  <span className="absolute -top-1 -right-1 inline-flex items-center justify-center w-4 h-4 rounded-pill bg-accent-700 text-white text-[10px] font-bold border border-white">2</span>
-                </button>
+                <Button iconOnly size="sm" emphasis="ghost" tone="neutral" aria-label="Filtres">
+                  <SlidersHorizontal />
+                </Button>
               }
             />
           </div>
 
           {/* ── filtersSlot (FilterChip inline) ──────────────────────── */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-semibold text-ink-600 m-0">filtersSlot · FilterChip inline dans le wrapper</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">filtersSlot · des FilterChip dans la barre</p>
             <Search
               value={filterQuery}
               onChange={(e) => setFilterQuery(e.target.value)}
@@ -2866,7 +2889,7 @@ const COMPONENTS: ComponentEntry[] = [
 
           {/* ── Glass + FilterBar (pattern hero gradient) ────────────────────── */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-semibold text-ink-600 m-0">glass + FilterBar · pattern hero gradient (LearningPaths)</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">glass + FilterBar · sur un hero en dégradé (Parcours)</p>
             <div className="bg-gradient-to-r from-primary-700 to-primary-800 p-stack-lg rounded-xl">
               <Search
                 size="sm"
@@ -2888,7 +2911,7 @@ const COMPONENTS: ComponentEntry[] = [
                       size="sm"
                       surface="plain"
                     />
-                    <span className="font-body text-caption text-white/70 ml-auto">3 sur 6</span>
+                    <span className="font-body text-caption text-white ml-auto">3 sur 6</span>
                   </div>
                 }
               />
@@ -2905,7 +2928,7 @@ const COMPONENTS: ComponentEntry[] = [
     cssBase: 'Tailwind (no BEM)',
     usedBy: ['Journal', 'Veille', 'LearningPaths', 'LearningSpace'],
     description:
-      "Composite search + filtres canonique. Orchestre Search + FilterChip + SelectCheckbox : déclare un tableau `filters` (axes) et le composant choisit le contrôle (chips si ≤ chipThreshold options, dropdown checklist sinon, 1 chip si toggle). 2 layouts : `inline` (filtersSlot toujours visible) · `panel` (bouton filtre + badge count → panneau dépliable, pattern Journal). Reset auto, tone-aware.",
+      "Recherche et filtres, en un composant. Il orchestre Search, FilterChip et SelectCheckbox : on déclare des axes (`filters`) et il choisit le contrôle — des pastilles jusqu'à `chipThreshold` options (6), une liste à cocher au-delà, une seule pastille pour une bascule. Les pastilles suivent la taille du champ : sm (28 px) avec un Search sm, md (44 px) sinon. Deux dispositions : `inline`, filtres toujours visibles ; `panel`, un bouton de filtres avec compteur qui déplie un panneau où chaque groupe est nommé comme un champ (16/600 ink-900). Réinitialisation automatique (Button sm), trois tons.",
     keywords: ['search', 'filter', 'filtre', 'recherche', 'composite', 'panel', 'chips', 'checklist', 'toggle', 'facets'],
     render: () => {
       const [q1, setQ1] = React.useState('');
@@ -2928,7 +2951,7 @@ const COMPONENTS: ComponentEntry[] = [
         <div className="flex flex-col gap-section max-w-2xl">
           {/* Inline — 1-2 axes peu d'options */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-semibold text-ink-600 m-0">layout="inline" · chips + toggle (Veille / Parcours)</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">layout="inline" · pastilles et bascule (Veille, Parcours)</p>
             <SearchFilters
               query={q1}
               onQueryChange={setQ1}
@@ -2942,7 +2965,7 @@ const COMPONENTS: ComponentEntry[] = [
 
           {/* Panel — 2+ axes, dont un à beaucoup d'options → dropdown auto */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-semibold text-ink-600 m-0">layout="panel" · groupes labellisés + auto chips/checklist (Journal / Espace App.)</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">layout="panel" · groupes nommés, pastilles ou liste à cocher selon le nombre d'options (Journal, Espace Apprentissage)</p>
             <SearchFilters
               layout="panel"
               query={q2}
@@ -3287,8 +3310,8 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'Tabs',
     codeName: 'Tabs.tsx',
     cssBase: '.tabs / .tab / .tab--active',
-    description: 'Navigation par onglets. Variante pill (défaut) ou underline. 2–5 onglets, aria-selected + keyboard navigation. Utilisé dans Account, Profile, LearningPathDetail.',
-    keywords: ['tab', 'navigation', 'pill', 'underline', 'switch'],
+    description: "Navigation par onglets, de deux à cinq, avec `aria-selected` et la navigation au clavier. Onglets de 44 px, libellé 16/600 aux deux états (ink-700 au repos), icône de 18. Trois variantes : pill (défaut) — un rail au rayon 14 où l'onglet actif, au rayon 10, se détache en blanc ; underline — trait de 2 px au cran 700 sous un libellé 800 ; boxed — onglets séparés, l'actif en dégradé 700 → 800. Compteur optionnel. `getTabPanelProps` relie un onglet à son panneau.",
+    keywords: ['tab', 'onglet', 'navigation', 'pill', 'underline', 'boxed', 'switch', '44'],
     render: () => <TabsDemo />,
   },
   {
@@ -3296,8 +3319,8 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'FilterChip.tsx',
     cssBase: 'Tailwind (no BEM)',
     usedBy: ['LearningPaths', 'Veille', 'Journal', 'Notifications'],
-    description: 'Chip de filtrage toggle avec état actif. 3 variants: default (fond solid), glass (glassmorphism sur gradient bg), reset (clear action). Count badge optionnel. Accessibilité: aria-pressed + focus ring WCAG AA.',
-    keywords: ['filter', 'chip', 'tag', 'select', 'active', 'glass', 'toggle', 'count'],
+    description: "Pastille de filtre à bascule (`aria-pressed`). En md, le défaut, c'est un contrôle de la ligne : 44 px, libellé 16/600, rayon 14 (arbitrage n°22, la hauteur commune des contrôles). En sm, 28 px et 13/600. Actif : filet 700 et libellé 800, sans changer de graisse. Variantes default · glass (sur fond coloré) · reset ; compteur optionnel ; icône de 18 (md) ou 14 (sm).",
+    keywords: ['filter', 'filtre', 'chip', 'pastille', 'select', 'active', 'glass', 'toggle', 'count', 'compteur', '44'],
     render: () => <FilterChipDemo />,
   },
   {
@@ -3577,7 +3600,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'Breadcrumb',
     codeName: 'ui/Breadcrumb.tsx (canonical)',
     cssBase: '.breadcrumb / .breadcrumb__current / .breadcrumb--sticky',
-    description: 'Fil d\'Ariane unifié. variant="simple" (anchors + séparateur texte) ou variant="nav" (boutons + ChevronRight + pill highlight + ellipsis collapse + icônes).',
+    description: "Fil d'Ariane, en légende 13 partout. variant=\"simple\" (défaut) : liens ink-600, page courante ink-900 en 600, séparateur texte, `sticky` optionnel. variant=\"nav\" : boutons, chevrons, icônes, page courante sur fond primary-50, repli en ellipse au-delà de `maxVisible`, `onNavigate`. L'ancien BreadcrumbNav a été supprimé : `<Breadcrumb variant=\"nav\">` le remplace.",
     keywords: ['breadcrumb', 'navigation', 'path', 'hierarchy', 'ariane', 'sticky', 'nav'],
     render: () => (
       <div className="flex flex-col gap-stack-lg">
@@ -3683,7 +3706,7 @@ const COMPONENTS: ComponentEntry[] = [
     cssBase: '.pager / .pager__dots / .pager-info',
     showcaseOnly: false,
     usedBy: ['Leaderboard'],
-    description: 'Navigation numérotée pour longues listes. Points de troncature automatiques. Boutons prev/next. Info texte optionnel.',
+    description: "Navigation numérotée des longues listes : boutons de 44 × 44 au rayon 14, chiffres 16/600 tabulaires, page courante en dégradé 700 → 800 à chiffre blanc. Troncature automatique autour de la page (`siblings`), précédent et suivant, et une information optionnelle en légende 13 ink-600.",
     keywords: ['pagination', 'pages', 'nav', 'numbered', 'prev', 'next'],
     render: () => <PaginationDemo />,
   },
@@ -3692,13 +3715,13 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'ui/DropdownMenu.tsx',
     cssBase: 'Tailwind (no BEM)',
     usedBy: ['App (Sidebar user menu)'],
-    description: 'Menu d\'actions / navigation contextuelle. 2 variants : solid (border + shadow) ou glass (backdrop-blur + ring + soft shadow brand). Sub-composants : DropdownLabel (section header), DropdownItem (avec icon + shortcut kbd + badge demo/pro/new/beta + danger state), DropdownSeparator. Le consommateur gère ouverture/fermeture, positionnement + outside-click + keyboard. Utilisé dans la Sidebar pour le user menu.',
+    description: "Menu d'actions ou de navigation contextuelle. Deux variantes : solid (filet et ombre) ou glass (flou, anneau, ombre de marque). DropdownItem : rangée de 44 px, libellé 16/400 ink-900, icône de 18, raccourci clavier, badge demo · pro · new · beta, état danger. DropdownLabel : titre de groupe en 13/600 ink-600, casse normale. DropdownSeparator. Le consommateur gère l'ouverture, la position et le clic extérieur ; le menu prend le focus à l'ouverture (`autoFocus`) et le rend au déclencheur (`returnFocusTo`). C'est le menu du compte, dans la Sidebar.",
     keywords: ['dropdown', 'menu', 'actions', 'navigation', 'user-menu', 'popover', 'glass', 'a11y'],
     render: () => (
       <div className="flex flex-wrap gap-section items-start">
         {/* Variant solid — actions context menu */}
         <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-semibold text-ink-600 m-0">Solid · actions context</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Solid · menu d'actions</p>
           {/* autoFocus={false} : cette démo est rendue OUVERTE en permanence. Avec le
     défaut du composant (autoFocus), elle prend le focus au montage et le
     navigateur scrolle pour l'amener à l'écran — la catégorie Navigation
@@ -3715,7 +3738,7 @@ const COMPONENTS: ComponentEntry[] = [
 
         {/* Variant glass — user menu (vrai pattern utilisé dans Sidebar) */}
         <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-semibold text-ink-600 m-0">Glass · user menu (Sidebar)</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Glass · menu du compte (Sidebar)</p>
           <div className="relative bg-gradient-to-br from-primary-50 to-primary-100/40 p-section rounded-2xl">
             <DropdownMenu variant="glass" autoFocus={false} style={{ position: 'static', minWidth: 260 }}>
               <DropdownItem icon={<UserIcon size={16} />}>Mon Profil</DropdownItem>
@@ -4748,7 +4771,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/MultiStepForm.tsx',
     cssBase: 'MultiStepForm (form progress)',
     showcaseOnly: true,
-    description: 'Wrapper de formulaire séquentiel: stepper visuel (numéros + labels + état done/active/upcoming), slot enfant pour le contenu de l\'étape, boutons Précédent/Suivant et validation par étape. À utiliser pour onboarding ou wizards de configuration.',
+    description: "Formulaire en plusieurs étapes : barre de progression et compteur « Étape X / Y » (13/600), pastilles d'étape de 40 px — faite, en cours, à venir — avec leur titre en légende 13/600 ; puis l'étape dans une carte, sa description en 16 ink-700 à la largeur de lecture, et les boutons Précédent / Suivant. Pour l'onboarding ou un assistant de configuration.",
     keywords: ['form', 'multi-step', 'progress', 'navigation', 'wizard'],
     render: () => <MultiStepFormDemo />,
   },
@@ -6052,7 +6075,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'AIOverrideButton',
     codeName: 'ui/AIOverrideButton.tsx',
     cssBase: 'AIOverrideButton',
-    description: 'Bouton "Rejeter cette recommandation" pour Coach/Admin. Peut ouvrir un textarea inline pour collecter la raison du rejet. Module #13bis — transversal IA.',
+    description: "« Rejeter cette recommandation », pour le coach ou l'admin : un Button outline neutral (sm par défaut) précédé d'une icône. Avec `requireReason`, il déplie une zone de texte — libellé 16/600, filet ink-400 — et deux actions sm, « Annuler » et « Confirmer le rejet ». Transversal IA (module 13 bis).",
     keywords: ['ai', 'ia', 'override', 'reject', 'button', 'coach', 'admin', 'feedback'],
     showcaseOnly: false,
     usedBy: ['CoachLearnerProfile'],
@@ -6060,7 +6083,7 @@ const COMPONENTS: ComponentEntry[] = [
       <div className="flex flex-col gap-stack">
         <div className="flex flex-wrap gap-stack-xs items-center">
           <AIOverrideButton onOverride={(r) => console.log('Override:', r)} />
-          <AIOverrideButton label="Override suggestion" size="md" onOverride={(r) => console.log('Override:', r)} />
+          <AIOverrideButton label="Écarter la suggestion" size="md" onOverride={(r) => console.log('Override:', r)} />
         </div>
         <div className="border border-ink-100 rounded-lg p-stack flex flex-col gap-stack-xs">
           <p className="text-caption font-semibold text-ink-600">Avec raison obligatoire (requireReason=true) :</p>
@@ -6608,7 +6631,7 @@ const COMPONENTS: ComponentEntry[] = [
     cssBase: 'Tailwind (no BEM)',
     subCategory: 'Form groups',
     usedBy: ['Onboarding', 'Positionnement', 'SessionFeedback'],
-    description: 'Groupe de boutons radio avec sémantique fieldset/legend. 2 variants : **default** (inline radio) · **card** (sélection carte). 3 orientations : vertical · horizontal. Tone-aware (primary/warm/sun). Props : name, options (value/label/description/disabled), value, onChange, error, hint, required.',
+    description: "Groupe de boutons radio, en fieldset et legend. Légende 16/600 ink-900 ; options en 16/600 avec leur description en légende 13 ink-600, 12 px entre deux options ; indicateur de 20 px calé sur la première ligne, coché au cran 700. Variantes default et card (carte cochée : filet 400, fond 50), orientation verticale ou horizontale, trois tons. Aide et erreur comme Input.",
     keywords: ['radio', 'group', 'form', 'select', 'choice', 'fieldset', 'card', 'tone'],
     render: () => {
       const [v1, setV1] = React.useState('intermediate');
@@ -6647,7 +6670,7 @@ const COMPONENTS: ComponentEntry[] = [
     cssBase: 'Tailwind (no BEM)',
     subCategory: 'Form groups',
     usedBy: ['Onboarding', 'FilterBar', 'Account'],
-    description: 'Groupe de cases à cocher multi-sélection avec sémantique fieldset/legend. 2 variants : **default** (inline checkbox) · **card** (case carte). Tone-aware (primary/warm/sun). value: string[] — tableau des valeurs cochées. Props identiques à RadioGroup sauf onChange retourne string[].',
+    description: "Cases à cocher en groupe, en fieldset et legend ; `value` est un tableau. Même anatomie que RadioGroup : légende 16/600, options en 16/600 et description 13 ink-600, indicateur de 20 px calé sur la première ligne, coché au cran 700 avec une coche. Variantes default et card, orientation verticale ou horizontale, trois tons.",
     keywords: ['checkbox', 'group', 'multi', 'select', 'form', 'fieldset', 'card', 'tone'],
     render: () => {
       const [vals, setVals] = React.useState<string[]>(['newsletter', 'badges']);
@@ -6679,7 +6702,7 @@ const COMPONENTS: ComponentEntry[] = [
     cssBase: 'Tailwind (no BEM)',
     subCategory: 'Form groups',
     usedBy: ['Account', 'Profile'],
-    description: 'Section de formulaire avec titre, description et séparateur. Optionnellement rétractable (collapsible) avec animation. Props : title, description, titleIcon, collapsible (default false), defaultExpanded (default true). Conteneur sémantique <section>.',
+    description: "Section de formulaire : pastille d'icône (IconChip sm), titre h3 20/700, description 16 ink-700 à la largeur de lecture et à 8 px sous le titre, puis un filet. Rétractable en option (`collapsible`, `defaultExpanded`), par un bouton-icône. Élément `<section>`.",
     keywords: ['form', 'section', 'group', 'title', 'collapsible', 'accordion', 'settings'],
     render: () => (
       <div className="flex flex-col gap-section max-w-lg">
@@ -6700,18 +6723,18 @@ const COMPONENTS: ComponentEntry[] = [
     cssBase: 'Tailwind (no BEM)',
     subCategory: 'Form groups',
     usedBy: ['Account', 'Profile', 'Onboarding'],
-    description: 'Wrapper de disposition pour groupes d\'inputs. 3 layouts : **vertical** (stack), **horizontal** (row), **grid** (colonnes). Prop columns (2/3/4) en mode grid. Label + hint + error de groupe partagés. Mobile-first : grid collapse à 1 colonne.',
+    description: "Disposition d'un groupe de champs : vertical (16 px entre les champs), horizontal (12 px, alignés par le bas) ou grille de 2 à 4 colonnes (16 px), une seule colonne sous 640 px. Libellé de groupe 16/600, aide et erreur partagées.",
     keywords: ['input', 'group', 'layout', 'form', 'grid', 'horizontal', 'vertical', 'columns'],
     render: () => (
       <div className="flex flex-col gap-section">
-        <p className="text-caption font-semibold text-ink-600 m-0">Grid 2 cols</p>
+        <p className="text-caption font-semibold text-ink-600 m-0">Grille · 2 colonnes</p>
         <InputGroup label="Adresse postale" layout="grid" columns={2}>
           <Input label="Rue" placeholder="12 rue de la Paix" />
           <Input label="Code postal" placeholder="75001" />
           <Input label="Ville" placeholder="Paris" />
           <Input label="Pays" placeholder="France" />
         </InputGroup>
-        <p className="text-caption font-semibold text-ink-600 m-0">Horizontal (row)</p>
+        <p className="text-caption font-semibold text-ink-600 m-0">Horizontal</p>
         <InputGroup layout="horizontal">
           <Input label="Prénom" placeholder="Marie" />
           <Input label="Nom" placeholder="Dupont" />
@@ -7389,9 +7412,9 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'Chip',
     codeName: 'ui/Chip.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: "Primitive interne des quatre pills du DS (Pill, MetaPill, Tag, FilterChip). Elle owne les style tokens partagés et le helper `resolveChipClasses`. 3 tailles × 5 tones × surfaces solid / glass. Les quatre wrappers publics gardent leurs API spécialisées — ne pas les fusionner.",
-    keywords: ['chip', 'pill', 'primitive', 'tone', 'glass', 'surface', 'tag', 'filter'],
-    usedBy: ['Pill', 'MetaPill', 'Tag', 'FilterChip'],
+    description: "Primitive interne de la famille des pastilles : elle porte les tokens partagés (CHIP_BASE, CHIP_SIZE, tons, surfaces) et le helper `resolveChipClasses`, que MetaPill et FilterChip consomment. Trois tailles — sm 24 px en 11/500, md 30 px en 13/500, lg 44 px en 16/500 —, cinq tons, surfaces solid et glass. Pill et Tag ont été supprimés le 10/09 ; ses seuls appels directs sont dans le DevPanel. Dans une page, passer par MetaPill (la donnée) ou FilterChip (le filtre).",
+    keywords: ['chip', 'pill', 'pastille', 'primitive', 'tone', 'glass', 'surface', 'filter', 'meta'],
+    usedBy: ['MetaPill', 'FilterChip', 'DevPanel'],
     render: () => (
       <div className="flex flex-col gap-stack">
         <div className="flex flex-wrap items-center gap-stack-xs">
@@ -7402,12 +7425,12 @@ const COMPONENTS: ComponentEntry[] = [
           <Chip tone="brand">brand</Chip>
         </div>
         <div className="flex flex-wrap items-center gap-stack-xs">
-          <Chip size="sm" tone="primary">sm</Chip>
-          <Chip size="md" tone="primary">md</Chip>
-          <Chip size="lg" tone="primary">lg</Chip>
+          <Chip size="sm" tone="primary">sm · 24 px</Chip>
+          <Chip size="md" tone="primary">md · 30 px</Chip>
+          <Chip size="lg" tone="primary">lg · 44 px</Chip>
         </div>
         <div className="flex flex-wrap items-center gap-stack-xs">
-          <Chip tone="primary" leadingIcon={<Target size={13} />}>avec icone</Chip>
+          <Chip tone="primary" leadingIcon={<Target size={14} />}>avec icône</Chip>
           <Chip tone="warm" active>actif</Chip>
           <Chip tone="neutral" asButton onClick={() => {}}>cliquable</Chip>
         </div>
@@ -7433,7 +7456,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'Kbd',
     codeName: 'ui/Kbd.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: 'Touche de clavier. Passer `keys` pour un raccourci compose — le composant intercale les separateurs.',
+    description: "Touche de clavier, en mono : sm à 11 px (environ 17 px de haut), md à 13 (environ 23 px), rayon 6. Variantes default et glass. Passer `keys` pour un raccourci composé : le composant intercale les « + ».",
     keywords: ['kbd', 'clavier', 'raccourci', 'shortcut', 'touche'],
     render: () => (
       <div className="flex flex-col gap-stack">
@@ -7453,7 +7476,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'SegmentedControl',
     codeName: 'ui/SegmentedControl.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: "Bascule entre 2 a 4 vues exclusives. A preferer aux onglets quand il n'y a pas de contenu a titrer, et aux boutons radio quand le choix est immediat. 3 tailles × 3 tones.",
+    description: "Bascule entre deux à quatre vues exclusives. À préférer aux onglets quand il n'y a pas de contenu à titrer, et aux boutons radio quand le choix s'applique tout de suite. Palier interactif : un rail au rayon 14 de 36 · 44 · 52 (défaut md), des segments au rayon 10, libellés 13 ou 16 en 600 ; le segment actif est blanc, libellé au cran 800. Trois tons (primary · warm · sun).",
     keywords: ['segmented', 'control', 'toggle', 'vue', 'bascule', 'filtre', 'tabs'],
     render: () => <SegmentedControlDemo />,
   },
@@ -7489,17 +7512,17 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'FloatLabel',
     codeName: 'core/FloatLabel.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: "Enveloppe un champ pour faire flotter son libelle au focus ou des qu'il est rempli. Gere `required`, `hint` et `error`.",
+    description: "Enveloppe un Input (md, sans libellé) et pose le libellé dans le champ : au repos, il tient lieu de placeholder (16/400 ink-500) ; au focus ou une fois rempli, il se lève en 13/600 ink-700 contre le bord gauche. Seule sa couleur s'anime. Gère `required`, `hint` (13 ink-600) et `error` (13 danger-fg, qui passe aussi le champ en erreur).",
     keywords: ['float', 'label', 'input', 'formulaire', 'flottant', 'hint', 'error'],
     render: () => (
       <div className="flex flex-col gap-stack max-w-md">
         <FloatLabel label="Adresse e-mail" required>
           <Input type="email" defaultValue="chloe@thelearningsociety.fr" />
         </FloatLabel>
-        <FloatLabel label="Intitule du poste" hint="Tel qu'il apparait dans votre organisation">
+        <FloatLabel label="Intitulé du poste" hint="Tel qu'il apparaît dans votre organisation">
           <Input />
         </FloatLabel>
-        <FloatLabel label="Code d'acces" error="Ce code n'est plus valide">
+        <FloatLabel label="Code d'accès" error="Ce code n'est plus valide">
           <Input defaultValue="TLS-2024" />
         </FloatLabel>
       </div>
@@ -7711,7 +7734,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'SelectCheckboxFloating',
     codeName: 'ui/SelectCheckboxFloating.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: "Selection multiple a libelle flottant. Meme role que SelectCheckbox, dans un formulaire ou les champs portent deja un label flottant.",
+    description: "Sélection multiple posée dans un formulaire, sans menu : le nom du groupe en 16/600 ink-900, puis les options en rangées de 44 px au rayon 14, case et libellé 16/400 ; l'option choisie passe sur fond primary-50, filet 700. Même rôle que SelectCheckbox.",
     keywords: ['select', 'checkbox', 'multiple', 'flottant', 'float', 'label', 'filtre'],
     render: () => <SelectCheckboxFloatingDemo />,
   },
@@ -7883,7 +7906,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'SelectCheckbox',
     codeName: 'ui/SelectCheckbox.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: "Selection multiple en menu deroulant, avec un resume des choix dans le declencheur. Brique des barres de filtres.",
+    description: "Sélection multiple en menu déroulant, avec le résumé des choix dans le déclencheur : un contrôle de 44 px au rayon 14, libellé 16/600, filet 700 et libellé 800 une fois actif. Les options sont des Checkbox du système. Brique des barres de filtres.",
     keywords: ['select', 'checkbox', 'multiple', 'filtre', 'dropdown', 'menu'],
     render: () => <SelectCheckboxDemo />,
   },
@@ -7891,7 +7914,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'SelectCheckboxCategory',
     codeName: 'ui/SelectCheckboxCategory.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: "Variante hierarchique : categories et sous-categories, en selection unique qui retourne la categorie parente. Pour les filtres a deux niveaux.",
+    description: "Variante hiérarchique : catégories et sous-catégories, en sélection unique (pastille radio au cran 700) qui retourne la catégorie parente. Pour les filtres à deux niveaux.",
     keywords: ['select', 'categorie', 'hierarchie', 'sous-categorie', 'filtre', 'arbre'],
     render: () => <SelectCheckboxDemo />,
   },
