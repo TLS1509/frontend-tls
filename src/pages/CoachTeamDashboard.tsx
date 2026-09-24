@@ -86,12 +86,16 @@ export default function CoachTeamDashboard() {
         title="Tableau de bord équipe"
         summary="Vue d'ensemble de la progression de toute votre équipe : activité, niveaux Dreyfus, sessions et corrections."
         tone="flat"
+        /* Arbitrage n°19 : planifier est l'action principale de l'écran (le
+           seul `solid`) ; « Voir tous les profils » est un renvoi, en `ghost`.
+           Les deux niveaux étaient inversés : le renvoi pesait plus que
+           l'action. */
         trailing={
           <div className="flex flex-wrap items-center gap-stack-xs">
-            <Button emphasis="outline" size="md" leadingIcon={<Calendar size={16} />}>
+            <Button emphasis="solid" tone="brand" size="md" leadingIcon={<Calendar size={16} />}>
               Planifier une session
             </Button>
-            <Button emphasis="soft" size="md" leadingIcon={<Users size={16} />}>
+            <Button emphasis="ghost" tone="brand" size="md" leadingIcon={<Users size={16} />}>
               Voir tous les profils
             </Button>
           </div>
@@ -130,7 +134,7 @@ export default function CoachTeamDashboard() {
           <Alert
             variant="warning"
             actions={
-              <Button emphasis="outline" size="sm">
+              <Button emphasis="soft" tone="brand" size="sm">
                 Planifier
               </Button>
             }

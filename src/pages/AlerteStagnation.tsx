@@ -239,10 +239,14 @@ export default function AlerteStagnation() {
             ),
             skill: <span className="text-ink-700">{learner.blockedSkill}</span>,
             dreyfus: <span className="tabular-nums text-ink-900 whitespace-nowrap">niv. {learner.dreyfusLevel}</span>,
+            /* Arbitrage n°19 : l'action de la rangée (Planifier) en `soft`, la
+               seconde (Message) en `ghost` — elles étaient deux `outline`, le
+               niveau réservé à Annuler. */
             actions: (
               <span className="inline-flex items-center gap-stack-xs">
                 <Button
-                  emphasis="outline"
+                  emphasis="soft"
+                  tone="brand"
                   size="sm"
                   leadingIcon={<Calendar size={14} />}
                   aria-label={`Planifier une session avec ${learner.name}`}
@@ -250,7 +254,8 @@ export default function AlerteStagnation() {
                   Planifier
                 </Button>
                 <Button
-                  emphasis="outline"
+                  emphasis="ghost"
+                  tone="brand"
                   size="sm"
                   leadingIcon={<MessageSquare size={14} />}
                   aria-label={`Envoyer un message à ${learner.name}`}

@@ -43,25 +43,27 @@ const CoachCalendar: React.FC = () => {
         title="Mes sessions de coaching"
         summary="Synchronisé avec Google Calendar (Outlook V1)"
         tone="flat"
-        trailing={<Button emphasis="soft" tone="warm" leadingIcon={<Plus className="w-4 h-4" />}>Nouvelle session</Button>}
+        /* L'action principale de l'écran : le seul `solid` (arbitrage n°19). */
+        trailing={<Button emphasis="solid" tone="warm" leadingIcon={<Plus className="w-4 h-4" />}>Nouvelle session</Button>}
       />
 
       <section className="flex flex-col gap-stack">
         {/* La semaine affichée est le titre de la section (h2 28) : c'était un
             `div` au pas du titre de carte (20 px), sans niveau. Tout ce qui se
             pose sur cette ligne fait 44 px — flèches, pastilles et bouton
-            OAuth, qui était le seul à 36 (arbitrage n°22). */}
+            OAuth, qui était le seul à 36 (arbitrage n°22). Les flèches et le
+            réglage sont des outils : `ghost` neutre (arbitrage n°19). */}
         <div className="flex flex-wrap items-center justify-between gap-stack">
           <div className="flex items-center gap-stack-xs">
-            <Button emphasis="outline" iconOnly leadingIcon={<ChevronLeft className="w-4 h-4" />} aria-label="Semaine précédente" onClick={() => setWeekOffset((w) => w - 1)} />
+            <Button emphasis="ghost" tone="neutral" iconOnly leadingIcon={<ChevronLeft className="w-4 h-4" />} aria-label="Semaine précédente" onClick={() => setWeekOffset((w) => w - 1)} />
             <h2 className="font-display text-h2 text-ink-900">Semaine du 11 mai 2026</h2>
-            <Button emphasis="outline" iconOnly leadingIcon={<ChevronRight className="w-4 h-4" />} aria-label="Semaine suivante" onClick={() => setWeekOffset((w) => w + 1)} />
+            <Button emphasis="ghost" tone="neutral" iconOnly leadingIcon={<ChevronRight className="w-4 h-4" />} aria-label="Semaine suivante" onClick={() => setWeekOffset((w) => w + 1)} />
           </div>
           <div className="flex flex-wrap items-center gap-stack-xs">
             <FilterChip label="Tous" active={providerFilter === 'all'} onClick={() => setProviderFilter('all')} />
             <FilterChip label="Google" active={providerFilter === 'google'} onClick={() => setProviderFilter('google')} />
             <FilterChip label="Outlook (V1)" active={providerFilter === 'outlook'} onClick={() => setProviderFilter('outlook')} />
-            <Button emphasis="outline" leadingIcon={<Settings className="w-4 h-4" />}>OAuth</Button>
+            <Button emphasis="ghost" tone="neutral" leadingIcon={<Settings className="w-4 h-4" />}>OAuth</Button>
           </div>
         </div>
 

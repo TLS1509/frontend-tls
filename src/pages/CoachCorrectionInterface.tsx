@@ -76,8 +76,10 @@ export default function CoachCorrectionInterface() {
           { label: `Soumis le ${SUBMISSION.submittedAt}` },
         ]}
         tone="flat"
+        /* Arbitrage n°19 : le retour est un `ghost` neutre ; le seul `solid`
+           de l'écran est l'envoi du feedback (puis « Exercice suivant »). */
         trailing={
-          <Button emphasis="outline" size="md" leadingIcon={<ChevronLeft size={16} />}>
+          <Button emphasis="ghost" tone="neutral" size="md" leadingIcon={<ChevronLeft size={16} />}>
             Retour à la file
           </Button>
         }
@@ -129,7 +131,8 @@ export default function CoachCorrectionInterface() {
                 </div>
 
                 <Button
-                  emphasis="soft" tone="warm"
+                  emphasis="solid"
+                  tone="warm"
                   size="md"
                   leadingIcon={<Send size={16} />}
                   onClick={handleSubmit}
@@ -149,7 +152,7 @@ export default function CoachCorrectionInterface() {
                 <p className="text-body font-semibold text-ink-900">Feedback envoyé</p>
                 <p className="text-body text-ink-700">Sophie Martin sera notifiée de votre correction.</p>
               </div>
-              <Button emphasis="soft" size="md">
+              <Button emphasis="solid" tone="brand" size="md">
                 Exercice suivant
               </Button>
             </Card>

@@ -223,6 +223,10 @@ export default function CoachLearnerProfile() {
           chapô dit son rôle. La carte d'identité ne répète plus ni le nom (en h2
           de 20 px) ni le rôle : elle garde ce qu'elle ajoute — l'avatar, le
           niveau, l'état et le contact. */}
+      {/* Une fiche de consultation : aucune action ne vaut pour tout l'écran,
+          donc aucun `solid` (arbitrage n°19). Chaque action appartient à sa
+          rangée (valider un niveau, appliquer une recommandation) ou à son
+          bloc (les notes) ; le retour est un `ghost` neutre. */}
       <EditorialHero
         eyebrow="Coach · Apprenant"
         title={learner.name}
@@ -230,7 +234,8 @@ export default function CoachLearnerProfile() {
         tone="flat"
         trailing={
           <Button
-            emphasis="outline"
+            emphasis="ghost"
+            tone="neutral"
             size="md"
             leadingIcon={<ArrowLeft size={16} />}
             onClick={() => navigate('/coach/apprenants')}
@@ -293,9 +298,11 @@ export default function CoachLearnerProfile() {
                           )}
                         </div>
                       </div>
+                      {/* Valider : l'action de la rangée (`soft`). Une fois le
+                          niveau validé, revalider devient discret (`ghost`). */}
                       {!isOpen && (
                         <Button
-                          emphasis={validated ? 'outline' : 'soft'}
+                          emphasis={validated ? 'ghost' : 'soft'}
                           tone={validated ? 'brand' : 'warm'}
                           size="sm"
                           leadingIcon={<ShieldCheck size={14} />}
@@ -351,12 +358,16 @@ export default function CoachLearnerProfile() {
                           <p className="text-caption text-ink-600 max-w-prose">
                             Validé par {MOCK_COACH.name} · une preuve certifiante est ajoutée au Passeport de l'apprenant.
                           </p>
+                          {/* Une confirmation dépliée dans la page lui laisse
+                              son `solid` : Valider en `soft`, Annuler en
+                              `ghost` (convention d'AIOverrideButton). */}
                           <div className="flex items-center gap-stack-xs">
-                            <Button emphasis="outline" size="sm" onClick={() => setValidating(null)}>
+                            <Button emphasis="ghost" tone="neutral" size="sm" onClick={() => setValidating(null)}>
                               Annuler
                             </Button>
                             <Button
                               emphasis="soft"
+                              tone="brand"
                               size="sm"
                               leadingIcon={<Check size={14} />}
                               disabled={!rationale.trim()}
@@ -487,9 +498,12 @@ export default function CoachLearnerProfile() {
             onChange={(e) => setNote(e.target.value)}
             rows={5}
           />
+          {/* Enregistrer, l'action du bloc, en `soft` ; « Ajouter une note »,
+              qui vide le champ, en `ghost`. */}
           <div className="flex flex-wrap items-center justify-end gap-stack-xs">
             <Button
-              emphasis="outline"
+              emphasis="ghost"
+              tone="brand"
               size="sm"
               leadingIcon={<Plus size={14} />}
               onClick={() => setNote('')}
@@ -497,7 +511,7 @@ export default function CoachLearnerProfile() {
               Ajouter une note
             </Button>
             {note && (
-              <Button emphasis="soft" size="sm" leadingIcon={<Plus size={14} />}>
+              <Button emphasis="soft" tone="brand" size="sm" leadingIcon={<Plus size={14} />}>
                 Enregistrer la note
               </Button>
             )}

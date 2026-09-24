@@ -307,7 +307,9 @@ export default function CoachAnalytics() {
                 meta={`${CORRECTIONS_PENDING.length} travaux à corriger`}
                 size="md"
                 action={
-                  <Button emphasis="soft" size="sm">
+                  /* Un renvoi vers la file complète : le « Voir tout » de
+                     l'arbitrage n°19, en `ghost`. */
+                  <Button emphasis="ghost" tone="brand" size="sm">
                     Aller à la file
                   </Button>
                 }

@@ -133,9 +133,12 @@ export default function CoachApprenants() {
             apprenants={filtered}
             onRowClick={(a) => navigate(`/coach/apprenant/${a.id}`)}
             actionLabel="Fiche"
+            /* L'action de la rangée : `soft` (arbitrage n°19 ; `outline` est
+               réservé à Annuler). */
             renderAction={(a) => (
               <Button
-                emphasis="outline"
+                emphasis="soft"
+                tone="brand"
                 size="sm"
                 aria-label={`Profil de ${a.name}`}
                 onClick={(e) => {

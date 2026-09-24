@@ -55,12 +55,16 @@ export default function CoachHeatmap() {
         title="Heatmap compétences équipe"
         summary="Visualisez les niveaux Dreyfus de toute votre équipe d'un seul coup d'œil. Identifiez les lacunes collectives et les apprenants en difficulté."
         tone="flat"
+        /* Une page de lecture : aucune action principale, donc aucun `solid`.
+           Exporter et Actualiser sont des outils, en `ghost` neutre
+           (arbitrage n°19) — « Actualiser » était l'action la plus appuyée de
+           la page. */
         trailing={
           <div className="flex items-center gap-stack-xs">
-            <Button emphasis="outline" size="md" leadingIcon={<Download size={16} />}>
+            <Button emphasis="ghost" tone="neutral" size="md" leadingIcon={<Download size={16} />}>
               Exporter
             </Button>
-            <Button emphasis="soft" size="md" leadingIcon={<RefreshCw size={16} />}>
+            <Button emphasis="ghost" tone="neutral" size="md" leadingIcon={<RefreshCw size={16} />}>
               Actualiser
             </Button>
           </div>
@@ -92,7 +96,8 @@ export default function CoachHeatmap() {
             title={`${stuckCount} apprenant${stuckCount > 1 ? 's' : ''} en difficulté`}
             actions={
               <Button
-                emphasis="outline"
+                emphasis="soft"
+                tone="brand"
                 size="sm"
                 onClick={() => navigate('/coach/apprenants?filter=stuck')}
               >
@@ -169,7 +174,8 @@ export default function CoachHeatmap() {
                   </div>
                   <Badge variant={variant} size="compact" className="shrink-0">{label}</Badge>
                   <Button
-                    emphasis="outline"
+                    emphasis="soft"
+                    tone="brand"
                     size="sm"
                     className="shrink-0"
                     aria-label={`Profil de ${a.name}`}

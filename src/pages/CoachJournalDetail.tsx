@@ -39,10 +39,13 @@ export default function CoachJournalDetail() {
           { label: 'Observation' },
         ]}
         tone="flat"
+        /* Une page de lecture : pas de `solid` (arbitrage n°19). « Modifier »
+           reste l'action de l'entrée, en `soft` ; le retour est un `ghost`
+           neutre. */
         trailing={
           <div className="flex flex-wrap gap-stack-xs">
-            <Button emphasis="soft" leadingIcon={<Pencil size={16} />}>Modifier</Button>
-            <Button emphasis="outline" leadingIcon={<ArrowLeft size={16} />}>Retour au journal</Button>
+            <Button emphasis="soft" tone="brand" leadingIcon={<Pencil size={16} />}>Modifier</Button>
+            <Button emphasis="ghost" tone="neutral" leadingIcon={<ArrowLeft size={16} />}>Retour au journal</Button>
           </div>
         }
       />

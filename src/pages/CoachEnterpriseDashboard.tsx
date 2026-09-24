@@ -142,8 +142,9 @@ const CoachEnterpriseDashboard: React.FC = () => {
                     </span>
                   ),
                   status: <Badge variant={status.variant} size="compact">{status.label}</Badge>,
+                  /* L'action de la rangée : `soft` (arbitrage n°19). */
                   action: (
-                    <Button emphasis="outline" size="sm" aria-label={`Voir la fiche de ${m.name}`}>
+                    <Button emphasis="soft" tone="brand" size="sm" aria-label={`Voir la fiche de ${m.name}`}>
                       Voir fiche
                     </Button>
                   ),

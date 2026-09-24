@@ -64,8 +64,10 @@ export default function FicheApprenantAnalytics() {
           title="Nous ne trouvons pas cet apprenant"
           summary="Il ne fait peut-être plus partie de votre équipe, ou le lien est incomplet. Retrouvez-le depuis la liste de vos apprenants."
           tone="flat"
+          /* Seule sortie de l'écran, donc son action principale : `solid`
+             (arbitrage n°19). */
           trailing={
-            <Button emphasis="outline" size="md" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/coach/apprenants')}>
+            <Button emphasis="solid" tone="brand" size="md" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/coach/apprenants')}>
               Retour aux apprenants
             </Button>
           }
@@ -108,12 +110,14 @@ export default function FicheApprenantAnalytics() {
         title={learner.name}
         summary={learner.role}
         tone="flat"
+        /* Arbitrage n°19 : planifier est l'action principale (`solid`), le
+           message l'action seconde (`soft`). */
         trailing={
           <div className="flex flex-wrap items-center gap-stack-xs">
-            <Button emphasis="outline" size="md" leadingIcon={<MessageSquare size={16} />}>
+            <Button emphasis="soft" tone="brand" size="md" leadingIcon={<MessageSquare size={16} />}>
               Envoyer un message
             </Button>
-            <Button emphasis="soft" size="md" leadingIcon={<Calendar size={16} />}>
+            <Button emphasis="solid" tone="brand" size="md" leadingIcon={<Calendar size={16} />}>
               Planifier une session
             </Button>
           </div>

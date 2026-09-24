@@ -172,8 +172,10 @@ export default function CoachDashboard() {
                       console.log(`Clicked axis: ${axis.label} (index ${index})`);
                     }}
                   />
+                  {/* L'action du panneau : `soft` (arbitrage n°19). */}
                   <Button
-                    emphasis="outline"
+                    emphasis="soft"
+                    tone="brand"
                     size="sm"
                     fullWidth
                     trailingIcon={<ChevronRight size={14} />}
@@ -242,7 +244,8 @@ export default function CoachDashboard() {
               meta={`${pendingCorrections.length} travail${pendingCorrections.length > 1 ? 'aux' : ''} à corriger`}
               size="md"
               action={
-                <Button emphasis="outline" size="sm" trailingIcon={<ChevronRight size={14} />} onClick={() => navigate('/coach/corrections')}>
+                /* « Tout voir » : le tertiaire, en `ghost` (arbitrage n°19). */
+                <Button emphasis="ghost" tone="brand" size="sm" trailingIcon={<ChevronRight size={14} />} onClick={() => navigate('/coach/corrections')}>
                   Tout voir
                 </Button>
               }

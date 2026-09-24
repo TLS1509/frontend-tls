@@ -107,8 +107,11 @@ export default function CoachJournal() {
         title="Journal de coaching"
         summary="Consignez vos observations, bilans de session et réflexions pédagogiques."
         tone="flat"
+        /* « Nouvelle entrée » : l'action principale du journal, le seul
+           `solid` de l'écran (arbitrage n°19). « Lire » et « Voir », les
+           actions des rangées, sont en `soft`. */
         trailing={
-          <Button emphasis="soft" leadingIcon={<PenLine size={16} />}>
+          <Button emphasis="solid" tone="brand" leadingIcon={<PenLine size={16} />}>
             Nouvelle entrée
           </Button>
         }
@@ -146,7 +149,7 @@ export default function CoachJournal() {
                       </p>
                       <p className="mt-stack-xs text-body text-ink-700 max-w-prose line-clamp-2">{entry.excerpt}</p>
                     </div>
-                    <Button emphasis="outline" size="sm" className="shrink-0" aria-label={`Lire : ${entry.title}`}>Lire</Button>
+                    <Button emphasis="soft" tone="brand" size="sm" className="shrink-0" aria-label={`Lire : ${entry.title}`}>Lire</Button>
                   </li>
                 ))}
               </ul>
@@ -180,7 +183,7 @@ export default function CoachJournal() {
                           <Badge variant={sentiment.variant} size="compact">{sentiment.label}</Badge>
                         </p>
                       </div>
-                      <Button emphasis="outline" size="sm" className="shrink-0" aria-label={`Voir : ${entry.title}`}>Voir</Button>
+                      <Button emphasis="soft" tone="brand" size="sm" className="shrink-0" aria-label={`Voir : ${entry.title}`}>Voir</Button>
                     </li>
                   );
                 })}
