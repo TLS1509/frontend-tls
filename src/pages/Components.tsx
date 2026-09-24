@@ -4511,23 +4511,23 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/SectionHeader.tsx',
     cssBase: 'SectionHeader (canonical section heading)',
     usedBy: ['Dashboard', 'Journal', 'LearningPathDetail', 'et 94 autres pages (24/09)'],
-    description: "L'en-tête de section canonique : titre, sous-titre, méta, action, pastille d'icône optionnelle. Le niveau se choisit par `as` (h2 par défaut, h3, h4), indépendamment de la taille. Tailles : md, le défaut, et lg → titre h2 28/36 ; sm et xs → titre h3 20/26 ; la pastille suit la taille. Sous-titre 16 ink-700 à la largeur de lecture et méta en légende 13 ink-600 (`meta`, ajoutée le 24/09), chacun à 4 px ; la première ligne du titre se centre sur la pastille. Variantes default · minimal · underline, cinq tons ; `solid` n'a aucun usage produit. Aucune marge extérieure : la page pose 48 px au-dessus et 16 en dessous. `compact` est déprécié (= sm) ; la variante `accent`, une barre d'accent à gauche, a été retirée le 24/09.",
-    keywords: ['section', 'header', 'titre', 'title', 'icon', 'h2', 'h3', 'h4', 'as', 'meta', 'subtitle', 'action', 'divider', 'variants', 'sizes', 'solid', 'minimal', 'underline', 'canonical'],
+    description: "L'en-tête de section canonique : titre, sous-titre, méta, action, pastille d'icône optionnelle. Le niveau se choisit par `as` (h2 par défaut, h3, h4), indépendamment de la taille. Tailles : md, le défaut, et lg → titre h2 28/36 ; sm et xs → titre h3 20/26. La pastille est un IconChip (arbitrage n°3) : 32 · 32 · 40 · 48 px de xs à lg, au rayon proportionnel, glyphe au cran 800 ; la première ligne du titre se centre sur elle. Sous-titre 16 ink-700 à la largeur de lecture et méta en légende 13 ink-600, chacun à 4 px. L'en-tête est une rangée qui se replie : le titre réclame 16rem à côté de l'action, sinon l'action passe dessous, à 8 px, calée à gauche — la règle mesure la place réelle, pas la fenêtre. Variantes default · minimal · underline ; cinq tons, `accent` rejoignant `sun`. `solid` est déprécié et rend la même pastille que default ; `iconClassName` est retiré, `compact` déprécié (= sm). Aucune marge extérieure : la page pose 48 px au-dessus et 16 en dessous.",
+    keywords: ['section', 'header', 'titre', 'title', 'icon', 'IconChip', 'pastille', 'h2', 'h3', 'h4', 'as', 'meta', 'subtitle', 'action', 'wrap', 'replie', '16rem', 'divider', 'variants', 'sizes', 'solid', 'minimal', 'underline', 'canonical'],
     render: () => (
       <div className="flex flex-col gap-section">
         {/* Tailles : de lg à xs, pour que les niveaux ne sautent pas (h2, h2, h3, h3). */}
         <div className="flex flex-col gap-stack p-stack-md rounded-xl bg-ink-50/50 border border-ink-200">
           <p className="text-caption font-semibold text-ink-600">Quatre tailles · variante default · ton warm</p>
-          <SectionHeader size="lg" tone="warm" icon={Calendar} title="lg · h2 28, titre de groupe" />
-          <SectionHeader size="md" tone="warm" icon={Calendar} title="md · h2 28, le défaut" />
-          <SectionHeader size="sm" tone="warm" icon={Calendar} title="sm · h3 20" as="h3" />
-          <SectionHeader size="xs" tone="warm" icon={Calendar} title="xs · h3 20, serré" as="h3" />
+          <SectionHeader size="lg" tone="warm" icon={Calendar} title="lg · h2 28, pastille 48" />
+          <SectionHeader size="md" tone="warm" icon={Calendar} title="md · h2 28, pastille 40 — le défaut" />
+          <SectionHeader size="sm" tone="warm" icon={Calendar} title="sm · h3 20, pastille 32" as="h3" />
+          <SectionHeader size="xs" tone="warm" icon={Calendar} title="xs · h3 20, pastille 32, serré" as="h3" />
         </div>
 
         {/* Variantes (taille md, ton primary) */}
         <div className="flex flex-col gap-stack p-stack-md rounded-xl bg-ink-50/50 border border-ink-200">
           <p className="text-caption font-semibold text-ink-600">Trois variantes · taille md · ton primary</p>
-          <SectionHeader variant="default" icon={Calendar} title="default — pastille teintée" subtitle="Fond du ton au cran 50." />
+          <SectionHeader variant="default" icon={Calendar} title="default — la pastille IconChip" subtitle="Fond du ton au cran 50, glyphe au 800." />
           <SectionHeader variant="minimal" icon={Calendar} title="minimal — icône seule" subtitle="Sans pastille." />
           <SectionHeader variant="underline" icon={Calendar} title="underline — trait sous le titre" subtitle="Un trait du ton, sous la première ligne." />
         </div>
@@ -4554,6 +4554,20 @@ const COMPONENTS: ComponentEntry[] = [
           />
           <SectionHeader title="Sans icône, avec un filet" subtitle="La variante la plus sobre." divider />
         </div>
+
+        {/* Le repli : la colonne ne laisse pas 16rem au titre à côté de
+            l'action, qui passe dessous. Même composant, même props. */}
+        <div className="flex flex-col gap-stack">
+          <p className="text-caption font-semibold text-ink-600">Dans une colonne de 320 px · l'action passe sous le titre</p>
+          <div className="max-w-[320px]">
+            <SectionHeader
+              icon={BookOpen}
+              title="Mes parcours"
+              meta="3 en cours · 1 terminé"
+              action={<Button emphasis="ghost" size="sm" trailingIcon={<ArrowRight />}>Voir tout</Button>}
+            />
+          </div>
+        </div>
       </div>
     ),
   },
@@ -4576,21 +4590,30 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'PageHeader',
     codeName: 'patterns/PageHeader.tsx',
     cssBase: 'PageHeader (canonical page-level header)',
-    showcaseOnly: true,
-    description: "En-tête de page utilitaire, sans hero : surtitre 13/600 ink-600 avec son icône, 8 px, h1 36/44/700, 12 px, chapô 18/28 ink-700 à la largeur de lecture ; actions à droite, ou dessous en `align=\"center\"`. Il pose lui-même 40 px sous lui (32 en `tight`, la seule différence entre les deux variantes). Aucune page ne l'emploie aujourd'hui : elles ouvrent toutes par PageHero.",
-    keywords: ['page', 'header', 'eyebrow', 'title', 'description', 'actions', 'h1', 'canonical'],
+    usedBy: ['OnboardingQuestionnaire', 'OnboardingTutorial', 'OnboardingPreview', 'SubscriptionPayment'],
+    description: "En-tête de page utilitaire, sans hero : surtitre 13/600 ink-600 avec son icône, 8 px, h1 36/44/700, 12 px, chapô 18/28 ink-700 à la largeur de lecture ; actions à droite, ou dessous en `align=\"center\"`. Aucune marge extérieure depuis le 24/09 (piège n°12) : l'espace sous lui appartient au parent — 48 px entre les blocs d'un PageShell, ou `gap-section` (32) quand l'en-tête et son contenu forment un bloc, comme dans l'onboarding. Il portait 40 px (32 en `tight`) qui s'ajoutaient au gap de la coque ; `variant` est déprécié et sans effet. Quatre écrans d'onboarding et de souscription l'emploient ; les pages principales ouvrent par PageHero.",
+    keywords: ['page', 'header', 'eyebrow', 'title', 'description', 'actions', 'h1', 'align', 'center', 'marge', 'canonical'],
     render: () => (
-      <div className="vstack gap-section">
+      <div className="flex flex-col gap-page">
+        {/* L'en-tête et son contenu forment un bloc : les 32 px viennent du
+            parent (`gap-section`). Le composant n'en pose plus aucun. Entre
+            les deux démos, 48 : plus loin que l'en-tête ne l'est de son contenu. */}
+        <div className="flex flex-col gap-section">
+          <PageHeader
+            eyebrow={{ icon: <GraduationCap size={14} />, text: 'Mon parcours' }}
+            title="Fondamentaux du Leadership"
+            description="Apprenez les principes essentiels du leadership moderne et développez votre style unique."
+            actions={<><Button emphasis="ghost" size="sm">Partager</Button><Button emphasis="solid" size="sm">Continuer</Button></>}
+          />
+          <p className="rounded-xl border border-dashed border-primary-300 bg-primary-50/40 p-stack-lg text-body text-ink-700">
+            Le contenu de la page. Les 32 px au-dessus appartiennent au parent (<code className="font-mono text-caption">gap-section</code>), pas à l’en-tête.
+          </p>
+        </div>
         <PageHeader
-          eyebrow={{ icon: <GraduationCap size={14} />, text: 'Mon parcours' }}
-          title="Fondamentaux du Leadership"
-          description="Apprenez les principes essentiels du leadership moderne et développez votre style unique."
-          actions={<><Button emphasis="ghost" size="sm">Partager</Button><Button emphasis="solid" size="sm">Continuer</Button></>}
-        />
-        <PageHeader
-          variant="tight"
-          title="Réglages"
-          description={'variant="tight" : 32 px sous l’en-tête au lieu de 40.'}
+          align="center"
+          title="Bienvenue dans ton espace"
+          description={'align="center" : le titre et le chapô se centrent, les actions passent dessous.'}
+          actions={<Button emphasis="soft" size="sm">Commencer</Button>}
         />
       </div>
     ),
@@ -4600,8 +4623,8 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/ViewerHeader.tsx',
     cssBase: 'Tailwind (no BEM)',
     usedBy: ['LessonPlayer', 'FlashcardsViewer', 'AstucesViewer', 'VideoViewer', 'ComplementaryContentViewer', 'Positionnement'],
-    description: "La barre des lecteurs plein écran : leçon, flashcards, astuces, vidéo, ressources complémentaires, positionnement. Retour à gauche ; au centre le titre en 16/600 ink-900 et une seule ligne de méta en 13 ink-600 (le surtitre en 600 ink-700, « · », le sous-titre) ; à droite un emplacement `trailing`, le compteur « 3 / 12 » en 13/600 tabulaire (valeur au cran 800 du ton), puis précédent, suivant et fermer (Button iconOnly ghost de 44 px). Barre de progression optionnelle de 4 px. La barre ne nomme pas l'écran : son titre est un `<p>`, et le h1 à 36 vit dans le contenu. La couverture d'une leçon l'affiche ; ses autres sections le gardent pour le seul plan du document (`sr-only`). `titleAs=\"h1\"` reste une échappatoire pour un écran sans autre titre, que check-typo relève — aucune page ne s'en sert ; `titleId` expose le titre à `aria-labelledby`. Aligné à gauche sous 640 px, centré au-delà ; tons primary · warm · sun.",
-    keywords: ['viewer', 'lecteur', 'reader', 'toolbar', 'header', 'titleAs', 'titleId', 'trailing', 'h1', 'prev-next', 'navigation', 'back', 'close', 'sticky'],
+    description: "La barre des lecteurs plein écran : leçon, flashcards, astuces, vidéo, ressources complémentaires, positionnement. Retour à gauche, un Button ghost neutre comme ses voisins : dès 640 px, le libellé en sm (13/700, cible tactile de 44) — en 16/700 il pèserait plus que le titre —, en dessous l'icône seule, un cercle de 44. Au centre, le titre en 16/600 ink-900 et une seule ligne de méta en 13 ink-600 (le surtitre en 600 ink-700, « · », le sous-titre) ; à droite un emplacement `trailing`, le compteur « 3 / 12 » en 13/600 tabulaire (valeur au cran 800 du ton), puis précédent, suivant et fermer (Button iconOnly ghost de 44 px). Barre de progression optionnelle de 4 px. La barre ne nomme pas l'écran : son titre est un `<p>`, et le h1 à 36 vit dans le contenu. La couverture d'une leçon l'affiche ; ses autres sections le gardent pour le seul plan du document (`sr-only`). `titleAs=\"h1\"` reste une échappatoire pour un écran sans autre titre, que check-typo relève — aucune page ne s'en sert ; `titleId` expose le titre à `aria-labelledby`. Pas de `role=\"banner\"` (retiré le 24/09) : la barre vit dans le `<main>` des lecteurs, et le seul bandeau d'une page est celui de la coque. Aligné à gauche sous 640 px, centré au-delà ; le ton (primary · warm · sun) colore le compteur et la progression.",
+    keywords: ['viewer', 'lecteur', 'reader', 'toolbar', 'header', 'titleAs', 'titleId', 'trailing', 'h1', 'prev-next', 'navigation', 'back', 'retour', 'close', 'sticky', 'banner', 'landmark'],
     render: () => (
       <div className="flex flex-col gap-stack-lg">
         {/* Leçon (LessonPlayer) : la barre porte titre et méta, la couverture
@@ -5790,8 +5813,8 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/SectionCard.tsx',
     cssBase: 'SectionCard (titled content card)',
     usedBy: ['ArticleDetail', 'MagazineArticle', 'Newsletter', 'WeeklyNewsDetail', 'Project', 'CoachingBookingFlow', 'PreCoachingQuestionnaireResponse', 'ResetPassword', 'Billing', 'SubscriptionPayment', 'Positionnement', 'OnboardingQuestionnaire'],
-    description: "Carte de section : titre h3 20 (son icône calée sur la première ligne), 8 px, description 16 ink-700, action d'en-tête en haut à droite ; 16 px, le contenu ; puis 12 px, un filet, 12 px, les actions. C'est une Card md : padding 24, rayon 20. Pour découper une page éditoriale ou un formulaire en blocs.",
-    keywords: ['section', 'card', 'titled', 'content', 'editorial', 'layout'],
+    description: "Carte de section : titre h3 20 (son icône calée sur la première ligne), 8 px, description 16 ink-700, action d'en-tête en haut à droite ; 16 px, le contenu ; puis 12 px, un filet, 12 px, les actions. C'est une Card md : padding 24, rayon 20. `titleAs` (h2 | h3, défaut h3, ajouté le 24/09) règle le niveau du titre, pas sa taille : `h2` quand la carte est elle-même la section, posée sous le h1 sans titre au-dessus d'elle — sinon le plan saute de h1 à h3. Si le bloc se lit comme une section de la page, la doctrine préfère un SectionHeader posé sur la page, au-dessus d'une Card. Pour découper une page éditoriale ou un formulaire en blocs.",
+    keywords: ['section', 'card', 'titled', 'content', 'editorial', 'layout', 'titleAs', 'h2', 'h3', 'niveau'],
     render: () => (
       <SectionCard
         title="À retenir"
@@ -5851,7 +5874,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/AuthShell.tsx',
     cssBase: 'AuthShell (branded glass dark auth layout)',
     usedBy: ['Login', 'Signup', 'ForgotPassword', 'ResetPassword', 'VerifyEmail', 'MagicLink'],
-    description: "La coque des pages d'authentification, sur un dégradé primary-700 → 900 : carte en verre (rayon 14, 480 px), en-tête en h1 au pas h2 (28) blanc et sous-titre 16. La famille Auth* est la primitive de cette surface : AuthField (Input glass lg, 52 px, libellé 16/600 blanc), AuthPasswordField (bascule de visibilité), AuthPrimaryButton et AuthGhostButton (52 px, 16/700, rayon 14), AuthSocialButton, AuthCheckbox (20 px, calée sur la première ligne), AuthDivider (13/400), AuthInlineLink, AuthSuccess. Réservée à la surface glass-dark : ne pas l'employer ailleurs.",
+    description: "La coque des pages d'authentification, sur un dégradé primary-700 → 900 où trois halos d'ambiance au cran 700 donnent la profondeur sans éclaircir ce que le texte blanc a besoin de sombre : carte en verre de 480 px au rayon 20 (l'étage conteneur), voile blanc à 5 % — il était à 10 %, et ramenait le blanc à 4,12:1 sur le haut du dégradé —, filet blanc/20 ; en-tête en h1 36/44/700 blanc et sous-titre 16. L'encart `aside` prend le même rayon 20. La famille Auth* est la primitive de cette surface : AuthField (Input glass lg, 52 px, libellé 16/600 blanc), AuthPasswordField (bascule de visibilité), AuthPrimaryButton et AuthGhostButton (52 px, 16/700, rayon 14), AuthSocialButton, AuthCheckbox (20 px, calée sur la première ligne), AuthDivider (13/400), AuthInlineLink, AuthSuccess. Réservée à la surface glass-dark : ne pas l'employer ailleurs.",
     keywords: ['auth', 'login', 'signup', 'shell', 'glass-dark', 'AuthField', 'AuthPasswordField', 'AuthPrimaryButton', 'AuthGhostButton', 'AuthCheckbox', 'form', 'aside'],
     render: () => <AuthShellDemo />,
   },
@@ -6209,7 +6232,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'StepTutorial',
     codeName: 'patterns/StepTutorial.tsx',
     cssBase: 'StepTutorial',
-    description: "Tutoriel guidé pas à pas : filet de progression, image optionnelle, compteur « 1 / 3 » en Badge, puis une pastille d'icône avec, sur sa première ligne, le titre en h2 au pas h3 (20) et la description 16 ink-700 ; sous la carte, Précédent · Suivant · Terminer en Button md, et « Passer » en 13. Contrôlé (`currentStep`) ou autonome ; trois tons. Module 3, Onboarding.",
+    description: "Tutoriel guidé pas à pas : filet de progression, image optionnelle, compteur « 1 / 3 » en Badge, puis une pastille d'icône de 56 px dont le centre tient la première ligne du titre — un h2 à 28/36 depuis le 24/09 : il suit le h1 de l'écran d'onboarding et nomme le contenu principal ; il était dessiné à 20 — et la description 16 ink-700 ; sous la carte, Précédent · Suivant · Terminer en Button md, et « Passer » en 13. Contrôlé (`currentStep`) ou autonome ; trois tons. Module 3, Onboarding.",
     keywords: ['tutorial', 'wizard', 'onboarding', 'step', 'étape', 'guide', 'tour', 'progression'],
     usedBy: ['OnboardingTutorial'],
     render: () => (
@@ -7659,13 +7682,14 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'PageHero',
     codeName: 'patterns/EditorialHero.tsx (export canonique)',
     cssBase: 'Tailwind (no BEM)',
-    description: "Le hero d'ouverture de page, universel (plus de cent pages). Anatomie : lien retour optionnel, 16 px, surtitre 13/600 — il dit le lieu, en ink-600 et sans capitales —, 8 px, h1 36/44/700, 12 px, chapô 18/28 à la largeur de lecture (ink-700), 12 px, méta en 13, puis la progression et `trailing`. Cinq tons : flat — sans fond ni padding, le choix des pages de l'app —, default (dégradé primary-50), brand, warm et sun (dégradés du cran 700 au 800, texte blanc plein). Aucune marge extérieure : c'est PageShell qui pose 48 px avant la suite. `EditorialHero` en est l'alias, réservé aux surfaces éditoriales.",
-    keywords: ['hero', 'page', 'ouverture', 'h1', 'chapô', 'surtitre', 'tone', 'flat', 'brand', 'eyebrow', 'editorial', 'titre'],
+    description: "Le hero d'ouverture de page, universel (plus de cent pages). Anatomie : lien retour optionnel (pastille 13/700), 24 px — le retour mène ailleurs, il se tient à l'écart du titre —, surtitre 13/600 — il dit le lieu, en ink-600 et sans capitales —, 8 px, h1 36/44/700, 12 px, chapô 18/28 à la largeur de lecture (ink-700), 12 px, méta en 13, puis la progression (16 px) et `trailing` (24 px). Cinq tons : flat — sans fond ni padding, le choix des pages de l'app —, default (dégradé primary-50), brand, warm et sun (dégradés du cran 700 au 800, texte blanc plein). Les tons colorés sont au rayon 20, l'étage conteneur — ils étaient à 14, le rayon d'un bouton ; leur padding, 32 ou 24 en `compact`, reste au-dessus du rayon, donc leur contenu garde sa forme. Aucune marge extérieure : c'est PageShell qui pose 48 px avant la suite. `EditorialHero` en est l'alias, réservé aux surfaces éditoriales.",
+    keywords: ['hero', 'page', 'ouverture', 'h1', 'chapô', 'surtitre', 'tone', 'flat', 'brand', 'eyebrow', 'editorial', 'titre', 'retour', 'backLink', 'rayon'],
     usedBy: ['Dashboard', 'Journal', 'Passeport', 'Coaching', '100+ pages'],
     render: () => (
       <div className="flex flex-col gap-stack">
         <PageHero
           tone="brand"
+          backLink={{ label: 'Mes parcours', onClick: () => {} }}
           eyebrow={{ icon: <Target size={12} />, label: 'Parcours en cours' }}
           title="Concevoir une expérience d'apprentissage"
           summary="Cinq compétences, douze jalons de pratique. Le Passeport valide, pas la complétion."
