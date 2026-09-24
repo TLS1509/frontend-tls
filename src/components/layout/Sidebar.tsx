@@ -98,6 +98,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
         id="navigation-principale"
         aria-label="Navigation principale"
         inert={isMobile && !mobileOpen ? true : undefined}
+        /* Fermé, le tiroir est aussi `aria-hidden` (24/09) : `inert` le retire
+           déjà du clavier et des technologies d'assistance dans les navigateurs
+           actuels ; l'attribut le dit en plus aux outils qui ne lisent pas
+           `inert` — la sonde de contraste mesurait son libellé « Coaching »,
+           hors écran à −280 px, à 1,0–1,8:1 à 375. */
+        aria-hidden={isMobile && !mobileOpen ? true : undefined}
         {...rest}
       >
         {/* Brand row + mobile close button.
