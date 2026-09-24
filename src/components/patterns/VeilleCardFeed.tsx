@@ -326,15 +326,21 @@ export const VeilleCardListItem: React.FC<VeilleCardProps> = ({ item, surface, i
           donc 16 partout. « Nouveau » est un état : le vrai Badge. */}
       <div className="flex-1 min-w-0 flex flex-col gap-stack-xs p-stack @lg:p-stack-md justify-center">
         <div className="flex flex-col gap-tight">
+          {/* Le titre vient en premier dans le DOM et le badge est replacé
+              devant lui par `order-first` : un titre qui n'est pas premier
+              enfant reçoit la marge de base des titres (0,75em), faite pour
+              une pile verticale — dans cette rangée, elle le décalait de
+              15 px sous le badge. Le lecteur d'écran lit le titre, puis
+              l'état. */}
           <div className="flex items-start gap-stack-xs min-w-0">
-            {item.isNew && (
-              <span className="flex items-center h-lh shrink-0 text-body @lg:text-h3">
-                <Badge variant="success" size="compact">Nouveau</Badge>
-              </span>
-            )}
             <h3 className="font-display text-body @lg:text-h3 text-ink-900 line-clamp-2">
               {item.title}
             </h3>
+            {item.isNew && (
+              <span className="order-first flex items-center h-lh shrink-0 text-body @lg:text-h3">
+                <Badge variant="success" size="compact">Nouveau</Badge>
+              </span>
+            )}
           </div>
           <div className={META_LINE}>
             <span className="inline-flex items-center gap-stack-3xs"><User size={14} strokeWidth={2} />{item.author}</span>

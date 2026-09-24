@@ -131,13 +131,18 @@ export const FlipCard: React.FC<FlipCardProps> = ({
             </div>
 
             {/* Catégorie — une DONNÉE : MetaPill (arbitrage n°14), opaque donc
-                lisible sur la photo. Elle était en capitales espacées 700. */}
-            <MetaPill text={front.category} tone="neutral" size="md" />
+                lisible sur la photo. Elle était en capitales espacées 700.
+                Catégorie → titre 8 : le titre appartient à sa catégorie. La
+                marge de base des titres (0,75em) s'ajoutait au gap : 37 px
+                au-dessus du titre, 16 en dessous. */}
+            <div className="flex flex-col items-center">
+              <MetaPill text={front.category} tone="neutral" size="md" />
 
-            {/* Title */}
-            <h2 className="font-display text-h3 sm:text-h2 font-bold text-white max-w-prose text-balance [text-shadow:0_2px_10px_rgba(0,0,0,0.3)]">
-              {front.title}
-            </h2>
+              {/* Title */}
+              <h2 className="mt-stack-xs font-display text-h3 sm:text-h2 font-bold text-white max-w-prose text-balance [text-shadow:0_2px_10px_rgba(0,0,0,0.3)]">
+                {front.title}
+              </h2>
+            </div>
 
             {/* Flip hint */}
             {/* Voile CLAIR + encre foncée : blanc sur blanc/15 tombait sous 4,5 sur l'or 700. */}
