@@ -208,8 +208,13 @@ export const ArticleDetail: React.FC = () => {
         trailing={
           <div className="flex items-center gap-stack-xs">
             <ReadingProgressRing targetRef={articleRef} tone="brand" size={32} />
+            {/* Des outils de lecture : `ghost` neutre, le marque-page en `soft`
+                une fois posé, comme les favoris de la Veille (arbitrage n°19 ;
+                ils étaient en `outline`, réservé à Annuler). Une page de
+                lecture n'a pas d'aplat. */}
             <Button
-              emphasis={bookmarked ? 'soft' : 'outline'}
+              emphasis={bookmarked ? 'soft' : 'ghost'}
+              tone={bookmarked ? 'brand' : 'neutral'}
               iconOnly
               size="sm"
               aria-label={bookmarked ? 'Retirer le marque-page' : 'Ajouter aux marque-pages'}
@@ -217,7 +222,7 @@ export const ArticleDetail: React.FC = () => {
             >
               <Bookmark size={14} fill={bookmarked ? 'currentColor' : 'none'} />
             </Button>
-            <Button emphasis="outline" iconOnly size="sm" aria-label="Partager">
+            <Button emphasis="ghost" tone="neutral" iconOnly size="sm" aria-label="Partager">
               <Share2 size={14} />
             </Button>
           </div>

@@ -80,10 +80,13 @@ export const WeeklyNewsletter: React.FC = () => {
         backLabel="Retour à la veille"
         trailing={
           <div className="flex items-center gap-stack-xs">
-            <Button emphasis="soft" size="sm" leadingIcon={<Mail size={14} />} className="max-sm:hidden">
+            {/* Des outils de barre : `ghost` (arbitrage n°19 ; ils étaient en
+                `soft` et en `outline`, réservé à Annuler). L'inscription a son
+                panneau en bas de page ; l'édition se lit, sans aplat. */}
+            <Button emphasis="ghost" size="sm" leadingIcon={<Mail size={14} />} className="max-sm:hidden">
               S'abonner
             </Button>
-            <Button emphasis="outline" iconOnly size="sm" aria-label="Partager">
+            <Button emphasis="ghost" tone="neutral" iconOnly size="sm" aria-label="Partager">
               <Share2 size={14} />
             </Button>
           </div>
@@ -136,7 +139,8 @@ export const WeeklyNewsletter: React.FC = () => {
             <h2 className="font-display text-h2 text-ink-900">
               Vidéo de la semaine
             </h2>
-            <Button emphasis="outline" size="sm" trailingIcon={<ArrowRight size={14} />} onClick={() => navigate('/veille')}>
+            {/* Un « Voir tout » : `ghost` (arbitrage n°19). */}
+            <Button emphasis="ghost" size="sm" trailingIcon={<ArrowRight size={14} />} onClick={() => navigate('/veille')}>
               Toute la veille
             </Button>
           </div>
@@ -251,8 +255,11 @@ export const WeeklyNewsletter: React.FC = () => {
                     </p>
                   </div>
 
+                  {/* Le favori de la rangée : `ghost` neutre, `soft` une fois
+                      posé, comme dans la Veille (arbitrage n°19). */}
                   <Button
-                    emphasis="outline"
+                    emphasis={isSaved ? 'soft' : 'ghost'}
+                    tone={isSaved ? 'brand' : 'neutral'}
                     size="sm"
                     iconOnly
                     aria-label={isSaved ? 'Retirer le marque-page' : 'Ajouter aux marque-pages'}

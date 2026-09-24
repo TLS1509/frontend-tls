@@ -88,11 +88,16 @@ export const Magazine: React.FC = () => {
         backLabel="Retour à la veille"
         trailing={
           <div className="flex items-center gap-stack-xs">
-            <Button emphasis="soft" size="sm" leadingIcon={<Download size={14} />} className="max-sm:hidden">
+            {/* Les outils de la barre de lecture sont des `ghost`, le
+                marque-page en `soft` une fois posé, comme les favoris de la
+                Veille (arbitrage n°19 ; ils étaient en `soft` et en `outline`,
+                réservé à Annuler). Le numéro se parcourt : pas d'aplat. */}
+            <Button emphasis="ghost" size="sm" leadingIcon={<Download size={14} />} className="max-sm:hidden">
               Télécharger le PDF
             </Button>
             <Button
-              emphasis={saved ? 'soft' : 'outline'}
+              emphasis={saved ? 'soft' : 'ghost'}
+              tone={saved ? 'brand' : 'neutral'}
               iconOnly
               size="sm"
               aria-label={saved ? 'Retirer le marque-page' : 'Ajouter aux marque-pages'}
@@ -100,7 +105,7 @@ export const Magazine: React.FC = () => {
             >
               <Bookmark size={14} fill={saved ? 'currentColor' : 'none'} />
             </Button>
-            <Button emphasis="outline" iconOnly size="sm" aria-label="Partager">
+            <Button emphasis="ghost" tone="neutral" iconOnly size="sm" aria-label="Partager">
               <Share2 size={14} />
             </Button>
           </div>

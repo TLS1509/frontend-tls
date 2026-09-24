@@ -82,13 +82,17 @@ export const VideoTutorial: React.FC = () => {
 
       {/* ─ Sticky glass header ────────────────────────────────────── */}
       <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100 flex items-center justify-between px-stack-lg h-14">
-        <Button emphasis="outline" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate('/veille')}>
+        {/* Revenir et enregistrer sont des outils de barre : `ghost`, le
+            favori en `soft` une fois posé, comme dans la Veille (arbitrage
+            n°19 ; ils étaient en `outline`, réservé à Annuler). L'action
+            principale de l'écran est la lecture de la vidéo. */}
+        <Button emphasis="ghost" tone="neutral" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate('/veille')}>
           Retour
         </Button>
         <Button
           iconOnly
           size="sm"
-          emphasis={saved ? 'soft' : 'outline'}
+          emphasis={saved ? 'soft' : 'ghost'}
           tone={saved ? 'brand' : 'neutral'}
           onClick={() => setSaved(!saved)}
           aria-label={saved ? 'Retirer des favoris' : 'Enregistrer'}

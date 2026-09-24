@@ -92,15 +92,21 @@ export const MagazineArticle: React.FC = () => {
         trailing={
           <>
             <ReadingProgressRing targetRef={articleRef} tone="brand" size={32} />
+            {/* Outils de lecture : `ghost` neutre, le marque-page en `soft` une
+                fois posé, comme les favoris de la Veille (arbitrage n°19 ; ils
+                étaient en `outline`, réservé à Annuler). Son nom disait
+                « Bookmark » : il dit ce qu'il fait, comme sur les autres
+                pages de la veille. L'article se lit : pas d'aplat. */}
             <Button
-              emphasis={bookmarked ? 'soft' : 'outline'}
+              emphasis={bookmarked ? 'soft' : 'ghost'}
+              tone={bookmarked ? 'brand' : 'neutral'}
               iconOnly
-              aria-label="Bookmark"
+              aria-label={bookmarked ? 'Retirer le marque-page' : 'Ajouter aux marque-pages'}
               onClick={() => toggleBookmark(bookmarkKey)}
             >
               <Bookmark size={14} fill={bookmarked ? 'currentColor' : 'none'} />
             </Button>
-            <Button emphasis="outline" iconOnly aria-label="Partager">
+            <Button emphasis="ghost" tone="neutral" iconOnly aria-label="Partager">
               <Share2 size={14} />
             </Button>
           </>

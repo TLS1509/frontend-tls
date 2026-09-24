@@ -90,15 +90,20 @@ export const WeeklyNewsDetail: React.FC = () => {
         trailing={
           <>
             <ReadingProgressRing targetRef={articleRef} tone="brand" size={32} />
+            {/* Outils de lecture : `ghost` neutre, le marque-page en `soft` une
+                fois posé, comme les favoris de la Veille (arbitrage n°19 ; ils
+                étaient en `outline`, réservé à Annuler). L'actu se lit : pas
+                d'aplat. */}
             <Button
-              emphasis={saved ? 'soft' : 'outline'}
+              emphasis={saved ? 'soft' : 'ghost'}
+              tone={saved ? 'brand' : 'neutral'}
               iconOnly
               aria-label={saved ? 'Retirer le marque-page' : 'Ajouter aux marque-pages'}
               onClick={() => toggleBookmark(bookmarkKey)}
             >
               <Bookmark size={14} fill={saved ? 'currentColor' : 'none'} />
             </Button>
-            <Button emphasis="outline" iconOnly aria-label="Partager">
+            <Button emphasis="ghost" tone="neutral" iconOnly aria-label="Partager">
               <Share2 size={14} />
             </Button>
           </>

@@ -85,7 +85,10 @@ const PerplexityContentDetail: React.FC = () => {
                         <p className="font-body text-caption text-ink-600">{s.date}</p>
                       </div>
                     </div>
-                    <Button emphasis="outline" size="sm" trailingIcon={<ExternalLink size={14} />}>
+                    {/* L'action de la rangée : `soft` (arbitrage n°19 ; elle
+                        était en `outline`, réservé à Annuler). La synthèse
+                        se lit : pas d'aplat. */}
+                    <Button emphasis="soft" size="sm" trailingIcon={<ExternalLink size={14} />}>
                       Lire
                     </Button>
                   </li>

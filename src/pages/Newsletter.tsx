@@ -44,7 +44,9 @@ export const Newsletter: React.FC = () => {
         onBack={() => navigate('/veille')}
         backLabel="Retour à la veille"
         trailing={
-          <Button emphasis="soft" size="sm" trailingIcon={<ArrowRight size={14} />} onClick={() => navigate('/veille/weekly-newsletter')}>
+          /* Un raccourci de la barre : `ghost` (arbitrage n°19). La page sert
+             à régler l'abonnement ; l'aplat est l'envoi du formulaire. */
+          <Button emphasis="ghost" size="sm" trailingIcon={<ArrowRight size={14} />} onClick={() => navigate('/veille/weekly-newsletter')}>
             Voir la dernière édition
           </Button>
         }
@@ -73,7 +75,9 @@ export const Newsletter: React.FC = () => {
                 <FormGroup label="Fréquence" id="newsletter-freq">
                   <Input id="newsletter-freq" type="text" defaultValue="Hebdomadaire (chaque lundi)" readOnly />
                 </FormGroup>
-                <Button emphasis="soft" className="self-start mt-stack-xs" leadingIcon={<Mail size={14} />}>
+                {/* L'envoi du formulaire, l'action principale de la page :
+                    le seul `solid` (arbitrage n°19). */}
+                <Button emphasis="solid" className="self-start mt-stack-xs" leadingIcon={<Mail size={14} />}>
                   Mettre à jour mes préférences
                 </Button>
               </Card>

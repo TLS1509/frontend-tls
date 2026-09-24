@@ -116,18 +116,24 @@ export const Dossier: React.FC = () => {
         trailing={
           <>
             <ReadingProgressRing targetRef={articleRef} tone="warm" size={32} />
-            <Button emphasis="soft" tone="warm" size="sm" leadingIcon={<Download size={14} />} className="max-sm:hidden">
+            {/* Les outils de la barre de lecture sont des `ghost` (arbitrage
+                n°19) : le téléchargement au ton du dossier, le partage en
+                neutre, le marque-page en `soft` une fois posé, comme les
+                favoris de la Veille. Ils étaient en `soft` et en `outline`,
+                réservé à Annuler. Le dossier se lit : pas d'aplat. */}
+            <Button emphasis="ghost" tone="warm" size="sm" leadingIcon={<Download size={14} />} className="max-sm:hidden">
               Télécharger
             </Button>
             <Button
-              emphasis={saved ? 'soft' : 'outline'}
+              emphasis={saved ? 'soft' : 'ghost'}
+              tone={saved ? 'warm' : 'neutral'}
               iconOnly
               aria-label={saved ? 'Retirer le marque-page' : 'Ajouter aux marque-pages'}
               onClick={() => toggleBookmark(bookmarkKey)}
             >
               <Bookmark size={14} fill={saved ? 'currentColor' : 'none'} />
             </Button>
-            <Button emphasis="outline" iconOnly aria-label="Partager">
+            <Button emphasis="ghost" tone="neutral" iconOnly aria-label="Partager">
               <Share2 size={14} />
             </Button>
           </>
@@ -311,6 +317,8 @@ export const Dossier: React.FC = () => {
                       PDF de 38 pages · Données exclusives · Mise à jour janvier 2026
                     </p>
                   </div>
+                  {/* L'action de ce panneau : `soft` (arbitrage n°19). Le
+                      dossier est une page de lecture, sans aplat. */}
                   <Button emphasis="soft" tone="warm" size="lg" leadingIcon={<Download size={16} />} className="mt-stack-xs">
                     Télécharger le PDF gratuit
                   </Button>
