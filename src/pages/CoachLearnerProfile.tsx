@@ -32,7 +32,9 @@ const DREYFUS_LEVELS: DreyfusLevel[] = [1, 2, 3, 4, 5];
 /* Les leçons terminées ne portent plus leur gain (« +80 XP », « +60 XP ») :
    l'arbitrage n°18 retire l'XP, et la ligne dit déjà ce qui s'est passé. Le
    « Badge débloqué : Explorateur » (badge de plateforme, sans niveau validé)
-   reste en l'état : question produit ouverte pour les vues coach. */
+   est sorti du fil le 24/09 : Chloé a tranché, le coach n'a pas besoin de la
+   gamification. Un niveau validé, lui, se lit dans « Progression Dreyfus par
+   compétence », plus haut. */
 const ACTIVITY_ITEMS: ActivityFeedItem[] = [
   {
     id: 'a1',
@@ -48,14 +50,6 @@ const ACTIVITY_ITEMS: ActivityFeedItem[] = [
     description: 'Sujet : Préparation entretien annuel',
     timestamp: new Date('2026-05-12T14:30:00'),
     tone: 'primary',
-  },
-  {
-    id: 'a3',
-    type: 'achievement',
-    title: 'Badge débloqué : Explorateur',
-    description: 'Accès à 3 domaines de compétences',
-    timestamp: new Date('2026-05-11T11:00:00'),
-    tone: 'sun',
   },
   {
     id: 'a4',
@@ -464,7 +458,7 @@ export default function CoachLearnerProfile() {
       {/* Activité récente : le fil porte ses propres rangées bordées — pas de
           carte autour (une carte dans une carte). */}
       <section className="flex flex-col gap-stack">
-        <SectionHeader title="Activité récente" meta="Les 5 dernières actions enregistrées" size="md" />
+        <SectionHeader title="Activité récente" meta={`Les ${ACTIVITY_ITEMS.length} dernières actions enregistrées`} size="md" />
         <ActivityFeed items={ACTIVITY_ITEMS} layout="timeline" timeFormat="relative" />
       </section>
 

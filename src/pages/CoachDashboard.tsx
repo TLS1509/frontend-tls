@@ -12,64 +12,29 @@ import { EmptyState } from '../components/ui/EmptyState';
 import { Tabs } from '../components/ui/Tabs';
 import { CompetencyRadar } from '../components/ui/CompetencyRadar';
 import { Container, PageShell } from '../components/layout';
-import { ScatterChart, type ScatterChartDataPoint } from '../components/charts/ScatterChart';
 import { RadarChart, type RadarDataPoint } from '../components/charts/RadarChart';
-import { ChartContainer } from '../components/charts/ChartContainer';
-import { ApprenantsTable, formatDreyfus, parseDays } from '../components/coach/ApprenantsTable';
-import { APPRENANTS, APPRENANT_AXES, getApprenantById, type ApprenantStatus } from '../data/apprenants';
+import { ApprenantsTable, formatDreyfus } from '../components/coach/ApprenantsTable';
+import { APPRENANTS, APPRENANT_AXES, getApprenantById } from '../data/apprenants';
 import { useCoachingStore } from '../stores/persistence';
 
 // ─── Display helpers ──────────────────────────────────────────────────────────
 
 const TABS = [
   { id: 'apprenants', label: 'Mes apprenants' },
-  { id: 'matrice', label: 'Matrice de performance' },
   { id: 'corrections', label: 'Corrections' },
   { id: 'sessions', label: 'Sessions' },
 ];
 
-/**
- * Statut d'un apprenant dans la matrice : une seule source pour la bulle et la
- * légende. Le remplissage passe par la variable du token (l'attribut `fill` du
- * SVG la résout) et la pastille de légende par la classe du même token : les
- * deux ne peuvent plus diverger.
- */
-const STATUT_MATRICE: Record<ApprenantStatus, { label: string; fill: string; pastille: string }> = {
-  active: { label: 'Apprenant actif', fill: 'var(--color-primary-500)', pastille: 'bg-primary-500' },
-  stuck: { label: 'En difficulté', fill: 'var(--color-danger-base)', pastille: 'bg-danger-base' },
-  ahead: { label: 'En avance', fill: 'var(--color-success-base)', pastille: 'bg-success-base' },
-};
+/* Arbitrage n°18, étendu au coach le 24/09 : l'onglet « Matrice de
+   performance » est retiré. Son axe vertical était un score d'engagement
+   calculé depuis la série (et la taille des bulles, des heures déduites de la
+   série) : sans la série, il ne restait que le niveau Dreyfus, que la table
+   « Mes apprenants » donne déjà. Pas de remplaçant (Chloé : le coach n'en a
+   pas besoin). */
 
 /* Rangée dans la carte : retrait 20 puis 24 px, jamais sous le rayon (20) de
    la carte — au coin, le contenu reste dans le régime « forme fixe ». */
 const ROW = 'flex items-center gap-stack px-stack-md sm:px-stack-lg py-stack';
-
-/**
- * Build scatter chart data from apprenants.
- * x: skill level (Dreyfus avg)
- * y: engagement score (based on streak + last activity recency)
- * z: hours logged (mock: derived from streak)
- */
-const buildScatterData = (): ScatterChartDataPoint[] => {
-  return APPRENANTS.map((a) => {
-    const skillLevel = a.dreyfusAvg * 20; // scale 0-5 to 0-100
-    // engagement: 0-100 based on streak (max 30 days = 100%) and last activity
-    const days = parseDays(a.lastActivity);
-    const lastActivityPenalty = Math.max(0, 100 - days * 3);
-    const streakBoost = Math.min(30, a.streak) / 30 * 50;
-    const engagementScore = Math.round((lastActivityPenalty * 0.6 + streakBoost) / 1.2);
-    // hours: mock value based on streak (1 hour per day assumption)
-    const hoursLogged = a.streak * 1.5;
-
-    return {
-      label: a.name,
-      x: skillLevel,
-      y: engagementScore,
-      z: hoursLogged,
-      color: STATUT_MATRICE[a.status].fill,
-    };
-  });
-};
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
@@ -87,9 +52,6 @@ export default function CoachDashboard() {
   );
 
   const selected = selectedApprenantId ? getApprenantById(selectedApprenantId) : undefined;
-
-  // Build scatter chart data (memoized)
-  const scatterData = useMemo(() => buildScatterData(), []);
 
   const radarFor = (scores: number[]) =>
     APPRENANT_AXES.map((label, idx) => ({ label, current: scores[idx] ?? 0 }));
@@ -187,53 +149,6 @@ export default function CoachDashboard() {
               </div>
             )}
           </div>
-        )}
-
-        {/* Matrice tab */}
-        {activeTab === 'matrice' && (
-          <section className="flex flex-col gap-stack">
-            <SectionHeader
-              title="Matrice de performance"
-              subtitle="Chaque apprenant placé selon sa compétence (horizontal) et son engagement (vertical) ; la taille de la bulle suit ses heures de formation."
-              size="md"
-            />
-            <ChartContainer>
-              <ScatterChart
-                data={scatterData}
-                xAxisLabel="Niveau de compétence (Dreyfus 0-100)"
-                yAxisLabel="Score d'engagement (0-100)"
-                xDomain={[0, 100]}
-                yDomain={[0, 100]}
-                size="lg"
-                showLegend={false}
-                bubbleScale={2}
-                onDotClick={(_, index) => {
-                  const apprenant = APPRENANTS[index];
-                  if (apprenant) {
-                    // Le radar vit dans l'onglet « Mes apprenants » : sélectionner
-                    // sans y aller ne montrait rien.
-                    setSelectedApprenantId(apprenant.id);
-                    setActiveTab('apprenants');
-                  }
-                }}
-              />
-            </ChartContainer>
-            {/* Légende tirée de la même table que les bulles, puis l'aide : ce que
-                fait le clic. Les deux forment un groupe (8 px). */}
-            <div className="flex flex-col gap-stack-xs">
-              <ul className="flex flex-wrap gap-x-section gap-y-stack-xs text-caption text-ink-600" aria-label="Légende">
-                {(Object.keys(STATUT_MATRICE) as ApprenantStatus[]).map((statut) => (
-                  <li key={statut} className="flex items-center gap-stack-xs">
-                    <span className={`w-3 h-3 rounded-pill ${STATUT_MATRICE[statut].pastille}`} aria-hidden="true" />
-                    {STATUT_MATRICE[statut].label}
-                  </li>
-                ))}
-              </ul>
-              <p className="text-caption text-ink-600 max-w-prose">
-                Cliquez sur une bulle pour ouvrir son radar de compétences dans « Mes apprenants ».
-              </p>
-            </div>
-          </section>
         )}
 
         {/* Corrections tab */}
