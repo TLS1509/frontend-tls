@@ -252,8 +252,15 @@ export const ErrorPage: React.FC<ErrorPageProps> = ({
     <div className={wrapperClasses}>
       {expressive && <AmbientBlobs intensity="subtle" position="absolute" />}
 
+      {/* Rythme (passe typographique du 2026-09-24) : 16 px entre les
+          éléments, 24 au-dessus du titre et au-dessus de l'action. Le titre
+          et son chapô introduisent les suggestions (« Voici par où
+          repartir ») : ils s'en tiennent à 16, et à 24 du code qui les
+          précède — un titre appartient à ce qu'il introduit. À 24 partout,
+          il flottait entre le code et les tuiles. (Le code de 80 à 144 px
+          garde en plus, sous ses chiffres, l'espace de ses jambages.) */}
       <motion.div
-        className="relative z-base w-full max-w-[960px] flex flex-col items-center text-center gap-stack-lg"
+        className="relative z-base w-full max-w-[960px] flex flex-col items-center text-center gap-stack"
         variants={containerVariants}
         initial={initialAnim}
         animate={animateAnim}
@@ -312,7 +319,7 @@ export const ErrorPage: React.FC<ErrorPageProps> = ({
         {/* Titre 36/44/700 · 12 px · chapô 18/28 ink-700 : l'anatomie de
             l'en-tête de page. Centré, et court — deux lignes au plus, que
             `text-balance` équilibre. */}
-        <motion.div variants={itemVariants} className="flex flex-col items-center gap-stack-sm max-w-[560px]">
+        <motion.div variants={itemVariants} className="mt-stack-xs flex flex-col items-center gap-stack-sm max-w-[560px]">
           <h1 className="font-display text-h1 text-ink-900 text-balance">{title}</h1>
           {description && (
             <p className="font-body text-body-lg text-ink-700 text-balance">{description}</p>
@@ -343,7 +350,7 @@ export const ErrorPage: React.FC<ErrorPageProps> = ({
         )}
 
         {(primaryAction || secondaryAction) && (
-          <motion.div variants={itemVariants} className="flex flex-wrap gap-stack-xs justify-center">
+          <motion.div variants={itemVariants} className="mt-stack-xs flex flex-wrap gap-stack-xs justify-center">
             {primaryAction}
             {secondaryAction}
           </motion.div>

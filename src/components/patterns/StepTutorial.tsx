@@ -105,31 +105,34 @@ export const StepTutorial: React.FC<StepTutorialProps> = ({
         )}
 
         {/* Anatomie (passe typographique du 2026-09-24) : compteur · 12 ·
-            icône + titre h3 · 8 · description 16 ink-700 · 24 · action.
-            Padding 24 / 32 (le `p-7`, 28 px, n'était pas un pas). */}
+            icône | (titre h3 · 8 · description 16 ink-700) · 24 · action.
+            La description vit dans la colonne du titre, comme dans
+            `SectionHeader` : sous l'icône de 56 px, elle tombait à 23 px du
+            titre — plus loin que le titre ne l'était du compteur. Padding
+            24 / 32 (le `p-7`, 28 px, n'était pas un pas). */}
         <div className="p-stack-lg sm:p-section flex flex-col">
           {/* Step badge */}
           <Badge variant="neutral" className="self-start select-none">
             {activeStep + 1} / {steps.length}
           </Badge>
 
-          {/* Icon + title — le titre descend de (56 − 26) / 2 = 15 px pour
-              centrer sa PREMIÈRE ligne sur l'icône (doctrine § 4). */}
+          {/* Icône | texte — le texte descend de (56 − 26) / 2 = 15 px pour
+              centrer la PREMIÈRE ligne du titre sur l'icône (doctrine § 4). */}
           <div className="mt-stack-sm flex items-start gap-stack">
             {step.icon && (
               <div className={['w-14 h-14 rounded-xl flex items-center justify-center shrink-0', TONE_ICON_BG[tone]].join(' ')}>
                 {step.icon}
               </div>
             )}
-            <h2 className={['font-display text-h3 text-ink-900 text-balance', step.icon ? 'mt-[15px]' : ''].filter(Boolean).join(' ')}>
-              {step.title}
-            </h2>
+            <div className={['flex flex-col gap-stack-xs min-w-0', step.icon ? 'mt-[15px]' : ''].filter(Boolean).join(' ')}>
+              <h2 className="font-display text-h3 text-ink-900 text-balance">
+                {step.title}
+              </h2>
+              <p className="font-body text-body text-ink-700 max-w-prose">
+                {step.description}
+              </p>
+            </div>
           </div>
-
-          {/* Description */}
-          <p className="mt-stack-xs font-body text-body text-ink-700 max-w-prose">
-            {step.description}
-          </p>
 
           {/* Optional CTA */}
           {step.cta && step.onCta && (
