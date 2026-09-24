@@ -132,11 +132,14 @@ const VARIANT_CLASSES: Record<CardVariant, string> = {
   glass:       'backdrop-blur-glass-medium backdrop-saturate-[180%] bg-gradient-to-br from-white/88 to-white/65 border border-white/75 shadow-[0_2px_12px_rgba(0,0,0,0.06),inset_0_1px_0_rgba(255,255,255,0.9)] hover:shadow-md',
   'glass-brand': 'backdrop-blur-glass-medium backdrop-saturate-[180%] bg-gradient-to-br from-primary-500/[30%] to-primary-500/[12%] border border-primary-500/35 shadow-[0_2px_12px_rgba(45,90,102,0.12),inset_0_1px_0_rgba(255,255,255,0.4)] hover:shadow-brand-sm',
   'glass-warm':  'backdrop-blur-glass-medium backdrop-saturate-[180%] bg-gradient-to-br from-secondary-100/88 to-secondary-50/70 border border-secondary-200/65 shadow-[0_2px_12px_rgba(180,80,20,0.08),inset_0_1px_0_rgba(255,255,255,0.85)] hover:shadow-warm-sm',
-  // 2026-07-24 : les 4 hex codés en dur remplacés par les tokens primary
-  // (500/800/900 — valeurs identiques vérifiées). Le gradient suit désormais
-  // toute évolution de la palette. Arbitrary property car un radial-gradient
-  // inline n'accepte pas de classe Tailwind.
-  'glass-dark':  'backdrop-blur-glass-medium backdrop-saturate-[180%] [background:radial-gradient(circle_at_0%_0%,var(--color-primary-500)_0%,var(--color-primary-800)_60%,var(--color-primary-900)_100%)] border border-white/20 shadow-lg hover:shadow-xl text-white/95',
+  // 2026-07-24 : les 4 hex codés en dur remplacés par les tokens primary.
+  // Arbitrary property car un radial-gradient inline n'accepte pas de classe
+  // Tailwind. ⚠️ 2026-09-24 : le coin haut gauche part du cran 700, plus du 500.
+  // Au 500, aucun texte ne tenait sur la carte : le blanc y mesure 2,94:1, et
+  // l'encre sombre des titres, lisible dans ce coin, tombait à 1,5:1 dans le
+  // 800 et le 900 du reste de la surface. Le 700 est le premier cran qui porte
+  // du blanc (5,02:1) — c'est le contrat `onDark` du bouton.
+  'glass-dark':  'backdrop-blur-glass-medium backdrop-saturate-[180%] [background:radial-gradient(circle_at_0%_0%,var(--color-primary-700)_0%,var(--color-primary-800)_60%,var(--color-primary-900)_100%)] border border-white/20 shadow-lg hover:shadow-xl text-white',
   minimal:  'bg-transparent border border-ink-200 hover:bg-ink-50 hover:border-ink-300',
   ink:      'bg-ink-900 border border-ink-800 text-white',
   // bordered / muted / sunken retirés le 2026-07-24 (0 usage). Si un besoin
@@ -285,11 +288,36 @@ const CLICKABLE = 'cursor-pointer focus-visible:outline-none focus-visible:ring-
    2026-09-24 : elles décrivent l'anatomie de référence. Ce sont les sous-
    composants ci-dessous (`CardEyebrow`, `CardTitle`, `CardDesc`,
    `CardFooter`) qui la portent dans le produit, via ArticleCard et
-   SessionCard. */
-const EYEBROW_CLASSES = 'font-body text-caption font-semibold text-ink-600';
-const TITLE_CLASSES = 'font-display text-h3 text-ink-900';
-const DESC_CLASSES = 'font-body text-body text-ink-700 max-w-prose';
-const FOOTER_CLASSES = 'flex items-center justify-between gap-stack-xs mt-stack-3xs pt-stack-sm border-t border-ink-200 text-caption text-ink-600';
+   SessionCard.
+
+   L'encre suit la surface (2026-09-24). Les quatre rôles étaient figés en
+   ink : sur `glass-dark` et `ink`, le titre mesurait 1,00:1 (ink-900 sur
+   ink-900) et le texte 1,37:1. Sur une surface sombre, TOUT le texte passe au
+   blanc : au cran 700 du dégradé, c'est la seule encre qui tienne 4,5:1 — un
+   blanc à 85 % y tombe à 4,15, le primary-100 à 4,11. La hiérarchie y est
+   portée par la taille et la graisse, pas par un gris. Les sous-composants
+   lisent la surface par contexte : ils ne savent pas sur quelle carte on les
+   pose. */
+type EncreCarte = 'claire' | 'sombre';
+
+const VARIANTES_SOMBRES: ReadonlySet<CardVariant> = new Set<CardVariant>(['glass-dark', 'ink']);
+
+const ANATOMIE: Record<EncreCarte, { eyebrow: string; title: string; desc: string; footer: string }> = {
+  claire: {
+    eyebrow: 'font-body text-caption font-semibold text-ink-600',
+    title: 'font-display text-h3 text-ink-900',
+    desc: 'font-body text-body text-ink-700 max-w-prose',
+    footer: 'flex items-center justify-between gap-stack-xs mt-stack-3xs pt-stack-sm border-t border-ink-200 text-caption text-ink-600',
+  },
+  sombre: {
+    eyebrow: 'font-body text-caption font-semibold text-white',
+    title: 'font-display text-h3 text-white',
+    desc: 'font-body text-body text-white max-w-prose',
+    footer: 'flex items-center justify-between gap-stack-xs mt-stack-3xs pt-stack-sm border-t border-white/20 text-caption text-white',
+  },
+};
+
+const EncreCarteContext = React.createContext<EncreCarte>('claire');
 
 const ICON_SIZE: Record<CardSize, string> = {
   xs: '[&>svg]:w-6 [&>svg]:h-6',
@@ -349,6 +377,8 @@ export const Card: React.FC<CardProps> = ({
     .join(' ');
 
   const hasPropsContent = eyebrow || title || description || footer || icon;
+  const encre: EncreCarte = VARIANTES_SOMBRES.has(variant) ? 'sombre' : 'claire';
+  const anatomie = ANATOMIE[encre];
 
   // Le gap de la carte (8 px, 16 en `lg`) sépare icône, en-tête, texte et
   // pied ; les écarts qui s'en écartent sont écrits sur la partie : icône →
@@ -372,24 +402,26 @@ export const Card: React.FC<CardProps> = ({
         : undefined,
       ...rest,
     },
-    hasPropsContent ? (
-      <>
-        {icon && <div className={iconClass}>{icon}</div>}
-        {(eyebrow || title) && (
-          <div className="flex flex-col">
-            {eyebrow && <p className={EYEBROW_CLASSES}>{eyebrow}</p>}
-            {/* `mt-stack-3xs` sous un surtitre : il bat la marge de base des
-                titres (0,75em), faite pour séparer des sections, pas pour
-                coller un titre à son surtitre. */}
-            {title && <h3 className={[TITLE_CLASSES, eyebrow ? 'mt-stack-3xs' : ''].filter(Boolean).join(' ')}>{title}</h3>}
-          </div>
-        )}
-        {description && <p className={DESC_CLASSES}>{description}</p>}
-        {footer && <div className={FOOTER_CLASSES}>{footer}</div>}
-      </>
-    ) : (
-      children
-    )
+    <EncreCarteContext.Provider value={encre}>
+      {hasPropsContent ? (
+        <>
+          {icon && <div className={iconClass}>{icon}</div>}
+          {(eyebrow || title) && (
+            <div className="flex flex-col">
+              {eyebrow && <p className={anatomie.eyebrow}>{eyebrow}</p>}
+              {/* `mt-stack-3xs` sous un surtitre : il bat la marge de base des
+                  titres (0,75em), faite pour séparer des sections, pas pour
+                  coller un titre à son surtitre. */}
+              {title && <h3 className={[anatomie.title, eyebrow ? 'mt-stack-3xs' : ''].filter(Boolean).join(' ')}>{title}</h3>}
+            </div>
+          )}
+          {description && <p className={anatomie.desc}>{description}</p>}
+          {footer && <div className={anatomie.footer}>{footer}</div>}
+        </>
+      ) : (
+        children
+      )}
+    </EncreCarteContext.Provider>
   );
 };
 
@@ -397,39 +429,46 @@ export const Card: React.FC<CardProps> = ({
  * LEGACY EXPORTS (deprecated, kept for backward compatibility)
  * Prefer Card props: <Card title="..." description="..." />
  */
-/* Mêmes classes que l'anatomie par props (voir plus haut) — une seule source. */
+/* Mêmes classes que l'anatomie par props (voir plus haut) — une seule source.
+   L'encre vient de la carte qui les porte (contexte), claire par défaut. */
 export const CardEyebrow: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   className = '',
   ...rest
-}) => (
-  <div className={`${EYEBROW_CLASSES} ${className}`} {...rest} />
-);
+}) => {
+  const encre = React.useContext(EncreCarteContext);
+  return <div className={`${ANATOMIE[encre].eyebrow} ${className}`} {...rest} />;
+};
 
 export const CardTitle: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({
   className = '',
   ...rest
-}) => (
-  <h3
-    /* Ni graisse, ni interligne, ni tracking écrits ici : le token `text-h3`
-       déclare 700, 26 px et -0,02em. Les écrire à côté ne peut que les
-       contredire — c'était le cas (600, puis `leading-tight` : 25 px). */
-    className={`${TITLE_CLASSES} ${className}`}
-    {...rest}
-  />
-);
+}) => {
+  const encre = React.useContext(EncreCarteContext);
+  return (
+    <h3
+      /* Ni graisse, ni interligne, ni tracking écrits ici : le token `text-h3`
+         déclare 700, 26 px et -0,02em. Les écrire à côté ne peut que les
+         contredire — c'était le cas (600, puis `leading-tight` : 25 px). */
+      className={`${ANATOMIE[encre].title} ${className}`}
+      {...rest}
+    />
+  );
+};
 
 export const CardDesc: React.FC<React.HTMLAttributes<HTMLParagraphElement>> = ({
   className = '',
   ...rest
-}) => (
-  <p className={`${DESC_CLASSES} ${className}`} {...rest} />
-);
+}) => {
+  const encre = React.useContext(EncreCarteContext);
+  return <p className={`${ANATOMIE[encre].desc} ${className}`} {...rest} />;
+};
 
 export const CardFooter: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   className = '',
   ...rest
-}) => (
-  <div className={`${FOOTER_CLASSES} ${className}`} {...rest} />
-);
+}) => {
+  const encre = React.useContext(EncreCarteContext);
+  return <div className={`${ANATOMIE[encre].footer} ${className}`} {...rest} />;
+};
 
 export default Card;
