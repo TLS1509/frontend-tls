@@ -226,8 +226,9 @@ export const Help: React.FC = () => {
               ))}
             </div>
 
-            {/* Chat input */}
-            <div className="flex items-center gap-stack-xs px-stack py-stack-sm border-t border-ink-200 bg-ink-50">
+            {/* Chat input — 20 px de retrait : au-delà du rayon de la carte (20),
+                le champ et le bouton gardent le rayon de leur étage (forme fixe). */}
+            <div className="flex items-center gap-stack-xs p-stack-md border-t border-ink-200 bg-ink-50">
               <input
                 type="text"
                 value={chatInput}
