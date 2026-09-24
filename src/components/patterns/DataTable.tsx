@@ -21,6 +21,13 @@ export interface DataTableColumn {
   sortValue?: (row: DataTableRow) => string | number | null | undefined;
   align?: 'left' | 'center' | 'right';
   width?: string;
+  /**
+   * Largeur au-dessous de laquelle la colonne ne descend pas (valeur CSS :
+   * `'16rem'`). Sous la largeur de la table, celle-ci défile horizontalement
+   * au lieu d'écraser la colonne. Pour une donnée qui se lit d'un bloc et se
+   * coupe mal — URL, identifiant, code. Sans effet sur un écran assez large.
+   */
+  minWidth?: string;
 }
 
 export type SortDirection = 'asc' | 'desc' | null;
@@ -202,7 +209,13 @@ export const DataTable: React.FC<DataTableProps> = ({
                       ALIGN[align],
                       sortable ? 'p-0' : CELL_PAD,
                     ].join(' ')}
-                    style={column.width ? { width: column.width } : undefined}
+                    /* `minWidth` (24/09) : à 375, une table trop large pour l'écran
+                       défile déjà, mais l'algorithme des tables ramène chaque
+                       colonne à sa largeur minimale — celle du mot le plus long
+                       de son en-tête. La colonne des URL de /enterprise/webhooks
+                       tombait à 91 px : une URL coupée tous les 7 caractères,
+                       sur 10 lignes. */
+                    style={column.width || column.minWidth ? { width: column.width, minWidth: column.minWidth } : undefined}
                   >
                     {sortable ? (
                       <button

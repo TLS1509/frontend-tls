@@ -115,7 +115,9 @@ const WEBHOOK_ROWS: DataTableRow[] = [
 ];
 
 const COLUMNS: DataTableColumn[] = [
-  { key: 'url', label: 'URL de l\'endpoint', sortable: false },
+  // L'URL se lit d'un bloc : sur un petit écran, la table défile plutôt que de
+  // la couper tous les 7 caractères (voir `minWidth` dans DataTable).
+  { key: 'url', label: 'URL de l\'endpoint', sortable: false, minWidth: '16rem' },
   { key: 'events', label: 'Événements', sortable: false },
   { key: 'status', label: 'Statut', sortable: false, width: '110px' },
   { key: 'last_triggered', label: 'Dernier appel', sortable: false, width: '150px' },
