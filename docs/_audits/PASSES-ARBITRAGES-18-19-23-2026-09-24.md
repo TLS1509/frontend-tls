@@ -45,7 +45,7 @@ Sur le même état :
 - **Pages** : quatre tranches.
   - Chaque écran a au plus un `solid`. Les modales et les onglets ont été vérifiés à la main, puisque la sonde ne les voit pas.
   - `outline` ne sert plus qu'à « Annuler ».
-- **Conventions posées en chemin** (à valider) :
+- **Conventions posées en chemin** — ⏸️ **non retenues comme conventions pour l'instant** (Chloé, 24/09) : elle rouvre d'abord la couleur de l'aplat orange et or et le libellé du bouton (banc, arbitrages n°26 et n°27). Le code les applique ; la doctrine ne les inscrit pas :
   - Annuler = `outline` + `neutral` ;
   - une confirmation dépliée *dans* une page laisse le `solid` à la page (Confirmer en `soft`, Annuler en `ghost`) ;
   - « Retour » = `ghost` neutre, sauf sur un écran « introuvable », où il devient le `solid` ;
@@ -63,7 +63,7 @@ Sur le même état :
   - « vous » : le pilotage, l'espace du coach, l'authentification, le compte et la facturation (le cas ambigu) ;
   - « vous » aussi pour **la Veille**, ses publications comme ses écrans (décision de Chloé le 24/09, `77022012`).
 - **Composants** : `AIOverrideButton` a une prop `voix`. `FlipCard`, `ActivityFeed` et l'état vide du fil tutoient.
-- **Choix à valider** :
+- **Choix faits par les agents** — ⏸️ non retenus comme conventions pour l'instant (Chloé, 24/09) :
   - l'**onboarding** est gardé en « tu ». Réserve : le chat demande encore le rôle, ce qui en fait une surface à plusieurs rôles ;
   - le **paiement de l'onboarding** est en « vous » (une transaction), donc le parcours fait tu → vous → tu ;
   - dans la famille **Compte**, `/account` et `/account/billing` vouvoient, tandis que `/profile/privacy` et les préférences de notification tutoient ;
@@ -90,7 +90,7 @@ Sur le même état :
   - `RankingCard`, `Medal` et `Achievement` restent, parce que la vitrine les importe.
 
 ## Questions ouvertes pour Chloé
-1. **Open Badges** : le référentiel n'en a que pour 3 couples compétence × niveau, alors que le compte démo a 7 niveaux validés.
+1. **Open Badges** — ⏳ **à valider avec Pierre** (Chloé, 24/09 : « je ne suis pas sûre »). Le référentiel n'en a que pour 3 couples compétence × niveau, alors que le compte démo a 7 niveaux validés.
    - Faut-il un badge pour chaque niveau validé ?
    - Un D1 en mérite-t-il un ?
 2. **Certifications de parcours et badges « plateforme »** : 2 et 5, ils ne s'affichent plus. Faut-il les garder sous une autre forme ?
