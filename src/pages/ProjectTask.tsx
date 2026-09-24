@@ -65,7 +65,7 @@ export const ProjectTask: React.FC = () => {
     return (
       <PageShell width="page">
         <EditorialHero title="Tâche introuvable" summary="Cette tâche n'existe pas." tone="flat" />
-        <Button emphasis="outline" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate(`/project/${projectId}`)} className="self-start">
+        <Button emphasis="solid" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate(`/project/${projectId}`)} className="self-start">
           Retour au projet
         </Button>
       </PageShell>
@@ -90,7 +90,7 @@ export const ProjectTask: React.FC = () => {
     <PageShell width="medium">
       <div className="flex flex-col gap-stack-lg">
         <div>
-          <Button emphasis="outline" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(`/project/${projectId}`)}>
+          <Button emphasis="ghost" tone="neutral" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(`/project/${projectId}`)}>
             Retour au projet
           </Button>
         </div>
@@ -188,9 +188,11 @@ export const ProjectTask: React.FC = () => {
                     className="w-full p-stack-sm rounded-lg border border-ink-400 font-body text-body placeholder:text-ink-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent h-auto min-h-[88px]"
                   />
                 </FormGroup>
+                {/* L'envoi du livrable, l'action pour laquelle la page existe :
+                    l'aplat (arbitrage n°19). */}
                 <div className="flex justify-end mt-stack-xs">
                   <Button
-                    emphasis="soft"
+                    emphasis="solid"
                     leadingIcon={<Send size={16} />}
                     onClick={handleSubmit}
                     disabled={!deliverableUrl.trim()}

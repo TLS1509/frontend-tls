@@ -26,7 +26,7 @@ export const ProjectSkillGaps: React.FC = () => {
   if (!project) {
     return (
       <PageShell width="page">
-        <Button emphasis="outline" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate(`/project/${projectId}`)} className="self-start">
+        <Button emphasis="solid" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate(`/project/${projectId}`)} className="self-start">
           Retour au projet
         </Button>
       </PageShell>
@@ -71,7 +71,7 @@ export const ProjectSkillGaps: React.FC = () => {
     <PageShell width="medium">
       <div className="flex flex-col gap-stack-lg">
         <div>
-          <Button emphasis="outline" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(`/project/${projectId}`)}>
+          <Button emphasis="ghost" tone="neutral" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(`/project/${projectId}`)}>
             Retour au projet
           </Button>
         </div>

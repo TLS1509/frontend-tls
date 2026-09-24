@@ -216,9 +216,12 @@ const JacValidationForm: React.FC<{
         </div>
       </div>
 
+      {/* Paire Annuler / Confirmer (arbitrage n°19). La page n'a pas d'autre
+          aplat : quand la grille est dépliée, l'évaluation est l'action pour
+          laquelle l'écran existe. Un seul formulaire s'ouvre à la fois. */}
       <div className="flex gap-stack-xs justify-end">
-        <Button emphasis="outline" size="sm" onClick={onClose}>Annuler</Button>
-        <Button emphasis="soft" size="sm" onClick={handleSubmit}>
+        <Button emphasis="outline" tone="neutral" size="sm" onClick={onClose}>Annuler</Button>
+        <Button emphasis="solid" size="sm" onClick={handleSubmit}>
           Confirmer l'évaluation
         </Button>
       </div>
@@ -279,7 +282,7 @@ export const ProjectJac: React.FC = () => {
       {/* Le retour et l'en-tête forment un groupe : 24 entre eux. */}
       <div className="flex flex-col gap-stack-lg">
         <div>
-          <Button emphasis="outline" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(`/project/${projectId}`)}>
+          <Button emphasis="ghost" tone="neutral" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(`/project/${projectId}`)}>
             Retour au projet
           </Button>
         </div>

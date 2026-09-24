@@ -94,12 +94,16 @@ export const Collaboration: React.FC = () => {
         eyebrow={{ icon: <Users size={14} />, label: "Travail d'équipe" }}
         title="Collaboration"
         summary="Pilotez vos projets d'équipe, suivez la progression collective et coordonnez les contributions."
+        /* Une page de consultation : pas d'aplat (arbitrage n°19). Les deux
+           actions de l'en-tête gardent leur `soft` et quittent l'orange, qui
+           venait de l'ancien `variant="secondary"` : le niveau dit désormais
+           « secondaire », le ton reste celui de la page. */
         trailing={
           <div className="flex gap-stack-xs">
-            <Button emphasis="soft" tone="warm" size="sm" leadingIcon={<Plus size={14} />}>
+            <Button emphasis="soft" size="sm" leadingIcon={<Plus size={14} />}>
               Nouveau projet
             </Button>
-            <Button emphasis="soft" tone="warm" size="sm" leadingIcon={<Users size={14} />}>
+            <Button emphasis="soft" size="sm" leadingIcon={<Users size={14} />}>
               Inviter
             </Button>
           </div>

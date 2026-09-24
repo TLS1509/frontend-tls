@@ -70,7 +70,8 @@ export const Project: React.FC = () => {
     return (
       <PageShell width="page">
         <EditorialHero title="Projet introuvable" summary="Ce projet n'existe pas." tone="flat" />
-        <Button emphasis="outline" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/projects')} className="self-start">
+        {/* Seule issue de l'écran : son action principale, l'aplat (n°19). */}
+        <Button emphasis="solid" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/projects')} className="self-start">
           Retour aux projets
         </Button>
       </PageShell>
@@ -90,8 +91,10 @@ export const Project: React.FC = () => {
     <PageShell width="medium">
       {/* Le retour et l'en-tête forment un groupe : 24 entre eux. */}
       <div className="flex flex-col gap-stack-lg">
+        {/* Le retour est tertiaire : `ghost` neutre (arbitrage n°19). La page
+            est un hub sans aplat : chaque action appartient à sa tâche. */}
         <div>
-          <Button emphasis="outline" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate('/projects')}>
+          <Button emphasis="ghost" tone="neutral" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate('/projects')}>
             Retour aux projets
           </Button>
         </div>
@@ -256,18 +259,21 @@ export const Project: React.FC = () => {
               </div>
             </SectionCard>
 
+            {/* Une sous-navigation : des liens vers les pages voisines, donc
+                des `ghost` (arbitrage n°19). C'étaient quatre `soft` orange
+                empilés, le bloc le plus bruyant de la page. */}
             <SectionCard title="Pages du projet" titleIcon={<FolderKanban size={16} />}>
               <div className="flex flex-col gap-stack-xs">
-                <Button emphasis="soft" tone="warm" size="sm" fullWidth onClick={() => navigate(`/project/${project.id}/team`)}>
+                <Button emphasis="ghost" size="sm" fullWidth onClick={() => navigate(`/project/${project.id}/team`)}>
                   Équipe
                 </Button>
-                <Button emphasis="soft" tone="warm" size="sm" fullWidth onClick={() => navigate(`/project/${project.id}/skill-gaps`)}>
+                <Button emphasis="ghost" size="sm" fullWidth onClick={() => navigate(`/project/${project.id}/skill-gaps`)}>
                   Lacunes compétences
                 </Button>
-                <Button emphasis="soft" tone="warm" size="sm" fullWidth onClick={() => navigate(`/project/${project.id}/passeport`)}>
+                <Button emphasis="ghost" size="sm" fullWidth onClick={() => navigate(`/project/${project.id}/passeport`)}>
                   Feed Passeport
                 </Button>
-                <Button emphasis="soft" tone="warm" size="sm" fullWidth onClick={() => navigate(`/project/${project.id}/jac`)}>
+                <Button emphasis="ghost" size="sm" fullWidth onClick={() => navigate(`/project/${project.id}/jac`)}>
                   JAC
                 </Button>
               </div>

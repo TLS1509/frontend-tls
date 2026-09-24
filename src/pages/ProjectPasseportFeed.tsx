@@ -54,7 +54,7 @@ export const ProjectPasseportFeed: React.FC = () => {
     <PageShell width="medium">
       <div className="flex flex-col gap-stack-lg">
         <div>
-          <Button emphasis="outline" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(`/project/${projectId}`)}>
+          <Button emphasis="ghost" tone="neutral" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(`/project/${projectId}`)}>
             Retour au projet
           </Button>
         </div>
