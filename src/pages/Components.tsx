@@ -5549,7 +5549,9 @@ const COMPONENTS: ComponentEntry[] = [
     description: "Le logo et son nom : l'icône TlsLogo et le mot « The Learning Society » en League Spartan 800, au teal de la marque. Un logotype — ni l'échelle typographique ni le seuil de contraste ne s'y appliquent (WCAG 1.4.3 l'exempte) : le mot-symbole porte `data-logotype` depuis le 24/09, et check-contrast comme check-typo l'ignorent — ils le relevaient à 2,87:1 et en graisse 800 hors échelle. Quatre dispositions (`layout`) : horizontal · vertical · vertical-3 · horizontal-3, miroir du composant Figma. Props : `layout`, `iconSize`, `variant` (de l'icône), `wordmarkTone` (primary · ink · white).",
     keywords: ['logo', 'lockup', 'wordmark', 'brand', 'tls', 'league spartan', 'horizontal', 'vertical', 'logotype', 'data-logotype'],
     render: () => (
-      <div className="flex flex-col gap-section p-stack rounded-xl bg-white border border-ink-200">
+      /* Padding 20 sous le rayon 20 : à 375, la tuile blanche du bas passait à
+         17 px du coin et pinçait (check-radius). */
+      <div className="flex flex-col gap-section p-stack-md rounded-xl bg-white border border-ink-200">
         <div className="flex flex-wrap items-center gap-section">
           <div className="flex flex-col gap-stack-xs">
             <p className="text-caption font-semibold text-ink-600 m-0">horizontal</p>
@@ -6026,11 +6028,11 @@ const COMPONENTS: ComponentEntry[] = [
          refaisait à la main, et avait gardé « Tout refuser » en orange quand
          le composant est passé au même poids que « Tout accepter ». Fixé en
          bas dans l'app ; `!static` le pose dans la fiche. */
+      /* Sans cadre arrondi : dans l'app, c'est une barre pleine largeur, et à
+         375 un cadre au rayon 20 pinçait le bouton du bas (check-radius). */
       <div className="flex flex-col gap-stack-xs">
         <p className="text-caption font-semibold text-ink-600">Fixé en bas de l'écran dans l'app · posé ici dans le flux</p>
-        <div className="overflow-hidden rounded-xl border border-ink-200">
-          <ConsentBanner className="!static" onAcceptAll={() => {}} onRejectAll={() => {}} onCustomize={() => {}} />
-        </div>
+        <ConsentBanner className="!static" onAcceptAll={() => {}} onRejectAll={() => {}} onCustomize={() => {}} />
       </div>
     ),
   },
@@ -9216,12 +9218,18 @@ const Components: React.FC = () => {
               )}
 
               {subGroups.map(([subCat, list]) => (
-                <div key={subCat} className="flex flex-col gap-stack">
+                /* 48 px au-dessus d'un titre de sous-catégorie (16 de la
+                   section + 32 ici), 25 en dessous : le titre appartient aux
+                   fiches qu'il annonce (doctrine § 5, rapport ≥ 1,5 — check-rythme).
+                   Le `mt-stack-lg first:mt-0` posé sur le titre ne jouait jamais :
+                   le titre est toujours le premier enfant de ce groupe, et il
+                   n'avait que les 16 de la section au-dessus de lui. */
+                <div key={subCat} className={['flex flex-col gap-stack', subGroups.length > 1 ? 'mt-section' : ''].filter(Boolean).join(' ')}>
                   {/* Sub-category header (skip if "Other" or single-sub category) */}
                   {subGroups.length > 1 && (
                     <div
                       id={`sub-${componentSlug(subCat)}`}
-                      className="flex items-baseline gap-stack-xs mt-stack-lg first:mt-0 pb-2 border-b border-ink-100 scroll-mt-20"
+                      className="flex items-baseline gap-stack-xs pb-2 border-b border-ink-100 scroll-mt-20"
                     >
                       {/* Un titre, donc 700 et ink-900 : il était en 600 ink-700,
                           plus pâle que les noms de fiche qu'il annonce. */}
