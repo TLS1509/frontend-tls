@@ -1,9 +1,9 @@
 import React from 'react';
 import { TrendingUp, Award, BookOpen, Briefcase } from 'lucide-react';
 import EditorialHero from '../components/patterns/EditorialHero';
-import SectionCard from '../components/patterns/SectionCard';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { Card } from '../components/core/Card';
-import { Badge } from '../components/ui/Badge';
+import { MetaPill } from '../components/ui/MetaPill';
 import { StatCard } from '../components/ui/StatCard';
 import { CompetencyRadar } from '../components/ui/CompetencyRadar';
 import { usePasseportStore } from '../stores/persistence';
@@ -49,55 +49,65 @@ const PasseportHistorique: React.FC = () => {
         summary="Tous tes événements Dreyfus, JAC, missions et formations validés depuis novembre 2025"
         tone="flat"
       />
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-stack-xs">
-          <StatCard label="Niveaux Dreyfus gagnés" value={`+${dreyfusUps}`} sub="depuis le début" deltaDirection="up" />
-          <StatCard label="JAC validés" value={String(jacs)} />
-          <StatCard label="Missions complétées" value={String(missions)} />
-          <StatCard label="Formations terminées" value={String(formations)} />
-        </div>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
+        <StatCard label="Niveaux Dreyfus gagnés" value={`+${dreyfusUps}`} sub="depuis le début" deltaDirection="up" />
+        <StatCard label="JAC validés" value={String(jacs)} />
+        <StatCard label="Missions complétées" value={String(missions)} />
+        <StatCard label="Formations terminées" value={String(formations)} />
+      </div>
 
-        <SectionCard title="Radar actuel vs il y a 6 mois" description="Évolution de tous les axes Dreyfus">
-          <Card className="p-stack-lg flex items-center justify-center">
-            <CompetencyRadar axes={RADAR_AXES} size="md" />
-          </Card>
-        </SectionCard>
+      {/* Deux sections, leur titre (h2 28) posé sur la page. Le radar était
+          dans une carte, elle-même dans une carte. */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader title="Radar actuel vs il y a 6 mois" subtitle="Évolution de tous les axes Dreyfus" />
+        <Card className="flex items-center justify-center">
+          <CompetencyRadar axes={RADAR_AXES} size="md" />
+        </Card>
+      </section>
 
-        <SectionCard title="Timeline détaillée" description="Tous les événements impactant ton passeport">
-          <div className="relative">
-            <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-ink-200" />
-            <div className="flex flex-col gap-stack">
-              {timeline.map((ev) => {
-                const cfg = TYPE_CONFIG[ev.type];
-                const Icon = cfg.icon;
-                const comp = getCompetenceById(ev.competenceId);
-                const dateLabel = new Date(ev.occurredAt).toLocaleDateString('fr-FR', {
-                  day: 'numeric',
-                  month: 'long',
-                  year: 'numeric',
-                });
-                return (
-                  <div key={ev.id} className="relative pl-16">
-                    <div className={`absolute left-2 w-9 h-9 rounded-pill ${cfg.bg} flex items-center justify-center`}>
-                      <Icon className={`w-5 h-5 ${cfg.color}`} />
+      {/* La frise est une collection : des rangées dans une carte (arbitrage
+          n°5), plus une carte par événement dans une carte. Chaque rangée :
+          pastille carrée (arbitrage n°3) centrée sur la première ligne, titre
+          et date sur la même ligne de base, détail en corps ink-700, puis ses
+          données — compétence et niveau en MetaPill (arbitrages n°14-15),
+          plus en Badge capitales, et la date en légende. */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader title="Timeline détaillée" subtitle="Tous les événements impactant ton passeport" />
+        <Card className="p-0 overflow-hidden">
+          <ol className="divide-y divide-ink-100">
+            {timeline.map((ev) => {
+              const cfg = TYPE_CONFIG[ev.type];
+              const Icon = cfg.icon;
+              const comp = getCompetenceById(ev.competenceId);
+              const dateLabel = new Date(ev.occurredAt).toLocaleDateString('fr-FR', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+              });
+              return (
+                <li key={ev.id} className="flex items-start gap-stack px-stack-lg py-stack-md">
+                  <span className={`w-9 h-9 rounded-md ${cfg.bg} ${cfg.color} inline-flex items-center justify-center shrink-0`} aria-hidden="true">
+                    <Icon size={18} />
+                  </span>
+                  {/* 5 px : la première ligne (26) se centre sur la pastille (36). */}
+                  <div className="flex flex-col gap-stack-3xs min-w-0 flex-1 mt-[5px]">
+                    <div className="flex items-baseline justify-between gap-x-stack gap-y-stack-3xs flex-wrap">
+                      <p className="text-body font-semibold text-ink-900">{ev.title}</p>
+                      <time dateTime={ev.occurredAt} className="text-caption text-ink-600 tabular-nums">{dateLabel}</time>
                     </div>
-                    <Card className="p-stack-md">
-                      <div className="flex items-start justify-between gap-stack mb-1">
-                        <div className="font-semibold">{ev.title}</div>
-                        <Badge variant="neutral">{dateLabel}</Badge>
-                      </div>
-                      <div className="text-body text-ink-600 mb-stack-xs">{ev.detail}</div>
-                      <div className="flex items-center gap-stack-xs">
-                        <Badge variant="brand">{comp?.label ?? ev.competenceId}</Badge>
-                        {ev.newLevel && <Badge variant="success">Dreyfus {ev.newLevel}</Badge>}
-                        <span className="text-caption text-ink-500">{cfg.label}</span>
-                      </div>
-                    </Card>
+                    <p className="text-body text-ink-700 max-w-prose">{ev.detail}</p>
+                    <div className="mt-stack-xs flex flex-wrap items-center gap-stack-xs">
+                      <MetaPill text={comp?.label ?? ev.competenceId} tone="primary" />
+                      {ev.newLevel && <MetaPill text={`Dreyfus ${ev.newLevel}`} tone="success" />}
+                      <span className="text-caption text-ink-600">{cfg.label}</span>
+                    </div>
                   </div>
-                );
-              })}
-            </div>
-          </div>
-        </SectionCard>
+                </li>
+              );
+            })}
+          </ol>
+        </Card>
+      </section>
     </PageShell>
   );
 };

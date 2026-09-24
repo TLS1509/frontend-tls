@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Map, Sparkles, CheckCircle2, Circle, Clock, Target, ChevronRight } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
-import { SectionCard } from '../components/patterns/SectionCard';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
+import { MetaPill } from '../components/ui/MetaPill';
 import { StatCard } from '../components/ui/StatCard';
 import { AITransparencyLabel } from '../components/ui/AITransparencyLabel';
 import { AIOverrideButton } from '../components/ui/AIOverrideButton';
@@ -233,76 +234,82 @@ export default function PasseportRoadmap() {
           />
         </div>
 
-        {/* Timeline roadmap */}
-        <SectionCard
-          title="Parcours vers D4"
-          titleIcon={<Map size={18} />}
-        >
-          <div className="relative flex flex-col">
-            {JALONS.map((jalon, index) => {
-              const cfg = JALON_STATUS_CONFIG[jalon.status];
-              const isLast = index === JALONS.length - 1;
+        {/* Parcours vers D4 — titre de section (h2 28) sur la page ; la frise
+            dans une carte. Chaque étape : son nom en corps 16/600 (il était en
+            League Spartan 16/600, ni titre ni corps), son état en Badge, sa
+            description en ink-700 (ink-500 est la couleur des placeholders).
+            Le Badge de niveau (« D3 ») répétait le titre de l'étape : retiré. */}
+        <section className="flex flex-col gap-stack">
+          <SectionHeader title="Parcours vers D4" />
+          <Card>
+            <ol className="relative flex flex-col">
+              {JALONS.map((jalon, index) => {
+                const cfg = JALON_STATUS_CONFIG[jalon.status];
+                const isLast = index === JALONS.length - 1;
 
-              return (
-                <div key={jalon.id} className="relative flex gap-stack">
-                  {/* Vertical line + dot */}
-                  <div className="flex flex-col items-center shrink-0 w-7">
-                    <div
-                      className={[
-                        'w-5 h-5 rounded-pill border-2 shrink-0 z-base',
-                        cfg.dotClass,
-                      ].join(' ')}
-                    />
-                    {!isLast && (
-                      <div className={['flex-1 w-0.5 border-l-2 mt-1', cfg.lineClass].join(' ')} />
-                    )}
-                  </div>
-
-                  {/* Content */}
-                  <div className={['flex flex-col gap-tight pb-stack', isLast ? '' : ''].join(' ')}>
-                    <div className="flex items-center gap-stack-xs flex-wrap">
-                      <span className="font-display font-semibold text-body text-ink-900">
-                        {jalon.title}
-                      </span>
-                      <Badge variant={cfg.badgeVariant} size="compact">
-                        {JALON_BADGE_LABEL[jalon.status]}
-                      </Badge>
-                      <Badge variant="neutral" size="compact">
-                        {jalon.dreyfusLevel}
-                      </Badge>
+                return (
+                  <li key={jalon.id} className="relative flex gap-stack">
+                    {/* Pastille (20) centrée sur la première ligne (26) : 3 px. */}
+                    <div className="flex flex-col items-center shrink-0 w-7">
+                      <div
+                        className={[
+                          'w-5 h-5 mt-[3px] rounded-pill border-2 shrink-0 z-base',
+                          cfg.dotClass,
+                        ].join(' ')}
+                      />
+                      {!isLast && (
+                        <div className={['flex-1 w-0.5 border-l-2 mt-1', cfg.lineClass].join(' ')} />
+                      )}
                     </div>
-                    <p className="m-0 text-body text-ink-500">{jalon.description}</p>
-                    <div className="flex items-center gap-stack-xs text-caption text-ink-600">
-                      <Clock size={14} aria-hidden />
-                      <span>Cible : {jalon.targetDate}</span>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </SectionCard>
 
-        {/* IA suggestions */}
-        <SectionCard
-          title="Suggestions IA"
-          titleIcon={<Sparkles size={18} />}
-          headerAction={<AITransparencyLabel variant="recommended" size="sm" />}
-        >
-          <div className="flex flex-col gap-stack">
+                    <div className={['flex flex-col gap-stack-3xs min-w-0', isLast ? '' : 'pb-stack-lg'].join(' ')}>
+                      <div className="flex items-center gap-stack-xs flex-wrap">
+                        <span className="text-body font-semibold text-ink-900">
+                          {jalon.title}
+                        </span>
+                        <Badge variant={cfg.badgeVariant} size="compact">
+                          {JALON_BADGE_LABEL[jalon.status]}
+                        </Badge>
+                      </div>
+                      <p className="text-body text-ink-700 max-w-prose">{jalon.description}</p>
+                      <div className="flex items-center gap-stack-3xs text-caption text-ink-600 tabular-nums">
+                        <Clock size={14} aria-hidden />
+                        <span>Cible : {jalon.targetDate}</span>
+                      </div>
+                    </div>
+                  </li>
+                );
+              })}
+            </ol>
+          </Card>
+        </section>
+
+        {/* Suggestions IA — l'étincelle et l'étiquette « Recommandé par l'IA »
+            restent (DESIGN.md § 10) ; les suggestions sont des objets qu'on
+            accepte ou rejette une à une : des cartes, sans carte autour. La
+            compétence est une donnée (MetaPill), le conseil un texte à lire
+            (ink-700, largeur de lecture). */}
+        <section className="flex flex-col gap-stack">
+          <SectionHeader
+            title="Suggestions IA"
+            icon={Sparkles}
+            variant="minimal"
+            action={<AITransparencyLabel variant="recommended" size="sm" />}
+          />
+          <div className="flex flex-col gap-stack-sm">
             {suggestions.length === 0 && (
-              <p className="m-0 text-body text-ink-500">
+              <p className="text-body text-ink-700">
                 Tu as ignoré toutes les suggestions de cette page.
               </p>
             )}
             {suggestions.map((s) => (
-              <Card key={s.id} variant="tinted" tone="primary" className="p-stack-md flex flex-col gap-tight">
+              <Card key={s.id} variant="tinted" tone="primary" className="flex flex-col gap-stack-xs">
                 <div className="flex items-start justify-between gap-stack-xs flex-wrap">
-                  <p className="m-0 font-semibold text-body text-ink-900 flex-1">{s.conseil}</p>
-                  <Badge variant="brand" size="compact">{s.competence}</Badge>
+                  <p className="text-body font-semibold text-ink-900 flex-1 min-w-0">{s.conseil}</p>
+                  <MetaPill text={s.competence} tone="primary" className="shrink-0" />
                 </div>
-                <p className="m-0 text-body text-ink-500">{s.detail}</p>
-                <div className="flex justify-end gap-stack-xs flex-wrap">
+                <p className="text-body text-ink-700 max-w-prose">{s.detail}</p>
+                <div className="mt-stack-sm flex justify-end gap-stack-xs flex-wrap">
                   <AIOverrideButton label="Ignorer" onOverride={(reason) => ignorer(s, reason)} size="sm" />
                   <Button emphasis="outline" size="sm" trailingIcon={<ChevronRight size={14} />}>
                     Explorer
@@ -311,7 +318,7 @@ export default function PasseportRoadmap() {
               </Card>
             ))}
           </div>
-        </SectionCard>
+        </section>
     </PageShell>
   );
 }

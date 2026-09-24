@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Target, TrendingUp, Award, ChevronRight, Plus, Sparkles } from 'lucide-react';
+import { Target, Award, ChevronRight, Plus, Sparkles } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionHeader } from '../components/patterns/SectionHeader';
-import { SectionCard } from '../components/patterns/SectionCard';
 import { Card } from '../components/core/Card';
 import { CARD_HOVER, CARD_HOVER_NEUTRE } from '../lib/tone-classes';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
+import { MetaPill } from '../components/ui/MetaPill';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { SkillBar } from '../components/ui/SkillBar';
 import { GoalProgress } from '../components/ui/GoalProgress';
 import { EmptyState } from '../components/ui/EmptyState';
 import { Tabs } from '../components/ui/Tabs';
-import { RadarChart, AreaChart, ChartContainer, TimelineChart, GaugeChart, ChartWithExport } from '../components/charts';
+import { RadarChart, AreaChart, TimelineChart, GaugeChart, ChartWithExport } from '../components/charts';
 import { AtrophieIndicator } from '../components/ui/AtrophieIndicator';
 import { usePasseportStore } from '../stores/persistence';
 import { getCompetenceById, domainLabel, competencyLevel } from '../data/competencies';
@@ -131,12 +131,16 @@ export default function Passeport() {
   const activeObjectives = objectives.filter((o) => o.status === 'active');
 
   return (
-    <PageShell width="wide" noPadTop={true}>
+    /* En-tête `flat` : encadré (`default`), son h1 partait 33 px à droite du
+       bord où se posent les titres de section — deux axes sur une page qui n'en
+       veut qu'un. Sans cadre, le h1, les onglets et les sections partagent le
+       même bord gauche, et `PageShell` rend les 48 px du haut. */
+    <PageShell width="wide">
       <EditorialHero
         eyebrow="SBO · Match"
         title="Mon Passeport Compétences"
         summary="Visualise ta progression Dreyfus, définis tes objectifs et suis l'évolution de tes compétences H.S.O."
-        tone="default"
+        tone="flat"
         trailing={
           <Button emphasis="soft" size="md" leadingIcon={<Plus size={16} />} onClick={() => setActiveTab('objectifs')}>
             Définir un objectif
@@ -152,66 +156,80 @@ export default function Passeport() {
           variant="underline"
         />
 
-        {/* Overview tab */}
+        {/* Overview tab — chaque bloc est une SECTION de la page : son titre
+            (h2 28) est posé sur la page, la carte ne porte que l'objet (le
+            graphique, la liste). Avant, six cartes à titre de 20 px se
+            suivaient au même poids, et la page sautait du h1 au h3. */}
         {activeTab === 'overview' && (
-          <div className="flex flex-col gap-section">
+          <div className="flex flex-col gap-page">
 
-            {/* Radar + stats */}
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-section items-start">
-              <SectionCard
+            {/* Radar + chiffres */}
+            <section className="flex flex-col gap-stack">
+              <SectionHeader
                 title="Radar de compétences"
-                description="Niveau actuel (bleu) vs objectif cible (orange). Clic sur un axe pour le détail."
-              >
-                <RadarChart
-                  data={RADAR_AXES}
-                  size="md"
-                  onAxisClick={(axis) => setSelectedAxis(axis.label)}
-                  showLegend
-                />
-                {selectedAxis && (
-                  <div className="flex items-start gap-stack-xs p-stack rounded-lg bg-primary-50 border border-primary-200">
-                    <div className="w-1.5 h-1.5 rounded-pill bg-primary-500 mt-1.5 shrink-0" />
-                    <p className="text-body text-primary-900">
-                      <strong>{selectedAxis}</strong> · Vois l'onglet "Compétences" ci-dessous pour explorer cette compétence.
-                    </p>
-                  </div>
-                )}
-              </SectionCard>
+                subtitle="Niveau actuel (bleu) vs objectif cible (orange). Clic sur un axe pour le détail."
+              />
+              <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-stack items-start">
+                <Card className="flex flex-col gap-stack">
+                  <RadarChart
+                    data={RADAR_AXES}
+                    size="md"
+                    onAxisClick={(axis) => setSelectedAxis(axis.label)}
+                    showLegend
+                  />
+                  {selectedAxis && (
+                    <div className="flex items-start gap-stack-xs p-stack rounded-lg bg-primary-50 border border-primary-200">
+                      <div className="w-1.5 h-1.5 rounded-pill bg-primary-500 mt-2.5 shrink-0" />
+                      <p className="text-body text-primary-900 max-w-prose">
+                        <strong>{selectedAxis}</strong> · Vois l'onglet "Compétences" ci-dessous pour explorer cette compétence.
+                      </p>
+                    </div>
+                  )}
+                </Card>
 
-              <div className="flex flex-col gap-stack w-full lg:w-72">
-                <Card className="p-stack-md flex flex-col gap-stack-xs">
-                  <p className="text-caption text-ink-500 font-medium uppercase tracking-wide">Progression globale</p>
-                  <div className="flex items-end gap-stack-xs">
-                    <span className="text-h2 font-display font-bold text-ink-900">{avgLevel.toFixed(1)}</span>
-                    <span className="text-body text-ink-600 pb-1">/ 5 Dreyfus</span>
-                  </div>
-                  <ProgressBar value={(avgLevel / 5) * 100} fill="brand" size="md" showLabel />
-                  <p className="text-caption text-ink-600">Moyenne pondérée · {COMPETENCES.length} compétences</p>
-                </Card>
-                {/* Padding canon (24) : le bouton pleine largeur du bas tombe à 25 du
-                    coin, au-delà du rayon 20 — forme fixe (règle des coins imbriqués). */}
-                <Card className="flex flex-col gap-stack-xs">
-                  <p className="text-caption text-ink-500 font-medium uppercase tracking-wide">Objectifs actifs</p>
-                  <div className="flex items-end gap-stack-xs">
-                    <span className="text-h2 font-display font-bold text-ink-900">{activeObjectives.length}</span>
-                    <span className="text-body text-ink-600 pb-1">objectifs</span>
-                  </div>
-                  <Button
-                    emphasis="outline" size="sm" trailingIcon={<ChevronRight size={14} />}
-                    onClick={() => setActiveTab('objectifs')}>
-                    Voir les objectifs
-                  </Button>
-                </Card>
+                {/* Deux chiffres. Le libellé nomme le chiffre (légende 13/600,
+                    casse normale) ; la valeur et son unité partagent la ligne de
+                    base. Un seul padding (24) pour les deux cartes : à 20 et 24,
+                    leurs textes ne partaient pas du même bord. */}
+                <div className="flex flex-col gap-stack w-full lg:w-72">
+                  <Card className="flex flex-col gap-stack-xs">
+                    <p className="text-caption font-semibold text-ink-600">Progression globale</p>
+                    <div className="flex items-baseline gap-stack-xs">
+                      <span className="text-h2 font-display text-ink-900 tabular-nums">
+                        {avgLevel.toLocaleString('fr-FR', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}
+                      </span>
+                      <span className="text-body text-ink-600">/ 5 Dreyfus</span>
+                    </div>
+                    <ProgressBar value={(avgLevel / 5) * 100} fill="brand" size="md" showLabel />
+                    <p className="text-caption text-ink-600">Moyenne pondérée · {COMPETENCES.length} compétences</p>
+                  </Card>
+                  {/* Padding canon (24) : le bouton pleine largeur du bas tombe à 25 du
+                      coin, au-delà du rayon 20 — forme fixe (règle des coins imbriqués). */}
+                  <Card className="flex flex-col gap-stack-xs">
+                    <p className="text-caption font-semibold text-ink-600">Objectifs actifs</p>
+                    <div className="flex items-baseline gap-stack-xs">
+                      <span className="text-h2 font-display text-ink-900 tabular-nums">{activeObjectives.length}</span>
+                      <span className="text-body text-ink-600">objectifs</span>
+                    </div>
+                    <Button
+                      emphasis="outline" size="sm" trailingIcon={<ChevronRight size={14} />}
+                      className="mt-stack-xs"
+                      onClick={() => setActiveTab('objectifs')}>
+                      Voir les objectifs
+                    </Button>
+                  </Card>
+                </div>
               </div>
-            </div>
+            </section>
 
-            {/* Learning time allocation */}
-            <SectionCard
-              title="Temps d'apprentissage"
-              description="Répartition heures/semaine entre leçons et sessions de coaching."
-              tone="primary"
-            >
-              <ChartContainer>
+            {/* Temps d'apprentissage — le graphique se pose directement dans la
+                carte : `ChartContainer` y ajoutait un second cadre. */}
+            <section className="flex flex-col gap-stack">
+              <SectionHeader
+                title="Temps d'apprentissage"
+                subtitle="Répartition heures/semaine entre leçons et sessions de coaching."
+              />
+              <Card>
                 <AreaChart
                   data={LEARNING_TIME_DATA}
                   series={[
@@ -221,92 +239,105 @@ export default function Passeport() {
                   stacked
                   size="md"
                 />
-              </ChartContainer>
-            </SectionCard>
+              </Card>
+            </section>
 
-            {/* Timeline + Gauge charts */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-section">
-              <SectionCard
-                title="Parcours d'apprentissage"
-                description="Chronologie des étapes clés et réalisations"
-                tone="brand"
-              >
-                <ChartWithExport
-                  chartId="passeport-timeline"
-                  filename="passeport-timeline"
-                  exportVariant="compact"
-                >
-                  {/* TimelineChart expose data / layout (pas events / orientation),
-                      et n'a pas de prop size. */}
-                  <TimelineChart
-                    data={TIMELINE_EVENTS}
-                    layout="vertical"
-                  />
-                </ChartWithExport>
-              </SectionCard>
+            {/* Chronologie + jauge : deux sections côte à côte. La jauge garde
+                sa hauteur : étirée sur celle de la chronologie, sa carte était
+                une boîte vide de 500 px. */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-page lg:gap-section">
+              <section className="flex flex-col gap-stack min-w-0">
+                <SectionHeader
+                  title="Parcours d'apprentissage"
+                  subtitle="Chronologie des étapes clés et réalisations"
+                />
+                <Card>
+                  <ChartWithExport
+                    chartId="passeport-timeline"
+                    filename="passeport-timeline"
+                    exportVariant="compact"
+                  >
+                    {/* TimelineChart expose data / layout (pas events / orientation),
+                        et n'a pas de prop size. */}
+                    <TimelineChart
+                      data={TIMELINE_EVENTS}
+                      layout="vertical"
+                    />
+                  </ChartWithExport>
+                </Card>
+              </section>
 
-              <SectionCard
-                title="Progression globale"
-                description="Gauge de progression vers tes objectifs"
-                tone="warm"
-              >
-                <ChartWithExport
-                  chartId="passeport-gauge"
-                  filename="passeport-gauge"
-                  exportVariant="compact"
-                >
-                  {/* GaugeChart expose `current`, pas `value`. */}
-                  <GaugeChart
-                    current={avgLevel}
-                    max={5}
-                    variant="arc"
-                    size="md"
-                    tone="warm"
-                    target={4.5}
-                  />
-                </ChartWithExport>
-              </SectionCard>
+              <section className="flex flex-col gap-stack min-w-0">
+                <SectionHeader
+                  title="Progression globale"
+                  subtitle="Gauge de progression vers tes objectifs"
+                />
+                <Card>
+                  <ChartWithExport
+                    chartId="passeport-gauge"
+                    filename="passeport-gauge"
+                    exportVariant="compact"
+                  >
+                    {/* GaugeChart expose `current`, pas `value`. */}
+                    <GaugeChart
+                      current={avgLevel}
+                      max={5}
+                      variant="arc"
+                      size="md"
+                      tone="warm"
+                      target={4.5}
+                    />
+                  </ChartWithExport>
+                </Card>
+              </section>
             </div>
 
-            {/* Quick skill bars */}
-            <SectionCard
-              title="Résumé par compétence"
-              titleIcon={<TrendingUp size={20} />}
-              tone="primary"
-              actions={
-                <Button emphasis="outline" size="sm" onClick={() => setActiveTab('competences')}>
-                  Tout voir
-                </Button>
-              }
-            >
-              <div className="flex flex-col gap-stack-xs">
-                {COMPETENCES.map((c) => (
-                  <div key={c.id} className="flex items-center gap-stack-xs">
-                    <div className="flex-1 min-w-0">
-                      <SkillBar
-                        label={c.label}
-                        value={(c.level / 5) * 100}
-                        tone={DOMAIN_COLORS[c.domain]}
-                        showValue
-                      />
+            {/* Résumé par compétence — « Tout voir » rejoint le titre qu'il
+                prolonge, au lieu d'un pied de carte. */}
+            <section className="flex flex-col gap-stack">
+              <SectionHeader
+                title="Résumé par compétence"
+                action={
+                  <Button emphasis="outline" size="sm" onClick={() => setActiveTab('competences')}>
+                    Tout voir
+                  </Button>
+                }
+              />
+              <Card>
+                <div className="flex flex-col gap-stack-sm">
+                  {COMPETENCES.map((c) => (
+                    <div key={c.id} className="flex items-center gap-stack-xs">
+                      <div className="flex-1 min-w-0">
+                        <SkillBar
+                          label={c.label}
+                          value={(c.level / 5) * 100}
+                          tone={DOMAIN_COLORS[c.domain]}
+                          showValue
+                        />
+                      </div>
+                      <div aria-label={c.daysSinceActivity > 0 ? `Compétence inactive depuis ${c.daysSinceActivity} jours` : 'Compétence active'}>
+                        <AtrophieIndicator daysSinceActivity={c.daysSinceActivity} currentLevel={c.level} size="sm" showLabel={false} />
+                      </div>
                     </div>
-                    <div aria-label={c.daysSinceActivity > 0 ? `Compétence inactive depuis ${c.daysSinceActivity} jours` : 'Compétence active'}>
-                      <AtrophieIndicator daysSinceActivity={c.daysSinceActivity} currentLevel={c.level} size="sm" showLabel={false} />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </SectionCard>
+                  ))}
+                </div>
+              </Card>
+            </section>
 
-            {/* Suggested skills to develop */}
-            <SectionCard
-              title="Propositions d'alternatives"
-              description="Compétences recommandées pour maximiser ta progression (IA-générées)."
-              titleIcon={<Sparkles size={20} />}
-              tone="sun"
-            >
+            {/* Suggested skills to develop — l'étincelle reste : c'est le
+                marqueur fonctionnel d'une sortie d'IA (DESIGN.md § 10). */}
+            <section className="flex flex-col gap-stack">
+              <SectionHeader
+                title="Propositions d'alternatives"
+                subtitle="Compétences recommandées pour maximiser ta progression (IA-générées)."
+                icon={Sparkles}
+                variant="minimal"
+                tone="sun"
+              />
+              {/* Des objets qu'on choisit : une grille de cartes, sans carte
+                  autour (une carte de cartes ne dit rien de plus). */}
               <div className="flex flex-col gap-stack">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-stack-lg">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-stack">
                   {SUGGESTED_SKILLS.map((skill, idx) => (
                     <button
                       key={skill.id}
@@ -325,14 +356,15 @@ export default function Passeport() {
                     >
                       <Card className={`p-stack-md flex flex-col gap-stack-xs h-full transition-all bg-gradient-to-br from-accent-50 to-yellow-50 border border-accent-200 ${CARD_HOVER['sun']} group-focus-visible:outline-2 group-focus-visible:outline-offset-2 group-focus-visible:outline-accent-400`}>
                         <div className="flex items-start justify-between gap-stack-xs">
-                          <div className="flex flex-col gap-tight flex-1 min-w-0">
+                          <div className="flex flex-col gap-stack-3xs flex-1 min-w-0">
                             <span className="text-body font-semibold text-ink-900">{skill.label}</span>
                             <p className="text-caption text-ink-600">{skill.reason}</p>
                           </div>
                         </div>
-                        <Badge variant="sun" size="compact">{skill.synergy}</Badge>
-                        <p className="text-caption text-ink-500">~{skill.estimatedWeeks} semaines d'apprentissage</p>
-                        <div className="text-caption text-accent-700 group-hover:text-accent-800 transition-colors font-medium">
+                        {/* Une donnée, pas un état : MetaPill (arbitrages n°14-15). */}
+                        <MetaPill text={skill.synergy} tone="sun" className="self-start" />
+                        <p className="text-caption text-ink-600">~{skill.estimatedWeeks} semaines d'apprentissage</p>
+                        <div className="text-caption font-semibold text-accent-800 transition-colors">
                           Créer objectif →
                         </div>
                       </Card>
@@ -352,7 +384,7 @@ export default function Passeport() {
                   }
                 `}</style>
               </div>
-            </SectionCard>
+            </section>
           </div>
         )}
 
@@ -365,6 +397,10 @@ export default function Passeport() {
               icon={<Award size={20} />}
               tone="primary"
             />
+            {/* Anatomie de carte : nom (h3 20) → 4 → domaine (une donnée,
+                MetaPill) → 12 → niveau → 8 → progression → 12 → lien. Le nom
+                était à 16/600, sous le niveau à 20 : l'œil lisait « D3 » avant
+                de savoir de quelle compétence il s'agissait. */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
               {COMPETENCES.map((c) => (
                 <button
@@ -373,35 +409,34 @@ export default function Passeport() {
                   className="group text-left"
                   aria-label={`Voir le détail de ${c.label}`}
                 >
-                  <Card className={`p-stack-md flex flex-col gap-stack-xs h-full transition-all ${CARD_HOVER_NEUTRE} group-focus-visible:outline-2 group-focus-visible:outline-offset-2 group-focus-visible:outline-primary-500`}>
+                  <Card className={`flex flex-col gap-0 h-full transition-all ${CARD_HOVER_NEUTRE} group-focus-visible:outline-2 group-focus-visible:outline-offset-2 group-focus-visible:outline-primary-500`}>
                     <div className="flex items-start justify-between gap-stack-xs">
-                      <div className="flex flex-col gap-tight flex-1 min-w-0">
-                        <span className="text-body font-semibold text-ink-900">{c.label}</span>
-                        <Badge variant={DOMAIN_COLORS[c.domain]} size="compact">
-                          {domainLabel(c.domain)}
-                        </Badge>
+                      <div className="flex flex-col items-start gap-stack-3xs flex-1 min-w-0">
+                        <h3 className="font-display text-h3 text-ink-900">{c.label}</h3>
+                        <MetaPill text={domainLabel(c.domain)} tone={DOMAIN_COLORS[c.domain]} />
                       </div>
                       <div aria-label={c.daysSinceActivity > 0 ? `Compétence inactive depuis ${c.daysSinceActivity} jours` : 'Compétence active'} className="shrink-0">
                         <AtrophieIndicator daysSinceActivity={c.daysSinceActivity} currentLevel={c.level} size="sm" />
                       </div>
                     </div>
-                    <div className="flex items-center gap-stack-xs flex-wrap">
-                      <span className="text-h3 font-display font-bold text-ink-900">D{c.level}</span>
+                    <div className="mt-stack-sm flex items-baseline gap-stack-xs flex-wrap">
+                      <span className="text-body font-bold text-ink-900 tabular-nums">D{c.level}</span>
                       {c.target > c.level && (
-                        <span className="text-caption text-ink-500">→ D{c.target}</span>
+                        <span className="text-caption text-ink-600 tabular-nums">objectif D{c.target}</span>
                       )}
                       {c.target === c.level && (
-                        <Badge variant="success" size="compact">Atteint</Badge>
+                        <Badge variant="success" size="compact" className="self-center">Atteint</Badge>
                       )}
                     </div>
                     <ProgressBar
+                      className="mt-stack-xs"
                       value={(c.points / c.nextPoints) * 100}
                       fill={DOMAIN_COLORS[c.domain]}
                       size="sm"
                       label={`${c.points} / ${c.nextPoints} pts`}
                       showLabel
                     />
-                    <div className="text-caption text-ink-600 group-hover:text-primary-700 transition-colors">
+                    <div className="mt-stack-sm text-caption font-semibold text-primary-800">
                       Voir le détail →
                     </div>
                   </Card>
@@ -446,8 +481,8 @@ export default function Passeport() {
 
                 {/* Suggested objective targets */}
                 {activeObjectives.length < 3 && (
-                  <div className="mt-stack pt-stack border-t border-ink-200">
-                    <p className="text-caption text-ink-500 mb-stack-xs font-medium">Objectifs suggérés :</p>
+                  <div className="mt-stack pt-stack border-t border-ink-200 flex flex-col gap-stack-xs">
+                    <p className="text-caption font-semibold text-ink-600">Objectifs suggérés</p>
                     <div className="flex flex-wrap gap-stack-xs">
                       {COMPETENCES.filter(c => c.target > c.level).slice(0, 3).map((c) => (
                         <button
