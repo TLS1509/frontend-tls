@@ -43,7 +43,7 @@ const ASTUCES: Astuce[] = [
     number: 1,
     title: 'Raccourcis clavier',
     description:
-      "Gagnez du temps avec les raccourcis essentiels pour naviguer rapidement dans l'application et optimiser votre workflow quotidien.",
+      "Gagne du temps avec les raccourcis essentiels pour naviguer rapidement dans l'application et optimiser ton workflow quotidien.",
     image:
       'https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=1080&q=80',
     badge: 'Productivité',
@@ -58,14 +58,14 @@ const ASTUCES: Astuce[] = [
     number: 2,
     title: 'Organisation des fichiers',
     description:
-      'Structurez vos projets avec une nomenclature claire et cohérente pour retrouver vos documents facilement et collaborer efficacement.',
+      'Structure tes projets avec une nomenclature claire et cohérente pour retrouver tes documents facilement et collaborer efficacement.',
     image:
       'https://images.unsplash.com/photo-1568667256549-094345857637?auto=format&fit=crop&w=1080&q=80',
     badge: 'Organisation',
     examples: [
-      'Utilisez des dossiers par projet ou client',
-      'Nommez vos fichiers avec dates (YYYY-MM-DD)',
-      'Créez une structure logique et cohérente',
+      'Utilise des dossiers par projet ou client',
+      'Nomme tes fichiers avec dates (YYYY-MM-DD)',
+      'Crée une structure logique et cohérente',
     ],
   },
   {
@@ -73,14 +73,14 @@ const ASTUCES: Astuce[] = [
     number: 3,
     title: 'Automatisation des tâches',
     description:
-      "Créez des templates réutilisables et des workflows automatisés pour gagner en efficacité et réduire les tâches répétitives.",
+      "Crée des templates réutilisables et des workflows automatisés pour gagner en efficacité et réduire les tâches répétitives.",
     image:
       'https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1080&q=80',
     badge: 'Automatisation',
     examples: [
-      'Créez des templates pour vos documents récurrents',
-      "Utilisez des outils d'automatisation (Zapier, Make)",
-      'Planifiez vos tâches répétitives',
+      'Crée des templates pour tes documents récurrents',
+      "Utilise des outils d'automatisation (Zapier, Make)",
+      'Planifie tes tâches répétitives',
     ],
   },
   {
@@ -88,14 +88,14 @@ const ASTUCES: Astuce[] = [
     number: 4,
     title: 'Collaboration en équipe',
     description:
-      'Utilisez les outils de partage et commentaires pour travailler efficacement avec votre équipe et maintenir une communication fluide.',
+      'Utilise les outils de partage et commentaires pour travailler efficacement avec ton équipe et maintenir une communication fluide.',
     image:
       'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1080&q=80',
     badge: 'Collaboration',
     examples: [
-      'Utilisez les commentaires pour donner du feedback',
-      'Partagez vos documents avec des permissions adaptées',
-      'Organisez des points réguliers avec votre équipe',
+      'Utilise les commentaires pour donner du feedback',
+      'Partage tes documents avec des permissions adaptées',
+      'Organise des points réguliers avec ton équipe',
     ],
   },
 ];

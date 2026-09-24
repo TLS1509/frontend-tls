@@ -44,7 +44,7 @@ const RESOURCES: ComplementaryResource[] = [
   {
     id: 2,
     title: "Théorie de l'autodétermination (Deci & Ryan)",
-    description: 'Regardez cette conférence sur les fondements de la motivation intrinsèque en milieu professionnel.',
+    description: 'Regarde cette conférence sur les fondements de la motivation intrinsèque en milieu professionnel.',
     type: 'video',
     duration: '24 min',
     url: '#',
@@ -61,7 +61,7 @@ const RESOURCES: ComplementaryResource[] = [
   {
     id: 4,
     title: 'Outil : diagnostic SCARF interactif',
-    description: "Outil d'auto-diagnostic pour évaluer les dimensions SCARF dans votre environnement de travail.",
+    description: "Outil d'auto-diagnostic pour évaluer les dimensions SCARF dans ton environnement de travail.",
     type: 'tool',
     duration: '5-10 min',
     url: '#',

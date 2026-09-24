@@ -60,7 +60,7 @@ const FLASHCARDS: Flashcard[] = [
     back: {
       content:
         'Ctrl+Shift+P : Ouvrir la palette de commandes • Ctrl+K : Recherche rapide • Alt+Tab : Naviguer entre fenêtres',
-      details: 'Maîtriser ces raccourcis vous fera gagner des heures chaque semaine.',
+      details: 'Maîtriser ces raccourcis te fera gagner des heures chaque semaine.',
     },
   },
   {
@@ -87,8 +87,8 @@ const FLASHCARDS: Flashcard[] = [
       image: 'https://images.unsplash.com/photo-1568667256549-094345857637?auto=format&fit=crop&w=1080&q=80',
     },
     back: {
-      content: 'Utilisez une nomenclature cohérente : YYYY-MM-DD_Projet_Version',
-      details: "Une bonne organisation vous fait gagner 30% de temps sur la recherche de documents.",
+      content: 'Utilise une nomenclature cohérente : YYYY-MM-DD_Projet_Version',
+      details: "Une bonne organisation te fait gagner 30% de temps sur la recherche de documents.",
     },
   },
   {
@@ -100,7 +100,7 @@ const FLASHCARDS: Flashcard[] = [
       image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1080&q=80',
     },
     back: {
-      content: "Donnez 2-3 exemples à l'IA avant votre vraie question pour de meilleurs résultats.",
+      content: "Donne 2-3 exemples à l'IA avant ta vraie question pour de meilleurs résultats.",
       details: 'Cette technique améliore la précision des réponses de 40% en moyenne.',
     },
   },
@@ -113,7 +113,7 @@ const FLASHCARDS: Flashcard[] = [
       image: 'https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1080&q=80',
     },
     back: {
-      content: 'Testez → Analysez → Affinez → Répétez',
+      content: 'Teste → Analyse → Affine → Répète',
       details:
         "L'itération est la clé pour obtenir des prompts parfaits. Chaque version améliore le résultat.",
     },

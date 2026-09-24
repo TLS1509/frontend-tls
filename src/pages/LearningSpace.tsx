@@ -188,7 +188,7 @@ export const LearningSpace: React.FC = () => {
           16 au cran 500 (celui des placeholders), collé au titre à 2 px. */}
       <PageHero
         tone="flat"
-        title="Explorez nos ressources"
+        title="Explore nos ressources"
         summary="Ressources adaptées à ton niveau et à tes parcours actuels."
       />
 

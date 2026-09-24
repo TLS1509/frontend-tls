@@ -658,7 +658,7 @@ const LESSON_DATA: Record<string, LessonData> = {
     duration: '50 min',
     intro: {
       heading: 'Bienvenue dans cette leçon',
-      description: 'Cette leçon explore les mécanismes de la motivation intrinsèque et extrinsèque, et vous donne les outils pour créer les conditions d\'un engagement durable dans votre équipe.',
+      description: 'Cette leçon explore les mécanismes de la motivation intrinsèque et extrinsèque, et te donne les outils pour créer les conditions d\'un engagement durable dans ton équipe.',
       objectives: [
         'Comprendre les mécanismes psychologiques de la motivation intrinsèque et extrinsèque',
         'Identifier les leviers d\'engagement adaptés à chaque profil de collaborateur',
@@ -717,16 +717,16 @@ const LESSON_DATA: Record<string, LessonData> = {
       ],
     },
     reflechir: {
-      heading: 'Analysez votre équipe',
+      heading: 'Analyse ton équipe',
       questions: [
-        'Quels sont les 3 principaux facteurs de motivation dans votre équipe actuellement ?',
-        'Y a-t-il des collaborateurs dont vous ne connaissez pas bien les motivations profondes ? Comment pourriez-vous le découvrir ?',
-        'Comment créer plus d\'opportunités de progrès visible pour votre équipe cette semaine ?',
+        'Quels sont les 3 principaux facteurs de motivation dans ton équipe actuellement ?',
+        'Y a-t-il des collaborateurs dont tu ne connais pas bien les motivations profondes ? Comment pourrais-tu le découvrir ?',
+        'Comment créer plus d\'opportunités de progrès visible pour ton équipe cette semaine ?',
       ],
     },
     appliquer: {
-      heading: 'Créez votre plan d\'action',
-      instruction: 'Définissez un objectif précis lié à la motivation de votre équipe et identifiez 3 actions concrètes que vous pouvez mettre en place dès cette semaine.',
+      heading: 'Crée ton plan d\'action',
+      instruction: 'Définis un objectif précis lié à la motivation de ton équipe et identifie 3 actions concrètes que tu peux mettre en place dès cette semaine.',
     },
     conclusion: {
       heading: 'Récapitulatif et prochaines étapes',
@@ -737,30 +737,30 @@ const LESSON_DATA: Record<string, LessonData> = {
         'Chaque collaborateur a un profil motivationnel unique : il faut s\'adapter',
       ],
       nextSteps: [
-        'Planifiez un 1:1 avec chaque membre de votre équipe pour découvrir ses motivations',
-        'Identifiez une tâche actuelle que vous pouvez rendre plus autonome',
-        'Passez à la section Transfert pour ancrer ces apprentissages dans votre contexte réel',
-        'Créez un rituel hebdomadaire de reconnaissance des contributions',
+        'Planifie un 1:1 avec chaque membre de ton équipe pour découvrir ses motivations',
+        'Identifie une tâche actuelle que tu peux rendre plus autonome',
+        'Passe à la section Transfert pour ancrer ces apprentissages dans ton contexte réel',
+        'Crée un rituel hebdomadaire de reconnaissance des contributions',
       ],
     },
     transfert: {
-      heading: 'Transférer dans votre contexte',
-      intro: 'Le transfert est la phase la plus importante : comment allez-vous appliquer ces apprentissages dans votre situation professionnelle réelle, dès cette semaine ?',
+      heading: 'Transférer dans ton contexte',
+      intro: 'Le transfert est la phase la plus importante : comment vas-tu appliquer ces apprentissages dans ta situation professionnelle réelle, dès cette semaine ?',
       scenarios: [
         {
-          title: 'Avec votre équipe',
-          context: 'Choisissez un collaborateur dont vous ne connaissez pas bien les motivations profondes. Planifiez un entretien informel de 15 min cette semaine pour découvrir ce qui le motive vraiment.',
+          title: 'Avec ton équipe',
+          context: 'Choisis un collaborateur dont tu ne connais pas bien les motivations profondes. Planifie un entretien informel de 15 min cette semaine pour découvrir ce qui le motive vraiment.',
         },
         {
-          title: 'Dans votre management quotidien',
-          context: 'Identifiez une tâche que vous attribuez de façon directive. Reformulez la consigne pour laisser le collaborateur choisir comment l\'accomplir (autonomie sur les moyens).',
+          title: 'Dans ton management quotidien',
+          context: 'Identifie une tâche que tu attribues de façon directive. Reformule la consigne pour laisser le collaborateur choisir comment l\'accomplir (autonomie sur les moyens).',
         },
         {
           title: 'Sur le long terme',
-          context: 'Mettez en place un rituel mensuel de reconnaissance explicite : non monétaire. Partagez un impact concret que chaque personne a eu sur les résultats de l\'équipe.',
+          context: 'Mets en place un rituel mensuel de reconnaissance explicite : non monétaire. Partage un impact concret que chaque personne a eu sur les résultats de l\'équipe.',
         },
       ],
-      commitmentPrompt: 'Décrivez une situation précise où vous allez appliquer ces apprentissages cette semaine. Soyez spécifique : qui, quand, comment.',
+      commitmentPrompt: 'Décris une situation précise où tu vas appliquer ces apprentissages cette semaine. Sois spécifique : qui, quand, comment.',
     },
   },
 
@@ -769,12 +769,12 @@ const LESSON_DATA: Record<string, LessonData> = {
     duration: '2h',
     intro: {
       heading: 'Bienvenue dans le Bootcamp',
-      description: 'Cette première leçon pose les fondations conceptuelles de votre parcours de 12 semaines. Vous allez comprendre ce qu\'est un Design System, pourquoi c\'est le fil conducteur de tout ce qu\'on construit ensemble, et créer votre premier artefact concret : un token spreadsheet.',
+      description: 'Cette première leçon pose les fondations conceptuelles de ton parcours de 12 semaines. Tu vas comprendre ce qu\'est un Design System, pourquoi c\'est le fil conducteur de tout ce qu\'on construit ensemble, et créer ton premier artefact concret : un token spreadsheet.',
       objectives: [
         'Comprendre la structure d\'un design system : tokens, composants, documentation',
         'Identifier le flux Figma → CSS custom properties → Tailwind utilities dans le projet TLS',
-        'Créer votre premier token spreadsheet (couleurs, typo, spacing)',
-        'Vous situer dans UX-UI-BOOTCAMP.md et le plan Semaine 1',
+        'Créer ton premier token spreadsheet (couleurs, typo, spacing)',
+        'Te situer dans UX-UI-BOOTCAMP.md et le plan Semaine 1',
       ],
       blocks: [
         {
@@ -1101,11 +1101,11 @@ const LESSON_DATA: Record<string, LessonData> = {
       ],
     },
     reflechir: {
-      heading: 'Analysez le Design System TLS existant',
+      heading: 'Analyse le Design System TLS existant',
       questions: [
-        'Ouvrez src/styles/ dans le projet. Quels fichiers de tokens trouvez-vous ? Quelle est la différence entre --color-primary-500 et --color-ink-900 dans leur usage ?',
-        'Naviguez dans src/components/core/Button.tsx. Comment le composant utilise-t-il les tokens ? Que se passerait-il visuellement si vous changiez --color-primary-500 ?',
-        'En 2-3 phrases : qu\'est-ce qui changerait dans votre workflow si la parité Figma↔code était à 100% dans le projet TLS ?',
+        'Ouvre src/styles/ dans le projet. Quels fichiers de tokens trouves-tu ? Quelle est la différence entre --color-primary-500 et --color-ink-900 dans leur usage ?',
+        'Navigue dans src/components/core/Button.tsx. Comment le composant utilise-t-il les tokens ? Que se passerait-il visuellement si tu changeais --color-primary-500 ?',
+        'En 2-3 phrases : qu\'est-ce qui changerait dans ton workflow si la parité Figma↔code était à 100% dans le projet TLS ?',
       ],
       blocks: [
         {
@@ -1117,8 +1117,8 @@ const LESSON_DATA: Record<string, LessonData> = {
       ],
     },
     appliquer: {
-      heading: 'Créer votre token spreadsheet',
-      instruction: 'Ouvrez un nouveau fichier (Notion, Google Sheets, ou un .md dans docs/). Créez 3 colonnes : Token Name | Valeur | Usage. Listez minimum 10 tokens du projet TLS (ouvrez src/styles/tokens.css ou équivalent). Incluez : 3 couleurs primary, 2 couleurs ink, 2 tokens de typo, 2 tokens de spacing, 1 token de shadow. Ce spreadsheet est votre référence pour toute la Semaine 1.',
+      heading: 'Créer ton token spreadsheet',
+      instruction: 'Ouvre un nouveau fichier (Notion, Google Sheets, ou un .md dans docs/). Crée 3 colonnes : Token Name | Valeur | Usage. Liste au minimum 10 tokens du projet TLS (ouvre src/styles/tokens.css ou équivalent). Inclus : 3 couleurs primary, 2 couleurs ink, 2 tokens de typo, 2 tokens de spacing, 1 token de shadow. Ce spreadsheet est ta référence pour toute la Semaine 1.',
     },
     conclusion: {
       heading: 'Fondamentaux posés : prêt pour la suite',
@@ -1126,32 +1126,32 @@ const LESSON_DATA: Record<string, LessonData> = {
         'Un design system = tokens + composants + documentation. Les trois doivent être alignés pour fonctionner.',
         'Le flux TLS : Figma variables → CSS custom properties (--color-*) → Tailwind utilities (text-primary-500)',
         'Les tokens sont le DNA du design : changer un token = changer l\'apparence partout, en une seule modification',
-        'Votre token spreadsheet est le premier artefact du bootcamp : il sera réutilisé toute la Semaine 1',
+        'Ton token spreadsheet est le premier artefact du bootcamp : il sera réutilisé toute la Semaine 1',
       ],
       nextSteps: [
-        'Compléter votre token spreadsheet (min. 10 tokens) avant la Leçon 2',
+        'Compléter ton token spreadsheet (min. 10 tokens) avant la Leçon 2',
         'Lire docs/learning/UX-UI-BOOTCAMP.md : section Semaine 1 en entier',
         'Leçon 2 : Figma Design System Setup : créer les variables dans Figma et binder aux composants',
       ],
     },
     transfert: {
       heading: 'Appliquer dans le projet TLS maintenant',
-      intro: 'Ce que vous venez d\'apprendre existe déjà dans le code. Le transfert commence aujourd\'hui : pas la semaine prochaine. Voici 3 actions concrètes dans le vrai projet.',
+      intro: 'Ce que tu viens d\'apprendre existe déjà dans le code. Le transfert commence aujourd\'hui : pas la semaine prochaine. Voici 3 actions concrètes dans le vrai projet.',
       scenarios: [
         {
           title: 'Dans src/styles/tokens.css',
-          context: 'Ouvrez le fichier de tokens TLS. Localisez --color-primary-500. Changez temporairement sa valeur (ex: rouge #e53e3e), observez l\'impact en live sur une page, puis rétablissez (git checkout). C\'est la preuve vivante qu\'un token = un impact global.',
+          context: 'Ouvre le fichier de tokens TLS. Localise --color-primary-500. Change temporairement sa valeur (ex: rouge #e53e3e), observe l\'impact en live sur une page, puis rétablis-la (git checkout). C\'est la preuve vivante qu\'un token = un impact global.',
         },
         {
           title: 'Dans Figma TLS (fichier LccBZ1...)',
-          context: 'Ouvrez le fichier Figma TLS. Cherchez la page Foundations. Comparez les variables Figma avec vos tokens CSS. Notez les écarts dans votre token spreadsheet : cette liste devient votre backlog Semaine 1 pour la parité Figma↔code.',
+          context: 'Ouvre le fichier Figma TLS. Cherche la page Foundations. Compare les variables Figma avec tes tokens CSS. Note les écarts dans ton token spreadsheet : cette liste devient ton backlog Semaine 1 pour la parité Figma↔code.',
         },
         {
           title: 'Avant la Leçon 2',
-          context: 'Arrivez avec votre token spreadsheet complété (10+ tokens) et les écarts Figma↔code identifiés. La Leçon 2 part directement de ce travail pour configurer les variables Figma et les binder aux composants existants.',
+          context: 'Arrive avec ton token spreadsheet complété (10+ tokens) et les écarts Figma↔code identifiés. La Leçon 2 part directement de ce travail pour configurer les variables Figma et les binder aux composants existants.',
         },
       ],
-      commitmentPrompt: 'Décrivez en une phrase le premier changement concret que vous allez explorer dans tokens.css ou Figma après cette leçon : et pourquoi ce choix.',
+      commitmentPrompt: 'Décris en une phrase le premier changement concret que tu vas explorer dans tokens.css ou Figma après cette leçon : et pourquoi ce choix.',
       blocks: [
         {
           type: 'annotation' as const,
@@ -1169,12 +1169,12 @@ const DEFAULT_LESSON_DATA: LessonData = {
   duration: '45 min',
   intro: {
     heading: 'Bienvenue dans cette leçon',
-    description: 'Cette leçon vous guidera à travers les concepts fondamentaux du module.',
+    description: 'Cette leçon te guidera à travers les concepts fondamentaux du module.',
     objectives: [
       'Comprendre les concepts fondamentaux présentés dans cette leçon',
-      'Identifier les opportunités d\'application dans votre contexte professionnel',
+      'Identifier les opportunités d\'application dans ton contexte professionnel',
       'Mettre en pratique avec les exercices proposés',
-      'Consolider vos apprentissages avec les ressources complémentaires',
+      'Consolider tes apprentissages avec les ressources complémentaires',
     ],
   },
   engagement: {
@@ -1216,48 +1216,48 @@ const DEFAULT_LESSON_DATA: LessonData = {
     ],
   },
   reflechir: {
-    heading: 'Prenez le temps de réfléchir',
+    heading: 'Prends le temps de réfléchir',
     questions: [
-      'Quels aspects de cette leçon résonnent le plus avec votre expérience actuelle ?',
-      'Comment allez-vous appliquer ces concepts dès la semaine prochaine ?',
-      'Quels obstacles anticipez-vous et comment les surmonter ?',
+      'Quels aspects de cette leçon résonnent le plus avec ton expérience actuelle ?',
+      'Comment vas-tu appliquer ces concepts dès la semaine prochaine ?',
+      'Quels obstacles anticipes-tu et comment les surmonter ?',
     ],
   },
   appliquer: {
-    heading: 'Créez votre plan d\'action',
-    instruction: 'Définissez un objectif SMART et 3 actions concrètes à mettre en œuvre dans les prochains jours.',
+    heading: 'Crée ton plan d\'action',
+    instruction: 'Définis un objectif SMART et 3 actions concrètes à mettre en œuvre dans les prochains jours.',
   },
   conclusion: {
     heading: 'Récapitulatif et prochaines étapes',
     keyPoints: [
       'La pratique régulière est plus efficace que les sessions intensives espacées',
-      'Connectez chaque concept à une situation réelle que vous avez vécue',
-      'Le partage avec vos pairs accélère l\'ancrage mémoriel',
+      'Connecte chaque concept à une situation réelle que tu as vécue',
+      'Le partage avec tes pairs accélère l\'ancrage mémoriel',
     ],
     nextSteps: [
-      'Identifiez une situation concrète où appliquer ce que vous avez appris',
-      'Partagez 1 insight avec un collègue de confiance',
-      'Passez à la prochaine leçon pour approfondir le sujet',
+      'Identifie une situation concrète où appliquer ce que tu as appris',
+      'Partage 1 insight avec un collègue de confiance',
+      'Passe à la prochaine leçon pour approfondir le sujet',
     ],
   },
   transfert: {
-    heading: 'Transférer dans votre contexte',
-    intro: 'La maîtrise s\'acquiert en dehors de la formation. Comment allez-vous appliquer ces apprentissages dans votre situation réelle ?',
+    heading: 'Transférer dans ton contexte',
+    intro: 'La maîtrise s\'acquiert en dehors de la formation. Comment vas-tu appliquer ces apprentissages dans ta situation réelle ?',
     scenarios: [
       {
         title: 'Application immédiate',
-        context: 'Identifiez une situation concrète cette semaine où vous pourrez mettre en pratique ce que vous venez d\'apprendre.',
+        context: 'Identifie une situation concrète cette semaine où tu pourras mettre en pratique ce que tu viens d\'apprendre.',
       },
       {
         title: 'Partage avec un pair',
-        context: 'Expliquez un concept clé de cette leçon à un collègue. Enseigner accélère l\'ancrage mémoriel (effet protégé).',
+        context: 'Explique un concept clé de cette leçon à un collègue. Enseigner accélère l\'ancrage mémoriel (effet protégé).',
       },
       {
         title: 'Itération',
-        context: 'Notez ce qui a fonctionné et ce qui n\'a pas marché lors de votre première application. Ajustez et recommencez.',
+        context: 'Note ce qui a fonctionné et ce qui n\'a pas marché lors de ta première application. Ajuste et recommence.',
       },
     ],
-    commitmentPrompt: 'Décrivez précisément comment et où vous allez appliquer ces apprentissages dans les 7 prochains jours.',
+    commitmentPrompt: 'Décris précisément comment et où tu vas appliquer ces apprentissages dans les 7 prochains jours.',
   },
 };
 
@@ -1588,7 +1588,7 @@ export const LessonPlayer: React.FC = () => {
               setReflections((prev) => ({ ...prev, [key]: e.target.value }));
               setReflectionInStore(lessonId, key, e.target.value);
             }}
-            placeholder="Écrivez votre réflexion ici…"
+            placeholder="Écris ta réflexion ici…"
           />
         </div>
       ))}
@@ -2173,7 +2173,7 @@ export const LessonPlayer: React.FC = () => {
                 setReflections((prev) => ({ ...prev, [block.journalKey]: e.target.value }));
                 setReflectionInStore(lessonId, block.journalKey, e.target.value);
               }}
-              placeholder={block.placeholder ?? 'Écrivez votre réflexion ici…'}
+              placeholder={block.placeholder ?? 'Écris ta réflexion ici…'}
             />
           </div>
         );
