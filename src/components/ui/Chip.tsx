@@ -1,21 +1,19 @@
 /**
- * Chip — shared primitive behind Pill, Tag, FilterChip, MetaPill.
+ * Chip — shared primitive behind FilterChip and MetaPill.
  *
- * Owns the common chip vocabulary (rounded-pill, sizes, tone-tints, glass variants,
- * focus-visible, hover lift). The 4 public wrappers (Pill / Tag / FilterChip / MetaPill)
- * are thin façades that consume Chip + add their specialized affordances (remove button,
- * active toggle, count badge, etc.).
+ * Owns the common chip vocabulary (radius by size, sizes, tone-tints, glass variants,
+ * focus-visible). The public wrappers (FilterChip / MetaPill) are thin façades that
+ * consume Chip + add their specialized affordances (active toggle, count badge, etc.).
+ * `Pill` and `Tag` were removed on 2026-09-10 (0 product usage).
  *
- * Why keep 4 wrappers and not collapse into one Chip:
- *   - Pill's children is ReactNode (free composition); MetaPill's text is string (constrained)
- *   - Tag has a removable X button (nested control)
- *   - FilterChip has active toggle + count badge
- *   - The 4 APIs are intentionally narrow per consumer — Chip stays internal.
+ * Why keep the wrappers and not collapse into one Chip:
+ *   - MetaPill's text is string (constrained, card metadata)
+ *   - FilterChip has active toggle + count badge, and is a control of the line (44 px)
+ *   - The APIs are intentionally narrow per consumer — Chip stays internal.
  *
- * Style tokens (CHIP_BASE, CHIP_SIZE, CHIP_TONE_*, CHIP_SURFACE) are also exported so
- * wrappers can pick what they need without rendering the Chip component itself, when
- * their structure needs to diverge (e.g. Tag's nested remove button can't go through
- * Chip's standard trailingIcon slot because it has its own focus management).
+ * Style tokens (CHIP_BASE_SANS_RAYON, CHIP_RAYON, CHIP_SIZE, CHIP_TONE_*, CHIP_SURFACE)
+ * are also exported so wrappers can pick what they need without rendering the Chip
+ * component itself, when their structure needs to diverge.
  */
 
 import React from 'react';
@@ -47,13 +45,27 @@ export type ChipSurface =
 // ─── Shared style constants ─────────────────────────────────────────────────
 
 /* Le rayon est posé À PART de la base (piège n°6 : deux classes de rayon sur un
-   même élément, c'est l'ordre d'émission de Tailwind qui tranche). Les
-   étiquettes — `Chip`, `MetaPill` — prennent `CHIP_BASE`, donc la pilule ;
-   `FilterChip`, qui est un contrôle de la ligne depuis l'arbitrage n°22
-   (44 px en `md`), prend la base sans rayon et pose le sien. */
+   même élément, c'est l'ordre d'émission de Tailwind qui tranche). `Chip` et
+   `MetaPill` prennent la base sans rayon et le rayon de LEUR TAILLE
+   (`CHIP_RAYON`) ; `FilterChip`, contrôle de la ligne depuis l'arbitrage n°22
+   (44 px en `md`), pose le sien. */
 export const CHIP_BASE_SANS_RAYON =
   'inline-flex items-center font-body whitespace-nowrap transition-all border select-none';
 
+/* Le rayon suit la taille — règle du seuil (R3, doctrine § Rayons), appliquée
+   le 2026-09-24. Sous 28 px de haut, la pilule ; au-dessus, l'échelle
+   (`rounded-lg`, 14). Les trois tailles étaient en pilule : `md` fait 30 px
+   et `lg` 44 — celui-ci rendait un rayon de 22 à côté d'un champ et d'un
+   bouton de même hauteur à 14. `sm` (24 px) reste une pilule, et `md` change
+   à peine (14 contre 15) : c'est le cran 44 que la règle vise. */
+export const CHIP_RAYON: Record<ChipSize, string> = {
+  sm: 'rounded-pill', // 24 px
+  md: 'rounded-lg',   // 30 px
+  lg: 'rounded-lg',   // 44 px
+};
+
+/** @deprecated La pilule ne vaut que sous 28 px (taille `sm`) : prendre
+ *  `CHIP_BASE_SANS_RAYON` + `CHIP_RAYON[size]`. Plus aucun consommateur. */
 export const CHIP_BASE = `${CHIP_BASE_SANS_RAYON} rounded-pill`;
 
 export const CHIP_SIZE: Record<ChipSize, string> = {
@@ -137,7 +149,8 @@ export function resolveChipClasses({
   }
 
   return [
-    CHIP_BASE,
+    CHIP_BASE_SANS_RAYON,
+    CHIP_RAYON[size],
     CHIP_SIZE[size],
     surfaceClass,
     hover && surface === 'solid' && CHIP_TONE_HOVER[tone],

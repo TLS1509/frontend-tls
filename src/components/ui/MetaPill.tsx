@@ -1,6 +1,7 @@
 import React from 'react';
 import {
-  CHIP_BASE,
+  CHIP_BASE_SANS_RAYON,
+  CHIP_RAYON,
   CHIP_SIZE,
   CHIP_TONE_SOLID,
   CHIP_SURFACE_MAP,
@@ -123,8 +124,11 @@ export const MetaPill: React.FC<MetaPillProps> = ({
 }) => {
   const interactive = !!onClick;
 
+  // Rayon de la taille (règle du seuil) : pilule en `sm`, 14 px en `md` (30)
+  // et `lg` (44) — voir CHIP_RAYON.
   const classes = [
-    CHIP_BASE,
+    CHIP_BASE_SANS_RAYON,
+    CHIP_RAYON[size],
     CHIP_SIZE[size],
     resolveSurface(tone),
     ICON_OPACITY,
