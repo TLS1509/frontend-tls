@@ -27,10 +27,12 @@ import {
   ShoppingBag,
   Star,
 } from 'lucide-react';
+import { Card } from '../components/core/Card';
+import { MetaPill } from '../components/ui/MetaPill';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { useNavigate } from 'react-router-dom';
 import { AccountFamilyNav } from '../components/patterns/AccountFamilyNav';
 import { PageHero } from '../components/patterns/EditorialHero';
-import { SectionCard } from '../components/patterns/SectionCard';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { IconChip } from '../components/ui/IconChip';
@@ -56,11 +58,11 @@ interface Invoice {
 }
 
 const INVOICES: Invoice[] = [
-  { id: 'INV-2026-005', date: '01 mai 2026',    amount: '29,00 €', status: 'paid',    description: 'Abonnement Premium · Mai 2026' },
-  { id: 'INV-2026-004', date: '01 avril 2026',  amount: '29,00 €', status: 'paid',    description: 'Abonnement Premium · Avril 2026' },
-  { id: 'INV-2026-003', date: '01 mars 2026',   amount: '29,00 €', status: 'paid',    description: 'Abonnement Premium · Mars 2026' },
-  { id: 'INV-2026-002', date: '01 février 2026',amount: '29,00 €', status: 'paid',    description: 'Abonnement Premium · Février 2026' },
-  { id: 'INV-2026-001', date: '01 janvier 2026',amount: '29,00 €', status: 'paid',    description: 'Abonnement Premium · Janvier 2026' },
+  { id: 'INV-2026-005', date: '1er mai 2026',    amount: '29,00 €', status: 'paid',    description: 'Abonnement Premium · Mai 2026' },
+  { id: 'INV-2026-004', date: '1er avril 2026',  amount: '29,00 €', status: 'paid',    description: 'Abonnement Premium · Avril 2026' },
+  { id: 'INV-2026-003', date: '1er mars 2026',   amount: '29,00 €', status: 'paid',    description: 'Abonnement Premium · Mars 2026' },
+  { id: 'INV-2026-002', date: '1er février 2026', amount: '29,00 €', status: 'paid',    description: 'Abonnement Premium · Février 2026' },
+  { id: 'INV-2026-001', date: '1er janvier 2026', amount: '29,00 €', status: 'paid',    description: 'Abonnement Premium · Janvier 2026' },
 ];
 
 const MOCK_TRANSACTIONS = [
@@ -71,12 +73,17 @@ const MOCK_TRANSACTIONS = [
   { id: 5, date: '3 mai 2026',  description: 'Achat de crédits : Pack 50 crédits', amount: +50, type: 'credit' as const },
 ];
 
+/* Les montants portent leur signe (+ / −, le vrai signe moins) ; la couleur
+   ne fait que le redoubler. Une seule teinte de pastille : quatre tons
+   (teal, orange, or, teal) ne disaient rien de plus. */
 const EARN_WAYS = [
-  { icon: <BookOpen size={18} className="text-primary-600" />, iconBg: 'bg-primary-50', label: 'Valider une leçon', amount: '+5 crédits', amountColor: 'text-success-fg' },
-  { icon: <TrendingUp size={18} className="text-secondary-600" />, iconBg: 'bg-secondary-50', label: 'Finir un parcours', amount: '+20 crédits', amountColor: 'text-success-fg' },
-  { icon: <Users size={18} className="text-accent-500" />, iconBg: 'bg-accent-50', label: 'Session coaching', amount: '-15 crédits', amountColor: 'text-danger-fg' },
-  { icon: <Zap size={18} className="text-primary-500" />, iconBg: 'bg-primary-50', label: 'Ressource premium', amount: '-5 crédits', amountColor: 'text-danger-fg' },
+  { icon: <BookOpen />, label: 'Valider une leçon', amount: 5 },
+  { icon: <TrendingUp />, label: 'Finir un parcours', amount: 20 },
+  { icon: <Users />, label: 'Session coaching', amount: -15 },
+  { icon: <Zap />, label: 'Ressource premium', amount: -5 },
 ];
+
+const signed = (n: number) => `${n > 0 ? '+' : '\u2212'}${Math.abs(n)}`;
 
 /* ─── Plan display config ─────────────────────────────────────────────── */
 
@@ -91,9 +98,14 @@ const TIER_CONFIG: Record<SubscriptionTier, { name: string; tagline: string; pri
 };
 
 const TAB_ITEMS = [
-  { id: 'subscription', label: <><Sparkles size={14} /> Abonnement</> },
-  { id: 'credits',      label: <><Coins size={14} /> Crédits</> },
+  { id: 'subscription', label: 'Abonnement' },
+  { id: 'credits',      label: 'Crédits' },
 ];
+
+/* En-tête de colonne : légende 13 / 600 ink-600, en casse normale (il était
+   en 11 px capitales espacées ink-500 — le registre du Badge, au cran des
+   placeholders). */
+const COL_HEAD = 'font-body text-caption font-semibold text-ink-600';
 
 /* ─── Tab panels ──────────────────────────────────────────────────────────── */
 
@@ -102,242 +114,231 @@ const SubscriptionTab: React.FC<{
   onDownloadInvoice: (id: string) => void;
   onCancel: () => void;
 }> = ({ tierConfig, onDownloadInvoice, onCancel }) => (
-  <div className="flex flex-col gap-stack-lg">
-    <SectionCard
-      title="Formule active"
-      description="Votre plan, son prix et la prochaine échéance."
-      tone="primary"
-    >
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-stack p-stack rounded-lg bg-primary-50/60 border border-primary-200">
-        <div className="flex items-start gap-stack-xs">
-          <div className="shrink-0 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary-100 text-primary-800">
-            <Sparkles size={20} />
-          </div>
-          <div className="flex flex-col gap-tight">
-            <div className="flex items-center gap-stack-xs flex-wrap">
-              <h3 className="font-display text-h3 font-bold text-ink-900">
-                {tierConfig.name}
-              </h3>
-              <Badge variant="brand">Actif</Badge>
+  <div className="flex flex-col gap-page">
+    <section className="flex flex-col gap-stack">
+      <SectionHeader title="Formule active" subtitle="Votre plan, son prix et la prochaine échéance." />
+      {/* Une carte, pas une boîte teintée dans une carte. */}
+      <Card className="flex flex-col gap-stack-lg">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-stack">
+          <div className="flex items-start gap-stack-sm">
+            <IconChip size="lg" tone="brand">
+              <Sparkles />
+            </IconChip>
+            {/* 12 px : la première ligne (26) tombe sur le centre de la pastille (48). */}
+            <div className="flex flex-col gap-stack-3xs pt-stack-sm">
+              <div className="flex items-center gap-stack-xs flex-wrap">
+                <h3 className="font-display text-h3 text-ink-900">
+                  {tierConfig.name}
+                </h3>
+                <Badge variant="brand">Actif</Badge>
+              </div>
+              <p className="font-body text-body text-ink-700">
+                {tierConfig.tagline}
+              </p>
+              <p className="mt-stack-xs font-body text-caption text-ink-600 inline-flex items-center gap-stack-3xs">
+                <Calendar size={14} aria-hidden="true" />
+                Prochaine échéance : <strong className="font-semibold text-ink-900">1er juin 2026</strong>
+              </p>
             </div>
-            <p className="m-0 font-body text-body text-ink-600">
-              {tierConfig.tagline}
-            </p>
-            <p className="m-0 font-body text-caption text-ink-500 mt-1 inline-flex items-center gap-tight">
-              <Calendar size={14} />
-              Prochaine échéance : <strong className="text-ink-800">1er juin 2026</strong>
-            </p>
           </div>
-        </div>
-
-        <div className="flex flex-col items-start sm:items-end gap-tight">
-          <p className="m-0 font-display text-h3 font-bold text-ink-900 tabular-nums">
+          <p className="sm:pt-stack-sm font-display text-h3 text-ink-900 tabular-nums whitespace-nowrap">
             {tierConfig.price}
           </p>
         </div>
-      </div>
 
-      <div className="flex flex-wrap gap-stack-xs mt-stack">
-        <Button emphasis="soft" size="sm" trailingIcon={<ArrowUpRight size={14} />}>
-          Changer de formule
-        </Button>
-        <Button emphasis="outline" size="sm">
-          Voir les avantages
-        </Button>
-      </div>
-    </SectionCard>
+        <div className="flex flex-wrap gap-stack-xs">
+          <Button emphasis="soft" size="sm" trailingIcon={<ArrowUpRight size={14} />}>
+            Changer de formule
+          </Button>
+          <Button emphasis="outline" size="sm">
+            Voir les avantages
+          </Button>
+        </div>
+      </Card>
+    </section>
 
-    <SectionCard
-      title="Méthode de paiement"
-      description="La carte utilisée pour vos prélèvements mensuels."
-    >
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-stack p-stack rounded-lg bg-ink-50 border border-ink-100">
-        <div className="flex items-center gap-stack-xs">
-          <div className="shrink-0 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-ink-900 text-white">
-            <CreditCard size={20} />
-          </div>
-          <div className="flex flex-col gap-tight">
-            <p className="m-0 font-body text-body font-semibold text-ink-900">
+    <section className="flex flex-col gap-stack">
+      <SectionHeader title="Méthode de paiement" subtitle="La carte utilisée pour vos prélèvements mensuels." />
+      <Card className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-stack">
+        <div className="flex items-center gap-stack-sm">
+          <IconChip size="lg" tone="neutral">
+            <CreditCard />
+          </IconChip>
+          <div className="flex flex-col gap-stack-3xs">
+            <p className="font-body text-body font-semibold text-ink-900">
               Visa se terminant par •••• 4242
             </p>
-            <p className="m-0 font-body text-caption text-ink-500">
+            <p className="font-body text-caption text-ink-600">
               Expire 12/2028
             </p>
           </div>
         </div>
 
-        <Button emphasis="soft" tone="warm" size="sm">
+        <Button emphasis="soft" tone="warm" size="sm" className="self-start sm:self-auto">
           Modifier
         </Button>
-      </div>
-    </SectionCard>
+      </Card>
+    </section>
 
-    <SectionCard
-      title="Historique des factures"
-      description={`${INVOICES.length} factures · toutes payées.`}
-    >
-      <div className="flex flex-col rounded-xl border border-ink-100 overflow-hidden">
-        <div className="hidden md:grid grid-cols-[1.2fr_2fr_0.8fr_auto] gap-stack px-stack py-2.5 bg-ink-50 border-b border-ink-100">
-          <span className="font-body text-micro font-semibold uppercase tracking-wider text-ink-500">Date</span>
-          <span className="font-body text-micro font-semibold uppercase tracking-wider text-ink-500">Description</span>
-          <span className="font-body text-micro font-semibold uppercase tracking-wider text-ink-500 text-right">Montant</span>
-          <span className="font-body text-micro font-semibold uppercase tracking-wider text-ink-500 sr-only">Action</span>
+    <section className="flex flex-col gap-stack">
+      <SectionHeader title="Historique des factures" meta={`${INVOICES.length} factures · toutes payées`} />
+      <Card className="p-0 overflow-hidden">
+        <div className="hidden md:grid grid-cols-[1.2fr_2fr_0.8fr_auto] gap-stack px-stack-lg py-stack-sm bg-ink-50 border-b border-ink-100">
+          <span className={COL_HEAD}>Date</span>
+          <span className={COL_HEAD}>Description</span>
+          <span className={`${COL_HEAD} text-right`}>Montant</span>
+          <span className="sr-only">Action</span>
         </div>
 
-        {INVOICES.map((inv, i) => (
-          <div
-            key={inv.id}
-            className={`flex flex-col md:grid md:grid-cols-[1.2fr_2fr_0.8fr_auto] md:items-center gap-stack-xs md:gap-stack px-stack py-3 ${i < INVOICES.length - 1 ? 'border-b border-ink-100' : ''}`}
-          >
-            <div className="flex items-center gap-stack-xs">
-              <span className="md:hidden inline-flex items-center gap-tight text-success-fg">
-                <CheckCircle2 size={14} />
-              </span>
-              <span className="font-body text-body font-semibold text-ink-800">
+        <ul className="flex flex-col divide-y divide-ink-100" aria-label="Factures">
+          {INVOICES.map((inv) => (
+            <li
+              key={inv.id}
+              className="flex flex-col md:grid md:grid-cols-[1.2fr_2fr_0.8fr_auto] md:items-center gap-stack-3xs md:gap-stack px-stack-md sm:px-stack-lg py-stack"
+            >
+              <span className="font-body text-body font-semibold text-ink-900">
                 {inv.date}
               </span>
-            </div>
-            <p className="m-0 font-body text-body text-ink-600">
-              {inv.description}
-            </p>
-            <p className="m-0 font-body text-body font-semibold text-ink-900 tabular-nums md:text-right">
-              {inv.amount}
-            </p>
-            <div className="flex items-center gap-stack-xs md:justify-end">
-              <span className="hidden md:inline-flex items-center gap-tight text-success-fg text-caption font-semibold">
-                <CheckCircle2 size={14} />
-                Payée
-              </span>
-              <Button
-                emphasis="outline"
-                size="sm"
-                iconOnly
-                leadingIcon={<Download size={14} />}
-                aria-label={`Télécharger la facture ${inv.id}`}
-                onClick={() => onDownloadInvoice(inv.id)}
-              />
-            </div>
-          </div>
-        ))}
-      </div>
-    </SectionCard>
+              <p className="font-body text-body text-ink-700">
+                {inv.description}
+              </p>
+              <p className="font-body text-body font-semibold text-ink-900 tabular-nums md:text-right">
+                {inv.amount}
+              </p>
+              <div className="flex items-center gap-stack-xs md:justify-end">
+                <span className="inline-flex items-center gap-stack-3xs text-success-fg text-caption font-semibold">
+                  <CheckCircle2 size={14} aria-hidden="true" />
+                  Payée
+                </span>
+                <Button
+                  emphasis="outline"
+                  size="sm"
+                  iconOnly
+                  leadingIcon={<Download size={14} />}
+                  aria-label={`Télécharger la facture ${inv.id}`}
+                  onClick={() => onDownloadInvoice(inv.id)}
+                />
+              </div>
+            </li>
+          ))}
+        </ul>
+      </Card>
+    </section>
 
-    <SectionCard
-      title="Annuler l'abonnement"
-      description={`Vous conserverez l'accès ${tierConfig.name} jusqu'à la fin de la période en cours.`}
-    >
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-stack p-stack rounded-lg bg-danger-bg/30 border border-danger-border">
-        <div className="flex items-start gap-stack-xs">
+    <section className="flex flex-col gap-stack">
+      <SectionHeader
+        title="Annuler l'abonnement"
+        subtitle={`Vous conserverez l'accès ${tierConfig.name} jusqu'à la fin de la période en cours.`}
+      />
+      {/* Le filet était `border-danger-border`, un jeton qui n'existe pas :
+          peint à la couleur du texte, c'était le trait sombre de la carte. */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-stack p-stack-lg rounded-xl bg-danger-bg/40 border border-danger-base/40">
+        <div className="flex items-start gap-stack-sm">
           <IconChip size="md" tone="danger">
             <AlertTriangle />
           </IconChip>
-          <div className="flex flex-col gap-tight">
-            <p className="m-0 font-body text-body font-semibold text-ink-900">
+          <div className="flex flex-col gap-stack-3xs pt-stack-2xs">
+            <p className="font-body text-body font-semibold text-ink-900">
               Annuler mon abonnement {tierConfig.name}
             </p>
-            <p className="m-0 font-body text-caption text-ink-600">
+            <p className="font-body text-body text-ink-700 max-w-prose">
               Cette action est réversible jusqu'au 1er juin 2026. Au-delà, vous perdrez l'accès aux parcours, coaching et veille.
             </p>
           </div>
         </div>
-        <Button emphasis="soft" tone="warm" size="sm" onClick={onCancel}>
+        <Button emphasis="soft" tone="warm" size="sm" className="self-start sm:self-auto shrink-0" onClick={onCancel}>
           Annuler l'abonnement
         </Button>
       </div>
-    </SectionCard>
+    </section>
   </div>
 );
 
 const CreditsTab: React.FC<{ credits: { classic: number; special: number } }> = ({ credits }) => {
   const navigate = useNavigate();
+  const balances = [
+    { key: 'classic', value: credits.classic, unit: 'crédits Classic', desc: 'Sessions coaching standard (1 h)', icon: <Coins />, tone: 'warm' as const },
+    { key: 'special', value: credits.special, unit: 'crédits Spécial', desc: 'Sessions expert et masterclasses premium', icon: <Star />, tone: 'sun' as const },
+  ];
   return (
-    <div className="flex flex-col gap-stack-lg">
-      <div className="p-stack-lg flex flex-col md:flex-row items-center md:items-start justify-between gap-section rounded-lg bg-secondary-50/60 border border-secondary-200">
-        <div className="flex flex-col gap-stack text-center md:text-left">
-          <p className="m-0 text-caption font-medium text-secondary-700">Solde actuel</p>
-          <div className="flex items-center gap-stack-xs justify-center md:justify-start">
-            <div className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-secondary-100 text-secondary-600 shrink-0">
-              <Coins size={18} />
-            </div>
-            <div className="flex flex-col gap-tight">
-              <div className="flex items-end gap-tight">
-                <span className="font-display text-h2 text-secondary-600">{credits.classic}</span>
-                <span className="mb-0.5 font-body text-body font-semibold text-secondary-700">crédits Classic</span>
-              </div>
-              <p className="m-0 text-caption text-ink-600">Sessions coaching standard (1h)</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-stack-xs justify-center md:justify-start">
-            {/* Cran 100 : au 50, la pastille se fondait dans la carte
-                secondary-50/60 (arbitrage n°10 du 2026-09-23). */}
-            <div className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-accent-100 text-accent-500 shrink-0">
-              <Star size={18} />
-            </div>
-            <div className="flex flex-col gap-tight">
-              <div className="flex items-end gap-tight">
-                <span className="font-display text-h2 text-accent-800">{credits.special}</span>
-                <span className="mb-0.5 font-body text-body font-semibold text-accent-800">crédits Spécial</span>
-              </div>
-              <p className="m-0 text-caption text-ink-600">Sessions expert / masterclasses premium</p>
-            </div>
-          </div>
-        </div>
+    <div className="flex flex-col gap-page">
+      {/* Le solde, calé à gauche à toutes les largeurs (il était centré sous
+          768 px, sous un titre de page calé à gauche). Les chiffres sont en
+          encre : l'orange de marque ne dit pas qu'un solde compte plus. */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader title="Solde actuel" />
+        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-stack-lg p-stack-lg rounded-xl bg-secondary-50/60 border border-secondary-200">
+          <ul className="flex flex-col gap-stack" aria-label="Solde de crédits">
+            {balances.map((b) => (
+              <li key={b.key} className="flex items-start gap-stack-sm">
+                <IconChip size="md" tone={b.tone} surface="tinted">
+                  {b.icon}
+                </IconChip>
+                <div className="flex flex-col gap-stack-3xs">
+                  <p className="flex items-baseline gap-stack-xs">
+                    <span className="font-display text-h2 text-ink-900 tabular-nums">{b.value}</span>
+                    <span className="font-body text-body font-semibold text-ink-900">{b.unit}</span>
+                  </p>
+                  <p className="text-caption text-ink-600">{b.desc}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
 
-        <div className="flex flex-col gap-stack-xs items-center md:items-end">
-          <Button emphasis="soft" tone="warm" leadingIcon={<ShoppingBag size={16} />} onClick={() => navigate('/account/billing/credits/buy')}>
-            Acheter des crédits
-          </Button>
-          <p className="m-0 text-caption text-ink-600">Packs à partir de 9,90 €</p>
+          <div className="flex flex-col gap-stack-xs md:items-end">
+            <Button emphasis="soft" tone="warm" leadingIcon={<ShoppingBag size={16} />} onClick={() => navigate('/account/billing/credits/buy')}>
+              Acheter des crédits
+            </Button>
+            <p className="text-caption text-ink-600">Packs à partir de 9,90 €</p>
+          </div>
         </div>
-      </div>
+      </section>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
-        <StatCard label="Crédits utilisés ce mois" value="35" variant="warm" />
-        <StatCard label="Crédits gagnés ce mois" value="25" variant="brand" />
-        <StatCard label="Sessions bookées" value="3" />
+        <StatCard label="Crédits utilisés ce mois" value="35" />
+        <StatCard label="Crédits gagnés ce mois" value="25" />
+        <StatCard label="Sessions réservées" value="3" />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-stack">
-        <SectionCard
-          title="Historique d'utilisation"
-          titleIcon={<TrendingUp size={18} className="text-primary-500" />}
-          description="Vos 5 dernières transactions"
-        >
-          <div className="flex flex-col gap-stack-xs">
+      <section className="flex flex-col gap-stack">
+        <SectionHeader title="Historique d'utilisation" meta="Vos 5 dernières transactions" />
+        <Card>
+          <ul className="flex flex-col divide-y divide-ink-100" aria-label="Transactions">
             {MOCK_TRANSACTIONS.map((tx) => (
-              <div key={tx.id} className="flex items-center justify-between gap-stack-xs py-3 border-b border-ink-100 last:border-b-0">
-                <div className="flex flex-col gap-tight min-w-0">
-                  <p className="m-0 text-body font-medium text-ink-900 truncate">{tx.description}</p>
-                  <p className="m-0 text-caption text-ink-600">{tx.date}</p>
+              <li key={tx.id} className="flex items-center justify-between gap-stack py-stack first:pt-0 last:pb-0">
+                <div className="flex flex-col gap-stack-3xs min-w-0">
+                  <p className="text-body text-ink-900 truncate">{tx.description}</p>
+                  <p className="text-caption text-ink-600">{tx.date}</p>
                 </div>
-                <span className={['shrink-0 font-mono font-bold text-body', tx.type === 'credit' ? 'text-success-fg' : 'text-danger-fg'].join(' ')}>
-                  {tx.amount > 0 ? '+' : ''}{tx.amount}
+                <span className={['shrink-0 font-body font-semibold text-body tabular-nums', tx.type === 'credit' ? 'text-success-fg' : 'text-danger-fg'].join(' ')}>
+                  {signed(tx.amount)}
                 </span>
-              </div>
+              </li>
             ))}
-          </div>
-        </SectionCard>
+          </ul>
+        </Card>
+      </section>
 
-        <SectionCard
+      <section className="flex flex-col gap-stack">
+        <SectionHeader
           title="Comment obtenir des crédits"
-          titleIcon={<Coins size={18} className="text-secondary-500" />}
-          description="Gagnez des crédits en progressant dans votre parcours d'apprentissage"
-        >
-          <div className="flex flex-col gap-stack-xs">
-            {EARN_WAYS.map((way, i) => (
-              <div key={i} className="flex items-center gap-stack-xs p-stack rounded-lg bg-ink-50 border border-ink-100">
-                <div className={`w-9 h-9 rounded-md ${way.iconBg} flex items-center justify-center shrink-0`}>
-                  {way.icon}
-                </div>
-                <p className="m-0 text-body text-ink-700 flex-1 min-w-0">{way.label}</p>
-                <span className={`shrink-0 font-mono font-bold text-body ${way.amountColor}`}>
-                  {way.amount}
+          subtitle="Gagnez des crédits en progressant dans votre parcours d'apprentissage."
+        />
+        {/* Des rangées dans une carte, plus quatre boîtes grises empilées. */}
+        <Card>
+          <ul className="flex flex-col divide-y divide-ink-100" aria-label="Gains et dépenses de crédits">
+            {EARN_WAYS.map((way) => (
+              <li key={way.label} className="flex items-center gap-stack-sm py-stack first:pt-0 last:pb-0">
+                <IconChip size="sm" tone="neutral">{way.icon}</IconChip>
+                <p className="text-body text-ink-900 flex-1 min-w-0">{way.label}</p>
+                <span className={`shrink-0 font-body font-semibold text-body tabular-nums ${way.amount > 0 ? 'text-success-fg' : 'text-danger-fg'}`}>
+                  {signed(way.amount)} crédits
                 </span>
-              </div>
+              </li>
             ))}
-          </div>
-        </SectionCard>
-      </div>
+          </ul>
+        </Card>
+      </section>
 
       <Alert variant="info" title="Comment fonctionnent les crédits ?">
         Les crédits sont valables 12 mois à partir de la date d'achat ou d'attribution. Ils ne sont pas remboursables mais peuvent être transférés à un autre membre de votre organisation. Les crédits offerts (gagnés par vos accomplissements) expirent à la fin de l'année civile en cours.
@@ -365,32 +366,38 @@ export const Billing: React.FC = () => {
     toast.info('Demande envoyée', 'Notre équipe vous contactera sous 24h pour finaliser l\'annulation.');
   };
 
+  /* Passe typographique du 2026-09-24 : plus d'aplat `bg-surface` (il
+     s'arrêtait net à x≈1400) ni de haut de page collé ; le surtitre redisait
+     un faux parent (« Profil · Facturation ») ; l'offre est une donnée ; les
+     onglets sont les onglets texte de l'app ; chaque bloc a son titre h2 posé
+     au-dessus de SA carte — il y avait une boîte dans chaque carte. */
   return (
-    <div className="min-h-[100dvh] bg-surface">
-      <PageShell width="content" noPadTop>
+    <>
+      <PageShell width="content">
 
         <AccountFamilyNav active="billing" />
 
         <PageHero
-          eyebrow="Profil · Facturation"
-          title="Facturation & abonnement"
+          title="Facturation et abonnement"
           summary="Gérez votre formule, vos crédits, vos factures et votre méthode de paiement."
           tone="flat"
-          trailing={<Badge variant="brand">{tierConfig.name} · Actif</Badge>}
+          trailing={<MetaPill text={`${tierConfig.name} · actif`} tone="neutral" />}
         />
 
-        <Tabs
-          items={TAB_ITEMS}
-          value={activeTab}
-          onChange={(id) => setActiveTab(id as TabId)}
-          variant="underline"
-          fullWidth
-        />
+        <div className="flex flex-col gap-stack-lg">
+          <Tabs
+            items={TAB_ITEMS}
+            value={activeTab}
+            onChange={(id) => setActiveTab(id as TabId)}
+            variant="underline"
+            label="Sections de la facturation"
+          />
 
-        {activeTab === 'subscription' && (
-          <SubscriptionTab tierConfig={tierConfig} onDownloadInvoice={handleDownloadInvoice} onCancel={() => setShowCancelModal(true)} />
-        )}
-        {activeTab === 'credits' && <CreditsTab credits={profile.credits} />}
+          {activeTab === 'subscription' && (
+            <SubscriptionTab tierConfig={tierConfig} onDownloadInvoice={handleDownloadInvoice} onCancel={() => setShowCancelModal(true)} />
+          )}
+          {activeTab === 'credits' && <CreditsTab credits={profile.credits} />}
+        </div>
 
       </PageShell>
 
@@ -404,7 +411,7 @@ export const Billing: React.FC = () => {
         confirmText="Oui, annuler"
         cancelText="Revenir"
       />
-    </div>
+    </>
   );
 };
 

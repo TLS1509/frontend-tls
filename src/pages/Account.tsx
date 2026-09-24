@@ -17,14 +17,16 @@ import { Select } from '../components/core/Select';
 import type { SelectOption } from '../components/core/Select';
 import { Tabs } from '../components/ui/Tabs';
 import { Badge } from '../components/ui/Badge';
+import { MetaPill } from '../components/ui/MetaPill';
+import { IconChip } from '../components/ui/IconChip';
+import { Card } from '../components/core/Card';
 import { SettingsRow } from '../components/patterns/SettingsRow';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { useToastContext } from '../contexts/ToastContext';
 import { AccountFamilyNav } from '../components/patterns/AccountFamilyNav';
 import { PageHero } from '../components/patterns/EditorialHero';
 import { PageShell } from '../components/layout';
 import {
-  UserRound,
-  ShieldCheck,
   Globe,
   Clock,
   Lock,
@@ -56,17 +58,15 @@ const SESSIONS: Session[] = [
 
 /* ─── Sub-components ──────────────────────────────────────────────────────── */
 
-const SettingCard: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
-  <div className="rounded-xl border border-ink-100 bg-white overflow-hidden">
-    <div className="px-stack-lg py-stack border-b border-ink-100">
-      <h3 className="font-display text-body font-bold text-ink-900 tracking-snug">
-        {title}
-      </h3>
-    </div>
-    <div className="px-stack-lg">
-      {children}
-    </div>
-  </div>
+/* Une section de réglages : son titre h2 posé sur la page, puis sa carte.
+   C'était une carte faite main avec un bandeau-titre h3 à 16 px — plus petit
+   que les libellés de rangée qu'il annonçait (16 / 600) : la hiérarchie se
+   lisait à l'envers. */
+const SettingsSection: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
+  <section className="flex flex-col gap-stack">
+    <SectionHeader title={title} />
+    <Card>{children}</Card>
+  </section>
 );
 
 const LANG_OPTIONS: SelectOption[] = [
@@ -96,21 +96,27 @@ const GeneralTab: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col gap-stack-lg">
-      <SettingCard title="Informations personnelles">
-        <div className="grid grid-cols-2 gap-stack pt-stack-md pb-stack-md">
-          <Input label="Nom complet"     id="name"    value={name}  onChange={(e) => setName(e.target.value)} />
-          <Input label="Adresse email"   id="email"   type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-          <Input label="Poste"           id="poste"   defaultValue="Responsable Formation" />
-          <Input label="Entreprise"      id="company" defaultValue="TLS Learning Society" />
-        </div>
-        <div className="pb-stack-md flex gap-stack-xs">
-          <Button onClick={handleSave} loading={isSaving}>Enregistrer les modifications</Button>
-          <Button emphasis="soft" tone="warm" disabled={isSaving}>Annuler</Button>
-        </div>
-      </SettingCard>
+    <div className="flex flex-col gap-page">
+      <section className="flex flex-col gap-stack">
+        <SectionHeader title="Informations personnelles" />
+        {/* Deux colonnes seulement quand la carte a la place (requête de
+            conteneur) : à 375 px, l'email était tronqué et « Annuler »
+            sortait de la carte. */}
+        <Card className="@container flex flex-col gap-stack-lg">
+          <div className="grid grid-cols-1 @lg:grid-cols-2 gap-stack">
+            <Input label="Nom complet"     id="name"    value={name}  onChange={(e) => setName(e.target.value)} />
+            <Input label="Adresse email"   id="email"   type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <Input label="Poste"           id="poste"   defaultValue="Responsable Formation" />
+            <Input label="Entreprise"      id="company" defaultValue="TLS Learning Society" />
+          </div>
+          <div className="flex flex-wrap gap-stack-xs">
+            <Button onClick={handleSave} loading={isSaving}>Enregistrer les modifications</Button>
+            <Button emphasis="soft" tone="warm" disabled={isSaving}>Annuler</Button>
+          </div>
+        </Card>
+      </section>
 
-      <SettingCard title="Préférences">
+      <SettingsSection title="Préférences">
         <SettingsRow icon={<Globe size={16} />} label="Langue de l'interface" description="Actuellement : Français">
           <div className="w-[180px]">
             <Select
@@ -123,7 +129,7 @@ const GeneralTab: React.FC = () => {
         <SettingsRow icon={<Clock size={16} />} label="Fuseau horaire" description="Europe/Paris (UTC+2)">
           <Button emphasis="link" size="sm" trailingIcon={<ChevronRight size={14} />}>Modifier</Button>
         </SettingsRow>
-      </SettingCard>
+      </SettingsSection>
 
       {/* La carte « Interface » (animations fluides, contraste renforcé,
           navigation compacte) a été retirée le 2026-09-24 : ses trois
@@ -131,8 +137,8 @@ const GeneralTab: React.FC = () => {
           persistés ni appliqués. « Navigation compacte » s'affichait ACTIVÉ
           sur une barre latérale pleine largeur. Un réglage qui ne fait rien
           ment ; à rétablir quand il sera branché sur un store persisté. */}
-      <SettingCard title="Zone de danger">
-        <SettingsRow icon={<Download size={16} />} label="Exporter mes données" description="Demande d'accès RGPD (DSAR) — délai légal 30 jours">
+      <SettingsSection title="Zone de danger">
+        <SettingsRow icon={<Download size={16} />} label="Exporter mes données" description="Demande d'accès RGPD (DSAR), délai légal de 30 jours">
           <Button emphasis="soft" tone="warm" size="sm" leadingIcon={<Download size={14} />} onClick={() => navigate('/profile/privacy/dsar')}>
             Exporter
           </Button>
@@ -147,7 +153,7 @@ const GeneralTab: React.FC = () => {
             Supprimer
           </Button>
         </SettingsRow>
-      </SettingCard>
+      </SettingsSection>
     </div>
   );
 };
@@ -156,8 +162,8 @@ const SecurityTab: React.FC = () => {
   const [twoFA, setTwoFA] = useState(false);
 
   return (
-    <div className="flex flex-col gap-stack-lg">
-      <SettingCard title="Authentification">
+    <div className="flex flex-col gap-page">
+      <SettingsSection title="Authentification">
         <SettingsRow icon={<Lock size={16} />} label="Mot de passe" description="Dernière modification il y a 3 mois">
           <Button emphasis="soft" tone="warm" size="sm">Changer</Button>
         </SettingsRow>
@@ -168,8 +174,8 @@ const SecurityTab: React.FC = () => {
         >
           <div className="flex items-center gap-stack-xs">
             {twoFA && (
-              <span className="flex items-center gap-tight font-body text-caption text-success-fg font-semibold">
-                <CheckCircle2 size={14} /> Activée
+              <span className="flex items-center gap-stack-3xs font-body text-caption text-success-fg font-semibold">
+                <CheckCircle2 size={14} aria-hidden="true" /> Activée
               </span>
             )}
             <Switch
@@ -179,47 +185,61 @@ const SecurityTab: React.FC = () => {
             />
           </div>
         </SettingsRow>
-      </SettingCard>
+      </SettingsSection>
 
-      <SettingCard title="Sessions actives">
-        {SESSIONS.map((session, i) => (
-          <div
-            key={session.id}
-            className={[
-              'flex items-center justify-between gap-stack py-stack-md px-stack-lg -mx-6 transition-colors',
-              i < SESSIONS.length - 1 ? 'border-b border-ink-100' : '',
-              session.current ? 'bg-primary-50' : '',
-            ].join(' ')}
-          >
-            <div className="flex items-start gap-stack-xs">
-              <div className={`w-9 h-9 rounded-md shrink-0 flex items-center justify-center ${session.current ? 'bg-primary-100 text-primary-600' : 'bg-ink-100 text-ink-700'}`}>
-                <Smartphone size={16} />
-              </div>
-              <div>
-                <div className="flex items-center gap-stack-xs">
-                  <p className="m-0 font-body text-body font-semibold text-ink-900">
-                    {session.device}
-                  </p>
-                  {session.current && <Badge variant="success">session actuelle</Badge>}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader title="Sessions actives" meta={`${SESSIONS.length} appareils`} />
+        {/* Des rangées dans une carte ; la session en cours garde son fond. */}
+        <Card className="p-0 overflow-hidden">
+          <ul className="flex flex-col divide-y divide-ink-100" aria-label="Sessions actives">
+            {SESSIONS.map((session) => (
+              <li
+                key={session.id}
+                className={[
+                  'flex items-center justify-between gap-stack px-stack-md sm:px-stack-lg py-stack',
+                  session.current ? 'bg-primary-50' : '',
+                ].join(' ')}
+              >
+                <div className="flex items-start gap-stack-sm min-w-0">
+                  <IconChip
+                    size="md"
+                    tone={session.current ? 'brand' : 'neutral'}
+                    surface={session.current ? 'tinted' : 'default'}
+                  >
+                    <Smartphone />
+                  </IconChip>
+                  {/* Le texte descend de 6 px : sa première ligne tombe sur le
+                      centre de la pastille de 40 (le motif de SettingsRow). */}
+                  <div className="flex flex-col gap-stack-3xs min-w-0 pt-stack-2xs">
+                    <div className="flex flex-wrap items-center gap-x-stack-xs gap-y-stack-3xs">
+                      <p className="font-body text-body font-semibold text-ink-900">
+                        {session.device}
+                      </p>
+                      {session.current && <Badge variant="success">Session actuelle</Badge>}
+                    </div>
+                    <p className="font-body text-caption text-ink-600 flex items-center gap-stack-3xs">
+                      <MapPin size={14} aria-hidden="true" /> {session.location} · {session.lastSeen}
+                    </p>
+                  </div>
                 </div>
-                <p className="m-0 mt-0.5 font-body text-caption text-ink-700 flex items-center gap-stack-xs">
-                  <MapPin size={14} /> {session.location} · {session.lastSeen}
-                </p>
-              </div>
-            </div>
-            {!session.current && (
-              <Button emphasis="soft" tone="warm" size="sm" className="shrink-0" leadingIcon={<LogOut size={14} />}>
-                Révoquer
-              </Button>
-            )}
-          </div>
-        ))}
-        <div className="pb-stack-md pt-3">
-          <Button emphasis="outline" size="sm" className="text-danger-fg hover:bg-danger-bg" leadingIcon={<LogOut size={14} />}>
+                {!session.current && (
+                  <Button emphasis="soft" tone="warm" size="sm" className="shrink-0" leadingIcon={<LogOut size={14} />}>
+                    Révoquer
+                  </Button>
+                )}
+              </li>
+            ))}
+          </ul>
+        </Card>
+        {/* Contenu → action : 24 px. Le ton `danger` passe par l'API du
+            bouton : une couleur posée en `className` à côté de celle de la
+            variante se jouait à l'ordre d'émission (piège n°6). */}
+        <div className="mt-stack-xs">
+          <Button emphasis="outline" tone="danger" size="sm" leadingIcon={<LogOut size={14} />}>
             Déconnecter toutes les autres sessions
           </Button>
         </div>
-      </SettingCard>
+      </section>
     </div>
   );
 };
@@ -227,38 +247,41 @@ const SecurityTab: React.FC = () => {
 /* ─── Main component ──────────────────────────────────────────────────────── */
 
 const TAB_ITEMS = [
-  { id: 'general',  label: <><UserRound size={14} /> Général</> },
-  { id: 'security', label: <><ShieldCheck size={14} /> Sécurité</> },
+  { id: 'general',  label: 'Général' },
+  { id: 'security', label: 'Sécurité' },
 ];
 
+/* Passe typographique du 2026-09-24 : le haut de page reprend le padding de
+   `PageShell` (la nav de la famille touchait le haut de la fenêtre) ; le
+   surtitre « Profil · Mon compte » redisait le titre et un faux parent ;
+   l'offre est une donnée (`MetaPill`) ; les onglets sont les onglets texte
+   de l'app (l'icône empilée au-dessus du libellé en faisait un troisième
+   style) ; chaque carte de réglages a son titre h2 posé au-dessus. */
 export const Account: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabId>('general');
 
   return (
-    <PageShell width="content" noPadTop>
+    <PageShell width="content">
       {/* ── Account family sub-nav ───────────────────────────── */}
       <AccountFamilyNav active="account" />
 
       {/* ── Page header ──────────────────────────────────────── */}
       <PageHero
-        eyebrow="Profil · Mon compte"
         title="Mon compte"
         summary="Informations personnelles, sécurité et préférences d'interface."
         tone="flat"
-        trailing={<Badge variant="brand">Plan Pro · Actif</Badge>}
+        trailing={<MetaPill text="Plan Pro · actif" tone="neutral" />}
       />
 
-      {/* ── Tabs ─────────────────────────────────────────────── */}
-      <Tabs
-        items={TAB_ITEMS}
-        value={activeTab}
-        onChange={(id) => setActiveTab(id as TabId)}
-        variant="underline"
-        fullWidth
-      />
-
-      {/* ── Tab panels ────────────────────────────────────────── */}
-      <div>
+      {/* ── Onglets et panneau : un bloc (24 px) ─────────────── */}
+      <div className="flex flex-col gap-stack-lg">
+        <Tabs
+          items={TAB_ITEMS}
+          value={activeTab}
+          onChange={(id) => setActiveTab(id as TabId)}
+          variant="underline"
+          label="Sections du compte"
+        />
         {activeTab === 'general'  && <GeneralTab />}
         {activeTab === 'security' && <SecurityTab />}
       </div>
