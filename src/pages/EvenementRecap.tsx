@@ -185,10 +185,10 @@ export default function EvenementRecap() {
           <Card variant="tinted" tone="sun" size="sm" className="flex flex-col gap-stack">
             <div className="flex flex-col gap-stack-3xs">
               <p className="text-body font-semibold text-ink-900">
-                Votre avis compte
+                Ton avis compte
               </p>
               <p className="text-caption text-ink-600">
-                Partagez votre retour d'expérience pour améliorer les prochains événements.
+                Partage ton retour d'expérience pour améliorer les prochains événements.
               </p>
             </div>
             <Button emphasis="soft" size="sm" className="w-full">

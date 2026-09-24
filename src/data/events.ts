@@ -39,7 +39,7 @@ export const MOCK_MASTERCLASSES: Masterclass[] = [
   {
     id: 'mc-001',
     title: 'Leadership situationnel : adapter son style en contexte incertain',
-    description: 'Apprenez à moduler votre posture de leader selon la maturité de vos collaborateurs et la complexité de la situation. Cas pratiques en temps réel avec feedback du coach.',
+    description: 'Apprends à moduler ta posture de leader selon la maturité de tes collaborateurs et la complexité de la situation. Cas pratiques en temps réel avec feedback du coach.',
     expertName: 'Sophie Beaumont',
     expertTitle: 'Executive Coach & PCC ICF',
     expertInitials: 'SB',
@@ -56,7 +56,7 @@ export const MOCK_MASTERCLASSES: Masterclass[] = [
   {
     id: 'mc-002',
     title: 'Prompt Engineering avancé pour managers',
-    description: 'Maîtrisez les techniques de prompting pour déléguer efficacement à l\'IA dans votre quotidien de manager : rapports, synthèses, préparation d\'entretiens.',
+    description: 'Maîtrise les techniques de prompting pour déléguer efficacement à l\'IA dans ton quotidien de manager : rapports, synthèses, préparation d\'entretiens.',
     expertName: 'Karim Lassouane',
     expertTitle: 'Expert IA & Transformation Digitale',
     expertInitials: 'KL',
@@ -168,7 +168,7 @@ export const MOCK_ATELIERS: AtelierPratique[] = [
   {
     id: 'at-003',
     title: 'Atelier Gestion du changement',
-    description: 'Modèles ADKAR et Kotter appliqués à votre contexte. Retour d\'expérience sur des transformations réelles.',
+    description: 'Modèles ADKAR et Kotter appliqués à ton contexte. Retour d\'expérience sur des transformations réelles.',
     companyId: 'company-demo',
     companyName: 'TechCorp SAS',
     coachName: 'Jean-Marc Pelletier',

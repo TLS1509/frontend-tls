@@ -29,7 +29,7 @@ const PROGRAMME = [
   {
     duration: '30 min',
     label: 'Q&A live',
-    detail: 'Session ouverte : apportez vos cas concrets. Marie Fontaine répond en direct à vos questions sur vos situations terrain.',
+    detail: 'Session ouverte : apporte tes cas concrets. Marie Fontaine répond en direct à tes questions sur tes situations terrain.',
   },
 ];
 
