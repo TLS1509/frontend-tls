@@ -5,7 +5,8 @@ import React from 'react';
  * Règles d'usage : docs/_canon/REGLES-USAGE-COMPOSANTS.md
  * (design-system/spec.json supprimé le 2026-07-22 : jamais importé, périmé.)
  *
- * Prominent learning metric. Display number, micro uppercase label, optional delta.
+ * Prominent learning metric. Chiffre en `stat-value` (h2 28 en `sm`), libellé
+ * en légende 13/600 ink-600, delta et unité en légende.
  * Variants: default / elevated / warm / brand / sun
  * Sizes: sm / md / lg
  * Square: aspect-square for grid layouts (content should stay short)
@@ -21,7 +22,7 @@ export type StatPolarity = 'higher-is-better' | 'lower-is-better';
 export type StatCardSize = 'sm' | 'md' | 'lg';
 
 export interface StatCardProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Micro uppercase label displayed above value */
+  /** Libellé sous la valeur — légende 13/600, ink-600. */
   label: React.ReactNode;
   /** Main metric (string or number) — rendered display-size */
   value: React.ReactNode;
@@ -127,31 +128,47 @@ const VARIANT_TO_TONE_SURFACE: Record<StatCardVariant, { tone: StatCardTone; sur
 
 // Deux paddings seulement (arbitrage n°4 du 23/09) : 20 dense, 24 canon.
 // `sm` était à 16, sous le rayon 20 : son coin pinçait.
+// Les écarts sont portés par les éléments (voir `VALUE_AFTER_ICON` et
+// `LABEL_CLASSES`) : ils ne sont pas égaux, un `gap` ne sait pas le dire.
+// Le `gap-2.5` de `md` (10 px) n'était d'ailleurs pas un pas de l'échelle.
 const CONTAINER_SIZE_CLASSES: Record<StatCardSize, string> = {
-  sm: 'p-stack-md gap-stack-xs',
-  md: 'p-stack-md gap-2.5',
-  lg: 'p-stack-lg gap-stack-xs',
+  sm: 'p-stack-md',
+  md: 'p-stack-md',
+  lg: 'p-stack-lg',
 };
 
-// Label below value — regular sans font, NOT font-mono. Slightly muted color.
-const LABEL_BASE = 'font-body font-medium text-ink-500 leading-snug';
-const LABEL_SIZE_CLASSES: Record<StatCardSize, string> = {
-  sm: 'text-caption',
-  md: 'text-body',
-  lg: 'text-body',
-};
+/* ── Typographie des chiffres — passe du 2026-09-24 ────────────────────────
+   Le libellé est une LÉGENDE, à toutes les tailles : 13/20, graisse 600,
+   ink-600. Il était à 16 px graisse 500 (réservée aux puces) en ink-500 sur
+   `md` et `lg` — le même corps que le texte courant, donc en concurrence avec
+   lui, alors qu'il ne fait que nommer le chiffre.
+   La valeur prend l'échelle : `stat-value` (32 → 44) en `md`, `stat-value-lg`
+   en `lg`, et le h2 (28) en `sm`, qui rendait 24 px — hors échelle.
+   `leading-none` reste : un chiffre tient sur une ligne, et `stat-value`
+   n'a pas d'interligne déclaré (il hériterait de celui du corps). Le serrage
+   vit dans la map de taille (piège n°15), jamais dans la base : le h2 porte
+   déjà le sien. */
+/* Rythme : icône → valeur 12, valeur → libellé 4. Le libellé nomme le
+   chiffre, il lui est collé (« étiquette ↔ valeur », doctrine § 5) ; l'icône
+   s'en écarte davantage. À 8 / 8 (10 / 10 en `md`), le chiffre flottait à
+   égale distance des deux. */
+const LABEL_CLASSES = 'mt-stack-3xs font-body text-caption font-semibold text-ink-600';
+const VALUE_AFTER_ICON = 'mt-stack-sm';
 
-const VALUE_BASE = 'font-display font-bold tracking-tight leading-none inline-flex items-baseline gap-tight';
+const VALUE_BASE = 'font-display font-bold leading-none inline-flex items-baseline gap-stack-3xs';
 const VALUE_SIZE_CLASSES: Record<StatCardSize, string> = {
-  sm: 'text-2xl',
-  md: 'text-stat-value',
-  lg: 'text-stat-value-lg',
+  sm: 'text-h2',
+  md: 'text-stat-value tracking-headline',
+  lg: 'text-stat-value-lg tracking-display',
 };
 
+/* Une couleur de marque ne porte du texte qu'au cran 800 (doctrine § 2) —
+   le cran 700 des valeurs teintées passait le seuil du grand texte, pas la
+   règle. */
 const VALUE_COLOR_CLASSES: Record<StatValueColor, string> = {
   default: 'text-ink-900',
-  warm:    'text-secondary-700',
-  brand:   'text-primary-700',
+  warm:    'text-secondary-800',
+  brand:   'text-primary-800',
 };
 
 // Icon bubble — light fill (variant-aware), rounded-xl, smaller than the value
@@ -188,8 +205,8 @@ const ICON_BUBBLE_SIZE: Record<StatCardSize, string> = {
    manque. Le repli se décide sur le contenu réel — une requête de conteneur
    aurait dû deviner, par un seuil fixe, la largeur d'un texte qui va de
    « +2 » à « Intervention recommandée ». */
-const DELTA_BASE = 'inline-flex items-center gap-tight text-caption font-semibold min-w-0';
-const DELTA_ROW = 'flex flex-wrap items-start gap-x-stack-xs gap-y-tight';
+const DELTA_BASE = 'inline-flex items-center gap-stack-3xs text-caption font-semibold min-w-0';
+const DELTA_ROW = 'flex flex-wrap items-start gap-x-stack-xs gap-y-stack-3xs';
 const DELTA_TONE = { good: 'text-success-fg', bad: 'text-danger-fg' } as const;
 
 export const StatCard: React.FC<StatCardProps> = ({
@@ -242,13 +259,15 @@ export const StatCard: React.FC<StatCardProps> = ({
     // elevated keeps its shadow even in new API
     variant === 'elevated' && !useExplicit && 'shadow-sm',
     CONTAINER_SIZE_CLASSES[size],
-    square && 'aspect-square overflow-hidden items-center text-center',
+    // Tuile carrée : contenu centré sur les deux axes (il restait collé en
+    // haut, sous un grand vide).
+    square && 'aspect-square overflow-hidden items-center justify-center text-center',
     className,
   ]
     .filter(Boolean)
     .join(' ');
 
-  const labelClasses = [LABEL_BASE, LABEL_SIZE_CLASSES[size]].join(' ');
+  const labelClasses = LABEL_CLASSES;
 
   const valueClasses = [
     VALUE_BASE,
@@ -280,8 +299,11 @@ export const StatCard: React.FC<StatCardProps> = ({
   const valueEl = (
     <p className={valueClasses}>
       {value}
+      {/* L'unité est une légende posée sur la ligne de base du chiffre. Elle
+          était à 0,45em — 12,6 à 19,8 px selon la taille, jamais un pas de
+          l'échelle — en graisse 500. */}
       {resolvedSub && (
-        <span className="text-[0.45em] font-medium text-ink-500 leading-none self-end mb-[0.15em]">
+        <span className="font-body text-caption font-normal tracking-normal text-ink-600">
           {resolvedSub}
         </span>
       )}
@@ -298,12 +320,16 @@ export const StatCard: React.FC<StatCardProps> = ({
     </div>
   );
 
+  // Sans icône, le delta accompagne la valeur sur sa rangée ; avec une icône,
+  // il accompagne l'icône, et la valeur descend de 12 px.
+  const valueSlot = deltaEl && !iconEl ? deltaRow(valueEl) : valueEl;
+
   return (
     <div className={classes} {...rest}>
-      {deltaEl && iconEl ? deltaRow(iconEl) : iconEl}
-      {deltaEl && !iconEl ? deltaRow(valueEl) : valueEl}
+      {iconEl && (deltaEl ? deltaRow(iconEl) : iconEl)}
+      {iconEl ? <div className={VALUE_AFTER_ICON}>{valueSlot}</div> : valueSlot}
       {resolvedLabel && <p className={labelClasses}>{resolvedLabel}</p>}
-      {children}
+      {children && <div className="mt-stack-xs">{children}</div>}
     </div>
   );
 };
