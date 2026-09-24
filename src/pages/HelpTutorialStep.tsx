@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { HelpCircle, ArrowLeft, ArrowRight, List, CheckCircle, Circle, ChevronRight } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
@@ -7,33 +8,59 @@ import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { Container } from '../components/layout';
+import { useHelpcenterStore } from '../stores/persistence';
 
-const CURRENT_STEP = 3;
-const TOTAL_STEPS = 5;
-
-const TUTORIAL_STEPS = [
-  { id: 1, title: 'Accéder aux paramètres du profil',     status: 'completed' },
-  { id: 2, title: 'Choisir une photo de profil',           status: 'completed' },
-  { id: 3, title: 'Renseigner vos informations personnelles', status: 'current' },
-  { id: 4, title: 'Définir vos objectifs d\'apprentissage',   status: 'upcoming' },
-  { id: 5, title: 'Enregistrer et valider votre profil',       status: 'upcoming' },
-];
-
-const STATUS_CONFIG: Record<string, { badge: string; variant: 'success' | 'brand' | 'neutral' }> = {
+const STATUS_CONFIG: Record<StepStatus, { badge: string; variant: 'success' | 'brand' | 'neutral' }> = {
   completed: { badge: 'Terminé',  variant: 'success' },
   current:   { badge: 'En cours', variant: 'brand'   },
   upcoming:  { badge: 'À venir',  variant: 'neutral'  },
 };
 
-const FILL_PERCENT = Math.round((CURRENT_STEP / TOTAL_STEPS) * 100);
+type StepStatus = 'completed' | 'current' | 'upcoming';
 
+/* L'étape affichée suit l'URL (2026-09-24). La page était entièrement codée
+   en dur — tutoriel « Paramétrer mon profil », étape 3 sur 5 — quels que
+   soient les paramètres : /help/tutorials/1/step/1 montrait l'étape 3 d'un
+   tutoriel absent de la liste. Elle lit maintenant le tutoriel dans le store
+   d'aide (par id, `tuto-01`, ou par rang, `1`) et l'étape `stepId` (base 1). */
 export default function HelpTutorialStep() {
+  const { id = '', stepId = '1' } = useParams<{ id: string; stepId: string }>();
+  const navigate = useNavigate();
+  const tutorials = useHelpcenterStore().getTutorials();
+  const tutorial =
+    tutorials.find((t) => t.id === id) ?? tutorials.find((t) => String(t.order) === id);
+
+  if (!tutorial || tutorial.sections.length === 0) {
+    return (
+      <div className="flex flex-col gap-section">
+        <EditorialHero
+          eyebrow={{ icon: <HelpCircle size={14} />, label: 'Aide · Tutoriel' }}
+          title="Tutoriel introuvable"
+          summary="Ce tutoriel n'existe pas ou a été déplacé."
+          tone="flat"
+        />
+        <Container width="page" padding={false} className="px-stack pb-page">
+          <Button emphasis="outline" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/help/tutorials')}>
+            Tous les tutoriels
+          </Button>
+        </Container>
+      </div>
+    );
+  }
+
+  const total = tutorial.sections.length;
+  const parsed = Number.parseInt(stepId, 10);
+  const current = Math.min(Math.max(Number.isNaN(parsed) ? 1 : parsed, 1), total);
+  const section = tutorial.sections[current - 1];
+  const fillPercent = Math.round((current / total) * 100);
+  const goTo = (step: number) => navigate(`/help/tutorials/${tutorial.id}/step/${step}`);
+
   return (
     <div className="flex flex-col gap-section">
       <EditorialHero
         eyebrow={{ icon: <HelpCircle size={14} />, label: 'Aide · Tutoriel' }}
-        title="Tutoriel : Paramétrer mon profil"
-        summary={`Étape ${CURRENT_STEP} sur ${TOTAL_STEPS} : Renseigner vos informations personnelles`}
+        title={`Tutoriel : ${tutorial.title}`}
+        summary={`Étape ${current} sur ${total} : ${section.title}`}
         tone="flat"
       />
 
@@ -41,9 +68,9 @@ export default function HelpTutorialStep() {
         <div className="flex flex-col gap-stack-xs">
           <div className="flex items-center justify-between text-caption text-ink-500">
             <span>Progression du tutoriel</span>
-            <span className="font-semibold text-primary-700">{FILL_PERCENT} %</span>
+            <span className="font-semibold text-primary-700">{fillPercent} %</span>
           </div>
-          <ProgressBar value={FILL_PERCENT} fill="brand" size="sm" valueLabel={false} />
+          <ProgressBar value={fillPercent} fill="brand" size="sm" valueLabel={false} />
         </div>
 
         <Card>
@@ -51,42 +78,41 @@ export default function HelpTutorialStep() {
             <div className="flex flex-col gap-stack-xs">
               <div className="flex items-center gap-stack-xs">
                 <span className="inline-flex items-center justify-center w-8 h-8 rounded-pill bg-primary-700 text-white font-display font-bold text-body-sm shrink-0">
-                  {CURRENT_STEP}
+                  {current}
                 </span>
                 <h2 className="font-display text-h3 text-ink-900">
-                  Renseigner vos informations personnelles
+                  {section.title}
                 </h2>
               </div>
               <p className="text-body text-ink-700 m-0">
-                Cette étape vous guide pour compléter les informations essentielles de votre profil apprenant : nom d'affichage, poste actuel, secteur d'activité et langue préférée.
-              </p>
-            </div>
-
-            <div className="flex flex-col gap-stack">
-              <p className="text-body text-ink-700 m-0">
-                <strong>1.</strong> Depuis votre tableau de bord, cliquez sur votre avatar en haut à droite, puis sélectionnez <em>Mon profil</em>.
-              </p>
-              <p className="text-body text-ink-700 m-0">
-                <strong>2.</strong> Dans la section <em>Informations personnelles</em>, renseignez votre prénom, nom, intitulé de poste et secteur d'activité. Ces informations seront visibles par votre coach.
-              </p>
-              <p className="text-body text-ink-700 m-0">
-                <strong>3.</strong> Sélectionnez votre langue préférée pour l'interface et les contenus recommandés. Cette préférence peut être modifiée à tout moment.
+                {section.text}
               </p>
             </div>
 
             <div className="w-full aspect-video bg-ink-100 rounded-lg flex items-center justify-center">
-              <span className="text-body-sm text-ink-600">Illustration de l'étape 3</span>
+              <span className="text-body-sm text-ink-600">{section.imageAlt ?? `Illustration de l'étape ${current}`}</span>
             </div>
           </div>
         </Card>
 
         <div className="flex flex-wrap items-center justify-between gap-stack">
-          <Button emphasis="outline" leadingIcon={<ArrowLeft size={16} />}>
+          <Button
+            emphasis="outline"
+            leadingIcon={<ArrowLeft size={16} />}
+            disabled={current === 1}
+            onClick={() => goTo(current - 1)}
+          >
             Étape précédente
           </Button>
-          <Button emphasis="soft" trailingIcon={<ArrowRight size={16} />}>
-            Étape suivante
-          </Button>
+          {current < total ? (
+            <Button emphasis="soft" trailingIcon={<ArrowRight size={16} />} onClick={() => goTo(current + 1)}>
+              Étape suivante
+            </Button>
+          ) : (
+            <Button emphasis="soft" trailingIcon={<ArrowRight size={16} />} onClick={() => navigate('/help/tutorials')}>
+              Terminer le tutoriel
+            </Button>
+          )}
         </div>
 
         <SectionCard
@@ -94,7 +120,12 @@ export default function HelpTutorialStep() {
           titleIcon={<List size={18} />}
         >
           <div className="flex flex-col gap-stack-xs">
-            {TUTORIAL_STEPS.map((step) => {
+            {tutorial.sections.map((sec, index) => {
+              const step = {
+                id: index + 1,
+                title: sec.title,
+                status: (index + 1 < current ? 'completed' : index + 1 === current ? 'current' : 'upcoming') as StepStatus,
+              };
               const config = STATUS_CONFIG[step.status];
               return (
                 <div
