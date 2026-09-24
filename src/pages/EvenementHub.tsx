@@ -225,13 +225,13 @@ export default function EvenementHub() {
                       (`-ml-stack`, le padding du ghost `sm`). */}
                   <div className="mt-auto pt-stack-lg">
                     {!isPrivateAccessible ? (
-                      <Button emphasis="ghost" tone="neutral" size="sm" disabled className="-ml-stack">
+                      <Button emphasis="ghost" tone="neutral" size="sm" disabled flush="start">
                         <Lock size={14} className="mr-1.5" /> Réservé aux membres
                       </Button>
                     ) : isPast ? (
                       <Button emphasis="soft" tone="brand" size="sm">Voir le récap</Button>
                     ) : registration ? (
-                      <Button emphasis="ghost" tone="neutral" size="sm" disabled className="-ml-stack">Déjà inscrit(e)</Button>
+                      <Button emphasis="ghost" tone="neutral" size="sm" disabled flush="start">Déjà inscrit(e)</Button>
                     ) : (
                       <Button
                         emphasis="soft"
