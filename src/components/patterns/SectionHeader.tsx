@@ -13,21 +13,46 @@ import type { LucideIcon } from 'lucide-react';
  *   2026-09-24 : zéro usage produit, et c'est le premier tell « AI slop » de la
  *   doctrine (pas de barre d'accent à gauche).
  *
- * ── 4 sizes (controls the VISUAL size + bubble) ───────────────────────────
- *   - `xs` : text-body (16px) + 32px bubble — tight inline sections
- *   - `sm` : text-h4 (20px) + 36px bubble — secondary sections
- *   - `md` : text-h3 (24px) + 44px bubble — DEFAULT, main page sections
- *   - `lg` : text-h2 (28px) + 56px bubble — page-level group titles
+ * ── 4 sizes — rangées sur l'échelle (passe typographique du 2026-09-24) ─────
+ *   L'échelle de l'app n'a que deux titres sous le h1 : la SECTION (h2, 28/36)
+ *   et le BLOC (h3, 20/26). `size` choisit l'un des deux, plus la pastille :
+ *   - `lg` : section 28 px + pastille 56 — titres de groupe au niveau de la page
+ *   - `md` : section 28 px + pastille 44 — DEFAULT, sections principales
+ *   - `sm` : bloc 20 px + pastille 36 — sous-sections
+ *   - `xs` : bloc 20 px + pastille 32 — sections serrées
+ *   Avant, `md` rendait 20 px (le h3 depuis l'arbitrage n°21) : les sections
+ *   d'une page avaient la taille d'un titre de carte. Et `xs` était à 16 px,
+ *   un titre au corps du texte, hors de l'échelle des titres.
  *
  * ── Niveau de titre : prop `as` (h2 | h3 | h4), défaut h2 ─────────────────
  * Indépendant de `size` (2026-09-24). Le composant émettait TOUJOURS un <h2>,
  * y compris pour une section `xs` posée dans une carte sous un autre h2 : le
  * plan du document était faux pour les lecteurs d'écran. La taille dit
  * l'importance visuelle, `as` dit la place dans le plan — ce sont deux
- * questions, et seule la page connaît la réponse à la seconde.
+ * questions, et seule la page connaît la réponse à la seconde. Pour un bloc
+ * (`sm`, `xs`) sous une section, passer `as="h3"`.
+ *
+ * ── Sous-titre et méta ────────────────────────────────────────────────────
+ *   - `subtitle` : une phrase qui décrit la section — 16/26, ink-700,
+ *     plafonnée à `max-w-prose`, 4 px sous le titre.
+ *   - `meta` : une DONNÉE (« 12 apprenants », « 3 en attente ») — légende
+ *     13/20, ink-600. La donnée chuchote (doctrine § 6) : un compte posé en
+ *     `subtitle` prend la voix d'une description.
+ *
+ * ── Rythme — ce que la PAGE doit poser ────────────────────────────────────
+ * Le composant ne pose aucune marge externe (piège n°12). La doctrine demande
+ * un rapport de 3:1 autour d'un titre de section : **48 px au-dessus**
+ * (`gap-page` entre sections) et **16 px en dessous** (`gap-stack` entre
+ * l'en-tête et son contenu). `check-rythme` signale sous 1,5:1.
+ *
+ *   <PageShell>                                   // 48 px entre sections
+ *     <section className="flex flex-col gap-stack">  // 16 px titre → contenu
+ *       <SectionHeader title="…" />
+ *       …
  *
  * Graisse : 700 pour toutes les variantes (arbitrage n°12, un seul poids de
- * titre dans l'app). `minimal` et `underline` étaient au 600.
+ * titre dans l'app). L'interligne et le tracking sont ceux du token — rien
+ * n'est écrit à côté (`leading-tight` et `tracking-*` retirés le 2026-09-24).
  *
  * `compact` (deprecated alias) maps to `size="sm"` for backward compat.
  *
@@ -43,10 +68,13 @@ export type SectionHeaderSize = 'xs' | 'sm' | 'md' | 'lg';
 export interface SectionHeaderProps {
   icon?: LucideIcon | React.ReactNode;
   title: string;
+  /** Une phrase qui décrit la section — 16 px, ink-700. */
   subtitle?: string;
+  /** Une donnée sur la section (compte, statut chiffré) — légende 13 px, ink-600. */
+  meta?: React.ReactNode;
   action?: React.ReactNode;
   divider?: boolean;
-  /** Visual size — text step + bubble + glyph. Default `md`. Does NOT set the heading level: see `as`. */
+  /** Section (`md`, `lg` : 28 px) ou bloc (`sm`, `xs` : 20 px), plus la pastille. Default `md`. Does NOT set the heading level: see `as`. */
   size?: SectionHeaderSize;
   /** Heading level in the document outline. Default `h2`. Independent of `size`. */
   as?: SectionHeaderLevel;
@@ -97,20 +125,13 @@ const TONE_UNDERLINE: Record<SectionHeaderTone, string> = {
 
 // ── Size maps ────────────────────────────────────────────────────────────────
 
+/* Deux pas seulement : la section (h2, 28/36) et le bloc (h3, 20/26). Le token
+   porte la taille, l'interligne, la graisse (700) et le tracking. */
 const SIZE_TITLE: Record<SectionHeaderSize, string> = {
-  xs: 'text-body', // graisse portée par la variante (700) : un 2e poids ici se battait avec font-bold
+  xs: 'text-h3',
   sm: 'text-h3',
-  md: 'text-h3',
+  md: 'text-h2',
   lg: 'text-h2',
-};
-
-// tracking-display (-0.03em) for lg, tracking-headline (-0.025em) for md/sm,
-// tracking-tight (Tailwind default -0.025em) for xs. Phase 19.D typography tightening.
-const SIZE_TRACKING: Record<SectionHeaderSize, string> = {
-  xs: 'tracking-tight',
-  sm: 'tracking-headline',
-  md: 'tracking-headline',
-  lg: 'tracking-display',
 };
 
 const SIZE_BUBBLE: Record<SectionHeaderSize, string> = {
@@ -129,23 +150,24 @@ const SIZE_BUBBLE_RADIUS: Record<SectionHeaderSize, string> = {
 
 /* Le décalage qui aligne la PREMIÈRE LIGNE du titre sur le centre de la pastille.
 
-   La pastille est toujours plus haute que la ligne du titre — 44 px contre 30 en
-   taille `md`. Les centrer l'un sur l'autre demande donc de descendre le TEXTE de
-   la moitié de l'écart, et non de remonter la pastille : une marge négative sur
-   la pastille la ferait déborder au-dessus de l'en-tête.
+   La pastille est toujours plus haute que la ligne du titre. Les centrer l'un
+   sur l'autre demande donc de descendre le TEXTE de la moitié de l'écart, et
+   non de remonter la pastille : une marge négative sur la pastille la ferait
+   déborder au-dessus de l'en-tête. Recalculé le 2026-09-24 sur les interlignes
+   du token (plus de `leading-tight` à côté) :
 
      taille   ligne   pastille   décalage
-     xs        20        32         6
-     sm        25        36         5.5 → 6
-     md        30        44         7
-     lg        35        56        10.5 → 10
+     xs        26        32         3
+     sm        26        36         5
+     md        36        44         4
+     lg        36        56        10
 
    Quand le titre passe sur deux lignes, le bloc entier descend d'autant, mais sa
    première ligne reste centrée sur la pastille : c'est tout l'objet. */
 const SIZE_TITLE_OFFSET: Record<SectionHeaderSize, string> = {
-  xs: 'mt-1.5',   //  6 px
-  sm: 'mt-1.5',   //  6 px
-  md: 'mt-[7px]',
+  xs: 'mt-[3px]',
+  sm: 'mt-[5px]',
+  md: 'mt-1',     //  4 px
   lg: 'mt-2.5',   // 10 px
 };
 
@@ -163,25 +185,31 @@ const SIZE_INLINE_GLYPH: Record<SectionHeaderSize, number> = {
   lg: 24,
 };
 
+/* Même règle pour l'icône nue des variantes `minimal` et `underline` : son
+   centre sur celui de la première ligne — (ligne − glyphe) / 2. */
+const SIZE_INLINE_OFFSET: Record<SectionHeaderSize, string> = {
+  xs: 'mt-1.5',   // (26 − 14) / 2 = 6
+  sm: 'mt-[5px]', // (26 − 16) / 2 = 5
+  md: 'mt-2',     // (36 − 20) / 2 = 8
+  lg: 'mt-1.5',   // (36 − 24) / 2 = 6
+};
+
+/* Écart pastille ↔ titre : il grandit avec la pastille. */
 const SIZE_GAP: Record<SectionHeaderSize, string> = {
   xs: 'gap-stack-xs',
-  sm: 'gap-2.5',
-  md: 'gap-stack-xs',
+  sm: 'gap-stack-sm',
+  md: 'gap-stack-sm',
   lg: 'gap-stack',
 };
 
-/**
- * SectionHeader does NOT apply its own bottom margin — the parent layout
- * (e.g. `<section className="flex flex-col gap-stack">`) controls vertical spacing.
- * This avoids the double-spacing trap (mb on header + gap on parent).
- *
- * If you need a bottom margin, pass it via `className` (e.g. `className="mb-stack"`).
- */
-const SIZE_MARGIN: Record<SectionHeaderSize, string> = {
-  xs: '',
-  sm: '',
-  md: '',
-  lg: '',
+/* Filet de séparation : 12 px d'air sous un bloc, 16 sous une section. Écrit en
+   entier — l'ancien `pb-${…}` interpolé n'existait que parce que `pb-3` et
+   `pb-4` traînaient ailleurs dans le code (Tailwind ne compile que le littéral). */
+const SIZE_DIVIDER: Record<SectionHeaderSize, string> = {
+  xs: 'pb-stack-sm border-b border-ink-200',
+  sm: 'pb-stack-sm border-b border-ink-200',
+  md: 'pb-stack border-b border-ink-200',
+  lg: 'pb-stack border-b border-ink-200',
 };
 
 const SIZE_UNDERLINE_HEIGHT: Record<SectionHeaderSize, string> = {
@@ -198,11 +226,13 @@ const SIZE_UNDERLINE_WIDTH: Record<SectionHeaderSize, string> = {
   lg: 'w-[48px]',
 };
 
+/* Émoji ou nœud passé en icône : la taille du glyphe se prend sur l'échelle,
+   environ la moitié de la pastille. */
 const SIZE_EMOJI_TEXT: Record<SectionHeaderSize, string> = {
-  xs: 'text-base',
-  sm: 'text-lg',
-  md: 'text-2xl',
-  lg: 'text-3xl',
+  xs: 'text-body',
+  sm: 'text-body-lg',
+  md: 'text-h3',
+  lg: 'text-h2',
 };
 
 // ── Component ────────────────────────────────────────────────────────────────
@@ -211,6 +241,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
   icon,
   title,
   subtitle,
+  meta,
   action,
   divider = false,
   size: sizeProp,
@@ -224,14 +255,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
   // Resolve size: `compact` (deprecated) → 'sm', else use `size` prop, default 'md'
   const size: SectionHeaderSize = sizeProp ?? (compact ? 'sm' : 'md');
 
-  const titleSize = SIZE_TITLE[size];
-  const titleTracking = SIZE_TRACKING[size];
-  const bubbleSize = SIZE_BUBBLE[size];
-  const bubbleRadius = SIZE_BUBBLE_RADIUS[size];
-  const glyphSize = SIZE_GLYPH[size];
-  const inlineGlyphSize = SIZE_INLINE_GLYPH[size];
-  const gap = SIZE_GAP[size];
-  const margin = SIZE_MARGIN[size];
+  const titleClasses = ['font-display text-ink-900 text-balance', SIZE_TITLE[size]].join(' ');
 
   // ── Icon rendering ─────────────────────────────────────────────────────────
   const renderBubbleIcon = (style: 'tinted' | 'solid') => {
@@ -239,8 +263,8 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
     const iconColor = iconClassName ?? TONE_ICON[tone];
     const bubbleClasses = [
       'inline-flex items-center justify-center shrink-0',
-      bubbleSize,
-      bubbleRadius,
+      SIZE_BUBBLE[size],
+      SIZE_BUBBLE_RADIUS[size],
       style === 'solid' ? TONE_SOLID_BG[tone] : `${TONE_BUBBLE_BG[tone]} ${iconColor}`,
     ].join(' ');
 
@@ -254,50 +278,59 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
     const Icon = icon as LucideIcon;
     return (
       <span className={bubbleClasses}>
-        <Icon size={glyphSize} strokeWidth={style === 'solid' ? 2.25 : 2} />
+        <Icon size={SIZE_GLYPH[size]} strokeWidth={style === 'solid' ? 2.25 : 2} />
       </span>
     );
   };
 
   const renderInlineIcon = () => {
     if (!icon) return null;
-    const colorClass = TONE_ICON[tone];
+    const classes = ['shrink-0 inline-flex items-center', TONE_ICON[tone], SIZE_INLINE_OFFSET[size]].join(' ');
     if (React.isValidElement(icon) || typeof icon === 'string' || typeof icon === 'number') {
-      return <span className={['shrink-0 inline-flex items-center', colorClass].join(' ')} aria-hidden="true">{icon}</span>;
+      return <span className={classes} aria-hidden="true">{icon}</span>;
     }
     const Icon = icon as LucideIcon;
     return (
-      <span className={['shrink-0 inline-flex items-center', colorClass].join(' ')} aria-hidden="true">
-        <Icon size={inlineGlyphSize} strokeWidth={2} />
+      <span className={classes} aria-hidden="true">
+        <Icon size={SIZE_INLINE_GLYPH[size]} strokeWidth={2} />
       </span>
     );
   };
 
+  /* Sous-titre (phrase) et méta (donnée), empilés sous le titre à 4 px : ils
+     appartiennent au titre (doctrine § 5, « dans un groupe : 4–8 »). */
+  const renderSecondary = () => (
+    <>
+      {subtitle && <p className="font-body text-body text-ink-700 max-w-prose">{subtitle}</p>}
+      {meta && <p className="font-body text-caption text-ink-600">{meta}</p>}
+    </>
+  );
+
   // ── Layout ─────────────────────────────────────────────────────────────────
   const wrapperBase = [
     'flex items-center justify-between gap-stack',
-    margin,
-    divider ? `pb-${size === 'xs' || size === 'sm' ? '3' : '4'} border-b border-ink-200` : '',
+    divider ? SIZE_DIVIDER[size] : '',
     className,
   ]
     .filter(Boolean)
     .join(' ');
 
+  const actionNode = action && <div className="shrink-0 flex items-center gap-stack-xs">{action}</div>;
+
   if (variant === 'minimal') {
+    /* Le sous-titre vivait EN LIGNE après un « · », et disparaissait sous
+       640 px (`hidden sm:inline-flex`) : une information que le mobile ne
+       recevait pas. Il passe sous le titre, à toutes les largeurs. */
     return (
       <div className={wrapperBase}>
-        <div className={['flex items-center flex-1 min-w-0', gap].join(' ')}>
+        <div className="flex items-start gap-stack-xs flex-1 min-w-0">
           {renderInlineIcon()}
-          <Heading className={['font-display font-bold text-ink-900 leading-tight text-balance', titleTracking, titleSize].join(' ')}>
-            {title}
-          </Heading>
-          {subtitle && (
-            <span className="hidden sm:inline-flex text-body text-ink-500 font-body before:content-['·'] before:mx-2 before:text-ink-300">
-              {subtitle}
-            </span>
-          )}
+          <div className="flex flex-col gap-stack-3xs min-w-0">
+            <Heading className={titleClasses}>{title}</Heading>
+            {renderSecondary()}
+          </div>
         </div>
-        {action && <div className="shrink-0 flex items-center gap-stack-xs">{action}</div>}
+        {actionNode}
       </div>
     );
   }
@@ -305,89 +338,56 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
   if (variant === 'underline') {
     return (
       <div className={wrapperBase}>
-        <div className="flex items-end gap-stack-xs flex-1 min-w-0">
+        <div className="flex items-start gap-stack-xs flex-1 min-w-0">
           {renderInlineIcon()}
-          <div className="flex flex-col flex-1 min-w-0">
-            <Heading className={['relative inline-flex items-baseline font-display font-bold text-ink-900 leading-tight text-balance', titleTracking, titleSize].join(' ')}>
+          {/* 8 px et non 4 : le trait déborde de 2 px sous le titre. */}
+          <div className="flex flex-col gap-stack-xs min-w-0">
+            <Heading className={titleClasses}>
               <span className="relative">
                 {title}
                 <span aria-hidden="true" className={['absolute left-0 -bottom-0.5 rounded-pill', SIZE_UNDERLINE_HEIGHT[size], SIZE_UNDERLINE_WIDTH[size], TONE_UNDERLINE[tone]].join(' ')} />
               </span>
             </Heading>
-            {subtitle && <p className="font-body text-body text-ink-500 m-0 mt-tight">{subtitle}</p>}
+            {renderSecondary()}
           </div>
         </div>
-        {action && <div className="shrink-0 flex items-center gap-stack-xs">{action}</div>}
+        {actionNode}
       </div>
     );
   }
 
   // ── default | solid (icon bubble) ──────────────────────────────────────────
-  // La grille aligne le centre de la pastille sur le centre de la PREMIÈRE LIGNE
-  // du titre, et pose le chapô sous le titre — jamais sous l'icône. Rétabli le
-  // 2026-09-10 : ce commentaire décrivait l'intention, le code faisait autre chose.
   const bubbleStyle: 'tinted' | 'solid' = variant === 'solid' ? 'solid' : 'tinted';
 
   if (!icon) {
-    // No icon — simple stack layout
     return (
       <div className={wrapperBase}>
-        <div className="flex flex-col flex-1 min-w-0 gap-tight">
-          <Heading className={['font-display font-bold text-ink-900 leading-tight text-balance', titleSize].join(' ')}>
-            {title}
-          </Heading>
-          {subtitle && (
-            <p className="font-body text-body text-ink-500 m-0">{subtitle}</p>
-          )}
+        <div className="flex flex-col gap-stack-3xs flex-1 min-w-0">
+          <Heading className={titleClasses}>{title}</Heading>
+          {renderSecondary()}
         </div>
-        {action && <div className="shrink-0 flex items-center gap-stack-xs">{action}</div>}
+        {actionNode}
       </div>
     );
   }
 
   return (
     <div className={wrapperBase}>
-      {/* Grille à deux colonnes : pastille | (titre puis chapô).
-
-         Le compromis qui vivait ici — « l'icône s'aligne sur le centre du BLOC
-         plutôt que sur la première ligne, priorité au spacing » — n'en était pas
-         un : on peut tenir les deux. Il coûtait 11,3 px de décalage dès qu'un
-         chapô était présent, à toutes les tailles. La pastille ne désignait plus
-         le titre, elle flottait entre le titre et le chapô.
-
-         La grille place la pastille et le titre sur la MÊME rangée, et le chapô
-         sur la suivante, dans la colonne du titre — donc jamais sous l'icône.
-         `items-start` fige la pastille en haut ; le titre descend du décalage qui
-         recentre sa première ligne sur elle. Le chapô reste collé au titre par
-         `gap-tight`, ce que l'ancien commentaire craignait de perdre. */}
-      <div
-        className={[
-          'grid grid-cols-[auto_minmax(0,1fr)] items-start flex-1 min-w-0',
-          gap,
-        ].join(' ')}
-      >
-        {/* Pastille — rangée 1, colonne 1 */}
+      {/* Pastille | (titre, puis sous-titre et méta). La pastille est figée en
+          haut (`items-start`) ; le bloc de texte descend du décalage qui centre
+          sa PREMIÈRE ligne sur elle (motif de référence de la doctrine § 4).
+          Le sous-titre vit dans la colonne du titre — jamais sous l'icône —
+          et suit le titre à 4 px quelle que soit la hauteur de la pastille :
+          quand il vivait sur une seconde rangée de grille, l'écart titre →
+          sous-titre valait 17 px en `md`, le reste de la pastille compris. */}
+      <div className={['flex items-start flex-1 min-w-0', SIZE_GAP[size]].join(' ')}>
         {renderBubbleIcon(bubbleStyle)}
-
-        {/* Titre — rangée 1, colonne 2 */}
-        <Heading
-          className={[
-            'font-display font-bold text-ink-900 leading-tight text-balance',
-            titleSize,
-            SIZE_TITLE_OFFSET[size],
-          ].join(' ')}
-        >
-          {title}
-        </Heading>
-
-        {/* Chapô — rangée 2, colonne 2 : sous le titre, jamais sous l'icône */}
-        {subtitle && (
-          <p className="col-start-2 mt-tight font-body text-body text-ink-500 m-0">
-            {subtitle}
-          </p>
-        )}
+        <div className={['flex flex-col gap-stack-3xs min-w-0', SIZE_TITLE_OFFSET[size]].join(' ')}>
+          <Heading className={titleClasses}>{title}</Heading>
+          {renderSecondary()}
+        </div>
       </div>
-      {action && <div className="shrink-0 flex items-center gap-stack-xs">{action}</div>}
+      {actionNode}
     </div>
   );
 };

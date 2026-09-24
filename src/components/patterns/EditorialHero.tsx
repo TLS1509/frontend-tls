@@ -47,17 +47,19 @@ export interface PageHeroBackLink {
 }
 
 export interface PageHeroProps {
-  /** Small uppercase chip above the title — typically a category or section name. */
+  /** Surtitre : le LIEU (section, catégorie), en légende 13/600 ink-600, sans
+      capitales. Chaîne ou `{ icon, label }` reçoivent ce style ; un nœud React
+      passe tel quel. */
   eyebrow?: PageHeroEyebrow | React.ReactNode;
-  /** Main title of the hero. Renders as `<h1>`. */
+  /** Main title of the hero. Renders as `<h1>` — 36/44/700, toujours. */
   title: React.ReactNode;
-  /** Subtitle / lede paragraph below the title. */
+  /** Chapô : 18/28, ink-700, plafonné à `max-w-prose`. */
   summary?: React.ReactNode;
   /** Optional metadata row at the bottom (date, author, edition, etc.). */
   meta?: PageHeroMetaItem[];
-  /** Extra content rendered after the meta row (CTAs, badges, etc.). */
+  /** Extra content rendered after the meta row (CTAs, badges, etc.) — 24 px sous le contenu. */
   trailing?: React.ReactNode;
-  /** Force compact padding (e.g. when nested in a layout that already pads). */
+  /** Padding réduit sur les tons colorés (24 au lieu de 32). Ne touche pas au titre. */
   compact?: boolean;
   /** Background gradient tone. Default: `default` (light primary). */
   tone?: PageHeroTone;
@@ -153,12 +155,15 @@ const TONE_SHADOW: Record<PageHeroTone, string> = {
    le blanc ne vaut que 5,02 (brand) et 4,88 (sun) — la moindre transparence
    (/75, /85) le faisait tomber à 3,60-4,32. La hiérarchie passe par la taille
    et la graisse, pas par l'opacité. */
-/* Ton `default` : son dégradé part de primary-50, où primary-700 ne fait que
-   4,48 et ink-500 4,45 (sondé sur /passeport, /coaching/booking, /veille/newsletter,
-   23/09). Il prend donc le cran au-dessus : primary-800, ink-600. */
+/* Le surtitre ne dit que le LIEU (2026-09-24, passe typographique) : légende
+   13/600 à l'encre ink-600, sans capitales ni couleur de marque. Il était en
+   capitales espacées primary-700 sur `flat` — et, passé en simple chaîne (58
+   pages sur 102), il ne recevait AUCUNE classe : 16 px, graisse 400, ink-900,
+   aussi gros que le texte courant (mesuré sur /passeport). ink-600 tient 6,8:1
+   sur le primary-50 du ton `default`. */
 const TONE_EYEBROW: Record<PageHeroTone, string> = {
-  flat:    'text-primary-700',
-  default: 'text-primary-800',
+  flat:    'text-ink-600',
+  default: 'text-ink-600',
   brand:   'text-white',
   warm:    'text-white',
   sun:     'text-white',
@@ -172,9 +177,11 @@ const TONE_TITLE: Record<PageHeroTone, string> = {
   sun:     'text-white',
 };
 
+/* Le chapô est du texte secondaire LONG : ink-700 (doctrine § 2), pas ink-600
+   qui est la couleur de la méta. */
 const TONE_SUMMARY: Record<PageHeroTone, string> = {
-  flat:    'text-ink-600',
-  default: 'text-ink-600',
+  flat:    'text-ink-700',
+  default: 'text-ink-700',
   brand:   'text-white',
   warm:    'text-white',
   sun:     'text-white',
@@ -246,17 +253,44 @@ export const PageHero: React.FC<PageHeroProps> = ({
 
   const isFlat = tone === 'flat';
 
+  /* Surtitre : légende 13/600, le lieu seulement (voir TONE_EYEBROW). Une
+     chaîne ou un objet reçoivent ce style ; un nœud React passe tel quel —
+     c'est à l'appelant de le styler. */
+  const eyebrowClasses = [
+    'self-start inline-flex items-center gap-stack-2xs text-caption font-semibold',
+    TONE_EYEBROW[tone],
+  ].join(' ');
+  const eyebrowNode = !eyebrow ? null : isEyebrowObject(eyebrow) ? (
+    <p className={eyebrowClasses}>
+      {eyebrow.icon}
+      {eyebrow.label}
+    </p>
+  ) : typeof eyebrow === 'string' || typeof eyebrow === 'number' ? (
+    <p className={eyebrowClasses}>{eyebrow}</p>
+  ) : (
+    eyebrow
+  );
+
+  /* Le rythme de l'en-tête (passe typographique du 2026-09-24) — ce qui va
+     ensemble est proche :
+       surtitre → titre      8   (un seul groupe : le titre et son lieu)
+       titre → chapô        12
+       chapô → méta         12
+       → progression        16
+       → actions            24   (contenu → actions, comme dans une carte)
+     Avant, un `gap-stack-xs` uniforme mettait 8 px partout : le chapô collait
+     au titre autant que le surtitre, et rien ne disait ce qui formait un
+     groupe. L'espace sous l'en-tête (32 à 48 px) appartient à la page
+     (`PageShell`), pas au composant (piège n°12). */
   return (
     <section
       className={[
         'flex flex-col',
-        isFlat
-          ? 'gap-stack-xs'
-          : 'relative overflow-hidden rounded-lg border backdrop-blur-glass-light gap-stack-xs',
+        !isFlat && 'relative overflow-hidden rounded-lg border backdrop-blur-glass-light',
         !isFlat && TONE_BG[tone],
         !isFlat && TONE_BORDER[tone],
         !isFlat && TONE_SHADOW[tone],
-        !isFlat && (compact ? 'px-6 py-stack-lg' : 'px-8 py-section'),
+        !isFlat && (compact ? 'px-stack-lg py-stack-lg' : 'px-section py-section'),
         className,
       ]
         .filter(Boolean)
@@ -280,7 +314,7 @@ export const PageHero: React.FC<PageHeroProps> = ({
       )}
 
       {backLink && (
-        <div className={isFlat ? '' : 'relative'}>
+        <div className="relative mb-stack">
           {isBackLinkObject(backLink) ? (
             <button
               type="button"
@@ -300,60 +334,36 @@ export const PageHero: React.FC<PageHeroProps> = ({
         </div>
       )}
 
-      {eyebrow && (
-        <div className={isFlat ? '' : 'relative'}>
-          {isEyebrowObject(eyebrow) ? (
-            <span className={[
-              'inline-flex items-center gap-stack-2xs font-medium',
-              isFlat
-                ? 'text-caption font-semibold uppercase tracking-[0.06em]'
-                : 'text-caption',
-              TONE_EYEBROW[tone],
-            ].join(' ')}>
-              {eyebrow.icon}
-              {eyebrow.label}
-            </span>
-          ) : typeof eyebrow === 'string' && (tone === 'brand' || tone === 'warm' || tone === 'sun') ? (
-            /* Un eyebrow passé en simple chaîne n'avait AUCUNE couleur : il
-               héritait d'ink-900, posé sur le dégradé teal des heros brand
-               (jusqu'à 2,25:1, audit du 23/09). Il prend la couleur du ton. */
-            <span className={['text-caption font-medium', TONE_EYEBROW[tone]].join(' ')}>{eyebrow}</span>
-          ) : (
-            eyebrow
-          )}
-        </div>
-      )}
+      {/* Le titre et son surtitre forment un seul groupe (8 px). Le h1 porte
+          l'échelle telle quelle : 36/44/700, tracking -0,03em — le token dit
+          tout, rien n'est écrit à côté. Le `leading-[1.1]` qui vivait ici
+          ramenait la ligne à 39,6 px : sur deux lignes (375 px), les
+          jambages du League Spartan touchaient presque la ligne suivante. */}
+      <div className="relative flex flex-col gap-stack-xs">
+        {eyebrowNode}
+        <h1 className={['font-display text-h1 text-balance', TONE_TITLE[tone]].join(' ')}>
+          {title}
+        </h1>
+      </div>
 
-      <h1 className={[
-        'font-display leading-[1.1] text-balance',
-        isFlat && !compact
-          ? 'text-h1 tracking-display'
-          : isFlat && compact
-          ? 'text-h2 font-bold tracking-headline'
-          : 'relative text-h1 tracking-display',
-        TONE_TITLE[tone],
-      ].join(' ')}>
-        {title}
-      </h1>
-
+      {/* Chapô : 18/28, ink-700, plafonné à la largeur de lecture. Il était à
+          16 px ink-600 sur `flat` (88 pages sur 102) — le même corps que le
+          texte courant qui le suit : rien ne disait qu'il était le chapô. */}
       {summary && (
-        <p className={[
-          'font-body leading-relaxed m-0 max-w-[68ch]',
-          isFlat ? 'text-body mt-0.5' : 'relative text-body-lg',
-          TONE_SUMMARY[tone],
-        ].join(' ')}>
+        <p className={['relative mt-stack-sm font-body text-body-lg max-w-prose', TONE_SUMMARY[tone]].join(' ')}>
           {summary}
         </p>
       )}
 
+      {/* Méta : légende 13 px. 12 px entre deux données, 4 px entre une icône
+          et son texte (doctrine § 5). */}
       {meta && meta.length > 0 && (
         <div className={[
-          'flex flex-wrap items-center gap-stack-xs mt-1 text-caption',
-          isFlat ? '' : 'relative',
+          'relative mt-stack-sm flex flex-wrap items-center gap-x-stack-sm gap-y-stack-3xs text-caption',
           TONE_META[tone],
         ].join(' ')}>
           {meta.map((item, idx) => (
-            <span key={idx} className="inline-flex items-center gap-tight">
+            <span key={idx} className="inline-flex items-center gap-stack-3xs">
               {item.icon}
               {item.label}
             </span>
@@ -363,7 +373,7 @@ export const PageHero: React.FC<PageHeroProps> = ({
 
       {/* Progress bar (above trailing) */}
       {clampedProgress !== null && (
-        <div className="relative flex flex-col gap-stack-2xs mt-2">
+        <div className="relative mt-stack flex flex-col gap-stack-2xs">
           <div
             className={['h-1.5 rounded-pill overflow-hidden', TONE_PROGRESS_TRACK[tone]].join(' ')}
             role="progressbar"
@@ -377,14 +387,14 @@ export const PageHero: React.FC<PageHeroProps> = ({
             />
           </div>
           {progressLabel && (
-            <p className={['text-caption font-medium m-0', TONE_META[tone]].join(' ')}>
+            <p className={['text-caption', TONE_META[tone]].join(' ')}>
               {progressLabel}
             </p>
           )}
         </div>
       )}
 
-      {trailing && <div className={isFlat ? 'mt-3' : 'relative mt-2'}>{trailing}</div>}
+      {trailing && <div className="relative mt-stack-lg">{trailing}</div>}
     </section>
   );
 };
