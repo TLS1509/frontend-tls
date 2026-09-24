@@ -428,10 +428,31 @@ const VARIANT_ALIAS: Record<
    rangée, pas son titre. Aucun texte SAISI n'est à 13 : la règle des 16 px
    (zoom d'iOS au focus) vise les champs, pas les libellés. */
 const SIZE_CLASSES: Record<TailleRendue, string> = {
-  sm: 'h-9 px-stack text-caption relative after:absolute after:content-[""] after:inset-x-0 after:-inset-y-1',
+  sm: 'h-9 px-stack text-caption',
   md: 'h-touch px-stack-md text-body',
   lg: 'h-13 px-stack-lg text-body',
 };
+
+/* Un `link` n'a pas de boîte : il ne prend de sa taille que le CORPS du
+   libellé — ni hauteur, ni padding (24/09). Il recevait SIZE_CLASSES comme
+   les autres niveaux, et son `p-0` perdait contre `px-stack` (les deux
+   posent le padding horizontal, même spécificité, ordre d'émission) : un
+   lien « Voir détails » de /enterprise/alertes/inactivite démarrait 16 px
+   à droite de sa colonne. */
+const SIZE_TEXT: Record<TailleRendue, string> = {
+  sm: 'text-caption',
+  md: 'text-body',
+  lg: 'text-body',
+};
+
+/* Cible tactile de `sm` : le bouton fait 36 px, un pseudo-élément déborde de
+   4 px pour porter la cible à 44 (règle TLS : 44 sur les actions, WCAG 2.5.8
+   n'en exige que 24). En hauteur seulement pour un bouton à libellé ; sur les
+   quatre côtés pour le bouton-icône, carré de 36 — il n'en avait AUCUNE jusqu'au
+   24/09 (cible mesurée à 36 × 36 sur /api-docs). Le lien `sm` la garde : ses
+   20 px de haut passent à 28. */
+const CIBLE_SM = 'relative after:absolute after:content-[""] after:inset-x-0 after:-inset-y-1';
+const CIBLE_SM_CARREE = 'relative after:absolute after:content-[""] after:-inset-1';
 
 /* L'icône suit la taille du bouton, et c'est le SVG qui se plie à la boîte.
 
@@ -527,7 +548,8 @@ export function buttonClasses({
     BASE,
     RAYON,
     resolveClasses(variant, emphasis, tone, onDark),
-    SIZE_CLASSES[tailleRendue(size)],
+    (emphasis ?? VARIANT_ALIAS[variant].emphasis) === 'link' ? SIZE_TEXT[tailleRendue(size)] : SIZE_CLASSES[tailleRendue(size)],
+    tailleRendue(size) === 'sm' && CIBLE_SM,
     fullWidth && 'w-full',
     className,
   ]
@@ -568,8 +590,9 @@ export const Button: React.FC<ButtonProps> = ({
     // Le bouton-icône est carré : la pilule y rend un cercle parfait.
     iconOnly ? RAYON_CERCLE : RAYON,
     resolveClasses(variant, emphasis, tone, onDark),
-    !iconOnly && SIZE_CLASSES[taille],
+    !iconOnly && (niveau === 'link' ? SIZE_TEXT[taille] : SIZE_CLASSES[taille]),
     iconOnly && `${ICON_ONLY_WIDTH[taille]} aspect-square`,
+    taille === 'sm' && (iconOnly ? CIBLE_SM_CARREE : CIBLE_SM),
     fullWidth && 'w-full',
     className,
   ]
