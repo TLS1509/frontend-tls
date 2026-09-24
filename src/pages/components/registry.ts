@@ -62,7 +62,7 @@ export const CATEGORY_ORDER: Category[] = [
 export const SUBCATEGORY_ORDER: Record<Category, string[]> = {
   Foundations: ['Rythme & alignement', 'Design Tokens', 'Layout Primitives', 'Backgrounds'],
   Atoms: ['Form fields', 'Surfaces', 'Identity', 'Status badges', 'Chips & Pills', 'Indicators', 'Decoration'],
-  Composites: ['Group wrappers', 'Form groups', 'List composites'],
+  Composites: ['Group wrappers', 'Form groups'],
   'Headers & Sections': ['Heroes', 'Page headers', 'Section headers', 'Section wrappers', 'Section patterns'],
   Feedback: ['Status messages', 'Empty/zero states', 'Celebrations', 'GDPR & Compliance'],
   Navigation: ['Primary nav (app shell)', 'Contextual menus', 'Secondary nav', 'Floating actions'],
@@ -98,7 +98,6 @@ export const COVERED_BY: Record<string, string> = {
   SidebarUserCard: 'Sidebar',
   NavItem: 'Sidebar',
   ArticleCard: 'EditorialCard',
-  VideoCard: 'EditorialCard',
   StatusBadge: 'Badge',
   Steps: 'Stepper',
   SearchWithSuggestions: 'Search',
@@ -116,7 +115,6 @@ export const COVERED_BY: Record<string, string> = {
   AuthPasswordField: 'AuthShell',
   AuthPrimaryButton: 'AuthShell',
   AuthSocialButton: 'AuthShell',
-  EditorialCardSkeleton: 'SkeletonTemplates',
   NotificationRowSkeleton: 'SkeletonTemplates',
   ParcoursCardSkeleton: 'SkeletonTemplates',
 };
@@ -260,7 +258,6 @@ export const CATALOG: Record<string, CatalogMeta> = {
   ProgressRing:         { category: 'Atoms', subCategory: 'Indicators' },
   Skeleton:             { category: 'Atoms', subCategory: 'Indicators' },
   SkeletonTemplates:    { category: 'Atoms', subCategory: 'Indicators' },
-  Spinner:              { category: 'Atoms', subCategory: 'Indicators' },
 
   // Decoration
   Divider:              { category: 'Atoms', subCategory: 'Decoration' },
@@ -278,8 +275,7 @@ export const CATALOG: Record<string, CatalogMeta> = {
   CheckboxGroup:        { category: 'Composites', subCategory: 'Form groups' },
   FormSection:          { category: 'Composites', subCategory: 'Form groups' },
   InputGroup:           { category: 'Composites', subCategory: 'Form groups' },
-  // Phase 19 Tier 2 — List composites
-  PaginatedList:        { category: 'Composites', subCategory: 'List composites' },
+  // Phase 19 Tier 2 — List composites (PaginatedList supprimé le 2026-09-24, sans usage produit)
   FilteredList:         { category: 'Search & Filters', subCategory: 'Filter composites' },
   // Phase 19 Tier 3 — Form/Step/Grid composites
   StepIndicator:        { category: 'Composites', subCategory: 'Form groups' },
@@ -362,7 +358,7 @@ export const CATALOG: Record<string, CatalogMeta> = {
 
   // Editorial content
   EditorialCard:        { category: 'Cards', subCategory: 'Editorial content' },
-  // VideoCard supprimé — fusionné dans EditorialCard
+  // VideoCard supprimé le 2026-09-24 : son seul lecteur produit était la page Recherche
 
   // Domain
   SessionCard:          { category: 'Cards', subCategory: 'Domain (coaching/project)' },

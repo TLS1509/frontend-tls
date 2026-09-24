@@ -67,9 +67,9 @@ const block = (name) => registrySrc.match(new RegExp(`${name}[^=]*= \\{([\\s\\S]
 const keysOf = (body) => new Set([...body.matchAll(/^\s*'?([A-Za-z]\w*)'?\s*:/gm)].map((m) => m[1]));
 
 const classified = keysOf(block('CATALOG'));
-/* Un composant peut être présenté DANS une autre entrée (EditorialCard montre
-   ArticleCard, MagazineCard, VideoCard). Sans ces deux tables, on le compterait
-   absent alors qu'il est à l'écran. */
+/* Un composant peut être présenté DANS une autre entrée (Input montre Checkbox,
+   Radio et Switch ; EditorialCard montre ArticleCard). Sans ces deux tables, on
+   le compterait absent alors qu'il est à l'écran. */
 const coveredBy = keysOf(block('COVERED_BY'));
 const notShowcased = keysOf(block('NOT_SHOWCASED'));
 

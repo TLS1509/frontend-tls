@@ -111,7 +111,6 @@ import { ResumeLessonCard } from '../components/patterns/ResumeLessonCard';
 import { SessionCard } from '../components/learning/SessionCard';
 import { ArticleCard } from '../components/learning/ArticleCard';
 import { PromptCard } from '../components/learning/PromptCard';
-import { VideoCard } from '../components/learning/VideoCard';
 import { MoodSelector } from '../components/ui/MoodSelector';
 import type { MoodLevel } from '../components/ui/MoodSelector';
 import { JournalChatCompose } from '../components/ui/JournalChatCompose';
@@ -168,7 +167,6 @@ import { EditorialQuoteCallout } from '../components/patterns/EditorialQuoteCall
 import { ReadingProgressBar, ReadingProgressRing } from '../components/patterns/ReadingProgress';
 import { TableOfContents } from '../components/patterns/TableOfContents';
 import { FilterBar } from '../components/forms/FilterBar';
-import { Spinner } from '../components/ui/Spinner';
 import { StatusBadge } from '../components/ui/StatusBadge';
 import { NotificationBadge } from '../components/ui/NotificationBadge';
 // KPICard deprecated → use StatCard directly
@@ -205,7 +203,6 @@ import { AuthSuccess } from '../components/patterns/AuthShell';
 import {
   ParcoursCardSkeleton,
   NotificationRowSkeleton,
-  EditorialCardSkeleton,
   StatCardSkeleton,
   ActivityItemSkeleton,
   ResumeLessonSkeleton,
@@ -245,7 +242,6 @@ import { RadioGroup } from '../components/ui/RadioGroup';
 import { CheckboxGroup } from '../components/ui/CheckboxGroup';
 import { FormSection } from '../components/ui/FormSection';
 import { InputGroup } from '../components/ui/InputGroup';
-import { PaginatedList } from '../components/ui/PaginatedList';
 import { FilteredList } from '../components/ui/FilteredList';
 import { StepIndicator } from '../components/ui/StepIndicator';
 import { ModalForm } from '../components/ui/ModalForm';
@@ -2787,7 +2783,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'SkeletonTemplates',
     codeName: 'patterns/SkeletonTemplates.tsx',
     usedBy: ['Notifications', 'LearningPaths', 'Dashboard', 'Veille', 'Journal'],
-    description: "Gabarits de chargement prêts à l'emploi, à la silhouette des cartes principales : ParcoursCardSkeleton, NotificationRowSkeleton, EditorialCardSkeleton, ResumeLessonSkeleton, ActivityItemSkeleton, StatCardSkeleton. SkeletonGroup en répète un en liste ou en grille. Ils évitent de refaire des placeholders à chaque page.",
+    description: "Gabarits de chargement prêts à l'emploi, à la silhouette des cartes principales : ParcoursCardSkeleton, NotificationRowSkeleton, ResumeLessonSkeleton, ActivityItemSkeleton, StatCardSkeleton. SkeletonGroup en répète un en liste ou en grille. Ils évitent de refaire des placeholders à chaque page. EditorialCardSkeleton est supprimé le 24/09 : son seul lecteur produit était la page Recherche.",
     keywords: ['skeleton', 'loading', 'placeholder', 'shimmer', 'template', 'grid', 'card'],
     render: () => (
       <div className="flex flex-col gap-stack-lg">
@@ -2803,13 +2799,6 @@ const COMPONENTS: ComponentEntry[] = [
           <div className="flex flex-col gap-stack-xs">
             <NotificationRowSkeleton />
             <NotificationRowSkeleton />
-          </div>
-        </div>
-        <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-semibold text-ink-600 m-0">EditorialCardSkeleton</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack">
-            <EditorialCardSkeleton />
-            <EditorialCardSkeleton />
           </div>
         </div>
       </div>
@@ -4473,27 +4462,6 @@ const COMPONENTS: ComponentEntry[] = [
 
   /* ---- FEEDBACK & STATUS -------------------------------------------------- */
   {
-    name: 'Spinner',
-    codeName: 'ui/Spinner.tsx',
-    showcaseOnly: true,
-    description: "Indicateur de chargement : 20 · 32 · 48 px ; tons brand · warm · sun · muted · inverse ; `role=\"status\"`, et le libellé (« Chargement… » par défaut) reste réservé aux lecteurs d'écran. Son seul consommateur, la page Recherche (sans route), est supprimé le 24/09 : vitrine seulement.",
-    keywords: ['spinner', 'loading', 'loader', 'indicator', 'async', 'wait'],
-    render: () => (
-      <div className="vstack gap-stack-lg">
-        <div className="hstack items-center gap-stack-lg">
-          <Spinner size="sm" />
-          <Spinner size="md" />
-          <Spinner size="lg" />
-        </div>
-        <div className="hstack items-center gap-stack-lg">
-          <Spinner size="md" tone="brand" label="Chargement…" />
-          <Spinner size="md" tone="warm" />
-          <Spinner size="md" tone="muted" />
-        </div>
-      </div>
-    ),
-  },
-  {
     name: 'NotificationBadge',
     codeName: 'ui/NotificationBadge.tsx',
     showcaseOnly: true,
@@ -5283,9 +5251,9 @@ const COMPONENTS: ComponentEntry[] = [
 
   {
     name: 'EditorialCard',
-    codeName: 'learning/ArticleCard.tsx · learning/VideoCard.tsx',
-    description: "Carte éditoriale, deux formats. ArticleCard (actu, tutoriel, dossier) : icône, type en MetaPill et date, catégorie en surtitre 13/600, titre h3 20, résumé 16 ink-700, puis l'auteur et la durée en MetaPill et un Button sm soft « Lire ». VideoCard : vignette 16:9 au dégradé du ton avec la durée, catégorie en MetaPill, titre h3, « Par … » en 13, et un Button soft « Regarder ». Sur l'une et l'autre, l'enregistrement est un bouton-icône ghost, soft une fois enregistré (`aria-pressed` sur la vidéo).",
-    keywords: ['article', 'editorial', 'actu', 'tutoriel', 'dossier', 'magazine', 'bookmark', 'tone', 'video', 'thumbnail', 'play'],
+    codeName: 'learning/ArticleCard.tsx',
+    description: "Carte éditoriale ArticleCard (actu, tutoriel, dossier) : icône, type en MetaPill et date, catégorie en surtitre 13/600, titre h3 20, résumé 16 ink-700, puis l'auteur et la durée en MetaPill et un Button sm soft « Lire ». L'enregistrement est un bouton-icône ghost, soft une fois enregistré. Son format vidéo, VideoCard, est supprimé le 24/09 : son seul lecteur produit était la page Recherche, partie le même jour.",
+    keywords: ['article', 'editorial', 'actu', 'tutoriel', 'dossier', 'magazine', 'bookmark', 'tone'],
     render: () => (
       <div className="flex flex-col gap-section">
         <p className="text-caption font-semibold text-ink-600 m-0">ArticleCard — actu / tutoriel / dossier</p>
@@ -5323,29 +5291,6 @@ const COMPONENTS: ComponentEntry[] = [
             onSave={() => {}}
             onClick={() => {}}
             onRead={() => {}}
-          />
-        </div>
-        <p className="text-caption font-semibold text-ink-600 m-0 mt-stack">VideoCard — vidéos standalone</p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack-lg max-w-content">
-          <VideoCard
-            title="Construire un prompt structuré en 5 étapes"
-            category="Prompt Engineering"
-            duration="12 min"
-            author="Marie Dubois"
-            tone="primary"
-            isSaved={false}
-            onClick={() => {}}
-            onSave={() => {}}
-          />
-          <VideoCard
-            title="L'IA générative en entreprise"
-            category="IA & Innovation"
-            duration="18 min"
-            author="Pierre Leclerc"
-            tone="warm"
-            isSaved={true}
-            onClick={() => {}}
-            onSave={() => {}}
           />
         </div>
       </div>
@@ -6771,32 +6716,6 @@ const COMPONENTS: ComponentEntry[] = [
         </InputGroup>
       </div>
     ),
-  },
-
-  {
-    name: 'PaginatedList',
-    codeName: 'ui/PaginatedList.tsx',
-    showcaseOnly: true,
-    subCategory: 'List composites',
-    description: "Pagination d'une liste quelconque : `items`, `renderItem`, `pageSize` (10), `itemLabel`. Boutons ronds de 36 px aux numéros 13/700 tabulaires, plage « 1–10 / 42 » en 13 ink-600, contrôles réduits (n / N) sur mobile. Elle doublait `ui/Pagination`, supprimé le 24/09 faute d'usage : c'est désormais, avec la pagination intégrée de DataTable, la seule pagination du système.",
-    keywords: ['pagination', 'pages', 'liste', 'navigation', 'next', 'prev', 'parcours'],
-    render: () => {
-      const ITEMS = Array.from({ length: 23 }, (_, i) => ({ id: String(i + 1), title: `Parcours ${i + 1}`, category: i % 3 === 0 ? 'Leadership' : i % 3 === 1 ? 'IA & Data' : 'Communication' }));
-      return (
-        <PaginatedList
-          items={ITEMS}
-          pageSize={5}
-          itemLabel="parcours"
-          renderItem={(item) => (
-            <div key={item.id} className="flex items-center justify-between px-stack py-3 border-b border-ink-100 last:border-0 hover:bg-ink-50 rounded-lg transition-colors">
-              <span className="font-semibold text-ink-900">{item.title}</span>
-              <span className="text-caption text-ink-600">{item.category}</span>
-            </div>
-          )}
-          listClassName="border border-ink-200 rounded-xl overflow-hidden"
-        />
-      );
-    },
   },
 
   {

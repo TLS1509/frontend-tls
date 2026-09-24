@@ -76,13 +76,18 @@ d'en déplacer le sens.
 | Table d'admin | numéroté + sélecteur de taille de page |
 
 C'est le seul arbitrage écrit sur ce choix, et il vaut toujours. Le numéroté
-passe aujourd'hui par la pagination intégrée de `DataTable` (tables) ou par
-`PaginatedList` (listes).
+passe aujourd'hui par la pagination intégrée de `DataTable` (tables) ; aucun
+composant ne pagine plus une liste.
 
 > `Pagination` supprimé le 24/09/2026 (aucun usage produit : son seul
 > consommateur, le classement, était parti avec l'arbitrage n°18 sur la
 > gamification). À recréer depuis l'historique git si le besoin revient
 > (dernier état : commit `6dcf672e`, `src/components/ui/Pagination.tsx`).
+>
+> `PaginatedList` supprimé le même jour (aucun usage produit : créé en juin
+> pour la vitrine, aucune page ne l'a jamais importé). À recréer depuis
+> l'historique git si un catalogue en liste doit être numéroté (dernier état :
+> commit `43da89bb`, `src/components/ui/PaginatedList.tsx`).
 
 ### Règles à une phrase
 

@@ -56,24 +56,9 @@ export const ParcoursCardSkeleton: React.FC = () => (
   </div>
 );
 
-/* ─── VeilleCard / Editorial card skeleton ──────────────────────────────── */
-
-/* Surtitre → 4 → titre → 8 → texte, sous une couverture ; padding de carte. */
-export const EditorialCardSkeleton: React.FC = () => (
-  <div className="flex flex-col rounded-xl border border-ink-200 bg-white overflow-hidden">
-    <Skeleton variant="block" height={140} className="rounded-none" />
-    <div className="p-stack-lg flex flex-col gap-stack-xs">
-      <div className="flex flex-col gap-stack-3xs">
-        <Skeleton variant="caption" width={80} />
-        <Skeleton variant="title" />
-      </div>
-      <div>
-        <Skeleton variant="text" width="100%" />
-        <Skeleton variant="text" width="60%" />
-      </div>
-    </div>
-  </div>
-);
+/* EditorialCardSkeleton (couverture, surtitre, titre, texte) retiré le
+   2026-09-24 : son seul lecteur produit était la page Recherche, supprimée le
+   même jour. Dernier état : `git show ecb69bab:src/components/patterns/SkeletonTemplates.tsx`. */
 
 /* ─── ResumeLessonCard skeleton (Dashboard hero) ────────────────────────── */
 

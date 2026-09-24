@@ -156,9 +156,6 @@ export type {
 /* ============================================================================
  * UI — Utilities & New Components
  * ============================================================================ */
-export { Spinner } from './ui/Spinner';
-export type { SpinnerProps } from './ui/Spinner';
-
 export { NotificationBadge } from './ui/NotificationBadge';
 export type { NotificationBadgeProps } from './ui/NotificationBadge';
 
