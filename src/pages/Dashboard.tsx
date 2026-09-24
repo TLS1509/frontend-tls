@@ -43,20 +43,6 @@ const itemVariants = {
   show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const } },
 };
 
-// ─── En-tête de section ──────────────────────────────────────────────────────
-
-/* Titre de section (h2 28) et son action. L'action passe SOUS le titre quand la
-   place manque (375 px, ou colonnes de 326 px à 1024) : dans `SectionHeader`,
-   le titre prend `flex-1` et l'action ne se replie jamais, donc un titre de
-   28 px se cassait en deux lignes à côté d'un bouton (« Prochaine / session »).
-   Ici l'en-tête garde sa largeur propre et c'est l'action qui descend. */
-const EnTeteDeSection: React.FC<{ title: string; action: React.ReactNode }> = ({ title, action }) => (
-  <div className="flex flex-wrap items-center justify-between gap-x-stack gap-y-stack-xs">
-    <SectionHeader title={title} />
-    {action}
-  </div>
-);
-
 // ─── Contextual journal bubble ───────────────────────────────────────────────
 
 type NudgeContext = 'session' | 'lesson';
@@ -87,7 +73,7 @@ const JournalBubbleNudge: React.FC<JournalBubbleNudgeProps> = ({ navigate, hasUp
     <div className="flex flex-col gap-stack">
       {/* Une section de la page : h2 28 (passe typographique du 24/09). Elle
           était un h3 20 fait main, à la taille d'un titre de carte. */}
-      <EnTeteDeSection
+      <SectionHeader
         title="Écrire aujourd'hui"
         action={
           <Button
@@ -171,7 +157,7 @@ const ActivitySection: React.FC<ActivitySectionProps> = ({ navigate }) => {
   const feedItems = useMemo(() => makeFeedItems(navigate), [navigate]);
   return (
     <div className="flex flex-col gap-stack">
-      <EnTeteDeSection
+      <SectionHeader
         title="Activité & veille"
         action={
           <Button
@@ -310,7 +296,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({ navigate }) => {
             plus bas sur la page (13/600 au cran 800 ; il était à 13/500 au
             cran 700). Pas le niveau `link` de Button : en taille `sm` il garde
             16 px de padding, et replié sous le titre il sortait du bord gauche. */}
-        <EnTeteDeSection
+        <SectionHeader
           title="Prochaine session"
           action={
             <button
