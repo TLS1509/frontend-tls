@@ -420,9 +420,10 @@ export const Coaching: React.FC = () => {
                   questionnaire={session.questionnaire}
                   report={session.report}
                   journal={session.journal}
-                  onViewQuestionnaire={session.questionnaire ? () => navigate('/coaching/pre-questionnaire') : undefined}
+                  /* Session passée : on relit la réponse envoyée, pas le formulaire vierge. */
+                  onViewQuestionnaire={session.questionnaire ? () => navigate('/coaching/pre-questionnaire/response') : undefined}
                   onViewReport={session.report ? () => navigate(`/coaching/compte-rendu/${session.id}`) : undefined}
-                  onOpen={() => {}}
+                  onOpen={() => navigate(`/coaching/session/${session.id}`)}
                 />
               ))}
             </div>

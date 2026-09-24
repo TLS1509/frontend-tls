@@ -45,8 +45,8 @@ const CorrectionDetailLearner: React.FC = () => {
     return (
       <PageShell>
         <EditorialHero title="Correction introuvable" summary="Cette correction n'existe pas." tone="flat" />
-        <Button emphasis="outline" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/coaching')}>
-          Retour au coaching
+        <Button emphasis="outline" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/coaching/corrections')}>
+          Retour aux corrections
         </Button>
       </PageShell>
     );
@@ -67,8 +67,8 @@ const CorrectionDetailLearner: React.FC = () => {
         summary={`Soumis le ${formatDate(correction.submittedAt)} · Iteration ${correction.iterationCount + 1}`}
         tone="flat"
         trailing={
-          <Button emphasis="outline" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate('/coaching')}>
-            Retour
+          <Button emphasis="outline" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate('/coaching/corrections')}>
+            Retour aux corrections
           </Button>
         }
       />
