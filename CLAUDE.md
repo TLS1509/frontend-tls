@@ -21,8 +21,8 @@
 - `simple` (défaut) : `<a>` links, séparateur texte custom, sticky optionnel
 - `nav` : `<button>` interactifs, ChevronRight, ellipsis collapse (`maxVisible`), `onNavigate` callback, `current` prop, `icon` sur items
 
-`BreadcrumbNav.tsx` = thin re-export `export { Breadcrumb as BreadcrumbNav }`.
-**Utiliser `<Breadcrumb variant="nav">` pour les nouveaux usages.**
+`BreadcrumbNav.tsx` **n'existe plus** (supprimé par le commit 90019e23 ; corrigé ici le
+2026-09-24, cette ligne le disait encore « ré-export »). **Utiliser `<Breadcrumb variant="nav">`.**
 
 ### Famille Pills — wrappers sur Chip primitive (Phase 19.A · 2026-05-26, révisée le 2026-09-10)
 Depuis Phase 19.A, les 4 chips consomment **`ui/Chip.tsx`** (primitive interne) qui owne les style tokens partagés : `CHIP_BASE`, `CHIP_SIZE`, `CHIP_TONE_SOLID`, `CHIP_TONE_SOLID_ACTIVE`, `CHIP_TONE_HOVER`, `CHIP_SURFACE_MAP`, `CHIP_INTERACTIVE`. Helper `resolveChipClasses({size, tone, surface, interactive, hover})` retourne la chaîne complète.
