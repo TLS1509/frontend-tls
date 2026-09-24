@@ -51,6 +51,8 @@ const MAIN_KPIS = [
     label: 'Coût / Apprenant',
     delta: '↓ 8%',
     deltaDirection: 'down' as const,
+    // Un coût qui baisse est une bonne nouvelle : vert, pas rouge.
+    polarity: 'lower-is-better' as const,
     variant: 'default' as const,
   },
   {
@@ -214,6 +216,7 @@ export default function EnterpriseKpis() {
               label={kpi.label}
               delta={kpi.delta}
               deltaDirection={kpi.deltaDirection}
+              polarity={'polarity' in kpi ? kpi.polarity : undefined}
               variant={kpi.variant}
               size="md"
             />

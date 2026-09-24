@@ -16,6 +16,8 @@ export type StatCardTone = 'neutral' | 'brand' | 'warm' | 'sun';
 export type StatCardSurface = 'card' | 'tinted' | 'glass' | 'frosted';
 export type StatValueColor = 'default' | 'warm' | 'brand';
 export type StatDeltaDirection = 'up' | 'down';
+/** Sens dans lequel la métrique s'améliore — décide de la couleur du delta. */
+export type StatPolarity = 'higher-is-better' | 'lower-is-better';
 export type StatCardSize = 'sm' | 'md' | 'lg';
 
 export interface StatCardProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -27,8 +29,14 @@ export interface StatCardProps extends React.HTMLAttributes<HTMLDivElement> {
   sub?: React.ReactNode;
   /** Optional delta (e.g. "+12% cette semaine") */
   delta?: React.ReactNode;
-  /** Delta direction — colors the delta green/red */
+  /** Delta direction — the arrow's way (up / down). Color follows `polarity`. */
   deltaDirection?: StatDeltaDirection;
+  /**
+   * Sens favorable de la métrique. `higher-is-better` (défaut) : une hausse est
+   * verte. `lower-is-better` : une BAISSE est verte — coût par apprenant,
+   * apprenants inactifs, délai de réponse. Un coût qui baisse n'est pas rouge.
+   */
+  polarity?: StatPolarity;
   /**
    * Legacy combined variant (tone + surface). Still supported for back-compat.
    * Prefer `tone` + `surface` for granular control.
@@ -170,19 +178,19 @@ const ICON_BUBBLE_SIZE: Record<StatCardSize, string> = {
   lg: 'w-12 h-12 [&>svg]:w-5 [&>svg]:h-5',
 };
 
-const DELTA_BASE = 'absolute inline-flex items-center gap-tight text-caption font-semibold';
-// La pastille de variation se cale sur le padding de la carte : posée à 12 px
-// d'un coin de rayon 20, elle touchait l'arc (dégagement 9,4 à 10,8 px, audit
-// du 23/09). Au retrait = padding (≥ 20), c'est une forme fixe.
-const DELTA_POSITION_CLASSES: Record<StatCardSize, string> = {
-  sm: 'top-stack-md right-stack-md',
-  md: 'top-stack-md right-stack-md',
-  lg: 'top-stack-lg right-stack-lg',
-};
-const DELTA_DIRECTION_CLASSES: Record<StatDeltaDirection, string> = {
-  up: 'text-success-fg',
-  down: 'text-danger-fg',
-};
+/* Le delta n'est plus posé en absolu dans le coin (2026-09-24) : il
+   chevauchait la valeur dès que la place manquait — « 68% » et « ↑ 5% vs
+   période précédente » l'un sur l'autre sur /enterprise/dashboard à 1440, une
+   quarantaine de tuiles à 375 et 768. Il vit maintenant dans le flux, sur la
+   première rangée de la tuile (à côté de l'icône, ou de la valeur s'il n'y a
+   pas d'icône), dans une rangée `flex-wrap` : il reste en haut à droite,
+   comme avant, quand la place suffit, et passe SOUS la valeur quand elle
+   manque. Le repli se décide sur le contenu réel — une requête de conteneur
+   aurait dû deviner, par un seuil fixe, la largeur d'un texte qui va de
+   « +2 » à « Intervention recommandée ». */
+const DELTA_BASE = 'inline-flex items-center gap-tight text-caption font-semibold min-w-0';
+const DELTA_ROW = 'flex flex-wrap items-start gap-x-stack-xs gap-y-tight';
+const DELTA_TONE = { good: 'text-success-fg', bad: 'text-danger-fg' } as const;
 
 export const StatCard: React.FC<StatCardProps> = ({
   label,
@@ -190,6 +198,7 @@ export const StatCard: React.FC<StatCardProps> = ({
   sub,
   delta,
   deltaDirection,
+  polarity = 'higher-is-better',
   variant = 'default',
   tone,
   surface,
@@ -247,10 +256,12 @@ export const StatCard: React.FC<StatCardProps> = ({
     VALUE_COLOR_CLASSES[resolvedValueColor],
   ].join(' ');
 
+  const deltaIsGood = resolvedDeltaDir
+    ? (resolvedDeltaDir === 'up') === (polarity === 'higher-is-better')
+    : undefined;
   const deltaClasses = [
     DELTA_BASE,
-    DELTA_POSITION_CLASSES[size],
-    resolvedDeltaDir ? DELTA_DIRECTION_CLASSES[resolvedDeltaDir] : 'text-ink-600',
+    deltaIsGood === undefined ? 'text-ink-600' : DELTA_TONE[deltaIsGood ? 'good' : 'bad'],
   ]
     .filter(Boolean)
     .join(' ');
@@ -261,23 +272,37 @@ export const StatCard: React.FC<StatCardProps> = ({
     ICON_BUBBLE_SIZE[size],
   ].join(' ');
 
+  const iconEl = icon && (
+    <div className={iconBubbleClasses} aria-hidden="true">
+      {icon}
+    </div>
+  );
+  const valueEl = (
+    <p className={valueClasses}>
+      {value}
+      {resolvedSub && (
+        <span className="text-[0.45em] font-medium text-ink-500 leading-none self-end mb-[0.15em]">
+          {resolvedSub}
+        </span>
+      )}
+    </p>
+  );
+  const deltaEl = resolvedDelta && <p className={deltaClasses}>{resolvedDelta}</p>;
+  // Rangée de tête : [icône | valeur] … delta. `justify-between` le renvoie à
+  // droite tant qu'il tient sur la ligne ; seul sur sa ligne, il part à gauche
+  // (au centre sur une tuile carrée).
+  const deltaRow = (first: React.ReactNode) => (
+    <div className={[DELTA_ROW, square ? 'justify-center' : 'justify-between'].join(' ')}>
+      {first}
+      {deltaEl}
+    </div>
+  );
+
   return (
     <div className={classes} {...rest}>
-      {icon && (
-        <div className={iconBubbleClasses} aria-hidden="true">
-          {icon}
-        </div>
-      )}
-      <p className={valueClasses}>
-        {value}
-        {resolvedSub && (
-          <span className="text-[0.45em] font-medium text-ink-500 leading-none self-end mb-[0.15em]">
-            {resolvedSub}
-          </span>
-        )}
-      </p>
+      {deltaEl && iconEl ? deltaRow(iconEl) : iconEl}
+      {deltaEl && !iconEl ? deltaRow(valueEl) : valueEl}
       {resolvedLabel && <p className={labelClasses}>{resolvedLabel}</p>}
-      {resolvedDelta && <p className={deltaClasses}>{resolvedDelta}</p>}
       {children}
     </div>
   );

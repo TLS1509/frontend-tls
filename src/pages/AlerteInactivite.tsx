@@ -164,6 +164,7 @@ export default function AlerteInactivite() {
             variant="warm"
             icon={<Users size={20} />}
             deltaDirection="down"
+            polarity="lower-is-better"
             delta="-2 vs semaine dernière"
           />
           <StatCard
