@@ -187,7 +187,10 @@ export const DropdownLabel: React.FC<React.HTMLAttributes<HTMLParagraphElement>>
 }) => (
   <p
     className={[
-      'font-mono text-micro font-bold uppercase tracking-wider text-ink-500 px-2.5 pt-2 pb-1 m-0',
+      // Titre de groupe : 13 / 600, ink-600, en casse normale — une légende de
+      // groupe, pas une étiquette. Le `micro` en capitales et en chasse fixe
+      // est réservé au `Badge` (doctrine, échelle typographique).
+      'text-caption font-semibold text-ink-600 px-3 pt-2 pb-1',
       className,
     ]
       .filter(Boolean)
@@ -213,8 +216,12 @@ export interface DropdownItemProps extends React.ButtonHTMLAttributes<HTMLButton
   danger?: boolean;
 }
 
+/* Item : 16 / 400 — un menu est une liste d'options qu'on lit, sa graisse est
+   celle du texte (500 est réservé aux puces). 44 px de haut, le `md` de
+   l'échelle commune : `py-2` et l'interligne de 26 donnent 42, le plancher
+   `min-h-touch` complète (il en rendait 46 avec `py-2.5`). */
 const ITEM_BASE =
-  'group relative flex items-center gap-2.5 w-full px-3 py-2.5 min-h-touch bg-transparent border-0 rounded-md text-body font-medium cursor-pointer text-left transition-all ' +
+  'group relative flex items-center gap-stack-xs w-full px-3 py-2 min-h-touch bg-transparent border-0 rounded-md text-body cursor-pointer text-left transition-all ' +
   'focus-visible:outline-2 focus-visible:outline-offset-[-2px]';
 
 const ITEM_DEFAULT =
@@ -262,7 +269,7 @@ export const DropdownItem: React.FC<DropdownItemProps> = ({
       {icon && (
         <span
           className={[
-            'inline-flex items-center justify-center w-4 h-4 shrink-0 transition-transform group-hover:scale-110',
+            'inline-flex items-center justify-center size-4.5 shrink-0 [&>svg]:size-full transition-transform group-hover:scale-110',
             danger ? 'text-danger-base' : 'text-ink-500 group-hover:text-primary-600',
           ].join(' ')}
         >
@@ -273,7 +280,7 @@ export const DropdownItem: React.FC<DropdownItemProps> = ({
       {badge != null && isBuiltinBadge && (
         <span
           className={[
-            'inline-flex items-center justify-center px-2 py-0.5 rounded-pill text-micro font-extrabold tracking-wider shadow-sm shrink-0',
+            'inline-flex items-center justify-center px-2 py-0.5 rounded-pill text-micro font-bold tracking-label shadow-sm shrink-0',
             BADGE_CLASSES[badge as DropdownItemBadge],
           ].join(' ')}
         >
@@ -284,7 +291,7 @@ export const DropdownItem: React.FC<DropdownItemProps> = ({
         <span className="shrink-0">{badge}</span>
       )}
       {shortcut && (
-        <kbd className="font-mono text-[11px] px-1.5 py-0.5 bg-primary-50 text-ink-500 rounded-sm border border-primary-200 whitespace-nowrap transition-all">
+        <kbd className="font-mono text-micro px-1.5 py-0.5 bg-primary-50 text-ink-600 rounded-sm border border-primary-200 whitespace-nowrap transition-all">
           {shortcut}
         </kbd>
       )}

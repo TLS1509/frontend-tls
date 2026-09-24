@@ -32,22 +32,28 @@ const buildPages = (page: number, totalPages: number, siblings: number): (number
   return pages;
 };
 
+/* 44 × 44 (le `md` de l'arbitrage n°22) et rayon 14 : un bouton de page est
+   un contrôle interactif au-dessus du seuil de 28 px, donc l'échelle (R3). Il
+   portait 20, le rayon des CARTES — une pastille presque ronde, ni bouton ni
+   cercle. Numéros à 16 / 600 à tous les états ; la page active se dit par
+   l'aplat, plus par un gras ni un `scale-105` qui la faisait déborder de la
+   rangée (46,2 px quand ses voisines en font 44). */
 const BTN_BASE =
-  'inline-flex items-center justify-center min-w-11 h-11 px-3 rounded-xl border text-body font-semibold font-body cursor-pointer transition-all ' +
+  'inline-flex items-center justify-center min-w-11 h-11 px-stack-sm rounded-lg border text-body font-semibold font-body tabular-nums cursor-pointer transition-all ' +
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 focus-visible:ring-offset-1 ' +
   'disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none';
 
 const BTN_DEFAULT =
-  'bg-white border-ink-200 text-ink-700 hover:bg-ink-50 hover:border-ink-300 hover:text-primary-700';
+  'bg-white border-ink-200 text-ink-700 hover:bg-ink-50 hover:border-ink-300 hover:text-primary-800';
 
 const BTN_NAV =
-  'bg-white border-ink-200 text-ink-500 hover:bg-ink-50 hover:border-ink-300 hover:text-primary-700';
+  'bg-white border-ink-200 text-ink-700 hover:bg-ink-50 hover:border-ink-300 hover:text-primary-800';
 
-/* Page active : le NUMÉRO est du texte (body-sm, 15 px), pas une icône — il lui
-   faut 4,5:1 sur l'arrêt le plus clair. Parti du 600, il mesurait 3,66 ;
-   dégradé 700→800 : 5,02 → 7,08 (corrigé le 2026-09-23). */
+/* Page active : le NUMÉRO est du texte (16 px), pas une icône — il lui faut
+   4,5:1 sur l'arrêt le plus clair. Parti du 600, il mesurait 3,66 ; dégradé
+   700→800 : 5,02 → 7,08 (corrigé le 2026-09-23). */
 const BTN_ACTIVE =
-  'bg-gradient-to-br from-primary-700 to-primary-800 border-transparent text-white font-bold shadow-brand-sm cursor-default scale-105 ring-2 ring-primary-100';
+  'bg-gradient-to-br from-primary-700 to-primary-800 border-transparent text-white shadow-brand-sm cursor-default ring-2 ring-primary-100';
 
 export const Pagination: React.FC<PaginationProps> = ({
   page,
@@ -81,7 +87,7 @@ export const Pagination: React.FC<PaginationProps> = ({
           aria-label="Page précédente"
           className={`${BTN_BASE} ${BTN_NAV}`}
         >
-          <ChevronLeft size={16} strokeWidth={2.25} />
+          <ChevronLeft size={18} strokeWidth={2.25} />
         </button>
 
         {pages.map((p, i) =>
@@ -89,7 +95,7 @@ export const Pagination: React.FC<PaginationProps> = ({
             <span
               key={`dots-${i}`}
               aria-hidden="true"
-              className="inline-flex items-center justify-center min-w-10 h-10 text-body text-ink-500 select-none font-bold"
+              className="inline-flex items-center justify-center min-w-11 h-11 text-body font-semibold text-ink-600 select-none"
             >
               …
             </span>
@@ -114,10 +120,10 @@ export const Pagination: React.FC<PaginationProps> = ({
           aria-label="Page suivante"
           className={`${BTN_BASE} ${BTN_NAV}`}
         >
-          <ChevronRight size={16} strokeWidth={2.25} />
+          <ChevronRight size={18} strokeWidth={2.25} />
         </button>
       </nav>
-      {info && <span className="text-caption text-ink-500 font-medium">{info}</span>}
+      {info && <span className="text-caption text-ink-600">{info}</span>}
     </div>
   );
 };

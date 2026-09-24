@@ -17,8 +17,15 @@ export interface TooltipProps {
    elle est cachée, sinon le pointeur la traverse et la ferme en voulant la lire.
    Le pseudo-élément `before:` comble l'écart de 8 px (mb-2 / mt-2…) entre le
    déclencheur et la bulle, pour que le trajet de l'un à l'autre ne la ferme pas. */
+/* Texte : 13 / 400 (`caption`) — une info-bulle est une légende. La graisse
+   500 est celle des puces. Largeur : `w-max` plafonné à 220 px. Avec
+   `whitespace-nowrap`, le plafond ne servait à rien — une bulle longue
+   débordait de son fond au lieu de passer à la ligne ; sans lui, une bulle
+   positionnée en absolu se réduirait à un mot par ligne (son bloc conteneur
+   est le déclencheur, étroit). `w-max` garde les bulles courtes sur une ligne
+   et fait passer les longues à la ligne à 220. */
 const CONTENT_BASE =
-  'absolute z-tooltip px-2.5 py-1.5 rounded-md text-caption font-body font-medium whitespace-nowrap max-w-[220px] break-words ' +
+  'absolute z-tooltip px-2.5 py-1.5 rounded-md text-caption font-body w-max max-w-[220px] break-words ' +
   'transition-[opacity,transform] duration-fast ease-emphasis ' +
   'data-[visible=false]:opacity-0 data-[visible=false]:scale-95 data-[visible=false]:pointer-events-none data-[visible=true]:opacity-100 data-[visible=true]:scale-100 ' +
   "before:absolute before:content-['']";

@@ -33,7 +33,7 @@ const SimpleItem: React.FC<{ item: BreadcrumbItem; isLast: boolean }> = ({ item,
     </span>
   ) : (
     <a
-      className="text-ink-600 no-underline rounded-xs transition-colors hover:text-primary-700 hover:underline hover:underline-offset-[3px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+      className="text-ink-600 no-underline rounded-xs transition-colors hover:text-primary-800 hover:underline hover:underline-offset-[3px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
       href={item.href ?? '#'}
       onClick={item.onClick as React.MouseEventHandler<HTMLAnchorElement>}
     >
@@ -52,10 +52,10 @@ const NavItem: React.FC<{
 }> = ({ item, index, isCurrent, isEllipsis, onNavigate }) => {
   const isClickable = !isCurrent && !isEllipsis && (item.href || onNavigate);
 
-  const baseClasses = 'inline-flex items-center gap-stack-2xs px-2 py-1 rounded-md transition-[background-color,color] duration-fast ease-emphasis text-body';
+  const baseClasses = 'inline-flex items-center gap-stack-2xs px-2 py-1 rounded-md transition-[background-color,color] duration-fast ease-emphasis text-caption';
   const currentClasses = 'bg-primary-50 text-ink-900 font-semibold';
-  const defaultClasses = 'text-ink-500';
-  const clickableClasses = 'cursor-pointer hover:bg-primary-50 hover:text-primary-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
+  const defaultClasses = 'text-ink-600';
+  const clickableClasses = 'cursor-pointer hover:bg-primary-50 hover:text-primary-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
   const ellipsisClasses = 'w-7 h-7 justify-center text-ink-600 hover:bg-ink-50 cursor-default';
 
   if (isEllipsis) {
@@ -117,8 +117,12 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
 }) => {
   const currentIndex = current ?? items.length - 1;
 
+  /* Fil d'Ariane : 13 px (`caption`), comme `AppBreadcrumb` — c'est de la
+     méta de navigation, pas du texte à lire. Il était à 16, le corps : sur la
+     vitrine, il pesait autant que le paragraphe qu'il précède. Lien ink-600,
+     page courante ink-900 en 600. */
   const navClasses = [
-    'flex items-center flex-wrap gap-stack-xs text-body font-body text-ink-600 m-0 p-0 list-none',
+    'flex items-center flex-wrap gap-stack-xs text-caption font-body text-ink-600 m-0 p-0 list-none',
     sticky && STICKY_CLASSES,
     className,
   ]

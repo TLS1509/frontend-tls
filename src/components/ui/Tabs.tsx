@@ -72,8 +72,14 @@ const CONTAINER_VARIANT: Record<TabsVariant, string> = {
   boxed:     'inline-flex items-stretch border border-ink-200 rounded-xl overflow-hidden bg-white',
 };
 
+/* Libellé d'onglet : 16 / 600 aux deux états (passe typographique du
+   2026-09-24). L'onglet actif se disait en passant de 500 à 700 : le mot
+   s'élargissait au clic et poussait ses voisins, et 500 est la graisse des
+   puces, pas celle d'une navigation. L'état se dit désormais par la pastille
+   (`pill`), le trait (`underline`) ou l'aplat (`boxed`), et par l'encre :
+   ink-700 au repos, ink-900 ou marque au cran 800 une fois choisi. */
 const TAB_BASE =
-  'inline-flex items-center gap-stack-xs min-h-touch bg-transparent border-0 font-body text-body font-medium text-ink-600 cursor-pointer transition-all ' +
+  'inline-flex items-center gap-stack-xs min-h-touch bg-transparent border-0 font-body text-body font-semibold text-ink-700 cursor-pointer transition-all ' +
   'focus-visible:outline-2 focus-visible:outline-primary-400 ' +
   'disabled:opacity-disabled disabled:cursor-not-allowed';
 
@@ -85,10 +91,12 @@ const TAB_VARIANT: Record<TabsVariant, string> = {
   boxed:     'px-stack-md py-3 rounded-none border-r border-ink-200 last:border-r-0 flex-1 justify-center hover:bg-ink-50 focus-visible:outline-offset-2',
 };
 
+/* Trait de l'onglet `underline` au cran 700 — arbitrage n°9, l'état choisi
+   d'un contrôle est au 700. */
 const TAB_ACTIVE: Record<TabsVariant, string> = {
-  pill:      'bg-white text-ink-900 shadow-sm font-bold',
-  underline: 'text-primary-700 font-bold after:content-[""] after:absolute after:left-3 after:right-3 after:bottom-0 after:h-0.5 after:bg-primary-600 after:rounded-t-sm',
-  boxed:     'bg-gradient-to-br from-primary-700 to-primary-800 text-white font-bold shadow-brand-sm hover:bg-primary-800 hover:text-white',
+  pill:      'bg-white text-ink-900 shadow-sm',
+  underline: 'text-primary-800 after:content-[""] after:absolute after:left-3 after:right-3 after:bottom-0 after:h-0.5 after:bg-primary-700 after:rounded-t-sm',
+  boxed:     'bg-gradient-to-br from-primary-700 to-primary-800 text-white shadow-brand-sm hover:bg-primary-800 hover:text-white',
 };
 
 export const Tabs: React.FC<TabsProps> = ({
