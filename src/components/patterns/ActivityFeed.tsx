@@ -90,7 +90,15 @@ export interface ActivityFeedProps {
   itemsPerPage?: number;
   timeFormat?: 'relative' | 'absolute';
   isLoading?: boolean;
+  /** Titre de l'état vide. */
   emptyMessage?: string;
+  /**
+   * Phrase sous le titre de l'état vide. Le défaut s'adresse à l'apprenant, en
+   * « tu » : le fil vit sur son tableau de bord et sa fiche compétence
+   * (arbitrage n°23). Sur une surface qui vouvoie ou qui montre le fil d'un
+   * autre (la fiche apprenant du coach), passer la sienne.
+   */
+  emptyDescription?: string;
   onLoadMore?: () => void;
   hasMore?: boolean;
   className?: string;
@@ -301,6 +309,7 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
   timeFormat = 'relative',
   isLoading = false,
   emptyMessage = 'Aucune activité pour le moment',
+  emptyDescription = 'Tes prochaines activités apparaîtront ici dès que tu commenceras à apprendre.',
   onLoadMore,
   hasMore = false,
   className = '',
@@ -344,7 +353,7 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
             <Inbox strokeWidth={2} />
           </IconChip>
           <p className="m-0 text-body font-semibold text-ink-900">{emptyMessage}</p>
-          <p className="m-0 text-body text-ink-700 max-w-sm">Vos prochaines activités apparaîtront ici dès que vous commencerez à apprendre.</p>
+          <p className="m-0 text-body text-ink-700 max-w-sm">{emptyDescription}</p>
         </div>
       </div>
     );
