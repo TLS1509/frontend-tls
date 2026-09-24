@@ -27,7 +27,6 @@ import {
   ShieldCheck,
   Globe,
   Clock,
-  Palette,
   Lock,
   Fingerprint,
   LogOut,
@@ -87,10 +86,6 @@ const GeneralTab: React.FC = () => {
   const [isSaving, setIsSaving] = useState(false);
   const toast = useToastContext();
 
-  const [smoothAnimations, setSmoothAnimations] = useState(true);
-  const [highContrast, setHighContrast] = useState(false);
-  const [compactNav, setCompactNav] = useState(true);
-
   const handleSave = async () => {
     setIsSaving(true);
     // eslint-disable-next-line no-console
@@ -130,18 +125,12 @@ const GeneralTab: React.FC = () => {
         </SettingsRow>
       </SettingCard>
 
-      <SettingCard title="Interface">
-        <SettingsRow icon={<Palette size={16} />} label="Animations fluides" description="Transitions et micro-interactions animées">
-          <Switch checked={smoothAnimations} onChange={(e) => setSmoothAnimations(e.target.checked)} aria-label="Animations fluides" />
-        </SettingsRow>
-        <SettingsRow icon={<ShieldCheck size={16} />} label="Contraste renforcé" description="Améliore la lisibilité des textes et bordures">
-          <Switch checked={highContrast} onChange={(e) => setHighContrast(e.target.checked)} aria-label="Contraste renforcé" />
-        </SettingsRow>
-        <SettingsRow icon={<UserRound size={16} />} label="Navigation compacte" description="Réduit la largeur de la barre latérale">
-          <Switch checked={compactNav} onChange={(e) => setCompactNav(e.target.checked)} aria-label="Navigation compacte" />
-        </SettingsRow>
-      </SettingCard>
-
+      {/* La carte « Interface » (animations fluides, contraste renforcé,
+          navigation compacte) a été retirée le 2026-09-24 : ses trois
+          interrupteurs étaient des `useState` locaux reliés à rien — ni
+          persistés ni appliqués. « Navigation compacte » s'affichait ACTIVÉ
+          sur une barre latérale pleine largeur. Un réglage qui ne fait rien
+          ment ; à rétablir quand il sera branché sur un store persisté. */}
       <SettingCard title="Zone de danger">
         <SettingsRow icon={<Download size={16} />} label="Exporter mes données" description="Demande d'accès RGPD (DSAR) — délai légal 30 jours">
           <Button emphasis="soft" tone="warm" size="sm" leadingIcon={<Download size={14} />} onClick={() => navigate('/profile/privacy/dsar')}>
@@ -150,9 +139,8 @@ const GeneralTab: React.FC = () => {
         </SettingsRow>
         <SettingsRow icon={<Trash2 size={16} />} label="Supprimer mon compte" description="Cette action est irréversible. Toutes vos données seront perdues." danger>
           <Button
-            emphasis="soft" tone="warm"
+            emphasis="soft" tone="danger"
             size="sm"
-            className="border-danger-base text-danger-fg hover:bg-danger-bg"
             leadingIcon={<Trash2 size={14} />}
             onClick={() => navigate('/profile/privacy/delete-account')}
           >
