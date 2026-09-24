@@ -21,8 +21,8 @@ const RATING_LABELS: Record<number, string> = {
 
 const RATING_COLORS: Record<number, string> = {
   1: 'text-danger-fg bg-danger-bg border-danger-base/30',
-  2: 'text-secondary-700 bg-secondary-50 border-secondary-200',
-  3: 'text-accent-700 bg-accent-50 border-accent-200',
+  2: 'text-secondary-800 bg-secondary-50 border-secondary-200',
+  3: 'text-accent-800 bg-accent-50 border-accent-200',
   4: 'text-primary-800 bg-primary-50 border-primary-200',
   5: 'text-success-fg bg-success-bg border-success-base/30',
 };
@@ -48,20 +48,22 @@ export const RatingModal: React.FC<RatingModalProps> = ({
   return (
     <div
       className={[
-        'flex flex-col gap-stack-lg bg-white border border-ink-200 rounded-2xl p-8 max-w-[520px] mx-auto shadow-xl',
+        'flex flex-col gap-stack-lg bg-white border border-ink-200 rounded-2xl p-section max-w-[520px] mx-auto shadow-xl',
         className,
       ]
         .filter(Boolean)
         .join(' ')}
     >
-      <div className="text-center">
+      {/* Titre → texte 8 ; la description passe de ink-500 (réservé aux
+          textes indicatifs) à ink-700, le texte secondaire qu'on lit. */}
+      <div className="flex flex-col gap-stack-xs text-center">
         {title && (
-          <h2 className="mb-2 font-display text-h2 font-bold text-ink-900 text-balance">
+          <h2 className="font-display text-h2 text-ink-900 text-balance">
             {title}
           </h2>
         )}
         {description && (
-          <p className="m-0 text-body text-ink-500">{description}</p>
+          <p className="m-0 text-body text-ink-700">{description}</p>
         )}
       </div>
 
@@ -101,7 +103,9 @@ export const RatingModal: React.FC<RatingModalProps> = ({
           {displayRating > 0 && (
             <span
               className={[
-                'inline-flex items-center px-4 py-1 rounded-pill text-caption font-bold border transition-colors',
+                /* Le sens de la note est une donnée : le registre de MetaPill
+                   (13/500), plus 700. */
+                'inline-flex items-center px-4 py-1 rounded-pill text-caption font-medium border transition-colors',
                 RATING_COLORS[displayRating],
               ].join(' ')}
             >

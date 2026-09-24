@@ -16,7 +16,7 @@
  * Usage :
  *   const [flipped, setFlipped] = useState(false);
  *   <FlipCard
- *     front={{ image: "…", icon: "⚡", category: "PRODUCTIVITÉ", title: "Raccourcis" }}
+ *     front={{ image: "…", icon: <Zap />, category: "Productivité", title: "Raccourcis" }}
  *     back={{ content: "Ctrl+Shift+P…", details: "Conseil…" }}
  *     isFlipped={flipped}
  *     onFlip={() => setFlipped(f => !f)}
@@ -28,6 +28,7 @@ import React from 'react';
 import { RotateCw } from 'lucide-react';
 import { TONE_BORDER_500, TONE_HERO_GRADIENT } from '../../lib/tone-classes';
 import type { PageTone } from '../../lib/tone-classes';
+import { MetaPill } from '../ui/MetaPill';
 
 const TONE_FOCUS_OUTLINE: Record<PageTone, string> = {
   primary: 'focus-visible:outline-primary-500',
@@ -40,7 +41,7 @@ export interface FlipCardFront {
   image: string;
   /** Icon rendered on both faces (Lucide ReactNode). */
   icon: React.ReactNode;
-  /** Short category label (displayed as uppercase pill on front). */
+  /** Short category label (MetaPill on the front — a datum, not a state). */
   category: string;
   /** Main title (front face). */
   title: string;
@@ -129,10 +130,9 @@ export const FlipCard: React.FC<FlipCardProps> = ({
               <span className="inline-flex items-center justify-center" aria-hidden>{front.icon}</span>
             </div>
 
-            {/* Category pill */}
-            <span className="inline-flex items-center px-4 py-1.5 rounded-pill bg-white/90 backdrop-blur-glass-light text-ink-900 text-micro font-bold uppercase tracking-wider">
-              {front.category}
-            </span>
+            {/* Catégorie — une DONNÉE : MetaPill (arbitrage n°14), opaque donc
+                lisible sur la photo. Elle était en capitales espacées 700. */}
+            <MetaPill text={front.category} tone="neutral" size="md" />
 
             {/* Title */}
             <h2 className="font-display text-h3 sm:text-h2 font-bold text-white max-w-prose text-balance [text-shadow:0_2px_10px_rgba(0,0,0,0.3)]">
@@ -143,7 +143,7 @@ export const FlipCard: React.FC<FlipCardProps> = ({
             {/* Voile CLAIR + encre foncée : blanc sur blanc/15 tombait sous 4,5 sur l'or 700. */}
             <div className="inline-flex items-center gap-stack-xs px-4 py-2 rounded-pill bg-white/90 backdrop-blur-glass-light border border-white/30">
               <RotateCw size={16} className="text-ink-900" />
-              <span className="font-body text-caption font-medium text-ink-900">
+              <span className="font-body text-caption font-semibold text-ink-900">
                 Cliquez pour voir la réponse
               </span>
             </div>
@@ -168,14 +168,16 @@ export const FlipCard: React.FC<FlipCardProps> = ({
               <span className="inline-flex items-center justify-center" aria-hidden>{front.icon}</span>
             </div>
 
-            {/* Answer content */}
-            <p className="m-0 font-body text-h3 sm:text-h3 font-semibold leading-relaxed max-w-[600px]">
+            {/* Réponse — le chapô (18/28, 600) : du texte qu'on lit, en Nunito,
+                plus un 20 px avec le tracking des titres et un interligne écrit
+                à côté (`leading-relaxed`). Largeur de lecture : `max-w-prose`. */}
+            <p className="m-0 font-body text-body-lg font-semibold max-w-prose">
               {back.content}
             </p>
 
             {/* Optional details */}
             {back.details && (
-              <p className="m-0 font-body text-body max-w-[500px]">
+              <p className="m-0 font-body text-body max-w-prose">
                 {back.details}
               </p>
             )}

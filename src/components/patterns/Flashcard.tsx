@@ -58,13 +58,13 @@ export const Flashcard: React.FC<FlashcardProps> = ({
         {/* Front side */}
         <div className="flashcard__side flashcard__side--front">
           <div className="flashcard__content">{front}</div>
-          <div className="flashcard__hint">Click to reveal answer</div>
+          <div className="flashcard__hint">Voir la réponse</div>
         </div>
 
         {/* Back side */}
         <div className="flashcard__side flashcard__side--back">
           <div className="flashcard__content">{back}</div>
-          <div className="flashcard__hint">Click to flip back</div>
+          <div className="flashcard__hint">Revenir à la question</div>
         </div>
       </div>
     </div>

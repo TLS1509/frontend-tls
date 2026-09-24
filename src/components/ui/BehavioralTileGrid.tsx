@@ -35,9 +35,9 @@ export interface BehavioralTileGridProps {
 }
 
 const ICON_WRAP: Record<TileSize, string> = {
-  compact: 'w-7 h-7 rounded-lg mr-2.5',
-  default: 'w-8 h-8 rounded-lg mr-3',
-  large: 'w-10 h-10 rounded-xl mr-3',
+  compact: 'w-7 h-7 rounded-lg',
+  default: 'w-8 h-8 rounded-lg',
+  large: 'w-10 h-10 rounded-xl',
 };
 
 const ICON_SIZE: Record<TileSize, number> = {
@@ -52,10 +52,19 @@ const PAD: Record<TileSize, string> = {
   large: 'px-stack-md py-stack',
 };
 
+/* Un énoncé de comportement est du texte qu'on lit : 16 px à toutes les
+   tailles (passe typographique du 2026-09-24 — le cran `compact` le passait
+   à 13). La taille de la tuile ne règle plus que son padding et sa pastille. */
 const LABEL_TEXT: Record<TileSize, string> = {
-  compact: 'text-caption',
+  compact: 'text-body',
   default: 'text-body',
   large: 'text-body',
+};
+
+const GAP: Record<TileSize, string> = {
+  compact: 'gap-stack-xs',
+  default: 'gap-stack-sm',
+  large: 'gap-stack-sm',
 };
 
 export const BehavioralTileGrid: React.FC<BehavioralTileGridProps> = ({
@@ -72,7 +81,7 @@ export const BehavioralTileGrid: React.FC<BehavioralTileGridProps> = ({
   return (
     <div
       className={[
-        layout === 'grid' ? 'grid grid-cols-2 gap-2.5' : 'flex flex-col gap-stack-xs',
+        layout === 'grid' ? 'grid grid-cols-2 gap-stack-sm' : 'flex flex-col gap-stack-xs',
         className,
       ]
         .filter(Boolean)
@@ -93,7 +102,12 @@ export const BehavioralTileGrid: React.FC<BehavioralTileGridProps> = ({
             onClick={() => onChange(level)}
             aria-pressed={isSelected}
             className={[
-              'flex items-center text-left rounded-xl border transition-all duration-200 min-h-[52px]',
+              /* `items-start` + pastille dans une boîte haute d'une ligne
+                 (`h-lh`) : elle se centre sur la première ligne de l'énoncé,
+                 pas sur le bloc quand il en fait deux ou trois. */
+              'flex items-start text-left rounded-xl border transition-all duration-200 min-h-[52px]',
+              LABEL_TEXT[size],
+              GAP[size],
               'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-500',
               'disabled:opacity-disabled disabled:cursor-not-allowed',
               PAD[size],
@@ -104,25 +118,23 @@ export const BehavioralTileGrid: React.FC<BehavioralTileGridProps> = ({
               .filter(Boolean)
               .join(' ')}
           >
-            <span
-              className={[
-                'shrink-0 inline-flex items-center justify-center',
-                ICON_WRAP[size],
-                isSelected ? 'bg-white/20' : 'bg-secondary-50',
-              ].join(' ')}
-              aria-hidden
-            >
-              <Icon
-                size={iconSize}
-                className={isSelected ? 'text-white' : 'text-secondary-500'}
-              />
+            <span className="flex items-center h-lh shrink-0" aria-hidden>
+              <span
+                className={[
+                  'inline-flex items-center justify-center',
+                  ICON_WRAP[size],
+                  isSelected ? 'bg-white/20' : 'bg-secondary-50',
+                ].join(' ')}
+              >
+                <Icon
+                  size={iconSize}
+                  className={isSelected ? 'text-white' : 'text-secondary-500'}
+                />
+              </span>
             </span>
-            <span
-              className={[
-                'font-body font-medium leading-snug',
-                LABEL_TEXT[size],
-              ].join(' ')}
-            >
+            {/* 16/400 : un énoncé à lire, plus un libellé en 500 serré en
+                `leading-snug` (réservé aux titres courts en gras, n°11). */}
+            <span className="font-body">
               {label}
             </span>
           </button>
