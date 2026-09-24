@@ -124,7 +124,7 @@ export const Project: React.FC = () => {
           <ul className="list-disc pl-5 flex flex-col gap-stack-3xs">
             {gatingFails.map((f) => (
               <li key={f.competencyId}>
-                {f.competencyName} : vous êtes D{f.current}, niveau D{f.required}+ requis
+                {f.competencyName} : tu es D{f.current}, niveau D{f.required}+ requis
               </li>
             ))}
           </ul>

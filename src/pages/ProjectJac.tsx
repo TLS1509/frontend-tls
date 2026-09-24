@@ -157,7 +157,7 @@ const JacValidationForm: React.FC<{
           <Target size={16} className="text-primary-700 shrink-0 mt-0.5" aria-hidden="true" />
           <p className="text-caption font-semibold text-primary-800">
             Niveau Dreyfus validé{' '}
-            <span className="font-normal">· pré-rempli D{averageLevel} (moyenne rubrique), ajuste si besoin</span>
+            <span className="font-normal">· pré-rempli D{averageLevel} (moyenne rubrique), ajustez si besoin</span>
           </p>
         </div>
         <div className="flex flex-wrap gap-stack-2xs">

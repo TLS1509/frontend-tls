@@ -122,7 +122,7 @@ export const ProjectTask: React.FC = () => {
           <ul className="list-disc pl-5 flex flex-col gap-stack-3xs">
             {myGatingFails.map((f) => (
               <li key={f.competencyId}>
-                {f.competencyName} : vous êtes D{f.current} ({DREYFUS_LABELS[f.current]}), niveau D{f.required}+ requis
+                {f.competencyName} : tu es D{f.current} ({DREYFUS_LABELS[f.current]}), niveau D{f.required}+ requis
               </li>
             ))}
           </ul>
@@ -182,7 +182,7 @@ export const ProjectTask: React.FC = () => {
                 <FormGroup label="Notes de soumission (optionnel)">
                   <textarea
                     rows={3}
-                    placeholder="Décrivez votre approche, les points clés de votre livrable..."
+                    placeholder="Décris ton approche, les points clés de ton livrable..."
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
                     className="w-full p-stack-sm rounded-lg border border-ink-400 font-body text-body placeholder:text-ink-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent h-auto min-h-[88px]"
