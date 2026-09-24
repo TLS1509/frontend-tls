@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import { Button } from '../core/Button';
 import { Badge } from '../ui/Badge';
+import { IconChip, type IconChipTone } from '../ui/IconChip';
 import { PAGE_TONE_TO_BUTTON } from '../../lib/tone-classes';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -37,10 +38,15 @@ const TONE_DOT: Record<StepTutorialTone, string> = {
   sun: 'bg-accent-400',
 };
 
-const TONE_ICON_BG: Record<StepTutorialTone, string> = {
-  primary: 'bg-primary-50 text-primary-600',
-  warm: 'bg-secondary-50 text-secondary-600',
-  sun: 'bg-accent-50 text-accent-500',
+/* La pastille de l'étape est un `IconChip` (arbitrage n°3, 2026-09-24). Elle
+   était faite main : 56 px au rayon 20 — hors de l'échelle de la pastille
+   d'icône (24 · 32 · 40 · 48) — et son glyphe au cran 600 (500 pour l'or :
+   2,0:1 sur accent-50, sous le 3:1 d'un objet graphique). `IconChip` le porte
+   au cran 800. `primary` s'y appelle `brand`. */
+const TONE_CHIP: Record<StepTutorialTone, IconChipTone> = {
+  primary: 'brand',
+  warm: 'warm',
+  sun: 'sun',
 };
 
 // ─── StepTutorial ─────────────────────────────────────────────────────────────
@@ -79,8 +85,11 @@ export const StepTutorial: React.FC<StepTutorialProps> = ({
 
   if (!step) return null;
 
+  /* `@container` : la rangée de navigation répond à la largeur du tutoriel,
+     pas à celle de la fenêtre (deux boîtes : le conteneur ici, la requête sur
+     les points de progression, plus bas). */
   return (
-    <div className={['flex flex-col gap-section', className].filter(Boolean).join(' ')}>
+    <div className={['@container flex flex-col gap-section', className].filter(Boolean).join(' ')}>
       {/* Card — glass surface matching the onboarding shell */}
       <div className="rounded-lg bg-white/75 backdrop-blur-glass-medium border border-white/60 shadow-card overflow-hidden">
 
@@ -116,8 +125,9 @@ export const StepTutorial: React.FC<StepTutorialProps> = ({
             {activeStep + 1} / {steps.length}
           </Badge>
 
-          {/* Icône | texte — le texte descend de (56 − 36) / 2 = 10 px pour
-              centrer la PREMIÈRE ligne du titre sur l'icône (doctrine § 4).
+          {/* Icône | texte — le texte descend de (48 − 36) / 2 = 6 px pour
+              centrer la PREMIÈRE ligne du titre sur la pastille (doctrine § 4 ;
+              c'était 10 px pour l'ancienne bulle de 56).
               Titre d'étape : un h2 à 28 (2026-09-24). C'était un h2 dessiné à
               20, le pas d'un titre de carte : le niveau disait « section », la
               taille disait « bloc ». Posé sous le h1 de la page (onboarding),
@@ -125,11 +135,11 @@ export const StepTutorial: React.FC<StepTutorialProps> = ({
               le niveau (doctrine § 6). */}
           <div className="mt-stack-sm flex items-start gap-stack">
             {step.icon && (
-              <div className={['w-14 h-14 rounded-xl flex items-center justify-center shrink-0', TONE_ICON_BG[tone]].join(' ')}>
+              <IconChip size="lg" tone={TONE_CHIP[tone]}>
                 {step.icon}
-              </div>
+              </IconChip>
             )}
-            <div className={['flex flex-col gap-stack-xs min-w-0', step.icon ? 'mt-2.5' : ''].filter(Boolean).join(' ')}>
+            <div className={['flex flex-col gap-stack-xs min-w-0', step.icon ? 'mt-1.5' : ''].filter(Boolean).join(' ')}>
               <h2 className="font-display text-h2 text-ink-900 text-balance">
                 {step.title}
               </h2>
@@ -152,12 +162,20 @@ export const StepTutorial: React.FC<StepTutorialProps> = ({
 
       {/* Navigation — arbitrage n°19 : « Suivant / Compris » est l'action
           principale de l'écran (`solid`), « Précédent » un `ghost`. Ils
-          étaient en `soft` et en `outline`. */}
-      <div className="flex items-center justify-between">
+          étaient en `soft` et en `outline`.
+          « Précédent » ouvre la rangée : son libellé se cale sur le bord de la
+          carte (`flush`). À 375, la rangée débordait de 24 px — « Précédent »
+          (141), les points (104) et « Suivant » (122) pour 343 de place, sans
+          aucun écart entre eux. Sous 28rem de tutoriel, les points
+          s'effacent : le compteur « n / N » et la barre du haut de la carte
+          disent déjà où on en est. Au-dessus, 16 px les séparent des
+          boutons. */}
+      <div className="flex items-center justify-between gap-stack">
         <Button
           emphasis="ghost"
           tone="neutral"
           size="md"
+          flush="start"
           leadingIcon={<ChevronLeft size={16} />}
           onClick={handlePrev}
           disabled={isFirst}
@@ -166,7 +184,7 @@ export const StepTutorial: React.FC<StepTutorialProps> = ({
         </Button>
 
         {/* Progress dots */}
-        <div className="flex items-center gap-stack-xs" role="tablist" aria-label="Progression du tutoriel">
+        <div className="@max-md:hidden flex items-center gap-stack-xs" role="tablist" aria-label="Progression du tutoriel">
           {steps.map((s, idx) => (
             <div
               key={s.id}
