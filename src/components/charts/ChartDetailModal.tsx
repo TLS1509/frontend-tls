@@ -103,10 +103,12 @@ export const ChartDetailModal: React.FC<ChartDetailModalProps> = ({
             >
               {/* Header */}
               <div className="sticky top-0 bg-white border-b border-ink-200 p-6 flex items-start justify-between">
-                <div className="flex-1">
-                  <h2 className="text-h3 font-bold text-ink-900">{title}</h2>
+                {/* Titre de modale au pas h3, en League Spartan comme celui de
+                    `Modal` : sans `font-display`, il tombait en Nunito gras. */}
+                <div className="flex-1 flex flex-col gap-stack-3xs">
+                  <h2 className="font-display text-h3 text-ink-900">{title}</h2>
                   {subtitle && (
-                    <p className="text-body text-ink-600 mt-1">{subtitle}</p>
+                    <p className="text-body text-ink-700 max-w-prose">{subtitle}</p>
                   )}
                 </div>
                 <button

@@ -10,7 +10,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
-import { CHART_TOOLTIP, CHART_LEGEND, decrireSeries } from './chartTheme';
+import { CHART_AXIS, CHART_TOOLTIP, CHART_LEGEND, decrireSeries } from './chartTheme';
 
 export interface LineChartDataPoint {
   label: string;
@@ -114,19 +114,13 @@ export const LineChart: React.FC<LineChartProps> = ({
           }
         >
           <CartesianGrid strokeDasharray="3 3" stroke="currentColor" className="text-ink-200" />
-          <XAxis
-            dataKey="label"
-            stroke="currentColor"
-            className="text-body text-ink-600"
-            tick={{ fontSize: 12 }}
-          />
-          <YAxis
-            stroke="currentColor"
-            className="text-body text-ink-600"
-            tick={{ fontSize: 12 }}
-          />
+          <XAxis dataKey="label" {...CHART_AXIS} />
+          <YAxis {...CHART_AXIS} />
           <Tooltip {...CHART_TOOLTIP} />
-          {showLegend && <Legend {...CHART_LEGEND} />}
+          {/* Une série seule n'a pas de légende : elle affichait le nom de sa clé
+              (« value », « m0 »), en anglais, sous un graphique que le titre de sa
+              carte nomme déjà. Son nom, « Valeur », reste dans l'info-bulle. */}
+          {showLegend && series && <Legend {...CHART_LEGEND} />}
 
           {series ? (
             series.map((s, idx) => (
@@ -147,6 +141,7 @@ export const LineChart: React.FC<LineChartProps> = ({
             <Line
               type={smooth ? 'monotone' : 'linear'}
               dataKey={dataKey || 'value'}
+              name="Valeur"
               stroke={COLORS.primary}
               strokeWidth={2}
               dot={showDots}

@@ -8,7 +8,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
-import { CHART_TOOLTIP, CHART_LEGEND } from './chartTheme';
+import { CHART_TOOLTIP, CHART_LEGEND, pourcent } from './chartTheme';
 
 export interface PieChartDataPoint {
   label: string;
@@ -97,16 +97,15 @@ export const PieChart: React.FC<PieChartProps> = ({
   const renderLabel = (entry: any) => {
     if (!showLabels) return null;
     const total = dataWithColors.reduce((sum, d) => sum + d.value, 0);
-    const percent = total > 0 ? ((entry.value / total) * 100).toFixed(0) : '0';
     return (
       <text
         x={entry.x}
         y={entry.y}
         textAnchor={entry.textAnchor}
         dominantBaseline="central"
-        className="fill-ink-700 text-caption font-semibold"
+        className="fill-ink-700 text-caption font-semibold tabular-nums"
       >
-        {percent} %
+        {pourcent(total > 0 ? entry.value / total : 0, 0)}
       </text>
     );
   };
@@ -156,8 +155,7 @@ export const PieChart: React.FC<PieChartProps> = ({
               const n = typeof value === 'number' ? value : Number(value);
               if (!Number.isFinite(n)) return String(value ?? '');
               const total = dataWithColors.reduce((sum, d) => sum + d.value, 0);
-              const percent = total > 0 ? ((n / total) * 100).toFixed(1) : '0.0';
-              return `${n} (${percent}%)`;
+              return `${n.toLocaleString('fr-FR')} (${pourcent(total > 0 ? n / total : 0)})`;
             }}
           />
           {showLegend && (
@@ -167,8 +165,7 @@ export const PieChart: React.FC<PieChartProps> = ({
                 const item = dataWithColors[index as number];
                 if (!item) return value;
                 const total = dataWithColors.reduce((sum, d) => sum + d.value, 0);
-                const percent = ((item.value / total) * 100).toFixed(1);
-                return `${item.label} (${item.value}, ${percent}%)`;
+                return `${item.label} (${item.value.toLocaleString('fr-FR')}, ${pourcent(total > 0 ? item.value / total : 0)})`;
               }}
             />
           )}

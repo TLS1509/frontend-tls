@@ -10,7 +10,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
-import { CHART_TOOLTIP, CHART_LEGEND, decrireSeries } from './chartTheme';
+import { CHART_AXIS, CHART_AXIS_LABEL_CLASS, CHART_TOOLTIP, CHART_LEGEND, decrireSeries } from './chartTheme';
 
 export interface ComposedChartDataPoint {
   label: string;
@@ -95,27 +95,18 @@ export const ComposedChart: React.FC<ComposedChartProps> = ({
           margin={{ top: 20, right: dualAxis ? 80 : 30, bottom: 20, left: 30 }}
         >
           <CartesianGrid strokeDasharray="3 3" stroke="currentColor" className="text-ink-200" />
-          <XAxis
-            dataKey="label"
-            stroke="currentColor"
-            className="text-body text-ink-600"
-            tick={{ fontSize: 12 }}
-          />
+          <XAxis dataKey="label" {...CHART_AXIS} />
           <YAxis
             yAxisId="left"
-            stroke="currentColor"
-            className="text-body text-ink-600"
-            tick={{ fontSize: 12 }}
-            label={{ value: leftAxisLabel, angle: -90, position: 'insideLeft' }}
+            {...CHART_AXIS}
+            label={{ value: leftAxisLabel, angle: -90, position: 'insideLeft', className: CHART_AXIS_LABEL_CLASS }}
           />
           {dualAxis && (
             <YAxis
               yAxisId="right"
               orientation="right"
-              stroke="currentColor"
-              className="text-body text-ink-600"
-              tick={{ fontSize: 12 }}
-              label={{ value: rightAxisLabel, angle: 90, position: 'insideRight' }}
+              {...CHART_AXIS}
+              label={{ value: rightAxisLabel, angle: 90, position: 'insideRight', className: CHART_AXIS_LABEL_CLASS }}
             />
           )}
           <Tooltip {...CHART_TOOLTIP} />

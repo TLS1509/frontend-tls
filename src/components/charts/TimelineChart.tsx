@@ -76,9 +76,11 @@ const TYPE_HOVER_BORDER: Record<EventType, string> = {
 const FOCUS_RING =
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-900 focus-visible:ring-offset-2 focus-visible:ring-offset-white';
 
+/* Le type d'événement est une DONNÉE : il chuchote, au registre de `MetaPill`
+ * (casse normale, graisse 500), pas à celui d'un état. */
 const TypeTag: React.FC<{ type: EventType }> = ({ type }) => (
   <span
-    className={`inline-flex items-center gap-stack-3xs rounded-pill bg-white px-2 py-0.5 text-caption font-semibold ${TYPE_TEXT[type]}`}
+    className={`inline-flex items-center gap-stack-3xs rounded-pill bg-white px-2 py-0.5 text-caption font-medium ${TYPE_TEXT[type]}`}
   >
     <span aria-hidden="true" className={`size-2 shrink-0 rounded-pill ${DOT_COLORS[type]}`} />
     {TYPE_LABEL[type]}
@@ -141,7 +143,7 @@ export const TimelineChart: React.FC<TimelineChartProps> = ({
           const Card = interactive ? 'button' : 'div';
           return (
             <li key={event.id} className="flex flex-col items-center gap-stack-xs flex-shrink-0 w-40">
-              <time dateTime={event.date} className="text-caption text-ink-600 font-semibold">
+              <time dateTime={event.date} className="text-caption text-ink-600 font-semibold tabular-nums">
                 {formatDate(event.date, false)}
               </time>
 
@@ -151,9 +153,9 @@ export const TimelineChart: React.FC<TimelineChartProps> = ({
                 {...(interactive ? { type: 'button' as const, onClick: () => onEventClick?.(event) } : {})}
                 className={cardClasses(event.type, 'flex flex-col items-center gap-stack-3xs p-2.5 rounded-md text-center')}
               >
-                <span className="text-caption font-semibold text-ink-900 line-clamp-2">{event.label}</span>
+                <span className="text-body font-semibold text-ink-900 line-clamp-2">{event.label}</span>
                 {event.description && (
-                  <span className="text-micro text-ink-600 line-clamp-2">{event.description}</span>
+                  <span className="text-caption text-ink-700 line-clamp-2">{event.description}</span>
                 )}
                 <TypeTag type={event.type} />
               </Card>
@@ -173,7 +175,8 @@ export const TimelineChart: React.FC<TimelineChartProps> = ({
           <li key={event.id} className="flex gap-stack">
             {/* Rail : date + pastille + trait vers l'événement suivant */}
             <div className="flex flex-col items-center gap-stack-xs">
-              <time dateTime={event.date} className="text-caption text-ink-600 font-semibold w-20 text-right">
+              {/* 96 px : à 80, « 20 mars 2026 » se coupait sur deux lignes. */}
+              <time dateTime={event.date} className="text-caption text-ink-600 font-semibold tabular-nums w-24 text-right">
                 {formatDate(event.date, true)}
               </time>
               <span aria-hidden="true" className={`size-4 rounded-pill ring-4 ring-white ${DOT_COLORS[event.type]}`} />
@@ -190,9 +193,10 @@ export const TimelineChart: React.FC<TimelineChartProps> = ({
                   <span className="flex flex-1 flex-col items-start gap-stack-3xs">
                     <span className="text-body font-semibold text-ink-900">{event.label}</span>
                     {event.description && (
-                      <span className="text-body text-ink-600">{event.description}</span>
+                      <span className="text-body text-ink-700">{event.description}</span>
                     )}
-                    <span className="mt-stack-3xs">
+                    {/* Texte → méta : 12 (4 de gap + 8), l'anatomie de carte. */}
+                    <span className="mt-stack-xs">
                       <TypeTag type={event.type} />
                     </span>
                   </span>

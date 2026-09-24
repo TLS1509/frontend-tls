@@ -11,7 +11,7 @@ import {
   ResponsiveContainer,
   Cell,
 } from 'recharts';
-import { CHART_TOOLTIP, CHART_LEGEND } from './chartTheme';
+import { CHART_AXIS, CHART_TOOLTIP, CHART_LEGEND } from './chartTheme';
 
 export interface ScatterChartDataPoint {
   label: string;
@@ -114,19 +114,15 @@ export const ScatterChart: React.FC<ScatterChartProps> = ({
             type="number"
             dataKey="x"
             name={xAxisLabel || 'X'}
-            stroke="currentColor"
-            className="text-body text-ink-600"
+            {...CHART_AXIS}
             domain={xDomain}
-            tick={{ fontSize: 12 }}
           />
           <YAxis
             type="number"
             dataKey="y"
             name={yAxisLabel || 'Y'}
-            stroke="currentColor"
-            className="text-body text-ink-600"
+            {...CHART_AXIS}
             domain={yDomain}
-            tick={{ fontSize: 12 }}
           />
           {/* Info-bulle écrite ici plutôt que celle de Recharts (2026-09-23) : un
               nuage de points n'a pas d'axe de catégories, donc pas de « label »
@@ -155,7 +151,7 @@ export const ScatterChart: React.FC<ScatterChartProps> = ({
           {showLegend && <Legend {...CHART_LEGEND} />}
 
           <Scatter
-            name="Data"
+            name="Données"
             data={chartData}
             fill={COLORS.primary}
             onClick={(_, index) => onDotClick?.(data[index], index)}

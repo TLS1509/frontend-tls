@@ -36,7 +36,7 @@ export const ChartWithExport: React.FC<ChartWithExportProps> = ({
   className = '',
 }) => {
   return (
-    <div className={`space-y-4 ${className}`}>
+    <div className={`space-y-stack ${className}`}>
       {/* Export button */}
       <div className="flex justify-end">
         <ChartExportButton

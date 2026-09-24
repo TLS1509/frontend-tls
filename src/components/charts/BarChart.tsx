@@ -11,7 +11,7 @@ import {
   ResponsiveContainer,
   Cell,
 } from 'recharts';
-import { CHART_TOOLTIP, CHART_LEGEND, decrireSeries } from './chartTheme';
+import { CHART_AXIS, CHART_TOOLTIP, CHART_LEGEND, decrireSeries } from './chartTheme';
 
 export interface BarChartDataPoint {
   label: string;
@@ -84,9 +84,12 @@ const LIBELLES_MAX = 282; // + 8 de marge = les 290 d'avant
 const LIBELLES_MIN = 72;
 const LIBELLES_PART = 0.35;
 const MARGE_DROITE_MAX = 30;
-/* Largeur moyenne d'un caractère de `text-body-sm` (14 px, Nunito) — sert à
-   tronquer sans mesurer chaque libellé. Sous-estimer ferait déborder. */
-const CHASSE_MOYENNE = 7.5;
+/* Largeur moyenne d'un caractère de graduation (`caption`, 13 px, Nunito) —
+   sert à tronquer sans mesurer chaque libellé. Sous-estimer ferait déborder.
+   Mesurée le 2026-09-24 sur les libellés réels de cinq tableaux de bord : de
+   6,0 (« Direction Générale ») à 6,7 px (« Support & Ops ») ; 6,8 garde une
+   marge — la valeur précédente, 7,5, valait pour l'ancien corps de 14 px. */
+const CHASSE_MOYENNE = 6.8;
 
 const tronquer = (texte: string, largeur: number): string => {
   const max = Math.max(4, Math.floor(largeur / CHASSE_MOYENNE));
@@ -128,7 +131,7 @@ export const BarChart: React.FC<BarChartProps> = ({
   const margeDroite = largeur && largeur < 480 ? 12 : MARGE_DROITE_MAX;
 
   return (
-    <div className={`w-full space-y-4 ${className}`}>
+    <div className={`w-full space-y-stack ${className}`}>
       {showExport && (
         <div className="flex justify-end">
           <div id={`${chartId}-export`}>
@@ -156,17 +159,25 @@ export const BarChart: React.FC<BarChartProps> = ({
           margin={{ top: 20, right: margeDroite, bottom: 20, left: isVertical ? 8 : margeDroite }}
         >
           <CartesianGrid strokeDasharray="3 3" stroke="currentColor" className="text-ink-200" />
-          <XAxis type={isVertical ? 'number' : 'category'} stroke="currentColor" className="text-body text-ink-600" />
+          {/* En barres verticales, l'axe des catégories est X : sans `dataKey`, il
+              écrivait l'index du point (0, 1, 2…) au lieu de son libellé. */}
+          <XAxis
+            type={isVertical ? 'number' : 'category'}
+            dataKey={isVertical ? undefined : 'label'}
+            {...CHART_AXIS}
+          />
           <YAxis
             type={isVertical ? 'category' : 'number'}
             dataKey={isVertical ? 'label' : undefined}
-            stroke="currentColor"
-            className="text-body text-ink-600"
+            {...CHART_AXIS}
             width={isVertical ? libelles : undefined}
             tickFormatter={isVertical ? (v: string) => tronquer(String(v), libelles - 12) : undefined}
           />
           <Tooltip {...CHART_TOOLTIP} />
-          {showLegend && <Legend {...CHART_LEGEND} />}
+          {/* Une série seule n'a pas de légende : elle affichait le nom de sa clé
+              (« value », « m0 »), en anglais, sous un graphique que le titre de sa
+              carte nomme déjà. Son nom, « Valeur », reste dans l'info-bulle. */}
+          {showLegend && series && <Legend {...CHART_LEGEND} />}
 
           {series ? (
             series.map((s, idx) => (
@@ -182,6 +193,7 @@ export const BarChart: React.FC<BarChartProps> = ({
           ) : (
             <Bar
               dataKey={dataKey}
+              name="Valeur"
               fill={COLORS.primary}
               onClick={(_, index) => onBarClick?.(data[index], index)}
               style={{ cursor: onBarClick ? 'pointer' : 'default' }}
