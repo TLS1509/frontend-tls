@@ -90,8 +90,8 @@ passe aujourd'hui par la pagination intégrée de `DataTable` (tables) ou par
 |---|---|
 | **Avatar** | *« Tint assignment must be stable (hash of name). Never random. »* |
 | **EmptyState** | *« Every empty state must have a primary CTA. No dead ends. »* |
-| **Medal** | *« Warm gradient = achievement unlocked. Brand deep = special/rare. Ink gray = locked. »* |
-| **CompetenceBadge** | *« Color = level. Stable assignment, never decorative. »* |
+| **Medal** | Supprimé le 24/09/2026 (aucun usage produit, et l'arbitrage n°18 retire la gamification de l'app apprenant) — à recréer depuis l'historique git si le besoin revient (commit `616d637f`). Sa règle était : *« Warm gradient = achievement unlocked. Brand deep = special/rare. Ink gray = locked. »* |
+| **CompetenceBadge** | Supprimé le 24/09/2026 (aucun usage produit) — à recréer depuis l'historique git si le besoin revient (commit `4dd194ea`). Sa règle vaut pour tout affichage de niveau : *« Color = level. Stable assignment, never decorative. »* |
 | **Celebration** | *« Rare = precious. Celebrate real milestones only (module completion, streak, first badge). Never gratuitous micro-interactions. »* |
 | **Tabs** | *« 2–5 tabs max. No nesting. No multi-select (that's a filter). »* |
 | **Stepper** | *« Stepper = named sequential steps. Progress bar = continuous percentage. >5 steps → split into phases. »* |

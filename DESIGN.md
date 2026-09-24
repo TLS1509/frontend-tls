@@ -217,7 +217,7 @@ de composants réels. Voir le détail en fin de doc.
  7. CARDS              contenu unique · KPI · communication · learning · éditorial
  8. LISTS & FEEDS      grilles · fils chronologiques · listes · tableaux
  9. FORMS              formulaires composites (MultiStepForm, FormLayout)
-10. LEARNING           gamification TLS (Medal, Quiz, Flashcard, CompetencyMatrix)
+10. LEARNING           gamification TLS (AchievementBadge, Quiz, Flashcard, CompetencyMatrix)
 11. MODALS             base · booking · confirm/status · célébrations · média
 12. AUTH FAMILY        AuthShell + sous-composants (spécification glass-dark)
 13. PAGES & TEMPLATES  aperçus au niveau route

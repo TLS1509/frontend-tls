@@ -392,11 +392,7 @@ export const CATALOG: Record<string, CatalogMeta> = {
   FilterBar:            { category: 'Search & Filters', subCategory: 'Filter controls' },
 
   // ── LEARNING (gamification & pedagogy specific to TLS) ────────────────
-  Medal:                { category: 'Learning', subCategory: 'Achievements' },
-  Achievement:          { category: 'Learning', subCategory: 'Achievements' },
   AchievementBadge:     { category: 'Learning', subCategory: 'Achievements' },
-  CompetenceBadge:      { category: 'Learning', subCategory: 'Competence' },
-  MasteryBadge:         { category: 'Learning', subCategory: 'Competence' },
   CompetencyMatrix:     { category: 'Learning', subCategory: 'Competence' },
   GoalProgress:         { category: 'Learning', subCategory: 'Goals & progress' },
   SkillBar:             { category: 'Learning', subCategory: 'Goals & progress' },

@@ -63,10 +63,6 @@ import {
   StatCard,
   ProgressBar,
   ProgressRing,
-  Medal,
-  CompetenceBadge,
-  MasteryBadge,
-  Achievement,
   FilterChip,
   Steps,
   InlineWin,
@@ -182,7 +178,7 @@ import { PageHeader } from '../components/patterns/PageHeader';
 import { ViewerHeader } from '../components/patterns/ViewerHeader';
 import { QuickActionButton } from '../components/ui/QuickActionButton';
 import { Divider } from '../components/ui/Divider';
-import { Bell, MessageSquare, BookOpen, Calendar, GraduationCap, Clock3, Flame, Trophy, Zap, Users, Lightbulb, CheckCircle2, LayoutDashboard, Map as MapIcon, PenLine, Video, Sparkles as SparklesIcon, UserRound as UserIcon, Settings2, Target, BarChart3, LogOut, Mail, Layers, Palette, FolderTree, LayoutTemplate, Star, SlidersHorizontal, ArrowLeft, ArrowRight, TrendingUp, FolderOpen, User, Bookmark, Check, CheckCheck, ChevronUp, CirclePlus, Lock, BookOpenText } from 'lucide-react';
+import { Bell, MessageSquare, BookOpen, Calendar, GraduationCap, Clock3, Flame, Trophy, Zap, Users, Lightbulb, CheckCircle2, LayoutDashboard, Map as MapIcon, PenLine, Video, Sparkles as SparklesIcon, UserRound as UserIcon, Settings2, Target, BarChart3, LogOut, Mail, Layers, Palette, FolderTree, LayoutTemplate, Star, SlidersHorizontal, ArrowLeft, ArrowRight, TrendingUp, FolderOpen, User, Bookmark, Check, CheckCheck, ChevronUp, CirclePlus, BookOpenText } from 'lucide-react';
 import { SidebarUserCard } from '../components/layout/Sidebar';
 import { ConsentBanner } from '../components/patterns/ConsentBanner';
 import { CompetencyRadar } from '../components/ui/CompetencyRadar';
@@ -3352,70 +3348,6 @@ const COMPONENTS: ComponentEntry[] = [
     description: "Pastille de filtre à bascule (`aria-pressed`). En md, le défaut, c'est un contrôle de la ligne : 44 px, libellé 16/600, rayon 14 (arbitrage n°22, la hauteur commune des contrôles). En sm, 28 px et 13/600. Actif : filet 700 et libellé 800, sans changer de graisse. Variantes default · glass (sur fond coloré) · reset ; compteur optionnel ; icône de 18 (md) ou 14 (sm).",
     keywords: ['filter', 'filtre', 'chip', 'pastille', 'select', 'active', 'glass', 'toggle', 'count', 'compteur', '44'],
     render: () => <FilterChipDemo />,
-  },
-  {
-    name: 'Medal',
-    codeName: 'ui/Medal.tsx',
-    showcaseOnly: true,
-    description: "Médaille ronde, sans texte : 72 · 120 · 160 px, glyphe à 44 % du diamètre (Trophy par défaut, via la prop `icon`), `label` en nom accessible. Variantes default (dégradé orange → or), brand (radial teal), locked (gris), gold · silver · bronze.",
-    keywords: ['medal', 'badge', 'achievement', 'reward', 'locked', 'unlocked'],
-    render: () => (
-      <div className="flex gap-stack items-center flex-wrap">
-        {/* L'icône passe par `icon` : les émojis donnés en enfants étaient
-            ignorés, et les six médailles montraient toutes le trophée. */}
-        <Medal size="lg" variant="default" label="Premier parcours" />
-        <Medal size="lg" variant="brand" icon={<Zap />} label="Pratique régulière" />
-        <Medal size="lg" variant="locked" icon={<Lock />} label="Verrouillée" />
-        <Medal size="md" variant="default" icon={<Target />} label="Objectif atteint" />
-        <Medal size="md" variant="brand" icon={<Star />} label="Compétence validée" />
-        <Medal size="sm" variant="default" icon={<CheckCircle2 />} label="Étape franchie" />
-      </div>
-    ),
-  },
-  {
-    name: 'CompetenceBadge',
-    codeName: 'ui/CompetenceBadge.tsx',
-    showcaseOnly: true,
-    description: "Niveau de compétence en pastille de 36 px : libellé 16/600 précédé d'une pastille ronde de 24 px qui porte le chiffre (13/700) au cran 700. Quatre niveaux — Découverte, Pratique, Maîtrise, Expert : les trois premiers en dégradé du 50 au 100 (teal, orange, or), le quatrième en radial sombre à texte blanc.",
-    keywords: ['competence', 'dreyfus', 'level', 'badge', 'proficiency', 'skill'],
-    render: () => (
-      <div className="flex gap-stack-xs flex-wrap">
-        <CompetenceBadge level={1} label="Sensibilisé" />
-        <CompetenceBadge level={2} label="Pratiquant" />
-        <CompetenceBadge level={3} label="Autonome" />
-        <CompetenceBadge level={4} label="Expert" />
-      </div>
-    ),
-  },
-  {
-    name: 'MasteryBadge',
-    codeName: 'ui/MasteryBadge.tsx',
-    showcaseOnly: true,
-    description: "Maîtrise d'une compétence en quatre niveaux — débutant, intermédiaire, avancé, expert : un anneau de progression de 96 px au cran 500 du niveau, un glyphe Lucide au centre (Sprout, Zap, Flame, Trophy) et, 8 px dessous, le libellé en MetaPill md.",
-    keywords: ['mastery', 'skill', 'bloom', 'taxonomy', 'level', 'novice', 'expert'],
-    render: () => (
-      <div className="flex gap-stack flex-wrap">
-        <MasteryBadge level="beginner" label="Découverte" progress={30} />
-        <MasteryBadge level="intermediate" label="Prompt Engineering" progress={65} />
-        <MasteryBadge level="advanced" label="IA Générative" progress={80} />
-        <MasteryBadge level="expert" label="Design System" progress={100} />
-      </div>
-    ),
-  },
-  {
-    name: 'Achievement',
-    codeName: 'ui/Achievement.tsx',
-    showcaseOnly: true,
-    description: "Vignette de réussite : pastille d'icône (48 · 64 · 80 px), titre 16/600, description 16 ink-700 sur deux lignes, puis selon l'état « Obtenu le 15 janv. 2026 » (13, accent-800) ou une barre de 6 px et « n / max » (13/600). Dite calmement depuis le 24/09 : « Obtenu le » au lieu de « Débloqué », et plus d'étincelle au coin de la pastille — l'étincelle signale une fonction IA, jamais un gain (DESIGN.md §10, arbitrage n°18). Trois états — unlocked · in-progress · locked (opacité 70 %) — et trois tailles ; rayon 20. Aucune page ne l'emploie.",
-    keywords: ['achievement', 'badge', 'unlocked', 'locked', 'milestone', 'size', 'variant', 'obtenu'],
-    render: () => (
-      <div className="flex gap-stack flex-wrap">
-        {/* Pas de série quotidienne (arbitrage n°18) : un rythme hebdomadaire. */}
-        <Achievement icon={<Trophy />} title="Premier parcours" description="Un parcours terminé de bout en bout" unlockedAt="15 janv. 2026" variant="unlocked" size="md" />
-        <Achievement icon={<Calendar />} title="Régularité" description="Actif 3 semaines sur les 4 dernières" progress={3} maxProgress={4} variant="in-progress" size="md" />
-        <Achievement icon={<Users />} title="Mentor" description="Accompagner 5 collègues" variant="locked" size="md" />
-      </div>
-    ),
   },
   {
     name: 'AchievementBadge',

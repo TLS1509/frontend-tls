@@ -76,12 +76,6 @@ export type {
 /* ============================================================================
  * UI — Learning
  * ============================================================================ */
-export { Medal } from './ui/Medal';
-export type { MedalProps, MedalSize, MedalVariant } from './ui/Medal';
-
-export { CompetenceBadge, LEVEL_LABELS } from './ui/CompetenceBadge';
-export type { CompetenceBadgeProps, CompetenceLevel } from './ui/CompetenceBadge';
-
 export { StatCard } from './ui/StatCard';
 export type {
   StatCardProps,
@@ -182,7 +176,6 @@ export type { SelectCheckboxFloatingProps, SelectCheckboxFloatingOption } from '
 /* ============================================================================
  * Legacy UI Components (pre-spec, kept for backward compatibility)
  * ============================================================================ */
-export { Achievement } from './ui/Achievement';
 export { ActionCard } from './ui/ActionCard';
 // GlassCard deprecated → use <Card variant="glass|glass-brand|glass-warm|glass-dark">
 // SurfaceCard deprecated → use <Card variant="default|elevated|glass|bordered|muted|sunken">
@@ -194,8 +187,6 @@ export { MetaItem } from './ui/MetaItem';
 export { ActivityItem } from './ui/ActivityItem';
 export { IconFeatureCard } from './ui/IconFeatureCard';
 export { UserInfo } from './ui/UserInfo';
-export { MasteryBadge } from './ui/MasteryBadge';
-export type { MasteryBadgeProps } from './ui/MasteryBadge';
 // BackgroundBlobs supprimé (Phase 10) — utiliser AmbientBlobs (patterns/AmbientBlobs)
 export { GoalProgress } from './ui/GoalProgress';
 export type { GoalProgressProps } from './ui/GoalProgress';
